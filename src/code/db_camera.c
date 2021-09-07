@@ -557,7 +557,6 @@ s32 DbgCamera_Enable(DbCamera* this, Camera* cam) {
 }
 
 
-// 343C s2 a0 swap
 // 415c s0 s1 line swap
 // Everything else is down to t-registers
 #ifdef NON_MATCHING
@@ -567,40 +566,31 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     static s32 D_80161140; // bool
     static s32 D_80161144; // bool
     Vec3f* sp124;
-
     f32 temp_f0_5; //
     f32 temp_f0_6; //
-
     f32 pad;
     f32 temp_f2; //
-    
     s16 new_var2; //
     s8 sp111;
     s8 sp110;
     f32 temp_f2_2; //
-
     VecSph sp104;
     VecSph spFC;
     VecSph spF4;
-
     PosRot* temp_s6; //
     Vec3f* eye; //
     Vec3f* at; //
     Vec3f* phi_s0; //
-
     Vec3f spD8;
-    
     s32 new_var; //
     Vec3f* sp90; //
     Vec3f* sp80; //
     Vec3f* sp7C; //
     s32 i; //
-
     Vec3f spB8;
     Vec3f spAC;
     s16 spAA;
     VecSph spA0;
-    // Real stack starts
 
     sp90 = &dbCamera->unk_54;
     temp_s6 = &cam->playerPosRot;
@@ -1850,6 +1840,11 @@ void DbCamera_Reset(Camera* cam, DbCamera* dbCam) {
     sDbCamAnim.unk_0A = 0;
 }
 
+/**
+ * Matches except for bss reordering. 
+ * Reordering is due to in-function static bss in both DbCamera_Update and DbCamera_UpdateDemoControl
+ * In addition to bss at the top of this file
+ */
 #ifdef NON_MATCHING
 s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
     static s32 sMempakFiles;
