@@ -5,8 +5,13 @@ s32 PrintUtils_VPrintf(PrintCallback* pfn, const char* fmt, va_list args) {
 }
 
 s32 PrintUtils_Printf(PrintCallback* pfn, const char* fmt, ...) {
+    s32 ret;
     va_list args;
     va_start(args, fmt);
 
-    return PrintUtils_VPrintf(pfn, fmt, args);
+    ret = PrintUtils_VPrintf(pfn, fmt, args);
+
+    va_end(args);
+
+    return ret;
 }
