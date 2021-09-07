@@ -1090,7 +1090,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 func_8006376C(0xF, 0x1A, 1, D_8012CEE0[7]);
             } else {
                 D_8012CEE0[8][10] = ((dbCamera->sub.unkIdx + 1) / 0xA) +
-                                     0x30; // TODO: Using dbCamera->sub.unkIdx is non-equivalent but helps a lot?
+                                    0x30; // TODO: Using dbCamera->sub.unkIdx is non-equivalent but helps a lot?
                 D_8012CEE0[8][11] = ((dbCamera->sub.unkIdx + 1) % 0xA) + 0x30;
                 D_8012CEE0[8][13] = ((dbCamera->sub.nPoints - 1) / 0xA) + 0x30;
                 D_8012CEE0[8][14] = ((dbCamera->sub.nPoints - 1) % 0xA) + 0x30;
