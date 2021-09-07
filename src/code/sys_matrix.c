@@ -742,7 +742,7 @@ void func_800D1FD4(MtxF* mf) {
 }
 
 /**
- * Gets the rotation the specified matrix represents, using Euler YXZ.
+ * Gets the rotation the specified matrix represents, using Tait-Bryan YXZ angles.
  * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
  */
 void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
@@ -795,7 +795,7 @@ void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
 }
 
 /**
- * Gets the rotation the specified matrix represents, using Euler ZYX.
+ * Gets the rotation the specified matrix represents, using Tait-Bryan ZYX angles.
  * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
  */
 void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
