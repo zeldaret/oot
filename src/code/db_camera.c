@@ -1248,8 +1248,8 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                                             dbCamera->sub.nFrames += dbCamera->sub.lookAt[i].nextPointFrame;
                                         }
                                         // 343C
-                                        new_var = dbCamera->sub.nFrames / dbCamera->sub.nPoints;
-                                        dbCamera->sub.nFrames -= (s16)(new_var * 5);
+                                        i = dbCamera->sub.nFrames / dbCamera->sub.nPoints;
+                                        dbCamera->sub.nFrames -= (s16)(i * 5);
                                     }
                                 }
                                 break;
