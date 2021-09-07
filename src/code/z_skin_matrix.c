@@ -498,15 +498,16 @@ void SkinMatrix_SetScaleRotateYXZTranslate(MtxF* dest, f32 scaleX, f32 scaleY, f
 }
 
 /**
- * Produces a matrix which rotates (RPY), then translates a vector
+ * Produces a matrix which rotates (using ZYX Tait-Bryan angles), then translates.
  */
-void SkinMatrix_SetRotateRPYTranslate(MtxF* mf, s16 roll, s16 pitch, s16 yaw, f32 dx, f32 dy, f32 dz) {
-    MtxF mft1;
-    MtxF mft2;
+void SkinMatrix_SetRotateZYXTranslate(MtxF* dest, s16 rotX, s16 rotY, s16 rotZ, f32 translateX, f32 translateY,
+                                      f32 translateZ) {
+    MtxF rotation;
+    MtxF translation;
 
-    SkinMatrix_SetTranslate(&mft2, dx, dy, dz);
-    SkinMatrix_SetRotateZYX(&mft1, roll, pitch, yaw);
-    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
+    SkinMatrix_SetTranslate(&translation, translateX, translateY, translateZ);
+    SkinMatrix_SetRotateZYX(&rotation, rotX, rotY, rotZ);
+    SkinMatrix_MtxFMtxFMult(&translation, &rotation, dest);
 }
 
 void SkinMatrix_Vec3fToVec3s(Vec3f* src, Vec3s* dest) {
