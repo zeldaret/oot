@@ -381,21 +381,20 @@ void SkinMatrix_SetRotateZYX(MtxF* mf, s16 x, s16 y, s16 z) {
 }
 
 /**
- * Produces a rotation matrix = (yaw rotation matrix) * (roll rotation matrix) * (pitch rotation matrix)
+ * Produces a rotation matrix using YXZ Tait-Bryan angles.
  */
-void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
-    f32 cos2;
-    f32 sin;
+void SkinMatrix_SetRotateYXZ(MtxF* mf, s16 x, s16 y, s16 z) {
     f32 cos;
+    f32 sinY = Math_SinS(y);
+    f32 cosY = Math_CosS(y);
     f32 zx;
-    f32 sin2;
+    f32 sin;
     f32 zy;
     f32 xx;
     f32 xy;
-    sin = Math_SinS(roll);
-    cos = Math_CosS(roll);
-    mf->xx = cos;
-    mf->zx = -sin;
+
+    mf->xx = cosY;
+    mf->zx = -sinY;
     mf->wz = 0;
     mf->wy = 0;
     mf->wx = 0;
@@ -404,43 +403,43 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     mf->xw = 0;
     mf->ww = 1;
 
-    if (yaw != 0) {
-        sin2 = Math_SinS(yaw);
-        cos2 = Math_CosS(yaw);
+    if (x != 0) {
+        sin = Math_SinS(x);
+        cos = Math_CosS(x);
 
-        mf->zz = cos * cos2;
-        mf->zy = cos * sin2;
+        mf->zz = cosY * cos;
+        mf->zy = cosY * sin;
 
-        mf->xz = sin * cos2;
-        mf->xy = sin * sin2;
-        mf->yz = -sin2;
-        mf->yy = cos2;
+        mf->xz = sinY * cos;
+        mf->xy = sinY * sin;
+        mf->yz = -sin;
+        mf->yy = cos;
 
     } else {
-        mf->zz = cos;
+        mf->zz = cosY;
         if (1) {}
         if (1) {}
-        xy = sin; // required to match
-        mf->xz = sin;
+        xy = sinY; // required to match
+        mf->xz = sinY;
         mf->xy = mf->zy = mf->yz = 0;
         mf->yy = 1;
     }
 
-    if (pitch != 0) {
-        sin2 = Math_SinS(pitch);
-        cos2 = Math_CosS(pitch);
+    if (z != 0) {
+        sin = Math_SinS(z);
+        cos = Math_CosS(z);
         xx = mf->xx;
         xy = mf->xy;
-        mf->xx = (xx * cos2) + (xy * sin2);
-        mf->xy = xy * cos2 - (xx * sin2);
+        mf->xx = (xx * cos) + (xy * sin);
+        mf->xy = xy * cos - (xx * sin);
         if (1) {}
         zy = mf->zy;
         zx = mf->zx;
-        mf->zx = (zx * cos2) + (zy * sin2);
-        mf->zy = (zy * cos2) - (zx * sin2);
-        if (cos2) {}
-        mf->yx = mf->yy * sin2;
-        mf->yy = mf->yy * cos2;
+        mf->zx = (zx * cos) + (zy * sin);
+        mf->zy = (zy * cos) - (zx * sin);
+        if (cos) {}
+        mf->yx = mf->yy * sin;
+        mf->yy = mf->yy * cos;
     } else {
         mf->yx = 0;
     }
@@ -492,7 +491,7 @@ void SkinMatrix_SetScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32
     MtxF mft2;
 
     SkinMatrix_SetTranslate(mf, dx, dy, dz);
-    SkinMatrix_SetRotateYRP(&mft1, yaw, roll, pitch);
+    SkinMatrix_SetRotateYXZ(&mft1, yaw, roll, pitch);
     SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);
     SkinMatrix_SetScale(&mft1, scaleX, scaleY, scaleZ);
     SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
