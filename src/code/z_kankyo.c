@@ -880,8 +880,8 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
     f32 sp8C;
     f32 sp88 = 0.0f;
     u16 i;
-    u16 j; // sp84
-    u8 temp1;                                                                  // sp50?
+    u16 j;    // sp84
+    u8 temp1; // sp50?
     u8 temp2;
     EnvLightSettings* lightSettingsList = globalCtx->envCtx.lightSettingsList; // 7C
     s32 temp5;
@@ -978,16 +978,15 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
             // 203c
             if (!envCtx->indoors && (envCtx->unk_BF == 0xFF)) {
                 for (i = 0; i < ARRAY_COUNT(D_8011FB48[envCtx->unk_1F]); i++) {
-                    #define TIME_ENTRY (&D_8011FB48[envCtx->unk_1F][i])
-                    #define TIME_ENTRY2 (&D_8011FB48[envCtx->unk_20][i])
+#define TIME_ENTRY (&D_8011FB48[envCtx->unk_1F][i])
+#define TIME_ENTRY2 (&D_8011FB48[envCtx->unk_20][i])
                     // struct_8011FB48* TIME_ENTRY = &D_8011FB48[envCtx->unk_1F][i];
                     // struct_8011FB48* TIME_ENTRY2 = &D_8011FB48[envCtx->unk_20][i];
-                    
+
                     if ((gSaveContext.skyboxTime >= TIME_ENTRY->startTime) &&
                         ((gSaveContext.skyboxTime < TIME_ENTRY->endTime) || TIME_ENTRY->endTime == 0xFFFF)) {
 
-                        sp8C = Kankyo_LerpWeight(TIME_ENTRY->endTime, TIME_ENTRY->startTime,
-                                                 gSaveContext.skyboxTime);
+                        sp8C = Kankyo_LerpWeight(TIME_ENTRY->endTime, TIME_ENTRY->startTime, gSaveContext.skyboxTime);
 
                         D_8011FDCC = TIME_ENTRY->unk_04 & 3;
                         D_8011FDD0 = TIME_ENTRY->unk_05 & 3;
@@ -1273,19 +1272,16 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
             lightCtx->fogFar = R_ENV_FOG_FAR;
 
             if (cREG(14)) {
-                R_ENV_LIGHT1_DIR(0) =
-                    Math_CosS(cREG(10)) * Math_CosS(cREG(11)) * 120.0f;
-                    envCtx->dirLight1.params.dir.x = R_ENV_LIGHT1_DIR(0);
-                R_ENV_LIGHT1_DIR(1) =
-                    Math_CosS(cREG(10)) * Math_SinS(cREG(11)) * 120.0f;
-                    envCtx->dirLight1.params.dir.y = R_ENV_LIGHT1_DIR(1);
+                R_ENV_LIGHT1_DIR(0) = Math_CosS(cREG(10)) * Math_CosS(cREG(11)) * 120.0f;
+                envCtx->dirLight1.params.dir.x = R_ENV_LIGHT1_DIR(0);
+                R_ENV_LIGHT1_DIR(1) = Math_CosS(cREG(10)) * Math_SinS(cREG(11)) * 120.0f;
+                envCtx->dirLight1.params.dir.y = R_ENV_LIGHT1_DIR(1);
                 R_ENV_LIGHT1_DIR(2) = Math_SinS(cREG(11)) * 120.0f;
                 envCtx->dirLight1.params.dir.z = R_ENV_LIGHT1_DIR(2);
 
-                R_ENV_LIGHT2_DIR(0) =
-                    Math_CosS(cREG(12)) * Math_CosS(cREG(13)) * 120.0f;
+                R_ENV_LIGHT2_DIR(0) = Math_CosS(cREG(12)) * Math_CosS(cREG(13)) * 120.0f;
                 envCtx->dirLight2.params.dir.x = R_ENV_LIGHT2_DIR(0);
-                    R_ENV_LIGHT2_DIR(1) = Math_CosS(cREG(12)) * Math_SinS(cREG(13)) * 120.0f;
+                R_ENV_LIGHT2_DIR(1) = Math_CosS(cREG(12)) * Math_SinS(cREG(13)) * 120.0f;
                 envCtx->dirLight2.params.dir.y = R_ENV_LIGHT2_DIR(1);
                 R_ENV_LIGHT2_DIR(2) = Math_SinS(cREG(13)) * 120.0f;
                 envCtx->dirLight2.params.dir.z = R_ENV_LIGHT2_DIR(2);
