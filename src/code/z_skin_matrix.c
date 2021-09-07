@@ -55,133 +55,133 @@ void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest) {
 
 /**
  * Matrix multiplication, dest = mfA * mfB.
- * mfA and dest should not be the same matrix.
+ * mfB and dest should not be the same matrix.
  */
-void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
-    f32 x2;
-    f32 y2;
-    f32 z2;
-    f32 w2;
+void SkinMatrix_MtxFMtxFMult(MtxF* mfA, MtxF* mfB, MtxF* dest) {
+    f32 cx;
+    f32 cy;
+    f32 cz;
+    f32 cw;
     //---ROW1---
-    f32 x1 = mfB->xx;
-    f32 y1 = mfB->xy;
-    f32 z1 = mfB->xz;
-    f32 w1 = mfB->xw;
+    f32 rx = mfA->xx;
+    f32 ry = mfA->xy;
+    f32 rz = mfA->xz;
+    f32 rw = mfA->xw;
     //--------
 
-    x2 = mfA->xx;
-    y2 = mfA->yx;
-    z2 = mfA->zx;
-    w2 = mfA->wx;
-    dest->xx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xx;
+    cy = mfB->yx;
+    cz = mfB->zx;
+    cw = mfB->wx;
+    dest->xx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xy;
-    y2 = mfA->yy;
-    z2 = mfA->zy;
-    w2 = mfA->wy;
-    dest->xy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xy;
+    cy = mfB->yy;
+    cz = mfB->zy;
+    cw = mfB->wy;
+    dest->xy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xz;
-    y2 = mfA->yz;
-    z2 = mfA->zz;
-    w2 = mfA->wz;
-    dest->xz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xz;
+    cy = mfB->yz;
+    cz = mfB->zz;
+    cw = mfB->wz;
+    dest->xz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xw;
-    y2 = mfA->yw;
-    z2 = mfA->zw;
-    w2 = mfA->ww;
-    dest->xw = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xw;
+    cy = mfB->yw;
+    cz = mfB->zw;
+    cw = mfB->ww;
+    dest->xw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     //---ROW2---
-    x1 = mfB->yx;
-    y1 = mfB->yy;
-    z1 = mfB->yz;
-    w1 = mfB->yw;
+    rx = mfA->yx;
+    ry = mfA->yy;
+    rz = mfA->yz;
+    rw = mfA->yw;
     //--------
-    x2 = mfA->xx;
-    y2 = mfA->yx;
-    z2 = mfA->zx;
-    w2 = mfA->wx;
-    dest->yx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xx;
+    cy = mfB->yx;
+    cz = mfB->zx;
+    cw = mfB->wx;
+    dest->yx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xy;
-    y2 = mfA->yy;
-    z2 = mfA->zy;
-    w2 = mfA->wy;
-    dest->yy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xy;
+    cy = mfB->yy;
+    cz = mfB->zy;
+    cw = mfB->wy;
+    dest->yy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xz;
-    y2 = mfA->yz;
-    z2 = mfA->zz;
-    w2 = mfA->wz;
-    dest->yz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xz;
+    cy = mfB->yz;
+    cz = mfB->zz;
+    cw = mfB->wz;
+    dest->yz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xw;
-    y2 = mfA->yw;
-    z2 = mfA->zw;
-    w2 = mfA->ww;
-    dest->yw = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xw;
+    cy = mfB->yw;
+    cz = mfB->zw;
+    cw = mfB->ww;
+    dest->yw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     //---ROW3---
-    x1 = mfB->zx;
-    y1 = mfB->zy;
-    z1 = mfB->zz;
-    w1 = mfB->zw;
+    rx = mfA->zx;
+    ry = mfA->zy;
+    rz = mfA->zz;
+    rw = mfA->zw;
     //--------
-    x2 = mfA->xx;
-    y2 = mfA->yx;
-    z2 = mfA->zx;
-    w2 = mfA->wx;
-    dest->zx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xx;
+    cy = mfB->yx;
+    cz = mfB->zx;
+    cw = mfB->wx;
+    dest->zx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xy;
-    y2 = mfA->yy;
-    z2 = mfA->zy;
-    w2 = mfA->wy;
-    dest->zy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xy;
+    cy = mfB->yy;
+    cz = mfB->zy;
+    cw = mfB->wy;
+    dest->zy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xz;
-    y2 = mfA->yz;
-    z2 = mfA->zz;
-    w2 = mfA->wz;
-    dest->zz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xz;
+    cy = mfB->yz;
+    cz = mfB->zz;
+    cw = mfB->wz;
+    dest->zz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xw;
-    y2 = mfA->yw;
-    z2 = mfA->zw;
-    w2 = mfA->ww;
-    dest->zw = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xw;
+    cy = mfB->yw;
+    cz = mfB->zw;
+    cw = mfB->ww;
+    dest->zw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     //---ROW4---
-    x1 = mfB->wx;
-    y1 = mfB->wy;
-    z1 = mfB->wz;
-    w1 = mfB->ww;
+    rx = mfA->wx;
+    ry = mfA->wy;
+    rz = mfA->wz;
+    rw = mfA->ww;
     //--------
-    x2 = mfA->xx;
-    y2 = mfA->yx;
-    z2 = mfA->zx;
-    w2 = mfA->wx;
-    dest->wx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xx;
+    cy = mfB->yx;
+    cz = mfB->zx;
+    cw = mfB->wx;
+    dest->wx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xy;
-    y2 = mfA->yy;
-    z2 = mfA->zy;
-    w2 = mfA->wy;
-    dest->wy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xy;
+    cy = mfB->yy;
+    cz = mfB->zy;
+    cw = mfB->wy;
+    dest->wy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xz;
-    y2 = mfA->yz;
-    z2 = mfA->zz;
-    w2 = mfA->wz;
-    dest->wz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xz;
+    cy = mfB->yz;
+    cz = mfB->zz;
+    cw = mfB->wz;
+    dest->wz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xw;
-    y2 = mfA->yw;
-    z2 = mfA->zw;
-    w2 = mfA->ww;
-    dest->ww = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xw;
+    cy = mfB->yw;
+    cz = mfB->zw;
+    cw = mfB->ww;
+    dest->ww = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 }
 
 /**
