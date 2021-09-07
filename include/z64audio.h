@@ -1110,29 +1110,6 @@ typedef struct {
     /* 0x0007 */ u8 semitone;
 } OcarinaNote;  // size = 0x8
 
-#define Audio_DisableSeq(seqIdx, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)seqIdx << 16), fadeOut)
-#define Audio_Cmd82(seqIdx, a, b) Audio_QueueCmdS32(0x82000000 | ((u8)seqIdx << 16) | ((u8)a << 8), b)
-#define Audio_StartSeq(seqIdx, fadeTimer, seqId) Audio_QueueSeqCmd(0x00000000 | ((u8)seqIdx << 24) | ((u8)(fadeTimer) << 0x10) | (u16)seqId)
-#define Audio_SeqCmd7(seqIdx, a, b) Audio_QueueSeqCmd(0x70000000 | ((u8)seqIdx << 0x18) | ((u8)a << 0x10) | (u8)(b))
-#define Audio_SeqCmdC(seqIdx, a, b, c) Audio_QueueSeqCmd(0xC0000000 | ((u8)seqIdx << 24) | ((u8)a << 16) | ((u8)b << 8) | ((u8)(c)))
-#define Audio_SeqCmdA(seqIdx, a) Audio_QueueSeqCmd(0xA0000000 | ((u8)seqIdx << 24) | ((u16)(a)))
-#define Audio_SeqCmd1(seqIdx, a) Audio_QueueSeqCmd(0x100000FF | ((u8)seqIdx << 24) | ((u8)(a) << 16))
-#define Audio_SeqCmdB(seqIdx, a, b, c) Audio_QueueSeqCmd(0xB0000000 | ((u8)seqIdx << 24) | ((u8)a << 16) | ((u8)b << 8) | ((u8)c))
-#define Audio_SeqCmdB30(seqIdx, a, b) Audio_QueueSeqCmd(0xB0003000 | ((u8)seqIdx << 24) | ((u8)a << 16) | ((u8)b))
-#define Audio_SeqCmdB40(seqIdx, a, b) Audio_QueueSeqCmd(0xB0004000 | ((u8)seqIdx << 24) | ((u8)a << 16) | ((u8)b))
-#define Audio_SeqCmd6(seqIdx, a, b, c) Audio_QueueSeqCmd(0x60000000 | ((u8)seqIdx << 24) | ((u8)(a) << 16) | ((u8)b << 8) | ((u8)c))
-#define Audio_SeqCmdE0(seqIdx, a) Audio_QueueSeqCmd(0xE0000000 | ((u8)seqIdx << 24) | ((u8)a))
-#define Audio_SeqCmdE01(seqIdx, a) Audio_QueueSeqCmd(0xE0000100 | ((u8)seqIdx << 24) | ((u16)a))
-#define Audio_SeqCmd8(seqIdx, a, b, c) Audio_QueueSeqCmd(0x80000000 | ((u8)seqIdx << 24) | ((u8)a << 16) | ((u8)b << 8) | ((u8)c))
-#define Audio_SeqCmd3(seqIdx, a) Audio_QueueSeqCmd(0x80000000 | ((u8)seqIdx << 24) | ((u16)a))
-#define Audio_SeqCmd5(seqIdx, a, b) Audio_QueueSeqCmd(0x50000000 | ((u8)seqIdx << 24) | ((u8)a << 16) | ((u16)(b)))
-#define Audio_SeqCmd4(seqIdx, a, b) Audio_QueueSeqCmd(0x40000000 | ((u8)seqIdx << 24) | ((u8)a << 16) | ((u8)(b)))
-#define Audio_SeqCmdF(seqIdx, a) Audio_QueueSeqCmd(0xF0000000 | ((u8)seqIdx << 24) | ((u8)a))
-#define Unk2C_B8(v) (((v & 0x00F00000) >> 20))
-#define Unk2C_B12(v) (((v & 0x000F0000) >> 16))
-#define Unk2C_B16(v) (((v & 0x0000FF00) >> 8))
-#define Unk2C_B24(v) (((v & 0x000000FF) >> 0))
-
 typedef struct {
     u8 len;
     u8 notesIdx[8];

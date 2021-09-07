@@ -373,23 +373,23 @@ void Audio_QueueCmd(u32 opArgs, void** data) {
 }
 
 void Audio_QueueCmdF32(u32 opArgs, f32 data) {
-    Audio_QueueCmd(opArgs, &data);
+    Audio_QueueCmd(opArgs, (void**)&data);
 }
 
 void Audio_QueueCmdS32(u32 opArgs, s32 data) {
-    Audio_QueueCmd(opArgs, &data);
+    Audio_QueueCmd(opArgs, (void**)&data);
 }
 
 void Audio_QueueCmdS8(u32 opArgs, s8 data) {
     u32 uData = data << 0x18;
 
-    Audio_QueueCmd(opArgs, &uData);
+    Audio_QueueCmd(opArgs, (void**)&uData);
 }
 
 void Audio_QueueCmdU16(u32 opArgs, u16 data) {
     u32 uData = data << 0x10;
 
-    Audio_QueueCmd(opArgs, &uData);
+    Audio_QueueCmd(opArgs, (void**)&uData);
 }
 
 s32 Audio_ScheduleProcessCmds(void) {
@@ -522,7 +522,7 @@ void func_800E5F34(void) {
     // clang-format on
 }
 
-s32 func_800E5F88(u32 resetPreloadID) {
+s32 func_800E5F88(s32 resetPreloadID) {
     s32 resetStatus;
     OSMesg msg;
     s32 pad;
