@@ -1764,7 +1764,7 @@ void Matrix_RotateX(f32 x, u8 mode);
 void Matrix_RotateY(f32 y, u8 mode);
 void Matrix_RotateZ(f32 z, u8 mode);
 void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
-void Matrix_JointPosition(Vec3f* position, Vec3s* rotation);
+void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation);
 void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec);
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line);
