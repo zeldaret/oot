@@ -230,8 +230,7 @@ void SkinMatrix_MtxFCopy(MtxF* src, MtxF* dest) {
 }
 
 /**
- * Inverts a matrix using a slight modification of the Gauss-Jordan method
- * (column operations instead of row operations).
+ * Inverts a matrix using the Gauss-Jordan method.
  * returns 0 if successfully inverted
  * returns 2 if matrix non-invertible (0 determinant)
  */
@@ -241,50 +240,53 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
     s32 pad;
     f32 temp2;
     f32 temp1;
-    s32 thisRow;
     s32 thisCol;
+    s32 thisRow;
 
     SkinMatrix_MtxFCopy(src, &mfCopy);
     SkinMatrix_Clear(dest);
-    for (thisRow = 0; thisRow < 4; thisRow++) {
-        thisCol = thisRow;
-        while ((thisCol < 4) && (fabsf(mfCopy.mf[thisRow][thisCol]) < 0.0005f)) {
-            thisCol++;
+    for (thisCol = 0; thisCol < 4; thisCol++) {
+        thisRow = thisCol;
+        while ((thisRow < 4) && (fabsf(mfCopy.mf[thisCol][thisRow]) < 0.0005f)) {
+            thisRow++;
         }
-        if (thisCol == 4) {
-            // reaching col = 4 means the row is either all 0 or a duplicate row.
-            // therefore singular matrix (0 determinant).
+        if (thisRow == 4) {
+            // Reaching row = 4 means the column is either all 0 or a duplicate column.
+            // Therefore src is a singular matrix (0 determinant).
 
             osSyncPrintf(VT_COL(YELLOW, BLACK));
             osSyncPrintf("Skin_Matrix_InverseMatrix():逆行列つくれません\n");
             osSyncPrintf(VT_RST);
             return 2;
         }
-        if (thisCol != thisRow) { // responsible for swapping columns if zero on diagonal
-            for (i = 0; i < 4; i++) {
-                temp1 = mfCopy.mf[i][thisCol];
-                mfCopy.mf[i][thisCol] = mfCopy.mf[i][thisRow];
-                mfCopy.mf[i][thisRow] = temp1;
 
-                temp2 = dest->mf[i][thisCol];
-                dest->mf[i][thisCol] = dest->mf[i][thisRow];
-                dest->mf[i][thisRow] = temp2;
+        if (thisRow != thisCol) {
+            // Diagonal element mf[thisCol][thisCol] is zero.
+            // Swap the rows thisCol and thisRow.
+            for (i = 0; i < 4; i++) {
+                temp1 = mfCopy.mf[i][thisRow];
+                mfCopy.mf[i][thisRow] = mfCopy.mf[i][thisCol];
+                mfCopy.mf[i][thisCol] = temp1;
+
+                temp2 = dest->mf[i][thisRow];
+                dest->mf[i][thisRow] = dest->mf[i][thisCol];
+                dest->mf[i][thisCol] = temp2;
             }
         }
 
-        // Scale this whole column s.t. the diag element = 1
-        temp1 = mfCopy.mf[thisRow][thisRow];
+        // Scale this whole row such that the diagonal element is 1.
+        temp1 = mfCopy.mf[thisCol][thisCol];
         for (i = 0; i < 4; i++) {
-            mfCopy.mf[i][thisRow] /= temp1;
-            dest->mf[i][thisRow] /= temp1;
+            mfCopy.mf[i][thisCol] /= temp1;
+            dest->mf[i][thisCol] /= temp1;
         }
 
-        for (thisCol = 0; thisCol < 4; thisCol++) {
-            if (thisCol != thisRow) {
-                temp1 = mfCopy.mf[thisRow][thisCol];
+        for (thisRow = 0; thisRow < 4; thisRow++) {
+            if (thisRow != thisCol) {
+                temp1 = mfCopy.mf[thisCol][thisRow];
                 for (i = 0; i < 4; i++) {
-                    mfCopy.mf[i][thisCol] -= mfCopy.mf[i][thisRow] * temp1;
-                    dest->mf[i][thisCol] -= dest->mf[i][thisRow] * temp1;
+                    mfCopy.mf[i][thisRow] -= mfCopy.mf[i][thisCol] * temp1;
+                    dest->mf[i][thisRow] -= dest->mf[i][thisCol] * temp1;
                 }
             }
         }
