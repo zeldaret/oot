@@ -21,6 +21,4 @@ typedef struct EnIshi {
     /* 0x0150 */ ColliderCylinder collider;
 } EnIshi; // size = 0x019C
 
-extern const ActorInit En_Ishi_InitVars;
-
 #endif

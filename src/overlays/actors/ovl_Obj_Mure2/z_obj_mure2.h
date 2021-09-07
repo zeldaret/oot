@@ -16,6 +16,4 @@ typedef struct ObjMure2 {
     /* 0x0184 */ f32 unk_184; // some sort of distance
 } ObjMure2; // size = 0x0188
 
-extern const ActorInit Obj_Mure2_InitVars;
-
 #endif

@@ -22,6 +22,4 @@ typedef struct EnRl {
     /* 0x01A8 */ s32 lightMedallionGiven;
 } EnRl; // size = 0x01AC
 
-extern const ActorInit En_Rl_InitVars;
-
 #endif

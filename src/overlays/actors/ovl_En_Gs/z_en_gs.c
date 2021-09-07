@@ -139,7 +139,7 @@ s32 func_80A4E3EC(EnGs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     bREG(15) = 0;
     if (this->actor.xzDistToPlayer <= 100.0f) {
@@ -513,14 +513,12 @@ void func_80A4F77C(EnGs* this) {
     this->unk_19C = 3;
 }
 
-void EnGs_Update(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+void EnGs_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     EnGs* this = THIS;
 
     Actor_SetFocus(&this->actor, 23.0f);
-    if (globalCtx) {};
     if (!(this->unk_19E & 0x10)) {
-        if (globalCtx) {};
         if (this->collider.base.acFlags & AC_HIT) {
             this->unk_19F = 0;
             this->collider.base.acFlags &= ~AC_HIT;

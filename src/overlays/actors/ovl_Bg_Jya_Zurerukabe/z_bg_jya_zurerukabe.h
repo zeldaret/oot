@@ -17,6 +17,4 @@ typedef struct BgJyaZurerukabe {
     /* 0x016E */ s16 unk_16E;
 } BgJyaZurerukabe; // size = 0x0170
 
-extern const ActorInit Bg_Jya_Zurerukabe_InitVars;
-
 #endif

@@ -117,7 +117,7 @@ void EffectSsHahen_DrawGray(GlobalContext* globalCtx, u32 index, EffectSs* this)
 }
 
 void EffectSsHahen_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->rPitch += 55;
     this->rYaw += 10;

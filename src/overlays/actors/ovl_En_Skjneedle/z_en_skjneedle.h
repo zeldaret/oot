@@ -15,6 +15,4 @@ typedef struct EnSkjneedle {
     /* 0x01E4 */ char unk_1E4[4];
 } EnSkjneedle; // size = 0x01E8
 
-extern const ActorInit En_Skjneedle_InitVars;
-
 #endif

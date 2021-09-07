@@ -26,6 +26,4 @@ typedef struct EnDog {
     /* 0x0242 */ Vec3s morphTable[13];
 } EnDog; // size = 0x0290
 
-extern const ActorInit En_Dog_InitVars;
-
 #endif

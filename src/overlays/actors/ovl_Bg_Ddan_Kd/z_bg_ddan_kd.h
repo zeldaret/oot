@@ -17,6 +17,4 @@ typedef struct BgDdanKd {
     /* 0x01C4 */ BgDdanKdActionFunc actionFunc;
 } BgDdanKd; // size = 0x01C8
 
-extern const ActorInit Bg_Ddan_Kd_InitVars;
-
 #endif

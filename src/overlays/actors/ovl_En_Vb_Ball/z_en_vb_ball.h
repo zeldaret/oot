@@ -19,6 +19,4 @@ typedef struct EnVbBall {
     /* 0x0168 */ ColliderCylinder collider;
 } EnVbBall; // size = 0x01B4
 
-extern const ActorInit En_Vb_Ball_InitVars;
-
 #endif

@@ -301,7 +301,7 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, GlobalContext* globalCtx) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 13, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x0D, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2800, ICHAIN_STOP),
 };
@@ -528,7 +528,7 @@ void EnDodongo_SwallowBomb(EnDodongo* this, GlobalContext* globalCtx) {
 void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 playbackSpeed;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff = (s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
 
     yawDiff = ABS(yawDiff);
@@ -649,7 +649,7 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
         Actor_SpawnFloorDustRing(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
 
         if (this->colliderBody.base.atFlags & AT_HIT) {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
 
             if (this->colliderBody.base.at == &player->actor) {
                 Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);

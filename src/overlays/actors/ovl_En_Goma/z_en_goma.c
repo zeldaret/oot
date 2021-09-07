@@ -101,7 +101,7 @@ static Vec3f sDeadEffectVel = { 0.0f, 0.0f, 0.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 3, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 3, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x03, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 20, ICHAIN_STOP),
 };
@@ -196,7 +196,8 @@ void EnGoma_SetupFlee(EnGoma* this) {
 void EnGoma_Flee(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachF(&this->actor.speedXZ, 6.6666665f, 0.5f, 2.0f);
-    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) + 0x8000, 3, 2000);
+    Math_ApproachS(&this->actor.world.rot.y,
+                   Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000, 3, 2000);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 3000);
 
     if (this->actionTimer == 0) {
@@ -267,7 +268,7 @@ void EnGoma_EggFallToGround(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_Egg(EnGoma* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
 
     this->eggSquishAngle += 1.0f;
@@ -303,7 +304,7 @@ void EnGoma_SetupHatch(EnGoma* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.005f);
     this->gomaType = ENGOMA_NORMAL;
     this->actionTimer = 5;
-    this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor);
+    this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     EnGoma_SpawnHatchDebris(this, globalCtx);
     this->eggScale = 1.0f;
@@ -455,7 +456,7 @@ void EnGoma_PrepareJump(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
 
-    targetAngle = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor);
+    targetAngle = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
     Math_ApproachS(&this->actor.world.rot.y, targetAngle, 2, 4000);
     Math_ApproachS(&this->actor.shape.rot.y, targetAngle, 2, 3000);
 
@@ -515,7 +516,8 @@ void EnGoma_Jump(EnGoma* this, GlobalContext* globalCtx) {
 void EnGoma_Stand(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
-    Math_ApproachS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 2, 3000);
+    Math_ApproachS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2,
+                   3000);
 
     if (this->actionTimer == 0) {
         EnGoma_SetupChasePlayer(this);
@@ -588,8 +590,8 @@ void EnGoma_LookAtPlayer(EnGoma* this, GlobalContext* globalCtx) {
     s16 eyePitch;
     s16 eyeYaw;
 
-    eyeYaw = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.shape.rot.y;
-    eyePitch = Actor_WorldPitchTowardActor(&this->actor, &PLAYER->actor) - this->actor.shape.rot.x;
+    eyeYaw = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.shape.rot.y;
+    eyePitch = Actor_WorldPitchTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.shape.rot.x;
 
     if (eyeYaw > 6000) {
         eyeYaw = 6000;
@@ -603,7 +605,7 @@ void EnGoma_LookAtPlayer(EnGoma* this, GlobalContext* globalCtx) {
 
 void EnGoma_UpdateHit(EnGoma* this, GlobalContext* globalCtx) {
     static Vec3f sShieldKnockbackVel = { 0.0f, 0.0f, 20.0f };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->hurtTimer != 0) {
         this->hurtTimer--;
@@ -696,7 +698,7 @@ void EnGoma_SetFloorRot(EnGoma* this) {
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGoma* this = THIS;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->actionTimer != 0) {
         this->actionTimer--;
@@ -784,7 +786,7 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->gomaType) {
         case ENGOMA_NORMAL:
-            this->actor.naviEnemyId = 3;
+            this->actor.naviEnemyId = 0x03;
             Matrix_Translate(this->actor.world.pos.x,
                              this->actor.world.pos.y + ((this->actor.shape.yOffset * this->actor.scale.y) +
                                                         globalCtx->mainCamera.skyboxOffset.y),
@@ -800,7 +802,7 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case ENGOMA_EGG:
-            this->actor.naviEnemyId = 2;
+            this->actor.naviEnemyId = 0x02;
             y = (s16)(sinf((this->eggTimer * 5.0f * 3.1415f) / 180.0f) * 31.9f);
             y = (s16)(y + 31);
             gSPSegment(POLY_OPA_DISP++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, y));

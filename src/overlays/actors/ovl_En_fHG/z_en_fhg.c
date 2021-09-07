@@ -68,7 +68,7 @@ static EnfHGPainting sPaintings[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 26, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x1A, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
 };
 
@@ -113,7 +113,7 @@ void EnfHG_SetupIntro(EnfHG* this, GlobalContext* globalCtx) {
 void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
     static Vec3f audioVec = { 0.0f, 0.0f, 50.0f };
     s32 pad64;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
     s32 pad58;
     s32 pad54;

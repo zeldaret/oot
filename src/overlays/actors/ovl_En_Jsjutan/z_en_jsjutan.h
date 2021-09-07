@@ -21,6 +21,4 @@ typedef enum {
     /* 1 */ ENJSJUTAN_TYPE_01
 } EnJsjutanType;
 
-extern const ActorInit En_Jsjutan_InitVars;
-
 #endif

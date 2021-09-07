@@ -79,7 +79,7 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gObjectOssanSkel, &gObjectOssanAnim_000338, this->jointTable,
                        this->morphTable, 9);
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         this->headRot.z = 20;
     }
     this->blinkTimer = 20;
@@ -253,7 +253,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                 case SYATEKI_RESULT_WINNER:
                     this->tempGallery = this->actor.parent;
                     this->actor.parent = NULL;
-                    if (LINK_IS_CHILD) {
+                    if (!LINK_IS_ADULT) {
                         if (!(gSaveContext.itemGetInf[0] & 0x2000)) {
                             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST,
                                          CUR_UPG_VALUE(UPG_BULLET_BAG));
@@ -322,7 +322,7 @@ void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
         // Successful completion
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             gSaveContext.itemGetInf[0] |= 0x2000;
         } else if ((this->getItemId == GI_QUIVER_40) || (this->getItemId == GI_QUIVER_50)) {
             gSaveContext.itemGetInf[0] |= 0x4000;

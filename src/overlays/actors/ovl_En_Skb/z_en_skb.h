@@ -24,6 +24,4 @@ typedef struct EnSkb {
     /* 0x02C4 */ ColliderJntSphElement colliderItem[2];
 } EnSkb; // size = 0x0344
 
-extern const ActorInit En_Skb_InitVars;
-
 #endif

@@ -1,68 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
-    /* 0x0000 */ s16 mode;
-    /* 0x0002 */ s16 nFrames;
-    /* 0x0004 */ s16 nPoints;
-    /* 0x0006 */ s16 unkIdx;
-    /* 0x0008 */ s16 unk_08;
-    /* 0x000A */ s16 unk_0A;
-    /* 0x000C */ s32 unk_0C; // bool: indicates position vs lookAt?
-    /* 0x0010 */ char unk_10[0x14];
-    /* 0x0024 */ CutsceneCameraPoint position[129];
-    /* 0x0834 */ CutsceneCameraPoint lookAt[129];
-    /* 0x1044 */ s16 demoCtrlMenu;
-    /* 0x1046 */ s16 demoCtrlActionIdx; // e (?), s (save), l (load), c (clear)
-    /* 0x1048 */ s16 demoCtrlToggleSwitch;
-    /* 0x104A */ Vec3s unk_104A;
-} DbCameraSub; // size = 0x1050
-
-typedef struct {
-    /* 0x0000 */ s32 unk_00;
-    /* 0x0004 */ Vec3f at;
-    /* 0x0010 */ Vec3f eye;
-    /* 0x001C */ Vec3f unk_1C;
-    /* 0x0028 */ char unk_28[0xC];
-    /* 0x0034 */ s32 unk_34;
-    /* 0x0038 */ s32 unk_38;
-    /* 0x003C */ s32 unk_3C; // bool
-    /* 0x0040 */ s32 unk_40;
-    /* 0x0044 */ s32 unk_44;
-    /* 0x0048 */ f32 fov;
-    /* 0x004C */ s16 roll;
-    /* 0x004E */ char unk_4E[0x2];
-    /* 0x0050 */ f32 rollDegrees;
-    /* 0x0054 */ Vec3f unk_54;
-    /* 0x0060 */ Vec3f unk_60;
-    /* 0x006C */ Vec3f unk_6C;
-    /* 0x0078 */ s16 unk_78;
-    /* 0x007A */ s16 unk_7A;
-    /* 0x007C */ DbCameraSub sub;
-} DbCamera; // size = 0x10CC
-
-typedef struct {
-    /* 0x00 */ char letter;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ s16 mode;
-    /* 0x04 */ CutsceneCameraPoint* position;
-    /* 0x08 */ CutsceneCameraPoint* lookAt;
-    /* 0x0C */ s16 nFrames;
-    /* 0x0E */ s16 nPoints;
-} DbCameraCut; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ f32 curFrame;
-    /* 0x04 */ f32 unk_04; // frame count?
-    /* 0x08 */ s16 keyframe;
-    /* 0x0A */ s16 unk_0A;
-    /* 0x0C */ s16 unk_0C;
-    /* 0x10 */ Vec3f positionPos; // confusing name
-    /* 0x1C */ Vec3f lookAtPos;
-    /* 0x28 */ f32 roll;
-    /* 0x2C */ f32 fov;
-} DbCameraAnim; // size = 0x30
-
 char* D_8012CEE0[] = { "\x8Cｷ-ﾌﾚ-ﾑ\x8Dｶﾞ" };
 const char* D_8012CEE4 = "\x8Dﾀﾘﾏｾﾝ｡";
 const char* D_8012CEE8 = "\x8Dｻｲｾｲﾃﾞｷﾏｾﾝ";

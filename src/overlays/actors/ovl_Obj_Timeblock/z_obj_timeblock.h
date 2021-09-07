@@ -24,6 +24,4 @@ typedef struct ObjTimeblock {
     /* 0x0178 */ u8 isVisible;
 } ObjTimeblock; // size = 0x017C
 
-extern const ActorInit Obj_Timeblock_InitVars;
-
 #endif

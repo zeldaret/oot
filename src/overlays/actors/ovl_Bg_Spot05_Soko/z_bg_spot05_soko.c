@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot05_soko.h"
+#include "objects/object_spot05_objects/object_spot05_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -17,9 +18,6 @@ void BgSpot05Soko_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx);
 void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx);
 void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_06000918;
-extern CollisionHeader D_060012C0;
 
 const ActorInit Bg_Spot05_Soko_InitVars = {
     ACTOR_BG_SPOT05_SOKO,
@@ -38,8 +36,8 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Gfx* sDLists[] = {
-    0x06000840,
-    0x06001190,
+    object_spot05_objects_DL_000840,
+    object_spot05_objects_DL_001190,
 };
 
 void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -53,14 +51,14 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (thisx->params == 0) {
-        CollisionHeader_GetVirtual(&D_06000918, &colHeader);
+        CollisionHeader_GetVirtual(&object_spot05_objects_Col_000918, &colHeader);
         if (LINK_IS_ADULT) {
             Actor_Kill(thisx);
         } else {
             this->actionFunc = func_808AE5A8;
         }
     } else {
-        CollisionHeader_GetVirtual(&D_060012C0, &colHeader);
+        CollisionHeader_GetVirtual(&object_spot05_objects_Col_0012C0, &colHeader);
         if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
             Actor_Kill(thisx);
         } else {

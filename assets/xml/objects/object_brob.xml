@@ -20,6 +20,6 @@
         <Animation Name="object_brob_Anim_001678" Offset="0x1678"/>
         <Animation Name="object_brob_Anim_001750" Offset="0x1750"/>
         <Animation Name="object_brob_Anim_001958" Offset="0x1958"/>
-        <Blob Name="object_brob_Blob_001968" Size="0x138" Offset="0x1968"/>
+        <Collision Name="object_brob_Col_001A70" Offset="0x1A70"/>
     </File>
 </Root>

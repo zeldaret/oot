@@ -78,7 +78,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gNabooruEyeOpenTex,
     gNabooruEyeHalfTex,
     gNabooruEyeClosedTex,
@@ -150,7 +150,7 @@ void EnNb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_300.unk_18 = player->actor.world.pos;
     this->unk_300.unk_14 = kREG(16) + 9.0f;
@@ -158,7 +158,7 @@ void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB1040(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_300.unk_18 = player->actor.world.pos;
     this->unk_300.unk_14 = kREG(16) + 9.0f;
@@ -316,7 +316,7 @@ void EnNb_SpawnBlueWarp(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_GiveMedallion(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 posX = player->actor.world.pos.x;
     f32 posY = player->actor.world.pos.y + 50.0f;
     f32 posZ = player->actor.world.pos.z;
@@ -335,7 +335,7 @@ void EnNb_SetupChamberCsImpl(EnNb* this, GlobalContext* globalCtx) {
     Player* player;
 
     if ((gSaveContext.chamberCutsceneNum == 3) && (gSaveContext.sceneSetupIndex < 4)) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         this->action = NB_CHAMBER_UNDERGROUND;
         globalCtx->csCtx.segment = &D_80AB431C;
         gSaveContext.cutsceneTrigger = 2;
@@ -543,14 +543,14 @@ void EnNb_CreateLightOrb(EnNb* this, GlobalContext* globalCtx) {
 void EnNb_DrawTransparency(EnNb* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeSegIdx = this->eyeIdx;
-    UNK_PTR addr = sEyeTextures[eyeSegIdx];
+    void* eyeTex = sEyeTextures[eyeSegIdx];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_nb_inKenjyanomaDemo02.c", 263);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
     POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
@@ -873,7 +873,7 @@ void EnNb_CheckConfrontationCsMode(EnNb* this, GlobalContext* globalCtx) {
                     EnNb_SetupConfrontationDestroy(this);
                     break;
                 default:
-                    // "En_Nb_Confrontion_Check_DemoMode: OPERATION DOESN'T EXIST!!!!!!!!"
+                    // "En_Nb_Confrontion_Check_DemoMode: Operation doesn't exist!!!!!!!!"
                     osSyncPrintf("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -1060,7 +1060,7 @@ void EnNb_CheckCreditsCsModeImpl(EnNb* this, GlobalContext* globalCtx) {
                     EnNb_SetupCreditsHeadTurn(this);
                     break;
                 default:
-                    // "En_Nb_inEnding_Check_DemoMode: OPERATION DOESN'T EXIST!!!!!!!!"
+                    // "En_Nb_inEnding_Check_DemoMode: Operation doesn't exist!!!!!!!!"
                     osSyncPrintf("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -1098,7 +1098,7 @@ void EnNb_LookUp(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_CrawlspaceSpawnCheck(EnNb* this, GlobalContext* globalCtx) {
-    if (!(gSaveContext.eventChkInf[9] & 0x20) && (gSaveContext.linkAge == 1)) {
+    if (!(gSaveContext.eventChkInf[9] & 0x20) && LINK_IS_CHILD) {
         EnNb_UpdatePath(this, globalCtx);
 
         // looking into crawlspace
@@ -1145,7 +1145,7 @@ void EnNb_SetNoticeSFX(EnNb* this) {
 }
 
 s32 EnNb_GetNoticedStatus(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 playerX = player->actor.world.pos.x;
     f32 playerZ = player->actor.world.pos.z;
     f32 thisX = this->actor.world.pos.x;

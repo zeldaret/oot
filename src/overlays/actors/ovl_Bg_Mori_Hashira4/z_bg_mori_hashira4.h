@@ -16,6 +16,4 @@ typedef struct BgMoriHashira4 {
     /* 0x016A */ s16 gateTimer;
 } BgMoriHashira4; // size = 0x016C
 
-extern const ActorInit Bg_Mori_Hashira4_InitVars;
-
 #endif

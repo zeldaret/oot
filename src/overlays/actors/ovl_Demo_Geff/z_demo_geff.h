@@ -23,6 +23,4 @@ typedef struct DemoGeff {
     /* 0x0164 */ f32 deltaPosZ;
 } DemoGeff; // size = 0x0168
 
-extern const ActorInit Demo_Geff_InitVars;
-
 #endif

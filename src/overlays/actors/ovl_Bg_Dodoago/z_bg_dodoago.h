@@ -15,6 +15,4 @@ typedef struct BgDodoago {
     /* 0x024C */ BgDodoagoActionFunc actionFunc;
 } BgDodoago; // size = 0x0250
 
-extern const ActorInit Bg_Dodoago_InitVars;
-
 #endif

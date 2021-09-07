@@ -887,10 +887,10 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         D_80B7E07D = (HIGH_SCORE(HS_FISHING) & 0xFF0000) >> 0x10;
         if ((D_80B7E07D & 7) == 7) {
-            globalCtx->unk_11D30[0] = 90;
+            globalCtx->roomCtx.unk_74[0] = 90;
             D_80B7E076 = 1;
         } else {
-            globalCtx->unk_11D30[0] = 40;
+            globalCtx->roomCtx.unk_74[0] = 40;
             D_80B7E076 = 0;
         }
 
@@ -1574,7 +1574,7 @@ void Fishing_DrawLureHook(GlobalContext* globalCtx, Vec3f* pos, Vec3f* refPos, u
     f32 offsetY;
     Vec3f posSrc = { 0.0f, 0.0f, 1.0f };
     Vec3f posStep;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 2963);
 
@@ -1638,7 +1638,7 @@ void Fishing_DrawLureHook(GlobalContext* globalCtx, Vec3f* pos, Vec3f* refPos, u
 
             Matrix_MultVec3f(&sZeroVec, &effect->pos);
             Matrix_Get(&mf);
-            func_800D20CC(&mf, &sEffOwnerHatRot, 0);
+            Matrix_MtxFToYXZRotS(&mf, &sEffOwnerHatRot, 0);
 
             D_80B7A690 = 0;
             D_80B7A68C = 0;
@@ -1678,7 +1678,7 @@ void Fishing_UpdateSinkingLure(GlobalContext* globalCtx) {
     Vec3f sp88;
     f32 offsetX;
     f32 offsetZ;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     posSrc.z = 0.85f;
 
@@ -1787,7 +1787,7 @@ void Fishing_DrawLureAndLine(GlobalContext* globalCtx, Vec3f* linePos, Vec3f* li
     s16 i;
     s16 spB4 = D_80B7E144;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 3287);
 
@@ -1953,7 +1953,7 @@ void Fishing_DrawRod(GlobalContext* globalCtx) {
     f32 spC4;
     f32 spC0;
     Input* input = &globalCtx->state.input[0];
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 3600);
@@ -2100,7 +2100,7 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
     f32 phi_f16;
     f32 spC8;
     s16 i;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f spA8;
     Vec3f sp9C;
@@ -2890,7 +2890,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
     s16 spEE;
     Fishing* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Input* input = &globalCtx->state.input[0];
     f32 spD8;
     f32 phi_f0;
@@ -4319,7 +4319,7 @@ void Fishing_HandleLilyPadContact(FishingProp* prop, Vec3f* entityPos, u8 fishTi
 
 void Fishing_UpdatePondProps(GlobalContext* globalCtx) {
     FishingProp* prop = &sPondProps[0];
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* actor;
     s16 i;
 
@@ -4489,7 +4489,7 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
 
 void Fishing_UpdateGroupFishes(GlobalContext* globalCtx) {
     s16 groupContactFlags = 0;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     FishingGroupFish* fish = &sGroupFishes[0];
     f32 dy;
     f32 dx;
@@ -5084,7 +5084,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     f32 camAtFraction;
     f32 lureDistXZ;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Input* input = &globalCtx->state.input[0];
 
     if (0) {

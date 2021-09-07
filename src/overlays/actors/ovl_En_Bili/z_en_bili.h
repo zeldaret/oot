@@ -29,8 +29,6 @@ typedef struct EnBili {
     /* 0x01D4 */ ColliderCylinder collider;
 } EnBili; // size = 0x0220
 
-extern const ActorInit En_Bili_InitVars;
-
 typedef enum {
     /* -1 */ EN_BILI_TYPE_NORMAL = -1,
     /*  0 */ EN_BILI_TYPE_VALI_SPAWNED,

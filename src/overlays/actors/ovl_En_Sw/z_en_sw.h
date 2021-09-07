@@ -49,6 +49,4 @@ typedef struct EnSw {
     /* 0x0490 */ char unk_490[0x48];
 } EnSw; // size = 0x04D8
 
-extern const ActorInit En_Sw_InitVars;
-
 #endif

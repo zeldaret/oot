@@ -31,7 +31,8 @@ void KaleidoScopeCall_LoadPlayer() {
 }
 
 void KaleidoScopeCall_Init(GlobalContext* globalCtx) {
-    osSyncPrintf("カレイド・スコープ入れ替え コンストラクト \n"); // "Kaleidoscope replacement construction"
+    // "Kaleidoscope replacement construction"
+    osSyncPrintf("カレイド・スコープ入れ替え コンストラクト \n");
 
     sKaleidoScopeUpdateFunc = KaleidoManager_GetRamAddr(KaleidoScope_Update);
     sKaleidoScopeDrawFunc = KaleidoManager_GetRamAddr(KaleidoScope_Draw);
@@ -45,7 +46,8 @@ void KaleidoScopeCall_Init(GlobalContext* globalCtx) {
 }
 
 void KaleidoScopeCall_Destroy(GlobalContext* globalCtx) {
-    osSyncPrintf("カレイド・スコープ入れ替え デストラクト \n"); // "Kaleidoscope replacement destruction"
+    // "Kaleidoscope replacement destruction"
+    osSyncPrintf("カレイド・スコープ入れ替え デストラクト \n");
 
     KaleidoSetup_Destroy(globalCtx);
 }
@@ -81,14 +83,16 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
             if (gKaleidoMgrCurOvl != kaleidoScopeOvl) {
                 if (gKaleidoMgrCurOvl != NULL) {
                     osSyncPrintf(VT_FGCOL(GREEN));
-                    osSyncPrintf("カレイド領域 プレイヤー 強制排除\n"); // "Kaleido area Player Forced Elimination"
+                    // "Kaleido area Player Forced Elimination"
+                    osSyncPrintf("カレイド領域 プレイヤー 強制排除\n");
                     osSyncPrintf(VT_RST);
 
                     KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
                 }
 
                 osSyncPrintf(VT_FGCOL(GREEN));
-                osSyncPrintf("カレイド領域 カレイドスコープ搬入\n"); // "Kaleido area Kaleidoscope loading"
+                // "Kaleido area Kaleidoscope loading"
+                osSyncPrintf("カレイド領域 カレイドスコープ搬入\n");
                 osSyncPrintf(VT_RST);
 
                 KaleidoManager_LoadOvl(kaleidoScopeOvl);
@@ -99,7 +103,8 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
 
                 if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0)) {
                     osSyncPrintf(VT_FGCOL(GREEN));
-                    osSyncPrintf("カレイド領域 カレイドスコープ排出\n"); // "Kaleido area Kaleidoscope Emission"
+                    // "Kaleido area Kaleidoscope Emission"
+                    osSyncPrintf("カレイド領域 カレイドスコープ排出\n");
                     osSyncPrintf(VT_RST);
 
                     KaleidoManager_ClearOvl(kaleidoScopeOvl);

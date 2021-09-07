@@ -5,6 +5,7 @@
  */
 
 #include "z_door_toki.h"
+#include "objects/object_toki_objects/object_toki_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -26,8 +27,6 @@ const ActorInit Door_Toki_InitVars = {
     NULL,
 };
 
-extern CollisionHeader D_06007888;
-
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
@@ -39,7 +38,7 @@ void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06007888, &colHeader);
+    CollisionHeader_GetVirtual(&gDoorTokiCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 

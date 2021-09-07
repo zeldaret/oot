@@ -32,8 +32,6 @@ typedef struct EnDh {
     /* 0x0320 */ f32 dirtWaveAlpha;
 } EnDh; // size = 0x0324
 
-extern const ActorInit En_Dh_InitVars;
-
 typedef enum {
     ENDH_HANDS_KILLED_4 = -4,
     ENDH_HANDS_KILLED_3,

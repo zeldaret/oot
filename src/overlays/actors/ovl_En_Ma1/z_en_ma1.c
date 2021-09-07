@@ -177,14 +177,14 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
     if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneSetupIndex == 5)) {
         return 1;
     }
-    if (gSaveContext.linkAge != 1) {
+    if (!LINK_IS_CHILD) {
         return 0;
     }
     if (((globalCtx->sceneNum == SCENE_MARKET_NIGHT) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) &&
-        (!(gSaveContext.eventChkInf[1] & 0x10)) && (!(gSaveContext.infTable[8] & 0x800))) {
+        !(gSaveContext.eventChkInf[1] & 0x10) && !(gSaveContext.infTable[8] & 0x800)) {
         return 1;
     }
-    if ((globalCtx->sceneNum == SCENE_SPOT15) && (!(gSaveContext.eventChkInf[1] & 0x10))) {
+    if ((globalCtx->sceneNum == SCENE_SPOT15) && !(gSaveContext.eventChkInf[1] & 0x10)) {
         if (gSaveContext.infTable[8] & 0x800) {
             return 1;
         } else {
@@ -192,13 +192,13 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
             return 0;
         }
     }
-    if ((globalCtx->sceneNum == SCENE_SOUKO) && (gSaveContext.nightFlag == 1) && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((globalCtx->sceneNum == SCENE_SOUKO) && IS_NIGHT && (gSaveContext.eventChkInf[1] & 0x10)) {
         return 1;
     }
     if (globalCtx->sceneNum != SCENE_SPOT20) {
         return 0;
     }
-    if ((this->actor.shape.rot.z == 3) && (gSaveContext.nightFlag == 0) && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((this->actor.shape.rot.z == 3) && IS_DAY && (gSaveContext.eventChkInf[1] & 0x10)) {
         return 1;
     }
     return 0;
@@ -222,7 +222,7 @@ void EnMa1_ChangeAnimation(EnMa1* this, UNK_TYPE idx) {
 }
 
 void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3;
 
     if ((this->unk_1E8.unk_00 == 0) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
@@ -273,7 +273,7 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.targetMode = 6;
     this->unk_1E8.unk_00 = 0;
 
-    if ((!(gSaveContext.eventChkInf[1] & 0x10)) || (CHECK_QUEST_ITEM(QUEST_SONG_EPONA))) {
+    if (!(gSaveContext.eventChkInf[1] & 0x10) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         this->actionFunc = func_80AA0D88;
         EnMa1_ChangeAnimation(this, 2);
     } else {
@@ -302,7 +302,7 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
 
     if ((globalCtx->sceneNum == SCENE_SPOT15) && (gSaveContext.eventChkInf[1] & 0x10)) {
         Actor_Kill(&this->actor);
-    } else if ((!(gSaveContext.eventChkInf[1] & 0x10)) || (CHECK_QUEST_ITEM(QUEST_SONG_EPONA))) {
+    } else if (!(gSaveContext.eventChkInf[1] & 0x10) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->unk_1E8.unk_00 == 2) {
             this->actionFunc = func_80AA0EA0;
             globalCtx->msgCtx.unk_E3E7 = 4;
@@ -330,7 +330,7 @@ void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
@@ -358,7 +358,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
-    PLAYER->stateFlags2 |= 0x800000;
+    GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
     if (this->unk_1E8.unk_00 == 2) {
         func_800ED858(2);
         func_8010BD58(globalCtx, 9);
@@ -368,7 +368,7 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
-    PLAYER->stateFlags2 |= 0x800000;
+    GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
     if (func_8010BDBC(&globalCtx->msgCtx) == 7) {
         func_8010BD58(globalCtx, 0x16);
         this->actionFunc = func_80AA1150;
@@ -376,7 +376,7 @@ void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
-    PLAYER->stateFlags2 |= 0x800000;
+    GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
     if (globalCtx->msgCtx.unk_E3EE == 3) {
         globalCtx->nextEntranceIndex = 0x157;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
@@ -445,7 +445,7 @@ void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     distFromCamera = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
     func_800F6268(distFromCamera, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);

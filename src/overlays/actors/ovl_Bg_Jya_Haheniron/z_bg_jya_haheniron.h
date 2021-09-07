@@ -16,6 +16,4 @@ typedef struct BgJyaHaheniron {
     /* 0x01B0 */ s16 timer;
 } BgJyaHaheniron; // size = 0x01B4
 
-extern const ActorInit Bg_Jya_Haheniron_InitVars;
-
 #endif

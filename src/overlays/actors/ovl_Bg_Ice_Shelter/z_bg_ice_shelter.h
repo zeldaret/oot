@@ -16,6 +16,4 @@ typedef struct BgIceShelter {
     /* 0x0200 */ s16 alpha;
 } BgIceShelter; // size = 0x0204
 
-extern const ActorInit Bg_Ice_Shelter_InitVars;
-
 #endif
