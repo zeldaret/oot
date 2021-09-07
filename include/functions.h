@@ -1463,7 +1463,7 @@ void ShrinkWindow_Update(s32 updateRate);
 // ? DbCamera_PrintS16Bytes(?);
 // ? DbCamera_PrintCutBytes(?);
 void DbCamera_Init(DbCamera* dbCamera, Camera* cameraPtr);
-// ? DbgCamera_Enable(?);
+void DbgCamera_Enable(DbCamera* dbCamera, Camera* cam);
 void DbCamera_Update(DbCamera* dbCamera, Camera* cam);
 // ? DbCamera_GetFirstAvailableLetter(?);
 // ? DbCamera_InitCut(?);
