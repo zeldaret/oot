@@ -70,12 +70,12 @@ CameraModeValue D_8011A3A0[] = {
     { 35, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A3C8[] = {
     /* CAM_FUNC_PARA1 */
-    { -20, CAM_DATA_Y_OFFSET },             // unk_00
+    { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 250, CAM_DATA_EYE_DIST },             // distTarget
     { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
     { 0, CAM_DATA_YAW_TARGET },             // yawTarget
@@ -83,24 +83,24 @@ CameraModeValue D_8011A3C8[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
     { 45, CAM_DATA_FOV },                   // fovTarget
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
-    { 0x200A, CAM_DATA_FLAGS },             // flags
-    { -40, CAM_DATA_GROUND_Y_OFFSET },      // unk_18
-    { 20, 12 }                              // unk_1C
+    { 0x200A, CAM_DATA_FLAGS },
+    { -40, CAM_DATA_GROUND_Y_OFFSET }, // unk_18
+    { 20, 12 }                         // unk_1C
 };
 
 CameraModeValue D_8011A3F4[] = {
     /* CAM_FUNC_KEEP1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 120, CAM_DATA_EYE_DIST },                 // unk_04
-    { 140, CAM_DATA_EYE_DIST_NEXT },            // unk_08
-    { 25, CAM_DATA_SWING_YAW_INIT },            // unk_0C
-    { 45, CAM_DATA_SWING_YAW_FINAL },           // unk_10
-    { -5, CAM_DATA_SWING_PITCH_INIT },          // unk_14
-    { 15, CAM_DATA_SWING_PITCH_FINAL },         // unk_18
-    { 15, CAM_DATA_SWING_PITCH_ADJ },           // unk_1C
-    { 45, CAM_DATA_FOV },                       // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_24
-    { 0x2001, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // unk_00
+    { 120, CAM_DATA_EYE_DIST },          // unk_04
+    { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
+    { 25, CAM_DATA_SWING_YAW_INIT },     // unk_0C
+    { 45, CAM_DATA_SWING_YAW_FINAL },    // unk_10
+    { -5, CAM_DATA_SWING_PITCH_INIT },   // unk_14
+    { 15, CAM_DATA_SWING_PITCH_FINAL },  // unk_18
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
+    { 45, CAM_DATA_FOV },                // unk_20
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { 0x2001, CAM_DATA_FLAGS },
     { -50, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
@@ -118,21 +118,21 @@ CameraModeValue D_8011A428[] = {
     { 45, CAM_DATA_FOV },                    // fovTarget
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
-    { 0x3500, CAM_DATA_FLAGS },              // flags
+    { 0x3500, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A458[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 180, CAM_DATA_EYE_DIST },                 // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },           // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },         // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 50, CAM_DATA_FOV },                       // fov
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 180, CAM_DATA_EYE_DIST },          // distance
+    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 50, CAM_DATA_FOV },                // fov
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -147,7 +147,7 @@ CameraModeValue D_8011A488[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // xzUpdRateTarget
     { 60, CAM_DATA_FOV },                   // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPStepScale
-    { 0x0000, CAM_DATA_FLAGS },             // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A4AC[] = {
@@ -160,7 +160,7 @@ CameraModeValue D_8011A4AC[] = {
     { 0, CAM_DATA_AT_OFFSET_Y },             // atOffset.y
     { 0, CAM_DATA_AT_OFFSET_Z },             // atOffset.z
     { 45, CAM_DATA_FOV },                    // fovTarget
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A4D0[] = {
@@ -173,7 +173,7 @@ CameraModeValue D_8011A4D0[] = {
     { -30, CAM_DATA_AT_OFFSET_Y },           // atOffset.y
     { -5, CAM_DATA_AT_OFFSET_Z },            // atOffset.z
     { 45, CAM_DATA_FOV },                    // fovTarget
-    { 0x2000, CAM_DATA_FLAGS },              // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A4F4[] = {
@@ -186,7 +186,7 @@ CameraModeValue D_8011A4F4[] = {
     { 20, CAM_DATA_AT_OFFSET_Y },            // atOffset.y
     { 0, CAM_DATA_AT_OFFSET_Z },             // atOffset.z
     { 45, CAM_DATA_FOV },                    // fovTarget
-    { 0x2000, CAM_DATA_FLAGS },              // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A518[] = {
@@ -198,7 +198,7 @@ CameraModeValue D_8011A518[] = {
     { 60, CAM_DATA_FOV },                // pitch
     { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // fovTarget
     { 6, CAM_DATA_UNK_22 },              // atMaxLERPScale
-    { 0x2000, CAM_DATA_FLAGS },          // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A538[] = {
@@ -211,7 +211,7 @@ CameraModeValue D_8011A538[] = {
     { 0, CAM_DATA_AT_OFFSET_Y },             // atOffset.y
     { 0, CAM_DATA_AT_OFFSET_Z },             // atOffset.z
     { 45, CAM_DATA_FOV },                    // fovTarget
-    { 0x2000, CAM_DATA_FLAGS },              // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A55C[] = {
@@ -224,7 +224,7 @@ CameraModeValue D_8011A55C[] = {
     { -63, CAM_DATA_AT_OFFSET_Y },           // atOffset.y
     { -30, CAM_DATA_AT_OFFSET_Z },           // atOffset.z
     { 45, CAM_DATA_FOV },                    // fovTarget
-    { 0x2000, CAM_DATA_FLAGS },              // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A580[] = {
@@ -237,7 +237,7 @@ CameraModeValue D_8011A580[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // xzUpdRateTarget
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPStepScale
-    { 0x2006, CAM_DATA_FLAGS },               // flags
+    { 0x2006, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A5A4[] = {
@@ -249,7 +249,7 @@ CameraModeValue D_8011A5A4[] = {
     { 35, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A5C4[] = {
@@ -260,7 +260,7 @@ CameraModeValue D_8011A5C4[] = {
     { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 60, CAM_DATA_FOV },                // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },          // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A5E0[] = {
@@ -271,7 +271,7 @@ CameraModeValue D_8011A5E0[] = {
     { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 45, CAM_DATA_FOV },                // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x2000, CAM_DATA_FLAGS },          // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A5FC[] = {
@@ -283,7 +283,7 @@ CameraModeValue D_8011A5FC[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A61C[] = {
@@ -294,7 +294,7 @@ CameraModeValue D_8011A61C[] = {
     { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpUpdateRate
     { 80, CAM_DATA_FOV },                   // fovTarget
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPTarget
-    { 0xF000, CAM_DATA_FLAGS },             // flags
+    { 0xF000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A638[] = {
@@ -308,37 +308,37 @@ CameraModeValue D_8011A638[] = {
     { 100, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 5, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleMax
-    { 0xF003, CAM_DATA_FLAGS },               // flags
+    { 0xF003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A660[] = {
     /* CAM_FUNC_PARA1 */
-    { 0, CAM_DATA_Y_OFFSET },                   // unk_00
-    { 250, CAM_DATA_EYE_DIST },                 // distTarget
-    { 25, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 70, CAM_DATA_FOV },                       // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x206A, CAM_DATA_FLAGS },                 // flags
+    { 0, CAM_DATA_Y_OFFSET },               // yOffset
+    { 250, CAM_DATA_EYE_DIST },             // distTarget
+    { 25, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 70, CAM_DATA_FOV },                   // fovTarget
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x206A, CAM_DATA_FLAGS },
     { -20, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
 CameraModeValue D_8011A68C[] = {
     /* CAM_FUNC_KEEP1 */
-    { -5, CAM_DATA_Y_OFFSET },                  // unk_00
-    { 120, CAM_DATA_EYE_DIST },                 // unk_04
-    { 140, CAM_DATA_EYE_DIST_NEXT },            // unk_08
-    { 5, CAM_DATA_SWING_YAW_INIT },             // unk_0C
-    { 85, CAM_DATA_SWING_YAW_FINAL },           // unk_10
-    { 10, CAM_DATA_SWING_PITCH_INIT },          // unk_14
-    { 5, CAM_DATA_SWING_PITCH_FINAL },          // unk_18
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // unk_1C
-    { 45, CAM_DATA_FOV },                       // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_24
-    { 0x2001, CAM_DATA_FLAGS },                 // flags
+    { -5, CAM_DATA_Y_OFFSET },           // unk_00
+    { 120, CAM_DATA_EYE_DIST },          // unk_04
+    { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
+    { 5, CAM_DATA_SWING_YAW_INIT },      // unk_0C
+    { 85, CAM_DATA_SWING_YAW_FINAL },    // unk_10
+    { 10, CAM_DATA_SWING_PITCH_INIT },   // unk_14
+    { 5, CAM_DATA_SWING_PITCH_FINAL },   // unk_18
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
+    { 45, CAM_DATA_FOV },                // unk_20
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { 0x2001, CAM_DATA_FLAGS },
     { -15, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
@@ -354,53 +354,53 @@ CameraModeValue sSetNorm1ModeNormVals[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetNorm1ModeParaVals[] = {
     /* CAM_FUNC_PARA1 */
-    { 0, CAM_DATA_Y_OFFSET },                   // unk_00
-    { 250, CAM_DATA_EYE_DIST },                 // distTarget
-    { 0, CAM_DATA_PITCH_TARGET },               // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 45, CAM_DATA_FOV },                       // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { 0, CAM_DATA_Y_OFFSET },               // yOffset
+    { 250, CAM_DATA_EYE_DIST },             // distTarget
+    { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 45, CAM_DATA_FOV },                   // fovTarget
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
 CameraModeValue D_8011A714[] = {
     /* CAM_FUNC_KEEP1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 120, CAM_DATA_EYE_DIST },                 // unk_04
-    { 140, CAM_DATA_EYE_DIST_NEXT },            // unk_08
-    { 25, CAM_DATA_SWING_YAW_INIT },            // unk_0C
-    { 45, CAM_DATA_SWING_YAW_FINAL },           // unk_10
-    { -5, CAM_DATA_SWING_PITCH_INIT },          // unk_14
-    { 15, CAM_DATA_SWING_PITCH_FINAL },         // unk_18
-    { 15, CAM_DATA_SWING_PITCH_ADJ },           // unk_1C
-    { 45, CAM_DATA_FOV },                       // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_24
-    { 0x2001, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // unk_00
+    { 120, CAM_DATA_EYE_DIST },          // unk_04
+    { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
+    { 25, CAM_DATA_SWING_YAW_INIT },     // unk_0C
+    { 45, CAM_DATA_SWING_YAW_FINAL },    // unk_10
+    { -5, CAM_DATA_SWING_PITCH_INIT },   // unk_14
+    { 15, CAM_DATA_SWING_PITCH_FINAL },  // unk_18
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
+    { 45, CAM_DATA_FOV },                // unk_20
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { 0x2001, CAM_DATA_FLAGS },
     { -50, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
 
 CameraModeValue D_8011A748[] = {
     /* CAM_FUNC_BATT1  */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 250, CAM_DATA_EYE_DIST },                 // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },           // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },         // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 50, CAM_DATA_FOV },                       // fov
-    { 65, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 250, CAM_DATA_EYE_DIST },          // distance
+    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 50, CAM_DATA_FOV },                // fov
+    { 65, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -414,7 +414,7 @@ CameraModeValue D_8011A778[] = {
     { 45, CAM_DATA_PITCH_TARGET },       // pitch
     { 60, CAM_DATA_FOV },                // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atMaxLERPScale
-    { 0x2000, CAM_DATA_FLAGS },          // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A798[] = {
@@ -426,7 +426,7 @@ CameraModeValue D_8011A798[] = {
     { 50, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 30, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A7B8[] = {
@@ -438,7 +438,7 @@ CameraModeValue D_8011A7B8[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A7D8[] = {
@@ -451,7 +451,7 @@ CameraModeValue D_8011A7D8[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // xzUpdRateTarget
     { 60, CAM_DATA_FOV },                   // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPStepScale
-    { 0x0000, CAM_DATA_FLAGS },             // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A7FC[] = {
@@ -464,7 +464,7 @@ CameraModeValue D_8011A7FC[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // xzUpdRateTarget
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPStepScale
-    { 0x2006, CAM_DATA_FLAGS },               // flags
+    { 0x2006, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A820[] = {
@@ -475,7 +475,7 @@ CameraModeValue D_8011A820[] = {
     { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpUpdateRate
     { 80, CAM_DATA_FOV },                   // fovTarget
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPTarget
-    { 0xF000, CAM_DATA_FLAGS },             // flags
+    { 0xF000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A83C[] = {
@@ -486,7 +486,7 @@ CameraModeValue D_8011A83C[] = {
     { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 60, CAM_DATA_FOV },                // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },          // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A858[] = {
@@ -497,7 +497,7 @@ CameraModeValue D_8011A858[] = {
     { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 45, CAM_DATA_FOV },                // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x2000, CAM_DATA_FLAGS },          // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A874[] = {
@@ -511,7 +511,7 @@ CameraModeValue D_8011A874[] = {
     { 100, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 5, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleMax
-    { 0xF003, CAM_DATA_FLAGS },               // flags
+    { 0xF003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A89C[] = {
@@ -525,53 +525,53 @@ CameraModeValue D_8011A89C[] = {
     { 30, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A8C4[] = {
     /* CAM_FUNC_PARA1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 150, CAM_DATA_EYE_DIST },                 // distTarget
-    { 0, CAM_DATA_PITCH_TARGET },               // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 45, CAM_DATA_FOV },                       // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x200A, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },             // yOffset
+    { 150, CAM_DATA_EYE_DIST },             // distTarget
+    { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 45, CAM_DATA_FOV },                   // fovTarget
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x200A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
 CameraModeValue D_8011A8F0[] = {
     /* CAM_FUNC_KEEP1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 120, CAM_DATA_EYE_DIST },                 // unk_04
-    { 140, CAM_DATA_EYE_DIST_NEXT },            // unk_08
-    { 25, CAM_DATA_SWING_YAW_INIT },            // unk_0C
-    { 45, CAM_DATA_SWING_YAW_FINAL },           // unk_10
-    { -5, CAM_DATA_SWING_PITCH_INIT },          // unk_14
-    { 15, CAM_DATA_SWING_PITCH_FINAL },         // unk_18
-    { 15, CAM_DATA_SWING_PITCH_ADJ },           // unk_1C
-    { 45, CAM_DATA_FOV },                       // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_24
-    { 0x2001, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // unk_00
+    { 120, CAM_DATA_EYE_DIST },          // unk_04
+    { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
+    { 25, CAM_DATA_SWING_YAW_INIT },     // unk_0C
+    { 45, CAM_DATA_SWING_YAW_FINAL },    // unk_10
+    { -5, CAM_DATA_SWING_PITCH_INIT },   // unk_14
+    { 15, CAM_DATA_SWING_PITCH_FINAL },  // unk_18
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
+    { 45, CAM_DATA_FOV },                // unk_20
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { 0x2001, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
 
 CameraModeValue D_8011A924[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 180, CAM_DATA_EYE_DIST },                 // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },           // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },         // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                       // fov
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 180, CAM_DATA_EYE_DIST },          // distance
+    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 45, CAM_DATA_FOV },                // fov
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
 };
@@ -585,7 +585,7 @@ CameraModeValue D_8011A954[] = {
     { 50, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A974[] = {
@@ -597,7 +597,7 @@ CameraModeValue D_8011A974[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A994[] = {
@@ -610,7 +610,7 @@ CameraModeValue D_8011A994[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // xzUpdRateTarget
     { 60, CAM_DATA_FOV },                   // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPStepScale
-    { 0x0000, CAM_DATA_FLAGS },             // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A9B8[] = {
@@ -623,7 +623,7 @@ CameraModeValue D_8011A9B8[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // xzUpdRateTarget
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPStepScale
-    { 0x2006, CAM_DATA_FLAGS },               // flags
+    { 0x2006, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A9DC[] = {
@@ -634,7 +634,7 @@ CameraModeValue D_8011A9DC[] = {
     { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpUpdateRate
     { 80, CAM_DATA_FOV },                   // fovTarget
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPTarget
-    { 0xF000, CAM_DATA_FLAGS },             // flags
+    { 0xF000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011A9F8[] = {
@@ -645,18 +645,18 @@ CameraModeValue D_8011A9F8[] = {
     { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 60, CAM_DATA_FOV },                // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },          // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AA14[] = {
     /* CAM_FUNC_UNIQ1 */
-    { -120, CAM_DATA_Y_OFFSET },         // yOffset */
-    { 250, CAM_DATA_EYE_DIST },          // distMin */
-    { 250, CAM_DATA_EYE_DIST_NEXT },     // distMax */
-    { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget */
-    { 45, CAM_DATA_FOV },                // fovTarget */
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax */
-    { 0x2000, CAM_DATA_FLAGS },          // flags */
+    { -120, CAM_DATA_Y_OFFSET },         // yOffset
+    { 250, CAM_DATA_EYE_DIST },          // distMin
+    { 250, CAM_DATA_EYE_DIST_NEXT },     // distMax
+    { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
+    { 45, CAM_DATA_FOV },                // fovTarget
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AA30[] = {
@@ -670,7 +670,7 @@ CameraModeValue D_8011AA30[] = {
     { 100, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 5, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleMax
-    { 0xF003, CAM_DATA_FLAGS },               // flags
+    { 0xF003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AA58[] = {
@@ -684,7 +684,7 @@ CameraModeValue D_8011AA58[] = {
     { 30, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AA80[] = {
@@ -700,7 +700,7 @@ CameraModeValue D_8011AA80[] = {
     { 45, CAM_DATA_FOV },                    // fovTarget
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
-    { 0x3500, CAM_DATA_FLAGS },              // flags
+    { 0x3500, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AAB0[] = {
@@ -712,7 +712,7 @@ CameraModeValue D_8011AAB0[] = {
     { 50, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AAD0[] = {
@@ -724,7 +724,7 @@ CameraModeValue D_8011AAD0[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AAF0[] = {
@@ -737,7 +737,7 @@ CameraModeValue D_8011AAF0[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // xzUpdRateTarget
     { 60, CAM_DATA_FOV },                   // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPStepScale
-    { 0x0000, CAM_DATA_FLAGS },             // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AB14[] = {
@@ -750,7 +750,7 @@ CameraModeValue D_8011AB14[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // xzUpdRateTarget
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPStepScale
-    { 0x2006, CAM_DATA_FLAGS },               // flags
+    { 0x2006, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AB38[] = {
@@ -761,7 +761,7 @@ CameraModeValue D_8011AB38[] = {
     { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpUpdateRate
     { 80, CAM_DATA_FOV },                   // fovTarget
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPTarget
-    { 0xF000, CAM_DATA_FLAGS },             // flags
+    { 0xF000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AB54[] = {
@@ -772,7 +772,7 @@ CameraModeValue D_8011AB54[] = {
     { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget */
     { 60, CAM_DATA_FOV },                // fovTarget */
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax */
-    { 0x0000, CAM_DATA_FLAGS },          // flags */
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AB70[] = {
@@ -783,7 +783,7 @@ CameraModeValue D_8011AB70[] = {
     { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 45, CAM_DATA_FOV },                // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x2000, CAM_DATA_FLAGS },          // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AB8C[] = {
@@ -797,20 +797,20 @@ CameraModeValue D_8011AB8C[] = {
     { 100, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 5, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleMax
-    { 0xF003, CAM_DATA_FLAGS },               // flags
+    { 0xF003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011ABB4[] = {
     /* CAM_FUNC_PARA1 */
-    { -40, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 180, CAM_DATA_EYE_DIST },                 // distTarget
-    { 25, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 60, CAM_DATA_FOV },                       // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x206A, CAM_DATA_FLAGS },                 // flags
+    { -40, CAM_DATA_Y_OFFSET },             // yOffset
+    { 180, CAM_DATA_EYE_DIST },             // distTarget
+    { 25, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 60, CAM_DATA_FOV },                   // fovTarget
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x206A, CAM_DATA_FLAGS },
     { -20, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
@@ -826,20 +826,20 @@ CameraModeValue sSetNorm3ModeNormVals[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_1C
-    { 0x0004, CAM_DATA_FLAGS },              // flags
+    { 0x0004, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AC08[] = {
     /* CAM_FUNC_PARA1 */
-    { -50, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 250, CAM_DATA_EYE_DIST },                 // distTarget
-    { 70, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },    // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 60, CAM_DATA_FOV },                       // fovTarget
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },       // unk_14
-    { 0x200A, CAM_DATA_FLAGS },                 // flags
+    { -50, CAM_DATA_Y_OFFSET },              // yOffset
+    { 250, CAM_DATA_EYE_DIST },              // distTarget
+    { 70, CAM_DATA_PITCH_TARGET },           // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },              // yawTarget
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_0C
+    { 60, CAM_DATA_FOV },                    // fovTarget
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x200A, CAM_DATA_FLAGS },
     { -50, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
@@ -857,7 +857,7 @@ CameraModeValue D_8011AC34[] = {
     { 45, CAM_DATA_FOV },                    // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
-    { 0x3500, CAM_DATA_FLAGS },              // flags
+    { 0x3500, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetNorm3ModeBoomVals[] = {
@@ -874,7 +874,7 @@ CameraModeValue sSetNorm3ModeBoomVals[] = {
     { 60, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // unk_1C
-    { 0x0005, CAM_DATA_FLAGS },              // flags
+    { 0x0005, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetHrse0ModeNormVals[] = {
@@ -887,7 +887,7 @@ CameraModeValue sSetHrse0ModeNormVals[] = {
     { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10 */
     { 60, CAM_DATA_FOV },                    // fovTarget */
     { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // maxAtLERPScale */
-    { 0x0600, CAM_DATA_FLAGS },              // flags */
+    { 0x0600, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetHrse0ModeParaVals[] = {
@@ -900,7 +900,7 @@ CameraModeValue sSetHrse0ModeParaVals[] = {
     { 100, CAM_DATA_XZ_UPDATE_RATE_TARGET }, // unk_10
     { 45, CAM_DATA_FOV },                    // fovTarget
     { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // maxAtLERPScale
-    { 0x2600, CAM_DATA_FLAGS },              // flags
+    { 0x2600, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011ACD4[] = {
@@ -913,22 +913,22 @@ CameraModeValue D_8011ACD4[] = {
     { -30, CAM_DATA_AT_OFFSET_Y },           // atOffset.y
     { -5, CAM_DATA_AT_OFFSET_Z },            // atOffset.z
     { 40, CAM_DATA_FOV },                    // fovTarget
-    { 0x2600, CAM_DATA_FLAGS },              // flags
+    { 0x2600, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011ACF8[] = {
     /* CAM_FUNC_KEEP1 */
-    { -60, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 180, CAM_DATA_EYE_DIST },                 // unk_04
-    { 220, CAM_DATA_EYE_DIST_NEXT },            // unk_08
-    { 25, CAM_DATA_SWING_YAW_INIT },            // unk_0C
-    { 45, CAM_DATA_SWING_YAW_FINAL },           // unk_10
-    { -5, CAM_DATA_SWING_PITCH_INIT },          // unk_14
-    { 15, CAM_DATA_SWING_PITCH_FINAL },         // unk_18
-    { 15, CAM_DATA_SWING_PITCH_ADJ },           // unk_1C
-    { 45, CAM_DATA_FOV },                       // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_24
-    { 0x2601, CAM_DATA_FLAGS },                 // flags
+    { -60, CAM_DATA_Y_OFFSET },          // unk_00
+    { 180, CAM_DATA_EYE_DIST },          // unk_04
+    { 220, CAM_DATA_EYE_DIST_NEXT },     // unk_08
+    { 25, CAM_DATA_SWING_YAW_INIT },     // unk_0C
+    { 45, CAM_DATA_SWING_YAW_FINAL },    // unk_10
+    { -5, CAM_DATA_SWING_PITCH_INIT },   // unk_14
+    { 15, CAM_DATA_SWING_PITCH_FINAL },  // unk_18
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
+    { 45, CAM_DATA_FOV },                // unk_20
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { 0x2601, CAM_DATA_FLAGS },
     { -60, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
@@ -946,7 +946,7 @@ CameraModeValue D_8011AD2C[] = {
     { 45, CAM_DATA_FOV },                    // fovTarget
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
-    { 0x3500, CAM_DATA_FLAGS },              // flags
+    { 0x3500, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AD5C[] = {
@@ -960,22 +960,22 @@ CameraModeValue D_8011AD5C[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0001, CAM_DATA_FLAGS },              // flags
+    { 0x0001, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AD84[] = {
     /* CAM_FUNC_BATT1 */
-    { -30, CAM_DATA_Y_OFFSET },                 // yOffset (PCT) */
-    { 150, CAM_DATA_EYE_DIST },                 // distance */
-    { 10, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial */
-    { 40, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal */
-    { -10, CAM_DATA_SWING_PITCH_INIT },         // swingPitchInitial */
-    { 0, CAM_DATA_SWING_PITCH_FINAL },          // swingPitchFinal */
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT) */
-    { 60, CAM_DATA_FOV },                       // fov */
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT) */
-    { 0x2002, CAM_DATA_FLAGS },                 // flags */
-    { -50, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT) */
+    { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT) */
+    { 150, CAM_DATA_EYE_DIST },          // distance */
+    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial */
+    { 40, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal */
+    { -10, CAM_DATA_SWING_PITCH_INIT },  // swingPitchInitial */
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal */
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT) */
+    { 60, CAM_DATA_FOV },                // fov */
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT) */
+    { 0x2002, CAM_DATA_FLAGS },
+    { -50, CAM_DATA_GROUND_Y_OFFSET },      // yOffsetOffGround (PCT) */
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT) */
 };
 
@@ -990,21 +990,21 @@ CameraModeValue D_8011ADB4[] = {
     { 70, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 70, CAM_DATA_FOV },                    // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011ADDC[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 160, CAM_DATA_EYE_DIST },                 // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 60, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { -5, CAM_DATA_SWING_PITCH_INIT },          // swingPitchInitial
-    { 0, CAM_DATA_SWING_PITCH_FINAL },          // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 70, CAM_DATA_FOV },                       // fov
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 160, CAM_DATA_EYE_DIST },          // distance
+    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 60, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { -5, CAM_DATA_SWING_PITCH_INIT },   // swingPitchInitial
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 70, CAM_DATA_FOV },                // fov
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -1020,21 +1020,21 @@ CameraModeValue D_8011AE0C[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 70, CAM_DATA_FOV },                    // fovTarget
     { 70, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AE34[] = {
     /* CAM_FUNC_BATT1 */
-    { -30, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 125, CAM_DATA_EYE_DIST },                 // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },           // swingPitchInitial
-    { 0, CAM_DATA_SWING_PITCH_FINAL },          // swingPitchFinal
-    { 50, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 60, CAM_DATA_FOV },                       // fov
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 125, CAM_DATA_EYE_DIST },          // distance
+    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 10, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
+    { 50, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 60, CAM_DATA_FOV },                // fov
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -50, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -1050,21 +1050,21 @@ CameraModeValue D_8011AE64[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AE8C[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 200, CAM_DATA_EYE_DIST },                 // distance
-    { 45, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 40, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 5, CAM_DATA_SWING_PITCH_INIT },           // swingPitchInitial
-    { -5, CAM_DATA_SWING_PITCH_FINAL },         // swingPitchFinal
-    { 35, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 60, CAM_DATA_FOV },                       // fov
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },           // yOffset (PCT)
+    { 200, CAM_DATA_EYE_DIST },           // distance
+    { 45, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
+    { 40, CAM_DATA_SWING_YAW_FINAL },     // swingYawFinal
+    { 5, CAM_DATA_SWING_PITCH_INIT },     // swingPitchInitial
+    { -5, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
+    { 35, CAM_DATA_SWING_PITCH_ADJ },     // swingPitchAdj (PCT)
+    { 60, CAM_DATA_FOV },                 // fov
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 60, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -1080,21 +1080,21 @@ CameraModeValue D_8011AEBC[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AEE4[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 200, CAM_DATA_EYE_DIST },                 // distance
-    { 20, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 60, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },           // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },         // swingPitchFinal
-    { 15, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                       // fov
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 200, CAM_DATA_EYE_DIST },          // distance
+    { 20, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 60, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 45, CAM_DATA_FOV },                // fov
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -1110,21 +1110,21 @@ CameraModeValue D_8011AF14[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0083, CAM_DATA_FLAGS },              // flags
+    { 0x0083, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AF3C[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 200, CAM_DATA_EYE_DIST },                 // distance
-    { 20, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 60, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },           // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },         // swingPitchFinal
-    { 15, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                       // fov
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2082, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 200, CAM_DATA_EYE_DIST },          // distance
+    { 20, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 60, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 45, CAM_DATA_FOV },                // fov
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2082, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -1140,7 +1140,7 @@ CameraModeValue D_8011AF6C[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0083, CAM_DATA_FLAGS },              // flags
+    { 0x0083, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AF94[] = {
@@ -1154,21 +1154,21 @@ CameraModeValue D_8011AF94[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 80, CAM_DATA_FOV },                    // fovTarget
     { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011AFBC[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 200, CAM_DATA_EYE_DIST },                 // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { -10, CAM_DATA_SWING_PITCH_INIT },         // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },         // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 70, CAM_DATA_FOV },                       // fov
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 200, CAM_DATA_EYE_DIST },          // distance
+    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { -10, CAM_DATA_SWING_PITCH_INIT },  // swingPitchInitial
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 70, CAM_DATA_FOV },                // fov
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -1184,21 +1184,21 @@ CameraModeValue D_8011AFEC[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B014[] = {
     /* CAM_FUNC_BATT1 */
-    { 0, CAM_DATA_Y_OFFSET },                   // yOffset (PCT)
-    { 400, CAM_DATA_EYE_DIST },                 // distance
-    { 0, CAM_DATA_SWING_YAW_INIT },             // swingYawInitial
-    { 60, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { -10, CAM_DATA_SWING_PITCH_INIT },         // swingPitchInitial
-    { 5, CAM_DATA_SWING_PITCH_FINAL },          // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                       // fov
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { 0, CAM_DATA_Y_OFFSET },            // yOffset (PCT)
+    { 400, CAM_DATA_EYE_DIST },          // distance
+    { 0, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
+    { 60, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { -10, CAM_DATA_SWING_PITCH_INIT },  // swingPitchInitial
+    { 5, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 45, CAM_DATA_FOV },                // fov
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -20, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -1214,7 +1214,7 @@ CameraModeValue D_8011B044[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B06C[] = {
@@ -1228,7 +1228,7 @@ CameraModeValue D_8011B06C[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B094[] = {
@@ -1239,7 +1239,7 @@ CameraModeValue D_8011B094[] = {
     { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpUpdateRate
     { 80, CAM_DATA_FOV },                   // fovTarget
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPTarget
-    { 0xF000, CAM_DATA_FLAGS },             // flags
+    { 0xF000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B0B0[] = {
@@ -1253,21 +1253,21 @@ CameraModeValue D_8011B0B0[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B0D8[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 180, CAM_DATA_EYE_DIST },                 // distance
-    { 20, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 60, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },           // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },         // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                       // fov
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 180, CAM_DATA_EYE_DIST },          // distance
+    { 20, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 60, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 45, CAM_DATA_FOV },                // fov
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -1282,7 +1282,7 @@ CameraModeValue D_8011B108[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },        // unk_10
     { 60, CAM_DATA_FOV },                   // unk_14
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_18
-    { 0x0000, CAM_DATA_FLAGS },             // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B12C[] = {
@@ -1295,7 +1295,7 @@ CameraModeValue D_8011B12C[] = {
     { 40, CAM_DATA_MAX_YAW_UPDATE },        // unk_10
     { 60, CAM_DATA_FOV },                   // unk_14
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_18
-    { 0x0080, CAM_DATA_FLAGS },             // flags
+    { 0x0080, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B150[] = {
@@ -1308,7 +1308,7 @@ CameraModeValue D_8011B150[] = {
     { 60, CAM_DATA_MAX_YAW_UPDATE },        // unk_10
     { 60, CAM_DATA_FOV },                   // unk_14
     { 100, CAM_DATA_AT_LERP_STEP_SCALE },   // unk_18
-    { 0x0000, CAM_DATA_FLAGS },             // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B174[] = {
@@ -1321,7 +1321,7 @@ CameraModeValue D_8011B174[] = {
     { 60, CAM_DATA_MAX_YAW_UPDATE },        // unk_10
     { 60, CAM_DATA_FOV },                   // unk_14
     { 100, CAM_DATA_AT_LERP_STEP_SCALE },   // unk_18
-    { 0x0000, CAM_DATA_FLAGS },             // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetFixd0ModeNormVals[] = {
@@ -1329,7 +1329,7 @@ CameraModeValue sSetFixd0ModeNormVals[] = {
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
     { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
     { 60, CAM_DATA_FOV },                     // fov
-    { 0x0000, CAM_DATA_FLAGS },               // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B1A8[] = {
@@ -1337,7 +1337,7 @@ CameraModeValue D_8011B1A8[] = {
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
     { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
     { 60, CAM_DATA_FOV },                     // fov
-    { 0x2000, CAM_DATA_FLAGS },               // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B1B8[] = {
@@ -1345,7 +1345,7 @@ CameraModeValue D_8011B1B8[] = {
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
     { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
     { 60, CAM_DATA_FOV },                     // fov
-    { 0x3500, CAM_DATA_FLAGS },               // flags
+    { 0x3500, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B1C8[] = {
@@ -1353,7 +1353,7 @@ CameraModeValue D_8011B1C8[] = {
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
     { 25, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
     { 60, CAM_DATA_FOV },                    // fov
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetCirc0ModeNormVals[] = {
@@ -1362,14 +1362,14 @@ CameraModeValue sSetCirc0ModeNormVals[] = {
     { 50, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // eyeStepScale
     { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // posStepScale
     { 60, CAM_DATA_FOV },                    // fov
-    { 0x0001, CAM_DATA_FLAGS },              // flags
+    { 0x0001, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetCirc2ModeNormVals[] = {
     /* CAM_FUNC_DATA4 */
     { -40, CAM_DATA_Y_OFFSET }, // yOffset
     { 60, CAM_DATA_FOV },       // fov
-    { 0x3F00, CAM_DATA_FLAGS }, // flags
+    { 0x3F00, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B1F8[] = {
@@ -1378,7 +1378,7 @@ CameraModeValue D_8011B1F8[] = {
     { 50, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // speedToEyePos
     { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // followSpeed
     { 60, CAM_DATA_FOV },                    // fov
-    { 0x0004, CAM_DATA_FLAGS },              // flags
+    { 0x0004, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B20C[] = {
@@ -1386,53 +1386,53 @@ CameraModeValue D_8011B20C[] = {
        CAM_FUNC_FIXD3
        CAM_FUNC_SPEC6
        CAM_FUNC_SPEC7 */
-    { 0x0000, CAM_DATA_FLAGS }, // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetPR0ModeKeepTalkVals[] = {
     /* CAM_FUNC_FIXD3 */
-    { 0x2000, CAM_DATA_FLAGS }, // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetPR1ModeNormVals[] = {
     /* CAM_FUNC_UNIQ7 */
-    { 60, CAM_DATA_FOV },       // fov
-    { 0x0000, CAM_DATA_FLAGS }, // flags
+    { 60, CAM_DATA_FOV }, // fov
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetPR1ModeKeepVals[] = {
     /* CAM_FUNC_UNIQ7 */
-    { 60, CAM_DATA_FOV },       // fov
-    { 0x2000, CAM_DATA_FLAGS }, // flags
+    { 60, CAM_DATA_FOV }, // fov
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetPreRend1ModeTalkVals[] = {
     /* CAM_FUNC_KEEP0 */
-    { 30, CAM_DATA_FOV_SCALE },             // fovScale
-    { 0, CAM_DATA_YAW_SCALE },              // yawScale
+    { 30, CAM_DATA_FOV_SCALE },
+    { 0, CAM_DATA_YAW_SCALE },
     { 4, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // timerInit
-    { 0x3500, CAM_DATA_FLAGS },             // flags
+    { 0x3500, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetDoor0ModeNormVals[] = {
     /* CAM_FUNC_UNIQ3 */
     { -40, CAM_DATA_Y_OFFSET }, // yOffset
     { 60, CAM_DATA_FOV },       // fov
-    { 0x3200, CAM_DATA_FLAGS }, // flags
+    { 0x3200, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetDoorCModeNormVals[] = {
     /* CAM_FUNC_SPEC9 */
-    { -5, CAM_DATA_Y_OFFSET },  // yOffset
-    { 60, CAM_DATA_FOV },       // unk_04 (unused)
-    { 0x3202, CAM_DATA_FLAGS }, // flags
+    { -5, CAM_DATA_Y_OFFSET }, // yOffset
+    { 60, CAM_DATA_FOV },      // unk_04 (unused)
+    { 0x3202, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetDoorCModeParaVals[] = {
     /* CAM_FUNC_SPEC9 */
-    { -5, CAM_DATA_Y_OFFSET },  // yOffset
-    { 60, CAM_DATA_FOV },       // unk_04 (unused)
-    { 0x320A, CAM_DATA_FLAGS }, // flags
+    { -5, CAM_DATA_Y_OFFSET }, // yOffset
+    { 60, CAM_DATA_FOV },      // unk_04 (unused)
+    { 0x320A, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetRail3ModeNormVals[] = {
@@ -1448,17 +1448,17 @@ CameraModeValue sSetRail3ModeNormVals[] = {
 
 CameraModeValue D_8011B270[] = {
     /* CAM_FUNC_UNIQ0 */
-    { 0x0001, CAM_DATA_FLAGS }, // flags
+    { 0x0001, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetFree0ModeNormVals[] = {
     /* CAM_FUNC_UNIQ6 */
-    { 0xFF00, CAM_DATA_FLAGS }, // flags
+    { 0xFF00, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetFree1ModeNormVals[] = {
     /* CAM_FUNC_UNIQ6  */
-    { 0xFF01, CAM_DATA_FLAGS }, // flags
+    { 0xFF01, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetCirc4ModeNormVals[] = {
@@ -1467,7 +1467,7 @@ CameraModeValue sSetCirc4ModeNormVals[] = {
     { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // eyeStepScale
     { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // posStepScale
     { 60, CAM_DATA_FOV },                     // fov
-    { 0x0000, CAM_DATA_FLAGS },               // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B290[] = {
@@ -1475,7 +1475,7 @@ CameraModeValue D_8011B290[] = {
     { -40, CAM_DATA_Y_OFFSET }, // yOffset
     { 60, CAM_DATA_EYE_DIST },  // distTarget
     { 60, CAM_DATA_FOV },       // fovTarget
-    { 0x0002, CAM_DATA_FLAGS }, // flags
+    { 0x0002, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B2A0[] = {
@@ -1483,7 +1483,7 @@ CameraModeValue D_8011B2A0[] = {
     { -30, CAM_DATA_Y_OFFSET }, // yOffset
     { 45, CAM_DATA_EYE_DIST },  // distTarget
     { 100, CAM_DATA_FOV },      // fovTarget
-    { 0x2001, CAM_DATA_FLAGS }, // flags
+    { 0x2001, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B2B0[] = {
@@ -1491,27 +1491,27 @@ CameraModeValue D_8011B2B0[] = {
        CAM_FUNC_DEMO4 (Not actually used in Camera_Demo4)
        CAM_FUNC_DEMO6
        CAM_FUNC_SPEC4 */
-    { 0x3200, CAM_DATA_FLAGS }, // flags
+    { 0x3200, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetMori1ModeNormVals[] = {
     /* CAM_FUNC_PARA1 */
-    { -50, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 450, CAM_DATA_EYE_DIST },                 // distTarget
-    { 40, CAM_DATA_PITCH_TARGET },              // pitchTarget3
-    { 180, CAM_DATA_YAW_TARGET },               // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 70, CAM_DATA_FOV },                       // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x000C, CAM_DATA_FLAGS },                 // flags
+    { -50, CAM_DATA_Y_OFFSET },             // yOffset
+    { 450, CAM_DATA_EYE_DIST },             // distTarget
+    { 40, CAM_DATA_PITCH_TARGET },          // pitchTarget3
+    { 180, CAM_DATA_YAW_TARGET },           // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 70, CAM_DATA_FOV },                   // fovTarget
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x000C, CAM_DATA_FLAGS },
     { -50, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
 CameraModeValue D_8011B2E0[] = {
     /* CAM_FUNC_PARA3 */
-    { 0x3501, CAM_DATA_FLAGS }, // flags
+    { 0x3501, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B2E4[] = {
@@ -1519,12 +1519,12 @@ CameraModeValue D_8011B2E4[] = {
       CAM_FUNC_DEMO4 (not actually used in Camera_Demo4) */
     { 60, CAM_DATA_FOV },                // fov
     { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_04
-    { 0x3200, CAM_DATA_FLAGS },          // flags
+    { 0x3200, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetDemo3ModeNormVals[] = {
     /* CAM_FUNC_DEMO9 */
-    { 0x3212, CAM_DATA_FLAGS }, // flags
+    { 0x3212, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B2F4[] = {
@@ -1538,20 +1538,20 @@ CameraModeValue D_8011B2F4[] = {
     { 50, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 70, CAM_DATA_FOV },                    // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0002, CAM_DATA_FLAGS },              // flags
+    { 0x0002, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B31C[] = {
     /* CAM_FUNC_PARA1 */
-    { -50, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 300, CAM_DATA_EYE_DIST },                 // distTarget
-    { 10, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 45, CAM_DATA_FOV },                       // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x200A, CAM_DATA_FLAGS },                 // flags
+    { -50, CAM_DATA_Y_OFFSET },             // yOffset
+    { 300, CAM_DATA_EYE_DIST },             // distTarget
+    { 10, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 45, CAM_DATA_FOV },                   // fovTarget
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x200A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
@@ -1565,7 +1565,7 @@ CameraModeValue D_8011B348[] = {
     { 35, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B368[] = {
@@ -1576,7 +1576,7 @@ CameraModeValue D_8011B368[] = {
     { 60, CAM_DATA_PITCH_TARGET },       // fovTarget
     { 70, CAM_DATA_FOV },                // pitchTarget
     { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },          // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B384[] = {
@@ -1587,7 +1587,7 @@ CameraModeValue D_8011B384[] = {
     { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 50, CAM_DATA_FOV },                // fovTarget
     { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x2000, CAM_DATA_FLAGS },          // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B3A0[] = {
@@ -1601,7 +1601,7 @@ CameraModeValue D_8011B3A0[] = {
     { 100, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 70, CAM_DATA_FOV },                     // fovTarget
     { 30, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPScaleMax
-    { 0xF002, CAM_DATA_FLAGS },               // flags
+    { 0xF002, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B3C8[] = {
@@ -1615,20 +1615,20 @@ CameraModeValue D_8011B3C8[] = {
     { 50, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0002, CAM_DATA_FLAGS },              // flags
+    { 0x0002, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B3F0[] = {
     /* CAM_FUNC_PARA1 */
-    { -50, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 200, CAM_DATA_EYE_DIST },                 // distTarget
-    { 40, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 45, CAM_DATA_FOV },                       // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x200A, CAM_DATA_FLAGS },                 // flags
+    { -50, CAM_DATA_Y_OFFSET },             // yOffset
+    { 200, CAM_DATA_EYE_DIST },             // distTarget
+    { 40, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 45, CAM_DATA_FOV },                   // fovTarget
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x200A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
@@ -1642,7 +1642,7 @@ CameraModeValue D_8011B41C[] = {
     { 35, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B43C[] = {
@@ -1653,7 +1653,7 @@ CameraModeValue D_8011B43C[] = {
     { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 60, CAM_DATA_FOV },                // fovTarget
     { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },          // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B458[] = {
@@ -1664,7 +1664,7 @@ CameraModeValue D_8011B458[] = {
     { 60, CAM_DATA_PITCH_TARGET },       // pitchtarget
     { 50, CAM_DATA_FOV },                // fovTarget
     { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x2000, CAM_DATA_FLAGS },          // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B474[] = {
@@ -1678,14 +1678,14 @@ CameraModeValue D_8011B474[] = {
     { 100, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 30, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPScaleMax
-    { 0xF002, CAM_DATA_FLAGS },               // flags
+    { 0xF002, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetScn0ModeNormVals[] = {
     /* CAM_FUNC_SPEC9 */
     { -30, CAM_DATA_Y_OFFSET }, // yOffset
     { 60, CAM_DATA_FOV },       // unk_04 (unused)
-    { 0x10A, CAM_DATA_FLAGS },  // flags
+    { 0x10A, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B4A8[] = {
@@ -1693,7 +1693,7 @@ CameraModeValue D_8011B4A8[] = {
     { -20, CAM_DATA_Y_OFFSET }, // yOffset
     { 150, CAM_DATA_EYE_DIST }, // distTarget
     { 60, CAM_DATA_FOV },       // fovTarget
-    { 0x0210, CAM_DATA_FLAGS }, // flags
+    { 0x0210, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B4B8[] = {
@@ -1707,21 +1707,21 @@ CameraModeValue D_8011B4B8[] = {
     { 20, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0012, CAM_DATA_FLAGS },              // flags
+    { 0x0012, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B4E0[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 250, CAM_DATA_EYE_DIST },                 // distance
-    { 5, CAM_DATA_SWING_YAW_INIT },             // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 30, CAM_DATA_SWING_PITCH_INIT },          // swingPitchInitial
-    { 20, CAM_DATA_SWING_PITCH_FINAL },         // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                       // fov
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 250, CAM_DATA_EYE_DIST },          // distance
+    { 5, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
+    { 10, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { 30, CAM_DATA_SWING_PITCH_INIT },   // swingPitchInitial
+    { 20, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 45, CAM_DATA_FOV },                // fov
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -1737,7 +1737,7 @@ CameraModeValue D_8011B510[] = {
     { 60, CAM_DATA_MAX_YAW_UPDATE },        // pitchTarget
     { 60, CAM_DATA_FOV },                   // fovTarget
     { 30, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPScaleMax
-    { 0x0012, CAM_DATA_FLAGS },             // flags
+    { 0x0012, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B538[] = {
@@ -1751,35 +1751,35 @@ CameraModeValue D_8011B538[] = {
     { 70, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 70, CAM_DATA_FOV },                    // fovTarget
     { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0012, CAM_DATA_FLAGS },              // flags
+    { 0x0012, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B560[] = {
     /* CAM_FUNC_PARA1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 500, CAM_DATA_EYE_DIST },                 // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 70, CAM_DATA_FOV },                       // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x201A, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },             // yOffset
+    { 500, CAM_DATA_EYE_DIST },             // distTarget
+    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 70, CAM_DATA_FOV },                   // fovTarget
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x201A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
 CameraModeValue D_8011B58C[] = {
     /* CAM_FUNC_PARA1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 500, CAM_DATA_EYE_DIST },                 // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 60, CAM_DATA_FOV },                       // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x201A, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },             // yOffset
+    { 500, CAM_DATA_EYE_DIST },             // distTarget
+    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 60, CAM_DATA_FOV },                   // fovTarget
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x201A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
@@ -1795,7 +1795,7 @@ CameraModeValue D_8011B5B8[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0012, CAM_DATA_FLAGS },              // flags
+    { 0x0012, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B5E0[] = {
@@ -1809,35 +1809,35 @@ CameraModeValue D_8011B5E0[] = {
     { 70, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 70, CAM_DATA_FOV },                    // fovTarget
     { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0012, CAM_DATA_FLAGS },              // flags
+    { 0x0012, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B608[] = {
     /* CAM_FUNC_PARA1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 750, CAM_DATA_EYE_DIST },                 // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 70, CAM_DATA_FOV },                       // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x201A, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },             // yOffset
+    { 750, CAM_DATA_EYE_DIST },             // distTarget
+    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 70, CAM_DATA_FOV },                   // fovTarget
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x201A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
 CameraModeValue D_8011B634[] = {
     /* CAM_FUNC_PARA1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 750, CAM_DATA_EYE_DIST },                 // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 70, CAM_DATA_FOV },                       // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x200A, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },             // yOffset
+    { 750, CAM_DATA_EYE_DIST },             // distTarget
+    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 70, CAM_DATA_FOV },                   // fovTarget
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x200A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
@@ -1853,7 +1853,7 @@ CameraModeValue D_8011B660[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 70, CAM_DATA_FOV },                    // fovTarget
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0012, CAM_DATA_FLAGS },              // flags
+    { 0x0012, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B688[] = {
@@ -1867,35 +1867,35 @@ CameraModeValue D_8011B688[] = {
     { 70, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 70, CAM_DATA_FOV },                    // fovTarget
     { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0002, CAM_DATA_FLAGS },              // flags
+    { 0x0002, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B6B0[] = {
     /* CAM_FUNC_PARA1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 500, CAM_DATA_EYE_DIST },                 // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 70, CAM_DATA_FOV },                       // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x200A, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },             // yOffset
+    { 500, CAM_DATA_EYE_DIST },             // distTarget
+    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 70, CAM_DATA_FOV },                   // fovTarget
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x200A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
 CameraModeValue D_8011B6DC[] = {
     /* CAM_FUNC_PARA1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 500, CAM_DATA_EYE_DIST },                 // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 60, CAM_DATA_FOV },                       // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x200A, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },             // yOffset
+    { 500, CAM_DATA_EYE_DIST },             // distTarget
+    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 60, CAM_DATA_FOV },                   // fovTarget
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x200A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
@@ -1911,26 +1911,25 @@ CameraModeValue D_8011B708[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0002, CAM_DATA_FLAGS },              // flags
+    { 0x0002, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B730[] = {
     /* CAM_FUNC_KEEP4 */
-    { -30, CAM_DATA_Y_OFFSET },              // unk_00
-    { 120, CAM_DATA_EYE_DIST },              // unk_04
-    { -10, CAM_DATA_PITCH_TARGET },          // unk_08
-    { 170, CAM_DATA_YAW_TARGET },            // unk_0C
-    { 0, CAM_DATA_AT_OFFSET_Z },             // unk_10
-    { 60, CAM_DATA_FOV },                    // unk_18
-    { 0x2502, CAM_DATA_FLAGS },              // flags
-    { 25, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_14
-    { 6, CAM_DATA_UNK_22 },                  // unk_1E
+    { -30, CAM_DATA_Y_OFFSET },                                              // unk_00
+    { 120, CAM_DATA_EYE_DIST },                                              // unk_04
+    { -10, CAM_DATA_PITCH_TARGET },                                          // unk_08
+    { 170, CAM_DATA_YAW_TARGET },                                            // unk_0C
+    { 0, CAM_DATA_AT_OFFSET_Z },                                             // unk_10
+    { 60, CAM_DATA_FOV },                                                    // unk_18
+    { 0x2502, CAM_DATA_FLAGS },     { 25, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_14
+    { 6, CAM_DATA_UNK_22 },                                                  // unk_1E
 };
 
 CameraModeValue sSetCirc6ModeNormVals[] = {
     /* CAM_FUNC_SPEC0 */
     { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpATScale
-    { 0x3200, CAM_DATA_FLAGS },              // flags
+    { 0x3200, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B75C[] = {
@@ -1944,7 +1943,7 @@ CameraModeValue D_8011B75C[] = {
     { 35, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0002, CAM_DATA_FLAGS },              // flags
+    { 0x0002, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B784[] = {
@@ -1958,36 +1957,36 @@ CameraModeValue D_8011B784[] = {
     { 35, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 55, CAM_DATA_FOV },                    // fovTarget
     { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0F02, CAM_DATA_FLAGS },              // flags
+    { 0x0F02, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B7AC[] = {
     /* CAM_FUNC_PARA1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 250, CAM_DATA_EYE_DIST },                 // distTarget
-    { 0, CAM_DATA_PITCH_TARGET },               // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 45, CAM_DATA_FOV },                       // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x2F0A, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },             // yOffset
+    { 250, CAM_DATA_EYE_DIST },             // distTarget
+    { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 45, CAM_DATA_FOV },                   // fovTarget
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x2F0A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
 CameraModeValue D_8011B7D8[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 250, CAM_DATA_EYE_DIST },                 // distance
-    { 0, CAM_DATA_SWING_YAW_INIT },             // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },           // swingPitchInitial
-    { 0, CAM_DATA_SWING_PITCH_FINAL },          // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 55, CAM_DATA_FOV },                       // fov
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2F02, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 250, CAM_DATA_EYE_DIST },          // distance
+    { 0, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
+    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 55, CAM_DATA_FOV },                // fov
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2F02, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -2005,7 +2004,7 @@ CameraModeValue D_8011B808[] = {
     { 45, CAM_DATA_FOV },                    // fovTarget
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
-    { 0x3F20, CAM_DATA_FLAGS },              // flags
+    { 0x3F20, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B838[] = {
@@ -2018,7 +2017,7 @@ CameraModeValue D_8011B838[] = {
     { 0, CAM_DATA_AT_OFFSET_Y },             // atOffset.y
     { 0, CAM_DATA_AT_OFFSET_Z },             // atOffset.z
     { 45, CAM_DATA_FOV },                    // fovTarget
-    { 0x0F00, CAM_DATA_FLAGS },              // flags
+    { 0x0F00, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B85C[] = {
@@ -2030,7 +2029,7 @@ CameraModeValue D_8011B85C[] = {
     { 35, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0F00, CAM_DATA_FLAGS },              // flags
+    { 0x0F00, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B87C[] = {
@@ -2042,7 +2041,7 @@ CameraModeValue D_8011B87C[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0F00, CAM_DATA_FLAGS },              // flags
+    { 0x0F00, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B89C[] = {
@@ -2053,7 +2052,7 @@ CameraModeValue D_8011B89C[] = {
     { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 60, CAM_DATA_FOV },                // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x0F00, CAM_DATA_FLAGS },          // flags
+    { 0x0F00, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B8B8[] = {
@@ -2064,7 +2063,7 @@ CameraModeValue D_8011B8B8[] = {
     { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 45, CAM_DATA_FOV },                // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x2F00, CAM_DATA_FLAGS },          // flags
+    { 0x2F00, CAM_DATA_FLAGS },
 };
 
 CameraModeValue sSetDemoCModeNormVals[] = {
@@ -2083,21 +2082,21 @@ CameraModeValue D_8011B8D8[] = {
     { 50, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 70, CAM_DATA_FOV },                    // fovTarget
     { 70, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B900[] = {
     /* CAM_FUNC_BATT1 */
-    { -30, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 160, CAM_DATA_EYE_DIST },                 // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },           // swingPitchInitial
-    { 0, CAM_DATA_SWING_PITCH_FINAL },          // swingPitchFinal
-    { 70, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 60, CAM_DATA_FOV },                       // fov
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 160, CAM_DATA_EYE_DIST },          // distance
+    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 10, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
+    { 70, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 60, CAM_DATA_FOV },                // fov
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -50, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -2113,36 +2112,36 @@ CameraModeValue D_8011B930[] = {
     { 30, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0003, CAM_DATA_FLAGS },              // flags
+    { 0x0003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B958[] = {
     /* CAM_FUNC_PARA1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 200, CAM_DATA_EYE_DIST },                 // distTarget
-    { 0, CAM_DATA_PITCH_TARGET },               // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 45, CAM_DATA_FOV },                       // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x200A, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },             // yOffset
+    { 200, CAM_DATA_EYE_DIST },             // distTarget
+    { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 45, CAM_DATA_FOV },                   // fovTarget
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x200A, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
 CameraModeValue sSetDung2ModeBattVals[] = {
     /* CAM_FUNC_BATT1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // yOffset (PCT)
-    { 180, CAM_DATA_EYE_DIST },                 // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },            // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },           // swingYawFinal
-    { -10, CAM_DATA_SWING_PITCH_INIT },         // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },         // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },           // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                       // fov
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },        // atLERPScaleOnGround (PCT)
-    { 0x2002, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 180, CAM_DATA_EYE_DIST },          // distance
+    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { -10, CAM_DATA_SWING_PITCH_INIT },  // swingPitchInitial
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 45, CAM_DATA_FOV },                // fov
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0x2002, CAM_DATA_FLAGS },
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
@@ -2156,7 +2155,7 @@ CameraModeValue D_8011B9B4[] = {
     { 50, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B9D4[] = {
@@ -2168,7 +2167,7 @@ CameraModeValue D_8011B9D4[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
     { 60, CAM_DATA_FOV },                    // unk_14
     { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },              // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011B9F4[] = {
@@ -2181,7 +2180,7 @@ CameraModeValue D_8011B9F4[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // xzUpdRateTarget
     { 60, CAM_DATA_FOV },                   // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPStepScale
-    { 0x0000, CAM_DATA_FLAGS },             // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011BA18[] = {
@@ -2194,7 +2193,7 @@ CameraModeValue D_8011BA18[] = {
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // xzUpdRateTarget
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 40, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPStepScale
-    { 0x2006, CAM_DATA_FLAGS },               // flags
+    { 0x2006, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011BA3C[] = {
@@ -2205,7 +2204,7 @@ CameraModeValue D_8011BA3C[] = {
     { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 60, CAM_DATA_FOV },                // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x0000, CAM_DATA_FLAGS },          // flags
+    { 0x0000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011BA58[] = {
@@ -2216,7 +2215,7 @@ CameraModeValue D_8011BA58[] = {
     { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
     { 45, CAM_DATA_FOV },                // fovTarget
     { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
-    { 0x2000, CAM_DATA_FLAGS },          // flags
+    { 0x2000, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011BA74[] = {
@@ -2230,20 +2229,20 @@ CameraModeValue D_8011BA74[] = {
     { 100, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 60, CAM_DATA_FOV },                     // fovTarget
     { 5, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleMax
-    { 0xF003, CAM_DATA_FLAGS },               // flags
+    { 0xF003, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011BA9C[] = {
     /* CAM_FUNC_PARA1 */
-    { 0, CAM_DATA_Y_OFFSET },                   // unk_00
-    { 280, CAM_DATA_EYE_DIST },                 // distTarget
-    { 25, CAM_DATA_PITCH_TARGET },              // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },                 // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },     // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },      // unk_0C
-    { 70, CAM_DATA_FOV },                       // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_14
-    { 0x206A, CAM_DATA_FLAGS },                 // flags
+    { 0, CAM_DATA_Y_OFFSET },               // yOffset
+    { 280, CAM_DATA_EYE_DIST },             // distTarget
+    { 25, CAM_DATA_PITCH_TARGET },          // pitchTarget
+    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
+    { 70, CAM_DATA_FOV },                   // fovTarget
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0x206A, CAM_DATA_FLAGS },
     { -20, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
@@ -2259,22 +2258,22 @@ CameraModeValue D_8011BAC8[] = {
     { 80, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
     { 60, CAM_DATA_FOV },                    // fovTarget
     { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 0x0002, CAM_DATA_FLAGS },              // flags
+    { 0x0002, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011BAF0[] = {
     /* CAM_FUNC_KEEP1 */
-    { -20, CAM_DATA_Y_OFFSET },                 // unk_00
-    { 180, CAM_DATA_EYE_DIST },                 // unk_04
-    { 200, CAM_DATA_EYE_DIST_NEXT },            // unk_08
-    { 35, CAM_DATA_SWING_YAW_INIT },            // unk_0C
-    { 45, CAM_DATA_SWING_YAW_FINAL },           // unk_10
-    { 0, CAM_DATA_SWING_PITCH_INIT },           // unk_14
-    { -5, CAM_DATA_SWING_PITCH_FINAL },         // unk_18
-    { 20, CAM_DATA_SWING_PITCH_ADJ },           // unk_1C
-    { 50, CAM_DATA_FOV },                       // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },        // unk_24
-    { 0x2001, CAM_DATA_FLAGS },                 // flags
+    { -20, CAM_DATA_Y_OFFSET },          // unk_00
+    { 180, CAM_DATA_EYE_DIST },          // unk_04
+    { 200, CAM_DATA_EYE_DIST_NEXT },     // unk_08
+    { 35, CAM_DATA_SWING_YAW_INIT },     // unk_0C
+    { 45, CAM_DATA_SWING_YAW_FINAL },    // unk_10
+    { 0, CAM_DATA_SWING_PITCH_INIT },    // unk_14
+    { -5, CAM_DATA_SWING_PITCH_FINAL },  // unk_18
+    { 20, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
+    { 50, CAM_DATA_FOV },                // unk_20
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { 0x2001, CAM_DATA_FLAGS },
     { -50, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
@@ -2292,7 +2291,7 @@ CameraModeValue D_8011BB24[] = {
     { 50, CAM_DATA_FOV },                    // fovTarget
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
-    { 0x3520, CAM_DATA_FLAGS },              // flags
+    { 0x3520, CAM_DATA_FLAGS },
 };
 
 CameraModeValue D_8011BB54[] = {
@@ -2308,7 +2307,7 @@ CameraModeValue D_8011BB54[] = {
     { 45, CAM_DATA_FOV },                    // fovTarget
     { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
-    { 0x35A0, CAM_DATA_FLAGS },              // flags
+    { 0x35A0, CAM_DATA_FLAGS },
 };
 
 CameraMode sCamSetNorm0Modes[] = {

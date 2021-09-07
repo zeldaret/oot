@@ -999,7 +999,7 @@ s32 func_80045B08(Camera* camera, VecSph* eyeAtDir, f32 yExtra, s16 arg3) {
 /**
  * Adjusts the camera's at position for Camera_Parallel1
  */
-s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
+s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 yOffset, f32* arg3, s16 arg4) {
     Vec3f* at = &camera->at;
     Vec3f posOffsetTarget;
     Vec3f atTarget;
@@ -1013,7 +1013,7 @@ s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, 
 
     temp_f0_4 = Player_GetHeight(camera->player);
     posOffsetTarget.x = 0.0f;
-    posOffsetTarget.y = temp_f0_4 + arg2;
+    posOffsetTarget.y = temp_f0_4 + yOffset;
     posOffsetTarget.z = 0.0f;
 
     if (PREG(76) && arg4) {
@@ -1973,7 +1973,7 @@ s32 Camera_Parallel1(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
-        para1->unk_00 = NEXTPCT * playerHeight * yNormal;
+        para1->yOffset = NEXTPCT * playerHeight * yNormal;
         ;
         para1->distTarget = NEXTPCT * playerHeight * yNormal;
         para1->pitchTarget = DEGF_TO_BINANG(NEXTSETTING);
@@ -2067,7 +2067,7 @@ s32 Camera_Parallel1(Camera* camera) {
     }
 
     if (!(para1->interfaceFlags & 0x80) && !sp6A) {
-        Camera_CalcAtForParallel(camera, &atToEyeNextDir, para1->unk_00, &anim->yTarget, para1->interfaceFlags & 1);
+        Camera_CalcAtForParallel(camera, &atToEyeNextDir, para1->yOffset, &anim->yTarget, para1->interfaceFlags & 1);
     } else {
         func_800458D4(camera, &atToEyeNextDir, para1->unk_18, &anim->yTarget, para1->interfaceFlags & 1);
     }
