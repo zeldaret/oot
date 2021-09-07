@@ -13,7 +13,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x01 */
         gsDPPipeSync(),
@@ -25,7 +24,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x02 */
         gsDPPipeSync(),
@@ -37,7 +35,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x03 */
         gsDPPipeSync(),
@@ -49,7 +46,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x04 */
         gsDPPipeSync(),
@@ -61,7 +57,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x05 */
         gsDPPipeSync(),
@@ -73,7 +68,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x06 */
         gsDPPipeSync(),
@@ -85,7 +79,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x07 */
         gsDPPipeSync(),
@@ -97,7 +90,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x08 */
         gsDPPipeSync(),
@@ -109,7 +101,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x09 */
         gsDPPipeSync(),
@@ -121,7 +112,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x0A */
         gsDPPipeSync(),
@@ -133,7 +123,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x0B */
         gsDPPipeSync(),
@@ -145,7 +134,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x0C */
         gsDPPipeSync(),
@@ -157,7 +145,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x0D */
         gsDPPipeSync(),
@@ -169,7 +156,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x0E */
         gsDPPipeSync(),
@@ -181,7 +167,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x0F */
         gsDPPipeSync(),
@@ -193,7 +178,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x10 */
         gsDPPipeSync(),
@@ -205,7 +189,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x11 */
         gsDPPipeSync(),
@@ -217,7 +200,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x12 */
         gsDPPipeSync(),
@@ -229,7 +211,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x13 */
         gsDPPipeSync(),
@@ -243,7 +224,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x14 */
         gsDPPipeSync(),
@@ -255,7 +235,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x15 */
         gsDPPipeSync(),
@@ -267,7 +246,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x16 */
         gsDPPipeSync(),
@@ -279,7 +257,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x17 */
         gsDPPipeSync(),
@@ -291,7 +268,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x18 */
         gsDPPipeSync(),
@@ -303,7 +279,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x19 */
         gsDPPipeSync(),
@@ -315,7 +290,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x1A */
         gsDPPipeSync(),
@@ -327,7 +301,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x1B */
         gsDPPipeSync(),
@@ -339,7 +312,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x1C */
         gsDPPipeSync(),
@@ -351,7 +323,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x1D */
         gsDPPipeSync(),
@@ -363,7 +334,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x1E */
         gsDPPipeSync(),
@@ -375,7 +345,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x1F */
         gsDPPipeSync(),
@@ -387,7 +356,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_TEXTURE_GEN | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x20 */
         gsDPPipeSync(),
@@ -400,7 +368,6 @@ Gfx sSetupDL[][6] = {
                              G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x21 */
         gsDPPipeSync(),
@@ -414,7 +381,6 @@ Gfx sSetupDL[][6] = {
                              G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x22 */
         gsDPPipeSync(),
@@ -426,7 +392,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x23 */
         gsDPPipeSync(),
@@ -438,7 +403,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x24 */
         gsDPPipeSync(),
@@ -450,7 +414,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x25 */
         gsDPPipeSync(),
@@ -462,7 +425,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x26 */
         gsDPPipeSync(),
@@ -474,7 +436,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x27 */
         gsDPPipeSync(),
@@ -486,7 +447,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x28 */
         gsDPPipeSync(),
@@ -499,7 +459,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_FRONT | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x29 */
         gsDPPipeSync(),
@@ -511,7 +470,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x2A */
         gsDPPipeSync(),
@@ -523,7 +481,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x2B */
         gsDPPipeSync(),
@@ -535,7 +492,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x2C */
         gsDPPipeSync(),
@@ -547,7 +503,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x2D */
         gsDPPipeSync(),
@@ -559,7 +514,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x2E */
         gsDPPipeSync(),
@@ -571,7 +525,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x2F */
         gsDPPipeSync(),
@@ -583,7 +536,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x30 */
         gsDPPipeSync(),
@@ -595,7 +547,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x31 */
         gsDPPipeSync(),
@@ -607,7 +558,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x32 */
         gsDPPipeSync(),
@@ -619,7 +569,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_CULL_BACK),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x33 */
         gsDPPipeSync(),
@@ -631,7 +580,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_CULL_BACK),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x34 */
         gsDPPipeSync(),
@@ -643,7 +591,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_CULL_BACK),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x35 */
         gsDPPipeSync(),
@@ -656,7 +603,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_CULL_BACK),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x36 */
         gsDPPipeSync(),
@@ -669,7 +615,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_CULL_BACK),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x37 */
         gsDPPipeSync(),
@@ -682,7 +627,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_CULL_BACK),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x38 */
         gsDPPipeSync(),
@@ -694,7 +638,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x39 */
         gsDPPipeSync(),
@@ -706,7 +649,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x3A */
         gsDPPipeSync(),
@@ -719,7 +661,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x3B */
         gsDPPipeSync(),
@@ -733,7 +674,6 @@ Gfx sSetupDL[][6] = {
                              G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x3C */
         gsDPPipeSync(),
@@ -746,7 +686,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x3D */
         gsDPPipeSync(),
@@ -759,7 +698,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x3E */
         gsDPPipeSync(),
@@ -771,7 +709,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x3F */
         gsDPPipeSync(),
@@ -785,7 +722,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x40 */
         gsDPPipeSync(),
@@ -797,7 +733,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x41 */
         gsDPPipeSync(),
@@ -809,7 +744,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x42 */
         gsDPPipeSync(),
@@ -822,7 +756,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x43 */
         gsDPPipeSync(),
@@ -835,7 +768,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x44 */
         gsDPPipeSync(),
@@ -849,7 +781,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x45 */
         gsDPPipeSync(),
@@ -863,7 +794,6 @@ Gfx sSetupDL[][6] = {
         gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
         gsSPEndDisplayList(),
     },
-
     {
         /* 0x46 */
         gsDPPipeSync(),
