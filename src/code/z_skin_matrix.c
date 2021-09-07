@@ -11,10 +11,13 @@ MtxF sMtxFClear = {
 // clang-format on
 
 /**
- * Multiplies a 4 component row vector [ src , 1 ] by the matrix mf and writes the resulting 4 components to xyzDest
+ * Multiplies the matrix mf by a 4 components column vector [ src , 1 ] and writes the resulting 4 components to xyzDest
  * and wDest.
  *
- * \f[ [\texttt{xyzDest}, \texttt{wDest}] = [\texttt{src}, 1] \cdot [mf] \f]
+ * \f[ \begin{bmatrix} \texttt{xyzDest} \\ \texttt{wDest} \\ \end{bmatrix}
+ *      = [\texttt{mf}] \cdot
+ *        \begin{bmatrix} \texttt{src} \\ 1 \\ \end{bmatrix}
+ * \f]
  */
 void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
     xyzDest->x = mf->xw + ((src->x * mf->xx) + (src->y * mf->xy) + (src->z * mf->xz));
@@ -24,9 +27,12 @@ void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDe
 }
 
 /**
- * Multiplies a 4 component row vector [ src , 1 ] by the matrix mf and writes the resulting xyz components to dest.
+ * Multiplies the matrix mf by a 4 components column vector [ src , 1 ] and writes the resulting xyz components to dest.
  *
- * \f[ [\texttt{dest}, -] = [\texttt{src}, 1] \cdot [mf] \f]
+ * \f[ \begin{bmatrix} \texttt{dest} \\ - \\ \end{bmatrix}
+ *      = [\texttt{mf}] \cdot
+ *        \begin{bmatrix} \texttt{src} \\ 1 \\ \end{bmatrix}
+ * \f]
  */
 void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest) {
     f32 mx = mf->xx;
