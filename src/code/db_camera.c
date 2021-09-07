@@ -559,7 +559,7 @@ void DbgCamera_Enable(DbCamera* dbCamera, Camera* cam) {
 /**
  * asm line 415c: s0 s1 line swap
  * Everything else is down to t-registers
- * There is also be bss reordering issues similar to DbCamera_UpdateDemoControl
+ * There is also bss reordering issues similar to DbCamera_UpdateDemoControl
  */
 #ifdef NON_MATCHING
 void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
@@ -568,27 +568,27 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     static s32 D_80161140; // bool
     static s32 D_80161144; // bool
     Vec3f* sp124;
-    f32 temp_f0_5; //
-    s16 yaw;       //
-    f32 pad;       //
-    f32 temp_f2;   //
-    s16 pitch;     //
+    f32 temp_f0_5;
+    s16 yaw;
+    f32 new_var2;
+    f32 temp_f2;
+    s16 pitch;
     s8 sp111;
     s8 sp110;
-    f32 temp_f2_2; //
+    f32 temp_f2_2;
     VecSph sp104;
     VecSph spFC;
     VecSph spF4;
-    PosRot* temp_s6; //
-    Vec3f* eye;      //
-    Vec3f* at;       //
-    Vec3f* phi_s0;   //
+    PosRot* temp_s6;
+    Vec3f* eye;
+    Vec3f* at;
+    Vec3f* phi_s0;
     Vec3f spD8;
-    s32 new_var; //
-    Vec3f* sp90; //
-    Vec3f* sp80; //
-    Vec3f* sp7C; //
-    s32 i;       //
+    s32 new_var;
+    Vec3f* sp90;
+    Vec3f* sp80;
+    Vec3f* sp7C;
+    s32 i;
     Vec3f spB8;
     Vec3f spAC;
     s16 spAA;
@@ -683,8 +683,8 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         dbCamera->unk_44 = 100;
     }
 
-    pad = ((dbCamera->unk_44 * 0.15f) + 0.2f);
-    temp_f2 = pad * (sp104.r / 100.0f);
+    new_var2 = ((dbCamera->unk_44 * 0.15f) + 0.2f);
+    temp_f2 = new_var2 * (sp104.r / 100.0f);
     if ((dbCamera->unk_38 != 0) || dbCamera->unk_3C) {
         if (D_80161144) {
             *sp80 = *phi_s0;
@@ -981,10 +981,10 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         if (dbCamera->unk_00 == 1) {
             if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_CRIGHT)) {
                 cam->inputDir = dbCamera->sub.unk_104A;
-                pad = OLib_Vec3fDist(&cam->at, &cam->eye);
+                new_var2 = OLib_Vec3fDist(&cam->at, &cam->eye);
                 cam->at = *sp7C;
                 spFC = sp104;
-                spFC.r = pad;
+                spFC.r = new_var2;
                 DbCamera_AddVecSph(&cam->eye, &cam->at, &spFC);
             }
         }
