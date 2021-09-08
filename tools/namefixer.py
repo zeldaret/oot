@@ -160,6 +160,7 @@ wordReplace = {
     "func_800A7EC0": "SkinMatrix_SetRotateAxis",
     "func_800D2A34": "Matrix_SetTranslateUniformScaleMtxF",
     "func_800D2A98": "Matrix_SetTranslateUniformScaleMtx",
+    "func_800D2CEC": "Matrix_SetTranslateScaleMtx2",
 }
 
 # [a-zA-Z0-9_]
