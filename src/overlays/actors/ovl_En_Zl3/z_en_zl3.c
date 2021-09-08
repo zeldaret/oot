@@ -173,13 +173,13 @@ s32 func_80B537E8(EnZl3* this) {
     s16 yawTowardsPlayer = this->actor.yawTowardsPlayer;
     s16* rotY = &this->actor.world.rot.y;
     s16* unk_3D0 = &this->unk_3D0;
-    s16 pad[3];
+    s16 retVal;
+    s16 pad[2];
 
     Math_SmoothStepToS(unk_3D0, ABS((s16)(yawTowardsPlayer - *rotY)), 5, 6200, 100);
-    Math_SmoothStepToS(rotY, yawTowardsPlayer, 5, *unk_3D0, 100);
+    retVal = Math_SmoothStepToS(rotY, yawTowardsPlayer, 5, *unk_3D0, 100);
     this->actor.shape.rot.y = *rotY;
-    // no return statement despite being of type s32
-    // the function directly below needs this to not be void I guess
+    return retVal;
 }
 
 void func_80B538B0(EnZl3* this) {

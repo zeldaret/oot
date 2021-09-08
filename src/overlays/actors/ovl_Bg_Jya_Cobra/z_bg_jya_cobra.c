@@ -582,8 +582,6 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
     Vec3f sp64;
     Vec3s* phi_a3;
 
-    if (1) {}
-
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 966);
 
     func_80094044(globalCtx->state.gfxCtx);
