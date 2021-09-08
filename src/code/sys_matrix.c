@@ -468,59 +468,64 @@ void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     }
 }
 
-void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
+/**
+ * Translate and rotate using YXZ Tait-Bryan angles.
+ * This means a (column) vector is first rotated around Z, then around X, then around Y, then translated, then gets
+ * transformed according to whatever the matrix was previously.
+ */
+void Matrix_TranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot) {
     MtxF* cmf = sCurrentMatrix;
-    f32 sp30 = Math_SinS(vec->y);
-    f32 sp2C = Math_CosS(vec->y);
-    f32 sp28;
-    f32 sp24;
+    f32 temp1 = Math_SinS(rot->y);
+    f32 temp2 = Math_CosS(rot->y);
+    f32 cos;
+    f32 sin;
 
-    cmf->xx = sp2C;
-    cmf->zx = -sp30;
-    cmf->xw = x;
-    cmf->yw = y;
-    cmf->zw = z;
+    cmf->xx = temp2;
+    cmf->zx = -temp1;
+    cmf->xw = translateX;
+    cmf->yw = translateY;
+    cmf->zw = translateZ;
     cmf->wx = 0.0f;
     cmf->wy = 0.0f;
     cmf->wz = 0.0f;
     cmf->ww = 1.0f;
 
-    if (vec->x != 0) {
-        sp24 = Math_SinS(vec->x);
-        sp28 = Math_CosS(vec->x);
+    if (rot->x != 0) {
+        sin = Math_SinS(rot->x);
+        cos = Math_CosS(rot->x);
 
-        cmf->zz = sp2C * sp28;
-        cmf->zy = sp2C * sp24;
-        cmf->xz = sp30 * sp28;
-        cmf->xy = sp30 * sp24;
-        cmf->yz = -sp24;
-        cmf->yy = sp28;
+        cmf->zz = temp2 * cos;
+        cmf->zy = temp2 * sin;
+        cmf->xz = temp1 * cos;
+        cmf->xy = temp1 * sin;
+        cmf->yz = -sin;
+        cmf->yy = cos;
     } else {
-        cmf->zz = sp2C;
-        cmf->xz = sp30;
+        cmf->zz = temp2;
+        cmf->xz = temp1;
         cmf->yz = 0.0f;
         cmf->zy = 0.0f;
         cmf->xy = 0.0f;
         cmf->yy = 1.0f;
     }
 
-    if (vec->z != 0) {
-        sp24 = Math_SinS(vec->z);
-        sp28 = Math_CosS(vec->z);
+    if (rot->z != 0) {
+        sin = Math_SinS(rot->z);
+        cos = Math_CosS(rot->z);
 
-        sp30 = cmf->xx;
-        sp2C = cmf->xy;
-        cmf->xx = sp30 * sp28 + sp2C * sp24;
-        cmf->xy = sp2C * sp28 - sp30 * sp24;
+        temp1 = cmf->xx;
+        temp2 = cmf->xy;
+        cmf->xx = temp1 * cos + temp2 * sin;
+        cmf->xy = temp2 * cos - temp1 * sin;
 
-        sp30 = cmf->zx;
-        sp2C = cmf->zy;
-        cmf->zx = sp30 * sp28 + sp2C * sp24;
-        cmf->zy = sp2C * sp28 - sp30 * sp24;
+        temp1 = cmf->zx;
+        temp2 = cmf->zy;
+        cmf->zx = temp1 * cos + temp2 * sin;
+        cmf->zy = temp2 * cos - temp1 * sin;
 
-        sp2C = cmf->yy;
-        cmf->yx = sp2C * sp24;
-        cmf->yy = sp2C * sp28;
+        temp2 = cmf->yy;
+        cmf->yx = temp2 * sin;
+        cmf->yy = temp2 * cos;
     } else {
         cmf->yx = 0.0f;
     }

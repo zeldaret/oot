@@ -97,7 +97,7 @@ void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext
 
     gSPSetLights1(POLY_XLU_DISP++, sDebugObjectLights);
 
-    func_800D1694(dispObj->pos.x, dispObj->pos.y, dispObj->pos.z, &dispObj->rot);
+    Matrix_TranslateRotateYXZ(dispObj->pos.x, dispObj->pos.y, dispObj->pos.z, &dispObj->rot);
     Matrix_Scale(dispObj->scale.x, dispObj->scale.y, dispObj->scale.z, MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_debug_display.c", 228),
