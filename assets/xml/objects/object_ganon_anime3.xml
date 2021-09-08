@@ -8,6 +8,6 @@
         <Animation Name="object_ganon_anime3_Anim_003884" Offset="0x3884"/>
         <Animation Name="object_ganon_anime3_Anim_003F38" Offset="0x3F38"/>
         <Animation Name="object_ganon_anime3_Anim_010380" Offset="0x10380"/>
-        <Blob Name="object_ganon_anime3_Blob_010390" Size="0x4460" Offset="0x10390"/>
+        <Animation Name="object_ganon_anime3_Anim_0147E0" Offset="0x147E0"/>
     </File>
 </Root>

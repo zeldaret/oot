@@ -89,6 +89,4 @@ typedef struct BossFd2 {
     /* 0x143C */ ColliderJntSphElement elements[9];
 } BossFd2; // size = 0x167C
 
-extern const ActorInit Boss_Fd2_InitVars;
-
 #endif

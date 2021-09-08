@@ -71,18 +71,19 @@
         <Texture Name="object_ganon2_Tex_01D400" OutName="tex_0001D400" Format="ci8" Width="16" Height="16" Offset="0x1D400"/>
         <Texture Name="object_ganon2_Tex_01D500" OutName="tex_0001D500" Format="rgba16" Width="4" Height="16" Offset="0x1D500"/>
         <Texture Name="object_ganon2_Tex_01D580" OutName="tex_0001D580" Format="ci8" Width="16" Height="32" Offset="0x1D580"/>
-        <Texture Name="object_ganon2_Tex_01D780" OutName="tex_0001D780" Format="rgba16" Width="4" Height="4" Offset="0x1D780"/><!--Blob Name="object_ganon2_Blob_01D7A0" Size="0x168" Offset="0x1D7A0" /-->
+        <Texture Name="object_ganon2_Tlut_01D780" OutName="tlut_0001D780" Format="rgba16" Width="4" Height="4" Offset="0x1D780"/><!--Blob Name="object_ganon2_Blob_01D7A0" Size="0x168" Offset="0x1D7A0" /-->
         <Texture Name="object_ganon2_Tex_01D908" OutName="tex_0001D908" Format="ci8" Width="32" Height="32" Offset="0x1D908"/>
         <Texture Name="object_ganon2_Tex_01DD08" OutName="tex_0001DD08" Format="rgba16" Width="16" Height="32" Offset="0x1DD08"/>
         <Texture Name="object_ganon2_Tex_01E108" OutName="tex_0001E108" Format="rgba16" Width="8" Height="8" Offset="0x1E108"/>
-        <Blob Name="object_ganon2_Blob_01E188" Size="0x80" Offset="0x1E188"/>
+        <Texture Name="object_ganon2_Tex_01E188" Format="ci4" Width="16" Height="16" Offset="0x1E188" TlutOffset="0x1D780"/> <!-- eye open -->
         <Texture Name="object_ganon2_Tex_01E208" OutName="tex_0001E208" Format="rgba16" Width="8" Height="8" Offset="0x1E208"/>
         <Texture Name="object_ganon2_Tex_01E288" OutName="tex_0001E288" Format="rgba16" Width="16" Height="16" Offset="0x1E288"/>
         <Texture Name="object_ganon2_Tex_01E488" OutName="tex_0001E488" Format="rgba16" Width="16" Height="8" Offset="0x1E488"/>
         <Texture Name="object_ganon2_Tex_01E588" OutName="tex_0001E588" Format="i4" Width="32" Height="32" Offset="0x1E588"/>
         <Texture Name="object_ganon2_Tex_01E788" OutName="tex_0001E788" Format="rgba16" Width="8" Height="16" Offset="0x1E788"/>
         <Texture Name="object_ganon2_Tex_01E888" OutName="tex_0001E888" Format="rgba16" Width="8" Height="16" Offset="0x1E888"/>
-        <Blob Name="object_ganon2_Blob_01E988" Size="0x100" Offset="0x1E988"/>
+        <Texture Name="object_ganon2_Tex_01E988" Format="ci4" Width="16" Height="16" Offset="0x1E988" TlutOffset="0x1D780"/> <!-- eye half closed -->
+        <Texture Name="object_ganon2_Tex_01EA08" Format="ci4" Width="16" Height="16" Offset="0x1EA08" TlutOffset="0x1D780"/> <!-- eye closed -->
         <DList Name="object_ganon2_DL_020B18" Offset="0x20B18"/>
         <DList Name="object_ganon2_DL_020BE0" Offset="0x20BE0"/>
         <DList Name="object_ganon2_DL_020C80" Offset="0x20C80"/>
@@ -93,7 +94,7 @@
         <DList Name="object_ganon2_DL_0215D0" Offset="0x215D0"/>
         <DList Name="object_ganon2_DL_0218B8" Offset="0x218B8"/>
         <DList Name="object_ganon2_DL_0219D8" Offset="0x219D8"/>
-        <Blob Name="object_ganon2_Blob_021A90" Size="0x3C00" Offset="0x21A90"/>
+        <Texture Name="object_ganon2_Tex_021A90" Format="ia8" Width="128" Height="120" Offset="0x21A90"/>
         <Limb Name="object_ganon2_Limb_025690" LimbType="Standard" Offset="0x25690"/>
         <Limb Name="object_ganon2_Limb_02569C" LimbType="Standard" Offset="0x2569C"/>
         <Limb Name="object_ganon2_Limb_0256A8" LimbType="Standard" Offset="0x256A8"/>

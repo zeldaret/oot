@@ -47,6 +47,4 @@ typedef struct EnBox {
     /* 0x01FB */ u8 unk_1FB;
 } EnBox; // size = 0x01FC
 
-extern const ActorInit En_Box_InitVars;
-
 #endif

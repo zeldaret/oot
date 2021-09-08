@@ -211,9 +211,9 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f;
     tmpf7 = (((((0.7f * fVar6) + 0.5f) * 10.0f) * fVar6) + 20.0f);
 
-    mf->wx = (tmpf7 * sins) + this->dyna.actor.world.pos.x;
-    mf->wy = (this->dyna.actor.world.pos.y + 30.0f) + ((7.0f / 10.0f) * fVar6);
-    mf->wz = (tmpf7 * coss) + this->dyna.actor.world.pos.z;
+    mf->xw = (tmpf7 * sins) + this->dyna.actor.world.pos.x;
+    mf->yw = (this->dyna.actor.world.pos.y + 30.0f) + ((7.0f / 10.0f) * fVar6);
+    mf->zw = (tmpf7 * coss) + this->dyna.actor.world.pos.z;
 
     gSPMatrix(displayList++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(mf, "../z_bg_hidan_rsekizou.c", 543),

@@ -26,6 +26,4 @@ typedef enum {
     BGHAKAGATE_SKULL
 } BgHakaGateType;
 
-extern const ActorInit Bg_Haka_Gate_InitVars;
-
 #endif

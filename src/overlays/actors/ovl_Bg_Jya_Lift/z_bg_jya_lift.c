@@ -16,8 +16,6 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
-                            DynaPolyMoveFlag moveFlag);
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);
 void BgJyaLift_SetInitPosY(BgJyaLift* this);
 void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
@@ -45,8 +43,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
-                            DynaPolyMoveFlag moveFlag) {
+void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 

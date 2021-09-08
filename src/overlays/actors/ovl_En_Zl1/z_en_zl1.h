@@ -30,6 +30,4 @@ typedef struct EnZl1 {
     /* 0x0206 */ Vec3s unk_206;
 } EnZl1; // size = 0x020C
 
-extern const ActorInit En_Zl1_InitVars;
-
 #endif

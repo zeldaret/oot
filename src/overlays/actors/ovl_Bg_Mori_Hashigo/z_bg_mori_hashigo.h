@@ -23,6 +23,4 @@ typedef enum {
     /*  0  */ HASHIGO_LADDER
 } HasigoType;
 
-extern const ActorInit Bg_Mori_Hashigo_InitVars;
-
 #endif

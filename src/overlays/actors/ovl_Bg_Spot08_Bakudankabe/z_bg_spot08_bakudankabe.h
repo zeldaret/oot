@@ -12,6 +12,4 @@ typedef struct BgSpot08Bakudankabe {
     /* 0x0184 */ ColliderJntSphElement colliderItems[3];
 } BgSpot08Bakudankabe; // size = 0x0244
 
-extern const ActorInit Bg_Spot08_Bakudankabe_InitVars;
-
 #endif

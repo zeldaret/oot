@@ -27,6 +27,4 @@ typedef struct EnPoRelay {
     /* 0x0290 */ ColliderCylinder collider;
 } EnPoRelay; // size = 0x02DC
 
-extern const ActorInit En_Po_Relay_InitVars;
-
 #endif

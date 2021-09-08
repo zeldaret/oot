@@ -3783,6 +3783,11 @@ void EnHorse_SkinCallback1(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* ski
             this->jntSph.elements[i].dim.modelSphere.radius * this->jntSph.elements[i].dim.scale;
     }
 
+    //! @bug Setting colliders in a draw function allows for duplicate entries to be added to their respective lists
+    //! under certain conditions, like when pausing and unpausing the game. 
+    //! Actors will draw for a couple of frames between the pauses, but some important logic updates will not occur.
+    //! In the case of OC, this can cause unwanted effects such as a very large amount of displacement being applied to
+    //! a colliding actor.
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->jntSph.base);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->jntSph.base);
 }

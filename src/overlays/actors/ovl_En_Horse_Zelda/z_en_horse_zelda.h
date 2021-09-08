@@ -23,6 +23,4 @@ typedef struct EnHorseZelda {
     /* 0x0268 */ ColliderJntSphElement colliderSphereItem;
 } EnHorseZelda; // size = 0x02A8
 
-extern const ActorInit En_Horse_Zelda_InitVars;
-
 #endif

@@ -73,7 +73,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);
     } else if ((globalCtx->sceneNum == gSaveContext.horseData.scene) &&
                (Flags_GetEventChkInf(0x18) != 0 || DREG(1) != 0)) {
-        // Translates to: "SET BY EXISTENCE OF HORSE %d %d %d"
+        // "Set by existence of horse %d %d %d"
         osSyncPrintf("馬存在によるセット %d %d %d\n", gSaveContext.horseData.scene, Flags_GetEventChkInf(0x18),
                      DREG(1));
 
@@ -87,7 +87,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
             }
         } else {
             osSyncPrintf(VT_COL(RED, WHITE));
-            // Translates to: "Horse_SetNormal():%d SET SPOT IS NO GOOD."
+            // "Horse_SetNormal():%d set spot is no good."
             osSyncPrintf("Horse_SetNormal():%d セットスポットまずいです。\n", gSaveContext.horseData.scene);
             osSyncPrintf(VT_RST);
             func_8006D074(globalCtx);
@@ -238,7 +238,7 @@ void func_8006DC68(GlobalContext* globalCtx, Player* player) {
     if (LINK_IS_ADULT) {
         if (!func_8006CFC0(gSaveContext.horseData.scene)) {
             osSyncPrintf(VT_COL(RED, WHITE));
-            // Translates to: "Horse_Set_Check():%d SET SPOT IS NO GOOD."
+            // "Horse_Set_Check():%d set spot is no good."
             osSyncPrintf("Horse_Set_Check():%d セットスポットまずいです。\n", gSaveContext.horseData.scene);
             osSyncPrintf(VT_RST);
             func_8006D074(globalCtx);

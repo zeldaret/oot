@@ -28,6 +28,4 @@ typedef struct EnKz {
     /* 0x02BE */ s16 unk_2BE[12];
 } EnKz; // size = 0x02D8
 
-extern const ActorInit En_Kz_InitVars;
-
 #endif

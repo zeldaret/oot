@@ -11,6 +11,4 @@ typedef struct ObjBombiwa {
     /* 0x014C */ ColliderCylinder collider;
 } ObjBombiwa; // size = 0x0198
 
-extern const ActorInit Obj_Bombiwa_InitVars;
-
 #endif

@@ -71,7 +71,7 @@ void EnKakasi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi3* this = THIS;
 
     osSyncPrintf("\n\n");
-    // Translates to: Obonur -- Related to the name of the scarecrow (Bonooru)
+    // "Obonur" -- Related to the name of the scarecrow (Bonooru)
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
     this->actor.targetMode = 6;
 

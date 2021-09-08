@@ -13,6 +13,4 @@ typedef struct BgJyaAmishutter {
     /* 0x0164 */ BgJyaAmishutterActionFunc actionFunc;
 } BgJyaAmishutter; // size = 0x0168
 
-extern const ActorInit Bg_Jya_Amishutter_InitVars;
-
 #endif

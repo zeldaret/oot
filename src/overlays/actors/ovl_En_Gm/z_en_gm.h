@@ -24,6 +24,4 @@ typedef struct EnGm {
     /* 0x02C4 */ Vec3f talkPos;
 } EnGm; // size = 0x02D0
 
-extern const ActorInit En_Gm_InitVars;
-
 #endif

@@ -14,6 +14,4 @@ typedef struct BgJyaBombiwa {
     /* 0x0188 */ ColliderJntSphElement colliderItems[1];
 } BgJyaBombiwa; // size = 0x01C8
 
-extern const ActorInit Bg_Jya_Bombiwa_InitVars;
-
 #endif

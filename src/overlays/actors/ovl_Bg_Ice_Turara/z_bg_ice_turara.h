@@ -21,6 +21,4 @@ typedef struct BgIceTurara {
     /* 0x016C */ ColliderCylinder collider;
 } BgIceTurara; // size = 0x01B8
 
-extern const ActorInit Bg_Ice_Turara_InitVars;
-
 #endif

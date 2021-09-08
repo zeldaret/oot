@@ -17,6 +17,4 @@ typedef struct BgHakaTubo {
     /* 0x01B8 */ ColliderCylinder flamesCollider;
 } BgHakaTubo; // size = 0x0204
 
-extern const ActorInit Bg_Haka_Tubo_InitVars;
-
 #endif

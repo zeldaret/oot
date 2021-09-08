@@ -6705,8 +6705,8 @@ s32 Camera_Special9(Camera* camera) {
     sCameraInterfaceFlags = params->interfaceFlags;
 
     switch (camera->animState) {
-        do {
-        } while (0);
+        if (1) {}
+
         case 0:
             camera->unk_14C &= ~(0x4 | 0x2);
             camera->animState++;
@@ -7087,10 +7087,19 @@ void Camera_PrintInfo(Camera* camera) {
         if (camera->bgCamDataId < 0) {
             bgCamDataIdStr[i++] = '-';
         }
+
+        //! @bug: this code was clearly meaning to print `abs(camera->bgCamDataId)` as a
+        //! one-or-two-digit number, instead of `i`.
+        // "bgCamDataIdStr[i++] = ..." matches here, but is undefined behavior due to conflicting
+        // reads/writes between sequence points, triggering warnings. Work around by
+        // putting i++ afterwards while on the same line.
+        // clang-format off
         if (camera->bgCamDataId / 10 != 0) {
-            bgCamDataIdStr[i++] = i / 10 + '0';
+            bgCamDataIdStr[i] = i / 10 + '0'; i++;
         }
-        bgCamDataIdStr[i++] = i % 10 + '0';
+        bgCamDataIdStr[i] = i % 10 + '0'; i++;
+        // clang-format on
+
         bgCamDataIdStr[i++] = ' ';
         bgCamDataIdStr[i++] = ' ';
         bgCamDataIdStr[i++] = ' ';

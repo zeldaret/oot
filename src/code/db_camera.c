@@ -153,16 +153,16 @@ Vec3f* DbCamera_CalcUpFromPitchYawRoll(Vec3f* dest, s16 pitch, s16 yaw, s16 roll
     temp_f14 = 1.0f - cosNegRoll;
     cosPitchSinYaw = cosPitch * sinYaw;
     sp54 = SQ(cosPitchSinYaw);
-    sp4C = (cosPitchSinYaw * sinPitch) * (0, temp_f14);
+    sp4C = (cosPitchSinYaw * sinPitch) * ((void)0, temp_f14);
     cosPitchcosYaw = cosPitch * cosYaw;
     temp_f4_2 = ((1.0f - sp54) * cosNegRoll) + sp54;
     cosPitchCosYawSinRoll = cosPitchcosYaw * sinNegRoll;
-    temp_f6 = (cosPitchcosYaw * cosPitchSinYaw) * (0, temp_f14);
+    temp_f6 = (cosPitchcosYaw * cosPitchSinYaw) * ((void)0, temp_f14);
     temp_f10_2 = sinPitch * sinNegRoll;
     spA4.x = ((negSinPitchSinYaw * temp_f4_2) + (cosPitch * (sp4C - cosPitchCosYawSinRoll))) +
              (negSinPitchCosYaw * (temp_f6 + temp_f10_2));
     sp54 = SQ(sinPitch);
-    temp_f4_2 = (sinPitch * cosPitchcosYaw) * (0, temp_f14);
+    temp_f4_2 = (sinPitch * cosPitchcosYaw) * ((void)0, temp_f14);
     temp_f8_3 = cosPitchSinYaw * sinNegRoll;
     temp_f8 = sp4C + cosPitchCosYawSinRoll;
     spA4.y = ((negSinPitchSinYaw * temp_f8) + (cosPitch * (((1.0f - sp54) * cosNegRoll) + sp54))) +
@@ -544,21 +544,21 @@ void DbCamera_Init(DbCamera* dbCamera, Camera* cameraPtr) {
     dbCamera->unk_6C.z = 0;
 }
 
-s32 DbgCamera_Enable(DbCamera* this, Camera* cam) {
-    this->at = cam->at;
-    this->eye = cam->eye;
-    this->unk_1C = cam->up;
-    this->fov = cam->fov;
-    this->roll = 0;
-    this->sub.nPoints = 1;
-    this->sub.unkIdx = 0;
-    this->sub.unk_08 = 0;
-    this->sub.unk_0A = 1;
-    this->sub.unk_0C = 1;
-    this->unk_78 = 0;
-    this->unk_7A = 0;
-    this->rollDegrees = 0.0f;
-    return func_800B4088(this, cam);
+void DbgCamera_Enable(DbCamera* dbCamera, Camera* cam) {
+    dbCamera->at = cam->at;
+    dbCamera->eye = cam->eye;
+    dbCamera->unk_1C = cam->up;
+    dbCamera->fov = cam->fov;
+    dbCamera->roll = 0;
+    dbCamera->sub.nPoints = 1;
+    dbCamera->sub.unkIdx = 0;
+    dbCamera->sub.unk_08 = 0;
+    dbCamera->sub.unk_0A = 1;
+    dbCamera->sub.unk_0C = 1;
+    dbCamera->unk_78 = 0;
+    dbCamera->unk_7A = 0;
+    dbCamera->rollDegrees = 0.0f;
+    func_800B4088(dbCamera, cam);
 }
 
 #ifdef NON_EQUIVALENT
@@ -1655,7 +1655,7 @@ s32 DbCamera_SaveCallback(char* c) {
     ret = Mempak_GetFileSize(2, *c);
     freeSize = Mempak_GetFreeBytes(2);
 
-    if (sAllocSize < (freeSize + ret)) {
+    if ((u32)sAllocSize < (freeSize + ret)) {
         if (!Mempak_Alloc(2, c, sAllocSize)) {
             return false;
         }

@@ -64,6 +64,4 @@ typedef enum {
     /* 5 */ DNT_ACTION_PRIZE
 } EnDntAction;
 
-extern const ActorInit En_Dnt_Demo_InitVars;
-
 #endif

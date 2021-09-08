@@ -19,6 +19,4 @@ typedef struct EnBrob {
     /* 0x0228 */ ColliderCylinder colliders[2];
 } EnBrob; // size = 0x02C0
 
-extern const ActorInit En_Brob_InitVars;
-
 #endif

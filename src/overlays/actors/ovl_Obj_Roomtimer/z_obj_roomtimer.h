@@ -15,6 +15,4 @@ typedef struct ObjRoomtimer {
     /* 0x0150 */ u32 switchFlag;
 } ObjRoomtimer; // size = 0x0154
 
-extern const ActorInit Obj_Roomtimer_InitVars;
-
 #endif

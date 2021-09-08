@@ -18,7 +18,7 @@ typedef enum {
     CHAN_UPD_VIBE_X32,        // 11
     CHAN_UPD_UNK_0F,          // 12
     CHAN_UPD_UNK_20,          // 13
-    CHAN_UPD_REVERB_FLG       // 14
+    CHAN_UPD_STEREO           // 14
 } ChannelUpdateType;
 
 void func_800E6300(SequenceChannel* channel, AudioCmd* arg1);
@@ -86,27 +86,27 @@ AudioTask* func_800E5000(void) {
         D_801755D0();
     }
 
-    sp5C = gAudioContext.sampleIoReqIdx;
-    for (i = 0; i < gAudioContext.sampleIoReqIdx; i++) {
-        if (osRecvMesg(&gAudioContext.unk_1ED0, NULL, OS_MESG_NOBLOCK) == 0) {
+    sp5C = gAudioContext.curAudioFrameDmaCount;
+    for (i = 0; i < gAudioContext.curAudioFrameDmaCount; i++) {
+        if (osRecvMesg(&gAudioContext.currAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK) == 0) {
             sp5C--;
         }
     }
 
     if (sp5C != 0) {
         for (i = 0; i < sp5C; i++) {
-            osRecvMesg(&gAudioContext.unk_1ED0, NULL, OS_MESG_BLOCK);
+            osRecvMesg(&gAudioContext.currAudioFrameDmaQueue, NULL, OS_MESG_BLOCK);
         }
     }
 
-    sp48 = gAudioContext.unk_1ED0.validCount;
+    sp48 = gAudioContext.currAudioFrameDmaQueue.validCount;
     if (sp48 != 0) {
         for (i = 0; i < sp48; i++) {
-            osRecvMesg(&gAudioContext.unk_1ED0, NULL, OS_MESG_NOBLOCK);
+            osRecvMesg(&gAudioContext.currAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK);
         }
     }
 
-    gAudioContext.sampleIoReqIdx = 0;
+    gAudioContext.curAudioFrameDmaCount = 0;
     func_800E11F0();
     Audio_ProcessLoads(gAudioContext.resetStatus);
     func_800E4F58();
@@ -373,23 +373,23 @@ void Audio_QueueCmd(u32 opArgs, void** data) {
 }
 
 void Audio_QueueCmdF32(u32 opArgs, f32 data) {
-    Audio_QueueCmd(opArgs, &data);
+    Audio_QueueCmd(opArgs, (void**)&data);
 }
 
 void Audio_QueueCmdS32(u32 opArgs, s32 data) {
-    Audio_QueueCmd(opArgs, &data);
+    Audio_QueueCmd(opArgs, (void**)&data);
 }
 
 void Audio_QueueCmdS8(u32 opArgs, s8 data) {
     u32 uData = data << 0x18;
 
-    Audio_QueueCmd(opArgs, &uData);
+    Audio_QueueCmd(opArgs, (void**)&uData);
 }
 
 void Audio_QueueCmdU16(u32 opArgs, u16 data) {
     u32 uData = data << 0x10;
 
-    Audio_QueueCmd(opArgs, &uData);
+    Audio_QueueCmd(opArgs, (void**)&uData);
 }
 
 s32 Audio_ScheduleProcessCmds(void) {
@@ -522,7 +522,7 @@ void func_800E5F34(void) {
     // clang-format on
 }
 
-s32 func_800E5F88(u32 resetPreloadID) {
+s32 func_800E5F88(s32 resetPreloadID) {
     s32 resetStatus;
     OSMesg msg;
     s32 pad;
@@ -704,8 +704,8 @@ void func_800E6300(SequenceChannel* channel, AudioCmd* cmd) {
         case CHAN_UPD_UNK_20:
             channel->unk_20 = cmd->asUShort;
             return;
-        case CHAN_UPD_REVERB_FLG:
-            channel->reverbBits.asByte = cmd->asUbyte;
+        case CHAN_UPD_STEREO:
+            channel->stereo.asByte = cmd->asUbyte;
             return;
     }
 }
@@ -792,10 +792,10 @@ s32 func_800E66C0(s32 arg0) {
             if (temp_a2->adsr.action.s.state != 0) {
                 if (arg0 >= 2) {
                     sound = temp_a3->sound.audioBankSound;
-                    if (sound == NULL || temp_a3->bitField1.s.bit2) {
+                    if (sound == NULL || temp_a3->bitField1.s.isSyntheticWave) {
                         continue;
                     }
-                    if (sound->sample->bits2 == 0) {
+                    if (sound->sample->medium == 0) {
                         continue;
                     }
                 }

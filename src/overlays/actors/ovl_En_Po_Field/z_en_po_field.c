@@ -913,9 +913,9 @@ void EnPoField_PostLimDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         }
         Matrix_Get(&sLimb7Mtx);
         if (this->actionFunc == EnPoField_Death && this->actionTimer == 27) {
-            this->actor.world.pos.x = sLimb7Mtx.wx;
-            this->actor.world.pos.y = sLimb7Mtx.wy;
-            this->actor.world.pos.z = sLimb7Mtx.wz;
+            this->actor.world.pos.x = sLimb7Mtx.xw;
+            this->actor.world.pos.y = sLimb7Mtx.yw;
+            this->actor.world.pos.z = sLimb7Mtx.zw;
         }
         Lights_PointGlowSetInfo(&this->lightInfo, vec.x, vec.y, vec.z, this->soulColor.r, this->soulColor.g,
                                 this->soulColor.b, this->soulColor.a * (200.0f / 255));

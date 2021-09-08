@@ -30,6 +30,4 @@ typedef struct EnDekubaba {
     /* 0x0258 */ ColliderJntSphElement colliderElements[7];
 } EnDekubaba; // size = 0x0418
 
-extern const ActorInit En_Dekubaba_InitVars;
-
 #endif

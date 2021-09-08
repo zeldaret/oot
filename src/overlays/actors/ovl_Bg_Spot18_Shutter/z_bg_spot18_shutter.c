@@ -118,8 +118,9 @@ void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     f32 sin = Math_SinS(this->dyna.actor.world.rot.y);
     f32 cos = Math_CosS(this->dyna.actor.world.rot.y);
-    s32 flag =
-        Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + (125.0f * cos), fabsf(cos)) & 1;
+    s32 flag = true;
+
+    flag &= Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + (125.0f * cos), fabsf(cos));
     flag &= Math_StepToF(&this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.z - (125.0f * sin), fabsf(sin));
 
     if (flag) {
