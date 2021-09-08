@@ -29,8 +29,9 @@ const ActorInit En_Tana_InitVars = {
     NULL,
 };
 
-//! @bug A third entry is missing here, when printing the string indexed with the actor's params it will dereference
-//! the next item in data and will (at least) break the printer if spawned with params 2.
+//! @bug A third entry is missing here. When printing the string indexed by `params` for type 2, the
+//! next data entry will be dereferenced and print garbage, stopping any future printing.
+//! In a non-matching context, this can cause a crash if the next item isn't a valid pointer.
 static const char* sShelfTypes[] = {
     "木の棚", // "Wooden Shelves"
     "石の棚", // "Stone Shelves"
