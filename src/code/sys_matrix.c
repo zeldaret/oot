@@ -987,7 +987,7 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     return mf;
 }
 
-void func_800D2A34(MtxF* mf, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
+void Matrix_SetTranslateScaleMtxF(MtxF* mf, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
     mf->yx = 0.0f;
     mf->zx = 0.0f;
     mf->wx = 0.0f;
@@ -997,19 +997,19 @@ void func_800D2A34(MtxF* mf, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     mf->xz = 0.0f;
     mf->yz = 0.0f;
     mf->wz = 0.0f;
-    mf->xx = arg1;
-    mf->yy = arg1;
-    mf->zz = arg1;
-    mf->xw = arg2;
-    mf->yw = arg3;
-    mf->zw = arg4;
+    mf->xx = scale;
+    mf->yy = scale;
+    mf->zz = scale;
+    mf->xw = translateX;
+    mf->yw = translateY;
+    mf->zw = translateZ;
     mf->ww = 1.0f;
 }
 
-void func_800D2A98(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
+void Matrix_SetTranslateScaleMtx(Mtx* mtx, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
     MtxF mf;
 
-    func_800D2A34(&mf, arg1, arg2, arg3, arg4);
+    Matrix_SetTranslateScaleMtxF(&mf, scale, translateX, translateY, translateZ);
     guMtxF2L(&mf, mtx);
 }
 
