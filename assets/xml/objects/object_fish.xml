@@ -97,9 +97,9 @@
         <Texture Name="gFishingOwnerHearTex" OutName="fishing_owner_hear" Format="ci8" Width="8" Height="8" Offset="0x8DD0" TlutOffset="0x8990"/>
         <Texture Name="gFishingOwnerMouthTex" OutName="fishing_owner_mouth" Format="ci8" Width="32" Height="32" Offset="0x8E10" TlutOffset="0x8990"/>
         <Texture Name="gFishingOwnerNostrilTex" OutName="fishing_owner_nostril" Format="ci8" Width="8" Height="8" Offset="0x9210" TlutOffset="0x8990"/>
-        <Texture Name="gFishingOwnerEyeOpenTex" OutName="fishing_owner_eye_open" Format="ci8" Width="32" Height="32" Offset="0x9250"/>
-        <Texture Name="gFishingOwnerEyeHalfTex" OutName="fishing_owner_eye_half" Format="ci8" Width="32" Height="32" Offset="0x9650"/>
-        <Texture Name="gFishingOwnerEyeClosedTex" OutName="fishing_owner_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x9A50"/>
+        <Texture Name="gFishingOwnerEyeOpenTex" OutName="fishing_owner_eye_open" Format="ci8" Width="32" Height="32" Offset="0x9250" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerEyeHalfTex" OutName="fishing_owner_eye_half" Format="ci8" Width="32" Height="32" Offset="0x9650" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerEyeClosedTex" OutName="fishing_owner_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x9A50" TlutOffset="0x8990"/>
         <Texture Name="gFishingOwnerHatTex" OutName="fishing_owner_hat" Format="ci8" Width="64" Height="32" Offset="0x9E50" TlutOffset="0x8990"/>
         <Texture Name="gFishingOwnerShirtTex" OutName="fishing_owner_shirt" Format="ci8" Width="8" Height="8" Offset="0xA650" TlutOffset="0x8990"/>
         <Texture Name="gFishingOwnerFingersTex" OutName="fishing_owner_fingers" Format="ci8" Width="16" Height="16" Offset="0xA690" TlutOffset="0x8990"/>
