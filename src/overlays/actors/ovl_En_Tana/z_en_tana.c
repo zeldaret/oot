@@ -29,13 +29,8 @@ const ActorInit En_Tana_InitVars = {
     NULL,
 };
 
-//! @bug Third case is missing here, will dereference the next item in data and will (at least) break the printer if spawned with params 2.
-
-
-
-//! @bug This array only has two strings in it but is sometimes . This causes an out of bounds read on the array of shelf types. With
-//! IDO it just happens to not crash, however all debug printing stops after. With different compilers re-ordering may
-//! cause a crash.
+//! @bug A third entry is missing here, when printing the string indexed with the actor's params it will dereference
+//! the next item in data and will (at least) break the printer if spawned with params 2.
 static const char* sShelfTypes[] = {
     "木の棚", // "Wooden Shelves"
     "石の棚", // "Stone Shelves"
