@@ -2,11 +2,11 @@
 #include "textures/title_static/title_static.h"
 #include "textures/parameter_static/parameter_static.h"
 
-s16 D_8081271C = 106; // unused
+static s16 D_8081271C = 106; // unused
 
-s16 gScreenFillAlpha = 255;
+static s16 gScreenFillAlpha = 255;
 
-Gfx D_80812728[] = {
+static Gfx D_80812728[] = {
     gsDPPipeSync(),
     gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
                           G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
@@ -17,9 +17,9 @@ Gfx D_80812728[] = {
     gsSPEndDisplayList(),
 };
 
-s16 D_80812750[] = { 36, 36, 36, 36, 24 };
+static s16 D_80812750[] = { 36, 36, 36, 36, 24 };
 
-s16 D_8081275C[2][3] = { { 100, 150, 255 }, { 100, 100, 100 } };
+static s16 D_8081275C[2][3] = { { 100, 150, 255 }, { 100, 100, 100 } };
 
 void FileChoose_SetupView(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
     Vec3f eye;
@@ -39,8 +39,8 @@ void FileChoose_SetupView(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ)
     func_800AAA50(&this->view, 0x7F);
 }
 
-Gfx* func_8080AFD0(Gfx* gfx, void* timg, s16 arg2, s16 arg3, s16 arg4) {
-    gDPLoadTextureBlockYuv(gfx++, timg, G_IM_FMT_IA, G_IM_SIZ_8b, arg2, arg3, 0, G_TX_NOMIRROR | G_TX_WRAP,
+Gfx* FileChoose_DrawTextureIA8(Gfx* gfx, void* texture, s16 width, s16 height, s16 arg4) {
+    gDPLoadTextureBlockYuv(gfx++, texture, G_IM_FMT_IA, G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     gSP1Quadrangle(gfx++, arg4, arg4 + 2, arg4 + 3, arg4 + 1, 0);
@@ -271,6 +271,7 @@ void func_8080BE30(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
     XREG(73) += 2;
+
     if (XREG(73) == 0xFE) {
         this->configMode = this->nextConfigMode;
         XREG(73) = 0;
@@ -308,7 +309,7 @@ void FileChoose_RotateToOptions(GameState* thisx) {
 /**
  * Rotate the window from the options menu to the main menu
  */
-void FileChoose_RotateFromOptions(GameState* thisx) {
+void FileChoose_RotateToMain(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
     this->windowRot += VREG(16);
@@ -355,15 +356,19 @@ void (*gConfigModeUpdateFuncs[])(GameState*) = {
     FileChoose_RotateToNameEntry,
     FileChoose_UpdateKeyboardCursor,
     FileChoose_StartNameEntry,
-    FileChoose_RotateFromOptions,
+    FileChoose_RotateToMain,
     FileChoose_RotateToOptions,
     FileChoose_UpdateOptionsMenu,
     FileChoose_StartOptions,
-    FileChoose_RotateFromOptions,
+    FileChoose_RotateToMain,
     func_8080BE30,
 };
 
-void FileChoose_FlashCursor(GameState* thisx) {
+/** 
+ * Updates the alpha of the cursor to make it pulsate.
+ * On the debug rom, this function also handles switching languages with controller 3.
+ */
+void FileChoose_PulsateCursor(GameState* thisx) {
     static s16 cursorAlphaTargets[] = { 70, 200 };
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 alphaStep;
@@ -433,8 +438,8 @@ void FileChoose_ConfigModeUpdate(GameState* thisx) {
     gConfigModeUpdateFuncs[this->configMode](thisx);
 }
 
-void func_8080C330(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void func_8080C330(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     s16 i;
     s16 j;
     s16 x;
@@ -482,16 +487,16 @@ void func_8080C330(FileChooseContext* thisx) {
     }
 }
 
-s16 D_80812818[] = { 0x001A, 0x000A, 0x000A, 0x000A };
-s16 D_80812820[] = { 0x0020, 0x000C, 0x000C, 0x000C };
-s16 D_80812828[] = { 0x0010, 0x000C, 0x000C, 0x000C };
-s16 D_80812830[] = { 0x0040, 0x0054, 0x0068, 0x0274, 0x0278, 0x027C };
-s16 D_8081283C[] = { 0x0040, 0x0054, 0x0068, 0x0278 };
-s16 D_80812844[] = { 0x0274, 0x0278 };
-s16 D_80812848[] = { 0x0274, 0x0278 };
+static s16 D_80812818[] = { 0x001A, 0x000A, 0x000A, 0x000A };
+static s16 D_80812820[] = { 0x0020, 0x000C, 0x000C, 0x000C };
+static s16 D_80812828[] = { 0x0010, 0x000C, 0x000C, 0x000C };
+static s16 D_80812830[] = { 0x0040, 0x0054, 0x0068, 0x0274, 0x0278, 0x027C };
+static s16 D_8081283C[] = { 0x0040, 0x0054, 0x0068, 0x0278 };
+static s16 D_80812844[] = { 0x0274, 0x0278 };
+static s16 D_80812848[] = { 0x0274, 0x0278 };
 
-void func_8080C60C(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void func_8080C60C(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     s16 phi_t2;
     s16 phi_t0;
     s16 phi_t5;
@@ -765,17 +770,17 @@ static void* sQuestItemTextures[] = {
     gTitleStaticSpiritMedallionTex, gTitleStaticShadowMedallionTex, gTitleStaticLightMedallionTex,
 };
 
-static s16 D_80812878[] = { 0x00FF, 0x00FF, 0x00FF, 0x0000, 0x00FF, 0x0000, 0x00FF, 0x00C8, 0x00C8, 0x0000 };
-static s16 D_8081288C[] = { 0x00FF, 0x00FF, 0x00FF, 0x00FF, 0x003C, 0x0064, 0x0082, 0x0032, 0x00C8, 0x0000 };
-static s16 D_808128A0[] = { 0x00FF, 0x00FF, 0x00FF, 0x0000, 0x0000, 0x00FF, 0x0000, 0x00FF, 0x0000, 0x0000 };
-static s16 D_808128B4[] = { 0x0012, 0x0013, 0x0014, 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0000 };
-static s16 D_808128C8[2][3] = { { 0x00FF, 0x00FF, 0x00FF }, { 0x0064, 0x0064, 0x0064 } };
+static s16 sQuestItemRed[] = { 255, 255, 255, 0, 255, 0, 255, 200, 200 };
+static s16 sQuestItemGreen[] = { 255, 255, 255, 255, 60, 100, 130, 50, 200 };
+static s16 sQuestItemBlue[] = { 255, 255, 255, 0, 0, 255, 0, 255, 0 };
+static s16 sQuestItemFlags[] = { 0x0012, 0x0013, 0x0014, 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005 };
+static s16 sNamePrimColors[2][3] = { { 255, 255, 255 }, { 100, 100, 100 } };
 static void* sHeartTextures[] = { gHeartFullTex, gDefenseHeartFullTex };
-static s16 sHeartPrimColors[2][3] = { { 0x00FF, 0x0046, 0x0032 }, { 0x00C8, 0x0000, 0x0000 } };
-static s16 sHeartEnvColors[2][3] = { { 0x0032, 0x0028, 0x003C }, { 0x00FF, 0x00FF, 0x00FF } };
+static s16 sHeartPrimColors[2][3] = { { 255, 70, 50 }, { 200, 0, 0 } };
+static s16 sHeartEnvColors[2][3] = { { 50, 40, 60 }, { 255, 255, 255 } };
 
-void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
-    FileChooseContext* this = thisx;
+void func_8080D8CC(GameState* thisx, s16 arg1, s16 arg2) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     Font* sp54 = &this->font;
     s32 heartType;
     s16 phi_s0;
@@ -793,7 +798,7 @@ void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
 
     if (this->nameAlpha[arg1] != 0) {
         gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[D_8081284C[arg1]], 32, 0);
-        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, D_808128C8[arg2][0], D_808128C8[arg2][1], D_808128C8[arg2][2],
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sNamePrimColors[arg2][0], sNamePrimColors[arg2][1], sNamePrimColors[arg2][2],
                         this->nameAlpha[arg1]);
         for (phi_s0 = 0, phi_s2 = 0; phi_s2 < 0x20; phi_s0++, phi_s2 += 4) {
             FileChoose_DrawCharacter(this->state.gfxCtx,
@@ -832,16 +837,16 @@ void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
         for (phi_s2 = 0, phi_s3 = 0; phi_s3 < phi_s0; phi_s3++, phi_s2 += 4) {
             gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[D_8081284C[arg1] + phi_s2] + 0x30, 4, 0);
 
-            POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, sHeartTextures[heartType], 0x10, 0x10, 0);
+            POLY_OPA_DISP = FileChoose_DrawTextureIA8(POLY_OPA_DISP, sHeartTextures[heartType], 0x10, 0x10, 0);
         }
 
         gDPPipeSync(POLY_OPA_DISP++);
 
         for (phi_s2 = 0, phi_s3 = 0; phi_s3 < 9; phi_s3++, phi_s2 += 4) {
-            if (this->questItems[arg1] & gBitFlags[D_808128B4[phi_s3]]) {
+            if (this->questItems[arg1] & gBitFlags[sQuestItemFlags[phi_s3]]) {
                 gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[D_8081284C[arg1] + phi_s2] + 0x80, 4, 0);
                 gDPPipeSync(POLY_OPA_DISP++);
-                gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, D_80812878[phi_s3], D_8081288C[phi_s3], D_808128A0[phi_s3],
+                gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sQuestItemRed[phi_s3], sQuestItemGreen[phi_s3], sQuestItemBlue[phi_s3],
                                 this->fileInfoAlpha[arg1]);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
@@ -852,7 +857,7 @@ void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
                     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
                 } else {
-                    POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, sQuestItemTextures[phi_s3], 0x10, 0x10, 0);
+                    POLY_OPA_DISP = FileChoose_DrawTextureIA8(POLY_OPA_DISP, sQuestItemTextures[phi_s3], 0x10, 0x10, 0);
                 }
             }
         }
@@ -991,7 +996,7 @@ void func_8080E074(FileChooseContext* thisx) {
 
     for (phi_s0 = 0; phi_s0 < 3; phi_s0++) {
         phi_a3 = ((this->n64ddFlag == this->n64ddFlags[phi_s0]) || (this->nameBoxAlpha[phi_s0] == 0)) ? 0 : 1;
-        func_8080D8CC(this, phi_s0, phi_a3);
+        func_8080D8CC(&this->state, phi_s0, phi_a3);
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1088,8 +1093,8 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     gDPPipeSync(POLY_OPA_DISP++);
     func_800949A8(this->state.gfxCtx);
     FileChoose_SetupView(this, 0.0f, 0.0f, 64.0f);
-    func_8080C330(this);
-    func_8080C60C(this);
+    func_8080C330(&this->state);
+    func_8080C60C(&this->state);
 
     if ((this->configMode != CM_KEYBOARD) && (this->configMode != CM_START_NAME_ENTRY)) {
         gDPPipeSync(POLY_OPA_DISP++);
@@ -1465,8 +1470,8 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
     gDPPipeSync(POLY_OPA_DISP++);
     func_800949A8(this->state.gfxCtx);
     FileChoose_SetupView(this, 0.0f, 0.0f, 64.0f);
-    func_8080C330(this);
-    func_8080C60C(this);
+    func_8080C330(&this->state);
+    func_8080C60C(&this->state);
 
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -1591,7 +1596,7 @@ void FileChoose_Main(GameState* thisx) {
 
     this->emptyFileTextAlpha = 0;
 
-    FileChoose_FlashCursor(&this->state);
+    FileChoose_PulsateCursor(&this->state);
     gFileSelectUpdateFuncs[this->menuMode](&this->state);
     gFileSelectDrawFuncs[this->menuMode](&this->state);
 

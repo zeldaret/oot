@@ -274,7 +274,7 @@ void func_80808000(FileChooseContext* thisx) {
 
     func_80806F34(&this->state);
     func_8080723C(&this->state);
-    FileChoose_FlashCursor(&this->state);
+    FileChoose_PulsateCursor(&this->state);
 
     tmp = (this->newFileNameCharCount * 4) + 4;
     this->allocVtx4[36].v.ob[0] = this->allocVtx4[38].v.ob[0] = this->allocVtx4[tmp].v.ob[0] - 6;

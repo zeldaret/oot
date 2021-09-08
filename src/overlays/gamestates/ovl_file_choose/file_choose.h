@@ -190,11 +190,11 @@ typedef enum {
 /* 32 */ void FileChoose_RotateToNameEntry(GameState* thisx);
 /* 33 */ void FileChoose_UpdateKeyboardCursor(GameState* thisx);
 /* 34 */ void FileChoose_StartNameEntry(GameState* thisx);
-/* 35 */ void FileChoose_RotateFromOptions(GameState* thisx);
+/* 35 */ void FileChoose_RotateToMain(GameState* thisx);
 /* 36 */ void FileChoose_RotateToOptions(GameState* thisx);
 /* 37 */ void FileChoose_UpdateOptionsMenu(GameState* thisx);
 /* 38 */ void FileChoose_StartOptions(GameState* thisx);
-/* 39 */ void FileChoose_RotateFromOptions(GameState* thisx);
+/* 39 */ void FileChoose_RotateToMain(GameState* thisx);
 /* 40 */ void func_8080BE30(GameState* thisx);
 
 typedef enum {
@@ -226,7 +226,7 @@ void FileChoose_InitModeDraw(GameState* thisx);
 void FileChoose_ConfigModeDraw(GameState* thisx);
 void FileChoose_SelectModeDraw(GameState* thisx);
 
-void FileChoose_FlashCursor(GameState* thisx);
+void FileChoose_PulsateCursor(GameState* thisx);
 void FileChoose_DrawSettings(FileChooseContext* this);
 
 void func_80808000(FileChooseContext* this);
