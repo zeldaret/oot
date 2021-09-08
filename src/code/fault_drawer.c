@@ -282,7 +282,7 @@ void FaultDrawer_DrawText(s32 x, s32 y, const char* fmt, ...) {
 
     FaultDrawer_SetCursor(x, y);
     FaultDrawer_VPrintf(fmt, args);
-    
+
     va_end(args);
 }
 

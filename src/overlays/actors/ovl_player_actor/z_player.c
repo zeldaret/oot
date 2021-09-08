@@ -10358,7 +10358,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
             }
 
             Matrix_TranslateRotateYXZ(this->actor.world.pos.x, this->actor.world.pos.y + 2.0f, this->actor.world.pos.z,
-                          &D_80854864);
+                                      &D_80854864);
             Matrix_Scale(4.0f, 4.0f, 4.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19317),
@@ -10424,9 +10424,9 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
             Matrix_Push();
             this->actor.scale.y = -this->actor.scale.y;
             Matrix_TranslateRotateYXZ(this->actor.world.pos.x,
-                          (this->actor.floorHeight + (this->actor.floorHeight - this->actor.world.pos.y)) +
-                              (this->actor.shape.yOffset * this->actor.scale.y),
-                          this->actor.world.pos.z, &this->actor.shape.rot);
+                                      (this->actor.floorHeight + (this->actor.floorHeight - this->actor.world.pos.y)) +
+                                          (this->actor.shape.yOffset * this->actor.scale.y),
+                                      this->actor.world.pos.z, &this->actor.shape.rot);
             Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
             Matrix_RotateX(sp78, MTXMODE_APPLY);
             Matrix_RotateY(sp74, MTXMODE_APPLY);

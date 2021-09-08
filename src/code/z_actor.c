@@ -2192,13 +2192,13 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 
     if (actor->flags & 0x1000) {
-        Matrix_TranslateRotateYXZ(actor->world.pos.x + globalCtx->mainCamera.skyboxOffset.x,
-                      actor->world.pos.y +
-                          (f32)((actor->shape.yOffset * actor->scale.y) + globalCtx->mainCamera.skyboxOffset.y),
-                      actor->world.pos.z + globalCtx->mainCamera.skyboxOffset.z, &actor->shape.rot);
+        Matrix_TranslateRotateYXZ(
+            actor->world.pos.x + globalCtx->mainCamera.skyboxOffset.x,
+            actor->world.pos.y + (f32)((actor->shape.yOffset * actor->scale.y) + globalCtx->mainCamera.skyboxOffset.y),
+            actor->world.pos.z + globalCtx->mainCamera.skyboxOffset.z, &actor->shape.rot);
     } else {
         Matrix_TranslateRotateYXZ(actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
-                      actor->world.pos.z, &actor->shape.rot);
+                                  actor->world.pos.z, &actor->shape.rot);
     }
 
     Matrix_Scale(actor->scale.x, actor->scale.y, actor->scale.z, MTXMODE_APPLY);
