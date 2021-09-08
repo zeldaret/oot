@@ -870,78 +870,76 @@ void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
 }
 
 /*
- * Rotate the matrix by `f` radians around a unit vector `vec`.
- * NB: vec is assumed to be a unit vector.
+ * Rotate the matrix by `angle` radians around a unit vector `axis`.
+ * NB: `axis` is assumed to be a unit vector.
  */
-void Matrix_RotateAxis(f32 f, Vec3f* vec, u8 mode) {
+void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode) {
     MtxF* cmf;
     f32 sin;
     f32 cos;
     f32 rCos;
-    f32 vrs;
     f32 temp1;
     f32 temp2;
     f32 temp3;
     f32 temp4;
-    f32 temp5;
 
     if (mode == MTXMODE_APPLY) {
-        if (f != 0) {
+        if (angle != 0) {
             cmf = sCurrentMatrix;
 
-            sin = sinf(f);
-            cos = cosf(f);
+            sin = sinf(angle);
+            cos = cosf(angle);
 
+            temp1 = cmf->xx;
             temp2 = cmf->xy;
             temp3 = cmf->xz;
-            temp1 = cmf->xx;
-            temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
-            cmf->xx = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
-            cmf->xy = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
-            cmf->xz = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
+            temp4 = (axis->x * temp1 + axis->y * temp2 + axis->z * temp3) * (1.0f - cos);
+            cmf->xx = temp1 * cos + axis->x * temp4 + sin * (temp2 * axis->z - temp3 * axis->y);
+            cmf->xy = temp2 * cos + axis->y * temp4 + sin * (temp3 * axis->x - temp1 * axis->z);
+            cmf->xz = temp3 * cos + axis->z * temp4 + sin * (temp1 * axis->y - temp2 * axis->x);
 
             temp1 = cmf->yx;
             temp2 = cmf->yy;
             temp3 = cmf->yz;
-            temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
-            cmf->yx = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
-            cmf->yy = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
-            cmf->yz = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
+            temp4 = (axis->x * temp1 + axis->y * temp2 + axis->z * temp3) * (1.0f - cos);
+            cmf->yx = temp1 * cos + axis->x * temp4 + sin * (temp2 * axis->z - temp3 * axis->y);
+            cmf->yy = temp2 * cos + axis->y * temp4 + sin * (temp3 * axis->x - temp1 * axis->z);
+            cmf->yz = temp3 * cos + axis->z * temp4 + sin * (temp1 * axis->y - temp2 * axis->x);
 
             temp1 = cmf->zx;
             temp2 = cmf->zy;
             temp3 = cmf->zz;
-            temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
-            cmf->zx = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
-            cmf->zy = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
-            cmf->zz = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
+            temp4 = (axis->x * temp1 + axis->y * temp2 + axis->z * temp3) * (1.0f - cos);
+            cmf->zx = temp1 * cos + axis->x * temp4 + sin * (temp2 * axis->z - temp3 * axis->y);
+            cmf->zy = temp2 * cos + axis->y * temp4 + sin * (temp3 * axis->x - temp1 * axis->z);
+            cmf->zz = temp3 * cos + axis->z * temp4 + sin * (temp1 * axis->y - temp2 * axis->x);
         }
     } else {
         cmf = sCurrentMatrix;
 
-        if (f != 0) {
-            sin = sinf(f);
-            cos = cosf(f);
+        if (angle != 0) {
+            sin = sinf(angle);
+            cos = cosf(angle);
             rCos = 1.0f - cos;
 
-            cmf->xx = vec->x * vec->x * rCos + cos;
-            cmf->yy = vec->y * vec->y * rCos + cos;
-            cmf->zz = vec->z * vec->z * rCos + cos;
+            cmf->xx = axis->x * axis->x * rCos + cos;
+            cmf->yy = axis->y * axis->y * rCos + cos;
+            cmf->zz = axis->z * axis->z * rCos + cos;
 
             if (0) {}
 
-            temp2 = vec->x * rCos * vec->y;
-            temp3 = vec->z * sin;
+            temp2 = axis->x * rCos * axis->y;
+            temp3 = axis->z * sin;
             cmf->yx = temp2 + temp3;
             cmf->xy = temp2 - temp3;
 
-            temp2 = vec->x * rCos * vec->z;
-            temp3 = vec->y * sin;
+            temp2 = axis->x * rCos * axis->z;
+            temp3 = axis->y * sin;
             cmf->zx = temp2 - temp3;
             cmf->xz = temp2 + temp3;
 
-            temp2 = vec->y * rCos * vec->z;
-            temp3 = vec->x * sin;
+            temp2 = axis->y * rCos * axis->z;
+            temp3 = axis->x * sin;
             cmf->zy = temp2 + temp3;
             cmf->yz = temp2 - temp3;
 

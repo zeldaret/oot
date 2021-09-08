@@ -1778,7 +1778,7 @@ void Matrix_Transpose(MtxF* mf);
 void Matrix_ReplaceRotation(MtxF* mf);
 void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
 void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
-void Matrix_RotateAxis(f32 f, Vec3f* vec, u8 mode);
+void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode);
 MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line);
 void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
 u32 SysUcode_GetUCodeBoot(void);
