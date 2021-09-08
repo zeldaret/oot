@@ -5,6 +5,7 @@ import argparse
 
 # all occurrences of keys will be replaced by associated value
 simpleReplace = {
+    "Math_Rand_":"Rand_",
     "ACTORTYPE":"ACTORCAT",
     "DistToLink":"DistToPlayer",
     "HitItem":"HitInfo",
@@ -15,6 +16,55 @@ simpleReplace = {
 # for example, if there is a space before and an open parenthesis after,
 # like for a function call: ` func_8002E4B4(`
 wordReplace = {
+    "SkelAnime_FrameUpdateMatrix":"SkelAnime_Update",
+    "SkelAnime_ChangeAnimTransitionRepeat":"Animation_MorphToLoop",
+    "SkelAnime_ChangeAnimDefaultRepeat":"Animation_PlayLoop",
+    "SkelAnime_ChangeAnimPlaybackRepeat":"Animation_PlayLoopSetSpeed",
+    "SkelAnime_ChangeAnimTransitionStop":"Animation_MorphToPlayOnce",
+    "SkelAnime_ChangeAnimDefaultStop":"Animation_PlayOnce",
+    "SkelAnime_ChangeAnimPlaybackStop":"Animation_PlayOnceSetSpeed",
+    "SkelAnime_ChangeAnimImpl":"Animation_ChangeImpl",
+    "SkelAnime_ChangeAnim":"Animation_Change",
+    "SkelAnime_GetFrameCount":"Animation_GetLastFrame",
+    "func_800A56C8":"Animation_OnFrame",
+    "skelAnime.animCurrentFrame":"skelAnime.curFrame",
+    "skelAnime.animPlaybackSpeed":"skelAnime.playSpeed",
+    "skelAnime.initialFrame":"skelAnime.startFrame",
+    "skelAnime.animFrameCount":"skelAnime.endFrame",
+    "skelAnime.totalFrames":"skelAnime.animLength",
+    "skelAnime.limbDrawTbl":"skelAnime.jointTable",
+    "skelAnime.transitionDrawTbl":"skelAnime.morphTable",
+    "skelAnime.transCurrentFrame":"skelAnime.morphWeight",
+    "skelAnime.transitionStep":"skelAnime.morphRate",
+    "skelAnime.flags":"skelAnime.moveFlags",
+    "skelAnime.prevFrameRot":"skelAnime.prevRot",
+    "skelAnime.prevFramePos":"skelAnime.prevTransl",
+    "skelAnime.unk_3E":"skelAnime.baseTransl",
+    "skelAnime.unk_03":"skelAnime.taper",
+    "func_800CA540(":"Math_FactorialF(",
+    "func_800CA63C(":"Math_Factorial(",
+    "func_800CA6FC(":"Math_PowF(",
+    "func_800CA720(":"Math_SinF(",
+    "func_800CA774(":"Math_CosF(",
+    "Math_atan2f(":"Math_FAtan2F(",
+    "atan2f(":"Math_Atan2F(",
+    "atan2s(":"Math_Atan2S(",
+    "Math_Coss(":"Math_CosS(",
+    "Math_Sins(":"Math_SinS(",
+    "Math_ApproxUpdateScaledS(":"Math_ScaledStepToS(",
+    "Math_ApproxS(":"Math_StepToS(",
+    "Math_ApproxF(":"Math_StepToF(",
+    "func_80077A90(":"Math_StepUntilAngleS(",
+    "func_80077AF8(":"Math_StepUntilS(",
+    "func_80077B58(":"Math_StepToAngleS(",
+    "func_80077C1C(":"Math_StepUntilF(",
+    "func_80077C6C(":"Math_AsymStepToF(",
+    "Math_SmoothScaleMaxMinF(":"Math_SmoothStepToF(",
+    "Math_SmoothScaleMaxF(":"Math_ApproachF(",
+    "Math_SmoothDownscaleMaxF(":"Math_ApproachZeroF(",
+    "func_800784D8(":"Math_SmoothStepToDegF(",
+    "Math_SmoothScaleMaxMinS(":"Math_SmoothStepToS(",
+    "Math_SmoothScaleMaxS(":"Math_ApproachS(",
     "Actor_SetHeight":"Actor_SetFocus",
     "func_8002E4B4":"Actor_UpdateBgCheckInfo",
     "func_8002BDB0":"Actor_SetFeetPos",
@@ -103,7 +153,7 @@ wordReplace = {
     "func_800D20CC": "Matrix_MtxFToYXZRotS",
     "func_800D2264": "Matrix_MtxFToZYXRotS",
     "func_800D23FC": "Matrix_RotateAxis",
-    "PLAYER": "GET_PLAYER(globalCtx)",
+    "PLAYER": ("GET_PLAYER(globalCtx)", {"ignore": (-1, '"PLAYER"')}), # ignore "PLAYER" in sSoundBankNames
     "ACTIVE_CAM": "GET_ACTIVE_CAM(globalCtx)",
 }
 
@@ -125,6 +175,20 @@ def replace_single(file):
             srcdata = srcdata.replace(old, new)
 
     for old, new in wordReplace.items():
+        # `new` can be a tuple where the first element is what to replace `old` with,
+        # and the second element is a dict containing "custom behavior" properties.
+        if isinstance(new, tuple):
+            custom_behavior = True
+            new, custom_behavior_data = new
+            # The "ignore" data is a tuple where the first element is an offset relative to
+            # where `old` was found, and the string from that index must differ from the
+            # tuple's second element for the replacement to be done.
+            custom_behavior_ignore_data = custom_behavior_data.get("ignore")
+            custom_behavior_ignore = custom_behavior_ignore_data is not None
+            if custom_behavior_ignore:
+                custom_behavior_ignore_offset, custom_behavior_ignore_match = custom_behavior_ignore_data
+        else:
+            custom_behavior = False
         # replace `old` with `new` if the occurence of `old` is the whole word
         oldStartIdx = srcdata.find(old)
         if oldStartIdx >= 0:
@@ -143,6 +207,9 @@ def replace_single(file):
                     if oldEndIdx >= len(srcdata):
                         pass
                     elif is_word_char(srcdata[oldEndIdx]):
+                        replace = False
+                if replace and custom_behavior and custom_behavior_ignore:
+                    if srcdata[oldStartIdx + custom_behavior_ignore_offset:].startswith(custom_behavior_ignore_match):
                         replace = False
                 if replace:
                     srcdata = srcdata[:oldStartIdx] + new + srcdata[oldEndIdx:]
