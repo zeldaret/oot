@@ -987,7 +987,7 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     return mf;
 }
 
-void Matrix_SetTranslateScaleMtxF(MtxF* mf, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
+void Matrix_SetTranslateUniformScaleMtxF(MtxF* mf, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
     mf->yx = 0.0f;
     mf->zx = 0.0f;
     mf->wx = 0.0f;
@@ -1006,122 +1006,124 @@ void Matrix_SetTranslateScaleMtxF(MtxF* mf, f32 scale, f32 translateX, f32 trans
     mf->ww = 1.0f;
 }
 
-void Matrix_SetTranslateScaleMtx(Mtx* mtx, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
+void Matrix_SetTranslateUniformScaleMtx(Mtx* mtx, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
     MtxF mf;
 
-    Matrix_SetTranslateScaleMtxF(&mf, scale, translateX, translateY, translateZ);
+    Matrix_SetTranslateUniformScaleMtxF(&mf, scale, translateX, translateY, translateZ);
     guMtxF2L(&mf, mtx);
 }
 
-void func_800D2AE4(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
-    u16* m1 = (u16*)&mtx->m[0][0];
-    u16* m2 = (u16*)&mtx->m[2][0];
-    u32 temp;
+void Matrix_SetTranslateUniformScaleMtx2(Mtx* mtx, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
+    u16* intPart = (u16*)&mtx->m[0][0];
+    u16* fracPart = (u16*)&mtx->m[2][0];
+    u32 fixedPoint;
 
-    temp = (s32)(arg1 * 65536.0f);
-    m2[0] = temp & 0xFFFF;
-    m1[0] = (temp >> 16) & 0xFFFF;
+    fixedPoint = (s32)(scale * 0x10000);
+    fracPart[0] = fixedPoint & 0xFFFF;
+    intPart[0] = (fixedPoint >> 16) & 0xFFFF;
 
-    temp = (s32)(arg1 * 65536.0f);
-    m1[5] = (temp >> 16) & 0xFFFF;
-    m2[5] = temp & 0xFFFF;
+    fixedPoint = (s32)(scale * 0x10000);
+    intPart[5] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[5] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg1 * 65536.0f);
-    m1[10] = (temp >> 16) & 0xFFFF;
-    m2[10] = temp & 0xFFFF;
+    fixedPoint = (s32)(scale * 0x10000);
+    intPart[10] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[10] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg2 * 65536.0f);
-    m1[12] = (temp >> 16) & 0xFFFF;
-    m2[12] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateX * 0x10000);
+    intPart[12] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[12] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg3 * 65536.0f);
-    m1[13] = (temp >> 16) & 0xFFFF;
-    m2[13] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateY * 0x10000);
+    intPart[13] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[13] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg4 * 65536.0f);
-    m1[14] = (temp >> 16) & 0xFFFF;
-    m2[14] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateZ * 0x10000);
+    intPart[14] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[14] = fixedPoint & 0xFFFF;
 
-    m1[1] = 0;
-    m1[2] = 0;
-    m1[3] = 0;
-    m1[4] = 0;
-    m1[6] = 0;
-    m1[7] = 0;
-    m1[8] = 0;
-    m1[9] = 0;
-    m1[11] = 0;
-    m1[15] = 1;
+    intPart[1] = 0;
+    intPart[2] = 0;
+    intPart[3] = 0;
+    intPart[4] = 0;
+    intPart[6] = 0;
+    intPart[7] = 0;
+    intPart[8] = 0;
+    intPart[9] = 0;
+    intPart[11] = 0;
+    intPart[15] = 1;
 
-    m2[1] = 0;
-    m2[2] = 0;
-    m2[3] = 0;
-    m2[4] = 0;
-    m2[6] = 0;
-    m2[7] = 0;
-    m2[8] = 0;
-    m2[9] = 0;
-    m2[11] = 0;
-    m2[15] = 0;
+    fracPart[1] = 0;
+    fracPart[2] = 0;
+    fracPart[3] = 0;
+    fracPart[4] = 0;
+    fracPart[6] = 0;
+    fracPart[7] = 0;
+    fracPart[8] = 0;
+    fracPart[9] = 0;
+    fracPart[11] = 0;
+    fracPart[15] = 0;
 }
 
-void func_800D2BD0(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
-    u16* m1 = (u16*)&mtx->m[0][0];
-    u16* m2 = (u16*)&mtx->m[2][0];
-    u32 temp;
+void Matrix_SetTranslateScaleMtx1(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
+                                  f32 translateZ) {
+    u16* intPart = (u16*)&mtx->m[0][0];
+    u16* fracPart = (u16*)&mtx->m[2][0];
+    u32 fixedPoint;
 
-    temp = (s32)(arg1 * 65536.0f);
-    m1[0] = (temp >> 16) & 0xFFFF;
-    m2[0] = temp & 0xFFFF;
+    fixedPoint = (s32)(scaleX * 0x10000);
+    intPart[0] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[0] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg2 * 65536.0f);
-    m1[5] = (temp >> 16) & 0xFFFF;
-    m2[5] = temp & 0xFFFF;
+    fixedPoint = (s32)(scaleY * 0x10000);
+    intPart[5] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[5] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg3 * 65536.0f);
-    m1[10] = (temp >> 16) & 0xFFFF;
-    m2[10] = temp & 0xFFFF;
+    fixedPoint = (s32)(scaleZ * 0x10000);
+    intPart[10] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[10] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg4 * 65536.0f);
-    m1[12] = (temp >> 16) & 0xFFFF;
-    m2[12] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateX * 0x10000);
+    intPart[12] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[12] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg5 * 65536.0f);
-    m1[13] = (temp >> 16) & 0xFFFF;
-    m2[13] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateY * 0x10000);
+    intPart[13] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[13] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg6 * 65536.0f);
-    m1[14] = (temp >> 16) & 0xFFFF;
-    m2[14] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateZ * 0x10000);
+    intPart[14] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[14] = fixedPoint & 0xFFFF;
 
-    m1[1] = 0;
-    m1[2] = 0;
-    m1[3] = 0;
-    m1[4] = 0;
-    m1[6] = 0;
-    m1[7] = 0;
-    m1[8] = 0;
-    m1[9] = 0;
-    m1[11] = 0;
-    m1[15] = 1;
+    intPart[1] = 0;
+    intPart[2] = 0;
+    intPart[3] = 0;
+    intPart[4] = 0;
+    intPart[6] = 0;
+    intPart[7] = 0;
+    intPart[8] = 0;
+    intPart[9] = 0;
+    intPart[11] = 0;
+    intPart[15] = 1;
 
-    m2[1] = 0;
-    m2[2] = 0;
-    m2[3] = 0;
-    m2[4] = 0;
-    m2[6] = 0;
-    m2[7] = 0;
-    m2[8] = 0;
-    m2[9] = 0;
-    m2[11] = 0;
-    m2[15] = 0;
+    fracPart[1] = 0;
+    fracPart[2] = 0;
+    fracPart[3] = 0;
+    fracPart[4] = 0;
+    fracPart[6] = 0;
+    fracPart[7] = 0;
+    fracPart[8] = 0;
+    fracPart[9] = 0;
+    fracPart[11] = 0;
+    fracPart[15] = 0;
 }
 
-void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
+void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
+                                  f32 translateZ) {
     Mtx_t* m = &mtx->m;
-    u16* m1 = (u16*)(*m)[0];
-    u16* m2 = (u16*)(*m)[2];
-    u32 temp;
+    u16* intPart = (u16*)&(*m)[0][0];
+    u16* fracPart = (u16*)&(*m)[2][0];
+    u32 fixedPoint;
 
     (*m)[0][1] = 0;
     (*m)[2][1] = 0;
@@ -1129,33 +1131,32 @@ void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f
     (*m)[2][3] = 0;
     (*m)[0][4] = 0;
 
-    temp = (s32)(arg1 * 65536.0f);
-    (*m)[0][0] = temp;
+    fixedPoint = (s32)(scaleX * 0x10000);
+    (*m)[0][0] = fixedPoint;
+    intPart[1] = 0;
+    (*m)[2][0] = fixedPoint << 16;
 
-    m1[1] = 0;
-    (*m)[2][0] = temp << 16;
+    fixedPoint = (s32)(scaleY * 0x10000);
+    (*m)[0][2] = fixedPoint >> 16;
+    (*m)[2][2] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg2 * 65536.0f);
-    (*m)[0][2] = temp >> 16;
-    (*m)[2][2] = temp & 0xFFFF;
-
-    temp = (s32)(arg3 * 65536.0f);
-    (*m)[1][1] = temp;
-    m1[11] = 0;
-    (*m)[3][1] = temp << 16;
+    fixedPoint = (s32)(scaleZ * 0x10000);
+    (*m)[1][1] = fixedPoint;
+    intPart[11] = 0;
+    (*m)[3][1] = fixedPoint << 16;
 
     (*m)[2][4] = 0;
 
-    temp = (s32)(arg4 * 65536.0f);
-    m1[12] = (temp >> 16) & 0xFFFF;
-    m2[12] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateX * 0x10000);
+    intPart[12] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[12] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg5 * 65536.0f);
-    m1[13] = (temp >> 16) & 0xFFFF;
-    m2[13] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateY * 0x10000);
+    intPart[13] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[13] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg6 * 65536.0f);
-    m1[14] = (temp >> 16) & 0xFFFF;
-    m1[15] = 1;
-    (*m)[3][3] = temp << 16;
+    fixedPoint = (s32)(translateZ * 0x10000);
+    intPart[14] = (fixedPoint >> 16) & 0xFFFF;
+    intPart[15] = 1;
+    (*m)[3][3] = fixedPoint << 16;
 }

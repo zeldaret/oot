@@ -1780,7 +1780,8 @@ void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
 void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
 void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode);
 MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line);
-void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
+void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
+                                  f32 translateZ);
 u32 SysUcode_GetUCodeBoot(void);
 u32 SysUcode_GetUCodeBootSize(void);
 u32 SysUcode_GetUCode(void);
