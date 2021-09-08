@@ -29,7 +29,14 @@ const ActorInit En_Tana_InitVars = {
     NULL,
 };
 
-static char* const sShelfTypes[] = {
+//! @bug Third case is missing here, will dereference the next item in data and will (at least) break the printer if spawned with params 2.
+
+
+
+//! @bug This array only has two strings in it but is sometimes . This causes an out of bounds read on the array of shelf types. With
+//! IDO it just happens to not crash, however all debug printing stops after. With different compilers re-ordering may
+//! cause a crash.
+static const char* sShelfTypes[] = {
     "木の棚", // "Wooden Shelves"
     "石の棚", // "Stone Shelves"
 };
@@ -55,8 +62,6 @@ static void* sStoneTextures[] = {
 void EnTana_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnTana* this = THIS;
 
-    //! @bug In the zora shop params is set to 2. This causes an out of bounds read on the array of shelf types. With
-    //! IDO it just happens to not crash, however with different compilers re-ordering may cause a crash.
     osSyncPrintf("☆☆☆ %s ☆☆☆\n", sShelfTypes[thisx->params]);
     Actor_SetScale(thisx, 1.0f);
     thisx->flags &= ~1;
