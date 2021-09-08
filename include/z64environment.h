@@ -6,8 +6,8 @@
 #include "z64dma.h"
 
 typedef enum {
-    FILL_SCREEN_OPA = 1,
-    FILL_SCREEN_XLU
+    /* 1 */ FILL_SCREEN_OPA = 1,
+    /* 2 */ FILL_SCREEN_XLU
 } FillScreenDrawFlags;
 
 typedef enum {

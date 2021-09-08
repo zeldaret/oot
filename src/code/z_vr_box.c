@@ -21,8 +21,6 @@ typedef struct {
     /* 0x0C */ u32 unk_C; // pal end
 } Struct_8011FD3C;        // size = 0x10
 
-// extern Struct_8011FD3C gSkyboxFiles[];
-
 s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32, UNK_TYPE, UNK_TYPE, UNK_TYPE, UNK_TYPE, UNK_TYPE, s32,
                   s32);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vr_box/func_800ADBB0.s")

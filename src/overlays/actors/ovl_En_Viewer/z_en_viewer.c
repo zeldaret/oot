@@ -41,8 +41,6 @@ void func_80B2B8FC(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2C130(EnViewer* this, GlobalContext* globalCtx);
 
-extern Mtx D_01000000;
-
 static u8 D_80B2CEC0 = false;
 
 const ActorInit En_Viewer_InitVars = {

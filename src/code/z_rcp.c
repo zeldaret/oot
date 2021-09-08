@@ -783,11 +783,11 @@ Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far) {
     gDPSetFogColor(gfx++, r, g, b, a);
 
     if (near >= 1000) {
-        gSPFogFactor(gfx++, 0, 0); // gSPFogPosition(gfx++, ?, ?)
+        gSPFogFactor(gfx++, 0, 0);
     } else if (near >= 997) {
-        gSPFogFactor(gfx++, 0x7FFF, 0x8100); // gSPFogPosition(gfx++, ?, ?)
+        gSPFogFactor(gfx++, 0x7FFF, 0x8100);
     } else if (near < 0) {
-        gSPFogFactor(gfx++, 0, 255); // gSPFogPosition(gfx++, ?, ?)
+        gSPFogFactor(gfx++, 0, 255);
     } else {
         gSPFogPosition(gfx++, near, far);
     }
@@ -805,11 +805,11 @@ Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far)
     gDPSetFogColor(gfx++, r, g, b, a);
 
     if (near >= 1000) {
-        gSPFogFactor(gfx++, 0, 0); // gSPFogPosition(gfx++, ?, ?)
+        gSPFogFactor(gfx++, 0, 0);
     } else if (near >= 997) {
-        gSPFogFactor(gfx++, 0x7FFF, 0x8100); // gSPFogPosition(gfx++, ?, ?)
+        gSPFogFactor(gfx++, 0x7FFF, 0x8100);
     } else if (near < 0) {
-        gSPFogFactor(gfx++, 0, 255); // gSPFogPosition(gfx++, ?, ?)
+        gSPFogFactor(gfx++, 0, 255);
     } else {
         gSPFogPosition(gfx++, near, far);
     }

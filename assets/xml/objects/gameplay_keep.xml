@@ -843,10 +843,10 @@
         <DList Name="gCuttableShrubTipDL" Offset="0x356A0"/>
         <Texture Name="gCuttableShrubLeafTFragmentTex" OutName="cuttable_shrub_leaf_fragment" Format="rgba16" Width="32" Height="32" Offset="0x35730"/>
         <Texture Name="gCuttableShrubTex" OutName="cuttanble_shrub" Format="rgba16" Width="32" Height="32" Offset="0x35F30"/>
-        <Texture Name="gBurnMark1Tex" OutName="burn_mark_1" Format="i4" Width="64" Height="64" Offset="0x36730"/>
-        <Texture Name="gBurnMark2Tex" OutName="burn_mark_2" Format="i4" Width="64" Height="64" Offset="0x36F30"/>
-        <DList Name="gEffBurnMark1DL" Offset="0x37730"/>
-        <DList Name="gEffBurnMark2DL" Offset="0x37798"/>
+        <Texture Name="gLensFlareCircleTex" OutName="lens_flare_circle" Format="i4" Width="64" Height="64" Offset="0x36730"/>
+        <Texture Name="gLensFlareRingTex" OutName="lens_flare_ring" Format="i4" Width="64" Height="64" Offset="0x36F30"/>
+        <DList Name="gLensFlareCircleDL" Offset="0x37730"/>
+        <DList Name="gLensFlareRingDL" Offset="0x37798"/>
         <DList Name="gEffSparklesDL" Offset="0x37880"/>
         <Texture Name="gEffSparklesTex" OutName="eff_sparkles" Format="i4" Width="16" Height="16" Offset="0x378E0"/>
         <Texture Name="gEffUnknown13Tex" OutName="eff_unknown_tex_13" Format="i8" Width="16" Height="32" Offset="0x37960"/>

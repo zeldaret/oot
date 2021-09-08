@@ -1034,7 +1034,7 @@ skip:
     }
 
     Kankyo_Update(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
-                  &globalCtx->gameOverCtx.state, globalCtx->state.gfxCtx);
+                  &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
 }
 
 void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
@@ -1228,7 +1228,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
-                    Kankyo_FillScreen(gfxCtx, 0, 0, 0, globalCtx->unk_11E18, 1);
+                    Kankyo_FillScreen(gfxCtx, 0, 0, 0, globalCtx->unk_11E18, FILL_SCREEN_OPA);
                 }
 
                 if ((HREG(80) != 10) || (HREG(85) != 0)) {
@@ -1247,14 +1247,14 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(87) != 0)) {
                     if (MREG(64) != 0) {
-                        Kankyo_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68), 3);
+                        Kankyo_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68), FILL_SCREEN_OPA | FILL_SCREEN_XLU);
                     }
 
                     switch (globalCtx->envCtx.fillScreen) {
                         case 1:
                             Kankyo_FillScreen(
                                 gfxCtx, globalCtx->envCtx.screenFillColor[0], globalCtx->envCtx.screenFillColor[1],
-                                globalCtx->envCtx.screenFillColor[2], globalCtx->envCtx.screenFillColor[3], 3);
+                                globalCtx->envCtx.screenFillColor[2], globalCtx->envCtx.screenFillColor[3], FILL_SCREEN_OPA | FILL_SCREEN_XLU);
                             break;
                         default:
                             break;
