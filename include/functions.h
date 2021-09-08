@@ -1775,7 +1775,7 @@ void Matrix_MtxFCopy(MtxF* dest, MtxF* src);
 void Matrix_MtxToMtxF(Mtx* src, MtxF* dest);
 void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf);
 void Matrix_Transpose(MtxF* mf);
-void func_800D1FD4(MtxF* mf);
+void Matrix_ReplaceRotation(MtxF* mf);
 void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
 void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
 void Matrix_RotateAxis(f32 f, Vec3f* vec, u8 mode);

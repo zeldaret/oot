@@ -132,7 +132,7 @@ glabel func_808E229C
 /* 0BBD4 808E2444 44069000 */  mfc1    $a2, $f18                  
 /* 0BBD8 808E2448 0C0342A3 */  jal     Matrix_Scale              
 /* 0BBDC 808E244C 00000000 */  nop
-/* 0BBE0 808E2450 0C0347F5 */  jal     func_800D1FD4              
+/* 0BBE0 808E2450 0C0347F5 */  jal     Matrix_ReplaceRotation
 /* 0BBE4 808E2454 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 0BBE8 808E2458 865800B8 */  lh      $t8, 0x00B8($s2)           ## 000000B8
 /* 0BBEC 808E245C 4616A002 */  mul.s   $f0, $f20, $f22            

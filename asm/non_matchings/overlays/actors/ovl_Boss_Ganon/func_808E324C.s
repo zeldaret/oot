@@ -166,7 +166,7 @@ glabel func_808E324C
 /* 0CBF8 808E3468 8FA40094 */  lw      $a0, 0x0094($sp)           
 /* 0CBFC 808E346C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0CC00 808E3470 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
-/* 0CC04 808E3474 0C0347F5 */  jal     func_800D1FD4              
+/* 0CC04 808E3474 0C0347F5 */  jal     Matrix_ReplaceRotation
 /* 0CC08 808E3478 00812021 */  addu    $a0, $a0, $at              
 /* 0CC0C 808E347C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 0CC10 808E3480 44816000 */  mtc1    $at, $f12                  ## $f12 = 10.00

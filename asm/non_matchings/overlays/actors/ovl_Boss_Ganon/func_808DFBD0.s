@@ -239,7 +239,7 @@ glabel func_808DFBD0
 .L808DFEE8:
 /* 09678 808DFEE8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0967C 808DFEEC 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
-/* 09680 808DFEF0 0C0347F5 */  jal     func_800D1FD4              
+/* 09680 808DFEF0 0C0347F5 */  jal     Matrix_ReplaceRotation
 /* 09684 808DFEF4 00812021 */  addu    $a0, $a0, $at              
 /* 09688 808DFEF8 C60C01E0 */  lwc1    $f12, 0x01E0($s0)          ## 000001E0
 .L808DFEFC:

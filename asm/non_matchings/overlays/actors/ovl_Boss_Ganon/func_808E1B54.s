@@ -206,7 +206,7 @@ glabel func_808E1B54
 /* 0B578 808E1DE8 14400024 */  bne     $v0, $zero, .L808E1E7C     
 /* 0B57C 808E1DEC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0B580 808E1DF0 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
-/* 0B584 808E1DF4 0C0347F5 */  jal     func_800D1FD4              
+/* 0B584 808E1DF4 0C0347F5 */  jal     Matrix_ReplaceRotation
 /* 0B588 808E1DF8 02812021 */  addu    $a0, $s4, $at              
 /* 0B58C 808E1DFC 866900B8 */  lh      $t1, 0x00B8($s3)           ## 000000B8
 /* 0B590 808E1E00 3C014700 */  lui     $at, 0x4700                ## $at = 47000000

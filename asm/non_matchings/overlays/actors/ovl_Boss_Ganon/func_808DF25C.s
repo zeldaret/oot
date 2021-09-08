@@ -82,7 +82,7 @@ glabel func_808DF25C
 /* 08ADC 808DF34C 8FA40074 */  lw      $a0, 0x0074($sp)           
 /* 08AE0 808DF350 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 08AE4 808DF354 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
-/* 08AE8 808DF358 0C0347F5 */  jal     func_800D1FD4              
+/* 08AE8 808DF358 0C0347F5 */  jal     Matrix_ReplaceRotation
 /* 08AEC 808DF35C 00812021 */  addu    $a0, $a0, $at              
 /* 08AF0 808DF360 C62C0254 */  lwc1    $f12, 0x0254($s1)          ## 00000254
 /* 08AF4 808DF364 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001

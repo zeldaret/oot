@@ -701,47 +701,70 @@ void Matrix_Transpose(MtxF* mf) {
     mf->yz = temp;
 }
 
-void func_800D1FD4(MtxF* mf) {
+/**
+ * Replaces the rotation in the matrix at the top of the stack, keeping scale and translation untouched.
+ *
+ * Considering only the 3x3 part (ignoring the last row and column which are left untouched), assuming
+ * \f[ \texttt{sCurrentMatrix} = R \cdot S \f]
+ *
+ * with \f$
+ *  S = \begin{bmatrix}
+ *      \alpha & 0 & 0 \\
+ *      0 & \beta & 0 \\
+ *      0 & 0 & \gamma
+ *      \end{bmatrix}
+ * \f$
+ *
+ * where \f$ \alpha, \beta, \gamma \f$ are the norms of the columns of the 3x3 part of `sCurrentMatrix`
+ *
+ * and \f$ R \f$ is a 3x3 matrix with each column normalized (typically \f$ R \f$ would be a rotation matrix)
+ *
+ * then the 3x3 part of `sCurrentMatrix` becomes \f$ \texttt{mf} \cdot S \f$
+ */
+void Matrix_ReplaceRotation(MtxF* mf) {
     MtxF* cmf = sCurrentMatrix;
+    f32 acc;
     f32 temp;
-    f32 temp2;
-    f32 temp3;
+    f32 curColNorm;
 
-    temp = cmf->xx;
-    temp *= temp;
-    temp2 = cmf->yx;
-    temp += SQ(temp2);
-    temp2 = cmf->zx;
-    temp += SQ(temp2);
-    temp3 = sqrtf(temp);
+    // compute the Euclidean norm of the first column of the current matrix
+    acc = cmf->xx;
+    acc *= acc;
+    temp = cmf->yx;
+    acc += SQ(temp);
+    temp = cmf->zx;
+    acc += SQ(temp);
+    curColNorm = sqrtf(acc);
 
-    cmf->xx = mf->xx * temp3;
-    cmf->yx = mf->yx * temp3;
-    cmf->zx = mf->zx * temp3;
+    cmf->xx = mf->xx * curColNorm;
+    cmf->yx = mf->yx * curColNorm;
+    cmf->zx = mf->zx * curColNorm;
 
-    temp = cmf->xy;
-    temp *= temp;
-    temp2 = cmf->yy;
-    temp += SQ(temp2);
-    temp2 = cmf->zy;
-    temp += SQ(temp2);
-    temp3 = sqrtf(temp);
+    // second column
+    acc = cmf->xy;
+    acc *= acc;
+    temp = cmf->yy;
+    acc += SQ(temp);
+    temp = cmf->zy;
+    acc += SQ(temp);
+    curColNorm = sqrtf(acc);
 
-    cmf->xy = mf->xy * temp3;
-    cmf->yy = mf->yy * temp3;
-    cmf->zy = mf->zy * temp3;
+    cmf->xy = mf->xy * curColNorm;
+    cmf->yy = mf->yy * curColNorm;
+    cmf->zy = mf->zy * curColNorm;
 
-    temp = cmf->xz;
-    temp *= temp;
-    temp2 = cmf->yz;
-    temp += SQ(temp2);
-    temp2 = cmf->zz;
-    temp += SQ(temp2);
-    temp3 = sqrtf(temp);
+    // third column
+    acc = cmf->xz;
+    acc *= acc;
+    temp = cmf->yz;
+    acc += SQ(temp);
+    temp = cmf->zz;
+    acc += SQ(temp);
+    curColNorm = sqrtf(acc);
 
-    cmf->xz = mf->xz * temp3;
-    cmf->yz = mf->yz * temp3;
-    cmf->zz = mf->zz * temp3;
+    cmf->xz = mf->xz * curColNorm;
+    cmf->yz = mf->yz * curColNorm;
+    cmf->zz = mf->zz * curColNorm;
 }
 
 /**
