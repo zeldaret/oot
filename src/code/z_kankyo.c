@@ -232,9 +232,8 @@ void Kankyo_GraphCallback(GraphicsContext* gfxCtx, void* param) {
 }
 
 void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unused) {
-    GlobalContext* globalCtx = globalCtx2;
     u8 i;
-    u16 uDayTime;
+    GlobalContext* globalCtx = globalCtx2;
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
 
@@ -404,7 +403,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
 
     if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !globalCtx->envCtx.sunMoonDisabled) {
         globalCtx->envCtx.sunMoonDisabled = true;
-        // Sun setting other than field keep! So forced release!
+        // "Sun setting other than field keep! So forced release!""
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
     }
 
@@ -523,7 +522,7 @@ f32 Kankyo_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame, u16 
     decelDurationF = (s32)decelDuration;
 
     if ((startFrameF >= endFrameF) || (accelDurationF + decelDurationF > totalFrames)) {
-        // The frame relation between end_frame and start_frame is wrong
+        // "The frame relation between end_frame and start_frame is wrong!!!"
         osSyncPrintf(VT_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" VT_RST);
         osSyncPrintf(VT_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" VT_RST);
 
@@ -596,7 +595,6 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 unused) {
     }
 }
 
-// func_8006FC88 skybox related
 #ifdef NON_MATCHING
 void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
     u32 size;
@@ -668,7 +666,7 @@ void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext*
         }
 
         if (newSkybox1Index == 0xFF) {
-            // Environment VR data acquisition failed! Report to Sasaki!
+            // "Environment VR data acquisition failed! Report to Sasaki!"
             osSyncPrintf(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
         }
 
@@ -875,7 +873,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
         func_80075B44(globalCtx); // updates bgm/sfx and other things as the day progresses
 
         if (((void)0, gSaveContext.nextDayTime) >= 0xFF00 && ((void)0, gSaveContext.nextDayTime) != 0xFFFF) {
-            gSaveContext.nextDayTime -= 16;
+            gSaveContext.nextDayTime -= 0x10;
             osSyncPrintf("\nnext_zelda_time=[%x]", ((void)0, gSaveContext.nextDayTime));
 
             if (((void)0, gSaveContext.nextDayTime) == 0xFF0E) {
@@ -1026,10 +1024,10 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                         envCtx->lightSettings.fogFar = LERP32(blend16[0], blend16[1], sp88);
 
                         if (TIME_ENTRY2->unk_05 >= envCtx->numLightSettings) {
-                            // "The color palette setting seems to be wrong"
+                            // "The color palette setting seems to be wrong!"
                             osSyncPrintf(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
 
-                            // "Pallete setting: [] Last pallete number = []"
+                            // "Palette setting = [] Last palette number = []"
                             osSyncPrintf(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
                                          TIME_ENTRY2->unk_05, envCtx->numLightSettings - 1);
                         }
@@ -1102,7 +1100,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                     // "The color palette seems to be wrong!"
                     osSyncPrintf(VT_FGCOL(RED) "\nカラーパレットがおかしいようです！");
 
-                    // "Pallete setting: [] Last pallete number = []"
+                    // "Palette setting = [] Last palette number = []"
                     osSyncPrintf(VT_FGCOL(YELLOW) "\n設定パレット＝[%d] パレット数＝[%d]\n" VT_RST, envCtx->unk_BD,
                                  envCtx->numLightSettings);
                 }
@@ -1281,7 +1279,7 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
     f32 color;
     f32 y;
     f32 scale;
-    f32 pad;
+    f32 temp;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 2266);
 
@@ -1305,9 +1303,9 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
                          globalCtx->view.eye.z + globalCtx->envCtx.sunPos.z, MTXMODE_NEW);
 
         y = globalCtx->envCtx.sunPos.y / 25.0f;
-        pad = y / 80.0f;
+        temp = y / 80.0f;
 
-        alpha = pad * 255.0f;
+        alpha = temp * 255.0f;
         if (alpha < 0.0f) {
             alpha = 0.0f;
         }
@@ -1317,7 +1315,7 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
 
         alpha = 255.0f - alpha;
 
-        color = pad;
+        color = temp;
         if (color < 0.0f) {
             color = 0.0f;
         }
@@ -1345,10 +1343,10 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
         scale = -15.0f * color + 25.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
-        pad = -y / 80.0f;
-        pad = CLAMP_MAX(pad, 1.0f);
+        temp = -y / 80.0f;
+        temp = CLAMP_MAX(temp, 1.0f);
 
-        alpha = pad * 255.0f;
+        alpha = temp * 255.0f;
 
         if (alpha > 0.0f) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kankyo.c", 2406), G_MTX_LOAD);
@@ -1800,7 +1798,8 @@ void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx) {
                     gLightningStrike.flashAlphaTarget = 200;
 
                     gLightningStrike.delayTimer = 0.0f;
-                    Kankyo_AddLightningBolts(globalCtx, (u8)(Rand_ZeroOne() * 2.9f) + 1);
+                    Kankyo_AddLightningBolts(globalCtx,
+                                             (u8)(Rand_ZeroOne() * (ARRAY_COUNT(sLightningBolts) - 0.1f)) + 1);
                     sLightningFlashAlpha = 0;
                     gLightningStrike.state++;
                 }
@@ -2463,11 +2462,6 @@ void func_80077684(GlobalContext* globalCtx) {
     }
 }
 
-/**
- * After a warp song has been played, set the next entrance accordingly and begin the fade out.
- * Additionally, set the flag for having watched the intro cutscene for the destination area.
- * This makes it so the cutscene will be skipped if you have already been to the area via warp song.
- */
 void Kankyo_WarpSongLeave(GlobalContext* globalCtx) {
     gWeatherMode = 0;
     gSaveContext.cutsceneIndex = 0;
