@@ -39,7 +39,7 @@ typedef struct {
     /* 0x03 */ u8 flashBlue;
     /* 0x04 */ u8 flashAlphaTarget;
     /* 0x08 */ f32 delayTimer;
-} LightningStrike;
+} LightningStrike; // size = 0xC
 
 // describes what skybox files and blending modes to use depending on time of day
 typedef struct {
@@ -59,7 +59,7 @@ typedef struct {
     /* 0x0F */ u8 fogColor[3];
     /* 0x12 */ s16 fogNear;
     /* 0x14 */ s16 fogFar;
-} EnvLightSettings;
+} EnvLightSettings; // size = 0x18
 
 // 1.0: 801D8EC4
 // dbg: 80222A44

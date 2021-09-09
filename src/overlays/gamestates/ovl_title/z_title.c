@@ -6,9 +6,6 @@
 
 #include "global.h"
 #include "alloca.h"
-
-extern Gfx D_01002720[];
-extern u8 D_01001800[];
 #include "textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
 void Title_PrintBuildInfo(Gfx** gfxp) {

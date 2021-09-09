@@ -171,7 +171,7 @@ typedef struct {
     /* 0x141D */ u8 nextTransition;
     /* 0x141E */ char unk_141E[0x0002];
     /* 0x1420 */ s16 worldMapArea;
-    /* 0x1422 */ s16 sunsState; // controls the effects of suns song
+    /* 0x1422 */ s16 sunsSongState; // controls the effects of suns song
     /* 0x1424 */ s16 healthAccumulator;
 } SaveContext; // size = 0x1428
 
@@ -195,5 +195,12 @@ typedef enum {
     /* 0x05 */ HS_UNK_05,
     /* 0x06 */ HS_DAMPE_RACE
 } HighScores;
+
+typedef enum {
+    /* 0 */ SUNSSONG_INACTIVE,
+    /* 1 */ SUNSSONG_START, // the suns ocarina effect signals that the song has finished playing
+    /* 2 */ SUNSSONG_SPEED_TIME, // suns was played where time passes, speed up the advancement of time
+    /* 3 */ SUNSSONG_SPECIAL // time does not advance, but signals the song was played. used for freezing redeads
+} SunsSongState;
 
 #endif

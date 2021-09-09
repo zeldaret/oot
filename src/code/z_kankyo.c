@@ -236,7 +236,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     u8 i;
     u16 uDayTime;
 
-    gSaveContext.sunsState = SUNS_INACTIVE;
+    gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
 
     if (((void)0, gSaveContext.dayTime) > 0xC000 || ((void)0, gSaveContext.dayTime) < 0x4555) {
         ((void)0, gSaveContext.nightFlag = true);

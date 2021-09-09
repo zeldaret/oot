@@ -380,13 +380,6 @@ typedef struct {
     /* 0xE411 */ char   unk_E411[0x07];
 } MessageContext; // size = 0xE418
 
-typedef enum {
-    /* 0 */ SUNS_INACTIVE,
-    /* 1 */ SUNS_START, // the suns ocarina effect signals that the song has finished playing
-    /* 2 */ SUNS_SPEED_TIME, // suns was played where time passes, speed up the advancement of time
-    /* 3 */ SUNS_SPECIAL // time does not advance, but signals the song was played. used for freezing redeads
-} SunsState;
-
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Vtx*   actionVtx;
@@ -583,7 +576,7 @@ typedef enum {
 
 typedef struct {
     /* 0x00 */ u16 state;
-} GameOverContext;
+} GameOverContext; // size = 0x2
 
 typedef struct {
     /* 0x00 */ s16      id;
