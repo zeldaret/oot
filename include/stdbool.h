@@ -1,5 +1,5 @@
-#ifndef _STDBOOL_H_
-#define _STDBOOL_H_
+#ifndef STDBOOL_H
+#define STDBOOL_H
 
 #define __bool_true_false_are_defined 1
 
