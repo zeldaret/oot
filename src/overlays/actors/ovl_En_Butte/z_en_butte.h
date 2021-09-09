@@ -27,6 +27,4 @@ typedef struct EnButte {
     /* 0x0264 */ f32 posYTarget;
 } EnButte; // size = 0x0268
 
-extern const ActorInit En_Butte_InitVars;
-
 #endif

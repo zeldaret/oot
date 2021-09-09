@@ -45,6 +45,4 @@ typedef struct EnMa2 {
     /* 0x0212 */ Vec3s unk_212[MALON_ADULT_LIMB_MAX];
 } EnMa2; // size = 0x0284
 
-extern const ActorInit En_Ma2_InitVars;
-
 #endif

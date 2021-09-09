@@ -34,6 +34,4 @@ typedef struct EnBa {
     /* 0x0340 */ ColliderJntSphElement colliderItems[2];
 } EnBa; // size = 0x03C0
 
-extern const ActorInit En_Ba_InitVars;
-
 #endif

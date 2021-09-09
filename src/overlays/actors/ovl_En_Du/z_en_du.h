@@ -29,6 +29,4 @@ typedef struct EnDu {
     /* 0x01F4 */ struct_80034A14_arg1 unk_1F4;
 } EnDu; // size = 0x021C
 
-extern const ActorInit En_Du_InitVars;
-
 #endif

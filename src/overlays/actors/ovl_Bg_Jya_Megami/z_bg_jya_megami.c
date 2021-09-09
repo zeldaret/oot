@@ -106,8 +106,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                              DynaPolyMoveFlag flag) {
+void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 

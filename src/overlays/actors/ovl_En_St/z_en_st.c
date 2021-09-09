@@ -309,7 +309,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
 
 void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
     ColliderInfo* body = &this->colCylinder[0].info;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->unk_860 != 0) {
         body->bumper.dmgFlags |= 2;
@@ -384,7 +384,7 @@ void EnSt_UpdateCylinders(EnSt* this, GlobalContext* globalCtx) {
 }
 
 s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 hit;
     s32 i;
 
@@ -692,7 +692,7 @@ void EnSt_Bob(EnSt* this, GlobalContext* globalCtx) {
 }
 
 s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 yDist;
 
     if (this->takeDamageSpinTimer != 0) {

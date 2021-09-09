@@ -10,6 +10,4 @@ typedef struct BgSpot17Bakudankabe {
     /* 0x0000 */ DynaPolyActor dyna;
 } BgSpot17Bakudankabe; // size = 0x0164
 
-extern const ActorInit Bg_Spot17_Bakudankabe_InitVars;
-
 #endif

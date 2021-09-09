@@ -10,6 +10,4 @@ typedef struct BgJyaBlock {
     /* 0x0000 */ DynaPolyActor dyna;
 } BgJyaBlock; // size = 0x0164
 
-extern const ActorInit Bg_Jya_Block_InitVars;
-
 #endif

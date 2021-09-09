@@ -113,7 +113,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
     s16 yawDiffNew;
     f32 sightRange;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     yawDiffNew = ABS(yawDiff);
@@ -145,7 +145,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
  * Handles the guards standing in front of Hyrule Castle.
  **/
 void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     if ((player->actor.world.pos.x < -190.0f) && (player->actor.world.pos.x > -380.0f) &&

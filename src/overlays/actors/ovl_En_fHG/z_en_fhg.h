@@ -61,6 +61,4 @@ typedef struct EnfHG {
     /* 0x0204 */ PSkinAwb skin;
 } EnfHG; // size = 0x0294
 
-extern const ActorInit En_Fhg_InitVars;
-
 #endif

@@ -144,10 +144,9 @@ void Effect_Add(GlobalContext* globalCtx, s32* pIndex, s32 type, u8 arg3, u8 arg
         }
 
         if (!slotFound) {
-            // Translates to: "EffectAdd(): I cannot secure it. Be careful. Type %d"
+            // "EffectAdd(): I cannot secure it. Be careful. Type %d"
             osSyncPrintf("EffectAdd():確保できません。注意してください。Type%d\n", type);
-            // Translates to: "Exit without adding the effect."
-            osSyncPrintf("エフェクト追加せずに終了します。\n");
+            osSyncPrintf("エフェクト追加せずに終了します。\n"); // "Exit without adding the effect."
         } else {
             sEffectInfoTable[type].init(effect, initParams);
             status->unk_02 = arg3;
@@ -167,12 +166,11 @@ void Effect_DrawAll(GraphicsContext* gfxCtx) {
     }
 
     for (i = 0; i < BLURE_COUNT; i++) {
-        do {
-            if (1) {} // Necessary to match
-            if (sEffectContext.blures[i].status.active) {
-                sEffectInfoTable[EFFECT_BLURE1].draw(&sEffectContext.blures[i].effect, gfxCtx);
-            }
-        } while (0); // Necessary to match
+        if (sEffectContext.blures[i].status.active) {
+            sEffectInfoTable[EFFECT_BLURE1].draw(&sEffectContext.blures[i].effect, gfxCtx);
+        }
+        if (1) {} // Necessary to match
+        if (1) {}
     }
 
     for (i = 0; i < SHIELD_PARTICLE_COUNT; i++) {

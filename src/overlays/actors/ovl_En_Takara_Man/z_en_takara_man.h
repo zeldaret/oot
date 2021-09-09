@@ -28,6 +28,4 @@ typedef struct EnTakaraMan {
     /* 0x0232 */ Vec3s unk_232;
 } EnTakaraMan; // size = 0x0238
 
-extern const ActorInit En_Takara_Man_InitVars;
-
 #endif

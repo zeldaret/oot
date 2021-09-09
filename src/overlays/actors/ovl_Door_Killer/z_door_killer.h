@@ -35,6 +35,4 @@ typedef struct DoorKiller {
     /* 0x0280 */ DoorKillerActionFunc actionFunc;
 } DoorKiller; // size = 0x0284
 
-extern const ActorInit Door_Killer_InitVars;
-
 #endif

@@ -10,6 +10,4 @@ typedef struct EnLightbox {
     /* 0x0000 */ DynaPolyActor dyna;
 } EnLightbox; // size = 0x0164
 
-extern const ActorInit En_Lightbox_InitVars;
-
 #endif

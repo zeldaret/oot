@@ -46,6 +46,4 @@ typedef struct EnGb {
     /* 0x0388 */ EnGbCagedSoul cagedSouls[4];
 } EnGb; // size = 0x0438
 
-extern const ActorInit En_Gb_InitVars;
-
 #endif

@@ -12,6 +12,4 @@ typedef struct EnEg {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 action;
 } EnEg; // size = 0x0154
-
-extern const ActorInit En_Eg_InitVars;
 #endif

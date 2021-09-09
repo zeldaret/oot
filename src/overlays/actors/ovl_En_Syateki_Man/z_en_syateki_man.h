@@ -30,6 +30,4 @@ typedef struct EnSyatekiMan {
     /* 0x0228 */ s16 csCam;
 } EnSyatekiMan; // size = 0x022C
 
-extern const ActorInit En_Syateki_Man_InitVars;
-
 #endif

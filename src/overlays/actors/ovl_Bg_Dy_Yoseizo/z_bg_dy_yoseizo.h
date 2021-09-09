@@ -70,6 +70,4 @@ typedef struct BgDyYoseizo {
     /* 0x0394 */ BgDyYoseizoParticle particles[200];
 } BgDyYoseizo; // size = 0x38B4
 
-extern const ActorInit Bg_Dy_Yoseizo_InitVars;
-
 #endif

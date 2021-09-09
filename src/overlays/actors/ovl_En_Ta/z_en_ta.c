@@ -337,7 +337,7 @@ void func_80B145F8(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14634(EnTa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (func_8002F194(&this->actor, globalCtx)) {
         s32 exchangeItemId = func_8002F368(globalCtx);
@@ -370,7 +370,7 @@ void func_80B146F8(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14754(EnTa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         s32 exchangeItemId = func_8002F368(globalCtx);
@@ -583,7 +583,7 @@ void func_80B15034(EnTa* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B150AC(EnTa* this, GlobalContext* globalCtx, s32 idx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* interactRangeActor;
 
     if (player->stateFlags1 & 0x800) {
@@ -597,7 +597,7 @@ s32 func_80B150AC(EnTa* this, GlobalContext* globalCtx, s32 idx) {
 }
 
 void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         s32 unk_2CA;

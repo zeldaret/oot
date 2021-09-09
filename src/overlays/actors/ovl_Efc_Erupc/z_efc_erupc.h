@@ -34,6 +34,4 @@ typedef struct EfcErupc {
     /* 0x18C8 */ EfcErupcActionFunc actionFunc;
 } EfcErupc; // size = 0x18CC
 
-extern const ActorInit Efc_Erupc_InitVars;
-
 #endif

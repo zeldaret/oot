@@ -45,6 +45,4 @@ typedef struct EnDntNomal {
 #define ENDNTNOMAL_TARGET 0
 #define ENDNTNOMAL_STAGE 1
 
-extern const ActorInit En_Dnt_Nomal_InitVars;
-
 #endif

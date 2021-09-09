@@ -227,7 +227,7 @@ void BossFd2_SetupEmerge(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
     s8 health;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 i;
     s16 holeTime;
 
@@ -402,7 +402,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     s16 angleY;
     s16 breathOpacity = 0;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 tempX;
     f32 tempY;
 
@@ -810,7 +810,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
             if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {

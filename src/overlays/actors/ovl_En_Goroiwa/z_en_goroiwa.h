@@ -27,6 +27,4 @@ typedef struct EnGoroiwa {
     /* 0x01D3 */ u8 stateFlags;
 } EnGoroiwa; // size = 0x01D4
 
-extern const ActorInit En_Goroiwa_InitVars;
-
 #endif

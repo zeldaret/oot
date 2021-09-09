@@ -480,7 +480,7 @@ void EnDekubaba_Wait(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 headDistHorizontal;
     f32 headDistVertical;
     f32 headShiftX;
@@ -620,7 +620,7 @@ void EnDekubaba_UpdateHeadPosition(EnDekubaba* this) {
 }
 
 void EnDekubaba_DecideLunge(EnDekubaba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
@@ -686,7 +686,9 @@ void EnDekubaba_Lunge(EnDekubaba* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x222);
 
         curFrame10 = this->skelAnime.curFrame * 10.0f;
-        allStepsDone = Math_ScaledStepToS(&this->stemSectionAngle[0], -0xE38, curFrame10 + 0x38E) & 1;
+
+        allStepsDone = true;
+        allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[0], -0xE38, curFrame10 + 0x38E);
         allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[1], -0xE38, curFrame10 + 0x71C);
         allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[2], -0xE38, curFrame10 + 0xE38);
 
@@ -723,7 +725,7 @@ void EnDekubaba_Lunge(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_PrepareLunge(EnDekubaba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->timer != 0) {
         this->timer--;
@@ -862,7 +864,8 @@ void EnDekubaba_Hit(EnDekubaba* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    allStepsDone = Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38) & 1;
+    allStepsDone = true;
+    allStepsDone &= Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38);
     allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[0], -0x4000, 0xE38);
     allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[1], -0x4000, 0xE38);
     allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0xE38);
@@ -1192,10 +1195,10 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
     }
 
     for (i = 0; i < stemSections; i++) {
-        mtx.wy += 20.0f * Math_SinS(this->stemSectionAngle[i]) * this->size;
+        mtx.yw += 20.0f * Math_SinS(this->stemSectionAngle[i]) * this->size;
         horizontalStepSize = 20.0f * Math_CosS(this->stemSectionAngle[i]) * this->size;
-        mtx.wx -= horizontalStepSize * Math_SinS(this->actor.shape.rot.y);
-        mtx.wz -= horizontalStepSize * Math_CosS(this->actor.shape.rot.y);
+        mtx.xw -= horizontalStepSize * Math_SinS(this->actor.shape.rot.y);
+        mtx.zw -= horizontalStepSize * Math_CosS(this->actor.shape.rot.y);
 
         Matrix_Put(&mtx);
         Matrix_RotateRPY(this->stemSectionAngle[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
@@ -1209,9 +1212,9 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
 
         if (i == 0) {
             if (this->actionFunc != EnDekubaba_Sway) {
-                this->actor.focus.pos.x = mtx.wx;
-                this->actor.focus.pos.y = mtx.wy;
-                this->actor.focus.pos.z = mtx.wz;
+                this->actor.focus.pos.x = mtx.xw;
+                this->actor.focus.pos.y = mtx.yw;
+                this->actor.focus.pos.z = mtx.zw;
             } else {
                 this->actor.focus.pos.x = this->actor.home.pos.x;
                 this->actor.focus.pos.y = this->actor.home.pos.y + (40.0f * this->size);
@@ -1221,9 +1224,9 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
 
         if ((i < 2) && (this->actor.colorFilterTimer != 0)) {
             // checking colorFilterTimer ensures that spA4 has been initialized earlier, so not a bug
-            this->bodyPartsPos[i].x = mtx.wx;
-            this->bodyPartsPos[i].y = mtx.wy - spA4;
-            this->bodyPartsPos[i].z = mtx.wz;
+            this->bodyPartsPos[i].x = mtx.xw;
+            this->bodyPartsPos[i].y = mtx.yw - spA4;
+            this->bodyPartsPos[i].z = mtx.zw;
         }
     }
 

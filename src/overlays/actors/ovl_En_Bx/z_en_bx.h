@@ -18,6 +18,4 @@ typedef struct EnBx {
     /* 0x0218 */ ColliderQuad colliderQuad;
 } EnBx; // size = 0x0298
 
-extern const ActorInit En_Bx_InitVars;
-
 #endif

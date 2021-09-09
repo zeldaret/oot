@@ -23,6 +23,4 @@ typedef struct EnGe3 {
     /* 0x0310 */ EnGe3ActionFunc actionFunc;
 } EnGe3; // size = 0x0314
 
-extern const ActorInit En_Ge3_InitVars;
-
 #endif
