@@ -1,5 +1,5 @@
-#ifndef _Z_END_TITLE_H_
-#define _Z_END_TITLE_H_
+#ifndef Z_END_TITLE_H
+#define Z_END_TITLE_H
 
 #include "ultra64.h"
 #include "global.h"

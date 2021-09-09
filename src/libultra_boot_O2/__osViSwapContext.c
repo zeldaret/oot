@@ -47,9 +47,9 @@ void __osViSwapContext(void) {
     HW_REG(VI_WIDTH_REG, u32) = viMode->comRegs.width;
     HW_REG(VI_BURST_REG, u32) = viMode->comRegs.burst;
     HW_REG(VI_V_SYNC_REG, u32) = viMode->comRegs.vSync;
-    HW_REG(VI_H_SYNC_REG, u32) = viMode->comRegs.hSync;
+    HWREG(VI_HSYNC_REG, u32) = viMode->comRegs.hSync;
     HW_REG(VI_LEAP_REG, u32) = viMode->comRegs.leap;
-    HW_REG(VI_H_START_REG, u32) = hStart;
+    HWREG(VI_HSTART_REG, u32) = hStart;
     HW_REG(VI_V_START_REG, u32) = vstart;
     HW_REG(VI_V_BURST_REG, u32) = viMode->fldRegs[field].vBurst;
     HW_REG(VI_INTR_REG, u32) = viMode->fldRegs[field].vIntr;

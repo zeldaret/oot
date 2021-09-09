@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT17_FUNEN_H_
-#define _Z_BG_SPOT17_FUNEN_H_
+#ifndef Z_BG_SPOT17_FUNEN_H
+#define Z_BG_SPOT17_FUNEN_H
 
 #include "ultra64.h"
 #include "global.h"

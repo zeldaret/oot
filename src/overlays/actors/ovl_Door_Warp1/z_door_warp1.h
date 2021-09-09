@@ -1,5 +1,5 @@
-#ifndef _Z_DOOR_WARP1_H_
-#define _Z_DOOR_WARP1_H_
+#ifndef Z_DOOR_WARP1_H
+#define Z_DOOR_WARP1_H
 
 #include "ultra64.h"
 #include "global.h"
