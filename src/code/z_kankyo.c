@@ -890,7 +890,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                 if ((envCtx->unk_1A == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
                     (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
 
-                    if (!((void)0, gSaveContext.nightFlag) || gTimeIncrement >= 400) {
+                    if (!((void)0, gSaveContext.nightFlag) || gTimeIncrement >= 0x190) {
                         gSaveContext.dayTime += gTimeIncrement;
                     } else {
                         gSaveContext.dayTime += gTimeIncrement * 2; // time moves twice as fast at night
