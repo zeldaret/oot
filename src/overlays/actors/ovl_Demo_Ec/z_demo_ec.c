@@ -374,7 +374,7 @@ void DemoEc_UpdateIngo(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawIngo(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &gIngoEyeClosed2Tex, &gIngoBlob_004350, 0, 0);
+    DemoEc_DrawSkeleton(this, globalCtx, &gIngoEyeClosed2Tex, &gIngoRedTex, 0, 0);
 }
 
 void DemoEc_InitTalon(DemoEc* this, GlobalContext* globalCtx) {
@@ -395,7 +395,7 @@ void DemoEc_UpdateTalon(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawTalon(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &gTalonEyeClosed2Tex, &gTalon_007AC0, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, &gTalonEyeClosed2Tex, &gTalonRedTex, NULL, NULL);
 }
 
 void DemoEc_InitWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
@@ -678,7 +678,7 @@ Gfx* DemoEc_GetCarpenterPostLimbDList(DemoEc* this) {
             return object_daiku_DL_005880;
         default:
             osSyncPrintf(VT_FGCOL(RED) "かつらが無い!!!!!!!!!!!!!!!!\n" VT_RST);
-            return 0;
+            return NULL;
     }
 }
 
@@ -1169,7 +1169,7 @@ void DemoEc_DrawMalon(DemoEc* this, GlobalContext* globalCtx) {
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &gMalonAdultMouthHappyTex, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, gMalonAdultMouthHappyTex, NULL, NULL);
 }
 
 static DemoEcInitFunc sInitFuncs[] = {

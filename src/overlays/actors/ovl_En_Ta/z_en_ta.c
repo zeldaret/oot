@@ -65,18 +65,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-static Vec3f D_80B16E7C = {
-    1100.0f,
-    1000.0f,
-    0.0f,
-};
-
-void* eyeTextures[] = {
-    gTalonEyeOpenTex,
-    gTalonEyeHalfTex,
-    gTalonEyeClosedTex,
-};
-
 void func_80B13AA0(EnTa* this, EnTaActionFunc arg1, EnTaUnkFunc arg2) {
     this->actionFunc = arg1;
     this->unk_260 = arg2;
@@ -125,7 +113,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->unk_2E0 = 0;
     this->unk_2CE = 0;
     this->unk_2E2 = 0;
-    this->unk_2B6 = 20;
+    this->blinkTimer = 20;
     this->unk_2B0 = func_80B166CC;
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
@@ -306,7 +294,7 @@ void func_80B1448C(EnTa* this, GlobalContext* globalCtx) {
 void func_80B144D8(EnTa* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
         func_80B14410(this);
-        this->unk_2B6 = 1;
+        this->blinkTimer = 1;
         this->unk_2B0 = func_80B16700;
     }
     if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
@@ -636,16 +624,16 @@ void func_80B15260(EnTa* this, GlobalContext* globalCtx) {
     this->unk_2E0 |= 1;
 }
 
-s32 func_80B152D0(EnTa* this, GlobalContext* globalCtx) {
-    s32 ct;
+s32 EnTa_GetSuperCuccosCount(EnTa* this, GlobalContext* globalCtx) {
+    s32 count;
     s32 i;
 
-    for (ct = 0, i = 0; i < ARRAY_COUNT(this->superCuccos); i++) {
+    for (count = 0, i = 0; i < ARRAY_COUNT(this->superCuccos); i++) {
         if (this->superCuccos[i] != NULL) {
-            ct++;
+            count++;
         }
     }
-    return ct;
+    return count;
 }
 
 void func_80B15308(EnTa* this) {
@@ -710,7 +698,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                     Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE, -10.0f);
                     this->unk_2E0 &= ~0x10;
 
-                    switch (func_80B152D0(this, globalCtx)) {
+                    switch (EnTa_GetSuperCuccosCount(this, globalCtx)) {
                         case 1:
                             gSaveContext.timer1State = 0;
                             func_8002DF54(globalCtx, &this->actor, 1);
@@ -1067,37 +1055,37 @@ void func_80B16608(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B166CC(EnTa* this) {
-    s16 temp_v0 = this->unk_2B6 - 1;
+    s16 temp_v0 = this->blinkTimer - 1;
 
     if (temp_v0 != 0) {
-        this->unk_2B6 = temp_v0;
+        this->blinkTimer = temp_v0;
     } else {
         this->unk_2B0 = func_80B16700;
     }
 }
 
 void func_80B16700(EnTa* this) {
-    s16 lastEyeIndex = this->unk_2B6 - 1;
+    s16 blinkTimer = this->blinkTimer - 1;
 
-    if (lastEyeIndex != 0) {
-        this->unk_2B6 = lastEyeIndex;
+    if (blinkTimer != 0) {
+        this->blinkTimer = blinkTimer;
     } else {
         s16 nextEyeIndex = this->eyeIndex + 1;
-        s16 lastEyeIndex = 3;
+        s16 blinkTimer = 3;
 
-        if (nextEyeIndex >= lastEyeIndex) {
+        if (nextEyeIndex >= blinkTimer) {
             this->eyeIndex = 0;
             if (this->unk_2CE > 0) {
                 this->unk_2CE--;
-                lastEyeIndex = 1;
+                blinkTimer = 1;
             } else {
-                lastEyeIndex = (s32)(Rand_ZeroOne() * 60.0f) + 20;
+                blinkTimer = (s32)(Rand_ZeroOne() * 60.0f) + 20;
             }
-            this->unk_2B6 = lastEyeIndex;
+            this->blinkTimer = blinkTimer;
             this->unk_2B0 = func_80B166CC;
         } else {
             this->eyeIndex = nextEyeIndex;
-            this->unk_2B6 = 1;
+            this->blinkTimer = 1;
         }
     }
 }
@@ -1201,6 +1189,11 @@ s32 EnTa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnTa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    static Vec3f D_80B16E7C = {
+        1100.0f,
+        1000.0f,
+        0.0f,
+    };
     EnTa* this = THIS;
 
     if (limbIndex == 15) {
@@ -1209,6 +1202,11 @@ void EnTa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnTa_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* eyeTextures[] = {
+        gTalonEyeOpenTex,
+        gTalonEyeHalfTex,
+        gTalonEyeClosedTex,
+    };
     EnTa* this = THIS;
     s32 pad;
 

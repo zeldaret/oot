@@ -219,9 +219,9 @@ s32 DemoIm_UpdateSkelAnime(DemoIm* this) {
 
 s32 DemoIm_IsCsStateIdle(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == CS_STATE_IDLE) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -240,10 +240,10 @@ s32 func_809850E8(DemoIm* this, GlobalContext* globalCtx, u16 action, s32 action
 
     if (npcAction != NULL) {
         if (npcAction->action == action) {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 s32 func_80985134(DemoIm* this, GlobalContext* globalCtx, u16 action, s32 actionIdx) {
@@ -251,10 +251,10 @@ s32 func_80985134(DemoIm* this, GlobalContext* globalCtx, u16 action, s32 action
 
     if (npcAction != NULL) {
         if (npcAction->action != action) {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void func_80985180(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
@@ -343,8 +343,8 @@ void func_8098544C(DemoIm* this, GlobalContext* globalCtx) {
 void func_809854DC(DemoIm* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[5] != NULL) &&
         (globalCtx->csCtx.npcActions[5]->action == 2)) {
-        Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gImpaIdleAnim), ANIMMODE_LOOP, 0.0f);
+        Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaIdleAnim),
+                         ANIMMODE_LOOP, 0.0f);
         this->action = 2;
         this->drawConfig = 1;
         func_80985358(this, globalCtx);
@@ -361,8 +361,8 @@ void func_8098557C(DemoIm* this) {
 void func_809855A8(DemoIm* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[5] != NULL) &&
         (globalCtx->csCtx.npcActions[5]->action == 3)) {
-        Animation_Change(&this->skelAnime, &gImpaRaiseArms, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gImpaRaiseArms), ANIMMODE_ONCE, 4.0f);
+        Animation_Change(&this->skelAnime, &gImpaRaiseArms, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaRaiseArms),
+                         ANIMMODE_ONCE, 4.0f);
         this->action = 4;
     }
 }
@@ -444,8 +444,8 @@ void DemoIm_SpawnLightBall(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985948(DemoIm* this, GlobalContext* globalCtx) {
     if (func_809850E8(this, globalCtx, 4, 5)) {
-        Animation_Change(&this->skelAnime, &gImpaCrossArmsAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gImpaCrossArmsAnim), ANIMMODE_ONCE, 0.0f);
+        Animation_Change(&this->skelAnime, &gImpaCrossArmsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaCrossArmsAnim),
+                         ANIMMODE_ONCE, 0.0f);
         this->action = 8;
         this->drawConfig = 2;
         this->alpha = 0;
@@ -484,8 +484,8 @@ void func_809859E0(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985B34(DemoIm* this, GlobalContext* globalCtx) {
     if (func_80985134(this, globalCtx, 4, 5)) {
-        Animation_Change(&this->skelAnime, &gImpaSealGanonAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gImpaSealGanonAnim), ANIMMODE_ONCE, -8.0f);
+        Animation_Change(&this->skelAnime, &gImpaSealGanonAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaSealGanonAnim),
+                         ANIMMODE_ONCE, -8.0f);
         this->action = 8;
         this->drawConfig = 2;
         this->unk_268 = kREG(5) + 10.0f;
@@ -566,8 +566,8 @@ void func_80985F54(DemoIm* this) {
 }
 
 void func_80985F64(DemoIm* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(&gImpaIdleAnim), ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaIdleAnim),
+                     ANIMMODE_LOOP, 0.0f);
     func_80985180(this, globalCtx, 5);
     this->action = 11;
     this->drawConfig = 1;
@@ -575,8 +575,8 @@ void func_80985F64(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985FE8(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &gImpaPlayingAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gImpaPlayingAnim), ANIMMODE_LOOP, -8.0f);
+        Animation_Change(&this->skelAnime, &gImpaPlayingAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaPlayingAnim),
+                         ANIMMODE_LOOP, -8.0f);
     }
 }
 
@@ -596,8 +596,8 @@ void func_809860C8(DemoIm* this) {
 
 void func_809860DC(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gImpaIdleAnim), ANIMMODE_LOOP, -8.0f);
+        Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaIdleAnim),
+                         ANIMMODE_LOOP, -8.0f);
         this->unk_2D0 = 0;
     }
 }
@@ -758,8 +758,8 @@ void func_80986700(DemoIm* this) {
 }
 
 void func_80986710(DemoIm* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(&gImpaIdleAnim), ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaIdleAnim),
+                     ANIMMODE_LOOP, 0.0f);
     func_80985180(this, globalCtx, 5);
     this->action = 16;
     this->drawConfig = 1;
@@ -835,9 +835,9 @@ s32 func_809869F8(DemoIm* this, GlobalContext* globalCtx) {
     f32 thisPosX = this->actor.world.pos.x;
 
     if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && (!(this->actor.flags & 0x40))) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -847,9 +847,9 @@ s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
     f32 thisPosX = this->actor.world.pos.x;
 
     if ((thisPosX - (kREG(17) + 130.0f) < playerPosX) && (!Gameplay_InCsMode(globalCtx))) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -859,9 +859,9 @@ s32 func_80986AD0(DemoIm* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x708E;
         func_8002F2F4(&this->actor, globalCtx);
     } else {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void func_80986B2C(GlobalContext* globalCtx) {
