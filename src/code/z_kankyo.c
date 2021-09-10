@@ -403,7 +403,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
 
     if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !globalCtx->envCtx.sunMoonDisabled) {
         globalCtx->envCtx.sunMoonDisabled = true;
-        // "Sun setting other than field keep! So forced release!""
+        // "Sun setting other than field keep! So forced release!"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
     }
 
@@ -795,7 +795,7 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
     time = gSaveContext.dayTime;
-    GfxPrint_Printf(&printer, "%02d", (u8)(45.0f / 2048.0f * time / 60.0f));
+    GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * time / 60.0f));
 
     if ((gSaveContext.dayTime & 0x1F) >= 0x10 || gTimeIncrement >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
@@ -804,7 +804,7 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     }
 
     time = gSaveContext.dayTime;
-    GfxPrint_Printf(&printer, "%02d", (s16)(45.0f / 2048.0f * time) % 60);
+    GfxPrint_Printf(&printer, "%02d", (s16)(24 * 60 / (f32)0x10000 * time) % 60);
 
     GfxPrint_SetColor(&printer, 255, 255, 55, 64);
     GfxPrint_SetPos(&printer, 22, 9);
@@ -812,7 +812,7 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
     time = ((void)0, gSaveContext.skyboxTime);
-    GfxPrint_Printf(&printer, "%02d", (u8)(45.0f / 2048.0f * time / 60.0f));
+    GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * time / 60.0f));
 
     if ((((void)0, gSaveContext.skyboxTime) & 0x1F) >= 0x10 || gTimeIncrement >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
@@ -836,9 +836,9 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_Destroy(&printer);
 }
 
-#define TIME_ENTRY (D_8011FB48[envCtx->unk_1F] + i)
-#define TIME_ENTRY1 (&D_8011FB48[envCtx->unk_1F][i])
-#define TIME_ENTRY2 (&D_8011FB48[envCtx->unk_20][i])
+#define TIME_ENTRY_1F_1 (D_8011FB48[envCtx->unk_1F] + i)
+#define TIME_ENTRY_1F_2 (&D_8011FB48[envCtx->unk_1F][i])
+#define TIME_ENTRY_20 (&D_8011FB48[envCtx->unk_20][i])
 
 void func_80075B44(GlobalContext* globalCtx);
 void func_800766C4(GlobalContext* globalCtx);
@@ -899,6 +899,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
             }
         }
 
+        //! @bug `gTimeIncrement` is unsigned, it can't be negative
         if (((((void)0, gSaveContext.sceneSetupIndex) >= 5 || gTimeIncrement != 0) &&
              ((void)0, gSaveContext.dayTime) > ((void)0, gSaveContext.skyboxTime)) ||
             (((void)0, gSaveContext.dayTime) < 0xAAB || gTimeIncrement < 0)) {
@@ -940,16 +941,16 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
         if (envCtx->unk_BF != 0xFE) {
             if (!envCtx->indoors && (envCtx->unk_BF == 0xFF)) {
                 for (i = 0; i < ARRAY_COUNT(D_8011FB48[envCtx->unk_1F]); i++) {
-                    if ((((void)0, gSaveContext.skyboxTime) >= TIME_ENTRY->startTime) &&
-                        ((((void)0, gSaveContext.skyboxTime) < TIME_ENTRY->endTime) || TIME_ENTRY->endTime == 0xFFFF)) {
+                    if ((((void)0, gSaveContext.skyboxTime) >= TIME_ENTRY_1F_1->startTime) &&
+                        ((((void)0, gSaveContext.skyboxTime) < TIME_ENTRY_1F_1->endTime) || TIME_ENTRY_1F_1->endTime == 0xFFFF)) {
                         u8 blend8[2];
                         s16 blend16[2];
 
-                        sp8C = Kankyo_LerpWeight(TIME_ENTRY->endTime, TIME_ENTRY->startTime,
+                        sp8C = Kankyo_LerpWeight(TIME_ENTRY_1F_1->endTime, TIME_ENTRY_1F_1->startTime,
                                                  ((void)0, gSaveContext.skyboxTime));
 
-                        D_8011FDCC = TIME_ENTRY1->unk_04 & 3;
-                        D_8011FDD0 = TIME_ENTRY1->unk_05 & 3;
+                        D_8011FDCC = TIME_ENTRY_1F_2->unk_04 & 3;
+                        D_8011FDD0 = TIME_ENTRY_1F_2->unk_05 & 3;
                         D_8011FDD4 = sp8C;
 
                         if (envCtx->unk_21) {
@@ -964,10 +965,10 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
 
                         for (j = 0; j < 3; j++) {
                             // blend ambient color
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY1->unk_04].ambientColor[j],
-                                             lightSettingsList[TIME_ENTRY1->unk_05].ambientColor[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY2->unk_04].ambientColor[j],
-                                             lightSettingsList[TIME_ENTRY2->unk_05].ambientColor[j], sp8C);
+                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F_2->unk_04].ambientColor[j],
+                                             lightSettingsList[TIME_ENTRY_1F_2->unk_05].ambientColor[j], sp8C);
+                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20->unk_04].ambientColor[j],
+                                             lightSettingsList[TIME_ENTRY_20->unk_05].ambientColor[j], sp8C);
                             envCtx->lightSettings.ambientColor[j] = LERP(blend8[0], blend8[1], sp88);
                         }
 
@@ -986,50 +987,50 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
 
                         for (j = 0; j < 3; j++) {
                             // blend light1Color
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY1->unk_04].light1Color[j],
-                                             lightSettingsList[TIME_ENTRY1->unk_05].light1Color[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY2->unk_04].light1Color[j],
-                                             lightSettingsList[TIME_ENTRY2->unk_05].light1Color[j], sp8C);
+                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F_2->unk_04].light1Color[j],
+                                             lightSettingsList[TIME_ENTRY_1F_2->unk_05].light1Color[j], sp8C);
+                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20->unk_04].light1Color[j],
+                                             lightSettingsList[TIME_ENTRY_20->unk_05].light1Color[j], sp8C);
                             envCtx->lightSettings.light1Color[j] = LERP(blend8[0], blend8[1], sp88);
 
                             // blend light2Color
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY1->unk_04].light2Color[j],
-                                             lightSettingsList[TIME_ENTRY1->unk_05].light2Color[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY2->unk_04].light2Color[j],
-                                             lightSettingsList[TIME_ENTRY2->unk_05].light2Color[j], sp8C);
+                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F_2->unk_04].light2Color[j],
+                                             lightSettingsList[TIME_ENTRY_1F_2->unk_05].light2Color[j], sp8C);
+                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20->unk_04].light2Color[j],
+                                             lightSettingsList[TIME_ENTRY_20->unk_05].light2Color[j], sp8C);
                             envCtx->lightSettings.light2Color[j] = LERP(blend8[0], blend8[1], sp88);
                         }
 
                         // blend fogColor
                         for (j = 0; j < 3; j++) {
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY1->unk_04].fogColor[j],
-                                             lightSettingsList[TIME_ENTRY1->unk_05].fogColor[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY2->unk_04].fogColor[j],
-                                             lightSettingsList[TIME_ENTRY2->unk_05].fogColor[j], sp8C);
+                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F_2->unk_04].fogColor[j],
+                                             lightSettingsList[TIME_ENTRY_1F_2->unk_05].fogColor[j], sp8C);
+                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20->unk_04].fogColor[j],
+                                             lightSettingsList[TIME_ENTRY_20->unk_05].fogColor[j], sp8C);
                             envCtx->lightSettings.fogColor[j] = LERP(blend8[0], blend8[1], sp88);
                         }
 
-                        blend16[0] = LERP32(lightSettingsList[TIME_ENTRY1->unk_04].fogNear & 0x3FF,
-                                            lightSettingsList[TIME_ENTRY1->unk_05].fogNear & 0x3FF, sp8C);
-                        blend16[1] = LERP32(lightSettingsList[TIME_ENTRY2->unk_04].fogNear & 0x3FF,
-                                            lightSettingsList[TIME_ENTRY2->unk_05].fogNear & 0x3FF, sp8C);
+                        blend16[0] = LERP32(lightSettingsList[TIME_ENTRY_1F_2->unk_04].fogNear & 0x3FF,
+                                            lightSettingsList[TIME_ENTRY_1F_2->unk_05].fogNear & 0x3FF, sp8C);
+                        blend16[1] = LERP32(lightSettingsList[TIME_ENTRY_20->unk_04].fogNear & 0x3FF,
+                                            lightSettingsList[TIME_ENTRY_20->unk_05].fogNear & 0x3FF, sp8C);
 
                         envCtx->lightSettings.fogNear = LERP32(blend16[0], blend16[1], sp88);
 
-                        blend16[0] = LERP32(lightSettingsList[TIME_ENTRY1->unk_04].fogFar,
-                                            lightSettingsList[TIME_ENTRY1->unk_05].fogFar, sp8C);
-                        blend16[1] = LERP32(lightSettingsList[TIME_ENTRY2->unk_04].fogFar,
-                                            lightSettingsList[TIME_ENTRY2->unk_05].fogFar, sp8C);
+                        blend16[0] = LERP32(lightSettingsList[TIME_ENTRY_1F_2->unk_04].fogFar,
+                                            lightSettingsList[TIME_ENTRY_1F_2->unk_05].fogFar, sp8C);
+                        blend16[1] = LERP32(lightSettingsList[TIME_ENTRY_20->unk_04].fogFar,
+                                            lightSettingsList[TIME_ENTRY_20->unk_05].fogFar, sp8C);
 
                         envCtx->lightSettings.fogFar = LERP32(blend16[0], blend16[1], sp88);
 
-                        if (TIME_ENTRY2->unk_05 >= envCtx->numLightSettings) {
+                        if (TIME_ENTRY_20->unk_05 >= envCtx->numLightSettings) {
                             // "The color palette setting seems to be wrong!"
                             osSyncPrintf(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
 
                             // "Palette setting = [] Last palette number = []"
                             osSyncPrintf(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
-                                         TIME_ENTRY2->unk_05, envCtx->numLightSettings - 1);
+                                         TIME_ENTRY_20->unk_05, envCtx->numLightSettings - 1);
                         }
                         break;
                     }
