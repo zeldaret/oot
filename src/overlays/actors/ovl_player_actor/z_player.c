@@ -9848,6 +9848,23 @@ static f32 D_8085482C[] = { 0.5f, 1.0f, 3.0f };
 
 void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
     s32 pad;
+#if DEBUG_OVL
+    GfxPrint dp;
+    GfxPrint *dprint = &dp;
+        OPEN_DISPS(globalCtx->state.gfxCtx, __FILE__, __LINE__);
+        gSPSegment(POLY_OPA_DISP++, 0x08, NULL);
+        GfxPrint_Init(dprint);
+        GfxPrint_Open(dprint, POLY_OPA_DISP);
+
+        GfxPrint_SetColor(dprint, 255, 255, 255, 255);
+
+        GfxPrint_SetPos(dprint, 0, 0);
+        GfxPrint_Printf(dprint, "scene %d setup %d ent %d\n", globalCtx->sceneNum, gSaveContext.sceneSetupIndex, gSaveContext.entranceIndex);
+        GfxPrint_Printf(dprint, "EE: %d %d %d %d\n", globalCtx->envCtx.unk_EE[0], globalCtx->envCtx.unk_EE[1], globalCtx->envCtx.unk_EE[2], globalCtx->envCtx.unk_EE[3]);
+
+        POLY_OPA_DISP = GfxPrint_Close(dprint);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, __FILE__, __LINE__);
+#endif
 
     sControlInput = input;
 
