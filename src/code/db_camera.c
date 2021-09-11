@@ -375,10 +375,10 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
         return;
     }
 
-    if (!Demo1Cutscene_MoveCamera(&sDbCamAnim.positionPos, &sDbCamAnim.roll, &sDbCamAnim.fov, dbCamera->sub.position,
-                                  &sDbCamAnim.keyframe, &sDbCamAnim.curFrame) &&
-        !Demo1Cutscene_MoveCamera(&sDbCamAnim.lookAtPos, &sDbCamAnim.roll, &sDbCamAnim.fov, dbCamera->sub.lookAt,
-                                  &sDbCamAnim.keyframe, &sDbCamAnim.curFrame) &&
+    if (!func_800BB2B4(&sDbCamAnim.positionPos, &sDbCamAnim.roll, &sDbCamAnim.fov, dbCamera->sub.position,
+                       &sDbCamAnim.keyframe, &sDbCamAnim.curFrame) &&
+        !func_800BB2B4(&sDbCamAnim.lookAtPos, &sDbCamAnim.roll, &sDbCamAnim.fov, dbCamera->sub.lookAt,
+                       &sDbCamAnim.keyframe, &sDbCamAnim.curFrame) &&
         sDbCamAnim.unk_0A == 1) {
         Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         sDbCamAnim.unk_04++;
@@ -1746,10 +1746,10 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
         }
     }
 
-    if (!Demo1Cutscene_MoveCamera(&sDbCamAnim.positionPos, &sDbCamAnim.roll, &sDbCamAnim.fov,
-                                  sDbCameraCuts[D_8016110C].position, &sDbCamAnim.keyframe, &sDbCamAnim.curFrame) &&
-        !Demo1Cutscene_MoveCamera(&sDbCamAnim.lookAtPos, &sDbCamAnim.roll, &sDbCamAnim.fov,
-                                  sDbCameraCuts[D_8016110C].lookAt, &sDbCamAnim.keyframe, &sDbCamAnim.curFrame)) {
+    if (!func_800BB2B4(&sDbCamAnim.positionPos, &sDbCamAnim.roll, &sDbCamAnim.fov, sDbCameraCuts[D_8016110C].position,
+                       &sDbCamAnim.keyframe, &sDbCamAnim.curFrame) &&
+        !func_800BB2B4(&sDbCamAnim.lookAtPos, &sDbCamAnim.roll, &sDbCamAnim.fov, sDbCameraCuts[D_8016110C].lookAt,
+                       &sDbCamAnim.keyframe, &sDbCamAnim.curFrame)) {
 
         D_8012D13C[7] = ((sDbCamAnim.keyframe + 1) / 10) + '0';
         D_8012D13C[8] = ((sDbCamAnim.keyframe + 1) % 10) + '0';

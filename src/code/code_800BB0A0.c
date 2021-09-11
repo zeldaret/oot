@@ -4,8 +4,7 @@
  * Cutscene camera movement carried over from Super Mario 64. Unused in the release game.
  */
 
-void Demo1Cutscene_UniformBSpline(f32 u, Vec3f* pos, f32* roll, f32* viewAngle, f32* point0, f32* point1, f32* point2,
-                                  f32* point3) {
+void func_800BB0A0(f32 u, Vec3f* pos, f32* roll, f32* viewAngle, f32* point0, f32* point1, f32* point2, f32* point3) {
     f32 coeff[4];
 
     u = CLAMP_MAX(u, 1.0f);
@@ -22,8 +21,7 @@ void Demo1Cutscene_UniformBSpline(f32 u, Vec3f* pos, f32* roll, f32* viewAngle, 
     *viewAngle = (coeff[0] * point0[4]) + (coeff[1] * point1[4]) + (coeff[2] * point2[4]) + (coeff[3] * point3[4]);
 }
 
-s32 Demo1Cutscene_MoveCamera(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s16* keyFrame,
-                             f32* curFrame) {
+s32 func_800BB2B4(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s16* keyFrame, f32* curFrame) {
     s32 ret = false;
     f32 pointData[4][5];
     s32 i;
@@ -49,7 +47,7 @@ s32 Demo1Cutscene_MoveCamera(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoin
         pointData[i][4] = point[key + i].viewAngle;
     }
 
-    Demo1Cutscene_UniformBSpline(progress, pos, roll, fov, &pointData[0], &pointData[1], &pointData[2], &pointData[3]);
+    func_800BB0A0(progress, pos, roll, fov, &pointData[0], &pointData[1], &pointData[2], &pointData[3]);
 
     if (point[*keyFrame + 1].nextPointFrame != 0) {
         speed1 = 1.0f / point[*keyFrame + 1].nextPointFrame;
