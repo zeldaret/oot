@@ -1138,13 +1138,13 @@ static LinkAnimationHeader* D_808543D4[] = {
     &gPlayerAnim_002CC0,
 };
 
-// return type can't be void due to regalloc in func_8084FCAC
+// return type must be s32 due to regalloc in func_8084FCAC
 s32 func_80832210(Player* this) {
     this->actor.speedXZ = 0.0f;
     this->linearVelocity = 0.0f;
 }
 
-// return type can't be void due to regalloc in func_8083F72C
+// return type must be s32 due to regalloc in func_8083F72C
 s32 func_80832224(Player* this) {
     func_80832210(this);
     this->unk_6AD = 0;
@@ -10073,9 +10073,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8000000)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this)
-                                      ? &gPlayerAnim_003310
-                                      : (this->shockTimer != 0) ? &gPlayerAnim_002F08 : &gPlayerAnim_002878);
+                                  func_808332B8(this)       ? &gPlayerAnim_003310
+                                  : (this->shockTimer != 0) ? &gPlayerAnim_002F08
+                                                            : &gPlayerAnim_002878);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&
