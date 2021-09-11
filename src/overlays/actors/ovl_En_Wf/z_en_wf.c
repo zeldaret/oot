@@ -564,7 +564,8 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
             }
             if ((sp5C != (s32)this->skelAnime.curFrame) && (sp58 <= 0) && (((s32)sp3C + sp5C) > 0)) {
                 Audio_PlayActorSound2(&this->actor, (u16)0x385AU);
-                Actor_SpawnFloorDustRing(globalCtx, &this->actor, (Vec3f*)&this->actor.world, 20.0f, 3, 3.0f, 0x32, 0x32, 1);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, (Vec3f*)&this->actor.world, 20.0f, 3, 3.0f, 0x32,
+                                         0x32, 1);
             }
         }
     }
@@ -701,8 +702,8 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
         }
 
-        if ((Math_CosS(angle1 - this->actor.shape.rot.y) < -0.85f) && (Actor_OtherIsTargeted(globalCtx, &this->actor) == 0) &&
-            (this->actor.xzDistToPlayer <= 80.0f)) {
+        if ((Math_CosS(angle1 - this->actor.shape.rot.y) < -0.85f) &&
+            (Actor_OtherIsTargeted(globalCtx, &this->actor) == 0) && (this->actor.xzDistToPlayer <= 80.0f)) {
             func_80B35540(this);
         } else {
             this->actionTimer--;
@@ -722,7 +723,7 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
 // EnWf_Setup??????
 void func_80B35540(EnWf* this) {
     Animation_PlayOnce(&this->skelAnime, &D_06004638);
-    this->colliderSphere.base.atFlags &= ~4;
+    this->colliderSphere.base.atFlags &= ~AT_BOUNCED;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->unk_2D4 = 8;
     this->unk_2FA = 0;
@@ -897,7 +898,7 @@ void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx) {
         this->unk_300 = 0;
     }
 
-    if ((this->actor.colorFilterTimer == 0) && ((this->actor.bgCheckFlags & 1) != 0)) {
+    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & 1)) {
         if (this->actor.colChkInfo.health == 0) {
             EnWf_SetupDeath(this);
         } else {
@@ -941,11 +942,11 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4500, 0);
 
     if ((!(func_80B33FB0(globalCtx, this, 0))) && SkelAnime_Update(&this->skelAnime)) {
-        if ((this->actor.bgCheckFlags & 1) != 0) {
+        if (this->actor.bgCheckFlags & 1) {
             angleToWall = this->actor.wallYaw - this->actor.shape.rot.y;
             angleToWall = ABS(angleToWall);
 
-            if ((this->actor.bgCheckFlags & 8) != 0) {
+            if (this->actor.bgCheckFlags & 8) {
                 if ((ABS(angleToWall) < 12000) && (this->actor.xzDistToPlayer < 120.0f)) {
                     func_80B360E8(this);
                     return;
@@ -992,7 +993,7 @@ void func_80B361A0(EnWf* this, GlobalContext* globalCtx) {
         func_800355B8(globalCtx, &this->unk_4BC);
     }
 
-    if ((SkelAnime_Update(&this->skelAnime)) && (this->actor.bgCheckFlags & 3)) {
+    if ((SkelAnime_Update(&this->skelAnime)) && (this->actor.bgCheckFlags & (1 | 2))) {
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.x = 0;
         this->actor.speedXZ = this->actor.velocity.y = 0.0f;
@@ -1257,22 +1258,23 @@ void EnWf_FaceTowardsPlayer(EnWf* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnWf_ApplyDamage(EnWf* this, GlobalContext* globalCtx) {
-    if (this->colliderSphere.base.acFlags & 0x80) {
-        this->colliderSphere.base.acFlags &= ~0x82;
-        this->colliderCylinder1.base.acFlags &= ~2;
-        this->colliderCylinder2.base.acFlags &= ~2;
-    } else if ((this->colliderCylinder1.base.acFlags & 2) || (this->colliderCylinder2.base.acFlags & 2)) {
+void EnWf_UpdateDamage(EnWf* this, GlobalContext* globalCtx) {
+    if (this->colliderSphere.base.acFlags & AC_BOUNCED) {
+        this->colliderSphere.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
+        this->colliderCylinder1.base.acFlags &= ~AC_HIT;
+        this->colliderCylinder2.base.acFlags &= ~AC_HIT;
+    } else if ((this->colliderCylinder1.base.acFlags & AC_HIT) || (this->colliderCylinder2.base.acFlags & AC_HIT)) {
         if (this->unk_2D4 >= 6) {
             s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-            if (((!(this->colliderCylinder1.base.acFlags & 2)) && (this->colliderCylinder2.base.acFlags & 2)) ||
+            if (((!(this->colliderCylinder1.base.acFlags & AC_HIT)) &&
+                 (this->colliderCylinder2.base.acFlags & AC_HIT)) ||
                 (ABS(yawDiff) > 19000)) {
                 this->actor.colChkInfo.damage *= 4;
             }
 
-            this->colliderCylinder1.base.acFlags &= ~2;
-            this->colliderCylinder2.base.acFlags &= ~2;
+            this->colliderCylinder1.base.acFlags &= ~AC_HIT;
+            this->colliderCylinder2.base.acFlags &= ~AC_HIT;
 
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->unk_2E6 = this->actor.colChkInfo.damageEffect;
@@ -1308,7 +1310,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnWf* this = THIS;
     s32 pad;
 
-    EnWf_ApplyDamage(this, globalCtx);
+    EnWf_UpdateDamage(this, globalCtx);
 
     if (this->actor.colChkInfo.damageEffect != 6) {
         Actor_MoveForward(&this->actor);
@@ -1317,7 +1319,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnWf_FaceTowardsPlayer(this, globalCtx);
     }
 
-    if (this->actor.bgCheckFlags & 3) {
+    if (this->actor.bgCheckFlags & (1 | 2)) {
         func_800359B8(&this->actor, this->actor.shape.rot.y, &this->actor.shape.rot);
     } else {
         Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 1000, 0);
@@ -1339,7 +1341,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_2F8 > 0) {
-        if (!(this->colliderSphere.base.atFlags & 4)) {
+        if (!(this->colliderSphere.base.atFlags & AT_BOUNCED)) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
         } else {
             func_80B3590C(this);
@@ -1365,7 +1367,7 @@ s32 EnWf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         rot->y -= this->unk_4D4.y;
     }
 
-    return 0;
+    return false;
 }
 
 void EnWf_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
