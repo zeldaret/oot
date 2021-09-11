@@ -96,7 +96,7 @@ glabel func_80B34D48
               
 /* 011E8 80B34E98 E60801A4 */  swc1    $f8, 0x01A4($s0)           ## 000001A4
 /* 011EC 80B34E9C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 011F0 80B34EA0 0C00B821 */  jal     func_8002E084              
+/* 011F0 80B34EA0 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 011F4 80B34EA4 24051555 */  addiu   $a1, $zero, 0x1555         ## $a1 = 00001555
 /* 011F8 80B34EA8 50400011 */  beql    $v0, $zero, .L80B34EF0     
 /* 011FC 80B34EAC 8FA90024 */  lw      $t1, 0x0024($sp)           

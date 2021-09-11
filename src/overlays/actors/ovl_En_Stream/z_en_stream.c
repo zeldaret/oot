@@ -5,6 +5,7 @@
  */
 
 #include "z_en_stream.h"
+#include "objects/object_stream/object_stream.h"
 
 #define FLAGS 0x00000010
 
@@ -15,8 +16,6 @@ void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000950[];
 
 const ActorInit En_Stream_InitVars = {
     ACTOR_EN_STREAM,
@@ -83,7 +82,7 @@ s32 func_80B0B81C(Vec3f* vortexPosRot, Vec3f* playerPosRot, Vec3f* posDifference
 }
 
 void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad48;
     Vec3f posDifference;
     f32 xzDist;
@@ -114,7 +113,7 @@ void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
 }
 
 void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 pad;
     Vec3f temp;
 
@@ -142,6 +141,6 @@ void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, frames * 30, -multipliedFrames, 0x40, 0x40, 1,
                                 multipliedFrames, -multipliedFrames, 0x40, 0x40));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000950);
+    gSPDisplayList(POLY_XLU_DISP++, object_stream_DL_000950);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_stream.c", 310);
 }

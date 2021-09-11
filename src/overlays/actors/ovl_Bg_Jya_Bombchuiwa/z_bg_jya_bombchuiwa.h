@@ -18,6 +18,4 @@ typedef struct BgJyaBombchuiwa {
     /* 0x01B6 */ u8 drawFlags; // Used to determine how the actor is drawn.
 } BgJyaBombchuiwa; // size = 0x01B8
 
-extern const ActorInit Bg_Jya_Bombchuiwa_InitVars;
-
 #endif

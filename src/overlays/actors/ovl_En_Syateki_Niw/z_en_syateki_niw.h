@@ -68,6 +68,4 @@ typedef struct EnSyatekiNiw {
     /* 0x0348 */ EnSyatekiNiw_1 unk_348[5];
 } EnSyatekiNiw; // size = 0x0460
 
-extern const ActorInit En_Syateki_Niw_InitVars;
-
 #endif

@@ -13,6 +13,4 @@ typedef struct ObjHsblock {
     /* 0x0164 */ ObjHsblockActionFunc actionFunc;
 } ObjHsblock; // size = 0x0168
 
-extern const ActorInit Obj_Hsblock_InitVars;
-
 #endif

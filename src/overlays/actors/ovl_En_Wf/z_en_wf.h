@@ -40,6 +40,4 @@ typedef struct EnWf {
     /* 0x04D4 */ Vec3s unk_4D4;
 } EnWf; // size = 0x04DC
 
-extern const ActorInit En_Wf_InitVars;
-
 #endif

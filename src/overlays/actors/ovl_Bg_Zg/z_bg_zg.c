@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_zg.h"
+#include "objects/object_zg/object_zg.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -48,9 +49,6 @@ const ActorInit Bg_Zg_InitVars = {
     (ActorFunc)BgZg_Draw,
 };
 
-extern Gfx D_06001080[];
-extern CollisionHeader D_060011D4;
-
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
 
@@ -93,7 +91,7 @@ void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 action = this->action;
 
     if (((action < 0) || (1 < action)) || (sActionFuncs[action] == NULL)) {
-        // Translates to: "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
+        // "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sActionFuncs[action](this, globalCtx);
@@ -108,7 +106,7 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     colHeader = NULL;
-    CollisionHeader_GetVirtual(&D_060011D4, &colHeader);
+    CollisionHeader_GetVirtual(&gTowerCollapseBarsCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((func_808C0CC8(this) == 8) || (func_808C0CC8(this) == 9)) {
         this->dyna.actor.scale.x = this->dyna.actor.scale.x * 1.3f;
@@ -131,7 +129,7 @@ void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
     func_80093D18(localGfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06001080);
+    gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseBarsDL);
 
     CLOSE_DISPS(localGfxCtx, "../z_bg_zg.c", 320);
 }
@@ -141,7 +139,7 @@ void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 drawConfig = this->drawConfig;
 
     if (((drawConfig < 0) || (drawConfig > 0)) || sDrawFuncs[drawConfig] == NULL) {
-        // Translates to: "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
+        // "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sDrawFuncs[drawConfig](this, globalCtx);

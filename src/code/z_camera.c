@@ -1871,7 +1871,7 @@ s32 Camera_Normal3(Camera* camera) {
                                                     camera->yawUpdateRateInv, sp98, 0.1f);
         camera->pitchUpdateRateInv = Camera_LERPCeilF((f32)OREG(7) + (anim->swing.swingUpdateRateTimer * 2),
                                                       camera->pitchUpdateRateInv, sp94, 0.1f);
-        if (!sp98) {}
+        if (1) {}
         anim->swing.swingUpdateRateTimer--;
     } else {
         camera->yawUpdateRateInv = Camera_LERPCeilF(norm3->yawUpdateSpeed, camera->yawUpdateRateInv, sp98, 0.1f);
@@ -2143,7 +2143,7 @@ s32 Camera_Parallel3(Camera* camera) {
     if (val & 2) {
         camera->unk_14C |= 0x10;
     }
-    // @bug doesn't return
+    //! @bug doesn't return
 }
 
 s32 Camera_Parallel4(Camera* camera) {
@@ -3371,7 +3371,6 @@ s32 Camera_KeepOn3(Camera* camera) {
         sp82 = atToEyeAdj.pitch;
         playerHeadPos = camPlayerPosRot->pos;
         playerHeadPos.y += playerHeight;
-        if (!temp_f0) {}
         Camera_Vec3fVecSphGeoAdd(&anim->atTarget, &playerHeadPos, &targetToPlayerDir);
         angleCnt = ARRAY_COUNT(D_8011D3B0);
         i = 0;
@@ -3464,11 +3463,9 @@ s32 Camera_KeepOn4(Camera* camera) {
     KeepOn4_Unk20* unk20 = &keep4->unk_20;
     s32 pad;
     f32 playerHeight;
-    Player* player;
+    Player* player = GET_PLAYER(camera->globalCtx);
     s16 angleCnt;
     s32 i;
-
-    player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
 
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
         if (camera->globalCtx->view.unk_124 == 0) {
@@ -6107,7 +6104,7 @@ s32 Camera_Demo7(Camera* camera) {
         camera->unk_14C |= 0x1000;
         camera->animState++;
     }
-    // @bug doesn't return
+    //! @bug doesn't return
 }
 
 s32 Camera_Demo8(Camera* camera) {
@@ -6651,8 +6648,8 @@ s32 Camera_Special9(Camera* camera) {
     sCameraInterfaceFlags = params->interfaceFlags;
 
     switch (camera->animState) {
-        do {
-        } while (0);
+        if (1) {}
+
         case 0:
             camera->unk_14C &= ~(0x4 | 0x2);
             camera->animState++;
@@ -6734,7 +6731,7 @@ s32 Camera_Special9(Camera* camera) {
             }
             break;
     }
-    if (!camera->globalCtx->state.frames) {}
+    if (1) {}
     spAC = playerPosRot->pos;
     spAC.y += playerYOffset;
     camera->dist = OLib_Vec3fDist(&spAC, eye);
@@ -6781,12 +6778,12 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
             PREG(i) = sPREGInit[i];
         }
 
-        DbgCamera_FirstInit(camera, &D_8015BD80);
+        DbCamera_Reset(camera, &D_8015BD80);
         sInitRegs = false;
         PREG(88) = -1;
     }
     camera->globalCtx = D_8015BD7C = globalCtx;
-    DbgCamera_Init(&D_8015BD80, camera);
+    DbCamera_Init(&D_8015BD80, camera);
     curUID = sNextUID;
     sNextUID++;
     while (curUID != 0) {
@@ -6970,55 +6967,43 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     return camera->status;
 }
 
-#ifdef NON_MATCHING
-// Lots of saved register problems. Probably equivalent, but not certain.
 void Camera_PrintSettings(Camera* camera) {
     char sp58[8];
     char sp50[8];
     char sp48[8];
-    char* phi_v1;
-    char* phi_t0;
-    s32 phi_a1;
+    s32 i;
 
-    if ((OREG(0) & 1) && (camera->thisIdx == camera->globalCtx->activeCamera) && !gDbgCamEnabled) {
-        phi_a1 = 0;
-        phi_v1 = sp58;
-        phi_t0 = sp48;
-        for (; phi_v1 < sp58 + NUM_CAMS; phi_v1++, phi_t0++, phi_a1++) {
-            if (camera->globalCtx->cameraPtrs[phi_a1] == NULL) {
-                *phi_v1 = '-';
-                *phi_t0 = ' ';
+    if ((OREG(0) & 1) && (camera->globalCtx->activeCamera == camera->thisIdx) && !gDbgCamEnabled) {
+        for (i = 0; i < NUM_CAMS; i++) {
+            if (camera->globalCtx->cameraPtrs[i] == NULL) {
+                sp58[i] = '-';
+                sp48[i] = ' ';
             } else {
-                switch (camera->globalCtx->cameraPtrs[phi_a1]->status) {
+                switch (camera->globalCtx->cameraPtrs[i]->status) {
                     case 0:
-                        *phi_v1 = 'c';
-                        *phi_t0 = ' ';
+                        sp58[i] = 'c';
                         break;
                     case 1:
-                        *phi_v1 = 'w';
-                        *phi_t0 = ' ';
+                        sp58[i] = 'w';
                         break;
                     case 3:
-                        *phi_v1 = 's';
-                        *phi_t0 = ' ';
+                        sp58[i] = 's';
                         break;
                     case 7:
-                        *phi_v1 = 'a';
-                        *phi_t0 = ' ';
+                        sp58[i] = 'a';
                         break;
                     case 0x100:
-                        *phi_v1 = 'd';
-                        *phi_t0 = ' ';
+                        sp58[i] = 'd';
                         break;
                     default:
-                        *phi_v1 = '*';
-                        *phi_t0 = ' ';
+                        sp58[i] = '*';
                         break;
                 }
             }
+            sp48[i] = ' ';
         }
-        *phi_v1 = '\0';
-        *phi_t0 = '\0';
+        sp58[i] = '\0';
+        sp48[i] = '\0';
 
         sp48[camera->globalCtx->activeCamera] = 'a';
         func_8006376C(3, 0x16, 5, sp58);
@@ -7031,27 +7016,32 @@ void Camera_PrintSettings(Camera* camera) {
         func_8006376C(5, 0x19, 4,
                       sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
 
-        phi_a1 = 0;
+        i = 0;
         if (camera->camDataIdx < 0) {
-            sp50[phi_a1++] = '-';
+            sp50[i++] = '-';
         }
-        if (camera->camDataIdx / 0xA != 0) {
-            sp50[phi_a1++] = phi_a1 / 0xA + '0';
+
+        //! @bug: this code was clearly meaning to print `abs(camera->camDataIdx)` as a
+        //! one-or-two-digit number, instead of `i`.
+        // "sp50[i++] = ..." matches here, but is undefined behavior due to conflicting
+        // reads/writes between sequence points, triggering warnings. Work around by
+        // putting i++ afterwards while on the same line.
+        // clang-format off
+        if (camera->camDataIdx / 10 != 0) {
+            sp50[i] = i / 10 + '0'; i++;
         }
-        sp50[phi_a1++] = phi_a1 % 10 + '0';
-        sp50[phi_a1++] = ' ';
-        sp50[phi_a1++] = ' ';
-        sp50[phi_a1++] = ' ';
-        sp50[phi_a1++] = ' ';
-        sp50[phi_a1] = '\0';
+        sp50[i] = i % 10 + '0'; i++;
+        // clang-format on
+
+        sp50[i++] = ' ';
+        sp50[i++] = ' ';
+        sp50[i++] = ' ';
+        sp50[i++] = ' ';
+        sp50[i] = '\0';
         func_8006376C(3, 26, 5, "I:");
         func_8006376C(5, 26, 4, sp50);
     }
 }
-#else
-void Camera_PrintSettings(Camera* camera);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_PrintSettings.s")
-#endif
 
 s32 Camera_CheckWater(Camera* camera) {
     f32 waterY;
@@ -7170,7 +7160,7 @@ s32 Camera_CheckWater(Camera* camera) {
         }
         func_800F6828(0);
     }
-    // @BUG: doesn't always return a value, but sometimes does.
+    //! @bug: doesn't always return a value, but sometimes does.
 }
 
 /**
@@ -7453,12 +7443,12 @@ Vec3s Camera_Update(Camera* camera) {
     // Debug cam update
     if (gDbgCamEnabled) {
         camera->globalCtx->view.fovy = D_8015BD80.fov;
-        DbgCamera_Update(&D_8015BD80, camera);
-        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.up);
+        DbCamera_Update(&D_8015BD80, camera);
+        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");
         }
-        return D_8015BD80.unk_10C6;
+        return D_8015BD80.sub.unk_104A;
     }
 
     OREG(0) &= ~8;
@@ -7545,7 +7535,7 @@ Vec3s Camera_Update(Camera* camera) {
  */
 void Camera_Finish(Camera* camera) {
     Camera* mainCam = camera->globalCtx->cameraPtrs[MAIN_CAM];
-    Player* player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
+    Player* player = GET_PLAYER(camera->globalCtx);
 
     if (camera->timer == 0) {
         Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamIdx, CAM_STAT_ACTIVE);
@@ -7740,7 +7730,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
             return -2;
         }
     }
-    if (((setting == CAM_SET_SPOT05A) || (setting == CAM_SET_SPOT05B)) && (LINK_IS_ADULT) &&
+    if (((setting == CAM_SET_SPOT05A) || (setting == CAM_SET_SPOT05B)) && LINK_IS_ADULT &&
         (camera->globalCtx->sceneNum == SCENE_SPOT05)) {
         camera->unk_14A |= 0x10;
         return -5;
@@ -7816,7 +7806,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
             camera->unk_14A |= 4;
             Camera_CopyModeValuesToPREG(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
-            // @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
+            //! @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
             // camDataIdx would make more sense.
             osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, camDataIdx,
                          camera->thisIdx, 0x32, newCameraSetting);
@@ -7827,7 +7817,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
 
 Vec3s* Camera_GetInputDir(Vec3s* dst, Camera* camera) {
     if (gDbgCamEnabled) {
-        *dst = D_8015BD80.unk_10C6;
+        *dst = D_8015BD80.sub.unk_104A;
         return dst;
     } else {
         *dst = camera->inputDir;
@@ -7851,7 +7841,7 @@ s16 Camera_GetInputDirYaw(Camera* camera) {
 
 Vec3s* Camera_GetCamDir(Vec3s* dst, Camera* camera) {
     if (gDbgCamEnabled) {
-        *dst = D_8015BD80.unk_10C6;
+        *dst = D_8015BD80.sub.unk_104A;
         return dst;
     } else {
         *dst = camera->camDir;
@@ -8115,7 +8105,7 @@ s16 func_8005B1A4(Camera* camera) {
     camera->unk_14C |= 0x8;
 
     if ((camera->thisIdx == MAIN_CAM) && (camera->globalCtx->activeCamera != MAIN_CAM)) {
-        camera->globalCtx->cameraPtrs[camera->globalCtx->activeCamera]->unk_14C |= 0x8;
+        GET_ACTIVE_CAM(camera->globalCtx)->unk_14C |= 0x8;
         return camera->globalCtx->activeCamera;
     }
 

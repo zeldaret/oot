@@ -32,6 +32,4 @@ typedef enum {
     /* 4 */ KEESE_ICE_FLY
 } KeeseType;
 
-extern const ActorInit En_Firefly_InitVars;
-
 #endif

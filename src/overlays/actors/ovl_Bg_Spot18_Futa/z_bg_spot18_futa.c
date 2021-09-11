@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot18_futa.h"
+#include "objects/object_spot18_obj/object_spot18_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -34,16 +35,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06000368;
-extern Gfx D_06000150[];
-
 void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Futa* this = THIS;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06000368, &colHeader);
+    CollisionHeader_GetVirtual(&gGoronCityVaseLidCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
@@ -71,5 +69,5 @@ void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Futa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06000150);
+    Gfx_DrawDListOpa(globalCtx, gGoronCityVaseLidDL);
 }

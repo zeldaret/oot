@@ -15,7 +15,5 @@ typedef struct ObjTsubo {
     /* 0x019C */ s8 objTsuboBankIndex;
 } ObjTsubo; // size = 0x01A0
 
-extern const ActorInit Obj_Tsubo_InitVars;
-
 #endif
 

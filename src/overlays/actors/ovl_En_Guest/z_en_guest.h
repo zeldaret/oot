@@ -25,6 +25,4 @@ typedef struct EnGuest {
     /* 0x030E */ u8 unk_30E;
 } EnGuest; // size = 0x0310
 
-extern const ActorInit En_Guest_InitVars;
-
 #endif

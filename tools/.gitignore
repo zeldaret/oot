@@ -5,3 +5,5 @@ makeromfs
 elf2rom
 mkldscript
 vtxdis
+
+graphovl/

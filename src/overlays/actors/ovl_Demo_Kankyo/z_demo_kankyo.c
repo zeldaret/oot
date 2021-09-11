@@ -193,7 +193,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("bank_ID = %d\n", objBankIndex);
     if (objBankIndex < 0) {
-        __assert("0", "../z_demo_kankyo.c", 521);
+        ASSERT(0, "0", "../z_demo_kankyo.c", 521);
     } else {
         this->objBankIndex = objBankIndex;
     }
@@ -245,7 +245,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
                                    this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                    0x0000);
             } else {
-                globalCtx->unk_11D30[1] = 0xFF;
+                globalCtx->roomCtx.unk_74[1] = 0xFF;
                 Actor_Kill(&this->actor);
             }
             break;
@@ -284,7 +284,7 @@ void DemoKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp;
 
     if (this->actor.objBankIndex == this->objBankIndex) {
@@ -328,14 +328,14 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
                 if (this->warpTimer == 1) {
                     if (globalCtx->sceneNum == SCENE_TOKINOMA) {
                         D_8098CF84 = 25;
-                        if (LINK_IS_CHILD) {
+                        if (!LINK_IS_ADULT) {
                             globalCtx->csCtx.segment = gChildWarpInToTCS;
                         } else {
                             globalCtx->csCtx.segment = gAdultWarpInToTCS;
                         }
                     } else {
                         D_8098CF84 = 32;
-                        if (LINK_IS_CHILD) {
+                        if (!LINK_IS_ADULT) {
                             globalCtx->csCtx.segment = gChildWarpInCS;
                         } else {
                             globalCtx->csCtx.segment = gAdultWarpInCS;
@@ -349,13 +349,13 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
                 break;
             case DEMOKANKYO_WARP_IN:
                 if (globalCtx->sceneNum == SCENE_TOKINOMA) {
-                    if (LINK_IS_CHILD) {
+                    if (!LINK_IS_ADULT) {
                         globalCtx->csCtx.segment = gChildWarpOutToTCS;
                     } else {
                         globalCtx->csCtx.segment = gAdultWarpOutToTCS;
                     }
                 } else {
-                    if (LINK_IS_CHILD) {
+                    if (!LINK_IS_ADULT) {
                         globalCtx->csCtx.segment = gChildWarpOutCS;
                     } else {
                         globalCtx->csCtx.segment = gAdultWarpOutCS;
@@ -443,10 +443,10 @@ void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 if (globalCtx->sceneNum == SCENE_TOKINOMA) {
                     if (!Flags_GetEnv(globalCtx, 1)) {
                         break;
-                    } else if (!func_8002E12C(&this->actor, 300.0f, 0x7530)) {
+                    } else if (!Actor_IsFacingAndNearPlayer(&this->actor, 300.0f, 0x7530)) {
                         break;
                     } else {
-                        if (LINK_IS_CHILD) {
+                        if (!LINK_IS_ADULT) {
                             if (globalCtx->csCtx.frames < 170 || globalCtx->csCtx.state == CS_STATE_IDLE) {
                                 break;
                             }
@@ -771,7 +771,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
     f32 temp_f22;
     DemoKankyo* this = THIS;
     Gfx* disp;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f camPos;
     f32 translateX;
     f32 translateY;

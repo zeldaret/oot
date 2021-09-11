@@ -14,6 +14,4 @@ typedef struct BgMjin {
     /* 0x0168 */ BgMjinActionFunc actionFunc;
 } BgMjin; // size = 0x016C
 
-extern const ActorInit Bg_Mjin_InitVars;
-
 #endif

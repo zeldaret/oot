@@ -24,7 +24,7 @@ typedef struct EnIk {
     /* 0x0300 */ s16 unk_300;
     /* 0x0302 */ s16 switchFlags;
     /* 0x0304 */ EnIkActionFunc actionFunc;
-    /* 0x0308 */ struct_80032E24 unk_308;
+    /* 0x0308 */ BodyBreak bodyBreak;
     /* 0x0320 */ ColliderCylinder bodyCollider;
     /* 0x036C */ ColliderQuad axeCollider;
     /* 0x03EC */ ColliderTris shieldCollider;
@@ -36,7 +36,5 @@ typedef struct EnIk {
     /* 0x04D4 */ s32 unk_4D4;
     /* 0x04D8 */ char unk_4D8[0x04];
 } EnIk; // size = 0x04DC
-
-extern const ActorInit En_Ik_InitVars;
 
 #endif

@@ -1,30 +1,33 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class EntranceEntry
 {
 public:
+	EntranceEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
+
+	std::string GetBodySourceCode() const;
+
+protected:
 	uint8_t startPositionIndex;
 	uint8_t roomToLoad;
-
-	EntranceEntry(std::vector<uint8_t> rawData, int rawDataIndex);
 };
 
 class SetEntranceList : public ZRoomCommand
 {
 public:
-	SetEntranceList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
-	~SetEntranceList();
+	SetEntranceList(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GenerateExterns();
-	virtual std::string GetCommandCName();
-	virtual RoomCommand GetRoomCommand();
+	void DeclareReferences(const std::string& prefix) override;
+	void ParseRawDataLate() override;
+	void DeclareReferencesLate(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	std::string GetCommandCName() const override;
 
 private:
-	std::vector<EntranceEntry*> entrances;
-	uint32_t segmentOffset;
-	std::vector<uint8_t> _rawData;
-	int32_t _rawDataIndex;
+	std::vector<EntranceEntry> entrances;
 };

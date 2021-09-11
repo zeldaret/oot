@@ -65,7 +65,7 @@ void BgGndIceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
         sBlockPositions[1] = 14;
     } else {
         LOG_FLOAT("thisx->world.position.x", this->dyna.actor.world.pos.x, "../z_bg_gnd_iceblock.c", 138);
-        __assert("0", "../z_bg_gnd_iceblock.c", 139);
+        ASSERT(0, "0", "../z_bg_gnd_iceblock.c", 139);
     }
 }
 
@@ -234,7 +234,7 @@ void BgGndIceblock_SetNextPosition(BgGndIceblock* this) {
 }
 
 void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         player->stateFlags2 &= ~0x10;
@@ -250,7 +250,7 @@ void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx) {
 }
 
 void BgGndIceblock_Reset(BgGndIceblock* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* thisx = &this->dyna.actor;
 
     if (this->dyna.unk_150 != 0.0f) {

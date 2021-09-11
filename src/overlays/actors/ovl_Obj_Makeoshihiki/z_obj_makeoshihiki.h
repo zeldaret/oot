@@ -10,6 +10,4 @@ typedef struct ObjMakeoshihiki {
     /* 0x0000 */ Actor actor;
 } ObjMakeoshihiki; // size = 0x014C
 
-extern const ActorInit Obj_Makeoshihiki_InitVars;
-
 #endif

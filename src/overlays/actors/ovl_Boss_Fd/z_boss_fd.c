@@ -61,7 +61,7 @@ const ActorInit Boss_Fd_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x21, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -189,7 +189,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
                    0);
     this->introState = BFD_CS_WAIT;
     if (this->introState == BFD_CS_NONE) {
-        Audio_SetBGM(0x6B);
+        Audio_QueueSeqCmd(0x6B);
     }
 
     this->actor.world.pos.x = this->actor.world.pos.z = 0.0f;
@@ -260,10 +260,6 @@ static Vec3f sCeilingTargets[] = {
     { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f },
 };
 
-#ifdef NON_MATCHING
-// Somehow doesn't use rodata value D_808D1EB4 = 0.1f. It would occur after the 85.56f float
-// literal in case 6 of the boss intro switch statement but before the next switch statement.
-// All instructions match.
 void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     u8 sp1CF = false;
     u8 temp_rand;
@@ -273,14 +269,14 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dy;
     f32 dz;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 angleToTarget;
     f32 pitchToTarget;
     Vec3f* holePosition1;
     f32 temp_y;
     f32 temp_x;
     f32 temp_z;
-    s32 pad19C;
+    f32 temp;
 
     SkelAnime_Update(&this->skelAnimeHead);
     SkelAnime_Update(&this->skelAnimeRightArm);
@@ -304,7 +300,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     //                                        Boss Intro Cutscene
 
     if (this->introState != BFD_CS_NONE) {
-        Player* player2 = PLAYER;
+        Player* player2 = GET_PLAYER(globalCtx);
         Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
         switch (this->introState) {
@@ -483,11 +479,17 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->camData.atVel.y = 85.56f;
                     this->camData.atVel.z = 25.0f;
                 } else {
-                    Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.1 * 0.08f);
+                    // the following `temp` stuff is probably fake but is required to match
+                    // it's optimized to 1.0f because sp1CF is false at this point, but the 0.1f ends up in rodata
+                    temp = 0.1f;
+                    if (!sp1CF) {
+                        temp = 1.0f;
+                    }
+                    Math_ApproachF(&this->camData.shake, 2.0f, temp, 0.1 * 0.08f);
                     this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
                 }
                 if (this->timers[3] == 160) {
-                    Audio_SetBGM(0x6B);
+                    Audio_QueueSeqCmd(0x6B);
                 }
                 if ((this->timers[3] == 130) && !(gSaveContext.eventChkInf[7] & 8)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
@@ -742,7 +744,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->skinSegments != 0) {
                     this->skinSegments--;
                     if (this->skinSegments == 0) {
-                        Audio_SetBGM(0x21);
+                        Audio_QueueSeqCmd(0x21);
                     }
                 } else {
                     this->work[BFD_ACTION_STATE] = BOSSFD_BONES_FALL;
@@ -1022,17 +1024,6 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-static Vec3f D_808D19E0 = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_808D19EC = { 0.0f, 0.03f, 0.0f };
-
-static Vec3f D_808D19F8 = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_808D1A04 = { 0.0f, 0.0f, 0.0f };
-
-static Vec3f D_808D1A10 = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_808D1A1C = { 0.0f, 0.03f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Fd/BossFd_Fly.s")
-#endif
 
 void BossFd_Wait(BossFd* this, GlobalContext* globalCtx) {
     if (this->handoffSignal == FD2_SIGNAL_FLY) { // Set by BossFd2
@@ -1437,7 +1428,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     BossFdEffect* effect = this->effects;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Color_RGB8 colors[4] = { { 255, 128, 0 }, { 255, 0, 0 }, { 255, 255, 0 }, { 255, 0, 0 } };
     Vec3f diff;
     s16 i1;
@@ -1519,7 +1510,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
 }
 
 void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
-    static u64* dustTex[] = {
+    static void* dustTex[] = {
         gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
     };
     u8 flag = false;
@@ -1813,7 +1804,11 @@ void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     }
 }
 
-static u64* sEyeTextures[] = { gVolvagiaEyeOpenTex, gVolvagiaEyeHalfTex, gVolvagiaEyeClosedTex };
+static void* sEyeTextures[] = {
+    gVolvagiaEyeOpenTex,
+    gVolvagiaEyeHalfTex,
+    gVolvagiaEyeClosedTex,
+};
 
 static Gfx* sBodyDLists[] = {
     gVolvagiaBodySeg1DL,  gVolvagiaBodySeg2DL,  gVolvagiaBodySeg3DL,  gVolvagiaBodySeg4DL,  gVolvagiaBodySeg5DL,
@@ -1916,7 +1911,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                     this->bodyFallApart[i] = 2;
                     Matrix_MultVec3f(&spF0, &spE4);
                     Matrix_Get(&spFC);
-                    func_800D20CC(&spFC, &spDC, 0);
+                    Matrix_MtxFToYXZRotS(&spFC, &spDC, 0);
                     bones =
                         (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
                                                       spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i + 200);

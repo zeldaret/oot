@@ -6,6 +6,7 @@
 
 #include "z_en_bw.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_bw/object_bw.h"
 
 #define FLAGS 0x00000015
 
@@ -33,11 +34,6 @@ void func_809D01CC(EnBw* this);
 void func_809D0268(EnBw* this, GlobalContext* globalCtx);
 void func_809D03CC(EnBw* this);
 void func_809D0424(EnBw* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06000228;
-extern SkeletonHeader D_060020F0;
-extern AnimationHeader D_060021A0;
-extern AnimationHeader D_06002250;
 
 const ActorInit En_Bw_InitVars = {
     ACTOR_EN_BW,
@@ -138,7 +134,8 @@ void EnBw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.012999999f);
     this->actor.naviEnemyId = 0x23;
     this->actor.gravity = -2.0f;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020F0, &D_06000228, this->jointTable, this->morphTable, 12);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &object_bw_Skel_0020F0, &object_bw_Anim_000228, this->jointTable,
+                   this->morphTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;
@@ -179,7 +176,7 @@ void func_809CE884(EnBw* this, GlobalContext* globalCtx) {
 }
 
 void func_809CE9A8(EnBw* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06000228, -2.0f);
+    Animation_MorphToLoop(&this->skelAnime, &object_bw_Anim_000228, -2.0f);
     this->unk_220 = 2;
     this->unk_222 = Rand_ZeroOne() * 200.0f + 200.0f;
     this->unk_232 = 0;
@@ -195,8 +192,8 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
     s16 sp60;
     f32 sp5C;
     f32 sp58;
-    Player* player = PLAYER;
-    Player* player2 = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
+    Player* player2 = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     this->unk_244 = this->unk_250 + 0.1f;
@@ -326,7 +323,8 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
     if (this->unk_224 != 0) {
         this->unk_224--;
     }
-    if ((this->unk_234 == 0) && !func_800339B8(&this->actor, globalCtx, 50.0f, this->unk_236 + this->unk_238)) {
+    if ((this->unk_234 == 0) &&
+        !Actor_TestFloorInDirection(&this->actor, globalCtx, 50.0f, this->unk_236 + this->unk_238)) {
         if (this->unk_238 != 0x4000) {
             this->unk_238 = 0x4000;
         } else {
@@ -337,7 +335,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
         case 3:
             Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
             if ((this->unk_224 == 0) && (this->actor.xzDistToPlayer < 200.0f) &&
-                (ABS(this->actor.yDistToPlayer) < 50.0f) && func_8002E084(&this->actor, 0x1C70)) {
+                (ABS(this->actor.yDistToPlayer) < 50.0f) && Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
                 func_809CF72C(this);
             } else {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_236 + this->unk_238, 1,
@@ -350,8 +348,8 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1,
                                    this->actor.speedXZ * 1000.0f, 0);
                 if ((this->actor.xzDistToPlayer < 90.0f) && (this->actor.yDistToPlayer < 50.0f) &&
-                    func_8002E084(&this->actor, 0x1554) &&
-                    func_800339B8(&this->actor, globalCtx, 71.24802f, this->actor.yawTowardsPlayer)) {
+                    Actor_IsFacingPlayer(&this->actor, 0x1554) &&
+                    Actor_TestFloorInDirection(&this->actor, globalCtx, 71.24802f, this->actor.yawTowardsPlayer)) {
                     func_809CF8F0(this);
                 }
             } else {
@@ -365,8 +363,8 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if (((sp64 == 0) && !(this->actor.bgCheckFlags & 8)) || func_8002E084(&this->actor, 0x1C70)) {
-                if (func_8002E084(&this->actor, 0x1C70)) {
+            if (((sp64 == 0) && !(this->actor.bgCheckFlags & 8)) || Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
+                if (Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
                     this->unk_238 = -this->unk_238;
                 }
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer - 0x8000, 1,
@@ -393,7 +391,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
 }
 
 void func_809CF72C(EnBw* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060021A0, -2.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_bw_Anim_0021A0, -2.0f);
     this->unk_220 = 3;
     this->unk_221 = 0;
     this->unk_250 = 0.6f;
@@ -425,7 +423,7 @@ void func_809CF7AC(EnBw* this, GlobalContext* globalCtx) {
 }
 
 void func_809CF8F0(EnBw* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06002250, -1.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_bw_Anim_002250, -1.0f);
     this->actor.speedXZ = 7.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->unk_220 = 4;
@@ -437,7 +435,7 @@ void func_809CF8F0(EnBw* this) {
 }
 
 void func_809CF984(EnBw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 floorPolyType;
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
@@ -460,7 +458,7 @@ void func_809CF984(EnBw* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         }
-        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
         this->unk_222 = 3000;
         this->actor.flags &= ~0x01000000;
         this->actor.speedXZ = 0.0f;
@@ -470,7 +468,7 @@ void func_809CF984(EnBw* this, GlobalContext* globalCtx) {
 }
 
 void func_809CFBA8(EnBw* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06002250, -1.0f);
+    Animation_MorphToLoop(&this->skelAnime, &object_bw_Anim_002250, -1.0f);
     this->unk_220 = 5;
     this->unk_222 = 1000;
     this->unk_260 = 0.0f;
@@ -494,7 +492,7 @@ void func_809CFC4C(EnBw* this, GlobalContext* globalCtx) {
         this->unk_258 += this->unk_25C;
         Math_SmoothStepToF(&this->unk_260, 0.075f, 1.0f, 0.005f, 0.0f);
         if (this->actor.bgCheckFlags & 2) {
-            func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         if (this->unk_224 != 0) {
@@ -528,7 +526,7 @@ void func_809CFC4C(EnBw* this, GlobalContext* globalCtx) {
 }
 
 void func_809CFF10(EnBw* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06002250, -1.0f);
+    Animation_MorphToLoop(&this->skelAnime, &object_bw_Anim_002250, -1.0f);
     this->unk_220 = 6;
     this->unk_222 = 1000;
     this->unk_221 = 3;
@@ -544,7 +542,7 @@ void func_809CFF98(EnBw* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
     SkelAnime_Update(&this->skelAnime);
     if (this->actor.bgCheckFlags & 3) {
-        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
         this->unk_222 = 0xBB8;
         this->unk_250 = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
@@ -667,7 +665,7 @@ void func_809D0424(EnBw* this, GlobalContext* globalCtx) {
             if (func_800355E4(globalCtx, &this->collider2.base)) {
                 this->unk_230 = 0;
                 this->actor.scale.y -= 0.009f;
-                func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
             } else {
                 this->unk_230 = 1;
             }
@@ -681,7 +679,7 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 0x10) && (this->actor.bgCheckFlags & 1)) {
         this->unk_230 = 0;
         this->actor.scale.y -= 0.009f;
-        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
         func_809D00F4(this);
     } else {
         if (this->collider2.base.acFlags & AC_HIT) {
@@ -690,7 +688,7 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
                 return;
             }
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            func_80035650(&this->actor, &this->collider2.info, 0);
+            Actor_SetDropFlag(&this->actor, &this->collider2.info, 0);
             if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
                 if (this->unk_23C == 0) {
                     Actor_ApplyDamage(&this->actor);
@@ -709,7 +707,8 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
                     if (func_800355E4(globalCtx, &this->collider2.base)) {
                         this->unk_230 = 0;
                         this->actor.scale.y -= 0.009f;
-                        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+                        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0,
+                                                 0, 0);
                     } else {
                         this->unk_230 = 1;
                     }
@@ -788,7 +787,7 @@ void EnBw_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->collider1.info.toucher.effect = 1;
         }
 
-        this->unk_234 = func_800339B8(thisx, globalCtx, 50.0f, thisx->world.rot.y);
+        this->unk_234 = Actor_TestFloorInDirection(thisx, globalCtx, 50.0f, thisx->world.rot.y);
         if ((this->unk_220 == 4) || (this->unk_220 == 6) || (this->unk_220 == 5) || (this->unk_220 == 1) ||
             (this->unk_234 != 0)) {
             Actor_MoveForward(thisx);

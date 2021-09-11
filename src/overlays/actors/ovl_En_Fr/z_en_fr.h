@@ -69,6 +69,4 @@ typedef struct EnFr {
     /* 0x03B8 */ Vec3f posButterflyLight; // Used in Lights_PointNoGlowSetInfo()
 } EnFr; // size = 0x03C4
 
-extern const ActorInit En_Fr_InitVars;
-
 #endif

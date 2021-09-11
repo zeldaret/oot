@@ -19,6 +19,4 @@ typedef struct ItemShield {
     /* 0x0208 */ ItemShieldActionFunc actionFunc;
 } ItemShield; // size = 0x020C
 
-extern const ActorInit Item_Shield_InitVars;
-
 #endif

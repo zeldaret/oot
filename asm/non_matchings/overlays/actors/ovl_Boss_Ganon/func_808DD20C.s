@@ -178,7 +178,7 @@ glabel func_808DD20C
 /* 06C18 808DD488 0C01E245 */  jal     func_80078914              
 /* 06C1C 808DD48C 2405388B */  addiu   $a1, $zero, 0x388B         ## $a1 = 0000388B
 /* 06C20 808DD490 3C041001 */  lui     $a0, 0x1001                ## $a0 = 10010000
-/* 06C24 808DD494 0C03E803 */  jal     Audio_SetBGM
+/* 06C24 808DD494 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 06C28 808DD498 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100100FF
 /* 06C2C 808DD49C 24090004 */  addiu   $t1, $zero, 0x0004         ## $t1 = 00000004

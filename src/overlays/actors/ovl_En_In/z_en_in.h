@@ -38,6 +38,4 @@ typedef struct EnIn {
     /* 0x0330 */ Vec3s unk_330[20];
 } EnIn; // size = 0x03A8
 
-extern const ActorInit En_In_InitVars;
-
 #endif

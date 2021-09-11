@@ -26,6 +26,4 @@ typedef struct BgJyaMegami {
     /* 0x01D0 */ BgJyaMegamiPiece pieces[13];
 } BgJyaMegami; // size = 0x033C
 
-extern const ActorInit Bg_Jya_Megami_InitVars;
-
 #endif

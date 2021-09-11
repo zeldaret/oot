@@ -1,14 +1,11 @@
 <Root>
-    <File Name="spot07_scene">
-        <Scene Name="spot07_scene">
-        </Scene>
+    <File Name="spot07_scene" Segment="2">
+        <Scene Name="spot07_scene" Offset="0x0"/>
     </File>
-    <File Name="spot07_room_0">
-        <Room Name="spot07_room_0">
-        </Room>
+    <File Name="spot07_room_0" Segment="3">
+        <Room Name="spot07_room_0" Offset="0x0"/>
     </File>
-    <File Name="spot07_room_1">
-        <Room Name="spot07_room_1">
-        </Room>
+    <File Name="spot07_room_1" Segment="3">
+        <Room Name="spot07_room_1" Offset="0x0"/>
     </File>
 </Root>

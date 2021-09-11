@@ -156,7 +156,7 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
         func_80AAEF70(this, globalCtx);
         this->actionFunc = func_80AAF57C;
     }
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         Actor_Kill(&this->actor);
     }
     if (this->actor.params == 1) {
@@ -318,7 +318,7 @@ void EnMm2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMm2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* mouthTextures[] = { gRunningManMouthClosedTex, gRunningManMouthOpenTex };
+    static void* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
     EnMm2* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_mm2.c", 634);

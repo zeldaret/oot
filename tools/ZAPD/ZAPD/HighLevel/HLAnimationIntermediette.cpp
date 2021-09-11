@@ -1,6 +1,5 @@
 #include "HLAnimationIntermediette.h"
 
-using namespace std;
 using namespace tinyxml2;
 
 HLAnimationIntermediette::HLAnimationIntermediette()
@@ -8,8 +7,8 @@ HLAnimationIntermediette::HLAnimationIntermediette()
 	limit = 0;
 	limbCount = 0;
 	frameCount = 0;
-	rotationValues = vector<uint16_t>();
-	rotationIndices = vector<RotationIndex>();
+	rotationValues = std::vector<uint16_t>();
+	rotationIndices = std::vector<RotationIndex>();
 }
 
 HLAnimationIntermediette::~HLAnimationIntermediette()
@@ -32,16 +31,16 @@ HLAnimationIntermediette* HLAnimationIntermediette::FromXML(std::string xmlPath)
 	for (XMLElement* child = root->FirstChildElement(); child != NULL;
 	     child = child->NextSiblingElement())
 	{
-		if (string(child->Name()) == "RotationValues")
+		if (std::string(child->Name()) == "RotationValues")
 		{
 			for (XMLElement* child2 = child->FirstChildElement(); child2 != NULL;
 			     child2 = child2->NextSiblingElement())
 			{
-				string value = child2->GetText();
+				std::string value = child2->GetText();
 				anim->rotationValues.push_back(atoi(value.c_str()));
 			}
 		}
-		else if (string(child->Name()) == "RotationIndices")
+		else if (std::string(child->Name()) == "RotationIndices")
 		{
 			for (XMLElement* child2 = child->FirstChildElement(); child2 != NULL;
 			     child2 = child2->NextSiblingElement())
@@ -58,37 +57,19 @@ HLAnimationIntermediette* HLAnimationIntermediette::FromZAnimation(ZAnimation* z
 {
 	HLAnimationIntermediette* anim = new HLAnimationIntermediette();
 
-	/*anim->limit = zAnim->limit;
-	anim->frameCount = zAnim->frameCount;
-
-	for (uint16_t item : zAnim->rotationValues)
-	    anim->rotationValues.push_back(item);
-
-	for (RotationIndex item : zAnim->rotationIndices)
-	    anim->rotationIndices.push_back(item);*/
-
 	return anim;
 }
 
 ZAnimation* HLAnimationIntermediette::ToZAnimation()
 {
-	ZAnimation* zAnim = new ZAnimation();
-
-	/*zAnim->limit = limit;
-	zAnim->frameCount = frameCount;
-
-	for (uint16_t item : rotationValues)
-	    zAnim->rotationValues.push_back(item);
-
-	for (RotationIndex item : rotationIndices)
-	    zAnim->rotationIndices.push_back(item);*/
+	ZAnimation* zAnim = new ZNormalAnimation(nullptr);
 
 	return zAnim;
 }
 
-string HLAnimationIntermediette::OutputXML()
+std::string HLAnimationIntermediette::OutputXML()
 {
-	string output = "";
+	std::string output = "";
 	XMLDocument doc;
 
 	XMLElement* root = doc.NewElement("HLAnimationIntermediette");

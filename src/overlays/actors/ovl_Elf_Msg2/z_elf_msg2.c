@@ -76,16 +76,14 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
 
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
         (Flags_GetSwitch(globalCtx, this->actor.world.rot.y - 1))) {
-        // "Mutual destruction"
-        LOG_STRING("共倒れ", "../z_elf_msg2.c", 171);
+        LOG_STRING("共倒れ", "../z_elf_msg2.c", 171); // "Mutual destruction"
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.world.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
-        // "Mutual destruction 2"
-        LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182);
+        LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182); // "Mutual destruction 2"
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
         }
@@ -94,8 +92,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
     } else if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
         return 0;
     } else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
-        // "Mutual destruction"
-        LOG_STRING("共倒れ", "../z_elf_msg2.c", 192);
+        LOG_STRING("共倒れ", "../z_elf_msg2.c", 192); // "Mutual destruction"
         Actor_Kill(&this->actor);
         return 1;
     }

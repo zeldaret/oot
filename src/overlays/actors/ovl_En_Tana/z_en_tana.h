@@ -10,6 +10,4 @@ typedef struct EnTana {
     /* 0x0000 */ Actor actor;
 } EnTana; // size = 0x014C
 
-extern const ActorInit En_Tana_InitVars;
-
 #endif

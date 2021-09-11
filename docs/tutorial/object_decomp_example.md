@@ -4,8 +4,9 @@ A fairly typical example of an NPC's object is `object_bg`. It is used by one ac
 
 ## First pass: getting it to compile
 
-Running `xmlcreate.py` gives
-```
+Running `tools/xmlcreate.py` gives
+
+```xml
 $ python3 tools/xmlcreate.py src/overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.c chuGirl
 Unknown type at offset 004110
 Unknown type at offset 004910
@@ -28,6 +29,7 @@ We have two issues here that need to be resolved: naming the animations and sort
 ### Animations
 
 You have three choices to work out what the animations are:
+
 - Read the code and look at them in the game.
 - Hylian Toolbox
 - The latest versions of Z64Utils
@@ -38,16 +40,15 @@ Hylian Toolbox is terrible, but good for quick-and-dirty things like finding out
 
 Z64Utils is way better than Hylian Toolbox, but still in development.
 
-
 ### Unknowns
 
 Looking in the actor, the unknowns are assigned to segment 8 using `SEGMENTED_TO_VIRTUAL`. This indicates textures. To find out what type they are, we can find the displaylist that uses them, and look at it in Z64Utils: if we look at the object in the object analyser, then find the right displaylist, it will not display correctly in the DList viewer, asking for a texture to put on 08000000. Giving it one of the textures, we discover that it is the head displaylist and the textures are eye textures. Hence we can name them `gChuGirlEyeOpen/Half/ClosedTex` (we equivocate on half-open/half-closed since many actors use the half texture for both opening and closing). From the code in the displaylist that loads it, we can also extract the texture's format, namely
 
-```
+```c
 06002FD8: gsDPLoadTextureBlock(D_08000000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 5, 5, 0, 0),
 ```
 
-So all three are `Format="rgb5a1" Width="32" Height="32"`.
+So all three are `Format="rgba16" Width="32" Height="32"`.
 
 ```xml
 <Root>
@@ -60,30 +61,35 @@ So all three are `Format="rgb5a1" Width="32" Height="32"`.
         <Animation Name="gChuGirlWakeUpAnim" Offset="0x80"/>
         <Animation Name="gChuGirlNoddingOffAnim" Offset="0x710"/>
         <Animation Name="gChuGirlLeanOverCounterAnim" Offset="0x72AC"/>
-		
+
         <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgb5a1" Width="32" Height="32"  Offset="0x5110"/>
-		
+        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
+
     </File>
 </Root>
 ```
 
 Having got this far, we can now run
+
+```bash
+./extract_assets.py -s objects/object_bg
 ```
-extract_assets.py -s objects/object_bg
-```
+
 to extract the contents of the object into the new folder, change the spec to use our newly extracted assets:
-```
+
+```txt
 beginseg
     name "object_bg"
     romalign 0x1000
     include "build/baserom/object_bg.o"
 endseg
 ```
+
 to
-```
+
+```txt
 beginseg
     name "object_bg"
     romalign 0x1000
@@ -91,8 +97,10 @@ beginseg
     number 6
 endseg
 ```
+
 and wipe the `z_en_bom_bowl_man` section from `undefined_syms.txt`:
-```
+
+```txt
 // z_en_bom_bowl_man
 D_06006EB0 = 0x06006EB0;
 D_06000710 = 0x06000710;
@@ -102,12 +110,11 @@ D_060072AC = 0x060072AC;
 
 Now `make` should give OK.
 
-
 ## The displaylists
 
 For this step, we use Hylian Toolbox; if you have more than one skeleton in your actor, Hylian Toolbox will only show the first one. The others can be examined in the latest version of Z64Utils. Z64Utils can also give you a list of every displaylist in an object, be it just for cross-checking or to find extras.
 
-Opening the rom in Hylian Toolbox and looking at object_bg, we can note down the displaylist associated to each limb. 
+Opening the rom in Hylian Toolbox and looking at object_bg, we can note down the displaylist associated to each limb.
 In this case naming is easy: we just have to note down the limb each is attached to. We only need a name and offset, and we end up with:
 
 ```xml
@@ -135,9 +142,9 @@ In this case naming is easy: we just have to note down the limb each is attached
         <DList Name="gChuGirlRightHandDL" Offset="0x3968"/>
 
         <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgb5a1" Width="32" Height="32"  Offset="0x5110"/>
+        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
 
 
     </File>
@@ -175,16 +182,16 @@ This is the difficult bit: we have to work out what each texture in the extracte
         <DList Name="gChuGirlRightHandDL" Offset="0x3968"/>
 
         <!-- Bombchu Bowling Girl limb textures -->
-        <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgb5a1" Width="32" Height="32" Offset="0x5910"/>
-        <Texture Name="gChuGirlSkinGradientTex" OutName="chu_girl_skin_gradient" Format="rgb5a1" Width="16" Height="16" Offset="0x6110"/>
-        <Texture Name="gChuGirlSweaterTex" OutName="chu_girl_sweater" Format="rgb5a1" Width="32" Height="32" Offset="0x6510"/>
-        <Texture Name="gChuGirlUmbEarLicusTex" OutName="chu_girl_umb_ear_licus" Format="rgb5a1" Width="16" Height="16" Offset="0x6310"/>
-        <Texture Name="gChuGirlHairTex" OutName="chu_girl_hair" Format="rgb5a1" Width="8" Height="16" Offset="0x6D10"/>
+        <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
+        <Texture Name="gChuGirlSkinGradientTex" OutName="chu_girl_skin_gradient" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
+        <Texture Name="gChuGirlSweaterTex" OutName="chu_girl_sweater" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
+        <Texture Name="gChuGirlUmbEarLicusTex" OutName="chu_girl_umb_ear_licus" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
+        <Texture Name="gChuGirlHairTex" OutName="chu_girl_hair" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
 
         <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgb5a1" Width="32" Height="32"  Offset="0x5110"/>
+        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
 
 
     </File>
@@ -232,16 +239,16 @@ Therefore, we end up with the following:
         <Limb Name="gChuGirlRightHandLimb" Type="Standard" Offset="0x6E7C"/>
 
         <!-- Bombchu Bowling Girl limb textures -->
-        <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgb5a1" Width="32" Height="32" Offset="0x5910"/>
-        <Texture Name="gChuGirlSkinGradientTex" OutName="chu_girl_skin_gradient" Format="rgb5a1" Width="16" Height="16" Offset="0x6110"/>
-        <Texture Name="gChuGirlSweaterTex" OutName="chu_girl_sweater" Format="rgb5a1" Width="32" Height="32" Offset="0x6510"/>
-        <Texture Name="gChuGirlUmbEarLicusTex" OutName="chu_girl_umb_ear_licus" Format="rgb5a1" Width="16" Height="16" Offset="0x6310"/>
-        <Texture Name="gChuGirlHairTex" OutName="chu_girl_hair" Format="rgb5a1" Width="8" Height="16" Offset="0x6D10"/>
+        <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
+        <Texture Name="gChuGirlSkinGradientTex" OutName="chu_girl_skin_gradient" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
+        <Texture Name="gChuGirlSweaterTex" OutName="chu_girl_sweater" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
+        <Texture Name="gChuGirlUmbEarLicusTex" OutName="chu_girl_umb_ear_licus" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
+        <Texture Name="gChuGirlHairTex" OutName="chu_girl_hair" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
 
         <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgb5a1" Width="32" Height="32"  Offset="0x5110"/>
+        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
 
 
     </File>

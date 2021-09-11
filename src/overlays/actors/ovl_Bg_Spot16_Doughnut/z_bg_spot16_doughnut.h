@@ -13,6 +13,4 @@ typedef struct BgSpot16Doughnut {
     /* 0x0150 */ u8 envColorAlpha;
 } BgSpot16Doughnut; // size = 0x0154
 
-extern const ActorInit Bg_Spot16_Doughnut_InitVars;
-
 #endif

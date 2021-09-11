@@ -19,6 +19,4 @@ typedef struct EnFdFire {
     /* 0x01A8 */ s16 tile2Y;
 } EnFdFire; // size = 0x01AC
 
-extern const ActorInit En_Fd_Fire_InitVars;
-
 #endif

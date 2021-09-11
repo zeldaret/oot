@@ -22,6 +22,4 @@ typedef struct DemoEc {
     /* 0x01A4 */ s32 animObjBankIndex;
 } DemoEc; // size = 0x01A8
 
-extern const ActorInit Demo_Ec_InitVars;
-
 #endif
