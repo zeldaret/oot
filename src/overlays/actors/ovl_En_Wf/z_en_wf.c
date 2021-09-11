@@ -153,39 +153,48 @@ static ColliderCylinderInit sCylinderInit2 = {
     { 15, 20, -15, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /*  0 */ ENWF_DMGEFF_NONE,
+    /*  1 */ ENWF_DMGEFF_STUN,
+    /*  6 */ ENWF_DMGEFF_ICE_MAGIC = 6,
+    /* 13 */ ENWF_DMGEFF_LIGHT_MAGIC = 13,
+    /* 14 */ ENWF_DMGEFF_FIRE,
+    /* 15 */ ENWF_DMGEFF_UNDEF // used like STUN in the code, but not in the table
+} EnWfDamageEffect;
+
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x1),
-    /* Deku stick    */ DMG_ENTRY(2, 0x0),
-    /* Slingshot     */ DMG_ENTRY(1, 0x0),
-    /* Explosive     */ DMG_ENTRY(2, 0x0),
-    /* Boomerang     */ DMG_ENTRY(0, 0x1),
-    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
-    /* Hookshot      */ DMG_ENTRY(0, 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
-    /* Master sword  */ DMG_ENTRY(2, 0x0),
-    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
-    /* Fire arrow    */ DMG_ENTRY(4, 0xE),
-    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
-    /* Light arrow   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
-    /* Fire magic    */ DMG_ENTRY(4, 0xE),
-    /* Ice magic     */ DMG_ENTRY(0, 0x6),
-    /* Light magic   */ DMG_ENTRY(3, 0xD),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
-    /* Giant spin    */ DMG_ENTRY(4, 0x0),
-    /* Master spin   */ DMG_ENTRY(2, 0x0),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
-    /* Giant jump    */ DMG_ENTRY(8, 0x0),
-    /* Master jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, ENWF_DMGEFF_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, ENWF_DMGEFF_NONE),
+    /* Explosive     */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, ENWF_DMGEFF_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Hookshot      */ DMG_ENTRY(0, ENWF_DMGEFF_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, ENWF_DMGEFF_NONE),
+    /* Master sword  */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Giant's Knife */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
+    /* Fire arrow    */ DMG_ENTRY(4, ENWF_DMGEFF_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Light arrow   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, ENWF_DMGEFF_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, ENWF_DMGEFF_ICE_MAGIC),
+    /* Light magic   */ DMG_ENTRY(3, ENWF_DMGEFF_LIGHT_MAGIC),
+    /* Shield        */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, ENWF_DMGEFF_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
+    /* Master spin   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, ENWF_DMGEFF_NONE),
+    /* Master jump   */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
 };
 
 const ActorInit En_Wf_InitVars = {
@@ -416,7 +425,6 @@ void EnWf_SetupWait(EnWf* this) {
 }
 
 // EnWf_Wait
-// #ifdef NON_MATCHING
 void func_80B345E4(EnWf* this, GlobalContext* globalCtx) {
     Player* player;
     s32 pad;
@@ -559,13 +567,12 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
         }
 
         if (func_80B33FB0(globalCtx, this, 0) == 0) {
-            if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-                Audio_PlayActorSound2(&this->actor, (u16)0x383EU);
+            if ((globalCtx->gameplayFrames & 95) == 0) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
             }
             if ((sp5C != (s32)this->skelAnime.curFrame) && (sp58 <= 0) && (((s32)sp3C + sp5C) > 0)) {
-                Audio_PlayActorSound2(&this->actor, (u16)0x385AU);
-                Actor_SpawnFloorDustRing(globalCtx, &this->actor, (Vec3f*)&this->actor.world, 20.0f, 3, 3.0f, 0x32,
-                                         0x32, 1);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, 1);
             }
         }
     }
@@ -694,7 +701,7 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
 
         if ((animCurFrame != (s32)this->skelAnime.curFrame) && (animFrameSpeedDiff <= 0) &&
             (animSpeed + animCurFrame > 0)) {
-            Audio_PlayActorSound2(&this->actor, 0x385A);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
             Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, 1);
         }
 
@@ -760,7 +767,7 @@ void func_80B355BC(EnWf* this, GlobalContext* globalCtx) {
         SkelAnime_Update(&this->skelAnime)) {
         if ((curFrame != 15) && (this->actionTimer != 0)) {
             this->actor.shape.rot.y += (s16)(3276.0f * (1.5f + (this->actionTimer - 4) * 0.4f));
-            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 1, 2.0f, 0x32, 0x32, 1);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 1, 2.0f, 50, 50, 1);
             this->actionTimer--;
         } else if (!Actor_IsFacingPlayer(&this->actor, 0x1554) && (curFrame != 15)) {
             EnWf_SetupWait(this);
@@ -1247,7 +1254,7 @@ void EnWf_Die(EnWf* this, GlobalContext* globalCtx) {
 
 void EnWf_FaceTowardsPlayer(EnWf* this, GlobalContext* globalCtx) {
     if ((this->unk_2D4 == 6) && (this->unk_2E2 != 0)) {
-        this->unk_4D4.y = Math_SinS(this->unk_2E2 * 0x1068) * 8920.0f;
+        this->unk_4D4.y = Math_SinS(this->unk_2E2 * 4200) * 8920.0f;
     } else if (this->unk_2D4 != 15) {
         if (this->unk_2D4 != 8) {
             Math_SmoothStepToS(&this->unk_4D4.y, this->actor.yawTowardsPlayer - this->actor.shape.rot.y, 1, 1500, 0);
@@ -1276,18 +1283,18 @@ void EnWf_UpdateDamage(EnWf* this, GlobalContext* globalCtx) {
             this->colliderCylinder1.base.acFlags &= ~AC_HIT;
             this->colliderCylinder2.base.acFlags &= ~AC_HIT;
 
-            if (this->actor.colChkInfo.damageEffect != 6) {
+            if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
                 this->unk_2E6 = this->actor.colChkInfo.damageEffect;
                 Actor_SetDropFlag(&this->actor, &this->colliderCylinder1.info, 1);
                 this->unk_2F8 = 0;
 
-                if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 15)) {
+                if ((this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_STUN) || (this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_UNDEF)) {
                     if (this->unk_2D4 != 15) {
                         Actor_SetColorFilter(&this->actor, 0, 120, 0, 80);
                         Actor_ApplyDamage(&this->actor);
                         EnWf_SetupStunned(this);
                     }
-                } else {
+                } else { // EN_WF_DMGEFF_FIRE
                     Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 8);
 
                     if (this->unk_2E6 == 14) {
@@ -1312,7 +1319,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnWf_UpdateDamage(this, globalCtx);
 
-    if (this->actor.colChkInfo.damageEffect != 6) {
+    if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
         Actor_MoveForward(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 32.0f, 30.0f, 60.0f, 29);
         this->actionFunc(this, globalCtx);
