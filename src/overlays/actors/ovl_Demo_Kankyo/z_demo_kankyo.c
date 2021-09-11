@@ -798,8 +798,8 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk_150[i].unk_22++;
             case 1:
                 if (this->actor.params == DEMOKANKYO_WARP_OUT) {
-                    if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpOutCameraPoints, &this->unk_150[i].unk_20,
-                                      &this->unk_150[i].unk_1C) != 0) {
+                    if (Demo1Cutscene_MoveCamera(&camPos, &sWarpRoll, &sWarpFoV, sWarpOutCameraPoints,
+                                                 &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
                     }
                     if (globalCtx->sceneNum == SCENE_TOKINOMA && globalCtx->csCtx.frames == 25) {
@@ -808,8 +808,8 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                 } else {
                     Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
-                    if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints, &this->unk_150[i].unk_20,
-                                      &this->unk_150[i].unk_1C) != 0) {
+                    if (Demo1Cutscene_MoveCamera(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints,
+                                                 &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
                     }
                     if (D_8098CF84 < globalCtx->csCtx.frames && this->actor.params == DEMOKANKYO_WARP_OUT) {
@@ -933,8 +933,8 @@ void DemoKankyo_DrawSparkles(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk_150[i].unk_23 = 0;
                 this->unk_150[i].unk_22++;
             case 1:
-                if (func_800BB2B4(&camPos, &sSparklesRoll, &sSparklesFoV, sSparklesCameraPoints,
-                                  &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C) != 0) {
+                if (Demo1Cutscene_MoveCamera(&camPos, &sSparklesRoll, &sSparklesFoV, sSparklesCameraPoints,
+                                             &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C) != 0) {
                     this->unk_150[i].unk_22++;
                 }
                 Actor_GetWorld(&posRot, &this->actor);

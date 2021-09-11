@@ -5538,8 +5538,10 @@ s32 Camera_Demo1(Camera* camera) {
             }
         case 1:
             // follow CutsceneCameraPoints.  function returns 1 if at the end.
-            if (func_800BB2B4(&csEyeUpdate, &newRoll, cameraFOV, csEyePoints, &anim->keyframe, &anim->curFrame) ||
-                func_800BB2B4(&csAtUpdate, &newRoll, cameraFOV, csAtPoints, &anim->keyframe, &anim->curFrame)) {
+            if (Demo1Cutscene_MoveCamera(&csEyeUpdate, &newRoll, cameraFOV, csEyePoints, &anim->keyframe,
+                                         &anim->curFrame) ||
+                Demo1Cutscene_MoveCamera(&csAtUpdate, &newRoll, cameraFOV, csAtPoints, &anim->keyframe,
+                                         &anim->curFrame)) {
                 camera->animState++;
             }
             if (*relativeToPlayer) {
@@ -6175,10 +6177,10 @@ s32 Camera_Demo9(Camera* camera) {
 
                 // Run the at and eye cs interpoloation functions, if either of them return 1 (that no more points
                 // exist) change the animation state to 2 (standby)
-                if (func_800BB2B4(&csEyeUpdate, &newRoll, camFOV, demo9OnePoint->onePointCs.eyePoints, &anim->keyframe,
-                                  &anim->curFrame) != 0 ||
-                    func_800BB2B4(&csAtUpdate, &newRoll, camFOV, demo9OnePoint->onePointCs.atPoints, &anim->keyframe,
-                                  &anim->curFrame) != 0) {
+                if (Demo1Cutscene_MoveCamera(&csEyeUpdate, &newRoll, camFOV, demo9OnePoint->onePointCs.eyePoints,
+                                             &anim->keyframe, &anim->curFrame) != 0 ||
+                    Demo1Cutscene_MoveCamera(&csAtUpdate, &newRoll, camFOV, demo9OnePoint->onePointCs.atPoints,
+                                             &anim->keyframe, &anim->curFrame) != 0) {
                     camera->animState = 2;
                 }
 

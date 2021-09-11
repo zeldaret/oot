@@ -1,175 +1,75 @@
 #include "global.h"
 
-typedef struct {
-    f32 x;
-    f32 y;
-    f32 z;
-    f32 roll;
-    f32 viewAngle;
-} Struct_800BB040;
+/**
+ * Cutscene camera movement carried over from Super Mario 64. Unused in the release game.
+ */
 
-#define CUBE(x) ((x)*(x)*(x))
+void Demo1Cutscene_UniformBSpline(f32 u, Vec3f* pos, f32* roll, f32* viewAngle, f32* point0, f32* point1, f32* point2,
+                                  f32* point3) {
+    f32 coeff[4];
 
-#ifdef NON_MATCHING
-void func_800BB0A0(f32 arg0, Vec3f *arg1, f32 *arg2, f32 *arg3, Struct_800BB040 *arg4, Struct_800BB040 *arg5, Struct_800BB040 *arg6, Struct_800BB040 *arg7) {
-    f32 spC;
-    f32 sp8;
-    f32 sp4;
-    f32 sp0;
-    // f32 arg0;
-    f32 temp_f0;
-    
-    f32 temp_f14;
-    f32 temp_f2;
-    // arg0 = arg0;
-    arg0 = CLAMP_MAX(arg0, 1.0f);
-    // if (temp_f12 > 1.0f) {
-    //     temp_f12 = 1.0f;
-    // }
-    // temp_f0 = 1.0f - temp_f12;
-     if(1) {}
-    // temp_f14 = temp_f2 * temp_f12;
-    temp_f14 = SQ(arg0);
-    sp0 = CUBE(1.0f - arg0) / 6.0f;
-    // temp_f2 = arg0 * arg0;
-     if(1) {}
-    sp4 = arg0 * temp_f14 / 2.0f - temp_f14 + 2.0f / 3.0f;
-     if(1) {}
-    sp8 = -arg0 * arg0 * arg0 / 2.0f + temp_f14 / 2.0f + arg0 / 2.0f + 1.0f / 6.0f;
-     if(1) {}
-    spC = arg0 * temp_f14 / 6.0f;
-     if(1) {}
-    // Rand_ZeroOne();
- if(1) {} if(1) {} if(1) {} if(1) {}
-    arg1->x = (sp0 * arg4->x) + (sp4 * arg5->x) + (sp8 * arg6->x) + (spC * arg7->x);
-    
-    arg1->y = (sp0 * arg4->y) + (sp4 * arg5->y) + (sp8 * arg6->y) + (spC * arg7->y);
-    arg1->z = (sp0 * arg4->z) + (sp4 * arg5->z) + (sp8 * arg6->z) + (spC * arg7->z);
-    *arg2 = (sp0 * arg4->roll) + (sp4 * arg5->roll) + (sp8 * arg6->roll) + (spC * arg7->roll);
-    *arg3 = (sp0 * arg4->viewAngle) + (sp4 * arg5->viewAngle) + (sp8 * arg6->viewAngle) + (spC * arg7->viewAngle);
+    u = CLAMP_MAX(u, 1.0f);
+
+    coeff[0] = (1.0f - u) * (1.0f - u) * (1.0f - u) / 6.0f;
+    coeff[1] = u * u * u / 2.0f - u * u + 2.0f / 3.0f;
+    coeff[2] = -u * u * u / 2.0f + u * u / 2.0f + u / 2.0f + 1.0f / 6.0f;
+    coeff[3] = u * u * u / 6.0f;
+
+    pos->x = (coeff[0] * point0[0]) + (coeff[1] * point1[0]) + (coeff[2] * point2[0]) + (coeff[3] * point3[0]);
+    pos->y = (coeff[0] * point0[1]) + (coeff[1] * point1[1]) + (coeff[2] * point2[1]) + (coeff[3] * point3[1]);
+    pos->z = (coeff[0] * point0[2]) + (coeff[1] * point1[2]) + (coeff[2] * point2[2]) + (coeff[3] * point3[2]);
+    *roll = (coeff[0] * point0[3]) + (coeff[1] * point1[3]) + (coeff[2] * point2[3]) + (coeff[3] * point3[3]);
+    *viewAngle = (coeff[0] * point0[4]) + (coeff[1] * point1[4]) + (coeff[2] * point2[4]) + (coeff[3] * point3[4]);
 }
-#else
-void func_800BB0A0(f32, Vec3f*, f32*, f32*, Struct_800BB040*, Struct_800BB040*, Struct_800BB040*, Struct_800BB040*);
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800BB0A0/func_800BB0A0.s")
-#endif
 
-#ifndef NON_MATCHING
-s32 func_800BB2B4(Vec3f *pos, f32 *roll, f32 *fov, CutsceneCameraPoint *point, s16 *keyframe, f32 *curFrame) {
-    s32 sp9C = 0;
-    Struct_800BB040 sp4C[4];
-    Struct_800BB040* temp2;
-    CutsceneCameraPoint* temp;
+s32 Demo1Cutscene_MoveCamera(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s16* keyFrame,
+                             f32* curFrame) {
+    s32 ret = false;
+    f32 pointData[4][5];
     s32 i;
-    s32 j;
-    f32 sp3C;
-    f32 sp38;
-    f32 phi_f0;
-    f32 phi_f12;
+    f32 progress = *curFrame;
+    s32 key = *keyFrame;
+    f32 speed1 = 0.0f;
+    f32 speed2 = 0.0f;
+    f32 advance;
 
-    // temp_t0 = *keyframe;
-    
-    sp38 = 0.0f;
-    sp3C = 0.0f;
-    phi_f12 = *curFrame;
-    if (*keyframe < 0) {
-        phi_f12 = 0.0f;
+    if (key < 0) {
+        progress = 0.0f;
     }
-    
-    // temp_v0 = &point[temp_t0];
-    if ((point[*keyframe].continueFlag == -1) || (point[*keyframe + 1].continueFlag == -1) || (point[*keyframe + 2].continueFlag == -1)) {
-        return 1;
+
+    if ((point[key].continueFlag == -1) || (point[key + 1].continueFlag == -1) || (point[key + 2].continueFlag == -1)) {
+        return true;
     }
-    // temp_v0_2 = &sp4C;
-    // temp_v1 = &point[temp_t0];
-    // temp_t8 = temp_v1->pos.x;
-    // phi_t8 = temp_t8;
-    // phi_v1 = temp_v1;
-    // phi_a0 = 0x10;
-    // phi_t8_2 = temp_t8;
-    // phi_v1_2 = temp_v1;
-    // phi_a0_2 = 0x10;
-    // i = 0;
-    // temp = &point[*keyframe];
-    // // j = 0;
-    // for (j = 0; j < 0x40; i++, j += 0x10, temp++) {
-    //     // i += 0x10;
-    //     sp4C[i].x = temp->pos.x;
-    //     sp4C[i].y = temp->pos.y;
-    //     sp4C[i].z = temp->pos.z;
-    //     sp4C[i].roll = temp->cameraRoll;
-    //     sp4C[i].viewAngle = temp->viewAngle;
-    // }
-    // i = 0;
-    // temp = &point[*keyframe];
-    // temp2 = &sp4C;
-    
-    
-    // i = 0x10;
-    // if(1) {}
-    for (i = 0x10, temp2 = sp4C, temp = &point[*keyframe]; i < 0x40; i += 0x10, temp2++, temp++) {
-        temp2->x = temp->pos.x;
-        temp2->y = temp->pos.y;
-        temp2->z = temp->pos.z;
-        temp2->roll = temp->cameraRoll;
-        temp2->viewAngle = temp->viewAngle;
+
+    for (i = 0; i < 4; i++) {
+        pointData[i][0] = point[key + i].pos.x;
+        pointData[i][1] = point[key + i].pos.y;
+        pointData[i][2] = point[key + i].pos.z;
+        pointData[i][3] = point[key + i].cameraRoll;
+        pointData[i][4] = point[key + i].viewAngle;
     }
-    
-    // if (0x10 != 0x40) {
-    //     do {
-    //         temp_a0 = phi_a0 + 0x10;
-    //         temp_v0_2 = phi_v0 + 0x14;
-    //         temp_v1_2 = phi_v1 + 0x10;
-    //         temp_v0_2->unk-14 = (f32) phi_t8;
-    //         temp_v0_2->unk-10 = (f32) temp_v1_2->unk-6;
-    //         temp_v0_2->unk-C = (f32) temp_v1_2->unk-4;
-    //         temp_v0_2->unk-8 = (f32) temp_v1_2->unk-F;
-    //         temp_v0_2->unk-4 = (f32) temp_v1_2->unk-C;
-    //         temp_t8_2 = temp_v1_2->pos.x;
-    //         phi_t8 = temp_t8_2;
-    //         phi_v0 = temp_v0_2;
-    //         phi_v1 = temp_v1_2;
-    //         phi_a0 = temp_a0;
-    //         phi_t8_2 = temp_t8_2;
-    //         phi_v0_2 = temp_v0_2;
-    //         phi_v1_2 = temp_v1_2;
-    //         phi_a0_2 = temp_a0;
-    //     } while (temp_a0 != 0x40);
-    // }
-    // temp_v0_3 = phi_v0_2 + 0x14;
-    // temp_v1_3 = phi_v1_2 + 0x10;
-    // temp_v0_3->unk-14 = (f32) phi_t8_2;
-    // temp_v0_3->unk-10 = (f32) temp_v1_3->unk-6;
-    // temp_v0_3->unk-C = (f32) temp_v1_3->unk-4;
-    // temp_v0_3->unk-8 = (f32) temp_v1_3->unk-F;
-    // temp_v0_3->unk-4 = (f32) temp_v1_3->unk-C;
-    // sp9C = 0;
-    // sp3C = 0.0f;
-    // sp38 = 0.0f;
-    func_800BB0A0(phi_f12, pos, roll, fov, &sp4C[0], &sp4C[1], &sp4C[2], &sp4C[3]);
-    // temp_v0_4 = &point[*keyframe];
-    // temp_v1_4 = temp_v0_4->unk12;
-    if (point[*keyframe + 1].nextPointFrame != 0) {
-        sp3C = 1.0f / point[*keyframe + 1].nextPointFrame;
+
+    Demo1Cutscene_UniformBSpline(progress, pos, roll, fov, &pointData[0], &pointData[1], &pointData[2], &pointData[3]);
+
+    if (point[*keyFrame + 1].nextPointFrame != 0) {
+        speed1 = 1.0f / point[*keyFrame + 1].nextPointFrame;
     }
-    // temp_v1_5 = temp_v0_4->unk22;
-    if (point[*keyframe + 2].nextPointFrame != 0) {
-        sp38 = 1.0f / point[*keyframe + 2].nextPointFrame;
+
+    if (point[*keyFrame + 2].nextPointFrame != 0) {
+        speed2 = 1.0f / point[*keyFrame + 2].nextPointFrame;
     }
-    phi_f0 = (*curFrame * (sp38 - sp3C)) + sp3C;
-    if (phi_f0 < 0.0f) {
-        phi_f0 = 0;
+    advance = (*curFrame * (speed2 - speed1)) + speed1;
+    if (advance < 0.0f) {
+        advance = 0;
     }
-    *curFrame += phi_f0;
+    *curFrame += advance;
     if (*curFrame >= 1) {
-        if (point[++*keyframe + 3].continueFlag == -1) {
-            *keyframe = 0;
-            sp9C = 1;
+        if (point[++*keyFrame + 3].continueFlag == -1) {
+            *keyFrame = 0;
+            ret = true;
         }
         *curFrame -= 1;
     }
-    
-    return sp9C;
+
+    return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800BB0A0/func_800BB2B4.s")
-#endif
