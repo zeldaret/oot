@@ -531,7 +531,7 @@ s32 Camera_GetWaterBoxDataIdx(Camera* camera, f32* waterY) {
  * or if `chkPos` is above the water surface, return BGCHECK_Y_MIN, output
  * environment properites to `envProp` if `chkPos` is inside the waterbox.
  */
-f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, u32* envProp) {
+f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
     PosRot playerPosRot;
     f32 waterY;
     WaterBox* waterBox;

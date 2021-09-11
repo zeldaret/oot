@@ -212,8 +212,8 @@ void Map_InitRoomData(GlobalContext* globalCtx, s16 room) {
         interfaceCtx->mapRoomNum = 0;
     }
 
-    if (gSaveContext.sunsState != SUNS_SPEED_TIME) {
-        gSaveContext.sunsState = SUNS_INACTIVE;
+    if (gSaveContext.sunsSongState != SUNSSONG_SPEED_TIME) {
+        gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
 }
 
@@ -559,7 +559,7 @@ void Map_Update(GlobalContext* globalCtx) {
                         osSyncPrintf("階層切替＝%x\n", interfaceCtx->mapRoomNum);
                         osSyncPrintf(VT_RST);
                         Map_InitData(globalCtx, interfaceCtx->mapRoomNum);
-                        gSaveContext.sunsState = SUNS_INACTIVE;
+                        gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                         Map_SavePlayerInitialInfo(globalCtx);
                     }
                 }

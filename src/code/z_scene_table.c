@@ -1088,7 +1088,7 @@ void func_80099BD8(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5145);
 
     if (gSaveContext.sceneSetupIndex == 5) {
-        gCustomLensFlareOn = 1;
+        gCustomLensFlareOn = true;
         gCustomLensFlarePos.x = -20.0f;
         gCustomLensFlarePos.y = 1220.0f;
         gCustomLensFlarePos.z = -684.0f;

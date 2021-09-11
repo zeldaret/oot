@@ -174,8 +174,6 @@ static s16 D_8098CF80;
 static s16 sRainScale;
 static s16 D_8098CF84;
 
-extern Mtx D_01000000; // perspective mtx
-
 extern Gfx D_06000080[]; // rain DL
 extern Gfx D_06000DE0[]; // rocks DL
 extern Gfx D_06007440[]; // DoT DL left

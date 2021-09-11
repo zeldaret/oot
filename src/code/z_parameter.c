@@ -3789,7 +3789,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
 void Interface_Update(GlobalContext* globalCtx) {
     static u8 D_80125B60 = 0;
-    static s16 sOldTimeIncrement = 0;
+    static s16 sPrevTimeIncrement = 0;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     Player* player = GET_PLAYER(globalCtx);
@@ -4098,32 +4098,32 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    if (gSaveContext.sunsState != SUNS_INACTIVE) {
+    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
         // exit out of ocarina mode after suns song finishes playing
-        if ((msgCtx->unk_E3F0 != 0x31) && (gSaveContext.sunsState == SUNS_START)) {
+        if ((msgCtx->unk_E3F0 != 0x31) && (gSaveContext.sunsSongState == SUNSSONG_START)) {
             globalCtx->msgCtx.unk_E3EE = 4;
         }
 
         // handle suns song in areas where time moves
         if (globalCtx->envCtx.timeIncrement != 0) {
-            if (gSaveContext.sunsState != SUNS_SPEED_TIME) {
+            if (gSaveContext.sunsSongState != SUNSSONG_SPEED_TIME) {
                 D_80125B60 = 0;
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
                     D_80125B60 = 1;
                 }
 
-                gSaveContext.sunsState = SUNS_SPEED_TIME;
-                sOldTimeIncrement = gTimeIncrement;
+                gSaveContext.sunsSongState = SUNSSONG_SPEED_TIME;
+                sPrevTimeIncrement = gTimeIncrement;
                 gTimeIncrement = 400;
             } else if (D_80125B60 == 0) {
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
-                    gSaveContext.sunsState = SUNS_INACTIVE;
-                    gTimeIncrement = sOldTimeIncrement;
+                    gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+                    gTimeIncrement = sPrevTimeIncrement;
                     globalCtx->msgCtx.unk_E3EE = 4;
                 }
             } else if (gSaveContext.dayTime > 0xC001) {
-                gSaveContext.sunsState = SUNS_INACTIVE;
-                gTimeIncrement = sOldTimeIncrement;
+                gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+                gTimeIncrement = sPrevTimeIncrement;
                 globalCtx->msgCtx.unk_E3EE = 4;
             }
         } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
@@ -4147,12 +4147,12 @@ void Interface_Update(GlobalContext* globalCtx) {
             gSaveContext.respawnFlag = -2;
             globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
             globalCtx->sceneLoadFlag = 0x14;
-            gSaveContext.sunsState = SUNS_INACTIVE;
+            gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
             func_800F6964(30);
             gSaveContext.seqIndex = 0xFF;
             gSaveContext.nightSeqIndex = 0xFF;
         } else {
-            gSaveContext.sunsState = SUNS_SPECIAL;
+            gSaveContext.sunsSongState = SUNSSONG_SPECIAL;
         }
     }
 }
