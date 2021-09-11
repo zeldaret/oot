@@ -282,7 +282,7 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 // EnWf_???????????
 s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s16 temp_t0;
     s16 temp_v1;
@@ -354,7 +354,7 @@ s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
 
         temp_v1_5 = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
-        if (((this->actor.xzDistToPlayer <= 80.0f) && (!func_80033AB8(globalCtx, &this->actor))) &&
+        if (((this->actor.xzDistToPlayer <= 80.0f) && (!Actor_OtherIsTargeted(globalCtx, &this->actor))) &&
             (((globalCtx->gameplayFrames & 7) != 0) || (ABS(temp_v1_5) < 0x38E0))) {
             func_80B35540(this);
             return 1;
@@ -422,7 +422,7 @@ void func_80B345E4(EnWf* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 angle;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_2E2 != 0) {
@@ -462,7 +462,7 @@ void func_80B345E4(EnWf* this, GlobalContext* globalCtx) {
             this->actionTimer--;
 
             if (this->actionTimer == 0) {
-                if (func_8002E084(&this->actor, 0x1555)) {
+                if (Actor_IsFacingPlayer(&this->actor, 0x1555)) {
                     if (Rand_ZeroOne() > 0.3f) {
                         func_80B347FC(this, globalCtx);
                     } else {
@@ -495,7 +495,7 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 sp50 = 0.0f;
     s32 pad2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad3;
     s16 temp_v1;
     s16 temp_v0;
@@ -506,7 +506,7 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
 
-        if (func_80033AB8(globalCtx, &this->actor)) {
+        if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
             sp50 = 150.0f;
         }
 
@@ -537,7 +537,7 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
         sp58 = this->skelAnime.curFrame - sp3C;
         sp3C = ABS(this->skelAnime.playSpeed);
 
-        if (!func_8002E084(&this->actor, 0x11C7)) {
+        if (!Actor_IsFacingPlayer(&this->actor, 0x11C7)) {
             if (Rand_ZeroOne() > 0.5f) {
                 func_80B34F28(this);
             } else {
@@ -546,11 +546,11 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
         } else if (this->actor.xzDistToPlayer < (90.0f + sp50)) {
             temp_v1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
-            if ((func_80033AB8(globalCtx, &this->actor) == 0) &&
+            if ((Actor_OtherIsTargeted(globalCtx, &this->actor) == 0) &&
                 ((Rand_ZeroOne() > 0.03f) || ((this->actor.xzDistToPlayer <= 80.0f) && (ABS(temp_v1) < 0x38E0)))) {
                 func_80B35540(this);
             } else {
-                if (func_80033AB8(globalCtx, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
+                if (Actor_OtherIsTargeted(globalCtx, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
                     EnWf_SetupBackFlip(this);
                 } else {
                     func_80B34F28(this);
@@ -564,7 +564,7 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
             }
             if ((sp5C != (s32)this->skelAnime.curFrame) && (sp58 <= 0) && (((s32)sp3C + sp5C) > 0)) {
                 Audio_PlayActorSound2(&this->actor, (u16)0x385AU);
-                func_80033260(globalCtx, &this->actor, (Vec3f*)&this->actor.world, 20.0f, 3, 3.0f, 0x32, 0x32, 1);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, (Vec3f*)&this->actor.world, 20.0f, 3, 3.0f, 0x32, 0x32, 1);
             }
         }
     }
@@ -598,7 +598,7 @@ void EnWf_SearchForPlayer(EnWf* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = -phi_f2;
         SkelAnime_Update(&this->skelAnime);
 
-        if (func_8002E084(&this->actor, 0x1555)) {
+        if (Actor_IsFacingPlayer(&this->actor, 0x1555)) {
             if (Rand_ZeroOne() > 0.8f) {
                 func_80B34F28(this);
             } else {
@@ -643,7 +643,7 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
     s32 animCurFrame;
     s32 animFrameSpeedDiff;
     s32 animSpeed;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->unk_2FE, 1, 4000, 1);
 
@@ -652,7 +652,7 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
         angle1 = player->actor.shape.rot.y + this->unk_2FE + 0x8000;
 
         if ((this->actor.bgCheckFlags & 8) ||
-            (func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y) == 0)) {
+            (Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y) == 0)) {
             angle2 = (this->actor.bgCheckFlags & 8)
                          ? (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->unk_2FE
                          : 0;
@@ -662,7 +662,7 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (func_80033AB8(globalCtx, &this->actor)) {
+        if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
             distAdd = 150.0f;
         }
 
@@ -694,21 +694,21 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
         if ((animCurFrame != (s32)this->skelAnime.curFrame) && (animFrameSpeedDiff <= 0) &&
             (animSpeed + animCurFrame > 0)) {
             Audio_PlayActorSound2(&this->actor, 0x385A);
-            func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, 1);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, 1);
         }
 
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
         }
 
-        if ((Math_CosS(angle1 - this->actor.shape.rot.y) < -0.85f) && (func_80033AB8(globalCtx, &this->actor) == 0) &&
+        if ((Math_CosS(angle1 - this->actor.shape.rot.y) < -0.85f) && (Actor_OtherIsTargeted(globalCtx, &this->actor) == 0) &&
             (this->actor.xzDistToPlayer <= 80.0f)) {
             func_80B35540(this);
         } else {
             this->actionTimer--;
 
             if (this->actionTimer == 0) {
-                if ((func_80033AB8(globalCtx, &this->actor) != 0) && (Rand_ZeroOne() > 0.5f)) {
+                if ((Actor_OtherIsTargeted(globalCtx, &this->actor) != 0) && (Rand_ZeroOne() > 0.5f)) {
                     EnWf_SetupBackFlip(this);
                 } else {
                     EnWf_SetupWait(this);
@@ -735,7 +735,7 @@ void func_80B35540(EnWf* this) {
 
 // EnWf_??????
 void func_80B355BC(EnWf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 shapeAngleDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
     s16 yawAngleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     s32 curFrame = this->skelAnime.curFrame;
@@ -754,14 +754,14 @@ void func_80B355BC(EnWf* this, GlobalContext* globalCtx) {
         this->unk_2F8 = 0;
     }
 
-    if ((((curFrame == 15) && !func_80033A84(globalCtx, &this->actor)) &&
-         ((!func_8002E084(&this->actor, 0x2000)) || (this->actor.xzDistToPlayer >= 100.0f))) ||
+    if ((((curFrame == 15) && !Actor_IsTargeted(globalCtx, &this->actor)) &&
+         ((!Actor_IsFacingPlayer(&this->actor, 0x2000)) || (this->actor.xzDistToPlayer >= 100.0f))) ||
         SkelAnime_Update(&this->skelAnime)) {
         if ((curFrame != 15) && (this->actionTimer != 0)) {
             this->actor.shape.rot.y += (s16)(3276.0f * (1.5f + (this->actionTimer - 4) * 0.4f));
-            func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 1, 2.0f, 0x32, 0x32, 1);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 1, 2.0f, 0x32, 0x32, 1);
             this->actionTimer--;
-        } else if (!func_8002E084(&this->actor, 0x1554) && (curFrame != 15)) {
+        } else if (!Actor_IsFacingPlayer(&this->actor, 0x1554) && (curFrame != 15)) {
             EnWf_SetupWait(this);
             this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
 
@@ -807,7 +807,7 @@ void func_80B3590C(EnWf* this) {
 
 // EnWf_??????
 void func_80B359A8(EnWf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 angle1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
     s16 angle2 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
@@ -815,7 +815,7 @@ void func_80B359A8(EnWf* this, GlobalContext* globalCtx) {
     angle2 = ABS(angle2);
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (func_8002E084(&this->actor, 0x1554) == 0) {
+        if (Actor_IsFacingPlayer(&this->actor, 0x1554) == 0) {
             EnWf_SetupWait(this);
             this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
 
@@ -859,7 +859,7 @@ void EnWf_SetupBackFlip(EnWf* this) {
 
 void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime) != 0) {
-        if (!func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
+        if (!Actor_OtherIsTargeted(globalCtx, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
             (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
             func_80B347FC(this, globalCtx);
         } else if ((globalCtx->gameplayFrames & 1) != 0) {
@@ -953,7 +953,7 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
             }
 
             if (EnWf_DodgeRanged(globalCtx, this) == 0) {
-                if ((this->actor.xzDistToPlayer <= 80.0f) && (!(func_80033AB8(globalCtx, &this->actor))) &&
+                if ((this->actor.xzDistToPlayer <= 80.0f) && (!(Actor_OtherIsTargeted(globalCtx, &this->actor))) &&
                     ((globalCtx->gameplayFrames & 7) != 0)) {
                     func_80B35540(this);
                 } else if (Rand_ZeroOne() > 0.5f) {
@@ -998,7 +998,7 @@ void func_80B361A0(EnWf* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = this->actor.velocity.y = 0.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
 
-        if (!func_80033AB8(globalCtx, &this->actor)) {
+        if (!Actor_OtherIsTargeted(globalCtx, &this->actor)) {
             func_80B35540(this);
         } else {
             EnWf_SetupWait(this);
@@ -1022,7 +1022,7 @@ void EnWf_SetupReactToPlayer(EnWf* this) {
 }
 
 void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     if (this->actionTimer != 0) {
@@ -1049,7 +1049,7 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
             } else {
                 s16 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
-                if (!((func_80033AB8(globalCtx, &this->actor)) ||
+                if (!((Actor_OtherIsTargeted(globalCtx, &this->actor)) ||
                       (((globalCtx->gameplayFrames & 1) == 0) && (!(ABS(angleFacingLink) < 0x38E0))))) {
                     func_80B35540(this);
                 } else {
@@ -1079,7 +1079,7 @@ void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx) {
 
     Animation_Change(&this->skelAnime, &D_060057A0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     angle = player->actor.shape.rot.y + this->unk_2FE;
 
     if (Math_SinS(angle - this->actor.yawTowardsPlayer) > 0.0f) {
@@ -1104,7 +1104,7 @@ void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx) {
 
 void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
     s16 angleDiff1;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 animCurFrame;
     s32 animFrameSpeedDiff;
     s32 animSpeed;
@@ -1113,7 +1113,7 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->unk_2FE, 1, 3000, 1);
 
     if ((this->actor.bgCheckFlags & 8) ||
-        (func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y) == 0)) {
+        (Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y) == 0)) {
         s16 angle =
             (this->actor.bgCheckFlags & 8) ? (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->unk_2FE : 0;
 
@@ -1124,7 +1124,7 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-    if (func_80033AB8(globalCtx, &this->actor)) {
+    if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
         distAdd = 150.0f;
     }
 
@@ -1165,12 +1165,12 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
                 EnWf_SetupWait(this);
                 this->actionTimer = (Rand_ZeroOne() * 3.0f) + 1.0f;
             } else {
-                Player* player2 = PLAYER;
+                Player* player2 = GET_PLAYER(globalCtx);
                 s16 angleDiff2 = player2->actor.shape.rot.y - this->actor.yawTowardsPlayer;
 
                 this->actor.world.rot.y = this->actor.shape.rot.y;
 
-                if (((this->actor.xzDistToPlayer <= 80.0f) && !func_80033AB8(globalCtx, &this->actor)) &&
+                if (((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsTargeted(globalCtx, &this->actor)) &&
                     (((globalCtx->gameplayFrames & 3) == 0) || (ABS(angleDiff2) < 0x38E0))) {
                     func_80B35540(this);
                 } else {
@@ -1182,7 +1182,7 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
         if ((animCurFrame != (s32)this->skelAnime.curFrame) && (animFrameSpeedDiff <= 0) &&
             ((animSpeed + animCurFrame) > 0)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
-            func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, 1);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, 1);
         }
 
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
@@ -1276,7 +1276,7 @@ void EnWf_ApplyDamage(EnWf* this, GlobalContext* globalCtx) {
 
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->unk_2E6 = this->actor.colChkInfo.damageEffect;
-                func_80035650(&this->actor, &this->colliderCylinder1.info, 1);
+                Actor_SetDropFlag(&this->actor, &this->colliderCylinder1.info, 1);
                 this->unk_2F8 = 0;
 
                 if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 15)) {
@@ -1294,7 +1294,7 @@ void EnWf_ApplyDamage(EnWf* this, GlobalContext* globalCtx) {
 
                     if (!(Actor_ApplyDamage(&this->actor))) {
                         EnWf_SetupDeath(this);
-                        func_80032C7C(globalCtx, &this->actor);
+                        Enemy_StartFinishingBlow(globalCtx, &this->actor);
                     } else {
                         EnWf_SetupDamaged(this);
                     }
@@ -1467,7 +1467,7 @@ void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnWf_DodgeRanged(GlobalContext* globalCtx, EnWf* this) {
-    Actor* actor = func_80033780(globalCtx, &this->actor, 600.0f);
+    Actor* actor = Actor_GetProjectileActor(globalCtx, &this->actor, 600.0f);
 
     if (actor != NULL) {
         s16 angleToFacing;
