@@ -1614,7 +1614,7 @@ void GameAlloc_Init(GameAlloc* this);
 void Graph_FaultClient();
 void Graph_DisassembleUCode(Gfx* workBuf);
 void Graph_UCodeFaultClient(Gfx* workBuf);
-void* Graph_InitTHGA(GraphicsContext* gfxCtx);
+void Graph_InitTHGA(GraphicsContext* gfxCtx);
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState);
 void Graph_Init(GraphicsContext* gfxCtx);
 void Graph_Destroy(GraphicsContext* gfxCtx);
