@@ -1575,9 +1575,11 @@ endseg
 beginseg
     name "ovl_Door_Warp1"
     include "build/src/overlays/actors/ovl_Door_Warp1/z_door_warp1.o"
-    include "build/data/overlays/actors/z_door_warp1.data.o"
-    include "build/data/overlays/actors/z_door_warp1.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Door_Warp1/ovl_Door_Warp1_reloc.o"
+#else
     include "build/data/overlays/actors/z_door_warp1.reloc.o"
+#endif
 endseg
 
 beginseg
