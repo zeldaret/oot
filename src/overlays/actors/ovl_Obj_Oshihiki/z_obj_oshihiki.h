@@ -51,6 +51,4 @@ typedef struct ObjOshihiki {
     /* 0x01D0 */ Color_RGB8 color;
 } ObjOshihiki; // size = 0x01D4
 
-extern const ActorInit Obj_Oshihiki_InitVars;
-
 #endif

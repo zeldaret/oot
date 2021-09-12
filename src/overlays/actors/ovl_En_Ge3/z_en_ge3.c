@@ -276,20 +276,19 @@ void EnGe3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     }
 }
 
-static u64* sEyeTextures[] = {
-    0x06005FE8, // Half-open
-    0x060065A8, // Quarter-open
-    0x06006D28, // Closed
-};
-
 void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+    static void* eyeTextures[] = {
+        0x06005FE8, // Half-open
+        0x060065A8, // Quarter-open
+        0x06006D28, // Closed
+    };
     EnGe3* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge3.c", 614);
 
     func_800943C8(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
     func_8002EBCC(&this->actor, globalCtx, 0);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGe3_OverrideLimbDraw, EnGe3_PostLimbDraw, this);

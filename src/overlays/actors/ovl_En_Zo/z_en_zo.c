@@ -493,12 +493,12 @@ void EnZo_Blink(EnZo* this) {
 }
 
 void EnZo_Dialog(EnZo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_194.unk_18 = player->actor.world.pos;
     if (this->actionFunc == EnZo_Standing) {
         // Look down at link if young, look up if old
-        this->unk_194.unk_14 = LINK_IS_CHILD ? 10.0f : -10.0f;
+        this->unk_194.unk_14 = !LINK_IS_ADULT ? 10.0f : -10.0f;
     } else {
         this->unk_194.unk_18.y = this->actor.world.pos.y;
     }
@@ -509,7 +509,7 @@ void EnZo_Dialog(EnZo* this, GlobalContext* globalCtx) {
 }
 
 s32 EnZo_PlayerInProximity(EnZo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f surfacePos;
     f32 yDist;
     f32 hDist;

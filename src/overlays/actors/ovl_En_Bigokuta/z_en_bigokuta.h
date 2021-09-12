@@ -24,6 +24,4 @@ typedef struct EnBigokuta {
     /* 0x02EC */ ColliderCylinder cylinder[2];
 } EnBigokuta; // size = 0x0384
 
-extern const ActorInit En_Bigokuta_InitVars;
-
 #endif

@@ -21,6 +21,4 @@ typedef struct DemoGt {
     /* 0x0198 */ s32 unk_198[4];
 } DemoGt; // size = 0x01A8
 
-extern const ActorInit Demo_Gt_InitVars;
-
 #endif

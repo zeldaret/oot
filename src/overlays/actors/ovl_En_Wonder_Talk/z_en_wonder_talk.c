@@ -69,7 +69,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 this->unk_15C = 80.0f;
                 // Attention coordinates
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
-                if (LINK_IS_CHILD) {
+                if (!LINK_IS_ADULT) {
                     this->actor.textId = 0x7040;
                     // Children
                     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ こども ☆☆☆☆☆ \n" VT_RST);
@@ -189,7 +189,7 @@ void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
                 case 2:
                     switch (globalCtx->msgCtx.choiceIndex) {
                         case 0:
-                            if (LINK_IS_CHILD) {
+                            if (!LINK_IS_ADULT) {
                                 // I'm still a child!
                                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ まだコドモなの！ ☆☆☆☆☆ \n" VT_RST);
                                 this->actor.textId = 0x5001;

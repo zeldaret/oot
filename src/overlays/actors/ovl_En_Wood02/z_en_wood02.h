@@ -15,8 +15,6 @@ typedef struct EnWood02 {
     /* 0x0158 */ ColliderCylinder collider;
 } EnWood02; // size = 0x01A4
 
-extern const ActorInit En_Wood02_InitVars;
-
 // Types with SPAWNED in the name are those that can be managed by a spawner, however the actor allows you to spawn them
 // on their own without a spawner as well.
 typedef enum {

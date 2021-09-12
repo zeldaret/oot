@@ -6,6 +6,7 @@
 
 #include "z_demo_ext.h"
 #include "vt.h"
+#include "objects/object_fhg/object_fhg.h"
 
 #define FLAGS 0x00000010
 
@@ -26,8 +27,6 @@ void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern Gfx D_0600FAA0[];
 
 void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -213,7 +212,7 @@ void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
         Gfx_TwoTexScroll(gfxCtx, 0, curScroll[0], curScroll[1], 0x40, 0x40, 1, curScroll[2], curScroll[3], 0x40, 0x40));
 
     gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_0600FAA0);
+    gSPDisplayList(POLY_XLU_DISP++, gPhantomWarpDL);
     gSPPopMatrix(POLY_XLU_DISP++, G_MTX_MODELVIEW);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_ext.c", 512);

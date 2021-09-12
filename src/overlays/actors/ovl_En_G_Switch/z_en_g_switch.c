@@ -10,6 +10,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_tsubo/object_tsubo.h"
 
 #define FLAGS 0x00000030
 
@@ -37,9 +38,6 @@ void EnGSwitch_Kill(EnGSwitch* this, GlobalContext* globalCtx);
 void EnGSwitch_SpawnEffects(EnGSwitch* this, Vec3f* pos, s16 scale, s16 colorIdx);
 void EnGSwitch_UpdateEffects(EnGSwitch* this, GlobalContext* globalCtx);
 void EnGSwitch_DrawEffects(EnGSwitch* this, GlobalContext* globalCtx);
-
-extern Gfx D_060017C0[];
-extern Gfx D_06001960[];
 
 static s16 sCollectedCount = 0;
 
@@ -87,19 +85,19 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->type = (this->actor.params >> 0xC) & 0xF;
     this->switchFlag = this->actor.params & 0x3F;
     this->numEffects = ARRAY_COUNT(this->effects);
-    // index
+    // "index"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
-    // save
+    // "save"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ\t     ☆☆☆☆☆ %x\n" VT_RST, this->switchFlag);
     switch (this->type) {
         case ENGSWITCH_SILVER_TRACKER:
             osSyncPrintf("\n\n");
-            // parent switch spawn
+            // "parent switch spawn"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
             sCollectedCount = 0;
             this->silverCount = this->actor.params >> 6;
             this->silverCount &= 0x3F;
-            // maximum number of checks
+            // "maximum number of checks"
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
             osSyncPrintf("\n\n");
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -112,7 +110,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case ENGSWITCH_SILVER_RUPEE:
             osSyncPrintf("\n\n");
-            // child switch spawn
+            // "child switch spawn"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 子スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
             this->colorIdx = 5;
             this->numEffects = 20;
@@ -130,7 +128,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case ENGSWITCH_ARCHERY_POT:
             osSyncPrintf("\n\n");
-            // Horseback archery destructible pot
+            // "Horseback archery destructible pot"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n" VT_RST);
             this->actor.gravity = -3.0f;
             this->colorIdx = Rand_ZeroFloat(2.99f);
@@ -144,9 +142,9 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->objIndex = Object_GetIndex(&globalCtx->objectCtx, this->objId);
             if (this->objIndex < 0) {
                 Actor_Kill(&this->actor);
-                // what?
+                // "what?"
                 osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
-                // bank is funny
+                // "bank is funny"
                 osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             }
             this->collider.dim.radius = 24;
@@ -210,21 +208,21 @@ void EnGSwitch_WaitForObject(EnGSwitch* this, GlobalContext* globalCtx) {
 }
 
 void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, GlobalContext* globalCtx) {
-    static s8 rupeePitches[] = { 0, 2, 4, 5, 7 };
+    static s8 majorScale[] = { 0, 2, 4, 5, 7 };
 
-    if (this->pitchIndex < sCollectedCount) {
+    if (this->noteIndex < sCollectedCount) {
         if (sCollectedCount < 5) {
-            // sound?
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->pitchIndex);
-            func_800F4BF4(&D_801333D4, NA_SE_EV_FIVE_COUNT_LUPY, rupeePitches[this->pitchIndex]);
-            this->pitchIndex = sCollectedCount;
+            // "sound?"
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->noteIndex);
+            Audio_PlaySoundTransposed(&D_801333D4, NA_SE_EV_FIVE_COUNT_LUPY, majorScale[this->noteIndex]);
+            this->noteIndex = sCollectedCount;
         }
     }
     if (sCollectedCount >= this->silverCount) {
-        // It is now the end of the century.
+        // "It is now the end of the century."
         // This another reference to Hokuto no Ken.
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
-        // Last!
+        // "Last!"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n" VT_RST);
         if ((globalCtx->sceneNum == SCENE_MEN) && (this->actor.room == 2)) {
             Flags_SetTempClear(globalCtx, this->actor.room);
@@ -238,7 +236,7 @@ void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, GlobalContext* globalCtx) {
 }
 
 void EnGSwitch_SilverRupeeIdle(EnGSwitch* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->actor.shape.rot.y += 0x800;
     if (this->actor.xyzDistToPlayerSq < 900.0f) {
@@ -257,7 +255,7 @@ void EnGSwitch_SilverRupeeIdle(EnGSwitch* this, GlobalContext* globalCtx) {
 }
 
 void EnGSwitch_SilverRupeeCollected(EnGSwitch* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->actor.shape.rot.y += 0x3C0;
     if (this->killTimer == 0) {
@@ -348,7 +346,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                 gallery->targetState[this->index] = ENSYATEKIHIT_HIT;
                 func_80078884(NA_SE_EV_HIT_SOUND);
                 func_80078884(NA_SE_SY_GET_RUPY);
-                // Yeah !
+                // "Yeah !"
                 osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n" VT_RST, gallery->hitCount);
                 EnGSwitch_Break(this, globalCtx);
                 this->killTimer = 50;
@@ -401,7 +399,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
             scale = 30.0f + Rand_ZeroOne() * 130.0f;
 
             EffectSsKakera_Spawn(globalCtx, &pos, &vel, thisPos, -240, phi_s0, 10, 10, 0, scale, 0, 0x20, 60,
-                                 KAKERA_COLOR_NONE, OBJECT_TSUBO, D_06001960);
+                                 KAKERA_COLOR_NONE, OBJECT_TSUBO, object_tsubo_DL_001960);
         }
         func_80033480(globalCtx, thisPos, 30.0f, 4, 20, 50, 0);
         Audio_PlaySoundAtPosition(globalCtx, thisPos, 40, NA_SE_EV_POT_BROKEN);
@@ -462,13 +460,14 @@ void EnGSwitch_DrawPot(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 925),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_060017C0);
+        gSPDisplayList(POLY_OPA_DISP++, object_tsubo_DL_0017C0);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 928);
     }
 }
 
-static UNK_PTR sRupeeTex[] = { gRupeeGreenTex, gRupeeBlueTex,   gRupeeRedTex,
-                               gRupeePinkTex,  gRupeeOrangeTex, gRupeeSilverTex };
+static void* sRupeeTextures[] = {
+    gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex, gRupeeSilverTex,
+};
 
 void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -481,7 +480,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
         func_8002EBCC(&this->actor, globalCtx, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 957),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[this->colorIdx]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 961);
     }
@@ -565,7 +564,7 @@ void EnGSwitch_DrawEffects(EnGSwitch* this, GlobalContext* globalCtx) {
             Matrix_RotateZ(effect->rot.z, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 1088),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[effect->colorIdx]));
+            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[effect->colorIdx]));
             gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         }
     }

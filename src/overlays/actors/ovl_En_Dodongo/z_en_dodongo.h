@@ -44,6 +44,4 @@ typedef enum {
     EN_DODONGO_SMOKE_DEATH
 } EnDodongoParam;
 
-extern const ActorInit En_Dodongo_InitVars;
-
 #endif

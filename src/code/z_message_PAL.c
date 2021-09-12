@@ -1369,15 +1369,15 @@ void func_80109B3C(GlobalContext* globalCtx) {
             }
             phi_s6--;
         } else if (temp_s2 == 0x1E) {
-            phi_s0_3 = HIGH_SCORE(font->msgBuf[++msgCtx->unk_E3CE]);
+            phi_s0_3 = HIGH_SCORE((u8)font->msgBuf[++msgCtx->unk_E3CE]);
             osSyncPrintf("ランキング＝%d\n", font->msgBuf[msgCtx->unk_E3CE]);
             if ((font->msgBuf[msgCtx->unk_E3CE] & 0xFF) == 2) {
                 if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                     phi_s0_3 &= 0x7F;
                 } else {
                     osSyncPrintf("HI_SCORE( kanfont->mbuff.nes_mes_buf[message->rdp] & 0xff000000 ) = %x\n",
-                                 HIGH_SCORE(((u16*)font->msgBuf)[msgCtx->unk_E3CE] & 0xFF000000));
-                    phi_s0_3 = ((HIGH_SCORE(font->msgBuf[msgCtx->unk_E3CE]) & 0xFF000000) >> 0x18) & 0x7F;
+                                 HIGH_SCORE(font->msgBufWide[msgCtx->unk_E3CE] & 0xFF000000));
+                    phi_s0_3 = ((HIGH_SCORE((u8)font->msgBuf[msgCtx->unk_E3CE]) & 0xFF000000) >> 0x18) & 0x7F;
                 }
                 phi_s0_3 = SQ((f32)phi_s0_3) * 0.0036f + 0.5f;
                 osSyncPrintf("score=%d\n", phi_s0_3);
@@ -1900,8 +1900,6 @@ void Message_DrawTextBox(GlobalContext* globalCtx, Gfx** p) {
                         (VREG(1) + R_MESSAGE_TEXTBOX_HEIGHT) << 2, G_TX_RENDERTILE, 0, 0,
                         R_MESSAGE_TEXTBOX_TEXWIDTH << 1, R_MESSAGE_TEXTBOX_TEXHEIGHT << 1);
 
-    if (1) {}
-
     // Draw Treble Clef
     if (msgCtx->textBoxType == BOX_OCARINA) {
         gDPPipeSync(gfx++);
@@ -1962,7 +1960,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         0x0034, 0x0033, 0x0035, 0x0036, 0x0037, 0x0025, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049,
     };
 
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Gfx* gfx = *p;
     MessageContext* msgCtx;
     s16 g1;
@@ -2348,7 +2346,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             func_800ED93C(msgCtx->unk_E3EC + 1, 1);
             if (0xC != msgCtx->unk_E3EC) {
                 func_800F5C64(D_80153CE0[msgCtx->unk_E3EC]);
-                func_800F7260(0x20);
+                Audio_SetSoundBanksMute(0x20);
             }
             globalCtx->msgCtx.unk_E3EE = 1;
             if (msgCtx->unk_E3F0 == 1) {
@@ -2739,7 +2737,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             func_801086B0(globalCtx, &gfx);
             break;
         case MSGMODE_UNK_30:
-            if (!func_800F8FF4(NA_SE_SY_METRONOME)) {
+            if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
                 msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
                 D_8014B2F8 = 0;
                 msgCtx->ocarinaStaff->pos = D_8014B2F8;
@@ -3002,7 +3000,7 @@ void Message_Update(GlobalContext* globalCtx) {
 
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Input* curInput = &globalCtx->state.input[0];
     s16 phi_v1_2;
     s16 focusScreenPosX;
@@ -3057,7 +3055,7 @@ void Message_Update(GlobalContext* globalCtx) {
 
             if (phi_v1_2 != 0) {
                 if (msgCtx->talkActor != NULL) {
-                    func_8002F374(globalCtx, &PLAYER->actor, &focusScreenPosX, &playerFocusScreenPosY);
+                    func_8002F374(globalCtx, &GET_PLAYER(globalCtx)->actor, &focusScreenPosX, &playerFocusScreenPosY);
                     func_8002F374(globalCtx, msgCtx->talkActor, &focusScreenPosX, &actorFocusScreenPosY);
 
                     if (playerFocusScreenPosY >= actorFocusScreenPosY) {
@@ -3121,7 +3119,7 @@ void Message_Update(GlobalContext* globalCtx) {
                     R_MESSAGE_TEXTBOX_TEXHEIGHT = 512;
                 } else {
                     func_80107244(msgCtx);
-                    func_800F691C(0);
+                    Audio_PlaySoundIfNotInCutscene(0);
                     msgCtx->unk_E3E7 = 0;
                     msgCtx->msgMode = MSGMODE_UNK_02;
                 }

@@ -15,6 +15,4 @@ typedef struct BgSpot01Idomizu {
     /* 0x0154 */ char unk_154[0x4];
 } BgSpot01Idomizu; // size = 0x0158
 
-extern const ActorInit Bg_Spot01_Idomizu_InitVars;
-
 #endif

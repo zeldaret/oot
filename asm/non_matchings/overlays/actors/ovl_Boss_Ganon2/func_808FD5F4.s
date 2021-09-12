@@ -1133,14 +1133,14 @@ glabel L808FE4C0
 /* 015F8 808FE538 24010032 */  addiu   $at, $zero, 0x0032         ## $at = 00000032
 /* 015FC 808FE53C 1461000D */  bne     $v1, $at, .L808FE574
 /* 01600 808FE540 8FA40050 */  lw      $a0, 0x0050($sp)
-/* 01604 808FE544 3C050600 */  lui     $a1, %hi(D_06000BFC)                ## $a1 = 06000000
-/* 01608 808FE548 24A50BFC */  addiu   $a1, $a1, %lo(D_06000BFC)           ## $a1 = 06000BFC
+/* 01604 808FE544 3C050600 */  lui     $a1, %hi(object_ganon_anime3_Anim_000BFC)                ## $a1 = 06000000
+/* 01608 808FE548 24A50BFC */  addiu   $a1, $a1, %lo(object_ganon_anime3_Anim_000BFC)           ## $a1 = 06000BFC
 /* 0160C 808FE54C 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 01610 808FE550 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 01614 808FE554 3C040600 */  lui     $a0, %hi(D_06000BFC)                ## $a0 = 06000000
+/* 01614 808FE554 3C040600 */  lui     $a0, %hi(object_ganon_anime3_Anim_000BFC)                ## $a0 = 06000000
 /* 01618 808FE558 0C028800 */  jal     Animation_GetLastFrame
 
-/* 0161C 808FE55C 24840BFC */  addiu   $a0, $a0, %lo(D_06000BFC)           ## $a0 = 06000BFC
+/* 0161C 808FE55C 24840BFC */  addiu   $a0, $a0, %lo(object_ganon_anime3_Anim_000BFC)           ## $a0 = 06000BFC
 /* 01620 808FE560 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00
 /* 01624 808FE564 240C0003 */  addiu   $t4, $zero, 0x0003         ## $t4 = 00000003
 /* 01628 808FE568 A20C0314 */  sb      $t4, 0x0314($s0)           ## 00000314
@@ -1736,8 +1736,8 @@ glabel L808FED50
 /* 01EAC 808FEDEC 24060153 */  addiu   $a2, $zero, 0x0153         ## $a2 = 00000153
 /* 01EB0 808FEDF0 0C23F442 */  jal     BossGanon2_SetObjectSegment
 /* 01EB4 808FEDF4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 01EB8 808FEDF8 3C020602 */  lui     $v0, %hi(D_06021A90)                ## $v0 = 06020000
-/* 01EBC 808FEDFC 24421A90 */  addiu   $v0, $v0, %lo(D_06021A90)           ## $v0 = 06021A90
+/* 01EB8 808FEDF8 3C020602 */  lui     $v0, %hi(object_ganon2_Tex_021A90)                ## $v0 = 06020000
+/* 01EBC 808FEDFC 24421A90 */  addiu   $v0, $v0, %lo(object_ganon2_Tex_021A90)           ## $v0 = 06021A90
 /* 01EC0 808FEE00 00027900 */  sll     $t7, $v0,  4
 /* 01EC4 808FEE04 000FC702 */  srl     $t8, $t7, 28
 /* 01EC8 808FEE08 0018C880 */  sll     $t9, $t8,  2
@@ -2282,17 +2282,17 @@ glabel L808FF51C
 /* 026C0 808FF600 262420D8 */  addiu   $a0, $s1, 0x20D8           ## $a0 = 000020D8
 /* 026C4 808FF604 14400082 */  bne     $v0, $zero, .L808FF810
 /* 026C8 808FF608 240B001D */  addiu   $t3, $zero, 0x001D         ## $t3 = 0000001D
-/* 026CC 808FF60C 3C050601 */  lui     $a1, %hi(D_060147E0)                ## $a1 = 06010000
+/* 026CC 808FF60C 3C050601 */  lui     $a1, %hi(object_ganon_anime3_Anim_0147E0)                ## $a1 = 06010000
 /* 026D0 808FF610 A60B039C */  sh      $t3, 0x039C($s0)           ## 0000039C
 /* 026D4 808FF614 AE000398 */  sw      $zero, 0x0398($s0)         ## 00000398
-/* 026D8 808FF618 24A547E0 */  addiu   $a1, $a1, %lo(D_060147E0)           ## $a1 = 060147E0
+/* 026D8 808FF618 24A547E0 */  addiu   $a1, $a1, %lo(object_ganon_anime3_Anim_0147E0)           ## $a1 = 060147E0
 /* 026DC 808FF61C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 026E0 808FF620 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 026E4 808FF624 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 026E8 808FF628 3C040601 */  lui     $a0, %hi(D_060147E0)                ## $a0 = 06010000
+/* 026E8 808FF628 3C040601 */  lui     $a0, %hi(object_ganon_anime3_Anim_0147E0)                ## $a0 = 06010000
 /* 026EC 808FF62C 0C028800 */  jal     Animation_GetLastFrame
 
-/* 026F0 808FF630 248447E0 */  addiu   $a0, $a0, %lo(D_060147E0)           ## $a0 = 060147E0
+/* 026F0 808FF630 248447E0 */  addiu   $a0, $a0, %lo(object_ganon_anime3_Anim_0147E0)           ## $a0 = 060147E0
 /* 026F4 808FF634 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00
 /* 026F8 808FF638 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 /* 026FC 808FF63C 3C018091 */  lui     $at, %hi(D_8090DBA0)       ## $at = 80910000

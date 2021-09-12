@@ -59,6 +59,4 @@ typedef enum {
     /*  1 */ BONGO_RIGHT_HAND
 } BossSstType;
 
-extern const ActorInit Boss_Sst_InitVars;
-
 #endif

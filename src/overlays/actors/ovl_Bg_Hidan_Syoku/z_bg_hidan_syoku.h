@@ -15,6 +15,4 @@ typedef struct BgHidanSyoku {
     /* 0x016A */ s16 timer;
 } BgHidanSyoku; // size = 0x016C
 
-extern const ActorInit Bg_Hidan_Syoku_InitVars;
-
 #endif

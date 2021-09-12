@@ -15,6 +15,4 @@ typedef struct BgJyaLift {
     /* 0x16B */ u8 unk_16B;
 } BgJyaLift; // size = 0x016C
 
-extern const ActorInit Bg_Jya_Lift_InitVars;
-
 #endif

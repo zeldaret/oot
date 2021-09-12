@@ -36,6 +36,4 @@ typedef struct EnTa {
     /* 0x02E4 */ AnimationHeader* unk_2E4;
 } EnTa; // size = 0x02E8
 
-extern const ActorInit En_Ta_InitVars;
-
 #endif

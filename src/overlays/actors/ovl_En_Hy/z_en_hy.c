@@ -262,7 +262,7 @@ void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
 }
 
 u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnHy* this = THIS;
     u16 textId = Text_GetFaceReaction(globalCtx, (this->actor.params & 0x7F) + 37);
 
@@ -359,7 +359,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                                                       : 0x7014;
         case 12:
             if (globalCtx->sceneNum == SCENE_SPOT01) {
-                return gSaveContext.nightFlag ? 0x5084 : 0x5083;
+                return !IS_DAY ? 0x5084 : 0x5083;
             } else {
                 return (gSaveContext.eventChkInf[8] & 1) ? 0x7044 : 0x7015;
             }
@@ -372,7 +372,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
         case 16:
             return 0x700E;
         case 17:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (!gSaveContext.nightFlag) {
                     return (gSaveContext.infTable[22] & 1) ? 0x5058 : 0x5057;
                 } else {
@@ -384,7 +384,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x5058;
             }
         case 18:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 return (gSaveContext.eventChkInf[8] & 1) ? 0x505F : ((gSaveContext.infTable[22] & 8) ? 0x505E : 0x505D);
             } else {
                 return (this->unk_330 & 0x800) ? 0x5062 : ((gSaveContext.infTable[22] & 0x10) ? 0x5061 : 0x5060);
@@ -441,7 +441,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
                     func_80034EC0(&this->skelAnime, D_80A72050, 17);
-                    Player_UpdateBottleHeld(globalCtx, PLAYER, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+                    Player_UpdateBottleHeld(globalCtx, GET_PLAYER(globalCtx), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
                     break;
                 case 0x7016:
                     gSaveContext.infTable[12] |= 1;
@@ -565,7 +565,7 @@ void func_80A70734(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void func_80A70834(EnHy* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.params & 0x7F) == 5) {
         if (!Inventory_HasSpecificBottle(ITEM_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BUG) &&
@@ -606,7 +606,7 @@ void func_80A70834(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3;
 
     switch (this->actor.params & 0x7F) {
@@ -654,9 +654,9 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
                 ((this->actor.params & 0x7F) != 12) && ((this->actor.params & 0x7F) != 2) &&
                 ((this->actor.params & 0x7F) != 7)) {
                 return true;
-            } else if (LINK_IS_CHILD) {
+            } else if (!LINK_IS_ADULT) {
                 return true;
-            } else if (((this->actor.params & 0x7F) != 12) && (gSaveContext.nightFlag == 1)) {
+            } else if (((this->actor.params & 0x7F) != 12) && IS_NIGHT) {
                 return false;
             } else {
                 return true;
@@ -664,7 +664,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
         case SCENE_LABO:
             if ((this->actor.params & 0x7F) != 10) {
                 return true;
-            } else if (gSaveContext.linkAge == 1) {
+            } else if (LINK_IS_CHILD) {
                 return false;
             } else if (((this->actor.params & 0x7F) == 10) && !gSaveContext.nightFlag) {
                 return false;
@@ -681,13 +681,13 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
             }
         case SCENE_KAKARIKO:
             if ((this->actor.params & 0x7F) == 0) {
-                return LINK_IS_CHILD ? false : true;
+                return !LINK_IS_ADULT ? false : true;
             } else if (((this->actor.params & 0x7F) != 9) && ((this->actor.params & 0x7F) != 2) &&
                        ((this->actor.params & 0x7F) != 7)) {
                 return true;
             } else if (!gSaveContext.nightFlag) {
                 return false;
-            } else if (gSaveContext.linkAge == 1) {
+            } else if (LINK_IS_CHILD) {
                 return false;
             } else {
                 return true;
@@ -696,7 +696,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
         case SCENE_MARKET_ALLEY_N:
             if ((this->actor.params & 0x7F) != 14) {
                 return true;
-            } else if (gSaveContext.nightFlag == 1) {
+            } else if (IS_NIGHT) {
                 return false;
             } else if ((gSaveContext.eventChkInf[8] & 1) && !(gSaveContext.eventChkInf[4] & 0x20)) {
                 return false;

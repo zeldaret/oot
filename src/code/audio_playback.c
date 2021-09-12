@@ -1,6 +1,6 @@
 #include "global.h"
 
-void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
+void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     f32 volRight, volLeft;
     s32 smallPanIndex;
     u64 pad;
@@ -9,20 +9,20 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     f32 vel;
     u8 pan;
     u8 reverbVol;
-    ReverbBitsData sp24;
+    StereoData sp24;
     s32 stereoHeadsetEffects = note->playbackState.stereoHeadsetEffects;
 
-    vel = reverb->velocity;
-    pan = reverb->pan;
-    reverbVol = reverb->reverb;
-    sp24 = reverb->reverbBits.s;
+    vel = attrs->velocity;
+    pan = attrs->pan;
+    reverbVol = attrs->reverbVol;
+    sp24 = attrs->stereo.s;
 
     sub->bitField0.s = note->noteSubEu.bitField0.s;
     sub->bitField1.s = note->noteSubEu.bitField1.s;
     sub->sound.samples = note->noteSubEu.sound.samples;
     sub->unk_06 = note->noteSubEu.unk_06;
 
-    Audio_NoteSetResamplingRate(sub, reverb->frequency);
+    Audio_NoteSetResamplingRate(sub, attrs->frequency);
 
     pan &= 0x7F;
 
@@ -38,7 +38,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
 
         sub->headsetPanLeft = gHeadsetPanQuantization[smallPanIndex];
         sub->headsetPanRight = gHeadsetPanQuantization[0x3f - smallPanIndex];
-        sub->bitField1.s.hasTwoAdpcmParts = true;
+        sub->bitField1.s.usesHeadsetPanEffects2 = true;
 
         volLeft = gHeadsetPanVolume[pan];
         volRight = gHeadsetPanVolume[0x7f - pan];
@@ -46,7 +46,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
         strongLeft = strongRight = 0;
         sub->headsetPanRight = 0;
         sub->headsetPanLeft = 0;
-        sub->bitField1.s.hasTwoAdpcmParts = false;
+        sub->bitField1.s.usesHeadsetPanEffects2 = false;
 
         volLeft = gStereoPanVolume[pan];
         volRight = gStereoPanVolume[0x7f - pan];
@@ -94,10 +94,10 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     sub->targetVolLeft = (s32)((vel * volLeft) * 4095.999f);
     sub->targetVolRight = (s32)((vel * volRight) * 4095.999f);
 
-    sub->unk_2 = reverb->unk_1;
-    sub->unk_14 = reverb->unk_10;
-    sub->unk_07 = reverb->unk_14;
-    sub->unk_10 = reverb->unk_16;
+    sub->unk_2 = attrs->unk_1;
+    sub->filter = attrs->filter;
+    sub->unk_07 = attrs->unk_14;
+    sub->unk_0E = attrs->unk_16;
     sub->reverbVol = reverbVol;
 }
 
@@ -105,7 +105,7 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
     f32 resamplingRate = 0.0f;
 
     if (resamplingRateInput < 2.0f) {
-        noteSubEu->bitField1.s.isSyntheticWave = false;
+        noteSubEu->bitField1.s.hasTwoAdpcmParts = false;
 
         if (1.99998f < resamplingRateInput) {
             resamplingRate = 1.99998f;
@@ -114,7 +114,7 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
         }
 
     } else {
-        noteSubEu->bitField1.s.isSyntheticWave = true;
+        noteSubEu->bitField1.s.hasTwoAdpcmParts = true;
         if (3.99996f < resamplingRateInput) {
             resamplingRate = 1.99998f;
         } else {
@@ -154,12 +154,12 @@ void Audio_NoteDisable(Note* note) {
 
 void Audio_ProcessNotes(void) {
     s32 pad[2];
-    NoteAttributes* attributes;
+    NoteAttributes* attrs;
     NoteSubEu* noteSubEu2;
     NoteSubEu* noteSubEu;
     Note* note;
     NotePlaybackState* playbackState;
-    Reverb reverb;
+    NoteSubAttributes subAttrs;
     u8 bookOffset;
     f32 scale;
     s32 i;
@@ -248,47 +248,47 @@ void Audio_ProcessNotes(void) {
 
             scale = Audio_AdsrUpdate(&playbackState->adsr);
             Audio_NoteVibratoUpdate(note);
-            attributes = &playbackState->attributes;
+            attrs = &playbackState->attributes;
             if (playbackState->unk_04 == 1 || playbackState->unk_04 == 2) {
-                reverb.frequency = attributes->freqScale;
-                reverb.velocity = attributes->velocity;
-                reverb.pan = attributes->pan;
-                reverb.reverb = attributes->reverb;
-                reverb.reverbBits = attributes->reverbBits;
-                reverb.unk_1 = attributes->unk_1;
-                reverb.unk_10 = attributes->unk_10;
-                reverb.unk_14 = attributes->unk_4;
-                reverb.unk_16 = attributes->unk_6;
+                subAttrs.frequency = attrs->freqScale;
+                subAttrs.velocity = attrs->velocity;
+                subAttrs.pan = attrs->pan;
+                subAttrs.reverbVol = attrs->reverb;
+                subAttrs.stereo = attrs->stereo;
+                subAttrs.unk_1 = attrs->unk_1;
+                subAttrs.filter = attrs->filter;
+                subAttrs.unk_14 = attrs->unk_4;
+                subAttrs.unk_16 = attrs->unk_6;
                 bookOffset = noteSubEu->bitField1.s.bookOffset;
             } else {
                 SequenceChannelLayer* layer = playbackState->parentLayer;
                 SequenceChannel* channel = layer->seqChannel;
 
-                reverb.frequency = layer->noteFreqScale;
-                reverb.velocity = layer->noteVelocity;
-                reverb.pan = layer->notePan;
-                if (layer->reverbBits.asByte == 0) {
-                    reverb.reverbBits = channel->reverbBits;
+                subAttrs.frequency = layer->noteFreqScale;
+                subAttrs.velocity = layer->noteVelocity;
+                subAttrs.pan = layer->notePan;
+                if (layer->stereo.asByte == 0) {
+                    subAttrs.stereo = channel->stereo;
                 } else {
-                    reverb.reverbBits = layer->reverbBits;
+                    subAttrs.stereo = layer->stereo;
                 }
-                reverb.reverb = channel->reverb;
-                reverb.unk_1 = channel->unk_0C;
-                reverb.unk_10 = channel->unk_CC;
-                reverb.unk_14 = channel->unk_0F;
-                reverb.unk_16 = channel->unk_20;
+                subAttrs.reverbVol = channel->reverb;
+                subAttrs.unk_1 = channel->unk_0C;
+                subAttrs.filter = channel->filter;
+                subAttrs.unk_14 = channel->unk_0F;
+                subAttrs.unk_16 = channel->unk_20;
                 bookOffset = channel->bookOffset & 0x7;
 
                 if (channel->seqPlayer->muted && (channel->muteBehavior & 8)) {
-                    reverb.frequency = 0.0f;
-                    reverb.velocity = 0.0f;
+                    subAttrs.frequency = 0.0f;
+                    subAttrs.velocity = 0.0f;
                 }
             }
 
-            reverb.frequency *= playbackState->vibratoFreqScale * playbackState->portamentoFreqScale;
-            reverb.frequency *= gAudioContext.audioBufferParameters.resampleRate;
-            reverb.velocity *= scale;
-            Audio_NoteSetVelPanReverb(note, noteSubEu2, &reverb);
+            subAttrs.frequency *= playbackState->vibratoFreqScale * playbackState->portamentoFreqScale;
+            subAttrs.frequency *= gAudioContext.audioBufferParameters.resampleRate;
+            subAttrs.velocity *= scale;
+            Audio_InitNoteSub(note, noteSubEu2, &subAttrs);
             noteSubEu->bitField1.s.bookOffset = bookOffset;
         skip:;
         }
@@ -432,7 +432,7 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, void* arg3) {
 
 void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) {
     Note* note;
-    NoteAttributes* attributes;
+    NoteAttributes* attrs;
     SequenceChannel* chan;
     s32 i;
 
@@ -447,7 +447,7 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
     }
 
     note = seqLayer->note;
-    attributes = &note->playbackState.attributes;
+    attrs = &note->playbackState.attributes;
 
     if (note->playbackState.wantedParentLayer == seqLayer) {
         note->playbackState.wantedParentLayer = NO_LAYER;
@@ -463,37 +463,37 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
     }
 
     if (note->playbackState.adsr.action.s.state != ADSR_STATE_DECAY) {
-        attributes->freqScale = seqLayer->noteFreqScale;
-        attributes->velocity = seqLayer->noteVelocity;
-        attributes->pan = seqLayer->notePan;
+        attrs->freqScale = seqLayer->noteFreqScale;
+        attrs->velocity = seqLayer->noteVelocity;
+        attrs->pan = seqLayer->notePan;
 
         if (seqLayer->seqChannel != NULL) {
             chan = seqLayer->seqChannel;
-            attributes->reverb = chan->reverb;
-            attributes->unk_1 = chan->unk_0C;
-            attributes->unk_10 = chan->unk_CC;
+            attrs->reverb = chan->reverb;
+            attrs->unk_1 = chan->unk_0C;
+            attrs->filter = chan->filter;
 
-            if (attributes->unk_10 != NULL) {
+            if (attrs->filter != NULL) {
                 for (i = 0; i < 8; i++) {
-                    attributes->unk_14[i] = attributes->unk_10[i];
+                    attrs->filterBuf[i] = attrs->filter[i];
                 }
-                attributes->unk_10 = attributes->unk_14;
+                attrs->filter = attrs->filterBuf;
             }
 
-            attributes->unk_6 = chan->unk_20;
-            attributes->unk_4 = chan->unk_0F;
+            attrs->unk_6 = chan->unk_20;
+            attrs->unk_4 = chan->unk_0F;
             if (chan->seqPlayer->muted && (chan->muteBehavior & 8)) {
                 note->noteSubEu.bitField0.s.finished = true;
             }
 
-            if (seqLayer->reverbBits.asByte == 0) {
-                attributes->reverbBits = chan->reverbBits;
+            if (seqLayer->stereo.asByte == 0) {
+                attrs->stereo = chan->stereo;
             } else {
-                attributes->reverbBits = seqLayer->reverbBits;
+                attrs->stereo = seqLayer->stereo;
             }
             note->playbackState.priority = chan->someOtherPriority;
         } else {
-            attributes->reverbBits = seqLayer->reverbBits;
+            attrs->stereo = seqLayer->stereo;
             note->playbackState.priority = 1;
         }
 
@@ -767,12 +767,12 @@ void Audio_NoteInitForLayer(Note* note, SequenceChannelLayer* seqLayer) {
     sub->sound.audioBankSound = seqLayer->sound;
 
     if (instId >= 0x80 && instId < 0xC0) {
-        sub->bitField1.s.bit2 = true;
+        sub->bitField1.s.isSyntheticWave = true;
     } else {
-        sub->bitField1.s.bit2 = false;
+        sub->bitField1.s.isSyntheticWave = false;
     }
 
-    if (sub->bitField1.s.bit2) {
+    if (sub->bitField1.s.isSyntheticWave) {
         Audio_BuildSyntheticWave(note, seqLayer, instId);
     }
 

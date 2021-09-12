@@ -5,6 +5,7 @@
  */
 
 #include "z_en_toryo.h"
+#include "objects/object_toryo/object_toryo.h"
 
 #define FLAGS 0x00000009
 
@@ -95,11 +96,9 @@ typedef struct {
     f32 transitionRate;
 } EnToryoAnimation;
 
-static EnToryoAnimation sEnToryoAnimation = { 0x06000E50, 1.0f, 0, 0 };
+static EnToryoAnimation sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
 
 static Vec3f sMultVec = { 800.0f, 1000.0f, 0.0f };
-
-extern FlexSkeletonHeader D_06007150;
 
 void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnToryo* this = THIS;
@@ -112,12 +111,12 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case SCENE_SPOT01:
-            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && (gSaveContext.nightFlag == 0)) {
+            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && IS_DAY) {
                 this->stateFlags |= 2;
             }
             break;
         case SCENE_KAKARIKO:
-            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && (gSaveContext.nightFlag == 1)) {
+            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && IS_NIGHT) {
                 this->stateFlags |= 4;
             }
             break;
@@ -128,7 +127,8 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 42.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007150, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_toryo_Skel_007150, NULL, this->jointTable, this->morphTable,
+                       17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -149,7 +149,7 @@ void EnToryo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 ret = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -222,7 +222,7 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
 
 s32 func_80B205CC(EnToryo* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 ret = 5;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -292,7 +292,7 @@ s32 func_80B206A0(EnToryo* this, GlobalContext* globalCtx) {
 }
 
 void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 sp32;
     s16 sp30;
 
@@ -358,7 +358,7 @@ void func_80B20914(EnToryo* this, GlobalContext* globalCtx) {
 void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnToryo* this = THIS;
     ColliderCylinder* collider = &this->collider;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 rot;
 
     Collider_UpdateCylinder(thisx, collider);

@@ -18,6 +18,4 @@ typedef struct EnWallTubo {
     /* 0x0164 */ Vec3f unk_164;
 } EnWallTubo; // size = 0x0170
 
-extern const ActorInit En_Wall_Tubo_InitVars;
-
 #endif

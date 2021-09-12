@@ -39,6 +39,4 @@ typedef struct EnAnubice {
     /* 0x02C8 */ ColliderCylinder col;
 } EnAnubice; // size = 0x0314
 
-extern const ActorInit En_Anubice_InitVars;
-
 #endif

@@ -76,6 +76,4 @@ typedef enum {
     /* 15 */ RUTO_CHILD_TORSO
 } RutoLimb;
 
-extern const ActorInit En_Ru1_InitVars;
-
 #endif

@@ -106,8 +106,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                              DynaPolyMoveFlag flag) {
+void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -288,12 +287,12 @@ void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-static u64* sRightSideCrumbles[] = {
+static void* sRightSideCrumbles[] = {
     gMeagmiRightCrumble1Tex, gMeagmiRightCrumble2Tex, gMeagmiRightCrumble3Tex,
     gMeagmiRightCrumble4Tex, gMeagmiRightCrumble5Tex,
 };
 
-static u64* sLeftSideCrumbles[] = {
+static void* sLeftSideCrumbles[] = {
     gMeagmiLeftCrumble1Tex, gMeagmiLeftCrumble2Tex, gMeagmiLeftCrumble3Tex,
     gMeagmiLeftCrumble4Tex, gMeagmiLeftCrumble5Tex,
 };

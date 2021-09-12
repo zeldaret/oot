@@ -211,7 +211,7 @@ s32 func_80A01F90(Vec3f* this, Vec3f* arg1, f32 arg2) {
 }
 
 void func_80A01FE0(EnElf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!func_80A01F90(&this->actor.world.pos, &player->actor.world.pos, 30.0f)) {
         this->unk_2B8 = 0.5f;
@@ -231,7 +231,7 @@ void func_80A01FE0(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A020A4(EnElf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (func_80A01F90(&this->actor.world.pos, &player->actor.world.pos, 50.0f)) {
         if (this->unk_2C0 > 0) {
@@ -316,7 +316,7 @@ f32 EnElf_GetColorValue(s32 colorFlag) {
 void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnElf* this = THIS;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 colorConfig;
     s32 i;
 
@@ -462,7 +462,7 @@ void func_80A02AA4(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A02B38(EnElf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_2AA = (this->unk_2AC * 2) & 0xFFFF;
     this->unk_28C.x = Math_SinS(this->unk_2AC) * this->unk_2B8;
@@ -538,7 +538,7 @@ void func_80A02F2C(EnElf* this, Vec3f* targetPos) {
 
 void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
     s32 pad[2];
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 targetYaw;
     Vec3f* unk_28C = &this->unk_28C;
 
@@ -598,9 +598,9 @@ void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
 }
 
 void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
-    Player* refActor = PLAYER;
+    Player* refActor = GET_PLAYER(globalCtx);
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 heightDiff;
 
     SkelAnime_Update(&this->skelAnime);
@@ -689,7 +689,7 @@ void func_80A03604(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToF(&this->unk_2B8, 30.0f, 0.1f, 4.0f, 1.0f);
@@ -732,7 +732,7 @@ void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -767,7 +767,7 @@ void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -816,7 +816,7 @@ void EnElf_UpdateLights(EnElf* this, GlobalContext* globalCtx) {
     }
 
     if (this->fairyFlags & 0x20) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, player->actor.world.pos.x,
                                   (s16)(player->actor.world.pos.y) + 60.0f, player->actor.world.pos.z, 255, 255, 255,
                                   200);
@@ -836,7 +836,7 @@ void EnElf_UpdateLights(EnElf* this, GlobalContext* globalCtx) {
 void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
     Vec3f nextPos;
     Vec3f prevPos;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* arrowPointedActor;
     f32 xScale;
     f32 distFromLinksHead;
@@ -928,7 +928,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 12:
-                nextPos = ACTIVE_CAM->eye;
+                nextPos = GET_ACTIVE_CAM(globalCtx)->eye;
                 nextPos.y += (-2000.0f * this->actor.scale.y);
                 func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
                 break;
@@ -1000,7 +1000,7 @@ void EnElf_ChangeColor(Color_RGBAf* dest, Color_RGBAf* newColor, Color_RGBAf* cu
 
 void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
     Actor* arrowPointedActor = globalCtx->actorCtx.targetCtx.arrowPointedActor;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 transitionRate;
     u16 targetSound;
 
@@ -1057,7 +1057,7 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
 void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
     s32 temp;
     Actor* arrowPointedActor;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if (globalCtx->csCtx.npcActions[8] != NULL) {
@@ -1212,7 +1212,7 @@ void func_80A04D90(EnElf* this, GlobalContext* globalCtx) {
 // move to talk to player
 void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     Vec3f headCopy;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f naviRefPos;
 
     if (this->fairyFlags & 0x10) {
@@ -1243,7 +1243,7 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
 
 // move after talking to player
 void func_80A04F94(EnElf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk_2BC, 5, 0x1000, 0x400);
     this->timer++;
@@ -1366,7 +1366,7 @@ void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
     u8 unk2C7;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnElf* this = THIS;
 
     if (player->naviTextId == 0) {
@@ -1496,7 +1496,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnElf* this = THIS;
     s32 pad1;
     Gfx* dListHead;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->unk_2A8 != 8) && !(this->fairyFlags & 8)) {
         if (!(player->stateFlags1 & 0x100000) || (kREG(90) < this->actor.projectedPos.z)) {

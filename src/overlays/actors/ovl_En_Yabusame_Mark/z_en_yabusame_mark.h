@@ -21,6 +21,4 @@ typedef struct EnYabusameMark {
     /* 0x0190 */ ColliderQuad collider;
 } EnYabusameMark; // size = 0x0210
 
-extern const ActorInit En_Yabusame_Mark_InitVars;
-
 #endif

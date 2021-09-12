@@ -5,6 +5,7 @@
  */
 
 #include "z_en_kz.h"
+#include "objects/object_kz/object_kz.h"
 
 #define FLAGS 0x00000009
 
@@ -58,15 +59,13 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x0600075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x0600075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x0600046C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &object_kz_Anim_00075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &object_kz_Anim_00075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &object_kz_Anim_00046C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-extern FlexSkeletonHeader D_060086D0;
-
 u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
         return 0x402B;
@@ -79,7 +78,7 @@ u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
 }
 
 u16 EnKz_GetTextNoMaskAdult(GlobalContext* globalCtx, EnKz* this) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_FROG) {
         if (!(gSaveContext.infTable[19] & 0x200)) {
@@ -186,7 +185,7 @@ void EnKz_UpdateEyes(EnKz* this) {
 
 s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, callback1_800343CC callback1,
                   callback2_800343CC callback2) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 sp32;
     s16 sp30;
     f32 xzDistToPlayer;
@@ -229,7 +228,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
 }
 
 void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0)) {
         if ((this->actor.textId == 0x401A) && !(gSaveContext.eventChkInf[3] & 8)) {
@@ -316,7 +315,8 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
     s32 pad;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060086D0, NULL, this->jointTable, this->morphTable, 12);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &object_kz_Skel_0086D0, NULL, this->jointTable, this->morphTable,
+                       12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -485,10 +485,10 @@ void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR sEyeSegments[] = {
-        0x06001470,
-        0x06001870,
-        0x06001C70,
+    static void* sEyeSegments[] = {
+        object_kz_Tex_001470,
+        object_kz_Tex_001870,
+        object_kz_Tex_001C70,
     };
     EnKz* this = THIS;
 

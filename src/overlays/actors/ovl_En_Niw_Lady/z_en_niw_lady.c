@@ -81,7 +81,7 @@ void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_LABO) {
         this->unk_278 = 1;
     }
-    if ((this->unk_278 != 0) && (gSaveContext.nightFlag == 0)) {
+    if ((this->unk_278 != 0) && IS_DAY) {
         Actor_Kill(thisx);
         return;
     }
@@ -169,7 +169,7 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         this->actor.draw = EnNiwLady_Draw;
         switch (this->unk_278) {
             case 0:
-                if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
+                if (!(gSaveContext.itemGetInf[0] & 0x1000) && !LINK_IS_ADULT) {
                     frames = Animation_GetLastFrame(&gObjOsAnim_A630);
                     Animation_Change(&this->skelAnime, &gObjOsAnim_A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 } else {
@@ -352,7 +352,7 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 playerExchangeItemId;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
@@ -488,11 +488,11 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx) {
 void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNiwLady* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Actor_SetFocus(thisx, 60.0f);
     this->unk_288.unk_18 = player->actor.world.pos;
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         this->unk_288.unk_18.y = player->actor.world.pos.y - 10.0f;
     }
     func_80034A14(thisx, &this->unk_288, 2, 4);

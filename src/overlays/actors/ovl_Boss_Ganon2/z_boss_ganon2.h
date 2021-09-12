@@ -94,6 +94,4 @@ typedef struct BossGanon2 {
     /* 0x0864 */ ColliderJntSphElement unk_864[2];
 } BossGanon2; // size = 0x08E4
 
-extern const ActorInit Boss_Ganon2_InitVars;
-
 #endif

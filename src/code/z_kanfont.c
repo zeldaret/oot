@@ -1,13 +1,13 @@
 #include "global.h"
 #include "message_data_static.h"
 
+// stubbed in PAL
 void func_8006EE50(Font* font, u16 arg1, u16 arg2) {
 }
 
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex) {
-    DmaMgr_SendRequest1((u32)&font->xy + codePointIndex,
-                        &_nes_font_staticSegmentRomStart[character * FONT_CHAR_TEX_SIZE], FONT_CHAR_TEX_SIZE,
-                        "../z_kanfont.c", 93);
+    DmaMgr_SendRequest1(&font->unk_8[codePointIndex], &_nes_font_staticSegmentRomStart[character * FONT_CHAR_TEX_SIZE],
+                        FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 93);
 }
 
 void Font_LoadMessageBoxEndIcon(Font* font, u16 icon) {

@@ -29,6 +29,4 @@ typedef struct BgJyaBigmirror {
     /* 0x0170 */ f32 liftHeight;
 } BgJyaBigmirror; // size = 0x0174
 
-extern const ActorInit Bg_Jya_Bigmirror_InitVars;
-
 #endif

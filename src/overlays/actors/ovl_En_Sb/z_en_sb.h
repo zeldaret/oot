@@ -23,6 +23,4 @@ typedef struct EnSb {
     /* 0x0204 */ u8 hitByWindArrow;
 } EnSb; // size = 0x0208
 
-extern const ActorInit En_Sb_InitVars;
-
 #endif

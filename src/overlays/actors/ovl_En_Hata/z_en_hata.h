@@ -41,6 +41,4 @@ typedef struct {
     /* 0x0278 */ s16 unk_278;
 } EnHata; // size = 0x027C
 
-extern const ActorInit En_Hata_InitVars;
-
 #endif

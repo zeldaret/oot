@@ -40,6 +40,4 @@ typedef enum {
     /* 0xF8 */ RS_MAX
 } RiverSoundType;
 
-extern const ActorInit En_River_Sound_InitVars;
-
 #endif

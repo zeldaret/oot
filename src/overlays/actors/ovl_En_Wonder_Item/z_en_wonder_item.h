@@ -58,6 +58,4 @@ typedef enum {
     /* C */ WONDERITEM_DROP_RANDOM
 } EnWonderItemDrop;
 
-extern const ActorInit En_Wonder_Item_InitVars;
-
 #endif

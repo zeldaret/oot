@@ -18,6 +18,4 @@ typedef struct MagicFire {
     /* 0x01AA */ s16 screenTintBehaviourTimer;
 } MagicFire; // size = 0x01AC
 
-extern const ActorInit Magic_Fire_InitVars;
-
 #endif

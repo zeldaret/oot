@@ -19,6 +19,4 @@ typedef struct BgHidanRock {
     /* 0x017C */ ColliderCylinder collider;
 } BgHidanRock; // size = 0x01C8
 
-extern const ActorInit Bg_Hidan_Rock_InitVars;
-
 #endif

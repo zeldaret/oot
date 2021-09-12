@@ -16,6 +16,4 @@ typedef struct EnHoll {
     /* 0x0150 */ EnHollActionFunc actionFunc;
 } EnHoll; // size = 0x0154
 
-extern const ActorInit En_Holl_InitVars;
-
 #endif

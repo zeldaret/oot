@@ -51,6 +51,4 @@ typedef struct EnAttackNiw {
     /* 0x02E4 */ f32 unk_2E4;
 } EnAttackNiw; // size = 0x02E8
 
-extern const ActorInit En_Attack_Niw_InitVars;
-
 #endif

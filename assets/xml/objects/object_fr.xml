@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_fr" Segment="6">
-        <Animation Name="object_fr_Anim_0007BC" Offset="0x7BC"/>
-        <Animation Name="object_fr_Anim_0011C0" Offset="0x11C0"/>
+        <Animation Name="object_fr_Anim_0007BC" Offset="0x7BC"/> <!-- Frog Jumping -->
+        <Animation Name="object_fr_Anim_0011C0" Offset="0x11C0"/> <!-- Frog Landing -->
         <Animation Name="object_fr_Anim_001534" Offset="0x1534"/>
         <Texture Name="object_fr_Tex_001550" OutName="tex_00001550" Format="rgba16" Width="32" Height="32" Offset="0x1550"/>
         <Blob Name="object_fr_Blob_001D50" Size="0x1D50" Offset="0x1D50"/>
