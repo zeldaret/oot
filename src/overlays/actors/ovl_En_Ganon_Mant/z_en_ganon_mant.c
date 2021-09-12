@@ -99,9 +99,6 @@ static u16 sVerticesMap[GANON_MANT_NUM_STRANDS * GANON_MANT_NUM_JOINTS] = {
 
 static u64 sForceDmaAlignment = 0;
 
-//#include "ovl_en_ganon_mant_gfx.c"
-//#include "ovl_en_ganon_mant_gfx.c"
-
 #include "overlays/ovl_En_Ganon_Mant/ovl_En_Ganon_Mant.c"
 
 void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx) {
