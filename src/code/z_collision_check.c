@@ -3175,7 +3175,7 @@ s32 CollisionCheck_LineOC(GlobalContext* globalCtx, CollisionCheckContext* colCh
  * otherwise. Unused.
  */
 s32 CollisionCheck_LineOCCheckAll(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b) {
-    CollisionCheck_LineOC(globalCtx, colChkCtx, a, b, NULL, 0);
+    return CollisionCheck_LineOC(globalCtx, colChkCtx, a, b, NULL, 0);
 }
 
 /**
@@ -3184,7 +3184,7 @@ s32 CollisionCheck_LineOCCheckAll(GlobalContext* globalCtx, CollisionCheckContex
  */
 s32 CollisionCheck_LineOCCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
                                Actor** exclusions, s32 numExclusions) {
-    CollisionCheck_LineOC(globalCtx, colChkCtx, a, b, exclusions, numExclusions);
+    return CollisionCheck_LineOC(globalCtx, colChkCtx, a, b, exclusions, numExclusions);
 }
 
 /**

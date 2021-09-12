@@ -2125,6 +2125,7 @@ s32 Camera_Parallel1(Camera* camera) {
     camera->fov = Camera_LERPCeilF(para1->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp6A ? para1->unk_1C : para1->unk_14);
+    //! @bug No return
 }
 
 s32 Camera_Parallel2(Camera* camera) {
@@ -2929,7 +2930,7 @@ s32 Camera_Battle2(Camera* camera) {
 }
 
 s32 Camera_Battle3(Camera* camera) {
-    Camera_Noop(camera);
+    return Camera_Noop(camera);
 }
 
 /**
