@@ -1533,7 +1533,7 @@ s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status)
         globalCtx->activeCamera = camIdx;
     }
 
-    Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], status);
+    return Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], status);
 }
 
 void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId) {
