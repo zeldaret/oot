@@ -30,7 +30,7 @@ const ActorInit Oceff_Spot_InitVars = {
     (ActorFunc)OceffSpot_Draw,
 };
 
-#include "z_oceff_spot_gfx.c"
+#include "overlays/ovl_Oceff_spot/ovl_Oceff_Spot.c"
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
@@ -156,10 +156,10 @@ void OceffSpot_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_spot.c", 469),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+    gSPDisplayList(POLY_XLU_DISP++, sSunSongTextureDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 32, 1,
                                                      0, scroll * (-8), 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, sCylinderDL);
+    gSPDisplayList(POLY_XLU_DISP++, sSunSongCylinderDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_spot.c", 485);
 }
