@@ -1,8 +1,6 @@
 #include "global.h"
 
-/**
- * Cutscene camera movement carried over from Super Mario 64. Unused in the release game.
- */
+// The code in this file is very similar to a spline system used in Super Mario 64 for cutscene camera movement
 
 void func_800BB0A0(f32 u, Vec3f* pos, f32* roll, f32* viewAngle, f32* point0, f32* point1, f32* point2, f32* point3) {
     f32 coeff[4];
