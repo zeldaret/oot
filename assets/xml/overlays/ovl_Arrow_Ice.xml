@@ -1,7 +1,7 @@
 <Root>
     <File Name="ovl_Arrow_Ice" BaseAddress="0x80867cd0" RangeStart="0x9F0" RangeEnd="0x1E10" Segment="128">    
-        <Texture Name="sTexture1" OutName="ice_tex_1" Format="ia8" Width="32" Height="64" Offset="0x9F0"/>
-        <Texture Name="sTexture2" OutName="ice_tex_2" Format="ia8" Width="32" Height="64" Offset="0x11F0"/>
+        <Texture Name="sIceArrow1Tex" OutName="ice_tex_1" Format="ia8" Width="32" Height="64" Offset="0x9F0"/>
+        <Texture Name="sIceArrow2Tex" OutName="ice_tex_2" Format="ia8" Width="32" Height="64" Offset="0x11F0"/>
         <Array Name="sIceArrowVtx" Count="43" Offset="0x19F0">
             <Vtx/>
         </Array>
