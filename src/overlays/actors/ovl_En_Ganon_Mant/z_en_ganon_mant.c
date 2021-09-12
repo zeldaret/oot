@@ -135,7 +135,7 @@ void EnGanonMant_Tear(EnGanonMant* this) {
                 if (1) {}
                 for (areaY = 0; areaY <= tearAreaSizes[i]; areaY++) {
                     texIdx = (s16)((s16)tx + ((s16)ty * MANT_TEX_WIDTH)) + ((s16)areaX + ((s16)areaY * MANT_TEX_WIDTH));
-                    if (texIdx < (s32)(MANT_TEX_WIDTH * MANT_TEX_WIDTH * sizeof(u16))) {
+                    if (texIdx < MANT_TEX_WIDTH * MANT_TEX_HEIGHT) {
                         ((u16*)gMantTex)[texIdx] = 0;
                     }
                 }
