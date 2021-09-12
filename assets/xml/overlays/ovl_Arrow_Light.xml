@@ -1,7 +1,7 @@
 <Root>
     <File Name="ovl_Arrow_Light" BaseAddress="0x80869cb0" RangeStart="0xA00" RangeEnd="0x1E20" Segment="128">    
-        <Texture Name="sLightArrowTexture1" OutName="light_tex_1" Format="ia8" Width="32" Height="64" Offset="0xA00"/>
-        <Texture Name="sLightArrowTexture2" OutName="light_tex_2" Format="ia8" Width="32" Height="64" Offset="0x1200"/>
+        <Texture Name="sLightArrow1Tex" OutName="light_tex_1" Format="ia8" Width="32" Height="64" Offset="0xA00"/>
+        <Texture Name="sLightArrow2Tex" OutName="light_tex_2" Format="ia8" Width="32" Height="64" Offset="0x1200"/>
         <Array Name="sLightArrowVtx" Count="43" Offset="0x1A00">
             <Vtx/>
         </Array>
