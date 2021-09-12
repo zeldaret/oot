@@ -742,7 +742,7 @@ void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext*
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006FC88.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_UpdateSkybox.s")
 #endif
 
 void Kankyo_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLightsIndex) {
@@ -1272,7 +1272,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80070C24.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_Update.s")
 #endif
 
 void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
@@ -1587,7 +1587,7 @@ Color_RGB8 D_8011FE00[] = {
 };
 u32 D_8011FE20[] = { 0x32, 0xA, 0x19, 0x28, 0x46, 0x1E, 0x32, 0x46, 0x32, 0x28 };
 u32 D_8011FE48[] = { 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80073A5C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_DrawLensFlare.s")
 #endif
 
 f32 func_800746DC(void) {
@@ -1704,7 +1704,7 @@ void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxC
 #else
 Vec3f D_8011FE70 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_8011FE7C = { 0.0f, 0.0f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80074704.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_DrawRain.s")
 #endif
 
 void func_80074CE8(GlobalContext* globalCtx, u32 arg1) {
