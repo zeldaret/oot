@@ -8,33 +8,30 @@ struct ObjectKankyo;
 
 typedef void (*ObjectKankyoActionFunc)(struct ObjectKankyo*, GlobalContext*);
 
-typedef struct ObjectKankyoInner {
-    u8 state;
-    Vec3f pos;     // relative to home
-    Vec3f lastPos;
-    Vec3f home;
-    Vec3f unk28;
-    f32 unk34;
-    f32 unk38;
-    u16 unk3C;
-    u16 unk3E;
-    u8 alpha;
-    f32 size;
-    u16 unk48;
-    u16 unk4A;
-    f32 unk4C;
-    u16 timer;
-} ObjectKankyoInner; // size = 0x54
+typedef struct ObjectKankyoEffect {
+    /*  0x0 */ u8 state;
+    /*  0x4 */ Vec3f pos;   // relative to base
+    /* 0x10 */ Vec3f lastPos;
+    /* 0x1C */ Vec3f base;
+    /* 0x28 */ Vec3f dirPhase; // input to sinf for movement
+    /* 0x34 */ f32 speed;
+    /* 0x38 */ f32 targetSpeed;
+    /* 0x3C */ u16 alphaTimer;
+    /* 0x3E */ u16 angle;
+    /* 0x40 */ u8 alpha;
+    /* 0x44 */ f32 size;
+    /* 0x48 */ u16 angleVel;
+    /* 0x4A */ u16 flightRadius;
+    /* 0x4C */ f32 amplitude;
+    /* 0x50 */ u16 timer;
+} ObjectKankyoEffect; // size = 0x54
 
 typedef struct ObjectKankyo {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ObjectKankyoInner effects[64];
+    /* 0x014C */ ObjectKankyoEffect effects[64];
     /* 0x164C */ Vec3f lastEyePos;
-    /* 0x1658 */ u8 unk_1658;
-    /* 0x1659 */ u8 unk_1659;
-#ifdef DEBUG_OVL
-    u8 id; 
-#endif
+    /* 0x1658 */ u8 demoObjectIndex;
+    /* 0x1659 */ u8 demoObjectLoaded;
     /* 0x165C */ ObjectKankyoActionFunc actionFunc;
 } ObjectKankyo; // size = 0x1660
 
