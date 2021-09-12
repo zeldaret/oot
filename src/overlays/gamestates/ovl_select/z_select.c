@@ -316,7 +316,7 @@ void Select_UpdateMenu(SelectContext* this) {
     if (CHECK_BTN_ALL(controller1->press.button, BTN_L)) {
         this->unk_1DC++;
         this->unk_1DC = (this->unk_1DC + 7) % 7;
-        this->currentScene = this->unk_20C = this->unk_1E0[this->unk_1DC];
+        this->currentScene = this->cursorPos = this->unk_1E0[this->unk_1DC];
     }
 
     this->unk_21C += this->unk_220;
@@ -328,9 +328,9 @@ void Select_UpdateMenu(SelectContext* this) {
         this->currentScene++;
         this->currentScene = (this->currentScene + this->count) % this->count;
 
-        if (this->currentScene == ((this->unk_20C + this->count + 0x13) % this->count)) {
-            this->unk_20C++;
-            this->unk_20C = (this->unk_20C + this->count) % this->count;
+        if (this->currentScene == ((this->cursorPos + this->count + 0x13) % this->count)) {
+            this->cursorPos++;
+            this->cursorPos = (this->cursorPos + this->count) % this->count;
         }
     }
 
@@ -338,25 +338,25 @@ void Select_UpdateMenu(SelectContext* this) {
         this->unk_220 = 0;
         this->unk_21C = 0;
 
-        if (this->currentScene == this->unk_20C) {
-            this->unk_20C -= 2;
-            this->unk_20C = (this->unk_20C + this->count) % this->count;
+        if (this->currentScene == this->cursorPos) {
+            this->cursorPos -= 2;
+            this->cursorPos = (this->cursorPos + this->count) % this->count;
         }
 
         this->currentScene--;
         this->currentScene = (this->currentScene + this->count) % this->count;
 
-        if (this->currentScene == ((this->unk_20C + this->count) % this->count)) {
-            this->unk_20C--;
-            this->unk_20C = (this->unk_20C + this->count) % this->count;
+        if (this->currentScene == ((this->cursorPos + this->count) % this->count)) {
+            this->cursorPos--;
+            this->cursorPos = (this->cursorPos + this->count) % this->count;
         }
     }
 
     this->currentScene = (this->currentScene + this->count) % this->count;
-    this->unk_20C = (this->unk_20C + this->count) % this->count;
+    this->cursorPos = (this->cursorPos + this->count) % this->count;
 
     dREG(80) = this->currentScene;
-    dREG(81) = this->unk_20C;
+    dREG(81) = this->cursorPos;
     dREG(82) = this->unk_1DC;
 
     if (this->unk_224 != 0) {
@@ -389,7 +389,7 @@ void Select_PrintMenu(SelectContext* this, GfxPrint* printer) {
     for (i = 0; i < 20; i++) {
         GfxPrint_SetPos(printer, 9, i + 4);
 
-        scene = ((this->unk_20C + i) + this->count) % this->count;
+        scene = ((this->cursorPos + i) + this->count) % this->count;
         if (scene == this->currentScene) {
             GfxPrint_SetColor(printer, 255, 20, 20, 255);
         } else {
@@ -588,7 +588,7 @@ void Select_Init(GameState* thisx) {
     this->state.main = Select_Main;
     this->state.destroy = Select_Destroy;
     this->scenes = sScenes;
-    this->unk_20C = 0;
+    this->cursorPos = 0;
     this->currentScene = 0;
     this->unk_1E0[0] = 0;
     this->unk_1E0[1] = 0x13;
@@ -614,7 +614,7 @@ void Select_Init(GameState* thisx) {
 
     if ((dREG(80) >= 0) && (dREG(80) < this->count)) {
         this->currentScene = dREG(80);
-        this->unk_20C = dREG(81);
+        this->cursorPos = dREG(81);
         this->unk_1DC = dREG(82);
     }
     R_UPDATE_RATE = 1;
