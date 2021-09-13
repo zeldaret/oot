@@ -1,6 +1,6 @@
 #include "global.h"
 
-#define SKYBOX_PALETTES ((u16(*)[256])skyboxCtx->staticSegments[2])
+// #define skyboxCtx->skyboxPallets ((u16(*)[256])skyboxCtx->staticSegments[2])
 
 Mtx* sSkyboxDrawMatrix;
 
@@ -20,7 +20,7 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
 
     gSPSegment(POLY_OPA_DISP++, 0x7, skyboxCtx->staticSegments[0]);
     gSPSegment(POLY_OPA_DISP++, 0x8, skyboxCtx->staticSegments[1]);
-    gSPSegment(POLY_OPA_DISP++, 0x9, SKYBOX_PALETTES);
+    gSPSegment(POLY_OPA_DISP++, 0x9, skyboxCtx->palettes);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, alpha);
     gSPTexture(POLY_OPA_DISP++, 0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON);
@@ -38,7 +38,7 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
     gDPSetColorDither(POLY_OPA_DISP++, G_CD_MAGICSQ);
     gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_BILERP);
 
-    gDPLoadTLUT_pal256(POLY_OPA_DISP++, SKYBOX_PALETTES[0]);
+    gDPLoadTLUT_pal256(POLY_OPA_DISP++, skyboxCtx->palettes[0]);
     gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_RGBA16);
     gDPSetTextureConvert(POLY_OPA_DISP++, G_TC_FILT);
 
@@ -47,20 +47,20 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
         gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[1]);
 
         gDPPipeSync(POLY_OPA_DISP++);
-        gDPLoadTLUT_pal256(POLY_OPA_DISP++, SKYBOX_PALETTES[1]);
+        gDPLoadTLUT_pal256(POLY_OPA_DISP++, skyboxCtx->palettes[1]);
         gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[2]);
         gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[3]);
 
         if (skyboxId != SKYBOX_BAZAAR) {
             if (skyboxId <= SKYBOX_HOUSE_KAKARIKO || skyboxId > SKYBOX_BOMBCHU_SHOP) {
                 gDPPipeSync(POLY_OPA_DISP++);
-                gDPLoadTLUT_pal256(POLY_OPA_DISP++, SKYBOX_PALETTES[2]);
+                gDPLoadTLUT_pal256(POLY_OPA_DISP++, skyboxCtx->palettes[2]);
                 gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[4]);
                 gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[5]);
 
                 gDPPipeSync(POLY_OPA_DISP++);
                 if (skyboxCtx->unk_140 != 2) {
-                    gDPLoadTLUT_pal256(POLY_OPA_DISP++, SKYBOX_PALETTES[3]);
+                    gDPLoadTLUT_pal256(POLY_OPA_DISP++, skyboxCtx->palettes[3]);
                     gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[6]);
                     gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[7]);
                 }

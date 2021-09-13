@@ -321,7 +321,8 @@ typedef enum {
 
 typedef struct {
     /* 0x000 */ char unk_00[0x128];
-    /* 0x128 */ void* staticSegments[3];
+    /* 0x128 */ void* staticSegments[2];
+    /* 0x130 */ u16 (*palettes)[256];
     /* 0x134 */ Gfx (*dListBuf)[150];
     /* 0x138 */ Gfx* unk_138;
     /* 0x13C */ Vtx* roomVtx;
