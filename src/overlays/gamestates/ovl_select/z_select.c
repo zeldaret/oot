@@ -169,15 +169,13 @@ static SceneSelectEntry sScenes[] = {
     { "123:jikkenjyou", Select_LoadGame, 0x02EA },
     { "124:depth\x8Cﾃｽﾄ", Select_LoadGame, 0x00B6 },
     { "125:\x8Cﾊｲﾗﾙ\x8Dﾆﾜ\x8Cｹﾞｰﾑ2", Select_LoadGame, 0x0076 },
-    { "title", Select_LoadTitle, 0x0000 },
+    { "title", (void*)Select_LoadTitle, 0x0000 },
 };
 
 void Select_UpdateMenu(SelectContext* this) {
-    Input* controller1;
+    Input* controller1 = &this->state.input[0];
     s32 pad;
     SceneSelectEntry* selectedScene;
-
-    controller1 = &this->state.input[0];
 
     if (this->unk_21C == 0) {
 
@@ -269,34 +267,34 @@ void Select_UpdateMenu(SelectContext* this) {
 
         if (CHECK_BTN_ALL(controller1->press.button, BTN_DUP)) {
             if (this->unk_22C == 1) {
-                this->unk_224 = 0;
+                this->timerUp = 0;
             }
-            if (this->unk_224 == 0) {
-                this->unk_224 = 0x14;
+            if (this->timerUp == 0) {
+                this->timerUp = 20;
                 this->unk_22C = 1;
                 Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->unk_220 = R_UPDATE_RATE;
             }
         }
 
-        if (CHECK_BTN_ALL(controller1->cur.button, BTN_DUP) && this->unk_224 == 0) {
+        if (CHECK_BTN_ALL(controller1->cur.button, BTN_DUP) && this->timerUp == 0) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = R_UPDATE_RATE * 3;
         }
 
         if (CHECK_BTN_ALL(controller1->press.button, BTN_DDOWN)) {
             if (this->unk_230 == 1) {
-                this->unk_228 = 0;
+                this->timerDown = 0;
             }
-            if (this->unk_228 == 0) {
-                this->unk_228 = 0x14;
+            if (this->timerDown == 0) {
+                this->timerDown = 20;
                 this->unk_230 = 1;
                 Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->unk_220 = -R_UPDATE_RATE;
             }
         }
 
-        if (CHECK_BTN_ALL(controller1->cur.button, BTN_DDOWN) && (this->unk_228 == 0)) {
+        if (CHECK_BTN_ALL(controller1->cur.button, BTN_DDOWN) && (this->timerDown == 0)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = -R_UPDATE_RATE * 3;
         }
@@ -315,8 +313,8 @@ void Select_UpdateMenu(SelectContext* this) {
 
     if (CHECK_BTN_ALL(controller1->press.button, BTN_L)) {
         this->unk_1DC++;
-        this->unk_1DC = (this->unk_1DC + 7) % 7;
-        this->currentScene = this->cursorPos = this->unk_1E0[this->unk_1DC];
+        this->unk_1DC = (this->unk_1DC + ARRAY_COUNT(this->unk_1E0)) % ARRAY_COUNT(this->unk_1E0);
+        this->currentScene = this->topScreen = this->unk_1E0[this->unk_1DC];
     }
 
     this->unk_21C += this->unk_220;
@@ -328,50 +326,50 @@ void Select_UpdateMenu(SelectContext* this) {
         this->currentScene++;
         this->currentScene = (this->currentScene + this->count) % this->count;
 
-        if (this->currentScene == ((this->cursorPos + this->count + 0x13) % this->count)) {
-            this->cursorPos++;
-            this->cursorPos = (this->cursorPos + this->count) % this->count;
+        if (this->currentScene == ((this->topScreen + this->count + 0x13) % this->count)) {
+            this->topScreen++;
+            this->topScreen = (this->topScreen + this->count) % this->count;
         }
     }
 
-    if (this->unk_21C >= 8) {
+    if (this->unk_21C > 7) {
         this->unk_220 = 0;
         this->unk_21C = 0;
 
-        if (this->currentScene == this->cursorPos) {
-            this->cursorPos -= 2;
-            this->cursorPos = (this->cursorPos + this->count) % this->count;
+        if (this->currentScene == this->topScreen) {
+            this->topScreen -= 2;
+            this->topScreen = (this->topScreen + this->count) % this->count;
         }
 
         this->currentScene--;
         this->currentScene = (this->currentScene + this->count) % this->count;
 
-        if (this->currentScene == ((this->cursorPos + this->count) % this->count)) {
-            this->cursorPos--;
-            this->cursorPos = (this->cursorPos + this->count) % this->count;
+        if (this->currentScene == ((this->topScreen + this->count) % this->count)) {
+            this->topScreen--;
+            this->topScreen = (this->topScreen + this->count) % this->count;
         }
     }
 
     this->currentScene = (this->currentScene + this->count) % this->count;
-    this->cursorPos = (this->cursorPos + this->count) % this->count;
+    this->topScreen = (this->topScreen + this->count) % this->count;
 
     dREG(80) = this->currentScene;
-    dREG(81) = this->cursorPos;
+    dREG(81) = this->topScreen;
     dREG(82) = this->unk_1DC;
 
-    if (this->unk_224 != 0) {
-        this->unk_224--;
+    if (this->timerUp != 0) {
+        this->timerUp--;
     }
 
-    if (this->unk_224 == 0) {
+    if (this->timerUp == 0) {
         this->unk_22C = 0;
     }
 
-    if (this->unk_228 != 0) {
-        this->unk_228--;
+    if (this->timerDown != 0) {
+        this->timerDown--;
     }
 
-    if (this->unk_228 == 0) {
+    if (this->timerDown == 0) {
         this->unk_230 = 0;
     }
 }
@@ -389,7 +387,7 @@ void Select_PrintMenu(SelectContext* this, GfxPrint* printer) {
     for (i = 0; i < 20; i++) {
         GfxPrint_SetPos(printer, 9, i + 4);
 
-        scene = ((this->cursorPos + i) + this->count) % this->count;
+        scene = (this->topScreen + i + this->count) % this->count;
         if (scene == this->currentScene) {
             GfxPrint_SetColor(printer, 255, 20, 20, 255);
         } else {
@@ -434,12 +432,14 @@ void Select_PrintLoadingMessage(SelectContext* this, GfxPrint* printer) {
     GfxPrint_Printf(printer, "%s", sLoadingMessages[randomMsg]);
 }
 
+// clang-format off
 static char* sAgeLabels[] = {
-    "\x8D"
-    "17(ﾜｶﾓﾉ)", // "17(young)"
-    "\x8D"
-    "5(ﾜｶｽｷﾞ)", // "5(very young)"
+    // "17(young)"
+    "\x8D" "17(ﾜｶﾓﾉ)",
+    // "5(very young)"
+    "\x8D" "5(ﾜｶｽｷﾞ)",
 };
+// clang-format on
 
 void Select_PrintAgeSetting(SelectContext* this, GfxPrint* printer, s32 age) {
     GfxPrint_SetPos(printer, 4, 26);
@@ -588,24 +588,24 @@ void Select_Init(GameState* thisx) {
     this->state.main = Select_Main;
     this->state.destroy = Select_Destroy;
     this->scenes = sScenes;
-    this->cursorPos = 0;
+    this->topScreen = 0;
     this->currentScene = 0;
-    this->unk_1E0[0] = 0;
-    this->unk_1E0[1] = 0x13;
-    this->unk_1E0[2] = 0x25;
-    this->unk_1E0[3] = 0x33;
-    this->unk_1E0[4] = 0x3B;
-    this->unk_1E0[5] = 0x49;
-    this->unk_1E0[6] = 0x5B;
+    this->unk_1E0[0] = 0;  // " 1:SPOT00"
+    this->unk_1E0[1] = 19; // "20:\x8Dﾄｷﾉﾏ"
+    this->unk_1E0[2] = 37; // "38:\x8Dﾀｶﾗﾊﾞｺﾔ"
+    this->unk_1E0[3] = 51; // "52:\x8Dﾊｶﾓﾘﾉｲｴ"
+    this->unk_1E0[4] = 59; // "60:\x8Cｿﾞｰﾗ\x8Dﾉﾐｾ"
+    this->unk_1E0[5] = 73; // "74:\x8Dｲﾄﾞｼﾀ \x8Cﾀﾞﾝｼﾞｮﾝ"
+    this->unk_1E0[6] = 91; // "92:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 3"
     this->unk_1DC = 0;
     this->opt = 0;
     this->count = 126;
     View_Init(&this->view, this->state.gfxCtx);
-    this->view.flags = 0xA;
+    this->view.flags = (0x08 | 0x02);
     this->unk_21C = 0;
     this->unk_220 = 0;
-    this->unk_224 = 0;
-    this->unk_228 = 0;
+    this->timerUp = 0;
+    this->timerDown = 0;
     this->unk_22C = 0;
     this->unk_230 = 0;
     this->unk_234 = 0;
@@ -614,7 +614,7 @@ void Select_Init(GameState* thisx) {
 
     if ((dREG(80) >= 0) && (dREG(80) < this->count)) {
         this->currentScene = dREG(80);
-        this->cursorPos = dREG(81);
+        this->topScreen = dREG(81);
         this->unk_1DC = dREG(82);
     }
     R_UPDATE_RATE = 1;

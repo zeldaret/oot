@@ -909,16 +909,16 @@ typedef struct SelectContext {
     /* 0x01D0 */ s32 count;
     /* 0x01D4 */ SceneSelectEntry* scenes;
     /* 0x01D8 */ s32 currentScene;
-    /* 0x01DC */ s32 unk_1DC;
+    /* 0x01DC */ s32 unk_1DC; // index of unk_1E0
     /* 0x01E0 */ s32 unk_1E0[7];
     /* 0x01FC */ char unk_1FC[0x0C];
     /* 0x0208 */ s32 opt;
-    /* 0x020C */ s32 cursorPos;
+    /* 0x020C */ s32 topScreen;
     /* 0x0210 */ char unk_210[0x0C];
     /* 0x021C */ s32 unk_21C;
     /* 0x0220 */ s32 unk_220;
-    /* 0x0224 */ s32 unk_224;
-    /* 0x0228 */ s32 unk_228;
+    /* 0x0224 */ s32 timerUp;
+    /* 0x0228 */ s32 timerDown;
     /* 0x022C */ s32 unk_22C;
     /* 0x0230 */ s32 unk_230;
     /* 0x0234 */ s32 unk_234;
