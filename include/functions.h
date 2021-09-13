@@ -1475,7 +1475,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam);
 // ? func_800B91B0(?);
 void DbCamera_Reset(Camera* cam, DbCamera* dbCam);
 // ? DbCamera_UpdateDemoControl(?);
-// ? func_800BB0A0(?);
+void func_800BB0A0(f32 u, Vec3f* pos, f32* roll, f32* viewAngle, f32* point0, f32* point1, f32* point2, f32* point3);
 s32 func_800BB2B4(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s16* keyframe, f32* curFrame);
 s32 Mempak_Init(s32 controllerNb);
 s32 Mempak_GetFreeBytes(s32 controllerNb);
