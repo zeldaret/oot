@@ -28,7 +28,7 @@ const ActorInit En_Ganon_Organ_InitVars = {
     (ActorFunc)EnGanonOrgan_Draw,
 };
 
-s32 dataPad[2] = { 0, 0 };
+static s32 dataPad[2] = { 0, 0 };
 
 #include "overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
