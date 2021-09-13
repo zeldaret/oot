@@ -24,6 +24,6 @@
         </Array>
         <DList Name="sOtyukaFlashDL" Offset="0x23D8"/>
         
-        <Collision Name="sOtyukaCollision" Offset="0x2570"/>
+        <Collision Name="sOtyukaCol" Offset="0x2570"/>
     </File>
 </Root>
