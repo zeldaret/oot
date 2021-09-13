@@ -1,0 +1,6 @@
+<Root>
+    <File Name="ovl_En_Ganon_Organ" BaseAddress="0x80A28000" RangeStart="0x3E8" RangeEnd="0x6F70" Segment="128">
+        <DList Name="sGanonOrgan1DL" Offset="0x4CA8"/>
+        <DList Name="sGanonOrgan2DL" Offset="0x6AB0"/>
+    </File>
+</Root>
