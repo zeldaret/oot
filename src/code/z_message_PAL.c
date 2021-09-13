@@ -1922,7 +1922,7 @@ void Message_SetView(View* view) {
 
 // Message_DrawMain ?
 #ifdef NON_MATCHING
-// regalloc differences, stack
+// regalloc differences, stack placement
 void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
     static s16 D_80153C68[] = {
         0x0040, 0x0200, 0x0400, 0x0800, 0x1000, 0x0000,
@@ -1959,28 +1959,22 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
     static s16 D_80153CE0[] = {
         0x0034, 0x0033, 0x0035, 0x0036, 0x0037, 0x0025, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049,
     };
-
-    Player* player = GET_PLAYER(globalCtx);
-    Gfx* gfx = *p;
-    MessageContext* msgCtx;
-    s16 g1;
-    s16 r1;
-    u16 phi_a1;
-    u16 phi_a2;
-    u16 phi_a3;
-    s16 b1;
-    s16 r2;
-    s16 g2;
-    s16 r3;
-    s16 g3;
-    s16 r4;
-    s16 g4;
-    u16 phi_v0;
-    s16 b2;
-    s16 b3;
-    s16 b4;
-    s16 temp;
-    u8 temp2;
+    /* TARGET  SOURCE */
+    /*    158     158 */    /* CAP */
+    /*            154 */    s32 pad;
+    /*            150 */    MessageContext* msgCtx;
+    /*            14C */    u16 phi_v0;
+    /*    148     148 */    Player* player = GET_PLAYER(globalCtx);
+    /*            146 */    s16 temp;
+    /*            144 */    u16 phi_a1;
+    /*    140     140 */    Gfx* gfx = *p;
+    /*            13E */    s16 r;
+    /*            13C */    s16 g;
+    /*            13A */    s16 b;
+    /*    138     138 */    u16 phi_a3;
+    /*            136 */    u8 temp2;
+    /*    132     134 */    u16 phi_a2;
+    /*     8c      90 */    /* globalCtx + 0x10000 */
 
     gSPSegment(gfx++, 0x02, globalCtx->interfaceCtx.parameterSegment);
     msgCtx = &globalCtx->msgCtx; // s1
@@ -2155,84 +2149,84 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_0D:
         case MSGMODE_UNK_1C:
         case MSGMODE_UNK_27:
-            r1 = ABS(D_801759A8 - D_80153CA8[D_80153CDC].r) / D_80153CD8;
-            g1 = ABS(D_801759AC - D_80153CA8[D_80153CDC].g) / D_80153CD8;
-            b1 = ABS(D_801759AA - D_80153CA8[D_80153CDC].b) / D_80153CD8;
+            r = ABS(D_801759A8 - D_80153CA8[D_80153CDC].r) / D_80153CD8;
+            g = ABS(D_801759AC - D_80153CA8[D_80153CDC].g) / D_80153CD8;
+            b = ABS(D_801759AA - D_80153CA8[D_80153CDC].b) / D_80153CD8;
 
             if (D_801759A8 >= D_80153CA8[D_80153CDC].r) {
-                D_801759A8 -= r1;
+                D_801759A8 -= r;
             } else {
-                D_801759A8 += r1;
+                D_801759A8 += r;
             }
             if (D_801759AC >= D_80153CA8[D_80153CDC].g) {
-                D_801759AC -= g1;
+                D_801759AC -= g;
             } else {
-                D_801759AC += g1;
+                D_801759AC += g;
             }
             if (D_801759AA >= D_80153CA8[D_80153CDC].b) {
-                D_801759AA -= b1;
+                D_801759AA -= b;
             } else {
-                D_801759AA += b1;
+                D_801759AA += b;
             }
 
-            r2 = ABS(D_801759AE - D_80153CB4[D_80153CDC].r) / D_80153CD8;
-            g2 = ABS(D_801759B2 - D_80153CB4[D_80153CDC].g) / D_80153CD8;
-            b2 = ABS(D_801759B0 - D_80153CB4[D_80153CDC].b) / D_80153CD8;
+            r = ABS(D_801759AE - D_80153CB4[D_80153CDC].r) / D_80153CD8;
+            g = ABS(D_801759B2 - D_80153CB4[D_80153CDC].g) / D_80153CD8;
+            b = ABS(D_801759B0 - D_80153CB4[D_80153CDC].b) / D_80153CD8;
 
             if (D_801759BA >= D_80153CB4[D_80153CDC].r) {
-                D_801759AE -= r2;
+                D_801759AE -= r;
             } else {
-                D_801759AE += r2;
+                D_801759AE += r;
             }
             if (D_801759BE >= D_80153CB4[D_80153CDC].g) {
-                D_801759B2 -= g2;
+                D_801759B2 -= g;
             } else {
-                D_801759B2 += g2;
+                D_801759B2 += g;
             }
             if (D_801759BC >= D_80153CB4[D_80153CDC].b) {
-                D_801759B0 -= b2;
+                D_801759B0 -= b;
             } else {
-                D_801759B0 += b2;
+                D_801759B0 += b;
             }
 
-            r3 = ABS(D_801759B4 - D_80153CC0[D_80153CDC].r) / D_80153CD8;
-            g3 = ABS(D_801759B8 - D_80153CC0[D_80153CDC].g) / D_80153CD8;
-            b3 = ABS(D_801759B6 - D_80153CC0[D_80153CDC].b) / D_80153CD8;
+            r = ABS(D_801759B4 - D_80153CC0[D_80153CDC].r) / D_80153CD8;
+            g = ABS(D_801759B8 - D_80153CC0[D_80153CDC].g) / D_80153CD8;
+            b = ABS(D_801759B6 - D_80153CC0[D_80153CDC].b) / D_80153CD8;
 
             if (D_801759B4 >= D_80153CC0[D_80153CDC].r) {
-                D_801759B4 -= r3;
+                D_801759B4 -= r;
             } else {
-                D_801759B4 += r3;
+                D_801759B4 += r;
             }
             if (D_801759B8 >= D_80153CC0[D_80153CDC].g) {
-                D_801759B8 -= g3;
+                D_801759B8 -= g;
             } else {
-                D_801759B8 += g3;
+                D_801759B8 += g;
             }
             if (D_801759B6 >= D_80153CC0[D_80153CDC].b) {
-                D_801759B6 -= b3;
+                D_801759B6 -= b;
             } else {
-                D_801759B6 += b3;
+                D_801759B6 += b;
             }
 
-            r4 = ABS(D_801759BA - D_80153CCC[D_80153CDC].r) / D_80153CD8;
-            g4 = ABS(D_801759BE - D_80153CCC[D_80153CDC].g) / D_80153CD8;
-            b4 = ABS(D_801759BC - D_80153CCC[D_80153CDC].b) / D_80153CD8;
+            r = ABS(D_801759BA - D_80153CCC[D_80153CDC].r) / D_80153CD8;
+            g = ABS(D_801759BE - D_80153CCC[D_80153CDC].g) / D_80153CD8;
+            b = ABS(D_801759BC - D_80153CCC[D_80153CDC].b) / D_80153CD8;
 
             if (D_801759BA >= D_80153CCC[D_80153CDC].r) {
-                D_801759BA -= r4;
+                D_801759BA -= r;
             } else {
-                D_801759BA += r4;
+                D_801759BA += r;
             }
             if (D_801759BE >= D_80153CCC[D_80153CDC].g) {
-                D_801759BE -= g4;
+                D_801759BE -= g;
             } else {
-                D_801759BE += g4;
+                D_801759BE += g;
             }
             if (D_801759BC >= D_80153CCC[D_80153CDC].b) {
-                D_801759BC -= b4;
+                D_801759BC -= b;
             } else {
-                D_801759BC += b4;
+                D_801759BC += b;
             }
 
             D_80153CD8--;
@@ -2433,7 +2427,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                     } else if (msgCtx->unk_E3F0 >= 0x1C) {
                         osSyncPrintf(VT_FGCOL(YELLOW));
                         osSyncPrintf("Ocarina_PC_Wind=%d(%d) ☆☆☆   ", 0x1C, msgCtx->unk_E3F0 - 0x1C);
-                        if (msgCtx->unk_E3F0 == (msgCtx->unk_E3EC + 0x1C)) {
+                        if ((msgCtx->unk_E3EC + 0x1C) == msgCtx->unk_E3F0) {
                             globalCtx->msgCtx.unk_E3EE = 3;
                         } else {
                             globalCtx->msgCtx.unk_E3EE = msgCtx->unk_E3EC - 1;
@@ -2441,7 +2435,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                     } else {
                         osSyncPrintf(VT_FGCOL(GREEN));
                         osSyncPrintf("Ocarina_C_Wind=%d(%d) ☆☆☆   ", 0xF, msgCtx->unk_E3F0 - 0xF);
-                        if (msgCtx->unk_E3F0 == (msgCtx->unk_E3EC + 0xF)) {
+                        if ((msgCtx->unk_E3EC + 0xF) == msgCtx->unk_E3F0) {
                             globalCtx->msgCtx.unk_E3EE = 3;
                         } else {
                             globalCtx->msgCtx.unk_E3EE = 4;
@@ -2757,7 +2751,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_32:
             msgCtx->ocarinaStaff = func_800EE3D4();
-            if (msgCtx->ocarinaStaff->pos != 0 && msgCtx->ocarinaStaff->pos == D_8014B2F8 + 1) {
+            if (msgCtx->ocarinaStaff->pos != 0 && D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
                 msgCtx->unk_E410 = msgCtx->ocarinaStaff->noteIdx;
                 msgCtx->ocarinaStaff->pos = D_8014B2F8 = 0;
                 func_801069B0();
@@ -2833,12 +2827,12 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                     break;
                 }
 
+                if (1) {}
                 if (D_80153958[phi_a3] != 0xFF) {
                     D_80153958[phi_a3] += VREG(50);
                     if (D_80153958[phi_a3] >= 0xFF) {
                         D_80153958[phi_a3] = 0xFF;
                     }
-                    if (1) {}
                 }
 
                 gDPPipeSync(gfx++);
