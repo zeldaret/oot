@@ -109,8 +109,9 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 221),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, sGanonOrgan1DL);
-    gSPDisplayList(POLY_OPA_DISP++, sGanonOrgan2DL);
+    gSPDisplayList(POLY_OPA_DISP++, gGanondorfRoomOrganAndFloorDL);
+    gSPDisplayList(POLY_OPA_DISP++, gGanondorfRoomStatuesDL);
+
     osSyncPrintf("ORGAN DRAW  2\n");
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 230);
