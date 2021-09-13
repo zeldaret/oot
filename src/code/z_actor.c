@@ -845,7 +845,7 @@ void Actor_Destroy(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-s16 func_8002D7EC(Actor* actor) {
+void func_8002D7EC(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
 
     actor->world.pos.x += (actor->velocity.x * speedRate) + actor->colChkInfo.displacement.x;

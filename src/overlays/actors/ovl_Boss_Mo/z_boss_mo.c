@@ -6,6 +6,7 @@
 
 #include "z_boss_mo.h"
 #include "objects/object_mo/object_mo.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
@@ -352,7 +353,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
             Actor_Kill(&this->actor);
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, -280.0f, 0.0f, 0,
-                               0, 0, -1);
+                               0, 0, WARP_DUNGEON_ADULT);
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, -200.0f, -280.0f, 0.0f, 0, 0, 0, 0);
             globalCtx->roomCtx.unk_74[0] = 0xFF;
             MO_WATER_LEVEL(globalCtx) = -500;
@@ -1099,7 +1100,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                             ((300 - indS1) * .0015f) + 0.13f);
                     }
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
-                                       this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0, -1);
+                                       this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0, WARP_DUNGEON_ADULT);
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
                                 -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
                     Audio_QueueSeqCmd(0x21);

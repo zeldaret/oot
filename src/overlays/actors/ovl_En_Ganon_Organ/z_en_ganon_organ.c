@@ -28,7 +28,7 @@ const ActorInit En_Ganon_Organ_InitVars = {
     (ActorFunc)EnGanonOrgan_Draw,
 };
 
-static s32 dataPad[2] = { 0, 0 };
+static u64 pad = 0;
 
 #include "overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
@@ -111,6 +111,7 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPDisplayList(POLY_OPA_DISP++, gGanondorfRoomOrganAndFloorDL);
     gSPDisplayList(POLY_OPA_DISP++, gGanondorfRoomStatuesDL);
+
     osSyncPrintf("ORGAN DRAW  2\n");
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 230);

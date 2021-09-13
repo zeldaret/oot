@@ -566,7 +566,7 @@ s32 EnSt_DecrStunTimer(EnSt* this) {
     if (this->stunTimer == 0) {
         return 0;
     }
-    this->stunTimer--; //! @bug ? no return but v0 ends up being stunTimer before decrement
+    this->stunTimer--; //! @bug  no return but v0 ends up being stunTimer before decrement
 }
 
 /**
