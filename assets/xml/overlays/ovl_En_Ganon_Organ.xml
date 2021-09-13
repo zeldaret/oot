@@ -1,0 +1,33 @@
+<Root>
+    <File Name="ovl_En_Ganon_Organ" BaseAddress="0x80A28000" RangeStart="0x3E0" RangeEnd="0x7000" Segment="128">
+        <!-- D_80A283E8 -->
+        <Texture Name="gGanondorfRoomCarpetTex" OutName="ganondorf_room_carpet" Format="rgba16" Width="64" Height="16" Offset="0x3E8"/>
+        <!-- D_80A28BE8 -->
+        <Texture Name="gGanondorfRoomOrganPipeTex" OutName="ganondorf_room_organ_pipe" Format="i4" Width="16" Height="64" Offset="0xBE8"/>
+        <!-- D_80A28DE8 -->
+        <Texture Name="gGanondorfRoomOrganCorbelsTex" OutName="ganondorf_room_organ_corbels" Format="i4" Width="16" Height="16" Offset="0xDE8"/>
+        <!-- D_80A28E68 -->
+        <Texture Name="gGanondorfRoomOrganGrillTex" OutName="ganondorf_room_organ_grill" Format="rgba16" Width="16" Height="16" Offset="0xE68"/>
+        <!-- D_80A29068 -->
+        <Texture Name="gGanondorfRoomCrestFriezeTex" OutName="ganondorf_room_crest_frieze" Format="i4" Width="32" Height="32" Offset="0x1068"/>
+        <!-- D_80A29268 -->
+        <Texture Name="gGanondorfRoomColumnFriezeAndCanopyTex" OutName="ganondorf_room_column_frieze_and_canopy" Format="i4" Width="16" Height="16" Offset="0x1268"/>
+        <!-- D_80A292E8 -->
+        <Texture Name="gGanondorfRoomColumnMetalEdgingTex" OutName="ganondorf_room_metal_edging" Format="rgba16" Width="16" Height="16" Offset="0x12E8"/>
+        <!-- D_80A294E8 -->
+        <Texture Name="gGanondorfRoomStatueWingTex" OutName="ganondorf_room_statue_wing" Format="rgba16" Width="16" Height="16" Offset="0x14E8"/>
+        <!-- D_80A296E8 -->
+        <Texture Name="gGanondorfRoomPillarTex" OutName="ganondorf_room_pillar" Format="i8" Width="8" Height="32" Offset="0x16E8"/>
+        <!-- D_80A297E8 -->
+        <Texture Name="gGanondorfRoomOrganKeyboardTex" OutName="ganondorf_room_organ_keyboard" Format="rgba16" Width="32" Height="8" Offset="0x17E8"/>
+        <!-- D_80A299E8 -->
+        <Texture Name="gGanondorfRoomOrganKeyEndTex" OutName="ganondorf_room_organ_key_end" Format="rgba16" Width="4" Height="8" Offset="0x19E8"/>
+        <!-- D_80A29A28 -->
+        <Texture Name="gGanondorfRoomStepTex" OutName="ganondorf_room_step" Format="i4" Width="16" Height="16" Offset="0x1A28"/>
+
+        <!-- D_80A2CCA8 -->
+        <DList Name="gGanondorfRoomOrganAndFloorDL" Offset="0x4CA8"/>
+        <!-- D_80A2EAB0 -->
+        <DList Name="gGanondorfRoomStatuesDL" Offset="0x6AB0"/>
+    </File>
+</Root>
