@@ -11,4 +11,4 @@
 
 #endif /* __cplusplus */
 
-#endif /* _STDBOOL */
+#endif /* STDBOOL */
