@@ -367,7 +367,7 @@ s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
 }
 
 void EnWf_SetupWaitToAppear(EnWf* this) {
-    Animation_Change(&this->skelAnime, &gWolfosRearUpFallOverAnim, 0.5f, 0.0f, 7.0f, ANIMMODE_ONCE_INTERP, 0.0f);
+    Animation_Change(&this->skelAnime, &gWolfosRearingUpFallingOverAnim, 0.5f, 0.0f, 7.0f, ANIMMODE_ONCE_INTERP, 0.0f);
     this->actor.world.pos.y = this->actor.home.pos.y - 5.0f;
     this->actionTimer = 20;
     this->unk_300 = 0;
@@ -479,9 +479,9 @@ void EnWf_Wait(EnWf* this, GlobalContext* globalCtx) {
 
 // EnWf_Setup?????? (probably when it runs forward)
 void func_80B347FC(EnWf* this, GlobalContext* globalCtx) {
-    f32 lastFrame = Animation_GetLastFrame(&gWolfosRunAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gWolfosRunningAnim);
 
-    Animation_Change(&this->skelAnime, &gWolfosRunAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gWolfosRunningAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
     this->unk_2D4 = 9;
     EnWf_SetupAction(this, func_80B3487C);
 }
@@ -569,7 +569,7 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_SetupSearchForPlayer(EnWf* this) {
-    Animation_MorphToLoop(&this->skelAnime, &gWolfosSidestepAnim, -4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gWolfosSidesteppingAnim, -4.0f);
     this->unk_2D4 = 10;
     EnWf_SetupAction(this, EnWf_SearchForPlayer);
 }
@@ -612,9 +612,9 @@ void EnWf_SearchForPlayer(EnWf* this, GlobalContext* globalCtx) {
 
 // EnWf_Setup???? (Related to moving in front of the player)
 void func_80B34F28(EnWf* this) {
-    f32 lastFrame = Animation_GetLastFrame(&gWolfosRunAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gWolfosRunningAnim);
 
-    Animation_Change(&this->skelAnime, &gWolfosRunAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gWolfosRunningAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
 
     if (Rand_ZeroOne() > 0.5f) {
         this->unk_2FE = 16000;
@@ -719,7 +719,7 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
 
 // EnWf_Setup??????
 void func_80B35540(EnWf* this) {
-    Animation_PlayOnce(&this->skelAnime, &gWolfosSlashAnim);
+    Animation_PlayOnce(&this->skelAnime, &gWolfosSlashingAnim);
     this->colliderSphere.base.atFlags &= ~AT_BOUNCED;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->unk_2D4 = 8;
@@ -796,7 +796,7 @@ void func_80B3590C(EnWf* this) {
         endFrame = 15.0f;
     }
 
-    Animation_Change(&this->skelAnime, &gWolfosSlashAnim, -0.5f, this->skelAnime.curFrame - 1.0f, endFrame,
+    Animation_Change(&this->skelAnime, &gWolfosSlashingAnim, -0.5f, this->skelAnime.curFrame - 1.0f, endFrame,
                      ANIMMODE_ONCE_INTERP, 0.0f);
     this->unk_2D4 = 12;
     this->unk_2F8 = 0;
@@ -845,7 +845,7 @@ void func_80B359A8(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_SetupBackflip(EnWf* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosBackflipAnim, -3.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosBackflippingAnim, -3.0f);
     this->actor.speedXZ = -6.0f;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actionTimer = 0;
@@ -877,7 +877,7 @@ void EnWf_SetupStunned(EnWf* this) {
     }
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &gWolfosKnockbackAnim, 0.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gWolfosKnockedbackAnim, 0.0f);
     this->unk_2D4 = 15;
     EnWf_SetupAction(this, EnWf_Stunned);
 }
@@ -905,7 +905,7 @@ void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_SetupDamaged(EnWf* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosKnockbackAnim, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosKnockedbackAnim, -4.0f);
 
     if (this->actor.bgCheckFlags & 1) {
         this->unk_300 = 0;
@@ -968,9 +968,9 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
 
 // EnWf_Setup?????? (Related to moving around?)
 void func_80B360E8(EnWf* this) {
-    f32 lastFrame = Animation_GetLastFrame(&gWolfosBackflipAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gWolfosBackflippingAnim);
 
-    Animation_Change(&this->skelAnime, &gWolfosBackflipAnim, -1.0f, lastFrame, 0.0f, ANIMMODE_ONCE, -3.0f);
+    Animation_Change(&this->skelAnime, &gWolfosBackflippingAnim, -1.0f, lastFrame, 0.0f, ANIMMODE_ONCE, -3.0f);
     this->actionTimer = 0;
     this->unk_300 = 0;
     this->unk_2D4 = 4;
@@ -1006,7 +1006,7 @@ void func_80B361A0(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_SetupReactToPlayer(EnWf* this) {
-    f32 lastFrame = Animation_GetLastFrame(&gWolfosBlockAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gWolfosBlockingAnim);
 
     if (this->unk_2F8 != 0) {
         this->unk_2F8 = -1;
@@ -1016,7 +1016,7 @@ void EnWf_SetupReactToPlayer(EnWf* this) {
     this->unk_2D4 = 7;
     this->actionTimer = 10;
 
-    Animation_Change(&this->skelAnime, &gWolfosBlockAnim, 0.0f, 0.0f, lastFrame, ANIMMODE_ONCE_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gWolfosBlockingAnim, 0.0f, 0.0f, lastFrame, ANIMMODE_ONCE_INTERP, -4.0f);
     EnWf_SetupAction(this, EnWf_ReactToPlayer);
 }
 
@@ -1074,9 +1074,9 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
 void EnWf_SetupSidestep(EnWf* this, GlobalContext* globalCtx) {
     s16 angle;
     Player* player;
-    f32 lastFrame = Animation_GetLastFrame(&gWolfosRunAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gWolfosRunningAnim);
 
-    Animation_Change(&this->skelAnime, &gWolfosRunAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gWolfosRunningAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
 
     player = GET_PLAYER(globalCtx);
     angle = player->actor.shape.rot.y + this->unk_2FE;
@@ -1191,7 +1191,7 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_SetupDie(EnWf* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosRearUpFallOverAnim, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosRearingUpFallingOverAnim, -4.0f);
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
     if (this->actor.bgCheckFlags & 1) {
