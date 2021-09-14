@@ -28,7 +28,7 @@ void func_80B34F28(EnWf* this);
 void func_80B35024(EnWf* this, GlobalContext* globalCtx);
 void func_80B35540(EnWf* this);
 void func_80B355BC(EnWf* this, GlobalContext* globalCtx);
-void func_80B359A8(EnWf* this, GlobalContext* globalCtx);
+void EnWf_Slash(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupBackflip(EnWf* this);
 void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx);
@@ -38,7 +38,7 @@ void func_80B361A0(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupReactToPlayer(EnWf* this);
 void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupSidestep(EnWf* this, GlobalContext* globalCtx);
-void func_80B36740(EnWf* this, GlobalContext* globalCtx);
+void EnWf_Sidestep(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupDie(EnWf* this);
 void EnWf_Die(EnWf* this, GlobalContext* globalCtx);
 s32 EnWf_DodgeRanged(GlobalContext* globalCtx, EnWf* this);
@@ -424,7 +424,7 @@ void EnWf_Wait(EnWf* this, GlobalContext* globalCtx) {
     if (this->headTilt != 0) {
         angle = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y) - this->headRot.y;
 
-        if (ABS(angle) >= 0x2001) {
+        if (ABS(angle) > 0x2000) {
             this->headTilt--;
             return;
         }
@@ -785,8 +785,7 @@ void func_80B355BC(EnWf* this, GlobalContext* globalCtx) {
     }
 }
 
-// EnWf_Setup??????
-void func_80B3590C(EnWf* this) {
+void EnWf_SetupSlash(EnWf* this) {
     f32 endFrame = 1.0f;
 
     if ((s32)this->skelAnime.curFrame >= 0x10) {
@@ -795,13 +794,12 @@ void func_80B3590C(EnWf* this) {
 
     Animation_Change(&this->skelAnime, &gWolfosSlashingAnim, -0.5f, this->skelAnime.curFrame - 1.0f, endFrame,
                      ANIMMODE_ONCE_INTERP, 0.0f);
-    this->action = WOLFOS_ACTION_12;
+    this->action = WOLFOS_ACTION_SLASH;
     this->unk_2F8 = 0;
-    EnWf_SetupAction(this, func_80B359A8);
+    EnWf_SetupAction(this, EnWf_Slash);
 }
 
-// EnWf_??????
-void func_80B359A8(EnWf* this, GlobalContext* globalCtx) {
+void EnWf_Slash(EnWf* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s16 angle1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
     s16 angle2 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
@@ -1095,10 +1093,10 @@ void EnWf_SetupSidestep(EnWf* this, GlobalContext* globalCtx) {
     this->actionTimer = (Rand_ZeroOne() * 10.0f) + 5.0f;
     this->action = WOLFOS_ACTION_SIDESTEP;
 
-    EnWf_SetupAction(this, func_80B36740);
+    EnWf_SetupAction(this, EnWf_Sidestep);
 }
 
-void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
+void EnWf_Sidestep(EnWf* this, GlobalContext* globalCtx) {
     s16 angleDiff1;
     Player* player = GET_PLAYER(globalCtx);
     s32 animCurFrame;
@@ -1340,7 +1338,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (!(this->colliderSphere.base.atFlags & AT_BOUNCED)) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
         } else {
-            func_80B3590C(this);
+            EnWf_SetupSlash(this);
         }
     }
 
@@ -1386,34 +1384,34 @@ void EnWf_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
     if ((this->fireTimer != 0) || ((this->actor.colorFilterTimer != 0) && (this->actor.colorFilterParams & 0x4000))) {
         switch (limbIndex) {
-            case 18:
+            case WOLFOS_LIMB_EYES:
                 bodyPartIndex = 0;
                 break;
-            case 14:
+            case WOLFOS_LIMB_FRONT_RIGHT_LOWER_LEG:
                 bodyPartIndex = 1;
                 break;
-            case 20:
+            case WOLFOS_LIMB_FRONT_LEFT_LOWER_LEG:
                 bodyPartIndex = 2;
                 break;
-            case 12:
+            case WOLFOS_LIMB_THORAX:
                 bodyPartIndex = 3;
                 break;
-            case 7:
+            case WOLFOS_LIMB_ABDOMEN:
                 bodyPartIndex = 4;
                 break;
-            case 6:
+            case WOLFOS_LIMB_TAIL:
                 bodyPartIndex = 5;
                 break;
-            case 9:
+            case WOLFOS_LIMB_BACK_RIGHT_SHIN:
                 bodyPartIndex = 6;
                 break;
-            case 37:
+            case 37: // There is no limb with index this large
                 bodyPartIndex = 7;
                 break;
-            case 10:
+            case WOLFOS_LIMB_BACK_RIGHT_PASTERN:
                 bodyPartIndex = 8;
                 break;
-            case 5:
+            case WOLFOS_LIMB_BACK_LEFT_PAW:
                 bodyPartIndex = 9;
         }
 
