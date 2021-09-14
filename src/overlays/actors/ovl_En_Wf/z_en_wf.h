@@ -34,28 +34,47 @@ typedef enum {
     /* 22 */ WOLFOS_LIMB_MAX
 } EnWfLimb;
 
+typedef enum {
+    /*  0 */ WOLFOS_ACTION_WAIT_TO_APPEAR,
+
+    /*  2 */ WOLFOS_ACTION_DIE = 2,
+    /*  3 */ WOLFOS_ACTION_DAMAGED,
+    /*  4 */ WOLFOS_ACTION_04,
+    /*  5 */ WOLFOS_ACTION_BACKFLIP,
+    /*  6 */ WOLFOS_ACTION_WAIT,
+    /*  7 */ WOLFOS_ACTION_REACT_TO_PLAYER,
+    /*  8 */ WOLFOS_ACTION_08,
+    /*  9 */ WOLFOS_ACTION_RUN_AT_PLAYER,
+    /*  10 */ WOLFOS_ACTION_SEARCH_FOR_PLAYER,
+    /*  11 */ WOLFOS_ACTION_11,
+    /*  12 */ WOLFOS_ACTION_12,
+
+    /*  14 */ WOLFOS_ACTION_SIDESTEP = 14,
+    /*  15 */ WOLFOS_ACTION_STUNNED
+} EnWfAction;
+
 typedef struct EnWf {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Vec3s bodyPartsPos[10];
     /* 0x0188 */ SkelAnime skelAnime;
     /* 0x01CC */ Vec3s jointTable[WOLFOS_LIMB_MAX];
     /* 0x0250 */ Vec3s morphTable[WOLFOS_LIMB_MAX];
-    /* 0x02D4 */ s32 unk_2D4;
-    /* 0x02D8 */ s32 action;
+    /* 0x02D4 */ s32 action; // Used in  some sort of actionFunc-checking system
+    /* 0x02D8 */ char unk_2D8[4]; // Unused
     /* 0x02DC */ EnWfActionFunc actionFunc;
-    /* 0x02E0 */ s16 unk_2E0;
-    /* 0x02E2 */ s16 unk_2E2;
+    /* 0x02E0 */ s16 unk_2E0; // Used, but has no effect
+    /* 0x02E2 */ s16 headTilt;
     /* 0x02E4 */ s16 fireTimer;
-    /* 0x02E6 */ u8 unk_2E6;
+    /* 0x02E6 */ u8 damageEffect;
     /* 0x02E8 */ s32 actionTimer; // Used to make an action last for a certain amount of time
-    /* 0x02EC */ f32 unk_2EC;
-    /* 0x02F0 */ f32 unk_2F0;
-    /* 0x02F4 */ f32 unk_2F4;
+    /* 0x02EC */ f32 runSpeed;
+    /* 0x02F0 */ char unk_2F0[4];
+    /* 0x02F4 */ f32 unk_2F4; // Set and not used
     /* 0x02F8 */ s16 unk_2F8;
-    /* 0x02FA */ s16 unk_2FA;
+    /* 0x02FA */ s16 unk_2FA; // Set and not used
     /* 0x02FC */ s16 switchFlag;
-    /* 0x02FE */ s16 unk_2FE;
-    /* 0x0300 */ s16 unk_300;
+    /* 0x02FE */ s16 runAngle;
+    /* 0x0300 */ s16 isInvisible;
     /* 0x0302 */ u8 eyeIndex;
     /* 0x0304 */ ColliderJntSph colliderSphere;
     /* 0x0324 */ ColliderJntSphElement colliderSphereElements[4];
