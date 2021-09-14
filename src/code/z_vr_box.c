@@ -98,7 +98,8 @@ typedef struct {
 extern Struct_8011FD3C D_8011FD3C[];
 
 #ifdef NON_MATCHING
-// Loop unrolls in the switch are totally wrong, but seems to behave equivalently.
+// Loops have very strange structure. In principle, they're the double loop over a 2D array shown below them.
+// However, that gives wildly different codegen and the part after the switch suggests a linear array.
 s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7,
                   s32 arg8, s32 arg9) {
     u32 pad42C;
@@ -155,7 +156,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                     
                 }
             }
-            // for (i = 0; i < 5; i++) {
+            // for (i = 0; i < 9; i++) {
             //     for (j = 0; j < 5; j++) {
             //         sp358[i][j] = arg3 + j * arg6;
             //         sp2A4[i][j] = arg4 + i * arg7;
@@ -185,7 +186,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                     *(temp88++) = temp3;
                 }
             }
-            // for (i = 0; i < 5; i++) {
+            // for (i = 0; i < 9; i++) {
             //     for (j = 0; j < 5; j++) {
             //         sp358[i][j] = arg3;
             //         sp2A4[i][j] = arg4 + i * arg7;
@@ -215,7 +216,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                     *(temp88++) = temp3;
                 }
             }
-            // for (i = 0; i < 5; i++) {
+            // for (i = 0; i < 9; i++) {
             //     for (j = 0; j < 5; j++) {
             //         sp358[i][j] = arg3 + j * arg6;
             //         sp2A4[i][j] = arg4;
@@ -268,7 +269,8 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32, UNK_TYPE, UNK_TYP
 #endif
 
 #ifdef NON_MATCHING
-// Loop unrolls in the switch are totally wrong, but seems to behave equivalently.
+// Loops have very strange structure. In principle, they're the double loop over a 2D array shown below them.
+// However, that gives wildly different codegen and the part after the switch suggests a linear array.
 s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7,
                   s32 arg8) {
     s32 pad334;
