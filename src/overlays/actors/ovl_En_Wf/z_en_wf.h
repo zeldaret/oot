@@ -39,15 +39,15 @@ typedef enum {
 
     /*  2 */ WOLFOS_ACTION_DIE = 2,
     /*  3 */ WOLFOS_ACTION_DAMAGED,
-    /*  4 */ WOLFOS_ACTION_04,
+    /*  4 */ WOLFOS_ACTION_TURN_TOWARDS_PLAYER,
     /*  5 */ WOLFOS_ACTION_BACKFLIP,
     /*  6 */ WOLFOS_ACTION_WAIT,
     /*  7 */ WOLFOS_ACTION_REACT_TO_PLAYER,
-    /*  8 */ WOLFOS_ACTION_08,
+    /*  8 */ WOLFOS_ACTION_FIRST_SLASH,
     /*  9 */ WOLFOS_ACTION_RUN_AT_PLAYER,
     /*  10 */ WOLFOS_ACTION_SEARCH_FOR_PLAYER,
-    /*  11 */ WOLFOS_ACTION_11,
-    /*  12 */ WOLFOS_ACTION_12,
+    /*  11 */ WOLFOS_ACTION_RUN_AROUND_PLAYER,
+    /*  12 */ WOLFOS_ACTION_SECOND_SLASH,
 
     /*  14 */ WOLFOS_ACTION_SIDESTEP = 14,
     /*  15 */ WOLFOS_ACTION_STUNNED
@@ -70,7 +70,7 @@ typedef struct EnWf {
     /* 0x02EC */ f32 runSpeed;
     /* 0x02F0 */ char unk_2F0[4];
     /* 0x02F4 */ f32 unk_2F4; // Set and not used
-    /* 0x02F8 */ s16 unk_2F8;
+    /* 0x02F8 */ s16 slashStatus; // Whether to slash again or not, and whether to cry
     /* 0x02FA */ s16 unk_2FA; // Set and not used
     /* 0x02FC */ s16 switchFlag;
     /* 0x02FE */ s16 runAngle;
