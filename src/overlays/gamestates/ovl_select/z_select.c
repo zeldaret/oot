@@ -312,9 +312,9 @@ void Select_UpdateMenu(SelectContext* this) {
     }
 
     if (CHECK_BTN_ALL(controller1->press.button, BTN_L)) {
-        this->unk_1DC++;
-        this->unk_1DC = (this->unk_1DC + ARRAY_COUNT(this->unk_1E0)) % ARRAY_COUNT(this->unk_1E0);
-        this->currentScene = this->topScreen = this->unk_1E0[this->unk_1DC];
+        this->pageDownIndex++;
+        this->pageDownIndex = (this->pageDownIndex + ARRAY_COUNT(this->pageDownStops)) % ARRAY_COUNT(this->pageDownStops);
+        this->currentScene = this->topScreen = this->pageDownStops[this->pageDownIndex];
     }
 
     this->unk_21C += this->unk_220;
@@ -355,7 +355,7 @@ void Select_UpdateMenu(SelectContext* this) {
 
     dREG(80) = this->currentScene;
     dREG(81) = this->topScreen;
-    dREG(82) = this->unk_1DC;
+    dREG(82) = this->pageDownIndex;
 
     if (this->timerUp != 0) {
         this->timerUp--;
@@ -590,14 +590,14 @@ void Select_Init(GameState* thisx) {
     this->scenes = sScenes;
     this->topScreen = 0;
     this->currentScene = 0;
-    this->unk_1E0[0] = 0;  // " 1:SPOT00"
-    this->unk_1E0[1] = 19; // "20:\x8Dﾄｷﾉﾏ"
-    this->unk_1E0[2] = 37; // "38:\x8Dﾀｶﾗﾊﾞｺﾔ"
-    this->unk_1E0[3] = 51; // "52:\x8Dﾊｶﾓﾘﾉｲｴ"
-    this->unk_1E0[4] = 59; // "60:\x8Cｿﾞｰﾗ\x8Dﾉﾐｾ"
-    this->unk_1E0[5] = 73; // "74:\x8Dｲﾄﾞｼﾀ \x8Cﾀﾞﾝｼﾞｮﾝ"
-    this->unk_1E0[6] = 91; // "92:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 3"
-    this->unk_1DC = 0;
+    this->pageDownStops[0] = 0;  // " 1:SPOT00"
+    this->pageDownStops[1] = 19; // "20:\x8Dﾄｷﾉﾏ"
+    this->pageDownStops[2] = 37; // "38:\x8Dﾀｶﾗﾊﾞｺﾔ"
+    this->pageDownStops[3] = 51; // "52:\x8Dﾊｶﾓﾘﾉｲｴ"
+    this->pageDownStops[4] = 59; // "60:\x8Cｿﾞｰﾗ\x8Dﾉﾐｾ"
+    this->pageDownStops[5] = 73; // "74:\x8Dｲﾄﾞｼﾀ \x8Cﾀﾞﾝｼﾞｮﾝ"
+    this->pageDownStops[6] = 91; // "92:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 3"
+    this->pageDownIndex = 0;
     this->opt = 0;
     this->count = 126;
     View_Init(&this->view, this->state.gfxCtx);
@@ -615,7 +615,7 @@ void Select_Init(GameState* thisx) {
     if ((dREG(80) >= 0) && (dREG(80) < this->count)) {
         this->currentScene = dREG(80);
         this->topScreen = dREG(81);
-        this->unk_1DC = dREG(82);
+        this->pageDownIndex = dREG(82);
     }
     R_UPDATE_RATE = 1;
 

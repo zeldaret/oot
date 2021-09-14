@@ -909,8 +909,8 @@ typedef struct SelectContext {
     /* 0x01D0 */ s32 count;
     /* 0x01D4 */ SceneSelectEntry* scenes;
     /* 0x01D8 */ s32 currentScene;
-    /* 0x01DC */ s32 unk_1DC; // index of unk_1E0
-    /* 0x01E0 */ s32 unk_1E0[7]; // paging?
+    /* 0x01DC */ s32 pageDownIndex; // index of pageDownStops
+    /* 0x01E0 */ s32 pageDownStops[7];
     /* 0x01FC */ char unk_1FC[0x0C];
     /* 0x0208 */ s32 opt;
     /* 0x020C */ s32 topScreen;
