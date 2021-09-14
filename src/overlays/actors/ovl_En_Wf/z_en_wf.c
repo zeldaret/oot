@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wf.h"
+#include "objects/object_wf/object_wf.h"
 
 #define FLAGS 0x00000015
 
@@ -15,43 +16,33 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+
 void EnWf_SetupWaitToAppear(EnWf* this);
 void EnWf_WaitToAppear(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupWait(EnWf* this);
-void func_80B345E4(EnWf* this, GlobalContext* globalCtx);
+void EnWf_Wait(EnWf* this, GlobalContext* globalCtx);
+void func_80B347FC(EnWf* this, GlobalContext* globalCtx);
 void func_80B3487C(EnWf* this, GlobalContext* globalCtx);
+void EnWf_SetupSearchForPlayer(EnWf* this);
 void EnWf_SearchForPlayer(EnWf* this, GlobalContext* globalCtx);
+void func_80B34F28(EnWf* this);
 void func_80B35024(EnWf* this, GlobalContext* globalCtx);
+void func_80B35540(EnWf* this);
 void func_80B355BC(EnWf* this, GlobalContext* globalCtx);
 void func_80B359A8(EnWf* this, GlobalContext* globalCtx);
+void EnWf_SetupBackflip(EnWf* this);
 void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx);
+void func_80B360E8(EnWf* this);
 void func_80B361A0(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupReactToPlayer(EnWf* this);
 void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx);
+void EnWf_SetupSidestep(EnWf* this, GlobalContext* globalCtx);
 void func_80B36740(EnWf* this, GlobalContext* globalCtx);
+void EnWf_SetupDie(EnWf* this);
 void EnWf_Die(EnWf* this, GlobalContext* globalCtx);
-void EnWf_SetupDeath(EnWf* this);
-void func_80B360E8(EnWf* this);
-void func_80B34F28(EnWf* this);
-void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx);
-void EnWf_SetupBackFlip(EnWf* this);
-void func_80B35540(EnWf* this);
-void func_80B347FC(EnWf* this, GlobalContext* globalCtx);
-void EnWf_SetupSearchForPlayer(EnWf* this);
 s32 EnWf_DodgeRanged(GlobalContext* globalCtx, EnWf* this);
-
-extern FlexSkeletonHeader D_06003BC0;
-extern AnimationHeader D_06004638;
-extern AnimationHeader D_06004AD0;
-extern AnimationHeader D_06004CA4;
-extern AnimationHeader D_06005430;
-extern AnimationHeader D_060057A0;
-extern FlexSkeletonHeader D_06009690;
-extern AnimationHeader D_060098C8;
-extern AnimationHeader D_06009B20;
-extern AnimationHeader D_0600A4AC;
 
 static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     {
@@ -219,18 +210,18 @@ void EnWf_SetupAction(EnWf* this, EnWfActionFunc actionFunc) {
 }
 
 void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnWf* this = THIS;
     s32 pad;
+    EnWf* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     thisx->focus.pos = thisx->world.pos;
-    thisx->colChkInfo.mass = 0xFE;
+    thisx->colChkInfo.mass = MASS_HEAVY;
     thisx->colChkInfo.health = 8;
     thisx->colChkInfo.cylRadius = 50;
     thisx->colChkInfo.cylHeight = 100;
-    this->unk_2FC = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     this->eyeIndex = 0;
     this->unk_2F4 = 10.0f;
@@ -242,22 +233,22 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->colliderCylinder2);
     Collider_SetCylinder(globalCtx, &this->colliderCylinder2, thisx, &sCylinderInit2);
 
-    if (thisx->params == 0) {
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009690, &D_0600A4AC, this->jointTable, this->morphTable,
-                           22);
+    if (thisx->params == WOLFOS_NORMAL) {
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWolfosNormalSkel, &gWolfosWaitingAnim, this->jointTable,
+                           this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.0075f);
-        thisx->naviEnemyId = 0x4C;
-    } else {
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003BC0, &D_0600A4AC, this->jointTable, this->morphTable,
-                           22);
+        thisx->naviEnemyId = 0x4C; // Wolfos
+    } else {                       // WOLFOS_WHITE
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWolfosWhiteSkel, &gWolfosWaitingAnim, this->jointTable,
+                           this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.01f);
         this->colliderSphere.elements[0].info.toucher.damage = this->colliderSphere.elements[1].info.toucher.damage = 8;
-        thisx->naviEnemyId = 0x57;
+        thisx->naviEnemyId = 0x57; // While Wolfos
     }
 
     EnWf_SetupWaitToAppear(this);
 
-    if ((this->unk_2FC != 0xFF) && (Flags_GetSwitch(globalCtx, this->unk_2FC))) {
+    if ((this->switchFlag != 0xFF) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
         Actor_Kill(thisx);
     }
 }
@@ -269,7 +260,7 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder1);
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder2);
 
-    if ((this->actor.params != 0) && (this->unk_2FC != 0xFF)) {
+    if ((this->actor.params != 0) && (this->switchFlag != 0xFF)) {
         func_800F5B58();
     }
 
@@ -308,12 +299,12 @@ s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
 
         if (player->swordAnimation == 0x11) {
             EnWf_SetupReactToPlayer(this);
-            return 1;
+            return true;
         }
 
-        if ((globalCtx->gameplayFrames & 1) != 0) {
+        if ((globalCtx->gameplayFrames % 2) != 0) {
             EnWf_SetupReactToPlayer(this);
-            return 1;
+            return true;
         }
     }
 
@@ -322,16 +313,16 @@ s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
 
         if ((this->actor.bgCheckFlags & 8) && (ABS(temp_t0) < 0x2EE0) && (this->actor.xzDistToPlayer < 120.0f)) {
             func_80B360E8(this);
-            return 1;
+            return true;
         } else if (player->swordAnimation == 0x11) {
             EnWf_SetupReactToPlayer(this);
-            return 1;
+            return true;
         } else if ((this->actor.xzDistToPlayer < 80.0f) && (globalCtx->gameplayFrames & 1) != 0) {
             EnWf_SetupReactToPlayer(this);
-            return 1;
+            return true;
         } else {
-            EnWf_SetupBackFlip(this);
-            return 1;
+            EnWf_SetupBackflip(this);
+            return true;
         }
     }
 
@@ -344,39 +335,39 @@ s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
             if ((temp_v0_2->id == 0xDA) && (Actor_WorldDistXYZToActor(&this->actor, temp_v0_2) < 80.0f) &&
                 (s16)((this->actor.shape.rot.y - temp_v0_2->world.rot.y) + 0x8000) < 0x3E80) {
                 func_80B360E8(this);
-                return 1;
+                return true;
             } else {
-                EnWf_SetupSideStep(this, globalCtx);
-                return 1;
+                EnWf_SetupSidestep(this, globalCtx);
+                return true;
             }
         } else {
-            EnWf_SetupBackFlip(this);
-            return 1;
+            EnWf_SetupBackflip(this);
+            return true;
         }
     }
 
     if (arg2 != 0) {
         if (temp_v1 >= 0x1B58) {
-            EnWf_SetupSideStep(this, globalCtx);
-            return 1;
+            EnWf_SetupSidestep(this, globalCtx);
+            return true;
         }
 
         temp_v1_5 = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
         if (((this->actor.xzDistToPlayer <= 80.0f) && (!Actor_OtherIsTargeted(globalCtx, &this->actor))) &&
-            (((globalCtx->gameplayFrames & 7) != 0) || (ABS(temp_v1_5) < 0x38E0))) {
+            (((globalCtx->gameplayFrames % 8) != 0) || (ABS(temp_v1_5) < 0x38E0))) {
             func_80B35540(this);
-            return 1;
+            return true;
         } else {
             func_80B34F28(this);
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void EnWf_SetupWaitToAppear(EnWf* this) {
-    Animation_Change(&this->skelAnime, &D_06005430, 0.5f, 0.0f, 7.0f, ANIMMODE_ONCE_INTERP, 0.0f);
+    Animation_Change(&this->skelAnime, &gWolfosRearUpFallOverAnim, 0.5f, 0.0f, 7.0f, ANIMMODE_ONCE_INTERP, 0.0f);
     this->actor.world.pos.y = this->actor.home.pos.y - 5.0f;
     this->actionTimer = 20;
     this->unk_300 = 0;
@@ -395,7 +386,7 @@ void EnWf_WaitToAppear(EnWf* this, GlobalContext* globalCtx) {
             this->actionTimer = 5;
             this->actor.flags |= 1;
 
-            if ((this->actor.params != 0) && (this->unk_2FC != 0xFF)) {
+            if ((this->actor.params != 0) && (this->switchFlag != 0xFF)) {
                 func_800F5ACC(0x38); // Mini-Boss Battle Theme
             }
         }
@@ -416,16 +407,15 @@ void EnWf_WaitToAppear(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_SetupWait(EnWf* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_0600A4AC, -4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gWolfosWaitingAnim, -4.0f);
     this->unk_2D4 = 6;
     this->actionTimer = (Rand_ZeroOne() * 10.0f) + 2.0f;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    EnWf_SetupAction(this, func_80B345E4);
+    EnWf_SetupAction(this, EnWf_Wait);
 }
 
-// EnWf_Wait
-void func_80B345E4(EnWf* this, GlobalContext* globalCtx) {
+void EnWf_Wait(EnWf* this, GlobalContext* globalCtx) {
     Player* player;
     s32 pad;
     s16 angle;
@@ -434,7 +424,7 @@ void func_80B345E4(EnWf* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_2E2 != 0) {
-        angle = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y) - this->unk_4D4.y;
+        angle = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y) - this->headRot.y;
 
         if (ABS(angle) >= 0x2001) {
             this->unk_2E2--;
@@ -489,9 +479,9 @@ void func_80B345E4(EnWf* this, GlobalContext* globalCtx) {
 
 // EnWf_Setup?????? (probably when it runs forward)
 void func_80B347FC(EnWf* this, GlobalContext* globalCtx) {
-    f32 lastFrame = Animation_GetLastFrame(&D_060057A0);
+    f32 lastFrame = Animation_GetLastFrame(&gWolfosRunAnim);
 
-    Animation_Change(&this->skelAnime, &D_060057A0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gWolfosRunAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
     this->unk_2D4 = 9;
     EnWf_SetupAction(this, func_80B3487C);
 }
@@ -559,14 +549,14 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
                 func_80B35540(this);
             } else {
                 if (Actor_OtherIsTargeted(globalCtx, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
-                    EnWf_SetupBackFlip(this);
+                    EnWf_SetupBackflip(this);
                 } else {
                     func_80B34F28(this);
                 }
             }
         }
 
-        if (func_80B33FB0(globalCtx, this, 0) == 0) {
+        if (!(func_80B33FB0(globalCtx, this, 0))) {
             if ((globalCtx->gameplayFrames & 95) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
             }
@@ -579,7 +569,7 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_SetupSearchForPlayer(EnWf* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_060098C8, -4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gWolfosSidestepAnim, -4.0f);
     this->unk_2D4 = 10;
     EnWf_SetupAction(this, EnWf_SearchForPlayer);
 }
@@ -622,9 +612,9 @@ void EnWf_SearchForPlayer(EnWf* this, GlobalContext* globalCtx) {
 
 // EnWf_Setup???? (Related to moving in front of the player)
 void func_80B34F28(EnWf* this) {
-    f32 lastFrame = Animation_GetLastFrame(&D_060057A0);
+    f32 lastFrame = Animation_GetLastFrame(&gWolfosRunAnim);
 
-    Animation_Change(&this->skelAnime, &D_060057A0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gWolfosRunAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
 
     if (Rand_ZeroOne() > 0.5f) {
         this->unk_2FE = 16000;
@@ -655,7 +645,7 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->unk_2FE, 1, 4000, 1);
 
-    if ((EnWf_DodgeRanged(globalCtx, this) == 0) && (func_80B33FB0(globalCtx, this, 0) == 0)) {
+    if (!(EnWf_DodgeRanged(globalCtx, this)) && !(func_80B33FB0(globalCtx, this, 0))) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         angle1 = player->actor.shape.rot.y + this->unk_2FE + 0x8000;
 
@@ -717,7 +707,7 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
 
             if (this->actionTimer == 0) {
                 if ((Actor_OtherIsTargeted(globalCtx, &this->actor) != 0) && (Rand_ZeroOne() > 0.5f)) {
-                    EnWf_SetupBackFlip(this);
+                    EnWf_SetupBackflip(this);
                 } else {
                     EnWf_SetupWait(this);
                     this->actionTimer = (Rand_ZeroOne() * 3.0f) + 1.0f;
@@ -729,7 +719,7 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
 
 // EnWf_Setup??????
 void func_80B35540(EnWf* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06004638);
+    Animation_PlayOnce(&this->skelAnime, &gWolfosSlashAnim);
     this->colliderSphere.base.atFlags &= ~AT_BOUNCED;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->unk_2D4 = 8;
@@ -783,7 +773,7 @@ void func_80B355BC(EnWf* this, GlobalContext* globalCtx) {
             this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
             if (Rand_ZeroOne() > 0.7f) {
-                EnWf_SetupSideStep(this, globalCtx);
+                EnWf_SetupSidestep(this, globalCtx);
             } else if (shapeAngleDiff <= 10000) {
                 if (yawAngleDiff > 16000) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -806,7 +796,7 @@ void func_80B3590C(EnWf* this) {
         endFrame = 15.0f;
     }
 
-    Animation_Change(&this->skelAnime, &D_06004638, -0.5f, this->skelAnime.curFrame - 1.0f, endFrame,
+    Animation_Change(&this->skelAnime, &gWolfosSlashAnim, -0.5f, this->skelAnime.curFrame - 1.0f, endFrame,
                      ANIMMODE_ONCE_INTERP, 0.0f);
     this->unk_2D4 = 12;
     this->unk_2F8 = 0;
@@ -838,7 +828,7 @@ void func_80B359A8(EnWf* this, GlobalContext* globalCtx) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
                 if (Rand_ZeroOne() > 0.7f) {
-                    EnWf_SetupSideStep(this, globalCtx);
+                    EnWf_SetupSidestep(this, globalCtx);
                 } else if (angle1 <= 0x2710) {
                     if (angle2 > 0x3E80) {
                         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -854,8 +844,8 @@ void func_80B359A8(EnWf* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnWf_SetupBackFlip(EnWf* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06004AD0, -3.0f);
+void EnWf_SetupBackflip(EnWf* this) {
+    Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosBackflipAnim, -3.0f);
     this->actor.speedXZ = -6.0f;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actionTimer = 0;
@@ -871,7 +861,7 @@ void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx) {
             (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
             func_80B347FC(this, globalCtx);
         } else if ((globalCtx->gameplayFrames & 1) != 0) {
-            EnWf_SetupSideStep(this, globalCtx);
+            EnWf_SetupSidestep(this, globalCtx);
         } else {
             EnWf_SetupWait(this);
         }
@@ -887,7 +877,7 @@ void EnWf_SetupStunned(EnWf* this) {
     }
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &D_06009B20, 0.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gWolfosKnockbackAnim, 0.0f);
     this->unk_2D4 = 15;
     EnWf_SetupAction(this, EnWf_Stunned);
 }
@@ -907,7 +897,7 @@ void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx) {
 
     if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & 1)) {
         if (this->actor.colChkInfo.health == 0) {
-            EnWf_SetupDeath(this);
+            EnWf_SetupDie(this);
         } else {
             func_80B33FB0(globalCtx, this, 1);
         }
@@ -915,7 +905,7 @@ void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_SetupDamaged(EnWf* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06009B20, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosKnockbackAnim, -4.0f);
 
     if (this->actor.bgCheckFlags & 1) {
         this->unk_300 = 0;
@@ -960,7 +950,7 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
                 }
             }
 
-            if (EnWf_DodgeRanged(globalCtx, this) == 0) {
+            if (!(EnWf_DodgeRanged(globalCtx, this))) {
                 if ((this->actor.xzDistToPlayer <= 80.0f) && (!(Actor_OtherIsTargeted(globalCtx, &this->actor))) &&
                     ((globalCtx->gameplayFrames & 7) != 0)) {
                     func_80B35540(this);
@@ -969,7 +959,7 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
                     this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
                     this->unk_2E2 = 30;
                 } else {
-                    EnWf_SetupBackFlip(this);
+                    EnWf_SetupBackflip(this);
                 }
             }
         }
@@ -978,9 +968,9 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
 
 // EnWf_Setup?????? (Related to moving around?)
 void func_80B360E8(EnWf* this) {
-    f32 lastFrame = Animation_GetLastFrame(&D_06004AD0);
+    f32 lastFrame = Animation_GetLastFrame(&gWolfosBackflipAnim);
 
-    Animation_Change(&this->skelAnime, &D_06004AD0, -1.0f, lastFrame, 0.0f, ANIMMODE_ONCE, -3.0f);
+    Animation_Change(&this->skelAnime, &gWolfosBackflipAnim, -1.0f, lastFrame, 0.0f, ANIMMODE_ONCE, -3.0f);
     this->actionTimer = 0;
     this->unk_300 = 0;
     this->unk_2D4 = 4;
@@ -996,11 +986,12 @@ void func_80B361A0(EnWf* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4000, 1);
 
     if (this->actor.velocity.y >= 5.0f) {
+        //! @bug unk_4C8 and unk_4BC are used but not set (presumably intended to be feet positions like other actors)
         func_800355B8(globalCtx, &this->unk_4C8);
         func_800355B8(globalCtx, &this->unk_4BC);
     }
 
-    if ((SkelAnime_Update(&this->skelAnime)) && (this->actor.bgCheckFlags & (1 | 2))) {
+    if (SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & (1 | 2))) {
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.x = 0;
         this->actor.speedXZ = this->actor.velocity.y = 0.0f;
@@ -1015,7 +1006,7 @@ void func_80B361A0(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_SetupReactToPlayer(EnWf* this) {
-    f32 lastFrame = Animation_GetLastFrame(&D_06004CA4);
+    f32 lastFrame = Animation_GetLastFrame(&gWolfosBlockAnim);
 
     if (this->unk_2F8 != 0) {
         this->unk_2F8 = -1;
@@ -1025,7 +1016,7 @@ void EnWf_SetupReactToPlayer(EnWf* this) {
     this->unk_2D4 = 7;
     this->actionTimer = 10;
 
-    Animation_Change(&this->skelAnime, &D_06004CA4, 0.0f, 0.0f, lastFrame, ANIMMODE_ONCE_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gWolfosBlockAnim, 0.0f, 0.0f, lastFrame, ANIMMODE_ONCE_INTERP, -4.0f);
     EnWf_SetupAction(this, EnWf_ReactToPlayer);
 }
 
@@ -1051,7 +1042,7 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
                     if ((globalCtx->gameplayFrames & 1) != 0) {
                         EnWf_SetupReactToPlayer(this);
                     } else {
-                        EnWf_SetupBackFlip(this);
+                        EnWf_SetupBackflip(this);
                     }
                 }
             } else {
@@ -1074,18 +1065,18 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
             } else if ((globalCtx->gameplayFrames & 1) != 0) {
                 EnWf_SetupReactToPlayer(this);
             } else {
-                EnWf_SetupBackFlip(this);
+                EnWf_SetupBackflip(this);
             }
         }
     }
 }
 
-void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx) {
+void EnWf_SetupSidestep(EnWf* this, GlobalContext* globalCtx) {
     s16 angle;
     Player* player;
-    f32 lastFrame = Animation_GetLastFrame(&D_060057A0);
+    f32 lastFrame = Animation_GetLastFrame(&gWolfosRunAnim);
 
-    Animation_Change(&this->skelAnime, &D_060057A0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gWolfosRunAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
 
     player = GET_PLAYER(globalCtx);
     angle = player->actor.shape.rot.y + this->unk_2FE;
@@ -1199,8 +1190,8 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnWf_SetupDeath(EnWf* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06005430, -4.0f);
+void EnWf_SetupDie(EnWf* this) {
+    Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosRearUpFallOverAnim, -4.0f);
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
     if (this->actor.bgCheckFlags & 1) {
@@ -1230,8 +1221,8 @@ void EnWf_Die(EnWf* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xD0);
 
-        if (this->unk_2FC != 0xFF) {
-            Flags_SetSwitch(globalCtx, this->unk_2FC);
+        if (this->switchFlag != 0xFF) {
+            Flags_SetSwitch(globalCtx, this->switchFlag);
         }
 
         Actor_Kill(&this->actor);
@@ -1254,13 +1245,13 @@ void EnWf_Die(EnWf* this, GlobalContext* globalCtx) {
 
 void EnWf_FaceTowardsPlayer(EnWf* this, GlobalContext* globalCtx) {
     if ((this->unk_2D4 == 6) && (this->unk_2E2 != 0)) {
-        this->unk_4D4.y = Math_SinS(this->unk_2E2 * 4200) * 8920.0f;
+        this->headRot.y = Math_SinS(this->unk_2E2 * 4200) * 8920.0f;
     } else if (this->unk_2D4 != 15) {
         if (this->unk_2D4 != 8) {
-            Math_SmoothStepToS(&this->unk_4D4.y, this->actor.yawTowardsPlayer - this->actor.shape.rot.y, 1, 1500, 0);
-            this->unk_4D4.y = CLAMP(this->unk_4D4.y, -0x3127, 0x3127);
+            Math_SmoothStepToS(&this->headRot.y, this->actor.yawTowardsPlayer - this->actor.shape.rot.y, 1, 1500, 0);
+            this->headRot.y = CLAMP(this->headRot.y, -0x3127, 0x3127);
         } else {
-            this->unk_4D4.y = 0;
+            this->headRot.y = 0;
         }
     }
 }
@@ -1288,7 +1279,8 @@ void EnWf_UpdateDamage(EnWf* this, GlobalContext* globalCtx) {
                 Actor_SetDropFlag(&this->actor, &this->colliderCylinder1.info, 1);
                 this->unk_2F8 = 0;
 
-                if ((this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_STUN) || (this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_UNDEF)) {
+                if ((this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_STUN) ||
+                    (this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_UNDEF)) {
                     if (this->unk_2D4 != 15) {
                         Actor_SetColorFilter(&this->actor, 0, 120, 0, 80);
                         Actor_ApplyDamage(&this->actor);
@@ -1302,7 +1294,7 @@ void EnWf_UpdateDamage(EnWf* this, GlobalContext* globalCtx) {
                     }
 
                     if (!(Actor_ApplyDamage(&this->actor))) {
-                        EnWf_SetupDeath(this);
+                        EnWf_SetupDie(this);
                         Enemy_StartFinishingBlow(globalCtx, &this->actor);
                     } else {
                         EnWf_SetupDamaged(this);
@@ -1314,8 +1306,8 @@ void EnWf_UpdateDamage(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnWf* this = THIS;
     s32 pad;
+    EnWf* this = THIS;
 
     EnWf_UpdateDamage(this, globalCtx);
 
@@ -1371,7 +1363,7 @@ s32 EnWf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     EnWf* this = THIS;
 
     if ((limbIndex == 17) || (limbIndex == 18)) {
-        rot->y -= this->unk_4D4.y;
+        rot->y -= this->headRot.y;
     }
 
     return false;
@@ -1439,8 +1431,10 @@ void EnWf_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     }
 }
 
-static u64* sWolfosEyeTextures[] = { 0x06007B68, 0x06008368, 0x06008568, 0x06008368 };
-static u64* sWhiteWolfosEyeTextures[] = { 0x06000300, 0x060027D8, 0x060029D8, 0x060027D8 };
+static void* sWolfosEyeTextures[] = { gWolfosNormalEyeOpenTex, gWolfosNormalEyeHalfTex, gWolfosNormalEyeNarrowTex,
+                                      gWolfosNormalEyeHalfTex };
+static void* sWhiteWolfosEyeTextures[] = { gWolfosWhiteEyeOpenTex, gWolfosWhiteEyeHalfTex, gWolfosWhiteEyeNarrowTex,
+                                           gWolfosWhiteEyeHalfTex };
 
 void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnWf* this = THIS;
@@ -1492,10 +1486,10 @@ s32 EnWf_DodgeRanged(GlobalContext* globalCtx, EnWf* this) {
         } else {
             this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
             if ((ABS(angleToFacing) < 0x2000) || (ABS(angleToFacing) > 0x5FFF)) {
-                EnWf_SetupSideStep(this, globalCtx);
+                EnWf_SetupSidestep(this, globalCtx);
                 this->actor.speedXZ *= 2.0f;
             } else if (ABS(angleToFacing) < 0x5FFF) {
-                EnWf_SetupBackFlip(this);
+                EnWf_SetupBackflip(this);
             }
         }
         return true;

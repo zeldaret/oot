@@ -3047,7 +3047,7 @@ endseg
 beginseg
     name "ovl_En_Wf"
     include "build/src/overlays/actors/ovl_En_Wf/z_en_wf.o"
-    include "build/data/overlays/actors/z_en_wf.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wf/ovl_En_Wf_reloc.o"
 endseg
 
 beginseg
