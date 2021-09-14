@@ -315,7 +315,7 @@ s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
         } else if (player->swordAnimation == 0x11) {
             EnWf_SetupReactToPlayer(this);
             return true;
-        } else if ((this->actor.xzDistToPlayer < 80.0f) && (globalCtx->gameplayFrames & 1) != 0) {
+        } else if ((this->actor.xzDistToPlayer < 80.0f) && (globalCtx->gameplayFrames % 2) != 0) {
             EnWf_SetupReactToPlayer(this);
             return true;
         } else {
@@ -792,7 +792,7 @@ void EnWf_SetupSecondSlash(EnWf* this) {
 
     Animation_Change(&this->skelAnime, &gWolfosSlashingAnim, -0.5f, this->skelAnime.curFrame - 1.0f, endFrame,
                      ANIMMODE_ONCE_INTERP, 0.0f);
-    this->action = WOLFOS_ACTION_FIRST_SLASH;
+    this->action = WOLFOS_ACTION_SECOND_SLASH;
     this->slashStatus = 0;
     EnWf_SetupAction(this, EnWf_SecondSlash);
 }
@@ -853,7 +853,7 @@ void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx) {
         if (!Actor_OtherIsTargeted(globalCtx, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
             (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
             EnWf_SetupRunAtPlayer(this, globalCtx);
-        } else if ((globalCtx->gameplayFrames & 1) != 0) {
+        } else if ((globalCtx->gameplayFrames % 2) != 0) {
             EnWf_SetupSidestep(this, globalCtx);
         } else {
             EnWf_SetupWait(this);
@@ -945,7 +945,7 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
 
             if (!(EnWf_DodgeRanged(globalCtx, this))) {
                 if ((this->actor.xzDistToPlayer <= 80.0f) && (!(Actor_OtherIsTargeted(globalCtx, &this->actor))) &&
-                    ((globalCtx->gameplayFrames & 7) != 0)) {
+                    ((globalCtx->gameplayFrames % 8) != 0)) {
                     EnWf_SetupFirstSlash(this);
                 } else if (Rand_ZeroOne() > 0.5f) {
                     EnWf_SetupWait(this);
@@ -1030,7 +1030,7 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
                 if (player->swordAnimation == 0x11) {
                     EnWf_SetupReactToPlayer(this);
                 } else {
-                    if ((globalCtx->gameplayFrames & 1) != 0) {
+                    if ((globalCtx->gameplayFrames % 2) != 0) {
                         EnWf_SetupReactToPlayer(this);
                     } else {
                         EnWf_SetupBackflip(this);
@@ -1040,7 +1040,7 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
                 s16 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
                 if (!((Actor_OtherIsTargeted(globalCtx, &this->actor)) ||
-                      (((globalCtx->gameplayFrames & 1) == 0) && (!(ABS(angleFacingLink) < 0x38E0))))) {
+                      (((globalCtx->gameplayFrames % 2) == 0) && (!(ABS(angleFacingLink) < 0x38E0))))) {
                     EnWf_SetupFirstSlash(this);
                 } else {
                     EnWf_SetupRunAroundPlayer(this);
@@ -1053,7 +1053,7 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
         if (func_800354B4(globalCtx, &this->actor, 100.0f, 10000, 0x4000, this->actor.shape.rot.y)) {
             if (player->swordAnimation == 0x11) {
                 EnWf_SetupReactToPlayer(this);
-            } else if ((globalCtx->gameplayFrames & 1) != 0) {
+            } else if ((globalCtx->gameplayFrames % 2) != 0) {
                 EnWf_SetupReactToPlayer(this);
             } else {
                 EnWf_SetupBackflip(this);
@@ -1161,7 +1161,7 @@ void EnWf_Sidestep(EnWf* this, GlobalContext* globalCtx) {
                 this->actor.world.rot.y = this->actor.shape.rot.y;
 
                 if (((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsTargeted(globalCtx, &this->actor)) &&
-                    (((globalCtx->gameplayFrames & 3) == 0) || (ABS(angleDiff2) < 0x38E0))) {
+                    (((globalCtx->gameplayFrames % 4) == 0) || (ABS(angleDiff2) < 0x38E0))) {
                     EnWf_SetupFirstSlash(this);
                 } else {
                     EnWf_SetupRunAtPlayer(this, globalCtx);
@@ -1342,7 +1342,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos.y += 25.0f;
 
     if (this->eyeIndex == 0) {
-        if ((Rand_ZeroOne() < 0.2f) && ((globalCtx->gameplayFrames & 3) == 0) && (this->actor.colorFilterTimer == 0)) {
+        if ((Rand_ZeroOne() < 0.2f) && ((globalCtx->gameplayFrames % 4) == 0) && (this->actor.colorFilterTimer == 0)) {
             this->eyeIndex++;
         }
     } else {
