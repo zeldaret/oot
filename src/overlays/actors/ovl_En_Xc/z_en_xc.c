@@ -6,6 +6,7 @@
 
 #include "z_en_xc.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/object_xc/object_xc.h"
 #include "scenes/overworld/spot05/spot05_scene.h"
 #include "scenes/overworld/spot17/spot17_scene.h"
@@ -1391,7 +1392,7 @@ void func_80B3F534(GlobalContext* globalCtx) {
     u16 frameCount = csCtx->frames;
 
     if (frameCount == 310) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, -1044.0f, -1243.0f, 7458.0f, 0, 0, 0, 6);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, -1044.0f, -1243.0f, 7458.0f, 0, 0, 0, WARP_DESTINATION);
     }
 }
 

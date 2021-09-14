@@ -17,7 +17,7 @@
 /**
  * Configures and schedules a JPEG decoder task and waits for it to finish.
  */
-u32 Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
+void Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
     static OSTask_t sJpegTask = {
         M_NJPEGTASK,          // type
         0,                    // flags

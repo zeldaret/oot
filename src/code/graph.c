@@ -79,7 +79,7 @@ void Graph_UCodeFaultClient(Gfx* workBuf) {
     UCodeDisas_Destroy(&disassembler);
 }
 
-void* Graph_InitTHGA(GraphicsContext* gfxCtx) {
+void Graph_InitTHGA(GraphicsContext* gfxCtx) {
     GfxPool* pool = &gGfxPools[gfxCtx->gfxPoolIdx & 1];
 
     pool->headMagic = GFXPOOL_HEAD_MAGIC;
