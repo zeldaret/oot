@@ -1,6 +1,5 @@
 #include "global.h"
 
-// #define skyboxCtx->skyboxPallets ((u16(*)[256])skyboxCtx->staticSegments[2])
 
 Mtx* sSkyboxDrawMatrix;
 
