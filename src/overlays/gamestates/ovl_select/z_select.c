@@ -159,6 +159,7 @@ static SceneSelectEntry sScenes[] = {
     { "113:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 12", Select_LoadGame, 0x05C4 },
     { "114:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 13", Select_LoadGame, 0x05FC },
     { "115:\x8Cﾊｲﾗﾙ ﾃﾞﾓ", Select_LoadGame, 0x00A0 },
+
     { "116:\x8Dﾍﾞｯｼﾂ (ﾀｶﾗﾊﾞｺ\x8Cﾜｰﾌﾟ)", Select_LoadGame, 0x0520 },
     { "117:\x8Dｻｻ\x8Cﾃｽﾄ", Select_LoadGame, 0x0018 },
     { "118:\x8Cﾃｽﾄﾏｯﾌﾟ", Select_LoadGame, 0x0094 },
@@ -178,7 +179,6 @@ void Select_UpdateMenu(SelectContext* this) {
     SceneSelectEntry* selectedScene;
 
     if (this->unk_21C == 0) {
-
         if (CHECK_BTN_ALL(controller1->press.button, BTN_A) || CHECK_BTN_ALL(controller1->press.button, BTN_START)) {
             selectedScene = &this->scenes[this->currentScene];
             if (selectedScene->loadFunc != NULL) {
@@ -266,12 +266,12 @@ void Select_UpdateMenu(SelectContext* this) {
         }
 
         if (CHECK_BTN_ALL(controller1->press.button, BTN_DUP)) {
-            if (this->unk_22C == 1) {
+            if (this->lockUp == true) {
                 this->timerUp = 0;
             }
             if (this->timerUp == 0) {
                 this->timerUp = 20;
-                this->unk_22C = 1;
+                this->lockUp = true;
                 Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->unk_220 = R_UPDATE_RATE;
             }
@@ -283,12 +283,12 @@ void Select_UpdateMenu(SelectContext* this) {
         }
 
         if (CHECK_BTN_ALL(controller1->press.button, BTN_DDOWN)) {
-            if (this->unk_230 == 1) {
+            if (this->lockDown == true) {
                 this->timerDown = 0;
             }
             if (this->timerDown == 0) {
                 this->timerDown = 20;
-                this->unk_230 = 1;
+                this->lockDown = true;
                 Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->unk_220 = -R_UPDATE_RATE;
             }
@@ -326,7 +326,7 @@ void Select_UpdateMenu(SelectContext* this) {
         this->currentScene++;
         this->currentScene = (this->currentScene + this->count) % this->count;
 
-        if (this->currentScene == ((this->topScreen + this->count + 0x13) % this->count)) {
+        if (this->currentScene == ((this->topScreen + this->count + 19) % this->count)) {
             this->topScreen++;
             this->topScreen = (this->topScreen + this->count) % this->count;
         }
@@ -362,7 +362,7 @@ void Select_UpdateMenu(SelectContext* this) {
     }
 
     if (this->timerUp == 0) {
-        this->unk_22C = 0;
+        this->lockUp = false;
     }
 
     if (this->timerDown != 0) {
@@ -370,7 +370,7 @@ void Select_UpdateMenu(SelectContext* this) {
     }
 
     if (this->timerDown == 0) {
-        this->unk_230 = 0;
+        this->lockDown = false;
     }
 }
 
@@ -606,8 +606,8 @@ void Select_Init(GameState* thisx) {
     this->unk_220 = 0;
     this->timerUp = 0;
     this->timerDown = 0;
-    this->unk_22C = 0;
-    this->unk_230 = 0;
+    this->lockUp = 0;
+    this->lockDown = 0;
     this->unk_234 = 0;
 
     size = (u32)_z_select_staticSegmentRomEnd - (u32)_z_select_staticSegmentRomStart;
