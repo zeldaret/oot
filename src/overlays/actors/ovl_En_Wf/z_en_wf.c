@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wf.h"
+#include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "objects/object_wf/object_wf.h"
 
 #define FLAGS 0x00000015
@@ -264,16 +265,16 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actor.parent != NULL) {
-        EnWf* parent = (EnWf*)this->actor.parent;
+        EnEncount1* parent = (EnEncount1*)this->actor.parent;
 
         if (parent->actor.update != NULL) {
-            if (parent->bodyPartsPos[1].x > 0) {
-                parent->bodyPartsPos[1].x--;
+            if (parent->curNumSpawn > 0) {
+                parent->curNumSpawn--;
             }
 
             osSyncPrintf("\n\n");
             // Translation: "☆☆☆☆☆ Number of concurrent events ☆☆☆☆☆"
-            osSyncPrintf("\x1b[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n\x1b[m", parent->bodyPartsPos[1].x);
+            osSyncPrintf("\x1b[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n\x1b[m", parent->curNumSpawn);
             osSyncPrintf("\n\n");
         }
     }
