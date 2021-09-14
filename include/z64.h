@@ -913,10 +913,10 @@ typedef struct SelectContext {
     /* 0x01E0 */ s32 pageDownStops[7];
     /* 0x01FC */ char unk_1FC[0x0C];
     /* 0x0208 */ s32 opt;
-    /* 0x020C */ s32 topScreen;
+    /* 0x020C */ s32 topDisplayedScene; // The scene which is currently at the top of the screen
     /* 0x0210 */ char unk_210[0x0C];
-    /* 0x021C */ s32 unk_21C;
-    /* 0x0220 */ s32 unk_220; // velocity?
+    /* 0x021C */ s32 verticalInputAccumulator;
+    /* 0x0220 */ s32 verticalInput;
     /* 0x0224 */ s32 timerUp;
     /* 0x0228 */ s32 timerDown;
     /* 0x022C */ s32 lockUp;
