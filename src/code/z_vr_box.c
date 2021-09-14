@@ -126,43 +126,104 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     s32 sp1F0[9 * 5];
     s32 sp13C[9 * 5];
     s32 sp88[9 * 5];
+    s32 *temp358;
+    s32 *temp2A4;
+    s32 *temp1F0;
+    s32 *temp13C;
+    s32 *temp88;
+    s16 temp3;
 
     switch (arg8) {
         case 0:
         case 2:
-            for (i = 0; i < 9; i++) {
-                for (j = 0; j < 5; j++) {
-                    sp358[5 * i + j] = arg3 + j * arg6;
-                    sp2A4[5 * i + j] = arg4 + i * arg7;
-                    sp1F0[5 * i + j] = arg5;
-                    sp13C[5 * i + j] = D_8012AD20[j];
-                    sp88[5 * i + j] = D_8012AD2C[i];
+            temp358 = sp358;
+            temp2A4 = sp2A4;
+            temp1F0 = sp1F0;
+            temp13C = sp13C;
+            temp88 = sp88;
+            pad428 = arg4;
+
+            for (i = 0; temp88 < sp88 + 45; pad428 += arg7, i++) {
+                pad42C = arg3;
+                temp3 = D_8012AD2C[i];
+                for (j = 0; j < 5; j++, pad42C += arg6) {
+                    *(temp358++) = pad42C;
+                    *(temp2A4++) = pad428;
+                    *(temp1F0++) = arg5;
+                    *(temp13C++) = D_8012AD20[j];
+                    *(temp88++) = temp3;
+                    
                 }
             }
+            // for (i = 0; i < 5; i++) {
+            //     for (j = 0; j < 5; j++) {
+            //         sp358[i][j] = arg3 + j * arg6;
+            //         sp2A4[i][j] = arg4 + i * arg7;
+            //         sp1F0[i][j] = arg5;
+            //         sp13C[i][j] = D_8012AD20[j];
+            //         sp88[i][j] = D_8012AD2C[i];
+            //     }
+            // }
             break;
         case 1:
         case 3:
-            for (i = 0; i < 9; i++) {
-                for (j = 0; j < 5; j++) {
-                    sp358[5 * i + j] = arg3;
-                    sp2A4[5 * i + j] = arg4 + i * arg7;
-                    sp1F0[5 * i + j] = arg5 + j * arg6;
-                    sp13C[5 * i + j] = D_8012AD20[j];
-                    sp88[5 * i + j] = D_8012AD2C[i];
+            temp358 = sp358;
+            temp2A4 = sp2A4;
+            temp1F0 = sp1F0;
+            temp13C = sp13C;
+            temp88 = sp88;
+            pad428 = arg4;
+            
+            for (i = 0; temp88 < sp88 + 9 * 5; pad428 += arg7, i++) {
+                pad42C = arg5;
+                temp3 = D_8012AD2C[i];
+                for (j = 0; j < 5; j++, pad42C += arg6) {
+                    *(temp358++) = arg3;
+                    *(temp2A4++) = pad428;
+                    *(temp1F0++) = pad42C;
+                    *(temp13C++) = D_8012AD20[j];
+                    *(temp88++) = temp3;
                 }
             }
+            // for (i = 0; i < 5; i++) {
+            //     for (j = 0; j < 5; j++) {
+            //         sp358[i][j] = arg3;
+            //         sp2A4[i][j] = arg4 + i * arg7;
+            //         sp1F0[i][j] = arg5 + j * arg6;
+            //         sp13C[i][j] = D_8012AD20[j];
+            //         sp88[i][j] = D_8012AD2C[i];
+            //     }
+            // }
             break;
         case 4:
         case 5:
-            for (i = 0; i < 9; i++) {
-                for (j = 0; j < 5; j++) {
-                    sp358[5 * i + j] = arg3 + j * arg6;
-                    sp2A4[5 * i + j] = arg4;
-                    sp1F0[5 * i + j] = arg5 + i * arg7;
-                    sp13C[5 * i + j] = D_8012AD20[j];
-                    sp88[5 * i + j] = D_8012AD2C[i];
+            temp358 = sp358;
+            temp2A4 = sp2A4;
+            temp1F0 = sp1F0;
+            temp13C = sp13C;
+            temp88 = sp88;
+            pad428 = arg5;
+            
+            for (i = 0; temp88 < sp88 + 9 * 5; pad428 += arg7, i++) {
+                pad42C = arg3;
+                temp3 = D_8012AD2C[i];
+                for (j = 0; j < 5; j++, pad42C += arg6) {
+                    *(temp358++) = pad42C;
+                    *(temp2A4++) = arg4;
+                    *(temp1F0++) = pad428;
+                    *(temp13C++) = D_8012AD20[j];
+                    *(temp88++) = temp3;
                 }
             }
+            // for (i = 0; i < 5; i++) {
+            //     for (j = 0; j < 5; j++) {
+            //         sp358[i][j] = arg3 + j * arg6;
+            //         sp2A4[i][j] = arg4;
+            //         sp1F0[i][j] = arg5 + i * arg7;
+            //         sp13C[i][j] = D_8012AD20[j];
+            //         sp88[i][j] = D_8012AD2C[i];
+            //     }
+            // }
             break;
     }
 
@@ -172,12 +233,12 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
         for (pad420 = 0; pad420 < 0x20; pad420++) {
             temp = D_8012ACA0[sp424][pad420];
 
-            roomVtx[arg2 + pad420].v.ob[0] = ((s32*)sp358)[temp];
-            roomVtx[arg2 + pad420].v.ob[1] = ((s32*)sp2A4)[temp];
-            roomVtx[arg2 + pad420].v.ob[2] = ((s32*)sp1F0)[temp];
+            roomVtx[arg2 + pad420].v.ob[0] = sp358[temp];
+            roomVtx[arg2 + pad420].v.ob[1] = sp2A4[temp];
+            roomVtx[arg2 + pad420].v.ob[2] = sp1F0[temp];
             roomVtx[arg2 + pad420].v.flag = 0;
-            roomVtx[arg2 + pad420].v.tc[0] = ((s32*)sp13C)[temp];
-            roomVtx[arg2 + pad420].v.tc[1] = ((s32*)sp88)[temp];
+            roomVtx[arg2 + pad420].v.tc[0] = sp13C[temp];
+            roomVtx[arg2 + pad420].v.tc[1] = sp88[temp];
             roomVtx[arg2 + pad420].v.cn[1] = 0;
             roomVtx[arg2 + pad420].v.cn[2] = 0;
             roomVtx[arg2 + pad420].v.cn[0] = 255;
@@ -228,48 +289,113 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     s16 phi_t2_4;
     s16 phi_ra;
     // 318
-    s32 sp2B4[5][5];
-    s32 sp250[5][5];
-    s32 sp1EC[5][5];
-    s32 sp188[5][5];
-    s32 sp124[5][5];
+    s32 sp2B4[5 * 5];
+    s32 sp250[5 * 5];
+    s32 sp1EC[5 * 5];
+    s32 sp188[5 * 5];
+    s32 sp124[5 * 5];
+    s32 *temp358;
+    s32 *temp2A4;
+    s32 *temp1F0;
+    s32 *temp13C;
+    s32 *temp88;
+    s16 temp3;
+    s32 pad428;
+    s32 pad42C;
 
     switch (arg8) {
         case 0:
         case 1:
-            for (i = 0; i < 5; i++) {
-                for (j = 0; j < 5; j++) {
-                    sp2B4[i][j] = arg3 + j * arg6;
-                    sp250[i][j] = arg4 + i * arg7;
-                    sp1EC[i][j] = arg5;
-                    sp188[i][j] = D_8012AE18[j];
-                    sp124[i][j] = D_8012AE30[i];
+            temp358 = sp2B4;
+            temp2A4 = sp250;
+            temp1F0 = sp1EC;
+            temp13C = sp188;
+            temp88 = sp124;
+            pad428 = arg4;
+
+            for (i = 0; temp88 < sp124 + 5 * 5; pad428 += arg7, i++) {
+                pad42C = arg3;
+                temp3 = D_8012AE30[i];
+                for (j = 0; j < 5; j++, pad42C += arg6) {
+                    *(temp358++) = pad42C;
+                    *(temp2A4++) = pad428;
+                    *(temp1F0++) = arg5;
+                    *(temp13C++) = D_8012AE18[j];
+                    *(temp88++) = temp3;
+                    
                 }
             }
+            // for (i = 0; i < 5; i++) {
+            //     for (j = 0; j < 5; j++) {
+            //         sp2B4[i][j] = arg3 + j * arg6;
+            //         sp250[i][j] = arg4 + i * arg7;
+            //         sp1EC[i][j] = arg5;
+            //         sp188[i][j] = D_8012AE18[j];
+            //         sp124[i][j] = D_8012AE30[i];
+            //     }
+            // }
             break;
         case 2:
         case 3:
-            for (i = 0; i < 5; i++) {
-                for (j = 0; j < 5; j++) {
-                    sp2B4[i][j] = arg3;
-                    sp250[i][j] = arg4 + i * arg7;
-                    sp1EC[i][j] = arg5 + j * arg6;
-                    sp188[i][j] = D_8012AE18[j];
-                    sp124[i][j] = D_8012AE30[i];
+            temp358 = sp2B4;
+            temp2A4 = sp250;
+            temp1F0 = sp1EC;
+            temp13C = sp188;
+            temp88 = sp124;
+            pad428 = arg4;
+
+            for (i = 0; temp88 < sp124 + 5 * 5; pad428 += arg7, i++) {
+                pad42C = arg5;
+                temp3 = D_8012AE30[i];
+                for (j = 0; j < 5; j++, pad42C += arg6) {
+                    *(temp358++) = arg3;
+                    *(temp2A4++) = pad428;
+                    *(temp1F0++) = pad42C;
+                    *(temp13C++) = D_8012AE18[j];
+                    *(temp88++) = temp3;
+                    
                 }
             }
+            // for (i = 0; i < 5; i++) {
+            //     for (j = 0; j < 5; j++) {
+            //         sp2B4[i][j] = arg3;
+            //         sp250[i][j] = arg4 + i * arg7;
+            //         sp1EC[i][j] = arg5 + j * arg6;
+            //         sp188[i][j] = D_8012AE18[j];
+            //         sp124[i][j] = D_8012AE30[i];
+            //     }
+            // }
             break;
         case 4:
         case 5:
-            for (i = 0; i < 5; i++) {
-                for (j = 0; j < 5; j++) {
-                    sp2B4[i][j] = arg3 + j * arg6;
-                    sp250[i][j] = arg4;
-                    sp1EC[i][j] = arg5 + i * arg7;
-                    sp188[i][j] = D_8012AE18[j];
-                    sp124[i][j] = D_8012AE24[i];
+            temp358 = sp2B4;
+            temp2A4 = sp250;
+            temp1F0 = sp1EC;
+            temp13C = sp188;
+            temp88 = sp124;
+            pad428 = arg5;
+
+            for (i = 0; temp88 < sp124 + 5 * 5; pad428 += arg7, i++) {
+                pad42C = arg3;
+                temp3 = D_8012AE24[i];
+                for (j = 0; j < 5; j++, pad42C += arg6) {
+                    *(temp358++) = pad42C;
+                    *(temp2A4++) = arg4;
+                    *(temp1F0++) = pad428;
+                    *(temp13C++) = D_8012AE18[j];
+                    *(temp88++) = temp3;
+                    
                 }
             }
+            // for (i = 0; i < 5; i++) {
+            //     for (j = 0; j < 5; j++) {
+            //         sp2B4[i][j] = arg3 + j * arg6;
+            //         sp250[i][j] = arg4;
+            //         sp1EC[i][j] = arg5 + i * arg7;
+            //         sp188[i][j] = D_8012AE18[j];
+            //         sp124[i][j] = D_8012AE24[i];
+            //     }
+            // }
             break;
     }
     skyboxCtx->unk_138 = &skyboxCtx->dListBuf[2 * arg8];
@@ -277,12 +403,12 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     for (pad330 = 0; pad330 < 0x20; pad330++) {
         temp = D_8012ADD8[pad330];
 
-        roomVtx[arg2 + pad330].v.ob[0] = ((s32*)sp2B4)[temp];
-        roomVtx[arg2 + pad330].v.ob[1] = ((s32*)sp250)[temp];
-        roomVtx[arg2 + pad330].v.ob[2] = ((s32*)sp1EC)[temp];
+        roomVtx[arg2 + pad330].v.ob[0] = sp2B4[temp];
+        roomVtx[arg2 + pad330].v.ob[1] = sp250[temp];
+        roomVtx[arg2 + pad330].v.ob[2] = sp1EC[temp];
         roomVtx[arg2 + pad330].v.flag = 0;
-        roomVtx[arg2 + pad330].v.tc[0] = ((s32*)sp188)[temp];
-        roomVtx[arg2 + pad330].v.tc[1] = ((s32*)sp124)[temp];
+        roomVtx[arg2 + pad330].v.tc[0] = sp188[temp];
+        roomVtx[arg2 + pad330].v.tc[1] = sp124[temp];
         roomVtx[arg2 + pad330].v.cn[1] = 0;
         roomVtx[arg2 + pad330].v.cn[2] = 0;
         roomVtx[arg2 + pad330].v.cn[0] = 255;
