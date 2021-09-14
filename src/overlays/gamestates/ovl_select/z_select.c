@@ -440,7 +440,8 @@ void Select_UpdateMenu(SelectContext* this) {
 
     if (CHECK_BTN_ALL(controller1->press.button, BTN_L)) {
         this->pageDownIndex++;
-        this->pageDownIndex = (this->pageDownIndex + ARRAY_COUNT(this->pageDownStops)) % ARRAY_COUNT(this->pageDownStops);
+        this->pageDownIndex =
+            (this->pageDownIndex + ARRAY_COUNT(this->pageDownStops)) % ARRAY_COUNT(this->pageDownStops);
         this->currentScene = this->topDisplayedScene = this->pageDownStops[this->pageDownIndex];
     }
 

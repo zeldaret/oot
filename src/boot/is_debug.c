@@ -26,7 +26,7 @@ void osSyncPrintf(const char* fmt, ...) {
     va_start(args, fmt);
 
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
-    
+
     va_end(args);
 }
 
@@ -36,7 +36,7 @@ void rmonPrintf(const char* fmt, ...) {
     va_start(args, fmt);
 
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
-    
+
     va_end(args);
 }
 
