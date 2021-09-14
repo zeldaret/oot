@@ -28,7 +28,7 @@ const ActorInit En_Ganon_Organ_InitVars = {
     (ActorFunc)EnGanonOrgan_Draw,
 };
 
-static u64 pad = 0;
+static u64 sForceAlignment = 0;
 
 #include "overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
