@@ -133,7 +133,6 @@ void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnTp* this = THIS;
-
     EnTp* now;
     EnTp* next;
     s32 i;
