@@ -99,7 +99,7 @@ static u16 sVerticesMap[GANON_MANT_NUM_STRANDS * GANON_MANT_NUM_JOINTS] = {
 void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGanonMant* this = THIS;
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx) {
