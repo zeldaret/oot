@@ -1,5 +1,5 @@
-#ifndef _Z64MATH_H_
-#define _Z64MATH_H_
+#ifndef Z64MATH_H
+#define Z64MATH_H
 
 #include "ultra64.h"
 

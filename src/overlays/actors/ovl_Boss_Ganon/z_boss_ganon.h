@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_GANON_H_
-#define _Z_BOSS_GANON_H_
+#ifndef Z_BOSS_GANON_H
+#define Z_BOSS_GANON_H
 
 #include "ultra64.h"
 #include "global.h"

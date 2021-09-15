@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_INTERNAL_H_
-#define _ULTRA64_INTERNAL_H_
+#ifndef ULTRA64_INTERNAL_H
+#define ULTRA64_INTERNAL_H
 
 typedef struct {
     /* 0x00 */ u32 initialized;

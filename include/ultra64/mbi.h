@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_MBI_H_
-#define _ULTRA64_MBI_H_
+#ifndef ULTRA64_MBI_H
+#define ULTRA64_MBI_H
 
 /*
  * Header file for the Media Binary Interface

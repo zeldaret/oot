@@ -1,5 +1,5 @@
-#ifndef _Z_MAGIC_DARK_H_
-#define _Z_MAGIC_DARK_H_
+#ifndef Z_MAGIC_DARK_H
+#define Z_MAGIC_DARK_H
 
 #include "ultra64.h"
 #include "global.h"

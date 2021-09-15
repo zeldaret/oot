@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_DEKUJR_H_
-#define _Z_OBJ_DEKUJR_H_
+#ifndef Z_OBJ_DEKUJR_H
+#define Z_OBJ_DEKUJR_H
 
 #include "ultra64.h"
 #include "global.h"

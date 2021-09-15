@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FLOORMAS_H_
-#define _Z_EN_FLOORMAS_H_
+#ifndef Z_EN_FLOORMAS_H
+#define Z_EN_FLOORMAS_H
 
 #include "ultra64.h"
 #include "global.h"

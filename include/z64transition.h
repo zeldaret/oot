@@ -1,4 +1,5 @@
-#ifndef _Z64TRANSITION_H_
+#ifndef Z64TRANSITION_H
+#define Z64TRANSITION_H
 
 #include "ultra64.h"
 #include "color.h"
