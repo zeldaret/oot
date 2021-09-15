@@ -113,7 +113,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     // 41C
     s32 j;
     // 418
-    u16 temp;
+    u16 index;
     s16 phi_t1;
     // 414
     s16 phi_a2_4;
@@ -127,11 +127,11 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     s32 sp1F0[9 * 5];
     s32 sp13C[9 * 5];
     s32 sp88[9 * 5];
-    s32 *temp358;
-    s32 *temp2A4;
-    s32 *temp1F0;
-    s32 *temp13C;
-    s32 *temp88;
+    s32* temp358;
+    s32* temp2A4;
+    s32* temp1F0;
+    s32* temp13C;
+    s32* temp88;
     s16 temp3;
 
     switch (arg8) {
@@ -153,7 +153,6 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                     *(temp1F0++) = arg5;
                     *(temp13C++) = D_8012AD20[j];
                     *(temp88++) = temp3;
-                    
                 }
             }
             // for (i = 0; i < 9; i++) {
@@ -174,7 +173,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
             temp13C = sp13C;
             temp88 = sp88;
             pad428 = arg4;
-            
+
             for (i = 0; temp88 < sp88 + 9 * 5; pad428 += arg7, i++) {
                 pad42C = arg5;
                 temp3 = D_8012AD2C[i];
@@ -204,7 +203,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
             temp13C = sp13C;
             temp88 = sp88;
             pad428 = arg5;
-            
+
             for (i = 0; temp88 < sp88 + 9 * 5; pad428 += arg7, i++) {
                 pad42C = arg3;
                 temp3 = D_8012AD2C[i];
@@ -232,14 +231,14 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
         skyboxCtx->unk_138 = skyboxCtx->dListBuf[arg9 + sp424];
 
         for (pad420 = 0; pad420 < 0x20; pad420++) {
-            temp = D_8012ACA0[sp424][pad420];
+            index = D_8012ACA0[sp424][pad420];
 
-            roomVtx[arg2 + pad420].v.ob[0] = sp358[temp];
-            roomVtx[arg2 + pad420].v.ob[1] = sp2A4[temp];
-            roomVtx[arg2 + pad420].v.ob[2] = sp1F0[temp];
+            roomVtx[arg2 + pad420].v.ob[0] = sp358[index];
+            roomVtx[arg2 + pad420].v.ob[1] = sp2A4[index];
+            roomVtx[arg2 + pad420].v.ob[2] = sp1F0[index];
             roomVtx[arg2 + pad420].v.flag = 0;
-            roomVtx[arg2 + pad420].v.tc[0] = sp13C[temp];
-            roomVtx[arg2 + pad420].v.tc[1] = sp88[temp];
+            roomVtx[arg2 + pad420].v.tc[0] = sp13C[index];
+            roomVtx[arg2 + pad420].v.tc[1] = sp88[index];
             roomVtx[arg2 + pad420].v.cn[1] = 0;
             roomVtx[arg2 + pad420].v.cn[2] = 0;
             roomVtx[arg2 + pad420].v.cn[0] = 255;
@@ -283,7 +282,7 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     s16 phi_a0_4;
     // 324
     s16 phi_t1;
-    u16 temp;
+    u16 index;
     // 320
     s16 sp320;
     s16 sp31E;
@@ -296,35 +295,34 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     s32 sp1EC[5 * 5];
     s32 sp188[5 * 5];
     s32 sp124[5 * 5];
-    s32 *temp358;
-    s32 *temp2A4;
-    s32 *temp1F0;
-    s32 *temp13C;
-    s32 *temp88;
+    s32* temp2B4;
+    s32* temp250;
+    s32* temp1EC;
+    s32* temp188;
+    s32* temp124;
+    s32 temp1;
+    s32 temp2;
     s16 temp3;
-    s32 pad428;
-    s32 pad42C;
 
     switch (arg8) {
         case 0:
         case 1:
-            temp358 = sp2B4;
-            temp2A4 = sp250;
-            temp1F0 = sp1EC;
-            temp13C = sp188;
-            temp88 = sp124;
-            pad428 = arg4;
+            temp2B4 = sp2B4;
+            temp250 = sp250;
+            temp1EC = sp1EC;
+            temp188 = sp188;
+            temp124 = sp124;
+            temp1 = arg4;
 
-            for (i = 0; temp88 < sp124 + 5 * 5; pad428 += arg7, i++) {
-                pad42C = arg3;
+            for (i = 0; temp124 < sp124 + 5 * 5; temp1 += arg7, i++) {
+                temp2 = arg3;
                 temp3 = D_8012AE30[i];
-                for (j = 0; j < 5; j++, pad42C += arg6) {
-                    *(temp358++) = pad42C;
-                    *(temp2A4++) = pad428;
-                    *(temp1F0++) = arg5;
-                    *(temp13C++) = D_8012AE18[j];
-                    *(temp88++) = temp3;
-                    
+                for (j = 0; j < 5; j++, temp2 += arg6) {
+                    *(temp2B4++) = temp2;
+                    *(temp250++) = temp1;
+                    *(temp1EC++) = arg5;
+                    *(temp188++) = D_8012AE18[j];
+                    *(temp124++) = temp3;
                 }
             }
             // for (i = 0; i < 5; i++) {
@@ -339,23 +337,22 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
             break;
         case 2:
         case 3:
-            temp358 = sp2B4;
-            temp2A4 = sp250;
-            temp1F0 = sp1EC;
-            temp13C = sp188;
-            temp88 = sp124;
-            pad428 = arg4;
+            temp2B4 = sp2B4;
+            temp250 = sp250;
+            temp1EC = sp1EC;
+            temp188 = sp188;
+            temp124 = sp124;
+            temp1 = arg4;
 
-            for (i = 0; temp88 < sp124 + 5 * 5; pad428 += arg7, i++) {
-                pad42C = arg5;
+            for (i = 0; temp124 < sp124 + 5 * 5; temp1 += arg7, i++) {
+                temp2 = arg5;
                 temp3 = D_8012AE30[i];
-                for (j = 0; j < 5; j++, pad42C += arg6) {
-                    *(temp358++) = arg3;
-                    *(temp2A4++) = pad428;
-                    *(temp1F0++) = pad42C;
-                    *(temp13C++) = D_8012AE18[j];
-                    *(temp88++) = temp3;
-                    
+                for (j = 0; j < 5; j++, temp2 += arg6) {
+                    *(temp2B4++) = arg3;
+                    *(temp250++) = temp1;
+                    *(temp1EC++) = temp2;
+                    *(temp188++) = D_8012AE18[j];
+                    *(temp124++) = temp3;
                 }
             }
             // for (i = 0; i < 5; i++) {
@@ -370,23 +367,22 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
             break;
         case 4:
         case 5:
-            temp358 = sp2B4;
-            temp2A4 = sp250;
-            temp1F0 = sp1EC;
-            temp13C = sp188;
-            temp88 = sp124;
-            pad428 = arg5;
+            temp2B4 = sp2B4;
+            temp250 = sp250;
+            temp1EC = sp1EC;
+            temp188 = sp188;
+            temp124 = sp124;
+            temp1 = arg5;
 
-            for (i = 0; temp88 < sp124 + 5 * 5; pad428 += arg7, i++) {
-                pad42C = arg3;
+            for (i = 0; temp124 < sp124 + 5 * 5; temp1 += arg7, i++) {
+                temp2 = arg3;
                 temp3 = D_8012AE24[i];
-                for (j = 0; j < 5; j++, pad42C += arg6) {
-                    *(temp358++) = pad42C;
-                    *(temp2A4++) = arg4;
-                    *(temp1F0++) = pad428;
-                    *(temp13C++) = D_8012AE18[j];
-                    *(temp88++) = temp3;
-                    
+                for (j = 0; j < 5; j++, temp2 += arg6) {
+                    *(temp2B4++) = temp2;
+                    *(temp250++) = arg4;
+                    *(temp1EC++) = temp1;
+                    *(temp188++) = D_8012AE18[j];
+                    *(temp124++) = temp3;
                 }
             }
             // for (i = 0; i < 5; i++) {
@@ -403,14 +399,14 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     skyboxCtx->unk_138 = &skyboxCtx->dListBuf[2 * arg8];
 
     for (pad330 = 0; pad330 < 0x20; pad330++) {
-        temp = D_8012ADD8[pad330];
+        index = D_8012ADD8[pad330];
 
-        roomVtx[arg2 + pad330].v.ob[0] = sp2B4[temp];
-        roomVtx[arg2 + pad330].v.ob[1] = sp250[temp];
-        roomVtx[arg2 + pad330].v.ob[2] = sp1EC[temp];
+        roomVtx[arg2 + pad330].v.ob[0] = sp2B4[index];
+        roomVtx[arg2 + pad330].v.ob[1] = sp250[index];
+        roomVtx[arg2 + pad330].v.ob[2] = sp1EC[index];
         roomVtx[arg2 + pad330].v.flag = 0;
-        roomVtx[arg2 + pad330].v.tc[0] = sp188[temp];
-        roomVtx[arg2 + pad330].v.tc[1] = sp124[temp];
+        roomVtx[arg2 + pad330].v.tc[0] = sp188[index];
+        roomVtx[arg2 + pad330].v.tc[1] = sp124[index];
         roomVtx[arg2 + pad330].v.cn[1] = 0;
         roomVtx[arg2 + pad330].v.cn[2] = 0;
         roomVtx[arg2 + pad330].v.cn[0] = 255;

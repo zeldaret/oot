@@ -1,6 +1,5 @@
 #include "global.h"
 
-
 Mtx* sSkyboxDrawMatrix;
 
 Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z) {
