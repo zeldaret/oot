@@ -1029,7 +1029,7 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
                 s16 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
                 if (!Actor_OtherIsTargeted(globalCtx, &this->actor) &&
-                      (((globalCtx->gameplayFrames % 2) != 0) || (ABS(angleFacingLink) < 0x38E0))) {
+                    (((globalCtx->gameplayFrames % 2) != 0) || (ABS(angleFacingLink) < 0x38E0))) {
                     EnWf_SetupFirstSlash(this);
                 } else {
                     EnWf_SetupRunAroundPlayer(this);
@@ -1245,8 +1245,7 @@ void EnWf_UpdateDamage(EnWf* this, GlobalContext* globalCtx) {
         if (this->action >= WOLFOS_ACTION_WAIT) {
             s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-            if ((!(this->colliderCylinder1.base.acFlags & AC_HIT) &&
-                 (this->colliderCylinder2.base.acFlags & AC_HIT)) ||
+            if ((!(this->colliderCylinder1.base.acFlags & AC_HIT) && (this->colliderCylinder2.base.acFlags & AC_HIT)) ||
                 (ABS(yawDiff) > 19000)) {
                 this->actor.colChkInfo.damage *= 4;
             }
