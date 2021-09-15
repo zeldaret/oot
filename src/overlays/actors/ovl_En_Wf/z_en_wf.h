@@ -44,11 +44,11 @@ typedef enum {
     /*  7 */ WOLFOS_ACTION_REACT_TO_PLAYER,
     /*  8 */ WOLFOS_ACTION_FIRST_SLASH,
     /*  9 */ WOLFOS_ACTION_RUN_AT_PLAYER,
-    /*  10 */ WOLFOS_ACTION_SEARCH_FOR_PLAYER,
-    /*  11 */ WOLFOS_ACTION_RUN_AROUND_PLAYER,
-    /*  12 */ WOLFOS_ACTION_SECOND_SLASH,
-    /*  14 */ WOLFOS_ACTION_SIDESTEP = 14,
-    /*  15 */ WOLFOS_ACTION_STUNNED
+    /* 10 */ WOLFOS_ACTION_SEARCH_FOR_PLAYER,
+    /* 11 */ WOLFOS_ACTION_RUN_AROUND_PLAYER,
+    /* 12 */ WOLFOS_ACTION_SECOND_SLASH,
+    /* 14 */ WOLFOS_ACTION_SIDESTEP = 14,
+    /* 15 */ WOLFOS_ACTION_STUNNED
 } EnWfAction;
 
 typedef struct EnWf {
@@ -57,7 +57,7 @@ typedef struct EnWf {
     /* 0x0188 */ SkelAnime skelAnime;
     /* 0x01CC */ Vec3s jointTable[WOLFOS_LIMB_MAX];
     /* 0x0250 */ Vec3s morphTable[WOLFOS_LIMB_MAX];
-    /* 0x02D4 */ s32 action; // Used in  some sort of actionFunc-checking system
+    /* 0x02D4 */ s32 action; // Used instead of checking the actionFunc directly (but also in range comparisons)
     /* 0x02D8 */ char unk_2D8[4]; // Unused
     /* 0x02DC */ EnWfActionFunc actionFunc;
     /* 0x02E0 */ s16 unk_2E0; // Used, but has no effect
