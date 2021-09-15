@@ -32,8 +32,6 @@ typedef struct EnMag {
     /* 0xE324 */ char unk_E324[0x0004];
 } EnMag; // size = 0xE328
 
-extern const ActorInit En_Mag_InitVars;
-
 typedef enum {
     /* 0x00 */ MAG_STATE_INITIAL,
     /* 0x01 */ MAG_STATE_FADE_IN,
@@ -41,18 +39,5 @@ typedef enum {
     /* 0x03 */ MAG_STATE_FADE_OUT,
     /* 0x04 */ MAG_STATE_POST_DISPLAY
 } EnMagGlobalState;
-
-#define gSetTileCustom(pkt, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)                      \
-    do {                                                                                                               \
-        gDPPipeSync(pkt);                                                                                              \
-        gDPTileSync(pkt);                                                                                              \
-        gDPSetTile(pkt, fmt, siz, (((width)*siz##_TILE_BYTES) + 7) >> 3, 0, G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, \
-                   masks, shifts);                                                                                     \
-        gDPTileSync(pkt);                                                                                              \
-        gDPSetTile(pkt, fmt, siz, (((width)*siz##_TILE_BYTES) + 7) >> 3, 0, G_TX_RENDERTILE, pal, cmt, maskt, shiftt,  \
-                   cms, masks, shifts);                                                                                \
-        gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,                                \
-                       ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
-    } while (0);
 
 #endif

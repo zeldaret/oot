@@ -34,16 +34,16 @@
         <Limb Name="gChuGirlRightHandLimb" LimbType="Standard" Offset="0x6E7C"/>
 
         <!-- Bombchu Bowling Girl limb textures -->
-        <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgb5a1" Width="32" Height="32" Offset="0x5910"/>
-        <Texture Name="gChuGirlSkinGradientTex" OutName="chu_girl_skin_gradient" Format="rgb5a1" Width="16" Height="16" Offset="0x6110"/>
-        <Texture Name="gChuGirlSweaterTex" OutName="chu_girl_sweater" Format="rgb5a1" Width="32" Height="32" Offset="0x6510"/>
-        <Texture Name="gChuGirlUmbEarLicusTex" OutName="chu_girl_umb_ear_licus" Format="rgb5a1" Width="16" Height="16" Offset="0x6310"/>
-        <Texture Name="gChuGirlHairTex" OutName="chu_girl_hair" Format="rgb5a1" Width="8" Height="16" Offset="0x6D10"/>
+        <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
+        <Texture Name="gChuGirlSkinGradientTex" OutName="chu_girl_skin_gradient" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
+        <Texture Name="gChuGirlSweaterTex" OutName="chu_girl_sweater" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
+        <Texture Name="gChuGirlUmbEarLicusTex" OutName="chu_girl_umb_ear_licus" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
+        <Texture Name="gChuGirlHairTex" OutName="chu_girl_hair" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
 
         <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgb5a1" Width="32" Height="32"  Offset="0x5110"/>
+        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
 
 
     </File>

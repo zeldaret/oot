@@ -157,7 +157,7 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.targetMode = 6;
             break;
         default:
-            __assert("0", "../z_en_ge2.c", 418);
+            ASSERT(0, "0", "../z_en_ge2.c", 418);
     }
 
     this->stateFlags = 0;
@@ -181,7 +181,7 @@ void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 Ge2_DetectPlayerInAction(GlobalContext* globalCtx, EnGe2* this) {
     f32 visionScale;
 
-    visionScale = ((gSaveContext.nightFlag != 0) ? 0.75f : 1.5f);
+    visionScale = (!IS_DAY ? 0.75f : 1.5f);
 
     if ((250.0f * visionScale) < this->actor.xzDistToPlayer) {
         return 0;
@@ -198,12 +198,12 @@ s32 Ge2_DetectPlayerInAction(GlobalContext* globalCtx, EnGe2* this) {
 }
 
 s32 Ge2_DetectPlayerInUpdate(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, s16 yRot, f32 yDetectRange) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f posResult;
     CollisionPoly* outPoly;
     f32 visionScale;
 
-    visionScale = ((gSaveContext.nightFlag != 0) ? 0.75f : 1.5f);
+    visionScale = (!IS_DAY ? 0.75f : 1.5f);
 
     if ((250.0f * visionScale) < this->actor.xzDistToPlayer) {
         return 0;
@@ -642,20 +642,15 @@ void EnGe2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     }
 }
 
-static u64* sEyeTextures[] = {
-    gGerudoPurpleEyeOpenTex,
-    gGerudoPurpleEyeHalfTex,
-    gGerudoPurpleEyeClosedTex,
-};
-
 void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* eyeTextures[] = { gGerudoPurpleEyeOpenTex, gGerudoPurpleEyeHalfTex, gGerudoPurpleEyeClosedTex };
     s32 pad;
     EnGe2* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge2.c", 1274);
 
     func_800943C8(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
     func_8002EBCC(&this->actor, globalCtx, 0);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGe2_OverrideLimbDraw, EnGe2_PostLimbDraw, this);

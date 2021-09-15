@@ -26,6 +26,4 @@ typedef struct EnDodojr {
     /* 0x0266 */ Vec3s morphTable[15];
 } EnDodojr; // size = 0x02C0
 
-extern const ActorInit En_Dodojr_InitVars;
-
 #endif

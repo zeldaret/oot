@@ -8,6 +8,7 @@
 #include "z_en_reeba.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "vt.h"
+#include "objects/object_reeba/object_reeba.h"
 
 #define FLAGS 0x08000015
 
@@ -98,9 +99,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
-extern AnimationHeader D_060001E4;
-extern SkeletonHeader D_06001EE8;
-
 void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnReeba* this = THIS;
@@ -110,7 +108,8 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.targetMode = 3;
     this->actor.gravity = -3.5f;
     this->actor.focus.pos = this->actor.world.pos;
-    SkelAnime_Init(globalCtx, &this->skelanime, &D_06001EE8, &D_060001E4, this->jointTable, this->morphTable, 18);
+    SkelAnime_Init(globalCtx, &this->skelanime, &object_reeba_Skel_001EE8, &object_reeba_Anim_0001E4, this->jointTable,
+                   this->morphTable, 18);
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 4;
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -166,11 +165,11 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_GetLastFrame(&D_060001E4);
-    Player* player = PLAYER;
+    f32 frames = Animation_GetLastFrame(&object_reeba_Anim_0001E4);
+    Player* player = GET_PLAYER(globalCtx);
     s16 playerSpeed;
 
-    Animation_Change(&this->skelanime, &D_060001E4, 2.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelanime, &object_reeba_Anim_0001E4, 2.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
 
     playerSpeed = fabsf(player->linearVelocity);
     this->unk_278 = 20 - playerSpeed * 2;
@@ -194,14 +193,14 @@ void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 playerLinearVel;
 
     SkelAnime_Update(&this->skelanime);
 
     if ((globalCtx->gameplayFrames % 4) == 0) {
-        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1, 8.0f, 500, 10,
-                      1);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,
+                                 8.0f, 500, 10, 1);
     }
 
     if (this->unk_278 == 0) {
@@ -341,8 +340,8 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
 
     if ((this->unk_284 + 10.0f) <= this->actor.shape.yOffset) {
         if ((globalCtx->gameplayFrames % 4) == 0) {
-            func_80033260(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1, 8.0f, 500,
-                          10, 1);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,
+                                     8.0f, 500, 10, 1);
         }
 
         Math_ApproachF(&this->actor.shape.yOffset, this->unk_284, 1.0f, this->unk_288);
@@ -439,7 +438,7 @@ void func_80AE5A9C(EnReeba* this, GlobalContext* globalCtx) {
         }
     } else {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DEAD);
-        func_80032C7C(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
         this->actionfunc = func_80AE5C38;
     }
 }
@@ -546,7 +545,7 @@ void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DEAD);
-                        func_80032C7C(globalCtx, &this->actor);
+                        Enemy_StartFinishingBlow(globalCtx, &this->actor);
                         this->actionfunc = func_80AE5BC4;
                     } else {
                         if (this->actionfunc == func_80AE5E48) {
@@ -578,7 +577,7 @@ void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
 void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnReeba* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_80AE5EDC(this, globalCtx);
     this->actionfunc(this, globalCtx);

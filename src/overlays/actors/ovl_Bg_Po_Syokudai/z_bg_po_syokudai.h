@@ -15,6 +15,4 @@ typedef struct BgPoSyokudai {
     /* 0x0164 */ ColliderCylinder collider;
 } BgPoSyokudai; // size = 0x01B0
 
-extern const ActorInit Bg_Po_Syokudai_InitVars;
-
 #endif

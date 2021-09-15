@@ -22,6 +22,4 @@ typedef struct EnCrow {
     /* 0x0258 */ ColliderJntSphElement colliderItems[1];
 } EnCrow; // size = 0x0298
 
-extern const ActorInit En_Crow_InitVars;
-
 #endif

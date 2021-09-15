@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_bdan_switch.h"
+#include "objects/object_bdan_objects/object_bdan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -55,10 +56,6 @@ const ActorInit Bg_Bdan_Switch_InitVars = {
     (ActorFunc)BgBdanSwitch_Draw,
 };
 
-extern CollisionHeader D_06005CF8;
-extern Gfx D_060061A0[];
-extern Gfx D_06005A20[];
-
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
@@ -94,7 +91,7 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f D_8086E0E0 = { 0.0f, 140.0f, 0.0f };
 
-void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
+void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flag) {
     s16 pad1;
     CollisionHeader* colHeader = NULL;
     s16 pad2;
@@ -108,7 +105,7 @@ void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, CollisionHeader
     }
 }
 
-void func_8086D098(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void BgBdanSwitch_InitCollision(BgBdanSwitch* this, GlobalContext* globalCtx) {
     Actor* actor = &this->dyna.actor;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, actor, &sJntSphInit, this->colliderItems);
@@ -160,13 +157,14 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            func_8086D010(this, globalCtx, &D_06005CF8, DPM_PLAYER);
+            BgBdanSwitch_InitDynaPoly(this, globalCtx, &gJabuFloorSwitchCol, DPM_PLAYER);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            func_8086D098(this, globalCtx);
+            BgBdanSwitch_InitCollision(this, globalCtx);
             this->dyna.actor.flags |= 1;
             this->dyna.actor.targetMode = 4;
+            break;
     }
 
     flag = Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
@@ -216,6 +214,7 @@ void BgBdanSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
             Collider_DestroyJntSph(globalCtx, &this->collider);
+            break;
     }
 }
 
@@ -261,6 +260,7 @@ void func_8086D5E0(BgBdanSwitch* this, GlobalContext* globalCtx) {
                 func_8086D67C(this);
                 func_8086D4B4(this, globalCtx);
             }
+            break;
     }
 }
 
@@ -302,6 +302,7 @@ void func_8086D754(BgBdanSwitch* this, GlobalContext* globalCtx) {
             if (!Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
                 func_8086D7FC(this);
             }
+            break;
     }
 }
 
@@ -364,7 +365,7 @@ void func_8086D9F8(BgBdanSwitch* this) {
 }
 
 void func_8086DA1C(BgBdanSwitch* this, GlobalContext* globalCtx) {
-    Actor* heldActor = PLAYER->heldActor;
+    Actor* heldActor = GET_PLAYER(globalCtx)->heldActor;
 
     if (func_8004356C(&this->dyna)) {
         if (heldActor != NULL && heldActor->id == ACTOR_EN_RU1) {
@@ -424,6 +425,7 @@ void func_8086DB68(BgBdanSwitch* this, GlobalContext* globalCtx) {
                 func_8086DC30(this);
                 func_8086D4B4(this, globalCtx);
             }
+            break;
     }
 }
 
@@ -460,6 +462,7 @@ void func_8086DCE8(BgBdanSwitch* this, GlobalContext* globalCtx) {
                 func_8086DDA8(this);
                 func_8086D548(this, globalCtx);
             }
+            break;
     }
 }
 
@@ -518,15 +521,16 @@ void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params & 0xFF) {
         case YELLOW_HEAVY:
         case YELLOW:
-            func_8086DF58(this, globalCtx, D_060061A0);
+            func_8086DF58(this, globalCtx, gJabuYellowFloorSwitchDL);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            func_8086DF58(this, globalCtx, D_060061A0);
+            func_8086DF58(this, globalCtx, gJabuYellowFloorSwitchDL);
             Collider_UpdateSpheres(0, &this->collider);
             Matrix_MultVec3f(&D_8086E0E0, &this->dyna.actor.focus.pos);
             break;
         case BLUE:
-            func_8086DF58(this, globalCtx, D_06005A20);
+            func_8086DF58(this, globalCtx, gJabuBlueFloorSwitchDL);
+            break;
     }
 }

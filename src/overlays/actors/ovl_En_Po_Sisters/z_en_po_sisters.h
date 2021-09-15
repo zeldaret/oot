@@ -31,6 +31,4 @@ typedef struct EnPoSisters {
     /* 0x02F8 */ MtxF unk_2F8;
 } EnPoSisters; // size = 0x0338
 
-extern const ActorInit En_Po_Sisters_InitVars;
-
 #endif

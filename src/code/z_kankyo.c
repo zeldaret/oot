@@ -1,4 +1,5 @@
 #include "global.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006F0A0.s")
 

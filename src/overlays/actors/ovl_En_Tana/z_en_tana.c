@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tana.h"
+#include "objects/object_shop_dungen/object_shop_dungen.h"
 
 #define FLAGS 0x00000009
 
@@ -13,8 +14,8 @@
 void EnTana_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTana_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTana_Update(Actor* thisx, GlobalContext* globalCtx);
-void func_80B17FC4(Actor* thisx, GlobalContext* globalCtx);
-void func_80B1809C(Actor* thisx, GlobalContext* globalCtx);
+void EnTana_DrawWoodenShelves(Actor* thisx, GlobalContext* globalCtx);
+void EnTana_DrawStoneShelves(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
@@ -28,27 +29,30 @@ const ActorInit En_Tana_InitVars = {
     NULL,
 };
 
-static char* sShelfTypes[] = {
+//! @bug A third entry is missing here. When printing the string indexed by `params` for type 2, the
+//! next data entry will be dereferenced and print garbage, stopping any future printing.
+//! In a non-matching context, this can cause a crash if the next item isn't a valid pointer.
+static const char* sShelfTypes[] = {
     "木の棚", // "Wooden Shelves"
     "石の棚", // "Stone Shelves"
 };
 
 static const ActorFunc sDrawFuncs[] = {
-    func_80B17FC4,
-    func_80B1809C,
-    func_80B1809C,
+    EnTana_DrawWoodenShelves,
+    EnTana_DrawStoneShelves,
+    EnTana_DrawStoneShelves,
 };
 
-static Gfx* sDLists1[] = {
-    0x06000B80,
-    0x060027E8,
-    0x060027E8,
+static Gfx* sShelfDLists[] = {
+    gShopDungenWoodenShelvesDL,
+    gShopDungenStoneShelvesDL,
+    gShopDungenStoneShelvesDL,
 };
 
-static UNK_PTR sUnkSegments[] = {
+static void* sStoneTextures[] = {
     NULL,
-    0x06000E08,
-    0x06001608,
+    gShopDungenStone1Tex,
+    gShopDungenStone2Tex,
 };
 
 void EnTana_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -66,7 +70,7 @@ void EnTana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnTana_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_80B17FC4(Actor* thisx, GlobalContext* globalCtx) {
+void EnTana_DrawWoodenShelves(Actor* thisx, GlobalContext* globalCtx) {
     EnTana* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 148);
@@ -74,21 +78,21 @@ void func_80B17FC4(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 152),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, sDLists1[thisx->params]);
+    gSPDisplayList(POLY_OPA_DISP++, sShelfDLists[thisx->params]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 157);
 }
 
-void func_80B1809C(Actor* thisx, GlobalContext* globalCtx) {
+void EnTana_DrawStoneShelves(Actor* thisx, GlobalContext* globalCtx) {
     EnTana* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 163);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sUnkSegments[thisx->params]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sStoneTextures[thisx->params]));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 169),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, sDLists1[thisx->params]);
+    gSPDisplayList(POLY_OPA_DISP++, sShelfDLists[thisx->params]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 174);
 }

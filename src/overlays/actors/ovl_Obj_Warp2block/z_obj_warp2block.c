@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_warp2block.h"
+#include "objects/object_timeblock/object_timeblock.h"
 #include "vt.h"
 
 #define FLAGS 0x0A000011
@@ -28,9 +29,6 @@ void func_80BA24E8(ObjWarp2block* this);
 void func_80BA24F8(ObjWarp2block* this, GlobalContext* globalCtx);
 void func_80BA2600(ObjWarp2block* this);
 void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000980[];
-extern CollisionHeader D_06000B30;
 
 const ActorInit Obj_Warp2block_InitVars = {
     ACTOR_OBJ_WARP2BLOCK,
@@ -90,7 +88,7 @@ s32 func_80BA1ECC(ObjWarp2block* this, GlobalContext* globalCtx) {
     }
 
     temp_a3 = this->dyna.actor.child;
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) ||
         (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
 
@@ -159,7 +157,7 @@ void ObjWarp2block_SwapWithChild(ObjWarp2block* this, GlobalContext* globalCtx) 
 }
 
 s32 func_80BA2218(ObjWarp2block* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (func_80BA1ECC(this, globalCtx)) {
         if (player->stateFlags2 & 0x1000000) {
@@ -217,7 +215,7 @@ void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->dyna.actor.draw = NULL;
         }
         DynaPolyActor_Init(&this->dyna, 0);
-        CollisionHeader_GetVirtual(&D_06000B30, &collisionHeader);
+        CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &collisionHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, collisionHeader);
     } else {
         ObjWarp2block_SetInactive(this);
@@ -316,7 +314,7 @@ void ObjWarp2block_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 588),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sp44->r, sp44->g, sp44->b, 255);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000980);
+    gSPDisplayList(POLY_OPA_DISP++, gSongOfTimeBlockDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 594);
 }

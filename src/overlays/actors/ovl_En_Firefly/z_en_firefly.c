@@ -296,7 +296,7 @@ void EnFirefly_SetupDisturbDiveAttack(EnFirefly* this) {
 }
 
 s32 EnFirefly_ReturnToPerch(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 distFromHome;
 
     if (this->actor.params != KEESE_NORMAL_PERCH) {
@@ -453,8 +453,7 @@ void EnFirefly_Die(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
-
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f preyPos;
 
     SkelAnime_Update(&this->skelAnime);
@@ -465,7 +464,7 @@ void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
         Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
-    } else if (func_8002E084(&this->actor, 0x2800)) {
+    } else if (Actor_IsFacingPlayer(&this->actor, 0x2800)) {
         if (Animation_OnFrame(&this->skelAnime, 4.0f)) {
             this->skelAnime.playSpeed = 0.0f;
             this->skelAnime.curFrame = 4.0f;
@@ -584,8 +583,9 @@ void EnFirefly_Perch(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_DisturbDiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f preyPos;
+
     SkelAnime_Update(&this->skelAnime);
 
     if (this->timer != 0) {
@@ -623,11 +623,11 @@ void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.elements[0].info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, 1);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 this->actor.flags &= ~1;
             }
 
@@ -636,7 +636,7 @@ void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
             if (damageEffect == 2) { // Din's Fire
                 if (this->actor.params == KEESE_ICE_FLY) {
                     this->actor.colChkInfo.health = 0;
-                    func_80032C7C(globalCtx, &this->actor);
+                    Enemy_StartFinishingBlow(globalCtx, &this->actor);
                     EnFirefly_Combust(this, globalCtx);
                     EnFirefly_SetupFall(this);
                 } else if (!this->onFire) {
@@ -742,8 +742,8 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     static Vec3f limbSrc = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
     Vec3f* limbDest;
-    void* effPrimColor;
-    void* effEnvColor;
+    Color_RGBA8* effPrimColor;
+    Color_RGBA8* effEnvColor;
     MtxF mtx;
     s16 effScaleStep;
     s16 effLife;
@@ -756,9 +756,9 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             if ((limbIndex == 15) || (limbIndex == 21)) {
                 if (this->actionFunc != EnFirefly_Die) {
                     Matrix_Get(&mtx);
-                    effPos.x = (Rand_ZeroOne() * 5.0f) + mtx.wx;
-                    effPos.y = (Rand_ZeroOne() * 5.0f) + mtx.wy;
-                    effPos.z = (Rand_ZeroOne() * 5.0f) + mtx.wz;
+                    effPos.x = (Rand_ZeroOne() * 5.0f) + mtx.xw;
+                    effPos.y = (Rand_ZeroOne() * 5.0f) + mtx.yw;
+                    effPos.z = (Rand_ZeroOne() * 5.0f) + mtx.zw;
                     effScaleStep = -40;
                     effLife = 3;
                 } else {

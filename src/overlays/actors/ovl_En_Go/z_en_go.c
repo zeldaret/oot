@@ -1,6 +1,7 @@
 #include "z_en_go.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_oF1d_map/object_oF1d_map.h"
 
 #define FLAGS 0x00000039
 
@@ -33,17 +34,6 @@ void func_80A40DCC(EnGo* this, GlobalContext* globalCtx);
 void EnGo_AddDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale, f32 scaleStep);
 void EnGo_UpdateDust(EnGo* this);
 void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_060029A8;
-extern AnimationHeader D_06004930;
-extern Gfx D_0600BD80[];
-extern Gfx D_0600C140[];
-extern u64 D_0600CE80[];
-extern u64 D_0600DE80[];
-extern Gfx D_0600FD40[];
-extern Gfx D_0600FD50[];
-extern FlexSkeletonHeader D_0600FEF0;
-extern AnimationHeader D_06010590;
 
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
@@ -89,10 +79,10 @@ typedef struct {
 } EnGoAnimation;
 
 static EnGoAnimation sAnimationEntries[] = {
-    { &D_06004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
-    { &D_06004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
-    { &D_060029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
-    { &D_06010590, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
+    { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronAnim_0029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronAnim_010590, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
 };
 
 void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
@@ -100,7 +90,7 @@ void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
 }
 
 u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (thisx->params & 0xF0) {
         case 0x90:
@@ -374,11 +364,11 @@ s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
         return true;
     } else if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x00) {
         return true;
-    } else if (globalCtx->sceneNum == SCENE_SPOT16 && gSaveContext.linkAge == 1 &&
+    } else if (globalCtx->sceneNum == SCENE_SPOT16 && LINK_IS_CHILD &&
                ((this->actor.params & 0xF0) == 0x20 || (this->actor.params & 0xF0) == 0x30 ||
                 (this->actor.params & 0xF0) == 0x40)) {
         return true;
-    } else if (globalCtx->sceneNum == SCENE_SPOT18 && gSaveContext.linkAge == 1 &&
+    } else if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD &&
                ((this->actor.params & 0xF0) == 0x50 || (this->actor.params & 0xF0) == 0x60 ||
                 (this->actor.params & 0xF0) == 0x70)) {
         return true;
@@ -405,7 +395,7 @@ f32 EnGo_GetGoronSize(EnGo* this) {
 }
 
 void func_80A3F060(EnGo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 unkVal;
 
     if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
@@ -463,10 +453,10 @@ void EnGo_ReverseAnimation(EnGo* this) {
 void EnGo_UpdateShadow(EnGo* this) {
     s16 shadowAlpha;
     f32 currentFrame = this->skelAnime.curFrame;
-    s16 shadowAlphaTarget =
-        (this->skelAnime.animation == &D_06004930 && currentFrame > 32.0f) || this->skelAnime.animation != &D_06004930
-            ? 255
-            : 0;
+    s16 shadowAlphaTarget = (this->skelAnime.animation == &gGoronAnim_004930 && currentFrame > 32.0f) ||
+                                    this->skelAnime.animation != &gGoronAnim_004930
+                                ? 255
+                                : 0;
 
     shadowAlpha = this->actor.shape.shadowAlpha;
     Math_SmoothStepToS(&shadowAlpha, shadowAlphaTarget, 10, 60, 1);
@@ -580,7 +570,7 @@ s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
 }
 
 void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 float1;
     s32 isUnkCondition;
 
@@ -636,7 +626,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
@@ -669,7 +659,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 0x10:
-            this->skelAnime.curFrame = Animation_GetLastFrame(&D_06004930);
+            this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
             Actor_SetScale(&this->actor, 0.01f);
             EnGo_SetupAction(this, EnGo_FireGenericActionFunc);
             break;
@@ -846,7 +836,7 @@ void func_80A405CC(EnGo* this, GlobalContext* globalCtx) {
     f32 lastFrame;
     f32 frame;
 
-    lastFrame = Animation_GetLastFrame(&D_06004930);
+    lastFrame = Animation_GetLastFrame(&gGoronAnim_004930);
     Math_SmoothStepToF(&this->skelAnime.playSpeed, (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f, 0.1f, 1000.0f,
                        0.1f);
 
@@ -931,13 +921,13 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
-    f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&D_06010590));
+    f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&gGoronAnim_010590));
     f32 float2 = this->skelAnime.curFrame * float1;
 
     this->actor.speedXZ = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, globalCtx) && this->unk_218 == 0) {
         EnGo_ChangeAnimation(this, 1);
-        this->skelAnime.curFrame = Animation_GetLastFrame(&D_06004930);
+        this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
     }
@@ -955,7 +945,7 @@ void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
 void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
     f32 xzDist;
     f32 yDist;
-    s32 getItem;
+    s32 getItemId;
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->unk_1E0.unk_00 = 2;
@@ -965,24 +955,24 @@ void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
         this->unk_20C = 0;
         if ((this->actor.params & 0xF0) == 0x90) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
-                getItem = GI_SWORD_BGS;
+                getItemId = GI_SWORD_BGS;
                 this->unk_20C = 1;
             }
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
-                getItem = GI_CLAIM_CHECK;
+                getItemId = GI_CLAIM_CHECK;
             }
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
-                getItem = GI_PRESCRIPTION;
+                getItemId = GI_PRESCRIPTION;
             }
         }
 
         if ((this->actor.params & 0xF0) == 0) {
-            getItem = GI_TUNIC_GORON;
+            getItemId = GI_TUNIC_GORON;
         }
 
         yDist = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzDist = this->actor.xzDistToPlayer + 1.0f;
-        func_8002F434(&this->actor, globalCtx, getItem, xzDist, yDist);
+        func_8002F434(&this->actor, globalCtx, getItemId, xzDist, yDist);
     }
 }
 
@@ -1019,7 +1009,7 @@ void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         EnGo_ChangeAnimation(this, 1);
-        this->skelAnime.curFrame = Animation_GetLastFrame(&D_06004930);
+        this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         func_80106CCC(globalCtx);
         EnGo_SetupAction(this, EnGo_GetItem);
         EnGo_GetItem(this, globalCtx);
@@ -1063,7 +1053,7 @@ void EnGo_DrawCurledUp(EnGo* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2326),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_0600BD80);
+    gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00BD80);
 
     Matrix_MultVec3f(&D_80A41BB4, &this->actor.focus.pos);
     Matrix_Pop();
@@ -1082,7 +1072,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
                      MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2368),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_0600C140);
+    gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00C140);
     Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus.pos);
     Matrix_Pop();
 
@@ -1151,8 +1141,8 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         func_800943C8(globalCtx->state.gfxCtx);
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_0600CE80));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600DE80));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gGoronCsEyeOpenTex));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
 
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnGo_OverrideLimbDraw, EnGo_PostLimbDraw, &this->actor);
@@ -1210,7 +1200,7 @@ void EnGo_UpdateDust(EnGo* this) {
 }
 
 void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
-    static u64* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
+    static void* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
     EnGoEffect* dustEffect = this->dustEffects;
     s16 alpha;
     s16 firstDone;
@@ -1225,7 +1215,7 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
         if (dustEffect->type) {
             if (!firstDone) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
-                gSPDisplayList(POLY_XLU_DISP++, D_0600FD40);
+                gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 firstDone = true;
             }
@@ -1241,7 +1231,7 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
 
             index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[index]));
-            gSPDisplayList(POLY_XLU_DISP++, D_0600FD50);
+            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2678);

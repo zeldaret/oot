@@ -1,5 +1,6 @@
 #include "z_en_daiku.h"
 #include "overlays/actors/ovl_En_GeldB/z_en_geldb.h"
+#include "objects/object_daiku/object_daiku.h"
 
 #define FLAGS 0x00000019
 
@@ -56,8 +57,6 @@ void EnDaiku_InitSubCamera(EnDaiku* this, GlobalContext* globalCtx);
 void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx);
 s32 EnDaiku_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnDaiku_PostLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3s* rot, void* thisx);
-
-extern FlexSkeletonHeader D_06007958;
 
 const ActorInit En_Daiku_InitVars = {
     ACTOR_EN_DAIKU,
@@ -129,8 +128,9 @@ static DamageTable sDamageTable = {
 };
 
 static EnDaikuAnimation sAnimations[] = {
-    { 0x06001AB0, 1.0f, 0, 0 }, { 0x06007DE0, 1.0f, 0, 0 }, { 0x0600885C, 1.0f, 0, 0 },
-    { 0x06000C44, 1.0f, 0, 0 }, { 0x06008164, 1.0f, 0, 0 },
+    { &object_daiku_Anim_001AB0, 1.0f, 0, 0 }, { &object_daiku_Anim_007DE0, 1.0f, 0, 0 },
+    { &object_daiku_Anim_00885C, 1.0f, 0, 0 }, { &object_daiku_Anim_000C44, 1.0f, 0, 0 },
+    { &object_daiku_Anim_008164, 1.0f, 0, 0 },
 };
 
 static EnDaikuEscapeSubCamParam sEscapeSubCamParams[] = {
@@ -181,7 +181,8 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.z = 0;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_daiku_Skel_007958, NULL, this->jointTable, this->morphTable,
+                       17);
 
     if (!noKill) {
         Actor_Kill(&this->actor);
@@ -260,11 +261,9 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, GlobalContext* globalCtx) {
     return newTalkState;
 }
 
-#ifdef NON_MATCHING
-// regalloc
 void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
-    s32 wannabeV0;
-    s32 wannabeV1;
+    s32 carpenterType;
+    s32 freedCount;
     s16 sp2E;
     s16 sp2C;
 
@@ -278,25 +277,14 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
             func_8002F2CC(&this->actor, globalCtx, 100.0f) == 1) {
             if (globalCtx->sceneNum == SCENE_GERUDOWAY) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
-                    // wannabeV0 uses v1 and wannabeV1 uses v0, the opposite is wanted
-                    wannabeV0 = gSaveContext.eventChkInf[9];
-                    // moving the wannabeV1 initialization to its declaration fixes regalloc but breaks earlier codegen
-                    wannabeV1 = 0;
-
-                    if (wannabeV0 & 1) {
-                        wannabeV1++;
-                    }
-                    if (wannabeV0 & 2) {
-                        wannabeV1++;
-                    }
-                    if (wannabeV0 & 4) {
-                        wannabeV1++;
-                    }
-                    if (wannabeV0 & 8) {
-                        wannabeV1++;
+                    freedCount = 0;
+                    for (carpenterType = 0; carpenterType < 4; carpenterType++) {
+                        if (gSaveContext.eventChkInf[9] & (1 << carpenterType)) {
+                            freedCount++;
+                        }
                     }
 
-                    switch (wannabeV1) {
+                    switch (freedCount) {
                         case 0:
                             this->actor.textId = 0x605B;
                             break;
@@ -357,10 +345,6 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Daiku/EnDaiku_UpdateText.s")
-#endif
 
 /**
  * The carpenter is idling in the tent.
@@ -582,7 +566,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
 void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDaiku* this = THIS;
     s32 curFrame;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->currentAnimIndex == ENDAIKU_ANIM_RUN) {
         curFrame = this->skelAnime.curFrame;
@@ -650,7 +634,8 @@ s32 EnDaiku_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Ve
 }
 
 void EnDaiku_PostLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Gfx* hairDLists[] = { 0x06005BD0, 0x06005AC0, 0x06005990, 0x06005880 };
+    static Gfx* hairDLists[] = { object_daiku_DL_005BD0, object_daiku_DL_005AC0, object_daiku_DL_005990,
+                                 object_daiku_DL_005880 };
     static Vec3f targetPosHeadLocal = { 700, 1100, 0 };
     EnDaiku* this = THIS;
 

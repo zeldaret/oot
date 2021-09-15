@@ -79,8 +79,7 @@ void SkelAnime_DrawLod(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL.
-        osSyncPrintf("Si2_Lod_draw():skelがNULLです。\n");
+        osSyncPrintf("Si2_Lod_draw():skelがNULLです。\n"); // "skel is NULL."
         osSyncPrintf(VT_RST);
         return;
     }
@@ -193,8 +192,7 @@ void SkelAnime_DrawFlexLod(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL.
-        osSyncPrintf("Si2_Lod_draw_SV():skelがNULLです。\n");
+        osSyncPrintf("Si2_Lod_draw_SV():skelがNULLです。\n"); // "skel is NULL."
         osSyncPrintf(VT_RST);
         return;
     }
@@ -299,8 +297,7 @@ void SkelAnime_DrawOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL.
-        osSyncPrintf("Si2_draw():skelがNULLです。\n");
+        osSyncPrintf("Si2_draw():skelがNULLです。\n"); // "skel is NULL."
         osSyncPrintf(VT_RST);
         return;
     }
@@ -412,8 +409,7 @@ void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL.
-        osSyncPrintf("Si2_draw_SV():skelがNULLです。\n");
+        osSyncPrintf("Si2_draw_SV():skelがNULLです。\n"); // "skel is NULL."
         osSyncPrintf(VT_RST);
         return;
     }
@@ -566,7 +562,7 @@ Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL. Returns NULL.
+        // "skel is NULL. Returns NULL."
         osSyncPrintf("Si2_draw2():skelがNULLです。NULLを返します。\n");
         osSyncPrintf(VT_RST);
         return NULL;
@@ -676,7 +672,7 @@ Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointT
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL. Returns NULL.
+        // "skel is NULL. Returns NULL."
         osSyncPrintf("Si2_draw2_SV():skelがNULLです。NULLを返します。\n");
         osSyncPrintf(VT_RST);
         return NULL;
@@ -723,8 +719,8 @@ Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointT
  * Unpacks frame data for the animation at the given frame into frameTable
  * Used by the legacy animation format
  */
-s32 SkelAnime_GetFrameData2(AnimationHeader2* animation, s32 frame, Vec3s* frameTable) {
-    AnimationHeader2* animHeader = SEGMENTED_TO_VIRTUAL(animation);
+s32 SkelAnime_GetFrameDataLegacy(LegacyAnimationHeader* animation, s32 frame, Vec3s* frameTable) {
+    LegacyAnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
     s32 limbCount = animHeader->limbCount;
     JointKey* key = SEGMENTED_TO_VIRTUAL(animHeader->jointKey);
     s16* frameData = SEGMENTED_TO_VIRTUAL(animHeader->frameData);
@@ -732,61 +728,27 @@ s32 SkelAnime_GetFrameData2(AnimationHeader2* animation, s32 frame, Vec3s* frame
     s16* dynamicData = &frameData[frame];
     s32 i;
 
-    /**
-     *Equivalent to the following, but the compiler optimizes the loop in a way I can't replicate
-     */
-
-    // for(i = 0, frameTable++, key++; i < limbCount + 1; i++, key++, frameTable++) {
-    //     frameTable->x = frame < key->xMax ? dynamicData[key->x] : staticData[key->x];
-    //     frameTable->y = frame < key->yMax ? dynamicData[key->y] : staticData[key->y];
-    //     frameTable->z = frame < key->zMax ? dynamicData[key->z] : staticData[key->z];
-    // }
-
     frameTable->x = frame < key->xMax ? dynamicData[key->x] : staticData[key->x];
     frameTable->y = frame < key->yMax ? dynamicData[key->y] : staticData[key->y];
     frameTable->z = frame < key->zMax ? dynamicData[key->z] : staticData[key->z];
 
-    i = 1;
     frameTable++;
     key++;
 
-    if (limbCount & 1) {}
-
-    if (limbCount > 0) {
-        if (limbCount & 1) {
-            i++;
-            frameTable->x = frame < key->xMax ? dynamicData[key->x] : staticData[key->x];
-            frameTable->y = frame < key->yMax ? dynamicData[key->y] : staticData[key->y];
-            frameTable->z = frame < key->zMax ? dynamicData[key->z] : staticData[key->z];
-            key++;
-            frameTable++;
-            if (limbCount + 1 == i) {
-                goto ret;
-            }
-        }
-        do {
-            i += 2;
-            frameTable->x = frame < key->xMax ? dynamicData[key->x] : staticData[key->x];
-            frameTable->y = frame < key->yMax ? dynamicData[key->y] : staticData[key->y];
-            frameTable->z = frame < key->zMax ? dynamicData[key->z] : staticData[key->z];
-            key++;
-            frameTable++;
-            frameTable->x = frame < key->xMax ? dynamicData[key->x] : staticData[key->x];
-            frameTable->y = frame < key->yMax ? dynamicData[key->y] : staticData[key->y];
-            frameTable->z = frame < key->zMax ? dynamicData[key->z] : staticData[key->z];
-            key++;
-            frameTable++;
-        } while (i != limbCount + 1);
+    for (i = 1; i <= limbCount; i++, key++, frameTable++) {
+        frameTable->x = frame < key->xMax ? dynamicData[key->x] : staticData[key->x];
+        frameTable->y = frame < key->yMax ? dynamicData[key->y] : staticData[key->y];
+        frameTable->z = frame < key->zMax ? dynamicData[key->z] : staticData[key->z];
     }
-ret:
+
     return limbCount;
 }
 
 /**
  * Used by legacy animation format
  */
-s16 Animation_GetLimbCount2(AnimationHeader2* animation) {
-    AnimationHeader2* animHeader = SEGMENTED_TO_VIRTUAL(animation);
+s16 Animation_GetLimbCountLegacy(LegacyAnimationHeader* animation) {
+    LegacyAnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
 
     return animHeader->limbCount;
 }
@@ -794,8 +756,8 @@ s16 Animation_GetLimbCount2(AnimationHeader2* animation) {
 /**
  * Used by legacy animation format
  */
-s16 Animation_GetLength2(AnimationHeader2* animation) {
-    AnimationHeader2* animHeader = SEGMENTED_TO_VIRTUAL(animation);
+s16 Animation_GetLengthLegacy(LegacyAnimationHeader* animation) {
+    LegacyAnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
 
     return animHeader->frameCount;
 }
@@ -803,8 +765,8 @@ s16 Animation_GetLength2(AnimationHeader2* animation) {
 /**
  * Used by legacy animation format
  */
-s16 Animation_GetLastFrame2(AnimationHeader2* animation) {
-    AnimationHeader2* animHeader = SEGMENTED_TO_VIRTUAL(animation);
+s16 Animation_GetLastFrameLegacy(LegacyAnimationHeader* animation) {
+    LegacyAnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
 
     return animHeader->frameCount - 1;
 }
@@ -1109,9 +1071,7 @@ void SkelAnime_InitLink(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkel
         skelAnime->jointTable = ZeldaArena_MallocDebug(allocSize, "../z_skelanime.c", 2364);
         skelAnime->morphTable = ZeldaArena_MallocDebug(allocSize, "../z_skelanime.c", 2365);
     } else {
-        if (limbBufCount != limbCount) {
-            __assert("joint_buff_num == joint_num", "../z_skelanime.c", 2369);
-        }
+        ASSERT(limbBufCount == limbCount, "joint_buff_num == joint_num", "../z_skelanime.c", 2369);
 
         skelAnime->jointTable = (Vec3s*)ALIGN16((u32)jointTable);
         skelAnime->morphTable = (Vec3s*)ALIGN16((u32)morphTable);
@@ -1119,7 +1079,7 @@ void SkelAnime_InitLink(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkel
 
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
         osSyncPrintf(VT_FGCOL(RED));
-        // Memory allocation error
+        // "Memory allocation error"
         osSyncPrintf("Skeleton_Info_Rom_SV_ct メモリアロケーションエラー\n");
         osSyncPrintf(VT_RST);
     }
@@ -1432,16 +1392,13 @@ s32 SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeade
         skelAnime->morphTable =
             ZeldaArena_MallocDebug(skelAnime->limbCount * sizeof(*skelAnime->morphTable), "../z_skelanime.c", 2969);
     } else {
-        if (limbCount != skelAnime->limbCount) {
-            __assert("joint_buff_num == this->joint_num", "../z_skelanime.c", 2973);
-        }
+        ASSERT(limbCount == skelAnime->limbCount, "joint_buff_num == this->joint_num", "../z_skelanime.c", 2973);
         skelAnime->jointTable = jointTable;
         skelAnime->morphTable = morphTable;
     }
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
         osSyncPrintf(VT_FGCOL(RED));
-        // Memory allocation error
-        osSyncPrintf("Skeleton_Info2_ct メモリアロケーションエラー\n");
+        osSyncPrintf("Skeleton_Info2_ct メモリアロケーションエラー\n"); // "Memory allocation error"
         osSyncPrintf(VT_RST);
     }
 
@@ -1468,15 +1425,13 @@ s32 SkelAnime_InitFlex(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkele
         skelAnime->morphTable =
             ZeldaArena_MallocDebug(skelAnime->limbCount * sizeof(*skelAnime->morphTable), "../z_skelanime.c", 3048);
     } else {
-        if (limbCount != skelAnime->limbCount) {
-            __assert("joint_buff_num == this->joint_num", "../z_skelanime.c", 3052);
-        }
+        ASSERT(limbCount == skelAnime->limbCount, "joint_buff_num == this->joint_num", "../z_skelanime.c", 3052);
         skelAnime->jointTable = jointTable;
         skelAnime->morphTable = morphTable;
     }
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
         osSyncPrintf(VT_FGCOL(RED));
-        // Memory allocation error
+        // "Memory allocation error"
         osSyncPrintf("Skeleton_Info_Rom_SV_ct メモリアロケーションエラー\n");
         osSyncPrintf(VT_RST);
     }
@@ -1501,7 +1456,7 @@ s32 SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonH
         ZeldaArena_MallocDebug(skelAnime->limbCount * sizeof(*skelAnime->morphTable), "../z_skelanime.c", 3121);
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
         osSyncPrintf(VT_FGCOL(RED));
-        // Memory allocation error
+        // "Memory allocation error"
         osSyncPrintf("Skeleton_Info2_skin2_ct メモリアロケーションエラー\n");
         osSyncPrintf(VT_RST);
     }
@@ -1888,15 +1843,13 @@ void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx) {
     if (skelAnime->jointTable != NULL) {
         ZeldaArena_FreeDebug(skelAnime->jointTable, "../z_skelanime.c", 3729);
     } else {
-        // now_joint is freed! !
-        osSyncPrintf("now_joint あきまへん！！\n");
+        osSyncPrintf("now_joint あきまへん！！\n"); // "now_joint is freed! !"
     }
 
     if (skelAnime->morphTable != NULL) {
         ZeldaArena_FreeDebug(skelAnime->morphTable, "../z_skelanime.c", 3731);
     } else {
-        // "morf_joint is freed !!"
-        osSyncPrintf("morf_joint あきまへん！！\n");
+        osSyncPrintf("morf_joint あきまへん！！\n"); // "morf_joint is freed !!"
     }
 }
 

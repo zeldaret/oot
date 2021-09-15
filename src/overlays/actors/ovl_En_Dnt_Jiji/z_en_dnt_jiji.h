@@ -32,6 +32,4 @@ typedef struct EnDntJiji {
     /* 0x025C */ ColliderCylinder collider;
 } EnDntJiji; // size = 0x02A8
 
-extern const ActorInit En_Dnt_Jiji_InitVars;
-
 #endif

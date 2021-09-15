@@ -321,7 +321,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         f32 var2;
         s32 i;
 
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
 
         spCE = 0xFF;
         var1 = 1.0f;
@@ -680,7 +680,7 @@ void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx
 
 void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x, s32 y,
                              s32 width, s32 height, s32 delay) {
-    Scene* loadedScene = globalCtx->loadedScene;
+    SceneTableEntry* loadedScene = globalCtx->loadedScene;
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
     if ((size != 0) && (size <= 0x3000)) {
@@ -731,8 +731,6 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
         spC8 = (spCC * spC8 > 0x1000) ? 0x1000 / spCC : spC8;
         spB4 = spB8 + (spC8 * 4);
 
-        if (1) {} // Necessary to match
-
         OVERLAY_DISP = func_80093808(OVERLAY_DISP);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
@@ -743,7 +741,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                             G_TX_NOLOD);
 
         gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1, G_TX_RENDERTILE,
-                            0, 0, 1024, 1024);
+                            0, 0, 1 << 10, 1 << 10);
 
         spC8 = titleCtx->height - spC8;
 
@@ -753,7 +751,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                                 G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(OVERLAY_DISP++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 + (spC8 * 4) - 1,
-                                G_TX_RENDERTILE, 0, 0, 1024, 1024);
+                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2880);
@@ -842,7 +840,7 @@ void Actor_Destroy(Actor* actor, GlobalContext* globalCtx) {
         overlayEntry = actor->overlayEntry;
         name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-        // Translates to: "NO Actor CLASS DESTRUCT [%s]"
+        // "No Actor class destruct [%s]"
         osSyncPrintf("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" VT_RST, name);
     }
 }
@@ -986,19 +984,19 @@ s32 func_8002DD78(Player* player) {
 }
 
 s32 func_8002DDA8(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     return (player->stateFlags1 & 0x800) || func_8002DD78(player);
 }
 
 s32 func_8002DDE4(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     return player->stateFlags2 & 0x8;
 }
 
 s32 func_8002DDF4(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     return player->stateFlags2 & 0x1000;
 }
@@ -1035,7 +1033,7 @@ void func_8002DF18(GlobalContext* globalCtx, Player* player) {
 }
 
 s32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->csMode = csMode;
     player->unk_448 = actor;
@@ -1045,7 +1043,7 @@ s32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
 }
 
 s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_8002DF38(globalCtx, actor, csMode);
     player->unk_46A = 1;
@@ -1063,54 +1061,79 @@ void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2) {
     dynaActor->unk_158 = arg2;
 }
 
-s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
-    s16 var = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
+/**
+ * Chcek if the player is facing the specified actor.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ */
+s32 Player_IsFacingActor(Actor* actor, s16 maxAngle, GlobalContext* globalCtx) {
+    Player* player = GET_PLAYER(globalCtx);
+    s16 yawDiff = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
 
-    if (ABS(var) < arg1) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E020(Actor* actorA, Actor* actorB, s16 arg2) {
-    s16 var = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
+/**
+ * Chcek if `actorB` is facing `actorA`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ *
+ * This function is unused in the original game.
+ */
+s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 maxAngle) {
+    s16 yawDiff = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
 
-    if (ABS(var) < arg2) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E084(Actor* actor, s16 arg1) {
-    s16 var = actor->yawTowardsPlayer - actor->shape.rot.y;
+/**
+ * Chcek if the specified actor is facing the player.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ */
+s32 Actor_IsFacingPlayer(Actor* actor, s16 maxAngle) {
+    s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(var) < arg1) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E0D0(Actor* actorA, Actor* actorB, s16 arg2) {
-    s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
+/**
+ * Chcek if `actorA` is facing `actorB`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ *
+ * This function is unused in the original game.
+ */
+s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 maxAngle) {
+    s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-    if (ABS(var) < arg2) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
-    s16 var = actor->yawTowardsPlayer - actor->shape.rot.y;
+/**
+ * Chcek if the specified actor is facing the player and is nearby.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ * The minimum distance that qualifies as "nearby" is specified by `range`.
+ */
+s32 Actor_IsFacingAndNearPlayer(Actor* actor, f32 range, s16 maxAngle) {
+    s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(var) < arg2) {
+    if (ABS(yawDiff) < maxAngle) {
         f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer));
 
-        if (xyzDistanceFromLink < arg1) {
+        if (xyzDistanceFromLink < range) {
             return true;
         }
     }
@@ -1118,11 +1141,16 @@ s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
     return false;
 }
 
-s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3) {
-    if (Actor_WorldDistXYZToActor(actorA, actorB) < arg2) {
-        s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
+/**
+ * Chcek if `actorA` is facing `actorB` and is nearby.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ * The minimum distance that qualifies as "nearby" is specified by `range`.
+ */
+s32 Actor_ActorAIsFacingAndNearActorB(Actor* actorA, Actor* actorB, f32 range, s16 maxAngle) {
+    if (Actor_WorldDistXYZToActor(actorA, actorB) < range) {
+        s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-        if (ABS(var) < arg3) {
+        if (ABS(yawDiff) < maxAngle) {
             return true;
         }
     }
@@ -1204,7 +1232,8 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
     return true;
 }
 
-void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
+void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallCheckHeight, f32 wallCheckRadius,
+                             f32 ceilingCheckHeight, s32 flags) {
     f32 sp74;
     s32 pad;
     Vec3f sp64;
@@ -1221,11 +1250,13 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
         func_800433A4(&globalCtx->colCtx, actor->floorBgId, actor);
     }
 
-    if (arg5 & 1) {
-        if ((!(arg5 & 0x80) && BgCheck_EntitySphVsWall3(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos,
-                                                        arg3, &actor->wallPoly, &bgId, actor, arg2)) ||
-            ((arg5 & 0x80) && BgCheck_EntitySphVsWall4(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos,
-                                                       arg3, &actor->wallPoly, &bgId, actor, arg2))) {
+    if (flags & 1) {
+        if ((!(flags & 0x80) &&
+             BgCheck_EntitySphVsWall3(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
+                                      &actor->wallPoly, &bgId, actor, wallCheckHeight)) ||
+            ((flags & 0x80) &&
+             BgCheck_EntitySphVsWall4(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
+                                      &actor->wallPoly, &bgId, actor, wallCheckHeight))) {
             wallPoly = actor->wallPoly;
             Math_Vec3f_Copy(&actor->world.pos, &sp64);
             actor->wallYaw = Math_Atan2S(wallPoly->normal.z, wallPoly->normal.x);
@@ -1239,10 +1270,10 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
     sp64.x = actor->world.pos.x;
     sp64.z = actor->world.pos.z;
 
-    if (arg5 & 2) {
+    if (flags & 2) {
         sp64.y = actor->prevPos.y + 10.0f;
-        if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (arg4 + sp74) - 10.0f, &sCurCeilingPoly,
-                                       &sCurCeilingBgId, actor)) {
+        if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (ceilingCheckHeight + sp74) - 10.0f,
+                                       &sCurCeilingPoly, &sCurCeilingBgId, actor)) {
             actor->bgCheckFlags |= 0x10;
             actor->world.pos.y = (sp58 + sp74) - 10.0f;
         } else {
@@ -1250,9 +1281,9 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
         }
     }
 
-    if (arg5 & 4) {
+    if (flags & 4) {
         sp64.y = actor->prevPos.y;
-        func_8002E2AC(globalCtx, actor, &sp64, arg5);
+        func_8002E2AC(globalCtx, actor, &sp64, flags);
         waterBoxYSurface = actor->world.pos.y;
         if (WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, actor->world.pos.x, actor->world.pos.z,
                                  &waterBoxYSurface, &waterBox)) {
@@ -1262,7 +1293,7 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
             } else {
                 if (!(actor->bgCheckFlags & 0x20)) {
                     actor->bgCheckFlags |= 0x40;
-                    if (!(arg5 & 0x40)) {
+                    if (!(flags & 0x40)) {
                         ripplePos.x = actor->world.pos.x;
                         ripplePos.y = waterBoxYSurface;
                         ripplePos.z = actor->world.pos.z;
@@ -1482,7 +1513,7 @@ u32 func_8002F194(Actor* actor, GlobalContext* globalCtx) {
 }
 
 s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u32 exchangeItemId) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     // This is convoluted but it seems like it must be a single if statement to match
     if ((player->actor.flags & 0x100) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(globalCtx)) ||
@@ -1522,18 +1553,18 @@ u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
 }
 
 s8 func_8002F368(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     return player->exchangeItemId;
 }
 
-void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* arg2, s16* arg3) {
+void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
     Vec3f sp1C;
     f32 sp18;
 
     func_8002BE04(globalCtx, &actor->focus.pos, &sp1C, &sp18);
-    *arg2 = sp1C.x * sp18 * 160.0f + 160.0f;
-    *arg3 = sp1C.y * sp18 * -120.0f + 120.0f;
+    *x = sp1C.x * sp18 * 160.0f + 160.0f;
+    *y = sp1C.y * sp18 * -120.0f + 120.0f;
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
@@ -1545,7 +1576,7 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
 }
 
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x3C7080) && Player_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (actor == player->targetActor)) && (getItemId > GI_NONE) &&
@@ -1600,7 +1631,7 @@ void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx) {
 }
 
 void func_8002F5F0(Actor* actor, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (actor->xyzDistToPlayerSq < player->unk_6A4) {
         player->unk_6A4 = actor->xyzDistToPlayerSq;
@@ -1616,7 +1647,7 @@ s32 Actor_IsMounted(GlobalContext* globalCtx, Actor* horse) {
 }
 
 u32 Actor_SetRideActor(GlobalContext* globalCtx, Actor* horse, s32 mountSide) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x003C7880)) {
         player->rideActor = horse;
@@ -1636,7 +1667,7 @@ s32 Actor_NotMounted(GlobalContext* globalCtx, Actor* horse) {
 }
 
 void func_8002F698(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5, u32 arg6) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->unk_8A0 = arg6;
     player->unk_8A1 = arg5;
@@ -1724,7 +1755,7 @@ void func_8002F994(Actor* actor, s32 arg1) {
 // Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true
 s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
     if (func_80041D4C(&globalCtx->colCtx, poly, bgId) == 8) {
-        globalCtx->unk_11D30[0] = 1;
+        globalCtx->roomCtx.unk_74[0] = 1;
         CollisionCheck_BlueBlood(globalCtx, NULL, pos);
         Audio_PlayActorSound2(actor, NA_SE_IT_WALL_HIT_BUYO);
         return true;
@@ -1771,87 +1802,65 @@ void func_8002FA60(GlobalContext* globalCtx) {
     D_8015BC18 = 0.0f;
 }
 
-Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
-Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
-Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
-Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
-
 #ifdef NON_MATCHING
-// saved register, stack usage and minor ordering differences
-// this also doesn't generate a few useless struct copies
+// some regalloc and odd loading of gSaveContext
 void func_8002FBAC(GlobalContext* globalCtx) {
-    Vec3f lightPos;
-    f32 spD8;
-    f32 spD4;
-    s32 spD0;
-    s32 spCC;
-    f32 spC0;
-    Vec3f spB4;
-    Vec3f spA4;
-    f32 sp9C;
-    Vec3f sp7C;
-    Vec3f sp70;
-    f32 temp_f12;
-    f32 temp_f14;
-    f32 temp_f2;
-    f32 temp_ret;
-    s32 temp_a3;
-    f32 phi_f14;
-    f32 phi_f10;
-    f32 phi_f6;
+    static Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
+    static Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
+    static Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
+    static Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
+    Vec3f* temp = &gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
+    s32 spF0;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5308);
 
-    if (gSaveContext.respawn[RESPAWN_MODE_TOP].data != 0) {
-        if (LINK_IS_ADULT) {
-            spD8 = 80.0f;
-        } else {
-            spD8 = 60.0f;
-        }
+    spF0 = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
-        spD0 = 0xFF;
-        spD4 = 1.0f;
+    if (spF0 != 0) {
+        f32 spD8 = LINK_IS_ADULT ? 80.0f : 60.0f;
+        f32 spD4 = 1.0f;
+        s32 spD0 = 0xFF;
+        s32 spCC = spF0 - 40;
+        s32 temp2;
+        s32 pad;
 
-        temp_a3 = gSaveContext.respawn[RESPAWN_MODE_TOP].data - 0x28;
-        spCC = temp_a3;
-
-        if (temp_a3 < 0) {
-            gSaveContext.respawn[RESPAWN_MODE_TOP].data++;
-            spD4 = ABS(gSaveContext.respawn[RESPAWN_MODE_TOP].data) * 0.025f;
+        if (spCC < 0) {
+            gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++spF0;
+            spD4 = ABS(spF0) * 0.025f;
             D_8015BC14 = 60;
             D_8015BC18 = 1.0f;
         } else if (D_8015BC14 != 0) {
             D_8015BC14--;
         } else if (D_8015BC18 > 0.0f) {
-            spC0 = D_8015BC18;
-            temp_ret = Math_Vec3f_DistXYZAndStoreDiff(&gSaveContext.respawn[RESPAWN_MODE_DOWN].pos,
-                                                      &gSaveContext.respawn[RESPAWN_MODE_TOP].pos, &spB4);
+            f32 spC0 = D_8015BC18;
+            Vec3f spB4;
+            f32 spB0 = Math_Vec3f_DistXYZAndStoreDiff(&gSaveContext.respawn[RESPAWN_MODE_DOWN].pos, temp, &spB4);
+            Vec3f spA4;
 
-            if (temp_ret < 20.0f) {
+            if (spB0 < 20.0f) {
                 D_8015BC18 = 0.0f;
-                Math_Vec3f_Copy(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos,
-                                &gSaveContext.respawn[RESPAWN_MODE_DOWN].pos);
+                Math_Vec3f_Copy(temp, &gSaveContext.respawn[RESPAWN_MODE_DOWN].pos);
             } else {
-                sp9C = (1.0f / D_8015BC18) * temp_ret;
-                phi_f14 = 20.0f / sp9C;
-                phi_f14 = (phi_f14 < 0.05f) ? 0.05f : phi_f14;
+                f32 temp_f2;
+                f32 sp9C = spB0 * (1.0f / D_8015BC18);
+                f32 phi_f14 = 20.0f / sp9C;
+
+                phi_f14 = CLAMP_MIN(phi_f14, 0.05f);
                 Math_StepToF(&D_8015BC18, 0.0f, phi_f14);
-                temp_f2 = ((D_8015BC18 / spC0) * temp_ret) / temp_ret;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x =
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x + (spB4.x * temp_f2);
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y =
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y + (spB4.y * temp_f2);
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z =
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z + (spB4.z * temp_f2);
-                temp_f12 = sp9C * 0.5f;
-                temp_f14 = temp_ret - temp_f12;
-                spD8 += sqrtf((temp_f12 * temp_f12) - (temp_f14 * temp_f14)) * 0.2f;
+
+                temp_f2 = ((D_8015BC18 / spC0) * spB0) / spB0;
+
+                temp->x = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x + (spB4.x * temp_f2);
+                temp->y = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y + (spB4.y * temp_f2);
+                temp->z = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z + (spB4.z * temp_f2);
+                spD8 += sqrtf(SQ(sp9C / 2.0f) - SQ(spB0 - sp9C / 2.0f)) * 0.2f;
+
                 osSyncPrintf("-------- DISPLAY Y=%f\n", spD8);
             }
 
-            spA4.x = Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
-            spA4.y = Rand_ZeroOne() * 6.0f + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
-            spA4.z = Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
+            spA4.x = temp->x + Rand_CenteredFloat(6.0f);
+            spA4.y = temp->y + 80.0f + Rand_ZeroOne() * 6.0f;
+            spA4.z = temp->z + Rand_CenteredFloat(6.0f);
 
             EffectSsKiraKira_SpawnDispersed(globalCtx, &spA4, &D_80116048, &D_80116054, &D_80116060, &D_80116064, 1000,
                                             16);
@@ -1859,83 +1868,98 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             if (D_8015BC18 == 0.0f) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP] = gSaveContext.respawn[RESPAWN_MODE_DOWN];
                 gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = 0x06FF;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0x28;
+                gSaveContext.respawn[RESPAWN_MODE_TOP].data = 40;
             }
 
-            // somehow this shouldn't be optimized out
-            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
-        } else if (temp_a3 > 0) {
-            temp_f12 = temp_a3 * 0.1f;
+            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *temp;
+        } else if (spCC > 0) {
+            if (spCC * 0.1f < 1.0f) {
+                s32 pad2;
+                s32 pad3;
+                f32 temp3;
+                f32 temp4;
+                Vec3f sp7C;
+                Vec3f sp70;
 
-            if (temp_f12 < 1.0f) {
                 sp7C.x = globalCtx->view.eye.x;
                 sp7C.y = globalCtx->view.eye.y - spD8;
                 sp7C.z = globalCtx->view.eye.z;
-                temp_ret = Math_Vec3f_DistXYZAndStoreDiff(&sp7C, &gSaveContext.respawn[RESPAWN_MODE_TOP].pos, &sp70);
-                temp_f2 = (((1.0f - temp_f12) / (1.0f - ((f32)(temp_a3 - 1) * 0.1f))) * temp_ret) / temp_ret;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = sp70.x * temp_f2 + sp7C.x;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = sp70.y * temp_f2 + sp7C.y;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = sp70.z * temp_f2 + sp7C.z;
+                temp4 = Math_Vec3f_DistXYZAndStoreDiff(&sp7C, temp, &sp70);
+                temp3 = (((1.0f - spCC * 0.1f) / (1.0f - ((f32)(spCC - 1) * 0.1f))) * temp4) / temp4;
+                temp->x = sp70.x * temp3 + sp7C.x;
+                temp->y = sp70.y * temp3 + sp7C.y;
+                temp->z = sp70.z * temp3 + sp7C.z;
+
+                gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *temp;
             }
 
-            // somehow this shouldn't be optimized out
-            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
-
-            spD0 = 0xFF - (((temp_a3 * 0x10) - temp_a3) * 2);
+            spD0 = 0xFF - 30 * spCC;
 
             if (spD0 < 0) {
                 gSaveContext.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
                 spD0 = 0;
             } else {
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data++;
+                gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++spF0;
             }
 
-            spD4 = spCC * 0.200000000000000011102230246252 + 1.0f;
+            spD4 = (f32)spCC * 0.2 + 1.0f;
         }
 
-        if ((globalCtx->csCtx.state == CS_STATE_IDLE) &&
-            (gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex == gSaveContext.entranceIndex) &&
-            (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
-            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
+        if (globalCtx->csCtx.state == CS_STATE_IDLE) {
+            temp2 = gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex;
+            if ((temp2 == gSaveContext.entranceIndex) &&
+                (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
+                f32 phi_f10;
+                f32 phi_f6;
 
-            Matrix_Translate(gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x,
-                             gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8,
-                             gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z, MTXMODE_NEW);
-            Matrix_Scale(0.025f * spD4, 0.025f * spD4, 0.025f * spD4, MTXMODE_APPLY);
-            Matrix_Mult(&globalCtx->mf_11D60, MTXMODE_APPLY);
-            Matrix_Push();
+                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
+                // bad gSaveContext load here
+                Matrix_Translate(temp->x, temp->y + spD8, temp->z, MTXMODE_NEW);
+                Matrix_Scale(0.025f * spD4, 0.025f * spD4, 0.025f * spD4, MTXMODE_APPLY);
+                Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+                Matrix_Push();
 
-            gDPPipeSync(POLY_XLU_DISP++);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, spD0);
-            gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
+                gDPPipeSync(POLY_XLU_DISP++);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, spD0);
+                gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
 
-            phi_f10 = (globalCtx->gameplayFrames * 1500) & 0xFFFF;
-            Matrix_RotateZ((phi_f10 * M_PI) / 32768.0f, MTXMODE_APPLY);
+                phi_f10 = (globalCtx->gameplayFrames * 1500) & 0xFFFF;
+                Matrix_RotateZ((phi_f10 * M_PI) / 32768.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
-                      G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
+                          G_MTX_MODELVIEW | G_MTX_LOAD);
+                gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
 
-            Matrix_Pop();
-            phi_f6 = ~((globalCtx->gameplayFrames * 1200) & 0xFFFF);
-            Matrix_RotateZ((phi_f6 * M_PI) / 32768.0f, MTXMODE_APPLY);
+                Matrix_Pop();
+                phi_f6 = ~((globalCtx->gameplayFrames * 1200) & 0xFFFF);
+                Matrix_RotateZ((phi_f6 * M_PI) / 32768.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
-                      G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
+                          G_MTX_MODELVIEW | G_MTX_LOAD);
+                gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
+            }
+            {
+                Vec3f lightPos;
+
+                lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
+                lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8;
+                lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
+
+                Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
+                                          500.0f * spD4);
+            }
+            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5474);
         }
-
-        lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
-        lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8;
-        lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
-
-        Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, 500.0f * spD4);
-
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5474);
     }
 }
 #else
+
+static Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
+static Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
+static Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
+static Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_8002FBAC.s")
 #endif
 
@@ -1967,7 +1991,7 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     overlayEntry = &gActorOverlayTable[0];
     for (i = 0; i < ARRAY_COUNT(gActorOverlayTable); i++) {
         overlayEntry->loadedRamAddr = NULL;
-        overlayEntry->nbLoaded = 0;
+        overlayEntry->numLoaded = 0;
         overlayEntry++;
     }
 
@@ -2001,24 +2025,22 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     ActorEntry* actorEntry;
     s32 i;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
 
     if (0) {
-        // This assert is optimized out but it exists due to its presence in rodata
-        if (gMaxActorId != ACTOR_ID_MAX) {
-            __assert("MaxProfile == ACTOR_DLF_MAX", "../z_actor.c", UNK_LINE);
-        }
+        // This ASSERT is optimized out but it exists due to its presence in rodata
+        ASSERT(gMaxActorId == ACTOR_ID_MAX, "MaxProfile == ACTOR_DLF_MAX", "../z_actor.c", UNK_LINE);
     }
 
     sp74 = NULL;
     unkFlag = 0;
 
-    if (globalCtx->nbSetupActors != 0) {
+    if (globalCtx->numSetupActors != 0) {
         actorEntry = &globalCtx->setupActorList[0];
-        for (i = 0; i < globalCtx->nbSetupActors; i++) {
+        for (i = 0; i < globalCtx->numSetupActors; i++) {
             Actor_SpawnEntry(&globalCtx->actorCtx, actorEntry++, globalCtx);
         }
-        globalCtx->nbSetupActors = 0;
+        globalCtx->numSetupActors = 0;
     }
 
     if (actorCtx->unk_02 != 0) {
@@ -2026,7 +2048,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if (KREG(0) == -100) {
-        refActor = &PLAYER->actor;
+        refActor = &GET_PLAYER(globalCtx)->actor;
         KREG(0) = 0;
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_CLEAR_TAG, refActor->world.pos.x,
                     refActor->world.pos.y + 100.0f, refActor->world.pos.z, 0, 0, 0, 1);
@@ -2146,12 +2168,10 @@ void Actor_FaultPrint(Actor* actor, char* command) {
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-    // Translates to: "ACTOR NAME(%08x:%s)"
-    osSyncPrintf("アクターの名前(%08x:%s)\n", actor, name);
+    osSyncPrintf("アクターの名前(%08x:%s)\n", actor, name); // "Actor name (%08x:%s)"
 
     if (command != NULL) {
-        // Translates to: "COMMAND:%s"
-        osSyncPrintf("コメント:%s\n", command);
+        osSyncPrintf("コメント:%s\n", command); // "Command:%s"
     }
 
     FaultDrawer_SetCursor(48, 24);
@@ -2188,20 +2208,20 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.status[actor->objBankIndex].segment);
 
     if (actor->colorFilterTimer != 0) {
-        Color_RGBA8 sp2C = { 0, 0, 0, 255 };
+        Color_RGBA8 color = { 0, 0, 0, 255 };
 
         if (actor->colorFilterParams & 0x8000) {
-            sp2C.r = sp2C.g = sp2C.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
+            color.r = color.g = color.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
         } else if (actor->colorFilterParams & 0x4000) {
-            sp2C.r = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
+            color.r = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
         } else {
-            sp2C.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
+            color.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
         }
 
         if (actor->colorFilterParams & 0x2000) {
-            func_80026860(globalCtx, &sp2C, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
+            func_80026860(globalCtx, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
         } else {
-            func_80026400(globalCtx, &sp2C, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
+            func_80026400(globalCtx, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
         }
     }
 
@@ -2251,7 +2271,7 @@ void func_80030FA8(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6183);
 }
 
-void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invisibleActors) {
+void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
     GraphicsContext* gfxCtx;
     s32 i;
@@ -2260,8 +2280,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
 
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6197);
 
-    // Translates to: "MAGIC LENS START"
-    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ START", 0);
+    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ START", 0); // "Magic lens START"
 
     gDPPipeSync(POLY_XLU_DISP++);
 
@@ -2288,22 +2307,21 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
 
     func_80030FA8(gfxCtx);
 
-    // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY START"
-    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", nbInvisibleActors);
+    // "Magic lens invisible Actor display START"
+    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", numInvisibleActors);
 
     invisibleActor = &invisibleActors[0];
-    for (i = 0; i < nbInvisibleActors; i++) {
-        // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY"
+    for (i = 0; i < numInvisibleActors; i++) {
+        // "Magic lens invisible Actor display"
         gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示", i);
         Actor_Draw(globalCtx, *(invisibleActor++));
     }
 
-    // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY END"
-    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", nbInvisibleActors);
+    // "Magic lens invisible Actor display END"
+    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors != 0) {
-        // Translates to: "BLUE SPECTACLES (EXTERIOR)"
-        gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0);
+        gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
 
         gDPPipeSync(POLY_XLU_DISP++);
 
@@ -2316,12 +2334,10 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
 
         func_80030FA8(gfxCtx);
 
-        // Translates to: "BLUE SPECTACLES (EXTERIOR)"
-        gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 1);
+        gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 1); // "Blue spectacles (exterior)"
     }
 
-    // Translates to: "MAGIC LENS END"
-    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ END", 0);
+    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ END", 0); // "Magic lens END"
 
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6284);
 }
@@ -2397,9 +2413,8 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     if ((actor->flags & 0x80) &&
                         ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || (globalCtx->actorCtx.unk_03 != 0) ||
                          (actor->room != globalCtx->roomCtx.curRoom.num))) {
-                        if (invisibleActorCounter >= INVISIBLE_ACTOR_MAX) {
-                            __assert("invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
-                        }
+                        ASSERT(invisibleActorCounter < INVISIBLE_ACTOR_MAX,
+                               "invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
                         invisibleActors[invisibleActorCounter] = actor;
                         invisibleActorCounter++;
                     } else {
@@ -2521,8 +2536,7 @@ void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
     }
 
     if (HREG(20) != 0) {
-        // Translates to: "ABSOLUTE MAGIC FIELD DEALLOCATION"
-        osSyncPrintf("絶対魔法領域解放\n");
+        osSyncPrintf("絶対魔法領域解放\n"); // "Absolute magic field deallocation"
     }
 
     if (actorCtx->absoluteSpace != NULL) {
@@ -2592,36 +2606,33 @@ Actor* Actor_RemoveFromCategory(GlobalContext* globalCtx, ActorContext* actorCtx
 void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
     osSyncPrintf(VT_FGCOL(CYAN));
 
-    if (actorOverlay->nbLoaded == 0) {
+    if (actorOverlay->numLoaded == 0) {
         if (HREG(20) != 0) {
-            // Translates to: "ACTOR CLIENT IS NOW 0"
-            osSyncPrintf("アクタークライアントが０になりました\n");
+            osSyncPrintf("アクタークライアントが０になりました\n"); // "Actor client is now 0"
         }
 
         if (actorOverlay->loadedRamAddr != NULL) {
             if (actorOverlay->allocType & ALLOCTYPE_PERMANENT) {
                 if (HREG(20) != 0) {
-                    // Translates to: "OVERLAY WILL NOT BE DEALLOCATED"
-                    osSyncPrintf("オーバーレイ解放しません\n");
+                    osSyncPrintf("オーバーレイ解放しません\n"); // "Overlay will not be deallocated"
                 }
             } else if (actorOverlay->allocType & ALLOCTYPE_ABSOLUTE) {
                 if (HREG(20) != 0) {
-                    // Translates to: "ABSOLUTE MAGIC FIELD RESERVED, SO DEALLOCATION WILL NOT OCCUR"
+                    // "Absolute magic field reserved, so deallocation will not occur"
                     osSyncPrintf("絶対魔法領域確保なので解放しません\n");
                 }
                 actorOverlay->loadedRamAddr = NULL;
             } else {
                 if (HREG(20) != 0) {
-                    // Translates to: "OVERLAY DEALLOCATED"
-                    osSyncPrintf("オーバーレイ解放します\n");
+                    osSyncPrintf("オーバーレイ解放します\n"); // "Overlay deallocated"
                 }
                 ZeldaArena_FreeDebug(actorOverlay->loadedRamAddr, "../z_actor.c", 6834);
                 actorOverlay->loadedRamAddr = NULL;
             }
         }
     } else if (HREG(20) != 0) {
-        // Translates to: "%d OF ACTOR CLIENT REMAINS"
-        osSyncPrintf("アクタークライアントはあと %d 残っています\n", actorOverlay->nbLoaded);
+        // "%d of actor client remains"
+        osSyncPrintf("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
     }
 
     osSyncPrintf(VT_RST);
@@ -2639,49 +2650,42 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     u32 overlaySize;
 
     overlayEntry = &gActorOverlayTable[actorId];
-
-    if (actorId >= ACTOR_ID_MAX) {
-        __assert("profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
-    }
+    ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
 
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
     overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
 
     if (HREG(20) != 0) {
-        // Translates to: "ACTOR CLASS ADDITION [%d:%s]"
+        // "Actor class addition [%d:%s]"
         osSyncPrintf("アクタークラス追加 [%d:%s]\n", actorId, name);
     }
 
     if (actorCtx->total > ACTOR_NUMBER_MAX) {
-        // Translates to: "Ａｃｔｏｒ SET NUMBER EXCEEDED"
+        // "Ａｃｔｏｒ set number exceeded"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "Ａｃｔｏｒセット数オーバー\n" VT_RST);
         return NULL;
     }
 
     if (overlayEntry->vramStart == 0) {
         if (HREG(20) != 0) {
-            // Translates to: "NOT AN OVERLAY"
-            osSyncPrintf("オーバーレイではありません\n");
+            osSyncPrintf("オーバーレイではありません\n"); // "Not an overlay"
         }
 
         actorInit = overlayEntry->initInfo;
     } else {
         if (overlayEntry->loadedRamAddr != NULL) {
             if (HREG(20) != 0) {
-                // Translates to: "ALREADY LOADED"
-                osSyncPrintf("既にロードされています\n");
+                osSyncPrintf("既にロードされています\n"); // "Already loaded"
             }
         } else {
             if (overlayEntry->allocType & ALLOCTYPE_ABSOLUTE) {
-                if (overlaySize > AM_FIELD_SIZE) {
-                    __assert("actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
-                }
+                ASSERT(overlaySize <= AM_FIELD_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
 
                 if (actorCtx->absoluteSpace == NULL) {
-                    // Translates to: "AMF: ABSOLUTE MAGIC FIELD"
+                    // "AMF: absolute magic field"
                     actorCtx->absoluteSpace = ZeldaArena_MallocRDebug(AM_FIELD_SIZE, "AMF:絶対魔法領域", 0);
                     if (HREG(20) != 0) {
-                        // Translates to: "ABSOLUTE MAGIC FIELD RESERVATION - %d BYTES RESERVED"
+                        // "Absolute magic field reservation - %d bytes reserved"
                         osSyncPrintf("絶対魔法領域確保 %d バイト確保\n", AM_FIELD_SIZE);
                     }
                 }
@@ -2694,7 +2698,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
             }
 
             if (overlayEntry->loadedRamAddr == NULL) {
-                // Translates to: "CANNOT RESERVE ACTOR PROGRAM MEMORY"
+                // "Cannot reserve actor program memory"
                 osSyncPrintf(VT_COL(RED, WHITE) "Ａｃｔｏｒプログラムメモリが確保できません\n" VT_RST);
                 return NULL;
             }
@@ -2709,7 +2713,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
                          (u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr, name);
             osSyncPrintf(VT_RST);
 
-            overlayEntry->nbLoaded = 0;
+            overlayEntry->numLoaded = 0;
         }
 
         actorInit = (void*)(u32)((overlayEntry->initInfo != NULL)
@@ -2722,7 +2726,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
 
     if ((objBankIndex < 0) ||
         ((actorInit->category == ACTORCAT_ENEMY) && (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)))) {
-        // Translates to: "NO DATA BANK!! <DATA BANK＝%d> (profilep->bank=%d)"
+        // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
         osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
                      objBankIndex, actorInit->objectId);
         Actor_FreeOverlay(overlayEntry);
@@ -2732,22 +2736,20 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     actor = ZeldaArena_MallocDebug(actorInit->instanceSize, name, 1);
 
     if (actor == NULL) {
-        // Translates to: "ACTOR CLASS CANNOT BE RESERVED! %s <SIZE＝%d BYTES>"
+        // "Actor class cannot be reserved! %s <size＝%d bytes>"
         osSyncPrintf(VT_COL(RED, WHITE) "Ａｃｔｏｒクラス確保できません！ %s <サイズ＝%dバイト>\n", VT_RST, name,
                      actorInit->instanceSize);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
 
-    if (overlayEntry->nbLoaded >= 255) {
-        __assert("actor_dlftbl->clients < 255", "../z_actor.c", 7031);
-    }
+    ASSERT(overlayEntry->numLoaded < 255, "actor_dlftbl->clients < 255", "../z_actor.c", 7031);
 
-    overlayEntry->nbLoaded++;
+    overlayEntry->numLoaded++;
 
     if (HREG(20) != 0) {
-        // Translates to: "ACTOR CLIENT No. %d"
-        osSyncPrintf("アクタークライアントは %d 個目です\n", overlayEntry->nbLoaded);
+        // "Actor client No. %d"
+        osSyncPrintf("アクタークライアントは %d 個目です\n", overlayEntry->numLoaded);
     }
 
     Lib_MemSet((u8*)actor, actorInit->instanceSize, 0);
@@ -2803,13 +2805,13 @@ Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, GlobalContext* 
 
 void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCtx) {
     TransitionActorEntry* transitionActor;
-    u8 nbTransitionActors;
+    u8 numActors;
     s32 i;
 
-    transitionActor = globalCtx->transitionActorList;
-    nbTransitionActors = globalCtx->nbTransitionActors;
+    transitionActor = globalCtx->transiActorCtx.list;
+    numActors = globalCtx->transiActorCtx.numActors;
 
-    for (i = 0; i < nbTransitionActors; i++) {
+    for (i = 0; i < numActors; i++) {
         if (transitionActor->id >= 0) {
             if (((transitionActor->sides[0].room >= 0) &&
                  ((transitionActor->sides[0].room == globalCtx->roomCtx.curRoom.num) ||
@@ -2822,7 +2824,7 @@ void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCt
                             (i << 0xA) + transitionActor->params);
 
                 transitionActor->id = -transitionActor->id;
-                nbTransitionActors = globalCtx->nbTransitionActors;
+                numActors = globalCtx->transiActorCtx.numActors;
             }
         }
         transitionActor++;
@@ -2840,14 +2842,13 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
     Actor* newHead;
     ActorOverlay* overlayEntry;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
 
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
     if (HREG(20) != 0) {
-        // Translates to: "ACTOR CLASS DELETED [%s]"
-        osSyncPrintf("アクタークラス削除 [%s]\n", name);
+        osSyncPrintf("アクタークラス削除 [%s]\n", name); // "Actor class deleted [%s]"
     }
 
     if ((player != NULL) && (actor == player->unk_664)) {
@@ -2876,19 +2877,12 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
 
     if (overlayEntry->vramStart == 0) {
         if (HREG(20) != 0) {
-            // Translates to: "NOT AN OVERLAY"
-            osSyncPrintf("オーバーレイではありません\n");
+            osSyncPrintf("オーバーレイではありません\n"); // "Not an overlay"
         }
     } else {
-        if (overlayEntry->loadedRamAddr == NULL) {
-            __assert("actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
-        }
-
-        if (overlayEntry->nbLoaded <= 0) {
-            __assert("actor_dlftbl->clients > 0", "../z_actor.c", 7252);
-        }
-
-        overlayEntry->nbLoaded--;
+        ASSERT(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
+        ASSERT(overlayEntry->numLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);
+        overlayEntry->numLoaded--;
         Actor_FreeOverlay(overlayEntry);
     }
 
@@ -3010,8 +3004,12 @@ Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory) {
     return NULL;
 }
 
-void func_80032C7C(GlobalContext* globalCtx, Actor* actor) {
-    globalCtx->actorCtx.unk_00 = 5;
+/**
+ * Play the death sound effect and flash the screen white for 4 frames.
+ * While the screen flashes, the game freezes.
+ */
+void Enemy_StartFinishingBlow(GlobalContext* globalCtx, Actor* actor) {
+    globalCtx->actorCtx.freezeFlashTimer = 5;
     Audio_PlaySoundAtPosition(globalCtx, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
 
@@ -3044,135 +3042,144 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
     return arg0[0];
 }
 
-void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
-    u32 sp28;
-    u32 sp24;
-    u32 sp20;
+void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, GlobalContext* globalCtx) {
+    u32 matricesSize;
+    u32 dListsSize;
+    u32 objectIdsSize;
 
-    sp28 = (arg1 * sizeof(*arg0->unk_00)) + sizeof(*arg0->unk_00);
-    arg0->unk_00 = ZeldaArena_MallocDebug(sp28, "../z_actor.c", 7540);
-    if (arg0->unk_00 != NULL) {
-        sp24 = (arg1 * sizeof(*arg0->unk_0C)) + sizeof(*arg0->unk_0C);
-        arg0->unk_0C = ZeldaArena_MallocDebug(sp24, "../z_actor.c", 7543);
-        if (arg0->unk_0C != NULL) {
-            sp20 = (arg1 * sizeof(*arg0->unk_04)) + sizeof(*arg0->unk_04);
-            arg0->unk_04 = ZeldaArena_MallocDebug(sp20, "../z_actor.c", 7546);
-            if (arg0->unk_04 != NULL) {
-                Lib_MemSet((u8*)arg0->unk_00, sp28, 0);
-                Lib_MemSet((u8*)arg0->unk_0C, sp24, 0);
-                Lib_MemSet((u8*)arg0->unk_04, sp20, 0);
-                arg0->unk_10 = 1;
+    matricesSize = (count + 1) * sizeof(*bodyBreak->matrices);
+    bodyBreak->matrices = ZeldaArena_MallocDebug(matricesSize, "../z_actor.c", 7540);
+
+    if (bodyBreak->matrices != NULL) {
+        dListsSize = (count + 1) * sizeof(*bodyBreak->dLists);
+        bodyBreak->dLists = ZeldaArena_MallocDebug(dListsSize, "../z_actor.c", 7543);
+
+        if (bodyBreak->dLists != NULL) {
+            objectIdsSize = (count + 1) * sizeof(*bodyBreak->objectIds);
+            bodyBreak->objectIds = ZeldaArena_MallocDebug(objectIdsSize, "../z_actor.c", 7546);
+
+            if (bodyBreak->objectIds != NULL) {
+                Lib_MemSet((u8*)bodyBreak->matrices, matricesSize, 0);
+                Lib_MemSet((u8*)bodyBreak->dLists, dListsSize, 0);
+                Lib_MemSet((u8*)bodyBreak->objectIds, objectIdsSize, 0);
+                bodyBreak->val = 1;
                 return;
             }
         }
     }
 
-    if (arg0->unk_00 != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_00, "../z_actor.c", 7558);
+    if (bodyBreak->matrices != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7558);
     }
 
-    if (arg0->unk_0C != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_0C, "../z_actor.c", 7561);
+    if (bodyBreak->dLists != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7561);
     }
 
-    if (arg0->unk_04 != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_04, "../z_actor.c", 7564);
+    if (bodyBreak->objectIds != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7564);
     }
 }
 
-void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6) {
+void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
+                       s16 objectId) {
     GlobalContext* globalCtx = Effect_GetGlobalCtx();
 
-    if ((globalCtx->actorCtx.unk_00 == 0) && (arg0->unk_10 > 0)) {
-        if ((arg1 >= arg2) && (arg3 >= arg1) && (*dList != 0)) {
-            arg0->unk_0C[arg0->unk_10] = *dList;
-            Matrix_Get(&arg0->unk_00[arg0->unk_10]);
-            arg0->unk_04[arg0->unk_10] = arg6;
-            arg0->unk_10++;
+    if ((globalCtx->actorCtx.freezeFlashTimer == 0) && (bodyBreak->val > 0)) {
+        if ((limbIndex >= minLimbIndex) && (limbIndex <= maxLimbIndex) && (*dList != NULL)) {
+            bodyBreak->dLists[bodyBreak->val] = *dList;
+            Matrix_Get(&bodyBreak->matrices[bodyBreak->val]);
+            bodyBreak->objectIds[bodyBreak->val] = objectId;
+            bodyBreak->val++;
         }
 
-        if (arg1 != arg0->unk_14) {
-            arg0->unk_08++;
+        if (limbIndex != bodyBreak->prevLimbIndex) {
+            bodyBreak->count++;
         }
 
-        if ((u32)arg0->unk_08 >= arg4) {
-            arg0->unk_08 = arg0->unk_10 - 1;
-            arg0->unk_10 = -1;
+        if ((u32)bodyBreak->count >= count) {
+            bodyBreak->count = bodyBreak->val - 1;
+            bodyBreak->val = BODYBREAK_STATUS_READY;
         }
     }
 
-    arg0->unk_14 = arg1;
+    bodyBreak->prevLimbIndex = limbIndex;
 }
 
-s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx, s16 params) {
+s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type) {
     EnPart* spawnedEnPart;
     MtxF* mtx;
     s16 objBankIndex;
 
-    if (arg1->unk_10 != -1) {
+    if (bodyBreak->val != BODYBREAK_STATUS_READY) {
         return false;
     }
 
-    while (arg1->unk_08 > 0) {
-        Matrix_Put(&arg1->unk_00[arg1->unk_08]);
+    while (bodyBreak->count > 0) {
+        Matrix_Put(&bodyBreak->matrices[bodyBreak->count]);
         Matrix_Scale(1.0f / actor->scale.x, 1.0f / actor->scale.y, 1.0f / actor->scale.z, MTXMODE_APPLY);
-        Matrix_Get(&arg1->unk_00[arg1->unk_08]);
+        Matrix_Get(&bodyBreak->matrices[bodyBreak->count]);
 
-        if (1) { // Necessary to match
-            if (arg1->unk_04[arg1->unk_08] >= 0) {
-                objBankIndex = arg1->unk_04[arg1->unk_08];
+        if (1) {
+            if (bodyBreak->objectIds[bodyBreak->count] >= 0) {
+                objBankIndex = bodyBreak->objectIds[bodyBreak->count];
             } else {
                 objBankIndex = actor->objBankIndex;
             }
         }
 
-        mtx = &arg1->unk_00[arg1->unk_08];
-        spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->wx,
-                                                    mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
+        mtx = &bodyBreak->matrices[bodyBreak->count];
+
+        spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->xw,
+                                                    mtx->yw, mtx->zw, 0, 0, objBankIndex, type);
+
         if (spawnedEnPart != NULL) {
-            func_800D20CC(&arg1->unk_00[arg1->unk_08], &spawnedEnPart->actor.shape.rot, 0);
-            spawnedEnPart->displayList = arg1->unk_0C[arg1->unk_08];
+            Matrix_MtxFToYXZRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
+            spawnedEnPart->displayList = bodyBreak->dLists[bodyBreak->count];
             spawnedEnPart->actor.scale = actor->scale;
         }
 
-        arg1->unk_08--;
+        bodyBreak->count--;
     }
 
-    arg1->unk_10 = 0;
-    ZeldaArena_FreeDebug(arg1->unk_00, "../z_actor.c", 7678);
-    ZeldaArena_FreeDebug(arg1->unk_0C, "../z_actor.c", 7679);
-    ZeldaArena_FreeDebug(arg1->unk_04, "../z_actor.c", 7680);
+    bodyBreak->val = BODYBREAK_STATUS_FINISHED;
+
+    ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7678);
+    ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7679);
+    ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7680);
 
     return true;
 }
 
-void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 scale,
-                   s16 scaleStep, u8 arg8) {
+void Actor_SpawnFloorDustRing(GlobalContext* globalCtx, Actor* actor, Vec3f* posXZ, f32 radius, s32 amountMinusOne,
+                              f32 randAccelWeight, s16 scale, s16 scaleStep, u8 useLighting) {
     Vec3f pos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
-    f32 var;
+    f32 angle;
     s32 i;
 
-    var = (Rand_ZeroOne() - 0.5f) * 6.28f;
+    angle = (Rand_ZeroOne() - 0.5f) * (2.0f * 3.14f);
     pos.y = actor->floorHeight;
     accel.y += (Rand_ZeroOne() - 0.5f) * 0.2f;
 
-    for (i = arg4; i >= 0; i--) {
-        pos.x = (Math_SinF(var) * arg3) + arg2->x;
-        pos.z = (Math_CosF(var) * arg3) + arg2->z;
-        accel.x = (Rand_ZeroOne() - 0.5f) * arg5;
-        accel.z = (Rand_ZeroOne() - 0.5f) * arg5;
+    for (i = amountMinusOne; i >= 0; i--) {
+        pos.x = Math_SinF(angle) * radius + posXZ->x;
+        pos.z = Math_CosF(angle) * radius + posXZ->z;
+        accel.x = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
+        accel.z = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
 
         if (scale == 0) {
             func_8002857C(globalCtx, &pos, &velocity, &accel);
-        } else if (arg8 != 0) {
-            func_800286CC(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
         } else {
-            func_8002865C(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
+            if (useLighting) {
+                func_800286CC(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
+            } else {
+                func_8002865C(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
+            }
         }
 
-        var += 6.28f / (arg4 + 1.0f);
+        angle += (2.0f * 3.14f) / (amountMinusOne + 1.0f);
     }
 }
 
@@ -3236,44 +3243,47 @@ void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Acto
     Actor_AddToCategory(actorCtx, actor, actorCategory);
 }
 
-typedef struct {
-    /* 0x000 */ Actor actor;
-    /* 0x14C */ char unk_14C[0xC4];
-    /* 0x210 */ s16 unk_210;
-} Actor_80033780;
-
-Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
-    Actor_80033780* itemActor;
+/**
+ * Checks if a hookshot or arrow actor is going to collide with the cylinder denoted by the
+ * actor's `cylRadius` and `cylHeight`.
+ * The check is only peformed if the projectile actor is within the provided sphere radius.
+ *
+ * Returns the actor if there will be collision, NULL otherwise.
+ */
+Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius) {
+    Actor* actor;
     Vec3f spA8;
     f32 deltaX;
     f32 deltaY;
     f32 deltaZ;
     Vec3f sp90;
     Vec3f sp84;
-    Actor* actor;
 
     actor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     while (actor != NULL) {
         if (((actor->id != ACTOR_ARMS_HOOK) && (actor->id != ACTOR_EN_ARROW)) || (actor == refActor)) {
             actor = actor->next;
         } else {
-            itemActor = (Actor_80033780*)actor;
-            if ((arg2 < Math_Vec3f_DistXYZ(&refActor->world.pos, &itemActor->actor.world.pos)) ||
-                (itemActor->unk_210 == 0)) {
+            //! @bug The projectile actor gets unsafely casted to a hookshot to check its timer, even though
+            //  it can also be an arrow.
+            //  Luckily, the field at the same offset in the arrow actor is the x component of a vector
+            //  which will rarely ever be 0. So its very unlikely for this bug to cause an issue.
+            if ((Math_Vec3f_DistXYZ(&refActor->world.pos, &actor->world.pos) > radius) ||
+                (((ArmsHook*)actor)->timer == 0)) {
                 actor = actor->next;
             } else {
-                deltaX = Math_SinS(itemActor->actor.world.rot.y) * (itemActor->actor.speedXZ * 10.0f);
-                deltaY = itemActor->actor.velocity.y + (itemActor->actor.gravity * 10.0f);
-                deltaZ = Math_CosS(itemActor->actor.world.rot.y) * (itemActor->actor.speedXZ * 10.0f);
+                deltaX = Math_SinS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
+                deltaY = actor->velocity.y + (actor->gravity * 10.0f);
+                deltaZ = Math_CosS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
 
-                spA8.x = itemActor->actor.world.pos.x + deltaX;
-                spA8.y = itemActor->actor.world.pos.y + deltaY;
-                spA8.z = itemActor->actor.world.pos.z + deltaZ;
+                spA8.x = actor->world.pos.x + deltaX;
+                spA8.y = actor->world.pos.y + deltaY;
+                spA8.z = actor->world.pos.z + deltaZ;
 
                 if (CollisionCheck_CylSideVsLineSeg(refActor->colChkInfo.cylRadius, refActor->colChkInfo.cylHeight,
-                                                    0.0f, &refActor->world.pos, &itemActor->actor.world.pos, &spA8,
-                                                    &sp90, &sp84)) {
-                    return &itemActor->actor;
+                                                    0.0f, &refActor->world.pos, &actor->world.pos, &spA8, &sp90,
+                                                    &sp84)) {
+                    return actor;
                 } else {
                     actor = actor->next;
                 }
@@ -3364,30 +3374,42 @@ void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 baseTex
     actor->textId = prefix | baseTextId;
 }
 
-s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3) {
+/**
+ * Checks if a given actor will be standing on the ground after being translated
+ * by the provided distance and angle.
+ *
+ * Returns true if the actor will be standing on ground.
+ */
+s16 Actor_TestFloorInDirection(Actor* actor, GlobalContext* globalCtx, f32 distance, s16 angle) {
     s16 ret;
-    s16 sp44;
-    f32 sp40;
-    f32 sp3C;
-    Vec3f sp30;
+    s16 prevBgCheckFlags;
+    f32 dx;
+    f32 dz;
+    Vec3f prevActorPos;
 
-    Math_Vec3f_Copy(&sp30, &actor->world.pos);
-    sp44 = actor->bgCheckFlags;
-    sp40 = Math_SinS(arg3) * arg2;
-    sp3C = Math_CosS(arg3) * arg2;
-    actor->world.pos.x += sp40;
-    actor->world.pos.z += sp3C;
+    Math_Vec3f_Copy(&prevActorPos, &actor->world.pos);
+    prevBgCheckFlags = actor->bgCheckFlags;
+
+    dx = Math_SinS(angle) * distance;
+    dz = Math_CosS(angle) * distance;
+    actor->world.pos.x += dx;
+    actor->world.pos.z += dz;
+
     Actor_UpdateBgCheckInfo(globalCtx, actor, 0.0f, 0.0f, 0.0f, 4);
-    Math_Vec3f_Copy(&actor->world.pos, &sp30);
+
+    Math_Vec3f_Copy(&actor->world.pos, &prevActorPos);
 
     ret = actor->bgCheckFlags & 1;
-    actor->bgCheckFlags = sp44;
+    actor->bgCheckFlags = prevBgCheckFlags;
 
     return ret;
 }
 
-s32 func_80033A84(GlobalContext* globalCtx, Actor* actor) {
-    Player* player = PLAYER;
+/**
+ * Returns true if the player is targeting the provided actor
+ */
+s32 Actor_IsTargeted(GlobalContext* globalCtx, Actor* actor) {
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags1 & 0x10) && actor->isTargeted) {
         return true;
@@ -3396,8 +3418,11 @@ s32 func_80033A84(GlobalContext* globalCtx, Actor* actor) {
     }
 }
 
-s32 func_80033AB8(GlobalContext* globalCtx, Actor* actor) {
-    Player* player = PLAYER;
+/**
+ * Returns true if the player is targeting an actor other than the provided actor
+ */
+s32 Actor_OtherIsTargeted(GlobalContext* globalCtx, Actor* actor) {
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags1 & 0x10) && !actor->isTargeted) {
         return true;
@@ -3500,7 +3525,7 @@ typedef struct {
     /* 0x18 */ u32 unk_18;
 } struct_801160DC; // size = 0x1C
 
-struct_801160DC D_801160DC[] = {
+static struct_801160DC D_801160DC[] = {
     { 0.54f, 6000.0f, 5000.0f, 1.0f, 0.0f, 0x050011F0, 0x05001100 },
     { 0.644f, 12000.0f, 8000.0f, 1.0f, 0.0f, 0x06001530, 0x06001400 },
     { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, 0x050011F0, 0x05001100 },
@@ -3637,7 +3662,7 @@ typedef struct {
     /* 0x14 */ s16 unk_14;
 } struct_80116130; // size = 0x18
 
-struct_80116130 D_80116130[] = {
+static struct_80116130 D_80116130[] = {
     { { 0x2AA8, 0xF1C8, 0x18E2, 0x1554, 0x0000, 0x0000, 1 }, 170.0f, 0x3FFC },
     { { 0x2AA8, 0xEAAC, 0x1554, 0x1554, 0xF8E4, 0x0E38, 1 }, 170.0f, 0x3FFC },
     { { 0x31C4, 0xE390, 0x0E38, 0x0E38, 0xF1C8, 0x071C, 1 }, 170.0f, 0x3FFC },
@@ -3653,8 +3678,6 @@ struct_80116130 D_80116130[] = {
     { { 0x18E2, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
 };
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7,
                    u8 arg8) {
     s16 sp46;
@@ -3675,23 +3698,22 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     temp1 = CLAMP(sp40, -arg2, arg2);
     Math_SmoothStepToS(&arg1->unk_08.y, temp1, 6, 2000, 1);
 
-    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    arg1->unk_08.y = CLAMP(arg1->unk_08.y, -sp40, sp40);
+    temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
+    arg1->unk_08.y = CLAMP(arg1->unk_08.y, -temp1, temp1);
 
-    sp40 = sp40 - arg1->unk_08.y;
+    sp40 -= arg1->unk_08.y;
 
     temp1 = CLAMP(sp40, -arg5, arg5);
     Math_SmoothStepToS(&arg1->unk_0E.y, temp1, 6, 2000, 1);
 
-    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -sp40, sp40);
+    temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
+    arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -temp1, temp1);
 
-    if (arg8 != 0) {
-        if (arg3) {} // Seems necessary to match
+    if (arg8) {
         Math_SmoothStepToS(&actor->shape.rot.y, sp44, 6, 2000, 1);
     }
 
-    temp1 = CLAMP(sp46, arg4, arg3);
+    temp1 = CLAMP(sp46, arg4, (s16)(u16)arg3);
     Math_SmoothStepToS(&arg1->unk_08.x, temp1, 6, 2000, 1);
 
     temp2 = sp46 - arg1->unk_08.x;
@@ -3699,9 +3721,6 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     temp1 = CLAMP(temp2, arg7, arg6);
     Math_SmoothStepToS(&arg1->unk_0E.x, temp1, 6, 2000, 1);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_800344BC.s")
-#endif
 
 s16 func_800347E8(s16 arg0) {
     return D_80116130[arg0].unk_14;
@@ -3835,7 +3854,7 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
 }
 
 s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 var;
 
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) {
@@ -3916,7 +3935,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
 #include "z_cheap_proc.c"
 
 u8 func_800353E8(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     return player->unk_845;
 }
@@ -3945,7 +3964,7 @@ Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, 
 }
 
 s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 var1;
     s16 var2;
 
@@ -3990,7 +4009,7 @@ void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1) {
 }
 
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((collider->acFlags & AC_TYPE_PLAYER) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
         return true;
@@ -4009,7 +4028,7 @@ u8 Actor_ApplyDamage(Actor* actor) {
     return actor->colChkInfo.health;
 }
 
-void func_80035650(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
+void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     if (colInfo->acHitInfo == NULL) {
         actor->dropFlag = 0x00;
     } else if (freezeFlag && (colInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
@@ -4037,7 +4056,7 @@ void func_80035650(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     }
 }
 
-void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
+void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
     ColliderInfo* curColInfo;
     s32 flag;
     s32 i;
@@ -4204,7 +4223,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 1:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     if (Flags_GetInfTable(0x10)) {
                         retTextId = 0x1046;
@@ -4251,7 +4270,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 2:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1042;
                 } else {
@@ -4268,7 +4287,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 3:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1043;
                 } else {
@@ -4287,7 +4306,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 4:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1042;
                 } else {
@@ -4304,7 +4323,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 5:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1044;
                 } else if (Flags_GetInfTable(0x22)) {
@@ -4321,7 +4340,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 6:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1042;
                 } else if (Flags_GetInfTable(0x24)) {
@@ -4338,7 +4357,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 7:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1043;
                 } else if (Flags_GetInfTable(0x26)) {
@@ -4355,7 +4374,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 8:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1043;
                 } else if (Flags_GetInfTable(0x28)) {
@@ -4374,7 +4393,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 9:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1049;
                 } else {
@@ -4389,7 +4408,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 10:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104A;
                 } else {
@@ -4406,7 +4425,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 11:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104B;
                 } else {
@@ -4421,7 +4440,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 12:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104C;
                 } else {
@@ -4436,7 +4455,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 13:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104D;
                 } else {
@@ -4618,7 +4637,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             retTextId = 0x5002;
             break;
         case 38:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetEventChkInf(0x23)) {
@@ -4637,7 +4656,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 39:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetEventChkInf(0x23)) {
@@ -4654,7 +4673,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 40:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetEventChkInf(0x23)) {
@@ -4673,7 +4692,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 41:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetInfTable(0xF0)) {
@@ -4690,7 +4709,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 42:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetInfTable(0xF4)) {
@@ -4707,7 +4726,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 43:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetInfTable(0xF8)) {
@@ -4799,7 +4818,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 55:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x37)) {
                     retTextId = 0x402B;
                 } else if (Flags_GetEventChkInf(0x31)) {
@@ -4861,7 +4880,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 72:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x14)) {
                     retTextId = 0x2040;
                 } else if (Flags_GetInfTable(0x94)) {
@@ -4871,7 +4890,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 }
             } else {
                 if (!Flags_GetEventChkInf(0x18)) {
-                    if (gSaveContext.nightFlag != 0) {
+                    if (!IS_DAY) {
                         retTextId = 0x204E;
                     } else if (Flags_GetInfTable(0x9A)) {
                         retTextId = 0x2031;
@@ -5475,7 +5494,7 @@ s32 func_80037FC8(Actor* actor, Vec3f* arg1, Vec3s* arg2, Vec3s* arg3) {
 }
 
 s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* arg3, f32 arg4) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     Vec3f sp2C;
     s16 var;
@@ -5505,7 +5524,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 }
 
 s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* arg3, Vec3f arg4) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     Vec3f sp24;
     s16 var;

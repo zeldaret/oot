@@ -160,7 +160,7 @@ glabel D_808128B4
 glabel D_808128C8
  .word 0x00FF00FF, 0x00FF0064, 0x00640064
 glabel D_808128D4
- .word 0x02000400, 0x02000900
+ .word gHeartFullTex, gDefenseHeartFullTex
 glabel D_808128DC
  .word 0x00FF0046, 0x003200C8, 0x00000000
 glabel D_808128E8

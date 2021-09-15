@@ -6,6 +6,7 @@
 
 #include "z_shot_sun.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "scenes/overworld/spot06/spot06_scene.h"
 #include "vt.h"
 
 #define FLAGS 0x00000009
@@ -20,8 +21,6 @@ void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx);
 void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx);
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx);
 void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx);
-
-extern CutsceneData D_02007020[];
 
 const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
@@ -59,7 +58,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     ShotSun* this = THIS;
     s32 params;
 
-    // Translation: Ocarina secret occurrence
+    // "Ocarina secret occurrence"
     osSyncPrintf("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", this->actor.params);
     params = this->actor.params & 0xFF;
     if (params == 0x40 || params == 0x41) {
@@ -122,7 +121,7 @@ void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx) {
 }
 
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s32 params = this->actor.params & 0xFF;
 
@@ -156,7 +155,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
 
 void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
     Vec3s cylinderPos;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnItem00* collectible;
     s32 pad;
     Vec3f spawnPos;
@@ -164,9 +163,9 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         osSyncPrintf(VT_FGCOL(CYAN) "SHOT_SUN HIT!!!!!!!\n" VT_RST);
-        if (INV_CONTENT(SLOT_ARROW_FIRE) == ITEM_NONE) {
+        if (INV_CONTENT(ITEM_ARROW_FIRE) == ITEM_NONE) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02007020);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gFireArrowsCS);
             if (1) {}
             gSaveContext.cutsceneTrigger = 1;
         } else {

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_rr.h"
+#include "objects/object_rr/object_rr.h"
 #include "vt.h"
 
 #define FLAGS 0x00000435
@@ -64,8 +65,6 @@ void EnRr_Damage(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Death(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Retreat(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Stunned(EnRr* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000470[];
 
 const ActorInit En_Rr_InitVars = {
     ACTOR_EN_RR,
@@ -158,7 +157,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 55, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x37, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -286,7 +285,7 @@ u8 EnRr_GetMessage(u8 shield, u8 tunic) {
 }
 
 void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     u8 shield;
     u8 tunic;
 
@@ -414,7 +413,7 @@ void EnRr_SetupStunned(EnRr* this) {
 
 void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
     Vec3f hitPos;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->collider2.base.acFlags & AC_HIT) {
         this->collider2.base.acFlags &= ~AC_HIT;
@@ -619,7 +618,7 @@ void EnRr_Reach(EnRr* this, GlobalContext* globalCtx) {
 }
 
 void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_800AA000(this->actor.xyzDistToPlayerSq, 120, 2, 120);
     if ((this->frameCount % 8) == 0) {
@@ -790,7 +789,7 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     if (this->hasPlayer == 0x3F80) { // checks if 1.0f has been stored to hasPlayer's address
-        __assert("0", "../z_en_rr.c", 1355);
+        ASSERT(0, "0", "../z_en_rr.c", 1355);
     }
 
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f);
@@ -881,7 +880,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->effectPos[0] = this->actor.world.pos;
     Matrix_MultVec3f(&zeroVec, &this->mouthPos);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000470);
+    gSPDisplayList(POLY_XLU_DISP++, gLikeLikeDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1551);
     if (this->effectTimer != 0) {

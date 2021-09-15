@@ -1,15 +1,18 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class SetSkyboxModifier : public ZRoomCommand
 {
 public:
-	SetSkyboxModifier(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	SetSkyboxModifier(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GetCommandCName();
-	virtual RoomCommand GetRoomCommand();
+	void ParseRawData() override;
+
+	std::string GetBodySourceCode() const override;
+
+	std::string GetCommandCName() const override;
+	RoomCommand GetRoomCommand() const override;
 
 private:
 	uint8_t disableSky;

@@ -62,11 +62,11 @@ void func_80B523BC(EnZl2* this, GlobalContext* globalCtx);
 void func_80B523C8(EnZl2* this, GlobalContext* globalCtx);
 void func_80B525D4(EnZl2* this, GlobalContext* globalCtx);
 
-static u64* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex,
-                               gZelda2Eye03Tex,   gZelda2Eye04Tex,   gZelda2Eye05Tex,
-                               gZelda2Eye06Tex,   gZelda2Eye07Tex,   gZelda2Eye08Tex };
+static void* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex,
+                                gZelda2Eye03Tex,   gZelda2Eye04Tex,   gZelda2Eye05Tex,
+                                gZelda2Eye06Tex,   gZelda2Eye07Tex,   gZelda2Eye08Tex };
 
-static u64* sMouthTextures[] = { gZelda2MouthSeriousTex, gZelda2MouthHappyTex, gZelda2MouthOpenTex };
+static void* sMouthTextures[] = { gZelda2MouthSeriousTex, gZelda2MouthHappyTex, gZelda2MouthOpenTex };
 
 static EnZl2ActionFunc sActionFuncs[] = {
     func_80B521A0, func_80B50BBC, func_80B50BEC, func_80B50C40, func_80B50CA8, func_80B50CFC,
@@ -454,7 +454,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Push();
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 0);
             func_80B4F230(this, sp2C.x, 1);
@@ -464,7 +464,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[0], "../z_en_zl2.c", 1056);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 3);
             func_80B4F230(this, sp2C.x, 4);
@@ -473,7 +473,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[1], "../z_en_zl2.c", 1100);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 6);
             func_80B4F230(this, sp2C.x, 7);
@@ -485,7 +485,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 9);
             func_80B4F230(this, sp2C.x, 10);
@@ -495,7 +495,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[3], "../z_en_zl2.c", 1145);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 12);
             func_80B4F230(this, sp2C.x, 13);
@@ -508,7 +508,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 15);
             func_80B4F230(this, sp2C.x, 16);
@@ -518,7 +518,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[5], "../z_en_zl2.c", 1189);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 18);
             func_80B4F230(this, sp2C.x, 19);
@@ -544,7 +544,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         }
 
         {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
             Matrix_Push();
             if (player->rightHandType == 0xFF) {
                 Matrix_Put(&player->shieldMf);
@@ -629,7 +629,7 @@ void EnZl2_GiveLightArrows(EnZl2* this, GlobalContext* globalCtx) {
     f32 posZ;
 
     if (this->unk_244 == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posX = player->actor.world.pos.x;
         posY = player->actor.world.pos.y + 80.0f;
         posZ = player->actor.world.pos.z;
@@ -649,7 +649,7 @@ void func_80B4FF84(EnZl2* this, GlobalContext* globalCtx) {
         posY = this->actor.world.pos.y;
         posZ = this->actor.world.pos.z;
 
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 4);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_YELLOW);
         this->unk_250 = 1;
     }
 }
@@ -665,7 +665,7 @@ void func_80B4FFF0(EnZl2* this, GlobalContext* globalCtx) {
         posZ = this->actor.world.pos.z;
 
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
-                           0, 3);
+                           0, WARP_PURPLE_CRYSTAL);
         this->unk_248 = 1;
     }
 }
@@ -707,7 +707,7 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B501C4(EnZl2* this, s32 alpha) {
     if (this->actor.child != NULL) {
-        ((DoorWarp1*)this->actor.child)->alpha = alpha;
+        ((DoorWarp1*)this->actor.child)->crystalAlpha = alpha;
     }
 }
 
@@ -1179,11 +1179,11 @@ void func_80B513A8(EnZl2* this, GlobalContext* globalCtx) {
     f32 posZ;
 
     if (this->unk_250 == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posX = player->actor.world.pos.x;
         posY = player->actor.world.pos.y;
         posZ = player->actor.world.pos.z;
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 7);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_UNK_7);
         this->unk_250 = 1;
     }
 }
@@ -1605,7 +1605,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (thisx->params) {
         case 1:
-            func_800F7260(0x6F);
+            Audio_SetSoundBanksMute(0x6F);
             break;
         case 4:
             gSaveContext.timer2State = 0;
@@ -1632,11 +1632,11 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad[3];
     s16 eyeTexIndex = this->eyeTexIndex;
     s16 eyeTexIndex2 = this->eyeTexIndex2;
-    u64* eyeTex = sEyeTextures[eyeTexIndex];
-    u64* eyeTex2 = sEyeTextures[eyeTexIndex2];
+    void* eyeTex = sEyeTextures[eyeTexIndex];
+    void* eyeTex2 = sEyeTextures[eyeTexIndex2];
     SkelAnime* skelAnime = &this->skelAnime;
     s16 mouthTexIndex = this->mouthTexIndex;
-    u64* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouthTexIndex];
     s32 pad1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1623);
@@ -1658,10 +1658,10 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
 void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTex = sEyeTextures[eyeTexIndex];
+    void* eyeTex = sEyeTextures[eyeTexIndex];
     s16 mouthTexIndex = this->mouthTexIndex;
     SkelAnime* skelAnime = &this->skelAnime;
-    u64* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouthTexIndex];
     s32 pad1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1663);

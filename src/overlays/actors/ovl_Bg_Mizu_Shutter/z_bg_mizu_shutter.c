@@ -1,4 +1,5 @@
 #include "z_bg_mizu_shutter.h"
+#include "objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -29,12 +30,18 @@ const ActorInit Bg_Mizu_Shutter_InitVars = {
     (ActorFunc)BgMizuShutter_Draw,
 };
 
-static Gfx* sDisplayLists[] = { 0x06007130, 0x060072D0 };
-static CollisionHeader* sCollisionHeaders[] = { 0x06007250, 0x060073F0 };
+static Gfx* sDisplayLists[] = { gObjectMizuObjectsShutterDL_007130, gObjectMizuObjectsShutterDL_0072D0 };
+
+static CollisionHeader* sCollisionHeaders[] = {
+    &gObjectMizuObjectsShutterCol_007250,
+    &gObjectMizuObjectsShutterCol_0073F0,
+};
+
 static Vec3f sDisplacements[] = {
     { 0.0f, 100.0f, 0.0f },
     { 0.0f, 140.0f, 0.0f },
 };
+
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_CONTINUE),

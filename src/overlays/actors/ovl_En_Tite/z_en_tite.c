@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 #include "vt.h"
+#include "objects/object_tite/object_tite.h"
 
 #define FLAGS 0x00000015
 
@@ -74,21 +75,6 @@ void EnTite_DeathCry(EnTite* this, GlobalContext* globalCtx);
 void EnTite_FallApart(EnTite* this, GlobalContext* globalCtx);
 void EnTite_FlipOnBack(EnTite* this, GlobalContext* globalCtx);
 void EnTite_FlipUpright(EnTite* this, GlobalContext* globalCtx);
-
-extern SkeletonHeader D_06003A20;
-extern AnimationHeader D_060012E4; // Idle (14 frames)
-extern AnimationHeader D_06000A14; // Turning (8 frames)
-extern AnimationHeader D_0600083C; // Lunge (6 frames)
-extern AnimationHeader D_06000C70; // Jump / travelling to player (11 frames)
-
-// blue tektite textures
-extern u32 D_06001300;
-extern u32 D_06001700;
-extern u32 D_06001900;
-// red tektite textures
-extern u32 D_06001B00;
-extern u32 D_06001F00;
-extern u32 D_06002100;
 
 const ActorInit En_Tite_InitVars = {
     ACTOR_EN_TITE,
@@ -165,14 +151,14 @@ static DamageTable sDamageTable[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 69, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x45, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, 65496, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 64536, ICHAIN_STOP),
 };
 
 static AnimationHeader* D_80B1B634[] = {
-    0x0600083C, 0x060004F8, 0x0600069C, NULL, NULL, NULL,
+    &object_tite_Anim_00083C, &object_tite_Anim_0004F8, &object_tite_Anim_00069C, NULL, NULL, NULL,
 };
 
 // Some kind of offset for the position of each tektite foot
@@ -195,12 +181,13 @@ void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->targetMode = 3;
     Actor_SetScale(thisx, 0.01f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003A20, &D_060012E4, this->jointTable, this->morphTable, 25);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &object_tite_Skel_003A20, &object_tite_Anim_0012E4, this->jointTable,
+                   this->morphTable, 25);
     ActorShape_Init(&thisx->shape, -200.0f, ActorShadow_DrawCircle, 70.0f);
     this->flipState = TEKTITE_INITIAL;
     thisx->colChkInfo.damageTable = sDamageTable;
-    this->actionVar1 = 0; // value immediately overwritten in SetupIdle
-    this->unk_2C4.unk_10 = 0;
+    this->actionVar1 = 0;
+    this->bodyBreak.val = BODYBREAK_STATUS_FINISHED;
     thisx->focus.pos = thisx->world.pos;
     thisx->focus.pos.y += 20.0f;
     thisx->colChkInfo.health = 2;
@@ -234,7 +221,7 @@ void EnTite_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTite_SetupIdle(EnTite* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_060012E4, 4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &object_tite_Anim_0012E4, 4.0f);
     this->action = TEKTITE_IDLE;
     this->vIdleTimer = Rand_S16Offset(15, 30);
     this->actor.speedXZ = 0.0f;
@@ -266,8 +253,7 @@ void EnTite_Idle(EnTite* this, GlobalContext* globalCtx) {
 }
 
 void EnTite_SetupAttack(EnTite* this) {
-
-    Animation_PlayOnce(&this->skelAnime, &D_0600083C);
+    Animation_PlayOnce(&this->skelAnime, &object_tite_Anim_00083C);
     this->action = TEKTITE_ATTACK;
     this->vAttackState = TEKTITE_BEGIN_LUNGE;
     this->vQueuedJumps = Rand_S16Offset(1, 3);
@@ -382,9 +368,9 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
             if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & 0x40)) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             } else {
-                Player* player = PLAYER;
+                Player* player = GET_PLAYER(globalCtx);
                 this->collider.base.atFlags &= ~AT_HIT;
-                Animation_MorphToLoop(&this->skelAnime, &D_060012E4, 4.0f);
+                Animation_MorphToLoop(&this->skelAnime, &object_tite_Anim_0012E4, 4.0f);
                 this->actor.speedXZ = -6.0f;
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 if (&player->actor == this->collider.base.at) {
@@ -436,7 +422,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
 }
 
 void EnTite_SetupTurnTowardPlayer(EnTite* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06000A14);
+    Animation_PlayLoop(&this->skelAnime, &object_tite_Anim_000A14);
     this->action = TEKTITE_TURN_TOWARD_PLAYER;
     if ((this->actor.bgCheckFlags & 3) || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & 0x20))) {
         if (this->actor.velocity.y <= 0.0f) {
@@ -463,7 +449,7 @@ void EnTite_TurnTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
     if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & 0x20)) {
         this->actor.world.pos.y += this->actor.yDistToWater;
     }
-    angleToPlayer = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
+    angleToPlayer = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.world.rot.y;
     if (angleToPlayer > 0) {
         turnVelocity = (angleToPlayer / 42.0f) + 10.0f;
         this->actor.world.rot.y += (turnVelocity * 2);
@@ -493,7 +479,7 @@ void EnTite_TurnTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if ((this->actor.xzDistToPlayer > 300.0f) && (this->actor.yDistToPlayer > 80.0f)) {
         EnTite_SetupIdle(this);
-    } else if (func_8002E084(&this->actor, 3640)) {
+    } else if (Actor_IsFacingPlayer(&this->actor, 3640)) {
         if ((this->actor.xzDistToPlayer <= 180.0f) && (this->actor.yDistToPlayer <= 80.0f)) {
             EnTite_SetupAttack(this);
         } else {
@@ -503,7 +489,7 @@ void EnTite_TurnTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
 }
 
 void EnTite_SetupMoveTowardPlayer(EnTite* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06000C70);
+    Animation_PlayLoop(&this->skelAnime, &object_tite_Anim_000C70);
     this->action = TEKTITE_MOVE_TOWARD_PLAYER;
     this->actor.velocity.y = 10.0f;
     this->actor.gravity = -1.0f;
@@ -619,7 +605,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
 
 void EnTite_SetupRecoil(EnTite* this) {
     this->action = TEKTITE_RECOIL;
-    Animation_MorphToLoop(&this->skelAnime, &D_060012E4, 4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &object_tite_Anim_0012E4, 4.0f);
     this->actor.speedXZ = -6.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actor.gravity = -1.0f;
@@ -683,8 +669,8 @@ void EnTite_Recoil(EnTite* this, GlobalContext* globalCtx) {
 }
 
 void EnTite_SetupStunned(EnTite* this) {
-    Animation_Change(&this->skelAnime, &D_060012E4, 0.0f, 0.0f, (f32)Animation_GetLastFrame(&D_060012E4), ANIMMODE_LOOP,
-                     4.0f);
+    Animation_Change(&this->skelAnime, &object_tite_Anim_0012E4, 0.0f, 0.0f,
+                     (f32)Animation_GetLastFrame(&object_tite_Anim_0012E4), ANIMMODE_LOOP, 4.0f);
     this->action = TEKTITE_STUNNED;
     this->actor.speedXZ = -6.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -769,14 +755,14 @@ void EnTite_DeathCry(EnTite* this, GlobalContext* globalCtx) {
                                       DEADSOUND_REPEAT_MODE_OFF, 40);
     this->action = TEKTITE_FALL_APART;
     EnTite_SetupAction(this, EnTite_FallApart);
-    func_80032E24(&this->unk_2C4, 0x18, globalCtx);
+    BodyBreak_Alloc(&this->bodyBreak, 24, globalCtx);
 }
 
 /**
  * Spawn EnPart and drop items
  */
 void EnTite_FallApart(EnTite* this, GlobalContext* globalCtx) {
-    if (func_8003305C(&this->actor, &this->unk_2C4, globalCtx, (this->actor.params + 0xB))) {
+    if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, this->actor.params + 0xB)) {
         if (this->actor.params == TEKTITE_BLUE) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xE0);
         } else {
@@ -788,7 +774,7 @@ void EnTite_FallApart(EnTite* this, GlobalContext* globalCtx) {
 
 void EnTite_SetupFlipOnBack(EnTite* this) {
 
-    Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000A14, 1.5f);
+    Animation_PlayLoopSetSpeed(&this->skelAnime, &object_tite_Anim_000A14, 1.5f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_REVERSE);
     this->flipState = TEKTITE_FLIPPED;
     this->vOnBackTimer = 500;
@@ -814,7 +800,7 @@ void EnTite_FlipOnBack(EnTite* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 3) {
         // Upon landing, spawn dust and make noise
         if (this->actor.bgCheckFlags & 2) {
-            func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 0xB, 4.0f, 0, 0, 0);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 0xB, 4.0f, 0, 0, 0);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->vOnBackTimer--;
@@ -861,7 +847,7 @@ void EnTite_CheckDamage(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (thisx->colChkInfo.damageEffect != 0xE) { // Immune to fire magic
             this->damageEffect = thisx->colChkInfo.damageEffect;
-            func_80035650(thisx, &this->collider.elements[0].info, 0);
+            Actor_SetDropFlag(thisx, &this->collider.elements[0].info, 0);
             // Stun if Tektite hit by nut, boomerang, hookshot, ice arrow or ice magic
             if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)) {
                 if (this->action != TEKTITE_STUNNED) {
@@ -878,7 +864,7 @@ void EnTite_CheckDamage(Actor* thisx, GlobalContext* globalCtx) {
                 if (thisx->colChkInfo.health == 0) {
                     EnTite_SetupDeathCry(this);
                 } else {
-                    // Flip tektite back up if it's on it's back
+                    // Flip tektite back up if it's on its back
                     Audio_PlayActorSound2(thisx, NA_SE_EN_TEKU_DAMAGE);
                     if (this->flipState != TEKTITE_FLIPPED) {
                         EnTite_SetupRecoil(this);
@@ -971,26 +957,25 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-/**
- * Get the locations where the tektite feet are rendered
- */
 void EnTite_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** limbDList, Vec3s* rot, void* thisx) {
     EnTite* this = THIS;
+
     switch (limbIndex) {
         case 8:
             Matrix_MultVec3f(&sFootOffset, &this->backRightFootPos);
             break;
-        case 0xD:
+        case 13:
             Matrix_MultVec3f(&sFootOffset, &this->frontRightFootPos);
             break;
-        case 0x12:
+        case 18:
             Matrix_MultVec3f(&sFootOffset, &this->backLeftFootPos);
             break;
-        case 0x17:
+        case 23:
             Matrix_MultVec3f(&sFootOffset, &this->frontLeftFootPos);
             break;
     }
-    func_80032F54(&this->unk_2C4, limbIndex, 0, 0x18, 0x18, limbDList, -1);
+
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 24, 24, limbDList, BODYBREAK_OBJECT_DEFAULT);
 }
 
 void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -1000,13 +985,13 @@ void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     Collider_UpdateSpheres(0, &this->collider);
     if (this->actor.params == TEKTITE_BLUE) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06001300));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06001700));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06001900));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001300));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001700));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001900));
     } else {
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06001B00));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06001F00));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06002100));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001B00));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001F00));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(object_tite_Tex_002100));
     }
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnTite_PostLimbDraw,
                       thisx);

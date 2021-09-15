@@ -69,6 +69,4 @@ typedef struct EnGeldB {
     /* 0x04DC */ Vec3s headRot;
 } EnGeldB; // size = 0x04E4
 
-extern const ActorInit En_Geldb_InitVars;
-
 #endif

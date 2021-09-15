@@ -14,6 +14,15 @@ typedef struct EnWeatherTag {
     /* 0x0150 */ char unk_150[0x04];
 } EnWeatherTag; // size = 0x0154
 
-extern const ActorInit En_Weather_Tag_InitVars;
+typedef enum {
+    /* 0x00 */ EN_WEATHER_TAG_TYPE_CLOUDY_MARKET,
+    /* 0x01 */ EN_WEATHER_TAG_TYPE_CLOUDY_LON_LON_RANCH,
+    /* 0x02 */ EN_WEATHER_TAG_TYPE_SNOW_ZORAS_DOMAIN,
+    /* 0x03 */ EN_WEATHER_TAG_TYPE_RAIN_LAKE_HYLIA,
+    /* 0x04 */ EN_WEATHER_TAG_TYPE_CLOUDY_DEATH_MOUNTAIN,
+    /* 0x05 */ EN_WEATHER_TAG_TYPE_THUNDERSTORM_KAKARIKO,
+    /* 0x06 */ EN_WEATHER_TAG_TYPE_SANDSTORM_INTENSITY,
+    /* 0x07 */ EN_WEATHER_TAG_TYPE_THUNDERSTORM_GRAVEYARD
+} EnWeatherTagType;
 
 #endif

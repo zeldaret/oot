@@ -1,7 +1,7 @@
 #include "global.h"
 #include "alloca.h"
 
-void PreRender_SetValuesSave(PreRenderContext* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg) {
+void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg) {
     this->widthSave = width;
     this->heightSave = height;
     this->fbufSave = fbuf;
@@ -13,12 +13,12 @@ void PreRender_SetValuesSave(PreRenderContext* this, u32 width, u32 height, void
     this->lrySave = height - 1;
 }
 
-void PreRender_Init(PreRenderContext* this) {
-    bzero(this, sizeof(PreRenderContext));
+void PreRender_Init(PreRender* this) {
+    bzero(this, sizeof(PreRender));
     ListAlloc_Init(&this->alloc);
 }
 
-void PreRender_SetValues(PreRenderContext* this, u32 width, u32 height, void* fbuf, void* zbuf) {
+void PreRender_SetValues(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf) {
     this->width = width;
     this->height = height;
     this->fbuf = fbuf;
@@ -29,11 +29,11 @@ void PreRender_SetValues(PreRenderContext* this, u32 width, u32 height, void* fb
     this->lry = height - 1;
 }
 
-void PreRender_Destroy(PreRenderContext* this) {
+void PreRender_Destroy(PreRender* this) {
     ListAlloc_FreeAll(&this->alloc);
 }
 
-void func_800C0F28(PreRenderContext* this, Gfx** gfxp, void* buf, void* bufSave) {
+void func_800C0F28(PreRender* this, Gfx** gfxp, void* buf, void* bufSave) {
     Gfx* gfx;
     s32 x;
     s32 x2;
@@ -66,7 +66,6 @@ void func_800C0F28(PreRenderContext* this, Gfx** gfxp, void* buf, void* bufSave)
         ult = x2;
         lrt = (ult + dx) - 1;
 
-        if (1) {}
         gDPLoadTextureTile(gfx++, buf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
@@ -82,7 +81,7 @@ void func_800C0F28(PreRenderContext* this, Gfx** gfxp, void* buf, void* bufSave)
     *gfxp = gfx;
 }
 
-void func_800C1258(PreRenderContext* this, Gfx** gfxp) {
+void func_800C1258(PreRender* this, Gfx** gfxp) {
     Gfx* gfx;
     s32 y;
     s32 y2;
@@ -116,7 +115,6 @@ void func_800C1258(PreRenderContext* this, Gfx** gfxp) {
         lrt = (ult + dy) - 1;
         uly = this->uly + y2;
 
-        if (1) {}
         gDPLoadTextureTile(gfx++, this->fbufSave, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->widthSave, this->height - 1,
                            this->ulxSave, ult, this->lrxSave, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -133,7 +131,7 @@ void func_800C1258(PreRenderContext* this, Gfx** gfxp) {
     *gfxp = gfx;
 }
 
-void func_800C170C(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* fbufSave, u32 r, u32 g, u32 b, u32 a) {
+void func_800C170C(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave, u32 r, u32 g, u32 b, u32 a) {
     Gfx* gfx;
     s32 x;
     s32 x2;
@@ -172,7 +170,7 @@ void func_800C170C(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* fbufSav
         gDPLoadTextureTile(gfx++, fbuf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
-        if (1) {}
+
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 
@@ -185,11 +183,11 @@ void func_800C170C(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* fbufSav
     *gfxp = gfx;
 }
 
-void func_800C1AE8(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* fbufSave) {
+void func_800C1AE8(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave) {
     func_800C170C(this, gfxp, fbuf, fbufSave, 255, 255, 255, 255);
 }
 
-void func_800C1B24(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* cvgSave) {
+void func_800C1B24(PreRender* this, Gfx** gfxp, void* fbuf, void* cvgSave) {
     Gfx* gfx;
     s32 x;
     s32 x2;
@@ -226,7 +224,7 @@ void func_800C1B24(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* cvgSave
         gDPLoadTextureTile(gfx++, fbuf, G_IM_FMT_IA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
-        if (1) {}
+
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
         x -= dx;
@@ -238,7 +236,7 @@ void func_800C1B24(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* cvgSave
     *gfxp = gfx;
 }
 
-void func_800C1E9C(PreRenderContext* this, Gfx** gfxp) {
+void func_800C1E9C(PreRender* this, Gfx** gfxp) {
     LogUtils_CheckNullPointer("this->zbuf_save", this->zbufSave, "../PreRender.c", 481);
     LogUtils_CheckNullPointer("this->zbuf", this->zbuf, "../PreRender.c", 482);
 
@@ -247,7 +245,7 @@ void func_800C1E9C(PreRenderContext* this, Gfx** gfxp) {
     }
 }
 
-void func_800C1F20(PreRenderContext* this, Gfx** gfxp) {
+void func_800C1F20(PreRender* this, Gfx** gfxp) {
     LogUtils_CheckNullPointer("this->fbuf_save", this->fbufSave, "../PreRender.c", 495);
     LogUtils_CheckNullPointer("this->fbuf", this->fbuf, "../PreRender.c", 496);
 
@@ -256,7 +254,7 @@ void func_800C1F20(PreRenderContext* this, Gfx** gfxp) {
     }
 }
 
-void func_800C1FA4(PreRenderContext* this, Gfx** gfxp) {
+void func_800C1FA4(PreRender* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
 
     gDPPipeSync(gfx++);
@@ -273,7 +271,7 @@ void func_800C1FA4(PreRenderContext* this, Gfx** gfxp) {
     *gfxp = gfx;
 }
 
-void func_800C20B4(PreRenderContext* this, Gfx** gfxp) {
+void func_800C20B4(PreRender* this, Gfx** gfxp) {
     func_800C1FA4(this, gfxp);
     LogUtils_CheckNullPointer("this->cvg_save", this->cvgSave, "../PreRender.c", 532);
     if (this->cvgSave != NULL) {
@@ -281,11 +279,11 @@ void func_800C20B4(PreRenderContext* this, Gfx** gfxp) {
     }
 }
 
-void func_800C2118(PreRenderContext* this, Gfx** gfxp) {
+void func_800C2118(PreRender* this, Gfx** gfxp) {
     func_800C0F28(this, gfxp, this->zbufSave, this->zbuf);
 }
 
-void func_800C213C(PreRenderContext* this, Gfx** gfxp) {
+void func_800C213C(PreRender* this, Gfx** gfxp) {
     Gfx* gfx;
     s32 y;
     s32 y2;
@@ -326,11 +324,11 @@ void func_800C213C(PreRenderContext* this, Gfx** gfxp) {
             gDPLoadMultiTile(gfx++, this->fbufSave, 0x0000, G_TX_RENDERTILE, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width,
                              this->height, uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                              G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-            if (1) {}
+
             gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, rtile, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height,
                              uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                              G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-            if (1) {}
+
             gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                                 ult << 5, 1 << 10, 1 << 10);
 
@@ -343,15 +341,15 @@ void func_800C213C(PreRenderContext* this, Gfx** gfxp) {
     }
 }
 
-void func_800C24BC(PreRenderContext* this, Gfx** gfxp) {
+void func_800C24BC(PreRender* this, Gfx** gfxp) {
     func_800C0F28(this, gfxp, this->fbufSave, this->fbuf);
 }
 
-void func_800C24E0(PreRenderContext* this, Gfx** gfxp) {
+void func_800C24E0(PreRender* this, Gfx** gfxp) {
     func_800C1258(this, gfxp);
 }
 
-void func_800C2500(PreRenderContext* this, s32 x, s32 y) {
+void func_800C2500(PreRender* this, s32 x, s32 y) {
     s32 i;
     s32 j;
     s32 buffA[3 * 5];
@@ -367,8 +365,8 @@ void func_800C2500(PreRenderContext* this, s32 x, s32 y) {
     s32 pxR2;
     s32 pxG2;
     s32 pxB2;
-    Color_RGB5A1 pxIn;
-    Color_RGB5A1 pxOut;
+    Color_RGBA16 pxIn;
+    Color_RGBA16 pxOut;
     u32 pxR3;
     u32 pxG3;
     u32 pxB3;
@@ -471,7 +469,7 @@ void func_800C2500(PreRenderContext* this, s32 x, s32 y) {
     this->fbufSave[x + y * this->width] = pxOut.rgba;
 }
 
-void func_800C2FE4(PreRenderContext* this) {
+void func_800C2FE4(PreRender* this) {
     s32 x;
     s32 y;
     s32 phi_v0;
@@ -485,7 +483,7 @@ void func_800C2FE4(PreRenderContext* this) {
 
     for (y = 0; y < this->height; y++) {
         for (x = 0; x < this->width; x++) {
-            Color_RGB5A1 pxIn;
+            Color_RGBA16 pxIn;
 
             pxIn.rgba = this->fbufSave[x + y * this->width];
             buffR[x] = pxIn.r;
@@ -494,7 +492,7 @@ void func_800C2FE4(PreRenderContext* this) {
         }
 
         for (x = 1; x < this->width - 1; x++) {
-            Color_RGB5A1 pxOut;
+            Color_RGBA16 pxOut;
             s32 a = this->cvgSave[x + y * this->width];
 
             a >>= 5;
@@ -541,7 +539,7 @@ void func_800C2FE4(PreRenderContext* this) {
     }
 }
 
-void PreRender_Calc(PreRenderContext* this) {
+void PreRender_Calc(PreRender* this) {
     s32 x;
     s32 y;
 

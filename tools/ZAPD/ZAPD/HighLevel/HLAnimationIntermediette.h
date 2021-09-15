@@ -1,9 +1,9 @@
 #pragma once
 
 #include <stdint.h>
-#include <tinyxml2.h>
 #include "../ZAnimation.h"
 #include "HLFileIntermediette.h"
+#include "tinyxml2.h"
 
 /*
  * An intermediette format for animations. Going to use XML.

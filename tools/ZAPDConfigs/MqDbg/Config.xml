@@ -1,0 +1,5 @@
+<Root>
+    <SymbolMap File="SymbolMap_OoTMqDbg.txt"/>
+    <ActorList File="ActorList_OoTMqDbg.txt"/>
+    <ObjectList File="ObjectList_OoTMqDbg.txt"/>
+</Root>

@@ -30,6 +30,4 @@ typedef struct EnDaikuKakariko {
     /* 0x0302 */ Vec3s neckAngleTarget;
 } EnDaikuKakariko; // size = 0x0308
 
-extern const ActorInit En_Daiku_Kakariko_InitVars;
-
 #endif

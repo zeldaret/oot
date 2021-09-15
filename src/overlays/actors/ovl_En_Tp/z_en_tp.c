@@ -153,7 +153,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
-        this->actor.naviEnemyId = 6;
+        this->actor.naviEnemyId = 0x06;
         this->timer = 0;
         this->collider.base.acFlags |= AC_HARD;
         this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;
@@ -164,7 +164,6 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         for (i = 0; i <= 6; i++) {
             temp_s4 = 0;
-            
             next = (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
                                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
 
@@ -247,7 +246,7 @@ void EnTp_Head_SetupApproachPlayer(EnTp* this) {
 }
 
 void EnTp_Head_ApproachPlayer(EnTp* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
     Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -382,7 +381,7 @@ void EnTp_Head_SetupTakeOff(EnTp* this) {
  */
 void EnTp_Head_TakeOff(EnTp* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->horizontalVariation, 1.0f,
@@ -438,7 +437,7 @@ void EnTp_Head_SetupWait(EnTp* this) {
  * Awaken and rise from the ground when Player is closer than 200
  */
 void EnTp_Head_Wait(EnTp* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yaw;
 
     this->unk_15C--;
@@ -587,7 +586,7 @@ void EnTp_UpdateDamage(EnTp* this, GlobalContext* globalCtx) {
         }
 
         this->collider.base.acFlags &= ~AC_HIT;
-        func_8003573C(&this->actor, &this->collider, 1);
+        Actor_SetDropFlagJntSph(&this->actor, &this->collider, 1);
         this->damageEffect = this->actor.colChkInfo.damageEffect;
 
         if (this->actor.colChkInfo.damageEffect != TAILPASARAN_DMGEFF_NONE) {
@@ -660,7 +659,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f kiraPos;
     Color_RGBA8 kiraPrimColor = { 0, 0, 255, 255 };
     Color_RGBA8 kiraEnvColor = { 0, 0, 0, 0 };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawToWall;
 
     if (player->stateFlags1 & 0x4000000) { // Shielding

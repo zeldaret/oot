@@ -21,12 +21,8 @@ s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, SkelCurv
 
     skelCurve->transforms = ZeldaArena_MallocDebug(sizeof(*skelCurve->transforms) * skelCurve->limbCount,
                                                    "../z_fcurve_data_skelanime.c", 125);
-    if (skelCurve->transforms == NULL) {
-        __assert("this->now_joint != NULL", "../z_fcurve_data_skelanime.c", 127);
-    }
-    do {
-        skelCurve->animCurFrame = 0.0f;
-    } while (0);
+    ASSERT(skelCurve->transforms != NULL, "this->now_joint != NULL", "../z_fcurve_data_skelanime.c", 127);
+    skelCurve->animCurFrame = 0.0f;
     return 1;
 }
 
@@ -152,7 +148,7 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
                 gSPDisplayList(POLY_XLU_DISP++, dList);
             }
         } else {
-            // FcSkeletonInfo_draw_child (): Not supported
+            // "FcSkeletonInfo_draw_child (): Not supported"
             osSyncPrintf("FcSkeletonInfo_draw_child():未対応\n");
         }
     }

@@ -181,7 +181,9 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002D7EC(&this->actor);
     this->unk_160[0] = this->actor.world.pos;
 
-    for (i = 4; i >= 0; --i) {
+    if (1) {}
+
+    for (i = 4; i >= 0; i--) {
         this->unk_160[i + 1] = this->unk_160[i];
     }
 
@@ -213,9 +215,10 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static u64* D_809B3270[] = { gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex };
-
 void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* D_809B3270[] = {
+        gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex,
+    };
     EnAnubiceFire* this = THIS;
     s32 pad[2];
     s32 i;

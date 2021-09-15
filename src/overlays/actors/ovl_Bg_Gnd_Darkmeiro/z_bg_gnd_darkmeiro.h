@@ -29,6 +29,4 @@ typedef enum {
                                            and the timer sets flag N if either timer is above 64 frames. */
 } DarkmeiroType;
 
-extern const ActorInit Bg_Gnd_Darkmeiro_InitVars;
-
 #endif

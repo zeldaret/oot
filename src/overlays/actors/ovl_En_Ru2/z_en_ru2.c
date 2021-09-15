@@ -5,6 +5,8 @@
  */
 
 #include "z_en_ru2.h"
+#include "objects/object_ru2/object_ru2.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -55,10 +57,10 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 30, 100, 0, { 0 } },
 };
 
-static UNK_PTR D_80AF410C[] = {
-    0x06000F20,
-    0x060022E0,
-    0x06002AE0,
+static void* sEyeTextures[] = {
+    &gAdultRutoEyeOpenTex,
+    &gAdultRutoEyeHalfTex,
+    &gAdultRutoEyeClosedTex,
 };
 
 static UNK_TYPE D_80AF4118 = 0;
@@ -88,15 +90,6 @@ const ActorInit En_Ru2_InitVars = {
     (ActorFunc)EnRu2_Update,
     (ActorFunc)EnRu2_Draw,
 };
-
-extern AnimationHeader D_060004CC;
-extern FlexSkeletonHeader D_0600C700;
-extern AnimationHeader D_0600D3DC;
-extern AnimationHeader D_0600DCAC;
-extern AnimationHeader D_06000DE8;
-extern AnimationHeader D_0600E630;
-extern AnimationHeader D_0600F03C;
-extern AnimationHeader D_0600F8B8;
 
 void func_80AF2550(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = THIS;
@@ -245,7 +238,7 @@ void func_80AF2978(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF2994(EnRu2* this, GlobalContext* globalCtx) {
-    func_80AF28E8(this, &D_06000DE8, 0, 0.0f, 0);
+    func_80AF28E8(this, &gAdultRutoIdleAnim, 0, 0.0f, 0);
     this->actor.shape.yOffset = -10000.0f;
 }
 
@@ -255,11 +248,11 @@ void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
     f32 posY = thisx->world.pos.y;
     f32 posZ = thisx->world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_SAGES);
 }
 
 void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 posX = player->actor.world.pos.x;
     f32 posY = player->actor.world.pos.y + 50.0f;
     f32 posZ = player->actor.world.pos.z;
@@ -274,7 +267,7 @@ void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx) {
     s16 temp;
 
     if ((gSaveContext.chamberCutsceneNum == 2) && (gSaveContext.sceneSetupIndex < 4)) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         this->action = 1;
         globalCtx->csCtx.segment = &D_80AF411C;
         gSaveContext.cutsceneTrigger = 2;
@@ -307,7 +300,7 @@ void func_80AF2B94(EnRu2* this) {
 }
 
 void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
-    AnimationHeader* animation = &D_0600D3DC;
+    AnimationHeader* animation = &gAdultRutoRaisingArmsUpAnim;
     CsCmdActorAction* csCmdNPCAction;
 
     if (globalCtx->csCtx.state != CS_STATE_IDLE) {
@@ -383,7 +376,7 @@ void func_80AF2DEC(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF2E1C(EnRu2* this, GlobalContext* globalCtx) {
-    func_80AF28E8(this, &D_060004CC, 2, 0.0f, 0);
+    func_80AF28E8(this, &gAdultRutoCrossingArmsAnim, 2, 0.0f, 0);
     this->action = 7;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -476,15 +469,15 @@ void func_80AF31C8(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->unk_2A4;
-    UNK_PTR addr = D_80AF410C[temp];
+    void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(tex));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(tex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
@@ -495,7 +488,7 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF3394(EnRu2* this, GlobalContext* globalCtx) {
-    func_80AF28E8(this, &D_0600E630, 0, 0.0f, 0);
+    func_80AF28E8(this, &gAdultRutoIdleHandsOnHipsAnim, 0, 0.0f, 0);
     this->action = 10;
     this->drawConfig = 0;
     this->actor.shape.shadowAlpha = 0;
@@ -533,13 +526,13 @@ void func_80AF34A4(EnRu2* this) {
 }
 
 void func_80AF34F0(EnRu2* this) {
-    func_80AF28E8(this, &D_0600DCAC, 2, 0.0f, 0);
+    func_80AF28E8(this, &gAdultRutoHeadTurnDownLeftAnim, 2, 0.0f, 0);
     this->action = 13;
 }
 
 void func_80AF3530(EnRu2* this, UNK_TYPE arg1) {
     if (arg1 != 0) {
-        func_80AF28E8(this, &D_0600F03C, 0, 0.0f, 0);
+        func_80AF28E8(this, &gAdultRutoLookingDownLeftAnim, 0, 0.0f, 0);
     }
 }
 
@@ -609,7 +602,7 @@ void func_80AF3744(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF3718(this, globalCtx)) {
         Actor_Kill(&this->actor);
     } else {
-        func_80AF28E8(this, &D_06000DE8, 0, 0.0f, 0);
+        func_80AF28E8(this, &gAdultRutoIdleAnim, 0, 0.0f, 0);
         this->action = 14;
         this->drawConfig = 1;
     }
@@ -628,7 +621,7 @@ void func_80AF37CC(EnRu2* this) {
 }
 
 s32 func_80AF383C(EnRu2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 thisPosX = this->actor.world.pos.x;
     f32 playerPosX = player->actor.world.pos.x;
 
@@ -680,10 +673,10 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
             osSyncPrintf("おれが小松だ！ \n");
             this->unk_2C2++;
             if (this->unk_2C2 % 6 == 3) {
-                player = PLAYER;
+                player = GET_PLAYER(globalCtx);
                 // uorya-! (screeming sound)
                 osSyncPrintf("うおりゃー！ \n");
-                func_8005B1A4(ACTIVE_CAM);
+                func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
                 player->actor.world.pos.x = 820.0f;
                 player->actor.world.pos.y = 0.0f;
                 player->actor.world.pos.z = 180.0f;
@@ -694,14 +687,14 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C3 = dialogState;
     if (func_8010BDBC(msgCtx) == 2) {
         this->action = 18;
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
     }
 }
 
 void func_80AF3ADC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C4 += 1.0f;
     if (this->unk_2C4 > kREG(5) + 100.0f) {
-        func_80AF28E8(this, &D_0600F8B8, 0, -12.0f, 0);
+        func_80AF28E8(this, &gAdultRutoSwimmingUpAnim, 0, -12.0f, 0);
         this->action = 19;
         func_80AF36EC(this, globalCtx);
     }
@@ -777,7 +770,7 @@ void EnRu2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     func_80AF2550(thisx, globalCtx);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C700, NULL, this->jointTable, this->morphTable, 23);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gAdultRutoSkel, NULL, this->jointTable, this->morphTable, 23);
 
     switch (func_80AF26A0(this)) {
         case 2:
@@ -804,15 +797,15 @@ void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->unk_2A4;
-    UNK_PTR addr = D_80AF410C[temp];
+    void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(tex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(tex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 

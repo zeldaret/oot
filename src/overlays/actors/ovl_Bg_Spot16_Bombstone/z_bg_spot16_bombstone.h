@@ -11,7 +11,7 @@ typedef void (*BgSpot16BombstoneActionFunc)(struct BgSpot16Bombstone*, GlobalCon
 typedef struct BgSpot16Bombstone {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ BgSpot16BombstoneActionFunc actionFunc;
-    /* 0x0150 */ Gfx* unk_150;
+    /* 0x0150 */ Gfx* dList;
     /* 0x0154 */ s16 unk_154;
     /* 0x0156 */ s16 switchFlag;
     /* 0x0158 */ s16 unk_158;
@@ -24,7 +24,5 @@ typedef struct BgSpot16Bombstone {
     /* 0x0212 */ s16 unk_212;
     /* 0x0214 */ s8 bombiwaBankIndex;
 } BgSpot16Bombstone; // size = 0x0218
-
-extern const ActorInit Bg_Spot16_Bombstone_InitVars;
 
 #endif

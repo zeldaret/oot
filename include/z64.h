@@ -21,6 +21,7 @@
 #include "z64math.h"
 #include "z64map_mark.h"
 #include "z64transition.h"
+#include "z64interface.h"
 #include "bgm.h"
 #include "sfx.h"
 #include "color.h"
@@ -239,7 +240,7 @@ typedef struct {
 } ActorListEntry; // size = 0x08
 
 typedef struct {
-    /* 0x0000 */ u8     unk_00;
+    /* 0x0000 */ u8     freezeFlashTimer;
     /* 0x0001 */ char   unk_01[0x01];
     /* 0x0002 */ u8     unk_02;
     /* 0x0003 */ u8     unk_03;
@@ -287,15 +288,47 @@ typedef struct {
     /* 0x10 */ Vec3f relativePos;
 } SoundSource; // size = 0x1C
 
+typedef enum {
+    /* 0x00 */ SKYBOX_NONE,
+    /* 0x01 */ SKYBOX_NORMAL_SKY,
+    /* 0x02 */ SKYBOX_BAZAAR,
+    /* 0x03 */ SKYBOX_OVERCAST_SUNSET,
+    /* 0x04 */ SKYBOX_MARKET_ADULT,
+    /* 0x05 */ SKYBOX_CUTSCENE_MAP,
+    /* 0x07 */ SKYBOX_HOUSE_LINK = 7,
+    /* 0x09 */ SKYBOX_MARKET_CHILD_DAY = 9,
+    /* 0x0A */ SKYBOX_MARKET_CHILD_NIGHT,
+    /* 0x0B */ SKYBOX_HAPPY_MASK_SHOP,
+    /* 0x0C */ SKYBOX_HOUSE_KNOW_IT_ALL_BROTHERS,
+    /* 0x0E */ SKYBOX_HOUSE_OF_TWINS = 14,
+    /* 0x0F */ SKYBOX_STABLES,
+    /* 0x10 */ SKYBOX_HOUSE_KAKARIKO,
+    /* 0x11 */ SKYBOX_KOKIRI_SHOP,
+    /* 0x13 */ SKYBOX_GORON_SHOP = 19,
+    /* 0x14 */ SKYBOX_ZORA_SHOP,
+    /* 0x16 */ SKYBOX_POTION_SHOP_KAKARIKO = 22,
+    /* 0x17 */ SKYBOX_POTION_SHOP_MARKET,
+    /* 0x18 */ SKYBOX_BOMBCHU_SHOP,
+    /* 0x1A */ SKYBOX_HOUSE_RICHARD = 26,
+    /* 0x1B */ SKYBOX_HOUSE_IMPA,
+    /* 0x1C */ SKYBOX_TENT,
+    /* 0x1D */ SKYBOX_UNSET_1D,
+    /* 0x20 */ SKYBOX_HOUSE_MIDO = 32,
+    /* 0x21 */ SKYBOX_HOUSE_SARIA,
+    /* 0x22 */ SKYBOX_HOUSE_ALLEY,
+    /* 0x27 */ SKYBOX_UNSET_27 = 39
+} SkyboxId;
+
 typedef struct {
     /* 0x000 */ char unk_00[0x128];
     /* 0x128 */ void* staticSegments[3];
-    /* 0x134 */ Gfx* dpList;
+    /* 0x134 */ Gfx* dListBuf;
     /* 0x138 */ Gfx* unk_138;
     /* 0x13C */ void* roomVtx;
     /* 0x140 */ s16  unk_140;
     /* 0x144 */ Vec3f rot;
-} SkyboxContext; // size = 0x150
+    /* 0x150 */ char unk_150[0x10];
+} SkyboxContext; // size = 0x160
 
 typedef enum {
     MESSAGE_ICON_TRIANGLE,
@@ -303,7 +336,7 @@ typedef enum {
     MESSAGE_ICON_ARROW
 } MessageBoxIcon;
 
-#define FONT_CHAR_TEX_SIZE 128 // 16x16 I4 texture
+#define FONT_CHAR_TEX_SIZE ((16 * 16) / 2) // 16x16 I4 texture
 
 typedef struct {
     /* 0x0000 */ u32   msgOffset;
@@ -318,7 +351,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Font   font;
-    /* 0xE2B0 */ void*  textboxSegment; // "fukidashiSegment"
+    /* 0xE2B0 */ u8*    textboxSegment; // "fukidashiSegment"
     /* 0xE2B4 */ char   unk_E2B4[0x44];
     /* 0xE2FA */ u16    unk_E2F8;
     /* 0xE2FA */ u16    unk_E2FA;
@@ -348,13 +381,13 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ View   view;
-    /* 0x0128 */ Vtx*   vtx_128;
-    /* 0x012C */ Vtx*   vtx_12C;
-    /* 0x0130 */ void*  parameterSegment;
-    /* 0x0134 */ void*  do_actionSegment;
-    /* 0x0138 */ void*  icon_itemSegment;
-    /* 0x013C */ void*  mapSegment;
-    /* 0x0140 */ u8     unk_140[32];
+    /* 0x0128 */ Vtx*   actionVtx;
+    /* 0x012C */ Vtx*   beatingHeartVtx;
+    /* 0x0130 */ u8*    parameterSegment;
+    /* 0x0134 */ u8*    doActionSegment;
+    /* 0x0138 */ u8*    iconItemSegment;
+    /* 0x013C */ u8*    mapSegment;
+    /* 0x0140 */ u8     mapPalette[32];
     /* 0x0160 */ DmaRequest dmaRequest_160;
     /* 0x0180 */ DmaRequest dmaRequest_180;
     /* 0x01A0 */ char   unk_1A0[0x20];
@@ -403,7 +436,7 @@ typedef struct {
     /* 0x0258 */ s16    unk_258;
     /* 0x025A */ s16    unk_25A;
     /* 0x025C */ s16    mapRoomNum;
-    /* 0x025E */ s16    mapPaletteNum; // "map_palete_no"
+    /* 0x025E */ s16    mapPaletteIndex; // "map_palete_no"
     /* 0x0260 */ u8     unk_260;
     /* 0x0261 */ u8     unk_261;
     struct {
@@ -423,76 +456,108 @@ typedef struct {
 } InterfaceContext; // size = 0x270
 
 typedef struct {
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ u8 unk_02;
+} UnkAudioStruct;
+
+typedef struct {
+    /* 0x00 */ void* loadedRamAddr;
+    /* 0x04 */ u32 vromStart;
+    /* 0x08 */ u32 vromEnd;
+    /* 0x0C */ void* vramStart;
+    /* 0x10 */ void* vramEnd;
+    /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
+    /* 0x18 */ const char* name;
+} KaleidoMgrOverlay; // size = 0x1C
+
+typedef enum {
+    /* 0x00 */ KALEIDO_OVL_KALEIDO_SCOPE,
+    /* 0x01 */ KALEIDO_OVL_PLAYER_ACTOR,
+    /* 0x02 */ KALEIDO_OVL_MAX
+} KaleidoOverlayType;
+
+#define PAUSE_ITEM_NONE 999
+
+#define PAUSE_CURSOR_PAGE_LEFT 10
+#define PAUSE_CURSOR_PAGE_RIGHT 11
+
+typedef enum {
+    /* 0x00 */ PAUSE_ITEM,
+    /* 0x01 */ PAUSE_MAP,
+    /* 0x02 */ PAUSE_QUEST,
+    /* 0x03 */ PAUSE_EQUIP,
+    /* 0x04 */ PAUSE_WORLD_MAP
+} PauseMenuPage;
+
+typedef struct {
     /* 0x0000 */ View   view;
-    /* 0x0128 */ void*  unk_128;
-    /* 0x012C */ void*  unk_12C;
-    /* 0x0130 */ void*  unk_130;
-    /* 0x0134 */ void*  unk_134;
-    /* 0x0138 */ void*  unk_138;
-    /* 0x013C */ void*  unk_13C;
-    /* 0x0140 */ char   unk_140[0x028];
-    /* 0x0168 */ Vtx*   vtx_168;
-    /* 0x016C */ char   unk_16C[0x068];
+    /* 0x0128 */ u8*    iconItemSegment;
+    /* 0x012C */ u8*    iconItem24Segment;
+    /* 0x0130 */ u8*    iconItemAltSegment;
+    /* 0x0134 */ u8*    iconItemLangSegment;
+    /* 0x0138 */ u8*    nameSegment;
+    /* 0x013C */ u8*    playerSegment;
+    /* 0x0140 */ char   unk_140[0x04];
+    /* 0x0144 */ Vtx*   itemPageVtx;
+    /* 0x0148 */ Vtx*   equipPageVtx;
+    /* 0x014C */ Vtx*   mapPageVtx;
+    /* 0x0150 */ Vtx*   questPageVtx;
+    /* 0x0154 */ Vtx*   infoPanelVtx;
+    /* 0x0158 */ Vtx*   itemVtx;
+    /* 0x015C */ Vtx*   equipVtx;
+    /* 0x0160 */ char   unk_160[0x04];
+    /* 0x0164 */ Vtx*   questVtx;
+    /* 0x0168 */ Vtx*   cursorVtx;
+    /* 0x016C */ Vtx*   saveVtx;
+    /* 0x0170 */ char   unk_170[0x24];
+    /* 0x0194 */ OcarinaStaff* unk_194;
+    /* 0x0198 */ char   unk_198[0x20];
+    /* 0x01B8 */ OSMesgQueue loadQueue;
+    /* 0x01D0 */ OSMesg loadMsg;
     /* 0x01D4 */ u16    state;
-    /* 0x01D6 */ u16    flag;
+    /* 0x01D6 */ u16    debugState;
     /* 0x01D8 */ Vec3f  eye;
     /* 0x01E4 */ u16    unk_1E4;
     /* 0x01E6 */ u16    mode;
-    /* 0x01E8 */ u16    kscpPos; // "kscp_pos"; basically the page index (0=SELECT ITEM; 1=MAP; 2=QUEST STATUS; 3=EQUIPMENT)
+    /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
     /* 0x01EA */ u16    unk_1EA;
     /* 0x01EC */ u16    unk_1EC;
-    /* 0x01EE */ char   unk_1EE[0x2];
     /* 0x01F0 */ f32    unk_1F0;
     /* 0x01F4 */ f32    unk_1F4;
     /* 0x01F8 */ f32    unk_1F8;
     /* 0x01FC */ f32    unk_1FC;
     /* 0x0200 */ f32    unk_200;
-    /* 0x0204 */ f32    unk_204;
-    /* 0x0208 */ s16    unk_208;
-    /* 0x020A */ char   unk_20A[0xA];
-    /* 0x0214 */ s16    inputX;
-    /* 0x0216 */ s16    inputY;
-    /* 0x0218 */ s16    unk_218;
-    /* 0x021A */ s16    unk_21A;
-    /* 0x021C */ s16    unk_21C;
-    /* 0x021E */ s16    unk_21E;
-    /* 0x0220 */ s16    unk_220;
-    /* 0x0222 */ s16    unk_222;
-    /* 0x0224 */ s16    unk_224;
-    /* 0x0226 */ s16    unk_226;
-    /* 0x0228 */ s16    unk_228;
-    /* 0x022A */ s16    unk_22A;
-    /* 0x022C */ s16    unk_22C;
-    /* 0x022E */ s16    unk_22E;
-    /* 0x0230 */ s16    unk_230;
-    /* 0x0232 */ s16    unk_232;
-    /* 0x0234 */ s16    unk_234;
-    /* 0x0236 */ s16    unk_236;
-    /* 0x0238 */ s16    unk_238;
-    /* 0x023A */ s16    unk_23A;
-    /* 0x023C */ s16    unk_23C;
-    /* 0x023E */ u16    unk_23E;
-    /* 0x0240 */ s16    unk_240;
-    /* 0x0242 */ u16    unk_242;
-    /* 0x0244 */ s16    unk_244;
-    /* 0x0246 */ s16    unk_246;
-    /* 0x0248 */ s16    unk_248;
-    /* 0x024A */ s16    unk_24A;
-    /* 0x024C */ s16    unk_24C;
-    /* 0x024E */ s16    unk_24E;
-    /* 0x0250 */ s16    unk_250;
-    /* 0x0252 */ s16    unk_252;
-    /* 0x0254 */ s16    unk_254;
-    /* 0x0256 */ s16    unk_256;
-    /* 0x0258 */ s16    unk_258;
-    /* 0x025A */ s16    unk_25A;
-    /* 0x025C */ s16    unk_25C;
-    /* 0x025E */ s16    unk_25E;
-    /* 0x0260 */ s16    unk_260;
-    /* 0x0262 */ s16    unk_262;
+    /* 0x0204 */ f32    unk_204; // "angle_s"
+    /* 0x0208 */ u16    alpha;
+    /* 0x020A */ s16    offsetY;
+    /* 0x020C */ char   unk_20C[0x08];
+    /* 0x0214 */ s16    stickRelX;
+    /* 0x0216 */ s16    stickRelY;
+    /* 0x0218 */ s16    cursorPoint[5]; // "cursor_point"
+    /* 0x0222 */ s16    cursorX[5]; // "cur_xpt"
+    /* 0x022C */ s16    cursorY[5]; // "cur_ypt"
+    /* 0x0236 */ s16    dungeonMapSlot;
+    /* 0x0238 */ s16    cursorSpecialPos; // "key_angle"
+    /* 0x023A */ s16    pageSwitchTimer;
+    /* 0x023C */ u16    namedItem; // "zoom_name"
+    /* 0x023E */ u16    cursorItem[4]; // "select_name"
+    /* 0x0246 */ u16    cursorSlot[4];
+    /* 0x024E */ u16    equipTargetItem; // "sl_item_no"
+    /* 0x0250 */ u16    equipTargetSlot; // "sl_number"
+    /* 0x0252 */ u16    equipTargetCBtn;
+    /* 0x0254 */ s16    equipAnimX;
+    /* 0x0256 */ s16    equipAnimY;
+    /* 0x0258 */ s16    equipAnimAlpha;
+    /* 0x025A */ s16    infoPanelOffsetY;
+    /* 0x025C */ u16    nameDisplayTimer;
+    /* 0x025E */ u16    nameColorSet; // 0 = white; 1 = grey
+    /* 0x0260 */ s16    cursorColorSet; // 0 = white; 4 = yellow; 8 = green
+    /* 0x0262 */ s16    promptChoice; // save/continue choice: 0 = yes; 4 = no
     /* 0x0264 */ s16    unk_264;
-    /* 0x0266 */ s16    unk_266;
-    /* 0x0268 */ char   unk_268[0x58];
+    /* 0x0266 */ u8     worldMapPoints[20]; // 0 = hidden; 1 = displayed; 2 = highlighted
+    /* 0x027A */ u8     tradeQuestLocation;
+    /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0
 
 typedef enum {
@@ -510,13 +575,15 @@ typedef enum {
 
 typedef struct {
     /* 0x00 */ u16 state;
-} GameOverContext;
+} GameOverContext; // size = 0x02
 
 typedef struct {
     /* 0x00 */ char     unk_00[0x02];
     /* 0x02 */ u16      unk_02;
     /* 0x04 */ Vec3f    unk_04;
-    /* 0x10 */ char     unk_10[0x03];
+    /* 0x10 */ u8       unk_10;
+    /* 0x11 */ u8       unk_11;
+    /* 0x12 */ char     unk_12[0x1];
     /* 0x13 */ u8       unk_13;
     /* 0x14 */ char     unk_14[0x01];
     /* 0x15 */ u8       skyDisabled;
@@ -545,9 +612,11 @@ typedef struct {
     /* 0xAA */ s16      unk_AA;
     /* 0xAC */ s16      unk_AC;
     /* 0xB0 */ f32      unk_B0;
-    /* 0xB4 */ u8       nbLightSettings;
+    /* 0xB4 */ u8       numLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
-    /* 0xBC */ char     unk_BC[0x03];
+    /* 0xBC */ u8       unk_BC;
+    /* 0xBD */ u8       unk_BD;
+    /* 0xBE */ u8       unk_BE;
     /* 0xBF */ u8       unk_BF;
     /* 0xC0 */ char     unk_C0[0x0F];
     /* 0xCF */ u8       unk_CF[3];
@@ -565,7 +634,8 @@ typedef struct {
     /* 0xE6 */ u8       unk_E6;
     /* 0xE7 */ u8       unk_E7;
     /* 0xE8 */ u8       unk_E8;
-    /* 0xE9 */ char     unk_E9[0x05];
+    /* 0xE9 */ u8       unk_E9;
+    /* 0xEA */ u8       unk_EA[4];
     /* 0xEE */ u8       unk_EE[4];
     /* 0xF2 */ u8       unk_F2[4];
     /* 0xF6 */ char     unk_F6[0x06];
@@ -688,7 +758,8 @@ typedef struct {
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
-} RoomContext; // size = 0x74
+    /* 0x74 */ s16 unk_74[2];
+} RoomContext; // size = 0x78
 
 typedef struct {
     /* 0x000 */ s16 colATCount;
@@ -727,7 +798,7 @@ typedef struct {
     /* 0x40 */ s32 lry;
     /* 0x44 */ ListAlloc alloc;
     /* 0x4C */ u32 unk_4C;
-} PreRenderContext; // size = 0x50
+} PreRender; // size = 0x50
 
 typedef struct {
     union {
@@ -810,7 +881,7 @@ typedef struct GameState {
 
 typedef struct {
     /* 0x0000 */ GameState state;
-    /* 0x00A4 */ void* staticSegment;
+    /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
     /* 0x01D0 */ SramContext sramCtx;
     /* 0x01D4 */ u16 unk_1D4; // not used in mq dbg (some sort of timer that doesn't seem to affect anything)
@@ -855,13 +926,13 @@ typedef struct SelectContext {
     /* 0x022C */ s32 unk_22C;
     /* 0x0230 */ s32 unk_230;
     /* 0x0234 */ s32 unk_234;
-    /* 0x0238 */ void* staticSegment;
+    /* 0x0238 */ u8* staticSegment;
     /* 0x023C */ s32 unk_23C;
 } SelectContext; // size = 0x240
 
 typedef struct {
     /* 0x0000 */ GameState state;
-    /* 0x00A4 */ void* staticSegment;
+    /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
 } SampleContext; // size = 0x1D0
 
@@ -871,6 +942,11 @@ typedef struct {
     /* 0x02 */ u8 byte2;
     /* 0x03 */ u8 byte3;
 } ElfMessage; // size = 0x4
+
+typedef struct {
+    /* 0x00 */ u8 numActors;
+    /* 0x04 */ TransitionActorEntry* list;
+} TransitionActorContext;
 
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext {
@@ -894,7 +970,6 @@ typedef struct GlobalContext {
     /* 0x01DB4 */ SoundSource soundSources[16];
     /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
-    /* 0x020C8 */ char unk_20C8[0x10];
     /* 0x020D8 */ MessageContext msgCtx; // "message"
     /* 0x104F0 */ InterfaceContext interfaceCtx; // "parameter"
     /* 0x10760 */ PauseContext pauseCtx;
@@ -903,9 +978,7 @@ typedef struct GlobalContext {
     /* 0x10B20 */ AnimationContext animationCtx;
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
-    /* 0x11D30 */ s16 unk_11D30[2];
-    /* 0x11D34 */ u8 nbTransitionActors;
-    /* 0x11D38 */ TransitionActorEntry* transitionActorList;
+    /* 0x11D34 */ TransitionActorContext transiActorCtx;
     /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
     /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);
@@ -922,8 +995,8 @@ typedef struct GlobalContext {
     /* 0x11DE8 */ u8 linkAgeOnLoad;
     /* 0x11DE9 */ u8 unk_11DE9;
     /* 0x11DEA */ u8 curSpawn;
-    /* 0x11DEB */ u8 nbSetupActors;
-    /* 0x11DEC */ u8 nbRooms;
+    /* 0x11DEB */ u8 numSetupActors;
+    /* 0x11DEC */ u8 numRooms;
     /* 0x11DF0 */ RomFile* roomList;
     /* 0x11DF4 */ ActorEntry* linkActorEntry;
     /* 0x11DF8 */ ActorEntry* setupActorList;
@@ -944,7 +1017,7 @@ typedef struct GlobalContext {
     /* 0x11E5E */ u8 fadeTransition;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
     /* 0x120FC */ u16 envFlags[20];
-    /* 0x12124 */ PreRenderContext preRenderCtx;
+    /* 0x12124 */ PreRender pauseBgPreRender;
     /* 0x12174 */ char unk_12174[0x53];
     /* 0x121C7 */ s8 unk_121C7;
     /* 0x121C8 */ TransitionContext transitionCtx;
@@ -953,7 +1026,7 @@ typedef struct GlobalContext {
     /* 0x1241C */ TransitionFade transitionFade;
     /* 0x12428 */ char unk_12428[0x3];
     /* 0x1242B */ u8 unk_1242B;
-    /* 0x1242C */ Scene* loadedScene;
+    /* 0x1242C */ SceneTableEntry* loadedScene;
     /* 0x12430 */ char unk_12430[0xE8];
 } GlobalContext; // size = 0x12518
 
@@ -965,14 +1038,13 @@ typedef struct {
 typedef struct {
     /* 0x00000 */ GameState state;
     /* 0x000A4 */ Vtx* allocVtx1;
-    /* 0x000A8 */ void* staticSegment;
-    /* 0x000AC */ void* parameterSegment;
+    /* 0x000A8 */ u8* staticSegment;
+    /* 0x000AC */ u8* parameterSegment;
     /* 0x000B0 */ char unk_B0[0x8];
     /* 0x000B8 */ View view;
     /* 0x001E0 */ SramContext sramCtx;
     /* 0x001E4 */ char unk_1E4[0x4];
     /* 0x001E8 */ SkyboxContext skyboxCtx;
-    /* 0x00338 */ char unk_338[0x10];
     /* 0x00348 */ MessageContext msgCtx;
     /* 0x0E760 */ char kanfont[0xE188];
     /* 0x1C8E8 */ EnvironmentContext envCtx;
@@ -1168,6 +1240,26 @@ typedef struct {
     /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
 
+#define PAUSE_MAP_MARK_NONE -1
+#define PAUSE_MAP_MARK_CHEST 0
+#define PAUSE_MAP_MARK_BOSS 1
+
+typedef struct {
+    /* 0x00 */ s16 chestFlag; // chest icon is only displayed if this flag is not set for the current room, -1 for no flag
+    /* 0x04 */ f32 x, y; // coordinates to place the icon (top-left corner)
+} PauseMapMarkPoint; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ s16 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ const Vtx* vtx;
+    /* 0x0C */ s32 vtxCount;
+    /* 0x10 */ s32 count; // number of icons to display
+    /* 0x14 */ PauseMapMarkPoint points[12];
+} PauseMapMarkData; // size = 0xA4
+
+typedef PauseMapMarkData PauseMapMarksData[3];
+
 typedef struct DebugDispObject {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3s rot;
@@ -1250,7 +1342,7 @@ typedef struct {
 } FaultDrawer; // size = 0x3C
 
 typedef struct GfxPrint {
-    /* 0x00 */ struct GfxPrint *(*callback)(struct GfxPrint*, const char*, size_t);
+    /* 0x00 */ struct GfxPrint* (*callback)(struct GfxPrint*, const char*, size_t);
     /* 0x04 */ Gfx* dlist;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;
@@ -1418,23 +1510,11 @@ typedef struct {
 #define OS_SC_YIELDED           0x0020
 
 typedef struct {
-    struct {
-    /* 0x0000 */ s32          unk_0[0x10]; // not char to avoid generating lwl/lwr swl/swr in a struct copy
-    } unk_0;
-    /* 0x0040 */ OSMesgQueue*  unk_40;
-} Sub_AudioMgr_18; // size = 0x44
-
-typedef struct {
     /* 0x0000 */ IrqMgr*       irqMgr;
     /* 0x0004 */ SchedContext* sched;
-    /* 0x0008 */ OSMesg        unk_8;
-    /* 0x000C */ char          unk_C[0x04];
-    /* 0x0010 */ s32           unk_10;
-    /* 0x0014 */ s32           unk_14;
-    /* 0x0018 */ Sub_AudioMgr_18 unk_18;
-    /* 0x005C */ UNK_PTR       unk_5C;
+    /* 0x0008 */ OSScTask      audioTask;
     /* 0x0060 */ char          unk_60[0x10];
-    /* 0x0070 */ Sub_AudioMgr_18* unk_70;
+    /* 0x0070 */ AudioTask*    rspTask;
     /* 0x0074 */ OSMesgQueue   unk_74;
     /* 0x008C */ OSMesg        unk_8C;
     /* 0x0090 */ OSMesgQueue   unk_90;
@@ -1446,7 +1526,6 @@ typedef struct {
     /* 0x00E4 */ char          unk_E4[0x04];
     /* 0x00E8 */ OSThread      unk_E8;
 } AudioMgr; // size = 0x298
-
 
 struct ArenaNode;
 
@@ -1481,20 +1560,6 @@ typedef struct OverlayRelocationSection {
     /* 0x10 */ u32 nRelocations;
     /* 0x14 */ u32 relocations[1];
 } OverlayRelocationSection; // size >= 0x18
-
-typedef struct {
-    /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ u32 vromStart;
-    /* 0x08 */ u32 vromEnd;
-    /* 0x0C */ u8* vramStart;
-    /* 0x10 */ u8* vramEnd;
-    /* 0x14 */ u32 off; // loadedRamAddr - vram
-    /* 0x18 */ const char* name;
-} KaleidoManagerOvl; // size = 0x1C
-
-#define KALEIDO_OVL_KALEIDO_SCOPE   0
-#define KALEIDO_OVL_PLAYER_ACTOR    1
-#define KALEIDO_OVL_COUNT           2
 
 typedef struct {
     /* 0x00 */ u32 resetting;
@@ -1614,7 +1679,7 @@ typedef struct {
     /* 0x320 */ JpegQuantizationTable qTableV;
     /* 0x3A0 */ u8 codesLengths[0x110];
     /* 0x4B0 */ u16 codes[0x108];
-    /* 0x6C0 */ u16 unk_6C0[4][0x180];
+    /* 0x6C0 */ u16 data[4][0x180];
 } JpegWork; // size = 0x12C0
 
 typedef struct {
@@ -1651,11 +1716,22 @@ typedef struct {
 } JpegDecoderState; // size = 0x14
 
 typedef struct {
-    /* 0x0000 */ OSViMode viMode;
-    /* 0x0050 */ char unk_50[0x30];
+    /* 0x0000 */ OSViMode customViMode;
+    /* 0x0050 */ s32 viHeight;
+    /* 0x0054 */ s32 viWidth;
+    /* 0x0058 */ s32 unk_58; // Right adjustment?
+    /* 0x005c */ s32 unk_5C; // Left adjustment?
+    /* 0x0060 */ s32 unk_60; // Bottom adjustment?
+    /* 0x0064 */ s32 unk_64; // Top adjustment?
+    /* 0x0068 */ s32 viModeBase; // enum: {0, 1, 2, 3}
+    /* 0x006c */ s32 viTvType;
+    /* 0x0070 */ u32 unk_70; // bool
+    /* 0x0074 */ u32 unk_74; // bool
+    /* 0x0078 */ u32 unk_78; // bool
+    /* 0x007c */ u32 unk_7C; // bool
     /* 0x0080 */ u32 viFeatures;
-    /* 0x0084 */ char unk_84[4];
-} unk_80166528;
+    /* 0x0084 */ u32 unk_84;
+} ViMode;
 
 // Vis...
 typedef struct {
