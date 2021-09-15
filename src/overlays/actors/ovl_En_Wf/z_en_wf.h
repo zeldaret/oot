@@ -36,7 +36,6 @@ typedef enum {
 
 typedef enum {
     /*  0 */ WOLFOS_ACTION_WAIT_TO_APPEAR,
-
     /*  2 */ WOLFOS_ACTION_DIE = 2,
     /*  3 */ WOLFOS_ACTION_DAMAGED,
     /*  4 */ WOLFOS_ACTION_TURN_TOWARDS_PLAYER,
@@ -48,7 +47,6 @@ typedef enum {
     /*  10 */ WOLFOS_ACTION_SEARCH_FOR_PLAYER,
     /*  11 */ WOLFOS_ACTION_RUN_AROUND_PLAYER,
     /*  12 */ WOLFOS_ACTION_SECOND_SLASH,
-
     /*  14 */ WOLFOS_ACTION_SIDESTEP = 14,
     /*  15 */ WOLFOS_ACTION_STUNNED
 } EnWfAction;

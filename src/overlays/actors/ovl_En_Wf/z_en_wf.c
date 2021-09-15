@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wf.h"
+#include "vt.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "objects/object_wf/object_wf.h"
 
@@ -274,7 +275,7 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
             osSyncPrintf("\n\n");
             // Translation: "☆☆☆☆☆ Number of concurrent events ☆☆☆☆☆"
-            osSyncPrintf("\x1b[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n\x1b[m", parent->curNumSpawn);
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, parent->curNumSpawn);
             osSyncPrintf("\n\n");
         }
     }
@@ -295,7 +296,6 @@ s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
     temp_v1 = ABS(temp_v1);
 
     if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x2EE0, this->actor.shape.rot.y)) {
-
         if (player->swordAnimation == 0x11) {
             EnWf_SetupReactToPlayer(this);
             return true;
@@ -469,7 +469,7 @@ void EnWf_Wait(EnWf* this, GlobalContext* globalCtx) {
                 } else {
                     EnWf_SetupSearchForPlayer(this);
                 }
-                if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+                if ((globalCtx->gameplayFrames & 95) == 0) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
                 }
             }
@@ -498,7 +498,6 @@ void EnWf_RunAtPlayer(EnWf* this, GlobalContext* globalCtx) {
     f32 sp3C;
 
     if (!EnWf_DodgeRanged(globalCtx, this)) {
-
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
 
@@ -608,7 +607,6 @@ void EnWf_SearchForPlayer(EnWf* this, GlobalContext* globalCtx) {
     }
 }
 
-// EnWf_Setup11 (Related to moving in front of the player)
 void EnWf_SetupRunAroundPlayer(EnWf* this) {
     f32 lastFrame = Animation_GetLastFrame(&gWolfosRunningAnim);
 
@@ -630,7 +628,6 @@ void EnWf_SetupRunAroundPlayer(EnWf* this) {
     EnWf_SetupAction(this, EnWf_RunAroundPlayer);
 }
 
-// EnWf_11 (Related to moving in front of the player)
 void EnWf_RunAroundPlayer(EnWf* this, GlobalContext* globalCtx) {
     s16 angle1;
     s16 angle2;
@@ -787,7 +784,7 @@ void EnWf_FirstSlash(EnWf* this, GlobalContext* globalCtx) {
 void EnWf_SetupSecondSlash(EnWf* this) {
     f32 endFrame = 1.0f;
 
-    if ((s32)this->skelAnime.curFrame >= 0x10) {
+    if ((s32)this->skelAnime.curFrame >= 16) {
         endFrame = 15.0f;
     }
 
@@ -850,7 +847,7 @@ void EnWf_SetupBackflip(EnWf* this) {
 }
 
 void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (!Actor_OtherIsTargeted(globalCtx, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
             (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
             EnWf_SetupRunAtPlayer(this, globalCtx);
@@ -860,7 +857,7 @@ void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx) {
             EnWf_SetupWait(this);
         }
     }
-    if ((globalCtx->state.frames & 0x5F) == 0) {
+    if ((globalCtx->state.frames & 95) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
     }
 }
