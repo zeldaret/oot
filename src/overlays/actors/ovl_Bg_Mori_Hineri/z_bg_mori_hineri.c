@@ -168,7 +168,7 @@ void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, GlobalContext* globalCtx
 
 void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
     f32 f0;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     f0 = 1100.0f - (player->actor.world.pos.z - this->dyna.actor.world.pos.z);
     this->dyna.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;
@@ -214,7 +214,8 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
             sNextCamIdx = SUBCAM_NONE;
         }
     }
-    if ((sNextCamIdx >= SUBCAM_FIRST) && ((ACTIVE_CAM->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
+    if ((sNextCamIdx >= SUBCAM_FIRST) &&
+        ((GET_ACTIVE_CAM(globalCtx)->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
 }

@@ -31,6 +31,4 @@ typedef enum {
     /* 0x04 */ EFF_DUST_TYPE_4
 } EffDustType;
 
-extern const ActorInit Eff_Dust_InitVars;
-
 #endif

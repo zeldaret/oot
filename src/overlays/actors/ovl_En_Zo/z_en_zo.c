@@ -493,7 +493,7 @@ void EnZo_Blink(EnZo* this) {
 }
 
 void EnZo_Dialog(EnZo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_194.unk_18 = player->actor.world.pos;
     if (this->actionFunc == EnZo_Standing) {
@@ -509,7 +509,7 @@ void EnZo_Dialog(EnZo* this, GlobalContext* globalCtx) {
 }
 
 s32 EnZo_PlayerInProximity(EnZo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f surfacePos;
     f32 yDist;
     f32 hDist;

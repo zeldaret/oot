@@ -71,7 +71,7 @@ static ColliderCylinderInit D_80A12CCC = {
 
 void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnFireRock* this = THIS;
     s16 temp;
 
@@ -168,7 +168,7 @@ void EnFireRock_Fall(EnFireRock* this, GlobalContext* globalCtx) {
     Vec3f flamePos;
     s32 i;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if ((this->actor.floorHeight == -10000.0f) || (this->actor.world.pos.y < (player->actor.world.pos.y - 200.0f))) {
         Actor_Kill(&this->actor);
         return;
@@ -305,8 +305,8 @@ void FireRock_WaitOnFloor(EnFireRock* this, GlobalContext* globalCtx) {
 void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFireRock* this = THIS;
     s16 setCollision;
-    Player* player = PLAYER;
-    Actor* playerActor = &PLAYER->actor;
+    Player* player = GET_PLAYER(globalCtx);
+    Actor* playerActor = &GET_PLAYER(globalCtx)->actor;
 
     if (this->timer2 != 0) {
         this->timer2--;

@@ -349,7 +349,7 @@ void DoorKiller_FallOver(DoorKiller* this, GlobalContext* globalCtx) {
     }
     if (!(this->hasHitPlayerOrGround & 1)) {
         Vec3f playerPosRelToDoor;
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
         if ((fabsf(playerPosRelToDoor.y) < 20.0f) && (fabsf(playerPosRelToDoor.x) < 20.0f) &&
             (playerPosRelToDoor.z < 100.0f) && (playerPosRelToDoor.z > 0.0f)) {
@@ -408,7 +408,7 @@ void DoorKiller_WaitBeforeWobble(DoorKiller* this, GlobalContext* globalCtx) {
 }
 
 void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f playerPosRelToDoor;
     s16 angleToFacingPlayer;
 

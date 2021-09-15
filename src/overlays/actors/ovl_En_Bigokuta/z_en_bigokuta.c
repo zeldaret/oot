@@ -392,7 +392,7 @@ void func_809BD768(EnBigokuta* this) {
 }
 
 void func_809BD7F0(EnBigokuta* this, GlobalContext* globalCtx) {
-    this->actor.world.rot.y = Actor_WorldYawTowardPoint(globalCtx->actorCtx.actorLists[2].head, &this->actor.home.pos);
+    this->actor.world.rot.y = Actor_WorldYawTowardPoint(&GET_PLAYER(globalCtx)->actor, &this->actor.home.pos);
     this->actor.shape.rot.y = this->actor.world.rot.y + (this->unk_194 * 0x4000);
     func_809BCE3C(this);
     this->actionFunc = func_809BE518;
@@ -477,7 +477,7 @@ void func_809BDB90(EnBigokuta* this, GlobalContext* globalCtx) {
 }
 
 void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_v0;
     s16 pad;
     s16 phi_v1;
@@ -573,7 +573,7 @@ void func_809BDFC8(EnBigokuta* this, GlobalContext* globalCtx) {
 }
 
 void func_809BE058(EnBigokuta* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 speedXZ;
 
     if (this->unk_196 != 0) {

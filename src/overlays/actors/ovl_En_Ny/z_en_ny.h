@@ -32,6 +32,4 @@ typedef struct EnNy {
     /* 0x01F8 */ Vec3f unk_1F8[16];
 } EnNy; // size = 0x02B8
 
-extern const ActorInit En_Ny_InitVars;
-
 #endif

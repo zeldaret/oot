@@ -566,7 +566,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
 void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDaiku* this = THIS;
     s32 curFrame;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->currentAnimIndex == ENDAIKU_ANIM_RUN) {
         curFrame = this->skelAnime.curFrame;

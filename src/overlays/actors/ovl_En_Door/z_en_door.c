@@ -160,7 +160,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
                 this->lockTimer = 10;
             }
         } else if (doorType == DOOR_AJAR) {
-            if (Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor) > DOOR_AJAR_SLAM_RANGE) {
+            if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor) > DOOR_AJAR_SLAM_RANGE) {
                 this->actionFunc = EnDoor_AjarWait;
                 this->actor.world.rot.y = -0x1800;
             }
@@ -183,7 +183,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
 }
 
 void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 doorType;
     Vec3f playerPosRelToDoor;
     s16 phi_v0;
@@ -209,7 +209,7 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
             if (ABS(phi_v0) < 0x3000) {
                 if (this->lockTimer != 0) {
                     if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
-                        Player* player2 = PLAYER;
+                        Player* player2 = GET_PLAYER(globalCtx);
 
                         player2->naviTextId = -0x203;
                         return;

@@ -33,6 +33,4 @@ typedef struct BgBdanSwitch {
     /* 0x01DD */ char unk_1DD[0x3];
 } BgBdanSwitch; // size = 0x01E0
 
-extern const ActorInit Bg_Bdan_Switch_InitVars;
-
 #endif

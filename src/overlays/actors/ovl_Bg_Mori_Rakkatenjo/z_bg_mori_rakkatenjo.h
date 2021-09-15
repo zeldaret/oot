@@ -17,6 +17,4 @@ typedef struct BgMoriRakkatenjo {
     /* 0x0174 */ s8 moriTexObjIndex;
 } BgMoriRakkatenjo; // size = 0x0178
 
-extern const ActorInit Bg_Mori_Rakkatenjo_InitVars;
-
 #endif

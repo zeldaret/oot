@@ -298,7 +298,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 tmpf1;
     EnAttackNiw* this = THIS;
     EnNiw* cucco;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     Vec3f sp30;
     GlobalContext* globalCtx2 = globalCtx;

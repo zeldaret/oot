@@ -405,7 +405,7 @@ void func_809EFF50(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags1 & 0x400) {
         if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {

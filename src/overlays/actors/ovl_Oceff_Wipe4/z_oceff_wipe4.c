@@ -35,7 +35,7 @@ void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
-    this->actor.world.pos = ACTIVE_CAM->eye;
+    this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
@@ -48,7 +48,7 @@ void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
 
-    this->actor.world.pos = ACTIVE_CAM->eye;
+    this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     if (this->counter < 50) {
         this->counter++;
     } else {
@@ -66,8 +66,8 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vtx* vtxPtr;
     Vec3f vec;
 
-    eye = ACTIVE_CAM->eye;
-    Camera_GetSkyboxOffset(&vec, ACTIVE_CAM);
+    eye = GET_ACTIVE_CAM(globalCtx)->eye;
+    Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(globalCtx));
     if (this->counter < 16) {
         z = Math_SinS(this->counter << 10) * 1330;
     } else {

@@ -99,16 +99,14 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
 
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
         (Flags_GetSwitch(globalCtx, this->actor.world.rot.y - 1))) {
-        // "Mutual destruction"
-        LOG_STRING("共倒れ", "../z_elf_msg.c", 161);
+        LOG_STRING("共倒れ", "../z_elf_msg.c", 161); // "Mutual destruction"
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.world.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
-        // "Mutual destruction"
-        LOG_STRING("共倒れ", "../z_elf_msg.c", 172);
+        LOG_STRING("共倒れ", "../z_elf_msg.c", 172); // "Mutual destruction"
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
         }
@@ -172,7 +170,7 @@ s32 ElfMsg_GetMessageId(ElfMsg* this) {
 }
 
 void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnElf* navi = (EnElf*)player->naviActor;
 
     if ((fabsf(player->actor.world.pos.x - this->actor.world.pos.x) < (100.0f * this->actor.scale.x)) &&
@@ -189,7 +187,7 @@ s32 ElfMsg_WithinXZDistance(Vec3f* pos1, Vec3f* pos2, f32 distance) {
 }
 
 void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnElf* navi = (EnElf*)player->naviActor;
 
     if (ElfMsg_WithinXZDistance(&player->actor.world.pos, &this->actor.world.pos, this->actor.scale.x * 100.0f) &&

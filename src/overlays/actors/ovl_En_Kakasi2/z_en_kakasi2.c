@@ -114,7 +114,7 @@ void EnKakasi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_194++;
 

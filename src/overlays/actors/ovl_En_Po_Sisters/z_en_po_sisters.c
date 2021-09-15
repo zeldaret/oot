@@ -337,7 +337,7 @@ void func_80AD9718(EnPoSisters* this) {
 }
 
 void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 sp20;
 
     if (this->unk_195 == 0 || this->actionFunc != func_80ADAAA4) {
@@ -572,7 +572,7 @@ void func_80ADA2BC(EnPoSisters* this, GlobalContext* globalCtx) {
 
 void func_80ADA35C(EnPoSisters* this, GlobalContext* globalCtx) {
     f32 targetY;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->actionFunc == func_80ADBF58) {
         targetY = this->actor.home.pos.y;
@@ -629,7 +629,7 @@ void func_80ADA530(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADA6A0(EnPoSisters* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 temp_v0;
 
     SkelAnime_Update(&this->skelAnime);
@@ -844,7 +844,7 @@ void func_80ADB2B8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADB338(EnPoSisters* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnPoSisters* realMeg = (EnPoSisters*)this->actor.parent;
 
     if (this->unk_195 == 0) {
@@ -966,7 +966,7 @@ void func_80ADB770(EnPoSisters* this, GlobalContext* globalCtx) {
             this->unk_199 &= ~0x40;
         }
     }
-    if (Actor_WorldDistXZToPoint(&PLAYER->actor, &this->actor.home.pos) > 600.0f) {
+    if (Actor_WorldDistXZToPoint(&GET_PLAYER(globalCtx)->actor, &this->actor.home.pos) > 600.0f) {
         this->unk_199 &= ~0x40;
         func_80AD9C24(this, globalCtx);
     } else if (this->unk_19A == 0) {
@@ -1405,7 +1405,7 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, temp_s7->r, temp_s7->g, temp_s7->b, phi_s5);
         Matrix_Translate(this->unk_234[i].x, this->unk_234[i].y, this->unk_234[i].z, MTXMODE_NEW);
-        Matrix_RotateRPY(0, (s16)(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000), 0, MTXMODE_APPLY);
+        Matrix_RotateRPY(0, (s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000), 0, MTXMODE_APPLY);
         if (this->actionFunc == func_80ADAFC0) {
             phi_f20 = (this->unk_19A - i) * 0.025f + 0.5f;
             phi_f20 = CLAMP(phi_f20, 0.5f, 0.8f) * 0.007f;

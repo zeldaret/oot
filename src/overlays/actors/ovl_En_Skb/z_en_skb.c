@@ -259,7 +259,7 @@ void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
     s32 thisKeyFrame;
     s32 prevKeyFrame;
     f32 playSpeed;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->unk_283 != 0) && ((globalCtx->gameplayFrames & 0xF) == 0)) {
         this->unk_288 = Rand_CenteredFloat(50000.0f);
@@ -474,7 +474,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                         func_80AFD7B4(this, globalCtx);
                         return;
                     }
-                    player = PLAYER;
+                    player = GET_PLAYER(globalCtx);
                     if (this->unk_283 == 0) {
                         if ((this->actor.colChkInfo.damageEffect == 0xD) ||
                             ((this->actor.colChkInfo.damageEffect == 0xE) &&

@@ -125,7 +125,7 @@ void func_8088B268(BgHidanRock* this, GlobalContext* globalCtx) {
     f32 sp2C;
     s32 temp_v1;
     s32 frame;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         if (this->timer == 0) {
@@ -213,7 +213,7 @@ void func_8088B5F4(BgHidanRock* this, GlobalContext* globalCtx) {
 void func_8088B634(BgHidanRock* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna)) {
         this->timer = 20;
-        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4000;
+        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4000;
         this->actionFunc = func_8088B69C;
     }
 }
@@ -294,7 +294,7 @@ void func_8088B954(BgHidanRock* this, GlobalContext* globalCtx) {
 }
 
 void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->timer++;
     if (this->dyna.unk_150 != 0.0f) {
@@ -366,7 +366,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
                          MTXMODE_NEW);
     }
 
-    Matrix_RotateRPY(0, Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000, 0, MTXMODE_APPLY);
+    Matrix_RotateRPY(0, Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000, 0, MTXMODE_APPLY);
     Matrix_Translate(-10.5f, 0.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(6.0f, this->unk_16C, 6.0f, MTXMODE_APPLY);
 

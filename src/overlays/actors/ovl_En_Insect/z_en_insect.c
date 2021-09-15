@@ -95,7 +95,7 @@ f32 EnInsect_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
 
 s32 EnInsect_InBottleRange(EnInsect* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f pos;
 
     if (this->actor.xzDistToPlayer < 32.0f) {

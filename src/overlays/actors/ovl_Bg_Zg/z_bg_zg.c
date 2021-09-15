@@ -91,7 +91,7 @@ void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 action = this->action;
 
     if (((action < 0) || (1 < action)) || (sActionFuncs[action] == NULL)) {
-        // Translates to: "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
+        // "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sActionFuncs[action](this, globalCtx);
@@ -139,7 +139,7 @@ void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 drawConfig = this->drawConfig;
 
     if (((drawConfig < 0) || (drawConfig > 0)) || sDrawFuncs[drawConfig] == NULL) {
-        // Translates to: "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
+        // "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sDrawFuncs[drawConfig](this, globalCtx);

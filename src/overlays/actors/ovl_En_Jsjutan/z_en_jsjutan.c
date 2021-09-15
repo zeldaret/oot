@@ -113,7 +113,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     f32 maxOffset;
     f32 maxAmp;
     f32 waveform;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* parent = this->dyna.actor.parent;
     Actor* actorExplosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
     u8 isInCreditsScene = false; // sp8B

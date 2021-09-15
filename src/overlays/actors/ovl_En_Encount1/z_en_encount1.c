@@ -92,7 +92,7 @@ void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 floorType;
     f32 spawnDist;
     s32 spawnParams;
@@ -177,7 +177,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
 }
 
 void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 bgId;
     CollisionPoly* floorPoly;
     Vec3f spawnPos;
@@ -215,7 +215,7 @@ void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
 }
 
 void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 spawnDist;
     s16 spawnAngle;
     s16 spawnId;

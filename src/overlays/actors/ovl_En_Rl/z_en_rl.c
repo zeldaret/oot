@@ -123,7 +123,7 @@ void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != CS_STATE_IDLE &&
         globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 &&
         !this->lightMedallionGiven) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         pos.x = player->actor.world.pos.x;
         pos.y = player->actor.world.pos.y + 80.0f;
         pos.z = player->actor.world.pos.z;
@@ -134,7 +134,7 @@ void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE7668(EnRl* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->drawConfig = 1;
     this->action = 1;

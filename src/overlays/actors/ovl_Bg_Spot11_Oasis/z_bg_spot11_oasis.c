@@ -57,7 +57,7 @@ void func_808B27F0(GlobalContext* globalCtx, s16 waterSurface) {
 }
 
 s32 func_808B280C(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp58;
     Vec3f sp4C;
     Vec3f sp40;

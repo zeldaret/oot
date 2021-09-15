@@ -72,7 +72,7 @@ s32 ObjMure_SetCullingImpl(Actor* thisx, GlobalContext* globalCtx) {
             result = true;
             break;
         default:
-            // Translation: "Error : Culling is not set.(%s %d)(arg_data 0x%04x)"
+            // "Error : Culling is not set.(%s %d)(arg_data 0x%04x)"
             osSyncPrintf("Error : カリングの設定がされていません。(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 204,
                          this->actor.params);
             return false;
@@ -142,7 +142,7 @@ void ObjMure_SpawnActors0(ObjMure* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < maxChildren; i++) {
         if (this->children[i] != NULL) {
-            // Translation: "Error: I already have a child(%s %d)(arg_data 0x%04x)
+            // "Error: I already have a child(%s %d)(arg_data 0x%04x)"
             osSyncPrintf("Error : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 333,
                          this->actor.params);
         }

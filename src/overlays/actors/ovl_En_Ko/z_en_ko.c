@@ -349,7 +349,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnKo* this = THIS;
 
     switch (ENKO_TYPE) {
@@ -898,7 +898,7 @@ s32 EnKo_AdultSaved(EnKo* this, GlobalContext* globalCtx) {
     }
 }
 void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
         this->unk_1E8.unk_18 = globalCtx->view.eye;
@@ -1180,7 +1180,7 @@ void func_80A99560(EnKo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp_f2;
     f32 phi_f0;
     s16 homeYawToPlayer = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);

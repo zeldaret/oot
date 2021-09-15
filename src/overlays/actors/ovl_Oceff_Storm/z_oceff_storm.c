@@ -61,7 +61,7 @@ void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffStorm* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_800876C8(globalCtx);
     if (gSaveContext.nayrusLoveTimer != 0) {
@@ -117,10 +117,10 @@ void OceffStorm_UnkAction(OceffStorm* this, GlobalContext* globalCtx) {
 
 void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffStorm* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->actor.world.pos = player->actor.world.pos;
-    this->actor.shape.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM);
+    this->actor.shape.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx));
     this->actionFunc(this, globalCtx);
 }
 

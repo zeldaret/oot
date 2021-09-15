@@ -271,7 +271,7 @@ void func_80A2F7C0(EnGb* this) {
 }
 
 void func_80A2F83C(EnGb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!func_80A2F760(this)) {
         if (this->actionTimer != 0) {
@@ -319,7 +319,7 @@ void func_80A2F9C0(EnGb* this, GlobalContext* globalCtx) {
             gSaveContext.infTable[0xB] |= 0x40;
         }
         func_80A2F180(this);
-        Player_UpdateBottleHeld(globalCtx, PLAYER, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+        Player_UpdateBottleHeld(globalCtx, GET_PLAYER(globalCtx), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
         Rupees_ChangeBy(10);
         this->actionFunc = func_80A2F83C;
     }
@@ -331,7 +331,7 @@ void func_80A2FA50(EnGb* this, GlobalContext* globalCtx) {
             gSaveContext.infTable[0xB] |= 0x40;
         }
         func_80A2F180(this);
-        Player_UpdateBottleHeld(globalCtx, PLAYER, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+        Player_UpdateBottleHeld(globalCtx, GET_PLAYER(globalCtx), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
         Rupees_ChangeBy(50);
         HIGH_SCORE(HS_POE_POINTS) += 100;
         if (HIGH_SCORE(HS_POE_POINTS) != 1000) {
@@ -340,7 +340,7 @@ void func_80A2FA50(EnGb* this, GlobalContext* globalCtx) {
             }
             this->actionFunc = func_80A2F83C;
         } else {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
 
             player->exchangeItemId = EXCH_ITEM_NONE;
             this->textId = 0x70F8;

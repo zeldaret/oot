@@ -111,7 +111,7 @@ void func_80B3A10C(EnWonderTalk2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_158++;
     if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -205,7 +205,7 @@ void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx) {
 void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->unk_158++;
     if (this->switchFlag >= 0 && Flags_GetSwitch(globalCtx, this->switchFlag)) {
         if (!this->unk_15A) {

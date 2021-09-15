@@ -43,6 +43,4 @@ typedef struct EnViewer {
     /* 0x01E8 */ EnViewerUnkStruct unk_1E8[20];
 } EnViewer; // size = 0x05F8
 
-extern const ActorInit En_Viewer_InitVars;
-
 #endif

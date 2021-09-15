@@ -71,6 +71,4 @@ typedef enum {
     /* 19 */ BOSSVA_DOOR
 } BossVaParam;
 
-extern const ActorInit Boss_Va_InitVars;
-
 #endif

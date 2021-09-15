@@ -18,6 +18,4 @@ typedef struct EnShopnuts {
     /* 0x0270 */ ColliderCylinder collider;
 } EnShopnuts; // size = 0x02BC
 
-extern const ActorInit En_Shopnuts_InitVars;
-
 #endif

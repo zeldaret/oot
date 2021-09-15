@@ -182,6 +182,4 @@ typedef struct BossFd {
     /* 0x1970 */ BossFdEffect effects[180];
 } BossFd; // size = 0x43A0
 
-extern const ActorInit Boss_Fd_InitVars;
-
 #endif

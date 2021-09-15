@@ -80,7 +80,7 @@ void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.actor.xzDistToPlayer < 120.0f) {
         EnBlkobj_SetupAction(this, EnBlkobj_SpawnDarkLink);

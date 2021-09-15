@@ -2125,6 +2125,7 @@ s32 Camera_Parallel1(Camera* camera) {
     camera->fov = Camera_LERPCeilF(para1->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp6A ? para1->unk_1C : para1->unk_14);
+    //! @bug No return
 }
 
 s32 Camera_Parallel2(Camera* camera) {
@@ -2929,7 +2930,7 @@ s32 Camera_Battle2(Camera* camera) {
 }
 
 s32 Camera_Battle3(Camera* camera) {
-    Camera_Noop(camera);
+    return Camera_Noop(camera);
 }
 
 /**
@@ -3463,11 +3464,9 @@ s32 Camera_KeepOn4(Camera* camera) {
     KeepOn4_Unk20* unk20 = &keep4->unk_20;
     s32 pad;
     f32 playerHeight;
-    Player* player;
+    Player* player = GET_PLAYER(camera->globalCtx);
     s16 angleCnt;
     s32 i;
-
-    player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
 
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
         if (camera->globalCtx->view.unk_124 == 0) {
@@ -6650,8 +6649,8 @@ s32 Camera_Special9(Camera* camera) {
     sCameraInterfaceFlags = params->interfaceFlags;
 
     switch (camera->animState) {
-        do {
-        } while (0);
+        if (1) {}
+
         case 0:
             camera->unk_14C &= ~(0x4 | 0x2);
             camera->animState++;
@@ -7022,10 +7021,19 @@ void Camera_PrintSettings(Camera* camera) {
         if (camera->camDataIdx < 0) {
             sp50[i++] = '-';
         }
-        if (camera->camDataIdx / 0xA != 0) {
-            sp50[i++] = i / 0xA + '0';
+
+        //! @bug: this code was clearly meaning to print `abs(camera->camDataIdx)` as a
+        //! one-or-two-digit number, instead of `i`.
+        // "sp50[i++] = ..." matches here, but is undefined behavior due to conflicting
+        // reads/writes between sequence points, triggering warnings. Work around by
+        // putting i++ afterwards while on the same line.
+        // clang-format off
+        if (camera->camDataIdx / 10 != 0) {
+            sp50[i] = i / 10 + '0'; i++;
         }
-        sp50[i++] = i % 10 + '0';
+        sp50[i] = i % 10 + '0'; i++;
+        // clang-format on
+
         sp50[i++] = ' ';
         sp50[i++] = ' ';
         sp50[i++] = ' ';
@@ -7528,7 +7536,7 @@ Vec3s Camera_Update(Camera* camera) {
  */
 void Camera_Finish(Camera* camera) {
     Camera* mainCam = camera->globalCtx->cameraPtrs[MAIN_CAM];
-    Player* player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
+    Player* player = GET_PLAYER(camera->globalCtx);
 
     if (camera->timer == 0) {
         Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamIdx, CAM_STAT_ACTIVE);
@@ -8098,7 +8106,7 @@ s16 func_8005B1A4(Camera* camera) {
     camera->unk_14C |= 0x8;
 
     if ((camera->thisIdx == MAIN_CAM) && (camera->globalCtx->activeCamera != MAIN_CAM)) {
-        camera->globalCtx->cameraPtrs[camera->globalCtx->activeCamera]->unk_14C |= 0x8;
+        GET_ACTIVE_CAM(camera->globalCtx)->unk_14C |= 0x8;
         return camera->globalCtx->activeCamera;
     }
 

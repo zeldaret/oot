@@ -4,8 +4,6 @@
 #include "ultra64.h"
 #include "global.h"
 
-extern const ActorInit En_Karebaba_InitVars;
-
 struct EnKarebaba;
 
 typedef void (*EnKarebabaActionFunc)(struct EnKarebaba*, GlobalContext*);

@@ -114,7 +114,7 @@ void func_80AFBDC8(EnSiofuki* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 dX;
     f32 dY;
     f32 dZ;

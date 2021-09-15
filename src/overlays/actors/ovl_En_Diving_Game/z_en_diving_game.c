@@ -482,7 +482,7 @@ void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
 void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnDivingGame* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f pos;
 
     if (this->csCameraTimer != 0) {

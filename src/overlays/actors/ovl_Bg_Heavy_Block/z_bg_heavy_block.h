@@ -24,6 +24,4 @@ typedef enum {
     /* 0x04 */ HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE
 } HeavyBlockType;
 
-extern const ActorInit Bg_Heavy_Block_InitVars;
-
 #endif

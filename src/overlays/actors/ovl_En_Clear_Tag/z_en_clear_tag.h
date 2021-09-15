@@ -92,6 +92,4 @@ typedef struct EnClearTagEffect {
 
 #define CLEAR_TAG_EFFECT_MAX_COUNT 100
 
-extern const ActorInit En_Clear_Tag_InitVars;
-
 #endif

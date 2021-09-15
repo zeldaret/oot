@@ -260,7 +260,7 @@ void EnMb_SetupAction(EnMb* this, EnMbActionFunc actionFunc) {
 void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMb* this = THIS;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 relYawFromPlayer;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -372,7 +372,7 @@ void EnMb_NextWaypoint(EnMb* this, GlobalContext* globalCtx) {
  *       and they all are 100 units wide.
  */
 s32 EnMb_IsPlayerInCorridor(EnMb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 xFromPlayer;
     f32 zFromPlayer;
     f32 cos;
@@ -601,7 +601,7 @@ void EnMb_SetupStunned(EnMb* this) {
 }
 
 void EnMb_Stunned(EnMb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags2 & 0x80) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~0x80;
@@ -715,7 +715,7 @@ void EnMb_ClubWaitAfterAttack(EnMb* this, GlobalContext* globalCtx) {
  * Slow down, charge again if the player is near, or resume walking.
  */
 void EnMb_SpearPatrolEndCharge(EnMb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 lastFrame;
     s16 relYawFromPlayer;
     s16 yawPlayerToWaypoint;
@@ -817,7 +817,7 @@ void EnMb_SpearGuardPrepareAndCharge(EnMb* this, GlobalContext* globalCtx) {
 }
 
 void EnMb_ClubAttack(EnMb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     Vec3f effSpawnPos;
     Vec3f effWhiteShockwaveDynamics = { 0.0f, 0.0f, 0.0f };
@@ -883,7 +883,7 @@ void EnMb_ClubAttack(EnMb* this, GlobalContext* globalCtx) {
  * Prepare charge (animation), then charge to the end of the floor collision.
  */
 void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 prevFrame;
     s32 hasHitPlayer = false;
     s32 endCharge = !Actor_TestFloorInDirection(&this->actor, globalCtx, 110.0f, this->actor.world.rot.y);
@@ -963,7 +963,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, GlobalContext* globalCtx) {
  * Charge and follow the path, until hitting the player or, after some time, reaching home.
  */
 void EnMb_SpearPatrolImmediateCharge(EnMb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 prevFrame;
     s32 hasHitPlayer = false;
     s32 endCharge = !Actor_TestFloorInDirection(&this->actor, globalCtx, 110.0f, this->actor.world.rot.y);
@@ -1119,7 +1119,7 @@ void EnMb_SpearGuardWalk(EnMb* this, GlobalContext* globalCtx) {
     s32 beforeCurFrame;
     s32 pad1;
     s32 pad2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     s16 yawTowardsHome;
     f32 playSpeedAbs;
@@ -1232,7 +1232,7 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, GlobalContext* globalCtx) {
 }
 
 void EnMb_ClubWaitPlayerNear(EnMb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s16 relYawFromPlayer = this->actor.world.rot.y - this->actor.yawTowardsPlayer;
 
@@ -1293,7 +1293,7 @@ void EnMb_SetupSpearDead(EnMb* this) {
 }
 
 void EnMb_SpearDead(EnMb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
 
@@ -1371,7 +1371,7 @@ void EnMb_ClubUpdateAttackCollider(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMb_CheckColliding(EnMb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->frontShielding.base.acFlags & AC_HIT) {
         this->frontShielding.base.acFlags &= ~(AC_HIT | AC_BOUNCED);

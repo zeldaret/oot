@@ -31,6 +31,4 @@ typedef struct EnGs {
     /* 0x0202 */ char unk_202[0x6];
 } EnGs; // size = 0x0208
 
-extern const ActorInit En_Gs_InitVars;
-
 #endif

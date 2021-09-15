@@ -15,6 +15,4 @@ typedef struct BgSpot11Oasis {
     /* 0x0151 */ u8 unk_151;
 } BgSpot11Oasis; // size = 0x0154
 
-extern const ActorInit Bg_Spot11_Oasis_InitVars;
-
 #endif

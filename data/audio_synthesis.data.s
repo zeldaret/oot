@@ -87,25 +87,7 @@ glabel D_8012FE24
     .incbin "baserom.z64", 0xBA6FC4, 0x4
 
 glabel gStereoPanVolume
-    .incbin "baserom.z64", 0xBA6FC8, 0x1D7
-
-glabel D_8012FFFF
-    .incbin "baserom.z64", 0xBA719F, 0x2
-
-glabel D_80130001
-    .incbin "baserom.z64", 0xBA71A1, 0x1
-
-glabel D_80130002
-    .incbin "baserom.z64", 0xBA71A2, 0x2
-
-glabel D_80130004
-    .incbin "baserom.z64", 0xBA71A4, 0x2
-
-glabel D_80130006
-    .incbin "baserom.z64", 0xBA71A6, 0x1E
-
-glabel D_80130024
-    .incbin "baserom.z64", 0xBA71C4, 0x4
+    .incbin "baserom.z64", 0xBA6FC8, 0x200
 
 glabel gDefaultPanVolume
     .incbin "baserom.z64", 0xBA71C8, 0x1FC

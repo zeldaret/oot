@@ -91,8 +91,7 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f D_8086E0E0 = { 0.0f, 140.0f, 0.0f };
 
-void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                               DynaPolyMoveFlag flag) {
+void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flag) {
     s16 pad1;
     CollisionHeader* colHeader = NULL;
     s16 pad2;
@@ -366,7 +365,7 @@ void func_8086D9F8(BgBdanSwitch* this) {
 }
 
 void func_8086DA1C(BgBdanSwitch* this, GlobalContext* globalCtx) {
-    Actor* heldActor = PLAYER->heldActor;
+    Actor* heldActor = GET_PLAYER(globalCtx)->heldActor;
 
     if (func_8004356C(&this->dyna)) {
         if (heldActor != NULL && heldActor->id == ACTOR_EN_RU1) {

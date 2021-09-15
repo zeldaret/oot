@@ -17,6 +17,4 @@ typedef struct BgMoriHineri {
     /* 0x016B */ s8 switchFlag;
 } BgMoriHineri; // size = 0x016C
 
-extern const ActorInit Bg_Mori_Hineri_InitVars;
-
 #endif

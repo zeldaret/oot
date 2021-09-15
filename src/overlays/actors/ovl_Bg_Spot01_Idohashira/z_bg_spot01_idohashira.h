@@ -17,6 +17,4 @@ typedef struct BgSpot01Idohashira {
     /* 0x0170 */ s32 unk_170;
 } BgSpot01Idohashira; // size = 0x0174
 
-extern const ActorInit Bg_Spot01_Idohashira_InitVars;
-
 #endif

@@ -180,12 +180,12 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.minVelocityY = -12.0f;
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
-        // Translation: Fire Temple Object [Hammer Step] appears
+        // "Fire Temple Object [Hammer Step] appears"
         osSyncPrintf("◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n");
         if (BgHidanHamstep_SpawnChildren(this, globalCtx) == 0) {
             step = this;
 
-            // Translation: [Hammer Step] I can't create a step!
+            // "[Hammer Step] I can't create a step!"
             osSyncPrintf("【ハンマーステップ】 足場産れない！！\n");
             osSyncPrintf("%s %d\n", "../z_bg_hidan_hamstep.c", 425);
 
@@ -310,7 +310,7 @@ void func_80888860(BgHidanHamstep* this, GlobalContext* globalCtx) {
             if (1) {}
 
             if (this->unk_244 == 1) {
-                quakeIndex = Quake_Add(ACTIVE_CAM, 3);
+                quakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
                 Quake_SetSpeed(quakeIndex, -15536);
                 Quake_SetQuakeValues(quakeIndex, 0, 0, 500, 0);
                 Quake_SetCountdown(quakeIndex, 20);
@@ -349,7 +349,7 @@ void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx) {
     func_80888694(this, (BgHidanHamstep*)this->dyna.actor.parent);
 
     if (((this->dyna.actor.params & 0xFF) <= 0) || ((this->dyna.actor.params & 0xFF) >= 6)) {
-        // Translation: [Hammer Step] arg_data strange (arg_data = %d)
+        // "[Hammer Step] arg_data strange (arg_data = %d)"
         osSyncPrintf("【ハンマーステップ】 arg_data おかしい (arg_data = %d)", this->dyna.actor.params);
         osSyncPrintf("%s %d\n", "../z_bg_hidan_hamstep.c", 696);
     }
@@ -369,7 +369,7 @@ void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx) {
             if (1) {}
 
             if (this->unk_244 == 1) {
-                quakeIndex = Quake_Add(ACTIVE_CAM, 3);
+                quakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
                 Quake_SetSpeed(quakeIndex, -15536);
                 Quake_SetQuakeValues(quakeIndex, 20, 1, 0, 0);
                 Quake_SetCountdown(quakeIndex, 7);

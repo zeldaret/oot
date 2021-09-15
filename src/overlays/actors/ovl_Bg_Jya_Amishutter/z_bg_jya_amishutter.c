@@ -45,7 +45,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                                  DynaPolyMoveFlag flag) {
+                                  s32 flag) {
     s32 pad1;
     CollisionHeader* colHeader = NULL;
     s32 pad2;

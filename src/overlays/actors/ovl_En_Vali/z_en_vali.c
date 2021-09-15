@@ -291,8 +291,8 @@ void EnVali_DischargeLightning(EnVali* this, GlobalContext* globalCtx) {
     s16 yaw;
 
     for (i = 0; i < 4; i++) {
-        cos = -Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM));
-        sin = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM));
+        cos = -Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)));
+        sin = Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)));
         if (!((this->lightningTimer + (i << 1)) % 4)) {
             yaw = (s16)Rand_CenteredFloat(12288.0f) + (i * 0x4000) + 0x2000;
             pos.x = this->actor.world.pos.x + (Math_SinS(yaw) * 12.0f * cos);

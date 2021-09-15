@@ -24,6 +24,4 @@ typedef struct DemoSa {
     /* 0x01B0 */ s32 unk_1B0;
 } DemoSa; // size = 0x01B4
 
-extern const ActorInit Demo_Sa_InitVars;
-
 #endif

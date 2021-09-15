@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from multiprocessing import Pool, cpu_count, Event, Manager
+from multiprocessing import Pool, cpu_count, Event, Manager, ProcessError
 import os
 import json
 import time
@@ -103,10 +103,18 @@ def main():
                 if file.endswith(".xml"):
                     xmlFiles.append(fullPath)
 
-        numCores = cpu_count()
-        print("Extracting assets with " + str(numCores) + " CPU cores.")
-        with Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
-            p.map(ExtractFunc, xmlFiles)
+        try:
+            numCores = cpu_count()
+            print("Extracting assets with " + str(numCores) + " CPU cores.")
+            with Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
+                p.map(ExtractFunc, xmlFiles)
+        except (ProcessError, TypeError):
+            print("Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
+            print("Disabling mutliprocessing.", file=os.sys.stderr)
+
+            initializeWorker(mainAbort, args.unaccounted, extractedAssetsTracker, manager)
+            for singlePath in xmlFiles:
+                ExtractFunc(singlePath)
 
     with open(EXTRACTED_ASSETS_NAMEFILE, 'w', encoding='utf-8') as f:
         serializableDict = dict()

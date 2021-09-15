@@ -142,7 +142,7 @@ void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
         }
         BgTokiSwd_SetupAction(this, func_808BB128);
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         player->interactRangeActor = &this->actor;
     }
 }

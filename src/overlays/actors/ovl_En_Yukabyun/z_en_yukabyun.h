@@ -16,6 +16,4 @@ typedef struct EnYukabyun {
     /* 0x0154 */ ColliderCylinder collider;
 } EnYukabyun; // size = 0x01A0
 
-extern const ActorInit En_Yukabyun_InitVars;
-
 #endif

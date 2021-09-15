@@ -33,6 +33,4 @@ typedef enum {
 } EnJjType;
 
 
-extern const ActorInit En_Jj_InitVars;
-
 #endif

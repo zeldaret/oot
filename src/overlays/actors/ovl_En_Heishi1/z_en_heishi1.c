@@ -70,7 +70,6 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi1* this = THIS;
     Vec3f rupeePos;
     s32 i;
-    u16 time;
 
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable,
@@ -102,12 +101,8 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード加算値 %f\n" VT_RST, this->headTurnSpeedScale);
     // "(head) maximum turning angle speed"
     osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
-    // "current time"
-    // clang-format off
-    time = gSaveContext.dayTime; osSyncPrintf(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, time);
-    // clang-format on
-    // "check time"
-    osSyncPrintf(VT_FGCOL(YELLOW) " チェック時間 %d\n" VT_RST, 0xBAAA);
+    osSyncPrintf(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, ((void)0, gSaveContext.dayTime)); // "current time"
+    osSyncPrintf(VT_FGCOL(YELLOW) " チェック時間 %d\n" VT_RST, 0xBAAA);                   // "check time"
     osSyncPrintf("\n\n");
 
     if (this->path == 3) {
@@ -232,7 +227,7 @@ void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachF(&this->actor.world.pos.x, player->actor.world.pos.x, 1.0f, this->moveSpeed);
@@ -379,8 +374,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistToPlayer < 100.0f) {
         func_8010B680(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
-        // "Discovered!"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
         this->actionFunc = EnHeishi1_SetupKick;
     }
@@ -391,7 +385,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s16 path;
     u8 i;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
     Camera* activeCam;
 
@@ -407,7 +401,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->waypointTimer--;
     }
 
-    activeCam = ACTIVE_CAM;
+    activeCam = GET_ACTIVE_CAM(globalCtx);
 
     if (player->actor.freezeTimer == 0) {
 

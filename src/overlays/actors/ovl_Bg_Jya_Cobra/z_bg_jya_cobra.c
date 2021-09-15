@@ -132,8 +132,7 @@ void func_808958F0(Vec3f* dest, Vec3f* src, f32 arg2, f32 arg3) {
     dest->z = (src->z * arg3) - (src->x * arg2);
 }
 
-void BgJyaCobra_InitDynapoly(BgJyaCobra* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                             DynaPolyMoveFlag flags) {
+void BgJyaCobra_InitDynapoly(BgJyaCobra* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -207,7 +206,7 @@ void func_80895A70(BgJyaCobra* this) {
 }
 
 void func_80895BEC(BgJyaCobra* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     Vec3f sp2C;
 
@@ -457,7 +456,7 @@ void func_80896918(BgJyaCobra* this, GlobalContext* globalCtx) {
 }
 
 void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 > 0.001f) {
         this->unk_168++;
@@ -475,7 +474,7 @@ void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx) {
 }
 
 void func_808969F8(BgJyaCobra* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 phi_a3;
     s16 temp2;
 
@@ -500,7 +499,7 @@ void func_808969F8(BgJyaCobra* this, GlobalContext* globalCtx) {
 
 void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
     s16 temp_v0;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     temp_v0 = (s16)((this->unk_16C * 0x2000) + this->dyna.actor.home.rot.y) - this->dyna.actor.world.rot.y;
     if (ABS(temp_v0) < 7424) {
@@ -582,8 +581,6 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
     s16 params = this->dyna.actor.params & 3;
     Vec3f sp64;
     Vec3s* phi_a3;
-
-    if (1) {}
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 966);
 

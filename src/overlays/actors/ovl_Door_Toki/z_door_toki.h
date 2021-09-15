@@ -11,6 +11,4 @@ typedef struct DoorToki {
     /* 0x0164 */ char unk_164[0x4];
 } DoorToki; // size = 0x0168
 
-extern const ActorInit Door_Toki_InitVars;
-
 #endif

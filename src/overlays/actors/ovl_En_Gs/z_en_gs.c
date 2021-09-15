@@ -139,7 +139,7 @@ s32 func_80A4E3EC(EnGs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     bREG(15) = 0;
     if (this->actor.xzDistToPlayer <= 100.0f) {

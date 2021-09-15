@@ -310,13 +310,13 @@ void EnBrob_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 
     Matrix_Get(&mtx);
     if (limbIndex == 3) {
-        this->colliders[0].dim.pos.x = mtx.wx;
-        this->colliders[0].dim.pos.y = mtx.wy;
-        this->colliders[0].dim.pos.z = mtx.wz;
+        this->colliders[0].dim.pos.x = mtx.xw;
+        this->colliders[0].dim.pos.y = mtx.yw;
+        this->colliders[0].dim.pos.z = mtx.zw;
     } else if (limbIndex == 8) {
-        this->colliders[1].dim.pos.x = mtx.wx;
-        this->colliders[1].dim.pos.y = (mtx.wy + 7.0f);
-        this->colliders[1].dim.pos.z = mtx.wz;
+        this->colliders[1].dim.pos.x = mtx.xw;
+        this->colliders[1].dim.pos.y = (mtx.yw + 7.0f);
+        this->colliders[1].dim.pos.z = mtx.zw;
     }
 }
 

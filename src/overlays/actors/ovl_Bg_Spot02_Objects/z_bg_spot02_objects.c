@@ -143,7 +143,7 @@ void func_808AC908(BgSpot02Objects* this, GlobalContext* globalCtx) {
 }
 
 void func_808ACA08(BgSpot02Objects* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->timer != 0) {
         this->timer--;

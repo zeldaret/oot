@@ -285,7 +285,7 @@ u8 EnRr_GetMessage(u8 shield, u8 tunic) {
 }
 
 void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     u8 shield;
     u8 tunic;
 
@@ -413,7 +413,7 @@ void EnRr_SetupStunned(EnRr* this) {
 
 void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
     Vec3f hitPos;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->collider2.base.acFlags & AC_HIT) {
         this->collider2.base.acFlags &= ~AC_HIT;
@@ -618,7 +618,7 @@ void EnRr_Reach(EnRr* this, GlobalContext* globalCtx) {
 }
 
 void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_800AA000(this->actor.xyzDistToPlayerSq, 120, 2, 120);
     if ((this->frameCount % 8) == 0) {

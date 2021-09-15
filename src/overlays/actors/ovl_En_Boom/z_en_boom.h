@@ -20,6 +20,4 @@ typedef struct EnBoom {
     /* 0x01F8 */ EnBoomActionFunc actionFunc;
 } EnBoom; // size = 0x01FC
 
-extern const ActorInit En_Boom_InitVars;
-
 #endif

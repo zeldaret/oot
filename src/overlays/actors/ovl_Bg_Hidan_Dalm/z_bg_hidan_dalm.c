@@ -125,7 +125,7 @@ void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->collider.base.acFlags & AC_HIT) && !Player_InCsMode(globalCtx) &&
         (player->swordAnimation == 22 || player->swordAnimation == 23)) {
@@ -146,7 +146,7 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
         this->dyna.actor.bgCheckFlags &= ~8;
         this->dyna.actor.speedXZ = 10.0f;
         Flags_SetSwitch(globalCtx, this->switchFlag);
-        func_8002F7DC(&PLAYER->actor, NA_SE_IT_HAMMER_HIT);
+        func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_IT_HAMMER_HIT);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_DARUMA_VANISH);
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

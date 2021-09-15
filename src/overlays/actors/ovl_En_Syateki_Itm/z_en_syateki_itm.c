@@ -102,7 +102,7 @@ void EnSyatekiItm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnSyatekiItm_Idle(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->signal == ENSYATEKI_START) {
         player->actor.world.pos.x = -12.0f;
@@ -126,7 +126,7 @@ void EnSyatekiItm_Idle(EnSyatekiItm* this, GlobalContext* globalCtx) {
 void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
     s32 j;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unkTimer == 0) {
         if (LINK_IS_ADULT) {
@@ -166,7 +166,7 @@ void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s32 i;
     s32 roundIdx;
@@ -274,7 +274,7 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
     s16 j;
 
@@ -309,7 +309,7 @@ void EnSyatekiItm_CleanupGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->actor.freezeTimer = 10;
     if (this->signal == ENSYATEKI_RESULTS) {

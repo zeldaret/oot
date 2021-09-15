@@ -569,7 +569,7 @@ void EnGe1_WaitDoNothing(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* horse;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
@@ -667,7 +667,7 @@ void EnGe1_TalkNoHorse_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_Wait_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     u16 textId;
 
     if (!(player->stateFlags1 & 0x800000)) {

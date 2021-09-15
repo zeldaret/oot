@@ -133,7 +133,7 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
                                        u16 arg6, u8 weatherMode) {
     s32 pad;
     u8 ret = false;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
         if ((globalCtx->envCtx.unk_1E != 0) || !D_8011FB3C ||
@@ -173,7 +173,7 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
                                   u16 arg6) {
     s32 pad;
     u8 ret = false;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 100.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
         if (globalCtx->envCtx.unk_1E != 0 || !D_8011FB3C ||
@@ -288,7 +288,7 @@ void EnWeatherTag_EnabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalCon
 }
 
 void EnWeatherTag_SetSandstormIntensity(EnWeatherTag* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
         Math_SmoothStepToS(&globalCtx->envCtx.unk_9E, -0x50, 1, 2, 1);
@@ -300,7 +300,7 @@ void EnWeatherTag_SetSandstormIntensity(EnWeatherTag* this, GlobalContext* globa
 }
 
 void EnWeatherTag_DisabledRainThunder(EnWeatherTag* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
         func_80077624(globalCtx);
@@ -311,7 +311,7 @@ void EnWeatherTag_DisabledRainThunder(EnWeatherTag* this, GlobalContext* globalC
 }
 
 void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 10.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
         func_80077684(globalCtx);

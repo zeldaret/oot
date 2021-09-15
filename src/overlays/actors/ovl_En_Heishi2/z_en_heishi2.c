@@ -394,7 +394,7 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 exchangeItemId;
     s16 yawDiffTemp;
     s16 yawDiff;

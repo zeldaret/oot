@@ -366,7 +366,7 @@ void func_808B561C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 }
 
 void func_808B56BC(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 sinValue;
     s16 adjustedYawDiff;
     s32 yawDiff;
@@ -395,7 +395,7 @@ void func_808B56BC(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
 void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     Actor* playerHeldActor;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnBombf* currentBomb;
 
     if (sTimer > 0) {

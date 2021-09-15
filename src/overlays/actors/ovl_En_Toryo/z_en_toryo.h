@@ -22,6 +22,4 @@ typedef struct EnToryo {
     /* 0x027A */ Vec3s morphTable[17];
 } EnToryo; // size = 0x02E0
 
-extern const ActorInit En_Toryo_InitVars;
-
 #endif

@@ -471,7 +471,7 @@ void EnDh_Death(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 lastHealth;
 
     if ((this->collider2.base.acFlags & AC_HIT) && !this->retreat) {
@@ -503,7 +503,7 @@ void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
 void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnDh* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad40;
 
     EnDh_CollisionCheck(this, globalCtx);

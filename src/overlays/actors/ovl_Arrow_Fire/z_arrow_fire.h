@@ -19,6 +19,4 @@ typedef struct ArrowFire {
     /* 0x0168 */ u8 alpha;
 } ArrowFire; // size = 0x016C
 
-extern const ActorInit Arrow_Fire_InitVars;
-
 #endif

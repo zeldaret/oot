@@ -91,7 +91,7 @@ void EffectSsDeadDs_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         this->rRoll = rpy.x;
         this->rPitch = rpy.y;
         this->rYaw = rpy.z;
-        this->pos.y = mf.wy;
+        this->pos.y = mf.yw;
         this->rTimer++;
     }
 

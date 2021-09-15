@@ -135,7 +135,7 @@ void EnHoll_SwapRooms(GlobalContext* globalCtx) {
 
 // Horizontal Planes
 void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 phi_t0 = ((globalCtx->sceneNum == SCENE_JYASINZOU) ? 1 : 0) & 0xFFFFFFFF;
     Vec3f vec;
     f32 absZ;
@@ -171,7 +171,7 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
 
 // Horizontal Planes
 void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 useViewEye = gDbgCamEnabled || globalCtx->csCtx.state != CS_STATE_IDLE;
     Vec3f vec;
     s32 temp;
@@ -202,7 +202,7 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
 
 // Vertical Planes
 void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 absY = fabsf(this->actor.yDistToPlayer);
     s32 transitionActorIdx;
 
@@ -282,7 +282,7 @@ void func_80A59520(EnHoll* this, GlobalContext* globalCtx) {
 
 // Horizontal Planes
 void func_80A59618(EnHoll* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f vec;
     f32 absZ;
     s32 side;

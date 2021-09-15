@@ -447,7 +447,7 @@ void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->actor.xzDistToPlayer < 30.0f && fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 5.0f) {
         this->timer6 = 100;
@@ -827,7 +827,7 @@ void func_80AB7290(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->timer6 == 0) {
         this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
@@ -875,7 +875,7 @@ void func_80AB747C(EnNiw* this, GlobalContext* globalCtx) {
 void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
     EnNiw* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 i;
     s16 featherCount;
     Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };

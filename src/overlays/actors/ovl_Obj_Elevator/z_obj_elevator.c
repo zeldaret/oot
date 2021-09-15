@@ -45,7 +45,7 @@ void ObjElevator_SetupAction(ObjElevator* this, ObjElevatorActionFunc actionFunc
     this->actionFunc = actionFunc;
 }
 
-void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
+void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flag) {
     s16 pad1;
     CollisionHeader* colHeader = NULL;
     s16 pad2;
