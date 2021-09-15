@@ -456,7 +456,6 @@ void EnWf_Wait(EnWf* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             EnWf_SetupRunAroundPlayer(this);
         } else {
-
             this->actionTimer--;
 
             if (this->actionTimer == 0) {
