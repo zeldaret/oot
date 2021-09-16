@@ -5,6 +5,9 @@
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
+static CollisionPoly* sCurCeilingPoly;
+static s32 sCurCeilingBgId;
+
 void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale) {
     shape->yOffset = yOffset;
     shape->shadowDraw = shadowDraw;
@@ -95,123 +98,109 @@ void ActorShadow_DrawFoot(GlobalContext* globalCtx, Light* light, MtxF* arg2, s3
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1693);
 }
 
-#ifdef NON_MATCHING
-// saved register, stack usage and minor ordering differences
 void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
-    MtxF spE8;
-    f32 spE0[2];
-    s32 i;
-    f32* spAC;
-    f32 temp_10;
-    u8 temp_14;
-    f32 temp_f0;
-    f32 temp_f20;
-    f32 temp_f20_2;
-    f32 temp_f22_2;
-    f32 temp_f24;
-    s32 temp_a3;
-    s32 temp_lo;
-    u8 temp_s6;
-    Vec3f* phi_s7;
-    f32 phi_f2;
-    Light* phi_s0;
-    s32 phi_s1;
-    s32 phi_s2;
+    f32 distToFloor = actor->world.pos.y - actor->floorHeight;
 
-    temp_f20 = actor->world.pos.y - actor->floorHeight;
+    if (distToFloor > 20.0f) {
+        f32 shadowScale = actor->shape.shadowScale;
+        u8 shadowAlpha = actor->shape.shadowAlpha;
+        f32 alphaRatio;
 
-    if (temp_f20 > 20.0f) {
-        temp_10 = actor->shape.shadowScale;
-        temp_14 = actor->shape.shadowAlpha;
         actor->shape.shadowScale *= 0.3f;
-        actor->shape.shadowAlpha *= ((temp_f20 - 20.0f) * 0.02f) > 1.0f ? 1.0f : ((temp_f20 - 20.0f) * 0.02f);
+        alphaRatio = (distToFloor - 20.0f) * 0.02f;
+        actor->shape.shadowAlpha = (f32)actor->shape.shadowAlpha * CLAMP_MAX(alphaRatio, 1.0f);
         ActorShadow_DrawCircle(actor, lights, globalCtx);
-        actor->shape.shadowScale = temp_10;
-        actor->shape.shadowAlpha = temp_14;
+        actor->shape.shadowScale = shadowScale;
+        actor->shape.shadowAlpha = shadowAlpha;
     }
 
-    if (temp_f20 < 200.0f) {
-        phi_s7 = &actor->shape.feetPos[FOOT_LEFT];
-        spAC = &spE0[0];
-        temp_s6 = lights->numLights;
-        temp_s6 -= 2;
+    if (distToFloor < 200.0f) {
+        MtxF floorMtx;
+        f32 floorHeight[2]; // One for each foot
+        f32 distToFloor;
+        f32 shadowAlpha;
+        f32 shadowScaleX;
+        f32 shadowScaleZ;
+        Light* lightPtr;
+        s32 lightNum;
+        s32 lightNumMax;
+        s32 i;
+        s32 j;
+        s32 numLights = lights->numLights - 2;
+        Light* firstLightPtr = &lights->l.l[0];
+        Vec3f* feetPosPtr = actor->shape.feetPos;
+        f32* floorHeightPtr = floorHeight;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1741);
 
         POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 0x2C);
+
         actor->shape.feetFloorFlags = 0;
 
         for (i = 0; i < 2; i++) {
-            phi_s7->y += 50.0f;
-            *spAC = func_800BFCB8(globalCtx, &spE8, phi_s7);
-            phi_s7->y -= 50.0f;
+            feetPosPtr->y += 50.0f;
+            *floorHeightPtr = func_800BFCB8(globalCtx, &floorMtx, feetPosPtr);
+            feetPosPtr->y -= 50.0f;
+            actor->shape.feetFloorFlags <<= 1;
+            distToFloor = feetPosPtr->y - *floorHeightPtr;
 
-            actor->shape.feetFloorFlags *= 2;
-
-            phi_f2 = phi_s7->y - *spAC;
-
-            if ((phi_f2 >= -1.0f) && (phi_f2 < 500.0f)) {
-                phi_s0 = &lights->l.l[0];
-
-                if (phi_f2 <= 0.0f) {
+            if ((-1.0f <= distToFloor) && (distToFloor < 500.0f)) {
+                if (distToFloor <= 0.0f) {
                     actor->shape.feetFloorFlags++;
                 }
+                distToFloor = CLAMP_MAX(distToFloor, 30.0f);
+                shadowAlpha = (f32)actor->shape.shadowAlpha * (1.0f - (distToFloor * (1.0f / 30.0f)));
+                distToFloor = CLAMP_MAX(distToFloor, 30.0f);
+                shadowScaleZ = 1.0f - (distToFloor * (1.0f / (30.0f + 40.0f)));
+                shadowScaleX = shadowScaleZ * actor->shape.shadowScale * actor->scale.x;
+                lightNumMax = 0;
+                lightPtr = firstLightPtr;
 
-                if (30.0f < phi_f2) {
-                    phi_f2 = 30.0f;
-                }
-
-                temp_f24 = actor->shape.shadowAlpha * (1.0f - (phi_f2 * (1.0f / 30)));
-
-                if (30.0f < phi_f2) {
-                    phi_f2 = 30.0f;
-                }
-
-                temp_f20_2 = 1.0f - (phi_f2 * (1.0f / 70));
-                temp_f22_2 = (actor->shape.shadowScale * temp_f20_2) * actor->scale.x;
-
-                phi_s2 = 0;
-
-                for (phi_s1 = 0; phi_s1 < temp_s6; phi_s1++) {
-                    if (phi_s0->l.dir[1] > 0) {
-                        temp_lo = ABS(phi_s0->l.dir[1]) * ((phi_s0->l.col[0] + phi_s0->l.col[1]) + phi_s0->l.col[2]);
-                        if (temp_lo > 0) {
-                            ActorShadow_DrawFoot(globalCtx, phi_s0, &spE8, temp_lo, temp_f24, temp_f22_2, temp_f20_2);
-                            phi_s2 += temp_lo;
+                for (j = 0; j < numLights; j++) {
+                    if (lightPtr->l.dir[1] > 0) {
+                        lightNum =
+                            (lightPtr->l.col[0] + lightPtr->l.col[1] + lightPtr->l.col[2]) * ABS(lightPtr->l.dir[1]);
+                        if (lightNum > 0) {
+                            lightNumMax += lightNum;
+                            ActorShadow_DrawFoot(globalCtx, lightPtr, &floorMtx, lightNum, shadowAlpha, shadowScaleX,
+                                                 shadowScaleZ);
                         }
                     }
-                    phi_s0++;
+                    lightPtr++;
                 }
 
-                for (phi_s1 = 0; phi_s1 < 2; phi_s1++) {
-                    if (phi_s0->l.dir[1] > 0) {
-                        temp_a3 = (ABS(phi_s0->l.dir[1]) * ((phi_s0->l.col[0] + phi_s0->l.col[1]) + phi_s0->l.col[2])) -
-                                  (phi_s2 * 8);
-                        if (temp_a3 > 0) {
-                            ActorShadow_DrawFoot(globalCtx, phi_s0, &spE8, temp_a3, temp_f24, temp_f22_2, temp_f20_2);
+                for (j = 0; j < 2; j++) {
+                    if (lightPtr->l.dir[1] > 0) {
+                        lightNum =
+                            ((lightPtr->l.col[0] + lightPtr->l.col[1] + lightPtr->l.col[2]) * ABS(lightPtr->l.dir[1])) -
+                            (lightNumMax * 8);
+                        if (lightNum > 0) {
+                            ActorShadow_DrawFoot(globalCtx, lightPtr, &floorMtx, lightNum, shadowAlpha, shadowScaleX,
+                                                 shadowScaleZ);
                         }
                     }
-                    phi_s0++;
+                    lightPtr++;
                 }
             }
-
-            spAC++;
-            phi_s7++;
+            feetPosPtr++;
+            floorHeightPtr++;
         }
 
         if (!(actor->bgCheckFlags & 1)) {
             actor->shape.feetFloorFlags = 0;
         } else if (actor->shape.feetFloorFlags == 3) {
-            temp_f0 = actor->shape.feetPos[FOOT_LEFT].y - actor->shape.feetPos[FOOT_RIGHT].y;
-            actor->shape.feetFloorFlags = ((spE0[0] + temp_f0) < (spE0[1] - temp_f0)) ? 2 : 1;
+            f32 footDistY = actor->shape.feetPos[FOOT_LEFT].y - actor->shape.feetPos[FOOT_RIGHT].y;
+
+            if ((floorHeight[0] + footDistY) < (floorHeight[1] - footDistY)) {
+                actor->shape.feetFloorFlags = 2;
+            } else {
+                actor->shape.feetFloorFlags = 1;
+            }
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1831);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/ActorShadow_DrawFeet.s")
-#endif
 
 void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
                       Vec3f* rightFootPos) {
@@ -1172,9 +1161,6 @@ s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
 
     return true;
 }
-
-CollisionPoly* sCurCeilingPoly;
-s32 sCurCeilingBgId;
 
 s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3) {
     f32 floorHeightDiff;
