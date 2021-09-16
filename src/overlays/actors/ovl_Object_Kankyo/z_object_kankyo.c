@@ -377,7 +377,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, GlobalContext* globalCtx) {
                                            Math_CosS(this->effects[i].angle - 0x8000) * this->effects[i].flightRadius,
                                            0.5f, 2.0f, 0.2f);
 
-                        // the lead fairy flies in a sine wave with y = -cos(dirphase.y + amplitude * t) / amplitude
+                        // the lead fairy flies in a sine wave with y = -cos(dirPhase.y + amplitude * t) / amplitude
                         this->effects[i].angle += this->effects[i].angleVel;
                         this->effects[i].pos.y += sinf(this->effects[i].dirPhase.y);
 
