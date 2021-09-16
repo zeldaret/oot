@@ -91,8 +91,8 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     vel = 0.0f > vel ? 0.0f : vel;
     vel = 1.0f < vel ? 1.0f : vel;
 
-    sub->targetVolLeft = (s32)((vel * volLeft) * 4095.999f);
-    sub->targetVolRight = (s32)((vel * volRight) * 4095.999f);
+    sub->targetVolLeft = (s32)((vel * volLeft) * (0x1000 - 0.001f));
+    sub->targetVolRight = (s32)((vel * volRight) * (0x1000 - 0.001f));
 
     sub->unk_2 = attrs->unk_1;
     sub->filter = attrs->filter;

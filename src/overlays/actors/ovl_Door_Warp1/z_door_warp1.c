@@ -204,10 +204,10 @@ void DoorWarp1_SetupAdultDungeonWarp(DoorWarp1* this, GlobalContext* globalCtx) 
     this->crystalAlpha = 0.0f;
     this->unk_19C = 0.0f;
 
-    Lights_PointNoGlowSetInfo(&this->upperLightInfo, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                              200, 255, 255, 255);
-    Lights_PointNoGlowSetInfo(&this->lowerLightInfo, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                              200, 255, 255, 255);
+    Lights_PointNoGlowSetInfo(&this->upperLightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
+                              this->actor.world.pos.z, 200, 255, 255, 255);
+    Lights_PointNoGlowSetInfo(&this->lowerLightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
+                              this->actor.world.pos.z, 200, 255, 255, 255);
 
     DoorWarp1_SetupAction(this, func_8099A3A4);
 }
@@ -303,8 +303,8 @@ void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
     phi_f0 = CLAMP_MIN(phi_f0, 0);
 
     for (i = 0; i < 3; i++) {
-        globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] =
-            globalCtx->envCtx.unk_8C[1][i] = -255.0f * phi_f0;
+        globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] = globalCtx->envCtx.unk_8C[1][i] =
+            -255.0f * phi_f0;
     }
     globalCtx->envCtx.unk_9E = -500.0f * phi_f0;
 
@@ -817,8 +817,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
         s16 i;
 
         for (i = 0; i < 3; i++) {
-            globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] =
-                globalCtx->envCtx.unk_8C[1][i] = -255.0f * temp_f0_2;
+            globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] = globalCtx->envCtx.unk_8C[1][i] =
+                -255.0f * temp_f0_2;
         }
 
         globalCtx->envCtx.unk_9E = -500.0f * temp_f0_2;
@@ -928,8 +928,8 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2173);
 
     temp_f0 = 1.0f - (2.0f - this->unk_194) / 1.7f;
-    if (this->actor.params != WARP_YELLOW && this->actor.params != WARP_DESTINATION && this->actor.params != WARP_ORANGE &&
-        this->actor.params != WARP_GREEN && this->actor.params != WARP_RED) {
+    if (this->actor.params != WARP_YELLOW && this->actor.params != WARP_DESTINATION &&
+        this->actor.params != WARP_ORANGE && this->actor.params != WARP_GREEN && this->actor.params != WARP_RED) {
         this->unk_19C += (s16)(temp_f0 * 15.0f);
     }
     if (this->actor.params == WARP_DESTINATION) {

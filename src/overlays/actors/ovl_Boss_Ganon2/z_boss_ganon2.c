@@ -244,7 +244,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 150) {
                 func_8010B680(globalCtx, 0x70D3, NULL);
             }
-            if (this->unk_398 > 250 && func_8010BDBC(&globalCtx->msgCtx) == 0) {
+            if (this->unk_398 > 250 && !func_8010BDBC(&globalCtx->msgCtx)) {
                 this->unk_39C = 2;
                 this->unk_398 = 0;
                 this->unk_410.x = 0.0f;
@@ -285,7 +285,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             } else {
                 this->unk_3B0.y = player->actor.world.pos.y + 47.0f + 7.0f;
             }
-            if ((this->unk_398 > 170) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->unk_398 > 170) && !func_8010BDBC(&globalCtx->msgCtx)) {
                 this->unk_39C = 3;
                 this->unk_398 = 0;
                 this->unk_410.x = 0.0f;
@@ -823,7 +823,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->unk_3B0.x, D_8090EB30->world.pos.x, 0.2f, 50.0f);
                 Math_ApproachF(&this->unk_3B0.y, D_8090EB30->world.pos.y, 0.2f, 50.0f);
                 Math_ApproachF(&this->unk_3B0.z, D_8090EB30->world.pos.z, 0.2f, 50.0f);
-                if ((this->unk_398 > 40) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                if ((this->unk_398 > 40) && !func_8010BDBC(&globalCtx->msgCtx)) {
                     this->unk_39C = 29;
                     this->unk_398 = 0;
                     Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime3_Anim_0147E0, 0.0f);
@@ -1319,11 +1319,11 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = sZelda->actor.world.pos.y + 30.0f;
             this->unk_3B0.z = sZelda->actor.world.pos.z - 10.0f;
             Math_ApproachZeroF(&this->unk_324, 1.0f, 5.0f);
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.019607844f);
+            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 1.0f / 51);
             if (this->unk_1A2[1] == 80) {
                 func_8010B680(globalCtx, 0x70D7, NULL);
             }
-            if ((this->unk_1A2[1] < 30) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->unk_1A2[1] < 30) && !func_8010BDBC(&globalCtx->msgCtx)) {
                 temp_v0 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
                 temp_v0->eye = this->unk_3A4;
                 temp_v0->eyeNext = this->unk_3A4;
@@ -1399,7 +1399,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 2:
             Math_ApproachF(&this->unk_324, 255.0f, 1.0f, 10.0f);
-            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.039215688f);
+            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 2.0f / 51.0f);
             if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
                 func_808FFDB0(this, globalCtx);
                 if (this->unk_334 == 0) {
@@ -1552,7 +1552,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 10) {
                 func_8010B680(globalCtx, 0x70D8, NULL);
             }
-            if ((this->unk_398 > 80) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->unk_398 > 80) && !func_8010BDBC(&globalCtx->msgCtx)) {
                 this->unk_39C = 4;
                 this->unk_398 = 0;
             }
@@ -2651,7 +2651,7 @@ void func_8090523C(BossGanon2* this, GlobalContext* globalCtx) {
             if (i < 7) {
                 phi_f20 = 1.0f;
             } else {
-                phi_f20 = 1.0f - ((i - 7) * 0.2333333f);
+                phi_f20 = 1.0f - ((i - 7) * 0.2333333f); // 7 / 30
             }
 
             func_800D1FD4(&globalCtx->mf_11DA0);
