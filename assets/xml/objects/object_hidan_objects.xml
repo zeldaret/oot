@@ -59,7 +59,7 @@
         <DList Name="gFireTempleSpinningFlamethrowerDL" Offset="0xAD00"/>
         <Collision Name="gFireTempleSpinningFlamethrowerCol" Offset="0xD5C0"/>
 
-                <DList Name="gFireTempleStationaryFlamethrowerShortDL" Offset="0xB0F8"/>
+        <DList Name="gFireTempleStationaryFlamethrowerShortDL" Offset="0xB0F8"/>
         <Collision Name="gFireTempleStationaryFlamethrowerShortCol" Offset="0xCC90"/>
 
         <DList Name="gFireTempleStationaryFlamethrowerTallDL" Offset="0xABC8"/>

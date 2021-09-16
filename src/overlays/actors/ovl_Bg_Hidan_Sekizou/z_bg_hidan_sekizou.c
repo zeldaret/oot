@@ -113,7 +113,7 @@ static ColliderJntSphInit D_8088E258 = {
     D_8088E180,
 };
 
-CollisionCheckInfoInit D_8088E268 = { 1, 40, 240, MASS_IMMOVABLE };
+static CollisionCheckInfoInit D_8088E268 = { 1, 40, 240, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -121,18 +121,19 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
 };
 
-void* sFireballsTexs[] = { gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex,
-                           gFireTempleFireball3Tex, gFireTempleFireball4Tex, gFireTempleFireball5Tex,
-                           gFireTempleFireball6Tex, gFireTempleFireball7Tex };
+static void* sFireballsTexs[] = {
+    gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
+    gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
+};
 
 void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
     s32 i;
     s32 start = arg1 * 3;
-    s32 sp34 = start + 3;
+    s32 end = start + 3;
     f32 sp30 = Math_SinS(arg2);
     f32 sp2C = Math_CosS(arg2);
 
-    for (i = start; i < sp34; i++) {
+    for (i = start; i < end; i++) {
         ColliderJntSphElement* element = &this->collider.elements[i];
 
         element->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + (sp2C * element->dim.modelSphere.center.x) +
@@ -149,7 +150,7 @@ void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgHidanSekizou* this = THIS;
     s32 i;
-    CollisionHeader* sp40 = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
@@ -163,15 +164,15 @@ void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
         for (i = 0; i < 2; i++) {
             func_8088CEC0(this, i, this->dyna.actor.shape.rot.y + ((i == 0) ? 0x2000 : -0x2000));
         }
-        CollisionHeader_GetVirtual(&gFireTempleStationaryFlamethrowerShortCol, &sp40);
+        CollisionHeader_GetVirtual(&gFireTempleStationaryFlamethrowerShortCol, &colHeader);
         this->updateFunc = func_8088D720;
     } else {
         this->unk_168[0] = this->unk_168[1] = this->unk_168[2] = this->unk_168[3] = 0;
-        CollisionHeader_GetVirtual(&gFireTempleStationaryFlamethrowerTallCol, &sp40);
+        CollisionHeader_GetVirtual(&gFireTempleStationaryFlamethrowerTallCol, &colHeader);
         this->updateFunc = func_8088D434;
     }
     this->unk_170 = 0;
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp40);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     CollisionCheck_SetInfo(&this->dyna.actor.colChkInfo, NULL, &D_8088E268);
 }
 
@@ -284,7 +285,7 @@ void BgHidanSekizou_Update(Actor* thisx, GlobalContext* globalCtx2) {
         if (this->unk_168[0] > 0) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-            func_8002F974(&this->dyna.actor, 0x2033);
+            func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         }
     } else {
         if ((this->unk_168[0] > 0) || (this->unk_168[1] > 0) || (this->unk_168[2] > 0) || (this->unk_168[3] > 0)) {
@@ -301,7 +302,7 @@ Gfx* func_8088D9F4(GlobalContext* globalCtx, BgHidanSekizou* this, s16 arg2, Mtx
     f32 temp_f2;
     f32 phi_f12;
 
-    arg6 = (((arg6 + arg2) % 8) * 7) * 0.14285715f;
+    arg6 = (((arg6 + arg2) % 8) * 7) * (1 / 7.0f);
     arg2++;
     gSPSegment(arg7++, 9, SEGMENTED_TO_VIRTUAL(sFireballsTexs[arg6]));
     if (arg2 != 4) {
