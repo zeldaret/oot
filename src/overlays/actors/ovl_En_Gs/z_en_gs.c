@@ -426,7 +426,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (tmpf1 == 0.0f) {
             this->unk_1E8 = 2.0f * M_PI / 9.0000002;
-            this->unk_1EC = M_PI / 9.0000002; // M_PI / 9
+            this->unk_1EC = M_PI / 9.0000002;
             this->unk_19F = 4;
         }
     }

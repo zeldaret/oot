@@ -2044,7 +2044,7 @@ void Fishing_DrawRod(GlobalContext* globalCtx) {
         Matrix_RotateY(0.41f * M_PI, MTXMODE_APPLY);
     }
 
-    Matrix_RotateX(-0.19999997f * M_PI, MTXMODE_APPLY);
+    Matrix_RotateX(-M_PI / 5.0000003f, MTXMODE_APPLY);
     Matrix_RotateZ((player->unk_858 * 0.5f) + 3.0f * M_PI / 20.0f, MTXMODE_APPLY);
     Matrix_RotateX((D_80B7A6C0 + 20.0f) * 0.01f * M_PI, MTXMODE_APPLY);
     Matrix_Scale(0.70000005f, 0.70000005f, 0.70000005f, MTXMODE_APPLY);
