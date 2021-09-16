@@ -228,7 +228,7 @@ void EnTorch2_Backflip(Player* this, Input* input, Actor* thisx) {
     sCounterState = 0;
 }
 
-// #ifdef NON_MATCHING
+#ifdef NON_MATCHING
 /**
  * Static variables are sometimes loaded from pointers and sometimes directly. While
  * neither this nor the original are consistent about it, unfortunately they're not
@@ -240,7 +240,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Player* this = THIS;
     Input* input = &sInput;
     u16 phi_a2;
-    u16 temp2;
+    u16 phi_v1;
     Camera* camera;
     s16 sp66;
     u8 staggerThreshold;
@@ -248,10 +248,9 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     u32 phi_v0;
     Actor* attackItem;
     s16 sp5A;
-    // s16 pad58; // 
-    u16 phi_v1; //
+    s16 pad58;
     u32 pad54;
-    f32 sp50; // no stack
+    f32 sp50;
     s16 sp4E;
     Player* player = player2;
 
@@ -260,7 +259,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     camera = Gameplay_GetCamera(globalCtx, 0);
     attackItem = EnTorch2_GetAttackItem(globalCtx, this);
     switch (sActionState) {
-
         case ENTORCH2_WAIT:
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             this->skelAnime.curFrame = 0.0f;
@@ -366,6 +364,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                            player->actor.world.pos.z,
                                        1.0f, 5.0f, 0.0f);
                     sSwordJumpTimer--;
+                    // TODO: (u32) cast needed?
                     if (((u32)sSwordJumpTimer == 0) || ((player->invincibilityTimer > 0) && (this->swordState == 0))) {
                         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
                         input->cur.button = BTN_A;
@@ -583,6 +582,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     // Updates Dark Link's "controller". The conditional seems to cause him to
     // stop targeting and hold shield if he's been holding it long enough.
 
+    // TODO: Asm differences here
+
     phi_a2 = input->cur.button;
     phi_v0 = input->cur.button;
     pad54 = phi_v0 ^ input->prev.button;
@@ -781,9 +782,9 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.focus.pos.y += 20.0f;
     this->actor.shape.yOffset = sSwordJumpHeight;
 }
-// #else
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Torch2/EnTorch2_Update.s")
-// #endif
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Torch2/EnTorch2_Update.s")
+#endif
 
 s32 EnTorch2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                               Gfx** gfx) {
