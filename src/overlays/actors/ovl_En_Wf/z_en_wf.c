@@ -369,7 +369,7 @@ void EnWf_SetupWaitToAppear(EnWf* this) {
     Animation_Change(&this->skelAnime, &gWolfosRearingUpFallingOverAnim, 0.5f, 0.0f, 7.0f, ANIMMODE_ONCE_INTERP, 0.0f);
     this->actor.world.pos.y = this->actor.home.pos.y - 5.0f;
     this->actionTimer = 20;
-    this->hasAppeared = false;
+    this->isInvisible = false;
     this->action = WOLFOS_ACTION_WAIT_TO_APPEAR;
     this->actor.flags &= ~1;
     this->actor.scale.y = 0.0f;
@@ -837,7 +837,7 @@ void EnWf_SetupBackflip(EnWf* this) {
     this->actor.speedXZ = -6.0f;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actionTimer = 0;
-    this->hasAppeared = true;
+    this->isInvisible = true;
     this->action = WOLFOS_ACTION_BACKFLIP;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
     EnWf_SetupAction(this, EnWf_BackFlip);
@@ -880,7 +880,7 @@ void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx) {
             this->actor.speedXZ += 0.05f;
         }
 
-        this->hasAppeared = false;
+        this->isInvisible = false;
     }
 
     if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & 1)) {
@@ -896,10 +896,10 @@ void EnWf_SetupDamaged(EnWf* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosDamagedAnim, -4.0f);
 
     if (this->actor.bgCheckFlags & 1) {
-        this->hasAppeared = false;
+        this->isInvisible = false;
         this->actor.speedXZ = -4.0f;
     } else {
-        this->hasAppeared = true;
+        this->isInvisible = true;
     }
 
     this->headTilt = 0;
@@ -921,7 +921,7 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
             this->actor.speedXZ += 0.05f;
         }
 
-        this->hasAppeared = false;
+        this->isInvisible = false;
     }
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4500, 0);
@@ -954,7 +954,7 @@ void EnWf_SetupTurnTowardsPlayer(EnWf* this) {
 
     Animation_Change(&this->skelAnime, &gWolfosBackflippingAnim, -1.0f, lastFrame, 0.0f, ANIMMODE_ONCE, -3.0f);
     this->actionTimer = 0;
-    this->hasAppeared = false;
+    this->isInvisible = false;
     this->action = WOLFOS_ACTION_TURN_TOWARDS_PLAYER;
     this->actor.speedXZ = 6.5f;
     this->actor.velocity.y = 15.0f;
@@ -1175,10 +1175,10 @@ void EnWf_SetupDie(EnWf* this) {
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
     if (this->actor.bgCheckFlags & 1) {
-        this->hasAppeared = false;
+        this->isInvisible = false;
         this->actor.speedXZ = -6.0f;
     } else {
-        this->hasAppeared = true;
+        this->isInvisible = true;
     }
 
     this->action = WOLFOS_ACTION_DIE;
@@ -1195,7 +1195,7 @@ void EnWf_Die(EnWf* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 1) {
         Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-        this->hasAppeared = 0;
+        this->isInvisible = 0;
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1423,7 +1423,7 @@ void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_wf.c", 2157);
 
-    if (!((this->action == WOLFOS_ACTION_WAIT_TO_APPEAR) && this->hasAppeared)) {
+    if (!(this->action == WOLFOS_ACTION_WAIT_TO_APPEAR) || !this->isInvisible) {
         func_80093D18(globalCtx->state.gfxCtx);
 
         if (this->actor.params == 0) {
