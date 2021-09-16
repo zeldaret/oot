@@ -63,6 +63,7 @@
         <DList Name="gFireTempleStationaryFlamethrowerShortDL" Offset="0xB0F8"/>
         <!-- I don't know if this collision corresponds to the tall or the short one -->
         <Collision Name="gFireTempleStationaryFlamethrowerCol" Offset="0xCC90"/>
+        <Collision Name="gFireTempleStationaryFlamethrowerCol2" Offset="0xCDA0"/>
 
         <DList Name="gFireTempleStonePlatform1DL" Offset="0xC338"/>
         <Collision Name="gFireTempleStonePlatform1Col" Offset="0x120E8"/>
@@ -86,6 +87,6 @@
         <Texture Name="gFireTempleDoorKillerTex" OutName="fire_temple_door_killer" Format="rgba16" Width="32" Height="64" Offset="0xE5A0"/>
 
         <!-- I don't know what could this be -->
-        <Blob Name="gFireTempleBlob_00CCC0" Size="0x10E" Offset="0xCCC0"/>
+        <!-- <Blob Name="gFireTempleBlob_00CCC0" Size="0x10E" Offset="0xCCC0"/> -->
     </File>
 </Root>
