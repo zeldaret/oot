@@ -31,7 +31,7 @@ const ActorInit Bg_Hidan_Sekizou_InitVars = {
     (ActorFunc)BgHidanSekizou_Draw,
 };
 
-static ColliderJntSphElementInit D_8088E180[6] = {
+static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {
         {
             ELEMTYPE_UNK0,
@@ -100,7 +100,7 @@ static ColliderJntSphElementInit D_8088E180[6] = {
     },
 };
 
-static ColliderJntSphInit D_8088E258 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -110,10 +110,10 @@ static ColliderJntSphInit D_8088E258 = {
         COLSHAPE_JNTSPH,
     },
     6,
-    D_8088E180,
+    sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit D_8088E268 = { 1, 40, 240, MASS_IMMOVABLE };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 40, 240, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -155,7 +155,7 @@ void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &D_8088E258, this->elements);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
     for (i = 0; i < 6; i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
@@ -173,7 +173,7 @@ void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->unk_170 = 0;
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    CollisionCheck_SetInfo(&this->dyna.actor.colChkInfo, NULL, &D_8088E268);
+    CollisionCheck_SetInfo(&this->dyna.actor.colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgHidanSekizou_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
@@ -191,9 +191,9 @@ void func_8088D434(BgHidanSekizou* this, GlobalContext* globalCtx) {
     s32 isClose;
     s32 phi_s4;
 
-    isClose = (this->dyna.actor.xzDistToPlayer < 300.0f);
-    isAligned[0] = (fabsf(this->dyna.actor.world.pos.x - player->actor.world.pos.x) < 80.0f);
-    isAligned[1] = (fabsf(this->dyna.actor.world.pos.z - player->actor.world.pos.z) < 80.0f);
+    isClose = this->dyna.actor.xzDistToPlayer < 300.0f;
+    isAligned[0] = fabsf(this->dyna.actor.world.pos.x - player->actor.world.pos.x) < 80.0f;
+    isAligned[1] = fabsf(this->dyna.actor.world.pos.z - player->actor.world.pos.z) < 80.0f;
     phi_s4 = 0;
     for (i = 0; i < 4; i++) {
         s16 diff;
