@@ -13,20 +13,11 @@
 
 void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSekizou_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgHidanSekizou_Update(BgHidanSekizou* this, GlobalContext* globalCtx);
-void BgHidanSekizou_Draw(BgHidanSekizou* this, GlobalContext* globalCtx);
-
-void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2);
+void BgHidanSekizou_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8088D434(BgHidanSekizou* this, GlobalContext* globalCtx);
 void func_8088D720(BgHidanSekizou* this, GlobalContext* globalCtx);
-
-void func_8088D750(BgHidanSekizou* this, GlobalContext* globalCtx);
-
-Gfx* func_8088D9F4(GlobalContext* globalCtx, BgHidanSekizou* this, s16 arg2, MtxF* arg3, f32 arg4, f32 arg5, s16 arg6,
-                   Gfx* arg7);
-Gfx* func_8088DC50(GlobalContext* globalCtx, BgHidanSekizou* this, s16 arg2, s16 arg3, Gfx* arg4);
-// void func_8088DE08(s16 arg0, s16 arg1, s32* arg2);
 
 const ActorInit Bg_Hidan_Sekizou_InitVars = {
     ACTOR_BG_HIDAN_SEKIZOU,
@@ -134,29 +125,25 @@ void* sFireballsTexs[] = { gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFi
                            gFireTempleFireball3Tex, gFireTempleFireball4Tex, gFireTempleFireball5Tex,
                            gFireTempleFireball6Tex, gFireTempleFireball7Tex };
 
-#ifdef NON_MATCHING
 void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
     s32 i;
-    s32 pad;
-    s32 sp34 = arg1 * 3 + 3;
+    s32 start = arg1 * 3;
+    s32 sp34 = start + 3;
     f32 sp30 = Math_SinS(arg2);
     f32 sp2C = Math_CosS(arg2);
 
-    for (i = arg1 * 3; i < sp34; i++) {
+    for (i = start; i < sp34; i++) {
         ColliderJntSphElement* element = &this->collider.elements[i];
 
         element->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + (sp2C * element->dim.modelSphere.center.x) +
                                             (sp30 * element->dim.modelSphere.center.z);
-        element->dim.worldSphere.center.y = (s32)this->dyna.actor.home.pos.y + element->dim.modelSphere.center.y;
+        element->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + element->dim.modelSphere.center.y;
         element->dim.worldSphere.center.z = this->dyna.actor.home.pos.z - (sp30 * element->dim.modelSphere.center.x) +
                                             (sp2C * element->dim.modelSphere.center.z);
         element->info.toucherFlags |= TOUCH_ON;
         element->info.ocElemFlags |= OCELEM_ON;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sekizou/func_8088CEC0.s")
-#endif
 
 void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -165,23 +152,23 @@ void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* sp40 = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &D_8088E258, this->elements);
     for (i = 0; i < 6; i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
     if (this->dyna.actor.params == 0) {
-        this->unk_168[0] = 0x24;
+        this->unk_168[0] = 36;
         for (i = 0; i < 2; i++) {
             func_8088CEC0(this, i, this->dyna.actor.shape.rot.y + ((i == 0) ? 0x2000 : -0x2000));
         }
-        CollisionHeader_GetVirtual(&gFireTempleStationaryFlamethrowerCol, &sp40);
-        this->actionFunc = func_8088D720;
+        CollisionHeader_GetVirtual(&gFireTempleStationaryFlamethrowerShortCol, &sp40);
+        this->updateFunc = func_8088D720;
     } else {
         this->unk_168[0] = this->unk_168[1] = this->unk_168[2] = this->unk_168[3] = 0;
-        CollisionHeader_GetVirtual(&gFireTempleStationaryFlamethrowerCol2, &sp40);
-        this->actionFunc = func_8088D434;
+        CollisionHeader_GetVirtual(&gFireTempleStationaryFlamethrowerTallCol, &sp40);
+        this->updateFunc = func_8088D434;
     }
     this->unk_170 = 0;
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp40);
@@ -196,26 +183,27 @@ void BgHidanSekizou_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-#ifdef NON_MATCHING
 void func_8088D434(BgHidanSekizou* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 i;
     s32 isAligned[2];
     s32 isClose;
     s32 phi_s4;
-    s16 diff;
 
     isClose = (this->dyna.actor.xzDistToPlayer < 300.0f);
     isAligned[0] = (fabsf(this->dyna.actor.world.pos.x - player->actor.world.pos.x) < 80.0f);
     isAligned[1] = (fabsf(this->dyna.actor.world.pos.z - player->actor.world.pos.z) < 80.0f);
     phi_s4 = 0;
     for (i = 0; i < 4; i++) {
-        DECR(this->unk_168[i]);
+        s16 diff;
+        s16* temp = &this->unk_168[i];
+
+        DECR(*temp);
         diff = this->dyna.actor.yawTowardsPlayer - i * 0x4000;
         if (isAligned[i % 2] && isClose) {
             if (ABS(diff) <= 0x4000) {
-                if (this->unk_168[i] < 4) {
-                    this->unk_168[i] = 0x23 - this->unk_168[i];
+                if (*temp < 4) {
+                    *temp = 35 - *temp;
                 }
                 func_8088CEC0(this, (phi_s4 > 1) ? 1 : phi_s4, this->dyna.actor.shape.rot.y + i * 0x4000);
                 phi_s4++;
@@ -227,9 +215,6 @@ void func_8088D434(BgHidanSekizou* this, GlobalContext* globalCtx) {
         this->collider.elements[i].info.ocElemFlags &= ~OCELEM_ON;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sekizou/func_8088D434.s")
-#endif
 
 void func_8088D720(BgHidanSekizou* this, GlobalContext* globalCtx) {
     this->unk_168[0]--;
@@ -277,7 +262,7 @@ void func_8088D750(BgHidanSekizou* this, GlobalContext* globalCtx) {
     func_8002F71C(globalCtx, &this->dyna.actor, 5.0f, phi_a3, 1.0f);
 }
 
-void BgHidanSekizou_Update(BgHidanSekizou* thisx, GlobalContext* globalCtx2) {
+void BgHidanSekizou_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     BgHidanSekizou* this = THIS;
 
@@ -293,7 +278,7 @@ void BgHidanSekizou_Update(BgHidanSekizou* thisx, GlobalContext* globalCtx2) {
         func_8088D750(this, globalCtx);
     }
 
-    this->actionFunc(this, globalCtx);
+    this->updateFunc(this, globalCtx);
 
     if (this->dyna.actor.params == 0) {
         if (this->unk_168[0] > 0) {
@@ -305,7 +290,7 @@ void BgHidanSekizou_Update(BgHidanSekizou* thisx, GlobalContext* globalCtx2) {
         if ((this->unk_168[0] > 0) || (this->unk_168[1] > 0) || (this->unk_168[2] > 0) || (this->unk_168[3] > 0)) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-            func_8002F974(&this->dyna.actor, 0x2033);
+            func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         }
     }
 }
@@ -334,9 +319,9 @@ Gfx* func_8088D9F4(GlobalContext* globalCtx, BgHidanSekizou* this, s16 arg2, Mtx
     arg3->yw = this->dyna.actor.world.pos.y + 30.0f + (.7f * phi_f12);
     arg3->zw = (temp_f2 * arg5) + this->dyna.actor.world.pos.z;
     gSPMatrix(arg7++,
-              Matrix_MtxFToMtx(Matrix_CheckFloats(arg3, "../z_bg_hidan_sekizou.c", 0x2C7),
-                               Graph_Alloc(globalCtx->state.gfxCtx, 0x40)),
-              2);
+              Matrix_MtxFToMtx(Matrix_CheckFloats(arg3, "../z_bg_hidan_sekizou.c", 711),
+                               Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(arg7++, gFireTempleFireballDL);
 
@@ -404,15 +389,16 @@ void func_8088DE08(s16 arg0, s16 arg1, s32 arg2[]) {
     }
 }
 
-void BgHidanSekizou_Draw(BgHidanSekizou* thisx, GlobalContext* globalCtx2) {
+void BgHidanSekizou_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     BgHidanSekizou* this = THIS;
     s32 i;
     s32 sp6C[4];
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sekizou.c", 0x33B);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sekizou.c", 827);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_sekizou.c", 0x33F), 2);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_sekizou.c", 831),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->dyna.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStationaryFlamethrowerShortDL);
     } else {
@@ -444,5 +430,5 @@ void BgHidanSekizou_Draw(BgHidanSekizou* thisx, GlobalContext* globalCtx2) {
             }
         }
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sekizou.c", 0x383);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sekizou.c", 899);
 }
