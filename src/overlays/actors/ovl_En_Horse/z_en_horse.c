@@ -1101,7 +1101,7 @@ void EnHorse_MountedIdle(EnHorse* this, GlobalContext* globalCtx) {
     if (mag > 10.0f && EnHorse_PlayerCanMove(this, globalCtx) == true) {
         if (Math_CosS(angle) <= -0.5f) {
             EnHorse_StartReversingInterruptable(this);
-        } else if (Math_CosS(angle) <= 0.7071) {
+        } else if (Math_CosS(angle) <= 0.7071) { // cos(45 degrees)
             EnHorse_StartTurning(this);
         } else {
             EnHorse_StartWalkingFromIdle(this);
@@ -1140,7 +1140,7 @@ void EnHorse_MountedIdleWhinneying(EnHorse* this, GlobalContext* globalCtx) {
     if (stickMag > 10.0f && EnHorse_PlayerCanMove(this, globalCtx) == true) {
         if (Math_CosS(stickAngle) <= -0.5f) {
             EnHorse_StartReversingInterruptable(this);
-        } else if (Math_CosS(stickAngle) <= 0.7071) {
+        } else if (Math_CosS(stickAngle) <= 0.7071) { // cos(45 degrees)
             EnHorse_StartTurning(this);
         } else {
             EnHorse_StartWalkingFromIdle(this);
@@ -1172,7 +1172,7 @@ void EnHorse_MountedTurn(EnHorse* this, GlobalContext* globalCtx) {
             EnHorse_StartMountedIdleResetAnim(this);
         } else if (Math_CosS(stickAngle) <= -0.5f) {
             EnHorse_StartReversingInterruptable(this);
-        } else if (Math_CosS(stickAngle) <= 0.7071) {
+        } else if (Math_CosS(stickAngle) <= 0.7071) { // cos(45 degrees)
             clampedYaw = CLAMP(stickAngle, -800.0f, 800.0f);
             this->actor.world.rot.y = this->actor.world.rot.y + clampedYaw;
             this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -1182,7 +1182,7 @@ void EnHorse_MountedTurn(EnHorse* this, GlobalContext* globalCtx) {
     }
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
-        if (Math_CosS(stickAngle) <= 0.7071) {
+        if (Math_CosS(stickAngle) <= 0.7071) { // cos(45 degrees)
             EnHorse_StartTurning(this);
         } else {
             EnHorse_StartMountedIdleResetAnim(this);
@@ -3055,7 +3055,8 @@ void EnHorse_ResolveCollision(EnHorse* this, GlobalContext* globalCtx, Collision
     ny = colPoly->normal.y * COLPOLY_NORMAL_FRAC;
     nz = colPoly->normal.z * COLPOLY_NORMAL_FRAC;
     if (!(Math_CosS(this->actor.world.rot.y -
-                    (s16)(Math_FAtan2F(colPoly->normal.x, colPoly->normal.z) * (0x8000 / M_PI)) - 0x7FFF) < 0.7071f)) {
+                    (s16)(Math_FAtan2F(colPoly->normal.x, colPoly->normal.z) * (0x8000 / M_PI)) - 0x7FFF) <
+          0.7071f)) { // cos(45 degrees)
         dist = Math3D_DistPlaneToPos(nx, ny, nz, colPoly->dist, &this->actor.world.pos);
         offset = (1.0f / sqrtf(SQ(nx) + SQ(nz)));
         offset = (30.0f - dist) * offset;

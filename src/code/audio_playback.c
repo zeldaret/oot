@@ -79,9 +79,9 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     } else if (gAudioContext.soundMode == 3) {
         sub->bitField0.s.stereoHeadsetEffects = false;
         sub->bitField0.s.usesHeadsetPanEffects = false;
-        volLeft = 0.707f;
+        volLeft = 0.707f; // approx 1/sqrt(2)
         volRight = 0.707f;
-    } else {
+
         sub->bitField0.s.stereoStrongRight = sp24.strongRight;
         sub->bitField0.s.stereoStrongLeft = sp24.strongLeft;
         volLeft = gDefaultPanVolume[pan];
