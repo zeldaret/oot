@@ -357,12 +357,12 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     }
 
     for (i = 0; i < 0x40; i++) {
-        temp_s2[   0 * 0x40 + i] = 0;
+        temp_s2[0 * 0x40 + i] = 0;
         temp_s2[0x3F * 0x40 + i] = 0;
     }
 
     for (j = 1; j < 0x3F; j++) {
-        temp_s2[j * 0x40 +    0] = 0;
+        temp_s2[j * 0x40 + 0] = 0;
         temp_s2[j * 0x40 + 0x3F] = 0;
     }
     if (D_80897398) {}
