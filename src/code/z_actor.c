@@ -1802,68 +1802,67 @@ void func_8002FA60(GlobalContext* globalCtx) {
     D_8015BC18 = 0.0f;
 }
 
-#ifdef NON_MATCHING
-// some regalloc and odd loading of gSaveContext
-void func_8002FBAC(GlobalContext* globalCtx) {
-    static Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
-    static Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
-    static Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
-    static Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
-    Vec3f* temp = &gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
-    s32 spF0;
+void Actor_DrawFaroresWindPointer(GlobalContext* globalCtx) {
+    s32 lightRadius = -1;
+    s32 params;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5308);
 
-    spF0 = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
+    params = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
-    if (spF0 != 0) {
-        f32 spD8 = LINK_IS_ADULT ? 80.0f : 60.0f;
-        f32 spD4 = 1.0f;
-        s32 spD0 = 0xFF;
-        s32 spCC = spF0 - 40;
-        s32 temp2;
-        s32 pad;
+    if (params) {
+        f32 yOffset = LINK_IS_ADULT ? 80.0f : 60.0f;
+        f32 ratio = 1.0f;
+        s32 alpha = 255;
+        s32 temp = params - 40;
 
-        if (spCC < 0) {
-            gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++spF0;
-            spD4 = ABS(spF0) * 0.025f;
+        if (temp < 0) {
+            gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++params;
+            ratio = ABS(params) * 0.025f;
             D_8015BC14 = 60;
             D_8015BC18 = 1.0f;
-        } else if (D_8015BC14 != 0) {
+        } else if (D_8015BC14) {
             D_8015BC14--;
         } else if (D_8015BC18 > 0.0f) {
-            f32 spC0 = D_8015BC18;
-            Vec3f spB4;
-            f32 spB0 = Math_Vec3f_DistXYZAndStoreDiff(&gSaveContext.respawn[RESPAWN_MODE_DOWN].pos, temp, &spB4);
-            Vec3f spA4;
+            static Vec3f effectVel = { 0.0f, -0.05f, 0.0f };
+            static Vec3f effectAccel = { 0.0f, -0.025f, 0.0f };
+            static Color_RGBA8 effectPrimCol = { 255, 255, 255, 0 };
+            static Color_RGBA8 effectEnvCol = { 100, 200, 0, 0 };
+            Vec3f* curPos = &gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
+            Vec3f* nextPos = &gSaveContext.respawn[RESPAWN_MODE_DOWN].pos;
+            f32 prevNum = D_8015BC18;
+            Vec3f dist;
+            f32 diff = Math_Vec3f_DistXYZAndStoreDiff(nextPos, curPos, &dist);
+            Vec3f effectPos;
+            f32 factor;
+            f32 length;
+            f32 dx;
+            f32 speed;
 
-            if (spB0 < 20.0f) {
+            if (diff < 20.0f) {
                 D_8015BC18 = 0.0f;
-                Math_Vec3f_Copy(temp, &gSaveContext.respawn[RESPAWN_MODE_DOWN].pos);
+                Math_Vec3f_Copy(curPos, nextPos);
             } else {
-                f32 temp_f2;
-                f32 sp9C = spB0 * (1.0f / D_8015BC18);
-                f32 phi_f14 = 20.0f / sp9C;
-
-                phi_f14 = CLAMP_MIN(phi_f14, 0.05f);
-                Math_StepToF(&D_8015BC18, 0.0f, phi_f14);
-
-                temp_f2 = ((D_8015BC18 / spC0) * spB0) / spB0;
-
-                temp->x = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x + (spB4.x * temp_f2);
-                temp->y = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y + (spB4.y * temp_f2);
-                temp->z = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z + (spB4.z * temp_f2);
-                spD8 += sqrtf(SQ(sp9C / 2.0f) - SQ(spB0 - sp9C / 2.0f)) * 0.2f;
-
-                osSyncPrintf("-------- DISPLAY Y=%f\n", spD8);
+                length = diff * (1.0f / D_8015BC18);
+                speed = 20.0f / length;
+                speed = CLAMP_MIN(speed, 0.05f);
+                Math_StepToF(&D_8015BC18, 0.0f, speed);
+                factor = (diff * (D_8015BC18 / prevNum)) / diff;
+                curPos->x = nextPos->x + (dist.x * factor);
+                curPos->y = nextPos->y + (dist.y * factor);
+                curPos->z = nextPos->z + (dist.z * factor);
+                length *= 0.5f;
+                dx = diff - length;
+                yOffset += sqrtf(SQ(length) - SQ(dx)) * 0.2f;
+                osSyncPrintf("-------- DISPLAY Y=%f\n", yOffset);
             }
 
-            spA4.x = temp->x + Rand_CenteredFloat(6.0f);
-            spA4.y = temp->y + 80.0f + Rand_ZeroOne() * 6.0f;
-            spA4.z = temp->z + Rand_CenteredFloat(6.0f);
+            effectPos.x = curPos->x + Rand_CenteredFloat(6.0f);
+            effectPos.y = curPos->y + 80.0f + (6.0f * Rand_ZeroOne());
+            effectPos.z = curPos->z + Rand_CenteredFloat(6.0f);
 
-            EffectSsKiraKira_SpawnDispersed(globalCtx, &spA4, &D_80116048, &D_80116054, &D_80116060, &D_80116064, 1000,
-                                            16);
+            EffectSsKiraKira_SpawnDispersed(globalCtx, &effectPos, &effectVel, &effectAccel, &effectPrimCol,
+                                            &effectEnvCol, 1000, 16);
 
             if (D_8015BC18 == 0.0f) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP] = gSaveContext.respawn[RESPAWN_MODE_DOWN];
@@ -1871,97 +1870,81 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 40;
             }
 
-            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *temp;
-        } else if (spCC > 0) {
-            if (spCC * 0.1f < 1.0f) {
-                s32 pad2;
-                s32 pad3;
-                f32 temp3;
-                f32 temp4;
-                Vec3f sp7C;
-                Vec3f sp70;
+            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *curPos;
+        } else if (temp > 0) {
+            Vec3f* curPos = &gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
+            f32 nextRatio = 1.0f - temp * 0.1f;
+            f32 curRatio = 1.0f - (f32)(temp - 1) * 0.1f;
+            Vec3f eye;
+            Vec3f dist;
+            f32 diff;
 
-                sp7C.x = globalCtx->view.eye.x;
-                sp7C.y = globalCtx->view.eye.y - spD8;
-                sp7C.z = globalCtx->view.eye.z;
-                temp4 = Math_Vec3f_DistXYZAndStoreDiff(&sp7C, temp, &sp70);
-                temp3 = (((1.0f - spCC * 0.1f) / (1.0f - ((f32)(spCC - 1) * 0.1f))) * temp4) / temp4;
-                temp->x = sp70.x * temp3 + sp7C.x;
-                temp->y = sp70.y * temp3 + sp7C.y;
-                temp->z = sp70.z * temp3 + sp7C.z;
-
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *temp;
+            if (nextRatio > 0.0f) {
+                eye.x = globalCtx->view.eye.x;
+                eye.y = globalCtx->view.eye.y - yOffset;
+                eye.z = globalCtx->view.eye.z;
+                diff = Math_Vec3f_DistXYZAndStoreDiff(&eye, curPos, &dist);
+                diff = (diff * (nextRatio / curRatio)) / diff;
+                curPos->x = eye.x + (dist.x * diff);
+                curPos->y = eye.y + (dist.y * diff);
+                curPos->z = eye.z + (dist.z * diff);
+                gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *curPos;
             }
 
-            spD0 = 0xFF - 30 * spCC;
+            alpha = 255 - (temp * 30);
 
-            if (spD0 < 0) {
+            if (alpha < 0) {
                 gSaveContext.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
-                spD0 = 0;
+                alpha = 0;
             } else {
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++spF0;
+                gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++params;
             }
 
-            spD4 = (f32)spCC * 0.2 + 1.0f;
+            ratio = 1.0f + ((f32)temp * 0.2); // required to match
         }
 
-        if (globalCtx->csCtx.state == CS_STATE_IDLE) {
-            temp2 = gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex;
-            if ((temp2 == gSaveContext.entranceIndex) &&
-                (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
-                f32 phi_f10;
-                f32 phi_f6;
+        lightRadius = 500.0f * ratio;
 
-                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
-                // bad gSaveContext load here
-                Matrix_Translate(temp->x, temp->y + spD8, temp->z, MTXMODE_NEW);
-                Matrix_Scale(0.025f * spD4, 0.025f * spD4, 0.025f * spD4, MTXMODE_APPLY);
-                Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-                Matrix_Push();
+        if ((globalCtx->csCtx.state == CS_STATE_IDLE) &&
+            (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex) ==
+             ((void)0, gSaveContext.entranceIndex)) &&
+            (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex) == globalCtx->roomCtx.curRoom.num)) {
+            f32 scale = 0.025f * ratio;
 
-                gDPPipeSync(POLY_XLU_DISP++);
-                gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, spD0);
-                gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
+            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
 
-                phi_f10 = (globalCtx->gameplayFrames * 1500) & 0xFFFF;
-                Matrix_RotateZ((phi_f10 * M_PI) / 32768.0f, MTXMODE_APPLY);
+            Matrix_Translate(((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x),
+                             ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
+                             ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z), MTXMODE_NEW);
+            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+            Matrix_Push();
 
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
-                          G_MTX_MODELVIEW | G_MTX_LOAD);
-                gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
+            gDPPipeSync(POLY_XLU_DISP++);
+            gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 200, alpha);
+            gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
 
-                Matrix_Pop();
-                phi_f6 = ~((globalCtx->gameplayFrames * 1200) & 0xFFFF);
-                Matrix_RotateZ((phi_f6 * M_PI) / 32768.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(((globalCtx->gameplayFrames * 1500) & 0xFFFF) * M_PI / 32768.0f, MTXMODE_APPLY);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
+                      G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+            gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
 
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
-                          G_MTX_MODELVIEW | G_MTX_LOAD);
-                gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
-            }
-            {
-                Vec3f lightPos;
+            Matrix_Pop();
+            Matrix_RotateZ(~((globalCtx->gameplayFrames * 1200) & 0xFFFF) * M_PI / 32768.0f, MTXMODE_APPLY);
 
-                lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
-                lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8;
-                lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
-
-                Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
-                                          500.0f * spD4);
-            }
-            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5474);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
+                      G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+            gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
         }
+
+        Lights_PointNoGlowSetInfo(&D_8015BC00, ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x),
+                                  ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
+                                  ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z), 255, 255, 255, lightRadius);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5474);
     }
 }
-#else
-
-static Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
-static Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
-static Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
-static Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_8002FBAC.s")
-#endif
 
 void func_80030488(GlobalContext* globalCtx) {
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, D_8015BC10);
@@ -2447,7 +2430,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
         }
     }
 
-    func_8002FBAC(globalCtx);
+    Actor_DrawFaroresWindPointer(globalCtx);
 
     if (IREG(32) == 0) {
         Lights_DrawGlow(globalCtx);

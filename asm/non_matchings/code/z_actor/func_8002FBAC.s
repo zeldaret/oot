@@ -52,7 +52,7 @@ glabel D_80136B48
     .float 3.1415927 # M_PI
 
 .text
-glabel func_8002FBAC
+glabel Actor_DrawFaroresWindPointer
 /* AA6D4C 8002FBAC 27BDFF08 */  addiu $sp, $sp, -0xf8
 /* AA6D50 8002FBB0 AFBF0024 */  sw    $ra, 0x24($sp)
 /* AA6D54 8002FBB4 AFA400F8 */  sw    $a0, 0xf8($sp)
