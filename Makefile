@@ -243,10 +243,6 @@ build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
-assets/%.c: assets/%.xml
-	$(ZAPD) bsf -eh -i $< -o $(dir $<)
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o build/$(@:.c=.o) $@
-
 build/%.inc.c: %.png
 	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
 
