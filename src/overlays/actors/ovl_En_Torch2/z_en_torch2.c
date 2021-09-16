@@ -290,7 +290,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             sStickTilt = 0.0f;
 
             // Handles Dark Link's sword clanking on Link's sword
-            if (sStickAngle) {} // TODO: Needed?
 
             if ((this->swordQuads[0].base.acFlags & AC_BOUNCED) || (this->swordQuads[1].base.acFlags & AC_BOUNCED)) {
                 this->swordQuads[0].base.acFlags &= ~AC_BOUNCED;
@@ -424,23 +423,18 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                             // Handles reactions to all other sword attacks
 
-                            // PERM_RANDOMIZE(
-
-                            if(player2->swordAnimation) {} // TODO: Needed?
-                            sStickAngle = thisx->yawTowardsPlayer; // Not loaded into pointer
+                            if(player2->swordAnimation) {} // TODO: Needed to reduce stack?
+                            sStickAngle = thisx->yawTowardsPlayer; // TODO: thisx?
                             input->cur.button = BTN_B;
-
-                            // phi_v1 = sStickAngle;
-                            // if (input) {} // TODO: Needed?
 
                             if (player->swordAnimation <= FORWARD_COMBO_2H) {
                                 sStickTilt = 0.0f;
                             } else if (player->swordAnimation <= RIGHT_COMBO_2H) {
                                 sStickTilt = 127.0f;
-                                sStickAngle += 0x4000; // Not loaded from pointer
+                                sStickAngle += 0x4000;
                             } else if (player->swordAnimation <= LEFT_COMBO_2H) {
                                 sStickTilt = 127.0f;
-                                sStickAngle -= 0x4000; // Not loaded from pointer
+                                sStickAngle -= 0x4000;
                             } else if (player->swordAnimation <= HAMMER_SIDE) {
                                 input->cur.button = BTN_R;
                             } else if (player->swordAnimation <= BIG_SPIN_2H) {
@@ -452,7 +446,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 (player->swordState != 0)) {
                                 sCounterState = 1;
                             }
-                            // )
                         }
                     } else {
 
@@ -589,39 +582,32 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     // Updates Dark Link's "controller". The conditional seems to cause him to
     // stop targeting and hold shield if he's been holding it long enough.
-    // PERM_RANDOMIZE(
 
     phi_a2 = input->cur.button;
     phi_v0 = input->cur.button;
     pad54 = phi_v0 ^ input->prev.button;
     phi_v0 = phi_v0;
     input->press.button = phi_v0 & pad54;
-    // phi_v0 = phi_a2;
     if (phi_v0 & BTN_R) {
         input->cur.button = phi_a2;
-        // if (player) {} // TODO: Needed?
-        // PERM_RANDOMIZE(
         if ((sCounterState == 0) && (this->swordState == 0)) {
             phi_a2 = BTN_R;
             phi_v0 = BTN_R;
         } else {
-            // phi_a2 = BTN_R;
-            temp2 = phi_v0 ^ BTN_R;
-            phi_a2 = temp2;
-            phi_v0 = temp2;
-            // phi_v0 = phi_a2;
+            phi_a2 = phi_v0 ^ BTN_R;
+            phi_v0 = phi_a2;
         }
         // phi_a2 = ((sCounterState == 0) && (this->swordState == 0)) ? BTN_R : phi_v0 ^ BTN_R;
         phi_v0 = phi_a2; // instruction mismatch
     }
-    input->rel.button = input->prev.button & pad54;
-    if (1) {} // TODO: Needed?
 
+    input->rel.button = input->prev.button & pad54;
+
+    if (1) {} // TODO: Needed?
 
     input->prev.button = phi_v0 & 0x3FFF; // & ~(BTN_A | BTN_B)
     input->cur.button = phi_a2;
-    // )
-    // )
+
     PadUtils_UpdateRelXY(input);
 
     input->press.stick_x += (s8)(input->cur.stick_x - input->prev.stick_x);
