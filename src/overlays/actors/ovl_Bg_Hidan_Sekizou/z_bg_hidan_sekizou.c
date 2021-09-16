@@ -306,7 +306,7 @@ Gfx* func_8088D9F4(GlobalContext* globalCtx, BgHidanSekizou* this, s16 arg2, Mtx
     arg2++;
     gSPSegment(arg7++, 9, SEGMENTED_TO_VIRTUAL(sFireballsTexs[arg6]));
     if (arg2 != 4) {
-        phi_f12 = arg2 + ((4 - this->unk_170) * 0.25f);
+        phi_f12 = arg2 + ((4 - this->unk_170) / 4.0f);
     } else {
         phi_f12 = arg2;
     }
