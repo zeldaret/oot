@@ -66,26 +66,26 @@ const ActorInit En_Torch2_InitVars = {
     (ActorFunc)EnTorch2_Draw,
 };
 
-f32 sStickTilt = 0.0f;
-s16 sStickAngle = 0;
-f32 sSwordJumpHeight = 0.0f;
-s32 sHoldShieldTimer = 0;
-u8 sZTargetFlag = false;
-u8 sDeathFlag = false;
+static f32 sStickTilt = 0.0f;
+static s16 sStickAngle = 0;
+static f32 sSwordJumpHeight = 0.0f;
+static s32 sHoldShieldTimer = 0;
+static u8 sZTargetFlag = false;
+static u8 sDeathFlag = false;
 
-Input sInput;
-u8 sSwordJumpState;
-Vec3f sSpawnPoint;
-u8 sJumpslashTimer;
-u8 sJumpslashFlag;
-u8 sActionState;
-u8 sSwordJumpTimer;
-u8 sCounterState;
-u8 sDodgeRollState;
-u8 sStaggerCount;
-u8 sStaggerTimer;
-s8 sLastSwordAnim;
-u8 sAlpha;
+static Input sInput;
+static u8 sSwordJumpState;
+static Vec3f sSpawnPoint;
+static u8 sJumpslashTimer;
+static u8 sJumpslashFlag;
+static u8 sActionState;
+static u8 sSwordJumpTimer;
+static u8 sCounterState;
+static u8 sDodgeRollState;
+static u8 sStaggerCount;
+static u8 sStaggerTimer;
+static s8 sLastSwordAnim;
+static u8 sAlpha;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
@@ -577,7 +577,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (input->cur.button & BTN_R) {
         input->cur.button = ((sCounterState == 0) && (this->swordState == 0)) ? BTN_R : input->cur.button ^ BTN_R;
     }
-
     input->rel.button = input->prev.button & pad54;
     input->prev.button = input->cur.button & 0x3FFF; // & ~(BTN_A | BTN_B)
     PadUtils_UpdateRelXY(input);
