@@ -381,7 +381,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         }
                     }
                 } else {
-                    if (1) {} // TODO: Needed?
                     // This does nothing, as sHoldShieldTimer is never set.
                     if (sHoldShieldTimer != 0) {
                         sHoldShieldTimer--;
@@ -421,7 +420,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                             // Handles reactions to all other sword attacks
 
-                            // if(player2->swordAnimation) {} // TODO: Needed to reduce stack?
                             sStickAngle = thisx->yawTowardsPlayer; // TODO: thisx?
                             input->cur.button = BTN_B;
 
@@ -449,7 +447,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                         // Handles movement and attacks when not reacting to Link's actions
 
-                        sStickAngle = thisx->yawTowardsPlayer;
+                        sStickAngle = thisx->yawTowardsPlayer; // TODO: thisx?
                         sp50 = 0.0f;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
                             (ABS(sp5A) >= 0x7800) && (this->actor.isTargeted || !(player->stateFlags1 & 0x00400000))) {
@@ -491,23 +489,19 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 // Handles Dark Link's counterattack to jumpslashes
             
-            } else {
-                // pad54 = sJumpslashFlag; // TODO: Reused temp needed?
-                if (sJumpslashFlag && (sAlpha == 255) && (this->actor.velocity.y > 0)) {
-                    input->cur.button |= BTN_B;
-                } else if (!sJumpslashFlag && (this->actor.bgCheckFlags & 1)) {
-                    this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-                    sStickAngle = this->actor.yawTowardsPlayer;
-                    if (sAlpha != 255) {
-                        sStickAngle += 0x8000;
-                        sStickTilt = 127.0f; // Not loaded from pointer
-                        sZTargetFlag = true;
-                    }
-                    input->cur.button |= BTN_A;
-                    sJumpslashFlag = true;
-                    this->invincibilityTimer = 10;
+            } else if (sJumpslashFlag && (sAlpha == 255) && (this->actor.velocity.y > 0)) {
+                input->cur.button |= BTN_B;
+            } else if (!sJumpslashFlag && (this->actor.bgCheckFlags & 1)) {
+                this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
+                sStickAngle = this->actor.yawTowardsPlayer;
+                if (sAlpha != 255) {
+                    sStickAngle += 0x8000;
+                    sStickTilt = 127.0f;
+                    sZTargetFlag = true;
                 }
-
+                input->cur.button |= BTN_A;
+                sJumpslashFlag = true;
+                this->invincibilityTimer = 10;
             }
 
             // Rotates Dark Link's stick angle from Link-relative to camera-relative.
