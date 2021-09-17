@@ -284,7 +284,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if ((this->swordQuads[0].base.acFlags & AC_BOUNCED) || (this->swordQuads[1].base.acFlags & AC_BOUNCED)) {
                 this->swordQuads[0].base.acFlags &= ~AC_BOUNCED;
                 this->swordQuads[1].base.acFlags &= ~AC_BOUNCED;
-                this->swordQuads[0].base.atFlags |= AT_BOUNCED; // Loads these out of order
+                this->swordQuads[0].base.atFlags |= AT_BOUNCED;
                 this->swordQuads[1].base.atFlags |= AT_BOUNCED;
                 this->cylinder.base.acFlags &= ~AC_HIT;
 
@@ -299,7 +299,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                  *  creating a hole in his defenses. This also makes Dark Link harder at low
                  *  health, while the other health checks are intended to make him easier.
                  */
-                if ((gSaveContext.health < 0x50) && (sCounterState != 0)) { // Loads in wrong order
+                if ((gSaveContext.health < 0x50) && (sCounterState != 0)) {
                     sCounterState = 0;
                     sStaggerTimer = 50;
                 }
@@ -383,7 +383,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     // Handles Dark Link's reaction to sword attack other than jumpslashes
 
                     if (func_800354B4(globalCtx, &this->actor, 120.0f, 0x7FFF, 0x7FFF, this->actor.world.rot.y)) {
-                        // Loads arguments in wrong order. Probably related to static variables problem.
                         if ((player->swordAnimation == STAB_1H) && (this->actor.xzDistToPlayer < 90.0f)) {
 
                             // Handles the reaction to a one-handed stab. If the conditions are satisfied,
