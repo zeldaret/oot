@@ -255,7 +255,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             this->skelAnime.curFrame = 0.0f;
             this->skelAnime.playSpeed = 0.0f;
-            if (stickY) {}
             this->actor.world.pos.x = (Math_SinS(this->actor.world.rot.y) * 25.0f) + sSpawnPoint.x;
             this->actor.world.pos.z = (Math_CosS(this->actor.world.rot.y) * 25.0f) + sSpawnPoint.z;
             if ((this->actor.xzDistToPlayer <= 120.0f) || Actor_IsTargeted(globalCtx, &this->actor) ||
@@ -267,9 +266,10 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     input->cur.button = BTN_A;
                     sZTargetFlag = false;
                     sp66 = camera->camDir.y - sStickAngle;
-                    input->cur.stick_x = sStickTilt * Math_SinS(sp66);
+                    sInput.cur.stick_x = sStickTilt * Math_SinS(sp66);
                     stickY = sStickTilt * Math_CosS(sp66);
-                    input->cur.stick_y = stickY;
+                    if (stickY) {}
+                    sInput.cur.stick_y = stickY;
                 }
                 func_800F5ACC(0x38);
                 sActionState = ENTORCH2_ATTACK;
@@ -499,7 +499,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             // Rotates Dark Link's stick angle from Link-relative to camera-relative.
 
             sp66 = camera->camDir.y - sStickAngle;
-            input->cur.stick_x = Math_SinS(sp66) * sStickTilt;
+            sInput.cur.stick_x = sStickTilt * Math_SinS(sp66);
             stickY = sStickTilt * Math_CosS(sp66);
             if (sAlpha) {}
             sInput.cur.stick_y = stickY;
