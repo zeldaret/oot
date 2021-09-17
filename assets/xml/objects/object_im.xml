@@ -29,14 +29,14 @@
         <DList Name="gImpaRightLegDL" Offset="0x69E8"/>
         <DList Name="gImpaLeftThighDL" Offset="0x6BB8"/>
         <DList Name="gImpaLeftLegDL" Offset="0x6D70"/>
-        <Texture Name="gImpaHeadTLUT" OutName="headTLUT" Format="rgba16" Width="16" Height="16" Offset="0x6F40"/>
+        <Texture Name="gImpaEyesTLUT" OutName="eyes_tlut" Format="rgba16" Width="16" Height="16" Offset="0x6F40"/>
         <Texture Name="object_im_TLUT_007140" OutName="tlut_00007140" Format="rgba16" Width="26" Height="4" Offset="0x7140"/>
         <Texture Name="gImpaEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x7210" TlutOffset="0x6F40"/>
         <Texture Name="gImpaEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x7D50" TlutOffset="0x6F40"/>
         <Texture Name="gImpaEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x8150" TlutOffset="0x6F40"/>
 
         <Texture Name="gImpaEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x7610" TlutOffset="0x7140"/> <!-- Also used in gImpaHandPointingDL DList -->
-        <DList Name="gImpaHeadDL" Offset="0xBDC0"/>
+        <DList Name="gImpaHeadUnmaskedDL" Offset="0xBDC0"/>
         <Texture Name="gImpaHeadGradientTex" OutName="head_gradient" Format="ci8" Width="8" Height="8" Offset="0x7710" TlutOffset="0x7140"/>
 
         <Texture Name="object_im_Tex_007750" OutName="tex_00007750" Format="rgba16" Width="8" Height="8" Offset="0x7750"/>
@@ -46,7 +46,7 @@
         <Texture Name="object_im_Tex_007B10" OutName="tex_00007B10" Format="ci8" Width="8" Height="8" Offset="0x7B10" TlutOffset="0x7140"/>
         <Texture Name="object_im_Tex_007B50" OutName="tex_00007B50" Format="ci8" Width="16" Height="16" Offset="0x7B50" TlutOffset="0x7140"/>
         <Texture Name="gImpaFingers2Tex" OutName="fingers_2" Format="ci8" Width="16" Height="16" Offset="0x7C50" TlutOffset="0x7140"/> <!-- Used in the gImpaHandPointingDL DList -->
-        <DList Name="gImpaHead2DL" Offset="0xD0D8"/>
+        <DList Name="gImpaHeadMaskedDL" Offset="0xD0D8"/>
         <DList Name="gImpaLeftFootDL" Offset="0xDDB8"/>
         <DList Name="gImpaLeftHandDL" Offset="0xE0F0"/>
         <DList Name="gImpaRightFootDL" Offset="0xE5D0"/>
@@ -71,9 +71,9 @@
         <Skeleton Name="gImpaSkel" Type="Flex" LimbType="Standard" Offset="0xF788"/>
         <Animation Name="object_im_Anim_00FB10" Offset="0xFB10"/>
         <Animation Name="object_im_Anim_0101C8" Offset="0x101C8"/>
-        <Animation Name="gImpaStartPlayingAnim" Offset="0x10EE0"/>
-        <Animation Name="gImpaPlayingAnim" Offset="0x1182C"/>
-        <Animation Name="gImpaCrossArmsAnim" Offset="0x11C08"/>
+        <Animation Name="gImpaStartWhistlingAnim" Offset="0x10EE0"/>
+        <Animation Name="gImpaWhistlingAnim" Offset="0x1182C"/>
+        <Animation Name="gImpaPrepareSealGanonAnim" Offset="0x11C08"/>
         <Animation Name="gImpaSealGanonAnim" Offset="0x12218"/>
     </File>
 </Root>

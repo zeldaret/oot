@@ -648,7 +648,7 @@ void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx) {
 
 s32 func_80B2C10C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if (limbIndex == 16) {
-        *dList = gImpaHead2DL;
+        *dList = gImpaHeadMaskedDL;
     }
     return 0;
 }

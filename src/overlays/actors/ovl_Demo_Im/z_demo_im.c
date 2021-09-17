@@ -444,8 +444,8 @@ void DemoIm_SpawnLightBall(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985948(DemoIm* this, GlobalContext* globalCtx) {
     if (func_809850E8(this, globalCtx, 4, 5)) {
-        Animation_Change(&this->skelAnime, &gImpaCrossArmsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaCrossArmsAnim),
-                         ANIMMODE_ONCE, 0.0f);
+        Animation_Change(&this->skelAnime, &gImpaPrepareSealGanonAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gImpaPrepareSealGanonAnim), ANIMMODE_ONCE, 0.0f);
         this->action = 8;
         this->drawConfig = 2;
         this->alpha = 0;
@@ -555,7 +555,7 @@ void func_80985EAC(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80985EF4(DemoIm* this) {
-    if (!Animation_OnFrame(&this->skelAnime, Animation_GetLastFrame(&gImpaPlayingAnim) - 1.0f)) {
+    if (!Animation_OnFrame(&this->skelAnime, Animation_GetLastFrame(&gImpaWhistlingAnim) - 1.0f)) {
         DemoIm_UpdateSkelAnime(this);
     }
 }
@@ -575,15 +575,15 @@ void func_80985F64(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985FE8(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &gImpaPlayingAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaPlayingAnim),
+        Animation_Change(&this->skelAnime, &gImpaWhistlingAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaWhistlingAnim),
                          ANIMMODE_LOOP, -8.0f);
     }
 }
 
 void func_8098604C(DemoIm* this) {
-    f32 frameCount = Animation_GetLastFrame(&gImpaStartPlayingAnim);
+    f32 frameCount = Animation_GetLastFrame(&gImpaStartWhistlingAnim);
 
-    Animation_Change(&this->skelAnime, &gImpaStartPlayingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -8.0f);
+    Animation_Change(&this->skelAnime, &gImpaStartWhistlingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -8.0f);
     this->action = 12;
     this->drawConfig = 1;
     this->unk_2D0 = 1;
@@ -603,7 +603,8 @@ void func_809860DC(DemoIm* this, s32 arg1) {
 }
 
 void func_80986148(DemoIm* this) {
-    Animation_Change(&this->skelAnime, &gImpaStartPlayingAnim, -1.0f, Animation_GetLastFrame(&gImpaStartPlayingAnim),
+    Animation_Change(&this->skelAnime, &gImpaStartWhistlingAnim, -1.0f,
+                     Animation_GetLastFrame(&gImpaStartWhistlingAnim),
 
                      0.0f, ANIMMODE_ONCE, -8.0f);
     this->action = 14;
@@ -623,8 +624,8 @@ void func_809861C4(DemoIm* this, GlobalContext* globalCtx) {
                     func_80986148(this);
                     break;
                 case 7:
-                    Animation_Change(&this->skelAnime, &gImpaPlayingAnim, 1.0f, 0.0f,
-                                     Animation_GetLastFrame(&gImpaPlayingAnim), ANIMMODE_LOOP, -8.0f);
+                    Animation_Change(&this->skelAnime, &gImpaWhistlingAnim, 1.0f, 0.0f,
+                                     Animation_GetLastFrame(&gImpaWhistlingAnim), ANIMMODE_LOOP, -8.0f);
                     this->action = 12;
                     break;
                 default:
