@@ -930,7 +930,8 @@ void func_801086B0(GlobalContext* globalCtx, Gfx** gfxP) {
                                    (lookAheadCharacter != MESSAGE_EVENT) &&
                                    (lookAheadCharacter != MESSAGE_BOX_BREAK_DELAYED) &&
                                    (lookAheadCharacter != MESSAGE_AWAIT_BUTTON_PRESS) &&
-                                   (lookAheadCharacter != MESSAGE_BOX_BREAK) && (lookAheadCharacter != MESSAGE_END)) {
+                                   (lookAheadCharacter != MESSAGE_BOX_BREAK) && 
+                                   (lookAheadCharacter != MESSAGE_END)) {
                             j++;
                         } else {
                             break;
@@ -976,7 +977,7 @@ void func_801086B0(GlobalContext* globalCtx, Gfx** gfxP) {
                     D_8014B318 = 1;
                     osSyncPrintf("サウンド（ＳＥ）\n"); // sfx
                     new_var = msgCtx->unk_E306[i + 1] << 8;
-                    Audio_PlaySoundGeneral((new_var) | msgCtx->unk_E306[i + 2], &D_801333D4, 4, &D_801333E0,
+                    Audio_PlaySoundGeneral(new_var | msgCtx->unk_E306[i + 2], &D_801333D4, 4, &D_801333E0,
                                            &D_801333E0, &D_801333E8);
                 }
                 i += 2;
@@ -1922,7 +1923,7 @@ void Message_SetView(View* view) {
 
 // Message_DrawMain ?
 #ifdef NON_MATCHING
-// regalloc differences, stack placement
+// regalloc differences in a/v/low t registers
 void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
     static s16 D_80153C68[] = {
         0x0040, 0x0200, 0x0400, 0x0800, 0x1000, 0x0000,
@@ -1959,25 +1960,23 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
     static s16 D_80153CE0[] = {
         0x0034, 0x0033, 0x0035, 0x0036, 0x0037, 0x0025, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049,
     };
-    /* TARGET  SOURCE */
-    /*    158     158 */    /* CAP */
-    /*            154 */    s32 pad;
-    /*            150 */    MessageContext* msgCtx;
-    /*            14C */    u16 phi_v0;
-    /*    148     148 */    Player* player = GET_PLAYER(globalCtx);
-    /*            146 */    s16 temp;
-    /*            144 */    u16 phi_a1;
-    /*    140     140 */    Gfx* gfx = *p;
-    /*            13E */    s16 r;
-    /*            13C */    s16 g;
-    /*            13A */    s16 b;
-    /*    138     138 */    u16 phi_a3;
-    /*            136 */    u8 temp2;
-    /*    132     134 */    u16 phi_a2;
-    /*     8c      90 */    /* globalCtx + 0x10000 */
+    InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
+    u16 phi_v0;
+    Player* player = GET_PLAYER(globalCtx);
+    s16 temp;
+    u16 phi_a1;
+    Gfx* gfx = *p;
+    s16 r;
+    s16 g;
+    s16 b;
+    u16 phi_a3;
+    u8 temp2;
+    u8 pad1;
+    u8 pad2;
+    u16 phi_a2;
 
     gSPSegment(gfx++, 0x02, globalCtx->interfaceCtx.parameterSegment);
-    msgCtx = &globalCtx->msgCtx; // s1
     gSPSegment(gfx++, 0x07, msgCtx->textboxSegment);
 
     if (msgCtx->unk_E300 == 0) {
@@ -2027,12 +2026,12 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             msgCtx->ocarinaStaff->pos = D_8014B2F8 = 0;
             globalCtx->msgCtx.unk_E3EE = 1;
             func_801069B0();
-            D_80153CDC = 1;
             D_80153CD8 = 3;
+            D_80153CDC = 1;
             if (msgCtx->msgMode == MSGMODE_UNK_09) {
-                if ((msgCtx->unk_E3F0 == 0) || (msgCtx->unk_E3F0 == 1) || (msgCtx->unk_E3F0 == 0x2C) ||
-                    (msgCtx->unk_E3F0 == 0x30) || (msgCtx->unk_E3F0 >= 0x22)) {
-                    if ((msgCtx->unk_E3F0 == 1) || (msgCtx->unk_E3F0 == 0x30)) {
+                if (msgCtx->unk_E3F0 == 0 || msgCtx->unk_E3F0 == 1 || msgCtx->unk_E3F0 == 0x2C ||
+                    msgCtx->unk_E3F0 == 0x30 || msgCtx->unk_E3F0 >= 0x22) {
+                    if (msgCtx->unk_E3F0 == 1 || msgCtx->unk_E3F0 == 0x30) {
                         func_800ECC04(D_8014B31C + 0xC000);
                     } else {
                         // On Stage Performance
@@ -2053,7 +2052,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 osSyncPrintf("演奏チェック=%d\n", msgCtx->unk_E3F0 - 0xF);
                 msgCtx->msgMode = MSGMODE_UNK_1B;
             }
-            if ((msgCtx->unk_E3F0 != 1) && (msgCtx->unk_E3F0 != 0x30)) {
+            if (msgCtx->unk_E3F0 != 1 && msgCtx->unk_E3F0 != 0x30) {
                 func_801086B0(globalCtx, &gfx);
             }
             break;
@@ -2072,13 +2071,13 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             }
             msgCtx->unk_E3EC = msgCtx->ocarinaStaff->state;
             if (msgCtx->ocarinaStaff->state < 0xD) {
-                if ((msgCtx->ocarinaStaff->state == 0xC) ||
-                    (((&gBitFlags[6])[D_8015396C[msgCtx->ocarinaStaff->state]] & gSaveContext.inventory.questItems) != 0)) {
+                if (msgCtx->ocarinaStaff->state == 0xC ||
+                    CHECK_QUEST_ITEM(QUEST_SONG_MINUET + D_8015396C[msgCtx->ocarinaStaff->state])) {
                     D_8014B310 = msgCtx->unk_E3F2 = msgCtx->unk_E3EC = msgCtx->ocarinaStaff->state;
                     msgCtx->msgMode = MSGMODE_UNK_0D;
                     msgCtx->unk_E3E7 = 0x14;
                     if (msgCtx->unk_E3F0 == 0x30) {
-                        if ((msgCtx->ocarinaStaff->state < 6) || (msgCtx->ocarinaStaff->state == 0xC)) {
+                        if (msgCtx->ocarinaStaff->state < 6 || msgCtx->ocarinaStaff->state == 0xC) {
                             func_800ED858(0);
                             Audio_PlaySoundGeneral(NA_SE_SY_OCARINA_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
@@ -2142,7 +2141,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 globalCtx->msgCtx.unk_E3EE = 4;
                 func_80106CCC(globalCtx);
             }
-            if ((msgCtx->unk_E3F0 != 1) && (msgCtx->unk_E3F0 != 0x30)) {
+            if (msgCtx->unk_E3F0 != 1 && msgCtx->unk_E3F0 != 0x30) {
                 func_801086B0(globalCtx, &gfx);
             }
             break;
@@ -2323,8 +2322,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 func_80109B3C(globalCtx);
                 msgCtx->msgMode = MSGMODE_UNK_12;
                 msgCtx->ocarinaStaff = func_800EE3D4();
-                D_8014B2F8 = 0;
-                msgCtx->ocarinaStaff->pos = D_8014B2F8;
+                msgCtx->ocarinaStaff->pos = D_8014B2F8 = 0;
                 func_801069B0();
                 if (msgCtx->unk_E3EC >= 6 && msgCtx->unk_E3EC < 0xD) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, D_80153C74[msgCtx->unk_E3EC - 6],
@@ -2338,7 +2336,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             func_800ED858(1);
             func_800ED858(1);
             func_800ED93C(msgCtx->unk_E3EC + 1, 1);
-            if (0xC != msgCtx->unk_E3EC) {
+            if (msgCtx->unk_E3EC != 0xC) {
                 func_800F5C64(D_80153CE0[msgCtx->unk_E3EC]);
                 Audio_SetSoundBanksMute(0x20);
             }
@@ -2400,10 +2398,8 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_17:
             msgCtx->unk_E3E7--;
             if (msgCtx->unk_E3E7 == 0) {
-                if (msgCtx->unk_E3EC < 6 && ((msgCtx->unk_E3F0 < 0xF) || (msgCtx->unk_E3F0 >= 0x15))) {
-                    InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-
-                    if ((msgCtx->unk_E40C != 0) || (interfaceCtx->restrictions.warpSongs == 3)) {
+                if (msgCtx->unk_E3EC < 6 && (msgCtx->unk_E3F0 < 0xF || msgCtx->unk_E3F0 >= 0x15)) {
+                    if (msgCtx->unk_E40C != 0 || interfaceCtx->restrictions.warpSongs == 3) {
                         func_8010B680(globalCtx, 0x88C, NULL);
                         globalCtx->msgCtx.unk_E3EE = 4;
                     } else if ((gSaveContext.eventInf[0] & 0xF) != 1) {
@@ -2427,7 +2423,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                     } else if (msgCtx->unk_E3F0 >= 0x1C) {
                         osSyncPrintf(VT_FGCOL(YELLOW));
                         osSyncPrintf("Ocarina_PC_Wind=%d(%d) ☆☆☆   ", 0x1C, msgCtx->unk_E3F0 - 0x1C);
-                        if ((msgCtx->unk_E3EC + 0x1C) == msgCtx->unk_E3F0) {
+                        if (msgCtx->unk_E3EC + 0x1C == msgCtx->unk_E3F0) {
                             globalCtx->msgCtx.unk_E3EE = 3;
                         } else {
                             globalCtx->msgCtx.unk_E3EE = msgCtx->unk_E3EC - 1;
@@ -2435,7 +2431,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                     } else {
                         osSyncPrintf(VT_FGCOL(GREEN));
                         osSyncPrintf("Ocarina_C_Wind=%d(%d) ☆☆☆   ", 0xF, msgCtx->unk_E3F0 - 0xF);
-                        if ((msgCtx->unk_E3EC + 0xF) == msgCtx->unk_E3F0) {
+                        if (msgCtx->unk_E3EC + 0xF == msgCtx->unk_E3F0) {
                             globalCtx->msgCtx.unk_E3EE = 3;
                         } else {
                             globalCtx->msgCtx.unk_E3EE = 4;
@@ -2471,7 +2467,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_1B:
             msgCtx->ocarinaStaff = func_800EE3D4();
-            if (msgCtx->ocarinaStaff->pos != 0 && (unsigned)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos != 0 && (u32)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
                 D_8015394C[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 D_8015394C[msgCtx->ocarinaStaff->pos] = 0xFF;
                 D_8014B2F8++;
@@ -2480,10 +2476,10 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 osSyncPrintf("M_OCARINA20 : ocarina_no=%x    status=%x\n", msgCtx->unk_E3F0, msgCtx->ocarinaStaff->state);
                 msgCtx->unk_E3EC = msgCtx->ocarinaStaff->state;
                 msgCtx->msgMode = MSGMODE_UNK_1C;
-                Item_Give(globalCtx, D_8015396C[msgCtx->ocarinaStaff->state] + 0x5A);
+                Item_Give(globalCtx, ITEM_SONG_MINUET + D_8015396C[msgCtx->ocarinaStaff->state]);
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // z_message.c Song Acquired
-                osSyncPrintf("z_message.c 取得メロディ＝%d\n", msgCtx->ocarinaStaff->state + 0x5A);
+                osSyncPrintf("z_message.c 取得メロディ＝%d\n", ITEM_SONG_MINUET + msgCtx->ocarinaStaff->state);
                 osSyncPrintf(VT_RST);
                 msgCtx->unk_E3E7 = 0x14;
                 Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -2496,7 +2492,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_1F:
             func_801086B0(globalCtx, &gfx);
-            if (Message_ShouldAdvance(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 func_8010BD58(globalCtx, msgCtx->unk_E3F0);
             }
             break;
@@ -2506,8 +2502,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             func_800EE170(1);
             func_800ED858(1);
             msgCtx->ocarinaStaff = func_800EE3C8();
-            D_8014B2F8 = 0;
-            msgCtx->ocarinaStaff->pos = D_8014B2F8;
+            msgCtx->ocarinaStaff->pos = D_8014B2F8 = 0;
             D_8014B2FC = 0;
             func_801069B0();
             msgCtx->msgMode = MSGMODE_UNK_22;
@@ -2518,7 +2513,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             osSyncPrintf("\nonpu_pt=%d, locate=%d", D_8014B2F8, msgCtx->ocarinaStaff->pos);
             if (msgCtx->ocarinaStaff->pos != 0 && D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
                 if (D_8014B2FC >= 8) {
-                    for (phi_v0 = D_8014B2FC - 8, phi_a3 = 0; phi_a3 < 8; phi_v0++, phi_a3++) {
+                    for (phi_v0 = D_8014B2FC - 8, phi_a3 = 0; phi_a3 < 8; phi_a3++, phi_v0++) {
                         D_8015394C[phi_v0] = D_8015394C[phi_v0 + 1];
                     }
                     D_8014B2FC--;
@@ -2533,11 +2528,11 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                     D_8014B2F8 = 0;
                 }
             }
-            if ((msgCtx->ocarinaStaff->state == 0) || CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
+            if (msgCtx->ocarinaStaff->state == 0 || CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
                 if (D_8014B2FC != 0) {
                     // Recording complete！！！！！！！！！ message->info->status=%d
                     osSyncPrintf("録音終了！！！！！！！！！  message->info->status=%d \n", msgCtx->ocarinaStaff->state);
-                    gSaveContext.scarecrowCustomSongSet = 1;
+                    gSaveContext.scarecrowCustomSongSet = true;
                 }
                 Audio_PlaySoundGeneral(NA_SE_SY_OCARINA_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 osSyncPrintf("aaaaaaaaaaaaaa\n");
@@ -2562,9 +2557,9 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_23:
         case MSGMODE_UNK_28:
             msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
-            if (msgCtx->ocarinaStaff->pos != 0 && (unsigned)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos != 0 && (u32)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
                 if (D_8014B2FC >= 8) {
-                    for (phi_v0 = D_8014B2FC - 8, phi_a3 = 0; phi_a3 < 8; phi_v0++, phi_a3++) {
+                    for (phi_v0 = D_8014B2FC - 8, phi_a3 = 0; phi_a3 < 8; phi_a3++, phi_v0++) {
                         D_8015394C[phi_v0] = D_8015394C[phi_v0 + 1];
                     }
                     D_8014B2FC--;
@@ -2597,12 +2592,10 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_25:
             msgCtx->ocarinaStaff = func_800EE3C8();
-            if (msgCtx->ocarinaStaff->pos != 0) {
-                if (D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
-                    msgCtx->unk_E410 = D_8015394C[D_8014B2F8] = msgCtx->ocarinaStaff->noteIdx;
-                    D_8014B2F8++;
-                    D_8015394C[D_8014B2F8] = 0xFF;
-                }
+            if (msgCtx->ocarinaStaff->pos != 0 && D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
+                msgCtx->unk_E410 = D_8015394C[D_8014B2F8] = msgCtx->ocarinaStaff->noteIdx;
+                D_8014B2F8++;
+                D_8015394C[D_8014B2F8] = 0xFF;
             }
             if (msgCtx->ocarinaStaff->state == 0) {
                 // 8 Note Recording ＯＫ！
@@ -2620,7 +2613,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 }
                 osSyncPrintf(VT_RST);
                 osSyncPrintf("\n====================================================================\n");
-            } else if ((msgCtx->ocarinaStaff->state == 0xFF) ||
+            } else if (msgCtx->ocarinaStaff->state == 0xFF ||
                        CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
                 // Played an existing song！！！
                 osSyncPrintf("すでに存在する曲吹いた！！！ \n");
@@ -2642,8 +2635,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             func_800ED858(6);
             func_800EE57C(gSaveContext.ocarinaGameReward);
             msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
-            D_8014B2F8 = 0;
-            msgCtx->ocarinaStaff->pos = D_8014B2F8;
+            msgCtx->ocarinaStaff->pos = D_8014B2F8 = 0;
             func_801069B0();
             func_800ED93C(0xE, 1);
             msgCtx->msgMode = MSGMODE_UNK_2A;
@@ -2654,7 +2646,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             Audio_PlaySoundGeneral(NA_SE_SY_METRONOME_LV - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
             msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
-            if (msgCtx->ocarinaStaff->pos != 0 && (unsigned)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos != 0 && (u32)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
                 D_8015394C[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 D_8015394C[msgCtx->ocarinaStaff->pos] = 0xFF;
                 D_8014B2F8++;
@@ -2677,7 +2669,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_2B:
         case MSGMODE_UNK_2D:
             msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
-            if (msgCtx->ocarinaStaff->pos != 0 && (unsigned)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos != 0 && (u32)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
                 D_8015394C[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 D_8015394C[msgCtx->ocarinaStaff->pos] = 0xFF;
                 D_8014B2F8++;
@@ -2687,7 +2679,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             Audio_PlaySoundGeneral(NA_SE_SY_METRONOME_LV - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
             msgCtx->ocarinaStaff = func_800EE3D4();
-            if (msgCtx->ocarinaStaff->pos != 0 && (unsigned)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos != 0 && (u32)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
                 D_8015394C[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 D_8015394C[msgCtx->ocarinaStaff->pos] = 0xFF;
                 D_8014B2F8++;
@@ -2710,7 +2702,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_2F:
             msgCtx->ocarinaStaff = func_800EE3D4();
-            if (msgCtx->ocarinaStaff->pos != 0 && (unsigned)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos != 0 && (u32)D_8014B2F8 + 1 == msgCtx->ocarinaStaff->pos) {
                 D_8015394C[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 D_8015394C[msgCtx->ocarinaStaff->pos] = 0xFF;
                 D_8014B2F8++;
@@ -2720,8 +2712,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 if (func_800EE5EC() != 1) {
                     Audio_PlaySoundGeneral(NA_SE_SY_METRONOME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     msgCtx->ocarinaStaff = func_800EE3D4();
-                    D_8014B2F8 = 0;
-                    msgCtx->ocarinaStaff->pos = D_8014B2F8;
+                    msgCtx->ocarinaStaff->pos = D_8014B2F8 = 0;
                     func_801069B0();
                     msgCtx->msgMode = MSGMODE_UNK_30;
                 } else {
@@ -2733,8 +2724,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_30:
             if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
                 msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
-                D_8014B2F8 = 0;
-                msgCtx->ocarinaStaff->pos = D_8014B2F8;
+                msgCtx->ocarinaStaff->pos = D_8014B2F8 = 0;
                 func_801069B0();
                 func_800ED93C(0xE, 1);
             }
@@ -2742,8 +2732,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_31:
             func_800ED858(1);
             msgCtx->ocarinaStaff = func_800EE3D4();
-            D_8014B2F8 = 0;
-            msgCtx->ocarinaStaff->pos = D_8014B2F8;
+            msgCtx->ocarinaStaff->pos = D_8014B2F8 = 0;
             globalCtx->msgCtx.unk_E3EE = 1;
             func_801069B0();
             func_800ECC04(D_8014B31C + 0xC000);
@@ -3209,9 +3198,9 @@ void Message_Update(GlobalContext* globalCtx) {
                 (msgCtx->textId >= 0xFA && msgCtx->textId < 0xFE)) {
                 gSaveContext.healthAccumulator = 0x140;
             }
-            if ((msgCtx->textId == 0x301F) || (msgCtx->textId == 0xA) || (msgCtx->textId == 0xC) ||
-                (msgCtx->textId == 0xCF) || (msgCtx->textId == 0x21C) || (msgCtx->textId == 9) ||
-                (msgCtx->textId == 0x4078) || (msgCtx->textId == 0x2015) || (msgCtx->textId == 0x3040)) {
+            if (msgCtx->textId == 0x301F || msgCtx->textId == 0xA || msgCtx->textId == 0xC ||
+                msgCtx->textId == 0xCF || msgCtx->textId == 0x21C || msgCtx->textId == 9 ||
+                msgCtx->textId == 0x4078 || msgCtx->textId == 0x2015 || msgCtx->textId == 0x3040) {
                 gSaveContext.unk_13EE = 0x32;
             }
             if (globalCtx->csCtx.state == 0) {
