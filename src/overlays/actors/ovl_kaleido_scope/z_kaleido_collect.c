@@ -174,7 +174,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
             KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
 
             if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0) && (pauseCtx->cursorSpecialPos == 0)) {
-                if (sp216 >= 6 && sp216 < 0x12) {
+                if ((sp216 >= 6) && (sp216 < 0x12)) {
                     if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
                         sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
                         pauseCtx->unk_264 = D_80153960[sp216];
