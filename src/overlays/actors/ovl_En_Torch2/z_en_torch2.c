@@ -500,8 +500,9 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
             sp66 = camera->camDir.y - sStickAngle;
             input->cur.stick_x = Math_SinS(sp66) * sStickTilt;
-            stickY = Math_CosS(sp66) * sStickTilt;
-            input->cur.stick_y = stickY;
+            stickY = sStickTilt * Math_CosS(sp66);
+            if (sAlpha) {}
+            sInput.cur.stick_y = stickY;
 
             if ((sAlpha != 255) && ((globalCtx->gameplayFrames % 8) == 0)) {
                 sAlpha++;
