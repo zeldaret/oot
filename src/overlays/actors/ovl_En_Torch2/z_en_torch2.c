@@ -66,26 +66,26 @@ const ActorInit En_Torch2_InitVars = {
     (ActorFunc)EnTorch2_Draw,
 };
 
-static f32 sStickTilt = 0.0f;
-static s16 sStickAngle = 0;
-static f32 sSwordJumpHeight = 0.0f;
-static s32 sHoldShieldTimer = 0;
-static u8 sZTargetFlag = false;
-static u8 sDeathFlag = false;
+f32 sStickTilt = 0.0f;
+s16 sStickAngle = 0;
+f32 sSwordJumpHeight = 0.0f;
+s32 sHoldShieldTimer = 0;
+u8 sZTargetFlag = false;
+u8 sDeathFlag = false;
 
-static Input sInput;
-static u8 sSwordJumpState;
-static Vec3f sSpawnPoint;
-static u8 sJumpslashTimer;
-static u8 sJumpslashFlag;
-static u8 sActionState;
-static u8 sSwordJumpTimer;
-static u8 sCounterState;
-static u8 sDodgeRollState;
-static u8 sStaggerCount;
-static u8 sStaggerTimer;
-static s8 sLastSwordAnim;
-static u8 sAlpha;
+Input sInput;
+u8 sSwordJumpState;
+Vec3f sSpawnPoint;
+u8 sJumpslashTimer;
+u8 sJumpslashFlag;
+u8 sActionState;
+u8 sSwordJumpTimer;
+u8 sCounterState;
+u8 sDodgeRollState;
+u8 sStaggerCount;
+u8 sStaggerTimer;
+s8 sLastSwordAnim;
+u8 sAlpha;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
@@ -228,23 +228,17 @@ void EnTorch2_Backflip(Player* this, Input* input, Actor* thisx) {
     sCounterState = 0;
 }
 
-#ifdef NON_MATCHING
-/**
- * Static variables are sometimes loaded from pointers and sometimes directly. While
- * neither this nor the original are consistent about it, unfortunately they're not
- * inconsistent in the same way. Also a small instruction mismatch in the input section
- */
 void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Player* player2 = GET_PLAYER(globalCtx);
+    Player* player2 = GET_PLAYER(globalCtx2);
     Player* player = player2;
     Player* this = THIS;
     Input* input = &sInput;
     Camera* camera;
     s16 sp66;
     u8 staggerThreshold;
-    s8 temp;
-    u32 phi_v0;
+    s8 stickY;
+    s32 pad60;
     Actor* attackItem;
     s16 sp5A;
     s16 pad58;
@@ -261,7 +255,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             this->skelAnime.curFrame = 0.0f;
             this->skelAnime.playSpeed = 0.0f;
-            if (temp) {} // TODO: Needed?
+            if (stickY) {}
             this->actor.world.pos.x = (Math_SinS(this->actor.world.rot.y) * 25.0f) + sSpawnPoint.x;
             this->actor.world.pos.z = (Math_CosS(this->actor.world.rot.y) * 25.0f) + sSpawnPoint.z;
             if ((this->actor.xzDistToPlayer <= 120.0f) || Actor_IsTargeted(globalCtx, &this->actor) ||
@@ -274,8 +268,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     sZTargetFlag = false;
                     sp66 = camera->camDir.y - sStickAngle;
                     input->cur.stick_x = sStickTilt * Math_SinS(sp66);
-                    temp = sStickTilt * Math_CosS(sp66);
-                    input->cur.stick_y = temp;
+                    stickY = sStickTilt * Math_CosS(sp66);
+                    input->cur.stick_y = stickY;
                 }
                 func_800F5ACC(0x38);
                 sActionState = ENTORCH2_ATTACK;
@@ -345,8 +339,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     }
                     sStickTilt = 127.0f;
                     sJumpslashTimer = 15;
-                    sJumpslashFlag = false; 
-                    input->cur.button |= BTN_A; 
+                    sJumpslashFlag = false;
+                    input->cur.button |= BTN_A;
 
                     // Handles jumping on Link's sword
 
@@ -362,7 +356,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                            player->actor.world.pos.z,
                                        1.0f, 5.0f, 0.0f);
                     sSwordJumpTimer--;
-                    // TODO: (u32) cast needed?
                     if (((u32)sSwordJumpTimer == 0) || ((player->invincibilityTimer > 0) && (this->swordState == 0))) {
                         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
                         input->cur.button = BTN_A;
@@ -420,7 +413,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                             // Handles reactions to all other sword attacks
 
-                            sStickAngle = thisx->yawTowardsPlayer; // TODO: thisx?
+                            sStickAngle = thisx->yawTowardsPlayer;
                             input->cur.button = BTN_B;
 
                             if (player->swordAnimation <= FORWARD_COMBO_2H) {
@@ -447,7 +440,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                         // Handles movement and attacks when not reacting to Link's actions
 
-                        sStickAngle = thisx->yawTowardsPlayer; // TODO: thisx?
+                        sStickAngle = thisx->yawTowardsPlayer;
                         sp50 = 0.0f;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
                             (ABS(sp5A) >= 0x7800) && (this->actor.isTargeted || !(player->stateFlags1 & 0x00400000))) {
@@ -488,7 +481,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
 
                 // Handles Dark Link's counterattack to jumpslashes
-            
+
             } else if (sJumpslashFlag && (sAlpha == 255) && (this->actor.velocity.y > 0)) {
                 input->cur.button |= BTN_B;
             } else if (!sJumpslashFlag && (this->actor.bgCheckFlags & 1)) {
@@ -508,8 +501,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
             sp66 = camera->camDir.y - sStickAngle;
             input->cur.stick_x = Math_SinS(sp66) * sStickTilt;
-            temp = Math_CosS(sp66) * sStickTilt;
-            input->cur.stick_y = temp;
+            stickY = Math_CosS(sp66) * sStickTilt;
+            input->cur.stick_y = stickY;
 
             if ((sAlpha != 255) && ((globalCtx->gameplayFrames % 8) == 0)) {
                 sAlpha++;
@@ -615,7 +608,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             sDeathFlag++;
             sActionState = ENTORCH2_DEATH;
             Enemy_StartFinishingBlow(globalCtx, &this->actor);
-            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xC0);
+            Item_DropCollectibleRandom(globalCtx, &this->actor, &thisx->world.pos, 0xC0);
             this->stateFlags3 &= ~4;
         } else {
             func_800F5ACC(0x38);
@@ -760,9 +753,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.focus.pos.y += 20.0f;
     this->actor.shape.yOffset = sSwordJumpHeight;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Torch2/EnTorch2_Update.s")
-#endif
 
 s32 EnTorch2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                               Gfx** gfx) {
