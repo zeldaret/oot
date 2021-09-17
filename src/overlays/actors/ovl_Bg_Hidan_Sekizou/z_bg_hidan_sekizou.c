@@ -156,7 +156,7 @@ void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
     if (this->dyna.actor.params == 0) {
@@ -211,7 +211,7 @@ void func_8088D434(BgHidanSekizou* this, GlobalContext* globalCtx) {
             }
         }
     }
-    for (i = 3 * phi_s4; i < 6; i++) {
+    for (i = 3 * phi_s4; i < ARRAY_COUNT(this->elements); i++) {
         this->collider.elements[i].info.toucherFlags &= ~TOUCH_ON;
         this->collider.elements[i].info.ocElemFlags &= ~OCELEM_ON;
     }
