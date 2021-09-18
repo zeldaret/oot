@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_EFFECT_H_
-#define _Z_DEMO_EFFECT_H_
+#ifndef Z_DEMO_EFFECT_H
+#define Z_DEMO_EFFECT_H
 
 #include "ultra64.h"
 #include "global.h"

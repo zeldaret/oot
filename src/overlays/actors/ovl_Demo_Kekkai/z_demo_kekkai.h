@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_KEKKAI_H_
-#define _Z_DEMO_KEKKAI_H_
+#ifndef Z_DEMO_KEKKAI_H
+#define Z_DEMO_KEKKAI_H
 
 #include "ultra64.h"
 #include "global.h"

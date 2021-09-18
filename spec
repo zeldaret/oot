@@ -1573,11 +1573,7 @@ endseg
 beginseg
     name "ovl_Door_Warp1"
     include "build/src/overlays/actors/ovl_Door_Warp1/z_door_warp1.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Door_Warp1/ovl_Door_Warp1_reloc.o"
-#else
-    include "build/data/overlays/actors/z_door_warp1.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2237,18 +2233,13 @@ endseg
 beginseg
     name "ovl_En_Ganon_Mant"
     include "build/src/overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Ganon_Mant/ovl_En_Ganon_Mant_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_ganon_mant.reloc.o"
-#endif
 endseg
 
 beginseg
     name "ovl_En_Ganon_Organ"
     include "build/src/overlays/actors/ovl_En_Ganon_Organ/z_en_ganon_organ.o"
-    include "build/data/overlays/actors/z_en_ganon_organ.data.o"
-    include "build/data/overlays/actors/z_en_ganon_organ.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ_reloc.o"
 endseg
 
 beginseg
@@ -2965,11 +2956,7 @@ endseg
 beginseg
     name "ovl_En_Tp"
     include "build/src/overlays/actors/ovl_En_Tp/z_en_tp.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Tp/ovl_En_Tp_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_tp.reloc.o"
-#endif
 endseg
 
 beginseg

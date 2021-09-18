@@ -1,5 +1,5 @@
-#ifndef _VARIABLES_H_
-#define _VARIABLES_H_
+#ifndef VARIABLES_H
+#define VARIABLES_H
 
 #include "z64.h"
 #include "segment_symbols.h"

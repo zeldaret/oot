@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_ICE_POLY_H_
-#define _Z_OBJ_ICE_POLY_H_
+#ifndef Z_OBJ_ICE_POLY_H
+#define Z_OBJ_ICE_POLY_H
 
 #include "ultra64.h"
 #include "global.h"

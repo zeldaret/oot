@@ -1,5 +1,5 @@
-#ifndef _REGS_H_
-#define _REGS_H_
+#ifndef REGS_H
+#define REGS_H
 
 #define REG_GROUPS 29 // number of REG groups, i.e. REG, SREG, OREG, etc.
 #define REG_PAGES 6
