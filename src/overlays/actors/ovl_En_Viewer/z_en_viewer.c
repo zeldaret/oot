@@ -708,7 +708,7 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[0]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[0]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[0]->endPos.z;
-            interpolated = Kankyo_LerpWeight(globalCtx->csCtx.npcActions[0]->endFrame,
+            interpolated = Environment_LerpWeight(globalCtx->csCtx.npcActions[0]->endFrame,
                                          globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
             this->actor.world.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
             this->actor.world.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
@@ -723,7 +723,7 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[1]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[1]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[1]->endPos.z;
-            interpolated = Kankyo_LerpWeight(globalCtx->csCtx.npcActions[1]->endFrame,
+            interpolated = Environment_LerpWeight(globalCtx->csCtx.npcActions[1]->endFrame,
                                          globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
             this->actor.world.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
             this->actor.world.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;

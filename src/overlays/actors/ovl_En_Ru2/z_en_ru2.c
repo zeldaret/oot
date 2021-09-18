@@ -616,7 +616,7 @@ void func_80AF37CC(EnRu2* this) {
     f32 funcFloat;
 
     this->unk_2C0++;
-    funcFloat = Kankyo_LerpWeightAccelDecel((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
+    funcFloat = Environment_LerpWeightAccelDecel((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
     this->actor.world.pos.y = this->actor.home.pos.y + (300.0f * funcFloat);
 }
 

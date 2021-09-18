@@ -388,7 +388,7 @@ void DemoKankyo_SetRockPos(DemoKankyo* this, GlobalContext* globalCtx, s32 param
     endPos.x = csAction->endPos.x;
     endPos.y = csAction->endPos.y;
     endPos.z = csAction->endPos.z;
-    temp_f0 = Kankyo_LerpWeight(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
+    temp_f0 = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
     this->actor.world.pos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
     this->actor.world.pos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
     this->actor.world.pos.z = ((endPos.z - startPos.z) * temp_f0) + startPos.z;
@@ -820,7 +820,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
             case 2:
                 if (this->actor.params == DEMOKANKYO_WARP_OUT) {
                     if (i == 0) {
-                        Kankyo_WarpSongLeave(globalCtx);
+                        Environment_WarpSongLeave(globalCtx);
                         this->unk_150[i].unk_22++;
                     }
                 } else if (i + 1 == this->sparkleCounter && globalCtx->csCtx.state == CS_STATE_IDLE) {

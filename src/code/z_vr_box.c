@@ -87,7 +87,7 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
                     globalCtx->envCtx.skybox2Index = sp40 = D_8011FC1C[phi_v1][i].skybox2Index;
                     if (D_8011FC1C[phi_v1][i].blend != 0) {
                         globalCtx->envCtx.skyboxBlend =
-                            Kankyo_LerpWeight(D_8011FC1C[phi_v1][i].endTime, D_8011FC1C[phi_v1][i].startTime,
+                            Environment_LerpWeight(D_8011FC1C[phi_v1][i].endTime, D_8011FC1C[phi_v1][i].startTime,
                                               ((void)0, gSaveContext.skyboxTime)) *
                             255.0f;
                     } else {

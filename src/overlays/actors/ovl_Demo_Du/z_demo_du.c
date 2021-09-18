@@ -445,7 +445,7 @@ void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu* this, GlobalContext* globalCtx) 
         Vec3f* pos = &this->actor.world.pos;
 
         if (npcAction != NULL) {
-            f32 traveledPercent = Kankyo_LerpWeight(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
+            f32 traveledPercent = Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
 
             startPos.x = npcAction->startPos.x;
             startPos.y = npcAction->startPos.y;

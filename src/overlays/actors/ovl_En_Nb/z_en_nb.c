@@ -588,7 +588,7 @@ void EnNb_SetPosInPortal(EnNb* this, GlobalContext* globalCtx) {
     Vec3f endPos;
 
     if (csCmdNPCAction != NULL) {
-        f0 = Kankyo_LerpWeightAccelDecel(csCmdNPCAction->endFrame, csCmdNPCAction->startFrame, globalCtx->csCtx.frames,
+        f0 = Environment_LerpWeightAccelDecel(csCmdNPCAction->endFrame, csCmdNPCAction->startFrame, globalCtx->csCtx.frames,
                                          4, 4);
         startPos.x = csCmdNPCAction->startPos.x;
         startPos.y = csCmdNPCAction->startPos.y;
@@ -1135,7 +1135,7 @@ void func_80AB359C(EnNb* this) {
     temp_t1 += 25;
 
     if (temp_t1 >= this->movementTimer) {
-        f0 = Kankyo_LerpWeightAccelDecel(temp_t1, 0, this->movementTimer, 3, 3);
+        f0 = Environment_LerpWeightAccelDecel(temp_t1, 0, this->movementTimer, 3, 3);
         world->pos.x = initialPos->x + (f0 * (finalPos->x - initialPos->x));
         world->pos.y = initialPos->y + (f0 * (finalPos->y - initialPos->y));
         world->pos.z = initialPos->z + (f0 * (finalPos->z - initialPos->z));

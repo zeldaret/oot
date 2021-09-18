@@ -170,7 +170,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         return;
     }
 
-    temp = Kankyo_LerpWeight(cmd->endFrame - 1, cmd->startFrame, csCtx->frames);
+    temp = Environment_LerpWeight(cmd->endFrame - 1, cmd->startFrame, csCtx->frames);
 
     if (csCtx->frames == cmd->startFrame) {
         sp3F = 1;
@@ -187,7 +187,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         case 2:
             if (sp3F != 0) {
                 func_800F6D58(0xF, 0, 0);
-                Kankyo_AddLightningBolts(globalCtx, 3);
+                Environment_AddLightningBolts(globalCtx, 3);
                 if (1) {}
                 gLightningStrike.state = LIGHTNING_STRIKE_START;
             }
@@ -1189,7 +1189,7 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
 
     if ((csCtx->frames >= cmd->startFrame) && (csCtx->frames <= cmd->endFrame)) {
         globalCtx->envCtx.fillScreen = true;
-        temp = Kankyo_LerpWeight(cmd->endFrame, cmd->startFrame, csCtx->frames);
+        temp = Environment_LerpWeight(cmd->endFrame, cmd->startFrame, csCtx->frames);
 
         switch (cmd->base) {
             case 1:

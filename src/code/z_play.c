@@ -1032,7 +1032,7 @@ skip:
         LOG_NUM("1", 1, "../z_play.c", 3816);
     }
 
-    Kankyo_Update(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
+    Environment_Update(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
                   &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
 }
 
@@ -1165,7 +1165,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         !globalCtx->envCtx.skyboxDisabled) {
                         if ((globalCtx->skyboxId == SKYBOX_NORMAL_SKY) ||
                             (globalCtx->skyboxId == SKYBOX_CUTSCENE_MAP)) {
-                            Kankyo_UpdateSkybox(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
+                            Environment_UpdateSkybox(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
                             SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
                                             globalCtx->envCtx.skyboxBlend, globalCtx->view.eye.x, globalCtx->view.eye.y,
                                             globalCtx->view.eye.z);
@@ -1178,17 +1178,17 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(90) & 2)) {
                     if (!globalCtx->envCtx.sunMoonDisabled) {
-                        Kankyo_DrawSunAndMoon(globalCtx);
+                        Environment_DrawSunAndMoon(globalCtx);
                     }
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 1)) {
-                    Kankyo_DrawSkyboxFilters(globalCtx);
+                    Environment_DrawSkyboxFilters(globalCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 4)) {
-                    Kankyo_UpdateLightningStrike(globalCtx);
-                    Kankyo_DrawLightning(globalCtx, 0);
+                    Environment_UpdateLightningStrike(globalCtx);
+                    Environment_DrawLightning(globalCtx, 0);
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
@@ -1223,11 +1223,11 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if (globalCtx->envCtx.unk_EE[1] != 0) {
-                    Kankyo_DrawRain(globalCtx, &globalCtx->view, gfxCtx);
+                    Environment_DrawRain(globalCtx, &globalCtx->view, gfxCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
-                    Kankyo_FillScreen(gfxCtx, 0, 0, 0, globalCtx->unk_11E18, FILL_SCREEN_OPA);
+                    Environment_FillScreen(gfxCtx, 0, 0, 0, globalCtx->unk_11E18, FILL_SCREEN_OPA);
                 }
 
                 if ((HREG(80) != 10) || (HREG(85) != 0)) {
@@ -1239,19 +1239,19 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         sp21C.x = globalCtx->view.eye.x + globalCtx->envCtx.sunPos.x;
                         sp21C.y = globalCtx->view.eye.y + globalCtx->envCtx.sunPos.y;
                         sp21C.z = globalCtx->view.eye.z + globalCtx->envCtx.sunPos.z;
-                        Kankyo_DrawSunLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, gfxCtx, sp21C, 0);
+                        Environment_DrawSunLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, gfxCtx, sp21C, 0);
                     }
-                    Kankyo_DrawCustomLensFlare(globalCtx);
+                    Environment_DrawCustomLensFlare(globalCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(87) != 0)) {
                     if (MREG(64) != 0) {
-                        Kankyo_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68), FILL_SCREEN_OPA | FILL_SCREEN_XLU);
+                        Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68), FILL_SCREEN_OPA | FILL_SCREEN_XLU);
                     }
 
                     switch (globalCtx->envCtx.fillScreen) {
                         case 1:
-                            Kankyo_FillScreen(
+                            Environment_FillScreen(
                                 gfxCtx, globalCtx->envCtx.screenFillColor[0], globalCtx->envCtx.screenFillColor[1],
                                 globalCtx->envCtx.screenFillColor[2], globalCtx->envCtx.screenFillColor[3], FILL_SCREEN_OPA | FILL_SCREEN_XLU);
                             break;
@@ -1262,7 +1262,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(88) != 0)) {
                     if (globalCtx->envCtx.sandstormState != 0) {
-                        Kankyo_DrawSandstorm(globalCtx, globalCtx->envCtx.sandstormState);
+                        Environment_DrawSandstorm(globalCtx, globalCtx->envCtx.sandstormState);
                     }
                 }
 
@@ -1438,7 +1438,7 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
 
 void Gameplay_InitEnvironment(GlobalContext* globalCtx, s16 skyboxId) {
     Skybox_Init(globalCtx, &globalCtx->skyboxCtx, skyboxId);
-    Kankyo_Init(globalCtx, &globalCtx->envCtx, 0);
+    Environment_Init(globalCtx, &globalCtx->envCtx, 0);
 }
 
 void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {

@@ -5347,7 +5347,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             func_80064534(globalCtx, &globalCtx->csCtx);
             D_80B7A6CC = 0;
             sCameraId = 0;
-            Kankyo_EnableUnderwaterLights(globalCtx, 0);
+            Environment_EnableUnderwaterLights(globalCtx, 0);
             globalCtx->envCtx.adjFogNear = 0;
             player->unk_860 = -5;
             D_80B7E0B0 = 5;
@@ -5391,7 +5391,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
                 D_80B7A6CC = 0;
                 sCameraId = 0;
                 D_80B7A6D0 = 30;
-                Kankyo_EnableUnderwaterLights(globalCtx, 0);
+                Environment_EnableUnderwaterLights(globalCtx, 0);
                 globalCtx->envCtx.adjFogNear = 0;
             }
             break;
@@ -5497,7 +5497,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
                         D_80B7E0B0 = 5;
                         D_80B7A6D4 = 0;
                         D_80B7E0A6 = 20;
-                        Kankyo_EnableUnderwaterLights(globalCtx, 0);
+                        Environment_EnableUnderwaterLights(globalCtx, 0);
                         globalCtx->envCtx.adjFogNear = 0;
                     }
                 }
@@ -5513,14 +5513,14 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         Math_ApproachF(&D_80B7FECC, 1.0f, 1.0f, 0.02f);
 
         if (sCameraEye.y <= (WATER_SURFACE_Y(globalCtx) + 1.0f)) {
-            Kankyo_EnableUnderwaterLights(globalCtx, 1);
+            Environment_EnableUnderwaterLights(globalCtx, 1);
             if (D_80B7E076 != 0) {
                 globalCtx->envCtx.adjFogNear = -0xB2;
             } else {
                 globalCtx->envCtx.adjFogNear = -0x2E;
             }
         } else {
-            Kankyo_EnableUnderwaterLights(globalCtx, 0);
+            Environment_EnableUnderwaterLights(globalCtx, 0);
             globalCtx->envCtx.adjFogNear = 0;
         }
     }

@@ -35,7 +35,7 @@ glabel D_8013C7D8
     .float 0.1
 
 .text
-glabel Kankyo_DrawLensFlare
+glabel Environment_DrawLensFlare
 /* AEABFC 80073A5C 27BDFE50 */  addiu $sp, $sp, -0x1b0
 /* AEAC00 80073A60 3C0B8012 */  lui   $t3, %hi(D_8011FE00) # $t3, 0x8012
 /* AEAC04 80073A64 AFBF004C */  sw    $ra, 0x4c($sp)
@@ -348,7 +348,7 @@ glabel Kankyo_DrawLensFlare
 /* AEB0AC 80073F0C 00000000 */   nop
 .L80073F10:
 /* AEB0B0 80073F10 44D8F800 */  ctc1  $t8, $31
-/* AEB0B4 80073F14 0C01BE4F */  jal   Kankyo_LerpWeight
+/* AEB0B4 80073F14 0C01BE4F */  jal   Environment_LerpWeight
 /* AEB0B8 80073F18 30C6FFFF */   andi  $a2, $a2, 0xffff
 /* AEB0BC 80073F1C E7A0013C */  swc1  $f0, 0x13c($sp)
 /* AEB0C0 80073F20 44913000 */  mtc1  $s1, $f6

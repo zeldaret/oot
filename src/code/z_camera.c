@@ -7120,7 +7120,7 @@ s32 Camera_CheckWater(Camera* camera) {
         if (!(camera->unk_14C & 0x100)) {
             camera->unk_14C |= 0x100;
             osSyncPrintf("kankyo changed water, sound on\n");
-            Kankyo_EnableUnderwaterLights(camera->globalCtx, waterLightsIndex);
+            Environment_EnableUnderwaterLights(camera->globalCtx, waterLightsIndex);
             camera->unk_150 = 0x50;
         }
 
@@ -7152,7 +7152,7 @@ s32 Camera_CheckWater(Camera* camera) {
         if (camera->unk_14C & 0x100) {
             camera->unk_14C &= ~0x100;
             osSyncPrintf("kankyo changed water off, sound off\n");
-            Kankyo_DisableUnderwaterLights(camera->globalCtx);
+            Environment_DisableUnderwaterLights(camera->globalCtx);
             if (*quakeId != 0) {
                 Quake_RemoveFromIdx(*quakeId);
             }

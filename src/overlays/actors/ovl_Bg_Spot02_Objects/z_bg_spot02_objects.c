@@ -298,7 +298,7 @@ void func_808AD450(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        lerp = Kankyo_LerpWeight(globalCtx->csCtx.npcActions[2]->endFrame, globalCtx->csCtx.npcActions[2]->startFrame,
+        lerp = Environment_LerpWeight(globalCtx->csCtx.npcActions[2]->endFrame, globalCtx->csCtx.npcActions[2]->startFrame,
                              globalCtx->csCtx.frames);
 
         // should be able to remove & 0xFFFF with some other change

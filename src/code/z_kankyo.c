@@ -218,20 +218,20 @@ s32 func_8006F0A0(s32 a0) {
     return ret;
 }
 
-u16 Kankyo_GetPixelDepth(s32 x, s32 y) {
+u16 Environment_GetPixelDepth(s32 x, s32 y) {
     s32 pixelDepth = gZBuffer[y][x];
 
     return pixelDepth;
 }
 
-void Kankyo_GraphCallback(GraphicsContext* gfxCtx, void* param) {
+void Environment_GraphCallback(GraphicsContext* gfxCtx, void* param) {
     GlobalContext* globalCtx = (GlobalContext*)param;
 
-    D_8011FB44 = Kankyo_GetPixelDepth(D_8015FD7E, D_8015FD80);
+    D_8011FB44 = Environment_GetPixelDepth(D_8015FD7E, D_8015FD80);
     Lights_GlowCheck(globalCtx);
 }
 
-void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unused) {
+void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unused) {
     u8 i;
     GlobalContext* globalCtx = globalCtx2;
 
@@ -243,7 +243,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
         ((void)0, gSaveContext.nightFlag = false);
     }
 
-    globalCtx->state.gfxCtx->callback = Kankyo_GraphCallback;
+    globalCtx->state.gfxCtx->callback = Environment_GraphCallback;
     globalCtx->state.gfxCtx->callbackParam = globalCtx;
 
     Lights_DirectionalSetInfo(&envCtx->dirLight1, 80, 80, 80, 80, 80, 80);
@@ -411,7 +411,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     func_800AA15C();
 }
 
-u8 Kankyo_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep) {
+u8 Environment_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep) {
     s16 stepSize = 0;
     s16 diff = target - *pvalue;
 
@@ -445,7 +445,7 @@ u8 Kankyo_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep) {
     return diff;
 }
 
-u8 Kankyo_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minStep) {
+u8 Environment_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minStep) {
     s16 stepSize = 0;
     s16 diff = target - *pvalue;
 
@@ -479,7 +479,7 @@ u8 Kankyo_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minStep) {
     return diff;
 }
 
-f32 Kankyo_LerpWeight(u16 max, u16 min, u16 val) {
+f32 Environment_LerpWeight(u16 max, u16 min, u16 val) {
     f32 diff = max - min;
     f32 ret;
 
@@ -494,7 +494,7 @@ f32 Kankyo_LerpWeight(u16 max, u16 min, u16 val) {
     return 1.0f;
 }
 
-f32 Kankyo_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame, u16 accelDuration, u16 decelDuration) {
+f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame, u16 accelDuration, u16 decelDuration) {
     f32 endFrameF;
     f32 startFrameF;
     f32 curFrameF;
@@ -596,7 +596,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 unused) {
 }
 
 #ifdef NON_MATCHING
-void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
+void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
     u32 size;
     u8 i;
     u8 newSkybox1Index = 0xFF;
@@ -613,7 +613,7 @@ void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext*
                 (((void)0, gSaveContext.skyboxTime) < entry->endTime || entry->endTime == 0xFFFF)) {
                 if (entry->blend) {
                     envCtx->skyboxBlend =
-                        Kankyo_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
+                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
                 } else {
                     envCtx->skyboxBlend = 0;
                 }
@@ -634,11 +634,11 @@ void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext*
                     entry = &D_8011FC1C[envCtx->unk_17][i];
 
                     skyboxBlend =
-                        Kankyo_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
+                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
                 } else {
                     entry = &D_8011FC1C[envCtx->unk_17][i];
                     skyboxBlend =
-                        Kankyo_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
+                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
 
                     skyboxBlend = (skyboxBlend < 0x80) ? 0xFF : 0;
 
@@ -742,10 +742,10 @@ void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext*
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_UpdateSkybox.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Environment_UpdateSkybox.s")
 #endif
 
-void Kankyo_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLightsIndex) {
+void Environment_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLightsIndex) {
     if (waterLightsIndex == 0x1F) {
         waterLightsIndex = 0;
         // "Underwater color is not set in the water poly data!"
@@ -765,7 +765,7 @@ void Kankyo_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLightsInde
     }
 }
 
-void Kankyo_DisableUnderwaterLights(GlobalContext* globalCtx) {
+void Environment_DisableUnderwaterLights(GlobalContext* globalCtx) {
     if (!globalCtx->envCtx.indoors) {
         globalCtx->envCtx.unk_1F = D_8011FB34;
         globalCtx->envCtx.unk_20 = D_8011FB34;
@@ -776,7 +776,7 @@ void Kankyo_DisableUnderwaterLights(GlobalContext* globalCtx) {
     }
 }
 
-void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
+void Environment_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint printer;
     u32 time;
     s32 pad;
@@ -845,7 +845,7 @@ void func_800766C4(GlobalContext* globalCtx);
 
 #ifdef NON_MATCHING
 // Reordering in light color and fog near and far blends
-void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
+void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
                    MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx) {
     f32 sp8C;
     f32 sp88 = 0.0f;
@@ -923,7 +923,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
             prevDisplayList = POLY_OPA_DISP;
             displayList = Graph_GfxPlusOne(POLY_OPA_DISP);
             gSPDisplayList(OVERLAY_DISP++, displayList);
-            Kankyo_PrintDebugInfo(globalCtx, &displayList);
+            Environment_PrintDebugInfo(globalCtx, &displayList);
             gSPEndDisplayList(displayList++);
             Graph_BranchDlist(prevDisplayList, displayList);
             POLY_OPA_DISP = displayList;
@@ -946,7 +946,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                         u8 blend8[2];
                         s16 blend16[2];
 
-                        sp8C = Kankyo_LerpWeight(TIME_ENTRY_1F_1->endTime, TIME_ENTRY_1F_1->startTime,
+                        sp8C = Environment_LerpWeight(TIME_ENTRY_1F_1->endTime, TIME_ENTRY_1F_1->startTime,
                                                  ((void)0, gSaveContext.skyboxTime));
 
                         D_8011FDCC = TIME_ENTRY_1F_2->unk_04 & 3;
@@ -1272,10 +1272,10 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_Update.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Environment_Update.s")
 #endif
 
-void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
+void Environment_DrawSunAndMoon(GlobalContext* globalCtx) {
     f32 alpha;
     f32 color;
     f32 y;
@@ -1362,17 +1362,17 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 2429);
 }
 
-void Kankyo_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
+void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
                              Vec3f pos, s32 unused) {
     if ((globalCtx->envCtx.unk_EE[1] == 0) && (globalCtx->envCtx.unk_17 == 0)) {
-        Kankyo_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000, 370,
+        Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000, 370,
                              Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f, 400, 1);
     }
 }
 
 #ifdef NON_MATCHING
 // isOffScreen shouldn't be on the stack
-void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
+void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
                           Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
     static f32 lensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
 
@@ -1486,7 +1486,7 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
             Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
 
             if (arg9) {
-                temp = Kankyo_LerpWeight(60, 15, globalCtx->view.fovy);
+                temp = Environment_LerpWeight(60, 15, globalCtx->view.fovy);
             }
 
             Matrix_Translate(-posDirX * i * dist, -posDirY * i * dist, -posDirZ * i * dist, MTXMODE_APPLY);
@@ -1587,7 +1587,7 @@ Color_RGB8 D_8011FE00[] = {
 };
 u32 D_8011FE20[] = { 0x32, 0xA, 0x19, 0x28, 0x46, 0x1E, 0x32, 0x46, 0x32, 0x28 };
 u32 D_8011FE48[] = { 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_DrawLensFlare.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Environment_DrawLensFlare.s")
 #endif
 
 f32 func_800746DC(void) {
@@ -1596,7 +1596,7 @@ f32 func_800746DC(void) {
 
 #ifdef NON_MATCHING
 // float regalloc, but appears to be equivalent
-void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx) {
+void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx) {
     s16 i;
     Vec3f vec;
     f32 length;
@@ -1704,7 +1704,7 @@ void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxC
 #else
 Vec3f D_8011FE70 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_8011FE7C = { 0.0f, 0.0f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_DrawRain.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Environment_DrawRain.s")
 #endif
 
 void func_80074CE8(GlobalContext* globalCtx, u32 arg1) {
@@ -1732,7 +1732,7 @@ void func_80074CE8(GlobalContext* globalCtx, u32 arg1) {
  *
  * An example usage of a filter is to dim the skybox in cloudy conditions.
  */
-void Kankyo_DrawSkyboxFilters(GlobalContext* globalCtx) {
+void Environment_DrawSkyboxFilters(GlobalContext* globalCtx) {
     if (((globalCtx->skyboxId != SKYBOX_NONE) && (globalCtx->lightCtx.fogNear < 980)) ||
         (globalCtx->skyboxId == SKYBOX_UNSET_1D)) {
         f32 alpha;
@@ -1771,7 +1771,7 @@ void Kankyo_DrawSkyboxFilters(GlobalContext* globalCtx) {
     }
 }
 
-void Kankyo_DrawLightningFlash(GlobalContext* globalCtx, u8 red, u8 green, u8 blue, u8 alpha) {
+void Environment_DrawLightningFlash(GlobalContext* globalCtx, u8 red, u8 green, u8 blue, u8 alpha) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3069);
 
     func_800938B4(globalCtx->state.gfxCtx);
@@ -1781,7 +1781,7 @@ void Kankyo_DrawLightningFlash(GlobalContext* globalCtx, u8 red, u8 green, u8 bl
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3079);
 }
 
-void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx) {
+void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
     if (globalCtx->envCtx.lightningMode != LIGHTNING_MODE_OFF) {
         switch (gLightningStrike.state) {
             case LIGHTNING_STRIKE_WAIT:
@@ -1799,7 +1799,7 @@ void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx) {
                     gLightningStrike.flashAlphaTarget = 200;
 
                     gLightningStrike.delayTimer = 0.0f;
-                    Kankyo_AddLightningBolts(globalCtx,
+                    Environment_AddLightningBolts(globalCtx,
                                              (u8)(Rand_ZeroOne() * (ARRAY_COUNT(sLightningBolts) - 0.1f)) + 1);
                     sLightningFlashAlpha = 0;
                     gLightningStrike.state++;
@@ -1850,7 +1850,7 @@ void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx) {
     }
 
     if (gLightningStrike.state != LIGHTNING_STRIKE_WAIT) {
-        Kankyo_DrawLightningFlash(globalCtx, gLightningStrike.flashRed, gLightningStrike.flashGreen,
+        Environment_DrawLightningFlash(globalCtx, gLightningStrike.flashRed, gLightningStrike.flashGreen,
                                   gLightningStrike.flashBlue, sLightningFlashAlpha);
     }
 }
@@ -1859,7 +1859,7 @@ void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx) {
  * Request the number of lightning bolts specified by `num`
  * Note: only 3 lightning bolts can be active at the same time.
  */
-void Kankyo_AddLightningBolts(GlobalContext* globalCtx, u8 num) {
+void Environment_AddLightningBolts(GlobalContext* globalCtx, u8 num) {
     s16 boltsAdded = 0;
     s16 i;
 
@@ -1878,7 +1878,7 @@ void Kankyo_AddLightningBolts(GlobalContext* globalCtx, u8 num) {
 /**
  * Draw any active lightning bolt entries contained in `sLightningBolts`
  */
-void Kankyo_DrawLightning(GlobalContext* globalCtx, s32 unused) {
+void Environment_DrawLightning(GlobalContext* globalCtx, s32 unused) {
     static void* lightningTextures[] = {
         gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex,
         gEffLightning4Tex, gEffLightning5Tex, gEffLightning6Tex,
@@ -2082,7 +2082,7 @@ void func_80075B44(GlobalContext* globalCtx) {
     }
 }
 
-void Kankyo_DrawCustomLensFlare(GlobalContext* globalCtx) {
+void Environment_DrawCustomLensFlare(GlobalContext* globalCtx) {
     Vec3f pos;
 
     if (gCustomLensFlareOn) {
@@ -2090,12 +2090,12 @@ void Kankyo_DrawCustomLensFlare(GlobalContext* globalCtx) {
         pos.y = gCustomLensFlarePos.y;
         pos.z = gCustomLensFlarePos.z;
 
-        Kankyo_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, D_8015FD04,
+        Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, D_8015FD04,
                              D_8015FD06, D_8015FD08, D_8015FD0C, 0);
     }
 }
 
-void Kankyo_InitGameOverLights(GlobalContext* globalCtx) {
+void Environment_InitGameOverLights(GlobalContext* globalCtx) {
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -2112,7 +2112,7 @@ void Kankyo_InitGameOverLights(GlobalContext* globalCtx) {
     sSGameOverLightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &sSGameOverLightInfo);
 }
 
-void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx) {
+void Environment_FadeInGameOverLights(GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s16 i;
 
@@ -2152,7 +2152,7 @@ void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx) {
     }
 }
 
-void Kankyo_FadeOutGameOverLights(GlobalContext* globalCtx) {
+void Environment_FadeOutGameOverLights(GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s16 i;
 
@@ -2206,7 +2206,7 @@ void func_800766C4(GlobalContext* globalCtx) {
     }
 }
 
-void Kankyo_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 alpha, u8 drawFlags) {
+void Environment_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 alpha, u8 drawFlags) {
     if (alpha != 0) {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 3835);
 
@@ -2249,7 +2249,7 @@ Color_RGB8 sSandstormEnvColors[] = {
     { 50, 40, 0 },
 };
 
-void Kankyo_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
+void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
     s32 primA1;
     s32 envA1;
     s32 primA = globalCtx->envCtx.sandstormPrimA;
@@ -2375,7 +2375,7 @@ void Kankyo_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
     D_8015FDB0 += (s32)sp98;
 }
 
-void Kankyo_AdjustLights(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
+void Environment_AdjustLights(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     f32 temp;
     s32 i;
 
@@ -2416,15 +2416,15 @@ void Kankyo_AdjustLights(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3,
     }
 }
 
-s32 Kankyo_GetBgsDayCount(void) {
+s32 Environment_GetBgsDayCount(void) {
     return gSaveContext.bgsDayCount;
 }
 
-void Kankyo_ClearBgsDayCount(void) {
+void Environment_ClearBgsDayCount(void) {
     gSaveContext.bgsDayCount = 0;
 }
 
-s32 Kankyo_GetTotalDays(void) {
+s32 Environment_GetTotalDays(void) {
     return gSaveContext.totalDays;
 }
 
@@ -2463,7 +2463,7 @@ void func_80077684(GlobalContext* globalCtx) {
     }
 }
 
-void Kankyo_WarpSongLeave(GlobalContext* globalCtx) {
+void Environment_WarpSongLeave(GlobalContext* globalCtx) {
     gWeatherMode = 0;
     gSaveContext.cutsceneIndex = 0;
     gSaveContext.respawnFlag = -3;

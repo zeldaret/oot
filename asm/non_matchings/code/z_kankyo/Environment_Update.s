@@ -39,7 +39,7 @@ glabel D_8013C7A8
     .float 0.005
 
 .text
-glabel Kankyo_Update
+glabel Environment_Update
 /* AE7DC4 80070C24 27BDFF70 */  addiu $sp, $sp, -0x90
 /* AE7DC8 80070C28 3C0D8016 */  lui   $t5, %hi(gSaveContext) # $t5, 0x8016
 /* AE7DCC 80070C2C 25ADE660 */  addiu $t5, %lo(gSaveContext) # addiu $t5, $t5, -0x19a0
@@ -297,7 +297,7 @@ glabel Kankyo_Update
 /* AE8164 80070FC4 AC790004 */  sw    $t9, 4($v1)
 /* AE8168 80070FC8 8FA40090 */  lw    $a0, 0x90($sp)
 /* AE816C 80070FCC AFAA007C */  sw    $t2, 0x7c($sp)
-/* AE8170 80070FD0 0C01C1C6 */  jal   Kankyo_PrintDebugInfo
+/* AE8170 80070FD0 0C01C1C6 */  jal   Environment_PrintDebugInfo
 /* AE8174 80070FD4 E7AE0088 */   swc1  $f14, 0x88($sp)
 /* AE8178 80070FD8 8FAF0074 */  lw    $t7, 0x74($sp)
 /* AE817C 80070FDC 8FAA007C */  lw    $t2, 0x7c($sp)
@@ -405,7 +405,7 @@ glabel Kankyo_Update
 /* AE8300 80071160 30E5FFFF */  andi  $a1, $a3, 0xffff
 /* AE8304 80071164 AFA80034 */  sw    $t0, 0x34($sp)
 /* AE8308 80071168 AFAA007C */  sw    $t2, 0x7c($sp)
-/* AE830C 8007116C 0C01BE4F */  jal   Kankyo_LerpWeight
+/* AE830C 8007116C 0C01BE4F */  jal   Environment_LerpWeight
 /* AE8310 80071170 E7AE0088 */   swc1  $f14, 0x88($sp)
 /* AE8314 80071174 920F001F */  lbu   $t7, 0x1f($s0)
 /* AE8318 80071178 8FA80034 */  lw    $t0, 0x34($sp)
