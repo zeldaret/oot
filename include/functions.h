@@ -874,22 +874,25 @@ s32 func_8006F0A0(s32 arg0);
 u16 Kankyo_GetPixelDepth(s32 x, s32 y);
 void Kankyo_GraphCallback(GraphicsContext* gfxCtx, void* param);
 void Kankyo_Init(GlobalContext* globalCtx, EnvironmentContext* envCtx, s32 unused);
-f32 Kankyo_LerpWeight(u16, u16, u16);
-f32 Kankyo_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 frames, u16, u16);
-void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx);
-void Kankyo_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterboxProperties);
+u8 Kankyo_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep);
+u8 Kankyo_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minStep);
+f32 Kankyo_LerpWeight(u16 max, u16 min, u16 val);
+f32 Kankyo_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame, u16 accelDuration, u16 decelDuration);
+void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx);
+void Kankyo_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLightsIndex);
 void Kankyo_DisableUnderwaterLights(GlobalContext* globalCtx);
 void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
                    MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx);
 void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx);
-void Kankyo_DrawSunLensFlare(GlobalContext*, EnvironmentContext*, View*, GraphicsContext*, Vec3f, s32);
+void Kankyo_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
+                             Vec3f pos, s32 unused);
 void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
-                          Vec3f pos, UNK_TYPE, s16, f32, s16, u8);
+                          Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9);
 void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx);
 void func_80074CE8(GlobalContext* globalCtx, u32 arg1);
 void Kankyo_DrawSkyboxFilters(GlobalContext* globalCtx);
 void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx);
-void Kankyo_AddLightningBolts(GlobalContext* globalCtx, u8 max);
+void Kankyo_AddLightningBolts(GlobalContext* globalCtx, u8 num);
 void Kankyo_DrawLightning(GlobalContext* globalCtx, s32 unused);
 void func_800758AC(GlobalContext* globalCtx);
 void Kankyo_DrawCustomLensFlare(GlobalContext* globalCtx);

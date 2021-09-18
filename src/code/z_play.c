@@ -705,7 +705,6 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         }
                     } else {
                         if (globalCtx->envCtx.sandstormEnvA == 255) {
-                            if (0) {} // Improves codegen
                             globalCtx->state.running = 0;
                             SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                             gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;

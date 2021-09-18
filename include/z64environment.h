@@ -5,10 +5,8 @@
 #include "z64light.h"
 #include "z64dma.h"
 
-typedef enum {
-    /* 1 */ FILL_SCREEN_OPA = 1,
-    /* 2 */ FILL_SCREEN_XLU
-} FillScreenDrawFlags;
+#define FILL_SCREEN_OPA (1 << 0)
+#define FILL_SCREEN_XLU (1 << 1)
 
 typedef enum {
     /* 0 */ LIGHTNING_MODE_OFF, // no lightning
@@ -59,7 +57,7 @@ typedef struct {
     /* 0x0F */ u8 fogColor[3];
     /* 0x12 */ s16 fogNear;
     /* 0x14 */ s16 fogFar;
-} EnvLightSettings; // size = 0x18
+} EnvLightSettings; // size = 0x16
 
 // 1.0: 801D8EC4
 // dbg: 80222A44

@@ -153,40 +153,40 @@ struct_8011FC1C D_8011FC1C[][9] = {
 
 SkyboxFile gSkyboxFiles[] = {
     {
-        { _vr_fine0_staticSegmentRomStart, _vr_fine0_staticSegmentRomEnd },
-        { _vr_fine0_pal_staticSegmentRomStart, _vr_fine0_pal_staticSegmentRomEnd },
+        ROM_FILE(vr_fine0_static),
+        ROM_FILE(vr_fine0_pal_static),
     },
     {
-        { _vr_fine1_staticSegmentRomStart, _vr_fine1_staticSegmentRomEnd },
-        { _vr_fine1_pal_staticSegmentRomStart, _vr_fine1_pal_staticSegmentRomEnd },
+        ROM_FILE(vr_fine1_static),
+        ROM_FILE(vr_fine1_pal_static),
     },
     {
-        { _vr_fine2_staticSegmentRomStart, _vr_fine2_staticSegmentRomEnd },
-        { _vr_fine2_pal_staticSegmentRomStart, _vr_fine2_pal_staticSegmentRomEnd },
+        ROM_FILE(vr_fine2_static),
+        ROM_FILE(vr_fine2_pal_static),
     },
     {
-        { _vr_fine3_staticSegmentRomStart, _vr_fine3_staticSegmentRomEnd },
-        { _vr_fine3_pal_staticSegmentRomStart, _vr_fine3_pal_staticSegmentRomEnd },
+        ROM_FILE(vr_fine3_static),
+        ROM_FILE(vr_fine3_pal_static),
     },
     {
-        { _vr_cloud0_staticSegmentRomStart, _vr_cloud0_staticSegmentRomEnd },
-        { _vr_cloud0_pal_staticSegmentRomStart, _vr_cloud0_pal_staticSegmentRomEnd },
+        ROM_FILE(vr_cloud0_static),
+        ROM_FILE(vr_cloud0_pal_static),
     },
     {
-        { _vr_cloud1_staticSegmentRomStart, _vr_cloud1_staticSegmentRomEnd },
-        { _vr_cloud1_pal_staticSegmentRomStart, _vr_cloud1_pal_staticSegmentRomEnd },
+        ROM_FILE(vr_cloud1_static),
+        ROM_FILE(vr_cloud1_pal_static),
     },
     {
-        { _vr_cloud2_staticSegmentRomStart, _vr_cloud2_staticSegmentRomEnd },
-        { _vr_cloud2_pal_staticSegmentRomStart, _vr_cloud2_pal_staticSegmentRomEnd },
+        ROM_FILE(vr_cloud2_static),
+        ROM_FILE(vr_cloud2_pal_static),
     },
     {
-        { _vr_cloud3_staticSegmentRomStart, _vr_cloud3_staticSegmentRomEnd },
-        { _vr_cloud3_pal_staticSegmentRomStart, _vr_cloud3_pal_staticSegmentRomEnd },
+        ROM_FILE(vr_cloud3_static),
+        ROM_FILE(vr_cloud3_pal_static),
     },
     {
-        { _vr_holy0_staticSegmentRomStart, _vr_holy0_staticSegmentRomEnd },
-        { _vr_holy0_pal_staticSegmentRomStart, _vr_holy0_pal_staticSegmentRomEnd },
+        ROM_FILE(vr_holy0_static),
+        ROM_FILE(vr_holy0_pal_static),
     },
 };
 

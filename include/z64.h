@@ -1779,4 +1779,11 @@ typedef struct {
     /* 0x08 */ RomFile pallete;
 } SkyboxFile; // size = 0x10
 
+#define ROM_FILE(name) \
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
+#define ROM_FILE_EMPTY(name) \
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
+#define ROM_FILE_UNSET \
+    { 0 }
+
 #endif

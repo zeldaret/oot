@@ -497,13 +497,6 @@ void (*gSceneCmdHandlers[])(GlobalContext*, SceneCmd*) = {
     func_80099140, func_8009918C, func_8009934C, func_800991A0, func_800993C0,
 };
 
-#define ROM_FILE(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
-#define ROM_FILE_EMPTY(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
-#define ROM_FILE_UNSET \
-    { 0 }
-
 RomFile sNaviMsgFiles[] = {
     ROM_FILE(elf_message_field),
     ROM_FILE(elf_message_ydan),
