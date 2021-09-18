@@ -630,7 +630,8 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     warpId = ACTOR_DOOR_WARP1;
                 }
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, warpId, this->actor.world.pos.x, this->actor.world.pos.y,
-                            this->actor.world.pos.z, 0, 0, 0, 0); //! params could be WARP_DUNGEON_CHILD however this can also spawn Ru1 
+                            this->actor.world.pos.z, 0, 0, 0,
+                            0); //! params could be WARP_DUNGEON_CHILD however this can also spawn Ru1
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 160.0f,
                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 sDoorState = 100;
@@ -1552,7 +1553,8 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
 
             this->unk_1AC = Math_Vec3f_Yaw(&sCameraEye, &sCameraNextAt) - 0x100;
             this->unk_1B0 = 15;
-            globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] = globalCtx->envCtx.screenFillColor[2] = 0xFF;
+            globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+                globalCtx->envCtx.screenFillColor[2] = 0xFF;
             globalCtx->envCtx.screenFillColor[3] = 0;
             globalCtx->envCtx.fillScreen = true;
             sCsState++;

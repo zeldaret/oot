@@ -1100,7 +1100,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                             ((300 - indS1) * .0015f) + 0.13f);
                     }
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
-                                       this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0, WARP_DUNGEON_ADULT);
+                                       this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0,
+                                       WARP_DUNGEON_ADULT);
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
                                 -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
                     Audio_QueueSeqCmd(0x21);

@@ -1033,7 +1033,7 @@ skip:
     }
 
     Environment_Update(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
-                  &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
+                       &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
 }
 
 void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
@@ -1246,14 +1246,16 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(87) != 0)) {
                     if (MREG(64) != 0) {
-                        Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68), FILL_SCREEN_OPA | FILL_SCREEN_XLU);
+                        Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68),
+                                               FILL_SCREEN_OPA | FILL_SCREEN_XLU);
                     }
 
                     switch (globalCtx->envCtx.fillScreen) {
                         case 1:
                             Environment_FillScreen(
                                 gfxCtx, globalCtx->envCtx.screenFillColor[0], globalCtx->envCtx.screenFillColor[1],
-                                globalCtx->envCtx.screenFillColor[2], globalCtx->envCtx.screenFillColor[3], FILL_SCREEN_OPA | FILL_SCREEN_XLU);
+                                globalCtx->envCtx.screenFillColor[2], globalCtx->envCtx.screenFillColor[3],
+                                FILL_SCREEN_OPA | FILL_SCREEN_XLU);
                             break;
                         default:
                             break;

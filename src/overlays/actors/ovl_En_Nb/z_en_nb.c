@@ -313,7 +313,8 @@ void EnNb_SpawnBlueWarp(EnNb* this, GlobalContext* globalCtx) {
     f32 posY = this->actor.world.pos.y;
     f32 posZ = this->actor.world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_SAGES);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 void EnNb_GiveMedallion(EnNb* this, GlobalContext* globalCtx) {
@@ -588,8 +589,8 @@ void EnNb_SetPosInPortal(EnNb* this, GlobalContext* globalCtx) {
     Vec3f endPos;
 
     if (csCmdNPCAction != NULL) {
-        f0 = Environment_LerpWeightAccelDecel(csCmdNPCAction->endFrame, csCmdNPCAction->startFrame, globalCtx->csCtx.frames,
-                                         4, 4);
+        f0 = Environment_LerpWeightAccelDecel(csCmdNPCAction->endFrame, csCmdNPCAction->startFrame,
+                                              globalCtx->csCtx.frames, 4, 4);
         startPos.x = csCmdNPCAction->startPos.x;
         startPos.y = csCmdNPCAction->startPos.y;
         startPos.z = csCmdNPCAction->startPos.z;

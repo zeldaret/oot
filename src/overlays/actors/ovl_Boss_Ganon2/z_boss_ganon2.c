@@ -713,7 +713,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
             if (this->unk_398 >= 229) {
                 globalCtx->envCtx.fillScreen = true;
-                globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] = globalCtx->envCtx.screenFillColor[2] = 255;
+                globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+                    globalCtx->envCtx.screenFillColor[2] = 255;
                 globalCtx->envCtx.screenFillColor[3] = 100;
                 if (this->unk_398 == 234) {
                     globalCtx->envCtx.fillScreen = false;

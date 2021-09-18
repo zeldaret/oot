@@ -5631,7 +5631,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         Math_ApproachZeroF(&D_80B7A658, 1.0f, 2.0f);
     }
 
-    globalCtx->envCtx.adjLight1Color[0] = globalCtx->envCtx.adjLight1Color[1] = globalCtx->envCtx.adjLight1Color[2] = D_80B7A658;
+    globalCtx->envCtx.adjLight1Color[0] = globalCtx->envCtx.adjLight1Color[1] = globalCtx->envCtx.adjLight1Color[2] =
+        D_80B7A658;
 
     if ((u8)D_80B7A650 > 0) {
         s32 pad;

@@ -613,7 +613,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                 (((void)0, gSaveContext.skyboxTime) < entry->endTime || entry->endTime == 0xFFFF)) {
                 if (entry->blend) {
                     envCtx->skyboxBlend =
-                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
+                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) *
+                        255;
                 } else {
                     envCtx->skyboxBlend = 0;
                 }
@@ -634,11 +635,13 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                     entry = &D_8011FC1C[envCtx->unk_17][i];
 
                     skyboxBlend =
-                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
+                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) *
+                        255;
                 } else {
                     entry = &D_8011FC1C[envCtx->unk_17][i];
                     skyboxBlend =
-                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
+                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) *
+                        255;
 
                     skyboxBlend = (skyboxBlend < 0x80) ? 0xFF : 0;
 
@@ -845,8 +848,9 @@ void func_800766C4(GlobalContext* globalCtx);
 
 #ifdef NON_MATCHING
 // Reordering in light color and fog near and far blends
-void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
-                   MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx) {
+void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx,
+                        PauseContext* pauseCtx, MessageContext* msgCtx, GameOverContext* gameOverCtx,
+                        GraphicsContext* gfxCtx) {
     f32 sp8C;
     f32 sp88 = 0.0f;
     u16 i;
@@ -942,12 +946,13 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
             if (!envCtx->indoors && (envCtx->unk_BF == 0xFF)) {
                 for (i = 0; i < ARRAY_COUNT(D_8011FB48[envCtx->unk_1F]); i++) {
                     if ((((void)0, gSaveContext.skyboxTime) >= TIME_ENTRY_1F_1->startTime) &&
-                        ((((void)0, gSaveContext.skyboxTime) < TIME_ENTRY_1F_1->endTime) || TIME_ENTRY_1F_1->endTime == 0xFFFF)) {
+                        ((((void)0, gSaveContext.skyboxTime) < TIME_ENTRY_1F_1->endTime) ||
+                         TIME_ENTRY_1F_1->endTime == 0xFFFF)) {
                         u8 blend8[2];
                         s16 blend16[2];
 
                         sp8C = Environment_LerpWeight(TIME_ENTRY_1F_1->endTime, TIME_ENTRY_1F_1->startTime,
-                                                 ((void)0, gSaveContext.skyboxTime));
+                                                      ((void)0, gSaveContext.skyboxTime));
 
                         D_8011FDCC = TIME_ENTRY_1F_2->unk_04 & 3;
                         D_8011FDD0 = TIME_ENTRY_1F_2->unk_05 & 3;
@@ -1362,18 +1367,18 @@ void Environment_DrawSunAndMoon(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 2429);
 }
 
-void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
-                             Vec3f pos, s32 unused) {
+void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
+                                  GraphicsContext* gfxCtx, Vec3f pos, s32 unused) {
     if ((globalCtx->envCtx.unk_EE[1] == 0) && (globalCtx->envCtx.unk_17 == 0)) {
-        Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000, 370,
-                             Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f, 400, 1);
+        Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000,
+                                  370, Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f, 400, 1);
     }
 }
 
 #ifdef NON_MATCHING
 // isOffScreen shouldn't be on the stack
-void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
-                          Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
+void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
+                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
     static f32 lensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
 
     s16 i;
@@ -1800,7 +1805,7 @@ void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
 
                     gLightningStrike.delayTimer = 0.0f;
                     Environment_AddLightningBolts(globalCtx,
-                                             (u8)(Rand_ZeroOne() * (ARRAY_COUNT(sLightningBolts) - 0.1f)) + 1);
+                                                  (u8)(Rand_ZeroOne() * (ARRAY_COUNT(sLightningBolts) - 0.1f)) + 1);
                     sLightningFlashAlpha = 0;
                     gLightningStrike.state++;
                 }
@@ -1851,7 +1856,7 @@ void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
 
     if (gLightningStrike.state != LIGHTNING_STRIKE_WAIT) {
         Environment_DrawLightningFlash(globalCtx, gLightningStrike.flashRed, gLightningStrike.flashGreen,
-                                  gLightningStrike.flashBlue, sLightningFlashAlpha);
+                                       gLightningStrike.flashBlue, sLightningFlashAlpha);
     }
 }
 
@@ -2090,8 +2095,8 @@ void Environment_DrawCustomLensFlare(GlobalContext* globalCtx) {
         pos.y = gCustomLensFlarePos.y;
         pos.z = gCustomLensFlarePos.z;
 
-        Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, D_8015FD04,
-                             D_8015FD06, D_8015FD08, D_8015FD0C, 0);
+        Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos,
+                                  D_8015FD04, D_8015FD06, D_8015FD08, D_8015FD0C, 0);
     }
 }
 

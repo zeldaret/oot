@@ -717,7 +717,8 @@ void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
 
     if (npcAction != NULL) {
         this->actor.shape.shadowAlpha = this->alpha =
-            (1.0f - Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
+            (1.0f - Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) *
+            255.0f;
         func_80B501C4(this, this->alpha);
     }
 }

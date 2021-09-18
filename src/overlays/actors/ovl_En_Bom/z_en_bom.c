@@ -321,7 +321,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
             globalCtx->envCtx.adjAmbientColor[0] = globalCtx->envCtx.adjAmbientColor[1] =
                 globalCtx->envCtx.adjAmbientColor[2] = 250;
-                
+
             Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
             thisx->params = BOMB_EXPLOSION;
             this->timer = 10;

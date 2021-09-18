@@ -1045,8 +1045,8 @@ void func_80B559C4(EnZl3* this) {
     Vec3f* thisPos = &this->actor.world.pos;
     Vec3f* unk_32C = &this->unk_32C;
     Vec3f* unk_338 = &this->unk_338;
-    f32 temp_f0 =
-        Environment_LerpWeightAccelDecel(Animation_GetLastFrame(&gZelda2Anime2Anim_005248), 0, (s32)this->skelAnime.curFrame, 3, 3);
+    f32 temp_f0 = Environment_LerpWeightAccelDecel(Animation_GetLastFrame(&gZelda2Anime2Anim_005248), 0,
+                                                   (s32)this->skelAnime.curFrame, 3, 3);
 
     thisPos->x = unk_32C->x + (temp_f0 * (unk_338->x - unk_32C->x));
     thisPos->z = unk_32C->z + (temp_f0 * (unk_338->z - unk_32C->z));

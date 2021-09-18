@@ -324,7 +324,8 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_D6 = 0x14;
     }
     if (this->work[FHGFIRE_FX_TIMER] >= 48) {
-        globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] = globalCtx->envCtx.screenFillColor[2] = 255;
+        globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+            globalCtx->envCtx.screenFillColor[2] = 255;
 
         if ((this->work[FHGFIRE_TIMER] % 2) != 0) {
             globalCtx->envCtx.screenFillColor[3] = 70;

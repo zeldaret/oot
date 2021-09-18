@@ -1429,7 +1429,8 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_2A4 > 0.0f) {
         Math_StepToF(&this->unk_2A4, 0.0f, 0.05f);
-        Environment_AdjustLights(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
+        Environment_AdjustLights(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f,
+                                 0.2f, 0.5f);
     }
 
     // temp probably fake match
