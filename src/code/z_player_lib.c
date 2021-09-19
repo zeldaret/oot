@@ -1636,17 +1636,17 @@ void Player_PauseMenuDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skel
 
     if (!LINK_IS_ADULT) {
         if (shield == PLAYER_SHIELD_DEKU) {
-            srcTable = D_040020D0;
+            srcTable = gPlayerPauseEquipPose2;
         } else {
-            srcTable = D_04002040;
+            srcTable = gPlayerPauseEquipPose1;
         }
     } else {
         if (sword == 3) {
-            srcTable = D_04002160;
+            srcTable = gPlayerPauseEquipPose3;
         } else if (shield != PLAYER_SHIELD_NONE) {
-            srcTable = D_04002280;
+            srcTable = gPlayerPauseEquipPose5;
         } else {
-            srcTable = D_040021F0;
+            srcTable = gPlayerPauseEquipPose4;
         }
     }
 

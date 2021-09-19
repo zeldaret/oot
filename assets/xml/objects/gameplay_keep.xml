@@ -1,7 +1,7 @@
 <Root>
     <File Name="gameplay_keep" Segment="4">
-        <Texture Name="gHilite1Tex" OutName="hilite_1" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
-        <Texture Name="gHilite2Tex" OutName="hilite_2" Format="rgba16" Width="16" Height="16" Offset="0x200"/>
+        <Texture Name="gReflective1Tex" OutName="reflective_1" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
+        <Texture Name="gReflective2Tex" OutName="reflective_2" Format="rgba16" Width="16" Height="16" Offset="0x200"/>
         <Texture Name="gHylianShieldDesignTex" OutName="hylian_shield_design" Format="rgba16" Width="32" Height="64" Offset="0x400"/>
         <Texture Name="gOcarinaofTimeDesignTex" OutName="ocarina_of_time_design" Format="rgba16" Width="32" Height="16" Offset="0x1400"/>
         <Texture Name="gBottleGlassTex" OutName="bottle_glass" Format="rgba16" Width="16" Height="16" Offset="0x1800"/>
@@ -10,19 +10,20 @@
         <Texture Name="gLinkTunic2Tex" OutName="link_tunic_2" Format="i8" Width="16" Height="16" Offset="0x1C40"/>
         <Texture Name="gLinkTunic3Tex" OutName="link_tunic_3" Format="i8" Width="16" Height="32" Offset="0x1D40"/>
         <Texture Name="gLinkTunic4Tex" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x1F40"/>    
-        <Array Name="D_04002040" Count="24" Offset="0x2040">
+        
+        <Array Name="gPlayerPauseEquipPose1" Count="24" Offset="0x2040">
             <Vector Type="s16" Dimensions="3"/>
         </Array>
-        <Array Name="D_040020D0" Count="24" Offset="0x20D0">
+        <Array Name="gPlayerPauseEquipPose2" Count="24" Offset="0x20D0">
             <Vector Type="s16" Dimensions="3" />
         </Array>
-        <Array Name="D_04002160" Count="24" Offset="0x2160">
+        <Array Name="gPlayerPauseEquipPose3" Count="24" Offset="0x2160">
             <Vector Type="s16" Dimensions="3" />
         </Array>
-        <Array Name="D_040021F0" Count="24" Offset="0x21F0">
+        <Array Name="gPlayerPauseEquipPose4" Count="24" Offset="0x21F0">
             <Vector Type="s16" Dimensions="3" />
         </Array>
-        <Array Name="D_04002280" Count="24" Offset="0x2280">
+        <Array Name="gPlayerPauseEquipPose5" Count="24" Offset="0x2280">
             <Vector Type="s16" Dimensions="3" />
         </Array>
 
@@ -644,7 +645,7 @@
         <DList Name="gBoomerangRefDL" Offset="0xC808"/>
         <DList Name="gCompassArrowDL" Offset="0xC820"/>
         <DList Name="gZTargetArrowDL" Offset="0xCB70"/>
-        <Texture Name="gHilite3Tex" OutName="hilite_3" Format="i8" Width="8" Height="8" Offset="0xCC80"/>
+        <Texture Name="gReflective3Tex" OutName="reflective_3" Format="i8" Width="8" Height="8" Offset="0xCC80"/>
         <DList Name="gEffFragments2DL" Offset="0xCD80"/>
         <Texture Name="gSelectionCursorTex" OutName="selection_cursor" Format="ia4" Width="16" Height="16" Offset="0xCDC0"/>
         <Texture Name="gControlStickTex" OutName="control_stick" Format="ia8" Width="16" Height="16" Offset="0xCE40"/>
@@ -689,9 +690,9 @@
         <DList Name="gGlowCircleSmallDL" Offset="0x15780"/>
         <Texture Name="gUnusedFairyWingTex" OutName="unused_fairy_wing" Format="rgba16" Width="32" Height="64" Offset="0x15968"/>
         <Skeleton Name="gFairySkel" Type="Normal" LimbType="Standard" Offset="0x16A48"/>
-        <Texture Name="gUnknownCircle3Tex" OutName="unknown_circle_3" Format="i4" Width="16" Height="16" Offset="0x16A50"/>
-        <Texture Name="gUnknownCircle4Tex" OutName="unknown_circle_4" Format="i8" Width="16" Height="16" Offset="0x16AD0"/>
-        <Texture Name="gHilite4Tex" OutName="hilite_4" Format="rgba16" Width="32" Height="32" Offset="0x16BD0"/>
+        <Texture Name="gHilite1Tex" OutName="hilite_1" Format="i4" Width="16" Height="16" Offset="0x16A50"/>
+        <Texture Name="gHilite2Tex" OutName="hilite_2" Format="i8" Width="16" Height="16" Offset="0x16AD0"/>
+        <Texture Name="gReflective4Tex" OutName="reflective_4" Format="rgba16" Width="32" Height="32" Offset="0x16BD0"/>
         <Texture Name="gEffUnknown4Tex" OutName="eff_unknown_4" Format="i8" Width="32" Height="64" Offset="0x173D0"/>
         <Texture Name="gEffUnknown5Tex" OutName="eff_unknown_5" Format="i8" Width="32" Height="64" Offset="0x17BD0"/>
         <DList Name="gEffFireCircleDL" Offset="0x184B0"/>
@@ -841,12 +842,12 @@
         <Texture Name="gBugLegTex" OutName="bug_leg" Format="rgba16" Width="32" Height="4" Offset="0x35320"/>
         <DList Name="gCuttableShrubStalkDL" Offset="0x355E0"/>
         <DList Name="gCuttableShrubTipDL" Offset="0x356A0"/>
-        <Texture Name="gCuttableShrubLeafTFragmentTex" OutName="cuttable_shrub_leaf_fragment" Format="rgba16" Width="32" Height="32" Offset="0x35730"/>
-        <Texture Name="gCuttableShrubTex" OutName="cuttanble_shrub" Format="rgba16" Width="32" Height="32" Offset="0x35F30"/>
-        <Texture Name="gBurnMark1Tex" OutName="burn_mark_1" Format="i4" Width="64" Height="64" Offset="0x36730"/>
-        <Texture Name="gBurnMark2Tex" OutName="burn_mark_2" Format="i4" Width="64" Height="64" Offset="0x36F30"/>
-        <DList Name="gEffBurnMark1DL" Offset="0x37730"/>
-        <DList Name="gEffBurnMark2DL" Offset="0x37798"/>
+        <Texture Name="gCuttableShrubLeafFragmentTex" OutName="cuttable_shrub_leaf_fragment" Format="rgba16" Width="32" Height="32" Offset="0x35730"/>
+        <Texture Name="gCuttableShrubTex" OutName="cuttable_shrub" Format="rgba16" Width="32" Height="32" Offset="0x35F30"/>
+        <Texture Name="gEffSsDead1Tex" OutName="ss_dead_1" Format="i4" Width="64" Height="64" Offset="0x36730"/>
+        <Texture Name="gEffSsDead2Tex" OutName="ss_dead_2" Format="i4" Width="64" Height="64" Offset="0x36F30"/>
+        <DList Name="gEffSsDead1DL" Offset="0x37730"/>
+        <DList Name="gEffSsDead2DL" Offset="0x37798"/>
         <DList Name="gEffSparklesDL" Offset="0x37880"/>
         <Texture Name="gEffSparklesTex" OutName="eff_sparkles" Format="i4" Width="16" Height="16" Offset="0x378E0"/>
         <Texture Name="gEffUnknown13Tex" OutName="eff_unknown_tex_13" Format="i8" Width="16" Height="32" Offset="0x37960"/>
@@ -854,7 +855,7 @@
         <DList Name="gHoverBootsCircleDL" Offset="0x37E30"/>
         <Texture Name="gMoonTex" OutName="moon" Format="ia8" Width="64" Height="64" Offset="0x37F00"/>
         <DList Name="gMoonDL" Offset="0x38F00"/>
-        <Texture Name="gUnknownCircle6Tex" OutName="unknown_circle_6" Format="i8" Width="32" Height="32" Offset="0x38FB0"/>
+        <Texture Name="gUnknownCircleTex" OutName="unknown_circle" Format="i8" Width="32" Height="32" Offset="0x38FB0"/>
         <Collision Name="gUnknown1Col" Offset="0x394B0"/>
         <DList Name="gLiftableRockDL" Offset="0x39660"/>
         <DList Name="gUnusedRockRectangularPrism1DL" Offset="0x39890"/>

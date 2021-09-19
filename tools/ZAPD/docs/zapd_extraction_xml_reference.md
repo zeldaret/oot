@@ -382,7 +382,7 @@ Current supported types are `Vec3s`, `Vec3i` or `Vec3f`.
 - Example:
 
 ```xml
-<Array Name="D_04002040" Count="24" Offset="0x2040">
+<Array Name="gPlayerPauseEquipPose1" Count="24" Offset="0x2040">
     <Vector Type="s16" Dimensions="3" />
 </Array>
 ```
@@ -390,7 +390,7 @@ Current supported types are `Vec3s`, `Vec3i` or `Vec3f`.
 Will be extracted as:
 
 ```c
-Vec3s D_04002040[24] = {
+Vec3s gPlayerPauseEquipPose1[24] = {
     { -37, 2346, 93 },
     { 0, 11995, 0 },
     { -16385, -305, -16333 },

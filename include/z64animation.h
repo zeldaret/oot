@@ -87,7 +87,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ AnimationHeaderCommon common;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ s16* segment;
 } LinkAnimationHeader; // size = 0x8
 
 typedef struct {
