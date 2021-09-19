@@ -1081,7 +1081,7 @@ s32 Player_HasMirrorShieldEquipped(GlobalContext* globalCtx);
 s32 Player_HasMirrorShieldSetToDraw(GlobalContext* globalCtx);
 s32 Player_ActionToMagicSpell(Player* player, s32 actionParam);
 s32 Player_IsHoldingHookshot(Player* player);
-s32 Player_IsShootingHookshot(Player* player);
+s32 func_8008F128(Player* player);
 s32 Player_ActionToSword(s32 actionParam);
 s32 Player_GetSwordHeld(Player* player);
 s32 Player_HoldsTwoHandedWeapon(Player* player);

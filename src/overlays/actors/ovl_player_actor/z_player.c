@@ -1888,7 +1888,7 @@ void func_80833DF8(Player* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (!(this->stateFlags1 & 0x20000800) && !Player_IsShootingHookshot(this)) {
+    if (!(this->stateFlags1 & 0x20000800) && !func_8008F128(this)) {
         if (this->itemActionParam >= PLAYER_AP_FISHING_POLE) {
             if (!func_80833C50(this, B_BTN_ITEM) && !func_80833C50(this, C_BTN_ITEM(0)) &&
                 !func_80833C50(this, C_BTN_ITEM(1)) && !func_80833C50(this, C_BTN_ITEM(2))) {
@@ -3157,7 +3157,7 @@ s32 func_80837348(GlobalContext* globalCtx, Player* this, s8* arg2, s32 arg3) {
             }
         }
 
-        if (Player_IsShootingHookshot(this)) {
+        if (func_8008F128(this)) {
             this->unk_6AE |= 0x41;
             return 1;
         }
@@ -10629,7 +10629,7 @@ void func_8084B1D8(Player* this, GlobalContext* globalCtx) {
         func_8083C148(this, globalCtx);
         func_80078884(NA_SE_SY_CAMERA_ZOOM_UP);
     } else if ((DECR(this->unk_850) == 0) || (this->unk_6AD != 2)) {
-        if (Player_IsShootingHookshot(this)) {
+        if (func_8008F128(this)) {
             this->unk_6AE |= 0x43;
         } else {
             this->actor.shape.rot.y = func_8084ABD8(globalCtx, this, 0, 0);
@@ -13352,7 +13352,7 @@ void func_808514C0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
     LinkAnimation_Update(globalCtx, &this->skelAnime);
 
-    if (Player_IsShootingHookshot(this) || (this->stateFlags1 & 0x800)) {
+    if (func_8008F128(this) || (this->stateFlags1 & 0x800)) {
         func_80836670(this, globalCtx);
         return;
     }
@@ -13401,7 +13401,7 @@ void func_80851688(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
         LinkAnimation_Update(globalCtx, &this->skelAnime);
 
-        if (Player_IsShootingHookshot(this) || (this->stateFlags1 & 0x800)) {
+        if (func_8008F128(this) || (this->stateFlags1 & 0x800)) {
             func_80836670(this, globalCtx);
         }
     }
@@ -14027,7 +14027,7 @@ s32 Player_StartFishing(GlobalContext* globalCtx) {
 
 s32 func_80852F38(GlobalContext* globalCtx, Player* this) {
     if (!Player_InBlockingCsMode(globalCtx, this) && (this->invincibilityTimer >= 0) &&
-        !Player_IsShootingHookshot(this) && !(this->stateFlags3 & 0x80)) {
+        !func_8008F128(this) && !(this->stateFlags3 & 0x80)) {
         func_80832564(globalCtx, this);
         func_80835C58(globalCtx, this, func_8084F308, 0);
         func_80832264(globalCtx, this, &gPlayerAnim_003120);

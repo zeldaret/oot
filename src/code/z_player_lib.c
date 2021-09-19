@@ -12,16 +12,16 @@ static s32 sRightHandType;
 FlexSkeletonHeader* gPlayerSkelHeaders[] = { &gLinkAdultSkel, &gLinkChildSkel };
 
 typedef struct {
-    /* 0x00 */ s16 walkSpeedMax;
-    /* 0x02 */ s16 sideWalkAnimSpeedBase;
-    /* 0x04 */ s16 sideWalkAnimSpeed;
+    /* 0x00 */ s16 linearAcceleration;
+    /* 0x02 */ s16 sideWalkAnimSpeedBase; // walking to the side when z targeting
+    /* 0x04 */ s16 sideWalkAnimSpeedFactor;
     /* 0x06 */ s16 unk_06;
-    /* 0x08 */ s16 walkAnimSpeedBase;
-    /* 0x0A */ s16 walkAnimSpeed;
-    /* 0x0C */ s16 runAnimSpeedBase;
-    /* 0x0E */ s16 runAnimSpeed;
+    /* 0x08 */ s16 walkAnimSpeedBase; // walking forwards
+    /* 0x0A */ s16 walkAnimSpeedFactor;
+    /* 0x0C */ s16 unk_0C; // running forwards
+    /* 0x0E */ s16 runAnimSpeedFactor;
     /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 runSpeedMax;
+    /* 0x12 */ s16 unk_12; // appears unused
     /* 0x14 */ s16 gravity;
     /* 0x16 */ s16 unk_16;           // jump related
     /* 0x18 */ s16 highJumpSpeedMin; // minimum speed to trigger a high jump
@@ -62,16 +62,16 @@ void Player_SetMovementBehavior(GlobalContext* globalCtx, Player* this) {
     }
 
     entry = &sMovementInfo[currentBoots];
-    REG(19) = entry->walkSpeedMax;
+    REG(19) = entry->linearAcceleration;
     REG(30) = entry->sideWalkAnimSpeedBase;
-    REG(32) = entry->sideWalkAnimSpeed;
+    REG(32) = entry->sideWalkAnimSpeedFactor;
     REG(34) = entry->unk_06;
     REG(35) = entry->walkAnimSpeedBase;
-    REG(36) = entry->walkAnimSpeed;
-    REG(37) = entry->runAnimSpeedBase;
-    REG(38) = entry->runAnimSpeed;
+    REG(36) = entry->walkAnimSpeedFactor;
+    REG(37) = entry->unk_0C;
+    REG(38) = entry->runAnimSpeedFactor;
     REG(43) = entry->unk_10;
-    REG(45) = entry->runSpeedMax;
+    REG(45) = entry->unk_12;
     REG(68) = entry->gravity;
     REG(69) = entry->unk_16;
     IREG(66) = entry->highJumpSpeedMin;
@@ -584,7 +584,8 @@ s32 Player_IsHoldingHookshot(Player* this) {
     return (this->heldItemActionParam == PLAYER_AP_HOOKSHOT) || (this->heldItemActionParam == PLAYER_AP_LONGSHOT);
 }
 
-s32 Player_IsShootingHookshot(Player* this) {
+// (Player_IsShootingHookshot?)
+s32 func_8008F128(Player* this) {
     return Player_IsHoldingHookshot(this) && (this->heldActor == NULL);
 }
 
