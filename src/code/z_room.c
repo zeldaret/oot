@@ -479,14 +479,17 @@ void func_80096FD4(GlobalContext* globalCtx, Room* room) {
     room->segment = NULL;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences near the end
 u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
-    u8 nextRoomNum;
     u32 maxRoomSize = 0;
     RomFile* roomList = globalCtx->roomList;
     u32 roomSize;
     s32 i;
+    s32 j;
+    s32 frontRoom;
+    s32 backRoom;
+    u32 frontRoomSize;
+    u32 backRoomSize;
+    u32 cumulRoomSize;
 
     for (i = 0; i < globalCtx->numRooms; i++) {
         roomSize = roomList[i].vromEnd - roomList[i].vromStart;
@@ -497,18 +500,17 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     }
 
     if (globalCtx->transiActorCtx.numActors != 0) {
-        s32 j;
         RomFile* roomList = globalCtx->roomList;
         TransitionActorEntry* transitionActor = &globalCtx->transiActorCtx.list[0];
 
         LOG_NUM("game_play->room_rom_address.num", globalCtx->numRooms, "../z_room.c", 912);
 
         for (j = 0; j < globalCtx->transiActorCtx.numActors; j++) {
-            s8 frontRoom = transitionActor->sides[0].room;
-            s8 backRoom = transitionActor->sides[1].room;
-            u32 frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
-            u32 backRoomSize = (backRoom < 0) ? 0 : roomList[backRoom].vromEnd - roomList[backRoom].vromStart;
-            u32 cumulRoomSize = (frontRoom != backRoom) ? frontRoomSize + backRoomSize : frontRoomSize;
+            frontRoom = transitionActor->sides[0].room;
+            backRoom = transitionActor->sides[1].room;
+            frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
+            backRoomSize = (backRoom < 0) ? 0 : roomList[backRoom].vromEnd - roomList[backRoom].vromStart;
+            cumulRoomSize = (frontRoom != backRoom) ? frontRoomSize + backRoomSize : frontRoomSize;
 
             osSyncPrintf("DOOR%d=<%d> ROOM1=<%d, %d> ROOM2=<%d, %d>\n", j, cumulRoomSize, frontRoom, frontRoomSize,
                          backRoom, backRoomSize);
@@ -532,15 +534,11 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 
-    nextRoomNum = (gSaveContext.respawnFlag - 1 >= 0) ? gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex
-                                                      : globalCtx->setupEntranceList[globalCtx->curSpawn].room;
-    func_8009728C(globalCtx, roomCtx, nextRoomNum);
+    frontRoom = gSaveContext.respawnFlag > 0 ? ((void)0, gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex) : globalCtx->setupEntranceList[globalCtx->curSpawn].room;
+    func_8009728C(globalCtx, roomCtx, frontRoom);
 
     return maxRoomSize;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_80096FE8.s")
-#endif
 
 s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
     u32 size;
