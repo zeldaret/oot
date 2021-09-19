@@ -39,14 +39,14 @@ typedef enum {
     /*  2 */ WOLFOS_ACTION_DIE = 2,
     /*  3 */ WOLFOS_ACTION_DAMAGED,
     /*  4 */ WOLFOS_ACTION_TURN_TOWARDS_PLAYER,
-    /*  5 */ WOLFOS_ACTION_BACKFLIP,
+    /*  5 */ WOLFOS_ACTION_BACKFLIP_AWAY,
     /*  6 */ WOLFOS_ACTION_WAIT,
-    /*  7 */ WOLFOS_ACTION_REACT_TO_PLAYER,
-    /*  8 */ WOLFOS_ACTION_FIRST_SLASH,
+    /*  7 */ WOLFOS_ACTION_BLOCKING,
+    /*  8 */ WOLFOS_ACTION_SLASH,
     /*  9 */ WOLFOS_ACTION_RUN_AT_PLAYER,
     /* 10 */ WOLFOS_ACTION_SEARCH_FOR_PLAYER,
     /* 11 */ WOLFOS_ACTION_RUN_AROUND_PLAYER,
-    /* 12 */ WOLFOS_ACTION_SECOND_SLASH,
+    /* 12 */ WOLFOS_ACTION_RECOIL_FROM_BLOCKED_SLASH,
     /* 14 */ WOLFOS_ACTION_SIDESTEP = 14,
     /* 15 */ WOLFOS_ACTION_STUNNED
 } EnWfAction;
@@ -72,12 +72,12 @@ typedef struct EnWf {
     /* 0x02FA */ s16 unk_2FA; // Set and not used
     /* 0x02FC */ s16 switchFlag;
     /* 0x02FE */ s16 runAngle;
-    /* 0x0300 */ s16 isInvisible;
+    /* 0x0300 */ s16 unk_300; // Set, but ineffectual (see comment in Draw)
     /* 0x0302 */ u8 eyeIndex;
-    /* 0x0304 */ ColliderJntSph colliderSphere;
-    /* 0x0324 */ ColliderJntSphElement colliderSphereElements[4];
-    /* 0x0424 */ ColliderCylinder colliderCylinder1;
-    /* 0x0470 */ ColliderCylinder colliderCylinder2;
+    /* 0x0304 */ ColliderJntSph colliderSpheres;
+    /* 0x0324 */ ColliderJntSphElement colliderSpheresElements[4];
+    /* 0x0424 */ ColliderCylinder colliderCylinderBody;
+    /* 0x0470 */ ColliderCylinder colliderCylinderTail;
     /* 0x04BC */ Vec3f unk_4BC;
     /* 0x04C8 */ Vec3f unk_4C8;
     /* 0x04D4 */ Vec3s headRot;
