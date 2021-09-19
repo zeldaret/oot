@@ -1,5 +1,5 @@
-#ifndef _Z_EN_RL_H_
-#define _Z_EN_RL_H_
+#ifndef Z_EN_RL_H
+#define Z_EN_RL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,7 +21,5 @@ typedef struct EnRl {
     /* 0x01A4 */ u32 lightBallSpawned;
     /* 0x01A8 */ s32 lightMedallionGiven;
 } EnRl; // size = 0x01AC
-
-extern const ActorInit En_Rl_InitVars;
 
 #endif

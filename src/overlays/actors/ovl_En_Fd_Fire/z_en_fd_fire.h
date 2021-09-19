@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FD_FIRE_H_
-#define _Z_EN_FD_FIRE_H_
+#ifndef Z_EN_FD_FIRE_H
+#define Z_EN_FD_FIRE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct EnFdFire {
     /* 0x01A6 */ s16 deathTimer;
     /* 0x01A8 */ s16 tile2Y;
 } EnFdFire; // size = 0x01AC
-
-extern const ActorInit En_Fd_Fire_InitVars;
 
 #endif

@@ -92,7 +92,7 @@ s32 Player_InBlockingCsMode(GlobalContext* globalCtx, Player* this) {
 }
 
 s32 Player_InCsMode(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return Player_InBlockingCsMode(globalCtx, this) || (this->unk_6AD == 4);
 }
@@ -105,14 +105,14 @@ s32 Player_IsChildWithHylianShield(Player* this) {
     return (gSaveContext.linkAge != LINK_AGE_ADULT) && (this->currentShield == PLAYER_SHIELD_HYLIAN);
 }
 
-// Used to map action params to model groups
-static u8 sActionModelGroups[] = {
-    3,  15, 10, 2,  2,  5,  10, 11, 6,  6, 6, 6, 6, 6, 6, 6, 9, 9, 7, 7, 8, 3, 3, 6, 3, 3, 3, 3, 12, 13, 14, 14, 14, 14,
-    14, 14, 14, 14, 14, 14, 14, 14, 14, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  3,  3,  3,  3,
-};
-
 s32 Player_ActionToModelGroup(Player* this, s32 actionParam) {
-    s32 modelGroup = sActionModelGroups[actionParam];
+    // Used to map action params to model groups
+    static u8 actionModelGroups[] = {
+        3, 15, 10, 2, 2, 5,  10, 11, 6,  6,  6,  6,  6,  6,  6,  6,  9,  9,  7,  7,  8, 3, 3,
+        6, 3,  3,  3, 3, 12, 13, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 3, 3, 3,
+        3, 3,  3,  3, 3, 3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,
+    };
+    s32 modelGroup = actionModelGroups[actionParam];
 
     if ((modelGroup == 2) && Player_IsChildWithHylianShield(this)) {
         return 1;
@@ -488,7 +488,7 @@ void Player_InitTargeting(Player* this) {
 }
 
 void Player_SetTargeting(GlobalContext* globalCtx, Actor* actor) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     Player_InitTargeting(this);
     this->unk_664 = actor;
@@ -499,7 +499,7 @@ void Player_SetTargeting(GlobalContext* globalCtx, Actor* actor) {
 }
 
 s32 Player_IsRidingHorse(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->stateFlags1 & 0x800000);
 }
@@ -510,7 +510,7 @@ s32 func_8008EF44(GlobalContext* globalCtx, s32 ammo) {
 }
 
 s32 Player_IsBurningStickInRange(GlobalContext* globalCtx, Vec3f* pos, f32 radius, f32 height) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
     Vec3f diff;
     s32 pad;
 
@@ -535,13 +535,13 @@ s32 Player_GetStrength(void) {
 }
 
 u8 Player_GetMask(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return this->currentMask;
 }
 
 Player* Player_UnsetMask(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     this->currentMask = PLAYER_MASK_NONE;
 
@@ -549,13 +549,13 @@ Player* Player_UnsetMask(GlobalContext* globalCtx) {
 }
 
 s32 Player_HasMirrorShieldEquipped(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->currentShield == PLAYER_SHIELD_MIRROR);
 }
 
 s32 Player_HasMirrorShieldSetToDraw(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->rightHandType == 10) && (this->currentShield == PLAYER_SHIELD_MIRROR);
 }
@@ -649,7 +649,7 @@ return_neg:
 }
 
 s32 func_8008F2F8(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
     TextTriggerEntry* triggerEntry;
     s32 var;
 
@@ -1512,8 +1512,8 @@ s32 Player_PauseOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 void Player_PauseMenuDrawImpl(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* skelAnime, Vec3f* pos,
-                          Vec3s* rot, f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height,
-                          Vec3f* eye, Vec3f* at, f32 fovy, void* img1, void* img2) {
+                              Vec3s* rot, f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height,
+                              Vec3f* eye, Vec3f* at, f32 fovy, void* img1, void* img2) {
     static Vp viewport = { 128, 224, 511, 0, 128, 224, 511, 0 };
     static Lights1 lights1 = gdSPDefLights1(80, 80, 80, 255, 255, 255, 84, 84, 172);
     static Vec3f lightDir = { 89.8f, 0.0f, 89.8f };
@@ -1617,8 +1617,8 @@ void Player_PauseMenuDrawImpl(GlobalContext* globalCtx, void* seg04, void* seg06
 /**
  * Draws the player in the equip screen on the pause menu.
  */
-void Player_PauseMenuDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
-                      s32 sword, s32 tunic, s32 shield, s32 boots) {
+void Player_PauseMenuDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot,
+                          f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots) {
     static Vec3f eye = { 0.0f, 0.0f, -400.0f };
     static Vec3f at = { 0.0f, 0.0f, 0.0f };
     Vec3s* destTable;
@@ -1651,6 +1651,6 @@ void Player_PauseMenuDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skel
     }
 
     Player_PauseMenuDrawImpl(globalCtx, segment + 0x3800, segment + 0x8800, skelAnime, pos, rot, scale, sword, tunic,
-                         shield, boots, 64, 112, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFrameBuffer,
-                         globalCtx->state.gfxCtx->curFrameBuffer + 0x1C00);
+                             shield, boots, 64, 112, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFrameBuffer,
+                             globalCtx->state.gfxCtx->curFrameBuffer + 0x1C00);
 }

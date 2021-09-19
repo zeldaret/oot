@@ -130,7 +130,7 @@ void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         player = (Player*)this->actor.parent;
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
     }
 
     this->actor.world.pos = player->actor.world.pos;
@@ -148,7 +148,7 @@ void EnSda_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         player = (Player*)this->actor.parent;
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
     }
 
     player->actor.shape.shadowAlpha = 0;
@@ -366,8 +366,6 @@ void func_80AF9C70(u8* shadowTexture, Player* player, GlobalContext* globalCtx) 
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_en_sda.c", 826);
-
-    if (1) {}
 
     osSyncPrintf("SDA D 1\n");
     func_80094044(globalCtx->state.gfxCtx);

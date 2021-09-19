@@ -1,5 +1,5 @@
-#ifndef _Z_EN_TP_H_
-#define _Z_EN_TP_H_
+#ifndef Z_EN_TP_H
+#define Z_EN_TP_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -35,7 +35,5 @@ typedef enum {
     /* 11 */ TAILPASARAN_TAIL_DYING,
     /* 12 */ TAILPASARAN_HEAD_DYING
 } EnTpType;
-
-extern const ActorInit En_Tp_InitVars;
 
 #endif

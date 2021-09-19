@@ -67,7 +67,7 @@ void func_8087B758(BgHaka* this, Player* player) {
 }
 
 void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         if (globalCtx->sceneNum == SCENE_SPOT02 && !LINK_IS_ADULT && !gSaveContext.nightFlag) {
@@ -91,7 +91,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
 }
 
 void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 sp38;
 
     this->dyna.actor.speedXZ += 0.05f;
@@ -117,7 +117,7 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
 }
 
 void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         this->dyna.unk_150 = 0.0f;
@@ -126,7 +126,7 @@ void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx) {
 }
 
 void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     if (this->dyna.actor.params != 0) {

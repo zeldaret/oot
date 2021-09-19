@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_SST_H_
-#define _Z_BOSS_SST_H_
+#ifndef Z_BOSS_SST_H
+#define Z_BOSS_SST_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -58,7 +58,5 @@ typedef enum {
     /*  0 */ BONGO_LEFT_HAND,
     /*  1 */ BONGO_RIGHT_HAND
 } BossSstType;
-
-extern const ActorInit Boss_Sst_InitVars;
 
 #endif

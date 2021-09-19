@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SSH_H_
-#define _Z_EN_SSH_H_
+#ifndef Z_EN_SSH_H
+#define Z_EN_SSH_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -38,8 +38,6 @@ typedef struct EnSsh {
     /* 0x05CE */ s16 blinkState;
     /* 0x05D0 */ s16 blinkTimer;
 } EnSsh; // size = 0x05D4
-
-extern const ActorInit En_Ssh_InitVars;
 
 #define ENSSH_FATHER 0
 

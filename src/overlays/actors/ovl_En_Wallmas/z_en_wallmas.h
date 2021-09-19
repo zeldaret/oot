@@ -1,5 +1,5 @@
-#ifndef _Z_EN_WALLMAS_H_
-#define _Z_EN_WALLMAS_H_
+#ifndef Z_EN_WALLMAS_H
+#define Z_EN_WALLMAS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -25,7 +25,5 @@ typedef struct EnWallmas {
     /* 0x02C4 */ f32 yTarget;
     /* 0x02C8 */ ColliderCylinder collider;
 } EnWallmas; // size = 0x0314
-
-extern const ActorInit En_Wallmas_InitVars;
 
 #endif

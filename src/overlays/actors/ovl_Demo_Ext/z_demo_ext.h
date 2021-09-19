@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_EXT_H_
-#define _Z_DEMO_EXT_H_
+#ifndef Z_DEMO_EXT_H
+#define Z_DEMO_EXT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -22,7 +22,5 @@ typedef struct DemoExt {
     /* 0x0174 */ s32 envAlpha;
     /* 0x0178 */ Vec3f scale;
 } DemoExt; // size = 0x0184
-
-extern const ActorInit Demo_Ext_InitVars;
 
 #endif

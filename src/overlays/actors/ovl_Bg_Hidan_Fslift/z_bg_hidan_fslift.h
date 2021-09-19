@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HIDAN_FSLIFT_H_
-#define _Z_BG_HIDAN_FSLIFT_H_
+#ifndef Z_BG_HIDAN_FSLIFT_H
+#define Z_BG_HIDAN_FSLIFT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct BgHidanFslift {
     /* 0x0168 */ s16 timer;
     /* 0x016A */ s16 unk_16A;
 } BgHidanFslift; // size = 0x016C
-
-extern const ActorInit Bg_Hidan_Fslift_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_IK_H_
-#define _Z_DEMO_IK_H_
+#ifndef Z_DEMO_IK_H
+#define Z_DEMO_IK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct DemoIk {
     /* 0x01AC */ s32 drawMode;
     /* 0x01B0 */ s32 csAction;
 } DemoIk; // size = 0x01B4
-
-extern const ActorInit Demo_Ik_InitVars;
 
 #endif

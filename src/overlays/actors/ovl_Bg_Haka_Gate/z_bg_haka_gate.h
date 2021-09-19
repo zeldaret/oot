@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HAKA_GATE_H_
-#define _Z_BG_HAKA_GATE_H_
+#ifndef Z_BG_HAKA_GATE_H
+#define Z_BG_HAKA_GATE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -25,7 +25,5 @@ typedef enum {
     BGHAKAGATE_GATE,
     BGHAKAGATE_SKULL
 } BgHakaGateType;
-
-extern const ActorInit Bg_Haka_Gate_InitVars;
 
 #endif

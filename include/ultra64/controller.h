@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_CONTROLLER_H_
-#define _ULTRA64_CONTROLLER_H_
+#ifndef ULTRA64_CONTROLLER_H
+#define ULTRA64_CONTROLLER_H
 
 #include "ultra64.h"
 #include "ultra64/message.h"

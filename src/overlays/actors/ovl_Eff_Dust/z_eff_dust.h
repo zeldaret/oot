@@ -1,5 +1,5 @@
-#ifndef _Z_EFF_DUST_H_
-#define _Z_EFF_DUST_H_
+#ifndef Z_EFF_DUST_H
+#define Z_EFF_DUST_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -30,7 +30,5 @@ typedef enum {
     /* 0x03 */ EFF_DUST_TYPE_3,
     /* 0x04 */ EFF_DUST_TYPE_4
 } EffDustType;
-
-extern const ActorInit Eff_Dust_InitVars;
 
 #endif

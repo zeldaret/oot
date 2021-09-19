@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ZL3_H_
-#define _Z_EN_ZL3_H_
+#ifndef Z_EN_ZL3_H
+#define Z_EN_ZL3_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -67,7 +67,5 @@ typedef struct EnZl3 {
     /* 0x03F4 */ f32 unk_3F4;
     /* 0x03F8 */ struct_80034A14_arg1 unk_3F8;
 } EnZl3; // size = 0x0420
-
-extern const ActorInit En_Zl3_InitVars;
 
 #endif

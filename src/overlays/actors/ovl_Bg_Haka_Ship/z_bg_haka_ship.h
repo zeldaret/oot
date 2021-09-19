@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HAKA_SHIP_H_
-#define _Z_BG_HAKA_SHIP_H_
+#ifndef Z_BG_HAKA_SHIP_H
+#define Z_BG_HAKA_SHIP_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgHakaShip {
     /* 0x016A */ s16 yOffset;
     /* 0x016C */ Vec3f bellSoundPos;
 } BgHakaShip; // size = 0x0178
-
-extern const ActorInit Bg_Haka_Ship_InitVars;
 
 #endif

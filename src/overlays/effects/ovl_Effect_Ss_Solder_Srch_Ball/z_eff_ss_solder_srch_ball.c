@@ -35,7 +35,7 @@ void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs
     f32 playerPosDiffY;
     f32 playerPosDiffZ;
     s16* linkDetected;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     linkDetected = this->actor;
 

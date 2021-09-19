@@ -1,5 +1,5 @@
-#ifndef _Z_EN_TR_H_
-#define _Z_EN_TR_H_
+#ifndef Z_EN_TR_H
+#define Z_EN_TR_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,8 +21,6 @@ typedef struct EnTr {
     /* 0x02E2 */ s16 blinkTimer;
     /* 0x02E4 */ AnimationHeader* animation;
 } EnTr; // size = 0x02E8
-
-extern const ActorInit En_Tr_InitVars;
 
 typedef enum {
     /* 0 */ TR_KOUME,

@@ -184,7 +184,7 @@ void EnPoRelay_Talk(EnPoRelay* this, GlobalContext* globalCtx) {
 }
 
 void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f vec;
     f32 speed;
     f32 multiplier;
@@ -301,12 +301,16 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
         if (this->actionTimer < 5) {
             vec.y = Math_SinS((this->actionTimer * 0x1000) - 0x4000) * 23.0f + (this->actor.world.pos.y + 40.0f);
             multiplier = Math_CosS((this->actionTimer * 0x1000) - 0x4000) * 23.0f;
-            vec.x = (Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.world.pos.x;
-            vec.z = (Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.world.pos.z;
+            vec.x = (Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * multiplier) +
+                    this->actor.world.pos.x;
+            vec.z = (Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * multiplier) +
+                    this->actor.world.pos.z;
         } else {
             vec.y = this->actor.world.pos.y + 40.0f + 15.0f * (this->actionTimer - 5);
-            vec.x = (Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.world.pos.x;
-            vec.z = (Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.world.pos.z;
+            vec.x =
+                (Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f) + this->actor.world.pos.x;
+            vec.z =
+                (Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f) + this->actor.world.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255,
                              255, 0, 0, 255, 1, 9, true);

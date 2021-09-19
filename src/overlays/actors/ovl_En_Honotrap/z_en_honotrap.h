@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HONOTRAP_H_
-#define _Z_EN_HONOTRAP_H_
+#ifndef Z_EN_HONOTRAP_H
+#define Z_EN_HONOTRAP_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -34,7 +34,5 @@ typedef enum {
     HONOTRAP_FLAME_MOVE,
     HONOTRAP_FLAME_DROP
 } EnHonotrapType;
-
-extern const ActorInit En_Honotrap_InitVars;
 
 #endif

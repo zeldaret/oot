@@ -299,7 +299,7 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     s16 targetX;
     s16 targetY;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);

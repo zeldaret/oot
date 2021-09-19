@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DY_EXTRA_H_
-#define _Z_EN_DY_EXTRA_H_
+#ifndef Z_EN_DY_EXTRA_H
+#define Z_EN_DY_EXTRA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct EnDyExtra {
     /* 0x015C */ Vec3f scale;
     /* 0x0168 */ Vec3f unk_168; // Set and not used
 } EnDyExtra; // size = 0x0174
-
-extern const ActorInit En_Dy_Extra_InitVars;
 
 #endif

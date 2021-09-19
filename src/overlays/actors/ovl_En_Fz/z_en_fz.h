@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FZ_H_
-#define _Z_EN_FZ_H_
+#ifndef Z_EN_FZ_H
+#define Z_EN_FZ_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -51,7 +51,5 @@ typedef struct EnFz {
     /* 0x0270 */ f32 distToTargetSq;
     /* 0x0274 */ EnFzEffectSsIceSmoke iceSmoke[40];
 } EnFz; // size = 0x0BD4
-
-extern const ActorInit En_Fz_InitVars;
 
 #endif

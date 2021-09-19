@@ -1,5 +1,5 @@
-#ifndef _Z_ITEM_INBOX_H_
-#define _Z_ITEM_INBOX_H_
+#ifndef Z_ITEM_INBOX_H
+#define Z_ITEM_INBOX_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -12,7 +12,5 @@ typedef struct ItemInbox {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ItemInboxActionFunc actionFunc;
 } ItemInbox; // size = 0x0150
-
-extern const ActorInit Item_Inbox_InitVars;
 
 #endif

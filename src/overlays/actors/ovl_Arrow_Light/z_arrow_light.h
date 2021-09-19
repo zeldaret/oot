@@ -1,5 +1,5 @@
-#ifndef _Z_ARROW_LIGHT_H_
-#define _Z_ARROW_LIGHT_H_
+#ifndef Z_ARROW_LIGHT_H
+#define Z_ARROW_LIGHT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct ArrowLight {
     /* 0x0164 */ f32 unk_164;
     /* 0x0168 */ ArrowLightActionFunc actionFunc;
 } ArrowLight; // size = 0x016C
-
-extern const ActorInit Arrow_Light_InitVars;
 
 #endif

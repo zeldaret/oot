@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BOM_BOWL_MAN_H_
-#define _Z_EN_BOM_BOWL_MAN_H_
+#ifndef Z_EN_BOM_BOWL_MAN_H
+#define Z_EN_BOM_BOWL_MAN_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -38,7 +38,5 @@ typedef struct EnBomBowlMan {
     /* 0x025C */ EnBomBowlPit* bowlPit;
     /* 0x0260 */ EnExItem* exItem;
 } EnBomBowlMan; // size = 0x0264
-
-extern const ActorInit En_Bom_Bowl_Man_InitVars;
 
 #endif

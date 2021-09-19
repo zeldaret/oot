@@ -360,7 +360,7 @@ void EnTest_ChooseRandomAction(EnTest* this, GlobalContext* globalCtx) {
 
 void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
     yawDiff = ABS(yawDiff);
@@ -485,7 +485,7 @@ void EnTest_SetupIdle(EnTest* this) {
 }
 
 void EnTest_Idle(EnTest* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
@@ -572,7 +572,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
     s32 prevFrame;
     s32 temp_f16;
     f32 playSpeed;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 absPlaySpeed;
     s16 yawDiff;
     s32 temp_v0_2;
@@ -799,7 +799,7 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
     s32 prevFrame;
     s32 temp_f16;
     s16 yawDiff;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 checkDist = 0.0f;
     s16 newYaw;
     f32 absPlaySpeed;
@@ -946,7 +946,7 @@ void EnTest_SetupSlashDownEnd(EnTest* this) {
 }
 
 void EnTest_SlashDownEnd(EnTest* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff;
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1223,7 +1223,7 @@ void func_80862154(EnTest* this) {
 }
 
 void func_808621D4(EnTest* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
 
@@ -1265,7 +1265,7 @@ void func_80862398(EnTest* this) {
 }
 
 void func_80862418(EnTest* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
 
@@ -1318,7 +1318,7 @@ void EnTest_SetupStunned(EnTest* this) {
 }
 
 void EnTest_Stunned(EnTest* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
 
@@ -1366,7 +1366,7 @@ void func_808627C4(EnTest* this, GlobalContext* globalCtx) {
 // a variation of sidestep
 void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad1;
     s32 prevFrame;
     s32 temp_f16;
@@ -1655,7 +1655,7 @@ void EnTest_UpdateHeadRot(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->shieldCollider.base.acFlags & AC_BOUNCED) {
         this->shieldCollider.base.acFlags &= ~AC_BOUNCED;

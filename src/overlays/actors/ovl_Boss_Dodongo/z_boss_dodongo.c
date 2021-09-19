@@ -1,5 +1,6 @@
 #include "z_boss_dodongo.h"
 #include "objects/object_kingdodongo/object_kingdodongo.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
 
 #define FLAGS 0x00000035
@@ -208,7 +209,7 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         Actor_Kill(&this->actor);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, -890.0f, -1523.76f,
-                           -3304.0f, 0, 0, 0, 0);
+                           -3304.0f, 0, 0, 0, WARP_DUNGEON_CHILD);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_BREAKWALL, -890.0f, -1523.76f, -3304.0f, 0, 0, 0, 0x6000);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, -690.0f, -1523.76f, -3304.0f, 0, 0, 0, 0);
 
@@ -245,7 +246,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
     Vec3f sp54;
     Vec3f sp48;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
     if (this->unk_196 != 0) {
@@ -819,8 +820,8 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     BossDodongo* this = THIS;
     f32 temp_f0;
     s16 i;
-    Player* player = PLAYER;
-    Player* player2 = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
+    Player* player2 = GET_PLAYER(globalCtx);
     s32 pad;
 
     this->unk_1E2 = 0;
@@ -1150,7 +1151,7 @@ f32 func_808C4F6C(BossDodongo* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 temp_f2;
     f32 rotation;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
@@ -1173,7 +1174,7 @@ f32 func_808C50A8(BossDodongo* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 temp_f2;
     f32 rotation;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
@@ -1191,7 +1192,7 @@ f32 func_808C50A8(BossDodongo* this, GlobalContext* globalCtx) {
 }
 
 void BossDodongo_PlayerYawCheck(BossDodongo* this, GlobalContext* globalCtx) {
-    s16 yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
+    s16 yawDiff = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.world.rot.y;
 
     if ((yawDiff < 0x38E3) && (-0x38E3 < yawDiff)) {
         this->playerYawInRange = true;
@@ -1295,7 +1296,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f effectPos;
     Camera* camera;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -1616,7 +1617,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, -890.0f, -1523.76f,
-                                   -3304.0f, 0, 0, 0, 0);
+                                   -3304.0f, 0, 0, 0, WARP_DUNGEON_CHILD);
                 this->skelAnime.playSpeed = 0.0f;
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }

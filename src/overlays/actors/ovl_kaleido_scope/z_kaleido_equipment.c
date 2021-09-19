@@ -107,8 +107,8 @@ void KaleidoScope_DrawPlayerWork(GlobalContext* globalCtx) {
     rot.y = 32300;
     rot.x = rot.z = 0;
     Player_PauseMenuDraw(globalCtx, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime, &pos, &rot, scale,
-                     CUR_EQUIP_VALUE(EQUIP_SWORD), CUR_EQUIP_VALUE(EQUIP_TUNIC) - 1, CUR_EQUIP_VALUE(EQUIP_SHIELD),
-                     CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1);
+                         CUR_EQUIP_VALUE(EQUIP_SWORD), CUR_EQUIP_VALUE(EQUIP_TUNIC) - 1, CUR_EQUIP_VALUE(EQUIP_SHIELD),
+                         CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1);
 }
 
 void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {

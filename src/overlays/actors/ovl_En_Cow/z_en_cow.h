@@ -1,5 +1,5 @@
-#ifndef _Z_EN_COW_H_
-#define _Z_EN_COW_H_
+#ifndef Z_EN_COW_H
+#define Z_EN_COW_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef struct EnCow {
     /* 0x027A */ u16 unk_27A;
     /* 0x027C */ EnCowActionFunc actionFunc;
 } EnCow; // size = 0x0280
-
-extern const ActorInit En_Cow_InitVars;
 
 #endif

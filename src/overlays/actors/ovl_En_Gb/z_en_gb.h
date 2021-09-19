@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GB_H_
-#define _Z_EN_GB_H_
+#ifndef Z_EN_GB_H
+#define Z_EN_GB_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -45,7 +45,5 @@ typedef struct EnGb {
     /* 0x0384 */ Color_RGBA8 lightColor;
     /* 0x0388 */ EnGbCagedSoul cagedSouls[4];
 } EnGb; // size = 0x0438
-
-extern const ActorInit En_Gb_InitVars;
 
 #endif

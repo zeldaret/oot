@@ -41,7 +41,7 @@ void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockAction
 }
 
 void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                                   DynaPolyMoveFlag flags) {
+                                   s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -174,7 +174,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     s32 rollDataIndex;
     MtxF mtx;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (this->dyna.actor.params & 0xFF) {
         case 0x11: // Medium nonrotating

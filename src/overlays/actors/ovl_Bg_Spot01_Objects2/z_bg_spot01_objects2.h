@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT01_OBJECTS2_H_
-#define _Z_BG_SPOT01_OBJECTS2_H_
+#ifndef Z_BG_SPOT01_OBJECTS2_H
+#define Z_BG_SPOT01_OBJECTS2_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct BgSpot01Objects2 {
     /* 0x0178 */ s32 objectId;
     /* 0x017C */ s8 objBankIndex;
 } BgSpot01Objects2; // size = 0x0180
-
-extern const ActorInit Bg_Spot01_Objects2_InitVars;
 
 #endif

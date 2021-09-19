@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_COBRA_H_
-#define _Z_BG_JYA_COBRA_H_
+#ifndef Z_BG_JYA_COBRA_H
+#define Z_BG_JYA_COBRA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -23,7 +23,5 @@ typedef struct BgJyaCobra {
     /* 0x0190 */ f32 unk_190;
     /* 0x0194 */ u8 shadowTexture[0x1010];
 } BgJyaCobra; // size = 0x11A4
-
-extern const ActorInit Bg_Jya_Cobra_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BUTTE_H_
-#define _Z_EN_BUTTE_H_
+#ifndef Z_EN_BUTTE_H
+#define Z_EN_BUTTE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -26,7 +26,5 @@ typedef struct EnButte {
     /* 0x0260 */ s16 unk_260;
     /* 0x0264 */ f32 posYTarget;
 } EnButte; // size = 0x0268
-
-extern const ActorInit En_Butte_InitVars;
 
 #endif

@@ -544,7 +544,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         }
 
         {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
             Matrix_Push();
             if (player->rightHandType == 0xFF) {
                 Matrix_Put(&player->shieldMf);
@@ -629,7 +629,7 @@ void EnZl2_GiveLightArrows(EnZl2* this, GlobalContext* globalCtx) {
     f32 posZ;
 
     if (this->unk_244 == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posX = player->actor.world.pos.x;
         posY = player->actor.world.pos.y + 80.0f;
         posZ = player->actor.world.pos.z;
@@ -649,7 +649,7 @@ void func_80B4FF84(EnZl2* this, GlobalContext* globalCtx) {
         posY = this->actor.world.pos.y;
         posZ = this->actor.world.pos.z;
 
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 4);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_YELLOW);
         this->unk_250 = 1;
     }
 }
@@ -665,7 +665,7 @@ void func_80B4FFF0(EnZl2* this, GlobalContext* globalCtx) {
         posZ = this->actor.world.pos.z;
 
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
-                           0, 3);
+                           0, WARP_PURPLE_CRYSTAL);
         this->unk_248 = 1;
     }
 }
@@ -707,7 +707,7 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B501C4(EnZl2* this, s32 alpha) {
     if (this->actor.child != NULL) {
-        ((DoorWarp1*)this->actor.child)->alpha = alpha;
+        ((DoorWarp1*)this->actor.child)->crystalAlpha = alpha;
     }
 }
 
@@ -1179,11 +1179,11 @@ void func_80B513A8(EnZl2* this, GlobalContext* globalCtx) {
     f32 posZ;
 
     if (this->unk_250 == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posX = player->actor.world.pos.x;
         posY = player->actor.world.pos.y;
         posZ = player->actor.world.pos.z;
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 7);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_UNK_7);
         this->unk_250 = 1;
     }
 }
@@ -1605,7 +1605,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (thisx->params) {
         case 1:
-            func_800F7260(0x6F);
+            Audio_SetSoundBanksMute(0x6F);
             break;
         case 4:
             gSaveContext.timer2State = 0;

@@ -1,5 +1,5 @@
-#ifndef _Z64SAVE_H_
-#define _Z64SAVE_H_
+#ifndef Z64SAVE_H
+#define Z64SAVE_H
 
 #include "ultra64.h"
 #include "z64math.h"
@@ -185,6 +185,15 @@ typedef enum {
     /* 0x00 */ BTN_ENABLED,
     /* 0xFF */ BTN_DISABLED = 0xFF
 } ButtonStatus;
+
+typedef enum {
+    /* 0x00 */ CHAMBER_CS_FOREST,
+    /* 0x01 */ CHAMBER_CS_FIRE,
+    /* 0x02 */ CHAMBER_CS_WATER,
+    /* 0x03 */ CHAMBER_CS_SPIRIT,
+    /* 0x04 */ CHAMBER_CS_SHADOW,
+    /* 0x05 */ CHAMBER_CS_LIGHT
+} ChamberCutsceneNum;
 
 typedef enum {
     /* 0x00 */ HS_HBA,          // horseback archery

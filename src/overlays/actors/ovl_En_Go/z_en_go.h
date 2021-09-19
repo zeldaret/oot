@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GO_H_
-#define _Z_EN_GO_H_
+#ifndef Z_EN_GO_H
+#define Z_EN_GO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -57,7 +57,5 @@ typedef struct EnGo {
     /* 0x0244 */ s16 morphTable[18];
     /* 0x0268 */ EnGoEffect dustEffects[20];
 } EnGo; // size = 0x06C8
-
-extern const ActorInit En_Go_InitVars;
 
 #endif

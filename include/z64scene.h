@@ -1,5 +1,5 @@
-#ifndef _Z64SCENE_H_
-#define _Z64SCENE_H_
+#ifndef Z64SCENE_H
+#define Z64SCENE_H
 
 #include "command_macros_base.h"
 

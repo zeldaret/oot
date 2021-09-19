@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_ELEVATOR_H_
-#define _Z_OBJ_ELEVATOR_H_
+#ifndef Z_OBJ_ELEVATOR_H
+#define Z_OBJ_ELEVATOR_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct ObjElevator {
     /* 0x016C */ f32 unk_16C;
     /* 0x0170 */ u8 unk_170;
 } ObjElevator; // size = 0x0174
-
-extern const ActorInit Obj_Elevator_InitVars;
 
 #endif

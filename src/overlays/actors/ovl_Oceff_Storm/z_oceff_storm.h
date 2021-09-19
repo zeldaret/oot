@@ -1,5 +1,5 @@
-#ifndef _Z_OCEFF_STORM_H_
-#define _Z_OCEFF_STORM_H_
+#ifndef Z_OCEFF_STORM_H
+#define Z_OCEFF_STORM_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef struct OceffStorm {
     /* 0x0152 */ s16 posYOffAdd;
     /* 0x0154 */ OceffStormActionFunc actionFunc;
 } OceffStorm; // size = 0x0158
-
-extern const ActorInit Oceff_Storm_InitVars;
 
 #endif

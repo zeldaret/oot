@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_TRE_LGT_H_
-#define _Z_DEMO_TRE_LGT_H_
+#ifndef Z_DEMO_TRE_LGT_H
+#define Z_DEMO_TRE_LGT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,7 +21,5 @@ typedef enum {
     /* 0x00 */ DEMO_TRE_LGT_ACTION_WAIT, // wait until animation is needed
     /* 0x01 */ DEMO_TRE_LGT_ACTION_ANIMATE
 } DemoTreLgtAction;
-
-extern const ActorInit Demo_Tre_Lgt_InitVars;
 
 #endif

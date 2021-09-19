@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_WARP2BLOCK_H_
-#define _Z_OBJ_WARP2BLOCK_H_
+#ifndef Z_OBJ_WARP2BLOCK_H
+#define Z_OBJ_WARP2BLOCK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -19,7 +19,5 @@ typedef struct ObjWarp2block {
     /* 0x0172 */ u16 unk_172;
     /* 0x0174 */ s16 unk_174;
 } ObjWarp2block; // size = 0x0178
-
-extern const ActorInit Obj_Warp2block_InitVars;
 
 #endif

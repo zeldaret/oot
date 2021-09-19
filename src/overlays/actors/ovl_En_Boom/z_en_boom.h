@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BOOM_H_
-#define _Z_EN_BOOM_H_
+#ifndef Z_EN_BOOM_H
+#define Z_EN_BOOM_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -19,7 +19,5 @@ typedef struct EnBoom {
     /* 0x01DC */ WeaponInfo boomerangInfo;
     /* 0x01F8 */ EnBoomActionFunc actionFunc;
 } EnBoom; // size = 0x01FC
-
-extern const ActorInit En_Boom_InitVars;
 
 #endif

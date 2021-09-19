@@ -184,7 +184,7 @@ Actor* EnTorch2_GetAttackItem(GlobalContext* globalCtx, Player* this) {
 s32 EnTorch2_SwingSword(GlobalContext* globalCtx, Input* input, Player* this) {
     f32 noAttackChance = 0.0f;
     s32 attackDelay = 7;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->linearVelocity < 0.0f) || (player->linearVelocity < 0.0f)) {
         return 0;
@@ -236,7 +236,7 @@ void EnTorch2_Backflip(Player* this, Input* input, Actor* thisx) {
  */
 void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Player* this = THIS;
     Input* input = &sInput;
     u16 phi_a2;

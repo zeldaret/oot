@@ -289,7 +289,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
         }
         if (this->collider.base.atFlags & AT_HIT) {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
 
             this->collider.base.atFlags &= ~AT_HIT;
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
