@@ -534,7 +534,8 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 
-    frontRoom = gSaveContext.respawnFlag > 0 ? ((void)0, gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex) : globalCtx->setupEntranceList[globalCtx->curSpawn].room;
+    frontRoom = gSaveContext.respawnFlag > 0 ? ((void)0, gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex)
+                                             : globalCtx->setupEntranceList[globalCtx->curSpawn].room;
     func_8009728C(globalCtx, roomCtx, frontRoom);
 
     return maxRoomSize;
