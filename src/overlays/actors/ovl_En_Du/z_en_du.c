@@ -138,7 +138,7 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
 }
 
 s32 func_809FDDB4(EnDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->sceneNum == SCENE_SPOT18 && gSaveContext.linkAge == 1) {
+    if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD) {
         return 1;
     } else if (globalCtx->sceneNum == SCENE_HIDAN && !(gSaveContext.infTable[0x11] & 0x400) && LINK_IS_ADULT) {
         return 1;
@@ -147,7 +147,7 @@ s32 func_809FDDB4(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FDE24(EnDu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3 = 0;
 
     if (this->unk_1F4.unk_00 == 0) {
@@ -277,7 +277,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE890);
     } else if (globalCtx->sceneNum == 4) {
         EnDu_SetupAction(this, func_809FE638);
-    } else if (LINK_IS_CHILD) {
+    } else if (!LINK_IS_ADULT) {
         EnDu_SetupAction(this, func_809FE3C0);
     } else {
         EnDu_SetupAction(this, func_809FE3B4);
@@ -295,7 +295,7 @@ void func_809FE3B4(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FE3C0(EnDu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags2 & 0x1000000) {
         func_8010BD88(globalCtx, 0x22);
@@ -314,7 +314,7 @@ void func_809FE3C0(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FE4A4(EnDu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE == 4) {
         globalCtx->msgCtx.unk_E3EE = 0;
@@ -338,7 +338,7 @@ void func_809FE4A4(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FE638(EnDu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x20000000)) {
         OnePointCutscene_Init(globalCtx, 3330, -99, &this->actor, MAIN_CAM);
@@ -368,7 +368,7 @@ void func_809FE6CC(EnDu* this, GlobalContext* globalCtx) {
 
 void func_809FE740(EnDu* this, GlobalContext* globalCtx) {
     if (this->unk_1F4.unk_00 == 0) {
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         this->unk_1E2 = 0x5A;
         EnDu_SetupAction(this, func_809FE798);
     }

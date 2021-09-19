@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ST_H_
-#define _Z_EN_ST_H_
+#ifndef Z_EN_ST_H
+#define Z_EN_ST_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -46,7 +46,5 @@ typedef struct EnSt {
     /* 0x0412 */ Vec3s jointTable[30];
     /* 0x04C6 */ Vec3s morphTable[30];
 } EnSt; // size = 0x057C
-
-extern const ActorInit En_St_InitVars;
 
 #endif

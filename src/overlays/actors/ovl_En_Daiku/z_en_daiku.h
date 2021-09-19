@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DAIKU_H_
-#define _Z_EN_DAIKU_H_
+#ifndef Z_EN_DAIKU_H
+#define Z_EN_DAIKU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -36,7 +36,5 @@ typedef struct EnDaiku {
     /* 0x0338 */ Vec3s initRot;
     /* 0x0340 */ Vec3f initPos;
 } EnDaiku; // size = 0x034C
-
-extern const ActorInit En_Daiku_InitVars;
 
 #endif

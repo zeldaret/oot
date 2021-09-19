@@ -350,7 +350,6 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
     gDPLoadTextureBlock(POLY_OPA_DISP++, gSongNoteTex, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-    if (1) {}
 
     for (sp218 = 0; sp218 < 12; sp218++, sp21A += 4) {
         if (CHECK_QUEST_ITEM(sp218 + 6)) {
@@ -511,7 +510,6 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                     gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[D_8082A124[sp218]], G_IM_FMT_IA, G_IM_SIZ_8b, 16,
                                         16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-                    if (1) {}
 
                     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
                 }
@@ -548,7 +546,6 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[gOcarinaSongNotes[phi_a2].notesIdx[phi_s3]],
                                     G_IM_FMT_IA, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-                if (1) {}
 
                 gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
             }
@@ -598,7 +595,6 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                     gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[D_8082A124[phi_s3]], G_IM_FMT_IA, G_IM_SIZ_8b, 16,
                                         16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-                    if (1) {}
 
                     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
                 }
@@ -657,7 +653,6 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                     gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gCounterDigit0Tex + (8 * 16 * sp208[sp218])), G_IM_FMT_I,
                                         G_IM_SIZ_8b, 8, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-                    if (1) {}
 
                     gSP1Quadrangle(POLY_OPA_DISP++, sp21A, sp21A + 2, sp21A + 3, sp21A + 1, 0);
 

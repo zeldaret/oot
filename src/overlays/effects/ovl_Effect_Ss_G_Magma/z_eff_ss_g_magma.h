@@ -1,5 +1,5 @@
-#ifndef _Z_EFF_SS_G_MAGMA_H_
-#define _Z_EFF_SS_G_MAGMA_H_
+#ifndef Z_EFF_SS_G_MAGMA_H
+#define Z_EFF_SS_G_MAGMA_H
 
 #include "ultra64.h"
 #include "global.h"

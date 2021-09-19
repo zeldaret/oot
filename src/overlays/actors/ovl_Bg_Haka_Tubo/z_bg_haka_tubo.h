@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HAKA_TUBO_H_
-#define _Z_BG_HAKA_TUBO_H_
+#ifndef Z_BG_HAKA_TUBO_H
+#define Z_BG_HAKA_TUBO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgHakaTubo {
     /* 0x016C */ ColliderCylinder potCollider;
     /* 0x01B8 */ ColliderCylinder flamesCollider;
 } BgHakaTubo; // size = 0x0204
-
-extern const ActorInit Bg_Haka_Tubo_InitVars;
 
 #endif

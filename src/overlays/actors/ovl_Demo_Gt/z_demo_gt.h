@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_GT_H_
-#define _Z_DEMO_GT_H_
+#ifndef Z_DEMO_GT_H
+#define Z_DEMO_GT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef struct DemoGt {
     /* 0x0188 */ s32 unk_188[4];
     /* 0x0198 */ s32 unk_198[4];
 } DemoGt; // size = 0x01A8
-
-extern const ActorInit Demo_Gt_InitVars;
 
 #endif

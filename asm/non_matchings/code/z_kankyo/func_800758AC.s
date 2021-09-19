@@ -204,7 +204,7 @@ glabel func_800758AC
 /* AECCC0 80075B20 0C00084C */  jal   osSyncPrintf
 /* AECCC4 80075B24 2484C724 */   addiu $a0, %lo(D_8013C724) # addiu $a0, $a0, -0x38dc
 /* AECCC8 80075B28 8FA20018 */  lw    $v0, 0x18($sp)
-/* AECCCC 80075B2C 0C03D9B0 */  jal   func_800F66C0
+/* AECCCC 80075B2C 0C03D9B0 */  jal   Audio_SetEnvReverb
 /* AECCD0 80075B30 80441CC0 */   lb    $a0, 0x1cc0($v0)
 /* AECCD4 80075B34 8FBF0014 */  lw    $ra, 0x14($sp)
 .L80075B38:

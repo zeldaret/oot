@@ -32,10 +32,10 @@ void ObjTsubo_LiftedUp(ObjTsubo* this, GlobalContext* globalCtx);
 void ObjTsubo_SetupThrown(ObjTsubo* this);
 void ObjTsubo_Thrown(ObjTsubo* this, GlobalContext* globalCtx);
 
-s16 D_80BA1B50 = 0;
-s16 D_80BA1B54 = 0;
-s16 D_80BA1B58 = 0;
-s16 D_80BA1B5C = 0;
+static s16 D_80BA1B50 = 0;
+static s16 D_80BA1B54 = 0;
+static s16 D_80BA1B58 = 0;
+static s16 D_80BA1B5C = 0;
 
 const ActorInit Obj_Tsubo_InitVars = {
     ACTOR_OBJ_TSUBO,
@@ -263,7 +263,7 @@ void ObjTsubo_Idle(ObjTsubo* this, GlobalContext* globalCtx) {
             }
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            temp_v0 = this->actor.yawTowardsPlayer - PLAYER->actor.world.rot.y;
+            temp_v0 = this->actor.yawTowardsPlayer - GET_PLAYER(globalCtx)->actor.world.rot.y;
             phi_v1 = ABS(temp_v0);
             if (phi_v1 >= 0x5556) {
                 // GI_NONE in this case allows the player to lift the actor

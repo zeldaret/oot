@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BILI_H_
-#define _Z_EN_BILI_H_
+#ifndef Z_EN_BILI_H
+#define Z_EN_BILI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -28,8 +28,6 @@ typedef struct EnBili {
     /* 0x01B6 */ Vec3s morphTable[EN_BILI_LIMB_MAX];
     /* 0x01D4 */ ColliderCylinder collider;
 } EnBili; // size = 0x0220
-
-extern const ActorInit En_Bili_InitVars;
 
 typedef enum {
     /* -1 */ EN_BILI_TYPE_NORMAL = -1,

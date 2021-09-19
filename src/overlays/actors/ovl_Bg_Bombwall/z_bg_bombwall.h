@@ -1,5 +1,5 @@
-#ifndef _Z_BG_BOMBWALL_H_
-#define _Z_BG_BOMBWALL_H_
+#ifndef Z_BG_BOMBWALL_H
+#define Z_BG_BOMBWALL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct BgBombwall {
     /* 0x02A2 */ u8 unk_2A2;
     /* 0x02A3 */ u8 unk_2A3;
 } BgBombwall; // size = 0x02A4
-
-extern const ActorInit Bg_Bombwall_InitVars;
 
 #endif

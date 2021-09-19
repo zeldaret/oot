@@ -1,5 +1,5 @@
-#ifndef _Z_BG_RELAY_OBJECTS_H_
-#define _Z_BG_RELAY_OBJECTS_H_
+#ifndef Z_BG_RELAY_OBJECTS_H
+#define Z_BG_RELAY_OBJECTS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct BgRelayObjects {
     /* 0x0169 */ s8 unk_169; // a room id
     /* 0x016A */ s16 timer;
 } BgRelayObjects; // size = 0x016C
-
-extern const ActorInit Bg_Relay_Objects_InitVars;
 
 #endif

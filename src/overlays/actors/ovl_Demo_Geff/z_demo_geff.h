@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_GEFF_H_
-#define _Z_DEMO_GEFF_H_
+#ifndef Z_DEMO_GEFF_H
+#define Z_DEMO_GEFF_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -22,7 +22,5 @@ typedef struct DemoGeff {
     /* 0x0160 */ f32 deltaPosY;
     /* 0x0164 */ f32 deltaPosZ;
 } DemoGeff; // size = 0x0168
-
-extern const ActorInit Demo_Geff_InitVars;
 
 #endif

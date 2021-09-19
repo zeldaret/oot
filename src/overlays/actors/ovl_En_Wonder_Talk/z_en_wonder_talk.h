@@ -1,5 +1,5 @@
-#ifndef _Z_EN_WONDER_TALK_H_
-#define _Z_EN_WONDER_TALK_H_
+#ifndef Z_EN_WONDER_TALK_H
+#define Z_EN_WONDER_TALK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,7 +21,5 @@ typedef struct EnWonderTalk {
     /* 0x0160 */ f32 height;
     /* 0x0164 */ u8  unk_164;
 } EnWonderTalk; // size = 0x0168
-
-extern const ActorInit En_Wonder_Talk_InitVars;
 
 #endif

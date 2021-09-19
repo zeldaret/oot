@@ -1,5 +1,5 @@
-#ifndef _Z_ELF_MSG2_H_
-#define _Z_ELF_MSG2_H_
+#ifndef Z_ELF_MSG2_H
+#define Z_ELF_MSG2_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -12,7 +12,5 @@ typedef struct ElfMsg2 {
     /* 0x0000 */ Actor              actor;
     /* 0x014C */ ElfMsg2ActionFunc  actionFunc;
 } ElfMsg2; // size = 0x0150
-
-extern const ActorInit Elf_Msg2_InitVars;
 
 #endif

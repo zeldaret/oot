@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FR_H_
-#define _Z_EN_FR_H_
+#ifndef Z_EN_FR_H
+#define Z_EN_FR_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -68,7 +68,5 @@ typedef struct EnFr {
     /* 0x03AC */ Vec3f posButterfly; // Position/Coordinates of the Butterfly
     /* 0x03B8 */ Vec3f posButterflyLight; // Used in Lights_PointNoGlowSetInfo()
 } EnFr; // size = 0x03C4
-
-extern const ActorInit En_Fr_InitVars;
 
 #endif

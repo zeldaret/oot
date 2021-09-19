@@ -90,7 +90,7 @@ void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
 }
 
 u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (thisx->params & 0xF0) {
         case 0x90:
@@ -364,11 +364,11 @@ s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
         return true;
     } else if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x00) {
         return true;
-    } else if (globalCtx->sceneNum == SCENE_SPOT16 && gSaveContext.linkAge == 1 &&
+    } else if (globalCtx->sceneNum == SCENE_SPOT16 && LINK_IS_CHILD &&
                ((this->actor.params & 0xF0) == 0x20 || (this->actor.params & 0xF0) == 0x30 ||
                 (this->actor.params & 0xF0) == 0x40)) {
         return true;
-    } else if (globalCtx->sceneNum == SCENE_SPOT18 && gSaveContext.linkAge == 1 &&
+    } else if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD &&
                ((this->actor.params & 0xF0) == 0x50 || (this->actor.params & 0xF0) == 0x60 ||
                 (this->actor.params & 0xF0) == 0x70)) {
         return true;
@@ -395,7 +395,7 @@ f32 EnGo_GetGoronSize(EnGo* this) {
 }
 
 void func_80A3F060(EnGo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 unkVal;
 
     if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
@@ -570,7 +570,7 @@ s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
 }
 
 void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 float1;
     s32 isUnkCondition;
 

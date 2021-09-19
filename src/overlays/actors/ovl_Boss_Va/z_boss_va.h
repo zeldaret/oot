@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_VA_H_
-#define _Z_BOSS_VA_H_
+#ifndef Z_BOSS_VA_H
+#define Z_BOSS_VA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -70,7 +70,5 @@ typedef enum {
     /* 18 */ BOSSVA_STUMP_3,
     /* 19 */ BOSSVA_DOOR
 } BossVaParam;
-
-extern const ActorInit Boss_Va_InitVars;
 
 #endif

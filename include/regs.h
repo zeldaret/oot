@@ -1,5 +1,5 @@
-#ifndef _REGS_H_
-#define _REGS_H_
+#ifndef REGS_H
+#define REGS_H
 
 #define REG_GROUPS 29 // number of REG groups, i.e. REG, SREG, OREG, etc.
 #define REG_PAGES 6
@@ -108,6 +108,7 @@
 #define R_ITEM_ICON_WIDTH(i)        VREG(76 + i)
 #define R_ITEM_BTN_WIDTH(i)         VREG(80 + i)
 #define R_DISABLE_INPUT_DISPLAY     HREG(47)
+#define R_EN_GOROIWA_SPEED          mREG(12)
 #define R_NAVI_MSG_REGION_ALPHA     nREG(87)
 
 #endif

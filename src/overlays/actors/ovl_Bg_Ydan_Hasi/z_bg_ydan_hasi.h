@@ -1,5 +1,5 @@
-#ifndef _Z_BG_YDAN_HASI_H_
-#define _Z_BG_YDAN_HASI_H_
+#ifndef Z_BG_YDAN_HASI_H
+#define Z_BG_YDAN_HASI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef enum {
     /* 1 */ HASI_WATER,
     /* 2 */ HASI_THREE_BLOCKS
 } HasiType;
-
-extern const ActorInit Bg_Ydan_Hasi_InitVars;
 
 #endif

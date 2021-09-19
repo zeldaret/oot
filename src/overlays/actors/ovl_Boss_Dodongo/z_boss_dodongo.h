@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_DODONGO_H_
-#define _Z_BOSS_DODONGO_H_
+#ifndef Z_BOSS_DODONGO_H
+#define Z_BOSS_DODONGO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -97,7 +97,5 @@ typedef struct BossDodongo {
     /* 0x0460 */ ColliderJntSphElement items[19];
     /* 0x0920 */ BossDodongoEffect effects[80];
 } BossDodongo; // size = 0x1820
-
-extern const ActorInit Boss_Dodongo_InitVars;
 
 #endif

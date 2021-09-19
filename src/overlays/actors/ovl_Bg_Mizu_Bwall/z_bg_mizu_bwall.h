@@ -1,5 +1,5 @@
-#ifndef _Z_BG_MIZU_BWALL_H_
-#define _Z_BG_MIZU_BWALL_H_
+#ifndef Z_BG_MIZU_BWALL_H
+#define Z_BG_MIZU_BWALL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -30,7 +30,5 @@ typedef enum {
     MIZUBWALL_STINGER_ROOM_1,
     MIZUBWALL_STINGER_ROOM_2
 } BgMizuBwallType;
-
-extern const ActorInit Bg_Mizu_Bwall_InitVars;
 
 #endif

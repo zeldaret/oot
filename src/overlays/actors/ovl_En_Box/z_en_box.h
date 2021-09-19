@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BOX_H_
-#define _Z_EN_BOX_H_
+#ifndef Z_EN_BOX_H
+#define Z_EN_BOX_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -46,7 +46,5 @@ typedef struct EnBox {
     /* 0x01FA */ u8 iceSmokeTimer;
     /* 0x01FB */ u8 unk_1FB;
 } EnBox; // size = 0x01FC
-
-extern const ActorInit En_Box_InitVars;
 
 #endif

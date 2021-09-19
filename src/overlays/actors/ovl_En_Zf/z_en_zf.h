@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ZF_H_
-#define _Z_EN_ZF_H_
+#ifndef Z_EN_ZF_H
+#define Z_EN_ZF_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -99,7 +99,5 @@ typedef struct EnZf {
     /* 0x04F0 */ Vec3f leftFootPos;
     /* 0x04FC */ Vec3f bodyPartsPos[9];
 } EnZf; // size = 0x0568
-
-extern const ActorInit En_Zf_InitVars;
 
 #endif

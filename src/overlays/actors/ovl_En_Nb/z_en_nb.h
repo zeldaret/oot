@@ -1,5 +1,5 @@
-#ifndef _Z_EN_NB_H_
-#define _Z_EN_NB_H_
+#ifndef Z_EN_NB_H
+#define Z_EN_NB_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -62,7 +62,5 @@ typedef enum {
     /* 0x05 */ NB_TYPE_CREDITS,
     /* 0x06 */ NB_TYPE_CRAWLSPACE
 } EnNbType;
-
-extern const ActorInit En_Nb_InitVars;
 
 #endif

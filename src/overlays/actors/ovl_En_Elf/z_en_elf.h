@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ELF_H_
-#define _Z_EN_ELF_H_
+#ifndef Z_EN_ELF_H
+#define Z_EN_ELF_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -54,7 +54,5 @@ typedef enum {
     /* 0x06 */ FAIRY_HEAL,
     /* 0x07 */ FAIRY_HEAL_BIG
 } FairyType;
-
-extern const ActorInit En_Elf_InitVars;
 
 #endif

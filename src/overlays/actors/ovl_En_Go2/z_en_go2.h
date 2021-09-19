@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GO2_H_
-#define _Z_EN_GO2_H_
+#ifndef Z_EN_GO2_H
+#define Z_EN_GO2_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -105,7 +105,5 @@ typedef struct EnGo2 {
     /* 0x059A */ s16 camId;
     /* 0x059C */ s16 unk_59C;
 } EnGo2; // size = 0x05A0
-
-extern const ActorInit En_Go2_InitVars;
 
 #endif

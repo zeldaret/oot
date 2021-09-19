@@ -1,5 +1,5 @@
-#ifndef _Z_EN_JSJUTAN_H_
-#define _Z_EN_JSJUTAN_H_
+#ifndef Z_EN_JSJUTAN_H
+#define Z_EN_JSJUTAN_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef enum {
     /* 0 */ ENJSJUTAN_TYPE_00,
     /* 1 */ ENJSJUTAN_TYPE_01
 } EnJsjutanType;
-
-extern const ActorInit En_Jsjutan_InitVars;
 
 #endif

@@ -208,7 +208,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         }
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             if (Flags_GetEventChkInf(0x14)) {
                 if (this->actor.world.rot.z != 3) {
                     Actor_Kill(&this->actor);
@@ -238,7 +238,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
         }
     } else if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
-        if (gSaveContext.nightFlag == 0) {
+        if (IS_DAY) {
             Actor_Kill(&this->actor);
             return;
         } else {
@@ -607,6 +607,7 @@ void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
             this->headCollider.elements[i].dim.modelSphere.radius * this->headCollider.elements[i].dim.scale;
     }
 
+    //! @bug see relevant comment in `EnHorse_SkinCallback1`
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);
 }
 

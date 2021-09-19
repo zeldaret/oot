@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ANI_H_
-#define _Z_EN_ANI_H_
+#ifndef Z_EN_ANI_H
+#define Z_EN_ANI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -22,7 +22,5 @@ typedef struct EnAni {
     /* 0x02AE */ s16 blinkTimer;
     /* 0x02B0 */ EnAniActionFunc actionFunc;
 } EnAni; // size = 0x02B4
-
-extern const ActorInit En_Ani_InitVars;
 
 #endif

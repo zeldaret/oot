@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SB_H_
-#define _Z_EN_SB_H_
+#ifndef Z_EN_SB_H
+#define Z_EN_SB_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -22,7 +22,5 @@ typedef struct EnSb {
     /* 0x0202 */ s16 bouncesLeft; // amount of bounces left in the attack before going back to wait
     /* 0x0204 */ u8 hitByWindArrow;
 } EnSb; // size = 0x0208
-
-extern const ActorInit En_Sb_InitVars;
 
 #endif

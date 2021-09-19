@@ -1,5 +1,5 @@
-#ifndef _Z_ITEM_SHIELD_H_
-#define _Z_ITEM_SHIELD_H_
+#ifndef Z_ITEM_SHIELD_H
+#define Z_ITEM_SHIELD_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct ItemShield {
     /* 0x01A8 */ Vec3f unk_1A8[8];
     /* 0x0208 */ ItemShieldActionFunc actionFunc;
 } ItemShield; // size = 0x020C
-
-extern const ActorInit Item_Shield_InitVars;
 
 #endif

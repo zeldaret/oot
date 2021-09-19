@@ -688,7 +688,7 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
 }
 
 void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->getItemId != GI_NONE) {
         if (!Actor_HasParent(&this->actor, globalCtx)) {
@@ -1275,7 +1275,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_SMALL;
-        } else if (LINK_IS_CHILD && (AMMO(ITEM_SLINGSHOT) < 6)) {
+        } else if (!LINK_IS_ADULT && (AMMO(ITEM_SLINGSHOT) < 6)) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_SEEDS;

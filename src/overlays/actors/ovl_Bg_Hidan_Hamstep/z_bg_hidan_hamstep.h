@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HIDAN_HAMSTEP_H_
-#define _Z_BG_HIDAN_HAMSTEP_H_
+#ifndef Z_BG_HIDAN_HAMSTEP_H
+#define Z_BG_HIDAN_HAMSTEP_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgHidanHamstep {
     /* 0x0240 */ s32 action;
     /* 0x0244 */ s32 unk_244;
 } BgHidanHamstep; // size = 0x0248
-
-extern const ActorInit Bg_Hidan_Hamstep_InitVars;
 
 #endif

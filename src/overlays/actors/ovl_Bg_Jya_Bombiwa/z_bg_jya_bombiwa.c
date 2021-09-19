@@ -64,8 +64,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                                DynaPolyMoveFlag flag) {
+void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flag) {
     s16 pad1;
     CollisionHeader* colHeader = NULL;
     s16 pad2;

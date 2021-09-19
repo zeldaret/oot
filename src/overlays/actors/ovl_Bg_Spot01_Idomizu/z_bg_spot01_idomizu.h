@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT01_IDOMIZU_H_
-#define _Z_BG_SPOT01_IDOMIZU_H_
+#ifndef Z_BG_SPOT01_IDOMIZU_H
+#define Z_BG_SPOT01_IDOMIZU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct BgSpot01Idomizu {
     /* 0x0150 */ f32 waterHeight;
     /* 0x0154 */ char unk_154[0x4];
 } BgSpot01Idomizu; // size = 0x0158
-
-extern const ActorInit Bg_Spot01_Idomizu_InitVars;
 
 #endif

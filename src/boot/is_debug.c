@@ -17,6 +17,8 @@ void osSyncPrintfUnused(const char* fmt, ...) {
     va_start(args, fmt);
 
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
+
+    va_end(args);
 }
 
 void osSyncPrintf(const char* fmt, ...) {
@@ -24,6 +26,8 @@ void osSyncPrintf(const char* fmt, ...) {
     va_start(args, fmt);
 
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
+    
+    va_end(args);
 }
 
 // assumption
@@ -32,6 +36,8 @@ void rmonPrintf(const char* fmt, ...) {
     va_start(args, fmt);
 
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
+    
+    va_end(args);
 }
 
 void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {

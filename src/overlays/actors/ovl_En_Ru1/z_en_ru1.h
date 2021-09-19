@@ -1,5 +1,5 @@
-#ifndef _Z_EN_RU1_H_
-#define _Z_EN_RU1_H_
+#ifndef Z_EN_RU1_H
+#define Z_EN_RU1_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -75,7 +75,5 @@ typedef enum {
     /* 14 */ RUTO_CHILD_HEAD,
     /* 15 */ RUTO_CHILD_TORSO
 } RutoLimb;
-
-extern const ActorInit En_Ru1_InitVars;
 
 #endif

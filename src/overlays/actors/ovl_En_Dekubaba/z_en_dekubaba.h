@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DEKUBABA_H_
-#define _Z_EN_DEKUBABA_H_
+#ifndef Z_EN_DEKUBABA_H
+#define Z_EN_DEKUBABA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -29,7 +29,5 @@ typedef struct EnDekubaba {
     /* 0x0238 */ ColliderJntSph collider;
     /* 0x0258 */ ColliderJntSphElement colliderElements[7];
 } EnDekubaba; // size = 0x0418
-
-extern const ActorInit En_Dekubaba_InitVars;
 
 #endif

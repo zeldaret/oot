@@ -1,5 +1,5 @@
-#ifndef _Z_EN_EIYER_H_
-#define _Z_EN_EIYER_H_
+#ifndef Z_EN_EIYER_H
+#define Z_EN_EIYER_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -19,7 +19,5 @@ typedef struct EnEiyer {
     /* 0x027C */ Vec3f basePos;
     /* 0x0288 */ ColliderCylinder collider;
 } EnEiyer; // size = 0x02D4
-
-extern const ActorInit En_Eiyer_InitVars;
 
 #endif

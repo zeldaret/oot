@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT03_TAKI_H_
-#define _Z_BG_SPOT03_TAKI_H_
+#ifndef Z_BG_SPOT03_TAKI_H
+#define Z_BG_SPOT03_TAKI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -25,7 +25,5 @@ typedef struct BgSpot03Taki {
     /* 0x0170 */ f32 openingAlpha;
     /* 0x0174 */ u8 bufferIndex;
 } BgSpot03Taki; // size = 0x0178
-
-extern const ActorInit Bg_Spot03_Taki_InitVars;
 
 #endif

@@ -234,7 +234,7 @@ void BgGndIceblock_SetNextPosition(BgGndIceblock* this) {
 }
 
 void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         player->stateFlags2 &= ~0x10;
@@ -250,7 +250,7 @@ void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx) {
 }
 
 void BgGndIceblock_Reset(BgGndIceblock* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* thisx = &this->dyna.actor;
 
     if (this->dyna.unk_150 != 0.0f) {

@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_SWITCH_H_
-#define _Z_OBJ_SWITCH_H_
+#ifndef Z_OBJ_SWITCH_H
+#define Z_OBJ_SWITCH_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -64,7 +64,5 @@ typedef struct ObjSwitch {
         /* 0x0180 */ ObjSwitchTris tris;
     };
 } ObjSwitch; // size = 0x0258
-
-extern const ActorInit Obj_Switch_InitVars;
 
 #endif
