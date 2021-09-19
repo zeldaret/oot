@@ -3,7 +3,7 @@
 #include "objects/object_link_child/object_link_child.h"
 #include "objects/object_link_boy/object_link_boy.h"
 
-static Vec3f* sPartsPosPtr; // pointer to positions parts of the player
+static Vec3f* sCurLimbPartPos; // pointer to positions parts of the player
 static s32 sDListsLodOffset;
 static Vec3f sGetItemRefPos;
 static s32 sLeftHandType;
@@ -472,11 +472,17 @@ void Player_UpdateBottleHeld(GlobalContext* globalCtx, Player* this, s32 item, s
     this->itemActionParam = actionParam;
 }
 
+/**
+ * Sets the player to no longer be in targeting mode
+ */
 void Player_UnsetTargeting(Player* this) {
     this->unk_664 = NULL;
     this->stateFlags2 &= ~0x2000;
 }
 
+/**
+ * Resets the targeting state
+ */
 void Player_InitTargeting(Player* this) {
     if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8A00000) ||
         (!(this->stateFlags1 & 0xC0000) && ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
@@ -488,6 +494,9 @@ void Player_InitTargeting(Player* this) {
     Player_UnsetTargeting(this);
 }
 
+/**
+ * Sets the player in targeting mode
+ */
 void Player_SetTargeting(GlobalContext* globalCtx, Actor* actor) {
     Player* this = GET_PLAYER(globalCtx);
 
@@ -801,7 +810,7 @@ void Player_SnapFootToFloor(GlobalContext* globalCtx, Player* this, SkelAnime* s
         static f32 D_80126058[] = { SQ(13.04f), SQ(6.95f) };
         static f32 D_80126060[] = { 10.019104f, -19.925102f };
         static f32 groundOffsetsY[] = { 5.0f, 3.0f };
-        static Vec3f footPosOffset = { 0.0f, -300.0f, 0.0f };
+        static Vec3f footPosBase = { 0.0f, -300.0f, 0.0f };
         Vec3f thighPos, shinPos, footPos;
         CollisionPoly* floorPoly;
         s32 bgId;
@@ -820,7 +829,7 @@ void Player_SnapFootToFloor(GlobalContext* globalCtx, Player* this, SkelAnime* s
         Matrix_JointPosition(&shinPositions[(void)0, gSaveContext.linkAge], &skelAnime->jointTable[shinLimbIndex]);
         Matrix_Translate(shinHeights[(void)0, gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_MultVec3f(&sZeroVec, &shinPos);
-        Matrix_MultVec3f(&footPosOffset, &footPos);
+        Matrix_MultVec3f(&footPosBase, &footPos);
         Matrix_Pop();
 
         footPos.y += 15.0f;
@@ -888,7 +897,7 @@ s32 Player_OverrideLimbDrawImpl(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     if (limbIndex == PLAYER_LIMB_ROOT) {
         sLeftHandType = this->leftHandType;
         sRightHandType = this->rightHandType;
-        sPartsPosPtr = &this->swordInfo[2].base;
+        sCurLimbPartPos = this->bodyPartsPos - 1;
 
         if (!LINK_IS_ADULT) {
             if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 1)) {
@@ -912,7 +921,7 @@ s32 Player_OverrideLimbDrawImpl(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
         }
     } else {
         if (*dList != NULL) {
-            sPartsPosPtr++;
+            sCurLimbPartPos++;
         }
 
         if (limbIndex == PLAYER_LIMB_HEAD) {
@@ -1160,18 +1169,18 @@ void Player_GetSwordTip(Player* this, Vec3f* swordTip) {
     Matrix_MultVec3f(&sSwordTipPos3, &swordTip[2]);
 }
 
-void Player_DrawHookshotReticle(GlobalContext* globalCtx, Player* this, f32 arg2) {
-    static Vec3f posOffset = { -500.0f, -100.0f, 0.0f };
+void Player_DrawHookshotReticle(GlobalContext* globalCtx, Player* this, f32 posZ) {
+    static Vec3f posBase = { -500.0f, -100.0f, 0.0f };
     CollisionPoly* polygon;
     s32 bgId;
     Vec3f posA;
     Vec3f posB;
     Vec3f aimPos; // position that the hookshot is aimed towards in world space
 
-    posOffset.z = 0.0f;
-    Matrix_MultVec3f(&posOffset, &posA);
-    posOffset.z = arg2;
-    Matrix_MultVec3f(&posOffset, &posB);
+    posBase.z = 0.0f;
+    Matrix_MultVec3f(&posBase, &posA);
+    posBase.z = posZ;
+    Matrix_MultVec3f(&posBase, &posB);
 
     if (1) {}
 
@@ -1210,14 +1219,14 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     Player* this = (Player*)thisx;
 
     if (*dList != NULL) {
-        Matrix_MultVec3f(&sZeroVec, sPartsPosPtr);
+        Matrix_MultVec3f(&sZeroVec, sCurLimbPartPos);
     }
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         MtxF matrix;
         Actor* hookedActor;
 
-        Math_Vec3f_Copy(&this->leftHandPos, sPartsPosPtr);
+        Math_Vec3f_Copy(&this->leftHandPos, sCurLimbPartPos);
 
         if (this->itemActionParam == PLAYER_AP_STICK) {
             Vec3f swordTip[3];
@@ -1324,7 +1333,7 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
                 f32 distXYZ;
 
                 Matrix_MultVec3f(&sZeroVec, &bowPos);
-                distXYZ = Math_Vec3f_DistXYZ(sPartsPosPtr, &bowPos);
+                distXYZ = Math_Vec3f_DistXYZ(sCurLimbPartPos, &bowPos);
 
                 this->unk_858 = distXYZ - 3.0f;
                 if (distXYZ < 3.0f) {
@@ -1407,20 +1416,20 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     } else if (this->actor.scale.y >= 0.0f) {
         if (limbIndex == PLAYER_LIMB_SHEATH) {
             if ((this->rightHandType != 10) && (this->rightHandType != 0xFF)) {
-                static Vec3f shieldCarryPos[] = {
+                static Vec3f shieldQuadVertices[] = {
                     { -3000.0f, -3000.0f, -900.0f },
                     { 3000.0f, -3000.0f, -900.0f },
                     { -3000.0f, 3000.0f, -900.0f },
                     { 3000.0f, 3000.0f, -900.0f },
                 };
-                static Vec3f shieldCarryOffset = { 630.0f, 100.0f, -30.0f };
-                static Vec3s shieldCarryRot = { 0, 0, 0x7FFF };
+                static Vec3f shieldPos = { 630.0f, 100.0f, -30.0f };
+                static Vec3s shieldRot = { 0, 0, 0x7FFF };
 
                 if (Player_IsChildWithHylianShield(this)) {
-                    Player_SetShieldCollision(globalCtx, this, &this->shieldQuad, shieldCarryPos);
+                    Player_SetShieldCollision(globalCtx, this, &this->shieldQuad, shieldQuadVertices);
                 }
 
-                Matrix_JointPosition(&shieldCarryOffset, &shieldCarryRot);
+                Matrix_JointPosition(&shieldPos, &shieldRot);
                 Matrix_Get(&this->shieldMf);
             }
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
