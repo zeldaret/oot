@@ -97,7 +97,8 @@ s32 Player_InCsMode(GlobalContext* globalCtx) {
     return Player_InBlockingCsMode(globalCtx, this) || (this->unk_6AD == 4);
 }
 
-s32 Player_IsTargeting(Player* this) {
+// (Player_IsTargetting?)
+s32 func_8008E9C4(Player* this) {
     return (this->stateFlags1 & 0x10);
 }
 
@@ -1164,17 +1165,17 @@ void Player_DrawHookshotReticle(GlobalContext* globalCtx, Player* this, f32 arg2
     CollisionPoly* polygon;
     s32 bgId;
     Vec3f posA;
-    Vec3f sp80;
-    Vec3f aimProjectedPos; // position that the hookshot is aimed towards
+    Vec3f posB;
+    Vec3f aimPos; // position that the hookshot is aimed towards in world space
 
     posOffset.z = 0.0f;
     Matrix_MultVec3f(&posOffset, &posA);
     posOffset.z = arg2;
-    Matrix_MultVec3f(&posOffset, &sp80);
+    Matrix_MultVec3f(&posOffset, &posB);
 
     if (1) {}
 
-    if (BgCheck_AnyLineTest3(&globalCtx->colCtx, &posA, &sp80, &aimProjectedPos, &polygon, 1, 1, 1, 1, &bgId)) {
+    if (BgCheck_AnyLineTest3(&globalCtx->colCtx, &posA, &posB, &aimPos, &polygon, 1, 1, 1, 1, &bgId)) {
         Vec3f screenPos;
         f32 w;
         f32 scale;
@@ -1183,11 +1184,11 @@ void Player_DrawHookshotReticle(GlobalContext* globalCtx, Player* this, f32 arg2
 
         OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x07);
 
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &aimProjectedPos, &screenPos, &w);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &aimPos, &screenPos, &w);
 
         scale = (w < 200.0f) ? 0.08f : (w / 200.0f) * 0.08f;
 
-        Matrix_Translate(aimProjectedPos.x, aimProjectedPos.y, aimProjectedPos.z, MTXMODE_NEW);
+        Matrix_Translate(aimPos.x, aimPos.y, aimPos.z, MTXMODE_NEW);
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2587),
@@ -1286,12 +1287,12 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
                     Matrix_MtxFToYXZRotS(&matrix, &hookedActor->world.rot, 0);
                     hookedActor->shape.rot = hookedActor->world.rot;
                 } else if (this->stateFlags1 & 0x800) {
-                    Vec3s leftHandAngle;
+                    Vec3s leftHandRot;
 
                     Matrix_Get(&matrix);
-                    Matrix_MtxFToYXZRotS(&matrix, &leftHandAngle, 0);
+                    Matrix_MtxFToYXZRotS(&matrix, &leftHandRot, 0);
                     if (hookedActor->flags & 0x20000) {
-                        hookedActor->world.rot.x = hookedActor->shape.rot.x = leftHandAngle.x - this->unk_3BC.x;
+                        hookedActor->world.rot.x = hookedActor->shape.rot.x = leftHandRot.x - this->unk_3BC.x;
                     } else {
                         hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
                     }
@@ -1319,7 +1320,7 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
             Matrix_Translate(bowStringInfoPtr->pos.x, bowStringInfoPtr->pos.y, bowStringInfoPtr->pos.z, MTXMODE_APPLY);
 
             if ((this->stateFlags1 & 0x200) && (this->unk_860 >= 0) && (this->unk_834 <= 10)) {
-                Vec3f bowPos;
+                Vec3f bowPos; // position of the bow in world space
                 f32 distXYZ;
 
                 Matrix_MultVec3f(&sZeroVec, &bowPos);

@@ -1060,7 +1060,7 @@ s32 FrameAdvance_Update(FrameAdvanceContext* frameAdvCtx, Input* input);
 void Player_SetMovementBehavior(GlobalContext* globalCtx, Player* player);
 s32 Player_InBlockingCsMode(GlobalContext* globalCtx, Player* player);
 s32 Player_InCsMode(GlobalContext* globalCtx);
-s32 Player_IsTargeting(Player* player);
+s32 func_8008E9C4(Player* player);
 s32 Player_IsChildWithHylianShield(Player* player);
 s32 Player_ActionToModelGroup(Player* player, s32 actionParam);
 void Player_SetModelsForHoldingShield(Player* player);
