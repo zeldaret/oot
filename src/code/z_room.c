@@ -164,7 +164,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
         }
     }
 
-    iREG(87) = polygon2->num & 0xffff & 0xffff & 0xffff; // if this is real then I might not be
+    iREG(87) = polygon2->num & 0xFFFF & 0xFFFF & 0xFFFF; // if this is real then I might not be
 
     for (sp9C = 1; spB4 != NULL; spB4 = spB4->unk_0C, sp9C++) {
         Gfx* temp2;
