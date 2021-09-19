@@ -785,101 +785,96 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-void Player_FeetIK(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot,
-                   s32 thighLimbIndex, s32 shinLimbIndex, s32 footLimbIndex) {
-    static Vec3f D_80126038[] = { { 1304.0f, 0.0f, 0.0f }, { 695.0f, 0.0f, 0.0f } };
-    static f32 D_80126050[] = { 1265.0f, 826.0f };
-    static f32 D_80126058[] = { SQ(13.04f), SQ(6.95f) };
-    static f32 D_80126060[] = { 10.019104f, -19.925102f };
-    static f32 D_80126068[] = { 5.0f, 3.0f };
-    static Vec3f D_80126070 = { 0.0f, -300.0f, 0.0f };
-    Vec3f spA4;
-    Vec3f sp98;
-    Vec3f footprintPos;
-    CollisionPoly* sp88;
-    s32 sp84;
-    f32 posB;
-    f32 sp7C;
-    f32 sp78;
-    f32 aimProjectedPos;
-    f32 sp70;
-    f32 sp6C;
-    f32 screenPos;
-    f32 w;
-    f32 sp60;
-    f32 sp5C;
-    f32 sp58;
-    f32 sp54;
-    f32 sp50;
-    s16 temp1;
-    s16 temp2;
-    s32 temp3;
-
+/**
+ * Snaps a foot limb to the floor (Inverse kinematics)
+ */
+void Player_SnapFootToFloor(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot,
+                            s32 thighLimbIndex, s32 shinLimbIndex, s32 footLimbIndex) {
     if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & 0x80) &&
         (Player_ActionToMagicSpell(this, this->itemActionParam) < 0)) {
-        s32 pad;
+        static Vec3f shinPositions[] = {
+            { 1304.0f, 0.0f, 0.0f },
+            { 695.0f, 0.0f, 0.0f },
+        };
+        static f32 shinHeights[] = { 1265.0f, 826.0f };
+        static f32 D_80126058[] = { SQ(13.04f), SQ(6.95f) };
+        static f32 D_80126060[] = { 10.019104f, -19.925102f };
+        static f32 groundOffsetsY[] = { 5.0f, 3.0f };
+        static Vec3f footPosOffset = { 0.0f, -300.0f, 0.0f };
+        Vec3f thighPos, shinPos, footPos;
+        CollisionPoly* floorPoly;
+        s32 bgId;
+        f32 groundY;
+        f32 sp7C;
+        f32 sp78;
+        f32 groundOffsetY;
 
         sp7C = D_80126058[(void)0, gSaveContext.linkAge];
         sp78 = D_80126060[(void)0, gSaveContext.linkAge];
-        aimProjectedPos = D_80126068[(void)0, gSaveContext.linkAge] - this->unk_6C4;
+        groundOffsetY = groundOffsetsY[(void)0, gSaveContext.linkAge] - this->unk_6C4;
 
         Matrix_Push();
         Matrix_JointPosition(pos, rot);
-        Matrix_MultVec3f(&sZeroVec, &spA4);
-        Matrix_JointPosition(&D_80126038[(void)0, gSaveContext.linkAge], &skelAnime->jointTable[shinLimbIndex]);
-        Matrix_Translate(D_80126050[(void)0, gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_MultVec3f(&sZeroVec, &sp98);
-        Matrix_MultVec3f(&D_80126070, &footprintPos);
+        Matrix_MultVec3f(&sZeroVec, &thighPos);
+        Matrix_JointPosition(&shinPositions[(void)0, gSaveContext.linkAge], &skelAnime->jointTable[shinLimbIndex]);
+        Matrix_Translate(shinHeights[(void)0, gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
+        Matrix_MultVec3f(&sZeroVec, &shinPos);
+        Matrix_MultVec3f(&footPosOffset, &footPos);
         Matrix_Pop();
 
-        footprintPos.y += 15.0f;
+        footPos.y += 15.0f;
 
-        posB = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp88, &sp84, &this->actor, &footprintPos) +
-               aimProjectedPos;
+        groundY =
+            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &footPos) + groundOffsetY;
 
-        if (sp98.y < posB) {
-            sp70 = sp98.x - spA4.x;
-            sp6C = sp98.y - spA4.y;
-            screenPos = sp98.z - spA4.z;
+        // If the foot is standing on the ground
+        if (shinPos.y < groundY) {
+            f32 distX, distY, distZ, dist;
+            f32 x1, x2;
+            f32 y;
+            f32 angle1, angle2;
+            s16 angleAdd1, angleAdd2; // final angles to add to the limb rotations
+            s32 footGroundSurface;
+            s32 pad;
 
-            w = sqrtf(SQ(sp70) + SQ(sp6C) + SQ(screenPos));
-            sp60 = (SQ(w) + sp78) / (2.0f * w);
+            // Determine the distance from the thigh to the shin joints
+            distX = shinPos.x - thighPos.x;
+            distY = shinPos.y - thighPos.y;
+            distZ = shinPos.z - thighPos.z;
+            dist = sqrtf(SQ(distX) + SQ(distY) + SQ(distZ));
 
-            sp58 = sp7C - SQ(sp60);
-            sp58 = (sp7C < SQ(sp60)) ? 0.0f : sqrtf(sp58);
-
-            sp54 = Math_FAtan2F(sp58, sp60);
-
-            sp6C = posB - spA4.y;
-
-            w = sqrtf(SQ(sp70) + SQ(sp6C) + SQ(screenPos));
-            sp60 = (SQ(w) + sp78) / (2.0f * w);
-            sp5C = w - sp60;
-
-            sp58 = sp7C - SQ(sp60);
-            sp58 = (sp7C < SQ(sp60)) ? 0.0f : sqrtf(sp58);
-
-            sp50 = Math_FAtan2F(sp58, sp60);
-
-            temp1 = (M_PI - (Math_FAtan2F(sp5C, sp58) + ((M_PI / 2) - sp50))) * (0x8000 / M_PI);
-            temp1 = temp1 - skelAnime->jointTable[shinLimbIndex].z;
-
+            x1 = (SQ(dist) + sp78) / (2.0f * dist);
+            y = sp7C - SQ(x1);
+            y = (sp7C < SQ(x1)) ? 0.0f : sqrtf(y);
+            angle1 = Math_FAtan2F(y, x1);
+            distY = groundY - thighPos.y;
+            dist = sqrtf(SQ(distX) + SQ(distY) + SQ(distZ));
+            x1 = (SQ(dist) + sp78) / (2.0f * dist);
+            x2 = dist - x1;
+            y = sp7C - SQ(x1);
+            y = (sp7C < SQ(x1)) ? 0.0f : sqrtf(y);
+            angle2 = Math_FAtan2F(y, x1);
+            angleAdd1 = (M_PI - (Math_FAtan2F(x2, y) + ((M_PI / 2) - angle2))) * (0x8000 / M_PI);
+            angleAdd1 = BINANG_SUB(angleAdd1, skelAnime->jointTable[shinLimbIndex].z);
             if ((s16)(ABS(skelAnime->jointTable[shinLimbIndex].x) + ABS(skelAnime->jointTable[shinLimbIndex].y)) < 0) {
-                temp1 += 0x8000;
+                angleAdd1 += 0x8000;
             }
+            angleAdd2 = (angle2 - angle1) * (0x8000 / M_PI);
+            rot->z = BINANG_SUB(rot->z, angleAdd2);
 
-            temp2 = (sp50 - sp54) * (0x8000 / M_PI);
-            rot->z -= temp2;
+            // Apply the new angles to the thigh, shin, and foot
+            skelAnime->jointTable[thighLimbIndex].z = skelAnime->jointTable[thighLimbIndex].z - angleAdd2;
+            skelAnime->jointTable[shinLimbIndex].z = skelAnime->jointTable[shinLimbIndex].z + angleAdd1;
+            skelAnime->jointTable[footLimbIndex].z = skelAnime->jointTable[footLimbIndex].z + angleAdd2 - angleAdd1;
 
-            skelAnime->jointTable[thighLimbIndex].z = skelAnime->jointTable[thighLimbIndex].z - temp2;
-            skelAnime->jointTable[shinLimbIndex].z = skelAnime->jointTable[shinLimbIndex].z + temp1;
-            skelAnime->jointTable[footLimbIndex].z = skelAnime->jointTable[footLimbIndex].z + temp2 - temp1;
+            // Get the floor surface of the foot to check if its lava
+            footGroundSurface = func_80041D4C(&globalCtx->colCtx, floorPoly, bgId);
 
-            temp3 = func_80041D4C(&globalCtx->colCtx, sp88, sp84);
-
-            if ((temp3 >= 2) && (temp3 < 4) && !SurfaceType_IsWallDamage(&globalCtx->colCtx, sp88, sp84)) {
-                footprintPos.y = posB;
-                EffectSsGFire_Spawn(globalCtx, &footprintPos);
+            // Spawn fire footprints if the surface type of the floor is lava
+            if ((footGroundSurface >= 2) && (footGroundSurface < 4) &&
+                !SurfaceType_IsWallDamage(&globalCtx->colCtx, floorPoly, bgId)) {
+                footPos.y = groundY;
+                EffectSsGFire_Spawn(globalCtx, &footPos);
             }
         }
     }
@@ -938,11 +933,11 @@ s32 Player_OverrideLimbDrawImpl(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
                 Matrix_RotateZ(this->unk_6C0 * (M_PI / 0x8000), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
-            Player_FeetIK(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN,
-                          PLAYER_LIMB_L_FOOT);
+            Player_SnapFootToFloor(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN,
+                                   PLAYER_LIMB_L_FOOT);
         } else if (limbIndex == PLAYER_LIMB_R_THIGH) {
-            Player_FeetIK(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_R_THIGH, PLAYER_LIMB_R_SHIN,
-                          PLAYER_LIMB_R_FOOT);
+            Player_SnapFootToFloor(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_R_THIGH, PLAYER_LIMB_R_SHIN,
+                                   PLAYER_LIMB_R_FOOT);
             return false;
         } else {
             return false;
@@ -1169,17 +1164,17 @@ void Player_DrawHookshotReticle(GlobalContext* globalCtx, Player* this, f32 arg2
     CollisionPoly* polygon;
     s32 bgId;
     Vec3f posA;
-    Vec3f posB;
+    Vec3f sp80;
     Vec3f aimProjectedPos; // position that the hookshot is aimed towards
 
     posOffset.z = 0.0f;
     Matrix_MultVec3f(&posOffset, &posA);
     posOffset.z = arg2;
-    Matrix_MultVec3f(&posOffset, &posB);
+    Matrix_MultVec3f(&posOffset, &sp80);
 
     if (1) {}
 
-    if (BgCheck_AnyLineTest3(&globalCtx->colCtx, &posA, &posB, &aimProjectedPos, &polygon, 1, 1, 1, 1, &bgId)) {
+    if (BgCheck_AnyLineTest3(&globalCtx->colCtx, &posA, &sp80, &aimProjectedPos, &polygon, 1, 1, 1, 1, &bgId)) {
         Vec3f screenPos;
         f32 w;
         f32 scale;
