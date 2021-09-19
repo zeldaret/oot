@@ -23,11 +23,11 @@ typedef struct {
     /* 0x10 */ s16 unk_10;
     /* 0x12 */ s16 unk_12; // appears unused
     /* 0x14 */ s16 gravity;
-    /* 0x16 */ s16 unk_16;           // jump related
-    /* 0x18 */ s16 highJumpSpeedMin; // minimum speed to trigger a high jump
-    /* 0x1A */ s16 highJumpSpeed;
-    /* 0x1C */ s16 highJumpSpeedBase;
-    /* 0x1E */ s16 smallJumpSpeed;
+    /* 0x16 */ s16 unk_16;
+    /* 0x18 */ s16 highJumpMinLinSpeed; // minimum speed to trigger a high jump
+    /* 0x1A */ s16 highJumpSpeedY;
+    /* 0x1C */ s16 smallJumpSpeedYBase;
+    /* 0x1E */ s16 smallJumpSpeedYFactor;
     /* 0x20 */ s16 unk_20;
 } PlayerMovementBehavior; // size = 0x22
 
@@ -74,10 +74,10 @@ void Player_SetMovementBehavior(GlobalContext* globalCtx, Player* this) {
     REG(45) = entry->unk_12;
     REG(68) = entry->gravity;
     REG(69) = entry->unk_16;
-    IREG(66) = entry->highJumpSpeedMin;
-    IREG(67) = entry->highJumpSpeed;
-    IREG(68) = entry->highJumpSpeedBase;
-    IREG(69) = entry->smallJumpSpeed;
+    IREG(66) = entry->highJumpMinLinSpeed;
+    IREG(67) = entry->highJumpSpeedY;
+    IREG(68) = entry->smallJumpSpeedYBase;
+    IREG(69) = entry->smallJumpSpeedYFactor;
     MREG(95) = entry->unk_20;
 
     if (globalCtx->roomCtx.curRoom.unk_03 == 2) {

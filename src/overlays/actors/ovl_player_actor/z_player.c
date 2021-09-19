@@ -4920,9 +4920,8 @@ s32 func_8083B998(Player* this, GlobalContext* globalCtx) {
     if ((this->unk_664 != NULL) &&
         (((this->unk_664->flags & 0x40001) == 0x40001) || (this->unk_664->naviEnemyId != 0xFF))) {
         this->stateFlags2 |= 0x200000;
-    } else if ((this->naviTextId == 0) && !func_8008E9C4(this) &&
-               CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && (YREG(15) != 0x10) && (YREG(15) != 0x20) &&
-               !func_8083B8F4(this, globalCtx)) {
+    } else if ((this->naviTextId == 0) && !func_8008E9C4(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
+               (YREG(15) != 0x10) && (YREG(15) != 0x20) && !func_8083B8F4(this, globalCtx)) {
         func_80078884(NA_SE_SY_ERROR);
     }
 
@@ -14026,8 +14025,8 @@ s32 Player_StartFishing(GlobalContext* globalCtx) {
 }
 
 s32 func_80852F38(GlobalContext* globalCtx, Player* this) {
-    if (!Player_InBlockingCsMode(globalCtx, this) && (this->invincibilityTimer >= 0) &&
-        !func_8008F128(this) && !(this->stateFlags3 & 0x80)) {
+    if (!Player_InBlockingCsMode(globalCtx, this) && (this->invincibilityTimer >= 0) && !func_8008F128(this) &&
+        !(this->stateFlags3 & 0x80)) {
         func_80832564(globalCtx, this);
         func_80835C58(globalCtx, this, func_8084F308, 0);
         func_80832264(globalCtx, this, &gPlayerAnim_003120);
