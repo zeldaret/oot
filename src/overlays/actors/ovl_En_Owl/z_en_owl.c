@@ -384,7 +384,7 @@ void EnOwl_WaitOutsideKokiri(EnOwl* this, GlobalContext* globalCtx) {
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2064, 360.0f, 0)) {
         // Sets BGM
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
 
         this->actionFunc = EnOwl_ConfirmKokiriMessage;
         // spoke to owl by lost woods
@@ -431,7 +431,7 @@ void EnOwl_WaitHyruleCastle(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2068, 540.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACAAC0;
     }
 }
@@ -472,7 +472,7 @@ void EnOwl_WaitKakariko(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x206C, 480.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACAC6C;
     }
 }
@@ -508,7 +508,7 @@ void EnOwl_WaitGerudo(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x206F, 360.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACADF0;
     }
 }
@@ -544,7 +544,7 @@ void EnOwl_WaitLakeHylia(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2071, 360.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACAF74;
     }
 }
@@ -575,7 +575,7 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx) {
     }
 
     if (EnOwl_CheckInitTalk(this, globalCtx, textId, 360.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACB03C;
     }
 }
@@ -595,7 +595,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
     if (func_80ACA558(this, globalCtx, textId)) {
         gSaveContext.infTable[25] |= 0x20;
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACB148;
     }
 }
@@ -620,13 +620,13 @@ void EnOwl_WaitDeathMountainShortcut(EnOwl* this, GlobalContext* globalCtx) {
 
     if (!gSaveContext.magicAcquired) {
         if (func_80ACA558(this, globalCtx, 0x3062)) {
-            func_800F5C64(0x5A);
+            func_800F5C64(NA_BGM_OWL);
             this->actionFunc = func_80ACB274;
             return;
         }
     } else {
         if (func_80ACA558(this, globalCtx, 0x3063)) {
-            func_800F5C64(0x5A);
+            func_800F5C64(NA_BGM_OWL);
             this->actionFunc = func_80ACB22C;
         }
     }
@@ -650,7 +650,7 @@ void func_80ACB3E0(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x6079, 360.0f, 2)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACB344;
     }
 }
@@ -685,7 +685,7 @@ void EnOwl_WaitLWPreSaria(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x10C0, 190.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACB4FC;
     }
 }
@@ -721,7 +721,7 @@ void EnOwl_WaitLWPostSaria(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x10C4, 360.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACB680;
     }
 }

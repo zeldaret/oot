@@ -3379,7 +3379,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         gSaveContext.respawnFlag = -2;
                         gSaveContext.nextTransition = 2;
                         gSaveContext.health = 0x30;
-                        Audio_QueueSeqCmd(0xF000000A);
+                        Audio_QueueSeqCmd(0xF0000000 | NA_BGM_FIELD_MOVE_7);
                         gSaveContext.healthAccumulator = 0;
                         gSaveContext.unk_13F0 = 0;
                         gSaveContext.unk_13F2 = 0;

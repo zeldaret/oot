@@ -279,7 +279,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     temp = sStickTilt * Math_CosS(sp66);
                     input->cur.stick_y = temp;
                 }
-                func_800F5ACC(0x38);
+                func_800F5ACC(NA_BGM_MINI_BOSS);
                 sActionState = ENTORCH2_ATTACK;
             }
             break;
@@ -622,7 +622,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xC0);
             this->stateFlags3 &= ~4;
         } else {
-            func_800F5ACC(0x38);
+            func_800F5ACC(NA_BGM_MINI_BOSS);
             if (this->actor.colChkInfo.damageEffect == 1) {
                 if (sAlpha == 255) {
                     Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);

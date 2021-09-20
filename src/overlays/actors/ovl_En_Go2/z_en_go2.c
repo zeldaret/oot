@@ -1884,7 +1884,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 player->actor.world.pos.z =
                     (f32)((Math_CosS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.z);
                 func_8002DF54(globalCtx, &this->actor, 8);
-                func_800F5C64(0x51);
+                func_800F5C64(NA_BGM_APPEAR);
             }
             break;
         case 2: // Walking away

@@ -1101,7 +1101,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             holdCamera = true;
             bodyDecayLevel = 10;
             if (this->timers[0] == 150) {
-                Audio_QueueSeqCmd(0x21);
+                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, GND_BOSSROOM_CENTER_X,
                             GND_BOSSROOM_CENTER_Y, GND_BOSSROOM_CENTER_Z, 0, 0, 0, WARP_DUNGEON_ADULT);
             }

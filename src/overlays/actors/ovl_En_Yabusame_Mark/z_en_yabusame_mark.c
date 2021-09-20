@@ -180,7 +180,7 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n");
 
         if (scoreIndex == 2) {
-            func_800F5C64(0x922);
+            func_800F5C64(0x900 | NA_BGM_ITEM_GET);
         }
         if (scoreIndex == 1) {
             Audio_StopSfx(NA_SE_SY_TRE_BOX_APPEAR);
