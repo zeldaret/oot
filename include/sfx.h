@@ -1422,6 +1422,8 @@
 
 // ------------ BGM ------------
 
+#define NA_BGM_NO_MUSIC_0 0x0
+#define NA_BGM_NO_MUSIC_1 0x1
 #define NA_BGM_FIELD_BASE 0x2        // Hyrule Field
 #define NA_BGM_FIELD_INIT 0x3        // Hyrule Field	Initial Segment From Loading Area
 #define NA_BGM_FIELD_MOVE_1 0x4      // Hyrule Field	Moving Segment 1
@@ -1529,6 +1531,7 @@
 #define NA_BGM_STAFF_4 0x6A          // End Credits IV
 #define NA_BGM_BOSS01 0x6B           // King Dodongo & Volvagia Boss Battle
 #define NA_BGM_MINI_GAME_2 0x6C      // Mini-Game
-#define NA_BGM_NOTHING 0x6D
+#define NA_BGM_NO_MUSIC_2 0x6D
+#define NA_BGM_DISABLED 0xFFFF
 
 #endif
