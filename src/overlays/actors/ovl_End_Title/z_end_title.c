@@ -13,7 +13,7 @@
 void EndTitle_Init(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_Update(Actor* thisx, GlobalContext* globalCtx);
-void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EndTitle_DrawFull(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_DrawNintendoLogo(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit End_Title_InitVars = {
@@ -25,7 +25,7 @@ const ActorInit End_Title_InitVars = {
     (ActorFunc)EndTitle_Init,
     (ActorFunc)EndTitle_Destroy,
     (ActorFunc)EndTitle_Update,
-    (ActorFunc)EndTitle_Draw,
+    (ActorFunc)EndTitle_DrawFull,
 };
 
 #include "overlays/ovl_End_Title/ovl_End_Title.c"
@@ -47,7 +47,8 @@ void EndTitle_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EndTitle_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
+//Used in the castle courtyard
+void EndTitle_DrawFull(Actor* thisx, GlobalContext* globalCtx) {
     MtxF* mf;
     EndTitle* this = THIS;
     s32 frameCount = globalCtx->csCtx.frames;
@@ -111,10 +112,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_end_title.c", 515);
 }
 
-/**
- * This function is never executed in normal gameplay because actor params are never set to 1
- * Produces the same results as the main draw function, except without the title cards on the end screen
- */
+// Used in the Temple of Time
 void EndTitle_DrawNintendoLogo(Actor* thisx, GlobalContext* globalCtx) {
     EndTitle* this = THIS;
     s32 pad;
@@ -128,7 +126,7 @@ void EndTitle_DrawNintendoLogo(Actor* thisx, GlobalContext* globalCtx) {
 
     OVERLAY_DISP = func_80093F34(OVERLAY_DISP);
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0x80, 0, 0, 0, this->endAlpha);
-    gSPDisplayList(OVERLAY_DISP++, sEndTitleNintendoLogoDL);
+    gSPDisplayList(OVERLAY_DISP++, sEndTitlePresentedByNintendoLogoDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_end_title.c", 600);
 }

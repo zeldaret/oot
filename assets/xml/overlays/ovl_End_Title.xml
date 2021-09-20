@@ -12,6 +12,6 @@
         </Array>
         <DList Name="sEndTitleTriforceDL" Offset="0x3FA0"/>
         
-        <DList Name="sEndTitleNintendoLogoDL" Offset="0x4000"/>
+        <DList Name="sEndTitlePresentedByNintendoLogoDL" Offset="0x4000"/>
     </File>
 </Root>
