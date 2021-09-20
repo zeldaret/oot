@@ -1483,7 +1483,7 @@
 #define NA_BGM_KOKIRI 0x3C           // Kokiri Forest
 #define NA_BGM_OCA_FAIRY_GET 0x3D    // Obtain Fairy Ocarina "NA_BGM_OCA_YOUSEI"
 #define NA_BGM_SARIA_THEME 0x3E      // Lost Woods "NA_BGM_MAYOIMORI"
-#define NA_BGM_SPIRIT_DUNGEON 0x3F   // Spirit Temple "NA_BGM_SOUL_DUNGEON"
+#define NA_BGM_SPIRIT_TEMPLE 0x3F    // Spirit Temple "NA_BGM_SOUL_DUNGEON"
 #define NA_BGM_HORSE 0x40            // Horse Race
 #define NA_BGM_HORSE_GOAL 0x41       // Horse Race Goal
 #define NA_BGM_INGO 0x42             // Ingo's Theme
