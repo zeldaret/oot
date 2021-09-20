@@ -178,18 +178,18 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelanime, &object_ka_Anim_000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
 
     this->actor.textId = 0x4076;
-    this->unk_196 = 6;
+    this->unk_196 = TEXT_STATE_6;
     if (!LINK_IS_ADULT) {
         this->unk_194 = false;
         if (gSaveContext.scarecrowCustomSongSet) {
             this->actor.textId = 0x407A;
-            this->unk_196 = 5;
+            this->unk_196 = TEXT_STATE_5;
         }
     } else {
         this->unk_194 = true;
         if (gSaveContext.scarecrowCustomSongSet) {
             this->actor.textId = 0x4079;
-            this->unk_196 = 5;
+            this->unk_196 = TEXT_STATE_5;
         }
     }
     this->actionFunc = func_80A8F75C;
@@ -202,7 +202,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     this->camId = SUBCAM_NONE;
     if (Actor_IsTalking(&this->actor, globalCtx)) {
-        if (this->unk_196 == 5) {
+        if (this->unk_196 == TEXT_STATE_5) {
             this->actionFunc = func_80A8F9C8;
         } else {
             this->actionFunc = func_80A8F660;
@@ -245,8 +245,8 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
         if (this->unk_19A != 0) {
             func_80106CCC(globalCtx);
             this->actor.textId = 0x4077;
-            this->unk_196 = 5;
-            func_8010B680(globalCtx, this->actor.textId, NULL);
+            this->unk_196 = TEXT_STATE_5;
+            Message_StartTextbox(globalCtx, this->actor.textId, NULL);
             this->actionFunc = func_80A8F9C8;
         } else {
             OnePointCutscene_EndCutscene(globalCtx, this->camId);
@@ -264,7 +264,7 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     func_8002DF54(globalCtx, NULL, 8);
 
-    if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
 
         if (this->camId != SUBCAM_NONE) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
@@ -288,12 +288,12 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
         if (this->unk_194) {
             this->actor.textId = 0x4077;
-            this->unk_196 = 5;
-            func_8010B680(globalCtx, this->actor.textId, NULL);
+            this->unk_196 = TEXT_STATE_5;
+            Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         } else {
             this->actor.textId = 0x4078;
-            this->unk_196 = 5;
-            func_8010B680(globalCtx, this->actor.textId, NULL);
+            this->unk_196 = TEXT_STATE_5;
+            Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         }
         this->actionFunc = func_80A8FBB8;
         OnePointCutscene_EndCutscene(globalCtx, this->camId);
@@ -307,13 +307,11 @@ void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
     SkelAnime_Update(&this->skelanime);
 
-    if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (Message_ShouldAdvance(globalCtx) != 0) {
-            func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
-            func_80106CCC(globalCtx);
-            func_8002DF54(globalCtx, NULL, 7);
-            this->actionFunc = func_80A8F660;
-        }
+    if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
+        func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
+        func_80106CCC(globalCtx);
+        func_8002DF54(globalCtx, NULL, 7);
+        this->actionFunc = func_80A8F660;
     }
 }
 

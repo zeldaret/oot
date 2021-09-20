@@ -2174,7 +2174,7 @@ void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B41798(EnXc* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         this->action = SHEIK_ACTION_BLOCK_PEDESTAL;
         this->actor.flags &= ~9;
     }

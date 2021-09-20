@@ -231,9 +231,9 @@ void EnDaiku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnDaiku_UpdateTalking(EnDaiku* this, GlobalContext* globalCtx) {
     s32 newTalkState = ENDAIKU_STATE_TALKING;
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) {
         if (globalCtx->sceneNum == SCENE_GERUDOWAY) {
-            if (Message_ShouldAdvance(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x6007) {
                     Flags_SetSwitch(globalCtx, this->startFightSwitchFlag);
                     newTalkState = ENDAIKU_STATE_CAN_TALK;
@@ -243,7 +243,7 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, GlobalContext* globalCtx) {
                 }
             }
         } else if (globalCtx->sceneNum == SCENE_TENT) {
-            if (Message_ShouldAdvance(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x6061:
                         gSaveContext.infTable[23] |= 0x40;

@@ -225,12 +225,12 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
     s32 sp1C = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
+        case TEXT_STATE_0:
+        case TEXT_STATE_1:
+        case TEXT_STATE_2:
+        case TEXT_STATE_3:
             break;
-        case 4:
+        case TEXT_STATE_4:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     player->actor.textId = 0x202D;
@@ -243,7 +243,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                 sp1C = 2;
             }
             break;
-        case 5:
+        case TEXT_STATE_5:
             if (Message_ShouldAdvance(globalCtx)) {
                 Player_UnsetMask(globalCtx);
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
@@ -253,7 +253,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                 sp1C = 2;
             }
             break;
-        case 6:
+        case TEXT_STATE_6:
             if (Message_ShouldAdvance(globalCtx)) {
                 if ((player->actor.textId == 0x202E) || (player->actor.textId == 0x202C)) {
                     this->unk_254 |= 1;
@@ -293,7 +293,7 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
     s16 sp24;
 
     if (this->unk_1E0 == 2) {
-        func_8010B720(globalCtx, player->actor.textId);
+        Message_ContinueTextbox(globalCtx, player->actor.textId);
         this->unk_1E0 = 1;
     } else if (this->unk_1E0 == 1) {
         this->unk_1E0 = func_80AADAA0(this, globalCtx);

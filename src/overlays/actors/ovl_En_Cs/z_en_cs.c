@@ -163,8 +163,8 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
     s32 talkState = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 4:
-            if (Message_ShouldAdvance(globalCtx) != 0) {
+        case TEXT_STATE_4:
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     this->actor.textId = 0x2026;
                     EnCs_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
@@ -176,7 +176,7 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case 6:
+        case TEXT_STATE_6:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x2026) {
                     Player_UnsetMask(globalCtx);
@@ -190,11 +190,11 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 5:
+        case TEXT_STATE_0:
+        case TEXT_STATE_1:
+        case TEXT_STATE_2:
+        case TEXT_STATE_3:
+        case TEXT_STATE_5:
             break;
     }
 
@@ -226,7 +226,7 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
     s16 sp28;
 
     if (this->talkState == 2) {
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->talkState = 1;
     } else if (this->talkState == 1) {
         this->talkState = EnCs_GetTalkState(this, globalCtx);

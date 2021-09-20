@@ -272,7 +272,8 @@ void EnGo2_GetItem(EnGo2* this, GlobalContext* globalCtx, s32 getItemId) {
 s32 EnGo2_GetDialogState(EnGo2* this, GlobalContext* globalCtx) {
     s16 dialogState = func_8010BDBC(&globalCtx->msgCtx);
 
-    if ((this->dialogState == 10) || (this->dialogState == 5) || (this->dialogState == 2) || (this->dialogState == 1)) {
+    if ((this->dialogState == TEXT_STATE_10) || (this->dialogState == TEXT_STATE_5) || 
+        (this->dialogState == TEXT_STATE_2) || (this->dialogState == TEXT_STATE_1)) {
         if (dialogState != this->dialogState) {
             this->unk_20C++;
         }
@@ -319,9 +320,9 @@ s16 EnGo2_GetStateGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
     s32 bombBagUpgrade;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 2:
+        case TEXT_STATE_2:
             return 2;
-        case 5:
+        case TEXT_STATE_5:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3012) {
                     this->actionFunc = EnGo2_SetupGetItem;
@@ -346,14 +347,14 @@ u16 EnGo2_GetTextIdGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
 // DMT Goron by Bomb Flower Choice
 s16 EnGo2_GetStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 2:
+        case TEXT_STATE_2:
             if ((this->actor.textId == 0x300B) && (gSaveContext.infTable[14] & 0x800) == 0) {
                 gSaveContext.infTable[14] |= 0x800;
                 return 2;
             } else {
                 return 0;
             }
-        case 4:
+        case TEXT_STATE_4:
             if (Message_ShouldAdvance(globalCtx)) {
                 // Ask question to DMT Goron by bomb flower
                 if (this->actor.textId == 0x300A) {
@@ -362,7 +363,7 @@ s16 EnGo2_GetStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
                     } else {
                         this->actor.textId = 0x300D;
                     }
-                    func_8010B720(globalCtx, this->actor.textId);
+                    Message_ContinueTextbox(globalCtx, this->actor.textId);
                 }
                 return 1;
             }
@@ -380,7 +381,7 @@ u16 EnGo2_GetTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         return 0;
     } else {
         return 1;
@@ -398,7 +399,7 @@ u16 EnGo2_GetTextIdGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         if (this->actor.textId == 0x3008) {
             gSaveContext.infTable[14] |= 0x1;
         }
@@ -419,7 +420,7 @@ u16 EnGo2_GetTextIdGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         if (this->actor.textId == 0x3014) {
             gSaveContext.infTable[15] |= 0x1;
         }
@@ -440,7 +441,7 @@ u16 EnGo2_GetTextIdGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         if (this->actor.textId == 0x3016) {
             gSaveContext.infTable[15] |= 0x10;
         }
@@ -463,7 +464,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         if (this->actor.textId == 0x3018) {
             gSaveContext.infTable[15] |= 0x100;
         }
@@ -480,7 +481,7 @@ u16 EnGo2_GetTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
         return gSaveContext.infTable[16] & 0x4000 ? 0x3038 : 0x3037;
     } else if (gSaveContext.infTable[16] & 0x1000) {
         this->unk_20C = 0;
-        this->dialogState = 0;
+        this->dialogState = TEXT_STATE_0;
         return gSaveContext.infTable[16] & 0x400 ? 0x3033 : 0x3032;
     } else {
         return 0x3030;
@@ -489,7 +490,7 @@ u16 EnGo2_GetTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
 
 s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
     switch (EnGo2_GetDialogState(this, globalCtx)) {
-        case 2:
+        case TEXT_STATE_2:
             switch (this->actor.textId) {
                 case 0x3036:
                     EnGo2_GetItem(this, globalCtx, GI_TUNIC_GORON);
@@ -500,7 +501,7 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
                 default:
                     return 0;
             }
-        case 4:
+        case TEXT_STATE_4:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3034) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -514,14 +515,14 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
                             Audio_StopSfx(0x39EB);
                         }
                     }
-                    func_8010B720(globalCtx, this->actor.textId);
+                    Message_ContinueTextbox(globalCtx, this->actor.textId);
                     this->unk_20C = 0;
                 }
             } else {
                 break;
             }
             return 1;
-        case 5:
+        case TEXT_STATE_5:
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x3035:
@@ -529,7 +530,7 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
                     case 0x3032:
                     case 0x3033:
                         this->actor.textId = 0x3034;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
                         return 1;
                     default:
                         return 2;
@@ -562,7 +563,7 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
     u8 dialogState = this->dialogState;
 
     switch (EnGo2_GetDialogState(this, globalCtx)) {
-        case 6:
+        case TEXT_STATE_6:
             if (this->actor.textId == 0x305E) {
                 if (!gSaveContext.bgsFlag) {
                     EnGo2_GetItem(this, globalCtx, GI_SWORD_BGS);
@@ -574,24 +575,24 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
             } else {
                 return 0;
             }
-        case 3:
+        case TEXT_STATE_3:
             switch (this->actor.textId) {
                 case 0x305E:
                     if (func_8002F368(globalCtx) != EXCH_ITEM_CLAIM_CHECK) {
                         break;
                     }
                 case 0x3059:
-                    if (dialogState == 0) {
+                    if (dialogState == TEXT_STATE_0) {
                         func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 60);
                     }
                 case 0x3054:
-                    if (dialogState == 0) {
+                    if (dialogState == TEXT_STATE_0) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                     }
             }
             return 1;
-        case 4:
+        case TEXT_STATE_4:
             if (Message_ShouldAdvance(globalCtx)) {
                 if ((this->actor.textId == 0x3054) || (this->actor.textId == 0x3055)) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -600,12 +601,12 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
                         return 2;
                     }
                     this->actor.textId = 0x3056;
-                    func_8010B720(globalCtx, this->actor.textId);
+                    Message_ContinueTextbox(globalCtx, this->actor.textId);
                 }
                 return 1;
             }
             break;
-        case 5:
+        case TEXT_STATE_5:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3059) {
                     globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
@@ -627,13 +628,13 @@ u16 EnGo2_GetTextIdGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
 
 s16 EnGo2_GetStateGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 2:
+        case TEXT_STATE_2:
             return 0;
-        case 5:
+        case TEXT_STATE_5:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3071) {
                     this->actor.textId = EnGo2_GoronFireGenericGetTextId(this);
-                    func_8010B720(globalCtx, this->actor.textId);
+                    Message_ContinueTextbox(globalCtx, this->actor.textId);
                 }
                 return 1;
             }
@@ -647,7 +648,7 @@ u16 EnGo2_GetTextIdGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         if (this->actor.textId == 0x300E) {
             gSaveContext.infTable[14] |= 0x8;
         }
@@ -663,7 +664,7 @@ u16 EnGo2_GetTextIdGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         return 0;
     } else {
         return 1;
@@ -683,7 +684,7 @@ u16 EnGo2_GetTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         if (this->actor.textId == 0x3024) {
             gSaveContext.infTable[14] |= 0x40;
         }
@@ -703,7 +704,7 @@ u16 EnGo2_GetTextIdGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         return 0;
     } else {
         return 1;
@@ -1756,7 +1757,7 @@ void EnGo2_SetupGetItem(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void EnGo2_SetGetItem(EnGo2* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && Message_ShouldAdvance(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         this->unk_194.unk_00 = 0;
         switch (this->getItemId) {
             case GI_CLAIM_CHECK:
@@ -1803,7 +1804,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
             } else {
                 func_800F4524(&D_801333D4, NA_SE_EN_GOLON_GOOD_BIG, 60);
                 func_80034EC0(&this->skelAnime, sAnimations, 6);
-                func_8010B720(globalCtx, 0x305A);
+                Message_ContinueTextbox(globalCtx, 0x305A);
                 this->eyeMouthTexState = 3;
                 this->goronState++;
                 func_800F483C(0x7F, 5);
@@ -1813,7 +1814,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 this->eyeMouthTexState = 0;
             }
-            if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+            if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
                 func_80034EC0(&this->skelAnime, sAnimations, 1);
                 this->actor.flags |= 1;
                 this->unk_26E = 2;
@@ -1832,10 +1833,10 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, GlobalContext* globalCtx) {
 
     switch (this->goronState) {
         case 0:
-            if (func_8010BDBC(&globalCtx->msgCtx)) {
+            if (func_8010BDBC(&globalCtx->msgCtx) != TEXT_STATE_0) {
                 return;
             } else {
-                func_8010B680(globalCtx, 0x3031, NULL);
+                Message_StartTextbox(globalCtx, 0x3031, NULL);
                 player->actor.freezeTimer = 10;
                 this->goronState++;
             }
@@ -1845,7 +1846,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, GlobalContext* globalCtx) {
             return;
     }
 
-    if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) != TEXT_STATE_2) {
         player->actor.freezeTimer = 10;
     } else {
         gSaveContext.infTable[16] |= 0x1000;
@@ -1862,7 +1863,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
 
     switch (this->goronState) {
         case 0: // Wake up
-            if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+            if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
                 EnGo2_GoronFireCamera(this, globalCtx);
                 globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
                 func_80034EC0(&this->skelAnime, sAnimations, 2);

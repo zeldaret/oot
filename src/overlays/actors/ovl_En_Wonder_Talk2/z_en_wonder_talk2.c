@@ -175,16 +175,16 @@ void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx) {
     }
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 5:
-        case 6:
+        case TEXT_STATE_5:
+        case TEXT_STATE_6:
             if (Message_ShouldAdvance(globalCtx)) {
-                if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
+                if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) {
                     func_80106CCC(globalCtx);
                 }
             } else {
                 break;
             }
-        case 0:
+        case TEXT_STATE_0:
             if ((this->switchFlag >= 0) && (this->talkMode != 4)) {
                 Flags_SetSwitch(globalCtx, this->switchFlag);
                 // (Forced) I saved it! All of it!
@@ -253,7 +253,7 @@ void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
             }
             this->unk_158 = 0;
             if (!this->unk_156) {
-                func_8010B680(globalCtx, this->actor.textId, NULL);
+                Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                 func_8002DF54(globalCtx, NULL, 8);
                 this->actor.flags |= 0x11;
                 this->actionFunc = func_80B3A3D4;

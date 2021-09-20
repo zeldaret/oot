@@ -104,10 +104,10 @@ u16 func_809FDC38(GlobalContext* globalCtx, Actor* actor) {
 
 s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
+        case TEXT_STATE_0:
+        case TEXT_STATE_1:
             break;
-        case 2:
+        case TEXT_STATE_2:
             switch (actor->textId) {
                 case 0x301A:
                     gSaveContext.infTable[0x11] |= 8;
@@ -120,18 +120,18 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
                     break;
             }
             return 0;
-        case 3:
-        case 4:
-        case 5:
+        case TEXT_STATE_3:
+        case TEXT_STATE_4:
+        case TEXT_STATE_5:
             break;
-        case 6:
+        case TEXT_STATE_6:
             if (Message_ShouldAdvance(globalCtx)) {
                 return 3;
             }
             break;
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_7:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
     return 1;
@@ -360,7 +360,7 @@ void func_809FE6CC(EnDu* this, GlobalContext* globalCtx) {
     }
     if (phi_v1 == 0) {
         this->actor.textId = 0x3039;
-        func_8010B680(globalCtx, this->actor.textId, NULL);
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->unk_1F4.unk_00 = 1;
         EnDu_SetupAction(this, func_809FE740);
     }
@@ -494,7 +494,7 @@ void func_809FEB08(EnDu* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x301F;
         EnDu_SetupAction(this, func_809FE3C0);
     }
-    func_8010B680(globalCtx, this->actor.textId, NULL);
+    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     func_80034EC0(&this->skelAnime, sAnimations, 14);
     this->unk_1F4.unk_00 = 1;
 }

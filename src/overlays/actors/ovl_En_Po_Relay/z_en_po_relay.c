@@ -271,15 +271,15 @@ void EnPoRelay_EndRace(EnPoRelay* this, GlobalContext* globalCtx) {
 
 void EnPoRelay_Talk2(EnPoRelay* this, GlobalContext* globalCtx) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
-        if (Message_ShouldAdvance(globalCtx) != 0) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) {
+        if (Message_ShouldAdvance(globalCtx)) {
             if (this->hookshotSlotFull != 0) {
                 Actor_SetTextWithPrefix(globalCtx, &this->actor, 0x2E);
             } else {
                 Actor_SetTextWithPrefix(globalCtx, &this->actor, 0x2D);
             }
             this->textId = this->actor.textId;
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
         }
     } else if (func_8002F334(&this->actor, globalCtx) != 0) {
         gSaveContext.timer1State = 0;

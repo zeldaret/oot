@@ -605,7 +605,7 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
             (((var == 0) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
              (((var == 1) || (var == 3)) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
               (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
-            func_8010B680(globalCtx, triggerEntry->textId, NULL);
+            Message_StartTextbox(globalCtx, triggerEntry->textId, NULL);
             gSaveContext.textTriggerFlags |= triggerEntry->flag;
         }
     }

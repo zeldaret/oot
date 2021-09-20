@@ -242,9 +242,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = 1086.0f;
             this->unk_3B0.z = -200.0f;
             if (this->unk_398 == 150) {
-                func_8010B680(globalCtx, 0x70D3, NULL);
+                Message_StartTextbox(globalCtx, 0x70D3, NULL);
             }
-            if (this->unk_398 > 250 && func_8010BDBC(&globalCtx->msgCtx) == 0) {
+            if (this->unk_398 > 250 && func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0) {
                 this->unk_39C = 2;
                 this->unk_398 = 0;
                 this->unk_410.x = 0.0f;
@@ -263,7 +263,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             player->actor.shape.rot.y = -0x5000;
             sZelda->actor.shape.rot.y = -0x5000;
             if (this->unk_398 == 60) {
-                func_8010B680(globalCtx, 0x70D4, NULL);
+                Message_StartTextbox(globalCtx, 0x70D4, NULL);
             }
             if (this->unk_398 == 40) {
                 sZelda->unk_3C8 = 1;
@@ -285,7 +285,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             } else {
                 this->unk_3B0.y = player->actor.world.pos.y + 47.0f + 7.0f;
             }
-            if ((this->unk_398 > 170) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->unk_398 > 170) && (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0)) {
                 this->unk_39C = 3;
                 this->unk_398 = 0;
                 this->unk_410.x = 0.0f;
@@ -814,7 +814,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 28:
             if (this->unk_398 == 5) {
-                func_8010B680(globalCtx, 0x70D6, NULL);
+                Message_StartTextbox(globalCtx, 0x70D6, NULL);
             }
             if (D_8090EB30 != NULL) {
                 this->unk_3A4.x = D_8090EB30->world.pos.x - 20.0f;
@@ -823,7 +823,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->unk_3B0.x, D_8090EB30->world.pos.x, 0.2f, 50.0f);
                 Math_ApproachF(&this->unk_3B0.y, D_8090EB30->world.pos.y, 0.2f, 50.0f);
                 Math_ApproachF(&this->unk_3B0.z, D_8090EB30->world.pos.z, 0.2f, 50.0f);
-                if ((this->unk_398 > 40) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                if ((this->unk_398 > 40) && (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0)) {
                     this->unk_39C = 29;
                     this->unk_398 = 0;
                     Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime3_Anim_0147E0, 0.0f);
@@ -1321,9 +1321,9 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
             Math_ApproachZeroF(&this->unk_324, 1.0f, 5.0f);
             Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.019607844f);
             if (this->unk_1A2[1] == 80) {
-                func_8010B680(globalCtx, 0x70D7, NULL);
+                Message_StartTextbox(globalCtx, 0x70D7, NULL);
             }
-            if ((this->unk_1A2[1] < 30) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->unk_1A2[1] < 30) && (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0)) {
                 temp_v0 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
                 temp_v0->eye = this->unk_3A4;
                 temp_v0->eyeNext = this->unk_3A4;
@@ -1550,9 +1550,9 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = sZelda->actor.world.pos.y + 40.0f;
             this->unk_3B0.z = sZelda->actor.world.pos.z;
             if (this->unk_398 == 10) {
-                func_8010B680(globalCtx, 0x70D8, NULL);
+                Message_StartTextbox(globalCtx, 0x70D8, NULL);
             }
-            if ((this->unk_398 > 80) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->unk_398 > 80) && (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0)) {
                 this->unk_39C = 4;
                 this->unk_398 = 0;
             }
@@ -1733,7 +1733,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_39C = 9;
                 this->unk_398 = 0;
                 sZelda->unk_3C8 = 11;
-                func_8010B680(globalCtx, 0x70D9, NULL);
+                Message_StartTextbox(globalCtx, 0x70D9, NULL);
                 this->unk_336 = 0;
                 globalCtx->envCtx.unk_D8 = 0.0f;
             }

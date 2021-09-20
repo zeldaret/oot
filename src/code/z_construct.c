@@ -174,8 +174,8 @@ void Message_Init(GlobalContext* globalCtx) {
 
     msgCtx->msgMode = MSGMODE_UNK_00;
     msgCtx->unk_E300 = 0;
-    msgCtx->textId = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->unk_E3F0 = msgCtx->unk_E3D6 = 0;
-    msgCtx->textColorAlpha = 255;
+    msgCtx->textId = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->unk_E3F0 = msgCtx->textUnskippable = 0;
+    msgCtx->textColor.a = 255;
 
     View_Init(&msgCtx->view, globalCtx->state.gfxCtx);
 
@@ -240,11 +240,11 @@ void func_80111070(void) {
     YREG(68) = 0;
     YREG(69) = 0;
     YREG(70) = 0;
-    YREG(71) = -6;
-    YREG(72) = 10;
+    R_MESSAGE_ITEM_ICON_XPOS = -6;
+    R_MESSAGE_ITEM_ICON_YPOS = 10;
     YREG(73) = -8;
     YREG(74) = 8;
-    YREG(75) = 24;
+    R_MESSAGE_ITEM_ICON_DIM = 24;
     YREG(76) = 32;
     YREG(77) = 0;
     R_MESSAGE_DEBUGGER_SELECT = 0;
@@ -390,8 +390,8 @@ void func_80111070(void) {
     XREG(53) = 1;
     XREG(54) = 65;
     XREG(55) = 60;
-    XREG(56) = 16;
-    XREG(57) = 80;
+    R_MESSAGE_LINE_SPACING = 16;
+    R_MESSAGE_CHAR_SCALE = 80;
     XREG(58) = 80;
     XREG(59) = 12;
     R_TEXT_DROP_SHADOW_OFFSET = 1;
@@ -507,8 +507,8 @@ void func_80111070(void) {
     WREG(95) = 6;
 
     if (gSaveContext.gameMode == 0) {
-        VREG(0) = 52;
-        VREG(1) = 36;
+        R_MESSAGE_TEXTBOX_X = 52;
+        R_MESSAGE_TEXTBOX_Y = 36;
         VREG(2) = 214;
         VREG(3) = 76;
         VREG(4) = 304;

@@ -119,22 +119,22 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
     u8 dialogState;
 
     dialogState = func_8010BDBC(&globalCtx->msgCtx);
-    if (dialogState != 4) {
-        if ((dialogState == 6) && (Message_ShouldAdvance(globalCtx) != 0)) { // advanced final textbox
+    if (dialogState != TEXT_STATE_4) {
+        if ((dialogState == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) { // advanced final textbox
             this->actionFunc = EnMs_Wait;
         }
-    } else if (Message_ShouldAdvance(globalCtx) != 0) {
+    } else if (Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < sPrices[BEANS_BOUGHT]) {
-                    func_8010B720(globalCtx, 0x4069); // not enough rupees text
+                    Message_ContinueTextbox(globalCtx, 0x4069); // not enough rupees text
                     return;
                 }
                 func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
                 this->actionFunc = EnMs_Sell;
                 return;
             case 1: // no
-                func_8010B720(globalCtx, 0x4068);
+                Message_ContinueTextbox(globalCtx, 0x4068);
             default:
                 return;
         }
@@ -153,8 +153,8 @@ void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
 
 void EnMs_TalkAfterPurchase(EnMs* this, GlobalContext* globalCtx) {
     // if dialog state is 6 and player responded to textbox
-    if ((func_8010BDBC(&globalCtx->msgCtx)) == 6 && (Message_ShouldAdvance(globalCtx) != 0)) {
-        func_8010B720(globalCtx, 0x406C);
+    if ((func_8010BDBC(&globalCtx->msgCtx)) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x406C);
         this->actionFunc = EnMs_Talk;
     }
 }

@@ -333,11 +333,11 @@ Actor* func_80AEB124(GlobalContext* globalCtx) {
 }
 
 s32 func_80AEB174(GlobalContext* globalCtx) {
-    return (func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx));
+    return (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx);
 }
 
 s32 func_80AEB1B4(GlobalContext* globalCtx) {
-    return func_8010BDBC(&globalCtx->msgCtx) == 2;
+    return func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2;
 }
 
 void func_80AEB1D8(EnRu1* this) {
@@ -2014,7 +2014,7 @@ void func_80AEF930(EnRu1* this, GlobalContext* globalCtx) {
     if (func_80AEB104(this) == 3) {
         this->actor.flags |= 9;
         this->actor.textId = 0x4048;
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         func_80AEF4A8(this, globalCtx);
         this->action = 43;
         this->drawConfig = 0;
@@ -2138,7 +2138,7 @@ s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AEFE38(EnRu1* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         this->actor.flags &= ~0x9;
         return true;
     }

@@ -186,14 +186,14 @@ void func_80A91284(EnKakasi3* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     this->actor.textId = 0x40A1;
-    this->dialogState = 6;
+    this->dialogState = TEXT_STATE_6;
     this->unk_19A = 0;
 
     if (!LINK_IS_ADULT) {
         this->unk_194 = false;
         if (gSaveContext.scarecrowSpawnSongSet) {
             this->actor.textId = 0x40A0;
-            this->dialogState = 5;
+            this->dialogState = TEXT_STATE_5;
             this->unk_1A8 = 1;
         }
     } else {
@@ -237,9 +237,9 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                     if (player->stateFlags2 & 0x1000000) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
                         globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
-                        this->dialogState = 5;
+                        this->dialogState = TEXT_STATE_5;
                         this->unk_1B8 = 0.0f;
-                        func_8010B680(globalCtx, 0x40A4, NULL);
+                        Message_StartTextbox(globalCtx, 0x40A4, NULL);
                         player->stateFlags2 |= 0x800000;
                         this->actionFunc = func_80A915B8;
                         return;
@@ -252,9 +252,9 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                     if (player->stateFlags2 & 0x1000000) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
                         globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
-                        this->dialogState = 5;
+                        this->dialogState = TEXT_STATE_5;
                         this->unk_1B8 = 0.0f;
-                        func_8010B680(globalCtx, 0x40A8, NULL);
+                        Message_StartTextbox(globalCtx, 0x40A8, NULL);
                         player->stateFlags2 |= 0x800000;
                         this->actionFunc = func_80A9187C;
                         return;
@@ -270,8 +270,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 }
 
 void func_80A915B8(EnKakasi3* this, GlobalContext* globalCtx) {
-
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         func_8010BD58(globalCtx, 0x2C);
         this->actionFunc = func_80A91620;
@@ -296,8 +295,8 @@ void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
-        this->dialogState = 5;
-        func_8010B680(globalCtx, 0x40A5, NULL);
+        this->dialogState = TEXT_STATE_5;
+        Message_StartTextbox(globalCtx, 0x40A5, NULL);
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_80A91A90;
         return;
@@ -334,8 +333,7 @@ void func_80A917FC(EnKakasi3* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9187C(EnKakasi3* this, GlobalContext* globalCtx) {
-
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         func_8010BD58(globalCtx, 0x28);
         this->actionFunc = func_80A918E4;
@@ -352,8 +350,8 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
         globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
 
-        func_8010B680(globalCtx, 0x40A6, NULL);
-        this->dialogState = 5;
+        Message_StartTextbox(globalCtx, 0x40A6, NULL);
+        this->dialogState = TEXT_STATE_5;
         OnePointCutscene_EndCutscene(globalCtx, this->camId);
         this->camId = SUBCAM_NONE;
         func_8002DF54(globalCtx, NULL, 8);
@@ -370,8 +368,8 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
                          globalCtx->msgCtx.unk_E3EE);
         }
         this->unk_195 = true;
-        func_8010B680(globalCtx, 0x40A7, NULL);
-        this->dialogState = 5;
+        Message_StartTextbox(globalCtx, 0x40A7, NULL);
+        this->dialogState = TEXT_STATE_5;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_80A91A90;
         return;

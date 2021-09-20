@@ -66,7 +66,7 @@ static u16 sBgmList[] = {
 
 static s16 sTextIds[] = { 0x2B, 0x2E, 0xC8, 0x2D };
 
-static s16 sTextBoxCount[] = { 4, 5, 5, 5 };
+static s16 sTextBoxCount[] = { TEXT_STATE_4, TEXT_STATE_5, TEXT_STATE_5, TEXT_STATE_5 };
 
 void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -146,7 +146,7 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, GlobalContext* globalCtx) {
                     nextState = 2;
                     break;
             }
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
         } else {
             func_80106CCC(globalCtx);
         }
@@ -230,7 +230,7 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                 break;
         }
         globalCtx->shootingGalleryStatus = -2;
-        func_8010B680(globalCtx, this->actor.textId, NULL);
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnSyatekiMan_EndGame;
     }
 }
@@ -299,7 +299,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                         this->cameraHold = true;
                         this->actor.textId = sTextIds[this->textIdx];
                         this->numTextBox = sTextBoxCount[this->textIdx];
-                        func_8010B680(globalCtx, this->actor.textId, NULL);
+                        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                         this->actionFunc = EnSyatekiMan_Talk;
                     }
                     break;
@@ -319,7 +319,7 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
 void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && Message_ShouldAdvance(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         // Successful completion
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         if (!LINK_IS_ADULT) {

@@ -133,8 +133,8 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, GlobalContext* globalCt
         func_800F5B58();
         func_80078884(NA_SE_SY_FOUND);
         this->actor.textId = 0x71AD;
-        func_8010B680(globalCtx, this->actor.textId, NULL);
-        this->unk_292 = 5;
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
+        this->unk_292 = TEXT_STATE_5;
         this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_809EE048;
@@ -157,8 +157,8 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, GlobalContext* globalCt
                     this->extraWinCount++;
                 }
             }
-            func_8010B680(globalCtx, this->actor.textId, NULL);
-            this->unk_292 = 5;
+            Message_StartTextbox(globalCtx, this->actor.textId, NULL);
+            this->unk_292 = TEXT_STATE_5;
             func_800F5B58();
             func_800F5C64(0x39);
             func_8002DF54(globalCtx, NULL, 8);
@@ -186,7 +186,7 @@ void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->state != ENDIVINGGAME_STATE_PLAYING || !EnDivingGame_HasMinigameFinished(this, globalCtx)) {
         if (Actor_IsTalking(&this->actor, globalCtx)) {
-            if (this->unk_292 != 6) {
+            if (this->unk_292 != TEXT_STATE_6) {
                 switch (this->state) {
                     case ENDIVINGGAME_STATE_NOTPLAYING:
                         func_8002DF54(globalCtx, NULL, 8);
@@ -203,11 +203,11 @@ void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
         } else {
             if (Text_GetFaceReaction(globalCtx, 0x1D) != 0) {
                 this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1D);
-                this->unk_292 = 6;
+                this->unk_292 = TEXT_STATE_6;
             } else {
                 switch (this->state) {
                     case ENDIVINGGAME_STATE_NOTPLAYING:
-                        this->unk_292 = 4;
+                        this->unk_292 = TEXT_STATE_4;
                         if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                             this->actor.textId = 0x4053;
                             this->phase = ENDIVINGGAME_PHASE_1;
@@ -218,11 +218,11 @@ void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
                         break;
                     case ENDIVINGGAME_STATE_AWARDPRIZE:
                         this->actor.textId = 0x4056;
-                        this->unk_292 = 5;
+                        this->unk_292 = TEXT_STATE_5;
                         break;
                     case ENDIVINGGAME_STATE_PLAYING:
                         this->actor.textId = 0x405B;
-                        this->unk_292 = 5;
+                        this->unk_292 = TEXT_STATE_5;
                         break;
                 }
             }
@@ -251,8 +251,8 @@ void EnDivingGame_HandlePlayChoice(EnDivingGame* this, GlobalContext* globalCtx)
                 break;
         }
         if (!(gSaveContext.eventChkInf[3] & 0x100) || this->actor.textId == 0x85 || this->actor.textId == 0x2D) {
-            func_8010B720(globalCtx, this->actor.textId);
-            this->unk_292 = 5;
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
+            this->unk_292 = TEXT_STATE_5;
             this->actionFunc = func_809EE048;
         } else {
             globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
@@ -400,8 +400,8 @@ void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
         Gameplay_ClearCamera(globalCtx, this->subCamId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
         this->actor.textId = 0x405A;
-        func_8010B720(globalCtx, this->actor.textId);
-        this->unk_292 = 5;
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
+        this->unk_292 = TEXT_STATE_5;
         this->actionFunc = func_809EE800;
     }
 }
@@ -419,7 +419,7 @@ void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
         func_800F5ACC(0x6C);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.textId = 0x405B;
-        this->unk_292 = 5;
+        this->unk_292 = TEXT_STATE_5;
         this->state = ENDIVINGGAME_STATE_PLAYING;
         this->actionFunc = EnDivingGame_Talk;
     }
@@ -442,7 +442,7 @@ void func_809EE96C(EnDivingGame* this, GlobalContext* globalCtx) {
         func_80106CCC(globalCtx);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.textId = 0x4056;
-        this->unk_292 = 5;
+        this->unk_292 = TEXT_STATE_5;
         this->state = ENDIVINGGAME_STATE_AWARDPRIZE;
         this->actionFunc = EnDivingGame_Talk;
     }
@@ -470,7 +470,7 @@ void func_809EEA90(EnDivingGame* this, GlobalContext* globalCtx) {
 // Award the scale?
 void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
         // "Successful completion"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;

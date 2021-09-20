@@ -122,7 +122,7 @@ void func_80AACBAC(EnMk* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y -= 0x800;
     } else {
         this->actionFunc = func_80AACB6C;
-        func_8010B720(globalCtx, 0x4030);
+        Message_ContinueTextbox(globalCtx, 0x4030);
     }
 }
 
@@ -154,7 +154,7 @@ void func_80AACCA0(EnMk* this, GlobalContext* globalCtx) {
 void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         this->actionFunc = func_80AACCA0;
         globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
@@ -169,8 +169,8 @@ void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
-        func_8010B720(globalCtx, 0x4001);
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x4001);
         Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_ONCE, -4.0f);
         this->flags &= ~2;
@@ -181,8 +181,8 @@ void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACEE8(EnMk* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
-        func_8010B720(globalCtx, 0x4000);
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x4000);
         Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_LOOP, -4.0f);
         this->flags &= ~2;

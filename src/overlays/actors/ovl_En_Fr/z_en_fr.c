@@ -641,7 +641,7 @@ void EnFr_ActivateCheckFrogSong(EnFr* this, GlobalContext* globalCtx) {
             && (gSaveContext.eventChkInf[13] & 0x40)) { // SoS
             this->actionFunc = EnFr_TalkBeforeFrogSong;
             this->songIndex = FROG_CHOIR_SONG;
-            func_8010B680(globalCtx, 0x40AB, &this->actor);
+            Message_StartTextbox(globalCtx, 0x40AB, &this->actor);
         } else {
             this->songIndex = FROG_ZL;
             this->actionFunc = func_80A1BE98;
@@ -755,7 +755,7 @@ void EnFr_ChildSongFirstTime(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_TalkBeforeFrogSong(EnFr* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         this->frogSongTimer = 2;
         this->actionFunc = EnFr_SetupFrogSong;
@@ -920,12 +920,12 @@ void EnFr_SetupReward(EnFr* this, GlobalContext* globalCtx, u8 unkCondition) {
 }
 
 void EnFr_PrintTextBox(EnFr* this, GlobalContext* globalCtx) {
-    func_8010B680(globalCtx, this->actor.textId, &this->actor);
+    Message_StartTextbox(globalCtx, this->actor.textId, &this->actor);
     this->actionFunc = EnFr_TalkBeforeReward;
 }
 
 void EnFr_TalkBeforeReward(EnFr* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
         this->frogSongTimer = 100;
         func_80106CCC(globalCtx);
         this->actionFunc = EnFr_SetReward;
@@ -1020,7 +1020,7 @@ void EnFr_GiveReward(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = EnFr_Idle;
     }
 }

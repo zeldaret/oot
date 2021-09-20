@@ -314,13 +314,13 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     player->actor.parent = NULL;
     switch (EnRr_GetMessage(shield, tunic)) {
         case RR_MESSAGE_SHIELD:
-            func_8010B680(globalCtx, 0x305F, NULL);
+            Message_StartTextbox(globalCtx, 0x305F, NULL);
             break;
         case RR_MESSAGE_TUNIC:
-            func_8010B680(globalCtx, 0x3060, NULL);
+            Message_StartTextbox(globalCtx, 0x3060, NULL);
             break;
         case RR_MESSAGE_TUNIC | RR_MESSAGE_SHIELD:
-            func_8010B680(globalCtx, 0x3061, NULL);
+            Message_StartTextbox(globalCtx, 0x3061, NULL);
             break;
     }
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d] : Rr_Catch_Cancel" VT_RST "\n", "../z_en_rr.c", 650);

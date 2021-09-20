@@ -127,7 +127,7 @@ void func_80A6E5EC(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E630(EnHs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && Message_ShouldAdvance(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         func_80088AA0(180);
         func_80A6E3A0(this, func_80A6E6B0);
         gSaveContext.eventInf[1] &= ~1;
@@ -164,14 +164,14 @@ void func_80A6E740(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && Message_ShouldAdvance(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 func_80A6E3A0(this, func_80A6E740);
                 func_8002F434(&this->actor, globalCtx, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
                 break;
             case 1:
-                func_8010B720(globalCtx, 0x10B4);
+                Message_ContinueTextbox(globalCtx, 0x10B4);
                 func_80A6E3A0(this, func_80A6E70C);
                 break;
         }
@@ -186,8 +186,8 @@ void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
 void func_80A6E8CC(EnHs* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
-        func_8010B720(globalCtx, 0x10B3);
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x10B3);
         func_80A6E3A0(this, func_80A6E7BC);
         Animation_Change(&this->skelAnime, &object_hs_Anim_000528, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_hs_Anim_000528), ANIMMODE_LOOP, 8.0f);

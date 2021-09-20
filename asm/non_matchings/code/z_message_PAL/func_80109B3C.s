@@ -96,7 +96,7 @@ glabel jtbl_80154BCC
     .word L8010A850
 
 .text
-glabel func_80109B3C
+glabel Message_Decode
 /* B80CDC 80109B3C 27BDFF68 */  addiu $sp, $sp, -0x98
 /* B80CE0 80109B40 3C010001 */  lui   $at, 1
 /* B80CE4 80109B44 AFBF0044 */  sw    $ra, 0x44($sp)
@@ -248,9 +248,9 @@ glabel func_80109B3C
 /* B80F14 80109D74 A1CC6306 */  sb    $t4, 0x6306($t6)
 /* B80F18 80109D78 93196306 */  lbu   $t9, 0x6306($t8)
 /* B80F1C 80109D7C 00125200 */  sll   $t2, $s2, 8
-/* B80F20 80109D80 3C018015 */  lui   $at, %hi(D_8014B304) # $at, 0x8015
+/* B80F20 80109D80 3C018015 */  lui   $at, %hi(sNextTextId) # $at, 0x8015
 /* B80F24 80109D84 032A5825 */  or    $t3, $t9, $t2
-/* B80F28 80109D88 A42BB304 */  sh    $t3, %lo(D_8014B304)($at)
+/* B80F28 80109D88 A42BB304 */  sh    $t3, %lo(sNextTextId)($at)
 .L80109D8C:
 /* B80F2C 80109D8C 2401000C */  li    $at, 12
 /* B80F30 80109D90 16210012 */  bne   $s1, $at, .L80109DDC

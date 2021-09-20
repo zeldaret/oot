@@ -1038,7 +1038,7 @@ void EnSkj_SetupTalk(EnSkj* this) {
 void EnSkj_SariaSongTalk(EnSkj* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         if (gSaveContext.itemGetInf[1] & 0x40) {
             EnSkj_SetupWaitInRange(this);
         } else {
@@ -1067,7 +1067,7 @@ void EnSkj_SetupPostSariasSong(EnSkj* this) {
 }
 
 void EnSkj_ChangeModeAfterSong(EnSkj* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         gSaveContext.itemGetInf[1] |= 0x40;
         EnSkj_SetNaviId(this);
         EnSkj_SetupWaitInRange(this);
@@ -1082,7 +1082,7 @@ void EnSkj_StartMaskTrade(EnSkj* this, GlobalContext* globalCtx) {
     u8 sp1F = func_8010BDBC(&globalCtx->msgCtx);
 
     func_8002DF54(globalCtx, &this->actor, 1);
-    if ((sp1F == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((sp1F == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         EnSkj_JumpFromStump(this);
     }
 }
@@ -1136,40 +1136,38 @@ void EnSkj_WalkToPlayer(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_SetupAskForMask(EnSkj* this, GlobalContext* globalCtx) {
-    func_8010B680(globalCtx, 0x101C, &this->actor);
+    Message_StartTextbox(globalCtx, 0x101C, &this->actor);
     EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
     EnSkj_SetupAction(this, SKJ_ACTION_SARIA_SONG_ASK_FOR_MASK);
 }
 
 void EnSkj_AskForMask(EnSkj* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (Message_ShouldAdvance(globalCtx) != 0) {
-            switch (globalCtx->msgCtx.choiceIndex) {
-                case 0: // Yes
-                    EnSkj_SetupTakeMask(this, globalCtx);
-                    break;
-                case 1: // No
-                    func_8010B720(globalCtx, 0x101D);
-                    EnSkj_SetupWaitForMaskTextClear(this);
-                    break;
-            }
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
+        switch (globalCtx->msgCtx.choiceIndex) {
+            case 0: // Yes
+                EnSkj_SetupTakeMask(this, globalCtx);
+                break;
+            case 1: // No
+                Message_ContinueTextbox(globalCtx, 0x101D);
+                EnSkj_SetupWaitForMaskTextClear(this);
+                break;
         }
     }
 }
 
 void EnSkj_SetupTakeMask(EnSkj* this, GlobalContext* globalCtx) {
-    func_8010B720(globalCtx, 0x101E);
+    Message_ContinueTextbox(globalCtx, 0x101E);
     EnSkj_SetupAction(this, SKJ_ACTION_SARIA_SONG_TAKE_MASK);
 }
 
 void EnSkj_TakeMask(EnSkj* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         Rupees_ChangeBy(10);
         gSaveContext.itemGetInf[3] |= 0x200;
         EnSkj_SetNaviId(this);
         Player_UnsetMask(globalCtx);
         Item_Give(globalCtx, ITEM_SOLD_OUT);
-        func_8010B720(globalCtx, 0x101F);
+        Message_ContinueTextbox(globalCtx, 0x101F);
         EnSkj_SetupWaitForMaskTextClear(this);
     }
 }
@@ -1179,7 +1177,7 @@ void EnSkj_SetupWaitForMaskTextClear(EnSkj* this) {
 }
 
 void EnSkj_WaitForMaskTextClear(EnSkj* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         func_8002DF54(globalCtx, &this->actor, 7);
         this->backfilpFlag = 1;
         EnSkj_Backflip(this);
@@ -1208,7 +1206,7 @@ void EnSkj_SariasSongWaitForTextClear(EnSkj* this, GlobalContext* globalCtx) {
     u8 state = func_8010BDBC(&globalCtx->msgCtx);
     Player* player = GET_PLAYER(globalCtx);
 
-    if (state == 6 && Message_ShouldAdvance(globalCtx)) {
+    if (state == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
         EnSkj_SetupWaitInRange(this);
         player->stateFlags2 |= 0x800000;
         player->unk_6A8 = (Actor*)sSmallStumpSkullKid.skullkid;
@@ -1378,7 +1376,7 @@ void EnSkj_SetupWaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
             func_800F5BF0(4);
             EnSkj_TurnPlayer(this, player);
             player->unk_6A8 = &this->actor;
-            func_8010B680(globalCtx, 0x10BE, &this->actor);
+            Message_StartTextbox(globalCtx, 0x10BE, &this->actor);
             this->actionFunc = EnSkj_StartOcarinaMinigame;
         } else {
             this->actionFunc = EnSkj_WaitForOcarina;
@@ -1394,7 +1392,7 @@ void EnSkj_WaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
         func_800F5BF0(4);
         EnSkj_TurnPlayer(this, player);
         player->unk_6A8 = &this->actor;
-        func_8010B680(globalCtx, 0x10BE, &this->actor);
+        Message_StartTextbox(globalCtx, 0x10BE, &this->actor);
         this->actionFunc = EnSkj_StartOcarinaMinigame;
     } else if (EnSkj_RangeCheck(player, this)) {
         player->stateFlags2 |= 0x800000;
@@ -1407,7 +1405,7 @@ void EnSkj_StartOcarinaMinigame(EnSkj* this, GlobalContext* globalCtx) {
 
     EnSkj_TurnPlayer(this, player);
 
-    if (dialogState == 2) {
+    if (dialogState == TEXT_STATE_2) {
         func_8010BD58(globalCtx, 0x2E); // play song?
         if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
             sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCARINA_PLAY_NOTES;
@@ -1483,7 +1481,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     func_800ED858(6); // related instrument sound (flute?)
                     func_800ED93C(0xE, 1);
                     globalCtx->msgCtx.msgMode = MSGMODE_UNK_2A;
-                    globalCtx->msgCtx.unk_E3E7 = 2;
+                    globalCtx->msgCtx.stateTimer = 2;
                 }
                 break;
         }
@@ -1499,20 +1497,20 @@ void EnSkj_FailedMiniGame(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_WaitForNextRound(EnSkj* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
         EnSkj_OfferNextRound(this, globalCtx);
     }
 }
 
 void EnSkj_OfferNextRound(EnSkj* this, GlobalContext* globalCtx) {
-    func_8010B720(globalCtx, 0x102E);
+    Message_ContinueTextbox(globalCtx, 0x102E);
     this->actionFunc = EnSkj_WaitForOfferResponse;
 }
 
 void EnSkj_WaitForOfferResponse(EnSkj* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 player = GET_PLAYER(globalCtx);
@@ -1535,7 +1533,7 @@ void EnSkj_WonOcarinaMiniGame(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_WaitToGiveReward(EnSkj* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         func_8002F434(&this->actor, globalCtx, sOcarinaGameRewards[gSaveContext.ocarinaGameReward], 26.0f, 26.0f);
         this->actionFunc = EnSkj_GiveOcarinaGameReward;
     }
@@ -1551,7 +1549,7 @@ void EnSkj_GiveOcarinaGameReward(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_FinishOcarinaGameRound(EnSkj* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         s32 ocarinaGameReward = gSaveContext.ocarinaGameReward;
 
         if (gSaveContext.ocarinaGameReward < 3) {

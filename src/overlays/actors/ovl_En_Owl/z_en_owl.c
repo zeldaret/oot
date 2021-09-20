@@ -366,13 +366,13 @@ void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void EnOwl_ConfirmKokiriMessage(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x2065);
+                Message_ContinueTextbox(globalCtx, 0x2065);
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x2067);
+                Message_ContinueTextbox(globalCtx, 0x2067);
                 this->actionFunc = func_80ACA76C;
                 break;
         }
@@ -393,14 +393,14 @@ void EnOwl_WaitOutsideKokiri(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACA998(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x2069);
+                Message_ContinueTextbox(globalCtx, 0x2069);
                 this->actionFunc = func_80ACAA54;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x206B);
+                Message_ContinueTextbox(globalCtx, 0x206B);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -410,8 +410,8 @@ void func_80ACA998(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAA54(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
-        func_8010B720(globalCtx, 0x206A);
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x206A);
         this->actionFunc = func_80ACA998;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -419,8 +419,8 @@ void func_80ACAA54(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAAC0(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
-        func_8010B720(globalCtx, 0x2069);
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x2069);
         this->actionFunc = func_80ACAA54;
         this->actionFlags &= ~2;
         func_80ACA71C(this);
@@ -437,19 +437,19 @@ void EnOwl_WaitHyruleCastle(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAB88(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
                 // obtained zelda's letter
                 if (gSaveContext.eventChkInf[4] & 1) {
-                    func_8010B720(globalCtx, 0x206D);
+                    Message_ContinueTextbox(globalCtx, 0x206D);
                 } else {
-                    func_8010B720(globalCtx, 0x206C);
+                    Message_ContinueTextbox(globalCtx, 0x206C);
                 }
                 this->actionFunc = func_80ACAC6C;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x206E);
+                Message_ContinueTextbox(globalCtx, 0x206E);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -460,8 +460,8 @@ void func_80ACAB88(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAC6C(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
-        func_8010B720(globalCtx, 0x206A);
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x206A);
         this->actionFunc = func_80ACAB88;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -478,14 +478,14 @@ void EnOwl_WaitKakariko(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAD34(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x206F);
+                Message_ContinueTextbox(globalCtx, 0x206F);
                 this->actionFunc = func_80ACADF0;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x2070);
+                Message_ContinueTextbox(globalCtx, 0x2070);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -496,8 +496,8 @@ void func_80ACAD34(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACADF0(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
-        func_8010B720(globalCtx, 0x206A);
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x206A);
         this->actionFunc = func_80ACAD34;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -514,14 +514,14 @@ void EnOwl_WaitGerudo(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAEB8(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x2071);
+                Message_ContinueTextbox(globalCtx, 0x2071);
                 this->actionFunc = func_80ACAF74;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x2072);
+                Message_ContinueTextbox(globalCtx, 0x2072);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -532,8 +532,8 @@ void func_80ACAEB8(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAF74(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
-        func_8010B720(globalCtx, 0x206A);
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x206A);
         this->actionFunc = func_80ACAEB8;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -633,13 +633,13 @@ void EnOwl_WaitDeathMountainShortcut(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB344(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x607A);
+                Message_ContinueTextbox(globalCtx, 0x607A);
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x607C);
+                Message_ContinueTextbox(globalCtx, 0x607C);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -656,14 +656,14 @@ void func_80ACB3E0(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB440(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x10C1);
+                Message_ContinueTextbox(globalCtx, 0x10C1);
                 this->actionFunc = func_80ACB4FC;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x10C3);
+                Message_ContinueTextbox(globalCtx, 0x10C3);
                 this->actionFunc = func_80ACA7E0;
         }
 
@@ -673,8 +673,8 @@ void func_80ACB440(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB4FC(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
-        func_8010B720(globalCtx, 0x10C2);
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x10C2);
         this->actionFunc = func_80ACB440;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -691,14 +691,14 @@ void EnOwl_WaitLWPreSaria(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB5C4(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x10C5);
+                Message_ContinueTextbox(globalCtx, 0x10C5);
                 this->actionFunc = func_80ACB680;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x10C7);
+                Message_ContinueTextbox(globalCtx, 0x10C7);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -709,8 +709,8 @@ void func_80ACB5C4(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB680(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
-        func_8010B720(globalCtx, 0x10C6);
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x10C6);
         this->actionFunc = func_80ACB5C4;
         this->actionFlags |= 2;
         func_80ACA71C(this);

@@ -1545,7 +1545,7 @@ s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
 }
 
 u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         return true;
     } else {
         return false;
@@ -4159,7 +4159,7 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
 }
 
 void func_80035B18(GlobalContext* globalCtx, Actor* actor, u16 textId) {
-    func_8010B720(globalCtx, textId);
+    Message_ContinueTextbox(globalCtx, textId);
     actor->textId = textId;
 }
 
@@ -5394,15 +5394,15 @@ s32 func_80037CB8(GlobalContext* globalCtx, Actor* actor, s16 arg2) {
     s32 ret = false;
 
     switch (func_8010BDBC(msgCtx)) {
-        case 2:
+        case TEXT_STATE_2:
             func_80037C5C(globalCtx, arg2, actor->textId);
             ret = true;
             break;
-        case 4:
-        case 5:
+        case TEXT_STATE_4:
+        case TEXT_STATE_5:
             if (Message_ShouldAdvance(globalCtx) && func_80037C94(globalCtx, actor, arg2)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                msgCtx->msgMode = MSGMODE_UNK_36;
+                msgCtx->msgMode = MSGMODE_TEXT_CLOSING;
                 ret = true;
             }
             break;

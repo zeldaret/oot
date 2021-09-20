@@ -697,8 +697,8 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
     } else {
         func_8002F974(&this->actor, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (Message_ShouldAdvance(globalCtx) != 0) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) {
+        if (Message_ShouldAdvance(globalCtx)) {
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
             if (globalCtx->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {
@@ -719,7 +719,7 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x5007;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
             }
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             return;
         }
     } else if (func_8002F334(&this->actor, globalCtx) != 0) {

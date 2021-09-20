@@ -105,8 +105,8 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
 
                 Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->unk_180, &this->unk_18C);
                 this->actor.textId = 0xF;
-                func_8010B680(globalCtx, this->actor.textId, NULL);
-                this->unk_154 = 5;
+                Message_StartTextbox(globalCtx, this->actor.textId, NULL);
+                this->unk_154 = TEXT_STATE_5;
                 func_80078884(NA_SE_EV_HIT_SOUND);
                 func_8002DF54(globalCtx, NULL, 8);
                 this->status = 1;
@@ -131,7 +131,7 @@ void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
 
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->unk_180, &this->unk_18C);
 
-    if ((this->unk_154 == func_8010BDBC(&globalCtx->msgCtx)) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((this->unk_154 == func_8010BDBC(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
     }
 
@@ -199,7 +199,7 @@ void EnBomBowlPit_WaitTillPrizeGiven(EnBomBowlPit* this, GlobalContext* globalCt
 }
 
 void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         // Normal termination/completion
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         if (this->getItemId == GI_HEART_PIECE) {

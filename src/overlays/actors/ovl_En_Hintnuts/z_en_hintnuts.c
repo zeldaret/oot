@@ -391,7 +391,7 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
 void EnHintnuts_Talk(EnHintnuts* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x3, 0x400, 0x100);
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) {
         EnHintnuts_SetupLeave(this, globalCtx);
     }
 }

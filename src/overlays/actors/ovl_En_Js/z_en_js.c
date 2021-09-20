@@ -135,11 +135,11 @@ void func_80A89160(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < 200) {
-                    func_8010B720(globalCtx, 0x6075);
+                    Message_ContinueTextbox(globalCtx, 0x6075);
                     func_80A89008(this);
                 } else {
                     Rupees_ChangeBy(-200);
@@ -147,7 +147,7 @@ void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 1: // no
-                func_8010B720(globalCtx, 0x6074);
+                Message_ContinueTextbox(globalCtx, 0x6074);
                 func_80A89008(this);
         }
     }

@@ -121,7 +121,7 @@ void EnGs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80A4E3EC(EnGs* this, GlobalContext* globalCtx) {
     s32 ret = 2;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 6:
+        case TEXT_STATE_6:
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x2054:
@@ -178,7 +178,7 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
     s16 sp24;
 
     if (this->unk_19C == 1) {
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_19C = 2;
     } else if (this->unk_19C == 2) {
         this->unk_19C = func_80A4E3EC(this, globalCtx);
@@ -221,7 +221,7 @@ void func_80A4E910(EnGs* this, GlobalContext* globalCtx) {
     } else if ((this->unk_19F == 1) && (func_80A4E754(this, globalCtx, &this->unk_1E8, &this->unk_1EC, &this->unk_200,
                                                       0.8f, 0.007f, 0.001f, 7, 0) == 0.0f)) {
         if (!Gameplay_InCsMode(globalCtx)) {
-            func_8010B680(globalCtx, 0x71B1, NULL);
+            Message_StartTextbox(globalCtx, 0x71B1, NULL);
         }
         this->unk_19C = 0;
         this->actionFunc = func_80A4F734;

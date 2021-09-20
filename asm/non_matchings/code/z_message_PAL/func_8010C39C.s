@@ -625,8 +625,8 @@ glabel L8010C750
 /* B83A08 8010C868 26217FFF */   addiu $at, $s1, 0x7fff
 /* B83A0C 8010C86C A42463ED */  sh    $a0, 0x63ed($at)
 /* B83A10 8010C870 A42463F3 */  sh    $a0, 0x63f3($at)
-/* B83A14 8010C874 3C018015 */  lui   $at, %hi(D_8014B310) # $at, 0x8015
-/* B83A18 8010C878 A424B310 */  sh    $a0, %lo(D_8014B310)($at)
+/* B83A14 8010C874 3C018015 */  lui   $at, %hi(sLastPlayedSong) # $at, 0x8015
+/* B83A18 8010C878 A424B310 */  sh    $a0, %lo(sLastPlayedSong)($at)
 /* B83A1C 8010C87C 26217FFF */  addiu $at, $s1, 0x7fff
 /* B83A20 8010C880 2418000D */  li    $t8, 13
 /* B83A24 8010C884 240E0014 */  li    $t6, 20
@@ -667,7 +667,7 @@ glabel L8010C750
 /* B83AA8 8010C908 0C00084C */  jal   osSyncPrintf
 /* B83AAC 8010C90C 960563EC */   lhu   $a1, 0x63ec($s0)
 /* B83AB0 8010C910 02402025 */  move  $a0, $s2
-/* B83AB4 8010C914 0C042DC8 */  jal   func_8010B720
+/* B83AB4 8010C914 0C042DC8 */  jal   Message_ContinueTextbox
 /* B83AB8 8010C918 2405086F */   li    $a1, 2159
 /* B83ABC 8010C91C 26217FFF */  addiu $at, $s1, 0x7fff
 /* B83AC0 8010C920 3C078013 */  lui   $a3, %hi(D_801333E0) # $a3, 0x8013
@@ -725,7 +725,7 @@ glabel L8010C750
 /* B83B88 8010C9E8 0C00084C */  jal   osSyncPrintf
 /* B83B8C 8010C9EC 960563EC */   lhu   $a1, 0x63ec($s0)
 /* B83B90 8010C9F0 02402025 */  move  $a0, $s2
-/* B83B94 8010C9F4 0C042DC8 */  jal   func_8010B720
+/* B83B94 8010C9F4 0C042DC8 */  jal   Message_ContinueTextbox
 /* B83B98 8010C9F8 2405086F */   li    $a1, 2159
 /* B83B9C 8010C9FC 26217FFF */  addiu $at, $s1, 0x7fff
 /* B83BA0 8010CA00 3C078013 */  lui   $a3, %hi(D_801333E0) # $a3, 0x8013
@@ -757,7 +757,7 @@ glabel L8010C750
 /* B83C04 8010CA64 0C00084C */  jal   osSyncPrintf
 /* B83C08 8010CA68 960563EC */   lhu   $a1, 0x63ec($s0)
 /* B83C0C 8010CA6C 02402025 */  move  $a0, $s2
-/* B83C10 8010CA70 0C042DC8 */  jal   func_8010B720
+/* B83C10 8010CA70 0C042DC8 */  jal   Message_ContinueTextbox
 /* B83C14 8010CA74 2405086F */   li    $a1, 2159
 /* B83C18 8010CA78 26217FFF */  addiu $at, $s1, 0x7fff
 /* B83C1C 8010CA7C 3C078013 */  lui   $a3, %hi(D_801333E0) # $a3, 0x8013
@@ -1478,7 +1478,7 @@ glabel L8010CBFC
 /* B845E0 8010D440 0C00084C */  jal   osSyncPrintf
 /* B845E4 8010D444 960563EC */   lhu   $a1, 0x63ec($s0)
 /* B845E8 8010D448 02402025 */  move  $a0, $s2
-/* B845EC 8010D44C 0C042DC8 */  jal   func_8010B720
+/* B845EC 8010D44C 0C042DC8 */  jal   Message_ContinueTextbox
 /* B845F0 8010D450 2405086F */   li    $a1, 2159
 /* B845F4 8010D454 26217FFF */  addiu $at, $s1, 0x7fff
 /* B845F8 8010D458 24190011 */  li    $t9, 17
@@ -1496,7 +1496,7 @@ glabel L8010CBFC
 /* B84624 8010D484 29C10006 */  slti  $at, $t6, 6
 /* B84628 8010D488 1420000B */  bnez  $at, .L8010D4B8
 /* B8462C 8010D48C 02402025 */   move  $a0, $s2
-/* B84630 8010D490 0C042DC8 */  jal   func_8010B720
+/* B84630 8010D490 0C042DC8 */  jal   Message_ContinueTextbox
 /* B84634 8010D494 2405086F */   li    $a1, 2159
 /* B84638 8010D498 26217FFF */  addiu $at, $s1, 0x7fff
 /* B8463C 8010D49C 24190011 */  li    $t9, 17
@@ -1551,9 +1551,9 @@ glabel L8010D50C
 /* B846E8 8010D548 0C00084C */  jal   osSyncPrintf
 /* B846EC 8010D54C 2484454C */   addiu $a0, %lo(D_8015454C) # addiu $a0, $a0, 0x454c
 /* B846F0 8010D550 02402025 */  move  $a0, $s2
-/* B846F4 8010D554 0C042DC8 */  jal   func_8010B720
+/* B846F4 8010D554 0C042DC8 */  jal   Message_ContinueTextbox
 /* B846F8 8010D558 2405088B */   li    $a1, 2187
-/* B846FC 8010D55C 0C0426CF */  jal   func_80109B3C
+/* B846FC 8010D55C 0C0426CF */  jal   Message_Decode
 /* B84700 8010D560 02402025 */   move  $a0, $s2
 /* B84704 8010D564 240E001E */  li    $t6, 30
 /* B84708 8010D568 26217FFF */  addiu $at, $s1, 0x7fff
@@ -1649,7 +1649,7 @@ glabel L8010D65C
 /* B84850 8010D6B0 3C048015 */  lui   $a0, %hi(D_801545B8) # $a0, 0x8015
 /* B84854 8010D6B4 0C00084C */  jal   osSyncPrintf
 /* B84858 8010D6B8 248445B8 */   addiu $a0, %lo(D_801545B8) # addiu $a0, $a0, 0x45b8
-/* B8485C 8010D6BC 0C0426CF */  jal   func_80109B3C
+/* B8485C 8010D6BC 0C0426CF */  jal   Message_Decode
 /* B84860 8010D6C0 02402025 */   move  $a0, $s2
 /* B84864 8010D6C4 240E0012 */  li    $t6, 18
 /* B84868 8010D6C8 26217FFF */  addiu $at, $s1, 0x7fff
@@ -1672,16 +1672,16 @@ glabel L8010D65C
 /* B848AC 8010D70C 00000000 */   nop   
 /* B848B0 8010D710 8FA80148 */  lw    $t0, 0x148($sp)
 /* B848B4 8010D714 00031040 */  sll   $v0, $v1, 1
-/* B848B8 8010D718 3C188015 */  lui   $t8, %hi(D_80153C78)
+/* B848B8 8010D718 3C188015 */  lui   $t8, %hi(sOcarinaEffectActorParams - 0xC)
 /* B848BC 8010D71C C5040028 */  lwc1  $f4, 0x28($t0)
 /* B848C0 8010D720 8D070024 */  lw    $a3, 0x24($t0)
 /* B848C4 8010D724 0302C021 */  addu  $t8, $t8, $v0
 /* B848C8 8010D728 E7A40010 */  swc1  $f4, 0x10($sp)
 /* B848CC 8010D72C C506002C */  lwc1  $f6, 0x2c($t0)
-/* B848D0 8010D730 87183C78 */  lh    $t8, %lo(D_80153C78)($t8)
-/* B848D4 8010D734 3C068015 */  lui   $a2, %hi(D_80153C68)
+/* B848D0 8010D730 87183C78 */  lh    $t8, %lo(sOcarinaEffectActorParams - 0xC)($t8)
+/* B848D4 8010D734 3C068015 */  lui   $a2, %hi(sOcarinaEffectActorIds - 0xC)
 /* B848D8 8010D738 00C23021 */  addu  $a2, $a2, $v0
-/* B848DC 8010D73C 84C63C68 */  lh    $a2, %lo(D_80153C68)($a2)
+/* B848DC 8010D73C 84C63C68 */  lh    $a2, %lo(sOcarinaEffectActorIds - 0xC)($a2)
 /* B848E0 8010D740 AFA00020 */  sw    $zero, 0x20($sp)
 /* B848E4 8010D744 AFA0001C */  sw    $zero, 0x1c($sp)
 /* B848E8 8010D748 AFA00018 */  sw    $zero, 0x18($sp)
@@ -1819,9 +1819,9 @@ glabel L8010D924
 /* B84AC4 8010D924 960563EC */  lhu   $a1, 0x63ec($s0)
 /* B84AC8 8010D928 02402025 */  move  $a0, $s2
 /* B84ACC 8010D92C 24A50893 */  addiu $a1, $a1, 0x893
-/* B84AD0 8010D930 0C042DC8 */  jal   func_8010B720
+/* B84AD0 8010D930 0C042DC8 */  jal   Message_ContinueTextbox
 /* B84AD4 8010D934 30A5FFFF */   andi  $a1, $a1, 0xffff
-/* B84AD8 8010D938 0C0426CF */  jal   func_80109B3C
+/* B84AD8 8010D938 0C0426CF */  jal   Message_Decode
 /* B84ADC 8010D93C 02402025 */   move  $a0, $s2
 /* B84AE0 8010D940 24190015 */  li    $t9, 21
 /* B84AE4 8010D944 26217FFF */  addiu $at, $s1, 0x7fff
@@ -1893,7 +1893,7 @@ glabel L8010D9D8
 .L8010DA38:
 /* B84BD8 8010DA38 02402025 */   move  $a0, $s2
 /* B84BDC 8010DA3C 2405088C */  li    $a1, 2188
-/* B84BE0 8010DA40 0C042DA0 */  jal   func_8010B680
+/* B84BE0 8010DA40 0C042DA0 */  jal   Message_StartTextbox
 /* B84BE4 8010DA44 00003025 */   move  $a2, $zero
 /* B84BE8 8010DA48 3C010001 */  lui   $at, 1
 /* B84BEC 8010DA4C 00320821 */  addu  $at, $at, $s2
@@ -1909,7 +1909,7 @@ glabel L8010D9D8
 /* B84C10 8010DA70 2465088D */   addiu $a1, $v1, 0x88d
 /* B84C14 8010DA74 30A5FFFF */  andi  $a1, $a1, 0xffff
 /* B84C18 8010DA78 02402025 */  move  $a0, $s2
-/* B84C1C 8010DA7C 0C042DA0 */  jal   func_8010B680
+/* B84C1C 8010DA7C 0C042DA0 */  jal   Message_StartTextbox
 /* B84C20 8010DA80 00003025 */   move  $a2, $zero
 /* B84C24 8010DA84 3C010001 */  lui   $at, 1
 /* B84C28 8010DA88 00320821 */  addu  $at, $at, $s2
@@ -2656,7 +2656,7 @@ glabel L8010E544
 /* B856F4 8010E554 00002025 */   move  $a0, $zero
 /* B856F8 8010E558 02402025 */  move  $a0, $s2
 /* B856FC 8010E55C 240540AD */  li    $a1, 16557
-/* B85700 8010E560 0C042DA0 */  jal   func_8010B680
+/* B85700 8010E560 0C042DA0 */  jal   Message_StartTextbox
 /* B85704 8010E564 00003025 */   move  $a2, $zero
 /* B85708 8010E568 3C010001 */  lui   $at, 1
 /* B8570C 8010E56C 00320821 */  addu  $at, $at, $s2
@@ -3216,7 +3216,7 @@ glabel L8010EC60
 /* B85F10 8010ED70 ADEC0004 */  sw    $t4, 4($t7)
 /* B85F14 8010ED74 ADEA0000 */  sw    $t2, ($t7)
 /* B85F18 8010ED78 8FB90140 */  lw    $t9, 0x140($sp)
-/* B85F1C 8010ED7C 3C0F8015 */  lui   $t7, %hi(D_80153C94)
+/* B85F1C 8010ED7C 3C0F8015 */  lui   $t7, %hi(sOcarinaNoteTextures)
 /* B85F20 8010ED80 272E0008 */  addiu $t6, $t9, 8
 /* B85F24 8010ED84 AFAE0140 */  sw    $t6, 0x140($sp)
 /* B85F28 8010ED88 AF2D0004 */  sw    $t5, 4($t9)
@@ -3228,7 +3228,7 @@ glabel L8010EC60
 /* B85F40 8010EDA0 90990001 */  lbu   $t9, 1($a0)
 /* B85F44 8010EDA4 00197080 */  sll   $t6, $t9, 2
 /* B85F48 8010EDA8 01EE7821 */  addu  $t7, $t7, $t6
-/* B85F4C 8010EDAC 8DEF3C94 */  lw    $t7, %lo(D_80153C94)($t7)
+/* B85F4C 8010EDAC 8DEF3C94 */  lw    $t7, %lo(sOcarinaNoteTextures)($t7)
 /* B85F50 8010EDB0 3C0EF570 */  lui   $t6, 0xf570
 /* B85F54 8010EDB4 AC4F0004 */  sw    $t7, 4($v0)
 /* B85F58 8010EDB8 8FB80140 */  lw    $t8, 0x140($sp)
@@ -3449,7 +3449,7 @@ glabel L8010EC60
 /* B862A4 8010F104 AC590004 */  sw    $t9, 4($v0)
 .L8010F108:
 /* B862A8 8010F108 8FA20140 */  lw    $v0, 0x140($sp)
-/* B862AC 8010F10C 3C188015 */  lui   $t8, %hi(D_80153C94)
+/* B862AC 8010F10C 3C188015 */  lui   $t8, %hi(sOcarinaNoteTextures)
 /* B862B0 8010F110 3C01E400 */  lui   $at, 0xe400
 /* B862B4 8010F114 244F0008 */  addiu $t7, $v0, 8
 /* B862B8 8010F118 AFAF0140 */  sw    $t7, 0x140($sp)
@@ -3459,7 +3459,7 @@ glabel L8010EC60
 /* B862C8 8010F128 30E7FFFF */  andi  $a3, $a3, 0xffff
 /* B862CC 8010F12C 000EC880 */  sll   $t9, $t6, 2
 /* B862D0 8010F130 0319C021 */  addu  $t8, $t8, $t9
-/* B862D4 8010F134 8F183C94 */  lw    $t8, %lo(D_80153C94)($t8)
+/* B862D4 8010F134 8F183C94 */  lw    $t8, %lo(sOcarinaNoteTextures)($t8)
 /* B862D8 8010F138 3C19F570 */  lui   $t9, 0xf570
 /* B862DC 8010F13C AC580004 */  sw    $t8, 4($v0)
 /* B862E0 8010F140 8FAF0140 */  lw    $t7, 0x140($sp)

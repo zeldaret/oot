@@ -116,7 +116,7 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 6:
+        case TEXT_STATE_6:
             ret = 0;
             switch (this->actor.textId) {
                 case 0x4012:
@@ -124,14 +124,14 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
                     ret = 2;
                     break;
                 case 0x401B:
-                    ret = Message_ShouldAdvance(globalCtx) == 0 ? 1 : 2;
+                    ret = (!Message_ShouldAdvance(globalCtx)) ? 1 : 2;
                     break;
                 case 0x401F:
                     gSaveContext.infTable[19] |= 0x200;
                     break;
             }
             break;
-        case 3:
+        case TEXT_STATE_3:
             if (this->actor.textId != 0x4014) {
                 if (this->actor.textId == 0x401B && !this->sfxPlayed) {
                     Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0,
@@ -143,8 +143,8 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
                 this->sfxPlayed = true;
             }
             break;
-        case 4:
-            if (Message_ShouldAdvance(globalCtx) == 0) {
+        case TEXT_STATE_4:
+            if (!Message_ShouldAdvance(globalCtx)) {
                 break;
             }
             if (this->actor.textId == 0x4014) {
@@ -153,21 +153,21 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
                     ret = 2;
                 } else {
                     this->actor.textId = 0x4016;
-                    func_8010B720(globalCtx, this->actor.textId);
+                    Message_ContinueTextbox(globalCtx, this->actor.textId);
                 }
             }
             break;
-        case 5:
-            if (Message_ShouldAdvance(globalCtx) != 0) {
+        case TEXT_STATE_5:
+            if (Message_ShouldAdvance(globalCtx)) {
                 ret = 2;
             }
             break;
-        case 0:
-        case 1:
-        case 2:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_0:
+        case TEXT_STATE_1:
+        case TEXT_STATE_2:
+        case TEXT_STATE_7:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
     return ret;
@@ -436,7 +436,7 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_FROG) {
             func_80088AA0(180); // start timer2 with 3 minutes
             gSaveContext.eventInf[1] &= ~1;

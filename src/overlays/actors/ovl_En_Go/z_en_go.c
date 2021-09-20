@@ -204,7 +204,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
     xzRange = thisx->xzDistToPlayer + 1.0f;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         if (globalCtx) {}
-        case 2:
+        case TEXT_STATE_2:
             switch (thisx->textId) {
                 case 0x3008:
                     gSaveContext.infTable[14] |= 1;
@@ -256,7 +256,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case 4:
+        case TEXT_STATE_4:
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x300A:
@@ -269,7 +269,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                         } else {
                             thisx->textId = 0x300D;
                         }
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3034:
@@ -284,7 +284,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                         } else {
                             thisx->textId = 0x3033;
                         }
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3054:
@@ -293,7 +293,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                             unkState = 2;
                         } else {
                             thisx->textId = 0x3056;
-                            func_8010B720(globalCtx, thisx->textId);
+                            Message_ContinueTextbox(globalCtx, thisx->textId);
                             unkState = 1;
                         }
                         gSaveContext.infTable[11] |= 0x10;
@@ -301,7 +301,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case 5:
+        case TEXT_STATE_5:
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x3035:
@@ -309,7 +309,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                     case 0x3032:
                     case 0x3033:
                         thisx->textId = 0x3034;
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     default:
@@ -318,16 +318,16 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case 6:
+        case TEXT_STATE_6:
             if (Message_ShouldAdvance(globalCtx)) {
                 unkState = 3;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 7:
-        case 9:
+        case TEXT_STATE_0:
+        case TEXT_STATE_1:
+        case TEXT_STATE_3:
+        case TEXT_STATE_7:
+        case TEXT_STATE_9:
             break;
     }
     return unkState;
@@ -877,8 +877,8 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
         }
     } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.unk_00 == 2)) {
         EnGo_SetupAction(this, EnGo_GetItem);
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else {
         if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, globalCtx)) {
             EnGo_ReverseAnimation(this);
@@ -986,11 +986,11 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
             gSaveContext.bgsFlag = true;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) {
             this->actor.textId = 0x3058;
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
             this->actor.textId = 0x305C;
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
             func_800775D8();
         }
@@ -1000,7 +1000,7 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
 void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_21E) == 0) {
         this->actor.textId = 0x305A;
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E0.unk_00 = 1;
         EnGo_SetupAction(this, func_80A40DCC);
     }

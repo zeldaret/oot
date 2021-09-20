@@ -1214,7 +1214,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
     switch (this->csState) {
         case MO_INTRO_WAIT:
             if (this->timers[0] == 1) {
-                func_8010B680(globalCtx, 0x403F, NULL);
+                Message_StartTextbox(globalCtx, 0x403F, NULL);
             }
             if (((fabsf(player->actor.world.pos.z - 180.0f) < 40.0f) &&
                  (fabsf(player->actor.world.pos.x - 180.0f) < 40.0f)) ||

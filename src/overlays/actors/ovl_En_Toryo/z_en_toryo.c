@@ -153,14 +153,14 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
     s32 ret = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 5:
+        case TEXT_STATE_0:
+        case TEXT_STATE_1:
+        case TEXT_STATE_2:
+        case TEXT_STATE_3:
+        case TEXT_STATE_5:
             ret = 1;
             break;
-        case 4:
+        case TEXT_STATE_4:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     func_80106CCC(globalCtx);
@@ -175,31 +175,31 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case 6:
+        case TEXT_STATE_6:
             switch (this->actor.textId) {
                 case 0x5028:
                     ret = 1;
-                    if (Message_ShouldAdvance(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         gSaveContext.infTable[23] |= 4;
                         ret = 0;
                     }
                     break;
                 case 0x601B:
                     ret = 1;
-                    if (Message_ShouldAdvance(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         ret = 4;
                     }
                     break;
                 case 0x606F:
                     ret = 1;
-                    if (Message_ShouldAdvance(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         gSaveContext.infTable[23] |= 2;
                         ret = 0;
                     }
                     break;
                 case 0x606A:
                     ret = 1;
-                    if (Message_ShouldAdvance(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         gSaveContext.infTable[23] |= 1;
                         ret = 0;
                     }
@@ -210,7 +210,7 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                 case 0x606E:
                 default:
                     ret = 1;
-                    if (Message_ShouldAdvance(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         ret = 0;
                     }
                     break;
@@ -226,16 +226,16 @@ s32 func_80B205CC(EnToryo* this, GlobalContext* globalCtx) {
     s32 ret = 5;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
+        case TEXT_STATE_0:
+        case TEXT_STATE_1:
+        case TEXT_STATE_2:
+        case TEXT_STATE_3:
+        case TEXT_STATE_4:
+        case TEXT_STATE_5:
             ret = 5;
             break;
-        case 6:
-            if (Message_ShouldAdvance(globalCtx) != 0) {
+        case TEXT_STATE_6:
+            if (Message_ShouldAdvance(globalCtx)) {
                 ret = 0;
             }
             break;
@@ -298,7 +298,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E4 == 3) {
         Actor_IsTalking(&this->actor, globalCtx);
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E4 = 1;
     }
 
@@ -312,7 +312,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1E4 == 2) {
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E4 = 1;
     }
 

@@ -148,7 +148,7 @@ void EnGe3_WaitTillCardGiven(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void EnGe3_GiveCard(EnGe3* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnGe3_WaitTillCardGiven;

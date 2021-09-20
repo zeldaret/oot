@@ -264,7 +264,7 @@ void EnSth_GiveReward(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardUnobtainedTalk(EnSth* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         EnSth_SetupAction(this, EnSth_GiveReward);
         EnSth_GivePlayerItem(this, globalCtx);

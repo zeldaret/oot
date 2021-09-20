@@ -196,7 +196,7 @@ void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
 
     player->stateFlags2 |= 0x800000;
     // if dialog state is 7, player has played back the song
-    if (func_8010BDBC(&globalCtx->msgCtx) == 7) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_7) {
         func_8010BD58(globalCtx, 0x1A);
         this->actionFunc = func_80A1DBD4;
     }
@@ -207,7 +207,7 @@ void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
 
     player->stateFlags2 |= 0x800000;
     // if dialog state is 2, start song demonstration
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         this->behaviorFlags &= ~FU_WAIT;
         func_800ED858(4);              // seems to be related to setting instrument type
         func_8010BD58(globalCtx, 0xD); // play song demonstration, song 0xD = SoS
@@ -224,7 +224,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
     } else if (player->stateFlags2 & 0x1000000) {
         this->actor.textId = 0x5035;
-        func_8010B680(globalCtx, this->actor.textId, NULL);
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
         this->behaviorFlags |= FU_WAIT;
     } else if (Actor_IsTalking(&this->actor, globalCtx)) {

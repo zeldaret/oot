@@ -455,7 +455,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnGe2_WaitTillCardGiven;
@@ -481,7 +481,7 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, GlobalContext* globalCtx) {
     EnGe2_ChangeAction(this, GE2_ACTION_CAPTURETURN);
     func_8002DF54(globalCtx, &this->actor, 95);
     func_80078884(NA_SE_SY_FOUND);
-    func_8010B680(globalCtx, 0x6000, &this->actor);
+    Message_StartTextbox(globalCtx, 0x6000, &this->actor);
 }
 
 void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, GlobalContext* globalCtx) {

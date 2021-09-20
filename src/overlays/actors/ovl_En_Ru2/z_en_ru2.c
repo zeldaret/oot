@@ -651,7 +651,7 @@ void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
         func_80AF37AC();
     } else if (*unk_2C4 > kREG(4) + 50.0f) {
         this->actor.textId = 0x403E;
-        func_8010B680(globalCtx, this->actor.textId, NULL);
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->action = 17;
     }
 }
@@ -667,8 +667,8 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     msgCtx = &globalCtx->msgCtx;
     dialogState = func_8010BDBC(msgCtx);
 
-    if (dialogState == 3) {
-        if (this->unk_2C3 != 3) {
+    if (dialogState == TEXT_STATE_3) {
+        if (this->unk_2C3 != TEXT_STATE_3) {
             // I'm Komatsu! (cinema scene dev)
             osSyncPrintf("おれが小松だ！ \n");
             this->unk_2C2++;
@@ -685,7 +685,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     }
 
     this->unk_2C3 = dialogState;
-    if (func_8010BDBC(msgCtx) == 2) {
+    if (func_8010BDBC(msgCtx) == TEXT_STATE_2) {
         this->action = 18;
         func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
     }
@@ -788,7 +788,7 @@ void EnRu2_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_2C2 = 0;
-    this->unk_2C3 = 3;
+    this->unk_2C3 = TEXT_STATE_3;
 }
 
 void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx) {

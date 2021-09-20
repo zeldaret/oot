@@ -335,7 +335,8 @@ void func_80AAAA24(EnMd* this) {
 s16 func_80AAAC78(EnMd* this, GlobalContext* globalCtx) {
     s16 dialogState = func_8010BDBC(&globalCtx->msgCtx);
 
-    if ((this->unk_209 == 10) || (this->unk_209 == 5) || (this->unk_209 == 2) || (this->unk_209 == 1)) {
+    if ((this->unk_209 == TEXT_STATE_10) || (this->unk_209 == TEXT_STATE_5) || 
+        (this->unk_209 == TEXT_STATE_2) || (this->unk_209 == TEXT_STATE_1)) {
         if (this->unk_209 != dialogState) {
             this->unk_208++;
         }
@@ -353,7 +354,7 @@ u16 EnMd_GetTextKokiriForest(GlobalContext* globalCtx, EnMd* this) {
     }
 
     this->unk_208 = 0;
-    this->unk_209 = 0;
+    this->unk_209 = TEXT_STATE_0;
 
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         return 0x1045;
@@ -376,7 +377,7 @@ u16 EnMd_GetTextKokiriForest(GlobalContext* globalCtx, EnMd* this) {
 
 u16 EnMd_GetTextKokiriHome(GlobalContext* globalCtx, EnMd* this) {
     this->unk_208 = 0;
-    this->unk_209 = 0;
+    this->unk_209 = TEXT_STATE_0;
 
     if (gSaveContext.eventChkInf[4] & 1) {
         return 0x1028;
@@ -387,7 +388,7 @@ u16 EnMd_GetTextKokiriHome(GlobalContext* globalCtx, EnMd* this) {
 
 u16 EnMd_GetTextLostWoods(GlobalContext* globalCtx, EnMd* this) {
     this->unk_208 = 0;
-    this->unk_209 = 0;
+    this->unk_209 = TEXT_STATE_0;
 
     if (gSaveContext.eventChkInf[4] & 0x100) {
         if (gSaveContext.infTable[1] & 0x200) {
@@ -425,16 +426,16 @@ u16 EnMd_GetText(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
     EnMd* this = THIS;
     switch (func_80AAAC78(this, globalCtx)) {
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_0:
+        case TEXT_STATE_1:
+        case TEXT_STATE_3:
+        case TEXT_STATE_4:
+        case TEXT_STATE_6:
+        case TEXT_STATE_7:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             return 1;
-        case 2:
+        case TEXT_STATE_2:
             switch (this->actor.textId) {
                 case 0x1028:
                     gSaveContext.eventChkInf[0] |= 0x8000;
@@ -454,8 +455,8 @@ s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
                     return 2;
             }
             return 0;
-        case 5:
-            if (Message_ShouldAdvance(globalCtx) != 0) {
+        case TEXT_STATE_5:
+            if (Message_ShouldAdvance(globalCtx)) {
                 return 2;
             }
         default:

@@ -205,7 +205,7 @@ void EnDaikuKakariko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, GlobalContext* globalCtx) {
     s32 talkState = 2;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
         switch (this->actor.textId) {
             case 0x6061:
                 gSaveContext.infTable[23] |= 0x40;

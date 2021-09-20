@@ -353,19 +353,19 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
     s32 ret = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
+        case TEXT_STATE_0:
+        case TEXT_STATE_1:
             break;
-        case 2:
+        case TEXT_STATE_2:
             /* "I am the boss of the carpenters ..." (wtf?) */
             if (thisx->textId == 0x5028) {
                 gSaveContext.infTable[13] |= 0x0100;
             }
             ret = 0;
             break;
-        case 3:
+        case TEXT_STATE_3:
             break;
-        case 4:
+        case TEXT_STATE_4:
             if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
                 if (globalCtx->msgCtx.choiceIndex == 1) {
                     /* "Thanks a lot!" */
@@ -379,20 +379,20 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
                     gSaveContext.infTable[13] |= 0x0200;
                     return 2;
                 }
-                func_8010B720(globalCtx, thisx->textId);
+                Message_ContinueTextbox(globalCtx, thisx->textId);
                 gSaveContext.infTable[13] |= 0x0200;
             }
             break;
-        case 5:
+        case TEXT_STATE_5:
             if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
                 func_80106CCC(globalCtx);
                 ret = 0;
             }
             break;
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_6:
+        case TEXT_STATE_7:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
 
@@ -640,7 +640,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         if (this->currentReward < 0) {
             /* "Nope, nothing here!" */
-            func_8010B680(globalCtx, 0x501A, NULL);
+            Message_StartTextbox(globalCtx, 0x501A, NULL);
         } else {
             func_80106CCC(globalCtx);
         }

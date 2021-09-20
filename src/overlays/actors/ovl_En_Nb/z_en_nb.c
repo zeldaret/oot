@@ -1223,7 +1223,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
 
     textId = this->actor.textId;
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         if (textId == 0x6025) {
             EnNb_SetupPathMovement(this, globalCtx);
         } else {
@@ -1233,7 +1233,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             this->action = NB_IDLE_CRAWLSPACE;
         }
         this->actor.flags &= ~9;
-    } else if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    } else if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
         choiceIndex = globalCtx->msgCtx.choiceIndex;
 
         if (textId == 0x601D) {
@@ -1267,7 +1267,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             }
         }
 
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
     }
 }
 
@@ -1300,7 +1300,7 @@ void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB3B7C(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         this->action = NB_IDLE_AFTER_TALK;
         this->actor.flags &= ~9;
     }

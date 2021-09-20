@@ -859,7 +859,7 @@ s32 func_80986AD0(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986B2C(GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
         Player* player = GET_PLAYER(globalCtx);
 
         globalCtx->nextEntranceIndex = 0xCD;

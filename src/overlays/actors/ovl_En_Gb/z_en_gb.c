@@ -304,7 +304,7 @@ void func_80A2F83C(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void func_80A2F94C(EnGb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
         if (!(gSaveContext.infTable[0xB] & 0x40)) {
             gSaveContext.infTable[0xB] |= 0x40;
         }
@@ -314,7 +314,7 @@ void func_80A2F94C(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void func_80A2F9C0(EnGb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
         if (!(gSaveContext.infTable[0xB] & 0x40)) {
             gSaveContext.infTable[0xB] |= 0x40;
         }
@@ -326,7 +326,7 @@ void func_80A2F9C0(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void func_80A2FA50(EnGb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
         if (!(gSaveContext.infTable[0xB] & 0x40)) {
             gSaveContext.infTable[0xB] |= 0x40;
         }
@@ -344,14 +344,14 @@ void func_80A2FA50(EnGb* this, GlobalContext* globalCtx) {
 
             player->exchangeItemId = EXCH_ITEM_NONE;
             this->textId = 0x70F8;
-            func_8010B720(globalCtx, this->textId);
+            Message_ContinueTextbox(globalCtx, this->textId);
             this->actionFunc = func_80A2FB40;
         }
     }
 }
 
 void func_80A2FB40(EnGb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
         func_8002F434(&this->dyna.actor, globalCtx, GI_BOTTLE, 100.0f, 10.0f);
         this->actionFunc = func_80A2FBB0;
     }
@@ -367,7 +367,7 @@ void func_80A2FBB0(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void func_80A2FC0C(EnGb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && Message_ShouldAdvance(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
         Actor_IsTalking(&this->dyna.actor, globalCtx);
         func_80A2F180(this);
         this->actionFunc = func_80A2F83C;

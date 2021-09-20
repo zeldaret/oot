@@ -1518,11 +1518,11 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             // fallthrough
         case 1:
             if (this->work[CS_TIMER_2] == 20) {
-                func_8010B680(globalCtx, 0x6059, NULL);
+                Message_StartTextbox(globalCtx, 0x6059, NULL);
             }
 
             if (this->work[CS_TIMER_2] == 80) {
-                func_8010B680(globalCtx, 0x605A, NULL);
+                Message_StartTextbox(globalCtx, 0x605A, NULL);
             }
 
             this->subCamAt.x = 0.0f;
@@ -1832,7 +1832,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             updateCam = 1;
 
             if (this->work[CS_TIMER_1] == 30) {
-                func_8010B680(globalCtx, 0x6048, NULL);
+                Message_StartTextbox(globalCtx, 0x6048, NULL);
             }
 
             Math_ApproachF(&this->subCamUpdateRate, 0.01f, 1.0f, 0.0001f);
@@ -1910,7 +1910,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->subCamUpdateRate, 1.0f, 1.0f, 0.02f);
 
             if (this->work[CS_TIMER_1] == 30) {
-                func_8010B680(globalCtx, 0x6049, NULL);
+                Message_StartTextbox(globalCtx, 0x6049, NULL);
             }
 
             if (this->work[CS_TIMER_1] > 80) {
@@ -2074,7 +2074,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->subCamUpdateRate, 1.0f, 1.0f, 0.02f);
 
             if (this->work[CS_TIMER_1] == 30) {
-                func_8010B680(globalCtx, 0x604A, NULL);
+                Message_StartTextbox(globalCtx, 0x604A, NULL);
             }
 
             if (this->work[CS_TIMER_1] > 80) {
@@ -2531,7 +2531,7 @@ void BossTw_DeathCSMsgSfx(BossTw* this, GlobalContext* globalCtx) {
     }
 
     if (msgId2 != 0) {
-        func_8010B680(globalCtx, msgId2, NULL);
+        Message_StartTextbox(globalCtx, msgId2, NULL);
 
         if (sp35) {
             D_8094C876 = 10;
@@ -2541,7 +2541,7 @@ void BossTw_DeathCSMsgSfx(BossTw* this, GlobalContext* globalCtx) {
     }
 
     if (msgId1 != 0) {
-        func_8010B680(globalCtx, msgId1, NULL);
+        Message_StartTextbox(globalCtx, msgId1, NULL);
     }
 
     switch (kotakeAnim) {

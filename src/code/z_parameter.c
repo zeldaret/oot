@@ -3364,7 +3364,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             }
         }
 
-        if ((gSaveContext.timer2State == 5) && (func_8010BDBC(&globalCtx->msgCtx) == 5)) {
+        if ((gSaveContext.timer2State == 5) && (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5)) {
             // Trade quest timer reached 0
             D_8015FFE6 = 40;
             gSaveContext.cutsceneIndex = 0;
@@ -3668,7 +3668,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                                 D_8015FFE6 = 40;
                                                 gSaveContext.timer2State = 5;
                                                 gSaveContext.cutsceneIndex = 0;
-                                                func_8010B680(globalCtx, 0x71B0, NULL);
+                                                Message_StartTextbox(globalCtx, 0x71B0, NULL);
                                                 func_8002DF54(globalCtx, NULL, 8);
                                             } else {
                                                 D_8015FFE6 = 40;
@@ -3692,7 +3692,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                         gSaveContext.timer2Value++;
                                         if (gSaveContext.eventInf[1] & 1) {
                                             if (gSaveContext.timer2Value == 240) {
-                                                func_8010B680(globalCtx, 0x6083, NULL);
+                                                Message_StartTextbox(globalCtx, 0x6083, NULL);
                                                 gSaveContext.eventInf[1] &= ~1;
                                                 gSaveContext.timer2State = 0;
                                             }

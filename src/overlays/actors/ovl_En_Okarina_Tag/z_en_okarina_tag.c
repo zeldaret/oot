@@ -305,7 +305,7 @@ void func_80ABF7CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
     // "Open sesame sesame!"
     osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 開けゴマゴマゴマ！ ☆☆☆☆☆ %d\n" VT_RST, func_8010BDBC(&globalCtx->msgCtx));
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         if (!CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gSunSongTeachCs);
