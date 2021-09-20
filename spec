@@ -564,11 +564,7 @@ beginseg
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark_data.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
-#else
-    include "build/data/overlays/actors/z_kaleido_scope.reloc.o"
-#endif
 endseg
 
 beginseg
