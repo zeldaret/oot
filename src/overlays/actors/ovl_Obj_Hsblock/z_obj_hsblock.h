@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_HSBLOCK_H_
-#define _Z_OBJ_HSBLOCK_H_
+#ifndef Z_OBJ_HSBLOCK_H
+#define Z_OBJ_HSBLOCK_H
 
 #include "ultra64.h"
 #include "global.h"

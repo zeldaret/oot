@@ -176,8 +176,6 @@ static s16 D_8098CF80;
 static s16 sRainScale;
 static s16 D_8098CF84;
 
-extern Mtx D_01000000; // perspective mtx
-
 void DemoKankyo_SetupAction(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -301,19 +299,19 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
                 }
                 break;
             case DEMOKANKYO_WARP_OUT:
-                globalCtx->envCtx.unk_E2[0] = 0xFF;
-                globalCtx->envCtx.unk_E2[1] = 0xFF;
-                globalCtx->envCtx.unk_E2[2] = 0xFF;
-                globalCtx->envCtx.unk_E1 = 0;
+                globalCtx->envCtx.screenFillColor[0] = 0xFF;
+                globalCtx->envCtx.screenFillColor[1] = 0xFF;
+                globalCtx->envCtx.screenFillColor[2] = 0xFF;
+                globalCtx->envCtx.fillScreen = false;
                 if (this->warpTimer < 21 && this->warpTimer >= 15) {
                     temp = (this->warpTimer - 15.0f) / 5.0f;
-                    globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2[3] = 255 - 255 * temp;
+                    globalCtx->envCtx.fillScreen = true;
+                    globalCtx->envCtx.screenFillColor[3] = 255 - 255 * temp;
                 }
                 if (this->warpTimer < 15 && this->warpTimer >= 4) {
                     temp = (this->warpTimer - 4.0f) / 10.0f;
-                    globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2[3] = 255 * temp;
+                    globalCtx->envCtx.fillScreen = true;
+                    globalCtx->envCtx.screenFillColor[3] = 255 * temp;
                 }
                 if (this->warpTimer == 15) {
                     player->actor.draw = NULL;
@@ -386,7 +384,7 @@ void DemoKankyo_SetRockPos(DemoKankyo* this, GlobalContext* globalCtx, s32 param
     endPos.x = csAction->endPos.x;
     endPos.y = csAction->endPos.y;
     endPos.z = csAction->endPos.z;
-    temp_f0 = func_8006F93C(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
+    temp_f0 = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
     this->actor.world.pos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
     this->actor.world.pos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
     this->actor.world.pos.z = ((endPos.z - startPos.z) * temp_f0) + startPos.z;
@@ -818,7 +816,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
             case 2:
                 if (this->actor.params == DEMOKANKYO_WARP_OUT) {
                     if (i == 0) {
-                        func_800776E4(globalCtx);
+                        Environment_WarpSongLeave(globalCtx);
                         this->unk_150[i].unk_22++;
                     }
                 } else if (i + 1 == this->sparkleCounter && globalCtx->csCtx.state == CS_STATE_IDLE) {

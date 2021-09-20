@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DAIKU_KAKARIKO_H_
-#define _Z_EN_DAIKU_KAKARIKO_H_
+#ifndef Z_EN_DAIKU_KAKARIKO_H
+#define Z_EN_DAIKU_KAKARIKO_H
 
 #include "ultra64.h"
 #include "global.h"

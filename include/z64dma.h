@@ -1,5 +1,5 @@
-#ifndef _Z64_DMA_H_
-#define _Z64_DMA_H_
+#ifndef Z64_DMA_H
+#define Z64_DMA_H
 
 #include "ultra64.h"
 

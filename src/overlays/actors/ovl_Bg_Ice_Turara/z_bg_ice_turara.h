@@ -1,5 +1,5 @@
-#ifndef _Z_BG_ICE_TURARA_H_
-#define _Z_BG_ICE_TURARA_H_
+#ifndef Z_BG_ICE_TURARA_H
+#define Z_BG_ICE_TURARA_H
 
 #include "ultra64.h"
 #include "global.h"

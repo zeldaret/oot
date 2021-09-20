@@ -35,7 +35,7 @@ glabel D_8013C7F0
     .float 0.02
 
 .text
-glabel func_80074704
+glabel Environment_DrawRain
 /* AEB8A4 80074704 27BDFED8 */  addiu $sp, $sp, -0x128
 /* AEB8A8 80074708 3C0F8012 */  lui   $t7, %hi(D_8011FE70) # $t7, 0x8012
 /* AEB8AC 8007470C AFBF006C */  sw    $ra, 0x6c($sp)

@@ -1,5 +1,5 @@
-#ifndef _Z_EFF_SS_KAKERA_H_
-#define _Z_EFF_SS_KAKERA_H_
+#ifndef Z_EFF_SS_KAKERA_H
+#define Z_EFF_SS_KAKERA_H
 
 #include "ultra64.h"
 #include "global.h"

@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_HARDWARE_H_
-#define _ULTRA64_HARDWARE_H_
+#ifndef ULTRA64_HARDWARE_H
+#define ULTRA64_HARDWARE_H
 
 #define HW_REG(reg, type) *(volatile type*)((reg) | 0xa0000000)
 

@@ -1,5 +1,5 @@
-#ifndef _Z_ITEM_OCARINA_H_
-#define _Z_ITEM_OCARINA_H_
+#ifndef Z_ITEM_OCARINA_H
+#define Z_ITEM_OCARINA_H
 
 #include "ultra64.h"
 #include "global.h"
