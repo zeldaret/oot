@@ -252,7 +252,7 @@ void UCodeDisas_PrintVertices(UCodeDisas* this, Vtx* vtx, s32 count, s32 start) 
 // Todo: clean this up
 
 typedef struct {
-    char cmd;
+    s8 cmd;
     u8 v0;
     u8 v1;
     u8 wd;
@@ -260,9 +260,9 @@ typedef struct {
 
 typedef struct {
     int cmd : 8;
-    unsigned char pad;
-    unsigned char prim_min_level;
-    unsigned char prim_level;
+    u8 pad;
+    u8 prim_min_level;
+    u8 prim_level;
     u8 r;
     u8 g;
     u8 b;
@@ -277,9 +277,9 @@ typedef struct {
 } Gsetprimdepth;
 
 typedef struct {
-    int cmd : 8;
-    unsigned int type : 8;
-    unsigned int len : 16;
+    s32 cmd : 8;
+    u32 type : 8;
+    u32 len : 16;
     union {
         u32 u32;
         f32 f32;
@@ -322,10 +322,10 @@ typedef struct {
 } GsetothermodeMod;
 
 typedef struct {
-    unsigned int cmd : 8;
-    unsigned int par : 8;
-    unsigned int len : 16;
-    unsigned int addr;
+    u32 cmd : 8;
+    u32 par : 8;
+    u32 len : 16;
+    u32 addr;
 } Gdma2;
 
 typedef union {
