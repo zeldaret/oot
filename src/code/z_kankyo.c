@@ -595,53 +595,50 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 unused) {
     }
 }
 
-#ifdef NON_MATCHING
 void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
     u32 size;
     u8 i;
     u8 newSkybox1Index = 0xFF;
     u8 newSkybox2Index = 0xFF;
     u8 skyboxBlend = 0;
-    struct_8011FC1C* entry;
 
-    if (skyboxId == SKYBOX_CUTSCENE_MAP) { // C18
+    if (skyboxId == SKYBOX_CUTSCENE_MAP) {
         envCtx->unk_17 = 3;
 
         for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->unk_17]); i++) {
-            entry = &D_8011FC1C[envCtx->unk_17][i];
-            if (((void)0, gSaveContext.skyboxTime) >= entry->startTime &&
-                (((void)0, gSaveContext.skyboxTime) < entry->endTime || entry->endTime == 0xFFFF)) {
-                if (entry->blend) {
-                    envCtx->skyboxBlend =
-                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) *
-                        255;
+            if (gSaveContext.skyboxTime >= D_8011FC1C[envCtx->unk_17][i].startTime &&
+                (gSaveContext.skyboxTime < D_8011FC1C[envCtx->unk_17][i].endTime ||
+                 D_8011FC1C[envCtx->unk_17][i].endTime == 0xFFFF)) {
+                if (D_8011FC1C[envCtx->unk_17][i].blend) {
+                    envCtx->skyboxBlend = Environment_LerpWeight(D_8011FC1C[envCtx->unk_17][i].endTime,
+                                                                 D_8011FC1C[envCtx->unk_17][i].startTime,
+                                                                 ((void)0, gSaveContext.skyboxTime)) *
+                                          255;
                 } else {
                     envCtx->skyboxBlend = 0;
                 }
                 break;
             }
         }
-    } else if (skyboxId == SKYBOX_NORMAL_SKY && !envCtx->skyboxDisabled) { // d60 && d74
+    } else if (skyboxId == SKYBOX_NORMAL_SKY && !envCtx->skyboxDisabled) {
         for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->unk_17]); i++) {
-            entry = D_8011FC1C[envCtx->unk_17] + i;
+            if (gSaveContext.skyboxTime >= D_8011FC1C[envCtx->unk_17][i].startTime &&
+                (gSaveContext.skyboxTime < D_8011FC1C[envCtx->unk_17][i].endTime ||
+                 D_8011FC1C[envCtx->unk_17][i].endTime == 0xFFFF)) {
+                newSkybox1Index = D_8011FC1C[envCtx->unk_17][i].skybox1Index;
+                newSkybox2Index = D_8011FC1C[envCtx->unk_17][i].skybox2Index;
+                gSkyboxBlendingEnabled = D_8011FC1C[envCtx->unk_17][i].blend;
 
-            if (((void)0, gSaveContext.skyboxTime) >= entry->startTime &&
-                (((void)0, gSaveContext.skyboxTime) < entry->endTime || entry->endTime == 0xFFFF)) {
-                gSkyboxBlendingEnabled = entry->blend;
-                newSkybox1Index = entry->skybox1Index;
-                newSkybox2Index = entry->skybox2Index;
-
-                if (entry->blend) {
-                    entry = &D_8011FC1C[envCtx->unk_17][i];
-
-                    skyboxBlend =
-                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) *
-                        255;
+                if (gSkyboxBlendingEnabled) {
+                    skyboxBlend = Environment_LerpWeight(D_8011FC1C[envCtx->unk_17][i].endTime,
+                                                         D_8011FC1C[envCtx->unk_17][i].startTime,
+                                                         ((void)0, gSaveContext.skyboxTime)) *
+                                  255;
                 } else {
-                    entry = &D_8011FC1C[envCtx->unk_17][i];
-                    skyboxBlend =
-                        Environment_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) *
-                        255;
+                    skyboxBlend = Environment_LerpWeight(D_8011FC1C[envCtx->unk_17][i].endTime,
+                                                         D_8011FC1C[envCtx->unk_17][i].startTime,
+                                                         ((void)0, gSaveContext.skyboxTime)) *
+                                  255;
 
                     skyboxBlend = (skyboxBlend < 0x80) ? 0xFF : 0;
 
@@ -698,7 +695,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         if (envCtx->skyboxDmaState == SKYBOX_DMA_FILE1_DONE) {
             envCtx->skyboxDmaState = SKYBOX_DMA_PAL1_START;
 
-            if (((newSkybox1Index & 4) >> 2) != (newSkybox1Index & 1)) { // & 1 at 12e8
+            if ((newSkybox1Index & 1) ^ ((newSkybox1Index & 4) >> 2)) {
                 size = gSkyboxFiles[newSkybox1Index].pallete.vromEnd - gSkyboxFiles[newSkybox1Index].pallete.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2],
@@ -716,7 +713,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         if (envCtx->skyboxDmaState == SKYBOX_DMA_FILE2_DONE) {
             envCtx->skyboxDmaState = SKYBOX_DMA_PAL2_START;
 
-            if (((newSkybox2Index & 4) >> 2) != (newSkybox2Index & 1)) {
+            if ((newSkybox2Index & 1) ^ ((newSkybox2Index & 4) >> 2)) {
                 size = gSkyboxFiles[newSkybox2Index].pallete.vromEnd - gSkyboxFiles[newSkybox2Index].pallete.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2],
@@ -744,9 +741,6 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         envCtx->skyboxBlend = skyboxBlend;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Environment_UpdateSkybox.s")
-#endif
 
 void Environment_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLightsIndex) {
     if (waterLightsIndex == 0x1F) {
@@ -1599,23 +1593,21 @@ f32 func_800746DC(void) {
     return Rand_ZeroOne() - 0.5f;
 }
 
-#ifdef NON_MATCHING
-// float regalloc, but appears to be equivalent
 void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx) {
     s16 i;
+    s32 pad;
     Vec3f vec;
+    f32 temp1;
+    f32 temp2;
+    f32 temp3;
     f32 length;
-    Vec3f norm;
     f32 rotX;
     f32 rotY;
-    f32 tempY;
     f32 x50;
     f32 y50;
     f32 z50;
     f32 x280;
     f32 z280;
-    f32 temp;
-    f32 temp2;
     Vec3f unused = { 0.0f, 0.0f, 0.0f };
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
     Player* player = GET_PLAYER(globalCtx);
@@ -1629,16 +1621,16 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
 
         length = sqrtf(SQXYZ(vec));
 
-        norm.x = vec.x / length;
-        norm.y = vec.y / length;
-        norm.z = vec.z / length;
+        temp1 = vec.x / length;
+        temp2 = vec.y / length;
+        temp3 = vec.z / length;
 
-        x50 = view->eye.x + norm.x * 50.0f;
-        y50 = view->eye.y + norm.y * 50.0f;
-        z50 = view->eye.z + norm.z * 50.0f;
+        x50 = view->eye.x + temp1 * 50.0f;
+        y50 = view->eye.y + temp2 * 50.0f;
+        z50 = view->eye.z + temp3 * 50.0f;
 
-        x280 = view->eye.x + norm.x * 280.0f;
-        z280 = view->eye.z + norm.z * 280.0f;
+        x280 = view->eye.x + temp1 * 280.0f;
+        z280 = view->eye.z + temp3 * 280.0f;
 
         if (globalCtx->envCtx.unk_EE[1]) {
             gDPPipeSync(POLY_XLU_DISP++);
@@ -1648,25 +1640,25 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
 
         // draw rain drops
         for (i = 0; i < globalCtx->envCtx.unk_EE[1]; i++) {
-            vec.x = Rand_ZeroOne();
-            vec.y = Rand_ZeroOne();
-            vec.z = Rand_ZeroOne();
+            temp2 = Rand_ZeroOne();
+            temp1 = Rand_ZeroOne();
+            temp3 = Rand_ZeroOne();
 
-            Matrix_Translate((vec.x - 0.7f) * 100.0f + x50, (vec.y - 0.7f) * 100.0f + y50,
-                             (vec.z - 0.7f) * 100.0f + z50, MTXMODE_NEW);
+            Matrix_Translate((temp2 - 0.7f) * 100.0f + x50, (temp1 - 0.7f) * 100.0f + y50,
+                             (temp3 - 0.7f) * 100.0f + z50, MTXMODE_NEW);
 
-            temp = windDirection.x = globalCtx->envCtx.windDirection.x;
+            windDirection.x = globalCtx->envCtx.windDirection.x;
             windDirection.y = globalCtx->envCtx.windDirection.y;
-            temp2 = windDirection.z = globalCtx->envCtx.windDirection.z;
+            windDirection.z = globalCtx->envCtx.windDirection.z;
 
-            tempY = windDirection.y + 500.0f + Rand_ZeroOne() * 200.0f;
-            // float regalloc is bad around here.
-            z50 = temp2;
-            length = sqrtf(SQ(temp) + SQ(z50));
+            vec.x = windDirection.x;
+            vec.y = windDirection.y + 500.0f + Rand_ZeroOne() * 200.0f;
+            vec.z = windDirection.z;
+            length = sqrtf(SQXZ(vec));
 
             gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            rotX = Math_Atan2F(length, -tempY);
-            rotY = Math_Atan2F(z50, temp);
+            rotX = Math_Atan2F(length, -vec.y);
+            rotY = Math_Atan2F(vec.z, vec.x);
             Matrix_RotateY(-rotY, MTXMODE_APPLY);
             Matrix_RotateX(M_PI / 2 - rotX, MTXMODE_APPLY);
             Matrix_Scale(0.4f, 1.2f, 0.4f, MTXMODE_APPLY);
@@ -1706,11 +1698,6 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
         CLOSE_DISPS(gfxCtx, "../z_kankyo.c", 2946);
     }
 }
-#else
-Vec3f D_8011FE70 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_8011FE7C = { 0.0f, 0.0f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Environment_DrawRain.s")
-#endif
 
 void func_80074CE8(GlobalContext* globalCtx, u32 arg1) {
     if ((globalCtx->envCtx.unk_BD != arg1) && (globalCtx->envCtx.unk_D8 >= 1.0f) &&

@@ -61,8 +61,6 @@ void func_800AF178(SkyboxContext* skyboxCtx, s32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-// Some reoderings at the end of the first case, regalloc differences
 void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId) {
     u32 size;
     s16 i;
@@ -113,9 +111,7 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
             DmaMgr_SendRequest1(skyboxCtx->staticSegments[1], gSkyboxFiles[sp40].file.vromStart, size, "../z_vr_box.c",
                                 1064);
 
-            // reorderings in the rest of this case
-
-            if (((u8)(sp41 & 4) >> 2) != (sp41 & 1)) {
+            if ((sp41 & 1) ^ ((sp41 & 4) >> 2)) {
                 size = gSkyboxFiles[sp41].pallete.vromEnd - gSkyboxFiles[sp41].pallete.vromStart;
                 skyboxCtx->staticSegments[2] = GameState_Alloc(&globalCtx->state, size * 2, "../z_vr_box.c", 1072);
 
@@ -625,10 +621,6 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
             break;
     }
 }
-#else
-void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_vr_box/Skybox_Setup.s")
-#endif
 
 void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId) {
     skyboxCtx->unk_140 = 0;
