@@ -881,13 +881,14 @@ f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame,
 void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx);
 void Environment_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLightsIndex);
 void Environment_DisableUnderwaterLights(GlobalContext* globalCtx);
-void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
-                   MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx);
+void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx,
+                        PauseContext* pauseCtx, MessageContext* msgCtx, GameOverContext* gameOverCtx,
+                        GraphicsContext* gfxCtx);
 void Environment_DrawSunAndMoon(GlobalContext* globalCtx);
-void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
-                             Vec3f pos, s32 unused);
-void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
-                          Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9);
+void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
+                                  GraphicsContext* gfxCtx, Vec3f pos, s32 unused);
+void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
+                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9);
 void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx);
 void func_80074CE8(GlobalContext* globalCtx, u32 arg1);
 void Environment_DrawSkyboxFilters(GlobalContext* globalCtx);
