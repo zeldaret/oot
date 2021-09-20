@@ -39,7 +39,7 @@ glabel D_8013C7A8
     .float 0.005
 
 .text
-glabel func_80070C24
+glabel Environment_Update
 /* AE7DC4 80070C24 27BDFF70 */  addiu $sp, $sp, -0x90
 /* AE7DC8 80070C28 3C0D8016 */  lui   $t5, %hi(gSaveContext) # $t5, 0x8016
 /* AE7DCC 80070C2C 25ADE660 */  addiu $t5, %lo(gSaveContext) # addiu $t5, $t5, -0x19a0
@@ -200,16 +200,16 @@ glabel func_80070C24
 /* AE8014 80070E74 8DAF1360 */   lw    $t7, 0x1360($t5)
 /* AE8018 80070E78 8DB80010 */  lw    $t8, 0x10($t5)
 .L80070E7C:
-/* AE801C 80070E7C 3C038012 */  lui   $v1, %hi(D_8011FB40) # $v1, 0x8012
-/* AE8020 80070E80 2463FB40 */  addiu $v1, %lo(D_8011FB40) # addiu $v1, $v1, -0x4c0
+/* AE801C 80070E7C 3C038012 */  lui   $v1, %hi(gTimeIncrement) # $v1, 0x8012
+/* AE8020 80070E80 2463FB40 */  addiu $v1, %lo(gTimeIncrement) # addiu $v1, $v1, -0x4c0
 /* AE8024 80070E84 13000004 */  beqz  $t8, .L80070E98
 /* AE8028 80070E88 00000000 */   nop   
 /* AE802C 80070E8C 94620000 */  lhu   $v0, ($v1)
 /* AE8030 80070E90 28410190 */  slti  $at, $v0, 0x190
 /* AE8034 80070E94 14200007 */  bnez  $at, .L80070EB4
 .L80070E98:
-/* AE8038 80070E98 3C038012 */   lui   $v1, %hi(D_8011FB40) # $v1, 0x8012
-/* AE803C 80070E9C 2463FB40 */  addiu $v1, %lo(D_8011FB40) # addiu $v1, $v1, -0x4c0
+/* AE8038 80070E98 3C038012 */   lui   $v1, %hi(gTimeIncrement) # $v1, 0x8012
+/* AE803C 80070E9C 2463FB40 */  addiu $v1, %lo(gTimeIncrement) # addiu $v1, $v1, -0x4c0
 /* AE8040 80070EA0 94790000 */  lhu   $t9, ($v1)
 /* AE8044 80070EA4 95AE000C */  lhu   $t6, 0xc($t5)
 /* AE8048 80070EA8 01D97821 */  addu  $t7, $t6, $t9
@@ -223,8 +223,8 @@ glabel func_80070C24
 .L80070EC4:
 /* AE8064 80070EC4 8DAF1360 */  lw    $t7, 0x1360($t5)
 .L80070EC8:
-/* AE8068 80070EC8 3C038012 */  lui   $v1, %hi(D_8011FB40) # $v1, 0x8012
-/* AE806C 80070ECC 2463FB40 */  addiu $v1, %lo(D_8011FB40) # addiu $v1, $v1, -0x4c0
+/* AE8068 80070EC8 3C038012 */  lui   $v1, %hi(gTimeIncrement) # $v1, 0x8012
+/* AE806C 80070ECC 2463FB40 */  addiu $v1, %lo(gTimeIncrement) # addiu $v1, $v1, -0x4c0
 /* AE8070 80070ED0 29E10005 */  slti  $at, $t7, 5
 /* AE8074 80070ED4 10200004 */  beqz  $at, .L80070EE8
 /* AE8078 80070ED8 3C0B8016 */   lui   $t3, %hi(gGameInfo) # $t3, 0x8016
@@ -297,7 +297,7 @@ glabel func_80070C24
 /* AE8164 80070FC4 AC790004 */  sw    $t9, 4($v1)
 /* AE8168 80070FC8 8FA40090 */  lw    $a0, 0x90($sp)
 /* AE816C 80070FCC AFAA007C */  sw    $t2, 0x7c($sp)
-/* AE8170 80070FD0 0C01C1C6 */  jal   func_80070718
+/* AE8170 80070FD0 0C01C1C6 */  jal   Environment_PrintDebugInfo
 /* AE8174 80070FD4 E7AE0088 */   swc1  $f14, 0x88($sp)
 /* AE8178 80070FD8 8FAF0074 */  lw    $t7, 0x74($sp)
 /* AE817C 80070FDC 8FAA007C */  lw    $t2, 0x7c($sp)
@@ -405,7 +405,7 @@ glabel func_80070C24
 /* AE8300 80071160 30E5FFFF */  andi  $a1, $a3, 0xffff
 /* AE8304 80071164 AFA80034 */  sw    $t0, 0x34($sp)
 /* AE8308 80071168 AFAA007C */  sw    $t2, 0x7c($sp)
-/* AE830C 8007116C 0C01BE4F */  jal   func_8006F93C
+/* AE830C 8007116C 0C01BE4F */  jal   Environment_LerpWeight
 /* AE8310 80071170 E7AE0088 */   swc1  $f14, 0x88($sp)
 /* AE8314 80071174 920F001F */  lbu   $t7, 0x1f($s0)
 /* AE8318 80071178 8FA80034 */  lw    $t0, 0x34($sp)

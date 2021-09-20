@@ -894,11 +894,11 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Math_SmoothStepToF(&this->unk_240, 0.0f, 1, 10.0f, 0.0);
         }
 
-        if ((globalCtx->envCtx.unk_8C[1][2] == 0) && (globalCtx->envCtx.unk_8C[0][2] == 0)) {
-            globalCtx->envCtx.unk_8C[1][0] = (u8)this->unk_240;
-            globalCtx->envCtx.unk_8C[1][1] = (u8)(this->unk_240 * 0.1f);
-            globalCtx->envCtx.unk_8C[0][0] = (u8)this->unk_240;
-            globalCtx->envCtx.unk_8C[0][1] = (u8)(this->unk_240 * 0.1f);
+        if ((globalCtx->envCtx.adjLight1Color[2] == 0) && (globalCtx->envCtx.adjAmbientColor[2] == 0)) {
+            globalCtx->envCtx.adjLight1Color[0] = (u8)this->unk_240;
+            globalCtx->envCtx.adjLight1Color[1] = (u8)(this->unk_240 * 0.1f);
+            globalCtx->envCtx.adjAmbientColor[0] = (u8)this->unk_240;
+            globalCtx->envCtx.adjAmbientColor[1] = (u8)(this->unk_240 * 0.1f);
         }
     }
 
@@ -916,10 +916,10 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
         Math_SmoothStepToF(&this->colorFilterMin, 900.0f, 1, 10.0f, 0.0);
         Math_SmoothStepToF(&this->colorFilterMax, 1099.0f, 1, 10.0f, 0.0);
     } else {
-        Math_SmoothStepToF(&this->colorFilterR, globalCtx->lightCtx.unk_07, 1, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->colorFilterG, globalCtx->lightCtx.unk_08, 1.0f, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->colorFilterB, globalCtx->lightCtx.unk_09, 1.0f, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->colorFilterMin, globalCtx->lightCtx.unk_0A, 1.0, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterR, globalCtx->lightCtx.fogColor[0], 1, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterG, globalCtx->lightCtx.fogColor[1], 1.0f, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterB, globalCtx->lightCtx.fogColor[2], 1.0f, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterMin, globalCtx->lightCtx.fogNear, 1.0, 5.0f, 0.0);
         Math_SmoothStepToF(&this->colorFilterMax, 1000.0f, 1, 5.0f, 0.0);
     }
 
@@ -1137,7 +1137,7 @@ void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, BossDodongo_OverrideLimbDraw,
                       BossDodongo_PostLimbDraw, this);
 
-    POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+    POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3981);
 

@@ -847,51 +847,52 @@ Gfx gEmptyDL[] = {
     gsSPEndDisplayList(),
 };
 
-Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f) {
-    if (f == n) {
-        f++;
+Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far) {
+    if (far == near) {
+        far++;
     }
-    ASSERT(n != f, "n != f", "../z_rcp.c", 1155);
+
+    ASSERT(near != far, "n != f", "../z_rcp.c", 1155);
 
     gDPSetFogColor(gfx++, r, g, b, a);
 
-    if (n >= 1000) {
+    if (near >= 1000) {
         gSPFogFactor(gfx++, 0, 0);
-    } else if (n >= 997) {
+    } else if (near >= 997) {
         gSPFogFactor(gfx++, 0x7FFF, 0x8100);
-    } else if (n < 0) {
+    } else if (near < 0) {
         gSPFogFactor(gfx++, 0, 255);
     } else {
-        gSPFogPosition(gfx++, n, f);
+        gSPFogPosition(gfx++, near, far);
     }
 
     return gfx;
 }
 
-Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f) {
-    if (f == n) {
-        f++;
+Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far) {
+    if (far == near) {
+        far++;
     }
-    ASSERT(n != f, "n != f", "../z_rcp.c", 1187);
+    ASSERT(near != far, "n != f", "../z_rcp.c", 1187);
 
     gDPPipeSync(gfx++);
     gDPSetFogColor(gfx++, r, g, b, a);
 
-    if (n >= 1000) {
+    if (near >= 1000) {
         gSPFogFactor(gfx++, 0, 0);
-    } else if (n >= 997) {
+    } else if (near >= 997) {
         gSPFogFactor(gfx++, 0x7FFF, 0x8100);
-    } else if (n < 0) {
+    } else if (near < 0) {
         gSPFogFactor(gfx++, 0, 255);
     } else {
-        gSPFogPosition(gfx++, n, f);
+        gSPFogPosition(gfx++, near, far);
     }
 
     return gfx;
 }
 
-Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f) {
-    return Gfx_SetFog(gfx, r, g, b, a, n, f);
+Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far) {
+    return Gfx_SetFog(gfx, r, g, b, a, near, far);
 }
 
 Gfx* Gfx_CallSetupDLImpl(Gfx* gfx, u32 i) {

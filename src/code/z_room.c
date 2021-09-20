@@ -131,7 +131,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp90, &sp84, &sp80);
         if (-(f32)polygonDlist->unk_06 < sp84.z) {
             temp_f2 = sp84.z - polygonDlist->unk_06;
-            if (temp_f2 < globalCtx->lightCtx.unk_0C) {
+            if (temp_f2 < globalCtx->lightCtx.fogFar) {
                 phi_v0 = spB4;
                 spA4->unk_00 = polygonDlist;
                 spA4->unk_04 = temp_f2;
