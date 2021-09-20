@@ -943,11 +943,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Cobra"
     include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra_reloc.o"
-#else
-    include "build/data/overlays/actors/z_bg_jya_cobra.reloc.o"
-#endif
 endseg
 
 beginseg
