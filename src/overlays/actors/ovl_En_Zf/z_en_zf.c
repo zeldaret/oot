@@ -52,13 +52,11 @@ void func_80B49B60(EnZf* this, f32 arg1);
 s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this);
 s32 func_80B49E4C(GlobalContext* globalCtx, EnZf* this);
 
-
 #define PLATFORM_INDEX_DOWNSTAIRS_MIN 0
 #define PLATFORM_INDEX_DOWNSTAIRS_INNER_MAX 5
 #define PLATFORM_INDEX_DOWNSTAIRS_MAX 7
 #define PLATFORM_INDEX_UPSTAIRS_MIN (PLATFORM_INDEX_DOWNSTAIRS_MAX + 1)
 #define PLATFORM_INDEX_UPSTAIRS_INNER_MAX 15
-
 
 /** Array of platform positions in Dodongo's Cavern miniboss room.
  *  0 -  7 : Downstairs
@@ -293,7 +291,7 @@ s16 EnZf_SecondaryFloorCheck(EnZf* this, GlobalContext* globalCtx, f32 dist) {
 void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnZf* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EffectBlureInit1 blureInit;
     f32 posDiff;
 
@@ -394,8 +392,10 @@ s16 EnZf_FindPlatform(Vec3f* pos, s16 startIndex) {
     }
 
     if ((startIndex != -1) && ((sPlatformPositions[startIndex].y - 150.0f) <= pos->y) &&
-        (pos->y <= (sPlatformPositions[startIndex].y + 150.0f)) && ((sPlatformPositions[startIndex].x - rangeXZ) <= pos->x) &&
-        (pos->x <= (sPlatformPositions[startIndex].x + rangeXZ)) && ((sPlatformPositions[startIndex].z - rangeXZ) <= pos->z) &&
+        (pos->y <= (sPlatformPositions[startIndex].y + 150.0f)) &&
+        ((sPlatformPositions[startIndex].x - rangeXZ) <= pos->x) &&
+        (pos->x <= (sPlatformPositions[startIndex].x + rangeXZ)) &&
+        ((sPlatformPositions[startIndex].z - rangeXZ) <= pos->z) &&
         (pos->z <= (sPlatformPositions[startIndex].z + rangeXZ))) {
         return startIndex;
     }
@@ -413,7 +413,7 @@ s16 EnZf_FindPlatform(Vec3f* pos, s16 startIndex) {
 s16 func_80B44870(Vec3f* pos, s16 curPlatform, s16 arg2, GlobalContext* globalCtx) {
     f32 distToCurLoopPlatform;
     f32 platformMinDist = 585.0f;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 initialPlatform = curPlatform;
     f32 playerMaxDist = 400.0f;
     f32 smallMaxRange = 99998.0f;
@@ -445,7 +445,7 @@ s16 func_80B44870(Vec3f* pos, s16 curPlatform, s16 arg2, GlobalContext* globalCt
             continue;
         }
         if ((playerPlatform == -1) &&
-             (Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[curLoopPlatform]) < playerMaxDist)) {
+            (Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[curLoopPlatform]) < playerMaxDist)) {
             continue;
         }
         distToCurLoopPlatform = Math_Vec3f_DistXYZ(pos, &sPlatformPositions[curLoopPlatform]);
@@ -469,7 +469,8 @@ s16 func_80B44870(Vec3f* pos, s16 curPlatform, s16 arg2, GlobalContext* globalCt
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[altNextPlatform]);
 
     if (altNextPlatform > 0) {
-        s16 nextPlatformToPlayerYaw = Math_Vec3f_Yaw(pos, &sPlatformPositions[nextPlatform]) - Math_Vec3f_Yaw(pos, &player->actor.world.pos);
+        s16 nextPlatformToPlayerYaw =
+            Math_Vec3f_Yaw(pos, &sPlatformPositions[nextPlatform]) - Math_Vec3f_Yaw(pos, &player->actor.world.pos);
 
         if (ABS(nextPlatformToPlayerYaw) < 0x36B0) {
             nextPlatform = altNextPlatform;
@@ -485,7 +486,7 @@ s16 func_80B44870(Vec3f* pos, s16 curPlatform, s16 arg2, GlobalContext* globalCt
 s16 func_80B44B14(Vec3f* pos, s16 curPlatform, s16 arg2, GlobalContext* globalCtx) {
     s16 curLoopPlatform = PLATFORM_INDEX_DOWNSTAIRS_MAX;
     s16 minIndex = PLATFORM_INDEX_DOWNSTAIRS_MIN;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 nextPlatform = EnZf_FindPlatform(&player->actor.world.pos, -1);
     f32 minRange = 500.0f;
     f32 smallMaxRange = 99998.0f;
@@ -505,7 +506,8 @@ s16 func_80B44B14(Vec3f* pos, s16 curPlatform, s16 arg2, GlobalContext* globalCt
             continue;
         }
         if (curLoopPlatform != nextPlatform) {
-            f32 curPlatformDistToPlayer = Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[curLoopPlatform]);
+            f32 curPlatformDistToPlayer =
+                Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[curLoopPlatform]);
 
             if (curPlatformDistToPlayer < smallMaxRange) {
                 largeMaxRange = smallMaxRange;
@@ -534,7 +536,7 @@ s16 func_80B44B14(Vec3f* pos, s16 curPlatform, s16 arg2, GlobalContext* globalCt
 // Player not targeting this or another EnZf?
 s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this) {
     Actor* targetedActor;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->actor.params >= 0) {
         if (player->stateFlags1 & 0x6000) { // Hanging or climbing
@@ -700,7 +702,7 @@ void func_80B45384(EnZf* this) {
 }
 
 void func_80B4543C(EnZf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s16 angleToPlayer;
 
@@ -774,18 +776,18 @@ void func_80B456B4(EnZf* this, GlobalContext* globalCtx) {
 void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
     s32 sp54;
     s32 sp50;
-    s32 pad;
+    s32 temp;
     s16 temp_v1;
     s16 sp48;
     f32 sp44;
     f32 sp40;
     Player* player;
-    f32 sp30;
+    s32 sp30;
 
     sp48 = -1;
     sp44 = 350.0f;
     sp40 = 0.0f;
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
 
     if (this->actor.params >= 0) {
         sp48 = EnZf_FindPlatform(&player->actor.world.pos, sp48);
@@ -797,8 +799,10 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
     }
 
     if (!func_80B49C2C(globalCtx, this)) {
+
         if (sp48 != this->curPlatform) {
-            this->nextPlatform = func_80B44B14(&this->actor.world.pos, this->curPlatform, this->homePlatform, globalCtx);
+            this->nextPlatform =
+                func_80B44B14(&this->actor.world.pos, this->curPlatform, this->homePlatform, globalCtx);
 
             if ((sp48 < 0) && (this->nextPlatform == this->curPlatform)) {
                 sp48 = this->curPlatform;
@@ -860,7 +864,7 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
         sp54 = this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
         sp50 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        sp30 = ((void)0, ABS(this->skelAnime.playSpeed));
+        sp30 = (f32)ABS(this->skelAnime.playSpeed);
 
         if (sp48 == this->curPlatform) {
             if (!Actor_IsFacingPlayer(&this->actor, 0x11C7)) {
@@ -910,9 +914,12 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
         }
 
-        if ((sp54 != (s32)this->skelAnime.curFrame) &&
-            (((sp50 < 2) && (sp54 + (s32)sp30 >= 4)) || ((sp50 < 0x20) && (sp54 + (s32)sp30 >= 0x22)))) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
+        if (sp54 != (s32)this->skelAnime.curFrame) {
+            temp = sp30 + sp54;
+
+            if (((sp50 < 2) && (temp >= 4)) || ((sp50 < 32) && (temp >= 34))) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
+            }
         }
     }
 }
@@ -975,7 +982,7 @@ void func_80B4604C(EnZf* this) {
 void func_80B46098(EnZf* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 phi_f2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 temp_v0;
     s16 phi_v1;
 
@@ -1051,12 +1058,10 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 curKeyFrame;
     s32 prevKeyFrame;
-    s32 nextKeyFrame;
-    Player* player = PLAYER;
-    f32 extraRange;
-    s32 pad2;
+    s32 playSpeed;
+    Player* player = GET_PLAYER(globalCtx);
+    f32 baseRange = 0.0f;
 
-    extraRange = 0.0f;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4000, 1);
 
     if (!func_80B49C2C(globalCtx, this) &&
@@ -1088,9 +1093,7 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
                     phi_v0_3 = (this->actor.shape.rot.y + 0x3FFF);
                 } else {
                     phi_v0_3 = (this->actor.shape.rot.y - 0x3FFF);
-                    ;
                 }
-
                 phi_v0_3 = this->actor.wallYaw - phi_v0_3;
             } else {
                 this->actor.speedXZ *= -0.8f;
@@ -1108,12 +1111,12 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
         }
 
         if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
-            extraRange = 100.0f;
+            baseRange = 100.0f;
         }
 
-        if (this->actor.xzDistToPlayer <= (70.0f + extraRange)) {
+        if (this->actor.xzDistToPlayer <= (70.0f + baseRange)) {
             Math_SmoothStepToF(&this->unk_408, -4.0f, 1.0f, 1.5f, 0.0f);
-        } else if ((90.0f + extraRange) < this->actor.xzDistToPlayer) {
+        } else if ((90.0f + baseRange) < this->actor.xzDistToPlayer) {
             Math_SmoothStepToF(&this->unk_408, 4.0f, 1.0f, 1.5f, 0.0f);
         } else {
             Math_SmoothStepToF(&this->unk_408, 0.0f, 1.0f, 5.65f, 0.0f);
@@ -1135,11 +1138,13 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
         curKeyFrame = this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
         prevKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        nextKeyFrame = (s32)ABS(this->skelAnime.playSpeed) + curKeyFrame;
+        playSpeed = (f32)ABS(this->skelAnime.playSpeed);
 
-        if ((curKeyFrame != (s32)this->skelAnime.curFrame) &&
-            (((prevKeyFrame < 14) && (nextKeyFrame >= 16)) || ((prevKeyFrame < 27) && (nextKeyFrame >= 29)))) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
+        if (curKeyFrame != (s32)this->skelAnime.curFrame) {
+            s32 nextKeyFrame = playSpeed + curKeyFrame;
+            if (((prevKeyFrame < 14) && (nextKeyFrame > 15)) || ((prevKeyFrame < 27) && (nextKeyFrame > 28))) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
+            }
         }
 
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
@@ -1174,7 +1179,7 @@ void func_80B46A24(EnZf* this) {
 }
 
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 rotDiff;
     s16 yawDiff;
 
@@ -1545,7 +1550,8 @@ void func_80B4781C(EnZf* this, GlobalContext* globalCtx) {
                     func_80B474E4(this);
                 } else if ((sp74 < 80.0f)) {
                     this->curPlatform = EnZf_FindPlatform(&this->actor.world.pos, this->curPlatform);
-                    this->nextPlatform = func_80B44870(&this->actor.world.pos, this->curPlatform, this->homePlatform, globalCtx);
+                    this->nextPlatform =
+                        func_80B44870(&this->actor.world.pos, this->curPlatform, this->homePlatform, globalCtx);
                 }
 
                 this->hopAnimIndex = 0;
@@ -1732,7 +1738,7 @@ void func_80B483E4(EnZf* this, GlobalContext* globalCtx) {
         Actor_TestFloorInDirection(&this->actor, globalCtx, 40.0f, (s16)(this->actor.shape.rot.y + 0x3FFF)) ||
         Actor_TestFloorInDirection(&this->actor, globalCtx, -40.0f, (s16)(this->actor.shape.rot.y + 0x3FFF))) {
         Animation_PlayLoop(&this->skelAnime, &D_06016388);
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4000, 1);
         playerRotY = player->actor.shape.rot.y;
 
@@ -1756,11 +1762,11 @@ void func_80B483E4(EnZf* this, GlobalContext* globalCtx) {
 void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
     s16 playerRot;
     s16 phi_v0_4;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 curKeyFrame;
     s32 prevKeyFrame;
-    f32 playSpeed;
-    f32 extraRange = 0.0f;
+    s32 playSpeed;
+    f32 baseRange = 0.0f;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 1);
     playerRot = player->actor.shape.rot.y;
@@ -1805,12 +1811,12 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x4000;
 
     if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
-        extraRange = 100.0f;
+        baseRange = 100.0f;
     }
 
-    if (this->actor.xzDistToPlayer <= (70.0f + extraRange)) {
+    if (this->actor.xzDistToPlayer <= (70.0f + baseRange)) {
         Math_SmoothStepToF(&this->unk_408, -4.0f, 1.0f, 1.5f, 0.0f);
-    } else if ((90.0f + extraRange) < this->actor.xzDistToPlayer) {
+    } else if ((90.0f + baseRange) < this->actor.xzDistToPlayer) {
         Math_SmoothStepToF(&this->unk_408, 4.0f, 1.0f, 1.5f, 0.0f);
     } else {
         Math_SmoothStepToF(&this->unk_408, 0.0f, 1.0f, 5.65f, 0.0f);
@@ -1832,7 +1838,7 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
     curKeyFrame = this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
     prevKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-    playSpeed = ((void)0, ABS(this->skelAnime.playSpeed));
+    playSpeed = (f32)ABS(this->skelAnime.playSpeed);
 
     this->curPlatform = EnZf_FindPlatform(&this->actor.world.pos, this->curPlatform);
 
@@ -1847,11 +1853,11 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
     }
     if ((this->actor.params != ENZF_TYPE_DINOLFOS) || !func_80B44E8C(globalCtx, this)) {
         if (this->unk_3F0 == 0) {
-            s16 angleFacingPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
+            phi_v0_4 = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
-            angleFacingPlayer = ABS(angleFacingPlayer);
+            phi_v0_4 = ABS(phi_v0_4);
 
-            if (angleFacingPlayer >= 0x3A98) {
+            if (phi_v0_4 >= 0x3A98) {
                 if ((this->actor.params >= 0) && (D_80B4A1B4 == this->actor.params)) {
                     func_80B474E4(this);
                 } else {
@@ -1867,7 +1873,8 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
                     func_80B44CF0(globalCtx, this)) {
                     func_80B46A24(this);
                 } else if ((this->actor.xzDistToPlayer < 280.0f) && (this->actor.xzDistToPlayer > 240.0f) &&
-                           !EnZf_PrimaryFloorCheck(this, globalCtx, 191.9956f) && ((globalCtx->gameplayFrames % 2) == 0)) {
+                           !EnZf_PrimaryFloorCheck(this, globalCtx, 191.9956f) &&
+                           ((globalCtx->gameplayFrames % 2) == 0)) {
                     func_80B45E30(this);
                 } else {
                     func_80B456B4(this, globalCtx);
@@ -1876,10 +1883,11 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
         } else {
             this->unk_3F0--;
         }
-        if ((curKeyFrame != (s32)this->skelAnime.curFrame) &&
-            (((prevKeyFrame < 14) && (((s32)playSpeed + curKeyFrame) >= 16)) ||
-             ((prevKeyFrame < 27) && (((s32)playSpeed + curKeyFrame) >= 29)))) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
+        if (curKeyFrame != (s32)this->skelAnime.curFrame) {
+            s32 nextKeyFrame = playSpeed + curKeyFrame;
+            if (((prevKeyFrame < 14) && (nextKeyFrame >= 16)) || ((prevKeyFrame < 27) && (nextKeyFrame >= 29))) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
+            }
         }
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
@@ -1952,7 +1960,7 @@ void EnZf_Die(EnZf* this, GlobalContext* globalCtx) {
         }
     } else {
         s32 curFrame = this->skelAnime.curFrame;
-    
+
         if ((curFrame == 10) || (curFrame == 18)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         }
@@ -2311,7 +2319,8 @@ s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this) {
 
         this->actor.world.rot.y = this->actor.shape.rot.y;
 
-        if ((((this->actor.xzDistToPlayer < 90.0f) || (phi_t0 == 3)) && !EnZf_PrimaryFloorCheck(this, globalCtx, 135.0f)) ||
+        if ((((this->actor.xzDistToPlayer < 90.0f) || (phi_t0 == 3)) &&
+             !EnZf_PrimaryFloorCheck(this, globalCtx, 135.0f)) ||
             (projectileActor->id == ACTOR_ARMS_HOOK)) {
             func_80B48210(this);
             return true;
