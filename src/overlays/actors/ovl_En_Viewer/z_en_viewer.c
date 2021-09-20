@@ -41,8 +41,6 @@ void func_80B2B8FC(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2C130(EnViewer* this, GlobalContext* globalCtx);
 
-extern Mtx D_01000000;
-
 static u8 D_80B2CEC0 = false;
 
 const ActorInit En_Viewer_InitVars = {
@@ -710,8 +708,8 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[0]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[0]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[0]->endPos.z;
-            interpolated = func_8006F93C(globalCtx->csCtx.npcActions[0]->endFrame,
-                                         globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
+            interpolated = Environment_LerpWeight(globalCtx->csCtx.npcActions[0]->endFrame,
+                                                  globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
             this->actor.world.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
             this->actor.world.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
             this->actor.world.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;
@@ -725,8 +723,8 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[1]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[1]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[1]->endPos.z;
-            interpolated = func_8006F93C(globalCtx->csCtx.npcActions[1]->endFrame,
-                                         globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
+            interpolated = Environment_LerpWeight(globalCtx->csCtx.npcActions[1]->endFrame,
+                                                  globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
             this->actor.world.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
             this->actor.world.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
             this->actor.world.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;

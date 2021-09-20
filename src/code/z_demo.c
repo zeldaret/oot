@@ -170,7 +170,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         return;
     }
 
-    temp = func_8006F93C(cmd->endFrame - 1, cmd->startFrame, csCtx->frames);
+    temp = Environment_LerpWeight(cmd->endFrame - 1, cmd->startFrame, csCtx->frames);
 
     if (csCtx->frames == cmd->startFrame) {
         sp3F = 1;
@@ -187,9 +187,9 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         case 2:
             if (sp3F != 0) {
                 func_800F6D58(0xF, 0, 0);
-                func_800753C4(globalCtx, 3);
+                Environment_AddLightningBolts(globalCtx, 3);
                 if (1) {}
-                D_8015FD70 = 1;
+                gLightningStrike.state = LIGHTNING_STRIKE_START;
             }
             break;
         case 3:
@@ -201,14 +201,14 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 6:
-            if (globalCtx->envCtx.unk_A0 < 0x3200) {
-                globalCtx->envCtx.unk_A0 += 0x23;
+            if (globalCtx->envCtx.adjFogFar < 12800) {
+                globalCtx->envCtx.adjFogFar += 35;
             }
             break;
         case 7:
             if (sp3F != 0) {
                 globalCtx->envCtx.unk_19 = 1;
-                globalCtx->envCtx.gloomySky = 1;
+                globalCtx->envCtx.unk_17 = 1;
                 globalCtx->envCtx.unk_18 = 0;
                 globalCtx->envCtx.unk_1A = 0x3C;
                 globalCtx->envCtx.unk_21 = 1;
@@ -279,12 +279,12 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 18:
             globalCtx->envCtx.unk_EE[0] = 0;
-            globalCtx->envCtx.gloomySkyEvent = 2;
+            globalCtx->envCtx.gloomySkyMode = 2;
             if (gSaveContext.dayTime < 0x4AAB) {
                 gSaveContext.dayTime += 30;
             }
             if (globalCtx->envCtx.unk_EE[1] == 0) {
-                D_8011FB30 = 0;
+                gWeatherMode = 0;
                 func_800F6D58(14, 1, 0);
             }
             break;
@@ -331,16 +331,16 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 27:
             if (globalCtx->state.frames & 8) {
-                if (globalCtx->envCtx.unk_8C[0][0] < 40) {
-                    globalCtx->envCtx.unk_8C[0][0] += 2;
-                    globalCtx->envCtx.unk_8C[1][1] -= 3;
-                    globalCtx->envCtx.unk_8C[1][2] -= 3;
+                if (globalCtx->envCtx.adjAmbientColor[0] < 40) {
+                    globalCtx->envCtx.adjAmbientColor[0] += 2;
+                    globalCtx->envCtx.adjLight1Color[1] -= 3;
+                    globalCtx->envCtx.adjLight1Color[2] -= 3;
                 }
             } else {
-                if (globalCtx->envCtx.unk_8C[0][0] > 2) {
-                    globalCtx->envCtx.unk_8C[0][0] -= 2;
-                    globalCtx->envCtx.unk_8C[1][1] += 3;
-                    globalCtx->envCtx.unk_8C[1][2] += 3;
+                if (globalCtx->envCtx.adjAmbientColor[0] > 2) {
+                    globalCtx->envCtx.adjAmbientColor[0] -= 2;
+                    globalCtx->envCtx.adjLight1Color[1] += 3;
+                    globalCtx->envCtx.adjLight1Color[2] += 3;
                 }
             }
             break;
@@ -358,18 +358,18 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 32:
             if (sp3F != 0) {
-                globalCtx->envCtx.unk_E6 = 1;
+                globalCtx->envCtx.sandstormState = 1;
             }
             func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
         case 33:
-            gSaveContext.unk_1422 = 1;
+            gSaveContext.sunsSongState = SUNSSONG_START;
             break;
         case 34:
             if (IS_DAY) {
-                gSaveContext.dayTime -= D_8011FB40;
+                gSaveContext.dayTime -= gTimeIncrement;
             } else {
-                gSaveContext.dayTime -= D_8011FB40 * 2;
+                gSaveContext.dayTime -= gTimeIncrement * 2;
             }
             break;
         case 35:
@@ -433,7 +433,7 @@ void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTim
         temp2 = (cmd->minute + 1) / (360.0f / 0x4000);
 
         gSaveContext.dayTime = temp1 + temp2;
-        gSaveContext.environmentTime = temp1 + temp2;
+        gSaveContext.skyboxTime = temp1 + temp2;
     }
 }
 
@@ -1174,7 +1174,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 119:
                 gSaveContext.dayTime = 0x8000;
-                gSaveContext.environmentTime = 0x8000;
+                gSaveContext.skyboxTime = 0x8000;
                 globalCtx->nextEntranceIndex = 0x05F0;
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->fadeTransition = 3;
@@ -1188,17 +1188,17 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
     f32 temp;
 
     if ((csCtx->frames >= cmd->startFrame) && (csCtx->frames <= cmd->endFrame)) {
-        globalCtx->envCtx.unk_E1 = 1;
-        temp = func_8006F93C(cmd->endFrame, cmd->startFrame, csCtx->frames);
+        globalCtx->envCtx.fillScreen = true;
+        temp = Environment_LerpWeight(cmd->endFrame, cmd->startFrame, csCtx->frames);
 
         switch (cmd->base) {
             case 1:
             case 5:
-                globalCtx->envCtx.unk_E2[0] = 0xA0;
-                globalCtx->envCtx.unk_E2[1] = 0xA0;
-                globalCtx->envCtx.unk_E2[2] = 0xA0;
+                globalCtx->envCtx.screenFillColor[0] = 160;
+                globalCtx->envCtx.screenFillColor[1] = 160;
+                globalCtx->envCtx.screenFillColor[2] = 160;
                 if (cmd->base == 1) {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                     if ((temp == 0.0f) && (gSaveContext.entranceIndex == 0x006B)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_WHITE_OUT_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
@@ -1211,40 +1211,40 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                         func_800788CC(NA_SE_EV_WHITE_OUT);
                     }
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 }
                 break;
             case 2:
             case 6:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0xFF;
+                globalCtx->envCtx.screenFillColor[0] = 0;
+                globalCtx->envCtx.screenFillColor[1] = 0;
+                globalCtx->envCtx.screenFillColor[2] = 255;
                 if (cmd->base == 2) {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 }
                 break;
             case 3:
             case 7:
-                globalCtx->envCtx.unk_E2[0] = 0xFF;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0;
+                globalCtx->envCtx.screenFillColor[0] = 255;
+                globalCtx->envCtx.screenFillColor[1] = 0;
+                globalCtx->envCtx.screenFillColor[2] = 0;
                 if (cmd->base == 3) {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
             case 4:
             case 8:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0xFF;
-                globalCtx->envCtx.unk_E2[2] = 0;
+                globalCtx->envCtx.screenFillColor[0] = 0;
+                globalCtx->envCtx.screenFillColor[1] = 255;
+                globalCtx->envCtx.screenFillColor[2] = 0;
                 if (cmd->base == 4) {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
             case 9:
@@ -1252,23 +1252,23 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                 break;
             case 10:
             case 11:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0;
+                globalCtx->envCtx.screenFillColor[0] = 0;
+                globalCtx->envCtx.screenFillColor[1] = 0;
+                globalCtx->envCtx.screenFillColor[2] = 0;
                 if (cmd->base == 10) {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
             case 12:
                 gSaveContext.unk_1410 = 255.0f - (155.0f * temp);
                 break;
             case 13:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0;
-                globalCtx->envCtx.unk_E2[3] = 255.0f - ((1.0f - temp) * 155.0f);
+                globalCtx->envCtx.screenFillColor[0] = 0;
+                globalCtx->envCtx.screenFillColor[1] = 0;
+                globalCtx->envCtx.screenFillColor[2] = 0;
+                globalCtx->envCtx.screenFillColor[3] = 255.0f - ((1.0f - temp) * 155.0f);
                 break;
         }
     }

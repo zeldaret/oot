@@ -11,6 +11,7 @@
 #include "z64audio.h"
 #include "z64object.h"
 #include "z64camera.h"
+#include "z64environment.h"
 #include "z64cutscene.h"
 #include "z64collision_check.h"
 #include "z64scene.h"
@@ -130,16 +131,16 @@ typedef struct GraphicsContext {
     /* 0x01C4 */ char unk_01C4[0xC0];
     /* 0x0284 */ OSViMode* viMode;
     /* 0x0288 */ char unk_0288[0x20]; // Unused, could this be Zelda 2/3 ?
-    /* 0x02A8 */ TwoHeadGfxArena    overlay; // "Zelda 4"
-    /* 0x02B8 */ TwoHeadGfxArena    polyOpa; // "Zelda 0"
-    /* 0x02C8 */ TwoHeadGfxArena    polyXlu; // "Zelda 1"
+    /* 0x02A8 */ TwoHeadGfxArena overlay; // "Zelda 4"
+    /* 0x02B8 */ TwoHeadGfxArena polyOpa; // "Zelda 0"
+    /* 0x02C8 */ TwoHeadGfxArena polyXlu; // "Zelda 1"
     /* 0x02D8 */ u32 gfxPoolIdx;
     /* 0x02DC */ u16* curFrameBuffer;
     /* 0x02E0 */ char unk_2E0[0x04];
     /* 0x02E4 */ u32 viFeatures;
     /* 0x02E8 */ s32 fbIdx;
-    /* 0x02EC */ void (*callback)(struct GraphicsContext*, u32);
-    /* 0x02F0 */ u32 callbackParam;
+    /* 0x02EC */ void (*callback)(struct GraphicsContext*, void*);
+    /* 0x02F0 */ void* callbackParam;
     /* 0x02F4 */ f32 xScale;
     /* 0x02F8 */ f32 yScale;
     /* 0x02FC */ char unk_2FC[0x04];
@@ -575,71 +576,7 @@ typedef enum {
 
 typedef struct {
     /* 0x00 */ u16 state;
-} GameOverContext; // size = 0x02
-
-typedef struct {
-    /* 0x00 */ char     unk_00[0x02];
-    /* 0x02 */ u16      unk_02;
-    /* 0x04 */ Vec3f    unk_04;
-    /* 0x10 */ u8       unk_10;
-    /* 0x11 */ u8       unk_11;
-    /* 0x12 */ char     unk_12[0x1];
-    /* 0x13 */ u8       unk_13;
-    /* 0x14 */ char     unk_14[0x01];
-    /* 0x15 */ u8       skyDisabled;
-    /* 0x16 */ u8       sunMoonDisabled;
-    /* 0x17 */ u8       gloomySky;
-    /* 0x18 */ u8       unk_18;
-    /* 0x19 */ u8       unk_19;
-    /* 0x1A */ u16      unk_1A;
-    /* 0x1C */ char     unk_1C[0x02];
-    /* 0x1E */ u8       unk_1E;
-    /* 0x1F */ u8       unk_1F;
-    /* 0x20 */ u8       unk_20;
-    /* 0x21 */ u8       unk_21;
-    /* 0x22 */ u16      unk_22;
-    /* 0x24 */ u16      unk_24;
-    /* 0x26 */ char     unk_26[0x04];
-    /* 0x2A */ s8       unk_2A;
-    /* 0x2B */ s8       unk_2B;
-    /* 0x2C */ s8       unk_2C;
-    /* 0x2D */ char     unk_2D[0x5E];
-    /* 0x8C */ s16      unk_8C[3][3];
-    /* 0x9E */ s16      unk_9E;
-    /* 0xA0 */ s16      unk_A0;
-    /* 0xA2 */ char     unk_A2[0x06];
-    /* 0xA8 */ s16      unk_A8;
-    /* 0xAA */ s16      unk_AA;
-    /* 0xAC */ s16      unk_AC;
-    /* 0xB0 */ f32      unk_B0;
-    /* 0xB4 */ u8       numLightSettings;
-    /* 0xB8 */ UNK_PTR  lightSettingsList;
-    /* 0xBC */ u8       unk_BC;
-    /* 0xBD */ u8       unk_BD;
-    /* 0xBE */ u8       unk_BE;
-    /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x0F];
-    /* 0xCF */ u8       unk_CF[3];
-    /* 0xD2 */ s16      unk_D2;
-    /* 0xD4 */ char     unk_D4[0x02];
-    /* 0xD6 */ u16      unk_D6;
-    /* 0xD8 */ f32      unk_D8;
-    /* 0xDC */ u8       unk_DC;
-    /* 0xDD */ u8       gloomySkyEvent;
-    /* 0xDE */ u8       unk_DE;
-    /* 0xDF */ u8       lightning;
-    /* 0xE0 */ u8       unk_E0;
-    /* 0xE1 */ u8       unk_E1;
-    /* 0xE2 */ u8       unk_E2[4];
-    /* 0xE6 */ u8       unk_E6;
-    /* 0xE7 */ u8       unk_E7;
-    /* 0xE8 */ u8       unk_E8;
-    /* 0xE9 */ u8       unk_E9;
-    /* 0xEA */ u8       unk_EA[4];
-    /* 0xEE */ u8       unk_EE[4];
-    /* 0xF2 */ u8       unk_F2[4];
-    /* 0xF6 */ char     unk_F6[0x06];
-} EnvironmentContext; // size = 0xFC
+} GameOverContext; // size = 0x2
 
 typedef struct {
     /* 0x00 */ s16      id;
@@ -1836,5 +1773,17 @@ typedef struct {
     /* 0x00 */ u16* value;
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
+
+typedef struct {
+    /* 0x00 */ RomFile file;
+    /* 0x08 */ RomFile pallete;
+} SkyboxFile; // size = 0x10
+
+#define ROM_FILE(name) \
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
+#define ROM_FILE_EMPTY(name) \
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
+#define ROM_FILE_UNSET \
+    { 0 }
 
 #endif

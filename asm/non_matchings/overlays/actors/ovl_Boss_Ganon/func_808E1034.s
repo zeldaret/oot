@@ -68,8 +68,8 @@ glabel func_808E1034
 /* 0A840 808E10B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L808E10B4:
 /* 0A844 808E10B4 862900B6 */  lh      $t1, 0x00B6($s1)           ## 000000B6
-/* 0A848 808E10B8 3C0B8016 */  lui     $t3, %hi(D_8015FCF8)
-/* 0A84C 808E10BC 256BFCF8 */  addiu   $t3, %lo(D_8015FCF8)
+/* 0A848 808E10B8 3C0B8016 */  lui     $t3, %hi(gCustomLensFlarePos)
+/* 0A84C 808E10BC 256BFCF8 */  addiu   $t3, %lo(gCustomLensFlarePos)
 /* 0A850 808E10C0 252A1000 */  addiu   $t2, $t1, 0x1000           ## $t2 = 00001000
 /* 0A854 808E10C4 A62A00B6 */  sh      $t2, 0x00B6($s1)           ## 000000B6
 /* 0A858 808E10C8 A467066E */  sh      $a3, 0x066E($v1)           ## 0000066E

@@ -846,8 +846,8 @@
         <Texture Name="gCuttableShrubTex" OutName="cuttable_shrub" Format="rgba16" Width="32" Height="32" Offset="0x35F30"/>
         <Texture Name="gEffSsDead1Tex" OutName="ss_dead_1" Format="i4" Width="64" Height="64" Offset="0x36730"/>
         <Texture Name="gEffSsDead2Tex" OutName="ss_dead_2" Format="i4" Width="64" Height="64" Offset="0x36F30"/>
-        <DList Name="gEffSsDead1DL" Offset="0x37730"/>
-        <DList Name="gEffSsDead2DL" Offset="0x37798"/>
+        <DList Name="gLensFlareCircleDL" Offset="0x37730"/>
+        <DList Name="gLensFlareRingDL" Offset="0x37798"/>
         <DList Name="gEffSparklesDL" Offset="0x37880"/>
         <Texture Name="gEffSparklesTex" OutName="eff_sparkles" Format="i4" Width="16" Height="16" Offset="0x378E0"/>
         <Texture Name="gEffUnknown13Tex" OutName="eff_unknown_tex_13" Format="i8" Width="16" Height="32" Offset="0x37960"/>

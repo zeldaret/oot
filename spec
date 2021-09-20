@@ -320,8 +320,6 @@ beginseg
     include "build/src/code/z_kaleido_setup.o"
     include "build/src/code/z_kanfont.o"
     include "build/src/code/z_kankyo.o"
-    include "build/data/z_kankyo.data.o"
-    include "build/data/z_kankyo.bss.o"
     include "build/src/code/z_lib.o"
     include "build/src/code/z_lifemeter.o"
     include "build/src/code/z_lights.o"
@@ -566,11 +564,7 @@ beginseg
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark_data.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
-#else
-    include "build/data/overlays/actors/z_kaleido_scope.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -949,11 +943,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Cobra"
     include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra_reloc.o"
-#else
-    include "build/data/overlays/actors/z_bg_jya_cobra.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2942,11 +2932,7 @@ endseg
 beginseg
     name "ovl_En_Torch2"
     include "build/src/overlays/actors/ovl_En_Torch2/z_en_torch2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Torch2/ovl_En_Torch2_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_torch2.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3073,11 +3059,7 @@ endseg
 beginseg
     name "ovl_En_Yabusame_Mark"
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/z_en_yabusame_mark.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/ovl_En_Yabusame_Mark_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_yabusame_mark.reloc.o"
-#endif
 endseg
 
 beginseg
