@@ -54,7 +54,7 @@ static Vec3f sCollisionVertices[] = {
     { 115.0f, 160.0f, -150.0f }, { -50.0f, -140.0f, -160.0f }, { 115.0f, 160.0f, 150.0f }, { -50.0f, -140.0f, 160.0f },
 };
 
-static Vec3f D_80B435F0[] = {
+static Vec3f sTargetPos[] = {
     { 3382.0f, 1734.0f, -4946.0f }, // small, furthest from entrance
     { 3360.0f, 1734.0f, 495.0f },   // small, closest to entrance
     { 4517.0f, 1682.0f, -1779.0f }, // medium, on the right
@@ -62,17 +62,13 @@ static Vec3f D_80B435F0[] = {
     { 4522.0f, 1727.0f, -2296.0f }, // large in the center
 };
 
-typedef struct {
-    /* 0x00 */ f32 unk_0; // first ring
-    /* 0x04 */ f32 unk_4; // second ring
-    /* 0x08 */ f32 unk_8; // outside edge
-    /* 0x0C */ f32 unk_C;
-} YabasumeUnkStruct; // size = 0x10
-
-static YabasumeUnkStruct D_80B4362C[] = {
-    { 20.0f, 40.0f, 60.0f, 777.0f },
-    { 40.0f, 80.0f, 120.0f, 777.0f },
-    { 40.0f, 120.0f, 160.0f, 777.0f },
+// 0: first ring
+// 1: second ring
+// 2: outside edge
+static f32 sRingDistance[] = {
+    20.0f, 40.0f,  60.0f,  777.0f, // small
+    40.0f, 80.0f,  120.0f, 777.0f, // medium
+    40.0f, 120.0f, 160.0f, 777.0f, // large
 };
 
 void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -120,8 +116,6 @@ void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = func_80B42F74;
 }
 
-#ifdef NON_MATCHING
-// regalloc
 void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
     Vec3f effectAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
@@ -146,13 +140,13 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
 
         scoreIndex = 2;
 
-        scoreDistance100 = D_80B4362C[this->typeIndex].unk_0;
-        scoreDistance60 = D_80B4362C[this->typeIndex].unk_4;
-        scoreDistance30 = D_80B4362C[this->typeIndex].unk_8;
-        // Needs to skip a t register somewhere around here.
-        distanceFromCenter.x = fabsf(D_80B435F0[this->subTypeIndex].x - arrowHitPos.x);
-        distanceFromCenter.y = fabsf(D_80B435F0[this->subTypeIndex].y - arrowHitPos.y);
-        distanceFromCenter.z = fabsf(D_80B435F0[this->subTypeIndex].z - arrowHitPos.z);
+        scoreDistance100 = sRingDistance[this->typeIndex * 4 + 0];
+        scoreDistance60 = sRingDistance[this->typeIndex * 4 + 1];
+        scoreDistance30 = sRingDistance[this->typeIndex * 4 + 2];
+
+        distanceFromCenter.x = fabsf(sTargetPos[this->subTypeIndex].x - arrowHitPos.x);
+        distanceFromCenter.y = fabsf(sTargetPos[this->subTypeIndex].y - arrowHitPos.y);
+        distanceFromCenter.z = fabsf(sTargetPos[this->subTypeIndex].z - arrowHitPos.z);
 
         if (distanceFromCenter.x > scoreDistance100 || distanceFromCenter.y > scoreDistance100 ||
             distanceFromCenter.z > scoreDistance100) {
@@ -171,9 +165,9 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ posＸ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.x);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ posＹ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.y);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ posＺ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.z);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＸ ☆☆☆☆☆ %f\n" VT_RST, D_80B435F0[this->subTypeIndex].x);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＹ ☆☆☆☆☆ %f\n" VT_RST, D_80B435F0[this->subTypeIndex].y);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＺ ☆☆☆☆☆ %f\n" VT_RST, D_80B435F0[this->subTypeIndex].z);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＸ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].x);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＹ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].y);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＺ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].z);
         osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 小    ☆☆☆☆☆ %f\n" VT_RST, scoreDistance100);
         osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 大    ☆☆☆☆☆ %f\n" VT_RST, scoreDistance60);
         osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ point ☆☆☆☆☆ %d\n" VT_RST, scoreIndex);
@@ -192,11 +186,6 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
         EffectSsExtra_Spawn(globalCtx, &arrowHitPos, &effectVelocity, &effectAccel, 5, scoreIndex);
     }
 }
-#else
-static Vec3f D_80B4365C = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_80B43668 = { 0.0f, 0.0f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Yabusame_Mark/func_80B42F74.s")
-#endif
 
 void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnYabusameMark* this = THIS;
