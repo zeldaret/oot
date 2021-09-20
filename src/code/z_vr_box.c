@@ -1,5 +1,6 @@
 #include "global.h"
 #include "vt.h"
+#include "z64environment.h"
 
 u32 D_8012AC90[4] = {
     0x00000000,
@@ -77,25 +78,6 @@ Struct_8012AF0C D_8012AF0C[6] = {
     { -0x40, 0x40, -0x40, 0x20, -0x20 }, { 0x40, 0x40, 0x40, -0x20, -0x20 }, { -0x40, 0x40, 0x40, -0x20, -0x20 },
     { 0x40, 0x40, -0x40, 0x20, -0x20 },  { -0x40, 0x40, 0x40, 0x20, -0x20 }, { -0x40, -0x40, -0x40, 0x20, 0x20 },
 };
-
-typedef struct {
-    /* 0x00 */ u16 unk_0; // start
-    /* 0x02 */ u16 unk_2; // end
-    /* 0x04 */ u8 unk_4;
-    /* 0x05 */ u8 unk_5; // img idx 1
-    /* 0x06 */ u8 unk_6; // img idx 2
-} Struct_8011FC1C;       // size = 0x8
-
-extern Struct_8011FC1C D_8011FC1C[8][9];
-
-typedef struct {
-    /* 0x00 */ u32 unk_0; // start
-    /* 0x04 */ u32 unk_4; // end
-    /* 0x08 */ u32 unk_8; // pal start
-    /* 0x0C */ u32 unk_C; // pal end
-} Struct_8011FD3C;        // size = 0x10
-
-extern Struct_8011FD3C D_8011FD3C[];
 
 #ifdef NON_MATCHING
 // Loops have very strange structure. In principle, they're the double loop over a 2D array shown below them.
@@ -504,8 +486,6 @@ void func_800AF178(SkyboxContext* skyboxCtx, s32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-// Some reoderings at the end of the first case. Verifiably equivalent.
 void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId) {
     u32 size;
     s16 i;
@@ -517,65 +497,66 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
     switch (skyboxId) {
         case SKYBOX_NORMAL_SKY:
             phi_v1 = 0;
-            if (gSaveContext.unk_13C3 != 0 && gSaveContext.sceneSetupIndex < 4 && D_8011FB30 > 0 && D_8011FB30 < 6) {
+            if (gSaveContext.unk_13C3 != 0 && gSaveContext.sceneSetupIndex < 4 && gWeatherMode > 0 &&
+                gWeatherMode < 6) {
                 phi_v1 = 1;
             }
 
             for (i = 0; i < 9; i++) {
-                if (gSaveContext.environmentTime >= D_8011FC1C[phi_v1][i].unk_0 &&
-                    (gSaveContext.environmentTime < D_8011FC1C[phi_v1][i].unk_2 ||
-                     D_8011FC1C[phi_v1][i].unk_2 == 0xFFFF)) {
-                    globalCtx->envCtx.unk_10 = sp41 = D_8011FC1C[phi_v1][i].unk_5;
-                    globalCtx->envCtx.unk_11 = sp40 = D_8011FC1C[phi_v1][i].unk_6;
-                    if (D_8011FC1C[phi_v1][i].unk_4 != 0) {
-                        globalCtx->envCtx.unk_13 =
-                            func_8006F93C(D_8011FC1C[phi_v1][i].unk_2, D_8011FC1C[phi_v1][i].unk_0,
-                                          ((void)0, gSaveContext.environmentTime)) *
+                if (gSaveContext.skyboxTime >= D_8011FC1C[phi_v1][i].startTime &&
+                    (gSaveContext.skyboxTime < D_8011FC1C[phi_v1][i].endTime ||
+                     D_8011FC1C[phi_v1][i].endTime == 0xFFFF)) {
+                    globalCtx->envCtx.skybox1Index = sp41 = D_8011FC1C[phi_v1][i].skybox1Index;
+                    globalCtx->envCtx.skybox2Index = sp40 = D_8011FC1C[phi_v1][i].skybox2Index;
+                    if (D_8011FC1C[phi_v1][i].blend != 0) {
+                        globalCtx->envCtx.skyboxBlend =
+                            Environment_LerpWeight(D_8011FC1C[phi_v1][i].endTime, D_8011FC1C[phi_v1][i].startTime,
+                                                   ((void)0, gSaveContext.skyboxTime)) *
                             255.0f;
                     } else {
-                        globalCtx->envCtx.unk_13 = 0;
+                        globalCtx->envCtx.skyboxBlend = 0;
                     }
                     break;
                 }
             }
 
-            size = D_8011FD3C[sp41].unk_4 - D_8011FD3C[sp41].unk_0;
+            size = gSkyboxFiles[sp41].file.vromEnd - gSkyboxFiles[sp41].file.vromStart;
             skyboxCtx->staticSegments[0] = GameState_Alloc(&globalCtx->state, size, "../z_vr_box.c", 1054);
             ASSERT(skyboxCtx->staticSegments[0] != NULL, "vr_box->vr_box_staticSegment[0] != NULL", "../z_vr_box.c",
                    1055);
 
-            DmaMgr_SendRequest1(skyboxCtx->staticSegments[0], D_8011FD3C[sp41].unk_0, size, "../z_vr_box.c", 1058);
+            DmaMgr_SendRequest1(skyboxCtx->staticSegments[0], gSkyboxFiles[sp41].file.vromStart, size, "../z_vr_box.c",
+                                1058);
 
-            size = D_8011FD3C[sp40].unk_4 - D_8011FD3C[sp40].unk_0;
+            size = gSkyboxFiles[sp40].file.vromEnd - gSkyboxFiles[sp40].file.vromStart;
             skyboxCtx->staticSegments[1] = GameState_Alloc(&globalCtx->state, size, "../z_vr_box.c", 1060);
             ASSERT(skyboxCtx->staticSegments[1] != NULL, "vr_box->vr_box_staticSegment[1] != NULL", "../z_vr_box.c",
                    1061);
 
-            DmaMgr_SendRequest1(skyboxCtx->staticSegments[1], D_8011FD3C[sp40].unk_0, size, "../z_vr_box.c", 1064);
+            DmaMgr_SendRequest1(skyboxCtx->staticSegments[1], gSkyboxFiles[sp40].file.vromStart, size, "../z_vr_box.c",
+                                1064);
 
-            if (((sp41 & 4) >> 2) != (sp41 & 1)) {
-                D_8011FD3C[sp41].unk_C = D_8011FD3C[sp41].unk_C; // fake but greatly improves match.
+            if ((sp41 & 1) ^ ((sp41 & 4) >> 2)) {
+                size = gSkyboxFiles[sp41].palette.vromEnd - gSkyboxFiles[sp41].palette.vromStart;
 
-                size = (D_8011FD3C[sp41].unk_C - D_8011FD3C[sp41].unk_8) * 2;
-
-                skyboxCtx->palettes = GameState_Alloc(&globalCtx->state, size, "../z_vr_box.c", 1072);
+                skyboxCtx->palettes = GameState_Alloc(&globalCtx->state, size * 2, "../z_vr_box.c", 1072);
 
                 ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c",
                        1073);
 
-                DmaMgr_SendRequest1(skyboxCtx->palettes, D_8011FD3C[sp41].unk_8, size, "../z_vr_box.c", 1075);
-                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, D_8011FD3C[sp40].unk_8, size,
+                DmaMgr_SendRequest1(skyboxCtx->palettes, gSkyboxFiles[sp41].palette.vromStart, size, "../z_vr_box.c", 1075);
+                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, gSkyboxFiles[sp40].palette.vromStart, size,
                                     "../z_vr_box.c", 1077);
             } else {
-                size = (D_8011FD3C[sp41].unk_C - D_8011FD3C[sp41].unk_8) * 2;
+                size = gSkyboxFiles[sp41].palette.vromEnd - gSkyboxFiles[sp41].palette.vromStart;
 
-                skyboxCtx->palettes = GameState_Alloc(&globalCtx->state, size, "../z_vr_box.c", 1085);
+                skyboxCtx->palettes = GameState_Alloc(&globalCtx->state, size * 2, "../z_vr_box.c", 1085);
 
                 ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c",
                        1086);
 
-                DmaMgr_SendRequest1(skyboxCtx->palettes, D_8011FD3C[sp40].unk_8, size, "../z_vr_box.c", 1088);
-                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, D_8011FD3C[sp41].unk_8, size,
+                DmaMgr_SendRequest1(skyboxCtx->palettes, gSkyboxFiles[sp40].palette.vromStart, size, "../z_vr_box.c", 1088);
+                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, gSkyboxFiles[sp41].palette.vromStart, size,
                                     "../z_vr_box.c", 1090);
             }
             break;
@@ -1065,10 +1046,6 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
             break;
     }
 }
-#else
-void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_vr_box/Skybox_Setup.s")
-#endif
 
 void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId) {
     skyboxCtx->unk_140 = 0;

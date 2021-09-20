@@ -35,7 +35,7 @@ glabel D_8013C7D8
     .float 0.1
 
 .text
-glabel func_80073A5C
+glabel Environment_DrawLensFlare
 /* AEABFC 80073A5C 27BDFE50 */  addiu $sp, $sp, -0x1b0
 /* AEAC00 80073A60 3C0B8012 */  lui   $t3, %hi(D_8011FE00) # $t3, 0x8012
 /* AEAC04 80073A64 AFBF004C */  sw    $ra, 0x4c($sp)
@@ -348,7 +348,7 @@ glabel func_80073A5C
 /* AEB0AC 80073F0C 00000000 */   nop
 .L80073F10:
 /* AEB0B0 80073F10 44D8F800 */  ctc1  $t8, $31
-/* AEB0B4 80073F14 0C01BE4F */  jal   func_8006F93C
+/* AEB0B4 80073F14 0C01BE4F */  jal   Environment_LerpWeight
 /* AEB0B8 80073F18 30C6FFFF */   andi  $a2, $a2, 0xffff
 /* AEB0BC 80073F1C E7A0013C */  swc1  $f0, 0x13c($sp)
 /* AEB0C0 80073F20 44913000 */  mtc1  $s1, $f6
@@ -600,8 +600,8 @@ glabel func_80073A5C
 /* AEB468 800742C8 2A21000A */   slti  $at, $s1, 0xa
 .L800742CC:
 /* AEB46C 800742CC 8E0702D0 */  lw    $a3, 0x2d0($s0)
-/* AEB470 800742D0 3C030403 */  lui   $v1, %hi(gEffBurnMark1DL) # $v1, 0x403
-/* AEB474 800742D4 24637730 */  addiu $v1, %lo(gEffBurnMark1DL) # addiu $v1, $v1, 0x7730
+/* AEB470 800742D0 3C030403 */  lui   $v1, %hi(gLensFlareCircleDL) # $v1, 0x403
+/* AEB474 800742D4 24637730 */  addiu $v1, %lo(gLensFlareCircleDL) # addiu $v1, $v1, 0x7730
 /* AEB478 800742D8 24E80008 */  addiu $t0, $a3, 8
 /* AEB47C 800742DC AE0802D0 */  sw    $t0, 0x2d0($s0)
 /* AEB480 800742E0 3C0FDE00 */  lui   $t7, 0xde00

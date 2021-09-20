@@ -1,5 +1,5 @@
-#ifndef _Z_EFF_SS_BOMB2_H_
-#define _Z_EFF_SS_BOMB2_H_
+#ifndef Z_EFF_SS_BOMB2_H
+#define Z_EFF_SS_BOMB2_H
 
 #include "ultra64.h"
 #include "global.h"

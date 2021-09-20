@@ -1,5 +1,5 @@
-#ifndef	_GS2DEX_H_
-#define	_GS2DEX_H_
+#ifndef	GS2DEX_H
+#define	GS2DEX_H
 
 #ifdef _LANGUAGE_C_PLUS_PLUS
 extern "C" {
@@ -374,6 +374,6 @@ extern	void	guS2DInitBg(uObjBg *);
 #ifdef _LANGUAGE_C_PLUS_PLUS
 }
 #endif
-#endif /* _GS2DEX_H_ */
+#endif /* GS2DEX_H */
 
 /*======== End of gs2dex.h ========*/

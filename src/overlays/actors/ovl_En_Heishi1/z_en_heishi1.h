@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HEISHI1_H_
-#define _Z_EN_HEISHI1_H_
+#ifndef Z_EN_HEISHI1_H
+#define Z_EN_HEISHI1_H
 
 #include "ultra64.h"
 #include "global.h"
