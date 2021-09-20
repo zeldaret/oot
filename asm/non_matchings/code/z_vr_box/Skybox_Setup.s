@@ -984,11 +984,11 @@ glabel L800AF25C
 /* B26410 800AF270 11E0000C */  beqz  $t7, .L800AF2A4
 /* B26414 800AF274 2529FC1C */   addiu $t1, %lo(D_8011FC1C) # addiu $t1, $t1, -0x3e4
 /* B26418 800AF278 8D181360 */  lw    $t8, 0x1360($t0)
-/* B2641C 800AF27C 3C028012 */  lui   $v0, %hi(D_8011FB30) # $v0, 0x8012
+/* B2641C 800AF27C 3C028012 */  lui   $v0, %hi(gWeatherMode) # $v0, 0x8012
 /* B26420 800AF280 2B010004 */  slti  $at, $t8, 4
 /* B26424 800AF284 50200008 */  beql  $at, $zero, .L800AF2A8
 /* B26428 800AF288 0003C8C0 */   sll   $t9, $v1, 3
-/* B2642C 800AF28C 9042FB30 */  lbu   $v0, %lo(D_8011FB30)($v0)
+/* B2642C 800AF28C 9042FB30 */  lbu   $v0, %lo(gWeatherMode)($v0)
 /* B26430 800AF290 18400004 */  blez  $v0, .L800AF2A4
 /* B26434 800AF294 28410006 */   slti  $at, $v0, 6
 /* B26438 800AF298 50200003 */  beql  $at, $zero, .L800AF2A8
@@ -1038,7 +1038,7 @@ glabel L800AF25C
 /* B264D8 800AF338 002D0821 */   addu  $at, $at, $t5
 /* B264DC 800AF33C 9506141A */  lhu   $a2, 0x141a($t0)
 /* B264E0 800AF340 94E40002 */  lhu   $a0, 2($a3)
-/* B264E4 800AF344 0C01BE4F */  jal   func_8006F93C
+/* B264E4 800AF344 0C01BE4F */  jal   Environment_LerpWeight
 /* B264E8 800AF348 94E50000 */   lhu   $a1, ($a3)
 /* B264EC 800AF34C 3C01437F */  li    $at, 0x437F0000 # 0.000000
 /* B264F0 800AF350 44812000 */  mtc1  $at, $f4
@@ -1094,8 +1094,8 @@ glabel L800AF25C
 /* B265A0 800AF400 000250C0 */   sll   $t2, $v0, 3
 .L800AF404:
 /* B265A4 800AF404 93AE0041 */  lbu   $t6, 0x41($sp)
-/* B265A8 800AF408 3C188012 */  lui   $t8, %hi(D_8011FD3C) # $t8, 0x8012
-/* B265AC 800AF40C 2718FD3C */  addiu $t8, %lo(D_8011FD3C) # addiu $t8, $t8, -0x2c4
+/* B265A8 800AF408 3C188012 */  lui   $t8, %hi(gSkyboxFiles) # $t8, 0x8012
+/* B265AC 800AF40C 2718FD3C */  addiu $t8, %lo(gSkyboxFiles) # addiu $t8, $t8, -0x2c4
 /* B265B0 800AF410 000E7900 */  sll   $t7, $t6, 4
 /* B265B4 800AF414 01F81021 */  addu  $v0, $t7, $t8
 /* B265B8 800AF418 8C590004 */  lw    $t9, 4($v0)
@@ -1127,8 +1127,8 @@ glabel L800AF25C
 /* B2661C 800AF47C 0C0006A8 */  jal   DmaMgr_SendRequest1
 /* B26620 800AF480 8FA60044 */   lw    $a2, 0x44($sp)
 /* B26624 800AF484 93AC0040 */  lbu   $t4, 0x40($sp)
-/* B26628 800AF488 3C0E8012 */  lui   $t6, %hi(D_8011FD3C) # $t6, 0x8012
-/* B2662C 800AF48C 25CEFD3C */  addiu $t6, %lo(D_8011FD3C) # addiu $t6, $t6, -0x2c4
+/* B26628 800AF488 3C0E8012 */  lui   $t6, %hi(gSkyboxFiles) # $t6, 0x8012
+/* B2662C 800AF48C 25CEFD3C */  addiu $t6, %lo(gSkyboxFiles) # addiu $t6, $t6, -0x2c4
 /* B26630 800AF490 000C6900 */  sll   $t5, $t4, 4
 /* B26634 800AF494 01AE1821 */  addu  $v1, $t5, $t6
 /* B26638 800AF498 8C6F0004 */  lw    $t7, 4($v1)

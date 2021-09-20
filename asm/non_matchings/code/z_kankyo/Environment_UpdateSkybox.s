@@ -29,7 +29,7 @@ glabel D_8013C380
     .balign 4
 
 .text
-glabel func_8006FC88
+glabel Environment_UpdateSkybox
 /* AE6E28 8006FC88 27BDFFA0 */  addiu $sp, $sp, -0x60
 /* AE6E2C 8006FC8C AFB00030 */  sw    $s0, 0x30($sp)
 /* AE6E30 8006FC90 308200FF */  andi  $v0, $a0, 0xff
@@ -78,7 +78,7 @@ glabel func_8006FC88
 /* AE6ED4 8006FD34 3146FFFF */  andi  $a2, $t2, 0xffff
 /* AE6ED8 8006FD38 11C00029 */  beqz  $t6, .L8006FDE0
 /* AE6EDC 8006FD3C 00000000 */   nop   
-/* AE6EE0 8006FD40 0C01BE4F */  jal   func_8006F93C
+/* AE6EE0 8006FD40 0C01BE4F */  jal   Environment_LerpWeight
 /* AE6EE4 8006FD44 30E4FFFF */   andi  $a0, $a3, 0xffff
 /* AE6EE8 8006FD48 3C01437F */  li    $at, 0x437F0000 # 0.000000
 /* AE6EEC 8006FD4C 44812000 */  mtc1  $at, $f4
@@ -165,8 +165,8 @@ glabel func_8006FC88
 .L8006FE74:
 /* AE7014 8006FE74 906F0005 */  lbu   $t7, 5($v1)
 /* AE7018 8006FE78 90780006 */  lbu   $t8, 6($v1)
-/* AE701C 8006FE7C 3C028012 */  lui   $v0, %hi(D_8011FB3C) # $v0, 0x8012
-/* AE7020 8006FE80 2442FB3C */  addiu $v0, %lo(D_8011FB3C) # addiu $v0, $v0, -0x4c4
+/* AE701C 8006FE7C 3C028012 */  lui   $v0, %hi(gSkyboxBlendingEnabled) # $v0, 0x8012
+/* AE7020 8006FE80 2442FB3C */  addiu $v0, %lo(gSkyboxBlendingEnabled) # addiu $v0, $v0, -0x4c4
 /* AE7024 8006FE84 332B00FF */  andi  $t3, $t9, 0xff
 /* AE7028 8006FE88 A0590000 */  sb    $t9, ($v0)
 /* AE702C 8006FE8C A3AF005A */  sb    $t7, 0x5a($sp)
@@ -183,7 +183,7 @@ glabel func_8006FC88
 /* AE7058 8006FEB8 94640002 */  lhu   $a0, 2($v1)
 /* AE705C 8006FEBC 94650000 */  lhu   $a1, ($v1)
 /* AE7060 8006FEC0 A3A8005B */  sb    $t0, 0x5b($sp)
-/* AE7064 8006FEC4 0C01BE4F */  jal   func_8006F93C
+/* AE7064 8006FEC4 0C01BE4F */  jal   Environment_LerpWeight
 /* AE7068 8006FEC8 3146FFFF */   andi  $a2, $t2, 0xffff
 /* AE706C 8006FECC 3C01437F */  li    $at, 0x437F0000 # 0.000000
 /* AE7070 8006FED0 44815000 */  mtc1  $at, $f10
@@ -239,7 +239,7 @@ glabel func_8006FC88
 /* AE7128 8006FF88 94640002 */  lhu   $a0, 2($v1)
 /* AE712C 8006FF8C 94650000 */  lhu   $a1, ($v1)
 /* AE7130 8006FF90 A3A8005B */  sb    $t0, 0x5b($sp)
-/* AE7134 8006FF94 0C01BE4F */  jal   func_8006F93C
+/* AE7134 8006FF94 0C01BE4F */  jal   Environment_LerpWeight
 /* AE7138 8006FF98 3146FFFF */   andi  $a2, $t2, 0xffff
 /* AE713C 8006FF9C 3C01437F */  li    $at, 0x437F0000 # 0.000000
 /* AE7140 8006FFA0 44812000 */  mtc1  $at, $f4
@@ -412,10 +412,10 @@ glabel func_8006FC88
 /* AE73A8 80070208 530B0027 */  beql  $t8, $t3, .L800702A8
 /* AE73AC 8007020C 93B80059 */   lbu   $t8, 0x59($sp)
 /* AE73B0 80070210 820C0044 */  lb    $t4, 0x44($s0)
-/* AE73B4 80070214 3C0F8012 */  lui   $t7, %hi(D_8011FD3C) # $t7, 0x8012
+/* AE73B4 80070214 3C0F8012 */  lui   $t7, %hi(gSkyboxFiles) # $t7, 0x8012
 /* AE73B8 80070218 240D0001 */  li    $t5, 1
 /* AE73BC 8007021C 15800021 */  bnez  $t4, .L800702A4
-/* AE73C0 80070220 25EFFD3C */   addiu $t7, %lo(D_8011FD3C) # addiu $t7, $t7, -0x2c4
+/* AE73C0 80070220 25EFFD3C */   addiu $t7, %lo(gSkyboxFiles) # addiu $t7, $t7, -0x2c4
 /* AE73C4 80070224 A20D0044 */  sb    $t5, 0x44($s0)
 /* AE73C8 80070228 93AE005A */  lbu   $t6, 0x5a($sp)
 /* AE73CC 8007022C 26040068 */  addiu $a0, $s0, 0x68
@@ -460,8 +460,8 @@ glabel func_8006FC88
 /* AE7460 800702C0 240C000B */   li    $t4, 11
 /* AE7464 800702C4 A20C0044 */  sb    $t4, 0x44($s0)
 /* AE7468 800702C8 93AD0059 */  lbu   $t5, 0x59($sp)
-/* AE746C 800702CC 3C198012 */  lui   $t9, %hi(D_8011FD3C) # $t9, 0x8012
-/* AE7470 800702D0 2739FD3C */  addiu $t9, %lo(D_8011FD3C) # addiu $t9, $t9, -0x2c4
+/* AE746C 800702CC 3C198012 */  lui   $t9, %hi(gSkyboxFiles) # $t9, 0x8012
+/* AE7470 800702D0 2739FD3C */  addiu $t9, %lo(gSkyboxFiles) # addiu $t9, $t9, -0x2c4
 /* AE7474 800702D4 000D7100 */  sll   $t6, $t5, 4
 /* AE7478 800702D8 01D91021 */  addu  $v0, $t6, $t9
 /* AE747C 800702DC 8C4F0004 */  lw    $t7, 4($v0)
@@ -503,11 +503,11 @@ glabel func_8006FC88
 /* AE7504 80070364 A2180044 */  sb    $t8, 0x44($s0)
 /* AE7508 80070368 8FB90050 */  lw    $t9, 0x50($sp)
 /* AE750C 8007036C 93AB005A */  lbu   $t3, 0x5a($sp)
-/* AE7510 80070370 3C0D8012 */  lui   $t5, %hi(D_8011FD3C) # $t5, 0x8012
+/* AE7510 80070370 3C0D8012 */  lui   $t5, %hi(gSkyboxFiles) # $t5, 0x8012
 /* AE7514 80070374 33380004 */  andi  $t8, $t9, 4
 /* AE7518 80070378 000B6100 */  sll   $t4, $t3, 4
 /* AE751C 8007037C 00185883 */  sra   $t3, $t8, 2
-/* AE7520 80070380 25ADFD3C */  addiu $t5, %lo(D_8011FD3C) # addiu $t5, $t5, -0x2c4
+/* AE7520 80070380 25ADFD3C */  addiu $t5, %lo(gSkyboxFiles) # addiu $t5, $t5, -0x2c4
 /* AE7524 80070384 260E0048 */  addiu $t6, $s0, 0x48
 /* AE7528 80070388 332F0001 */  andi  $t7, $t9, 1
 /* AE752C 8007038C AFAE0040 */  sw    $t6, 0x40($sp)
@@ -577,10 +577,10 @@ glabel func_8006FC88
 /* AE7624 80070484 93AE0059 */  lbu   $t6, 0x59($sp)
 /* AE7628 80070488 260D0048 */  addiu $t5, $s0, 0x48
 /* AE762C 8007048C AFAD0040 */  sw    $t5, 0x40($sp)
-/* AE7630 80070490 3C188012 */  lui   $t8, %hi(D_8011FD3C) # $t8, 0x8012
+/* AE7630 80070490 3C188012 */  lui   $t8, %hi(gSkyboxFiles) # $t8, 0x8012
 /* AE7634 80070494 31EC0004 */  andi  $t4, $t7, 4
 /* AE7638 80070498 000C6883 */  sra   $t5, $t4, 2
-/* AE763C 8007049C 2718FD3C */  addiu $t8, %lo(D_8011FD3C) # addiu $t8, $t8, -0x2c4
+/* AE763C 8007049C 2718FD3C */  addiu $t8, %lo(gSkyboxFiles) # addiu $t8, $t8, -0x2c4
 /* AE7640 800704A0 31EB0001 */  andi  $t3, $t7, 1
 /* AE7644 800704A4 000EC900 */  sll   $t9, $t6, 4
 /* AE7648 800704A8 03381021 */  addu  $v0, $t9, $t8

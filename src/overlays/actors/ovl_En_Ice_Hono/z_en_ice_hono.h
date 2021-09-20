@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ICE_HONO_H_
-#define _Z_EN_ICE_HONO_H_
+#ifndef Z_EN_ICE_HONO_H
+#define Z_EN_ICE_HONO_H
 
 #include "ultra64.h"
 #include "global.h"
