@@ -1400,7 +1400,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
             lowBits = command & 0xF;
 
             switch (command & 0xF0) {
-                case 0: {
+                case 0x00: {
                     channel->delay = lowBits;
                     goto exit_loop;
                 }
@@ -1483,7 +1483,7 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         return;
     }
 
-    seqPlayer->unk_E0++;
+    seqPlayer->scriptCounter++;
     seqPlayer->tempoAcc += seqPlayer->tempo;
     seqPlayer->tempoAcc += (s16)seqPlayer->unk_0C;
 
@@ -1493,7 +1493,7 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
 
     seqPlayer->tempoAcc -= (u16)gAudioContext.tempoInternalToExternal;
 
-    if (seqPlayer->unk_0b2 == true) {
+    if (seqPlayer->stopScript == true) {
         return;
     }
 
@@ -1664,10 +1664,10 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         *data2 = (u8)seqScript->value + command;
                         break;
                     case 0xC6:
-                        seqPlayer->unk_0b2 = true;
+                        seqPlayer->stopScript = true;
                         return;
                     case 0xC5:
-                        seqPlayer->unk_E0 = (u16)Audio_M64ReadS16(seqScript);
+                        seqPlayer->scriptCounter = (u16)Audio_M64ReadS16(seqScript);
                         break;
                     case 0xEF:
                         Audio_M64ReadS16(seqScript);
@@ -1689,7 +1689,7 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                 commandLow = command & 0x0F;
 
                 switch (command & 0xF0) {
-                    case 0:
+                    case 0x00:
                         seqScript->value = seqPlayer->channels[commandLow]->enabled ^ 1;
                         break;
                     case 0x50:
@@ -1769,7 +1769,7 @@ void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     s32 i;
 
     Audio_SequencePlayerDisable(seqPlayer);
-    seqPlayer->unk_0b2 = false;
+    seqPlayer->stopScript = false;
     seqPlayer->delay = 0;
     seqPlayer->state = 1;
     seqPlayer->fadeTimer = 0;
@@ -1781,7 +1781,7 @@ void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     seqPlayer->noteAllocPolicy = 0;
     seqPlayer->shortNoteVelocityTable = gDefaultShortNoteVelocityTable;
     seqPlayer->shortNoteDurationTable = gDefaultShortNoteDurationTable;
-    seqPlayer->unk_E0 = 0;
+    seqPlayer->scriptCounter = 0;
     seqPlayer->fadeVolume = 1.0f;
     seqPlayer->fadeVelocity = 0.0f;
     seqPlayer->volume = 0.0f;

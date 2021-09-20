@@ -209,7 +209,7 @@ typedef struct {
     /* 0x000 */ u8 seqDmaInProgress : 1;
     /* 0x000 */ u8 bankDmaInProgress : 1;
     /*?0x000 */ u8 recalculateVolume : 1;
-    /* 0x000 */ u8 unk_0b2 : 1;
+    /* 0x000 */ u8 stopScript : 1;
     /* 0x000 */ u8 unk_0b1 : 1;
     /* 0x001 */ u8 state;
     /* 0x002 */ u8 noteAllocPolicy;
@@ -239,7 +239,7 @@ typedef struct {
     /* 0x098 */ u8* shortNoteDurationTable;
     /* 0x09C */ NotePool notePool;
     /* 0x0DC */ s32 unk_DC;
-    /* 0x0E0 */ u32 unk_E0;
+    /* 0x0E0 */ u32 scriptCounter;
     /* 0x0E4 */ u8 pad_E4[0x10]; // OSMesgQueue seqDmaMesgQueue;
     /*?0x0F4 */ OSMesg seqDmaMesg;
     /*?0x0F8 */ OSIoMesg seqDmaIoMesg;
