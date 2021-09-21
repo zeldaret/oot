@@ -39,6 +39,7 @@ extern FaultThreadStruct gFaultStruct;
 
 void Fault_SleepImpl(u32 duration) {
     u64 value = (duration * OS_CPU_COUNTER) / 1000ull;
+
     Sleep_Cycles(value);
 }
 
@@ -102,6 +103,7 @@ void Fault_ProcessClientContext(FaultClientContext* ctx) {
 
 u32 Fault_ProcessClient(u32 callback, u32 param0, u32 param1) {
     FaultClientContext a;
+
     a.callback = callback;
     a.param0 = param0;
     a.param1 = param1;
@@ -118,6 +120,7 @@ void Fault_AddClient(FaultClient* client, void* callback, void* param0, void* pa
 
     {
         FaultClient* iter = sFaultStructPtr->clients;
+
         while (iter != NULL) {
             if (iter == client) {
                 alreadyExists = true;
@@ -186,6 +189,7 @@ void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* 
 
     {
         FaultAddrConvClient* iter = sFaultStructPtr->addrConvClients;
+
         while (iter != NULL) {
             if (iter == client) {
                 alreadyExists = true;
@@ -370,6 +374,7 @@ void Fault_LogFReg(s32 idx, f32* value) {
 void Fault_PrintFPCR(u32 value) {
     s32 i;
     u32 flag = 0x20000;
+
     FaultDrawer_Printf("FPCSR:%08xH ", value);
     for (i = 0; i < 6; i++) {
         if (value & flag) {
@@ -384,6 +389,7 @@ void Fault_PrintFPCR(u32 value) {
 void Fault_LogFPCR(u32 value) {
     s32 i;
     u32 flag = 0x20000;
+
     osSyncPrintf("FPCSR:%08xH  ", value);
     for (i = 0; i < 6; i++) {
         if (value & flag) {
@@ -397,6 +403,7 @@ void Fault_LogFPCR(u32 value) {
 void Fault_PrintThreadContext(OSThread* t) {
     __OSThreadContext* ctx;
     s32 causeStrIdx = (s32)((((u32)t->context.cause >> 2) & 0x1f) << 0x10) >> 0x10;
+
     if (causeStrIdx == 0x17) {
         causeStrIdx = 0x10;
     }
@@ -456,6 +463,7 @@ void Fault_PrintThreadContext(OSThread* t) {
 void Fault_LogThreadContext(OSThread* t) {
     __OSThreadContext* ctx;
     s32 causeStrIdx = (s32)((((u32)t->context.cause >> 2) & 0x1f) << 0x10) >> 0x10;
+
     if (causeStrIdx == 0x17) {
         causeStrIdx = 0x10;
     }
@@ -509,6 +517,7 @@ void Fault_LogThreadContext(OSThread* t) {
 
 OSThread* Fault_FindFaultedThread() {
     OSThread* iter = __osGetActiveQueue();
+
     while (iter->priority != -1) {
         if (iter->priority > 0 && iter->priority < 0x7f && (iter->flags & 3)) {
             return iter;
@@ -520,6 +529,7 @@ OSThread* Fault_FindFaultedThread() {
 
 void Fault_Wait5Seconds(void) {
     OSTime start[2]; // to make the function allocate 0x28 bytes of stack instead of 0x20
+
     start[0] = osGetTime();
     do {
         Fault_Sleep(0x10);
@@ -892,6 +902,7 @@ void Fault_ResumeThread(OSThread* t) {
 
 void Fault_CommitFB() {
     u16* fb;
+
     osViSetYScale(1.0f);
     osViSetMode(&osViModeNtscLan1);
     osViSetSpecialFeatures(OS_VI_GAMMA_OFF | OS_VI_DITHER_FILTER_ON);

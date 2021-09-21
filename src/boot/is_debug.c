@@ -68,6 +68,7 @@ void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
     while (count) {
         u32 addr = (u32)&gISVDbgPrnAdrs->data + (start & 0xffffffc);
         s32 shift = ((3 - (start & 3)) * 8);
+
         if (*str) {
             osEPiReadIo(sISVHandle, addr, &data);
             osEPiWriteIo(sISVHandle, addr, (*str << shift) | (data & ~(0xff << shift)));
