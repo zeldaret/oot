@@ -27,7 +27,7 @@ void SysCfb_Init(s32 n64dd) {
     }
 
     screenSize = SCREEN_WIDTH * SCREEN_HEIGHT;
-    sSysCfbEnd &= ~0x3f;
+    sSysCfbEnd &= ~0x3F;
     // "The final address used by the system is %08x"
     osSyncPrintf("システムが使用する最終アドレスは %08x です\n", sSysCfbEnd);
     sSysCfbFbPtr[0] = sSysCfbEnd - (screenSize * 4);

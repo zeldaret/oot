@@ -98,7 +98,7 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("ORGAN DRAW  1\n");
     func_80093D18(globalCtx->state.gfxCtx);
-    if ((thisx->params == 1) && (dorf->organFadeTimer != 0xff)) {
+    if ((thisx->params == 1) && (dorf->organFadeTimer != 255)) {
         gSPSegment(POLY_OPA_DISP++, 0x08, func_80A280BC(globalCtx->state.gfxCtx, dorf));
         gSPSegment(POLY_OPA_DISP++, 0x09, func_80A28148(globalCtx->state.gfxCtx, dorf));
     } else {

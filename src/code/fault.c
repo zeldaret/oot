@@ -351,9 +351,9 @@ void Fault_DrawCornerRec(u16 color) {
 
 void Fault_PrintFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
-    s32 v0 = ((raw & 0x7f800000) >> 0x17) - 0x7f;
+    s32 v0 = ((raw & 0x7F800000) >> 0x17) - 0x7F;
 
-    if ((v0 >= -0x7e && v0 < 0x80) || raw == 0) {
+    if ((v0 >= -0x7E && v0 < 0x80) || raw == 0) {
         FaultDrawer_Printf("F%02d:%14.7e ", idx, *value);
     } else {
         FaultDrawer_Printf("F%02d:  %08x(16) ", idx, raw);
@@ -362,9 +362,9 @@ void Fault_PrintFReg(s32 idx, f32* value) {
 
 void Fault_LogFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
-    s32 v0 = ((raw & 0x7f800000) >> 0x17) - 0x7f;
+    s32 v0 = ((raw & 0x7F800000) >> 0x17) - 0x7F;
 
-    if ((v0 >= -0x7e && v0 < 0x80) || raw == 0) {
+    if ((v0 >= -0x7E && v0 < 0x80) || raw == 0) {
         osSyncPrintf("F%02d:%14.7e ", idx, *value);
     } else {
         osSyncPrintf("F%02d:  %08x(16) ", idx, *(u32*)value);
@@ -402,12 +402,12 @@ void Fault_LogFPCR(u32 value) {
 
 void Fault_PrintThreadContext(OSThread* t) {
     __OSThreadContext* ctx;
-    s32 causeStrIdx = (s32)((((u32)t->context.cause >> 2) & 0x1f) << 0x10) >> 0x10;
+    s32 causeStrIdx = (s32)((((u32)t->context.cause >> 2) & 0x1F) << 0x10) >> 0x10;
 
     if (causeStrIdx == 0x17) {
         causeStrIdx = 0x10;
     }
-    if (causeStrIdx == 0x1f) {
+    if (causeStrIdx == 0x1F) {
         causeStrIdx = 0x11;
     }
 
@@ -440,10 +440,10 @@ void Fault_PrintThreadContext(OSThread* t) {
     Fault_PrintFReg(6, &ctx->fp6.f.f_even);
     FaultDrawer_Printf("\n");
     Fault_PrintFReg(8, &ctx->fp8.f.f_even);
-    Fault_PrintFReg(0xa, &ctx->fp10.f.f_even);
+    Fault_PrintFReg(0xA, &ctx->fp10.f.f_even);
     FaultDrawer_Printf("\n");
-    Fault_PrintFReg(0xc, &ctx->fp12.f.f_even);
-    Fault_PrintFReg(0xe, &ctx->fp14.f.f_even);
+    Fault_PrintFReg(0xC, &ctx->fp12.f.f_even);
+    Fault_PrintFReg(0xE, &ctx->fp14.f.f_even);
     FaultDrawer_Printf("\n");
     Fault_PrintFReg(0x10, &ctx->fp16.f.f_even);
     Fault_PrintFReg(0x12, &ctx->fp18.f.f_even);
@@ -452,22 +452,22 @@ void Fault_PrintThreadContext(OSThread* t) {
     Fault_PrintFReg(0x16, &ctx->fp22.f.f_even);
     FaultDrawer_Printf("\n");
     Fault_PrintFReg(0x18, &ctx->fp24.f.f_even);
-    Fault_PrintFReg(0x1a, &ctx->fp26.f.f_even);
+    Fault_PrintFReg(0x1A, &ctx->fp26.f.f_even);
     FaultDrawer_Printf("\n");
-    Fault_PrintFReg(0x1c, &ctx->fp28.f.f_even);
-    Fault_PrintFReg(0x1e, &ctx->fp30.f.f_even);
+    Fault_PrintFReg(0x1C, &ctx->fp28.f.f_even);
+    Fault_PrintFReg(0x1E, &ctx->fp30.f.f_even);
     FaultDrawer_Printf("\n");
     FaultDrawer_SetCharPad(0, 0);
 }
 
 void Fault_LogThreadContext(OSThread* t) {
     __OSThreadContext* ctx;
-    s32 causeStrIdx = (s32)((((u32)t->context.cause >> 2) & 0x1f) << 0x10) >> 0x10;
+    s32 causeStrIdx = (s32)((((u32)t->context.cause >> 2) & 0x1F) << 0x10) >> 0x10;
 
     if (causeStrIdx == 0x17) {
         causeStrIdx = 0x10;
     }
-    if (causeStrIdx == 0x1f) {
+    if (causeStrIdx == 0x1F) {
         causeStrIdx = 0x11;
     }
 
@@ -496,10 +496,10 @@ void Fault_LogThreadContext(OSThread* t) {
     Fault_LogFReg(6, &ctx->fp6.f.f_even);
     osSyncPrintf("\n");
     Fault_LogFReg(8, &ctx->fp8.f.f_even);
-    Fault_LogFReg(0xa, &ctx->fp10.f.f_even);
+    Fault_LogFReg(0xA, &ctx->fp10.f.f_even);
     osSyncPrintf("\n");
-    Fault_LogFReg(0xc, &ctx->fp12.f.f_even);
-    Fault_LogFReg(0xe, &ctx->fp14.f.f_even);
+    Fault_LogFReg(0xC, &ctx->fp12.f.f_even);
+    Fault_LogFReg(0xE, &ctx->fp14.f.f_even);
     osSyncPrintf("\n");
     Fault_LogFReg(0x10, &ctx->fp16.f.f_even);
     Fault_LogFReg(0x12, &ctx->fp18.f.f_even);
@@ -508,10 +508,10 @@ void Fault_LogThreadContext(OSThread* t) {
     Fault_LogFReg(0x16, &ctx->fp22.f.f_even);
     osSyncPrintf("\n");
     Fault_LogFReg(0x18, &ctx->fp24.f.f_even);
-    Fault_LogFReg(0x1a, &ctx->fp26.f.f_even);
+    Fault_LogFReg(0x1A, &ctx->fp26.f.f_even);
     osSyncPrintf("\n");
-    Fault_LogFReg(0x1c, &ctx->fp28.f.f_even);
-    Fault_LogFReg(0x1e, &ctx->fp30.f.f_even);
+    Fault_LogFReg(0x1C, &ctx->fp28.f.f_even);
+    Fault_LogFReg(0x1E, &ctx->fp30.f.f_even);
     osSyncPrintf("\n");
 }
 
@@ -519,7 +519,7 @@ OSThread* Fault_FindFaultedThread() {
     OSThread* iter = __osGetActiveQueue();
 
     while (iter->priority != -1) {
-        if (iter->priority > 0 && iter->priority < 0x7f && (iter->flags & 3)) {
+        if (iter->priority > 0 && iter->priority < 0x7F && (iter->flags & 3)) {
             return iter;
         }
         iter = iter->tlnext;
@@ -533,7 +533,7 @@ void Fault_Wait5Seconds(void) {
     start[0] = osGetTime();
     do {
         Fault_Sleep(0x10);
-    } while ((osGetTime() - start[0]) < OS_USEC_TO_CYCLES(5000000) + 1); // 0xdf84759
+    } while ((osGetTime() - start[0]) < OS_USEC_TO_CYCLES(5000000) + 1);
 
     sFaultStructPtr->faultActive = true;
 }
@@ -694,8 +694,8 @@ void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
     if (alignedAddr < (u32*)0x80000000) {
         alignedAddr = (u32*)0x80000000;
     }
-    if (alignedAddr > (u32*)0x807fff00) {
-        alignedAddr = (u32*)0x807fff00;
+    if (alignedAddr > (u32*)0x807FFF00) {
+        alignedAddr = (u32*)0x807FFF00;
     }
 
     alignedAddr = (u32*)((u32)alignedAddr & ~3);
@@ -727,8 +727,8 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         if (addr < 0x80000000) {
             addr = 0x80000000;
         }
-        if (addr > 0x807fff00) {
-            addr = 0x807fff00;
+        if (addr > 0x807FFF00) {
+            addr = 0x807FFF00;
         }
 
         addr &= ~0xF;
@@ -894,7 +894,7 @@ void Fault_ResumeThread(OSThread* t) {
     t->context.cause = 0;
     t->context.fpcsr = 0;
     t->context.pc += 4;
-    *(u32*)t->context.pc = 0xd;
+    *(u32*)t->context.pc = 0xD;
     osWritebackDCache(t->context.pc, 4);
     osInvalICache(t->context.pc, 4);
     osStartThread(t);
@@ -983,7 +983,7 @@ void Fault_ThreadEntry(void* arg) {
             }
         } while (faultedThread == NULL);
 
-        __osSetFpcCsr(__osGetFpcCsr() & -0xf81);
+        __osSetFpcCsr(__osGetFpcCsr() & -0xF81);
         sFaultStructPtr->faultedThread = faultedThread;
 
         while (!sFaultStructPtr->faultHandlerEnabled) {

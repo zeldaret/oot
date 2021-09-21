@@ -257,7 +257,7 @@ void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterHoverAnim, -5.0f);
-    this->timer = -0x1e;
+    this->timer = -0x1E;
     this->actionFunc = EnWallmas_TakePlayer;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
