@@ -1,5 +1,5 @@
-#ifndef _Z_BG_GANON_OTYUKA_H_
-#define _Z_BG_GANON_OTYUKA_H_
+#ifndef Z_BG_GANON_OTYUKA_H
+#define Z_BG_GANON_OTYUKA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -31,7 +31,5 @@ typedef struct BgGanonOtyuka {
     /* 0x0184 */ f32 flashEnvColorG;
     /* 0x0188 */ f32 flashEnvColorB;
 } BgGanonOtyuka; // size = 0x018C
-
-extern const ActorInit Bg_Ganon_Otyuka_InitVars;
 
 #endif

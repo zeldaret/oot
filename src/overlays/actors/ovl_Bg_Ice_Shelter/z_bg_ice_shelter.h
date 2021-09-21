@@ -1,5 +1,5 @@
-#ifndef _Z_BG_ICE_SHELTER_H_
-#define _Z_BG_ICE_SHELTER_H_
+#ifndef Z_BG_ICE_SHELTER_H
+#define Z_BG_ICE_SHELTER_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct BgIceShelter {
     /* 0x01B4 */ ColliderCylinder cylinder2;
     /* 0x0200 */ s16 alpha;
 } BgIceShelter; // size = 0x0204
-
-extern const ActorInit Bg_Ice_Shelter_InitVars;
 
 #endif

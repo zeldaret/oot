@@ -1,5 +1,5 @@
-#ifndef _Z_EN_WONDER_ITEM_H_
-#define _Z_EN_WONDER_ITEM_H_
+#ifndef Z_EN_WONDER_ITEM_H
+#define Z_EN_WONDER_ITEM_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -57,7 +57,5 @@ typedef enum {
     /* B */ WONDERITEM_DROP_FLEXIBLE,
     /* C */ WONDERITEM_DROP_RANDOM
 } EnWonderItemDrop;
-
-extern const ActorInit En_Wonder_Item_InitVars;
 
 #endif

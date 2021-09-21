@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BX_H_
-#define _Z_EN_BX_H_
+#ifndef Z_EN_BX_H
+#define Z_EN_BX_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef struct EnBx {
     /* 0x01CC */ ColliderCylinder collider;
     /* 0x0218 */ ColliderQuad colliderQuad;
 } EnBx; // size = 0x0298
-
-extern const ActorInit En_Bx_InitVars;
 
 #endif

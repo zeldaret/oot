@@ -127,7 +127,7 @@ s32 EnIshi_SnapToFloor(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
         return true;
     } else {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // Translation: Failure attaching to ground
+        // "Failure attaching to ground"
         osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_ishi.c", 388);
         osSyncPrintf(VT_RST);
         return false;

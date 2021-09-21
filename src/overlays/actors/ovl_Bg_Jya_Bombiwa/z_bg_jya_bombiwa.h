@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_BOMBIWA_H_
-#define _Z_BG_JYA_BOMBIWA_H_
+#ifndef Z_BG_JYA_BOMBIWA_H
+#define Z_BG_JYA_BOMBIWA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct BgJyaBombiwa {
     /* 0x0168 */ ColliderJntSph collider;
     /* 0x0188 */ ColliderJntSphElement colliderItems[1];
 } BgJyaBombiwa; // size = 0x01C8
-
-extern const ActorInit Bg_Jya_Bombiwa_InitVars;
 
 #endif

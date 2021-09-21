@@ -1,5 +1,5 @@
-#ifndef _Z_BG_ICE_OBJECTS_H_
-#define _Z_BG_ICE_OBJECTS_H_
+#ifndef Z_BG_ICE_OBJECTS_H
+#define Z_BG_ICE_OBJECTS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct BgIceObjects {
     /* 0x0164 */ BgIceObjectsActionFunc actionFunc;
     /* 0x0168 */ Vec3f targetPos;
 } BgIceObjects; // size = 0x0174
-
-extern const ActorInit Bg_Ice_Objects_InitVars;
 
 #endif

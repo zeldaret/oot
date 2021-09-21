@@ -1,5 +1,5 @@
-#ifndef _Z_EN_VALI_H_
-#define _Z_EN_VALI_H_
+#ifndef Z_EN_VALI_H
+#define Z_EN_VALI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -56,8 +56,6 @@ typedef struct EnVali {
     /* 0x037C */ ColliderQuad rightArmCollider;
     /* 0x03FC */ ColliderCylinder bodyCollider;
 } EnVali; // size = 0x0448
-
-extern const ActorInit En_Vali_InitVars;
 
 typedef enum {
     /* 0 */ BARI_TYPE_NORMAL,

@@ -1,5 +1,8 @@
 #include "global.h"
 
+#include "scenes/overworld/spot00/spot00_room_0.h"
+#include "scenes/overworld/spot16/spot16_room_0.h"
+
 #define ENTRANCE(scene, spawn, continueBgm, displayTitleCard, fadeIn, fadeOut)                                     \
     {                                                                                                              \
         scene, spawn,                                                                                              \
@@ -1085,10 +1088,10 @@ void func_80099BD8(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5145);
 
     if (gSaveContext.sceneSetupIndex == 5) {
-        D_8015FCF0 = 1;
-        D_8015FCF8.x = -20.0f;
-        D_8015FCF8.y = 1220.0f;
-        D_8015FCF8.z = -684.0f;
+        gCustomLensFlareOn = true;
+        gCustomLensFlarePos.x = -20.0f;
+        gCustomLensFlarePos.y = 1220.0f;
+        gCustomLensFlarePos.z = -684.0f;
         D_8015FD06 = 10;
         D_8015FD08 = 8.0f;
         D_8015FD0C = 200;
@@ -1839,7 +1842,7 @@ void func_8009DA30(GlobalContext* globalCtx) {
         }
 
         gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, globalCtx->roomCtx.unk_74[0]);
-        gSPDisplayList(displayListHead++, &D_03012B20);
+        gSPDisplayList(displayListHead++, spot00_room_0DL_012B20);
         gSPEndDisplayList(displayListHead);
     }
 
@@ -2190,7 +2193,7 @@ void func_8009F5D4(GlobalContext* globalCtx) {
         }
 
         gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, globalCtx->roomCtx.unk_74[0]);
-        gSPDisplayList(displayListHead++, &D_0300AA48);
+        gSPDisplayList(displayListHead++, spot16_room_0DL_00AA48);
         gSPEndDisplayList(displayListHead);
     }
 

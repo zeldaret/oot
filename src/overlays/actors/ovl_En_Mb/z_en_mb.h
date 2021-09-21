@@ -1,5 +1,5 @@
-#ifndef _Z_EN_MB_H_
-#define _Z_EN_MB_H_
+#ifndef Z_EN_MB_H
+#define Z_EN_MB_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -49,7 +49,5 @@ typedef struct EnMb {
     /* 0x0434 */ ColliderTris frontShielding; // Moblins don't have shields, but this acts as one
     /* 0x0454 */ ColliderTrisElement frontShieldingTris[2];
 } EnMb; // size = 0x050C
-
-extern const ActorInit En_Mb_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GELDB_H_
-#define _Z_EN_GELDB_H_
+#ifndef Z_EN_GELDB_H
+#define Z_EN_GELDB_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -68,7 +68,5 @@ typedef struct EnGeldB {
     /* 0x04D0 */ Vec3f leftFootPos;
     /* 0x04DC */ Vec3s headRot;
 } EnGeldB; // size = 0x04E4
-
-extern const ActorInit En_Geldb_InitVars;
 
 #endif

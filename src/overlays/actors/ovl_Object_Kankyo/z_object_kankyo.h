@@ -1,5 +1,5 @@
-#ifndef _Z_OBJECT_KANKYO_H_
-#define _Z_OBJECT_KANKYO_H_
+#ifndef Z_OBJECT_KANKYO_H
+#define Z_OBJECT_KANKYO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct ObjectKankyo {
     /* 0x014C */ char unk_14C[0x1510];
     /* 0x165C */ ObjectKankyoActionFunc actionFunc;
 } ObjectKankyo; // size = 0x1660
-
-extern const ActorInit Object_Kankyo_InitVars;
 
 #endif

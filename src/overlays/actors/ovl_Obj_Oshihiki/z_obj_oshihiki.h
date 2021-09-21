@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_OSHIHIKI_H_
-#define _Z_OBJ_OSHIHIKI_H_
+#ifndef Z_OBJ_OSHIHIKI_H
+#define Z_OBJ_OSHIHIKI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -50,7 +50,5 @@ typedef struct ObjOshihiki {
     /* 0x01CC */ void* texture;
     /* 0x01D0 */ Color_RGB8 color;
 } ObjOshihiki; // size = 0x01D4
-
-extern const ActorInit Obj_Oshihiki_InitVars;
 
 #endif

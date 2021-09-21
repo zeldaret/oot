@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DNT_JIJI_H_
-#define _Z_EN_DNT_JIJI_H_
+#ifndef Z_EN_DNT_JIJI_H
+#define Z_EN_DNT_JIJI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -31,7 +31,5 @@ typedef struct EnDntJiji {
     /* 0x0258 */ struct EnDntDemo* stage;
     /* 0x025C */ ColliderCylinder collider;
 } EnDntJiji; // size = 0x02A8
-
-extern const ActorInit En_Dnt_Jiji_InitVars;
 
 #endif

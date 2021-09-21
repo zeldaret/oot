@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GE2_H_
-#define _Z_EN_GE2_H_
+#ifndef Z_EN_GE2_H
+#define Z_EN_GE2_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -29,7 +29,5 @@ typedef struct EnGe2 {
     /* 0x0306 */ u8 playerSpottedParam;
     /* 0x0308 */ EnGe2ActionFunc actionFunc;
 } EnGe2; // size = 0x030C
-
-extern const ActorInit En_Ge2_InitVars;
 
 #endif

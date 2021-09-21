@@ -1,5 +1,5 @@
-#ifndef _Z_EN_CS_H_
-#define _Z_EN_CS_H_
+#ifndef Z_EN_CS_H
+#define Z_EN_CS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -33,7 +33,5 @@ typedef struct EnCs {
     /* 0x0284 */ Vec3s jointTable[16];
     /* 0x02E4 */ Vec3s morphTable[16];
 } EnCs; // size = 0x0344
-
-extern const ActorInit En_Cs_InitVars;
 
 #endif

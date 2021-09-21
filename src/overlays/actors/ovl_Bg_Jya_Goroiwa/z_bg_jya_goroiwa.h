@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_GOROIWA_H_
-#define _Z_BG_JYA_GOROIWA_H_
+#ifndef Z_BG_JYA_GOROIWA_H
+#define Z_BG_JYA_GOROIWA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct BgJyaGoroiwa {
     /* 0x01B6 */ s16 waitTimer;
     /* 0x01B8 */ f32 yOffsetSpeed;
 } BgJyaGoroiwa; // size = 0x01BC
-
-extern const ActorInit Bg_Jya_Goroiwa_InitVars;
 
 #endif

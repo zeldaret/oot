@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_TW_H_
-#define _Z_BOSS_TW_H_
+#ifndef Z_BOSS_TW_H
+#define Z_BOSS_TW_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -134,7 +134,5 @@ typedef struct BossTw {
     /* 0x06AC */ f32 subCamYaw;
     /* 0x06B0 */ f32 subCamYawStep;
 } BossTw; // size = 0x06B4
-
-extern const ActorInit Boss_Tw_InitVars;
 
 #endif

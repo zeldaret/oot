@@ -1,5 +1,5 @@
-#ifndef _Z_ITEM_B_HEART_H_
-#define _Z_ITEM_B_HEART_H_
+#ifndef Z_ITEM_B_HEART_H
+#define Z_ITEM_B_HEART_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct ItemBHeart {
     /* 0x0164 */ s16 unk_164;
     /* 0x0166 */ char unk_166[0x6];
 } ItemBHeart; // size = 0x016C
-
-extern const ActorInit Item_B_Heart_InitVars;
 
 #endif

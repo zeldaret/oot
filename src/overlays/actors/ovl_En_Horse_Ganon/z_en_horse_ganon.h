@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HORSE_GANON_H_
-#define _Z_EN_HORSE_GANON_H_
+#ifndef Z_EN_HORSE_GANON_H
+#define Z_EN_HORSE_GANON_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -23,7 +23,5 @@ typedef struct EnHorseGanon {
     /* 0x0248 */ ColliderJntSph colliderHead;
     /* 0x0268 */ ColliderJntSphElement headElements[1];
 } EnHorseGanon; // size = 0x02A8
-
-extern const ActorInit En_Horse_Ganon_InitVars;
 
 #endif

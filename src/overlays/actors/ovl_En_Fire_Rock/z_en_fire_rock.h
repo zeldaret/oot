@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FIRE_ROCK_H_
-#define _Z_EN_FIRE_ROCK_H_
+#ifndef Z_EN_FIRE_ROCK_H
+#define Z_EN_FIRE_ROCK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -35,7 +35,5 @@ typedef struct EnFireRock {
     /* 0x0190 */ EnEncount2* spawner;
     /* 0x0194 */ ColliderCylinder collider;
 } EnFireRock; // size = 0x01E0
-
-extern const ActorInit En_Fire_Rock_InitVars;
 
 #endif

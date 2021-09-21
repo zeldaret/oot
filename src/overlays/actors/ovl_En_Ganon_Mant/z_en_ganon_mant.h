@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GANON_MANT_H_
-#define _Z_EN_GANON_MANT_H_
+#ifndef Z_EN_GANON_MANT_H
+#define Z_EN_GANON_MANT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -38,7 +38,5 @@ typedef struct EnGanonMant {
     /* 0x1705 */ u8 updateHasRun;
     /* 0x1706 */ u8 frameTimer;
 } EnGanonMant; // size = 0x1708
-
-extern const ActorInit En_Ganon_Mant_InitVars;
 
 #endif

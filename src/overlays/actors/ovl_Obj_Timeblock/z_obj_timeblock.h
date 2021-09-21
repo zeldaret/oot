@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_TIMEBLOCK_H_
-#define _Z_OBJ_TIMEBLOCK_H_
+#ifndef Z_OBJ_TIMEBLOCK_H
+#define Z_OBJ_TIMEBLOCK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -23,7 +23,5 @@ typedef struct ObjTimeblock {
     /* 0x0177 */ u8 unk_177;
     /* 0x0178 */ u8 isVisible;
 } ObjTimeblock; // size = 0x017C
-
-extern const ActorInit Obj_Timeblock_InitVars;
 
 #endif

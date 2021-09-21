@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_GJ_H_
-#define _Z_DEMO_GJ_H_
+#ifndef Z_DEMO_GJ_H
+#define Z_DEMO_GJ_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,8 +21,6 @@ typedef struct DemoGj {
     /* 0x0268 */ s32 killFlag; // This actor never sets this flag, but it reads it. If set to `true` and the actor type is DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1, DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_2 or DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_TALL, then the actor will be killed and will drop the specified amount of collectibles.
     /* 0x026C */ Vec3f unk_26C; // This actor never sets this. Specifies which direction will this actor explode when killed using `killFlag`.
 } DemoGj; // size = 0x0278
-
-extern const ActorInit Demo_Gj_InitVars;
 
 /**
  * The format of this actor's params is the following:

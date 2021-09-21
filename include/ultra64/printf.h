@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_PRINTF_H_
-#define _ULTRA64_PRINTF_H_
+#ifndef ULTRA64_PRINTF_H
+#define ULTRA64_PRINTF_H
 #include "stdarg.h"
 
 typedef struct {

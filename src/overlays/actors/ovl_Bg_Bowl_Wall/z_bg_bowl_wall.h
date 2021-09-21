@@ -1,5 +1,5 @@
-#ifndef _Z_BG_BOWL_WALL_H_
-#define _Z_BG_BOWL_WALL_H_
+#ifndef Z_BG_BOWL_WALL_H
+#define Z_BG_BOWL_WALL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct BgBowlWall {
     /* 0x0182 */ s16 timer;
     /* 0x0184 */ EnBomBowlMan* chuGirl;
 } BgBowlWall; // size = 0x0188
-
-extern const ActorInit Bg_Bowl_Wall_InitVars;
 
 #endif

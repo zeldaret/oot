@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HORSE_GAME_CHECK_H_
-#define _Z_EN_HORSE_GAME_CHECK_H_
+#ifndef Z_EN_HORSE_GAME_CHECK_H
+#define Z_EN_HORSE_GAME_CHECK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -61,7 +61,5 @@ typedef enum {
     /* 3 */ HORSEGAME_TYPE3,
     /* 4 */ HORSEGAME_MALON_RACE
 } EnHorseGameCheckType;
-
-extern const ActorInit En_Horse_Game_Check_InitVars;
 
 #endif

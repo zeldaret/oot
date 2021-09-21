@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_EC_H_
-#define _Z_DEMO_EC_H_
+#ifndef Z_DEMO_EC_H
+#define Z_DEMO_EC_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,7 +21,5 @@ typedef struct DemoEc {
     /* 0x01A0 */ s32 drawObjBankIndex;
     /* 0x01A4 */ s32 animObjBankIndex;
 } DemoEc; // size = 0x01A8
-
-extern const ActorInit Demo_Ec_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_PO_DESERT_H_
-#define _Z_EN_PO_DESERT_H_
+#ifndef Z_EN_PO_DESERT_H
+#define Z_EN_PO_DESERT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -25,7 +25,5 @@ typedef struct EnPoDesert {
     /* 0x0228 */ LightInfo lightInfo;
     /* 0x0238 */ ColliderCylinder collider;
 } EnPoDesert; // size = 0x0284
-
-extern const ActorInit En_Po_Desert_InitVars;
 
 #endif

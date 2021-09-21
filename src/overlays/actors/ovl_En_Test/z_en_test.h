@@ -1,5 +1,5 @@
-#ifndef _Z_EN_TEST_H_
-#define _Z_EN_TEST_H_
+#ifndef Z_EN_TEST_H
+#define Z_EN_TEST_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -110,7 +110,5 @@ typedef enum {
     /* 4 */ STALFOS_TYPE_4,
     /* 5 */ STALFOS_TYPE_5
 } StalfosType;
-
-extern const ActorInit En_Test_InitVars;
 
 #endif

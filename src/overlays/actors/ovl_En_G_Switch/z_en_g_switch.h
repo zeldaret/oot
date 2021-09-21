@@ -1,5 +1,5 @@
-#ifndef _Z_EN_G_SWITCH_H_
-#define _Z_EN_G_SWITCH_H_
+#ifndef Z_EN_G_SWITCH_H
+#define Z_EN_G_SWITCH_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -56,7 +56,5 @@ typedef struct EnGSwitch {
     /* 0x017C */ ColliderCylinder collider;
     /* 0x01C8 */ EnGSwitchEffect effects[100];
 } EnGSwitch; // size = 0x12F8
-
-extern const ActorInit En_G_Switch_InitVars;
 
 #endif

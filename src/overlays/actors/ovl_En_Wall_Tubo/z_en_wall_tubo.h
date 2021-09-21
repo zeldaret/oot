@@ -1,5 +1,5 @@
-#ifndef _Z_EN_WALL_TUBO_H_
-#define _Z_EN_WALL_TUBO_H_
+#ifndef Z_EN_WALL_TUBO_H
+#define Z_EN_WALL_TUBO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef struct EnWallTubo {
     /* 0x0160 */ EnBomBowlMan* chuGirl;
     /* 0x0164 */ Vec3f unk_164;
 } EnWallTubo; // size = 0x0170
-
-extern const ActorInit En_Wall_Tubo_InitVars;
 
 #endif

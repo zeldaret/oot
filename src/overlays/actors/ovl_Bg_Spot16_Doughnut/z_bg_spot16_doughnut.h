@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT16_DOUGHNUT_H_
-#define _Z_BG_SPOT16_DOUGHNUT_H_
+#ifndef Z_BG_SPOT16_DOUGHNUT_H
+#define Z_BG_SPOT16_DOUGHNUT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -12,7 +12,5 @@ typedef struct BgSpot16Doughnut {
     /* 0x014E */ char pad[0x02];
     /* 0x0150 */ u8 envColorAlpha;
 } BgSpot16Doughnut; // size = 0x0154
-
-extern const ActorInit Bg_Spot16_Doughnut_InitVars;
 
 #endif

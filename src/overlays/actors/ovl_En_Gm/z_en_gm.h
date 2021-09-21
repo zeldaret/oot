@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GM_H_
-#define _Z_EN_GM_H_
+#ifndef Z_EN_GM_H
+#define Z_EN_GM_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -23,7 +23,5 @@ typedef struct EnGm {
     /* 0x02C2 */ u8 eyeTexIndex;
     /* 0x02C4 */ Vec3f talkPos;
 } EnGm; // size = 0x02D0
-
-extern const ActorInit En_Gm_InitVars;
 
 #endif

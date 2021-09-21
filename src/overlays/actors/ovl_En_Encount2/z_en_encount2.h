@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ENCOUNT2_H_
-#define _Z_EN_ENCOUNT2_H_
+#ifndef Z_EN_ENCOUNT2_H
+#define Z_EN_ENCOUNT2_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -37,7 +37,5 @@ typedef struct EnEncount2 {
     /* 0x0180 */ u64 isQuaking;
     /* 0x0188 */ EnEncount2Particle particles[50];
 } EnEncount2; // size = 0x0A20
-
-extern const ActorInit En_Encount2_InitVars;
 
 #endif

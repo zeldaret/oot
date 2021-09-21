@@ -167,7 +167,8 @@ void PadMgr_RumbleStop(PadMgr* padMgr) {
         if (osProbeRumblePak(ctrlrQ, &padMgr->pfs[i], i) == 0) {
             if ((gFaultStruct.msgId == 0) && (padMgr->rumbleOnFrames != 0)) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
-                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止"); // "Stop vibration pack"
+                // "Stop vibration pack"
+                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
                 osSyncPrintf(VT_RST);
             }
 
@@ -227,7 +228,8 @@ void PadMgr_ProcessInputs(PadMgr* padMgr) {
                 input->cur = input->prev;
                 LOG_NUM("this->Key_switch[i]", padMgr->ctrlrIsConnected[i], "../padmgr.c", 380);
                 osSyncPrintf(VT_FGCOL(YELLOW));
-                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "オーバーランエラーが発生"); // "Overrun error occurred"
+                // "Overrun error occurred"
+                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "オーバーランエラーが発生");
                 osSyncPrintf(VT_RST);
                 break;
             case 8:
@@ -240,7 +242,8 @@ void PadMgr_ProcessInputs(PadMgr* padMgr) {
                     padMgr->pakType[i] = 0;
                     padMgr->rumbleCounter[i] = 0xFF;
                     osSyncPrintf(VT_FGCOL(YELLOW));
-                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "応答しません"); // "Do not respond"?
+                    // "Do not respond"?
+                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "応答しません");
                     osSyncPrintf(VT_RST);
                 }
                 break;
@@ -351,8 +354,7 @@ void PadMgr_ThreadEntry(PadMgr* padMgr) {
     s16* mesg = NULL;
     s32 exit;
 
-    // "Controller thread execution start"
-    osSyncPrintf("コントローラスレッド実行開始\n");
+    osSyncPrintf("コントローラスレッド実行開始\n"); // "Controller thread execution start"
 
     exit = false;
     while (!exit) {
@@ -388,13 +390,11 @@ void PadMgr_ThreadEntry(PadMgr* padMgr) {
 
     IrqMgr_RemoveClient(padMgr->irqMgr, &padMgr->irqClient);
 
-    // "Controller thread execution end"
-    osSyncPrintf("コントローラスレッド実行終了\n");
+    osSyncPrintf("コントローラスレッド実行終了\n"); // "Controller thread execution end"
 }
 
 void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* siIntMsgQ, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack) {
-    // "Pad Manager creation"
-    osSyncPrintf("パッドマネージャ作成 padmgr_Create()\n");
+    osSyncPrintf("パッドマネージャ作成 padmgr_Create()\n"); // "Pad Manager creation"
 
     bzero(padMgr, sizeof(PadMgr));
     padMgr->irqMgr = irqMgr;

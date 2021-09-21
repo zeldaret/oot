@@ -377,11 +377,11 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
         Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, CAM_STAT_ACTIVE);
         func_800C0808(globalCtx, this->unk_1E8, player, CAM_SET_FREE0);
-        globalCtx->envCtx.unk_E2[0] = 0xFF;
-        globalCtx->envCtx.unk_E2[1] = 0xFF;
-        globalCtx->envCtx.unk_E2[2] = 0xFF;
-        globalCtx->envCtx.unk_E2[3] = 0x18;
-        globalCtx->envCtx.unk_E1 = 1;
+        globalCtx->envCtx.screenFillColor[0] = 255;
+        globalCtx->envCtx.screenFillColor[1] = 255;
+        globalCtx->envCtx.screenFillColor[2] = 255;
+        globalCtx->envCtx.screenFillColor[3] = 24;
+        globalCtx->envCtx.fillScreen = true;
         Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &vec1, &vec2);
         Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 30.0f);
         ShrinkWindow_SetVal(0x20);
@@ -435,7 +435,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             break;
         case 1:
             if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-                globalCtx->envCtx.unk_E1 = 0;
+                globalCtx->envCtx.fillScreen = false;
                 Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp74, &sp68);
                 Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 25.0f);
                 player->actor.world.pos = sp58;

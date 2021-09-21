@@ -153,7 +153,7 @@ void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyTris(globalCtx, &this->trisCollider);
 }
 
-void* BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
+void BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
     s16 newY;
     CollisionHeader* colHeader;
 

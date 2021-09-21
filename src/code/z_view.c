@@ -402,8 +402,6 @@ s32 func_800AB2C4(View* view) {
     Mtx* projection;
     GraphicsContext* gfxCtx;
 
-    if (1) {} // Necessary to match
-
     gfxCtx = view->gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 777);

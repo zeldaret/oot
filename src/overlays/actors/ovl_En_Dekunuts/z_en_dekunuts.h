@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DEKUNUTS_H_
-#define _Z_EN_DEKUNUTS_H_
+#ifndef Z_EN_DEKUNUTS_H
+#define Z_EN_DEKUNUTS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,7 +21,5 @@ typedef struct EnDekunuts {
     /* 0x0232 */ Vec3s morphTable[25];
     /* 0x02C8 */ ColliderCylinder collider;
 } EnDekunuts; // size = 0x0314
-
-extern const ActorInit En_Dekunuts_InitVars;
 
 #endif

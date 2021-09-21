@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GIRLA_H_
-#define _Z_EN_GIRLA_H_
+#ifndef Z_EN_GIRLA_H
+#define Z_EN_GIRLA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -34,8 +34,6 @@ typedef struct EnGirlA {
     /* 0x01CC */ s16 giDrawId;
     /* 0x01D0 */ EnGirlA3Func hiliteFunc;
 } EnGirlA; // size = 0x01D4
-
-extern const ActorInit En_GirlA_InitVars;
 
 typedef enum {
     /* 0x00 */ SI_DEKU_NUTS_5,

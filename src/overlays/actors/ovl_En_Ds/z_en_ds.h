@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DS_H_
-#define _Z_EN_DS_H_
+#ifndef Z_EN_DS_H
+#define Z_EN_DS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef struct EnDs {
     /* 0x01EA */ u16 brewTimer;
     /* 0x01EC */ EnDsActionFunc actionFunc;
 } EnDs; // size = 0x01F0
-
-extern const ActorInit En_Ds_InitVars;
 
 #endif

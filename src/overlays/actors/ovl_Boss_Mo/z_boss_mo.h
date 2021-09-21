@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_MO_H_
-#define _Z_BOSS_MO_H_
+#ifndef Z_BOSS_MO_H
+#define Z_BOSS_MO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -131,7 +131,5 @@ typedef struct BossMo {
 
 #define BOSSMO_CORE -1
 #define BOSSMO_TENTACLE 100
-
-extern const ActorInit Boss_Mo_InitVars;
 
 #endif

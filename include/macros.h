@@ -1,5 +1,5 @@
-#ifndef _MACROS_H_
-#define _MACROS_H_
+#ifndef MACROS_H
+#define MACROS_H
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
@@ -10,6 +10,7 @@
 
 #define ALIGN16(val) (((val) + 0xF) & ~0xF)
 #define ALIGN32(val) (((val) + 0x1F) & ~0x1F)
+#define ALIGN64(val) (((val) + 0x3F) & ~0x3F)
 #define ALIGN256(val) (((val) + 0xFF) & ~0xFF)
 
 #define SQ(x) ((x)*(x))

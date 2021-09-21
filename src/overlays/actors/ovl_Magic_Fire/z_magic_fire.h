@@ -1,5 +1,5 @@
-#ifndef _Z_MAGIC_FIRE_H_
-#define _Z_MAGIC_FIRE_H_
+#ifndef Z_MAGIC_FIRE_H
+#define Z_MAGIC_FIRE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef struct MagicFire {
     /* 0x01A8 */ s16 actionTimer;
     /* 0x01AA */ s16 screenTintBehaviourTimer;
 } MagicFire; // size = 0x01AC
-
-extern const ActorInit Magic_Fire_InitVars;
 
 #endif

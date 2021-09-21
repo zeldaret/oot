@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DNT_DEMO_H_
-#define _Z_EN_DNT_DEMO_H_
+#ifndef Z_EN_DNT_DEMO_H
+#define Z_EN_DNT_DEMO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -63,7 +63,5 @@ typedef enum {
     /* 4 */ DNT_ACTION_HIGH_RUPEES,
     /* 5 */ DNT_ACTION_PRIZE
 } EnDntAction;
-
-extern const ActorInit En_Dnt_Demo_InitVars;
 
 #endif

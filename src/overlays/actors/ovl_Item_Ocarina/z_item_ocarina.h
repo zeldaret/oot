@@ -1,5 +1,5 @@
-#ifndef _Z_ITEM_OCARINA_H_
-#define _Z_ITEM_OCARINA_H_
+#ifndef Z_ITEM_OCARINA_H
+#define Z_ITEM_OCARINA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct ItemOcarina {
     /* 0x014C */ ItemOcarinaActionFunc actionFunc;
     /* 0x0150 */ s16 spinRotOffset;
 } ItemOcarina; // size = 0x0154
-
-extern const ActorInit Item_Ocarina_InitVars;
 
 #endif
