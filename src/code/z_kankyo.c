@@ -936,8 +936,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
             if (!envCtx->indoors && (envCtx->unk_BF == 0xFF)) {
                 for (i = 0; i < ARRAY_COUNT(D_8011FB48[envCtx->unk_1F]); i++) {
                     if ((gSaveContext.skyboxTime >= TIME_ENTRY_1F.startTime) &&
-                        ((gSaveContext.skyboxTime < TIME_ENTRY_1F.endTime) ||
-                         TIME_ENTRY_1F.endTime == 0xFFFF)) {
+                        ((gSaveContext.skyboxTime < TIME_ENTRY_1F.endTime) || TIME_ENTRY_1F.endTime == 0xFFFF)) {
                         u8 blend8[2];
                         s16 blend16[2];
 
@@ -1120,7 +1119,8 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
             } else if ((s16)(envCtx->lightSettings.light1Color[i] + envCtx->adjLight1Color[i]) < 0) {
                 envCtx->dirLight1.params.dir.color[i] = 0;
             } else {
-                envCtx->dirLight1.params.dir.color[i] = (s16)(envCtx->lightSettings.light1Color[i] + envCtx->adjLight1Color[i]);
+                envCtx->dirLight1.params.dir.color[i] =
+                    (s16)(envCtx->lightSettings.light1Color[i] + envCtx->adjLight1Color[i]);
             }
 
             if ((s16)(envCtx->lightSettings.light2Color[i] + envCtx->adjLight1Color[i]) > 255) {
@@ -1128,7 +1128,8 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
             } else if ((s16)(envCtx->lightSettings.light2Color[i] + envCtx->adjLight1Color[i]) < 0) {
                 envCtx->dirLight2.params.dir.color[i] = 0;
             } else {
-                envCtx->dirLight2.params.dir.color[i] = (s16)(envCtx->lightSettings.light2Color[i] + envCtx->adjLight1Color[i]);
+                envCtx->dirLight2.params.dir.color[i] =
+                    (s16)(envCtx->lightSettings.light2Color[i] + envCtx->adjLight1Color[i]);
             }
 
             if ((s16)(envCtx->lightSettings.fogColor[i] + envCtx->adjFogColor[i]) > 255) {

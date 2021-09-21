@@ -334,9 +334,8 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         case 0:
         case 1:
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx,
-                        0, 0xFF - ((u8)(s32)(this->unk_1B4 * 30) & 0xff), 0, 0x40, 0x20,
-                        1, 0xFF - ((u8)(s32)(this->unk_1B4 * 20) & 0xff), 0, 8, 8));
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0xFF - ((u8)(s32)(this->unk_1B4 * 30) & 0xff), 0,
+                                        0x40, 0x20, 1, 0xFF - ((u8)(s32)(this->unk_1B4 * 20) & 0xff), 0, 8, 8));
             break;
     }
 
@@ -389,9 +388,9 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx,
-               0, (globalCtx->gameplayFrames * 5) & 0xff, 0, 0x20, 0x20,
-               1, (globalCtx->gameplayFrames * 20) & 0xff, (globalCtx->gameplayFrames * phi_t1) & 0xff, 8, 8));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->gameplayFrames * 5) & 0xff, 0, 0x20, 0x20, 1,
+                                (globalCtx->gameplayFrames * 20) & 0xff, (globalCtx->gameplayFrames * phi_t1) & 0xff, 8,
+                                8));
 
     gSPDisplayList(POLY_XLU_DISP++, gSpinAttackChargingDL);
 
