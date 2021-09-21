@@ -415,17 +415,17 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
                     }
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                        if (i != gSaveContext.inventory.items[SLOT(gAmmoItems[i])]) {
-                            gSaveContext.inventory.items[SLOT(gAmmoItems[i])] = gAmmoItems[i];
+                        if (i != INV_CONTENT(gAmmoItems[i])) {
+                            INV_CONTENT(gAmmoItems[i]) = gAmmoItems[i];
                         }
-                        gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])]++;
-                        if (gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] > 99) {
-                            gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] = 99;
+                        AMMO(gAmmoItems[i])++;
+                        if (AMMO(gAmmoItems[i]) > 99) {
+                            AMMO(gAmmoItems[i]) = 99;
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                        gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])]--;
-                        if (gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] < 0) {
-                            gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] = 0;
+                        AMMO(gAmmoItems[i])--;
+                        if (AMMO(gAmmoItems[i]) < 0) {
+                            AMMO(gAmmoItems[i]) = 0;
                         }
                     }
                 } else if (i == SLOT_OCARINA) {
