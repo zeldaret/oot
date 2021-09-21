@@ -3,13 +3,12 @@
 OSPiHandle* sISVHandle; // official name : is_Handle
 
 #define gISVDbgPrnAdrs ((ISVDbg*)0xb3ff0000)
-#define ASCII_TO_U32(a, b, c, d) ((u32)((a << 24) | (b << 16) | (c << 8) | (d << 0)))
 
 void isPrintfInit(void) {
     sISVHandle = osCartRomInit();
     osEPiWriteIo(sISVHandle, (u32)&gISVDbgPrnAdrs->put, 0);
     osEPiWriteIo(sISVHandle, (u32)&gISVDbgPrnAdrs->get, 0);
-    osEPiWriteIo(sISVHandle, (u32)&gISVDbgPrnAdrs->magic, ASCII_TO_U32('I', 'S', '6', '4'));
+    osEPiWriteIo(sISVHandle, (u32)&gISVDbgPrnAdrs->magic, 'IS64');
 }
 
 void osSyncPrintfUnused(const char* fmt, ...) {
@@ -47,7 +46,7 @@ void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
     s32 end;
 
     osEPiReadIo(sISVHandle, (u32)&gISVDbgPrnAdrs->magic, &data);
-    if (data != ASCII_TO_U32('I', 'S', '6', '4')) {
+    if (data != 'IS64') {
         return 1;
     }
     osEPiReadIo(sISVHandle, (u32)&gISVDbgPrnAdrs->get, &data);
