@@ -903,7 +903,7 @@ void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
                         s32 pad;
                         Vec3f sp28;
 
-                        Matrix_RotateY(((this->actor.shape.rot.y / (f32)0x8000) * M_PI) + 0.5f, 0);
+                        Matrix_RotateY(((this->actor.shape.rot.y / (f32)0x8000) * M_PI) + 0.5f, MTXMODE_NEW);
                         sp28.x = 0.0f;
                         sp28.y = 0.0f;
                         sp28.z = 1.0f;
@@ -3035,7 +3035,7 @@ void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, GlobalC
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, alpha);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
-    Matrix_Translate(this->actor.world.pos.x, this->actor.floorHeight, this->actor.world.pos.z - 20.0f, 0);
+    Matrix_Translate(this->actor.world.pos.x, this->actor.floorHeight, this->actor.world.pos.z - 20.0f, MTXMODE_NEW);
     Matrix_Scale(1.65f, 1.0f, 1.65f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

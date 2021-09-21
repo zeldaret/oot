@@ -95,7 +95,7 @@ void EffectSsFhgFlash_DrawLightBall(GlobalContext* globalCtx, u32 index, EffectS
 
     OPEN_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 268);
 
-    Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, 0);
+    Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
     gSPSegment(POLY_XLU_DISP++, 0x06, object);
