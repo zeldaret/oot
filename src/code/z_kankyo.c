@@ -716,7 +716,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
             if ((newSkybox2Index & 1) ^ ((newSkybox2Index & 4) >> 2)) {
                 size = gSkyboxFiles[newSkybox2Index].palette.vromEnd - gSkyboxFiles[newSkybox2Index].palette.vromStart;
-            
+
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->palettes,
                                     gSkyboxFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
@@ -1357,42 +1357,39 @@ void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* 
     }
 }
 
-#ifdef NON_MATCHING
-// isOffScreen shouldn't be on the stack
+f32 sLensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
+
 void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
                                GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
-    static f32 lensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
-
     s16 i;
     f32 tempX;
     f32 tempY;
-    f32 tempZ;    // 1A0 //
-    f32 lookDirX; // 19C
-    f32 lookDirY; // 198
+    f32 tempZ;
+    f32 lookDirX;
+    f32 lookDirY;
     f32 lookDirZ;
-    f32 tempX2; // 190 //
+    f32 tempX2;
     f32 tempY2;
     f32 tempZ2;
-    f32 posDirX; // 184
-    f32 posDirY; // 180
-    f32 posDirZ; // 17C
+    f32 posDirX;
+    f32 posDirY;
+    f32 posDirZ;
     f32 length;
     f32 dist;
-    f32 halfPosX;    // 170
-    f32 halfPosY;    // 16C
-    f32 halfPosZ;    // 168
-    f32 cosAngle;    // 164
-    f32 pad160;      // 160 //
-    f32 unk88Target; // 15C
+    f32 halfPosX;
+    f32 halfPosY;
+    f32 halfPosZ;
+    f32 cosAngle;
+    f32 pad160;
+    f32 unk88Target;
     u32 isOffScreen = false;
     f32 alpha;
-    f32 scale;        // 150 //
-    Vec3f screenPos;  // 144
-    f32 fogInfluence; // 140 //
-    f32 temp;         // 13C
+    f32 scale;
+    Vec3f screenPos;
+    f32 fogInfluence;
+    f32 temp;
     f32 alphaScale;
     Color_RGB8 lensFlareColors[] = {
-        // 118
         { 155, 205, 255 }, // blue
         { 255, 255, 205 }, // yellow
         { 255, 255, 205 }, // yellow
@@ -1405,16 +1402,14 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
         { 255, 155, 235 }, // pink
     };
     u32 lensFlareAlphas[] = {
-        // F0
         50, 10, 25, 40, 70, 30, 50, 70, 50, 40,
     };
     u32 lensFlareTypes[] = {
-        // C8
         LENS_FLARE_RING,    LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1,
         LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1,
     };
 
-    OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2516); // C4
+    OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2516);
 
     dist = Math3D_Vec3f_DistXYZ(&pos, &view->eye) / 12.0f;
 
@@ -1477,7 +1472,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
             }
 
             Matrix_Translate(-posDirX * i * dist, -posDirY * i * dist, -posDirZ * i * dist, MTXMODE_APPLY);
-            scale = lensFlareScales[i] * cosAngle;
+            scale = sLensFlareScales[i] * cosAngle;
 
             if (arg9) {
                 scale *= 0.001 * (arg6 + 630.0f * temp);
@@ -1498,7 +1493,9 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
 
             alpha *= 1.0f - fogInfluence;
 
-            if (!isOffScreen) { // 5088
+            if (1) {}
+
+            if (!(isOffScreen ^ 0)) {
                 Math_SmoothStepToF(&envCtx->unk_88, unk88Target, 0.5f, 0.05f, 0.001f);
             } else {
                 Math_SmoothStepToF(&envCtx->unk_88, 0.0f, 0.5f, 0.05f, 0.001f);
@@ -1546,7 +1543,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
                 gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
                 gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
 
-                if (!isOffScreen) {
+                if (!(isOffScreen ^ 0)) {
                     Math_SmoothStepToF(&envCtx->unk_84, alpha * alphaScale, 0.5f, 50.0f, 0.1f);
                 } else {
                     Math_SmoothStepToF(&envCtx->unk_84, 0.0f, 0.5f, 50.0f, 0.1f);
@@ -1556,7 +1553,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
                 temp = CLAMP_MIN(temp, 0.0f);
 
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, (u8)(temp * 75.0f) + 180, (u8)(temp * 155.0f) + 100,
-                                envCtx->unk_84);
+                                (u8)envCtx->unk_84);
                 gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
             } else {
                 envCtx->unk_84 = 0.0f;
@@ -1566,16 +1563,6 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
 
     CLOSE_DISPS(gfxCtx, "../z_kankyo.c", 2750);
 }
-#else
-f32 D_8011FDD8[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
-Color_RGB8 D_8011FE00[] = {
-    { 155, 205, 255 }, { 255, 255, 205 }, { 255, 255, 205 }, { 255, 255, 205 }, { 155, 255, 205 },
-    { 205, 255, 255 }, { 155, 155, 255 }, { 205, 175, 255 }, { 175, 255, 205 }, { 255, 155, 235 },
-};
-u32 D_8011FE20[] = { 0x32, 0xA, 0x19, 0x28, 0x46, 0x1E, 0x32, 0x46, 0x32, 0x28 };
-u32 D_8011FE48[] = { 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Environment_DrawLensFlare.s")
-#endif
 
 f32 func_800746DC(void) {
     return Rand_ZeroOne() - 0.5f;
