@@ -269,16 +269,16 @@ void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (!this->isNotDeathMountain) {
         this->unk17C = this->envEffectsTimer / 60.0f;
         this->unk160 = this->unk17C * -50.0f;
-        globalCtx->envCtx.unk_8C[0][0] = (s16)this->unk160 * -1.5f;
-        globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = this->unk160;
+        globalCtx->envCtx.adjAmbientColor[0] = (s16)this->unk160 * -1.5f;
+        globalCtx->envCtx.adjAmbientColor[1] = globalCtx->envCtx.adjAmbientColor[2] = this->unk160;
         this->unk168 = this->unk17C * -20.0f;
-        globalCtx->envCtx.unk_8C[1][0] = (s16)this->unk168 * -1.5f;
-        globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = this->unk168;
+        globalCtx->envCtx.adjLight1Color[0] = (s16)this->unk168 * -1.5f;
+        globalCtx->envCtx.adjLight1Color[1] = globalCtx->envCtx.adjLight1Color[2] = this->unk168;
         this->unk170 = this->unk17C * -50.0f;
-        globalCtx->envCtx.unk_9E = this->unk170;
-        globalCtx->envCtx.unk_8C[2][0] = (u8)((160.0f - globalCtx->envCtx.unk_CF[0]) * this->unk17C);
-        globalCtx->envCtx.unk_8C[2][1] = (u8)((160.0f - globalCtx->envCtx.unk_CF[1]) * this->unk17C);
-        globalCtx->envCtx.unk_8C[2][2] = (u8)((150.0f - globalCtx->envCtx.unk_CF[2]) * this->unk17C);
+        globalCtx->envCtx.adjFogNear = this->unk170;
+        globalCtx->envCtx.adjFogColor[0] = (u8)((160.0f - globalCtx->envCtx.lightSettings.fogColor[0]) * this->unk17C);
+        globalCtx->envCtx.adjFogColor[1] = (u8)((160.0f - globalCtx->envCtx.lightSettings.fogColor[1]) * this->unk17C);
+        globalCtx->envCtx.adjFogColor[2] = (u8)((150.0f - globalCtx->envCtx.lightSettings.fogColor[2]) * this->unk17C);
     }
 }
 

@@ -126,7 +126,7 @@ void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A9F314(GlobalContext* globalCtx, f32 arg1) {
-    func_800773A8(globalCtx, arg1, 850.0f, 0.2f, 0.0f);
+    Environment_AdjustLights(globalCtx, arg1, 850.0f, 0.2f, 0.0f);
 }
 
 void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {

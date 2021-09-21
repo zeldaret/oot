@@ -811,7 +811,7 @@ void func_809691BC(Demo6K* this, GlobalContext* globalCtx, s32 params) {
     endPos.y = csAction->endPos.y;
     endPos.z = csAction->endPos.z;
 
-    temp = func_8006F93C(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
+    temp = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
 
     this->actor.world.pos.x = (((endPos.x - startPos.x) * temp) + startPos.x);
     this->actor.world.pos.y = (((endPos.y - startPos.y) * temp) + startPos.y);

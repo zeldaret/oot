@@ -274,10 +274,6 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Repeatedly calculates temp_z * 0x40 for temp_s2[temp_z] rather than calculating it once when temp_z is assigned.
-// Making temp_z volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) fix the above issue but are
-// obviously wrong.
 /*
  * Updates the shadow with light coming from the side of the mirror
  */
@@ -285,7 +281,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     Vec3f spD4;
     Vec3f spC8;
     Vec3f spBC;
-    u8(*temp_s2)[0x40];
+    u8* temp_s2;
     s32 temp_x;
     s32 temp_z;
     s32 x;
@@ -296,8 +292,8 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     s32 l;
     s16 rotY;
 
-    temp_s2 = (u8(*)[0x40])ALIGN16((s32)(&this->shadowTexture));
-    Lib_MemSet((u8*)temp_s2, 0x1000, 0);
+    temp_s2 = ALIGN16((s32)(&this->shadowTexture));
+    Lib_MemSet(temp_s2, 0x1000, 0);
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
     rotY = !(this->dyna.actor.params & 3) ? (this->dyna.actor.shape.rot.y + 0x4000)
@@ -315,16 +311,18 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
             spC8.y = D_808973A4[i].y + (spD4.y * j);
             spC8.z = D_808973A4[i].z + (spD4.z * j);
             Matrix_MultVec3f(&spC8, &spBC);
-            x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
-            z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f);
+            x = (spBC.x + 50.0f) * 0.64f + 0.5f;
+            z = (88.0f - spBC.z) * 0.64f + 0.5f;
             for (k = 0; k < 11; k++) {
                 temp_z = z - 5 + k;
                 if (!(temp_z & ~0x3F)) {
+                    temp_z *= 0x40;
                     for (l = 0; l < 11; l++) {
-                        temp_x = (x - 5 + l);
+                        temp_x = x - 5 + l;
                         if (!(temp_x & ~0x3F)) {
-                            temp_s2[temp_z][temp_x] |= D_8089731C[k][l];
+                            temp_s2[temp_z + temp_x] |= D_8089731C[k][l];
                         }
+                        if (1) {}
                     }
                 }
             }
@@ -346,10 +344,11 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
             for (k = 0; k < 3; k++) {
                 temp_z = z - 1 + k;
                 if (!(temp_z & ~0x3F)) {
+                    temp_z *= 0x40;
                     for (l = 0; l < 3; l++) {
                         temp_x = x - 1 + l;
                         if (!(temp_x & ~0x3F)) {
-                            temp_s2[temp_z][temp_x] |= D_80897398[k][l];
+                            temp_s2[temp_z + temp_x] |= D_80897398[k][l];
                         }
                     }
                 }
@@ -358,18 +357,16 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     }
 
     for (i = 0; i < 0x40; i++) {
-        temp_s2[0][i] = 0;
-        temp_s2[0x3F][i] = 0;
+        temp_s2[0 * 0x40 + i] = 0;
+        temp_s2[0x3F * 0x40 + i] = 0;
     }
 
     for (j = 1; j < 0x3F; j++) {
-        temp_s2[j][0] = 0;
-        temp_s2[j][0x3F] = 0;
+        temp_s2[j * 0x40 + 0] = 0;
+        temp_s2[j * 0x40 + 0x3F] = 0;
     }
+    if (D_80897398) {}
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_UpdateShadowFromSide.s")
-#endif
 
 /*
  * Updates the shadow with light coming from above the mirror

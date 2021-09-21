@@ -11,7 +11,7 @@ Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z) {
     return Matrix_ToMtx(sSkyboxDrawMatrix, "../z_vr_box_draw.c", 42);
 }
 
-void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 alpha, f32 x, f32 y, f32 z) {
+void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y, f32 z) {
     OPEN_DISPS(gfxCtx, "../z_vr_box_draw.c", 52);
 
     func_800945A0(gfxCtx);
@@ -20,7 +20,7 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
     gSPSegment(POLY_OPA_DISP++, 0x8, skyboxCtx->staticSegments[1]);
     gSPSegment(POLY_OPA_DISP++, 0x9, skyboxCtx->staticSegments[2]);
 
-    gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, alpha);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, blend);
     gSPTexture(POLY_OPA_DISP++, 0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON);
 
     sSkyboxDrawMatrix = Graph_Alloc(gfxCtx, sizeof(Mtx));

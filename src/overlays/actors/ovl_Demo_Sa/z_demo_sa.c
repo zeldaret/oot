@@ -229,7 +229,8 @@ void func_8098E86C(DemoSa* this, GlobalContext* globalCtx) {
     f32 posY = world->y;
     f32 posZ = world->z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_SAGES);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 void func_8098E8C8(DemoSa* this, GlobalContext* globalCtx) {

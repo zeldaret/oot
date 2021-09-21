@@ -229,7 +229,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
                     globalCtx->sceneLoadFlag = 0x14;
                     globalCtx->fadeTransition = 4;
                 } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 3000.0f, 0x7530)) {
-                    globalCtx->envCtx.gloomySkyEvent = 1;
+                    globalCtx->envCtx.gloomySkyMode = 1;
                 }
             }
         }
@@ -238,20 +238,20 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
             u16 dayTime;
             s32 tmp;
 
-            if (D_8011FB40 == 50) {
+            if (gTimeIncrement == 50) {
                 tmp = 0xD556;
 
                 if (gSaveContext.dayTime >= 0xD557) {
                     tmp = 0x1D556;
                 }
 
-                D_8011FB40 = (tmp - gSaveContext.dayTime) * (1.0f / 350.0f);
+                gTimeIncrement = (tmp - gSaveContext.dayTime) * (1.0f / 350.0f);
             }
 
             dayTime = gSaveContext.dayTime;
 
             if ((dayTime >= 0x2AAC) && (dayTime < 0x3000) && (gSaveContext.sceneSetupIndex == 5)) {
-                D_8011FB40 = 0;
+                gTimeIncrement = 0;
             }
         }
     }

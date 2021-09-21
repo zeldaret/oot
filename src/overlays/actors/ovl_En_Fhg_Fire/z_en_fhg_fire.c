@@ -312,7 +312,7 @@ void EnFhgFire_LightningShock(EnFhgFire* this, GlobalContext* globalCtx) {
 void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    globalCtx->envCtx.unk_E1 = 0x01;
+    globalCtx->envCtx.fillScreen = true;
     this->actor.shape.rot.y += 0x1000;
 
     if (this->work[FHGFIRE_FX_TIMER] == 49) {
@@ -324,15 +324,16 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_D6 = 0x14;
     }
     if (this->work[FHGFIRE_FX_TIMER] >= 48) {
-        globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0xFF;
+        globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+            globalCtx->envCtx.screenFillColor[2] = 255;
 
         if ((this->work[FHGFIRE_TIMER] % 2) != 0) {
-            globalCtx->envCtx.unk_E2[3] = 0x46;
+            globalCtx->envCtx.screenFillColor[3] = 70;
         } else {
-            globalCtx->envCtx.unk_E2[3] = 0x00;
+            globalCtx->envCtx.screenFillColor[3] = 0;
         }
     } else {
-        globalCtx->envCtx.unk_E2[3] = 0x00;
+        globalCtx->envCtx.screenFillColor[3] = 0;
     }
 
     if (this->work[FHGFIRE_TIMER] <= 20) {
@@ -352,7 +353,7 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
 
     if (this->work[FHGFIRE_TIMER] == 0) {
         Actor_Kill(&this->actor);
-        globalCtx->envCtx.unk_E1 = 0;
+        globalCtx->envCtx.fillScreen = false;
     }
 
     if (this->lensFlareTimer != 0) {
@@ -366,8 +367,10 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
         }
     }
 
-    D_8015FCF0 = this->lensFlareOn;
-    D_8015FCF8 = this->actor.world.pos;
+    // Related to scene draw config 30, only used in BossGanon_Update and
+    // loaded in z_kankyo
+    gCustomLensFlareOn = this->lensFlareOn;
+    gCustomLensFlarePos = this->actor.world.pos;
     D_8015FD06 = this->lensFlareScale;
     D_8015FD08 = 10.0f;
     D_8015FD0C = 0;

@@ -334,7 +334,8 @@ void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
     f32 someFloat;
 
     if (npcAction != NULL) {
-        someFloat = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 8, 0);
+        someFloat =
+            Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 8, 0);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
         startZ = npcAction->startPos.z;
@@ -579,7 +580,7 @@ void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
         unk198[0]++;
         unk198[1]--;
     } else if (globalCtx->csCtx.frames < 170) {
-        temp_f0 = func_8006F9BC(170, 160, globalCtx->csCtx.frames, 0, 0);
+        temp_f0 = Environment_LerpWeightAccelDecel(170, 160, globalCtx->csCtx.frames, 0, 0);
 
         unk178[0] = (temp_f0 * -63.0f) + 163.0f;
         unk178[1] = (temp_f0 * -155.0f) + 255.0f;
@@ -817,7 +818,7 @@ void func_8097FDDC(DemoGt* this, GlobalContext* globalCtx) {
         unk198[0]++;
         unk198[1]--;
     } else if (globalCtx->csCtx.frames < 620) {
-        f32 temp_f0 = func_8006F9BC(620, 610, globalCtx->csCtx.frames, 0, 0);
+        f32 temp_f0 = Environment_LerpWeightAccelDecel(620, 610, globalCtx->csCtx.frames, 0, 0);
 
         unk178[0] = (temp_f0 * (-13.0f)) + 163.0f;
         unk178[1] = (temp_f0 * (-43.0f)) + 193.0f;

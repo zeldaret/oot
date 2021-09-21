@@ -984,7 +984,7 @@ void func_80B0EEA4(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sw.c", 2205);
 
-    POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+    POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_sw.c", 2207);
 }

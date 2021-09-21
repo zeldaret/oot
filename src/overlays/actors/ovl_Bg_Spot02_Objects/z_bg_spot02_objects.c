@@ -298,8 +298,8 @@ void func_808AD450(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        lerp = func_8006F93C(globalCtx->csCtx.npcActions[2]->endFrame, globalCtx->csCtx.npcActions[2]->startFrame,
-                             globalCtx->csCtx.frames);
+        lerp = Environment_LerpWeight(globalCtx->csCtx.npcActions[2]->endFrame,
+                                      globalCtx->csCtx.npcActions[2]->startFrame, globalCtx->csCtx.frames);
 
         // should be able to remove & 0xFFFF with some other change
         if ((globalCtx->csCtx.npcActions[2]->action & 0xFFFF) == 2) {

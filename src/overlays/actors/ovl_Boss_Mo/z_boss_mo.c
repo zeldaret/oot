@@ -1100,7 +1100,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                             ((300 - indS1) * .0015f) + 0.13f);
                     }
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
-                                       this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0, WARP_DUNGEON_ADULT);
+                                       this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0,
+                                       WARP_DUNGEON_ADULT);
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
                                 -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
                     Audio_QueueSeqCmd(0x21);
@@ -2437,9 +2438,9 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6366);
 
-    sp110.x = globalCtx->envCtx.unk_2A;
-    sp110.y = globalCtx->envCtx.unk_2B;
-    sp110.z = globalCtx->envCtx.unk_2C;
+    sp110.x = globalCtx->envCtx.dirLight1.params.dir.x;
+    sp110.y = globalCtx->envCtx.dirLight1.params.dir.y;
+    sp110.z = globalCtx->envCtx.dirLight1.params.dir.z;
 
     Matrix_Push();
 

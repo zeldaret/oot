@@ -665,7 +665,7 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
     endPos.y = csAction->endPos.y;
     endPos.z = csAction->endPos.z;
 
-    progress = func_8006F93C(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
+    progress = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
 
     this->actor.world.pos.x = (endPos.x - startPos.x) * progress + startPos.x;
     this->actor.world.pos.y = (endPos.y - startPos.y) * progress + startPos.y + D_80A17014;

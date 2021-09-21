@@ -1213,7 +1213,7 @@ void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
         BossFd2_DrawMane(this, globalCtx);
-        POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2688);
 }

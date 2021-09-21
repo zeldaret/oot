@@ -1248,7 +1248,7 @@ void func_80A04F94(EnElf* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk_2BC, 5, 0x1000, 0x400);
     this->timer++;
     Math_StepToF(&this->unk_2A4, 1.0f, 0.05f);
-    func_800773A8(globalCtx, SQ(this->unk_2A4), player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
+    Environment_AdjustLights(globalCtx, SQ(this->unk_2A4), player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
 }
 
 // ask to talk to saria again
@@ -1429,7 +1429,8 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_2A4 > 0.0f) {
         Math_StepToF(&this->unk_2A4, 0.0f, 0.05f);
-        func_800773A8(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
+        Environment_AdjustLights(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f,
+                                 0.2f, 0.5f);
     }
 
     // temp probably fake match
@@ -1547,7 +1548,7 @@ void EnElf_GetCutsceneNextPos(Vec3f* vec, GlobalContext* globalCtx, s32 action) 
     endPos.y = npcAction->endPos.y;
     endPos.z = npcAction->endPos.z;
 
-    lerp = func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
+    lerp = Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
 
     vec->x = ((endPos.x - startPos.x) * lerp) + startPos.x;
     vec->y = ((endPos.y - startPos.y) * lerp) + startPos.y;
