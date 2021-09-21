@@ -113,7 +113,7 @@ void EnDs_BrewOddPotion3(EnDs* this, GlobalContext* globalCtx) {
     }
 
     Math_StepToF(&this->unk_1E4, 0, 0.03f);
-    func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
+    Environment_AdjustLights(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
 }
 
 void EnDs_BrewOddPotion2(EnDs* this, GlobalContext* globalCtx) {
@@ -135,7 +135,7 @@ void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx) {
     }
 
     Math_StepToF(&this->unk_1E4, 1.0f, 0.01f);
-    func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
+    Environment_AdjustLights(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
 }
 
 void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {

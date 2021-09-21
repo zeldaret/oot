@@ -1,5 +1,5 @@
-#ifndef _Z_BG_YDAN_HASI_H_
-#define _Z_BG_YDAN_HASI_H_
+#ifndef Z_BG_YDAN_HASI_H
+#define Z_BG_YDAN_HASI_H
 
 #include "ultra64.h"
 #include "global.h"

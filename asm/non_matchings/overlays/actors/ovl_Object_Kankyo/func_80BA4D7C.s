@@ -124,7 +124,7 @@ glabel func_80BA4D7C
 /* 02454 80BA4EF4 E7B20074 */  swc1    $f18, 0x0074($sp)          
 /* 02458 80BA4EF8 E7B00070 */  swc1    $f16, 0x0070($sp)          
 /* 0245C 80BA4EFC E7A2006C */  swc1    $f2, 0x006C($sp)           
-/* 02460 80BA4F00 0C01BE4F */  jal     func_8006F93C              
+/* 02460 80BA4F00 0C01BE4F */  jal     Environment_LerpWeight              
 /* 02464 80BA4F04 AFA80058 */  sw      $t0, 0x0058($sp)           
 /* 02468 80BA4F08 C7A2006C */  lwc1    $f2, 0x006C($sp)           
 /* 0246C 80BA4F0C C7AA0060 */  lwc1    $f10, 0x0060($sp)          

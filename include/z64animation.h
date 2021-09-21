@@ -1,5 +1,5 @@
-#ifndef _Z64_ANIMATION_H
-#define _Z64_ANIMATION_H
+#ifndef Z64_ANIMATION_H
+#define Z64_ANIMATION_H
 
 #include "ultra64.h"
 #include "z64dma.h"

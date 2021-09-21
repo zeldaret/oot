@@ -1,5 +1,5 @@
-#ifndef _Z64MAP_MARK_H_
-#define _Z64MAP_MARK_H_
+#ifndef Z64MAP_MARK_H
+#define Z64MAP_MARK_H
 
 #include "ultra64.h"
 

@@ -136,17 +136,17 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
     Player* player = GET_PLAYER(globalCtx);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
-        if ((globalCtx->envCtx.unk_1E != 0) || !D_8011FB3C ||
+        if ((globalCtx->envCtx.indoors != 0) || !gSkyboxBlendingEnabled ||
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY && globalCtx->envCtx.unk_1F == globalCtx->envCtx.unk_20)) {
             D_8011FB38 = 1;
-            if (globalCtx->envCtx.gloomySkyEvent == 0 &&
-                (globalCtx->envCtx.unk_1E != 0 || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
+            if (globalCtx->envCtx.gloomySkyMode == 0 &&
+                (globalCtx->envCtx.indoors != 0 || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
                 D_8011FB38 = 0;
-                if (D_8011FB30 != weatherMode) {
-                    D_8011FB30 = weatherMode;
-                    if (globalCtx->envCtx.gloomySkyEvent == 0) {
+                if (gWeatherMode != weatherMode) {
+                    gWeatherMode = weatherMode;
+                    if (globalCtx->envCtx.gloomySkyMode == 0) {
                         globalCtx->envCtx.unk_19 = 1;
-                        globalCtx->envCtx.gloomySky = arg2;
+                        globalCtx->envCtx.unk_17 = arg2;
                         globalCtx->envCtx.unk_18 = arg3;
                         globalCtx->envCtx.unk_1A = arg6;
                         globalCtx->envCtx.unk_21 = 1;
@@ -160,7 +160,7 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
                 ret = true;
             }
         } else {
-            if (D_8011FB40 != 0) {
+            if (gTimeIncrement != 0) {
                 gSaveContext.dayTime += 0x14;
             }
         }
@@ -176,15 +176,15 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
     Player* player = GET_PLAYER(globalCtx);
 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 100.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
-        if (globalCtx->envCtx.unk_1E != 0 || !D_8011FB3C ||
+        if (globalCtx->envCtx.indoors != 0 || !gSkyboxBlendingEnabled ||
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY && globalCtx->envCtx.unk_1F == globalCtx->envCtx.unk_20)) {
             D_8011FB38 = 1;
-            if ((globalCtx->envCtx.gloomySkyEvent == 0) &&
-                (globalCtx->envCtx.unk_1E != 0 || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
+            if ((globalCtx->envCtx.gloomySkyMode == 0) &&
+                (globalCtx->envCtx.indoors != 0 || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
                 D_8011FB38 = 0;
-                D_8011FB30 = 0;
+                gWeatherMode = 0;
                 globalCtx->envCtx.unk_19 = 1;
-                globalCtx->envCtx.gloomySky = arg2;
+                globalCtx->envCtx.unk_17 = arg2;
                 globalCtx->envCtx.unk_18 = arg3;
                 globalCtx->envCtx.unk_1A = arg6;
                 globalCtx->envCtx.unk_21 = 1;
@@ -196,7 +196,7 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
 
                 ret = true;
             }
-        } else if (D_8011FB40 != 0) {
+        } else if (gTimeIncrement != 0) {
             gSaveContext.dayTime += 0x14;
         }
     }
@@ -272,7 +272,7 @@ void EnWeatherTag_EnabledRainLakeHylia(EnWeatherTag* this, GlobalContext* global
 void EnWeatherTag_DisabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 4, 100, 5)) {
         func_80077624(globalCtx);
-        globalCtx->envCtx.lightning = 1;
+        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
         globalCtx->envCtx.unk_EE[0] = 30;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudyRainThunderKakariko);
     }
@@ -281,7 +281,7 @@ void EnWeatherTag_DisabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalCo
 void EnWeatherTag_EnabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 4, 0, 100)) {
         func_80077684(globalCtx);
-        globalCtx->envCtx.lightning = 2;
+        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
         globalCtx->envCtx.unk_EE[0] = 0;
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyRainThunderKakariko);
     }
@@ -291,11 +291,11 @@ void EnWeatherTag_SetSandstormIntensity(EnWeatherTag* this, GlobalContext* globa
     Player* player = GET_PLAYER(globalCtx);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
-        Math_SmoothStepToS(&globalCtx->envCtx.unk_9E, -0x50, 1, 2, 1);
-        Math_SmoothStepToS(&globalCtx->envCtx.unk_A0, -0x7D0, 1, 50, 1);
+        Math_SmoothStepToS(&globalCtx->envCtx.adjFogNear, -0x50, 1, 2, 1);
+        Math_SmoothStepToS(&globalCtx->envCtx.adjFogFar, -0x7D0, 1, 50, 1);
     } else {
-        Math_SmoothStepToS(&globalCtx->envCtx.unk_9E, 0, 1, 1, 1);
-        Math_SmoothStepToS(&globalCtx->envCtx.unk_A0, 0, 1, 25, 1);
+        Math_SmoothStepToS(&globalCtx->envCtx.adjFogNear, 0, 1, 1, 1);
+        Math_SmoothStepToS(&globalCtx->envCtx.adjFogFar, 0, 1, 25, 1);
     }
 }
 
@@ -304,7 +304,7 @@ void EnWeatherTag_DisabledRainThunder(EnWeatherTag* this, GlobalContext* globalC
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
         func_80077624(globalCtx);
-        globalCtx->envCtx.lightning = 1;
+        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
         globalCtx->envCtx.unk_EE[0] = 25;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledRainThunder);
     }
@@ -315,7 +315,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, GlobalContext* globalCt
 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 10.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
         func_80077684(globalCtx);
-        globalCtx->envCtx.lightning = 2;
+        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
         globalCtx->envCtx.unk_EE[0] = 0;
         globalCtx->envCtx.unk_EE[1] = 10;
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledRainThunder);
