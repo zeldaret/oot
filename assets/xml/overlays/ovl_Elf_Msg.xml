@@ -3,12 +3,12 @@
 
         <DList Name="D_809AD278" Offset="0x758"/>
 
-        <Array Name="sElfMsgCylinderVertices" Count="16" Offset="0x798">
+        <Array Name="sElfMsgCylinderVtx" Count="16" Offset="0x798">
             <Vtx/>
         </Array>
         <DList Name="sElfMsgCylinderDL" Offset="0x898"/>
 
-        <Array Name="sElfMsgCubeVertices" Count="8" Offset="0x918">
+        <Array Name="sElfMsgCubeVTx" Count="8" Offset="0x918">
             <Vtx/>
         </Array>
         <DList Name="sElfMsgCubeDL" Offset="0x998"/>
