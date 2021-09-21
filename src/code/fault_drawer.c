@@ -302,5 +302,5 @@ void FaultDrawer_WritebackFBDCache() {
 
 void FaultDrawer_SetDefault() {
     bcopy(&sFaultDrawerDefault, &sFaultDrawerStruct, sizeof(FaultDrawer));
-    sFaultDrawerStruct.fb = (u16*)((osMemSize | 0x80000000) - 0x25800);
+    sFaultDrawerStruct.fb = (u16*)((osMemSize | 0x80000000) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
 }

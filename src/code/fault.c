@@ -902,7 +902,7 @@ void Fault_CommitFB() {
     } else {
         fb = (u16*)osViGetNextFramebuffer();
         if ((u32)fb == 0x80000000) {
-            fb = (u16*)((osMemSize | 0x80000000) - 0x25800);
+            fb = (u16*)((osMemSize | 0x80000000) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
         }
     }
 
