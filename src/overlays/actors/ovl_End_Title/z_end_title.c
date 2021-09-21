@@ -126,7 +126,7 @@ void EndTitle_DrawNintendoLogo(Actor* thisx, GlobalContext* globalCtx) {
 
     OVERLAY_DISP = func_80093F34(OVERLAY_DISP);
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0x80, 0, 0, 0, this->endAlpha);
-    gSPDisplayList(OVERLAY_DISP++, sEndTitlePresentedByNintendoLogoDL);
+    gSPDisplayList(OVERLAY_DISP++, sEndTitlePresentedByNintendoDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_end_title.c", 600);
 }
