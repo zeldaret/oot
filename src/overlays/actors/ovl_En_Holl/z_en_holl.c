@@ -73,21 +73,6 @@ static f32 sHorizTriggerDists[2][4] = {
     { 100.0f, 75.0f, 50.0f, 25.0f },
 };
 
-static Vtx sVertices[] = {
-    VTX(0x55F0, 0x4E20, 0x0000, 0x0800, 0x0800, 255, 255, 255, 255),
-    VTX(0xAA10, 0x4E20, 0x0000, 0x0000, 0x0800, 255, 255, 255, 255),
-    VTX(0xAA10, 0xB1E0, 0x0000, 0x0000, 0x0000, 255, 255, 255, 255),
-    VTX(0x55F0, 0xB1E0, 0x0000, 0x0800, 0x0000, 255, 255, 255, 255),
-};
-
-static Gfx sPlaneDlist[] = {
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PASS2),
-    gsSPVertex(sVertices, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
-
 void EnHoll_SetupAction(EnHoll* this, EnHollActionFunc func) {
     this->actionFunc = func;
 }
@@ -335,6 +320,9 @@ void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
+#include "overlays/ovl_En_Holl/ovl_En_Holl.c"
+
+
 void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHoll* this = THIS;
     Gfx* gfxP;
@@ -359,7 +347,7 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(gfxP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_holl.c", 824),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(gfxP++, 0, 0, 0, 0, 0, (u8)this->planeAlpha);
-        gSPDisplayList(gfxP++, sPlaneDlist);
+        gSPDisplayList(gfxP++, sPlaneDL);
 
         if (this->planeAlpha == 255) {
             POLY_OPA_DISP = gfxP;
