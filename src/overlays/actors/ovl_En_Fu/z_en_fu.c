@@ -299,7 +299,7 @@ void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyesSegments[] = { gWindmillManEyeClosedTex, gWindmillManEyeAngryTex };
-    static void* sMouthSegments[] = { gWindMillManMouthOpenTex, gWindMillManMouthAngryTex };
+    static void* sMouthSegments[] = { gWindmillManMouthOpenTex, gWindmillManMouthAngryTex };
     s32 pad;
     EnFu* this = THIS;
 

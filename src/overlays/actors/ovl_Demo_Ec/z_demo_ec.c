@@ -411,7 +411,7 @@ void DemoEc_UpdateWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &gWindmillManEyeClosedTex, &gWindMillManMouthAngryTex, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, &gWindmillManEyeClosedTex, &gWindmillManMouthAngryTex, NULL, NULL);
 }
 
 void DemoEc_InitKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
