@@ -62,7 +62,7 @@ void ObjLift_SetupAction(ObjLift* this, ObjLiftActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void ObjLift_InitDynaPoly(ObjLift* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
+void ObjLift_InitDynaPoly(ObjLift* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;

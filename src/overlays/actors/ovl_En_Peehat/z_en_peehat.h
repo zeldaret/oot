@@ -1,5 +1,5 @@
-#ifndef _Z_EN_PEEHAT_H_
-#define _Z_EN_PEEHAT_H_
+#ifndef Z_EN_PEEHAT_H
+#define Z_EN_PEEHAT_H
 
 #include "ultra64.h"
 #include "global.h"

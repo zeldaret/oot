@@ -44,8 +44,6 @@ void EnViewer_DrawHorse(EnViewer* this, GlobalContext* globalCtx);
 void EnViewer_DrawZelda(EnViewer* this, GlobalContext* globalCtx);
 void EnViewer_DrawImpa(EnViewer* this, GlobalContext* globalCtx);
 
-extern Mtx D_01000000;
-
 static u8 sHorseSfxPlayed = false;
 
 const ActorInit En_Viewer_InitVars = {
@@ -755,8 +753,8 @@ void EnViewer_UpdatePosition(EnViewer* this, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[0]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[0]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[0]->endPos.z;
-            lerpFactor = func_8006F93C(globalCtx->csCtx.npcActions[0]->endFrame,
-                                       globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
+            lerpFactor = Environment_LerpWeight(globalCtx->csCtx.npcActions[0]->endFrame,
+                                                globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
             this->actor.world.pos.x = (endPos.x - startPos.x) * lerpFactor + startPos.x;
             this->actor.world.pos.y = (endPos.y - startPos.y) * lerpFactor + startPos.y;
             this->actor.world.pos.z = (endPos.z - startPos.z) * lerpFactor + startPos.z;
@@ -770,8 +768,8 @@ void EnViewer_UpdatePosition(EnViewer* this, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[1]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[1]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[1]->endPos.z;
-            lerpFactor = func_8006F93C(globalCtx->csCtx.npcActions[1]->endFrame,
-                                       globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
+            lerpFactor = Environment_LerpWeight(globalCtx->csCtx.npcActions[1]->endFrame,
+                                                globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
             this->actor.world.pos.x = (endPos.x - startPos.x) * lerpFactor + startPos.x;
             this->actor.world.pos.y = (endPos.y - startPos.y) * lerpFactor + startPos.y;
             this->actor.world.pos.z = (endPos.z - startPos.z) * lerpFactor + startPos.z;
