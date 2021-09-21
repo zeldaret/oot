@@ -351,8 +351,8 @@ void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
 
     Math_ScaledStepToS(&this->actor.world.rot.y, (s16)((s32)this->actor.yawTowardsPlayer + 0x8000), 0xB6);
 
-    if ((Animation_OnFrame(&this->skelAnime, 0.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 12.0f) != 0) ||
-        (Animation_OnFrame(&this->skelAnime, 24.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 36.0f) != 0)) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f) ||
+        Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 }

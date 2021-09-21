@@ -506,9 +506,8 @@ void EnFloormas_BigStopWalk(EnFloormas* this, GlobalContext* globalCtx) {
 
 void EnFloormas_Run(EnFloormas* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((((Animation_OnFrame(&this->skelAnime, 0.0f)) || (Animation_OnFrame(&this->skelAnime, 12.0f))) ||
-         (Animation_OnFrame(&this->skelAnime, 24.0f))) ||
-        (Animation_OnFrame(&this->skelAnime, 36.0f))) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f) ||
+        Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 
@@ -680,7 +679,7 @@ void EnFloormas_SmWalk(EnFloormas* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     DECR(this->smActionTimer);
 
-    if ((Animation_OnFrame(&this->skelAnime, 0.0f)) || (Animation_OnFrame(&this->skelAnime, 18.0f))) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 18.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_WALK);
     }
 
@@ -699,7 +698,7 @@ void EnFloormas_SmDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
     s32 isAgainstWall;
 
     SkelAnime_Update(&this->skelAnime);
-    if ((Animation_OnFrame(&this->skelAnime, 0.0f)) || (Animation_OnFrame(&this->skelAnime, 18.0f))) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 18.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_WALK);
     }
     isAgainstWall = this->actor.bgCheckFlags & 8;
