@@ -402,7 +402,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
             func_80033480(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
         }
     }
-    // if landed, kill XY speed and play appropriate sounds
+    // if landed, kill XZ speed and play appropriate sounds
     if (this->actor.params == TEKTITE_BLUE) {
         if (this->actor.bgCheckFlags & 0x40) {
             this->actor.speedXZ = 0.0f;
