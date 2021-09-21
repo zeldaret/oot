@@ -319,21 +319,21 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
         heldDBtnTimer = 16;
     }
 
-    if (dBtnInput & BTN_DDOWN) {
+    if (CHECK_BTN_ANY(dBtnInput, BTN_DDOWN)) {
         if ((u32)++curRow > 10) {
             curRow = 0;
         }
         curSection = sRowFirstSections[curRow];
-    } else if (dBtnInput & BTN_DUP) {
+    } else if (CHECK_BTN_ANY(dBtnInput, BTN_DUP)) {
         if (--curRow < 0) {
             curRow = 22;
         }
         curSection = sRowFirstSections[curRow];
-    } else if (dBtnInput & BTN_DLEFT) {
+    } else if (CHECK_BTN_ANY(dBtnInput, BTN_DLEFT)) {
         if (--curSection < 0) {
             curSection = 0x5C;
         }
-    } else if (dBtnInput & BTN_DRIGHT) {
+    } else if (CHECK_BTN_ANY(dBtnInput, BTN_DRIGHT)) {
         if (++curSection > 0x5C) {
             curSection = 0;
         }
