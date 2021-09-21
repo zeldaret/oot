@@ -358,7 +358,6 @@ beginseg
     include "build/src/code/z_vismono.o"
     include "build/src/code/code_800AD920.o"
     include "build/src/code/z_vr_box.o"
-    include "build/data/z_vr_box.data.o"
     include "build/src/code/z_vr_box_draw.o"
     include "build/src/code/z_player_call.o"
     include "build/src/code/z_fbdemo.o"
