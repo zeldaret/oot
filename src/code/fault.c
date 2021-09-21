@@ -703,7 +703,7 @@ void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
     Fault_FillScreenBlack();
     FaultDrawer_SetCharPad(-2, 0);
 
-    FaultDrawer_DrawText(0x24, 0x12, "%s %08x", title ? title : "PrintDump", alignedAddr);
+    FaultDrawer_DrawText(0x24, 0x12, "%s %08x", title != NULL ? title : "PrintDump", alignedAddr);
     if (alignedAddr >= (u32*)0x80000000 && alignedAddr < (u32*)0xC0000000) {
         for (y = 0x1C; y != 0xE2; y += 9) {
             FaultDrawer_DrawText(0x18, y, "%06x", writeAddr);
@@ -1056,11 +1056,11 @@ void Fault_Init(void) {
 
 void Fault_HangupFaultClient(const char* arg0, const char* arg1) {
     osSyncPrintf("HungUp on Thread %d\n", osGetThreadId(0));
-    osSyncPrintf("%s\n", arg0 ? arg0 : "(NULL)");
-    osSyncPrintf("%s\n", arg1 ? arg1 : "(NULL)");
+    osSyncPrintf("%s\n", arg0 != NULL ? arg0 : "(NULL)");
+    osSyncPrintf("%s\n", arg1 != NULL ? arg1 : "(NULL)");
     FaultDrawer_Printf("HungUp on Thread %d\n", osGetThreadId(0));
-    FaultDrawer_Printf("%s\n", arg0 ? arg0 : "(NULL)");
-    FaultDrawer_Printf("%s\n", arg1 ? arg1 : "(NULL)");
+    FaultDrawer_Printf("%s\n", arg0 != NULL ? arg0 : "(NULL)");
+    FaultDrawer_Printf("%s\n", arg1 != NULL ? arg1 : "(NULL)");
 }
 
 void Fault_AddHungupAndCrashImpl(const char* arg0, const char* arg1) {

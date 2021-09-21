@@ -1699,7 +1699,8 @@ void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, cons
     osSyncPrintf("%c", 7);
     osSyncPrintf(VT_FGCOL(RED));
     osSyncPrintf("DMA致命的エラー(%s)\nROM:%X RAM:%X SIZE:%X %s\n",
-                 errorDesc ? errorDesc : (errorName ? errorName : "???"), vrom, ram, size, file ? file : "???");
+                 errorDesc != NULL ? errorDesc : (errorName != NULL ? errorName : "???"), vrom, ram, size,
+                 file != NULL ? file : "???");
 
     if (req->filename) {
         osSyncPrintf("DMA ERROR: %s %d", req->filename, req->line);
@@ -1714,10 +1715,10 @@ void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, cons
     } else if (sDmaMgrCurFileName) {
         sprintf(buff1, "DMA ERROR: %s %d", sDmaMgrCurFileName, sDmaMgrCurFileLine);
     } else {
-        sprintf(buff1, "DMA ERROR: %s", errorName ? errorName : "???");
+        sprintf(buff1, "DMA ERROR: %s", errorName != NULL ? errorName : "???");
     }
 
-    sprintf(buff2, "%07X %08X %X %s", vrom, ram, size, file ? file : "???");
+    sprintf(buff2, "%07X %08X %X %s", vrom, ram, size, file != NULL ? file : "???");
     Fault_AddHungupAndCrashImpl(buff1, buff2);
 }
 

@@ -708,7 +708,7 @@ void __osDisplayArena(Arena* arena) {
 
             if (!iter->isFree) {
                 osSyncPrintf(" [%016llu:%2d:%s:%d]", OS_CYCLES_TO_NSEC(iter->time), iter->threadId,
-                             iter->filename ? iter->filename : "**NULL**", iter->line);
+                             iter->filename != NULL ? iter->filename : "**NULL**", iter->line);
             }
 
             osSyncPrintf("\n");
