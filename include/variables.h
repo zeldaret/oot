@@ -343,7 +343,7 @@ extern s16 D_80130328[];
 extern s32 gAudioContextInitalized;
 extern f32 D_80130510;
 extern s32 D_80130514;
-extern u8 D_80130570[7];
+extern u8 gIsLargeSoundBank[7];
 extern u8 D_80130578[4][7];
 extern u8 D_80130594[4][7];
 extern u8 gMorphaTransposeTable[16];

@@ -83,15 +83,15 @@ typedef enum {
 
 extern f32 D_8012F6B4[]; // from audio_synthesis
 
-u8 D_80130570[7] = { 0, 0, 0, 1, 0, 0, 0 };
+u8 gIsLargeSoundBank[7] = { 0, 0, 0, 1, 0, 0, 0 };
 u8 D_80130578[4][7] = {
-    { 3, 2, 3, 3, 2, 1, 2 },
+    { 3, 2, 3, 3, 2, 1, 2 }, // only this row is used
     { 3, 2, 2, 2, 2, 2, 2 },
     { 3, 2, 2, 2, 2, 2, 2 },
     { 4, 1, 0, 0, 2, 2, 2 },
 };
 u8 D_80130594[4][7] = {
-    { 3, 2, 3, 2, 2, 1, 1 },
+    { 3, 2, 3, 2, 2, 1, 1 }, // only this row is used
     { 3, 1, 1, 1, 2, 1, 1 },
     { 3, 1, 1, 1, 2, 1, 1 },
     { 2, 1, 0, 0, 1, 1, 1 },
@@ -3070,7 +3070,7 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
         phi_a1 = -1;
     }
 
-    // CHAN_UPD_SCRIPT_IO (slot 2)
+    // CHAN_UPD_SCRIPT_IO (slot 2, sets volume)
     Audio_QueueCmdS8(0x6020000 | (channelIdx << 8) | 2, phi_a1);
     if (reverb != D_8016B8B8[channelIdx].reverb) {
         Audio_QueueCmdS8(0x5020000 | (channelIdx << 8), reverb);
@@ -3085,7 +3085,7 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
         D_8016B8B8[channelIdx].stereoBits = stereoBits;
     }
     if (sp39 != D_8016B8B8[channelIdx].unk_0B) {
-        // CHAN_UPD_SCRIPT_IO (slot 3)
+        // CHAN_UPD_SCRIPT_IO (slot 3, sets filter)
         Audio_QueueCmdS8(0x6020000 | (channelIdx << 8) | 3, sp39);
         D_8016B8B8[channelIdx].unk_0B = sp39;
     }
@@ -4014,7 +4014,7 @@ void func_800F6828(u8 arg0) {
     if (D_8016E750[0].unk_254 == 1) {
         for (i = 0; i < 16; i++) {
             t = i;
-            Audio_QueueCmdS8(((t & 0xFF) << 8) | 0x6000000 | 6, arg0);
+            Audio_QueueCmdS8(0x6000000 | ((t & 0xFF) << 8) | 6, arg0);
         }
     }
 }

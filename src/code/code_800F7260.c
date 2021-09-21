@@ -505,7 +505,7 @@ void func_800F8480(u8 bankId) {
                 Audio_SetSoundProperties(bankId, bankIndex, D_8016E260);
                 Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8), 1);
                 Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 4, entry->sfxId & 0xFF);
-                if (D_80130570[bankId] != 0) {
+                if (gIsLargeSoundBank[bankId]) {
                     Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 5, (entry->sfxId & 0x100) >> 8);
                 }
                 if (entry->sfxId & 0xC00) {
