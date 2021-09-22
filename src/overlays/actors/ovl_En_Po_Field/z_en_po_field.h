@@ -1,5 +1,5 @@
-#ifndef _Z_EN_PO_FIELD_H_
-#define _Z_EN_PO_FIELD_H_
+#ifndef Z_EN_PO_FIELD_H
+#define Z_EN_PO_FIELD_H
 
 #include "ultra64.h"
 #include "global.h"

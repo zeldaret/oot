@@ -1,5 +1,5 @@
-#ifndef _Z_FISHING_H_
-#define _Z_FISHING_H_
+#ifndef Z_FISHING_H
+#define Z_FISHING_H
 
 #include "ultra64.h"
 #include "global.h"

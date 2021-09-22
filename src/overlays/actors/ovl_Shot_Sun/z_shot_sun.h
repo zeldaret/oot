@@ -1,5 +1,5 @@
-#ifndef _Z_SHOT_SUN_H_
-#define _Z_SHOT_SUN_H_
+#ifndef Z_SHOT_SUN_H
+#define Z_SHOT_SUN_H
 
 #include "ultra64.h"
 #include "global.h"

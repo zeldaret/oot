@@ -56,7 +56,7 @@ static Vec3f D_808B45DC[] = {
     { 29.99f, 0.01f, 29.99f },  { 0.0f, 0.01f, 0.0f },
 };
 
-void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
+void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     u32 pad2;

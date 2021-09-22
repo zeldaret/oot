@@ -1,5 +1,5 @@
-#ifndef _Z_EFF_SS_SOLDERSRCHBALL_H_
-#define _Z_EFF_SS_SOLDERSRCHBALL_H_
+#ifndef Z_EFF_SS_SOLDERSRCHBALL_H
+#define Z_EFF_SS_SOLDERSRCHBALL_H
 
 #include "ultra64.h"
 #include "global.h"

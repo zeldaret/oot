@@ -1,5 +1,5 @@
-#ifndef _Z_BG_MENKURI_NISEKABE_H_
-#define _Z_BG_MENKURI_NISEKABE_H_
+#ifndef Z_BG_MENKURI_NISEKABE_H
+#define Z_BG_MENKURI_NISEKABE_H
 
 #include "ultra64.h"
 #include "global.h"

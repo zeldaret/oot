@@ -999,7 +999,7 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_CosS(yawTowardsPlayer)) + pos->z;
     this->blueWarp = (DoorWarp1*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
-                                                    spawnX, spawnY, spawnZ, 0, yawTowardsPlayer, 0, 5);
+                                                    spawnX, spawnY, spawnZ, 0, yawTowardsPlayer, 0, WARP_BLUE_RUTO);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1068,16 +1068,16 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
     return false;
 }
 
-s32 func_80AED084(EnRu1* this, UNK_TYPE arg1) {
-    if (this->blueWarp != NULL && this->blueWarp->unk_1EC == arg1) {
+s32 func_80AED084(EnRu1* this, s32 state) {
+    if (this->blueWarp != NULL && this->blueWarp->rutoWarpState == state) {
         return true;
     }
     return false;
 }
 
-void func_80AED0B0(EnRu1* this, UNK_TYPE arg1) {
+void func_80AED0B0(EnRu1* this, s32 state) {
     if (this->blueWarp != NULL) {
-        this->blueWarp->unk_1EC = arg1;
+        this->blueWarp->rutoWarpState = state;
     }
 }
 
@@ -1097,12 +1097,12 @@ void func_80AED110(EnRu1* this) {
     if (this->actor.shape.yOffset >= 0.0f) {
         this->action = 18;
         this->actor.shape.yOffset = 0.0f;
-        func_80AED0B0(this, 1);
+        func_80AED0B0(this, WARP_BLUE_RUTO_STATE_READY);
     }
 }
 
 void func_80AED154(EnRu1* this, GlobalContext* globalCtx) {
-    if (func_80AED084(this, 2)) {
+    if (func_80AED084(this, WARP_BLUE_RUTO_STATE_ENTERED)) {
         this->action = 0x13;
         this->unk_26C = 0.0f;
         func_80AECEB4(this, globalCtx);
@@ -1115,17 +1115,17 @@ void func_80AED19C(EnRu1* this, s32 cond) {
                          Animation_GetLastFrame(&gRutoChildTransitionHandsOnHipToCrossArmsAndLegsAnim), ANIMMODE_ONCE,
                          -8.0f);
         this->action = 20;
-        func_80AED0B0(this, 3);
+        func_80AED0B0(this, WARP_BLUE_RUTO_STATE_3);
     }
 }
 
 void func_80AED218(EnRu1* this, UNK_TYPE arg1) {
-    if (func_80AED084(this, 4)) {
+    if (func_80AED084(this, WARP_BLUE_RUTO_STATE_TALKING)) {
         if (arg1 != 0) {
             Animation_Change(&this->skelAnime, &gRutoChildWaitSittingAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildWaitSittingAnim), ANIMMODE_LOOP, -8.0f);
         }
-    } else if (func_80AED084(this, 5)) {
+    } else if (func_80AED084(this, WARP_BLUE_RUTO_STATE_WARPING)) {
         Animation_Change(&this->skelAnime, &gRutoChildWaitInBlueWarpAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildWaitInBlueWarpAnim), ANIMMODE_ONCE, -8.0f);
         this->action = 21;

@@ -97,7 +97,7 @@ glabel func_8080F560
 /* 0B98C 8080F6CC 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
 /* 0B990 8080F6D0 018D7021 */  addu    $t6, $t4, $t5              
 /* 0B994 8080F6D4 A44E07AA */  sh      $t6, 0x07AA($v0)           ## 801607AA
-/* 0B998 8080F6D8 0C01BF22 */  jal     func_8006FC88              
+/* 0B998 8080F6D8 0C01BF22 */  jal     Environment_UpdateSkybox              
 /* 0B99C 8080F6DC 8FA60044 */  lw      $a2, 0x0044($sp)           
 /* 0B9A0 8080F6E0 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 0B9A4 8080F6E4 3C18E700 */  lui     $t8, 0xE700                ## $t8 = E7000000
