@@ -94,7 +94,7 @@ void Moji_DrawString(GraphicsContext* gfxCtx, char* str) {
                 sScreenPosX = (((sScreenPosX / CHAR_WIDTH) / 8) + 1) * CHAR_WIDTH * 8;
                 if (sScreenPosX >= SCREEN_WIDTH) {
                     sScreenPosX = 0;
-                    sScreenPosY += CHAR_WIDTH;
+                    sScreenPosY += CHAR_HEIGHT;
                     if (sScreenPosY >= SCREEN_HEIGHT) {
                         sScreenPosY = 0;
                     }
