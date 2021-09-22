@@ -85,6 +85,7 @@ static Vec3f D_80AFA288[] = {
 };
 
 static u32 D_80AFA390[] = { 0, 0 };
+
 #include "overlays/ovl_En_Sda/ovl_En_Sda.c"
 
 static Vec3f D_80AFA660[16];
