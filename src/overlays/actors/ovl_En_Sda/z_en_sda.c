@@ -86,21 +86,21 @@ static Vec3f D_80AFA288[] = {
 
 static u32 D_80AFA390[] = { 0, 0 };
 
-static Vtx D_80AFA398[] = {
+ Vtx D_80AFA398[] = {
     VTX(-100, 0, -100, 0, 2048, 255, 255, 255, 255),
     VTX(100, 0, -100, 2048, 2048, 255, 255, 255, 255),
     VTX(100, 0, 100, 2048, 0, 255, 255, 255, 255),
     VTX(-100, 0, 100, 0, 0, 255, 255, 255, 255),
 };
 
-static Gfx D_80AFA3D8[] = {
+ Gfx D_80AFA3D8[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsSPEndDisplayList(),
 };
 
-static Gfx D_80AFA3F8[] = {
+ Gfx D_80AFA3F8[] = {
     gsDPSetCombineLERP(PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
                        COMBINED),
     gsDPSetRenderMode(AA_EN | Z_CMP | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_DEC | FORCE_BL |
