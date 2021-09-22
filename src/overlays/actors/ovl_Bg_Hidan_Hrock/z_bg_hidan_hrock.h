@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HIDAN_HROCK_H_
-#define _Z_BG_HIDAN_HROCK_H_
+#ifndef Z_BG_HIDAN_HROCK_H
+#define Z_BG_HIDAN_HROCK_H
 
 #include "ultra64.h"
 #include "global.h"

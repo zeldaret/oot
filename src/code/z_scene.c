@@ -343,67 +343,63 @@ void func_80098CC8(GlobalContext* globalCtx, SceneCmd* cmd) {
 // Scene Command 0x11: Skybox Settings
 void func_80098D1C(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->skyboxId = cmd->skyboxSettings.skyboxId;
-    globalCtx->envCtx.gloomySky = globalCtx->envCtx.unk_18 = cmd->skyboxSettings.unk_05;
-    globalCtx->envCtx.unk_1E = cmd->skyboxSettings.unk_06;
+    globalCtx->envCtx.unk_17 = globalCtx->envCtx.unk_18 = cmd->skyboxSettings.unk_05;
+    globalCtx->envCtx.indoors = cmd->skyboxSettings.unk_06;
 }
 
 // Scene Command 0x12: Skybox Disables
 void func_80098D5C(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->envCtx.skyDisabled = cmd->skyboxDisables.unk_04;
+    globalCtx->envCtx.skyboxDisabled = cmd->skyboxDisables.unk_04;
     globalCtx->envCtx.sunMoonDisabled = cmd->skyboxDisables.unk_05;
 }
 
 // Scene Command 0x10: Time Settings
 void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
-    u32 dayTime;
-
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
-        gSaveContext.environmentTime = gSaveContext.dayTime =
-            ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / (360.0f / 0x4000);
+        gSaveContext.skyboxTime = gSaveContext.dayTime =
+            ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / ((f32)(24 * 60) / 0x10000);
     }
 
     if (cmd->timeSettings.unk_06 != 0xFF) {
-        globalCtx->envCtx.unk_02 = cmd->timeSettings.unk_06;
+        globalCtx->envCtx.timeIncrement = cmd->timeSettings.unk_06;
     } else {
-        globalCtx->envCtx.unk_02 = 0;
+        globalCtx->envCtx.timeIncrement = 0;
     }
 
-    if (gSaveContext.unk_1422 == 0) {
-        D_8011FB40 = globalCtx->envCtx.unk_02;
+    if (gSaveContext.sunsSongState == SUNSSONG_INACTIVE) {
+        gTimeIncrement = globalCtx->envCtx.timeIncrement;
     }
 
-    dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.x = -(Math_SinS(dayTime - 0x8000) * 120.0f) * 25.0f;
-    dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.y = (Math_CosS(dayTime - 0x8000) * 120.0f) * 25.0f;
-    dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.z = (Math_CosS(dayTime - 0x8000) * 20.0f) * 25.0f;
+    globalCtx->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    globalCtx->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    globalCtx->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
 
-    if (((globalCtx->envCtx.unk_02 == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
+    if (((globalCtx->envCtx.timeIncrement == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == 0x0604)) {
-        gSaveContext.environmentTime = gSaveContext.dayTime;
-        if ((gSaveContext.environmentTime >= 0x2AAC) && (gSaveContext.environmentTime < 0x4555)) {
-            gSaveContext.environmentTime = 0x3556;
-        } else if ((gSaveContext.environmentTime >= 0x4555) && (gSaveContext.environmentTime < 0x5556)) {
-            gSaveContext.environmentTime = 0x5556;
-        } else if ((gSaveContext.environmentTime >= 0xAAAB) && (gSaveContext.environmentTime < 0xB556)) {
-            gSaveContext.environmentTime = 0xB556;
-        } else if ((gSaveContext.environmentTime >= 0xC001) && (gSaveContext.environmentTime < 0xCAAC)) {
-            gSaveContext.environmentTime = 0xCAAC;
+        gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
+        if ((gSaveContext.skyboxTime >= 0x2AAC) && (gSaveContext.skyboxTime < 0x4555)) {
+            gSaveContext.skyboxTime = 0x3556;
+        } else if ((gSaveContext.skyboxTime >= 0x4555) && (gSaveContext.skyboxTime < 0x5556)) {
+            gSaveContext.skyboxTime = 0x5556;
+        } else if ((gSaveContext.skyboxTime >= 0xAAAB) && (gSaveContext.skyboxTime < 0xB556)) {
+            gSaveContext.skyboxTime = 0xB556;
+        } else if ((gSaveContext.skyboxTime >= 0xC001) && (gSaveContext.skyboxTime < 0xCAAC)) {
+            gSaveContext.skyboxTime = 0xCAAC;
         }
     }
 }
 
 // Scene Command 0x05: Wind Settings
 void func_80099090(GlobalContext* globalCtx, SceneCmd* cmd) {
-    s8 temp1 = cmd->windSettings.unk_04;
-    s8 temp2 = cmd->windSettings.unk_05;
-    s8 temp3 = cmd->windSettings.unk_06;
+    s8 x = cmd->windSettings.x;
+    s8 y = cmd->windSettings.y;
+    s8 z = cmd->windSettings.z;
 
-    globalCtx->envCtx.unk_A8 = temp1;
-    globalCtx->envCtx.unk_AA = temp2;
-    globalCtx->envCtx.unk_AC = temp3;
-    globalCtx->envCtx.unk_B0 = cmd->windSettings.unk_07;
+    globalCtx->envCtx.windDirection.x = x;
+    globalCtx->envCtx.windDirection.y = y;
+    globalCtx->envCtx.windDirection.z = z;
+
+    globalCtx->envCtx.windSpeed = cmd->windSettings.unk_07;
 }
 
 // Scene Command 0x13: Exit List
@@ -500,13 +496,6 @@ void (*gSceneCmdHandlers[])(GlobalContext*, SceneCmd*) = {
     func_80098C68, func_80098CC8, func_80098D80, func_80098D1C, func_80098D5C, func_800990F0, NULL,
     func_80099140, func_8009918C, func_8009934C, func_800991A0, func_800993C0,
 };
-
-#define ROM_FILE(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
-#define ROM_FILE_EMPTY(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
-#define ROM_FILE_UNSET \
-    { 0 }
 
 RomFile sNaviMsgFiles[] = {
     ROM_FILE(elf_message_field),

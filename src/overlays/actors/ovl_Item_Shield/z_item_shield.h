@@ -1,5 +1,5 @@
-#ifndef _Z_ITEM_SHIELD_H_
-#define _Z_ITEM_SHIELD_H_
+#ifndef Z_ITEM_SHIELD_H
+#define Z_ITEM_SHIELD_H
 
 #include "ultra64.h"
 #include "global.h"

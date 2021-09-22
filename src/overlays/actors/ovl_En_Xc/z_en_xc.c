@@ -173,7 +173,8 @@ void func_80B3C620(EnXc* this, GlobalContext* globalCtx, s32 npcActionIdx) {
     f32 unk;
 
     if (npcAction != NULL) {
-        unk = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 0);
+        unk =
+            Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 0);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
         startZ = npcAction->startPos.z;

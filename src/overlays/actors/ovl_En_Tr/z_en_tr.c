@@ -449,8 +449,8 @@ void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 f32 func_80B23FDC(GlobalContext* globalCtx, s32 actionIndex) {
-    f32 phi_f2 = func_8006F93C(globalCtx->csCtx.npcActions[actionIndex]->endFrame,
-                               globalCtx->csCtx.npcActions[actionIndex]->startFrame, globalCtx->csCtx.frames);
+    f32 phi_f2 = Environment_LerpWeight(globalCtx->csCtx.npcActions[actionIndex]->endFrame,
+                                        globalCtx->csCtx.npcActions[actionIndex]->startFrame, globalCtx->csCtx.frames);
     phi_f2 = CLAMP_MAX(phi_f2, 1.0f);
     return phi_f2;
 }

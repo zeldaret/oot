@@ -1,5 +1,5 @@
-#ifndef _Z_MAGIC_WIND_H_
-#define _Z_MAGIC_WIND_H_
+#ifndef Z_MAGIC_WIND_H
+#define Z_MAGIC_WIND_H
 
 #include "ultra64.h"
 #include "global.h"

@@ -1,5 +1,5 @@
-#ifndef _Z_EFC_ERUPC_H_
-#define _Z_EFC_ERUPC_H_
+#ifndef Z_EFC_ERUPC_H
+#define Z_EFC_ERUPC_H
 
 #include "ultra64.h"
 #include "global.h"
