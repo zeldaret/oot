@@ -359,7 +359,7 @@ s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 mustChoose) {
             EnWf_SetupSlash(this);
             return true;
         }
-        
+
         EnWf_SetupRunAroundPlayer(this);
         return true;
     }
