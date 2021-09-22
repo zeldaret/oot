@@ -2824,7 +2824,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
             globalCtx->gameOverCtx.state = GAMEOVER_DEATH_START;
             func_800F6AB0(0);
             func_800F5C64(NA_BGM_GAME_OVER);
-            gSaveContext.seqIndex = 0xFF;
+            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
             gSaveContext.nightSeqIndex = 0xFF;
         }
 
@@ -3986,7 +3986,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                 if (temp == 11) {
                     func_800788CC(NA_SE_OC_SECRET_HOLE_OUT);
                     func_800F6964(5);
-                    gSaveContext.seqIndex = 0xFF;
+                    gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
                     gSaveContext.nightSeqIndex = 0xFF;
                 } else {
                     linearVel = this->linearVelocity;
@@ -11919,7 +11919,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
             Environment_WarpSongLeave(globalCtx);
         }
 
-        gSaveContext.seqIndex = 0xFF;
+        gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
         gSaveContext.nightSeqIndex = 0xFF;
     }
 }
@@ -12436,7 +12436,7 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
         } else {
             globalCtx->fadeTransition = 2;
             gSaveContext.nextTransition = 2;
-            gSaveContext.seqIndex = 0xFF;
+            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
             gSaveContext.nightSeqIndex = 0xFF;
         }
 

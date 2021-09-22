@@ -959,7 +959,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_BF = 1;
                 func_8002DF54(globalCtx, &this->actor, 8);
             } else if (this->timer >= 35000) {
-                Audio_QueueSeqCmd(NA_BGM_BOSS00);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
             }
 
             this->timer += this->unk_1F2;

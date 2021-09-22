@@ -121,7 +121,7 @@ f32 sAudioEnemyDist = 0.0f;
 s8 sAudioEnemyVol = 127;
 u16 D_80130628 = NA_BGM_DISABLED;
 u8 D_8013062C = 0;
-u8 D_80130630 = NA_BGM_NO_MUSIC_0;
+u8 D_80130630 = NA_BGM_GENERAL_SFX;
 u32 D_80130634 = 0;
 u32 D_80130638 = 0;
 u8 D_8013063C = 0;
@@ -2681,7 +2681,7 @@ void AudioDebug_ProcessInput(void) {
             if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
                 sAudioSndContWork[5] ^= 1;
                 Audio_SeqCmdE01(0, sAudioSndContWork[5]);
-                if (func_800FA0B4(0) != NA_BGM_NO_MUSIC_1) {
+                if (func_800FA0B4(0) != NA_BGM_NATURE_BACKGROUND) {
                     Audio_SeqCmd1(0, 0);
                 }
                 Audio_SeqCmd1(1, 0);
@@ -3124,7 +3124,7 @@ void func_800F3ED4(void) {
 
 void func_800F3F3C(u8 arg0) {
     if (gSoundBankMuted[0] != 1) {
-        Audio_StartSeq(3, 0, NA_BGM_NO_MUSIC_2);
+        Audio_StartSeq(3, 0, NA_BGM_VARIOUS_SFX);
         Audio_SeqCmd8(3, 0, 0, arg0);
     }
 }
@@ -3702,7 +3702,7 @@ void func_800F5BF0(u8 arg0) {
     u16 temp_v0;
 
     temp_v0 = func_800FA0B4(0);
-    if (temp_v0 != NA_BGM_NO_MUSIC_1) {
+    if (temp_v0 != NA_BGM_NATURE_BACKGROUND) {
         D_80130628 = temp_v0;
     }
     func_800F6FB4(arg0);
@@ -3781,7 +3781,7 @@ void func_800F5E90(u8 arg0) {
             arg0 = 3;
         }
         phi_t1 = D_8016E750[0].unk_254;
-        if (phi_t1 == NA_BGM_FIELD_BASE && func_800FA0B4(3) == (0x800 | NA_BGM_ENEMY)) {
+        if (phi_t1 == NA_BGM_FIELD_LOGIC && func_800FA0B4(3) == (0x800 | NA_BGM_ENEMY)) {
             arg0 = 3;
         }
 
@@ -3796,7 +3796,7 @@ void func_800F5E90(u8 arg0) {
                     }
                     Audio_SetVolScale(3, 3, sAudioEnemyVol, phi_t0);
                     Audio_StartSeq(3, 10, 0x800 | NA_BGM_ENEMY);
-                    if (phi_t1 != NA_BGM_NO_MUSIC_1) {
+                    if (phi_t1 != NA_BGM_NATURE_BACKGROUND) {
                         Audio_SetVolScale(0, 3, (0x7F - sAudioEnemyVol) & 0xFF, 0xA);
                         func_800F510C(sAudioEnemyVol);
                     }
@@ -3852,11 +3852,11 @@ void func_800F6114(f32 dist) {
 
             sAudioEnemyVol = ((350.0f - adjDist) * 127.0f) / 350.0f;
             Audio_SetVolScale(3, 3, sAudioEnemyVol, 0xA);
-            if (D_8016E750[0].unk_254 != NA_BGM_NO_MUSIC_1) {
+            if (D_8016E750[0].unk_254 != NA_BGM_NATURE_BACKGROUND) {
                 Audio_SetVolScale(0, 3, (0x7F - sAudioEnemyVol), 0xA);
             }
         }
-        if (D_8016E750[0].unk_254 != NA_BGM_NO_MUSIC_1) {
+        if (D_8016E750[0].unk_254 != NA_BGM_NATURE_BACKGROUND) {
             func_800F510C(sAudioEnemyVol);
         }
     }
@@ -3889,7 +3889,7 @@ void func_800F6268(f32 dist, u16 arg1) {
                     D_8016B9D8++;
                 }
             }
-        } else if ((temp_a0 == NA_BGM_NO_MUSIC_1) && ((arg1 & 0xFF) == NA_BGM_LONLON)) {
+        } else if ((temp_a0 == NA_BGM_NATURE_BACKGROUND) && ((arg1 & 0xFF) == NA_BGM_LONLON)) {
             temp_a0 = (s8)(func_800FA0B4(3) & 0xFF);
             if ((temp_a0 != (arg1 & 0xFF)) && (D_8016B9D8 < 10)) {
                 func_800F5E18(3, NA_BGM_LONLON, 0, 0, 0);
@@ -4011,7 +4011,7 @@ void func_800F6828(u8 arg0) {
 
     D_80130648 = arg0;
     D_80130640 = arg0;
-    if (D_8016E750[0].unk_254 == NA_BGM_NO_MUSIC_1) {
+    if (D_8016E750[0].unk_254 == NA_BGM_NATURE_BACKGROUND) {
         for (i = 0; i < 16; i++) {
             t = i;
             Audio_QueueCmdS8(((t & 0xFF) << 8) | 0x6000000 | 6, arg0);
@@ -4134,7 +4134,7 @@ void func_800F6D58(u8 arg0, u8 arg1, u8 arg2) {
     u8 temp_a0;
     u8 i;
 
-    if ((D_8016E750[0].unk_254 != NA_BGM_NO_MUSIC_1) && func_800FA11C(1, 0xF00000FF)) {
+    if ((D_8016E750[0].unk_254 != NA_BGM_NATURE_BACKGROUND) && func_800FA11C(1, 0xF00000FF)) {
         sAudioNatureFailed = 1;
         return;
     }
@@ -4175,7 +4175,7 @@ void func_800F6E7C(u16 arg0, u16 arg1) {
         Audio_SeqCmdE01(0, 0);
     }
 
-    Audio_StartSeq(0, 0, NA_BGM_NO_MUSIC_1);
+    Audio_StartSeq(0, 0, NA_BGM_NATURE_BACKGROUND);
 
     if (i != 0) {
         Audio_SeqCmdE01(0, 1);

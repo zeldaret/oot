@@ -520,7 +520,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.world.pos.x = -600.0f;
             this->actor.world.pos.y = 400.0f;
             this->actor.world.pos.z = 0.0f;
-            Audio_QueueSeqCmd(NA_BGM_BOSS00);
+            Audio_QueueSeqCmd(NA_BGM_BOSS);
         } else {
             BossTw_SetupCSWait(this, globalCtx);
         }
@@ -1642,7 +1642,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
                     this->timers[0] = 50;
                     func_8002DF54(globalCtx, &this->actor, 2);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
-                    Audio_QueueSeqCmd(NA_BGM_BOSS00);
+                    Audio_QueueSeqCmd(NA_BGM_BOSS);
                 }
             }
 
@@ -2220,7 +2220,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                        SEGMENTED_TO_VIRTUAL(object_tw_Blob_02E170), 0xA0, 0xB4, 0x80, 0x28);
                 gSaveContext.eventChkInf[7] |= 0x20;
-                Audio_QueueSeqCmd(NA_BGM_BOSS00);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
             }
 
             if (this->work[CS_TIMER_1] >= 160) {

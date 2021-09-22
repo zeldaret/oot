@@ -925,7 +925,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                                            SEGMENTED_TO_VIRTUAL(gGohmaTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
 
-                Audio_QueueSeqCmd(NA_BGM_BOSS00);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
                 gSaveContext.eventChkInf[7] |= 1;
             }
 
