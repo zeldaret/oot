@@ -93,8 +93,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),         ICHAIN_F32(uncullZoneDownward, 120, ICHAIN_STOP),
 };
 
-extern Gfx D_060002E0[];
-
 void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
     this->timer = 0;
     this->actionFunc = actionFunc;
