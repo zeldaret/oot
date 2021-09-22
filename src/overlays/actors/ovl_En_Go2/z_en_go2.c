@@ -1004,14 +1004,14 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
 
         } else if (!gSaveContext.bgsFlag && (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK)) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_CLAIM_CHECK) {
-                if (func_800775CC() >= 3) {
+                if (Environment_GetBgsDayCount() >= 3) {
                     textId = 0x305E;
                 } else {
                     textId = 0x305D;
                 }
                 this->actor.textId = textId;
             } else {
-                if (func_800775CC() >= 3) {
+                if (Environment_GetBgsDayCount() >= 3) {
                     textId = 0x3002;
                 } else {
                     textId = 0x305D;
@@ -1760,7 +1760,7 @@ void EnGo2_SetGetItem(EnGo2* this, GlobalContext* globalCtx) {
         this->unk_194.unk_00 = 0;
         switch (this->getItemId) {
             case GI_CLAIM_CHECK:
-                func_800775D8();
+                Environment_ClearBgsDayCount();
                 EnGo2_GetItemAnimation(this, globalCtx);
                 return;
             case GI_TUNIC_GORON:

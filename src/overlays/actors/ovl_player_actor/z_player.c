@@ -3912,11 +3912,26 @@ s32 func_80838FB8(GlobalContext* globalCtx, Player* this) {
     return 0;
 }
 
-s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, s32 bgId) {
-    static s16 D_808544F8[] = {
-        0x045B, 0x0482, 0x0340, 0x044B, 0x02A2, 0x0201, 0x03B8, 0x04EE, 0x03C0, 0x0463, 0x01CD, 0x0394, 0x0340, 0x057C,
-    };
-    static u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };
+s16 D_808544F8[] = {
+    0x045B, // DMT from Magic Fairy Fountain
+    0x0482, // DMC from Double Defense Fairy Fountain
+    0x0340, // Hyrule Castle from Dins Fire Fairy Fountain
+    0x044B, // Kakariko from Potion Shop
+    0x02A2, // Market (child day) from Potion Shop
+    0x0201, // Kakariko from Bazaar
+    0x03B8, // Market (child day) from Bazaar
+    0x04EE, // Kakariko from House of Skulltulas
+    0x03C0, // Back Alley (day) from Bombchu Shop
+    0x0463, // Kakariko from Shooting Gallery
+    0x01CD, // Market (child day) from Shooting Gallery
+    0x0394, // Zoras Fountain from Farores Wind Fairy Fountain
+    0x0340, // Hyrule Castle from Dins Fire Fairy Fountain
+    0x057C, // Desert Colossus from Nayrus Love Fairy Fountain
+};
+
+u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };
+
+s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u32 bgId) {
     s32 sp3C;
     s32 temp;
     s32 sp34;
@@ -10444,7 +10459,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         func_8084A0E8(globalCtx, this, lod, gCullBackDList, overrideLimbDraw);
 
         if (this->invincibilityTimer > 0) {
-            POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+            POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
         }
 
         if (this->stateFlags2 & 0x4000) {
@@ -11901,7 +11916,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         this->stateFlags2 |= 0x8000000;
 
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, 0.0f, 0.0f, 0.0f, 0, 0, 0, 0xF) == NULL) {
-            func_800776E4(globalCtx);
+            Environment_WarpSongLeave(globalCtx);
         }
 
         gSaveContext.seqIndex = 0xFF;

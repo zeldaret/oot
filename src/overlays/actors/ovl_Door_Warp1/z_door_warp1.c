@@ -91,7 +91,8 @@ void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lowerLight);
 
     for (i = 0; i < 3; i++) {
-        globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] = globalCtx->envCtx.unk_8C[1][i] = 0;
+        globalCtx->envCtx.adjAmbientColor[i] = globalCtx->envCtx.adjFogColor[i] = globalCtx->envCtx.adjLight1Color[i] =
+            0;
     }
     //! @bug SkelAnime_Free is not called for crystal variants
 }
@@ -204,10 +205,10 @@ void DoorWarp1_SetupAdultDungeonWarp(DoorWarp1* this, GlobalContext* globalCtx) 
     this->crystalAlpha = 0.0f;
     this->unk_19C = 0.0f;
 
-    Lights_PointNoGlowSetInfo(&this->upperLightInfo, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                              200, 255, 255, 255);
-    Lights_PointNoGlowSetInfo(&this->lowerLightInfo, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                              200, 255, 255, 255);
+    Lights_PointNoGlowSetInfo(&this->upperLightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
+                              this->actor.world.pos.z, 200, 255, 255, 255);
+    Lights_PointNoGlowSetInfo(&this->lowerLightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
+                              this->actor.world.pos.z, 200, 255, 255, 255);
 
     DoorWarp1_SetupAction(this, func_8099A3A4);
 }
@@ -234,10 +235,11 @@ void DoorWarp1_SetupBlueCrystal(DoorWarp1* this, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = 800.0f;
 
     for (i = 0; i < 3; i++) {
-        globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] = globalCtx->envCtx.unk_8C[1][i] = -255;
+        globalCtx->envCtx.adjAmbientColor[i] = globalCtx->envCtx.adjFogColor[i] = globalCtx->envCtx.adjLight1Color[i] =
+            -255;
     }
 
-    globalCtx->envCtx.unk_9E = -500;
+    globalCtx->envCtx.adjFogNear = -500;
     this->warpTimer = 30;
     this->unk_1B8 = 4000;
     DoorWarp1_SetupAction(this, DoorWarp1_BlueCrystal);
@@ -294,22 +296,22 @@ void DoorWarp1_BlueCrystal(DoorWarp1* this, GlobalContext* globalCtx) {
 
 void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
     s32 temp_f4;
-    f32 phi_f0;
+    f32 darkness;
     s16 i;
 
     Math_SmoothStepToF(&this->crystalAlpha, 255.0f, 0.2f, 5.0f, 0.1f);
 
-    phi_f0 = (f32)(40 - this->warpTimer) / 40.0f;
-    phi_f0 = CLAMP_MIN(phi_f0, 0);
+    darkness = (f32)(40 - this->warpTimer) / 40.0f;
+    darkness = CLAMP_MIN(darkness, 0);
 
     for (i = 0; i < 3; i++) {
-        globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] =
-            globalCtx->envCtx.unk_8C[1][i] = -255.0f * phi_f0;
+        globalCtx->envCtx.adjAmbientColor[i] = globalCtx->envCtx.adjFogColor[i] = globalCtx->envCtx.adjLight1Color[i] =
+            -255 * darkness;
     }
-    globalCtx->envCtx.unk_9E = -500.0f * phi_f0;
+    globalCtx->envCtx.adjFogNear = -500.0f * darkness;
 
     this->warpTimer++;
-    if (phi_f0 <= 0) {
+    if (darkness <= 0) {
         DoorWarp1_SetupAction(this, func_80999348);
     }
     this->actor.shape.rot.y += 0x320;
@@ -780,20 +782,20 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
         gSaveContext.nextTransition = 7;
     }
     if (this->warpTimer >= 141) {
-        f32 phi_f0;
+        f32 screenFillAlpha;
 
-        globalCtx->envCtx.unk_E1 = 1;
-        phi_f0 = (f32)(this->warpTimer - 140) / 20.0f;
+        globalCtx->envCtx.fillScreen = true;
+        screenFillAlpha = (f32)(this->warpTimer - 140) / 20.0f;
 
-        if (phi_f0 > 1.0f) {
-            phi_f0 = 1.0f;
+        if (screenFillAlpha > 1.0f) {
+            screenFillAlpha = 1.0f;
         }
-        globalCtx->envCtx.unk_E2[0] = 160;
-        globalCtx->envCtx.unk_E2[1] = 160;
-        globalCtx->envCtx.unk_E2[2] = 160;
-        globalCtx->envCtx.unk_E2[3] = (u32)(255.0f * phi_f0);
+        globalCtx->envCtx.screenFillColor[0] = 160;
+        globalCtx->envCtx.screenFillColor[1] = 160;
+        globalCtx->envCtx.screenFillColor[2] = 160;
+        globalCtx->envCtx.screenFillColor[3] = (u32)(255.0f * screenFillAlpha);
 
-        osSyncPrintf("\nparcent=[%f]", phi_f0);
+        osSyncPrintf("\nparcent=[%f]", screenFillAlpha);
     }
     Lights_PointNoGlowSetInfo(&this->upperLightInfo, (s16)player->actor.world.pos.x + 10.0f,
                               (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z + 10.0f, 235, 255,
@@ -817,12 +819,12 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
         s16 i;
 
         for (i = 0; i < 3; i++) {
-            globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] =
-                globalCtx->envCtx.unk_8C[1][i] = -255.0f * temp_f0_2;
+            globalCtx->envCtx.adjAmbientColor[i] = globalCtx->envCtx.adjFogColor[i] =
+                globalCtx->envCtx.adjLight1Color[i] = -255.0f * temp_f0_2;
         }
 
-        globalCtx->envCtx.unk_9E = -500.0f * temp_f0_2;
-        if (globalCtx->envCtx.unk_9E < -300) {
+        globalCtx->envCtx.adjFogNear = -500.0f * temp_f0_2;
+        if (globalCtx->envCtx.adjFogNear < -300) {
             globalCtx->roomCtx.curRoom.segment = NULL;
         }
     }
@@ -928,8 +930,8 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2173);
 
     temp_f0 = 1.0f - (2.0f - this->unk_194) / 1.7f;
-    if (this->actor.params != WARP_YELLOW && this->actor.params != WARP_DESTINATION && this->actor.params != WARP_ORANGE &&
-        this->actor.params != WARP_GREEN && this->actor.params != WARP_RED) {
+    if (this->actor.params != WARP_YELLOW && this->actor.params != WARP_DESTINATION &&
+        this->actor.params != WARP_ORANGE && this->actor.params != WARP_GREEN && this->actor.params != WARP_RED) {
         this->unk_19C += (s16)(temp_f0 * 15.0f);
     }
     if (this->actor.params == WARP_DESTINATION) {

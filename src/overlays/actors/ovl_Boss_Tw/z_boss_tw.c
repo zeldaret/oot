@@ -585,10 +585,10 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    this->fogR = globalCtx->lightCtx.unk_07;
-    this->fogG = globalCtx->lightCtx.unk_08;
-    this->fogB = globalCtx->lightCtx.unk_09;
-    this->fogNear = globalCtx->lightCtx.unk_0A;
+    this->fogR = globalCtx->lightCtx.fogColor[0];
+    this->fogG = globalCtx->lightCtx.fogColor[1];
+    this->fogB = globalCtx->lightCtx.fogColor[2];
+    this->fogNear = globalCtx->lightCtx.fogNear;
     this->fogFar = 1000.0f;
 }
 
@@ -2852,10 +2852,10 @@ void BossTw_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     this->collider.base.colType = COLTYPE_HIT3;
-    Math_ApproachF(&this->fogR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_ApproachF(&this->fogG, globalCtx->lightCtx.unk_08, 1.0f, 10.0f);
-    Math_ApproachF(&this->fogB, globalCtx->lightCtx.unk_09, 1.0f, 10.0f);
-    Math_ApproachF(&this->fogNear, globalCtx->lightCtx.unk_0A, 1.0f, 10.0f);
+    Math_ApproachF(&this->fogR, globalCtx->lightCtx.fogColor[0], 1.0f, 10.0f);
+    Math_ApproachF(&this->fogG, globalCtx->lightCtx.fogColor[1], 1.0f, 10.0f);
+    Math_ApproachF(&this->fogB, globalCtx->lightCtx.fogColor[2], 1.0f, 10.0f);
+    Math_ApproachF(&this->fogNear, globalCtx->lightCtx.fogNear, 1.0f, 10.0f);
     Math_ApproachF(&this->fogFar, 1000.0f, 1.0f, 10.0f);
     this->work[CS_TIMER_1]++;
     this->work[CS_TIMER_2]++;
@@ -2979,10 +2979,10 @@ void BossTw_TwinrovaUpdate(Actor* thisx, GlobalContext* globalCtx2) {
     this->unk_5F8 = 0;
     this->collider.base.colType = COLTYPE_HIT3;
 
-    Math_ApproachF(&this->fogR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_ApproachF(&this->fogG, globalCtx->lightCtx.unk_08, 1.0f, 10.0f);
-    Math_ApproachF(&this->fogB, globalCtx->lightCtx.unk_09, 1.0f, 10.0f);
-    Math_ApproachF(&this->fogNear, globalCtx->lightCtx.unk_0A, 1.0f, 10.0f);
+    Math_ApproachF(&this->fogR, globalCtx->lightCtx.fogColor[0], 1.0f, 10.0f);
+    Math_ApproachF(&this->fogG, globalCtx->lightCtx.fogColor[1], 1.0f, 10.0f);
+    Math_ApproachF(&this->fogB, globalCtx->lightCtx.fogColor[2], 1.0f, 10.0f);
+    Math_ApproachF(&this->fogNear, globalCtx->lightCtx.fogNear, 1.0f, 10.0f);
     Math_ApproachF(&this->fogFar, 1000.0f, 1.0f, 10.0f);
 
     this->work[CS_TIMER_1]++;
@@ -3529,7 +3529,7 @@ void BossTw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, BossTw_OverrideLimbDraw, BossTw_PostLimbDraw, this);
         Matrix_Pop();
-        POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
     }
 
     if (this->actor.params == TW_KOTAKE) {
@@ -3888,8 +3888,8 @@ void BossTw_TwinrovaDraw(Actor* thisx, GlobalContext* globalCtx2) {
         Matrix_Pop();
 
         Matrix_MultVec3f(&D_8094A9EC, &this->beamOrigin);
-        POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, globalCtx->lightCtx.unk_07, globalCtx->lightCtx.unk_08,
-                                    globalCtx->lightCtx.unk_09, 0, globalCtx->lightCtx.unk_0A, 1000);
+        POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, globalCtx->lightCtx.fogColor[0], globalCtx->lightCtx.fogColor[1],
+                                    globalCtx->lightCtx.fogColor[2], 0, globalCtx->lightCtx.fogNear, 1000);
     }
 
     BossTw_DrawEffects(globalCtx);

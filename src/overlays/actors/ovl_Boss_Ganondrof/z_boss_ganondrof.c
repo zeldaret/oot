@@ -1519,7 +1519,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, BossGanondrof_OverrideLimbDraw,
                       BossGanondrof_PostLimbDraw, this);
     osSyncPrintf("DRAW 22\n");
-    POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+    POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganondrof.c", 3814);
     osSyncPrintf("DRAW END %d\n", this->actor.params);
 }

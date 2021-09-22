@@ -45,12 +45,10 @@ typedef struct LightNode {
 
 typedef struct {
     /* 0x0 */ LightNode* listHead;
-    /* 0x4 */ Color_RGB8 ambient;
-    /* 0x7 */ u8 unk_07;
-    /* 0x8 */ u8 unk_08;
-    /* 0x9 */ u8 unk_09;
-    /* 0xA */ s16 unk_0A;
-    /* 0xC */ s16 unk_0C;
+    /* 0x4 */ u8 ambientColor[3];
+    /* 0x7 */ u8 fogColor[3];
+    /* 0xA */ s16 fogNear; // how close until fog starts taking effect. range 0 - 1000
+    /* 0xC */ s16 fogFar; // how far until fog starts to saturate. range 0 - 1000
 } LightContext; // size = 0x10
 
 typedef enum {

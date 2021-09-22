@@ -712,11 +712,12 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 func_800A9F6C(0.0f, 0xFF, 0xA, 0x32);
             }
             if (this->unk_398 >= 229) {
-                globalCtx->envCtx.unk_E1 = 1;
-                globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0xFF;
-                globalCtx->envCtx.unk_E2[3] = 0x64;
+                globalCtx->envCtx.fillScreen = true;
+                globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+                    globalCtx->envCtx.screenFillColor[2] = 255;
+                globalCtx->envCtx.screenFillColor[3] = 100;
                 if (this->unk_398 == 234) {
-                    globalCtx->envCtx.unk_E1 = 0;
+                    globalCtx->envCtx.fillScreen = false;
                     this->unk_39C = 24;
                     this->unk_398 = 0;
                     sp68 = player->actor.world.pos;
@@ -2078,13 +2079,13 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_332--;
     }
     if ((globalCtx->envCtx.unk_D8 > 0.0f) && (this->unk_336 != 0)) {
-        globalCtx->envCtx.unk_E9 = 1;
-        globalCtx->envCtx.unk_EA[0] = 0xFF;
-        globalCtx->envCtx.unk_EA[1] = 0xFF;
-        globalCtx->envCtx.unk_EA[2] = 0xFF;
-        globalCtx->envCtx.unk_EA[3] = (s16)(globalCtx->envCtx.unk_D8 * 200.0f);
+        globalCtx->envCtx.customSkyboxFilter = 1;
+        globalCtx->envCtx.skyboxFilterColor[0] = 255;
+        globalCtx->envCtx.skyboxFilterColor[1] = 255;
+        globalCtx->envCtx.skyboxFilterColor[2] = 255;
+        globalCtx->envCtx.skyboxFilterColor[3] = (s16)(globalCtx->envCtx.unk_D8 * 200.0f);
     } else {
-        globalCtx->envCtx.unk_E9 = 0;
+        globalCtx->envCtx.customSkyboxFilter = 0;
     }
     globalCtx->envCtx.unk_BF = 0;
     globalCtx->envCtx.unk_DC = 2;
@@ -2749,7 +2750,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                   this->skelAnime.dListCount, BossGanon2_OverrideLimbDraw, BossGanon2_PostLimbDraw,
                                   this);
-            POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+            POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
             BossGanon2_GenShadowTexture(shadowTexture, this, globalCtx);
             BossGanon2_DrawShadowTexture(shadowTexture, this, globalCtx);
             break;
@@ -2872,9 +2873,9 @@ void func_809060E8(GlobalContext* globalCtx) {
             f32 angle;
 
             func_80093D84(globalCtx->state.gfxCtx);
-            spA0.x = globalCtx->envCtx.unk_2A;
-            spA0.y = globalCtx->envCtx.unk_2B;
-            spA0.z = globalCtx->envCtx.unk_2C;
+            spA0.x = globalCtx->envCtx.dirLight1.params.dir.x;
+            spA0.y = globalCtx->envCtx.dirLight1.params.dir.y;
+            spA0.z = globalCtx->envCtx.dirLight1.params.dir.z;
             func_8002EABC(&effect->position, &globalCtx->view.eye, &spA0, globalCtx->state.gfxCtx);
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);

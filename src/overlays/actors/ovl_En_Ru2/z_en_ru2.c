@@ -248,7 +248,8 @@ void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
     f32 posY = thisx->world.pos.y;
     f32 posZ = thisx->world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_SAGES);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
@@ -616,7 +617,7 @@ void func_80AF37CC(EnRu2* this) {
     f32 funcFloat;
 
     this->unk_2C0++;
-    funcFloat = func_8006F9BC((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
+    funcFloat = Environment_LerpWeightAccelDecel((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
     this->actor.world.pos.y = this->actor.home.pos.y + (300.0f * funcFloat);
 }
 

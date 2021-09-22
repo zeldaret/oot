@@ -865,7 +865,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         D_80B7A684 = 20;
         globalCtx->specialEffects = sFishingEffects;
-        D_8011FB40 = 1;
+        gTimeIncrement = 1;
         D_80B7E0AC = 0;
         D_80B7E0A6 = 10;
 
@@ -5347,8 +5347,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             func_80064534(globalCtx, &globalCtx->csCtx);
             D_80B7A6CC = 0;
             sCameraId = 0;
-            func_80070600(globalCtx, 0);
-            globalCtx->envCtx.unk_9E = 0;
+            Environment_EnableUnderwaterLights(globalCtx, 0);
+            globalCtx->envCtx.adjFogNear = 0;
             player->unk_860 = -5;
             D_80B7E0B0 = 5;
             break;
@@ -5391,8 +5391,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
                 D_80B7A6CC = 0;
                 sCameraId = 0;
                 D_80B7A6D0 = 30;
-                func_80070600(globalCtx, 0);
-                globalCtx->envCtx.unk_9E = 0;
+                Environment_EnableUnderwaterLights(globalCtx, 0);
+                globalCtx->envCtx.adjFogNear = 0;
             }
             break;
 
@@ -5497,8 +5497,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
                         D_80B7E0B0 = 5;
                         D_80B7A6D4 = 0;
                         D_80B7E0A6 = 20;
-                        func_80070600(globalCtx, 0);
-                        globalCtx->envCtx.unk_9E = 0;
+                        Environment_EnableUnderwaterLights(globalCtx, 0);
+                        globalCtx->envCtx.adjFogNear = 0;
                     }
                 }
             }
@@ -5513,15 +5513,15 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         Math_ApproachF(&D_80B7FECC, 1.0f, 1.0f, 0.02f);
 
         if (sCameraEye.y <= (WATER_SURFACE_Y(globalCtx) + 1.0f)) {
-            func_80070600(globalCtx, 1);
+            Environment_EnableUnderwaterLights(globalCtx, 1);
             if (D_80B7E076 != 0) {
-                globalCtx->envCtx.unk_9E = -0xB2;
+                globalCtx->envCtx.adjFogNear = -0xB2;
             } else {
-                globalCtx->envCtx.unk_9E = -0x2E;
+                globalCtx->envCtx.adjFogNear = -0x2E;
             }
         } else {
-            func_80070600(globalCtx, 0);
-            globalCtx->envCtx.unk_9E = 0;
+            Environment_EnableUnderwaterLights(globalCtx, 0);
+            globalCtx->envCtx.adjFogNear = 0;
         }
     }
 
@@ -5565,9 +5565,9 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     if (sREG(15) != 0) {
         if (D_80B7A654 != (sREG(15) - 1)) {
             if (D_80B7A654 == 0) {
-                globalCtx->envCtx.gloomySkyEvent = 1;
+                globalCtx->envCtx.gloomySkyMode = 1;
             } else {
-                globalCtx->envCtx.gloomySkyEvent = 2;
+                globalCtx->envCtx.gloomySkyMode = 2;
             }
         }
 
@@ -5575,10 +5575,10 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (sREG(14) == 1) {
-        globalCtx->envCtx.gloomySkyEvent = 1;
+        globalCtx->envCtx.gloomySkyMode = 1;
     }
     if (sREG(14) == -1) {
-        globalCtx->envCtx.gloomySkyEvent = 2;
+        globalCtx->envCtx.gloomySkyMode = 2;
     }
 
     sREG(14) = 0;
@@ -5596,10 +5596,10 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
         if (Rand_ZeroOne() < 0.5f) {
             D_80B7A654 = (u8)Rand_ZeroFloat(10.0f) + 5;
-            globalCtx->envCtx.gloomySkyEvent = 1;
+            globalCtx->envCtx.gloomySkyMode = 1;
         } else {
             D_80B7A654 = 0;
-            globalCtx->envCtx.gloomySkyEvent = 2;
+            globalCtx->envCtx.gloomySkyMode = 2;
         }
     }
 
@@ -5631,7 +5631,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         Math_ApproachZeroF(&D_80B7A658, 1.0f, 2.0f);
     }
 
-    globalCtx->envCtx.unk_8C[1][0] = globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = D_80B7A658;
+    globalCtx->envCtx.adjLight1Color[0] = globalCtx->envCtx.adjLight1Color[1] = globalCtx->envCtx.adjLight1Color[2] =
+        D_80B7A658;
 
     if ((u8)D_80B7A650 > 0) {
         s32 pad;
