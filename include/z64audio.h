@@ -398,8 +398,8 @@ typedef struct SequenceChannelLayer {
     /* 0x10 */ s16 transposition; // #semitones added to play commands
                                   // (m64 instruction encoding only allows referring to the limited range
                                   // 0..0x3F; this makes 0x40..0x7F accessible as well)
-    /* 0x12 */ s16 shortNoteDefaultPlayPercentage;
-    /* 0x14 */ s16 playPercentage;
+    /* 0x12 */ s16 shortNoteDefaultDelay;
+    /* 0x14 */ s16 lastDelay;
     /* 0x18 */ AdsrSettings adsr;
     /* 0x20 */ Portamento portamento;
     /* 0x2C */ struct Note* note;

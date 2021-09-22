@@ -516,9 +516,9 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
                 Audio_SeqChanLayerNoteDecay(layer);
                 break;
 
-            case 0xC3: // layer_setshortnotedefaultplaypercentage
+            case 0xC3: // layer_setshortnotedefaultdelay
                 sp3A = Audio_M64ReadCompressedU16(state);
-                layer->shortNoteDefaultPlayPercentage = sp3A;
+                layer->shortNoteDefaultDelay = sp3A;
                 break;
 
             case 0xC6: // layer_setinstr
@@ -806,7 +806,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
 
 s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
     M64ScriptState* state = &layer->scriptState;
-    u16 playPercentage;
+    u16 delay;
     s32 velocity;
     SequenceChannel* seqChannel = layer->seqChannel;
     SequencePlayer* seqPlayer = seqChannel->seqPlayer;
@@ -824,21 +824,21 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
     if (seqChannel->largeNotes == 1) {
         switch (arg1 & 0xC0) {
             case 0:
-                playPercentage = Audio_M64ReadCompressedU16(state);
+                delay = Audio_M64ReadCompressedU16(state);
                 velocity = *(state->pc++);
                 layer->noteDuration = *(state->pc++);
-                layer->playPercentage = playPercentage;
+                layer->lastDelay = delay;
                 break;
 
             case 0x40:
-                playPercentage = Audio_M64ReadCompressedU16(state);
+                delay = Audio_M64ReadCompressedU16(state);
                 velocity = *(state->pc++);
                 layer->noteDuration = 0;
-                layer->playPercentage = playPercentage;
+                layer->lastDelay = delay;
                 break;
 
             case 0x80:
-                playPercentage = layer->playPercentage;
+                delay = layer->lastDelay;
                 velocity = *(state->pc++);
                 layer->noteDuration = *(state->pc++);
                 break;
@@ -852,16 +852,16 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
     } else {
         switch (arg1 & 0xC0) {
             case 0:
-                playPercentage = Audio_M64ReadCompressedU16(state);
-                layer->playPercentage = playPercentage;
+                delay = Audio_M64ReadCompressedU16(state);
+                layer->lastDelay = delay;
                 break;
 
             case 0x40:
-                playPercentage = layer->shortNoteDefaultPlayPercentage;
+                delay = layer->shortNoteDefaultDelay;
                 break;
 
             case 0x80:
-                playPercentage = layer->playPercentage;
+                delay = layer->lastDelay;
                 break;
         }
         arg1 -= (arg1 & 0xC0);
@@ -883,8 +883,8 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
         layer->velocitySquare2 = layer->velocitySquare;
     }
 
-    layer->delay = playPercentage;
-    layer->duration = (layer->noteDuration * playPercentage) >> 8;
+    layer->delay = delay;
+    layer->duration = (layer->noteDuration * delay) >> 8;
     if (seqChannel->durationRandomVariance != 0) {
         //! @bug should probably be durationRandomVariance
         intDelta = (layer->duration * (gAudioContext.audioRandom % seqChannel->velocityRandomVariance)) / 100;
