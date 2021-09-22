@@ -105,7 +105,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
-static ColliderCylinderInit sCylinderInit1 = {
+static ColliderCylinderInit sBodyCylinderInit = {
     {
         COLTYPE_HIT5,
         AT_NONE,
@@ -125,7 +125,7 @@ static ColliderCylinderInit sCylinderInit1 = {
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit sCylinderInit2 = {
+static ColliderCylinderInit sTailCylinderInit = {
     {
         COLTYPE_HIT5,
         AT_NONE,
@@ -230,9 +230,9 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->colliderSpheres);
     Collider_SetJntSph(globalCtx, &this->colliderSpheres, thisx, &sJntSphInit, this->colliderSpheresElements);
     Collider_InitCylinder(globalCtx, &this->colliderCylinderBody);
-    Collider_SetCylinder(globalCtx, &this->colliderCylinderBody, thisx, &sCylinderInit1);
+    Collider_SetCylinder(globalCtx, &this->colliderCylinderBody, thisx, &sBodyCylinderInit);
     Collider_InitCylinder(globalCtx, &this->colliderCylinderTail);
-    Collider_SetCylinder(globalCtx, &this->colliderCylinderTail, thisx, &sCylinderInit2);
+    Collider_SetCylinder(globalCtx, &this->colliderCylinderTail, thisx, &sTailCylinderInit);
 
     if (thisx->params == WOLFOS_NORMAL) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWolfosNormalSkel, &gWolfosWaitingAnim, this->jointTable,
@@ -282,7 +282,7 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 widenChecks) {
+s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 mustChoose) {
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s16 wallYawDiff;
@@ -344,8 +344,9 @@ s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 widenChecks) {
         }
     }
 
-    if (widenChecks) {
+    if (mustChoose) {
         s16 playerFacingAngleDiff;
+
         if (playerYawDiff >= 0x1B58) {
             EnWf_SetupSidestep(this, globalCtx);
             return true;
@@ -353,14 +354,14 @@ s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 widenChecks) {
 
         playerFacingAngleDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
-        if (((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsTargeted(globalCtx, &this->actor)) &&
+        if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsTargeted(globalCtx, &this->actor) &&
             (((globalCtx->gameplayFrames % 8) != 0) || (ABS(playerFacingAngleDiff) < 0x38E0))) {
             EnWf_SetupSlash(this);
             return true;
-        } else {
-            EnWf_SetupRunAroundPlayer(this);
-            return true;
         }
+        
+        EnWf_SetupRunAroundPlayer(this);
+        return true;
     }
     return false;
 }
@@ -424,15 +425,15 @@ void EnWf_Wait(EnWf* this, GlobalContext* globalCtx) {
     player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->headTilt != 0) {
-        angle = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y) - this->headRot.y;
+    if (this->unk_2E2 != 0) {
+        angle = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y) - this->unk_4D4.y;
 
         if (ABS(angle) > 0x2000) {
-            this->headTilt--;
+            this->unk_2E2--;
             return;
         }
 
-        this->headTilt = 0;
+        this->unk_2E2 = 0;
     }
 
     angle = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
@@ -758,7 +759,7 @@ void EnWf_Slash(EnWf* this, GlobalContext* globalCtx) {
             this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
 
             if (yawAngleDiff > 13000) {
-                this->headTilt = 7;
+                this->unk_2E2 = 7;
             }
         } else if ((Rand_ZeroOne() > 0.7f) || (this->actor.xzDistToPlayer >= 120.0f)) {
             EnWf_SetupWait(this);
@@ -810,7 +811,7 @@ void EnWf_RecoilFromBlockedSlash(EnWf* this, GlobalContext* globalCtx) {
             this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
 
             if (angle2 > 0x32C8) {
-                this->headTilt = 30;
+                this->unk_2E2 = 30;
             }
         } else {
             if ((Rand_ZeroOne() > 0.7f) || (this->actor.xzDistToPlayer >= 120.0f)) {
@@ -906,7 +907,7 @@ void EnWf_SetupDamaged(EnWf* this) {
         this->unk_300 = true;
     }
 
-    this->headTilt = 0;
+    this->unk_2E2 = 0;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_DAMAGE);
     this->action = WOLFOS_ACTION_DAMAGED;
@@ -944,7 +945,7 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
                 } else if (Rand_ZeroOne() > 0.5f) {
                     EnWf_SetupWait(this);
                     this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
-                    this->headTilt = 30;
+                    this->unk_2E2 = 30;
                 } else {
                     EnWf_SetupBackflipAway(this);
                 }
@@ -1231,14 +1232,14 @@ void EnWf_Die(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_UpdateHeadRot(EnWf* this, GlobalContext* globalCtx) {
-    if ((this->action == WOLFOS_ACTION_WAIT) && (this->headTilt != 0)) {
-        this->headRot.y = Math_SinS(this->headTilt * 4200) * 8920.0f;
+    if ((this->action == WOLFOS_ACTION_WAIT) && (this->unk_2E2 != 0)) {
+        this->unk_4D4.y = Math_SinS(this->unk_2E2 * 4200) * 8920.0f;
     } else if (this->action != WOLFOS_ACTION_STUNNED) {
         if (this->action != WOLFOS_ACTION_SLASH) {
-            Math_SmoothStepToS(&this->headRot.y, this->actor.yawTowardsPlayer - this->actor.shape.rot.y, 1, 1500, 0);
-            this->headRot.y = CLAMP(this->headRot.y, -0x3127, 0x3127);
+            Math_SmoothStepToS(&this->unk_4D4.y, this->actor.yawTowardsPlayer - this->actor.shape.rot.y, 1, 1500, 0);
+            this->unk_4D4.y = CLAMP(this->unk_4D4.y, -0x3127, 0x3127);
         } else {
-            this->headRot.y = 0;
+            this->unk_4D4.y = 0;
         }
     }
 }
@@ -1351,7 +1352,7 @@ s32 EnWf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     EnWf* this = THIS;
 
     if ((limbIndex == WOLFOS_LIMB_HEAD) || (limbIndex == WOLFOS_LIMB_EYES)) {
-        rot->y -= this->headRot.y;
+        rot->y -= this->unk_4D4.y;
     }
 
     return false;

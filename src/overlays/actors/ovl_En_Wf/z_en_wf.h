@@ -61,7 +61,7 @@ typedef struct EnWf {
     /* 0x02D8 */ char unk_2D8[4]; // Unused
     /* 0x02DC */ EnWfActionFunc actionFunc;
     /* 0x02E0 */ s16 unk_2E0; // Used, but has no effect
-    /* 0x02E2 */ s16 headTilt;
+    /* 0x02E2 */ s16 unk_2E2;
     /* 0x02E4 */ s16 fireTimer;
     /* 0x02E6 */ u8 damageEffect;
     /* 0x02E8 */ s32 actionTimer; // Used to make an action last for a certain amount of time
@@ -80,7 +80,7 @@ typedef struct EnWf {
     /* 0x0470 */ ColliderCylinder colliderCylinderTail;
     /* 0x04BC */ Vec3f unk_4BC;
     /* 0x04C8 */ Vec3f unk_4C8;
-    /* 0x04D4 */ Vec3s headRot;
+    /* 0x04D4 */ Vec3s unk_4D4;
 } EnWf; // size = 0x04DC
 
 typedef enum {
