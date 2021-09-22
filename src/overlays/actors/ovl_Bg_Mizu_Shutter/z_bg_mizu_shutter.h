@@ -1,5 +1,5 @@
-#ifndef _Z_BG_MIZU_SHUTTER_H_
-#define _Z_BG_MIZU_SHUTTER_H_
+#ifndef Z_BG_MIZU_SHUTTER_H
+#define Z_BG_MIZU_SHUTTER_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -25,7 +25,5 @@ typedef enum BgMizuShutterSize {
     BGMIZUSHUTTER_SMALL,
     BGMIZUSHUTTER_LARGE
 } BgMizuShutterSize;
-
-extern const ActorInit Bg_Mizu_Shutter_InitVars;
 
 #endif

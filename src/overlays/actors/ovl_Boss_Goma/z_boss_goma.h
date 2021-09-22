@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_GOMA_H_
-#define _Z_BOSS_GOMA_H_
+#ifndef Z_BOSS_GOMA_H
+#define Z_BOSS_GOMA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -152,7 +152,5 @@ typedef struct BossGoma {
     /* 0x07BC */ ColliderJntSph collider;
     /* 0x07DC */ ColliderJntSphElement colliderItems[13];
 } BossGoma; // size = 0x0B1C
-
-extern const ActorInit Boss_Goma_InitVars;
 
 #endif

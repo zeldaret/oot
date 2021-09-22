@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_HAHENIRON_H_
-#define _Z_BG_JYA_HAHENIRON_H_
+#ifndef Z_BG_JYA_HAHENIRON_H
+#define Z_BG_JYA_HAHENIRON_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct BgJyaHaheniron {
     /* 0x0170 */ ColliderJntSphElement colliderItems[1];
     /* 0x01B0 */ s16 timer;
 } BgJyaHaheniron; // size = 0x01B4
-
-extern const ActorInit Bg_Jya_Haheniron_InitVars;
 
 #endif

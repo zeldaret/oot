@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DU_H_
-#define _Z_EN_DU_H_
+#ifndef Z_EN_DU_H
+#define Z_EN_DU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -28,7 +28,5 @@ typedef struct EnDu {
     /* 0x01F2 */ s16 blinkTimer;
     /* 0x01F4 */ struct_80034A14_arg1 unk_1F4;
 } EnDu; // size = 0x021C
-
-extern const ActorInit En_Du_InitVars;
 
 #endif

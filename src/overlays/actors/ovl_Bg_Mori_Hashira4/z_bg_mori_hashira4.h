@@ -1,5 +1,5 @@
-#ifndef _Z_BG_MORI_HASHIRA4_H_
-#define _Z_BG_MORI_HASHIRA4_H_
+#ifndef Z_BG_MORI_HASHIRA4_H
+#define Z_BG_MORI_HASHIRA4_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct BgMoriHashira4 {
     /* 0x0169 */ s8 switchFlag;
     /* 0x016A */ s16 gateTimer;
 } BgMoriHashira4; // size = 0x016C
-
-extern const ActorInit Bg_Mori_Hashira4_InitVars;
 
 #endif

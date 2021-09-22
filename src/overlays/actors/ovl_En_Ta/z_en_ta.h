@@ -1,5 +1,5 @@
-#ifndef _Z_EN_TA_H_
-#define _Z_EN_TA_H_
+#ifndef Z_EN_TA_H
+#define Z_EN_TA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -35,7 +35,5 @@ typedef struct EnTa {
     /* 0x02E2 */ s16 unk_2E2;
     /* 0x02E4 */ AnimationHeader* unk_2E4;
 } EnTa; // size = 0x02E8
-
-extern const ActorInit En_Ta_InitVars;
 
 #endif

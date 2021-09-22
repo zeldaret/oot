@@ -1,5 +1,5 @@
-#ifndef _Z_BG_BDAN_OBJECTS_H_
-#define _Z_BG_BDAN_OBJECTS_H_
+#ifndef Z_BG_BDAN_OBJECTS_H
+#define Z_BG_BDAN_OBJECTS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgBdanObjects {
     /* 0x016C */ ColliderCylinder collider;
     /* 0x01B8 */ s32 cameraSetting;
 } BgBdanObjects; // size = 0x01BC
-
-extern const ActorInit Bg_Bdan_Objects_InitVars;
 
 #endif

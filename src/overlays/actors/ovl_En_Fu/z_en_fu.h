@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FU_H_
-#define _Z_EN_FU_H_
+#ifndef Z_EN_FU_H
+#define Z_EN_FU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -40,7 +40,5 @@ typedef struct EnFu {
     /* 0x02AA */ u16 facialExpression;
     /* 0x02AC */ EnFuActionFunc actionFunc;
 } EnFu; // size = 0x02B0
-
-extern const ActorInit En_Fu_InitVars;
 
 #endif

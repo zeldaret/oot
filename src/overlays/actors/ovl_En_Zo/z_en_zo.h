@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ZO_H_
-#define _Z_EN_ZO_H_
+#ifndef Z_EN_ZO_H
+#define Z_EN_ZO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -39,7 +39,5 @@ typedef struct EnZo {
     /* 0x0656 */ s16 unk_656[20];
     /* 0x067E */ s16 unk_67E[20];
 } EnZo; // size = 0x06A8
-
-extern const ActorInit En_Zo_InitVars;
 
 #endif

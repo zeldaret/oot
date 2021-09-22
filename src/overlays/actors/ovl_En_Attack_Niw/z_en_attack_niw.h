@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ATTACK_NIW_H_
-#define _Z_EN_ATTACK_NIW_H_
+#ifndef Z_EN_ATTACK_NIW_H
+#define Z_EN_ATTACK_NIW_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -50,7 +50,5 @@ typedef struct EnAttackNiw {
     /* 0x02E0 */ f32 unk_2E0;
     /* 0x02E4 */ f32 unk_2E4;
 } EnAttackNiw; // size = 0x02E8
-
-extern const ActorInit En_Attack_Niw_InitVars;
 
 #endif

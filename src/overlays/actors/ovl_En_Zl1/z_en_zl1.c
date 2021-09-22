@@ -341,7 +341,7 @@ void func_80B4AE18(EnZl1* this) {
 }
 
 void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
@@ -361,7 +361,7 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
     s32 pad3;
     s32 pad;
@@ -377,11 +377,11 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
         Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, CAM_STAT_ACTIVE);
         func_800C0808(globalCtx, this->unk_1E8, player, CAM_SET_FREE0);
-        globalCtx->envCtx.unk_E2[0] = 0xFF;
-        globalCtx->envCtx.unk_E2[1] = 0xFF;
-        globalCtx->envCtx.unk_E2[2] = 0xFF;
-        globalCtx->envCtx.unk_E2[3] = 0x18;
-        globalCtx->envCtx.unk_E1 = 1;
+        globalCtx->envCtx.screenFillColor[0] = 255;
+        globalCtx->envCtx.screenFillColor[1] = 255;
+        globalCtx->envCtx.screenFillColor[2] = 255;
+        globalCtx->envCtx.screenFillColor[3] = 24;
+        globalCtx->envCtx.fillScreen = true;
         Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &vec1, &vec2);
         Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 30.0f);
         ShrinkWindow_SetVal(0x20);
@@ -407,7 +407,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
     Vec3f sp58 = { -434.0f, 84.0f, 0.0f };
     u8 sp54[] = { 0x00, 0x00, 0x02 };
     s32 pad2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     AnimationHeader* animHeaderSeg;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     f32 frameCount;
@@ -435,7 +435,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             break;
         case 1:
             if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-                globalCtx->envCtx.unk_E1 = 0;
+                globalCtx->envCtx.fillScreen = false;
                 Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp74, &sp68);
                 Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 25.0f);
                 player->actor.world.pos = sp58;
@@ -623,7 +623,7 @@ void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
 void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     func_8002DF54(globalCtx, &this->actor, 1);
@@ -695,7 +695,7 @@ void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
 void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad;
     MessageContext* msgCtx = &globalCtx->msgCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (this->unk_1E2) {
         case 0:

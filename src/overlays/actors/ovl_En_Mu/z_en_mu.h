@@ -1,5 +1,5 @@
-#ifndef _Z_EN_MU_H_
-#define _Z_EN_MU_H_
+#ifndef Z_EN_MU_H
+#define Z_EN_MU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct EnMu {
     /* 0x020A */ s16 unk_20A[16];
     /* 0x022A */ s16 unk_22A[17];
 } EnMu; // size = 0x024C
-
-extern const ActorInit En_Mu_InitVars;
 
 #endif

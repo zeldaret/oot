@@ -17,7 +17,6 @@ void ObjectKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_01000000;
 extern UNK_TYPE D_06009620;
 
 /*

@@ -90,14 +90,14 @@ void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
 }
 
 u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (thisx->params & 0xF0) {
         case 0x90:
             if (gSaveContext.bgsFlag) {
                 return 0x305E;
             } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_CLAIM_CHECK) {
-                if (func_800775CC(globalCtx) >= 3) {
+                if (Environment_GetBgsDayCount() >= 3) {
                     return 0x305E;
                 } else {
                     return 0x305D;
@@ -395,7 +395,7 @@ f32 EnGo_GetGoronSize(EnGo* this) {
 }
 
 void func_80A3F060(EnGo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 unkVal;
 
     if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
@@ -570,7 +570,7 @@ s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
 }
 
 void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 float1;
     s32 isUnkCondition;
 
@@ -992,7 +992,7 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x305C;
             func_8010B720(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
-            func_800775D8();
+            Environment_ClearBgsDayCount();
         }
     }
 }

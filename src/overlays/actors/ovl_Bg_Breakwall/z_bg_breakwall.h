@@ -1,5 +1,5 @@
-#ifndef _Z_BG_BREAKWALL_H_
-#define _Z_BG_BREAKWALL_H_
+#ifndef Z_BG_BREAKWALL_H
+#define Z_BG_BREAKWALL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -23,7 +23,5 @@ typedef enum {
     /* 2 */ BWALL_KD_FLOOR,     // Used in the King Dodongo boss room
     /* 3 */ BWALL_KD_LAVA_COVER // Spawned after the KD fight in order to cover the lava floor to disable damage
 } BombableWallType;
-
-extern const ActorInit Bg_Breakwall_InitVars;
 
 #endif

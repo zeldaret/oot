@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT08_ICEBLOCK_H_
-#define _Z_BG_SPOT08_ICEBLOCK_H_
+#ifndef Z_BG_SPOT08_ICEBLOCK_H
+#define Z_BG_SPOT08_ICEBLOCK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,8 +21,6 @@ typedef struct BgSpot08Iceblock {
     /* 0x0194 */ f32 sinkOffset;
     /* 0x0198 */ f32 bobOffset;
 } BgSpot08Iceblock; // size = 0x019C
-
-extern const ActorInit Bg_Spot08_Iceblock_InitVars;
 
 // Params
 /**

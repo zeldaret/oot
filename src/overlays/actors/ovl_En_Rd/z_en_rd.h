@@ -1,5 +1,5 @@
-#ifndef _Z_EN_RD_H_
-#define _Z_EN_RD_H_
+#ifndef Z_EN_RD_H
+#define Z_EN_RD_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -33,7 +33,5 @@ typedef struct EnRd {
     /* 0x031D */ u8 unk_31D;
     /* 0x0320 */ ColliderCylinder collider;
 } EnRd; // size = 0x036C
-
-extern const ActorInit En_Rd_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FD_H_
-#define _Z_EN_FD_H_
+#ifndef Z_EN_FD_H
+#define Z_EN_FD_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -49,7 +49,5 @@ typedef struct EnFd {
     /* 0x057E */ Vec3s morphTable[27];
     /* 0x0620 */ EnFdEffect effects[200];
 } EnFd; // size = 0x31E0
-
-extern const ActorInit En_Fd_InitVars;
 
 #endif

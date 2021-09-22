@@ -15,7 +15,7 @@ void SaveContext_Init(void) {
     gSaveContext.cutsceneTrigger = 0;
     gSaveContext.chamberCutsceneNum = 0;
     gSaveContext.nextDayTime = 0xFFFF;
-    gSaveContext.environmentTime = 0;
+    gSaveContext.skyboxTime = 0;
     gSaveContext.dogIsLost = true;
     gSaveContext.nextTransition = 0xFF;
     gSaveContext.unk_13EE = 50;

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_TAKARA_MAN_H_
-#define _Z_EN_TAKARA_MAN_H_
+#ifndef Z_EN_TAKARA_MAN_H
+#define Z_EN_TAKARA_MAN_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -27,7 +27,5 @@ typedef struct EnTakaraMan {
     /* 0x022C */ Vec3s unk_22C;
     /* 0x0232 */ Vec3s unk_232;
 } EnTakaraMan; // size = 0x0238
-
-extern const ActorInit En_Takara_Man_InitVars;
 
 #endif

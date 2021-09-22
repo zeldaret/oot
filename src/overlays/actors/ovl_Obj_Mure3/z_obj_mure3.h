@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_MURE3_H_
-#define _Z_OBJ_MURE3_H_
+#ifndef Z_OBJ_MURE3_H
+#define Z_OBJ_MURE3_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct ObjMure3 {
     /* 0x0150 */ EnItem00* unk_150[7];
     /* 0x016C */ u16 unk_16C;
 } ObjMure3; // size = 0x0170
-
-extern const ActorInit Obj_Mure3_InitVars;
 
 #endif

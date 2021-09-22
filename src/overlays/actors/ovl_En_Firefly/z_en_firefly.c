@@ -296,7 +296,7 @@ void EnFirefly_SetupDisturbDiveAttack(EnFirefly* this) {
 }
 
 s32 EnFirefly_ReturnToPerch(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 distFromHome;
 
     if (this->actor.params != KEESE_NORMAL_PERCH) {
@@ -453,7 +453,7 @@ void EnFirefly_Die(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f preyPos;
 
     SkelAnime_Update(&this->skelAnime);
@@ -583,7 +583,7 @@ void EnFirefly_Perch(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_DisturbDiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f preyPos;
 
     SkelAnime_Update(&this->skelAnime);
@@ -756,9 +756,9 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             if ((limbIndex == 15) || (limbIndex == 21)) {
                 if (this->actionFunc != EnFirefly_Die) {
                     Matrix_Get(&mtx);
-                    effPos.x = (Rand_ZeroOne() * 5.0f) + mtx.wx;
-                    effPos.y = (Rand_ZeroOne() * 5.0f) + mtx.wy;
-                    effPos.z = (Rand_ZeroOne() * 5.0f) + mtx.wz;
+                    effPos.x = (Rand_ZeroOne() * 5.0f) + mtx.xw;
+                    effPos.y = (Rand_ZeroOne() * 5.0f) + mtx.yw;
+                    effPos.z = (Rand_ZeroOne() * 5.0f) + mtx.zw;
                     effScaleStep = -40;
                     effLife = 3;
                 } else {

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_RU2_H_
-#define _Z_EN_RU2_H_
+#ifndef Z_EN_RU2_H
+#define Z_EN_RU2_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -28,7 +28,5 @@ typedef struct EnRu2 {
     /* 0x02C4 */ f32 unk_2C4;
     /* 0x02C8 */ ColliderCylinder collider;
 } EnRu2; // size = 0x0314
-
-extern const ActorInit En_Ru2_InitVars;
 
 #endif

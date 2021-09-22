@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HS_H_
-#define _Z_EN_HS_H_
+#ifndef Z_EN_HS_H
+#define Z_EN_HS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef struct EnHs {
     /* 0x02AA */ s16 unk_2AA;
     /* 0x02AC */ EnHsActionFunc actionFunc;
 } EnHs; // size = 0x02B0
-
-extern const ActorInit En_Hs_InitVars;
 
 #endif

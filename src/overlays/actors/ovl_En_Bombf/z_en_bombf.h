@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BOMBF_H_
-#define _Z_EN_BOMBF_H_
+#ifndef Z_EN_BOMBF_H
+#define Z_EN_BOMBF_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -27,7 +27,5 @@ typedef enum {
     /* 0x0000 */ BOMBFLOWER_BODY,
     /* 0x0001 */ BOMBFLOWER_EXPLOSION
 } EnBombfType;
-
-extern const ActorInit En_Bombf_InitVars;
 
 #endif

@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Vb_Ball/z_en_vb_ball.h"
 #include "overlays/actors/ovl_Bg_Vb_Sima/z_bg_vb_sima.h"
 #include "overlays/actors/ovl_Boss_Fd2/z_boss_fd2.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000035
@@ -219,7 +220,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0, 0,
-                           -1);
+                           WARP_DUNGEON_ADULT);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 0.0f, 100.0f, 200.0f, 0, 0, 0, 0);
     } else {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_FD2, this->actor.world.pos.x,
@@ -269,7 +270,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dy;
     f32 dz;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 angleToTarget;
     f32 pitchToTarget;
     Vec3f* holePosition1;
@@ -300,7 +301,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     //                                        Boss Intro Cutscene
 
     if (this->introState != BFD_CS_NONE) {
-        Player* player2 = PLAYER;
+        Player* player2 = GET_PLAYER(globalCtx);
         Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
         switch (this->introState) {
@@ -1428,7 +1429,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     BossFdEffect* effect = this->effects;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Color_RGB8 colors[4] = { { 255, 128, 0 }, { 255, 0, 0 }, { 255, 255, 0 }, { 255, 0, 0 } };
     Vec3f diff;
     s16 i1;
@@ -1643,7 +1644,7 @@ void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         BossFd_DrawBody(globalCtx, this);
-        POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4243);
     }
 

@@ -1,5 +1,5 @@
-#ifndef _Z_BG_MORI_IDOMIZU_H_
-#define _Z_BG_MORI_IDOMIZU_H_
+#ifndef Z_BG_MORI_IDOMIZU_H
+#define Z_BG_MORI_IDOMIZU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef struct BgMoriIdomizu {
     /* 0x015A */ s16 drainTimer;
     /* 0x015C */ s8 moriTexObjIndex;
 } BgMoriIdomizu; // size = 0x0160
-
-extern const ActorInit Bg_Mori_Idomizu_InitVars;
 
 #endif

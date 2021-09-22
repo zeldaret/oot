@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HAKA_HUTA_H_
-#define _Z_BG_HAKA_HUTA_H_
+#ifndef Z_BG_HAKA_HUTA_H
+#define Z_BG_HAKA_HUTA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct BgHakaHuta {
     /* 0x0168 */ s16 counter;
     /* 0x016A */ s16 unk_16A;
 } BgHakaHuta; // size = 0x016C
-
-extern const ActorInit Bg_Haka_Huta_InitVars;
 
 #endif

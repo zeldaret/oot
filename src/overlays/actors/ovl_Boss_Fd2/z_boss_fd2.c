@@ -7,6 +7,7 @@
 #include "z_boss_fd2.h"
 #include "objects/object_fd2/object_fd2.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
 #define FLAGS 0x00000035
@@ -227,7 +228,7 @@ void BossFd2_SetupEmerge(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
     s8 health;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 i;
     s16 holeTime;
 
@@ -402,7 +403,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     s16 angleY;
     s16 breathOpacity = 0;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 tempX;
     f32 tempY;
 
@@ -783,7 +784,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,
-                                   0, 0, 0, -1);
+                                   0, 0, 0, WARP_DUNGEON_ADULT);
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }
             break;
@@ -810,7 +811,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
             if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
@@ -1212,7 +1213,7 @@ void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
         BossFd2_DrawMane(this, globalCtx);
-        POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2688);
 }

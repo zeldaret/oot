@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ZL2_H_
-#define _Z_EN_ZL2_H_
+#ifndef Z_EN_ZL2_H
+#define Z_EN_ZL2_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -39,7 +39,5 @@ typedef struct EnZl2 {
     /* 0x0278 */ f32 unk_278;
     /* 0x027C */ f32 unk_27C;
 } EnZl2; // size = 0x0280
-
-extern const ActorInit En_Zl2_InitVars;
 
 #endif

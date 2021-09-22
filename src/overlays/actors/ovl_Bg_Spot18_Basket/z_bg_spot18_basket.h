@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT18_BASKET_H_
-#define _Z_BG_SPOT18_BASKET_H_
+#ifndef Z_BG_SPOT18_BASKET_H
+#define Z_BG_SPOT18_BASKET_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -24,8 +24,6 @@ typedef struct BgSpot18Basket {
     /* 0x021A */ u8 unk_21A;
     /* 0x021B */ u8 unk_21B;
 } BgSpot18Basket; // size = 0x021C
-
-extern const ActorInit Bg_Spot18_Basket_InitVars;
 
 #endif
 

@@ -58,7 +58,7 @@ void BgJyaBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgJyaBlock_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBlock* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->stateFlags2 &= ~0x10;
     this->dyna.unk_150 = 0.0f;

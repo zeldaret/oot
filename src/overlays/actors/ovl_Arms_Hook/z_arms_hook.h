@@ -1,5 +1,5 @@
-#ifndef _Z_ARMS_HOOK_H_
-#define _Z_ARMS_HOOK_H_
+#ifndef Z_ARMS_HOOK_H
+#define Z_ARMS_HOOK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -19,7 +19,5 @@ typedef struct ArmsHook {
     /* 0x0210 */ s16 timer;
     /* 0x0214 */ ArmsHookActionFunc actionFunc;
 } ArmsHook; // size = 0x0218
-
-extern const ActorInit Arms_Hook_InitVars;
 
 #endif

@@ -621,46 +621,46 @@ void func_800DF1D8(f32 arg0, f32 arg1, u16* arg2) {
     }
 }
 
-void func_800DF5AC(s16* arg0) {
+void func_800DF5AC(s16* filter) {
     s32 i;
 
     for (i = 0; i < 8; i++) {
-        arg0[i] = 0;
+        filter[i] = 0;
     }
 }
 
-void func_800DF5DC(s16* arg0, s32 arg1) {
+void func_800DF5DC(s16* filter, s32 arg1) {
     s32 i;
     s16* ptr = &D_80130228[8 * arg1];
 
     for (i = 0; i < 8; i++) {
-        arg0[i] = ptr[i];
+        filter[i] = ptr[i];
     }
 }
 
-void func_800DF630(s16* arg0, s32 arg1) {
+void func_800DF630(s16* filter, s32 arg1) {
     s32 i;
     s16* ptr = &D_80130328[8 * (arg1 - 1)];
 
     for (i = 0; i < 8; i++) {
-        arg0[i] = ptr[i];
+        filter[i] = ptr[i];
     }
 }
 
-void func_800DF688(s16* arg0, s32 arg1, s32 arg2) {
+void func_800DF688(s16* filter, s32 arg1, s32 arg2) {
     s32 i;
 
     if (arg1 == 0 && arg2 == 0) {
-        func_800DF5DC(arg0, 0);
+        func_800DF5DC(filter, 0);
     } else if (arg2 == 0) {
-        func_800DF5DC(arg0, arg1);
+        func_800DF5DC(filter, arg1);
     } else if (arg1 == 0) {
-        func_800DF630(arg0, arg2);
+        func_800DF630(filter, arg2);
     } else {
         s16* ptr1 = &D_80130228[8 * arg1];
         s16* ptr2 = &D_80130328[8 * (arg2 - 1)];
         for (i = 0; i < 8; i++) {
-            arg0[i] = (ptr1[i] + ptr2[i]) / 2;
+            filter[i] = (ptr1[i] + ptr2[i]) / 2;
         }
     }
 }
@@ -673,7 +673,7 @@ void func_800DF7C4(void) {
     s32 i;
     s32 j;
 
-    if (gAudioContext.audioBufferParameters.presetUnk4 == 2) {
+    if (gAudioContext.audioBufferParameters.specUnk4 == 2) {
         count = 2;
     } else {
         count = 1;
@@ -703,7 +703,7 @@ s32 Audio_ResetStep(void) {
     s32 j;
     s32 sp24;
 
-    if (gAudioContext.audioBufferParameters.presetUnk4 == 2) {
+    if (gAudioContext.audioBufferParameters.specUnk4 == 2) {
         sp24 = 2;
     } else {
         sp24 = 1;
@@ -787,11 +787,11 @@ void Audio_InitHeap(void) {
     s32 i;
     s32 j;
     s32 pad2;
-    AudioSessionSettings* preset = &gAudioSessionPresets[gAudioContext.audioResetPresetIdToLoad];
+    AudioSpec* spec;
 
-    preset = &gAudioSessionPresets[gAudioContext.audioResetPresetIdToLoad];
+    spec = &gAudioSpecs[gAudioContext.audioResetSpecIdToLoad];
     gAudioContext.sampleDmaReqCnt = 0;
-    gAudioContext.audioBufferParameters.frequency = preset->frequency;
+    gAudioContext.audioBufferParameters.frequency = spec->frequency;
     gAudioContext.audioBufferParameters.aiFrequency = osAiSetFrequency(gAudioContext.audioBufferParameters.frequency);
     gAudioContext.audioBufferParameters.samplesPerFrameTarget =
         ((gAudioContext.audioBufferParameters.frequency / gAudioContext.refreshRate) + 0xF) & 0xFFF0;
@@ -811,15 +811,15 @@ void Audio_InitHeap(void) {
         (1.0f / 256.0f) / gAudioContext.audioBufferParameters.updatesPerFrame;
     gAudioContext.audioBufferParameters.unk_24 = gAudioContext.audioBufferParameters.updatesPerFrame * 0.25f;
     gAudioContext.audioBufferParameters.updatesPerFrameInv = 1.0f / gAudioContext.audioBufferParameters.updatesPerFrame;
-    gAudioContext.unk_2874 = preset->unk_10;
-    gAudioContext.unk_2878 = preset->unk_12;
+    gAudioContext.unk_2874 = spec->unk_10;
+    gAudioContext.unk_2878 = spec->unk_12;
 
-    gAudioContext.maxSimultaneousNotes = preset->maxSimultaneousNotes;
-    gAudioContext.audioBufferParameters.numSequencePlayers = preset->numSequencePlayers;
+    gAudioContext.maxSimultaneousNotes = spec->maxSimultaneousNotes;
+    gAudioContext.audioBufferParameters.numSequencePlayers = spec->numSequencePlayers;
     if (gAudioContext.audioBufferParameters.numSequencePlayers > 4) {
         gAudioContext.audioBufferParameters.numSequencePlayers = 4;
     }
-    gAudioContext.unk_2 = preset->unk_14;
+    gAudioContext.unk_2 = spec->unk_14;
     gAudioContext.tempoInternalToExternal = (u32)(gAudioContext.audioBufferParameters.updatesPerFrame * 2880000.0f /
                                                   gTatumsPerBeat / gAudioContext.unk_2960);
 
@@ -828,22 +828,22 @@ void Audio_InitHeap(void) {
     gAudioContext.unk_2870 /= gAudioContext.audioBufferParameters.aiFrequency;
     gAudioContext.unk_2870 /= gAudioContext.tempoInternalToExternal;
 
-    gAudioContext.audioBufferParameters.presetUnk4 = preset->unk_04;
-    gAudioContext.audioBufferParameters.samplesPerFrameTarget *= gAudioContext.audioBufferParameters.presetUnk4;
-    gAudioContext.audioBufferParameters.maxAiBufferLength *= gAudioContext.audioBufferParameters.presetUnk4;
-    gAudioContext.audioBufferParameters.minAiBufferLength *= gAudioContext.audioBufferParameters.presetUnk4;
-    gAudioContext.audioBufferParameters.updatesPerFrame *= gAudioContext.audioBufferParameters.presetUnk4;
+    gAudioContext.audioBufferParameters.specUnk4 = spec->unk_04;
+    gAudioContext.audioBufferParameters.samplesPerFrameTarget *= gAudioContext.audioBufferParameters.specUnk4;
+    gAudioContext.audioBufferParameters.maxAiBufferLength *= gAudioContext.audioBufferParameters.specUnk4;
+    gAudioContext.audioBufferParameters.minAiBufferLength *= gAudioContext.audioBufferParameters.specUnk4;
+    gAudioContext.audioBufferParameters.updatesPerFrame *= gAudioContext.audioBufferParameters.specUnk4;
 
-    if (gAudioContext.audioBufferParameters.presetUnk4 >= 2) {
+    if (gAudioContext.audioBufferParameters.specUnk4 >= 2) {
         gAudioContext.audioBufferParameters.maxAiBufferLength -= 0x10;
     }
 
     gAudioContext.maxAudioCmds =
         gAudioContext.maxSimultaneousNotes * 0x10 * gAudioContext.audioBufferParameters.updatesPerFrame +
-        preset->numReverbs * 0x18 + 0x140;
+        spec->numReverbs * 0x18 + 0x140;
 
-    persistentMem = preset->persistentSeqMem + preset->persistentBankMem + preset->persistentUnusedMem + 0x10;
-    temporaryMem = preset->temporarySeqMem + preset->temporaryBankMem + preset->temporaryUnusedMem + 0x10;
+    persistentMem = spec->persistentSeqMem + spec->persistentBankMem + spec->persistentUnusedMem + 0x10;
+    temporaryMem = spec->temporarySeqMem + spec->temporaryBankMem + spec->temporaryUnusedMem + 0x10;
     totalMem = persistentMem + temporaryMem;
     wantMisc = gAudioContext.audioSessionPool.size - totalMem - 0x100;
 
@@ -857,13 +857,13 @@ void Audio_InitHeap(void) {
     gAudioContext.seqAndBankPoolSplit.wantPersistent = persistentMem;
     gAudioContext.seqAndBankPoolSplit.wantTemporary = temporaryMem;
     Audio_SeqAndBankPoolInit(&gAudioContext.seqAndBankPoolSplit);
-    gAudioContext.persistentCommonPoolSplit.wantSeq = preset->persistentSeqMem;
-    gAudioContext.persistentCommonPoolSplit.wantBank = preset->persistentBankMem;
-    gAudioContext.persistentCommonPoolSplit.wantUnused = preset->persistentUnusedMem;
+    gAudioContext.persistentCommonPoolSplit.wantSeq = spec->persistentSeqMem;
+    gAudioContext.persistentCommonPoolSplit.wantBank = spec->persistentBankMem;
+    gAudioContext.persistentCommonPoolSplit.wantUnused = spec->persistentUnusedMem;
     Audio_PersistentPoolsInit(&gAudioContext.persistentCommonPoolSplit);
-    gAudioContext.temporaryCommonPoolSplit.wantSeq = preset->temporarySeqMem;
-    gAudioContext.temporaryCommonPoolSplit.wantBank = preset->temporaryBankMem;
-    gAudioContext.temporaryCommonPoolSplit.wantUnused = preset->temporaryUnusedMem;
+    gAudioContext.temporaryCommonPoolSplit.wantSeq = spec->temporarySeqMem;
+    gAudioContext.temporaryCommonPoolSplit.wantBank = spec->temporaryBankMem;
+    gAudioContext.temporaryCommonPoolSplit.wantUnused = spec->temporaryUnusedMem;
     Audio_TemporaryPoolsInit(&gAudioContext.temporaryCommonPoolSplit);
 
     Audio_ResetLoadStatus();
@@ -886,9 +886,9 @@ void Audio_InitHeap(void) {
         gAudioContext.synthesisReverbs[i].useReverb = 0;
     }
 
-    gAudioContext.numSynthesisReverbs = preset->numReverbs;
+    gAudioContext.numSynthesisReverbs = spec->numReverbs;
     for (i = 0; i < gAudioContext.numSynthesisReverbs; i++) {
-        ReverbSettings* settings = &preset->reverbSettings[i];
+        ReverbSettings* settings = &spec->reverbSettings[i];
         SynthesisReverb* reverb = &gAudioContext.synthesisReverbs[i];
         reverb->downsampleRate = settings->downsampleRate;
         reverb->windowSize = settings->windowSize * 64;
@@ -898,8 +898,8 @@ void Audio_InitHeap(void) {
         reverb->unk_14 = settings->unk_6 * 64;
         reverb->unk_16 = settings->unk_8;
         reverb->unk_18 = 0;
-        reverb->unk_10 = settings->unk_C;
-        reverb->unk_12 = settings->unk_E;
+        reverb->leakRtl = settings->leakRtl;
+        reverb->leakLtr = settings->leakLtr;
         reverb->unk_05 = settings->unk_10;
         reverb->unk_08 = settings->unk_12;
         reverb->useReverb = 8;
@@ -914,8 +914,8 @@ void Audio_InitHeap(void) {
         reverb->sound.sample = &reverb->sample;
         reverb->sample.loop = &reverb->loop;
         reverb->sound.tuning = 1.0f;
-        reverb->sample.bits4 = 4;
-        reverb->sample.bits2 = 0;
+        reverb->sample.codec = 4;
+        reverb->sample.medium = 0;
         reverb->sample.size = reverb->windowSize * 2;
         reverb->sample.sampleAddr = (u8*)reverb->leftRingBuf;
         reverb->loop.start = 0;
@@ -939,19 +939,19 @@ void Audio_InitHeap(void) {
         }
 
         if (settings->unk_14 != 0) {
-            reverb->unk_278 = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
-            reverb->unk_270 = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
-            func_800DF5DC(reverb->unk_270, settings->unk_14);
+            reverb->filterLeftState = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
+            reverb->filterLeft = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
+            func_800DF5DC(reverb->filterLeft, settings->unk_14);
         } else {
-            reverb->unk_270 = NULL;
+            reverb->filterLeft = NULL;
         }
 
         if (settings->unk_16 != 0) {
-            reverb->unk_27C = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
-            reverb->unk_274 = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
-            func_800DF5DC(reverb->unk_274, settings->unk_16);
+            reverb->filterRightState = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
+            reverb->filterRight = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
+            func_800DF5DC(reverb->filterRight, settings->unk_16);
         } else {
-            reverb->unk_274 = NULL;
+            reverb->filterRight = NULL;
         }
     }
 
@@ -961,7 +961,7 @@ void Audio_InitHeap(void) {
         Audio_ResetSequencePlayer(&gAudioContext.seqPlayers[j]);
     }
 
-    func_800E0634(preset->unk_30, preset->unk_34);
+    func_800E0634(spec->unk_30, spec->unk_34);
     func_800E1618(gAudioContext.maxSimultaneousNotes);
     gAudioContext.unk_176C = 0;
     Audio_SyncLoadsInit();
@@ -1047,7 +1047,7 @@ UnkHeapEntry* func_800E06CC(u32 size) {
     s32 index;
     s32 i;
     UnkHeapEntry* ret;
-    AudioStruct0D68* thing;
+    AudioStruct0D68* item;
     UnkPool* unkPool;
     u8* start;
     u8* end;
@@ -1070,10 +1070,10 @@ UnkHeapEntry* func_800E06CC(u32 size) {
 
     index = -1;
     for (i = 0; i < gAudioContext.unk_176C; i++) {
-        thing = &gAudioContext.unk_0D54[i + 1];
-        if (thing->unk_10 == 0) {
-            start = thing->unk_08;
-            end = thing->unk_08 + thing->sample->size - 1;
+        item = &gAudioContext.unk_0D68[i];
+        if (item->isFree == false) {
+            start = item->ramAddr;
+            end = item->ramAddr + item->sample->size - 1;
 
             if (end < allocBefore && start < allocBefore) {
                 continue;
@@ -1083,7 +1083,7 @@ UnkHeapEntry* func_800E06CC(u32 size) {
             }
 
             // Overlap
-            thing->unk_10 = 1;
+            item->isFree = true;
         }
     }
 
@@ -1181,7 +1181,7 @@ void func_800E0BB4(UnkHeapEntry* entry, AudioBankSample* sample) {
     if (sample != NULL) {
         if (sample->sampleAddr == entry->unk_08) {
             sample->sampleAddr = entry->unk_0C;
-            sample->bits2 = entry->unk_01;
+            sample->medium = entry->unk_01;
         }
     }
 }
@@ -1251,7 +1251,7 @@ void func_800E0E0C(Struct_800E0E0C* arg0, AudioBankSample* sample) {
         u8* sampleAddr = sample->sampleAddr;
         if (start <= sampleAddr && sampleAddr < end) {
             sample->sampleAddr = sampleAddr - start + arg0->unk_4;
-            sample->bits2 = arg0->unk_C & 0xFF;
+            sample->medium = arg0->unk_C & 0xFF;
         }
     }
 }

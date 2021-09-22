@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SST_FLOOR_H_
-#define _Z_BG_SST_FLOOR_H_
+#ifndef Z_BG_SST_FLOOR_H
+#define Z_BG_SST_FLOOR_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef enum {
     /* 0 */ BONGOFLOOR_REST,
     /* 1 */ BONGOFLOOR_HIT
 } BgSstFloorParams;
-
-extern const ActorInit Bg_Sst_Floor_InitVars;
 
 #endif

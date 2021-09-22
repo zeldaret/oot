@@ -1,5 +1,5 @@
-#ifndef _Z_EN_PO_RELAY_H_
-#define _Z_EN_PO_RELAY_H_
+#ifndef Z_EN_PO_RELAY_H
+#define Z_EN_PO_RELAY_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -26,7 +26,5 @@ typedef struct EnPoRelay {
     /* 0x0280 */ LightInfo lightInfo;
     /* 0x0290 */ ColliderCylinder collider;
 } EnPoRelay; // size = 0x02DC
-
-extern const ActorInit En_Po_Relay_InitVars;
 
 #endif

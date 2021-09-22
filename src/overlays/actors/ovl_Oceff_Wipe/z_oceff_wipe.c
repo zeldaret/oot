@@ -40,13 +40,13 @@ void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
-    this->actor.world.pos = ACTIVE_CAM->eye;
+    this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE arg_data = %d\n" VT_RST, this->actor.params);
 }
 
 void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_800876C8(globalCtx);
     if (gSaveContext.nayrusLoveTimer != 0) {
@@ -57,7 +57,7 @@ void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
 
-    this->actor.world.pos = ACTIVE_CAM->eye;
+    this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     if (this->counter < 100) {
         this->counter++;
     } else {
@@ -76,8 +76,8 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vtx* vtxPtr;
     Vec3f vec;
 
-    eye = ACTIVE_CAM->eye;
-    Camera_GetSkyboxOffset(&vec, ACTIVE_CAM);
+    eye = GET_ACTIVE_CAM(globalCtx)->eye;
+    Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(globalCtx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
 

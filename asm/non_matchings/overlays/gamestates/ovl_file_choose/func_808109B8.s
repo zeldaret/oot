@@ -97,7 +97,7 @@ glabel func_808109B8
 /* 0CDE4 80810B24 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
 /* 0CDE8 80810B28 018D7021 */  addu    $t6, $t4, $t5              
 /* 0CDEC 80810B2C A44E07AA */  sh      $t6, 0x07AA($v0)           ## 801607AA
-/* 0CDF0 80810B30 0C01BF22 */  jal     func_8006FC88              
+/* 0CDF0 80810B30 0C01BF22 */  jal     Environment_UpdateSkybox              
 /* 0CDF4 80810B34 8FA60038 */  lw      $a2, 0x0038($sp)           
 /* 0CDF8 80810B38 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 0CDFC 80810B3C 3C18E700 */  lui     $t8, 0xE700                ## $t8 = E7000000

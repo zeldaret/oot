@@ -1,5 +1,5 @@
-#ifndef _Z_MAGIC_DARK_H_
-#define _Z_MAGIC_DARK_H_
+#ifndef Z_MAGIC_DARK_H
+#define Z_MAGIC_DARK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct MagicDark {
     /* 0x015C */ f32 scale;
     /* 0x0160 */ char unk_160[0x4];
 } MagicDark; // size = 0x0164
-
-extern const ActorInit Magic_Dark_InitVars;
 
 #endif

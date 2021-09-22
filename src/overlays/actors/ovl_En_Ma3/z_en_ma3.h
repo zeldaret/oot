@@ -1,5 +1,5 @@
-#ifndef _Z_EN_MA3_H_
-#define _Z_EN_MA3_H_
+#ifndef Z_EN_MA3_H
+#define Z_EN_MA3_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,7 +21,5 @@ typedef struct EnMa3 {
     /* 0x0210 */ s16 unk_210;
     /* 0x0212 */ Vec3s unk_212[0x13];
 } EnMa3; // size = 0x0284
-
-extern const ActorInit En_Ma3_InitVars;
 
 #endif

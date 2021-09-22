@@ -1,10 +1,6 @@
 #include "z_boss_ganon2.h"
 #include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
-
-// object_ganon2
-extern u64 D_0601E188[]; // eye open
-extern u64 D_0601E988[]; // eye half closed
-extern u64 D_0601EA08[]; // eye closed
+#include "objects/object_ganon2/object_ganon2.h"
 
 typedef struct {
     /* 0x00 */ u8 type;
@@ -311,9 +307,9 @@ static s8 D_80907144[] = {
 static Vec3f D_80907164 = { 800.0f, 420.0f, 100.0f };
 
 static void* sEyeTextures[] = {
-    D_0601E188,
-    D_0601E988,
-    D_0601EA08,
+    object_ganon2_Tex_01E188,
+    object_ganon2_Tex_01E988,
+    object_ganon2_Tex_01EA08,
 };
 
 static Vec3f D_8090717C = { 0.0f, -2000.0f, 0.0f };

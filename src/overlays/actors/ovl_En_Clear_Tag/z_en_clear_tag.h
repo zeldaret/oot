@@ -1,5 +1,5 @@
-#ifndef _Z_EN_CLEAR_TAG_H_
-#define _Z_EN_CLEAR_TAG_H_
+#ifndef Z_EN_CLEAR_TAG_H
+#define Z_EN_CLEAR_TAG_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -91,7 +91,5 @@ typedef struct EnClearTagEffect {
 } EnClearTagEffect; // size = 0x6C
 
 #define CLEAR_TAG_EFFECT_MAX_COUNT 100
-
-extern const ActorInit En_Clear_Tag_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_FISHING_H_
-#define _Z_FISHING_H_
+#ifndef Z_FISHING_H
+#define Z_FISHING_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -59,7 +59,5 @@ typedef struct Fishing {
     /* 0x0230 */ ColliderJntSph collider;
     /* 0x0250 */ ColliderJntSphElement colliderElements[12];
 } Fishing; // size = 0x0550
-
-extern const ActorInit Fishing_InitVars;
 
 #endif

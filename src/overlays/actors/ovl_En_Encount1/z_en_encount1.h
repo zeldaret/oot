@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ENCOUNT1_H_
-#define _Z_EN_ENCOUNT1_H_
+#ifndef Z_EN_ENCOUNT1_H
+#define Z_EN_ENCOUNT1_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -36,7 +36,5 @@ typedef enum {
     /* 2 */ SPAWNER_STALCHILDREN,
     /* 3 */ SPAWNER_WOLFOS
 } EnEncount1type;
-
-extern const ActorInit En_Encount1_InitVars;
 
 #endif

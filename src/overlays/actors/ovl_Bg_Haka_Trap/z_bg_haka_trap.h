@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HAKA_TRAP_H_
-#define _Z_BG_HAKA_TRAP_H_
+#ifndef Z_BG_HAKA_TRAP_H
+#define Z_BG_HAKA_TRAP_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -28,7 +28,5 @@ typedef struct BgHakaTrap {
     /* 0x01C4 */ ColliderTris colliderSpikes;
     /* 0x01E4 */ ColliderTrisElement colliderSpikesItem[2];
 } BgHakaTrap; // size = 0x029C
-
-extern const ActorInit Bg_Haka_Trap_InitVars;
 
 #endif

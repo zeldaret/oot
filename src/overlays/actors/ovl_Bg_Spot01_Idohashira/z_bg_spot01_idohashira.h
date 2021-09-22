@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT01_IDOHASHIRA_H_
-#define _Z_BG_SPOT01_IDOHASHIRA_H_
+#ifndef Z_BG_SPOT01_IDOHASHIRA_H
+#define Z_BG_SPOT01_IDOHASHIRA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgSpot01Idohashira {
     /* 0x016C */ u32 npcAction;
     /* 0x0170 */ s32 unk_170;
 } BgSpot01Idohashira; // size = 0x0174
-
-extern const ActorInit Bg_Spot01_Idohashira_InitVars;
 
 #endif

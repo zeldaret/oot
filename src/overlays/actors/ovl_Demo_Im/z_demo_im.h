@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_IM_H_
-#define _Z_DEMO_IM_H_
+#ifndef Z_DEMO_IM_H
+#define Z_DEMO_IM_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -29,7 +29,5 @@ typedef struct DemoIm {
     /* 0x02D0 */ s32 unk_2D0;
     /* 0x02D4 */ struct_80034A14_arg1 unk_2D4;
 } DemoIm; // size = 0x02FC
-
-extern const ActorInit Demo_Im_InitVars;
 
 #endif

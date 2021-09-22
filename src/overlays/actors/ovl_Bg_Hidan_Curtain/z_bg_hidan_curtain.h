@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HIDAN_CURTAIN_H_
-#define _Z_BG_HIDAN_CURTAIN_H_
+#ifndef Z_BG_HIDAN_CURTAIN_H
+#define Z_BG_HIDAN_CURTAIN_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -19,7 +19,5 @@ typedef struct BgHidanCurtain {
     /* 0x0156 */ s16 texScroll;
     /* 0x0158 */ ColliderCylinder collider;
 } BgHidanCurtain; // size = 0x01A4
-
-extern const ActorInit Bg_Hidan_Curtain_InitVars;
 
 #endif

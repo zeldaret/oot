@@ -1,5 +1,5 @@
-#ifndef _Z_ITEM_ETC_H_
-#define _Z_ITEM_ETC_H_
+#ifndef Z_ITEM_ETC_H
+#define Z_ITEM_ETC_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -34,7 +34,5 @@ typedef enum {
     /* 0x0C */ ITEM_ETC_HEART_PIECE_CHEST_GAME,
     /* 0x0D */ ITEM_ETC_KEY_SMALL_CHEST_GAME
 } ItemEtceteraType;
-
-extern const ActorInit Item_Etcetera_InitVars;
 
 #endif

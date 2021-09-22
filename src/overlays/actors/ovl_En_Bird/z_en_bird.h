@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BIRD_H_
-#define _Z_EN_BIRD_H_
+#ifndef Z_EN_BIRD_H
+#define Z_EN_BIRD_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -27,7 +27,5 @@ typedef struct EnBird {
     /* 0x01C0 */ s16 unk_1C0;
     /* 0x01C2 */ char unk_1C2[0x1A];
 } EnBird; // size = 0x01DC
-
-extern const ActorInit En_Bird_InitVars;
 
 #endif

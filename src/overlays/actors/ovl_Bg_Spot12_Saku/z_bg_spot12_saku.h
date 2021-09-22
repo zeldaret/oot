@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT12_SAKU_H_
-#define _Z_BG_SPOT12_SAKU_H_
+#ifndef Z_BG_SPOT12_SAKU_H
+#define Z_BG_SPOT12_SAKU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct BgSpot12Saku {
     /* 0x0164 */ BgSpot12SakuActionFunc actionFunc;
     /* 0x0168 */ s16 timer;
 } BgSpot12Saku; // size = 0x016C
-
-extern const ActorInit Bg_Spot12_Saku_InitVars;
 
 #endif

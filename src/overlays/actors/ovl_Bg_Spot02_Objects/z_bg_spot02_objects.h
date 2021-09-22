@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT02_OBJECTS_H_
-#define _Z_BG_SPOT02_OBJECTS_H_
+#ifndef Z_BG_SPOT02_OBJECTS_H
+#define Z_BG_SPOT02_OBJECTS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct BgSpot02Objects {
     /* 0x0170 */ u16 unk_170;
     /* 0x0172 */ u16 unk_172;
 } BgSpot02Objects; // size = 0x0174
-
-extern const ActorInit Bg_Spot02_Objects_InitVars;
 
 #endif

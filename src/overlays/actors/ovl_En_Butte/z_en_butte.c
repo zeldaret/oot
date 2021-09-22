@@ -123,7 +123,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     alpha = Math_SinS(sTransformationEffectAlpha) * 250;
     alpha = CLAMP(alpha, 0, 255);
 
-    Camera_GetCamDir(&camDir, ACTIVE_CAM);
+    Camera_GetCamDir(&camDir, GET_ACTIVE_CAM(globalCtx));
     Matrix_RotateY(camDir.y * (M_PI / 0x8000), MTXMODE_NEW);
     Matrix_RotateX(camDir.x * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_RotateZ(camDir.z * (M_PI / 0x8000), MTXMODE_APPLY);
@@ -217,7 +217,7 @@ void EnButte_SetupFlyAround(EnButte* this) {
 void EnButte_FlyAround(EnButte* this, GlobalContext* globalCtx) {
     EnButteFlightParams* flightParams = &sFlyAroundParams[this->flightParamsIdx];
     s16 yaw;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 distSqFromHome;
     f32 maxDistSqFromHome;
     f32 minAnimSpeed;
@@ -292,7 +292,7 @@ void EnButte_SetupFollowLink(EnButte* this) {
 void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
     static s32 D_809CE410 = 1500;
     EnButteFlightParams* flightParams = &sFollowLinkParams[this->flightParamsIdx];
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 distSqFromHome;
     Vec3f swordTip;
     f32 animSpeed;
@@ -399,7 +399,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_260 += 0x600;
 
     if ((this->actor.params & 1) == 1) {
-        if (PLAYER->swordState == 0) {
+        if (GET_PLAYER(globalCtx)->swordState == 0) {
             if (this->swordDownTimer > 0) {
                 this->swordDownTimer--;
             }

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HORSE_H_
-#define _Z_EN_HORSE_H_
+#ifndef Z_EN_HORSE_H
+#define Z_EN_HORSE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -187,7 +187,5 @@ typedef struct EnHorse {
     (((horseActor)->stateFlags & ENHORSE_JUMPING) \
         ? true                       \
         : false)
-
-extern const ActorInit En_Horse_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SHOPNUTS_H_
-#define _Z_EN_SHOPNUTS_H_
+#ifndef Z_EN_SHOPNUTS_H
+#define Z_EN_SHOPNUTS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef struct EnShopnuts {
     /* 0x0202 */ Vec3s morphTable[18];
     /* 0x0270 */ ColliderCylinder collider;
 } EnShopnuts; // size = 0x02BC
-
-extern const ActorInit En_Shopnuts_InitVars;
 
 #endif
