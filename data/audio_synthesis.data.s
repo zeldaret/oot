@@ -59,7 +59,7 @@ glabel gNoteFrequencies
 glabel gDefaultShortNoteVelocityTable
     .incbin "baserom.z64", 0xBA6C54, 0x10
 
-glabel gDefaultShortNoteDurationTable
+glabel gDefaultShortNoteGateTimeTable
     .incbin "baserom.z64", 0xBA6C64, 0x10
 
 glabel gDefaultEnvelope

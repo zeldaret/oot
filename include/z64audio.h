@@ -236,7 +236,7 @@ typedef struct {
     /* 0x038 */ struct SequenceChannel* channels[16];
     /* 0x078 */ M64ScriptState scriptState;
     /* 0x094 */ u8* shortNoteVelocityTable;
-    /* 0x098 */ u8* shortNoteDurationTable;
+    /* 0x098 */ u8* shortNoteGateTimeTable;
     /* 0x09C */ NotePool notePool;
     /* 0x0DC */ s32 unk_DC;
     /* 0x0E0 */ u32 scriptCounter;
@@ -340,7 +340,7 @@ typedef struct SequenceChannel {
     /* 0x0B */ u8 panChannelWeight;  // proportion of pan that comes from the channel (0..128)
     /* 0x0C */ u8 unk_0C;
     /* 0x0D */ u8 velocityRandomVariance;
-    /* 0x0E */ u8 durationRandomVariance;
+    /* 0x0E */ u8 gateTimeRandomVariance;
     /* 0x0F */ u8 unk_0F;
     /* 0x10 */ u16 vibratoRateStart;
     /* 0x12 */ u16 vibratoExtentStart;
@@ -386,13 +386,13 @@ typedef struct SequenceChannelLayer {
     /* 0x00 */ u8 notePropertiesNeedInit : 1;
     /* 0x01 */ Stereo stereo;
     /* 0x02 */ u8 instOrWave;
-    /* 0x03 */ u8 noteDuration;
+    /* 0x03 */ u8 gateTime;
     /* 0x04 */ u8 semitone;
     /* 0x05 */ u8 portamentoTargetNote;
     /* 0x06 */ u8 pan; // 0..128
     /* 0x07 */ u8 notePan;
     /* 0x08 */ s16 delay;
-    /* 0x0A */ s16 duration;
+    /* 0x0A */ s16 gateDelay;
     /* 0x0C */ s16 delay2;
     /* 0x0E */ u16 portamentoTime;
     /* 0x10 */ s16 transposition; // #semitones added to play commands

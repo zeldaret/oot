@@ -126,7 +126,7 @@ void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
     seqChannel->newPan = 0x40;
     seqChannel->panChannelWeight = 0x80;
     seqChannel->velocityRandomVariance = 0;
-    seqChannel->durationRandomVariance = 0;
+    seqChannel->gateTimeRandomVariance = 0;
     seqChannel->noteUnused = NULL;
     seqChannel->reverbIndex = 0;
     seqChannel->reverb = 0;
@@ -189,11 +189,11 @@ s32 Audio_SeqChannelSetLayer(SequenceChannel* seqChannel, s32 layerIdx) {
     layer->stereo.asByte = 0;
     layer->portamento.mode = 0;
     layer->scriptState.depth = 0;
-    layer->noteDuration = 0x80;
+    layer->gateTime = 0x80;
     layer->pan = 0x40;
     layer->transposition = 0;
     layer->delay = 0;
-    layer->duration = 0;
+    layer->gateDelay = 0;
     layer->delay2 = 0;
     layer->note = NULL;
     layer->instrument = NULL;
@@ -384,7 +384,7 @@ void Audio_SeqChannelLayerProcessScript(SequenceChannelLayer* layer) {
 
     if (layer->delay > 1) {
         layer->delay--;
-        if (!layer->stopSomething && layer->delay <= layer->duration) {
+        if (!layer->stopSomething && layer->delay <= layer->gateDelay) {
             Audio_SeqChanLayerNoteDecay(layer);
             layer->stopSomething = true;
         }
@@ -493,12 +493,12 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
                 break;
             }
 
-            case 0xC9: // layer_setshortnoteduration
+            case 0xC9: // layer_setshortnotegatetime
             case 0xC2: // layer_transpose; set transposition in semitones
             {
                 u8 tempByte = *(state->pc++);
                 if (cmd == 0xC9) {
-                    layer->noteDuration = tempByte;
+                    layer->gateTime = tempByte;
                 } else {
                     layer->transposition = tempByte;
                 }
@@ -602,8 +602,8 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
                         sp3A = seqPlayer->shortNoteVelocityTable[cmd & 0xF];
                         layer->velocitySquare = (f32)(sp3A * sp3A) / 16129.0f;
                         break;
-                    case 0xE0: // layer_setshortnotedurationfromtable
-                        layer->noteDuration = (u8)seqPlayer->shortNoteDurationTable[cmd & 0xF];
+                    case 0xE0: // layer_setshortnotegatetimefromtable
+                        layer->gateTime = (u8)seqPlayer->shortNoteGateTimeTable[cmd & 0xF];
                         break;
                 }
         }
@@ -783,7 +783,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
         if (time > 32766.0f) {
             time = 32766.0f;
         }
-        layer->duration = 0;
+        layer->gateDelay = 0;
         layer->delay = (u16)(s32)time + 1;
         if (layer->portamento.mode != 0) {
             // (It's a bit unclear if 'portamento' has actually always been
@@ -823,24 +823,24 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
     layer->stopSomething = false;
     if (seqChannel->largeNotes == 1) {
         switch (arg1 & 0xC0) {
-            case 0:
+            case 0x00:
                 delay = Audio_M64ReadCompressedU16(state);
                 velocity = *(state->pc++);
-                layer->noteDuration = *(state->pc++);
+                layer->gateTime = *(state->pc++);
                 layer->lastDelay = delay;
                 break;
 
             case 0x40:
                 delay = Audio_M64ReadCompressedU16(state);
                 velocity = *(state->pc++);
-                layer->noteDuration = 0;
+                layer->gateTime = 0;
                 layer->lastDelay = delay;
                 break;
 
             case 0x80:
                 delay = layer->lastDelay;
                 velocity = *(state->pc++);
-                layer->noteDuration = *(state->pc++);
+                layer->gateTime = *(state->pc++);
                 break;
         }
 
@@ -851,7 +851,7 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
         arg1 -= (arg1 & 0xC0);
     } else {
         switch (arg1 & 0xC0) {
-            case 0:
+            case 0x00:
                 delay = Audio_M64ReadCompressedU16(state);
                 layer->lastDelay = delay;
                 break;
@@ -884,18 +884,18 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
     }
 
     layer->delay = delay;
-    layer->duration = (layer->noteDuration * delay) >> 8;
-    if (seqChannel->durationRandomVariance != 0) {
-        //! @bug should probably be durationRandomVariance
-        intDelta = (layer->duration * (gAudioContext.audioRandom % seqChannel->velocityRandomVariance)) / 100;
+    layer->gateDelay = (layer->gateTime * delay) >> 8;
+    if (seqChannel->gateTimeRandomVariance != 0) {
+        //! @bug should probably be gateTimeRandomVariance
+        intDelta = (layer->gateDelay * (gAudioContext.audioRandom % seqChannel->velocityRandomVariance)) / 100;
         if ((gAudioContext.audioRandom & 0x4000) != 0) {
             intDelta = -intDelta;
         }
-        layer->duration += intDelta;
-        if (layer->duration < 0) {
-            layer->duration = 0;
-        } else if (layer->duration > layer->delay) {
-            layer->duration = layer->delay;
+        layer->gateDelay += intDelta;
+        if (layer->gateDelay < 0) {
+            layer->gateDelay = 0;
+        } else if (layer->gateDelay > layer->delay) {
+            layer->gateDelay = layer->delay;
         }
     }
 
@@ -1279,7 +1279,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         channel->unk_0C = 0;
                         channel->adsr.sustain = 0;
                         channel->velocityRandomVariance = 0;
-                        channel->durationRandomVariance = 0;
+                        channel->gateTimeRandomVariance = 0;
                         channel->unk_0F = 0;
                         channel->unk_20 = 0;
                         channel->bookOffset = 0;
@@ -1342,7 +1342,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         channel->velocityRandomVariance = parameters[0];
                         break;
                     case 0xBA:
-                        channel->durationRandomVariance = parameters[0];
+                        channel->gateTimeRandomVariance = parameters[0];
                         break;
                     case 0xBB:
                         channel->unk_0F = parameters[0];
@@ -1621,7 +1621,7 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         if (command == 0xD2) {
                             seqPlayer->shortNoteVelocityTable = data3;
                         } else {
-                            seqPlayer->shortNoteDurationTable = data3;
+                            seqPlayer->shortNoteGateTimeTable = data3;
                         }
                         break;
                     case 0xD0:
@@ -1780,7 +1780,7 @@ void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     seqPlayer->transposition = 0;
     seqPlayer->noteAllocPolicy = 0;
     seqPlayer->shortNoteVelocityTable = gDefaultShortNoteVelocityTable;
-    seqPlayer->shortNoteDurationTable = gDefaultShortNoteDurationTable;
+    seqPlayer->shortNoteGateTimeTable = gDefaultShortNoteGateTimeTable;
     seqPlayer->scriptCounter = 0;
     seqPlayer->fadeVolume = 1.0f;
     seqPlayer->fadeVelocity = 0.0f;
