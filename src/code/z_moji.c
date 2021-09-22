@@ -27,7 +27,7 @@ void Moji_SetColor(u32 red, u32 green, u32 blue, u32 alpha) {
 }
 
 void Moji_SetPosition(s32 gridX, s32 gridY) {
-    if (gridX > (SCREEN_WIDTH / CHAR_WIDTH - 1)) {
+    if (gridX >= SCREEN_WIDTH / CHAR_WIDTH) {
         sScreenPosX = SCREEN_WIDTH - CHAR_WIDTH;
     } else if (gridX < 0) {
         sScreenPosX = 0;
@@ -35,7 +35,7 @@ void Moji_SetPosition(s32 gridX, s32 gridY) {
         sScreenPosX = gridX * CHAR_WIDTH;
     }
 
-    if (gridY > (SCREEN_HEIGHT / CHAR_HEIGHT - 1)) {
+    if (gridY >= SCREEN_HEIGHT / CHAR_HEIGHT) {
         sScreenPosY = SCREEN_HEIGHT - CHAR_HEIGHT;
     } else if (gridY < 0) {
         sScreenPosY = 0;
