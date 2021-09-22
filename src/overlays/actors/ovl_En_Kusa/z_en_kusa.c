@@ -8,6 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "objects/object_kusa/object_kusa.h"
 #include "vt.h"
 
 #define FLAGS 0x00800010
@@ -491,11 +492,11 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKusa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dLists[] = { gFieldBushDL, 0x06000140, 0x06000140 };
+    static Gfx* dLists[] = { gFieldBushDL, object_kusa_DL_000140, object_kusa_DL_000140 };
     EnKusa* this = THIS;
 
     if (this->actor.flags & 0x800) {
-        Gfx_DrawDListOpa(globalCtx, D_060002E0);
+        Gfx_DrawDListOpa(globalCtx, object_kusa_DL_0002E0);
     } else {
         Gfx_DrawDListOpa(globalCtx, dLists[thisx->params & 3]);
     }
