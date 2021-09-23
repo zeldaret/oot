@@ -32,7 +32,7 @@ void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
 
     Actor_SetScale(&this->actor, 0.1f);
-    this->counter = 0;
+    this->timer = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE arg_data = %d\n" VT_RST, this->actor.params);
 }
@@ -51,8 +51,8 @@ void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
 
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
-    if (this->counter < 100) {
-        this->counter++;
+    if (this->timer < 100) {
+        this->timer++;
     } else {
         Actor_Kill(&this->actor);
     }
@@ -81,16 +81,16 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
 
-    if (this->counter < 32) {
-        z = Math_SinS(this->counter << 9) * 1400;
+    if (this->timer < 32) {
+        z = Math_SinS(this->timer << 9) * 1400;
     } else {
         z = 1400;
     }
 
-    if (this->counter >= 80) {
+    if (this->timer >= 80) {
         alphaTable[0] = 0;
-        alphaTable[1] = (0x64 - this->counter) * 8;
-        alphaTable[2] = (0x64 - this->counter) * 12;
+        alphaTable[1] = (0x64 - this->timer) * 8;
+        alphaTable[2] = (0x64 - this->timer) * 12;
     } else {
         alphaTable[0] = 0;
         alphaTable[1] = 0xA0;

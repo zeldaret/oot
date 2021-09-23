@@ -1,10 +1,10 @@
 <Root>
     <File Name="ovl_Oceff_Wipe3" BaseAddress="0x80BAB3F0" RangeStart="0x480" RangeEnd="0x16C8" Segment="128">
         <Texture Name="sSariasSongTex" OutName="saria_song_effect" Format="ia8" Width="64" Height="64" Offset="0x480"/>
-    <Array Name="sSariasSongFrustumVtx" Count="22" Offset="0x1480">
-        <Vtx/>
-    </Array>
-    <DList Name="sSariasSongTextureDL" Offset="0x15E0"/>
-    <DList Name="sSariasSongFrustumDL" Offset="0x1668"/>
+        <Array Name="sSariasSongFrustumVtx" Count="22" Offset="0x1480">
+            <Vtx/>
+        </Array>
+        <DList Name="sSariasSongTextureDL" Offset="0x15E0"/>
+        <DList Name="sSariasSongFrustumDL" Offset="0x1668"/>
     </File>
 </Root>
