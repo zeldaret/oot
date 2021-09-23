@@ -159,7 +159,11 @@ void OceffSpot_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_XLU_DISP++, sSunSongTextureDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 32, 1,
                                                      0, scroll * (-8), 32, 32));
+<<<<<<< HEAD
     gSPDisplayList(POLY_XLU_DISP++, sSungSongCylinderDL);
+=======
+    gSPDisplayList(POLY_XLU_DISP++, sSunSongCylinderDL);
+>>>>>>> extractOvl
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_spot.c", 485);
 }
