@@ -1,11 +1,11 @@
 #include "z_magic_dark.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-static u64 sDiamondTex[] = {
+ u64 sDiamondTex[] = {
 #include "assets/overlays/ovl_Magic_Dark/diamond_texture.i8.inc.c"
 };
 
-static Vtx sDiamondVerts[] = {
+ Vtx sDiamondVerts[] = {
     VTX(0, 0, 64, 1024, 512, 0x00, 0x00, 0x78, 0xFF),    VTX(55, 0, 32, 1707, 512, 0x67, 0x00, 0x3C, 0xFF),
     VTX(0, 108, 0, 1365, 0, 0x00, 0x78, 0x00, 0xFF),     VTX(55, 0, -32, 2389, 512, 0x67, 0x00, 0xC4, 0xFF),
     VTX(0, 108, 0, 2048, 0, 0x00, 0x78, 0x00, 0xFF),     VTX(0, 0, -64, 3072, 512, 0x00, 0x00, 0x88, 0xFF),
@@ -18,7 +18,7 @@ static Vtx sDiamondVerts[] = {
     VTX(-55, 0, 32, 2389, 512, 0x98, 0x00, 0x3C, 0xFF),  VTX(-55, 0, -32, 1707, 512, 0x99, 0x00, 0xC4, 0xFF),
 };
 
-static Gfx sDiamondTexDList[] = {
+ Gfx sDiamondTexDList[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -34,7 +34,7 @@ static Gfx sDiamondTexDList[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx sDiamondVertsDList[] = {
+ Gfx sDiamondVertsDList[] = {
     gsSPVertex(sDiamondVerts, 20, 0),           gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0),
     gsSP2Triangles(3, 5, 6, 0, 5, 7, 8, 0),     gsSP2Triangles(7, 9, 10, 0, 11, 0, 12, 0),
     gsSP2Triangles(13, 0, 11, 0, 14, 7, 5, 0),  gsSP2Triangles(15, 5, 3, 0, 16, 3, 1, 0),
