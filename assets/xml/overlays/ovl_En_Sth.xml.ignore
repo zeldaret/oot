@@ -1,5 +1,5 @@
 <!--
-ZAPD currently can not extract animations from overlays.    
+ZAPD currently cannot extract regular animations from overlays.    
 <Root>
     <File Name="ovl_En_Sth" BaseAddress="0x80B07540" RangeStart="0xEF0" Segment="128">
         <Animation Name="sChildDanceAnim" Offset="0x3620"/>
