@@ -217,7 +217,8 @@ void EnSsh_InitColliders(EnSsh* this, GlobalContext* globalCtx) {
 
 f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
     AnimationHeader* animation[] = {
-        &object_ssh_Anim_005BE8, &object_ssh_Anim_000304, &object_ssh_Anim_000304, &object_ssh_Anim_0055F8, &object_ssh_Anim_000304, &object_ssh_Anim_000304, &object_ssh_Anim_005BE8
+        &object_ssh_Anim_005BE8, &object_ssh_Anim_000304, &object_ssh_Anim_000304, &object_ssh_Anim_0055F8,
+        &object_ssh_Anim_000304, &object_ssh_Anim_000304, &object_ssh_Anim_005BE8,
     };
     f32 playbackSpeed[] = { 1.0f, 4.0f, 1.0f, 1.0f, 8.0f, 6.0f, 2.0f };
     u8 mode[] = { 3, 3, 1, 3, 1, 1, 1 };
