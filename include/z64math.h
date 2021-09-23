@@ -78,6 +78,7 @@ typedef struct {
 
 #define LERP(x, y, scale) (((y) - (x)) * (scale) + (x))
 #define LERP32(x, y, scale) ((s32)(((y) - (x)) * (scale)) + (x))
+#define LERP16(x, y, scale) ((s16)(((y) - (x)) * (scale)) + (x))
 #define F32_LERP(v0,v1,t) ((v0) * (1.0f - (t)) + (v1) * (t))
 #define F32_LERPIMP(v0, v1, t) (v0 + ((v1 - v0) * t))
 #define F32_LERPIMPINV(v0, v1, t) ((v0) + (((v1) - (v0)) / (t)))
