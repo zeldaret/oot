@@ -9,7 +9,7 @@
             <Vtx/>
         </Array>
         <Texture Name="sMagicWindTex" OutName="magic_wind" Format="ia8" Width="64" Height="64" Offset="0x9C0"/>
-        <DList Name="sMagicWindInnerCylinderDList" Offset="0x19C0"/>
-        <DList Name="sMagicWindOuterCylinderDList" Offset="0x1AC8"/>
+        <DList Name="sMagicWindInnerCylinderDL" Offset="0x19C0"/>
+        <DList Name="sMagicWindOuterCylinderDL" Offset="0x1AC8"/>
     </File>
 </Root>
