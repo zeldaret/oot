@@ -322,7 +322,6 @@ void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 #include "overlays/ovl_En_Holl/ovl_En_Holl.c"
 
-
 void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHoll* this = THIS;
     Gfx* gfxP;

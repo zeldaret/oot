@@ -32,7 +32,7 @@ const ActorInit Oceff_Wipe3_InitVars = {
 
 void OceffWipe3_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe3* this = THIS;
-    
+
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;

@@ -47,7 +47,7 @@ void EndTitle_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EndTitle_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-//Used in the castle courtyard
+// Used in the castle courtyard
 void EndTitle_DrawFull(Actor* thisx, GlobalContext* globalCtx) {
     MtxF* mf;
     EndTitle* this = THIS;

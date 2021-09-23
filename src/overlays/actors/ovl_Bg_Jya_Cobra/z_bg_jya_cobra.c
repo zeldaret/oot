@@ -18,7 +18,7 @@ void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx);
 void func_808969F8(BgJyaCobra* this, GlobalContext* globalCtx);
 void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx);
 
- #include "overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
+#include "overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
 
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
