@@ -36,7 +36,7 @@ const ActorInit Eff_Dust_InitVars = {
     (ActorFunc)EffDust_Draw,
 };
 
-static Gfx sEndDL[] = {
+static Gfx sEmptyDL[] = {
     gsSPEndDisplayList(),
 };
 
