@@ -35,8 +35,9 @@ const struct option cmdline_opts[] = {
 };
 
 static uint32_t parse_int(const char *num){
-    uint32_t ret = 0;
+    uint32_t ret;
     char outnum[21];
+    
     if(strlen(num) > 2 && num[0] == '0' && (num[1] == 'x' || num[1] == 'X')) {
         strncpy(outnum, &num[2], 20);
         sscanf(outnum, "%"SCNx32, &ret);
@@ -145,8 +146,7 @@ static void parse_file(void)
         }
     }
 
-    Vtx *data = NULL;
-    data = malloc(alloc_size);
+    Vtx *data = malloc(alloc_size);
     if(!data){
         fclose(file);
         perror("Could not allocate vtx data");
