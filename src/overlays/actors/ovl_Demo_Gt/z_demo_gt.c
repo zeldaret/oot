@@ -1708,7 +1708,7 @@ void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGtUpdateFunc updateFunc;
 
     if ((this->updateMode < 0) || (this->updateMode >= 19) || (updateFunc = sUpdateFuncs[this->updateMode]) == NULL) {
-        // The main mode is strange!
+        // "The main mode is strange!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -1745,7 +1745,7 @@ void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_80982054_Init24(this, globalCtx);
             break;
         default:
-            // Demo_Gt_Actor_ct There is no such argument !
+            // "Demo_Gt_Actor_ct There is no such argument !"
             osSyncPrintf("Demo_Gt_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
             Actor_Kill(&this->dyna.actor);
     }
@@ -1764,7 +1764,7 @@ void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGtDrawFunc drawFunc;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 9) || (drawFunc = sDrawFuncs[this->drawConfig]) == NULL) {
-        // The drawing mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The drawing mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
