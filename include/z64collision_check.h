@@ -171,7 +171,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ ColliderInfoInit info;
     /* 0x18 */ ColliderTrisElementDimInit dim;
-} ColliderTrisElementInit; // size 0x3C
+} ColliderTrisElementInit; // size = 0x3C
 
 typedef struct {
     /* 0x00 */ Collider base;
