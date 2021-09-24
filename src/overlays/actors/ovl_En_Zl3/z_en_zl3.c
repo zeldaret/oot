@@ -786,7 +786,7 @@ void func_80B54F18(EnZl3* this, GlobalContext* globalCtx) {
         f32 posZ = this->actor.world.pos.z;
 
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
-                           0, 3);
+                           0, WARP_PURPLE_CRYSTAL);
         this->unk_2F8 = 1;
     }
 }
@@ -813,7 +813,7 @@ void func_80B55054(EnZl3* this) {
             f32* temp_v0 = &this->unk_2EC;
 
             if (*temp_v0 < 19.0f) {
-                ((DoorWarp1*)child)->alpha = (20.0f - *temp_v0) * 12.75f;
+                ((DoorWarp1*)child)->crystalAlpha = (20.0f - *temp_v0) * 12.75f;
                 *temp_v0 += 1.0f;
             } else {
                 Actor_Kill(child);
@@ -1045,8 +1045,8 @@ void func_80B559C4(EnZl3* this) {
     Vec3f* thisPos = &this->actor.world.pos;
     Vec3f* unk_32C = &this->unk_32C;
     Vec3f* unk_338 = &this->unk_338;
-    f32 temp_f0 =
-        func_8006F9BC(Animation_GetLastFrame(&gZelda2Anime2Anim_005248), 0, (s32)this->skelAnime.curFrame, 3, 3);
+    f32 temp_f0 = Environment_LerpWeightAccelDecel(Animation_GetLastFrame(&gZelda2Anime2Anim_005248), 0,
+                                                   (s32)this->skelAnime.curFrame, 3, 3);
 
     thisPos->x = unk_32C->x + (temp_f0 * (unk_338->x - unk_32C->x));
     thisPos->z = unk_32C->z + (temp_f0 * (unk_338->z - unk_32C->z));
@@ -1959,7 +1959,7 @@ void func_80B57CB4(EnZl3* this, GlobalContext* globalCtx) {
     f32 temp_f0;
 
     this->unk_344 += 1;
-    temp_f0 = func_8006F9BC(this->unk_346, 0, this->unk_344, 3, 3);
+    temp_f0 = Environment_LerpWeightAccelDecel(this->unk_346, 0, this->unk_344, 3, 3);
     thisPos->x = unk_348->x + (temp_f0 * (unk_354->x - unk_348->x));
     thisPos->y = (unk_348->y + (temp_f0 * (unk_354->y - unk_348->y))) + this->unk_360;
     thisPos->z = unk_348->z + (temp_f0 * (unk_354->z - unk_348->z));
@@ -2262,7 +2262,7 @@ void func_80B58C08(EnZl3* this, GlobalContext* globalCtx) {
     unk_344 = this->unk_344;
     unk_346 = this->unk_346;
     sp28 = unk_346 - kREG(11) - 2;
-    temp_f0 = func_8006F9BC(unk_346, 0, unk_344, 3, 0);
+    temp_f0 = Environment_LerpWeightAccelDecel(unk_346, 0, unk_344, 3, 0);
 
     thisPos->x = unk_348->x + (temp_f0 * (unk_354->x - unk_348->x));
     thisPos->y = (unk_348->y + (temp_f0 * (unk_354->y - unk_348->y))) + this->unk_360;

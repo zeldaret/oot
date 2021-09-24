@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_EC_H_
-#define _Z_DEMO_EC_H_
+#ifndef Z_DEMO_EC_H
+#define Z_DEMO_EC_H
 
 #include "ultra64.h"
 #include "global.h"

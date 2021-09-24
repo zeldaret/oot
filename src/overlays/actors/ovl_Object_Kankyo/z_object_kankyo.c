@@ -831,7 +831,7 @@ void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this2, GlobalContext* globalCt
             end.y = globalCtx->csCtx.npcActions[1]->endPos.y;
             end.z = globalCtx->csCtx.npcActions[1]->endPos.z;
 
-            weight = func_8006F93C(globalCtx->csCtx.npcActions[1]->endFrame, globalCtx->csCtx.npcActions[1]->startFrame,
+            weight = Environment_LerpWeight(globalCtx->csCtx.npcActions[1]->endFrame, globalCtx->csCtx.npcActions[1]->startFrame,
                                    globalCtx->csCtx.frames);
             Matrix_Translate((end.x - start.x) * weight + start.x, (end.y - start.y) * weight + start.y,
                              (end.z - start.z) * weight + start.z, MTXMODE_NEW);

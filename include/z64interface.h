@@ -1,5 +1,5 @@
-#ifndef _Z64INTERFACE_H_
-#define _Z64INTERFACE_H_
+#ifndef Z64INTERFACE_H
+#define Z64INTERFACE_H
 
 /**
  * Button HUD Positions (Upper Left)

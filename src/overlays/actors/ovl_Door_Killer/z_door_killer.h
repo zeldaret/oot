@@ -1,5 +1,5 @@
-#ifndef _Z_DOOR_KILLER_H_
-#define _Z_DOOR_KILLER_H_
+#ifndef Z_DOOR_KILLER_H
+#define Z_DOOR_KILLER_H
 
 #include "ultra64.h"
 #include "global.h"

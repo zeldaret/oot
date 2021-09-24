@@ -1,5 +1,5 @@
-#ifndef _Z_ARROW_LIGHT_H_
-#define _Z_ARROW_LIGHT_H_
+#ifndef Z_ARROW_LIGHT_H
+#define Z_ARROW_LIGHT_H
 
 #include "ultra64.h"
 #include "global.h"

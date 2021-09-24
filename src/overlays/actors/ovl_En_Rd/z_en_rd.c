@@ -172,8 +172,8 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnRd* this = THIS;
 
-    if (gSaveContext.unk_1422 != 0) {
-        gSaveContext.unk_1422 = 0;
+    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
+        gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -676,7 +676,7 @@ void func_80AE3DE4(EnRd* this) {
     this->unk_31B = 1;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if (gSaveContext.unk_1422 != 0) {
+    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
         this->unk_318 = 1;
         this->unk_316 = 0x258;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
@@ -698,7 +698,7 @@ void func_80AE3ECC(EnRd* this, GlobalContext* globalCtx) {
         }
         if (this->unk_316 == 0) {
             this->unk_318 = 0;
-            gSaveContext.unk_1422 = 0;
+            gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
         }
     }
 
@@ -740,7 +740,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((gSaveContext.unk_1422 != 0) && (this->actor.shape.rot.x == 0) && (this->unk_318 == 0) &&
+    if ((gSaveContext.sunsSongState != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) && (this->unk_318 == 0) &&
         (this->unk_31B != 9) && (this->unk_31B != 10) && (this->unk_31B != 1)) {
         func_80AE3DE4(this);
         return;
@@ -794,8 +794,8 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80AE4114(this, globalCtx);
 
-    if (gSaveContext.unk_1422 != 0 && this->unk_318 == 0) {
-        gSaveContext.unk_1422 = 0;
+    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE && this->unk_318 == 0) {
+        gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
 
     if (this->unk_31C != 6 && ((this->unk_31B != 11) || (this->unk_31C != 14))) {

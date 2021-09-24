@@ -1,5 +1,5 @@
-#ifndef _Z_ELF_MSG2_H_
-#define _Z_ELF_MSG2_H_
+#ifndef Z_ELF_MSG2_H
+#define Z_ELF_MSG2_H
 
 #include "ultra64.h"
 #include "global.h"

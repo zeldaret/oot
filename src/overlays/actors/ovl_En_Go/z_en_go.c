@@ -97,7 +97,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
             if (gSaveContext.bgsFlag) {
                 return 0x305E;
             } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_CLAIM_CHECK) {
-                if (func_800775CC(globalCtx) >= 3) {
+                if (Environment_GetBgsDayCount() >= 3) {
                     return 0x305E;
                 } else {
                     return 0x305D;
@@ -992,7 +992,7 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x305C;
             func_8010B720(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
-            func_800775D8();
+            Environment_ClearBgsDayCount();
         }
     }
 }

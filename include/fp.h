@@ -1,5 +1,5 @@
-#ifndef _FP_H_
-#define _FP_H_
+#ifndef FP_H
+#define FP_H
 #include "ultra64.h"
 
 extern f32 qNaN0x3FFFFF;

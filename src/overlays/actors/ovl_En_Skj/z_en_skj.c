@@ -999,7 +999,7 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
             player->stateFlags2 |= 0x800000;
         } else {
             if (globalCtx->msgCtx.unk_E3EE >= 5) {
-                gSaveContext.unk_1422 = 0;
+                gSaveContext.sunsSongState = 0;
                 if (gSaveContext.itemGetInf[1] & 0x40) {
                     globalCtx->msgCtx.unk_E3EE = 4;
                     player->unk_6A8 = &this->actor;
