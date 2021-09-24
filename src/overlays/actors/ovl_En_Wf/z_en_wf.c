@@ -32,7 +32,7 @@ void EnWf_SetupSlash(EnWf* this);
 void EnWf_Slash(EnWf* this, GlobalContext* globalCtx);
 void EnWf_RecoilFromBlockedSlash(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupBackflipAway(EnWf* this);
-void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx);
+void EnWf_BackflipAway(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupSomersaultAndAttack(EnWf* this);
@@ -262,7 +262,7 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinderBody);
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinderTail);
 
-    if ((this->actor.params != 0) && (this->switchFlag != 0xFF)) {
+    if ((this->actor.params != WOLFOS_NORMAL) && (this->switchFlag != 0xFF)) {
         func_800F5B58();
     }
 
@@ -386,7 +386,7 @@ void EnWf_WaitToAppear(EnWf* this, GlobalContext* globalCtx) {
             this->actionTimer = 5;
             this->actor.flags |= 1;
 
-            if ((this->actor.params != 0) && (this->switchFlag != 0xFF)) {
+            if ((this->actor.params != WOLFOS_NORMAL) && (this->switchFlag != 0xFF)) {
                 func_800F5ACC(0x38); // Mini-Boss Battle Theme
             }
         }
@@ -845,10 +845,10 @@ void EnWf_SetupBackflipAway(EnWf* this) {
     this->unk_300 = true;
     this->action = WOLFOS_ACTION_BACKFLIP_AWAY;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
-    EnWf_SetupAction(this, EnWf_BackFlip);
+    EnWf_SetupAction(this, EnWf_BackflipAway);
 }
 
-void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx) {
+void EnWf_BackflipAway(EnWf* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (!Actor_OtherIsTargeted(globalCtx, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
             (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
@@ -1231,7 +1231,7 @@ void EnWf_Die(EnWf* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnWf_UpdateHeadRot(EnWf* this, GlobalContext* globalCtx) {
+void func_80B36F40(EnWf* this, GlobalContext* globalCtx) {
     if ((this->action == WOLFOS_ACTION_WAIT) && (this->unk_2E2 != 0)) {
         this->unk_4D4.y = Math_SinS(this->unk_2E2 * 4200) * 8920.0f;
     } else if (this->action != WOLFOS_ACTION_STUNNED) {
@@ -1304,7 +1304,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 32.0f, 30.0f, 60.0f, 0x1D);
         this->actionFunc(this, globalCtx);
-        EnWf_UpdateHeadRot(this, globalCtx);
+        func_80B36F40(this, globalCtx);
     }
 
     if (this->actor.bgCheckFlags & (1 | 2)) {
@@ -1433,11 +1433,11 @@ void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_wf.c", 2157);
 
-    // unk_300 does not do anything since it is only true when the other part of the condition is already satisfied
+    // This condition will always return true, since unk_300 is true whenever action is WOLFOS_ACTION_WAIT_TO_APPEAR.
     if ((this->action != WOLFOS_ACTION_WAIT_TO_APPEAR) || !this->unk_300) {
         func_80093D18(globalCtx->state.gfxCtx);
 
-        if (this->actor.params == 0) {
+        if (this->actor.params == WOLFOS_NORMAL) {
             gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sWolfosNormalEyeTextures[this->eyeIndex]));
         } else {
             gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sWolfosWhiteEyeTextures[this->eyeIndex]));
