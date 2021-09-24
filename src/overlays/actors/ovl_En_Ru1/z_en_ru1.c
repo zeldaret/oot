@@ -1494,7 +1494,7 @@ void func_80AEE050(EnRu1* this) {
 }
 
 s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
-    if (!Actor_IsTalking(&this->actor, globalCtx)) {
+    if (!Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actor.flags |= 9;
         if ((gSaveContext.infTable[20] & 8)) {
             this->actor.textId = 0x404E;
@@ -2125,7 +2125,7 @@ void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
-    if (!Actor_IsTalking(&this->actor, globalCtx)) {
+    if (!Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actor.flags |= 9;
         this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1F);
         if (this->actor.textId == 0) {

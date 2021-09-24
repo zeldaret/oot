@@ -176,7 +176,7 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         EnGm_SetTextID(this);
         this->actionFunc = func_80A3DC44;
-    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
+    } else if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actionFunc = func_80A3DBF4;
     } else if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
@@ -201,7 +201,7 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
     dx = this->talkPos.x - player->actor.world.pos.x;
     dz = this->talkPos.z - player->actor.world.pos.z;
 
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         switch (func_80A3D7C8()) {
             case 0:
                 gSaveContext.infTable[11] |= 1;

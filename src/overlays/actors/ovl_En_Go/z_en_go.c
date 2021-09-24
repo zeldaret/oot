@@ -338,7 +338,7 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     if (arg2->unk_00) {
         arg2->unk_00 = unkFunc2(globalCtx, &this->actor);
         return false;
-    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
+    } else if (Actor_TalkRequested(&this->actor, globalCtx)) {
         arg2->unk_00 = 1;
         return true;
     } else if (!func_8002F2CC(&this->actor, globalCtx, arg3)) {

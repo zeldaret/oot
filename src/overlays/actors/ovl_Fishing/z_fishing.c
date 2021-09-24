@@ -2851,7 +2851,7 @@ void Fishing_HandleAquariumDialog(Fishing* this, GlobalContext* globalCtx) {
         if (this->unk_1D4 == 0) {
             this->actor.flags |= 1;
 
-            if (Actor_IsTalking(&this->actor, globalCtx)) {
+            if (Actor_TalkRequested(&this->actor, globalCtx)) {
                 D_80B7A678 = D_80B7E078;
                 this->unk_1D3 = 1;
             } else {
@@ -4736,7 +4736,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x4097;
             }
 
-            if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+            if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
                 if (D_80B7E0AC == 0) {
                     this->unk_15C = 1;
                     if (sLinkAge != 1) {

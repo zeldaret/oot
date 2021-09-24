@@ -767,7 +767,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
     if (this->unk_198 != 0) {
         this->unk_198--;
     }
-    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
         if (this->actor.params >= EN_POH_SHARP) {
             func_80ADE9BC(this);
         } else {

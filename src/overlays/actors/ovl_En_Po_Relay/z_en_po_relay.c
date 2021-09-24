@@ -162,7 +162,7 @@ void EnPoRelay_CorrectY(EnPoRelay* this) {
 
 void EnPoRelay_Idle(EnPoRelay* this, GlobalContext* globalCtx) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
-    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnPoRelay_Talk;
     } else if (this->actor.xzDistToPlayer < 250.0f) {
@@ -257,7 +257,7 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
 
 void EnPoRelay_EndRace(EnPoRelay* this, GlobalContext* globalCtx) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, -0x4000, 0x800);
-    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
         this->actionFunc = EnPoRelay_Talk2;
     } else if (globalCtx->roomCtx.curRoom.num == 5) {
         Actor_Kill(&this->actor);

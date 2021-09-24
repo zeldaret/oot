@@ -140,7 +140,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
         return;
     }
     if (this->switchFlag < 0 || !Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        if ((Actor_IsTalking(&this->actor, globalCtx))) {
+        if ((Actor_TalkRequested(&this->actor, globalCtx))) {
             if (this->unk_156 != TEXT_STATE_DONE) {
                 this->actionFunc = func_80B395F0;
             } else {

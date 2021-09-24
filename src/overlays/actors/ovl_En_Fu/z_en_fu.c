@@ -105,8 +105,8 @@ void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFunc actionFunc) {
     s16 yawDiff;
 
-    // Actor_IsTalking returns 1 if actor flags & 0x100 is set and unsets it
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    // Actor_TalkRequested returns 1 if actor flags & 0x100 is set and unsets it
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return true;
     }
@@ -227,7 +227,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
         Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
         this->behaviorFlags |= FU_WAIT;
-    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
+    } else if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
         if (this->actor.xzDistToPlayer < 100.0f) {

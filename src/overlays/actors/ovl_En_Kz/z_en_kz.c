@@ -191,7 +191,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
     f32 xzDistToPlayer;
     f32 yaw;
 
-    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
         *arg2 = 1;
         return 1;
     }

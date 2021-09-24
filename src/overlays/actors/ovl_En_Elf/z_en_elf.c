@@ -1384,7 +1384,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags |= 0x10000;
     }
 
-    if (Actor_IsTalking(thisx, globalCtx)) {
+    if (Actor_TalkRequested(thisx, globalCtx)) {
         func_800F4524(&D_801333D4, NA_SE_VO_SK_LAUGH, 0x20);
         thisx->focus.pos = thisx->world.pos;
 

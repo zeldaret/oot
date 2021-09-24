@@ -282,7 +282,7 @@ void func_80ABF708(EnOkarinaTag* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 yawDiffNew;
 
-    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80ABF7CC;
     } else {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;

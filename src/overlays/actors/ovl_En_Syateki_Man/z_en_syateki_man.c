@@ -111,7 +111,7 @@ void EnSyatekiMan_SetupIdle(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
 void EnSyatekiMan_Idle(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actionFunc = EnSyatekiMan_Talk;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);

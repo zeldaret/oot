@@ -403,7 +403,7 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x200E;
     }
     this->unk_300 = TEXT_STATE_DONE;
-    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
         exchangeItemId = func_8002F368(globalCtx);
         if (exchangeItemId == EXCH_ITEM_LETTER_ZELDA) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -707,7 +707,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         if (this->type == 2) {
             if (this->unk_30E == 1) {
                 this->actionFunc = func_80A5344C;

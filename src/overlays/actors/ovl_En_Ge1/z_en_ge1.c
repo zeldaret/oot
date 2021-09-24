@@ -184,7 +184,7 @@ void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnGe1_SetTalkAction(EnGe1* this, GlobalContext* globalCtx, u16 textId, f32 arg3, EnGe1ActionFunc actionFunc) {
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         this->animFunc = EnGe1_StopFidget;
         this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
@@ -549,7 +549,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
         this->actor.flags &= ~0x10000;
     } else {
@@ -620,7 +620,7 @@ void EnGe1_TalkOfferPlay_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_TalkOfferPlay_Archery;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 300.0f);

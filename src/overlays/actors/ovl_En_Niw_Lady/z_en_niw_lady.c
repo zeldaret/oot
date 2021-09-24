@@ -247,7 +247,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
         phi_s1 = 10;
         this->unk_26E = 11;
     }
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         osSyncPrintf("\n\n");
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん選択\t ☆☆☆☆ %d\n" VT_RST, phi_s1);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n" VT_RST, this->unk_26C);
@@ -358,7 +358,7 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 11;
     }
-    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
         playerExchangeItemId = func_8002F368(globalCtx);
         if ((playerExchangeItemId == 6) && (gSaveContext.eventChkInf[6] & 0x400)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
@@ -476,7 +476,7 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 8;
     }
-    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
         this->unk_274 = 1;
         this->unk_26E = this->unk_27A + 9;
         this->actionFunc = func_80ABAD38;

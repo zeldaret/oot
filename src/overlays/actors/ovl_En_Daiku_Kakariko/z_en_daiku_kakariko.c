@@ -226,7 +226,7 @@ void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, GlobalContext* globalC
 
     if (this->talkState == 2) {
         this->talkState = EnDaikuKakariko_GetTalkState(this, globalCtx);
-    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
+    } else if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->talkState = 2;
     } else {
         Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);

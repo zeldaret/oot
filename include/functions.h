@@ -428,7 +428,7 @@ PosRot* Actor_GetFocus(PosRot* arg0, Actor* actor);
 PosRot* Actor_GetWorld(PosRot* arg0, Actor* actor);
 PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor);
 s32 func_8002F0C8(Actor* actor, Player* player, s32 arg2);
-u32 Actor_IsTalking(Actor* actor, GlobalContext* globalCtx);
+u32 Actor_TalkRequested(Actor* actor, GlobalContext* globalCtx);
 s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u32 arg4);
 s32 func_8002F298(Actor* actor, GlobalContext* globalCtx, f32 arg2, u32 arg3);
 s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2);
@@ -506,7 +506,7 @@ void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx);
 Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx);
-s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, u16 (*unkFunc1)(GlobalContext*, Actor*),
+s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interactRange, u16 (*unkFunc1)(GlobalContext*, Actor*),
                   s16 (*unkFunc2)(GlobalContext*, Actor*));
 s16 func_800347E8(s16 arg0);
 void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);

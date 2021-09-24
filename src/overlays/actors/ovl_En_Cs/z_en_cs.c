@@ -230,7 +230,7 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
         this->talkState = 1;
     } else if (this->talkState == 1) {
         this->talkState = EnCs_GetTalkState(this, globalCtx);
-    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
+    } else if (Actor_TalkRequested(&this->actor, globalCtx)) {
         if ((this->actor.textId == 0x2022) || ((this->actor.textId != 0x2022) && (this->actor.textId != 0x2028))) {
             EnCs_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
         }

@@ -850,7 +850,7 @@ s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
 
 s32 func_80986AD0(DemoIm* this, GlobalContext* globalCtx) {
     this->actor.flags |= 9;
-    if (!Actor_IsTalking(&this->actor, globalCtx)) {
+    if (!Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actor.textId = 0x708E;
         func_8002F2F4(&this->actor, globalCtx);
     } else {

@@ -185,7 +185,7 @@ void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
 void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->state != ENDIVINGGAME_STATE_PLAYING || !EnDivingGame_HasMinigameFinished(this, globalCtx)) {
-        if (Actor_IsTalking(&this->actor, globalCtx)) {
+        if (Actor_TalkRequested(&this->actor, globalCtx)) {
             if (this->unk_292 != TEXT_STATE_DONE) {
                 switch (this->state) {
                     case ENDIVINGGAME_STATE_NOTPLAYING:

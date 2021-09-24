@@ -259,7 +259,7 @@ void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80B142F4(EnTa* this, GlobalContext* globalCtx, u16 textId) {
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         return true;
     }
 
@@ -339,7 +339,7 @@ void func_80B145F8(EnTa* this, GlobalContext* globalCtx) {
 void func_80B14634(EnTa* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         s32 exchangeItemId = func_8002F368(globalCtx);
 
         switch (exchangeItemId) {
@@ -362,7 +362,7 @@ void func_80B14634(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B146F8(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         func_80B13AA0(this, func_80B143D4, func_80B167FC);
     }
     this->actor.textId = 0x204B;
@@ -372,7 +372,7 @@ void func_80B146F8(EnTa* this, GlobalContext* globalCtx) {
 void func_80B14754(EnTa* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
         s32 exchangeItemId = func_8002F368(globalCtx);
 
         switch (exchangeItemId) {
@@ -627,7 +627,7 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B15260(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->unk_25C = func_80B15100;
         this->actor.flags &= ~0x10000;
     } else {
@@ -1045,7 +1045,7 @@ void func_80B16504(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B16608(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         switch (this->actor.textId) {
             case 0x2085:
                 this->unk_25C = func_80B161C0;

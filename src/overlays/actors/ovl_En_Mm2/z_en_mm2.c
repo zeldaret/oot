@@ -176,7 +176,7 @@ void EnMm2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80AAF224(EnMm2* this, GlobalContext* globalCtx, EnMm2ActionFunc actionFunc) {
     s16 yawDiff;
 
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return 1;
     }

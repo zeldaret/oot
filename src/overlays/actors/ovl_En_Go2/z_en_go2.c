@@ -792,7 +792,7 @@ s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.ocFlags2 & 1) == 0)) {
         return false;
     } else {
-        if (Actor_IsTalking(&this->actor, globalCtx)) {
+        if (Actor_TalkRequested(&this->actor, globalCtx)) {
             this->unk_194.unk_00 = 1;
             return true;
         } else if (this->unk_194.unk_00 != 0) {

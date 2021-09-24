@@ -109,7 +109,7 @@ void func_80AACB14(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACB6C(EnMk* this, GlobalContext* globalCtx) {
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACB14;
     }
 
@@ -217,7 +217,7 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 playerExchangeItem;
 
-    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
         playerExchangeItem = func_8002F368(globalCtx);
 
         if (this->actor.textId != 0x4018) {

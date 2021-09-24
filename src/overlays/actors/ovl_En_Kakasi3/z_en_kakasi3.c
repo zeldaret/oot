@@ -215,7 +215,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
     this->camId = SUBCAM_NONE;
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         if (!this->unk_194) {
             if (this->unk_1A8 == 0) {
                 this->actionFunc = func_80A91284;

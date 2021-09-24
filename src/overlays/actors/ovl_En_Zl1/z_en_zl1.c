@@ -350,7 +350,7 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
         if (func_8002F334(&this->actor, globalCtx)) {
             this->unk_1E6 = 0;
         }
-    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
+    } else if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->unk_1E6 = 1;
     } else if (this->actor.world.pos.y <= player->actor.world.pos.y) {
         func_8002F2F4(&this->actor, globalCtx);
@@ -370,7 +370,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     Vec3f playerPos = { -398.0f, 84.0f, 0.0f };
     s16 rotDiff;
 
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_10B38, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gChildZelda1Anim_10B38), ANIMMODE_ONCE_INTERP, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
@@ -745,7 +745,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             if (player->actor.world.pos.y < this->actor.world.pos.y) {
                 break;
             } else {
-                if (Actor_IsTalking(&this->actor, globalCtx)) {
+                if (Actor_TalkRequested(&this->actor, globalCtx)) {
                     this->unk_1E2++;
                 } else {
                     func_8002F2F4(&this->actor, globalCtx);

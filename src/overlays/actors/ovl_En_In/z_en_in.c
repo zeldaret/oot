@@ -920,7 +920,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, globalCtx);
         if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->unk_308.unk_00 == 0) {
-            if (Actor_IsTalking(&this->actor, globalCtx)) {}
+            if (Actor_TalkRequested(&this->actor, globalCtx)) {}
         } else {
             func_800343CC(globalCtx, &this->actor, &this->unk_308.unk_00,
                           ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,

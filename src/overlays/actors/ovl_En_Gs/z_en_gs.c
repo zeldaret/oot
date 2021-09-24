@@ -182,7 +182,7 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
         this->unk_19C = 2;
     } else if (this->unk_19C == 2) {
         this->unk_19C = func_80A4E3EC(this, globalCtx);
-    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
+    } else if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->unk_19C = 2;
     } else {
         Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);

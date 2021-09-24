@@ -1489,7 +1489,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
     return false;
 }
 
-u32 Actor_IsTalking(Actor* actor, GlobalContext* globalCtx) {
+u32 Actor_TalkRequested(Actor* actor, GlobalContext* globalCtx) {
     if (actor->flags & 0x100) {
         actor->flags &= ~0x100;
         return true;
@@ -3585,12 +3585,12 @@ Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx) {
     return func_8002EB44(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 }
 
-s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, callback1_800343CC unkFunc1,
+s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interactRange, callback1_800343CC unkFunc1,
                   callback2_800343CC unkFunc2) {
-    s16 sp26;
-    s16 sp24;
+    s16 x;
+    s16 y;
 
-    if (Actor_IsTalking(actor, globalCtx)) {
+    if (Actor_TalkRequested(actor, globalCtx)) {
         *arg2 = 1;
         return true;
     }
@@ -3600,13 +3600,13 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, c
         return false;
     }
 
-    Actor_GetScreenPos(globalCtx, actor, &sp26, &sp24);
+    Actor_GetScreenPos(globalCtx, actor, &x, &y);
 
-    if ((sp26 < 0) || (sp26 > SCREEN_WIDTH) || (sp24 < 0) || (sp24 > SCREEN_HEIGHT)) {
+    if ((x < 0) || (x > SCREEN_WIDTH) || (y < 0) || (y > SCREEN_HEIGHT)) {
         return false;
     }
 
-    if (!func_8002F2CC(actor, globalCtx, arg3)) {
+    if (!func_8002F2CC(actor, globalCtx, interactRange)) {
         return false;
     }
 
@@ -5386,7 +5386,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
     s16 sp2A;
     s16 abs_var;
 
-    if (Actor_IsTalking(actor, globalCtx)) {
+    if (Actor_TalkRequested(actor, globalCtx)) {
         *arg3 = 1;
         return true;
     }

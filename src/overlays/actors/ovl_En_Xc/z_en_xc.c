@@ -2162,7 +2162,7 @@ void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
-    if (Actor_IsTalking(&this->actor, globalCtx)) {
+    if (Actor_TalkRequested(&this->actor, globalCtx)) {
         this->action = SHEIK_ACTION_IN_DIALOGUE;
     } else {
         this->actor.flags |= 9;
