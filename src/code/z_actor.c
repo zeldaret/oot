@@ -1545,7 +1545,7 @@ s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
 }
 
 u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
         return true;
     } else {
         return false;
@@ -1558,7 +1558,7 @@ s8 func_8002F368(GlobalContext* globalCtx) {
     return player->exchangeItemId;
 }
 
-void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
+void Actor_GetScreenPos(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
     Vec3f projectedPos;
     f32 w;
 
@@ -2893,7 +2893,7 @@ s32 func_80032880(GlobalContext* globalCtx, Actor* actor) {
     s16 sp1E;
     s16 sp1C;
 
-    func_8002F374(globalCtx, actor, &sp1E, &sp1C);
+    Actor_GetScreenPos(globalCtx, actor, &sp1E, &sp1C);
 
     return (sp1E > -20) && (sp1E < 340) && (sp1C > -160) && (sp1C < 400);
 }
@@ -3631,7 +3631,7 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, c
         return false;
     }
 
-    func_8002F374(globalCtx, actor, &sp26, &sp24);
+    Actor_GetScreenPos(globalCtx, actor, &sp26, &sp24);
 
     if ((sp26 < 0) || (sp26 > SCREEN_WIDTH) || (sp24 < 0) || (sp24 > SCREEN_HEIGHT)) {
         return false;
@@ -5393,13 +5393,13 @@ s32 func_80037CB8(GlobalContext* globalCtx, Actor* actor, s16 arg2) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     s32 ret = false;
 
-    switch (func_8010BDBC(msgCtx)) {
+    switch (Message_GetState(msgCtx)) {
         case TEXT_STATE_2:
             func_80037C5C(globalCtx, arg2, actor->textId);
             ret = true;
             break;
-        case TEXT_STATE_4:
-        case TEXT_STATE_5:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx) && func_80037C94(globalCtx, actor, arg2)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 msgCtx->msgMode = MSGMODE_TEXT_CLOSING;
@@ -5429,7 +5429,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
         return false;
     }
 
-    func_8002F374(globalCtx, actor, &sp2C, &sp2A);
+    Actor_GetScreenPos(globalCtx, actor, &sp2C, &sp2A);
 
     if (0) {} // Necessary to match
 

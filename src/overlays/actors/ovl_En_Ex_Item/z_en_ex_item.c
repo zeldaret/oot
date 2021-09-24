@@ -410,7 +410,7 @@ void EnExItem_TargetPrizeGive(EnExItem* this, GlobalContext* globalCtx) {
 }
 
 void EnExItem_TargetPrizeFinish(EnExItem* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         // Successful completion
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         gSaveContext.itemGetInf[1] |= 0x2000;

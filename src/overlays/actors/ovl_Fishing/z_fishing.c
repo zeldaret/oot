@@ -1154,9 +1154,9 @@ void Fishing_UpdateEffects(FishingEffect* effect, GlobalContext* globalCtx) {
                     Message_StartTextbox(globalCtx, 0x40B3, NULL);
                 }
 
-                if ((effect->unk_2C >= 100) && (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5)) {
-                    if (Message_ShouldAdvance(globalCtx) || (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0)) {
-                        func_80106CCC(globalCtx);
+                if ((effect->unk_2C >= 100) && (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT)) {
+                    if (Message_ShouldAdvance(globalCtx) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
+                        Message_CloseTextbox(globalCtx);
                         Rupees_ChangeBy(-50);
                         effect->unk_2C = -1;
                     }
@@ -2206,7 +2206,7 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
             if (D_80B7E0B4 == 0) {
                 if ((D_80B7E0B0 == 0) && (player->unk_860 == 1)) {
                     D_80B7E0B4 = 37;
-                    func_80106CCC(globalCtx);
+                    Message_CloseTextbox(globalCtx);
                 }
             } else {
                 sLureRot.x = sReelLineRot[LINE_SEG_COUNT - 2].x + M_PI;
@@ -3095,7 +3095,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_17A[1] = 50;
             }
 
-            if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
                 if ((gSaveContext.dayTime >= 0xC000) && (gSaveContext.dayTime <= 0xC01B)) {
                     this->unk_158 = 7;
                     this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
@@ -3897,9 +3897,9 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             if (this->unk_17A[0] <= 50) {
                 switch (this->unk_1D5) {
                     case 0:
-                        if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) || (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0)) {
+                        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
                             if (Message_ShouldAdvance(globalCtx)) {
-                                func_80106CCC(globalCtx);
+                                Message_CloseTextbox(globalCtx);
                                 if (globalCtx->msgCtx.choiceIndex == 0) {
                                     if (D_80B7A670 == 0.0f) {
                                         D_80B7A670 = this->unk_1AC;
@@ -3928,9 +3928,9 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                         }
                         break;
                     case 1:
-                        if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) || (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0)) {
+                        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
                             if (Message_ShouldAdvance(globalCtx)) {
-                                func_80106CCC(globalCtx);
+                                Message_CloseTextbox(globalCtx);
                                 if (globalCtx->msgCtx.choiceIndex != 0) {
                                     f32 temp1 = D_80B7A670;
                                     s16 temp2 = D_80B7E07C;
@@ -4753,8 +4753,8 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 1:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
 
                 switch (globalCtx->msgCtx.choiceIndex) {
                     case 0:
@@ -4781,26 +4781,26 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 2:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
                 Message_ContinueTextbox(globalCtx, 0x407F);
                 this->unk_15C = 4;
             }
             break;
 
         case 3:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
                 this->unk_15C = 0;
             }
-            if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) {
                 this->unk_15C = 0;
             }
             break;
 
         case 4:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
 
                 switch (globalCtx->msgCtx.choiceIndex) {
                     case 0:
@@ -4816,8 +4816,8 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 5:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
 
                 globalCtx->interfaceCtx.unk_260 = 1;
                 globalCtx->startPlayerFishing(globalCtx);
@@ -4833,8 +4833,8 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
 
         case 10:
             if (D_80B7A68C != 0) {
-                if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
-                    func_80106CCC(globalCtx);
+                if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+                    Message_CloseTextbox(globalCtx);
 
                     switch (globalCtx->msgCtx.choiceIndex) {
                         case 0:
@@ -4849,8 +4849,8 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                     }
                 }
             } else {
-                if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
-                    func_80106CCC(globalCtx);
+                if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+                    Message_CloseTextbox(globalCtx);
 
                     switch (globalCtx->msgCtx.choiceIndex) {
                         case 0:
@@ -4921,11 +4921,11 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 11:
-            if (((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) || (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0)) &&
+            if (((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) &&
                 Message_ShouldAdvance(globalCtx)) {
                 s32 getItemId;
 
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
 
                 if (D_80B7E07C == 0) {
                     D_80B7E078 = D_80B7A670;
@@ -4998,15 +4998,15 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 20:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
                 this->unk_15C = 0;
             }
             break;
 
         case 21:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
 
                 switch (globalCtx->msgCtx.choiceIndex) {
                     case 0:
@@ -5027,7 +5027,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
         case 22:
             if (globalCtx) {}
 
-            if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
                 this->unk_15C = 0;
                 if (D_80B7A68C != 0) {
                     D_80B7A688 = 1;
@@ -5049,7 +5049,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
 
         case 24:
             D_80B7A674 = false;
-            if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
                 if (D_80B7E07C == 0) {
                     this->unk_15C = 0;
                 } else {
@@ -5108,13 +5108,13 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((D_80B7A684 != 0) || (func_8010BDBC(&globalCtx->msgCtx) != TEXT_STATE_0)) {
+    if ((D_80B7A684 != 0) || (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {
         this->actor.flags &= ~1;
     } else {
         this->actor.flags |= 0x21;
     }
 
-    if ((this->actor.xzDistToPlayer < 120.0f) || (func_8010BDBC(&globalCtx->msgCtx) != TEXT_STATE_0)) {
+    if ((this->actor.xzDistToPlayer < 120.0f) || (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {
         headRotTarget = this->actor.shape.rot.y - this->actor.yawTowardsPlayer;
     } else {
         headRotTarget = 0;
@@ -5379,7 +5379,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             player->actor.world.pos.z = 1360.0f;
             player->actor.speedXZ = 0.0f;
 
-            if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
                 Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
                 camera->eye = sCameraEye;
@@ -5475,11 +5475,11 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             }
 
             if (D_80B7A6D0 == 0) {
-                if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) || (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0)) {
+                if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
                     if (Message_ShouldAdvance(globalCtx)) {
                         Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
-                        func_80106CCC(globalCtx);
+                        Message_CloseTextbox(globalCtx);
                         if (globalCtx->msgCtx.choiceIndex == 0) {
                             D_80B7E0B6 = 2;
                             D_80B7E082 = 0;
@@ -5591,7 +5591,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         D_80B7E077--;
     }
 
-    if ((D_80B7E077 == 1) && (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0) && ((D_80B7A680 & 0xFFF) == 0xFFF)) {
+    if ((D_80B7E077 == 1) && (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) && ((D_80B7A680 & 0xFFF) == 0xFFF)) {
         D_80B7E077 = 200;
 
         if (Rand_ZeroOne() < 0.5f) {

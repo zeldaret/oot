@@ -101,9 +101,9 @@ extern CutsceneData D_02005730[];
 extern CutsceneData D_02010E20[];
 
 s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
-    s16 textState = func_8010BDBC(&globalCtx->msgCtx);
+    s16 textState = Message_GetState(&globalCtx->msgCtx);
 
-    if (this->unk_209 == TEXT_STATE_10 || this->unk_209 == TEXT_STATE_5 || 
+    if (this->unk_209 == TEXT_STATE_10 || this->unk_209 == TEXT_STATE_EVENT || 
         this->unk_209 == TEXT_STATE_2 || this->unk_209 == TEXT_STATE_1) {
         if (textState != this->unk_209) {
             this->unk_208++;
@@ -125,7 +125,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         this->unk_208 = 0;
-        this->unk_209 = TEXT_STATE_0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 0x20) {
             return 0x1048;
         } else {
@@ -134,7 +134,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (gSaveContext.eventChkInf[0] & 4) {
         this->unk_208 = 0;
-        this->unk_209 = TEXT_STATE_0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 8) {
             return 0x1032;
         } else {
@@ -143,7 +143,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (gSaveContext.infTable[0] & 1) {
         this->unk_208 = 0;
-        this->unk_209 = TEXT_STATE_0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 2) {
             return 0x1003;
         } else {
@@ -178,11 +178,11 @@ s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case TEXT_STATE_0:
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_3:
-        case TEXT_STATE_4:
-        case TEXT_STATE_5:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
         case TEXT_STATE_7:
         case TEXT_STATE_8:
         case TEXT_STATE_9:

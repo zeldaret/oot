@@ -271,7 +271,7 @@ void EnPoRelay_EndRace(EnPoRelay* this, GlobalContext* globalCtx) {
 
 void EnPoRelay_Talk2(EnPoRelay* this, GlobalContext* globalCtx) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) {
         if (Message_ShouldAdvance(globalCtx)) {
             if (this->hookshotSlotFull != 0) {
                 Actor_SetTextWithPrefix(globalCtx, &this->actor, 0x2E);

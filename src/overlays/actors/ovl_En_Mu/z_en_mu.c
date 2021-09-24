@@ -109,13 +109,13 @@ u16 EnMu_GetFaceReaction(GlobalContext* globalCtx, Actor* thisx) {
 s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx) {
     EnMu* this = THIS;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_0:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_3:
-        case TEXT_STATE_4:
-        case TEXT_STATE_5:
-        case TEXT_STATE_6:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+        case TEXT_STATE_DONE:
         case TEXT_STATE_7:
         case TEXT_STATE_8:
         case TEXT_STATE_9:

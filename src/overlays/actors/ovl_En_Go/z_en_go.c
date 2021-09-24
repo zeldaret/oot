@@ -202,7 +202,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
     f32 yRange = fabsf(thisx->yDistToPlayer) + 1.0f;
 
     xzRange = thisx->xzDistToPlayer + 1.0f;
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
         if (globalCtx) {}
         case TEXT_STATE_2:
             switch (thisx->textId) {
@@ -256,7 +256,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case TEXT_STATE_4:
+        case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x300A:
@@ -301,7 +301,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case TEXT_STATE_5:
+        case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x3035:
@@ -318,12 +318,12 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(globalCtx)) {
                 unkState = 3;
             }
             break;
-        case TEXT_STATE_0:
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_3:
         case TEXT_STATE_7:
@@ -871,7 +871,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
             } else {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_GetItem);
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 EnGo_GetItem(this, globalCtx);
             }
         }
@@ -1010,7 +1010,7 @@ void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         EnGo_ChangeAnimation(this, 1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         EnGo_SetupAction(this, EnGo_GetItem);
         EnGo_GetItem(this, globalCtx);
     }

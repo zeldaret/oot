@@ -28,7 +28,7 @@ void GameOver_Update(GlobalContext* globalCtx) {
 
     switch (gameOverCtx->state) {
         case GAMEOVER_DEATH_START:
-            func_80106CCC(globalCtx);
+            Message_CloseTextbox(globalCtx);
 
             gSaveContext.timer1State = 0;
             gSaveContext.timer2State = 0;

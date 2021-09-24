@@ -9208,7 +9208,7 @@ static u8 sDiveDoActions[] = { DO_ACTION_1, DO_ACTION_2, DO_ACTION_3, DO_ACTION_
                                DO_ACTION_5, DO_ACTION_6, DO_ACTION_7, DO_ACTION_8 };
 
 void func_808473D4(GlobalContext* globalCtx, Player* this) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0) && (this->actor.category == ACTORCAT_PLAYER)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) && (this->actor.category == ACTORCAT_PLAYER)) {
         Actor* heldActor = this->heldActor;
         Actor* interactRangeActor = this->interactRangeActor;
         s32 sp24;
@@ -10679,7 +10679,7 @@ void func_8084B530(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= 0x20;
     func_80836670(this, globalCtx);
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
         this->actor.flags &= ~0x100;
 
         if ((this->targetActor->flags & 5) != 5) {
@@ -11795,7 +11795,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
             func_800F5C64(temp1);
         }
     } else {
-        if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+        if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
             if (this->getItemId == GI_GAUNTLETS_SILVER) {
                 globalCtx->nextEntranceIndex = 0x0123;
                 globalCtx->sceneLoadFlag = 0x14;
@@ -11863,7 +11863,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         if (this->stateFlags2 & 0x2800000) {
             this->stateFlags2 |= 0x1000000;
         } else {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
         }
         return;
     }
@@ -12116,7 +12116,7 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
                 Message_StartTextbox(globalCtx, D_80854A04[this->unk_84F - 1].textId, &this->actor);
                 func_800F5C64(0x922);
                 this->unk_850 = 1;
-            } else if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+            } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
                 this->unk_84F = 0;
                 func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
             }
@@ -12255,7 +12255,7 @@ void func_8084F104(Player* this, GlobalContext* globalCtx) {
                 }
 
                 this->unk_850 = 1;
-            } else if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+            } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
                 this->actor.flags &= ~0x100;
                 this->unk_862 = 0;
 
@@ -12737,7 +12737,7 @@ void func_8085063C(Player* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
         s32 respawnData = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
         if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -13437,11 +13437,11 @@ void func_80851828(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
     if (globalCtx->sceneNum == SCENE_BDAN_BOSS) {
         if (this->unk_850 == 0) {
-            if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
                 return;
             }
         } else {
-            if (func_8010BDBC(&globalCtx->msgCtx) != TEXT_STATE_0) {
+            if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE) {
                 return;
             }
         }

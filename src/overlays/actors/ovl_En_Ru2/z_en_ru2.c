@@ -665,7 +665,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad3;
 
     msgCtx = &globalCtx->msgCtx;
-    dialogState = func_8010BDBC(msgCtx);
+    dialogState = Message_GetState(msgCtx);
 
     if (dialogState == TEXT_STATE_3) {
         if (this->unk_2C3 != TEXT_STATE_3) {
@@ -685,7 +685,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     }
 
     this->unk_2C3 = dialogState;
-    if (func_8010BDBC(msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(msgCtx) == TEXT_STATE_2) {
         this->action = 18;
         func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
     }

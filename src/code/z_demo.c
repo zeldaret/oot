@@ -1460,12 +1460,12 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
 
         if (csCtx->frames >= cmd->endFrame) {
             originalCsFrames = csCtx->frames;
-            dialogState = func_8010BDBC(&globalCtx->msgCtx);
+            dialogState = Message_GetState(&globalCtx->msgCtx);
 
-            if ((dialogState != TEXT_STATE_2) && (dialogState != TEXT_STATE_0) && (dialogState != TEXT_STATE_7) && (dialogState != TEXT_STATE_8)) {
+            if ((dialogState != TEXT_STATE_2) && (dialogState != TEXT_STATE_NONE) && (dialogState != TEXT_STATE_7) && (dialogState != TEXT_STATE_8)) {
                 csCtx->frames--;
 
-                if ((dialogState == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+                if ((dialogState == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         if (cmd->textId1 != 0xFFFF) {
                             Message_ContinueTextbox(globalCtx, cmd->textId1);
@@ -1489,7 +1489,7 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                     }
                 }
 
-                if (dialogState == TEXT_STATE_5) {
+                if (dialogState == TEXT_STATE_EVENT) {
                     if (Message_ShouldAdvance(globalCtx)) {
                         func_8010BD58(globalCtx, cmd->base);
                     }

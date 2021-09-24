@@ -118,9 +118,9 @@ void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
 void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
     u8 dialogState;
 
-    dialogState = func_8010BDBC(&globalCtx->msgCtx);
-    if (dialogState != TEXT_STATE_4) {
-        if ((dialogState == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) { // advanced final textbox
+    dialogState = Message_GetState(&globalCtx->msgCtx);
+    if (dialogState != TEXT_STATE_CHOICE) {
+        if ((dialogState == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) { // advanced final textbox
             this->actionFunc = EnMs_Wait;
         }
     } else if (Message_ShouldAdvance(globalCtx)) {
@@ -153,7 +153,7 @@ void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
 
 void EnMs_TalkAfterPurchase(EnMs* this, GlobalContext* globalCtx) {
     // if dialog state is 6 and player responded to textbox
-    if ((func_8010BDBC(&globalCtx->msgCtx)) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx)) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
         Message_ContinueTextbox(globalCtx, 0x406C);
         this->actionFunc = EnMs_Talk;
     }

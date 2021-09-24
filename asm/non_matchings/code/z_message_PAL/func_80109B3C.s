@@ -275,8 +275,8 @@ glabel Message_Decode
 .L80109DDC:
 /* B80F7C 80109DDC 26E17FFF */  addiu $at, $s7, 0x7fff
 /* B80F80 80109DE0 A43663D5 */  sh    $s6, 0x63d5($at)
-/* B80F84 80109DE4 3C0B8015 */  lui   $t3, %hi(D_8014B300) # $t3, 0x8015
-/* B80F88 80109DE8 916BB300 */  lbu   $t3, %lo(D_8014B300)($t3)
+/* B80F84 80109DE4 3C0B8015 */  lui   $t3, %hi(sTextboxSkipped) # $t3, 0x8015
+/* B80F88 80109DE8 916BB300 */  lbu   $t3, %lo(sTextboxSkipped)($t3)
 /* B80F8C 80109DEC 8FAD0054 */  lw    $t5, 0x54($sp)
 /* B80F90 80109DF0 516004A8 */  beql  $t3, $zero, .L8010B094
 /* B80F94 80109DF4 8FBF0044 */   lw    $ra, 0x44($sp)

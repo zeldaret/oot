@@ -202,7 +202,7 @@ void func_80AAF330(EnMm2* this, GlobalContext* globalCtx) {
         EnMm2_ChangeAnimation(this, 0, &this->previousAnimation);
         this->mouthTexIndex = RM2_MOUTH_OPEN;
         if (!(this->unk_1F4 & 2)) {
-            func_80106CCC(globalCtx);
+            Message_CloseTextbox(globalCtx);
         }
         gSaveContext.timer2State = 0;
         gSaveContext.eventInf[1] &= ~1;
@@ -215,7 +215,7 @@ void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
     switch (this->actor.textId) {
         case 0x607D:
         case 0x607E:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 switch (globalCtx->msgCtx.choiceIndex) {
                     case 0:
                         Message_ContinueTextbox(globalCtx, 0x607F);
@@ -235,7 +235,7 @@ void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
             }
             return;
         case 0x6081:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 this->unk_1F4 |= 4;
                 HIGH_SCORE(HS_MARATHON) -= 1;
                 Message_ContinueTextbox(globalCtx, 0x607E);
@@ -266,7 +266,7 @@ void func_80AAF57C(EnMm2* this, GlobalContext* globalCtx) {
 
 void func_80AAF5EC(EnMm2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->unk_1F4 &= ~1;
         EnMm2_ChangeAnimation(this, 3, &this->previousAnimation);
         this->actionFunc = func_80AAF330;

@@ -162,8 +162,8 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
     s32 pad2;
     s32 talkState = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_4:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     this->actor.textId = 0x2026;
@@ -176,7 +176,7 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x2026) {
                     Player_UnsetMask(globalCtx);
@@ -190,11 +190,11 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case TEXT_STATE_0:
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_2:
         case TEXT_STATE_3:
-        case TEXT_STATE_5:
+        case TEXT_STATE_EVENT:
             break;
     }
 
@@ -245,7 +245,7 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
 
         this->talkState = 1;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp2A, &sp28);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp2A, &sp28);
 
         if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) &&
             (func_8002F2CC(&this->actor, globalCtx, 100.0f))) {

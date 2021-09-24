@@ -127,7 +127,7 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
 void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (func_8010BDBC(&globalCtx->msgCtx) != TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_2) {
         player->actor.freezeTimer = 10;
     } else {
         SET_GS_FLAGS((this->actor.params & 0x1F00) >> 8, this->actor.params & 0xFF);

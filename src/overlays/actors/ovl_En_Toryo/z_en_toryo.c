@@ -152,18 +152,18 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_0:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_2:
         case TEXT_STATE_3:
-        case TEXT_STATE_5:
+        case TEXT_STATE_EVENT:
             ret = 1;
             break;
-        case TEXT_STATE_4:
+        case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
-                    func_80106CCC(globalCtx);
+                    Message_CloseTextbox(globalCtx);
                     this->actor.parent = NULL;
                     player->exchangeItemId = EXCH_ITEM_NONE;
                     globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
@@ -175,7 +175,7 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
             switch (this->actor.textId) {
                 case 0x5028:
                     ret = 1;
@@ -225,16 +225,16 @@ s32 func_80B205CC(EnToryo* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 ret = 5;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_0:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_2:
         case TEXT_STATE_3:
-        case TEXT_STATE_4:
-        case TEXT_STATE_5:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
             ret = 5;
             break;
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(globalCtx)) {
                 ret = 0;
             }
@@ -337,7 +337,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
             return;
         }
 
-        func_8002F374(globalCtx, &this->actor, &sp32, &sp30);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp32, &sp30);
         if ((sp32 >= 0) && (sp32 < 0x141) && (sp30 >= 0) && (sp30 < 0xF1)) {
             this->actor.textId = func_80B206A0(this, globalCtx);
             func_8002F298(&this->actor, globalCtx, 100.0f, 10);

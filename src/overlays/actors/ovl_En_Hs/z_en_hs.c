@@ -127,7 +127,7 @@ void func_80A6E5EC(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E630(EnHs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         func_80088AA0(180);
         func_80A6E3A0(this, func_80A6E6B0);
         gSaveContext.eventInf[1] &= ~1;
@@ -164,7 +164,7 @@ void func_80A6E740(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 func_80A6E3A0(this, func_80A6E740);
@@ -186,7 +186,7 @@ void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
 void func_80A6E8CC(EnHs* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         Message_ContinueTextbox(globalCtx, 0x10B3);
         func_80A6E3A0(this, func_80A6E7BC);
         Animation_Change(&this->skelAnime, &object_hs_Anim_000528, 1.0f, 0.0f,

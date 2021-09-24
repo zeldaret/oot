@@ -640,7 +640,7 @@ void EnOssan_UpdateCursorPos(GlobalContext* globalCtx, EnOssan* this) {
     s16 x;
     s16 y;
 
-    func_8002F374(globalCtx, &this->shelfSlots[this->cursorIndex]->actor, &x, &y);
+    Actor_GetScreenPos(globalCtx, &this->shelfSlots[this->cursorIndex]->actor, &x, &y);
     this->cursorX = x;
     this->cursorY = y;
 }
@@ -886,9 +886,9 @@ void EnOssan_TryPaybackMask(EnOssan* this, GlobalContext* globalCtx) {
 }
 
 void EnOssan_State_StartConversation(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    u8 dialogState = func_8010BDBC(&globalCtx->msgCtx);
+    u8 dialogState = Message_GetState(&globalCtx->msgCtx);
 
-    if (this->actor.params == OSSAN_TYPE_MASK && dialogState == TEXT_STATE_4) {
+    if (this->actor.params == OSSAN_TYPE_MASK && dialogState == TEXT_STATE_CHOICE) {
         if (!EnOssan_TestEndInteraction(this, globalCtx, &globalCtx->state.input[0]) &&
             Message_ShouldAdvance(globalCtx)) {
             switch (globalCtx->msgCtx.choiceIndex) {
@@ -900,7 +900,7 @@ void EnOssan_State_StartConversation(EnOssan* this, GlobalContext* globalCtx, Pl
                     break;
             }
         }
-    } else if (dialogState == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+    } else if (dialogState == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         func_80078884(NA_SE_SY_MESSAGE_PASS);
 
         switch (this->happyMaskShopState) {
@@ -950,7 +950,7 @@ s32 EnOssan_FacingShopkeeperDialogResult(EnOssan* this, GlobalContext* globalCtx
 void EnOssan_State_FacingShopkeeper(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     u8 nextIndex;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) &&
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) &&
         !EnOssan_TestEndInteraction(this, globalCtx, &globalCtx->state.input[0])) {
         if (Message_ShouldAdvance(globalCtx) && EnOssan_FacingShopkeeperDialogResult(this, globalCtx)) {
             func_80078884(NA_SE_SY_DECIDE);
@@ -980,7 +980,7 @@ void EnOssan_State_FacingShopkeeper(EnOssan* this, GlobalContext* globalCtx, Pla
 }
 
 void EnOssan_State_TalkingToShopkeeper(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         EnOssan_StartShopping(globalCtx, this);
     }
 }
@@ -1190,7 +1190,7 @@ void EnOssan_State_BrowseLeftShelf(EnOssan* this, GlobalContext* globalCtx, Play
     this->drawCursor = 0xFF;
     this->stickRightPrompt.isEnabled = true;
     EnOssan_UpdateCursorPos(globalCtx, this);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) &&
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) &&
         !EnOssan_HasPlayerSelectedItem(globalCtx, this, &globalCtx->state.input[0])) {
         if (this->moveHorizontal) {
             if (this->stickAccumX > 0) {
@@ -1249,7 +1249,7 @@ void EnOssan_State_BrowseRightShelf(EnOssan* this, GlobalContext* globalCtx, Pla
     this->drawCursor = 0xFF;
     this->stickLeftPrompt.isEnabled = true;
     EnOssan_UpdateCursorPos(globalCtx, this);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) &&
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) &&
         !EnOssan_HasPlayerSelectedItem(globalCtx, this, &globalCtx->state.input[0])) {
         if (this->moveHorizontal) {
             if (this->stickAccumX < 0) {
@@ -1485,7 +1485,7 @@ void EnOssan_State_ItemSelected(EnOssan* this, GlobalContext* globalCtx2, Player
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2654);
         return;
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 &&
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE &&
         !EnOssan_TestCancelOption(this, globalCtx, &globalCtx->state.input[0]) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
@@ -1506,7 +1506,7 @@ void EnOssan_State_SelectMilkBottle(EnOssan* this, GlobalContext* globalCtx2, Pl
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2693);
         return;
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 &&
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE &&
         !EnOssan_TestCancelOption(this, globalCtx, &globalCtx->state.input[0]) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
@@ -1527,7 +1527,7 @@ void EnOssan_State_SelectWeirdEgg(EnOssan* this, GlobalContext* globalCtx2, Play
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2732);
         return;
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 &&
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE &&
         !EnOssan_TestCancelOption(this, globalCtx, &globalCtx->state.input[0]) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
@@ -1546,7 +1546,7 @@ void EnOssan_State_SelectUnimplementedItem(EnOssan* this, GlobalContext* globalC
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2771);
         return;
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         this->stateFlag = this->tempStateFlag;
         Message_ContinueTextbox(globalCtx, this->shelfSlots[this->cursorIndex]->actor.textId);
     }
@@ -1562,7 +1562,7 @@ void EnOssan_State_SelectBombs(EnOssan* this, GlobalContext* globalCtx, Player* 
         EnOssan_State_ItemSelected(this, globalCtx, player);
         return;
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 &&
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE &&
         !EnOssan_TestCancelOption(this, globalCtx, &globalCtx->state.input[0]) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
@@ -1577,19 +1577,19 @@ void EnOssan_State_SelectBombs(EnOssan* this, GlobalContext* globalCtx, Player* 
 }
 
 void EnOssan_State_SelectMaskItem(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    u8 talkState = func_8010BDBC(&globalCtx->msgCtx);
+    u8 talkState = Message_GetState(&globalCtx->msgCtx);
     EnGirlA* item = this->shelfSlots[this->cursorIndex];
 
     if (!EnOssan_TakeItemOffShelf(this)) {
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2845);
         return;
     }
-    if (talkState == TEXT_STATE_5) {
+    if (talkState == TEXT_STATE_EVENT) {
         if (Message_ShouldAdvance(globalCtx)) {
             this->stateFlag = this->tempStateFlag;
             Message_ContinueTextbox(globalCtx, this->shelfSlots[this->cursorIndex]->actor.textId);
         }
-    } else if (talkState == TEXT_STATE_4 && !EnOssan_TestCancelOption(this, globalCtx, &globalCtx->state.input[0]) &&
+    } else if (talkState == TEXT_STATE_CHOICE && !EnOssan_TestCancelOption(this, globalCtx, &globalCtx->state.input[0]) &&
                Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
@@ -1626,7 +1626,7 @@ void EnOssan_State_SelectMaskItem(EnOssan* this, GlobalContext* globalCtx, Playe
 }
 
 void EnOssan_State_CantGetItem(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         this->stateFlag = this->tempStateFlag;
         Message_ContinueTextbox(globalCtx, this->shelfSlots[this->cursorIndex]->actor.textId);
     }
@@ -1635,7 +1635,7 @@ void EnOssan_State_CantGetItem(EnOssan* this, GlobalContext* globalCtx, Player* 
 void EnOssan_State_QuickBuyDialog(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     EnGirlA* item;
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         this->shopItemSelectedTween = 0.0f;
         EnOssan_ResetItemPosition(this);
         item = this->shelfSlots[this->cursorIndex];
@@ -1659,7 +1659,7 @@ void EnOssan_State_ItemPurchased(EnOssan* this, GlobalContext* globalCtx, Player
     EnGirlA* item;
     EnGirlA* itemTemp;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         if (this->actor.params == OSSAN_TYPE_MASK) {
             itemTemp = this->shelfSlots[this->cursorIndex];
             EnOssan_ResetItemPosition(this);
@@ -1686,9 +1686,9 @@ void EnOssan_State_ItemPurchased(EnOssan* this, GlobalContext* globalCtx, Player
 
 void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     EnGirlA* selectedItem;
-    u8 talkState = func_8010BDBC(&globalCtx->msgCtx);
+    u8 talkState = Message_GetState(&globalCtx->msgCtx);
 
-    if (talkState == TEXT_STATE_4) {
+    if (talkState == TEXT_STATE_CHOICE) {
         if (Message_ShouldAdvance(globalCtx)) {
             EnOssan_ResetItemPosition(this);
             selectedItem = this->shelfSlots[this->cursorIndex];
@@ -1712,7 +1712,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCt
                 }
             }
         }
-    } else if (talkState == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+    } else if (talkState == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         EnOssan_ResetItemPosition(this);
         selectedItem = this->shelfSlots[this->cursorIndex];
         selectedItem->updateStockedItemFunc(globalCtx, selectedItem);
@@ -1726,7 +1726,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCt
 }
 
 void EnOssan_State_WaitForDisplayOnlyBombDialog(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         gSaveContext.infTable[15] |= 0x1000;
         EnOssan_StartShopping(globalCtx, this);
     }
@@ -1734,7 +1734,7 @@ void EnOssan_State_WaitForDisplayOnlyBombDialog(EnOssan* this, GlobalContext* gl
 
 // Unreachable
 void EnOssan_State_21(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_1 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_1 && Message_ShouldAdvance(globalCtx)) {
         this->stateFlag = OSSAN_STATE_22;
         Message_ContinueTextbox(globalCtx, 0x3012);
         gSaveContext.infTable[15] |= 0x1000;
@@ -1743,20 +1743,20 @@ void EnOssan_State_21(EnOssan* this, GlobalContext* globalCtx, Player* player) {
 
 // Unreachable
 void EnOssan_State_22(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         EnOssan_StartShopping(globalCtx, this);
     }
 }
 
 void EnOssan_State_GiveLonLonMilk(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         EnOssan_GiveItemWithFanfare(globalCtx, this);
     }
 }
 
 // For giving Mask of Truth when you first sell all masks
 void EnOssan_State_LendMaskOfTruth(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         gSaveContext.itemGetInf[2] |= 0x400;
         this->cursorIndex = 2;
         EnOssan_GiveItemWithFanfare(globalCtx, this);
@@ -1772,7 +1772,7 @@ void EnOssan_SetStateGiveDiscountDialog(GlobalContext* globalCtx, EnOssan* this)
 void EnOssan_State_GiveDiscountDialog(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     EnGirlA* selectedItem;
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
         selectedItem = this->shelfSlots[this->cursorIndex];
         EnOssan_GiveItemWithFanfare(globalCtx, this);
         this->drawCursor = 0;

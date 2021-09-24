@@ -186,14 +186,14 @@ void func_80A91284(EnKakasi3* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     this->actor.textId = 0x40A1;
-    this->dialogState = TEXT_STATE_6;
+    this->dialogState = TEXT_STATE_DONE;
     this->unk_19A = 0;
 
     if (!LINK_IS_ADULT) {
         this->unk_194 = false;
         if (gSaveContext.scarecrowSpawnSongSet) {
             this->actor.textId = 0x40A0;
-            this->dialogState = TEXT_STATE_5;
+            this->dialogState = TEXT_STATE_EVENT;
             this->unk_1A8 = 1;
         }
     } else {
@@ -237,7 +237,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                     if (player->stateFlags2 & 0x1000000) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
                         globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
-                        this->dialogState = TEXT_STATE_5;
+                        this->dialogState = TEXT_STATE_EVENT;
                         this->unk_1B8 = 0.0f;
                         Message_StartTextbox(globalCtx, 0x40A4, NULL);
                         player->stateFlags2 |= 0x800000;
@@ -252,7 +252,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                     if (player->stateFlags2 & 0x1000000) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
                         globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
-                        this->dialogState = TEXT_STATE_5;
+                        this->dialogState = TEXT_STATE_EVENT;
                         this->unk_1B8 = 0.0f;
                         Message_StartTextbox(globalCtx, 0x40A8, NULL);
                         player->stateFlags2 |= 0x800000;
@@ -270,8 +270,8 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 }
 
 void func_80A915B8(EnKakasi3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         func_8010BD58(globalCtx, 0x2C);
         this->actionFunc = func_80A91620;
     }
@@ -295,7 +295,7 @@ void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
-        this->dialogState = TEXT_STATE_5;
+        this->dialogState = TEXT_STATE_EVENT;
         Message_StartTextbox(globalCtx, 0x40A5, NULL);
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_80A91A90;
@@ -312,7 +312,7 @@ void func_80A91760(EnKakasi3* this, GlobalContext* globalCtx) {
 
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
-    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
+    if (this->dialogState == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         func_8010BD58(globalCtx, 0x2D);
         this->actionFunc = func_80A917FC;
@@ -326,15 +326,15 @@ void func_80A917FC(EnKakasi3* this, GlobalContext* globalCtx) {
         func_80A90EBC(this, globalCtx, 1);
     } else {
         globalCtx->msgCtx.unk_E3EE = 4;
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         OnePointCutscene_EndCutscene(globalCtx, this->camId);
         this->actionFunc = func_80A911F0;
     }
 }
 
 void func_80A9187C(EnKakasi3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5 && Message_ShouldAdvance(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         func_8010BD58(globalCtx, 0x28);
         this->actionFunc = func_80A918E4;
     }
@@ -351,7 +351,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
 
         Message_StartTextbox(globalCtx, 0x40A6, NULL);
-        this->dialogState = TEXT_STATE_5;
+        this->dialogState = TEXT_STATE_EVENT;
         OnePointCutscene_EndCutscene(globalCtx, this->camId);
         this->camId = SUBCAM_NONE;
         func_8002DF54(globalCtx, NULL, 8);
@@ -369,7 +369,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
         }
         this->unk_195 = true;
         Message_StartTextbox(globalCtx, 0x40A7, NULL);
-        this->dialogState = TEXT_STATE_5;
+        this->dialogState = TEXT_STATE_EVENT;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_80A91A90;
         return;
@@ -386,7 +386,7 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     func_8002DF54(globalCtx, NULL, 8);
 
-    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
+    if (this->dialogState == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         if (this->unk_195) {
             if (!(gSaveContext.eventChkInf[9] & 0x1000)) {
                 gSaveContext.eventChkInf[9] |= 0x1000;
@@ -398,7 +398,7 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
         if (this->camId != SUBCAM_NONE) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
         }
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         globalCtx->msgCtx.unk_E3EE = 4;
         func_8002DF54(globalCtx, NULL, 7);
         this->actionFunc = func_80A911F0;

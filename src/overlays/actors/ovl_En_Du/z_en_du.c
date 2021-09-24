@@ -103,8 +103,8 @@ u16 func_809FDC38(GlobalContext* globalCtx, Actor* actor) {
 }
 
 s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_0:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
             break;
         case TEXT_STATE_2:
@@ -121,10 +121,10 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
             }
             return 0;
         case TEXT_STATE_3:
-        case TEXT_STATE_4:
-        case TEXT_STATE_5:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
             break;
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(globalCtx)) {
                 return 3;
             }

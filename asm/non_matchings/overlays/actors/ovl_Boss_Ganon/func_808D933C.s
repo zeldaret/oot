@@ -373,7 +373,7 @@ glabel L808D9654
 /* 02EA0 808D9710 2D810065 */  sltiu   $at, $t4, 0x0065
 /* 02EA4 808D9714 54200015 */  bnel    $at, $zero, .L808D976C
 /* 02EA8 808D9718 3C014180 */  lui     $at, 0x4180                ## $at = 41800000
-/* 02EAC 808D971C 0C042F6F */  jal     func_8010BDBC
+/* 02EAC 808D971C 0C042F6F */  jal     Message_GetState
 /* 02EB0 808D9720 248420D8 */  addiu   $a0, $a0, 0x20D8           ## $a0 = 000020D8
 /* 02EB4 808D9724 14400010 */  bne     $v0, $zero, .L808D9768
 /* 02EB8 808D9728 8FA40054 */  lw      $a0, 0x0054($sp)
@@ -514,7 +514,7 @@ glabel L808D9900
 /* 0309C 808D990C 2F210047 */  sltiu   $at, $t9, 0x0047
 /* 030A0 808D9910 1420004E */  bne     $at, $zero, .L808D9A4C
 /* 030A4 808D9914 8FA400B4 */  lw      $a0, 0x00B4($sp)
-/* 030A8 808D9918 0C042F6F */  jal     func_8010BDBC
+/* 030A8 808D9918 0C042F6F */  jal     Message_GetState
 /* 030AC 808D991C 248420D8 */  addiu   $a0, $a0, 0x20D8           ## $a0 = 000020D8
 /* 030B0 808D9920 1440004A */  bne     $v0, $zero, .L808D9A4C
 /* 030B4 808D9924 24090006 */  addiu   $t1, $zero, 0x0006         ## $t1 = 00000006
@@ -1338,7 +1338,7 @@ glabel L808DA450
 /* 03C78 808DA4E8 2C610065 */  sltiu   $at, $v1, 0x0065
 /* 03C7C 808DA4EC 14200007 */  bne     $at, $zero, .L808DA50C
 /* 03C80 808DA4F0 8FA400B4 */  lw      $a0, 0x00B4($sp)
-/* 03C84 808DA4F4 0C042F6F */  jal     func_8010BDBC
+/* 03C84 808DA4F4 0C042F6F */  jal     Message_GetState
 /* 03C88 808DA4F8 248420D8 */  addiu   $a0, $a0, 0x20D8           ## $a0 = 000020D8
 /* 03C8C 808DA4FC 14400003 */  bne     $v0, $zero, .L808DA50C
 /* 03C90 808DA500 240B041F */  addiu   $t3, $zero, 0x041F         ## $t3 = 0000041F
@@ -1586,7 +1586,7 @@ glabel L808DA77C
 /* 0400C 808DA87C 2C610097 */  sltiu   $at, $v1, 0x0097
 /* 04010 808DA880 1420000F */  bne     $at, $zero, .L808DA8C0
 /* 04014 808DA884 8FA400B4 */  lw      $a0, 0x00B4($sp)
-/* 04018 808DA888 0C042F6F */  jal     func_8010BDBC
+/* 04018 808DA888 0C042F6F */  jal     Message_GetState
 /* 0401C 808DA88C 248420D8 */  addiu   $a0, $a0, 0x20D8           ## $a0 = 000020D8
 /* 04020 808DA890 1440000B */  bne     $v0, $zero, .L808DA8C0
 /* 04024 808DA894 2418006B */  addiu   $t8, $zero, 0x006B         ## $t8 = 0000006B
@@ -1666,7 +1666,7 @@ glabel L808DA8C8
 /* 04140 808DA9B0 1420000D */  bne     $at, $zero, .L808DA9E8
 /* 04144 808DA9B4 E6060694 */  swc1    $f6, 0x0694($s0)           ## 00000694
 /* 04148 808DA9B8 8FA400B4 */  lw      $a0, 0x00B4($sp)
-/* 0414C 808DA9BC 0C042F6F */  jal     func_8010BDBC
+/* 0414C 808DA9BC 0C042F6F */  jal     Message_GetState
 /* 04150 808DA9C0 248420D8 */  addiu   $a0, $a0, 0x20D8           ## $a0 = 000020D8
 /* 04154 808DA9C4 3C088090 */  lui     $t0, %hi(D_808F93D4)       ## $t0 = 80900000
 /* 04158 808DA9C8 14400007 */  bne     $v0, $zero, .L808DA9E8

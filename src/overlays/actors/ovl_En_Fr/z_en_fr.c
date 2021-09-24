@@ -755,8 +755,8 @@ void EnFr_ChildSongFirstTime(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_TalkBeforeFrogSong(EnFr* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->frogSongTimer = 2;
         this->actionFunc = EnFr_SetupFrogSong;
     }
@@ -846,7 +846,7 @@ s32 EnFr_IsFrogSongComplete(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_OcarinaMistake(EnFr* this, GlobalContext* globalCtx) {
-    func_80106CCC(globalCtx);
+    Message_CloseTextbox(globalCtx);
     this->reward = GI_NONE;
     func_80078884(NA_SE_SY_OCARINA_ERROR);
     func_800ED858(0);
@@ -925,9 +925,9 @@ void EnFr_PrintTextBox(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_TalkBeforeReward(EnFr* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->frogSongTimer = 100;
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = EnFr_SetReward;
     }
 }
@@ -1020,7 +1020,7 @@ void EnFr_GiveReward(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = EnFr_Idle;
     }
 }

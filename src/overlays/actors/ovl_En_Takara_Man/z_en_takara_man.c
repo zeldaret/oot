@@ -78,7 +78,7 @@ void func_80B176E0(EnTakaraMan* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &object_ts_Anim_000498, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     if (!this->unk_214) {
         this->actor.textId = 0x6D;
-        this->dialogState = TEXT_STATE_4;
+        this->dialogState = TEXT_STATE_CHOICE;
     }
     this->actionFunc = func_80B1778C;
 }
@@ -88,7 +88,7 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Actor_IsTalking(&this->actor, globalCtx) && this->dialogState != TEXT_STATE_6) {
+    if (Actor_IsTalking(&this->actor, globalCtx) && this->dialogState != TEXT_STATE_DONE) {
         if (!this->unk_214) {
             this->actionFunc = func_80B17934;
         } else {
@@ -99,16 +99,16 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
         if (globalCtx->roomCtx.curRoom.num == 6 && !this->unk_21A) {
             this->actor.textId = 0x6E;
             this->unk_21A = 1;
-            this->dialogState = TEXT_STATE_6;
+            this->dialogState = TEXT_STATE_DONE;
         }
 
         if (!this->unk_21A && this->unk_214) {
             if (Flags_GetSwitch(globalCtx, 0x32)) {
                 this->actor.textId = 0x84;
-                this->dialogState = TEXT_STATE_5;
+                this->dialogState = TEXT_STATE_EVENT;
             } else {
                 this->actor.textId = 0x704C;
-                this->dialogState = TEXT_STATE_6;
+                this->dialogState = TEXT_STATE_DONE;
             }
         }
 
@@ -129,29 +129,29 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
 }
 
 void func_80B17934(EnTakaraMan* this, GlobalContext* globalCtx) {
-    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
+    if (this->dialogState == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // Yes
                 if (gSaveContext.rupees >= 10) {
-                    func_80106CCC(globalCtx);
+                    Message_CloseTextbox(globalCtx);
                     Rupees_ChangeBy(-10);
                     this->unk_214 = 1;
                     this->actor.parent = NULL;
                     func_8002F434(&this->actor, globalCtx, GI_DOOR_KEY, 2000.0f, 1000.0f);
                     this->actionFunc = func_80B17A6C;
                 } else {
-                    func_80106CCC(globalCtx);
+                    Message_CloseTextbox(globalCtx);
                     this->actor.textId = 0x85;
                     Message_ContinueTextbox(globalCtx, this->actor.textId);
-                    this->dialogState = TEXT_STATE_5;
+                    this->dialogState = TEXT_STATE_EVENT;
                     this->actionFunc = func_80B17B14;
                 }
                 break;
             case 1: // No
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 this->actor.textId = 0x2D;
                 Message_ContinueTextbox(globalCtx, this->actor.textId);
-                this->dialogState = TEXT_STATE_5;
+                this->dialogState = TEXT_STATE_EVENT;
                 this->actionFunc = func_80B17B14;
                 break;
         }
@@ -167,14 +167,14 @@ void func_80B17A6C(EnTakaraMan* this, GlobalContext* globalCtx) {
 }
 
 void func_80B17AC4(EnTakaraMan* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = func_80B176E0;
     }
 }
 
 void func_80B17B14(EnTakaraMan* this, GlobalContext* globalCtx) {
-    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if (this->dialogState == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = func_80B176E0;
     }
 }

@@ -403,11 +403,11 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
     s16 beggarItems[] = { ITEM_BLUE_FIRE, ITEM_FISH, ITEM_BUG, ITEM_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_0:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
-        case TEXT_STATE_4:
-        case TEXT_STATE_6:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_DONE:
         case TEXT_STATE_7:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
@@ -509,7 +509,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             return 0;
-        case TEXT_STATE_5:
+        case TEXT_STATE_EVENT:
             if (!Message_ShouldAdvance(globalCtx)) {
                 return 1;
             } else {
@@ -897,7 +897,7 @@ void func_80A714C4(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void func_80A71530(EnHy* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         switch (this->unk_260) {
             case GI_HEART_PIECE:
                 gSaveContext.dogParams = 0;

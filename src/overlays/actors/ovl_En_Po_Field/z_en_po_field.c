@@ -697,7 +697,7 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
     } else {
         func_8002F974(&this->actor, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) {
         if (Message_ShouldAdvance(globalCtx)) {
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
             if (globalCtx->msgCtx.choiceIndex == 0) {

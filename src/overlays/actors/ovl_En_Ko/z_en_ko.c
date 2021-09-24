@@ -461,7 +461,7 @@ u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
     EnKo* this = THIS;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_2:
             switch (this->actor.textId) {
                 case 0x1005:
@@ -512,7 +512,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                     }
             }
             return 1;
-        case TEXT_STATE_4:
+        case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x1035:
@@ -539,7 +539,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                 return 1;
             }
             break;
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(globalCtx)) {
                 return 3;
             }

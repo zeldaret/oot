@@ -185,7 +185,7 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3DBF4(EnGm* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = func_80A3DB04;
     }
 }
@@ -225,11 +225,11 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3DD7C(EnGm* this, GlobalContext* globalCtx) {
-    u8 dialogState = func_8010BDBC(&globalCtx->msgCtx);
+    u8 dialogState = Message_GetState(&globalCtx->msgCtx);
 
-    if ((dialogState == TEXT_STATE_6 || dialogState == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((dialogState == TEXT_STATE_DONE || dialogState == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = func_80A3DC44;
-        if (dialogState == TEXT_STATE_5) {
+        if (dialogState == TEXT_STATE_EVENT) {
             globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
             globalCtx->msgCtx.stateTimer = 4;
         }
@@ -237,7 +237,7 @@ void func_80A3DD7C(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < 200) {
@@ -266,7 +266,7 @@ void func_80A3DF00(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3DF60(EnGm* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         Rupees_ChangeBy(-200);
         this->actionFunc = func_80A3DC44;
     }

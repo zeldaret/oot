@@ -120,8 +120,8 @@ void EnGs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 func_80A4E3EC(EnGs* this, GlobalContext* globalCtx) {
     s32 ret = 2;
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_6:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x2054:
@@ -147,7 +147,7 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
         if (this->unk_19D == 0) {
             player->stateFlags2 |= 0x800000;
             if (player->stateFlags2 & 0x1000000) {
-                func_8010BD58(globalCtx, 1);
+                func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
                 this->unk_19D |= 1;
             }
 
@@ -185,7 +185,7 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
     } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->unk_19C = 2;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);
         if ((sp26 >= 0) && (sp26 <= SCREEN_WIDTH) && (sp24 >= 0) && (sp24 <= SCREEN_HEIGHT) && (this->unk_19C != 3)) {
             if (func_8002F2CC(&this->actor, globalCtx, 40.0f) == 1) {
                 if (Player_GetMask(globalCtx) == PLAYER_MASK_TRUTH) {

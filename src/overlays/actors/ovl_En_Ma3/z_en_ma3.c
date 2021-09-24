@@ -106,8 +106,8 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_5:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx)) {
                 globalCtx->nextEntranceIndex = 0x157;
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
@@ -117,7 +117,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 gSaveContext.timer1State = 0xF;
             }
             break;
-        case TEXT_STATE_4:
+        case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx)) {
                 gSaveContext.infTable[11] |= 0x200;
                 if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -161,10 +161,10 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                     ret = 0;
             }
             break;
-        case TEXT_STATE_0:
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_3:
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
         case TEXT_STATE_7:
         case TEXT_STATE_8:
         case TEXT_STATE_9:

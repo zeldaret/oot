@@ -138,7 +138,7 @@ void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = func_80A50518;
     }
 }

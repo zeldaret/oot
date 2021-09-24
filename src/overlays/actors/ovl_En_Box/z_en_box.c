@@ -303,11 +303,11 @@ void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
         }
 
         if (this->unk_1FB == ENBOX_STATE_1) {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->unk_1FB = ENBOX_STATE_2;
         } else if (this->unk_1FB == ENBOX_STATE_2 && globalCtx->msgCtx.unk_E3EE == 4) {
-            if ((globalCtx->msgCtx.unk_E3EC == 8 && this->type == ENBOX_TYPE_9) ||
-                (globalCtx->msgCtx.unk_E3EC == 9 && this->type == ENBOX_TYPE_10)) {
+            if ((globalCtx->msgCtx.unk_E3EC == OCARINA_SONG_LULLABY && this->type == ENBOX_TYPE_9) ||
+                (globalCtx->msgCtx.unk_E3EC == OCARINA_SONG_SUNS && this->type == ENBOX_TYPE_10)) {
                 this->dyna.actor.flags &= ~0x2000000;
                 EnBox_SetupAction(this, EnBox_AppearInit);
                 OnePointCutscene_Attention(globalCtx, &this->dyna.actor);

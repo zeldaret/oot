@@ -114,7 +114,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     // Find the X and Z distance between the girl and the cuckoo she is chasing
     xDistBetween = this->chasedEnNiw->actor.world.pos.x - this->actor.world.pos.x;
     zDistBetween = this->chasedEnNiw->actor.world.pos.z - this->actor.world.pos.z;
-    if (func_8010BDBC(&globalCtx->msgCtx) != TEXT_STATE_0) {
+    if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE) {
         this->chasedEnNiw->path = 0;
     }
     if (sqrtf(SQ(xDistBetween) + SQ(zDistBetween)) < 70.0f) {
@@ -169,7 +169,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
 
 void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (func_8010BDBC(&globalCtx->msgCtx) != TEXT_STATE_0) {
+    if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE) {
         this->chasedEnNiw->path = 0;
     }
     Math_ApproachZeroF(&this->actor.speedXZ, 0.8f, 0.2f);
@@ -178,7 +178,7 @@ void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
             this->unk_27A = 1;
         }
     } else {
-        if ((this->jumpTimer == 0) && func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_0) {
+        if ((this->jumpTimer == 0) && Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
             this->jumpTimer = Rand_ZeroFloat(100.0f) + 250.0f;
             this->actionFunc = EnNiwGirl_Jump;
         } else {

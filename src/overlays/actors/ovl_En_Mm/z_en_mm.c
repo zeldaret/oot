@@ -224,13 +224,13 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 sp1C = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_0:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_2:
         case TEXT_STATE_3:
             break;
-        case TEXT_STATE_4:
+        case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     player->actor.textId = 0x202D;
@@ -243,7 +243,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                 sp1C = 2;
             }
             break;
-        case TEXT_STATE_5:
+        case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx)) {
                 Player_UnsetMask(globalCtx);
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
@@ -253,7 +253,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                 sp1C = 2;
             }
             break;
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(globalCtx)) {
                 if ((player->actor.textId == 0x202E) || (player->actor.textId == 0x202C)) {
                     this->unk_254 |= 1;
@@ -308,7 +308,7 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+            Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
             if ((sp26 >= 0) && (sp26 <= 0x140) && (sp24 >= 0) && (sp24 <= 0xF0) && (yawDiff <= 17152.0f) &&

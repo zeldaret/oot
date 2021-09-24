@@ -231,7 +231,7 @@ void EnDaiku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnDaiku_UpdateTalking(EnDaiku* this, GlobalContext* globalCtx) {
     s32 newTalkState = ENDAIKU_STATE_TALKING;
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) {
         if (globalCtx->sceneNum == SCENE_GERUDOWAY) {
             if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x6007) {
@@ -272,7 +272,7 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
     } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->talkState = ENDAIKU_STATE_TALKING;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp2E, &sp2C);
         if (sp2E >= 0 && sp2E <= 320 && sp2C >= 0 && sp2C <= 240 && this->talkState == ENDAIKU_STATE_CAN_TALK &&
             func_8002F2CC(&this->actor, globalCtx, 100.0f) == 1) {
             if (globalCtx->sceneNum == SCENE_GERUDOWAY) {

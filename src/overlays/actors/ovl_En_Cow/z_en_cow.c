@@ -196,9 +196,9 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF6BC(EnCow* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->actor.flags &= ~0x10000;
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = func_809DF96C;
     }
 }
@@ -220,16 +220,16 @@ void func_809DF778(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF7D8(EnCow* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->actor.flags &= ~0x10000;
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = func_809DF778;
         func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
     }
 }
 
 void func_809DF870(EnCow* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         if (Inventory_HasEmptyBottle()) {
             Message_ContinueTextbox(globalCtx, 0x2007);
             this->actionFunc = func_809DF7D8;

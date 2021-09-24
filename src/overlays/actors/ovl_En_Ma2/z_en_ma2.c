@@ -85,7 +85,7 @@ u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_2:
             switch (thisx->textId) {
                 case 0x2051:
@@ -101,12 +101,12 @@ s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case TEXT_STATE_0:
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_3:
-        case TEXT_STATE_4:
-        case TEXT_STATE_5:
-        case TEXT_STATE_6:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+        case TEXT_STATE_DONE:
         case TEXT_STATE_7:
         case TEXT_STATE_9:
             break;
@@ -292,7 +292,7 @@ void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx) {
     } else {
         if (this->unk_1E0.unk_00 == 0) {
             this->actor.flags |= 0x10000;
-            func_80106CCC(globalCtx);
+            Message_CloseTextbox(globalCtx);
         } else {
             this->actor.flags &= ~0x10000;
             this->actionFunc = func_80AA2018;

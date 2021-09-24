@@ -272,9 +272,9 @@ s16 func_80A7949C(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80A79500(GlobalContext* globalCtx, Actor* thisx) {
     s16 sp1E = 1;
 
-    osSyncPrintf("message_check->(%d[%x])\n", func_8010BDBC(&globalCtx->msgCtx), thisx->textId);
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_0:
+    osSyncPrintf("message_check->(%d[%x])\n", Message_GetState(&globalCtx->msgCtx), thisx->textId);
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
             break;
         case TEXT_STATE_2:
@@ -282,17 +282,17 @@ s16 func_80A79500(GlobalContext* globalCtx, Actor* thisx) {
             break;
         case TEXT_STATE_3:
             break;
-        case TEXT_STATE_4:
+        case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx)) {
                 sp1E = func_80A7924C(globalCtx, thisx);
             }
             break;
-        case TEXT_STATE_5:
+        case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx)) {
                 sp1E = func_80A7949C(globalCtx, thisx);
             }
             break;
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
         case TEXT_STATE_7:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
@@ -927,7 +927,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
                           func_80A79500);
             if (this->unk_308.unk_00 != 0) {
                 this->unk_1FA = this->unk_1F8;
-                this->unk_1F8 = func_8010BDBC(&globalCtx->msgCtx);
+                this->unk_1F8 = Message_GetState(&globalCtx->msgCtx);
             }
         }
         func_80A795C8(this, globalCtx);

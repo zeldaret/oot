@@ -383,7 +383,7 @@ void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* glo
     }
 
     this->actor.textId = 0xDB;
-    this->dialogState = TEXT_STATE_5;
+    this->dialogState = TEXT_STATE_EVENT;
     Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
     this->actionFunc = BgDyYoseizo_GreetPlayer_NoReward;
@@ -399,8 +399,8 @@ void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCt
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->dialogState == func_8010BDBC(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((this->dialogState == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         Interface_ChangeAlpha(5);
         this->actionFunc = BgDyYoseizo_SetupHealPlayer_NoReward;
     }
@@ -490,7 +490,7 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx
 
     if (this->healingTimer == 1) {
         this->actor.textId = 0xDA;
-        this->dialogState = TEXT_STATE_5;
+        this->dialogState = TEXT_STATE_EVENT;
         Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->actionFunc = BgDyYoseizo_SayFarewell_NoReward;
         return;
@@ -507,8 +507,8 @@ void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, GlobalContext* globalCt
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->dialogState == func_8010BDBC(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((this->dialogState == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->mouthState = 0;
         this->actionFunc = BgDyYoseizo_SetupSpinShrink;
         func_8005B1A4(GET_ACTIVE_CAM(globalCtx));

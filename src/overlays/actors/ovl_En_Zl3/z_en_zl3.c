@@ -1132,7 +1132,7 @@ void func_80B55D00(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B55DB0(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
         this->actor.flags &= ~0x9;
         this->actor.flags &= ~0x1;
         this->action = 12;
@@ -1211,7 +1211,7 @@ void func_80B56090(EnZl3* this, s32 arg1) {
 }
 
 void func_80B56108(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
         this->actor.flags &= ~0x9;
         this->actor.flags &= ~0x1;
         this->action = 16;
@@ -1255,7 +1255,7 @@ void func_80B56214(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B562F4(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
         this->actor.flags &= ~0x9;
         this->actor.flags &= ~0x1;
         this->action = 20;
@@ -1704,7 +1704,7 @@ void func_80B57350(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B573C8(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
         return 1;
     }
     return 0;
@@ -2151,7 +2151,7 @@ void func_80B58624(EnZl3* this, GlobalContext* globalCtx) {
         Message_StartTextbox(globalCtx, this->actor.textId, 0);
         func_80B54E14(this, &gZelda2Anime2Anim_003FF8, 0, -12.0f, 0);
     } else if (*unk_3CC == ((kREG(19) + 20.0f) + 1.0f)) {
-        if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_2) {
+        if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
             *unk_3CC += 1.0f;
             func_80B5357C(this, globalCtx);
             func_80B5357C(this, globalCtx);

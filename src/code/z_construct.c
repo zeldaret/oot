@@ -173,7 +173,7 @@ void Message_Init(GlobalContext* globalCtx) {
     globalCtx->msgCtx.unk_E3EE = 0;
 
     msgCtx->msgMode = MSGMODE_UNK_00;
-    msgCtx->unk_E300 = 0;
+    msgCtx->msgLength = 0;
     msgCtx->textId = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->unk_E3F0 = msgCtx->textUnskippable = 0;
     msgCtx->textColor.a = 255;
 
@@ -195,10 +195,10 @@ void func_80111070(void) {
     YREG(8) = 10;
     YREG(14) = 0;
     YREG(15) = 0;
-    R_MESSAGE_TEXTBOX_TEXWIDTH = 0;
-    R_MESSAGE_TEXTBOX_TEXHEIGHT = 0;
-    R_MESSAGE_TEXTBOX_WIDTH = 50;
-    R_MESSAGE_TEXTBOX_HEIGHT = 0;
+    R_TEXTBOX_TEXWIDTH = 0;
+    R_TEXTBOX_TEXHEIGHT = 0;
+    R_TEXTBOX_WIDTH = 50;
+    R_TEXTBOX_HEIGHT = 0;
     YREG(24) = -60;
     YREG(25) = 13;
     YREG(26) = 15;
@@ -240,11 +240,11 @@ void func_80111070(void) {
     YREG(68) = 0;
     YREG(69) = 0;
     YREG(70) = 0;
-    R_MESSAGE_ITEM_ICON_XPOS = -6;
-    R_MESSAGE_ITEM_ICON_YPOS = 10;
+    R_TEXTBOX_ICON_XPOS = -6;
+    R_TEXTBOX_ICON_YPOS = 10;
     YREG(73) = -8;
     YREG(74) = 8;
-    R_MESSAGE_ITEM_ICON_DIM = 24;
+    R_TEXTBOX_ICON_SIZE = 24;
     YREG(76) = 32;
     YREG(77) = 0;
     R_MESSAGE_DEBUGGER_SELECT = 0;
@@ -388,30 +388,30 @@ void func_80111070(void) {
     R_MAGIC_FILL_X = 26;
     XREG(52) = 0;
     XREG(53) = 1;
-    XREG(54) = 65;
-    XREG(55) = 60;
-    R_MESSAGE_LINE_SPACING = 16;
-    R_MESSAGE_CHAR_SCALE = 80;
+    R_TEXT_INIT_XPOS = 65;
+    R_TEXT_INIT_YPOS = 60;
+    R_TEXT_LINE_SPACING = 16;
+    R_TEXT_CHAR_SCALE = 80;
     XREG(58) = 80;
     XREG(59) = 12;
     R_TEXT_DROP_SHADOW_OFFSET = 1;
-    XREG(61) = 3;
+    R_TEXTBOX_BG_YPOS = 3;
     XREG(62) = 0;
     XREG(63) = 100;
-    XREG(64) = 158;
-    XREG(65) = 102;
-    XREG(66) = 48;
-    XREG(67) = 54;
-    XREG(68) = 70;
-    XREG(69) = 86;
+    R_TEXTBOX_END_XPOS = 158;
+    R_TEXTBOX_END_YPOS = 102;
+    R_TEXT_CHOICE_XPOS = 48;
+    R_TEXT_CHOICE_YPOS(0) = 54;
+    R_TEXT_CHOICE_YPOS(1) = 70;
+    R_TEXT_CHOICE_YPOS(2) = 86;
     XREG(70) = -300;
     XREG(71) = 0;
-    R_MESSAGE_TEXTBOX_X_TARGET = 54;
-    R_MESSAGE_TEXTBOX_Y_TARGET = 48;
-    XREG(74) = 128;
-    XREG(75) = 64;
-    XREG(76) = 2048;
-    XREG(77) = 512;
+    R_TEXTBOX_X_TARGET = 54;
+    R_TEXTBOX_Y_TARGET = 48;
+    R_TEXTBOX_WIDTH_TARGET = 128;
+    R_TEXTBOX_HEIGHT_TARGET = 64;
+    R_TEXTBOX_TEXWIDTH_TARGET = 2048;
+    R_TEXTBOX_TEXHEIGHT_TARGET = 512;
     XREG(78) = 96;
     XREG(79) = 98;
     XREG(80) = 0;
@@ -507,15 +507,15 @@ void func_80111070(void) {
     WREG(95) = 6;
 
     if (gSaveContext.gameMode == 0) {
-        R_MESSAGE_TEXTBOX_X = 52;
-        R_MESSAGE_TEXTBOX_Y = 36;
+        R_TEXTBOX_X = 52;
+        R_TEXTBOX_Y = 36;
         VREG(2) = 214;
         VREG(3) = 76;
         VREG(4) = 304;
         VREG(5) = 430;
         VREG(6) = 1;
-        VREG(7) = 78;
-        VREG(8) = 166;
+        R_TEXTBOX_CLEF_XPOS = 78;
+        R_TEXTBOX_CLEF_YPOS = 166;
         VREG(9) = 40;
         R_COMPASS_SCALE_X = 32;
         R_COMPASS_SCALE_Y = 32;
@@ -539,13 +539,13 @@ void func_80111070(void) {
     VREG(31) = 0;
     VREG(32) = 0;
 
-    VREG(33) = 70;
-    VREG(34) = 255;
-    VREG(35) = 80;
+    R_TEXT_ADJUST_COLOR_1_R = 70;
+    R_TEXT_ADJUST_COLOR_1_G = 255;
+    R_TEXT_ADJUST_COLOR_1_B = 80;
 
-    VREG(36) = 70;
-    VREG(37) = 255;
-    VREG(38) = 80;
+    R_TEXT_ADJUST_COLOR_2_R = 70;
+    R_TEXT_ADJUST_COLOR_2_G = 255;
+    R_TEXT_ADJUST_COLOR_2_B = 80;
 
     VREG(40) = 9;
     VREG(42) = 250;

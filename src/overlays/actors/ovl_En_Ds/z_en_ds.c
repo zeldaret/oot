@@ -61,8 +61,8 @@ void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = EnDs_Wait;
     }
     this->unk_1E8 |= 1;
@@ -97,8 +97,8 @@ void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_TalkAfterBrewOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = EnDs_GiveOddPotion;
         func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
     }
@@ -141,7 +141,7 @@ void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx) {
 void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 this->actionFunc = EnDs_BrewOddPotion1;
@@ -177,7 +177,7 @@ void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 switch (EnDs_CheckRupeesAndBottle()) {

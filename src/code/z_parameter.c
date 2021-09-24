@@ -3364,7 +3364,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             }
         }
 
-        if ((gSaveContext.timer2State == 5) && (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5)) {
+        if ((gSaveContext.timer2State == 5) && (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT)) {
             // Trade quest timer reached 0
             D_8015FFE6 = 40;
             gSaveContext.cutsceneIndex = 0;
@@ -3483,7 +3483,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         }
                     }
 
-                    if ((gSaveContext.timer1State >= 3) && (msgCtx->unk_E300 == 0)) {
+                    if ((gSaveContext.timer1State >= 3) && (msgCtx->msgLength == 0)) {
                         D_8015FFE0--;
                         if (D_8015FFE0 == 0) {
                             if (gSaveContext.timer1Value != 0) {

@@ -154,8 +154,8 @@ void func_80AACCA0(EnMk* this, GlobalContext* globalCtx) {
 void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = func_80AACCA0;
         globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         player->exchangeItemId = EXCH_ITEM_NONE;
@@ -169,7 +169,7 @@ void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         Message_ContinueTextbox(globalCtx, 0x4001);
         Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_ONCE, -4.0f);
@@ -181,7 +181,7 @@ void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACEE8(EnMk* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         Message_ContinueTextbox(globalCtx, 0x4000);
         Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_LOOP, -4.0f);

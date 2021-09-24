@@ -120,7 +120,7 @@ u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_2:
             switch (thisx->textId) {
                 case 0x2041:
@@ -151,18 +151,18 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case TEXT_STATE_4:
-        case TEXT_STATE_5:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx)) {
                 ret = 2;
             }
             break;
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(globalCtx)) {
                 ret = 3;
             }
             break;
-        case TEXT_STATE_0:
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_3:
         case TEXT_STATE_7:
@@ -362,7 +362,7 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
     if (this->unk_1E8.unk_00 == 2) {
         func_800ED858(2);
-        func_8010BD58(globalCtx, 9);
+        func_8010BD58(globalCtx, OCARINA_ACTION_EPONA);
         this->actor.flags &= ~0x10000;
         this->actionFunc = func_80AA10EC;
     }
@@ -370,8 +370,8 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
 
 void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_7) {
-        func_8010BD58(globalCtx, 0x16);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_7) {
+        func_8010BD58(globalCtx, OCARINA_ACTION_PLAYBACK_EPONA);
         this->actionFunc = func_80AA1150;
     }
 }

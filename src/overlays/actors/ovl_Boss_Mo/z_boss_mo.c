@@ -1238,7 +1238,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_READY;
                 sMorphaTent1->timers[0] = 30000;
                 Audio_QueueSeqCmd(0x103200FF);
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
             } else {
                 break;
             }

@@ -352,8 +352,8 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
     s32 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_0:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
             break;
         case TEXT_STATE_2:
@@ -365,7 +365,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
             break;
         case TEXT_STATE_3:
             break;
-        case TEXT_STATE_4:
+        case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
                 if (globalCtx->msgCtx.choiceIndex == 1) {
                     /* "Thanks a lot!" */
@@ -383,13 +383,13 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
                 gSaveContext.infTable[13] |= 0x0200;
             }
             break;
-        case TEXT_STATE_5:
+        case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 ret = 0;
             }
             break;
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
         case TEXT_STATE_7:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
@@ -642,7 +642,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
             /* "Nope, nothing here!" */
             Message_StartTextbox(globalCtx, 0x501A, NULL);
         } else {
-            func_80106CCC(globalCtx);
+            Message_CloseTextbox(globalCtx);
         }
 
         EnTk_RestAnim(this, globalCtx);

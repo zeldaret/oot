@@ -1257,14 +1257,14 @@ void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 Message_ContinueTextbox(globalCtx, ElfMessage_GetSariaText(globalCtx));
                 this->actor.update = func_80A05114;
                 break;
             case 1: // no
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 this->actor.update = func_80A053F0;
                 func_80A01C38(this, 0);
                 this->fairyFlags &= ~0x20;
@@ -1280,7 +1280,7 @@ void func_80A05114(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         Message_ContinueTextbox(globalCtx, 0xE3);
         this->actor.update = func_80A05040;
     }
@@ -1293,7 +1293,7 @@ void func_80A05188(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         Message_ContinueTextbox(globalCtx, ElfMessage_GetSariaText(globalCtx));
         this->actor.update = func_80A05114;
     }
@@ -1308,7 +1308,7 @@ void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 naviCUpText = ElfMessage_GetCUpText(globalCtx);
@@ -1322,7 +1322,7 @@ void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
                 this->actor.update = func_80A052F4;
                 break;
             case 1: // no
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 this->actor.update = func_80A053F0;
                 func_80A01C38(this, 0);
                 this->fairyFlags &= ~0x20;
@@ -1339,7 +1339,7 @@ void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_4) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) {
         if (Message_ShouldAdvance(globalCtx)) {
             globalCtx->msgCtx.unk_E3F2 = 0xFF;
 

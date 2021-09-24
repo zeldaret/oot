@@ -115,8 +115,8 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
     EnKz* this = THIS;
     s16 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_6:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_DONE:
             ret = 0;
             switch (this->actor.textId) {
                 case 0x4012:
@@ -143,7 +143,7 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
                 this->sfxPlayed = true;
             }
             break;
-        case TEXT_STATE_4:
+        case TEXT_STATE_CHOICE:
             if (!Message_ShouldAdvance(globalCtx)) {
                 break;
             }
@@ -157,12 +157,12 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case TEXT_STATE_5:
+        case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx)) {
                 ret = 2;
             }
             break;
-        case TEXT_STATE_0:
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_2:
         case TEXT_STATE_7:
@@ -210,7 +210,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
 
     this->actor.flags |= 1;
 
-    func_8002F374(globalCtx, &this->actor, &sp32, &sp30);
+    Actor_GetScreenPos(globalCtx, &this->actor, &sp32, &sp30);
     if (!((sp32 >= -30) && (sp32 < 361) && (sp30 >= -10) && (sp30 < 241))) {
         return 0;
     }
@@ -436,7 +436,7 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_FROG) {
             func_80088AA0(180); // start timer2 with 3 minutes
             gSaveContext.eventInf[1] &= ~1;

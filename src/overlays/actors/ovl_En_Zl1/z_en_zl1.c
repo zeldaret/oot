@@ -434,7 +434,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if ((func_8010BDBC(msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 globalCtx->envCtx.unk_E1 = 0;
                 Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp74, &sp68);
                 Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 25.0f);
@@ -445,7 +445,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 2:
-            if ((func_8010BDBC(msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 if (msgCtx->choiceIndex == 0) {
                     animHeaderSeg = &gChildZelda1Anim_13F10;
                     sp3C = 2;
@@ -468,7 +468,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 4:
-            if ((func_8010BDBC(msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 if (msgCtx->choiceIndex == 0) {
                     animHeaderSeg = &gChildZelda1Anim_132D8;
                     sp3C = 2;
@@ -481,7 +481,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            if ((func_8010BDBC(msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 this->actor.textId = 0x7033;
                 Message_ContinueTextbox(globalCtx, this->actor.textId);
                 this->unk_1E2--;
@@ -498,14 +498,14 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 7:
-            if ((func_8010BDBC(msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 this->actor.textId = 0x7030;
                 Message_ContinueTextbox(globalCtx, this->actor.textId);
                 this->unk_1E2++;
             }
             break;
         case 8:
-            if ((func_8010BDBC(msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 if (msgCtx->choiceIndex == 0) {
                     animHeaderSeg = &gChildZelda1Anim_138E0;
                     sp3C = 2;
@@ -699,7 +699,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
 
     switch (this->unk_1E2) {
         case 0:
-            if ((func_8010BDBC(msgCtx) == TEXT_STATE_4) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 if (msgCtx->choiceIndex == 0) {
                     this->actor.textId = 0x703B;
                     Message_ContinueTextbox(globalCtx, this->actor.textId);
@@ -712,7 +712,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if ((func_8010BDBC(msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 this->actor.textId = 0xFFFF;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
@@ -734,7 +734,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            if ((func_8010BDBC(msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
                 this->actor.textId = 0x703C;
                 Message_ContinueTextbox(globalCtx, this->actor.textId);
                 Flags_SetEventChkInf(0x40);

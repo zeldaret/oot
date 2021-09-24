@@ -253,9 +253,9 @@ void EnDntJiji_SetupTalk(EnDntJiji* this, GlobalContext* globalCtx) {
 void EnDntJiji_Talk(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.parent = NULL;
         func_8002F434(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
@@ -274,7 +274,7 @@ void EnDntJiji_SetupGivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
 
 void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_6) && Message_ShouldAdvance(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         if ((this->getItemId == GI_NUT_UPGRADE_30) || (this->getItemId == GI_NUT_UPGRADE_40)) {
             // nut
             osSyncPrintf("実 \n");

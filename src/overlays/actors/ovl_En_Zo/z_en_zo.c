@@ -432,11 +432,11 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_0:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
         case TEXT_STATE_1:
         case TEXT_STATE_3:
-        case TEXT_STATE_6:
+        case TEXT_STATE_DONE:
         case TEXT_STATE_7:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
@@ -457,7 +457,7 @@ s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
             gSaveContext.eventChkInf[3] |= 1;
             return 0;
 
-        case TEXT_STATE_4:
+        case TEXT_STATE_CHOICE:
             switch (Message_ShouldAdvance(globalCtx)) {
                 case 0:
                     return 1;
@@ -470,7 +470,7 @@ s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
             }
             return 1;
 
-        case TEXT_STATE_5:
+        case TEXT_STATE_EVENT:
             switch (Message_ShouldAdvance(globalCtx)) {
                 case 0:
                     return 1;

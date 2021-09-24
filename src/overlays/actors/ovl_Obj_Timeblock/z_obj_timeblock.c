@@ -171,7 +171,7 @@ s32 ObjTimeblock_WaitForOcarina(ObjTimeblock* this, GlobalContext* globalCtx) {
 
     if (ObjTimeblock_PlayerIsInRange(this, globalCtx)) {
         if (player->stateFlags2 & 0x1000000) {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->songObserverFunc = ObjTimeblock_WaitForSong;
         } else {
             player->stateFlags2 |= 0x800000;
@@ -184,7 +184,7 @@ s32 ObjTimeblock_WaitForSong(ObjTimeblock* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.unk_E3EE == 4) {
         this->songObserverFunc = ObjTimeblock_WaitForOcarina;
     }
-    if (globalCtx->msgCtx.unk_E3EC == 10) {
+    if (globalCtx->msgCtx.unk_E3EC == OCARINA_SONG_TIME) {
         if (this->unk_172 == 254) {
             this->songEndTimer = 110;
         } else {

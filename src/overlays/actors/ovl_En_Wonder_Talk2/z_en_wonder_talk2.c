@@ -171,20 +171,20 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
 void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx) {
     if (BREG(2) != 0) {
         // Oh
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ わー %d\n" VT_RST, func_8010BDBC(&globalCtx->msgCtx));
+        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ わー %d\n" VT_RST, Message_GetState(&globalCtx->msgCtx));
     }
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case TEXT_STATE_5:
-        case TEXT_STATE_6:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_EVENT:
+        case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(globalCtx)) {
-                if (func_8010BDBC(&globalCtx->msgCtx) == TEXT_STATE_5) {
-                    func_80106CCC(globalCtx);
+                if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) {
+                    Message_CloseTextbox(globalCtx);
                 }
             } else {
                 break;
             }
-        case TEXT_STATE_0:
+        case TEXT_STATE_NONE:
             if ((this->switchFlag >= 0) && (this->talkMode != 4)) {
                 Flags_SetSwitch(globalCtx, this->switchFlag);
                 // (Forced) I saved it! All of it!
