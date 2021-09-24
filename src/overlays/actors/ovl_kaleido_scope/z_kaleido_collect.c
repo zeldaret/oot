@@ -177,7 +177,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 if ((sp216 >= 6) && (sp216 < 0x12)) {
                     if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
                         sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
-                        pauseCtx->unk_264 = D_80153958[4 + sp216];
+                        pauseCtx->unk_264 = D_8015396C[sp216 - 6];
                         D_8082A120 = 10;
 
                         for (phi_s3 = 0; phi_s3 < 8; phi_s3++) {
@@ -272,7 +272,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
                 func_800ED858(1);
                 func_800ED858(1);
-                pauseCtx->unk_264 = D_80153958[4 + sp216];
+                pauseCtx->unk_264 = D_8015396C[sp216 - 6];
                 func_800ED93C(pauseCtx->unk_264 + 1, 1);
                 pauseCtx->unk_1E4 = 2;
                 pauseCtx->unk_194 = Audio_OcaGetDisplayStaff();
