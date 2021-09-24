@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_RCP_H_
-#define _ULTRA64_RCP_H_
+#ifndef ULTRA64_RCP_H
+#define ULTRA64_RCP_H
 
 #define VI_NTSC_CLOCK       48681812        /* Hz = 48.681812 MHz */
 #define VI_PAL_CLOCK        49656530        /* Hz = 49.656530 MHz */

@@ -1,5 +1,5 @@
-#ifndef _Z_BG_DY_YOSEIZO_H_
-#define _Z_BG_DY_YOSEIZO_H_
+#ifndef Z_BG_DY_YOSEIZO_H
+#define Z_BG_DY_YOSEIZO_H
 
 #include "ultra64.h"
 #include "global.h"

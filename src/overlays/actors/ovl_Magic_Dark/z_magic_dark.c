@@ -137,29 +137,33 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
 
 void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity) {
     s32 i;
-    f32 temp_f0;
-    f32 phi_f0;
+    f32 colorScale;
+    f32 fogScale;
 
     if (globalCtx->roomCtx.curRoom.unk_03 != 5) {
         intensity = CLAMP_MIN(intensity, 0.0f);
         intensity = CLAMP_MAX(intensity, 1.0f);
-        phi_f0 = intensity - 0.2f;
+        fogScale = intensity - 0.2f;
+
         if (intensity < 0.2f) {
-            phi_f0 = 0.0f;
+            fogScale = 0.0f;
         }
-        globalCtx->envCtx.unk_9E = (850.0f - globalCtx->envCtx.unk_D2) * phi_f0;
+
+        globalCtx->envCtx.adjFogNear = (850.0f - globalCtx->envCtx.lightSettings.fogNear) * fogScale;
+
         if (intensity == 0.0f) {
-            for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.unk_8C[2]); i++) {
-                globalCtx->envCtx.unk_8C[2][i] = 0;
+            for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.adjFogColor); i++) {
+                globalCtx->envCtx.adjFogColor[i] = 0;
             }
         } else {
-            temp_f0 = intensity * 5.0f;
-            if (temp_f0 > 1.0f) {
-                temp_f0 = 1.0f;
+            colorScale = intensity * 5.0f;
+
+            if (colorScale > 1.0f) {
+                colorScale = 1.0f;
             }
 
-            for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.unk_8C[2]); i++) {
-                globalCtx->envCtx.unk_8C[2][i] = -(s16)(globalCtx->envCtx.unk_CF[i] * temp_f0);
+            for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.adjFogColor); i++) {
+                globalCtx->envCtx.adjFogColor[i] = -(s16)(globalCtx->envCtx.lightSettings.fogColor[i] * colorScale);
             }
         }
     }

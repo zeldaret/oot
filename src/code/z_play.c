@@ -135,9 +135,9 @@ void func_800BC88C(GlobalContext* globalCtx) {
     globalCtx->transitionCtx.transitionType = -1;
 }
 
-Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx) {
-    return Gfx_SetFog2(gfx, globalCtx->lightCtx.unk_07, globalCtx->lightCtx.unk_08, globalCtx->lightCtx.unk_09, 0,
-                       globalCtx->lightCtx.unk_0A, 1000);
+Gfx* Gameplay_SetFog(GlobalContext* globalCtx, Gfx* gfx) {
+    return Gfx_SetFog2(gfx, globalCtx->lightCtx.fogColor[0], globalCtx->lightCtx.fogColor[1],
+                       globalCtx->lightCtx.fogColor[2], 0, globalCtx->lightCtx.fogNear, 1000);
 }
 
 void Gameplay_Destroy(GameState* thisx) {
@@ -246,7 +246,7 @@ void Gameplay_Init(GameState* thisx) {
 
     if (gSaveContext.nextDayTime != 0xFFFFU) {
         gSaveContext.dayTime = gSaveContext.nextDayTime;
-        gSaveContext.environmentTime = gSaveContext.nextDayTime;
+        gSaveContext.skyboxTime = gSaveContext.nextDayTime;
     }
 
     if (gSaveContext.dayTime > 0xC000 || gSaveContext.dayTime < 0x4555) {
@@ -306,8 +306,8 @@ void Gameplay_Init(GameState* thisx) {
 
     if (gSaveContext.nextDayTime != 0xFFFF) {
         if (gSaveContext.nextDayTime == 0x8001) {
-            gSaveContext.numDays++;
-            gSaveContext.unk_18++;
+            gSaveContext.totalDays++;
+            gSaveContext.bgsDayCount++;
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                 Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
@@ -606,21 +606,21 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             switch (globalCtx->transitionMode) {
                 case 4:
                     D_801614C8 = 0;
-                    globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2[0] = 0xA0;
-                    globalCtx->envCtx.unk_E2[1] = 0xA0;
-                    globalCtx->envCtx.unk_E2[2] = 0xA0;
+                    globalCtx->envCtx.fillScreen = true;
+                    globalCtx->envCtx.screenFillColor[0] = 160;
+                    globalCtx->envCtx.screenFillColor[1] = 160;
+                    globalCtx->envCtx.screenFillColor[2] = 160;
                     if (globalCtx->sceneLoadFlag != -0x14) {
-                        globalCtx->envCtx.unk_E2[3] = 0;
+                        globalCtx->envCtx.screenFillColor[3] = 0;
                         globalCtx->transitionMode = 5;
                     } else {
-                        globalCtx->envCtx.unk_E2[3] = 0xFF;
+                        globalCtx->envCtx.screenFillColor[3] = 255;
                         globalCtx->transitionMode = 6;
                     }
                     break;
 
                 case 5:
-                    globalCtx->envCtx.unk_E2[3] = (D_801614C8 / 20.0f) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (D_801614C8 / 20.0f) * 255.0f;
                     if (D_801614C8 >= 20 && 1) {
                         globalCtx->state.running = 0;
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
@@ -633,13 +633,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 6:
-                    globalCtx->envCtx.unk_E2[3] = (1 - D_801614C8 / 20.0f) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1 - D_801614C8 / 20.0f) * 255.0f;
                     if (D_801614C8 >= 20 && 1) {
                         gTrnsnUnkState = 0;
                         R_UPDATE_RATE = 3;
                         globalCtx->sceneLoadFlag = 0;
                         globalCtx->transitionMode = 0;
-                        globalCtx->envCtx.unk_E1 = 0;
+                        globalCtx->envCtx.fillScreen = false;
                     } else {
                         D_801614C8++;
                     }
@@ -647,15 +647,15 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 7:
                     D_801614C8 = 0;
-                    globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2[0] = 0xAA;
-                    globalCtx->envCtx.unk_E2[1] = 0xA0;
-                    globalCtx->envCtx.unk_E2[2] = 0x96;
+                    globalCtx->envCtx.fillScreen = true;
+                    globalCtx->envCtx.screenFillColor[0] = 170;
+                    globalCtx->envCtx.screenFillColor[1] = 160;
+                    globalCtx->envCtx.screenFillColor[2] = 150;
                     if (globalCtx->sceneLoadFlag != -0x14) {
-                        globalCtx->envCtx.unk_E2[3] = 0;
+                        globalCtx->envCtx.screenFillColor[3] = 0;
                         globalCtx->transitionMode = 5;
                     } else {
-                        globalCtx->envCtx.unk_E2[3] = 0xFF;
+                        globalCtx->envCtx.screenFillColor[3] = 255;
                         globalCtx->transitionMode = 6;
                     }
                     break;
@@ -683,12 +683,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 12:
                     if (globalCtx->sceneLoadFlag != -0x14) {
-                        globalCtx->envCtx.unk_E6 = 1;
+                        globalCtx->envCtx.sandstormState = 1;
                         globalCtx->transitionMode = 13;
                     } else {
-                        globalCtx->envCtx.unk_E6 = 2;
-                        globalCtx->envCtx.unk_E7 = 0xFF;
-                        globalCtx->envCtx.unk_E8 = 0xFF;
+                        globalCtx->envCtx.sandstormState = 2;
+                        globalCtx->envCtx.sandstormPrimA = 255;
+                        globalCtx->envCtx.sandstormEnvA = 255;
                         globalCtx->transitionMode = 13;
                     }
                     break;
@@ -697,14 +697,14 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
-                        if (globalCtx->envCtx.unk_E7 < 0x6E) {
+                        if (globalCtx->envCtx.sandstormPrimA < 110) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;
                             globalCtx->transitionMode = 0;
                         }
                     } else {
-                        if (globalCtx->envCtx.unk_E8 == 0xFF) {
+                        if (globalCtx->envCtx.sandstormEnvA == 255) {
                             globalCtx->state.running = 0;
                             SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                             gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
@@ -716,9 +716,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 14:
                     if (globalCtx->sceneLoadFlag == -0x14) {
-                        globalCtx->envCtx.unk_E6 = 4;
-                        globalCtx->envCtx.unk_E7 = 0xFF;
-                        globalCtx->envCtx.unk_E8 = 0xFF;
+                        globalCtx->envCtx.sandstormState = 4;
+                        globalCtx->envCtx.sandstormPrimA = 255;
+                        globalCtx->envCtx.sandstormEnvA = 255;
                         // "It's here!!!!!!!!!"
                         LOG_STRING("来た!!!!!!!!!!!!!!!!!!!!!", "../z_play.c", 3471);
                         globalCtx->transitionMode = 15;
@@ -731,7 +731,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
-                        if (globalCtx->envCtx.unk_E7 <= 0) {
+                        if (globalCtx->envCtx.sandstormPrimA <= 0) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;
@@ -742,17 +742,17 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 16:
                     D_801614C8 = 0;
-                    globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2[0] = 0;
-                    globalCtx->envCtx.unk_E2[1] = 0;
-                    globalCtx->envCtx.unk_E2[2] = 0;
-                    globalCtx->envCtx.unk_E2[3] = 0xFF;
+                    globalCtx->envCtx.fillScreen = true;
+                    globalCtx->envCtx.screenFillColor[0] = 0;
+                    globalCtx->envCtx.screenFillColor[1] = 0;
+                    globalCtx->envCtx.screenFillColor[2] = 0;
+                    globalCtx->envCtx.screenFillColor[3] = 255;
                     globalCtx->transitionMode = 17;
                     break;
 
                 case 17:
                     if (gSaveContext.unk_1410 != 0) {
-                        globalCtx->envCtx.unk_E2[3] = gSaveContext.unk_1410;
+                        globalCtx->envCtx.screenFillColor[3] = gSaveContext.unk_1410;
                         if (gSaveContext.unk_1410 < 0x65) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
@@ -813,11 +813,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     osSyncPrintf("FINISH=%d\n", globalCtx->actorCtx.freezeFlashTimer);
                     if ((globalCtx->actorCtx.freezeFlashTimer > 0) &&
                         ((globalCtx->actorCtx.freezeFlashTimer % 2) != 0)) {
-                        globalCtx->envCtx.unk_E1 = 1;
-                        globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 150;
-                        globalCtx->envCtx.unk_E2[3] = 80;
+                        globalCtx->envCtx.fillScreen = true;
+                        globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+                            globalCtx->envCtx.screenFillColor[2] = 150;
+                        globalCtx->envCtx.screenFillColor[3] = 80;
                     } else {
-                        globalCtx->envCtx.unk_E1 = 0;
+                        globalCtx->envCtx.fillScreen = false;
                     }
                 } else {
                     if (1 && HREG(63)) {
@@ -1031,8 +1032,8 @@ skip:
         LOG_NUM("1", 1, "../z_play.c", 3816);
     }
 
-    func_80070C24(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
-                  &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
+    Environment_Update(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
+                       &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
 }
 
 void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
@@ -1081,10 +1082,10 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
     func_80095248(gfxCtx, 0, 0, 0);
 
     if ((HREG(80) != 10) || (HREG(82) != 0)) {
-        POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
-        POLY_XLU_DISP = func_800BC8A0(globalCtx, POLY_XLU_DISP);
+        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
+        POLY_XLU_DISP = Gameplay_SetFog(globalCtx, POLY_XLU_DISP);
 
-        func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.unk_0C);
+        func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.fogFar);
         func_800AAA50(&globalCtx->view, 15);
 
         Matrix_MtxToMtxF(&globalCtx->view.viewing, &globalCtx->mf_11DA0);
@@ -1092,12 +1093,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         Matrix_Mult(&globalCtx->mf_11D60, MTXMODE_NEW);
         Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
         Matrix_Get(&globalCtx->mf_11D60);
-        globalCtx->mf_11DA0.mf[3][2] = 0.0f;
-        globalCtx->mf_11DA0.mf[3][1] = 0.0f;
-        globalCtx->mf_11DA0.mf[3][0] = 0.0f;
-        globalCtx->mf_11DA0.mf[2][3] = 0.0f;
-        globalCtx->mf_11DA0.mf[1][3] = 0.0f;
-        globalCtx->mf_11DA0.mf[0][3] = 0.0f;
+        globalCtx->mf_11DA0.mf[0][3] = globalCtx->mf_11DA0.mf[1][3] = globalCtx->mf_11DA0.mf[2][3] =
+            globalCtx->mf_11DA0.mf[3][0] = globalCtx->mf_11DA0.mf[3][1] = globalCtx->mf_11DA0.mf[3][2] = 0.0f;
         Matrix_Transpose(&globalCtx->mf_11DA0);
         globalCtx->unk_11DE0 = Matrix_MtxFToMtx(Matrix_CheckFloats(&globalCtx->mf_11DA0, "../z_play.c", 4005),
                                                 Graph_Alloc(gfxCtx, sizeof(Mtx)));
@@ -1165,12 +1162,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if (globalCtx->skyboxId && (globalCtx->skyboxId != SKYBOX_UNSET_1D) &&
-                        !globalCtx->envCtx.skyDisabled) {
+                        !globalCtx->envCtx.skyboxDisabled) {
                         if ((globalCtx->skyboxId == SKYBOX_NORMAL_SKY) ||
                             (globalCtx->skyboxId == SKYBOX_CUTSCENE_MAP)) {
-                            func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
+                            Environment_UpdateSkybox(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
                             SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
-                                            globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
+                                            globalCtx->envCtx.skyboxBlend, globalCtx->view.eye.x, globalCtx->view.eye.y,
                                             globalCtx->view.eye.z);
                         } else if (globalCtx->skyboxCtx.unk_140 == 0) {
                             SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
@@ -1181,17 +1178,17 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(90) & 2)) {
                     if (!globalCtx->envCtx.sunMoonDisabled) {
-                        func_800730DC(globalCtx);
+                        Environment_DrawSunAndMoon(globalCtx);
                     }
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 1)) {
-                    func_80074D6C(globalCtx);
+                    Environment_DrawSkyboxFilters(globalCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 4)) {
-                    func_800750C0(globalCtx);
-                    func_8007542C(globalCtx, 0);
+                    Environment_UpdateLightningStrike(globalCtx);
+                    Environment_DrawLightning(globalCtx, 0);
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
@@ -1226,11 +1223,11 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if (globalCtx->envCtx.unk_EE[1] != 0) {
-                    func_80074704(globalCtx, &globalCtx->view, gfxCtx);
+                    Environment_DrawRain(globalCtx, &globalCtx->view, gfxCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
-                    func_8007672C(gfxCtx, 0, 0, 0, globalCtx->unk_11E18, 1);
+                    Environment_FillScreen(gfxCtx, 0, 0, 0, globalCtx->unk_11E18, FILL_SCREEN_OPA);
                 }
 
                 if ((HREG(80) != 10) || (HREG(85) != 0)) {
@@ -1239,23 +1236,26 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(86) != 0)) {
                     if (!globalCtx->envCtx.sunMoonDisabled) {
-                        sp21C.x = globalCtx->view.eye.x + globalCtx->envCtx.unk_04.x;
-                        sp21C.y = globalCtx->view.eye.y + globalCtx->envCtx.unk_04.y;
-                        sp21C.z = globalCtx->view.eye.z + globalCtx->envCtx.unk_04.z;
-                        func_80073988(globalCtx, &globalCtx->envCtx, &globalCtx->view, gfxCtx, sp21C, 0);
+                        sp21C.x = globalCtx->view.eye.x + globalCtx->envCtx.sunPos.x;
+                        sp21C.y = globalCtx->view.eye.y + globalCtx->envCtx.sunPos.y;
+                        sp21C.z = globalCtx->view.eye.z + globalCtx->envCtx.sunPos.z;
+                        Environment_DrawSunLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, gfxCtx, sp21C, 0);
                     }
-                    func_80075E68(globalCtx);
+                    Environment_DrawCustomLensFlare(globalCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(87) != 0)) {
                     if (MREG(64) != 0) {
-                        func_8007672C(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68), 3);
+                        Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68),
+                                               FILL_SCREEN_OPA | FILL_SCREEN_XLU);
                     }
 
-                    switch (globalCtx->envCtx.unk_E1) {
+                    switch (globalCtx->envCtx.fillScreen) {
                         case 1:
-                            func_8007672C(gfxCtx, globalCtx->envCtx.unk_E2[0], globalCtx->envCtx.unk_E2[1],
-                                          globalCtx->envCtx.unk_E2[2], globalCtx->envCtx.unk_E2[3], 3);
+                            Environment_FillScreen(
+                                gfxCtx, globalCtx->envCtx.screenFillColor[0], globalCtx->envCtx.screenFillColor[1],
+                                globalCtx->envCtx.screenFillColor[2], globalCtx->envCtx.screenFillColor[3],
+                                FILL_SCREEN_OPA | FILL_SCREEN_XLU);
                             break;
                         default:
                             break;
@@ -1263,8 +1263,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(88) != 0)) {
-                    if (globalCtx->envCtx.unk_E6 != 0) {
-                        func_80076934(globalCtx, globalCtx->envCtx.unk_E6);
+                    if (globalCtx->envCtx.sandstormState != 0) {
+                        Environment_DrawSandstorm(globalCtx, globalCtx->envCtx.sandstormState);
                     }
                 }
 
@@ -1274,7 +1274,6 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
                     Gfx* sp70 = OVERLAY_DISP;
-                    s32 pad[4];
 
                     globalCtx->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
                     globalCtx->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
@@ -1303,7 +1302,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         Camera_Update(GET_ACTIVE_CAM(globalCtx));
         func_800AB944(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
-        if (globalCtx->skyboxId && (globalCtx->skyboxId != SKYBOX_UNSET_1D) && !globalCtx->envCtx.skyDisabled) {
+        if (globalCtx->skyboxId && (globalCtx->skyboxId != SKYBOX_UNSET_1D) && !globalCtx->envCtx.skyboxDisabled) {
             SkyboxDraw_UpdateMatrix(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y,
                                     globalCtx->view.eye.z);
         }
@@ -1439,9 +1438,9 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
     return allocp;
 }
 
-void Gameplay_InitSkybox(GlobalContext* globalCtx, s16 skyboxId) {
+void Gameplay_InitEnvironment(GlobalContext* globalCtx, s16 skyboxId) {
     Skybox_Init(globalCtx, &globalCtx->skyboxCtx, skyboxId);
-    func_8006F140(globalCtx, &globalCtx->envCtx, 0);
+    Environment_Init(globalCtx, &globalCtx->envCtx, 0);
 }
 
 void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
@@ -1460,7 +1459,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     YREG(15) = 0;
     gSaveContext.worldMapArea = 0;
     Scene_ExecuteCommands(globalCtx, globalCtx->sceneSegment);
-    Gameplay_InitSkybox(globalCtx, globalCtx->skyboxId);
+    Gameplay_InitEnvironment(globalCtx, globalCtx->skyboxId);
 }
 
 void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {

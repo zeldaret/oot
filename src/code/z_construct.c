@@ -10,7 +10,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     u16 doActionOffset;
     u8 temp;
 
-    gSaveContext.unk_1422 = 0;
+    gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     gSaveContext.unk_13E8 = gSaveContext.unk_13EA = 0;
 
     View_Init(&interfaceCtx->view, globalCtx->state.gfxCtx);

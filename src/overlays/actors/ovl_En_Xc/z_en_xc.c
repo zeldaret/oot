@@ -173,7 +173,8 @@ void func_80B3C620(EnXc* this, GlobalContext* globalCtx, s32 npcActionIdx) {
     f32 unk;
 
     if (npcAction != NULL) {
-        unk = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 0);
+        unk =
+            Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 0);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
         startZ = npcAction->startPos.z;
@@ -1392,7 +1393,8 @@ void func_80B3F534(GlobalContext* globalCtx) {
     u16 frameCount = csCtx->frames;
 
     if (frameCount == 310) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, -1044.0f, -1243.0f, 7458.0f, 0, 0, 0, WARP_DESTINATION);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, -1044.0f, -1243.0f, 7458.0f, 0, 0, 0,
+                    WARP_DESTINATION);
     }
 }
 

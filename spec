@@ -324,8 +324,6 @@ beginseg
     include "build/src/code/z_kaleido_setup.o"
     include "build/src/code/z_kanfont.o"
     include "build/src/code/z_kankyo.o"
-    include "build/data/z_kankyo.data.o"
-    include "build/data/z_kankyo.bss.o"
     include "build/src/code/z_lib.o"
     include "build/src/code/z_lifemeter.o"
     include "build/src/code/z_lights.o"
@@ -364,7 +362,6 @@ beginseg
     include "build/src/code/z_vismono.o"
     include "build/src/code/code_800AD920.o"
     include "build/src/code/z_vr_box.o"
-    include "build/data/z_vr_box.data.o"
     include "build/src/code/z_vr_box_draw.o"
     include "build/src/code/z_player_call.o"
     include "build/src/code/z_fbdemo.o"
@@ -568,11 +565,7 @@ beginseg
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark_data.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
-#else
-    include "build/data/overlays/actors/z_kaleido_scope.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -951,11 +944,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Cobra"
     include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra_reloc.o"
-#else
-    include "build/data/overlays/actors/z_bg_jya_cobra.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -1577,11 +1566,7 @@ endseg
 beginseg
     name "ovl_Door_Warp1"
     include "build/src/overlays/actors/ovl_Door_Warp1/z_door_warp1.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Door_Warp1/ovl_Door_Warp1_reloc.o"
-#else
-    include "build/data/overlays/actors/z_door_warp1.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2241,18 +2226,13 @@ endseg
 beginseg
     name "ovl_En_Ganon_Mant"
     include "build/src/overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Ganon_Mant/ovl_En_Ganon_Mant_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_ganon_mant.reloc.o"
-#endif
 endseg
 
 beginseg
     name "ovl_En_Ganon_Organ"
     include "build/src/overlays/actors/ovl_En_Ganon_Organ/z_en_ganon_organ.o"
-    include "build/data/overlays/actors/z_en_ganon_organ.data.o"
-    include "build/data/overlays/actors/z_en_ganon_organ.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ_reloc.o"
 endseg
 
 beginseg
@@ -2558,11 +2538,7 @@ endseg
 beginseg
     name "ovl_En_M_Thunder"
     include "build/src/overlays/actors/ovl_En_M_Thunder/z_en_m_thunder.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_M_Thunder/ovl_En_M_Thunder_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_m_thunder.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2953,11 +2929,7 @@ endseg
 beginseg
     name "ovl_En_Torch2"
     include "build/src/overlays/actors/ovl_En_Torch2/z_en_torch2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Torch2/ovl_En_Torch2_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_torch2.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2969,11 +2941,7 @@ endseg
 beginseg
     name "ovl_En_Tp"
     include "build/src/overlays/actors/ovl_En_Tp/z_en_tp.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Tp/ovl_En_Tp_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_tp.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3088,11 +3056,7 @@ endseg
 beginseg
     name "ovl_En_Yabusame_Mark"
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/z_en_yabusame_mark.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/ovl_En_Yabusame_Mark_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_yabusame_mark.reloc.o"
-#endif
 endseg
 
 beginseg

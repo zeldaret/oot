@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_PFS_H_
-#define _ULTRA64_PFS_H_
+#ifndef ULTRA64_PFS_H
+#define ULTRA64_PFS_H
 
 #include "ultra64.h"
 

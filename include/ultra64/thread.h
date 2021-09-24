@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_THREAD_H_
-#define _ULTRA64_THREAD_H_
+#ifndef ULTRA64_THREAD_H
+#define ULTRA64_THREAD_H
 
 #define OS_PRIORITY_MAX      255
 #define OS_PRIORITY_VIMGR    254
