@@ -1,5 +1,5 @@
-#ifndef _Z_BG_GND_DARKMEIRO_H_
-#define _Z_BG_GND_DARKMEIRO_H_
+#ifndef Z_BG_GND_DARKMEIRO_H
+#define Z_BG_GND_DARKMEIRO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -28,7 +28,5 @@ typedef enum {
                                            for 304 frames. There are separate timers for N+1 and N+2,
                                            and the timer sets flag N if either timer is above 64 frames. */
 } DarkmeiroType;
-
-extern const ActorInit Bg_Gnd_Darkmeiro_InitVars;
 
 #endif

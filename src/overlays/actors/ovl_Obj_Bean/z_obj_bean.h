@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_BEAN_H_
-#define _Z_OBJ_BEAN_H_
+#ifndef Z_OBJ_BEAN_H
+#define Z_OBJ_BEAN_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -37,7 +37,5 @@ typedef struct ObjBean {
     /* 0x01F6 */ u8 unk_1F6;
     /* 0x01F7 */ u8 stateFlags;
 } ObjBean; // size = 0x01F8
-
-extern const ActorInit Obj_Bean_InitVars;
 
 #endif

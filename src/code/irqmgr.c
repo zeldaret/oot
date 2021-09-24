@@ -112,16 +112,16 @@ void IrqMgr_HandlePreNMI(IrqMgr* this) {
 }
 
 void IrqMgr_CheckStack() {
-    osSyncPrintf("irqmgr.c: PRENMIから0.5秒経過\n"); // 0.5 seconds after PRENMI
+    osSyncPrintf("irqmgr.c: PRENMIから0.5秒経過\n"); // "0.5 seconds after PRENMI"
     if (StackCheck_Check(NULL) == 0) {
-        osSyncPrintf("スタックは大丈夫みたいです\n"); // The stack looks ok
+        osSyncPrintf("スタックは大丈夫みたいです\n"); // "The stack looks ok"
     } else {
         osSyncPrintf("%c", 7);
         osSyncPrintf(VT_FGCOL(RED));
-        osSyncPrintf("スタックがオーバーフローしたか危険な状態です\n"); // Stack overflow or dangerous
-        osSyncPrintf(
-            "早々にスタックサイズを増やすか、スタックを消費しないようにしてください\n"); // Increase stack size early or
-                                                                                         // don't consume stack
+        // "Stack overflow or dangerous"
+        osSyncPrintf("スタックがオーバーフローしたか危険な状態です\n");
+        // "Increase stack size early or don't consume stack"
+        osSyncPrintf("早々にスタックサイズを増やすか、スタックを消費しないようにしてください\n");
         osSyncPrintf(VT_RST);
     }
 }
@@ -141,7 +141,8 @@ void IrqMgr_HandlePRENMI480(IrqMgr* this) {
     osSetTimer(&this->timer, OS_USEC_TO_CYCLES(20000), 0ull, &this->queue, (OSMesg)PRENMI500_MSG);
     ret = osAfterPreNMI();
     if (ret) {
-        osSyncPrintf("osAfterPreNMIが %d を返しました！？\n", ret); // osAfterPreNMI returned %d !?
+        // "osAfterPreNMI returned %d !?"
+        osSyncPrintf("osAfterPreNMIが %d を返しました！？\n", ret);
         osSetTimer(&this->timer, OS_USEC_TO_CYCLES(1000), 0ull, &this->queue, (OSMesg)PRENMI480_MSG);
     }
 }
@@ -168,7 +169,7 @@ void IrqMgr_ThreadEntry(void* arg0) {
     u8 exit;
 
     msg = 0;
-    osSyncPrintf("ＩＲＱマネージャスレッド実行開始\n"); // Start IRQ manager thread execution
+    osSyncPrintf("ＩＲＱマネージャスレッド実行開始\n"); // "Start IRQ manager thread execution"
     exit = false;
 
     while (!exit) {
@@ -179,33 +180,37 @@ void IrqMgr_ThreadEntry(void* arg0) {
                 break;
             case PRE_NMI_MSG:
                 osSyncPrintf("PRE_NMI_MSG\n");
-                osSyncPrintf("スケジューラ：PRE_NMIメッセージを受信\n"); // Scheduler: Receives PRE_NMI message
+                // "Scheduler: Receives PRE_NMI message"
+                osSyncPrintf("スケジューラ：PRE_NMIメッセージを受信\n");
                 IrqMgr_HandlePreNMI(this);
                 break;
             case PRENMI450_MSG:
                 osSyncPrintf("PRENMI450_MSG\n");
-                osSyncPrintf("スケジューラ：PRENMI450メッセージを受信\n"); // Scheduler: Receives PRENMI450 message
+                // "Scheduler: Receives PRENMI450 message"
+                osSyncPrintf("スケジューラ：PRENMI450メッセージを受信\n");
                 IrqMgr_HandlePRENMI450(this);
                 break;
             case PRENMI480_MSG:
                 osSyncPrintf("PRENMI480_MSG\n");
-                osSyncPrintf("スケジューラ：PRENMI480メッセージを受信\n"); // Scheduler: Receives PRENMI480 message
+                // "Scheduler: Receives PRENMI480 message"
+                osSyncPrintf("スケジューラ：PRENMI480メッセージを受信\n");
                 IrqMgr_HandlePRENMI480(this);
                 break;
             case PRENMI500_MSG:
                 osSyncPrintf("PRENMI500_MSG\n");
-                osSyncPrintf("スケジューラ：PRENMI500メッセージを受信\n"); // Scheduler: Receives PRENMI500 message
+                // "Scheduler: Receives PRENMI500 message"
+                osSyncPrintf("スケジューラ：PRENMI500メッセージを受信\n");
                 exit = true;
                 IrqMgr_HandlePRENMI500(this);
                 break;
             default:
-                osSyncPrintf("irqmgr.c:予期しないメッセージを受け取りました(%08x)\n",
-                             msg); // Unexpected message received
+                // "Unexpected message received"
+                osSyncPrintf("irqmgr.c:予期しないメッセージを受け取りました(%08x)\n", msg);
                 break;
         }
     }
 
-    osSyncPrintf("ＩＲＱマネージャスレッド実行終了\n"); // End of IRQ manager thread execution
+    osSyncPrintf("ＩＲＱマネージャスレッド実行終了\n"); // "End of IRQ manager thread execution"
 }
 
 void IrqMgr_Init(IrqMgr* this, void* stack, OSPri pri, u8 retraceCount) {

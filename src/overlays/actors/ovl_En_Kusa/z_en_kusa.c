@@ -36,10 +36,10 @@ void func_80A9BF30(EnKusa* this, GlobalContext* globalCtx);
 void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx);
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx);
 
-s16 D_80A9C1D0 = 0;
-s16 D_80A9C1D4 = 0;
-s16 D_80A9C1D8 = 0;
-s16 D_80A9C1DC = 0;
+static s16 D_80A9C1D0 = 0;
+static s16 D_80A9C1D4 = 0;
+static s16 D_80A9C1D8 = 0;
+static s16 D_80A9C1DC = 0;
 
 const ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
@@ -118,7 +118,7 @@ s32 EnKusa_SnapToFloor(EnKusa* this, GlobalContext* globalCtx, f32 yOffset) {
         return true;
     } else {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // Translation: Failure attaching to ground
+        // "Failure attaching to ground"
         osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
         osSyncPrintf(VT_RST);
         return false;
@@ -463,9 +463,9 @@ void func_80A9C00C(EnKusa* this) {
 }
 
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
-    s32 sp24;
+    s32 sp24 = true;
 
-    sp24 = Math_StepToF(&this->actor.scale.y, 0.4f, 0.014f) & 1;
+    sp24 &= Math_StepToF(&this->actor.scale.y, 0.4f, 0.014f);
     sp24 &= Math_StepToF(&this->actor.scale.x, 0.4f, 0.011f);
     this->actor.scale.z = this->actor.scale.x;
 

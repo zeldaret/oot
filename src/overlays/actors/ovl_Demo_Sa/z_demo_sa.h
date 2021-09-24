@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_SA_H_
-#define _Z_DEMO_SA_H_
+#ifndef Z_DEMO_SA_H
+#define Z_DEMO_SA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -23,7 +23,5 @@ typedef struct DemoSa {
     /* 0x01AC */ s32 unk_1AC;
     /* 0x01B0 */ s32 unk_1B0;
 } DemoSa; // size = 0x01B4
-
-extern const ActorInit Demo_Sa_InitVars;
 
 #endif

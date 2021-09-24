@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT15_RRBOX_H_
-#define _Z_BG_SPOT15_RRBOX_H_
+#ifndef Z_BG_SPOT15_RRBOX_H
+#define Z_BG_SPOT15_RRBOX_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -19,7 +19,5 @@ typedef struct BgSpot15Rrbox {
     /* 0x017C */ f32 unk_17C;
     /* 0x0180 */ s32 bgId; // Id of BgActor beneath the box
 } BgSpot15Rrbox; // size = 0x0184
-
-extern const ActorInit Bg_Spot15_Rrbox_InitVars;
 
 #endif

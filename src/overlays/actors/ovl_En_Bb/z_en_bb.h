@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BB_H_
-#define _Z_EN_BB_H_
+#ifndef Z_EN_BB_H
+#define Z_EN_BB_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -55,7 +55,5 @@ typedef enum {
     ENBB_FLAME_TRAIL,
     ENBB_KILL_TRAIL = 11
 } EnBbType;
-
-extern const ActorInit En_Bb_InitVars;
 
 #endif

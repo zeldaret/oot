@@ -75,7 +75,7 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
                  Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F),
                  Flags_GetTempClear(globalCtx, this->dyna.actor.room), Flags_GetClear(globalCtx, this->dyna.actor.room),
-                 PLAYER->actor.world.pos.y);
+                 GET_PLAYER(globalCtx)->actor.world.pos.y);
     BgMoriBigst_InitDynapoly(this, globalCtx, &gMoriBigstCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
@@ -111,7 +111,7 @@ void BgMoriBigst_WaitForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         thisx->draw = BgMoriBigst_Draw;
-        if (Flags_GetClear(globalCtx, thisx->room) && (PLAYER->actor.world.pos.y > 700.0f)) {
+        if (Flags_GetClear(globalCtx, thisx->room) && (GET_PLAYER(globalCtx)->actor.world.pos.y > 700.0f)) {
             if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
                 BgMoriBigst_SetupDone(this, globalCtx);
             } else {
@@ -145,9 +145,10 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) 
 }
 
 void BgMoriBigst_StalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
-    if ((this->dyna.actor.home.rot.z == 0) && ((this->dyna.actor.home.pos.y - 5.0f) <= PLAYER->actor.world.pos.y)) {
+    if ((this->dyna.actor.home.rot.z == 0) &&
+        ((this->dyna.actor.home.pos.y - 5.0f) <= GET_PLAYER(globalCtx)->actor.world.pos.y)) {
         BgMoriBigst_SetupFall(this, globalCtx);
         OnePointCutscene_Init(globalCtx, 3220, 72, &this->dyna.actor, MAIN_CAM);
     }
@@ -174,7 +175,7 @@ void BgMoriBigst_SetupLanding(BgMoriBigst* this, GlobalContext* globalCtx) {
 
     BgMoriBigst_SetupAction(this, BgMoriBigst_Landing);
     this->waitTimer = 18;
-    quake = Quake_Add(ACTIVE_CAM, 3);
+    quake = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
     Quake_SetSpeed(quake, 25000);
     Quake_SetQuakeValues(quake, 5, 0, 0, 0);
     Quake_SetCountdown(quake, 16);

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_CROW_H_
-#define _Z_EN_CROW_H_
+#ifndef Z_EN_CROW_H
+#define Z_EN_CROW_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,7 +21,5 @@ typedef struct EnCrow {
     /* 0x0238 */ ColliderJntSph collider;
     /* 0x0258 */ ColliderJntSphElement colliderItems[1];
 } EnCrow; // size = 0x0298
-
-extern const ActorInit En_Crow_InitVars;
 
 #endif

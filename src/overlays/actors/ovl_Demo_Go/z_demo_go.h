@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_GO_H_
-#define _Z_DEMO_GO_H_
+#ifndef Z_DEMO_GO_H
+#define Z_DEMO_GO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct DemoGo {
     /* 0x0198 */ s32 drawConfig;
     /* 0x019C */ f32 unk_19C;
 } DemoGo; // size = 0x01A0
-
-extern const ActorInit Demo_Go_InitVars;
 
 #endif

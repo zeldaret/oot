@@ -6,6 +6,7 @@
 
 #include "z_demo_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/object_sa/object_sa.h"
 
 #include "vt.h"
@@ -156,7 +157,7 @@ void func_8098E5C8(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 s32 DemoSa_FrameUpdateMatrix(DemoSa* this) {
-    SkelAnime_Update(&this->skelAnime);
+    return SkelAnime_Update(&this->skelAnime);
 }
 
 CsCmdActorAction* DemoSa_GetNpcAction(GlobalContext* globalCtx, s32 idx) {
@@ -228,11 +229,12 @@ void func_8098E86C(DemoSa* this, GlobalContext* globalCtx) {
     f32 posY = world->y;
     f32 posZ = world->z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 void func_8098E8C8(DemoSa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 posX = player->actor.world.pos.x;
     f32 posY = player->actor.world.pos.y + 80.0f;
     f32 posZ = player->actor.world.pos.z;
@@ -251,7 +253,7 @@ void func_8098E960(DemoSa* this, GlobalContext* globalCtx) {
     Player* player;
 
     if ((gSaveContext.chamberCutsceneNum == 0) && (gSaveContext.sceneSetupIndex < 4)) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         this->action = 1;
         globalCtx->csCtx.segment = D_8099010C;
         gSaveContext.cutsceneTrigger = 2;

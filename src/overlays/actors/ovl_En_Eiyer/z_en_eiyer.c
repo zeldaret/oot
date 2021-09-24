@@ -107,7 +107,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 25, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x19, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
 };
@@ -256,7 +256,7 @@ void EnEiyer_SetupStartAttack(EnEiyer* this) {
 }
 
 void EnEiyer_SetupDiveAttack(EnEiyer* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->actor.velocity.y = 0.0f;
     this->basePos.y = player->actor.world.pos.y + 15.0f;
@@ -452,7 +452,7 @@ void EnEiyer_Glide(EnEiyer* this, GlobalContext* globalCtx) {
 }
 
 void EnEiyer_StartAttack(EnEiyer* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f focus;
 
     SkelAnime_Update(&this->skelanime);

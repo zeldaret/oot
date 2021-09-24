@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SKJNEEDLE_H_
-#define _Z_EN_SKJNEEDLE_H_
+#ifndef Z_EN_SKJNEEDLE_H
+#define Z_EN_SKJNEEDLE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct EnSkjneedle {
     /* 0x01E2 */ s16 killTimer;
     /* 0x01E4 */ char unk_1E4[4];
 } EnSkjneedle; // size = 0x01E8
-
-extern const ActorInit En_Skjneedle_InitVars;
 
 #endif

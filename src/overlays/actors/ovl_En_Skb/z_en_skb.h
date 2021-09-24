@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SKB_H_
-#define _Z_EN_SKB_H_
+#ifndef Z_EN_SKB_H
+#define Z_EN_SKB_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -23,7 +23,5 @@ typedef struct EnSkb {
     /* 0x02A4 */ ColliderJntSph collider;
     /* 0x02C4 */ ColliderJntSphElement colliderItem[2];
 } EnSkb; // size = 0x0344
-
-extern const ActorInit En_Skb_InitVars;
 
 #endif

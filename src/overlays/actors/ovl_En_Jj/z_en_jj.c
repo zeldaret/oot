@@ -196,7 +196,7 @@ void EnJj_WaitToOpenMouth(EnJj* this, GlobalContext* globalCtx) {
 
 void EnJj_WaitForFish(EnJj* this, GlobalContext* globalCtx) {
     static Vec3f feedingSpot = { -1589.0f, 53.0f, -43.0f };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((Math_Vec3f_DistXZ(&feedingSpot, &player->actor.world.pos) < 300.0f) &&
         globalCtx->isPlayerDroppingFish(globalCtx)) {
@@ -220,7 +220,7 @@ void EnJj_BeginCutscene(EnJj* this, GlobalContext* globalCtx) {
         globalCtx->csCtx.segment = &D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, bodyCollisionActor->bgId);
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         gSaveContext.eventChkInf[3] |= 0x400;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }

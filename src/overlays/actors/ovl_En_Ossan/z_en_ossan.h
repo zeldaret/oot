@@ -1,5 +1,5 @@
-#ifndef _Z_EN_OSSAN_H_
-#define _Z_EN_OSSAN_H_
+#ifndef Z_EN_OSSAN_H
+#define Z_EN_OSSAN_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -82,8 +82,6 @@ typedef struct EnOssan {
     /* 0x02D0 */ f32 shopItemSelectedTween;
     /* 0x02D4 */ f32 cameraFaceAngle; // stored in degrees
 } EnOssan; // size = 0x02D8
-
-extern const ActorInit En_Ossan_InitVars;
 
 typedef enum {
     /* 00 */ OSSAN_TYPE_KOKIRI,

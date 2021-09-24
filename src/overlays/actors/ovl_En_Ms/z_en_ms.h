@@ -1,5 +1,5 @@
-#ifndef _Z_EN_MS_H_
-#define _Z_EN_MS_H_
+#ifndef Z_EN_MS_H
+#define Z_EN_MS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,8 +17,5 @@ typedef struct EnMs {
     /* 0x0200 */ ColliderCylinder collider;
     /* 0x024C */ s16 activeTimer;
 } EnMs; // size = 0x0250
-
-
-extern const ActorInit En_Ms_InitVars;
 
 #endif

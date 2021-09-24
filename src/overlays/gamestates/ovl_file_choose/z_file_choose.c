@@ -1086,10 +1086,10 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     skyboxZ = (1000.0f * Math_SinS(ZREG(11))) + (1000.0f * Math_CosS(ZREG(11)));
 
     FileChoose_SetupView(this, skyboxX, skyboxY, skyboxZ);
-    SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.unk_13, skyboxX, skyboxY, skyboxZ);
+    SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, skyboxX, skyboxY, skyboxZ);
     gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_NONE);
     ZREG(11) += ZREG(10);
-    func_8006FC88(1, &this->envCtx, &this->skyboxCtx);
+    Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
     gDPPipeSync(POLY_OPA_DISP++);
     func_800949A8(this->state.gfxCtx);
     FileChoose_SetupView(this, 0.0f, 0.0f, 64.0f);
@@ -1399,7 +1399,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.unk_13F0 = 0;
     gSaveContext.unk_13F2 = 0;
     gSaveContext.unk_140E = 0;
-    gSaveContext.environmentTime = 0;
+    gSaveContext.skyboxTime = 0;
     gSaveContext.nextTransition = 0xFF;
     gSaveContext.nextCutsceneIndex = 0xFFEF;
     gSaveContext.cutsceneTrigger = 0;
@@ -1463,10 +1463,10 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
     eyeZ = (1000.0f * Math_SinS(ZREG(11))) + (1000.0f * Math_CosS(ZREG(11)));
 
     FileChoose_SetupView(this, eyeX, eyeY, eyeZ);
-    SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.unk_13, eyeX, eyeY, eyeZ);
+    SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, eyeX, eyeY, eyeZ);
     gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_NONE);
     ZREG(11) += ZREG(10);
-    func_8006FC88(1, &this->envCtx, &this->skyboxCtx);
+    Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
     gDPPipeSync(POLY_OPA_DISP++);
     func_800949A8(this->state.gfxCtx);
     FileChoose_SetupView(this, 0.0f, 0.0f, 64.0f);
@@ -1753,30 +1753,30 @@ void FileChoose_InitContext(GameState* thisx) {
 
     ShrinkWindow_SetVal(0);
 
-    gSaveContext.environmentTime = 0;
+    gSaveContext.skyboxTime = 0;
     gSaveContext.dayTime = 0;
 
     Skybox_Init(&this->state, &this->skyboxCtx, 1);
 
-    D_8011FB40 = 10;
+    gTimeIncrement = 10;
 
     envCtx->unk_19 = 0;
     envCtx->unk_1A = 0;
     envCtx->unk_21 = 0;
     envCtx->unk_22 = 0;
-    envCtx->unk_44 = 0;
-    envCtx->unk_10 = 0x63;
-    envCtx->unk_11 = 0x63;
+    envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
+    envCtx->skybox1Index = 99;
+    envCtx->skybox2Index = 99;
     envCtx->unk_1F = 0;
     envCtx->unk_20 = 0;
     envCtx->unk_BD = 0;
-    envCtx->gloomySky = 2;
-    envCtx->skyDisabled = 0;
-    envCtx->unk_13 = 0;
+    envCtx->unk_17 = 2;
+    envCtx->skyboxDisabled = 0;
+    envCtx->skyboxBlend = 0;
     envCtx->unk_84 = 0.0f;
     envCtx->unk_88 = 0.0f;
 
-    func_8006FC88(1, &this->envCtx, &this->skyboxCtx);
+    Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
 
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
@@ -1787,6 +1787,7 @@ void FileChoose_InitContext(GameState* thisx) {
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
 
     gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
+    
     if (gSaveContext.language > 2) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = 0;
     }

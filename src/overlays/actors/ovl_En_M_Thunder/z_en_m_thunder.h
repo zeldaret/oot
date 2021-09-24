@@ -1,5 +1,5 @@
-#ifndef _Z_EN_M_THUNDER_H_
-#define _Z_EN_M_THUNDER_H_
+#ifndef Z_EN_M_THUNDER_H
+#define Z_EN_M_THUNDER_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -26,7 +26,5 @@ typedef struct EnMThunder {
     /* 0x01C9 */ u8 unk_1C9;
     /* 0x01CA */ u8 unk_1CA;
 } EnMThunder; // size = 0x01CC
-
-extern const ActorInit En_M_Thunder_InitVars;
 
 #endif

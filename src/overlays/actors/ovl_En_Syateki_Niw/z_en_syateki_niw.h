@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SYATEKI_NIW_H_
-#define _Z_EN_SYATEKI_NIW_H_
+#ifndef Z_EN_SYATEKI_NIW_H
+#define Z_EN_SYATEKI_NIW_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -67,7 +67,5 @@ typedef struct EnSyatekiNiw {
     /* 0x02FC */ ColliderCylinder collider;
     /* 0x0348 */ EnSyatekiNiw_1 unk_348[5];
 } EnSyatekiNiw; // size = 0x0460
-
-extern const ActorInit En_Syateki_Niw_InitVars;
 
 #endif

@@ -202,7 +202,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 prevTagFlags = this->tagFlags;
     s32 i;
     s32 mask;
@@ -239,7 +239,7 @@ void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_ProximityDrop(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.xzDistToPlayer < 50.0f) && (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {
         EnWonderItem_DropCollectible(this, globalCtx, true);
@@ -254,7 +254,7 @@ void EnWonderItem_InteractSwitch(EnWonderItem* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_ProximitySwitch(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.xzDistToPlayer < 50.0f) && (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {
         if (this->switchFlag >= 0) {
@@ -265,7 +265,7 @@ void EnWonderItem_ProximitySwitch(EnWonderItem* this, GlobalContext* globalCtx) 
 }
 
 void EnWonderItem_MultitagOrdered(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 prevTagFlags = this->tagFlags;
     s32 i;
     s32 mask;
@@ -322,7 +322,7 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_RollDrop(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.xzDistToPlayer < 50.0f) && (player->invincibilityTimer < 0) &&
         (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {

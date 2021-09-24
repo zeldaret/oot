@@ -1,5 +1,5 @@
-#ifndef _Z_EN_XC_H_
-#define _Z_EN_XC_H_
+#ifndef Z_EN_XC_H
+#define Z_EN_XC_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -141,7 +141,5 @@ typedef struct EnXc {
     /* 0x0310 */ Actor* flameActor;
     /* 0x0314 */ struct_80034A14_arg1 npcInfo;
 } EnXc; // size = 0x033C
-
-extern const ActorInit En_Xc_InitVars;
 
 #endif

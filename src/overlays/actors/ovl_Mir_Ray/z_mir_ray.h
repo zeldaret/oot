@@ -1,5 +1,5 @@
-#ifndef _Z_MIR_RAY_H_
-#define _Z_MIR_RAY_H_
+#ifndef Z_MIR_RAY_H
+#define Z_MIR_RAY_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -43,7 +43,5 @@ typedef struct MirRay {
     /* 0x02A0 */ LightInfo lightInfo;
     /* 0x02AE */ u8 unLit; // Conditioned on. set in Cobra?
 } MirRay; // size = 0x02B0
-
-extern const ActorInit Mir_Ray_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_MAGIC_WIND_H_
-#define _Z_MAGIC_WIND_H_
+#ifndef Z_MAGIC_WIND_H
+#define Z_MAGIC_WIND_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct MagicWind {
     /* 0x016C */ s16 timer;
     /* 0x0170 */ MagicWindFunc actionFunc;
 } MagicWind; // size = 0x0174
-
-extern const ActorInit Magic_Wind_InitVars;
 
 #endif

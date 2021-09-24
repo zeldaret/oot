@@ -1,7 +1,5 @@
 #include "z_bg_ganon_otyuka.h"
 
-extern Gfx D_08000000[];
-
 static UNK_TYPE sPlatformTexture[] = {
     0x19033187, 0x39C74207, 0x4A495247, 0x5A494A09, 0x498749C5, 0x5A476247, 0x62076287, 0x734F8393, 0x6A8B6A09,
     0x5A495207, 0x49C54A89, 0x4A895289, 0x5AC95A89, 0x5A4B5A8B, 0x5A896249, 0x52095207, 0x19033185, 0x420949C7,
@@ -200,7 +198,7 @@ static Gfx sFlashDList[] = {
                        COMBINED, ENVIRONMENT, COMBINED, 0, SHADE, 0),
     gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_XLU_SURF2),
     gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPDisplayList(D_08000000),
+    gsSPDisplayList(0x08000000),
     gsSPVertex(sFlashVerts, 8, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
     gsSP2Triangles(4, 2, 5, 0, 4, 0, 2, 0),

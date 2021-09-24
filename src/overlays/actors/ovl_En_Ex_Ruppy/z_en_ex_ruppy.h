@@ -1,5 +1,5 @@
-#ifndef _Z_EN_EX_RUPPY_H_
-#define _Z_EN_EX_RUPPY_H_
+#ifndef Z_EN_EX_RUPPY_H
+#define Z_EN_EX_RUPPY_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef struct EnExRuppy {
     /* 0x015C */ s16 galleryFlag;
     /* 0x0160 */ f32 unk_160;
 } EnExRuppy; // size = 0x0164
-
-extern const ActorInit En_Ex_Ruppy_InitVars;
 
 #endif

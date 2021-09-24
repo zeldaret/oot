@@ -1,5 +1,5 @@
-#ifndef _Z_EN_RR_H_
-#define _Z_EN_RR_H_
+#ifndef Z_EN_RR_H
+#define Z_EN_RR_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -58,7 +58,5 @@ typedef struct EnRr {
     /* 0x0388 */ Vec3f effectPos[5];
     /* 0x03C4 */ char unk_3C4[0x2000]; //! @bug This is a huge amount of wasted memory.
 } EnRr; // size = 0x23C4
-
-extern const ActorInit En_Rr_InitVars;
 
 #endif

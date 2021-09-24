@@ -68,8 +68,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                              DynaPolyMoveFlag moveFlag) {
+void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -181,15 +180,14 @@ void BgJya1flift_DelayMove(BgJya1flift* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx2) {
     BgJya1flift* this = THIS;
-    s32 pad;
+    GlobalContext* globalCtx = globalCtx2;
     s32 tempIsRiding;
 
     // Room 0 is the first room and 6 is the room that the lift starts on
     if (globalCtx->roomCtx.curRoom.num == 6 || globalCtx->roomCtx.curRoom.num == 0) {
         this->actionFunc(this, globalCtx);
-        if (globalCtx) {}
         tempIsRiding = func_8004356C(&this->dyna) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {

@@ -1,5 +1,5 @@
-#ifndef _Z_BG_DDAN_JD_H_
-#define _Z_BG_DDAN_JD_H_
+#ifndef Z_BG_DDAN_JD_H
+#define Z_BG_DDAN_JD_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgDdanJd {
     /* 0x016A */ s16 idleTimer;
     /* 0x016C */ f32 targetY;
 } BgDdanJd; // size = 0x0170
-
-extern const ActorInit Bg_Ddan_Jd_InitVars;
 
 #endif

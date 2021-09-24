@@ -100,7 +100,7 @@ static u32 sDeathCount = 0;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 88, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x58, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -200, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_STOP),
 };
@@ -228,7 +228,7 @@ void EnCrow_SetupRespawn(EnCrow* this) {
 // Action functions
 
 void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 skelanimeUpdated;
     s16 var;
 
@@ -285,7 +285,7 @@ void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 facingPlayer;
     Vec3f pos;
     s16 target;

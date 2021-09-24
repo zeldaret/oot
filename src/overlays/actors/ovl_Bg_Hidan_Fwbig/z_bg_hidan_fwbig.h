@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HIDAN_FWBIG_H_
-#define _Z_BG_HIDAN_FWBIG_H_
+#ifndef Z_BG_HIDAN_FWBIG_H
+#define Z_BG_HIDAN_FWBIG_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgHidanFwbig {
     /* 0x0152 */ s16 timer;
     /* 0x0154 */ ColliderCylinder collider;
 } BgHidanFwbig; // size = 0x01A0
-
-extern const ActorInit Bg_Hidan_Fwbig_InitVars;
 
 #endif

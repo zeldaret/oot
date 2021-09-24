@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_LIGHTSWITCH_H_
-#define _Z_OBJ_LIGHTSWITCH_H_
+#ifndef Z_OBJ_LIGHTSWITCH_H
+#define Z_OBJ_LIGHTSWITCH_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -29,7 +29,5 @@ typedef struct ObjLightswitch {
     /* 0x01C0 */ s16 flameRingRotSpeed;
     /* 0x01C2 */ u8 prevFrameACflags;
 } ObjLightswitch; // size = 0x01C4
-
-extern const ActorInit Obj_Lightswitch_InitVars;
 
 #endif

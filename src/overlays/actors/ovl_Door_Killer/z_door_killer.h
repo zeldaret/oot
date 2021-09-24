@@ -1,5 +1,5 @@
-#ifndef _Z_DOOR_KILLER_H_
-#define _Z_DOOR_KILLER_H_
+#ifndef Z_DOOR_KILLER_H
+#define Z_DOOR_KILLER_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -34,7 +34,5 @@ typedef struct DoorKiller {
     /* 0x0240 */ ColliderJntSphElement colliderJntSphItems[1];
     /* 0x0280 */ DoorKillerActionFunc actionFunc;
 } DoorKiller; // size = 0x0284
-
-extern const ActorInit Door_Killer_InitVars;
 
 #endif

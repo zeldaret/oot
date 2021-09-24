@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_FD_H_
-#define _Z_BOSS_FD_H_
+#ifndef Z_BOSS_FD_H
+#define Z_BOSS_FD_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -181,7 +181,5 @@ typedef struct BossFd {
     /* 0x14B0 */ ColliderJntSphElement elements[19];
     /* 0x1970 */ BossFdEffect effects[180];
 } BossFd; // size = 0x43A0
-
-extern const ActorInit Boss_Fd_InitVars;
 
 #endif

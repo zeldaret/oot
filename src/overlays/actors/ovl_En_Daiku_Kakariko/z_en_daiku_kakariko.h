@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DAIKU_KAKARIKO_H_
-#define _Z_EN_DAIKU_KAKARIKO_H_
+#ifndef Z_EN_DAIKU_KAKARIKO_H
+#define Z_EN_DAIKU_KAKARIKO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -29,7 +29,5 @@ typedef struct EnDaikuKakariko {
     /* 0x02FC */ Vec3s neckAngle;
     /* 0x0302 */ Vec3s neckAngleTarget;
 } EnDaikuKakariko; // size = 0x0308
-
-extern const ActorInit En_Daiku_Kakariko_InitVars;
 
 #endif

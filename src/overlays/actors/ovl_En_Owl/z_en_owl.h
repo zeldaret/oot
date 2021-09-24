@@ -1,5 +1,5 @@
-#ifndef _Z_EN_OWL_H_
-#define _Z_EN_OWL_H_
+#ifndef Z_EN_OWL_H
+#define Z_EN_OWL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -42,7 +42,5 @@ typedef struct EnOwl {
     /* 0x040C */ EnOwlActionFunc actionFunc;
     /* 0x0410 */ OwlFunc unk_410;
 } EnOwl; // size = 0x0414
-
-extern const ActorInit En_Owl_InitVars;
 
 #endif

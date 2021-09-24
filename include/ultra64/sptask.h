@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_SPTASK_H_
-#define _ULTRA64_SPTASK_H_
+#ifndef ULTRA64_SPTASK_H
+#define ULTRA64_SPTASK_H
 
 /* Task Types */
 #define M_NULTASK 0

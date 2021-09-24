@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_MO_H_
-#define _Z_BOSS_MO_H_
+#ifndef Z_BOSS_MO_H
+#define Z_BOSS_MO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -50,8 +50,8 @@ typedef enum {
     /*  7 */ MO_CORE_FLOAT_MAX
 } BossMoCoreF32Var;
 
-#define MO_SHORT_MAX MAX(MO_TENT_SHORT_MAX, MO_CORE_SHORT_MAX)
-#define MO_FLOAT_MAX MAX(MO_TENT_FLOAT_MAX, MO_CORE_FLOAT_MAX)
+#define MO_SHORT_MAX MAX((s32)MO_TENT_SHORT_MAX, (s32)MO_CORE_SHORT_MAX)
+#define MO_FLOAT_MAX MAX((s32)MO_TENT_FLOAT_MAX, (s32)MO_CORE_FLOAT_MAX)
 
 typedef struct BossMo {
     /* 0x0000 */ Actor actor;
@@ -131,7 +131,5 @@ typedef struct BossMo {
 
 #define BOSSMO_CORE -1
 #define BOSSMO_TENTACLE 100
-
-extern const ActorInit Boss_Mo_InitVars;
 
 #endif

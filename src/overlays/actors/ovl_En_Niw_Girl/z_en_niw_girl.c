@@ -190,7 +190,7 @@ void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
 void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwGirl* this = THIS;
     EnNiwGirlActionFunc tempActionFunc;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Actor_SetScale(&this->actor, 0.013f);
     this->unkUpTimer++;
@@ -206,7 +206,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetFocus(&this->actor, 30.0f);
     if (tempActionFunc == this->actionFunc) {
         this->unk_2D4.unk_18 = player->actor.world.pos;
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             this->unk_2D4.unk_18.y = player->actor.world.pos.y - 10.0f;
         }
         func_80034A14(&this->actor, &this->unk_2D4, 2, 4);

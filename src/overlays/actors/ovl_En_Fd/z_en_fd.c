@@ -269,7 +269,7 @@ s32 EnFd_CheckHammer(EnFd* this, GlobalContext* globalCtx) {
 }
 
 s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     ColliderInfo* info;
 
     if (this->collider.base.acFlags & AC_HIT || EnFd_CheckHammer(this, globalCtx)) {
@@ -374,7 +374,7 @@ Actor* EnFd_FindPotentialTheat(EnFd* this, GlobalContext* globalCtx) {
         return NULL;
     }
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if (!EnFd_CanSeeActor(this, &player->actor, globalCtx)) {
         return NULL;
     }

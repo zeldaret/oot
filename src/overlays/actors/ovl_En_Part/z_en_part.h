@@ -1,5 +1,5 @@
-#ifndef _Z_EN_PART_H_
-#define _Z_EN_PART_H_
+#ifndef Z_EN_PART_H
+#define Z_EN_PART_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct EnPart {
     /* 0x154 */ f32 rotZ;
     /* 0x158 */ f32 rotZSpeed;
 } EnPart; // size = 0x015C
-
-extern const ActorInit En_Part_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_MA1_H_
-#define _Z_EN_MA1_H_
+#ifndef Z_EN_MA1_H
+#define Z_EN_MA1_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -19,7 +19,5 @@ typedef struct EnMa1 {
     /* 0x01E6 */ s16 mouthIndex;
     /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;
 } EnMa1; // size = 0x0210
-
-extern const ActorInit En_Ma1_InitVars;
 
 #endif

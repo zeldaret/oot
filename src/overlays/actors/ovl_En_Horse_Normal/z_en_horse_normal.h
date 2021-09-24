@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HORSE_NORMAL_H_
-#define _Z_EN_HORSE_NORMAL_H_
+#ifndef Z_EN_HORSE_NORMAL_H
+#define Z_EN_HORSE_NORMAL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -31,7 +31,5 @@ typedef struct EnHorseNormal {
     /* 0x0320 */ char unk_320[0x04];
     /* 0x0324 */ s32 waypoint;
 } EnHorseNormal; // size = 0x0328
-
-extern const ActorInit En_Horse_Normal_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_BG_ICE_TURARA_H_
-#define _Z_BG_ICE_TURARA_H_
+#ifndef Z_BG_ICE_TURARA_H
+#define Z_BG_ICE_TURARA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef struct BgIceTurara {
     /* 0x0168 */ s16 shiverTimer;
     /* 0x016C */ ColliderCylinder collider;
 } BgIceTurara; // size = 0x01B8
-
-extern const ActorInit Bg_Ice_Turara_InitVars;
 
 #endif

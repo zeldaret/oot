@@ -1,5 +1,5 @@
-#ifndef _Z_DOOR_GERUDO_H_
-#define _Z_DOOR_GERUDO_H_
+#ifndef Z_DOOR_GERUDO_H
+#define Z_DOOR_GERUDO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct DoorGerudo {
     /* 0x0166 */ u8 unk_166;
     /* 0x0168 */ DoorGerudoActionFunc actionFunc;
 } DoorGerudo; // size = 0x016C
-
-extern const ActorInit Door_Gerudo_InitVars;
 
 #endif

@@ -6,6 +6,7 @@
 
 #include "z_en_dha.h"
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
+#include "objects/object_dh/object_dh.h"
 
 #define FLAGS 0x00000015
 
@@ -148,9 +149,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
 };
 
-extern FlexSkeletonHeader D_06000BD8;
-extern AnimationHeader D_060015B0;
-
 void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -160,7 +158,8 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->jointTable, this->morphTable, 4);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_dh_Skel_000BD8, &object_dh_Anim_0015B0, this->jointTable,
+                       this->morphTable, 4);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFeet, 90.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 50.0f;
@@ -182,7 +181,7 @@ void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDha_SetupWait(EnDha* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_060015B0);
+    Animation_PlayLoop(&this->skelAnime, &object_dh_Anim_0015B0);
     this->unk_1C0 = 0;
     this->actionTimer = ((Rand_ZeroOne() * 10.0f) + 5.0f);
     this->actor.speedXZ = 0.0f;
@@ -195,7 +194,7 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f armPosMultiplier1 = { 0.0f, 0.0f, 55.0f };
     Vec3f armPosMultiplier2 = { 0.0f, 0.0f, -54.0f };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s32 pad2;
     Vec3f playerPos = player->actor.world.pos;
@@ -205,7 +204,7 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
     playerPos.x += Math_SinS(player->actor.shape.rot.y) * -5.0f;
     playerPos.z += Math_CosS(player->actor.shape.rot.y) * -5.0f;
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         playerPos.y += 38.0f;
     } else {
         playerPos.y += 56.0f;
@@ -304,7 +303,7 @@ void EnDha_SetupTakeDamage(EnDha* this) {
 }
 
 void EnDha_TakeDamage(EnDha* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~0x80;
@@ -342,7 +341,7 @@ void EnDha_SetupDeath(EnDha* this) {
 void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     s16 angle;
     Vec3f vec;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~0x80;

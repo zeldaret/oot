@@ -1,5 +1,5 @@
-#ifndef _Z_OCEFF_SPOT_H_
-#define _Z_OCEFF_SPOT_H_
+#ifndef Z_OCEFF_SPOT_H
+#define Z_OCEFF_SPOT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct OceffSpot {
     /* 0x0178 */ u16 timer;
     /* 0x017C */ OceffSpotActionFunc actionFunc;
 } OceffSpot; // size = 0x0180
-
-extern const ActorInit Oceff_Spot_InitVars;
 
 #endif

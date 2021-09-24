@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HIDAN_RSEKIZOU_H_
-#define _Z_BG_HIDAN_RSEKIZOU_H_
+#ifndef Z_BG_HIDAN_RSEKIZOU_H
+#define Z_BG_HIDAN_RSEKIZOU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct BgHidanRsekizou {
     /* 0x0168 */ ColliderJntSph collider;
     /* 0x0188 */ ColliderJntSphElement colliderItems[6];
 } BgHidanRsekizou; // size = 0x0308
-
-extern const ActorInit Bg_Hidan_Rsekizou_InitVars;
 
 #endif

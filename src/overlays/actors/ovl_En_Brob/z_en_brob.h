@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BROB_H_
-#define _Z_EN_BROB_H_
+#ifndef Z_EN_BROB_H
+#define Z_EN_BROB_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct EnBrob {
     /* 0x01EC */ Vec3s morphTable[10];
     /* 0x0228 */ ColliderCylinder colliders[2];
 } EnBrob; // size = 0x02C0
-
-extern const ActorInit En_Brob_InitVars;
 
 #endif

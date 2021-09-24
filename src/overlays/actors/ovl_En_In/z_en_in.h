@@ -1,5 +1,5 @@
-#ifndef _Z_EN_IN_H_
-#define _Z_EN_IN_H_
+#ifndef Z_EN_IN_H
+#define Z_EN_IN_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -37,7 +37,5 @@ typedef struct EnIn {
     /* 0x0308 */ struct_80034A14_arg1 unk_308;
     /* 0x0330 */ Vec3s unk_330[20];
 } EnIn; // size = 0x03A8
-
-extern const ActorInit En_In_InitVars;
 
 #endif

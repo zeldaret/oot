@@ -184,8 +184,7 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
     dest->z = src->z * c - src->x * s;
 }
 
-void ObjSwitch_InitDynapoly(ObjSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                            DynaPolyMoveFlag moveFlag) {
+void ObjSwitch_InitDynapoly(ObjSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;

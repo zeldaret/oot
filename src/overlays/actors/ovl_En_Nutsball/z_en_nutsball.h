@@ -1,5 +1,5 @@
-#ifndef _Z_EN_NUTSBALL_H_
-#define _Z_EN_NUTSBALL_H_
+#ifndef Z_EN_NUTSBALL_H
+#define Z_EN_NUTSBALL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct EnNutsball {
     /* 0x0152 */ s16 timer;
     /* 0x0154 */ ColliderCylinder collider;
 } EnNutsball; // size = 0x01A0
-
-extern const ActorInit En_Nutsball_InitVars;
 
 #endif

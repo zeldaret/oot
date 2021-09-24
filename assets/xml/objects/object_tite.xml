@@ -3,15 +3,20 @@
         <Animation Name="object_tite_Anim_0001D4" Offset="0x1D4"/>
         <Animation Name="object_tite_Anim_0004F8" Offset="0x4F8"/>
         <Animation Name="object_tite_Anim_00069C" Offset="0x69C"/>
-        <Animation Name="object_tite_Anim_00083C" Offset="0x83C"/>
-        <Animation Name="object_tite_Anim_000A14" Offset="0xA14"/>
-        <Animation Name="object_tite_Anim_000C70" Offset="0xC70"/>
+        <Animation Name="object_tite_Anim_00083C" Offset="0x83C"/> <!-- Lunge (6 frames) -->
+        <Animation Name="object_tite_Anim_000A14" Offset="0xA14"/> <!-- Turning (8 frames) -->
+        <Animation Name="object_tite_Anim_000C70" Offset="0xC70"/> <!-- Jump / travelling to player (11 frames) -->
         <Animation Name="object_tite_Anim_000F50" Offset="0xF50"/>
-        <Animation Name="object_tite_Anim_0012E4" Offset="0x12E4"/>
-        <Blob Name="object_tite_Blob_0012F4" Size="0x70C" Offset="0x12F4"/>
+        <Animation Name="object_tite_Anim_0012E4" Offset="0x12E4"/> <!-- Idle (14 frames) -->
+        <Blob Name="object_tite_Blob_0012F4" Size="0xC" Offset="0x12F4"/>
+        <Texture Name="object_tite_Tex_001300" OutName="tex_00001300" Format="rgba16" Width="16" Height="32" Offset="0x1300"/>
+        <Texture Name="object_tite_Tex_001700" OutName="tex_00001700" Format="rgba16" Width="16" Height="16" Offset="0x1700"/>
+        <Texture Name="object_tite_Tex_001900" OutName="tex_00001900" Format="rgba16" Width="8" Height="16" Offset="0x1900"/>
         <Texture Name="object_tite_Tex_001A00" OutName="tex_00001A00" Format="rgba16" Width="4" Height="16" Offset="0x1A00"/>
         <Texture Name="object_tite_Tex_001A80" OutName="tex_00001A80" Format="rgba16" Width="8" Height="8" Offset="0x1A80"/>
-        <Blob Name="object_tite_Blob_001B00" Size="0x700" Offset="0x1B00"/>
+        <Texture Name="object_tite_Tex_001B00" OutName="tex_00001B00" Format="rgba16" Width="16" Height="32" Offset="0x1B00"/>
+        <Texture Name="object_tite_Tex_001F00" OutName="tex_00001F00" Format="rgba16" Width="16" Height="16" Offset="0x1F00"/>
+        <Texture Name="object_tite_Tex_002100" OutName="tex_00002100" Format="rgba16" Width="8" Height="16" Offset="0x2100"/>
         <DList Name="object_tite_DL_002FF0" Offset="0x2FF0"/>
         <DList Name="object_tite_DL_003160" Offset="0x3160"/>
         <DList Name="object_tite_DL_003290" Offset="0x3290"/>

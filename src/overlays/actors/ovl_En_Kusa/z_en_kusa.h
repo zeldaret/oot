@@ -1,5 +1,5 @@
-#ifndef _Z_EN_KUSA_H_
-#define _Z_EN_KUSA_H_
+#ifndef Z_EN_KUSA_H
+#define Z_EN_KUSA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct EnKusa {
     /* 0x019C */ s16 timer;
     /* 0x019E */ s8 kusaTexObjIndex;
 } EnKusa; // size = 0x01A0
-
-extern const ActorInit En_Kusa_InitVars;
 
 #endif

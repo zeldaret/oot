@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ICE_HONO_H_
-#define _Z_EN_ICE_HONO_H_
+#ifndef Z_EN_ICE_HONO_H
+#define Z_EN_ICE_HONO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef struct EnIceHono {
     /* 0x01A8 */ LightNode* lightNode;
     /* 0x01AC */ LightInfo lightInfo;
 } EnIceHono; // size = 0x01BC
-
-extern const ActorInit En_Ice_Hono_InitVars;
 
 #endif

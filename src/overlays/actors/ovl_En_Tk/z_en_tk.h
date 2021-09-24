@@ -1,5 +1,5 @@
-#ifndef _Z_EN_TK_H_
-#define _Z_EN_TK_H_
+#ifndef Z_EN_TK_H
+#define Z_EN_TK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -48,7 +48,5 @@ typedef struct EnTk {
     /* 0x0304 */ Vec3f      v3f_304;
     /* 0x0310 */ EnTkEff    eff[20];
 } EnTk; // size = 0x0770
-
-extern const ActorInit En_Tk_InitVars;
 
 #endif

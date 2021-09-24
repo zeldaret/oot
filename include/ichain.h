@@ -1,5 +1,5 @@
-#ifndef _ICHAIN_H_
-#define _ICHAIN_H_
+#ifndef ICHAIN_H
+#define ICHAIN_H
 
 typedef struct {
     u32 cont:   1;

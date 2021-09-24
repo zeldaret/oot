@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_GANON_H_
-#define _Z_BOSS_GANON_H_
+#ifndef Z_BOSS_GANON_H
+#define Z_BOSS_GANON_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BossGanon {
     /* 0x0718 */ s16 organFadeTimer;
     /* 0x071A */ char unk_71A[0x2];
 } BossGanon; // size = 0x071C
-
-extern const ActorInit Boss_Ganon_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_GANON2_H_
-#define _Z_BOSS_GANON2_H_
+#ifndef Z_BOSS_GANON2_H
+#define Z_BOSS_GANON2_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -93,7 +93,5 @@ typedef struct BossGanon2 {
     /* 0x0464 */ ColliderJntSphElement unk_464[16];
     /* 0x0864 */ ColliderJntSphElement unk_864[2];
 } BossGanon2; // size = 0x08E4
-
-extern const ActorInit Boss_Ganon2_InitVars;
 
 #endif
