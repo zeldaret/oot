@@ -358,7 +358,6 @@ beginseg
     include "build/src/code/z_vismono.o"
     include "build/src/code/code_800AD920.o"
     include "build/src/code/z_vr_box.o"
-    include "build/data/z_vr_box.data.o"
     include "build/src/code/z_vr_box_draw.o"
     include "build/src/code/z_player_call.o"
     include "build/src/code/z_fbdemo.o"
@@ -858,8 +857,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Sekizou"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Sekizou/z_bg_hidan_sekizou.o"
-    include "build/data/overlays/actors/z_bg_hidan_sekizou.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_sekizou.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Sekizou/ovl_Bg_Hidan_Sekizou_reloc.o"
 endseg
 
 beginseg
@@ -2537,11 +2535,7 @@ endseg
 beginseg
     name "ovl_En_M_Thunder"
     include "build/src/overlays/actors/ovl_En_M_Thunder/z_en_m_thunder.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_M_Thunder/ovl_En_M_Thunder_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_m_thunder.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3022,8 +3016,7 @@ endseg
 beginseg
     name "ovl_En_Wf"
     include "build/src/overlays/actors/ovl_En_Wf/z_en_wf.o"
-    include "build/data/overlays/actors/z_en_wf.data.o"
-    include "build/data/overlays/actors/z_en_wf.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wf/ovl_En_Wf_reloc.o"
 endseg
 
 beginseg
