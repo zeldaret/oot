@@ -582,7 +582,7 @@ void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         OnePointCutscene_Init(globalCtx, 0x25E9, 999, &this->actor, CAM_ID_MAIN);
-        Gameplay_CopyCamera(globalCtx, -1, sRutoWarpSubCamId);
+        Gameplay_CopyCamera(globalCtx, CAM_ID_ACTIVE, sRutoWarpSubCamId);
         Gameplay_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STATUS_WAIT);
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_WARPING;
         DoorWarp1_SetupAction(this, DoorWarp1_RutoWarpOut);

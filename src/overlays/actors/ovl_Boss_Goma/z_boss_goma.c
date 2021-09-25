@@ -731,15 +731,15 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             if (this->framesUntilNextAction == 0) {
                 // (-20, 25, -65) is towards room center
                 Math_ApproachF(&this->subCamEye.x, player->actor.world.pos.x - 20.0f, 0.049999997f,
-                               this->camFollowSpeed * 50.0f);
+                               this->subCamFollowSpeed * 50.0f);
                 Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 25.0f, 0.099999994f,
-                               this->camFollowSpeed * 130.0f);
+                               this->subCamFollowSpeed * 130.0f);
                 Math_ApproachF(&this->subCamEye.z, player->actor.world.pos.z - 65.0f, 0.049999997f,
-                               this->camFollowSpeed * 30.0f);
-                Math_ApproachF(&this->camFollowSpeed, 0.29999998f, 1.0f, 0.0050000004f);
+                               this->subCamFollowSpeed * 30.0f);
+                Math_ApproachF(&this->subCamFollowSpeed, 0.29999998f, 1.0f, 0.0050000004f);
                 if (this->timer == 0) {
                     Math_ApproachF(&this->subCamAt.y, player->actor.world.pos.y + 35.0f, 0.099999994f,
-                                   this->camFollowSpeed * 30.0f);
+                                   this->subCamFollowSpeed * 30.0f);
                 }
                 this->subCamAt.x = player->actor.world.pos.x;
                 this->subCamAt.z = player->actor.world.pos.z;
@@ -826,7 +826,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                         Animation_Change(&this->skelanime, &gGohmaWalkAnim, 2.0f, 0.0f,
                                          Animation_GetLastFrame(&gGohmaWalkAnim), ANIMMODE_LOOP, -5.0f);
                         this->framesUntilNextAction = 30;
-                        this->camFollowSpeed = 0.0f;
+                        this->subCamFollowSpeed = 0.0f;
                     }
                 }
             }
@@ -835,11 +835,11 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
         case 5: // running on the ceiling
             // (98, 0, 85) is towards room entrance
             Math_ApproachF(&this->subCamEye.x, this->actor.world.pos.x + 8.0f + 90.0f, 0.1f,
-                           this->camFollowSpeed * 30.0f);
-            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y, 0.1f, this->camFollowSpeed * 30.0f);
+                           this->subCamFollowSpeed * 30.0f);
+            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y, 0.1f, this->subCamFollowSpeed * 30.0f);
             Math_ApproachF(&this->subCamEye.z, this->actor.world.pos.z + 45.0f + 40.0f, 0.1f,
-                           this->camFollowSpeed * 30.0f);
-            Math_ApproachF(&this->camFollowSpeed, 1.0f, 1.0f, 0.05f);
+                           this->subCamFollowSpeed * 30.0f);
+            Math_ApproachF(&this->subCamFollowSpeed, 1.0f, 1.0f, 0.05f);
             this->subCamAt.x = this->actor.world.pos.x;
             this->subCamAt.y = this->actor.world.pos.y;
             this->subCamAt.z = this->actor.world.pos.z;
@@ -871,10 +871,10 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
 
         case 9: // falling from the ceiling
             Math_ApproachF(&this->subCamEye.x, this->actor.world.pos.x + 8.0f + 90.0f, 0.1f,
-                           this->camFollowSpeed * 30.0f);
-            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 10.0f, 0.1f, this->camFollowSpeed * 30.0f);
+                           this->subCamFollowSpeed * 30.0f);
+            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 10.0f, 0.1f, this->subCamFollowSpeed * 30.0f);
             Math_ApproachF(&this->subCamEye.z, this->actor.world.pos.z + 45.0f + 40.0f, 0.1f,
-                           this->camFollowSpeed * 30.0f);
+                           this->subCamFollowSpeed * 30.0f);
             this->subCamAt.x = this->actor.world.pos.x;
             this->subCamAt.y = this->actor.world.pos.y;
             this->subCamAt.z = this->actor.world.pos.z;
@@ -897,10 +897,10 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
 
         case 130: // focus Gohma on the ground
             Math_ApproachF(&this->subCamEye.x, this->actor.world.pos.x + 8.0f + 90.0f, 0.1f,
-                           this->camFollowSpeed * 30.0f);
-            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 10.0f, 0.1f, this->camFollowSpeed * 30.0f);
+                           this->subCamFollowSpeed * 30.0f);
+            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 10.0f, 0.1f, this->subCamFollowSpeed * 30.0f);
             Math_ApproachF(&this->subCamEye.z, this->actor.world.pos.z + 45.0f + 40.0f, 0.1f,
-                           this->camFollowSpeed * 30.0f);
+                           this->subCamFollowSpeed * 30.0f);
             Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
             Math_ApproachS(&this->actor.world.rot.y,
                            Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
@@ -1116,7 +1116,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
                 Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_UNK3);
                 this->timer = 70;
                 this->decayingProgress = 0;
-                this->camFollowSpeed = 0.0f;
+                this->subCamFollowSpeed = 0.0f;
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x,
                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
             }
@@ -1124,13 +1124,13 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
         case 2:
             mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
-            Math_SmoothStepToF(&this->subCamEye.x, mainCam->eye.x, 0.2f, this->camFollowSpeed * 50.0f, 0.1f);
-            Math_SmoothStepToF(&this->subCamEye.y, mainCam->eye.y, 0.2f, this->camFollowSpeed * 50.0f, 0.1f);
-            Math_SmoothStepToF(&this->subCamEye.z, mainCam->eye.z, 0.2f, this->camFollowSpeed * 50.0f, 0.1f);
-            Math_SmoothStepToF(&this->subCamAt.x, mainCam->at.x, 0.2f, this->camFollowSpeed * 50.0f, 0.1f);
-            Math_SmoothStepToF(&this->subCamAt.y, mainCam->at.y, 0.2f, this->camFollowSpeed * 50.0f, 0.1f);
-            Math_SmoothStepToF(&this->subCamAt.z, mainCam->at.z, 0.2f, this->camFollowSpeed * 50.0f, 0.1f);
-            Math_SmoothStepToF(&this->camFollowSpeed, 1.0f, 1.0f, 0.02f, 0.0f);
+            Math_SmoothStepToF(&this->subCamEye.x, mainCam->eye.x, 0.2f, this->subCamFollowSpeed * 50.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamEye.y, mainCam->eye.y, 0.2f, this->subCamFollowSpeed * 50.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamEye.z, mainCam->eye.z, 0.2f, this->subCamFollowSpeed * 50.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamAt.x, mainCam->at.x, 0.2f, this->subCamFollowSpeed * 50.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamAt.y, mainCam->at.y, 0.2f, this->subCamFollowSpeed * 50.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamAt.z, mainCam->at.z, 0.2f, this->subCamFollowSpeed * 50.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamFollowSpeed, 1.0f, 1.0f, 0.02f, 0.0f);
 
             if (this->timer == 0) {
                 childPos = roomCenter;

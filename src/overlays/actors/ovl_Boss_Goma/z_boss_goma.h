@@ -136,7 +136,7 @@ typedef struct BossGoma {
     /* 0x0204 */ f32 mainEnvColor[3];
     /* 0x0210 */ f32 eyeEnvColor[3];
     /* 0x021C */ f32 currentAnimFrameCount; // not used consistently
-    /* 0x0220 */ f32 camFollowSpeed;
+    /* 0x0220 */ f32 subCamFollowSpeed;
     /* 0x0224 */ f32 eyeIrisScaleY;
     /* 0x0228 */ f32 defeatedCameraEyeDist;
     /* 0x022C */ f32 defeatedCameraEyeAngle;

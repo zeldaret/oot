@@ -1045,8 +1045,8 @@ void BossSst_HeadDeath(BossSst* this, GlobalContext* globalCtx) {
         player->actor.world.pos.z = sRoomCenter.z + (400.0f * Math_CosS(this->actor.shape.rot.y)) -
                                     (Math_SinS(this->actor.shape.rot.y) * -120.0f);
         player->actor.shape.rot.y = Actor_WorldYawTowardPoint(&player->actor, &sRoomCenter);
-        func_8002DBD0(&this->actor, &sSubCamEye, &globalCtx->cameraPtrs[globalCtx->activeCamId]->eye);
-        func_8002DBD0(&this->actor, &sSubCamAt, &globalCtx->cameraPtrs[globalCtx->activeCamId]->at);
+        func_8002DBD0(&this->actor, &sSubCamEye, &GET_ACTIVE_CAM(globalCtx)->eye);
+        func_8002DBD0(&this->actor, &sSubCamAt, &GET_ACTIVE_CAM(globalCtx)->at);
         this->radius = -350.0f;
         this->actor.world.pos.x = sRoomCenter.x - (Math_SinS(this->actor.shape.rot.y) * 350.0f);
         this->actor.world.pos.z = sRoomCenter.z - (Math_CosS(this->actor.shape.rot.y) * 350.0f);

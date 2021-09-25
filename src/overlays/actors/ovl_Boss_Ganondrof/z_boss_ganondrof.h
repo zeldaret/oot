@@ -82,9 +82,9 @@ typedef struct BossGanondrof {
     /* 0x036C */ Vec3f subCamAt;
     /* 0x0378 */ Vec3f subCamEyeVel;
     /* 0x0384 */ Vec3f subCamAtVel;
-    /* 0x0390 */ Vec3f cameraNextEye;
+    /* 0x0390 */ Vec3f subCamEyeNext;
     /* 0x039C */ Vec3f subCamEyeMaxVel;
-    /* 0x03A8 */ Vec3f cameraNextAt;
+    /* 0x03A8 */ Vec3f subCamAtNext;
     /* 0x03B4 */ Vec3f subCamAtMaxVel;
     /* 0x03C0 */ f32 cameraSpeedMod;
     /* 0x03C4 */ f32 cameraAccel;
