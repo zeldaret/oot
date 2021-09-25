@@ -322,10 +322,11 @@ typedef enum {
 
 typedef struct {
     /* 0x000 */ char unk_00[0x128];
-    /* 0x128 */ void* staticSegments[3];
-    /* 0x134 */ Gfx* dListBuf;
+    /* 0x128 */ void* staticSegments[2];
+    /* 0x130 */ u16 (*palettes)[256];
+    /* 0x134 */ Gfx (*dListBuf)[150];
     /* 0x138 */ Gfx* unk_138;
-    /* 0x13C */ void* roomVtx;
+    /* 0x13C */ Vtx* roomVtx;
     /* 0x140 */ s16  unk_140;
     /* 0x144 */ Vec3f rot;
     /* 0x150 */ char unk_150[0x10];
@@ -1776,7 +1777,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ RomFile file;
-    /* 0x08 */ RomFile pallete;
+    /* 0x08 */ RomFile palette;
 } SkyboxFile; // size = 0x10
 
 #define ROM_FILE(name) \
