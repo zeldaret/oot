@@ -204,7 +204,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
                 this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, CAM_STAT_ACTIVE);
                 this->unk_39C = 1;
                 sZelda = (EnZl3*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ZL3, 970.0f,
@@ -316,12 +316,12 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->unk_3A4.z, -20.0f, 0.1f, this->unk_410.x * 170.0f);
             Math_ApproachF(&this->unk_410.x, 0.04f, 1.0f, 0.0005f);
             if (this->unk_398 == 100) {
-                temp_v0 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                temp_v0 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                 temp_v0->eye = this->unk_3A4;
                 temp_v0->eyeNext = this->unk_3A4;
                 temp_v0->at = this->unk_3B0;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
-                this->unk_39E = 0;
+                this->unk_39E = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->unk_39C = 5;
@@ -336,7 +336,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_398 = 0;
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, CAM_STAT_ACTIVE);
             } else {
                 break;
@@ -541,7 +541,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 sp8D = true;
             }
             if (this->unk_398 >= 60) {
-                temp_v0 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                temp_v0 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                 temp_v0->eye = this->unk_3A4;
                 temp_v0->eyeNext = this->unk_3A4;
                 temp_v0->at = this->unk_3B0;
@@ -852,12 +852,12 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_ROAR);
             }
             if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
-                temp_v0 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                temp_v0 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                 temp_v0->eye = this->unk_3A4;
                 temp_v0->eyeNext = this->unk_3A4;
                 temp_v0->at = this->unk_3B0;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
-                this->unk_39E = 0;
+                this->unk_39E = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->unk_39C = 0;
@@ -875,7 +875,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     }
 
     temp_a1 = this->unk_39E;
-    if (temp_a1 != 0) {
+    if (temp_a1 != CAM_ID_MAIN) {
         // Definitely fake.
         temp[1] = &this->unk_3A4;
         temp[0] = &this->unk_3B0;
@@ -889,8 +889,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
 #endif
 
 void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
-    if ((this->unk_312 != 0) && (this->unk_39E == 0)) {
+    if ((this->unk_312 != 0) && (this->unk_39E == CAM_ID_MAIN)) {
         Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
+
         while (actor != NULL) {
             if (actor->id == ACTOR_DEMO_GJ) {
                 DemoGj* gj = (DemoGj*)actor;
@@ -1272,7 +1273,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
     f32 temp_f12;
     f32 temp_f2;
 
-    sp4C = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    sp4C = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
     this->unk_398++;
@@ -1282,7 +1283,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
         case 0:
             func_80064520(globalCtx, &globalCtx->csCtx);
             this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, CAM_STAT_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->unk_39C = 1;
@@ -1325,12 +1326,12 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
                 func_8010B680(globalCtx, 0x70D7, NULL);
             }
             if ((this->unk_1A2[1] < 30) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
-                temp_v0 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                temp_v0 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                 temp_v0->eye = this->unk_3A4;
                 temp_v0->eyeNext = this->unk_3A4;
                 temp_v0->at = this->unk_3B0;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
-                this->unk_39E = 0;
+                this->unk_39E = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->unk_39C = 3;
@@ -1339,7 +1340,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
         case 10:
             func_80064520(globalCtx, &globalCtx->csCtx);
             this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, CAM_STAT_ACTIVE);
             this->unk_39C = 11;
             this->unk_334 = 1;
@@ -1356,20 +1357,20 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = (player->actor.world.pos.y + 60.0f) - 25.0f;
             this->unk_3B0.z = player->actor.world.pos.z;
             if (this->unk_398 == 80) {
-                temp_v0_2 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                temp_v0_2 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                 temp_v0_2->eye = this->unk_3A4;
                 temp_v0_2->eyeNext = this->unk_3A4;
                 temp_v0_2->at = this->unk_3B0;
                 this->unk_39C = 3;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
-                this->unk_39E = 0;
+                this->unk_39E = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
             }
             break;
     }
 
-    if (this->unk_39E != 0) {
+    if (this->unk_39E != CAM_ID_MAIN) {
         Gameplay_CameraSetAtEye(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4);
     }
 
@@ -1467,7 +1468,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
         case 0:
             func_80064520(globalCtx, &globalCtx->csCtx);
             this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, CAM_STAT_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->unk_39C = 1;
@@ -1602,12 +1603,12 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = player->actor.world.pos.y + 40.0f;
             this->unk_3B0.z = player->actor.world.pos.z;
             if (this->unk_398 == 166) {
-                temp_v0_2 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                temp_v0_2 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                 temp_v0_2->eye = this->unk_3A4;
                 temp_v0_2->eyeNext = this->unk_3A4;
                 temp_v0_2->at = this->unk_3B0;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
-                this->unk_39E = 0;
+                this->unk_39E = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->unk_39C = 6;
@@ -1622,7 +1623,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 (player->swordState != 0) && (player->heldItemActionParam == 3)) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, CAM_STAT_ACTIVE);
                 this->unk_39C = 7;
                 this->unk_398 = 0;
@@ -1794,7 +1795,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->unk_39E != 0) {
+    if (this->unk_39E != CAM_ID_MAIN) {
         Gameplay_CameraSetAtEyeUp(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4, &this->unk_3BC);
     }
 
@@ -2050,7 +2051,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_424.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_444.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_444.base);
-        if (this->unk_39E == 0) {
+        if (this->unk_39E == CAM_ID_MAIN) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk_444.base);
         }
     }

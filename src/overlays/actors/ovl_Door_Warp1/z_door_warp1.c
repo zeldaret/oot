@@ -469,7 +469,7 @@ void DoorWarp1_ChildWarpIdle(DoorWarp1* this, GlobalContext* globalCtx) {
 
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-        OnePointCutscene_Init(globalCtx, 0x25E7, 999, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 0x25E7, 999, &this->actor, CAM_ID_MAIN);
         func_8002DF54(globalCtx, &this->actor, 10);
 
         player->unk_450.x = this->actor.world.pos.x;
@@ -559,7 +559,7 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->rutoWarpState == WARP_BLUE_RUTO_STATE_3) {
-        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
         sRutoWarpSubCamId = Gameplay_CreateSubCamera(globalCtx);
 
         Gameplay_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_ACTIVE);
@@ -581,7 +581,7 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
 void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        OnePointCutscene_Init(globalCtx, 0x25E9, 999, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 0x25E9, 999, &this->actor, CAM_ID_MAIN);
         Gameplay_CopyCamera(globalCtx, -1, sRutoWarpSubCamId);
         Gameplay_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_WAIT);
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_WARPING;
@@ -650,7 +650,7 @@ void DoorWarp1_AdultWarpIdle(DoorWarp1* this, GlobalContext* globalCtx) {
     if (DoorWarp1_PlayerInRange(this, globalCtx)) {
         player = GET_PLAYER(globalCtx);
 
-        OnePointCutscene_Init(globalCtx, 0x25E8, 999, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 0x25E8, 999, &this->actor, CAM_ID_MAIN);
         func_8002DF54(globalCtx, &this->actor, 10);
         player->unk_450.x = this->actor.world.pos.x;
         player->unk_450.z = this->actor.world.pos.z;

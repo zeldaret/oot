@@ -76,18 +76,19 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec3f eye;
     /* 0x0C */ Vec3f at;
-    /* 0x18 */ Vec3f pad[2];
+    /* 0x18 */ Vec3f up;
+    /* 0x24 */ Vec3f pad;
     /* 0x30 */ Vec3f eyeVel;
     /* 0x3C */ Vec3f atVel;
-    /* 0x48 */ Vec3f nextEye;
-    /* 0x54 */ Vec3f eyeMaxVel;
-    /* 0x60 */ Vec3f nextAt;
-    /* 0x6C */ Vec3f atMaxVel;
-    /* 0x78 */ f32 speedMod;
+    /* 0x48 */ Vec3f eyeNext;
+    /* 0x54 */ Vec3f eyeMaxVelFrac;
+    /* 0x60 */ Vec3f atNext;
+    /* 0x6C */ Vec3f atMaxVelFrac;
+    /* 0x78 */ f32 velFactor;
     /* 0x7C */ f32 accel;
-    /* 0x80 */ f32 yMod;
+    /* 0x80 */ f32 atYOffset;
     /* 0x84 */ f32 shake;
-} BossFdCam; // size = 0x88
+} BossFdSubCam; // size = 0x88
 
 typedef enum {
     /*  0 */ BFD_ACTION_STATE,
@@ -175,8 +176,8 @@ typedef struct BossFd {
     /* 0x13F4 */ Vec3f headPos;
     /* 0x1400 */ s16 introFlyState;
     /* 0x1402 */ s16 introState;
-    /* 0x1404 */ s16 introCamera;
-    /* 0x1408 */ BossFdCam camData;
+    /* 0x1404 */ s16 subCamId;
+    /* 0x1408 */ BossFdSubCam subCamData;
     /* 0x1490 */ ColliderJntSph collider;
     /* 0x14B0 */ ColliderJntSphElement elements[19];
     /* 0x1970 */ BossFdEffect effects[180];

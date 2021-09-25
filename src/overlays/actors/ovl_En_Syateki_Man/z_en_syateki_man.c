@@ -172,7 +172,7 @@ void EnSyatekiMan_StopTalk(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->cameraHold) {
             OnePointCutscene_EndCutscene(globalCtx, this->csCam);
-            this->csCam = SUBCAM_NONE;
+            this->csCam = CAM_ID_NONE;
             this->cameraHold = false;
         }
         func_80106CCC(globalCtx);
@@ -190,7 +190,7 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->cameraHold) {
             OnePointCutscene_EndCutscene(globalCtx, this->csCam);
-            this->csCam = SUBCAM_NONE;
+            this->csCam = CAM_ID_NONE;
             this->cameraHold = false;
         }
         func_80106CCC(globalCtx);
@@ -209,7 +209,7 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if (1) {}
     gallery = ((EnSyatekiItm*)this->actor.parent);
     if ((gallery->actor.update != NULL) && (gallery->signal == ENSYATEKI_END)) {
-        this->csCam = OnePointCutscene_Init(globalCtx, 8002, -99, &this->actor, MAIN_CAM);
+        this->csCam = OnePointCutscene_Init(globalCtx, 8002, -99, &this->actor, CAM_ID_MAIN);
         switch (gallery->hitCount) {
             case 10:
                 this->gameResult = SYATEKI_RESULT_WINNER;
@@ -242,7 +242,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->gameResult != SYATEKI_RESULT_FAILURE) {
             OnePointCutscene_EndCutscene(globalCtx, this->csCam);
-            this->csCam = SUBCAM_NONE;
+            this->csCam = CAM_ID_NONE;
         }
         func_80106CCC(globalCtx);
         gallery = ((EnSyatekiItm*)this->actor.parent);

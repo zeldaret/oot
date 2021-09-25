@@ -380,7 +380,7 @@ void func_80A87CEC(EnJj *this, GlobalContext *globalCtx) {
     globalCtx->csCtx.segment = &D_80A88164;
     gSaveContext.cutsceneTrigger = (u8)1U;
     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, (s32) temp_v1->bgId);
-    func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+    func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamId]);
     gSaveContext.unkEDA = (u16) (gSaveContext.unkEDA | 0x400);
     func_80078884((u16)0x4802U);
 }
@@ -394,7 +394,7 @@ Easy things to sort out:
 
 - We can remove the casts from `(u8)1U` and just leave `1`.
 
-- `globalCtx->cameraPtrs[globalCtx->activeCamera]` has a macro: it is `GET_ACTIVE_CAM(globalCtx)`, so this line can be written as
+- `globalCtx->cameraPtrs[globalCtx->activeCamId]` has a macro: it is `GET_ACTIVE_CAM(globalCtx)`, so this line can be written as
 ```C
 func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
 ```

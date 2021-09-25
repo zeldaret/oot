@@ -1186,11 +1186,11 @@ void func_80832318(Player* this) {
 void func_80832340(GlobalContext* globalCtx, Player* this) {
     Camera* camera;
 
-    if (this->unk_46C != SUBCAM_NONE) {
-        camera = globalCtx->cameraPtrs[this->unk_46C];
+    if (this->subCamId != CAM_ID_NONE) {
+        camera = globalCtx->cameraPtrs[this->subCamId];
         if ((camera != NULL) && (camera->csId == 1100)) {
-            OnePointCutscene_EndCutscene(globalCtx, this->unk_46C);
-            this->unk_46C = SUBCAM_NONE;
+            OnePointCutscene_EndCutscene(globalCtx, this->subCamId);
+            this->subCamId = CAM_ID_NONE;
         }
     }
 
@@ -1975,7 +1975,7 @@ void func_80834298(Player* this, GlobalContext* globalCtx) {
     if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & 0x100) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & 0x400000)) &&
         (gSaveContext.health != 0) && (globalCtx->csCtx.state == CS_STATE_IDLE) && (this->csMode == 0) &&
-        (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamera == MAIN_CAM) &&
+        (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamId == CAM_ID_MAIN) &&
         (globalCtx->sceneLoadFlag != 0x14) && (gSaveContext.timer1State != 10)) {
         func_80833DF8(this, globalCtx);
     }
@@ -2828,7 +2828,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
             gSaveContext.nightSeqIndex = 0xFF;
         }
 
-        OnePointCutscene_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, CAM_ID_MAIN);
         ShrinkWindow_SetVal(0x20);
     }
 }
@@ -4668,7 +4668,7 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, &gPlayerAnim_002D28, 0.83f);
 
     if (magicSpell == 5) {
-        this->unk_46C = OnePointCutscene_Init(globalCtx, 1100, -101, NULL, MAIN_CAM);
+        this->subCamId = OnePointCutscene_Init(globalCtx, 1100, -101, NULL, CAM_ID_MAIN);
     } else {
         func_80835EA4(globalCtx, 10);
     }
@@ -6262,13 +6262,13 @@ s32 func_8083F570(Player* this, GlobalContext* globalCtx) {
                 this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
                 func_80832264(globalCtx, this, &gPlayerAnim_002700);
                 func_80832F54(globalCtx, this, 0x9D);
-                OnePointCutscene_Init(globalCtx, 9601, 999, NULL, MAIN_CAM);
+                OnePointCutscene_Init(globalCtx, 9601, 999, NULL, CAM_ID_MAIN);
             } else {
                 this->actor.shape.rot.y = this->actor.wallYaw;
                 LinkAnimation_Change(globalCtx, &this->skelAnime, &gPlayerAnim_002708, -1.0f,
                                      Animation_GetLastFrame(&gPlayerAnim_002708), 0.0f, ANIMMODE_ONCE, 0.0f);
                 func_80832F54(globalCtx, this, 0x9D);
-                OnePointCutscene_Init(globalCtx, 9602, 999, NULL, MAIN_CAM);
+                OnePointCutscene_Init(globalCtx, 9602, 999, NULL, CAM_ID_MAIN);
             }
 
             this->currentYaw = this->actor.shape.rot.y;
@@ -7843,7 +7843,7 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         this->unk_850 = 60;
         Player_SpawnFairy(globalCtx, this, &this->actor.world.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
-        OnePointCutscene_Init(globalCtx, 9908, 125, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 9908, 125, &this->actor, CAM_ID_MAIN);
     } else if (globalCtx->gameOverCtx.state == GAMEOVER_DEATH_WAIT_GROUND) {
         globalCtx->gameOverCtx.state = GAMEOVER_DEATH_DELAY_MENU;
     }
@@ -8970,7 +8970,7 @@ void func_808468E8(GlobalContext* globalCtx, Player* this) {
     func_80835C58(globalCtx, this, func_8084F9C0, 0);
     this->stateFlags1 |= 0x20000000;
     this->fallStartHeight = this->actor.world.pos.y;
-    OnePointCutscene_Init(globalCtx, 5110, 40, &this->actor, MAIN_CAM);
+    OnePointCutscene_Init(globalCtx, 5110, 40, &this->actor, CAM_ID_MAIN);
 }
 
 void func_80846978(GlobalContext* globalCtx, Player* this) {
@@ -9023,7 +9023,7 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeade
 
     Effect_Add(globalCtx, &this->swordEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, this->ageProperties->unk_04);
-    this->unk_46C = SUBCAM_NONE;
+    this->subCamId = CAM_ID_NONE;
 
     Collider_InitCylinder(globalCtx, &this->cylinder);
     Collider_SetCylinder(globalCtx, &this->cylinder, &this->actor, &D_80854624);

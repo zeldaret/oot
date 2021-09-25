@@ -1515,7 +1515,7 @@ s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3
 s32 Gameplay_CameraSetAtEyeUp(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up);
 s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov);
 s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll);
-void Gameplay_CopyCamera(GlobalContext* globalCtx, s16 camId1, s16 camId2);
+void Gameplay_CopyCamera(GlobalContext* globalCtx, s16 destCamId, s16 srcCamId);
 s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 arg3);
 s32 Gameplay_CameraChangeSetting(GlobalContext* globalCtx, s16 camId, s16 arg2);
 void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2);

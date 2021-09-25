@@ -26,18 +26,19 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec3f eye;
     /* 0x0C */ Vec3f at;
-    /* 0x18 */ Vec3f pad[2];
+    /* 0x18 */ Vec3f up;
+    /* 0x24 */ Vec3f pad;
     /* 0x30 */ Vec3f eyeVel;
     /* 0x3C */ Vec3f atVel;
-    /* 0x48 */ Vec3f nextEye;
-    /* 0x54 */ Vec3f eyeMaxVel;
-    /* 0x60 */ Vec3f nextAt;
-    /* 0x6C */ Vec3f atMaxVel;
-    /* 0x78 */ f32 speedMod;
+    /* 0x48 */ Vec3f eyeNext;
+    /* 0x54 */ Vec3f eyeMaxVelFrac;
+    /* 0x60 */ Vec3f atNext;
+    /* 0x6C */ Vec3f atMaxVelFrac;
+    /* 0x78 */ f32 velFactor;
     /* 0x7C */ f32 accel;
-    /* 0x80 */ f32 yMod;
+    /* 0x80 */ f32 atYOffset;
     /* 0x84 */ f32 shake;
-} BossFd2Cam; // size = 0x88
+} BossFd2SubCam; // size = 0x88
 
 typedef enum {
     /* 0 */ FD2_TURN_TO_LINK,
@@ -83,8 +84,8 @@ typedef struct BossFd2 {
     /* 0x1388 */ char unk_1388[4];
     /* 0x138C */ f32 jawOpening;
     /* 0x1390 */ s16 deathState;
-    /* 0x1392 */ s16 deathCamera;
-    /* 0x1394 */ BossFd2Cam camData;
+    /* 0x1392 */ s16 subCamId;
+    /* 0x1394 */ BossFd2SubCam subCamData;
     /* 0x141C */ ColliderJntSph collider;
     /* 0x143C */ ColliderJntSphElement elements[9];
 } BossFd2; // size = 0x167C

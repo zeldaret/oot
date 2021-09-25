@@ -200,7 +200,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 
     func_80A8F28C(this);
     SkelAnime_Update(&this->skelanime);
-    this->camId = SUBCAM_NONE;
+    this->camId = CAM_ID_NONE;
     if (func_8002F194(&this->actor, globalCtx)) {
         if (this->unk_196 == 5) {
             this->actionFunc = func_80A8F9C8;
@@ -216,7 +216,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
             if (absyawTowardsPlayer < 0x4300) {
                 if (!this->unk_194) {
                     if (player->stateFlags2 & 0x1000000) {
-                        this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
+                        this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, CAM_ID_MAIN);
 
                         func_8010BD58(globalCtx, 0x2A);
                         this->unk_19A = 0;
@@ -250,7 +250,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
             this->actionFunc = func_80A8F9C8;
         } else {
             OnePointCutscene_EndCutscene(globalCtx, this->camId);
-            this->camId = SUBCAM_NONE;
+            this->camId = CAM_ID_NONE;
             this->actionFunc = func_80A8F660;
         }
     } else if (globalCtx->msgCtx.unk_E3EE == 1) {
@@ -266,10 +266,10 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
 
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0)) {
 
-        if (this->camId != SUBCAM_NONE) {
+        if (this->camId != CAM_ID_NONE) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
         }
-        this->camId = OnePointCutscene_Init(globalCtx, 2270, -99, &this->actor, MAIN_CAM);
+        this->camId = OnePointCutscene_Init(globalCtx, 2270, -99, &this->actor, CAM_ID_MAIN);
         globalCtx->msgCtx.msgMode = 0x37;
         func_8002DF54(globalCtx, NULL, 8);
         func_8010BD58(globalCtx, 0x2B);
@@ -297,8 +297,8 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = func_80A8FBB8;
         OnePointCutscene_EndCutscene(globalCtx, this->camId);
-        this->camId = SUBCAM_NONE;
-        this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
+        this->camId = CAM_ID_NONE;
+        this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, CAM_ID_MAIN);
         func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
     }
 }
