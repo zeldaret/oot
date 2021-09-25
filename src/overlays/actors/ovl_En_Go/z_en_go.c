@@ -421,7 +421,7 @@ void func_80A3F0E4(EnGo* this) {
 s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
     f32 xyzDist;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    Camera* camera = globalCtx->cameraPtrs[CAM_ID_MAIN];
+    Camera* mainCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
     if (fabsf(yawDiff) > 10920.0f) {
         return 0;
@@ -429,13 +429,13 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
 
     xyzDist = (this->actor.scale.x / 0.01f) * 10000.0f;
     if ((this->actor.params & 0xF0) == 0x90) {
-        Camera_ChangeSetting(camera, CAM_SET_TEPPEN);
+        Camera_ChangeSetting(mainCam, CAM_SET_TEPPEN);
         xyzDist *= 4.8f;
     }
 
     if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDist) {
-        if (camera->setting == CAM_SET_TEPPEN) {
-            Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
+        if (mainCam->setting == CAM_SET_TEPPEN) {
+            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
         return 0;
     } else {

@@ -395,11 +395,11 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->subCamAt.y, (this->actor.world.pos.y + 70.0f) - 20.0f, 0.1f,
                            this->subCamVelFactor * 10.0f);
             if (this->timers[1] == 0) {
-                Camera* camera = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
-                camera->eye = this->subCamEye;
-                camera->eyeNext = this->subCamEye;
-                camera->at = this->subCamAt;
+                mainCam->eye = this->subCamEye;
+                mainCam->eyeNext = this->subCamEye;
+                mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
                 this->subCamId = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);

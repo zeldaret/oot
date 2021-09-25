@@ -308,7 +308,7 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
 
 // Room Draw Polygon Type 1 - Single Format
 void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
-    Camera* camera;
+    Camera* activeCam;
     Gfx* spA8;
     PolygonType1* polygon1;
     PolygonDlist* polygonDlist;
@@ -319,8 +319,8 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
 
-    camera = GET_ACTIVE_CAM(globalCtx);
-    sp9C = (camera->setting == CAM_SET_PREREND0);
+    activeCam = GET_ACTIVE_CAM(globalCtx);
+    sp9C = (activeCam->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     sp98 = (flags & 1) && sp9C && polygon1->single.source && !(SREG(25) & 1);
@@ -343,7 +343,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
             {
                 Vec3f sp60;
                 spA8 = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&sp60, camera);
+                Camera_GetSkyboxOffset(&sp60, activeCam);
                 func_8009638C(&spA8, polygon1->single.source, polygon1->single.tlut, polygon1->single.width,
                               polygon1->single.height, polygon1->single.fmt, polygon1->single.siz,
                               polygon1->single.mode0, polygon1->single.tlutCount,
@@ -367,14 +367,14 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 }
 
 BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
-    Camera* camera = GET_ACTIVE_CAM(globalCtx);
+    Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
     s32 camDataIdx;
     s16 camDataIdx2;
     Player* player;
     BgImage* bgImage;
     s32 i;
 
-    camDataIdx = camera->camDataIdx;
+    camDataIdx = activeCam->camDataIdx;
     // jfifid
     camDataIdx2 = func_80041C10(&globalCtx->colCtx, camDataIdx, BGCHECK_SCENE)[2].y;
     if (camDataIdx2 >= 0) {
@@ -401,7 +401,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
 
 // Room Draw Polygon Type 1 - Multi Format
 void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
-    Camera* camera;
+    Camera* activeCam;
     Gfx* spA8;
     PolygonType1* polygon1;
     BgImage* bgImage;
@@ -413,8 +413,8 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
 
-    camera = GET_ACTIVE_CAM(globalCtx);
-    sp98 = (camera->setting == CAM_SET_PREREND0);
+    activeCam = GET_ACTIVE_CAM(globalCtx);
+    sp98 = (activeCam->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);
@@ -438,7 +438,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
             {
                 Vec3f sp5C;
                 spA8 = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&sp5C, camera);
+                Camera_GetSkyboxOffset(&sp5C, activeCam);
                 func_8009638C(&spA8, bgImage->source, bgImage->tlut, bgImage->width, bgImage->height, bgImage->fmt,
                               bgImage->siz, bgImage->mode0, bgImage->tlutCount,
                               (sp5C.x + sp5C.z) * 1.2f + sp5C.y * 0.6f, sp5C.y * 2.4f + (sp5C.x + sp5C.z) * 0.3f);

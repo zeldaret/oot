@@ -279,7 +279,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s16 i;
     Gfx* phi_s2;
     Gfx* phi_s1;
-    Camera* camera = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     Actor* actor;
     BgGanonOtyuka* platform;
     BossGanon* ganondorf;
@@ -313,7 +313,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
             platform = (BgGanonOtyuka*)actor;
 
             if (platform->dyna.actor.projectedPos.z > spBC) {
-                if (camera->eye.y > platform->dyna.actor.world.pos.y) {
+                if (mainCam->eye.y > platform->dyna.actor.world.pos.y) {
                     phi_s2 = sPlatformTopDList;
                 } else {
                     phi_s2 = sPlatformBottomDList;
@@ -324,7 +324,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 if (platform->isFalling) {
                     Matrix_RotateX((platform->dyna.actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
                     Matrix_RotateZ((platform->dyna.actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-                    if (camera->eye.y > platform->dyna.actor.world.pos.y) {
+                    if (mainCam->eye.y > platform->dyna.actor.world.pos.y) {
                         phi_s1 = sPlatformBottomDList;
                     } else {
                         phi_s1 = sPlatformTopDList;

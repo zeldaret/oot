@@ -772,7 +772,7 @@ void ObjBean_SetupFly(ObjBean* this) {
 }
 
 void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
-    Camera* camera;
+    Camera* mainCam;
 
     ObjBean_FollowPath(this, globalCtx);
     if (this->currentPointIndex == this->pathCount) {
@@ -781,10 +781,10 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
         ObjBean_SetupWaitForStepOff(this);
 
         this->dyna.actor.flags &= ~0x10; // Never stop updating (disable)
-        camera = globalCtx->cameraPtrs[CAM_ID_MAIN];
+        mainCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
-        if ((camera->setting == CAM_SET_LIFTBEAN) || (camera->setting == CAM_SET_UFOBEAN)) {
-            Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
+        if ((mainCam->setting == CAM_SET_LIFTBEAN) || (mainCam->setting == CAM_SET_UFOBEAN)) {
+            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
 
     } else if (func_8004356C(&this->dyna) != 0) { // Player is on top
@@ -797,10 +797,10 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
             Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_UFOBEAN);
         }
     } else if (this->stateFlags & BEAN_STATE_PLAYER_ON_TOP) {
-        camera = globalCtx->cameraPtrs[CAM_ID_MAIN];
+        mainCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
-        if ((camera->setting == CAM_SET_LIFTBEAN) || (camera->setting == CAM_SET_UFOBEAN)) {
-            Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
+        if ((mainCam->setting == CAM_SET_LIFTBEAN) || (mainCam->setting == CAM_SET_UFOBEAN)) {
+            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
     }
 
