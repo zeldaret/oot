@@ -179,7 +179,7 @@ void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
-    Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+    Camera* camera = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     s16 i;
 
     switch (this->work[FHGFIRE_FIRE_MODE]) {

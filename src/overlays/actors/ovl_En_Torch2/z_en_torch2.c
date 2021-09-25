@@ -234,7 +234,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Player* player = player2;
     Player* this = THIS;
     Input* input = &sInput;
-    Camera* camera;
+    Camera* mainCam;
     s16 sp66;
     u8 staggerThreshold;
     s8 stickY;
@@ -248,7 +248,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     sp5A = player->actor.shape.rot.y - this->actor.shape.rot.y;
     input->cur.button = 0;
-    camera = Gameplay_GetCamera(globalCtx, 0);
+    mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     attackItem = EnTorch2_GetAttackItem(globalCtx, this);
     switch (sActionState) {
         case ENTORCH2_WAIT:
@@ -265,7 +265,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     sStickTilt = 127.0f;
                     input->cur.button = BTN_A;
                     sZTargetFlag = false;
-                    sp66 = camera->camDir.y - sStickAngle;
+                    sp66 = mainCam->camDir.y - sStickAngle;
                     sInput.cur.stick_x = sStickTilt * Math_SinS(sp66);
                     stickY = sStickTilt * Math_CosS(sp66);
                     if (stickY) {}
@@ -498,7 +498,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
             // Rotates Dark Link's stick angle from Link-relative to camera-relative.
 
-            sp66 = camera->camDir.y - sStickAngle;
+            sp66 = mainCam->camDir.y - sStickAngle;
             sInput.cur.stick_x = sStickTilt * Math_SinS(sp66);
             stickY = sStickTilt * Math_CosS(sp66);
             if (sAlpha) {}

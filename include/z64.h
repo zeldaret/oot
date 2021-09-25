@@ -169,7 +169,7 @@ typedef struct {
     /* 0x0020 */ f32    zFar;  // distance to far clipping plane
     /* 0x0024 */ f32    scale; // scale for matrix elements
     /* 0x0028 */ Vec3f  eye;
-    /* 0x0034 */ Vec3f  lookAt;
+    /* 0x0034 */ Vec3f  at;
     /* 0x0040 */ Vec3f  up;
     /* 0x0050 */ Vp     vp;
     /* 0x0060 */ Mtx    projection;

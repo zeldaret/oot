@@ -300,7 +300,7 @@ void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
 void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
     Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
     this->spawnRuppyTimer = 10;
     this->unk_2F4.x = -210.0f;
@@ -315,9 +315,9 @@ void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) 
         this->rupeesLeftToThrow = 10;
     }
     this->unk_2DC.x = this->unk_2DC.y = this->unk_2DC.z = this->unk_300.x = this->unk_300.y = this->unk_300.z = 0.1f;
-    this->camLookAt.x = globalCtx->view.lookAt.x;
-    this->camLookAt.y = globalCtx->view.lookAt.y;
-    this->camLookAt.z = globalCtx->view.lookAt.z;
+    this->camLookAt.x = globalCtx->view.at.x;
+    this->camLookAt.y = globalCtx->view.at.y;
+    this->camLookAt.z = globalCtx->view.at.z;
     this->camEye.x = globalCtx->view.eye.x;
     this->camEye.y = globalCtx->view.eye.y + 80.0f;
     this->camEye.z = globalCtx->view.eye.z + 250.0f;
@@ -340,7 +340,7 @@ void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
     if (func_800C0DB4(globalCtx, &this->actor.projectedPos)) {
         func_800F6828(0);
     }
-    if (this->subCamId != 0) {
+    if (this->subCamId != CAM_ID_MAIN) {
         Math_ApproachF(&this->camEye.x, this->unk_2D0.x, this->unk_2DC.x, this->unk_2E8.x * this->unk_318);
         Math_ApproachF(&this->camEye.z, this->unk_2D0.z, this->unk_2DC.z, this->unk_2E8.z * this->unk_318);
         Math_ApproachF(&this->camLookAt.x, this->unk_2F4.x, this->unk_300.x, this->unk_30C.x * this->unk_318);
@@ -398,7 +398,7 @@ void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->csCameraTimer == 0) {
         Gameplay_ClearCamera(globalCtx, this->subCamId);
-        Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
+        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         this->actor.textId = 0x405A;
         func_8010B720(globalCtx, this->actor.textId);
         this->unk_292 = 5;

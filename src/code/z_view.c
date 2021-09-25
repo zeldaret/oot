@@ -45,7 +45,7 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     view->fovy = 60.0f;
     view->zNear = 10.0f;
     view->zFar = 12800.0f;
-    view->lookAt.x = 0.0f;
+    view->at.x = 0.0f;
     view->up.x = 0.0f;
     view->up.y = 1.0f;
     view->up.z = 0.0f;
@@ -68,14 +68,14 @@ void func_800AA358(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
     }
 
     view->eye = *eye;
-    view->lookAt = *lookAt;
+    view->at = *lookAt;
     view->up = *up;
     view->flags |= 1;
 }
 
 void func_800AA3F0(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
     view->eye = *eye;
-    view->lookAt = *lookAt;
+    view->at = *lookAt;
     view->up = *up;
 }
 
@@ -330,14 +330,14 @@ s32 func_800AAA9C(View* view) {
     LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 667);
     view->viewingPtr = viewing;
 
-    if (view->eye.x == view->lookAt.x && view->eye.y == view->lookAt.y && view->eye.z == view->lookAt.z) {
+    if (view->eye.x == view->at.x && view->eye.y == view->at.y && view->eye.z == view->at.z) {
         view->eye.x += 1.0f;
         view->eye.y += 1.0f;
         view->eye.z += 1.0f;
     }
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z, view->up.x,
              view->up.y, view->up.z);
 
     view->viewing = *viewing;
@@ -473,14 +473,14 @@ s32 func_800AB560(View* view) {
     LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 848);
     view->viewingPtr = viewing;
 
-    if (view->eye.x == view->lookAt.x && view->eye.y == view->lookAt.y && view->eye.z == view->lookAt.z) {
+    if (view->eye.x == view->at.x && view->eye.y == view->at.y && view->eye.z == view->at.z) {
         view->eye.x += 1.0f;
         view->eye.y += 1.0f;
         view->eye.z += 1.0f;
     }
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z, view->up.x,
              view->up.y, view->up.z);
 
     view->viewing = *viewing;
@@ -496,7 +496,7 @@ s32 func_800AB944(View* view) {
     OPEN_DISPS(view->gfxCtx, "../z_view.c", 878);
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
+    guLookAt(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z,
              view->up.x, view->up.y, view->up.z);
 
     CLOSE_DISPS(view->gfxCtx, "../z_view.c", 886);
@@ -562,7 +562,7 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
         view->viewingPtr = viewing;
 
         func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-        guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
+        guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z,
                  view->up.x, view->up.y, view->up.z);
 
         view->viewing = *viewing;
