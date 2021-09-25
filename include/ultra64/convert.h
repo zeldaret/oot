@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_CONVERT_H_
-#define _ULTRA64_CONVERT_H_
+#ifndef ULTRA64_CONVERT_H
+#define ULTRA64_CONVERT_H
 
 #define OS_CLOCK_RATE           62500000LL
 #define OS_CPU_COUNTER          (OS_CLOCK_RATE*3/4)

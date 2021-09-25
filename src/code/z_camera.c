@@ -561,7 +561,7 @@ f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
 
     if (waterY < chkPos->y) {
         // the water's y position is below the check position
-        // the aka the position is NOT in the water.
+        // meaning the position is NOT in the water.
         return BGCHECK_Y_MIN;
     }
 
@@ -1790,7 +1790,7 @@ s32 Camera_Normal2(Camera* camera) {
 
     if (camera->status == CAM_STATUS_ACTIVE) {
         bgChk.pos = *eyeNext;
-        if ((camera->globalCtx->envCtx.skyDisabled == 0) || norm2->interfaceFlags & 0x10) {
+        if (!camera->globalCtx->envCtx.skyboxDisabled || norm2->interfaceFlags & 0x10) {
             Camera_BGCheckInfo(camera, at, &bgChk);
             *eye = bgChk.pos;
         } else {
@@ -2122,7 +2122,7 @@ s32 Camera_Parallel1(Camera* camera) {
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spA8);
     if (camera->status == CAM_STATUS_ACTIVE) {
         sp6C.pos = *eyeNext;
-        if (camera->globalCtx->envCtx.skyDisabled == 0 || para1->interfaceFlags & 0x10) {
+        if (!camera->globalCtx->envCtx.skyboxDisabled || para1->interfaceFlags & 0x10) {
             Camera_BGCheckInfo(camera, at, &sp6C);
             *eye = sp6C.pos;
         } else {
@@ -2137,6 +2137,7 @@ s32 Camera_Parallel1(Camera* camera) {
     camera->fov = Camera_LERPCeilF(para1->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp6A ? para1->unk_1C : para1->unk_14);
+    //! @bug No return
 }
 
 s32 Camera_Parallel2(Camera* camera) {
@@ -2914,7 +2915,7 @@ s32 Camera_Battle1(Camera* camera) {
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spB4);
         spBC.pos = *eyeNext;
         if (camera->status == CAM_STATUS_ACTIVE) {
-            if (camera->globalCtx->envCtx.skyDisabled == 0 || batt1->flags & 1) {
+            if (!camera->globalCtx->envCtx.skyboxDisabled || batt1->flags & 1) {
                 Camera_BGCheckInfo(camera, at, &spBC);
             } else if (batt1->flags & 2) {
                 func_80043F94(camera, at, &spBC);
@@ -2941,7 +2942,7 @@ s32 Camera_Battle2(Camera* camera) {
 }
 
 s32 Camera_Battle3(Camera* camera) {
-    Camera_Noop(camera);
+    return Camera_Noop(camera);
 }
 
 /**
@@ -3236,7 +3237,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spD8);
         sp8C.pos = *eyeNext;
         if (camera->status == CAM_STATUS_ACTIVE) {
-            if ((camera->globalCtx->envCtx.skyDisabled == 0) || keep1->interfaceFlags & 1) {
+            if (!camera->globalCtx->envCtx.skyboxDisabled || keep1->interfaceFlags & 1) {
                 Camera_BGCheckInfo(camera, at, &sp8C);
             } else if (keep1->interfaceFlags & 2) {
                 func_80043F94(camera, at, &sp8C);
@@ -4216,7 +4217,7 @@ s32 Camera_Subj3(Camera* camera) {
         *eye = *eyeNext;
         anim->animTimer--;
 
-        if (camera->globalCtx->envCtx.skyDisabled == 0) {
+        if (!camera->globalCtx->envCtx.skyboxDisabled) {
             Camera_BGCheck(camera, at, eye);
         } else {
             func_80044340(camera, at, eye);
@@ -7113,7 +7114,7 @@ void Camera_PrintInfo(Camera* camera) {
 s32 Camera_CheckWater(Camera* camera) {
     f32 waterY;
     s16 newQuakeId;
-    s32 waterBoxProp;
+    s32 waterLightsIndex;
     s32* waterPrevCamSetting = &camera->waterPrevCamSetting;
     s16 waterCamIdx;
     s16* quakeId = (s16*)&camera->waterQuakeId;
@@ -7181,12 +7182,12 @@ s32 Camera_CheckWater(Camera* camera) {
         }
     }
 
-    if (waterY = Camera_GetWaterSurface(camera, &camera->eye, &waterBoxProp), waterY != BGCHECK_Y_MIN) {
+    if (waterY = Camera_GetWaterSurface(camera, &camera->eye, &waterLightsIndex), waterY != BGCHECK_Y_MIN) {
         camera->waterYPos = waterY;
         if (!(camera->unk_14C & 0x100)) {
             camera->unk_14C |= 0x100;
             osSyncPrintf("kankyo changed water, sound on\n");
-            func_80070600(camera->globalCtx, waterBoxProp);
+            Environment_EnableUnderwaterLights(camera->globalCtx, waterLightsIndex);
             camera->unk_150 = 0x50;
         }
 
@@ -7218,7 +7219,7 @@ s32 Camera_CheckWater(Camera* camera) {
         if (camera->unk_14C & 0x100) {
             camera->unk_14C &= ~0x100;
             osSyncPrintf("kankyo changed water off, sound off\n");
-            func_800706A0(camera->globalCtx);
+            Environment_DisableUnderwaterLights(camera->globalCtx);
             if (*quakeId != 0) {
                 Quake_RemoveFromIdx(*quakeId);
             }
@@ -7633,7 +7634,7 @@ void Camera_Finish(Camera* camera) {
 
         camera->childCamId = camera->parentCamId = CAM_ID_MAIN;
         camera->timer = -1;
-        camera->globalCtx->envCtx.unk_E1 = 0;
+        camera->globalCtx->envCtx.fillScreen = false;
 
         Gameplay_ClearCamera(camera->globalCtx, camera->camId);
     }

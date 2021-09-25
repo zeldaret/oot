@@ -1,5 +1,5 @@
-#ifndef _Z_BGCHECK_
-#define _Z_BGCHECK_
+#ifndef Z_BGCHECK_H
+#define Z_BGCHECK_H
 
 struct GlobalContext;
 struct Actor;

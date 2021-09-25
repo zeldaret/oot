@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_GOMA_H_
-#define _Z_BOSS_GOMA_H_
+#ifndef Z_BOSS_GOMA_H
+#define Z_BOSS_GOMA_H
 
 #include "ultra64.h"
 #include "global.h"

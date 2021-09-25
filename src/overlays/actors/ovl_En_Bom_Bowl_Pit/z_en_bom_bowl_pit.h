@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BOM_BOWL_PIT_H_
-#define _Z_EN_BOM_BOWL_PIT_H_
+#ifndef Z_EN_BOM_BOWL_PIT_H
+#define Z_EN_BOM_BOWL_PIT_H
 
 #include "ultra64.h"
 #include "global.h"
