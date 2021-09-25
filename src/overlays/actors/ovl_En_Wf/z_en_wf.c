@@ -372,7 +372,7 @@ void EnWf_SetupWaitToAppear(EnWf* this) {
     this->actionTimer = 20;
     this->unk_300 = false;
     this->action = WOLFOS_ACTION_WAIT_TO_APPEAR;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.scale.y = 0.0f;
     this->actor.gravity = 0.0f;
     EnWf_SetupAction(this, EnWf_WaitToAppear);
@@ -384,7 +384,7 @@ void EnWf_WaitToAppear(EnWf* this, GlobalContext* globalCtx) {
 
         if (this->actor.xzDistToPlayer < 240.0f) {
             this->actionTimer = 5;
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
 
             if ((this->actor.params != WOLFOS_NORMAL) && (this->switchFlag != 0xFF)) {
                 func_800F5ACC(0x38); // Mini-Boss Battle Theme
@@ -1190,7 +1190,7 @@ void EnWf_SetupDie(EnWf* this) {
     }
 
     this->action = WOLFOS_ACTION_DIE;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionTimer = this->skelAnime.animLength;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_DEAD);
     EnWf_SetupAction(this, EnWf_Die);
