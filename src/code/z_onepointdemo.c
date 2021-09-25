@@ -1049,7 +1049,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             break;
         case 4022:
             subCam->timer = D_801237CC[0].timerInit + D_801237CC[3].timerInit + D_801237CC[1].timerInit +
-                           D_801237CC[2].timerInit + D_801237CC[4].timerInit;
+                            D_801237CC[2].timerInit + D_801237CC[4].timerInit;
 
             csInfo->keyFrames = D_801237CC;
             csInfo->keyFrameCnt = 5;
@@ -1227,8 +1227,8 @@ s16 OnePointCutscene_EndCutscene(GlobalContext* globalCtx, s16 subCamId) {
         subCamId = globalCtx->activeCamId;
     }
     if (globalCtx->cameraPtrs[subCamId] != NULL) {
-        osSyncPrintf("onepointdemo camera[%d]: delete timer=%d next=%d\n", subCamId, globalCtx->cameraPtrs[subCamId]->timer,
-                     globalCtx->cameraPtrs[subCamId]->parentCamId);
+        osSyncPrintf("onepointdemo camera[%d]: delete timer=%d next=%d\n", subCamId,
+                     globalCtx->cameraPtrs[subCamId]->timer, globalCtx->cameraPtrs[subCamId]->parentCamId);
         if (globalCtx->cameraPtrs[subCamId]->csId == 5010) {
             globalCtx->cameraPtrs[subCamId]->timer = 5;
         } else {

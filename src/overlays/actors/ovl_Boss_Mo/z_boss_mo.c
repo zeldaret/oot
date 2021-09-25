@@ -1771,7 +1771,8 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                 this->hitCount++;
                 if ((s8)this->actor.colChkInfo.health <= 0) {
                     if (((sMorphaTent1->subCamId == CAM_ID_MAIN) && (sMorphaTent2 == NULL)) ||
-                        ((sMorphaTent1->subCamId == CAM_ID_MAIN) && (sMorphaTent2 != NULL) && (sMorphaTent2->subCamId == CAM_ID_MAIN))) {
+                        ((sMorphaTent1->subCamId == CAM_ID_MAIN) && (sMorphaTent2 != NULL) &&
+                         (sMorphaTent2->subCamId == CAM_ID_MAIN))) {
                         Enemy_StartFinishingBlow(globalCtx, &this->actor);
                         Audio_QueueSeqCmd(0x100100FF);
                         this->csState = MO_DEATH_START;

@@ -135,9 +135,12 @@ void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
         func_80106CCC(globalCtx);
     }
 
-    if ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 5.0f) && (fabsf(this->subCamEye.y - this->subCamEyeNext.y) < 5.0f) &&
-        (fabsf(this->subCamEye.z - this->subCamEyeNext.z) < 5.0f) && (fabsf(this->subCamAt.x - this->subCamAtNext.x) < 5.0f) &&
-        (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 5.0f) && (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 5.0f)) {
+    if ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 5.0f) &&
+        (fabsf(this->subCamEye.y - this->subCamEyeNext.y) < 5.0f) &&
+        (fabsf(this->subCamEye.z - this->subCamEyeNext.z) < 5.0f) &&
+        (fabsf(this->subCamAt.x - this->subCamAtNext.x) < 5.0f) &&
+        (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 5.0f) &&
+        (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 5.0f)) {
         func_80106CCC(globalCtx);
         this->timer = 30;
         this->actionFunc = EnBomBowlPit_SpawnPrize;
