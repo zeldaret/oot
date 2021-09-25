@@ -133,7 +133,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
     if ((this->actor.xzDistToPlayer < sightRange) &&
         (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f) && (sPlayerCaught == 0)) {
         sPlayerCaught = 1;
-        func_8010B680(globalCtx, 0x702D, &this->actor); // "Hey you! Stop! You, kid, over there!"
+        func_8010B680(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
@@ -161,7 +161,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
             }
         }
         sPlayerCaught = 1;
-        func_8010B680(globalCtx, 0x702D, &this->actor); // "Hey you! Stop! You, kid, over there!"
+        func_8010B680(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
