@@ -16,6 +16,29 @@ typedef enum {
 } EnZfType;
 
 typedef enum {
+    /*  0 */ ENZF_ACTION_0,
+    /*  1 */ ENZF_ACTION_1,
+    /*  2 */ ENZF_ACTION_2,
+    /*  3 */ ENZF_ACTION_3,
+    /*  5 */ ENZF_ACTION_5 = 5,
+    /*  6 */ ENZF_ACTION_6,
+    /*  7 */ ENZF_ACTION_7,
+    /*  8 */ ENZF_ACTION_8,
+    /*  9 */ ENZF_ACTION_9,
+    /* 11 */ ENZF_ACTION_11 = 11,
+    /* 12 */ ENZF_ACTION_12,
+    /* 13 */ ENZF_ACTION_13,
+    /* 14 */ ENZF_ACTION_14,
+    /* 15 */ ENZF_ACTION_15,
+    /* 16 */ ENZF_ACTION_16,
+    /* 18 */ ENZF_ACTION_18 = 18,
+    /* 19 */ ENZF_ACTION_19,
+    /* 20 */ ENZF_ACTION_20,
+    /* 21 */ ENZF_ACTION_21,
+    /* 22 */ ENZF_ACTION_22
+} EnZfAction;
+
+typedef enum {
     /* 0x00 */ ENZF_LIMB_NONE,
     /* 0x01 */ ENZF_LIMB_ROOT,
     /* 0x02 */ ENZF_LIMB_BODY_ROOT,
