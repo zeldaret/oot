@@ -28,8 +28,6 @@ EffectSsInit Effect_Ss_Dead_Dd_InitVars = {
     EffectSsDeadDd_Init,
 };
 
-extern Mtx D_01000000;
-
 u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     s32 i;
     EffectSsDeadDdInitParams* initParams = (EffectSsDeadDdInitParams*)initParamsx;
@@ -116,7 +114,7 @@ void EffectSsDeadDd_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
         gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                           PRIMITIVE, 0);
-        gSPDisplayList(POLY_XLU_DISP++, gEffBurnMark1DL);
+        gSPDisplayList(POLY_XLU_DISP++, gLensFlareCircleDL);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_dead_dd.c", 259);

@@ -351,9 +351,9 @@ glabel func_808113A8
 /* 0DBDC 8081191C 3C080001 */  lui     $t0, 0x0001                ## $t0 = 00010000
 /* 0DBE0 80811920 3508C8E8 */  ori     $t0, $t0, 0xC8E8           ## $t0 = 0001C8E8
 /* 0DBE4 80811924 2419000A */  addiu   $t9, $zero, 0x000A         ## $t9 = 0000000A
-/* 0DBE8 80811928 3C018012 */  lui     $at, %hi(D_8011FB40)
+/* 0DBE8 80811928 3C018012 */  lui     $at, %hi(gTimeIncrement)
 /* 0DBEC 8081192C 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0DBF0 80811930 A439FB40 */  sh      $t9, %lo(D_8011FB40)($at)
+/* 0DBF0 80811930 A439FB40 */  sh      $t9, %lo(gTimeIncrement)($at)
 /* 0DBF4 80811934 02081021 */  addu    $v0, $s0, $t0              
 /* 0DBF8 80811938 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 0DBFC 8081193C 24090063 */  addiu   $t1, $zero, 0x0063         ## $t1 = 00000063
@@ -374,7 +374,7 @@ glabel func_808113A8
 /* 0DC38 80811978 02082821 */  addu    $a1, $s0, $t0              
 /* 0DC3C 8081197C 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
 /* 0DC40 80811980 E4400084 */  swc1    $f0, 0x0084($v0)           ## 00000084
-/* 0DC44 80811984 0C01BF22 */  jal     func_8006FC88              
+/* 0DC44 80811984 0C01BF22 */  jal     Environment_UpdateSkybox              
 /* 0DC48 80811988 E4400088 */  swc1    $f0, 0x0088($v0)           ## 00000088
 /* 0DC4C 8081198C 8FA30030 */  lw      $v1, 0x0030($sp)           
 /* 0DC50 80811990 A22013E6 */  sb      $zero, 0x13E6($s1)         ## 8015FA46

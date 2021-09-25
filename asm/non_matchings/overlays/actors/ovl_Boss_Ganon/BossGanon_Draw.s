@@ -91,7 +91,7 @@ glabel BossGanon_Draw
 /* 0A59C 808E0E0C E61002F4 */  swc1    $f16, 0x02F4($s0)          ## 000002F4
 /* 0A5A0 808E0E10 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0A5A4 808E0E14 E60A02F0 */  swc1    $f10, 0x02F0($s0)          ## 000002F0
-/* 0A5A8 808E0E18 0C02F228 */  jal     func_800BC8A0
+/* 0A5A8 808E0E18 0C02F228 */  jal     Gameplay_SetFog
 /* 0A5AC 808E0E1C 8E4502C0 */  lw      $a1, 0x02C0($s2)           ## 000002C0
 /* 0A5B0 808E0E20 AE4202C0 */  sw      $v0, 0x02C0($s2)           ## 000002C0
 /* 0A5B4 808E0E24 0C238F61 */  jal     func_808E3D84

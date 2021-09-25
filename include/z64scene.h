@@ -57,9 +57,9 @@ typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x02 */ char pad[2];
-    /* 0x04 */ s8  unk_04;
-    /* 0x05 */ s8  unk_05;
-    /* 0x06 */ s8  unk_06;
+    /* 0x04 */ u8  x;
+    /* 0x05 */ u8  y;
+    /* 0x06 */ u8  z;
     /* 0x07 */ u8  unk_07;
 } SCmdWindSettings;
 
