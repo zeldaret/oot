@@ -43,7 +43,8 @@ static void* sEffLightningTextures[] = {
 };
 
 static void* D_80BA5900[] = {
-    0x060015E0, 0x060025E0, 0x060035E0, 0x060045E0, 0x060055E0, 0x060065E0, 0x060075E0, 0x060085E0,
+    gEffSunGraveSpark1Tex, gEffSunGraveSpark2Tex, gEffSunGraveSpark3Tex, gEffSunGraveSpark4Tex,
+    gEffSunGraveSpark5Tex, gEffSunGraveSpark6Tex, gEffSunGraveSpark7Tex, gEffSunGraveSpark8Tex,
 };
 
 const ActorInit Object_Kankyo_InitVars = {
@@ -377,7 +378,8 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, GlobalContext* globalCtx) {
                                            Math_CosS(this->effects[i].angle - 0x8000) * this->effects[i].flightRadius,
                                            0.5f, 2.0f, 0.2f);
 
-                        // the lead fairy flies in a sine wave with y = -cos(dirPhase.y + amplitude * t) / amplitude
+                        // the lead fairy's y position approximately follows a sine wave with `amplitude` as angular
+                        // frequency and `1 / amplitude` as amplitude
                         this->effects[i].angle += this->effects[i].angleVel;
                         this->effects[i].pos.y += sinf(this->effects[i].dirPhase.y);
 
@@ -831,8 +833,8 @@ void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this2, GlobalContext* globalCt
             end.y = globalCtx->csCtx.npcActions[1]->endPos.y;
             end.z = globalCtx->csCtx.npcActions[1]->endPos.z;
 
-            weight = Environment_LerpWeight(globalCtx->csCtx.npcActions[1]->endFrame, globalCtx->csCtx.npcActions[1]->startFrame,
-                                   globalCtx->csCtx.frames);
+            weight = Environment_LerpWeight(globalCtx->csCtx.npcActions[1]->endFrame,
+                                            globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
             Matrix_Translate((end.x - start.x) * weight + start.x, (end.y - start.y) * weight + start.y,
                              (end.z - start.z) * weight + start.z, MTXMODE_NEW);
             Matrix_Scale(this->effects[0].size, this->effects[0].size, this->effects[0].size, MTXMODE_APPLY);
