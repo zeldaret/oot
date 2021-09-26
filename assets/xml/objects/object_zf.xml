@@ -80,9 +80,9 @@
         <Limb Name="gZfDinolfosTrunkLimb" LimbType="Standard" Offset="0x65C4"/>
         <Skeleton Name="gZfDinolfosSkel" Type="Normal" LimbType="Standard" Offset="0x6690"/>
 
-        <Animation Name="object_zf_Anim_008138" Offset="0x8138"/>
-        <Animation Name="object_zf_Anim_008C6C" Offset="0x8C6C"/>
-        <Animation Name="object_zf_Anim_009530" Offset="0x9530"/>
+        <Animation Name="gZfWalkingAnim" Offset="0x8138"/>
+        <Animation Name="gZfLandingAnim" Offset="0x8C6C"/>
+        <Animation Name="gZfJumpingAnim" Offset="0x9530"/>
         <Animation Name="gZfSlashAnim" Offset="0xA3D4"/>
         <Animation Name="gZFCryingAnim" Offset="0xB10C"/>
 
@@ -170,13 +170,13 @@
         <Limb Name="gZfLizalfosTrunkLimb" LimbType="Standard" Offset="0x103EC"/>
         <Skeleton Name="gZfLizalfosSkel" Type="Normal" LimbType="Standard" Offset="0x104B8"/>
 
-        <Animation Name="object_zf_Anim_01081C" Offset="0x1081C"/>
-        <Animation Name="object_zf_Anim_010CAC" Offset="0x10CAC"/>
-        <Animation Name="object_zf_Anim_011070" Offset="0x11070"/>
+        <Animation Name="gZfHopCrouchingAnim" Offset="0x1081C"/>
+        <Animation Name="gZfHopLeapingAnim" Offset="0x10CAC"/>
+        <Animation Name="gZfHopLandingAnim" Offset="0x11070"/>
         <Animation Name="gZfSheathingSwordAnim" Offset="0x119F4"/>
         <Animation Name="gZfDrawingSwordAnim" Offset="0x1366C"/>
         <Animation Name="gZfDyingAnim" Offset="0x14E60"/>
         <Animation Name="gZfKnockedBackAnim" Offset="0x157F8"/>
-        <Animation Name="object_zf_Anim_016388" Offset="0x16388"/>
+        <Animation Name="gZfSidesteppingAnim" Offset="0x16388"/>
     </File>
 </Root>

@@ -17,17 +17,15 @@ typedef enum {
 
 typedef enum {
     /*  0 */ ENZF_ACTION_DROP_IN,
-    /*  1 */ ENZF_ACTION_1,
-    /*  2 */ ENZF_ACTION_2,
-    /*  3 */ ENZF_ACTION_3, // cry and choose action
+    /*  3 */ ENZF_ACTION_3 = 3, // stop and choose action?
     /*  5 */ ENZF_ACTION_APPROACH_PLAYER = 5,
     /*  6 */ ENZF_ACTION_6,
-    /*  7 */ ENZF_ACTION_7,
+    /*  7 */ ENZF_ACTION_7, // more sidestepping?
     /*  8 */ ENZF_ACTION_RECOIL_FROM_BLOCKED_SLASH,
     /*  9 */ ENZF_ACTION_SLASH,
-    /* 11 */ ENZF_ACTION_11 = 11,
+    /* 11 */ ENZF_ACTION_JUMP_BACK = 11,
     /* 12 */ ENZF_ACTION_CIRCLE_AROUND_PLAYER,
-    /* 13 */ ENZF_ACTION_13, // hop towards player
+    /* 13 */ ENZF_ACTION_JUMP_FORWARD,
     /* 14 */ ENZF_ACTION_STUNNED,
     /* 15 */ ENZF_ACTION_DIE,
     /* 16 */ ENZF_ACTION_DAMAGED,
@@ -35,7 +33,7 @@ typedef enum {
     /* 19 */ ENZF_ACTION_HOP_AWAY,
     /* 20 */ ENZF_ACTION_HOP_AND_TAUNT,
     /* 21 */ ENZF_ACTION_DRAW_SWORD,
-    /* 22 */ ENZF_ACTION_22
+    /* 22 */ ENZF_ACTION_JUMP_UP
 } EnZfAction;
 
 typedef enum {
