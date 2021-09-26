@@ -548,10 +548,9 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
             if ((thisKeyFrame != (s32)this->skelAnime.curFrame)) {
                 s32 temp = playSpeed + thisKeyFrame;
 
-                if (((prevKeyFrame < 0) && (temp > 0)) ||
-                    ((prevKeyFrame < 4) && (temp > 4))) {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
-                    }
+                if (((prevKeyFrame < 0) && (temp > 0)) || ((prevKeyFrame < 4) && (temp > 4))) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
+                }
             }
         }
     }

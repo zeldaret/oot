@@ -799,7 +799,6 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
     s16 newYaw;
     s32 absPlaySpeed;
 
-
     if (!EnTest_ReactToProjectile(globalCtx, this)) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
         this->actor.world.rot.y = this->actor.shape.rot.y + 0x3E80;
