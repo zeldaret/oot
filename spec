@@ -3331,8 +3331,7 @@ endseg
 beginseg
     name "ovl_Object_Kankyo"
     include "build/src/overlays/actors/ovl_Object_Kankyo/z_object_kankyo.o"
-    include "build/data/overlays/actors/z_object_kankyo.data.o"
-    include "build/data/overlays/actors/z_object_kankyo.reloc.o"
+    include "build/src/overlays/actors/ovl_Object_Kankyo/ovl_Object_Kankyo_reloc.o"
 endseg
 
 beginseg

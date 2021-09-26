@@ -181,7 +181,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 func_800F6D58(0xE, 4, 0x3F);
                 func_800F6D58(0xE, 1, 1);
-                globalCtx->envCtx.unk_EE[0] = 0x14;
+                globalCtx->envCtx.unk_EE[0] = 20;
             }
             break;
         case 2:
@@ -223,7 +223,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 9:
-            globalCtx->envCtx.unk_EE[3] = 0x10;
+            globalCtx->envCtx.unk_EE[3] = 16;
             break;
         case 10:
             Flags_SetEnv(globalCtx, 1);
