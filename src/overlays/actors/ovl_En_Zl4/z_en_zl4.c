@@ -184,10 +184,10 @@ void EnZl4_SetActiveCamDir(GlobalContext* globalCtx, s16 index) {
     Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
 
     Camera_ChangeSetting(activeCam, CAM_SET_FREE0);
-    activeCam->at = sActiveCamDir[index].at;
-    activeCam->eye = activeCam->eyeNext = sActiveCamDir[index].eye;
-    activeCam->roll = sActiveCamDir[index].roll;
-    activeCam->fov = sActiveCamDir[index].fov;
+    activeCam->at = sCamDirections[index].at;
+    activeCam->eye = activeCam->eyeNext = sCamDirections[index].eye;
+    activeCam->roll = sCamDirections[index].roll;
+    activeCam->fov = sCamDirections[index].fov;
 }
 
 void EnZl4_SetActiveCamMove(GlobalContext* globalCtx, s16 index) {
