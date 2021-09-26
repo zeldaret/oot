@@ -339,10 +339,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->subCamAtNext.y = player2->actor.world.pos.y + 50.0f;
                     this->subCamAtNext.z = player2->actor.world.pos.z;
                     BossFd_SetCameraSpeed(this, 1.0f);
-                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y =
-                        this->subCamAtMaxVelFrac.z = 0.05f;
-                    this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y =
-                        this->subCamEyeMaxVelFrac.z = 0.05f;
+                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.05f;
+                    this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.05f;
                     this->timers[0] = 0;
                     this->subCamVelFactor = 0.0f;
                     this->subCamAccel = 0.0f;
@@ -355,10 +353,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                         this->subCamAtNext.y = 120.0f;
                         this->subCamAtNext.z = 0.0f;
                         BossFd_SetCameraSpeed(this, 0.5f);
-                        this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y =
-                            this->subCamEyeMaxVelFrac.z = 0.1f;
-                        this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y =
-                            this->subCamAtMaxVelFrac.z = 0.1f;
+                        this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.1f;
+                        this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
                         this->subCamAccel = 0.005f;
                         this->timers[0] = 0;
                         this->holeIndex = 1;
@@ -393,8 +389,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->timers[0] < 50) {
                     Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
                                            &D_801333E0, &D_801333E8);
-                    this->subCamAtYOffset =
-                        Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
+                    this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
                     Math_ApproachF(&this->subCamShake, 2.0f, 1.0f, 0.8 * 0.01f);
                 }
                 if (this->timers[0] == 40) {
@@ -449,10 +444,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->subCamAtNext.y = 120.0f;
                     this->subCamAtNext.z = 0.0f;
                     BossFd_SetCameraSpeed(this, 0.5f);
-                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y =
-                        this->subCamAtMaxVelFrac.z = 0.1f;
-                    this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y =
-                        this->subCamEyeMaxVelFrac.z = 0.1f;
+                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
+                    this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.1f;
                     this->subCamAccel = 0.005f;
                     this->timers[0] = 0;
                     this->holeIndex = 1;
@@ -477,8 +470,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                                            &D_801333E0, &D_801333E8);
                 }
                 if (this->timers[3] == 190) {
-                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y =
-                        this->subCamAtMaxVelFrac.z = 0.05f;
+                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.05f;
                     this->platformSignal = VBSIMA_KILL;
                     func_8002DF54(globalCtx, &this->actor, 1);
                 }
@@ -495,8 +487,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                         temp = 1.0f;
                     }
                     Math_ApproachF(&this->subCamShake, 2.0f, temp, 0.1 * 0.08f);
-                    this->subCamAtYOffset =
-                        Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
+                    this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
                 }
                 if (this->timers[3] == 160) {
                     Audio_QueueSeqCmd(0x6B);

@@ -611,8 +611,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     Math_ApproachF(&this->subCamAt.x, subCamAtNext.x, 0.2f, 500.0f);
                     Math_ApproachF(&this->subCamAt.y, subCamAtNext.y, 0.2f, 500.0f);
                     Math_ApproachF(&this->subCamAt.z, subCamAtNext.z, 0.2f, 500.0f);
-                    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt,
-                                            &this->subCamEye);
+                    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
                 }
 
                 // Cutscene has finished.
