@@ -71,7 +71,7 @@ typedef struct BossFd2 {
     /* 0x1394 */ Vec3f subCamEye;
     /* 0x13A0 */ Vec3f subCamAt;
     /* 0x13AC */ Vec3f subCamUp;
-    /* 0x13B8 */ Vec3f subCamPad;
+    /* 0x13B8 */ Vec3f pad;
     /* 0x13C4 */ Vec3f subCamEyeVel;
     /* 0x13D0 */ Vec3f subCamAtVel;
     /* 0x13DC */ Vec3f subCamEyeNext;
