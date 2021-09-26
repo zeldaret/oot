@@ -196,8 +196,8 @@ void EnZl4_SetActiveCamMove(GlobalContext* globalCtx, s16 index) {
 
     Camera_ChangeSetting(activeCam, CAM_SET_DEMO0);
     Camera_ResetAnim(activeCam);
-    Camera_SetCSParams(activeCam, sActiveCamMove[index].atPoints, sActiveCamMove[index].eyePoints, player,
-                       sActiveCamMove[index].relativeToPlayer);
+    Camera_SetCSParams(activeCam, sCamMove[index].atPoints, sCamMove[index].eyePoints, player,
+                       sCamMove[index].relativeToPlayer);
 }
 
 u16 EnZl4_GetText(GlobalContext* globalCtx, Actor* thisx) {
