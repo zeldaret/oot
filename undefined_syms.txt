@@ -83,7 +83,7 @@ D_0703811C = 0x0703811C;
 // z_skelanime
 link_animetion_segment = 0x07000000;
 
-// z_title
+// z_kankyo, z_demo_kankyo, z_en_viewer, z_object_kankyo, z_eff_ss_dead_dd
 D_01000000 = 0x01000000;
 
 // z_arms_hook
@@ -99,9 +99,6 @@ D_0E000000 = 0x0E000000;
 
 // z_vismono
 D_0F000000 = 0x0F000000;
-
-// z_eff_ss_dead_dd
-D_01000000 = 0x01000000;
 
 // z_en_a_keep or en_a_obj
 D_06000730 = 0x06000730;
@@ -160,9 +157,6 @@ D_060114E8 = 0x060114E8;
 // z_en_hy
 D_06005BC8 = 0x06005BC8;
 
-// z_en_viewer
-D_01000000 = 0x01000000;
-
 // z_en_zf
 D_06006690 = 0x06006690;
 D_06008138 = 0x06008138;
@@ -178,9 +172,6 @@ D_0601366C = 0x0601366C;
 D_06014E60 = 0x06014E60;
 D_060157F8 = 0x060157F8;
 D_06016388 = 0x06016388;
-
-// z_object_kankyo
-D_01000000 = 0x01000000;
 
 // z_bg_mjin
 D_06000000 = 0x06000000;
