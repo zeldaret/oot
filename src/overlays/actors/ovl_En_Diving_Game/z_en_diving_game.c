@@ -329,7 +329,7 @@ void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) 
     this->unk_30C.z = fabsf(this->camLookAt.z - this->unk_2F4.z) * 0.04f;
     Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->camLookAt, &this->camEye);
     Gameplay_CameraSetFov(globalCtx, this->subCamId, globalCtx->mainCamera.fov);
-    this->csCameraTimer = 60;
+    this->subCamTimer = 60;
     this->actionFunc = EnDivingGame_RupeeThrow;
     this->unk_318 = 0.0f;
 }
@@ -363,12 +363,12 @@ void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
             this->allRupeesThrown = true;
         }
     }
-    if (this->csCameraTimer == 0 ||
+    if (this->subCamTimer == 0 ||
         ((fabsf(this->camEye.x - this->unk_2D0.x) < 2.0f) && (fabsf(this->camEye.y - this->unk_2D0.y) < 2.0f) &&
          (fabsf(this->camEye.z - this->unk_2D0.z) < 2.0f) && (fabsf(this->camLookAt.x - this->unk_2F4.x) < 2.0f) &&
          (fabsf(this->camLookAt.y - this->unk_2F4.y) < 2.0f) && (fabsf(this->camLookAt.z - this->unk_2F4.z) < 2.0f))) {
         if (this->unk_2A2 != 0) {
-            this->csCameraTimer = 70;
+            this->subCamTimer = 70;
             this->unk_2A2 = 2;
             this->actionFunc = func_809EE780;
         } else {
@@ -382,7 +382,7 @@ void EnDivingGame_SetupUnderwaterViewCs(EnDivingGame* this, GlobalContext* globa
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_296 == 0) {
         this->unk_2A2 = 1;
-        this->csCameraTimer = 100;
+        this->subCamTimer = 100;
         this->actionFunc = EnDivingGame_RupeeThrow;
         this->camLookAt.x = this->unk_2F4.x = -210.0f;
         this->camLookAt.y = this->unk_2F4.y = -80.0f;
@@ -396,7 +396,7 @@ void EnDivingGame_SetupUnderwaterViewCs(EnDivingGame* this, GlobalContext* globa
 // EnDivingGame_SayStartAndWait ?
 void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->csCameraTimer == 0) {
+    if (this->subCamTimer == 0) {
         Gameplay_ClearCamera(globalCtx, this->subCamId);
         Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         this->actor.textId = 0x405A;
@@ -485,8 +485,8 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Player* player = GET_PLAYER(globalCtx);
     Vec3f pos;
 
-    if (this->csCameraTimer != 0) {
-        this->csCameraTimer--;
+    if (this->subCamTimer != 0) {
+        this->subCamTimer--;
     }
     if (this->unk_296 != 0) {
         this->unk_296--;

@@ -4951,7 +4951,7 @@ s32 Camera_Unique7(Camera* camera) {
 
     OLib_Vec3fDiffToVecSphGeo(&playerPosEyeOffset, eye, &playerPosRot->pos);
 
-    // fov actually goes unused since its hard set later on.
+    // fov actually goes unused since it's hard set later on.
     fov = BGCAM_FOV(sceneCamData);
     if (fov == -1) {
         fov = uniq7->fov * 100.0f;
@@ -7532,7 +7532,7 @@ Vec3s Camera_Update(Camera* camera) {
 }
 
 /**
- * When the camera's timer is 0, change the camera to it's parent
+ * When the camera's timer is 0, change the camera to its parent
  */
 void Camera_Finish(Camera* camera) {
     Camera* mainCam = camera->globalCtx->cameraPtrs[CAM_ID_MAIN];

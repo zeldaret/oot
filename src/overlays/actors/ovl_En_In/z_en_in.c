@@ -789,8 +789,8 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
-    Vec3f sp48;
-    Vec3f sp3C;
+    Vec3f subCamAt;
+    Vec3f subCamEye;
 
     if (player->rideActor != NULL) {
         player->rideActor->freezeTimer = 10;
@@ -831,16 +831,16 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->subCamEyeOffset.y, 150.0f, 0.06f, 10000.0f, 0.0f);
         Math_SmoothStepToF(&this->subCamEyeOffset.z, 300.0f, 0.06f, 10000.0f, 0.0f);
 
-        sp48 = this->actor.world.pos;
-        sp3C = this->actor.world.pos;
+        subCamAt = this->actor.world.pos;
+        subCamEye = this->actor.world.pos;
 
-        sp48.x += this->subCamAtOffset.x;
-        sp48.y += this->subCamAtOffset.y;
-        sp48.z += this->subCamAtOffset.z;
-        sp3C.x += this->subCamEyeOffset.x;
-        sp3C.y += this->subCamEyeOffset.y;
-        sp3C.z += this->subCamEyeOffset.z;
-        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &sp48, &sp3C);
+        subCamAt.x += this->subCamAtOffset.x;
+        subCamAt.y += this->subCamAtOffset.y;
+        subCamAt.z += this->subCamAtOffset.z;
+        subCamEye.x += this->subCamEyeOffset.x;
+        subCamEye.y += this->subCamEyeOffset.y;
+        subCamEye.z += this->subCamEyeOffset.z;
+        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
     }
 }
 

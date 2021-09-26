@@ -465,10 +465,10 @@ void EnDaiku_InitSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     this->subCamEyeInit.z = this->subCamEye.z = this->actor.world.pos.z + eyePosDeltaWorld.z;
 
     if (1) {}
-    this->subCamAtTarget.x = this->subCamAt.x = this->actor.world.pos.x;
-    this->subCamAtTarget.y = this->subCamAt.y = this->actor.world.pos.y + 60.0f;
+    this->subCamAtNext.x = this->subCamAt.x = this->actor.world.pos.x;
+    this->subCamAtNext.y = this->subCamAt.y = this->actor.world.pos.y + 60.0f;
     if (1) {}
-    this->subCamAtTarget.z = this->subCamAt.z = this->actor.world.pos.z;
+    this->subCamAtNext.z = this->subCamAt.z = this->actor.world.pos.z;
 
     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -482,13 +482,13 @@ void EnDaiku_InitSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
 void EnDaiku_UpdateSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    this->subCamAtTarget.x = this->actor.world.pos.x;
-    this->subCamAtTarget.y = this->actor.world.pos.y + 60.0f;
-    this->subCamAtTarget.z = this->actor.world.pos.z;
+    this->subCamAtNext.x = this->actor.world.pos.x;
+    this->subCamAtNext.y = this->actor.world.pos.y + 60.0f;
+    this->subCamAtNext.z = this->actor.world.pos.z;
 
-    Math_SmoothStepToF(&this->subCamAt.x, this->subCamAtTarget.x, 1.0f, 1000.0f, 0.0f);
-    Math_SmoothStepToF(&this->subCamAt.y, this->subCamAtTarget.y, 1.0f, 1000.0f, 0.0f);
-    Math_SmoothStepToF(&this->subCamAt.z, this->subCamAtTarget.z, 1.0f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->subCamAt.x, this->subCamAtNext.x, 1.0f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->subCamAt.y, this->subCamAtNext.y, 1.0f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->subCamAt.z, this->subCamAtNext.z, 1.0f, 1000.0f, 0.0f);
 
     Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
 }

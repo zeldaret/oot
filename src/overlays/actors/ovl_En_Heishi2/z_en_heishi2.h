@@ -21,9 +21,9 @@ typedef struct EnHeishi2 {
     /* 0x0274 */ Vec3f unk_274; 
     /* 0x0280 */ Vec3f subCamEye;
     /* 0x028C */ Vec3f subCamAt;
-    /* 0x0298 */ Vec3f subCamAtCopy;
+    /* 0x0298 */ Vec3f subCamAtInit;
     /* 0x02A4 */ char unk_2A4[0x18];
-    /* 0x02BC */ Vec3f subCamEyeCopy;
+    /* 0x02BC */ Vec3f subCamEyeInit;
     /* 0x02C8 */ char unk_2C8[0x18];
     /* 0x02E0 */ f32 unk_2E0;
     /* 0x02E4 */ f32 unk_2E4;
