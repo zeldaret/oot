@@ -859,8 +859,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Sekizou"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Sekizou/z_bg_hidan_sekizou.o"
-    include "build/data/overlays/actors/z_bg_hidan_sekizou.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_sekizou.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Sekizou/ovl_Bg_Hidan_Sekizou_reloc.o"
 endseg
 
 beginseg
@@ -3019,8 +3018,7 @@ endseg
 beginseg
     name "ovl_En_Wf"
     include "build/src/overlays/actors/ovl_En_Wf/z_en_wf.o"
-    include "build/data/overlays/actors/z_en_wf.data.o"
-    include "build/data/overlays/actors/z_en_wf.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wf/ovl_En_Wf_reloc.o"
 endseg
 
 beginseg
@@ -3335,8 +3333,7 @@ endseg
 beginseg
     name "ovl_Object_Kankyo"
     include "build/src/overlays/actors/ovl_Object_Kankyo/z_object_kankyo.o"
-    include "build/data/overlays/actors/z_object_kankyo.data.o"
-    include "build/data/overlays/actors/z_object_kankyo.reloc.o"
+    include "build/src/overlays/actors/ovl_Object_Kankyo/ovl_Object_Kankyo_reloc.o"
 endseg
 
 beginseg

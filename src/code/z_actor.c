@@ -3947,7 +3947,7 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
     }
 }
 
-void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
+void func_8003555C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     Color_RGBA8 color1;
     Color_RGBA8 color2;
 
@@ -3960,7 +3960,7 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     color2.b = 50;
 
     //! @bug color1 and color2 alpha components not set before being passed on
-    EffectSsKiraKira_SpawnSmall(globalCtx, arg1, arg2, arg3, &color1, &color2);
+    EffectSsKiraKira_SpawnSmall(globalCtx, pos, velocity, accel, &color1, &color2);
 }
 
 Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
@@ -3973,8 +3973,8 @@ Gfx D_80116280[] = {
     gsSPEndDisplayList(),
 };
 
-void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1) {
-    func_8003555C(globalCtx, arg1, &D_80116268, &D_80116274);
+void func_800355B8(GlobalContext* globalCtx, Vec3f* pos) {
+    func_8003555C(globalCtx, pos, &D_80116268, &D_80116274);
 }
 
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
