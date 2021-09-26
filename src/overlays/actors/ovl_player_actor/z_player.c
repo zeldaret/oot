@@ -1184,11 +1184,11 @@ void func_80832318(Player* this) {
 }
 
 void func_80832340(GlobalContext* globalCtx, Player* this) {
-    Camera* subCamId;
+    Camera* subCam;
 
     if (this->subCamId != CAM_ID_NONE) {
-        subCamId = globalCtx->cameraPtrs[this->subCamId];
-        if ((subCamId != CAM_ID_MAIN) && (subCamId->csId == 1100)) {
+        subCam = globalCtx->cameraPtrs[this->subCamId];
+        if ((subCam != NULL) && (subCam->csId == 1100)) {
             OnePointCutscene_EndCutscene(globalCtx, this->subCamId);
             this->subCamId = CAM_ID_NONE;
         }

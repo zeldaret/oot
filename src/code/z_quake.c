@@ -143,13 +143,13 @@ s16 Quake_GetFreeIndex(void) {
     return ret;
 }
 
-QuakeRequest* Quake_AddImpl(Camera* cam, u32 callbackIdx) {
+QuakeRequest* Quake_AddImpl(Camera* camera, u32 callbackIdx) {
     s16 idx = Quake_GetFreeIndex();
     QuakeRequest* req = &sQuakeRequest[idx];
 
     func_80106860(req, 0, sizeof(QuakeRequest)); // memset
-    req->cam = cam;
-    req->camPtrIdx = cam->camId;
+    req->cam = camera;
+    req->camPtrIdx = camera->camId;
     req->callbackIdx = callbackIdx;
     req->unk_1C = 1;
     req->randIdx = ((s16)(Rand_ZeroOne() * (f32)0x10000) & ~3) + idx;
@@ -286,8 +286,8 @@ void Quake_Init(void) {
     sQuakeRequestCount = 0;
 }
 
-s16 Quake_Add(Camera* cam, u32 callbackIdx) {
-    return Quake_AddImpl(cam, callbackIdx)->randIdx;
+s16 Quake_Add(Camera* camera, u32 callbackIdx) {
+    return Quake_AddImpl(camera, callbackIdx)->randIdx;
 }
 
 u32 Quake_RemoveFromIdx(s16 idx) {

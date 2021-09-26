@@ -1265,15 +1265,15 @@ void func_80900818(BossGanon2* this, GlobalContext* globalCtx) {
 void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
     Vec3f sp5C;
     Vec3f sp50;
-    Camera* sp4C;
+    Camera* mainCam1;
     Player* player;
-    Camera* temp_v0;
-    Camera* temp_v0_2;
+    Camera* mainCam2;
+    Camera* mainCam3;
     s32 pad;
     f32 temp_f12;
     f32 temp_f2;
 
-    sp4C = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+    mainCam1 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
     this->unk_398++;
@@ -1287,8 +1287,8 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
             Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, CAM_STAT_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->unk_39C = 1;
-            this->unk_3A4 = sp4C->eye;
-            this->unk_3B0 = sp4C->at;
+            this->unk_3A4 = mainCam1->eye;
+            this->unk_3B0 = mainCam1->at;
             this->unk_1A2[0] = 300;
             this->unk_1A2[1] = 100;
             globalCtx->envCtx.unk_D8 = 0.0f;
@@ -1326,10 +1326,10 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
                 func_8010B680(globalCtx, 0x70D7, NULL);
             }
             if ((this->unk_1A2[1] < 30) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
-                temp_v0 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
-                temp_v0->eye = this->unk_3A4;
-                temp_v0->eyeNext = this->unk_3A4;
-                temp_v0->at = this->unk_3B0;
+                mainCam2 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                mainCam2->eye = this->unk_3A4;
+                mainCam2->eyeNext = this->unk_3A4;
+                mainCam2->at = this->unk_3B0;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
                 this->unk_39E = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
@@ -1357,10 +1357,10 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = (player->actor.world.pos.y + 60.0f) - 25.0f;
             this->unk_3B0.z = player->actor.world.pos.z;
             if (this->unk_398 == 80) {
-                temp_v0_2 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
-                temp_v0_2->eye = this->unk_3A4;
-                temp_v0_2->eyeNext = this->unk_3A4;
-                temp_v0_2->at = this->unk_3B0;
+                mainCam3 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                mainCam3->eye = this->unk_3A4;
+                mainCam3->eyeNext = this->unk_3A4;
+                mainCam3->at = this->unk_3B0;
                 this->unk_39C = 3;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
                 this->unk_39E = CAM_ID_MAIN;
@@ -1451,7 +1451,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
     Player* player;
     f32 temp_f14;
     f32 temp_f12;
-    Camera* temp_v0_2;
+    Camera* mainCam;
     s16 temp_a0_2;
     f32 phi_f0;
     s32 phi_a1;
@@ -1603,10 +1603,10 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = player->actor.world.pos.y + 40.0f;
             this->unk_3B0.z = player->actor.world.pos.z;
             if (this->unk_398 == 166) {
-                temp_v0_2 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
-                temp_v0_2->eye = this->unk_3A4;
-                temp_v0_2->eyeNext = this->unk_3A4;
-                temp_v0_2->at = this->unk_3B0;
+                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                mainCam->eye = this->unk_3A4;
+                mainCam->eyeNext = this->unk_3A4;
+                mainCam->at = this->unk_3B0;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
                 this->unk_39E = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);

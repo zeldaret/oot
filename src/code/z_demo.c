@@ -1354,7 +1354,7 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
     s32 size;
     Vec3f sp3C;
     Vec3f sp30;
-    Camera* sp2C;
+    Camera* subCam;
     f32 sp28;
 
     cmd += 8;
@@ -1367,13 +1367,13 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
         if (csCtx->unk_1A != 0) {
             D_8015FCC2 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                sp2C = Gameplay_GetCamera(globalCtx, csCtx->subCamId);
-                sp2C->player = NULL;
+                subCam = Gameplay_GetCamera(globalCtx, csCtx->subCamId);
+                subCam->player = NULL;
                 Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
                 sp28 = csCtx->atPoints->cameraRoll * 1.40625f;
-                Camera_SetParam(sp2C, 64, &sp28);
+                Camera_SetParam(subCam, 64, &sp28);
                 sp3C.x = csCtx->atPoints->pos.x;
                 sp3C.y = csCtx->atPoints->pos.y;
                 sp3C.z = csCtx->atPoints->pos.z;
@@ -1397,7 +1397,7 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
     s32 size;
     Vec3f sp3C;
     Vec3f sp30;
-    Camera* sp2C;
+    Camera* subCam;
     f32 sp28;
 
     cmd += 8;
@@ -1410,8 +1410,8 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
         if (csCtx->unk_1B != 0) {
             D_8015FCC4 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                sp2C = Gameplay_GetCamera(globalCtx, csCtx->subCamId);
-                sp2C->player = NULL;
+                subCam = Gameplay_GetCamera(globalCtx, csCtx->subCamId);
+                subCam->player = NULL;
                 Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
