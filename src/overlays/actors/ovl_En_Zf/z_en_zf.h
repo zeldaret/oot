@@ -94,14 +94,14 @@ typedef struct EnZf {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s jointTable[ENZF_LIMB_MAX];
     /* 0x02B6 */ Vec3s morphTable[ENZF_LIMB_MAX];
-    /* 0x03DC */ s32 action; // state/action?
+    /* 0x03DC */ s32 action;
     /* 0x03E0 */ s32 unk_3E0; // Set but unused
     /* 0x03E4 */ s32 hopAnimIndex;
     /* 0x03E8 */ EnZfActionFunc actionFunc;
     /* 0x03EC */ s16 headRot;
     /* 0x03EE */ s16 headRotTemp; // Only used in one function
     /* 0x03F0 */ s32 unk_3F0; // attack timer?
-    /* 0x03F4 */ s16 unk_3F4; // timer?
+    /* 0x03F4 */ s16 unk_3F4; // tag timer?
     /* 0x03F6 */ s16 iceTimer;
     /* 0x03F8 */ s16 unk_3F8; // boolean, to do with movement
     /* 0x03FA */ s16 swordSheathed; // boolean
@@ -111,7 +111,7 @@ typedef struct EnZf {
     /* 0x0402 */ s16 nextPlatform;
     /* 0x0404 */ u8 alpha;
     /* 0x0408 */ f32 unk_408; // related to XZ speeds
-    /* 0x040C */ f32 unk_40C; // related to velY
+    /* 0x040C */ f32 unk_40C; // related to y velocity
     /* 0x0410 */ u8 damageEffect;
     /* 0x0414 */ s32 blureIndex;
     /* 0x0418 */ ColliderCylinder bodyCollider;

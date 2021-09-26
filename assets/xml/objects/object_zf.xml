@@ -9,7 +9,7 @@
         <Texture Name="object_zf_Tex_000540" OutName="tex_00000540" Format="i8" Width="8" Height="8" Offset="0x540"/>
         <Texture Name="object_zf_Tex_000580" OutName="tex_00000580" Format="i8" Width="8" Height="16" Offset="0x580"/>
         <Texture Name="object_zf_Tex_000600" OutName="tex_00000600" Format="ci8" Width="16" Height="16" Offset="0x600"/>
-        <Texture Name="gZfDinolfosEyeTex" OutName="zf_dinolfos_eye" Format="rgba16" Width="16" Height="16" Offset="0x700"/>
+        <Texture Name="gZfDinolfosNormalEyeTex" OutName="zf_dinolfos_normal_eye" Format="rgba16" Width="16" Height="16" Offset="0x700"/>
         <DList Name="gZfDinolfosRightThighDL" Offset="0x3510"/>
         <DList Name="gZfDinolfosRightShinDL" Offset="0x3778"/>
         <DList Name="gZfDinolfosRightFootDL" Offset="0x3908"/>
