@@ -73,23 +73,6 @@ typedef struct {
     /* 0x1E0 */ Vec3f head;
 } BossFdMane; // size = 0x1EC
 
-typedef struct {
-    /* 0x00 */ Vec3f eye;
-    /* 0x0C */ Vec3f at;
-    /* 0x18 */ Vec3f up;
-    /* 0x24 */ Vec3f pad;
-    /* 0x30 */ Vec3f eyeVel;
-    /* 0x3C */ Vec3f atVel;
-    /* 0x48 */ Vec3f eyeNext;
-    /* 0x54 */ Vec3f eyeMaxVelFrac;
-    /* 0x60 */ Vec3f atNext;
-    /* 0x6C */ Vec3f atMaxVelFrac;
-    /* 0x78 */ f32 velFactor;
-    /* 0x7C */ f32 accel;
-    /* 0x80 */ f32 atYOffset;
-    /* 0x84 */ f32 shake;
-} BossFdSubCam; // size = 0x88
-
 typedef enum {
     /*  0 */ BFD_ACTION_STATE,
     /*  1 */ BFD_MOVE_TIMER,
@@ -177,7 +160,20 @@ typedef struct BossFd {
     /* 0x1400 */ s16 introFlyState;
     /* 0x1402 */ s16 introState;
     /* 0x1404 */ s16 subCamId;
-    /* 0x1408 */ BossFdSubCam subCamData;
+    /* 0x1408 */ Vec3f subCamEye;
+    /* 0x1414 */ Vec3f subCamAt;
+    /* 0x1420 */ Vec3f subCamUp;
+    /* 0x142C */ Vec3f pad;
+    /* 0x1438 */ Vec3f subCamEyeVel;
+    /* 0x1444 */ Vec3f subCamAtVel;
+    /* 0x1450 */ Vec3f subCamEyeNext;
+    /* 0x145C */ Vec3f subCamEyeMaxVelFrac;
+    /* 0x1468 */ Vec3f subCamAtNext;
+    /* 0x1474 */ Vec3f subCamAtMaxVelFrac;
+    /* 0x1480 */ f32 subCamVelFactor;
+    /* 0x1484 */ f32 subCamAccel;
+    /* 0x1488 */ f32 subCamAtYOffset;
+    /* 0x148C */ f32 subCamShake;
     /* 0x1490 */ ColliderJntSph collider;
     /* 0x14B0 */ ColliderJntSphElement elements[19];
     /* 0x1970 */ BossFdEffect effects[180];
