@@ -96,8 +96,8 @@ static Vec3f sPlatformPositions[] = {
     { 3560.0f, 531.0f, -1985.0f },
 };
 
+// These seem to relate to the tagging in/out the minibosses do
 static s16 D_80B4A1B0 = 0;
-
 static s16 D_80B4A1B4 = 1;
 
 const ActorInit En_Zf_InitVars = {
@@ -328,7 +328,7 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
                        this->morphTable, ENZF_LIMB_MAX);
     }
 
-    if (thisx->params < 0) { // Not minibosses
+    if (thisx->params < ENZF_TYPE_LIZALFOS_MINIBOSS_A) { // Not minibosses
         this->homePlatform = this->curPlatform = -1;
         D_80B4A1B4 = -1;
         this->hopAnimIndex = 1;
@@ -1163,9 +1163,11 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
 
 void EnZf_SetupSlash(EnZf* this) {
     Animation_Change(&this->skelAnime, &gZfSlashAnim, 1.25f, 0.0f, Animation_GetLastFrame(&gZfSlashAnim), 2, -4.0f);
+
     if (this->actor.params == ENZF_TYPE_DINOLFOS) {
         this->skelAnime.playSpeed = 1.75f;
     }
+
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->action = ENZF_ACTION_SLASH;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
@@ -1621,7 +1623,8 @@ void EnZf_SetupDamaged(EnZf* this) {
         this->skelAnime.playSpeed = 4.5f;
     }
 
-    if (this->actor.params < 0) {
+    // not miniboss
+    if (this->actor.params < ENZF_TYPE_LIZALFOS_MINIBOSS_A) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     }
 
@@ -1775,8 +1778,7 @@ void EnZf_CircleAroundPlayer(EnZf* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 1);
     playerRot = player->actor.shape.rot.y;
 
-    if (this->actor.params >= 0) {
-
+    if (this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) { // miniboss
         if (this->unk_3F8) {
             this->actor.speedXZ = -this->actor.speedXZ;
         }
@@ -1848,7 +1850,8 @@ void EnZf_CircleAroundPlayer(EnZf* this, GlobalContext* globalCtx) {
 
     if (EnZf_FindPlatform(&player->actor.world.pos, -1) != this->curPlatform) {
         this->actor.speedXZ = 0.0f;
-        if ((this->actor.params >= 0) && (D_80B4A1B4 == this->actor.params)) {
+        // miniboss
+        if ((this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) && (D_80B4A1B4 == this->actor.params)) {
             EnZf_SetupHopAndTaunt(this);
             return;
         }
@@ -1862,13 +1865,13 @@ void EnZf_CircleAroundPlayer(EnZf* this, GlobalContext* globalCtx) {
             phi_v0_4 = ABS(phi_v0_4);
 
             if (phi_v0_4 >= 0x3A98) {
-                if ((this->actor.params >= 0) && (D_80B4A1B4 == this->actor.params)) {
+                if ((this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) && (D_80B4A1B4 == this->actor.params)) {
                     EnZf_SetupHopAndTaunt(this);
                 } else {
                     func_80B45384(this);
                     this->unk_3F0 = Rand_ZeroOne() * 5.0f + 1.0f;
                 }
-            } else if ((this->actor.params >= 0) && (D_80B4A1B4 == this->actor.params)) {
+            } else if ((this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) && (D_80B4A1B4 == this->actor.params)) {
                 EnZf_SetupHopAndTaunt(this);
             } else {
                 this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -1946,7 +1949,7 @@ void EnZf_Die(EnZf* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.category != ACTORCAT_PROP) {
-            if ((this->actor.params >= 0) && (D_80B4A1B4 == -1)) {
+            if ((this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) && (D_80B4A1B4 == -1)) {
                 Flags_SetSwitch(globalCtx, this->clearFlag);
                 func_800F5B58();
             } else {
@@ -1991,7 +1994,8 @@ void EnZf_UpdateDamage(EnZf* this, GlobalContext* globalCtx) {
 
     if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->action <= ENZF_ACTION_STUNNED)) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        if (((this->actor.params < 0) || (D_80B4A1B4 != this->actor.params)) &&
+        // not miniboss
+        if (((this->actor.params < ENZF_TYPE_LIZALFOS_MINIBOSS_A) || (D_80B4A1B4 != this->actor.params)) &&
             (this->actor.colChkInfo.damageEffect != ENZF_DMGEFF_IMMUNE)) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 0);
@@ -2105,7 +2109,8 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
         }
 
-        if ((this->actor.params < 0) || (D_80B4A1B4 != this->actor.params)) {
+        // not miniboss
+        if ((this->actor.params < ENZF_TYPE_LIZALFOS_MINIBOSS_A) || (D_80B4A1B4 != this->actor.params)) {
             if ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000)) {
                 CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
             }
