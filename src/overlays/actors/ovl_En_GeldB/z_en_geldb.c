@@ -545,7 +545,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
             if ((globalCtx->gameplayFrames & 0x5F) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
             }
-            if ((thisKeyFrame != (s32)this->skelAnime.curFrame)) {
+            if (thisKeyFrame != (s32)this->skelAnime.curFrame) {
                 s32 temp = playSpeed + thisKeyFrame;
 
                 if (((prevKeyFrame < 0) && (temp > 0)) || ((prevKeyFrame < 4) && (temp > 4))) {
