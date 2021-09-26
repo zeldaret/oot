@@ -84,7 +84,7 @@
         <Animation Name="object_zf_Anim_008C6C" Offset="0x8C6C"/>
         <Animation Name="object_zf_Anim_009530" Offset="0x9530"/>
         <Animation Name="gZfSlashAnim" Offset="0xA3D4"/>
-        <Animation Name="object_zf_Anim_00B10C" Offset="0xB10C"/>
+        <Animation Name="gZFCryingAnim" Offset="0xB10C"/>
 
         <Texture Name="object_zf_Tex_00B120" OutName="tex_0000B120" Format="rgba16" Width="32" Height="32" Offset="0xB120"/>
         <Texture Name="object_zf_Tex_00B920" OutName="tex_0000B920" Format="rgba16" Width="8" Height="8" Offset="0xB920"/>
@@ -173,10 +173,10 @@
         <Animation Name="object_zf_Anim_01081C" Offset="0x1081C"/>
         <Animation Name="object_zf_Anim_010CAC" Offset="0x10CAC"/>
         <Animation Name="object_zf_Anim_011070" Offset="0x11070"/>
-        <Animation Name="object_zf_Anim_0119F4" Offset="0x119F4"/>
-        <Animation Name="object_zf_Anim_01366C" Offset="0x1366C"/>
-        <Animation Name="object_zf_Anim_014E60" Offset="0x14E60"/>
-        <Animation Name="object_zf_Anim_0157F8" Offset="0x157F8"/>
+        <Animation Name="gZfSheathingSwordAnim" Offset="0x119F4"/>
+        <Animation Name="gZfDrawingSwordAnim" Offset="0x1366C"/>
+        <Animation Name="gZfDyingAnim" Offset="0x14E60"/>
+        <Animation Name="gZfKnockedBackAnim" Offset="0x157F8"/>
         <Animation Name="object_zf_Anim_016388" Offset="0x16388"/>
     </File>
 </Root>
