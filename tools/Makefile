@@ -7,6 +7,8 @@ else
   CC := gcc
 endif
 
+LLD ?= 0
+
 ifeq ($(shell command -v ld.lld >/dev/null 2>&1; echo $$?),0)
   LLD := 1
 endif
