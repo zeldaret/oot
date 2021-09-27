@@ -7,7 +7,7 @@ void SysCfb_Init(s32 n64dd) {
     u32 screenSize;
     u32 tmpFbEnd;
 
-    if (osMemSize >= 0x800000U) {
+    if (osMemSize >= 0x800000) {
         // "8MB or more memory is installed"
         osSyncPrintf("８Ｍバイト以上のメモリが搭載されています\n");
         tmpFbEnd = 0x8044BE80;
@@ -19,7 +19,7 @@ void SysCfb_Init(s32 n64dd) {
             osSyncPrintf("このバージョンのマージンは %dK バイトです\n", (0x4BC00 / 1024));
             sSysCfbEnd = tmpFbEnd;
         }
-    } else if (osMemSize >= 0x400000U) {
+    } else if (osMemSize >= 0x400000) {
         osSyncPrintf("RAM4M mode\n");
         sSysCfbEnd = 0x80400000;
     } else {
