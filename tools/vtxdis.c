@@ -3,6 +3,7 @@
 #include <getopt.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include <inttypes.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -20,17 +21,19 @@ typedef struct {
 
 static char *filename = NULL;
 static char *data = NULL;
-static int offset = 0;
-static int data_len = 0;
-static int count = 0;
+static int32_t offset = 0;
+static int32_t data_len = 0;
+static int16_t count = 0;
+static bool useHex = false;
 
-const struct option cmdline_opts[] = {
+static const struct option cmdline_opts[] = {
     { "offset", required_argument, NULL, 'o', },
     { "length", required_argument, NULL, 'l', },
     { "file" , required_argument, NULL, 'f', },
     { "version", no_argument, NULL, '~', },
     { "help", no_argument, NULL, '?', },
     { "count", required_argument, NULL, 'c', },
+    { "hex", optional_argument, NULL, 'x'},
     { 0, 0, 0, 0 },
 };
 
@@ -51,7 +54,7 @@ static uint32_t parse_int(const char *num){
 
 }
 
-static void print_usage(void)
+static inline void print_usage(void)
 {
     puts("vtxdis version " VTXDIS_VER "\n"
     "Usage:\n"
@@ -63,12 +66,13 @@ static void print_usage(void)
     "  -c, --count      The number of vertices to extract.\n"
     "  -l, --length     The amount of data to extract vertices from.\n"
     "  -o, --offset     The offset into file to start reading vertex data.\n"
+    "  -x, --hex        Print the data in hexadecimal.\n"
     "  -?, --help       Prints this help message\n"
     "  --version        Prints the current version\n"
     );
 }
 
-static void print_version(void){
+static inline void print_version(void){
     puts("Version: " VTXDIS_VER);
 }
 
@@ -78,15 +82,18 @@ static void print_vtx_data(Vtx *vtx, int vtx_cnt)
     for(int i = 0; i < vtx_cnt; i++)
     {
         Vtx *v = &vtx[i];
-
-        printf("    VTX(%d, %d, %d, %d, %d, %d, %d, %d, %d),\n", v->pos[0], v->pos[1], v->pos[2], v->tpos[0], v->tpos[1], v->cn[0], v->cn[1], v->cn[2], v->cn[3]);
+        if(!useHex) {
+            printf("    VTX(%d, %d, %d, %d, %d, %d, %d, %d, %d),\n", v->pos[0], v->pos[1], v->pos[2], v->tpos[0], v->tpos[1], v->cn[0], v->cn[1], v->cn[2], v->cn[3]);
+        } else {
+            printf("    VTX(%d, %d, %d, %d, %d, 0x%02X, 0x%02X, 0x%02X, 0x%02X),\n", v->pos[0], v->pos[1], v->pos[2], v->tpos[0], v->tpos[1], v->cn[0], v->cn[1], v->cn[2], v->cn[3]);
+        }
     }
     puts("}");
 }
 
 static void parse_file(void)
 {
-    int alloc_size = 0;
+    unsigned int alloc_size = 0;
     struct stat sbuffer;
     stat(filename, &sbuffer);
     if(errno != 0){
@@ -162,8 +169,8 @@ static void parse_file(void)
 
     fclose(file);
 
-    int vtx_cnt = alloc_size / sizeof(Vtx);
-    for(int i = 0; i < vtx_cnt; i++){
+    unsigned int vtx_cnt = alloc_size / sizeof(Vtx);
+    for(unsigned int i = 0; i < vtx_cnt; i++){
         Vtx *v = &data[i];
 
         v->pos[0] = SWAP16(v->pos[0]);
@@ -181,10 +188,9 @@ static void parse_file(void)
 int main(int argc, char **argv)
 {
     int opt;
-    int argv_idx = 0;
+
     while(1){
-        argv_idx++;
-        opt = getopt_long(argc, argv, "o:l:f:c:v?", cmdline_opts, NULL);
+        opt = getopt_long(argc, argv, "o:xl:f:c:v?", cmdline_opts, NULL);
         if(opt == -1){
             break;
         }
@@ -209,6 +215,9 @@ int main(int argc, char **argv)
                 break;
             case 'c':
                 count = parse_int(optarg);
+                break;
+            case 'x':
+                useHex = true;
                 break;
         }
     }
