@@ -46,7 +46,7 @@ u32 D_8011E304[] = { 0x0200B650, 0x02015600, 0x02014F80, 0x02003F80, 0x02000330,
 u16 D_8015FCC0;
 u16 D_8015FCC2;
 u16 D_8015FCC4;
-s16 D_8015FCC6;
+s16 sActiveCamId;
 u8 D_8015FCC8;
 s16 D_8015FCCA;
 u16 D_8015FCCC;      // only written to, never read
@@ -1274,8 +1274,8 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
     }
 }
 
-// Command 0x1 & 0x5: Eye Points
-s32 Cutscene_Command_EyePoints(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
+// Command 0x1 & 0x5: Camera Eye Points
+s32 Cutscene_Command_CameraEyePoints(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
     s32 shouldContinue = 1;
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
@@ -1286,15 +1286,15 @@ s32 Cutscene_Command_EyePoints(GlobalContext* globalCtx, CutsceneContext* csCtx,
     if ((cmdBase->startFrame < csCtx->frames) && (csCtx->frames < cmdBase->endFrame) &&
         ((csCtx->unk_18 < cmdBase->startFrame) || (csCtx->unk_18 >= 0xF000))) {
         csCtx->unk_1B = 1;
-        csCtx->eyePoints = (CutsceneCameraPoint*)cmd;
+        csCtx->subCamEyePoints = (CutsceneCameraPoint*)cmd;
         if (csCtx->unk_1A != 0) {
             csCtx->unk_18 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_DEMO0);
-                Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, sActiveCamId, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->subCamId));
-                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->atPoints, csCtx->eyePoints,
+                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamAtPoints, csCtx->subCamEyePoints,
                                    GET_PLAYER(globalCtx), relativeToLink);
             }
         }
@@ -1312,7 +1312,7 @@ s32 Cutscene_Command_EyePoints(GlobalContext* globalCtx, CutsceneContext* csCtx,
 }
 
 // Command 0x2 & 0x6: Camera At Points
-s32 Cutscene_Command_AtPoints(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
+s32 Cutscene_Command_CameraAtPoints(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
     s32 shouldContinue = 1;
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
@@ -1323,15 +1323,15 @@ s32 Cutscene_Command_AtPoints(GlobalContext* globalCtx, CutsceneContext* csCtx, 
     if ((cmdBase->startFrame < csCtx->frames) && (csCtx->frames < cmdBase->endFrame) &&
         ((D_8015FCC0 < cmdBase->startFrame) || (D_8015FCC0 >= 0xF000))) {
         csCtx->unk_1A = 1;
-        csCtx->atPoints = (CutsceneCameraPoint*)cmd;
+        csCtx->subCamAtPoints = (CutsceneCameraPoint*)cmd;
         if (csCtx->unk_1B != 0) {
             D_8015FCC0 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_DEMO0);
-                Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, sActiveCamId, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->subCamId));
-                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->atPoints, csCtx->eyePoints,
+                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamAtPoints, csCtx->subCamEyePoints,
                                    GET_PLAYER(globalCtx), relativeToLink);
             }
         }
@@ -1363,7 +1363,7 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
     if ((cmdBase->startFrame < csCtx->frames) && (csCtx->frames < cmdBase->endFrame) &&
         ((D_8015FCC2 < cmdBase->startFrame) || (D_8015FCC2 >= 0xF000))) {
         csCtx->unk_1B = 1;
-        csCtx->eyePoints = (CutsceneCameraPoint*)cmd;
+        csCtx->subCamEyePoints = (CutsceneCameraPoint*)cmd;
         if (csCtx->unk_1A != 0) {
             D_8015FCC2 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
@@ -1372,16 +1372,16 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
                 Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
-                sp28 = csCtx->atPoints->cameraRoll * 1.40625f;
+                sp28 = csCtx->subCamAtPoints->cameraRoll * 1.40625f;
                 Camera_SetParam(subCam, 64, &sp28);
-                sp3C.x = csCtx->atPoints->pos.x;
-                sp3C.y = csCtx->atPoints->pos.y;
-                sp3C.z = csCtx->atPoints->pos.z;
-                sp30.x = csCtx->eyePoints->pos.x;
-                sp30.y = csCtx->eyePoints->pos.y;
-                sp30.z = csCtx->eyePoints->pos.z;
+                sp3C.x = csCtx->subCamAtPoints->pos.x;
+                sp3C.y = csCtx->subCamAtPoints->pos.y;
+                sp3C.z = csCtx->subCamAtPoints->pos.z;
+                sp30.x = csCtx->subCamEyePoints->pos.x;
+                sp30.y = csCtx->subCamEyePoints->pos.y;
+                sp30.z = csCtx->subCamEyePoints->pos.z;
                 Gameplay_CameraSetAtEye(globalCtx, csCtx->subCamId, &sp3C, &sp30);
-                Gameplay_CameraSetFov(globalCtx, csCtx->subCamId, csCtx->eyePoints->viewAngle);
+                Gameplay_CameraSetFov(globalCtx, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
             }
         }
     }
@@ -1406,7 +1406,7 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
     if ((cmdBase->startFrame < csCtx->frames) && (csCtx->frames < cmdBase->endFrame) &&
         ((D_8015FCC4 < cmdBase->startFrame) || (D_8015FCC4 >= 0xF000))) {
         csCtx->unk_1A = 1;
-        csCtx->atPoints = (CutsceneCameraPoint*)cmd;
+        csCtx->subCamAtPoints = (CutsceneCameraPoint*)cmd;
         if (csCtx->unk_1B != 0) {
             D_8015FCC4 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
@@ -1415,14 +1415,14 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
                 Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
-                sp3C.x = csCtx->atPoints->pos.x;
-                sp3C.y = csCtx->atPoints->pos.y;
-                sp3C.z = csCtx->atPoints->pos.z;
-                sp30.x = csCtx->eyePoints->pos.x;
-                sp30.y = csCtx->eyePoints->pos.y;
-                sp30.z = csCtx->eyePoints->pos.z;
+                sp3C.x = csCtx->subCamAtPoints->pos.x;
+                sp3C.y = csCtx->subCamAtPoints->pos.y;
+                sp3C.z = csCtx->subCamAtPoints->pos.z;
+                sp30.x = csCtx->subCamEyePoints->pos.x;
+                sp30.y = csCtx->subCamEyePoints->pos.y;
+                sp30.z = csCtx->subCamEyePoints->pos.z;
                 Gameplay_CameraSetAtEye(globalCtx, csCtx->subCamId, &sp3C, &sp30);
-                Gameplay_CameraSetFov(globalCtx, csCtx->subCamId, csCtx->eyePoints->viewAngle);
+                Gameplay_CameraSetFov(globalCtx, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
             }
         }
     }
@@ -1801,17 +1801,17 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                     cutscenePtr += 0x30;
                 }
                 break;
-            case CS_CMD_CAMERA_POS:
-                cutscenePtr += Cutscene_Command_EyePoints(globalCtx, csCtx, (void*)cutscenePtr, 0);
+            case CS_CMD_CAMERA_EYE:
+                cutscenePtr += Cutscene_Command_CameraEyePoints(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
-            case CS_CMD_CAMERA_POS_PLAYER:
-                cutscenePtr += Cutscene_Command_EyePoints(globalCtx, csCtx, (void*)cutscenePtr, 1);
+            case CS_CMD_CAMERA_EYE_PLAYER:
+                cutscenePtr += Cutscene_Command_CameraEyePoints(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
-            case CS_CMD_CAMERA_FOCUS:
-                cutscenePtr += Cutscene_Command_AtPoints(globalCtx, csCtx, (void*)cutscenePtr, 0);
+            case CS_CMD_CAMERA_AT:
+                cutscenePtr += Cutscene_Command_CameraAtPoints(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
-            case CS_CMD_CAMERA_FOCUS_PLAYER:
-                cutscenePtr += Cutscene_Command_AtPoints(globalCtx, csCtx, (void*)cutscenePtr, 1);
+            case CS_CMD_CAMERA_AT_PLAYER:
+                cutscenePtr += Cutscene_Command_CameraAtPoints(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
             case CS_CMD_07:
                 cutscenePtr += Cutscene_Command_07(globalCtx, csCtx, (void*)cutscenePtr, 0);
@@ -1910,12 +1910,12 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
                 case 0x028E:
                 case 0x0292:
                 case 0x0476:
-                    Gameplay_CopyCamera(globalCtx, D_8015FCC6, csCtx->subCamId);
+                    Gameplay_CopyCamera(globalCtx, sActiveCamId, csCtx->subCamId);
             }
 
-            Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, sActiveCamId, CAM_STAT_ACTIVE);
             Gameplay_ClearCamera(globalCtx, csCtx->subCamId);
-            func_8005B1A4(globalCtx->cameraPtrs[D_8015FCC6]);
+            func_8005B1A4(globalCtx->cameraPtrs[sActiveCamId]);
         }
 
         Audio_SetCutsceneFlag(0);
@@ -1954,7 +1954,7 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
             D_8015FCC4 = 0xFFFF;
             csCtx->unk_1A = 0;
             csCtx->unk_1B = 0;
-            D_8015FCC6 = globalCtx->activeCamId;
+            sActiveCamId = globalCtx->activeCamId;
 
             if (D_8015FCC8 != 0) {
                 csCtx->subCamId = Gameplay_CreateSubCamera(globalCtx);

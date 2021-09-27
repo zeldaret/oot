@@ -1554,11 +1554,11 @@ void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId) {
 }
 
 void Gameplay_ClearAllSubCameras(GlobalContext* globalCtx) {
-    s16 i;
+    s16 subCamId;
 
-    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
-        if (globalCtx->cameraPtrs[i] != NULL) {
-            Gameplay_ClearCamera(globalCtx, i);
+    for (subCamId = CAM_ID_SUB_FIRST; subCamId < NUM_CAMS; subCamId++) {
+        if (globalCtx->cameraPtrs[subCamId] != NULL) {
+            Gameplay_ClearCamera(globalCtx, subCamId);
         }
     }
 

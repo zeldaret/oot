@@ -21,7 +21,7 @@
  *   size = 0xC
  */
 #define CS_CAM_POS_LIST(startFrame, endFrame) \
-    CS_CMD_CAMERA_POS, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+    CS_CMD_CAMERA_EYE, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
  * ARGS
@@ -43,7 +43,7 @@
  *   size = 0xC
  */
 #define CS_CAM_FOCUS_POINT_LIST(startFrame, endFrame) \
-    CS_CMD_CAMERA_FOCUS, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+    CS_CMD_CAMERA_AT, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
  * ARGS
@@ -110,7 +110,7 @@
  *   size = 0xC
  */
 #define CS_CAM_POS_PLAYER_LIST(startFrame, endFrame) \
-    CS_CMD_CAMERA_POS_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+    CS_CMD_CAMERA_EYE_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
  * ARGS
@@ -133,7 +133,7 @@
  *   size = 0xC
  */
 #define CS_CAM_FOCUS_POINT_PLAYER_LIST(startFrame, endFrame) \
-    CS_CMD_CAMERA_FOCUS_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+    CS_CMD_CAMERA_AT_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 /**
  * ARGS
  *   s8 continueFlag (c), s8 roll (r), s16 frame (f), f32 viewAngle (a), 
