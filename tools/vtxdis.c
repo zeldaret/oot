@@ -33,7 +33,7 @@ static const struct option cmdline_opts[] = {
     { "version", no_argument, NULL, '~', },
     { "help", no_argument, NULL, '?', },
     { "count", required_argument, NULL, 'c', },
-    { "hex", optional_argument, NULL, 'x'},
+    { "hex", no_argument, NULL, 'x'},
     { 0, 0, 0, 0 },
 };
 
@@ -190,7 +190,7 @@ int main(int argc, char **argv)
     int opt;
 
     while(1){
-        opt = getopt_long(argc, argv, "o:xl:f:c:v?", cmdline_opts, NULL);
+        opt = getopt_long(argc, argv, "o:l:f:c:v?x", cmdline_opts, NULL);
         if(opt == -1){
             break;
         }
