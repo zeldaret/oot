@@ -338,7 +338,7 @@ void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) 
 void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (func_800C0DB4(globalCtx, &this->actor.projectedPos)) {
-        func_800F6828(0);
+        Audio_SetExtraFilter(0);
     }
     if (this->subCamId != 0) {
         Math_ApproachF(&this->camEye.x, this->unk_2D0.x, this->unk_2DC.x, this->unk_2E8.x * this->unk_318);

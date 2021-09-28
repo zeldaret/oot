@@ -205,7 +205,7 @@ void Gameplay_Init(GameState* thisx) {
     GameState_Realloc(&globalCtx->state, 0x1D4790);
     KaleidoManager_Init(globalCtx);
     View_Init(&globalCtx->view, gfxCtx);
-    func_800F6828(0);
+    Audio_SetExtraFilter(0);
     Quake_Init();
 
     for (i = 0; i < 4; i++) {

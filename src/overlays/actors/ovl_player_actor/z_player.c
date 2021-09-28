@@ -5540,10 +5540,10 @@ void func_8083D36C(GlobalContext* globalCtx, Player* this) {
 
 void func_8083D53C(GlobalContext* globalCtx, Player* this) {
     if (this->actor.yDistToWater < this->ageProperties->unk_2C) {
-        func_800F67A0(0);
+        Audio_SetBaseFilter(0);
         this->unk_840 = 0;
     } else {
-        func_800F67A0(32);
+        Audio_SetBaseFilter(0x20);
         if (this->unk_840 < 300) {
             this->unk_840++;
         }

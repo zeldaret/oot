@@ -30,7 +30,7 @@ typedef struct {
     /* 0xA */ s8 stereoBits;
     /* 0xB */ u8 filter;
     /* 0xC */ u8 unk_0C;
-} unk_s1;
+} SfxPlayerState;
 
 typedef struct {
     /* 0x0 */ f32 value;
@@ -104,7 +104,7 @@ s8 D_801305B4 = 35;
 s8 D_801305B8 = 20;
 s8 D_801305BC = 30;
 s8 D_801305C0 = 20;
-f32 D_801305C4[2] = { -15.0f, -65.0f };
+f32 sBehindScreenZ[2] = { -15.0f, -65.0f };
 u8 sAudioIncreasingTranspose = 0;
 u8 gMorphaTransposeTable[16] = { 0, 0, 0, 1, 1, 2, 4, 6, 8, 8, 8, 8, 8, 8, 8, 8 };
 u8 sPrevChargeLevel = 0;
@@ -126,10 +126,10 @@ u8 D_8013062C = 0;
 u8 D_80130630 = 0;
 u32 D_80130634 = 0;
 u32 D_80130638 = 0;
-u8 D_8013063C = 0;
-u8 D_80130640 = 0;
-u8 D_80130644 = 0;
-u8 D_80130648 = 0;
+u8 sAudioBaseFilter = 0;
+u8 sAudioExtraFilter = 0;
+u8 sAudioBaseFilter2 = 0;
+u8 sAudioExtraFilter2 = 0;
 Vec3f* sSariaBgmPtr = NULL;
 f32 D_80130650 = 2000.0f;
 u8 D_80130654 = 0;
@@ -438,7 +438,7 @@ u8 D_8016B8B1;
 u8 D_8016B8B2;
 u8 D_8016B8B3;
 u8 sAudioGanonDistVol;
-unk_s1 D_8016B8B8[0x10];
+SfxPlayerState sSfxChannelState[0x10];
 
 char sBinToStrBuf[0x20];
 u8 D_8016B9D8;
@@ -2178,17 +2178,17 @@ void AudioDebug_ProcessInput_SndCont(void) {
 
     if (sAudioSndContSel == 8) {
         if (sAudioSndContWork[sAudioSndContSel] != 0) {
-            func_800F6828(0x20);
+            Audio_SetExtraFilter(0x20);
         } else {
-            func_800F6828(0);
+            Audio_SetExtraFilter(0);
         }
     }
 
     if (sAudioSndContSel == 9) {
         if (sAudioSndContWork[sAudioSndContSel] != 0) {
-            func_800F67A0(0x20);
+            Audio_SetBaseFilter(0x20);
         } else {
-            func_800F67A0(0);
+            Audio_SetBaseFilter(0);
         }
     }
 
@@ -2903,13 +2903,13 @@ f32 Audio_ComputeSoundFreqScale(u8 bankIdx, u8 entryIdx) {
         case BANK_PLAYER:
         case BANK_ITEM:
         case BANK_VOICE:
-            if (D_80130644 != 0) {
+            if (sAudioBaseFilter2 != 0) {
                 phi_v0 = 1;
             }
             break;
         case BANK_ENV:
         case BANK_ENEMY:
-            if (D_80130648 != 0) {
+            if (sAudioExtraFilter2 != 0) {
                 phi_v0 = 1;
             }
             break;
@@ -2942,13 +2942,13 @@ f32 Audio_ComputeSoundFreqScale(u8 bankIdx, u8 entryIdx) {
     return freq;
 }
 
-u8 func_800F37B8(f32 arg0, SoundBankEntry* arg1, s8 arg2) {
+u8 func_800F37B8(f32 behindScreenZ, SoundBankEntry* arg1, s8 arg2) {
     s8 phi_v0;
     u8 phi_v1;
     f32 phi_f0;
     f32 phi_f12;
 
-    if (*arg1->posZ < arg0) {
+    if (*arg1->posZ < behindScreenZ) {
         phi_v0 = arg2 < 65 ? arg2 : 0x7F - arg2;
 
         if (phi_v0 < 30) {
@@ -3011,8 +3011,8 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     u8 stereoBits = 0;
     u8 filter = 0;
     s8 sp38 = 0;
-    f32 sp34;
-    u8 sp33 = 0;
+    f32 behindScreenZ;
+    u8 baseFilter = 0;
     SoundBankEntry* entry = &gSoundBanks[bankIdx][entryIdx];
 
     switch (bankIdx) {
@@ -3032,94 +3032,94 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSoundFreqScale(bankIdx, entryIdx) * *entry->freqScale;
             if (D_80130604 == 2) {
-                sp34 = D_801305C4[(entry->sfxParams & 0x400) >> 10];
+                behindScreenZ = sBehindScreenZ[(entry->sfxParams & 0x400) >> 10];
                 if (!(entry->sfxParams & 0x800)) {
-                    if (*entry->posZ < sp34) {
+                    if (*entry->posZ < behindScreenZ) {
                         stereoBits = 0x10;
                     }
 
-                    if ((D_8016B8B8[channelIdx].stereoBits ^ stereoBits) & 0x10) {
+                    if ((sSfxChannelState[channelIdx].stereoBits ^ stereoBits) & 0x10) {
                         if (panSigned < 0x40) {
-                            stereoBits = D_8016B8B8[channelIdx].stereoBits ^ 0x14;
+                            stereoBits = sSfxChannelState[channelIdx].stereoBits ^ 0x14;
                         } else {
-                            stereoBits = D_8016B8B8[channelIdx].stereoBits ^ 0x18;
+                            stereoBits = sSfxChannelState[channelIdx].stereoBits ^ 0x18;
                         }
                     } else {
-                        stereoBits = D_8016B8B8[channelIdx].stereoBits;
+                        stereoBits = sSfxChannelState[channelIdx].stereoBits;
                     }
                 }
             }
-            if (D_8013063C != 0) {
+            if (sAudioBaseFilter != 0) {
                 if ((bankIdx == BANK_ITEM) || (bankIdx == BANK_PLAYER) || (bankIdx == BANK_VOICE)) {
-                    sp33 = D_8013063C;
+                    baseFilter = sAudioBaseFilter;
                 }
             }
 
-            if ((sp33 | D_80130640) != 0) {
-                filter = (sp33 | D_80130640);
+            if ((baseFilter | sAudioExtraFilter) != 0) {
+                filter = (baseFilter | sAudioExtraFilter);
             } else if (D_80130604 == 2 && (entry->sfxParams & 0x2000) == 0) {
-                filter = func_800F37B8(sp34, entry, panSigned);
+                filter = func_800F37B8(behindScreenZ, entry, panSigned);
             }
             break;
         case BANK_SYSTEM:
             break;
     }
 
-    if (D_8016B8B8[channelIdx].vol != vol) {
+    if (sSfxChannelState[channelIdx].vol != vol) {
         volS8 = (u8)(vol * 127.0f);
-        D_8016B8B8[channelIdx].vol = vol;
+        sSfxChannelState[channelIdx].vol = vol;
     } else {
         volS8 = -1;
     }
 
     // CHAN_UPD_SCRIPT_IO (slot 2, sets volume)
     Audio_QueueCmdS8(0x6020000 | (channelIdx << 8) | 2, volS8);
-    if (reverb != D_8016B8B8[channelIdx].reverb) {
+    if (reverb != sSfxChannelState[channelIdx].reverb) {
         Audio_QueueCmdS8(0x5020000 | (channelIdx << 8), reverb);
-        D_8016B8B8[channelIdx].reverb = reverb;
+        sSfxChannelState[channelIdx].reverb = reverb;
     }
-    if (freqScale != D_8016B8B8[channelIdx].freqScale) {
+    if (freqScale != sSfxChannelState[channelIdx].freqScale) {
         Audio_QueueCmdF32(0x4020000 | (channelIdx << 8), freqScale);
-        D_8016B8B8[channelIdx].freqScale = freqScale;
+        sSfxChannelState[channelIdx].freqScale = freqScale;
     }
-    if (stereoBits != D_8016B8B8[channelIdx].stereoBits) {
+    if (stereoBits != sSfxChannelState[channelIdx].stereoBits) {
         Audio_QueueCmdS8(0xE020000 | (channelIdx << 8), stereoBits | 0x10);
-        D_8016B8B8[channelIdx].stereoBits = stereoBits;
+        sSfxChannelState[channelIdx].stereoBits = stereoBits;
     }
-    if (filter != D_8016B8B8[channelIdx].filter) {
+    if (filter != sSfxChannelState[channelIdx].filter) {
         // CHAN_UPD_SCRIPT_IO (slot 3, sets filter)
         Audio_QueueCmdS8(0x6020000 | (channelIdx << 8) | 3, filter);
-        D_8016B8B8[channelIdx].filter = filter;
+        sSfxChannelState[channelIdx].filter = filter;
     }
-    if (sp38 != D_8016B8B8[channelIdx].unk_0C) {
+    if (sp38 != sSfxChannelState[channelIdx].unk_0C) {
         // CHAN_UPD_UNK_0F
         Audio_QueueCmdS8(0xC020000 | (channelIdx << 8), 0x10);
         // CHAN_UPD_UNK_20
         Audio_QueueCmdU16(0xD020000 | (channelIdx << 8), ((u16)(sp38) << 8) + 0xFF);
-        D_8016B8B8[channelIdx].unk_0C = sp38;
+        sSfxChannelState[channelIdx].unk_0C = sp38;
     }
-    if (panSigned != D_8016B8B8[channelIdx].panSigned) {
+    if (panSigned != sSfxChannelState[channelIdx].panSigned) {
         Audio_QueueCmdS8(0x3020000 | (channelIdx << 8), panSigned);
-        D_8016B8B8[channelIdx].panSigned = panSigned;
+        sSfxChannelState[channelIdx].panSigned = panSigned;
     }
 }
 
-void func_800F3ED4(void) {
+void Audio_ResetSfxChannelState(void) {
     u8 i;
-    unk_s1* t;
+    SfxPlayerState* state;
 
     for (i = 0; i < 16; i++) {
-        t = &D_8016B8B8[i];
-        t->vol = 1.0f;
-        t->freqScale = 1.0f;
-        t->reverb = 0;
-        t->panSigned = 0x40;
-        t->stereoBits = 0;
-        t->filter = 0xFF;
-        t->unk_0C = 0xFF;
+        state = &sSfxChannelState[i];
+        state->vol = 1.0f;
+        state->freqScale = 1.0f;
+        state->reverb = 0;
+        state->panSigned = 0x40;
+        state->stereoBits = 0;
+        state->filter = 0xFF;
+        state->unk_0C = 0xFF;
     }
 
-    D_8016B8B8[13].unk_0C = 0;
+    sSfxChannelState[13].unk_0C = 0;
     D_8013061C = 0;
     sAudioCodeReverb = 0;
 }
@@ -3995,28 +3995,31 @@ void func_800F6700(s8 arg0) {
     Audio_SeqCmdE0(0, sp1F);
 }
 
-void func_800F67A0(u8 arg0) {
-    if (D_8013063C != arg0) {
-        if (arg0 == 0) {
+void Audio_SetBaseFilter(u8 filter) {
+    if (sAudioBaseFilter != filter) {
+        if (filter == 0) {
             Audio_StopSfx(NA_SE_PL_IN_BUBBLE);
-        } else if (D_8013063C == 0) {
+        } else if (sAudioBaseFilter == 0) {
             Audio_PlaySoundGeneral(NA_SE_PL_IN_BUBBLE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
-    D_8013063C = arg0;
-    D_80130644 = arg0;
+    sAudioBaseFilter = filter;
+    sAudioBaseFilter2 = filter;
 }
 
-void func_800F6828(u8 arg0) {
+void Audio_SetExtraFilter(u8 filter) {
     u32 t;
     u8 i;
 
-    D_80130648 = arg0;
-    D_80130640 = arg0;
+    sAudioExtraFilter2 = filter;
+    sAudioExtraFilter = filter;
     if (D_8016E750[0].unk_254 == 1) {
         for (i = 0; i < 16; i++) {
             t = i;
-            Audio_QueueCmdS8(0x6000000 | ((t & 0xFF) << 8) | 6, arg0);
+            // CHAN_UPD_SCRIPT_IO (slot 6)
+            // @bug Some channels use slot 6 as a local register for other purposes, so this may
+            // screw up some sounds. No script seems to use it for the intended purpose.
+            Audio_QueueCmdS8(0x6000000 | ((t & 0xFF) << 8) | 6, filter);
         }
     }
 }
@@ -4105,10 +4108,10 @@ void func_800F6C34(void) {
     D_8013061C = 0;
     D_8016B7A8 = 1.0f;
     D_8016B7B0 = 1.0f;
-    D_8013063C = 0;
-    D_80130640 = 0;
-    D_80130644 = 0;
-    D_80130648 = 0;
+    sAudioBaseFilter = 0;
+    sAudioExtraFilter = 0;
+    sAudioBaseFilter2 = 0;
+    sAudioExtraFilter2 = 0;
     func_800ED858(0);
     sRiverFreqScaleLerp.remainingFrames = 0;
     sWaterfallFreqScaleLerp.remainingFrames = 0;
@@ -4217,7 +4220,7 @@ void func_800F70F8(void) {
 void func_800F711C(void) {
     func_800F6C34();
     func_800EE930();
-    func_800F3ED4();
+    Audio_ResetSfxChannelState();
     func_800FAEB4();
     func_800F905C();
     func_800F9280(2, 0, 0x70, 10);
@@ -4234,7 +4237,7 @@ void func_800F71BC(s32 arg0) {
     D_80133418 = 1;
     func_800F6C34();
     func_800EE930();
-    func_800F3ED4();
+    Audio_ResetSfxChannelState();
     func_800FADF8();
     func_800F905C();
 }
@@ -4243,6 +4246,6 @@ void func_800F7208(void) {
     func_800FADF8();
     Audio_QueueCmdS32(0xF2000000, 1);
     func_800F6C34();
-    func_800F3ED4();
+    Audio_ResetSfxChannelState();
     func_800F9280(2, 0, 0x70, 1);
 }
