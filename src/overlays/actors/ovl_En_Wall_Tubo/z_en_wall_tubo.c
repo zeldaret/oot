@@ -127,7 +127,7 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx) {
 
         if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
             wall->isHit = true;
-            //  "You did it field!" (repeated 5 times)
+            // "You did it field!" (repeated 5 times)
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
             osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
