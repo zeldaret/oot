@@ -15,6 +15,8 @@
 
 #define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioContext.sequenceChannelNone)
 
+#define MAX_CHANNELS_PER_BANK 3
+
 #define ADSR_STATE_DISABLED 0
 #define ADSR_STATE_INITIAL 1
 #define ADSR_STATE_START_LOOP 2
@@ -1039,6 +1041,15 @@ typedef enum {
     /* 6 */ BANK_VOICE
 } SoundBankTypes;
 
+typedef enum {
+    /* 0 */ SFX_STATE_EMPTY,
+    /* 1 */ SFX_STATE_QUEUED,
+    /* 2 */ SFX_STATE_READY,
+    /* 3 */ SFX_STATE_PLAYING_REFRESH,
+    /* 4 */ SFX_STATE_PLAYING_1,
+    /* 5 */ SFX_STATE_PLAYING_2
+} SfxState;
+
 typedef struct {
     /* 0x00 */ f32*     posX;
     /* 0x04 */ f32*     posY;
@@ -1052,11 +1063,11 @@ typedef struct {
     /* 0x24 */ u8       sfxImportance;
     /* 0x26 */ u16      sfxParams;
     /* 0x28 */ u16      sfxId;
-    /* 0x2A */ u8       state;
-    /* 0x2B */ u8       unk_2B;
+    /* 0x2A */ u8       state; // uses SfxState enum
+    /* 0x2B */ u8       freshness;
     /* 0x2C */ u8       prev;
     /* 0x2D */ u8       next;
-    /* 0x2E */ u8       unk_2E;
+    /* 0x2E */ u8       channel;
     /* 0x2F */ u8       unk_2F;
 } SoundBankEntry; // size = 0x30
 

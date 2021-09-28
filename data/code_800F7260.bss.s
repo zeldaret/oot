@@ -39,7 +39,7 @@ glabel sSoundBankListEnd
 glabel sSoundBankFreeListStart
     .space 0x8
 
-glabel D_8016E1B0
+glabel sSoundBankUnused
     .space 0x8
 
 glabel D_8016E1B8

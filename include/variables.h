@@ -3037,7 +3037,7 @@ extern SpeedMeterTimeEntry* gSpeedMeterTimeEntryPtr;
 //extern ? D_8016A794;
 //extern ? D_8016A7AC;
 extern FaultThreadStruct gFaultStruct;
-extern Struct_800F7CEC D_8016E1B8[7][3]; // total size = 0xA8
+extern Struct_800F7CEC D_8016E1B8[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
 extern u8 gSoundBankMuted[];
 extern u16 gAudioSEFlagSwapSource[10];
 extern u16 gAudioSEFlagSwapTarget[10];
