@@ -417,7 +417,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
 
     if (this->collider2.base.acFlags & AC_HIT) {
         this->collider2.base.acFlags &= ~AC_HIT;
-        // Kakin (not sure what this means)
+        // "Kakin" (not sure what this means)
         osSyncPrintf(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
         hitPos.x = this->collider2.info.bumper.hitPos.x;
         hitPos.y = this->collider2.info.bumper.hitPos.y;
@@ -444,7 +444,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                 case RR_DMG_SPRT_ARROW:
                     dropType++; // magic jar
                 case RR_DMG_NORMAL:
-                    // ouch
+                    // "ouch"
                     osSyncPrintf(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n",
                                  this->frameCount, this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
                                  this->actor.colChkInfo.damageEffect);
@@ -501,7 +501,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
             ((this->collider1.base.ocFlags1 & OC1_HIT) || (this->collider2.base.ocFlags1 & OC1_HIT))) {
             this->collider1.base.ocFlags1 &= ~OC1_HIT;
             this->collider2.base.ocFlags1 &= ~OC1_HIT;
-            // catch
+            // "catch"
             osSyncPrintf(VT_FGCOL(GREEN) "キャッチ(%d)！！" VT_RST "\n", this->frameCount);
             if (globalCtx->grabPlayer(globalCtx, player)) {
                 player->actor.parent = &this->actor;
@@ -683,7 +683,7 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_TUNIC_ZORA);
                 break;
         }
-        // dropped
+        // "dropped"
         osSyncPrintf(VT_FGCOL(GREEN) "「%s」が出た！！" VT_RST "\n", sDropNames[this->dropType]);
         switch (this->dropType) {
             case RR_DROP_MAGIC:
