@@ -1279,17 +1279,17 @@ void func_800E3874(AudioSyncLoad* arg0, s32 size) {
 void func_800E38F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 }
 
-s32 Audio_SyncLoadSeq(s32 seqIdx, u8* ramAddr, s8* isDone) {
+s32 Audio_SyncLoadSeq(s32 playerIdx, u8* ramAddr, s8* isDone) {
     AudioSyncLoad* syncLoad;
     SequenceTable* seqTable;
     u32 size;
 
-    if (seqIdx >= gAudioContext.seqTabEntCnt) {
+    if (playerIdx >= gAudioContext.seqTabEntCnt) {
         *isDone = 0;
         return -1;
     }
 
-    seqIdx = Audio_GetTableIndex(SEQUENCE_TABLE, seqIdx);
+    playerIdx = Audio_GetTableIndex(SEQUENCE_TABLE, playerIdx);
     seqTable = Audio_GetLoadTable(SEQUENCE_TABLE);
     syncLoad = &gAudioContext.syncLoads[gAudioContext.syncLoadPos];
     if (syncLoad->status == LOAD_STATUS_DONE) {
@@ -1298,15 +1298,15 @@ s32 Audio_SyncLoadSeq(s32 seqIdx, u8* ramAddr, s8* isDone) {
 
     syncLoad->sample.sampleAddr = NULL;
     syncLoad->isDone = isDone;
-    size = seqTable->entries[seqIdx].size;
+    size = seqTable->entries[playerIdx].size;
     size = ALIGN16(size);
     syncLoad->ramAddr = ramAddr;
     syncLoad->status = LOAD_STATUS_START;
     syncLoad->size = size;
     syncLoad->unk_10 = ramAddr;
-    syncLoad->devAddr = seqTable->entries[seqIdx].romAddr;
-    syncLoad->unk_00 = seqTable->entries[seqIdx].unk_08;
-    syncLoad->unk_01 = seqIdx;
+    syncLoad->devAddr = seqTable->entries[playerIdx].romAddr;
+    syncLoad->unk_00 = seqTable->entries[playerIdx].unk_08;
+    syncLoad->unk_01 = playerIdx;
 
     if (syncLoad->unk_00 == 1) {
         syncLoad->unk_04 = seqTable->header.unk_02;
