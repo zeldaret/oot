@@ -1595,7 +1595,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 GfxPrint_Printf(printer, "%s <%d>", sSoundBankNames[k], sAudioIntInfoBankPage[k]);
 
                 for (k2 = 0; k2 < gChannelsPerBank[gSfxChannelLayout][k]; k2++) {
-#define entryIndex (D_8016E1B8[k][k2].unk_4)
+#define entryIndex (gActiveSounds[k][k2].entryIndex)
 #define entry (&gSoundBanks[k][entryIndex])
 #define chan (gAudioContext.seqPlayers[2].channels[entry->channel])
                     GfxPrint_SetPos(printer, 2 + sAudioIntInfoX, 5 + ind + sAudioIntInfoY);
@@ -3416,7 +3416,7 @@ void func_800F4C58(Vec3f* pos, u16 sfxId, u8 arg2) {
     }
 
     for (i = 0; i < gChannelsPerBank[gSfxChannelLayout][bankId]; i++) {
-        if ((D_8016E1B8[bankId][i].unk_4 != 0xFF) && (sfxId == gSoundBanks[bankId][D_8016E1B8[bankId][i].unk_4].sfxId)) {
+        if ((gActiveSounds[bankId][i].entryIndex != 0xFF) && (sfxId == gSoundBanks[bankId][gActiveSounds[bankId][i].entryIndex].sfxId)) {
             Audio_QueueCmdS8(_SHIFTL(6, 24, 8) | _SHIFTL(2, 16, 8) | _SHIFTL(phi_s1, 8, 8) | _SHIFTL(6, 0, 8), arg2);
         }
         phi_s1++;

@@ -1094,8 +1094,8 @@ typedef struct {
 
 typedef struct {
     u32 priority; // lower is more prioritized
-    u8 unk_4;
-} Struct_800F7CEC;
+    u8 entryIndex;
+} ActiveSound;
 
 typedef struct {
     u8 importance;

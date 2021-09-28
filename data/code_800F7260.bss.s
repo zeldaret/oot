@@ -42,7 +42,7 @@ glabel sSoundBankFreeListStart
 glabel sSoundBankUnused
     .space 0x8
 
-glabel D_8016E1B8
+glabel gActiveSounds
     .space 0xA8
 
 glabel sCurSfxPlayerChannel
@@ -51,7 +51,7 @@ glabel sCurSfxPlayerChannel
 glabel gSoundBankMuted
     .space 0xC
 
-glabel D_8016E270
+glabel sUnusedBankLerp
     .space 0x70
 
 glabel gAudioSEFlagSwapSource
