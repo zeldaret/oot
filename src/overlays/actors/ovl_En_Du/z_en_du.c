@@ -88,7 +88,7 @@ u16 func_809FDC38(GlobalContext* globalCtx, Actor* actor) {
     if (reaction != 0) {
         return reaction;
     }
-    if (CUR_UPG_VALUE(UPG_STRENGTH) != PLAYER_STR_NONE) {
+    if (CUR_UPG_VALUE(UPG_STRENGTH)) {
         if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
             return 0x301E;
         } else {
@@ -487,7 +487,7 @@ void func_809FEB08(EnDu* this, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE3C0);
         return;
     }
-    if (CUR_UPG_VALUE(UPG_STRENGTH) <= PLAYER_STR_NONE) {
+    if (CUR_UPG_VALUE(UPG_STRENGTH) <= 0) {
         this->actor.textId = 0x301C;
         EnDu_SetupAction(this, func_809FEC14);
     } else {
