@@ -1944,8 +1944,6 @@ s16 D_80153C68[] = {
 };
 
 // Message_DrawMain ?
-#ifdef NON_MATCHING
-// regalloc differences in a/v/low t registers
 void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
     // oceff actor ids
     static s16 sOcarinaEffectActorIds[] = {
@@ -1983,15 +1981,14 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     u16 phi_v0;
     Player* player = GET_PLAYER(globalCtx);
-    s16 temp;
-    u16 phi_a1;
+    s32 pad;
     Gfx* gfx = *p;
     s16 r;
     s16 g;
     s16 b;
     u16 phi_a3;
-    u8 temp2;
-    u16 pad;
+    u16 phi_a1;
+    u16 pad1;
     u16 phi_a2;
 
     gSPSegment(gfx++, 0x02, globalCtx->interfaceCtx.parameterSegment);
@@ -2076,12 +2073,12 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_0C:
             msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
-            if (msgCtx->ocarinaStaff->pos) { // lack of != 0 gives better codegen
+            if (msgCtx->ocarinaStaff->pos) {
                 osSyncPrintf("locate=%d  onpu_pt=%d\n", msgCtx->ocarinaStaff->pos, sOcarinaNoteBufPos);
                 if (msgCtx->ocarinaStaff->pos == 1 && sOcarinaNoteBufPos == 8) {
                     sOcarinaNoteBufPos = 0;
                 }
-                if (sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
+                if (sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                     msgCtx->lastOcaNoteIdx = sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                     sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
                     sOcarinaNoteBufPos++;
@@ -2477,9 +2474,8 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 if (sOcarinaNoteBufPos != 0 && msgCtx->ocarinaStaff->pos == 1) {
                     sOcarinaNoteBufPos = 0;
                 }
-                if (msgCtx->ocarinaStaff->pos != 0 && sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
-                    msgCtx->lastOcaNoteIdx = sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] =
-                        msgCtx->ocarinaStaff->noteIdx;
+                if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
+                    msgCtx->lastOcaNoteIdx = sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                     sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
                     sOcarinaNoteBufPos++;
                 }
@@ -2489,7 +2485,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_1B:
             msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
-            if (msgCtx->ocarinaStaff->pos != 0 && (u32)sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
                 sOcarinaNoteBufPos++;
@@ -2534,7 +2530,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_SCARECROW_RECORDING_ONGOING:
             msgCtx->ocarinaStaff = func_800EE3C8();
             osSyncPrintf("\nonpu_pt=%d, locate=%d", sOcarinaNoteBufPos, msgCtx->ocarinaStaff->pos);
-            if (msgCtx->ocarinaStaff->pos != 0 && sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == (msgCtx->ocarinaStaff->pos - 1)) {
                 if (sOcarinaNoteBufLen >= 8) {
                     for (phi_v0 = sOcarinaNoteBufLen - 8, phi_a3 = 0; phi_a3 < 8; phi_a3++, phi_v0++) {
                         sOcarinaNoteBuf[phi_v0] = sOcarinaNoteBuf[phi_v0 + 1];
@@ -2581,7 +2577,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_23:
         case MSGMODE_UNK_28:
             msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
-            if (msgCtx->ocarinaStaff->pos != 0 && (u32)sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == (msgCtx->ocarinaStaff->pos - 1)) {
                 if (sOcarinaNoteBufLen >= 8) {
                     for (phi_v0 = sOcarinaNoteBufLen - 8, phi_a3 = 0; phi_a3 < 8; phi_a3++, phi_v0++) {
                         sOcarinaNoteBuf[phi_v0] = sOcarinaNoteBuf[phi_v0 + 1];
@@ -2616,7 +2612,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_25:
             msgCtx->ocarinaStaff = func_800EE3C8();
-            if (msgCtx->ocarinaStaff->pos != 0 && sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 msgCtx->lastOcaNoteIdx = sOcarinaNoteBuf[sOcarinaNoteBufPos] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBufPos++;
                 sOcarinaNoteBuf[sOcarinaNoteBufPos] = 0xFF;
@@ -2670,7 +2666,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             Audio_PlaySoundGeneral(NA_SE_SY_METRONOME_LV - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
             msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
-            if (msgCtx->ocarinaStaff->pos != 0 && (u32)sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == (msgCtx->ocarinaStaff->pos - 1)) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
                 sOcarinaNoteBufPos++;
@@ -2693,7 +2689,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_2B:
         case MSGMODE_UNK_2D:
             msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
-            if (msgCtx->ocarinaStaff->pos != 0 && (u32)sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == (msgCtx->ocarinaStaff->pos - 1)) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
                 sOcarinaNoteBufPos++;
@@ -2703,7 +2699,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             Audio_PlaySoundGeneral(NA_SE_SY_METRONOME_LV - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
             msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
-            if (msgCtx->ocarinaStaff->pos != 0 && (u32)sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
                 sOcarinaNoteBufPos++;
@@ -2726,7 +2722,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_2F:
             msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
-            if (msgCtx->ocarinaStaff->pos != 0 && (u32)sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
                 sOcarinaNoteBufPos++;
@@ -2764,7 +2760,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_32:
             msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
-            if (msgCtx->ocarinaStaff->pos != 0 && sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
+            if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 msgCtx->lastOcaNoteIdx = msgCtx->ocarinaStaff->noteIdx;
                 msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
                 func_801069B0();
@@ -2817,21 +2813,21 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                           ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
         if (msgCtx->msgMode == MSGMODE_UNK_1B) {
-            temp = msgCtx->unk_E3F0 - 0xF;
-            temp2 = gOcarinaSongNotes[temp].len;
-            for (phi_a3 = 0, phi_a1 = VREG(28); phi_a3 < temp2; phi_a3++, phi_a1 += VREG(29)) {
+            g = msgCtx->unk_E3F0 - 0xF;
+            r = gOcarinaSongNotes[g].len;
+            for (phi_a3 = 0, phi_a1 = VREG(28); phi_a3 < r; phi_a3++, phi_a1 += VREG(29)) {
                 gDPPipeSync(gfx++);
                 gDPSetPrimColor(gfx++, 0, 0, 150, 150, 150, 150);
                 gDPSetEnvColor(gfx++, 10, 10, 10, 0);
 
-                gDPLoadTextureBlock(gfx++, sOcarinaNoteTextures[gOcarinaSongNotes[temp].notesIdx[phi_a3]], G_IM_FMT_IA,
+                gDPLoadTextureBlock(gfx++, sOcarinaNoteTextures[gOcarinaSongNotes[g].notesIdx[phi_a3]], G_IM_FMT_IA,
                                     G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                     G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                gSPTextureRectangle(gfx++, phi_a1 << 2, VREG(45 + gOcarinaSongNotes[temp].notesIdx[phi_a3]) << 2,
+                gSPTextureRectangle(gfx++, phi_a1 << 2, VREG(45 + gOcarinaSongNotes[g].notesIdx[phi_a3]) << 2,
                                     (phi_a1 + 0x10) << 2,
-                                    (VREG(45 + gOcarinaSongNotes[temp].notesIdx[phi_a3]) + 0x10) << 2, G_TX_RENDERTILE,
-                                    0, 0, 1 << 10, 1 << 10);
+                                    (VREG(45 + gOcarinaSongNotes[g].notesIdx[phi_a3]) + 0x10) << 2, G_TX_RENDERTILE, 0,
+                                    0, 1 << 10, 1 << 10);
             }
         }
 
@@ -2872,42 +2868,6 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
 end:
     *p = gfx;
 }
-#else
-void func_8010C39C(GlobalContext* globalCtx, Gfx** p);
-// oceff actor ids
-static s16 sOcarinaEffectActorIds[] = {
-    ACTOR_OCEFF_WIPE3, ACTOR_OCEFF_WIPE2, ACTOR_OCEFF_WIPE,  ACTOR_OCEFF_SPOT,
-    ACTOR_OCEFF_WIPE,  ACTOR_OCEFF_STORM, ACTOR_OCEFF_WIPE4,
-};
-// oceff actor params
-static s16 sOcarinaEffectActorParams[] = { 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 0x0000 };
-// Ocarina notes textures in parameter_static, A C-Down C-Right C-Left C-Up
-static u64* sOcarinaNoteTextures[] = {
-    0x02002940, 0x02002A40, 0x02002B40, 0x02002C40, 0x02002D40,
-};
-static Color_RGB_s16 D_80153CA8[] = {
-    { 80, 255, 150 },
-    { 100, 255, 200 },
-};
-static Color_RGB_s16 D_80153CB4[] = {
-    { 10, 10, 10 },
-    { 50, 255, 50 },
-};
-static Color_RGB_s16 D_80153CC0[] = {
-    { 255, 255, 50 },
-    { 255, 255, 180 },
-};
-static Color_RGB_s16 D_80153CCC[] = {
-    { 10, 10, 10 },
-    { 110, 110, 50 },
-};
-static s16 D_80153CD8 = 12;
-static s16 D_80153CDC = 1;
-static s16 D_80153CE0[] = {
-    0x0034, 0x0033, 0x0035, 0x0036, 0x0037, 0x0025, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049,
-};
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010C39C.s")
-#endif
 
 void Message_DrawSetup(s16* scarecrowCustomSongSet, GraphicsContext* gfxCtx) {
     static s16 sScarecrowCustomSongSet = 0;
