@@ -33,10 +33,10 @@ glabel D_8016C8B0
 glabel sSoundRequests
     .space 0x1800
 
-glabel D_8016E1A0
+glabel sSoundBankListEnd
     .space 0x8
 
-glabel D_8016E1A8
+glabel sSoundBankFreeListStart
     .space 0x8
 
 glabel D_8016E1B0

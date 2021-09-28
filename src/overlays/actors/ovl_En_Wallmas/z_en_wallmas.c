@@ -307,7 +307,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 
     if ((player->stateFlags1 & 0x100000) || (player->stateFlags1 & 0x8000000) || !(player->actor.bgCheckFlags & 1) ||
         ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.home.pos, playerPos)))) {
-        Audio_StopSfx(NA_SE_EN_FALL_AIM);
+        Audio_StopSfxById(NA_SE_EN_FALL_AIM);
         this->timer = 0x82;
     }
 

@@ -859,7 +859,7 @@ void func_800ED458(s32 arg0) {
             Audio_QueueCmdS8(0x6020D05, sCurOcarinaBtnVal);
             Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &D_801333D4, 4, &D_80130F24, &D_80130F28, &D_801333E8);
         } else if ((sPrevOcarinaNoteVal != 0xFF) && (sCurOcarinaBtnVal == 0xFF)) {
-            Audio_StopSfx(NA_SE_OC_OCARINA);
+            Audio_StopSfxById(NA_SE_OC_OCARINA);
         }
     }
 }
@@ -881,7 +881,7 @@ void func_800ED858(u8 arg0) {
         D_8016BA18 = 0;
         D_8016BA10 = 0xFFFF;
         func_800ED458(0);
-        Audio_StopSfx(NA_SE_OC_OCARINA);
+        Audio_StopSfxById(NA_SE_OC_OCARINA);
         Audio_SetSoundBanksMute(0);
         sPlaybackState = 0;
         sStaffPlaybackPos = 0;
@@ -899,7 +899,7 @@ void func_800ED858(u8 arg0) {
 void func_800ED93C(s8 songIdx, s8 arg1) {
     if (songIdx == 0) {
         sPlaybackState = 0;
-        Audio_StopSfx(NA_SE_OC_OCARINA);
+        Audio_StopSfxById(NA_SE_OC_OCARINA);
         return;
     }
 
@@ -952,7 +952,7 @@ void Audio_OcaPlayback(void) {
                     sStaffPlaybackPos = 0;
                     sDisplayedNoteValue = 0xFF;
                 } else {
-                    Audio_StopSfx(NA_SE_OC_OCARINA);
+                    Audio_StopSfxById(NA_SE_OC_OCARINA);
                 }
                 return;
             } else {
@@ -995,7 +995,7 @@ void Audio_OcaPlayback(void) {
                     Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &D_801333D4, 4, &sNormalizedNotePlaybackTone,
                                            &sNormalizedNotePlaybackVolume, &D_801333E8);
                 } else {
-                    Audio_StopSfx(NA_SE_OC_OCARINA);
+                    Audio_StopSfxById(NA_SE_OC_OCARINA);
                 }
             }
             sPlaybackNotePos++;
@@ -2770,10 +2770,10 @@ void func_800F314C(s8 arg0) {
     Audio_QueueCmdS32(0x82000000 | (((u8)arg0 & 0xFF) << 8), 1);
 }
 
-f32 func_800F3188(u8 bankIdx, u8 entryIdx) {
+f32 Audio_ComputeSoundVolume(u8 bankIdx, u8 entryIdx) {
     SoundBankEntry* bankEntry = &gSoundBanks[bankIdx][entryIdx];
-    f32 temp_f14;
-    f32 phi_f0;
+    f32 minDist;
+    f32 baseDist;
     f32 ret;
 
     if (bankEntry->sfxParams & 0x2000) {
@@ -2785,27 +2785,29 @@ f32 func_800F3188(u8 bankIdx, u8 entryIdx) {
     } else {
         switch (bankEntry->sfxParams & 3) {
             case 1:
-                phi_f0 = 666.6667f;
+                baseDist = 666.6667f;
                 break;
             case 2:
-                phi_f0 = 952.381f;
+                baseDist = 952.381f;
                 break;
             case 3:
-                phi_f0 = 3846.154f;
+                baseDist = 3846.154f;
                 break;
             default:
-                phi_f0 = 500.0f;
+                baseDist = 500.0f;
                 break;
         }
 
-        temp_f14 = phi_f0 / 5.0f;
+        minDist = baseDist / 5.0f;
 
-        if (bankEntry->dist < temp_f14) {
+        // Volume grows as inverse square of distance. Linearly approximate
+        // the inverse part, then square.
+        if (bankEntry->dist < minDist) {
             ret = 1.0f;
-        } else if (bankEntry->dist < phi_f0) {
-            ret = ((((phi_f0 - temp_f14) - (bankEntry->dist - temp_f14)) / (phi_f0 - temp_f14)) * 0.19f) + 0.81f;
+        } else if (bankEntry->dist < baseDist) {
+            ret = ((((baseDist - minDist) - (bankEntry->dist - minDist)) / (baseDist - minDist)) * 0.19f) + 0.81f;
         } else {
-            ret = (1.0f - ((bankEntry->dist - phi_f0) / (10000.0f - phi_f0))) * 0.81f;
+            ret = (1.0f - ((bankEntry->dist - baseDist) / (10000.0f - baseDist))) * 0.81f;
         }
         ret = SQ(ret);
     }
@@ -3027,7 +3029,7 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
             // fallthrough
         case BANK_OCARINA:
             entry->dist = sqrtf(entry->dist);
-            vol = func_800F3188(bankIdx, entryIdx) * *entry->unk_14;
+            vol = Audio_ComputeSoundVolume(bankIdx, entryIdx) * *entry->vol;
             reverb = Audio_ComputeSoundReverb(bankIdx, entryIdx, channelIdx);
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSoundFreqScale(bankIdx, entryIdx) * *entry->freqScale;
@@ -3998,7 +4000,7 @@ void func_800F6700(s8 arg0) {
 void Audio_SetBaseFilter(u8 filter) {
     if (sAudioBaseFilter != filter) {
         if (filter == 0) {
-            Audio_StopSfx(NA_SE_PL_IN_BUBBLE);
+            Audio_StopSfxById(NA_SE_PL_IN_BUBBLE);
         } else if (sAudioBaseFilter == 0) {
             Audio_PlaySoundGeneral(NA_SE_PL_IN_BUBBLE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }

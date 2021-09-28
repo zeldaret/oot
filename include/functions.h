@@ -2123,7 +2123,7 @@ void func_800F9280(u8 playerIdx, u8 seqId, u8 arg2, u16 fadeTimer);
 void Audio_QueueSeqCmd(u32 bgmID);
 void Audio_StopSfxByPosAndId(Vec3f* pos, u16 sfxId);
 void Audio_StopSfxByTokenAndId(u8, u16);
-void Audio_StopSfx(u32 sfxId);
+void Audio_StopSfxById(u32 sfxId);
 void Audio_ProcessSoundRequests(void);
 void func_800F8EA0(u8 bankId, u8, u16);
 void func_800F8F88(void);
