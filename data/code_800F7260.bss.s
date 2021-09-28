@@ -45,7 +45,7 @@ glabel D_8016E1B0
 glabel D_8016E1B8
     .space 0xA8
 
-glabel D_8016E260
+glabel sCurSfxPlayerChannel
     .space 0x4
 
 glabel gSoundBankMuted

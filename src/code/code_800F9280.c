@@ -9,7 +9,6 @@ extern u8 sSeqCmdRdPos;
 extern u8 sSeqCmdWrPos;
 extern u8 D_80133408;
 extern u8 D_80133418;
-extern u8 D_801333CC;
 extern u8 D_80133410[];
 
 // TODO: clean up these macros. They are similar to ones in code_800EC960.c but without casts.
@@ -348,7 +347,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
         case 0xF:
             // change spec
             spec = cmd & 0xFF;
-            D_801333CC = (cmd & 0xFF00) >> 8;
+            gSfxChannelLayout = (cmd & 0xFF00) >> 8;
             oldSpec = gAudioSpecId;
             gAudioSpecId = spec;
             func_800E5F88(spec);
@@ -653,13 +652,13 @@ u8 func_800FAD34(void) {
         if (D_80133418 == 1) {
             if (func_800E5EDC() == 1) {
                 D_80133418 = 0;
-                Audio_QueueCmdS8(0x46020000, D_801333CC);
+                Audio_QueueCmdS8(0x46020000, gSfxChannelLayout);
                 func_800F7170();
             }
         } else if (D_80133418 == 2) {
             while (func_800E5EDC() != 1) {}
             D_80133418 = 0;
-            Audio_QueueCmdS8(0x46020000, D_801333CC);
+            Audio_QueueCmdS8(0x46020000, gSfxChannelLayout);
             func_800F7170();
         }
     }

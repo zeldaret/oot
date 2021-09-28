@@ -1043,7 +1043,7 @@ typedef struct {
     /* 0x00 */ f32*     posX;
     /* 0x04 */ f32*     posY;
     /* 0x08 */ f32*     posZ;
-    /* 0x0C */ u8       unk_C;
+    /* 0x0C */ u8       token;
     /* 0x10 */ f32*     freqScale;
     /* 0x14 */ f32*     unk_14;
     /* 0x18 */ s8*      reverbAdd;

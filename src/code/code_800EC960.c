@@ -23,12 +23,12 @@
 #define Audio_SeqCmdF(seqIdx, a) Audio_QueueSeqCmd(0xF0000000 | ((u8)seqIdx << 24) | ((u8)a))
 
 typedef struct {
-    /* 0x0 */ f32 unk_00;
+    /* 0x0 */ f32 vol;
     /* 0x4 */ f32 freqScale;
     /* 0x8 */ s8 reverb;
     /* 0x9 */ s8 panSigned;
     /* 0xA */ s8 stereoBits;
-    /* 0xB */ u8 unk_0B;
+    /* 0xB */ u8 filter;
     /* 0xC */ u8 unk_0C;
 } unk_s1;
 
@@ -85,7 +85,7 @@ extern f32 D_8012F6B4[]; // from audio_synthesis
 
 u8 gIsLargeSoundBank[7] = { 0, 0, 0, 1, 0, 0, 0 };
 
-// Only the first row of these is supported by sequence 0.
+// Only the first row of these is supported by sequence 0. (gSfxChannelLayout is always 0.)
 u8 gChannelsPerBank[4][7] = {
     { 3, 2, 3, 3, 2, 1, 2 },
     { 3, 2, 2, 2, 2, 2, 2 },
@@ -1594,7 +1594,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 GfxPrint_SetPos(printer, 2 + sAudioIntInfoX, 4 + ind + sAudioIntInfoY);
                 GfxPrint_Printf(printer, "%s <%d>", sSoundBankNames[k], sAudioIntInfoBankPage[k]);
 
-                for (k2 = 0; k2 < gChannelsPerBank[D_801333CC][k]; k2++) {
+                for (k2 = 0; k2 < gChannelsPerBank[gSfxChannelLayout][k]; k2++) {
 #define entryIndex (D_8016E1B8[k][k2].unk_4)
 #define entry (&gSoundBanks[k][entryIndex])
 #define chan (gAudioContext.seqPlayers[2].channels[entry->unk_2E])
@@ -2846,7 +2846,7 @@ s8 Audio_ComputeSoundReverb(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     return reverb;
 }
 
-s8 Audio_ComputeSoundPanSigned(f32 x, f32 z, u8 arg2) {
+s8 Audio_ComputeSoundPanSigned(f32 x, f32 z, u8 token) {
     f32 absX;
     f32 absZ;
     f32 pan;
@@ -3003,13 +3003,13 @@ s8 func_800F3990(f32 arg0, u16 sfxParams) {
 }
 
 void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
-    f32 sp44 = 1.0f;
-    s8 phi_a1;
+    f32 vol = 1.0f;
+    s8 volS8;
     s8 reverb = 0;
     f32 freqScale = 1.0f;
     s8 panSigned = 0x40;
     u8 stereoBits = 0;
-    u8 sp39 = 0;
+    u8 filter = 0;
     s8 sp38 = 0;
     f32 sp34;
     u8 sp33 = 0;
@@ -3027,9 +3027,9 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
             // fallthrough
         case BANK_OCARINA:
             entry->dist = sqrtf(entry->dist);
-            sp44 = func_800F3188(bankIdx, entryIdx) * *entry->unk_14;
+            vol = func_800F3188(bankIdx, entryIdx) * *entry->unk_14;
             reverb = Audio_ComputeSoundReverb(bankIdx, entryIdx, channelIdx);
-            panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->unk_C);
+            panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSoundFreqScale(bankIdx, entryIdx) * *entry->freqScale;
             if (D_80130604 == 2) {
                 sp34 = D_801305C4[(entry->sfxParams & 0x400) >> 10];
@@ -3056,24 +3056,24 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
             }
 
             if ((sp33 | D_80130640) != 0) {
-                sp39 = (sp33 | D_80130640);
+                filter = (sp33 | D_80130640);
             } else if (D_80130604 == 2 && (entry->sfxParams & 0x2000) == 0) {
-                sp39 = func_800F37B8(sp34, entry, panSigned);
+                filter = func_800F37B8(sp34, entry, panSigned);
             }
             break;
         case BANK_SYSTEM:
             break;
     }
 
-    if (D_8016B8B8[channelIdx].unk_00 != sp44) {
-        phi_a1 = (u8)(sp44 * 127.0f);
-        D_8016B8B8[channelIdx].unk_00 = sp44;
+    if (D_8016B8B8[channelIdx].vol != vol) {
+        volS8 = (u8)(vol * 127.0f);
+        D_8016B8B8[channelIdx].vol = vol;
     } else {
-        phi_a1 = -1;
+        volS8 = -1;
     }
 
     // CHAN_UPD_SCRIPT_IO (slot 2, sets volume)
-    Audio_QueueCmdS8(0x6020000 | (channelIdx << 8) | 2, phi_a1);
+    Audio_QueueCmdS8(0x6020000 | (channelIdx << 8) | 2, volS8);
     if (reverb != D_8016B8B8[channelIdx].reverb) {
         Audio_QueueCmdS8(0x5020000 | (channelIdx << 8), reverb);
         D_8016B8B8[channelIdx].reverb = reverb;
@@ -3086,10 +3086,10 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
         Audio_QueueCmdS8(0xE020000 | (channelIdx << 8), stereoBits | 0x10);
         D_8016B8B8[channelIdx].stereoBits = stereoBits;
     }
-    if (sp39 != D_8016B8B8[channelIdx].unk_0B) {
+    if (filter != D_8016B8B8[channelIdx].filter) {
         // CHAN_UPD_SCRIPT_IO (slot 3, sets filter)
-        Audio_QueueCmdS8(0x6020000 | (channelIdx << 8) | 3, sp39);
-        D_8016B8B8[channelIdx].unk_0B = sp39;
+        Audio_QueueCmdS8(0x6020000 | (channelIdx << 8) | 3, filter);
+        D_8016B8B8[channelIdx].filter = filter;
     }
     if (sp38 != D_8016B8B8[channelIdx].unk_0C) {
         // CHAN_UPD_UNK_0F
@@ -3110,12 +3110,12 @@ void func_800F3ED4(void) {
 
     for (i = 0; i < 16; i++) {
         t = &D_8016B8B8[i];
-        t->unk_00 = 1.0f;
+        t->vol = 1.0f;
         t->freqScale = 1.0f;
         t->reverb = 0;
         t->panSigned = 0x40;
         t->stereoBits = 0;
-        t->unk_0B = 0xFF;
+        t->filter = 0xFF;
         t->unk_0C = 0xFF;
     }
 
@@ -3410,10 +3410,10 @@ void func_800F4C58(Vec3f* pos, u16 sfxId, u8 arg2) {
 
     bankId = SFX_BANK_SHIFT(sfxId);
     for (i = 0; i < bankId; i++) {
-        phi_s1 += gChannelsPerBank[D_801333CC][i];
+        phi_s1 += gChannelsPerBank[gSfxChannelLayout][i];
     }
 
-    for (i = 0; i < gChannelsPerBank[D_801333CC][bankId]; i++) {
+    for (i = 0; i < gChannelsPerBank[gSfxChannelLayout][bankId]; i++) {
         if ((D_8016E1B8[bankId][i].unk_4 != 0xFF) && (sfxId == gSoundBanks[bankId][D_8016E1B8[bankId][i].unk_4].sfxId)) {
             Audio_QueueCmdS8(_SHIFTL(6, 24, 8) | _SHIFTL(2, 16, 8) | _SHIFTL(phi_s1, 8, 8) | _SHIFTL(6, 0, 8), arg2);
         }
