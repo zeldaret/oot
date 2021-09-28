@@ -106,14 +106,14 @@ void Audio_SetSoundBanksMute(u16 muteMask) {
     }
 }
 
-void Audio_QueueSeqCmdMute(u8 arg0) {
-    D_801333D0 |= (1 << arg0);
+void Audio_QueueSeqCmdMute(u8 channel) {
+    D_801333D0 |= (1 << channel);
     Audio_SetVolScale(0, 2, 0x40, 0xF);
     Audio_SetVolScale(3, 2, 0x40, 0xF);
 }
 
-void Audio_ClearBGMMute(u8 arg0) {
-    D_801333D0 &= ((1 << arg0) ^ 0xFFFF);
+void Audio_ClearBGMMute(u8 channel) {
+    D_801333D0 &= ((1 << channel) ^ 0xFFFF);
     if (D_801333D0 == 0) {
         Audio_SetVolScale(0, 2, 0x7F, 0xF);
         Audio_SetVolScale(3, 2, 0x7F, 0xF);
@@ -734,7 +734,7 @@ u8 Audio_IsSfxPlaying(u32 sfxId) {
     return false;
 }
 
-void func_800F905C(void) {
+void Audio_ResetSounds(void) {
     u8 bankId;
     u8 i;
     u8 entryIndex;
