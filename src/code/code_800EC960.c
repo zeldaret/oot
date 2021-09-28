@@ -4032,9 +4032,7 @@ void Audio_SetExtraFilter(u8 filter) {
     if (D_8016E750[0].unk_254 == 1) {
         for (i = 0; i < 16; i++) {
             t = i;
-            // CHAN_UPD_SCRIPT_IO (slot 6)
-            // @bug Some channels use slot 6 as a local register for other purposes, so this may
-            // screw up some sounds. No script seems to use it for the intended purpose.
+            // CHAN_UPD_SCRIPT_IO (seq player 0, all channels, slot 6)
             Audio_QueueCmdS8(0x6000000 | ((t & 0xFF) << 8) | 6, filter);
         }
     }
