@@ -304,7 +304,7 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
             this->retreat = true;
         }
     }
-    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != 1 /* Kokiri tunic*/) {
+    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != 1 /* Kokiri tunic */) {
         tunic = Inventory_DeleteEquipment(globalCtx, EQUIP_TUNIC);
         if (tunic != 0) {
             this->eatenTunic = tunic;
@@ -676,10 +676,10 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
                 break;
         }
         switch (this->eatenTunic) {
-            case PLAYER_TUNIC_GORON + 1:
+            case 2:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_TUNIC_GORON);
                 break;
-            case PLAYER_TUNIC_ZORA + 1:
+            case 3:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_TUNIC_ZORA);
                 break;
         }
