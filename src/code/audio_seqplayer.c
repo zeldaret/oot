@@ -1306,7 +1306,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         if (channel->filter != NULL) {
                             lowBits = (command >> 4) & 0xF;
                             command &= 0xF;
-                            func_800DF688(channel->filter, lowBits, command);
+                            Audio_LoadFilter(channel->filter, lowBits, command);
                         }
                         break;
                     case 0xB2:

@@ -621,7 +621,7 @@ void func_800DF1D8(f32 arg0, f32 arg1, u16* arg2) {
     }
 }
 
-void func_800DF5AC(s16* filter) {
+void Audio_ClearFilter(s16* filter) {
     s32 i;
 
     for (i = 0; i < 8; i++) {
@@ -629,36 +629,37 @@ void func_800DF5AC(s16* filter) {
     }
 }
 
-void func_800DF5DC(s16* filter, s32 arg1) {
+void Audio_LoadLowPassFilter(s16* filter, s32 cutoff) {
     s32 i;
-    s16* ptr = &D_80130228[8 * arg1];
+    s16* ptr = &sLowPassFilterData[8 * cutoff];
 
     for (i = 0; i < 8; i++) {
         filter[i] = ptr[i];
     }
 }
 
-void func_800DF630(s16* filter, s32 arg1) {
+void Audio_LoadHighPassFilter(s16* filter, s32 cutoff) {
     s32 i;
-    s16* ptr = &D_80130328[8 * (arg1 - 1)];
+    s16* ptr = &sHighPassFilterData[8 * (cutoff - 1)];
 
     for (i = 0; i < 8; i++) {
         filter[i] = ptr[i];
     }
 }
 
-void func_800DF688(s16* filter, s32 arg1, s32 arg2) {
+void Audio_LoadFilter(s16* filter, s32 lowPassCutoff, s32 highPassCutoff) {
     s32 i;
 
-    if (arg1 == 0 && arg2 == 0) {
-        func_800DF5DC(filter, 0);
-    } else if (arg2 == 0) {
-        func_800DF5DC(filter, arg1);
-    } else if (arg1 == 0) {
-        func_800DF630(filter, arg2);
+    if (lowPassCutoff == 0 && highPassCutoff == 0) {
+        // Identity filter
+        Audio_LoadLowPassFilter(filter, 0);
+    } else if (highPassCutoff == 0) {
+        Audio_LoadLowPassFilter(filter, lowPassCutoff);
+    } else if (lowPassCutoff == 0) {
+        Audio_LoadHighPassFilter(filter, highPassCutoff);
     } else {
-        s16* ptr1 = &D_80130228[8 * arg1];
-        s16* ptr2 = &D_80130328[8 * (arg2 - 1)];
+        s16* ptr1 = &sLowPassFilterData[8 * lowPassCutoff];
+        s16* ptr2 = &sHighPassFilterData[8 * (highPassCutoff - 1)];
         for (i = 0; i < 8; i++) {
             filter[i] = (ptr1[i] + ptr2[i]) / 2;
         }
@@ -938,18 +939,18 @@ void Audio_InitHeap(void) {
             }
         }
 
-        if (settings->unk_14 != 0) {
+        if (settings->lowPassFilterCutoffLeft != 0) {
             reverb->filterLeftState = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
             reverb->filterLeft = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
-            func_800DF5DC(reverb->filterLeft, settings->unk_14);
+            Audio_LoadLowPassFilter(reverb->filterLeft, settings->lowPassFilterCutoffLeft);
         } else {
             reverb->filterLeft = NULL;
         }
 
-        if (settings->unk_16 != 0) {
+        if (settings->lowPassFilterCutoffRight != 0) {
             reverb->filterRightState = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
             reverb->filterRight = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
-            func_800DF5DC(reverb->filterRight, settings->unk_16);
+            Audio_LoadLowPassFilter(reverb->filterRight, settings->lowPassFilterCutoffRight);
         } else {
             reverb->filterRight = NULL;
         }

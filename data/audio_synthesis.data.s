@@ -95,10 +95,10 @@ glabel gDefaultPanVolume
 glabel D_80130224
     .incbin "baserom.z64", 0xBA73C4, 0x4
 
-glabel D_80130228
+glabel sLowPassFilterData
     .incbin "baserom.z64", 0xBA73C8, 0x100
 
-glabel D_80130328
+glabel sHighPassFilterData
     .incbin "baserom.z64", 0xBA74C8, 0x148
 
 glabel D_80130470

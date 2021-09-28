@@ -542,8 +542,8 @@ typedef struct {
     /* 0x0E */ u16 leakLtr;
     /* 0x10 */ s8 unk_10;
     /* 0x12 */ u16 unk_12;
-    /* 0x14 */ s16 unk_14;
-    /* 0x16 */ s16 unk_16;
+    /* 0x14 */ s16 lowPassFilterCutoffLeft;
+    /* 0x16 */ s16 lowPassFilterCutoffRight;
 } ReverbSettings; // size = 0x18
 
 typedef struct {
