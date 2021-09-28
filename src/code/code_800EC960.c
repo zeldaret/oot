@@ -6,7 +6,8 @@
 #define Audio_DisableSeq(playerIdx, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)playerIdx << 16), fadeOut)
 #define Audio_StartSeq(playerIdx, fadeTimer, seqId) \
     Audio_QueueSeqCmd(0x00000000 | ((u8)playerIdx << 24) | ((u8)(fadeTimer) << 0x10) | (u16)seqId)
-#define Audio_SeqCmd7(playerIdx, a, b) Audio_QueueSeqCmd(0x70000000 | ((u8)playerIdx << 0x18) | ((u8)a << 0x10) | (u8)(b))
+#define Audio_SeqCmd7(playerIdx, a, b) \
+    Audio_QueueSeqCmd(0x70000000 | ((u8)playerIdx << 0x18) | ((u8)a << 0x10) | (u8)(b))
 #define Audio_SeqCmdC(playerIdx, a, b, c) \
     Audio_QueueSeqCmd(0xC0000000 | ((u8)playerIdx << 24) | ((u8)a << 16) | ((u8)b << 8) | ((u8)(c)))
 #define Audio_SeqCmdA(playerIdx, a) Audio_QueueSeqCmd(0xA0000000 | ((u8)playerIdx << 24) | ((u16)(a)))
@@ -1067,8 +1068,9 @@ void func_800EDD68(u8 arg0) {
 
             for (i = 0; i < OCA_SONGS_SCARECROW; i++) {
                 for (j = 0; j < 9 - gOcarinaSongNotes[i].len; j++) {
-                    for (k = 0; k < gOcarinaSongNotes[i].len && k + j < 8 &&
-                                gOcarinaSongNotes[i].notesIdx[k] == gOcarinaSongNotes[OCA_SONGS_SCARECROW].notesIdx[k + j];
+                    for (k = 0;
+                         k < gOcarinaSongNotes[i].len && k + j < 8 &&
+                         gOcarinaSongNotes[i].notesIdx[k] == gOcarinaSongNotes[OCA_SONGS_SCARECROW].notesIdx[k + j];
                          k++) {
                         ;
                     }
@@ -1083,7 +1085,8 @@ void func_800EDD68(u8 arg0) {
 
             i = 1;
             while (i < 8) {
-                if (gOcarinaSongNotes[OCA_SONGS_SCARECROW].notesIdx[0] != gOcarinaSongNotes[OCA_SONGS_SCARECROW].notesIdx[i]) {
+                if (gOcarinaSongNotes[OCA_SONGS_SCARECROW].notesIdx[0] !=
+                    gOcarinaSongNotes[OCA_SONGS_SCARECROW].notesIdx[i]) {
                     i = 9;
                 } else {
                     i++;
@@ -1541,8 +1544,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             while (i != 0xFF) {
                 GfxPrint_SetPos(printer, 3, 7 + j++);
-                GfxPrint_Printf(printer, "%02x %04x %02x %08x", i, gSoundBanks[ind][i].sfxId,
-                                gSoundBanks[ind][i].state, gSoundBanks[ind][i].priority);
+                GfxPrint_Printf(printer, "%02x %04x %02x %08x", i, gSoundBanks[ind][i].sfxId, gSoundBanks[ind][i].state,
+                                gSoundBanks[ind][i].priority);
                 i = gSoundBanks[ind][i].next;
             }
             break;
@@ -1604,7 +1607,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 #define chan (gAudioContext.seqPlayers[2].channels[entry->channel])
                     GfxPrint_SetPos(printer, 2 + sAudioIntInfoX, 5 + ind + sAudioIntInfoY);
                     if (sAudioIntInfoBankPage[k] == 1) {
-                        if ((entryIndex != 0xFF) && ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
+                        if ((entryIndex != 0xFF) &&
+                            ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %02X %04X %04X", entryIndex, (s32)*entry->posX,
                                             (s32)*entry->posY, (s32)*entry->posZ, entry->sfxImportance,
                                             entry->sfxParams, entry->sfxId);
@@ -1612,7 +1616,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- -- ---- ----");
                         }
                     } else if (sAudioIntInfoBankPage[k] == 2) {
-                        if ((entryIndex != 0xFF) && ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
+                        if ((entryIndex != 0xFF) &&
+                            ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", entryIndex, (s32)*entry->posX,
                                             (s32)*entry->posY, (s32)*entry->posZ, (s32)(chan->volume * 127.1f),
                                             chan->newPan, entry->sfxId);
@@ -1620,7 +1625,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----");
                         }
                     } else if (sAudioIntInfoBankPage[k] == 3) {
-                        if ((entryIndex != 0xFF) && ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
+                        if ((entryIndex != 0xFF) &&
+                            ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", entryIndex, (s32)*entry->posX,
                                             (s32)*entry->posY, (s32)*entry->posZ, (s32)(chan->freqScale * 100.0f),
                                             chan->reverb, entry->sfxId);
@@ -1628,7 +1634,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----");
                         }
                     } else if (sAudioIntInfoBankPage[k] == 4) {
-                        if ((entryIndex != 0xFF) && ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
+                        if ((entryIndex != 0xFF) &&
+                            ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
                             GfxPrint_Printf(printer, "%2X %04X", entryIndex, entry->sfxId);
                         } else {
                             GfxPrint_Printf(printer, "FF ----");
@@ -3420,7 +3427,8 @@ void func_800F4C58(Vec3f* pos, u16 sfxId, u8 arg2) {
     }
 
     for (i = 0; i < gChannelsPerBank[gSfxChannelLayout][bankId]; i++) {
-        if ((gActiveSounds[bankId][i].entryIndex != 0xFF) && (sfxId == gSoundBanks[bankId][gActiveSounds[bankId][i].entryIndex].sfxId)) {
+        if ((gActiveSounds[bankId][i].entryIndex != 0xFF) &&
+            (sfxId == gSoundBanks[bankId][gActiveSounds[bankId][i].entryIndex].sfxId)) {
             Audio_QueueCmdS8(_SHIFTL(6, 24, 8) | _SHIFTL(2, 16, 8) | _SHIFTL(phi_s1, 8, 8) | _SHIFTL(6, 0, 8), arg2);
         }
         phi_s1++;

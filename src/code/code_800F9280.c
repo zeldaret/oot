@@ -213,7 +213,8 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             D_8016E750[playerIdx].volTarget = (f32)val / 127.0f;
             if (D_8016E750[playerIdx].volCur != D_8016E750[playerIdx].volTarget) {
-                D_8016E750[playerIdx].unk_08 = (D_8016E750[playerIdx].volCur - D_8016E750[playerIdx].volTarget) / (f32)duration;
+                D_8016E750[playerIdx].unk_08 =
+                    (D_8016E750[playerIdx].volCur - D_8016E750[playerIdx].volTarget) / (f32)duration;
                 D_8016E750[playerIdx].unk_0C = duration;
             }
             break;
@@ -229,7 +230,8 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             for (i = 0; i < 16; i++) {
                 D_8016E750[playerIdx].unk_50[i].unk_14 = freqScale;
                 D_8016E750[playerIdx].unk_50[i].unk_1C = duration;
-                D_8016E750[playerIdx].unk_50[i].unk_18 = (D_8016E750[playerIdx].unk_50[i].unk_10 - freqScale) / (f32)duration;
+                D_8016E750[playerIdx].unk_50[i].unk_18 =
+                    (D_8016E750[playerIdx].unk_50[i].unk_10 - freqScale) / (f32)duration;
             }
             D_8016E750[playerIdx].unk_250 = 0xFFFF;
             break;
