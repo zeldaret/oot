@@ -549,9 +549,8 @@ typedef struct {
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 maxSimultaneousNotes;
     /* 0x06 */ u8 numSequencePlayers;
-    /* 0x07 */ u8 unk_07[0x2];
+    /* 0x07 */ u8 unk_07[0x2]; // zeroes
     /* 0x09 */ u8 numReverbs;
-    /* 0x0A */ u8 unk_0A[0x2];
     /* 0x0C */ ReverbSettings* reverbSettings;
     /* 0x10 */ u16 unk_10;
     /* 0x12 */ u16 unk_12;
@@ -1053,7 +1052,7 @@ typedef struct {
     /* 0x24 */ u8       sfxImportance;
     /* 0x26 */ u16      sfxParams;
     /* 0x28 */ u16      sfxId;
-    /* 0x2A */ u8       unk_2A;
+    /* 0x2A */ u8       state;
     /* 0x2B */ u8       unk_2B;
     /* 0x2C */ u8       prev;
     /* 0x2D */ u8       next;

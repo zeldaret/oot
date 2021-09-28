@@ -84,14 +84,16 @@ typedef enum {
 extern f32 D_8012F6B4[]; // from audio_synthesis
 
 u8 gIsLargeSoundBank[7] = { 0, 0, 0, 1, 0, 0, 0 };
-u8 D_80130578[4][7] = {
-    { 3, 2, 3, 3, 2, 1, 2 }, // only this row is used
+
+// Only the first row of these is supported by sequence 0.
+u8 gChannelsPerBank[4][7] = {
+    { 3, 2, 3, 3, 2, 1, 2 },
     { 3, 2, 2, 2, 2, 2, 2 },
     { 3, 2, 2, 2, 2, 2, 2 },
     { 4, 1, 0, 0, 2, 2, 2 },
 };
-u8 D_80130594[4][7] = {
-    { 3, 2, 3, 2, 2, 1, 1 }, // only this row is used
+u8 gUsedChannelsPerBank[4][7] = {
+    { 3, 2, 3, 2, 2, 1, 1 },
     { 3, 1, 1, 1, 2, 1, 1 },
     { 3, 1, 1, 1, 2, 1, 1 },
     { 2, 1, 0, 0, 1, 1, 1 },
@@ -1536,7 +1538,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             while (i != 0xFF) {
                 GfxPrint_SetPos(printer, 3, 7 + j++);
                 GfxPrint_Printf(printer, "%02x %04x %02x %08x", i, gSoundBanks[ind][i].sfxId,
-                                gSoundBanks[ind][i].unk_2A, gSoundBanks[ind][i].priority);
+                                gSoundBanks[ind][i].state, gSoundBanks[ind][i].priority);
                 i = gSoundBanks[ind][i].next;
             }
             break;
@@ -1592,13 +1594,13 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 GfxPrint_SetPos(printer, 2 + sAudioIntInfoX, 4 + ind + sAudioIntInfoY);
                 GfxPrint_Printf(printer, "%s <%d>", sSoundBankNames[k], sAudioIntInfoBankPage[k]);
 
-                for (k2 = 0; k2 < D_80130578[D_801333CC][k]; k2++) {
+                for (k2 = 0; k2 < gChannelsPerBank[D_801333CC][k]; k2++) {
 #define entryIndex (D_8016E1B8[k][k2].unk_4)
 #define entry (&gSoundBanks[k][entryIndex])
 #define chan (gAudioContext.seqPlayers[2].channels[entry->unk_2E])
                     GfxPrint_SetPos(printer, 2 + sAudioIntInfoX, 5 + ind + sAudioIntInfoY);
                     if (sAudioIntInfoBankPage[k] == 1) {
-                        if ((entryIndex != 0xFF) && ((entry->unk_2A == 4) || (entry->unk_2A == 5))) {
+                        if ((entryIndex != 0xFF) && ((entry->state == 4) || (entry->state == 5))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %02X %04X %04X", entryIndex, (s32)*entry->posX,
                                             (s32)*entry->posY, (s32)*entry->posZ, entry->sfxImportance,
                                             entry->sfxParams, entry->sfxId);
@@ -1606,7 +1608,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- -- ---- ----");
                         }
                     } else if (sAudioIntInfoBankPage[k] == 2) {
-                        if ((entryIndex != 0xFF) && ((entry->unk_2A == 4) || (entry->unk_2A == 5))) {
+                        if ((entryIndex != 0xFF) && ((entry->state == 4) || (entry->state == 5))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", entryIndex, (s32)*entry->posX,
                                             (s32)*entry->posY, (s32)*entry->posZ, (s32)(chan->volume * 127.1f),
                                             chan->newPan, entry->sfxId);
@@ -1614,7 +1616,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----");
                         }
                     } else if (sAudioIntInfoBankPage[k] == 3) {
-                        if ((entryIndex != 0xFF) && ((entry->unk_2A == 4) || (entry->unk_2A == 5))) {
+                        if ((entryIndex != 0xFF) && ((entry->state == 4) || (entry->state == 5))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", entryIndex, (s32)*entry->posX,
                                             (s32)*entry->posY, (s32)*entry->posZ, (s32)(chan->freqScale * 100.0f),
                                             chan->reverb, entry->sfxId);
@@ -1622,7 +1624,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----");
                         }
                     } else if (sAudioIntInfoBankPage[k] == 4) {
-                        if ((entryIndex != 0xFF) && ((entry->unk_2A == 4) || (entry->unk_2A == 5))) {
+                        if ((entryIndex != 0xFF) && ((entry->state == 4) || (entry->state == 5))) {
                             GfxPrint_Printf(printer, "%2X %04X", entryIndex, entry->sfxId);
                         } else {
                             GfxPrint_Printf(printer, "FF ----");
@@ -2237,7 +2239,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                 break;
             case 2:
             case 3:
-                func_800F87A0(sAudioSndContWork[2]);
+                Audio_StopSfxByBank(sAudioSndContWork[2]);
                 break;
         }
     }
@@ -2606,7 +2608,7 @@ void AudioDebug_ProcessInput_SEParamChg(void) {
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_B)) {
-        func_800F87A0(sAudioSEParamChgWork[0]);
+        Audio_StopSfxByBank(sAudioSEParamChgWork[0]);
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_CDOWN)) {
@@ -3404,15 +3406,15 @@ void Audio_PlaySoundTransposed(Vec3f* pos, u16 sfxId, s8 semitone) {
 void func_800F4C58(Vec3f* pos, u16 sfxId, u8 arg2) {
     u8 phi_s1 = 0;
     u8 i;
-    u8 bank;
+    u8 bankId;
 
-    bank = SFX_BANK_SHIFT(sfxId);
-    for (i = 0; i < bank; i++) {
-        phi_s1 += D_80130578[D_801333CC][i];
+    bankId = SFX_BANK_SHIFT(sfxId);
+    for (i = 0; i < bankId; i++) {
+        phi_s1 += gChannelsPerBank[D_801333CC][i];
     }
 
-    for (i = 0; i < D_80130578[D_801333CC][bank]; i++) {
-        if ((D_8016E1B8[bank][i].unk_4 != 0xFF) && (sfxId == gSoundBanks[bank][D_8016E1B8[bank][i].unk_4].sfxId)) {
+    for (i = 0; i < gChannelsPerBank[D_801333CC][bankId]; i++) {
+        if ((D_8016E1B8[bankId][i].unk_4 != 0xFF) && (sfxId == gSoundBanks[bankId][D_8016E1B8[bankId][i].unk_4].sfxId)) {
             Audio_QueueCmdS8(_SHIFTL(6, 24, 8) | _SHIFTL(2, 16, 8) | _SHIFTL(phi_s1, 8, 8) | _SHIFTL(6, 0, 8), arg2);
         }
         phi_s1++;

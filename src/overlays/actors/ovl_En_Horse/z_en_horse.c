@@ -899,7 +899,7 @@ void EnHorse_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHorse* this = THIS;
 
     if (this->stateFlags & ENHORSE_DRAW) {
-        func_800F89E8(&this->unk_21C);
+        Audio_StopSfxByPos(&this->unk_21C);
     }
     func_800A6888(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->cyl1);
