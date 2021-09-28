@@ -14,12 +14,12 @@
         <Texture Name="object_toki_objects_Tex_0055C0" OutName="tex_0055C0" Format="rgba16" Width="32" Height="64" Offset="0x55C0" />
         <Blob Name="object_toki_objects_Blob_0065C0" Size="0xA00" Offset="0x65C0" />
         <Texture Name="object_toki_objects_Tex_006FC0" OutName="tex_006FC0" Format="rgba16" Width="16" Height="16" Offset="0x6FC0" />
-        <DList Name="object_toki_objects_DL_007440" Offset="0x7440" />
-        <DList Name="object_toki_objects_DL_007578" Offset="0x7578" />
+        <DList Name="object_toki_objects_DL_007440" Offset="0x7440" /> <!-- Door of Time left -->
+        <DList Name="object_toki_objects_DL_007578" Offset="0x7578" /> <!-- Door of Time right -->
         <Collision Name="gDoorTokiCol" Offset="0x7888"/>
         <DList Name="object_toki_objects_DL_007E20" Offset="0x7E20" />
         <DList Name="object_toki_objects_DL_007EE0" Offset="0x7EE0" />
         <DList Name="object_toki_objects_DL_008190" Offset="0x8190" />
-        <DList Name="object_toki_objects_DL_008390" Offset="0x8390" />
+        <DList Name="object_toki_objects_DL_008390" Offset="0x8390" /> <!-- light plane -->
     </File>
 </Root>

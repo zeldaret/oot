@@ -6,6 +6,7 @@
 
 #include "z_en_ko.h"
 #include "objects/object_fa/object_fa.h"
+#include "objects/object_os_anime/object_os_anime.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
@@ -27,12 +28,6 @@ void func_80A99504(EnKo* this, GlobalContext* globalCtx);
 void func_80A99560(EnKo* this, GlobalContext* globalCtx);
 
 s32 func_80A98ECC(EnKo* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06006A60;
-extern AnimationHeader D_06007830;
-extern AnimationHeader D_06007D94;
-extern AnimationHeader D_0600879C;
-extern AnimationHeader D_06008F6C;
 
 const ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,
@@ -631,12 +626,12 @@ s32 func_80A97D68(EnKo* this, GlobalContext* globalCtx) {
     s16 arg3;
 
     if (this->unk_1E8.unk_00 != 0) {
-        if ((this->skelAnime.animation == &D_06006A60) == false) {
+        if ((this->skelAnime.animation == &gObjOsAnim_6A60) == false) {
             func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x20);
         }
         arg3 = 2;
     } else {
-        if ((this->skelAnime.animation == &D_06007830) == false) {
+        if ((this->skelAnime.animation == &gObjOsAnim_7830) == false) {
             func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x21);
         }
         arg3 = 1;
@@ -684,13 +679,13 @@ s32 func_80A97F70(EnKo* this, GlobalContext* globalCtx) {
     s16 arg3;
 
     if (this->unk_1E8.unk_00 != 0) {
-        if ((this->skelAnime.animation == &D_06008F6C) == false) {
+        if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
             func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1D);
         }
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
         arg3 = 2;
     } else {
-        if ((this->skelAnime.animation == &D_06007D94) == false) {
+        if ((this->skelAnime.animation == &gObjOsAnim_7D94) == false) {
             func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1E);
         }
         arg3 = 1;
@@ -704,14 +699,14 @@ s32 func_80A98034(EnKo* this, GlobalContext* globalCtx) {
     s32 result;
 
     if (this->unk_1E8.unk_00 != 0) {
-        if ((this->skelAnime.animation == &D_06008F6C) == false) {
+        if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
             func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1D);
         }
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
         result = EnKo_IsWithinTalkAngle(this);
         arg3 = (result == true) ? 2 : 1;
     } else {
-        if ((this->skelAnime.animation == &D_0600879C) == false) {
+        if ((this->skelAnime.animation == &gObjOsAnim_879C) == false) {
             func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1F);
         }
         arg3 = 1;
