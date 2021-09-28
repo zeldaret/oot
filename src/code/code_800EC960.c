@@ -446,7 +446,7 @@ u8 D_8016B9F3;
 u8 D_8016B9F4;
 u16 D_8016B9F6;
 
-OcarinaStaff D_8016B9F8;      // playing along staff?
+OcarinaStaff sPlayingStaff;   // playing along staff?
 OcarinaStaff sDisplayedStaff; // displayed staff?
 OcarinaStaff D_8016BA00;      // ?? note and status not updated, pos updated as you play
 u32 D_8016BA04;
@@ -610,7 +610,7 @@ void func_800ECC04(u16 flg) {
         sOcarinaHasStartedSong = 0;
         D_80131878 = 0;
         D_8016BA2E = 0;
-        D_8016B9F8.state = func_800ECAF0();
+        sPlayingStaff.state = func_800ECAF0();
         sOcarinaInpEnabled = 1;
         D_80130F4C = 0;
         for (i = 0; i < 0xE; i++) {
@@ -1150,9 +1150,9 @@ void func_800EE29C(void) {
 }
 
 void func_800EE2D4(void) {
-    D_8016B9F8.noteIdx = sCurOcarinaBtnIdx & 0x3F;
-    D_8016B9F8.state = func_800ECAF0();
-    D_8016B9F8.pos = D_8016BA2E;
+    sPlayingStaff.noteIdx = sCurOcarinaBtnIdx & 0x3F;
+    sPlayingStaff.state = func_800ECAF0();
+    sPlayingStaff.pos = D_8016BA2E;
 }
 
 void func_800EE318(void) {
@@ -1175,11 +1175,11 @@ OcarinaStaff* func_800EE3C8(void) {
     return &D_8016BA00;
 }
 
-OcarinaStaff* func_800EE3D4(void) {
-    if (D_8016B9F8.state < 0xFE) {
+OcarinaStaff* Audio_OcaGetPlayStaff(void) {
+    if (sPlayingStaff.state < 0xFE) {
         D_80130F3C = 0;
     }
-    return &D_8016B9F8;
+    return &sPlayingStaff;
 }
 
 OcarinaStaff* Audio_OcaGetDisplayStaff(void) {
@@ -1342,9 +1342,9 @@ void func_800EE824(void) {
 }
 
 void func_800EE930(void) {
-    D_8016B9F8.noteIdx = 0xFF;
-    D_8016B9F8.state = 0xFF;
-    D_8016B9F8.pos = 0;
+    sPlayingStaff.noteIdx = 0xFF;
+    sPlayingStaff.state = 0xFF;
+    sPlayingStaff.pos = 0;
     sDisplayedStaff.noteIdx = 0xFF;
     sDisplayedStaff.state = 0;
     sDisplayedStaff.pos = 0;
@@ -2011,7 +2011,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             sDisplayedStaff.pos);
 
             GfxPrint_SetPos(printer, 3, 5);
-            GfxPrint_Printf(printer, "PLAY INFO : %2d %02x %d", D_8016B9F8.noteIdx, D_8016B9F8.state, D_8016B9F8.pos);
+            GfxPrint_Printf(printer, "PLAY INFO : %2d %02x %d", sPlayingStaff.noteIdx, sPlayingStaff.state, sPlayingStaff.pos);
 
             GfxPrint_SetPos(printer, 3, 6);
             GfxPrint_Printf(printer, "8note REC POINTER : %08x", gScarecrowSpawnSongPtr);

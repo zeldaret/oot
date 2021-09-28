@@ -690,8 +690,8 @@ void EnFr_ListeningToOcarinaNotes(EnFr* this, GlobalContext* globalCtx) {
         case 4:
             EnFr_OcarinaMistake(this, globalCtx);
             break;
-        case 1:                                   // Ocarina note played, but no song played
-            switch (globalCtx->msgCtx.unk_E410) { // Jumping frogs in open ocarina based on ocarina note played
+        case 1:                                         // Ocarina note played, but no song played
+            switch (globalCtx->msgCtx.lastOcaNoteIdx) { // Jumping frogs in open ocarina based on ocarina note played
                 case 0:
                     EnFr_SetupJumpingUp(this, FROG_BLUE);
                     break;
@@ -827,7 +827,7 @@ s32 EnFr_IsFrogSongComplete(EnFr* this, GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     u8 ocarinaNoteIndex;
 
-    if (this->ocarinaNote == (*msgCtx).unk_E410) { // required to match, possibly an array?
+    if (this->ocarinaNote == (*msgCtx).lastOcaNoteIdx) { // required to match, possibly an array?
         this->ocarinaNoteIndex++;
         ocarinaNoteIndex = this->ocarinaNoteIndex;
         if (1) {}
@@ -882,7 +882,7 @@ void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx) {
 
         if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_33) {
             globalCtx->msgCtx.msgMode = MSGMODE_UNK_31;
-            switch (globalCtx->msgCtx.unk_E410) {
+            switch (globalCtx->msgCtx.lastOcaNoteIdx) {
                 case 0:
                     EnFr_SetupJumpingUp(this, FROG_BLUE);
                     break;

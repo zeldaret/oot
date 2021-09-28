@@ -18,6 +18,10 @@ typedef enum {
 } MessageBoxType;
 
 typedef enum {
+    /* 0 */ BOX_BG_CROSS
+} MessageBoxBackground;
+
+typedef enum {
     POS_VARIABLE,
     POS_TOP,
     POS_BOTTOM,

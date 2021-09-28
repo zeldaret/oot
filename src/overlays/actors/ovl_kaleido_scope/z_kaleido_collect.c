@@ -545,7 +545,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
             }
 
             if (pauseCtx->unk_1E4 != 8) {
-                pauseCtx->unk_194 = func_800EE3D4();
+                pauseCtx->unk_194 = Audio_OcaGetPlayStaff();
 
                 if (pauseCtx->unk_194->pos != 0) {
                     if (D_8082A11C == (pauseCtx->unk_194->pos - 1)) {

@@ -97,7 +97,7 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
     s16 phi_v0;
     s16 currentFrame;
 
-    phi_v0 = globalCtx->msgCtx.unk_E410;
+    phi_v0 = globalCtx->msgCtx.lastOcaNoteIdx;
     if (arg != 0) {
         if (this->unk_19C[3] == 0) {
             this->unk_19C[3] = (s16)Rand_ZeroFloat(10.99f) + 30;
@@ -238,7 +238,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE == 4 && globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
+    if (globalCtx->msgCtx.unk_E3EE == 4 && globalCtx->msgCtx.msgMode == MSGMODE_NONE) {
         // end?
         osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n" VT_RST);
 
@@ -285,7 +285,7 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("game_play->message.msg_mode=%d\n", globalCtx->msgCtx.msgMode);
 
-    if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
+    if (globalCtx->msgCtx.msgMode == MSGMODE_NONE) {
         if (this->unk_194) {
             this->actor.textId = 0x4077;
             this->unk_196 = TEXT_STATE_EVENT;

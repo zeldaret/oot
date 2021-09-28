@@ -77,7 +77,7 @@ Color_RGB_s16 D_80153930[] = {
     { 0, 0, 0 },
 };
 
-s16 D_80153948[] = {
+s16 sTextboxBackgroundYOffsets[] = {
     1,
     2,
 };
@@ -93,7 +93,7 @@ s16 D_8015396C[] = {
 
 // bss
 s32 sCharTexSize;
-s32 sCharTextureCoords;
+s32 sCharTexScale;
 s16 D_801759A8;
 s16 D_801759AA;
 s16 D_801759AC;
@@ -144,10 +144,10 @@ void func_80106AA8(GlobalContext* globalCtx) {
 
     if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_2E) {
         func_800ED858(1);
-        msgCtx->ocarinaStaff = func_800EE3D4(); // Na_StopOcarinaMode
+        msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
         msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
         func_800ECC04((1 << 0xD) + 0x8000); // Na_StartOcarinaSinglePlayCheck2(0xD)
-        msgCtx->unk_E3D2 = msgCtx->unk_E3D4;
+        msgCtx->textDrawPos = msgCtx->decodedTextLen;
     } else if (msgCtx->msgMode == MSGMODE_UNK_2C) {
         func_800ED858(6);
         msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
@@ -186,27 +186,27 @@ void Message_CloseTextbox(GlobalContext* globalCtx) {
     if (msgCtx->msgLength != 0) {
         msgCtx->stateTimer = 2;
         msgCtx->msgMode = MSGMODE_TEXT_CLOSING;
-        msgCtx->unk_E3E4 = 0;
+        msgCtx->unk_E3E4 = MSG_SEL_0;
         Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 }
 
 void Message_HandleChoiceSelection(GlobalContext* globalCtx, u8 numChoices) {
-    static s16 stickHeld = false;
+    static s16 sStickHeld = false;
 
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Input* curInput = &globalCtx->state.input[0];
 
-    if (curInput->rel.stick_y > 29 && !stickHeld) {
-        stickHeld = true;
+    if (curInput->rel.stick_y > 29 && !sStickHeld) {
+        sStickHeld = true;
         msgCtx->choiceIndex--;
         if (msgCtx->choiceIndex > 128) {
             msgCtx->choiceIndex = 0;
         } else {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
-    } else if (curInput->rel.stick_y < -29 && !stickHeld) {
-        stickHeld = true;
+    } else if (curInput->rel.stick_y < -29 && !sStickHeld) {
+        sStickHeld = true;
         msgCtx->choiceIndex++;
         if (msgCtx->choiceIndex > numChoices) {
             msgCtx->choiceIndex = numChoices;
@@ -214,7 +214,7 @@ void Message_HandleChoiceSelection(GlobalContext* globalCtx, u8 numChoices) {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     } else if (ABS(curInput->rel.stick_y) < 30) {
-        stickHeld = false;
+        sStickHeld = false;
     }
     msgCtx->textPosX = R_TEXT_CHOICE_XPOS;
     msgCtx->textPosY =
@@ -230,7 +230,7 @@ void Message_DrawTextChar(GlobalContext* globalCtx, void* textureImage, Gfx** p)
     gDPPipeSync(gfx++);
 
     sCharTexSize = (R_TEXT_CHAR_SCALE / 100.0f) * 16.0f;
-    sCharTextureCoords = 1024.0f / (R_TEXT_CHAR_SCALE / 100.0f);
+    sCharTexScale = 1024.0f / (R_TEXT_CHAR_SCALE / 100.0f);
 
     gDPLoadTextureBlock_4b(gfx++, textureImage, G_IM_FMT_I, FONT_CHAR_TEX_WIDTH, FONT_CHAR_TEX_HEIGHT, 0,
                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -241,14 +241,14 @@ void Message_DrawTextChar(GlobalContext* globalCtx, void* textureImage, Gfx** p)
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, msgCtx->textColor.a);
         gSPTextureRectangle(gfx++, (x + R_TEXT_DROP_SHADOW_OFFSET) << 2, (y + R_TEXT_DROP_SHADOW_OFFSET) << 2,
                             (x + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2,
-                            (y + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0,
-                            sCharTextureCoords, sCharTextureCoords);
+                            (y + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0, sCharTexScale,
+                            sCharTexScale);
     }
 
     gDPPipeSync(gfx++);
     gDPSetPrimColor(gfx++, 0, 0, msgCtx->textColor.r, msgCtx->textColor.g, msgCtx->textColor.b, msgCtx->textColor.a);
     gSPTextureRectangle(gfx++, x << 2, y << 2, (x + sCharTexSize) << 2, (y + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0,
-                        sCharTextureCoords, sCharTextureCoords);
+                        sCharTexScale, sCharTexScale);
     *p = gfx;
 }
 
@@ -321,7 +321,8 @@ void Message_FindMessage(GlobalContext* globalCtx, u16 textId) {
             messageTableEntry++;
         }
     } else {
-        languageSegmentTable = (gSaveContext.language == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
+        languageSegmentTable =
+            (gSaveContext.language == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
         seg = messageTableEntry->segment;
 
         while (messageTableEntry->textId != 0xFFFF) {
@@ -355,7 +356,8 @@ void Message_FindMessage(GlobalContext* globalCtx, u16 textId) {
         messageTableEntry++;
         nextSeg = messageTableEntry->segment;
     } else {
-        languageSegmentTable = (gSaveContext.language == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
+        languageSegmentTable =
+            (gSaveContext.language == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
         foundSeg = *languageSegmentTable;
         font->msgProperties = messageTableEntry->typePos;
         languageSegmentTable++;
@@ -581,10 +583,10 @@ void Message_DrawTextboxEndIcon(GlobalContext* globalCtx, Gfx** p, s16 x, s16 y)
                            G_TX_NOLOD);
 
     sCharTexSize = 16.0f * ((f32)R_TEXT_CHAR_SCALE / 100.0f);
-    sCharTextureCoords = 1024.0f / ((f32)R_TEXT_CHAR_SCALE / 100.0f);
+    sCharTexScale = 1024.0f / ((f32)R_TEXT_CHAR_SCALE / 100.0f);
 
     gSPTextureRectangle(gfx++, x << 2, y << 2, (x + sCharTexSize) << 2, (y + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0,
-                        sCharTextureCoords, sCharTextureCoords);
+                        sCharTexScale, sCharTexScale);
 
     msgCtx->stateTimer++;
 
@@ -788,7 +790,7 @@ void Message_HandleOcarina(GlobalContext* globalCtx) {
         globalCtx->msgCtx.unk_E3EE = 1;
 
         if (msgCtx->unk_E3F0 == 0x2A) {
-            msgCtx->msgMode = MSGMODE_UNK_21;
+            msgCtx->msgMode = MSGMODE_SCARECROW_RECORDING_START;
             // Recording Start / Recording Start / Recording Start / Recording Start ->
             osSyncPrintf("録音開始 録音開始 録音開始 録音開始  -> ");
         } else if (msgCtx->unk_E3F0 == MSGMODE_UNK_2B) {
@@ -876,7 +878,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
     msgCtx->unk_E3D0 = 0;
     charTexIdx = 0;
 
-    for (i = 0; i < msgCtx->unk_E3D2; i++) {
+    for (i = 0; i < msgCtx->textDrawPos; i++) {
         character = msgCtx->msgBufDecoded[i];
 
         switch (character) {
@@ -900,7 +902,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     if (!sTextboxSkipped) {
                         Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                        msgCtx->msgMode = MSGMODE_UNK_34;
+                        msgCtx->msgMode = MSGMODE_TEXT_AWAIT_NEXT;
                         Font_LoadMessageBoxIcon(font, MESSAGE_ICON_TRIANGLE);
                     } else {
                         msgCtx->msgMode = MSGMODE_UNK_04;
@@ -914,7 +916,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 msgCtx->textPosX += msgCtx->msgBufDecoded[++i];
                 break;
             case MESSAGE_TEXTID:
-                msgCtx->unk_E3E4 = 0x30;
+                msgCtx->unk_E3E4 = MSG_SEL_HAS_NEXT_TEXTID;
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
@@ -923,9 +925,9 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 *gfxP = gfx;
                 return;
             case MESSAGE_QUICKTEXT_ENABLE:
-                if (i + 1 == msgCtx->unk_E3D2 &&
+                if (i + 1 == msgCtx->textDrawPos &&
                     (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING ||
-                     (msgCtx->msgMode >= MSGMODE_UNK_09 && msgCtx->msgMode < MSGMODE_UNK_21))) {
+                     (msgCtx->msgMode >= MSGMODE_UNK_09 && msgCtx->msgMode < MSGMODE_SCARECROW_RECORDING_START))) {
                     j = i;
                     while (true) {
                         lookAheadCharacter = msgCtx->msgBufDecoded[j];
@@ -943,14 +945,14 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                         }
                     }
                     i = j - 1;
-                    msgCtx->unk_E3D2 = i + 1;
+                    msgCtx->textDrawPos = i + 1;
 
                     if (character) {}
                 }
             case MESSAGE_QUICKTEXT_DISABLE:
                 break;
             case MESSAGE_AWAIT_BUTTON_PRESS:
-                if (i + 1 == msgCtx->unk_E3D2) {
+                if (i + 1 == msgCtx->textDrawPos) {
                     if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                         msgCtx->msgMode = MSGMODE_UNK_07;
                         Font_LoadMessageBoxIcon(font, MESSAGE_ICON_TRIANGLE);
@@ -969,7 +971,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
             case MESSAGE_FADE2:
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
-                    msgCtx->unk_E3E4 = 0x60;
+                    msgCtx->unk_E3E4 = MSG_SEL_FADING;
                     osSyncPrintf("タイマー (%x) (%x)", msgCtx->msgBufDecoded[i + 1],
                                  msgCtx->msgBufDecoded[i + 2]); // timer
                     msgCtx->stateTimer = msgCtx->msgBufDecoded[++i] << 8;
@@ -1000,22 +1002,25 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 gDPSetPrimColor(gfx++, 0, 0, D_80153930[msgCtx->unk_E3F9].r, D_80153930[msgCtx->unk_E3F9].g,
                                 D_80153930[msgCtx->unk_E3F9].b, msgCtx->textColor.a);
 
-                gDPLoadTextureBlock_4b(gfx++, ((u32)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE), G_IM_FMT_I, 96,
-                                       48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                gDPLoadTextureBlock_4b(gfx++, (u32)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_I, 96, 48,
+                                       0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(
-                    gfx++, (msgCtx->textPosX + 1) << 2, (R_TEXTBOX_BG_YPOS + D_80153948[msgCtx->unk_E3FA]) << 2,
-                    (msgCtx->textPosX + 1 + 0x60) << 2, (R_TEXTBOX_BG_YPOS + D_80153948[msgCtx->unk_E3FA] + 0x30) << 2,
-                    G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+                    gfx++, (msgCtx->textPosX + 1) << 2,
+                    (R_TEXTBOX_BG_YPOS + sTextboxBackgroundYOffsets[msgCtx->textboxBackgroundYOffsetIdx]) << 2,
+                    (msgCtx->textPosX + 0x60 + 1) << 2,
+                    (R_TEXTBOX_BG_YPOS + sTextboxBackgroundYOffsets[msgCtx->textboxBackgroundYOffsetIdx] + 0x30) << 2,
+                    G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
-                gDPLoadTextureBlock_4b(gfx++, ((u32)msgCtx->textboxSegment + 0x1900), G_IM_FMT_I, 96, 48, 0,
-                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                                       G_TX_NOLOD, G_TX_NOLOD);
-                gSPTextureRectangle(gfx++, (msgCtx->textPosX + 1 + 0x60) << 2,
-                                    (R_TEXTBOX_BG_YPOS + D_80153948[msgCtx->unk_E3FA]) << 2,
-                                    (msgCtx->textPosX + 1 + 0x60 + 1 + 0x60) << 2,
-                                    (R_TEXTBOX_BG_YPOS + D_80153948[msgCtx->unk_E3FA] + 0x30) << 2, G_TX_RENDERTILE, 0,
-                                    0, 0x0400, 0x0400);
+                gDPLoadTextureBlock_4b(gfx++, (u32)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900, G_IM_FMT_I,
+                                       96, 48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                gSPTextureRectangle(
+                    gfx++, (msgCtx->textPosX + 0x60 + 1) << 2,
+                    (R_TEXTBOX_BG_YPOS + sTextboxBackgroundYOffsets[msgCtx->textboxBackgroundYOffsetIdx]) << 2,
+                    (msgCtx->textPosX + 0x60 + 1 + 0x60 + 1) << 2,
+                    (R_TEXTBOX_BG_YPOS + sTextboxBackgroundYOffsets[msgCtx->textboxBackgroundYOffsetIdx] + 0x30) << 2,
+                    G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
                 gDPPipeSync(gfx++);
                 gDPSetPrimColor(gfx++, 0, 0, D_80153900[msgCtx->unk_E3F8].r, D_80153900[msgCtx->unk_E3F8].g,
@@ -1026,14 +1031,14 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(gfx++, msgCtx->textPosX << 2, R_TEXTBOX_BG_YPOS << 2,
                                     (msgCtx->textPosX + 0x60) << 2, (R_TEXTBOX_BG_YPOS + 0x30) << 2, G_TX_RENDERTILE, 0,
-                                    0, 0x0400, 0x0400);
+                                    0, 1 << 10, 1 << 10);
 
-                gDPLoadTextureBlock_4b(gfx++, ((u32)msgCtx->textboxSegment + 0x1900), G_IM_FMT_I, 96, 48, 0,
-                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                                       G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock_4b(gfx++, ((u32)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900),
+                                       G_IM_FMT_I, 96, 48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                                       G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(gfx++, (msgCtx->textPosX + 0x60) << 2, R_TEXTBOX_BG_YPOS << 2,
                                     (msgCtx->textPosX + 0xC0) << 2, (R_TEXTBOX_BG_YPOS + 0x30) << 2, G_TX_RENDERTILE, 0,
-                                    0, 0x0400, 0x0400);
+                                    0, 1 << 10, 1 << 10);
 
                 gDPPipeSync(gfx++);
                 gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
@@ -1042,24 +1047,24 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 msgCtx->textPosX += 32;
                 break;
             case MESSAGE_TEXT_SPEED:
-                msgCtx->unk_E3EA = msgCtx->msgBufDecoded[++i];
+                msgCtx->textDelay = msgCtx->msgBufDecoded[++i];
                 break;
             case MESSAGE_UNSKIPPABLE:
                 msgCtx->textUnskippable = true;
                 break;
             case MESSAGE_TWO_CHOICE:
-                msgCtx->unk_E3E4 = 0x10;
+                msgCtx->unk_E3E4 = MSG_SEL_2_CHOICE;
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
-                    msgCtx->unk_E2FA = msgCtx->textId;
+                    msgCtx->choiceTextId = msgCtx->textId;
                     msgCtx->stateTimer = 4;
                     msgCtx->choiceIndex = 0;
                     Font_LoadMessageBoxIcon(font, MESSAGE_ICON_ARROW);
                 }
                 break;
             case MESSAGE_THREE_CHOICE:
-                msgCtx->unk_E3E4 = 0x20;
+                msgCtx->unk_E3E4 = MSG_SEL_3_CHOICE;
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
-                    msgCtx->unk_E2FA = msgCtx->textId;
+                    msgCtx->choiceTextId = msgCtx->textId;
                     msgCtx->stateTimer = 4;
                     msgCtx->choiceIndex = 0;
                     Font_LoadMessageBoxIcon(font, MESSAGE_ICON_ARROW);
@@ -1068,7 +1073,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
             case MESSAGE_END:
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
-                    if (msgCtx->unk_E3E4 == 0) {
+                    if (msgCtx->unk_E3E4 == MSG_SEL_0) {
                         Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_END, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         Font_LoadMessageBoxIcon(font, MESSAGE_ICON_SQUARE);
@@ -1080,7 +1085,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 *gfxP = gfx;
                 return;
             case MESSAGE_OCARINA:
-                if (i + 1 == msgCtx->unk_E3D2) {
+                if (i + 1 == msgCtx->textDrawPos) {
                     Message_HandleOcarina(globalCtx);
                     *gfxP = gfx;
                     return;
@@ -1089,7 +1094,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
             case MESSAGE_FADE:
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
-                    msgCtx->unk_E3E4 = 0x60;
+                    msgCtx->unk_E3E4 = MSG_SEL_FADING;
                     msgCtx->stateTimer = msgCtx->msgBufDecoded[++i];
                     Font_LoadMessageBoxIcon(font, MESSAGE_ICON_SQUARE);
                     if (globalCtx->csCtx.state == 0) {
@@ -1102,22 +1107,22 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
-                    msgCtx->unk_E3E4 = 0x40;
+                    msgCtx->unk_E3E4 = MSG_SEL_PERSISTENT;
                 }
                 *gfxP = gfx;
                 return;
             case MESSAGE_EVENT:
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
-                    msgCtx->unk_E3E4 = 0x50;
+                    msgCtx->unk_E3E4 = MSG_SEL_EVENT;
                     Font_LoadMessageBoxIcon(font, MESSAGE_ICON_TRIANGLE);
                     Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_END, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
                 *gfxP = gfx;
                 return;
             default:
-                if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING && i + 1 == msgCtx->unk_E3D2 &&
-                    msgCtx->unk_E3E8 == msgCtx->unk_E3EA) {
+                if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING && i + 1 == msgCtx->textDrawPos &&
+                    msgCtx->unk_E3E8 == msgCtx->textDelay) {
                     Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
                 Message_DrawTextChar(globalCtx, &font->charTexBuf[charTexIdx], &gfx);
@@ -1128,8 +1133,8 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
         }
     }
     if (msgCtx->unk_E3E8 == 0) {
-        msgCtx->unk_E3D2 = i + 1;
-        msgCtx->unk_E3E8 = msgCtx->unk_E3EA;
+        msgCtx->textDrawPos = i + 1;
+        msgCtx->unk_E3E8 = msgCtx->textDelay;
     } else {
         msgCtx->unk_E3E8--;
     }
@@ -1183,7 +1188,7 @@ void Message_Decode(GlobalContext* globalCtx) {
     Font* font = &globalCtx->msgCtx.font;
 
     globalCtx->msgCtx.unk_E3E8 = 0;
-    globalCtx->msgCtx.textUnskippable = globalCtx->msgCtx.unk_E3EA = globalCtx->msgCtx.unk_E3E8 = 0;
+    globalCtx->msgCtx.textUnskippable = globalCtx->msgCtx.textDelay = globalCtx->msgCtx.unk_E3E8 = 0;
     D_8014B2F0 = 0;
 
     while (true) {
@@ -1195,7 +1200,7 @@ void Message_Decode(GlobalContext* globalCtx) {
              *  Textbox decoding ends with any of the above text control codes
              */
             msgCtx->msgMode = MSGMODE_TEXT_DISPLAYING;
-            msgCtx->unk_E3D2 = 1;
+            msgCtx->textDrawPos = 1;
             R_TEXT_INIT_YPOS = R_TEXTBOX_Y + 8;
             osSyncPrintf("ＪＪ＝%d\n", numLines);
             if (msgCtx->textBoxType != BOX_NONE_BOTTOM) {
@@ -1207,7 +1212,7 @@ void Message_Decode(GlobalContext* globalCtx) {
                     R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 0x10);
                 }
             }
-            if (phi_s1 == 7) {
+            if (phi_s1 == MESSAGE_TEXTID) {
                 osSyncPrintf("NZ_NEXTMSG=%x, %x, %x\n", font->msgBuf[msgCtx->msgBufPos],
                              font->msgBuf[msgCtx->msgBufPos + 1], font->msgBuf[msgCtx->msgBufPos + 2]);
                 temp_s2 = msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[msgCtx->msgBufPos + 1];
@@ -1215,13 +1220,13 @@ void Message_Decode(GlobalContext* globalCtx) {
                 phi_s0_3 = temp_s2 << 8;
                 sNextTextId = msgCtx->msgBufDecoded[decodedBufPos] | phi_s0_3;
             }
-            if (phi_s1 == 0xC) {
+            if (phi_s1 == MESSAGE_BOX_BREAK_DELAYED) {
                 msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[msgCtx->msgBufPos + 1];
                 msgCtx->msgBufPos += 2;
             }
-            msgCtx->unk_E3D4 = decodedBufPos;
+            msgCtx->decodedTextLen = decodedBufPos;
             if (sTextboxSkipped) {
-                msgCtx->unk_E3D2 = msgCtx->unk_E3D4;
+                msgCtx->textDrawPos = msgCtx->decodedTextLen;
             }
             break;
         } else if (temp_s2 == MESSAGE_NAME) {
@@ -1506,17 +1511,18 @@ void Message_Decode(GlobalContext* globalCtx) {
                          font->msgBuf[msgCtx->msgBufPos + 1]);
             Message_LoadItemIcon(globalCtx, font->msgBuf[msgCtx->msgBufPos + 1], R_TEXTBOX_Y + 10);
         } else if (temp_s2 == MESSAGE_BACKGROUND) {
-            msgCtx->unk_E3F6 = font->msgBuf[msgCtx->msgBufPos + 1] * 2;
+            msgCtx->textboxBackgroundIdx = font->msgBuf[msgCtx->msgBufPos + 1] * 2;
             msgCtx->unk_E3F8 = (font->msgBuf[msgCtx->msgBufPos + 2] & 0xF0) >> 4;
             msgCtx->unk_E3F9 = font->msgBuf[msgCtx->msgBufPos + 2] & 0xF;
-            msgCtx->unk_E3FA = (font->msgBuf[msgCtx->msgBufPos + 3] & 0xF0) >> 4;
+            msgCtx->textboxBackgroundYOffsetIdx = (font->msgBuf[msgCtx->msgBufPos + 3] & 0xF0) >> 4;
             msgCtx->unk_E3FB = font->msgBuf[msgCtx->msgBufPos + 3] & 0xF;
             DmaMgr_SendRequest1((u32)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                                (u32)_message_texture_staticSegmentRomStart + (msgCtx->unk_E3F6 * 0x900), 0x900,
-                                "../z_message_PAL.c", 1830);
+                                (u32)_message_texture_staticSegmentRomStart + msgCtx->textboxBackgroundIdx * 0x900,
+                                0x900, "../z_message_PAL.c", 1830);
             DmaMgr_SendRequest1((u32)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900,
-                                (u32)_message_texture_staticSegmentRomStart + (msgCtx->unk_E3F6 * 0x900) + 0x900, 0x900,
-                                "../z_message_PAL.c", 1834);
+                                (u32)_message_texture_staticSegmentRomStart +
+                                    (msgCtx->textboxBackgroundIdx + 1) * 0x900,
+                                0x900, "../z_message_PAL.c", 1834);
             msgCtx->msgBufPos += 3;
             R_TEXTBOX_BG_YPOS = R_TEXTBOX_Y + 8;
             numLines = 2;
@@ -1568,7 +1574,7 @@ void Message_OpenText(GlobalContext* globalCtx, u16 textId) {
     Font* font = &msgCtx->font;
     s16 textBoxType;
 
-    if (msgCtx->msgMode == MSGMODE_UNK_00) {
+    if (msgCtx->msgMode == MSGMODE_NONE) {
         gSaveContext.unk_13EE = gSaveContext.unk_13EA;
     }
     if (YREG(15) == 0x10) {
@@ -1675,7 +1681,7 @@ void Message_OpenText(GlobalContext* globalCtx, u16 textId) {
         msgCtx->textboxColorAlphaCurrent = 0;
     }
     msgCtx->unk_E3E6 = msgCtx->textUnskippable = msgCtx->unk_E3E4 = 0;
-    msgCtx->msgBufPos = msgCtx->unk_E3D0 = msgCtx->unk_E3D2 = 0;
+    msgCtx->msgBufPos = msgCtx->unk_E3D0 = msgCtx->textDrawPos = 0;
 }
 
 void Message_StartTextbox(GlobalContext* globalCtx, u16 textId, Actor* actor) {
@@ -1705,11 +1711,11 @@ void Message_ContinueTextbox(GlobalContext* globalCtx, u16 textId) {
 
     msgCtx->msgLength = 0;
     Message_OpenText(globalCtx, textId);
-    msgCtx->msgMode = MSGMODE_UNK_00;
+    msgCtx->msgMode = MSGMODE_NONE;
     msgCtx->textboxColorAlphaCurrent = msgCtx->textboxColorAlphaTarget;
     msgCtx->msgMode = MSGMODE_UNK_05;
     msgCtx->stateTimer = 3;
-    msgCtx->unk_E3E4 = msgCtx->msgBufPos = msgCtx->unk_E3D0 = msgCtx->unk_E3D2 = msgCtx->unk_E3E8 = 0;
+    msgCtx->unk_E3E4 = msgCtx->msgBufPos = msgCtx->unk_E3D0 = msgCtx->textDrawPos = msgCtx->unk_E3E8 = 0;
     msgCtx->textColor.a = 0xFF;
 
     if (YREG(31) == 0 && globalCtx->interfaceCtx.unk_1FA == 0) {
@@ -1749,8 +1755,7 @@ void Message_StartOcarina(GlobalContext* globalCtx, u16 ocarinaActionId) {
     msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
     sOcarinaNoteBufLen = 0;
     func_801069B0();
-    msgCtx->unk_E410 = 0xFF;
-    sLastPlayedSong = msgCtx->unk_E3F2 = msgCtx->unk_E410;
+    sLastPlayedSong = msgCtx->unk_E3F2 = msgCtx->lastOcaNoteIdx = 0xFF;
 
     // ☆☆☆☆☆ Ocarina Number＝%d(%d) ☆☆☆☆☆
     osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ オカリナ番号＝%d(%d) ☆☆☆☆☆\n" VT_RST, ocarinaActionId, 2);
@@ -1861,18 +1866,18 @@ u8 Message_GetState(MessageContext* msgCtx) {
     if (msgCtx->msgLength == 0) {
         state = TEXT_STATE_NONE;
     } else if (msgCtx->msgMode == MSGMODE_TEXT_DONE) {
-        if (msgCtx->unk_E3E4 == 0x30) {
+        if (msgCtx->unk_E3E4 == MSG_SEL_HAS_NEXT_TEXTID) {
             state = TEXT_STATE_1;
-        } else if (msgCtx->unk_E3E4 == 0x10 || msgCtx->unk_E3E4 == 0x20) { // choice text
+        } else if (msgCtx->unk_E3E4 == MSG_SEL_2_CHOICE || msgCtx->unk_E3E4 == MSG_SEL_3_CHOICE) { // choice text
             state = TEXT_STATE_CHOICE;
-        } else if (msgCtx->unk_E3E4 == 0x50 || msgCtx->unk_E3E4 == 0x40) { // event or persistent
+        } else if (msgCtx->unk_E3E4 == MSG_SEL_EVENT || msgCtx->unk_E3E4 == MSG_SEL_PERSISTENT) { // event or persistent
             state = TEXT_STATE_EVENT;
-        } else if (msgCtx->unk_E3E4 == 0x60) {
+        } else if (msgCtx->unk_E3E4 == MSG_SEL_FADING) {
             state = TEXT_STATE_3;
         } else {
             state = TEXT_STATE_DONE;
         }
-    } else if (msgCtx->msgMode == MSGMODE_UNK_34) {
+    } else if (msgCtx->msgMode == MSGMODE_TEXT_AWAIT_NEXT) {
         state = TEXT_STATE_10;
     } else if (msgCtx->msgMode == MSGMODE_UNK_1A) {
         state = TEXT_STATE_7;
@@ -2027,7 +2032,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             Message_DrawText(globalCtx, &gfx);
             break;
         case MSGMODE_UNK_07:
-        case MSGMODE_UNK_34:
+        case MSGMODE_TEXT_AWAIT_NEXT:
             Message_DrawText(globalCtx, &gfx);
             Message_DrawTextboxEndIcon(globalCtx, &gfx, R_TEXTBOX_END_XPOS, R_TEXTBOX_END_YPOS);
             break;
@@ -2035,7 +2040,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_0A:
         case MSGMODE_UNK_0B:
             func_800ED858(1);
-            msgCtx->ocarinaStaff = func_800EE3D4();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
             msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
             globalCtx->msgCtx.unk_E3EE = 1;
             func_801069B0();
@@ -2057,7 +2062,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 }
                 msgCtx->msgMode = MSGMODE_UNK_0C;
             } else if (msgCtx->msgMode == MSGMODE_UNK_0A) {
-                msgCtx->stateTimer = 0x14;
+                msgCtx->stateTimer = 20;
                 msgCtx->msgMode = MSGMODE_UNK_18;
             } else {
                 func_800ECC04((1 << (msgCtx->unk_E3F0 + 0x11)) + 0x8000);
@@ -2070,14 +2075,14 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             }
             break;
         case MSGMODE_UNK_0C:
-            msgCtx->ocarinaStaff = func_800EE3D4();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
             if (msgCtx->ocarinaStaff->pos) { // lack of != 0 gives better codegen
                 osSyncPrintf("locate=%d  onpu_pt=%d\n", msgCtx->ocarinaStaff->pos, sOcarinaNoteBufPos);
                 if (msgCtx->ocarinaStaff->pos == 1 && sOcarinaNoteBufPos == 8) {
                     sOcarinaNoteBufPos = 0;
                 }
                 if (sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
-                    msgCtx->unk_E410 = sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
+                    msgCtx->lastOcaNoteIdx = sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                     sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
                     sOcarinaNoteBufPos++;
                 }
@@ -2297,7 +2302,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 if (msgCtx->msgMode == MSGMODE_UNK_1D) {
                     // kokokokokoko
                     osSyncPrintf("ここここここ\n");
-                    Message_ContinueTextbox(globalCtx, 0x88B);
+                    Message_ContinueTextbox(globalCtx, 0x88B); // red X background
                     Message_Decode(globalCtx);
                     msgCtx->msgMode = MSGMODE_UNK_1E;
                 } else {
@@ -2335,7 +2340,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 osSyncPrintf(VT_RST);
                 Message_Decode(globalCtx);
                 msgCtx->msgMode = MSGMODE_UNK_12;
-                msgCtx->ocarinaStaff = func_800EE3D4();
+                msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
                 msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
                 func_801069B0();
                 if (msgCtx->unk_E3EC >= OCARINA_SONG_SARIAS && msgCtx->unk_E3EC < OCARINA_SONG_MEMORY_GAME) {
@@ -2415,10 +2420,10 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             if (msgCtx->stateTimer == 0) {
                 if (msgCtx->unk_E3EC < OCARINA_SONG_SARIAS && (msgCtx->unk_E3F0 < 0xF || msgCtx->unk_E3F0 >= 0x15)) {
                     if (msgCtx->disableWarpSongs || interfaceCtx->restrictions.warpSongs == 3) {
-                        Message_StartTextbox(globalCtx, 0x88C, NULL);
+                        Message_StartTextbox(globalCtx, 0x88C, NULL); // "You can't warp here!"
                         globalCtx->msgCtx.unk_E3EE = 4;
                     } else if ((gSaveContext.eventInf[0] & 0xF) != 1) {
-                        Message_StartTextbox(globalCtx, msgCtx->unk_E3EC + 0x88D, NULL);
+                        Message_StartTextbox(globalCtx, msgCtx->unk_E3EC + 0x88D, NULL); // "Warp to [place name]?"
                         globalCtx->msgCtx.unk_E3EE = 1;
                     } else {
                         Message_CloseTextbox(globalCtx);
@@ -2473,7 +2478,8 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                     sOcarinaNoteBufPos = 0;
                 }
                 if (msgCtx->ocarinaStaff->pos != 0 && sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
-                    msgCtx->unk_E410 = sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
+                    msgCtx->lastOcaNoteIdx = sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] =
+                        msgCtx->ocarinaStaff->noteIdx;
                     sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
                     sOcarinaNoteBufPos++;
                 }
@@ -2482,7 +2488,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             Message_DrawText(globalCtx, &gfx);
             break;
         case MSGMODE_UNK_1B:
-            msgCtx->ocarinaStaff = func_800EE3D4();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
             if (msgCtx->ocarinaStaff->pos != 0 && (u32)sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
@@ -2513,7 +2519,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 func_8010BD58(globalCtx, msgCtx->unk_E3F0);
             }
             break;
-        case MSGMODE_UNK_21:
+        case MSGMODE_SCARECROW_RECORDING_START:
             // Scarecrow Recording Initialization
             osSyncPrintf("案山子録音 初期化\n");
             func_800EE170(1);
@@ -2522,10 +2528,10 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
             sOcarinaNoteBufLen = 0;
             func_801069B0();
-            msgCtx->msgMode = MSGMODE_UNK_22;
+            msgCtx->msgMode = MSGMODE_SCARECROW_RECORDING_ONGOING;
             Message_DrawText(globalCtx, &gfx);
             break;
-        case MSGMODE_UNK_22:
+        case MSGMODE_SCARECROW_RECORDING_ONGOING:
             msgCtx->ocarinaStaff = func_800EE3C8();
             osSyncPrintf("\nonpu_pt=%d, locate=%d", sOcarinaNoteBufPos, msgCtx->ocarinaStaff->pos);
             if (msgCtx->ocarinaStaff->pos != 0 && sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
@@ -2537,7 +2543,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 }
                 // Button Entered【%d】=%d
                 osSyncPrintf("    入力ボタン【%d】=%d", sOcarinaNoteBufLen, msgCtx->ocarinaStaff->noteIdx);
-                msgCtx->unk_E410 = sOcarinaNoteBuf[sOcarinaNoteBufLen] = msgCtx->ocarinaStaff->noteIdx;
+                msgCtx->lastOcaNoteIdx = sOcarinaNoteBuf[sOcarinaNoteBufLen] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBufLen++;
                 sOcarinaNoteBuf[sOcarinaNoteBufLen] = 0xFF;
                 sOcarinaNoteBufPos++;
@@ -2611,7 +2617,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_25:
             msgCtx->ocarinaStaff = func_800EE3C8();
             if (msgCtx->ocarinaStaff->pos != 0 && sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
-                msgCtx->unk_E410 = sOcarinaNoteBuf[sOcarinaNoteBufPos] = msgCtx->ocarinaStaff->noteIdx;
+                msgCtx->lastOcaNoteIdx = sOcarinaNoteBuf[sOcarinaNoteBufPos] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBufPos++;
                 sOcarinaNoteBuf[sOcarinaNoteBufPos] = 0xFF;
             }
@@ -2696,7 +2702,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_UNK_2E:
             Audio_PlaySoundGeneral(NA_SE_SY_METRONOME_LV - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
-            msgCtx->ocarinaStaff = func_800EE3D4();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
             if (msgCtx->ocarinaStaff->pos != 0 && (u32)sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
@@ -2719,7 +2725,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             Message_DrawText(globalCtx, &gfx);
             break;
         case MSGMODE_UNK_2F:
-            msgCtx->ocarinaStaff = func_800EE3D4();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
             if (msgCtx->ocarinaStaff->pos != 0 && (u32)sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = 0xFF;
@@ -2729,7 +2735,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             if (msgCtx->stateTimer == 0) {
                 if (func_800EE5EC() != 1) {
                     Audio_PlaySoundGeneral(NA_SE_SY_METRONOME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    msgCtx->ocarinaStaff = func_800EE3D4();
+                    msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
                     msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
                     func_801069B0();
                     msgCtx->msgMode = MSGMODE_UNK_30;
@@ -2749,7 +2755,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_UNK_31:
             func_800ED858(1);
-            msgCtx->ocarinaStaff = func_800EE3D4();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
             msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
             globalCtx->msgCtx.unk_E3EE = 1;
             func_801069B0();
@@ -2757,9 +2763,9 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             msgCtx->msgMode = MSGMODE_UNK_32;
             break;
         case MSGMODE_UNK_32:
-            msgCtx->ocarinaStaff = func_800EE3D4();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
             if (msgCtx->ocarinaStaff->pos != 0 && sOcarinaNoteBufPos + 1 == msgCtx->ocarinaStaff->pos) {
-                msgCtx->unk_E410 = msgCtx->ocarinaStaff->noteIdx;
+                msgCtx->lastOcaNoteIdx = msgCtx->ocarinaStaff->noteIdx;
                 msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
                 func_801069B0();
                 msgCtx->msgMode = MSGMODE_UNK_33;
@@ -2770,15 +2776,15 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             Message_DrawText(globalCtx, &gfx);
 
             switch (msgCtx->unk_E3E4) {
-                case 0x10: // 2 choice
+                case MSG_SEL_2_CHOICE: // 2 choice
                     Message_HandleChoiceSelection(globalCtx, 1);
                     Message_DrawTextboxEndIcon(globalCtx, &gfx, msgCtx->textPosX, msgCtx->textPosY);
                     break;
-                case 0x20: // 3 choice
+                case MSG_SEL_3_CHOICE: // 3 choice
                     Message_HandleChoiceSelection(globalCtx, 2);
                     Message_DrawTextboxEndIcon(globalCtx, &gfx, msgCtx->textPosX, msgCtx->textPosY);
                     break;
-                case 0x40:
+                case MSG_SEL_PERSISTENT:
                     if (msgCtx->textId >= 0x6D && msgCtx->textId < 0x73) {
                         msgCtx->stateTimer++;
                         if (msgCtx->stateTimer >= 31) {
@@ -2787,10 +2793,10 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                         }
                     }
                     break;
-                case 0x50:
+                case MSG_SEL_EVENT:
                 default:
                     Message_DrawTextboxEndIcon(globalCtx, &gfx, R_TEXTBOX_END_XPOS, R_TEXTBOX_END_YPOS);
-                case 0x60:
+                case MSG_SEL_FADING:
                     break;
             }
             break;
@@ -2803,7 +2809,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
             break;
     }
 
-    if (msgCtx->msgMode >= MSGMODE_UNK_0C && msgCtx->msgMode < MSGMODE_UNK_34 && msgCtx->unk_E3F0 != 1 &&
+    if (msgCtx->msgMode >= MSGMODE_UNK_0C && msgCtx->msgMode < MSGMODE_TEXT_AWAIT_NEXT && msgCtx->unk_E3F0 != 1 &&
         msgCtx->unk_E3F0 != 0x30) {
         func_8009457C(&gfx);
 
@@ -2825,11 +2831,11 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                 gSPTextureRectangle(gfx++, phi_a1 << 2, VREG(45 + gOcarinaSongNotes[temp].notesIdx[phi_a3]) << 2,
                                     (phi_a1 + 0x10) << 2,
                                     (VREG(45 + gOcarinaSongNotes[temp].notesIdx[phi_a3]) + 0x10) << 2, G_TX_RENDERTILE,
-                                    0, 0, 0x0400, 0x0400);
+                                    0, 0, 1 << 10, 1 << 10);
             }
         }
 
-        if (msgCtx->msgMode != MSGMODE_UNK_21 && msgCtx->msgMode != MSGMODE_UNK_29) {
+        if (msgCtx->msgMode != MSGMODE_SCARECROW_RECORDING_START && msgCtx->msgMode != MSGMODE_UNK_29) {
             for (phi_a3 = 0, phi_a1 = VREG(28); phi_a3 < 8; phi_a3++, phi_a1 += VREG(29)) {
                 if (sOcarinaNoteBuf[phi_a3] == 0xFF) {
                     break;
@@ -2857,8 +2863,8 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
                                     G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                 gSPTextureRectangle(gfx++, phi_a1 << 2, VREG(45 + sOcarinaNoteBuf[phi_a3]) << 2, (phi_a1 + 0x10) << 2,
-                                    (VREG(45 + sOcarinaNoteBuf[phi_a3]) + 0x10) << 2, G_TX_RENDERTILE, 0, 0, 0x0400,
-                                    0x0400);
+                                    (VREG(45 + sOcarinaNoteBuf[phi_a3]) + 0x10) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
+                                    1 << 10);
             }
         }
     }
@@ -3146,7 +3152,7 @@ void Message_Update(GlobalContext* globalCtx) {
             }
             if (D_80153D74 != 0) {
                 // Dead code: D_80153D74 is never non-zero
-                msgCtx->unk_E3D2 = msgCtx->unk_E3D4;
+                msgCtx->textDrawPos = msgCtx->decodedTextLen;
                 D_80153D74 = 0;
             }
             break;
@@ -3157,16 +3163,16 @@ void Message_Update(GlobalContext* globalCtx) {
             }
             break;
         case MSGMODE_TEXT_DISPLAYING:
-            if (msgCtx->textBoxType != 4 && YREG(31) == 0 &&
+            if (msgCtx->textBoxType != BOX_NONE_BOTTOM && YREG(31) == 0 &&
                 CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B) && !msgCtx->textUnskippable) {
                 sTextboxSkipped = true;
-                msgCtx->unk_E3D2 = msgCtx->unk_E3D4;
+                msgCtx->textDrawPos = msgCtx->decodedTextLen;
             }
             break;
         case MSGMODE_UNK_07:
             if (YREG(31) == 0 && Message_ShouldAdvance(globalCtx)) {
                 msgCtx->msgMode = MSGMODE_TEXT_DISPLAYING;
-                msgCtx->unk_E3D2++;
+                msgCtx->textDrawPos++;
             }
             break;
         case MSGMODE_UNK_08:
@@ -3175,7 +3181,7 @@ void Message_Update(GlobalContext* globalCtx) {
                 msgCtx->msgMode = MSGMODE_UNK_04;
             }
             break;
-        case MSGMODE_UNK_34:
+        case MSGMODE_TEXT_AWAIT_NEXT:
             if (Message_ShouldAdvance(globalCtx)) {
                 msgCtx->msgMode = MSGMODE_UNK_04;
                 msgCtx->textUnskippable = false;
@@ -3183,13 +3189,13 @@ void Message_Update(GlobalContext* globalCtx) {
             }
             break;
         case MSGMODE_TEXT_DONE:
-            if (msgCtx->unk_E3E4 == 0x60) {
+            if (msgCtx->unk_E3E4 == MSG_SEL_FADING) {
                 msgCtx->stateTimer--;
                 if (msgCtx->stateTimer == 0) {
                     Message_CloseTextbox(globalCtx);
                 }
-            } else if (msgCtx->unk_E3E4 != 0x40 && msgCtx->unk_E3E4 != 0x50 && YREG(31) == 0) {
-                if (msgCtx->unk_E3E4 == 0x10 && globalCtx->msgCtx.unk_E3EE == 1) {
+            } else if (msgCtx->unk_E3E4 != MSG_SEL_PERSISTENT && msgCtx->unk_E3E4 != MSG_SEL_EVENT && YREG(31) == 0) {
+                if (msgCtx->unk_E3E4 == MSG_SEL_2_CHOICE && globalCtx->msgCtx.unk_E3EE == 1) {
                     if (Message_ShouldAdvance(globalCtx)) {
                         osSyncPrintf("OCARINA_MODE=%d -> ", globalCtx->msgCtx.unk_E3EE);
                         globalCtx->msgCtx.unk_E3EE = (msgCtx->choiceIndex == 0) ? 2 : 4;
@@ -3200,7 +3206,7 @@ void Message_Update(GlobalContext* globalCtx) {
                     }
                 } else if (Message_ShouldAdvanceSilent(globalCtx)) {
                     osSyncPrintf("select=%d\n", msgCtx->unk_E3E4);
-                    if (msgCtx->unk_E3E4 == 0x30) {
+                    if (msgCtx->unk_E3E4 == MSG_SEL_HAS_NEXT_TEXTID) {
                         Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_PASS, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         Message_ContinueTextbox(globalCtx, sNextTextId);
@@ -3233,7 +3239,7 @@ void Message_Update(GlobalContext* globalCtx) {
                     ((msgCtx->textId < 0x88D || msgCtx->textId >= 0x893) || msgCtx->choiceIndex != 0) &&
                     (msgCtx->textId != 0x3055 && gSaveContext.cutsceneIndex < 0xFFF0)) {
                     osSyncPrintf("=== day_time=%x ", ((void)0, gSaveContext.cutsceneIndex));
-                    if (globalCtx->activeCamera == 0) {
+                    if (globalCtx->activeCamera == MAIN_CAM) {
                         if (gSaveContext.unk_13EE == 0 || gSaveContext.unk_13EE == 1 || gSaveContext.unk_13EE == 2) {
                             gSaveContext.unk_13EE = 0x32;
                         }
@@ -3244,16 +3250,16 @@ void Message_Update(GlobalContext* globalCtx) {
             }
             osSyncPrintf(VT_RST);
             msgCtx->msgLength = 0;
-            msgCtx->msgMode = MSGMODE_UNK_00;
+            msgCtx->msgMode = MSGMODE_NONE;
             interfaceCtx->unk_1FA = interfaceCtx->unk_1FC = 0;
             msgCtx->stateTimer = 0;
             msgCtx->textId = msgCtx->stateTimer;
 
-            if (msgCtx->unk_E3E4 == 0x40) {
-                msgCtx->unk_E3E4 = 0;
+            if (msgCtx->unk_E3E4 == MSG_SEL_PERSISTENT) {
+                msgCtx->unk_E3E4 = MSG_SEL_0;
                 globalCtx->msgCtx.unk_E3EE = 2;
             } else {
-                msgCtx->unk_E3E4 = 0;
+                msgCtx->unk_E3E4 = MSG_SEL_0;
             }
             if ((s32)(gSaveContext.inventory.questItems & 0xF0000000) == 0x40000000) {
                 gSaveContext.inventory.questItems ^= 0x40000000;
@@ -3283,7 +3289,7 @@ void Message_Update(GlobalContext* globalCtx) {
         case MSGMODE_UNK_37:
             break;
         default:
-            msgCtx->unk_E410 = 0xFF;
+            msgCtx->lastOcaNoteIdx = 0xFF;
             break;
     }
 }

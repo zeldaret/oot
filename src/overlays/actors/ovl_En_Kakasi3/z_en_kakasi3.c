@@ -100,7 +100,7 @@ void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
     s16 currentFrame;
     s16 phi_v0;
 
-    phi_v0 = globalCtx->msgCtx.unk_E410;
+    phi_v0 = globalCtx->msgCtx.lastOcaNoteIdx;
     if (arg != 0) {
         if (this->unk_19C[3] == 0) {
             this->unk_19C[3] = (s16)Rand_ZeroFloat(10.99f) + 30;
@@ -281,7 +281,7 @@ void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
-        (globalCtx->msgCtx.msgMode == MSGMODE_UNK_00)) {
+        (globalCtx->msgCtx.msgMode == MSGMODE_NONE)) {
 
         OnePointCutscene_EndCutscene(globalCtx, this->camId);
         if (globalCtx->cameraPtrs[this->camId] == NULL) {
@@ -294,7 +294,7 @@ void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
+    if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == MSGMODE_NONE) {
         this->dialogState = TEXT_STATE_EVENT;
         Message_StartTextbox(globalCtx, 0x40A5, NULL);
         func_8002DF54(globalCtx, NULL, 8);
@@ -348,7 +348,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.unk_E3EE);
     }
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
-        globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
+        globalCtx->msgCtx.msgMode == MSGMODE_NONE) {
 
         Message_StartTextbox(globalCtx, 0x40A6, NULL);
         this->dialogState = TEXT_STATE_EVENT;
@@ -359,7 +359,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
+    if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == MSGMODE_NONE) {
         globalCtx->msgCtx.unk_E3EE = 4;
         if (BREG(3) != 0) {
             osSyncPrintf("\n\n");

@@ -2935,7 +2935,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 5:
-                    pauseCtx->unk_194 = func_800EE3D4();
+                    pauseCtx->unk_194 = Audio_OcaGetPlayStaff();
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
                         func_800ED858(0);

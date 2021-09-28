@@ -5203,7 +5203,7 @@ s32 func_800374E0(GlobalContext* globalCtx, Actor* actor, u16 textId) {
             ret = 0;
             break;
         case 0x1041:
-            if (msgCtx->unk_E2FA == 0x1035) {
+            if (msgCtx->choiceTextId == 0x1035) {
                 if (msgCtx->choiceIndex == 0) {
                     func_80035B18(globalCtx, actor, 0x1036);
                     Flags_SetInfTable(0x2A);
@@ -5213,7 +5213,7 @@ s32 func_800374E0(GlobalContext* globalCtx, Actor* actor, u16 textId) {
                     Flags_SetInfTable(0x2B);
                 }
             }
-            if (msgCtx->unk_E2FA == 0x1038) {
+            if (msgCtx->choiceTextId == 0x1038) {
                 if (msgCtx->choiceIndex == 0) {
                     func_80035B18(globalCtx, actor, 0x1039);
                     Flags_SetInfTable(0x2E);

@@ -1113,4 +1113,13 @@ typedef struct {
     u8 pos;     // original name: "locate"
 } OcarinaStaff;
 
+typedef enum {
+    OCA_NOTE_A,
+    OCA_NOTE_C_UP,
+    OCA_NOTE_C_LEFT,
+    OCA_NOTE_C_RIGHT,
+    OCA_NOTE_C_DOWN,
+    OCA_NOTE_INVALID = 0xFF
+} OcarinaNoteIdx;
+
 #endif

@@ -403,7 +403,7 @@ typedef enum {
 #define MESSAGE_STATIC_TEX_SIZE 0x1000
 
 typedef enum {
-    /* 0x00 */ MSGMODE_UNK_00, // idle / do nothing
+    /* 0x00 */ MSGMODE_NONE,
     /* 0x01 */ MSGMODE_UNK_01,
     /* 0x02 */ MSGMODE_UNK_02,
     /* 0x03 */ MSGMODE_UNK_03,
@@ -420,7 +420,7 @@ typedef enum {
     /* 0x0E */ MSGMODE_UNK_0E,
     /* 0x0F */ MSGMODE_UNK_0F,
     /* 0x10 */ MSGMODE_UNK_10,
-    /* 0x11 */ MSGMODE_UNK_11,
+    /* 0x11 */ MSGMODE_UNK_11, // Played a full song?
     /* 0x12 */ MSGMODE_UNK_12,
     /* 0x13 */ MSGMODE_UNK_13,
     /* 0x14 */ MSGMODE_UNK_14,
@@ -436,8 +436,8 @@ typedef enum {
     /* 0x1E */ MSGMODE_UNK_1E,
     /* 0x1F */ MSGMODE_UNK_1F,
     /* 0x20 */ MSGMODE_UNK_20,
-    /* 0x21 */ MSGMODE_UNK_21,
-    /* 0x22 */ MSGMODE_UNK_22,
+    /* 0x21 */ MSGMODE_SCARECROW_RECORDING_START,
+    /* 0x22 */ MSGMODE_SCARECROW_RECORDING_ONGOING,
     /* 0x23 */ MSGMODE_UNK_23,
     /* 0x24 */ MSGMODE_UNK_24,
     /* 0x25 */ MSGMODE_UNK_25,
@@ -455,7 +455,7 @@ typedef enum {
     /* 0x31 */ MSGMODE_UNK_31, // frogs
     /* 0x32 */ MSGMODE_UNK_32, // frogs
     /* 0x33 */ MSGMODE_UNK_33, // frog jumping game?
-    /* 0x34 */ MSGMODE_UNK_34, // next textbox
+    /* 0x34 */ MSGMODE_TEXT_AWAIT_NEXT, // next textbox
     /* 0x35 */ MSGMODE_TEXT_DONE, // textbox done
     /* 0x36 */ MSGMODE_TEXT_CLOSING, // textbox closing
     /* 0x37 */ MSGMODE_UNK_37 // frogs
@@ -476,7 +476,7 @@ typedef enum {
     /*  7 */ TEXT_STATE_7, // 
     /*  8 */ TEXT_STATE_8, // 
     /*  9 */ TEXT_STATE_9, // 
-    /* 10 */ TEXT_STATE_10 // 
+    /* 10 */ TEXT_STATE_10 // Textbox done but has next textid
 } TextState;
 
 typedef struct {
@@ -501,26 +501,23 @@ typedef struct {
     /* 0xE184 */ char   unk_E184[0x04];
 } Font; // size = 0xE188
 
+#define MSG_SEL_0           0x00
+#define MSG_SEL_2_CHOICE    0x10
+#define MSG_SEL_3_CHOICE    0x20
+#define MSG_SEL_HAS_NEXT_TEXTID 0x30
+#define MSG_SEL_PERSISTENT  0x40
+#define MSG_SEL_EVENT       0x50
+#define MSG_SEL_FADING      0x60
+
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Font   font;
     /* 0xE2B0 */ void*  textboxSegment; // "fukidashiSegment"
     /* 0xE2B4 */ char   unk_E2B4[0x4];
     /* 0xE2B8 */ OcarinaStaff* ocarinaStaff; // original name : info
-    /* 0xE2BC */ u8     unk_E2BC;
-    /* 0xE2BD */ char   unk_E2BD[0x2];
-    /* 0xE2BF */ u8     unk_E2BF;
-    /* 0xE2C0 */ u8     unk_E2C0;
-    /* 0xE2C2 */ char   unk_E2C2[0x4];
-    /* 0xE2C6 */ u16    unk_E2C6;
-    /* 0xE2C8 */ u16    unk_E2C8;
-    /* 0xE2CA */ char   unk_E2CA[0x12];
-    /* 0xE2DC */ s16    unk_E2DC;
-    /* 0xE2DE */ s16    unk_E2DE;
-    /* 0xE2E0 */ s32    unk_E2E0;
-    /* 0xE2E4 */ char   unk_E2E4[0x14];
+    /* 0xE2BC */ char   unk_E2BC[0x3C];
     /* 0xE2F8 */ u16    textId;
-    /* 0xE2FA */ u16    unk_E2FA;
+    /* 0xE2FA */ u16    choiceTextId;
     /* 0xE2FC */ u8     textBoxProperties; // original name : msg_disp_type
     /* 0xE2FD */ u8     textBoxType; // "text box type"
     /* 0xE2FE */ u8     textBoxPos; // text box position
@@ -530,9 +527,9 @@ typedef struct {
     /* 0xE305 */ char   unk_E305[0x1];
     /* 0xE306 */ u8     msgBufDecoded[200]; // decoded message buffer, TODO size
     /* 0xE3CE */ u16    msgBufPos; // original name : rdp
-    /* 0xE3D0 */ u16    unk_E3D0;
-    /* 0xE3D2 */ u16    unk_E3D2; // decoded buffer length?
-    /* 0xE3D4 */ u16    unk_E3D4; // or is this one the decoded buffer length?
+    /* 0xE3D0 */ u16    unk_E3D0; // unused, only ever set to 0
+    /* 0xE3D2 */ u16    textDrawPos; // draw all decoded characters up to this buffer position
+    /* 0xE3D4 */ u16    decodedTextLen; // decoded message buffer length
     /* 0xE3D6 */ u16    textUnskippable;
     /* 0xE3D8 */ s16    textPosX;
     /* 0xE3DA */ s16    textPosY;
@@ -542,17 +539,17 @@ typedef struct {
     /* 0xE3E6 */ u8     unk_E3E6;
     /* 0xE3E7 */ u8     stateTimer;
     /* 0xE3E8 */ u16    unk_E3E8;
-    /* 0xE3EA */ u16    unk_E3EA;
+    /* 0xE3EA */ u16    textDelay;
     /* 0xE3EA */ u16    unk_E3EC; // "Ocarina_Flog" , "Ocarina_Free" , last played ocarina song, uses OcarinaSongId
     /* 0xE3EE */ u16    unk_E3EE; // original name : ocarina_mode
     /* 0xE3F0 */ u16    unk_E3F0; // original name : ocarina_no
     /* 0xE3F2 */ u16    unk_E3F2; // original name : chk_ocarina_no
-    /* 0xE3F4 */ u16    unk_E3F4;
-    /* 0xE3F6 */ u16    unk_E3F6;
+    /* 0xE3F4 */ u16    unk_E3F4; // unused, only set to 0 in z_actor
+    /* 0xE3F6 */ u16    textboxBackgroundIdx;
     /* 0xE3F8 */ u8     unk_E3F8;
     /* 0xE3F8 */ u8     unk_E3F9;
-    /* 0xE3F8 */ u8     unk_E3FA;
-    /* 0xE3F8 */ u8     unk_E3FB;
+    /* 0xE3F8 */ u8     textboxBackgroundYOffsetIdx;
+    /* 0xE3F8 */ u8     unk_E3FB; // unused, set by the textbox background control code
     /* 0xE3FC */ char   unk_E3FC[0x02];
     /* 0xE3FE */ s16    textboxColorRed;
     /* 0xE400 */ s16    textboxColorGreen;
@@ -562,7 +559,7 @@ typedef struct {
     /* 0xE408 */ Actor* talkActor;
     /* 0xE40C */ s16    disableWarpSongs; // warp song flag set by scene commands
     /* 0xE40E */ s16    unk_E40E;
-    /* 0xE410 */ u8     unk_E410;
+    /* 0xE410 */ u8     lastOcaNoteIdx;
     /* 0xE411 */ char   unk_E411[0x07];
 } MessageContext; // size = 0xE418
 

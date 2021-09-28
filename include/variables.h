@@ -3049,7 +3049,7 @@ extern OSMesgQueue D_8016B6E0;
 //extern ? D_8016B9F3;
 //extern ? D_8016B9F4;
 //extern ? D_8016B9F6;
-//extern ? D_8016B9F8;
+//extern ? sPlayingStaff;
 //extern ? D_8016B9F9;
 //extern ? D_8016BA00;
 //extern ? D_8016BA04;

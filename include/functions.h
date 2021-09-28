@@ -2032,7 +2032,7 @@ void func_800ED858(u8);
 void func_800ED93C(s8 songIdx, s8 arg1);
 void func_800EE170(u8);
 OcarinaStaff* func_800EE3C8(void);
-OcarinaStaff* func_800EE3D4(void);
+OcarinaStaff* Audio_OcaGetPlayStaff(void);
 OcarinaStaff* Audio_OcaGetDisplayStaff(void);
 void func_800EE57C(u8 minigameIdx);
 s32 func_800EE5EC(void);

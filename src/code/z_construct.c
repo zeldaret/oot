@@ -172,7 +172,7 @@ void Message_Init(GlobalContext* globalCtx) {
 
     globalCtx->msgCtx.unk_E3EE = 0;
 
-    msgCtx->msgMode = MSGMODE_UNK_00;
+    msgCtx->msgMode = MSGMODE_NONE;
     msgCtx->msgLength = 0;
     msgCtx->textId = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->unk_E3F0 = msgCtx->textUnskippable = 0;
     msgCtx->textColor.a = 255;
