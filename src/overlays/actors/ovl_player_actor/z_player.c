@@ -5970,6 +5970,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                     }
                 } else {
                     s32 strength = Player_GetStrength();
+
                     if ((interactedActor->id == ACTOR_EN_ISHI) && ((interactedActor->params & 0xF) == 1) &&
                         (strength < PLAYER_STR_SILVER_G)) {
                         return 0;

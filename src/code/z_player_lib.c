@@ -697,6 +697,7 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
 
             if (boots != 0) {
                 Gfx** bootDLists = sBootDListGroups[boots - 1];
+
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[0]);
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[1]);
             }
