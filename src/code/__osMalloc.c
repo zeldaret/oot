@@ -421,8 +421,8 @@ void __osFree_NoLock(Arena* arena, void* ptr) {
 
     node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
     if (node == NULL || node->magic != NODE_MAGIC) {
-        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:不正解放(%08x)\n" VT_RST,
-                     ptr); // "__osFree: Unauthorized release (%08x)"
+        // "__osFree: Unauthorized release (%08x)"
+        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:不正解放(%08x)\n" VT_RST, ptr);
         return;
     }
     if (node->isFree) {
@@ -490,13 +490,13 @@ void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line) {
 
     node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
     if (node == NULL || node->magic != NODE_MAGIC) {
-        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:不正解放(%08x) [%s:%d ]\n" VT_RST, ptr, file,
-                     line); // "__osFree: Unauthorized release (%08x)"
+        // "__osFree: Unauthorized release (%08x)"
+        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:不正解放(%08x) [%s:%d ]\n" VT_RST, ptr, file, line);
         return;
     }
     if (node->isFree) {
-        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:二重解放(%08x) [%s:%d ]\n" VT_RST, ptr, file,
-                     line); // "__osFree: Double release (%08x)"
+        // "__osFree: Double release (%08x)"
+        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:二重解放(%08x) [%s:%d ]\n" VT_RST, ptr, file, line);
         return;
     }
     if (arena != node->arena && arena != NULL) {
