@@ -59,8 +59,17 @@ char sCameraModeNames[][12] = {
     "HANG       ", "HANGZ      ", "FREEFALL   ", "CHARGE     ", "STILL      ", "PUSHPULL   ", "BOOKEEPON  ",
 };
 
+/*=====================================================================
+ *                   General Data: NORMAL0 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * NORMAL0    NORMAL    NORM1
+ */
 CameraModeValue D_8011A3A0[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -73,8 +82,30 @@ CameraModeValue D_8011A3A0[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode      Function
+ * ---------------    ------    --------
+ * NORMAL0            TARGET    PARA1
+ * BOSS_GOHMA         TARGET    PARA1
+ * BOSS_DODONGO       TARGET    PARA1
+ * BOSS_BARINADE      TARGET    PARA1
+ * BOSS_PHANTOM       TARGET    PARA1
+ * BOSS_VOLVAGIA      TARGET    PARA1
+ * BOSS_BONGO         TARGET    PARA1
+ * BOSS_MORPHA        TARGET    PARA1
+ * TWINROVA_PLATFORM  TARGET    PARA1
+ * TWINROVA_FLOOR     TARGET    PARA1
+ * BOSS_GANONDORF     TARGET    PARA1
+ * BOSS_GANON2        TARGET    PARA1
+ * COLLAPSE_STAIRS    TARGET    PARA1
+ * TOWER1             TARGET    PARA1
+ * CIRCLE3            TARGET    PARA1
+ * NORMAL2            TARGET    PARA1
+ * UO_FIBER           TARGET    PARA1
+ * TEPPEN             TARGET    PARA1
+ * NORMAL4            TARGET    PARA1
+ */
 CameraModeValue D_8011A3C8[] = {
-    /* CAM_FUNC_PARA1 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 250, CAM_DATA_EYE_DIST },             // distTarget
     { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
@@ -88,8 +119,32 @@ CameraModeValue D_8011A3C8[] = {
     { 20, 12 }                         // unk_1C
 };
 
+/**
+ * Setting            Mode            Function
+ * ---------------    ------------    --------
+ * NORMAL0            FOLLOWTARGET    KEEP1
+ * NORMAL3            FOLLOWTARGET    KEEP1
+ * BOSS_GOHMA         FOLLOWTARGET    KEEP1
+ * BOSS_DODONGO       FOLLOWTARGET    KEEP1
+ * BOSS_BARINADE      FOLLOWTARGET    KEEP1
+ * BOSS_PHANTOM       FOLLOWTARGET    KEEP1
+ * BOSS_VOLVAGIA      FOLLOWTARGET    KEEP1
+ * BOSS_BONGO         FOLLOWTARGET    KEEP1
+ * BOSS_MORPHA        FOLLOWTARGET    KEEP1
+ * TWINROVA_PLATFORM  FOLLOWTARGET    KEEP1
+ * TWINROVA_FLOOR     FOLLOWTARGET    KEEP1
+ * BOSS_GANONDORF     FOLLOWTARGET    KEEP1
+ * BOSS_GANON2        FOLLOWTARGET    KEEP1
+ * COLLAPSE_STAIRS    FOLLOWTARGET    KEEP1
+ * TOWER1             FOLLOWTARGET    KEEP1
+ * CIRCLE3            FOLLOWTARGET    KEEP1
+ * UFOBEAN            FOLLOWTARGET    KEEP1
+ * LIFTBEAN           FOLLOWTARGET    KEEP1
+ * NORMAL2            FOLLOWTARGET    KEEP1
+ * UO_FIBER           FOLLOWTARGET    KEEP1
+ * NORMAL4            FOLLOWTARGET    KEEP1
+ */
 CameraModeValue D_8011A3F4[] = {
-    /* CAM_FUNC_KEEP1 */
     { -20, CAM_DATA_Y_OFFSET },          // unk_00
     { 120, CAM_DATA_EYE_DIST },          // unk_04
     { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
@@ -105,8 +160,35 @@ CameraModeValue D_8011A3F4[] = {
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
 
+/**
+ * Setting            Mode    Function
+ * ---------------    ----    --------
+ * NORMAL0            TALK    KEEP3
+ * NORMAL1            TALK    KEEP3
+ * DUNGEON0           TALK    KEEP3
+ * BOSS_GOHMA         TALK    KEEP3
+ * BOSS_DODONGO       TALK    KEEP3
+ * BOSS_BARINADE      TALK    KEEP3
+ * BOSS_PHANTOM       TALK    KEEP3
+ * BOSS_VOLVAGIA      TALK    KEEP3
+ * BOSS_BONGO         TALK    KEEP3
+ * BOSS_MORPHA        TALK    KEEP3
+ * TWINROVA_PLATFORM  TALK    KEEP3
+ * TWINROVA_FLOOR     TALK    KEEP3
+ * BOSS_GANONDORF     TALK    KEEP3
+ * BOSS_GANON2        TALK    KEEP3
+ * COLLAPSE_STAIRS    TALK    KEEP3
+ * TOWER1             TALK    KEEP3
+ * CIRCLE3            TALK    KEEP3
+ * UFOBEAN            TALK    KEEP3
+ * LIFTBEAN           TALK    KEEP3
+ * TAKO               TALK    KEEP3
+ * NORMAL2            TALK    KEEP3
+ * UO_FIBER           TALK    KEEP3
+ * DUNGEON2           TALK    KEEP3
+ * CIRCLE7            TALK    KEEP3
+ */
 CameraModeValue D_8011A428[] = {
-    /* CAM_FUNC_KEEP3 */
     { -30, CAM_DATA_Y_OFFSET },              // yOffset
     { 70, CAM_DATA_EYE_DIST },               // minDist
     { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
@@ -121,8 +203,16 @@ CameraModeValue D_8011A428[] = {
     { 0x3500, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting          Mode      Function
+ * -------------    ------    --------
+ * NORMAL0          BATTLE    BATT1
+ * NORMAL3          BATTLE    BATT1
+ * COLLAPSE_STAIRS  BATTLE    BATT1
+ * TOWER1           BATTLE    BATT1
+ * TEPPEN           BATTLE    BATT1
+ */
 CameraModeValue D_8011A458[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 180, CAM_DATA_EYE_DIST },          // distance
     { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -137,8 +227,33 @@ CameraModeValue D_8011A458[] = {
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/**
+ * Setting            Mode     Function
+ * ---------------    -----    --------
+ * NORMAL0            CLIMB    JUMP2
+ * NORMAL3            CLIMB    JUMP2
+ * BOSS_GOHMA         CLIMB    JUMP2
+ * BOSS_DODONGO       CLIMB    JUMP2
+ * BOSS_BARINADE      CLIMB    JUMP2
+ * BOSS_PHANTOM       CLIMB    JUMP2
+ * BOSS_VOLVAGIA      CLIMB    JUMP2
+ * BOSS_BONGO         CLIMB    JUMP2
+ * BOSS_MORPHA        CLIMB    JUMP2
+ * TWINROVA_PLATFORM  CLIMB    JUMP2
+ * TWINROVA_FLOOR     CLIMB    JUMP2
+ * BOSS_GANONDORF     CLIMB    JUMP2
+ * BOSS_GANON2        CLIMB    JUMP2
+ * COLLAPSE_STAIRS    CLIMB    JUMP2
+ * TOWER1             CLIMB    JUMP2
+ * CIRCLE3            CLIMB    JUMP2
+ * UFOBEAN            CLIMB    JUMP2
+ * LIFTBEAN           CLIMB    JUMP2
+ * NORMAL2            CLIMB    JUMP2
+ * UO_FIBER           CLIMB    JUMP2
+ * TEPPEN             CLIMB    JUMP2
+ * NORMAL4            CLIMB    JUMP2
+ */
 CameraModeValue D_8011A488[] = {
-    /* CAM_FUNC_JUMP2 */
     { -20, CAM_DATA_Y_OFFSET },             // atYOffset
     { 200, CAM_DATA_EYE_DIST },             // minDist
     { 300, CAM_DATA_EYE_DIST_NEXT },        // maxDist
@@ -150,8 +265,39 @@ CameraModeValue D_8011A488[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode           Function
+ * ---------------    -----------    --------
+ * NORMAL0            FIRSTPERSON    SUBJ3
+ * NORMAL1            FIRSTPERSON    SUBJ3
+ * DUNGEON0           FIRSTPERSON    SUBJ3
+ * DUNGEON1           FIRSTPERSON    SUBJ3
+ * NORMAL3            FIRSTPERSON    SUBJ3
+ * BOSS_GOHMA         FIRSTPERSON    SUBJ3
+ * BOSS_DODONGO       FIRSTPERSON    SUBJ3
+ * BOSS_BARINADE      FIRSTPERSON    SUBJ3
+ * BOSS_PHANTOM       FIRSTPERSON    SUBJ3
+ * BOSS_VOLVAGIA      FIRSTPERSON    SUBJ3
+ * BOSS_BONGO         FIRSTPERSON    SUBJ3
+ * BOSS_MORPHA        FIRSTPERSON    SUBJ3
+ * TWINROVA_PLATFORM  FIRSTPERSON    SUBJ3
+ * TWINROVA_FLOOR     FIRSTPERSON    SUBJ3
+ * BOSS_GANONDORF     FIRSTPERSON    SUBJ3
+ * BOSS_GANON2        FIRSTPERSON    SUBJ3
+ * COLLAPSE_STAIRS    FIRSTPERSON    SUBJ3
+ * TOWER1             FIRSTPERSON    SUBJ3
+ * CIRCLE3            FIRSTPERSON    SUBJ3
+ * UFOBEAN            FIRSTPERSON    SUBJ3
+ * LIFTBEAN           FIRSTPERSON    SUBJ3
+ * TAKO               FIRSTPERSON    SUBJ3
+ * NORMAL2            FIRSTPERSON    SUBJ3
+ * UO_FIBER           FIRSTPERSON    SUBJ3
+ * DUNGEON2           FIRSTPERSON    SUBJ3
+ * TEPPEN             FIRSTPERSON    SUBJ3
+ * CIRCLE7            FIRSTPERSON    SUBJ3
+ * NORMAL4            FIRSTPERSON    SUBJ3
+ */
 CameraModeValue D_8011A4AC[] = {
-    /* CAM_FUNC_SUBJ3 */
     { 0, CAM_DATA_Y_OFFSET },                // eyeNextYOffset
     { 5, CAM_DATA_EYE_DIST },                // eyeDist
     { 50, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
@@ -163,8 +309,39 @@ CameraModeValue D_8011A4AC[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode        Function
+ * ---------------    --------    --------
+ * NORMAL0            BOWARROW    SUBJ3
+ * NORMAL1            BOWARROW    SUBJ3
+ * DUNGEON0           BOWARROW    SUBJ3
+ * DUNGEON1           BOWARROW    SUBJ3
+ * NORMAL3            BOWARROW    SUBJ3
+ * BOSS_GOHMA         BOWARROW    SUBJ3
+ * BOSS_DODONGO       BOWARROW    SUBJ3
+ * BOSS_BARINADE      BOWARROW    SUBJ3
+ * BOSS_PHANTOM       BOWARROW    SUBJ3
+ * BOSS_VOLVAGIA      BOWARROW    SUBJ3
+ * BOSS_BONGO         BOWARROW    SUBJ3
+ * BOSS_MORPHA        BOWARROW    SUBJ3
+ * TWINROVA_PLATFORM  BOWARROW    SUBJ3
+ * TWINROVA_FLOOR     BOWARROW    SUBJ3
+ * BOSS_GANONDORF     BOWARROW    SUBJ3
+ * BOSS_GANON2        BOWARROW    SUBJ3
+ * COLLAPSE_STAIRS    BOWARROW    SUBJ3
+ * TOWER1             BOWARROW    SUBJ3
+ * CIRCLE3            BOWARROW    SUBJ3
+ * UFOBEAN            BOWARROW    SUBJ3
+ * LIFTBEAN           BOWARROW    SUBJ3
+ * TAKO               BOWARROW    SUBJ3
+ * NORMAL2            BOWARROW    SUBJ3
+ * UO_FIBER           BOWARROW    SUBJ3
+ * DUNGEON2           BOWARROW    SUBJ3
+ * TEPPEN             BOWARROW    SUBJ3
+ * CIRCLE7            BOWARROW    SUBJ3
+ * NORMAL4            BOWARROW    SUBJ3
+ */
 CameraModeValue D_8011A4D0[] = {
-    /* CAM_FUNC_SUBJ3 */
     { -7, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
     { 14, CAM_DATA_EYE_DIST },               // eyeDist
     { 50, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
@@ -176,8 +353,39 @@ CameraModeValue D_8011A4D0[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode         Function
+ * ---------------    ---------    --------
+ * NORMAL0            BOWARROWZ    SUBJ3
+ * NORMAL1            BOWARROWZ    SUBJ3
+ * DUNGEON0           BOWARROWZ    SUBJ3
+ * DUNGEON1           BOWARROWZ    SUBJ3
+ * NORMAL3            BOWARROWZ    SUBJ3
+ * HORSE0             BOWARROWZ    SUBJ3
+ * BOSS_GOHMA         BOWARROWZ    SUBJ3
+ * BOSS_DODONGO       BOWARROWZ    SUBJ3
+ * BOSS_BARINADE      BOWARROWZ    SUBJ3
+ * BOSS_PHANTOM       BOWARROWZ    SUBJ3
+ * BOSS_VOLVAGIA      BOWARROWZ    SUBJ3
+ * BOSS_BONGO         BOWARROWZ    SUBJ3
+ * BOSS_MORPHA        BOWARROWZ    SUBJ3
+ * TWINROVA_PLATFORM  BOWARROWZ    SUBJ3
+ * TWINROVA_FLOOR     BOWARROWZ    SUBJ3
+ * BOSS_GANONDORF     BOWARROWZ    SUBJ3
+ * BOSS_GANON2        BOWARROWZ    SUBJ3
+ * COLLAPSE_STAIRS    BOWARROWZ    SUBJ3
+ * TOWER1             BOWARROWZ    SUBJ3
+ * CIRCLE3            BOWARROWZ    SUBJ3
+ * UFOBEAN            BOWARROWZ    SUBJ3
+ * LIFTBEAN           BOWARROWZ    SUBJ3
+ * TAKO               BOWARROWZ    SUBJ3
+ * NORMAL2            BOWARROWZ    SUBJ3
+ * UO_FIBER           BOWARROWZ    SUBJ3
+ * DUNGEON2           BOWARROWZ    SUBJ3
+ * TEPPEN             BOWARROWZ    SUBJ3
+ * NORMAL4            BOWARROWZ    SUBJ3
+ */
 CameraModeValue D_8011A4F4[] = {
-    /* CAM_FUNC_SUBJ3 */
     { 20, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
     { 70, CAM_DATA_EYE_DIST },               // eyeDist
     { 70, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
@@ -189,8 +397,34 @@ CameraModeValue D_8011A4F4[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode        Function
+ * ---------------    --------    --------
+ * NORMAL0            HOOKSHOT    SPEC5
+ * NORMAL3            HOOKSHOT    SPEC5
+ * BOSS_GOHMA         HOOKSHOT    SPEC5
+ * BOSS_DODONGO       HOOKSHOT    SPEC5
+ * BOSS_BARINADE      HOOKSHOT    SPEC5
+ * BOSS_PHANTOM       HOOKSHOT    SPEC5
+ * BOSS_VOLVAGIA      HOOKSHOT    SPEC5
+ * BOSS_BONGO         HOOKSHOT    SPEC5
+ * BOSS_MORPHA        HOOKSHOT    SPEC5
+ * TWINROVA_PLATFORM  HOOKSHOT    SPEC5
+ * TWINROVA_FLOOR     HOOKSHOT    SPEC5
+ * BOSS_GANONDORF     HOOKSHOT    SPEC5
+ * BOSS_GANON2        HOOKSHOT    SPEC5
+ * COLLAPSE_STAIRS    HOOKSHOT    SPEC5
+ * TOWER1             HOOKSHOT    SPEC5
+ * CIRCLE3            HOOKSHOT    SPEC5
+ * UFOBEAN            HOOKSHOT    SPEC5
+ * LIFTBEAN           HOOKSHOT    SPEC5
+ * NORMAL2            HOOKSHOT    SPEC5
+ * UO_FIBER           HOOKSHOT    SPEC5
+ * TEPPEN             HOOKSHOT    SPEC5
+ * CIRCLE7            HOOKSHOT    SPEC5
+ * NORMAL4            HOOKSHOT    SPEC5
+ */
 CameraModeValue D_8011A518[] = {
-    /* CAM_FUNC_SPEC5 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset
     { 80, CAM_DATA_EYE_DIST },           // eyeDist
     { 250, CAM_DATA_EYE_DIST_NEXT },     // minDistForRot
@@ -201,8 +435,38 @@ CameraModeValue D_8011A518[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode         Function
+ * ---------------    ---------    --------
+ * NORMAL0            BOOMERANG    SUBJ3
+ * NORMAL1            BOOMERANG    SUBJ3
+ * DUNGEON0           BOOMERANG    SUBJ3
+ * DUNGEON1           BOOMERANG    SUBJ3
+ * BOSS_GOHMA         BOOMERANG    SUBJ3
+ * BOSS_DODONGO       BOOMERANG    SUBJ3
+ * BOSS_BARINADE      BOOMERANG    SUBJ3
+ * BOSS_PHANTOM       BOOMERANG    SUBJ3
+ * BOSS_VOLVAGIA      BOOMERANG    SUBJ3
+ * BOSS_BONGO         BOOMERANG    SUBJ3
+ * BOSS_MORPHA        BOOMERANG    SUBJ3
+ * TWINROVA_PLATFORM  BOOMERANG    SUBJ3
+ * TWINROVA_FLOOR     BOOMERANG    SUBJ3
+ * BOSS_GANONDORF     BOOMERANG    SUBJ3
+ * BOSS_GANON2        BOOMERANG    SUBJ3
+ * COLLAPSE_STAIRS    BOOMERANG    SUBJ3
+ * TOWER1             BOOMERANG    SUBJ3
+ * CIRCLE3            BOOMERANG    SUBJ3
+ * UFOBEAN            BOOMERANG    SUBJ3
+ * LIFTBEAN           BOOMERANG    SUBJ3
+ * TAKO               BOOMERANG    SUBJ3
+ * NORMAL2            BOOMERANG    SUBJ3
+ * UO_FIBER           BOOMERANG    SUBJ3
+ * DUNGEON2           BOOMERANG    SUBJ3
+ * TEPPEN             BOOMERANG    SUBJ3
+ * CIRCLE7            BOOMERANG    SUBJ3
+ * NORMAL4            BOOMERANG    SUBJ3
+ */
 CameraModeValue D_8011A538[] = {
-    /* CAM_FUNC_SUBJ3 */
     { 5, CAM_DATA_Y_OFFSET },                // eyeNextYOffset
     { 50, CAM_DATA_EYE_DIST },               // eyeDist
     { 50, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
@@ -214,8 +478,38 @@ CameraModeValue D_8011A538[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode         Function
+ * ---------------    ---------    --------
+ * NORMAL0            SLINGSHOT    SUBJ3
+ * NORMAL1            SLINGSHOT    SUBJ3
+ * DUNGEON0           SLINGSHOT    SUBJ3
+ * DUNGEON1           SLINGSHOT    SUBJ3
+ * BOSS_GOHMA         SLINGSHOT    SUBJ3
+ * BOSS_DODONGO       SLINGSHOT    SUBJ3
+ * BOSS_BARINADE      SLINGSHOT    SUBJ3
+ * BOSS_PHANTOM       SLINGSHOT    SUBJ3
+ * BOSS_VOLVAGIA      SLINGSHOT    SUBJ3
+ * BOSS_BONGO         SLINGSHOT    SUBJ3
+ * BOSS_MORPHA        SLINGSHOT    SUBJ3
+ * TWINROVA_PLATFORM  SLINGSHOT    SUBJ3
+ * TWINROVA_FLOOR     SLINGSHOT    SUBJ3
+ * BOSS_GANONDORF     SLINGSHOT    SUBJ3
+ * BOSS_GANON2        SLINGSHOT    SUBJ3
+ * COLLAPSE_STAIRS    SLINGSHOT    SUBJ3
+ * TOWER1             SLINGSHOT    SUBJ3
+ * CIRCLE3            SLINGSHOT    SUBJ3
+ * UFOBEAN            SLINGSHOT    SUBJ3
+ * LIFTBEAN           SLINGSHOT    SUBJ3
+ * TAKO               SLINGSHOT    SUBJ3
+ * NORMAL2            SLINGSHOT    SUBJ3
+ * UO_FIBER           SLINGSHOT    SUBJ3
+ * DUNGEON2           SLINGSHOT    SUBJ3
+ * TEPPEN             SLINGSHOT    SUBJ3
+ * CIRCLE7            SLINGSHOT    SUBJ3
+ * NORMAL4            SLINGSHOT    SUBJ3
+ */
 CameraModeValue D_8011A55C[] = {
-    /* CAM_FUNC_SUBJ3 */
     { -7, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
     { 14, CAM_DATA_EYE_DIST },               // eyeDist
     { 50, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
@@ -227,8 +521,33 @@ CameraModeValue D_8011A55C[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode      Function
+ * ---------------    ------    --------
+ * NORMAL0            CLIMBZ    JUMP2
+ * NORMAL3            CLIMBZ    JUMP2
+ * BOSS_GOHMA         CLIMBZ    JUMP2
+ * BOSS_DODONGO       CLIMBZ    JUMP2
+ * BOSS_BARINADE      CLIMBZ    JUMP2
+ * BOSS_PHANTOM       CLIMBZ    JUMP2
+ * BOSS_VOLVAGIA      CLIMBZ    JUMP2
+ * BOSS_BONGO         CLIMBZ    JUMP2
+ * BOSS_MORPHA        CLIMBZ    JUMP2
+ * TWINROVA_PLATFORM  CLIMBZ    JUMP2
+ * TWINROVA_FLOOR     CLIMBZ    JUMP2
+ * BOSS_GANONDORF     CLIMBZ    JUMP2
+ * BOSS_GANON2        CLIMBZ    JUMP2
+ * COLLAPSE_STAIRS    CLIMBZ    JUMP2
+ * TOWER1             CLIMBZ    JUMP2
+ * CIRCLE3            CLIMBZ    JUMP2
+ * UFOBEAN            CLIMBZ    JUMP2
+ * LIFTBEAN           CLIMBZ    JUMP2
+ * NORMAL2            CLIMBZ    JUMP2
+ * UO_FIBER           CLIMBZ    JUMP2
+ * TEPPEN             CLIMBZ    JUMP2
+ * NORMAL4            CLIMBZ    JUMP2
+ */
 CameraModeValue D_8011A580[] = {
-    /* CAM_FUNC_JUMP2 */
     { -20, CAM_DATA_Y_OFFSET },               // atYOffset
     { 200, CAM_DATA_EYE_DIST },               // minDist
     { 300, CAM_DATA_EYE_DIST_NEXT },          // maxDist
@@ -240,8 +559,46 @@ CameraModeValue D_8011A580[] = {
     { 0x2006, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode        Function
+ * ---------------    --------    --------
+ * NORMAL0            JUMP        JUMP1
+ * NORMAL3            JUMP        JUMP1
+ * NORMAL3            FREEFALL    JUMP1
+ * BOSS_GOHMA         JUMP        JUMP1
+ * BOSS_GOHMA         FREEFALL    JUMP1
+ * BOSS_DODONGO       JUMP        JUMP1
+ * BOSS_DODONGO       FREEFALL    JUMP1
+ * BOSS_BARINADE      JUMP        JUMP1
+ * BOSS_BARINADE      FREEFALL    JUMP1
+ * BOSS_PHANTOM       JUMP        JUMP1
+ * BOSS_PHANTOM       FREEFALL    JUMP1
+ * BOSS_VOLVAGIA      JUMP        JUMP1
+ * BOSS_VOLVAGIA      FREEFALL    JUMP1
+ * BOSS_MORPHA        JUMP        JUMP1
+ * BOSS_MORPHA        FREEFALL    JUMP1
+ * TWINROVA_PLATFORM  JUMP        JUMP1
+ * TWINROVA_PLATFORM  FREEFALL    JUMP1
+ * TWINROVA_FLOOR     JUMP        JUMP1
+ * TWINROVA_FLOOR     FREEFALL    JUMP1
+ * BOSS_GANONDORF     JUMP        JUMP1
+ * BOSS_GANONDORF     FREEFALL    JUMP1
+ * GANON2             JUMP        JUMP1
+ * GANON2             FREEFALL    JUMP1
+ * COLLAPSE_STAIRS    FREEFALL    JUMP1
+ * TOWER1             FREEFALL    JUMP1
+ * UFOBEAN            FREEFALL    JUMP1
+ * LIFTBEAN           FREEFALL    JUMP1
+ * NORMAL2            JUMP        JUMP1
+ * NORMAL2            FREEFALL    JUMP1
+ * UOFIBER            JUMP        JUMP1
+ * UOFIBER            FREEFALL    JUMP1
+ * TEPPEN             JUMP        JUMP1
+ * TEPPEN             FREEFALL    JUMP1
+ * NORMAL4            JUMP        JUMP1
+ * NORMAL4            FREEFALL    JUMP1
+ */
 CameraModeValue D_8011A5A4[] = {
-    /* CAM_FUNC_JUMP1 */
     { -20, CAM_DATA_Y_OFFSET },              // atYOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -252,8 +609,30 @@ CameraModeValue D_8011A5A4[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode    Function
+ * ---------------    ----    --------
+ * NORMAL0            HANG    UNIQ1
+ * NORMAL3            HANG    UNIQ1
+ * BOSS_GOHMA         HANG    UNIQ1
+ * BOSS_DODONGO       HANG    UNIQ1
+ * BOSS_BARINADE      HANG    UNIQ1
+ * BOSS_PHANTOM       HANG    UNIQ1
+ * BOSS_VOLVAGIA      HANG    UNIQ1
+ * BOSS_BONGO         HANG    UNIQ1
+ * BOSS_MORPHA        HANG    UNIQ1
+ * TWINROVA_PLATFORM  HANG    UNIQ1
+ * TWINROVA_FLOOR     HANG    UNIQ1
+ * BOSS_GANONDORF     HANG    UNIQ1
+ * GANON2             HANG    UNIQ1
+ * COLLAPSE_STAIRS    HANG    UNIQ1
+ * TOWER1             HANG    UNIQ1
+ * NORMAL2            HANG    UNIQ1
+ * UOFIBER            HANG    UNIQ1
+ * TEPPEN             HANG    UNIQ1
+ * NORMAL4            HANG    UNIQ1
+ */
 CameraModeValue D_8011A5C4[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -80, CAM_DATA_Y_OFFSET },          // yOffset
     { 200, CAM_DATA_EYE_DIST },          // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -263,8 +642,30 @@ CameraModeValue D_8011A5C4[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode     Function
+ * ---------------    -----    --------
+ * NORMAL0            HANGZ    UNIQ1
+ * NORMAL3            HANGZ    UNIQ1
+ * BOSS_GOHMA         HANGZ    UNIQ1
+ * BOSS_DODONGO       HANGZ    UNIQ1
+ * BOSS_BARINADE      HANGZ    UNIQ1
+ * BOSS_PHANTOM       HANGZ    UNIQ1
+ * BOSS_VOLVAGIA      HANGZ    UNIQ1
+ * BOSS_BONGO         HANGZ    UNIQ1
+ * BOSS_MORPHA        HANGZ    UNIQ1
+ * TWINROVA_PLATFORM  HANGZ    UNIQ1
+ * TWINROVA_FLOOR     HANGZ    UNIQ1
+ * BOSS_GANONDORF     HANGZ    UNIQ1
+ * GANON2             HANGZ    UNIQ1
+ * COLLAPSE_STAIRS    HANGZ    UNIQ1
+ * TOWER1             HANGZ    UNIQ1
+ * NORMAL2            HANGZ    UNIQ1
+ * UOFIBER            HANGZ    UNIQ1
+ * TEPPEN             HANGZ    UNIQ1
+ * NORMAL4            HANGZ    UNIQ1
+ */
 CameraModeValue D_8011A5E0[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -120, CAM_DATA_Y_OFFSET },         // yOffset
     { 300, CAM_DATA_EYE_DIST },          // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -274,8 +675,12 @@ CameraModeValue D_8011A5E0[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode        Function
+ * -------    --------    --------
+ * NORMAL0    FREEFALL    JUMP1
+ */
 CameraModeValue D_8011A5FC[] = {
-    /* CAM_FUNC_JUMP1 */
     { -20, CAM_DATA_Y_OFFSET },              // atYOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -286,8 +691,32 @@ CameraModeValue D_8011A5FC[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode      Function
+ * ---------------    ------    --------
+ * NORMAL0            CHARGE    BATT4
+ * NORMAL3            CHARGE    BATT4
+ * BOSS_DODONGO       CHARGE    BATT4
+ * BOSS_BARINADE      CHARGE    BATT4
+ * BOSS_PHANTOM       CHARGE    BATT4
+ * BOSS_VOLVAGIA      CHARGE    BATT4
+ * BOSS_BONGO         CHARGE    BATT4
+ * BOSS_MORPHA        CHARGE    BATT4
+ * TWINROVA_PLATFORM  CHARGE    BATT4
+ * TWINROVA_FLOOR     CHARGE    BATT4
+ * GANON2             CHARGE    BATT4
+ * COLLAPSE_STAIRS    CHARGE    BATT4
+ * TOWER1             CHARGE    BATT4
+ * CIRCLE3            CHARGE    BATT4
+ * UFOBEAN            CHARGE    BATT4
+ * LIFTBEAN           CHARGE    BATT4
+ * NORMAL2            CHARGE    BATT4
+ * UOFIBER            CHARGE    BATT4
+ * DUNGEON2           CHARGE    BATT4
+ * TEPPEN             CHARGE    BATT4
+ * NORMAL4            CHARGE    BATT4
+ */
 CameraModeValue D_8011A61C[] = {
-    /* CAM_FUNC_BATT4 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 300, CAM_DATA_EYE_DIST },             // rTarget
     { 50, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -297,8 +726,31 @@ CameraModeValue D_8011A61C[] = {
     { 0xF000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode     Function
+ * ---------------    -----    --------
+ * NORMAL0            STILL    NORM1
+ * NORMAL3            STILL    NORM1
+ * BOSS_GOHMA         STILL    NORM1
+ * BOSS_DODONGO       STILL    NORM1
+ * BOSS_BARINADE      STILL    NORM1
+ * BOSS_PHANTOM       STILL    NORM1
+ * BOSS_VOLVAGIA      STILL    NORM1
+ * BOSS_BONGO         STILL    NORM1
+ * BOSS_MORPHA        STILL    NORM1
+ * TWINROVA_PLATFORM  STILL    NORM1
+ * TWINROVA_FLOOR     STILL    NORM1
+ * BOSS_GANONDORF     STILL    NORM1
+ * GANON2             STILL    NORM1
+ * COLLAPSE_STAIRS    STILL    NORM1
+ * TOWER1             STILL    NORM1
+ * CIRCLE3            STILL    NORM1
+ * NORMAL2            STILL    NORM1
+ * UOFIBER            STILL    NORM1
+ * TEPPEN             STILL    NORM1
+ * NORMAL4            STILL    NORM1
+ */
 CameraModeValue D_8011A638[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },               // yOffset
     { 200, CAM_DATA_EYE_DIST },               // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },          // distMax
@@ -311,8 +763,36 @@ CameraModeValue D_8011A638[] = {
     { 0xF003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting            Mode        Function
+ * ---------------    --------    --------
+ * NORMAL0            PUSHPULL    PARA1
+ * NORMAL1            PUSHPULL    PARA1
+ * DUNGEON0           PUSHPULL    PARA1
+ * NORMAL3            PUSHPULL    PARA1
+ * BOSS_GOHMA         PUSHPULL    PARA1
+ * BOSS_DODONGO       PUSHPULL    PARA1
+ * BOSS_BARINADE      PUSHPULL    PARA1
+ * BOSS_PHANTOM       PUSHPULL    PARA1
+ * BOSS_VOLVAGIA      PUSHPULL    PARA1
+ * BOSS_BONGO         PUSHPULL    PARA1
+ * BOSS_MORPHA        PUSHPULL    PARA1
+ * TWINROVA_PLATFORM  PUSHPULL    PARA1
+ * TWINROVA_FLOOR     PUSHPULL    PARA1
+ * BOSS_GANONDORF     PUSHPULL    PARA1
+ * GANON2             PUSHPULL    PARA1
+ * COLLAPSE_STAIRS    PUSHPULL    PARA1
+ * TOWER1             PUSHPULL    PARA1
+ * CIRCLE3            PUSHPULL    PARA1
+ * UFOBEAN            PUSHPULL    PARA1
+ * LIFTBEAN           PUSHPULL    PARA1
+ * TAKO               PUSHPULL    PARA1
+ * NORMAL2            PUSHPULL    PARA1
+ * UOFIBER            PUSHPULL    PARA1
+ * TEPPEN             PUSHPULL    PARA1
+ * NORMAL4            PUSHPULL    PARA1
+ */
 CameraModeValue D_8011A660[] = {
-    /* CAM_FUNC_PARA1 */
     { 0, CAM_DATA_Y_OFFSET },               // yOffset
     { 250, CAM_DATA_EYE_DIST },             // distTarget
     { 25, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -326,8 +806,38 @@ CameraModeValue D_8011A660[] = {
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting            Mode           Function
+ * ---------------    -----------    --------
+ * NORMAL0            BOOMFOLLLOW    KEEP1
+ * NORMAL1            BOOMFOLLLOW    KEEP1
+ * DUNGEON0           BOOMFOLLLOW    KEEP1
+ * DUNGEON1           BOOMFOLLLOW    KEEP1
+ * NORMAL3            BOOMFOLLLOW    KEEP1
+ * BOSS_GOHMA         BOOMFOLLLOW    KEEP1
+ * BOSS_DODONGO       BOOMFOLLLOW    KEEP1
+ * BOSS_BARINADE      BOOMFOLLLOW    KEEP1
+ * BOSS_PHANTOM       BOOMFOLLLOW    KEEP1
+ * BOSS_VOLVAGIA      BOOMFOLLLOW    KEEP1
+ * BOSS_BONGO         BOOMFOLLLOW    KEEP1
+ * BOSS_MORPHA        BOOMFOLLLOW    KEEP1
+ * TWINROVA_PLATFORM  BOOMFOLLLOW    KEEP1
+ * TWINROVA_FLOOR     BOOMFOLLLOW    KEEP1
+ * BOSS_GANONDORF     BOOMFOLLLOW    KEEP1
+ * GANON2             BOOMFOLLLOW    KEEP1
+ * COLLAPSE_STAIRS    BOOMFOLLLOW    KEEP1
+ * TOWER1             BOOMFOLLLOW    KEEP1
+ * CIRCLE3            BOOMFOLLLOW    KEEP1
+ * UFOBEAN            BOOMFOLLLOW    KEEP1
+ * LIFTBEAN           BOOMFOLLLOW    KEEP1
+ * TAKO               BOOMFOLLLOW    KEEP1
+ * NORMAL2            BOOMFOLLLOW    KEEP1
+ * UOFIBER            BOOMFOLLLOW    KEEP1
+ * DUNGEON2           BOOMFOLLLOW    KEEP1
+ * TEPPEN             BOOMFOLLLOW    KEEP1
+ * NORMAL4            BOOMFOLLLOW    KEEP1
+ */
 CameraModeValue D_8011A68C[] = {
-    /* CAM_FUNC_KEEP1 */
     { -5, CAM_DATA_Y_OFFSET },           // unk_00
     { 120, CAM_DATA_EYE_DIST },          // unk_04
     { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
@@ -343,8 +853,17 @@ CameraModeValue D_8011A68C[] = {
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
 
+/*=====================================================================
+ *                   Custom Data: NORMAL1 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * NORMAL1    NORMAL    NORM1
+ */
 CameraModeValue sSetNorm1ModeNormVals[] = {
-    /* CAM_FUNC_NORM1 */
     { 0, CAM_DATA_Y_OFFSET },                // yOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 400, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -357,8 +876,12 @@ CameraModeValue sSetNorm1ModeNormVals[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * NORMAL1    TARGET    PARA1
+ */
 CameraModeValue sSetNorm1ModeParaVals[] = {
-    /* CAM_FUNC_PARA1 */
     { 0, CAM_DATA_Y_OFFSET },               // yOffset
     { 250, CAM_DATA_EYE_DIST },             // distTarget
     { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
@@ -372,8 +895,13 @@ CameraModeValue sSetNorm1ModeParaVals[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting     Mode            Function
+ * --------    ------------    --------
+ * NORMAL1     FOLLOWTARGET    KEEP1
+ * DUNGEON1    FOLLOWTARGET    KEEP1
+ */
 CameraModeValue D_8011A714[] = {
-    /* CAM_FUNC_KEEP1 */
     { -20, CAM_DATA_Y_OFFSET },          // unk_00
     { 120, CAM_DATA_EYE_DIST },          // unk_04
     { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
@@ -389,8 +917,17 @@ CameraModeValue D_8011A714[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
 
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * NORMAL1     BATTLE    BATT1
+ * CIRCLE3     BATTLE    BATT1
+ * UFOBEAN     BATTLE    BATT1
+ * LIFTBEAN    BATTLE    BATT1
+ * NORMAL2     BATTLE    BATT1
+ * NORMAL4     BATTLE    BATT1
+ */
 CameraModeValue D_8011A748[] = {
-    /* CAM_FUNC_BATT1  */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 250, CAM_DATA_EYE_DIST },          // distance
     { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -405,8 +942,16 @@ CameraModeValue D_8011A748[] = {
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/**
+ * Setting     Mode        Function
+ * --------    --------    --------
+ * NORMAL1     HOOKSHOT    SPEC5
+ * DUNGEON0    HOOKSHOT    SPEC5
+ * DUNGEON1    HOOKSHOT    SPEC5
+ * TAKO        HOOKSHOT    SPEC5
+ * DUNGEON2    HOOKSHOT    SPEC5
+ */
 CameraModeValue D_8011A778[] = {
-    /* CAM_FUNC_SPEC5 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset
     { 80, CAM_DATA_EYE_DIST },           // eyeDist
     { 250, CAM_DATA_EYE_DIST_NEXT },     // minDistForRot
@@ -417,8 +962,12 @@ CameraModeValue D_8011A778[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * NORMAL1    JUMP    JUMP1
+ */
 CameraModeValue D_8011A798[] = {
-    /* CAM_FUNC_JUMP1 */
     { 0, CAM_DATA_Y_OFFSET },                // atYOffset
     { 250, CAM_DATA_EYE_DIST },              // distMin
     { 400, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -429,8 +978,12 @@ CameraModeValue D_8011A798[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode        Function
+ * -------    --------    --------
+ * NORMAL1    FREEFALL    JUMP1
+ */
 CameraModeValue D_8011A7B8[] = {
-    /* CAM_FUNC_JUMP1 */
     { 0, CAM_DATA_Y_OFFSET },                // atYOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 400, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -441,8 +994,12 @@ CameraModeValue D_8011A7B8[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * NORMAL1    CLIMB    JUMP2
+ */
 CameraModeValue D_8011A7D8[] = {
-    /* CAM_FUNC_JUMP2 */
     { -20, CAM_DATA_Y_OFFSET },             // atYOffset
     { 200, CAM_DATA_EYE_DIST },             // minDist
     { 400, CAM_DATA_EYE_DIST_NEXT },        // maxDist
@@ -454,8 +1011,12 @@ CameraModeValue D_8011A7D8[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * NORMAL1    CLIMBZ    JUMP2
+ */
 CameraModeValue D_8011A7FC[] = {
-    /* CAM_FUNC_JUMP2 */
     { -20, CAM_DATA_Y_OFFSET },               // atYOffset
     { 250, CAM_DATA_EYE_DIST },               // minDist
     { 400, CAM_DATA_EYE_DIST_NEXT },          // maxDist
@@ -467,8 +1028,12 @@ CameraModeValue D_8011A7FC[] = {
     { 0x2006, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * NORMAL1    CHARGE    BATT4
+ */
 CameraModeValue D_8011A820[] = {
-    /* CAM_FUNC_BATT4 */
     { 0, CAM_DATA_Y_OFFSET },               // yOffset
     { 300, CAM_DATA_EYE_DIST },             // rTarget
     { 50, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -478,8 +1043,12 @@ CameraModeValue D_8011A820[] = {
     { 0xF000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * NORMAL1    HANG    UNIQ1
+ */
 CameraModeValue D_8011A83C[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -80, CAM_DATA_Y_OFFSET },          // yOffset
     { 200, CAM_DATA_EYE_DIST },          // distMin
     { 400, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -489,8 +1058,12 @@ CameraModeValue D_8011A83C[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * NORMAL1    HANGZ    UNIQ1
+ */
 CameraModeValue D_8011A858[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -120, CAM_DATA_Y_OFFSET },         // yOffset
     { 400, CAM_DATA_EYE_DIST },          // distMin
     { 400, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -500,8 +1073,12 @@ CameraModeValue D_8011A858[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * NORMAL1    STILL    NORM1
+ */
 CameraModeValue D_8011A874[] = {
-    /* CAM_FUNC_NORM1 */
     { 0, CAM_DATA_Y_OFFSET },                 // yOffset
     { 200, CAM_DATA_EYE_DIST },               // distMin
     { 400, CAM_DATA_EYE_DIST_NEXT },          // distMax
@@ -514,8 +1091,17 @@ CameraModeValue D_8011A874[] = {
     { 0xF003, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: DUNGEON0 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON0    NORMAL    NORM1
+ */
 CameraModeValue D_8011A89C[] = {
-    /* CAM_FUNC_NORM1 */
     { -10, CAM_DATA_Y_OFFSET },              // yOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -528,8 +1114,14 @@ CameraModeValue D_8011A89C[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON0    TARGET    PARA1
+ * DUNGEON1    TARGET    PARA1
+ * TAKO        TARGET    PARA1
+ */
 CameraModeValue D_8011A8C4[] = {
-    /* CAM_FUNC_PARA1 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 150, CAM_DATA_EYE_DIST },             // distTarget
     { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
@@ -543,8 +1135,14 @@ CameraModeValue D_8011A8C4[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting     Mode            Function
+ * --------    ------------    --------
+ * DUNGEON0    FOLLOWTARGET    KEEP1
+ * TAKO        FOLLOWTARGET    KEEP1
+ * DUNGEON2    FOLLOWTARGET    KEEP1
+ */
 CameraModeValue D_8011A8F0[] = {
-    /* CAM_FUNC_KEEP1 */
     { -20, CAM_DATA_Y_OFFSET },          // unk_00
     { 120, CAM_DATA_EYE_DIST },          // unk_04
     { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
@@ -560,8 +1158,13 @@ CameraModeValue D_8011A8F0[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
 
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON0    BATTLE    BATT1
+ * DUNGEON1    BATTLE    BATT1
+ */
 CameraModeValue D_8011A924[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 180, CAM_DATA_EYE_DIST },          // distance
     { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -576,8 +1179,13 @@ CameraModeValue D_8011A924[] = {
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
 };
 
+/**
+ * Setting     Mode    Function
+ * --------    ----    --------
+ * DUNGEON0    JUMP    JUMP1
+ * TAKO        JUMP    JUMP1
+ */
 CameraModeValue D_8011A954[] = {
-    /* CAM_FUNC_JUMP1 */
     { -10, CAM_DATA_Y_OFFSET },              // atYOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -588,8 +1196,13 @@ CameraModeValue D_8011A954[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode        Function
+ * --------    --------    --------
+ * DUNGEON0    FREEFALL    JUMP1
+ * TAKO        FREEFALL    JUMP1
+ */
 CameraModeValue D_8011A974[] = {
-    /* CAM_FUNC_JUMP1 */
     { -10, CAM_DATA_Y_OFFSET },              // atYOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -600,8 +1213,13 @@ CameraModeValue D_8011A974[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * DUNGEON0    CLIMB    JUMP2
+ * TAKO        CLIMB    JUMP2
+ */
 CameraModeValue D_8011A994[] = {
-    /* CAM_FUNC_JUMP2 */
     { -40, CAM_DATA_Y_OFFSET },             // atYOffset
     { 150, CAM_DATA_EYE_DIST },             // minDist
     { 250, CAM_DATA_EYE_DIST_NEXT },        // maxDist
@@ -613,8 +1231,13 @@ CameraModeValue D_8011A994[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON0    CLIMBZ    JUMP2
+ * TAKO        CLIMBZ    JUMP2
+ */
 CameraModeValue D_8011A9B8[] = {
-    /* CAM_FUNC_JUMP2 */
     { -40, CAM_DATA_Y_OFFSET },               // atYOffset
     { 250, CAM_DATA_EYE_DIST },               // minDist
     { 250, CAM_DATA_EYE_DIST_NEXT },          // maxDist
@@ -626,8 +1249,14 @@ CameraModeValue D_8011A9B8[] = {
     { 0x2006, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting       Mode      Function
+ * ----------    ------    --------
+ * DUNGEON0      CHARGE    BATT4
+ * BOSS_GOHMA    CHARGE    BATT4
+ * TAKO          CHARGE    BATT4
+ */
 CameraModeValue D_8011A9DC[] = {
-    /* CAM_FUNC_BATT4 */
     { -10, CAM_DATA_Y_OFFSET },             // yOffset
     { 300, CAM_DATA_EYE_DIST },             // rTarget
     { 50, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -637,8 +1266,13 @@ CameraModeValue D_8011A9DC[] = {
     { 0xF000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode    Function
+ * --------    ----    --------
+ * DUNGEON0    HANG    UNIQ1
+ * TAKO        HANG    UNIQ1
+ */
 CameraModeValue D_8011A9F8[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -80, CAM_DATA_Y_OFFSET },          // yOffset
     { 150, CAM_DATA_EYE_DIST },          // distMin
     { 250, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -648,8 +1282,13 @@ CameraModeValue D_8011A9F8[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * DUNGEON0    HANGZ    UNIQ1
+ * TAKO        HANGZ    UNIQ1
+ */
 CameraModeValue D_8011AA14[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -120, CAM_DATA_Y_OFFSET },         // yOffset
     { 250, CAM_DATA_EYE_DIST },          // distMin
     { 250, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -659,8 +1298,12 @@ CameraModeValue D_8011AA14[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * DUNGEON0    STILL    NORM1
+ */
 CameraModeValue D_8011AA30[] = {
-    /* CAM_FUNC_NORM1 */
     { -10, CAM_DATA_Y_OFFSET },               // yOffset
     { 150, CAM_DATA_EYE_DIST },               // distMin
     { 250, CAM_DATA_EYE_DIST_NEXT },          // distMax
@@ -673,8 +1316,17 @@ CameraModeValue D_8011AA30[] = {
     { 0xF003, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: DUNGEON1 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON1    NORMAL    NORM1
+ */
 CameraModeValue D_8011AA58[] = {
-    /* CAM_FUNC_NORM1 */
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 150, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -687,8 +1339,12 @@ CameraModeValue D_8011AA58[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode    Function
+ * --------    ----    --------
+ * DUNGEON1    TALK    KEEP3
+ */
 CameraModeValue D_8011AA80[] = {
-    /* CAM_FUNC_KEEP3 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 70, CAM_DATA_EYE_DIST },               // minDist
     { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
@@ -703,8 +1359,12 @@ CameraModeValue D_8011AA80[] = {
     { 0x3500, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode    Function
+ * --------    ----    --------
+ * DUNGEON1    JUMP    JUMP1
+ */
 CameraModeValue D_8011AAB0[] = {
-    /* CAM_FUNC_JUMP1 */
     { -40, CAM_DATA_Y_OFFSET },              // atYOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 150, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -715,8 +1375,12 @@ CameraModeValue D_8011AAB0[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode        Function
+ * --------    --------    --------
+ * DUNGEON1    FREEFALL    JUMP1
+ */
 CameraModeValue D_8011AAD0[] = {
-    /* CAM_FUNC_JUMP1 */
     { -40, CAM_DATA_Y_OFFSET },              // atYOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 180, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -727,8 +1391,12 @@ CameraModeValue D_8011AAD0[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * DUNGEON1    CLIMB    JUMP2
+ */
 CameraModeValue D_8011AAF0[] = {
-    /* CAM_FUNC_JUMP2 */
     { -40, CAM_DATA_Y_OFFSET },             // atYOffset
     { 150, CAM_DATA_EYE_DIST },             // minDist
     { 150, CAM_DATA_EYE_DIST_NEXT },        // maxDist
@@ -740,8 +1408,12 @@ CameraModeValue D_8011AAF0[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON1    CLIMBZ    JUMP2
+ */
 CameraModeValue D_8011AB14[] = {
-    /* CAM_FUNC_JUMP2 */
     { -40, CAM_DATA_Y_OFFSET },               // atYOffset
     { 150, CAM_DATA_EYE_DIST },               // minDist
     { 150, CAM_DATA_EYE_DIST_NEXT },          // maxDist
@@ -753,8 +1425,12 @@ CameraModeValue D_8011AB14[] = {
     { 0x2006, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON1    CHARGE    BATT4
+ */
 CameraModeValue D_8011AB38[] = {
-    /* CAM_FUNC_BATT4 */
     { -40, CAM_DATA_Y_OFFSET },             // yOffset
     { 200, CAM_DATA_EYE_DIST },             // rTarget
     { 50, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -764,8 +1440,12 @@ CameraModeValue D_8011AB38[] = {
     { 0xF000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode    Function
+ * --------    ----    --------
+ * DUNGEON1    HANG    UNIQ1
+ */
 CameraModeValue D_8011AB54[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -80, CAM_DATA_Y_OFFSET },          // yOffset */
     { 150, CAM_DATA_EYE_DIST },          // distMin */
     { 150, CAM_DATA_EYE_DIST_NEXT },     // distMax */
@@ -775,8 +1455,12 @@ CameraModeValue D_8011AB54[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * DUNGEON1    HANGZ    UNIQ1
+ */
 CameraModeValue D_8011AB70[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -120, CAM_DATA_Y_OFFSET },         // yOffset
     { 150, CAM_DATA_EYE_DIST },          // distMin
     { 150, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -786,8 +1470,12 @@ CameraModeValue D_8011AB70[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * DUNGEON1    STILL    NORM1
+ */
 CameraModeValue D_8011AB8C[] = {
-    /* CAM_FUNC_NORM1 */
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
     { 150, CAM_DATA_EYE_DIST },               // distMin
     { 150, CAM_DATA_EYE_DIST_NEXT },          // distMax
@@ -800,8 +1488,12 @@ CameraModeValue D_8011AB8C[] = {
     { 0xF003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode        Function
+ * --------    --------    --------
+ * DUNGEON1    PUSHPULL    PARA1
+ */
 CameraModeValue D_8011ABB4[] = {
-    /* CAM_FUNC_PARA1 */
     { -40, CAM_DATA_Y_OFFSET },             // yOffset
     { 180, CAM_DATA_EYE_DIST },             // distTarget
     { 25, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -815,8 +1507,17 @@ CameraModeValue D_8011ABB4[] = {
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/*=====================================================================
+ *                   Custom Data: NORMAL3 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * NORMAL3    NORMAL    JUMP3
+ */
 CameraModeValue sSetNorm3ModeNormVals[] = {
-    /* CAM_FUNC_JUMP3 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 280, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -829,8 +1530,12 @@ CameraModeValue sSetNorm3ModeNormVals[] = {
     { 0x0004, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * NORMAL3    TARGET    PARA1
+ */
 CameraModeValue D_8011AC08[] = {
-    /* CAM_FUNC_PARA1 */
     { -50, CAM_DATA_Y_OFFSET },              // yOffset
     { 250, CAM_DATA_EYE_DIST },              // distTarget
     { 70, CAM_DATA_PITCH_TARGET },           // pitchTarget
@@ -844,8 +1549,12 @@ CameraModeValue D_8011AC08[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * NORMAL3    TALK    KEEP3
+ */
 CameraModeValue D_8011AC34[] = {
-    /* CAM_FUNC_KEEP3 */
     { -30, CAM_DATA_Y_OFFSET },              // yOffset
     { 70, CAM_DATA_EYE_DIST },               // minDist
     { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
@@ -860,9 +1569,13 @@ CameraModeValue D_8011AC34[] = {
     { 0x3500, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode         Function
+ * -------    ---------    --------
+ * NORMAL3    BOOMERANG    JUMP3
+ */
 CameraModeValue sSetNorm3ModeBoomVals[] = {
-    /* CAM_FUNC_JUMP3 */
-    /* mode is BOOMERANG, but these values are for when the eye
+    /* These values are for when the eye
      * >= OREG(45) units below the surface of the water.
      */
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
@@ -877,21 +1590,34 @@ CameraModeValue sSetNorm3ModeBoomVals[] = {
     { 0x0005, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: HORSE0 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * HORSE0     NORMAL    NORM3
+ */
 CameraModeValue sSetHrse0ModeNormVals[] = {
-    /* CAM_FUNC_NORM3 */
-    { -50, CAM_DATA_Y_OFFSET },              // yOffset */
-    { 220, CAM_DATA_EYE_DIST },              // distMin */
-    { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax */
-    { 10, CAM_DATA_PITCH_TARGET },           // pitchTarget */
-    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateSpeed */
-    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10 */
-    { 60, CAM_DATA_FOV },                    // fovTarget */
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // maxAtLERPScale */
+    { -50, CAM_DATA_Y_OFFSET },              // yOffset
+    { 220, CAM_DATA_EYE_DIST },              // distMin
+    { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
+    { 10, CAM_DATA_PITCH_TARGET },           // pitchTarget
+    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateSpeed
+    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
+    { 60, CAM_DATA_FOV },                    // fovTarget
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // maxAtLERPScale
     { 0x0600, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * HORSE0     TARGET    NORM3
+ */
 CameraModeValue sSetHrse0ModeParaVals[] = {
-    /* CAM_FUNC_NORM3 */
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
     { 180, CAM_DATA_EYE_DIST },              // distMin
     { 220, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -903,8 +1629,12 @@ CameraModeValue sSetHrse0ModeParaVals[] = {
     { 0x2600, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode        Function
+ * -------    --------    --------
+ * HORSE0     BOWARROW    SUBJ3
+ */
 CameraModeValue D_8011ACD4[] = {
-    /* CAM_FUNC_SUBJ3 */
     { -7, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
     { 14, CAM_DATA_EYE_DIST },               // eyeDist
     { 100, CAM_DATA_EYE_DIST_NEXT },         // eyeNextDist
@@ -916,8 +1646,12 @@ CameraModeValue D_8011ACD4[] = {
     { 0x2600, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode            Function
+ * -------    ------------    --------
+ * HORSE0     FOLLOWTARGET    KEEP1
+ */
 CameraModeValue D_8011ACF8[] = {
-    /* CAM_FUNC_KEEP1 */
     { -60, CAM_DATA_Y_OFFSET },          // unk_00
     { 180, CAM_DATA_EYE_DIST },          // unk_04
     { 220, CAM_DATA_EYE_DIST_NEXT },     // unk_08
@@ -933,8 +1667,12 @@ CameraModeValue D_8011ACF8[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * HORSE0     TALK    KEEP3
+ */
 CameraModeValue D_8011AD2C[] = {
-    /* CAM_FUNC_KEEP3 */
     { -60, CAM_DATA_Y_OFFSET },              // yOffset
     { 140, CAM_DATA_EYE_DIST },              // minDist
     { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
@@ -949,8 +1687,17 @@ CameraModeValue D_8011AD2C[] = {
     { 0x3500, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: BOSS_GOHMA Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting       Mode      Function
+ * ----------    ------    --------
+ * BOSS_GOHMA    NORMAL    NORM1
+ */
 CameraModeValue D_8011AD5C[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -963,24 +1710,37 @@ CameraModeValue D_8011AD5C[] = {
     { 0x0001, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting       Mode      Function
+ * ----------    ------    --------
+ * BOSS_GOHMA    BATTLE    BATT1
+ */
 CameraModeValue D_8011AD84[] = {
-    /* CAM_FUNC_BATT1 */
-    { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT) */
-    { 150, CAM_DATA_EYE_DIST },          // distance */
-    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial */
-    { 40, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal */
-    { -10, CAM_DATA_SWING_PITCH_INIT },  // swingPitchInitial */
-    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal */
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT) */
-    { 60, CAM_DATA_FOV },                // fov */
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT) */
+    { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
+    { 150, CAM_DATA_EYE_DIST },          // distance
+    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
+    { 40, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
+    { -10, CAM_DATA_SWING_PITCH_INIT },  // swingPitchInitial
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
+    { 60, CAM_DATA_FOV },                // fov
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
     { 0x2002, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },      // yOffsetOffGround (PCT) */
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT) */
+    { -50, CAM_DATA_GROUND_Y_OFFSET },      // yOffsetOffGround (PCT)
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/*=====================================================================
+ *                   Custom Data: BOSS_DODONGO Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting         Mode      Function
+ * ------------    ------    --------
+ * BOSS_DODONGO    NORMAL    NORM1
+ */
 CameraModeValue D_8011ADB4[] = {
-    /* CAM_FUNC_NORM1 */
     { 0, CAM_DATA_Y_OFFSET },                // yOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -993,8 +1753,12 @@ CameraModeValue D_8011ADB4[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting         Mode      Function
+ * ------------    ------    --------
+ * BOSS_DODONGO    BATTLE    BATT1
+ */
 CameraModeValue D_8011ADDC[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 160, CAM_DATA_EYE_DIST },          // distance
     { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -1009,8 +1773,17 @@ CameraModeValue D_8011ADDC[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/*=====================================================================
+ *                   Custom Data: BOSS_BARINADE Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting          Mode      Function
+ * -------------    ------    --------
+ * BOSS_BARINADE    NORMAL    NORM1
+ */
 CameraModeValue D_8011AE0C[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1023,8 +1796,12 @@ CameraModeValue D_8011AE0C[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting          Mode      Function
+ * -------------    ------    --------
+ * BOSS_BARINADE    BATTLE    BATT1
+ */
 CameraModeValue D_8011AE34[] = {
-    /* CAM_FUNC_BATT1 */
     { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 125, CAM_DATA_EYE_DIST },          // distance
     { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -1039,8 +1816,17 @@ CameraModeValue D_8011AE34[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/*=====================================================================
+ *                   Custom Data: BOSS_PHANTOM Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting         Mode      Function
+ * ------------    ------    --------
+ * BOSS_PHANTOM    NORMAL    NORM1
+ */
 CameraModeValue D_8011AE64[] = {
-    /* CAM_FUNC_NORM1 */
     { 10, CAM_DATA_Y_OFFSET },               // yOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1053,8 +1839,12 @@ CameraModeValue D_8011AE64[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting         Mode      Function
+ * ------------    ------    --------
+ * BOSS_PHANTOM    BATTLE    BATT1
+ */
 CameraModeValue D_8011AE8C[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },           // yOffset (PCT)
     { 200, CAM_DATA_EYE_DIST },           // distance
     { 45, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
@@ -1069,8 +1859,17 @@ CameraModeValue D_8011AE8C[] = {
     { 60, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/*=====================================================================
+ *                   Custom Data: BOSS_VOLVAGIA Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting          Mode      Function
+ * -------------    ------    --------
+ * BOSS_VOLVAGIA    NORMAL    NORM1
+ */
 CameraModeValue D_8011AEBC[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 500, CAM_DATA_EYE_DIST },              // distMin
     { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1083,8 +1882,12 @@ CameraModeValue D_8011AEBC[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting          Mode      Function
+ * -------------    ------    --------
+ * BOSS_VOLVAGIA    BATTLE    BATT1
+ */
 CameraModeValue D_8011AEE4[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 200, CAM_DATA_EYE_DIST },          // distance
     { 20, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -1099,8 +1902,17 @@ CameraModeValue D_8011AEE4[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/*=====================================================================
+ *                   Custom Data: BOSS_BONGO Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting       Mode      Function
+ * ----------    ------    --------
+ * BOSS_BONGO    NORMAL    NORM1
+ */
 CameraModeValue D_8011AF14[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 500, CAM_DATA_EYE_DIST },              // distMin
     { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1113,8 +1925,12 @@ CameraModeValue D_8011AF14[] = {
     { 0x0083, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting       Mode      Function
+ * ----------    ------    --------
+ * BOSS_BONGO    BATTLE    BATT1
+ */
 CameraModeValue D_8011AF3C[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 200, CAM_DATA_EYE_DIST },          // distance
     { 20, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -1129,8 +1945,13 @@ CameraModeValue D_8011AF3C[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/**
+ * Setting       Mode        Function
+ * ----------    --------    --------
+ * BOSS_BONGO    JUMP        NORM1
+ * BOSS_BONGO    FREEFALL    NORM1
+ */
 CameraModeValue D_8011AF6C[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 500, CAM_DATA_EYE_DIST },              // distMin
     { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1143,8 +1964,17 @@ CameraModeValue D_8011AF6C[] = {
     { 0x0083, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: BOSS_MORPHA Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting        Mode      Function
+ * -----------    ------    --------
+ * BOSS_MORPHA    NORMAL    NORM1
+ */
 CameraModeValue D_8011AF94[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 100, CAM_DATA_EYE_DIST },              // distMin
     { 150, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1157,8 +1987,12 @@ CameraModeValue D_8011AF94[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting        Mode      Function
+ * -----------    ------    --------
+ * BOSS_MORPHA    BATTLE    BATT1
+ */
 CameraModeValue D_8011AFBC[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 200, CAM_DATA_EYE_DIST },          // distance
     { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -1173,8 +2007,17 @@ CameraModeValue D_8011AFBC[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/*=====================================================================
+ *                   Custom Data: TWINROVA Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting              Mode      Function
+ * -----------------    ------    --------
+ * TWINROVA_PLATFORM    NORMAL    NORM1
+ */
 CameraModeValue D_8011AFEC[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1187,8 +2030,13 @@ CameraModeValue D_8011AFEC[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting              Mode      Function
+ * -----------------    ------    --------
+ * TWINROVA_PLATFORM    BATTLE    BATT1
+ * TWINROVA_FLOOR       BATTLE    BATT1
+ */
 CameraModeValue D_8011B014[] = {
-    /* CAM_FUNC_BATT1 */
     { 0, CAM_DATA_Y_OFFSET },            // yOffset (PCT)
     { 400, CAM_DATA_EYE_DIST },          // distance
     { 0, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
@@ -1203,8 +2051,12 @@ CameraModeValue D_8011B014[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/**
+ * Setting           Mode      Function
+ * --------------    ------    --------
+ * TWINROVA_FLOOR    NORMAL    NORM1
+ */
 CameraModeValue D_8011B044[] = {
-    /* CAM_FUNC_NORM1 */
     { -10, CAM_DATA_Y_OFFSET },              // yOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 200, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1217,8 +2069,17 @@ CameraModeValue D_8011B044[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: BOSS_GANONDORF Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting           Mode      Function
+ * --------------    ------    --------
+ * BOSS_GANONDORF    NORMAL    NORM1
+ */
 CameraModeValue D_8011B06C[] = {
-    /* CAM_FUNC_NORM1 */
     { 40, CAM_DATA_Y_OFFSET },               // yOffset
     { 330, CAM_DATA_EYE_DIST },              // distMin
     { 330, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1231,8 +2092,12 @@ CameraModeValue D_8011B06C[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting           Mode      Function
+ * --------------    ------    --------
+ * BOSS_GANONDORF    CHARGE    BATT4
+ */
 CameraModeValue D_8011B094[] = {
-    /* CAM_FUNC_BATT4 */
     { -40, CAM_DATA_Y_OFFSET },             // yOffset
     { 250, CAM_DATA_EYE_DIST },             // rTarget
     { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
@@ -1242,8 +2107,17 @@ CameraModeValue D_8011B094[] = {
     { 0xF000, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: BOSSGANON2 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting       Mode      Function
+ * ----------    ------    --------
+ * BOSSGANON2    NORMAL    NORM1
+ */
 CameraModeValue D_8011B0B0[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 500, CAM_DATA_EYE_DIST },              // distMin
     { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1256,8 +2130,12 @@ CameraModeValue D_8011B0B0[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting       Mode      Function
+ * ----------    ------    --------
+ * BOSSGANON2    BATTLE    BATT1
+ */
 CameraModeValue D_8011B0D8[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 180, CAM_DATA_EYE_DIST },          // distance
     { 20, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -1271,9 +2149,18 @@ CameraModeValue D_8011B0D8[] = {
     { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
-/*start here */
+
+/*=====================================================================
+ *                   Custom Data: COLLAPSE_STAIRS Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * TOWER0     NORMAL    NORM2
+ */
 CameraModeValue D_8011B108[] = {
-    /* CAM_FUNC_NORM2 */
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
     { 120, CAM_DATA_EYE_DIST },             // unk_04
     { 280, CAM_DATA_EYE_DIST_NEXT },        // unk_08
@@ -1285,8 +2172,12 @@ CameraModeValue D_8011B108[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * TOWER0     JUMP    NORM2
+ */
 CameraModeValue D_8011B12C[] = {
-    /* CAM_FUNC_NORM2 */
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
     { 120, CAM_DATA_EYE_DIST },             // unk_04
     { 280, CAM_DATA_EYE_DIST_NEXT },        // unk_08
@@ -1298,8 +2189,17 @@ CameraModeValue D_8011B12C[] = {
     { 0x0080, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: TOWER1 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * TOWER1     NORMAL    NORM2
+ */
 CameraModeValue D_8011B150[] = {
-    /* CAM_FUNC_NORM2 */
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
     { 270, CAM_DATA_EYE_DIST },             // unk_04
     { 300, CAM_DATA_EYE_DIST_NEXT },        // unk_08
@@ -1311,8 +2211,12 @@ CameraModeValue D_8011B150[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * TOWER1     JUMP    NORM2
+ */
 CameraModeValue D_8011B174[] = {
-    /* CAM_FUNC_NORM2 */
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
     { 270, CAM_DATA_EYE_DIST },             // unk_04
     { 300, CAM_DATA_EYE_DIST_NEXT },        // unk_08
@@ -1324,40 +2228,75 @@ CameraModeValue D_8011B174[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: FIXED0 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * FIXED0     NORMAL    FIXD1
+ */
 CameraModeValue sSetFixd0ModeNormVals[] = {
-    /* CAM_FUNC_FIXD1 */
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
     { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
     { 60, CAM_DATA_FOV },                     // fov
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode            Function
+ * -------    ------------    --------
+ * FIXED0     FOLLOWTARGET    FIXD1
+ */
 CameraModeValue D_8011B1A8[] = {
-    /* CAM_FUNC_FIXD1 */
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
     { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
     { 60, CAM_DATA_FOV },                     // fov
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * FIXED0     TALK    FIXD1
+ */
 CameraModeValue D_8011B1B8[] = {
-    /* CAM_FUNC_FIXD1 */
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
     { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
     { 60, CAM_DATA_FOV },                     // fov
     { 0x3500, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: FIXED1 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * FIXED1     NORMAL    FIXD1
+ */
 CameraModeValue D_8011B1C8[] = {
-    /* CAM_FUNC_FIXD1 */
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
     { 25, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
     { 60, CAM_DATA_FOV },                    // fov
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: CIRCLE0 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * CIRCLE0    NORMAL    FIXD2
+ */
 CameraModeValue sSetCirc0ModeNormVals[] = {
-    /* CAM_FUNC_FIXD2 */
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
     { 50, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // eyeStepScale
     { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // posStepScale
@@ -1365,15 +2304,35 @@ CameraModeValue sSetCirc0ModeNormVals[] = {
     { 0x0001, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: CIRCLE2 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * CIRCLE2    NORMAL    DATA4
+ */
 CameraModeValue sSetCirc2ModeNormVals[] = {
-    /* CAM_FUNC_DATA4 */
     { -40, CAM_DATA_Y_OFFSET }, // yOffset
     { 60, CAM_DATA_FOV },       // fov
     { 0x3F00, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode            Function
+ * -------    ------------    --------
+ * CIRCLE3    NORMAL          FIXD4
+ * CIRCLE7    NORMAL          FIXD4
+ * CIRCLE7    FOLLOWTARGET    FIXD4
+ */
 CameraModeValue D_8011B1F8[] = {
-    /* CAM_FUNC_FIXD4 */
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
     { 50, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // speedToEyePos
     { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // followSpeed
@@ -1381,63 +2340,129 @@ CameraModeValue D_8011B1F8[] = {
     { 0x0004, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *
+ *=====================================================================
+ */
+
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * PREREND0    NORMAL    FIXD3
+ * PREREND3    NORMAL    SPEC6
+ * START0      NORMAL    UNIQ0
+ * HIDAN1      NORMAL    SPEC7
+ */
 CameraModeValue D_8011B20C[] = {
-    /* CAM_FUNC_UNIQ0
-       CAM_FUNC_FIXD3
-       CAM_FUNC_SPEC6
-       CAM_FUNC_SPEC7 */
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: PREREND0 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting     Mode            Function
+ * --------    ------------    --------
+ * PREREND0    FOLLOWTARGET    FIXD3
+ * PREREND0    TALK            FIXD3
+ */
 CameraModeValue sSetPR0ModeKeepTalkVals[] = {
-    /* CAM_FUNC_FIXD3 */
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: PREREND1 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * PREREND1    NORMAL    UNIQ7
+ */
 CameraModeValue sSetPR1ModeNormVals[] = {
-    /* CAM_FUNC_UNIQ7 */
     { 60, CAM_DATA_FOV }, // fov
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode            Function
+ * --------    ------------    --------
+ * PREREND1    FOLLOWTARGET    UNIQ7
+ */
 CameraModeValue sSetPR1ModeKeepVals[] = {
-    /* CAM_FUNC_UNIQ7 */
     { 60, CAM_DATA_FOV }, // fov
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode    Function
+ * --------    ----    --------
+ * PREREND1    TALK    KEEP0
+ */
 CameraModeValue sSetPreRend1ModeTalkVals[] = {
-    /* CAM_FUNC_KEEP0 */
     { 30, CAM_DATA_FOV_SCALE },
     { 0, CAM_DATA_YAW_SCALE },
     { 4, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // timerInit
     { 0x3500, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: DOOR0 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * DOOR0      NORMAL    UNIQ3
+ */
 CameraModeValue sSetDoor0ModeNormVals[] = {
-    /* CAM_FUNC_UNIQ3 */
     { -40, CAM_DATA_Y_OFFSET }, // yOffset
     { 60, CAM_DATA_FOV },       // fov
     { 0x3200, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: DOORC Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * DOORC      NORMAL    SPEC9
+ */
 CameraModeValue sSetDoorCModeNormVals[] = {
-    /* CAM_FUNC_SPEC9 */
     { -5, CAM_DATA_Y_OFFSET }, // yOffset
     { 60, CAM_DATA_FOV },      // unk_04 (unused)
     { 0x3202, CAM_DATA_FLAGS },
 };
 
-CameraModeValue sSetDoorCModeParaVals[] = {
-    /* CAM_FUNC_SPEC9 */
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * DOORC      TARGET    SPEC9
+ */
+CameraModeValue sSetDoorCModeTargetVals[] = {
     { -5, CAM_DATA_Y_OFFSET }, // yOffset
     { 60, CAM_DATA_FOV },      // unk_04 (unused)
     { 0x320A, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: CRAWLSPACE Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting       Mode      Function
+ * ----------    ------    --------
+ * CRAWLSPACE    NORMAL    SUBJ4 (Camera_Subj4 only reads one setting which is used for flags)
+ */
 CameraModeValue sSetRail3ModeNormVals[] = {
-    /* CAM_FUNC_SUBJ4
-       Camera_Subj4 only reads one setting which is used for flags. */
     { 0, CAM_DATA_Y_OFFSET },                // flags
     { 2, CAM_DATA_EYE_DIST },                // unused
     { 30, CAM_DATA_EYE_DIST_NEXT },          // unused
@@ -1446,23 +2471,59 @@ CameraModeValue sSetRail3ModeNormVals[] = {
     { 0x3200, CAM_DATA_FLAGS },              // unused
 };
 
+/*=====================================================================
+ *                   Custom Data: START1 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * START1     NORMAL    UNIQ0
+ */
 CameraModeValue D_8011B270[] = {
-    /* CAM_FUNC_UNIQ0 */
     { 0x0001, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: FREE0 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * FREE0      NORMAL    UNIQ6
+ */
 CameraModeValue sSetFree0ModeNormVals[] = {
-    /* CAM_FUNC_UNIQ6 */
     { 0xFF00, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: FREE1 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * FREE1      NORMAL    UNIQ6
+ */
 CameraModeValue sSetFree1ModeNormVals[] = {
-    /* CAM_FUNC_UNIQ6  */
     { 0xFF01, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: CIRCLE4 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * CIRCLE4    NORMAL    FIXD2
+ */
 CameraModeValue sSetCirc4ModeNormVals[] = {
-    /* CAM_FUNC_FIXD2 */
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
     { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // eyeStepScale
     { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // posStepScale
@@ -1470,32 +2531,65 @@ CameraModeValue sSetCirc4ModeNormVals[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: CIRCLE5 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * CIRCLE5    NORMAL    UNIQ2
+ */
 CameraModeValue D_8011B290[] = {
-    /* CAM_FUNC_UNIQ2 */
     { -40, CAM_DATA_Y_OFFSET }, // yOffset
     { 60, CAM_DATA_EYE_DIST },  // distTarget
     { 60, CAM_DATA_FOV },       // fovTarget
     { 0x0002, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * CIRCLE5    TARGET    UNIQ2
+ */
 CameraModeValue D_8011B2A0[] = {
-    /* CAM_FUNC_UNIQ2 */
     { -30, CAM_DATA_Y_OFFSET }, // yOffset
     { 45, CAM_DATA_EYE_DIST },  // distTarget
     { 100, CAM_DATA_FOV },      // fovTarget
     { 0x2001, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * DEMO0      NORMAL    DEMO1
+ * DEMO1      NORMAL    DEMO2
+ * DEMO4      NORMAL    DEMO5 (Not actually used in Camera_Demo4?)
+ * HIDAN2     NORMAL    SPEC4
+ * MORI2      NORMAL    UNIQ5
+ * MORI3      NORMAL    DEMO6
+ */
 CameraModeValue D_8011B2B0[] = {
-    /* CAM_FUNC_DEMO1
-       CAM_FUNC_DEMO4 (Not actually used in Camera_Demo4)
-       CAM_FUNC_DEMO6
-       CAM_FUNC_SPEC4 */
     { 0x3200, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: MORE1 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * MORI1      NORMAL    PARA1
+ */
 CameraModeValue sSetMori1ModeNormVals[] = {
-    /* CAM_FUNC_PARA1 */
     { -50, CAM_DATA_Y_OFFSET },             // yOffset
     { 450, CAM_DATA_EYE_DIST },             // distTarget
     { 40, CAM_DATA_PITCH_TARGET },          // pitchTarget3
@@ -1509,26 +2603,57 @@ CameraModeValue sSetMori1ModeNormVals[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * MORI1      TALK     PARA3
+ */
 CameraModeValue D_8011B2E0[] = {
-    /* CAM_FUNC_PARA3 */
     { 0x3501, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: ITEM Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * ITEM0      NORMAL    DEMO3
+ * ITEM1      NORMAL    DEMO4 (not actually used in Camera_Demo4)
+ */
 CameraModeValue D_8011B2E4[] = {
-    /* CAM_FUNC_DEMO3
-      CAM_FUNC_DEMO4 (not actually used in Camera_Demo4) */
     { 60, CAM_DATA_FOV },                // fov
     { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_04
     { 0x3200, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: DEMO3 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * DEMO3      NORMAL    DEMO9
+ */
 CameraModeValue sSetDemo3ModeNormVals[] = {
-    /* CAM_FUNC_DEMO9 */
     { 0x3212, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: UFOBEAN Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * UFOBEAN    NORMAL    NORM1
+ */
 CameraModeValue D_8011B2F4[] = {
-    /* CAM_FUNC_NORM1 */
     { -50, CAM_DATA_Y_OFFSET },              // yOffset
     { 300, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1541,8 +2666,12 @@ CameraModeValue D_8011B2F4[] = {
     { 0x0002, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * UFOBEAN    TARGET    PARA1
+ */
 CameraModeValue D_8011B31C[] = {
-    /* CAM_FUNC_PARA1 */
     { -50, CAM_DATA_Y_OFFSET },             // yOffset
     { 300, CAM_DATA_EYE_DIST },             // distTarget
     { 10, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -1556,8 +2685,12 @@ CameraModeValue D_8011B31C[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * UFOBEAN    JUMP    JUMP1
+ */
 CameraModeValue D_8011B348[] = {
-    /* CAM_FUNC_JUMP1 */
     { -50, CAM_DATA_Y_OFFSET },              // atYOffset
     { 300, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1568,8 +2701,12 @@ CameraModeValue D_8011B348[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * UFOBEAN    HANG    UNIQ1
+ */
 CameraModeValue D_8011B368[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -80, CAM_DATA_Y_OFFSET },          // yOffset
     { 300, CAM_DATA_EYE_DIST },          // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -1579,8 +2716,12 @@ CameraModeValue D_8011B368[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * UFOBEAN    HANGZ    UNIQ1
+ */
 CameraModeValue D_8011B384[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -120, CAM_DATA_Y_OFFSET },         // yOffset
     { 300, CAM_DATA_EYE_DIST },          // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -1590,8 +2731,12 @@ CameraModeValue D_8011B384[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * UFOBEAN    STILL    NORM1
+ */
 CameraModeValue D_8011B3A0[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },               // yOffset
     { 300, CAM_DATA_EYE_DIST },               // distMin
     { 350, CAM_DATA_EYE_DIST_NEXT },          // distMax
@@ -1604,8 +2749,17 @@ CameraModeValue D_8011B3A0[] = {
     { 0xF002, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: LIFTBEAN Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * LIFTBEAN    NORMAL    NORM1
+ */
 CameraModeValue D_8011B3C8[] = {
-    /* CAM_FUNC_NORM1 */
     { -50, CAM_DATA_Y_OFFSET },              // yOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 200, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1618,8 +2772,12 @@ CameraModeValue D_8011B3C8[] = {
     { 0x0002, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * LIFTBEAN    TARGET    PARA1
+ */
 CameraModeValue D_8011B3F0[] = {
-    /* CAM_FUNC_PARA1 */
     { -50, CAM_DATA_Y_OFFSET },             // yOffset
     { 200, CAM_DATA_EYE_DIST },             // distTarget
     { 40, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -1633,8 +2791,12 @@ CameraModeValue D_8011B3F0[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting     Mode    Function
+ * --------    ----    --------
+ * LIFTBEAN    JUMP    JUMP1
+ */
 CameraModeValue D_8011B41C[] = {
-    /* CAM_FUNC_JUMP1 */
     { -50, CAM_DATA_Y_OFFSET },              // atYOffset
     { 150, CAM_DATA_EYE_DIST },              // distMin
     { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1645,8 +2807,12 @@ CameraModeValue D_8011B41C[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode    Function
+ * --------    ----    --------
+ * LIFTBEAN    HANG    UNIQ1
+ */
 CameraModeValue D_8011B43C[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -80, CAM_DATA_Y_OFFSET },          // yOffset
     { 200, CAM_DATA_EYE_DIST },          // distMin
     { 200, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -1656,8 +2822,12 @@ CameraModeValue D_8011B43C[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * LIFTBEAN    HANGZ    UNIQ1
+ */
 CameraModeValue D_8011B458[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -120, CAM_DATA_Y_OFFSET },         // yOffset
     { 200, CAM_DATA_EYE_DIST },          // distMin
     { 200, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -1667,8 +2837,12 @@ CameraModeValue D_8011B458[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * LIFTBEAN    STILL    NORM1
+ */
 CameraModeValue D_8011B474[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },               // yOffset
     { 200, CAM_DATA_EYE_DIST },               // distMin
     { 250, CAM_DATA_EYE_DIST_NEXT },          // distMax
@@ -1681,23 +2855,50 @@ CameraModeValue D_8011B474[] = {
     { 0xF002, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: SCENE0 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * SCENE0     NORMAL    SPEC9
+ */
 CameraModeValue sSetScn0ModeNormVals[] = {
-    /* CAM_FUNC_SPEC9 */
     { -30, CAM_DATA_Y_OFFSET }, // yOffset
     { 60, CAM_DATA_FOV },       // unk_04 (unused)
     { 0x10A, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: SCENE1 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * SCENE1     NORMAL    UNIQ2
+ */
 CameraModeValue D_8011B4A8[] = {
-    /* CAM_FUNC_UNIQ2 */
     { -20, CAM_DATA_Y_OFFSET }, // yOffset
     { 150, CAM_DATA_EYE_DIST }, // distTarget
     { 60, CAM_DATA_FOV },       // fovTarget
     { 0x0210, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: TAKO Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * TAKO       NORMAL    NORM1
+ */
 CameraModeValue D_8011B4B8[] = {
-    /* CAM_FUNC_NORM1 */
     { 0, CAM_DATA_Y_OFFSET },                // yOffset
     { 400, CAM_DATA_EYE_DIST },              // distMin
     { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1710,8 +2911,12 @@ CameraModeValue D_8011B4B8[] = {
     { 0x0012, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * TAKO       BATTLE    BATT1
+ */
 CameraModeValue D_8011B4E0[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 250, CAM_DATA_EYE_DIST },          // distance
     { 5, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
@@ -1726,8 +2931,12 @@ CameraModeValue D_8011B4E0[] = {
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * TAKO       STILL    NORM1
+ */
 CameraModeValue D_8011B510[] = {
-    /* CAM_FUNC_NORM1 */
     { 0, CAM_DATA_Y_OFFSET },               // yOffset
     { 300, CAM_DATA_EYE_DIST },             // distMin
     { 500, CAM_DATA_EYE_DIST_NEXT },        // distMax
@@ -1740,8 +2949,17 @@ CameraModeValue D_8011B510[] = {
     { 0x0012, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: SPOT05A Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * SPOT05A    NORMAL    NORM1
+ */
 CameraModeValue D_8011B538[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 500, CAM_DATA_EYE_DIST },              // distMin
     { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1754,8 +2972,12 @@ CameraModeValue D_8011B538[] = {
     { 0x0012, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * SPOT05A    TARGET    PARA1
+ */
 CameraModeValue D_8011B560[] = {
-    /* CAM_FUNC_PARA1 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 500, CAM_DATA_EYE_DIST },             // distTarget
     { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -1769,8 +2991,12 @@ CameraModeValue D_8011B560[] = {
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * SPOT05A    BATTLE    PARA1
+ */
 CameraModeValue D_8011B58C[] = {
-    /* CAM_FUNC_PARA1 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 500, CAM_DATA_EYE_DIST },             // distTarget
     { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -1784,8 +3010,12 @@ CameraModeValue D_8011B58C[] = {
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * SPOT05A    CLIMB    NORM1
+ */
 CameraModeValue D_8011B5B8[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 500, CAM_DATA_EYE_DIST },              // distMin
     { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1798,8 +3028,17 @@ CameraModeValue D_8011B5B8[] = {
     { 0x0012, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: SPOT05B Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * SPOT05B    NORMAL    NORM1
+ */
 CameraModeValue D_8011B5E0[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 750, CAM_DATA_EYE_DIST },              // distMin
     { 750, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1812,8 +3051,12 @@ CameraModeValue D_8011B5E0[] = {
     { 0x0012, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * SPOT05B    TARGET    PARA1
+ */
 CameraModeValue D_8011B608[] = {
-    /* CAM_FUNC_PARA1 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 750, CAM_DATA_EYE_DIST },             // distTarget
     { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -1827,8 +3070,12 @@ CameraModeValue D_8011B608[] = {
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * SPOT05B    BATTLE    PARA1
+ */
 CameraModeValue D_8011B634[] = {
-    /* CAM_FUNC_PARA1 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 750, CAM_DATA_EYE_DIST },             // distTarget
     { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -1842,8 +3089,12 @@ CameraModeValue D_8011B634[] = {
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * SPOT05B    CLIMB    NORM1
+ */
 CameraModeValue D_8011B660[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 750, CAM_DATA_EYE_DIST },              // distMin
     { 750, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1856,8 +3107,17 @@ CameraModeValue D_8011B660[] = {
     { 0x0012, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: HIDAN3 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * HIDAN3     NORMAL    NORM1
+ */
 CameraModeValue D_8011B688[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 500, CAM_DATA_EYE_DIST },              // distMin
     { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1870,8 +3130,12 @@ CameraModeValue D_8011B688[] = {
     { 0x0002, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * HIDAN3     TARGET    PARA1
+ */
 CameraModeValue D_8011B6B0[] = {
-    /* CAM_FUNC_PARA1 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 500, CAM_DATA_EYE_DIST },             // distTarget
     { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -1885,8 +3149,12 @@ CameraModeValue D_8011B6B0[] = {
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * HIDAN3     BATTLE    PARA1
+ */
 CameraModeValue D_8011B6DC[] = {
-    /* CAM_FUNC_PARA1 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 500, CAM_DATA_EYE_DIST },             // distTarget
     { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -1900,8 +3168,12 @@ CameraModeValue D_8011B6DC[] = {
     { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * HIDAN3     CLIMB    NORM1
+ */
 CameraModeValue D_8011B708[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 500, CAM_DATA_EYE_DIST },              // distMin
     { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1914,8 +3186,17 @@ CameraModeValue D_8011B708[] = {
     { 0x0002, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: ITEM2 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * ITEM2      NORMAL    KEEP4
+ */
 CameraModeValue D_8011B730[] = {
-    /* CAM_FUNC_KEEP4 */
     { -30, CAM_DATA_Y_OFFSET },                                              // unk_00
     { 120, CAM_DATA_EYE_DIST },                                              // unk_04
     { -10, CAM_DATA_PITCH_TARGET },                                          // unk_08
@@ -1926,14 +3207,33 @@ CameraModeValue D_8011B730[] = {
     { 6, CAM_DATA_UNK_22 },                                                  // unk_1E
 };
 
+/*=====================================================================
+ *                   Custom Data: CIRCLE6 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * CIRCLE6    NORMAL    SPEC0
+ */
 CameraModeValue sSetCirc6ModeNormVals[] = {
-    /* CAM_FUNC_SPEC0 */
     { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpATScale
     { 0x3200, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: NORMAL Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * NORMAL2    NORMAL    NORM1
+ * NORMAL4    NORMAL    NORM1
+ */
 CameraModeValue D_8011B75C[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1946,8 +3246,17 @@ CameraModeValue D_8011B75C[] = {
     { 0x0002, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: FISHING Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * FISHING    NORMAL    NORM1
+ */
 CameraModeValue D_8011B784[] = {
-    /* CAM_FUNC_NORM1 */
     { 0, CAM_DATA_Y_OFFSET },                // yOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -1960,8 +3269,12 @@ CameraModeValue D_8011B784[] = {
     { 0x0F02, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * FISHING    TARGET    PARA1
+ */
 CameraModeValue D_8011B7AC[] = {
-    /* CAM_FUNC_PARA1 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 250, CAM_DATA_EYE_DIST },             // distTarget
     { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
@@ -1975,8 +3288,13 @@ CameraModeValue D_8011B7AC[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting    Mode            Function
+ * -------    ------------    --------
+ * FISHING    FOLLOWTARGET    BATT1
+ * FISHING    BATTLE          BATT1
+ */
 CameraModeValue D_8011B7D8[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 250, CAM_DATA_EYE_DIST },          // distance
     { 0, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
@@ -1991,8 +3309,12 @@ CameraModeValue D_8011B7D8[] = {
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * FISHING    TALK    KEEP3
+ */
 CameraModeValue D_8011B808[] = {
-    /* CAM_FUNC_KEEP3 */
     { -30, CAM_DATA_Y_OFFSET },              // yOffset
     { 70, CAM_DATA_EYE_DIST },               // minDist
     { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
@@ -2007,8 +3329,12 @@ CameraModeValue D_8011B808[] = {
     { 0x3F20, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode           Function
+ * -------    -----------    --------
+ * FISHING    FIRSTPERSON    SUBJ3
+ */
 CameraModeValue D_8011B838[] = {
-    /* CAM_FUNC_SUBJ3 */
     { 0, CAM_DATA_Y_OFFSET },                // eyeNextYOffset
     { 5, CAM_DATA_EYE_DIST },                // eyeDist
     { 50, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
@@ -2020,8 +3346,12 @@ CameraModeValue D_8011B838[] = {
     { 0x0F00, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * FISHING    JUMP    JUMP1
+ */
 CameraModeValue D_8011B85C[] = {
-    /* CAM_FUNC_JUMP1 */
     { -20, CAM_DATA_Y_OFFSET },              // atYOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -2032,8 +3362,12 @@ CameraModeValue D_8011B85C[] = {
     { 0x0F00, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode        Function
+ * -------    --------    --------
+ * FISHING    FREEFALL    JUMP1
+ */
 CameraModeValue D_8011B87C[] = {
-    /* CAM_FUNC_JUMP1 */
     { -20, CAM_DATA_Y_OFFSET },              // atYOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -2044,8 +3378,12 @@ CameraModeValue D_8011B87C[] = {
     { 0x0F00, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * FISHING    HANG    UNIQ1
+ */
 CameraModeValue D_8011B89C[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -80, CAM_DATA_Y_OFFSET },          // yOffset
     { 200, CAM_DATA_EYE_DIST },          // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -2055,8 +3393,12 @@ CameraModeValue D_8011B89C[] = {
     { 0x0F00, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode     Function
+ * -------    -----    --------
+ * FISHING    HANGZ    UNIQ1
+ */
 CameraModeValue D_8011B8B8[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -120, CAM_DATA_Y_OFFSET },         // yOffset
     { 300, CAM_DATA_EYE_DIST },          // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -2066,13 +3408,31 @@ CameraModeValue D_8011B8B8[] = {
     { 0x2F00, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: DEMOC Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * DEMOC      NORMAL    UNIQ9
+ */
 CameraModeValue sSetDemoCModeNormVals[] = {
-    /* CAM_FUNC_UNIQ9 */
     { 0x3F00, CAM_DATA_FLAGS }, /* flags */
 };
 
+/*=====================================================================
+ *                   Custom Data: UOFIBER Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * UOFIBER    NORMAL    NORM1
+ */
 CameraModeValue D_8011B8D8[] = {
-    /* CAM_FUNC_NORM1 */
     { 30, CAM_DATA_Y_OFFSET },               // yOffset
     { 200, CAM_DATA_EYE_DIST },              // distMin
     { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -2085,8 +3445,12 @@ CameraModeValue D_8011B8D8[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * UOFIBER    BATTLE    BATT1
+ */
 CameraModeValue D_8011B900[] = {
-    /* CAM_FUNC_BATT1 */
     { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 160, CAM_DATA_EYE_DIST },          // distance
     { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -2101,8 +3465,17 @@ CameraModeValue D_8011B900[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/*=====================================================================
+ *                   Custom Data: DUNGEON2 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON2    NORMAL    NORM1
+ */
 CameraModeValue D_8011B930[] = {
-    /* CAM_FUNC_NORM1 */
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
     { 350, CAM_DATA_EYE_DIST },              // distMin
     { 350, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -2115,8 +3488,12 @@ CameraModeValue D_8011B930[] = {
     { 0x0003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON2    TARGET    PARA1
+ */
 CameraModeValue D_8011B958[] = {
-    /* CAM_FUNC_PARA1 */
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
     { 200, CAM_DATA_EYE_DIST },             // distTarget
     { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
@@ -2130,8 +3507,12 @@ CameraModeValue D_8011B958[] = {
     { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON2    BATTLE    BATT1
+ */
 CameraModeValue sSetDung2ModeBattVals[] = {
-    /* CAM_FUNC_BATT1 */
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
     { 180, CAM_DATA_EYE_DIST },          // distance
     { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
@@ -2146,8 +3527,12 @@ CameraModeValue sSetDung2ModeBattVals[] = {
     { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
 };
 
+/**
+ * Setting     Mode    Function
+ * --------    ----    --------
+ * DUNGEON2    JUMP    JUMP1
+ */
 CameraModeValue D_8011B9B4[] = {
-    /* CAM_FUNC_JUMP1 */
     { -20, CAM_DATA_Y_OFFSET },              // atYOffset
     { 350, CAM_DATA_EYE_DIST },              // distMin
     { 350, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -2158,8 +3543,12 @@ CameraModeValue D_8011B9B4[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode        Function
+ * --------    --------    --------
+ * DUNGEON2    FREEFALL    JUMP1
+ */
 CameraModeValue D_8011B9D4[] = {
-    /* CAM_FUNC_JUMP1 */
     { -20, CAM_DATA_Y_OFFSET },              // atYOffset
     { 350, CAM_DATA_EYE_DIST },              // distMin
     { 350, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -2170,8 +3559,12 @@ CameraModeValue D_8011B9D4[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * DUNGEON2    CLIMB    JUMP2
+ */
 CameraModeValue D_8011B9F4[] = {
-    /* CAM_FUNC_JUMP2 */
     { -40, CAM_DATA_Y_OFFSET },             // atYOffset
     { 350, CAM_DATA_EYE_DIST },             // minDist
     { 350, CAM_DATA_EYE_DIST_NEXT },        // maxDist
@@ -2183,8 +3576,12 @@ CameraModeValue D_8011B9F4[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * DUNGEON2    CLIMBZ    JUMP2
+ */
 CameraModeValue D_8011BA18[] = {
-    /* CAM_FUNC_JUMP2 */
     { -40, CAM_DATA_Y_OFFSET },               // atYOffset
     { 350, CAM_DATA_EYE_DIST },               // minDist
     { 350, CAM_DATA_EYE_DIST_NEXT },          // maxDist
@@ -2196,8 +3593,12 @@ CameraModeValue D_8011BA18[] = {
     { 0x2006, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode    Function
+ * --------    ----    --------
+ * DUNGEON2    HANG    UNIQ1
+ */
 CameraModeValue D_8011BA3C[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -50, CAM_DATA_Y_OFFSET },          // yOffset
     { 350, CAM_DATA_EYE_DIST },          // distMin
     { 350, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -2207,8 +3608,12 @@ CameraModeValue D_8011BA3C[] = {
     { 0x0000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * DUNGEON2    HANGZ    UNIQ1
+ */
 CameraModeValue D_8011BA58[] = {
-    /* CAM_FUNC_UNIQ1 */
     { -100, CAM_DATA_Y_OFFSET },         // yOffset
     { 350, CAM_DATA_EYE_DIST },          // distMin
     { 350, CAM_DATA_EYE_DIST_NEXT },     // distMax
@@ -2218,8 +3623,12 @@ CameraModeValue D_8011BA58[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * DUNGEON2    STILL    NORM1
+ */
 CameraModeValue D_8011BA74[] = {
-    /* CAM_FUNC_NORM1 */
     { -10, CAM_DATA_Y_OFFSET },               // yOffset
     { 350, CAM_DATA_EYE_DIST },               // distMin
     { 350, CAM_DATA_EYE_DIST_NEXT },          // distMax
@@ -2232,8 +3641,12 @@ CameraModeValue D_8011BA74[] = {
     { 0xF003, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting     Mode        Function
+ * --------    --------    --------
+ * DUNGEON2    PUSHPULL    PARA1
+ */
 CameraModeValue D_8011BA9C[] = {
-    /* CAM_FUNC_PARA1 */
     { 0, CAM_DATA_Y_OFFSET },               // yOffset
     { 280, CAM_DATA_EYE_DIST },             // distTarget
     { 25, CAM_DATA_PITCH_TARGET },          // pitchTarget
@@ -2247,8 +3660,17 @@ CameraModeValue D_8011BA9C[] = {
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
 };
 
+/*=====================================================================
+ *                   Custom Data: TEPPEN Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode      Function
+ * -------    ------    --------
+ * TEPPEN     NORMAL    NORM1
+ */
 CameraModeValue D_8011BAC8[] = {
-    /* CAM_FUNC_NORM1 */
     { -10, CAM_DATA_Y_OFFSET },              // yOffset
     { 280, CAM_DATA_EYE_DIST },              // distMin
     { 320, CAM_DATA_EYE_DIST_NEXT },         // distMax
@@ -2261,8 +3683,12 @@ CameraModeValue D_8011BAC8[] = {
     { 0x0002, CAM_DATA_FLAGS },
 };
 
+/**
+ * Setting    Mode            Function
+ * -------    ------------    --------
+ * TEPPEN     FOLLOWTARGET    KEEP1
+ */
 CameraModeValue D_8011BAF0[] = {
-    /* CAM_FUNC_KEEP1 */
     { -20, CAM_DATA_Y_OFFSET },          // unk_00
     { 180, CAM_DATA_EYE_DIST },          // unk_04
     { 200, CAM_DATA_EYE_DIST_NEXT },     // unk_08
@@ -2278,8 +3704,12 @@ CameraModeValue D_8011BAF0[] = {
     { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
 };
 
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * TEPPEN     TALK    KEEP3
+ */
 CameraModeValue D_8011BB24[] = {
-    /* CAM_FUNC_KEEP3 */
     { -80, CAM_DATA_Y_OFFSET },              // yOffset
     { 200, CAM_DATA_EYE_DIST },              // minDist
     { 250, CAM_DATA_EYE_DIST_NEXT },         // maxDist
@@ -2294,8 +3724,17 @@ CameraModeValue D_8011BB24[] = {
     { 0x3520, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *                   Custom Data: NORMAL4 Setting
+ *=====================================================================
+ */
+
+/**
+ * Setting    Mode    Function
+ * -------    ----    --------
+ * NORMAL4    TALK    KEEP3
+ */
 CameraModeValue D_8011BB54[] = {
-    /* CAM_FUNC_KEEP3 */
     { -30, CAM_DATA_Y_OFFSET },              // yOffset
     { 70, CAM_DATA_EYE_DIST },               // minDist
     { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
@@ -2310,6 +3749,11 @@ CameraModeValue D_8011BB54[] = {
     { 0x35A0, CAM_DATA_FLAGS },
 };
 
+/*=====================================================================
+ *             CAMERA MODES TO DATA
+ *=====================================================================
+ */
+
 CameraMode sCamSetNorm0Modes[] = {
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A3A0), D_8011A3A0 }, // CAM_MODE_NORMAL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A3C8), D_8011A3C8 }, // CAM_MODE_TARGET
@@ -2320,7 +3764,7 @@ CameraMode sCamSetNorm0Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2331,7 +3775,7 @@ CameraMode sCamSetNorm0Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetNorm1Modes[] = {
@@ -2344,7 +3788,7 @@ CameraMode sCamSetNorm1Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC },                       // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 },                       // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 },                       // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A778), D_8011A778 },                       // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A778), D_8011A778 },                       // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 },                       // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C },                       // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A7FC), D_8011A7FC },                       // CAM_MODE_CLIMBZ
@@ -2355,7 +3799,7 @@ CameraMode sCamSetNorm1Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A820), D_8011A820 },                       // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A874), D_8011A874 },                       // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 },                       // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C },                       // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C },                       // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetDungeon0Modes[] = {
@@ -2368,7 +3812,7 @@ CameraMode sCamSetDungeon0Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A778), D_8011A778 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A778), D_8011A778 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A9B8), D_8011A9B8 }, // CAM_MODE_CLIMBZ
@@ -2379,7 +3823,7 @@ CameraMode sCamSetDungeon0Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A9DC), D_8011A9DC }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011AA30), D_8011AA30 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetDungeon1Modes[] = {
@@ -2392,7 +3836,7 @@ CameraMode sCamSetDungeon1Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A778), D_8011A778 }, // CAM_MODE_FOOKSHOT,
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A778), D_8011A778 }, // CAM_MODE_HOOKSHOT,
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011AB14), D_8011AB14 }, // CAM_MODE_CLIMBZ
@@ -2403,7 +3847,7 @@ CameraMode sCamSetDungeon1Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011AB38), D_8011AB38 }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011AB8C), D_8011AB8C }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011ABB4), D_8011ABB4 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetNorm3Modes[] = {
@@ -2416,7 +3860,7 @@ CameraMode sCamSetNorm3Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC },                       // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 },                       // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 },                       // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 },                       // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 },                       // CAM_MODE_HOOKSHOT
     { CAM_FUNC_JUMP3, ARRAY_COUNT(sSetNorm3ModeBoomVals), sSetNorm3ModeBoomVals }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_NONE, 0, NULL },                                                    // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 },                       // CAM_MODE_CLIMBZ
@@ -2451,7 +3895,7 @@ CameraMode sCamSetBossGomaModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT,
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT,
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2462,7 +3906,7 @@ CameraMode sCamSetBossGomaModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A9DC), D_8011A9DC }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetBossDodoModes[] = {
@@ -2475,7 +3919,7 @@ CameraMode sCamSetBossDodoModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT,
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT,
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2486,7 +3930,7 @@ CameraMode sCamSetBossDodoModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetBossBariModes[] = {
@@ -2499,7 +3943,7 @@ CameraMode sCamSetBossBariModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT,
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT,
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2510,7 +3954,7 @@ CameraMode sCamSetBossBariModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetBossFGanonModes[] = {
@@ -2523,7 +3967,7 @@ CameraMode sCamSetBossFGanonModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2534,7 +3978,7 @@ CameraMode sCamSetBossFGanonModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetBossBalModes[] = {
@@ -2547,7 +3991,7 @@ CameraMode sCamSetBossBalModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2558,7 +4002,7 @@ CameraMode sCamSetBossBalModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetBossShadesModes[] = {
@@ -2571,7 +4015,7 @@ CameraMode sCamSetBossShadesModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT,
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT,
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2582,7 +4026,7 @@ CameraMode sCamSetBossShadesModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetBossMofaModes[] = {
@@ -2595,7 +4039,7 @@ CameraMode sCamSetBossMofaModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2606,7 +4050,7 @@ CameraMode sCamSetBossMofaModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetBossTwin0Modes[] = {
@@ -2619,7 +4063,7 @@ CameraMode sCamSetBossTwin0Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT,
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT,
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2630,7 +4074,7 @@ CameraMode sCamSetBossTwin0Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetBossTwin1Modes[] = {
@@ -2643,7 +4087,7 @@ CameraMode sCamSetBossTwin1Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT,
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT,
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2654,7 +4098,7 @@ CameraMode sCamSetBossTwin1Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetBossGanon1Modes[] = {
@@ -2667,7 +4111,7 @@ CameraMode sCamSetBossGanon1Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT,
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT,
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2678,7 +4122,7 @@ CameraMode sCamSetBossGanon1Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011B094), D_8011B094 }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetBossGanon2Modes[] = {
@@ -2691,7 +4135,7 @@ CameraMode sCamSetBossGanon2Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT,
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT,
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2702,7 +4146,7 @@ CameraMode sCamSetBossGanon2Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetTower0Modes[] = {
@@ -2715,7 +4159,7 @@ CameraMode sCamSetTower0Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2726,7 +4170,7 @@ CameraMode sCamSetTower0Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetTower1Modes[] = {
@@ -2739,7 +4183,7 @@ CameraMode sCamSetTower1Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2750,7 +4194,7 @@ CameraMode sCamSetTower1Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetFixed0Modes[] = {
@@ -2793,7 +4237,7 @@ CameraMode sCamSetCirc3Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetPreRend0Modes[] = {
@@ -2820,7 +4264,7 @@ CameraMode sCamSetDoor0Modes[] = {
 
 CameraMode sCamSetDoorCModes[] = {
     { CAM_FUNC_SPEC9, ARRAY_COUNT(sSetDoorCModeNormVals), sSetDoorCModeNormVals }, // CAM_MODE_NORMAL
-    { CAM_FUNC_SPEC9, ARRAY_COUNT(sSetDoorCModeParaVals), sSetDoorCModeParaVals }, // CAM_MODE_TARGET
+    { CAM_FUNC_SPEC9, ARRAY_COUNT(sSetDoorCModeTargetVals), sSetDoorCModeTargetVals }, // CAM_MODE_TARGET
 };
 
 CameraMode sCamSetRail3Modes[] = {
@@ -2893,7 +4337,7 @@ CameraMode sCamSetUFOBeanModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -2904,7 +4348,7 @@ CameraMode sCamSetUFOBeanModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011B3A0), D_8011B3A0 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetLiftBeanModes[] = {
@@ -2928,7 +4372,7 @@ CameraMode sCamSetLiftBeanModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011B474), D_8011B474 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetScene0Modes[] = {
@@ -2965,7 +4409,7 @@ CameraMode sCamSetTakoModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A778), D_8011A778 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A778), D_8011A778 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A9B8), D_8011A9B8 }, // CAM_MODE_CLIMBZ
@@ -2976,7 +4420,7 @@ CameraMode sCamSetTakoModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A9DC), D_8011A9DC }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011B510), D_8011B510 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetSpot05AModes[] = {
@@ -3024,7 +4468,7 @@ CameraMode sCamSetNorm2Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -3035,7 +4479,7 @@ CameraMode sCamSetNorm2Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetFishingModes[] = {
@@ -3048,7 +4492,7 @@ CameraMode sCamSetFishingModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011B838), D_8011B838 }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_NONE, 0, NULL },                              // CAM_MODE_BOWARROW
     { CAM_FUNC_NONE, 0, NULL },                              // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_NONE, 0, NULL },                              // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_NONE, 0, NULL },                              // CAM_MODE_HOOKSHOT
     { CAM_FUNC_NONE, 0, NULL },                              // CAM_MODE_BOOMERANG
     { CAM_FUNC_NONE, 0, NULL },                              // CAM_MODE_SLINGSHOT
     { CAM_FUNC_NONE, 0, NULL },                              // CAM_MODE_CLIMBZ
@@ -3072,7 +4516,7 @@ CameraMode sCamSetUOFiberModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -3083,7 +4527,7 @@ CameraMode sCamSetUOFiberModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetDungeon2Modes[] = {
@@ -3096,7 +4540,7 @@ CameraMode sCamSetDungeon2Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC },                       // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 },                       // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 },                       // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A778), D_8011A778 },                       // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A778), D_8011A778 },                       // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 },                       // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C },                       // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011BA18), D_8011BA18 },                       // CAM_MODE_CLIMBZ
@@ -3107,7 +4551,7 @@ CameraMode sCamSetDungeon2Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C },                       // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011BA74), D_8011BA74 },                       // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011BA9C), D_8011BA9C },                       // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C },                       // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C },                       // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetTeppenModes[] = {
@@ -3120,7 +4564,7 @@ CameraMode sCamSetTeppenModes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -3131,7 +4575,7 @@ CameraMode sCamSetTeppenModes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraMode sCamSetCirc7Modes[] = {
@@ -3159,7 +4603,7 @@ CameraMode sCamSetNorm4Modes[] = {
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4AC), D_8011A4AC }, // CAM_MODE_FIRSTPERSON
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4D0), D_8011A4D0 }, // CAM_MODE_BOWARROW
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A4F4), D_8011A4F4 }, // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_FOOKSHOT
+    { CAM_FUNC_SPEC5, ARRAY_COUNT(D_8011A518), D_8011A518 }, // CAM_MODE_HOOKSHOT
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A538), D_8011A538 }, // CAM_MODE_BOOMERANG
     { CAM_FUNC_SUBJ3, ARRAY_COUNT(D_8011A55C), D_8011A55C }, // CAM_MODE_SLINGSHOT
     { CAM_FUNC_JUMP2, ARRAY_COUNT(D_8011A580), D_8011A580 }, // CAM_MODE_CLIMBZ
@@ -3170,7 +4614,7 @@ CameraMode sCamSetNorm4Modes[] = {
     { CAM_FUNC_BATT4, ARRAY_COUNT(D_8011A61C), D_8011A61C }, // CAM_MODE_CHARGE
     { CAM_FUNC_NORM1, ARRAY_COUNT(D_8011A638), D_8011A638 }, // CAM_MODE_STILL
     { CAM_FUNC_PARA1, ARRAY_COUNT(D_8011A660), D_8011A660 }, // CAM_MODE_PUSHPULL
-    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_BOOMFOLLLOW
+    { CAM_FUNC_KEEP1, ARRAY_COUNT(D_8011A68C), D_8011A68C }, // CAM_MODE_FOLLLOWRANG
 };
 
 CameraSetting sCameraSettings[] = {
@@ -3180,65 +4624,65 @@ CameraSetting sCameraSettings[] = {
     { { 0x051FFFFF }, sCamSetDungeon0Modes },   // CAM_SET_DUNGEON0
     { { 0x051FFFFF }, sCamSetDungeon1Modes },   // CAM_SET_DUNGEON1
     { { 0x050FF7FF }, sCamSetNorm3Modes },      // CAM_SET_NORMAL3
-    { { 0x8500018F }, sCamSetHorse0Modes },     // CAM_SET_HORSE0
-    { { 0x051FFFFF }, sCamSetBossGomaModes },   // CAM_SET_BOSS_GOMA
-    { { 0x051FFFFF }, sCamSetBossDodoModes },   // CAM_SET_BOSS_DODO
-    { { 0x051FFFFF }, sCamSetBossBariModes },   // CAM_SET_BOSS_BARI
-    { { 0x051FFFFF }, sCamSetBossFGanonModes }, // CAM_SET_BOSS_FGANON
-    { { 0x051FFFFF }, sCamSetBossBalModes },    // CAM_SET_BOSS_BAL
-    { { 0x051FFFFF }, sCamSetBossShadesModes }, // CAM_SET_BOSS_SHADES
-    { { 0x051FFFFF }, sCamSetBossMofaModes },   // CAM_SET_BOSS_MOFA
-    { { 0x051FFFFF }, sCamSetBossTwin0Modes },  // CAM_SET_TWIN0
-    { { 0x051FFFFF }, sCamSetBossTwin1Modes },  // CAM_SET_TWIN1
-    { { 0x051FFFFF }, sCamSetBossGanon1Modes }, // CAM_SET_BOSS_GANON1
-    { { 0x051FFFFF }, sCamSetBossGanon2Modes }, // CAM_SET_BOSS_GANON2
-    { { 0x851FFFFF }, sCamSetTower0Modes },     // CAM_SET_TOWER0
-    { { 0x851FFFFF }, sCamSetTower1Modes },     // CAM_SET_TOWER1
-    { { 0x8500000D }, sCamSetFixed0Modes },     // CAM_SET_FIXED0
-    { { 0x85000001 }, sCamSetFixed1Modes },     // CAM_SET_FIXED1
+    { { 0x8500018F }, sCamSetHorse0Modes },     // CAM_SET_HORSE
+    { { 0x051FFFFF }, sCamSetBossGomaModes },   // CAM_SET_BOSS_GOHMA
+    { { 0x051FFFFF }, sCamSetBossDodoModes },   // CAM_SET_BOSS_DODONGO
+    { { 0x051FFFFF }, sCamSetBossBariModes },   // CAM_SET_BOSS_BARINADE
+    { { 0x051FFFFF }, sCamSetBossFGanonModes }, // CAM_SET_BOSS_PHANTOM
+    { { 0x051FFFFF }, sCamSetBossBalModes },    // CAM_SET_BOSS_VOLVAGIA
+    { { 0x051FFFFF }, sCamSetBossShadesModes }, // CAM_SET_BOSS_BONGO
+    { { 0x051FFFFF }, sCamSetBossMofaModes },   // CAM_SET_BOSS_MORPHA
+    { { 0x051FFFFF }, sCamSetBossTwin0Modes },  // CAM_SET_BOSS_TWINROVA_PLATFORM
+    { { 0x051FFFFF }, sCamSetBossTwin1Modes },  // CAM_SET_BOSS_TWINROVA_FLOOR
+    { { 0x051FFFFF }, sCamSetBossGanon1Modes }, // CAM_SET_BOSS_GANONDORF
+    { { 0x051FFFFF }, sCamSetBossGanon2Modes }, // CAM_SET_BOSS_GANON
+    { { 0x851FFFFF }, sCamSetTower0Modes },     // CAM_SET_TOWER_CLIMB
+    { { 0x851FFFFF }, sCamSetTower1Modes },     // CAM_SET_TOWER_UNUSED
+    { { 0x8500000D }, sCamSetFixed0Modes },     // CAM_SET_MARKET_BALCONY
+    { { 0x85000001 }, sCamSetFixed1Modes },     // CAM_SET_CHU_BOWLING
     { { 0x85000001 }, sCamSetCirc0Modes },      // CAM_SET_CIRCLE0
-    { { 0x85000001 }, sCamSetCirc2Modes },      // CAM_SET_CIRCLE2
+    { { 0x85000001 }, sCamSetCirc2Modes },      // CAM_SET_SHOP_BROWSING
     { { 0x851E1FFF }, sCamSetCirc3Modes },      // CAM_SET_CIRCLE3
-    { { 0x8C00000D }, sCamSetPreRend0Modes },   // CAM_SET_PREREND0
-    { { 0x8C00000D }, sCamSetPreRend1Modes },   // CAM_SET_PREREND1
-    { { 0x8C000001 }, sCamSetPreRend3Modes },   // CAM_SET_PREREND3
+    { { 0x8C00000D }, sCamSetPreRend0Modes },   // CAM_SET_PREREND_FIXED
+    { { 0x8C00000D }, sCamSetPreRend1Modes },   // CAM_SET_PREREND_ROTATE
+    { { 0x8C000001 }, sCamSetPreRend3Modes },   // CAM_SET_PREREND_SCROLL
     { { 0xC5000001 }, sCamSetDoor0Modes },      // CAM_SET_DOOR0
     { { 0xC5000003 }, sCamSetDoorCModes },      // CAM_SET_DOORC
-    { { 0xC5000001 }, sCamSetRail3Modes },      // CAM_SET_RAIL3
+    { { 0xC5000001 }, sCamSetRail3Modes },      // CAM_SET_CRAWLSPACE
     { { 0xC5000001 }, sCamSetStart0Modes },     // CAM_SET_START0
     { { 0xC5000001 }, sCamSetStart1Modes },     // CAM_SET_START1
     { { 0x05000001 }, sCamSetFree0Modes },      // CAM_SET_FREE0
     { { 0x05000001 }, sCamSetFree1Modes },      // CAM_SET_FREE2
-    { { 0x85000001 }, sCamSetCirc4Modes },      // CAM_SET_CIRCLE4
-    { { 0x05000003 }, sCamSetCirc5Modes },      // CAM_SET_CIRCLE5
-    { { 0xCE000001 }, sCamSetDemo0Modes },      // CAM_SET_DEMO0
-    { { 0x4E000001 }, sCamSetDemo1Modes },      // CAM_SET_DEMO1
-    { { 0x05000009 }, sCamSetMori1Modes },      // CAM_SET_MORI1
-    { { 0x45000001 }, sCamSetItem0Modes },      // CAM_SET_ITEM0
-    { { 0x45000001 }, sCamSetItem1Modes },      // CAM_SET_ITEM1
-    { { 0x45000001 }, sCamSetDemo3Modes },      // CAM_SET_DEMO3
-    { { 0x45000001 }, sCamSetDemo4Modes },      // CAM_SET_DEMO4
-    { { 0x451FFFFF }, sCamSetUFOBeanModes },    // CAM_SET_UFOBEAN
-    { { 0x451FFFFF }, sCamSetLiftBeanModes },   // CAM_SET_LIFTBEAN
+    { { 0x85000001 }, sCamSetCirc4Modes },      // CAM_SET_PRISON
+    { { 0x05000003 }, sCamSetCirc5Modes },      // CAM_SET_DIVING
+    { { 0xCE000001 }, sCamSetDemo0Modes },      // CAM_SET_CS_0
+    { { 0x4E000001 }, sCamSetDemo1Modes },      // CAM_SET_CS_1
+    { { 0x05000009 }, sCamSetMori1Modes },      // CAM_SET_FOREST_BIRDS_EYE
+    { { 0x45000001 }, sCamSetItem0Modes },      // CAM_SET_SLOW_CHEST_CS
+    { { 0x45000001 }, sCamSetItem1Modes },      // CAM_SET_ITEM_UNUSED
+    { { 0x45000001 }, sCamSetDemo3Modes },      // CAM_SET_CS_3
+    { { 0x45000001 }, sCamSetDemo4Modes },      // CAM_SET_CS_4
+    { { 0x451FFFFF }, sCamSetUFOBeanModes },    // CAM_SET_BEAN_GENERIC
+    { { 0x451FFFFF }, sCamSetLiftBeanModes },   // CAM_SET_BEAN_LOST_WOODS
     { { 0xC5000001 }, sCamSetScene0Modes },     // CAM_SET_SCENE0
     { { 0x45000001 }, sCamSetScene1Modes },     // CAM_SET_SCENE1
-    { { 0x05000001 }, sCamSetHidan1Modes },     // CAM_SET_HIDAN1
-    { { 0x45000001 }, sCamSetHidan2Modes },     // CAM_SET_HIDAN2
-    { { 0x45000001 }, sCamSetMori2Modes },      // CAM_SET_MORI2
-    { { 0x45000001 }, sCamSetMori3Modes },      // CAM_SET_MORI3
-    { { 0x451FFFFF }, sCamSetTakoModes },       // CAM_SET_TAKO
-    { { 0x05000033 }, sCamSetSpot05AModes },    // CAM_SET_SPOT05A
-    { { 0x05000033 }, sCamSetSpot05BModes },    // CAM_SET_SPOT05B
-    { { 0x05000033 }, sCamSetHidan3Modes },     // CAM_SET_HIDAN3
-    { { 0x4A000001 }, sCamSetItem2Modes },      // CAM_SET_ITEM2
-    { { 0x05000001 }, sCamSetCirc6Modes },      // CAM_SET_CIRCLE6
+    { { 0x05000001 }, sCamSetHidan1Modes },     // CAM_SET_FIRE_PLATFORM
+    { { 0x45000001 }, sCamSetHidan2Modes },     // CAM_SET_FIRE_STAIRCASE
+    { { 0x45000001 }, sCamSetMori2Modes },      // CAM_SET_FOREST_UNUSED
+    { { 0x45000001 }, sCamSetMori3Modes },      // CAM_SET_FOREST_POES
+    { { 0x451FFFFF }, sCamSetTakoModes },       // CAM_SET_BIG_OCTO
+    { { 0x05000033 }, sCamSetSpot05AModes },    // CAM_SET_MEADOW_MAZE
+    { { 0x05000033 }, sCamSetSpot05BModes },    // CAM_SET_MEADOW_UNUSED
+    { { 0x05000033 }, sCamSetHidan3Modes },     // CAM_SET_FIRE_BIRDS_EYE
+    { { 0x4A000001 }, sCamSetItem2Modes },      // CAM_SET_FACE_PLAYER
+    { { 0x05000001 }, sCamSetCirc6Modes },      // CAM_SET_LOWERING_PLATFORM
     { { 0x051FFFFF }, sCamSetNorm2Modes },      // CAM_SET_NORMAL2
     { { 0x0501E05F }, sCamSetFishingModes },    // CAM_SET_FISHING
-    { { 0x45000001 }, sCamSetDemoCModes },      // CAM_SET_DEMOC
-    { { 0x051FFFFF }, sCamSetUOFiberModes },    // CAM_SET_UO_FIBER
+    { { 0x45000001 }, sCamSetDemoCModes },      // CAM_SET_CS_C
+    { { 0x051FFFFF }, sCamSetUOFiberModes },    // CAM_SET_JABU_TENTICLE
     { { 0x051FFFFF }, sCamSetDungeon2Modes },   // CAM_SET_DUNGEON2
-    { { 0x051FFFFF }, sCamSetTeppenModes },     // CAM_SET_TEPPEN
-    { { 0xC5000ECD }, sCamSetCirc7Modes },      // CAM_SET_CIRCLE7
+    { { 0x051FFFFF }, sCamSetTeppenModes },     // CAM_SET_DIRECTED_YAW
+    { { 0xC5000ECD }, sCamSetCirc7Modes },      // CAM_SET_FIXED_SIDE
     { { 0x051FFFFF }, sCamSetNorm4Modes },      // CAM_SET_NORMAL4
 };
 

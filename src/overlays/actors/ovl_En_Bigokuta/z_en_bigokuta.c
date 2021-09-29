@@ -779,7 +779,7 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->actionFunc(this, globalCtx);
     func_809BD2E4(this);
     func_809BE568(this);
-    Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_TAKO);
+    Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BIG_OCTO);
     func_8005AD1C(globalCtx->cameraPtrs[MAIN_CAM], 4);
 
     if (this->cylinder[0].base.atFlags & AT_ON) {

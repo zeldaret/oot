@@ -6014,7 +6014,7 @@ s32 Camera_Demo5(Camera* camera) {
     }
 
     sDemo5PrevAction12Frame = camera->globalCtx->state.frames;
-    Camera_ChangeSettingFlags(camera, CAM_SET_DEMOC, (4 | 1));
+    Camera_ChangeSettingFlags(camera, CAM_SET_CS_C, (4 | 1));
     Camera_Unique9(camera);
     return true;
 }
@@ -7060,7 +7060,7 @@ s32 Camera_CheckWater(Camera* camera) {
 
     if (camera->unk_14C & 0x200) {
         if (player->stateFlags2 & 0x800) {
-            Camera_ChangeSettingFlags(camera, CAM_SET_CIRCLE5, 6);
+            Camera_ChangeSettingFlags(camera, CAM_SET_DIVING, 6);
             camera->unk_14C |= (s16)0x8000;
         } else if (camera->unk_14C & (s16)0x8000) {
             Camera_ChangeSettingFlags(camera, *waterPrevCamSetting, 6);
@@ -7460,7 +7460,7 @@ Vec3s Camera_Update(Camera* camera) {
 
     // setting bgCheckId to the ret of Quake_Calc, and checking that
     // is required, it doesn't make too much sense though.
-    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_ITEM2)) {
+    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_FACE_PLAYER)) {
         viewAt.x = camera->at.x + quake.atOffset.x;
         viewAt.y = camera->at.y + quake.atOffset.y;
         viewAt.z = camera->at.z + quake.atOffset.z;
@@ -7731,7 +7731,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
             return -2;
         }
     }
-    if (((setting == CAM_SET_SPOT05A) || (setting == CAM_SET_SPOT05B)) && LINK_IS_ADULT &&
+    if (((setting == CAM_SET_MEADOW_MAZE) || (setting == CAM_SET_MEADOW_UNUSED)) && LINK_IS_ADULT &&
         (camera->globalCtx->sceneNum == SCENE_SPOT05)) {
         camera->unk_14A |= 0x10;
         return -5;
@@ -7891,7 +7891,7 @@ s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
                 camera->targetPosRot.pos = *(Vec3f*)value;
                 break;
             case 8:
-                if (camera->setting == CAM_SET_DEMOC || camera->setting == CAM_SET_DEMO4) {
+                if (camera->setting == CAM_SET_CS_C || camera->setting == CAM_SET_CS_4) {
                     break;
                 }
                 camera->target = (Actor*)value;
@@ -7969,7 +7969,7 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
                          s16 timer3) {
     DoorParams* doorParams = (DoorParams*)camera->paramData;
 
-    if ((camera->setting == CAM_SET_DEMO4) || (camera->setting == CAM_SET_DOORC)) {
+    if ((camera->setting == CAM_SET_CS_4) || (camera->setting == CAM_SET_DOORC)) {
         return 0;
     }
 

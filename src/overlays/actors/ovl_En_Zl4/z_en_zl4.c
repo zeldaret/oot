@@ -194,7 +194,7 @@ void EnZl4_SetCsCameraMove(GlobalContext* globalCtx, s16 index) {
     Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
     Player* player = GET_PLAYER(globalCtx);
 
-    Camera_ChangeSetting(activeCam, CAM_SET_DEMO0);
+    Camera_ChangeSetting(activeCam, CAM_SET_CS_0);
     Camera_ResetAnim(activeCam);
     Camera_SetCSParams(activeCam, sCsCameraMove[index].atPoints, sCsCameraMove[index].eyePoints, player,
                        sCsCameraMove[index].relativeToPlayer);
