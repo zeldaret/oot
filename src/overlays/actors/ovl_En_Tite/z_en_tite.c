@@ -213,7 +213,7 @@ void EnTite_Destroy(Actor* thisx, GlobalContext* globalCtx) {
             spawner->curNumSpawn--;
         }
         osSyncPrintf("\n\n");
-        // "Number of simultaneous occourances"
+        // "Number of simultaneous occurrences"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, spawner->curNumSpawn);
         osSyncPrintf("\n\n");
     }

@@ -260,7 +260,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[TYPE(thisx->params)]);
 
     if (this->objBankIndex < 0) {
-        // Bank danger!
+        // "Bank danger!"
         osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", thisx->params, "../z_en_kusa.c", 561);
         Actor_Kill(&this->actor);
         return;

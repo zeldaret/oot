@@ -436,7 +436,7 @@ void Sched_ThreadEntry(void* arg) {
 
     while (true) {
         if (sLogScheduler) {
-            // %08d: standby
+            // "%08d: standby"
             osSyncPrintf("%08d:待機中\n", (u32)OS_CYCLES_TO_USEC(osGetTime()));
         }
 
