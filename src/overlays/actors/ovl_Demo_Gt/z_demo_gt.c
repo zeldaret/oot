@@ -334,7 +334,8 @@ void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
     f32 someFloat;
 
     if (npcAction != NULL) {
-        someFloat = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 8, 0);
+        someFloat =
+            Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 8, 0);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
         startZ = npcAction->startPos.z;
@@ -579,7 +580,7 @@ void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
         unk198[0]++;
         unk198[1]--;
     } else if (globalCtx->csCtx.frames < 170) {
-        temp_f0 = func_8006F9BC(170, 160, globalCtx->csCtx.frames, 0, 0);
+        temp_f0 = Environment_LerpWeightAccelDecel(170, 160, globalCtx->csCtx.frames, 0, 0);
 
         unk178[0] = (temp_f0 * -63.0f) + 163.0f;
         unk178[1] = (temp_f0 * -155.0f) + 255.0f;
@@ -817,7 +818,7 @@ void func_8097FDDC(DemoGt* this, GlobalContext* globalCtx) {
         unk198[0]++;
         unk198[1]--;
     } else if (globalCtx->csCtx.frames < 620) {
-        f32 temp_f0 = func_8006F9BC(620, 610, globalCtx->csCtx.frames, 0, 0);
+        f32 temp_f0 = Environment_LerpWeightAccelDecel(620, 610, globalCtx->csCtx.frames, 0, 0);
 
         unk178[0] = (temp_f0 * (-13.0f)) + 163.0f;
         unk178[1] = (temp_f0 * (-43.0f)) + 193.0f;
@@ -1707,7 +1708,7 @@ void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGtUpdateFunc updateFunc;
 
     if ((this->updateMode < 0) || (this->updateMode >= 19) || (updateFunc = sUpdateFuncs[this->updateMode]) == NULL) {
-        // The main mode is strange!
+        // "The main mode is strange!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -1744,7 +1745,7 @@ void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_80982054_Init24(this, globalCtx);
             break;
         default:
-            // Demo_Gt_Actor_ct There is no such argument !
+            // "Demo_Gt_Actor_ct There is no such argument !"
             osSyncPrintf("Demo_Gt_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
             Actor_Kill(&this->dyna.actor);
     }
@@ -1763,7 +1764,7 @@ void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGtDrawFunc drawFunc;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 9) || (drawFunc = sDrawFuncs[this->drawConfig]) == NULL) {
-        // The drawing mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The drawing mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

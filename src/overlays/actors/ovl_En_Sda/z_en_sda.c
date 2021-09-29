@@ -367,8 +367,6 @@ void func_80AF9C70(u8* shadowTexture, Player* player, GlobalContext* globalCtx) 
 
     OPEN_DISPS(gfxCtx, "../z_en_sda.c", 826);
 
-    if (1) {}
-
     osSyncPrintf("SDA D 1\n");
     func_80094044(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 0, (BREG(52) + 50));

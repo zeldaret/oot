@@ -1,6 +1,8 @@
 #include "z_en_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/object_sa/object_sa.h"
+#include "scenes/overworld/spot04/spot04_scene.h"
+#include "scenes/overworld/spot05/spot05_scene.h"
 
 #define FLAGS 0x02000019
 
@@ -96,9 +98,6 @@ static struct_80034EC0_Entry sAnimations[] = {
     { &gSariaHandsOnFaceAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
     { &gSariaWaitArmsToSideAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
-
-extern CutsceneData D_02005730[];
-extern CutsceneData D_02010E20[];
 
 s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
     s16 textState = func_8010BDBC(&globalCtx->msgCtx);
@@ -471,7 +470,7 @@ void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 4:
             this->unk_210 = 0;
             this->actor.gravity = -1.0f;
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02010E20);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
             gSaveContext.cutsceneTrigger = 1;
             EnSa_ChangeAnim(this, 4);
             this->actionFunc = func_80AF68E4;
@@ -591,7 +590,7 @@ void func_80AF683C(EnSa* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Gameplay_InCsMode(globalCtx)) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02005730);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot05_sceneCutsceneData0x005730);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = func_80AF68E4;
     }

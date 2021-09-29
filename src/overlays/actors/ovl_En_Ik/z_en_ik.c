@@ -338,12 +338,12 @@ void func_80A7492C(EnIk* this, GlobalContext* globalCtx) {
 void func_80A74AAC(EnIk* this) {
     this->unk_2F8 = 5;
     if (this->unk_2FB == 0) {
-        Animation_Change(&this->skelAnime, &object_ik_Anim_00ED24, 1.0f, 0.0f, Animation_GetLastFrame(&object_ik_Anim_00ED24), ANIMMODE_LOOP,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &object_ik_Anim_00ED24, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_ik_Anim_00ED24), ANIMMODE_LOOP, -4.0f);
         this->actor.speedXZ = 0.9f;
     } else {
-        Animation_Change(&this->skelAnime, &object_ik_Anim_006734, 1.0f, 0.0f, Animation_GetLastFrame(&object_ik_Anim_006734), ANIMMODE_LOOP,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &object_ik_Anim_006734, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_ik_Anim_006734), ANIMMODE_LOOP, -4.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DASH);
         this->actor.speedXZ = 2.5f;
     }
@@ -592,12 +592,12 @@ void func_80A75790(EnIk* this) {
     this->unk_2F8 = 0;
     yawDiff = yaw - this->actor.shape.rot.y;
     if (ABS(yawDiff) <= 0x4000) {
-        Animation_Change(&this->skelAnime, &object_ik_Anim_006194, 1.0f, 0.0f, Animation_GetLastFrame(&object_ik_Anim_006194), ANIMMODE_ONCE,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &object_ik_Anim_006194, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_ik_Anim_006194), ANIMMODE_ONCE, -4.0f);
         this->actor.speedXZ = -6.0f;
     } else {
-        Animation_Change(&this->skelAnime, &object_ik_Anim_0045BC, 1.0f, 0.0f, Animation_GetLastFrame(&object_ik_Anim_0045BC), ANIMMODE_ONCE,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &object_ik_Anim_0045BC, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_ik_Anim_0045BC), ANIMMODE_ONCE, -4.0f);
         this->actor.speedXZ = 6.0f;
     }
     this->unk_2FE = 0;
@@ -1070,8 +1070,8 @@ void func_80A77148(EnIk* this) {
 }
 
 void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &object_ik_Anim_00C114, 1.0f, 0.0f, Animation_GetLastFrame(&object_ik_Anim_00C114), ANIMMODE_ONCE,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &object_ik_Anim_00C114, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_ik_Anim_00C114), ANIMMODE_ONCE, 0.0f);
     func_80A770C0(this, globalCtx, 4);
     this->action = 1;
     this->drawMode = 1;
@@ -1079,8 +1079,8 @@ void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A771E4(EnIk* this) {
-    Animation_Change(&this->skelAnime, &object_ik_Anim_00C114, 1.0f, 0.0f, Animation_GetLastFrame(&object_ik_Anim_00C114), ANIMMODE_ONCE,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &object_ik_Anim_00C114, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_ik_Anim_00C114), ANIMMODE_ONCE, 0.0f);
     this->action = 2;
     this->drawMode = 1;
     this->unk_4D4 = 0;
@@ -1111,7 +1111,8 @@ void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
     s32 pad[3];
     f32 frames = Animation_GetLastFrame(&object_ik_Anim_0203D8);
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ik_Skel_0205C0, NULL, this->jointTable, this->morphTable, 30);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ik_Skel_0205C0, NULL, this->jointTable, this->morphTable,
+                       30);
     Animation_Change(&this->skelAnime, &object_ik_Anim_0203D8, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
     this->action = 3;
     this->drawMode = 2;
@@ -1442,8 +1443,8 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ik_Skel_01E178, &object_ik_Anim_00C114, this->jointTable, this->morphTable,
-                           30);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ik_Skel_01E178, &object_ik_Anim_00C114,
+                           this->jointTable, this->morphTable, 30);
         func_80A74398(&this->actor, globalCtx);
         func_80A780D0(this, globalCtx);
     }

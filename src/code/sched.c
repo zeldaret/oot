@@ -106,7 +106,7 @@ void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
 
     if (type == M_AUDTASK) {
         if (sLogScheduler) {
-            // You have entered an audio task
+            // "You have entered an audio task"
             osSyncPrintf("オーディオタスクをエントリしました\n");
         }
         if (sc->audioListTail != NULL) {
@@ -118,8 +118,7 @@ void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
         sc->doAudio = 1;
     } else {
         if (sLogScheduler) {
-            // Entered graph task
-            osSyncPrintf("グラフタスクをエントリしました\n");
+            osSyncPrintf("グラフタスクをエントリしました\n"); // "Entered graph task"
         }
 
         if (sc->gfxListTail != NULL) {
@@ -437,7 +436,7 @@ void Sched_ThreadEntry(void* arg) {
 
     while (true) {
         if (sLogScheduler) {
-            // %08d: standby
+            // "%08d: standby"
             osSyncPrintf("%08d:待機中\n", (u32)OS_CYCLES_TO_USEC(osGetTime()));
         }
 

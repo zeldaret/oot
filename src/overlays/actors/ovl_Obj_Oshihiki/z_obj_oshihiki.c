@@ -85,8 +85,7 @@ static Vec2f sFaceDirection[] = {
     { -1.0f, -1.0f },
 };
 
-void ObjOshihiki_InitDynapoly(ObjOshihiki* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                              DynaPolyMoveFlag moveFlag) {
+void ObjOshihiki_InitDynapoly(ObjOshihiki* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -96,7 +95,7 @@ void ObjOshihiki_InitDynapoly(ObjOshihiki* this, GlobalContext* globalCtx, Colli
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // Warning : move BG registration failure
+        // "Warning : move BG registration failure"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 280,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -214,7 +213,7 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, GlobalContext* globalCtx) {
             ObjOshihiki_InitDynapoly(this, globalCtx, &gPushBlockCol, 1);
             break;
         default:
-            // Error : type cannot be determined
+            // "Error : type cannot be determined"
             osSyncPrintf("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 444,
                          this->dyna.actor.params);
             break;
@@ -305,7 +304,7 @@ void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx2) {
     ObjOshihiki_SetColor(this, globalCtx);
     ObjOshihiki_ResetFloors(this);
     ObjOshihiki_SetupOnActor(this, globalCtx);
-    // (dungeon keep push-pull block)
+    // "(dungeon keep push-pull block)"
     osSyncPrintf("(dungeon keep 押し引きブロック)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
@@ -391,7 +390,7 @@ s32 ObjOshihiki_CheckFloor(ObjOshihiki* this, GlobalContext* globalCtx) {
 
 s32 ObjOshihiki_CheckGround(ObjOshihiki* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
-        // Warning : Push-pull block fell too much
+        // "Warning : Push-pull block fell too much"
         osSyncPrintf("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 809,
                      this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
