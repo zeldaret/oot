@@ -191,7 +191,7 @@ void func_800E1618(s32 arg0) {
     gAudioContext.unk_288C = gAudioContext.unk_2874;
     gAudioContext.sampleDmaReqs =
         AudioHeap_Alloc(&gAudioContext.notesAndBuffersPool, 4 * gAudioContext.numNotes * sizeof(SampleDmaReq) *
-                                                            gAudioContext.audioBufferParameters.specUnk4);
+                                                                gAudioContext.audioBufferParameters.specUnk4);
     t2 = 3 * gAudioContext.numNotes * gAudioContext.audioBufferParameters.specUnk4;
     for (i = 0; i < t2; i++) {
         temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];
@@ -306,7 +306,8 @@ void Audio_SetSampleBankLoadStatusAndApplyCaches(s32 sampleBankId, s32 status) {
             gAudioContext.sampleBankLoadStatus[sampleBankId] = status;
         }
 
-        if ((gAudioContext.sampleBankLoadStatus[sampleBankId] == 5) || (gAudioContext.sampleBankLoadStatus[sampleBankId] == 2)) {
+        if ((gAudioContext.sampleBankLoadStatus[sampleBankId] == 5) ||
+            (gAudioContext.sampleBankLoadStatus[sampleBankId] == 2)) {
             AudioHeap_ApplySampleBankCache(sampleBankId);
         }
     }
@@ -383,7 +384,8 @@ s32 func_800E1C78(AudioBankSample* sample, s32 bankId) {
             }
 
             if (sample->medium == MEDIUM_1) {
-                Audio_DmaFastCopyNoop(sample->sampleAddr, sampleAddr, sample->size, gAudioContext.sampleBankTable->header.unk_02);
+                Audio_DmaFastCopyNoop(sample->sampleAddr, sampleAddr, sample->size,
+                                      gAudioContext.sampleBankTable->header.unk_02);
             } else {
                 Audio_DmaFastCopy(sample->sampleAddr, sampleAddr, sample->size, sample->medium);
             }
@@ -978,7 +980,8 @@ void* Audio_AsyncLoadInner(s32 tableType, s32 id, s32 nChunks, s32 arg3, OSMesgQ
             func_800E3A44((s16)sp50->header.unk_02, devAddr, ret, size, medium, nChunks, retQueue,
                           (arg3 << 0x18) | (tableType << 0x10) | (id << 8) | status);
         } else {
-            Audio_InitAsyncReq(devAddr, ret, size, medium, nChunks, retQueue, MK_ASYNC_MSG(arg3, tableType, realId, status));
+            Audio_InitAsyncReq(devAddr, ret, size, medium, nChunks, retQueue,
+                               MK_ASYNC_MSG(arg3, tableType, realId, status));
         }
         status = 1;
     }
@@ -1281,7 +1284,8 @@ void Audio_ProcessSlowLoads(s32 resetStatus) {
 void Audio_DmaSlowCopy(AudioSlowLoad* slowLoad, s32 size) {
     Audio_osInvalDCache(slowLoad->ramAddr, size);
     osCreateMesgQueue(&slowLoad->msgqueue, &slowLoad->msg, 1);
-    Audio_Dma(&slowLoad->ioMesg, 0U, 0, slowLoad->devAddr, slowLoad->ramAddr, size, &slowLoad->msgqueue, slowLoad->medium, "SLOWCOPY");
+    Audio_Dma(&slowLoad->ioMesg, 0U, 0, slowLoad->devAddr, slowLoad->ramAddr, size, &slowLoad->msgqueue,
+              slowLoad->medium, "SLOWCOPY");
 }
 
 void Audio_DmaSlowCopyNoop(s32 devAddr, u8* ramAddr, s32 size, s32 arg3) {
@@ -1586,9 +1590,11 @@ void func_800E4198(s32 bankId, AudioBankData* mem, RelocInfo* relocInfo, s32 arg
             case 0:
                 // persistent
                 if (sample->medium == relocInfo->medium1) {
-                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, true);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr,
+                                                      sample->medium, true);
                 } else if (sample->medium == relocInfo->medium2) {
-                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, true);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr,
+                                                      sample->medium, true);
                 } else if (sample->medium == MEDIUM_DISK_DRIVE) {
                     addr = AudioHeap_AllocSampleCache(sample->size, 0xFE, sample->sampleAddr, sample->medium, true);
                 }
@@ -1597,9 +1603,11 @@ void func_800E4198(s32 bankId, AudioBankData* mem, RelocInfo* relocInfo, s32 arg
             case 1:
                 // temporary
                 if (sample->medium == relocInfo->medium1) {
-                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, false);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr,
+                                                      sample->medium, false);
                 } else if (sample->medium == relocInfo->medium2) {
-                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, false);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr,
+                                                      sample->medium, false);
                 } else if (sample->medium == MEDIUM_DISK_DRIVE) {
                     addr = AudioHeap_AllocSampleCache(sample->size, 0xFE, sample->sampleAddr, sample->medium, false);
                 }
@@ -1613,7 +1621,7 @@ void func_800E4198(s32 bankId, AudioBankData* mem, RelocInfo* relocInfo, s32 arg
             case 0:
                 if (sample->medium == MEDIUM_1) {
                     Audio_DmaFastCopyNoop((u32)sample->sampleAddr, addr, sample->size,
-                                   gAudioContext.sampleBankTable->header.unk_02);
+                                          gAudioContext.sampleBankTable->header.unk_02);
                     sample->sampleAddr = addr;
                     sample->medium = MEDIUM_RAM;
                 } else {
@@ -1836,17 +1844,21 @@ void func_800E4918(s32 bankId, s32 arg1, RelocInfo* relocInfo) {
         switch (arg1) {
             case 0:
                 if (sample->medium == relocInfo->medium1) {
-                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, 1);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr,
+                                                      sample->medium, 1);
                 } else if (sample->medium == relocInfo->medium2) {
-                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, 1);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr,
+                                                      sample->medium, 1);
                 }
                 break;
 
             case 1:
                 if (sample->medium == relocInfo->medium1) {
-                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, 0);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr,
+                                                      sample->medium, 0);
                 } else if (sample->medium == relocInfo->medium2) {
-                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, 0);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr,
+                                                      sample->medium, 0);
                 }
                 break;
         }
@@ -1858,7 +1870,7 @@ void func_800E4918(s32 bankId, s32 arg1, RelocInfo* relocInfo) {
             case 0:
                 if (sample->medium == MEDIUM_1) {
                     Audio_DmaFastCopyNoop((u32)sample->sampleAddr, addr, sample->size,
-                                   gAudioContext.sampleBankTable->header.unk_02);
+                                          gAudioContext.sampleBankTable->header.unk_02);
                     sample->sampleAddr = addr;
                     sample->medium = MEDIUM_RAM;
                 } else {
