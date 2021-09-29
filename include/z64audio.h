@@ -590,14 +590,14 @@ typedef struct {
     /* 0x4 */ u8* cur;
     /* 0x8 */ s32 size;
     /* 0xC */ s32 count;
-} SoundAllocPool; // size = 0x10
+} AudioAllocPool; // size = 0x10
 
 typedef struct {
     /* 0x0 */ u8* ptr;
     /* 0x4 */ u32 size;
     /* 0x8 */ s16 tableType;
-    /* 0xA */ s16 id; // seqId or bankId
-} SeqOrBankEntry; // size = 0xC
+    /* 0xA */ s16 id;
+} AudioCacheEntry; // size = 0xC
 
 typedef struct {
     /* 0x00 */ s8 inUse;
@@ -610,31 +610,31 @@ typedef struct {
 } SampleCacheEntry; // size = 0x14
 
 typedef struct {
-    /* 0x000 */ SoundAllocPool pool;
+    /* 0x000 */ AudioAllocPool pool;
     /* 0x010 */ SampleCacheEntry entries[32];
     /* 0x290 */ s32 size;
-} SampleCachePool; // size = 0x294
+} AudioSampleCache; // size = 0x294
 
 typedef struct
 {
     /* 0x00*/ u32 numEntries;
-    /* 0x04*/ SoundAllocPool pool;
-    /* 0x14*/ SeqOrBankEntry entries[16];
-} PersistentPool; // size = 0xD4
+    /* 0x04*/ AudioAllocPool pool;
+    /* 0x14*/ AudioCacheEntry entries[16];
+} AudioPersistentCache; // size = 0xD4
 
 typedef struct
 {
     /* 0x00*/ u32 nextSide;
-    /* 0x04*/ SoundAllocPool pool;
-    /* 0x14*/ SeqOrBankEntry entries[2];
-} TemporaryPool; // size = 0x3C
+    /* 0x04*/ AudioAllocPool pool;
+    /* 0x14*/ AudioCacheEntry entries[2];
+} AudioTemporaryCache; // size = 0x3C
 
 typedef struct
 {
-    /* 0x000*/ PersistentPool persistent;
-    /* 0x0D4*/ TemporaryPool temporary;
+    /* 0x000*/ AudioPersistentCache persistent;
+    /* 0x0D4*/ AudioTemporaryCache temporary;
     /* 0x100*/ u8 unk_100[0x10];
-} SoundMultiPool; // size = 0x110
+} AudioCache; // size = 0x110
 
 typedef struct {
     u32 wantPersistent;
@@ -914,21 +914,21 @@ typedef struct {
     /* 0x2980 */ s32 audioErrorFlags;
     /* 0x2984 */ volatile u32 resetTimer;
     /* 0x2988 */ char unk_2988[0x8];
-    /* 0x2990 */ SoundAllocPool audioSessionPool;
-    /* 0x29A0 */ SoundAllocPool unkPool;
-    /* 0x29B0 */ SoundAllocPool audioInitPool;
-    /* 0x29C0 */ SoundAllocPool notesAndBuffersPool;
+    /* 0x2990 */ AudioAllocPool audioSessionPool;
+    /* 0x29A0 */ AudioAllocPool unkPool;
+    /* 0x29B0 */ AudioAllocPool audioInitPool;
+    /* 0x29C0 */ AudioAllocPool notesAndBuffersPool;
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
-    /* 0x29F0 */ SoundAllocPool cachePool;
-    /* 0x2A00 */ SoundAllocPool persistentCommonPool;
-    /* 0x2A10 */ SoundAllocPool temporaryCommonPool;
-    /* 0x2A20 */ SoundMultiPool seqLoadedPool;
-    /* 0x2B30 */ SoundMultiPool bankLoadedPool;
-    /* 0x2C40 */ SoundMultiPool sampleBankLoadedPool;
-    /* 0x2D50 */ SoundAllocPool unk_2D50;
-    /* 0x2D60 */ SeqOrBankEntry unk_2D60[32];
-    /* 0x2EE0 */ SampleCachePool persistentSampleCache;
-    /* 0x3174 */ SampleCachePool temporarySampleCache;
+    /* 0x29F0 */ AudioAllocPool cachePool;
+    /* 0x2A00 */ AudioAllocPool persistentCommonPool;
+    /* 0x2A10 */ AudioAllocPool temporaryCommonPool;
+    /* 0x2A20 */ AudioCache seqCache;
+    /* 0x2B30 */ AudioCache bankCache;
+    /* 0x2C40 */ AudioCache sampleBankCache;
+    /* 0x2D50 */ AudioAllocPool permanentPool;
+    /* 0x2D60 */ AudioCacheEntry permanentCache[32];
+    /* 0x2EE0 */ AudioSampleCache persistentSampleCache;
+    /* 0x3174 */ AudioSampleCache temporarySampleCache;
     /* 0x3408 */ AudioPoolSplit4 sessionPoolSplit;
     /* 0x3418 */ AudioPoolSplit2 cachePoolSplit;
     /* 0x3420 */ AudioPoolSplit3 persistentCommonPoolSplit;

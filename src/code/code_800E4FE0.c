@@ -567,7 +567,7 @@ s8 func_800E60C4(s32 arg0, s32 arg1) {
 }
 
 void func_800E60EC(void* mem, u32 size) {
-    AudioHeap_SoundAllocPoolInit(&gAudioContext.unkPool, mem, size);
+    AudioHeap_AudioAllocPoolInit(&gAudioContext.unkPool, mem, size);
 }
 
 void func_800E611C(void) {

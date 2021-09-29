@@ -461,7 +461,7 @@ void func_800E1F7C(s32 arg0) {
     while (phi_s2 > 0) {
         phi_s2--;
         temp_s0 = Audio_GetRealTableIndex(BANK_TABLE, gAudioContext.unk_283Cb[phi_s1++]);
-        if (func_800E04E8(BANK_TABLE, temp_s0) == NULL) {
+        if (AudioHeap_SearchPermanentCache(BANK_TABLE, temp_s0) == NULL) {
             func_800E202C(temp_s0);
             Audio_SetBankLoadStatus(temp_s0, 0);
         }
@@ -470,8 +470,8 @@ void func_800E1F7C(s32 arg0) {
 
 void func_800E202C(s32 arg0) {
     u32 i;
-    SoundMultiPool* pool = &gAudioContext.bankLoadedPool;
-    PersistentPool* persistent;
+    AudioCache* pool = &gAudioContext.bankCache;
+    AudioPersistentCache* persistent;
 
     if (arg0 == pool->temporary.entries[0].id) {
         pool->temporary.entries[0].id = -1;
@@ -654,26 +654,26 @@ void* func_800E2558(u32 tableType, u32 id, s32* didAllocate) {
         romAddr = table->entries[realId].romAddr;
         switch (sp24) {
             case 0:
-                ret = func_800E0540(tableType, realId, size);
+                ret = AudioHeap_AllocPermanent(tableType, realId, size);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
             case 1:
-                ret = AudioHeap_AllocCachedItem(tableType, size, 1, realId);
+                ret = AudioHeap_AllocCached(tableType, size, 1, realId);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
             case 2:
-                ret = AudioHeap_AllocCachedItem(tableType, size, 0, realId);
+                ret = AudioHeap_AllocCached(tableType, size, 0, realId);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
             case 3:
             case 4:
-                ret = AudioHeap_AllocCachedItem(tableType, size, 2, realId);
+                ret = AudioHeap_AllocCached(tableType, size, 2, realId);
                 if (ret == NULL) {
                     return ret;
                 }
@@ -720,12 +720,12 @@ u32 Audio_GetRealTableIndex(s32 tableType, u32 id) {
 void* func_800E27A4(s32 tableType, s32 id) {
     void* ret;
 
-    ret = func_800E04E8(tableType, id);
+    ret = AudioHeap_SearchPermanentCache(tableType, id);
     if (ret != NULL) {
         return ret;
     }
 
-    ret = AudioHeap_SearchPools(tableType, 2, id);
+    ret = AudioHeap_SearchCaches(tableType, 2, id);
     if (ret != NULL) {
         return ret;
     }
@@ -947,27 +947,27 @@ void* Audio_AsyncLoadInner(s32 tableType, s32 id, s32 nChunks, s32 arg3, OSMesgQ
         status = 2;
         switch (temp_a1) {
             case 0:
-                ret = func_800E0540(tableType, realId, size);
+                ret = AudioHeap_AllocPermanent(tableType, realId, size);
                 if (ret == NULL) {
                     return ret;
                 }
                 status = 5;
                 break;
             case 1:
-                ret = AudioHeap_AllocCachedItem(tableType, size, 1, realId);
+                ret = AudioHeap_AllocCached(tableType, size, 1, realId);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
             case 2:
-                ret = AudioHeap_AllocCachedItem(tableType, size, 0, realId);
+                ret = AudioHeap_AllocCached(tableType, size, 0, realId);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
             case 3:
             case 4:
-                ret = AudioHeap_AllocCachedItem(tableType, size, 2, realId);
+                ret = AudioHeap_AllocCached(tableType, size, 2, realId);
                 if (ret == NULL) {
                     return ret;
                 }
@@ -1129,7 +1129,7 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
         *((u32*)&D_8014A6C4.initPool) = 0;
     }
 
-    AudioHeap_SoundAllocPoolInit(&gAudioContext.unk_2D50, temp_v0_3, D_8014A6C4.initPool);
+    AudioHeap_AudioAllocPoolInit(&gAudioContext.permanentPool, temp_v0_3, D_8014A6C4.initPool);
     gAudioContextInitalized = 1;
     osSendMesg(gAudioContext.taskStartQueueP, (void*)gAudioContext.totalTaskCnt, 0);
 }
@@ -1892,18 +1892,18 @@ void func_800E4918(s32 bankId, s32 arg1, RelocInfo* relocInfo) {
 
 void func_800E4D94(void) {
     s32 pad;
-    u32 temp_s2;
+    u32 bankId;
     SampleBankTable* sampleBankTable;
     s32 pad2;
     s32 i;
 
     sampleBankTable = Audio_GetLoadTable(SAMPLE_TABLE);
-    for (i = 0; i < gAudioContext.unk_2D50.count; i++) {
+    for (i = 0; i < gAudioContext.permanentPool.count; i++) {
         RelocInfo relocInfo;
-        if (gAudioContext.unk_2D60[i].tableType == BANK_TABLE) {
-            temp_s2 = Audio_GetRealTableIndex(BANK_TABLE, gAudioContext.unk_2D60[i].id);
-            relocInfo.sampleBankId1 = gAudioContext.ctlEntries[temp_s2].sampleBankId1;
-            relocInfo.sampleBankId2 = gAudioContext.ctlEntries[temp_s2].sampleBankId2;
+        if (gAudioContext.permanentCache[i].tableType == BANK_TABLE) {
+            bankId = Audio_GetRealTableIndex(BANK_TABLE, gAudioContext.permanentCache[i].id);
+            relocInfo.sampleBankId1 = gAudioContext.ctlEntries[bankId].sampleBankId1;
+            relocInfo.sampleBankId2 = gAudioContext.ctlEntries[bankId].sampleBankId2;
 
             if (relocInfo.sampleBankId1 != 0xFF) {
                 relocInfo.sampleBankId1 = Audio_GetRealTableIndex(SAMPLE_TABLE, relocInfo.sampleBankId1);
@@ -1914,7 +1914,7 @@ void func_800E4D94(void) {
                 relocInfo.sampleBankId2 = Audio_GetRealTableIndex(SAMPLE_TABLE, relocInfo.sampleBankId2);
                 relocInfo.medium2 = sampleBankTable->entries[relocInfo.sampleBankId2].medium;
             }
-            func_800E4918(temp_s2, 0, &relocInfo);
+            func_800E4918(bankId, 0, &relocInfo);
         }
     }
 }
@@ -1939,13 +1939,13 @@ void func_800E4EEC(s32 tableType, s32 id, s8* arg2) {
 }
 
 void func_800E4F58(void) {
-    u32 pad;
+    u32 temp;
     u32 sp20;
     s8* temp_v0;
 
     if (osRecvMesg(&D_8016B6E0, (OSMesg*)&sp20, OS_MESG_NOBLOCK) != -1) {
-        pad = sp20 >> 24;
-        temp_v0 = D_8016B738[pad];
+        temp = sp20 >> 24;
+        temp_v0 = D_8016B738[temp];
         if (temp_v0 != NULL) {
             *temp_v0 = 0;
         }

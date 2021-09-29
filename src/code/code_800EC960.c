@@ -1938,44 +1938,44 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 6);
             GfxPrint_Printf(
-                printer, "AT-SEQ %02X-%02X (%05X-%05X / %05X)", (u8)gAudioContext.seqLoadedPool.temporary.entries[0].id,
-                (u8)gAudioContext.seqLoadedPool.temporary.entries[1].id,
-                gAudioContext.seqLoadedPool.temporary.entries[0].size,
-                gAudioContext.seqLoadedPool.temporary.entries[1].size, gAudioContext.seqLoadedPool.temporary.pool.size);
+                printer, "AT-SEQ %02X-%02X (%05X-%05X / %05X)", (u8)gAudioContext.seqCache.temporary.entries[0].id,
+                (u8)gAudioContext.seqCache.temporary.entries[1].id,
+                gAudioContext.seqCache.temporary.entries[0].size,
+                gAudioContext.seqCache.temporary.entries[1].size, gAudioContext.seqCache.temporary.pool.size);
 
             GfxPrint_SetPos(printer, 3, 7);
             GfxPrint_Printf(printer, "AT-BNK %02X-%02X (%05X-%05X / %05X)",
-                            (u8)gAudioContext.bankLoadedPool.temporary.entries[0].id,
-                            (u8)gAudioContext.bankLoadedPool.temporary.entries[1].id,
-                            gAudioContext.bankLoadedPool.temporary.entries[0].size,
-                            gAudioContext.bankLoadedPool.temporary.entries[1].size,
-                            gAudioContext.bankLoadedPool.temporary.pool.size);
+                            (u8)gAudioContext.bankCache.temporary.entries[0].id,
+                            (u8)gAudioContext.bankCache.temporary.entries[1].id,
+                            gAudioContext.bankCache.temporary.entries[0].size,
+                            gAudioContext.bankCache.temporary.entries[1].size,
+                            gAudioContext.bankCache.temporary.pool.size);
 
             GfxPrint_SetPos(printer, 3, 8);
             GfxPrint_Printf(
-                printer, "ST-SEQ %02Xseqs  (%05X / %06X)", gAudioContext.seqLoadedPool.persistent.numEntries,
-                gAudioContext.seqLoadedPool.persistent.pool.cur - gAudioContext.seqLoadedPool.persistent.pool.start,
-                gAudioContext.seqLoadedPool.persistent.pool.size);
+                printer, "ST-SEQ %02Xseqs  (%05X / %06X)", gAudioContext.seqCache.persistent.numEntries,
+                gAudioContext.seqCache.persistent.pool.cur - gAudioContext.seqCache.persistent.pool.start,
+                gAudioContext.seqCache.persistent.pool.size);
 
-            for (k = 0; (u32)k < gAudioContext.seqLoadedPool.persistent.numEntries; k++) {
+            for (k = 0; (u32)k < gAudioContext.seqCache.persistent.numEntries; k++) {
                 GfxPrint_SetPos(printer, 3 + 3 * k, 9);
-                GfxPrint_Printf(printer, "%02x", gAudioContext.seqLoadedPool.persistent.entries[k].id);
+                GfxPrint_Printf(printer, "%02x", gAudioContext.seqCache.persistent.entries[k].id);
             }
 
             GfxPrint_SetPos(printer, 3, 10);
             GfxPrint_Printf(
-                printer, "ST-BNK %02Xbanks (%05X / %06X)", gAudioContext.bankLoadedPool.persistent.numEntries,
-                gAudioContext.bankLoadedPool.persistent.pool.cur - gAudioContext.bankLoadedPool.persistent.pool.start,
-                gAudioContext.bankLoadedPool.persistent.pool.size);
+                printer, "ST-BNK %02Xbanks (%05X / %06X)", gAudioContext.bankCache.persistent.numEntries,
+                gAudioContext.bankCache.persistent.pool.cur - gAudioContext.bankCache.persistent.pool.start,
+                gAudioContext.bankCache.persistent.pool.size);
 
-            for (k = 0; (u32)k < gAudioContext.bankLoadedPool.persistent.numEntries; k++) {
+            for (k = 0; (u32)k < gAudioContext.bankCache.persistent.numEntries; k++) {
                 GfxPrint_SetPos(printer, 3 + 3 * k, 11);
-                GfxPrint_Printf(printer, "%02x", gAudioContext.bankLoadedPool.persistent.entries[k].id);
+                GfxPrint_Printf(printer, "%02x", gAudioContext.bankCache.persistent.entries[k].id);
             }
 
             GfxPrint_SetPos(printer, 3, 12);
-            GfxPrint_Printf(printer, "E-MEM  %05X / %05X", gAudioContext.unk_2D50.cur - gAudioContext.unk_2D50.start,
-                            gAudioContext.unk_2D50.size);
+            GfxPrint_Printf(printer, "E-MEM  %05X / %05X", gAudioContext.permanentPool.cur - gAudioContext.permanentPool.start,
+                            gAudioContext.permanentPool.size);
             break;
 
         case PAGE_BLOCK_CHANGE_BGM:

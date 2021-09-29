@@ -303,10 +303,10 @@ void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer) {
         Audio_SetBankLoadStatus(seqPlayer->defaultBank, 4);
     }
 
-    if (seqPlayer->defaultBank == gAudioContext.bankLoadedPool.temporary.entries[0].id) {
-        gAudioContext.bankLoadedPool.temporary.nextSide = 0;
-    } else if (seqPlayer->defaultBank == gAudioContext.bankLoadedPool.temporary.entries[1].id) {
-        gAudioContext.bankLoadedPool.temporary.nextSide = 1;
+    if (seqPlayer->defaultBank == gAudioContext.bankCache.temporary.entries[0].id) {
+        gAudioContext.bankCache.temporary.nextSide = 0;
+    } else if (seqPlayer->defaultBank == gAudioContext.bankCache.temporary.entries[1].id) {
+        gAudioContext.bankCache.temporary.nextSide = 1;
     }
 }
 
@@ -1046,7 +1046,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             command = gAudioContext.unk_283Cb[offset + lowBits - result];
                         }
 
-                        if (AudioHeap_SearchPools(1, 2, command)) {
+                        if (AudioHeap_SearchCaches(1, 2, command)) {
                             channel->bankId = command;
                         }
 
@@ -1157,7 +1157,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             command = gAudioContext.unk_283Cb[offset + lowBits - result];
                         }
 
-                        if (AudioHeap_SearchPools(1, 2, command)) {
+                        if (AudioHeap_SearchCaches(1, 2, command)) {
                             channel->bankId = command;
                         }
 
