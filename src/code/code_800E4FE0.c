@@ -269,7 +269,7 @@ void func_800E5584(AudioCmd* cmd) {
             func_800E1D64(cmd->arg0, cmd->arg1, cmd->arg2);
             return;
         case 0xF4:
-            Audio_AudioSampleTableAsyncLoad(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.unk_1E20);
+            Audio_AudioSampleAsyncLoad(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.unk_1E20);
             return;
         case 0xF5:
             Audio_AudioBankAsyncLoad(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.unk_1E20);
@@ -791,7 +791,7 @@ s32 func_800E66C0(s32 arg0) {
                     if (sound == NULL || temp_a3->bitField1.s.isSyntheticWave) {
                         continue;
                     }
-                    if (sound->sample->medium == 0) {
+                    if (sound->sample->medium == MEDIUM_RAM) {
                         continue;
                     }
                 }

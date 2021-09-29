@@ -865,9 +865,9 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 if (phi_s1 != 0) {
                     temp_v1_5 = (synthState->samplePosInt + spCC - phi_s3) / 16;
                     temp_mult = (temp_v1_5 * spD4);
-                    if (audioBankSample->medium == 0) {
+                    if (audioBankSample->medium == MEDIUM_RAM) {
                         phi_a1 = spC8 + temp_mult + sampleAddr;
-                    } else if (audioBankSample->medium == 1) {
+                    } else if (audioBankSample->medium == MEDIUM_1) {
                         return cmd;
                     } else {
                         phi_a1 =

@@ -918,7 +918,7 @@ void Audio_InitHeap(void) {
         reverb->sample.loop = &reverb->loop;
         reverb->sound.tuning = 1.0f;
         reverb->sample.codec = 4;
-        reverb->sample.medium = 0;
+        reverb->sample.medium = MEDIUM_RAM;
         reverb->sample.size = reverb->windowSize * 2;
         reverb->sample.sampleAddr = (u8*)reverb->leftRingBuf;
         reverb->loop.start = 0;
@@ -1247,7 +1247,7 @@ typedef struct {
     u8* unk_0;
     u8* unk_4;
     u32 unk_8;
-    u8 unk_C;
+    u8 medium;
 } Struct_800E0E0C;
 
 void func_800E0E0C(Struct_800E0E0C* arg0, AudioBankSample* sample) {
@@ -1257,7 +1257,7 @@ void func_800E0E0C(Struct_800E0E0C* arg0, AudioBankSample* sample) {
         u8* sampleAddr = sample->sampleAddr;
         if (start <= sampleAddr && sampleAddr < end) {
             sample->sampleAddr = sampleAddr - start + arg0->unk_4;
-            sample->medium = arg0->unk_C & 0xFF;
+            sample->medium = arg0->medium & 0xFF;
         }
     }
 }
@@ -1296,9 +1296,9 @@ void func_800E0EB4(s32 arg0, s32 id) {
 
     entry = &sampleTable->entries[id];
     sp78.unk_8 = entry->size;
-    sp78.unk_C = entry->unk_08;
+    sp78.medium = entry->medium;
 
-    if ((sp78.unk_C == 2) || (sp78.unk_C == 3)) {
+    if ((sp78.medium == MEDIUM_2) || (sp78.medium == MEDIUM_3)) {
         sp78.unk_4 = entry->romAddr;
     } else {
         sp78.unk_4 = NULL;
@@ -1309,7 +1309,7 @@ void func_800E0EB4(s32 arg0, s32 id) {
         u8* temp = sp78.unk_4;
         sp78.unk_4 = *fakematch;
         sp78.unk_0 = temp;
-        sp78.unk_C = 0;
+        sp78.medium = MEDIUM_RAM;
     }
 
     for (bankId = 0; bankId < numBanks; bankId++) {

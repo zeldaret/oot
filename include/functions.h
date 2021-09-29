@@ -1939,7 +1939,7 @@ void Audio_SetSeqLoadStatus(s32 seqId, s32 status);
 void func_800E1C18(s32 channelIdx, s32 arg1);
 s32 func_800E1D64(s32 arg0, s32 arg1, s32 arg2);
 void Audio_AudioSeqAsyncLoad(s32 arg0, s32 arg1, s32 arg2, OSMesgQueue* arg3);
-void Audio_AudioSampleTableAsyncLoad(s32 arg0, s32 arg1, s32 arg2, OSMesgQueue* arg3);
+void Audio_AudioSampleAsyncLoad(s32 arg0, s32 arg1, s32 arg2, OSMesgQueue* arg3);
 void Audio_AudioBankAsyncLoad(s32 arg0, s32 arg1, s32 arg2, OSMesgQueue* arg3);
 u8* func_800E1F38(s32 arg0, u32* arg1);
 void func_800E1F7C(s32 arg0);

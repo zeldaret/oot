@@ -721,7 +721,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s8 status;
     /* 0x01 */ s8 unk_01;
-    /* 0x02 */ s8 unk_02; // type?
+    /* 0x02 */ s8 medium;
     /* 0x03 */ char unk_03[0x1];
     /* 0x04 */ u32 unk_04;
     /* 0x08 */ u32 devAddr;
@@ -737,7 +737,7 @@ typedef struct {
 } AsyncLoadReq; // size = 0x58
 
 typedef struct {
-    /* 0x00 */ u8 unk_00;
+    /* 0x00 */ u8 medium;
     /* 0x01 */ u8 unk_01;
     /* 0x02 */ u16 unk_02;
     /* 0x04 */ s32 unk_04;
@@ -768,7 +768,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u32 romAddr;
     /* 0x04 */ u32 size;
-    /* 0x08 */ s8 unk_08;
+    /* 0x08 */ s8 medium;
     /* 0x09 */ s8 type;
     /* 0x0A */ char pad[6];
 } SequenceTableEntry; // size = 0x10
@@ -776,7 +776,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u32 romAddr;
     /* 0x04 */ u32 size;
-    /* 0x08 */ u8 unk_08;
+    /* 0x08 */ u8 medium;
     /* 0x09 */ u8 unk_09;
     /* 0x0A */ s16 unk_0A;
     /* 0x0C */ s16 unk_0C;
@@ -786,7 +786,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u32 romAddr;
     /* 0x04 */ u32 size;
-    /* 0x08 */ s8 unk_08;
+    /* 0x08 */ s8 medium;
     /* 0x09 */ s8 unk_09;
     /* 0x0A */ char pad[6];
 } AudioSampleTableEntry; // size = 0x10
@@ -824,9 +824,16 @@ typedef struct {
 } SampleDmaReq; // size = 0x10
 
 typedef enum {
+    /* 0 */ MEDIUM_RAM,
+    /* 1 */ MEDIUM_1,
+    /* 2 */ MEDIUM_2,
+    /* 3 */ MEDIUM_3
+} SampleMedium;
+
+typedef enum {
     /* 0 */ SEQUENCE_TABLE,
     /* 1 */ BANK_TABLE,
-    /* 2 */ AUDIO_TABLE
+    /* 2 */ SAMPLE_TABLE
 } AudioSampleTableType;
 
 typedef struct {
