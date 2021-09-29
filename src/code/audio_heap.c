@@ -980,9 +980,9 @@ void AudioHeap_Init(void) {
     AudioHeap_InitSampleCaches(spec->persistentSampleCacheMem, spec->temporarySampleCacheMem);
     func_800E1618(gAudioContext.numNotes);
     gAudioContext.unk_176C = 0;
-    Audio_SlowLoadsInit();
-    func_800E4FB0();
-    Audio_AsyncLoadReqInit();
+    Audio_InitSlowLoads();
+    Audio_InitScriptLoads();
+    Audio_InitAsyncLoadReq();
     gAudioContext.unk_4 = 0x1000;
     func_800E4D94();
     intMask = osSetIntMask(1);

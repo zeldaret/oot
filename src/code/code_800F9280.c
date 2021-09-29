@@ -433,7 +433,7 @@ void func_800FA3DC(void) {
     u8 temp_s0_3;
     u8 temp_a3_3;
     s32 pad[3];
-    u32 sp70;
+    u32 dummy;
     f32 phi_f0;
     u8 phi_t0;
     u8 i;
@@ -442,7 +442,7 @@ void func_800FA3DC(void) {
 
     for (i = 0; i < 4; i++) {
         if (D_8016E750[i].unk_260 != 0) {
-            switch (func_800E5E20(&sp70)) {
+            switch (func_800E5E20(&dummy)) {
                 case 1:
                 case 2:
                 case 3:

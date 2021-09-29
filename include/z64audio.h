@@ -99,8 +99,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u32 codec : 4;
     /* 0x00 */ u32 medium : 2;
-    /* 0x00 */ u32 unk_bits26 : 1;
-    /* 0x00 */ u32 unk_bits25 : 1;
+    /* 0x00 */ u32 unk_bit26 : 1;
+    /* 0x00 */ u32 unk_bit25 : 1;
     /* 0x01 */ u32 size : 24;
     /* 0x04 */ u8* sampleAddr;
     /* 0x08 */ AdpcmLoop* loop;
@@ -700,25 +700,6 @@ typedef struct {
 } AudioCmd;
 
 typedef struct {
-    union{
-        struct {
-            s16 unk_00;
-            u16 unk_02;
-        };
-        u32 unk_00w;
-    };
-    u32 unk_04;
-    s8 unk_08;
-    char unk_09[0x7];
-} unk_dma_s;
-
-#define MK_ASYNC_MSG(b0,b1,b2,b3)(((b0) << 0x18) | ((b1) << 0x10) | ((b2) << 0x08) | ((b3) << 0x00))
-#define ASYNC_TBLTYPE(v)((u8)(v >> 0x10))
-#define ASYNC_B2(v)((u8)(v >> 0x08))
-#define ASYNC_B3(v)((u8)(v >> 0x00))
-#define AYSNC_B0(v)(((u8)(v >> 0x18))
-
-typedef struct {
     /* 0x00 */ s8 status;
     /* 0x01 */ s8 unk_01;
     /* 0x02 */ s8 medium;
@@ -778,7 +759,7 @@ typedef struct {
     /* 0x04 */ u32 size;
     /* 0x08 */ u8 medium;
     /* 0x09 */ u8 unk_09;
-    /* 0x0A */ s16 unk_0A;
+    /* 0x0A */ s16 sampleBankBytes;
     /* 0x0C */ s16 unk_0C;
     /* 0x0E */ s16 unk_0E;
 } AudioBankTableEntry; // size = 0x10
@@ -846,9 +827,9 @@ typedef struct {
     /* 0x0014 */ NoteSubEu* noteSubsEu;
     /* 0x0018 */ SynthesisReverb synthesisReverbs[4];
     /* 0x0B38 */ char unk_0B38[0x30];
-    /* 0x0B68 */ AudioBankSample* unk_0B68[128];
+    /* 0x0B68 */ AudioBankSample* usedSamples[128];
     /* 0x0D68 */ AudioStruct0D68 unk_0D68[128];
-    /* 0x1768 */ s32 unk_1768;
+    /* 0x1768 */ s32 usedSamplesCount;
     /* 0x176C */ s32 unk_176C;
     /* 0x1770 */ AsyncLoadReq asyncReqs[0x10];
     /* 0x1CF0 */ OSMesgQueue asyncLoadQueue;
@@ -858,16 +839,16 @@ typedef struct {
     /* 0x1D50 */ AudioSlowLoad slowLoads[2];
     /* 0x1E18 */ OSPiHandle* cartHandle;
     /* 0x1E1C */ OSPiHandle* driveHandle;
-    /* 0x1E20 */ OSMesgQueue unk_1E20;
-    /* 0x1E38 */ OSMesg unk_1E38[0x10];
-    /* 0x1E78 */ OSMesgQueue unk_1E78;
-    /* 0x1E90 */ OSMesg unk_1E90[0x10];
+    /* 0x1E20 */ OSMesgQueue externalLoadQueue;
+    /* 0x1E38 */ OSMesg externalLoadMesgBuf[0x10];
+    /* 0x1E78 */ OSMesgQueue internalLoadQueue;
+    /* 0x1E90 */ OSMesg internalLoadMesgBuf[0x10];
     /* 0x1ED0 */ OSMesgQueue currAudioFrameDmaQueue;
-    /* 0x1EE8 */ OSMesg currAudioFrameDmaMesgBufs[0x40];
-    /* 0x1FE8 */ OSIoMesg currAudioFrameDmaIoMesgBufs[0x40];
-    /* 0x25E8 */ OSMesgQueue unk_25E8;
-    /* 0x2600 */ OSMesg unk_2600;
-    /* 0x2604 */ OSIoMesg unk_2604;
+    /* 0x1EE8 */ OSMesg currAudioFrameDmaMesgBuf[0x40];
+    /* 0x1FE8 */ OSIoMesg currAudioFrameDmaIoMesgBuf[0x40];
+    /* 0x25E8 */ OSMesgQueue syncDmaQueue;
+    /* 0x2600 */ OSMesg syncDmaMesg;
+    /* 0x2604 */ OSIoMesg syncDmaIoMesg;
     /* 0x261C */ SampleDmaReq* sampleDmaReqs;
     /* 0x2620 */ u32 sampleDmaReqCnt;
     /* 0x2624 */ u32 sampleDmaListSize1;

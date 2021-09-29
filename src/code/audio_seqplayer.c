@@ -1726,7 +1726,7 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         value = command;
                         temp = Audio_M64ReadU8(seqScript);
 
-                        func_800E4EEC(value, temp, &seqPlayer->unk_158[commandLow]);
+                        Audio_ScriptLoad(value, temp, &seqPlayer->unk_158[commandLow]);
                         break;
                     }
                 }
