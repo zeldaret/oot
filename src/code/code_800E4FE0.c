@@ -112,7 +112,7 @@ AudioTask* func_800E5000(void) {
     func_800E4F58();
 
     if (gAudioContext.resetStatus != 0) {
-        if (Audio_ResetStep() == 0) {
+        if (AudioHeap_ResetStep() == 0) {
             if (gAudioContext.resetStatus == 0) {
                 osSendMesg(gAudioContext.audioResetQueueP, gAudioContext.audioResetSpecIdToLoad, OS_MESG_NOBLOCK);
             }
@@ -308,7 +308,7 @@ void func_800E5584(AudioCmd* cmd) {
             func_800E66C0(temp_t7);
             return;
         case 0xE3:
-            func_800DE4B0(cmd->asInt);
+            AudioHeap_PopCache(cmd->asInt);
             return;
         default:
             return;
@@ -567,7 +567,7 @@ s8 func_800E60C4(s32 arg0, s32 arg1) {
 }
 
 void func_800E60EC(void* mem, u32 size) {
-    Audio_SoundAllocPoolInit(&gAudioContext.unkPool, mem, size);
+    AudioHeap_SoundAllocPoolInit(&gAudioContext.unkPool, mem, size);
 }
 
 void func_800E611C(void) {

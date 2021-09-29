@@ -446,7 +446,7 @@ s32 func_800E9F64(SequenceChannelLayer* layer, s32 arg1) {
         if (arg1 == 0) {
             Audio_SeqChanLayerNoteDecay(layer);
         }
-        layer->note = Audio_AllocNote(layer);
+        layer->note = AudioHeap_AllocNote(layer);
         if (layer->note != NULL && layer->note->playbackState.parentLayer == layer) {
             Audio_NoteVibratoInit(layer->note);
         }
@@ -1046,7 +1046,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             command = gAudioContext.unk_283Cb[offset + lowBits - result];
                         }
 
-                        if (Audio_SearchPools(1, 2, command)) {
+                        if (AudioHeap_SearchPools(1, 2, command)) {
                             channel->bankId = command;
                         }
 
@@ -1157,7 +1157,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             command = gAudioContext.unk_283Cb[offset + lowBits - result];
                         }
 
-                        if (Audio_SearchPools(1, 2, command)) {
+                        if (AudioHeap_SearchPools(1, 2, command)) {
                             channel->bankId = command;
                         }
 
@@ -1306,7 +1306,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         if (channel->filter != NULL) {
                             lowBits = (command >> 4) & 0xF;
                             command &= 0xF;
-                            Audio_LoadFilter(channel->filter, lowBits, command);
+                            AudioHeap_LoadFilter(channel->filter, lowBits, command);
                         }
                         break;
                     case 0xB2:
@@ -1798,7 +1798,7 @@ void func_800EC734(s32 seqPlayerIdx) {
     s32 i, j;
 
     for (i = 0; i < 0x10; i++) {
-        seqPlayer->channels[i] = Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool, sizeof(SequenceChannel));
+        seqPlayer->channels[i] = AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, sizeof(SequenceChannel));
         if (seqPlayer->channels[i] == NULL) {
             seqPlayer->channels[i] = &gAudioContext.sequenceChannelNone;
         } else {

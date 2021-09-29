@@ -595,7 +595,7 @@ typedef struct {
 typedef struct {
     /* 0x0 */ u8* ptr;
     /* 0x4 */ u32 size;
-    /* 0x8 */ s16 poolIndex;
+    /* 0x8 */ s16 tableType;
     /* 0xA */ s16 id; // seqId or bankId
 } SeqOrBankEntry; // size = 0xC
 
@@ -919,18 +919,18 @@ typedef struct {
     /* 0x29B0 */ SoundAllocPool audioInitPool;
     /* 0x29C0 */ SoundAllocPool notesAndBuffersPool;
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
-    /* 0x29F0 */ SoundAllocPool seqAndBankPool;
+    /* 0x29F0 */ SoundAllocPool cachePool;
     /* 0x2A00 */ SoundAllocPool persistentCommonPool;
     /* 0x2A10 */ SoundAllocPool temporaryCommonPool;
     /* 0x2A20 */ SoundMultiPool seqLoadedPool;
     /* 0x2B30 */ SoundMultiPool bankLoadedPool;
-    /* 0x2C40 */ SoundMultiPool sampleLoadedPool;
+    /* 0x2C40 */ SoundMultiPool sampleBankLoadedPool;
     /* 0x2D50 */ SoundAllocPool unk_2D50;
     /* 0x2D60 */ SeqOrBankEntry unk_2D60[32];
     /* 0x2EE0 */ SampleCachePool persistentSampleCache;
     /* 0x3174 */ SampleCachePool temporarySampleCache;
     /* 0x3408 */ AudioPoolSplit4 sessionPoolSplit;
-    /* 0x3418 */ AudioPoolSplit2 seqAndBankPoolSplit;
+    /* 0x3418 */ AudioPoolSplit2 cachePoolSplit;
     /* 0x3420 */ AudioPoolSplit3 persistentCommonPoolSplit;
     /* 0x342C */ AudioPoolSplit3 temporaryCommonPoolSplit;
     /* 0x3438 */ u8 sampleBankLoadStatus[0x30];
