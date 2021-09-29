@@ -1,5 +1,5 @@
-#ifndef _Z_DOOR_GERUDO_H_
-#define _Z_DOOR_GERUDO_H_
+#ifndef Z_DOOR_GERUDO_H
+#define Z_DOOR_GERUDO_H
 
 #include "ultra64.h"
 #include "global.h"

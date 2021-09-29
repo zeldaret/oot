@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_SWITCH_H_
-#define _Z_OBJ_SWITCH_H_
+#ifndef Z_OBJ_SWITCH_H
+#define Z_OBJ_SWITCH_H
 
 #include "ultra64.h"
 #include "global.h"

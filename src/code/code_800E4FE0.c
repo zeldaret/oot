@@ -38,7 +38,6 @@ AudioTask* func_800E4FE0(void) {
 extern u64 rspAspMainDataStart[];
 extern u64 rspAspMainDataEnd[];
 
-#ifdef NON_MATCHING
 AudioTask* func_800E5000(void) {
     static s32 sMaxAbiCmdCnt = 0x80;
     static AudioTask* sWaitingAudioTask = NULL;
@@ -47,7 +46,7 @@ AudioTask* func_800E5000(void) {
     s32 pad;
     s32 j;
     s32 sp5C;
-    s16* currAiBuffer; // sp58
+    s16* currAiBuffer;
     OSTask_t* task;
     s32 index;
     u32 sp4C;
@@ -77,8 +76,9 @@ AudioTask* func_800E5000(void) {
 
     if (gAudioContext.resetTimer < 16) {
         if (gAudioContext.aiBufLengths[index] != 0) {
-            // &gAudioContext + index*{2,4} should be saved across here
             osAiSetNextBuffer(gAudioContext.aiBuffers[index], gAudioContext.aiBufLengths[index] * 4);
+            if (gAudioContext.aiBuffers[index]) {}
+            if (gAudioContext.aiBufLengths[index]) {}
         }
     }
 
@@ -187,6 +187,7 @@ AudioTask* func_800E5000(void) {
     task->dram_stack_size = 0;
     task->output_buff = NULL;
     task->output_buff_size = NULL;
+    if (1) {}
     task->data_ptr = (u64*)gAudioContext.abiCmdBufs[index];
     task->data_size = abiCmdCnt * sizeof(Acmd);
     task->yield_data_ptr = NULL;
@@ -203,11 +204,6 @@ AudioTask* func_800E5000(void) {
         return NULL;
     }
 }
-#else
-s32 sMaxAbiCmdCnt = 0x80;
-AudioTask* sWaitingAudioTask = NULL;
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5000.s")
-#endif
 
 #define ACMD_SND_MDE ((u32)0xF0000000)
 #define ACMD_MUTE ((u32)0xF1000000)

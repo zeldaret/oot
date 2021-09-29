@@ -301,7 +301,7 @@ BgBdanObjects* EnRu1_FindSwitch(GlobalContext* globalCtx) {
         }
         actorIt = actorIt->next;
     }
-    // There is no stand
+    // "There is no stand"
     osSyncPrintf(VT_FGCOL(RED) "お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     return NULL;
 }
@@ -999,7 +999,7 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_CosS(yawTowardsPlayer)) + pos->z;
     this->blueWarp = (DoorWarp1*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
-                                                    spawnX, spawnY, spawnZ, 0, yawTowardsPlayer, 0, 5);
+                                                    spawnX, spawnY, spawnZ, 0, yawTowardsPlayer, 0, WARP_BLUE_RUTO);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1068,16 +1068,16 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
     return false;
 }
 
-s32 func_80AED084(EnRu1* this, UNK_TYPE arg1) {
-    if (this->blueWarp != NULL && this->blueWarp->unk_1EC == arg1) {
+s32 func_80AED084(EnRu1* this, s32 state) {
+    if (this->blueWarp != NULL && this->blueWarp->rutoWarpState == state) {
         return true;
     }
     return false;
 }
 
-void func_80AED0B0(EnRu1* this, UNK_TYPE arg1) {
+void func_80AED0B0(EnRu1* this, s32 state) {
     if (this->blueWarp != NULL) {
-        this->blueWarp->unk_1EC = arg1;
+        this->blueWarp->rutoWarpState = state;
     }
 }
 
@@ -1097,12 +1097,12 @@ void func_80AED110(EnRu1* this) {
     if (this->actor.shape.yOffset >= 0.0f) {
         this->action = 18;
         this->actor.shape.yOffset = 0.0f;
-        func_80AED0B0(this, 1);
+        func_80AED0B0(this, WARP_BLUE_RUTO_STATE_READY);
     }
 }
 
 void func_80AED154(EnRu1* this, GlobalContext* globalCtx) {
-    if (func_80AED084(this, 2)) {
+    if (func_80AED084(this, WARP_BLUE_RUTO_STATE_ENTERED)) {
         this->action = 0x13;
         this->unk_26C = 0.0f;
         func_80AECEB4(this, globalCtx);
@@ -1115,17 +1115,17 @@ void func_80AED19C(EnRu1* this, s32 cond) {
                          Animation_GetLastFrame(&gRutoChildTransitionHandsOnHipToCrossArmsAndLegsAnim), ANIMMODE_ONCE,
                          -8.0f);
         this->action = 20;
-        func_80AED0B0(this, 3);
+        func_80AED0B0(this, WARP_BLUE_RUTO_STATE_3);
     }
 }
 
 void func_80AED218(EnRu1* this, UNK_TYPE arg1) {
-    if (func_80AED084(this, 4)) {
+    if (func_80AED084(this, WARP_BLUE_RUTO_STATE_TALKING)) {
         if (arg1 != 0) {
             Animation_Change(&this->skelAnime, &gRutoChildWaitSittingAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildWaitSittingAnim), ANIMMODE_LOOP, -8.0f);
         }
-    } else if (func_80AED084(this, 5)) {
+    } else if (func_80AED084(this, WARP_BLUE_RUTO_STATE_WARPING)) {
         Animation_Change(&this->skelAnime, &gRutoChildWaitInBlueWarpAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildWaitInBlueWarpAnim), ANIMMODE_ONCE, -8.0f);
         this->action = 21;
@@ -2187,10 +2187,10 @@ void func_80AEFF94(EnRu1* this, GlobalContext* globalCtx) {
         this->roomNum1 = actorRoom;
         this->roomNum3 = actorRoom;
         this->roomNum2 = actorRoom;
-        // Ruto switch set
+        // "Ruto switch set"
         osSyncPrintf("スイッチルトセット!!!!!!!!!!!!!!!!!!!!!!\n");
     } else {
-        // Ruto switch not set
+        // "Ruto switch not set"
         osSyncPrintf("スイッチルトセットしない!!!!!!!!!!!!!!!!!!!!!!\n");
         Actor_Kill(&this->actor);
     }
@@ -2208,7 +2208,7 @@ void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRu1* this = THIS;
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
-        // Main mode is improper!
+        // "Main mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -2250,7 +2250,7 @@ void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         default:
             Actor_Kill(&this->actor);
-            // Relevant arge_data = %d unacceptable
+            // "Relevant arge_data = %d unacceptable"
             osSyncPrintf("該当 arge_data = %d 無し\n", func_80AEADF0(this));
             break;
     }
@@ -2277,7 +2277,7 @@ s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     EnRu1* this = THIS;
 
     if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*sPreLimbDrawFuncs[this->unk_290] == NULL)) {
-        // Neck rotation mode is improper!
+        // "Neck rotation mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sPreLimbDrawFuncs[this->unk_290](this, globalCtx, limbIndex, rot);
@@ -2359,7 +2359,7 @@ void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnRu1* this = THIS;
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == 0) {
-        // Draw mode is improper!
+        // "Draw mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
