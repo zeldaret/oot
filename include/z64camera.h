@@ -43,42 +43,42 @@ typedef enum {
     /* 0x12 */ CAM_SET_TOWER_CLIMB, // Various climbing structures (collapse sequence stairs, spiral around sarias house, zora domain climb, etc...) "TOWER0"
     /* 0x13 */ CAM_SET_TOWER_UNUSED, // Unused but data is in Phantom Ganon's Lair (no surface uses it) "TOWER1"
     /* 0x14 */ CAM_SET_MARKET_BALCONY, // Activated in day child market by talking to NPC on balcony above bombchu bowling "FIXED0"
-    /* 0x15 */ CAM_SET_CHU_BOWLING, // "FIXED1"
-    /* 0x16 */ CAM_SET_CIRCLE0, // Closely related to crawlspaces
-    /* 0x17 */ CAM_SET_SHOP_BROWSING, // Shopping and browsing for items"CIRCLE2"
+    /* 0x15 */ CAM_SET_CHU_BOWLING, // Fixes the camera to the bombchu bowling targets while playing the minigame "FIXED1"
+    /* 0x16 */ CAM_SET_CIRCLE0, // Unknown, closely related to crawlspaces
+    /* 0x17 */ CAM_SET_SHOP_BROWSING, // Shopping and browsing for items "CIRCLE2"
     /* 0x18 */ CAM_SET_CIRCLE3, // The camera used on Link's balcony in Kokiri forest. Data present in scene data for Deku Tree, GTG, Inside Ganon's Castle (TODO: may or may not be used)
     /* 0x19 */ CAM_SET_PREREND_FIXED, // Camera is fixed in position and rotation "PREREND0"
     /* 0x1A */ CAM_SET_PREREND_ROTATE, // Camera is fixed in position but free to rotate "PREREND1"
     /* 0x1B */ CAM_SET_PREREND_SCROLL, // Camera side-scrolls position to follow link. Only used in castle courtyard with the guards "PREREND3"
-    /* 0x1C */ CAM_SET_DOOR0, // Custom door transition, used in fire and royal family tomb
-    /* 0x1D */ CAM_SET_DOORC, // Generic door transitions
-    /* 0x1E */ CAM_SET_CRAWLSPACE, // "RAIL3"
+    /* 0x1C */ CAM_SET_DOOR0, // Custom room door transitions, used in fire and royal family tomb
+    /* 0x1D */ CAM_SET_DOORC, // Generic room door transitions, camera moves and follows player as the door is open and closed
+    /* 0x1E */ CAM_SET_CRAWLSPACE, // Used in all crawlspaces "RAIL3"
     /* 0x1F */ CAM_SET_START0, // Data is given in Temple of Time, but no surface uses it
-    /* 0x20 */ CAM_SET_START1, // Doors that snap the camera to a fixed location (example: ganon's towers doors climbing up)
-    /* 0x21 */ CAM_SET_FREE0,
-    /* 0x22 */ CAM_SET_FREE2, // Used by 10 OnePointCutscenes (example: Falling chest)
+    /* 0x20 */ CAM_SET_START1, // Scene/room door transitions that snap the camera to a fixed location (example: ganon's towers doors climbing up)
+    /* 0x21 */ CAM_SET_FREE0, // Full manual control is given over the camera 
+    /* 0x22 */ CAM_SET_FREE2, // Various OnePoint Cutscenes, 10 total (example: falling chest)
     /* 0x23 */ CAM_SET_PRISON, // Inside the carpenter jail cells from theives hideout "CIRCLE4"
-    /* 0x24 */ CAM_SET_DIVING, // "CIRCLE5"
-    /* 0x25 */ CAM_SET_CS_0, // "DEMO0"
+    /* 0x24 */ CAM_SET_DIVING, // Player diving from the surface of the water to underwater "CIRCLE5"
+    /* 0x25 */ CAM_SET_CS_0, // Various cutscenes "DEMO0"
     /* 0x26 */ CAM_SET_CS_1, // Never set to, but checked in twisting hallway (Forest Temple) "DEMO1"
     /* 0x27 */ CAM_SET_FOREST_BIRDS_EYE, // Used in the falling ceiling room in forest temple "MORI1"
     /* 0x28 */ CAM_SET_SLOW_CHEST_CS, // Long cutscene when opening a big chest with a major item "ITEM0"
     /* 0x29 */ CAM_SET_ITEM_UNUSED, // "ITEM1"
-    /* 0x2A */ CAM_SET_CS_3, // "DEMO3"
+    /* 0x2A */ CAM_SET_CS_3, // Various cutscenes "DEMO3"
     /* 0x2B */ CAM_SET_CS_4, // Attention cutscenes and the actor siofuki (water spout/jet) "DEMO4"
     /* 0x2C */ CAM_SET_BEAN_GENERIC, // All beans except lost woods "UFOBEAN"
     /* 0x2D */ CAM_SET_BEAN_LOST_WOODS, // Lost woods bean "IFTBEAN"
-    /* 0x2E */ CAM_SET_SCENE0,
-    /* 0x2F */ CAM_SET_SCENE1, // Scene Transitions
+    /* 0x2E */ CAM_SET_SCENE_UNUSED, // Unused "SCENE0"
+    /* 0x2F */ CAM_SET_SCENE_TRANSITION, // Scene Transitions "SCENE1"
     /* 0x30 */ CAM_SET_FIRE_PLATFORM, // "HIDAN1"
     /* 0x31 */ CAM_SET_FIRE_STAIRCASE, // Used on fire staircase actor cutscene in shortcut room connecting vanilla hammer chest to the final goron small key "HIDAN2"
-    /* 0x32 */ CAM_SET_FOREST_UNUSED, // Appears unused "MORI2"
-    /* 0x33 */ CAM_SET_FOREST_POES, // Used when defeating a poe sister "MORI2"
+    /* 0x32 */ CAM_SET_FOREST_UNUSED, // Unused "MORI2"
+    /* 0x33 */ CAM_SET_FOREST_POES, // Used when defeating a poe sister "MORI3"
     /* 0x34 */ CAM_SET_BIG_OCTO, // Used by big octo miniboss in Jabu Jabu "TAKO"
     /* 0x35 */ CAM_SET_MEADOW_MAZE, // Used only as child in Sacred Forest Meadow Maze "SPOT05A"
     /* 0x36 */ CAM_SET_MEADOW_UNUSED, // Unused from Sacred Forest Meadow "SPOT05B"
     /* 0x37 */ CAM_SET_FIRE_BIRDS_EYE, // Used in lower-floor maze in non-mq fire temple "HIDAN3"
-    /* 0x38 */ CAM_SET_FACE_PLAYER, // Put the camera in front of player and turn around to look at player from the front "ITEM2"
+    /* 0x38 */ CAM_SET_FACE_PLAYER_FRONT, // Put the camera in front of player and turn around to look at player from the front "ITEM2"
     /* 0x39 */ CAM_SET_LOWERING_PLATFORM, // Lowering platforms (forest temple bow room, Jabu final shortcut) "CAM_SET_CIRCLE6"
     /* 0x3A */ CAM_SET_NORMAL2,
     /* 0x3B */ CAM_SET_FISHING, // Fishing pond by the lake

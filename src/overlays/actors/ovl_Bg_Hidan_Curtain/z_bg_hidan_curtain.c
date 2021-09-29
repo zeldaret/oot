@@ -208,7 +208,7 @@ void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
     f32 riseProgress;
 
     if ((globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_SLOW_CHEST_CS) ||
-        (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FACE_PLAYER)) {
+        (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FACE_PLAYER_FRONT)) {
         this->collider.base.atFlags &= ~AT_HIT;
     } else {
         if (this->collider.base.atFlags & AT_HIT) {

@@ -955,7 +955,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
         case 9806:
             csCam->timer = -99;
             if (func_800C0CB8(globalCtx)) {
-                func_800C0808(globalCtx, camIdx, player, CAM_SET_FACE_PLAYER);
+                func_800C0808(globalCtx, camIdx, player, CAM_SET_FACE_PLAYER_FRONT);
                 csCam->data2 = 0xC;
             } else {
                 Gameplay_CopyCamera(globalCtx, camIdx, MAIN_CAM);

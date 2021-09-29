@@ -96,12 +96,12 @@ CameraModeValue D_8011A3A0[] = {
  * TWINROVA_PLATFORM  TARGET    PARA1
  * TWINROVA_FLOOR     TARGET    PARA1
  * BOSS_GANONDORF     TARGET    PARA1
- * BOSS_GANON2        TARGET    PARA1
- * COLLAPSE_STAIRS    TARGET    PARA1
+ * BOSS_GANON        TARGET    PARA1
+ * TOWER_CLIMB    TARGET    PARA1
  * TOWER1             TARGET    PARA1
  * CIRCLE3            TARGET    PARA1
  * NORMAL2            TARGET    PARA1
- * UO_FIBER           TARGET    PARA1
+ * JABU_TENTICLE           TARGET    PARA1
  * TEPPEN             TARGET    PARA1
  * NORMAL4            TARGET    PARA1
  */
@@ -134,14 +134,14 @@ CameraModeValue D_8011A3C8[] = {
  * TWINROVA_PLATFORM  FOLLOWTARGET    KEEP1
  * TWINROVA_FLOOR     FOLLOWTARGET    KEEP1
  * BOSS_GANONDORF     FOLLOWTARGET    KEEP1
- * BOSS_GANON2        FOLLOWTARGET    KEEP1
- * COLLAPSE_STAIRS    FOLLOWTARGET    KEEP1
+ * BOSS_GANON        FOLLOWTARGET    KEEP1
+ * TOWER_CLIMB    FOLLOWTARGET    KEEP1
  * TOWER1             FOLLOWTARGET    KEEP1
  * CIRCLE3            FOLLOWTARGET    KEEP1
  * UFOBEAN            FOLLOWTARGET    KEEP1
  * LIFTBEAN           FOLLOWTARGET    KEEP1
  * NORMAL2            FOLLOWTARGET    KEEP1
- * UO_FIBER           FOLLOWTARGET    KEEP1
+ * JABU_TENTICLE           FOLLOWTARGET    KEEP1
  * NORMAL4            FOLLOWTARGET    KEEP1
  */
 CameraModeValue D_8011A3F4[] = {
@@ -176,15 +176,15 @@ CameraModeValue D_8011A3F4[] = {
  * TWINROVA_PLATFORM  TALK    KEEP3
  * TWINROVA_FLOOR     TALK    KEEP3
  * BOSS_GANONDORF     TALK    KEEP3
- * BOSS_GANON2        TALK    KEEP3
- * COLLAPSE_STAIRS    TALK    KEEP3
+ * BOSS_GANON        TALK    KEEP3
+ * TOWER_CLIMB    TALK    KEEP3
  * TOWER1             TALK    KEEP3
  * CIRCLE3            TALK    KEEP3
  * UFOBEAN            TALK    KEEP3
  * LIFTBEAN           TALK    KEEP3
  * TAKO               TALK    KEEP3
  * NORMAL2            TALK    KEEP3
- * UO_FIBER           TALK    KEEP3
+ * JABU_TENTICLE           TALK    KEEP3
  * DUNGEON2           TALK    KEEP3
  * CIRCLE7            TALK    KEEP3
  */
@@ -208,7 +208,7 @@ CameraModeValue D_8011A428[] = {
  * -------------    ------    --------
  * NORMAL0          BATTLE    BATT1
  * NORMAL3          BATTLE    BATT1
- * COLLAPSE_STAIRS  BATTLE    BATT1
+ * TOWER_CLIMB  BATTLE    BATT1
  * TOWER1           BATTLE    BATT1
  * TEPPEN           BATTLE    BATT1
  */
@@ -242,14 +242,14 @@ CameraModeValue D_8011A458[] = {
  * TWINROVA_PLATFORM  CLIMB    JUMP2
  * TWINROVA_FLOOR     CLIMB    JUMP2
  * BOSS_GANONDORF     CLIMB    JUMP2
- * BOSS_GANON2        CLIMB    JUMP2
- * COLLAPSE_STAIRS    CLIMB    JUMP2
+ * BOSS_GANON        CLIMB    JUMP2
+ * TOWER_CLIMB    CLIMB    JUMP2
  * TOWER1             CLIMB    JUMP2
  * CIRCLE3            CLIMB    JUMP2
  * UFOBEAN            CLIMB    JUMP2
  * LIFTBEAN           CLIMB    JUMP2
  * NORMAL2            CLIMB    JUMP2
- * UO_FIBER           CLIMB    JUMP2
+ * JABU_TENTICLE           CLIMB    JUMP2
  * TEPPEN             CLIMB    JUMP2
  * NORMAL4            CLIMB    JUMP2
  */
@@ -283,15 +283,15 @@ CameraModeValue D_8011A488[] = {
  * TWINROVA_PLATFORM  FIRSTPERSON    SUBJ3
  * TWINROVA_FLOOR     FIRSTPERSON    SUBJ3
  * BOSS_GANONDORF     FIRSTPERSON    SUBJ3
- * BOSS_GANON2        FIRSTPERSON    SUBJ3
- * COLLAPSE_STAIRS    FIRSTPERSON    SUBJ3
+ * BOSS_GANON        FIRSTPERSON    SUBJ3
+ * TOWER_CLIMB    FIRSTPERSON    SUBJ3
  * TOWER1             FIRSTPERSON    SUBJ3
  * CIRCLE3            FIRSTPERSON    SUBJ3
  * UFOBEAN            FIRSTPERSON    SUBJ3
  * LIFTBEAN           FIRSTPERSON    SUBJ3
  * TAKO               FIRSTPERSON    SUBJ3
  * NORMAL2            FIRSTPERSON    SUBJ3
- * UO_FIBER           FIRSTPERSON    SUBJ3
+ * JABU_TENTICLE           FIRSTPERSON    SUBJ3
  * DUNGEON2           FIRSTPERSON    SUBJ3
  * TEPPEN             FIRSTPERSON    SUBJ3
  * CIRCLE7            FIRSTPERSON    SUBJ3
@@ -327,15 +327,15 @@ CameraModeValue D_8011A4AC[] = {
  * TWINROVA_PLATFORM  BOWARROW    SUBJ3
  * TWINROVA_FLOOR     BOWARROW    SUBJ3
  * BOSS_GANONDORF     BOWARROW    SUBJ3
- * BOSS_GANON2        BOWARROW    SUBJ3
- * COLLAPSE_STAIRS    BOWARROW    SUBJ3
+ * BOSS_GANON        BOWARROW    SUBJ3
+ * TOWER_CLIMB    BOWARROW    SUBJ3
  * TOWER1             BOWARROW    SUBJ3
  * CIRCLE3            BOWARROW    SUBJ3
  * UFOBEAN            BOWARROW    SUBJ3
  * LIFTBEAN           BOWARROW    SUBJ3
  * TAKO               BOWARROW    SUBJ3
  * NORMAL2            BOWARROW    SUBJ3
- * UO_FIBER           BOWARROW    SUBJ3
+ * JABU_TENTICLE           BOWARROW    SUBJ3
  * DUNGEON2           BOWARROW    SUBJ3
  * TEPPEN             BOWARROW    SUBJ3
  * CIRCLE7            BOWARROW    SUBJ3
@@ -361,7 +361,7 @@ CameraModeValue D_8011A4D0[] = {
  * DUNGEON0           BOWARROWZ    SUBJ3
  * DUNGEON1           BOWARROWZ    SUBJ3
  * NORMAL3            BOWARROWZ    SUBJ3
- * HORSE0             BOWARROWZ    SUBJ3
+ * HORSE             BOWARROWZ    SUBJ3
  * BOSS_GOHMA         BOWARROWZ    SUBJ3
  * BOSS_DODONGO       BOWARROWZ    SUBJ3
  * BOSS_BARINADE      BOWARROWZ    SUBJ3
@@ -372,15 +372,15 @@ CameraModeValue D_8011A4D0[] = {
  * TWINROVA_PLATFORM  BOWARROWZ    SUBJ3
  * TWINROVA_FLOOR     BOWARROWZ    SUBJ3
  * BOSS_GANONDORF     BOWARROWZ    SUBJ3
- * BOSS_GANON2        BOWARROWZ    SUBJ3
- * COLLAPSE_STAIRS    BOWARROWZ    SUBJ3
+ * BOSS_GANON        BOWARROWZ    SUBJ3
+ * TOWER_CLIMB    BOWARROWZ    SUBJ3
  * TOWER1             BOWARROWZ    SUBJ3
  * CIRCLE3            BOWARROWZ    SUBJ3
  * UFOBEAN            BOWARROWZ    SUBJ3
  * LIFTBEAN           BOWARROWZ    SUBJ3
  * TAKO               BOWARROWZ    SUBJ3
  * NORMAL2            BOWARROWZ    SUBJ3
- * UO_FIBER           BOWARROWZ    SUBJ3
+ * JABU_TENTICLE           BOWARROWZ    SUBJ3
  * DUNGEON2           BOWARROWZ    SUBJ3
  * TEPPEN             BOWARROWZ    SUBJ3
  * NORMAL4            BOWARROWZ    SUBJ3
@@ -412,14 +412,14 @@ CameraModeValue D_8011A4F4[] = {
  * TWINROVA_PLATFORM  HOOKSHOT    SPEC5
  * TWINROVA_FLOOR     HOOKSHOT    SPEC5
  * BOSS_GANONDORF     HOOKSHOT    SPEC5
- * BOSS_GANON2        HOOKSHOT    SPEC5
- * COLLAPSE_STAIRS    HOOKSHOT    SPEC5
+ * BOSS_GANON        HOOKSHOT    SPEC5
+ * TOWER_CLIMB    HOOKSHOT    SPEC5
  * TOWER1             HOOKSHOT    SPEC5
  * CIRCLE3            HOOKSHOT    SPEC5
  * UFOBEAN            HOOKSHOT    SPEC5
  * LIFTBEAN           HOOKSHOT    SPEC5
  * NORMAL2            HOOKSHOT    SPEC5
- * UO_FIBER           HOOKSHOT    SPEC5
+ * JABU_TENTICLE           HOOKSHOT    SPEC5
  * TEPPEN             HOOKSHOT    SPEC5
  * CIRCLE7            HOOKSHOT    SPEC5
  * NORMAL4            HOOKSHOT    SPEC5
@@ -452,15 +452,15 @@ CameraModeValue D_8011A518[] = {
  * TWINROVA_PLATFORM  BOOMERANG    SUBJ3
  * TWINROVA_FLOOR     BOOMERANG    SUBJ3
  * BOSS_GANONDORF     BOOMERANG    SUBJ3
- * BOSS_GANON2        BOOMERANG    SUBJ3
- * COLLAPSE_STAIRS    BOOMERANG    SUBJ3
+ * BOSS_GANON        BOOMERANG    SUBJ3
+ * TOWER_CLIMB    BOOMERANG    SUBJ3
  * TOWER1             BOOMERANG    SUBJ3
  * CIRCLE3            BOOMERANG    SUBJ3
  * UFOBEAN            BOOMERANG    SUBJ3
  * LIFTBEAN           BOOMERANG    SUBJ3
  * TAKO               BOOMERANG    SUBJ3
  * NORMAL2            BOOMERANG    SUBJ3
- * UO_FIBER           BOOMERANG    SUBJ3
+ * JABU_TENTICLE           BOOMERANG    SUBJ3
  * DUNGEON2           BOOMERANG    SUBJ3
  * TEPPEN             BOOMERANG    SUBJ3
  * CIRCLE7            BOOMERANG    SUBJ3
@@ -495,15 +495,15 @@ CameraModeValue D_8011A538[] = {
  * TWINROVA_PLATFORM  SLINGSHOT    SUBJ3
  * TWINROVA_FLOOR     SLINGSHOT    SUBJ3
  * BOSS_GANONDORF     SLINGSHOT    SUBJ3
- * BOSS_GANON2        SLINGSHOT    SUBJ3
- * COLLAPSE_STAIRS    SLINGSHOT    SUBJ3
+ * BOSS_GANON        SLINGSHOT    SUBJ3
+ * TOWER_CLIMB    SLINGSHOT    SUBJ3
  * TOWER1             SLINGSHOT    SUBJ3
  * CIRCLE3            SLINGSHOT    SUBJ3
  * UFOBEAN            SLINGSHOT    SUBJ3
  * LIFTBEAN           SLINGSHOT    SUBJ3
  * TAKO               SLINGSHOT    SUBJ3
  * NORMAL2            SLINGSHOT    SUBJ3
- * UO_FIBER           SLINGSHOT    SUBJ3
+ * JABU_TENTICLE           SLINGSHOT    SUBJ3
  * DUNGEON2           SLINGSHOT    SUBJ3
  * TEPPEN             SLINGSHOT    SUBJ3
  * CIRCLE7            SLINGSHOT    SUBJ3
@@ -536,14 +536,14 @@ CameraModeValue D_8011A55C[] = {
  * TWINROVA_PLATFORM  CLIMBZ    JUMP2
  * TWINROVA_FLOOR     CLIMBZ    JUMP2
  * BOSS_GANONDORF     CLIMBZ    JUMP2
- * BOSS_GANON2        CLIMBZ    JUMP2
- * COLLAPSE_STAIRS    CLIMBZ    JUMP2
+ * BOSS_GANON        CLIMBZ    JUMP2
+ * TOWER_CLIMB    CLIMBZ    JUMP2
  * TOWER1             CLIMBZ    JUMP2
  * CIRCLE3            CLIMBZ    JUMP2
  * UFOBEAN            CLIMBZ    JUMP2
  * LIFTBEAN           CLIMBZ    JUMP2
  * NORMAL2            CLIMBZ    JUMP2
- * UO_FIBER           CLIMBZ    JUMP2
+ * JABU_TENTICLE           CLIMBZ    JUMP2
  * TEPPEN             CLIMBZ    JUMP2
  * NORMAL4            CLIMBZ    JUMP2
  */
@@ -585,14 +585,14 @@ CameraModeValue D_8011A580[] = {
  * BOSS_GANONDORF     FREEFALL    JUMP1
  * GANON2             JUMP        JUMP1
  * GANON2             FREEFALL    JUMP1
- * COLLAPSE_STAIRS    FREEFALL    JUMP1
+ * TOWER_CLIMB    FREEFALL    JUMP1
  * TOWER1             FREEFALL    JUMP1
  * UFOBEAN            FREEFALL    JUMP1
  * LIFTBEAN           FREEFALL    JUMP1
  * NORMAL2            JUMP        JUMP1
  * NORMAL2            FREEFALL    JUMP1
- * UOFIBER            JUMP        JUMP1
- * UOFIBER            FREEFALL    JUMP1
+ * JABU_TENTICLE            JUMP        JUMP1
+ * JABU_TENTICLE            FREEFALL    JUMP1
  * TEPPEN             JUMP        JUMP1
  * TEPPEN             FREEFALL    JUMP1
  * NORMAL4            JUMP        JUMP1
@@ -625,10 +625,10 @@ CameraModeValue D_8011A5A4[] = {
  * TWINROVA_FLOOR     HANG    UNIQ1
  * BOSS_GANONDORF     HANG    UNIQ1
  * GANON2             HANG    UNIQ1
- * COLLAPSE_STAIRS    HANG    UNIQ1
+ * TOWER_CLIMB    HANG    UNIQ1
  * TOWER1             HANG    UNIQ1
  * NORMAL2            HANG    UNIQ1
- * UOFIBER            HANG    UNIQ1
+ * JABU_TENTICLE            HANG    UNIQ1
  * TEPPEN             HANG    UNIQ1
  * NORMAL4            HANG    UNIQ1
  */
@@ -658,10 +658,10 @@ CameraModeValue D_8011A5C4[] = {
  * TWINROVA_FLOOR     HANGZ    UNIQ1
  * BOSS_GANONDORF     HANGZ    UNIQ1
  * GANON2             HANGZ    UNIQ1
- * COLLAPSE_STAIRS    HANGZ    UNIQ1
+ * TOWER_CLIMB    HANGZ    UNIQ1
  * TOWER1             HANGZ    UNIQ1
  * NORMAL2            HANGZ    UNIQ1
- * UOFIBER            HANGZ    UNIQ1
+ * JABU_TENTICLE            HANGZ    UNIQ1
  * TEPPEN             HANGZ    UNIQ1
  * NORMAL4            HANGZ    UNIQ1
  */
@@ -705,13 +705,13 @@ CameraModeValue D_8011A5FC[] = {
  * TWINROVA_PLATFORM  CHARGE    BATT4
  * TWINROVA_FLOOR     CHARGE    BATT4
  * GANON2             CHARGE    BATT4
- * COLLAPSE_STAIRS    CHARGE    BATT4
+ * TOWER_CLIMB    CHARGE    BATT4
  * TOWER1             CHARGE    BATT4
  * CIRCLE3            CHARGE    BATT4
  * UFOBEAN            CHARGE    BATT4
  * LIFTBEAN           CHARGE    BATT4
  * NORMAL2            CHARGE    BATT4
- * UOFIBER            CHARGE    BATT4
+ * JABU_TENTICLE            CHARGE    BATT4
  * DUNGEON2           CHARGE    BATT4
  * TEPPEN             CHARGE    BATT4
  * NORMAL4            CHARGE    BATT4
@@ -742,11 +742,11 @@ CameraModeValue D_8011A61C[] = {
  * TWINROVA_FLOOR     STILL    NORM1
  * BOSS_GANONDORF     STILL    NORM1
  * GANON2             STILL    NORM1
- * COLLAPSE_STAIRS    STILL    NORM1
+ * TOWER_CLIMB    STILL    NORM1
  * TOWER1             STILL    NORM1
  * CIRCLE3            STILL    NORM1
  * NORMAL2            STILL    NORM1
- * UOFIBER            STILL    NORM1
+ * JABU_TENTICLE            STILL    NORM1
  * TEPPEN             STILL    NORM1
  * NORMAL4            STILL    NORM1
  */
@@ -781,14 +781,14 @@ CameraModeValue D_8011A638[] = {
  * TWINROVA_FLOOR     PUSHPULL    PARA1
  * BOSS_GANONDORF     PUSHPULL    PARA1
  * GANON2             PUSHPULL    PARA1
- * COLLAPSE_STAIRS    PUSHPULL    PARA1
+ * TOWER_CLIMB    PUSHPULL    PARA1
  * TOWER1             PUSHPULL    PARA1
  * CIRCLE3            PUSHPULL    PARA1
  * UFOBEAN            PUSHPULL    PARA1
  * LIFTBEAN           PUSHPULL    PARA1
  * TAKO               PUSHPULL    PARA1
  * NORMAL2            PUSHPULL    PARA1
- * UOFIBER            PUSHPULL    PARA1
+ * JABU_TENTICLE            PUSHPULL    PARA1
  * TEPPEN             PUSHPULL    PARA1
  * NORMAL4            PUSHPULL    PARA1
  */
@@ -825,14 +825,14 @@ CameraModeValue D_8011A660[] = {
  * TWINROVA_FLOOR     BOOMFOLLLOW    KEEP1
  * BOSS_GANONDORF     BOOMFOLLLOW    KEEP1
  * GANON2             BOOMFOLLLOW    KEEP1
- * COLLAPSE_STAIRS    BOOMFOLLLOW    KEEP1
+ * TOWER_CLIMB    BOOMFOLLLOW    KEEP1
  * TOWER1             BOOMFOLLLOW    KEEP1
  * CIRCLE3            BOOMFOLLLOW    KEEP1
  * UFOBEAN            BOOMFOLLLOW    KEEP1
  * LIFTBEAN           BOOMFOLLLOW    KEEP1
  * TAKO               BOOMFOLLLOW    KEEP1
  * NORMAL2            BOOMFOLLLOW    KEEP1
- * UOFIBER            BOOMFOLLLOW    KEEP1
+ * JABU_TENTICLE            BOOMFOLLLOW    KEEP1
  * DUNGEON2           BOOMFOLLLOW    KEEP1
  * TEPPEN             BOOMFOLLLOW    KEEP1
  * NORMAL4            BOOMFOLLLOW    KEEP1
@@ -1591,14 +1591,14 @@ CameraModeValue sSetNorm3ModeBoomVals[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: HORSE0 Setting
+ *                   Custom Data: HORSE Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * HORSE0     NORMAL    NORM3
+ * HORSE     NORMAL    NORM3
  */
 CameraModeValue sSetHrse0ModeNormVals[] = {
     { -50, CAM_DATA_Y_OFFSET },              // yOffset
@@ -1615,7 +1615,7 @@ CameraModeValue sSetHrse0ModeNormVals[] = {
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * HORSE0     TARGET    NORM3
+ * HORSE     TARGET    NORM3
  */
 CameraModeValue sSetHrse0ModeParaVals[] = {
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
@@ -1632,7 +1632,7 @@ CameraModeValue sSetHrse0ModeParaVals[] = {
 /**
  * Setting    Mode        Function
  * -------    --------    --------
- * HORSE0     BOWARROW    SUBJ3
+ * HORSE     BOWARROW    SUBJ3
  */
 CameraModeValue D_8011ACD4[] = {
     { -7, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
@@ -1649,7 +1649,7 @@ CameraModeValue D_8011ACD4[] = {
 /**
  * Setting    Mode            Function
  * -------    ------------    --------
- * HORSE0     FOLLOWTARGET    KEEP1
+ * HORSE     FOLLOWTARGET    KEEP1
  */
 CameraModeValue D_8011ACF8[] = {
     { -60, CAM_DATA_Y_OFFSET },          // unk_00
@@ -1670,7 +1670,7 @@ CameraModeValue D_8011ACF8[] = {
 /**
  * Setting    Mode    Function
  * -------    ----    --------
- * HORSE0     TALK    KEEP3
+ * HORSE     TALK    KEEP3
  */
 CameraModeValue D_8011AD2C[] = {
     { -60, CAM_DATA_Y_OFFSET },              // yOffset
@@ -2151,14 +2151,14 @@ CameraModeValue D_8011B0D8[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: COLLAPSE_STAIRS Setting
+ *                   Custom Data: TOWER_CLIMB Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * TOWER0     NORMAL    NORM2
+ * TOWER_UNUSED     NORMAL    NORM2
  */
 CameraModeValue D_8011B108[] = {
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
@@ -2175,7 +2175,7 @@ CameraModeValue D_8011B108[] = {
 /**
  * Setting    Mode    Function
  * -------    ----    --------
- * TOWER0     JUMP    NORM2
+ * TOWER_UNUSED     JUMP    NORM2
  */
 CameraModeValue D_8011B12C[] = {
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
@@ -2229,14 +2229,14 @@ CameraModeValue D_8011B174[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: FIXED0 Setting
+ *                   Custom Data: MARKET_BALCONY Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * FIXED0     NORMAL    FIXD1
+ * MARKET_BALCONY     NORMAL    FIXD1
  */
 CameraModeValue sSetFixd0ModeNormVals[] = {
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
@@ -2248,7 +2248,7 @@ CameraModeValue sSetFixd0ModeNormVals[] = {
 /**
  * Setting    Mode            Function
  * -------    ------------    --------
- * FIXED0     FOLLOWTARGET    FIXD1
+ * MARKET_BALCONY     FOLLOWTARGET    FIXD1
  */
 CameraModeValue D_8011B1A8[] = {
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
@@ -2260,7 +2260,7 @@ CameraModeValue D_8011B1A8[] = {
 /**
  * Setting    Mode    Function
  * -------    ----    --------
- * FIXED0     TALK    FIXD1
+ * MARKET_BALCONY     TALK    FIXD1
  */
 CameraModeValue D_8011B1B8[] = {
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
@@ -2270,14 +2270,14 @@ CameraModeValue D_8011B1B8[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: FIXED1 Setting
+ *                   Custom Data: CHU_BOWLING Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * FIXED1     NORMAL    FIXD1
+ * CHU_BOWLING     NORMAL    FIXD1
  */
 CameraModeValue D_8011B1C8[] = {
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
@@ -2305,14 +2305,14 @@ CameraModeValue sSetCirc0ModeNormVals[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: CIRCLE2 Setting
+ *                   Custom Data: SHOP_BROWSING Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * CIRCLE2    NORMAL    DATA4
+ * SHOP_BROWSING    NORMAL    DATA4
  */
 CameraModeValue sSetCirc2ModeNormVals[] = {
     { -40, CAM_DATA_Y_OFFSET }, // yOffset
@@ -2348,8 +2348,8 @@ CameraModeValue D_8011B1F8[] = {
 /**
  * Setting     Mode      Function
  * --------    ------    --------
- * PREREND0    NORMAL    FIXD3
- * PREREND3    NORMAL    SPEC6
+ * PREREND_FIXED    NORMAL    FIXD3
+ * CAM_SET_PREREND_SCROLL    NORMAL    SPEC6
  * START0      NORMAL    UNIQ0
  * HIDAN1      NORMAL    SPEC7
  */
@@ -2358,29 +2358,29 @@ CameraModeValue D_8011B20C[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: PREREND0 Setting
+ *                   Custom Data: PREREND_FIXED Setting
  *=====================================================================
  */
 
 /**
  * Setting     Mode            Function
  * --------    ------------    --------
- * PREREND0    FOLLOWTARGET    FIXD3
- * PREREND0    TALK            FIXD3
+ * PREREND_FIXED    FOLLOWTARGET    FIXD3
+ * PREREND_FIXED    TALK            FIXD3
  */
 CameraModeValue sSetPR0ModeKeepTalkVals[] = {
     { 0x2000, CAM_DATA_FLAGS },
 };
 
 /*=====================================================================
- *                   Custom Data: PREREND1 Setting
+ *                   Custom Data: PREREND_ROTATE Setting
  *=====================================================================
  */
 
 /**
  * Setting     Mode      Function
  * --------    ------    --------
- * PREREND1    NORMAL    UNIQ7
+ * PREREND_ROTATE    NORMAL    UNIQ7
  */
 CameraModeValue sSetPR1ModeNormVals[] = {
     { 60, CAM_DATA_FOV }, // fov
@@ -2390,7 +2390,7 @@ CameraModeValue sSetPR1ModeNormVals[] = {
 /**
  * Setting     Mode            Function
  * --------    ------------    --------
- * PREREND1    FOLLOWTARGET    UNIQ7
+ * PREREND_ROTATE    FOLLOWTARGET    UNIQ7
  */
 CameraModeValue sSetPR1ModeKeepVals[] = {
     { 60, CAM_DATA_FOV }, // fov
@@ -2400,7 +2400,7 @@ CameraModeValue sSetPR1ModeKeepVals[] = {
 /**
  * Setting     Mode    Function
  * --------    ----    --------
- * PREREND1    TALK    KEEP0
+ * PREREND_ROTATE    TALK    KEEP0
  */
 CameraModeValue sSetPreRend1ModeTalkVals[] = {
     { 30, CAM_DATA_FOV_SCALE },
@@ -2514,14 +2514,14 @@ CameraModeValue sSetFree1ModeNormVals[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: CIRCLE4 Setting
+ *                   Custom Data: PRISON Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * CIRCLE4    NORMAL    FIXD2
+ * PRISON    NORMAL    FIXD2
  */
 CameraModeValue sSetCirc4ModeNormVals[] = {
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
@@ -2532,14 +2532,14 @@ CameraModeValue sSetCirc4ModeNormVals[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: CIRCLE5 Setting
+ *                   Custom Data: DIVING Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * CIRCLE5    NORMAL    UNIQ2
+ * DIVING    NORMAL    UNIQ2
  */
 CameraModeValue D_8011B290[] = {
     { -40, CAM_DATA_Y_OFFSET }, // yOffset
@@ -2551,7 +2551,7 @@ CameraModeValue D_8011B290[] = {
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * CIRCLE5    TARGET    UNIQ2
+ * DIVING    TARGET    UNIQ2
  */
 CameraModeValue D_8011B2A0[] = {
     { -30, CAM_DATA_Y_OFFSET }, // yOffset
@@ -2566,28 +2566,28 @@ CameraModeValue D_8011B2A0[] = {
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * DEMO0      NORMAL    DEMO1
- * DEMO1      NORMAL    DEMO2
- * DEMO4      NORMAL    DEMO5 (Not actually used in Camera_Demo4?)
- * HIDAN2     NORMAL    SPEC4
- * MORI2      NORMAL    UNIQ5
- * MORI3      NORMAL    DEMO6
+ * Setting        Mode      Function
+ * -------------  ------    --------
+ * DEMO0          NORMAL    DEMO1
+ * DEMO1          NORMAL    DEMO2
+ * DEMO4          NORMAL    DEMO5 (Not actually used in Camera_Demo4?)
+ * HIDAN2         NORMAL    SPEC4
+ * FOREST_UNUSED  NORMAL    UNIQ5
+ * FOREST_POES    NORMAL    DEMO6
  */
 CameraModeValue D_8011B2B0[] = {
     { 0x3200, CAM_DATA_FLAGS },
 };
 
 /*=====================================================================
- *                   Custom Data: MORE1 Setting
+ *                   Custom Data: CAM_SET_FOREST_BIRDS_EYE Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * MORI1      NORMAL    PARA1
+ * CAM_SET_FOREST_BIRDS_EYE      NORMAL    PARA1
  */
 CameraModeValue sSetMori1ModeNormVals[] = {
     { -50, CAM_DATA_Y_OFFSET },             // yOffset
@@ -2606,7 +2606,7 @@ CameraModeValue sSetMori1ModeNormVals[] = {
 /**
  * Setting    Mode     Function
  * -------    -----    --------
- * MORI1      TALK     PARA3
+ * CAM_SET_FOREST_BIRDS_EYE      TALK     PARA3
  */
 CameraModeValue D_8011B2E0[] = {
     { 0x3501, CAM_DATA_FLAGS },
@@ -3409,28 +3409,28 @@ CameraModeValue D_8011B8B8[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: DEMOC Setting
+ *                   Custom Data: CS_C Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * DEMOC      NORMAL    UNIQ9
+ * CS_C      NORMAL    UNIQ9
  */
 CameraModeValue sSetDemoCModeNormVals[] = {
     { 0x3F00, CAM_DATA_FLAGS }, /* flags */
 };
 
 /*=====================================================================
- *                   Custom Data: UOFIBER Setting
+ *                   Custom Data: JABU_TENTICLE Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * UOFIBER    NORMAL    NORM1
+ * JABU_TENTICLE    NORMAL    NORM1
  */
 CameraModeValue D_8011B8D8[] = {
     { 30, CAM_DATA_Y_OFFSET },               // yOffset
@@ -3448,7 +3448,7 @@ CameraModeValue D_8011B8D8[] = {
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * UOFIBER    BATTLE    BATT1
+ * JABU_TENTICLE    BATTLE    BATT1
  */
 CameraModeValue D_8011B900[] = {
     { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
@@ -4664,8 +4664,8 @@ CameraSetting sCameraSettings[] = {
     { { 0x45000001 }, sCamSetDemo4Modes },      // CAM_SET_CS_4
     { { 0x451FFFFF }, sCamSetUFOBeanModes },    // CAM_SET_BEAN_GENERIC
     { { 0x451FFFFF }, sCamSetLiftBeanModes },   // CAM_SET_BEAN_LOST_WOODS
-    { { 0xC5000001 }, sCamSetScene0Modes },     // CAM_SET_SCENE0
-    { { 0x45000001 }, sCamSetScene1Modes },     // CAM_SET_SCENE1
+    { { 0xC5000001 }, sCamSetScene0Modes },     // CAM_SET_SCENE_UNUSED
+    { { 0x45000001 }, sCamSetScene1Modes },     // CAM_SET_SCENE_TRANSITION
     { { 0x05000001 }, sCamSetHidan1Modes },     // CAM_SET_FIRE_PLATFORM
     { { 0x45000001 }, sCamSetHidan2Modes },     // CAM_SET_FIRE_STAIRCASE
     { { 0x45000001 }, sCamSetMori2Modes },      // CAM_SET_FOREST_UNUSED
@@ -4674,7 +4674,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x05000033 }, sCamSetSpot05AModes },    // CAM_SET_MEADOW_MAZE
     { { 0x05000033 }, sCamSetSpot05BModes },    // CAM_SET_MEADOW_UNUSED
     { { 0x05000033 }, sCamSetHidan3Modes },     // CAM_SET_FIRE_BIRDS_EYE
-    { { 0x4A000001 }, sCamSetItem2Modes },      // CAM_SET_FACE_PLAYER
+    { { 0x4A000001 }, sCamSetItem2Modes },      // CAM_SET_FACE_PLAYER_FRONT
     { { 0x05000001 }, sCamSetCirc6Modes },      // CAM_SET_LOWERING_PLATFORM
     { { 0x051FFFFF }, sCamSetNorm2Modes },      // CAM_SET_NORMAL2
     { { 0x0501E05F }, sCamSetFishingModes },    // CAM_SET_FISHING

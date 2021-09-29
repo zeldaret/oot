@@ -4865,6 +4865,9 @@ s32 Camera_Unique4(Camera* camera) {
     return Camera_Noop(camera);
 }
 
+/**
+ * Was setup to be used by the camera setting "FOREST_UNUSED"
+ */
 s32 Camera_Unique5(Camera* camera) {
     return Camera_Noop(camera);
 }
@@ -7460,7 +7463,7 @@ Vec3s Camera_Update(Camera* camera) {
 
     // setting bgCheckId to the ret of Quake_Calc, and checking that
     // is required, it doesn't make too much sense though.
-    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_FACE_PLAYER)) {
+    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_FACE_PLAYER_FRONT)) {
         viewAt.x = camera->at.x + quake.atOffset.x;
         viewAt.y = camera->at.y + quake.atOffset.y;
         viewAt.z = camera->at.z + quake.atOffset.z;

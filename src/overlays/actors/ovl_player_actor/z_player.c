@@ -2667,7 +2667,7 @@ void func_80835DE4(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s
 
 void func_80835E44(GlobalContext* globalCtx, s16 camSetting) {
     if (!func_800C0CB8(globalCtx)) {
-        if (camSetting == CAM_SET_SCENE1) {
+        if (camSetting == CAM_SET_SCENE_TRANSITION) {
             Interface_ChangeAlpha(2);
         }
     } else {
@@ -2676,7 +2676,7 @@ void func_80835E44(GlobalContext* globalCtx, s16 camSetting) {
 }
 
 void func_80835EA4(GlobalContext* globalCtx, s32 arg1) {
-    func_80835E44(globalCtx, CAM_SET_FACE_PLAYER);
+    func_80835E44(globalCtx, CAM_SET_FACE_PLAYER_FRONT);
     Camera_SetCameraData(Gameplay_GetCamera(globalCtx, 0), 4, 0, 0, arg1, 0, 0);
 }
 
