@@ -27,10 +27,10 @@ const char* D_8012CF48 = "\x8Cﾒﾓﾘ\x8Dｶﾞﾀﾘﾏｾﾝ";
 const char* D_8012CF4C = "p";
 const char* D_8012CF50[] = { "e", "s", "l", "c" };
 
-const char* D_8012CF60[] = { "\x8Cﾒﾓﾘﾊﾟｯｸ" }; // Mempak
-const char* D_8012CF64 = "\x8Cｾｰﾌﾞ";          // Save
-const char* D_8012CF68 = "\x8Cﾛｰﾄﾞ";          // Load
-const char* D_8012CF6C = "\x8Cｸﾘｱ-";          // Clear
+const char* D_8012CF60[] = { "\x8Cﾒﾓﾘﾊﾟｯｸ" }; // "Mempak"
+const char* D_8012CF64 = "\x8Cｾｰﾌﾞ";          // "Save"
+const char* D_8012CF68 = "\x8Cﾛｰﾄﾞ";          // "Load"
+const char* D_8012CF6C = "\x8Cｸﾘｱ-";          // "Clear"
 const char* D_8012CF70 = "\x8Dｦﾇｶﾅｲﾃﾞﾈ";
 
 const char* D_8012CF74 = "FREE      BYTE";
@@ -1519,14 +1519,14 @@ char DbCamera_InitCut(s32 idx, DbCameraSub* sub) {
     i = sub->nPoints * sizeof(CutsceneCameraPoint);
     sDbCameraCuts[idx].lookAt = DebugArena_MallocDebug(i, "../db_camera.c", 2748);
     if (sDbCameraCuts[idx].lookAt == NULL) {
-        // Debug camera memory allocation failure
+        // "Debug camera memory allocation failure"
         osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2751);
         return '?';
     }
 
     sDbCameraCuts[idx].position = DebugArena_MallocDebug(i, "../db_camera.c", 2754);
     if (sDbCameraCuts[idx].position == NULL) {
-        // Debug camera memory allocation failure
+        // "Debug camera memory allocation failure"
         osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2757);
         DebugArena_FreeDebug(sDbCameraCuts[idx].lookAt, "../db_camera.c", 2758);
         sDbCameraCuts[idx].lookAt = NULL;
@@ -1604,7 +1604,7 @@ s32 DbCamera_LoadCallback(char* c) {
 
             sDbCameraCuts[i].lookAt = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2844);
             if (sDbCameraCuts[i].lookAt == NULL) {
-                // Debug camera memory allocation failure
+                // "Debug camera memory allocation failure"
                 osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2847);
                 return false;
             }
@@ -1615,7 +1615,7 @@ s32 DbCamera_LoadCallback(char* c) {
 
             sDbCameraCuts[i].position = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2855);
             if (sDbCameraCuts[i].position == NULL) {
-                // Debug camera memory allocation failure
+                // "Debug camera memory allocation failure"
                 osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2858);
                 return false;
             }

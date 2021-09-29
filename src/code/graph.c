@@ -324,14 +324,14 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         if (pool->headMagic != GFXPOOL_HEAD_MAGIC) {
             //! @bug (?) : devs might've forgotten "problem = true;"
             osSyncPrintf("%c", 7);
-            // Dynamic area head is destroyed
+            // "Dynamic area head is destroyed"
             osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" VT_RST);
             Fault_AddHungupAndCrash("../graph.c", 1070);
         }
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
             problem = true;
             osSyncPrintf("%c", 7);
-            // Dynamic region tail is destroyed
+            // "Dynamic region tail is destroyed"
             osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域末尾が破壊されています\n" VT_RST);
             Fault_AddHungupAndCrash("../graph.c", 1076);
         }
@@ -340,19 +340,19 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     if (THGA_IsCrash(&gfxCtx->polyOpa)) {
         problem = true;
         osSyncPrintf("%c", 7);
-        // Zelda 0 is dead
+        // "Zelda 0 is dead"
         osSyncPrintf(VT_COL(RED, WHITE) "ゼルダ0は死んでしまった(graph_alloc is empty)\n" VT_RST);
     }
     if (THGA_IsCrash(&gfxCtx->polyXlu)) {
         problem = true;
         osSyncPrintf("%c", 7);
-        // Zelda 1 is dead
+        // "Zelda 1 is dead"
         osSyncPrintf(VT_COL(RED, WHITE) "ゼルダ1は死んでしまった(graph_alloc is empty)\n" VT_RST);
     }
     if (THGA_IsCrash(&gfxCtx->overlay)) {
         problem = true;
         osSyncPrintf("%c", 7);
-        // Zelda 4 is dead
+        // "Zelda 4 is dead"
         osSyncPrintf(VT_COL(RED, WHITE) "ゼルダ4は死んでしまった(graph_alloc is empty)\n" VT_RST);
     }
 
@@ -389,7 +389,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     }
 
     if (D_8012DBC0 && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->unk_A0) {
-        // To reset mode
+        // "To reset mode"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "PRE-NMIによりリセットモードに移行します\n" VT_RST);
         SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIContext);
         gameState->running = false;
