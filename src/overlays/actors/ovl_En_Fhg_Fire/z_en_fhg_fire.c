@@ -634,7 +634,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
             this->actor.speedXZ = 20.0f;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
-        // Why ah ah ah ah
+        // "Why ah ah ah ah"
         osSyncPrintf("なぜだああああああああ      %d\n", this->work[FHGFIRE_VARIANCE_TIMER]);
     }
 }

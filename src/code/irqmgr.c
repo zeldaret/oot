@@ -71,7 +71,7 @@ void IrqMgr_SendMesgForClient(IrqMgr* this, OSMesg msg) {
 
     while (iter != NULL) {
         if (iter->queue->validCount >= iter->queue->msgCount) {
-            // irqmgr_SendMesgForClient: Message queue is overflowing mq=%08x cnt=%d
+            // "irqmgr_SendMesgForClient: Message queue is overflowing mq=%08x cnt=%d"
             osSyncPrintf(
                 VT_COL(RED, WHITE) "irqmgr_SendMesgForClient:メッセージキューがあふれています mq=%08x cnt=%d\n" VT_RST,
                 iter->queue, iter->queue->validCount);
@@ -88,7 +88,7 @@ void IrqMgr_JamMesgForClient(IrqMgr* this, OSMesg msg) {
 
     while (iter != NULL) {
         if (iter->queue->validCount >= iter->queue->msgCount) {
-            // irqmgr_JamMesgForClient: Message queue is overflowing mq=%08x cnt=%d
+            // "irqmgr_JamMesgForClient: Message queue is overflowing mq=%08x cnt=%d"
             osSyncPrintf(
                 VT_COL(RED, WHITE) "irqmgr_JamMesgForClient:メッセージキューがあふれています mq=%08x cnt=%d\n" VT_RST,
                 iter->queue, iter->queue->validCount);
