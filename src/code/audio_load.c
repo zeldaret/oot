@@ -1,7 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum { LOAD_STATUS_WAITING, LOAD_STATUS_START, LOAD_STATUS_LOADING, LOAD_STATUS_DONE } SyncLoadStatus;
+typedef enum { LOAD_STATUS_WAITING, LOAD_STATUS_START, LOAD_STATUS_LOADING, LOAD_STATUS_DONE } SlowLoadStatus;
 
 typedef struct {
     /* 0x00 */ s32 sampleBankId1;
@@ -43,8 +43,8 @@ void func_800E3FB4(AsyncLoadReq* req, u32 size);
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3);
 u8* func_800E22C4(s32 seqId);
 s32 func_800E4590(s32 resetStatus);
-void Audio_DmaSlowCopy(AudioSyncLoad* syncLoad, s32 size);
-void Audio_ProcessSyncLoads(s32 resetStatus);
+void Audio_DmaSlowCopy(AudioSlowLoad* slowLoad, s32 size);
+void Audio_ProcessSlowLoads(s32 resetStatus);
 void Audio_DmaSlowCopyNoop(s32 devAddr, u8* ramAddr, s32 size, s32 arg3);
 
 OSMesgQueue D_8016B6E0;
@@ -1001,7 +1001,7 @@ void* Audio_AsyncLoadInner(s32 tableType, s32 id, s32 nChunks, s32 arg3, OSMesgQ
 }
 
 void Audio_ProcessLoads(s32 resetStatus) {
-    Audio_ProcessSyncLoads(resetStatus);
+    Audio_ProcessSlowLoads(resetStatus);
     func_800E4590(resetStatus);
     Audio_ProcessAsyncLoads(resetStatus);
 }
@@ -1134,14 +1134,14 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
     osSendMesg(gAudioContext.taskStartQueueP, (void*)gAudioContext.totalTaskCnt, 0);
 }
 
-void Audio_SyncLoadsInit(void) {
-    gAudioContext.syncLoads[0].status = 0;
-    gAudioContext.syncLoads[1].status = 0;
+void Audio_SlowLoadsInit(void) {
+    gAudioContext.slowLoads[0].status = 0;
+    gAudioContext.slowLoads[1].status = 0;
 }
 
-s32 Audio_SyncLoadSample(s32 bankId, s32 instId, s8* isDone) {
+s32 Audio_SlowLoadSample(s32 bankId, s32 instId, s8* isDone) {
     AudioBankSample* sample;
-    AudioSyncLoad* syncLoad;
+    AudioSlowLoad* slowLoad;
 
     sample = Audio_GetBankSample(bankId, instId);
     if (sample == NULL) {
@@ -1154,16 +1154,16 @@ s32 Audio_SyncLoadSample(s32 bankId, s32 instId, s8* isDone) {
         return 0;
     }
 
-    syncLoad = &gAudioContext.syncLoads[gAudioContext.syncLoadPos];
-    if (syncLoad->status == LOAD_STATUS_DONE) {
-        syncLoad->status = LOAD_STATUS_WAITING;
+    slowLoad = &gAudioContext.slowLoads[gAudioContext.slowLoadPos];
+    if (slowLoad->status == LOAD_STATUS_DONE) {
+        slowLoad->status = LOAD_STATUS_WAITING;
     }
 
-    syncLoad->sample = *sample;
-    syncLoad->isDone = isDone;
-    syncLoad->ramAddr = Audio_AllocSampleCacheEntry(sample->size, bankId, sample->sampleAddr, sample->medium, 0);
+    slowLoad->sample = *sample;
+    slowLoad->isDone = isDone;
+    slowLoad->ramAddr = Audio_AllocSampleCacheEntry(sample->size, bankId, sample->sampleAddr, sample->medium, 0);
 
-    if (syncLoad->ramAddr == NULL) {
+    if (slowLoad->ramAddr == NULL) {
         if (sample->medium == MEDIUM_1 || sample->codec == 2) {
             *isDone = 0;
             return -1;
@@ -1173,18 +1173,18 @@ s32 Audio_SyncLoadSample(s32 bankId, s32 instId, s8* isDone) {
         }
     }
 
-    syncLoad->status = LOAD_STATUS_START;
-    syncLoad->size = ALIGN16(sample->size);
-    syncLoad->ramSampleAddr = syncLoad->ramAddr;
-    syncLoad->devAddr = sample->sampleAddr;
-    syncLoad->medium = sample->medium;
-    syncLoad->seqOrBankId = bankId;
-    syncLoad->instId = instId;
-    if (syncLoad->medium == MEDIUM_1) {
-        syncLoad->unk_04 = gAudioContext.sampleBankTable->header.unk_02;
+    slowLoad->status = LOAD_STATUS_START;
+    slowLoad->size = ALIGN16(sample->size);
+    slowLoad->ramSampleAddr = slowLoad->ramAddr;
+    slowLoad->devAddr = sample->sampleAddr;
+    slowLoad->medium = sample->medium;
+    slowLoad->seqOrBankId = bankId;
+    slowLoad->instId = instId;
+    if (slowLoad->medium == MEDIUM_1) {
+        slowLoad->unk_04 = gAudioContext.sampleBankTable->header.unk_02;
     }
 
-    gAudioContext.syncLoadPos ^= 1;
+    gAudioContext.slowLoadPos ^= 1;
     return 0;
 }
 
@@ -1216,79 +1216,79 @@ AudioBankSample* Audio_GetBankSample(s32 bankId, s32 instId) {
 void func_800E3670(void) {
 }
 
-void func_800E3678(AudioSyncLoad* syncLoad) {
+void func_800E3678(AudioSlowLoad* slowLoad) {
     AudioBankSample* sample;
 
-    if (syncLoad->sample.sampleAddr == NULL) {
+    if (slowLoad->sample.sampleAddr == NULL) {
         return;
     }
 
-    sample = Audio_GetBankSample(syncLoad->seqOrBankId, syncLoad->instId);
+    sample = Audio_GetBankSample(slowLoad->seqOrBankId, slowLoad->instId);
     if (sample == NULL) {
         return;
     }
 
-    syncLoad->sample = *sample;
-    sample->sampleAddr = syncLoad->ramSampleAddr;
+    slowLoad->sample = *sample;
+    sample->sampleAddr = slowLoad->ramSampleAddr;
     sample->medium = MEDIUM_RAM;
 }
 
-void Audio_ProcessSyncLoads(s32 resetStatus) {
-    AudioSyncLoad* syncLoad;
+void Audio_ProcessSlowLoads(s32 resetStatus) {
+    AudioSlowLoad* slowLoad;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(gAudioContext.syncLoads); i++) {
-        syncLoad = &gAudioContext.syncLoads[i];
-        switch (gAudioContext.syncLoads[i].status) {
+    for (i = 0; i < ARRAY_COUNT(gAudioContext.slowLoads); i++) {
+        slowLoad = &gAudioContext.slowLoads[i];
+        switch (gAudioContext.slowLoads[i].status) {
             case LOAD_STATUS_LOADING:
-                if (syncLoad->medium != MEDIUM_1) {
-                    osRecvMesg(&syncLoad->msgqueue, NULL, OS_MESG_BLOCK);
+                if (slowLoad->medium != MEDIUM_1) {
+                    osRecvMesg(&slowLoad->msgqueue, NULL, OS_MESG_BLOCK);
                 }
 
                 if (resetStatus != 0) {
-                    syncLoad->status = LOAD_STATUS_DONE;
+                    slowLoad->status = LOAD_STATUS_DONE;
                     continue;
                 }
             case LOAD_STATUS_START:
-                syncLoad->status = LOAD_STATUS_LOADING;
-                if (syncLoad->size == 0) {
-                    func_800E3678(syncLoad);
-                    syncLoad->status = LOAD_STATUS_DONE;
-                    *syncLoad->isDone = 1;
-                } else if (syncLoad->size < 0x400) {
-                    if (syncLoad->medium == MEDIUM_1) {
-                        u32 size = syncLoad->size;
-                        Audio_DmaSlowCopyNoop(syncLoad->devAddr, syncLoad->ramAddr, size, syncLoad->unk_04);
+                slowLoad->status = LOAD_STATUS_LOADING;
+                if (slowLoad->size == 0) {
+                    func_800E3678(slowLoad);
+                    slowLoad->status = LOAD_STATUS_DONE;
+                    *slowLoad->isDone = 1;
+                } else if (slowLoad->size < 0x400) {
+                    if (slowLoad->medium == MEDIUM_1) {
+                        u32 size = slowLoad->size;
+                        Audio_DmaSlowCopyNoop(slowLoad->devAddr, slowLoad->ramAddr, size, slowLoad->unk_04);
                     } else {
-                        Audio_DmaSlowCopy(syncLoad, syncLoad->size);
+                        Audio_DmaSlowCopy(slowLoad, slowLoad->size);
                     }
-                    syncLoad->size = 0;
+                    slowLoad->size = 0;
                 } else {
-                    if (syncLoad->medium == MEDIUM_1) {
-                        Audio_DmaSlowCopyNoop(syncLoad->devAddr, syncLoad->ramAddr, 0x400, syncLoad->unk_04);
+                    if (slowLoad->medium == MEDIUM_1) {
+                        Audio_DmaSlowCopyNoop(slowLoad->devAddr, slowLoad->ramAddr, 0x400, slowLoad->unk_04);
                     } else {
-                        Audio_DmaSlowCopy(syncLoad, 0x400);
+                        Audio_DmaSlowCopy(slowLoad, 0x400);
                     }
-                    syncLoad->size -= 0x400;
-                    syncLoad->ramAddr += 0x400;
-                    syncLoad->devAddr += 0x400;
+                    slowLoad->size -= 0x400;
+                    slowLoad->ramAddr += 0x400;
+                    slowLoad->devAddr += 0x400;
                 }
                 break;
         }
     }
 }
 
-void Audio_DmaSlowCopy(AudioSyncLoad* syncLoad, s32 size) {
-    Audio_osInvalDCache(syncLoad->ramAddr, size);
-    osCreateMesgQueue(&syncLoad->msgqueue, &syncLoad->msg, 1);
-    Audio_Dma(&syncLoad->ioMesg, 0U, 0, syncLoad->devAddr, syncLoad->ramAddr, size, &syncLoad->msgqueue, syncLoad->medium, "SLOWCOPY");
+void Audio_DmaSlowCopy(AudioSlowLoad* slowLoad, s32 size) {
+    Audio_osInvalDCache(slowLoad->ramAddr, size);
+    osCreateMesgQueue(&slowLoad->msgqueue, &slowLoad->msg, 1);
+    Audio_Dma(&slowLoad->ioMesg, 0U, 0, slowLoad->devAddr, slowLoad->ramAddr, size, &slowLoad->msgqueue, slowLoad->medium, "SLOWCOPY");
 }
 
 void Audio_DmaSlowCopyNoop(s32 devAddr, u8* ramAddr, s32 size, s32 arg3) {
 }
 
-s32 Audio_SyncLoadSeq(s32 seqId, u8* ramAddr, s8* isDone) {
-    AudioSyncLoad* syncLoad;
+s32 Audio_SlowLoadSeq(s32 seqId, u8* ramAddr, s8* isDone) {
+    AudioSlowLoad* slowLoad;
     SequenceTable* seqTable;
     u32 size;
 
@@ -1299,28 +1299,28 @@ s32 Audio_SyncLoadSeq(s32 seqId, u8* ramAddr, s8* isDone) {
 
     seqId = Audio_GetRealTableIndex(SEQUENCE_TABLE, seqId);
     seqTable = Audio_GetLoadTable(SEQUENCE_TABLE);
-    syncLoad = &gAudioContext.syncLoads[gAudioContext.syncLoadPos];
-    if (syncLoad->status == LOAD_STATUS_DONE) {
-        syncLoad->status = LOAD_STATUS_WAITING;
+    slowLoad = &gAudioContext.slowLoads[gAudioContext.slowLoadPos];
+    if (slowLoad->status == LOAD_STATUS_DONE) {
+        slowLoad->status = LOAD_STATUS_WAITING;
     }
 
-    syncLoad->sample.sampleAddr = NULL;
-    syncLoad->isDone = isDone;
+    slowLoad->sample.sampleAddr = NULL;
+    slowLoad->isDone = isDone;
     size = seqTable->entries[seqId].size;
     size = ALIGN16(size);
-    syncLoad->ramAddr = ramAddr;
-    syncLoad->status = LOAD_STATUS_START;
-    syncLoad->size = size;
-    syncLoad->ramSampleAddr = ramAddr;
-    syncLoad->devAddr = seqTable->entries[seqId].romAddr;
-    syncLoad->medium = seqTable->entries[seqId].medium;
-    syncLoad->seqOrBankId = seqId;
+    slowLoad->ramAddr = ramAddr;
+    slowLoad->status = LOAD_STATUS_START;
+    slowLoad->size = size;
+    slowLoad->ramSampleAddr = ramAddr;
+    slowLoad->devAddr = seqTable->entries[seqId].romAddr;
+    slowLoad->medium = seqTable->entries[seqId].medium;
+    slowLoad->seqOrBankId = seqId;
 
-    if (syncLoad->medium == MEDIUM_1) {
-        syncLoad->unk_04 = seqTable->header.unk_02;
+    if (slowLoad->medium == MEDIUM_1) {
+        slowLoad->unk_04 = seqTable->header.unk_02;
     }
 
-    gAudioContext.syncLoadPos ^= 1;
+    gAudioContext.slowLoadPos ^= 1;
     return 0;
 }
 

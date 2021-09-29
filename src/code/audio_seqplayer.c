@@ -1407,14 +1407,14 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                 case 0x10:
                     if (lowBits < 8) {
                         channel->soundScriptIO[lowBits] = -1;
-                        if (Audio_SyncLoadSample(channel->bankId, scriptState->value,
+                        if (Audio_SlowLoadSample(channel->bankId, scriptState->value,
                                                  &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
                     } else {
                         lowBits -= 8;
                         channel->soundScriptIO[lowBits] = -1;
-                        if (Audio_SyncLoadSample(channel->bankId, channel->unk_22 + 0x100,
+                        if (Audio_SlowLoadSample(channel->bankId, channel->unk_22 + 0x100,
                                                  &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
@@ -1719,7 +1719,7 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         command = Audio_M64ReadU8(seqScript);
                         temp = Audio_M64ReadS16(seqScript);
                         data2 = &seqPlayer->seqData[temp];
-                        Audio_SyncLoadSeq(command, data2, &seqPlayer->unk_158[commandLow]);
+                        Audio_SlowLoadSeq(command, data2, &seqPlayer->unk_158[commandLow]);
                         break;
                     case 0x60: {
                         command = Audio_M64ReadU8(seqScript);

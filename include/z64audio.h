@@ -751,7 +751,7 @@ typedef struct {
     /* 0x30 */ OSMesgQueue msgqueue;
     /* 0x48 */ OSMesg msg;
     /* 0x4C */ OSIoMesg ioMesg;
-} AudioSyncLoad; // size = 0x64
+} AudioSlowLoad; // size = 0x64
 
 typedef struct {
     u16 offsets[18];
@@ -854,8 +854,8 @@ typedef struct {
     /* 0x1CF0 */ OSMesgQueue asyncLoadQueue;
     /* 0x1D08 */ char unk_1D08[0x40];
     /* 0x1D48 */ AsyncLoadReq* curAsyncReq;
-    /* 0x1D4C */ u32 syncLoadPos;
-    /* 0x1D50 */ AudioSyncLoad syncLoads[2];
+    /* 0x1D4C */ u32 slowLoadPos;
+    /* 0x1D50 */ AudioSlowLoad slowLoads[2];
     /* 0x1E18 */ OSPiHandle* cartHandle;
     /* 0x1E1C */ OSPiHandle* driveHandle;
     /* 0x1E20 */ OSMesgQueue unk_1E20;
