@@ -601,7 +601,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s8 inUse;
-    /* 0x01 */ s8 medium;
+    /* 0x01 */ s8 origMedium;
     /* 0x02 */ s8 sampleBankId;
     /* 0x03 */ char unk_03[0x5];
     /* 0x08 */ u8* allocatedAddr;
@@ -915,7 +915,7 @@ typedef struct {
     /* 0x2984 */ volatile u32 resetTimer;
     /* 0x2988 */ char unk_2988[0x8];
     /* 0x2990 */ AudioAllocPool audioSessionPool;
-    /* 0x29A0 */ AudioAllocPool unkPool;
+    /* 0x29A0 */ AudioAllocPool externalPool;
     /* 0x29B0 */ AudioAllocPool audioInitPool;
     /* 0x29C0 */ AudioAllocPool notesAndBuffersPool;
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
@@ -980,9 +980,9 @@ typedef struct {
 } NoteSubAttributes; // size = 0x18
 
 typedef struct {
-    /* 0x00 */ u32 heap;
-    /* 0x04 */ u32 mainPool;
-    /* 0x08 */ u32 initPool;
+    /* 0x00 */ u32 heapSize;
+    /* 0x04 */ u32 initPoolSize;
+    /* 0x08 */ u32 permanentPoolSize;
 } AudioContextInitSizes; // size = 0xC
 
 typedef struct {

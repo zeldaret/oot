@@ -566,12 +566,12 @@ s8 func_800E60C4(s32 arg0, s32 arg1) {
     return gAudioContext.seqPlayers[arg0].unk_158[arg1];
 }
 
-void func_800E60EC(void* mem, u32 size) {
-    AudioHeap_AudioAllocPoolInit(&gAudioContext.unkPool, mem, size);
+void Audio_InitExternalPool(void* mem, u32 size) {
+    AudioHeap_AllocPoolInit(&gAudioContext.externalPool, mem, size);
 }
 
-void func_800E611C(void) {
-    gAudioContext.unkPool.start = NULL;
+void Audio_DestroyExternalPool(void) {
+    gAudioContext.externalPool.start = NULL;
 }
 
 void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {

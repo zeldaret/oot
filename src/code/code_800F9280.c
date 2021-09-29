@@ -625,13 +625,13 @@ void func_800FA3DC(void) {
                         break;
                     case 14:
                         if (temp_a3_3 & 1) {
-                            Audio_QueueCmdS32(0xE3000000, 0);
+                            Audio_QueueCmdS32(0xE3000000, SEQUENCE_TABLE);
                         }
                         if (temp_a3_3 & 2) {
-                            Audio_QueueCmdS32(0xE3000000, 1);
+                            Audio_QueueCmdS32(0xE3000000, BANK_TABLE);
                         }
                         if (temp_a3_3 & 4) {
-                            Audio_QueueCmdS32(0xE3000000, 2);
+                            Audio_QueueCmdS32(0xE3000000, SAMPLE_TABLE);
                         }
                         break;
                     case 9:

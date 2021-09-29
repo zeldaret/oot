@@ -55,9 +55,9 @@ void AudioMgr_ThreadEntry(void* arg0) {
     s16* msg = NULL;
 
     osSyncPrintf("オーディオマネージャスレッド実行開始\n"); // "Start running audio manager thread"
-    func_800F70F8();
+    Audio_Init();
     Audio_SetDmaHandler(DmaMgr_DmaHandler);
-    func_800F711C();
+    Audio_InitSound();
     osSendMesg(&audioMgr->unk_C8, NULL, OS_MESG_BLOCK);
     IrqMgr_AddClient(audioMgr->irqMgr, &irqClient, &audioMgr->unk_74);
 

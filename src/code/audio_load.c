@@ -24,7 +24,7 @@ void Audio_HandleAsyncMsg(AsyncLoadReq* arg0, s32 arg1);
 void Audio_UpdateAsyncReq(AsyncLoadReq* arg0, s32 arg1);
 void func_800E4198(s32, AudioBankData*, RelocInfo*, s32);
 void Audio_SampleReloc(AudioBankSound* sound, u32 mem, RelocInfo* relocInfo);
-void func_800E202C(s32 arg0);
+void func_800E202C(s32 bankId);
 u32 func_800E2338(u32 sampleBankId, u32* outMedium, s32 arg2);
 void* func_800E2558(u32 tableType, u32 tableId, s32* didAllocate);
 u32 Audio_GetRealTableIndex(s32 tableType, u32 tableId);
@@ -195,11 +195,11 @@ void func_800E1618(s32 arg0) {
     t2 = 3 * gAudioContext.numNotes * gAudioContext.audioBufferParameters.specUnk4;
     for (i = 0; i < t2; i++) {
         temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];
-        temp_s0->ramAddr = func_800DE2B0(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
+        temp_s0->ramAddr = AudioHeap_AllocMaybeExternal(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
         if (temp_s0->ramAddr == NULL) {
             break;
         } else {
-            func_800DE238(temp_s0->ramAddr, gAudioContext.unk_288C);
+            AudioHeap_WritebackDCache(temp_s0->ramAddr, gAudioContext.unk_288C);
             temp_s0->size = gAudioContext.unk_288C;
             temp_s0->devAddr = 0;
             temp_s0->sizeUnused = 0;
@@ -225,11 +225,11 @@ void func_800E1618(s32 arg0) {
 
     for (j = 0; j < gAudioContext.numNotes; j++) {
         temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];
-        temp_s0->ramAddr = func_800DE2B0(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
+        temp_s0->ramAddr = AudioHeap_AllocMaybeExternal(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
         if (temp_s0->ramAddr == NULL) {
             break;
         } else {
-            func_800DE238(temp_s0->ramAddr, gAudioContext.unk_288C);
+            AudioHeap_WritebackDCache(temp_s0->ramAddr, gAudioContext.unk_288C);
             temp_s0->size = gAudioContext.unk_288C;
             temp_s0->devAddr = 0U;
             temp_s0->sizeUnused = 0;
@@ -307,7 +307,7 @@ void Audio_SetSampleBankLoadStatusAndApplyCaches(s32 sampleBankId, s32 status) {
         }
 
         if ((gAudioContext.sampleBankLoadStatus[sampleBankId] == 5) || (gAudioContext.sampleBankLoadStatus[sampleBankId] == 2)) {
-            AudioHeap_ApplyCachesForSampleBank(sampleBankId);
+            AudioHeap_ApplySampleBankCache(sampleBankId);
         }
     }
 }
@@ -344,7 +344,7 @@ AudioBankData* func_800E1B68(s32 arg0, u32* arg1) {
     }
 
     phi_s2 = 0xFF;
-    phi_s0 = gAudioContext.unk_283C[arg0]; // ofset into unk_283C for cnt?
+    phi_s0 = gAudioContext.unk_283C[arg0]; // offset into unk_283C for cnt?
     phi_s1 = *(phi_s0 + gAudioContext.unk_283Cb);
     phi_s0++;
 
@@ -377,7 +377,7 @@ s32 func_800E1C78(AudioBankSample* sample, s32 bankId) {
 
     if (sample->unk_bits25 == 1) {
         if (sample->medium != MEDIUM_RAM) {
-            sampleAddr = AudioHeap_AllocSampleCacheEntry(sample->size, bankId, (void*)sample->sampleAddr, sample->medium, 1);
+            sampleAddr = AudioHeap_AllocSampleCache(sample->size, bankId, (void*)sample->sampleAddr, sample->medium, 1);
             if (sampleAddr == NULL) {
                 return -1;
             }
@@ -450,7 +450,7 @@ u8* func_800E1F38(s32 arg0, u32* arg1) {
 }
 
 void func_800E1F7C(s32 arg0) {
-    s32 temp_s0;
+    s32 bankID;
     s32 phi_s1;
     s32 phi_s2;
 
@@ -460,33 +460,33 @@ void func_800E1F7C(s32 arg0) {
 
     while (phi_s2 > 0) {
         phi_s2--;
-        temp_s0 = Audio_GetRealTableIndex(BANK_TABLE, gAudioContext.unk_283Cb[phi_s1++]);
-        if (AudioHeap_SearchPermanentCache(BANK_TABLE, temp_s0) == NULL) {
-            func_800E202C(temp_s0);
-            Audio_SetBankLoadStatus(temp_s0, 0);
+        bankID = Audio_GetRealTableIndex(BANK_TABLE, gAudioContext.unk_283Cb[phi_s1++]);
+        if (AudioHeap_SearchPermanentCache(BANK_TABLE, bankID) == NULL) {
+            func_800E202C(bankID);
+            Audio_SetBankLoadStatus(bankID, 0);
         }
     }
 }
 
-void func_800E202C(s32 arg0) {
+void func_800E202C(s32 bankId) {
     u32 i;
     AudioCache* pool = &gAudioContext.bankCache;
     AudioPersistentCache* persistent;
 
-    if (arg0 == pool->temporary.entries[0].id) {
+    if (bankId == pool->temporary.entries[0].id) {
         pool->temporary.entries[0].id = -1;
-    } else if (arg0 == pool->temporary.entries[1].id) {
+    } else if (bankId == pool->temporary.entries[1].id) {
         pool->temporary.entries[1].id = -1;
     }
 
     persistent = &pool->persistent;
     for (i = 0; i < persistent->numEntries; i++) {
-        if (arg0 == persistent->entries[i].id) {
+        if (bankId == persistent->entries[i].id) {
             persistent->entries[i].id = -1;
         }
     }
 
-    AudioHeap_DiscardBank(arg0);
+    AudioHeap_DiscardBank(bankId);
 }
 
 s32 func_800E20D4(s32 playerIndex, s32 seqId, s32 arg2) {
@@ -1087,7 +1087,7 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
 
     if (heap == NULL) {
         gAudioContext.audioHeap = gAudioHeap;
-        gAudioContext.audioHeapSize = D_8014A6C4.heap;
+        gAudioContext.audioHeapSize = D_8014A6C4.heapSize;
     } else {
         void** hp = &heap;
         gAudioContext.audioHeap = *hp;
@@ -1098,7 +1098,7 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
         ((u64*)gAudioContext.audioHeap)[i] = 0;
     }
 
-    AudioHeap_InitMainPools(D_8014A6C4.mainPool);
+    AudioHeap_InitMainPools(D_8014A6C4.initPoolSize);
 
     for (i = 0; i < 3; i++) {
         gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.audioInitPool, AIBUF_LEN);
@@ -1124,12 +1124,12 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
         func_800E3034(i);
     }
 
-    if (temp_v0_3 = AudioHeap_Alloc(&gAudioContext.audioInitPool, D_8014A6C4.initPool), temp_v0_3 == NULL) {
-
-        *((u32*)&D_8014A6C4.initPool) = 0;
+    if (temp_v0_3 = AudioHeap_Alloc(&gAudioContext.audioInitPool, D_8014A6C4.permanentPoolSize), temp_v0_3 == NULL) {
+        // cast away const from D_8014A6C4
+        *((u32*)&D_8014A6C4.permanentPoolSize) = 0;
     }
 
-    AudioHeap_AudioAllocPoolInit(&gAudioContext.permanentPool, temp_v0_3, D_8014A6C4.initPool);
+    AudioHeap_AllocPoolInit(&gAudioContext.permanentPool, temp_v0_3, D_8014A6C4.permanentPoolSize);
     gAudioContextInitalized = 1;
     osSendMesg(gAudioContext.taskStartQueueP, (void*)gAudioContext.totalTaskCnt, 0);
 }
@@ -1161,7 +1161,7 @@ s32 Audio_SlowLoadSample(s32 bankId, s32 instId, s8* isDone) {
 
     slowLoad->sample = *sample;
     slowLoad->isDone = isDone;
-    slowLoad->ramAddr = AudioHeap_AllocSampleCacheEntry(sample->size, bankId, sample->sampleAddr, sample->medium, 0);
+    slowLoad->ramAddr = AudioHeap_AllocSampleCache(sample->size, bankId, sample->sampleAddr, sample->medium, 0);
 
     if (slowLoad->ramAddr == NULL) {
         if (sample->medium == MEDIUM_1 || sample->codec == 2) {
@@ -1586,22 +1586,22 @@ void func_800E4198(s32 bankId, AudioBankData* mem, RelocInfo* relocInfo, s32 arg
             case 0:
                 // persistent
                 if (sample->medium == relocInfo->medium1) {
-                    addr = AudioHeap_AllocSampleCacheEntry(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, 1);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, true);
                 } else if (sample->medium == relocInfo->medium2) {
-                    addr = AudioHeap_AllocSampleCacheEntry(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, 1);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, true);
                 } else if (sample->medium == MEDIUM_DISK_DRIVE) {
-                    addr = AudioHeap_AllocSampleCacheEntry(sample->size, 0xFE, sample->sampleAddr, sample->medium, 1);
+                    addr = AudioHeap_AllocSampleCache(sample->size, 0xFE, sample->sampleAddr, sample->medium, true);
                 }
                 break;
 
             case 1:
                 // temporary
                 if (sample->medium == relocInfo->medium1) {
-                    addr = AudioHeap_AllocSampleCacheEntry(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, 0);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, false);
                 } else if (sample->medium == relocInfo->medium2) {
-                    addr = AudioHeap_AllocSampleCacheEntry(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, 0);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, false);
                 } else if (sample->medium == MEDIUM_DISK_DRIVE) {
-                    addr = AudioHeap_AllocSampleCacheEntry(sample->size, 0xFE, sample->sampleAddr, sample->medium, 0);
+                    addr = AudioHeap_AllocSampleCache(sample->size, 0xFE, sample->sampleAddr, sample->medium, false);
                 }
                 break;
         }
@@ -1836,17 +1836,17 @@ void func_800E4918(s32 bankId, s32 arg1, RelocInfo* relocInfo) {
         switch (arg1) {
             case 0:
                 if (sample->medium == relocInfo->medium1) {
-                    addr = AudioHeap_AllocSampleCacheEntry(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, 1);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, 1);
                 } else if (sample->medium == relocInfo->medium2) {
-                    addr = AudioHeap_AllocSampleCacheEntry(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, 1);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, 1);
                 }
                 break;
 
             case 1:
                 if (sample->medium == relocInfo->medium1) {
-                    addr = AudioHeap_AllocSampleCacheEntry(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, 0);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr, sample->medium, 0);
                 } else if (sample->medium == relocInfo->medium2) {
-                    addr = AudioHeap_AllocSampleCacheEntry(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, 0);
+                    addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr, sample->medium, 0);
                 }
                 break;
         }

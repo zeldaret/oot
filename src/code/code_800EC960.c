@@ -1929,7 +1929,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
         case PAGE_HEAP_INFO:
             SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 4);
-            GfxPrint_Printf(printer, "TOTAL  %d", D_8014A6C4.heap);
+            GfxPrint_Printf(printer, "TOTAL  %d", D_8014A6C4.heapSize);
 
             GfxPrint_SetPos(printer, 3, 5);
             GfxPrint_Printf(printer, "DRIVER %05X / %05X",
@@ -3757,8 +3757,8 @@ void func_800F5CF8(void) {
     if (D_8016B9F4 != 0) {
         D_8016B9F4--;
         if (D_8016B9F4 == 0) {
-            Audio_QueueCmdS32(0xE3000000, 0);
-            Audio_QueueCmdS32(0xE3000000, 1);
+            Audio_QueueCmdS32(0xE3000000, SEQUENCE_TABLE);
+            Audio_QueueCmdS32(0xE3000000, BANK_TABLE);
             func_800FA0B4(0);
             sp26 = func_800FA0B4(1);
             sp22 = func_800FA0B4(3);
@@ -4227,11 +4227,11 @@ void func_800F6FB4(u8 arg0) {
     }
 }
 
-void func_800F70F8(void) {
-    Audio_ContextInit(0, 0);
+void Audio_Init(void) {
+    Audio_ContextInit(NULL, 0);
 }
 
-void func_800F711C(void) {
+void Audio_InitSound(void) {
     func_800F6C34();
     func_800EE930();
     Audio_ResetSfxChannelState();
