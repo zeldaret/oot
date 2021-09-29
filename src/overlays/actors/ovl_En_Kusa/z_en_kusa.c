@@ -424,12 +424,13 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void EnKusa_SetupCut(EnKusa* this) {
-    if (TYPE(this->actor.params) != ENKUSA_TYPE_1) {
-        if (TYPE(this->actor.params) == ENKUSA_TYPE_2) {
+    switch (TYPE(this->actor.params)) {
+        case ENKUSA_TYPE_2:
             EnKusa_SetupAction(this, EnKusa_DoNothing);
-        }
-    } else {
-        EnKusa_SetupAction(this, EnKusa_CutWaitRegrow);
+            break;
+        case ENKUSA_TYPE_1:
+            EnKusa_SetupAction(this, EnKusa_CutWaitRegrow);
+            break;
     }
 }
 
