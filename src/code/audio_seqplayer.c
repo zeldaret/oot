@@ -1046,7 +1046,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             command = gAudioContext.unk_283Cb[offset + lowBits - result];
                         }
 
-                        if (func_800DF074(1, 2, command)) {
+                        if (Audio_SearchPools(1, 2, command)) {
                             channel->bankId = command;
                         }
 
@@ -1157,7 +1157,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             command = gAudioContext.unk_283Cb[offset + lowBits - result];
                         }
 
-                        if (func_800DF074(1, 2, command)) {
+                        if (Audio_SearchPools(1, 2, command)) {
                             channel->bankId = command;
                         }
 

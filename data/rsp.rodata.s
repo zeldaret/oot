@@ -18,7 +18,7 @@ glabel D_80155340
 glabel gSequenceTable
     .incbin "baserom.z64", 0xBCC6A0, 0x6F0
 
-glabel gAudioSampleTable
+glabel gSampleBankTable
     .incbin "baserom.z64", 0xBCCD90, 0x80
 
 glabel rspAspMainDataStart

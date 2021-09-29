@@ -187,8 +187,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 numInstruments;
     /* 0x01 */ u8 numDrums;
-    /* 0x02 */ u8 sampleId1;
-    /* 0x03 */ u8 sampleId2;
+    /* 0x02 */ u8 sampleBankId1;
+    /* 0x03 */ u8 sampleBankId2;
     /* 0x04 */ u16 numSfx;
     /* 0x08 */ Instrument** instruments;
     /* 0x0C */ Drum** drums;
@@ -466,7 +466,7 @@ typedef struct {
     /* 0x03 */ u8 bankId;
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 stereoHeadsetEffects;
-    /* 0x06 */ s16 adsrVolScale; // unused?
+    /* 0x06 */ s16 adsrVolScale; // unused
     /* 0x08 */ f32 portamentoFreqScale;
     /* 0x0C */ f32 vibratoFreqScale;
     /* 0x10 */ SequenceChannelLayer* prevParentLayer;
@@ -559,10 +559,10 @@ typedef struct {
     /* 0x14 */ u16 unk_14;
     /* 0x18 */ u32 persistentSeqMem;
     /* 0x1C */ u32 persistentBankMem;
-    /* 0x20 */ u32 persistentUnusedMem;
+    /* 0x20 */ u32 persistentSampleMem;
     /* 0x24 */ u32 temporarySeqMem;
     /* 0x28 */ u32 temporaryBankMem;
-    /* 0x2C */ u32 temporaryUnusedMem;
+    /* 0x2C */ u32 temporarySampleMem;
     /* 0x30 */ s32 persistentSampleCacheMem;
     /* 0x34 */ s32 temporarySampleCacheMem;
 } AudioSpec; // size = 0x38
@@ -589,7 +589,7 @@ typedef struct {
     /* 0x0 */ u8* start;
     /* 0x4 */ u8* cur;
     /* 0x8 */ s32 size;
-    /* 0xC */ s32 unused; // set to 0, never read
+    /* 0xC */ s32 count;
 } SoundAllocPool; // size = 0x10
 
 typedef struct {
@@ -602,7 +602,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s8 inUse;
     /* 0x01 */ s8 medium;
-    /* 0x02 */ s8 sampleId;
+    /* 0x02 */ s8 sampleBankId;
     /* 0x03 */ char unk_03[0x5];
     /* 0x08 */ u8* allocatedAddr;
     /* 0x0C */ void* sampleAddr;
@@ -644,13 +644,13 @@ typedef struct {
 typedef struct {
     u32 wantSeq;
     u32 wantBank;
-    u32 wantUnused;
+    u32 wantSample;
 } AudioPoolSplit3; // size = 0xC
 
 typedef struct {
     u32 wantSeq;
     u32 wantBank;
-    u32 wantUnused;
+    u32 wantSample;
     u32 wantCustom;
 } AudioPoolSplit4; // size = 0x10
 
@@ -738,12 +738,12 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 medium;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u16 unk_02;
+    /* 0x01 */ u8 seqOrBankId;
+    /* 0x02 */ u16 instId;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 devAddr;
     /* 0x0C */ u8* ramAddr;
-    /* 0x10 */ u8* unk_10;
+    /* 0x10 */ u8* ramSampleAddr; // same as ramAddr
     /* 0x14 */ s32 status;
     /* 0x18 */ s32 size;
     /* 0x1C */ s8* isDone;
@@ -789,7 +789,7 @@ typedef struct {
     /* 0x08 */ s8 medium;
     /* 0x09 */ s8 unk_09;
     /* 0x0A */ char pad[6];
-} AudioSampleTableEntry; // size = 0x10
+} SampleBankTableEntry; // size = 0x10
 
 typedef struct {
     /* 0x00 */ AudioTableHeader header;
@@ -803,8 +803,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ AudioTableHeader header;
-    /* 0x10 */ AudioSampleTableEntry entries[1]; // (dynamic size)
-} AudioSampleTable; // size >= 0x20
+    /* 0x10 */ SampleBankTableEntry entries[1]; // (dynamic size)
+} SampleBankTable; // size >= 0x20
 
 typedef struct {
     /* 0x00 */ OSTask task;
@@ -826,15 +826,15 @@ typedef struct {
 typedef enum {
     /* 0 */ MEDIUM_RAM,
     /* 1 */ MEDIUM_1,
-    /* 2 */ MEDIUM_2,
-    /* 3 */ MEDIUM_3
+    /* 2 */ MEDIUM_CART,
+    /* 3 */ MEDIUM_DISK_DRIVE
 } SampleMedium;
 
 typedef enum {
     /* 0 */ SEQUENCE_TABLE,
     /* 1 */ BANK_TABLE,
     /* 2 */ SAMPLE_TABLE
-} AudioSampleTableType;
+} SampleBankTableType;
 
 typedef struct {
     /* 0x0000 */ char unk_0000;
@@ -857,8 +857,7 @@ typedef struct {
     /* 0x1D4C */ u32 syncLoadPos;
     /* 0x1D50 */ AudioSyncLoad syncLoads[2];
     /* 0x1E18 */ OSPiHandle* cartHandle;
-    /* probably an unused PI handle for n64 disk drive */
-    /* 0x1E1C */ OSPiHandle* unk_1E1C;
+    /* 0x1E1C */ OSPiHandle* driveHandle;
     /* 0x1E20 */ OSMesgQueue unk_1E20;
     /* 0x1E38 */ OSMesg unk_1E38[0x10];
     /* 0x1E78 */ OSMesgQueue unk_1E78;
@@ -881,7 +880,7 @@ typedef struct {
     /* 0x282F */ u8 sampleDmaReuseQueue2WrPos;
     /* 0x2830 */ SequenceTable* sequenceTable;
     /* 0x2834 */ AudioBankTable* audioBankTable;
-    /* 0x2838 */ AudioSampleTable* sampleTable;
+    /* 0x2838 */ SampleBankTable* sampleBankTable;
     union {
     /* 0x283C */ u16* unk_283C;
     /* 0x283C */ u8* unk_283Cb;
@@ -925,7 +924,7 @@ typedef struct {
     /* 0x2A10 */ SoundAllocPool temporaryCommonPool;
     /* 0x2A20 */ SoundMultiPool seqLoadedPool;
     /* 0x2B30 */ SoundMultiPool bankLoadedPool;
-    /* 0x2C40 */ SoundMultiPool unusedLoadedPool; // rename after we figure out what this is
+    /* 0x2C40 */ SoundMultiPool sampleLoadedPool;
     /* 0x2D50 */ SoundAllocPool unk_2D50;
     /* 0x2D60 */ SeqOrBankEntry unk_2D60[32];
     /* 0x2EE0 */ SampleCachePool persistentSampleCache;
@@ -934,7 +933,7 @@ typedef struct {
     /* 0x3418 */ AudioPoolSplit2 seqAndBankPoolSplit;
     /* 0x3420 */ AudioPoolSplit3 persistentCommonPoolSplit;
     /* 0x342C */ AudioPoolSplit3 temporaryCommonPoolSplit;
-    /* 0x3438 */ u8 sampleTableLoadStatus[0x30];
+    /* 0x3438 */ u8 sampleBankLoadStatus[0x30];
     /* 0x3468 */ u8 bankLoadStatus[0x30];
     /* 0x3498 */ u8 seqLoadStatus[0x80];
     /* 0x3518 */ volatile u8 resetStatus;
