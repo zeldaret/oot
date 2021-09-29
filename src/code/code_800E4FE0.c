@@ -247,7 +247,7 @@ void func_800E5584(AudioCmd* cmd) {
             return;
         case 0xF2:
             if (cmd->asUInt == 1) {
-                for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+                for (i = 0; i < gAudioContext.numNotes; i++) {
                     Note* note = &gAudioContext.notes[i];
                     NoteSubEu* subEu = &note->noteSubEu;
                     if (subEu->bitField0.s.enabled && note->playbackState.unk_04 == 0) {
@@ -269,7 +269,7 @@ void func_800E5584(AudioCmd* cmd) {
             func_800E1D64(cmd->arg0, cmd->arg1, cmd->arg2);
             return;
         case 0xF4:
-            Audio_AudioTableAsyncLoad(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.unk_1E20);
+            Audio_AudioSampleTableAsyncLoad(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.unk_1E20);
             return;
         case 0xF5:
             Audio_AudioBankAsyncLoad(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.unk_1E20);
@@ -494,8 +494,8 @@ u8* func_800E5E84(s32 arg0, u32* arg1) {
 }
 
 void func_800E5EA4(s32 arg0, u32* arg1, u32* arg2) {
-    *arg1 = gAudioContext.ctlEntries[arg0].unk_02;
-    *arg2 = gAudioContext.ctlEntries[arg0].unk_03;
+    *arg1 = gAudioContext.ctlEntries[arg0].sampleId1;
+    *arg2 = gAudioContext.ctlEntries[arg0].sampleId2;
 }
 
 s32 func_800E5EDC(void) {
@@ -566,8 +566,8 @@ s8 func_800E60C4(s32 arg0, s32 arg1) {
     return gAudioContext.seqPlayers[arg0].unk_158[arg1];
 }
 
-void func_800E60EC(void* memAddr, u32 size) {
-    Audio_SoundAllocPoolInit(&gAudioContext.unkPool, memAddr, size);
+void func_800E60EC(void* mem, u32 size) {
+    Audio_SoundAllocPoolInit(&gAudioContext.unkPool, mem, size);
 }
 
 void func_800E611C(void) {
@@ -780,7 +780,7 @@ s32 func_800E66C0(s32 arg0) {
     AudioBankSound* sound;
 
     phi_v1 = 0;
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.numNotes; i++) {
         note = &gAudioContext.notes[i];
         temp_a2 = &note->playbackState;
         if (note->noteSubEu.bitField0.s.enabled) {

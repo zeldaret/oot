@@ -187,8 +187,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 numInstruments;
     /* 0x01 */ u8 numDrums;
-    /* 0x02 */ u8 unk_02;
-    /* 0x03 */ u8 unk_03;
+    /* 0x02 */ u8 sampleId1;
+    /* 0x03 */ u8 sampleId2;
     /* 0x04 */ u16 numSfx;
     /* 0x08 */ Instrument** instruments;
     /* 0x0C */ Drum** drums;
@@ -549,7 +549,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u32 frequency;
     /* 0x04 */ u8 unk_04;
-    /* 0x05 */ u8 maxSimultaneousNotes;
+    /* 0x05 */ u8 numNotes;
     /* 0x06 */ u8 numSequencePlayers;
     /* 0x07 */ u8 unk_07[0x2]; // zeroes
     /* 0x09 */ u8 numReverbs;
@@ -563,8 +563,8 @@ typedef struct {
     /* 0x24 */ u32 temporarySeqMem;
     /* 0x28 */ u32 temporaryBankMem;
     /* 0x2C */ u32 temporaryUnusedMem;
-    /* 0x30 */ s32 unk_30;
-    /* 0x34 */ s32 unk_34;
+    /* 0x30 */ s32 persistentSampleCacheMem;
+    /* 0x34 */ s32 temporarySampleCacheMem;
 } AudioSpec; // size = 0x38
 
 typedef struct {
@@ -600,20 +600,20 @@ typedef struct {
 } SeqOrBankEntry; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ s8 unk_00;
-    /* 0x01 */ s8 unk_01;
-    /* 0x02 */ s8 unk_02;
+    /* 0x00 */ s8 inUse;
+    /* 0x01 */ s8 medium;
+    /* 0x02 */ s8 sampleId;
     /* 0x03 */ char unk_03[0x5];
-    /* 0x08 */ u8* unk_08;
-    /* 0x0C */ void* unk_0C;
+    /* 0x08 */ u8* allocatedAddr;
+    /* 0x0C */ void* sampleAddr;
     /* 0x10 */ u32 size;
-} UnkHeapEntry; // size = 0x14
+} SampleCacheEntry; // size = 0x14
 
 typedef struct {
     /* 0x000 */ SoundAllocPool pool;
-    /* 0x010 */ UnkHeapEntry entries[32];
+    /* 0x010 */ SampleCacheEntry entries[32];
     /* 0x290 */ s32 size;
-} UnkPool; // size = 0x294
+} SampleCachePool; // size = 0x294
 
 typedef struct
 {
@@ -789,22 +789,22 @@ typedef struct {
     /* 0x08 */ s8 unk_08;
     /* 0x09 */ s8 unk_09;
     /* 0x0A */ char pad[6];
-} AudioTableEntry; // size = 0x10
+} AudioSampleTableEntry; // size = 0x10
 
 typedef struct {
     /* 0x00 */ AudioTableHeader header;
-    /* 0x10 */ SequenceTableEntry entries[1];
+    /* 0x10 */ SequenceTableEntry entries[1]; // (dynamic size)
 } SequenceTable; // size >= 0x20
 
 typedef struct {
     /* 0x00 */ AudioTableHeader header;
-    /* 0x10 */ AudioBankTableEntry entries[1];
+    /* 0x10 */ AudioBankTableEntry entries[1]; // (dynamic size)
 } AudioBankTable; // size >= 0x20
 
 typedef struct {
     /* 0x00 */ AudioTableHeader header;
-    /* 0x10 */ AudioTableEntry entries[1];
-} AudioTable; // size >= 0x20
+    /* 0x10 */ AudioSampleTableEntry entries[1]; // (dynamic size)
+} AudioSampleTable; // size >= 0x20
 
 typedef struct {
     /* 0x00 */ OSTask task;
@@ -823,20 +823,11 @@ typedef struct {
     /* 0x0E */ u8 ttl;        // duration after which the DMA can be discarded
 } SampleDmaReq; // size = 0x10
 
-typedef struct {
-    /* 0x00 */ s32 index1;
-    /* 0x04 */ s32 index2;
-    /* 0x08 */ s32 baseAddr1;
-    /* 0x0C */ s32 baseAddr2;
-    /* 0x10 */ u32 medium1;
-    /* 0x14 */ u32 medium2;
-} RelocInfo; // size = 0x18
-
 typedef enum {
     /* 0 */ SEQUENCE_TABLE,
     /* 1 */ BANK_TABLE,
     /* 2 */ AUDIO_TABLE
-} AudioTableType;
+} AudioSampleTableType;
 
 typedef struct {
     /* 0x0000 */ char unk_0000;
@@ -883,7 +874,7 @@ typedef struct {
     /* 0x282F */ u8 sampleDmaReuseQueue2WrPos;
     /* 0x2830 */ SequenceTable* sequenceTable;
     /* 0x2834 */ AudioBankTable* audioBankTable;
-    /* 0x2838 */ AudioTable* audioTable;
+    /* 0x2838 */ AudioSampleTable* sampleTable;
     union {
     /* 0x283C */ u16* unk_283C;
     /* 0x283C */ u8* unk_283Cb;
@@ -897,7 +888,7 @@ typedef struct {
     /* 0x287C */ char unk_287C[0x10];
     /* 0x288C */ s32 unk_288C;
     /* 0x2890 */ s32 maxAudioCmds;
-    /* 0x2894 */ s32 maxSimultaneousNotes; // (bad name)
+    /* 0x2894 */ s32 numNotes; // (bad name)
     /* 0x2898 */ s16 tempoInternalToExternal;
     /* 0x289A */ s8 soundMode;
     /* 0x289C */ s32 totalTaskCnt;
@@ -930,13 +921,13 @@ typedef struct {
     /* 0x2C40 */ SoundMultiPool unusedLoadedPool; // rename after we figure out what this is
     /* 0x2D50 */ SoundAllocPool unk_2D50;
     /* 0x2D60 */ SeqOrBankEntry unk_2D60[32];
-    /* 0x2EE0 */ UnkPool unk_2EE0;
-    /* 0x3174 */ UnkPool unk_3174;
+    /* 0x2EE0 */ SampleCachePool persistentSampleCache;
+    /* 0x3174 */ SampleCachePool temporarySampleCache;
     /* 0x3408 */ AudioPoolSplit4 sessionPoolSplit;
     /* 0x3418 */ AudioPoolSplit2 seqAndBankPoolSplit;
     /* 0x3420 */ AudioPoolSplit3 persistentCommonPoolSplit;
     /* 0x342C */ AudioPoolSplit3 temporaryCommonPoolSplit;
-    /* 0x3438 */ u8 audioTableLoadStatus[0x30];
+    /* 0x3438 */ u8 sampleTableLoadStatus[0x30];
     /* 0x3468 */ u8 bankLoadStatus[0x30];
     /* 0x3498 */ u8 seqLoadStatus[0x80];
     /* 0x3518 */ volatile u8 resetStatus;

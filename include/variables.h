@@ -2820,7 +2820,7 @@ extern s16 D_80153960[];
 extern u8 gAudioBankTable[];
 extern u8 D_80155340[];
 extern u8 gSequenceTable[];
-extern u8 gAudioTable[];
+extern u8 gAudioSampleTable[];
 extern u8 D_80155F50[];
 extern u8 D_80157580[];
 extern u8 D_801579A0[];

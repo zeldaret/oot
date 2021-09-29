@@ -1746,7 +1746,7 @@ void Audio_ProcessSequences(s32 arg0) {
     u32 i;
 
     gAudioContext.noteSubEuOffset =
-        (gAudioContext.audioBufferParameters.updatesPerFrame - arg0 - 1) * gAudioContext.maxSimultaneousNotes;
+        (gAudioContext.audioBufferParameters.updatesPerFrame - arg0 - 1) * gAudioContext.numNotes;
     for (i = 0; i < (u32)gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
         seqPlayer = &gAudioContext.seqPlayers[i];
         if (seqPlayer->enabled == 1) {

@@ -164,7 +164,7 @@ void Audio_ProcessNotes(void) {
     f32 scale;
     s32 i;
 
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.numNotes; i++) {
         note = &gAudioContext.notes[i];
         noteSubEu2 = &gAudioContext.noteSubsEu[gAudioContext.noteSubEuOffset + i];
         playbackState = &note->playbackState;
@@ -603,7 +603,7 @@ void Audio_InitNoteFreeList(void) {
     s32 i;
 
     Audio_InitNoteLists(&gAudioContext.noteFreeLists);
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.numNotes; i++) {
         gAudioContext.notes[i].listItem.u.value = &gAudioContext.notes[i];
         gAudioContext.notes[i].listItem.prev = NULL;
         Audio_AudioListPushBack(&gAudioContext.noteFreeLists.disabled, &gAudioContext.notes[i].listItem);
@@ -914,7 +914,7 @@ void Audio_NoteInitAll(void) {
     Note* note;
     s32 i;
 
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.numNotes; i++) {
         note = &gAudioContext.notes[i];
         note->noteSubEu = gZeroNoteSub;
         note->playbackState.priority = 0;

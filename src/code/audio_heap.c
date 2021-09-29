@@ -1,6 +1,8 @@
 #include "ultra64.h"
 #include "global.h"
 
+void Audio_InitSampleCaches(u32 persistentSize, u32 temporarySize);
+
 f32 func_800DDE20(f32 arg0) {
     return 256.0f * gAudioContext.audioBufferParameters.unkUpdatesPerFrameScaled / arg0;
 }
@@ -39,8 +41,8 @@ void Audio_ResetLoadStatus(void) {
     }
 
     for (i = 0; i < 0x30; i++) {
-        if (gAudioContext.audioTableLoadStatus[i] != 5) {
-            gAudioContext.audioTableLoadStatus[i] = 0;
+        if (gAudioContext.sampleTableLoadStatus[i] != 5) {
+            gAudioContext.sampleTableLoadStatus[i] = 0;
         }
     }
 
@@ -54,7 +56,7 @@ void Audio_ResetLoadStatus(void) {
 void Audio_DiscardBank(s32 bankId) {
     s32 i;
 
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.numNotes; i++) {
         Note* note = &gAudioContext.notes[i];
 
         if (note->playbackState.bankId == bankId) {
@@ -72,7 +74,7 @@ void Audio_DiscardBank(s32 bankId) {
 void func_800DE12C(s32 bankId) {
     s32 i;
 
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.numNotes; i++) {
         Note* note = &gAudioContext.notes[i];
         NotePlaybackState* state = &note->playbackState;
 
@@ -170,9 +172,9 @@ void* Audio_Alloc(SoundAllocPool* pool, u32 size) {
     return ret;
 }
 
-void Audio_SoundAllocPoolInit(SoundAllocPool* pool, void* memAddr, u32 size) {
-    pool->cur = pool->start = (u8*)ALIGN16((u32)memAddr);
-    pool->size = size - ((u32)memAddr & 0xF);
+void Audio_SoundAllocPoolInit(SoundAllocPool* pool, void* mem, u32 size) {
+    pool->cur = pool->start = (u8*)ALIGN16((u32)mem);
+    pool->size = size - ((u32)mem & 0xF);
     pool->unused = 0;
 }
 
@@ -215,7 +217,7 @@ void func_800DE4B0(s32 poolIdx) {
             break;
         case 2:
             loadedPool = &gAudioContext.unusedLoadedPool;
-            table = gAudioContext.audioTableLoadStatus;
+            table = gAudioContext.sampleTableLoadStatus;
             break;
     }
 
@@ -312,7 +314,7 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
             break;
         case 2:
             loadedPool = &gAudioContext.unusedLoadedPool;
-            table = gAudioContext.audioTableLoadStatus;
+            table = gAudioContext.sampleTableLoadStatus;
             break;
     }
 
@@ -329,28 +331,28 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
 
         if (poolIdx == 1) {
             if (firstVal == 4) {
-                for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+                for (i = 0; i < gAudioContext.numNotes; i++) {
                     if (gAudioContext.notes[i].playbackState.bankId == tp->entries[0].id &&
                         gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
                         break;
                     }
                 }
 
-                if (i == gAudioContext.maxSimultaneousNotes) {
+                if (i == gAudioContext.numNotes) {
                     Audio_SetBankLoadStatus(tp->entries[0].id, 3);
                     firstVal = 3;
                 }
             }
 
             if (secondVal == 4) {
-                for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+                for (i = 0; i < gAudioContext.numNotes; i++) {
                     if (gAudioContext.notes[i].playbackState.bankId == tp->entries[1].id &&
                         gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
                         break;
                     }
                 }
 
-                if (i == gAudioContext.maxSimultaneousNotes) {
+                if (i == gAudioContext.numNotes) {
                     Audio_SetBankLoadStatus(tp->entries[1].id, 3);
                     secondVal = 3;
                 }
@@ -399,26 +401,26 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
                 }
             } else if (poolIdx == 1) {
                 if (firstVal == 2) {
-                    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+                    for (i = 0; i < gAudioContext.numNotes; i++) {
                         if (gAudioContext.notes[i].playbackState.bankId == tp->entries[0].id &&
                             gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
                             break;
                         }
                     }
-                    if (i == gAudioContext.maxSimultaneousNotes) {
+                    if (i == gAudioContext.numNotes) {
                         tp->nextSide = 0;
                         goto done;
                     }
                 }
 
                 if (secondVal == 2) {
-                    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+                    for (i = 0; i < gAudioContext.numNotes; i++) {
                         if (gAudioContext.notes[i].playbackState.bankId == tp->entries[1].id &&
                             gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
                             break;
                         }
                     }
-                    if (i == gAudioContext.maxSimultaneousNotes) {
+                    if (i == gAudioContext.numNotes) {
                         tp->nextSide = 1;
                         goto done;
                     }
@@ -724,7 +726,7 @@ s32 Audio_ResetStep(void) {
                 gAudioContext.audioResetFadeOutFramesLeft--;
                 func_800DF7C4();
             } else {
-                for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+                for (i = 0; i < gAudioContext.numNotes; i++) {
                     if (gAudioContext.notes[i].noteSubEu.bitField0.s.enabled &&
                         gAudioContext.notes[i].playbackState.adsr.action.s.state != ADSR_STATE_DISABLED) {
                         gAudioContext.notes[i].playbackState.adsr.fadeOutVel =
@@ -815,7 +817,7 @@ void Audio_InitHeap(void) {
     gAudioContext.unk_2874 = spec->unk_10;
     gAudioContext.unk_2878 = spec->unk_12;
 
-    gAudioContext.maxSimultaneousNotes = spec->maxSimultaneousNotes;
+    gAudioContext.numNotes = spec->numNotes;
     gAudioContext.audioBufferParameters.numSequencePlayers = spec->numSequencePlayers;
     if (gAudioContext.audioBufferParameters.numSequencePlayers > 4) {
         gAudioContext.audioBufferParameters.numSequencePlayers = 4;
@@ -840,7 +842,7 @@ void Audio_InitHeap(void) {
     }
 
     gAudioContext.maxAudioCmds =
-        gAudioContext.maxSimultaneousNotes * 0x10 * gAudioContext.audioBufferParameters.updatesPerFrame +
+        gAudioContext.numNotes * 0x10 * gAudioContext.audioBufferParameters.updatesPerFrame +
         spec->numReverbs * 0x18 + 0x140;
 
     persistentMem = spec->persistentSeqMem + spec->persistentBankMem + spec->persistentUnusedMem + 0x10;
@@ -869,12 +871,12 @@ void Audio_InitHeap(void) {
 
     Audio_ResetLoadStatus();
     gAudioContext.notes =
-        Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool, gAudioContext.maxSimultaneousNotes * sizeof(Note));
+        Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool, gAudioContext.numNotes * sizeof(Note));
     Audio_NoteInitAll();
     Audio_InitNoteFreeList();
     gAudioContext.noteSubsEu = Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool,
                                                  gAudioContext.audioBufferParameters.updatesPerFrame *
-                                                     gAudioContext.maxSimultaneousNotes * sizeof(NoteSubEu));
+                                                     gAudioContext.numNotes * sizeof(NoteSubEu));
 
     for (i = 0; i != 2; i++) {
         gAudioContext.abiCmdBufs[i] =
@@ -962,8 +964,8 @@ void Audio_InitHeap(void) {
         Audio_ResetSequencePlayer(&gAudioContext.seqPlayers[j]);
     }
 
-    func_800E0634(spec->unk_30, spec->unk_34);
-    func_800E1618(gAudioContext.maxSimultaneousNotes);
+    Audio_InitSampleCaches(spec->persistentSampleCacheMem, spec->temporarySampleCacheMem);
+    func_800E1618(gAudioContext.numNotes);
     gAudioContext.unk_176C = 0;
     Audio_SyncLoadsInit();
     func_800E4FB0();
@@ -1005,69 +1007,72 @@ void* func_800E0540(s32 poolIdx, s32 id, u32 size) {
     // return ret;
 }
 
-void* func_800E05C4(u32 size, s32 arg1, void* arg2, s8 arg3, s32 arg4) {
-    UnkHeapEntry* entry;
+void* Audio_AllocSampleCacheEntry(u32 size, s32 sampleId, void* sampleAddr, s8 medium, s32 persistent) {
+    SampleCacheEntry* entry;
 
-    if (arg4 == 0) {
-        entry = func_800E06CC(size);
+    if (persistent == false) {
+        entry = Audio_AllocTemporarySampleCacheEntry(size);
     } else {
-        entry = func_800E0BF8(size);
+        entry = Audio_AllocPersistentSampleCacheEntry(size);
     }
     if (entry != NULL) {
-        entry->unk_02 = arg1;
-        entry->unk_0C = arg2;
-        entry->unk_01 = arg3;
-        return entry->unk_08;
+        entry->sampleId = sampleId;
+        entry->sampleAddr = sampleAddr;
+        entry->medium = medium;
+        return entry->allocatedAddr;
     }
     return NULL;
 }
 
-void func_800E0634(u32 arg0, u32 arg1) {
+void Audio_InitSampleCaches(u32 persistentSize, u32 temporarySize) {
     void* mem;
 
-    mem = func_800DE2B0(&gAudioContext.notesAndBuffersPool, arg0);
+    mem = func_800DE2B0(&gAudioContext.notesAndBuffersPool, persistentSize);
     if (mem == NULL) {
-        gAudioContext.unk_2EE0.pool.size = 0;
+        gAudioContext.persistentSampleCache.pool.size = 0;
     } else {
-        Audio_SoundAllocPoolInit(&gAudioContext.unk_2EE0.pool, mem, arg0);
+        Audio_SoundAllocPoolInit(&gAudioContext.persistentSampleCache.pool, mem, persistentSize);
     }
-    mem = func_800DE2B0(&gAudioContext.notesAndBuffersPool, arg1);
+    mem = func_800DE2B0(&gAudioContext.notesAndBuffersPool, temporarySize);
     if (mem == NULL) {
-        gAudioContext.unk_3174.pool.size = 0;
+        gAudioContext.temporarySampleCache.pool.size = 0;
     } else {
-        Audio_SoundAllocPoolInit(&gAudioContext.unk_3174.pool, mem, arg1);
+        Audio_SoundAllocPoolInit(&gAudioContext.temporarySampleCache.pool, mem, temporarySize);
     }
-    gAudioContext.unk_2EE0.size = 0;
-    gAudioContext.unk_3174.size = 0;
+    gAudioContext.persistentSampleCache.size = 0;
+    gAudioContext.temporarySampleCache.size = 0;
 }
 
-UnkHeapEntry* func_800E06CC(u32 size) {
+SampleCacheEntry* Audio_AllocTemporarySampleCacheEntry(u32 size) {
     u8* allocAfter;
     u8* allocBefore;
     void* mem;
     s32 index;
     s32 i;
-    UnkHeapEntry* ret;
+    SampleCacheEntry* ret;
     AudioStruct0D68* item;
-    UnkPool* unkPool;
+    SampleCachePool* pool;
     u8* start;
     u8* end;
 
-    unkPool = &gAudioContext.unk_3174;
-    allocBefore = unkPool->pool.cur;
-    mem = Audio_Alloc(&unkPool->pool, size);
+    pool = &gAudioContext.temporarySampleCache;
+    allocBefore = pool->pool.cur;
+    mem = Audio_Alloc(&pool->pool, size);
     if (mem == NULL) {
-        u8* old = unkPool->pool.cur;
-        unkPool->pool.cur = unkPool->pool.start;
-        mem = Audio_Alloc(&unkPool->pool, size);
+        // Reset the pool and try again. We still keep pointers to within the
+        // pool, so we have to be careful to discard existing overlapping
+        // allocations further down.
+        u8* old = pool->pool.cur;
+        pool->pool.cur = pool->pool.start;
+        mem = Audio_Alloc(&pool->pool, size);
         if (mem == NULL) {
-            unkPool->pool.cur = old;
+            pool->pool.cur = old;
             return NULL;
         }
-        allocBefore = unkPool->pool.start;
+        allocBefore = pool->pool.start;
     }
 
-    allocAfter = unkPool->pool.cur;
+    allocAfter = pool->pool.cur;
 
     index = -1;
     for (i = 0; i < gAudioContext.unk_176C; i++) {
@@ -1088,13 +1093,13 @@ UnkHeapEntry* func_800E06CC(u32 size) {
         }
     }
 
-    for (i = 0; i < unkPool->size; i++) {
-        if (unkPool->entries[i].unk_00 == 0) {
+    for (i = 0; i < pool->size; i++) {
+        if (pool->entries[i].inUse == false) {
             continue;
         }
 
-        start = unkPool->entries[i].unk_08;
-        end = start + unkPool->entries[i].size - 1;
+        start = pool->entries[i].allocatedAddr;
+        end = start + pool->entries[i].size - 1;
 
         if (end < allocBefore && start < allocBefore) {
             continue;
@@ -1103,25 +1108,25 @@ UnkHeapEntry* func_800E06CC(u32 size) {
             continue;
         }
 
-        // Overlap. Discard existing entry?
-        func_800E0AD8(&unkPool->entries[i]);
+        // Overlap. Discard existing entry.
+        Audio_DiscardSampleCacheEntry(&pool->entries[i]);
         if (index == -1) {
             index = i;
         }
     }
 
     if (index == -1) {
-        index = unkPool->size++;
+        index = pool->size++;
     }
 
-    ret = &unkPool->entries[index];
-    ret->unk_00 = 1;
-    ret->unk_08 = mem;
+    ret = &pool->entries[index];
+    ret->inUse = true;
+    ret->allocatedAddr = mem;
     ret->size = size;
     return ret;
 }
 
-void func_800E0964(UnkHeapEntry* entry, s32 bankId) {
+void Audio_RemoveSampleCacheUsageForBank(SampleCacheEntry* entry, s32 bankId) {
     Drum* drum;
     Instrument* inst;
     AudioBankSound* sfx;
@@ -1133,107 +1138,107 @@ void func_800E0964(UnkHeapEntry* entry, s32 bankId) {
         inst = Audio_GetInstrumentInner(bankId, instId);
         if (inst != NULL) {
             if (inst->normalRangeLo != 0) {
-                func_800E0BB4(entry, inst->lowNotesSound.sample);
+                Audio_RemoveSampleCacheUsage(entry, inst->lowNotesSound.sample);
             }
             if (inst->normalRangeHi != 0x7F) {
-                func_800E0BB4(entry, inst->highNotesSound.sample);
+                Audio_RemoveSampleCacheUsage(entry, inst->highNotesSound.sample);
             }
-            func_800E0BB4(entry, inst->normalNotesSound.sample);
+            Audio_RemoveSampleCacheUsage(entry, inst->normalNotesSound.sample);
         }
     }
 
     for (drumId = 0; drumId < gAudioContext.ctlEntries[bankId].numDrums; drumId++) {
         drum = Audio_GetDrum(bankId, drumId);
         if (drum != NULL) {
-            func_800E0BB4(entry, drum->sound.sample);
+            Audio_RemoveSampleCacheUsage(entry, drum->sound.sample);
         }
     }
 
     for (sfxId = 0; sfxId < gAudioContext.ctlEntries[bankId].numSfx; sfxId++) {
         sfx = Audio_GetSfx(bankId, sfxId);
         if (sfx != NULL) {
-            func_800E0BB4(entry, sfx->sample);
+            Audio_RemoveSampleCacheUsage(entry, sfx->sample);
         }
     }
 }
 
-void func_800E0AD8(UnkHeapEntry* entry) {
+void Audio_DiscardSampleCacheEntry(SampleCacheEntry* entry) {
     s32 numBanks;
-    s32 unk2;
-    s32 unk3;
+    s32 sampleId1;
+    s32 sampleId2;
     s32 bankId;
 
     numBanks = gAudioContext.audioBankTable->header.entryCnt;
     for (bankId = 0; bankId < numBanks; bankId++) {
-        unk2 = gAudioContext.ctlEntries[bankId].unk_02;
-        unk3 = gAudioContext.ctlEntries[bankId].unk_03;
-        if (((unk2 != 0xFF) && (entry->unk_02 == unk2)) || ((unk3 != 0xFF) && (entry->unk_02 == unk3)) ||
-            entry->unk_02 == 0) {
+        sampleId1 = gAudioContext.ctlEntries[bankId].sampleId1;
+        sampleId2 = gAudioContext.ctlEntries[bankId].sampleId2;
+        if (((sampleId1 != 0xFF) && (entry->sampleId == sampleId1)) || ((sampleId2 != 0xFF) && (entry->sampleId == sampleId2)) ||
+            entry->sampleId == 0) {
             if (func_800DF074(1, 2, bankId) != NULL) {
                 if (Audio_IsBankLoadComplete(bankId) != 0) {
-                    func_800E0964(entry, bankId);
+                    Audio_RemoveSampleCacheUsageForBank(entry, bankId);
                 }
             }
         }
     }
 }
 
-void func_800E0BB4(UnkHeapEntry* entry, AudioBankSample* sample) {
+void Audio_RemoveSampleCacheUsage(SampleCacheEntry* entry, AudioBankSample* sample) {
     if (sample != NULL) {
-        if (sample->sampleAddr == entry->unk_08) {
-            sample->sampleAddr = entry->unk_0C;
-            sample->medium = entry->unk_01;
+        if (sample->sampleAddr == entry->allocatedAddr) {
+            sample->sampleAddr = entry->sampleAddr;
+            sample->medium = entry->medium;
         }
     }
 }
 
-UnkHeapEntry* func_800E0BF8(u32 size) {
-    UnkPool* pool;
-    UnkHeapEntry* entry;
+SampleCacheEntry* Audio_AllocPersistentSampleCacheEntry(u32 size) {
+    SampleCachePool* pool;
+    SampleCacheEntry* entry;
     void* mem;
 
-    pool = &gAudioContext.unk_2EE0;
+    pool = &gAudioContext.persistentSampleCache;
     mem = Audio_Alloc(&pool->pool, size);
     if (mem == NULL) {
         return NULL;
     }
     entry = &pool->entries[pool->size];
-    entry->unk_00 = 1;
-    entry->unk_08 = mem;
+    entry->inUse = true;
+    entry->allocatedAddr = mem;
     entry->size = size;
     pool->size++;
     return entry;
 }
 
-void func_800E0C80(UnkHeapEntry* entry, s32 arg1, s32 arg2, s32 bankId) {
-    if ((entry->unk_02 == arg1) || (entry->unk_02 == arg2) || (entry->unk_02 == 0)) {
-        func_800E0964(entry, bankId);
+void func_800E0C80(SampleCacheEntry* entry, s32 sampleId1, s32 sampleId2, s32 bankId) {
+    if ((entry->sampleId == sampleId1) || (entry->sampleId == sampleId2) || (entry->sampleId == 0)) {
+        Audio_RemoveSampleCacheUsageForBank(entry, bankId);
     }
 }
 
 void func_800E0CBC(void) {
     s32 numBanks;
-    s32 unk2;
-    s32 unk3;
+    s32 sampleId1;
+    s32 sampleId2;
     s32 bankId;
     s32 j;
 
     numBanks = gAudioContext.audioBankTable->header.entryCnt;
     for (bankId = 0; bankId < numBanks; bankId++) {
-        unk2 = gAudioContext.ctlEntries[bankId].unk_02;
-        unk3 = gAudioContext.ctlEntries[bankId].unk_03;
-        if ((unk2 == 0xFF) && (unk3 == 0xFF)) {
+        sampleId1 = gAudioContext.ctlEntries[bankId].sampleId1;
+        sampleId2 = gAudioContext.ctlEntries[bankId].sampleId2;
+        if ((sampleId1 == 0xFF) && (sampleId2 == 0xFF)) {
             continue;
         }
         if (func_800DF074(1, 3, bankId) == NULL || !Audio_IsBankLoadComplete(bankId)) {
             continue;
         }
 
-        for (j = 0; j < gAudioContext.unk_2EE0.size; j++) {
-            func_800E0C80(&gAudioContext.unk_2EE0.entries[j], unk2, unk3, bankId);
+        for (j = 0; j < gAudioContext.persistentSampleCache.size; j++) {
+            func_800E0C80(&gAudioContext.persistentSampleCache.entries[j], sampleId1, sampleId2, bankId);
         }
-        for (j = 0; j < gAudioContext.unk_3174.size; j++) {
-            func_800E0C80(&gAudioContext.unk_3174.entries[j], unk2, unk3, bankId);
+        for (j = 0; j < gAudioContext.temporarySampleCache.size; j++) {
+            func_800E0C80(&gAudioContext.temporarySampleCache.entries[j], sampleId1, sampleId2, bankId);
         }
     }
 }
@@ -1261,20 +1266,20 @@ void func_800E0E6C(s32 id) {
     func_800E0EB4(0, id);
 }
 
-void func_800E0E90(s32 id) {
-    func_800E0EB4(1, id);
+void func_800E0E90(s32 sampleId) {
+    func_800E0EB4(1, sampleId);
 }
 
 void func_800E0EB4(s32 arg0, s32 id) {
-    AudioTable* audioTable;
-    AudioTableEntry* thing;
+    AudioSampleTable* sampleTable;
+    AudioSampleTableEntry* entry;
     s32 numBanks;
     s32 instId;
     s32 drumId;
     s32 sfxId;
     Struct_800E0E0C sp78;
-    s32 unk2;
-    s32 unk3;
+    s32 sampleId1;
+    s32 sampleId2;
     s32 bankId;
     Drum* drum;
     Instrument* inst;
@@ -1282,19 +1287,19 @@ void func_800E0EB4(s32 arg0, s32 id) {
     u8** fakematch;
     s32 pad[4];
 
-    audioTable = gAudioContext.audioTable;
+    sampleTable = gAudioContext.sampleTable;
     numBanks = gAudioContext.audioBankTable->header.entryCnt;
     sp78.unk_0 = func_800DF074(2, 2, id);
     if (sp78.unk_0 == NULL) {
         return;
     }
 
-    thing = &audioTable->entries[id];
-    sp78.unk_8 = thing->size;
-    sp78.unk_C = thing->unk_08;
+    entry = &sampleTable->entries[id];
+    sp78.unk_8 = entry->size;
+    sp78.unk_C = entry->unk_08;
 
     if ((sp78.unk_C == 2) || (sp78.unk_C == 3)) {
-        sp78.unk_4 = thing->romAddr;
+        sp78.unk_4 = entry->romAddr;
     } else {
         sp78.unk_4 = NULL;
     }
@@ -1308,15 +1313,15 @@ void func_800E0EB4(s32 arg0, s32 id) {
     }
 
     for (bankId = 0; bankId < numBanks; bankId++) {
-        unk2 = gAudioContext.ctlEntries[bankId].unk_02;
-        unk3 = gAudioContext.ctlEntries[bankId].unk_03;
-        if ((unk2 != 0xFF) || (unk3 != 0xFF)) {
+        sampleId1 = gAudioContext.ctlEntries[bankId].sampleId1;
+        sampleId2 = gAudioContext.ctlEntries[bankId].sampleId2;
+        if ((sampleId1 != 0xFF) || (sampleId2 != 0xFF)) {
             if (!Audio_IsBankLoadComplete(bankId) || func_800DF074(1, 2, bankId) == NULL) {
                 continue;
             }
 
-            if (unk2 == id) {
-            } else if (unk3 == id) {
+            if (sampleId1 == id) {
+            } else if (sampleId2 == id) {
             } else {
                 continue;
             }

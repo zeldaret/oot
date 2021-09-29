@@ -112,8 +112,8 @@ void func_800DB03C(s32 arg0) {
     s32 baseIndex;
     s32 i;
 
-    baseIndex = gAudioContext.maxSimultaneousNotes * arg0;
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+    baseIndex = gAudioContext.numNotes * arg0;
+    for (i = 0; i < gAudioContext.numNotes; i++) {
         subEu = &gAudioContext.notes[i].noteSubEu;
         subEu2 = &gAudioContext.noteSubsEu[baseIndex + i];
         if (subEu->bitField0.s.enabled) {
@@ -181,7 +181,7 @@ void func_800DB2C0(s32 updateIndexStart, s32 noteIndex) {
     s32 i;
 
     for (i = updateIndexStart + 1; i < gAudioContext.audioBufferParameters.updatesPerFrame; i++) {
-        temp_v1 = &gAudioContext.noteSubsEu[(gAudioContext.maxSimultaneousNotes * i) + noteIndex];
+        temp_v1 = &gAudioContext.noteSubsEu[(gAudioContext.numNotes * i) + noteIndex];
         if (!temp_v1->bitField0.s.needsInit) {
             temp_v1->bitField0.s.enabled = 0;
         } else {
@@ -563,17 +563,17 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
     NoteSubEu* noteSubEu2;
     s32 unk14;
 
-    t = gAudioContext.maxSimultaneousNotes * updateIndex;
+    t = gAudioContext.numNotes * updateIndex;
     count = 0;
     if (gAudioContext.numSynthesisReverbs == 0) {
-        for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+        for (i = 0; i < gAudioContext.numNotes; i++) {
             if (gAudioContext.noteSubsEu[t + i].bitField0.s.enabled) {
                 noteIndices[count++] = i;
             }
         }
     } else {
         for (reverbIndex = 0; reverbIndex < gAudioContext.numSynthesisReverbs; reverbIndex++) {
-            for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+            for (i = 0; i < gAudioContext.numNotes; i++) {
                 noteSubEu = &gAudioContext.noteSubsEu[t + i];
                 if (noteSubEu->bitField0.s.enabled && noteSubEu->bitField1.s.reverbIndex == reverbIndex) {
                     noteIndices[count++] = i;
@@ -581,7 +581,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
             }
         }
 
-        for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+        for (i = 0; i < gAudioContext.numNotes; i++) {
             noteSubEu = &gAudioContext.noteSubsEu[t + i];
             if (noteSubEu->bitField0.s.enabled &&
                 noteSubEu->bitField1.s.reverbIndex >= gAudioContext.numSynthesisReverbs) {

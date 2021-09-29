@@ -1478,7 +1478,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
     GfxPrint_SetPos(printer, 3, 3);
     GfxPrint_Printf(printer, "- %s -", sAudioDebugPageNames[sAudioDebugPage]);
 
-    for (i = 0; i < gAudioSpecs[gAudioSpecId].maxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioSpecs[gAudioSpecId].numNotes; i++) {
         if (gAudioContext.notes[i].noteSubEu.bitField0.s.enabled == 1) {
             numEnabledNotes++;
         }
