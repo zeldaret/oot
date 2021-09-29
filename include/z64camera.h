@@ -63,14 +63,14 @@ typedef enum {
     /* 0x26 */ CAM_SET_CS_1, // Never set to, but checked in twisting hallway (Forest Temple) "DEMO1"
     /* 0x27 */ CAM_SET_FOREST_BIRDS_EYE, // Used in the falling ceiling room in forest temple "MORI1"
     /* 0x28 */ CAM_SET_SLOW_CHEST_CS, // Long cutscene when opening a big chest with a major item "ITEM0"
-    /* 0x29 */ CAM_SET_ITEM_UNUSED, // "ITEM1"
+    /* 0x29 */ CAM_SET_ITEM_UNUSED, // Unused "ITEM1"
     /* 0x2A */ CAM_SET_CS_3, // Various cutscenes "DEMO3"
     /* 0x2B */ CAM_SET_CS_4, // Attention cutscenes and the actor siofuki (water spout/jet) "DEMO4"
     /* 0x2C */ CAM_SET_BEAN_GENERIC, // All beans except lost woods "UFOBEAN"
     /* 0x2D */ CAM_SET_BEAN_LOST_WOODS, // Lost woods bean "IFTBEAN"
     /* 0x2E */ CAM_SET_SCENE_UNUSED, // Unused "SCENE0"
     /* 0x2F */ CAM_SET_SCENE_TRANSITION, // Scene Transitions "SCENE1"
-    /* 0x30 */ CAM_SET_FIRE_PLATFORM, // "HIDAN1"
+    /* 0x30 */ CAM_SET_FIRE_PLATFORM, // All the fire platforms that rise. Also used in non-mq spirit shortcut "HIDAN1"
     /* 0x31 */ CAM_SET_FIRE_STAIRCASE, // Used on fire staircase actor cutscene in shortcut room connecting vanilla hammer chest to the final goron small key "HIDAN2"
     /* 0x32 */ CAM_SET_FOREST_UNUSED, // Unused "MORI2"
     /* 0x33 */ CAM_SET_FOREST_POES, // Used when defeating a poe sister "MORI3"
@@ -82,7 +82,7 @@ typedef enum {
     /* 0x39 */ CAM_SET_LOWERING_PLATFORM, // Lowering platforms (forest temple bow room, Jabu final shortcut) "CAM_SET_CIRCLE6"
     /* 0x3A */ CAM_SET_NORMAL2,
     /* 0x3B */ CAM_SET_FISHING, // Fishing pond by the lake
-    /* 0x3C */ CAM_SET_CS_C, // "DEMOC"
+    /* 0x3C */ CAM_SET_CS_C, // Various cutscenes "DEMOC"
     /* 0x3D */ CAM_SET_JABU_TENTICLE, // Jabu-Jabu Parasitic Tenticle Rooms "UO_FIBER"
     /* 0x3E */ CAM_SET_DUNGEON2,
     /* 0x3F */ CAM_SET_DIRECTED_YAW, // Does not auto-update yaw, tends to keep the camera pointed at a certain yaw "TEPPEN"
