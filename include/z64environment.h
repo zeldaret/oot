@@ -43,7 +43,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u16 startTime;
     /* 0x02 */ u16 endTime;
-    /* 0x04 */ u8 blend; // if true, blend between.. skyboxes? palletes?
+    /* 0x04 */ u8 blend; // if true, blend between.. skyboxes? palettes?
     /* 0x05 */ u8 skybox1Index; // whats the difference between _pal and non _pal files?
     /* 0x06 */ u8 skybox2Index;
 } struct_8011FC1C; // size = 0x8
