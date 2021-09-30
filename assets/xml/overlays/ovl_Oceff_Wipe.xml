@@ -4,7 +4,7 @@
         <Array Name="sOceffWipeFrustumVtx" Count="40" Offset="0x950">
             <Vtx/>
         </Array>
-        <DList Name="sOceffWipeTextureDL" Offset="0xBD0"/>
+        <DList Name="sOceffWipematerialDL" Offset="0xBD0"/>
         <DList Name="sOceffWipeFrustumDL" Offset="0xC58"/>
     </File>
 </Root>

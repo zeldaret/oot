@@ -5,7 +5,7 @@
         <Array Name="sFireArrowVtx" Count="43" Offset="0x19D0">
             <Vtx/>
         </Array>
-        <DList Name="sFireArrowTextureDL" Offset="0x1C80"/>
-        <DList Name="sFireArrowVtxDL" Offset="0x1D30"/>
+        <DList Name="sFireArrowmaterialDL" Offset="0x1C80"/>
+        <DList Name="sFireArrowmodelDL" Offset="0x1D30"/>
     </File>
 </Root>

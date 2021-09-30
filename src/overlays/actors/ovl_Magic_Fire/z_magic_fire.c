@@ -240,12 +240,12 @@ void MagicFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 1, 0, G_TX_NOMIRROR | G_TX_WRAP, 6, 14,
                    G_TX_NOMIRROR | G_TX_WRAP, 6, 14);
         gDPSetTileSize(POLY_XLU_DISP++, 1, 0, 0, 252, 252);
-        gSPDisplayList(POLY_XLU_DISP++, sDinsFireTextureDL);
+        gSPDisplayList(POLY_XLU_DISP++, sDinsFirematerialDL);
         gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 2) % 512,
                                         511 - ((gameplayFrames * 5) % 512), 64, 64, 1, (gameplayFrames * 2) % 256,
                                         255 - ((gameplayFrames * 20) % 256), 32, 32));
-        gSPDisplayList(POLY_XLU_DISP++, sDinsFireVtxDL);
+        gSPDisplayList(POLY_XLU_DISP++, sDinsFiremodelDL);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_fire.c", 750);
 
         alpha = (s32)(this->alphaMultiplier * 255);

@@ -237,7 +237,7 @@ void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 4, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 30) % 512, 8, 16));
-        gSPDisplayList(POLY_XLU_DISP++, sLightArrowVtxDL);
+        gSPDisplayList(POLY_XLU_DISP++, sLightArrowmodelDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arrow_light.c", 664);
     }
