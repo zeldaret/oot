@@ -86,14 +86,14 @@ void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
             if (globalCtx->msgCtx.unk_E3F0 != 0x31 || globalCtx->msgCtx.unk_E3EE != 8) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
                 osSyncPrintf(VT_FGCOL(YELLOW));
-                // Sun's Song Flag
+                // "Sun's Song Flag"
                 osSyncPrintf("z_oceff_spot  太陽の歌フラグ\n");
                 osSyncPrintf(VT_RST);
             }
         } else {
             globalCtx->msgCtx.unk_E3EE = 4;
             osSyncPrintf(VT_FGCOL(YELLOW));
-            // Ocarina End
+            // "Ocarina End"
             osSyncPrintf("z_oceff_spot  オカリナ終了\n");
             osSyncPrintf(VT_RST);
         }

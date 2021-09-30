@@ -48,7 +48,7 @@ void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (SkelCurve_Init(globalCtx, &this->skelCurve, &sMagicWindSkel, &sMagicWindAnim) == 0) {
-        // Magic_Wind_Actor_ct (): Construct failed
+        // "Magic_Wind_Actor_ct (): Construct failed"
         osSyncPrintf("Magic_Wind_Actor_ct():コンストラクト失敗\n");
     }
     this->actor.room = -1;
@@ -61,7 +61,7 @@ void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 1:
             SkelCurve_SetAnim(&this->skelCurve, &sMagicWindAnim, 60.0f, 0.0f, 60.0f, -1.0f);
             MagicWind_SetupAction(this, MagicWind_Shrink);
-            // Means start
+            // "Means start"
             LOG_STRING("表示開始", "../z_magic_wind.c", 486);
             func_8002F7DC(&player->actor, NA_SE_PL_MAGIC_WIND_WARP);
             break;
@@ -72,7 +72,7 @@ void MagicWind_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     MagicWind* this = THIS;
     SkelCurve_Destroy(globalCtx, &this->skelCurve);
     func_800876C8(globalCtx);
-    // wipe out
+    // "wipe out"
     LOG_STRING("消滅", "../z_magic_wind.c", 505);
 }
 
@@ -92,7 +92,7 @@ void MagicWind_WaitForTimer(MagicWind* this, GlobalContext* globalCtx) {
         return;
     }
 
-    // Means start
+    // "Means start"
     LOG_STRING("表示開始", "../z_magic_wind.c", 539);
     func_8002F7DC(&player->actor, NA_SE_PL_MAGIC_WIND_NORMAL);
     MagicWind_UpdateAlpha(1.0f);
