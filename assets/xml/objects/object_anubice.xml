@@ -11,7 +11,7 @@
         <!-- The following are unused -->
         <Animation Name="gAnubiceLaughingAnim" Offset="0x144"/>
         <Animation Name="gAnubiceStandUpAnim" Offset="0x930"/>
-        <DList Name="gAnubiceUnusedParticlematerialDL" Offset="0x3610"/>
+        <DList Name="gAnubiceUnusedParticleMaterialDL" Offset="0x3610"/>
         <DList Name="gAnubiceUnusedParticleGeometryDL" Offset="0x3688"/>
         <!-- I think those might be for taking damage or something -->
         <Animation Name="gAnubiceAnim_000A48" Offset="0xA48"/>

@@ -1197,7 +1197,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2305),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gFishingRipplemodelDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFishingRippleModelDL);
         }
         effect++;
     }
@@ -1221,7 +1221,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2346),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gFishingDustSplashmodelDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFishingDustSplashModelDL);
         }
         effect++;
     }
@@ -1249,7 +1249,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2394),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_OPA_DISP++, gFishingWaterDustmodelDL);
+            gSPDisplayList(POLY_OPA_DISP++, gFishingWaterDustModelDL);
         }
         effect++;
     }
@@ -1272,7 +1272,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2423),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gFishingBubblemodelDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFishingBubbleModelDL);
         }
         effect++;
     }
@@ -1297,7 +1297,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2467),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gFishingRainDropmodelDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFishingRainDropModelDL);
         }
         effect++;
     }
@@ -1321,7 +1321,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2504),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gFishingRipplemodelDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFishingRippleModelDL);
         }
         effect++;
     }
@@ -1350,7 +1350,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2541),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gFishingRainSplashmodelDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFishingRainSplashModelDL);
         }
         effect++;
     }
@@ -1755,7 +1755,7 @@ void Fishing_DrawSinkingLure(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3239),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, gFishingSinkingLureSegmentmodelDL);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingSinkingLureSegmentModelDL);
             }
         }
     } else {
@@ -1772,7 +1772,7 @@ void Fishing_DrawSinkingLure(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3265),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gFishingSinkingLureSegmentmodelDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingSinkingLureSegmentModelDL);
             }
         }
     }
@@ -1885,7 +1885,7 @@ void Fishing_DrawLureAndLine(GlobalContext* globalCtx, Vec3f* linePos, Vec3f* li
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3444),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gFishingLinemodelDL);
+        gSPDisplayList(POLY_XLU_DISP++, gFishingLineModelDL);
     } else {
         for (i = spB4; i < LINE_SEG_COUNT - 1; i++) {
             if ((i == LINE_SEG_COUNT - 3) && (D_80B7E0B6 == 0) && (D_80B7A694 == 3)) {
@@ -1913,7 +1913,7 @@ void Fishing_DrawLureAndLine(GlobalContext* globalCtx, Vec3f* linePos, Vec3f* li
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3475),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gFishingLinemodelDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingLineModelDL);
                 break;
             }
 
@@ -1924,7 +1924,7 @@ void Fishing_DrawLureAndLine(GlobalContext* globalCtx, Vec3f* linePos, Vec3f* li
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3492),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gFishingLinemodelDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFishingLineModelDL);
         }
     }
 
@@ -4405,7 +4405,7 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7726),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gFishingReedmodelDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingReedModelDL);
             }
         }
 
@@ -4427,7 +4427,7 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7748),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, gFishingWoodPostmodelDL);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingWoodPostModelDL);
             }
         }
 
@@ -4452,7 +4452,7 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7774),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gFishingLilyPadmodelDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingLilyPadModelDL);
             }
         }
 
@@ -4475,7 +4475,7 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7798),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, gFishingRockmodelDL);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingRockModelDL);
             }
         }
 
@@ -4706,7 +4706,7 @@ void Fishing_DrawGroupFishes(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 8093),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishmodelDL);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
             }
         }
         fish++;

@@ -1150,7 +1150,7 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2498),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManemodelDL);
+        gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeModelDL);
     }
     Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2503);

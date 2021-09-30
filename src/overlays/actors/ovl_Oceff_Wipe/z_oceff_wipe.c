@@ -121,7 +121,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 100, 0, 255, 128);
     }
 
-    gSPDisplayList(POLY_XLU_DISP++, sOceffWipematerialDL);
+    gSPDisplayList(POLY_XLU_DISP++, sOceffWipeMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 - scroll, scroll * (-2), 32, 32, 1,
                                                      0 - scroll, scroll * (-2), 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sOceffWipeFrustumDL);

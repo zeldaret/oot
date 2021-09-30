@@ -6,6 +6,6 @@
             <Vtx/>
         </Array>
         <DList Name="sLightArrowDL" Offset="0x1CB0"/>
-        <DList Name="sLightArrowmodelDL" Offset="0x1D60"/>
+        <DList Name="sLightArrowModelDL" Offset="0x1D60"/>
     </File>
 </Root>

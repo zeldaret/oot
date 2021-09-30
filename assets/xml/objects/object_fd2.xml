@@ -5,7 +5,7 @@
 
         <!-- Display lists -->
         <DList Name="gHoleVolvagiaManeSetupDL" Offset="0x4B48"/>
-        <DList Name="gHoleVolvagiaManemodelDL" Offset="0x4BC8"/>
+        <DList Name="gHoleVolvagiaManeModelDL" Offset="0x4BC8"/>
         <DList Name="gHoleVolvagiaBrokenFaceDL" Offset="0x4E38"/>
 
         <!-- Animations -->

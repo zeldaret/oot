@@ -4,7 +4,7 @@
         <Array Name="sDinsFireSphereVtx" Count="76" Offset="0x1B90">
             <Vtx/>
         </Array>
-        <DList Name="sDinsFirematerialDL" Offset="0x2050"/>
-        <DList Name="sDinsFiremodelDL" Offset="0x2078"/>
+        <DList Name="sDinsFireMaterialDL" Offset="0x2050"/>
+        <DList Name="sDinsFireModelDL" Offset="0x2078"/>
     </File>
 </Root>

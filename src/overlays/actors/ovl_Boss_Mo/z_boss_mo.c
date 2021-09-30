@@ -2975,7 +2975,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletmodelDL);
+            gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletModelDL);
         }
     }
 
@@ -3001,7 +3001,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7441),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gMorphaWetSpotmodelDL);
+            gSPDisplayList(POLY_XLU_DISP++, gMorphaWetSpotModelDL);
         }
     }
 

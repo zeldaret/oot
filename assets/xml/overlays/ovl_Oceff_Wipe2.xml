@@ -5,7 +5,7 @@
         <Array Name="sEponasSongFrustumVtx" Count="22" Offset="0x1480">
             <Vtx/>
         </Array>
-        <DList Name="sEponasSongmaterialDL" Offset="0x15E0"/>
+        <DList Name="sEponasSongMaterialDL" Offset="0x15E0"/>
         <DList Name="sEponasSongFrustumDL" Offset="0x1688"/>
     </File>
 </Root>
