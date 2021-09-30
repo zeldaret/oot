@@ -314,7 +314,7 @@ Instrument* Audio_GetInstrumentInner(s32 bankId, s32 instId) {
         return NULL;
     }
 
-    if (!Audio_IsBankLoadComplete(bankId)) {
+    if (!AudioLoad_IsBankLoadComplete(bankId)) {
         gAudioContext.audioErrorFlags = bankId + 0x10000000;
         return NULL;
     }
@@ -340,7 +340,7 @@ Drum* Audio_GetDrum(s32 bankId, s32 drumId) {
         return NULL;
     }
 
-    if (!Audio_IsBankLoadComplete(bankId)) {
+    if (!AudioLoad_IsBankLoadComplete(bankId)) {
         gAudioContext.audioErrorFlags = bankId + 0x10000000;
         return NULL;
     }
@@ -368,7 +368,7 @@ AudioBankSound* Audio_GetSfx(s32 bankId, s32 sfxId) {
         return NULL;
     }
 
-    if (!Audio_IsBankLoadComplete(bankId)) {
+    if (!AudioLoad_IsBankLoadComplete(bankId)) {
         gAudioContext.audioErrorFlags = bankId + 0x10000000;
         return NULL;
     }
@@ -400,7 +400,7 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, void* arg3) {
         return -1;
     }
 
-    if (!Audio_IsBankLoadComplete(bankId)) {
+    if (!AudioLoad_IsBankLoadComplete(bankId)) {
         return -2;
     }
 

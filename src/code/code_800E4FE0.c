@@ -108,8 +108,8 @@ AudioTask* func_800E5000(void) {
 
     gAudioContext.curAudioFrameDmaCount = 0;
     func_800E11F0();
-    Audio_ProcessLoads(gAudioContext.resetStatus);
-    Audio_ProcessScriptLoads();
+    AudioLoad_ProcessLoads(gAudioContext.resetStatus);
+    AudioLoad_ProcessScriptLoads();
 
     if (gAudioContext.resetStatus != 0) {
         if (AudioHeap_ResetStep() == 0) {
@@ -269,13 +269,13 @@ void func_800E5584(AudioCmd* cmd) {
             func_800E1D64(cmd->arg0, cmd->arg1, cmd->arg2);
             return;
         case 0xF4:
-            Audio_AsyncLoadSampleBank(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
+            AudioLoad_AsyncLoadSampleBank(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
             return;
         case 0xF5:
-            Audio_AsyncLoadBank(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
+            AudioLoad_AsyncLoadBank(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
             return;
         case 0xFC:
-            Audio_AsyncLoadSeq(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
+            AudioLoad_AsyncLoadSeq(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
             return;
         case 0xF6:
             func_800E1F7C(cmd->arg1);

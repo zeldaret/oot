@@ -296,11 +296,11 @@ void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     seqPlayer->enabled = false;
     seqPlayer->finished = true;
 
-    if (Audio_IsSeqLoadComplete(seqPlayer->seqId)) {
-        Audio_SetSeqLoadStatus(seqPlayer->seqId, 3);
+    if (AudioLoad_IsSeqLoadComplete(seqPlayer->seqId)) {
+        AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, 3);
     }
-    if (Audio_IsBankLoadComplete(seqPlayer->defaultBank)) {
-        Audio_SetBankLoadStatus(seqPlayer->defaultBank, 4);
+    if (AudioLoad_IsBankLoadComplete(seqPlayer->defaultBank)) {
+        AudioLoad_SetBankLoadStatus(seqPlayer->defaultBank, 4);
     }
 
     if (seqPlayer->defaultBank == gAudioContext.bankCache.temporary.entries[0].id) {
@@ -1407,14 +1407,14 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                 case 0x10:
                     if (lowBits < 8) {
                         channel->soundScriptIO[lowBits] = -1;
-                        if (Audio_SlowLoadSample(channel->bankId, scriptState->value,
+                        if (AudioLoad_SlowLoadSample(channel->bankId, scriptState->value,
                                                  &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
                     } else {
                         lowBits -= 8;
                         channel->soundScriptIO[lowBits] = -1;
-                        if (Audio_SlowLoadSample(channel->bankId, channel->unk_22 + 0x100,
+                        if (AudioLoad_SlowLoadSample(channel->bankId, channel->unk_22 + 0x100,
                                                  &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
@@ -1471,13 +1471,13 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         return;
     }
 
-    if (!Audio_IsSeqLoadComplete(seqPlayer->seqId) || !Audio_IsBankLoadComplete(seqPlayer->defaultBank)) {
+    if (!AudioLoad_IsSeqLoadComplete(seqPlayer->seqId) || !AudioLoad_IsBankLoadComplete(seqPlayer->defaultBank)) {
         Audio_SequencePlayerDisable(seqPlayer);
         return;
     }
 
-    Audio_SetSeqLoadStatus(seqPlayer->seqId, 2);
-    Audio_SetBankLoadStatus(seqPlayer->defaultBank, 2);
+    AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, 2);
+    AudioLoad_SetBankLoadStatus(seqPlayer->defaultBank, 2);
 
     if (seqPlayer->muted && (seqPlayer->muteBehavior & 0x80)) {
         return;
@@ -1719,14 +1719,14 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         command = Audio_M64ReadU8(seqScript);
                         temp = Audio_M64ReadS16(seqScript);
                         data2 = &seqPlayer->seqData[temp];
-                        Audio_SlowLoadSeq(command, data2, &seqPlayer->unk_158[commandLow]);
+                        AudioLoad_SlowLoadSeq(command, data2, &seqPlayer->unk_158[commandLow]);
                         break;
                     case 0x60: {
                         command = Audio_M64ReadU8(seqScript);
                         value = command;
                         temp = Audio_M64ReadU8(seqScript);
 
-                        Audio_ScriptLoad(value, temp, &seqPlayer->unk_158[commandLow]);
+                        AudioLoad_ScriptLoad(value, temp, &seqPlayer->unk_158[commandLow]);
                         break;
                     }
                 }

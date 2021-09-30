@@ -4224,7 +4224,7 @@ void func_800F6FB4(u8 arg0) {
 }
 
 void Audio_Init(void) {
-    Audio_ContextInit(NULL, 0);
+    AudioLoad_Init(NULL, 0);
 }
 
 void Audio_InitSound(void) {
