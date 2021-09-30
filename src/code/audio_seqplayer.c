@@ -903,7 +903,7 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
         layer->stopSomething = true;
         return -1;
     }
-    if (seqPlayer->unk_DC != 0) {
+    if (seqPlayer->skipTicks != 0) {
         layer->stopSomething = true;
         return -1;
     }
@@ -1757,11 +1757,11 @@ void Audio_ProcessSequences(s32 arg0) {
     Audio_ProcessNotes();
 }
 
-void Audio_ProcessSequence(SequencePlayer* seqPlayer) {
-    while (seqPlayer->unk_DC > 0) {
+void Audio_SkipForwardSequence(SequencePlayer* seqPlayer) {
+    while (seqPlayer->skipTicks > 0) {
         Audio_SequencePlayerProcessSequence(seqPlayer);
         Audio_SequencePlayerProcessSound(seqPlayer);
-        seqPlayer->unk_DC--;
+        seqPlayer->skipTicks--;
     }
 }
 

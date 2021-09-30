@@ -37,6 +37,8 @@
 #define CODEC_ADPCM 0
 #define CODEC_S8 1
 
+typedef s32 (*DmaHandler)(OSPiHandle* handle, OSIoMesg* mb, s32 direction);
+
 struct Note;
 struct NotePool;
 struct SequenceChannel;
@@ -240,7 +242,7 @@ typedef struct {
     /* 0x094 */ u8* shortNoteVelocityTable;
     /* 0x098 */ u8* shortNoteGateTimeTable;
     /* 0x09C */ NotePool notePool;
-    /* 0x0DC */ s32 unk_DC;
+    /* 0x0DC */ s32 skipTicks;
     /* 0x0E0 */ u32 scriptCounter;
     /* 0x0E4 */ u8 pad_E4[0x10]; // OSMesgQueue seqDmaMesgQueue;
     /*?0x0F4 */ OSMesg seqDmaMesg;
