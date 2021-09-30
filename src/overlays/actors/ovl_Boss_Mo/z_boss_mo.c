@@ -2959,7 +2959,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
-                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
 
                 flag++;
@@ -2988,7 +2988,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
-                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
 
                 flag++;
             }

@@ -5,7 +5,7 @@
         <Array Name="sOtyukaPlatformTopVtx" Count="4" Offset="0x19C8">
             <Vtx/>
         </Array>
-        <DList Name="sOtyukaPlatformSetupDL" Offset="0x1A08"/>
+        <DList Name="sOtyukaPlatformMaterialDL" Offset="0x1A08"/>
         <DList Name="sOtyukaPlatformTopDL" Offset="0x1A90"/>
         
         <Array Name="sOtyukaPlatformBottomVtx" Count="4" Offset="0x1AA8">

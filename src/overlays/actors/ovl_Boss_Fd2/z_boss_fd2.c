@@ -1171,7 +1171,7 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeSetupDL);
+    gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeMaterialDL);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, bossFd->fwork[BFD_MANE_COLOR_CENTER], 0, 255);
     BossFd2_UpdateMane(this, globalCtx, &this->centerMane.head, this->centerMane.pos, this->centerMane.rot,

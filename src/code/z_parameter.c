@@ -136,7 +136,7 @@ static s16 sExtraItemBases[] = {
 static s16 D_80125A58 = 0;
 static s16 D_80125A5C = 0;
 
-static Gfx sSetupDL_80125A60[] = {
+static Gfx sMaterialDL_80125A60[] = {
     gsDPPipeSync(),
     gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
                           G_TEXTURE_GEN_LINEAR | G_SHADING_SMOOTH | G_LOD),
@@ -3779,7 +3779,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
     if (interfaceCtx->unk_244 != 0) {
         gDPPipeSync(OVERLAY_DISP++);
-        gSPDisplayList(OVERLAY_DISP++, sSetupDL_80125A60);
+        gSPDisplayList(OVERLAY_DISP++, sMaterialDL_80125A60);
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 0, 0, interfaceCtx->unk_244);
         gDPFillRectangle(OVERLAY_DISP++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
     }

@@ -53,7 +53,7 @@
 
         <!-- DLists for Morpha's particles -->
         <DList Name="gMorphaBubbleDL" Offset="0x140"/>
-        <DList Name="gMorphaDropletSetupDL" Offset="0xF20"/>
+        <DList Name="gMorphaDropletMaterialDL" Offset="0xF20"/>
         <DList Name="gMorphaDropletModelDL" Offset="0xF70"/>
         <DList Name="gMorphaWetSpotModelDL" Offset="0xFC8"/>
 

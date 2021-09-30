@@ -275,7 +275,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPDisplayList(POLY_OPA_DISP++, sOtyukaPlatformSetupDL);
+    gSPDisplayList(POLY_OPA_DISP++, sOtyukaPlatformMaterialDL);
 
     actor = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
     while (actor != NULL) {

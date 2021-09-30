@@ -1184,7 +1184,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_RIPPLE) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, gFishingRippleSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingRippleMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                 flag++;
             }
@@ -1207,7 +1207,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_DUST_SPLASH) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, gFishingDustSplashSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingDustSplashMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
                 flag++;
             }
@@ -1231,7 +1231,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_WATER_DUST) {
             if (flag == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, gFishingWaterDustSetupDL);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingWaterDustMaterialDL);
                 gDPSetEnvColor(POLY_OPA_DISP++, 40, 90, 80, 128);
                 flag++;
             }
@@ -1259,7 +1259,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_BUBBLE) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, gFishingBubbleSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingBubbleMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
                 flag++;
@@ -1309,7 +1309,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     for (i = 30; i < EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_RIPPLE) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, gFishingRippleSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingRippleMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 130);
                 flag++;
@@ -1331,7 +1331,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     for (i = 30; i < EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_SPLASH) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, gFishingRainSplashSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingRainSplashMaterialDL);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, KREG(19) + 80);
                 flag++;
             }
@@ -1744,7 +1744,7 @@ void Fishing_DrawSinkingLure(GlobalContext* globalCtx) {
     if (sLurePos.y < WATER_SURFACE_Y(globalCtx)) {
         func_80093D18(globalCtx->state.gfxCtx);
 
-        gSPDisplayList(POLY_OPA_DISP++, gFishingSinkingLureSegmentSetupDL);
+        gSPDisplayList(POLY_OPA_DISP++, gFishingSinkingLureSegmentMaterialDL);
 
         for (i = SINKING_LURE_SEG_COUNT - 1; i >= 0; i--) {
             if ((i + D_80B7FEA0) < SINKING_LURE_SEG_COUNT) {
@@ -1761,7 +1761,7 @@ void Fishing_DrawSinkingLure(GlobalContext* globalCtx) {
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
 
-        gSPDisplayList(POLY_XLU_DISP++, gFishingSinkingLureSegmentSetupDL);
+        gSPDisplayList(POLY_XLU_DISP++, gFishingSinkingLureSegmentMaterialDL);
 
         for (i = SINKING_LURE_SEG_COUNT - 1; i >= 0; i--) {
             if ((i + D_80B7FEA0) < SINKING_LURE_SEG_COUNT) {
@@ -2026,7 +2026,7 @@ void Fishing_DrawRod(GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPDisplayList(POLY_OPA_DISP++, gFishingRodSetupDL);
+    gSPDisplayList(POLY_OPA_DISP++, gFishingRodMaterialDL);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 0, 255);
 
@@ -4392,7 +4392,7 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_REED) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, gFishingReedSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingReedMaterialDL);
                 flag++;
             }
 
@@ -4417,7 +4417,7 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_WOOD_POST) {
             if (flag == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, gFishingWoodPostSetupDL);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingWoodPostMaterialDL);
                 flag++;
             }
 
@@ -4439,7 +4439,7 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_LILY_PAD) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, gFishingLilyPadSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingLilyPadMaterialDL);
                 flag++;
             }
 
@@ -4464,7 +4464,7 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_ROCK) {
             if (flag == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, gFishingRockSetupDL);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingRockMaterialDL);
                 flag++;
             }
 
@@ -4693,7 +4693,7 @@ void Fishing_DrawGroupFishes(GlobalContext* globalCtx) {
     for (i = 0; i < GROUP_FISH_COUNT; i++) {
         if (fish->type != FS_GROUP_FISH_NONE) {
             if (flag == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishSetupDL);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
                 flag++;
             }
