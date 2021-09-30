@@ -676,7 +676,7 @@ typedef struct {
     /* 0x08 */ u8* ramAddr;
     /* 0x0C */ u32 encodedInfo;
     /* 0x10 */ s32 isFree;
-} AudioStruct0D68; // size = 0x14
+} AudioPreloadReq; // size = 0x14
 
 typedef struct {
     union{
@@ -701,9 +701,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s8 status;
-    /* 0x01 */ s8 unk_01;
+    /* 0x01 */ s8 delay;
     /* 0x02 */ s8 medium;
-    /* 0x03 */ char unk_03[0x1];
     /* 0x04 */ u32 unk_04;
     /* 0x08 */ u32 devAddr;
     /* 0x0C */ u8* ramAddr;
@@ -715,7 +714,7 @@ typedef struct {
     /* 0x24 */ OSMesgQueue msgQueue;
     /* 0x3C */ OSMesg msg;
     /* 0x40 */ OSIoMesg ioMesg;
-} AsyncLoadReq; // size = 0x58
+} AudioAsyncLoad; // size = 0x58
 
 typedef struct {
     /* 0x00 */ u8 medium;
@@ -726,7 +725,7 @@ typedef struct {
     /* 0x0C */ u8* ramAddr;
     /* 0x10 */ u8* ramSampleAddr; // same as ramAddr
     /* 0x14 */ s32 status;
-    /* 0x18 */ s32 size;
+    /* 0x18 */ s32 bytesRemaining;
     /* 0x1C */ s8* isDone;
     /* 0x20 */ AudioBankSample sample;
     /* 0x30 */ OSMesgQueue msgqueue;
@@ -802,11 +801,11 @@ typedef struct {
     /* 0x0C */ u8 unused;
     /* 0x0D */ u8 reuseIndex; // position in sSampleDmaReuseQueue1/2, if ttl == 0
     /* 0x0E */ u8 ttl;        // duration after which the DMA can be discarded
-} SampleDmaReq; // size = 0x10
+} SampleDma; // size = 0x10
 
 typedef enum {
     /* 0 */ MEDIUM_RAM,
-    /* 1 */ MEDIUM_1,
+    /* 1 */ MEDIUM_UNK,
     /* 2 */ MEDIUM_CART,
     /* 3 */ MEDIUM_DISK_DRIVE
 } SampleMedium;
@@ -828,29 +827,29 @@ typedef struct {
     /* 0x0018 */ SynthesisReverb synthesisReverbs[4];
     /* 0x0B38 */ char unk_0B38[0x30];
     /* 0x0B68 */ AudioBankSample* usedSamples[128];
-    /* 0x0D68 */ AudioStruct0D68 unk_0D68[128];
+    /* 0x0D68 */ AudioPreloadReq preloadSampleStack[128];
     /* 0x1768 */ s32 usedSamplesCount;
-    /* 0x176C */ s32 unk_176C;
-    /* 0x1770 */ AsyncLoadReq asyncReqs[0x10];
-    /* 0x1CF0 */ OSMesgQueue asyncLoadQueue;
+    /* 0x176C */ s32 preloadSampleStackTop;
+    /* 0x1770 */ AudioAsyncLoad asyncLoads[0x10];
+    /* 0x1CF0 */ OSMesgQueue asyncLoadUnkMediumQueue;
     /* 0x1D08 */ char unk_1D08[0x40];
-    /* 0x1D48 */ AsyncLoadReq* curAsyncReq;
+    /* 0x1D48 */ AudioAsyncLoad* curUnkMediumLoad;
     /* 0x1D4C */ u32 slowLoadPos;
     /* 0x1D50 */ AudioSlowLoad slowLoads[2];
     /* 0x1E18 */ OSPiHandle* cartHandle;
     /* 0x1E1C */ OSPiHandle* driveHandle;
     /* 0x1E20 */ OSMesgQueue externalLoadQueue;
     /* 0x1E38 */ OSMesg externalLoadMesgBuf[0x10];
-    /* 0x1E78 */ OSMesgQueue internalLoadQueue;
-    /* 0x1E90 */ OSMesg internalLoadMesgBuf[0x10];
+    /* 0x1E78 */ OSMesgQueue preloadSampleQueue;
+    /* 0x1E90 */ OSMesg preloadSampleMesgBuf[0x10];
     /* 0x1ED0 */ OSMesgQueue currAudioFrameDmaQueue;
     /* 0x1EE8 */ OSMesg currAudioFrameDmaMesgBuf[0x40];
     /* 0x1FE8 */ OSIoMesg currAudioFrameDmaIoMesgBuf[0x40];
     /* 0x25E8 */ OSMesgQueue syncDmaQueue;
     /* 0x2600 */ OSMesg syncDmaMesg;
     /* 0x2604 */ OSIoMesg syncDmaIoMesg;
-    /* 0x261C */ SampleDmaReq* sampleDmaReqs;
-    /* 0x2620 */ u32 sampleDmaReqCnt;
+    /* 0x261C */ SampleDma* sampleDmas;
+    /* 0x2620 */ u32 sampleDmaCount;
     /* 0x2624 */ u32 sampleDmaListSize1;
     /* 0x2628 */ s32 unk_2628;
     /* 0x262C */ u8 sampleDmaReuseQueue1[0x100]; // read pos <= write pos, wrapping mod 256

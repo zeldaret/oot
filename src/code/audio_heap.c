@@ -805,7 +805,7 @@ void AudioHeap_Init(void) {
     AudioSpec* spec;
 
     spec = &gAudioSpecs[gAudioContext.audioResetSpecIdToLoad];
-    gAudioContext.sampleDmaReqCnt = 0;
+    gAudioContext.sampleDmaCount = 0;
     gAudioContext.audioBufferParameters.frequency = spec->frequency;
     gAudioContext.audioBufferParameters.aiFrequency = osAiSetFrequency(gAudioContext.audioBufferParameters.frequency);
     gAudioContext.audioBufferParameters.samplesPerFrameTarget =
@@ -979,12 +979,12 @@ void AudioHeap_Init(void) {
 
     AudioHeap_InitSampleCaches(spec->persistentSampleCacheMem, spec->temporarySampleCacheMem);
     func_800E1618(gAudioContext.numNotes);
-    gAudioContext.unk_176C = 0;
+    gAudioContext.preloadSampleStackTop = 0;
     Audio_InitSlowLoads();
     Audio_InitScriptLoads();
-    Audio_InitAsyncLoadReq();
+    Audio_InitAsyncLoads();
     gAudioContext.unk_4 = 0x1000;
-    func_800E4D94();
+    Audio_LoadPermanentSamples();
     intMask = osSetIntMask(1);
     osWritebackDCacheAll();
     osSetIntMask(intMask);
@@ -1064,7 +1064,7 @@ SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size) {
     s32 index;
     s32 i;
     SampleCacheEntry* ret;
-    AudioStruct0D68* item;
+    AudioPreloadReq* preload;
     AudioSampleCache* pool;
     u8* start;
     u8* end;
@@ -1089,11 +1089,11 @@ SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size) {
     allocAfter = pool->pool.cur;
 
     index = -1;
-    for (i = 0; i < gAudioContext.unk_176C; i++) {
-        item = &gAudioContext.unk_0D68[i];
-        if (item->isFree == false) {
-            start = item->ramAddr;
-            end = item->ramAddr + item->sample->size - 1;
+    for (i = 0; i < gAudioContext.preloadSampleStackTop; i++) {
+        preload = &gAudioContext.preloadSampleStack[i];
+        if (preload->isFree == false) {
+            start = preload->ramAddr;
+            end = preload->ramAddr + preload->sample->size - 1;
 
             if (end < allocBefore && start < allocBefore) {
                 continue;
@@ -1102,8 +1102,8 @@ SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size) {
                 continue;
             }
 
-            // Overlap
-            item->isFree = true;
+            // Overlap, skip this preload.
+            preload->isFree = true;
         }
     }
 
@@ -1122,7 +1122,7 @@ SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size) {
             continue;
         }
 
-        // Overlap. Discard existing entry.
+        // Overlap, discard existing entry.
         AudioHeap_DiscardSampleCacheEntry(&pool->entries[i]);
         if (index == -1) {
             index = i;
