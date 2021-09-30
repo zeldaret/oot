@@ -36,8 +36,8 @@ typedef enum {
     /* 0x0B */ CAM_SET_BOSS_VOLVAGIA, // "BOSS_BAL"
     /* 0x0C */ CAM_SET_BOSS_BONGO, // "BOSS_SHADES"
     /* 0x0D */ CAM_SET_BOSS_MORPHA, // "BOSS_MOFA" (unused)
-    /* 0x0E */ CAM_SET_BOSS_TWINROVA_PLATFORM, // "TWIN0"
-    /* 0x0F */ CAM_SET_BOSS_TWINROVA_FLOOR, // "TWIN1"
+    /* 0x0E */ CAM_SET_BOSS_TWINROVA_PLATFORM, // Upper main platform and 4 smaller platforms in the room of the Twinrova boss battle "TWIN0"
+    /* 0x0F */ CAM_SET_BOSS_TWINROVA_FLOOR, // The floor in the room of the Twinrova boss battle "TWIN1"
     /* 0x10 */ CAM_SET_BOSS_GANONDORF, // "BOSS_GANON1"
     /* 0x11 */ CAM_SET_BOSS_GANON, // "BOSS_GANON2" (unused)
     /* 0x12 */ CAM_SET_TOWER_CLIMB, // Various climbing structures (collapse sequence stairs, spiral around sarias house, zora domain climb, etc...) "TOWER0"
@@ -48,7 +48,7 @@ typedef enum {
     /* 0x17 */ CAM_SET_SHOP_BROWSING, // Shopping and browsing for items "CIRCLE2"
     /* 0x18 */ CAM_SET_CIRCLE3, // The camera used on Link's balcony in Kokiri forest. Data present in scene data for Deku Tree, GTG, Inside Ganon's Castle (TODO: may or may not be used)
     /* 0x19 */ CAM_SET_PREREND_FIXED, // Camera is fixed in position and rotation "PREREND0"
-    /* 0x1A */ CAM_SET_PREREND_ROTATE, // Camera is fixed in position but free to rotate "PREREND1"
+    /* 0x1A */ CAM_SET_PREREND_ROTATE, // Camera is fixed in position with fixed pitch, but is free to rotate in the yaw direction 360 degrees "PREREND1"
     /* 0x1B */ CAM_SET_PREREND_SCROLL, // Camera side-scrolls position to follow link. Only used in castle courtyard with the guards "PREREND3"
     /* 0x1C */ CAM_SET_DOOR0, // Custom room door transitions, used in fire and royal family tomb
     /* 0x1D */ CAM_SET_DOORC, // Generic room door transitions, camera moves and follows player as the door is open and closed
@@ -67,13 +67,13 @@ typedef enum {
     /* 0x2A */ CAM_SET_CS_3, // Various cutscenes "DEMO3"
     /* 0x2B */ CAM_SET_CS_4, // Attention cutscenes and the actor siofuki (water spout/jet) "DEMO4"
     /* 0x2C */ CAM_SET_BEAN_GENERIC, // All beans except lost woods "UFOBEAN"
-    /* 0x2D */ CAM_SET_BEAN_LOST_WOODS, // Lost woods bean "IFTBEAN"
+    /* 0x2D */ CAM_SET_BEAN_LOST_WOODS, // Lost woods bean "LIFTBEAN"
     /* 0x2E */ CAM_SET_SCENE_UNUSED, // Unused "SCENE0"
     /* 0x2F */ CAM_SET_SCENE_TRANSITION, // Scene Transitions "SCENE1"
     /* 0x30 */ CAM_SET_FIRE_PLATFORM, // All the fire platforms that rise. Also used in non-mq spirit shortcut "HIDAN1"
     /* 0x31 */ CAM_SET_FIRE_STAIRCASE, // Used on fire staircase actor cutscene in shortcut room connecting vanilla hammer chest to the final goron small key "HIDAN2"
     /* 0x32 */ CAM_SET_FOREST_UNUSED, // Unused "MORI2"
-    /* 0x33 */ CAM_SET_FOREST_POES, // Used when defeating a poe sister "MORI3"
+    /* 0x33 */ CAM_SET_FOREST_DEFEAT_POE, // Used when defeating a poe sister "MORI3"
     /* 0x34 */ CAM_SET_BIG_OCTO, // Used by big octo miniboss in Jabu Jabu "TAKO"
     /* 0x35 */ CAM_SET_MEADOW_MAZE, // Used only as child in Sacred Forest Meadow Maze "SPOT05A"
     /* 0x36 */ CAM_SET_MEADOW_UNUSED, // Unused from Sacred Forest Meadow "SPOT05B"
@@ -83,9 +83,9 @@ typedef enum {
     /* 0x3A */ CAM_SET_NORMAL2,
     /* 0x3B */ CAM_SET_FISHING, // Fishing pond by the lake
     /* 0x3C */ CAM_SET_CS_C, // Various cutscenes "DEMOC"
-    /* 0x3D */ CAM_SET_JABU_TENTICLE, // Jabu-Jabu Parasitic Tenticle Rooms "UO_FIBER"
+    /* 0x3D */ CAM_SET_JABU_TENTACLE, // Jabu-Jabu Parasitic Tenticle Rooms "UO_FIBER"
     /* 0x3E */ CAM_SET_DUNGEON2,
-    /* 0x3F */ CAM_SET_DIRECTED_YAW, // Does not auto-update yaw, tends to keep the camera pointed at a certain yaw "TEPPEN"
+    /* 0x3F */ CAM_SET_DIRECTED_YAW, // Does not auto-update yaw, tends to keep the camera pointed at a certain yaw (used by biggoron and final spirit lowering platform) "TEPPEN"
     /* 0x40 */ CAM_SET_FIXED_SIDE, // Fixed side view, allows rotation of camera (eg. Potion Shop, Meadow at fairy grotto) "CIRCLE7"
     /* 0x41 */ CAM_SET_NORMAL4,
     /* 0x42 */ CAM_SET_MAX

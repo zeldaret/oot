@@ -556,7 +556,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             func_8002DF38(globalCtx, actor, 1);
             break;
         case 3190:
-            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_FOREST_POES);
+            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_FOREST_DEFEAT_POE);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
             func_8002DF38(globalCtx, actor, 0xC);
             break;

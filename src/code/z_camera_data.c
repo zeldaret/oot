@@ -101,7 +101,7 @@ CameraModeValue D_8011A3A0[] = {
  * TOWER1             TARGET    PARA1
  * CIRCLE3            TARGET    PARA1
  * NORMAL2            TARGET    PARA1
- * JABU_TENTICLE           TARGET    PARA1
+ * JABU_TENTACLE           TARGET    PARA1
  * TEPPEN             TARGET    PARA1
  * NORMAL4            TARGET    PARA1
  */
@@ -141,7 +141,7 @@ CameraModeValue D_8011A3C8[] = {
  * UFOBEAN            FOLLOWTARGET    KEEP1
  * LIFTBEAN           FOLLOWTARGET    KEEP1
  * NORMAL2            FOLLOWTARGET    KEEP1
- * JABU_TENTICLE           FOLLOWTARGET    KEEP1
+ * JABU_TENTACLE           FOLLOWTARGET    KEEP1
  * NORMAL4            FOLLOWTARGET    KEEP1
  */
 CameraModeValue D_8011A3F4[] = {
@@ -184,7 +184,7 @@ CameraModeValue D_8011A3F4[] = {
  * LIFTBEAN           TALK    KEEP3
  * TAKO               TALK    KEEP3
  * NORMAL2            TALK    KEEP3
- * JABU_TENTICLE           TALK    KEEP3
+ * JABU_TENTACLE           TALK    KEEP3
  * DUNGEON2           TALK    KEEP3
  * CIRCLE7            TALK    KEEP3
  */
@@ -249,7 +249,7 @@ CameraModeValue D_8011A458[] = {
  * UFOBEAN            CLIMB    JUMP2
  * LIFTBEAN           CLIMB    JUMP2
  * NORMAL2            CLIMB    JUMP2
- * JABU_TENTICLE           CLIMB    JUMP2
+ * JABU_TENTACLE           CLIMB    JUMP2
  * TEPPEN             CLIMB    JUMP2
  * NORMAL4            CLIMB    JUMP2
  */
@@ -291,7 +291,7 @@ CameraModeValue D_8011A488[] = {
  * LIFTBEAN           FIRSTPERSON    SUBJ3
  * TAKO               FIRSTPERSON    SUBJ3
  * NORMAL2            FIRSTPERSON    SUBJ3
- * JABU_TENTICLE           FIRSTPERSON    SUBJ3
+ * JABU_TENTACLE           FIRSTPERSON    SUBJ3
  * DUNGEON2           FIRSTPERSON    SUBJ3
  * TEPPEN             FIRSTPERSON    SUBJ3
  * CIRCLE7            FIRSTPERSON    SUBJ3
@@ -335,7 +335,7 @@ CameraModeValue D_8011A4AC[] = {
  * LIFTBEAN           BOWARROW    SUBJ3
  * TAKO               BOWARROW    SUBJ3
  * NORMAL2            BOWARROW    SUBJ3
- * JABU_TENTICLE           BOWARROW    SUBJ3
+ * JABU_TENTACLE           BOWARROW    SUBJ3
  * DUNGEON2           BOWARROW    SUBJ3
  * TEPPEN             BOWARROW    SUBJ3
  * CIRCLE7            BOWARROW    SUBJ3
@@ -380,7 +380,7 @@ CameraModeValue D_8011A4D0[] = {
  * LIFTBEAN           BOWARROWZ    SUBJ3
  * TAKO               BOWARROWZ    SUBJ3
  * NORMAL2            BOWARROWZ    SUBJ3
- * JABU_TENTICLE           BOWARROWZ    SUBJ3
+ * JABU_TENTACLE           BOWARROWZ    SUBJ3
  * DUNGEON2           BOWARROWZ    SUBJ3
  * TEPPEN             BOWARROWZ    SUBJ3
  * NORMAL4            BOWARROWZ    SUBJ3
@@ -419,7 +419,7 @@ CameraModeValue D_8011A4F4[] = {
  * UFOBEAN            HOOKSHOT    SPEC5
  * LIFTBEAN           HOOKSHOT    SPEC5
  * NORMAL2            HOOKSHOT    SPEC5
- * JABU_TENTICLE           HOOKSHOT    SPEC5
+ * JABU_TENTACLE           HOOKSHOT    SPEC5
  * TEPPEN             HOOKSHOT    SPEC5
  * CIRCLE7            HOOKSHOT    SPEC5
  * NORMAL4            HOOKSHOT    SPEC5
@@ -460,7 +460,7 @@ CameraModeValue D_8011A518[] = {
  * LIFTBEAN           BOOMERANG    SUBJ3
  * TAKO               BOOMERANG    SUBJ3
  * NORMAL2            BOOMERANG    SUBJ3
- * JABU_TENTICLE           BOOMERANG    SUBJ3
+ * JABU_TENTACLE           BOOMERANG    SUBJ3
  * DUNGEON2           BOOMERANG    SUBJ3
  * TEPPEN             BOOMERANG    SUBJ3
  * CIRCLE7            BOOMERANG    SUBJ3
@@ -503,7 +503,7 @@ CameraModeValue D_8011A538[] = {
  * LIFTBEAN           SLINGSHOT    SUBJ3
  * TAKO               SLINGSHOT    SUBJ3
  * NORMAL2            SLINGSHOT    SUBJ3
- * JABU_TENTICLE           SLINGSHOT    SUBJ3
+ * JABU_TENTACLE           SLINGSHOT    SUBJ3
  * DUNGEON2           SLINGSHOT    SUBJ3
  * TEPPEN             SLINGSHOT    SUBJ3
  * CIRCLE7            SLINGSHOT    SUBJ3
@@ -543,7 +543,7 @@ CameraModeValue D_8011A55C[] = {
  * UFOBEAN            CLIMBZ    JUMP2
  * LIFTBEAN           CLIMBZ    JUMP2
  * NORMAL2            CLIMBZ    JUMP2
- * JABU_TENTICLE           CLIMBZ    JUMP2
+ * JABU_TENTACLE           CLIMBZ    JUMP2
  * TEPPEN             CLIMBZ    JUMP2
  * NORMAL4            CLIMBZ    JUMP2
  */
@@ -591,8 +591,8 @@ CameraModeValue D_8011A580[] = {
  * LIFTBEAN           FREEFALL    JUMP1
  * NORMAL2            JUMP        JUMP1
  * NORMAL2            FREEFALL    JUMP1
- * JABU_TENTICLE            JUMP        JUMP1
- * JABU_TENTICLE            FREEFALL    JUMP1
+ * JABU_TENTACLE            JUMP        JUMP1
+ * JABU_TENTACLE            FREEFALL    JUMP1
  * TEPPEN             JUMP        JUMP1
  * TEPPEN             FREEFALL    JUMP1
  * NORMAL4            JUMP        JUMP1
@@ -628,7 +628,7 @@ CameraModeValue D_8011A5A4[] = {
  * TOWER_CLIMB    HANG    UNIQ1
  * TOWER1             HANG    UNIQ1
  * NORMAL2            HANG    UNIQ1
- * JABU_TENTICLE            HANG    UNIQ1
+ * JABU_TENTACLE            HANG    UNIQ1
  * TEPPEN             HANG    UNIQ1
  * NORMAL4            HANG    UNIQ1
  */
@@ -661,7 +661,7 @@ CameraModeValue D_8011A5C4[] = {
  * TOWER_CLIMB    HANGZ    UNIQ1
  * TOWER1             HANGZ    UNIQ1
  * NORMAL2            HANGZ    UNIQ1
- * JABU_TENTICLE            HANGZ    UNIQ1
+ * JABU_TENTACLE            HANGZ    UNIQ1
  * TEPPEN             HANGZ    UNIQ1
  * NORMAL4            HANGZ    UNIQ1
  */
@@ -711,7 +711,7 @@ CameraModeValue D_8011A5FC[] = {
  * UFOBEAN            CHARGE    BATT4
  * LIFTBEAN           CHARGE    BATT4
  * NORMAL2            CHARGE    BATT4
- * JABU_TENTICLE            CHARGE    BATT4
+ * JABU_TENTACLE            CHARGE    BATT4
  * DUNGEON2           CHARGE    BATT4
  * TEPPEN             CHARGE    BATT4
  * NORMAL4            CHARGE    BATT4
@@ -746,7 +746,7 @@ CameraModeValue D_8011A61C[] = {
  * TOWER1             STILL    NORM1
  * CIRCLE3            STILL    NORM1
  * NORMAL2            STILL    NORM1
- * JABU_TENTICLE            STILL    NORM1
+ * JABU_TENTACLE            STILL    NORM1
  * TEPPEN             STILL    NORM1
  * NORMAL4            STILL    NORM1
  */
@@ -788,7 +788,7 @@ CameraModeValue D_8011A638[] = {
  * LIFTBEAN           PUSHPULL    PARA1
  * TAKO               PUSHPULL    PARA1
  * NORMAL2            PUSHPULL    PARA1
- * JABU_TENTICLE            PUSHPULL    PARA1
+ * JABU_TENTACLE            PUSHPULL    PARA1
  * TEPPEN             PUSHPULL    PARA1
  * NORMAL4            PUSHPULL    PARA1
  */
@@ -832,7 +832,7 @@ CameraModeValue D_8011A660[] = {
  * LIFTBEAN           BOOMFOLLLOW    KEEP1
  * TAKO               BOOMFOLLLOW    KEEP1
  * NORMAL2            BOOMFOLLLOW    KEEP1
- * JABU_TENTICLE            BOOMFOLLLOW    KEEP1
+ * JABU_TENTACLE            BOOMFOLLLOW    KEEP1
  * DUNGEON2           BOOMFOLLLOW    KEEP1
  * TEPPEN             BOOMFOLLLOW    KEEP1
  * NORMAL4            BOOMFOLLLOW    KEEP1
@@ -3423,14 +3423,14 @@ CameraModeValue sSetDemoCModeNormVals[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: JABU_TENTICLE Setting
+ *                   Custom Data: JABU_TENTACLE Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * JABU_TENTICLE    NORMAL    NORM1
+ * JABU_TENTACLE    NORMAL    NORM1
  */
 CameraModeValue D_8011B8D8[] = {
     { 30, CAM_DATA_Y_OFFSET },               // yOffset
@@ -3448,7 +3448,7 @@ CameraModeValue D_8011B8D8[] = {
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * JABU_TENTICLE    BATTLE    BATT1
+ * JABU_TENTACLE    BATTLE    BATT1
  */
 CameraModeValue D_8011B900[] = {
     { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
@@ -4669,7 +4669,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x05000001 }, sCamSetHidan1Modes },     // CAM_SET_FIRE_PLATFORM
     { { 0x45000001 }, sCamSetHidan2Modes },     // CAM_SET_FIRE_STAIRCASE
     { { 0x45000001 }, sCamSetMori2Modes },      // CAM_SET_FOREST_UNUSED
-    { { 0x45000001 }, sCamSetMori3Modes },      // CAM_SET_FOREST_POES
+    { { 0x45000001 }, sCamSetMori3Modes },      // CAM_SET_FOREST_DEFEAT_POE
     { { 0x451FFFFF }, sCamSetTakoModes },       // CAM_SET_BIG_OCTO
     { { 0x05000033 }, sCamSetSpot05AModes },    // CAM_SET_MEADOW_MAZE
     { { 0x05000033 }, sCamSetSpot05BModes },    // CAM_SET_MEADOW_UNUSED
@@ -4679,7 +4679,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x051FFFFF }, sCamSetNorm2Modes },      // CAM_SET_NORMAL2
     { { 0x0501E05F }, sCamSetFishingModes },    // CAM_SET_FISHING
     { { 0x45000001 }, sCamSetDemoCModes },      // CAM_SET_CS_C
-    { { 0x051FFFFF }, sCamSetUOFiberModes },    // CAM_SET_JABU_TENTICLE
+    { { 0x051FFFFF }, sCamSetUOFiberModes },    // CAM_SET_JABU_TENTACLE
     { { 0x051FFFFF }, sCamSetDungeon2Modes },   // CAM_SET_DUNGEON2
     { { 0x051FFFFF }, sCamSetTeppenModes },     // CAM_SET_DIRECTED_YAW
     { { 0xC5000ECD }, sCamSetCirc7Modes },      // CAM_SET_FIXED_SIDE
