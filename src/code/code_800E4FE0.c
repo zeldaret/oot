@@ -278,7 +278,7 @@ void func_800E5584(AudioCmd* cmd) {
             AudioLoad_AsyncLoadSeq(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
             return;
         case 0xF6:
-            func_800E1F7C(cmd->arg1);
+            AudioLoad_DiscardSeqBanks(cmd->arg1);
             return;
         case 0x90:
             gAudioContext.unk_5BDC[cmd->arg0] = cmd->asUShort;

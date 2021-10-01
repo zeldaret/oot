@@ -705,12 +705,12 @@ typedef struct {
     /* 0x00 */ s8 status;
     /* 0x01 */ s8 delay;
     /* 0x02 */ s8 medium;
-    /* 0x04 */ u32 unk_04;
+    /* 0x04 */ u32 ramAddr2; // same as ramAddr
     /* 0x08 */ u32 devAddr;
     /* 0x0C */ u8* ramAddr;
     /* 0x10 */ u32 bytesRemaining;
     /* 0x14 */ u32 chunkSize;
-    /* 0x18 */ s32 unk_18;
+    /* 0x18 */ s32 unkMediumThing;
     /* 0x1C */ u32 retMsg;
     /* 0x20 */ OSMesgQueue* retQueue;
     /* 0x24 */ OSMesgQueue msgQueue;
@@ -722,7 +722,7 @@ typedef struct {
     /* 0x00 */ u8 medium;
     /* 0x01 */ u8 seqOrBankId;
     /* 0x02 */ u16 instId;
-    /* 0x04 */ s32 unk_04;
+    /* 0x04 */ s32 unkMediumThing;
     /* 0x08 */ s32 devAddr;
     /* 0x0C */ u8* ramAddr;
     /* 0x10 */ u8* ramSampleAddr; // same as ramAddr
@@ -742,7 +742,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s16 entryCnt;
-    /* 0x02 */ s16 unk_02;
+    /* 0x02 */ s16 unkMediumThing;
     /* 0x04 */ u32 romAddr;
     /* 0x08 */ char pad[0x8];
 } AudioTableHeader; // size = 0x10
