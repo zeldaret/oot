@@ -217,7 +217,7 @@ void func_800E5584(AudioCmd* cmd) {
 
     switch (cmd->op) {
         case 0x81:
-            func_800E1C18(cmd->arg1, cmd->arg2);
+            AudioLoad_SyncLoadSeqParts(cmd->arg1, cmd->arg2);
             return;
         case 0x82:
             func_800E20D4(cmd->arg0, cmd->arg1, cmd->arg2);
@@ -266,7 +266,7 @@ void func_800E5584(AudioCmd* cmd) {
 
             return;
         case 0xF3:
-            func_800E1D64(cmd->arg0, cmd->arg1, cmd->arg2);
+            AudioLoad_SyncLoadInstrument(cmd->arg0, cmd->arg1, cmd->arg2);
             return;
         case 0xF4:
             AudioLoad_AsyncLoadSampleBank(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
@@ -490,7 +490,7 @@ u32 func_800E5E20(u32* out) {
 }
 
 u8* func_800E5E84(s32 arg0, u32* arg1) {
-    return func_800E1F38(arg0, arg1);
+    return AudioLoad_GetBanksForSequence(arg0, arg1);
 }
 
 void func_800E5EA4(s32 arg0, u32* arg1, u32* arg2) {

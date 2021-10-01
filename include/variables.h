@@ -2818,7 +2818,7 @@ extern s16 D_80153960[];
 //extern ? D_80154AFC;
 //extern ? D_80154B00;
 extern u8 gAudioBankTable[];
-extern u8 D_80155340[];
+extern u8 gSequenceBankTable[];
 extern u8 gSequenceTable[];
 extern u8 gSampleBankTable[];
 extern u8 D_80155F50[];

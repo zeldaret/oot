@@ -738,7 +738,7 @@ typedef struct {
 typedef struct {
     u16 offsets[18];
     char data[1];
-} unk_283C;
+} sequenceBankTable;
 
 typedef struct {
     /* 0x00 */ s16 entryCnt;
@@ -863,10 +863,7 @@ typedef struct {
     /* 0x2830 */ SequenceTable* sequenceTable;
     /* 0x2834 */ AudioBankTable* audioBankTable;
     /* 0x2838 */ SampleBankTable* sampleBankTable;
-    union {
-    /* 0x283C */ u16* unk_283C;
-    /* 0x283C */ u8* unk_283Cb;
-    };
+    /* 0x283C */ u8* sequenceBankTable;
     /* 0x2840 */ u16 numSequences;
     /* 0x2844 */ CtlEntry* ctlEntries;
     /* 0x2848 */ AudioBufferParameters audioBufferParameters;

@@ -1041,9 +1041,9 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         command = (u8)parameters[0];
 
                         if (seqPlayer->defaultBank != 0xFF) {
-                            offset = ((u16*)gAudioContext.unk_283C)[seqPlayer->seqId];
-                            lowBits = gAudioContext.unk_283Cb[offset];
-                            command = gAudioContext.unk_283Cb[offset + lowBits - result];
+                            offset = ((u16*)gAudioContext.sequenceBankTable)[seqPlayer->seqId];
+                            lowBits = gAudioContext.sequenceBankTable[offset];
+                            command = gAudioContext.sequenceBankTable[offset + lowBits - result];
                         }
 
                         if (AudioHeap_SearchCaches(BANK_TABLE, 2, command)) {
@@ -1152,9 +1152,9 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         command = (u8)parameters[0];
 
                         if (seqPlayer->defaultBank != 0xFF) {
-                            offset = ((u16*)gAudioContext.unk_283C)[seqPlayer->seqId];
-                            lowBits = gAudioContext.unk_283Cb[offset];
-                            command = gAudioContext.unk_283Cb[offset + lowBits - result];
+                            offset = ((u16*)gAudioContext.sequenceBankTable)[seqPlayer->seqId];
+                            lowBits = gAudioContext.sequenceBankTable[offset];
+                            command = gAudioContext.sequenceBankTable[offset + lowBits - result];
                         }
 
                         if (AudioHeap_SearchCaches(BANK_TABLE, 2, command)) {

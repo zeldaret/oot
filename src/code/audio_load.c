@@ -349,48 +349,47 @@ void AudioLoad_InitSampleBankTable(SampleBankTable* table, u32 romAddr, u16 arg2
     }
 }
 
-AudioBankData* func_800E1B68(s32 arg0, u32* arg1) {
+AudioBankData* AudioLoad_SyncLoadSeqBanks(s32 seqId, u32* outDefaultBankId) {
     char pad[0x8];
-    s32 phi_s0;
-    AudioBankData* sp28;
-    s32 phi_s1;
-    s32 phi_s2;
+    s32 index;
+    AudioBankData* bank;
+    s32 remaining;
+    s32 bankId;
     s32 i;
 
-    if (arg0 >= gAudioContext.numSequences) {
-        return 0;
+    if (seqId >= gAudioContext.numSequences) {
+        return NULL;
     }
 
-    phi_s2 = 0xFF;
-    phi_s0 = gAudioContext.unk_283C[arg0]; // offset into unk_283C for cnt?
-    phi_s1 = *(phi_s0 + gAudioContext.unk_283Cb);
-    phi_s0++;
+    bankId = 0xFF;
+    index = ((u16*)gAudioContext.sequenceBankTable)[seqId];
+    remaining = gAudioContext.sequenceBankTable[index++];
 
-    while (phi_s1 > 0) {
-        phi_s2 = gAudioContext.unk_283Cb[phi_s0++];
-        sp28 = AudioLoad_SyncLoadBank(phi_s2);
-        phi_s1--;
+    while (remaining > 0) {
+        bankId = gAudioContext.sequenceBankTable[index++];
+        bank = AudioLoad_SyncLoadBank(bankId);
+        remaining--;
     }
 
-    *arg1 = phi_s2;
-    return sp28;
+    *outDefaultBankId = bankId;
+    return bank;
 }
 
-void func_800E1C18(s32 channelIdx, s32 arg1) {
+void AudioLoad_SyncLoadSeqParts(s32 seqId, s32 arg1) {
     s32 pad;
-    u32 sp18;
+    u32 defaultBankId;
 
-    if (channelIdx < gAudioContext.numSequences) {
+    if (seqId < gAudioContext.numSequences) {
         if (arg1 & 2) {
-            func_800E1B68(channelIdx, &sp18);
+            AudioLoad_SyncLoadSeqBanks(seqId, &defaultBankId);
         }
         if (arg1 & 1) {
-            AudioLoad_SyncLoadSeq(channelIdx);
+            AudioLoad_SyncLoadSeq(seqId);
         }
     }
 }
 
-s32 func_800E1C78(AudioBankSample* sample, s32 bankId) {
+s32 AudioLoad_SyncLoadSample(AudioBankSample* sample, s32 bankId) {
     void* sampleAddr;
 
     if (sample->unk_bit25 == 1) {
@@ -412,7 +411,7 @@ s32 func_800E1C78(AudioBankSample* sample, s32 bankId) {
     }
 }
 
-s32 func_800E1D64(s32 bankId, s32 instId, s32 arg2) {
+s32 AudioLoad_SyncLoadInstrument(s32 bankId, s32 instId, s32 drumId) {
     if (instId < 0x7F) {
         Instrument* instrument = Audio_GetInstrumentInner(bankId, instId);
 
@@ -420,19 +419,19 @@ s32 func_800E1D64(s32 bankId, s32 instId, s32 arg2) {
             return -1;
         }
         if (instrument->normalRangeLo != 0) {
-            func_800E1C78(instrument->lowNotesSound.sample, bankId);
+            AudioLoad_SyncLoadSample(instrument->lowNotesSound.sample, bankId);
         }
-        func_800E1C78(instrument->normalNotesSound.sample, bankId);
+        AudioLoad_SyncLoadSample(instrument->normalNotesSound.sample, bankId);
         if (instrument->normalRangeHi != 0x7F) {
-            return func_800E1C78(instrument->highNotesSound.sample, bankId);
+            return AudioLoad_SyncLoadSample(instrument->highNotesSound.sample, bankId);
         }
     } else if (instId == 0x7F) {
-        Drum* drum = Audio_GetDrum(bankId, arg2);
+        Drum* drum = Audio_GetDrum(bankId, drumId);
 
         if (drum == NULL) {
             return -1;
         }
-        func_800E1C78(drum->sound.sample, bankId);
+        AudioLoad_SyncLoadSample(drum->sound.sample, bankId);
         return 0;
     }
 }
@@ -455,34 +454,32 @@ void AudioLoad_AsyncLoadBank(s32 bankId, s32 arg1, s32 retData, OSMesgQueue* ret
     AudioLoad_AsyncLoad(BANK_TABLE, bankId, 0, retData, retQueue);
 }
 
-u8* func_800E1F38(s32 arg0, u32* arg1) {
-    s32 temp_v1;
+u8* AudioLoad_GetBanksForSequence(s32 seqId, u32* outNumBanks) {
+    s32 index;
 
-    temp_v1 = gAudioContext.unk_283C[arg0];
+    index = ((u16*)gAudioContext.sequenceBankTable)[seqId];
 
-    *arg1 = *(temp_v1 + gAudioContext.unk_283Cb);
-    temp_v1++;
-    if (*arg1 == 0) {
+    *outNumBanks = gAudioContext.sequenceBankTable[index++];
+    if (*outNumBanks == 0) {
         return NULL;
     }
-    return &gAudioContext.unk_283Cb[temp_v1];
+    return &gAudioContext.sequenceBankTable[index];
 }
 
-void func_800E1F7C(s32 arg0) {
-    s32 bankID;
-    s32 phi_s1;
-    s32 phi_s2;
+void func_800E1F7C(s32 seqId) {
+    s32 bankId;
+    s32 index;
+    s32 remaining;
 
-    phi_s1 = gAudioContext.unk_283C[arg0];
-    phi_s2 = *(phi_s1 + gAudioContext.unk_283Cb);
-    phi_s1++;
+    index = ((u16*)gAudioContext.sequenceBankTable)[seqId];
+    remaining = gAudioContext.sequenceBankTable[index++];
 
-    while (phi_s2 > 0) {
-        phi_s2--;
-        bankID = AudioLoad_GetRealTableIndex(BANK_TABLE, gAudioContext.unk_283Cb[phi_s1++]);
-        if (AudioHeap_SearchPermanentCache(BANK_TABLE, bankID) == NULL) {
-            func_800E202C(bankID);
-            AudioLoad_SetBankLoadStatus(bankID, 0);
+    while (remaining > 0) {
+        remaining--;
+        bankId = AudioLoad_GetRealTableIndex(BANK_TABLE, gAudioContext.sequenceBankTable[index++]);
+        if (AudioHeap_SearchPermanentCache(BANK_TABLE, bankId) == NULL) {
+            func_800E202C(bankId);
+            AudioLoad_SetBankLoadStatus(bankId, 0);
         }
     }
 }
@@ -529,8 +526,8 @@ s32 func_800E2124(s32 playerIndex, s32 seqId, s32 skipTicks) {
 s32 AudioLoad_SyncInitSeqPlayer(s32 playerIndex, s32 seqId, s32 arg2) {
     SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIndex];
     u8* seqData;
-    s32 phi_s0;
-    s32 phi_s1;
+    s32 index;
+    s32 remaining;
     s32 phi_s2;
 
     if (seqId >= gAudioContext.numSequences) {
@@ -540,13 +537,13 @@ s32 AudioLoad_SyncInitSeqPlayer(s32 playerIndex, s32 seqId, s32 arg2) {
     Audio_SequencePlayerDisable(seqPlayer);
 
     phi_s2 = 0xFF;
-    phi_s0 = gAudioContext.unk_283C[seqId];
-    phi_s1 = gAudioContext.unk_283Cb[phi_s0++];
+    index = ((u16*)gAudioContext.sequenceBankTable)[seqId];
+    remaining = gAudioContext.sequenceBankTable[index++];
 
-    while (phi_s1 > 0) {
-        phi_s2 = gAudioContext.unk_283Cb[phi_s0++];
+    while (remaining > 0) {
+        phi_s2 = gAudioContext.sequenceBankTable[index++];
         AudioLoad_SyncLoadBank(phi_s2);
-        phi_s1--;
+        remaining--;
     }
 
     seqData = AudioLoad_SyncLoadSeq(seqId);
@@ -1127,7 +1124,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     gAudioContext.sequenceTable = &gSequenceTable;
     gAudioContext.audioBankTable = &gAudioBankTable;
     gAudioContext.sampleBankTable = &gSampleBankTable;
-    gAudioContext.unk_283C = &D_80155340;
+    gAudioContext.sequenceBankTable = &gSequenceBankTable;
     gAudioContext.numSequences = gAudioContext.sequenceTable->header.entryCnt;
 
     gAudioContext.audioResetSpecIdToLoad = 0;

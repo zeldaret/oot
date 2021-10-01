@@ -12,7 +12,7 @@
 glabel gAudioBankTable
     .incbin "baserom.z64", 0xBCC270, 0x270
 
-glabel D_80155340
+glabel gSequenceBankTable
     .incbin "baserom.z64", 0xBCC4E0, 0x1C0
 
 glabel gSequenceTable
