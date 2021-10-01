@@ -556,8 +556,8 @@ typedef struct {
     /* 0x07 */ u8 unk_07[0x2]; // zeroes
     /* 0x09 */ u8 numReverbs;
     /* 0x0C */ ReverbSettings* reverbSettings;
-    /* 0x10 */ u16 unk_10;
-    /* 0x12 */ u16 unk_12;
+    /* 0x10 */ u16 sampleDmaBufSize1;
+    /* 0x12 */ u16 sampleDmaBufSize2;
     /* 0x14 */ u16 unk_14;
     /* 0x18 */ u32 persistentSeqMem;
     /* 0x1C */ u32 persistentBankMem;
@@ -853,7 +853,7 @@ typedef struct {
     /* 0x261C */ SampleDma* sampleDmas;
     /* 0x2620 */ u32 sampleDmaCount;
     /* 0x2624 */ u32 sampleDmaListSize1;
-    /* 0x2628 */ s32 unk_2628;
+    /* 0x2628 */ s32 unused2628;
     /* 0x262C */ u8 sampleDmaReuseQueue1[0x100]; // read pos <= write pos, wrapping mod 256
     /* 0x272C */ u8 sampleDmaReuseQueue2[0x100];
     /* 0x282C */ u8 sampleDmaReuseQueue1RdPos;
@@ -867,16 +867,16 @@ typedef struct {
     /* 0x283C */ u16* unk_283C;
     /* 0x283C */ u8* unk_283Cb;
     };
-    /* 0x2840 */ u16 seqTabEntCnt; // channels used?
+    /* 0x2840 */ u16 numSequences;
     /* 0x2844 */ CtlEntry* ctlEntries;
     /* 0x2848 */ AudioBufferParameters audioBufferParameters;
     /* 0x2870 */ f32 unk_2870;
-    /* 0x2874 */ s32 unk_2874;
-    /* 0x2874 */ s32 unk_2878;
+    /* 0x2874 */ s32 sampleDmaBufSize1;
+    /* 0x2874 */ s32 sampleDmaBufSize2;
     /* 0x287C */ char unk_287C[0x10];
-    /* 0x288C */ s32 unk_288C;
+    /* 0x288C */ s32 sampleDmaBufSize;
     /* 0x2890 */ s32 maxAudioCmds;
-    /* 0x2894 */ s32 numNotes; // (bad name)
+    /* 0x2894 */ s32 numNotes;
     /* 0x2898 */ s16 tempoInternalToExternal;
     /* 0x289A */ s8 soundMode;
     /* 0x289C */ s32 totalTaskCnt;

@@ -107,7 +107,7 @@ AudioTask* func_800E5000(void) {
     }
 
     gAudioContext.curAudioFrameDmaCount = 0;
-    func_800E11F0();
+    AudioLoad_DecreaseSampleDmaTtls();
     AudioLoad_ProcessLoads(gAudioContext.resetStatus);
     AudioLoad_ProcessScriptLoads();
 

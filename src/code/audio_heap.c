@@ -826,8 +826,8 @@ void AudioHeap_Init(void) {
         (1.0f / 256.0f) / gAudioContext.audioBufferParameters.updatesPerFrame;
     gAudioContext.audioBufferParameters.unk_24 = gAudioContext.audioBufferParameters.updatesPerFrame * 0.25f;
     gAudioContext.audioBufferParameters.updatesPerFrameInv = 1.0f / gAudioContext.audioBufferParameters.updatesPerFrame;
-    gAudioContext.unk_2874 = spec->unk_10;
-    gAudioContext.unk_2878 = spec->unk_12;
+    gAudioContext.sampleDmaBufSize1 = spec->sampleDmaBufSize1;
+    gAudioContext.sampleDmaBufSize2 = spec->sampleDmaBufSize2;
 
     gAudioContext.numNotes = spec->numNotes;
     gAudioContext.audioBufferParameters.numSequencePlayers = spec->numSequencePlayers;
@@ -978,7 +978,7 @@ void AudioHeap_Init(void) {
     }
 
     AudioHeap_InitSampleCaches(spec->persistentSampleCacheMem, spec->temporarySampleCacheMem);
-    func_800E1618(gAudioContext.numNotes);
+    AudioLoad_InitSampleDmaBuffers(gAudioContext.numNotes);
     gAudioContext.preloadSampleStackTop = 0;
     AudioLoad_InitSlowLoads();
     AudioLoad_InitScriptLoads();

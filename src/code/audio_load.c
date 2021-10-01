@@ -70,7 +70,7 @@ void* sUnusedHandler = NULL;
 
 s32 gAudioContextInitalized = false;
 
-void func_800E11F0(void) {
+void AudioLoad_DecreaseSampleDmaTtls(void) {
     u32 i;
 
     for (i = 0; i < gAudioContext.sampleDmaListSize1; i++) {
@@ -99,7 +99,7 @@ void func_800E11F0(void) {
         }
     }
 
-    gAudioContext.unk_2628 = 0;
+    gAudioContext.unused2628 = 0;
 }
 
 void* AudioLoad_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, s32 medium) {
@@ -199,29 +199,29 @@ void* AudioLoad_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, 
     return (devAddr - dmaDevAddr) + dma->ramAddr;
 }
 
-void func_800E1618(s32 arg0) {
-    SampleDma* temp_s0;
+void AudioLoad_InitSampleDmaBuffers(s32 arg0) {
+    SampleDma* dma;
     s32 i;
     s32 t2;
     s32 j;
 
-    gAudioContext.unk_288C = gAudioContext.unk_2874;
+    gAudioContext.sampleDmaBufSize = gAudioContext.sampleDmaBufSize1;
     gAudioContext.sampleDmas =
         AudioHeap_Alloc(&gAudioContext.notesAndBuffersPool, 4 * gAudioContext.numNotes * sizeof(SampleDma) *
                                                                 gAudioContext.audioBufferParameters.specUnk4);
     t2 = 3 * gAudioContext.numNotes * gAudioContext.audioBufferParameters.specUnk4;
     for (i = 0; i < t2; i++) {
-        temp_s0 = &gAudioContext.sampleDmas[gAudioContext.sampleDmaCount];
-        temp_s0->ramAddr = AudioHeap_AllocMaybeExternal(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
-        if (temp_s0->ramAddr == NULL) {
+        dma = &gAudioContext.sampleDmas[gAudioContext.sampleDmaCount];
+        dma->ramAddr = AudioHeap_AllocMaybeExternal(&gAudioContext.notesAndBuffersPool, gAudioContext.sampleDmaBufSize);
+        if (dma->ramAddr == NULL) {
             break;
         } else {
-            AudioHeap_WritebackDCache(temp_s0->ramAddr, gAudioContext.unk_288C);
-            temp_s0->size = gAudioContext.unk_288C;
-            temp_s0->devAddr = 0;
-            temp_s0->sizeUnused = 0;
-            temp_s0->unused = 0;
-            temp_s0->ttl = 0;
+            AudioHeap_WritebackDCache(dma->ramAddr, gAudioContext.sampleDmaBufSize);
+            dma->size = gAudioContext.sampleDmaBufSize;
+            dma->devAddr = 0;
+            dma->sizeUnused = 0;
+            dma->unused = 0;
+            dma->ttl = 0;
             gAudioContext.sampleDmaCount++;
         }
     }
@@ -238,20 +238,20 @@ void func_800E1618(s32 arg0) {
     gAudioContext.sampleDmaReuseQueue1RdPos = 0;
     gAudioContext.sampleDmaReuseQueue1WrPos = gAudioContext.sampleDmaCount;
     gAudioContext.sampleDmaListSize1 = gAudioContext.sampleDmaCount;
-    gAudioContext.unk_288C = gAudioContext.unk_2878;
+    gAudioContext.sampleDmaBufSize = gAudioContext.sampleDmaBufSize2;
 
     for (j = 0; j < gAudioContext.numNotes; j++) {
-        temp_s0 = &gAudioContext.sampleDmas[gAudioContext.sampleDmaCount];
-        temp_s0->ramAddr = AudioHeap_AllocMaybeExternal(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
-        if (temp_s0->ramAddr == NULL) {
+        dma = &gAudioContext.sampleDmas[gAudioContext.sampleDmaCount];
+        dma->ramAddr = AudioHeap_AllocMaybeExternal(&gAudioContext.notesAndBuffersPool, gAudioContext.sampleDmaBufSize);
+        if (dma->ramAddr == NULL) {
             break;
         } else {
-            AudioHeap_WritebackDCache(temp_s0->ramAddr, gAudioContext.unk_288C);
-            temp_s0->size = gAudioContext.unk_288C;
-            temp_s0->devAddr = 0U;
-            temp_s0->sizeUnused = 0;
-            temp_s0->unused = 0;
-            temp_s0->ttl = 0;
+            AudioHeap_WritebackDCache(dma->ramAddr, gAudioContext.sampleDmaBufSize);
+            dma->size = gAudioContext.sampleDmaBufSize;
+            dma->devAddr = 0U;
+            dma->sizeUnused = 0;
+            dma->unused = 0;
+            dma->ttl = 0;
             gAudioContext.sampleDmaCount++;
         }
     }
@@ -357,7 +357,7 @@ AudioBankData* func_800E1B68(s32 arg0, u32* arg1) {
     s32 phi_s2;
     s32 i;
 
-    if (arg0 >= gAudioContext.seqTabEntCnt) {
+    if (arg0 >= gAudioContext.numSequences) {
         return 0;
     }
 
@@ -380,7 +380,7 @@ void func_800E1C18(s32 channelIdx, s32 arg1) {
     s32 pad;
     u32 sp18;
 
-    if (channelIdx < gAudioContext.seqTabEntCnt) {
+    if (channelIdx < gAudioContext.numSequences) {
         if (arg1 & 2) {
             func_800E1B68(channelIdx, &sp18);
         }
@@ -533,7 +533,7 @@ s32 AudioLoad_SyncInitSeqPlayer(s32 playerIndex, s32 seqId, s32 arg2) {
     s32 phi_s1;
     s32 phi_s2;
 
-    if (seqId >= gAudioContext.seqTabEntCnt) {
+    if (seqId >= gAudioContext.numSequences) {
         return 0;
     }
 
@@ -1128,7 +1128,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     gAudioContext.audioBankTable = &gAudioBankTable;
     gAudioContext.sampleBankTable = &gSampleBankTable;
     gAudioContext.unk_283C = &D_80155340;
-    gAudioContext.seqTabEntCnt = gAudioContext.sequenceTable->header.entryCnt;
+    gAudioContext.numSequences = gAudioContext.sequenceTable->header.entryCnt;
 
     gAudioContext.audioResetSpecIdToLoad = 0;
     gAudioContext.resetStatus = 1;
@@ -1313,7 +1313,7 @@ s32 AudioLoad_SlowLoadSeq(s32 seqId, u8* ramAddr, s8* isDone) {
     SequenceTable* seqTable;
     u32 size;
 
-    if (seqId >= gAudioContext.seqTabEntCnt) {
+    if (seqId >= gAudioContext.numSequences) {
         *isDone = 0;
         return -1;
     }
