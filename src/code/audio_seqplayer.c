@@ -1679,7 +1679,7 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                             command = seqPlayer->playerIdx;
                         }
                         commandLow = Audio_M64ReadU8(seqScript);
-                        func_800E20D4(command, commandLow, 0);
+                        AudioLoad_SyncInitSeqPlayer(command, commandLow, 0);
                         if (command == (u8)seqPlayer->playerIdx) {
                             return;
                         }

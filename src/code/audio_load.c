@@ -505,13 +505,17 @@ void AudioLoad_DiscardBank(s32 bankId) {
     AudioHeap_DiscardBank(bankId);
 }
 
-s32 func_800E20D4(s32 playerIdx, s32 seqId, s32 arg2) {
+s32 AudioLoad_SyncInitSeqPlayer(s32 playerIdx, s32 seqId, s32 arg2) {
     if (gAudioContext.resetTimer != 0) {
         return 0;
     }
 
     gAudioContext.seqPlayers[playerIdx].skipTicks = 0;
-    return AudioLoad_SyncInitSeqPlayerInternal(playerIdx, seqId, arg2);
+    AudioLoad_SyncInitSeqPlayerInternal(playerIdx, seqId, arg2);
+    // Intentionally missing return. Returning the result of the above function
+    // call matches but is UB because it too is missing a return, and using the
+    // result of a non-void function that has failed to return a value is UB.
+    // The callers of this function do not use the return value, so it's fine.
 }
 
 s32 AudioLoad_SyncInitSeqPlayerSkipTicks(s32 playerIdx, s32 seqId, s32 skipTicks) {
@@ -520,7 +524,8 @@ s32 AudioLoad_SyncInitSeqPlayerSkipTicks(s32 playerIdx, s32 seqId, s32 skipTicks
     }
 
     gAudioContext.seqPlayers[playerIdx].skipTicks = skipTicks;
-    return AudioLoad_SyncInitSeqPlayerInternal(playerIdx, seqId, 0);
+    AudioLoad_SyncInitSeqPlayerInternal(playerIdx, seqId, 0);
+    // Missing return, see above.
 }
 
 s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
@@ -562,7 +567,7 @@ s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
     seqPlayer->finished = 0;
     seqPlayer->playerIdx = playerIdx;
     Audio_SkipForwardSequence(seqPlayer);
-    // @bug missing return (but the return value is ignored)
+    //! @bug missing return (but the return value is not used so it's not UB)
 }
 
 u8* AudioLoad_SyncLoadSeq(s32 seqId) {

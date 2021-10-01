@@ -220,7 +220,7 @@ void func_800E5584(AudioCmd* cmd) {
             AudioLoad_SyncLoadSeqParts(cmd->arg1, cmd->arg2);
             return;
         case 0x82:
-            func_800E20D4(cmd->arg0, cmd->arg1, cmd->arg2);
+            AudioLoad_SyncInitSeqPlayer(cmd->arg0, cmd->arg1, cmd->arg2);
             func_800E59AC(cmd->arg0, cmd->data);
             return;
         case 0x85:
