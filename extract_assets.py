@@ -7,7 +7,7 @@ import json
 import time
 import signal
 
-EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
+EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets-v2.json"
 
 def SignalHandler(sig, frame):
     print(f'Signal {sig} received. Aborting...')
@@ -40,7 +40,7 @@ def ExtractFunc(fullPath):
     outSourcePath = outPath
 
     if fullPath in globalExtractedAssetsTracker:
-        timestamp = globalExtractedAssetsTracker[fullPath]["timestamp"]
+        timestamp = globalExtractedAssetsTracker[fullPath]
         modificationTime = int(os.path.getmtime(fullPath))
         if modificationTime < timestamp:
             # XML has not been modified since last extraction.
@@ -52,9 +52,7 @@ def ExtractFunc(fullPath):
 
     if not globalAbort.is_set():
         # Only update timestamp on succesful extractions
-        if fullPath not in globalExtractedAssetsTracker:
-            globalExtractedAssetsTracker[fullPath] = globalManager.dict()
-        globalExtractedAssetsTracker[fullPath]["timestamp"] = currentTimeStamp
+        globalExtractedAssetsTracker[fullPath] = currentTimeStamp
 
 def initializeWorker(abort, unaccounted: bool, extractedAssetsTracker: dict, manager):
     global globalAbort
@@ -83,7 +81,7 @@ def main():
     extractedAssetsTracker = manager.dict()
     if os.path.exists(EXTRACTED_ASSETS_NAMEFILE) and not args.force:
         with open(EXTRACTED_ASSETS_NAMEFILE, encoding='utf-8') as f:
-            extractedAssetsTracker.update(json.load(f, object_hook=manager.dict))
+            extractedAssetsTracker.update(json.load(f))
 
     endTimePerf = time.time()
     print("read", endTimePerf - startTimePerf)
@@ -124,10 +122,7 @@ def main():
     startTimePerf = time.time()
 
     with open(EXTRACTED_ASSETS_NAMEFILE, 'w', encoding='utf-8') as f:
-        serializableDict = dict()
-        for xml, data in extractedAssetsTracker.items():
-            serializableDict[xml] = dict(data)
-        json.dump(dict(serializableDict), f, ensure_ascii=False, indent=4)
+        json.dump(dict(extractedAssetsTracker), f, ensure_ascii=False, indent=4)
 
     endTimePerf = time.time()
     print("write", endTimePerf - startTimePerf)
