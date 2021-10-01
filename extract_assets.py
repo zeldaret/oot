@@ -76,15 +76,10 @@ def main():
     manager = Manager()
     signal.signal(signal.SIGINT, SignalHandler)
 
-    startTimePerf = time.time()
-
     extractedAssetsTracker = manager.dict()
     if os.path.exists(EXTRACTED_ASSETS_NAMEFILE) and not args.force:
         with open(EXTRACTED_ASSETS_NAMEFILE, encoding='utf-8') as f:
             extractedAssetsTracker.update(json.load(f))
-
-    endTimePerf = time.time()
-    print("read", endTimePerf - startTimePerf)
 
     asset_path = args.single
     if asset_path is not None:
@@ -119,19 +114,11 @@ def main():
             for singlePath in xmlFiles:
                 ExtractFunc(singlePath)
 
-    startTimePerf = time.time()
-
     with open(EXTRACTED_ASSETS_NAMEFILE, 'w', encoding='utf-8') as f:
         json.dump(dict(extractedAssetsTracker), f, ensure_ascii=False, indent=4)
-
-    endTimePerf = time.time()
-    print("write", endTimePerf - startTimePerf)
 
     if mainAbort.is_set():
         exit(1)
 
 if __name__ == "__main__":
-    startTimePerf = time.time()
     main()
-    endTimePerf = time.time()
-    print("main()", endTimePerf - startTimePerf)
