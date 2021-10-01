@@ -1926,8 +1926,8 @@ void AudioLoad_AsyncLoadSampleBank(s32 sampleBankId, s32 arg1, s32 retData, OSMe
 void AudioLoad_AsyncLoadBank(s32 bankId, s32 arg1, s32 retData, OSMesgQueue* retQueue);
 u8* AudioLoad_GetBanksForSequence(s32 seqId, u32* arg1);
 void func_800E1F7C(s32 seqId);
-s32 func_800E20D4(s32 playerIndex, s32 seqId, s32 arg2);
-s32 func_800E2124(s32 playerIndex, s32 seqId, s32 arg2);
+s32 func_800E20D4(s32 playerIdx, s32 seqId, s32 arg2);
+s32 AudioLoad_SyncInitSeqPlayerSkipTicks(s32 playerIdx, s32 seqId, s32 arg2);
 void AudioLoad_ProcessLoads(s32 resetStatus);
 void AudioLoad_SetDmaHandler(DmaHandler callback);
 void AudioLoad_Init(void* heap, u32 heapSize);

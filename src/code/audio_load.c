@@ -26,7 +26,7 @@ typedef struct {
 typedef void AudioBankData;
 
 /* forward declarations */
-s32 AudioLoad_SyncInitSeqPlayer(s32 playerIndex, s32, s32);
+s32 AudioLoad_SyncInitSeqPlayer(s32 playerIdx, s32, s32);
 AudioBankData* AudioLoad_SyncLoadBank(u32 bankId);
 AudioBankSample* AudioLoad_GetBankSample(s32 bankId, s32 instId);
 void AudioLoad_ProcessAsyncLoads(s32 arg0);
@@ -34,7 +34,7 @@ void AudioLoad_ProcessAsyncLoadUnkMedium(AudioAsyncLoad* asyncLoad, s32 resetSta
 void AudioLoad_ProcessAsyncLoad(AudioAsyncLoad* asyncLoad, s32 arg1);
 void AudioLoad_RelocateBankAndPreloadSamples(s32 bankId, AudioBankData*, RelocInfo* relocInfo, s32 temporary);
 void AudioLoad_RelocateSample(AudioBankSound* sound, u32 mem, RelocInfo* relocInfo);
-void func_800E202C(s32 bankId);
+void AudioLoad_DiscardBank(s32 bankId);
 u32 AudioLoad_TrySyncLoadSampleBank(u32 sampleBankId, u32* outMedium, s32 arg2);
 void* AudioLoad_SyncLoad(u32 tableType, u32 tableId, s32* didAllocate);
 u32 AudioLoad_GetRealTableIndex(s32 tableType, u32 tableId);
@@ -478,13 +478,13 @@ void func_800E1F7C(s32 seqId) {
         remaining--;
         bankId = AudioLoad_GetRealTableIndex(BANK_TABLE, gAudioContext.sequenceBankTable[index++]);
         if (AudioHeap_SearchPermanentCache(BANK_TABLE, bankId) == NULL) {
-            func_800E202C(bankId);
+            AudioLoad_DiscardBank(bankId);
             AudioLoad_SetBankLoadStatus(bankId, 0);
         }
     }
 }
 
-void func_800E202C(s32 bankId) {
+void AudioLoad_DiscardBank(s32 bankId) {
     u32 i;
     AudioCache* pool = &gAudioContext.bankCache;
     AudioPersistentCache* persistent;
@@ -505,26 +505,26 @@ void func_800E202C(s32 bankId) {
     AudioHeap_DiscardBank(bankId);
 }
 
-s32 func_800E20D4(s32 playerIndex, s32 seqId, s32 arg2) {
+s32 func_800E20D4(s32 playerIdx, s32 seqId, s32 arg2) {
     if (gAudioContext.resetTimer != 0) {
         return 0;
     }
 
-    gAudioContext.seqPlayers[playerIndex].skipTicks = 0;
-    return AudioLoad_SyncInitSeqPlayer(playerIndex, seqId, arg2);
+    gAudioContext.seqPlayers[playerIdx].skipTicks = 0;
+    return AudioLoad_SyncInitSeqPlayer(playerIdx, seqId, arg2);
 }
 
-s32 func_800E2124(s32 playerIndex, s32 seqId, s32 skipTicks) {
+s32 AudioLoad_SyncInitSeqPlayerSkipTicks(s32 playerIdx, s32 seqId, s32 skipTicks) {
     if (gAudioContext.resetTimer != 0) {
         return 0;
     }
 
-    gAudioContext.seqPlayers[playerIndex].skipTicks = skipTicks;
-    return AudioLoad_SyncInitSeqPlayer(playerIndex, seqId, 0);
+    gAudioContext.seqPlayers[playerIdx].skipTicks = skipTicks;
+    return AudioLoad_SyncInitSeqPlayer(playerIdx, seqId, 0);
 }
 
-s32 AudioLoad_SyncInitSeqPlayer(s32 playerIndex, s32 seqId, s32 arg2) {
-    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIndex];
+s32 AudioLoad_SyncInitSeqPlayer(s32 playerIdx, s32 seqId, s32 arg2) {
+    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIdx];
     u8* seqData;
     s32 index;
     s32 remaining;
@@ -560,7 +560,7 @@ s32 AudioLoad_SyncInitSeqPlayer(s32 playerIndex, s32 seqId, s32 arg2) {
     seqPlayer->scriptState.depth = 0;
     seqPlayer->delay = 0;
     seqPlayer->finished = 0;
-    seqPlayer->playerIndex = playerIndex;
+    seqPlayer->playerIdx = playerIdx;
     Audio_SkipForwardSequence(seqPlayer);
     // @bug missing return (but the return value is ignored)
 }

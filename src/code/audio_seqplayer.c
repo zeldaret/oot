@@ -1676,11 +1676,11 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0xC4:
                         command = Audio_M64ReadU8(seqScript);
                         if (command == 0xFF) {
-                            command = seqPlayer->playerIndex;
+                            command = seqPlayer->playerIdx;
                         }
                         commandLow = Audio_M64ReadU8(seqScript);
                         func_800E20D4(command, commandLow, 0);
-                        if (command == (u8)seqPlayer->playerIndex) {
+                        if (command == (u8)seqPlayer->playerIdx) {
                             return;
                         }
                         break;

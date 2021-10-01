@@ -224,7 +224,7 @@ void func_800E5584(AudioCmd* cmd) {
             func_800E59AC(cmd->arg0, cmd->data);
             return;
         case 0x85:
-            func_800E2124(cmd->arg0, cmd->arg1, cmd->data);
+            AudioLoad_SyncInitSeqPlayerSkipTicks(cmd->arg0, cmd->arg1, cmd->data);
             return;
         case 0x83:
             if (gAudioContext.seqPlayers[cmd->arg0].enabled) {
