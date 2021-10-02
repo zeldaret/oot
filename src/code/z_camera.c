@@ -4865,6 +4865,9 @@ s32 Camera_Unique4(Camera* camera) {
     return Camera_Noop(camera);
 }
 
+/**
+ * Was setup to be used by the camera setting "FOREST_UNUSED"
+ */
 s32 Camera_Unique5(Camera* camera) {
     return Camera_Noop(camera);
 }
