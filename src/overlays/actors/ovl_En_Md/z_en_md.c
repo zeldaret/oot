@@ -335,8 +335,8 @@ void func_80AAAA24(EnMd* this) {
 s16 func_80AAAC78(EnMd* this, GlobalContext* globalCtx) {
     s16 dialogState = Message_GetState(&globalCtx->msgCtx);
 
-    if ((this->unk_209 == TEXT_STATE_10) || (this->unk_209 == TEXT_STATE_EVENT) || 
-        (this->unk_209 == TEXT_STATE_2) || (this->unk_209 == TEXT_STATE_1)) {
+    if ((this->unk_209 == TEXT_STATE_10) || (this->unk_209 == TEXT_STATE_EVENT) || (this->unk_209 == TEXT_STATE_2) ||
+        (this->unk_209 == TEXT_STATE_1)) {
         if (this->unk_209 != dialogState) {
             this->unk_208++;
         }
@@ -723,7 +723,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         if (player->stateFlags2 & 0x1000000) {
             player->stateFlags2 |= 0x2000000;
             player->unk_6A8 = &this->actor;
-            func_8010BD58(globalCtx, 0x22);
+            func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_SARIA);
             this->actionFunc = func_80AABC10;
             return;
         }
@@ -737,16 +737,16 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
 void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE >= 4) {
+    if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
         this->actionFunc = func_80AAB948;
-        globalCtx->msgCtx.unk_E3EE = 4;
-    } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->actor.textId = 0x1067;
         func_8002F2CC(&this->actor, globalCtx, this->collider.dim.radius + 30.0f);
 
         this->actionFunc = func_80AAB948;
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
         player->stateFlags2 |= 0x800000;
     }

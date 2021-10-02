@@ -80,7 +80,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
 
     if (1) {}
 
-    if ((msgMode == MSGMODE_UNK_0D) || (msgMode == MSGMODE_UNK_11)) {
+    if ((msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(thisx);
         return;
     }

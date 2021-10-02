@@ -103,8 +103,8 @@ extern CutsceneData D_02010E20[];
 s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
     s16 textState = Message_GetState(&globalCtx->msgCtx);
 
-    if (this->unk_209 == TEXT_STATE_10 || this->unk_209 == TEXT_STATE_EVENT || 
-        this->unk_209 == TEXT_STATE_2 || this->unk_209 == TEXT_STATE_1) {
+    if (this->unk_209 == TEXT_STATE_10 || this->unk_209 == TEXT_STATE_EVENT || this->unk_209 == TEXT_STATE_2 ||
+        this->unk_209 == TEXT_STATE_1) {
         if (textState != this->unk_209) {
             this->unk_208++;
         }

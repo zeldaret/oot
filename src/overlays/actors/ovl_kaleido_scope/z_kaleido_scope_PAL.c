@@ -2920,10 +2920,10 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 2:
-                    pauseCtx->unk_194 = Audio_OcaGetDisplayStaff();
-                    if (pauseCtx->unk_194->state == 0) {
+                    pauseCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+                    if (pauseCtx->ocarinaStaff->state == 0) {
                         pauseCtx->unk_1E4 = 4;
-                        func_800ED858(0);
+                        Audio_OcaSetInstrument(0);
                     }
                     break;
 
@@ -2935,10 +2935,10 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 5:
-                    pauseCtx->unk_194 = Audio_OcaGetPlayStaff();
+                    pauseCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-                        func_800ED858(0);
+                        Audio_OcaSetInstrument(0);
                         Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
@@ -2946,7 +2946,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         pauseCtx->unk_1E4 = 0;
                         break;
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        func_800ED858(0);
+                        Audio_OcaSetInstrument(0);
                         pauseCtx->unk_1E4 = 0;
                         pauseCtx->mode = 0;
                         pauseCtx->promptChoice = 0;
@@ -2958,13 +2958,13 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         Interface_ChangeAlpha(50);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
-                    } else if (pauseCtx->unk_194->state == pauseCtx->unk_264) {
+                    } else if (pauseCtx->ocarinaStaff->state == pauseCtx->ocarinaSongIdx) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         D_8082B258 = 0;
                         D_8082B25C = 30;
                         pauseCtx->unk_1E4 = 6;
-                    } else if (pauseCtx->unk_194->state == 0xFF) {
+                    } else if (pauseCtx->ocarinaStaff->state == 0xFF) {
                         Audio_PlaySoundGeneral(NA_SE_SY_OCARINA_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         D_8082B258 = 4;
@@ -2978,7 +2978,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     if (D_8082B25C == 0) {
                         pauseCtx->unk_1E4 = D_8082B258;
                         if (pauseCtx->unk_1E4 == 0) {
-                            func_800ED858(0);
+                            Audio_OcaSetInstrument(0);
                         }
                     }
                     break;
@@ -2988,14 +2988,14 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
                 case 8:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-                        func_800ED858(0);
+                        Audio_OcaSetInstrument(0);
                         Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
                         pauseCtx->unk_1E4 = 0;
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        func_800ED858(0);
+                        Audio_OcaSetInstrument(0);
                         pauseCtx->unk_1E4 = 0;
                         pauseCtx->mode = 0;
                         pauseCtx->promptChoice = 0;

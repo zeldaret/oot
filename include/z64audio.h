@@ -1114,12 +1114,12 @@ typedef struct {
 } OcarinaStaff;
 
 typedef enum {
-    OCA_NOTE_A,
-    OCA_NOTE_C_UP,
-    OCA_NOTE_C_LEFT,
-    OCA_NOTE_C_RIGHT,
-    OCA_NOTE_C_DOWN,
-    OCA_NOTE_INVALID = 0xFF
+    /*  0 */ OCARINA_NOTE_A,
+    /*  1 */ OCARINA_NOTE_C_DOWN,
+    /*  2 */ OCARINA_NOTE_C_RIGHT,
+    /*  3 */ OCARINA_NOTE_C_LEFT,
+    /*  4 */ OCARINA_NOTE_C_UP,
+    /* -1 */ OCARINA_NOTE_INVALID = 0xFF
 } OcarinaNoteIdx;
 
 #endif

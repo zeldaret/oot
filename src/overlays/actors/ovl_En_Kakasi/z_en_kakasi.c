@@ -94,10 +94,9 @@ void func_80A8F28C(EnKakasi* this) {
 }
 
 void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
-    s16 phi_v0;
+    s16 ocarinaNote = globalCtx->msgCtx.lastOcaNoteIdx;
     s16 currentFrame;
 
-    phi_v0 = globalCtx->msgCtx.lastOcaNoteIdx;
     if (arg != 0) {
         if (this->unk_19C[3] == 0) {
             this->unk_19C[3] = (s16)Rand_ZeroFloat(10.99f) + 30;
@@ -105,33 +104,33 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
         }
 
         this->unk_19A = (s16)Rand_ZeroFloat(2.99f) + 5;
-        phi_v0 = this->unk_1A6;
+        ocarinaNote = this->unk_1A6;
     }
-    switch (phi_v0) {
-        case 0:
+    switch (ocarinaNote) {
+        case OCARINA_NOTE_A:
             this->unk_19A++;
             if (this->unk_1A4 == 0) {
                 this->unk_1A4 = 1;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_ROLL);
             }
             break;
-        case 1:
+        case OCARINA_NOTE_C_DOWN:
             this->unk_19A++;
             this->unk_1B8 = 1.0f;
             break;
-        case 2:
+        case OCARINA_NOTE_C_RIGHT:
             this->unk_19A++;
             if (this->unk_1AC == 0) {
                 this->unk_1AC = 0x1388;
             }
             break;
-        case 3:
+        case OCARINA_NOTE_C_LEFT:
             this->unk_19A++;
             if (this->unk_1A8 == 0) {
                 this->unk_1A8 = 0x1388;
             }
             break;
-        case 4:
+        case OCARINA_NOTE_C_UP:
             this->unk_19A++;
             this->unk_1B8 = 2.0f;
             break;
@@ -218,7 +217,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
                     if (player->stateFlags2 & 0x1000000) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
 
-                        func_8010BD58(globalCtx, 0x2A);
+                        func_8010BD58(globalCtx, OCARINA_ACTION_LONG_RECORDING_START);
                         this->unk_19A = 0;
                         this->unk_1B8 = 0.0;
                         player->stateFlags2 |= 0x800000;
@@ -238,7 +237,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE == 4 && globalCtx->msgCtx.msgMode == MSGMODE_NONE) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04 && globalCtx->msgCtx.msgMode == MSGMODE_NONE) {
         // end?
         osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n" VT_RST);
 
@@ -253,7 +252,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
             this->camId = SUBCAM_NONE;
             this->actionFunc = func_80A8F660;
         }
-    } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
         func_80A8F320(this, globalCtx, 0);
         player->stateFlags2 |= 0x800000;
     }
@@ -272,13 +271,13 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
         this->camId = OnePointCutscene_Init(globalCtx, 2270, -99, &this->actor, MAIN_CAM);
         globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         func_8002DF54(globalCtx, NULL, 8);
-        func_8010BD58(globalCtx, 0x2B);
+        func_8010BD58(globalCtx, OCARINA_ACTION_LONG_RECORDING_PLAYBACK);
         this->actionFunc = func_80A8FAA4;
     }
 }
 
 void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
-    if (globalCtx->msgCtx.unk_E3EE != 0xF) {
+    if (globalCtx->msgCtx.ocarinaMode != OCARINA_MODE_0F) {
         func_80A8F320(this, globalCtx, 1);
         return;
     }

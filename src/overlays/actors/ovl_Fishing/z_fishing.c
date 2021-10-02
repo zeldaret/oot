@@ -3897,7 +3897,8 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             if (this->unk_17A[0] <= 50) {
                 switch (this->unk_1D5) {
                     case 0:
-                        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
+                        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) ||
+                            (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
                             if (Message_ShouldAdvance(globalCtx)) {
                                 Message_CloseTextbox(globalCtx);
                                 if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -3928,7 +3929,8 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                         }
                         break;
                     case 1:
-                        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
+                        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) ||
+                            (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
                             if (Message_ShouldAdvance(globalCtx)) {
                                 Message_CloseTextbox(globalCtx);
                                 if (globalCtx->msgCtx.choiceIndex != 0) {
@@ -4921,7 +4923,8 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 11:
-            if (((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) &&
+            if (((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) ||
+                 (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) &&
                 Message_ShouldAdvance(globalCtx)) {
                 s32 getItemId;
 
@@ -5475,7 +5478,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             }
 
             if (D_80B7A6D0 == 0) {
-                if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
+                if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) ||
+                    (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
                     if (Message_ShouldAdvance(globalCtx)) {
                         Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
@@ -5591,7 +5595,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         D_80B7E077--;
     }
 
-    if ((D_80B7E077 == 1) && (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) && ((D_80B7A680 & 0xFFF) == 0xFFF)) {
+    if ((D_80B7E077 == 1) && (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) &&
+        ((D_80B7A680 & 0xFFF) == 0xFFF)) {
         D_80B7E077 = 200;
 
         if (Rand_ZeroOne() < 0.5f) {

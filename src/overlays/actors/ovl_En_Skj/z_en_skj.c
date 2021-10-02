@@ -662,7 +662,7 @@ void EnSkj_Fade(EnSkj* this, GlobalContext* globalCtx) {
     u32 alpha = this->alpha;
 
     if (this->unk_2D6 == 2) {
-        globalCtx->msgCtx.unk_E3EE = 0;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
         this->unk_2D6 = 0;
     }
 
@@ -917,7 +917,7 @@ void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
         player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
         player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
         EnSkj_TurnPlayer(sSmallStumpSkullKid.skullkid, player);
-        func_8010BD88(globalCtx, 0x22);
+        func_8010BD88(globalCtx, OCARINA_ACTION_CHECK_SARIA);
         EnSkj_SetupWaitForSong(this);
     } else if (D_80B01EA0 != 0) {
         player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
@@ -960,54 +960,54 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     // Played a song thats not Saria's song
-    if (!(gSaveContext.itemGetInf[1] & 0x40) &&
-        ((globalCtx->msgCtx.msgMode == MSGMODE_UNK_0E) || (globalCtx->msgCtx.msgMode == MSGMODE_UNK_0F))) {
-        globalCtx->msgCtx.unk_E3EE = 4;
+    if (!(gSaveContext.itemGetInf[1] & 0x40) && ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) ||
+                                                 (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         Message_CloseTextbox(globalCtx);
         player->unk_6A8 = &this->actor;
         func_8002F2CC(&this->actor, globalCtx, EnSkj_GetItemXzRange(this));
         EnSkj_SetupWrongSong(this);
     } else {
-        if ((globalCtx->msgCtx.msgMode == MSGMODE_UNK_0D) && (this->unk_2D6 == 0)) {
+        if ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) && (this->unk_2D6 == 0)) {
             this->unk_2D6 = 1;
             EnSkj_ChangeAnim(this, SKJ_ANIM_PLAY_FLUTE);
-        } else if ((this->unk_2D6 != 0) && (globalCtx->msgCtx.msgMode == MSGMODE_UNK_1A)) {
+        } else if ((this->unk_2D6 != 0) && (globalCtx->msgCtx.msgMode == MSGMODE_SONG_DEMONSTRATION_DONE)) {
             this->unk_2D6 = 0;
             EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
         }
-        if (globalCtx->msgCtx.unk_E3EE == 4) {
-            globalCtx->msgCtx.unk_E3EE = 0;
+        if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+            globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
             this->unk_2D6 = 0;
             EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
             EnSkj_SetupAction(this, SKJ_ACTION_SARIA_SONG_WAIT_IN_RANGE);
-        } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+        } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
             if (!(gSaveContext.itemGetInf[1] & 0x40)) {
                 // Saria's song has been played for the first titme
-                globalCtx->msgCtx.unk_E3EE = 4;
+                globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 player->unk_6A8 = &this->actor;
                 func_8002F2CC(&this->actor, globalCtx, EnSkj_GetItemXzRange(this));
                 this->textId = 0x10BB;
                 EnSkj_SetupAfterSong(this);
             } else {
-                globalCtx->msgCtx.unk_E3EE = 5;
+                globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_05;
             }
-        } else if (globalCtx->msgCtx.unk_E3EE == 2) {
+        } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
             player->stateFlags2 &= ~0x1000000;
             Actor_Kill(&this->actor);
-        } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+        } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
             player->stateFlags2 |= 0x800000;
         } else {
-            if (globalCtx->msgCtx.unk_E3EE >= 5) {
+            if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_05) {
                 gSaveContext.sunsSongState = 0;
                 if (gSaveContext.itemGetInf[1] & 0x40) {
-                    globalCtx->msgCtx.unk_E3EE = 4;
+                    globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     player->unk_6A8 = &this->actor;
                     func_8002F2CC(&this->actor, globalCtx, EnSkj_GetItemXzRange(this));
                     this->textId = 0x10BD;
                     EnSkj_SetupAfterSong(this);
                 } else {
-                    globalCtx->msgCtx.unk_E3EE = 4;
+                    globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     player->unk_6A8 = &this->actor;
                     func_8002F2CC(&this->actor, globalCtx, EnSkj_GetItemXzRange(this));
                     EnSkj_SetupWrongSong(this);
@@ -1406,7 +1406,7 @@ void EnSkj_StartOcarinaMinigame(EnSkj* this, GlobalContext* globalCtx) {
     EnSkj_TurnPlayer(this, player);
 
     if (dialogState == TEXT_STATE_2) {
-        func_8010BD58(globalCtx, 0x2E); // play song?
+        func_8010BD58(globalCtx, OCARINA_ACTION_MEMORY_GAME_START);
         if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
             sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCARINA_PLAY_NOTES;
         }
@@ -1420,17 +1420,17 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
 
     EnSkj_TurnPlayer(this, player);
 
-    if (globalCtx->msgCtx.unk_E3EE == 3) { // failed the game
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) { // failed the game
         Message_CloseTextbox(globalCtx);
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         player->unk_6A8 = &this->actor;
         func_8002F2CC(&this->actor, globalCtx, 26.0f);
         this->textId = 0x102D;
         this->actionFunc = EnSkj_FailedMiniGame;
-    } else if (globalCtx->msgCtx.unk_E3EE == 0xF) { // completed the game
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_0F) { // completed the game
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Message_CloseTextbox(globalCtx);
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         player->unk_6A8 = &this->actor;
         func_8002F2CC(&this->actor, globalCtx, 26.0f);
         this->textId = 0x10BF;
@@ -1446,7 +1446,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                         sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState =
                             SKULL_KID_OCARINA_PLAY_NOTES;
                     }
-                    func_80106AA8(globalCtx);
+                    Message_UpdateOcarinaGame(globalCtx);
                 }
                 break;
             case MSGMODE_UNK_2D:
@@ -1454,7 +1454,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState = SKULL_KID_OCRAINA_WAIT;
                 }
                 if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
-                    func_80106AA8(globalCtx);
+                    Message_UpdateOcarinaGame(globalCtx);
                     this->songFailTimer = 160;
                 }
                 break;
@@ -1464,7 +1464,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                 } else { // took too long, game failed
                     func_80078884(NA_SE_SY_OCARINA_ERROR);
                     Message_CloseTextbox(globalCtx);
-                    globalCtx->msgCtx.unk_E3EE = 4;
+                    globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     player->unk_6A8 = &this->actor;
                     func_8002F2CC(&this->actor, globalCtx, 26.0f);
                     this->textId = 0x102D;
@@ -1478,8 +1478,8 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                             SKULL_KID_OCARINA_PLAY_NOTES;
                     }
                     this->songFailTimer = 160;
-                    func_800ED858(6); // related instrument sound (flute?)
-                    func_800ED93C(0xE, 1);
+                    Audio_OcaSetInstrument(6); // related instrument sound (flute?)
+                    Audio_OcaSetSongPlayback(OCARINA_SONG_MEMORY_GAME + 1, 1);
                     globalCtx->msgCtx.msgMode = MSGMODE_UNK_2A;
                     globalCtx->msgCtx.stateTimer = 2;
                 }

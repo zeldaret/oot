@@ -2615,7 +2615,7 @@ s32 func_80835C58(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s3
     }
 
     if (func_8084E3C4 == this->func_674) {
-        func_800ED858(0);
+        Audio_OcaSetInstrument(0);
         this->stateFlags2 &= ~0x3000000;
     } else if (func_808507F4 == this->func_674) {
         func_80832340(globalCtx, this);
@@ -2823,7 +2823,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
         } else {
             globalCtx->gameOverCtx.state = GAMEOVER_DEATH_START;
             func_800F6AB0(0);
-            func_800F5C64(0x20);
+            Audio_PlayFanfare(0x20);
             gSaveContext.seqIndex = 0xFF;
             gSaveContext.nightSeqIndex = 0xFF;
         }
@@ -11807,7 +11807,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
             } else {
                 temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? 0x39 : 0x922;
             }
-            func_800F5C64(temp1);
+            Audio_PlayFanfare(temp1);
         }
     } else {
         if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
@@ -11887,7 +11887,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
 
         if ((this->targetActor != NULL) && (this->targetActor == this->unk_6A8)) {
@@ -11902,10 +11902,10 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
 
         this->stateFlags2 &= ~0x3800000;
         this->unk_6A8 = NULL;
-    } else if (globalCtx->msgCtx.unk_E3EE == 2) {
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = D_808549D4[globalCtx->msgCtx.unk_E3EC];
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
+        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = D_808549D4[globalCtx->msgCtx.lastPlayedSong];
         gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].data = globalCtx->msgCtx.unk_E3EC;
+        gSaveContext.respawn[RESPAWN_MODE_RETURN].data = globalCtx->msgCtx.lastPlayedSong;
 
         this->csMode = 0;
         this->stateFlags1 &= ~0x20000000;
@@ -12129,7 +12129,7 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F != 0) {
             if (this->unk_850 == 0) {
                 Message_StartTextbox(globalCtx, D_80854A04[this->unk_84F - 1].textId, &this->actor);
-                func_800F5C64(0x922);
+                Audio_PlayFanfare(0x922);
                 this->unk_850 = 1;
             } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
                 this->unk_84F = 0;

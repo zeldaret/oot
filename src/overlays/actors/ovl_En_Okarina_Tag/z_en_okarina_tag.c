@@ -50,31 +50,31 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "Ocarina tag outbreak"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
     this->actor.flags &= ~1;
-    this->unk_150 = (this->actor.params >> 0xA) & 0x3F;
-    this->unk_152 = (this->actor.params >> 6) & 0xF;
+    this->type = (this->actor.params >> 0xA) & 0x3F;
+    this->ocarinaSong = (this->actor.params >> 6) & 0xF;
     this->switchFlag = this->actor.params & 0x3F;
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
-    if (this->unk_152 == 0xF) {
-        this->unk_152 = 0;
+    if (this->ocarinaSong == 0xF) {
+        this->ocarinaSong = 0;
         this->unk_158 = 1;
     }
     this->actor.targetMode = 1;
     if (this->actor.world.rot.z > 0) {
-        this->unk_15C = this->actor.world.rot.z * 40.0f;
+        this->interactRange = this->actor.world.rot.z * 40.0f;
     }
 
     // "Save information"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ セーブ情報\t ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
     // "Type index"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 種類インデックス ☆☆☆☆☆ %d\n" VT_RST, this->unk_150);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 種類インデックス ☆☆☆☆☆ %d\n" VT_RST, this->type);
     // "Correct answer information"
-    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 正解情報\t ☆☆☆☆☆ %d\n" VT_RST, this->unk_152);
+    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 正解情報\t ☆☆☆☆☆ %d\n" VT_RST, this->ocarinaSong);
     // "Range information"
     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 範囲情報\t ☆☆☆☆☆ %d\n" VT_RST, this->actor.world.rot.z);
     // "Processing range information"
-    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 処理範囲情報\t ☆☆☆☆☆ %f\n" VT_RST, this->unk_15C);
+    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 処理範囲情報\t ☆☆☆☆☆ %f\n" VT_RST, this->interactRange);
     // "Hit?"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 当り？\t\t ☆☆☆☆☆ %d\n" VT_RST, this->unk_158);
     osSyncPrintf("\n\n");
@@ -82,7 +82,7 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
         Actor_Kill(&this->actor);
     } else {
-        switch (this->unk_150) {
+        switch (this->type) {
             case 7:
                 this->actionFunc = func_80ABEF2C;
                 break;
@@ -110,29 +110,29 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     Player* player;
-    u16 unk_152;
+    u16 ocarinaSong;
 
     player = GET_PLAYER(globalCtx);
     this->unk_15A++;
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
         this->actor.flags &= ~1;
     } else {
-        if ((this->unk_152 != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
+        if ((this->ocarinaSong != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
             if (player->stateFlags2 & 0x1000000) {
                 // "North! ! ! ! !"
                 osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistToPlayer);
             }
-            if ((this->actor.xzDistToPlayer < (90.0f + this->unk_15C)) &&
+            if ((this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
                 (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
                 if (player->stateFlags2 & 0x2000000) {
-                    unk_152 = this->unk_152;
-                    if (unk_152 == 6) {
-                        unk_152 = 0xA;
+                    ocarinaSong = this->ocarinaSong;
+                    if (ocarinaSong == 6) {
+                        ocarinaSong = 0xA;
                     }
                     player->stateFlags2 |= 0x800000;
-                    func_8010BD58(globalCtx, unk_152 + 0x22);
+                    func_8010BD58(globalCtx, ocarinaSong + OCARINA_ACTION_CHECK_SARIA);
                     this->actionFunc = func_80ABF0CC;
-                } else if ((this->actor.xzDistToPlayer < (50.0f + this->unk_15C) &&
+                } else if ((this->actor.xzDistToPlayer < (50.0f + this->interactRange) &&
                             ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)))) {
                     this->unk_15A = 0;
                     player->unk_6A8 = &this->actor;
@@ -145,10 +145,10 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
 void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         this->actionFunc = func_80ABEF2C;
     } else {
-        if (globalCtx->msgCtx.unk_E3EE == 3) {
+        if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
             if (this->switchFlag >= 0) {
                 Flags_SetSwitch(globalCtx, this->switchFlag);
             }
@@ -156,30 +156,33 @@ void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
                 globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
             }
             if ((globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (globalCtx->sceneNum != SCENE_YOUSEI_IZUMI_YOKO)) {
-                globalCtx->msgCtx.unk_E3EE = 4;
+                globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             this->actionFunc = func_80ABEF2C;
             return;
         }
         if (this->unk_158 != 0) {
-            if ((globalCtx->msgCtx.unk_E3EE == 5) || (globalCtx->msgCtx.unk_E3EE == 6) ||
-                (globalCtx->msgCtx.unk_E3EE == 7) || (globalCtx->msgCtx.unk_E3EE == 8) ||
-                (globalCtx->msgCtx.unk_E3EE == 9) || (globalCtx->msgCtx.unk_E3EE == 10) ||
-                (globalCtx->msgCtx.unk_E3EE == 13)) {
+            if ((globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_05) ||
+                (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_06) ||
+                (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_07) ||
+                (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_08) ||
+                (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_09) ||
+                (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_0A) ||
+                (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_0D)) {
                 if (this->switchFlag >= 0) {
                     Flags_SetSwitch(globalCtx, this->switchFlag);
                 }
-                globalCtx->msgCtx.unk_E3EE = 4;
+                globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 this->actionFunc = func_80ABEF2C;
                 return;
             }
         }
-        if ((globalCtx->msgCtx.unk_E3EE >= 5) && (globalCtx->msgCtx.unk_E3EE < 0xE)) {
-            globalCtx->msgCtx.unk_E3EE = 4;
+        if ((globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_05) && (globalCtx->msgCtx.ocarinaMode < OCARINA_MODE_0E)) {
+            globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
             this->actionFunc = func_80ABEF2C;
-        } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+        } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
             player->stateFlags2 |= 0x800000;
         }
     }
@@ -189,37 +192,37 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     this->unk_15A++;
-    if ((this->unk_152 != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
+    if ((this->ocarinaSong != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->actor.flags &= ~1;
-        } else if (((this->unk_150 != 4) || !(gSaveContext.eventChkInf[4] & 0x800)) &&
-                   ((this->unk_150 != 6) || !(gSaveContext.eventChkInf[1] & 0x2000)) &&
-                   (this->actor.xzDistToPlayer < (90.0f + this->unk_15C)) &&
+        } else if (((this->type != 4) || !(gSaveContext.eventChkInf[4] & 0x800)) &&
+                   ((this->type != 6) || !(gSaveContext.eventChkInf[1] & 0x2000)) &&
+                   (this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
                    (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
             if (player->stateFlags2 & 0x1000000) {
-                switch (this->unk_150) {
+                switch (this->type) {
                     case 1:
-                        func_8010BD58(globalCtx, 0x24);
+                        func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_LULLABY);
                         break;
                     case 2:
-                        func_8010BD58(globalCtx, 0x27);
+                        func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_STORMS);
                         break;
                     case 4:
-                        func_8010BD58(globalCtx, 0x26);
+                        func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_TIME);
                         break;
                     case 6:
-                        func_8010BD58(globalCtx, 0x24);
+                        func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_LULLABY);
                         break;
                     default:
                         // "Ocarina Invisible-kun demo start check error source"
                         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ オカリナ透明君デモ開始チェックエラー原 ☆☆☆☆☆ %d\n" VT_RST,
-                                     this->unk_150);
+                                     this->type);
                         Actor_Kill(&this->actor);
                         break;
                 }
                 player->stateFlags2 |= 0x800000;
                 this->actionFunc = func_80ABF4C8;
-            } else if ((this->actor.xzDistToPlayer < (50.0f + this->unk_15C)) &&
+            } else if ((this->actor.xzDistToPlayer < (50.0f + this->interactRange)) &&
                        (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)) {
                 this->unk_15A = 0;
                 player->stateFlags2 |= 0x800000;
@@ -231,14 +234,14 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
 void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         this->actionFunc = func_80ABF28C;
-    } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         if (this->switchFlag >= 0) {
             Flags_SetSwitch(globalCtx, this->switchFlag);
         }
-        switch (this->unk_150) {
+        switch (this->type) {
             case 1:
                 Flags_SetSwitch(globalCtx, this->switchFlag);
                 gSaveContext.eventChkInf[3] |= 0x200;
@@ -262,17 +265,17 @@ void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
             default:
                 break;
         }
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         this->actionFunc = func_80ABF28C;
     } else {
-        if (globalCtx->msgCtx.unk_E3EE >= 5) {
-            if (globalCtx->msgCtx.unk_E3EE < 0xE) {
-                globalCtx->msgCtx.unk_E3EE = 4;
+        if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_05) {
+            if (globalCtx->msgCtx.ocarinaMode < OCARINA_MODE_0E) {
+                globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                 this->actionFunc = func_80ABF28C;
                 return;
             }
         }
-        if (globalCtx->msgCtx.unk_E3EE == 1) {
+        if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
             player->stateFlags2 |= 0x800000;
         }
     }

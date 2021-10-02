@@ -272,7 +272,7 @@ void EnGo2_GetItem(EnGo2* this, GlobalContext* globalCtx, s32 getItemId) {
 s32 EnGo2_GetDialogState(EnGo2* this, GlobalContext* globalCtx) {
     s16 dialogState = Message_GetState(&globalCtx->msgCtx);
 
-    if ((this->dialogState == TEXT_STATE_10) || (this->dialogState == TEXT_STATE_EVENT) || 
+    if ((this->dialogState == TEXT_STATE_10) || (this->dialogState == TEXT_STATE_EVENT) ||
         (this->dialogState == TEXT_STATE_2) || (this->dialogState == TEXT_STATE_1)) {
         if (dialogState != this->dialogState) {
             this->unk_20C++;
@@ -1885,7 +1885,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 player->actor.world.pos.z =
                     (f32)((Math_CosS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.z);
                 func_8002DF54(globalCtx, &this->actor, 8);
-                func_800F5C64(0x51);
+                Audio_PlayFanfare(0x51);
             }
             break;
         case 2: // Walking away

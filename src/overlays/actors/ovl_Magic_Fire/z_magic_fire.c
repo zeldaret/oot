@@ -343,7 +343,8 @@ void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx) {
     MagicFire* this = THIS;
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((globalCtx->msgCtx.msgMode == MSGMODE_UNK_0D) || (globalCtx->msgCtx.msgMode == MSGMODE_UNK_11)) {
+    if ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) ||
+        (globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -363,7 +364,8 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (1) {}
     this->actor.world.pos = player->actor.world.pos;
-    if ((globalCtx->msgCtx.msgMode == MSGMODE_UNK_0D) || (globalCtx->msgCtx.msgMode == MSGMODE_UNK_11)) {
+    if ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) ||
+        (globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
         return;
     }

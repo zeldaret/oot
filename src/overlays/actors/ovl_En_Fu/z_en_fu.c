@@ -156,7 +156,7 @@ void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->actionFunc = EnFu_WaitAdult;
         gSaveContext.eventChkInf[5] |= 0x800;
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     }
 }
 
@@ -170,23 +170,23 @@ void func_80A1DBA0(EnFu* this, GlobalContext* globalCtx) {
 void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE >= 4) {
+    if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
         this->actionFunc = EnFu_WaitAdult;
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         this->actor.flags &= ~0x10000;
-    } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_80A1DB60;
         this->actor.flags &= ~0x10000;
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(globalCtx, ITEM_SONG_STORMS);
-        globalCtx->msgCtx.unk_E3EE = 0;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
         gSaveContext.eventChkInf[6] |= 0x20;
-    } else if (globalCtx->msgCtx.unk_E3EE == 2) {
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
         player->stateFlags2 &= ~0x1000000;
         this->actionFunc = EnFu_WaitAdult;
-    } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
         player->stateFlags2 |= 0x800000;
     }
 }
@@ -209,7 +209,7 @@ void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     // if dialog state is 2, start song demonstration
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
         this->behaviorFlags &= ~FU_WAIT;
-        func_800ED858(4); // seems to be related to setting instrument type
+        Audio_OcaSetInstrument(4); // seems to be related to setting instrument type
         func_8010BD58(globalCtx, OCARINA_ACTION_STORMS);
         this->actionFunc = EnFu_WaitForPlayback;
     }

@@ -175,4 +175,10 @@
 #define R_TEXTBOX_CLEF_XPOS         VREG(7)
 #define R_TEXTBOX_CLEF_YPOS         VREG(8)
 
+#define R_OCARINA_NOTES_XPOS        VREG(28)
+#define R_OCARINA_NOTES_YPOS(note)  VREG(45 + (note))
+
+#define R_OCARINA_NOTES_XPOS_OFFSET VREG(29)
+#define R_OCARINA_NOTES_YPOS_OFFSET VREG(51)
+
 #endif

@@ -152,21 +152,23 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
             }
 
         } else if (this->unk_19D & 1) {
-            if (globalCtx->msgCtx.unk_E3EE == 4) {
-                if ((globalCtx->msgCtx.unk_E3F2 == 6) || (globalCtx->msgCtx.unk_E3F2 == 7) ||
-                    (globalCtx->msgCtx.unk_E3F2 == 8) || (globalCtx->msgCtx.unk_E3F2 == 9) ||
-                    (globalCtx->msgCtx.unk_E3F2 == 10)) {
+            if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+                if ((globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_SARIAS) ||
+                    (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_EPONAS) ||
+                    (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY) ||
+                    (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_SUNS) ||
+                    (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_TIME)) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
                                 this->actor.world.pos.y + 40.0f, this->actor.world.pos.z, 0, 0, 0, FAIRY_HEAL_TIMED);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
-                } else if (globalCtx->msgCtx.unk_E3F2 == 11) {
+                } else if (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_STORMS) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
                                 this->actor.world.pos.y + 40.0f, this->actor.world.pos.z, 0, 0, 0, FAIRY_HEAL_BIG);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 }
                 this->unk_19D = 0;
                 Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
-            } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+            } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
                 player->stateFlags2 |= 0x800000;
             }
         }

@@ -16,10 +16,10 @@
 #define STR(N) EXPAND_AND_STRINGIFY(GLUE(\x, N))
 
 /*
- * Text control codes
+ * Text control characters
  */
 
-// Control code magic values, in 2-digit hex without prefix
+// Control character magic values, in 2-digit hex without prefix
 
 #define MAGIC_NEWLINE                 01
 #define MAGIC_END                     02
@@ -98,7 +98,7 @@
 
 #define ARG(x) x
 
-// while a control code, newlines are handled in the charmap conversion 
+// while a control character, newlines are handled in the charmap conversion 
 // stage to allow normal newline \n usage in message_data_static files
 #define NEWLINE                 STR(MAGIC_NEWLINE)
 #define END                     STR(MAGIC_END)
@@ -132,16 +132,16 @@
 #define TIME                    STR(MAGIC_TIME)
 
 /*
- * Highscore values as strings, for code references the Highscores
+ * Highscore values as strings, for code references the HighScores
  * enum should be used.
  */
 
-#define HIGHSCORE_HORSE_ARCHERY "\x00"
-#define HIGHSCORE_POE_POINTS    "\x01"
-#define HIGHSCORE_LARGEST_FISH  "\x02"
-#define HIGHSCORE_HORSE_RACE    "\x03"
-#define HIGHSCORE_MARATHON      "\x04"
-#define HIGHSCORE_DAMPE_RACE    "\x06"
+#define HS_HORSE_ARCHERY "\x00"
+#define HS_POE_POINTS    "\x01"
+#define HS_LARGEST_FISH  "\x02"
+#define HS_HORSE_RACE    "\x03"
+#define HS_MARATHON      "\x04"
+#define HS_DAMPE_RACE    "\x06"
 
 /*
  * Color values as strings

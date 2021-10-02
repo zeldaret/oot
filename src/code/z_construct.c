@@ -170,12 +170,12 @@ void Message_Init(GlobalContext* globalCtx) {
 
     Message_SetTables();
 
-    globalCtx->msgCtx.unk_E3EE = 0;
+    globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
 
     msgCtx->msgMode = MSGMODE_NONE;
     msgCtx->msgLength = 0;
-    msgCtx->textId = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->unk_E3F0 = msgCtx->textUnskippable = 0;
-    msgCtx->textColor.a = 255;
+    msgCtx->textId = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->ocarinaAction = msgCtx->textUnskippable = 0;
+    msgCtx->textColorAlpha = 255;
 
     View_Init(&msgCtx->view, globalCtx->state.gfxCtx);
 
@@ -533,8 +533,8 @@ void func_80111070(void) {
     VREG(25) = 0;
     VREG(26) = 0;
     VREG(27) = 0;
-    VREG(28) = 98;
-    VREG(29) = 18;
+    R_OCARINA_NOTES_XPOS = 98;
+    R_OCARINA_NOTES_XPOS_OFFSET = 18;
     VREG(30) = 0;
     VREG(31) = 0;
     VREG(32) = 0;
@@ -551,13 +551,13 @@ void func_80111070(void) {
     VREG(42) = 250;
     VREG(43) = 440;
     VREG(44) = 10;
-    VREG(45) = 190;
-    VREG(46) = 184;
-    VREG(47) = 176;
-    VREG(48) = 172;
-    VREG(49) = 170;
+    R_OCARINA_NOTES_YPOS(0) = 190;
+    R_OCARINA_NOTES_YPOS(1) = 184;
+    R_OCARINA_NOTES_YPOS(2) = 176;
+    R_OCARINA_NOTES_YPOS(3) = 172;
+    R_OCARINA_NOTES_YPOS(4) = 170;
     VREG(50) = 30;
-    VREG(51) = 0;
+    R_OCARINA_NOTES_YPOS_OFFSET = 0;
     VREG(52) = -16;
     VREG(53) = 230;
     VREG(54) = 230;

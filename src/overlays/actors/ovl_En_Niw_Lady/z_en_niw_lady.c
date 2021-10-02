@@ -226,7 +226,8 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
         this->cuccosInPen = BREG(7) - 1;
     }
     phi_s1 = this->cuccosInPen;
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) ||
+        (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 101;
     }
     if (this->cuccosInPen >= 7) {
@@ -355,7 +356,8 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s8 playerExchangeItemId;
 
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) ||
+        (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 11;
     }
     if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
@@ -473,7 +475,8 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx) {
     if (Text_GetFaceReaction(globalCtx, 8) != 0) {
         this->actor.textId = Text_GetFaceReaction(globalCtx, 8);
     }
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) ||
+        (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 8;
     }
     if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {

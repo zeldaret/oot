@@ -1589,7 +1589,8 @@ void EnOssan_State_SelectMaskItem(EnOssan* this, GlobalContext* globalCtx, Playe
             this->stateFlag = this->tempStateFlag;
             Message_ContinueTextbox(globalCtx, this->shelfSlots[this->cursorIndex]->actor.textId);
         }
-    } else if (talkState == TEXT_STATE_CHOICE && !EnOssan_TestCancelOption(this, globalCtx, &globalCtx->state.input[0]) &&
+    } else if (talkState == TEXT_STATE_CHOICE &&
+               !EnOssan_TestCancelOption(this, globalCtx, &globalCtx->state.input[0]) &&
                Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:

@@ -704,16 +704,17 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
             }
             osSyncPrintf(VT_FGCOL(GREEN));
-            osSyncPrintf("OCARINA_MODE %d\n", globalCtx->msgCtx.unk_E3EE);
+            osSyncPrintf("OCARINA_MODE %d\n", globalCtx->msgCtx.ocarinaMode);
             osSyncPrintf(VT_RST);
             switch (this->ocarinaFlag) {
                 case 0:
-                    if (globalCtx->msgCtx.unk_E3EE == 1) {
+                    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
                         this->ocarinaFlag = 1;
                     }
                     break;
                 case 1:
-                    if ((globalCtx->msgCtx.unk_E3EE == 4) && (globalCtx->msgCtx.unk_E3F2 == 8)) {
+                    if ((globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) &&
+                        (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY)) {
                         this->actionState = ENKANBAN_REPAIR;
                         this->bounceX = 1;
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,

@@ -150,12 +150,12 @@ color_type_5 = {
 }
 
 highscores = {
-    0x00 : "HIGHSCORE_HORSE_ARCHERY",
-    0x01 : "HIGHSCORE_POE_POINTS",   
-    0x02 : "HIGHSCORE_LARGEST_FISH", 
-    0x03 : "HIGHSCORE_HORSE_RACE",   
-    0x04 : "HIGHSCORE_MARATHON",     
-    0x06 : "HIGHSCORE_DAMPE_RACE",   
+    0x00 : "HS_HORSE_ARCHERY",
+    0x01 : "HS_POE_POINTS",   
+    0x02 : "HS_LARGEST_FISH", 
+    0x03 : "HS_HORSE_RACE",   
+    0x04 : "HS_MARATHON",     
+    0x06 : "HS_DAMPE_RACE",   
 }
 
 def format_char(byte):

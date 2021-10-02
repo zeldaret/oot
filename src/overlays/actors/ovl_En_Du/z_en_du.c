@@ -298,7 +298,7 @@ void func_809FE3C0(EnDu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags2 & 0x1000000) {
-        func_8010BD88(globalCtx, 0x22);
+        func_8010BD88(globalCtx, OCARINA_ACTION_CHECK_SARIA);
         player->stateFlags2 |= 0x2000000;
         player->unk_6A8 = &this->actor;
         EnDu_SetupAction(this, func_809FE4A4);
@@ -316,22 +316,22 @@ void func_809FE3C0(EnDu* this, GlobalContext* globalCtx) {
 void func_809FE4A4(EnDu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
-        globalCtx->msgCtx.unk_E3EE = 0;
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
         EnDu_SetupAction(this, func_809FE3C0);
-    } else if (globalCtx->msgCtx.unk_E3EE >= 6) {
+    } else if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_06) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaWrongCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 1;
         EnDu_SetupAction(this, func_809FE890);
-        globalCtx->msgCtx.unk_E3EE = 4;
-    } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 0;
         EnDu_SetupAction(this, func_809FE890);
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
         player->stateFlags2 |= 0x800000;
     }
@@ -343,7 +343,7 @@ void func_809FE638(EnDu* this, GlobalContext* globalCtx) {
     if (!(player->stateFlags1 & 0x20000000)) {
         OnePointCutscene_Init(globalCtx, 3330, -99, &this->actor, MAIN_CAM);
         player->actor.shape.rot.y = player->actor.world.rot.y = this->actor.world.rot.y + 0x7FFF;
-        func_800F5C64(0x51);
+        Audio_PlayFanfare(0x51);
         EnDu_SetupAction(this, func_809FE6CC);
         this->unk_1E2 = 0x32;
     }

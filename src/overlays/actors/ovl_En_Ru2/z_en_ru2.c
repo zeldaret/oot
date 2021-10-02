@@ -610,7 +610,7 @@ void func_80AF3744(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF37AC() {
-    func_800F5C64(0x51);
+    Audio_PlayFanfare(0x51);
 }
 
 void func_80AF37CC(EnRu2* this) {

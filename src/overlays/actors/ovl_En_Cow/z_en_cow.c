@@ -252,7 +252,7 @@ void func_809DF8FC(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
-    if ((globalCtx->msgCtx.unk_E3EE == 0) || (globalCtx->msgCtx.unk_E3EE == 4)) {
+    if ((globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_00) || (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04)) {
         if (DREG(53) != 0) {
             if (this->unk_276 & 4) {
                 this->unk_276 &= ~0x4;

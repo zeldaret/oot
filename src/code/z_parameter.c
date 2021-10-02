@@ -4110,8 +4110,8 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
         // exit out of ocarina mode after suns song finishes playing
-        if ((msgCtx->unk_E3F0 != 0x31) && (gSaveContext.sunsSongState == SUNSSONG_START)) {
-            globalCtx->msgCtx.unk_E3EE = 4;
+        if ((msgCtx->ocarinaAction != OCARINA_ACTION_UNK_31) && (gSaveContext.sunsSongState == SUNSSONG_START)) {
+            globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         }
 
         // handle suns song in areas where time moves
@@ -4129,12 +4129,12 @@ void Interface_Update(GlobalContext* globalCtx) {
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
                     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                     gTimeIncrement = sPrevTimeIncrement;
-                    globalCtx->msgCtx.unk_E3EE = 4;
+                    globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                 }
             } else if (gSaveContext.dayTime > 0xC001) {
                 gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                 gTimeIncrement = sPrevTimeIncrement;
-                globalCtx->msgCtx.unk_E3EE = 4;
+                globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
         } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
             if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xC001)) {

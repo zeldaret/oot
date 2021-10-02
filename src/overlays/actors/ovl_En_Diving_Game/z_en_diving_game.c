@@ -160,7 +160,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, GlobalContext* globalCt
             Message_StartTextbox(globalCtx, this->actor.textId, NULL);
             this->unk_292 = TEXT_STATE_EVENT;
             func_800F5B58();
-            func_800F5C64(0x39);
+            Audio_PlayFanfare(0x39);
             func_8002DF54(globalCtx, NULL, 8);
             if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 this->actionFunc = func_809EE96C;

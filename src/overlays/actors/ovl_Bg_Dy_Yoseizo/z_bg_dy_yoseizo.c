@@ -189,7 +189,7 @@ void BgDyYoseizo_Bob(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
 void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, 0x38)) {
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             if (!gSaveContext.magicAcquired && (this->fountainType != FAIRY_UPGRADE_MAGIC)) {
                 Actor_Kill(&this->actor);
@@ -211,7 +211,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     func_8002DF54(globalCtx, &this->actor, 1);
     // Mode
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.unk_E3EE);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.ocarinaMode);
     givingReward = false;
 
     if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {

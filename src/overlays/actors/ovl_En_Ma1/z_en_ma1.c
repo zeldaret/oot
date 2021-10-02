@@ -361,7 +361,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
     if (this->unk_1E8.unk_00 == 2) {
-        func_800ED858(2);
+        Audio_OcaSetInstrument(2);
         func_8010BD58(globalCtx, OCARINA_ACTION_EPONA);
         this->actor.flags &= ~0x10000;
         this->actionFunc = func_80AA10EC;
@@ -378,7 +378,7 @@ void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
 
 void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
-    if (globalCtx->msgCtx.unk_E3EE == 3) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         globalCtx->nextEntranceIndex = 0x157;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
         globalCtx->fadeTransition = 42;

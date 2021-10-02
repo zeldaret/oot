@@ -2,14 +2,10 @@
 #include "global.h"
 #include "ultra64/abi.h"
 
-extern unk_D_8016E750 D_8016E750[4];
 extern u8 D_8016E348[4];
 extern u32 sAudioSeqCmds[0x100];
 extern u8 sSeqCmdRdPos;
 extern u8 sSeqCmdWrPos;
-extern u8 D_80133408;
-extern u8 D_80133418;
-extern u8 D_801333CC;
 extern u8 D_80133410[];
 
 // TODO: clean up these macros. They are similar to ones in code_800EC960.c but without casts.

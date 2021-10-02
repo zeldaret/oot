@@ -181,7 +181,8 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
 void ArrowLight_Update(Actor* thisx, GlobalContext* globalCtx) {
     ArrowLight* this = THIS;
 
-    if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_0D || globalCtx->msgCtx.msgMode == MSGMODE_UNK_11) {
+    if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK ||
+        globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
         Actor_Kill(&this->actor);
     } else {
         this->actionFunc(this, globalCtx);

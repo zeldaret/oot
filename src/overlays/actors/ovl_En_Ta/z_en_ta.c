@@ -724,7 +724,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             gSaveContext.eventInf[0] |= 0x100;
                             Audio_QueueSeqCmd(NA_BGM_STOP);
                             this->unk_2E0 &= ~0x200;
-                            func_800F5C64(0x39);
+                            Audio_PlayFanfare(0x39);
                             return;
                         case 2:
                             this->actor.textId = 0x2083;
