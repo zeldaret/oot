@@ -3,7 +3,7 @@
 
 typedef struct {
     s16 val;
-    s16 param;
+    s16 dataType;
 } CameraModeValue;
 
 typedef struct {
@@ -35,10 +35,36 @@ s16 sOREGInit[] = {
 s16 sOREGInitCnt = 53;
 
 s16 sPREGInit[] = {
-    -20, 200, 300, 10, 12, 10, 35, 60, 60, 3, 0, -40, 20, 25, 45, -5, 15, 15, 20, 0, 0, 0, 6, 60, 30, 0, 5,
+    -20, // CAM_DATA_Y_OFFSET
+    200, // CAM_DATA_EYE_DIST
+    300, // CAM_DATA_EYE_DIST_NEXT
+    10,  // CAM_DATA_PITCH_TARGET
+    12,  // CAM_DATA_YAW_UPDATE_RATE_TARGET
+    10,  // CAM_DATA_XZ_UPDATE_RATE_TARGET
+    35,  // CAM_DATA_MAX_YAW_UPDATE
+    60,  // CAM_DATA_FOV
+    60,  // CAM_DATA_AT_LERP_STEP_SCALE
+    3,   // CAM_DATA_FLAGS
+    0,   // CAM_DATA_YAW_TARGET
+    -40, // CAM_DATA_GROUND_Y_OFFSET
+    20,  // CAM_DATA_GROUND_AT_LERP_STEP_SCALE
+    25,  // CAM_DATA_SWING_YAW_INIT
+    45,  // CAM_DATA_SWING_YAW_FINAL
+    -5,  // CAM_DATA_SWING_PITCH_INIT
+    15,  // CAM_DATA_SWING_PITCH_FINAL
+    15,  // CAM_DATA_SWING_PITCH_ADJ
+    20,  // CAM_DATA_MIN_MAX_DIST_FACTOR
+    0,   // CAM_DATA_AT_OFFSET_X
+    0,   // CAM_DATA_AT_OFFSET_Y
+    0,   // CAM_DATA_AT_OFFSET_Z
+    6,   // CAM_DATA_UNK_22
+    60,  // CAM_DATA_UNK_23
+    30,  // CAM_DATA_FOV_SCALE
+    0,   // CAM_DATA_YAW_SCALE
+    5,   // CAM_DATA_UNK_26
 };
 
-s16 sPREGInitCnt = 27;
+s16 sPREGInitCnt = CAM_DATA_MAX;
 
 char sCameraSettingNames[][12] = {
     "NONE      ",  "NORMAL0    ", "NORMAL1    ", "DUNGEON0   ", "DUNGEON1   ", "NORMAL3    ", "HORSE0     ",
@@ -98,7 +124,7 @@ CameraModeValue D_8011A3A0[] = {
  * BOSS_GANONDORF     TARGET    PARA1
  * BOSS_GANON        TARGET    PARA1
  * TOWER_CLIMB    TARGET    PARA1
- * TOWER1             TARGET    PARA1
+ * TOWER_UNUSED             TARGET    PARA1
  * CIRCLE3            TARGET    PARA1
  * NORMAL2            TARGET    PARA1
  * JABU_TENTACLE           TARGET    PARA1
@@ -136,7 +162,7 @@ CameraModeValue D_8011A3C8[] = {
  * BOSS_GANONDORF     FOLLOWTARGET    KEEP1
  * BOSS_GANON        FOLLOWTARGET    KEEP1
  * TOWER_CLIMB    FOLLOWTARGET    KEEP1
- * TOWER1             FOLLOWTARGET    KEEP1
+ * TOWER_UNUSED             FOLLOWTARGET    KEEP1
  * CIRCLE3            FOLLOWTARGET    KEEP1
  * UFOBEAN            FOLLOWTARGET    KEEP1
  * LIFTBEAN           FOLLOWTARGET    KEEP1
@@ -178,7 +204,7 @@ CameraModeValue D_8011A3F4[] = {
  * BOSS_GANONDORF     TALK    KEEP3
  * BOSS_GANON        TALK    KEEP3
  * TOWER_CLIMB    TALK    KEEP3
- * TOWER1             TALK    KEEP3
+ * TOWER_UNUSED             TALK    KEEP3
  * CIRCLE3            TALK    KEEP3
  * UFOBEAN            TALK    KEEP3
  * LIFTBEAN           TALK    KEEP3
@@ -209,7 +235,7 @@ CameraModeValue D_8011A428[] = {
  * NORMAL0          BATTLE    BATT1
  * NORMAL3          BATTLE    BATT1
  * TOWER_CLIMB  BATTLE    BATT1
- * TOWER1           BATTLE    BATT1
+ * TOWER_UNUSED           BATTLE    BATT1
  * TEPPEN           BATTLE    BATT1
  */
 CameraModeValue D_8011A458[] = {
@@ -244,7 +270,7 @@ CameraModeValue D_8011A458[] = {
  * BOSS_GANONDORF     CLIMB    JUMP2
  * BOSS_GANON        CLIMB    JUMP2
  * TOWER_CLIMB    CLIMB    JUMP2
- * TOWER1             CLIMB    JUMP2
+ * TOWER_UNUSED             CLIMB    JUMP2
  * CIRCLE3            CLIMB    JUMP2
  * UFOBEAN            CLIMB    JUMP2
  * LIFTBEAN           CLIMB    JUMP2
@@ -285,7 +311,7 @@ CameraModeValue D_8011A488[] = {
  * BOSS_GANONDORF     FIRSTPERSON    SUBJ3
  * BOSS_GANON        FIRSTPERSON    SUBJ3
  * TOWER_CLIMB    FIRSTPERSON    SUBJ3
- * TOWER1             FIRSTPERSON    SUBJ3
+ * TOWER_UNUSED             FIRSTPERSON    SUBJ3
  * CIRCLE3            FIRSTPERSON    SUBJ3
  * UFOBEAN            FIRSTPERSON    SUBJ3
  * LIFTBEAN           FIRSTPERSON    SUBJ3
@@ -329,7 +355,7 @@ CameraModeValue D_8011A4AC[] = {
  * BOSS_GANONDORF     BOWARROW    SUBJ3
  * BOSS_GANON        BOWARROW    SUBJ3
  * TOWER_CLIMB    BOWARROW    SUBJ3
- * TOWER1             BOWARROW    SUBJ3
+ * TOWER_UNUSED             BOWARROW    SUBJ3
  * CIRCLE3            BOWARROW    SUBJ3
  * UFOBEAN            BOWARROW    SUBJ3
  * LIFTBEAN           BOWARROW    SUBJ3
@@ -374,7 +400,7 @@ CameraModeValue D_8011A4D0[] = {
  * BOSS_GANONDORF     BOWARROWZ    SUBJ3
  * BOSS_GANON        BOWARROWZ    SUBJ3
  * TOWER_CLIMB    BOWARROWZ    SUBJ3
- * TOWER1             BOWARROWZ    SUBJ3
+ * TOWER_UNUSED             BOWARROWZ    SUBJ3
  * CIRCLE3            BOWARROWZ    SUBJ3
  * UFOBEAN            BOWARROWZ    SUBJ3
  * LIFTBEAN           BOWARROWZ    SUBJ3
@@ -414,7 +440,7 @@ CameraModeValue D_8011A4F4[] = {
  * BOSS_GANONDORF     HOOKSHOT    SPEC5
  * BOSS_GANON        HOOKSHOT    SPEC5
  * TOWER_CLIMB    HOOKSHOT    SPEC5
- * TOWER1             HOOKSHOT    SPEC5
+ * TOWER_UNUSED             HOOKSHOT    SPEC5
  * CIRCLE3            HOOKSHOT    SPEC5
  * UFOBEAN            HOOKSHOT    SPEC5
  * LIFTBEAN           HOOKSHOT    SPEC5
@@ -454,7 +480,7 @@ CameraModeValue D_8011A518[] = {
  * BOSS_GANONDORF     BOOMERANG    SUBJ3
  * BOSS_GANON        BOOMERANG    SUBJ3
  * TOWER_CLIMB    BOOMERANG    SUBJ3
- * TOWER1             BOOMERANG    SUBJ3
+ * TOWER_UNUSED             BOOMERANG    SUBJ3
  * CIRCLE3            BOOMERANG    SUBJ3
  * UFOBEAN            BOOMERANG    SUBJ3
  * LIFTBEAN           BOOMERANG    SUBJ3
@@ -497,7 +523,7 @@ CameraModeValue D_8011A538[] = {
  * BOSS_GANONDORF     SLINGSHOT    SUBJ3
  * BOSS_GANON        SLINGSHOT    SUBJ3
  * TOWER_CLIMB    SLINGSHOT    SUBJ3
- * TOWER1             SLINGSHOT    SUBJ3
+ * TOWER_UNUSED             SLINGSHOT    SUBJ3
  * CIRCLE3            SLINGSHOT    SUBJ3
  * UFOBEAN            SLINGSHOT    SUBJ3
  * LIFTBEAN           SLINGSHOT    SUBJ3
@@ -538,7 +564,7 @@ CameraModeValue D_8011A55C[] = {
  * BOSS_GANONDORF     CLIMBZ    JUMP2
  * BOSS_GANON        CLIMBZ    JUMP2
  * TOWER_CLIMB    CLIMBZ    JUMP2
- * TOWER1             CLIMBZ    JUMP2
+ * TOWER_UNUSED             CLIMBZ    JUMP2
  * CIRCLE3            CLIMBZ    JUMP2
  * UFOBEAN            CLIMBZ    JUMP2
  * LIFTBEAN           CLIMBZ    JUMP2
@@ -586,7 +612,7 @@ CameraModeValue D_8011A580[] = {
  * GANON2             JUMP        JUMP1
  * GANON2             FREEFALL    JUMP1
  * TOWER_CLIMB    FREEFALL    JUMP1
- * TOWER1             FREEFALL    JUMP1
+ * TOWER_UNUSED             FREEFALL    JUMP1
  * UFOBEAN            FREEFALL    JUMP1
  * LIFTBEAN           FREEFALL    JUMP1
  * NORMAL2            JUMP        JUMP1
@@ -626,7 +652,7 @@ CameraModeValue D_8011A5A4[] = {
  * BOSS_GANONDORF     HANG    UNIQ1
  * GANON2             HANG    UNIQ1
  * TOWER_CLIMB    HANG    UNIQ1
- * TOWER1             HANG    UNIQ1
+ * TOWER_UNUSED             HANG    UNIQ1
  * NORMAL2            HANG    UNIQ1
  * JABU_TENTACLE            HANG    UNIQ1
  * TEPPEN             HANG    UNIQ1
@@ -659,7 +685,7 @@ CameraModeValue D_8011A5C4[] = {
  * BOSS_GANONDORF     HANGZ    UNIQ1
  * GANON2             HANGZ    UNIQ1
  * TOWER_CLIMB    HANGZ    UNIQ1
- * TOWER1             HANGZ    UNIQ1
+ * TOWER_UNUSED             HANGZ    UNIQ1
  * NORMAL2            HANGZ    UNIQ1
  * JABU_TENTACLE            HANGZ    UNIQ1
  * TEPPEN             HANGZ    UNIQ1
@@ -706,7 +732,7 @@ CameraModeValue D_8011A5FC[] = {
  * TWINROVA_FLOOR     CHARGE    BATT4
  * GANON2             CHARGE    BATT4
  * TOWER_CLIMB    CHARGE    BATT4
- * TOWER1             CHARGE    BATT4
+ * TOWER_UNUSED             CHARGE    BATT4
  * CIRCLE3            CHARGE    BATT4
  * UFOBEAN            CHARGE    BATT4
  * LIFTBEAN           CHARGE    BATT4
@@ -743,7 +769,7 @@ CameraModeValue D_8011A61C[] = {
  * BOSS_GANONDORF     STILL    NORM1
  * GANON2             STILL    NORM1
  * TOWER_CLIMB    STILL    NORM1
- * TOWER1             STILL    NORM1
+ * TOWER_UNUSED             STILL    NORM1
  * CIRCLE3            STILL    NORM1
  * NORMAL2            STILL    NORM1
  * JABU_TENTACLE            STILL    NORM1
@@ -782,7 +808,7 @@ CameraModeValue D_8011A638[] = {
  * BOSS_GANONDORF     PUSHPULL    PARA1
  * GANON2             PUSHPULL    PARA1
  * TOWER_CLIMB    PUSHPULL    PARA1
- * TOWER1             PUSHPULL    PARA1
+ * TOWER_UNUSED             PUSHPULL    PARA1
  * CIRCLE3            PUSHPULL    PARA1
  * UFOBEAN            PUSHPULL    PARA1
  * LIFTBEAN           PUSHPULL    PARA1
@@ -826,7 +852,7 @@ CameraModeValue D_8011A660[] = {
  * BOSS_GANONDORF     BOOMFOLLLOW    KEEP1
  * GANON2             BOOMFOLLLOW    KEEP1
  * TOWER_CLIMB    BOOMFOLLLOW    KEEP1
- * TOWER1             BOOMFOLLLOW    KEEP1
+ * TOWER_UNUSED             BOOMFOLLLOW    KEEP1
  * CIRCLE3            BOOMFOLLLOW    KEEP1
  * UFOBEAN            BOOMFOLLLOW    KEEP1
  * LIFTBEAN           BOOMFOLLLOW    KEEP1
@@ -2190,14 +2216,14 @@ CameraModeValue D_8011B12C[] = {
 };
 
 /*=====================================================================
- *                   Custom Data: TOWER1 Setting
+ *                   Custom Data: TOWER_UNUSED Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * TOWER1     NORMAL    NORM2
+ * TOWER_UNUSED     NORMAL    NORM2
  */
 CameraModeValue D_8011B150[] = {
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
@@ -2214,7 +2240,7 @@ CameraModeValue D_8011B150[] = {
 /**
  * Setting    Mode    Function
  * -------    ----    --------
- * TOWER1     JUMP    NORM2
+ * TOWER_UNUSED     JUMP    NORM2
  */
 CameraModeValue D_8011B174[] = {
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
@@ -2349,7 +2375,7 @@ CameraModeValue D_8011B1F8[] = {
  * Setting     Mode      Function
  * --------    ------    --------
  * PREREND_FIXED    NORMAL    FIXD3
- * CAM_SET_PREREND_SCROLL    NORMAL    SPEC6
+ * CAM_SET_PREREND_SIDE_SCROLL    NORMAL    SPEC6
  * START0      NORMAL    UNIQ0
  * HIDAN1      NORMAL    SPEC7
  */
@@ -4628,7 +4654,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x051FFFFF }, sCamSetBossGomaModes },   // CAM_SET_BOSS_GOHMA
     { { 0x051FFFFF }, sCamSetBossDodoModes },   // CAM_SET_BOSS_DODONGO
     { { 0x051FFFFF }, sCamSetBossBariModes },   // CAM_SET_BOSS_BARINADE
-    { { 0x051FFFFF }, sCamSetBossFGanonModes }, // CAM_SET_BOSS_PHANTOM
+    { { 0x051FFFFF }, sCamSetBossFGanonModes }, // CAM_SET_BOSS_PHANTOM_GANON
     { { 0x051FFFFF }, sCamSetBossBalModes },    // CAM_SET_BOSS_VOLVAGIA
     { { 0x051FFFFF }, sCamSetBossShadesModes }, // CAM_SET_BOSS_BONGO
     { { 0x051FFFFF }, sCamSetBossMofaModes },   // CAM_SET_BOSS_MORPHA
@@ -4640,12 +4666,12 @@ CameraSetting sCameraSettings[] = {
     { { 0x851FFFFF }, sCamSetTower1Modes },     // CAM_SET_TOWER_UNUSED
     { { 0x8500000D }, sCamSetFixed0Modes },     // CAM_SET_MARKET_BALCONY
     { { 0x85000001 }, sCamSetFixed1Modes },     // CAM_SET_CHU_BOWLING
-    { { 0x85000001 }, sCamSetCirc0Modes },      // CAM_SET_CIRCLE0
-    { { 0x85000001 }, sCamSetCirc2Modes },      // CAM_SET_SHOP_BROWSING
-    { { 0x851E1FFF }, sCamSetCirc3Modes },      // CAM_SET_CIRCLE3
+    { { 0x85000001 }, sCamSetCirc0Modes },      // CAM_SET_PIVOT_CRAWLSPACE
+    { { 0x85000001 }, sCamSetCirc2Modes },      // CAM_SET_PIVOT_SHOP_BROWSING
+    { { 0x851E1FFF }, sCamSetCirc3Modes },      // CAM_SET_PIVOT_FRONT
     { { 0x8C00000D }, sCamSetPreRend0Modes },   // CAM_SET_PREREND_FIXED
     { { 0x8C00000D }, sCamSetPreRend1Modes },   // CAM_SET_PREREND_ROTATE
-    { { 0x8C000001 }, sCamSetPreRend3Modes },   // CAM_SET_PREREND_SCROLL
+    { { 0x8C000001 }, sCamSetPreRend3Modes },   // CAM_SET_PREREND_SIDE_SCROLL
     { { 0xC5000001 }, sCamSetDoor0Modes },      // CAM_SET_DOOR0
     { { 0xC5000003 }, sCamSetDoorCModes },      // CAM_SET_DOORC
     { { 0xC5000001 }, sCamSetRail3Modes },      // CAM_SET_CRAWLSPACE
@@ -4653,15 +4679,15 @@ CameraSetting sCameraSettings[] = {
     { { 0xC5000001 }, sCamSetStart1Modes },     // CAM_SET_START1
     { { 0x05000001 }, sCamSetFree0Modes },      // CAM_SET_FREE0
     { { 0x05000001 }, sCamSetFree1Modes },      // CAM_SET_FREE2
-    { { 0x85000001 }, sCamSetCirc4Modes },      // CAM_SET_PRISON
-    { { 0x05000003 }, sCamSetCirc5Modes },      // CAM_SET_DIVING
+    { { 0x85000001 }, sCamSetCirc4Modes },      // CAM_SET_PIVOT_CORNER
+    { { 0x05000003 }, sCamSetCirc5Modes },      // CAM_SET_PIVOT_DIVING
     { { 0xCE000001 }, sCamSetDemo0Modes },      // CAM_SET_CS_0
     { { 0x4E000001 }, sCamSetDemo1Modes },      // CAM_SET_CS_1
     { { 0x05000009 }, sCamSetMori1Modes },      // CAM_SET_FOREST_BIRDS_EYE
     { { 0x45000001 }, sCamSetItem0Modes },      // CAM_SET_SLOW_CHEST_CS
     { { 0x45000001 }, sCamSetItem1Modes },      // CAM_SET_ITEM_UNUSED
     { { 0x45000001 }, sCamSetDemo3Modes },      // CAM_SET_CS_3
-    { { 0x45000001 }, sCamSetDemo4Modes },      // CAM_SET_CS_4
+    { { 0x45000001 }, sCamSetDemo4Modes },      // CAM_SET_CS_ATTENTION
     { { 0x451FFFFF }, sCamSetUFOBeanModes },    // CAM_SET_BEAN_GENERIC
     { { 0x451FFFFF }, sCamSetLiftBeanModes },   // CAM_SET_BEAN_LOST_WOODS
     { { 0xC5000001 }, sCamSetScene0Modes },     // CAM_SET_SCENE_UNUSED
@@ -4674,15 +4700,15 @@ CameraSetting sCameraSettings[] = {
     { { 0x05000033 }, sCamSetSpot05AModes },    // CAM_SET_MEADOW_MAZE
     { { 0x05000033 }, sCamSetSpot05BModes },    // CAM_SET_MEADOW_UNUSED
     { { 0x05000033 }, sCamSetHidan3Modes },     // CAM_SET_FIRE_BIRDS_EYE
-    { { 0x4A000001 }, sCamSetItem2Modes },      // CAM_SET_FACE_PLAYER_FRONT
-    { { 0x05000001 }, sCamSetCirc6Modes },      // CAM_SET_LOWERING_PLATFORM
+    { { 0x4A000001 }, sCamSetItem2Modes },      // CAM_SET_TURN_AROUND
+    { { 0x05000001 }, sCamSetCirc6Modes },      // CAM_SET_PIVOT_VERTICAL
     { { 0x051FFFFF }, sCamSetNorm2Modes },      // CAM_SET_NORMAL2
     { { 0x0501E05F }, sCamSetFishingModes },    // CAM_SET_FISHING
     { { 0x45000001 }, sCamSetDemoCModes },      // CAM_SET_CS_C
     { { 0x051FFFFF }, sCamSetUOFiberModes },    // CAM_SET_JABU_TENTACLE
     { { 0x051FFFFF }, sCamSetDungeon2Modes },   // CAM_SET_DUNGEON2
     { { 0x051FFFFF }, sCamSetTeppenModes },     // CAM_SET_DIRECTED_YAW
-    { { 0xC5000ECD }, sCamSetCirc7Modes },      // CAM_SET_FIXED_SIDE
+    { { 0xC5000ECD }, sCamSetCirc7Modes },      // CAM_SET_PIVOT_SIDE
     { { 0x051FFFFF }, sCamSetNorm4Modes },      // CAM_SET_NORMAL4
 };
 

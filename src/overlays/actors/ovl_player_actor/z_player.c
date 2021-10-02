@@ -2676,7 +2676,7 @@ void func_80835E44(GlobalContext* globalCtx, s16 camSetting) {
 }
 
 void func_80835EA4(GlobalContext* globalCtx, s32 arg1) {
-    func_80835E44(globalCtx, CAM_SET_FACE_PLAYER_FRONT);
+    func_80835E44(globalCtx, CAM_SET_TURN_AROUND);
     Camera_SetCameraData(Gameplay_GetCamera(globalCtx, 0), 4, 0, 0, arg1, 0, 0);
 }
 

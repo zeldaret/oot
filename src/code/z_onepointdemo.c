@@ -118,7 +118,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 5010:
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_4);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_ATTENTION);
             Gameplay_CameraSetAtEye(globalCtx, camIdx, &mainCam->at, &mainCam->eye);
             csCam->roll = 0;
             break;
@@ -421,7 +421,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
 
             Actor_GetFocus(&spA0, actor);
             spC0 = spA0.pos;
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_LOWERING_PLATFORM);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_PIVOT_VERTICAL);
             Gameplay_CameraSetAtEye(globalCtx, camIdx, &spC0, &spB4);
             csCam->roll = 0;
             csCam->fov = 70.0f;
@@ -605,7 +605,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
         case 3220:
             Actor_GetFocus(&spA0, actor);
             spC0 = spA0.pos;
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_LOWERING_PLATFORM);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_PIVOT_VERTICAL);
             Actor_GetWorld(&spA0, &player->actor);
             OLib_Vec3fDiffToVecSphGeo(&spD0, &spC0, &spA0.pos);
             spD0.yaw += 0x3E8;
@@ -955,7 +955,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
         case 9806:
             csCam->timer = -99;
             if (func_800C0CB8(globalCtx)) {
-                func_800C0808(globalCtx, camIdx, player, CAM_SET_FACE_PLAYER_FRONT);
+                func_800C0808(globalCtx, camIdx, player, CAM_SET_TURN_AROUND);
                 csCam->data2 = 0xC;
             } else {
                 Gameplay_CopyCamera(globalCtx, camIdx, MAIN_CAM);
@@ -1272,7 +1272,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
         parentCam = globalCtx->cameraPtrs[parentCam->childCamIdx];
         if (parentCam == NULL) {
             break;
-        } else if (parentCam->setting != CAM_SET_CS_4) {
+        } else if (parentCam->setting != CAM_SET_CS_ATTENTION) {
             if (vLastHigherCat == -1) {
                 continue;
             } else {
@@ -1363,7 +1363,7 @@ s32 OnePointCutscene_CheckForCategory(GlobalContext* globalCtx, s32 category) {
 
     while (parentCam->childCamIdx != SUBCAM_FREE) {
         parentCam = globalCtx->cameraPtrs[parentCam->childCamIdx];
-        if ((parentCam == NULL) || (parentCam->setting != CAM_SET_CS_4)) {
+        if ((parentCam == NULL) || (parentCam->setting != CAM_SET_CS_ATTENTION)) {
             break;
         } else if (category == parentCam->target->category) {
             return true;
