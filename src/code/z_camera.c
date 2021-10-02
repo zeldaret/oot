@@ -3998,7 +3998,7 @@ s32 Camera_Fixed3(Camera* camera) {
 
     if (camera->animState == 0) {
         anim->updDirTimer = 5;
-        R_CAM_FIXED3_FOV = anim->fov;
+        R_CAM_DATA(CAM_DATA_FOV) = anim->fov;
         camera->animState++;
     }
 
@@ -4021,7 +4021,7 @@ s32 Camera_Fixed3(Camera* camera) {
 
     Camera_Vec3fVecSphGeoAdd(at, eye, &atSph);
     sCameraInterfaceFlags = fixd3->interfaceFlags;
-    anim->fov = R_CAM_FIXED3_FOV;
+    anim->fov = R_CAM_DATA(CAM_DATA_FOV);
     camera->roll = 0;
     camera->fov = anim->fov * 0.01f;
     camera->atLERPStepScale = 0.0f;
@@ -4702,7 +4702,7 @@ s32 Camera_Unique3(Camera* camera) {
             if (params->interfaceFlags & 2) {
                 camera->unk_14C |= 4;
                 camera->unk_14C &= ~8;
-                Camera_ChangeSettingFlags(camera, CAM_SET_PIVOT_FRONT, 2);
+                Camera_ChangeSettingFlags(camera, CAM_SET_PIVOT_IN_FRONT, 2);
                 break;
             }
             uniq3->doorParams.timer3 = 5;
@@ -7063,7 +7063,7 @@ s32 Camera_CheckWater(Camera* camera) {
 
     if (camera->unk_14C & 0x200) {
         if (player->stateFlags2 & 0x800) {
-            Camera_ChangeSettingFlags(camera, CAM_SET_PIVOT_DIVING, 6);
+            Camera_ChangeSettingFlags(camera, CAM_SET_PIVOT_WATER_SURFACE, 6);
             camera->unk_14C |= (s16)0x8000;
         } else if (camera->unk_14C & (s16)0x8000) {
             Camera_ChangeSettingFlags(camera, *waterPrevCamSetting, 6);
@@ -7734,7 +7734,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
             return -2;
         }
     }
-    if (((setting == CAM_SET_MEADOW_MAZE) || (setting == CAM_SET_MEADOW_UNUSED)) && LINK_IS_ADULT &&
+    if (((setting == CAM_SET_MEADOW_BIRDS_EYE) || (setting == CAM_SET_MEADOW_UNUSED)) && LINK_IS_ADULT &&
         (camera->globalCtx->sceneNum == SCENE_SPOT05)) {
         camera->unk_14A |= 0x10;
         return -5;
