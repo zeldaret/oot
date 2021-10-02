@@ -62,7 +62,7 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 spawnRangeXZ;
 
     osSyncPrintf("\n\n");
-    // Visit Umeda
+    // "Visit Umeda"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n" VT_RST);
 
     this->switchFlag = this->actor.params & 0x3F;
@@ -75,15 +75,15 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->maxSpawnDistance.x = (spawnRangeY * 40.0f) + 40.0f;
     this->maxSpawnDistance.y = (spawnRangeXZ * 40.0f) + 40.0f;
 
-    // Former? (Argument 0)
+    // "Former? (Argument 0)"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(引数０) ☆☆☆☆ %f\n" VT_RST, spawnRangeY);
-    // Former? (Z angle)
+    // "Former? (Z angle)"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(Ｚアングル) ☆☆ %f\n" VT_RST, spawnRangeXZ);
-    // Correction coordinates X
+    // "Correction coordinates X"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｘ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
-    // Correction coordinates Y
+    // "Correction coordinates Y"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｙ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.y);
-    // Correction coordinates Z
+    // "Correction coordinates Z"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｚ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.z);
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ SAVE       ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
     osSyncPrintf("\n\n");

@@ -1209,7 +1209,7 @@ void DemoEc_InitNpc(DemoEc* this, GlobalContext* globalCtx) {
     s16 type = this->actor.params;
 
     if (sInitFuncs[type] == NULL) {
-        // Demo_Ec_main_init: Initialization process is wrong arg_data
+        // "Demo_Ec_main_init: Initialization process is wrong arg_data"
         osSyncPrintf(VT_FGCOL(RED) " Demo_Ec_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, type);
         Actor_Kill(&this->actor);
         return;
@@ -1234,7 +1234,7 @@ void DemoEc_InitCommon(DemoEc* this, GlobalContext* globalCtx) {
     secondaryBankIndex = Object_GetIndex(&globalCtx->objectCtx, sp28);
 
     if ((secondaryBankIndex < 0) || (primaryBankIndex < 0)) {
-        // Demo_Ec_main_bank: Bank unreadable arg_data =%
+        // "Demo_Ec_main_bank: Bank unreadable arg_data = %d!"
         osSyncPrintf(VT_FGCOL(RED) "Demo_Ec_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, type);
         Actor_Kill(&this->actor);
         return;
@@ -1287,7 +1287,7 @@ void DemoEc_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 updateMode = this->updateMode;
 
     if ((updateMode < 0) || (updateMode >= ARRAY_COUNT(sUpdateFuncs)) || sUpdateFuncs[updateMode] == NULL) {
-        // The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         if (updateMode != EC_UPDATE_COMMON) {
@@ -1320,7 +1320,7 @@ void DemoEc_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 drawConfig = this->drawConfig;
 
     if ((drawConfig < 0) || (drawConfig >= ARRAY_COUNT(sDrawFuncs)) || sDrawFuncs[drawConfig] == NULL) {
-        // The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         if (drawConfig != EC_DRAW_COMMON) {

@@ -5529,7 +5529,7 @@ s32 Camera_Demo1(Camera* camera) {
             anim->keyframe = 0;
             anim->curFrame = 0.0f;
             camera->animState++;
-            // absolute / relative
+            // "absolute" : "relative"
             osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: spline demo: start %s \n",
                          camera->globalCtx->state.frames, *relativeToPlayer == 0 ? "絶対" : "相対");
 

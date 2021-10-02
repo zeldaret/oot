@@ -129,7 +129,7 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->objId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
         osSyncPrintf("\n\n");
-        // Deku Scrub target
+        // "Deku Scrub target"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n" VT_RST);
         Collider_InitQuad(globalCtx, &this->targetQuad);
         Collider_SetQuad(globalCtx, &this->targetQuad, &this->actor, &sTargetQuadInit);
@@ -137,7 +137,7 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->objId = OBJECT_HINTNUTS;
     } else {
         osSyncPrintf("\n\n");
-        // Deku Scrub mask show audience
+        // "Deku Scrub mask show audience"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
         Collider_InitCylinder(globalCtx, &this->bodyCyl);
         Collider_SetCylinder(globalCtx, &this->bodyCyl, &this->actor, &sBodyCylinderInit);
@@ -147,9 +147,9 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->objIndex = Object_GetIndex(&globalCtx->objectCtx, this->objId);
         if (this->objIndex < 0) {
             Actor_Kill(&this->actor);
-            // What?
+            // "What?"
             osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
-            // Bank is funny
+            // "Bank is funny"
             osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
         }
@@ -246,7 +246,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, GlobalContext* globalCtx) {
             EffectSsExtra_Spawn(globalCtx, &scorePos, &scoreVel, &scoreAccel, 4, 2);
             Audio_StopSfx(NA_SE_SY_TRE_BOX_APPEAR);
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-            // Big hit
+            // "Big hit"
             osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n" VT_RST, this->hitCounter);
             if (!LINK_IS_ADULT && !(gSaveContext.itemGetInf[1] & 0x2000)) {
                 this->hitCounter++;

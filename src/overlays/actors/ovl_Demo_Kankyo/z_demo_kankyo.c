@@ -1,6 +1,8 @@
 #include "z_demo_kankyo.h"
 #include "z64cutscene_commands.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_efc_star_field/object_efc_star_field.h"
+#include "objects/object_toki_objects/object_toki_objects.h"
 
 #define FLAGS 0x00000030
 
@@ -173,12 +175,6 @@ static CutsceneCameraPoint sSparklesCameraPoints[] = {
 static s16 D_8098CF80;
 static s16 sRainScale;
 static s16 D_8098CF84;
-
-extern Gfx D_06000080[]; // rain DL
-extern Gfx D_06000DE0[]; // rocks DL
-extern Gfx D_06007440[]; // DoT DL left
-extern Gfx D_06007578[]; // DoT DL right
-extern Gfx D_06008390[]; // light plane DL
 
 void DemoKankyo_SetupAction(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -627,7 +623,7 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1344),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
-            gSPDisplayList(POLY_XLU_DISP++, D_06000080);
+            gSPDisplayList(POLY_XLU_DISP++, object_efc_star_field_DL_000080);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1358);
@@ -649,7 +645,7 @@ void DemoKankyo_DrawRock(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1404),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000DE0);
+    gSPDisplayList(POLY_OPA_DISP++, object_efc_star_field_DL_000DE0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1409);
 }
@@ -701,11 +697,11 @@ void DemoKankyo_DrawDoorOfTime(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Translate(-this->unk_150[0].unk_18, 0.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1492),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06007440);
+    gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007440);
     Matrix_Translate(this->unk_150[0].unk_18 + this->unk_150[0].unk_18, 0.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1497),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06007578);
+    gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007578);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1501);
 }
@@ -723,7 +719,7 @@ void DemoKankyo_DrawLightPlane(Actor* thisx, GlobalContext* globalCtx) {
                    Gfx_TexScroll(globalCtx->state.gfxCtx, 0, globalCtx->state.frames & 0x7F, 64, 32));
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1529),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06008390);
+        gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_008390);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1534);

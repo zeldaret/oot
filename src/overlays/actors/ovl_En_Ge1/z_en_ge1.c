@@ -135,7 +135,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case GE1_TYPE_VALLEY_FLOOR:
             if (LINK_IS_ADULT) {
-                // Valley floor Gerudo withdrawal
+                // "Valley floor Gerudo withdrawal"
                 osSyncPrintf(VT_FGCOL(CYAN) "谷底 ゲルド 撤退 \n" VT_RST);
                 Actor_Kill(&this->actor);
                 return;
@@ -151,7 +151,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             this->actor.targetMode = 3;
             this->hairstyle = GE1_HAIR_BOB;
-            // Horsback archery Gerudo EVENT_INF(0) =
+            // "Horseback archery Gerudo EVENT_INF(0) ="
             osSyncPrintf(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
 
             if (gSaveContext.eventInf[0] & 0x100) {

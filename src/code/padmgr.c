@@ -75,7 +75,7 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
                             if (osSetRumble(&padMgr->pfs[i], temp) != 0) {
                                 padMgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
-                                // "A communication error has occurred with the vibraton pack"
+                                // "A communication error has occurred with the vibration pack"
                                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックで通信エラーが発生しました");
                                 osSyncPrintf(VT_RST);
                             } else {
