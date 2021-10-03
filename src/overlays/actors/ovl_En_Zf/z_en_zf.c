@@ -2125,7 +2125,7 @@ s32 EnZf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     EnZf* this = THIS;
 
     switch (limbIndex) {
-        case ENZF_LIMB_NECK_ROOT:
+        case ENZF_LIMB_HEAD_ROOT:
             rot->y -= this->headRot;
             break;
         case ENZF_LIMB_SWORD:

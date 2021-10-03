@@ -33,9 +33,9 @@
         <Limb Name="gZfDinolfosRootLimb" LimbType="Standard" Offset="0x6390"/>
         <Limb Name="gZfDinolfosBodyRootLimb" LimbType="Standard" Offset="0x639C"/>
         <Limb Name="gZfDinolfosUpperBodyRootLimb" LimbType="Standard" Offset="0x63A8"/>
-        <Limb Name="gZfDinolfosHeadNeckRootLimb" LimbType="Standard" Offset="0x63B4"/>
-        <Limb Name="gZfDinolfosNeckRootLimb" LimbType="Standard" Offset="0x63C0"/>
-        <Limb Name="gZfDinolfosHeadRootLimb" LimbType="Standard" Offset="0x63CC"/>
+        <Limb Name="gZfDinolfosNeckRootLimb" LimbType="Standard" Offset="0x63B4"/>
+        <Limb Name="gZfDinolfosHeadRootLimb" LimbType="Standard" Offset="0x63C0"/>
+        <Limb Name="gZfDinolfosJawRootRootLimb" LimbType="Standard" Offset="0x63CC"/>
         <Limb Name="gZfDinolfosJawRootLimb" LimbType="Standard" Offset="0x63D8"/>
         <Limb Name="gZfDinolfosJawLimb" LimbType="Standard" Offset="0x63E4"/>
         <Limb Name="gZfDinolfosHeadLimb" LimbType="Standard" Offset="0x63F0"/>
@@ -123,9 +123,9 @@
         <Limb Name="gZfLizalfosRootLimb" LimbType="Standard" Offset="0x101B8"/>
         <Limb Name="gZfLizalfosBodyRootLimb" LimbType="Standard" Offset="0x101C4"/>
         <Limb Name="gZfLizalfosUpperBodyRootLimb" LimbType="Standard" Offset="0x101D0"/>
-        <Limb Name="gZfLizalfosHeadNeckRootLimb" LimbType="Standard" Offset="0x101DC"/>
-        <Limb Name="gZfLizalfosNeckRootLimb" LimbType="Standard" Offset="0x101E8"/>
-        <Limb Name="gZfLizalfosHeadRootLimb" LimbType="Standard" Offset="0x101F4"/>
+        <Limb Name="gZfLizalfosNeckRootLimb" LimbType="Standard" Offset="0x101DC"/>
+        <Limb Name="gZfLizalfosHeadRootLimb" LimbType="Standard" Offset="0x101E8"/>
+        <Limb Name="gZfLizalfosJawRootRootLimb" LimbType="Standard" Offset="0x101F4"/>
         <Limb Name="gZfLizalfosJawRootLimb" LimbType="Standard" Offset="0x10200"/>
         <Limb Name="gZfLizalfosJawLimb" LimbType="Standard" Offset="0x1020C"/>
         <Limb Name="gZfLizalfosHeadLimb" LimbType="Standard" Offset="0x10218"/>
