@@ -1,7 +1,7 @@
 #include "file_choose.h"
 #include "textures/title_static/title_static.h"
 
-extern Vtx D_80811BB0[6][4];
+extern Vtx D_80811BB0[24];
 extern s16 D_808123F0[];
 extern Vtx D_80811E30[];
 extern Vtx D_80811D30[];
@@ -259,8 +259,6 @@ void FileChoose_DrawKeyboard(FileChooseContext* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 347);
 }
 
-#ifdef NON_MATCHING
-// Each invocation of D_80811BB0[this->kbdX + 1] needs to skip a t register.
 void func_80808000(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     Font* font = &this->font;
@@ -286,17 +284,17 @@ void func_80808000(FileChooseContext* thisx) {
         if (this->kbdX != this->kbdButton) {
             osSyncPrintf("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
-        this->allocVtx4[40].v.ob[0] = this->allocVtx4[42].v.ob[0] = D_80811BB0[this->kbdX + 1][0].v.ob[0] - 4;
+        this->allocVtx4[40].v.ob[0] = this->allocVtx4[42].v.ob[0] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[0] - 4;
         this->allocVtx4[41].v.ob[0] = this->allocVtx4[43].v.ob[0] = this->allocVtx4[40].v.ob[0] + 52;
-        this->allocVtx4[40].v.ob[1] = this->allocVtx4[41].v.ob[1] = D_80811BB0[this->kbdX + 1][0].v.ob[1] + 4;
+        this->allocVtx4[40].v.ob[1] = this->allocVtx4[41].v.ob[1] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[1] + 4;
 
     } else if ((this->kbdButton == KBD_BTN_ENG) || (this->kbdButton == KBD_BTN_BACKSPACE)) {
         if (this->kbdX != this->kbdButton) {
             osSyncPrintf("23 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
-        this->allocVtx4[40].v.ob[0] = this->allocVtx4[42].v.ob[0] = D_80811BB0[this->kbdX + 1][0].v.ob[0] - 4;
+        this->allocVtx4[40].v.ob[0] = this->allocVtx4[42].v.ob[0] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[0] - 4;
         this->allocVtx4[41].v.ob[0] = this->allocVtx4[43].v.ob[0] = this->allocVtx4[40].v.ob[0] + 40;
-        this->allocVtx4[40].v.ob[1] = this->allocVtx4[41].v.ob[1] = D_80811BB0[this->kbdX + 1][0].v.ob[1] + 4;
+        this->allocVtx4[40].v.ob[1] = this->allocVtx4[41].v.ob[1] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[1] + 4;
     } else {
         if (this->charIndex >= 65) {
             osSyncPrintf("mjp=%d  xpos=%d  ypos=%d  name_contents=%d\n", this->charIndex, this->kbdX, this->kbdY,
@@ -477,10 +475,6 @@ void func_80808000(FileChooseContext* thisx) {
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 550);
 }
-#else
-void func_80808000(FileChooseContext* thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808000.s")
-#endif
 
 /**
  * Fade in the name entry box and slide it to the center of the screen from the right side.
