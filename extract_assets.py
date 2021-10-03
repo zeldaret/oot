@@ -97,11 +97,8 @@ def main():
         ExtractFunc(fullPath)
     else:
         print("Extracting text")
-        ### TODO have ZAPD extract
         from tools import msgdis
-
         msgdis.extract_all_text("assets/text/declare_messages.h", "assets/text/declare_messages_staff.h")
-        ###
 
         xmlFiles = []
         for currentPath, _, files in os.walk(os.path.join("assets", "xml")):
