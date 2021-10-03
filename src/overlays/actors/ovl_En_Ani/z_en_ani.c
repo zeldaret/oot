@@ -144,7 +144,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
     u16 textId2;
 
     textId2 = Text_GetFaceReaction(globalCtx, 0xA);
-    textId = textId2 & 0xffff;
+    textId = textId2 & 0xFFFF;
 
     if (!textId) {}
 

@@ -31,8 +31,8 @@
         <Texture Name="gWindmillManEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x5F20"/>
         <Texture Name="gWindmillManEyeAngryTex" OutName="eye_angry" Format="ci8" Width="32" Height="32" Offset="0x6320"/>
 
-        <Texture Name="gWindMillManMouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="16" Offset="0x6720"/>
-        <Texture Name="gWindMillManMouthAngryTex" OutName="mouth_angry" Format="ci8" Width="32" Height="16" Offset="0x6920"/>
+        <Texture Name="gWindmillManMouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="16" Offset="0x6720"/>
+        <Texture Name="gWindmillManMouthAngryTex" OutName="mouth_angry" Format="ci8" Width="32" Height="16" Offset="0x6920"/>
         
         <Texture Name="gWindmillManHairTex" OutName="hair" Format="ci8" Width="8" Height="16" Offset="0x6B20"/>
         <Skeleton Name="gWindmillManSkel" Type="Flex" LimbType="Standard" Offset="0x6C90"/>

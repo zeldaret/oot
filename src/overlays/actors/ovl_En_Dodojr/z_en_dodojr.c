@@ -626,7 +626,8 @@ s32 func_809F7D50(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     Vec3f D_809F7F64 = { 480.0f, 620.0f, 0.0f };
 
     if (limbIndex == 1) {
-        Matrix_Scale((this->rootScale * 0.5f) + 1.0f, this->rootScale + 1.0f, (this->rootScale * 0.5f) + 1.0f, 1);
+        Matrix_Scale((this->rootScale * 0.5f) + 1.0f, this->rootScale + 1.0f, (this->rootScale * 0.5f) + 1.0f,
+                     MTXMODE_APPLY);
     }
 
     if (limbIndex == 4) {

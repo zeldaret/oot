@@ -138,8 +138,6 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
 
     if (textID == 0) {
         textID = (gSaveContext.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
-        // 0x5032: "Go around!..I'm so happy!..I'm trying to come up with a musical theme inspired by this windmill..."
-        // 0x5033: "Go around, go around, go around... What? It's going way too fast!"
     }
 
     // if actor flags & 0x100 is set and textID is 0x5033, change animation
@@ -299,7 +297,7 @@ void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyesSegments[] = { gWindmillManEyeClosedTex, gWindmillManEyeAngryTex };
-    static void* sMouthSegments[] = { gWindMillManMouthOpenTex, gWindMillManMouthAngryTex };
+    static void* sMouthSegments[] = { gWindmillManMouthOpenTex, gWindmillManMouthAngryTex };
     s32 pad;
     EnFu* this = THIS;
 

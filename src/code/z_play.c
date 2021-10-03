@@ -244,7 +244,7 @@ void Gameplay_Init(GameState* thisx) {
         gSaveContext.cutsceneIndex = 0;
     }
 
-    if (gSaveContext.nextDayTime != 0xFFFFU) {
+    if (gSaveContext.nextDayTime != 0xFFFF) {
         gSaveContext.dayTime = gSaveContext.nextDayTime;
         gSaveContext.skyboxTime = gSaveContext.nextDayTime;
     }
