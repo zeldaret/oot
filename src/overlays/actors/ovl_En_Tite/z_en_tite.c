@@ -153,8 +153,8 @@ static DamageTable sDamageTable[] = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x45, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(minVelocityY, 65496, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 64536, ICHAIN_STOP),
+    ICHAIN_F32(minVelocityY, -40, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_STOP),
 };
 
 static AnimationHeader* D_80B1B634[] = {
@@ -402,7 +402,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
             func_80033480(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
         }
     }
-    // if landed, kill XY speed and play appropriate sounds
+    // if landed, kill XZ speed and play appropriate sounds
     if (this->actor.params == TEKTITE_BLUE) {
         if (this->actor.bgCheckFlags & 0x40) {
             this->actor.speedXZ = 0.0f;

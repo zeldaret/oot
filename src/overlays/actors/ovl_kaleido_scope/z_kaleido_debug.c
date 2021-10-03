@@ -319,21 +319,21 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
         heldDBtnTimer = 16;
     }
 
-    if (dBtnInput & BTN_DDOWN) {
+    if (CHECK_BTN_ANY(dBtnInput, BTN_DDOWN)) {
         if ((u32)++curRow > 10) {
             curRow = 0;
         }
         curSection = sRowFirstSections[curRow];
-    } else if (dBtnInput & BTN_DUP) {
+    } else if (CHECK_BTN_ANY(dBtnInput, BTN_DUP)) {
         if (--curRow < 0) {
             curRow = 22;
         }
         curSection = sRowFirstSections[curRow];
-    } else if (dBtnInput & BTN_DLEFT) {
+    } else if (CHECK_BTN_ANY(dBtnInput, BTN_DLEFT)) {
         if (--curSection < 0) {
             curSection = 0x5C;
         }
-    } else if (dBtnInput & BTN_DRIGHT) {
+    } else if (CHECK_BTN_ANY(dBtnInput, BTN_DRIGHT)) {
         if (++curSection > 0x5C) {
             curSection = 0;
         }
@@ -415,17 +415,17 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
                     }
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                        if (i != gSaveContext.inventory.items[SLOT(gAmmoItems[i])]) {
-                            gSaveContext.inventory.items[SLOT(gAmmoItems[i])] = gAmmoItems[i];
+                        if (i != INV_CONTENT(gAmmoItems[i])) {
+                            INV_CONTENT(gAmmoItems[i]) = gAmmoItems[i];
                         }
-                        gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])]++;
-                        if (gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] > 99) {
-                            gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] = 99;
+                        AMMO(gAmmoItems[i])++;
+                        if (AMMO(gAmmoItems[i]) > 99) {
+                            AMMO(gAmmoItems[i]) = 99;
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                        gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])]--;
-                        if (gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] < 0) {
-                            gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] = 0;
+                        AMMO(gAmmoItems[i])--;
+                        if (AMMO(gAmmoItems[i]) < 0) {
+                            AMMO(gAmmoItems[i]) = 0;
                         }
                     }
                 } else if (i == SLOT_OCARINA) {

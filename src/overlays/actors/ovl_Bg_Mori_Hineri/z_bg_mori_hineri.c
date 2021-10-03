@@ -115,9 +115,9 @@ void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
 
-    if ((Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx)) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx)) &&
-        ((this->boxObjIdx < 0) || (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx)))) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx) &&
+        Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx) &&
+        ((this->boxObjIdx < 0) || Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
         this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
         if (this->dyna.actor.params >= 4) {
             this->dyna.actor.params -= 4;

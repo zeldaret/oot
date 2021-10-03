@@ -513,7 +513,7 @@ void EnOssan_TalkGoronShopkeeper(GlobalContext* globalCtx) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         if (gSaveContext.eventChkInf[2] & 0x20) {
             func_8010B720(globalCtx, 0x3028);
-        } else if (CUR_UPG_VALUE(UPG_STRENGTH)) {
+        } else if (CUR_UPG_VALUE(UPG_STRENGTH) != 0) {
             func_8010B720(globalCtx, 0x302D);
         } else {
             func_8010B720(globalCtx, 0x300F);
