@@ -60,7 +60,7 @@ void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->objectId >= 0) {
         this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, this->objectId);
         if (this->objBankIndex < 0) {
-            // There was no bank setting.
+            // "There was no bank setting."
             osSyncPrintf("-----------------------------バンク設定ありませんでした.");
             Actor_Kill(&this->dyna.actor);
             return;
@@ -91,7 +91,7 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
     Vec3f position;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        // ---- Successful bank switching!!
+        // "---- Successful bank switching!!"
         osSyncPrintf("-----バンク切り換え成功！！\n");
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
 

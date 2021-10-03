@@ -99,7 +99,7 @@ StackStatus StackCheck_GetState(StackEntry* entry) {
     }
 
     osSyncPrintf("head=%08x tail=%08x last=%08x used=%08x free=%08x [%s]\n", entry->head, entry->tail, last, used, free,
-                 entry->name ? entry->name : "(null)");
+                 entry->name != NULL ? entry->name : "(null)");
     osSyncPrintf(VT_RST);
 
     if (ret != STACK_STATUS_OK) {
