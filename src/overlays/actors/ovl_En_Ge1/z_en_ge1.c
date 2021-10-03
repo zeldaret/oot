@@ -353,7 +353,7 @@ void EnGe1_SetupOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_RefuseEntryTooPoor_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actionFunc = EnGe1_CheckForCard_GTGGuard;
         EnGe1_SetAnimationIdle(this);
     }

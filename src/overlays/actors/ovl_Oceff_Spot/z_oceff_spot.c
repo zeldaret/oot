@@ -83,7 +83,7 @@ void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
     } else {
         Actor_Kill(&this->actor);
         if (gTimeIncrement != 400 && globalCtx->msgCtx.unk_E40E == 0 && (gSaveContext.eventInf[0] & 0xF) != 1) {
-            if (globalCtx->msgCtx.ocarinaAction != OCARINA_ACTION_UNK_31 ||
+            if (globalCtx->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
                 globalCtx->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
                 osSyncPrintf(VT_FGCOL(YELLOW));

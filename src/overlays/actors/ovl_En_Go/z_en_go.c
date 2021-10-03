@@ -204,7 +204,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
     xzRange = thisx->xzDistToPlayer + 1.0f;
     switch (Message_GetState(&globalCtx->msgCtx)) {
         if (globalCtx) {}
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x3008:
                     gSaveContext.infTable[14] |= 1;
@@ -324,9 +324,9 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_3:
-        case TEXT_STATE_7:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_9:
             break;
     }
@@ -865,7 +865,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
                 this->unk_21E = 100;
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
-                globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 gSaveContext.timer2State = 0;
                 OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
             } else {

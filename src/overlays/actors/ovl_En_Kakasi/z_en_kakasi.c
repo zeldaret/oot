@@ -217,7 +217,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
                     if (player->stateFlags2 & 0x1000000) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
 
-                        func_8010BD58(globalCtx, OCARINA_ACTION_LONG_RECORDING_START);
+                        func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_LONG_RECORDING);
                         this->unk_19A = 0;
                         this->unk_1B8 = 0.0;
                         player->stateFlags2 |= 0x800000;
@@ -269,9 +269,9 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
         }
         this->camId = OnePointCutscene_Init(globalCtx, 2270, -99, &this->actor, MAIN_CAM);
-        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         func_8002DF54(globalCtx, NULL, 8);
-        func_8010BD58(globalCtx, OCARINA_ACTION_LONG_RECORDING_PLAYBACK);
+        func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_LONG_PLAYBACK);
         this->actionFunc = func_80A8FAA4;
     }
 }

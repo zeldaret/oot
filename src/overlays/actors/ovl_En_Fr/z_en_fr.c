@@ -605,7 +605,7 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
         }
 
         OnePointCutscene_Init(globalCtx, 4110, ~0x62, &this->actor, MAIN_CAM);
-        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         player->actor.world.pos.x = this->actor.world.pos.x; // x = 990.0f
         player->actor.world.pos.y = this->actor.world.pos.y; // y = 205.0f
         player->actor.world.pos.z = this->actor.world.pos.z; // z = -1220.0f
@@ -619,10 +619,10 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
 
 void EnFr_Activate(EnFr* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_PLAYING) {
-        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         sEnFrPointers.flags = 1;
         this->actionFunc = EnFr_ActivateCheckFrogSong;
-    } else if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_37) { // Goes to Frogs 2 Song
+    } else if (globalCtx->msgCtx.msgMode == MSGMODE_PAUSED) { // Goes to Frogs 2 Song
         sEnFrPointers.flags = 1;
         this->actionFunc = EnFr_ActivateCheckFrogSong;
     }
@@ -812,7 +812,7 @@ void EnFr_SetupFrogSong(EnFr* this, GlobalContext* globalCtx) {
     } else {
         this->frogSongTimer = 40;
         this->ocarinaNoteIndex = 0;
-        func_8010BD58(globalCtx, OCARINA_ACTION_FROGS_START);
+        func_8010BD58(globalCtx, OCARINA_ACTION_FROGS);
         this->ocarinaNote = EnFr_GetNextNoteFrogSong(this->ocarinaNoteIndex);
         EnFr_CheckOcarinaInputFrogSong(this->ocarinaNote);
         this->actionFunc = EnFr_ContinueFrogSong;
@@ -878,7 +878,7 @@ void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (globalCtx->msgCtx.msgMode == MSGMODE_FROGS_GAME) {
+        if (globalCtx->msgCtx.msgMode == MSGMODE_FROGS_WAITING) {
             globalCtx->msgCtx.msgMode = MSGMODE_FROGS_START;
             switch (globalCtx->msgCtx.lastOcaNoteIdx) {
                 case OCARINA_NOTE_A:
@@ -913,7 +913,7 @@ void EnFr_SetupReward(EnFr* this, GlobalContext* globalCtx, u8 unkCondition) {
     }
 
     Audio_OcaSetInstrument(0);
-    globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+    globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
     this->actionFunc = EnFr_PrintTextBox;
 }
 

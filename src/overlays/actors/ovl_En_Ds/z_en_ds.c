@@ -147,7 +147,7 @@ void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
                 this->actionFunc = EnDs_BrewOddPotion1;
                 this->brewTimer = 60;
                 Flags_SetSwitch(globalCtx, 0x3F);
-                globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 player->exchangeItemId = EXCH_ITEM_NONE;
                 break;
             case 1: // no

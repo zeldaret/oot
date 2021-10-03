@@ -337,7 +337,7 @@ s32 func_80AEB174(GlobalContext* globalCtx) {
 }
 
 s32 func_80AEB1B4(GlobalContext* globalCtx) {
-    return Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2;
+    return Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING;
 }
 
 void func_80AEB1D8(EnRu1* this) {
@@ -1813,7 +1813,7 @@ s32 func_80AEF0BC(EnRu1* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[20] & 4) {
         frameCount = Animation_GetLastFrame(&gRutoChildSitAnim);
         Animation_Change(&this->skelAnime, &gRutoChildSitAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
-        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         this->action = 26;
         this->actor.flags &= ~0x9;
         return true;
@@ -2138,7 +2138,7 @@ s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AEFE38(EnRu1* this, GlobalContext* globalCtx) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~0x9;
         return true;
     }

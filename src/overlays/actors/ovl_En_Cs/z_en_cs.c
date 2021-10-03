@@ -191,9 +191,9 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
             }
             break;
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_2:
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CLOSING:
+        case TEXT_STATE_DONE_FADING:
         case TEXT_STATE_EVENT:
             break;
     }

@@ -196,7 +196,7 @@ void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
 
     player->stateFlags2 |= 0x800000;
     // if dialog state is 7, player has played back the song
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_7) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
         func_8010BD58(globalCtx, OCARINA_ACTION_PLAYBACK_STORMS);
         this->actionFunc = func_80A1DBD4;
     }
@@ -207,7 +207,7 @@ void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
 
     player->stateFlags2 |= 0x800000;
     // if dialog state is 2, start song demonstration
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->behaviorFlags &= ~FU_WAIT;
         Audio_OcaSetInstrument(4); // seems to be related to setting instrument type
         func_8010BD58(globalCtx, OCARINA_ACTION_STORMS);

@@ -348,14 +348,13 @@ typedef enum {
     /* 12 */ OCARINA_SONG_SCARECROW,
     /* 13 */ OCARINA_SONG_MEMORY_GAME,
     /* 14 */ OCARINA_SONG_MAX,
-    /* 14 */ OCARINA_SONG_PIERRES_SONG = OCARINA_SONG_MAX // anything larger than 13 is considered pierre's song
+    /* 14 */ OCARINA_SONG_SCARECROW_LONG = OCARINA_SONG_MAX // anything larger than 13 is considered the long scarecrow's song
 } OcarinaSongId;
 
 typedef enum {
-    /* 0x00 */ OCARINA_ACTION_UNK_0,
+    /* 0x00 */ OCARINA_ACTION_UNK_0, // acts like free play but never set
     /* 0x01 */ OCARINA_ACTION_FREE_PLAY,
-
-    /* 0x02 */ OCARINA_ACTION_MINUET,
+    /* 0x02 */ OCARINA_ACTION_MINUET, // Song demonstrations by teachers
     /* 0x03 */ OCARINA_ACTION_BOLERO,
     /* 0x04 */ OCARINA_ACTION_SERENADE,
     /* 0x05 */ OCARINA_ACTION_REQUIEM,
@@ -367,10 +366,8 @@ typedef enum {
     /* 0x0B */ OCARINA_ACTION_SUNS,
     /* 0x0C */ OCARINA_ACTION_TIME,
     /* 0x0D */ OCARINA_ACTION_STORMS,
-
     /* 0x0E */ OCARINA_ACTION_UNK_E,
-
-    /* 0x0F */ OCARINA_ACTION_PLAYBACK_MINUET,
+    /* 0x0F */ OCARINA_ACTION_PLAYBACK_MINUET, // Playing back a particular song
     /* 0x10 */ OCARINA_ACTION_PLAYBACK_BOLERO,
     /* 0x11 */ OCARINA_ACTION_PLAYBACK_SERENADE,
     /* 0x12 */ OCARINA_ACTION_PLAYBACK_REQUIEM,
@@ -382,38 +379,29 @@ typedef enum {
     /* 0x18 */ OCARINA_ACTION_PLAYBACK_SUNS,
     /* 0x19 */ OCARINA_ACTION_PLAYBACK_TIME,
     /* 0x1A */ OCARINA_ACTION_PLAYBACK_STORMS,
-
     /* 0x1B */ OCARINA_ACTION_UNK_1B,
-
-    /* 0x1C */ OCARINA_ACTION_CHECK_MINUET = 0x1C, // above this is song checks?
+    /* 0x1C */ OCARINA_ACTION_CHECK_MINUET, // Playing songs for check spots
     /* 0x1D */ OCARINA_ACTION_CHECK_BOLERO,
     /* 0x1E */ OCARINA_ACTION_CHECK_SERENADE,
     /* 0x1F */ OCARINA_ACTION_CHECK_REQUIEM,
     /* 0020 */ OCARINA_ACTION_CHECK_NOCTURNE,
     /* 0x21 */ OCARINA_ACTION_CHECK_PRELUDE,
-    /* 0x22 */ OCARINA_ACTION_CHECK_SARIA, // >= 0x22 plays TRE_BOX_APPEAR
+    /* 0x22 */ OCARINA_ACTION_CHECK_SARIA,
     /* 0x23 */ OCARINA_ACTION_CHECK_EPONA,
     /* 0x24 */ OCARINA_ACTION_CHECK_LULLABY,
     /* 0x25 */ OCARINA_ACTION_CHECK_SUNS,
     /* 0x26 */ OCARINA_ACTION_CHECK_TIME,
     /* 0x27 */ OCARINA_ACTION_CHECK_STORMS,
-
-    /* 0x28 */ OCARINA_ACTION_UNK_28,
-
-    /* 0x29 */ OCARINA_ACTION_UNK_29,
-
-    /* 0x2A */ OCARINA_ACTION_LONG_RECORDING_START,
-    /* 0x2B */ OCARINA_ACTION_LONG_RECORDING_PLAYBACK,
-
-    /* 0x2C */ OCARINA_ACTION_RECORDING_START,
-    /* 0x2D */ OCARINA_ACTION_RECORDING_PLAYBACK,
-
-    /* 0x2E */ OCARINA_ACTION_MEMORY_GAME_START,
-
-    /* 0x2F */ OCARINA_ACTION_FROGS_START,
-
-    /* 0x30 */ OCARINA_ACTION_CHECK_NOWARP, // check passes for any of sarias - storms
-    /* 0x31 */ OCARINA_ACTION_UNK_31
+    /* 0x28 */ OCARINA_ACTION_CHECK_SCARECROW, // Playing back the song as adult that was set as child
+    /* 0x29 */ OCARINA_ACTION_FREE_PLAY_DONE,
+    /* 0x2A */ OCARINA_ACTION_SCARECROW_LONG_RECORDING,
+    /* 0x2B */ OCARINA_ACTION_SCARECROW_LONG_PLAYBACK,
+    /* 0x2C */ OCARINA_ACTION_SCARECROW_RECORDING,
+    /* 0x2D */ OCARINA_ACTION_SCARECROW_PLAYBACK,
+    /* 0x2E */ OCARINA_ACTION_MEMORY_GAME,
+    /* 0x2F */ OCARINA_ACTION_FROGS,
+    /* 0x30 */ OCARINA_ACTION_CHECK_NOWARP, // Check for any of sarias - storms
+    /* 0x31 */ OCARINA_ACTION_CHECK_NOWARP_DONE
 } OcarinaSongActionIDs;
 
 typedef enum {
@@ -461,7 +449,7 @@ typedef enum {
     /* 0x03 */ MSGMODE_TEXT_STARTING,
     /* 0x04 */ MSGMODE_TEXT_NEXT_MSG,
     /* 0x05 */ MSGMODE_TEXT_CONTINUING,
-    /* 0x06 */ MSGMODE_TEXT_DISPLAYING, // textbox in progress
+    /* 0x06 */ MSGMODE_TEXT_DISPLAYING,
     /* 0x07 */ MSGMODE_TEXT_AWAIT_INPUT,
     /* 0x08 */ MSGMODE_TEXT_DELAYED_BREAK,
     /* 0x09 */ MSGMODE_OCARINA_STARTING,
@@ -497,34 +485,34 @@ typedef enum {
     /* 0x27 */ MSGMODE_SCARECROW_RECORDING_DONE,
     /* 0x28 */ MSGMODE_SCARECROW_PLAYBACK,
     /* 0x29 */ MSGMODE_MEMORY_GAME_START,
-    /* 0x2A */ MSGMODE_UNK_2A, // lost woods ocarina minigame related
-    /* 0x2B */ MSGMODE_UNK_2B, // lost woods ocarina minigame related
-    /* 0x2C */ MSGMODE_UNK_2C, // lost woods ocarina minigame related
-    /* 0x2D */ MSGMODE_UNK_2D, // lost woods ocarina minigame related
-    /* 0x2E */ MSGMODE_UNK_2E, // lost woods ocarina minigame related
-    /* 0x2F */ MSGMODE_UNK_2F, // lost woods ocarina minigame related
-    /* 0x30 */ MSGMODE_UNK_30, // lost woods ocarina minigame related
+    /* 0x2A */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_PLAYING,
+    /* 0x2B */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_WAIT,
+    /* 0x2C */ MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_PLAYING,
+    /* 0x2D */ MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_WAIT,
+    /* 0x2E */ MSGMODE_MEMORY_GAME_PLAYER_PLAYING,
+    /* 0x2F */ MSGMODE_MEMORY_GAME_ROUND_SUCCESS,
+    /* 0x30 */ MSGMODE_MEMORY_GAME_START_NEXT_ROUND,
     /* 0x31 */ MSGMODE_FROGS_START,
     /* 0x32 */ MSGMODE_FROGS_PLAYING,
-    /* 0x33 */ MSGMODE_FROGS_GAME,
-    /* 0x34 */ MSGMODE_TEXT_AWAIT_NEXT, // next textbox
-    /* 0x35 */ MSGMODE_TEXT_DONE, // textbox done
-    /* 0x36 */ MSGMODE_TEXT_CLOSING, // textbox closing
-    /* 0x37 */ MSGMODE_UNK_37 // Set by a lot of actors but does nothing, "pause"?
+    /* 0x33 */ MSGMODE_FROGS_WAITING,
+    /* 0x34 */ MSGMODE_TEXT_AWAIT_NEXT,
+    /* 0x35 */ MSGMODE_TEXT_DONE,
+    /* 0x36 */ MSGMODE_TEXT_CLOSING,
+    /* 0x37 */ MSGMODE_PAUSED // Causes the message system to do nothing until external code sets a new message mode or calls a public function
 } MessageMode;
 
 typedef enum {
-    /*  0 */ TEXT_STATE_NONE, // None
-    /*  1 */ TEXT_STATE_1, // 
-    /*  2 */ TEXT_STATE_2, // 
-    /*  3 */ TEXT_STATE_3, // 
-    /*  4 */ TEXT_STATE_CHOICE, // Choice
-    /*  5 */ TEXT_STATE_EVENT, // Event
-    /*  6 */ TEXT_STATE_DONE, // Textbox done but not closed
-    /*  7 */ TEXT_STATE_7, // 
-    /*  8 */ TEXT_STATE_8, // 
-    /*  9 */ TEXT_STATE_9, // 
-    /* 10 */ TEXT_STATE_10 // Textbox done but has next textid
+    /*  0 */ TEXT_STATE_NONE,
+    /*  1 */ TEXT_STATE_DONE_HAS_NEXT,
+    /*  2 */ TEXT_STATE_CLOSING,
+    /*  3 */ TEXT_STATE_DONE_FADING,
+    /*  4 */ TEXT_STATE_CHOICE,
+    /*  5 */ TEXT_STATE_EVENT,
+    /*  6 */ TEXT_STATE_DONE,
+    /*  7 */ TEXT_STATE_SONG_DEMO_DONE, 
+    /*  8 */ TEXT_STATE_8, 
+    /*  9 */ TEXT_STATE_9, 
+    /* 10 */ TEXT_STATE_AWAITING_NEXT
 } TextState;
 
 typedef struct {
@@ -542,31 +530,31 @@ typedef struct {
     };
 } Font; // size = 0xE188
 
-#define MSG_SEL_DEFAULT         0x00
-#define MSG_SEL_2_CHOICE        0x10
-#define MSG_SEL_3_CHOICE        0x20
-#define MSG_SEL_HAS_NEXT_TEXTID 0x30
-#define MSG_SEL_PERSISTENT      0x40
-#define MSG_SEL_EVENT           0x50
-#define MSG_SEL_FADING          0x60
+#define TEXTBOX_ENDTYPE_DEFAULT     0x00
+#define TEXTBOX_ENDTYPE_2_CHOICE    0x10
+#define TEXTBOX_ENDTYPE_3_CHOICE    0x20
+#define TEXTBOX_ENDTYPE_HAS_NEXT    0x30
+#define TEXTBOX_ENDTYPE_PERSISTENT  0x40
+#define TEXTBOX_ENDTYPE_EVENT       0x50
+#define TEXTBOX_ENDTYPE_FADING      0x60
 
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Font   font;
-    /* 0xE2B0 */ void*  textboxSegment; // "fukidashiSegment"
+    /* 0xE2B0 */ void*  textboxSegment; // original name: "fukidashiSegment"
     /* 0xE2B4 */ char   unk_E2B4[0x4];
-    /* 0xE2B8 */ OcarinaStaff* ocarinaStaff; // original name : info
+    /* 0xE2B8 */ OcarinaStaff* ocarinaStaff; // original name : "info"
     /* 0xE2BC */ char   unk_E2BC[0x3C];
     /* 0xE2F8 */ u16    textId;
     /* 0xE2FA */ u16    choiceTextId;
-    /* 0xE2FC */ u8     textBoxProperties; // original name : msg_disp_type
-    /* 0xE2FD */ u8     textBoxType; // "text box type"
+    /* 0xE2FC */ u8     textBoxProperties; // original name : "msg_disp_type"
+    /* 0xE2FD */ u8     textBoxType; // "Text Box Type"
     /* 0xE2FE */ u8     textBoxPos; // text box position
-    /* 0xE300 */ s32    msgLength; // original name : msg_data
-    /* 0xE304 */ u8     msgMode; // original name: msg_mode
+    /* 0xE300 */ s32    msgLength; // original name : "msg_data"
+    /* 0xE304 */ u8     msgMode; // original name: "msg_mode"
     /* 0xE305 */ char   unk_E305[0x1];
     /* 0xE306 */ u8     msgBufDecoded[200]; // decoded message buffer, may be smaller than this
-    /* 0xE3CE */ u16    msgBufPos; // original name : rdp
+    /* 0xE3CE */ u16    msgBufPos; // original name : "rdp"
     /* 0xE3D0 */ u16    unk_E3D0; // unused, only ever set to 0
     /* 0xE3D2 */ u16    textDrawPos; // draw all decoded characters up to this buffer position
     /* 0xE3D4 */ u16    decodedTextLen; // decoded message buffer length
@@ -577,22 +565,22 @@ typedef struct {
     /* 0xE3DE */ s16    textColorG;
     /* 0xE3E0 */ s16    textColorB;
     /* 0xE3E2 */ s16    textColorAlpha;
-    /* 0xE3E4 */ u8     unk_E3E4; // original name : select
+    /* 0xE3E4 */ u8     textboxEndType; // original name : "select"
     /* 0xE3E5 */ u8     choiceIndex;
     /* 0xE3E6 */ u8     choiceNum; // textboxes that are not choice textboxes have a choiceNum of 1
     /* 0xE3E7 */ u8     stateTimer;
     /* 0xE3E8 */ u16    textDelayTimer;
     /* 0xE3EA */ u16    textDelay;
-    /* 0xE3EA */ u16    lastPlayedSong; // "Ocarina_Flog" , "Ocarina_Free" , last played ocarina song, uses OcarinaSongId
-    /* 0xE3EE */ u16    ocarinaMode; // original name : ocarina_mode
-    /* 0xE3F0 */ u16    ocarinaAction; // original name : ocarina_no
-    /* 0xE3F2 */ u16    unk_E3F2; // original name : chk_ocarina_no
+    /* 0xE3EA */ u16    lastPlayedSong; // original references : "Ocarina_Flog" , "Ocarina_Free"
+    /* 0xE3EE */ u16    ocarinaMode; // original name : "ocarina_mode"
+    /* 0xE3F0 */ u16    ocarinaAction; // original name : "ocarina_no"
+    /* 0xE3F2 */ u16    unk_E3F2; // this is like "lastPlayedSong" but set less often, original name : "chk_ocarina_no"
     /* 0xE3F4 */ u16    unk_E3F4; // unused, only set to 0 in z_actor
     /* 0xE3F6 */ u16    textboxBackgroundIdx;
-    /* 0xE3F8 */ u8     unk_E3F8; // textbox background related
-    /* 0xE3F8 */ u8     unk_E3F9; // textbox background related
+    /* 0xE3F8 */ u8     textboxBackgroundForeColorIdx;
+    /* 0xE3F8 */ u8     textboxBackgroundBackColorIdx;
     /* 0xE3F8 */ u8     textboxBackgroundYOffsetIdx;
-    /* 0xE3F8 */ u8     unk_E3FB; // unused, set by the textbox background control character
+    /* 0xE3F8 */ u8     textboxBackgroundUnkArg; // unused, set by the textbox background control character arguments
     /* 0xE3FC */ char   unk_E3FC[0x2];
     /* 0xE3FE */ s16    textboxColorRed;
     /* 0xE400 */ s16    textboxColorGreen;

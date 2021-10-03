@@ -131,7 +131,7 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_FADING:
             if (this->actor.textId != 0x4014) {
                 if (this->actor.textId == 0x401B && !this->sfxPlayed) {
                     Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0,
@@ -163,9 +163,9 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_2:
-        case TEXT_STATE_7:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CLOSING:
+        case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
             break;

@@ -79,7 +79,7 @@ charmap = {
     0xA7: '[C-Left]',
     0xA8: '[C-Right]',
     0xA9: '▼',
-    0xAA: '[Control Stick]',
+    0xAA: '[Analog-Stick]',
     0xAB: '[D-Pad]',
 }
 
@@ -116,6 +116,7 @@ control_codes = {
     '\x1F': "TIME",
 }
 
+"""
 color_type_default = {
     0x40 : "WHITE",
     0x41 : "RED",
@@ -145,6 +146,18 @@ color_type_5 = {
     0x43 : "BLUE",
     0x44 : "LIGHTBLUE",
     0x45 : "PINK",
+    0x46 : "YELLOW",
+    0x47 : "BLACK",
+}
+"""
+
+colors = {
+    0x40 : "DEFAULT",
+    0x41 : "RED",
+    0x42 : "ADJUSTABLE",
+    0x43 : "BLUE",
+    0x44 : "LIGHTBLUE",
+    0x45 : "PURPLE",
     0x46 : "YELLOW",
     0x47 : "BLACK",
 }
@@ -179,12 +192,15 @@ def decode(read_bytes, box_type):
                 value = highscores[byte]
                 next_is_highscore = False
             elif next_is_color:
+                """
                 if box_type == 5:
                     value = color_type_5[byte]
                 elif box_type == 1:
                     value = color_type_1[byte]
                 else:
                     value = color_type_default[byte]
+                """
+                value = colors[byte]
                 next_is_color = False
             buf.append(value + ") \"") # + ("\n" if next_is_box_break_delayed else "")
             next_is_byte_mod = False

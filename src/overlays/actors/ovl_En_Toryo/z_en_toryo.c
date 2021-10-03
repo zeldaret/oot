@@ -154,9 +154,9 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_2:
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CLOSING:
+        case TEXT_STATE_DONE_FADING:
         case TEXT_STATE_EVENT:
             ret = 1;
             break;
@@ -166,7 +166,7 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                     Message_CloseTextbox(globalCtx);
                     this->actor.parent = NULL;
                     player->exchangeItemId = EXCH_ITEM_NONE;
-                    globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     this->actor.textId = 0x601B;
                     ret = 3;
                 } else {
@@ -227,9 +227,9 @@ s32 func_80B205CC(EnToryo* this, GlobalContext* globalCtx) {
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_2:
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CLOSING:
+        case TEXT_STATE_DONE_FADING:
         case TEXT_STATE_CHOICE:
         case TEXT_STATE_EVENT:
             ret = 5;

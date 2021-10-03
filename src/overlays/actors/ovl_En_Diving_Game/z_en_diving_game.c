@@ -255,7 +255,7 @@ void EnDivingGame_HandlePlayChoice(EnDivingGame* this, GlobalContext* globalCtx)
             this->unk_292 = TEXT_STATE_EVENT;
             this->actionFunc = func_809EE048;
         } else {
-            globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+            globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
             func_8002DF54(globalCtx, NULL, 8);
             this->actionFunc = func_809EE0FC;
         }
@@ -271,7 +271,7 @@ void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx) {
             func_8002DF54(globalCtx, NULL, 7);
             this->actionFunc = func_809EDCB0;
         } else {
-            globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+            globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
             func_8002DF54(globalCtx, NULL, 8);
             this->actionFunc = func_809EE0FC;
         }

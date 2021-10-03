@@ -174,7 +174,7 @@ void Message_Init(GlobalContext* globalCtx) {
 
     msgCtx->msgMode = MSGMODE_NONE;
     msgCtx->msgLength = 0;
-    msgCtx->textId = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->ocarinaAction = msgCtx->textUnskippable = 0;
+    msgCtx->textId = msgCtx->textboxEndType = msgCtx->choiceIndex = msgCtx->ocarinaAction = msgCtx->textUnskippable = 0;
     msgCtx->textColorAlpha = 255;
 
     View_Init(&msgCtx->view, globalCtx->state.gfxCtx);

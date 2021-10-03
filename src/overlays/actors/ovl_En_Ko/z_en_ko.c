@@ -457,7 +457,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
     EnKo* this = THIS;
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1005:
                     gSaveContext.infTable[1] |= 0x4000;
@@ -496,7 +496,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                     return 1;
             }
             return 0;
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x10B7:
                 case 0x10B8:

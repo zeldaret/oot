@@ -1735,7 +1735,7 @@ void EnOssan_State_WaitForDisplayOnlyBombDialog(EnOssan* this, GlobalContext* gl
 
 // Unreachable
 void EnOssan_State_21(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_1 && Message_ShouldAdvance(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE_HAS_NEXT && Message_ShouldAdvance(globalCtx)) {
         this->stateFlag = OSSAN_STATE_22;
         Message_ContinueTextbox(globalCtx, 0x3012);
         gSaveContext.infTable[15] |= 0x1000;

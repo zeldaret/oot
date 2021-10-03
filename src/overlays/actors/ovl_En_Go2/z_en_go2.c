@@ -272,8 +272,8 @@ void EnGo2_GetItem(EnGo2* this, GlobalContext* globalCtx, s32 getItemId) {
 s32 EnGo2_GetDialogState(EnGo2* this, GlobalContext* globalCtx) {
     s16 dialogState = Message_GetState(&globalCtx->msgCtx);
 
-    if ((this->dialogState == TEXT_STATE_10) || (this->dialogState == TEXT_STATE_EVENT) ||
-        (this->dialogState == TEXT_STATE_2) || (this->dialogState == TEXT_STATE_1)) {
+    if ((this->dialogState == TEXT_STATE_AWAITING_NEXT) || (this->dialogState == TEXT_STATE_EVENT) ||
+        (this->dialogState == TEXT_STATE_CLOSING) || (this->dialogState == TEXT_STATE_DONE_HAS_NEXT)) {
         if (dialogState != this->dialogState) {
             this->unk_20C++;
         }
@@ -320,7 +320,7 @@ s16 EnGo2_GetStateGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
     s32 bombBagUpgrade;
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             return 2;
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx)) {
@@ -347,7 +347,7 @@ u16 EnGo2_GetTextIdGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
 // DMT Goron by Bomb Flower Choice
 s16 EnGo2_GetStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
     switch (Message_GetState(&globalCtx->msgCtx)) {
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             if ((this->actor.textId == 0x300B) && (gSaveContext.infTable[14] & 0x800) == 0) {
                 gSaveContext.infTable[14] |= 0x800;
                 return 2;
@@ -381,7 +381,7 @@ u16 EnGo2_GetTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         return 0;
     } else {
         return 1;
@@ -399,7 +399,7 @@ u16 EnGo2_GetTextIdGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3008) {
             gSaveContext.infTable[14] |= 0x1;
         }
@@ -420,7 +420,7 @@ u16 EnGo2_GetTextIdGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3014) {
             gSaveContext.infTable[15] |= 0x1;
         }
@@ -441,7 +441,7 @@ u16 EnGo2_GetTextIdGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3016) {
             gSaveContext.infTable[15] |= 0x10;
         }
@@ -464,7 +464,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3018) {
             gSaveContext.infTable[15] |= 0x100;
         }
@@ -490,7 +490,7 @@ u16 EnGo2_GetTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
 
 s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
     switch (EnGo2_GetDialogState(this, globalCtx)) {
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x3036:
                     EnGo2_GetItem(this, globalCtx, GI_TUNIC_GORON);
@@ -575,7 +575,7 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
             } else {
                 return 0;
             }
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x305E:
                     if (func_8002F368(globalCtx) != EXCH_ITEM_CLAIM_CHECK) {
@@ -609,7 +609,7 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3059) {
-                    globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     this->actionFunc = EnGo2_BiggoronEyedrops;
                 }
                 return 2;
@@ -628,7 +628,7 @@ u16 EnGo2_GetTextIdGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
 
 s16 EnGo2_GetStateGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
     switch (Message_GetState(&globalCtx->msgCtx)) {
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             return 0;
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx)) {
@@ -648,7 +648,7 @@ u16 EnGo2_GetTextIdGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x300E) {
             gSaveContext.infTable[14] |= 0x8;
         }
@@ -664,7 +664,7 @@ u16 EnGo2_GetTextIdGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         return 0;
     } else {
         return 1;
@@ -684,7 +684,7 @@ u16 EnGo2_GetTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3024) {
             gSaveContext.infTable[14] |= 0x40;
         }
@@ -704,7 +704,7 @@ u16 EnGo2_GetTextIdGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         return 0;
     } else {
         return 1;
@@ -1814,7 +1814,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 this->eyeMouthTexState = 0;
             }
-            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
                 func_80034EC0(&this->skelAnime, sAnimations, 1);
                 this->actor.flags |= 1;
                 this->unk_26E = 2;
@@ -1846,7 +1846,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, GlobalContext* globalCtx) {
             return;
     }
 
-    if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_CLOSING) {
         player->actor.freezeTimer = 10;
     } else {
         gSaveContext.infTable[16] |= 0x1000;
@@ -1863,9 +1863,9 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
 
     switch (this->goronState) {
         case 0: // Wake up
-            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
                 EnGo2_GoronFireCamera(this, globalCtx);
-                globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 func_80034EC0(&this->skelAnime, sAnimations, 2);
                 this->waypoint = 1;
                 this->skelAnime.playSpeed = 2.0f;

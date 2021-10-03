@@ -177,7 +177,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 if ((sp216 >= QUEST_SONG_MINUET) && (sp216 < QUEST_KOKIRI_EMERALD)) {
                     if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
                         sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
-                        pauseCtx->ocarinaSongIdx = gOcarinaSongQuestItemMap[sp216 - QUEST_SONG_MINUET];
+                        pauseCtx->ocarinaSongIdx = gOcarinaSongItemMap[sp216 - QUEST_SONG_MINUET];
                         D_8082A120 = 10;
 
                         for (phi_s3 = 0; phi_s3 < 8; phi_s3++) {
@@ -273,7 +273,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
                 Audio_OcaSetInstrument(1);
                 Audio_OcaSetInstrument(1);
-                pauseCtx->ocarinaSongIdx = gOcarinaSongQuestItemMap[sp216 - QUEST_SONG_MINUET];
+                pauseCtx->ocarinaSongIdx = gOcarinaSongItemMap[sp216 - QUEST_SONG_MINUET];
                 Audio_OcaSetSongPlayback(pauseCtx->ocarinaSongIdx + 1, 1);
                 pauseCtx->unk_1E4 = 2;
                 pauseCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();

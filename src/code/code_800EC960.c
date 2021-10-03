@@ -989,7 +989,7 @@ void Audio_OcaSetInstrument(u8 arg0) {
     }
 }
 
-void Audio_OcaSetSongPlayback(s8 songIdxPlusOne, s8 arg1) {
+void Audio_OcaSetSongPlayback(s8 songIdxPlusOne, s8 playbackState) {
     if (songIdxPlusOne == 0) {
         sPlaybackState = 0;
         Audio_StopSfx(NA_SE_OC_OCARINA);
@@ -1002,7 +1002,7 @@ void Audio_OcaSetSongPlayback(s8 songIdxPlusOne, s8 arg1) {
         sPlaybackSong = sPierresSong;
     }
 
-    sPlaybackState = arg1;
+    sPlaybackState = playbackState;
     sNotePlaybackTimer = 0;
     sDisplayedNoteValue = 0xFF;
     sPlaybackNotePos = 0;
@@ -1423,7 +1423,7 @@ void func_800EE824(void) {
         case 1:
             Audio_SetSoundBanksMute(0);
             Audio_OcaSetInstrument(D_80131C84);
-            Audio_OcaSetSongPlayback(OCARINA_SONG_PIERRES_SONG + 1, 1);
+            Audio_OcaSetSongPlayback(OCARINA_SONG_SCARECROW_LONG + 1, 1);
             D_80131C84++;
             D_80131C80++;
             break;

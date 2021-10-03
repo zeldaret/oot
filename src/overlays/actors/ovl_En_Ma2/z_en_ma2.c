@@ -86,7 +86,7 @@ s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2051:
                     gSaveContext.infTable[8] |= 0x1000;
@@ -102,12 +102,12 @@ s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
         case TEXT_STATE_CHOICE:
         case TEXT_STATE_EVENT:
         case TEXT_STATE_DONE:
-        case TEXT_STATE_7:
+        case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_9:
             break;
     }

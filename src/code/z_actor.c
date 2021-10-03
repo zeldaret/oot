@@ -1531,7 +1531,7 @@ s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
 }
 
 u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         return true;
     } else {
         return false;
@@ -5363,7 +5363,7 @@ s32 func_80037CB8(GlobalContext* globalCtx, Actor* actor, s16 arg2) {
     s32 ret = false;
 
     switch (Message_GetState(msgCtx)) {
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             func_80037C5C(globalCtx, arg2, actor->textId);
             ret = true;
             break;

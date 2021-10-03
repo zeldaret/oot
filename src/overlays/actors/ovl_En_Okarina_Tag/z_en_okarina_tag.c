@@ -152,7 +152,7 @@ void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
                 Flags_SetSwitch(globalCtx, this->switchFlag);
             }
             if (globalCtx->sceneNum == SCENE_MIZUSIN) {
-                globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
             }
             if ((globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (globalCtx->sceneNum != SCENE_YOUSEI_IZUMI_YOKO)) {
                 globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;

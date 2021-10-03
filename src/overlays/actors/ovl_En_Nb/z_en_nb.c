@@ -1225,7 +1225,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
 
     textId = this->actor.textId;
 
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (textId == 0x6025) {
             EnNb_SetupPathMovement(this, globalCtx);
         } else {
@@ -1302,7 +1302,7 @@ void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB3B7C(EnNb* this, GlobalContext* globalCtx) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->action = NB_IDLE_AFTER_TALK;
         this->actor.flags &= ~9;
     }

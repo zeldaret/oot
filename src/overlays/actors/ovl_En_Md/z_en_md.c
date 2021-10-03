@@ -335,8 +335,8 @@ void func_80AAAA24(EnMd* this) {
 s16 func_80AAAC78(EnMd* this, GlobalContext* globalCtx) {
     s16 dialogState = Message_GetState(&globalCtx->msgCtx);
 
-    if ((this->unk_209 == TEXT_STATE_10) || (this->unk_209 == TEXT_STATE_EVENT) || (this->unk_209 == TEXT_STATE_2) ||
-        (this->unk_209 == TEXT_STATE_1)) {
+    if ((this->unk_209 == TEXT_STATE_AWAITING_NEXT) || (this->unk_209 == TEXT_STATE_EVENT) || (this->unk_209 == TEXT_STATE_CLOSING) ||
+        (this->unk_209 == TEXT_STATE_DONE_HAS_NEXT)) {
         if (this->unk_209 != dialogState) {
             this->unk_208++;
         }
@@ -427,15 +427,15 @@ s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
     EnMd* this = THIS;
     switch (func_80AAAC78(this, globalCtx)) {
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
         case TEXT_STATE_CHOICE:
         case TEXT_STATE_DONE:
-        case TEXT_STATE_7:
+        case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
             return 1;
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1028:
                     gSaveContext.eventChkInf[0] |= 0x8000;
@@ -696,7 +696,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
             (globalCtx->sceneNum == SCENE_SPOT04)) {
-            globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+            globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         }
 
         if (globalCtx->sceneNum == SCENE_SPOT04) {

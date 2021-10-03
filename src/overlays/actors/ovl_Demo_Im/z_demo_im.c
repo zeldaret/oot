@@ -860,7 +860,7 @@ s32 func_80986AD0(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986B2C(GlobalContext* globalCtx) {
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         Player* player = GET_PLAYER(globalCtx);
 
         globalCtx->nextEntranceIndex = 0xCD;

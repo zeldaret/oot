@@ -116,7 +116,7 @@ void EnBomBowMan_TalkAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((Message_GetState(&globalCtx->msgCtx) == this->dialogState) && Message_ShouldAdvance(globalCtx)) {
-        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = EnBomBowMan_WakeUp;
     }
 }

@@ -405,14 +405,14 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
+        case TEXT_STATE_DONE_HAS_NEXT:
         case TEXT_STATE_CHOICE:
         case TEXT_STATE_DONE:
-        case TEXT_STATE_7:
+        case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
             return 1;
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x709E:
                 case 0x709F:
@@ -433,7 +433,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             return 1;
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x70F0:
                 case 0x70F1:

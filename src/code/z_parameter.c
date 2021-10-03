@@ -4110,7 +4110,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
         // exit out of ocarina mode after suns song finishes playing
-        if ((msgCtx->ocarinaAction != OCARINA_ACTION_UNK_31) && (gSaveContext.sunsSongState == SUNSSONG_START)) {
+        if ((msgCtx->ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE) && (gSaveContext.sunsSongState == SUNSSONG_START)) {
             globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         }
 

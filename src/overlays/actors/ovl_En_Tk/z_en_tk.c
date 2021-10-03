@@ -354,16 +354,16 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
+        case TEXT_STATE_DONE_HAS_NEXT:
             break;
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             /* "I am the boss of the carpenters ..." (wtf?) */
             if (thisx->textId == 0x5028) {
                 gSaveContext.infTable[13] |= 0x0100;
             }
             ret = 0;
             break;
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_FADING:
             break;
         case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
@@ -374,7 +374,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
                     /* "You don't have enough Rupees!" */
                     thisx->textId = 0x0085;
                 } else {
-                    globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     Rupees_ChangeBy(-10);
                     gSaveContext.infTable[13] |= 0x0200;
                     return 2;
@@ -390,7 +390,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case TEXT_STATE_DONE:
-        case TEXT_STATE_7:
+        case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
             break;

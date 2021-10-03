@@ -157,7 +157,7 @@ void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
         this->actionFunc = func_80AACCA0;
-        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         player->exchangeItemId = EXCH_ITEM_NONE;
         this->timer = 16;
         Animation_Change(&this->skelAnime, &object_mk_Anim_000D88, 1.0f, 0.0f,

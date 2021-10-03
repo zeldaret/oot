@@ -235,7 +235,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 
                     if (player->stateFlags2 & 0x1000000) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
-                        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+                        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                         this->dialogState = TEXT_STATE_EVENT;
                         this->unk_1B8 = 0.0f;
                         Message_StartTextbox(globalCtx, 0x40A4, NULL);
@@ -250,7 +250,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 
                     if (player->stateFlags2 & 0x1000000) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
-                        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+                        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                         this->dialogState = TEXT_STATE_EVENT;
                         this->unk_1B8 = 0.0f;
                         Message_StartTextbox(globalCtx, 0x40A8, NULL);
@@ -271,7 +271,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 void func_80A915B8(EnKakasi3* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
-        func_8010BD58(globalCtx, OCARINA_ACTION_RECORDING_START);
+        func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_RECORDING);
         this->actionFunc = func_80A91620;
     }
 }
@@ -313,8 +313,8 @@ void func_80A91760(EnKakasi3* this, GlobalContext* globalCtx) {
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
     if (this->dialogState == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
-        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
-        func_8010BD58(globalCtx, OCARINA_ACTION_RECORDING_PLAYBACK);
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
+        func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_PLAYBACK);
         this->actionFunc = func_80A917FC;
         this->camId = OnePointCutscene_Init(globalCtx, 2280, -99, &this->actor, MAIN_CAM);
     }
@@ -335,7 +335,7 @@ void func_80A917FC(EnKakasi3* this, GlobalContext* globalCtx) {
 void func_80A9187C(EnKakasi3* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
-        func_8010BD58(globalCtx, OCARINA_ACTION_UNK_28);
+        func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_SCARECROW);
         this->actionFunc = func_80A918E4;
     }
 }

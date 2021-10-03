@@ -121,7 +121,7 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2041:
                     gSaveContext.infTable[8] |= 0x10;
@@ -163,9 +163,9 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_3:
-        case TEXT_STATE_7:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
             ret = 1;
@@ -370,7 +370,7 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
 
 void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_7) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
         func_8010BD58(globalCtx, OCARINA_ACTION_PLAYBACK_EPONA);
         this->actionFunc = func_80AA1150;
     }

@@ -1405,8 +1405,8 @@ void EnSkj_StartOcarinaMinigame(EnSkj* this, GlobalContext* globalCtx) {
 
     EnSkj_TurnPlayer(this, player);
 
-    if (dialogState == TEXT_STATE_2) {
-        func_8010BD58(globalCtx, OCARINA_ACTION_MEMORY_GAME_START);
+    if (dialogState == TEXT_STATE_CLOSING) {
+        func_8010BD58(globalCtx, OCARINA_ACTION_MEMORY_GAME);
         if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
             sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCARINA_PLAY_NOTES;
         }
@@ -1437,7 +1437,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
         this->actionFunc = EnSkj_WonOcarinaMiniGame;
     } else { // playing the game
         switch (globalCtx->msgCtx.msgMode) {
-            case MSGMODE_UNK_2B:
+            case MSGMODE_MEMORY_GAME_LEFT_SKULLKID_WAIT:
                 if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
                     sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCRAINA_WAIT;
                 }
@@ -1449,7 +1449,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     Message_UpdateOcarinaGame(globalCtx);
                 }
                 break;
-            case MSGMODE_UNK_2D:
+            case MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_WAIT:
                 if (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid != NULL) {
                     sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState = SKULL_KID_OCRAINA_WAIT;
                 }
@@ -1458,7 +1458,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     this->songFailTimer = 160;
                 }
                 break;
-            case MSGMODE_UNK_2E:
+            case MSGMODE_MEMORY_GAME_PLAYER_PLAYING:
                 if (this->songFailTimer != 0) {
                     this->songFailTimer--;
                 } else { // took too long, game failed
@@ -1471,7 +1471,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     this->actionFunc = EnSkj_FailedMiniGame;
                 }
                 break;
-            case MSGMODE_UNK_30:
+            case MSGMODE_MEMORY_GAME_START_NEXT_ROUND:
                 if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
                     if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
                         sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState =
@@ -1480,7 +1480,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     this->songFailTimer = 160;
                     Audio_OcaSetInstrument(6); // related instrument sound (flute?)
                     Audio_OcaSetSongPlayback(OCARINA_SONG_MEMORY_GAME + 1, 1);
-                    globalCtx->msgCtx.msgMode = MSGMODE_UNK_2A;
+                    globalCtx->msgCtx.msgMode = MSGMODE_MEMORY_GAME_LEFT_SKULLKID_PLAYING;
                     globalCtx->msgCtx.stateTimer = 2;
                 }
                 break;

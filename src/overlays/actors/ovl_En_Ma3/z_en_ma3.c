@@ -131,7 +131,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2000:
                     gSaveContext.infTable[11] |= 0x100;
@@ -162,10 +162,10 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
         case TEXT_STATE_DONE:
-        case TEXT_STATE_7:
+        case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
             break;

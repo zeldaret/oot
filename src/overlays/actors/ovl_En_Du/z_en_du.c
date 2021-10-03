@@ -105,9 +105,9 @@ u16 func_809FDC38(GlobalContext* globalCtx, Actor* actor) {
 s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
+        case TEXT_STATE_DONE_HAS_NEXT:
             break;
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             switch (actor->textId) {
                 case 0x301A:
                     gSaveContext.infTable[0x11] |= 8;
@@ -120,7 +120,7 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
                     break;
             }
             return 0;
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_FADING:
         case TEXT_STATE_CHOICE:
         case TEXT_STATE_EVENT:
             break;
@@ -129,7 +129,7 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
                 return 3;
             }
             break;
-        case TEXT_STATE_7:
+        case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
             break;

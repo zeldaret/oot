@@ -10694,7 +10694,7 @@ void func_8084B530(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= 0x20;
     func_80836670(this, globalCtx);
 
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~0x100;
 
         if ((this->targetActor->flags & 5) != 5) {
@@ -11810,7 +11810,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
             Audio_PlayFanfare(temp1);
         }
     } else {
-        if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+        if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
             if (this->getItemId == GI_GAUNTLETS_SILVER) {
                 globalCtx->nextEntranceIndex = 0x0123;
                 globalCtx->sceneLoadFlag = 0x14;
@@ -12131,7 +12131,7 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
                 Message_StartTextbox(globalCtx, D_80854A04[this->unk_84F - 1].textId, &this->actor);
                 Audio_PlayFanfare(0x922);
                 this->unk_850 = 1;
-            } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+            } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
                 this->unk_84F = 0;
                 func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
             }
@@ -12270,7 +12270,7 @@ void func_8084F104(Player* this, GlobalContext* globalCtx) {
                 }
 
                 this->unk_850 = 1;
-            } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+            } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
                 this->actor.flags &= ~0x100;
                 this->unk_862 = 0;
 
@@ -12752,7 +12752,7 @@ void func_8085063C(Player* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         s32 respawnData = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
         if (globalCtx->msgCtx.choiceIndex == 0) {

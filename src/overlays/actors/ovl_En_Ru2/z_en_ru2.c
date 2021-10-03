@@ -668,8 +668,8 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     msgCtx = &globalCtx->msgCtx;
     dialogState = Message_GetState(msgCtx);
 
-    if (dialogState == TEXT_STATE_3) {
-        if (this->unk_2C3 != TEXT_STATE_3) {
+    if (dialogState == TEXT_STATE_DONE_FADING) {
+        if (this->unk_2C3 != TEXT_STATE_DONE_FADING) {
             // "I'm Komatsu!" (cinema scene dev)
             osSyncPrintf("おれが小松だ！ \n");
             this->unk_2C2++;
@@ -686,7 +686,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     }
 
     this->unk_2C3 = dialogState;
-    if (Message_GetState(msgCtx) == TEXT_STATE_2) {
+    if (Message_GetState(msgCtx) == TEXT_STATE_CLOSING) {
         this->action = 18;
         func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
     }
@@ -789,7 +789,7 @@ void EnRu2_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_2C2 = 0;
-    this->unk_2C3 = TEXT_STATE_3;
+    this->unk_2C3 = TEXT_STATE_DONE_FADING;
 }
 
 void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx) {

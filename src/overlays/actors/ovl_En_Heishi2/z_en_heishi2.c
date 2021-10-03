@@ -265,7 +265,7 @@ void func_80A53538(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_300 == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         func_8002DF54(globalCtx, NULL, 8);
-        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = func_80A535BC;
     }
 }
@@ -426,7 +426,7 @@ void func_80A53C0C(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk_300 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         func_8002DF54(globalCtx, 0, 8);
-        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = func_80A53C90;
     }
 }
@@ -585,7 +585,7 @@ void func_80A5427C(EnHeishi2* this, GlobalContext* globalCtx) {
             Message_CloseTextbox(globalCtx);
             this->actionFunc = func_80A53908;
         } else {
-            globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
+            globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
             this->actionFunc = func_80A54320;
         }
     }

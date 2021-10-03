@@ -434,15 +434,15 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
         case TEXT_STATE_DONE:
-        case TEXT_STATE_7:
+        case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
             return 1;
 
-        case TEXT_STATE_2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x4020:
                 case 0x4021:

@@ -227,9 +227,9 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_NONE:
-        case TEXT_STATE_1:
-        case TEXT_STATE_2:
-        case TEXT_STATE_3:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CLOSING:
+        case TEXT_STATE_DONE_FADING:
             break;
         case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx)) {
