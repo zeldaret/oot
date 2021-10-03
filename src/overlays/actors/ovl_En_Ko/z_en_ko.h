@@ -1,5 +1,5 @@
-#ifndef _Z_EN_KO_H_
-#define _Z_EN_KO_H_
+#ifndef Z_EN_KO_H
+#define Z_EN_KO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -31,8 +31,6 @@ typedef struct EnKo {
     /* 0x02E4 */ s16 unk_2E4[16];
     /* 0x0304 */ s16 unk_304[16];
 } EnKo; // size = 0x0324
-
-extern const ActorInit En_Ko_InitVars;
 
 typedef enum {
     ENKO_TYPE_CHILD_0,

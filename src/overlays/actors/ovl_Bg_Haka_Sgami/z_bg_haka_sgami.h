@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HAKA_SGAMI_H_
-#define _Z_BG_HAKA_SGAMI_H_
+#ifndef Z_BG_HAKA_SGAMI_H
+#define Z_BG_HAKA_SGAMI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -19,7 +19,5 @@ typedef struct BgHakaSgami {
     /* 0x01A8 */ ColliderTris colliderScythe;
     /* 0x01C8 */ ColliderTrisElement colliderScytheItems[4];
 } BgHakaSgami; // size = 0x0338
-
-extern const ActorInit Bg_Haka_Sgami_InitVars;
 
 #endif

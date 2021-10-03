@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BOM_CHU_H_
-#define _Z_EN_BOM_CHU_H_
+#ifndef Z_EN_BOM_CHU_H
+#define Z_EN_BOM_CHU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,7 +21,5 @@ typedef struct EnBomChu {
     /* 0x0184 */ ColliderJntSph collider;
     /* 0x01A4 */ ColliderJntSphElement colliderElements[1];
 } EnBomChu; // size = 0x01E4
-
-extern const ActorInit En_Bom_Chu_InitVars;
 
 #endif

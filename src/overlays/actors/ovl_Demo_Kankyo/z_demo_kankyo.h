@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_KANKYO_H_
-#define _Z_DEMO_KANKYO_H_
+#ifndef Z_DEMO_KANKYO_H
+#define Z_DEMO_KANKYO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -48,7 +48,5 @@ typedef struct DemoKankyo {
     /* 0x0150 */ DemoKankyoUnk150 unk_150[30];
     /* 0x0600 */ DemoKankyoActionFunc actionFunc;
 } DemoKankyo; // size = 0x0604
-
-extern const ActorInit Demo_Kankyo_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_POH_H_
-#define _Z_EN_POH_H_
+#ifndef Z_EN_POH_H
+#define Z_EN_POH_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -58,7 +58,5 @@ typedef struct EnPoh {
     /* 0x0328 */ ColliderJntSphElement colliderSphItem;
     /* 0x0368 */ MtxF unk_368;
 } EnPoh; // size = 0x03A8
-
-extern const ActorInit En_Poh_InitVars;
 
 #endif

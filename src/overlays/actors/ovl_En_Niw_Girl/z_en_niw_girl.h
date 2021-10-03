@@ -1,5 +1,5 @@
-#ifndef _Z_EN_NIW_GIRL_H_
-#define _Z_EN_NIW_GIRL_H_
+#ifndef Z_EN_NIW_GIRL_H
+#define Z_EN_NIW_GIRL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -31,7 +31,5 @@ typedef struct EnNiwGirl {
     /* 0x0288 */ ColliderCylinder collider;
     /* 0x02D4 */ struct_80034A14_arg1 unk_2D4;
 } EnNiwGirl; // size = 0x02FC
-
-extern const ActorInit En_Niw_Girl_InitVars;
 
 #endif

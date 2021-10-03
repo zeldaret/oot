@@ -508,33 +508,33 @@ void BossVa_Tumor(GlobalContext* globalCtx, BossVa* this, s32 count, s16 scale, 
 }
 
 void BossVa_SetSparkEnv(GlobalContext* globalCtx) {
-    globalCtx->envCtx.unk_8C[0][0] = 0xA;
-    globalCtx->envCtx.unk_8C[0][1] = 0xA;
-    globalCtx->envCtx.unk_8C[0][2] = 0xA;
-    globalCtx->envCtx.unk_8C[1][0] = 0x73;
-    globalCtx->envCtx.unk_8C[1][1] = 0x41;
-    globalCtx->envCtx.unk_8C[1][2] = 0x64;
-    globalCtx->envCtx.unk_8C[2][0] = 0x78;
-    globalCtx->envCtx.unk_8C[2][1] = 0x78;
-    globalCtx->envCtx.unk_8C[2][2] = 0x46;
+    globalCtx->envCtx.adjAmbientColor[0] = 0xA;
+    globalCtx->envCtx.adjAmbientColor[1] = 0xA;
+    globalCtx->envCtx.adjAmbientColor[2] = 0xA;
+    globalCtx->envCtx.adjLight1Color[0] = 0x73;
+    globalCtx->envCtx.adjLight1Color[1] = 0x41;
+    globalCtx->envCtx.adjLight1Color[2] = 0x64;
+    globalCtx->envCtx.adjFogColor[0] = 0x78;
+    globalCtx->envCtx.adjFogColor[1] = 0x78;
+    globalCtx->envCtx.adjFogColor[2] = 0x46;
 }
 
 void BossVa_SetDeathEnv(GlobalContext* globalCtx) {
-    globalCtx->envCtx.unk_8C[2][0] = 0xDC;
-    globalCtx->envCtx.unk_8C[2][1] = 0xDC;
-    globalCtx->envCtx.unk_8C[2][2] = 0x96;
-    globalCtx->envCtx.unk_9E = -0x3E8;
-    globalCtx->envCtx.unk_A0 = -0x384;
-    globalCtx->envCtx.unk_8C[0][0] = 0xC8;
-    globalCtx->envCtx.unk_8C[0][1] = 0xC8;
-    globalCtx->envCtx.unk_8C[0][2] = 0xC8;
-    globalCtx->envCtx.unk_8C[1][0] = 0xD7;
-    globalCtx->envCtx.unk_8C[1][1] = 0xA5;
-    globalCtx->envCtx.unk_8C[1][2] = 0xC8;
-    globalCtx->envCtx.unk_E2[0] = 0xDC;
-    globalCtx->envCtx.unk_E2[1] = 0xDC;
-    globalCtx->envCtx.unk_E2[2] = 0x96;
-    globalCtx->envCtx.unk_E2[3] = 0x64;
+    globalCtx->envCtx.adjFogColor[0] = 0xDC;
+    globalCtx->envCtx.adjFogColor[1] = 0xDC;
+    globalCtx->envCtx.adjFogColor[2] = 0x96;
+    globalCtx->envCtx.adjFogNear = -0x3E8;
+    globalCtx->envCtx.adjFogFar = -0x384;
+    globalCtx->envCtx.adjAmbientColor[0] = 0xC8;
+    globalCtx->envCtx.adjAmbientColor[1] = 0xC8;
+    globalCtx->envCtx.adjAmbientColor[2] = 0xC8;
+    globalCtx->envCtx.adjLight1Color[0] = 0xD7;
+    globalCtx->envCtx.adjLight1Color[1] = 0xA5;
+    globalCtx->envCtx.adjLight1Color[2] = 0xC8;
+    globalCtx->envCtx.screenFillColor[0] = 0xDC;
+    globalCtx->envCtx.screenFillColor[1] = 0xDC;
+    globalCtx->envCtx.screenFillColor[2] = 0x96;
+    globalCtx->envCtx.screenFillColor[3] = 0x64;
 }
 
 EnBoom* BossVa_FindBoomerang(GlobalContext* globalCtx) {
@@ -630,7 +630,8 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     warpId = ACTOR_DOOR_WARP1;
                 }
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, warpId, this->actor.world.pos.x, this->actor.world.pos.y,
-                            this->actor.world.pos.z, 0, 0, 0, 0);
+                            this->actor.world.pos.z, 0, 0, 0,
+                            0); //! params could be WARP_DUNGEON_CHILD however this can also spawn Ru1
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 160.0f,
                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 sDoorState = 100;
@@ -642,10 +643,10 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     sCsState = INTRO_CALL_BARI;
                     sDoorState = 100;
                     func_8002DF54(globalCtx, &this->actor, 1);
-                    globalCtx->envCtx.unk_E2[0] = 0xDC;
-                    globalCtx->envCtx.unk_E2[1] = 0xDC;
-                    globalCtx->envCtx.unk_E2[2] = 0xBE;
-                    globalCtx->envCtx.unk_E2[3] = 0xD2;
+                    globalCtx->envCtx.screenFillColor[0] = 0xDC;
+                    globalCtx->envCtx.screenFillColor[1] = 0xDC;
+                    globalCtx->envCtx.screenFillColor[2] = 0xBE;
+                    globalCtx->envCtx.screenFillColor[3] = 0xD2;
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     sCsCamera = Gameplay_CreateSubCamera(globalCtx);
                     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
@@ -763,7 +764,7 @@ void BossVa_SetupIntro(BossVa* this) {
 
 void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
     s32 i;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_1AC += 0xC31;
     this->unk_1A0 = (Math_CosS(this->unk_1AC) * 0.1f) + 1.0f;
@@ -778,10 +779,10 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             }
             break;
         case INTRO_START:
-            globalCtx->envCtx.unk_E2[0] = 0xDC;
-            globalCtx->envCtx.unk_E2[1] = 0xDC;
-            globalCtx->envCtx.unk_E2[2] = 0xBE;
-            globalCtx->envCtx.unk_E2[3] = 0xD2;
+            globalCtx->envCtx.screenFillColor[0] = 0xDC;
+            globalCtx->envCtx.screenFillColor[1] = 0xDC;
+            globalCtx->envCtx.screenFillColor[2] = 0xBE;
+            globalCtx->envCtx.screenFillColor[3] = 0xD2;
             func_8002DF54(globalCtx, &this->actor, 8);
             player->actor.world.rot.y = player->actor.shape.rot.y = 0x7FFF;
             sCsState++;
@@ -1056,7 +1057,7 @@ void BossVa_SetupBodyPhase1(BossVa* this) {
 }
 
 void BossVa_BodyPhase1(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_1B0 += 0xCE4;
     this->bodyGlow = (s16)(Math_SinS(this->unk_1B0) * 50.0f) + 150;
@@ -1121,7 +1122,7 @@ void BossVa_SetupBodyPhase2(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_BodyPhase2(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp48;
 
     if (this->actor.colorFilterTimer == 0) {
@@ -1226,7 +1227,7 @@ void BossVa_SetupBodyPhase3(BossVa* this) {
 
 void BossVa_BodyPhase3(BossVa* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
     s16 sp62;
 
@@ -1348,7 +1349,7 @@ void BossVa_SetupBodyPhase4(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 tmpf1;
     EnBoom* boomerang;
 
@@ -1526,7 +1527,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
     s32 i;
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
     s32 sp7C;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 tmp16;
 
     switch (sCsState) {
@@ -1552,9 +1553,10 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
 
             this->unk_1AC = Math_Vec3f_Yaw(&sCameraEye, &sCameraNextAt) - 0x100;
             this->unk_1B0 = 15;
-            globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0xFF;
-            globalCtx->envCtx.unk_E2[3] = 0;
-            globalCtx->envCtx.unk_E1 = 1;
+            globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+                globalCtx->envCtx.screenFillColor[2] = 0xFF;
+            globalCtx->envCtx.screenFillColor[3] = 0;
+            globalCtx->envCtx.fillScreen = true;
             sCsState++;
         case DEATH_BODY_TUMORS:
             this->unk_1AC += 0x100;
@@ -1652,7 +1654,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
             }
         case DEATH_FINISH:
             Rand_CenteredFloat(0.5f);
-            globalCtx->envCtx.unk_E1 = 0;
+            globalCtx->envCtx.fillScreen = false;
             break;
     }
 
@@ -1671,8 +1673,8 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0xC8, 0);
     Math_SmoothStepToS(&this->vaCamRotMod, 0, 1, 0xC8, 0);
     Math_SmoothStepToS(&this->bodyGlow, 200, 1, 10, 0);
-    if (globalCtx->envCtx.unk_E2[3] != 0) {
-        globalCtx->envCtx.unk_E2[3] -= 50;
+    if (globalCtx->envCtx.screenFillColor[3] != 0) {
+        globalCtx->envCtx.screenFillColor[3] -= 50;
     }
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
@@ -1906,7 +1908,7 @@ void BossVa_SetupZapperAttack(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnBoom* boomerang;
     Actor* boomTarget;
     s16 yaw;
@@ -2236,7 +2238,7 @@ void BossVa_SetupZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s16 tmp16;
     s16 sp6C;
@@ -2524,7 +2526,7 @@ void BossVa_SetupBariPhase3Attack(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_BariPhase3Attack(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnBoom* boomerang;
     Vec3f sp54 = GET_BODY(this)->unk_1D8;
     s16 sp52;
@@ -2611,7 +2613,7 @@ void BossVa_SetupBariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnBoom* boomerang;
     Vec3f sp54 = GET_BODY(this)->unk_1D8;
     s16 sp52;
@@ -2818,22 +2820,22 @@ void BossVa_Update(Actor* thisx, GlobalContext* globalCtx2) {
             BossVa_UpdateEffects(globalCtx);
 
             for (i = 2; i >= 0; i--) {
-                if ((globalCtx->envCtx.unk_8C[0][i] - 1) > 0) {
-                    globalCtx->envCtx.unk_8C[0][i] -= 1;
+                if ((globalCtx->envCtx.adjAmbientColor[i] - 1) > 0) {
+                    globalCtx->envCtx.adjAmbientColor[i] -= 1;
                 } else {
-                    globalCtx->envCtx.unk_8C[0][i] = 0;
+                    globalCtx->envCtx.adjAmbientColor[i] = 0;
                 }
 
-                if ((globalCtx->envCtx.unk_8C[1][i] - 10) > 0) {
-                    globalCtx->envCtx.unk_8C[1][i] -= 10;
+                if ((globalCtx->envCtx.adjLight1Color[i] - 10) > 0) {
+                    globalCtx->envCtx.adjLight1Color[i] -= 10;
                 } else {
-                    globalCtx->envCtx.unk_8C[1][i] = 0;
+                    globalCtx->envCtx.adjLight1Color[i] = 0;
                 }
 
-                if ((globalCtx->envCtx.unk_8C[2][i] - 10) > 0) {
-                    globalCtx->envCtx.unk_8C[2][i] -= 10;
+                if ((globalCtx->envCtx.adjFogColor[i] - 10) > 0) {
+                    globalCtx->envCtx.adjFogColor[i] -= 10;
                 } else {
-                    globalCtx->envCtx.unk_8C[2][i] = 0;
+                    globalCtx->envCtx.adjFogColor[i] = 0;
                 }
             }
 
@@ -3187,17 +3189,17 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
-            if (globalCtx->envCtx.unk_9E != 0) {
-                globalCtx->envCtx.unk_9E += 0x15E;
-                if (globalCtx->envCtx.unk_9E > 0) {
-                    globalCtx->envCtx.unk_9E = 0;
+            if (globalCtx->envCtx.adjFogNear != 0) {
+                globalCtx->envCtx.adjFogNear += 0x15E;
+                if (globalCtx->envCtx.adjFogNear > 0) {
+                    globalCtx->envCtx.adjFogNear = 0;
                 }
             }
 
-            if (globalCtx->envCtx.unk_A0 != 0) {
-                globalCtx->envCtx.unk_A0 += 0x15E;
-                if (globalCtx->envCtx.unk_A0 > 0) {
-                    globalCtx->envCtx.unk_A0 = 0;
+            if (globalCtx->envCtx.adjFogFar != 0) {
+                globalCtx->envCtx.adjFogFar += 0x15E;
+                if (globalCtx->envCtx.adjFogFar > 0) {
+                    globalCtx->envCtx.adjFogFar = 0;
                 }
             }
 
@@ -3291,7 +3293,7 @@ static s32 sUnkValue = 0x009B0000; // Unreferenced? Possibly a color
 
 void BossVa_UpdateEffects(GlobalContext* globalCtx) {
     BossVaEffect* effect = sVaEffects;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 spB6;
     s16 i;
     f32 floorY;
@@ -3714,7 +3716,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
 
 void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* this, Vec3f* offset, s16 scale,
                        u8 mode) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 index;
     Vec3f pos = { 0.0f, -1000.0f, 0.0f };
     Vec3f tempVec;

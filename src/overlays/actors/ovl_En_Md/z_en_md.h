@@ -1,5 +1,5 @@
-#ifndef _Z_EN_MD_H_
-#define _Z_EN_MD_H_
+#ifndef Z_EN_MD_H
+#define Z_EN_MD_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -27,7 +27,5 @@ typedef struct EnMd {
     /* 0x0258 */ Vec3s jointTable[17];
     /* 0x02BE */ Vec3s morphTable[17];
 } EnMd; // size = 0x0324
-
-extern const ActorInit En_Md_InitVars;
 
 #endif

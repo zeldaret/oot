@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GS_H_
-#define _Z_EN_GS_H_
+#ifndef Z_EN_GS_H
+#define Z_EN_GS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -30,7 +30,5 @@ typedef struct EnGs {
     /* 0x0200 */ u16 unk_200;
     /* 0x0202 */ char unk_202[0x6];
 } EnGs; // size = 0x0208
-
-extern const ActorInit En_Gs_InitVars;
 
 #endif

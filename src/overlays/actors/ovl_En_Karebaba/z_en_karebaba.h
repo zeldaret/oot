@@ -1,10 +1,8 @@
-#ifndef _Z_EN_KAREBABA_H_
-#define _Z_EN_KAREBABA_H_
+#ifndef Z_EN_KAREBABA_H
+#define Z_EN_KAREBABA_H
 
 #include "ultra64.h"
 #include "global.h"
-
-extern const ActorInit En_Karebaba_InitVars;
 
 struct EnKarebaba;
 

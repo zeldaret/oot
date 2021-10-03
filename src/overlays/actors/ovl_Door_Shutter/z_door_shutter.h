@@ -1,5 +1,5 @@
-#ifndef _Z_DOOR_SHUTTER_H_
-#define _Z_DOOR_SHUTTER_H_
+#ifndef Z_DOOR_SHUTTER_H
+#define Z_DOOR_SHUTTER_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -57,7 +57,5 @@ typedef struct DoorShutter {
     /* 0x0170 */ f32 unk_170;
     /* 0x0174 */ DoorShutterActionFunc actionFunc;
 } DoorShutter; // size = 0x0178
-
-extern const ActorInit Door_Shutter_InitVars;
 
 #endif

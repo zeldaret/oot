@@ -115,7 +115,7 @@ s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3;
 
     if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &object_ma2_Anim_009EE0)) {
@@ -255,7 +255,7 @@ void func_80AA2018(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags2 & 0x1000000) {
         player->unk_6A8 = &this->actor;
@@ -268,7 +268,7 @@ void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA20E4(EnMa2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE >= 4) {
         this->actionFunc = func_80AA204C;
@@ -285,7 +285,7 @@ void func_80AA20E4(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (DECR(this->unk_208)) {
         player->stateFlags2 |= 0x800000;
@@ -377,7 +377,7 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 955);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BOM_H_
-#define _Z_EN_BOM_H_
+#ifndef Z_EN_BOM_H
+#define Z_EN_BOM_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -24,7 +24,5 @@ typedef enum {
     /* 0x00 */ BOMB_BODY,
     /* 0x01 */ BOMB_EXPLOSION
 } EnBomType;
-
-extern const ActorInit En_Bom_InitVars;
 
 #endif

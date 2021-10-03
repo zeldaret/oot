@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HIDAN_SYOKU_H_
-#define _Z_BG_HIDAN_SYOKU_H_
+#ifndef Z_BG_HIDAN_SYOKU_H
+#define Z_BG_HIDAN_SYOKU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct BgHidanSyoku {
     /* 0x0168 */ s16 unk_168;
     /* 0x016A */ s16 timer;
 } BgHidanSyoku; // size = 0x016C
-
-extern const ActorInit Bg_Hidan_Syoku_InitVars;
 
 #endif

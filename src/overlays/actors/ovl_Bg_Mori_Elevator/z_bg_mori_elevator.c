@@ -127,7 +127,7 @@ void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 BgMoriElevator_IsPlayerRiding(BgMoriElevator* this, GlobalContext* globalCtx) {
     return ((this->dyna.unk_160 & 2) && !(this->unk_170 & 2) &&
-            ((PLAYER->actor.world.pos.y - this->dyna.actor.world.pos.y) < 80.0f));
+            ((GET_PLAYER(globalCtx)->actor.world.pos.y - this->dyna.actor.world.pos.y) < 80.0f));
 }
 
 void BgMoriElevator_SetupWaitAfterInit(BgMoriElevator* this) {

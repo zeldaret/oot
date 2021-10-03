@@ -1,5 +1,5 @@
-#ifndef _Z_EN_TG_H_
-#define _Z_EN_TG_H_
+#ifndef Z_EN_TG_H
+#define Z_EN_TG_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef struct EnTg {
     /* 0x01E2 */ char unk_1E2[0x26];
     /* 0x0208 */ u8 nextDialogue;
 } EnTg; // size = 0x020C
-
-extern const ActorInit En_Tg_InitVars;
 
 #endif

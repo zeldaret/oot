@@ -1,5 +1,5 @@
-#ifndef _Z_EN_TRAP_H_
-#define _Z_EN_TRAP_H_
+#ifndef Z_EN_TRAP_H
+#define Z_EN_TRAP_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -31,7 +31,5 @@ typedef struct EnTrap {
     /* 0x0194 */ Vec3f moveSpeedForwardBack;
     /* 0x01A0 */ ColliderCylinder collider;
 } EnTrap; // size = 0x01EC
-
-extern const ActorInit En_Trap_InitVars;
 
 #endif

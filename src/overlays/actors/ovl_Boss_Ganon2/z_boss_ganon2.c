@@ -4,6 +4,7 @@
 #include "objects/object_ganon/object_ganon.h"
 #include "objects/object_ganon2/object_ganon2.h"
 #include "objects/object_ganon_anime3/object_ganon_anime3.h"
+#include "objects/object_geff/object_geff.h"
 
 #define FLAGS 0x00000035
 
@@ -31,18 +32,6 @@ void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 void func_809060E8(GlobalContext* globalCtx);
 void BossGanon2_GenShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
-
-// object_geff
-extern Gfx D_06000EA0[];
-
-// object_ganon?
-extern UNK_TYPE D_0600A8E0;
-
-// ?
-extern AnimationHeader D_060147E0;
-
-// object_ganon2
-extern u64 D_06021A90[]; // title card
 
 const ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,
@@ -88,13 +77,13 @@ void func_808FD080(s32 idx, ColliderJntSph* collider, Vec3f* arg2) {
         collider->elements[idx].dim.modelSphere.radius * collider->elements[idx].dim.scale;
 }
 
-void BossGanon2_SetObjectSegment(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 arg3) {
+void BossGanon2_SetObjectSegment(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 setRSPSegment) {
     s32 pad;
     s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, objectId);
 
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objectIdx].segment);
 
-    if (arg3) {
+    if (setRSPSegment) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 790);
 
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objectIdx].segment);
@@ -205,7 +194,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     Vec3f* temp[2];
 
     sp8D = false;
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->unk_398++;
 
     switch (this->unk_39C) {
@@ -674,8 +663,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
             if (this->unk_398 == 80) {
                 BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, false);
-                TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(D_06021A90), 160,
-                                       180, 128, 40);
+                TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
+                                       SEGMENTED_TO_VIRTUAL(object_ganon2_Tex_021A90), 160, 180, 128, 40);
             }
             this->unk_3A4.x = ((this->actor.world.pos.x + 500.0f) - 350.0f) + 100.0f;
             this->unk_3A4.y = this->actor.world.pos.y;
@@ -723,11 +712,12 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 func_800A9F6C(0.0f, 0xFF, 0xA, 0x32);
             }
             if (this->unk_398 >= 229) {
-                globalCtx->envCtx.unk_E1 = 1;
-                globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0xFF;
-                globalCtx->envCtx.unk_E2[3] = 0x64;
+                globalCtx->envCtx.fillScreen = true;
+                globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+                    globalCtx->envCtx.screenFillColor[2] = 255;
+                globalCtx->envCtx.screenFillColor[3] = 100;
                 if (this->unk_398 == 234) {
-                    globalCtx->envCtx.unk_E1 = 0;
+                    globalCtx->envCtx.fillScreen = false;
                     this->unk_39C = 24;
                     this->unk_398 = 0;
                     sp68 = player->actor.world.pos;
@@ -837,8 +827,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 if ((this->unk_398 > 40) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
                     this->unk_39C = 29;
                     this->unk_398 = 0;
-                    Animation_MorphToPlayOnce(&this->skelAnime, &D_060147E0, 0.0f);
-                    this->unk_194 = Animation_GetLastFrame(&D_060147E0);
+                    Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime3_Anim_0147E0, 0.0f);
+                    this->unk_194 = Animation_GetLastFrame(&object_ganon_anime3_Anim_0147E0);
                     this->actor.shape.yOffset = 0.0f;
                     this->actor.world.pos.y = 1086.0f;
                     this->actor.gravity = -1.0f;
@@ -1283,7 +1273,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
     f32 temp_f2;
 
     sp4C = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
     this->unk_398++;
     this->unk_339 = 20;
@@ -1465,7 +1455,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
     f32 phi_f0;
     s32 phi_a1;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->unk_398++;
     SkelAnime_Update(&this->skelAnime);
 
@@ -1853,7 +1843,7 @@ void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_324 > 0.0f) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         temp_f2 = -200.0f - player->actor.world.pos.x;
         temp_f12 = -200.0f - player->actor.world.pos.z;
 
@@ -2089,13 +2079,13 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_332--;
     }
     if ((globalCtx->envCtx.unk_D8 > 0.0f) && (this->unk_336 != 0)) {
-        globalCtx->envCtx.unk_E9 = 1;
-        globalCtx->envCtx.unk_EA[0] = 0xFF;
-        globalCtx->envCtx.unk_EA[1] = 0xFF;
-        globalCtx->envCtx.unk_EA[2] = 0xFF;
-        globalCtx->envCtx.unk_EA[3] = (s16)(globalCtx->envCtx.unk_D8 * 200.0f);
+        globalCtx->envCtx.customSkyboxFilter = 1;
+        globalCtx->envCtx.skyboxFilterColor[0] = 255;
+        globalCtx->envCtx.skyboxFilterColor[1] = 255;
+        globalCtx->envCtx.skyboxFilterColor[2] = 255;
+        globalCtx->envCtx.skyboxFilterColor[3] = (s16)(globalCtx->envCtx.unk_D8 * 200.0f);
     } else {
-        globalCtx->envCtx.unk_E9 = 0;
+        globalCtx->envCtx.customSkyboxFilter = 0;
     }
     globalCtx->envCtx.unk_BF = 0;
     globalCtx->envCtx.unk_DC = 2;
@@ -2649,7 +2639,7 @@ void func_8090523C(BossGanon2* this, GlobalContext* globalCtx) {
     if (this->unk_38C > 0.0f) {
         s8 i;
 
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s16)this->unk_38C);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 0);
@@ -2737,8 +2727,8 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->unk_337) {
         case 0:
             BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON, true);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_0600A8E0));
-            gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600A8E0));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(object_ganon_Tex_00A8E0));
+            gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(object_ganon_Tex_00A8E0));
             SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                   this->skelAnime.dListCount, NULL, BossGanon2_PostLimbDraw2, this);
             break;
@@ -2760,7 +2750,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                   this->skelAnime.dListCount, BossGanon2_OverrideLimbDraw, BossGanon2_PostLimbDraw,
                                   this);
-            POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+            POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
             BossGanon2_GenShadowTexture(shadowTexture, this, globalCtx);
             BossGanon2_DrawShadowTexture(shadowTexture, this, globalCtx);
             break;
@@ -2803,7 +2793,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad[5];
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     BossGanon2Effect* effect = globalCtx->specialEffects;
     Vec3f sp78;
     s16 i;
@@ -2865,12 +2855,11 @@ void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
 
 void func_809060E8(GlobalContext* globalCtx) {
     s16 alpha;
-    u8 spCD;
+    u8 usingObjectGEff = false;
     BossGanon2Effect* effect;
     s16 i;
     BossGanon2Effect* effects;
 
-    spCD = 0;
     effects = effect = globalCtx->specialEffects;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6086);
@@ -2884,9 +2873,9 @@ void func_809060E8(GlobalContext* globalCtx) {
             f32 angle;
 
             func_80093D84(globalCtx->state.gfxCtx);
-            spA0.x = globalCtx->envCtx.unk_2A;
-            spA0.y = globalCtx->envCtx.unk_2B;
-            spA0.z = globalCtx->envCtx.unk_2C;
+            spA0.x = globalCtx->envCtx.dirLight1.params.dir.x;
+            spA0.y = globalCtx->envCtx.dirLight1.params.dir.y;
+            spA0.z = globalCtx->envCtx.dirLight1.params.dir.z;
             func_8002EABC(&effect->position, &globalCtx->view.eye, &spA0, globalCtx->state.gfxCtx);
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);
@@ -2919,9 +2908,9 @@ void func_809060E8(GlobalContext* globalCtx) {
 
     for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
         if (effect->type == 2) {
-            if (spCD == 0) {
+            if (!usingObjectGEff) {
                 BossGanon2_SetObjectSegment(NULL, globalCtx, OBJECT_GEFF, true);
-                spCD++;
+                usingObjectGEff++;
             }
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
@@ -2930,7 +2919,7 @@ void func_809060E8(GlobalContext* globalCtx) {
             Matrix_RotateZ(effect->unk_38.x, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6179),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, D_06000EA0);
+            gSPDisplayList(POLY_OPA_DISP++, gGanonRubbleDL);
         }
     }
 

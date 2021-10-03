@@ -172,8 +172,8 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnRd* this = THIS;
 
-    if (gSaveContext.unk_1422 != 0) {
-        gSaveContext.unk_1422 = 0;
+    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
+        gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -308,7 +308,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     Vec3f sp44 = D_80AE4918;
     Color_RGBA8 sp40 = D_80AE4924;
     Color_RGBA8 sp3C = D_80AE4928;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s16 sp32 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y - this->unk_30E - this->unk_310;
 
@@ -329,7 +329,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
                 if (!(this->unk_312 & 0x80)) {
                     player->actor.freezeTimer = 40;
                     func_8008EEAC(globalCtx, &this->actor);
-                    PLAYER->unk_684 = &this->actor;
+                    GET_PLAYER(globalCtx)->unk_684 = &this->actor;
                     func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
                 }
                 this->unk_306 = 0x3C;
@@ -374,7 +374,7 @@ void func_80AE2F50(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s16 targetY = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
 
@@ -472,7 +472,7 @@ void func_80AE33F0(EnRd* this) {
 
 void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_304++;
@@ -551,7 +551,7 @@ void func_80AE3834(EnRd* this, GlobalContext* globalCtx) {
     Vec3f sp34 = D_80AE492C;
     Color_RGBA8 sp30 = D_80AE4938;
     Color_RGBA8 sp2C = D_80AE493C;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 temp_v0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y - this->unk_30E - this->unk_310;
 
     if (ABS(temp_v0) < 0x2008) {
@@ -608,7 +608,7 @@ void func_80AE3A8C(EnRd* this) {
 }
 
 void func_80AE3B18(EnRd* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->actor.speedXZ < 0.0f) {
         this->actor.speedXZ += 0.15f;
@@ -676,7 +676,7 @@ void func_80AE3DE4(EnRd* this) {
     this->unk_31B = 1;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if (gSaveContext.unk_1422 != 0) {
+    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
         this->unk_318 = 1;
         this->unk_316 = 0x258;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
@@ -698,7 +698,7 @@ void func_80AE3ECC(EnRd* this, GlobalContext* globalCtx) {
         }
         if (this->unk_316 == 0) {
             this->unk_318 = 0;
-            gSaveContext.unk_1422 = 0;
+            gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
         }
     }
 
@@ -738,9 +738,9 @@ void func_80AE3F9C(EnRd* this, GlobalContext* globalCtx) {
 
 void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
-    if ((gSaveContext.unk_1422 != 0) && (this->actor.shape.rot.x == 0) && (this->unk_318 == 0) &&
+    if ((gSaveContext.sunsSongState != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) && (this->unk_318 == 0) &&
         (this->unk_31B != 9) && (this->unk_31B != 10) && (this->unk_31B != 1)) {
         func_80AE3DE4(this);
         return;
@@ -789,13 +789,13 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
 void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnRd* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
 
     func_80AE4114(this, globalCtx);
 
-    if (gSaveContext.unk_1422 != 0 && this->unk_318 == 0) {
-        gSaveContext.unk_1422 = 0;
+    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE && this->unk_318 == 0) {
+        gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
 
     if (this->unk_31C != 6 && ((this->unk_31B != 11) || (this->unk_31C != 14))) {

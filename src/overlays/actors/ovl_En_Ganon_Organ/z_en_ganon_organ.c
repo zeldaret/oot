@@ -28,8 +28,9 @@ const ActorInit En_Ganon_Organ_InitVars = {
     (ActorFunc)EnGanonOrgan_Draw,
 };
 
-extern Gfx D_80A2CCA8[];
-extern Gfx D_80A2EAB0[];
+static u64 sForceAlignment = 0;
+
+#include "overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
 void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->flags &= ~1;
@@ -66,9 +67,8 @@ Gfx* func_80A280BC(GraphicsContext* gfxCtx, BossGanon* dorf) {
     displayList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
     displayListHead = displayList;
     gDPPipeSync(displayListHead++);
-    do {
-        if (1) {}
-    } while (0);
+    if (1) {}
+    if (1) {}
     gDPSetEnvColor(displayListHead++, 25, 20, 0, dorf->organFadeTimer);
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gSPEndDisplayList(displayListHead);
@@ -83,9 +83,8 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
     displayListHead = displayList;
 
     gDPPipeSync(displayListHead++);
-    do {
-        if (1) {}
-    } while (0);
+    if (1) {}
+    if (1) {}
     gDPSetEnvColor(displayListHead++, 0, 0, 0, dorf->organFadeTimer);
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gSPEndDisplayList(displayListHead);
@@ -110,8 +109,9 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 221),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_80A2CCA8);
-    gSPDisplayList(POLY_OPA_DISP++, D_80A2EAB0);
+    gSPDisplayList(POLY_OPA_DISP++, gGanondorfRoomOrganAndFloorDL);
+    gSPDisplayList(POLY_OPA_DISP++, gGanondorfRoomStatuesDL);
+
     osSyncPrintf("ORGAN DRAW  2\n");
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 230);

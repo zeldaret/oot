@@ -127,7 +127,7 @@ s32 EnIshi_SnapToFloor(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
         return true;
     } else {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // Translation: Failure attaching to ground
+        // "Failure attaching to ground"
         osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_ishi.c", 388);
         osSyncPrintf(VT_RST);
         return false;
@@ -430,7 +430,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
             sDustSpawnFuncs[type](this, globalCtx);
         }
         if (type == ROCK_LARGE) {
-            quakeIdx = Quake_Add(ACTIVE_CAM, 3);
+            quakeIdx = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
             Quake_SetSpeed(quakeIdx, -0x3CB0);
             Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
             Quake_SetCountdown(quakeIdx, 7);

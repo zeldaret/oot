@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_HAMISHI_H_
-#define _Z_OBJ_HAMISHI_H_
+#ifndef Z_OBJ_HAMISHI_H
+#define Z_OBJ_HAMISHI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct ObjHamishi {
     /* 0x01A4 */ s16 shakeRotPhase;
     /* 0x01A6 */ s16 hitCount;
 } ObjHamishi; // size = 0x01A8
-
-extern const ActorInit Obj_Hamishi_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HIDAN_HROCK_H_
-#define _Z_BG_HIDAN_HROCK_H_
+#ifndef Z_BG_HIDAN_HROCK_H
+#define Z_BG_HIDAN_HROCK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgHidanHrock {
     /* 0x016C */ ColliderTris collider;
     /* 0x018C */ ColliderTrisElement colliderItems[2];
 } BgHidanHrock; // size = 0x0244
-
-extern const ActorInit Bg_Hidan_Hrock_InitVars;
 
 #endif

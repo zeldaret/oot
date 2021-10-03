@@ -6,6 +6,7 @@
 
 #include "z_en_ru2.h"
 #include "objects/object_ru2/object_ru2.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -247,11 +248,12 @@ void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
     f32 posY = thisx->world.pos.y;
     f32 posZ = thisx->world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 posX = player->actor.world.pos.x;
     f32 posY = player->actor.world.pos.y + 50.0f;
     f32 posZ = player->actor.world.pos.z;
@@ -266,7 +268,7 @@ void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx) {
     s16 temp;
 
     if ((gSaveContext.chamberCutsceneNum == 2) && (gSaveContext.sceneSetupIndex < 4)) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         this->action = 1;
         globalCtx->csCtx.segment = &D_80AF411C;
         gSaveContext.cutsceneTrigger = 2;
@@ -615,12 +617,12 @@ void func_80AF37CC(EnRu2* this) {
     f32 funcFloat;
 
     this->unk_2C0++;
-    funcFloat = func_8006F9BC((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
+    funcFloat = Environment_LerpWeightAccelDecel((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
     this->actor.world.pos.y = this->actor.home.pos.y + (300.0f * funcFloat);
 }
 
 s32 func_80AF383C(EnRu2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 thisPosX = this->actor.world.pos.x;
     f32 playerPosX = player->actor.world.pos.x;
 
@@ -672,10 +674,10 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
             osSyncPrintf("おれが小松だ！ \n");
             this->unk_2C2++;
             if (this->unk_2C2 % 6 == 3) {
-                player = PLAYER;
+                player = GET_PLAYER(globalCtx);
                 // uorya-! (screeming sound)
                 osSyncPrintf("うおりゃー！ \n");
-                func_8005B1A4(ACTIVE_CAM);
+                func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
                 player->actor.world.pos.x = 820.0f;
                 player->actor.world.pos.y = 0.0f;
                 player->actor.world.pos.z = 180.0f;
@@ -686,7 +688,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C3 = dialogState;
     if (func_8010BDBC(msgCtx) == 2) {
         this->action = 18;
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
     }
 }
 

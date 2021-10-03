@@ -470,7 +470,7 @@ glabel L8010F8F8
 .L8010FCB0:
 /* B86E50 8010FCB0 0C041C91 */  jal   func_80107244
 /* B86E54 8010FCB4 8FA40030 */   lw    $a0, 0x30($sp)
-/* B86E58 8010FCB8 0C03DA47 */  jal   func_800F691C
+/* B86E58 8010FCB8 0C03DA47 */  jal   Audio_PlaySoundIfNotInCutscene
 /* B86E5C 8010FCBC 00002025 */   move  $a0, $zero
 /* B86E60 8010FCC0 8FB90030 */  lw    $t9, 0x30($sp)
 /* B86E64 8010FCC4 240A0002 */  li    $t2, 2

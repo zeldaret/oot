@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_SHD_H_
-#define _Z_DEMO_SHD_H_
+#ifndef Z_DEMO_SHD_H
+#define Z_DEMO_SHD_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct DemoShd {
     /* 0x014E */ u16 unk_14E;
     /* 0x0150 */ DemoShdActionFunc actionFunc;
 } DemoShd; // size = 0x0154
-
-extern const ActorInit Demo_Shd_InitVars;
 
 #endif

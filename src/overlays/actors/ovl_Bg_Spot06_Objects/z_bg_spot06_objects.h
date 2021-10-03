@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT06_OBJECTS_H_
-#define _Z_BG_SPOT06_OBJECTS_H_
+#ifndef Z_BG_SPOT06_OBJECTS_H
+#define Z_BG_SPOT06_OBJECTS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef struct BgSpot06Objects {
     /* 0x0170 */ ColliderJntSph collider;
     /* 0x0190 */ ColliderJntSphElement colliderItem[1];
 } BgSpot06Objects; // size = 0x01D0
-
-extern const ActorInit Bg_Spot06_Objects_InitVars;
 
 #endif

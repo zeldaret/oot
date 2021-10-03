@@ -1,5 +1,5 @@
-#ifndef _Z_EN_BDFIRE_H_
-#define _Z_EN_BDFIRE_H_
+#ifndef Z_EN_BDFIRE_H
+#define Z_EN_BDFIRE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -26,7 +26,5 @@ typedef struct EnBdfire {
     /* 0x01D0 */ LightNode* lightNode;
     /* 0x01D4 */ LightInfo lightInfoNoGlow;
 } EnBdfire; // size = 0x01E4
-
-extern const ActorInit En_Bdfire_InitVars;
 
 #endif

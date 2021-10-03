@@ -192,8 +192,8 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
     s16 sp60;
     f32 sp5C;
     f32 sp58;
-    Player* player = PLAYER;
-    Player* player2 = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
+    Player* player2 = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     this->unk_244 = this->unk_250 + 0.1f;
@@ -435,7 +435,7 @@ void func_809CF8F0(EnBw* this) {
 }
 
 void func_809CF984(EnBw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 floorPolyType;
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);

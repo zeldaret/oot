@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_SYOKUDAI_H_
-#define _Z_OBJ_SYOKUDAI_H_
+#ifndef Z_OBJ_SYOKUDAI_H
+#define Z_OBJ_SYOKUDAI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct ObjSyokudai {
     /* 0x01E8 */ LightNode* lightNode;
     /* 0x01EC */ LightInfo lightInfo;
 } ObjSyokudai; // size = 0x01FC
-
-extern const ActorInit Obj_Syokudai_InitVars;
 
 #endif

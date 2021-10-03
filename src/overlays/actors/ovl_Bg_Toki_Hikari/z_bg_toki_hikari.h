@@ -1,5 +1,5 @@
-#ifndef _Z_BG_TOKI_HIKARI_H_
-#define _Z_BG_TOKI_HIKARI_H_
+#ifndef Z_BG_TOKI_HIKARI_H
+#define Z_BG_TOKI_HIKARI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct BgTokiHikari {
     /* 0x014C */ f32 unk_14C;
     /* 0x0150 */ BgTokiHikariActionFunc actionFunc; 
 } BgTokiHikari; // size = 0x0154
-
-extern const ActorInit Bg_Toki_Hikari_InitVars;
 
 #endif

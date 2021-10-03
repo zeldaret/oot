@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GOROIWA_H_
-#define _Z_EN_GOROIWA_H_
+#ifndef Z_EN_GOROIWA_H
+#define Z_EN_GOROIWA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -26,7 +26,5 @@ typedef struct EnGoroiwa {
     /* 0x01D2 */ u8 isInKokiri;
     /* 0x01D3 */ u8 stateFlags;
 } EnGoroiwa; // size = 0x01D4
-
-extern const ActorInit En_Goroiwa_InitVars;
 
 #endif

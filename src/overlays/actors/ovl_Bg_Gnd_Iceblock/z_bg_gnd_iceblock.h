@@ -1,5 +1,5 @@
-#ifndef _Z_BG_GND_ICEBLOCK_H_
-#define _Z_BG_GND_ICEBLOCK_H_
+#ifndef Z_BG_GND_ICEBLOCK_H
+#define Z_BG_GND_ICEBLOCK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct BgGndIceblock {
     /* 0x0164 */ BgGndIceblockActionFunc actionFunc;
     /* 0x0168 */ Vec3f targetPos;
 } BgGndIceblock; // size = 0x0174
-
-extern const ActorInit Bg_Gnd_Iceblock_InitVars;
 
 #endif

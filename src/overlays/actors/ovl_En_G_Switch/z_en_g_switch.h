@@ -1,5 +1,5 @@
-#ifndef _Z_EN_G_SWITCH_H_
-#define _Z_EN_G_SWITCH_H_
+#ifndef Z_EN_G_SWITCH_H
+#define Z_EN_G_SWITCH_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -50,13 +50,11 @@ typedef struct EnGSwitch {
     /* 0x0164 */ s16 waitTimer; // time rupee waits before retreating
     /* 0x0166 */ s16 moveMode; // Type of movement in the shooting gallery
     /* 0x0168 */ s16 moveState; // Appear or retreat (for blue rupees and the stationary green one)
-    /* 0x016A */ s16 pitchIndex;
+    /* 0x016A */ s16 noteIndex;
     /* 0x016C */ Vec3f targetPos;
     /* 0x0178 */ s8 objIndex;
     /* 0x017C */ ColliderCylinder collider;
     /* 0x01C8 */ EnGSwitchEffect effects[100];
 } EnGSwitch; // size = 0x12F8
-
-extern const ActorInit En_G_Switch_InitVars;
 
 #endif

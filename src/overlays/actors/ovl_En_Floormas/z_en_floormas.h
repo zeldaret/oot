@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FLOORMAS_H_
-#define _Z_EN_FLOORMAS_H_
+#ifndef Z_EN_FLOORMAS_H
+#define Z_EN_FLOORMAS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ struct EnFloormas{
     /* 0x0232 */ Vec3s morphTable[25];
     /* 0x02C8 */ ColliderCylinder collider;
 }; // size = 0x0314
-
-extern const ActorInit En_Floormas_InitVars;
 
 #endif

@@ -143,7 +143,7 @@ void func_808AC908(BgSpot02Objects* this, GlobalContext* globalCtx) {
 }
 
 void func_808ACA08(BgSpot02Objects* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->timer != 0) {
         this->timer--;
@@ -298,8 +298,8 @@ void func_808AD450(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        lerp = func_8006F93C(globalCtx->csCtx.npcActions[2]->endFrame, globalCtx->csCtx.npcActions[2]->startFrame,
-                             globalCtx->csCtx.frames);
+        lerp = Environment_LerpWeight(globalCtx->csCtx.npcActions[2]->endFrame,
+                                      globalCtx->csCtx.npcActions[2]->startFrame, globalCtx->csCtx.frames);
 
         // should be able to remove & 0xFFFF with some other change
         if ((globalCtx->csCtx.npcActions[2]->action & 0xFFFF) == 2) {

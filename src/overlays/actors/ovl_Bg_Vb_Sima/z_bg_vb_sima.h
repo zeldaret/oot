@@ -1,5 +1,5 @@
-#ifndef _Z_BG_VB_SIMA_H_
-#define _Z_BG_VB_SIMA_H_
+#ifndef Z_BG_VB_SIMA_H
+#define Z_BG_VB_SIMA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct BgVbSima {
     /* 0x0174 */ s16 shakeTimer;
     /* 0x0176 */ char unk_176[6];
 } BgVbSima; // size = 0x017C
-
-extern const ActorInit Bg_Vb_Sima_InitVars;
 
 #endif

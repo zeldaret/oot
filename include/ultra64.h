@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_H_
-#define _ULTRA64_H_
+#ifndef ULTRA64_H
+#define ULTRA64_H
 
 #include "stddef.h"
 #include "stdbool.h"

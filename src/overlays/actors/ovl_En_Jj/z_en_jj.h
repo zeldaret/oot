@@ -1,5 +1,5 @@
-#ifndef _Z_EN_JJ_H_
-#define _Z_EN_JJ_H_
+#ifndef Z_EN_JJ_H
+#define Z_EN_JJ_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -32,7 +32,5 @@ typedef enum {
     /*  1 */ JABUJABU_UNUSED_COLLISION // Shaped like a screen
 } EnJjType;
 
-
-extern const ActorInit En_Jj_InitVars;
 
 #endif

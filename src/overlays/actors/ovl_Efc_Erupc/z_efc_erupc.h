@@ -1,5 +1,5 @@
-#ifndef _Z_EFC_ERUPC_H_
-#define _Z_EFC_ERUPC_H_
+#ifndef Z_EFC_ERUPC_H
+#define Z_EFC_ERUPC_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -33,7 +33,5 @@ typedef struct EfcErupc {
     /* 0x0158 */ EfcErupcParticles particles[EFC_ERUPC_NUM_PARTICLES];
     /* 0x18C8 */ EfcErupcActionFunc actionFunc;
 } EfcErupc; // size = 0x18CC
-
-extern const ActorInit Efc_Erupc_InitVars;
 
 #endif

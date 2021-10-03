@@ -162,7 +162,7 @@ void func_80B536C4(EnZl3* this) {
 }
 
 void func_80B53764(EnZl3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_3F8.unk_18 = player->actor.world.pos;
     this->unk_3F8.unk_14 = kREG(16) - 16.0f;
@@ -173,13 +173,13 @@ s32 func_80B537E8(EnZl3* this) {
     s16 yawTowardsPlayer = this->actor.yawTowardsPlayer;
     s16* rotY = &this->actor.world.rot.y;
     s16* unk_3D0 = &this->unk_3D0;
-    s16 pad[3];
+    s16 retVal;
+    s16 pad[2];
 
     Math_SmoothStepToS(unk_3D0, ABS((s16)(yawTowardsPlayer - *rotY)), 5, 6200, 100);
-    Math_SmoothStepToS(rotY, yawTowardsPlayer, 5, *unk_3D0, 100);
+    retVal = Math_SmoothStepToS(rotY, yawTowardsPlayer, 5, *unk_3D0, 100);
     this->actor.shape.rot.y = *rotY;
-    // no return statement despite being of type s32
-    // the function directly below needs this to not be void I guess
+    return retVal;
 }
 
 void func_80B538B0(EnZl3* this) {
@@ -786,7 +786,7 @@ void func_80B54F18(EnZl3* this, GlobalContext* globalCtx) {
         f32 posZ = this->actor.world.pos.z;
 
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
-                           0, 3);
+                           0, WARP_PURPLE_CRYSTAL);
         this->unk_2F8 = 1;
     }
 }
@@ -813,7 +813,7 @@ void func_80B55054(EnZl3* this) {
             f32* temp_v0 = &this->unk_2EC;
 
             if (*temp_v0 < 19.0f) {
-                ((DoorWarp1*)child)->alpha = (20.0f - *temp_v0) * 12.75f;
+                ((DoorWarp1*)child)->crystalAlpha = (20.0f - *temp_v0) * 12.75f;
                 *temp_v0 += 1.0f;
             } else {
                 Actor_Kill(child);
@@ -1018,7 +1018,7 @@ void func_80B55808(EnZl3* this) {
 }
 
 void func_80B5582C(EnZl3* this) {
-    func_800F41E0(&D_80B5A488, NA_SE_VO_Z1_CRY_0, 2);
+    Audio_PlaySoundRandom(&D_80B5A488, NA_SE_VO_Z1_CRY_0, NA_SE_VO_Z1_CRY_1 - NA_SE_VO_Z1_CRY_0 + 1);
 }
 
 void func_80B5585C(EnZl3* this) {
@@ -1045,8 +1045,8 @@ void func_80B559C4(EnZl3* this) {
     Vec3f* thisPos = &this->actor.world.pos;
     Vec3f* unk_32C = &this->unk_32C;
     Vec3f* unk_338 = &this->unk_338;
-    f32 temp_f0 =
-        func_8006F9BC(Animation_GetLastFrame(&gZelda2Anime2Anim_005248), 0, (s32)this->skelAnime.curFrame, 3, 3);
+    f32 temp_f0 = Environment_LerpWeightAccelDecel(Animation_GetLastFrame(&gZelda2Anime2Anim_005248), 0,
+                                                   (s32)this->skelAnime.curFrame, 3, 3);
 
     thisPos->x = unk_32C->x + (temp_f0 * (unk_338->x - unk_32C->x));
     thisPos->z = unk_32C->z + (temp_f0 * (unk_338->z - unk_32C->z));
@@ -1711,7 +1711,7 @@ s32 func_80B573C8(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B573FC(EnZl3* this, GlobalContext* globalCtx, f32 arg2) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 playerX = player->actor.world.pos.x;
     f32 playerZ = player->actor.world.pos.z;
     f32 thisX = this->actor.world.pos.x;
@@ -1727,7 +1727,7 @@ s32 func_80B57458(EnZl3* this, GlobalContext* globalCtx) {
     Vec3f* thisPos = &this->actor.world.pos;
     f32 thisX = thisPos->x;
     f32 thisZ = thisPos->z;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f* playerPos = &player->actor.world.pos;
     s32 pad;
     f32 playerX = playerPos->x;
@@ -1821,7 +1821,7 @@ void func_80B57754(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B577BC(GlobalContext* globalCtx, Vec3f* vec) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f* playerPos = &player->actor.world.pos;
     f32 posX = vec->x;
     f32 posY = vec->y;
@@ -1959,7 +1959,7 @@ void func_80B57CB4(EnZl3* this, GlobalContext* globalCtx) {
     f32 temp_f0;
 
     this->unk_344 += 1;
-    temp_f0 = func_8006F9BC(this->unk_346, 0, this->unk_344, 3, 3);
+    temp_f0 = Environment_LerpWeightAccelDecel(this->unk_346, 0, this->unk_344, 3, 3);
     thisPos->x = unk_348->x + (temp_f0 * (unk_354->x - unk_348->x));
     thisPos->y = (unk_348->y + (temp_f0 * (unk_354->y - unk_348->y))) + this->unk_360;
     thisPos->z = unk_348->z + (temp_f0 * (unk_354->z - unk_348->z));
@@ -1973,7 +1973,7 @@ s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad;
     s16* sp32 = &this->actor.shape.rot.y;
     struct_80034A14_arg1* unk_3F8 = &this->unk_3F8;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 unk_314 = this->unk_314;
     s16 temp_v0 = func_80B57104(this, unk_314);
     s32 pad2;
@@ -2031,7 +2031,7 @@ s32 func_80B57F84(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B58014(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 invincibilityTimer = player->invincibilityTimer;
 
     if (func_80B57324(this, globalCtx)) {
@@ -2073,7 +2073,7 @@ void func_80B58214(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B58268(EnZl3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 invincibilityTimer = player->invincibilityTimer;
 
     if ((invincibilityTimer <= 0) && (player->fallDistance <= 50)) {
@@ -2099,7 +2099,7 @@ void func_80B582C8(EnZl3* this, GlobalContext* globalCtx) {
         *unk_3CC += 1.0f;
         func_80B57858(globalCtx);
     } else if (*unk_3CC == kREG(17) + 40.0f) {
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         *unk_3CC += 1.0f;
     } else if (*unk_3CC >= ((kREG(17) + 40.0f) + 1.0f)) {
         this->action = 32;
@@ -2111,7 +2111,7 @@ void func_80B582C8(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 invincibilityTimer = player->invincibilityTimer;
     Actor* nearbyEnTest = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f);
 
@@ -2162,7 +2162,7 @@ void func_80B58624(EnZl3* this, GlobalContext* globalCtx) {
     } else {
         if (*unk_3CC >= kREG(20) + 30.0f) {
             this->action = 28;
-            func_8005B1A4(ACTIVE_CAM);
+            func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
             func_80B54E14(this, &gZelda2Anime2Anim_009FBC, 0, -12.0f, 0);
             *unk_3CC = 0.0f;
         } else {
@@ -2201,7 +2201,7 @@ s32 func_80B58938(EnZl3* this, GlobalContext* globalCtx) {
 
 s32 func_80B5899C(EnZl3* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 1)) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         s8 invincibilityTimer = player->invincibilityTimer;
 
         if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
@@ -2221,7 +2221,7 @@ void func_80B58A1C(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B58A50(EnZl3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 invincibilityTimer = player->invincibilityTimer;
 
     if ((invincibilityTimer <= 0) && (player->fallDistance <= 50)) {
@@ -2262,7 +2262,7 @@ void func_80B58C08(EnZl3* this, GlobalContext* globalCtx) {
     unk_344 = this->unk_344;
     unk_346 = this->unk_346;
     sp28 = unk_346 - kREG(11) - 2;
-    temp_f0 = func_8006F9BC(unk_346, 0, unk_344, 3, 0);
+    temp_f0 = Environment_LerpWeightAccelDecel(unk_346, 0, unk_344, 3, 0);
 
     thisPos->x = unk_348->x + (temp_f0 * (unk_354->x - unk_348->x));
     thisPos->y = (unk_348->y + (temp_f0 * (unk_354->y - unk_348->y))) + this->unk_360;

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_VB_BALL_H_
-#define _Z_EN_VB_BALL_H_
+#ifndef Z_EN_VB_BALL_H
+#define Z_EN_VB_BALL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct EnVbBall {
     /* 0x0164 */ f32 shadowOpacity;
     /* 0x0168 */ ColliderCylinder collider;
 } EnVbBall; // size = 0x01B4
-
-extern const ActorInit En_Vb_Ball_InitVars;
 
 #endif

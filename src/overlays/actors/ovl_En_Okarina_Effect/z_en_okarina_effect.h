@@ -1,5 +1,5 @@
-#ifndef _Z_EN_OKARINA_EFFECT_H_
-#define _Z_EN_OKARINA_EFFECT_H_
+#ifndef Z_EN_OKARINA_EFFECT_H
+#define Z_EN_OKARINA_EFFECT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct EnOkarinaEffect {
     /* 0x014C */ u16 timer;
     /* 0x0150 */ EnOkarinaEffectActionFunc actionFunc;
 } EnOkarinaEffect; // size = 0x0154
-
-extern const ActorInit En_Okarina_Effect_InitVars;
 
 #endif

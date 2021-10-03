@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_GANONDROF_H_
-#define _Z_BOSS_GANONDROF_H_
+#ifndef Z_BOSS_GANONDROF_H
+#define Z_BOSS_GANONDROF_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -100,7 +100,5 @@ typedef struct BossGanondrof {
     /* 0x04E0 */ ColliderCylinder colliderBody;
     /* 0x052C */ ColliderCylinder colliderSpear;
 } BossGanondrof; // size = 0x0578
-
-extern const ActorInit Boss_Ganondrof_InitVars;
 
 #endif

@@ -7,6 +7,7 @@
 #include "z_en_nb.h"
 #include "vt.h"
 #include "objects/object_nb/object_nb.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #define FLAGS 0x00000010
 
@@ -150,7 +151,7 @@ void EnNb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_300.unk_18 = player->actor.world.pos;
     this->unk_300.unk_14 = kREG(16) + 9.0f;
@@ -158,7 +159,7 @@ void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB1040(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_300.unk_18 = player->actor.world.pos;
     this->unk_300.unk_14 = kREG(16) + 9.0f;
@@ -312,11 +313,12 @@ void EnNb_SpawnBlueWarp(EnNb* this, GlobalContext* globalCtx) {
     f32 posY = this->actor.world.pos.y;
     f32 posZ = this->actor.world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 void EnNb_GiveMedallion(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 posX = player->actor.world.pos.x;
     f32 posY = player->actor.world.pos.y + 50.0f;
     f32 posZ = player->actor.world.pos.z;
@@ -335,7 +337,7 @@ void EnNb_SetupChamberCsImpl(EnNb* this, GlobalContext* globalCtx) {
     Player* player;
 
     if ((gSaveContext.chamberCutsceneNum == 3) && (gSaveContext.sceneSetupIndex < 4)) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         this->action = NB_CHAMBER_UNDERGROUND;
         globalCtx->csCtx.segment = &D_80AB431C;
         gSaveContext.cutsceneTrigger = 2;
@@ -587,7 +589,8 @@ void EnNb_SetPosInPortal(EnNb* this, GlobalContext* globalCtx) {
     Vec3f endPos;
 
     if (csCmdNPCAction != NULL) {
-        f0 = func_8006F9BC(csCmdNPCAction->endFrame, csCmdNPCAction->startFrame, globalCtx->csCtx.frames, 4, 4);
+        f0 = Environment_LerpWeightAccelDecel(csCmdNPCAction->endFrame, csCmdNPCAction->startFrame,
+                                              globalCtx->csCtx.frames, 4, 4);
         startPos.x = csCmdNPCAction->startPos.x;
         startPos.y = csCmdNPCAction->startPos.y;
         startPos.z = csCmdNPCAction->startPos.z;
@@ -873,7 +876,7 @@ void EnNb_CheckConfrontationCsMode(EnNb* this, GlobalContext* globalCtx) {
                     EnNb_SetupConfrontationDestroy(this);
                     break;
                 default:
-                    // "En_Nb_Confrontion_Check_DemoMode: OPERATION DOESN'T EXIST!!!!!!!!"
+                    // "En_Nb_Confrontion_Check_DemoMode: Operation doesn't exist!!!!!!!!"
                     osSyncPrintf("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -1060,7 +1063,7 @@ void EnNb_CheckCreditsCsModeImpl(EnNb* this, GlobalContext* globalCtx) {
                     EnNb_SetupCreditsHeadTurn(this);
                     break;
                 default:
-                    // "En_Nb_inEnding_Check_DemoMode: OPERATION DOESN'T EXIST!!!!!!!!"
+                    // "En_Nb_inEnding_Check_DemoMode: Operation doesn't exist!!!!!!!!"
                     osSyncPrintf("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -1133,7 +1136,7 @@ void func_80AB359C(EnNb* this) {
     temp_t1 += 25;
 
     if (temp_t1 >= this->movementTimer) {
-        f0 = func_8006F9BC(temp_t1, 0, this->movementTimer, 3, 3);
+        f0 = Environment_LerpWeightAccelDecel(temp_t1, 0, this->movementTimer, 3, 3);
         world->pos.x = initialPos->x + (f0 * (finalPos->x - initialPos->x));
         world->pos.y = initialPos->y + (f0 * (finalPos->y - initialPos->y));
         world->pos.z = initialPos->z + (f0 * (finalPos->z - initialPos->z));
@@ -1145,7 +1148,7 @@ void EnNb_SetNoticeSFX(EnNb* this) {
 }
 
 s32 EnNb_GetNoticedStatus(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 playerX = player->actor.world.pos.x;
     f32 playerZ = player->actor.world.pos.z;
     f32 thisX = this->actor.world.pos.x;

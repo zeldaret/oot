@@ -1,5 +1,5 @@
-#ifndef _Z_BG_MIZU_MOVEBG_H_
-#define _Z_BG_MIZU_MOVEBG_H_
+#ifndef Z_BG_MIZU_MOVEBG_H
+#define Z_BG_MIZU_MOVEBG_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef struct BgMizuMovebg {
     /* 0x0180 */ Gfx* dlist;
     /* 0x0184 */ s32 waypointId;
 } BgMizuMovebg; // size = 0x0188
-
-extern const ActorInit Bg_Mizu_Movebg_InitVars;
 
 #endif

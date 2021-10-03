@@ -65,7 +65,7 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 quakeIndex;
     s16 spawnerState;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     spawnerState = ENCOUNT2_INACTIVE;
     if (!this->isNotDeathMountain) {
@@ -93,7 +93,7 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
             break;
         case ENCOUNT2_ACTIVE_DEATH_MOUNTAIN:
             if ((this->deathMountainSpawnerTimer == 1) || (!this->isQuaking)) {
-                quakeIndex = Quake_Add(ACTIVE_CAM, 1);
+                quakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 1);
                 Quake_SetSpeed(quakeIndex, 0x7FFF);
                 Quake_SetQuakeValues(quakeIndex, 50, 0, 0, 0);
                 Quake_SetCountdown(quakeIndex, 300);
@@ -115,7 +115,7 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
 }
 
 void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnFireRock* spawnedRock;
     f32 tempVec1X;
     f32 tempVec1Y;
@@ -269,16 +269,16 @@ void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (!this->isNotDeathMountain) {
         this->unk17C = this->envEffectsTimer / 60.0f;
         this->unk160 = this->unk17C * -50.0f;
-        globalCtx->envCtx.unk_8C[0][0] = (s16)this->unk160 * -1.5f;
-        globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = this->unk160;
+        globalCtx->envCtx.adjAmbientColor[0] = (s16)this->unk160 * -1.5f;
+        globalCtx->envCtx.adjAmbientColor[1] = globalCtx->envCtx.adjAmbientColor[2] = this->unk160;
         this->unk168 = this->unk17C * -20.0f;
-        globalCtx->envCtx.unk_8C[1][0] = (s16)this->unk168 * -1.5f;
-        globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = this->unk168;
+        globalCtx->envCtx.adjLight1Color[0] = (s16)this->unk168 * -1.5f;
+        globalCtx->envCtx.adjLight1Color[1] = globalCtx->envCtx.adjLight1Color[2] = this->unk168;
         this->unk170 = this->unk17C * -50.0f;
-        globalCtx->envCtx.unk_9E = this->unk170;
-        globalCtx->envCtx.unk_8C[2][0] = (u8)((160.0f - globalCtx->envCtx.unk_CF[0]) * this->unk17C);
-        globalCtx->envCtx.unk_8C[2][1] = (u8)((160.0f - globalCtx->envCtx.unk_CF[1]) * this->unk17C);
-        globalCtx->envCtx.unk_8C[2][2] = (u8)((150.0f - globalCtx->envCtx.unk_CF[2]) * this->unk17C);
+        globalCtx->envCtx.adjFogNear = this->unk170;
+        globalCtx->envCtx.adjFogColor[0] = (u8)((160.0f - globalCtx->envCtx.lightSettings.fogColor[0]) * this->unk17C);
+        globalCtx->envCtx.adjFogColor[1] = (u8)((160.0f - globalCtx->envCtx.lightSettings.fogColor[1]) * this->unk17C);
+        globalCtx->envCtx.adjFogColor[2] = (u8)((150.0f - globalCtx->envCtx.lightSettings.fogColor[2]) * this->unk17C);
     }
 }
 
@@ -311,7 +311,7 @@ void EnEncount2_ParticleInit(EnEncount2* this, Vec3f* particlePos, f32 scale) {
 void EnEncount2_ParticleUpdate(EnEncount2* this, GlobalContext* globalCtx) {
     s16 i;
     EnEncount2Particle* particle = this->particles;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f targetPos;
 
     for (i = 0; i < ARRAY_COUNT(this->particles); particle++, i++) {

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_OKARINA_TAG_H_
-#define _Z_EN_OKARINA_TAG_H_
+#ifndef Z_EN_OKARINA_TAG_H
+#define Z_EN_OKARINA_TAG_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -19,7 +19,5 @@ typedef struct EnOkarinaTag {
     /* 0x015A */ s16 unk_15A;
     /* 0x015C */ f32 unk_15C;
 } EnOkarinaTag; // size = 0x0160
-
-extern const ActorInit En_Okarina_Tag_InitVars;
 
 #endif

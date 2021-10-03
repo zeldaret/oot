@@ -1,5 +1,5 @@
-#ifndef _Z_EN_TUBO_TRAP_H_
-#define _Z_EN_TUBO_TRAP_H_
+#ifndef Z_EN_TUBO_TRAP_H
+#define Z_EN_TUBO_TRAP_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct EnTuboTrap {
     /* 0x0154 */ Vec3f originPos;
     /* 0x0160 */ ColliderCylinder collider;
 } EnTuboTrap; // size = 0x01AC
-
-extern const ActorInit En_Tubo_Trap_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_BG_MORI_HINERI_H_
-#define _Z_BG_MORI_HINERI_H_
+#ifndef Z_BG_MORI_HINERI_H
+#define Z_BG_MORI_HINERI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgMoriHineri {
     /* 0x016A */ s8 boxObjIdx;
     /* 0x016B */ s8 switchFlag;
 } BgMoriHineri; // size = 0x016C
-
-extern const ActorInit Bg_Mori_Hineri_InitVars;
 
 #endif

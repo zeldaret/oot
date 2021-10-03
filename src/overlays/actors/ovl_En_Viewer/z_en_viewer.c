@@ -41,8 +41,6 @@ void func_80B2B8FC(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2C130(EnViewer* this, GlobalContext* globalCtx);
 
-extern Mtx D_01000000;
-
 static u8 D_80B2CEC0 = false;
 
 const ActorInit En_Viewer_InitVars = {
@@ -710,8 +708,8 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[0]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[0]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[0]->endPos.z;
-            interpolated = func_8006F93C(globalCtx->csCtx.npcActions[0]->endFrame,
-                                         globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
+            interpolated = Environment_LerpWeight(globalCtx->csCtx.npcActions[0]->endFrame,
+                                                  globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
             this->actor.world.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
             this->actor.world.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
             this->actor.world.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;
@@ -725,8 +723,8 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[1]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[1]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[1]->endPos.z;
-            interpolated = func_8006F93C(globalCtx->csCtx.npcActions[1]->endFrame,
-                                         globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
+            interpolated = Environment_LerpWeight(globalCtx->csCtx.npcActions[1]->endFrame,
+                                                  globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
             this->actor.world.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
             this->actor.world.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
             this->actor.world.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;
@@ -837,12 +835,12 @@ void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this) {
 
     if (this->actor.params >> 8 == 5) {
         if (1) {}
-        sGanonCape->unk_16B0 = BREG(54) / 10.0f;
-        sGanonCape->unk_16B4 = (BREG(60) + 25) / 100.0f;
-        sGanonCape->unk_16B8 = (BREG(55) - 45) / 10.0f;
-        sGanonCape->unk_16AC = -10000.0f;
-        sGanonCape->unk_16D0 = 0.0f;
-        sGanonCape->unk_16C8 = (BREG(67) - 10) / 10.0f;
+        sGanonCape->backPush = BREG(54) / 10.0f;
+        sGanonCape->backSwayMagnitude = (BREG(60) + 25) / 100.0f;
+        sGanonCape->sideSwayMagnitude = (BREG(55) - 45) / 10.0f;
+        sGanonCape->minY = -10000.0f;
+        sGanonCape->minDist = 0.0f;
+        sGanonCape->gravity = (BREG(67) - 10) / 10.0f;
         vec1.x = KREG(16) - 13.0f;
         vec1.y = KREG(17) + 3.0f + Math_SinS(D_80B2CFEC) * KREG(20);
         vec1.z = KREG(18) - 10.0f;
@@ -850,13 +848,13 @@ void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this) {
 
         Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&vec1, &vec2);
-        sGanonCape->unk_16D4.x = D_80B2D448.x + vec2.x;
-        sGanonCape->unk_16D4.y = D_80B2D448.y + vec2.y;
-        sGanonCape->unk_16D4.z = D_80B2D448.z + vec2.z;
+        sGanonCape->rightForearmPos.x = D_80B2D448.x + vec2.x;
+        sGanonCape->rightForearmPos.y = D_80B2D448.y + vec2.y;
+        sGanonCape->rightForearmPos.z = D_80B2D448.z + vec2.z;
         vec1.x = -(KREG(16) - 13.0f);
         Matrix_MultVec3f(&vec1, &vec2);
-        sGanonCape->unk_16E0.x = D_80B2D448.x + vec2.x;
-        sGanonCape->unk_16E0.y = D_80B2D448.y + vec2.y;
-        sGanonCape->unk_16E0.z = D_80B2D448.z + vec2.z;
+        sGanonCape->leftForearmPos.x = D_80B2D448.x + vec2.x;
+        sGanonCape->leftForearmPos.y = D_80B2D448.y + vec2.y;
+        sGanonCape->leftForearmPos.z = D_80B2D448.z + vec2.z;
     }
 }

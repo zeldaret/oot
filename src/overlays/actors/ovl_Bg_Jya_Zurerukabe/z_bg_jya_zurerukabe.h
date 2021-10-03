@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_ZURERUKABE_H_
-#define _Z_BG_JYA_ZURERUKABE_H_
+#ifndef Z_BG_JYA_ZURERUKABE_H
+#define Z_BG_JYA_ZURERUKABE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgJyaZurerukabe {
     /* 0x016C */ s16 unk_16C;
     /* 0x016E */ s16 unk_16E;
 } BgJyaZurerukabe; // size = 0x0170
-
-extern const ActorInit Bg_Jya_Zurerukabe_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DOG_H_
-#define _Z_EN_DOG_H_
+#ifndef Z_EN_DOG_H
+#define Z_EN_DOG_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -25,7 +25,5 @@ typedef struct EnDog {
     /* 0x01F4 */ Vec3s jointTable[13];
     /* 0x0242 */ Vec3s morphTable[13];
 } EnDog; // size = 0x0290
-
-extern const ActorInit En_Dog_InitVars;
 
 #endif

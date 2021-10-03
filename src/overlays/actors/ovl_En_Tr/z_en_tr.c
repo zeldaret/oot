@@ -215,7 +215,7 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
     Vec3f sp58;
     Color_RGBA8* primColor;
     Color_RGBA8* envColor;
-    Vec3f cameraEye = ACTIVE_CAM->eye;
+    Vec3f cameraEye = GET_ACTIVE_CAM(globalCtx)->eye;
     s16 yaw = Math_Vec3f_Yaw(&cameraEye, &this->actor.world.pos);
     s16 reversePitch = -Math_Vec3f_Pitch(&cameraEye, &this->actor.world.pos);
     f32 sp3C;
@@ -420,8 +420,8 @@ s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     if ((child != NULL) && (limbIndex == 19)) {
         Matrix_MultVec3f(&src, &dest);
-        dest.x -= (10.0f * Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM)));
-        dest.z -= (10.0f * Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM)));
+        dest.x -= (10.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx))));
+        dest.z -= (10.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx))));
         child->world.pos = dest;
     }
     return 0;
@@ -449,8 +449,8 @@ void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 f32 func_80B23FDC(GlobalContext* globalCtx, s32 actionIndex) {
-    f32 phi_f2 = func_8006F93C(globalCtx->csCtx.npcActions[actionIndex]->endFrame,
-                               globalCtx->csCtx.npcActions[actionIndex]->startFrame, globalCtx->csCtx.frames);
+    f32 phi_f2 = Environment_LerpWeight(globalCtx->csCtx.npcActions[actionIndex]->endFrame,
+                                        globalCtx->csCtx.npcActions[actionIndex]->startFrame, globalCtx->csCtx.frames);
     phi_f2 = CLAMP_MAX(phi_f2, 1.0f);
     return phi_f2;
 }

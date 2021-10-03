@@ -1,5 +1,5 @@
-#ifndef _Z_EN_NIW_H_
-#define _Z_EN_NIW_H_
+#ifndef Z_EN_NIW_H
+#define Z_EN_NIW_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -75,7 +75,5 @@ typedef struct EnNiw {
     /* 0x030C */ ColliderCylinder collider;
     /* 0x0358 */ EnNiwFeather feathers[20];
 } EnNiw; // size = 0x07B8
-
-extern const ActorInit En_Niw_InitVars;
 
 #endif

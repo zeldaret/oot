@@ -1,5 +1,5 @@
-#ifndef _Z_EN_INSECT_H_
-#define _Z_EN_INSECT_H_
+#ifndef Z_EN_INSECT_H
+#define Z_EN_INSECT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -28,7 +28,5 @@ typedef struct EnInsect {
     /* 0x0328 */ s16 unk_328;
     /* 0x032A */ u8 unk_32A;
 } EnInsect; // size = 0x032C
-
-extern const ActorInit En_Insect_InitVars;
 
 #endif

@@ -140,7 +140,7 @@ void EnBa_SetupIdle(EnBa* this) {
 }
 
 void EnBa_Idle(EnBa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
     s32 pad;
     Vec3s sp5C;
@@ -230,7 +230,7 @@ void EnBa_SetupSwingAtPlayer(EnBa* this) {
 }
 
 void EnBa_SwingAtPlayer(EnBa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 temp;
     s16 i;
     Vec3s sp58;

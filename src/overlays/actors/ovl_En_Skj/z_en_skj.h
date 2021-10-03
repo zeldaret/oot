@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SKJ_H_
-#define _Z_EN_SKJ_H_
+#ifndef Z_EN_SKJ_H
+#define Z_EN_SKJ_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -36,7 +36,5 @@ typedef struct EnSkj {
     /* 0x02F0 */ f32 unk_2F0;
     /* 0x02F4 */ Vec3f posCopy;
 } EnSkj; // size = 0x0300
-
-extern const ActorInit En_Skj_InitVars;
 
 #endif

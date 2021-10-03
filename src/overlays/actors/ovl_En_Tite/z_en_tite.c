@@ -368,7 +368,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
             if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & 0x40)) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             } else {
-                Player* player = PLAYER;
+                Player* player = GET_PLAYER(globalCtx);
                 this->collider.base.atFlags &= ~AT_HIT;
                 Animation_MorphToLoop(&this->skelAnime, &object_tite_Anim_0012E4, 4.0f);
                 this->actor.speedXZ = -6.0f;
@@ -449,7 +449,7 @@ void EnTite_TurnTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
     if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & 0x20)) {
         this->actor.world.pos.y += this->actor.yDistToWater;
     }
-    angleToPlayer = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
+    angleToPlayer = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.world.rot.y;
     if (angleToPlayer > 0) {
         turnVelocity = (angleToPlayer / 42.0f) + 10.0f;
         this->actor.world.rot.y += (turnVelocity * 2);

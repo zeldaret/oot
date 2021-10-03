@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HY_H_
-#define _Z_EN_HY_H_
+#ifndef Z_EN_HY_H
+#define Z_EN_HY_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -35,7 +35,5 @@ typedef struct EnHy {
     /* 0x02D0 */ Vec3s morphTable[16];
     /* 0x0330 */ u16 unk_330;
 } EnHy; // size = 0x0334
-
-extern const ActorInit En_Hy_InitVars;
 
 #endif

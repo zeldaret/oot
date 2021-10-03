@@ -237,7 +237,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
             case FAIRY_UPGRADE_MAGIC:
                 if (!gSaveContext.magicAcquired || BREG(2)) {
                     // Spin Attack speed UP
-                    osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
+                    osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n" VT_RST);
                     this->givingSpell = true;
                     givingReward = true;
                 }
@@ -245,7 +245,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
                 if (!gSaveContext.doubleMagic) {
                     // Magic Meter doubled
-                    osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
+                    osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n" VT_RST);
                     this->givingSpell = true;
                     givingReward = true;
                 }
@@ -253,7 +253,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
             case FAIRY_UPGRADE_HALF_DAMAGE:
                 if (!gSaveContext.doubleDefense) {
                     // Damage halved
-                    osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
+                    osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST);
                     this->givingSpell = true;
                     givingReward = true;
                 }
@@ -426,7 +426,7 @@ void BgDyYoseizo_SetupHealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* glob
 }
 
 void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 curFrame = this->skelAnime.curFrame;
     Vec3f beamPos;
     s16 beamParams;
@@ -511,7 +511,7 @@ void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, GlobalContext* globalCt
         func_80106CCC(globalCtx);
         this->mouthState = 0;
         this->actionFunc = BgDyYoseizo_SetupSpinShrink;
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
     }
 
     BgDyYoseizo_Bob(this, globalCtx);
@@ -667,7 +667,7 @@ static u8 sItemIds[] = { ITEM_FARORES_WIND, ITEM_DINS_FIRE, ITEM_NAYRUS_LOVE };
 
 void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 curFrame = this->skelAnime.curFrame;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 actionIndex;
     s16 demoEffectParams;
     Vec3f itemPos;
@@ -950,7 +950,7 @@ void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelo
 
 void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizoParticle* particle = this->particles;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp94;
     Vec3f sp88;
     f32 goalPitch;
