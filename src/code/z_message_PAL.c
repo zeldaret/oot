@@ -3298,9 +3298,9 @@ void Message_SetTables(void) {
     sStaffMessageEntryTablePtr = sStaffMessageEntryTable;
 }
 
-// This appears to be file padding
+// Appears to be file padding
 UNK_TYPE D_80153D7C = 0x00000000;
 
 // This should be part of z_game_over.c, but cannot be moved there as the entire
 // late_rodata section of this file is in the way
-s16 D_80153D80 = 0;
+s16 sGameOverTimer = 0;

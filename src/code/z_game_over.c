@@ -13,10 +13,8 @@ void GameOver_FadeInLights(GlobalContext* globalCtx) {
     }
 }
 
-// This variable has the same problem as z_message's data going to rodata.
-// A fix for this is planned, and will be taken care of with z_message.
-// For now this variable is externed from z_message's rodata.s file.
-extern s16 D_80153D80; // todo: rename to `timer` and make this in function static (after rodata issue is resolved)
+// This variable cannot be moved into this file as all of z_message_PAL rodata is in the way
+extern s16 sGameOverTimer;
 
 void GameOver_Update(GlobalContext* globalCtx) {
     GameOverContext* gameOverCtx = &globalCtx->gameOverCtx;
@@ -75,7 +73,7 @@ void GameOver_Update(GlobalContext* globalCtx) {
             gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
 
             Environment_InitGameOverLights(globalCtx);
-            D_80153D80 = 20;
+            sGameOverTimer = 20;
             if (1) {}
             v90 = VREG(90);
             v91 = VREG(91);
@@ -91,9 +89,9 @@ void GameOver_Update(GlobalContext* globalCtx) {
             break;
 
         case GAMEOVER_DEATH_DELAY_MENU:
-            D_80153D80--;
+            sGameOverTimer--;
 
-            if (D_80153D80 == 0) {
+            if (sGameOverTimer == 0) {
                 globalCtx->pauseCtx.state = 8;
                 gameOverCtx->state++;
                 func_800AA15C();
@@ -102,13 +100,13 @@ void GameOver_Update(GlobalContext* globalCtx) {
 
         case GAMEOVER_REVIVE_START:
             gameOverCtx->state++;
-            D_80153D80 = 0;
+            sGameOverTimer = 0;
             Environment_InitGameOverLights(globalCtx);
             ShrinkWindow_SetVal(0x20);
             return;
 
         case GAMEOVER_REVIVE_RUMBLE:
-            D_80153D80 = 50;
+            sGameOverTimer = 50;
             gameOverCtx->state++;
             if (1) {}
 
@@ -121,28 +119,28 @@ void GameOver_Update(GlobalContext* globalCtx) {
             break;
 
         case GAMEOVER_REVIVE_WAIT_GROUND:
-            D_80153D80--;
+            sGameOverTimer--;
 
-            if (D_80153D80 == 0) {
-                D_80153D80 = 64;
+            if (sGameOverTimer == 0) {
+                sGameOverTimer = 64;
                 gameOverCtx->state++;
             }
             break;
 
         case GAMEOVER_REVIVE_WAIT_FAIRY:
-            D_80153D80--;
+            sGameOverTimer--;
 
-            if (D_80153D80 == 0) {
-                D_80153D80 = 50;
+            if (sGameOverTimer == 0) {
+                sGameOverTimer = 50;
                 gameOverCtx->state++;
             }
             break;
 
         case GAMEOVER_REVIVE_FADE_OUT:
             Environment_FadeOutGameOverLights(globalCtx);
-            D_80153D80--;
+            sGameOverTimer--;
 
-            if (D_80153D80 == 0) {
+            if (sGameOverTimer == 0) {
                 gameOverCtx->state = GAMEOVER_INACTIVE;
             }
             break;
