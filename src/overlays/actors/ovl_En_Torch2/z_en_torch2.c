@@ -574,7 +574,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     pad54 = input->prev.button ^ input->cur.button;
     input->press.button = input->cur.button & pad54;
-    if (input->cur.button & BTN_R) {
+    if (CHECK_BTN_ANY(input->cur.button, BTN_R)) {
         input->cur.button = ((sCounterState == 0) && (this->swordState == 0)) ? BTN_R : input->cur.button ^ BTN_R;
     }
     input->rel.button = input->prev.button & pad54;
