@@ -1,5 +1,5 @@
-#ifndef _MESSAGE_DATA_STATIC_H_
-#define _MESSAGE_DATA_STATIC_H_
+#ifndef MESSAGE_DATA_STATIC_H
+#define MESSAGE_DATA_STATIC_H
 
 #include "global.h"
 #include "message_data_fmt.h"

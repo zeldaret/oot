@@ -44,5 +44,5 @@
 '[C-Left]' = 0xA7
 '[C-Right]' = 0xA8
 '▼' = 0xA9
-'[Analog-Stick]' = 0xAA
+'[Control-Pad]' = 0xAA
 '[D-Pad]' = 0xAB

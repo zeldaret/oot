@@ -79,7 +79,7 @@ charmap = {
     0xA7: '[C-Left]',
     0xA8: '[C-Right]',
     0xA9: '▼',
-    0xAA: '[Analog-Stick]',
+    0xAA: '[Control-Pad]',
     0xAB: '[D-Pad]',
 }
 
@@ -405,35 +405,38 @@ def dump_staff_text():
     return messages
 
 def extract_all_text(text_out, staff_text_out):
-    read_tables()
+    if text_out is not None or staff_text_out is not None:
+        read_tables()
 
-    out = ""
-    for message in dump_all_text():
-        if message[0] == 0xFFFF:
-            continue
+    if text_out is not None:
+        out = ""
+        for message in dump_all_text():
+            if message[0] == 0xFFFF:
+                continue
 
-        if message[0] == 0xFFFC:
-            out += "#ifdef DECLARE_MESSAGE_FFFC\n"
-        out += f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},"
-        out += "\n"
-        out += f"{message[3]}" + ("\n" if message[3] != "" else "") + ","
-        out += "\n" if message[3] != "" else ""
-        out += f"{message[4]}" + ("\n" if message[4] != "" else "") + ","
-        out += "\n" if message[4] != "" else ""
-        out += f"{message[5]}\n)"
-        if message[0] == 0xFFFC:
-            out += "\n#endif"
-        out += "\n\n"
+            if message[0] == 0xFFFC:
+                out += "#ifdef DECLARE_MESSAGE_FFFC\n"
+            out += f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},"
+            out += "\n"
+            out += f"{message[3]}" + ("\n" if message[3] != "" else "") + ","
+            out += "\n" if message[3] != "" else ""
+            out += f"{message[4]}" + ("\n" if message[4] != "" else "") + ","
+            out += "\n" if message[4] != "" else ""
+            out += f"{message[5]}\n)"
+            if message[0] == 0xFFFC:
+                out += "\n#endif"
+            out += "\n\n"
 
-    with open(text_out, "w") as outfile:
-        outfile.write(out.strip() + "\n")
+        with open(text_out, "w") as outfile:
+            outfile.write(out.strip() + "\n")
 
-    out = ""
-    for message in dump_staff_text():
-        if message[0] == 0xFFFF:
-            continue
+    if staff_text_out is not None:
+        out = ""
+        for message in dump_staff_text():
+            if message[0] == 0xFFFF:
+                continue
 
-        out += f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},\n{message[3]}\n)\n\n"
+            out += f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},\n{message[3]}\n)\n\n"
 
-    with open(staff_text_out, "w") as outfile:
-        outfile.write(out.strip() + "\n")
+        with open(staff_text_out, "w") as outfile:
+            outfile.write(out.strip() + "\n")

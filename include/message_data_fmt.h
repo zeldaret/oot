@@ -1,5 +1,5 @@
-#ifndef _MESSAGE_DATA_FMT_H_
-#define _MESSAGE_DATA_FMT_H_
+#ifndef MESSAGE_DATA_FMT_H
+#define MESSAGE_DATA_FMT_H
 
 /*
  * Macros to create both a constant and a string literal from a magic value
