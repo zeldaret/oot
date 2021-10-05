@@ -81,13 +81,13 @@ s16 sTextboxBackgroundYOffsets[] = {
     2,
 };
 
-/// Ocarina Note buffer
-/// original name: onpu_buff
+// Ocarina Note buffer
+// original name: onpu_buff
 u8 sOcarinaNoteBuf[12] = { 0 };
 
 s16 sOcarinaNotesAlphaValues[9] = { 0 };
 
-/// Maps the ocarina song order to the quest item order
+// Maps the ocarina song order to the quest item order
 s16 gOcarinaSongItemMap[] = {
     OCARINA_SONG_MINUET,   OCARINA_SONG_BOLERO,  OCARINA_SONG_SERENADE, OCARINA_SONG_REQUIEM,
     OCARINA_SONG_NOCTURNE, OCARINA_SONG_PRELUDE, OCARINA_SONG_LULLABY,  OCARINA_SONG_EPONAS,
@@ -140,13 +140,13 @@ void Message_UpdateOcarinaGame(GlobalContext* globalCtx) {
 
     if (globalCtx->msgCtx.msgMode == MSGMODE_MEMORY_GAME_PLAYER_PLAYING) { // Player playing
         Audio_OcaSetInstrument(1);
-        msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+        msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
         msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
         func_800ECC04((1 << OCARINA_SONG_MEMORY_GAME) + 0x8000);
         msgCtx->textDrawPos = msgCtx->decodedTextLen;
     } else if (msgCtx->msgMode == MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_PLAYING) { // Skull kids playing
         Audio_OcaSetInstrument(6);
-        msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+        msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
         msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
         Audio_OcaSetSongPlayback(OCARINA_SONG_MEMORY_GAME + 1, 1);
         msgCtx->stateTimer = 2;
@@ -789,7 +789,7 @@ void Message_HandleOcarina(GlobalContext* globalCtx) {
             osSyncPrintf("録音再生 録音再生 録音再生 録音再生  -> ");
             Audio_OcaSetInstrument(1);
             Audio_OcaSetInstrument(1);
-            msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
             sOcarinaNoteBufPos = sOcarinaNoteBufLen = 0;
             msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos;
             Message_ResetOcarinaNoteState();
@@ -805,7 +805,7 @@ void Message_HandleOcarina(GlobalContext* globalCtx) {
             osSyncPrintf("８音再生 ８音再生 ８音再生  -> ");
             Audio_OcaSetInstrument(1);
             Audio_OcaSetInstrument(1);
-            msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
             sOcarinaNoteBufPos = sOcarinaNoteBufLen = 0;
             msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos;
             Message_ResetOcarinaNoteState();
@@ -827,8 +827,8 @@ void Message_HandleOcarina(GlobalContext* globalCtx) {
                 msgCtx->ocarinaAction >= OCARINA_ACTION_CHECK_SARIA) {
                 msgCtx->msgMode = MSGMODE_OCARINA_STARTING;
                 osSyncPrintf("000000000000  -> ");
-            } else if (msgCtx->ocarinaAction >= OCARINA_ACTION_MINUET &&
-                       msgCtx->ocarinaAction <= OCARINA_ACTION_STORMS) {
+            } else if (msgCtx->ocarinaAction >= OCARINA_ACTION_TEACH_MINUET &&
+                       msgCtx->ocarinaAction <= OCARINA_ACTION_TEACH_STORMS) {
                 msgCtx->msgMode = MSGMODE_SONG_DEMONSTRATION_STARTING;
                 osSyncPrintf("111111111111  -> ");
             } else {
@@ -1851,7 +1851,7 @@ void Message_StartOcarina(GlobalContext* globalCtx, u16 ocarinaActionId) {
         osSyncPrintf("?????録音再生 録音再生 録音再生 録音再生  -> ");
         Audio_OcaSetInstrument(1);
         Audio_OcaSetInstrument(1);
-        msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+        msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
         sOcarinaNoteBufPos = sOcarinaNoteBufLen = 0;
         msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos;
         Message_ResetOcarinaNoteState();
@@ -2049,7 +2049,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_SONG_DEMONSTRATION_STARTING:
         case MSGMODE_SONG_PLAYBACK_STARTING:
             Audio_OcaSetInstrument(1);
-            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
             msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
             globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_01;
             Message_ResetOcarinaNoteState();
@@ -2089,7 +2089,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             }
             break;
         case MSGMODE_OCARINA_PLAYING:
-            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
             if (msgCtx->ocarinaStaff->pos) {
                 osSyncPrintf("locate=%d  onpu_pt=%d\n", msgCtx->ocarinaStaff->pos, sOcarinaNoteBufPos);
                 if (msgCtx->ocarinaStaff->pos == 1 && sOcarinaNoteBufPos == 8) {
@@ -2357,7 +2357,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                 osSyncPrintf(VT_RST);
                 Message_Decode(globalCtx);
                 msgCtx->msgMode = MSGMODE_SETUP_DISPLAY_SONG_PLAYED;
-                msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+                msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
                 msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
                 Message_ResetOcarinaNoteState();
                 if (msgCtx->lastPlayedSong >= OCARINA_SONG_SARIAS &&
@@ -2393,20 +2393,20 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             if (msgCtx->stateTimer == 0) {
                 // "ocarina_no=%d Song Chosen=%d"
                 osSyncPrintf("ocarina_no=%d  選曲=%d\n", msgCtx->ocarinaAction, 0x16);
-                if (msgCtx->ocarinaAction < OCARINA_ACTION_SARIA) {
+                if (msgCtx->ocarinaAction < OCARINA_ACTION_TEACH_SARIA) {
                     Audio_OcaSetInstrument(4);
-                } else if (msgCtx->ocarinaAction == OCARINA_ACTION_EPONA) {
+                } else if (msgCtx->ocarinaAction == OCARINA_ACTION_TEACH_EPONA) {
                     Audio_OcaSetInstrument(2);
-                } else if (msgCtx->ocarinaAction == OCARINA_ACTION_LULLABY) {
+                } else if (msgCtx->ocarinaAction == OCARINA_ACTION_TEACH_LULLABY) {
                     Audio_OcaSetInstrument(3);
-                } else if (msgCtx->ocarinaAction == OCARINA_ACTION_STORMS) {
+                } else if (msgCtx->ocarinaAction == OCARINA_ACTION_TEACH_STORMS) {
                     Audio_OcaSetInstrument(5);
                 } else {
                     Audio_OcaSetInstrument(1);
                 }
                 // "Example Performance"
-                osSyncPrintf("模範演奏=%x\n", msgCtx->ocarinaAction - OCARINA_ACTION_MINUET);
-                Audio_OcaSetSongPlayback(msgCtx->ocarinaAction - OCARINA_ACTION_MINUET + 1, 2);
+                osSyncPrintf("模範演奏=%x\n", msgCtx->ocarinaAction - OCARINA_ACTION_TEACH_MINUET);
+                Audio_OcaSetSongPlayback(msgCtx->ocarinaAction - OCARINA_ACTION_TEACH_MINUET + 1, 2);
                 sOcarinaNoteBufPos = 0;
                 msgCtx->msgMode = MSGMODE_SONG_DEMONSTRATION;
             }
@@ -2494,7 +2494,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_DISPLAY_SONG_PLAYED:
         case MSGMODE_SONG_DEMONSTRATION:
-            msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
             if (msgCtx->ocarinaStaff->state == 0) {
                 if (msgCtx->msgMode == MSGMODE_DISPLAY_SONG_PLAYED) {
                     msgCtx->msgMode = MSGMODE_DISPLAY_SONG_PLAYED_TEXT_BEGIN;
@@ -2518,7 +2518,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             Message_DrawText(globalCtx, &gfx);
             break;
         case MSGMODE_SONG_PLAYBACK:
-            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
             if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = OCARINA_NOTE_INVALID;
@@ -2610,7 +2610,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_SCARECROW_LONG_PLAYBACK:
         case MSGMODE_SCARECROW_PLAYBACK:
-            msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
             if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 if (sOcarinaNoteBufLen >= 8) {
                     for (noteBufPos = sOcarinaNoteBufLen - 8, i = 0; i < 8; i++, noteBufPos++) {
@@ -2687,8 +2687,8 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_MEMORY_GAME_START:
             Audio_OcaSetInstrument(1);
             Audio_OcaSetInstrument(6);
-            Audio_OcaMinigameStart(gSaveContext.ocarinaGameReward);
-            msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+            Audio_OcaMemoryGameStart(gSaveContext.ocarinaGameRoundNum);
+            msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
             msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
             Message_ResetOcarinaNoteState();
             Audio_OcaSetSongPlayback(OCARINA_SONG_MEMORY_GAME + 1, 1);
@@ -2699,7 +2699,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_PLAYING:
             Audio_PlaySoundGeneral(NA_SE_SY_METRONOME_LV - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
-            msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
             if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = OCARINA_NOTE_INVALID;
@@ -2722,7 +2722,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_MEMORY_GAME_LEFT_SKULLKID_WAIT:
         case MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_WAIT:
-            msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
             if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = OCARINA_NOTE_INVALID;
@@ -2732,7 +2732,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
         case MSGMODE_MEMORY_GAME_PLAYER_PLAYING:
             Audio_PlaySoundGeneral(NA_SE_SY_METRONOME_LV - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
-            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
             if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = OCARINA_NOTE_INVALID;
@@ -2755,7 +2755,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             Message_DrawText(globalCtx, &gfx);
             break;
         case MSGMODE_MEMORY_GAME_ROUND_SUCCESS:
-            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
             if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos - 1] = msgCtx->ocarinaStaff->noteIdx;
                 sOcarinaNoteBuf[msgCtx->ocarinaStaff->pos] = OCARINA_NOTE_INVALID;
@@ -2763,9 +2763,9 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             }
             msgCtx->stateTimer--;
             if (msgCtx->stateTimer == 0) {
-                if (Audio_OcaMinigameGenNote() != 1) {
+                if (Audio_OcaMemoryGameGenNote() != 1) {
                     Audio_PlaySoundGeneral(NA_SE_SY_METRONOME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+                    msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
                     msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
                     Message_ResetOcarinaNoteState();
                     msgCtx->msgMode = MSGMODE_MEMORY_GAME_START_NEXT_ROUND;
@@ -2777,7 +2777,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_MEMORY_GAME_START_NEXT_ROUND:
             if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
-                msgCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+                msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
                 msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
                 Message_ResetOcarinaNoteState();
                 Audio_OcaSetSongPlayback(OCARINA_SONG_MEMORY_GAME + 1, 1);
@@ -2785,7 +2785,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             break;
         case MSGMODE_FROGS_START:
             Audio_OcaSetInstrument(1);
-            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
             msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
             globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_01;
             Message_ResetOcarinaNoteState();
@@ -2793,7 +2793,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             msgCtx->msgMode = MSGMODE_FROGS_PLAYING;
             break;
         case MSGMODE_FROGS_PLAYING:
-            msgCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+            msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
             if (msgCtx->ocarinaStaff->pos && sOcarinaNoteBufPos == msgCtx->ocarinaStaff->pos - 1) {
                 msgCtx->lastOcaNoteIdx = msgCtx->ocarinaStaff->noteIdx;
                 msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;

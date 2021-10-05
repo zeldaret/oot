@@ -362,7 +362,7 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
     if (this->unk_1E8.unk_00 == 2) {
         Audio_OcaSetInstrument(2);
-        func_8010BD58(globalCtx, OCARINA_ACTION_EPONA);
+        func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_EPONA);
         this->actor.flags &= ~0x10000;
         this->actionFunc = func_80AA10EC;
     }

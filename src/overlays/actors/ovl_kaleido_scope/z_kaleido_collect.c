@@ -188,7 +188,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                         D_8082A11C = 0;
                         Audio_OcaSetInstrument(1);
                         func_800ECC04((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
-                        pauseCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+                        pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
                         pauseCtx->ocarinaStaff->pos = 0;
                         pauseCtx->ocarinaStaff->state = 0xFF;
                         VREG(21) = -62;
@@ -276,7 +276,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 pauseCtx->ocarinaSongIdx = gOcarinaSongItemMap[sp216 - QUEST_SONG_MINUET];
                 Audio_OcaSetSongPlayback(pauseCtx->ocarinaSongIdx + 1, 1);
                 pauseCtx->unk_1E4 = 2;
-                pauseCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+                pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
                 pauseCtx->ocarinaStaff->pos = 0;
                 sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
                 KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
@@ -466,7 +466,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
         }
 
         if (pauseCtx->unk_1E4 == 2) {
-            pauseCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+            pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
 
             if (pauseCtx->ocarinaStaff->pos != 0) {
                 if (D_8082A11C + 1 == pauseCtx->ocarinaStaff->pos) {
@@ -545,7 +545,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
             }
 
             if (pauseCtx->unk_1E4 != 8) {
-                pauseCtx->ocarinaStaff = Audio_OcaGetPlayStaff();
+                pauseCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
 
                 if (pauseCtx->ocarinaStaff->pos != 0) {
                     if (D_8082A11C == (pauseCtx->ocarinaStaff->pos - 1)) {
@@ -605,7 +605,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                     D_8082A11C = 0;
                     Audio_OcaSetInstrument(1);
                     func_800ECC04((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
-                    pauseCtx->ocarinaStaff = Audio_OcaGetDisplayStaff();
+                    pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
                     pauseCtx->ocarinaStaff->pos = 0;
                     pauseCtx->ocarinaStaff->state = 0xFE;
                     pauseCtx->unk_1E4 = 5;

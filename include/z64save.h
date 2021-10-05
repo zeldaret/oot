@@ -84,7 +84,7 @@ typedef struct {
     /* 0x003C */ u8 doubleMagic;
     /* 0x003D */ u8 doubleDefense;
     /* 0x003E */ u8 bgsFlag;
-    /* 0x003F */ u8 ocarinaGameReward;
+    /* 0x003F */ u8 ocarinaGameRoundNum;
     /* 0x0040 */ ItemEquips childEquips;
     /* 0x004A */ ItemEquips adultEquips;
     /* 0x0054 */ u32 unk_54; // this may be incorrect, currently used for alignement

@@ -208,7 +208,7 @@ void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->behaviorFlags &= ~FU_WAIT;
         Audio_OcaSetInstrument(4); // seems to be related to setting instrument type
-        func_8010BD58(globalCtx, OCARINA_ACTION_STORMS);
+        func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_STORMS);
         this->actionFunc = EnFu_WaitForPlayback;
     }
 }
