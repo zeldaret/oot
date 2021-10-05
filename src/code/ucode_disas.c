@@ -256,6 +256,7 @@ typedef struct {
     u8 v0;
     u8 v1;
     u8 wd;
+    u32 pad;
 } Gline3DFix;
 
 typedef struct {
