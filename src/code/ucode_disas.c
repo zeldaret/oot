@@ -321,19 +321,11 @@ typedef struct {
     u32 data : 32;
 } GsetothermodeMod;
 
-typedef struct {
-    u32 cmd : 8;
-    u32 par : 8;
-    u32 len : 16;
-    u32 addr;
-} Gdma2;
-
 typedef union {
     Gwords words;
     Gnoop noop;
     Gmatrix matrix;
     Gdma dma;
-    Gdma2 dma2;
     Gtri tri;
     Gline3D line;
     Gpopmtx popmtx;
