@@ -946,25 +946,25 @@ void UCodeDisas_Disassemble(UCodeDisas* this, u32 ptr) {
                                         "| %04x.%04x %04x.%04x %04x.%04x %.04x.%04x || %12.6f %12.6f %12.6f %12.6f |\n"
                                         "\\ %04x.%04x %04x.%04x %04x.%04x %.04x.%04x /\\ %12.6f %12.6f %12.6f %12.6f "
                                         "/\n",
-                                        mtxp->intPart[0][0], mtxp->fracPart[0][0], mtxp->intPart[0][1],
-                                        mtxp->fracPart[0][1], mtxp->intPart[0][2], mtxp->fracPart[0][2],
-                                        mtxp->intPart[0][3], mtxp->fracPart[0][3], mtx.mf[0][0], mtx.mf[0][1],
-                                        mtx.mf[0][2], mtx.mf[0][3],
+                                        mtxp->intPart[0][0], mtxp->fracPart[0][0], mtxp->intPart[1][0],
+                                        mtxp->fracPart[1][0], mtxp->intPart[2][0], mtxp->fracPart[2][0],
+                                        mtxp->intPart[3][0], mtxp->fracPart[3][0], mtx.mf[0][0], mtx.mf[1][0],
+                                        mtx.mf[2][0], mtx.mf[3][0],
 
-                                        mtxp->intPart[1][0], mtxp->fracPart[1][0], mtxp->intPart[1][1],
-                                        mtxp->fracPart[1][1], mtxp->intPart[1][2], mtxp->fracPart[1][2],
-                                        mtxp->intPart[1][3], mtxp->fracPart[1][3], mtx.mf[1][0], mtx.mf[1][1],
-                                        mtx.mf[1][2], mtx.mf[1][3],
+                                        mtxp->intPart[0][1], mtxp->fracPart[0][1], mtxp->intPart[1][1],
+                                        mtxp->fracPart[1][1], mtxp->intPart[2][1], mtxp->fracPart[2][1],
+                                        mtxp->intPart[3][1], mtxp->fracPart[3][1], mtx.mf[0][1], mtx.mf[1][1],
+                                        mtx.mf[2][1], mtx.mf[3][1],
 
-                                        mtxp->intPart[2][0], mtxp->fracPart[2][0], mtxp->intPart[2][1],
-                                        mtxp->fracPart[2][1], mtxp->intPart[2][2], mtxp->fracPart[2][2],
-                                        mtxp->intPart[2][3], mtxp->fracPart[2][3], mtx.mf[2][0], mtx.mf[2][1],
-                                        mtx.mf[2][2], mtx.mf[2][3],
+                                        mtxp->intPart[0][2], mtxp->fracPart[0][2], mtxp->intPart[1][2],
+                                        mtxp->fracPart[1][2], mtxp->intPart[2][2], mtxp->fracPart[2][2],
+                                        mtxp->intPart[3][2], mtxp->fracPart[3][2], mtx.mf[0][2], mtx.mf[1][2],
+                                        mtx.mf[2][2], mtx.mf[3][2],
 
-                                        mtxp->intPart[3][0], mtxp->fracPart[3][0], mtxp->intPart[3][1],
-                                        mtxp->fracPart[3][1], mtxp->intPart[3][2], mtxp->fracPart[3][2],
-                                        mtxp->intPart[3][3], mtxp->fracPart[3][3], mtx.mf[3][0], mtx.mf[3][1],
-                                        mtx.mf[3][2], mtx.mf[3][3]);
+                                        mtxp->intPart[0][3], mtxp->fracPart[0][3], mtxp->intPart[1][3],
+                                        mtxp->fracPart[1][3], mtxp->intPart[2][3], mtxp->fracPart[2][3],
+                                        mtxp->intPart[3][3], mtxp->fracPart[3][3], mtx.mf[0][3], mtx.mf[1][3],
+                                        mtx.mf[2][3], mtx.mf[3][3]);
                                 }
                                 break;
                             }
