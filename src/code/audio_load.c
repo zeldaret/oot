@@ -1186,7 +1186,7 @@ s32 AudioLoad_SlowLoadSample(s32 bankId, s32 instId, s8* isDone) {
     slowLoad->ramAddr = AudioHeap_AllocSampleCache(sample->size, bankId, sample->sampleAddr, sample->medium, 0);
 
     if (slowLoad->ramAddr == NULL) {
-        if (sample->medium == MEDIUM_UNK || sample->codec == 2) {
+        if (sample->medium == MEDIUM_UNK || sample->codec == CODEC_S16_INMEMORY) {
             *isDone = 0;
             return -1;
         } else {

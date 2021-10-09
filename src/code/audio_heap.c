@@ -930,7 +930,7 @@ void AudioHeap_Init(void) {
         reverb->sound.sample = &reverb->sample;
         reverb->sample.loop = &reverb->loop;
         reverb->sound.tuning = 1.0f;
-        reverb->sample.codec = 4;
+        reverb->sample.codec = CODEC_REVERB;
         reverb->sample.medium = MEDIUM_RAM;
         reverb->sample.size = reverb->windowSize * 2;
         reverb->sample.sampleAddr = (u8*)reverb->leftRingBuf;

@@ -34,9 +34,6 @@
 
 #define AIBUF_LEN 0xB00
 
-#define CODEC_ADPCM 0
-#define CODEC_S8 1
-
 typedef s32 (*DmaHandler)(OSPiHandle* handle, OSIoMesg* mb, s32 direction);
 
 struct Note;
@@ -435,7 +432,7 @@ typedef struct {
     /* 0x02 */ u8 prevHeadsetPanRight;
     /* 0x03 */ u8 prevHeadsetPanLeft;
     /* 0x04 */ u8 reverbVol;
-    /* 0x05 */ u8 numAdpcmParts;
+    /* 0x05 */ u8 numParts;
     /* 0x06 */ u16 samplePosFrac;
     /* 0x08 */ s32 samplePosInt;
     /* 0x0C */ NoteSynthesisBuffers* synthesisBuffers;
@@ -499,7 +496,7 @@ typedef struct {
             /* 0x01 */ u8 reverbIndex : 3;
             /* 0x01 */ u8 bookOffset : 2;
             /* 0x01 */ u8 isSyntheticWave : 1;
-            /* 0x01 */ u8 hasTwoAdpcmParts : 1;
+            /* 0x01 */ u8 hasTwoParts : 1;
             /* 0x01 */ u8 usesHeadsetPanEffects2 : 1;
         } s;
         /* 0x01 */ u8 asByte; // likely does not exist
@@ -811,6 +808,15 @@ typedef enum {
     /* 2 */ MEDIUM_CART,
     /* 3 */ MEDIUM_DISK_DRIVE
 } SampleMedium;
+
+typedef enum {
+    /* 0 */ CODEC_ADPCM,
+    /* 1 */ CODEC_S8,
+    /* 2 */ CODEC_S16_INMEMORY,
+    /* 3 */ CODEC_SMALL_ADPCM,
+    /* 4 */ CODEC_REVERB,
+    /* 5 */ CODEC_S16
+} SampleCodec;
 
 typedef enum {
     /* 0 */ SEQUENCE_TABLE,

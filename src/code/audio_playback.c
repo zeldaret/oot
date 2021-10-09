@@ -105,7 +105,7 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
     f32 resamplingRate = 0.0f;
 
     if (resamplingRateInput < 2.0f) {
-        noteSubEu->bitField1.s.hasTwoAdpcmParts = false;
+        noteSubEu->bitField1.s.hasTwoParts = false;
 
         if (1.99998f < resamplingRateInput) {
             resamplingRate = 1.99998f;
@@ -114,7 +114,7 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
         }
 
     } else {
-        noteSubEu->bitField1.s.hasTwoAdpcmParts = true;
+        noteSubEu->bitField1.s.hasTwoParts = true;
         if (3.99996f < resamplingRateInput) {
             resamplingRate = 1.99998f;
         } else {

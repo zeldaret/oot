@@ -427,7 +427,7 @@ void func_800E9ED8(SequenceChannelLayer* layer) {
 }
 
 s32 func_800E9F64(SequenceChannelLayer* layer, s32 arg1) {
-    if (!layer->stopSomething && layer->sound != NULL && layer->sound->sample->codec == 2 &&
+    if (!layer->stopSomething && layer->sound != NULL && layer->sound->sample->codec == CODEC_S16_INMEMORY &&
         layer->sound->sample->medium != MEDIUM_RAM) {
         layer->stopSomething = true;
         return -1;
