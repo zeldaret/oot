@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+from genericpath import isfile
 from multiprocessing import Pool, cpu_count, Event, Manager, ProcessError
 import os
 import json
@@ -13,20 +14,6 @@ def SignalHandler(sig, frame):
     print(f'Signal {sig} received. Aborting...')
     mainAbort.set()
     # Don't exit immediately to update the extracted assets file.
-
-def ModifiedSinceLastExtraction(tracker, path):
-    if path in tracker:
-        timestamp = tracker[path]["timestamp"]
-        modificationTime = int(os.path.getmtime(path))
-        if modificationTime < timestamp:
-            # XML has not been modified since last extraction.
-            return False
-    return True
-
-def SetNewExtractionTimestamp(manager, tracker, path, time):
-    if path not in tracker:
-        tracker[path] = manager.dict()
-    tracker[path]["timestamp"] = time
 
 def ExtractFile(xmlPath, outputPath, outputSourcePath):
     if globalAbort.is_set():
@@ -53,8 +40,12 @@ def ExtractFunc(fullPath):
     outPath = os.path.join("assets", *pathList[2:], objectName)
     outSourcePath = outPath
 
-    if not ModifiedSinceLastExtraction(globalExtractedAssetsTracker, fullPath):
-        return
+    if fullPath in globalExtractedAssetsTracker:
+        timestamp = globalExtractedAssetsTracker[fullPath]["timestamp"]
+        modificationTime = int(os.path.getmtime(fullPath))
+        if modificationTime < timestamp:
+            # XML has not been modified since last extraction.
+            return
 
     currentTimeStamp = int(time.time())
 
@@ -62,26 +53,9 @@ def ExtractFunc(fullPath):
 
     if not globalAbort.is_set():
         # Only update timestamp on succesful extractions
-        SetNewExtractionTimestamp(globalManager, globalExtractedAssetsTracker, fullPath, currentTimeStamp)
-
-def ExtractText(manager, tracker):
-    extract_text_path = "assets/text/declare_messages.h"
-    if not ModifiedSinceLastExtraction(tracker, extract_text_path):
-        extract_text_path = None
-
-    extract_staff_text_path = "assets/text/declare_messages_staff.h"
-    if not ModifiedSinceLastExtraction(tracker, extract_staff_text_path):
-        extract_staff_text_path = None
-
-    if extract_text_path is not None or extract_staff_text_path is not None:
-        print("Extracting text")
-        from tools import msgdis
-        currentTimeStamp = int(time.time())
-        msgdis.extract_all_text(extract_text_path, extract_staff_text_path)
-        if extract_text_path is not None and os.path.isfile(extract_text_path):
-            SetNewExtractionTimestamp(manager, tracker, extract_text_path, currentTimeStamp)
-        if extract_staff_text_path is not None and os.path.isfile(extract_staff_text_path):
-            SetNewExtractionTimestamp(manager, tracker, extract_staff_text_path, currentTimeStamp)
+        if fullPath not in globalExtractedAssetsTracker:
+            globalExtractedAssetsTracker[fullPath] = globalManager.dict()
+        globalExtractedAssetsTracker[fullPath]["timestamp"] = currentTimeStamp
 
 def initializeWorker(abort, unaccounted: bool, extractedAssetsTracker: dict, manager):
     global globalAbort
@@ -123,7 +97,17 @@ def main():
             del extractedAssetsTracker[fullPath]
         ExtractFunc(fullPath)
     else:
-        ExtractText(manager, extractedAssetsTracker)
+        extract_text_path = "assets/text/declare_messages.h"
+        if os.path.isfile(extract_text_path):
+            extract_text_path = None
+        extract_staff_text_path = "assets/text/declare_messages_staff.h"
+        if os.path.isfile(extract_staff_text_path):
+            extract_staff_text_path = None
+        # Only extract text if the header does not already exist
+        if extract_text_path is not None or extract_staff_text_path is not None:
+            print("Extracting text")
+            from tools import msgdis
+            msgdis.extract_all_text(extract_text_path, extract_staff_text_path)
 
         xmlFiles = []
         for currentPath, _, files in os.walk(os.path.join("assets", "xml")):

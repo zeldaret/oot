@@ -3,7 +3,7 @@
 #   message_data_static text encoder
 #
 
-import argparse, re, sys
+import argparse, re
 
 charmap = {}
 
