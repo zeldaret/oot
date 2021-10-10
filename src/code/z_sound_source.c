@@ -26,7 +26,7 @@ void SoundSource_UpdateAll(GlobalContext* globalCtx) {
     }
 }
 
-void SoundSource_PlaySfxByPosAndId(GlobalContext* globalCtx, Vec3f* pos, s32 duration, u16 sfxId) {
+void SoundSource_PlaySoundByPosition(GlobalContext* globalCtx, Vec3f* pos, s32 duration, u16 sfxId) {
     s32 countdown;
     SoundSource* source;
     s32 smallestCountdown = 0xFFFF;

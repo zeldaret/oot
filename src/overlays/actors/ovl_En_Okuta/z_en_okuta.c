@@ -432,7 +432,7 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, (((this->timer - 5) * 0.04f) + 0.8f) * 0.01f);
     } else {
         if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.0005f)) {
-            SoundSource_PlaySfxByPosAndId(globalCtx, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_BUBLE);
+            SoundSource_PlaySoundByPosition(globalCtx, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_BUBLE);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x70);
             for (i = 0; i < 20; i++) {
                 velocity.x = (Rand_ZeroOne() - 0.5f) * 7.0f;
@@ -501,7 +501,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
             pos.y = this->actor.world.pos.y + 11.0f;
             pos.z = this->actor.world.pos.z;
             EffectSsHahen_SpawnBurst(globalCtx, &pos, 6.0f, 0, 1, 2, 15, 7, 10, gOctorokProjectileDL);
-            SoundSource_PlaySfxByPosAndId(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
+            SoundSource_PlaySoundByPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
             Actor_Kill(&this->actor);
         }
     } else if (this->timer == -300) {

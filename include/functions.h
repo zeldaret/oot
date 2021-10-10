@@ -837,7 +837,7 @@ void* MemCopy(void* dest, void* src, s32 size);
 void GetItem_Draw(GlobalContext* globalCtx, s16 drawId);
 void SoundSource_InitAll(GlobalContext* globalCtx);
 void SoundSource_UpdateAll(GlobalContext* globalCtx);
-void SoundSource_PlaySfxByPosAndId(GlobalContext* globalCtx, Vec3f* pos, s32 duration, u16 sfxId);
+void SoundSource_PlaySoundByPosition(GlobalContext* globalCtx, Vec3f* pos, s32 duration, u16 sfxId);
 u16 ElfMessage_GetSariaText(GlobalContext* globalCtx);
 u16 ElfMessage_GetCUpText(GlobalContext* globalCtx);
 u16 Text_GetFaceReaction(GlobalContext* globalCtx, u32 reactionSet);

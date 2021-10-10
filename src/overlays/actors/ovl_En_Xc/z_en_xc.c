@@ -1537,7 +1537,7 @@ void EnXc_PlayTriforceSFX(Actor* thisx, GlobalContext* globalCtx) {
 
         Matrix_MultVec3f(&sp1C, &src);
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &src, &pos, &wDest);
-        SoundSource_PlaySfxByPosAndId(globalCtx, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
+        SoundSource_PlaySoundByPosition(globalCtx, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
         this->unk_2A8 = 0;
     }
 }
