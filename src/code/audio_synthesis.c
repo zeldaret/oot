@@ -116,10 +116,10 @@ void func_800DB03C(s32 arg0) {
     for (i = 0; i < gAudioContext.numNotes; i++) {
         subEu = &gAudioContext.notes[i].noteSubEu;
         subEu2 = &gAudioContext.noteSubsEu[baseIndex + i];
-        if (subEu->bitField0.s.enabled) {
-            subEu->bitField0.s.needsInit = false;
+        if (subEu->bitField0.enabled) {
+            subEu->bitField0.needsInit = false;
         } else {
-            subEu2->bitField0.s.enabled = false;
+            subEu2->bitField0.enabled = false;
         }
 
         subEu->unk_06 = 0;
@@ -182,8 +182,8 @@ void func_800DB2C0(s32 updateIndexStart, s32 noteIndex) {
 
     for (i = updateIndexStart + 1; i < gAudioContext.audioBufferParameters.updatesPerFrame; i++) {
         temp_v1 = &gAudioContext.noteSubsEu[(gAudioContext.numNotes * i) + noteIndex];
-        if (!temp_v1->bitField0.s.needsInit) {
-            temp_v1->bitField0.s.enabled = 0;
+        if (!temp_v1->bitField0.needsInit) {
+            temp_v1->bitField0.enabled = 0;
         } else {
             break;
         }
@@ -567,7 +567,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
     count = 0;
     if (gAudioContext.numSynthesisReverbs == 0) {
         for (i = 0; i < gAudioContext.numNotes; i++) {
-            if (gAudioContext.noteSubsEu[t + i].bitField0.s.enabled) {
+            if (gAudioContext.noteSubsEu[t + i].bitField0.enabled) {
                 noteIndices[count++] = i;
             }
         }
@@ -575,7 +575,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
         for (reverbIndex = 0; reverbIndex < gAudioContext.numSynthesisReverbs; reverbIndex++) {
             for (i = 0; i < gAudioContext.numNotes; i++) {
                 noteSubEu = &gAudioContext.noteSubsEu[t + i];
-                if (noteSubEu->bitField0.s.enabled && noteSubEu->bitField1.s.reverbIndex == reverbIndex) {
+                if (noteSubEu->bitField0.enabled && noteSubEu->bitField1.reverbIndex == reverbIndex) {
                     noteIndices[count++] = i;
                 }
             }
@@ -583,8 +583,8 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 
         for (i = 0; i < gAudioContext.numNotes; i++) {
             noteSubEu = &gAudioContext.noteSubsEu[t + i];
-            if (noteSubEu->bitField0.s.enabled &&
-                noteSubEu->bitField1.s.reverbIndex >= gAudioContext.numSynthesisReverbs) {
+            if (noteSubEu->bitField0.enabled &&
+                noteSubEu->bitField1.reverbIndex >= gAudioContext.numSynthesisReverbs) {
                 noteIndices[count++] = i;
             }
         }
@@ -620,7 +620,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 
         while (i < count) {
             noteSubEu2 = &gAudioContext.noteSubsEu[noteIndices[i] + t];
-            if (noteSubEu2->bitField1.s.reverbIndex == reverbIndex) {
+            if (noteSubEu2->bitField1.reverbIndex == reverbIndex) {
                 cmd = AudioSynth_ProcessNote(noteIndices[i], noteSubEu2,
                                              &gAudioContext.notes[noteIndices[i]].synthesisState, aiBuf, aiBufLen, cmd,
                                              updateIndex);
@@ -712,12 +712,12 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s16 addr;
     u16 unused;
 
-    bookOffset = noteSubEu->bitField1.s.bookOffset;
-    finished = noteSubEu->bitField0.s.finished;
+    bookOffset = noteSubEu->bitField1.bookOffset;
+    finished = noteSubEu->bitField0.finished;
     note = &gAudioContext.notes[noteIndex];
     flags = A_CONTINUE;
 
-    if (noteSubEu->bitField0.s.needsInit == true) {
+    if (noteSubEu->bitField0.needsInit == true) {
         flags = A_INIT;
         synthState->restart = 0;
         synthState->samplePosInt = note->unk_BC;
@@ -729,12 +729,12 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         synthState->reverbVol = noteSubEu->reverbVol;
         synthState->numParts = 0;
         synthState->unk_1A = 1;
-        note->noteSubEu.bitField0.s.finished = false;
+        note->noteSubEu.bitField0.finished = false;
         finished = false;
     }
 
     resamplingRateFixedPoint = noteSubEu->resamplingRateFixedPoint;
-    nParts = noteSubEu->bitField1.s.hasTwoParts + 1;
+    nParts = noteSubEu->bitField1.hasTwoParts + 1;
     samplesLenFixedPoint = (resamplingRateFixedPoint * aiBufLen * 2) + synthState->samplePosFrac;
     nSamplesToLoad = samplesLenFixedPoint >> 16;
     synthState->samplePosFrac = samplesLenFixedPoint & 0xFFFF;
@@ -748,7 +748,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
     synthState->numParts = nParts;
 
-    if (noteSubEu->bitField1.s.isSyntheticWave) {
+    if (noteSubEu->bitField1.isSyntheticWave) {
         cmd = AudioSynth_LoadWaveSamples(cmd, noteSubEu, synthState, nSamplesToLoad);
         noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * 2);
         synthState->samplePosInt += nSamplesToLoad;
@@ -954,7 +954,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     AudioSynth_ClearBuffer(cmd++, DMEM_UNCOMPRESSED_NOTE + s5,
                                            (samplesLenAdjusted - nSamplesProcessed) * 2);
                     finished = true;
-                    note->noteSubEu.bitField0.s.finished = true;
+                    note->noteSubEu.bitField0.finished = true;
                     func_800DB2C0(updateIndex, noteIndex);
                     break;
                 } else {
@@ -996,8 +996,8 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     }
 
     flags = A_CONTINUE;
-    if (noteSubEu->bitField0.s.needsInit == true) {
-        noteSubEu->bitField0.s.needsInit = false;
+    if (noteSubEu->bitField0.needsInit == true) {
+        noteSubEu->bitField0.needsInit = false;
         flags = A_INIT;
     }
 
@@ -1052,7 +1052,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         side = 0;
     }
     cmd = AudioSynth_ProcessEnvelope(cmd, noteSubEu, synthState, aiBufLen, DMEM_TEMP, side, flags);
-    if (noteSubEu->bitField1.s.usesHeadsetPanEffects2) {
+    if (noteSubEu->bitField1.usesHeadsetPanEffects2) {
         if (!(flags & A_INIT)) {
             flags = A_CONTINUE;
         }
@@ -1119,7 +1119,7 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     synthState->curVolLeft = curVolLeft + (rampLeft * (aiBufLen >> 3));
     synthState->curVolRight = curVolRight + (rampRight * (aiBufLen >> 3));
 
-    if (noteSubEu->bitField1.s.usesHeadsetPanEffects2) {
+    if (noteSubEu->bitField1.usesHeadsetPanEffects2) {
         AudioSynth_ClearBuffer(cmd++, DMEM_NOTE_PAN_TEMP, DEFAULT_LEN_1CH);
         AudioSynth_EnvSetup1(cmd++, phi_t1 * 2, rampReverb, rampLeft, rampRight);
         AudioSynth_EnvSetup2(cmd++, curVolLeft, curVolRight);
@@ -1140,9 +1140,9 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         phi_a1 = D_801304AC;
     }
 
-    aEnvMixer(cmd++, inBuf, aiBufLen, (sourceReverbVol & 0x80) >> 7, noteSubEu->bitField0.s.stereoHeadsetEffects,
-              noteSubEu->bitField0.s.usesHeadsetPanEffects, noteSubEu->bitField0.s.stereoStrongRight,
-              noteSubEu->bitField0.s.stereoStrongLeft, phi_a1, D_801304A0);
+    aEnvMixer(cmd++, inBuf, aiBufLen, (sourceReverbVol & 0x80) >> 7, noteSubEu->bitField0.stereoHeadsetEffects,
+              noteSubEu->bitField0.usesHeadsetPanEffects, noteSubEu->bitField0.stereoStrongRight,
+              noteSubEu->bitField0.stereoStrongLeft, phi_a1, D_801304A0);
     return cmd;
 }
 
@@ -1152,7 +1152,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 samplePosInt = synthState->samplePosInt;
     s32 repeats;
 
-    if (noteSubEu->bitField1.s.bookOffset != 0) {
+    if (noteSubEu->bitField1.bookOffset != 0) {
         AudioSynth_LoadBuffer(cmd++, DMEM_UNCOMPRESSED_NOTE, ALIGN16(nSamplesToLoad * 2), gWaveSamples[8]);
         gWaveSamples[8] += nSamplesToLoad * 2;
         return cmd;

@@ -477,29 +477,22 @@ typedef struct {
 } NotePlaybackState;
 
 typedef struct {
-    // these bitfields should perhaps be merged into a single struct
-    union {
-        struct {
-            /* 0x00 */ vu8 enabled : 1;
-            /* 0x00 */ u8 needsInit : 1;
-            /*?0x00 */ u8 finished : 1;
-            /* 0x00 */ u8 unused : 1;
-            /* 0x00 */ u8 stereoStrongRight : 1;
-            /* 0x00 */ u8 stereoStrongLeft : 1;
-            /* 0x00 */ u8 stereoHeadsetEffects : 1;
-            /*?0x00 */ u8 usesHeadsetPanEffects : 1;
-        } s;
-        /* 0x00 */ u8 asByte; // likely does not exist
+    struct {
+        /* 0x00 */ vu8 enabled : 1;
+        /* 0x00 */ u8 needsInit : 1;
+        /*?0x00 */ u8 finished : 1;
+        /* 0x00 */ u8 unused : 1;
+        /* 0x00 */ u8 stereoStrongRight : 1;
+        /* 0x00 */ u8 stereoStrongLeft : 1;
+        /* 0x00 */ u8 stereoHeadsetEffects : 1;
+        /*?0x00 */ u8 usesHeadsetPanEffects : 1;
     } bitField0;
-    union {
-        struct {
-            /* 0x01 */ u8 reverbIndex : 3;
-            /* 0x01 */ u8 bookOffset : 2;
-            /* 0x01 */ u8 isSyntheticWave : 1;
-            /* 0x01 */ u8 hasTwoParts : 1;
-            /* 0x01 */ u8 usesHeadsetPanEffects2 : 1;
-        } s;
-        /* 0x01 */ u8 asByte; // likely does not exist
+    struct {
+        /* 0x01 */ u8 reverbIndex : 3;
+        /* 0x01 */ u8 bookOffset : 2;
+        /* 0x01 */ u8 isSyntheticWave : 1;
+        /* 0x01 */ u8 hasTwoParts : 1;
+        /* 0x01 */ u8 usesHeadsetPanEffects2 : 1;
     } bitField1;
     /* 0x02 */ u8 unk_2;
     /* 0x03 */ u8 headsetPanRight;

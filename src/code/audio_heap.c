@@ -340,7 +340,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 where, s32 id) {
             if (firstVal == 4) {
                 for (i = 0; i < gAudioContext.numNotes; i++) {
                     if (gAudioContext.notes[i].playbackState.bankId == tp->entries[0].id &&
-                        gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
+                        gAudioContext.notes[i].noteSubEu.bitField0.enabled != 0) {
                         break;
                     }
                 }
@@ -354,7 +354,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 where, s32 id) {
             if (secondVal == 4) {
                 for (i = 0; i < gAudioContext.numNotes; i++) {
                     if (gAudioContext.notes[i].playbackState.bankId == tp->entries[1].id &&
-                        gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
+                        gAudioContext.notes[i].noteSubEu.bitField0.enabled != 0) {
                         break;
                     }
                 }
@@ -410,7 +410,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 where, s32 id) {
                 if (firstVal == 2) {
                     for (i = 0; i < gAudioContext.numNotes; i++) {
                         if (gAudioContext.notes[i].playbackState.bankId == tp->entries[0].id &&
-                            gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
+                            gAudioContext.notes[i].noteSubEu.bitField0.enabled != 0) {
                             break;
                         }
                     }
@@ -423,7 +423,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 where, s32 id) {
                 if (secondVal == 2) {
                     for (i = 0; i < gAudioContext.numNotes; i++) {
                         if (gAudioContext.notes[i].playbackState.bankId == tp->entries[1].id &&
-                            gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
+                            gAudioContext.notes[i].noteSubEu.bitField0.enabled != 0) {
                             break;
                         }
                     }
@@ -739,7 +739,7 @@ s32 AudioHeap_ResetStep(void) {
                 AudioHeap_UpdateReverbs();
             } else {
                 for (i = 0; i < gAudioContext.numNotes; i++) {
-                    if (gAudioContext.notes[i].noteSubEu.bitField0.s.enabled &&
+                    if (gAudioContext.notes[i].noteSubEu.bitField0.enabled &&
                         gAudioContext.notes[i].playbackState.adsr.action.s.state != ADSR_STATE_DISABLED) {
                         gAudioContext.notes[i].playbackState.adsr.fadeOutVel =
                             gAudioContext.audioBufferParameters.updatesPerFrameInv;
