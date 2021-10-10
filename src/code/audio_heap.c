@@ -1261,20 +1261,19 @@ void AudioHeap_DiscardSampleCaches(void) {
 }
 
 typedef struct {
-    u8* oldAddr;
-    u8* newAddr;
+    u32 oldAddr;
+    u32 newAddr;
     u32 size;
     u8 newMedium;
 } StorageChange;
 
 void AudioHeap_ChangeStorage(StorageChange* change, AudioBankSample* sample) {
     if (sample != NULL) {
-        u8* start = change->oldAddr;
-        u8* end = change->oldAddr + change->size;
-        u8* sampleAddr = sample->sampleAddr;
-        if (start <= sampleAddr && sampleAddr < end) {
-            sample->sampleAddr = sampleAddr - start + change->newAddr;
-            sample->medium = change->newMedium & 0xFF;
+        u32 start = change->oldAddr;
+        u32 end = change->oldAddr + change->size;
+        if (start <= (u32)sample->sampleAddr && (u32)sample->sampleAddr < end) {
+            sample->sampleAddr = sample->sampleAddr - start + change->newAddr;
+            sample->medium = change->newMedium;
         }
     }
 }
@@ -1303,13 +1302,13 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     Drum* drum;
     Instrument* inst;
     AudioBankSound* sfx;
-    u8** fakematch;
+    u32* fakematch;
     s32 pad[4];
 
     sampleBankTable = gAudioContext.sampleBankTable;
     numBanks = gAudioContext.audioBankTable->entryCnt;
     change.oldAddr = AudioHeap_SearchCaches(SAMPLE_TABLE, 2, sampleBankId);
-    if (change.oldAddr == NULL) {
+    if (change.oldAddr == 0) {
         return;
     }
 
@@ -1320,12 +1319,12 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     if ((change.newMedium == MEDIUM_CART) || (change.newMedium == MEDIUM_DISK_DRIVE)) {
         change.newAddr = entry->romAddr;
     } else {
-        change.newAddr = NULL;
+        change.newAddr = 0;
     }
 
     fakematch = &change.oldAddr;
     if ((apply != false) && (apply == true)) {
-        u8* temp = change.newAddr;
+        u32 temp = change.newAddr;
         change.newAddr = *fakematch; // = change.oldAddr
         change.oldAddr = temp;
         change.newMedium = MEDIUM_RAM;

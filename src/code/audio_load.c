@@ -533,7 +533,7 @@ s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
     u8* seqData;
     s32 index;
     s32 remaining;
-    s32 phi_s2;
+    s32 bankId;
 
     if (seqId >= gAudioContext.numSequences) {
         return 0;
@@ -541,13 +541,13 @@ s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
 
     Audio_SequencePlayerDisable(seqPlayer);
 
-    phi_s2 = 0xFF;
+    bankId = 0xFF;
     index = ((u16*)gAudioContext.sequenceBankTable)[seqId];
     remaining = gAudioContext.sequenceBankTable[index++];
 
     while (remaining > 0) {
-        phi_s2 = gAudioContext.sequenceBankTable[index++];
-        AudioLoad_SyncLoadBank(phi_s2);
+        bankId = gAudioContext.sequenceBankTable[index++];
+        AudioLoad_SyncLoadBank(bankId);
         remaining--;
     }
 
@@ -558,7 +558,7 @@ s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
 
     Audio_ResetSequencePlayer(seqPlayer);
     seqPlayer->seqId = seqId;
-    seqPlayer->defaultBank = AudioLoad_GetRealTableIndex(BANK_TABLE, phi_s2);
+    seqPlayer->defaultBank = AudioLoad_GetRealTableIndex(BANK_TABLE, bankId);
     seqPlayer->seqData = seqData;
     seqPlayer->enabled = 1;
     seqPlayer->scriptState.pc = seqData;
