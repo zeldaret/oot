@@ -396,7 +396,7 @@ typedef struct SequenceChannelLayer {
     /* 0x44 */ f32 noteFreqScale;
     /* 0x48 */ Instrument* instrument;
     /* 0x4C */ SoundFontSound* sound;
-    /* 0x50 */ SequenceChannel* seqChannel;
+    /* 0x50 */ SequenceChannel* channel;
     /* 0x54 */ SeqScriptState scriptState;
     /* 0x70 */ AudioListItem listItem;
 } SequenceChannelLayer; // size = 0x80
@@ -431,7 +431,7 @@ typedef struct {
 } NoteSynthesisState; // size = 0x20
 
 typedef struct {
-    /* 0x00 */ struct SequenceChannel* seqChannel;
+    /* 0x00 */ struct SequenceChannel* channel;
     /* 0x04 */ u32 time;
     /* 0x08 */ s16* curve;
     /* 0x0C */ f32 extent;

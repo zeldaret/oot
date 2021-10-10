@@ -17,7 +17,7 @@ s16 Audio_M64ReadS16(SeqScriptState* state);
 
 u16 Audio_M64ReadCompressedU16(SeqScriptState* state);
 
-u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** instOut, AdsrSettings* adsr);
+u8 Audio_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** instOut, AdsrSettings* adsr);
 
 u16 Audio_GetScriptControlFlowArgument(SeqScriptState* state, u8 arg1) {
     u8 temp_v0 = D_80130470[arg1];
@@ -104,79 +104,79 @@ s32 Audio_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* sta
     return 0;
 }
 
-void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
+void Audio_SequenceChannelInit(SequenceChannel* channel) {
     s32 i;
 
-    if (seqChannel == &gAudioContext.sequenceChannelNone) {
+    if (channel == &gAudioContext.sequenceChannelNone) {
         return;
     }
 
-    seqChannel->enabled = false;
-    seqChannel->finished = false;
-    seqChannel->stopScript = false;
-    seqChannel->stopSomething2 = false;
-    seqChannel->hasInstrument = false;
-    seqChannel->stereoHeadsetEffects = false;
-    seqChannel->transposition = 0;
-    seqChannel->largeNotes = false;
-    seqChannel->bookOffset = 0;
-    seqChannel->stereo.asByte = 0;
-    seqChannel->changes.asByte = 0xFF;
-    seqChannel->scriptState.depth = 0;
-    seqChannel->newPan = 0x40;
-    seqChannel->panChannelWeight = 0x80;
-    seqChannel->velocityRandomVariance = 0;
-    seqChannel->gateTimeRandomVariance = 0;
-    seqChannel->noteUnused = NULL;
-    seqChannel->reverbIndex = 0;
-    seqChannel->reverb = 0;
-    seqChannel->unk_0C = 0;
-    seqChannel->notePriority = 3;
-    seqChannel->someOtherPriority = 1;
-    seqChannel->delay = 0;
-    seqChannel->adsr.envelope = gDefaultEnvelope;
-    seqChannel->adsr.releaseRate = 0xF0;
-    seqChannel->adsr.sustain = 0;
-    seqChannel->vibratoRateTarget = 0x800;
-    seqChannel->vibratoRateStart = 0x800;
-    seqChannel->vibratoExtentTarget = 0;
-    seqChannel->vibratoExtentStart = 0;
-    seqChannel->vibratoRateChangeDelay = 0;
-    seqChannel->vibratoExtentChangeDelay = 0;
-    seqChannel->vibratoDelay = 0;
-    seqChannel->filter = NULL;
-    seqChannel->unk_20 = 0;
-    seqChannel->unk_0F = 0;
-    seqChannel->volume = 1.0f;
-    seqChannel->volumeScale = 1.0f;
-    seqChannel->freqScale = 1.0f;
+    channel->enabled = false;
+    channel->finished = false;
+    channel->stopScript = false;
+    channel->stopSomething2 = false;
+    channel->hasInstrument = false;
+    channel->stereoHeadsetEffects = false;
+    channel->transposition = 0;
+    channel->largeNotes = false;
+    channel->bookOffset = 0;
+    channel->stereo.asByte = 0;
+    channel->changes.asByte = 0xFF;
+    channel->scriptState.depth = 0;
+    channel->newPan = 0x40;
+    channel->panChannelWeight = 0x80;
+    channel->velocityRandomVariance = 0;
+    channel->gateTimeRandomVariance = 0;
+    channel->noteUnused = NULL;
+    channel->reverbIndex = 0;
+    channel->reverb = 0;
+    channel->unk_0C = 0;
+    channel->notePriority = 3;
+    channel->someOtherPriority = 1;
+    channel->delay = 0;
+    channel->adsr.envelope = gDefaultEnvelope;
+    channel->adsr.releaseRate = 0xF0;
+    channel->adsr.sustain = 0;
+    channel->vibratoRateTarget = 0x800;
+    channel->vibratoRateStart = 0x800;
+    channel->vibratoExtentTarget = 0;
+    channel->vibratoExtentStart = 0;
+    channel->vibratoRateChangeDelay = 0;
+    channel->vibratoExtentChangeDelay = 0;
+    channel->vibratoDelay = 0;
+    channel->filter = NULL;
+    channel->unk_20 = 0;
+    channel->unk_0F = 0;
+    channel->volume = 1.0f;
+    channel->volumeScale = 1.0f;
+    channel->freqScale = 1.0f;
 
     for (i = 0; i < 8; i++) {
-        seqChannel->soundScriptIO[i] = -1;
+        channel->soundScriptIO[i] = -1;
     }
 
-    seqChannel->unused = false;
-    Audio_InitNoteLists(&seqChannel->notePool);
+    channel->unused = false;
+    Audio_InitNoteLists(&channel->notePool);
 }
 
-s32 Audio_SeqChannelSetLayer(SequenceChannel* seqChannel, s32 layerIdx) {
+s32 Audio_SeqChannelSetLayer(SequenceChannel* channel, s32 layerIdx) {
     SequenceChannelLayer* layer;
 
-    if (seqChannel->layers[layerIdx] == NULL) {
+    if (channel->layers[layerIdx] == NULL) {
         SequenceChannelLayer* layer;
         layer = Audio_AudioListPopBack(&gAudioContext.layerFreeList);
-        seqChannel->layers[layerIdx] = layer;
+        channel->layers[layerIdx] = layer;
         if (layer == NULL) {
-            seqChannel->layers[layerIdx] = NULL;
+            channel->layers[layerIdx] = NULL;
             return -1;
         }
     } else {
-        Audio_SeqChanLayerNoteDecay(seqChannel->layers[layerIdx]);
+        Audio_SeqChanLayerNoteDecay(channel->layers[layerIdx]);
     }
 
-    layer = seqChannel->layers[layerIdx];
-    layer->seqChannel = seqChannel;
-    layer->adsr = seqChannel->adsr;
+    layer = channel->layers[layerIdx];
+    layer->channel = channel;
+    layer->adsr = channel->adsr;
     layer->adsr.releaseRate = 0;
     layer->enabled = true;
     layer->finished = false;
@@ -206,7 +206,7 @@ s32 Audio_SeqChannelSetLayer(SequenceChannel* seqChannel, s32 layerIdx) {
 
 void Audio_SeqChannelLayerDisable(SequenceChannelLayer* layer) {
     if (layer != NULL) {
-        if (layer->seqChannel != &gAudioContext.sequenceChannelNone && layer->seqChannel->seqPlayer->finished == 1) {
+        if (layer->channel != &gAudioContext.sequenceChannelNone && layer->channel->seqPlayer->finished == 1) {
             Audio_SeqChanLayerNoteRelease(layer);
         } else {
             Audio_SeqChanLayerNoteDecay(layer);
@@ -216,67 +216,67 @@ void Audio_SeqChannelLayerDisable(SequenceChannelLayer* layer) {
     }
 }
 
-void Audio_SeqChannelLayerFree(SequenceChannel* seqChannel, s32 layerIdx) {
-    SequenceChannelLayer* layer = seqChannel->layers[layerIdx];
+void Audio_SeqChannelLayerFree(SequenceChannel* channel, s32 layerIdx) {
+    SequenceChannelLayer* layer = channel->layers[layerIdx];
 
     if (layer != NULL) {
         Audio_AudioListPushBack(&gAudioContext.layerFreeList, &layer->listItem);
         Audio_SeqChannelLayerDisable(layer);
-        seqChannel->layers[layerIdx] = NULL;
+        channel->layers[layerIdx] = NULL;
     }
 }
 
-void Audio_SequenceChannelDisable(SequenceChannel* seqChannel) {
+void Audio_SequenceChannelDisable(SequenceChannel* channel) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        Audio_SeqChannelLayerFree(seqChannel, i);
+        Audio_SeqChannelLayerFree(channel, i);
     }
 
-    Audio_NotePoolClear(&seqChannel->notePool);
-    seqChannel->enabled = false;
-    seqChannel->finished = true;
+    Audio_NotePoolClear(&channel->notePool);
+    channel->enabled = false;
+    channel->finished = true;
 }
 
 void Audio_SequencePlayerInitChannels(SequencePlayer* seqPlayer, u16 channelBits) {
-    SequenceChannel* seqChannel;
+    SequenceChannel* channel;
     s32 i;
 
     for (i = 0; i < 0x10; i++) {
         if (channelBits & 1) {
-            seqChannel = seqPlayer->channels[i];
-            seqChannel->fontId = seqPlayer->defaultFont;
-            seqChannel->muteBehavior = seqPlayer->muteBehavior;
-            seqChannel->noteAllocPolicy = seqPlayer->noteAllocPolicy;
+            channel = seqPlayer->channels[i];
+            channel->fontId = seqPlayer->defaultFont;
+            channel->muteBehavior = seqPlayer->muteBehavior;
+            channel->noteAllocPolicy = seqPlayer->noteAllocPolicy;
         }
         channelBits = channelBits >> 1;
     }
 }
 
 void Audio_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 channelBitsUnused) {
-    SequenceChannel* seqChannel;
+    SequenceChannel* channel;
     s32 i;
 
     for (i = 0; i < 0x10; i++) {
-        seqChannel = seqPlayer->channels[i];
-        if (IS_SEQUENCE_CHANNEL_VALID(seqChannel) == 1) {
-            Audio_SequenceChannelDisable(seqChannel);
+        channel = seqPlayer->channels[i];
+        if (IS_SEQUENCE_CHANNEL_VALID(channel) == 1) {
+            Audio_SequenceChannelDisable(channel);
         }
     }
 }
 
 void Audio_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIdx, void* script) {
-    SequenceChannel* seqChannel = seqPlayer->channels[channelIdx];
+    SequenceChannel* channel = seqPlayer->channels[channelIdx];
     s32 i;
 
-    seqChannel->enabled = true;
-    seqChannel->finished = false;
-    seqChannel->scriptState.depth = 0;
-    seqChannel->scriptState.pc = script;
-    seqChannel->delay = 0;
+    channel->enabled = true;
+    channel->finished = false;
+    channel->scriptState.depth = 0;
+    channel->scriptState.pc = script;
+    channel->delay = 0;
     for (i = 0; i < 4; i++) {
-        if (seqChannel->layers[i] != NULL) {
-            Audio_SeqChannelLayerFree(seqChannel, i);
+        if (channel->layers[i] != NULL) {
+            Audio_SeqChannelLayerFree(channel, i);
         }
     }
 }
@@ -460,9 +460,9 @@ s32 func_800E9F64(SequenceChannelLayer* layer, s32 arg1) {
 }
 
 s32 func_800EA0C0(SequenceChannelLayer* layer) {
-    SequenceChannel* seqChannel = layer->seqChannel;
+    SequenceChannel* channel = layer->channel;
     SeqScriptState* state = &layer->scriptState;
-    SequencePlayer* seqPlayer = seqChannel->seqPlayer;
+    SequencePlayer* seqPlayer = channel->seqPlayer;
     u16 sp3A;
     u8 cmd;
 
@@ -540,7 +540,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
                     break;
                 }
 
-                if ((layer->instOrWave = Audio_GetInstrument(seqChannel, cmd, &layer->instrument, &layer->adsr)) == 0) {
+                if ((layer->instOrWave = Audio_GetInstrument(channel, cmd, &layer->instrument, &layer->adsr)) == 0) {
                     layer->instOrWave = 0xFF;
                 }
                 break;
@@ -549,7 +549,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
                 layer->portamento.mode = Audio_M64ReadU8(state);
 
                 cmd = Audio_M64ReadU8(state);
-                cmd += seqChannel->transposition;
+                cmd += channel->transposition;
                 cmd += layer->transposition;
                 cmd += seqPlayer->transposition;
 
@@ -623,7 +623,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
     Instrument* instrument;
     Drum* drum;
     s32 pad;
-    SequenceChannel* seqChannel;
+    SequenceChannel* channel;
     SequencePlayer* seqPlayer;
     u8 cmd = arg1;
     u16 sfxId;
@@ -633,21 +633,21 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
     f32 tuning;
 
     instOrWave = layer->instOrWave;
-    seqChannel = layer->seqChannel;
-    seqPlayer = seqChannel->seqPlayer;
+    channel = layer->channel;
+    seqPlayer = channel->seqPlayer;
 
     if (instOrWave == 0xFF) {
-        if (!seqChannel->hasInstrument) {
+        if (!channel->hasInstrument) {
             return -1;
         }
-        instOrWave = seqChannel->instOrWave;
+        instOrWave = channel->instOrWave;
     }
 
     switch (instOrWave) {
         case 0:
-            cmd += seqChannel->transposition + layer->transposition;
+            cmd += channel->transposition + layer->transposition;
             layer->semitone = cmd;
-            drum = Audio_GetDrum(seqChannel->fontId, cmd);
+            drum = Audio_GetDrum(channel->fontId, cmd);
             if (drum == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay;
@@ -666,7 +666,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
         case 1:
             layer->semitone = cmd;
             sfxId = (layer->transposition << 6) + cmd;
-            sound = Audio_GetSfx(seqChannel->fontId, sfxId);
+            sound = Audio_GetSfx(channel->fontId, sfxId);
             if (sound == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay + 1;
@@ -677,7 +677,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
             break;
 
         default:
-            cmd += seqPlayer->transposition + seqChannel->transposition + layer->transposition;
+            cmd += seqPlayer->transposition + channel->transposition + layer->transposition;
             cmd2 = cmd;
             layer->semitone = cmd;
             if (cmd >= 0x80) {
@@ -685,7 +685,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
                 return -1;
             }
             if (layer->instOrWave == 0xFF) {
-                instrument = seqChannel->instrument;
+                instrument = channel->instrument;
             } else {
                 instrument = layer->instrument;
             }
@@ -808,8 +808,8 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
     SeqScriptState* state = &layer->scriptState;
     u16 delay;
     s32 velocity;
-    SequenceChannel* seqChannel = layer->seqChannel;
-    SequencePlayer* seqPlayer = seqChannel->seqPlayer;
+    SequenceChannel* channel = layer->channel;
+    SequencePlayer* seqPlayer = channel->seqPlayer;
     s32 intDelta;
     f32 floatDelta;
 
@@ -821,7 +821,7 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
     }
 
     layer->stopSomething = false;
-    if (seqChannel->largeNotes == 1) {
+    if (channel->largeNotes == 1) {
         switch (arg1 & 0xC0) {
             case 0x00:
                 delay = Audio_M64ReadCompressedU16(state);
@@ -867,9 +867,9 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
         arg1 -= (arg1 & 0xC0);
     }
 
-    if (seqChannel->velocityRandomVariance != 0) {
+    if (channel->velocityRandomVariance != 0) {
         floatDelta =
-            layer->velocitySquare * (f32)(gAudioContext.audioRandom % seqChannel->velocityRandomVariance) / 100.0f;
+            layer->velocitySquare * (f32)(gAudioContext.audioRandom % channel->velocityRandomVariance) / 100.0f;
         if ((gAudioContext.audioRandom & 0x8000) != 0) {
             floatDelta = -floatDelta;
         }
@@ -885,9 +885,9 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
 
     layer->delay = delay;
     layer->gateDelay = (layer->gateTime * delay) >> 8;
-    if (seqChannel->gateTimeRandomVariance != 0) {
+    if (channel->gateTimeRandomVariance != 0) {
         //! @bug should probably be gateTimeRandomVariance
-        intDelta = (layer->gateDelay * (gAudioContext.audioRandom % seqChannel->velocityRandomVariance)) / 100;
+        intDelta = (layer->gateDelay * (gAudioContext.audioRandom % channel->velocityRandomVariance)) / 100;
         if ((gAudioContext.audioRandom & 0x4000) != 0) {
             intDelta = -intDelta;
         }
@@ -899,7 +899,7 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
         }
     }
 
-    if ((seqPlayer->muted && (seqChannel->muteBehavior & (0x40 | 0x10)) != 0) || seqChannel->stopSomething2) {
+    if ((seqPlayer->muted && (channel->muteBehavior & (0x40 | 0x10)) != 0) || channel->stopSomething2) {
         layer->stopSomething = true;
         return -1;
     }
@@ -910,18 +910,18 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
     return arg1;
 }
 
-void func_800EAEF4(SequenceChannel* seqChannel, u8 arg1) {
+void func_800EAEF4(SequenceChannel* channel, u8 arg1) {
     if ((arg1 & 0xF) != 0) {
-        seqChannel->notePriority = arg1 & 0xF;
+        channel->notePriority = arg1 & 0xF;
     }
     arg1 = arg1 >> 4;
     if (arg1 != 0) {
-        seqChannel->someOtherPriority = arg1;
+        channel->someOtherPriority = arg1;
     }
 }
 
-u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** instOut, AdsrSettings* adsr) {
-    Instrument* inst = Audio_GetInstrumentInner(seqChannel->fontId, instId);
+u8 Audio_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** instOut, AdsrSettings* adsr) {
+    Instrument* inst = Audio_GetInstrumentInner(channel->fontId, instId);
 
     if (inst == NULL) {
         *instOut = NULL;
@@ -934,26 +934,26 @@ u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** inst
     return instId;
 }
 
-void Audio_SetInstrument(SequenceChannel* seqChannel, u8 instId) {
+void Audio_SetInstrument(SequenceChannel* channel, u8 instId) {
     if (instId >= 0x80) {
-        seqChannel->instOrWave = instId;
-        seqChannel->instrument = NULL;
+        channel->instOrWave = instId;
+        channel->instrument = NULL;
     } else if (instId == 0x7F) {
-        seqChannel->instOrWave = 0;
-        seqChannel->instrument = (Instrument*)1;
+        channel->instOrWave = 0;
+        channel->instrument = (Instrument*)1;
     } else if (instId == 0x7E) {
-        seqChannel->instOrWave = 1;
-        seqChannel->instrument = (Instrument*)2;
-    } else if ((seqChannel->instOrWave =
-                    Audio_GetInstrument(seqChannel, instId, &seqChannel->instrument, &seqChannel->adsr)) == 0) {
-        seqChannel->hasInstrument = false;
+        channel->instOrWave = 1;
+        channel->instrument = (Instrument*)2;
+    } else if ((channel->instOrWave =
+                    Audio_GetInstrument(channel, instId, &channel->instrument, &channel->adsr)) == 0) {
+        channel->hasInstrument = false;
         return;
     }
-    seqChannel->hasInstrument = true;
+    channel->hasInstrument = true;
 }
 
-void Audio_SequenceChannelSetVolume(SequenceChannel* seqChannel, u8 volume) {
-    seqChannel->volume = (f32)(s32)volume / 127.0f;
+void Audio_SequenceChannelSetVolume(SequenceChannel* channel, u8 volume) {
+    channel->volume = (f32)(s32)volume / 127.0f;
 }
 
 void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
@@ -1793,7 +1793,7 @@ void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer) {
 }
 
 void func_800EC734(s32 seqPlayerIdx) {
-    SequenceChannel* seqChannel;
+    SequenceChannel* channel;
     SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[seqPlayerIdx];
     s32 i, j;
 
@@ -1802,11 +1802,11 @@ void func_800EC734(s32 seqPlayerIdx) {
         if (seqPlayer->channels[i] == NULL) {
             seqPlayer->channels[i] = &gAudioContext.sequenceChannelNone;
         } else {
-            seqChannel = seqPlayer->channels[i];
-            seqChannel->seqPlayer = seqPlayer;
-            seqChannel->enabled = false;
+            channel = seqPlayer->channels[i];
+            channel->seqPlayer = seqPlayer;
+            channel->enabled = false;
             for (j = 0; j < 4; j++) {
-                seqChannel->layers[j] = NULL;
+                channel->layers[j] = NULL;
             }
         }
         Audio_SequenceChannelInit(seqPlayer->channels[i]);
@@ -1841,7 +1841,7 @@ void Audio_InitSequencePlayers(void) {
 
     Audio_InitLayerFreelist();
     for (i = 0; i < 64; i++) {
-        gAudioContext.sequenceLayers[i].seqChannel = NULL;
+        gAudioContext.sequenceLayers[i].channel = NULL;
         gAudioContext.sequenceLayers[i].enabled = false;
     }
 

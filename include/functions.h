@@ -1987,7 +1987,7 @@ Note* AudioHeap_AllocNoteFromDecaying(NotePool* pool, SequenceChannelLayer* laye
 Note* AudioHeap_AllocNoteFromActive(NotePool* pool, SequenceChannelLayer* layer);
 Note* AudioHeap_AllocNote(SequenceChannelLayer* layer);
 void Audio_NoteInitAll(void);
-void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalculateVolume, s32 b);
+void Audio_SequenceChannelProcessSound(SequenceChannel* channel, s32 recalculateVolume, s32 b);
 void Audio_SequencePlayerProcessSound(SequencePlayer* seqPlayer);
 f32 Audio_GetPortamentoFreqScale(Portamento* p);
 s16 Audio_GetVibratoPitchChange(VibratoState* vib);
@@ -1997,7 +1997,7 @@ void Audio_NoteVibratoInit(Note* note);
 void Audio_NotePortamentoInit(Note* note);
 void Audio_AdsrInit(AdsrState* adsr, AdsrEnvelope* envelope, s16* volOut);
 f32 Audio_AdsrUpdate(AdsrState* adsr);
-void Audio_SequenceChannelDisable(SequenceChannel* seqChannel);
+void Audio_SequenceChannelDisable(SequenceChannel* channel);
 void Audio_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer);
 void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer);
 void Audio_AudioListPushBack(AudioListItem* list, AudioListItem* item);

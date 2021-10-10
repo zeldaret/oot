@@ -488,7 +488,7 @@ void Audio_ChooseActiveSounds(u8 bankId) {
 
 void Audio_PlayActiveSounds(u8 bankId) {
     u8 entryIndex;
-    SequenceChannel* seqChannel;
+    SequenceChannel* channel;
     SoundBankEntry* entry;
     u8 i;
 
@@ -496,7 +496,7 @@ void Audio_PlayActiveSounds(u8 bankId) {
         entryIndex = gActiveSounds[bankId][i].entryIndex;
         if (entryIndex != 0xFF) {
             entry = &gSoundBanks[bankId][entryIndex];
-            seqChannel = gAudioContext.seqPlayers[2].channels[sCurSfxPlayerChannelIdx];
+            channel = gAudioContext.seqPlayers[2].channels[sCurSfxPlayerChannelIdx];
             if (entry->state == SFX_STATE_READY) {
                 entry->channelIdx = sCurSfxPlayerChannelIdx;
                 if (entry->sfxParams & 8) {
@@ -530,7 +530,7 @@ void Audio_PlayActiveSounds(u8 bankId) {
                 } else {
                     entry->state = SFX_STATE_PLAYING_2;
                 }
-            } else if ((u8)seqChannel->soundScriptIO[1] == 0xFF) {
+            } else if ((u8)channel->soundScriptIO[1] == 0xFF) {
                 Audio_RemoveSoundBankEntry(bankId, entryIndex);
             } else if (entry->state == SFX_STATE_PLAYING_REFRESH) {
                 Audio_SetSoundProperties(bankId, entryIndex, sCurSfxPlayerChannelIdx);
