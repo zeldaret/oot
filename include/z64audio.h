@@ -28,6 +28,35 @@
 
 #define AIBUF_LEN 0xB00
 
+typedef enum {
+    /* 0 */ MEDIUM_RAM,
+    /* 1 */ MEDIUM_UNK,
+    /* 2 */ MEDIUM_CART,
+    /* 3 */ MEDIUM_DISK_DRIVE
+} SampleMedium;
+
+typedef enum {
+    /* 0 */ CODEC_ADPCM,
+    /* 1 */ CODEC_S8,
+    /* 2 */ CODEC_S16_INMEMORY,
+    /* 3 */ CODEC_SMALL_ADPCM,
+    /* 4 */ CODEC_REVERB,
+    /* 5 */ CODEC_S16
+} SampleCodec;
+
+typedef enum {
+    /* 0 */ SEQUENCE_TABLE,
+    /* 1 */ FONT_TABLE,
+    /* 2 */ SAMPLE_TABLE
+} SampleBankTableType;
+
+typedef enum {
+    /* 0 */ CACHE_TEMPORARY,
+    /* 1 */ CACHE_PERSISTENT,
+    /* 2 */ CACHE_EITHER,
+    /* 3 */ CACHE_PERMANENT
+} AudioCacheType;
+
 typedef s32 (*DmaHandler)(OSPiHandle* handle, OSIoMesg* mb, s32 direction);
 
 struct Note;
@@ -726,28 +755,6 @@ typedef struct {
     /* 0x0D */ u8 reuseIndex; // position in sSampleDmaReuseQueue1/2, if ttl == 0
     /* 0x0E */ u8 ttl;        // duration after which the DMA can be discarded
 } SampleDma; // size = 0x10
-
-typedef enum {
-    /* 0 */ MEDIUM_RAM,
-    /* 1 */ MEDIUM_UNK,
-    /* 2 */ MEDIUM_CART,
-    /* 3 */ MEDIUM_DISK_DRIVE
-} SampleMedium;
-
-typedef enum {
-    /* 0 */ CODEC_ADPCM,
-    /* 1 */ CODEC_S8,
-    /* 2 */ CODEC_S16_INMEMORY,
-    /* 3 */ CODEC_SMALL_ADPCM,
-    /* 4 */ CODEC_REVERB,
-    /* 5 */ CODEC_S16
-} SampleCodec;
-
-typedef enum {
-    /* 0 */ SEQUENCE_TABLE,
-    /* 1 */ FONT_TABLE,
-    /* 2 */ SAMPLE_TABLE
-} SampleBankTableType;
 
 typedef struct {
     /* 0x0000 */ char unk_0000;

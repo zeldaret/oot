@@ -298,7 +298,7 @@ void AudioHeap_TemporaryCachesInit(AudioPoolSplit3* split) {
     AudioHeap_TemporaryCacheClear(&gAudioContext.sampleBankCache.temporary);
 }
 
-void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 where, s32 id) {
+void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
     AudioCache* loadedPool;
     AudioTemporaryCache* tp;
     AudioAllocPool* pool;
@@ -325,7 +325,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 where, s32 id) {
             break;
     }
 
-    if (where == 0) {
+    if (cache == CACHE_TEMPORARY) {
         tp = &loadedPool->temporary;
         pool = &tp->pool;
 
@@ -538,12 +538,12 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 where, s32 id) {
     loadedPool->persistent.entries[loadedPool->persistent.numEntries].ptr = mem;
 
     if (mem == NULL) {
-        switch (where) {
-            case 2:
-                return AudioHeap_AllocCached(tableType, size, 0, id);
+        switch (cache) {
+            case CACHE_EITHER:
+                return AudioHeap_AllocCached(tableType, size, CACHE_TEMPORARY, id);
 
-            case 0:
-            case 1:
+            case CACHE_TEMPORARY:
+            case CACHE_PERSISTENT:
                 return NULL;
         }
     }
@@ -553,25 +553,21 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 where, s32 id) {
     return loadedPool->persistent.entries[loadedPool->persistent.numEntries++].ptr;
 }
 
-void* AudioHeap_SearchCaches(s32 tableType, s32 where, s32 id) {
-    // Search order is based on 'where':
-    // 0: permanent, temporary, persistent
-    // 1: permanent, persistent
-    // 2: permanent, persistent, temporary
-    // 3: permanent
+void* AudioHeap_SearchCaches(s32 tableType, s32 cache, s32 id) {
     void* ret;
 
+    // Always search the permanent cache in addition to the regular ones.
     ret = AudioHeap_SearchPermanentCache(tableType, id);
     if (ret != NULL) {
         return ret;
     }
-    if (where == 3) {
+    if (cache == CACHE_PERMANENT) {
         return NULL;
     }
-    return AudioHeap_SearchRegularCaches(tableType, where, id);
+    return AudioHeap_SearchRegularCaches(tableType, cache, id);
 }
 
-void* AudioHeap_SearchRegularCaches(s32 tableType, s32 where, s32 fontId) {
+void* AudioHeap_SearchRegularCaches(s32 tableType, s32 cache, s32 id) {
     u32 i;
     AudioCache* loadedPool;
     AudioTemporaryCache* temporary;
@@ -590,11 +586,11 @@ void* AudioHeap_SearchRegularCaches(s32 tableType, s32 where, s32 fontId) {
     }
 
     temporary = &loadedPool->temporary;
-    if (where == 0) {
-        if (temporary->entries[0].id == fontId) {
+    if (cache == CACHE_TEMPORARY) {
+        if (temporary->entries[0].id == id) {
             temporary->nextSide = 1;
             return temporary->entries[0].ptr;
-        } else if (temporary->entries[1].id == fontId) {
+        } else if (temporary->entries[1].id == id) {
             temporary->nextSide = 0;
             return temporary->entries[1].ptr;
         } else {
@@ -604,13 +600,13 @@ void* AudioHeap_SearchRegularCaches(s32 tableType, s32 where, s32 fontId) {
 
     persistent = &loadedPool->persistent;
     for (i = 0; i < persistent->numEntries; i++) {
-        if (persistent->entries[i].id == fontId) {
+        if (persistent->entries[i].id == id) {
             return persistent->entries[i].ptr;
         }
     }
 
-    if (where == 2) {
-        return AudioHeap_SearchCaches(tableType, 0, fontId);
+    if (cache == CACHE_EITHER) {
+        return AudioHeap_SearchCaches(tableType, CACHE_TEMPORARY, id);
     }
     return NULL;
 }
@@ -1196,7 +1192,7 @@ void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry) {
         sampleBankId2 = gAudioContext.ctlEntries[fontId].sampleBankId2;
         if (((sampleBankId1 != 0xFF) && (entry->sampleBankId == sampleBankId1)) ||
             ((sampleBankId2 != 0xFF) && (entry->sampleBankId == sampleBankId2)) || entry->sampleBankId == 0) {
-            if (AudioHeap_SearchCaches(FONT_TABLE, 2, fontId) != NULL) {
+            if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) != NULL) {
                 if (AudioLoad_IsFontLoadComplete(fontId) != 0) {
                     AudioHeap_UnapplySampleCacheForFont(entry, fontId);
                 }
@@ -1253,7 +1249,8 @@ void AudioHeap_DiscardSampleCaches(void) {
         if ((sampleBankId1 == 0xFF) && (sampleBankId2 == 0xFF)) {
             continue;
         }
-        if (AudioHeap_SearchCaches(FONT_TABLE, 3, fontId) == NULL || !AudioLoad_IsFontLoadComplete(fontId)) {
+        if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_PERMANENT, fontId) == NULL ||
+            !AudioLoad_IsFontLoadComplete(fontId)) {
             continue;
         }
 
@@ -1315,7 +1312,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
 
     sampleBankTable = gAudioContext.sampleBankTable;
     numFonts = gAudioContext.soundFontTable->entryCnt;
-    change.oldAddr = AudioHeap_SearchCaches(SAMPLE_TABLE, 2, sampleBankId);
+    change.oldAddr = AudioHeap_SearchCaches(SAMPLE_TABLE, CACHE_EITHER, sampleBankId);
     if (change.oldAddr == 0) {
         return;
     }
@@ -1342,7 +1339,8 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
         sampleBankId1 = gAudioContext.ctlEntries[fontId].sampleBankId1;
         sampleBankId2 = gAudioContext.ctlEntries[fontId].sampleBankId2;
         if ((sampleBankId1 != 0xFF) || (sampleBankId2 != 0xFF)) {
-            if (!AudioLoad_IsFontLoadComplete(fontId) || AudioHeap_SearchCaches(FONT_TABLE, 2, fontId) == NULL) {
+            if (!AudioLoad_IsFontLoadComplete(fontId) ||
+                AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) == NULL) {
                 continue;
             }
 

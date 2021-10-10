@@ -1046,7 +1046,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             command = gAudioContext.sequenceFontTable[offset + lowBits - result];
                         }
 
-                        if (AudioHeap_SearchCaches(FONT_TABLE, 2, command)) {
+                        if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, command)) {
                             channel->fontId = command;
                         }
 
@@ -1157,7 +1157,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             command = gAudioContext.sequenceFontTable[offset + lowBits - result];
                         }
 
-                        if (AudioHeap_SearchCaches(FONT_TABLE, 2, command)) {
+                        if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, command)) {
                             channel->fontId = command;
                         }
 

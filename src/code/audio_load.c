@@ -688,20 +688,20 @@ void* AudioLoad_SyncLoad(u32 tableType, u32 id, s32* didAllocate) {
                 }
                 break;
             case 1:
-                ret = AudioHeap_AllocCached(tableType, size, 1, realId);
+                ret = AudioHeap_AllocCached(tableType, size, CACHE_PERSISTENT, realId);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
             case 2:
-                ret = AudioHeap_AllocCached(tableType, size, 0, realId);
+                ret = AudioHeap_AllocCached(tableType, size, CACHE_TEMPORARY, realId);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
             case 3:
             case 4:
-                ret = AudioHeap_AllocCached(tableType, size, 2, realId);
+                ret = AudioHeap_AllocCached(tableType, size, CACHE_EITHER, realId);
                 if (ret == NULL) {
                     return ret;
                 }
@@ -753,7 +753,7 @@ void* AudioLoad_SearchCaches(s32 tableType, s32 id) {
         return ret;
     }
 
-    ret = AudioHeap_SearchCaches(tableType, 2, id);
+    ret = AudioHeap_SearchCaches(tableType, CACHE_EITHER, id);
     if (ret != NULL) {
         return ret;
     }
@@ -980,20 +980,20 @@ void* AudioLoad_AsyncLoadInner(s32 tableType, s32 id, s32 nChunks, s32 retData, 
                 status = 5;
                 break;
             case 1:
-                ret = AudioHeap_AllocCached(tableType, size, 1, realId);
+                ret = AudioHeap_AllocCached(tableType, size, CACHE_PERSISTENT, realId);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
             case 2:
-                ret = AudioHeap_AllocCached(tableType, size, 0, realId);
+                ret = AudioHeap_AllocCached(tableType, size, CACHE_TEMPORARY, realId);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
             case 3:
             case 4:
-                ret = AudioHeap_AllocCached(tableType, size, 2, realId);
+                ret = AudioHeap_AllocCached(tableType, size, CACHE_EITHER, realId);
                 if (ret == NULL) {
                     return ret;
                 }
