@@ -1408,14 +1408,14 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                     if (lowBits < 8) {
                         channel->soundScriptIO[lowBits] = -1;
                         if (AudioLoad_SlowLoadSample(channel->bankId, scriptState->value,
-                                                 &channel->soundScriptIO[lowBits]) == -1) {
+                                                     &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
                     } else {
                         lowBits -= 8;
                         channel->soundScriptIO[lowBits] = -1;
                         if (AudioLoad_SlowLoadSample(channel->bankId, channel->unk_22 + 0x100,
-                                                 &channel->soundScriptIO[lowBits]) == -1) {
+                                                     &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
                     }

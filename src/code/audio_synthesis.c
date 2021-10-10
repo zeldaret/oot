@@ -868,9 +868,9 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     } else if (audioBankSample->medium == MEDIUM_UNK) {
                         return cmd;
                     } else {
-                        sampleData =
-                            AudioLoad_DmaSampleData(sampleDataStart + sampleDataOffset + sampleAddr, ALIGN16((nFramesToDecode * frameSize) + 0x10),
-                                                flags, &synthState->sampleDmaIndex, audioBankSample->medium);
+                        sampleData = AudioLoad_DmaSampleData(sampleDataStart + sampleDataOffset + sampleAddr,
+                                                             ALIGN16((nFramesToDecode * frameSize) + 0x10), flags,
+                                                             &synthState->sampleDmaIndex, audioBankSample->medium);
                     }
 
                     if (sampleData == NULL) {
@@ -903,26 +903,29 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     case CODEC_ADPCM:
                         aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
                         addr = DMEM_COMPRESSED_ADPCM_DATA - aligned;
-                        aSetBuffer(cmd++, 0, addr + sampleDataStartPad, DMEM_UNCOMPRESSED_NOTE + phi_s4, nSamplesToDecode * 2);
+                        aSetBuffer(cmd++, 0, addr + sampleDataStartPad, DMEM_UNCOMPRESSED_NOTE + phi_s4,
+                                   nSamplesToDecode * 2);
                         aADPCMdec(cmd++, flags, synthState->synthesisBuffers->adpcmdecState);
                         break;
                     case CODEC_SMALL_ADPCM:
                         aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
                         addr = DMEM_COMPRESSED_ADPCM_DATA - aligned;
-                        aSetBuffer(cmd++, 0, addr + sampleDataStartPad, DMEM_UNCOMPRESSED_NOTE + phi_s4, nSamplesToDecode * 2);
+                        aSetBuffer(cmd++, 0, addr + sampleDataStartPad, DMEM_UNCOMPRESSED_NOTE + phi_s4,
+                                   nSamplesToDecode * 2);
                         aADPCMdec(cmd++, flags | 4, synthState->synthesisBuffers->adpcmdecState);
                         break;
                     case CODEC_S8:
                         aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
                         addr = DMEM_COMPRESSED_ADPCM_DATA - aligned;
-                        AudioSynth_SetBuffer(cmd++, 0, addr + sampleDataStartPad, DMEM_UNCOMPRESSED_NOTE + phi_s4, nSamplesToDecode * 2);
+                        AudioSynth_SetBuffer(cmd++, 0, addr + sampleDataStartPad, DMEM_UNCOMPRESSED_NOTE + phi_s4,
+                                             nSamplesToDecode * 2);
                         AudioSynth_S8Dec(cmd++, flags, synthState->synthesisBuffers->adpcmdecState);
                         break;
                 }
 
                 if (nSamplesProcessed != 0) {
-                    aDMEMMove(cmd++, DMEM_UNCOMPRESSED_NOTE + phi_s4 + (nFirstFrameSamplesToIgnore * 2), DMEM_UNCOMPRESSED_NOTE + s5,
-                              nSamplesInThisIteration * 2);
+                    aDMEMMove(cmd++, DMEM_UNCOMPRESSED_NOTE + phi_s4 + (nFirstFrameSamplesToIgnore * 2),
+                              DMEM_UNCOMPRESSED_NOTE + s5, nSamplesInThisIteration * 2);
                 }
 
                 nSamplesProcessed += nSamplesInThisIteration;
