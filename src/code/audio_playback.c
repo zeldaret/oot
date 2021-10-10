@@ -718,7 +718,7 @@ void Audio_AudioListRemove(AudioListItem* item) {
     }
 }
 
-Note* Audio_PopNodeWithValueLessEqual(AudioListItem* list, s32 limit) {
+Note* Audio_FindNodeWithPrioLessThan(AudioListItem* list, s32 limit) {
     AudioListItem* cur = list->next;
     AudioListItem* best;
 
@@ -820,13 +820,13 @@ Note* AudioHeap_AllocNoteFromActive(NotePool* pool, SequenceLayer* layer) {
     s32 aPriority;
 
     rPriority = aPriority = 0x10;
-    rNote = Audio_PopNodeWithValueLessEqual(&pool->releasing, layer->channel->notePriority);
+    rNote = Audio_FindNodeWithPrioLessThan(&pool->releasing, layer->channel->notePriority);
 
     if (rNote != NULL) {
         rPriority = rNote->playbackState.priority;
     }
 
-    aNote = Audio_PopNodeWithValueLessEqual(&pool->active, layer->channel->notePriority);
+    aNote = Audio_FindNodeWithPrioLessThan(&pool->active, layer->channel->notePriority);
 
     if (aNote != NULL) {
         aPriority = aNote->playbackState.priority;

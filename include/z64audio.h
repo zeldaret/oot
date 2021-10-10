@@ -11,22 +11,24 @@
 
 #define MAX_CHANNELS_PER_BANK 3
 
-#define ADSR_STATE_DISABLED 0
-#define ADSR_STATE_INITIAL 1
-#define ADSR_STATE_START_LOOP 2
-#define ADSR_STATE_LOOP 3
-#define ADSR_STATE_FADE 4
-#define ADSR_STATE_HANG 5
-#define ADSR_STATE_DECAY 6
-#define ADSR_STATE_RELEASE 7
-#define ADSR_STATE_SUSTAIN 8
-
 #define ADSR_DISABLE 0
 #define ADSR_HANG -1
 #define ADSR_GOTO -2
 #define ADSR_RESTART -3
 
-#define AIBUF_LEN 0xB00
+#define AIBUF_LEN 0x580
+
+typedef enum {
+    /* 0 */ ADSR_STATE_DISABLED,
+    /* 1 */ ADSR_STATE_INITIAL,
+    /* 2 */ ADSR_STATE_START_LOOP,
+    /* 3 */ ADSR_STATE_LOOP,
+    /* 4 */ ADSR_STATE_FADE,
+    /* 5 */ ADSR_STATE_HANG,
+    /* 6 */ ADSR_STATE_DECAY,
+    /* 7 */ ADSR_STATE_RELEASE,
+    /* 8 */ ADSR_STATE_SUSTAIN
+} AdsrStatus;
 
 typedef enum {
     /* 0 */ MEDIUM_RAM,

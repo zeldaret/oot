@@ -705,14 +705,14 @@ void AudioHeap_UpdateReverbs(void) {
     }
 }
 
-void func_800DF888(void) {
+void AudioHeap_ClearAiBuffers(void) {
     s32 ind;
     s32 i;
 
     ind = gAudioContext.curAIBufIdx;
     gAudioContext.aiBufLengths[ind] = gAudioContext.audioBufferParameters.minAiBufferLength;
 
-    for (i = 0; i < 0x580; i++) {
+    for (i = 0; i < AIBUF_LEN; i++) {
         gAudioContext.aiBuffers[ind][i] = 0;
     }
 }
@@ -766,7 +766,7 @@ s32 AudioHeap_ResetStep(void) {
             break;
 
         case 2:
-            func_800DF888();
+            AudioHeap_ClearAiBuffers();
             if (gAudioContext.audioResetFadeOutFramesLeft != 0) {
                 gAudioContext.audioResetFadeOutFramesLeft--;
             } else {
@@ -781,7 +781,7 @@ s32 AudioHeap_ResetStep(void) {
             gAudioContext.resetStatus = 0;
             for (i = 0; i < 3; i++) {
                 gAudioContext.aiBufLengths[i] = gAudioContext.audioBufferParameters.maxAiBufferLength;
-                for (j = 0; j < 0x580; j++) {
+                for (j = 0; j < AIBUF_LEN; j++) {
                     gAudioContext.aiBuffers[i][j] = 0;
                 }
             }
@@ -1024,10 +1024,10 @@ void* AudioHeap_AllocPermanent(s32 tableType, s32 id, u32 size) {
     // return ret;
 }
 
-void* AudioHeap_AllocSampleCache(u32 size, s32 fontId, void* sampleAddr, s8 medium, s32 persistent) {
+void* AudioHeap_AllocSampleCache(u32 size, s32 fontId, void* sampleAddr, s8 medium, s32 cache) {
     SampleCacheEntry* entry;
 
-    if (persistent == false) {
+    if (cache == CACHE_TEMPORARY) {
         entry = AudioHeap_AllocTemporarySampleCacheEntry(size);
     } else {
         entry = AudioHeap_AllocPersistentSampleCacheEntry(size);

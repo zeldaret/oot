@@ -395,7 +395,8 @@ s32 AudioLoad_SyncLoadSample(SoundFontSample* sample, s32 fontId) {
 
     if (sample->unk_bit25 == 1) {
         if (sample->medium != MEDIUM_RAM) {
-            sampleAddr = AudioHeap_AllocSampleCache(sample->size, fontId, (void*)sample->sampleAddr, sample->medium, 1);
+            sampleAddr = AudioHeap_AllocSampleCache(sample->size, fontId, (void*)sample->sampleAddr, sample->medium,
+                                                    CACHE_PERSISTENT);
             if (sampleAddr == NULL) {
                 return -1;
             }
@@ -1124,7 +1125,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     AudioHeap_InitMainPools(D_8014A6C4.initPoolSize);
 
     for (i = 0; i < 3; i++) {
-        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.audioInitPool, AIBUF_LEN);
+        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.audioInitPool, AIBUF_LEN * sizeof(s16));
     }
 
     gAudioContext.sequenceTable = (AudioTable*)gSequenceTable;
@@ -1184,7 +1185,8 @@ s32 AudioLoad_SlowLoadSample(s32 fontId, s32 instId, s8* isDone) {
 
     slowLoad->sample = *sample;
     slowLoad->isDone = isDone;
-    slowLoad->curRamAddr = AudioHeap_AllocSampleCache(sample->size, fontId, sample->sampleAddr, sample->medium, 0);
+    slowLoad->curRamAddr =
+        AudioHeap_AllocSampleCache(sample->size, fontId, sample->sampleAddr, sample->medium, CACHE_TEMPORARY);
 
     if (slowLoad->curRamAddr == NULL) {
         if (sample->medium == MEDIUM_UNK || sample->codec == CODEC_S16_INMEMORY) {
@@ -1619,28 +1621,28 @@ void AudioLoad_RelocateFontAndPreloadSamples(s32 fontId, SoundFontData* mem, Rel
         addr = NULL;
         switch (async) {
             case false:
-                // Load into persistent pool
                 if (sample->medium == relocInfo->medium1) {
                     addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr,
-                                                      sample->medium, true);
+                                                      sample->medium, CACHE_PERSISTENT);
                 } else if (sample->medium == relocInfo->medium2) {
                     addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr,
-                                                      sample->medium, true);
+                                                      sample->medium, CACHE_PERSISTENT);
                 } else if (sample->medium == MEDIUM_DISK_DRIVE) {
-                    addr = AudioHeap_AllocSampleCache(sample->size, 0xFE, sample->sampleAddr, sample->medium, true);
+                    addr = AudioHeap_AllocSampleCache(sample->size, 0xFE, sample->sampleAddr, sample->medium,
+                                                      CACHE_PERSISTENT);
                 }
                 break;
 
             case true:
-                // Load into temporary pool
                 if (sample->medium == relocInfo->medium1) {
                     addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr,
-                                                      sample->medium, false);
+                                                      sample->medium, CACHE_TEMPORARY);
                 } else if (sample->medium == relocInfo->medium2) {
                     addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr,
-                                                      sample->medium, false);
+                                                      sample->medium, CACHE_TEMPORARY);
                 } else if (sample->medium == MEDIUM_DISK_DRIVE) {
-                    addr = AudioHeap_AllocSampleCache(sample->size, 0xFE, sample->sampleAddr, sample->medium, false);
+                    addr = AudioHeap_AllocSampleCache(sample->size, 0xFE, sample->sampleAddr, sample->medium,
+                                                      CACHE_TEMPORARY);
                 }
                 break;
         }
@@ -1882,24 +1884,22 @@ void AudioLoad_PreloadSamplesForFont(s32 fontId, s32 async, RelocInfo* relocInfo
 
         switch (async) {
             case false:
-                // Load into persistent pool
                 if (sample->medium == relocInfo->medium1) {
                     addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr,
-                                                      sample->medium, true);
+                                                      sample->medium, CACHE_PERSISTENT);
                 } else if (sample->medium == relocInfo->medium2) {
                     addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr,
-                                                      sample->medium, true);
+                                                      sample->medium, CACHE_PERSISTENT);
                 }
                 break;
 
             case true:
-                // Load into temporary pool
                 if (sample->medium == relocInfo->medium1) {
                     addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId1, sample->sampleAddr,
-                                                      sample->medium, false);
+                                                      sample->medium, CACHE_TEMPORARY);
                 } else if (sample->medium == relocInfo->medium2) {
                     addr = AudioHeap_AllocSampleCache(sample->size, relocInfo->sampleBankId2, sample->sampleAddr,
-                                                      sample->medium, false);
+                                                      sample->medium, CACHE_TEMPORARY);
                 }
                 break;
         }
