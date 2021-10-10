@@ -45,7 +45,7 @@ glabel sSoundBankUnused
 glabel gActiveSounds
     .space 0xA8
 
-glabel sCurSfxPlayerChannel
+glabel sCurSfxPlayerChannelIdx
     .space 0x4
 
 glabel gSoundBankMuted

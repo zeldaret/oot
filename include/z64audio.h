@@ -3,11 +3,6 @@
 
 #define MK_CMD(b0,b1,b2,b3) ((((b0) & 0xFF) << 0x18) | (((b1) & 0xFF) << 0x10) | (((b2) & 0xFF) << 0x8) | (((b3) & 0xFF) << 0))
 
-/**
- * Structs in this repository have primarily been imported from the SM64 Decompilation.
- * Some struct members may be wrong; the symbol '?' next to an offset means the member is a guess.
- */
-
 #define NO_LAYER ((SequenceChannelLayer*)(-1))
 #define NO_CHANNEL ((SequenceChannel*)(-1))
 
@@ -200,7 +195,7 @@ typedef struct {
     /* 0x14 */ u8 remLoopIters[4];
     /* 0x18 */ u8 depth;
     /* 0x19 */ s8 value;
-} M64ScriptState; // size = 0x1C
+} SeqScriptState; // size = 0x1C
 
 // Also known as a Group, according to debug strings.
 typedef struct {
@@ -209,7 +204,7 @@ typedef struct {
     /* 0x000 */ u8 muted : 1;
     /* 0x000 */ u8 seqDmaInProgress : 1;
     /* 0x000 */ u8 fontDmaInProgress : 1;
-    /*?0x000 */ u8 recalculateVolume : 1;
+    /* 0x000 */ u8 recalculateVolume : 1;
     /* 0x000 */ u8 stopScript : 1;
     /* 0x000 */ u8 unk_0b1 : 1;
     /* 0x001 */ u8 state;
@@ -235,23 +230,14 @@ typedef struct {
     /* 0x030 */ f32 appliedFadeVolume;
     /* 0x034 */ f32 unk_34;
     /* 0x038 */ struct SequenceChannel* channels[16];
-    /* 0x078 */ M64ScriptState scriptState;
+    /* 0x078 */ SeqScriptState scriptState;
     /* 0x094 */ u8* shortNoteVelocityTable;
     /* 0x098 */ u8* shortNoteGateTimeTable;
     /* 0x09C */ NotePool notePool;
     /* 0x0DC */ s32 skipTicks;
     /* 0x0E0 */ u32 scriptCounter;
-    /* 0x0E4 */ u8 pad_E4[0x10]; // OSMesgQueue seqDmaMesgQueue;
-    /*?0x0F4 */ OSMesg seqDmaMesg;
-    /*?0x0F8 */ OSIoMesg seqDmaIoMesg;
-    /*?0x110 */ OSMesgQueue fontDmaMesgQueue;
-    /*?0x128 */ OSMesg fontDmaMesg;
-    /*?0x12C */ OSIoMesg fontDmaIoMesg;
-    /*?0x144 */ u8* fontDmaCurrMemAddr;
-    /*?0x148 */ u32 fontDmaCurrDevAddr;
-    /*?0x14C */ s32 fontDmaRemaining;
-    /*       */ u8 pad_150[8];
-    /* 0x158 */ s8 unk_158[8]; // "port" according to debug strings. seqVariationEu? soundScriptIO?
+    /* 0x0E4 */ char unk_E4[0x74]; // unused struct members for sequence/sound font dma management, according to sm64 decomp
+    /* 0x158 */ s8 soundScriptIO[8];
 } SequencePlayer; // size = 0x160
 
 typedef struct {
@@ -283,8 +269,7 @@ typedef struct {
 } AdsrState;
 
 typedef struct {
-    /* 0x00 */ u8 bit0 : 1; // unused?
-    /* 0x00 */ u8 bit1 : 1; // unused?
+    /* 0x00 */ u8 unused : 2;
     /* 0x00 */ u8 bit2 : 2;
     /* 0x00 */ u8 strongRight : 1;
     /* 0x00 */ u8 strongLeft : 1;
@@ -310,8 +295,7 @@ typedef struct {
     /* 0x14 */ s16 filterBuf[8];
 } NoteAttributes; // size = 0x24
 
-// Also known as a SubTrack, according to debug strings.
-// Confusingly, a SubTrack is a container of Tracks.
+// Also known as a SubTrack, according to sm64 debug strings.
 typedef struct SequenceChannel {
     /* 0x00 */ u8 enabled : 1;
     /* 0x00 */ u8 finished : 1;
@@ -367,15 +351,15 @@ typedef struct SequenceChannel {
     /* 0x48 */ Instrument* instrument;
     /* 0x4C */ SequencePlayer* seqPlayer;
     /* 0x50 */ struct SequenceChannelLayer* layers[4];
-    /* 0x60 */ M64ScriptState scriptState;
+    /* 0x60 */ SeqScriptState scriptState;
     /* 0x7C */ AdsrSettings adsr;
     /* 0x84 */ NotePool notePool;
-    /* 0xC4 */ s8 soundScriptIO[8]; // bridge between sound script and audio lib
+    /* 0xC4 */ s8 soundScriptIO[8]; // bridge between sound script and audio lib, "io ports"
     /* 0xCC */ s16* filter;
     /* 0xD0 */ Stereo stereo;
 } SequenceChannel; // size = 0xD4
 
-// Also known as a Track, according to debug strings.
+// Might also be known as a Track, according to sm64 debug strings (?).
 typedef struct SequenceChannelLayer {
     /* 0x00 */ u8 enabled : 1;
     /* 0x00 */ u8 finished : 1;
@@ -397,7 +381,7 @@ typedef struct SequenceChannelLayer {
     /* 0x0C */ s16 delay2;
     /* 0x0E */ u16 portamentoTime;
     /* 0x10 */ s16 transposition; // #semitones added to play commands
-                                  // (m64 instruction encoding only allows referring to the limited range
+                                  // (seq instruction encoding only allows referring to the limited range
                                   // 0..0x3F; this makes 0x40..0x7F accessible as well)
     /* 0x12 */ s16 shortNoteDefaultDelay;
     /* 0x14 */ s16 lastDelay;
@@ -413,7 +397,7 @@ typedef struct SequenceChannelLayer {
     /* 0x48 */ Instrument* instrument;
     /* 0x4C */ SoundFontSound* sound;
     /* 0x50 */ SequenceChannel* seqChannel;
-    /* 0x54 */ M64ScriptState scriptState;
+    /* 0x54 */ SeqScriptState scriptState;
     /* 0x70 */ AudioListItem listItem;
 } SequenceChannelLayer; // size = 0x80
 
@@ -480,12 +464,12 @@ typedef struct {
     struct {
         /* 0x00 */ volatile u8 enabled : 1;
         /* 0x00 */ u8 needsInit : 1;
-        /*?0x00 */ u8 finished : 1;
+        /* 0x00 */ u8 finished : 1; // ?
         /* 0x00 */ u8 unused : 1;
         /* 0x00 */ u8 stereoStrongRight : 1;
         /* 0x00 */ u8 stereoStrongLeft : 1;
         /* 0x00 */ u8 stereoHeadsetEffects : 1;
-        /*?0x00 */ u8 usesHeadsetPanEffects : 1;
+        /* 0x00 */ u8 usesHeadsetPanEffects : 1; // ?
     } bitField0;
     struct {
         /* 0x01 */ u8 reverbIndex : 3;
@@ -986,7 +970,7 @@ typedef struct {
     /* 0x2B */ u8       freshness;
     /* 0x2C */ u8       prev;
     /* 0x2D */ u8       next;
-    /* 0x2E */ u8       channel;
+    /* 0x2E */ u8       channelIdx;
     /* 0x2F */ u8       unk_2F;
 } SoundBankEntry; // size = 0x30
 

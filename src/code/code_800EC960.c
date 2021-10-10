@@ -1604,7 +1604,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 for (k2 = 0; k2 < gChannelsPerBank[gSfxChannelLayout][k]; k2++) {
 #define entryIndex (gActiveSounds[k][k2].entryIndex)
 #define entry (&gSoundBanks[k][entryIndex])
-#define chan (gAudioContext.seqPlayers[2].channels[entry->channel])
+#define chan (gAudioContext.seqPlayers[2].channels[entry->channelIdx])
                     GfxPrint_SetPos(printer, 2 + sAudioIntInfoX, 5 + ind + sAudioIntInfoY);
                     if (sAudioIntInfoBankPage[k] == 1) {
                         if ((entryIndex != 0xFF) &&
@@ -1989,28 +1989,28 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 7);
-            GfxPrint_Printf(printer, "NEXT SCENE %02X %s", (u8)gAudioContext.seqPlayers[0].unk_158[2],
-                            sAudioSceneNames[(u8)gAudioContext.seqPlayers[0].unk_158[2]]);
+            GfxPrint_Printf(printer, "NEXT SCENE %02X %s", (u8)gAudioContext.seqPlayers[0].soundScriptIO[2],
+                            sAudioSceneNames[(u8)gAudioContext.seqPlayers[0].soundScriptIO[2]]);
 
             GfxPrint_SetPos(printer, 3, 8);
-            GfxPrint_Printf(printer, "NOW SCENE  %02X %s", (u8)gAudioContext.seqPlayers[0].unk_158[4],
-                            sAudioSceneNames[(u8)gAudioContext.seqPlayers[0].unk_158[4]]);
+            GfxPrint_Printf(printer, "NOW SCENE  %02X %s", (u8)gAudioContext.seqPlayers[0].soundScriptIO[4],
+                            sAudioSceneNames[(u8)gAudioContext.seqPlayers[0].soundScriptIO[4]]);
 
             GfxPrint_SetPos(printer, 3, 9);
-            GfxPrint_Printf(printer, "NOW BLOCK  %02X", (gAudioContext.seqPlayers[0].unk_158[5] + 1) & 0xFF);
+            GfxPrint_Printf(printer, "NOW BLOCK  %02X", (gAudioContext.seqPlayers[0].soundScriptIO[5] + 1) & 0xFF);
 
             GfxPrint_SetPos(printer, 3, 11);
             GfxPrint_Printf(printer, "PORT");
 
             GfxPrint_SetPos(printer, 3, 12);
-            GfxPrint_Printf(printer, "%02X %02X %02X %02X", (u8)gAudioContext.seqPlayers[0].unk_158[0],
-                            (u8)gAudioContext.seqPlayers[0].unk_158[1], (u8)gAudioContext.seqPlayers[0].unk_158[2],
-                            (u8)gAudioContext.seqPlayers[0].unk_158[3]);
+            GfxPrint_Printf(printer, "%02X %02X %02X %02X", (u8)gAudioContext.seqPlayers[0].soundScriptIO[0],
+                            (u8)gAudioContext.seqPlayers[0].soundScriptIO[1], (u8)gAudioContext.seqPlayers[0].soundScriptIO[2],
+                            (u8)gAudioContext.seqPlayers[0].soundScriptIO[3]);
 
             GfxPrint_SetPos(printer, 3, 13);
-            GfxPrint_Printf(printer, "%02X %02X %02X %02X", (u8)gAudioContext.seqPlayers[0].unk_158[4],
-                            (u8)gAudioContext.seqPlayers[0].unk_158[5], (u8)gAudioContext.seqPlayers[0].unk_158[6],
-                            (u8)gAudioContext.seqPlayers[0].unk_158[7]);
+            GfxPrint_Printf(printer, "%02X %02X %02X %02X", (u8)gAudioContext.seqPlayers[0].soundScriptIO[4],
+                            (u8)gAudioContext.seqPlayers[0].soundScriptIO[5], (u8)gAudioContext.seqPlayers[0].soundScriptIO[6],
+                            (u8)gAudioContext.seqPlayers[0].soundScriptIO[7]);
             break;
 
         case PAGE_OCARINA_TEST:
@@ -3614,7 +3614,7 @@ void func_800F56A8(void) {
     bvar = temp_v0 & 0xFF;
     if ((temp_v0 != 0xFFFF) && ((D_80130658[bvar] & 0x10) != 0)) {
         if (D_8013062C != 0xC0) {
-            D_8013062C = gAudioContext.seqPlayers->unk_158[3];
+            D_8013062C = gAudioContext.seqPlayers->soundScriptIO[3];
         } else {
             D_8013062C = 0;
         }

@@ -563,7 +563,7 @@ s8 func_800E6070(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
 }
 
 s8 func_800E60C4(s32 arg0, s32 arg1) {
-    return gAudioContext.seqPlayers[arg0].unk_158[arg1];
+    return gAudioContext.seqPlayers[arg0].soundScriptIO[arg1];
 }
 
 void Audio_InitExternalPool(void* mem, u32 size) {
@@ -596,7 +596,7 @@ void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
             seqPlayer->transposition = cmd->asSbyte;
             return;
         case 0x46:
-            seqPlayer->unk_158[cmd->arg2] = cmd->asSbyte;
+            seqPlayer->soundScriptIO[cmd->arg2] = cmd->asSbyte;
             return;
         case 0x4A:
             fadeVolume = (s32)cmd->arg1 / 127.0f;
