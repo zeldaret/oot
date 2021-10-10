@@ -903,7 +903,6 @@ void* D_808129D4[3][4] = {
 void* sOptionsButtonLabels[] = { gTitleStaticOptionsButtonENGTex, gTitleStaticOptionsButtonGERTex,
                                  gTitleStaticOptionsButtonENGTex };
 
-#ifdef NON_MATCHING
 void func_8080E074(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     s16 phi_s0;
@@ -936,9 +935,9 @@ void func_8080E074(FileChooseContext* thisx) {
                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
-    gDPPipeSync(POLY_OPA_DISP++);
-
     phi_s5 = 4;
+
+    gDPPipeSync(POLY_OPA_DISP++);
 
     for (phi_s0 = 0; phi_s0 < 3; phi_s0++, phi_s5 += 20) {
         gDPPipeSync(POLY_OPA_DISP++);
@@ -1021,7 +1020,7 @@ void func_8080E074(FileChooseContext* thisx) {
         phi_s5 = this->unk_1CAAE[phi_t3];
 
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
-                        this->confirmButtonAlpha[phi_s5] & 0xFF);
+                        this->confirmButtonAlpha[phi_t3]);
         gDPLoadTextureBlock(POLY_OPA_DISP++, D_808129D4[gSaveContext.language][phi_s5], G_IM_FMT_IA, G_IM_SIZ_16b, 64,
                             16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
@@ -1067,10 +1066,6 @@ void func_8080E074(FileChooseContext* thisx) {
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA);
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2198);
 }
-#else
-void func_8080E074(FileChooseContext* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080E074.s")
-#endif
 
 void FileChoose_ConfigModeDraw(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
