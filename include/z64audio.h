@@ -879,7 +879,6 @@ typedef struct {
     /* 0x5BD8 */ u8 cmdWrPos;
     /* 0x5BD9 */ u8 cmdRdPos;
     /* 0x5BDA */ u8 cmdQueueFinished;
-    /* 0x5BDB */ char unk_5BDB[0x1];
     /* 0x5BDC */ u16 unk_5BDC[4];
     /* 0x5BE4 */ OSMesgQueue* audioResetQueueP;
     /* 0x5BE8 */ OSMesgQueue* taskStartQueueP;
@@ -937,22 +936,18 @@ typedef struct {
     /* 0x020 */ f32 unk_20;
     /* 0x024 */ f32 unk_24;
     /* 0x028 */ u16 unk_28;
-    /* 0x02A */ char unk_2A[0x2];
     /* 0x02C */ u32 unk_2C[8];
     /* 0x04C */ u8 unk_4C;
     /* 0x04D */ u8 unk_4D;
     /* 0x04E */ u8 unk_4E;
-    /* 0x04F */ char unk_4F;
     /* 0x050 */ unk_50_s unk_50[0x10];
     /* 0x250 */ u16 unk_250;
     /* 0x252 */ u16 unk_252;
     /* 0x254 */ u16 unk_254;
     /* 0x256 */ u16 unk_256;
     /* 0x258 */ u16 unk_258;
-    /* 0x25A */ char unk_25A[0x2];
     /* 0x25C */ u32 unk_25C;
     /* 0x260 */ u8 unk_260;
-    /* 0x261 */ char unk_261[0x3];
 } unk_D_8016E750; // size = 0x264
 
 typedef enum {
