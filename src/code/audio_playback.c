@@ -295,8 +295,8 @@ void Audio_ProcessNotes(void) {
     }
 }
 
-AudioBankSound* Audio_InstrumentGetAudioBankSound(Instrument* instrument, s32 semitone) {
-    AudioBankSound* sound;
+SoundFontSound* Audio_InstrumentGetSoundFontSound(Instrument* instrument, s32 semitone) {
+    SoundFontSound* sound;
     if (semitone < instrument->normalRangeLo) {
         sound = &instrument->lowNotesSound;
     } else if (semitone <= instrument->normalRangeHi) {
@@ -307,85 +307,85 @@ AudioBankSound* Audio_InstrumentGetAudioBankSound(Instrument* instrument, s32 se
     return sound;
 }
 
-Instrument* Audio_GetInstrumentInner(s32 bankId, s32 instId) {
+Instrument* Audio_GetInstrumentInner(s32 fontId, s32 instId) {
     Instrument* inst;
 
-    if (bankId == 0xFF) {
+    if (fontId == 0xFF) {
         return NULL;
     }
 
-    if (!AudioLoad_IsBankLoadComplete(bankId)) {
-        gAudioContext.audioErrorFlags = bankId + 0x10000000;
+    if (!AudioLoad_IsFontLoadComplete(fontId)) {
+        gAudioContext.audioErrorFlags = fontId + 0x10000000;
         return NULL;
     }
 
-    if (instId >= gAudioContext.ctlEntries[bankId].numInstruments) {
-        gAudioContext.audioErrorFlags = ((bankId << 8) + instId) + 0x3000000;
+    if (instId >= gAudioContext.ctlEntries[fontId].numInstruments) {
+        gAudioContext.audioErrorFlags = ((fontId << 8) + instId) + 0x3000000;
         return NULL;
     }
 
-    inst = gAudioContext.ctlEntries[bankId].instruments[instId];
+    inst = gAudioContext.ctlEntries[fontId].instruments[instId];
     if (inst == NULL) {
-        gAudioContext.audioErrorFlags = ((bankId << 8) + instId) + 0x1000000;
+        gAudioContext.audioErrorFlags = ((fontId << 8) + instId) + 0x1000000;
         return inst;
     }
 
     return inst;
 }
 
-Drum* Audio_GetDrum(s32 bankId, s32 drumId) {
+Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
     Drum* drum;
 
-    if (bankId == 0xFF) {
+    if (fontId == 0xFF) {
         return NULL;
     }
 
-    if (!AudioLoad_IsBankLoadComplete(bankId)) {
-        gAudioContext.audioErrorFlags = bankId + 0x10000000;
+    if (!AudioLoad_IsFontLoadComplete(fontId)) {
+        gAudioContext.audioErrorFlags = fontId + 0x10000000;
         return NULL;
     }
 
-    if (drumId >= gAudioContext.ctlEntries[bankId].numDrums) {
-        gAudioContext.audioErrorFlags = ((bankId << 8) + drumId) + 0x4000000;
+    if (drumId >= gAudioContext.ctlEntries[fontId].numDrums) {
+        gAudioContext.audioErrorFlags = ((fontId << 8) + drumId) + 0x4000000;
         return NULL;
     }
-    if ((u32)gAudioContext.ctlEntries[bankId].drums < 0x80000000U) {
+    if ((u32)gAudioContext.ctlEntries[fontId].drums < 0x80000000U) {
         return NULL;
     }
-    drum = gAudioContext.ctlEntries[bankId].drums[drumId];
+    drum = gAudioContext.ctlEntries[fontId].drums[drumId];
 
     if (drum == NULL) {
-        gAudioContext.audioErrorFlags = ((bankId << 8) + drumId) + 0x5000000;
+        gAudioContext.audioErrorFlags = ((fontId << 8) + drumId) + 0x5000000;
     }
 
     return drum;
 }
 
-AudioBankSound* Audio_GetSfx(s32 bankId, s32 sfxId) {
-    AudioBankSound* sfx;
+SoundFontSound* Audio_GetSfx(s32 fontId, s32 sfxId) {
+    SoundFontSound* sfx;
 
-    if (bankId == 0xFF) {
+    if (fontId == 0xFF) {
         return NULL;
     }
 
-    if (!AudioLoad_IsBankLoadComplete(bankId)) {
-        gAudioContext.audioErrorFlags = bankId + 0x10000000;
+    if (!AudioLoad_IsFontLoadComplete(fontId)) {
+        gAudioContext.audioErrorFlags = fontId + 0x10000000;
         return NULL;
     }
 
-    if (sfxId >= gAudioContext.ctlEntries[bankId].numSfx) {
-        gAudioContext.audioErrorFlags = ((bankId << 8) + sfxId) + 0x4000000;
+    if (sfxId >= gAudioContext.ctlEntries[fontId].numSfx) {
+        gAudioContext.audioErrorFlags = ((fontId << 8) + sfxId) + 0x4000000;
         return NULL;
     }
 
-    if ((u32)gAudioContext.ctlEntries[bankId].soundEffects < 0x80000000U) {
+    if ((u32)gAudioContext.ctlEntries[fontId].soundEffects < 0x80000000U) {
         return NULL;
     }
 
-    sfx = &gAudioContext.ctlEntries[bankId].soundEffects[sfxId];
+    sfx = &gAudioContext.ctlEntries[fontId].soundEffects[sfxId];
 
     if (sfx == NULL) {
-        gAudioContext.audioErrorFlags = ((bankId << 8) + sfxId) + 0x5000000;
+        gAudioContext.audioErrorFlags = ((fontId << 8) + sfxId) + 0x5000000;
     }
 
     if (sfx->sample == NULL) {
@@ -395,35 +395,35 @@ AudioBankSound* Audio_GetSfx(s32 bankId, s32 sfxId) {
     return sfx;
 }
 
-s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, void* arg3) {
-    if (bankId == 0xFF) {
+s32 func_800E7744(s32 instrument, s32 fontId, s32 instId, void* arg3) {
+    if (fontId == 0xFF) {
         return -1;
     }
 
-    if (!AudioLoad_IsBankLoadComplete(bankId)) {
+    if (!AudioLoad_IsFontLoadComplete(fontId)) {
         return -2;
     }
 
     switch (instrument) {
         case 0:
-            if (instId >= gAudioContext.ctlEntries[bankId].numDrums) {
+            if (instId >= gAudioContext.ctlEntries[fontId].numDrums) {
                 return -3;
             }
-            gAudioContext.ctlEntries[bankId].drums[instId] = arg3;
+            gAudioContext.ctlEntries[fontId].drums[instId] = arg3;
             break;
 
         case 1:
-            if (instId >= gAudioContext.ctlEntries[bankId].numSfx) {
+            if (instId >= gAudioContext.ctlEntries[fontId].numSfx) {
                 return -3;
             }
-            gAudioContext.ctlEntries[bankId].soundEffects[instId] = *(AudioBankSound*)arg3;
+            gAudioContext.ctlEntries[fontId].soundEffects[instId] = *(SoundFontSound*)arg3;
             break;
 
         default:
-            if (instId >= gAudioContext.ctlEntries[bankId].numInstruments) {
+            if (instId >= gAudioContext.ctlEntries[fontId].numInstruments) {
                 return -3;
             }
-            gAudioContext.ctlEntries[bankId].instruments[instId] = arg3;
+            gAudioContext.ctlEntries[fontId].instruments[instId] = arg3;
             break;
     }
 
@@ -764,7 +764,7 @@ void Audio_NoteInitForLayer(Note* note, SequenceChannelLayer* seqLayer) {
     if (instId == 0xff) {
         instId = seqLayer->seqChannel->instOrWave;
     }
-    sub->sound.audioBankSound = seqLayer->sound;
+    sub->sound.soundFontSound = seqLayer->sound;
 
     if (instId >= 0x80 && instId < 0xC0) {
         sub->bitField1.isSyntheticWave = true;
@@ -776,7 +776,7 @@ void Audio_NoteInitForLayer(Note* note, SequenceChannelLayer* seqLayer) {
         Audio_BuildSyntheticWave(note, seqLayer, instId);
     }
 
-    playback->bankId = seqLayer->seqChannel->bankId;
+    playback->fontId = seqLayer->seqChannel->fontId;
     playback->stereoHeadsetEffects = seqLayer->seqChannel->stereoHeadsetEffects;
     sub->bitField1.reverbIndex = seqLayer->seqChannel->reverbIndex & 3;
 }

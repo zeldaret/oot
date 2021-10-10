@@ -104,12 +104,12 @@ typedef struct {
     /* 0x04 */ u8* sampleAddr;
     /* 0x08 */ AdpcmLoop* loop;
     /* 0x0C */ AdpcmBook* book;
-} AudioBankSample; // size = 0x10
+} SoundFontSample; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ AudioBankSample* sample;
+    /* 0x00 */ SoundFontSample* sample;
     /* 0x04 */ f32 tuning; // frequency scale factor
-} AudioBankSound; // size = 0x8
+} SoundFontSound; // size = 0x8
 
 typedef struct {
     /* 0x00 */ s16 numSamplesAfterDownsampling; // never read
@@ -159,8 +159,8 @@ typedef struct {
     /* 0x274 */ s16* filterRight;
     /* 0x278 */ s16* filterLeftState;
     /* 0x27C */ s16* filterRightState;
-    /* 0x280 */ AudioBankSound sound;
-    /* 0x288 */ AudioBankSample sample;
+    /* 0x280 */ SoundFontSound sound;
+    /* 0x288 */ SoundFontSample sample;
     /* 0x298 */ AdpcmLoop loop;
 } SynthesisReverb; // size = 0x2C8
 
@@ -170,16 +170,16 @@ typedef struct {
     /* 0x02 */ u8 normalRangeHi;
     /* 0x03 */ u8 releaseRate;
     /* 0x04 */ AdsrEnvelope* envelope;
-    /* 0x08 */ AudioBankSound lowNotesSound;
-    /* 0x10 */ AudioBankSound normalNotesSound;
-    /* 0x18 */ AudioBankSound highNotesSound;
+    /* 0x08 */ SoundFontSound lowNotesSound;
+    /* 0x10 */ SoundFontSound normalNotesSound;
+    /* 0x18 */ SoundFontSound highNotesSound;
 } Instrument; // size = 0x20
 
 typedef struct {
     /* 0x00 */ u8 releaseRate;
     /* 0x01 */ u8 pan;
     /* 0x02 */ u8 loaded;
-    /* 0x04 */ AudioBankSound sound;
+    /* 0x04 */ SoundFontSound sound;
     /* 0x14 */ AdsrEnvelope* envelope;
 } Drum; // size = 0x14
 
@@ -191,7 +191,7 @@ typedef struct {
     /* 0x04 */ u16 numSfx;
     /* 0x08 */ Instrument** instruments;
     /* 0x0C */ Drum** drums;
-    /* 0x10 */ AudioBankSound* soundEffects;
+    /* 0x10 */ SoundFontSound* soundEffects;
 } CtlEntry; // size = 0x14
 
 typedef struct {
@@ -208,7 +208,7 @@ typedef struct {
     /* 0x000 */ u8 finished : 1;
     /* 0x000 */ u8 muted : 1;
     /* 0x000 */ u8 seqDmaInProgress : 1;
-    /* 0x000 */ u8 bankDmaInProgress : 1;
+    /* 0x000 */ u8 fontDmaInProgress : 1;
     /*?0x000 */ u8 recalculateVolume : 1;
     /* 0x000 */ u8 stopScript : 1;
     /* 0x000 */ u8 unk_0b1 : 1;
@@ -216,7 +216,7 @@ typedef struct {
     /* 0x002 */ u8 noteAllocPolicy;
     /* 0x003 */ u8 muteBehavior;
     /* 0x004 */ u8 seqId;
-    /* 0x005 */ u8 defaultBank;
+    /* 0x005 */ u8 defaultFont;
     /* 0x006 */ u8 unk_06[1];
     /* 0x007 */ s8 playerIdx;
     /* 0x008 */ u16 tempo; // tatums per minute
@@ -244,12 +244,12 @@ typedef struct {
     /* 0x0E4 */ u8 pad_E4[0x10]; // OSMesgQueue seqDmaMesgQueue;
     /*?0x0F4 */ OSMesg seqDmaMesg;
     /*?0x0F8 */ OSIoMesg seqDmaIoMesg;
-    /*?0x110 */ OSMesgQueue bankDmaMesgQueue;
-    /*?0x128 */ OSMesg bankDmaMesg;
-    /*?0x12C */ OSIoMesg bankDmaIoMesg;
-    /*?0x144 */ u8* bankDmaCurrMemAddr;
-    /*?0x148 */ u32 bankDmaCurrDevAddr;
-    /*?0x14C */ s32 bankDmaRemaining;
+    /*?0x110 */ OSMesgQueue fontDmaMesgQueue;
+    /*?0x128 */ OSMesg fontDmaMesg;
+    /*?0x12C */ OSIoMesg fontDmaIoMesg;
+    /*?0x144 */ u8* fontDmaCurrMemAddr;
+    /*?0x148 */ u32 fontDmaCurrDevAddr;
+    /*?0x14C */ s32 fontDmaRemaining;
     /*       */ u8 pad_150[8];
     /* 0x158 */ s8 unk_158[8]; // "port" according to debug strings. seqVariationEu? soundScriptIO?
 } SequencePlayer; // size = 0x160
@@ -334,7 +334,7 @@ typedef struct SequenceChannel {
     /* 0x04 */ u8 reverb;       // or dry/wet mix
     /* 0x05 */ u8 notePriority; // 0-3
     /* 0x06 */ u8 someOtherPriority;
-    /* 0x07 */ u8 bankId;
+    /* 0x07 */ u8 fontId;
     /* 0x08 */ u8 reverbIndex;
     /* 0x09 */ u8 bookOffset;
     /* 0x0A */ u8 newPan;
@@ -411,7 +411,7 @@ typedef struct SequenceChannelLayer {
     /* 0x40 */ f32 noteVelocity;
     /* 0x44 */ f32 noteFreqScale;
     /* 0x48 */ Instrument* instrument;
-    /* 0x4C */ AudioBankSound* sound;
+    /* 0x4C */ SoundFontSound* sound;
     /* 0x50 */ SequenceChannel* seqChannel;
     /* 0x54 */ M64ScriptState scriptState;
     /* 0x70 */ AudioListItem listItem;
@@ -462,7 +462,7 @@ typedef struct {
     /* 0x00 */ u8 priority;
     /* 0x01 */ u8 waveId;
     /* 0x02 */ u8 sampleCountIndex;
-    /* 0x03 */ u8 bankId;
+    /* 0x03 */ u8 fontId;
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 stereoHeadsetEffects;
     /* 0x06 */ s16 adsrVolScale; // unused
@@ -505,7 +505,7 @@ typedef struct {
     /* 0x0C */ u16 resamplingRateFixedPoint;
     /* 0x0E */ u16 unk_0E;
     /* 0x10 */ union {
-                 AudioBankSound* audioBankSound;
+                 SoundFontSound* soundFontSound;
                  s16* samples; // used for synthetic waves
              } sound;
     /* 0x14 */ s16* filter;
@@ -550,10 +550,10 @@ typedef struct {
     /* 0x12 */ u16 sampleDmaBufSize2;
     /* 0x14 */ u16 unk_14;
     /* 0x18 */ u32 persistentSeqMem;
-    /* 0x1C */ u32 persistentBankMem;
+    /* 0x1C */ u32 persistentFontMem;
     /* 0x20 */ u32 persistentSampleMem;
     /* 0x24 */ u32 temporarySeqMem;
-    /* 0x28 */ u32 temporaryBankMem;
+    /* 0x28 */ u32 temporaryFontMem;
     /* 0x2C */ u32 temporarySampleMem;
     /* 0x30 */ s32 persistentSampleCacheMem;
     /* 0x34 */ s32 temporarySampleCacheMem;
@@ -635,20 +635,20 @@ typedef struct {
 
 typedef struct {
     u32 wantSeq;
-    u32 wantBank;
+    u32 wantFont;
     u32 wantSample;
 } AudioPoolSplit3; // size = 0xC
 
 typedef struct {
     u32 wantSeq;
-    u32 wantBank;
+    u32 wantFont;
     u32 wantSample;
     u32 wantCustom;
 } AudioPoolSplit4; // size = 0x10
 
 typedef struct {
     /* 0x00 */ u32 endAndMediumKey;
-    /* 0x04 */ AudioBankSample* sample;
+    /* 0x04 */ SoundFontSample* sample;
     /* 0x08 */ u8* ramAddr;
     /* 0x0C */ u32 encodedInfo;
     /* 0x10 */ s32 isFree;
@@ -694,7 +694,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 medium;
-    /* 0x01 */ u8 seqOrBankId;
+    /* 0x01 */ u8 seqOrFontId;
     /* 0x02 */ u16 instId;
     /* 0x04 */ s32 unkMediumThing;
     /* 0x08 */ s32 curDevAddr;
@@ -703,7 +703,7 @@ typedef struct {
     /* 0x14 */ s32 status;
     /* 0x18 */ s32 bytesRemaining;
     /* 0x1C */ s8* isDone;
-    /* 0x20 */ AudioBankSample sample;
+    /* 0x20 */ SoundFontSample sample;
     /* 0x30 */ OSMesgQueue msgqueue;
     /* 0x48 */ OSMesg msg;
     /* 0x4C */ OSIoMesg ioMesg;
@@ -762,7 +762,7 @@ typedef enum {
 
 typedef enum {
     /* 0 */ SEQUENCE_TABLE,
-    /* 1 */ BANK_TABLE,
+    /* 1 */ FONT_TABLE,
     /* 2 */ SAMPLE_TABLE
 } SampleBankTableType;
 
@@ -776,7 +776,7 @@ typedef struct {
     /* 0x0014 */ NoteSubEu* noteSubsEu;
     /* 0x0018 */ SynthesisReverb synthesisReverbs[4];
     /* 0x0B38 */ char unk_0B38[0x30];
-    /* 0x0B68 */ AudioBankSample* usedSamples[128];
+    /* 0x0B68 */ SoundFontSample* usedSamples[128];
     /* 0x0D68 */ AudioPreloadReq preloadSampleStack[128];
     /* 0x1768 */ s32 usedSamplesCount;
     /* 0x176C */ s32 preloadSampleStackTop;
@@ -809,9 +809,9 @@ typedef struct {
     /* 0x282E */ u8 sampleDmaReuseQueue1WrPos;
     /* 0x282F */ u8 sampleDmaReuseQueue2WrPos;
     /* 0x2830 */ AudioTable* sequenceTable;
-    /* 0x2834 */ AudioTable* audioBankTable;
+    /* 0x2834 */ AudioTable* soundFontTable;
     /* 0x2838 */ AudioTable* sampleBankTable;
-    /* 0x283C */ u8* sequenceBankTable;
+    /* 0x283C */ u8* sequenceFontTable;
     /* 0x2840 */ u16 numSequences;
     /* 0x2844 */ CtlEntry* ctlEntries;
     /* 0x2848 */ AudioBufferParameters audioBufferParameters;
@@ -850,7 +850,7 @@ typedef struct {
     /* 0x2A00 */ AudioAllocPool persistentCommonPool;
     /* 0x2A10 */ AudioAllocPool temporaryCommonPool;
     /* 0x2A20 */ AudioCache seqCache;
-    /* 0x2B30 */ AudioCache bankCache;
+    /* 0x2B30 */ AudioCache fontCache;
     /* 0x2C40 */ AudioCache sampleBankCache;
     /* 0x2D50 */ AudioAllocPool permanentPool;
     /* 0x2D60 */ AudioCacheEntry permanentCache[32];
@@ -860,8 +860,8 @@ typedef struct {
     /* 0x3418 */ AudioPoolSplit2 cachePoolSplit;
     /* 0x3420 */ AudioPoolSplit3 persistentCommonPoolSplit;
     /* 0x342C */ AudioPoolSplit3 temporaryCommonPoolSplit;
-    /* 0x3438 */ u8 sampleBankLoadStatus[0x30];
-    /* 0x3468 */ u8 bankLoadStatus[0x30];
+    /* 0x3438 */ u8 sampleFontLoadStatus[0x30];
+    /* 0x3468 */ u8 fontLoadStatus[0x30];
     /* 0x3498 */ u8 seqLoadStatus[0x80];
     /* 0x3518 */ volatile u8 resetStatus;
     /* 0x3519 */ u8 audioResetSpecIdToLoad;

@@ -16,7 +16,7 @@ typedef struct {
     /* 0x04 */ f32 target;
     /* 0x08 */ f32 step;
     /* 0x0C */ u16 remainingFrames;
-} Struct_800F8EA0; // size = 0x10
+} UnusedBankLerp; // size = 0x10
 
 // rodata for Audio_ProcessSoundRequest (this file)
 // (probably moved to .data due to -use_readwrite_const)
@@ -45,7 +45,7 @@ extern u8 sSoundBankListEnd[7];
 extern u8 sSoundBankFreeListStart[7];
 extern u8 sSoundBankUnused[7];
 extern u8 sCurSfxPlayerChannel;
-extern Struct_800F8EA0 sUnusedBankLerp[7];
+extern UnusedBankLerp sUnusedBankLerp[7];
 
 // data
 

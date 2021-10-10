@@ -1862,7 +1862,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 GfxPrint_Printf(printer, "%X",
                                 gAudioContext.seqPlayers[sAudioSubTrackInfoPlayerSel]
                                     .channels[sAudioSubTrackInfoChannelSel]
-                                    ->bankId);
+                                    ->fontId);
 
                 ctr = (u8)(gAudioContext.seqPlayers[sAudioSubTrackInfoPlayerSel]
                                .channels[sAudioSubTrackInfoChannelSel]
@@ -1944,9 +1944,9 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 7);
             GfxPrint_Printf(
-                printer, "AT-BNK %02X-%02X (%05X-%05X / %05X)", (u8)gAudioContext.bankCache.temporary.entries[0].id,
-                (u8)gAudioContext.bankCache.temporary.entries[1].id, gAudioContext.bankCache.temporary.entries[0].size,
-                gAudioContext.bankCache.temporary.entries[1].size, gAudioContext.bankCache.temporary.pool.size);
+                printer, "AT-BNK %02X-%02X (%05X-%05X / %05X)", (u8)gAudioContext.fontCache.temporary.entries[0].id,
+                (u8)gAudioContext.fontCache.temporary.entries[1].id, gAudioContext.fontCache.temporary.entries[0].size,
+                gAudioContext.fontCache.temporary.entries[1].size, gAudioContext.fontCache.temporary.pool.size);
 
             GfxPrint_SetPos(printer, 3, 8);
             GfxPrint_Printf(printer, "ST-SEQ %02Xseqs  (%05X / %06X)", gAudioContext.seqCache.persistent.numEntries,
@@ -1959,13 +1959,13 @@ void AudioDebug_Draw(GfxPrint* printer) {
             }
 
             GfxPrint_SetPos(printer, 3, 10);
-            GfxPrint_Printf(printer, "ST-BNK %02Xbanks (%05X / %06X)", gAudioContext.bankCache.persistent.numEntries,
-                            gAudioContext.bankCache.persistent.pool.cur - gAudioContext.bankCache.persistent.pool.start,
-                            gAudioContext.bankCache.persistent.pool.size);
+            GfxPrint_Printf(printer, "ST-BNK %02Xbanks (%05X / %06X)", gAudioContext.fontCache.persistent.numEntries,
+                            gAudioContext.fontCache.persistent.pool.cur - gAudioContext.fontCache.persistent.pool.start,
+                            gAudioContext.fontCache.persistent.pool.size);
 
-            for (k = 0; (u32)k < gAudioContext.bankCache.persistent.numEntries; k++) {
+            for (k = 0; (u32)k < gAudioContext.fontCache.persistent.numEntries; k++) {
                 GfxPrint_SetPos(printer, 3 + 3 * k, 11);
-                GfxPrint_Printf(printer, "%02x", gAudioContext.bankCache.persistent.entries[k].id);
+                GfxPrint_Printf(printer, "%02x", gAudioContext.fontCache.persistent.entries[k].id);
             }
 
             GfxPrint_SetPos(printer, 3, 12);
@@ -3754,7 +3754,7 @@ void func_800F5CF8(void) {
         D_8016B9F4--;
         if (D_8016B9F4 == 0) {
             Audio_QueueCmdS32(0xE3000000, SEQUENCE_TABLE);
-            Audio_QueueCmdS32(0xE3000000, BANK_TABLE);
+            Audio_QueueCmdS32(0xE3000000, FONT_TABLE);
             func_800FA0B4(0);
             sp26 = func_800FA0B4(1);
             sp22 = func_800FA0B4(3);

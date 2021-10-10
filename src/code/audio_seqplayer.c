@@ -245,7 +245,7 @@ void Audio_SequencePlayerInitChannels(SequencePlayer* seqPlayer, u16 channelBits
     for (i = 0; i < 0x10; i++) {
         if (channelBits & 1) {
             seqChannel = seqPlayer->channels[i];
-            seqChannel->bankId = seqPlayer->defaultBank;
+            seqChannel->fontId = seqPlayer->defaultFont;
             seqChannel->muteBehavior = seqPlayer->muteBehavior;
             seqChannel->noteAllocPolicy = seqPlayer->noteAllocPolicy;
         }
@@ -299,14 +299,14 @@ void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     if (AudioLoad_IsSeqLoadComplete(seqPlayer->seqId)) {
         AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, 3);
     }
-    if (AudioLoad_IsBankLoadComplete(seqPlayer->defaultBank)) {
-        AudioLoad_SetBankLoadStatus(seqPlayer->defaultBank, 4);
+    if (AudioLoad_IsFontLoadComplete(seqPlayer->defaultFont)) {
+        AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, 4);
     }
 
-    if (seqPlayer->defaultBank == gAudioContext.bankCache.temporary.entries[0].id) {
-        gAudioContext.bankCache.temporary.nextSide = 0;
-    } else if (seqPlayer->defaultBank == gAudioContext.bankCache.temporary.entries[1].id) {
-        gAudioContext.bankCache.temporary.nextSide = 1;
+    if (seqPlayer->defaultFont == gAudioContext.fontCache.temporary.entries[0].id) {
+        gAudioContext.fontCache.temporary.nextSide = 0;
+    } else if (seqPlayer->defaultFont == gAudioContext.fontCache.temporary.entries[1].id) {
+        gAudioContext.fontCache.temporary.nextSide = 1;
     }
 }
 
@@ -619,7 +619,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
     Portamento* portamento;
     f32 freqScale;
     f32 freqScale2;
-    AudioBankSound* sound;
+    SoundFontSound* sound;
     Instrument* instrument;
     Drum* drum;
     s32 pad;
@@ -647,7 +647,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
         case 0:
             cmd += seqChannel->transposition + layer->transposition;
             layer->semitone = cmd;
-            drum = Audio_GetDrum(seqChannel->bankId, cmd);
+            drum = Audio_GetDrum(seqChannel->fontId, cmd);
             if (drum == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay;
@@ -666,7 +666,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
         case 1:
             layer->semitone = cmd;
             sfxId = (layer->transposition << 6) + cmd;
-            sound = Audio_GetSfx(seqChannel->bankId, sfxId);
+            sound = Audio_GetSfx(seqChannel->fontId, sfxId);
             if (sound == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay + 1;
@@ -695,7 +695,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
                 vel = (cmd > layer->portamentoTargetNote) ? cmd : layer->portamentoTargetNote;
 
                 if (instrument != NULL) {
-                    sound = Audio_InstrumentGetAudioBankSound(instrument, vel);
+                    sound = Audio_InstrumentGetSoundFontSound(instrument, vel);
                     sameSound = (layer->sound == sound);
                     layer->sound = sound;
                     tuning = sound->tuning;
@@ -755,7 +755,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
             }
 
             if (instrument != NULL) {
-                sound = Audio_InstrumentGetAudioBankSound(instrument, cmd);
+                sound = Audio_InstrumentGetSoundFontSound(instrument, cmd);
                 sameSound = (sound == layer->sound);
                 layer->sound = sound;
                 layer->freqScale = gNoteFrequencies[cmd2] * sound->tuning;
@@ -921,7 +921,7 @@ void func_800EAEF4(SequenceChannel* seqChannel, u8 arg1) {
 }
 
 u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** instOut, AdsrSettings* adsr) {
-    Instrument* inst = Audio_GetInstrumentInner(seqChannel->bankId, instId);
+    Instrument* inst = Audio_GetInstrumentInner(seqChannel->fontId, instId);
 
     if (inst == NULL) {
         *instOut = NULL;
@@ -1040,14 +1040,14 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         result = (u8)parameters[0];
                         command = (u8)parameters[0];
 
-                        if (seqPlayer->defaultBank != 0xFF) {
-                            offset = ((u16*)gAudioContext.sequenceBankTable)[seqPlayer->seqId];
-                            lowBits = gAudioContext.sequenceBankTable[offset];
-                            command = gAudioContext.sequenceBankTable[offset + lowBits - result];
+                        if (seqPlayer->defaultFont != 0xFF) {
+                            offset = ((u16*)gAudioContext.sequenceFontTable)[seqPlayer->seqId];
+                            lowBits = gAudioContext.sequenceFontTable[offset];
+                            command = gAudioContext.sequenceFontTable[offset + lowBits - result];
                         }
 
-                        if (AudioHeap_SearchCaches(BANK_TABLE, 2, command)) {
-                            channel->bankId = command;
+                        if (AudioHeap_SearchCaches(FONT_TABLE, 2, command)) {
+                            channel->fontId = command;
                         }
 
                         parameters[0] = parameters[1];
@@ -1151,14 +1151,14 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         result = (u8)parameters[0];
                         command = (u8)parameters[0];
 
-                        if (seqPlayer->defaultBank != 0xFF) {
-                            offset = ((u16*)gAudioContext.sequenceBankTable)[seqPlayer->seqId];
-                            lowBits = gAudioContext.sequenceBankTable[offset];
-                            command = gAudioContext.sequenceBankTable[offset + lowBits - result];
+                        if (seqPlayer->defaultFont != 0xFF) {
+                            offset = ((u16*)gAudioContext.sequenceFontTable)[seqPlayer->seqId];
+                            lowBits = gAudioContext.sequenceFontTable[offset];
+                            command = gAudioContext.sequenceFontTable[offset + lowBits - result];
                         }
 
-                        if (AudioHeap_SearchCaches(BANK_TABLE, 2, command)) {
-                            channel->bankId = command;
+                        if (AudioHeap_SearchCaches(FONT_TABLE, 2, command)) {
+                            channel->fontId = command;
                         }
 
                         break;
@@ -1407,14 +1407,14 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                 case 0x10:
                     if (lowBits < 8) {
                         channel->soundScriptIO[lowBits] = -1;
-                        if (AudioLoad_SlowLoadSample(channel->bankId, scriptState->value,
+                        if (AudioLoad_SlowLoadSample(channel->fontId, scriptState->value,
                                                      &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
                     } else {
                         lowBits -= 8;
                         channel->soundScriptIO[lowBits] = -1;
-                        if (AudioLoad_SlowLoadSample(channel->bankId, channel->unk_22 + 0x100,
+                        if (AudioLoad_SlowLoadSample(channel->fontId, channel->unk_22 + 0x100,
                                                      &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
@@ -1471,13 +1471,13 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         return;
     }
 
-    if (!AudioLoad_IsSeqLoadComplete(seqPlayer->seqId) || !AudioLoad_IsBankLoadComplete(seqPlayer->defaultBank)) {
+    if (!AudioLoad_IsSeqLoadComplete(seqPlayer->seqId) || !AudioLoad_IsFontLoadComplete(seqPlayer->defaultFont)) {
         Audio_SequencePlayerDisable(seqPlayer);
         return;
     }
 
     AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, 2);
-    AudioLoad_SetBankLoadStatus(seqPlayer->defaultBank, 2);
+    AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, 2);
 
     if (seqPlayer->muted && (seqPlayer->muteBehavior & 0x80)) {
         return;
@@ -1822,7 +1822,7 @@ void Audio_InitSequencePlayer(SequencePlayer* seqPlayer) {
 
     seqPlayer->enabled = false;
     seqPlayer->muted = false;
-    seqPlayer->bankDmaInProgress = false;
+    seqPlayer->fontDmaInProgress = false;
     seqPlayer->seqDmaInProgress = false;
     seqPlayer->unk_0b1 = false;
 

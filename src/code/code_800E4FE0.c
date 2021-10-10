@@ -272,13 +272,13 @@ void func_800E5584(AudioCmd* cmd) {
             AudioLoad_AsyncLoadSampleBank(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
             return;
         case 0xF5:
-            AudioLoad_AsyncLoadBank(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
+            AudioLoad_AsyncLoadFont(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
             return;
         case 0xFC:
             AudioLoad_AsyncLoadSeq(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
             return;
         case 0xF6:
-            AudioLoad_DiscardSeqBanks(cmd->arg1);
+            AudioLoad_DiscardSeqFonts(cmd->arg1);
             return;
         case 0x90:
             gAudioContext.unk_5BDC[cmd->arg0] = cmd->asUShort;
@@ -490,7 +490,7 @@ u32 func_800E5E20(u32* out) {
 }
 
 u8* func_800E5E84(s32 arg0, u32* arg1) {
-    return AudioLoad_GetBanksForSequence(arg0, arg1);
+    return AudioLoad_GetFontsForSequence(arg0, arg1);
 }
 
 void func_800E5EA4(s32 arg0, u32* arg1, u32* arg2) {
@@ -727,7 +727,7 @@ s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
     SequencePlayer* seqPlayer;
     SequenceChannelLayer* layer;
     Note* note;
-    AudioBankSound* sound;
+    SoundFontSound* sound;
     s32 loopEnd;
     s32 samplePos;
 
@@ -749,7 +749,7 @@ s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
 
             note = layer->note;
             if (layer == note->playbackState.parentLayer) {
-                sound = note->noteSubEu.sound.audioBankSound;
+                sound = note->noteSubEu.sound.soundFontSound;
                 if (sound == NULL) {
                     return 0;
                 }
@@ -777,7 +777,7 @@ s32 func_800E66C0(s32 arg0) {
     NoteSubEu* temp_a3;
     s32 i;
     Note* note;
-    AudioBankSound* sound;
+    SoundFontSound* sound;
 
     phi_v1 = 0;
     for (i = 0; i < gAudioContext.numNotes; i++) {
@@ -787,7 +787,7 @@ s32 func_800E66C0(s32 arg0) {
             temp_a3 = &note->noteSubEu;
             if (temp_a2->adsr.action.s.state != 0) {
                 if (arg0 >= 2) {
-                    sound = temp_a3->sound.audioBankSound;
+                    sound = temp_a3->sound.soundFontSound;
                     if (sound == NULL || temp_a3->bitField1.isSyntheticWave) {
                         continue;
                     }
