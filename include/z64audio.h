@@ -654,22 +654,6 @@ typedef struct {
 } AudioPoolSplit4; // size = 0x10
 
 typedef struct {
-    u8* unk_0;
-    u8* unk_4;
-    u32 unk_8;
-    s8 unk_C;
-    s8 unk_D;
-    s16 unk_E;
-} Struct_800E0E0C_2;
-
-typedef struct {
-    char unk_00[0x2];
-    s16 unk_02;
-    char unk_04[0x8];
-    Struct_800E0E0C_2 unk_C[1]; // unknown size
-} ManyStruct_800E0E0C_2;
-
-typedef struct {
     /* 0x00 */ u32 endAndMediumKey;
     /* 0x04 */ AudioBankSample* sample;
     /* 0x08 */ u8* ramAddr;
