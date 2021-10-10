@@ -26,11 +26,11 @@ void DemoGt_PlayEarthquakeSfx() {
 }
 
 void DemoGt_PlayExplosion1Sfx(GlobalContext* globalCtx, Vec3f* pos) {
-    Audio_PlaySoundAtPosition(globalCtx, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
+    AudioSource_CreateSoundSource(globalCtx, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
 }
 
 void DemoGt_PlayExplosion2Sfx(GlobalContext* globalCtx, Vec3f* pos) {
-    Audio_PlaySoundAtPosition(globalCtx, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
+    AudioSource_CreateSoundSource(globalCtx, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
 void DemoGt_Rumble(GlobalContext* globalCtx) {

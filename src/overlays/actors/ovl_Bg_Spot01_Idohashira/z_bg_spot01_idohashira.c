@@ -55,7 +55,7 @@ void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
 }
 
 void BgSpot01Idohashira_PlayBreakSfx2(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
-    Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 60, NA_SE_EV_WOODBOX_BREAK);
+    AudioSource_CreateSoundSource(globalCtx, &this->dyna.actor.world.pos, 60, NA_SE_EV_WOODBOX_BREAK);
 }
 
 void func_808AAD3C(GlobalContext* globalCtx, Vec3f* vec, u32 arg2) {

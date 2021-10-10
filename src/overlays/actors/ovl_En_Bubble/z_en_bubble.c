@@ -371,7 +371,7 @@ void EnBubble_Wait(EnBubble* this, GlobalContext* globalCtx) {
 
 void EnBubble_Pop(EnBubble* this, GlobalContext* globalCtx) {
     if (EnBubble_Explosion(this, globalCtx) >= 0) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 60, NA_SE_EN_AWA_BREAK);
+        AudioSource_CreateSoundSource(globalCtx, &this->actor.world.pos, 60, NA_SE_EN_AWA_BREAK);
         Actor_Kill(&this->actor);
     }
 }

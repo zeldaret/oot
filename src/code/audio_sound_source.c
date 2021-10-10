@@ -1,6 +1,6 @@
 #include "global.h"
 
-void func_8006BA00(GlobalContext* globalCtx) {
+void AudioSource_Init(GlobalContext* globalCtx) {
     SoundSource* sources = &globalCtx->soundSources[0];
     s32 i;
 
@@ -9,7 +9,7 @@ void func_8006BA00(GlobalContext* globalCtx) {
     // clang-format on
 }
 
-void func_8006BA30(GlobalContext* globalCtx) {
+void AudioSource_Update(GlobalContext* globalCtx) {
     SoundSource* source = &globalCtx->soundSources[0];
     s32 i;
 
@@ -26,7 +26,7 @@ void func_8006BA30(GlobalContext* globalCtx) {
     }
 }
 
-void Audio_PlaySoundAtPosition(GlobalContext* globalCtx, Vec3f* pos, s32 duration, u16 sfxId) {
+void AudioSource_CreateSoundSource(GlobalContext* globalCtx, Vec3f* pos, s32 duration, u16 sfxId) {
     s32 countdown;
     SoundSource* source;
     s32 smallestCountdown = 0xFFFF;

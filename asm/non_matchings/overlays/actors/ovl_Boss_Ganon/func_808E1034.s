@@ -407,7 +407,7 @@ glabel L808E12A0
 /* 0AD04 808E1574 8FA400C4 */  lw      $a0, 0x00C4($sp)           
 /* 0AD08 808E1578 26250024 */  addiu   $a1, $s1, 0x0024           ## $a1 = 00000024
 /* 0AD0C 808E157C 24060028 */  addiu   $a2, $zero, 0x0028         ## $a2 = 00000028
-/* 0AD10 808E1580 0C01AEB6 */  jal     Audio_PlaySoundAtPosition
+/* 0AD10 808E1580 0C01AEB6 */  jal     AudioSource_CreateSoundSource
               
 /* 0AD14 808E1584 2407390B */  addiu   $a3, $zero, 0x390B         ## $a3 = 0000390B
 /* 0AD18 808E1588 8FA30064 */  lw      $v1, 0x0064($sp)           
@@ -534,13 +534,13 @@ glabel L808E16FC
 /* 0AECC 808E173C 4480A000 */  mtc1    $zero, $f20                ## $f20 = 0.00
 /* 0AED0 808E1740 A7AA00BA */  sh      $t2, 0x00BA($sp)           
 /* 0AED4 808E1744 8FA400C4 */  lw      $a0, 0x00C4($sp)           
-/* 0AED8 808E1748 0C01AEB6 */  jal     Audio_PlaySoundAtPosition
+/* 0AED8 808E1748 0C01AEB6 */  jal     AudioSource_CreateSoundSource
               
 /* 0AEDC 808E174C AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 0AEE0 808E1750 8FA400C4 */  lw      $a0, 0x00C4($sp)           
 /* 0AEE4 808E1754 8FA50040 */  lw      $a1, 0x0040($sp)           
 /* 0AEE8 808E1758 24060028 */  addiu   $a2, $zero, 0x0028         ## $a2 = 00000028
-/* 0AEEC 808E175C 0C01AEB6 */  jal     Audio_PlaySoundAtPosition
+/* 0AEEC 808E175C 0C01AEB6 */  jal     AudioSource_CreateSoundSource
               
 /* 0AEF0 808E1760 2407390B */  addiu   $a3, $zero, 0x390B         ## $a3 = 0000390B
 /* 0AEF4 808E1764 10000013 */  beq     $zero, $zero, .L808E17B4   
@@ -723,7 +723,7 @@ glabel L808E176C
 /* 0B170 808E19E0 8FA50040 */  lw      $a1, 0x0040($sp)           
 /* 0B174 808E19E4 24060050 */  addiu   $a2, $zero, 0x0050         ## $a2 = 00000050
 /* 0B178 808E19E8 2407390B */  addiu   $a3, $zero, 0x390B         ## $a3 = 0000390B
-/* 0B17C 808E19EC 0C01AEB6 */  jal     Audio_PlaySoundAtPosition
+/* 0B17C 808E19EC 0C01AEB6 */  jal     AudioSource_CreateSoundSource
               
 /* 0B180 808E19F0 E7A40054 */  swc1    $f4, 0x0054($sp)           
 .L808E19F4:

@@ -813,7 +813,7 @@ void func_80ADB17C(EnPoSisters* this, GlobalContext* globalCtx) {
     this->unk_19A++;
     if (this->unk_19A == 64) {
         Flags_SetSwitch(globalCtx, this->actor.params);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 30, NA_SE_EV_FLAME_IGNITION);
+        AudioSource_CreateSoundSource(globalCtx, &this->actor.world.pos, 30, NA_SE_EV_FLAME_IGNITION);
         if (this->unk_194 == 0) {
             Flags_UnsetSwitch(globalCtx, 0x1B);
         }
@@ -1100,7 +1100,7 @@ void func_80ADBF58(EnPoSisters* this, GlobalContext* globalCtx) {
         Math_StepToF(&this->actor.speedXZ, 5.0f, 0.2f);
     }
     if (this->unk_19A == -70 && this->unk_194 == 1) {
-        Audio_PlaySoundAtPosition(globalCtx, &D_80ADD7BC, 40, NA_SE_EN_PO_LAUGH);
+        AudioSource_CreateSoundSource(globalCtx, &D_80ADD7BC, 40, NA_SE_EN_PO_LAUGH);
     }
     if (this->unk_19A < -120) {
         Actor_Kill(&this->actor);

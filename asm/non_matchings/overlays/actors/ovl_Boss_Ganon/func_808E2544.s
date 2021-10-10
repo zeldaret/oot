@@ -640,7 +640,7 @@ glabel L808E29A8
 /* 0C588 808E2DF8 8FA400A4 */  lw      $a0, 0x00A4($sp)           
 /* 0C58C 808E2DFC 8FA50050 */  lw      $a1, 0x0050($sp)           
 /* 0C590 808E2E00 24060028 */  addiu   $a2, $zero, 0x0028         ## $a2 = 00000028
-/* 0C594 808E2E04 0C01AEB6 */  jal     Audio_PlaySoundAtPosition
+/* 0C594 808E2E04 0C01AEB6 */  jal     AudioSource_CreateSoundSource
               
 /* 0C598 808E2E08 2407390B */  addiu   $a3, $zero, 0x390B         ## $a3 = 0000390B
 /* 0C59C 808E2E0C 24180014 */  addiu   $t8, $zero, 0x0014         ## $t8 = 00000014
@@ -878,7 +878,7 @@ glabel L808E306C
 /* 0C904 808E3174 8FA50050 */  lw      $a1, 0x0050($sp)           
 /* 0C908 808E3178 1320002E */  beq     $t9, $zero, .L808E3234     
 /* 0C90C 808E317C 24060050 */  addiu   $a2, $zero, 0x0050         ## $a2 = 00000050
-/* 0C910 808E3180 0C01AEB6 */  jal     Audio_PlaySoundAtPosition
+/* 0C910 808E3180 0C01AEB6 */  jal     AudioSource_CreateSoundSource
               
 /* 0C914 808E3184 240738A2 */  addiu   $a3, $zero, 0x38A2         ## $a3 = 000038A2
 /* 0C918 808E3188 93A2009F */  lbu     $v0, 0x009F($sp)           

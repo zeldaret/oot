@@ -283,12 +283,6 @@ typedef struct {
     /* 0x28 */ CsCmdActorAction* npcActions[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
 
-typedef struct {
-    /* 0x00 */ u16 countdown;
-    /* 0x04 */ Vec3f originPos;
-    /* 0x10 */ Vec3f relativePos;
-} SoundSource; // size = 0x1C
-
 typedef enum {
     /* 0x00 */ SKYBOX_NONE,
     /* 0x01 */ SKYBOX_NORMAL_SKY,
