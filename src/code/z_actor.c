@@ -2879,7 +2879,7 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
     Actor* actor;
     Actor* sp84;
     CollisionPoly* sp80;
-    UNK_TYPE sp7C;
+    s32 sp7C;
     Vec3f sp70;
 
     actor = actorCtx->actorLists[actorCategory].head;

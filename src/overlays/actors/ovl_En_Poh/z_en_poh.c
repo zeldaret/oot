@@ -990,7 +990,7 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
     EnPoh* this = THIS;
     s32 pad;
     Vec3f vec;
-    UNK_TYPE sp38;
+    s32 sp38;
 
     if (this->colliderSph.base.atFlags & AT_HIT) {
         this->colliderSph.base.atFlags &= ~AT_HIT;

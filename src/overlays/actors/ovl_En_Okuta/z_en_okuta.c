@@ -120,7 +120,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     WaterBox* outWaterBox;
     f32 ySurface;
-    UNK_TYPE sp30;
+    s32 sp30;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->numShots = (thisx->params >> 8) & 0xFF;
