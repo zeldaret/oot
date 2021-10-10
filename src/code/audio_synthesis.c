@@ -583,8 +583,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 
         for (i = 0; i < gAudioContext.numNotes; i++) {
             noteSubEu = &gAudioContext.noteSubsEu[t + i];
-            if (noteSubEu->bitField0.enabled &&
-                noteSubEu->bitField1.reverbIndex >= gAudioContext.numSynthesisReverbs) {
+            if (noteSubEu->bitField0.enabled && noteSubEu->bitField1.reverbIndex >= gAudioContext.numSynthesisReverbs) {
                 noteIndices[count++] = i;
             }
         }

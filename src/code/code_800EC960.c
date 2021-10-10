@@ -2004,12 +2004,14 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 12);
             GfxPrint_Printf(printer, "%02X %02X %02X %02X", (u8)gAudioContext.seqPlayers[0].soundScriptIO[0],
-                            (u8)gAudioContext.seqPlayers[0].soundScriptIO[1], (u8)gAudioContext.seqPlayers[0].soundScriptIO[2],
+                            (u8)gAudioContext.seqPlayers[0].soundScriptIO[1],
+                            (u8)gAudioContext.seqPlayers[0].soundScriptIO[2],
                             (u8)gAudioContext.seqPlayers[0].soundScriptIO[3]);
 
             GfxPrint_SetPos(printer, 3, 13);
             GfxPrint_Printf(printer, "%02X %02X %02X %02X", (u8)gAudioContext.seqPlayers[0].soundScriptIO[4],
-                            (u8)gAudioContext.seqPlayers[0].soundScriptIO[5], (u8)gAudioContext.seqPlayers[0].soundScriptIO[6],
+                            (u8)gAudioContext.seqPlayers[0].soundScriptIO[5],
+                            (u8)gAudioContext.seqPlayers[0].soundScriptIO[6],
                             (u8)gAudioContext.seqPlayers[0].soundScriptIO[7]);
             break;
 

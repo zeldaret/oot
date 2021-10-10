@@ -944,8 +944,8 @@ void Audio_SetInstrument(SequenceChannel* channel, u8 instId) {
     } else if (instId == 0x7E) {
         channel->instOrWave = 1;
         channel->instrument = (Instrument*)2;
-    } else if ((channel->instOrWave =
-                    Audio_GetInstrument(channel, instId, &channel->instrument, &channel->adsr)) == 0) {
+    } else if ((channel->instOrWave = Audio_GetInstrument(channel, instId, &channel->instrument, &channel->adsr)) ==
+               0) {
         channel->hasInstrument = false;
         return;
     }
