@@ -35,7 +35,7 @@ def segmented_to_physical(address):
 """
 Special characters conversion
 """
-charmap = {
+extraction_charmap = {
     0x7F: '‾',
     0x80: 'À',
     0x81: 'î',
@@ -262,8 +262,8 @@ def decode(read_bytes, box_type):
                             buf.append("\" " + name + " \"")
                     break
             else:
-                if byte in charmap:
-                    buf.append(charmap[byte])
+                if byte in extraction_charmap:
+                    buf.append(extraction_charmap[byte])
                 else:
                     decoded = bytes([byte]).decode("ASCII")
                     if decoded == "\"":
@@ -351,7 +351,11 @@ def dump_all_text():
     # text id, ypos, type, nes, ger, fra
     messages = []
     for i,entry in enumerate(combined_message_entry_table,0):
-        if not (entry[0] == 0xFFFD or entry[0] == 0xFFFF):
+        if entry[0] == 0xFFFD:
+            messages.append((entry[0], entry[1], entry[2], "\"\"", "\"\"", "\"\""))
+        elif entry[0] == 0xFFFF:
+            messages.append((entry[0], entry[1], entry[2], "///END///", "///END///", "///END///"))
+        else:
             next_entry = combined_message_entry_table[i+1]
 
             nes_offset = segmented_to_physical(entry[3])
@@ -379,12 +383,7 @@ def dump_all_text():
                     fra_text = fixup_message(decode(infile.read(fra_length), entry[1]).replace("\x00","",-1))
 
             messages.append((entry[0], entry[1], entry[2], nes_text, ger_text, fra_text))
-        elif entry[0] == 0xFFFD:
-            messages.append((entry[0], entry[1], entry[2], "\"\"", "\"\"", "\"\""))
-        elif entry[0] == 0xFFFF:
-            messages.append((entry[0], entry[1], entry[2], "///END///", "///END///", "///END///"))
-        else:
-            assert False , "What happened?"
+
     return messages
 
 def dump_staff_text():

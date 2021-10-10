@@ -366,7 +366,7 @@ static void write_ld_script(void)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (seg->readOnlyData[j] == false)
+            if (!seg->readOnlyData[j])
                 fprintf(fout, "            %s (.data)\n", seg->includes[j]);
         }
 
@@ -387,7 +387,7 @@ static void write_ld_script(void)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (seg->readOnlyData[j] == true)
+            if (seg->readOnlyData[j])
                 fprintf(fout, "            %s (.data)\n", seg->includes[j]);
             fprintf(fout, "            %s (.rodata)\n", seg->includes[j]);
             // Compilers other than IDO, such as GCC, produce different sections such as
