@@ -1099,15 +1099,15 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
     gAudioContext.sequenceTable = &gSequenceTable;
     gAudioContext.audioBankTable = &gAudioBankTable;
     gAudioContext.audioTable = &gAudioTable;
-    gAudioContext.unk_283C = D_80155340;
+    gAudioContext.unk_283C = &D_80155340;
     gAudioContext.seqTabEntCnt = gAudioContext.sequenceTable->header.entryCnt;
 
     gAudioContext.audioResetSpecIdToLoad = 0;
     gAudioContext.resetStatus = 1;
 
     Audio_ResetStep();
-    Audio_InitAudioTable((AudioTable*)gAudioContext.sequenceTable, _AudioseqSegmentRomStart, 0);
-    Audio_InitAudioTable((AudioTable*)gAudioContext.audioBankTable, _AudiobankSegmentRomStart, 0);
+    Audio_InitAudioTable(gAudioContext.sequenceTable, _AudioseqSegmentRomStart, 0);
+    Audio_InitAudioTable(gAudioContext.audioBankTable, _AudiobankSegmentRomStart, 0);
     Audio_InitAudioTable(gAudioContext.audioTable, _AudiotableSegmentRomStart, 0);
     sp24 = gAudioContext.audioBankTable->header.entryCnt;
     gAudioContext.ctlEntries = Audio_Alloc(&gAudioContext.audioInitPool, sp24 * sizeof(CtlEntry));
