@@ -615,23 +615,31 @@ void* AudioHeap_SearchRegularCaches(s32 tableType, s32 where, s32 fontId) {
     return NULL;
 }
 
-void func_800DF1D8(f32 arg0, f32 arg1, u16* arg2) {
+void func_800DF1D8(f32 p, f32 q, u16* out) {
+    // With the bug below fixed, this mysterious unused function computes two recurrences
+    // out[0..7] = a_i, out[8..15] = b_i, where
+    // a_{-2} = b_{-1} = 262159 = 2^18 + 15
+    // a_{-1} = b_{-2} = 0
+    // a_i = q * a_{i-1} + p * a_{i-2}
+    // b_i = q * b_{i-1} + p * b_{i-2}
+    // These grow exponentially if p < -1 or p + |q| > 1.
     s32 i;
     f32 tmp[16];
 
-    tmp[0] = (f32)(arg1 * 262159.0f);
-    tmp[8] = (f32)(arg0 * 262159.0f);
-    tmp[1] = (f32)((arg1 * arg0) * 262159.0f);
-    tmp[9] = (f32)(((arg0 * arg0) + arg1) * 262159.0f);
+    tmp[0] = (f32)(q * 262159.0f);
+    tmp[8] = (f32)(p * 262159.0f);
+    tmp[1] = (f32)((q * p) * 262159.0f);
+    tmp[9] = (f32)(((p * p) + q) * 262159.0f);
 
     for (i = 2; i < 8; i++) {
-        //! @bug value was probably meant to be stored to tmp[i] and tmp[8 + i]
-        arg2[i] = arg1 * tmp[i - 2] + arg0 * tmp[i - 1];
-        arg2[8 + i] = arg1 * tmp[6 + i] + arg0 * tmp[7 + i];
+        //! @bug value should be stored to tmp[i] and tmp[8 + i], otherwise we read
+        //! garbage in later loop iterations.
+        out[i] = q * tmp[i - 2] + p * tmp[i - 1];
+        out[8 + i] = q * tmp[6 + i] + p * tmp[7 + i];
     }
 
     for (i = 0; i < 16; i++) {
-        arg2[i] = tmp[i];
+        out[i] = tmp[i];
     }
 }
 

@@ -295,7 +295,7 @@ void Audio_ProcessNotes(void) {
     }
 }
 
-SoundFontSound* Audio_InstrumentGetSoundFontSound(Instrument* instrument, s32 semitone) {
+SoundFontSound* Audio_InstrumentGetSound(Instrument* instrument, s32 semitone) {
     SoundFontSound* sound;
     if (semitone < instrument->normalRangeLo) {
         sound = &instrument->lowNotesSound;
@@ -395,7 +395,7 @@ SoundFontSound* Audio_GetSfx(s32 fontId, s32 sfxId) {
     return sfx;
 }
 
-s32 func_800E7744(s32 instrument, s32 fontId, s32 instId, void* arg3) {
+s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* value) {
     if (fontId == 0xFF) {
         return -1;
     }
@@ -404,26 +404,26 @@ s32 func_800E7744(s32 instrument, s32 fontId, s32 instId, void* arg3) {
         return -2;
     }
 
-    switch (instrument) {
+    switch (instrumentType) {
         case 0:
-            if (instId >= gAudioContext.ctlEntries[fontId].numDrums) {
+            if (index >= gAudioContext.ctlEntries[fontId].numDrums) {
                 return -3;
             }
-            gAudioContext.ctlEntries[fontId].drums[instId] = arg3;
+            gAudioContext.ctlEntries[fontId].drums[index] = value;
             break;
 
         case 1:
-            if (instId >= gAudioContext.ctlEntries[fontId].numSfx) {
+            if (index >= gAudioContext.ctlEntries[fontId].numSfx) {
                 return -3;
             }
-            gAudioContext.ctlEntries[fontId].soundEffects[instId] = *(SoundFontSound*)arg3;
+            gAudioContext.ctlEntries[fontId].soundEffects[index] = *(SoundFontSound*)value;
             break;
 
         default:
-            if (instId >= gAudioContext.ctlEntries[fontId].numInstruments) {
+            if (index >= gAudioContext.ctlEntries[fontId].numInstruments) {
                 return -3;
             }
-            gAudioContext.ctlEntries[fontId].instruments[instId] = arg3;
+            gAudioContext.ctlEntries[fontId].instruments[index] = value;
             break;
     }
 
@@ -782,6 +782,7 @@ void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
 }
 
 void func_800E82C0(Note* note, SequenceLayer* layer) {
+    // similar to Audio_NoteReleaseAndTakeOwnership, hard to say what the difference is
     Audio_SeqLayerNoteRelease(note->playbackState.parentLayer);
     note->playbackState.wantedParentLayer = layer;
 }

@@ -695,7 +695,7 @@ s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
                 vel = (cmd > layer->portamentoTargetNote) ? cmd : layer->portamentoTargetNote;
 
                 if (instrument != NULL) {
-                    sound = Audio_InstrumentGetSoundFontSound(instrument, vel);
+                    sound = Audio_InstrumentGetSound(instrument, vel);
                     sameSound = (layer->sound == sound);
                     layer->sound = sound;
                     tuning = sound->tuning;
@@ -755,7 +755,7 @@ s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
             }
 
             if (instrument != NULL) {
-                sound = Audio_InstrumentGetSoundFontSound(instrument, cmd);
+                sound = Audio_InstrumentGetSound(instrument, cmd);
                 sameSound = (sound == layer->sound);
                 layer->sound = sound;
                 layer->freqScale = gNoteFrequencies[cmd2] * sound->tuning;

@@ -293,7 +293,7 @@ void func_800E5584(AudioCmd* cmd) {
         case 0xE0:
         case 0xE1:
         case 0xE2:
-            func_800E7744(cmd->op - 0xE0, cmd->arg0, cmd->arg1, cmd->data);
+            Audio_SetFontInstrument(cmd->op - 0xE0, cmd->arg0, cmd->arg1, cmd->data);
             return;
         case 0xFE:
             temp_t7 = cmd->asUInt;
