@@ -465,7 +465,7 @@ typedef struct {
     /* 0x03 */ u8 fontId;
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 stereoHeadsetEffects;
-    /* 0x06 */ s16 adsrVolScale; // unused
+    /* 0x06 */ s16 adsrVolScaleUnused;
     /* 0x08 */ f32 portamentoFreqScale;
     /* 0x0C */ f32 vibratoFreqScale;
     /* 0x10 */ SequenceChannelLayer* prevParentLayer;
@@ -478,7 +478,7 @@ typedef struct {
 
 typedef struct {
     struct {
-        /* 0x00 */ vu8 enabled : 1;
+        /* 0x00 */ volatile u8 enabled : 1;
         /* 0x00 */ u8 needsInit : 1;
         /*?0x00 */ u8 finished : 1;
         /* 0x00 */ u8 unused : 1;
