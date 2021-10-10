@@ -1182,7 +1182,7 @@ void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry) {
     s32 sampleBankId2;
     s32 bankId;
 
-    numBanks = gAudioContext.audioBankTable->header.entryCnt;
+    numBanks = gAudioContext.audioBankTable->entryCnt;
     for (bankId = 0; bankId < numBanks; bankId++) {
         sampleBankId1 = gAudioContext.ctlEntries[bankId].sampleBankId1;
         sampleBankId2 = gAudioContext.ctlEntries[bankId].sampleBankId2;
@@ -1238,7 +1238,7 @@ void AudioHeap_DiscardSampleCaches(void) {
     s32 bankId;
     s32 j;
 
-    numBanks = gAudioContext.audioBankTable->header.entryCnt;
+    numBanks = gAudioContext.audioBankTable->entryCnt;
     for (bankId = 0; bankId < numBanks; bankId++) {
         sampleBankId1 = gAudioContext.ctlEntries[bankId].sampleBankId1;
         sampleBankId2 = gAudioContext.ctlEntries[bankId].sampleBankId2;
@@ -1290,8 +1290,8 @@ void AudioHeap_ApplySampleBankCache(s32 sampleBankId) {
 }
 
 void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
-    SampleBankTable* sampleBankTable;
-    SampleBankTableEntry* entry;
+    AudioTable* sampleBankTable;
+    AudioTableEntry* entry;
     s32 numBanks;
     s32 instId;
     s32 drumId;
@@ -1307,7 +1307,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     s32 pad[4];
 
     sampleBankTable = gAudioContext.sampleBankTable;
-    numBanks = gAudioContext.audioBankTable->header.entryCnt;
+    numBanks = gAudioContext.audioBankTable->entryCnt;
     change.oldAddr = AudioHeap_SearchCaches(SAMPLE_TABLE, 2, sampleBankId);
     if (change.oldAddr == NULL) {
         return;

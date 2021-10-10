@@ -733,57 +733,22 @@ typedef struct {
 } AudioSlowLoad; // size = 0x64
 
 typedef struct {
-    u16 offsets[18];
-    char data[1];
-} sequenceBankTable;
+    /* 0x00 */ u32 romAddr;
+    /* 0x04 */ u32 size;
+    /* 0x08 */ s8 medium;
+    /* 0x09 */ s8 alloc;
+    /* 0x0A */ s16 shortData1;
+    /* 0x0C */ s16 shortData2;
+    /* 0x0E */ s16 shortData3;
+} AudioTableEntry; // size = 0x10
 
 typedef struct {
     /* 0x00 */ s16 entryCnt;
     /* 0x02 */ s16 unkMediumThing;
     /* 0x04 */ u32 romAddr;
     /* 0x08 */ char pad[0x8];
-} AudioTableHeader; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ u32 romAddr;
-    /* 0x04 */ u32 size;
-    /* 0x08 */ s8 medium;
-    /* 0x09 */ s8 type;
-    /* 0x0A */ char pad[6];
-} SequenceTableEntry; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ u32 romAddr;
-    /* 0x04 */ u32 size;
-    /* 0x08 */ u8 medium;
-    /* 0x09 */ u8 unk_09;
-    /* 0x0A */ s16 sampleBankBytes;
-    /* 0x0C */ s16 unk_0C;
-    /* 0x0E */ s16 unk_0E;
-} AudioBankTableEntry; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ u32 romAddr;
-    /* 0x04 */ u32 size;
-    /* 0x08 */ s8 medium;
-    /* 0x09 */ s8 unk_09;
-    /* 0x0A */ char pad[6];
-} SampleBankTableEntry; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ AudioTableHeader header;
-    /* 0x10 */ SequenceTableEntry entries[1]; // (dynamic size)
-} SequenceTable; // size >= 0x20
-
-typedef struct {
-    /* 0x00 */ AudioTableHeader header;
-    /* 0x10 */ AudioBankTableEntry entries[1]; // (dynamic size)
-} AudioBankTable; // size >= 0x20
-
-typedef struct {
-    /* 0x00 */ AudioTableHeader header;
-    /* 0x10 */ SampleBankTableEntry entries[1]; // (dynamic size)
-} SampleBankTable; // size >= 0x20
+    /* 0x10 */ AudioTableEntry entries[1]; // (dynamic size)
+} AudioTable; // size >= 0x20
 
 typedef struct {
     /* 0x00 */ OSTask task;
@@ -866,9 +831,9 @@ typedef struct {
     /* 0x282D */ u8 sampleDmaReuseQueue2RdPos;
     /* 0x282E */ u8 sampleDmaReuseQueue1WrPos;
     /* 0x282F */ u8 sampleDmaReuseQueue2WrPos;
-    /* 0x2830 */ SequenceTable* sequenceTable;
-    /* 0x2834 */ AudioBankTable* audioBankTable;
-    /* 0x2838 */ SampleBankTable* sampleBankTable;
+    /* 0x2830 */ AudioTable* sequenceTable;
+    /* 0x2834 */ AudioTable* audioBankTable;
+    /* 0x2838 */ AudioTable* sampleBankTable;
     /* 0x283C */ u8* sequenceBankTable;
     /* 0x2840 */ u16 numSequences;
     /* 0x2844 */ CtlEntry* ctlEntries;
