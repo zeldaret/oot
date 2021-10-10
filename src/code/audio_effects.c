@@ -119,7 +119,9 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
         return 1;
     }
 
-    if (channel != NO_CHANNEL) {
+    //! @bug this probably meant to compare with gAudioContext.sequenceChannelNone.
+    //! -1 isn't used as a channel pointer anywhere else.
+    if (channel != ((SequenceChannel*)(-1))) {
         if (vib->extentChangeTimer) {
             if (vib->extentChangeTimer == 1) {
                 vib->extent = (s32)channel->vibratoExtentTarget;
