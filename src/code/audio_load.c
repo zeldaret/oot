@@ -1183,9 +1183,9 @@ s32 AudioLoad_SlowLoadSample(s32 bankId, s32 instId, s8* isDone) {
 
     slowLoad->sample = *sample;
     slowLoad->isDone = isDone;
-    slowLoad->ramAddr = AudioHeap_AllocSampleCache(sample->size, bankId, sample->sampleAddr, sample->medium, 0);
+    slowLoad->curRamAddr = AudioHeap_AllocSampleCache(sample->size, bankId, sample->sampleAddr, sample->medium, 0);
 
-    if (slowLoad->ramAddr == NULL) {
+    if (slowLoad->curRamAddr == NULL) {
         if (sample->medium == MEDIUM_UNK || sample->codec == CODEC_S16_INMEMORY) {
             *isDone = 0;
             return -1;
@@ -1197,8 +1197,8 @@ s32 AudioLoad_SlowLoadSample(s32 bankId, s32 instId, s8* isDone) {
 
     slowLoad->status = LOAD_STATUS_START;
     slowLoad->bytesRemaining = ALIGN16(sample->size);
-    slowLoad->ramSampleAddr = slowLoad->ramAddr;
-    slowLoad->devAddr = sample->sampleAddr;
+    slowLoad->ramAddr = slowLoad->curRamAddr;
+    slowLoad->curDevAddr = sample->sampleAddr;
     slowLoad->medium = sample->medium;
     slowLoad->seqOrBankId = bankId;
     slowLoad->instId = instId;
@@ -1251,7 +1251,7 @@ void AudioLoad_FinishSlowLoad(AudioSlowLoad* slowLoad) {
     }
 
     slowLoad->sample = *sample;
-    sample->sampleAddr = slowLoad->ramSampleAddr;
+    sample->sampleAddr = slowLoad->ramAddr;
     sample->medium = MEDIUM_RAM;
 }
 
@@ -1280,20 +1280,20 @@ void AudioLoad_ProcessSlowLoads(s32 resetStatus) {
                 } else if (slowLoad->bytesRemaining < 0x400) {
                     if (slowLoad->medium == MEDIUM_UNK) {
                         u32 size = slowLoad->bytesRemaining;
-                        AudioLoad_DmaSlowCopyUnkMedium(slowLoad->devAddr, slowLoad->ramAddr, size, slowLoad->unkMediumThing);
+                        AudioLoad_DmaSlowCopyUnkMedium(slowLoad->curDevAddr, slowLoad->curRamAddr, size, slowLoad->unkMediumThing);
                     } else {
                         AudioLoad_DmaSlowCopy(slowLoad, slowLoad->bytesRemaining);
                     }
                     slowLoad->bytesRemaining = 0;
                 } else {
                     if (slowLoad->medium == MEDIUM_UNK) {
-                        AudioLoad_DmaSlowCopyUnkMedium(slowLoad->devAddr, slowLoad->ramAddr, 0x400, slowLoad->unkMediumThing);
+                        AudioLoad_DmaSlowCopyUnkMedium(slowLoad->curDevAddr, slowLoad->curRamAddr, 0x400, slowLoad->unkMediumThing);
                     } else {
                         AudioLoad_DmaSlowCopy(slowLoad, 0x400);
                     }
                     slowLoad->bytesRemaining -= 0x400;
-                    slowLoad->ramAddr += 0x400;
-                    slowLoad->devAddr += 0x400;
+                    slowLoad->curRamAddr += 0x400;
+                    slowLoad->curDevAddr += 0x400;
                 }
                 break;
         }
@@ -1301,9 +1301,9 @@ void AudioLoad_ProcessSlowLoads(s32 resetStatus) {
 }
 
 void AudioLoad_DmaSlowCopy(AudioSlowLoad* slowLoad, s32 size) {
-    Audio_osInvalDCache(slowLoad->ramAddr, size);
+    Audio_osInvalDCache(slowLoad->curRamAddr, size);
     osCreateMesgQueue(&slowLoad->msgqueue, &slowLoad->msg, 1);
-    AudioLoad_Dma(&slowLoad->ioMesg, 0U, 0, slowLoad->devAddr, slowLoad->ramAddr, size, &slowLoad->msgqueue,
+    AudioLoad_Dma(&slowLoad->ioMesg, 0U, 0, slowLoad->curDevAddr, slowLoad->curRamAddr, size, &slowLoad->msgqueue,
               slowLoad->medium, "SLOWCOPY");
 }
 
@@ -1331,11 +1331,11 @@ s32 AudioLoad_SlowLoadSeq(s32 seqId, u8* ramAddr, s8* isDone) {
     slowLoad->isDone = isDone;
     size = seqTable->entries[seqId].size;
     size = ALIGN16(size);
-    slowLoad->ramAddr = ramAddr;
+    slowLoad->curRamAddr = ramAddr;
     slowLoad->status = LOAD_STATUS_START;
     slowLoad->bytesRemaining = size;
-    slowLoad->ramSampleAddr = ramAddr;
-    slowLoad->devAddr = seqTable->entries[seqId].romAddr;
+    slowLoad->ramAddr = ramAddr;
+    slowLoad->curDevAddr = seqTable->entries[seqId].romAddr;
     slowLoad->medium = seqTable->entries[seqId].medium;
     slowLoad->seqOrBankId = seqId;
 
@@ -1388,9 +1388,9 @@ AudioAsyncLoad* AudioLoad_StartAsyncLoad(u32 devAddr, void* ramAddr, u32 size, s
     }
 
     asyncLoad->status = LOAD_STATUS_START;
-    asyncLoad->devAddr = devAddr;
-    asyncLoad->ramAddr2 = ramAddr;
+    asyncLoad->curDevAddr = devAddr;
     asyncLoad->ramAddr = ramAddr;
+    asyncLoad->curRamAddr = ramAddr;
     asyncLoad->bytesRemaining = size;
 
     if (nChunks == 0) {
@@ -1475,7 +1475,7 @@ void AudioLoad_FinishAsyncLoad(AudioAsyncLoad* asyncLoad) {
             relocInfo.baseAddr1 = sampleBankId1 != 0xFF ? AudioLoad_GetSampleBank(sampleBankId1, &relocInfo.medium1) : 0;
             relocInfo.baseAddr2 = sampleBankId2 != 0xFF ? AudioLoad_GetSampleBank(sampleBankId2, &relocInfo.medium2) : 0;
             AudioLoad_SetBankLoadStatus(bankId, ASYNC_STATUS(retMsg));
-            AudioLoad_RelocateBankAndPreloadSamples(bankId, asyncLoad->ramAddr2, &relocInfo, true);
+            AudioLoad_RelocateBankAndPreloadSamples(bankId, asyncLoad->ramAddr, &relocInfo, true);
             break;
     }
 
@@ -1512,7 +1512,7 @@ void AudioLoad_ProcessAsyncLoad(AudioAsyncLoad* asyncLoad, s32 resetStatus) {
 
     if (asyncLoad->bytesRemaining < asyncLoad->chunkSize) {
         if (asyncLoad->medium == MEDIUM_UNK) {
-            AudioLoad_AsyncDmaUnkMedium(asyncLoad->devAddr, asyncLoad->ramAddr, asyncLoad->bytesRemaining, sampleBankTable->unkMediumThing);
+            AudioLoad_AsyncDmaUnkMedium(asyncLoad->curDevAddr, asyncLoad->curRamAddr, asyncLoad->bytesRemaining, sampleBankTable->unkMediumThing);
         } else {
             AudioLoad_AsyncDma(asyncLoad, asyncLoad->bytesRemaining);
         }
@@ -1521,21 +1521,21 @@ void AudioLoad_ProcessAsyncLoad(AudioAsyncLoad* asyncLoad, s32 resetStatus) {
     }
 
     if (asyncLoad->medium == MEDIUM_UNK) {
-        AudioLoad_AsyncDmaUnkMedium(asyncLoad->devAddr, asyncLoad->ramAddr, asyncLoad->chunkSize, sampleBankTable->unkMediumThing);
+        AudioLoad_AsyncDmaUnkMedium(asyncLoad->curDevAddr, asyncLoad->curRamAddr, asyncLoad->chunkSize, sampleBankTable->unkMediumThing);
     } else {
         AudioLoad_AsyncDma(asyncLoad, asyncLoad->chunkSize);
     }
 
     asyncLoad->bytesRemaining -= asyncLoad->chunkSize;
-    asyncLoad->devAddr += asyncLoad->chunkSize;
-    asyncLoad->ramAddr = asyncLoad->ramAddr + asyncLoad->chunkSize;
+    asyncLoad->curDevAddr += asyncLoad->chunkSize;
+    asyncLoad->curRamAddr += asyncLoad->chunkSize;
 }
 
 void AudioLoad_AsyncDma(AudioAsyncLoad* asyncLoad, u32 size) {
     size = ALIGN16(size);
-    Audio_osInvalDCache(asyncLoad->ramAddr, size);
+    Audio_osInvalDCache(asyncLoad->curRamAddr, size);
     osCreateMesgQueue(&asyncLoad->msgQueue, &asyncLoad->msg, 1);
-    AudioLoad_Dma(&asyncLoad->ioMesg, 0, 0, asyncLoad->devAddr, asyncLoad->ramAddr, size, &asyncLoad->msgQueue, asyncLoad->medium, "BGCOPY");
+    AudioLoad_Dma(&asyncLoad->ioMesg, 0, 0, asyncLoad->curDevAddr, asyncLoad->curRamAddr, size, &asyncLoad->msgQueue, asyncLoad->medium, "BGCOPY");
 }
 
 void AudioLoad_AsyncDmaUnkMedium(u32 devAddr, void* ramAddr, u32 size, s16 arg3) {
