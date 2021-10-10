@@ -301,12 +301,12 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         EnKusa_SetupLiftedUp(this);
-        AudioSource_CreateSoundSource(globalCtx, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
+        SoundSource_PlaySfxByPosAndId(globalCtx, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
     } else if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         EnKusa_SpawnFragments(this, globalCtx);
         EnKusa_DropCollectible(this, globalCtx);
-        AudioSource_CreateSoundSource(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+        SoundSource_PlaySfxByPosAndId(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
 
         if ((this->actor.params >> 4) & 1) {
             EnKusa_SpawnBugs(this, globalCtx);
@@ -374,7 +374,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 11) {
         if (!(this->actor.bgCheckFlags & 32)) {
-            AudioSource_CreateSoundSource(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+            SoundSource_PlaySfxByPosAndId(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
         EnKusa_SpawnFragments(this, globalCtx);
         EnKusa_DropCollectible(this, globalCtx);
@@ -403,7 +403,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
             D_80A9C1DC >>= 1;
             D_80A9C1D8 >>= 1;
             this->actor.bgCheckFlags &= ~0x40;
-            AudioSource_CreateSoundSource(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+            SoundSource_PlaySfxByPosAndId(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
         }
         EnKusa_Fall(this);
         Math_StepToS(&D_80A9C1D4, D_80A9C1D0, 0x1F4);

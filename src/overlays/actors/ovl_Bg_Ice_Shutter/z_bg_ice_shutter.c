@@ -99,7 +99,7 @@ void BgIceShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80891CF4(BgIceShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetTempClear(globalCtx, this->dyna.actor.room)) {
         Flags_SetClear(globalCtx, this->dyna.actor.room);
-        AudioSource_CreateSoundSource(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
+        SoundSource_PlaySfxByPosAndId(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_80891DD4;
         if (this->dyna.actor.shape.rot.x == 0) {
             OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
@@ -109,7 +109,7 @@ void func_80891CF4(BgIceShutter* this, GlobalContext* globalCtx) {
 
 void func_80891D6C(BgIceShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
-        AudioSource_CreateSoundSource(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
+        SoundSource_PlaySfxByPosAndId(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_80891DD4;
         OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
     }

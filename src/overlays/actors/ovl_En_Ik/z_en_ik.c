@@ -708,7 +708,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         }
     } else if (this->actor.colChkInfo.health <= 10) {
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_BOSS);
-        AudioSource_CreateSoundSource(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
+        SoundSource_PlaySfxByPosAndId(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
         if (this->switchFlags != 0xFF) {
             Flags_SetSwitch(globalCtx, this->switchFlags);
         }

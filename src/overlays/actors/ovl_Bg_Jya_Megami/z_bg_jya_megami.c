@@ -193,7 +193,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx) {
     if (this->lightTimer > 40) {
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         BgJyaMegami_SetupExplode(this);
-        AudioSource_CreateSoundSource(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
+        SoundSource_PlaySfxByPosAndId(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
         OnePointCutscene_Init(globalCtx, 3440, -99, &this->dyna.actor, MAIN_CAM);
     } else {
         if (this->lightTimer < 8) {
@@ -232,7 +232,7 @@ void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
 
     this->explosionTimer++;
     if (this->explosionTimer == 30) {
-        AudioSource_CreateSoundSource(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_BREAKDOWN);
+        SoundSource_PlaySfxByPosAndId(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_BREAKDOWN);
     }
 
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {

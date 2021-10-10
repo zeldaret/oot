@@ -181,7 +181,7 @@ void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->shakeRotSize = 400.0f;
         } else {
             ObjHamishi_Break(this, globalCtx);
-            AudioSource_CreateSoundSource(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+            SoundSource_PlaySfxByPosAndId(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
             Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
             Actor_Kill(&this->actor);
         }

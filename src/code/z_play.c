@@ -228,7 +228,7 @@ void Gameplay_Init(GameState* thisx) {
     func_80112098(globalCtx);
     func_80110F68(globalCtx);
     GameOver_Init(globalCtx);
-    AudioSource_Init(globalCtx);
+    SoundSource_InitAll(globalCtx);
     Effect_InitContext(globalCtx);
     EffectSs_InitInfo(globalCtx, 0x55);
     CollisionCheck_InitContext(globalCtx, &globalCtx->colChkCtx);
@@ -974,7 +974,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3771);
             }
 
-            AudioSource_Update(globalCtx);
+            SoundSource_UpdateAll(globalCtx);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3777);

@@ -213,7 +213,7 @@ void EnFireRock_Fall(EnFireRock* this, GlobalContext* globalCtx) {
             default:
                 Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale,
                                          3, 8.0f, 200, 10, 0);
-                AudioSource_CreateSoundSource(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_EXPLOSION);
+                SoundSource_PlaySfxByPosAndId(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_EXPLOSION);
                 Actor_Kill(&this->actor);
                 break;
         }

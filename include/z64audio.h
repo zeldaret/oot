@@ -1113,10 +1113,4 @@ typedef struct {
     u8 pos;
 } OcarinaStaff;
 
-typedef struct {
-    /* 0x00 */ u16 countdown;
-    /* 0x04 */ Vec3f originPos;
-    /* 0x10 */ Vec3f relativePos;
-} SoundSource; // size = 0x1C
-
 #endif
