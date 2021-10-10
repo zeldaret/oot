@@ -160,10 +160,10 @@ void Audio_SequenceChannelInit(SequenceChannel* channel) {
 }
 
 s32 Audio_SeqChannelSetLayer(SequenceChannel* channel, s32 layerIdx) {
-    SequenceChannelLayer* layer;
+    SequenceLayer* layer;
 
     if (channel->layers[layerIdx] == NULL) {
-        SequenceChannelLayer* layer;
+        SequenceLayer* layer;
         layer = Audio_AudioListPopBack(&gAudioContext.layerFreeList);
         channel->layers[layerIdx] = layer;
         if (layer == NULL) {
@@ -171,7 +171,7 @@ s32 Audio_SeqChannelSetLayer(SequenceChannel* channel, s32 layerIdx) {
             return -1;
         }
     } else {
-        Audio_SeqChanLayerNoteDecay(channel->layers[layerIdx]);
+        Audio_SeqLayerNoteDecay(channel->layers[layerIdx]);
     }
 
     layer = channel->layers[layerIdx];
@@ -204,24 +204,24 @@ s32 Audio_SeqChannelSetLayer(SequenceChannel* channel, s32 layerIdx) {
     return 0;
 }
 
-void Audio_SeqChannelLayerDisable(SequenceChannelLayer* layer) {
+void Audio_SeqLayerDisable(SequenceLayer* layer) {
     if (layer != NULL) {
         if (layer->channel != &gAudioContext.sequenceChannelNone && layer->channel->seqPlayer->finished == 1) {
-            Audio_SeqChanLayerNoteRelease(layer);
+            Audio_SeqLayerNoteRelease(layer);
         } else {
-            Audio_SeqChanLayerNoteDecay(layer);
+            Audio_SeqLayerNoteDecay(layer);
         }
         layer->enabled = false;
         layer->finished = true;
     }
 }
 
-void Audio_SeqChannelLayerFree(SequenceChannel* channel, s32 layerIdx) {
-    SequenceChannelLayer* layer = channel->layers[layerIdx];
+void Audio_SeqLayerFree(SequenceChannel* channel, s32 layerIdx) {
+    SequenceLayer* layer = channel->layers[layerIdx];
 
     if (layer != NULL) {
         Audio_AudioListPushBack(&gAudioContext.layerFreeList, &layer->listItem);
-        Audio_SeqChannelLayerDisable(layer);
+        Audio_SeqLayerDisable(layer);
         channel->layers[layerIdx] = NULL;
     }
 }
@@ -230,7 +230,7 @@ void Audio_SequenceChannelDisable(SequenceChannel* channel) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        Audio_SeqChannelLayerFree(channel, i);
+        Audio_SeqLayerFree(channel, i);
     }
 
     Audio_NotePoolClear(&channel->notePool);
@@ -276,7 +276,7 @@ void Audio_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIdx, void*
     channel->delay = 0;
     for (i = 0; i < 4; i++) {
         if (channel->layers[i] != NULL) {
-            Audio_SeqChannelLayerFree(channel, i);
+            Audio_SeqLayerFree(channel, i);
         }
     }
 }
@@ -369,13 +369,13 @@ u16 Audio_M64ReadCompressedU16(SeqScriptState* state) {
     return ret;
 }
 
-void func_800E9ED8(SequenceChannelLayer* layer);
-s32 func_800E9F64(SequenceChannelLayer* layer, s32 arg1);
-s32 func_800EA0C0(SequenceChannelLayer* layer);
-s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1);
-s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1);
+void func_800E9ED8(SequenceLayer* layer);
+s32 func_800E9F64(SequenceLayer* layer, s32 arg1);
+s32 func_800EA0C0(SequenceLayer* layer);
+s32 func_800EA440(SequenceLayer* layer, s32 arg1);
+s32 func_800EAAE0(SequenceLayer* layer, s32 arg1);
 
-void Audio_SeqChannelLayerProcessScript(SequenceChannelLayer* layer) {
+void Audio_SeqLayerProcessScript(SequenceLayer* layer) {
     s32 val;
 
     if (layer->enabled == 0) {
@@ -385,7 +385,7 @@ void Audio_SeqChannelLayerProcessScript(SequenceChannelLayer* layer) {
     if (layer->delay > 1) {
         layer->delay--;
         if (!layer->stopSomething && layer->delay <= layer->gateDelay) {
-            Audio_SeqChanLayerNoteDecay(layer);
+            Audio_SeqLayerNoteDecay(layer);
             layer->stopSomething = true;
         }
         return;
@@ -407,16 +407,16 @@ void Audio_SeqChannelLayerProcessScript(SequenceChannelLayer* layer) {
 
     if (layer->stopSomething == 1) {
         if ((layer->note != NULL) || layer->continuousNotes) {
-            Audio_SeqChanLayerNoteDecay(layer);
+            Audio_SeqLayerNoteDecay(layer);
         }
     }
 }
 
-void func_800E9ED8(SequenceChannelLayer* layer) {
+void func_800E9ED8(SequenceLayer* layer) {
     if (!layer->continuousNotes) {
-        Audio_SeqChanLayerNoteDecay(layer);
+        Audio_SeqLayerNoteDecay(layer);
     } else if (layer->note != NULL && layer->note->playbackState.wantedParentLayer == layer) {
-        Audio_SeqChanLayerNoteDecay(layer);
+        Audio_SeqLayerNoteDecay(layer);
     }
 
     if (PORTAMENTO_MODE(layer->portamento) == PORTAMENTO_MODE_1 ||
@@ -426,7 +426,7 @@ void func_800E9ED8(SequenceChannelLayer* layer) {
     layer->notePropertiesNeedInit = true;
 }
 
-s32 func_800E9F64(SequenceChannelLayer* layer, s32 arg1) {
+s32 func_800E9F64(SequenceLayer* layer, s32 arg1) {
     if (!layer->stopSomething && layer->sound != NULL && layer->sound->sample->codec == CODEC_S16_INMEMORY &&
         layer->sound->sample->medium != MEDIUM_RAM) {
         layer->stopSomething = true;
@@ -444,7 +444,7 @@ s32 func_800E9F64(SequenceChannelLayer* layer, s32 arg1) {
         }
     } else {
         if (arg1 == 0) {
-            Audio_SeqChanLayerNoteDecay(layer);
+            Audio_SeqLayerNoteDecay(layer);
         }
         layer->note = AudioHeap_AllocNote(layer);
         if (layer->note != NULL && layer->note->playbackState.parentLayer == layer) {
@@ -459,7 +459,7 @@ s32 func_800E9F64(SequenceChannelLayer* layer, s32 arg1) {
     return 0;
 }
 
-s32 func_800EA0C0(SequenceChannelLayer* layer) {
+s32 func_800EA0C0(SequenceLayer* layer) {
     SequenceChannel* channel = layer->channel;
     SeqScriptState* state = &layer->scriptState;
     SequencePlayer* seqPlayer = channel->seqPlayer;
@@ -476,7 +476,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
             if (Audio_HandleScriptFlowControl(seqPlayer, state, cmd, arg) == 0) {
                 continue;
             }
-            Audio_SeqChannelLayerDisable(layer);
+            Audio_SeqLayerDisable(layer);
             return -1;
         }
 
@@ -513,7 +513,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
                     layer->continuousNotes = false;
                 }
                 layer->bit1 = false;
-                Audio_SeqChanLayerNoteDecay(layer);
+                Audio_SeqLayerNoteDecay(layer);
                 break;
 
             case 0xC3: // layer_setshortnotedefaultdelay
@@ -610,7 +610,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
     }
 }
 
-s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
+s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
     s32 sameSound = 1;
     s32 instOrWave;
     s32 speed;
@@ -804,7 +804,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
     return sameSound;
 }
 
-s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
+s32 func_800EAAE0(SequenceLayer* layer, s32 arg1) {
     SeqScriptState* state = &layer->scriptState;
     u16 delay;
     s32 velocity;
@@ -1375,7 +1375,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                     }
                     break;
                 case 0x90:
-                    Audio_SeqChannelLayerFree(channel, lowBits);
+                    Audio_SeqLayerFree(channel, lowBits);
                     break;
                 case 0x98:
                     if (scriptState->value == -1 || Audio_SeqChannelSetLayer(channel, lowBits) == -1) {
@@ -1448,7 +1448,7 @@ exit_loop:
 
     for (i = 0; i < ARRAY_COUNT(channel->layers); i++) {
         if (channel->layers[i] != NULL) {
-            Audio_SeqChannelLayerProcessScript(channel->layers[i]);
+            Audio_SeqLayerProcessScript(channel->layers[i]);
         }
     }
 }

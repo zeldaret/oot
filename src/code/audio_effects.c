@@ -25,7 +25,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel* channel, s32 recalculate
     }
 
     for (i = 0; i < 4; i++) {
-        SequenceChannelLayer* layer = channel->layers[i];
+        SequenceLayer* layer = channel->layers[i];
         if (layer != NULL && layer->enabled && layer->note != NULL) {
             if (layer->notePropertiesNeedInit) {
                 layer->noteFreqScale = layer->freqScale * chanFreqScale;

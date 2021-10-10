@@ -194,7 +194,7 @@ void Audio_ProcessNotes(void) {
                 goto out;
             }
 
-            Audio_SeqChanLayerNoteRelease(playbackState->parentLayer);
+            Audio_SeqLayerNoteRelease(playbackState->parentLayer);
             Audio_AudioListRemove(&note->listItem);
             Audio_AudioListPushFront(&note->listItem.pool->decaying, &note->listItem);
             playbackState->priority = 1;
@@ -261,7 +261,7 @@ void Audio_ProcessNotes(void) {
                 subAttrs.unk_16 = attrs->unk_6;
                 bookOffset = noteSubEu->bitField1.bookOffset;
             } else {
-                SequenceChannelLayer* layer = playbackState->parentLayer;
+                SequenceLayer* layer = playbackState->parentLayer;
                 SequenceChannel* channel = layer->channel;
 
                 subAttrs.frequency = layer->noteFreqScale;
@@ -430,7 +430,7 @@ s32 func_800E7744(s32 instrument, s32 fontId, s32 instId, void* arg3) {
     return 0;
 }
 
-void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* layer, s32 target) {
+void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
     Note* note;
     NoteAttributes* attrs;
     SequenceChannel* chan;
@@ -522,15 +522,15 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* layer, s32 target) {
     }
 }
 
-void Audio_SeqChanLayerNoteDecay(SequenceChannelLayer* layer) {
-    Audio_SeqChanLayerDecayRelease(layer, ADSR_STATE_DECAY);
+void Audio_SeqLayerNoteDecay(SequenceLayer* layer) {
+    Audio_SeqLayerDecayRelease(layer, ADSR_STATE_DECAY);
 }
 
-void Audio_SeqChanLayerNoteRelease(SequenceChannelLayer* layer) {
-    Audio_SeqChanLayerDecayRelease(layer, ADSR_STATE_RELEASE);
+void Audio_SeqLayerNoteRelease(SequenceLayer* layer) {
+    Audio_SeqLayerDecayRelease(layer, ADSR_STATE_RELEASE);
 }
 
-s32 Audio_BuildSyntheticWave(Note* note, SequenceChannelLayer* layer, s32 waveId) {
+s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
     f32 freqScale;
     f32 ratio;
     u8 sampleCountIndex;
@@ -565,7 +565,7 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceChannelLayer* layer, s32 waveId
     return sampleCountIndex;
 }
 
-void Audio_InitSyntheticWave(Note* note, SequenceChannelLayer* layer) {
+void Audio_InitSyntheticWave(Note* note, SequenceLayer* layer) {
     s32 sampleCountIndex;
     s32 waveSampleCountIndex;
     s32 waveId = layer->instOrWave;
@@ -743,7 +743,7 @@ Note* Audio_PopNodeWithValueLessEqual(AudioListItem* list, s32 limit) {
     return best->u.value;
 }
 
-void Audio_NoteInitForLayer(Note* note, SequenceChannelLayer* layer) {
+void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
     s32 pad[3];
     s16 instId;
     NotePlaybackState* playback = &note->playbackState;
@@ -781,12 +781,12 @@ void Audio_NoteInitForLayer(Note* note, SequenceChannelLayer* layer) {
     sub->bitField1.reverbIndex = layer->channel->reverbIndex & 3;
 }
 
-void func_800E82C0(Note* note, SequenceChannelLayer* layer) {
-    Audio_SeqChanLayerNoteRelease(note->playbackState.parentLayer);
+void func_800E82C0(Note* note, SequenceLayer* layer) {
+    Audio_SeqLayerNoteRelease(note->playbackState.parentLayer);
     note->playbackState.wantedParentLayer = layer;
 }
 
-void Audio_NoteReleaseAndTakeOwnership(Note* note, SequenceChannelLayer* layer) {
+void Audio_NoteReleaseAndTakeOwnership(Note* note, SequenceLayer* layer) {
     note->playbackState.wantedParentLayer = layer;
     note->playbackState.priority = layer->channel->notePriority;
 
@@ -794,7 +794,7 @@ void Audio_NoteReleaseAndTakeOwnership(Note* note, SequenceChannelLayer* layer) 
     note->playbackState.adsr.action.s.release = true;
 }
 
-Note* AudioHeap_AllocNoteFromDisabled(NotePool* pool, SequenceChannelLayer* layer) {
+Note* AudioHeap_AllocNoteFromDisabled(NotePool* pool, SequenceLayer* layer) {
     Note* note = Audio_AudioListPopBack(&pool->disabled);
     if (note != NULL) {
         Audio_NoteInitForLayer(note, layer);
@@ -803,7 +803,7 @@ Note* AudioHeap_AllocNoteFromDisabled(NotePool* pool, SequenceChannelLayer* laye
     return note;
 }
 
-Note* AudioHeap_AllocNoteFromDecaying(NotePool* pool, SequenceChannelLayer* layer) {
+Note* AudioHeap_AllocNoteFromDecaying(NotePool* pool, SequenceLayer* layer) {
     Note* note = Audio_AudioListPopBack(&pool->decaying);
     if (note != NULL) {
         Audio_NoteReleaseAndTakeOwnership(note, layer);
@@ -812,7 +812,7 @@ Note* AudioHeap_AllocNoteFromDecaying(NotePool* pool, SequenceChannelLayer* laye
     return note;
 }
 
-Note* AudioHeap_AllocNoteFromActive(NotePool* pool, SequenceChannelLayer* layer) {
+Note* AudioHeap_AllocNoteFromActive(NotePool* pool, SequenceLayer* layer) {
     Note* rNote;
     Note* aNote;
     s32 rPriority;
@@ -847,7 +847,7 @@ Note* AudioHeap_AllocNoteFromActive(NotePool* pool, SequenceChannelLayer* layer)
     return rNote;
 }
 
-Note* AudioHeap_AllocNote(SequenceChannelLayer* layer) {
+Note* AudioHeap_AllocNote(SequenceLayer* layer) {
     Note* ret;
     u32 policy = layer->channel->noteAllocPolicy;
 

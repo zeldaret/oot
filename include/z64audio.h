@@ -3,7 +3,7 @@
 
 #define MK_CMD(b0,b1,b2,b3) ((((b0) & 0xFF) << 0x18) | (((b1) & 0xFF) << 0x10) | (((b2) & 0xFF) << 0x8) | (((b3) & 0xFF) << 0))
 
-#define NO_LAYER ((SequenceChannelLayer*)(-1))
+#define NO_LAYER ((SequenceLayer*)(-1))
 #define NO_CHANNEL ((SequenceChannel*)(-1))
 
 #define TATUMS_PER_BEAT 48
@@ -34,7 +34,7 @@ typedef s32 (*DmaHandler)(OSPiHandle* handle, OSIoMesg* mb, s32 direction);
 struct Note;
 struct NotePool;
 struct SequenceChannel;
-struct SequenceChannelLayer;
+struct SequenceLayer;
 
 typedef struct AudioListItem {
     // A node in a circularly linked list. Each node is either a head or an item:
@@ -47,7 +47,7 @@ typedef struct AudioListItem {
     /* 0x00 */ struct AudioListItem* prev;
     /* 0x04 */ struct AudioListItem* next;
     /* 0x08 */ union {
-                   void* value; // either Note* or SequenceChannelLayer*
+                   void* value; // either Note* or SequenceLayer*
                    s32 count;
                } u;
     /* 0x0C */ struct NotePool* pool;
@@ -300,7 +300,7 @@ typedef struct SequenceChannel {
     /* 0x00 */ u8 enabled : 1;
     /* 0x00 */ u8 finished : 1;
     /* 0x00 */ u8 stopScript : 1;
-    /* 0x00 */ u8 stopSomething2 : 1; // sets SequenceChannelLayer.stopSomething
+    /* 0x00 */ u8 stopSomething2 : 1; // sets SequenceLayer.stopSomething
     /* 0x00 */ u8 hasInstrument : 1;
     /* 0x00 */ u8 stereoHeadsetEffects : 1;
     /* 0x00 */ u8 largeNotes : 1; // notes specify duration and velocity
@@ -347,10 +347,10 @@ typedef struct SequenceChannel {
     /* 0x38 */ f32 freqScale;
     /* 0x3C */ u8 (*dynTable)[][2];
     /* 0x40 */ struct Note* noteUnused;
-    /* 0x44 */ struct SequenceChannelLayer* layerUnused;
+    /* 0x44 */ struct SequenceLayer* layerUnused;
     /* 0x48 */ Instrument* instrument;
     /* 0x4C */ SequencePlayer* seqPlayer;
-    /* 0x50 */ struct SequenceChannelLayer* layers[4];
+    /* 0x50 */ struct SequenceLayer* layers[4];
     /* 0x60 */ SeqScriptState scriptState;
     /* 0x7C */ AdsrSettings adsr;
     /* 0x84 */ NotePool notePool;
@@ -360,7 +360,7 @@ typedef struct SequenceChannel {
 } SequenceChannel; // size = 0xD4
 
 // Might also be known as a Track, according to sm64 debug strings (?).
-typedef struct SequenceChannelLayer {
+typedef struct SequenceLayer {
     /* 0x00 */ u8 enabled : 1;
     /* 0x00 */ u8 finished : 1;
     /* 0x00 */ u8 stopSomething : 1;
@@ -399,7 +399,7 @@ typedef struct SequenceChannelLayer {
     /* 0x50 */ SequenceChannel* channel;
     /* 0x54 */ SeqScriptState scriptState;
     /* 0x70 */ AudioListItem listItem;
-} SequenceChannelLayer; // size = 0x80
+} SequenceLayer; // size = 0x80
 
 typedef struct {
     /* 0x0000 */ s16 adpcmdecState[0x10];
@@ -452,9 +452,9 @@ typedef struct {
     /* 0x06 */ s16 adsrVolScaleUnused;
     /* 0x08 */ f32 portamentoFreqScale;
     /* 0x0C */ f32 vibratoFreqScale;
-    /* 0x10 */ SequenceChannelLayer* prevParentLayer;
-    /* 0x14 */ SequenceChannelLayer* parentLayer;
-    /* 0x18 */ SequenceChannelLayer* wantedParentLayer;
+    /* 0x10 */ SequenceLayer* prevParentLayer;
+    /* 0x14 */ SequenceLayer* parentLayer;
+    /* 0x18 */ SequenceLayer* wantedParentLayer;
     /* 0x1C */ NoteAttributes attributes;
     /* 0x40 */ AdsrState adsr;
     // may contain portamento, vibratoState, if those are not part of Note itself
@@ -855,7 +855,7 @@ typedef struct {
     /* 0x3528 */ u32 audioHeapSize;
     /* 0x352C */ Note* notes;
     /* 0x3530 */ SequencePlayer seqPlayers[4];
-    /* 0x3AB0 */ SequenceChannelLayer sequenceLayers[64];
+    /* 0x3AB0 */ SequenceLayer sequenceLayers[64];
     /* 0x5AB0 */ SequenceChannel sequenceChannelNone;
     /* 0x5B84 */ s32 noteSubEuOffset;
     /* 0x5B88 */ AudioListItem layerFreeList;

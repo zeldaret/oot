@@ -725,7 +725,7 @@ void Audio_WaitForAudioTask(void) {
 
 s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
     SequencePlayer* seqPlayer;
-    SequenceChannelLayer* layer;
+    SequenceLayer* layer;
     Note* note;
     SoundFontSound* sound;
     s32 loopEnd;
