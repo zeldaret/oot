@@ -3,7 +3,7 @@
 #   message_data_static text encoder
 #
 
-import argparse, re
+import argparse, ast, re
 
 charmap = {}
 
@@ -12,17 +12,14 @@ string_regex = re.compile(r"([\"'`])(?:[\s\S])*?(?:(?<!\\)\1)")
 def read_charmap(path):
     global charmap
 
-    contents = ""
     with open(path) as infile:
-        contents = infile.read()
+        charmap = infile.read()
 
-    lines = [line for line in contents.split("\n") if (line is not "" and not line.startswith("//"))]
-
-    for line in lines:
-        charmap[line.split(" = ")[0].replace("'","")] = chr(int(line.split(" = ")[1].strip(),16))
+    charmap = ast.literal_eval(charmap)
+    charmap = dict([(repr(k)[1:-1],chr(v)) for k,v in charmap.items()])
 
 def cvt_str(m):
-    string = m.group(0).replace("\\n", charmap["\\n"])
+    string = m.group(0)
 
     for orig,char in charmap.items():
         string = string.replace(orig, char)
