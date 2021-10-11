@@ -43,8 +43,8 @@ typedef struct EnGo {
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ struct_80034A14_arg1 unk_1E0;
     /* 0x0208 */ char unk_208[0x4];
-    /* 0x020c */ s16 unk_20C;
-    /* 0x020e */ s16 unk_20E;
+    /* 0x020C */ s16 unk_20C;
+    /* 0x020E */ s16 unk_20E;
     /* 0x0210 */ s16 unk_210;
     /* 0x0212 */ s16 unk_212;
     /* 0x0214 */ s16 unk_214;

@@ -86,7 +86,7 @@ f32 Audio_GetPortamentoFreqScale(Portamento* p) {
     f32 result;
 
     p->cur += p->speed;
-    loResCur = (p->cur >> 8) & 0xff;
+    loResCur = (p->cur >> 8) & 0xFF;
 
     if (loResCur >= 127) {
         loResCur = 127;

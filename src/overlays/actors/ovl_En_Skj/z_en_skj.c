@@ -126,13 +126,13 @@ typedef enum {
     /* 00 */ SKJ_ACTION_FADE,
     /* 01 */ SKJ_ACTION_WAIT_TO_SHOOT_NEEDLE,
     /* 02 */ SKJ_ACTION_SARIA_SONG_IDLE,
-    /* 03 */ SKJ_ACTON_WAIT_FOR_DEATH_ANIM,
+    /* 03 */ SKJ_ACTION_WAIT_FOR_DEATH_ANIM,
     /* 04 */ SKJ_ACTION_PICK_NEXT_FIHGT_ACTION,
-    /* 05 */ SKJ_ACTON_WAIT_FOR_LAND_ANIM,
-    /* 06 */ SKJ_ACTON_RESET_FIGHT,
-    /* 07 */ SKJ_ACTON_FIGHT,
-    /* 08 */ SKJ_ACTON_NEEDLE_RECOVER,
-    /* 09 */ SKJ_ACTON_SPAWN_DEATH_EFFECT,
+    /* 05 */ SKJ_ACTION_WAIT_FOR_LAND_ANIM,
+    /* 06 */ SKJ_ACTION_RESET_FIGHT,
+    /* 07 */ SKJ_ACTION_FIGHT,
+    /* 08 */ SKJ_ACTION_NEEDLE_RECOVER,
+    /* 09 */ SKJ_ACTION_SPAWN_DEATH_EFFECT,
     /* 10 */ SKJ_ACTION_SARIA_SONG_WAIT_IN_RANGE,
     /* 11 */ SKJ_ACTION_SARIA_SONG_WAIT_FOR_SONG,
     /* 12 */ SKJ_ACTION_SARIA_SONG_AFTER_SONG,
@@ -307,9 +307,9 @@ void EnSkj_SetupAction(EnSkj* this, u8 action) {
 
     switch (action) {
         case SKJ_ACTION_FADE:
-        case SKJ_ACTON_WAIT_FOR_DEATH_ANIM:
+        case SKJ_ACTION_WAIT_FOR_DEATH_ANIM:
         case SKJ_ACTION_PICK_NEXT_FIHGT_ACTION:
-        case SKJ_ACTON_SPAWN_DEATH_EFFECT:
+        case SKJ_ACTION_SPAWN_DEATH_EFFECT:
         case SKJ_ACTION_SARIA_SONG_START_TRADE:
         case SKJ_ACTION_SARIA_SONG_WAIT_FOR_LANDING:
         case SKJ_ACTION_SARIA_SONG_WAIT_FOR_LANDING_ANIM:
@@ -739,7 +739,7 @@ void EnSkj_SariasSongKidIdle(EnSkj* this, GlobalContext* globalCtx) {
 
 void EnSkj_SetupDie(EnSkj* this) {
     EnSkj_ChangeAnim(this, SKJ_ANIM_DIE);
-    EnSkj_SetupAction(this, SKJ_ACTON_WAIT_FOR_DEATH_ANIM);
+    EnSkj_SetupAction(this, SKJ_ACTION_WAIT_FOR_DEATH_ANIM);
 }
 
 void EnSkj_WaitForDeathAnim(EnSkj* this, GlobalContext* globalCtx) {
@@ -772,7 +772,7 @@ void func_80AFF2A0(EnSkj* this) {
     EnSkj_CalculateCenter(this);
     this->actor.speedXZ = 0.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_LAND);
-    EnSkj_SetupAction(this, SKJ_ACTON_WAIT_FOR_LAND_ANIM);
+    EnSkj_SetupAction(this, SKJ_ACTION_WAIT_FOR_LAND_ANIM);
 }
 
 void EnSkj_WaitForLandAnim(EnSkj* this, GlobalContext* globalCtx) {
@@ -788,7 +788,7 @@ void func_80AFF334(EnSkj* this) {
     this->battleExitTimer = 400;
     this->unk_2EC = 600.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_LOOK_LEFT_RIGHT);
-    EnSkj_SetupAction(this, SKJ_ACTON_RESET_FIGHT);
+    EnSkj_SetupAction(this, SKJ_ACTION_RESET_FIGHT);
 }
 
 void EnSkj_ResetFight(EnSkj* this, GlobalContext* globalCtx) {
@@ -806,7 +806,7 @@ void EnSkj_SetupStand(EnSkj* this) {
     this->unk_2F0 = 0.0f;
     this->unk_2EC = 600.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_FIGHTING_STANCE);
-    EnSkj_SetupAction(this, SKJ_ACTON_FIGHT);
+    EnSkj_SetupAction(this, SKJ_ACTION_FIGHT);
 }
 
 void EnSkj_Fight(EnSkj* this, GlobalContext* globalCtx) {
@@ -854,7 +854,7 @@ void EnSkj_Fight(EnSkj* this, GlobalContext* globalCtx) {
 
 void EnSkj_SetupNeedleRecover(EnSkj* this) {
     Animation_Reverse(&this->skelAnime);
-    EnSkj_SetupAction(this, SKJ_ACTON_NEEDLE_RECOVER);
+    EnSkj_SetupAction(this, SKJ_ACTION_NEEDLE_RECOVER);
 }
 
 void EnSkj_NeedleRecover(EnSkj* this, GlobalContext* globalCtx) {
@@ -865,7 +865,7 @@ void EnSkj_NeedleRecover(EnSkj* this, GlobalContext* globalCtx) {
 
 void EnSkj_SetupSpawnDeathEffect(EnSkj* this) {
     this->backfilpFlag = 1;
-    EnSkj_SetupAction(this, SKJ_ACTON_SPAWN_DEATH_EFFECT);
+    EnSkj_SetupAction(this, SKJ_ACTION_SPAWN_DEATH_EFFECT);
 }
 
 void EnSkj_SpawnDeathEffect(EnSkj* this, GlobalContext* globalCtx) {

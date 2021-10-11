@@ -2694,7 +2694,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     objBankIndex = Object_GetIndex(&globalCtx->objectCtx, actorInit->objectId);
 
     if ((objBankIndex < 0) ||
-        ((actorInit->category == ACTORCAT_ENEMY) && (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)))) {
+        ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num))) {
         // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
         osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
                      objBankIndex, actorInit->objectId);
@@ -3947,7 +3947,7 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
     }
 }
 
-void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
+void func_8003555C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     Color_RGBA8 color1;
     Color_RGBA8 color2;
 
@@ -3960,7 +3960,7 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     color2.b = 50;
 
     //! @bug color1 and color2 alpha components not set before being passed on
-    EffectSsKiraKira_SpawnSmall(globalCtx, arg1, arg2, arg3, &color1, &color2);
+    EffectSsKiraKira_SpawnSmall(globalCtx, pos, velocity, accel, &color1, &color2);
 }
 
 Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
@@ -3973,8 +3973,8 @@ Gfx D_80116280[] = {
     gsSPEndDisplayList(),
 };
 
-void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1) {
-    func_8003555C(globalCtx, arg1, &D_80116268, &D_80116274);
+void func_800355B8(GlobalContext* globalCtx, Vec3f* pos) {
+    func_8003555C(globalCtx, pos, &D_80116268, &D_80116274);
 }
 
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
@@ -4372,7 +4372,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 if (Flags_GetEventChkInf(0x5C)) {
                     retTextId = 0x1079;
                 } else {
-                    retTextId = 0x104e;
+                    retTextId = 0x104E;
                 }
             }
             break;
@@ -4402,7 +4402,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 }
             } else {
                 if (Flags_GetEventChkInf(0x5C)) {
-                    retTextId = 0x107b;
+                    retTextId = 0x107B;
                 } else {
                     retTextId = 0x1051;
                 }
@@ -4462,7 +4462,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             break;
         case 17:
             if (Flags_GetEventChkInf(0x9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
-                if (Flags_GetInfTable(0x6c)) {
+                if (Flags_GetInfTable(0x6C)) {
                     retTextId = 0x7008;
                 } else {
                     retTextId = 0x7007;
@@ -4524,7 +4524,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             if (Flags_GetEventChkInf(0x9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
                 retTextId = 0x7046;
             } else {
-                Flags_GetInfTable(0xc2);
+                Flags_GetInfTable(0xC2);
                 retTextId = 0x7018;
             }
             break;
@@ -4547,7 +4547,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             if (Flags_GetEventChkInf(0x9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
                 retTextId = 0x7048;
             } else {
-                Flags_GetInfTable(0xca);
+                Flags_GetInfTable(0xCA);
                 retTextId = 0x701D;
             }
             break;
@@ -4555,7 +4555,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             if (Flags_GetEventChkInf(0x9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
                 retTextId = 0x7049;
             } else {
-                Flags_GetInfTable(0xcc);
+                Flags_GetInfTable(0xCC);
                 retTextId = 0x701F;
             }
             break;
@@ -5044,7 +5044,7 @@ void func_80036E50(u16 textId, s16 arg1) {
             }
             return;
         case 34:
-            if (textId == 0x403c) {
+            if (textId == 0x403C) {
                 Flags_SetInfTable(0xD6);
             }
             return;
