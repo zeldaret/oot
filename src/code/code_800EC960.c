@@ -2779,8 +2779,8 @@ void func_800F314C(s8 arg0) {
     Audio_QueueCmdS32(0x82000000 | (((u8)arg0 & 0xFF) << 8), 1);
 }
 
-f32 Audio_ComputeSoundVolume(u8 bankIdx, u8 entryIdx) {
-    SoundBankEntry* bankEntry = &gSoundBanks[bankIdx][entryIdx];
+f32 Audio_ComputeSoundVolume(u8 bankId, u8 entryIdx) {
+    SoundBankEntry* bankEntry = &gSoundBanks[bankId][entryIdx];
     f32 minDist;
     f32 baseDist;
     f32 ret;
@@ -2824,10 +2824,10 @@ f32 Audio_ComputeSoundVolume(u8 bankIdx, u8 entryIdx) {
     return ret;
 }
 
-s8 Audio_ComputeSoundReverb(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
+s8 Audio_ComputeSoundReverb(u8 bankId, u8 entryIdx, u8 channelIdx) {
     s8 distAdd = 0;
     s32 scriptAdd = 0;
-    SoundBankEntry* entry = &gSoundBanks[bankIdx][entryIdx];
+    SoundBankEntry* entry = &gSoundBanks[bankId][entryIdx];
     s32 reverb;
 
     if (!(entry->sfxParams & 0x1000)) {
@@ -2846,7 +2846,7 @@ s8 Audio_ComputeSoundReverb(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     }
 
     reverb = *entry->reverbAdd + distAdd + scriptAdd;
-    if ((bankIdx != BANK_OCARINA) || !((entry->sfxId & 0x1FF) < 2)) {
+    if ((bankId != BANK_OCARINA) || !((entry->sfxId & 0x1FF) < 2)) {
         reverb += sAudioEnvReverb + sAudioCodeReverb + sSpecReverb;
     }
 
@@ -2900,9 +2900,9 @@ s8 Audio_ComputeSoundPanSigned(f32 x, f32 z, u8 token) {
     return (s8)((pan * 127.0f) + 0.5f);
 }
 
-f32 Audio_ComputeSoundFreqScale(u8 bankIdx, u8 entryIdx) {
+f32 Audio_ComputeSoundFreqScale(u8 bankId, u8 entryIdx) {
     s32 phi_v0 = 0;
-    SoundBankEntry* entry = &gSoundBanks[bankIdx][entryIdx];
+    SoundBankEntry* entry = &gSoundBanks[bankId][entryIdx];
     f32 unk1C;
     f32 freq = 1.0f;
 
@@ -2910,7 +2910,7 @@ f32 Audio_ComputeSoundFreqScale(u8 bankIdx, u8 entryIdx) {
         freq = 1.0f - ((gAudioContext.audioRandom & 0xF) / 192.0f);
     }
 
-    switch (bankIdx) {
+    switch (bankId) {
         case BANK_PLAYER:
         case BANK_ITEM:
         case BANK_VOICE:
@@ -3013,7 +3013,7 @@ s8 func_800F3990(f32 arg0, u16 sfxParams) {
     return ret | 1;
 }
 
-void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
+void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
     f32 vol = 1.0f;
     s8 volS8;
     s8 reverb = 0;
@@ -3024,9 +3024,9 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     s8 sp38 = 0;
     f32 behindScreenZ;
     u8 baseFilter = 0;
-    SoundBankEntry* entry = &gSoundBanks[bankIdx][entryIdx];
+    SoundBankEntry* entry = &gSoundBanks[bankId][entryIdx];
 
-    switch (bankIdx) {
+    switch (bankId) {
         case BANK_PLAYER:
         case BANK_ITEM:
         case BANK_ENV:
@@ -3038,10 +3038,10 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
             // fallthrough
         case BANK_OCARINA:
             entry->dist = sqrtf(entry->dist);
-            vol = Audio_ComputeSoundVolume(bankIdx, entryIdx) * *entry->vol;
-            reverb = Audio_ComputeSoundReverb(bankIdx, entryIdx, channelIdx);
+            vol = Audio_ComputeSoundVolume(bankId, entryIdx) * *entry->vol;
+            reverb = Audio_ComputeSoundReverb(bankId, entryIdx, channelIdx);
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->token);
-            freqScale = Audio_ComputeSoundFreqScale(bankIdx, entryIdx) * *entry->freqScale;
+            freqScale = Audio_ComputeSoundFreqScale(bankId, entryIdx) * *entry->freqScale;
             if (D_80130604 == 2) {
                 behindScreenZ = sBehindScreenZ[(entry->sfxParams & 0x400) >> 10];
                 if (!(entry->sfxParams & 0x800)) {
@@ -3061,7 +3061,7 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
                 }
             }
             if (sAudioBaseFilter != 0) {
-                if ((bankIdx == BANK_ITEM) || (bankIdx == BANK_PLAYER) || (bankIdx == BANK_VOICE)) {
+                if ((bankId == BANK_ITEM) || (bankId == BANK_PLAYER) || (bankId == BANK_VOICE)) {
                     baseFilter = sAudioBaseFilter;
                 }
             }
