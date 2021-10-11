@@ -1505,9 +1505,9 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
 
             // 0xF2 and above are "flow control" commands, including termination.
             if (command >= 0xF2) {
-                s32 scriptHandled =
-                    AudioSeq_HandleScriptFlowControl(seqPlayer, seqScript, command,
-                                                  AudioSeq_GetScriptControlFlowArgument(&seqPlayer->scriptState, command));
+                s32 scriptHandled = AudioSeq_HandleScriptFlowControl(
+                    seqPlayer, seqScript, command,
+                    AudioSeq_GetScriptControlFlowArgument(&seqPlayer->scriptState, command));
 
                 if (scriptHandled != 0) {
                     if (scriptHandled == -1) {
