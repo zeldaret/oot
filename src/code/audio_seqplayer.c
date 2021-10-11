@@ -367,16 +367,16 @@ u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state) {
     return ret;
 }
 
-void func_800E9ED8(SequenceLayer* layer);
-s32 func_800E9F64(SequenceLayer* layer, s32 arg1);
-s32 func_800EA0C0(SequenceLayer* layer);
-s32 func_800EA440(SequenceLayer* layer, s32 arg1);
-s32 func_800EAAE0(SequenceLayer* layer, s32 arg1);
+void AudioSeq_SeqLayerProcessScriptStep1(SequenceLayer* layer);
+s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer);
+s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd);
+s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd);
+s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameSound);
 
 void AudioSeq_SeqLayerProcessScript(SequenceLayer* layer) {
     s32 val;
 
-    if (layer->enabled == 0) {
+    if (!layer->enabled) {
         return;
     }
 
@@ -389,28 +389,28 @@ void AudioSeq_SeqLayerProcessScript(SequenceLayer* layer) {
         return;
     }
 
-    func_800E9ED8(layer);
-    val = func_800EA0C0(layer);
+    AudioSeq_SeqLayerProcessScriptStep1(layer);
+    val = AudioSeq_SeqLayerProcessScriptStep2(layer);
     if (val == -1) {
         return;
     }
 
-    val = func_800EAAE0(layer, val);
+    val = AudioSeq_SeqLayerProcessScriptStep3(layer, val);
     if (val != -1) {
-        val = func_800EA440(layer, val);
+        val = AudioSeq_SeqLayerProcessScriptStep4(layer, val);
     }
     if (val != -1) {
-        func_800E9F64(layer, val);
+        AudioSeq_SeqLayerProcessScriptStep5(layer, val);
     }
 
-    if (layer->stopSomething == 1) {
+    if (layer->stopSomething == true) {
         if ((layer->note != NULL) || layer->continuousNotes) {
             Audio_SeqLayerNoteDecay(layer);
         }
     }
 }
 
-void func_800E9ED8(SequenceLayer* layer) {
+void AudioSeq_SeqLayerProcessScriptStep1(SequenceLayer* layer) {
     if (!layer->continuousNotes) {
         Audio_SeqLayerNoteDecay(layer);
     } else if (layer->note != NULL && layer->note->playbackState.wantedParentLayer == layer) {
@@ -424,24 +424,24 @@ void func_800E9ED8(SequenceLayer* layer) {
     layer->notePropertiesNeedInit = true;
 }
 
-s32 func_800E9F64(SequenceLayer* layer, s32 arg1) {
+s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameSound) {
     if (!layer->stopSomething && layer->sound != NULL && layer->sound->sample->codec == CODEC_S16_INMEMORY &&
         layer->sound->sample->medium != MEDIUM_RAM) {
         layer->stopSomething = true;
         return -1;
     }
 
-    if (layer->continuousNotes == 1 && layer->bit1 == 1) {
+    if (layer->continuousNotes == true && layer->bit1 == 1) {
         return 0;
     }
 
-    if (layer->continuousNotes == 1 && layer->note != NULL && layer->bit3 && arg1 == 1 &&
+    if (layer->continuousNotes == true && layer->note != NULL && layer->bit3 && sameSound == true &&
         layer->note->playbackState.parentLayer == layer) {
         if (layer->sound == NULL) {
             Audio_InitSyntheticWave(layer->note, layer);
         }
     } else {
-        if (arg1 == 0) {
+        if (sameSound == false) {
             Audio_SeqLayerNoteDecay(layer);
         }
         layer->note = AudioHeap_AllocNote(layer);
@@ -457,7 +457,7 @@ s32 func_800E9F64(SequenceLayer* layer, s32 arg1) {
     return 0;
 }
 
-s32 func_800EA0C0(SequenceLayer* layer) {
+s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
     SequenceChannel* channel = layer->channel;
     SeqScriptState* state = &layer->scriptState;
     SequencePlayer* seqPlayer = channel->seqPlayer;
@@ -608,8 +608,8 @@ s32 func_800EA0C0(SequenceLayer* layer) {
     }
 }
 
-s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
-    s32 sameSound = 1;
+s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
+    s32 sameSound = true;
     s32 instOrWave;
     s32 speed;
     f32 temp_f14;
@@ -623,9 +623,9 @@ s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
     s32 pad;
     SequenceChannel* channel;
     SequencePlayer* seqPlayer;
-    u8 cmd = arg1;
+    u8 semitone = cmd;
     u16 sfxId;
-    s32 cmd2;
+    s32 semitone2;
     s32 vel;
     f32 time;
     f32 tuning;
@@ -643,9 +643,9 @@ s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
 
     switch (instOrWave) {
         case 0:
-            cmd += channel->transposition + layer->transposition;
-            layer->semitone = cmd;
-            drum = Audio_GetDrum(channel->fontId, cmd);
+            semitone += channel->transposition + layer->transposition;
+            layer->semitone = semitone;
+            drum = Audio_GetDrum(channel->fontId, semitone);
             if (drum == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay;
@@ -662,8 +662,8 @@ s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
             break;
 
         case 1:
-            layer->semitone = cmd;
-            sfxId = (layer->transposition << 6) + cmd;
+            layer->semitone = semitone;
+            sfxId = (layer->transposition << 6) + semitone;
             sound = Audio_GetSfx(channel->fontId, sfxId);
             if (sound == NULL) {
                 layer->stopSomething = true;
@@ -675,10 +675,10 @@ s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
             break;
 
         default:
-            cmd += seqPlayer->transposition + channel->transposition + layer->transposition;
-            cmd2 = cmd;
-            layer->semitone = cmd;
-            if (cmd >= 0x80) {
+            semitone += seqPlayer->transposition + channel->transposition + layer->transposition;
+            semitone2 = semitone;
+            layer->semitone = semitone;
+            if (semitone >= 0x80) {
                 layer->stopSomething = true;
                 return -1;
             }
@@ -690,7 +690,7 @@ s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
 
             if (layer->portamento.mode != 0) {
                 portamento = &layer->portamento;
-                vel = (cmd > layer->portamentoTargetNote) ? cmd : layer->portamentoTargetNote;
+                vel = (semitone > layer->portamentoTargetNote) ? semitone : layer->portamentoTargetNote;
 
                 if (instrument != NULL) {
                     sound = Audio_InstrumentGetSound(instrument, vel);
@@ -705,7 +705,7 @@ s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
                     }
                 }
 
-                temp_f2 = gNoteFrequencies[cmd2] * tuning;
+                temp_f2 = gNoteFrequencies[semitone2] * tuning;
                 temp_f14 = gNoteFrequencies[layer->portamentoTargetNote] * tuning;
 
                 switch (PORTAMENTO_MODE(*portamento)) {
@@ -747,19 +747,19 @@ s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
                 portamento->cur = 0;
                 layer->freqScale = freqScale;
                 if (PORTAMENTO_MODE(*portamento) == PORTAMENTO_MODE_5) {
-                    layer->portamentoTargetNote = cmd;
+                    layer->portamentoTargetNote = semitone;
                 }
                 break;
             }
 
             if (instrument != NULL) {
-                sound = Audio_InstrumentGetSound(instrument, cmd);
+                sound = Audio_InstrumentGetSound(instrument, semitone);
                 sameSound = (sound == layer->sound);
                 layer->sound = sound;
-                layer->freqScale = gNoteFrequencies[cmd2] * sound->tuning;
+                layer->freqScale = gNoteFrequencies[semitone2] * sound->tuning;
             } else {
                 layer->sound = NULL;
-                layer->freqScale = gNoteFrequencies[cmd2];
+                layer->freqScale = gNoteFrequencies[semitone2];
                 if (instOrWave >= 0xC0) {
                     layer->sound = &gAudioContext.synthesisReverbs[instOrWave - 0xC0].sound;
                 }
@@ -802,7 +802,7 @@ s32 func_800EA440(SequenceLayer* layer, s32 arg1) {
     return sameSound;
 }
 
-s32 func_800EAAE0(SequenceLayer* layer, s32 arg1) {
+s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
     SeqScriptState* state = &layer->scriptState;
     u16 delay;
     s32 velocity;
@@ -811,7 +811,7 @@ s32 func_800EAAE0(SequenceLayer* layer, s32 arg1) {
     s32 intDelta;
     f32 floatDelta;
 
-    if (arg1 == 0xC0) {
+    if (cmd == 0xC0) {
         layer->delay = AudioSeq_ScriptReadCompressedU16(state);
         layer->stopSomething = true;
         layer->bit1 = false;
@@ -820,7 +820,7 @@ s32 func_800EAAE0(SequenceLayer* layer, s32 arg1) {
 
     layer->stopSomething = false;
     if (channel->largeNotes == 1) {
-        switch (arg1 & 0xC0) {
+        switch (cmd & 0xC0) {
             case 0x00:
                 delay = AudioSeq_ScriptReadCompressedU16(state);
                 velocity = *(state->pc++);
@@ -846,9 +846,9 @@ s32 func_800EAAE0(SequenceLayer* layer, s32 arg1) {
             velocity = 0x7F;
         }
         layer->velocitySquare = (f32)velocity * (f32)velocity / 16129.0f;
-        arg1 -= (arg1 & 0xC0);
+        cmd -= (cmd & 0xC0);
     } else {
-        switch (arg1 & 0xC0) {
+        switch (cmd & 0xC0) {
             case 0x00:
                 delay = AudioSeq_ScriptReadCompressedU16(state);
                 layer->lastDelay = delay;
@@ -862,7 +862,7 @@ s32 func_800EAAE0(SequenceLayer* layer, s32 arg1) {
                 delay = layer->lastDelay;
                 break;
         }
-        arg1 -= (arg1 & 0xC0);
+        cmd -= (cmd & 0xC0);
     }
 
     if (channel->velocityRandomVariance != 0) {
@@ -905,7 +905,7 @@ s32 func_800EAAE0(SequenceLayer* layer, s32 arg1) {
         layer->stopSomething = true;
         return -1;
     }
-    return arg1;
+    return cmd;
 }
 
 void AudioSeq_SetChannelPriorities(SequenceChannel* channel, u8 arg1) {
