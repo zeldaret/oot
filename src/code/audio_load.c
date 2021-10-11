@@ -541,7 +541,7 @@ s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
         return 0;
     }
 
-    Audio_SequencePlayerDisable(seqPlayer);
+    AudioSeq_SequencePlayerDisable(seqPlayer);
 
     fontId = 0xFF;
     index = ((u16*)gAudioContext.sequenceFontTable)[seqId];
@@ -558,7 +558,7 @@ s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
         return 0;
     }
 
-    Audio_ResetSequencePlayer(seqPlayer);
+    AudioSeq_ResetSequencePlayer(seqPlayer);
     seqPlayer->seqId = seqId;
     seqPlayer->defaultFont = AudioLoad_GetRealTableIndex(FONT_TABLE, fontId);
     seqPlayer->seqData = seqData;
@@ -568,7 +568,7 @@ s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
     seqPlayer->delay = 0;
     seqPlayer->finished = 0;
     seqPlayer->playerIdx = playerIdx;
-    Audio_SkipForwardSequence(seqPlayer);
+    AudioSeq_SkipForwardSequence(seqPlayer);
     //! @bug missing return (but the return value is not used so it's not UB)
 }
 

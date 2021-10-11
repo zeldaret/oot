@@ -229,7 +229,7 @@ void func_800E5584(AudioCmd* cmd) {
         case 0x83:
             if (gAudioContext.seqPlayers[cmd->arg0].enabled) {
                 if (cmd->asInt == 0) {
-                    Audio_SequencePlayerDisableAsFinished(&gAudioContext.seqPlayers[cmd->arg0]);
+                    AudioSeq_SequencePlayerDisableAsFinished(&gAudioContext.seqPlayers[cmd->arg0]);
                 } else {
                     func_800E5958(cmd->arg0, cmd->asInt);
                 }
@@ -301,7 +301,7 @@ void func_800E5584(AudioCmd* cmd) {
                 for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
                     SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[i];
                     if (seqPlayer->enabled) {
-                        Audio_SequencePlayerDisableAsFinished(seqPlayer);
+                        AudioSeq_SequencePlayerDisableAsFinished(seqPlayer);
                     }
                 }
             }

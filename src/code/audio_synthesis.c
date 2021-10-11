@@ -136,7 +136,7 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
 
     cmdP = cmdStart;
     for (i = gAudioContext.audioBufferParameters.updatesPerFrame; i > 0; i--) {
-        Audio_ProcessSequences(i - 1);
+        AudioSeq_ProcessSequences(i - 1);
         func_800DB03C(gAudioContext.audioBufferParameters.updatesPerFrame - i);
     }
 
