@@ -44,7 +44,7 @@ void LogUtils_LogHexDump(void* ptr, s32 size0) {
             }
 
             i++;
-            if (i > 0xf) {
+            if (i > 0xF) {
                 break;
             }
         }
@@ -54,13 +54,13 @@ void LogUtils_LogHexDump(void* ptr, s32 size0) {
         while (true) {
             if (i < rest) {
                 u8 a = *(addr + i);
-                osSyncPrintf("%c", (a >= 0x20 && a < 0x7f) ? a : '.');
+                osSyncPrintf("%c", (a >= 0x20 && a < 0x7F) ? a : '.');
             } else {
                 osSyncPrintf(" ");
             }
 
             i++;
-            if (i > 0xf) {
+            if (i > 0xF) {
                 break;
             }
         }

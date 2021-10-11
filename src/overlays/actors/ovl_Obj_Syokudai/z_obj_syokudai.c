@@ -177,7 +177,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if (dmgFlags & 0x20820) {
                 interactionType = 1;
             }
-        } else if (player->heldItemActionParam == 6) {
+        } else if (player->heldItemActionParam == PLAYER_AP_STICK) {
             Math_Vec3f_Diff(&player->swordInfo[0].tip, &this->actor.world.pos, &tipToFlame);
             tipToFlame.y -= 67.0f;
             if ((SQ(tipToFlame.x) + SQ(tipToFlame.y) + SQ(tipToFlame.z)) < SQ(20.0f)) {

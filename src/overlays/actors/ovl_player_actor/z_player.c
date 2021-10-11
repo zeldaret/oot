@@ -3573,7 +3573,7 @@ void func_8083819C(Player* this, GlobalContext* globalCtx) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_SHIELD, this->actor.world.pos.x,
                     this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 1);
         Inventory_DeleteEquipment(globalCtx, EQUIP_SHIELD);
-        func_8010B680(globalCtx, 0x305F, NULL); // "Your shield is gone!"
+        func_8010B680(globalCtx, 0x305F, NULL);
     }
 }
 
@@ -4120,7 +4120,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
             doorActor = this->doorActor;
 
             if (this->doorType <= PLAYER_DOORTYPE_AJAR) {
-                doorActor->textId = 0xD0; // "It won't open!"
+                doorActor->textId = 0xD0;
                 func_80853148(globalCtx, doorActor);
                 return 0;
             }
@@ -5970,6 +5970,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                     }
                 } else {
                     s32 strength = Player_GetStrength();
+
                     if ((interactedActor->id == ACTOR_EN_ISHI) && ((interactedActor->params & 0xF) == 1) &&
                         (strength < PLAYER_STR_SILVER_G)) {
                         return 0;
