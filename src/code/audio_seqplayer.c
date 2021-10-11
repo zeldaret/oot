@@ -102,7 +102,7 @@ s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* 
     return 0;
 }
 
-void AudioSeq_SequenceChannelInit(SequenceChannel* channel) {
+void AudioSeq_InitSequenceChannel(SequenceChannel* channel) {
     s32 i;
 
     if (channel == &gAudioContext.sequenceChannelNone) {
@@ -236,7 +236,7 @@ void AudioSeq_SequenceChannelDisable(SequenceChannel* channel) {
     channel->finished = true;
 }
 
-void AudioSeq_SequencePlayerInitChannels(SequencePlayer* seqPlayer, u16 channelBits) {
+void AudioSeq_SequencePlayerSetupChannels(SequencePlayer* seqPlayer, u16 channelBits) {
     SequenceChannel* channel;
     s32 i;
 
@@ -1598,7 +1598,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         break;
                     case 0xD7:
                         temp = AudioSeq_ScriptReadS16(seqScript);
-                        AudioSeq_SequencePlayerInitChannels(seqPlayer, temp);
+                        AudioSeq_SequencePlayerSetupChannels(seqPlayer, temp);
                         break;
                     case 0xD6:
                         AudioSeq_ScriptReadS16(seqScript);
@@ -1786,13 +1786,13 @@ void AudioSeq_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     seqPlayer->muteVolumeScale = 0.5f;
 
     for (i = 0; i < 0x10; i++) {
-        AudioSeq_SequenceChannelInit(seqPlayer->channels[i]);
+        AudioSeq_InitSequenceChannel(seqPlayer->channels[i]);
     }
 }
 
-void func_800EC734(s32 seqPlayerIdx) {
+void AudioSeq_InitSequencePlayerChannels(s32 playerIdx) {
     SequenceChannel* channel;
-    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[seqPlayerIdx];
+    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIdx];
     s32 i, j;
 
     for (i = 0; i < 0x10; i++) {
@@ -1807,7 +1807,7 @@ void func_800EC734(s32 seqPlayerIdx) {
                 channel->layers[j] = NULL;
             }
         }
-        AudioSeq_SequenceChannelInit(seqPlayer->channels[i]);
+        AudioSeq_InitSequenceChannel(seqPlayer->channels[i]);
     }
 }
 

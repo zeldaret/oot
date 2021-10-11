@@ -2005,7 +2005,7 @@ void* AudioSeq_AudioListPopBack(AudioListItem* list);
 void AudioSeq_ProcessSequences(s32 arg0);
 void AudioSeq_SkipForwardSequence(SequencePlayer* seqPlayer);
 void AudioSeq_ResetSequencePlayer(SequencePlayer* seqPlayer);
-void func_800EC734(s32 seqPlayerIdx);
+void AudioSeq_InitSequencePlayerChannels(s32 playerIdx);
 void AudioSeq_InitSequencePlayers(void);
 void func_800ECC04(u16);
 void func_800ED858(u8);
