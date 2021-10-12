@@ -131,9 +131,9 @@
         <DList Name="gHumanHeadWrapperWrapperDL" Offset="0xD510" />
 
         <!-- Upper half of the dress? idk -->
-        <DList Name="object_human_DL_00E0B8" Offset="0xE0B8" />
-        <DList Name="object_human_DL_00E218" Offset="0xE218" />
-        <DList Name="object_human_DL_00E228" Offset="0xE228" />
+        <DList Name="gHumanWaistDL" Offset="0xE0B8" />
+        <DList Name="gHumanWaistWrapperDL" Offset="0xE218" />
+        <DList Name="gHumanWaistWrapperWrapperDL" Offset="0xE228" />
 
         <!-- Lower half of the dress -->
         <DList Name="gHumanDressLowerDL" Offset="0xE3A0" />
@@ -145,9 +145,9 @@
         <Texture Name="gHumanBeltTex" OutName="belt" Format="rgba16" Width="8" Height="8" Offset="0xF1A8"/>
         <Texture Name="gHumanFingersTex" OutName="fingers" Format="rgba16" Width="16" Height="8" Offset="0xF228"/>
         <Texture Name="gHumanNeckTex" OutName="neck" Format="rgba16" Width="16" Height="8" Offset="0xF328"/>
-        <!-- hair? -->
-        <Texture Name="object_human_Tex_00F428" OutName="object_human_Tex_00F428" Format="rgba16" Width="32" Height="32" Offset="0xF428"/>
+        <Texture Name="gHumanHairSideTex" OutName="hair_side" Format="rgba16" Width="32" Height="32" Offset="0xF428"/>
         <Texture Name="gHumanHairTex" OutName="hair" Format="rgba16" Width="64" Height="32" Offset="0xFC28"/>
+        <!-- Torso top? Looks like skin -->
         <Texture Name="object_human_Tex_010C28" OutName="object_human_Tex_010C28" Format="rgba16" Width="16" Height="16" Offset="0x10C28"/>
         <Texture Name="gHumanSkinTex" OutName="skin" Format="rgba16" Width="16" Height="16" Offset="0x10E28"/>
         <Texture Name="gHumanShoeTex" OutName="shoe" Format="rgba16" Width="16" Height="32" Offset="0x11028"/>
@@ -155,7 +155,7 @@
         <LegacyAnimation Name="gHumanIdleAnim" Offset="0x11A9C"/>
 
         <Limb Name="gHumanDressLowerLimb" LimbType="Legacy" Offset="0x11AA8"/>
-        <Limb Name="object_human_Limb_011AC8" LimbType="Legacy" Offset="0x11AC8"/> <!-- object_human_DL_00E228 -->
+        <Limb Name="gHumanWaistLimb" LimbType="Legacy" Offset="0x11AC8"/>
         <Limb Name="gHumanHairLimb" LimbType="Legacy" Offset="0x11AE8"/>
         <Limb Name="gHumanHandRightLimb" LimbType="Legacy" Offset="0x11B08"/>
         <Limb Name="gHumanForearmRightLimb" LimbType="Legacy" Offset="0x11B28"/>
