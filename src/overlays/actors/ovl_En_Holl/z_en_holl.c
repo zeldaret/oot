@@ -325,7 +325,7 @@ void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHoll* this = THIS;
     Gfx* gfxP;
-    u32 MaterialDLIdx;
+    u32 setupDlIdx;
 
     // Only draw the plane if not invisible
     if (this->planeAlpha != 0) {
@@ -333,12 +333,12 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->planeAlpha == 255) {
             gfxP = POLY_OPA_DISP;
-            MaterialDLIdx = 37;
+            setupDlIdx = 37;
         } else {
             gfxP = POLY_XLU_DISP;
-            MaterialDLIdx = 0;
+            setupDlIdx = 0;
         }
-        gfxP = Gfx_CallSetupDL(gfxP, MaterialDLIdx);
+        gfxP = Gfx_CallSetupDL(gfxP, setupDlIdx);
         if (this->side == 0) {
             Matrix_RotateY(M_PI, MTXMODE_APPLY);
         }
