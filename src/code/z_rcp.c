@@ -808,7 +808,7 @@ Gfx sSetupDL[][6] = {
     },
 };
 
-Gfx sFillMaterialDL[] = {
+Gfx sFillSetupDL[] = {
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
     gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
@@ -1440,9 +1440,9 @@ Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a) {
 void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2386);
 
-    gSPDisplayList(POLY_OPA_DISP++, sFillMaterialDL);
-    gSPDisplayList(POLY_XLU_DISP++, sFillMaterialDL);
-    gSPDisplayList(OVERLAY_DISP++, sFillMaterialDL);
+    gSPDisplayList(POLY_OPA_DISP++, sFillSetupDL);
+    gSPDisplayList(POLY_XLU_DISP++, sFillSetupDL);
+    gSPDisplayList(OVERLAY_DISP++, sFillSetupDL);
 
     gDPSetScissor(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, gScreenHeight);
     gDPSetScissor(POLY_XLU_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, gScreenHeight);
@@ -1531,7 +1531,7 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
 void func_80095974(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2503);
 
-    gSPDisplayList(POLY_OPA_DISP++, sFillMaterialDL);
+    gSPDisplayList(POLY_OPA_DISP++, sFillSetupDL);
     gDPSetScissor(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, gScreenHeight);
     gDPSetDepthImage(POLY_OPA_DISP++, gZBuffer);
     gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
