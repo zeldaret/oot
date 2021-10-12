@@ -34,15 +34,15 @@
         <Texture Name="object_human_Tex_005400" OutName="object_human_Tex_005400" Format="ci8" Width="16" Height="16" TlutOffset="0x7A00" Offset="0x5400"/>
         <Texture Name="object_human_Tex_005500" OutName="object_human_Tex_005500" Format="ci8" Width="16" Height="16" TlutOffset="0x7A00" Offset="0x5500"/>
 
-        <Texture Name="object_human_Tex_005600" OutName="object_human_Tex_005600" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x5600"/>
-        <Texture Name="object_human_Tex_005A00" OutName="object_human_Tex_005A00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x5A00"/>
-        <Texture Name="object_human_Tex_005E00" OutName="object_human_Tex_005E00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x5E00"/>
-        <Texture Name="object_human_Tex_006200" OutName="object_human_Tex_006200" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6200"/>
-        <Texture Name="object_human_Tex_006600" OutName="object_human_Tex_006600" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6600"/>
-        <Texture Name="object_human_Tex_006A00" OutName="object_human_Tex_006A00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6A00"/>
-        <Texture Name="object_human_Tex_006E00" OutName="object_human_Tex_006E00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6E00"/>
-        <Texture Name="object_human_Tex_007200" OutName="object_human_Tex_007200" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x7200"/>
-        <Texture Name="object_human_Tex_007600" OutName="object_human_Tex_007600" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x7600"/>
+        <Texture Name="gHumanMouthClosed1Tex" OutName="mouth_closed_1" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x5600"/>
+        <Texture Name="gHumanMouthOpen1Tex" OutName="mouth_open_1" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x5A00"/>
+        <Texture Name="gHumanMouthOpen2Tex" OutName="mouth_open_2" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x5E00"/>
+        <Texture Name="gHumanMouthClosed2Tex" OutName="mouth_closed_2" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6200"/>
+        <Texture Name="gHumanMouthOpen3Tex" OutName="mouth_open_3" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6600"/>
+        <Texture Name="gHumanMouthOpen4Tex" OutName="mouth_open_4" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6A00"/>
+        <Texture Name="gHumanMouthClosed3Tex" OutName="mouth_closed_3" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6E00"/>
+        <Texture Name="gHumanMouthOpen5Tex" OutName="mouth_open_5" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x7200"/>
+        <Texture Name="gHumanMouthOpen6Tex" OutName="mouth_open_6" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x7600"/>
 
         <Texture Name="gHumanTLUT" OutName="face_palette" Format="rgba16" Width="16" Height="16" Offset="0x7A00"/>
 
@@ -144,7 +144,7 @@
         <Texture Name="gHumanDressOrnamentsTex" OutName="dress_ornaments" Format="rgba16" Width="32" Height="32" Offset="0xE9A8"/>
         <Texture Name="gHumanBeltTex" OutName="belt" Format="rgba16" Width="8" Height="8" Offset="0xF1A8"/>
         <Texture Name="gHumanFingersTex" OutName="fingers" Format="rgba16" Width="16" Height="8" Offset="0xF228"/>
-        <Texture Name="object_human_Tex_00F328" OutName="object_human_Tex_00F328" Format="rgba16" Width="16" Height="8" Offset="0xF328"/>
+        <Texture Name="gHumanNeckTex" OutName="neck" Format="rgba16" Width="16" Height="8" Offset="0xF328"/>
         <!-- hair? -->
         <Texture Name="object_human_Tex_00F428" OutName="object_human_Tex_00F428" Format="rgba16" Width="32" Height="32" Offset="0xF428"/>
         <Texture Name="gHumanHairTex" OutName="hair" Format="rgba16" Width="64" Height="32" Offset="0xFC28"/>
