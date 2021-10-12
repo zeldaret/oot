@@ -1,5 +1,5 @@
-#ifndef _Z_SHOT_SUN_H_
-#define _Z_SHOT_SUN_H_
+#ifndef Z_SHOT_SUN_H
+#define Z_SHOT_SUN_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct ShotSun {
     /* 0x01A2 */ s16 timer; // Frames until fairy spawns
     /* 0x01A4 */ u8 unk_1A4;
 } ShotSun; // size = 0x01A8
-
-extern const ActorInit Shot_Sun_InitVars;
 
 #endif

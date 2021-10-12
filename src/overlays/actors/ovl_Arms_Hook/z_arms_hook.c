@@ -24,7 +24,7 @@ const ActorInit Arms_Hook_InitVars = {
     (ActorFunc)ArmsHook_Draw,
 };
 
-ColliderQuadInit sQuadInit = {
+static ColliderQuadInit sQuadInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_PLAYER,
@@ -86,13 +86,13 @@ void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ArmsHook_Wait(ArmsHook* this, GlobalContext* globalCtx) {
     if (this->actor.parent == NULL) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         // get correct timer length for hookshot or longshot
         s32 length = (player->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 13 : 26;
 
         ArmsHook_SetupAction(this, ArmsHook_Shoot);
         func_8002D9A4(&this->actor, 20.0f);
-        this->actor.parent = &PLAYER->actor;
+        this->actor.parent = &GET_PLAYER(globalCtx)->actor;
         this->timer = length;
     }
 }
@@ -108,9 +108,9 @@ s32 ArmsHook_AttachToPlayer(ArmsHook* this, Player* player) {
     if (this->actor.child != NULL) {
         player->actor.parent = NULL;
         this->actor.child = NULL;
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void ArmsHook_DetachHookFromActor(ArmsHook* this) {
@@ -142,7 +142,7 @@ void ArmsHook_AttachHookToActor(ArmsHook* this, Actor* actor) {
 }
 
 void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* touchedActor;
     Actor* grabbed;
     Vec3f bodyDistDiffVec;
@@ -284,8 +284,8 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                 Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.projectedPos, 4, &D_801333E0,
                                        &D_801333E0, &D_801333E8);
             }
-        } else if ((CHECK_BTN_ANY(globalCtx->state.input[0].press.button,
-                                  (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)))) {
+        } else if (CHECK_BTN_ANY(globalCtx->state.input[0].press.button,
+                                 (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN))) {
             this->timer = 0;
         }
     }
@@ -301,7 +301,7 @@ void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx) {
 void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ArmsHook* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp78;
     Vec3f sp6C;
     Vec3f sp60;

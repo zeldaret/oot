@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_6K_H_
-#define _Z_DEMO_6K_H_
+#ifndef Z_DEMO_6K_H
+#define Z_DEMO_6K_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -30,7 +30,5 @@ typedef struct Demo6K {
     /* 0x0292 */ u8 objBankIndex;
     /* 0x0293 */ u8 unk_293;
 } Demo6K; // size = 0x0294
-
-extern const ActorInit Demo_6k_InitVars;
 
 #endif

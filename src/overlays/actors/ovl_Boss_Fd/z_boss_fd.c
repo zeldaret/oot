@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Vb_Ball/z_en_vb_ball.h"
 #include "overlays/actors/ovl_Bg_Vb_Sima/z_bg_vb_sima.h"
 #include "overlays/actors/ovl_Boss_Fd2/z_boss_fd2.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000035
@@ -61,7 +62,7 @@ const ActorInit Boss_Fd_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x21, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -219,7 +220,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0, 0,
-                           -1);
+                           WARP_DUNGEON_ADULT);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 0.0f, 100.0f, 200.0f, 0, 0, 0, 0);
     } else {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_FD2, this->actor.world.pos.x,
@@ -269,7 +270,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dy;
     f32 dz;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 angleToTarget;
     f32 pitchToTarget;
     Vec3f* holePosition1;
@@ -300,7 +301,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     //                                        Boss Intro Cutscene
 
     if (this->introState != BFD_CS_NONE) {
-        Player* player2 = PLAYER;
+        Player* player2 = GET_PLAYER(globalCtx);
         Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
         switch (this->introState) {
@@ -1428,7 +1429,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     BossFdEffect* effect = this->effects;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Color_RGB8 colors[4] = { { 255, 128, 0 }, { 255, 0, 0 }, { 255, 255, 0 }, { 255, 0, 0 } };
     Vec3f diff;
     s16 i1;
@@ -1510,7 +1511,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
 }
 
 void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
-    static u64* dustTex[] = {
+    static void* dustTex[] = {
         gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
     };
     u8 flag = false;
@@ -1643,7 +1644,7 @@ void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         BossFd_DrawBody(globalCtx, this);
-        POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4243);
     }
 
@@ -1756,7 +1757,7 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
         Matrix_RotateY((maneRot + maneIndex)->y + phi_f20, MTXMODE_APPLY);
         Matrix_RotateX(-((maneRot + maneIndex)->x + phi_f22), MTXMODE_APPLY);
         Matrix_Scale(maneScale[maneIndex] * (0.01f - (i * 0.0008f)), maneScale[maneIndex] * (0.01f - (i * 0.0008f)),
-                     0.01f, 1);
+                     0.01f, MTXMODE_APPLY);
         Matrix_RotateX(-M_PI / 2.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4480),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1804,7 +1805,11 @@ void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     }
 }
 
-static u64* sEyeTextures[] = { gVolvagiaEyeOpenTex, gVolvagiaEyeHalfTex, gVolvagiaEyeClosedTex };
+static void* sEyeTextures[] = {
+    gVolvagiaEyeOpenTex,
+    gVolvagiaEyeHalfTex,
+    gVolvagiaEyeClosedTex,
+};
 
 static Gfx* sBodyDLists[] = {
     gVolvagiaBodySeg1DL,  gVolvagiaBodySeg2DL,  gVolvagiaBodySeg3DL,  gVolvagiaBodySeg4DL,  gVolvagiaBodySeg5DL,
@@ -1864,7 +1869,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                          MTXMODE_NEW);
         Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
         Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
-        Matrix_Translate(0.0f, 0.0f, 35.0f, 1);
+        Matrix_Translate(0.0f, 0.0f, 35.0f, MTXMODE_APPLY);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         if (i < this->skinSegments) {
             Matrix_Scale(1.0f + (Math_SinS((this->work[BFD_LEAD_BODY_SEG] * 5000.0f) + (i * 7000.0f)) *
@@ -1892,7 +1897,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                 if (i >= 14) {
                     f32 sp84 = 1.0f - ((i - 14) * 0.2f);
 
-                    Matrix_Scale(sp84, sp84, 1.0f, 1);
+                    Matrix_Scale(sp84, sp84, 1.0f, MTXMODE_APPLY);
                     spD4 = 0.1f * sp84;
                     temp_float = 0.1f * sp84;
                 }
@@ -1907,7 +1912,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                     this->bodyFallApart[i] = 2;
                     Matrix_MultVec3f(&spF0, &spE4);
                     Matrix_Get(&spFC);
-                    func_800D20CC(&spFC, &spDC, 0);
+                    Matrix_MtxFToYXZRotS(&spFC, &spDC, 0);
                     bones =
                         (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
                                                       spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i + 200);

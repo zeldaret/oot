@@ -5,6 +5,7 @@
  */
 
 #include "z_en_zl1.h"
+#include "objects/object_zl1/object_zl1.h"
 
 #define FLAGS 0x00000019
 
@@ -24,7 +25,212 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx);
 void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx);
 void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx);
 
-#include "z_en_zl1_cutscene_data.c" EARLY
+extern CutsceneData D_80B4C5D0[];
+
+static CutsceneCameraAngle D_80B4D5C0[] = {
+    { { -440.0f, 117.0f, 0.0f }, { -490.0f, 120.0f, 0.0f }, 0, 45 },
+    { { -484.0f, 122.0f, -29.0f }, { -480.0f, 116.0f, 18.0f }, 0, 80 },
+    { { -413.0f, 136.0f, -72.0f }, { -403.0f, 141.0f, -89.0f }, 0, 25 },
+    { { -454.0f, 120.0f, 0.0f }, { -434.0f, 121.0f, 0.0f }, 0, 20 },
+    { { -454.0f, 120.0f, 0.0f }, { -430.0f, 103.0f, -37.0f }, 0, 20 },
+    { { -454.0f, 105.0f, 50.0f }, { -453.0f, 105.0f, 66.0f }, 0, 60 },
+    { { -501.0f, 122.0f, 0.0f }, { -449.0f, 119.0f, 0.0f }, 0, 45 },
+    { { -462.0f, 121.0f, 0.0f }, { -419.0f, 125.0f, 0.0f }, 0, 20 },
+    { { -551.0f, 119.0f, 7.0f }, { -587.0f, 115.0f, 14.0f }, 0, 20 },
+    { { -489.0f, 129.0f, 0.0f }, { -470.0f, 128.0f, 0.0f }, 0, 40 },
+    { { -525.0f, 126.0f, 0.0f }, { -509.0f, 126.0f, 0.0f }, 0, 10 },
+    { { -491.0f, 120.0f, -7.0f }, { -509.0f, 115.0f, -7.0f }, 0, 75 },
+    { { -485.0f, 120.0f, -42.0f }, { -484.0f, 120.0f, 10.0f }, 0, 45 },
+};
+
+static CutsceneCameraPoint D_80B4D72C[] = {
+    { 0, 0, 20, 80.79987f, { -484, 122, -29 } },  { 0, 0, 20, 80.79987f, { -484, 122, -29 } },
+    { 0, 0, 20, 80.79987f, { -484, 122, -29 } },  { 0, 0, 20, 80.79987f, { -452, 121, -21 } },
+    { 0, 0, 20, 80.79987f, { -452, 121, -21 } },  { 0, 0, 20, 80.79987f, { -452, 121, -21 } },
+    { -1, 0, 20, 80.79987f, { -452, 121, -21 } }, { -1, 0, 30, 80.79987f, { -452, 121, -21 } },
+};
+
+static CutsceneCameraPoint D_80B4D7AC[] = {
+    { 0, 0, 0, 80.79987f, { -480, 116, 18 } },  { 0, 0, 0, 80.79987f, { -480, 116, 18 } },
+    { 0, 0, 0, 80.79987f, { -480, 116, 18 } },  { 0, 0, 0, 80.79987f, { -480, 116, 18 } },
+    { 0, 0, 0, 80.79987f, { -480, 116, 18 } },  { 0, 0, 0, 80.79987f, { -480, 116, 18 } },
+    { -1, 0, 0, 80.79987f, { -480, 116, 18 } }, { -1, 0, 0, 80.79987f, { -480, 116, 18 } },
+};
+
+static CutsceneCameraPoint D_80B4D82C[] = {
+    { 0, 0, 20, 45.200058f, { -439, 116, 0 } }, { 0, 0, 20, 45.200058f, { -439, 116, 0 } },
+    { 0, 0, 20, 50.60008f, { -433, 116, 0 } },  { 0, 0, 20, 55.600098f, { -431, 116, 0 } },
+    { 0, 0, 20, 60.000114f, { -427, 116, 0 } }, { 0, 0, 20, 65.000114f, { -424, 116, 0 } },
+    { 0, 0, 20, 70.800026f, { -422, 116, 0 } }, { 0, 0, 20, 75.59995f, { -419, 115, 0 } },
+    { -1, 0, 20, 75.59995f, { -419, 116, 0 } }, { -1, 0, 30, 75.59995f, { -419, 115, 0 } },
+};
+
+static CutsceneCameraPoint D_80B4D8CC[] = {
+    { 0, 0, 0, 60.400116f, { -480, 114, 0 } }, { 0, 0, 0, 45.200058f, { -480, 114, 0 } },
+    { 0, 0, 0, 45.200058f, { -474, 114, 0 } }, { 0, 0, 0, 50.60008f, { -472, 114, 0 } },
+    { 0, 0, 0, 55.600098f, { -468, 114, 0 } }, { 0, 0, 0, 60.000114f, { -465, 114, 0 } },
+    { 0, 0, 0, 65.000114f, { -463, 114, 0 } }, { 0, 0, 0, 70.800026f, { -460, 114, 0 } },
+    { -1, 0, 0, 75.59995f, { -460, 114, 0 } }, { -1, 0, 0, 75.59995f, { -460, 114, 0 } },
+};
+
+static CutsceneCameraPoint D_80B4D96C[] = {
+    { 0, 0, 25, 60.000114f, { -116, 50, 469 } },  { 0, 0, 25, 60.000114f, { -116, 50, 469 } },
+    { 0, 0, 25, 60.000114f, { -118, 50, 467 } },  { 0, 0, 25, 60.000114f, { -120, 50, 465 } },
+    { 0, 0, 25, 60.000114f, { -123, 50, 464 } },  { 0, 0, 25, 60.000114f, { -126, 50, 463 } },
+    { 0, 0, 25, 60.000114f, { -129, 50, 462 } },  { 0, 0, 25, 60.000114f, { -131, 50, 462 } },
+    { 0, 0, 25, 60.000114f, { -134, 50, 463 } },  { 0, 0, 25, 60.000114f, { -137, 50, 464 } },
+    { 0, 0, 25, 60.000114f, { -140, 50, 466 } },  { 0, 0, 25, 60.000114f, { -140, 50, 466 } },
+    { -1, 0, 25, 60.000114f, { -140, 50, 466 } }, { -1, 0, 25, 60.000114f, { -140, 50, 466 } },
+};
+
+static CutsceneCameraPoint D_80B4DA4C[] = {
+    { 0, 0, 0, 20.399963f, { -130, 50, 480 } },  { 0, 0, 0, 60.000114f, { -130, 50, 480 } },
+    { 0, 0, 0, 60.000114f, { -130, 50, 480 } },  { 0, 0, 0, 60.000114f, { -130, 50, 480 } },
+    { 0, 0, 0, 60.000114f, { -130, 50, 480 } },  { 0, 0, 0, 60.000114f, { -130, 50, 480 } },
+    { 0, 0, 0, 60.000114f, { -130, 50, 480 } },  { 0, 0, 0, 60.000114f, { -130, 50, 480 } },
+    { 0, 0, 0, 60.000114f, { -130, 50, 480 } },  { 0, 0, 0, 60.000114f, { -130, 50, 480 } },
+    { 0, 0, 0, 60.000114f, { -130, 50, 480 } },  { 0, 0, 0, 60.000114f, { -130, 50, 480 } },
+    { -1, 0, 0, 60.000114f, { -130, 50, 480 } }, { -1, 0, 0, 60.000114f, { -130, 50, 480 } },
+};
+
+static CutsceneCameraPoint D_80B4DB2C[] = {
+    { 0, 0, 30, 20.799965f, { -427, 116, 4 } },   { 0, 0, 30, 20.799965f, { -426, 115, 4 } },
+    { 0, 0, 30, 20.799965f, { -429, 115, 7 } },   { 0, 0, 30, 20.799965f, { -428, 114, 12 } },
+    { 0, 0, 30, 20.799965f, { -430, 114, 14 } },  { 0, 0, 30, 20.799965f, { -430, 114, 14 } },
+    { 0, 0, 30, 20.799965f, { -430, 114, 14 } },  { -1, 0, 30, 20.799965f, { -430, 112, 14 } },
+    { -1, 0, 30, 20.799965f, { -430, 112, 14 } },
+};
+
+static CutsceneCameraPoint D_80B4DBBC[] = {
+    { 0, 0, 0, 20.799965f, { -389, 109, 36 } },  { 0, 0, 0, 20.799965f, { -389, 109, 36 } },
+    { 0, 0, 0, 20.799965f, { -389, 109, 36 } },  { 0, 0, 0, 20.799965f, { -389, 109, 36 } },
+    { 0, 0, 0, 20.799965f, { -389, 109, 36 } },  { 0, 0, 0, 20.799965f, { -389, 109, 36 } },
+    { 0, 0, 0, 20.799965f, { -389, 109, 36 } },  { -1, 0, 0, 20.799965f, { -389, 109, 36 } },
+    { -1, 0, 0, 20.799965f, { -389, 109, 36 } },
+};
+
+static CutsceneCameraPoint D_80B4DC4C[] = {
+    { 0, 0, 30, 45.0f, { -496, 119, 0 } },     { 0, 0, 30, 45.0f, { -496, 119, 0 } },
+    { 0, 0, 30, 45.0f, { -496, 119, 0 } },     { 0, 0, 15, 45.0f, { -496, 119, 0 } },
+    { 0, 0, 15, 45.80006f, { -471, 122, 0 } }, { 0, 0, 15, 45.80006f, { -395, 139, 0 } },
+    { 0, 0, 15, 45.80006f, { -193, 183, 0 } }, { 0, 0, 15, 45.80006f, { 29, 232, 0 } },
+    { 0, 0, 30, 45.80006f, { 360, 304, 0 } },  { 0, 0, 30, 45.80006f, { 429, 328, 0 } },
+    { 0, 0, 30, 45.80006f, { 429, 328, 0 } },  { 0, 0, 30, 45.80006f, { 429, 328, 0 } },
+    { 0, 0, 30, 45.80006f, { 429, 328, 0 } },  { -1, 0, 30, 45.80006f, { 429, 328, 0 } },
+    { -1, 0, 30, 45.80006f, { 429, 328, 0 } },
+};
+
+static CutsceneCameraPoint D_80B4DD3C[] = {
+    { 0, 0, 0, 45.0f, { -443, 115, 0 } },     { 0, 0, 0, 45.0f, { -443, 115, 0 } },
+    { 0, 0, 0, 45.0f, { -443, 115, 0 } },     { 0, 0, 0, 45.0f, { -443, 115, 0 } },
+    { 0, 0, 0, 45.80006f, { -420, 133, 0 } }, { 0, 0, 0, 45.80006f, { -344, 150, 0 } },
+    { 0, 0, 0, 45.80006f, { -143, 194, 0 } }, { 0, 0, 0, 45.80006f, { 80, 243, 0 } },
+    { 0, 0, 0, 45.80006f, { 412, 315, 0 } },  { 0, 0, 0, 45.80006f, { 482, 332, 0 } },
+    { 0, 0, 0, 45.80006f, { 482, 332, 0 } },  { 0, 0, 0, 45.80006f, { 482, 332, 0 } },
+    { 0, 0, 0, 45.80006f, { 482, 332, 0 } },  { -1, 0, 0, 45.80006f, { 482, 332, 0 } },
+    { -1, 0, 0, 45.80006f, { 482, 332, 0 } },
+};
+
+static CutsceneCameraPoint D_80B4DE2C[] = {
+    { 0, 0, 25, 60.600117f, { 66, 404, 425 } },  { 0, 0, 25, 60.400116f, { 66, 404, 425 } },
+    { 0, 0, 25, 55.600098f, { 66, 404, 426 } },  { 0, 0, 25, 55.200096f, { 63, 373, 413 } },
+    { 0, 0, 25, 50.400078f, { 26, 353, 408 } },  { 0, 0, 25, 50.400078f, { 17, 325, 397 } },
+    { 0, 0, 25, 45.40006f, { 17, 326, 397 } },   { 0, 0, 25, 45.200058f, { -136, 177, 259 } },
+    { 0, 0, 25, 40.40004f, { -258, 111, 169 } }, { 0, 0, 25, 40.20004f, { -377, 108, 65 } },
+    { 0, 0, 25, 35.20002f, { -377, 108, 65 } },  { 0, 0, 25, 35.20002f, { -377, 108, 65 } },
+    { -1, 0, 30, 30.2f, { -376, 108, 65 } },     { -1, 0, 30, 30.2f, { -376, 108, 65 } },
+};
+
+static CutsceneCameraPoint D_80B4DF0C[] = {
+    { 0, 0, 0, 45.80006f, { 29, 383, 445 } }, { 0, 0, 0, 45.80006f, { 29, 383, 445 } },
+    { 0, 0, 0, 45.80006f, { 29, 383, 445 } }, { 0, 0, 0, 45.80006f, { 29, 383, 445 } },
+    { 0, 0, 0, 45.80006f, { 29, 383, 445 } }, { 0, 0, 0, 45.80006f, { 49, 347, 424 } },
+    { 0, 0, 0, 45.80006f, { 49, 347, 424 } }, { 0, 0, 0, 30.2f, { -103, 192, 286 } },
+    { 0, 0, 0, 30.2f, { -224, 113, 198 } },   { 0, 0, 0, 30.2f, { -345, 109, 96 } },
+    { 0, 0, 0, 30.2f, { -345, 109, 96 } },    { 0, 0, 0, 30.2f, { -345, 109, 96 } },
+    { -1, 0, 0, 30.2f, { -345, 109, 96 } },   { -1, 0, 0, 30.2f, { -345, 109, 96 } },
+};
+
+static CutsceneCameraPoint D_80B4DFEC[] = {
+    { 0, 0, 10, 30.0f, { -482, 119, 0 } },       { 0, 0, 10, 30.0f, { -482, 119, 0 } },
+    { 0, 0, 10, 30.0f, { -482, 119, 0 } },       { 0, 0, 10, 30.800003f, { -482, 119, 0 } },
+    { 0, 0, 10, 30.800003f, { -482, 119, 0 } },  { 0, 0, 10, 30.800003f, { -462, 126, 0 } },
+    { 0, 0, 30, 30.800003f, { -395, 150, 0 } },  { 0, 0, 30, 30.800003f, { -395, 150, 0 } },
+    { -1, 0, 30, 30.800003f, { -395, 150, 0 } }, { -1, 0, 30, 30.800003f, { -395, 150, 0 } },
+};
+
+static CutsceneCameraPoint D_80B4E08C[] = {
+    { 0, 0, 0, 30.0f, { -440, 115, 0 } },       { 0, 0, 0, 30.0f, { -440, 115, 0 } },
+    { 0, 0, 0, 30.0f, { -440, 115, 0 } },       { 0, 0, 0, 30.800003f, { -440, 115, 0 } },
+    { 0, 0, 0, 30.800003f, { -440, 115, 0 } },  { 0, 0, 0, 30.800003f, { -423, 142, 0 } },
+    { 0, 0, 0, 30.800003f, { -358, 171, 0 } },  { 0, 0, 0, 30.800003f, { -358, 171, 0 } },
+    { -1, 0, 0, 30.800003f, { -358, 171, 0 } }, { -1, 0, 0, 30.800003f, { -358, 171, 0 } },
+};
+
+static CutsceneCameraPoint D_80B4E12C[] = {
+    { 0, 0, 30, 25.0f, { -551, 119, 7 } },   { 0, 0, 30, 25.0f, { -551, 119, 7 } },
+    { 0, 0, 15, 25.0f, { -551, 119, 7 } },   { 0, 0, 15, 60.0f, { -485, 120, -7 } },
+    { 0, 0, 30, 60.0f, { -485, 120, -7 } },  { 0, 0, 30, 60.0f, { -485, 120, -7 } },
+    { 0, 0, 30, 60.0f, { -485, 118, -5 } },  { -1, 0, 30, 60.0f, { -485, 119, -6 } },
+    { -1, 0, 30, 60.0f, { -485, 119, -6 } },
+};
+
+static CutsceneCameraPoint D_80B4E1BC[] = {
+    { 0, 0, 0, 45.200058f, { -587, 115, 14 } }, { 0, 0, 0, 25.400097f, { -587, 115, 14 } },
+    { 0, 0, 0, 25.400097f, { -587, 115, 14 } }, { 0, 0, 0, 60.20023f, { -521, 117, -1 } },
+    { 0, 0, 0, 60.20023f, { -521, 117, -1 } },  { 0, 0, 0, 60.20023f, { -521, 117, -1 } },
+    { 0, 0, 0, 60.20023f, { -521, 117, -1 } },  { -1, 0, 0, 60.20023f, { -521, 116, 0 } },
+    { -1, 0, 0, 60.19925f, { -521, 116, 0 } },
+};
+
+static CutsceneCameraPoint D_80B4E24C[] = {
+    { 0, 0, 30, 60.000114f, { 75, 52, 50 } },   { 0, 0, 30, 60.000114f, { 75, 52, 48 } },
+    { 0, 0, 60, 60.000114f, { 74, 52, 45 } },   { 0, 0, 60, 60.000114f, { 49, 51, -43 } },
+    { 0, 0, 30, 60.000114f, { 49, 51, -43 } },  { 0, 0, 30, 60.000114f, { 49, 51, -43 } },
+    { -1, 0, 30, 60.000114f, { 49, 51, -43 } }, { -1, 0, 30, 60.000114f, { 49, 51, -43 } },
+};
+
+static CutsceneCameraPoint D_80B4E2CC[] = {
+    { 0, 0, 0, 60.000114f, { 90, 52, 53 } },   { 0, 0, 0, 60.000114f, { 90, 52, 50 } },
+    { 0, 0, 0, 60.000114f, { 90, 52, 45 } },   { 0, 0, 0, 60.000114f, { 65, 51, -44 } },
+    { 0, 0, 0, 60.000114f, { 65, 51, -44 } },  { 0, 0, 0, 60.000114f, { 65, 51, -44 } },
+    { -1, 0, 0, 60.000114f, { 65, 51, -44 } }, { -1, 0, 0, 60.000114f, { 65, 51, -44 } },
+};
+
+static CutsceneCameraPoint D_80B4E34C[] = {
+    { 0, 0, 31, 60.000114f, { -449, 121, -19 } },  { 0, 0, 30, 60.000114f, { -449, 121, -19 } },
+    { 0, 0, 30, 60.000114f, { -449, 121, -19 } },  { 0, 0, 30, 60.000114f, { -456, 110, -17 } },
+    { 0, 0, 30, 60.000114f, { -456, 110, -17 } },  { 0, 0, 30, 60.000114f, { -456, 110, -17 } },
+    { -1, 0, 30, 60.000114f, { -456, 110, -17 } }, { -1, 0, 30, 60.000114f, { -456, 110, -17 } },
+};
+
+static CutsceneCameraPoint D_80B4E3CC[] = {
+    { 0, 0, 0, 60.000114f, { -441, 107, -22 } },  { 0, 0, 0, 60.000114f, { -441, 107, -22 } },
+    { 0, 0, 0, 60.000114f, { -441, 107, -22 } },  { 0, 0, 0, 60.000114f, { -441, 107, -22 } },
+    { 0, 0, 0, 60.000114f, { -441, 107, -22 } },  { 0, 0, 0, 60.000114f, { -441, 107, -22 } },
+    { -1, 0, 0, 60.000114f, { -441, 107, -22 } }, { -1, 0, 0, 60.000114f, { -441, 107, -22 } },
+};
+
+static CutsceneCameraPoint D_80B4E44C[] = {
+    { 0, 0, 30, 20.799965f, { -331, 110, -91 } }, { 0, 0, 30, 20.799965f, { -331, 110, -91 } },
+    { 0, 0, 30, 20.799965f, { -331, 110, -91 } }, { 0, 0, 30, 20.799965f, { -511, 121, 7 } },
+    { 0, 0, 30, 20.799965f, { -511, 121, 7 } },   { 0, 0, 30, 20.799965f, { -511, 121, 7 } },
+    { -1, 0, 30, 20.799965f, { -511, 121, 7 } },  { -1, 0, 30, 20.799965f, { -511, 121, 7 } },
+};
+
+static CutsceneCameraPoint D_80B4E4CC[] = {
+    { 0, 0, 0, 20.799965f, { -369, 110, -70 } }, { 0, 0, 0, 20.799965f, { -369, 110, -70 } },
+    { 0, 0, 0, 20.799965f, { -369, 110, -70 } }, { 0, 0, 0, 20.799965f, { -549, 124, 29 } },
+    { 0, 0, 0, 20.799965f, { -549, 124, 29 } },  { 0, 0, 0, 20.799965f, { -549, 124, 29 } },
+    { -1, 0, 0, 20.799965f, { -549, 124, 29 } }, { -1, 0, 0, 20.799965f, { -549, 124, 29 } },
+};
+
+static CutsceneCameraMove D_80B4E54C[] = {
+    { D_80B4D72C, D_80B4D7AC, 0 }, { D_80B4D82C, D_80B4D8CC, 0 }, { D_80B4D96C, D_80B4DA4C, 0 },
+    { D_80B4DB2C, D_80B4DBBC, 0 }, { D_80B4DC4C, D_80B4DD3C, 0 }, { D_80B4DE2C, D_80B4DF0C, 0 },
+    { D_80B4DFEC, D_80B4E08C, 0 }, { D_80B4E12C, D_80B4E1BC, 0 }, { D_80B4E24C, D_80B4E2CC, 0 },
+    { D_80B4E34C, D_80B4E3CC, 0 }, { D_80B4E44C, D_80B4E4CC, 0 },
+};
 
 const ActorInit En_Zl1_InitVars = {
     ACTOR_EN_ZL1,
@@ -58,22 +264,13 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-static u64* D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
-static u64* D_80B4E62C[] = { 0x06007608 };
-
-extern AnimationHeader D_06000438;
-extern u64 D_06008848[];
-extern u64 D_06008C48[];
-extern FlexSkeletonHeader D_0600F5D8;
-extern AnimationHeader D_06010B38;
-extern AnimationHeader D_06011348;
-extern AnimationHeader D_060116E4;
-extern AnimationHeader D_06011B88;
-extern AnimationHeader D_06012118;
-extern AnimationHeader D_060132D8;
-extern AnimationHeader D_060138E0;
-extern AnimationHeader D_06013F10;
-extern AnimationHeader D_060143A8;
+static void* D_80B4E61C[] = {
+    gChildZelda1EyeOpenLookingUpRightTex,
+    gChildZelda1EyeHalf2Tex,
+    gChildZelda1EyeClosedTex,
+    gChildZelda1EyeHalf2Tex,
+};
+static void* D_80B4E62C[] = { gChildZelda1MouthNeutralTex };
 
 void func_80B4AB40(void) {
 }
@@ -85,9 +282,9 @@ void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
     EnZl1* this = THIS;
 
-    frameCount = Animation_GetLastFrame(&D_06012118);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600F5D8, NULL, NULL, NULL, 0);
-    Animation_Change(&this->skelAnime, &D_06012118, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    frameCount = Animation_GetLastFrame(&gChildZelda1Anim_12118);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gChildZelda1Skel, NULL, NULL, NULL, 0);
+    Animation_Change(&this->skelAnime, &gChildZelda1Anim_12118, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -96,21 +293,21 @@ void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.targetMode = 0;
 
     if (gSaveContext.sceneSetupIndex >= 4) {
-        frameCount = Animation_GetLastFrame(&D_06000438);
-        Animation_Change(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+        frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
+        Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->unk_1E6 = 0;
         this->actionFunc = func_80B4BC78;
     } else if (Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
         Actor_Kill(&this->actor);
     } else if ((Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x25)) ||
                (Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x37))) {
-        frameCount = Animation_GetLastFrame(&D_06000438);
-        Animation_Change(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+        frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
+        Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->actor.textId = 0x703D;
         this->actionFunc = func_80B4AF18;
     } else if (Flags_GetEventChkInf(0x40)) {
-        frameCount = Animation_GetLastFrame(&D_06000438);
-        Animation_Change(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+        frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
+        Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->actor.textId = 0x703C;
         this->actionFunc = func_80B4AF18;
     } else {
@@ -127,9 +324,9 @@ void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B4AE18(EnZl1* this) {
-    if ((this->skelAnime.animation == &D_06010B38) && (this->skelAnime.curFrame < 26.0f)) {
-        this->unk_1F4 = &D_06008C48;
-        this->unk_1F8 = &D_06008848;
+    if ((this->skelAnime.animation == &gChildZelda1Anim_10B38) && (this->skelAnime.curFrame < 26.0f)) {
+        this->unk_1F4 = &gChildZelda1EyeOpenLookingRightTex;
+        this->unk_1F8 = &gChildZelda1EyeOpenLookingLeftTex;
         this->unk_1FC = 2;
     } else {
         if (DECR(this->unk_1FC) == 0) {
@@ -144,7 +341,7 @@ void func_80B4AE18(EnZl1* this) {
 }
 
 void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
@@ -164,7 +361,7 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
     s32 pad3;
     s32 pad;
@@ -174,17 +371,17 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     s16 rotDiff;
 
     if (func_8002F194(&this->actor, globalCtx)) {
-        Animation_Change(&this->skelAnime, &D_06010B38, 1.0f, 0.0f, Animation_GetLastFrame(&D_06010B38),
-                         ANIMMODE_ONCE_INTERP, -10.0f);
+        Animation_Change(&this->skelAnime, &gChildZelda1Anim_10B38, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gChildZelda1Anim_10B38), ANIMMODE_ONCE_INTERP, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
         Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
         Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, CAM_STAT_ACTIVE);
         func_800C0808(globalCtx, this->unk_1E8, player, CAM_SET_FREE0);
-        globalCtx->envCtx.unk_E2[0] = 0xFF;
-        globalCtx->envCtx.unk_E2[1] = 0xFF;
-        globalCtx->envCtx.unk_E2[2] = 0xFF;
-        globalCtx->envCtx.unk_E2[3] = 0x18;
-        globalCtx->envCtx.unk_E1 = 1;
+        globalCtx->envCtx.screenFillColor[0] = 255;
+        globalCtx->envCtx.screenFillColor[1] = 255;
+        globalCtx->envCtx.screenFillColor[2] = 255;
+        globalCtx->envCtx.screenFillColor[3] = 24;
+        globalCtx->envCtx.fillScreen = true;
         Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &vec1, &vec2);
         Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 30.0f);
         ShrinkWindow_SetVal(0x20);
@@ -210,7 +407,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
     Vec3f sp58 = { -434.0f, 84.0f, 0.0f };
     u8 sp54[] = { 0x00, 0x00, 0x02 };
     s32 pad2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     AnimationHeader* animHeaderSeg;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     f32 frameCount;
@@ -228,7 +425,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
                     }
                     break;
                 case 64:
-                    animHeaderSeg = &D_06011348;
+                    animHeaderSeg = &gChildZelda1Anim_11348;
                     sp3C = 1;
                     this->actor.textId = 0x702E;
                     func_8010B680(globalCtx, this->actor.textId, NULL);
@@ -238,7 +435,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             break;
         case 1:
             if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-                globalCtx->envCtx.unk_E1 = 0;
+                globalCtx->envCtx.fillScreen = false;
                 Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp74, &sp68);
                 Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 25.0f);
                 player->actor.world.pos = sp58;
@@ -250,20 +447,20 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 2:
             if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
-                    animHeaderSeg = &D_06013F10;
+                    animHeaderSeg = &gChildZelda1Anim_13F10;
                     sp3C = 2;
                     this->unk_1E2++;
                 } else {
-                    animHeaderSeg = &D_060116E4;
+                    animHeaderSeg = &gChildZelda1Anim_116E4;
                     sp3C = 2;
                     this->unk_1E2 = 6;
                 }
             }
             break;
         case 3:
-            frameCount = Animation_GetLastFrame(&D_06013F10);
+            frameCount = Animation_GetLastFrame(&gChildZelda1Anim_13F10);
             if (this->skelAnime.curFrame == frameCount) {
-                animHeaderSeg = &D_060143A8;
+                animHeaderSeg = &gChildZelda1Anim_143A8;
                 sp3C = 1;
                 this->actor.textId = 0x7032;
                 func_8010B720(globalCtx, this->actor.textId);
@@ -273,7 +470,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 4:
             if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
-                    animHeaderSeg = &D_060132D8;
+                    animHeaderSeg = &gChildZelda1Anim_132D8;
                     sp3C = 2;
                     this->unk_1E2 = 9;
                 } else {
@@ -291,9 +488,9 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 6:
-            frameCount = Animation_GetLastFrame(&D_060116E4);
+            frameCount = Animation_GetLastFrame(&gChildZelda1Anim_116E4);
             if (this->skelAnime.curFrame == frameCount) {
-                animHeaderSeg = &D_06011B88;
+                animHeaderSeg = &gChildZelda1Anim_12B88;
                 sp3C = 1;
                 this->actor.textId = 0x7031;
                 func_8010B720(globalCtx, this->actor.textId);
@@ -310,7 +507,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 8:
             if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
-                    animHeaderSeg = &D_060138E0;
+                    animHeaderSeg = &gChildZelda1Anim_138E0;
                     sp3C = 2;
                     this->unk_1E2 = 3;
                 } else {
@@ -321,9 +518,9 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 9:
-            frameCount = Animation_GetLastFrame(&D_060132D8);
+            frameCount = Animation_GetLastFrame(&gChildZelda1Anim_132D8);
             if (this->skelAnime.curFrame == frameCount) {
-                animHeaderSeg = &D_06000438;
+                animHeaderSeg = &gChildZelda1Anim_00438;
                 sp3C = 1;
                 globalCtx->csCtx.segment = D_80B4C5D0;
                 gSaveContext.cutsceneTrigger = 1;
@@ -358,8 +555,16 @@ void func_80B4B874(EnZl1* this, GlobalContext* globalCtx) {
 
 void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
     AnimationHeader* spB0[] = {
-        0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-        0x00000000, 0x00000000, 0x06012B04, 0x06012118, 0x06010B38,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        &gChildZelda1Anim_12B04,
+        &gChildZelda1Anim_12118,
+        &gChildZelda1Anim_10B38,
     };
     u8 spA4[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
@@ -417,10 +622,10 @@ void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
 
 void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad;
-    f32 frameCount = Animation_GetLastFrame(&D_06000438);
-    Player* player = PLAYER;
+    f32 frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
+    Player* player = GET_PLAYER(globalCtx);
 
-    Animation_Change(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     func_8002DF54(globalCtx, &this->actor, 1);
     func_8002F7DC(&player->actor, NA_SE_VO_LI_SURPRISE_KID);
     this->actor.textId = 0x7039;
@@ -431,8 +636,16 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
 
 void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
     AnimationHeader* sp90[] = {
-        0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-        0x00000000, 0x00000000, 0x06012B04, 0x06012118, 0x06010B38,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        &gChildZelda1Anim_12B04,
+        &gChildZelda1Anim_12118,
+        &gChildZelda1Anim_10B38,
     };
     u8 sp84[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
@@ -446,9 +659,9 @@ void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 frameCount;
 
-    if (SkelAnime_Update(&this->skelAnime) && (this->skelAnime.animation == &D_06010B38)) {
-        frameCount = Animation_GetLastFrame(&D_06011348);
-        Animation_Change(&this->skelAnime, &D_06011348, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -10.0f);
+    if (SkelAnime_Update(&this->skelAnime) && (this->skelAnime.animation == &gChildZelda1Anim_10B38)) {
+        frameCount = Animation_GetLastFrame(&gChildZelda1Anim_11348);
+        Animation_Change(&this->skelAnime, &gChildZelda1Anim_11348, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -10.0f);
     }
     func_80B4B874(this, globalCtx);
     npcAction = globalCtx->csCtx.npcActions[0];
@@ -482,7 +695,7 @@ void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
 void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad;
     MessageContext* msgCtx = &globalCtx->msgCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (this->unk_1E2) {
         case 0:

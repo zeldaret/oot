@@ -1,5 +1,5 @@
-#ifndef _Z_EN_PO_FIELD_H_
-#define _Z_EN_PO_FIELD_H_
+#ifndef Z_EN_PO_FIELD_H
+#define Z_EN_PO_FIELD_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,7 @@ typedef struct {
     /* 0x0003 */ Color_RGB8 lightColor;
     /* 0x0006 */ Color_RGB8 envColor;
     /* 0x0009 */ s8 unk_9;
-    /* 0x000C */ u64* soulTexture;
+    /* 0x000C */ void* soulTexture;
 } EnPoFieldInfo; // size = 0x10
 
 typedef struct EnPoField {
@@ -42,7 +42,5 @@ typedef struct EnPoField {
     /* 0x0244 */ ColliderCylinder collider;
     /* 0x0290 */ ColliderCylinder flameCollider;
 } EnPoField; // size = 0x02DC
-
-extern const ActorInit En_Po_Field_InitVars;
 
 #endif

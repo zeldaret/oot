@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bombf.h"
+#include "objects/object_bombf/object_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #define FLAGS 0x00000011
@@ -81,10 +82,6 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-extern Gfx D_06000340[];
-extern Gfx D_06000408[];
-extern Gfx D_06000530[];
-
 void EnBombf_SetupAction(EnBombf* this, EnBombfActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -150,7 +147,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
     EnBombf* bombFlower;
     s32 pad;
     s32 pad1;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
 
     if (this->flowerBombScale >= 1.0f) {
@@ -279,32 +276,32 @@ void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
     }
 
-    if (globalCtx->envCtx.unk_8C[1][0] != 0) {
-        globalCtx->envCtx.unk_8C[1][0] -= 0x19;
+    if (globalCtx->envCtx.adjLight1Color[0] != 0) {
+        globalCtx->envCtx.adjLight1Color[0] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[1][1] != 0) {
-        globalCtx->envCtx.unk_8C[1][1] -= 0x19;
+    if (globalCtx->envCtx.adjLight1Color[1] != 0) {
+        globalCtx->envCtx.adjLight1Color[1] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[1][2] != 0) {
-        globalCtx->envCtx.unk_8C[1][2] -= 0x19;
+    if (globalCtx->envCtx.adjLight1Color[2] != 0) {
+        globalCtx->envCtx.adjLight1Color[2] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][0] != 0) {
-        globalCtx->envCtx.unk_8C[0][0] -= 0x19;
+    if (globalCtx->envCtx.adjAmbientColor[0] != 0) {
+        globalCtx->envCtx.adjAmbientColor[0] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][1] != 0) {
-        globalCtx->envCtx.unk_8C[0][1] -= 0x19;
+    if (globalCtx->envCtx.adjAmbientColor[1] != 0) {
+        globalCtx->envCtx.adjAmbientColor[1] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][2] != 0) {
-        globalCtx->envCtx.unk_8C[0][2] -= 0x19;
+    if (globalCtx->envCtx.adjAmbientColor[2] != 0) {
+        globalCtx->envCtx.adjAmbientColor[2] -= 25;
     }
 
     if (this->timer == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
 
         if ((player->stateFlags1 & 0x800) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;
@@ -428,8 +425,10 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
 
                 Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
-                globalCtx->envCtx.unk_8C[1][0] = globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = 0xFA;
-                globalCtx->envCtx.unk_8C[0][0] = globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = 0xFA;
+                globalCtx->envCtx.adjLight1Color[0] = globalCtx->envCtx.adjLight1Color[1] =
+                    globalCtx->envCtx.adjLight1Color[2] = 250;
+                globalCtx->envCtx.adjAmbientColor[0] = globalCtx->envCtx.adjAmbientColor[1] =
+                    globalCtx->envCtx.adjAmbientColor[2] = 250;
                 Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
                 thisx->params = BOMBFLOWER_EXPLOSION;
                 this->timer = 10;
@@ -494,8 +493,8 @@ void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (thisx->params != BOMBFLOWER_BODY) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1041),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, D_06000340);
-            gSPDisplayList(POLY_OPA_DISP++, D_06000530);
+            gSPDisplayList(POLY_OPA_DISP++, gBombFlowerLeavesDL);
+            gSPDisplayList(POLY_OPA_DISP++, gBombFlowerBaseLeavesDL);
 
             Matrix_Translate(0.0f, 1000.0f, 0.0f, MTXMODE_APPLY);
             Matrix_Scale(this->flowerBombScale, this->flowerBombScale, this->flowerBombScale, MTXMODE_APPLY);
@@ -508,7 +507,7 @@ void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    SEGMENTED_TO_VIRTUAL(EnBombf_NewMtxDList(globalCtx->state.gfxCtx, globalCtx)));
-        gSPDisplayList(POLY_OPA_DISP++, D_06000408);
+        gSPDisplayList(POLY_OPA_DISP++, gBombFlowerBombAndSparkDL);
     } else {
         Collider_UpdateSpheres(0, &this->explosionCollider);
     }

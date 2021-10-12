@@ -1,5 +1,5 @@
-#ifndef _Z_EN_EX_ITEM_H_
-#define _Z_EN_EX_ITEM_H_
+#ifndef Z_EN_EX_ITEM_H
+#define Z_EN_EX_ITEM_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -28,8 +28,6 @@ typedef struct EnExItem {
     /* 0x017C */ EnExItemLightFunc unk_17C;
     /* 0x0180 */ EnExItemLightFunc unk_180;
 } EnExItem; // size = 0x0184
-
-extern const ActorInit En_Ex_Item_InitVars;
 
 typedef enum {
     /*  0 */ EXITEM_BOMB_BAG_BOWLING,

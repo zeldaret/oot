@@ -301,7 +301,7 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, GlobalContext* globalCtx) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 13, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x0D, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2800, ICHAIN_STOP),
 };
@@ -465,7 +465,7 @@ void EnDodongo_SwallowBomb(EnDodongo* this, GlobalContext* globalCtx) {
     } else if (this->actor.parent != NULL) {
         this->actor.parent->world.pos = this->mouthPos;
         ((EnBombf*)this->actor.parent)->timer++;
-        //! @bug The devs forgot an explosive could also be a bombchu, which leads to a serious bug. ->timer (0x1F8) is
+        //! @bug An explosive can also be a bombchu, not always a bomb, which leads to a serious bug. ->timer (0x1F8) is
         //! outside the bounds of the bombchu actor, and the memory it writes to happens to be one of the pointers in
         //! the next arena node. When this value is written to, massive memory corruption occurs.
     }
@@ -528,7 +528,7 @@ void EnDodongo_SwallowBomb(EnDodongo* this, GlobalContext* globalCtx) {
 void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 playbackSpeed;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff = (s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
 
     yawDiff = ABS(yawDiff);
@@ -551,13 +551,13 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
     if ((s32)this->skelAnime.curFrame < 21) {
         if (!this->rightFootStep) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_J_WALK);
-            Actor_SpawnFloorDust(globalCtx, &this->actor, &this->leftFootPos, 10.0f, 3, 2.0f, 0xC8, 0xF, 0);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 10.0f, 3, 2.0f, 0xC8, 0xF, 0);
             this->rightFootStep = true;
         }
     } else {
         if (this->rightFootStep) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_J_WALK);
-            Actor_SpawnFloorDust(globalCtx, &this->actor, &this->rightFootPos, 10.0f, 3, 2.0f, 0xC8, 0xF, 0);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 10.0f, 3, 2.0f, 0xC8, 0xF, 0);
             this->rightFootStep = false;
         }
     }
@@ -642,14 +642,14 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
         tailPos.x = this->sphElements[1].dim.worldSphere.center.x;
         tailPos.y = this->sphElements[1].dim.worldSphere.center.y;
         tailPos.z = this->sphElements[1].dim.worldSphere.center.z;
-        Actor_SpawnFloorDust(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
         tailPos.x = this->sphElements[2].dim.worldSphere.center.x;
         tailPos.y = this->sphElements[2].dim.worldSphere.center.y;
         tailPos.z = this->sphElements[2].dim.worldSphere.center.z;
-        Actor_SpawnFloorDust(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
 
         if (this->colliderBody.base.atFlags & AT_HIT) {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
 
             if (this->colliderBody.base.at == &player->actor) {
                 Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);

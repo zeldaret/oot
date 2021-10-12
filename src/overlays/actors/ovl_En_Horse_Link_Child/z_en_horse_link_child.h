@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HORSE_LINK_CHILD_H_
-#define _Z_EN_HORSE_LINK_CHILD_H_
+#ifndef Z_EN_HORSE_LINK_CHILD_H
+#define Z_EN_HORSE_LINK_CHILD_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -22,7 +22,5 @@ typedef struct EnHorseLinkChild {
     /* 0x0260 */ ColliderJntSphElement headElements[1];
     /* 0x02A0 */ s32 unk_2A0;
 } EnHorseLinkChild; // size = 0x02A4
-
-extern const ActorInit En_Horse_Link_Child_InitVars;
 
 #endif

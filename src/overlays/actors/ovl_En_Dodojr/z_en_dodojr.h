@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DODOJR_H_
-#define _Z_EN_DODOJR_H_
+#ifndef Z_EN_DODOJR_H
+#define Z_EN_DODOJR_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -25,7 +25,5 @@ typedef struct EnDodojr {
     /* 0x020C */ Vec3s jointTable[15];
     /* 0x0266 */ Vec3s morphTable[15];
 } EnDodojr; // size = 0x02C0
-
-extern const ActorInit En_Dodojr_InitVars;
 
 #endif

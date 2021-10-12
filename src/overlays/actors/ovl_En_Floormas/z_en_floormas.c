@@ -117,13 +117,13 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x31, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 0x157C, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 5500, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_STOP),
 };
 
-void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnFloormas* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     s32 invisble;
     s32 pad;
 
@@ -151,7 +151,7 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         // spawn first small floormaster
         this->actor.parent =
-            Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_FLOORMAS, this->actor.world.pos.x,
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FLOORMAS, this->actor.world.pos.x,
                         this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
         if (this->actor.parent == NULL) {
             Actor_Kill(&this->actor);
@@ -159,7 +159,7 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         // spawn 2nd small floormaster
         this->actor.child =
-            Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_FLOORMAS, this->actor.world.pos.x,
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FLOORMAS, this->actor.world.pos.x,
                         this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
         if (this->actor.child == NULL) {
             Actor_Kill(this->actor.parent);
@@ -255,7 +255,7 @@ void EnFloormas_SetupHover(EnFloormas* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = 0.0f;
     EnFloormas_MakeInvulnerable(this);
-    Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
+    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_ATTACK);
     this->actionFunc = EnFloormas_Hover;
 }
@@ -351,7 +351,7 @@ void EnFloormas_SetupGrabLink(EnFloormas* this, Player* player) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     EnFloormas_MakeInvulnerable(this);
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         yDelta = CLAMP(-this->actor.yDistToPlayer, 20.0f, 30.0f);
         xzDelta = -10.0f;
     } else {
@@ -506,9 +506,8 @@ void EnFloormas_BigStopWalk(EnFloormas* this, GlobalContext* globalCtx) {
 
 void EnFloormas_Run(EnFloormas* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((((Animation_OnFrame(&this->skelAnime, 0.0f)) || (Animation_OnFrame(&this->skelAnime, 12.0f))) ||
-         (Animation_OnFrame(&this->skelAnime, 24.0f))) ||
-        (Animation_OnFrame(&this->skelAnime, 36.0f))) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f) ||
+        Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 
@@ -680,7 +679,7 @@ void EnFloormas_SmWalk(EnFloormas* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     DECR(this->smActionTimer);
 
-    if ((Animation_OnFrame(&this->skelAnime, 0.0f)) || (Animation_OnFrame(&this->skelAnime, 18.0f))) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 18.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_WALK);
     }
 
@@ -699,7 +698,7 @@ void EnFloormas_SmDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
     s32 isAgainstWall;
 
     SkelAnime_Update(&this->skelAnime);
-    if ((Animation_OnFrame(&this->skelAnime, 0.0f)) || (Animation_OnFrame(&this->skelAnime, 18.0f))) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 18.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_WALK);
     }
     isAgainstWall = this->actor.bgCheckFlags & 8;
@@ -740,7 +739,7 @@ void EnFloormas_SmShrink(EnFloormas* this, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     if (this->skelAnime.curFrame < 20.0f) {
@@ -761,7 +760,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnFloormas* parent;
     EnFloormas* child;
     f32 yDelta;
@@ -779,7 +778,7 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         yDelta = CLAMP(-this->actor.yDistToPlayer, 20.0f, 30.0f);
         xzDelta = -10.0f;
     } else {
@@ -812,7 +811,7 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
     } else {
         // Damage link every 20 frames
         if ((this->actionTarget % 20) == 0) {
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S_KID);
             } else {
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S);
@@ -1093,8 +1092,8 @@ void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     if (limbIndex == 2) {
         Matrix_Push();
         Matrix_Translate(1600.0f, -700.0f, -1700.0f, MTXMODE_APPLY);
-        Matrix_RotateY(DEGTORAD(60.0f), 1);
-        Matrix_RotateZ(DEGTORAD(15.0f), 1);
+        Matrix_RotateY(DEGTORAD(60.0f), MTXMODE_APPLY);
+        Matrix_RotateZ(DEGTORAD(15.0f), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
         gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2299), G_MTX_LOAD);
         gSPDisplayList((*gfx)++, gWallmasterFingerDL);

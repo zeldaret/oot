@@ -109,7 +109,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 23, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x17, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_STOP),
 };
 
@@ -552,7 +552,7 @@ void EnBili_UpdateDamage(EnBili* this, GlobalContext* globalCtx) {
     if ((this->actor.colChkInfo.health != 0) && (this->collider.base.acFlags & AC_HIT)) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
-        
+
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_DEAD);
@@ -735,7 +735,7 @@ s32 EnBili_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         EnBili_PulseLimb2(this, curFrame, &limbScale);
     } else if (limbIndex == EN_BILI_LIMB_TENTACLES) {
         EnBili_PulseLimb4(this, curFrame, &limbScale);
-        rot->y = (Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000;
+        rot->y = (Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y) + 0x8000;
     }
 
     Matrix_Scale(limbScale.x, limbScale.y, limbScale.z, MTXMODE_APPLY);

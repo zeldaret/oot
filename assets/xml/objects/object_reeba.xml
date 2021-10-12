@@ -22,6 +22,6 @@
         <Texture Name="object_reeba_Tex_000CD8" OutName="tex_00000CD8" Format="rgba16" Width="8" Height="16" Offset="0xCD8"/>
         <Texture Name="object_reeba_Tex_000DD8" OutName="tex_00000DD8" Format="rgba16" Width="32" Height="32" Offset="0xDD8"/>
         <Texture Name="object_reeba_Tex_0015D8" OutName="tex_000015D8" Format="rgba16" Width="32" Height="32" Offset="0x15D8"/>
-        <Blob Name="object_reeba_Blob_001DD8" Size="0x118" Offset="0x1DD8"/>
+        <Skeleton Name="object_reeba_Skel_001EE8" Type="Normal" LimbType="Standard" Offset="0x1EE8"/>
     </File>
 </Root>

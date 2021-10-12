@@ -196,7 +196,7 @@ void EnJj_WaitToOpenMouth(EnJj* this, GlobalContext* globalCtx) {
 
 void EnJj_WaitForFish(EnJj* this, GlobalContext* globalCtx) {
     static Vec3f feedingSpot = { -1589.0f, 53.0f, -43.0f };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((Math_Vec3f_DistXZ(&feedingSpot, &player->actor.world.pos) < 300.0f) &&
         globalCtx->isPlayerDroppingFish(globalCtx)) {
@@ -220,7 +220,7 @@ void EnJj_BeginCutscene(EnJj* this, GlobalContext* globalCtx) {
         globalCtx->csCtx.segment = &D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, bodyCollisionActor->bgId);
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         gSaveContext.eventChkInf[3] |= 0x400;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }
@@ -306,13 +306,8 @@ void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->skelAnime.jointTable[10].z = this->mouthOpenAngle;
 }
 
-static u64* sEyeTextures[] = {
-    gJabuJabuEyeOpenTex,
-    gJabuJabuEyeHalfTex,
-    gJabuJabuEyeClosedTex,
-};
-
 void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+    static void* eyeTextures[] = { gJabuJabuEyeOpenTex, gJabuJabuEyeHalfTex, gJabuJabuEyeClosedTex };
     GlobalContext* globalCtx = globalCtx2;
     EnJj* this = THIS;
 
@@ -321,7 +316,7 @@ void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     func_800943C8(globalCtx->state.gfxCtx);
     Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * (M_PI / 41.0f)) * 10.0f) - 10.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(10.0f, 10.0f, 10.0f, MTXMODE_APPLY);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
 

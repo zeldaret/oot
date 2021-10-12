@@ -1,5 +1,5 @@
-#ifndef _Z_BG_PO_EVENT_H_
-#define _Z_BG_PO_EVENT_H_
+#ifndef Z_BG_PO_EVENT_H
+#define Z_BG_PO_EVENT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct BgPoEvent {
     /* 0x0170 */ ColliderTris collider;
     /* 0x0190 */ ColliderTrisElement colliderItems[2];
 } BgPoEvent; // size = 0x0248
-
-extern const ActorInit Bg_Po_Event_InitVars;
 
 #endif

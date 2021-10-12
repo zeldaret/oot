@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_IRONOBJ_H_
-#define _Z_BG_JYA_IRONOBJ_H_
+#ifndef Z_BG_JYA_IRONOBJ_H
+#define Z_BG_JYA_IRONOBJ_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct BgJyaIronobj {
     /* 0x0164 */ BgJyaIronobjActionFunc actionFunc;
     /* 0x0168 */ ColliderCylinder colCylinder;
 } BgJyaIronobj; // size = 0x01B4
-
-extern const ActorInit Bg_Jya_Ironobj_InitVars;
 
 #endif

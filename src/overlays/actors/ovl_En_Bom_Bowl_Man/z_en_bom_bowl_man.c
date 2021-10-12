@@ -48,29 +48,29 @@ const ActorInit En_Bom_Bowl_Man_InitVars = {
     (ActorFunc)EnBomBowlMan_Draw,
 };
 
-void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
     static f32 cuccoColliderDims[][3] = { { 16.0f, 46.0f, 0.0f }, { 36.0f, 56.0f, 0.0f } };
     static Vec3f cuccoSpawnPos[] = { { 60, -60, -430 }, { 0, -120, -620 } };
     static f32 cuccoScales[] = { 0.01f, 0.03f };
     EnBomBowlMan* this = THIS;
     EnSyatekiNiw* cucco;
     s32 i;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &gChuGirlSkel, &gChuGirlNoddingOffAnim, this->jointTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gChuGirlSkel, &gChuGirlNoddingOffAnim, this->jointTable,
                        this->morphTable, 11);
-    // ☆ Man, my shoulders hurt~ ☆
+    // "☆ Man, my shoulders hurt~ ☆"
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" VT_RST);
-    // ☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d
+    // "☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d"
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" VT_RST,
-                 globalCtx2->bombchuBowlingStatus);
+                 globalCtx->bombchuBowlingStatus);
     this->posCopy = this->actor.world.pos;
     this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
 
     for (i = 0; i < 2; i++) {
-        cucco = (EnSyatekiNiw*)Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_SYATEKI_NIW, cuccoSpawnPos[i].x,
+        cucco = (EnSyatekiNiw*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SYATEKI_NIW, cuccoSpawnPos[i].x,
                                            cuccoSpawnPos[i].y, cuccoSpawnPos[i].z, 0, 0, 0, 1);
 
         if (cucco != NULL) {
@@ -222,11 +222,11 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
     if (BREG(3)) {
         osSyncPrintf(VT_FGCOL(RED) "☆ game_play->bomchu_game_flag ☆ %d\n" VT_RST, globalCtx->bombchuBowlingStatus);
-        //  HOW'S THE FIRST WALL DOING?
+        // "HOW'S THE FIRST WALL DOING?"
         osSyncPrintf(VT_FGCOL(RED) "☆ 壁１の状態どう？ ☆ %d\n" VT_RST, this->wallStatus[0]);
-        //  HOW'S THE SECOND WALL DOING?
+        // "HOW'S THE SECOND WALL DOING?"
         osSyncPrintf(VT_FGCOL(RED) "☆ 壁２の状態どう？ ☆ %d\n" VT_RST, this->wallStatus[1]);
-        // HOLE INFORMATION
+        // "HOLE INFORMATION"
         osSyncPrintf(VT_FGCOL(RED) "☆ 穴情報\t     ☆ %d\n" VT_RST, this->bowlPit->status);
         osSyncPrintf("\n\n");
     }
@@ -237,7 +237,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
         if ((this->wallStatus[0] != 1) && (this->wallStatus[1] != 1) && (this->bowlPit->status == 2)) {
             this->gameResult = 1; // Won
             this->bowlPit->status = 0;
-            // Center HIT!
+            // "Center HIT!"
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
 
@@ -245,7 +245,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length == 0) && (this->bowlPit->status == 0) &&
             (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
-            // Bombchu lost
+            // "Bombchu lost"
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" VT_RST);
         }
     }
@@ -454,7 +454,7 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         this->startedPlaying = true;
 
         if (BREG(2)) {
@@ -523,9 +523,8 @@ s32 EnBomBowlMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
     return false;
 }
 
-static u64* eyeTextures[3] = { gChuGirlEyeOpenTex, gChuGirlEyeHalfTex, gChuGirlEyeClosedTex };
-
 void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* eyeTextures[] = { gChuGirlEyeOpenTex, gChuGirlEyeHalfTex, gChuGirlEyeClosedTex };
     EnBomBowlMan* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_bowl_man.c", 907);

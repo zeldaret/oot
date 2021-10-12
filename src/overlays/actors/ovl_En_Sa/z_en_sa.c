@@ -1,6 +1,8 @@
 #include "z_en_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/object_sa/object_sa.h"
+#include "scenes/overworld/spot04/spot04_scene.h"
+#include "scenes/overworld/spot05/spot05_scene.h"
 
 #define FLAGS 0x02000019
 
@@ -96,9 +98,6 @@ static struct_80034EC0_Entry sAnimations[] = {
     { &gSariaHandsOnFaceAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
     { &gSariaWaitArmsToSideAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
-
-extern CutsceneData D_02005730[];
-extern CutsceneData D_02010E20[];
 
 s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
     s16 textState = func_8010BDBC(&globalCtx->msgCtx);
@@ -355,12 +354,12 @@ s32 func_80AF5DFC(EnSa* this, GlobalContext* globalCtx) {
             return 5;
         }
     }
-    if (globalCtx->sceneNum == SCENE_KOKIRI_HOME5 && LINK_IS_CHILD &&
+    if (globalCtx->sceneNum == SCENE_KOKIRI_HOME5 && !LINK_IS_ADULT &&
         INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !(gSaveContext.eventChkInf[4] & 1)) {
         return 1;
     }
     if (globalCtx->sceneNum == SCENE_SPOT05 && (gSaveContext.eventChkInf[4] & 1)) {
-        return (CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) ? 2 : 5;
+        return CHECK_QUEST_ITEM(QUEST_SONG_SARIA) ? 2 : 5;
     }
     if (globalCtx->sceneNum == SCENE_SPOT04 && !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         if (gSaveContext.infTable[0] & 1) {
@@ -372,7 +371,7 @@ s32 func_80AF5DFC(EnSa* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF5F34(EnSa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3 = 0;
 
     if (globalCtx->sceneNum == SCENE_SPOT04) {
@@ -471,7 +470,7 @@ void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 4:
             this->unk_210 = 0;
             this->actor.gravity = -1.0f;
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02010E20);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
             gSaveContext.cutsceneTrigger = 1;
             EnSa_ChangeAnim(this, 4);
             this->actionFunc = func_80AF68E4;
@@ -588,10 +587,10 @@ void func_80AF67D0(EnSa* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF683C(EnSa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Gameplay_InCsMode(globalCtx)) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02005730);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot05_sceneCutsceneData0x005730);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = func_80AF68E4;
     }
@@ -762,24 +761,26 @@ void EnSa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnSa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* sMouthTextures[] = { gSariaMouthClosed2Tex, gSariaMouthSmilingOpenTex, gSariaMouthFrowningTex,
-                                     gSariaMouthSuprisedTex, gSariaMouthClosedTex };
-    static u64* sEyeTextures[] = { gSariaEyeOpenTex, gSariaEyeHalfTex, gSariaEyeClosedTex, gSariaEyeSuprisedTex,
-                                   gSariaEyeSadTex };
-
+    static void* mouthTextures[] = {
+        gSariaMouthClosed2Tex,  gSariaMouthSmilingOpenTex, gSariaMouthFrowningTex,
+        gSariaMouthSuprisedTex, gSariaMouthClosedTex,
+    };
+    static void* eyeTextures[] = {
+        gSariaEyeOpenTex, gSariaEyeHalfTex, gSariaEyeClosedTex, gSariaEyeSuprisedTex, gSariaEyeSadTex,
+    };
     EnSa* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sa.c", 1444);
 
     if (this->alpha == 255) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->rightEyeIndex]));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->leftEyeIndex]));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->rightEyeIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->leftEyeIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthIndex]));
         func_80034BA0(globalCtx, &this->skelAnime, EnSa_OverrideLimbDraw, EnSa_PostLimbDraw, &this->actor, this->alpha);
     } else if (this->alpha != 0) {
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->rightEyeIndex]));
-        gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->leftEyeIndex]));
-        gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->rightEyeIndex]));
+        gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->leftEyeIndex]));
+        gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthIndex]));
         func_80034CC4(globalCtx, &this->skelAnime, EnSa_OverrideLimbDraw, EnSa_PostLimbDraw, &this->actor, this->alpha);
     }
 

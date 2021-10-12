@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DHA_H_
-#define _Z_EN_DHA_H_
+#ifndef Z_EN_DHA_H
+#define Z_EN_DHA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -26,7 +26,5 @@ typedef struct EnDha {
     /* 0x0200 */ ColliderJntSph collider;
     /* 0x0220 */ ColliderJntSphElement colliderItem[5];
 } EnDha; // size = 0x0360
-
-extern const ActorInit En_Dha_InitVars;
 
 #endif

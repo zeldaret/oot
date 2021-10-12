@@ -1,5 +1,5 @@
-#ifndef _Z_BG_MORI_KAITENKABE_H_
-#define _Z_BG_MORI_KAITENKABE_H_
+#ifndef Z_BG_MORI_KAITENKABE_H
+#define Z_BG_MORI_KAITENKABE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct BgMoriKaitenkabe {
     /* 0x0178 */ Vec3f lockedPlayerPos;
     /* 0x0184 */ s8 moriTexObjIndex;
 } BgMoriKaitenkabe; // size = 0x0188
-
-extern const ActorInit Bg_Mori_Kaitenkabe_InitVars;
 
 #endif

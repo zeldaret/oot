@@ -6,6 +6,7 @@
 
 #include "z_en_okarina_tag.h"
 #include "scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
+#include "scenes/overworld/spot02/spot02_scene.h"
 #include "vt.h"
 
 #define FLAGS 0x02000010
@@ -35,8 +36,6 @@ const ActorInit En_Okarina_Tag_InitVars = {
     NULL,
 };
 
-extern CutsceneData D_02003C80[];
-extern CutsceneData D_02005020[];
 extern CutsceneData D_80ABF9D0[];
 extern CutsceneData D_80ABFB40[];
 
@@ -97,7 +96,6 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_80ABF28C;
                 break;
             case 5:
-                // "This poem is dedicated to the memory of the dearly departed members of the Royal Family."
                 this->actor.textId = 0x5021;
                 this->actionFunc = func_80ABF708;
                 break;
@@ -112,7 +110,7 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     Player* player;
     u16 unk_152;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->unk_15A++;
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
         this->actor.flags &= ~1;
@@ -143,7 +141,7 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE == 4) {
         this->actionFunc = func_80ABEF2C;
@@ -186,7 +184,7 @@ void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_15A++;
     if ((this->unk_152 != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
@@ -229,7 +227,7 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE == 4) {
         this->actionFunc = func_80ABF28C;
@@ -253,8 +251,8 @@ void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
                 gSaveContext.cutsceneTrigger = 1;
                 break;
             case 6:
-                globalCtx->csCtx.segment =
-                    (LINK_IS_ADULT) ? SEGMENTED_TO_VIRTUAL(&D_02003C80) : SEGMENTED_TO_VIRTUAL(&D_02005020);
+                globalCtx->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(&spot02_sceneCutsceneData0x003C80)
+                                                         : SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
                 gSaveContext.eventChkInf[1] |= 0x2000;
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -289,7 +287,6 @@ void func_80ABF708(EnOkarinaTag* this, GlobalContext* globalCtx) {
         this->unk_15A++;
         if (!(this->actor.xzDistToPlayer > 120.0f)) {
             if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
-                // "This poem is dedicated to the memory of the dearly departed members of the Royal Family."
                 this->actor.textId = 0x5021;
             }
             yawDiffNew = ABS(yawDiff);

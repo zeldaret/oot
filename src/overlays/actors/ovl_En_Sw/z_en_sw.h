@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SW_H_
-#define _Z_EN_SW_H_
+#ifndef Z_EN_SW_H
+#define Z_EN_SW_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -48,7 +48,5 @@ typedef struct EnSw {
     /* 0x0484 */ Vec3f unk_484;
     /* 0x0490 */ char unk_490[0x48];
 } EnSw; // size = 0x04D8
-
-extern const ActorInit En_Sw_InitVars;
 
 #endif

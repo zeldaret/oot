@@ -1,5 +1,5 @@
-#ifndef _Z_EN_KZ_H_
-#define _Z_EN_KZ_H_
+#ifndef Z_EN_KZ_H
+#define Z_EN_KZ_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -27,7 +27,5 @@ typedef struct EnKz {
     /* 0x02A6 */ s16 unk_2A6[12];
     /* 0x02BE */ s16 unk_2BE[12];
 } EnKz; // size = 0x02D8
-
-extern const ActorInit En_Kz_InitVars;
 
 #endif

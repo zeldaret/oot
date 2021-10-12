@@ -1,5 +1,5 @@
-#ifndef _Z_EN_KAKASI2_H_
-#define _Z_EN_KAKASI2_H_
+#ifndef Z_EN_KAKASI2_H
+#define Z_EN_KAKASI2_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -19,7 +19,5 @@ typedef struct EnKakasi2 {
     /* 0x01A8 */ f32 height;
     /* 0x01AC */ ColliderCylinder collider;
 } EnKakasi2; // size = 0x01F8
-
-extern const ActorInit En_Kakasi2_InitVars;
 
 #endif

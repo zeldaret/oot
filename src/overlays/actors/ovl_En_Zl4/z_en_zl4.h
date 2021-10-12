@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ZL4_H_
-#define _Z_EN_ZL4_H_
+#ifndef Z_EN_ZL4_H
+#define Z_EN_ZL4_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -30,7 +30,5 @@ typedef struct EnZl4 {
     /* 0x0218 */ Vec3s jointTable[18];
     /* 0x0284 */ Vec3s morphTable[18];
 } EnZl4; // size = 0x02F0
-
-extern const ActorInit En_Zl4_InitVars;
 
 #endif

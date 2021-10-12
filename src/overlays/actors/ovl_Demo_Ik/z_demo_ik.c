@@ -1,5 +1,6 @@
 #include "z_demo_ik.h"
 #include "vt.h"
+#include "objects/object_ik/object_ik.h"
 
 #define FLAGS 0x00000010
 
@@ -23,26 +24,6 @@ void DemoIk_Type2Action2(DemoIk* this, GlobalContext* globalCtx);
 void DemoIk_DrawNothing(DemoIk* this, GlobalContext* globalCtx);
 void DemoIk_Type1Draw(DemoIk* this, GlobalContext* globalCtx);
 void DemoIk_Type2Draw(DemoIk* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_0600035C;
-extern SkeletonHeader D_06000380;
-extern AnimationHeader D_06000634;
-extern SkeletonHeader D_06000660;
-extern AnimationHeader D_060008DC;
-extern AnimationHeader D_06000C6C;
-extern SkeletonHeader D_06000C90;
-extern AnimationHeader D_06000F0C;
-extern Gfx D_06016BE0[];
-extern Gfx D_06016CD8[];
-extern Gfx D_06016F88[];
-extern Gfx D_06017028[];
-extern Gfx D_06017170[];
-extern FlexSkeletonHeader D_0601EE60;
-extern FlexSkeletonHeader D_06000F30;
-extern AnimationHeader D_0601EB14;
-extern FlexSkeletonHeader D_0601EB40;
-extern AnimationHeader D_0601EE34;
-extern FlexSkeletonHeader D_06000900;
 
 void DemoIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -183,24 +164,24 @@ void DemoIk_Type1Init(DemoIk* this, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 0:
-            skeleton = &D_06000C90;
-            animation = &D_06000C6C;
+            skeleton = &object_ik_Skel_000C90;
+            animation = &object_ik_Anim_000C6C;
             phi_f0 = 30.0f;
             break;
         case 1:
-            skeleton = &D_06000660;
-            animation = &D_06000634;
+            skeleton = &object_ik_Skel_000660;
+            animation = &object_ik_Anim_000634;
             phi_f0 = 10.0f;
             break;
         default:
-            skeleton = &D_06000380;
-            animation = &D_0600035C;
+            skeleton = &object_ik_Skel_000380;
+            animation = &object_ik_Anim_00035C;
             phi_f0 = 20.0f;
             // No break is required for matching
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, phi_f0);
     SkelAnime_Init(globalCtx, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 2, 0.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
 }
 
 void func_8098393C(DemoIk* this) {
@@ -250,7 +231,7 @@ void func_809839D0(DemoIk* this, GlobalContext* globalCtx) {
                 case 6:
                     break;
                 default:
-                    // there is no such action
+                    // "there is no such action"
                     osSyncPrintf("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
             this->csAction = nextCsAction;
@@ -286,12 +267,12 @@ void DemoIk_Type1PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
             case 0:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 390),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, D_06016BE0);
+                gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
                 break;
             case 2:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 396),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, D_06016F88);
+                gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
                 break;
         }
     }
@@ -321,24 +302,24 @@ void DemoIk_Type2Init(DemoIk* this, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 3:
-            skeleton = &D_0601EB40;
-            animation = &D_0601EB14;
+            skeleton = &object_ik_Skel_01EB40;
+            animation = &object_ik_Anim_01EB14;
             break;
         case 4:
-            skeleton = &D_0601EE60;
-            animation = &D_0601EE34;
+            skeleton = &object_ik_Skel_01EE60;
+            animation = &object_ik_Anim_01EE34;
             break;
         case 5:
-            skeleton = &D_06000F30;
-            animation = &D_06000F0C;
+            skeleton = &object_ik_Skel_000F30;
+            animation = &object_ik_Anim_000F0C;
             break;
         default:
-            skeleton = &D_06000900;
-            animation = &D_060008DC;
+            skeleton = &object_ik_Skel_000900;
+            animation = &object_ik_Anim_0008DC;
     }
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 2, 0.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
     this->actionMode = 3;
     this->drawMode = 0;
 }
@@ -401,7 +382,7 @@ void func_80984048(DemoIk* this, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    // there is no such action
+                    // "there is no such action"
                     osSyncPrintf("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
             this->csAction = nextCsAction;
@@ -444,22 +425,22 @@ void DemoIk_Type2PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
             case 3:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 274),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, D_06017028);
+                gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_017028);
                 break;
             case 4:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 280),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, D_06017170);
+                gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_017170);
                 break;
             case 5:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 286),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, D_06016BE0);
+                gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
                 break;
             default:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 292),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, D_06016CD8);
+                gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
                 break;
         }
     }
@@ -494,7 +475,7 @@ void DemoIk_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
         sActionFuncs[this->actionMode] == NULL) {
-        // The main mode is strange
+        // "The main mode is strange"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -515,7 +496,7 @@ void DemoIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoIk* this = THIS;
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
-        // The draw mode is strange
+        // "The draw mode is strange"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_IK_H_
-#define _Z_EN_IK_H_
+#ifndef Z_EN_IK_H
+#define Z_EN_IK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -36,7 +36,5 @@ typedef struct EnIk {
     /* 0x04D4 */ s32 unk_4D4;
     /* 0x04D8 */ char unk_4D8[0x04];
 } EnIk; // size = 0x04DC
-
-extern const ActorInit En_Ik_InitVars;
 
 #endif

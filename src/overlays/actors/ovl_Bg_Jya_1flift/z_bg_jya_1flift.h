@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_1FLIFT_H_
-#define _Z_BG_JYA_1FLIFT_H_
+#ifndef Z_BG_JYA_1FLIFT_H
+#define Z_BG_JYA_1FLIFT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef struct BgJya1flift {
     /* 0x01B7 */ u8 hasInitialized;
     /* 0x01B8 */ u8 isLinkRiding;
 } BgJya1flift; // size = 0x01BC
-
-extern const ActorInit Bg_Jya_1flift_InitVars;
 
 #endif

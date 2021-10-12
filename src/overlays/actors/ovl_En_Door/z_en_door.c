@@ -63,7 +63,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
-AnimationHeader* D_809FCECC[] = { &gDoor3Anim, &gDoor1Anim, &gDoor4Anim, &gDoor2Anim };
+static AnimationHeader* D_809FCECC[] = { &gDoor3Anim, &gDoor1Anim, &gDoor4Anim, &gDoor2Anim };
 
 static u8 sDoorAnimOpenFrames[] = { 25, 25, 25, 25 };
 
@@ -136,7 +136,7 @@ void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     TransitionActorEntry* transitionEntry;
     EnDoor* this = THIS;
 
-    transitionEntry = &globalCtx->transitionActorList[(u16)this->actor.params >> 0xA];
+    transitionEntry = &globalCtx->transiActorCtx.list[(u16)this->actor.params >> 0xA];
     if (transitionEntry->id < 0) {
         transitionEntry->id = -transitionEntry->id;
     }
@@ -160,7 +160,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
                 this->lockTimer = 10;
             }
         } else if (doorType == DOOR_AJAR) {
-            if (Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor) > DOOR_AJAR_SLAM_RANGE) {
+            if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor) > DOOR_AJAR_SLAM_RANGE) {
                 this->actionFunc = EnDoor_AjarWait;
                 this->actor.world.rot.y = -0x1800;
             }
@@ -183,7 +183,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
 }
 
 void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 doorType;
     Vec3f playerPosRelToDoor;
     s16 phi_v0;
@@ -209,7 +209,7 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
             if (ABS(phi_v0) < 0x3000) {
                 if (this->lockTimer != 0) {
                     if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
-                        Player* player2 = PLAYER;
+                        Player* player2 = GET_PLAYER(globalCtx);
 
                         player2->naviTextId = -0x203;
                         return;
@@ -307,7 +307,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
     if (limbIndex == 4) {
         temp_a2 = D_809FCEE4[this->dListIndex];
-        transitionEntry = &globalCtx->transitionActorList[(u16)this->actor.params >> 0xA];
+        transitionEntry = &globalCtx->transiActorCtx.list[(u16)this->actor.params >> 0xA];
         rot->z += this->actor.world.rot.y;
         if ((globalCtx->roomCtx.prevRoom.num >= 0) ||
             (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {

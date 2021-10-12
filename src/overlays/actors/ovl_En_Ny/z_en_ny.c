@@ -100,7 +100,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 40, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x28, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -128,7 +128,7 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1E8 = 0.0f;
     this->unk_1E0 = 0.25f;
     if (this->actor.params == 0) {
-        // New initials
+        // "New initials"
         osSyncPrintf("ニュウ イニシャル[ %d ] ！！\n", this->actor.params);
         this->actor.colChkInfo.mass = 0;
         this->unk_1D4 = 0;
@@ -137,7 +137,7 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80ABCDBC(this);
     } else {
         // This mode is unused in the final game
-        // Dummy new initials
+        // "Dummy new initials"
         osSyncPrintf("ダミーニュウ イニシャル[ %d ] ！！\n", this->actor.params);
         osSyncPrintf("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
         this->actor.colChkInfo.mass = 0xFF;

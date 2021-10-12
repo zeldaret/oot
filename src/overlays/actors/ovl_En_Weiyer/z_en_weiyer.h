@@ -1,5 +1,5 @@
-#ifndef _Z_EN_WEIYER_H_
-#define _Z_EN_WEIYER_H_
+#ifndef Z_EN_WEIYER_H
+#define Z_EN_WEIYER_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef struct EnWeiyer {
     /* 0x0280 */ f32 unk_280;
     /* 0x0284 */ ColliderCylinder collider;
 } EnWeiyer; // size = 0x02D0
-
-extern const ActorInit En_Weiyer_InitVars;
 
 #endif

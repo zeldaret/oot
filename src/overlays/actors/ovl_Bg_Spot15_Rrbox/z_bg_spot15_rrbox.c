@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot15_rrbox.h"
+#include "objects/object_spot15_obj/object_spot15_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -25,9 +26,6 @@ void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 
 static s16 D_808B4590 = 0;
-
-extern CollisionHeader D_06000348;
-extern Gfx D_06000180[];
 
 const ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
@@ -58,7 +56,7 @@ static Vec3f D_808B45DC[] = {
     { 29.99f, 0.01f, 29.99f },  { 0.0f, 0.01f, 0.0f },
 };
 
-void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
+void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     u32 pad2;
@@ -124,7 +122,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
 
-    func_808B3960(this, globalCtx, &D_06000348, DPM_UNK);
+    func_808B3960(this, globalCtx, &gLonLonMilkCrateCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_808B3A34(this);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
@@ -235,7 +233,7 @@ void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 void func_808B40AC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unk_168 <= 0 && fabsf(this->dyna.unk_150) > 0.001f) {
         if (func_808B3AAC(this, globalCtx) && !func_808B4010(this, globalCtx)) {
@@ -258,7 +256,7 @@ void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
 void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     f32 sign;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 tempUnk178;
     s32 approxFResult;
     Actor* actor = &this->dyna.actor;
@@ -284,7 +282,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         this->unk_174 = 0.0f;
         func_808B4380(this, globalCtx);
     } else if (approxFResult) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         if (func_808B4010(this, globalCtx)) {
             Audio_PlayActorSound2(actor, NA_SE_EV_WOOD_BOUND);
         }
@@ -314,7 +312,7 @@ void func_808B4380(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
 void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     f32 floorHeight;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* actor = &this->dyna.actor;
 
     if (fabsf(this->dyna.unk_150) > 0.001f) {
@@ -325,7 +323,7 @@ void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     Actor_MoveForward(actor);
 
     if (actor->world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
-        // Lon Lon wooden crate fell too much
+        // "Lon Lon wooden crate fell too much"
         osSyncPrintf("Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 599,
                      actor->params);
 
@@ -348,7 +346,7 @@ void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->stateFlags2 &= ~0x10;
     this->dyna.unk_150 = 0.0f;
@@ -367,5 +365,5 @@ void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06000180);
+    Gfx_DrawDListOpa(globalCtx, gLonLonMilkCrateDL);
 }

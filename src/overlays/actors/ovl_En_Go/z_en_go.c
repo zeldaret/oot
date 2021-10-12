@@ -90,14 +90,14 @@ void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
 }
 
 u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (thisx->params & 0xF0) {
         case 0x90:
             if (gSaveContext.bgsFlag) {
                 return 0x305E;
             } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_CLAIM_CHECK) {
-                if (func_800775CC(globalCtx) >= 3) {
+                if (Environment_GetBgsDayCount() >= 3) {
                     return 0x305E;
                 } else {
                     return 0x305D;
@@ -261,7 +261,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 switch (thisx->textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
-                            if (CUR_UPG_VALUE(UPG_STRENGTH) || (gSaveContext.infTable[14] & 0x800)) {
+                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || (gSaveContext.infTable[14] & 0x800)) {
                                 thisx->textId = 0x300B;
                             } else {
                                 thisx->textId = 0x300C;
@@ -364,11 +364,11 @@ s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
         return true;
     } else if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x00) {
         return true;
-    } else if (globalCtx->sceneNum == SCENE_SPOT16 && gSaveContext.linkAge == 1 &&
+    } else if (globalCtx->sceneNum == SCENE_SPOT16 && LINK_IS_CHILD &&
                ((this->actor.params & 0xF0) == 0x20 || (this->actor.params & 0xF0) == 0x30 ||
                 (this->actor.params & 0xF0) == 0x40)) {
         return true;
-    } else if (globalCtx->sceneNum == SCENE_SPOT18 && gSaveContext.linkAge == 1 &&
+    } else if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD &&
                ((this->actor.params & 0xF0) == 0x50 || (this->actor.params & 0xF0) == 0x60 ||
                 (this->actor.params & 0xF0) == 0x70)) {
         return true;
@@ -395,7 +395,7 @@ f32 EnGo_GetGoronSize(EnGo* this) {
 }
 
 void func_80A3F060(EnGo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 unkVal;
 
     if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
@@ -570,7 +570,7 @@ s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
 }
 
 void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 float1;
     s32 isUnkCondition;
 
@@ -992,7 +992,7 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x305C;
             func_8010B720(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
-            func_800775D8();
+            Environment_ClearBgsDayCount();
         }
     }
 }
@@ -1200,7 +1200,7 @@ void EnGo_UpdateDust(EnGo* this) {
 }
 
 void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
-    static u64* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
+    static void* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
     EnGoEffect* dustEffect = this->dustEffects;
     s16 alpha;
     s16 firstDone;

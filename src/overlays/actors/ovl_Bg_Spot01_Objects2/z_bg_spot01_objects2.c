@@ -5,6 +5,8 @@
  */
 
 #include "z_bg_spot01_objects2.h"
+#include "objects/object_spot01_matoya/object_spot01_matoya.h"
+#include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
 #define FLAGS 0x00000010
 
@@ -39,9 +41,6 @@ static InitChainEntry sInitChain[] = {
 
 static Gfx* D_808AC510[] = { 0x06001EB0, 0x06002780, 0x06003078, 0x06001228, 0x06001528 };
 
-extern CollisionHeader D_06001A38;
-extern CollisionHeader D_06001C58;
-
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Objects2* this = THIS;
 
@@ -61,7 +60,7 @@ void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->objectId >= 0) {
         this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, this->objectId);
         if (this->objBankIndex < 0) {
-            // There was no bank setting.
+            // "There was no bank setting."
             osSyncPrintf("-----------------------------バンク設定ありませんでした.");
             Actor_Kill(&this->dyna.actor);
             return;
@@ -92,7 +91,7 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
     Vec3f position;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        // ---- Successful bank switching!!
+        // "---- Successful bank switching!!"
         osSyncPrintf("-----バンク切り換え成功！！\n");
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
 
@@ -101,13 +100,13 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
 
         switch (this->dyna.actor.params & 7) {
             case 4: // Shooting gallery
-                CollisionHeader_GetVirtual(&D_06001A38, &colHeader);
+                CollisionHeader_GetVirtual(&gKakarikoShootingGalleryCol, &colHeader);
                 this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 break;
             case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
-                CollisionHeader_GetVirtual(&D_06001C58, &colHeader);
+                CollisionHeader_GetVirtual(&object_spot01_matoyab_col, &colHeader);
                 this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-                if (gSaveContext.nightFlag == 0) {
+                if (IS_DAY) {
                     func_808AC22C(globalCtx->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
                     Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,
                                        position.y, position.z, thisx->world.rot.x, thisx->world.rot.y,

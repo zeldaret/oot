@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT18_SHUTTER_H_
-#define _Z_BG_SPOT18_SHUTTER_H_
+#ifndef Z_BG_SPOT18_SHUTTER_H
+#define Z_BG_SPOT18_SHUTTER_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -12,7 +12,5 @@ typedef struct BgSpot18Shutter {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgSpot18ShutterActionFunc actionFunc;
 } BgSpot18Shutter; // size = 0x0168
-
-extern const ActorInit Bg_Spot18_Shutter_InitVars;
 
 #endif

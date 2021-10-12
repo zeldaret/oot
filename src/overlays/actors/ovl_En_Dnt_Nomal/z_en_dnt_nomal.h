@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DNT_NOMAL_H_
-#define _Z_EN_DNT_NOMAL_H_
+#ifndef Z_EN_DNT_NOMAL_H
+#define Z_EN_DNT_NOMAL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -44,7 +44,5 @@ typedef struct EnDntNomal {
 
 #define ENDNTNOMAL_TARGET 0
 #define ENDNTNOMAL_STAGE 1
-
-extern const ActorInit En_Dnt_Nomal_InitVars;
 
 #endif

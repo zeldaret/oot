@@ -167,7 +167,7 @@ void EnFish_SetYOffset(EnFish* this) {
 
 s32 EnFish_InBottleRange(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp1C;
 
     if (this->actor.xzDistToPlayer < 32.0f) {
@@ -321,7 +321,7 @@ void EnFish_Respawning_SetupApproachPlayer(EnFish* this) {
 
 void EnFish_Respawning_ApproachPlayer(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
     Vec3f sp38;
     s16 yaw;
@@ -387,7 +387,7 @@ void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
     } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) &&
                (this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // BG missing? Running Actor_delete
+        // "BG missing? Running Actor_delete"
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
         osSyncPrintf(VT_RST);
         Actor_Kill(&this->actor);
@@ -628,7 +628,7 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
     s32 bgId;
 
     if (csAction == NULL) {
-        // Warning : DEMO ended without dousa (action) 3 termination being called
+        // "Warning : DEMO ended without dousa (action) 3 termination being called"
         osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
                      1169, this->actor.params);
         EnFish_ClearCutsceneData(this);
@@ -647,13 +647,13 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
             EnFish_Cutscene_WiggleFlyingThroughAir(this, globalCtx);
             break;
         case 3:
-            // DEMO fish termination
+            // "DEMO fish termination"
             osSyncPrintf("デモ魚消滅\n");
             EnFish_ClearCutsceneData(this);
             Actor_Kill(&this->actor);
             return;
         default:
-            // Improper DEMO action
+            // "Improper DEMO action"
             osSyncPrintf("不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1200, this->actor.params);
             break;
     }
@@ -665,7 +665,7 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
     endPos.y = csAction->endPos.y;
     endPos.z = csAction->endPos.z;
 
-    progress = func_8006F93C(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
+    progress = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
 
     this->actor.world.pos.x = (endPos.x - startPos.x) * progress + startPos.x;
     this->actor.world.pos.y = (endPos.y - startPos.y) * progress + startPos.y + D_80A17014;

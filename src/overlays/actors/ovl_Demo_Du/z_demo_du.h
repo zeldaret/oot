@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_DU_H_
-#define _Z_DEMO_DU_H_
+#ifndef Z_DEMO_DU_H
+#define Z_DEMO_DU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,8 +20,6 @@ typedef struct DemoDu {
     /* 0x01AC */ s32 demo6KSpawned;
     /* 0x01B0 */ s32 lastAction;
 } DemoDu; // size = 0x01B4
-
-extern const ActorInit Demo_Du_InitVars;
 
 // This is the parameter of this actor,
 typedef enum DemoDu_Cutscene {

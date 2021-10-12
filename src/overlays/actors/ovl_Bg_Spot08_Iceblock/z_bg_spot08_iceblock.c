@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot08_iceblock.h"
+#include "objects/object_spot08_obj/object_spot08_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -35,17 +36,12 @@ const ActorInit Bg_Spot08_Iceblock_InitVars = {
     (ActorFunc)BgSpot08Iceblock_Draw,
 };
 
-extern Gfx D_06000DE0[];           // Large iceberg spawned in place of Jabu
-extern CollisionHeader D_06001904; // Large iceberg spawned in place of Jabu
-extern Gfx D_06002BD0[];           // Hexagonal ice floe
-extern CollisionHeader D_06002FD8; // Hexagonal ice floe
-
 void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                                   DynaPolyMoveFlag flags) {
+                                   s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -54,7 +50,7 @@ void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, GlobalContext* global
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // Warning: move BG registration failed
+        // "Warning: move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 0xD9,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -67,7 +63,7 @@ void BgSpot08Iceblock_CheckParams(BgSpot08Iceblock* this) {
             this->dyna.actor.params = 0x10;
             break;
         default:
-            // Error: arg_data setting error
+            // "Error: arg_data setting error"
             osSyncPrintf("Error : arg_data 設定ミスです。(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 0xF6,
                          this->dyna.actor.params);
             this->dyna.actor.params = 0x10;
@@ -178,7 +174,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     s32 rollDataIndex;
     MtxF mtx;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (this->dyna.actor.params & 0xFF) {
         case 0x11: // Medium nonrotating
@@ -250,10 +246,11 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     }
 
     // Rotation by the angle between surfaceNormal and the vertical about rotationAxis
-    func_800D23FC(Math_FAcosF(Math3D_Cos(&sVerticalVector, &this->surfaceNormal)), &this->rotationAxis, MTXMODE_NEW);
+    Matrix_RotateAxis(Math_FAcosF(Math3D_Cos(&sVerticalVector, &this->surfaceNormal)), &this->rotationAxis,
+                      MTXMODE_NEW);
     Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_Get(&mtx);
-    func_800D20CC(&mtx, &this->dyna.actor.shape.rot, MTXMODE_NEW);
+    Matrix_MtxFToYXZRotS(&mtx, &this->dyna.actor.shape.rot, 0);
 }
 
 void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
@@ -289,16 +286,16 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot08Iceblock* this = THIS;
     CollisionHeader* colHeader;
 
-    // spot08 ice floe
+    // "spot08 ice floe"
     osSyncPrintf("(spot08 流氷)(arg_data 0x%04x)\n", this->dyna.actor.params);
     BgSpot08Iceblock_CheckParams(this);
 
     switch (this->dyna.actor.params & 0x200) {
         case 0:
-            colHeader = &D_06002FD8;
+            colHeader = &gZorasFountainIcebergCol;
             break;
         case 0x200:
-            colHeader = &D_06001904;
+            colHeader = &gZorasFountainIceRampCol;
             break;
     }
 
@@ -440,10 +437,10 @@ void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->dyna.actor.params & 0x200) {
         case 0:
-            dList = D_06002BD0;
+            dList = gZorasFountainIcebergDL;
             break;
         case 0x200:
-            dList = D_06000DE0;
+            dList = gZorasFountainIceRampDL;
             break;
     }
 

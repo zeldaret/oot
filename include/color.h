@@ -1,5 +1,5 @@
-#ifndef _COLOR_H_
-#define _COLOR_H_
+#ifndef COLOR_H
+#define COLOR_H
 
 typedef struct {
     u8 r, g, b;
@@ -29,6 +29,6 @@ typedef union {
         u16 a : 1;
     };
     u16 rgba;
-} Color_RGB5A1;
+} Color_RGBA16;
 
 #endif

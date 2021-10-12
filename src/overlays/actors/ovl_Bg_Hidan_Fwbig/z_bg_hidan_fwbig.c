@@ -72,7 +72,7 @@ static InitChainEntry sInitChain[] = {
 void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     BgHidanFwbig* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -176,7 +176,7 @@ void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->actor.world.pos.x < 1150.0f) {
         this->actionFunc = BgHidanFwbig_Rise;
@@ -196,7 +196,7 @@ void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFwbig_MoveCollider(BgHidanFwbig* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f projPos;
     f32 cs;
     f32 sn;

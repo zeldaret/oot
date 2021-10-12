@@ -184,8 +184,7 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
     dest->z = src->z * c - src->x * s;
 }
 
-void ObjSwitch_InitDynapoly(ObjSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                            DynaPolyMoveFlag moveFlag) {
+void ObjSwitch_InitDynapoly(ObjSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -195,7 +194,7 @@ void ObjSwitch_InitDynapoly(ObjSwitch* this, GlobalContext* globalCtx, Collision
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // Warning : move BG registration failure
+        // "Warning : move BG registration failure"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_switch.c", 531,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -723,22 +722,11 @@ void ObjSwitch_DrawFloorRusty(ObjSwitch* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, gRustyFloorSwitchDL);
 }
 
-static u64* sEyeTextures[][4] = {
-    {
-        gEyeSwitchGoldOpenTex,
-        gEyeSwitchGoldOpeningTex,
-        gEyeSwitchGoldClosingTex,
-        gEyeSwitchGoldClosedTex,
-    },
-    {
-        gEyeSwitchSilverOpenTex,
-        gEyeSwitchSilverHalfTex,
-        gEyeSwitchSilverClosedTex,
-        gEyeSwitchSilverClosedTex,
-    },
-};
-
 void ObjSwitch_DrawEye(ObjSwitch* this, GlobalContext* globalCtx) {
+    static void* eyeTextures[][4] = {
+        { gEyeSwitchGoldOpenTex, gEyeSwitchGoldOpeningTex, gEyeSwitchGoldClosingTex, gEyeSwitchGoldClosedTex },
+        { gEyeSwitchSilverOpenTex, gEyeSwitchSilverHalfTex, gEyeSwitchSilverClosedTex, gEyeSwitchSilverClosedTex },
+    };
     static Gfx* eyeDlists[] = { gEyeSwitch1DL, gEyeSwitch2DL };
     s32 pad;
     s32 subType = (this->dyna.actor.params >> 4 & 7);
@@ -748,7 +736,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_switch.c", 1462),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[subType][this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[subType][this->eyeTexIndex]));
     gSPDisplayList(POLY_OPA_DISP++, eyeDlists[subType]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_switch.c", 1471);

@@ -1,5 +1,5 @@
-#ifndef _Z_COLLISION_CHECK_H_
-#define _Z_COLLISION_CHECK_H_
+#ifndef Z_COLLISION_CHECK_H
+#define Z_COLLISION_CHECK_H
 
 #define COLLISION_CHECK_AT_MAX 50
 #define COLLISION_CHECK_AC_MAX 60
@@ -171,7 +171,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ ColliderInfoInit info;
     /* 0x18 */ ColliderTrisElementDimInit dim;
-} ColliderTrisElementInit; // size 0x3C
+} ColliderTrisElementInit; // size = 0x3C
 
 typedef struct {
     /* 0x00 */ Collider base;
@@ -383,7 +383,7 @@ typedef enum {
 #define DMG_SWORD (DMG_SLASH | DMG_SPIN_ATTACK | DMG_JUMP_SLASH)
 #define DMG_HAMMER (DMG_HAMMER_SWING | DMG_HAMMER_JUMP)
 #define DMG_FIRE (DMG_ARROW_FIRE | DMG_MAGIC_FIRE)
-#define DMG_ARROW (DMG_ARROW_NORMAL | DMG_ARROW_FIRE | DMG_ARROW_ICE | DMG_ARROW_LIGHT | DMG_UNK_ARROW_1 | DMG_UNK_ARROW_2 | DMG_UNK_ARROW_3)
+#define DMG_ARROW (DMG_ARROW_NORMAL | DMG_ARROW_FIRE | DMG_ARROW_ICE | DMG_ARROW_LIGHT | DMG_ARROW_UNK1 | DMG_ARROW_UNK2 | DMG_ARROW_UNK3)
 #define DMG_RANGED (DMG_ARROW | DMG_HOOKSHOT | DMG_SLINGSHOT)
 #define DMG_DEFAULT ~(DMG_SHIELD | DMG_MIR_RAY)
 

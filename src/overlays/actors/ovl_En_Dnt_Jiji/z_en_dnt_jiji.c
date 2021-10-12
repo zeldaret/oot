@@ -83,7 +83,7 @@ void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->stage = (EnDntDemo*)this->actor.parent;
     osSyncPrintf("\n\n");
-    // Deku Scrub mask show elder
+    // "Deku Scrub mask show elder"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
     this->actor.flags &= ~1;
     this->actor.colChkInfo.mass = 0xFF;
@@ -115,7 +115,7 @@ void EnDntJiji_SetupWait(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     if ((this->timer == 1) && (this->actor.xzDistToPlayer < 150.0f) && !Gameplay_InCsMode(globalCtx) &&
@@ -254,7 +254,7 @@ void EnDntJiji_Talk(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         func_80106CCC(globalCtx);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.parent = NULL;
@@ -276,7 +276,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
         if ((this->getItemId == GI_NUT_UPGRADE_30) || (this->getItemId == GI_NUT_UPGRADE_40)) {
-            // nut
+            // "nut"
             osSyncPrintf("実 \n");
             osSyncPrintf("実 \n");
             osSyncPrintf("実 \n");
@@ -287,7 +287,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
             osSyncPrintf("実 \n");
             gSaveContext.itemGetInf[1] |= 0x8000;
         } else {
-            // stick
+            // "stick"
             osSyncPrintf("棒 \n");
             osSyncPrintf("棒 \n");
             osSyncPrintf("棒 \n");
@@ -377,7 +377,7 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.015f);
     this->unkTimer++;
     if (BREG(0)) {
-        // time
+        // "time"
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n" VT_RST, this->timer);
     }
     if ((this->timer > 1) && (this->timer != 0)) {

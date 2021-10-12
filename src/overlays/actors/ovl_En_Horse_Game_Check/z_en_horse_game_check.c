@@ -135,7 +135,7 @@ void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, GlobalConte
 
 s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
     EnHorseGameCheckIngoRace* this = (EnHorseGameCheckIngoRace*)base;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
     EnHorse* ingoHorse;
     EnHorse* horse;
@@ -240,7 +240,7 @@ s32 EnHorseGameCheck_DestroyGerudoArchery(EnHorseGameCheckBase* base, GlobalCont
 
 s32 EnHorseGameCheck_UpdateGerudoArchery(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
     EnHorseGameCheckGerudoArchery* this = (EnHorseGameCheckGerudoArchery*)base;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnHorse* horse = (EnHorse*)player->rideActor;
 
     if (horse == NULL) {
@@ -304,7 +304,7 @@ void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, GlobalCon
         globalCtx->fadeTransition = 0x2E;
         globalCtx->sceneLoadFlag = 0x14;
     } else {
-        // not supported
+        // "not supported"
         osSyncPrintf("En_HGC_Spot20_Ta_end():対応せず\n");
         gSaveContext.cutsceneIndex = 0;
         globalCtx->nextEntranceIndex = 0x157;
@@ -316,7 +316,7 @@ void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, GlobalCon
 s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
     EnHorseGameCheckMalonRace* this = (EnHorseGameCheckMalonRace*)base;
     s32 i;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnHorse* horse;
 
     if (!(this->raceFlags & MALONRACE_PLAYER_ON_MARK) && AT_FINISH_LINE(player->rideActor)) {

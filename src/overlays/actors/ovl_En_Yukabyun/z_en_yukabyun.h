@@ -1,5 +1,5 @@
-#ifndef _Z_EN_YUKABYUN_H_
-#define _Z_EN_YUKABYUN_H_
+#ifndef Z_EN_YUKABYUN_H
+#define Z_EN_YUKABYUN_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct EnYukabyun {
     /* 0x0152 */ u8 unk_152;
     /* 0x0154 */ ColliderCylinder collider;
 } EnYukabyun; // size = 0x01A0
-
-extern const ActorInit En_Yukabyun_InitVars;
 
 #endif

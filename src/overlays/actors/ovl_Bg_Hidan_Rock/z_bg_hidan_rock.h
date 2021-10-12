@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HIDAN_ROCK_H_
-#define _Z_BG_HIDAN_ROCK_H_
+#ifndef Z_BG_HIDAN_ROCK_H
+#define Z_BG_HIDAN_ROCK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct BgHidanRock {
     /* 0x0170 */ Vec3f unk_170;
     /* 0x017C */ ColliderCylinder collider;
 } BgHidanRock; // size = 0x01C8
-
-extern const ActorInit Bg_Hidan_Rock_InitVars;
 
 #endif

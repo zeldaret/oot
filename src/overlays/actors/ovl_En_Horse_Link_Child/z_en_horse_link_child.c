@@ -225,7 +225,7 @@ void func_80A699FC(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     f32 distFromLink;
     s32 newAnimationIdx;
 
-    distFromLink = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
+    distFromLink = Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         if ((distFromLink < 1000.0f) && (distFromLink > 70.0f)) {
@@ -258,7 +258,7 @@ void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     s32 newAnimationIdx;
 
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
-        yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
+        yawDiff = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.world.rot.y;
 
         if (yawDiff > 0x12C) {
             this->actor.world.rot.y += 0x12C;
@@ -272,7 +272,7 @@ void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     }
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
-        distFromLink = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
+        distFromLink = Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
 
         if (distFromLink > 1000.0f) {
             func_80A6993C(this, 0);
@@ -318,7 +318,7 @@ void func_80A69F5C(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     s32 yawOffset;
 
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
 
         if (Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos) < 250.0f) {
             yawDiff = player->actor.shape.rot.y;
@@ -350,7 +350,7 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     f32 distLinkFromHome;
 
     func_80A69F5C(this, globalCtx);
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     distFromLink = Actor_WorldDistXZToActor(&this->actor, &player->actor);
 
     if (gSaveContext.entranceIndex == 0x2AE) {
@@ -451,10 +451,10 @@ void func_80A6A5A4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
         func_80A6A724(this);
     } else {
         this->actor.speedXZ = 0.0f;
-        yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
+        yawDiff = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.world.rot.y;
         // 0.7071 = cos(pi/4)
         if ((Math_CosS(yawDiff) < 0.7071f) && (this->animationIdx == 2)) {
-            func_8006DD9C(&this->actor, &PLAYER->actor.world.pos, 300);
+            func_8006DD9C(&this->actor, &GET_PLAYER(globalCtx)->actor.world.pos, 300);
         }
 
         if (SkelAnime_Update(&this->skin.skelAnime)) {
@@ -480,7 +480,7 @@ void func_80A6A724(EnHorseLinkChild* this) {
 }
 
 void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 dist;
     s32 newAnimationIdx;
 
@@ -499,7 +499,7 @@ void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         if (!this->unk_1E8) {
-            dist = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
+            dist = Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
         } else {
             dist = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         }
@@ -548,7 +548,7 @@ static EnHorseLinkChildActionFunc sActionFuncs[] = {
     func_80A698F4, func_80A69C18, func_80A699FC, func_80A6A068, func_80A6A7D0, func_80A6A5A4,
 };
 
-static u64* sEyeTextures[] = { gChildEponaEyeOpenTex, gChildEponaEyeHalfTex, gChildEponaEyeCloseTex };
+static void* sEyeTextures[] = { gChildEponaEyeOpenTex, gChildEponaEyeHalfTex, gChildEponaEyeCloseTex };
 static u8 sEyeIndexOrder[] = { 0, 1, 2, 1 };
 
 void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -598,6 +598,7 @@ void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
             this->headCollider.elements[i].dim.modelSphere.radius * this->headCollider.elements[i].dim.scale;
     }
 
+    //! @bug see relevant comment in `EnHorse_SkinCallback1`
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);
 }
 

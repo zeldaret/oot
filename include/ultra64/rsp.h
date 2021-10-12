@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_RSP_H_
-#define _ULTRA64_RSP_H_
+#ifndef ULTRA64_RSP_H
+#define ULTRA64_RSP_H
 
 /* SP Status Flags */
 #define SP_STATUS_HALT          0x001

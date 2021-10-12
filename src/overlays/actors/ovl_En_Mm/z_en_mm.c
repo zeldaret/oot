@@ -6,6 +6,7 @@
 
 #include "z_en_mm.h"
 #include "objects/object_mm/object_mm.h"
+#include "objects/object_link_child/object_link_child.h"
 
 #define FLAGS 0x00000019
 
@@ -221,7 +222,7 @@ s32 func_80AADA70(void) {
 
 s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 sp1C = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -268,7 +269,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
 }
 
 s32 EnMm_GetTextId(EnMm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 textId;
 
     textId = Text_GetFaceReaction(globalCtx, 0x1C);
@@ -287,7 +288,7 @@ s32 EnMm_GetTextId(EnMm* this, GlobalContext* globalCtx) {
 }
 
 void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 yawDiff;
     s16 sp26;
     s16 sp24;
@@ -519,10 +520,8 @@ void EnMm_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-extern Gfx D_0602CA38[]; // bunny hood dlist from object_link_child. replace with proper symbol later
-
 void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
+    static void* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
     s32 pad;
     EnMm* this = THIS;
 
@@ -566,7 +565,7 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_800D1694(97.0f, -1203.0f, 240.0f, &sp50);
             Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
 
-            gSPDisplayList(POLY_OPA_DISP++, D_0602CA38);
+            gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         }
     }

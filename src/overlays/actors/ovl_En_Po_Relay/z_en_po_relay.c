@@ -25,7 +25,7 @@ void EnPoRelay_Talk2(EnPoRelay* this, GlobalContext* globalCtx);
 void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx);
 void EnPoRelay_SetupIdle(EnPoRelay* this);
 
-Vec3s D_80AD8C30[] = {
+static Vec3s D_80AD8C30[] = {
     { 0xFFC4, 0xFDEE, 0xF47A }, { 0x0186, 0xFE0C, 0xF47A }, { 0x0186, 0xFE0C, 0xF0F6 }, { 0x00D2, 0xFDEE, 0xF0F6 },
     { 0x00D2, 0xFD9E, 0xEEDA }, { 0x023A, 0xFDC6, 0xEEDA }, { 0x023A, 0xFDC6, 0xED18 }, { 0x00D2, 0xFDC6, 0xED18 },
     { 0x00D2, 0xFDC6, 0xEBCE }, { 0x00D2, 0xFDC6, 0xEAA2 }, { 0x023A, 0xFDC6, 0xEAA2 }, { 0x023A, 0xFDC6, 0xEBB0 },
@@ -80,9 +80,9 @@ static Vec3f D_80AD8D3C = { 0.0f, 0.0f, 0.0f };
 
 static Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
 
-static u64* sEyesSegments[] = {
+static void* sEyesTextures[] = {
     gDampeEyeOpenTex,
-    gDampeEyeHalfOpenTex,
+    gDampeEyeHalfTex,
     gDampeEyeClosedTex,
 };
 
@@ -184,7 +184,7 @@ void EnPoRelay_Talk(EnPoRelay* this, GlobalContext* globalCtx) {
 }
 
 void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f vec;
     f32 speed;
     f32 multiplier;
@@ -301,12 +301,16 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
         if (this->actionTimer < 5) {
             vec.y = Math_SinS((this->actionTimer * 0x1000) - 0x4000) * 23.0f + (this->actor.world.pos.y + 40.0f);
             multiplier = Math_CosS((this->actionTimer * 0x1000) - 0x4000) * 23.0f;
-            vec.x = (Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.world.pos.x;
-            vec.z = (Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.world.pos.z;
+            vec.x = (Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * multiplier) +
+                    this->actor.world.pos.x;
+            vec.z = (Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * multiplier) +
+                    this->actor.world.pos.z;
         } else {
             vec.y = this->actor.world.pos.y + 40.0f + 15.0f * (this->actionTimer - 5);
-            vec.x = (Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.world.pos.x;
-            vec.z = (Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.world.pos.z;
+            vec.x =
+                (Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f) + this->actor.world.pos.x;
+            vec.z =
+                (Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f) + this->actor.world.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255,
                              255, 0, 0, 255, 1, 9, true);
@@ -404,7 +408,7 @@ void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 940);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesTextures[this->eyeTextureIdx]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, EnPoRelay_PostLimbDraw, &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 954);

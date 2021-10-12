@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HAKA_ZOU_H_
-#define _Z_BG_HAKA_ZOU_H_
+#ifndef Z_BG_HAKA_ZOU_H
+#define Z_BG_HAKA_ZOU_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgHakaZou {
     /* 0x016A */ s16 timer;
     /* 0x016C */ ColliderCylinder collider;
 } BgHakaZou; // size = 0x01B8
-
-extern const ActorInit Bg_Haka_Zou_InitVars;
 
 #endif

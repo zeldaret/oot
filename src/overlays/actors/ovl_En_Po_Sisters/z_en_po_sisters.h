@@ -1,5 +1,5 @@
-#ifndef _Z_EN_PO_SISTERS_H_
-#define _Z_EN_PO_SISTERS_H_
+#ifndef Z_EN_PO_SISTERS_H
+#define Z_EN_PO_SISTERS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -30,7 +30,5 @@ typedef struct EnPoSisters {
     /* 0x02AC */ ColliderCylinder collider;
     /* 0x02F8 */ MtxF unk_2F8;
 } EnPoSisters; // size = 0x0338
-
-extern const ActorInit En_Po_Sisters_InitVars;
 
 #endif

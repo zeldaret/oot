@@ -38,7 +38,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.seqIndex = 0xFF;
     gSaveContext.nightSeqIndex = 0xFF;
     gSaveContext.showTitleCard = true;
-    D_8011FB30 = 0;
+    gWeatherMode = 0;
     this->state.running = false;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }
@@ -410,15 +410,16 @@ void Select_PrintMenu(SelectContext* this, GfxPrint* printer) {
 }
 
 static char* sLoadingMessages[] = {
-    "\x8Dｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",                   // "Please wait a minute"
-    "\x8Dﾁｮｯﾄ ﾏｯﾃﾈ",                       // "Hold on a sec"
-    "\x8Cｳｪｲﾄ ｱ ﾓｰﾒﾝﾄ",                    // "Wait a moment"
-    "\x8Cﾛｰﾄﾞ\x8Dﾁｭｳ",                     // "Loading"
-    "\x8Dﾅｳ ﾜｰｷﾝｸﾞ",                       // "Now working"
-    "\x8Dｲﾏ ﾂｸｯﾃﾏｽ",                       // "Now creating"
-    "\x8Dｺｼｮｳｼﾞｬﾅｲﾖ",                      // "It's not broken"
-    "\x8Cｺｰﾋｰ ﾌﾞﾚｲｸ",                      // "Coffee Break"
-    "\x8C\Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",                 // "Please set B side"
+    "\x8Dｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ", // "Please wait a minute"
+    "\x8Dﾁｮｯﾄ ﾏｯﾃﾈ",     // "Hold on a sec"
+    "\x8Cｳｪｲﾄ ｱ ﾓｰﾒﾝﾄ",  // "Wait a moment"
+    "\x8Cﾛｰﾄﾞ\x8Dﾁｭｳ",   // "Loading"
+    "\x8Dﾅｳ ﾜｰｷﾝｸﾞ",     // "Now working"
+    "\x8Dｲﾏ ﾂｸｯﾃﾏｽ",     // "Now creating"
+    "\x8Dｺｼｮｳｼﾞｬﾅｲﾖ",    // "It's not broken"
+    "\x8Cｺｰﾋｰ ﾌﾞﾚｲｸ",    // "Coffee Break"
+    "\x8C"
+    "Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",                      // "Please set B side"
     "\x8Dｼﾞｯﾄ\x8Cｶﾞﾏﾝ\x8Dﾉ\x8Cｺ\x8Dﾃﾞｱｯﾀ", // "Be patient, now"
     "\x8Dｲﾏｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",                 // "Please wait just a minute"
     "\x8Dｱﾜﾃﾅｲｱﾜﾃﾅｲ｡ﾋﾄﾔｽﾐﾋﾄﾔｽﾐ｡",          // "Don't worry, don't worry. Take a break, take a break"
@@ -499,7 +500,7 @@ void Select_PrintCutsceneSetting(SelectContext* this, GfxPrint* printer, u16 csI
             break;
     };
 
-    gSaveContext.environmentTime = gSaveContext.dayTime;
+    gSaveContext.skyboxTime = gSaveContext.dayTime;
     GfxPrint_Printf(printer, "Stage:\x8C%s", label);
 }
 

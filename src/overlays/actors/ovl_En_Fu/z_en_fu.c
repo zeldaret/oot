@@ -85,7 +85,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         this->actionFunc = EnFu_WaitChild;
         this->facialExpression = FU_FACE_CALM;
     } else {
@@ -138,8 +138,6 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
 
     if (textID == 0) {
         textID = (gSaveContext.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
-        // 0x5032: "Go around!..I'm so happy!..I'm trying to come up with a musical theme inspired by this windmill..."
-        // 0x5033: "Go around, go around, go around... What? It's going way too fast!"
     }
 
     // if actor flags & 0x100 is set and textID is 0x5033, change animation
@@ -168,7 +166,7 @@ void func_80A1DBA0(EnFu* this, GlobalContext* globalCtx) {
 }
 
 void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE >= 4) {
         this->actionFunc = EnFu_WaitAdult;
@@ -192,7 +190,7 @@ void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
 }
 
 void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->stateFlags2 |= 0x800000;
     // if dialog state is 7, player has played back the song
@@ -203,7 +201,7 @@ void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
 }
 
 void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->stateFlags2 |= 0x800000;
     // if dialog state is 2, start song demonstration
@@ -217,7 +215,7 @@ void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
 
 void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     static s16 yawDiff;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((gSaveContext.eventChkInf[5] & 0x800)) {
@@ -299,7 +297,7 @@ void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyesSegments[] = { gWindmillManEyeClosedTex, gWindmillManEyeAngryTex };
-    static void* sMouthSegments[] = { gWindMillManMouthOpenTex, gWindMillManMouthAngryTex };
+    static void* sMouthSegments[] = { gWindmillManMouthOpenTex, gWindmillManMouthAngryTex };
     s32 pad;
     EnFu* this = THIS;
 

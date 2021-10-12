@@ -1,5 +1,5 @@
-#ifndef _Z_BG_YDAN_MARUTA_H_
-#define _Z_BG_YDAN_MARUTA_H_
+#ifndef Z_BG_YDAN_MARUTA_H
+#define Z_BG_YDAN_MARUTA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -16,7 +16,5 @@ typedef struct BgYdanMaruta {
     /* 0x016C */ ColliderTris collider;
     /* 0x018C */ ColliderTrisElement elements[2];
 } BgYdanMaruta; // size = 0x0244
-
-extern const ActorInit Bg_Ydan_Maruta_InitVars;
 
 #endif

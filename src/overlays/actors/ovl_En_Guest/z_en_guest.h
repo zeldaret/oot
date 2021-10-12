@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GUEST_H_
-#define _Z_EN_GUEST_H_
+#ifndef Z_EN_GUEST_H
+#define Z_EN_GUEST_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -24,7 +24,5 @@ typedef struct EnGuest {
     /* 0x030D */ u8 unk_30D;
     /* 0x030E */ u8 unk_30E;
 } EnGuest; // size = 0x0310
-
-extern const ActorInit En_Guest_InitVars;
 
 #endif

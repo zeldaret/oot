@@ -95,7 +95,7 @@ f32 EnInsect_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
 
 s32 EnInsect_InBottleRange(EnInsect* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f pos;
 
     if (this->actor.xzDistToPlayer < 32.0f) {
@@ -164,8 +164,9 @@ void func_80A7C058(EnInsect* this) {
     }
 }
 
-void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnInsect* this = THIS;
+    GlobalContext* globalCtx = globalCtx2;
     f32 rand;
     s16 temp_s2;
     s32 count;
@@ -205,14 +206,10 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.world.pos.x,
                             this->actor.world.pos.y, this->actor.world.pos.z, this->actor.shape.rot.x,
                             this->actor.shape.rot.y, this->actor.shape.rot.z, 3);
-
-                if (globalCtx) {}
             }
         }
 
         func_80A7D39C(this);
-
-        if (1) {}
 
         D_80A7DEB8++;
     } else {
@@ -349,7 +346,7 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
                 yaw -= 0x2000;
             }
         }
-        if (globalCtx) {}
+        if (globalCtx) {} // Must be 'globalCtx'
         Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000);
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -450,7 +447,7 @@ void func_80A7CE60(EnInsect* this) {
 void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
     f32 temp_f0;
     s16 temp_v1;
-    s16 padding;
+    s16 pad;
     s16 sp4E;
     Vec3f sp40;
     s32 phi_v0;
@@ -583,14 +580,12 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
     } else {
         if (this->unk_314 & 0x10) {
             osSyncPrintf(VT_COL(YELLOW, BLACK));
-            // warning: target Actor is NULL
+            // "warning: target Actor is NULL"
             osSyncPrintf("warning:目標 Actor が NULL (%s %d)\n", "../z_en_mushi.c", 1046);
             osSyncPrintf(VT_RST);
         }
         sp40 = 40.0f;
     }
-
-    if (!this->soilActor->actor.params) {}
 
     D_80A7DEB0 += 0.99999994f / 300.0f;
     if (D_80A7DEB0 > 1.0f) {
@@ -710,7 +705,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
     } else if ((sp3A == 2 || sp3A == 3) && (this->unk_314 & 1) && this->unk_31C <= 0 && this->unk_31A <= 0 &&
                this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // BG missing? To do Actor_delete
+        // "BG missing? To do Actor_delete"
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_mushi.c", 1197);
         osSyncPrintf(VT_RST);
         Actor_Kill(&this->actor);

@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_BOMBCHUIWA_H_
-#define _Z_BG_JYA_BOMBCHUIWA_H_
+#ifndef Z_BG_JYA_BOMBCHUIWA_H
+#define Z_BG_JYA_BOMBCHUIWA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -17,7 +17,5 @@ typedef struct BgJyaBombchuiwa {
     /* 0x01B4 */ s16 timer;
     /* 0x01B6 */ u8 drawFlags; // Used to determine how the actor is drawn.
 } BgJyaBombchuiwa; // size = 0x01B8
-
-extern const ActorInit Bg_Jya_Bombchuiwa_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_ARROW_H_
-#define _Z_EN_ARROW_H_
+#ifndef Z_EN_ARROW_H
+#define Z_EN_ARROW_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -40,7 +40,5 @@ typedef enum {
     /*  9  */ ARROW_SEED,
     /*  10 */ ARROW_NUT
 } ArrowType;
-
-extern const ActorInit En_Arrow_InitVars;
 
 #endif

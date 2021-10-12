@@ -52,7 +52,7 @@ void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriKaitenkabe* this = THIS;
     CollisionHeader* colHeader = NULL;
 
-    // Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears
+    // "Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears"
     osSyncPrintf("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n", this->dyna.actor.params);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
@@ -61,7 +61,7 @@ void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
         Actor_Kill(&this->dyna.actor);
-        // 【Rotating wall】 Bank danger!
+        // "【Rotating wall】 Bank danger!"
         osSyncPrintf("【回転壁】 バンク危険！(%s %d)\n", "../z_bg_mori_kaitenkabe.c", 176);
     } else {
         this->actionFunc = BgMoriKaitenkabe_WaitForMoriTex;
@@ -91,7 +91,7 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
     Vec3f push;
     Vec3f leverArm;
     Vec3f torque;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 > 0.001f) {
         this->timer++;
@@ -124,7 +124,7 @@ void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this) {
 }
 
 void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* thisx = &this->dyna.actor;
     s16 rotY;
 

@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef struct {
     s16 val;
@@ -3569,5 +3569,5 @@ s16 D_8011DAFC[] = {
 };
 
 GlobalContext* D_8015BD7C;
-DBCamera D_8015BD80;
+DbCamera D_8015BD80;
 CollisionPoly* playerFloorPoly;

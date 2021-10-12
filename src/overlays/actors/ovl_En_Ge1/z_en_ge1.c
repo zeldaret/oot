@@ -81,7 +81,7 @@ static Gfx* sHairstyleDLists[] = {
 
 static Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gGerudoWhiteEyeOpenTex,
     gGerudoWhiteEyeHalfTex,
     gGerudoWhiteEyeClosedTex,
@@ -135,7 +135,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case GE1_TYPE_VALLEY_FLOOR:
             if (LINK_IS_ADULT) {
-                // Valley floor Gerudo withdrawal
+                // "Valley floor Gerudo withdrawal"
                 osSyncPrintf(VT_FGCOL(CYAN) "谷底 ゲルド 撤退 \n" VT_RST);
                 Actor_Kill(&this->actor);
                 return;
@@ -151,7 +151,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             this->actor.targetMode = 3;
             this->hairstyle = GE1_HAIR_BOB;
-            // Horsback archery Gerudo EVENT_INF(0) =
+            // "Horseback archery Gerudo EVENT_INF(0) ="
             osSyncPrintf(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
 
             if (gSaveContext.eventInf[0] & 0x100) {
@@ -569,7 +569,7 @@ void EnGe1_WaitDoNothing(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* horse;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
@@ -667,7 +667,7 @@ void EnGe1_TalkNoHorse_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_Wait_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     u16 textId;
 
     if (!(player->stateFlags1 & 0x800000)) {

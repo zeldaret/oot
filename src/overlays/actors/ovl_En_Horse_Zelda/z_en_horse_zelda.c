@@ -135,7 +135,7 @@ void func_80A6D918(EnHorseZelda* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
-    if (Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor) <= 300.0f) {
+    if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor) <= 300.0f) {
         if (this->actor.speedXZ < 12.0f) {
             this->actor.speedXZ += 1.0f;
         } else {
@@ -262,6 +262,8 @@ void func_80A6DFD4(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
         this->colliderSphere.elements[i].dim.worldSphere.radius =
             this->colliderSphere.elements[i].dim.modelSphere.radius * this->colliderSphere.elements[i].dim.scale;
     }
+
+    //! @bug see relevant comment in `EnHorse_SkinCallback1`
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
 }
 

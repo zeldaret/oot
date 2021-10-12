@@ -1,5 +1,5 @@
-#ifndef _Z_DEMO_KEKKAI_H_
-#define _Z_DEMO_KEKKAI_H_
+#ifndef Z_DEMO_KEKKAI_H
+#define Z_DEMO_KEKKAI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,8 +20,6 @@ typedef struct DemoKekkai {
     /* 0x01F6 */ u16 sfxFlag;
     /* 0x01F8 */ DemoKekkaiUpdateFunc updateFunc;
 } DemoKekkai; // size = 0x01FC
-
-extern const ActorInit Demo_Kekkai_InitVars;
 
 typedef enum {
     /* 0 */ KEKKAI_TOWER,

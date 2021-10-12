@@ -6,6 +6,7 @@
 
 #include "z_en_xc.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/object_xc/object_xc.h"
 #include "scenes/overworld/spot05/spot05_scene.h"
 #include "scenes/overworld/spot17/spot17_scene.h"
@@ -48,7 +49,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gSheikEyeOpenTex,
     gSheikEyeHalfClosedTex,
     gSheikEyeShutTex,
@@ -77,7 +78,7 @@ void EnXc_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnXc_CalculateHeadTurn(EnXc* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->npcInfo.unk_18 = player->actor.world.pos;
     this->npcInfo.unk_14 = kREG(16) - 3.0f;
@@ -172,7 +173,8 @@ void func_80B3C620(EnXc* this, GlobalContext* globalCtx, s32 npcActionIdx) {
     f32 unk;
 
     if (npcAction != NULL) {
-        unk = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 0);
+        unk =
+            Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 0);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
         startZ = npcAction->startPos.z;
@@ -284,7 +286,7 @@ void func_80B3CA38(EnXc* this, GlobalContext* globalCtx) {
 
 s32 EnXc_MinuetCS(EnXc* this, GlobalContext* globalCtx) {
     if (this->actor.params == SHEIK_TYPE_MINUET) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         f32 z = player->actor.world.pos.z;
         if (z < -2225.0f) {
             if (!Gameplay_InCsMode(globalCtx)) {
@@ -314,7 +316,7 @@ s32 EnXc_BoleroCS(EnXc* this, GlobalContext* globalCtx) {
     PosRot* posRot;
 
     if (this->actor.params == SHEIK_TYPE_BOLERO) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posRot = &player->actor.world;
         if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
             (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f) &&
@@ -343,7 +345,7 @@ void EnXc_SetupSerenadeAction(EnXc* this, GlobalContext* globalCtx) {
 
 s32 EnXc_SerenadeCS(EnXc* this, GlobalContext* globalCtx) {
     if (this->actor.params == SHEIK_TYPE_SERENADE) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         s32 stateFlags = player->stateFlags1;
         if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) && !(stateFlags & 0x20000000) &&
             !Gameplay_InCsMode(globalCtx)) {
@@ -368,7 +370,7 @@ void EnXc_SetWalkingSFX(EnXc* this, GlobalContext* globalCtx) {
     u32 sfxId;
     s32 pad2;
 
-    if ((Animation_OnFrame(&this->skelAnime, 11.0f)) || (Animation_OnFrame(&this->skelAnime, 23.0f))) {
+    if (Animation_OnFrame(&this->skelAnime, 11.0f) || Animation_OnFrame(&this->skelAnime, 23.0f)) {
         if (this->actor.bgCheckFlags & 1) {
             sfxId = SFX_FLAG;
             sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
@@ -549,7 +551,7 @@ void func_80B3D48C(EnXc* this, GlobalContext* globalCtx) {
     if (linkAction != NULL) {
         yaw = linkAction->urot.y + 0x8000;
     } else {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         yaw = player->actor.world.rot.y + 0x8000;
     }
 
@@ -1067,7 +1069,7 @@ void EnXc_DrawPullingOutHarp(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
     s32 pad;
     s16 eyePattern = this->eyeIdx;
-    u64* eyeTexture = sEyeTextures[eyePattern];
+    void* eyeTexture = sEyeTextures[eyePattern];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad2;
@@ -1089,7 +1091,7 @@ void EnXc_DrawHarp(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
     s32 pad;
     s16 eyePattern = this->eyeIdx;
-    u64* eyeTexture = sEyeTextures[eyePattern];
+    void* eyeTexture = sEyeTextures[eyePattern];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad2;
@@ -1391,7 +1393,8 @@ void func_80B3F534(GlobalContext* globalCtx) {
     u16 frameCount = csCtx->frames;
 
     if (frameCount == 310) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, -1044.0f, -1243.0f, 7458.0f, 0, 0, 0, 6);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, -1044.0f, -1243.0f, 7458.0f, 0, 0, 0,
+                    WARP_DESTINATION);
     }
 }
 
@@ -1699,7 +1702,7 @@ void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
     s32 pad;
     s16 eyeIdx = this->eyeIdx;
-    u64* eyeTexture = sEyeTextures[eyeIdx];
+    void* eyeTexture = sEyeTextures[eyeIdx];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad2;
@@ -2375,7 +2378,7 @@ void EnXc_DrawDefault(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnXc* this = THIS;
     s16 eyeIdx = this->eyeIdx;
-    u64* eyeSegment = sEyeTextures[eyeIdx];
+    void* eyeSegment = sEyeTextures[eyeIdx];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
     GraphicsContext* gfxCtx = localGfxCtx;
@@ -2399,7 +2402,7 @@ void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
 
     if (this->drawMode < 0 || this->drawMode > 5 || sDrawFuncs[this->drawMode] == NULL) {
-        // "DRAW MODE IS ABNORMAL!!!!!!!!!!!!!!!!!!!!!!!!!"
+        // "Draw mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sDrawFuncs[this->drawMode](thisx, globalCtx);

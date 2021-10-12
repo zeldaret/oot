@@ -1,5 +1,5 @@
-#ifndef _Z_EN_VIEWER_H_
-#define _Z_EN_VIEWER_H_
+#ifndef Z_EN_VIEWER_H
+#define Z_EN_VIEWER_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -42,7 +42,5 @@ typedef struct EnViewer {
     /* 0x01E6 */ u8 unk_1E6; // Conditional
     /* 0x01E8 */ EnViewerUnkStruct unk_1E8[20];
 } EnViewer; // size = 0x05F8
-
-extern const ActorInit En_Viewer_InitVars;
 
 #endif

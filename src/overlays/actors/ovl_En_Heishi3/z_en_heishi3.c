@@ -113,18 +113,18 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
     s16 yawDiffNew;
     f32 sightRange;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     yawDiffNew = ABS(yawDiff);
     if (yawDiffNew < 0x4300) {
-        if (gSaveContext.nightFlag == 0) {
+        if (IS_DAY) {
             sightRange = 250.0f;
         } else {
             sightRange = 200.0f;
         }
     } else {
-        if (gSaveContext.nightFlag == 0) {
+        if (IS_DAY) {
             sightRange = 150.0f;
         } else {
             sightRange = 100.0f;
@@ -133,7 +133,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
     if ((this->actor.xzDistToPlayer < sightRange) &&
         (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f) && (sPlayerCaught == 0)) {
         sPlayerCaught = 1;
-        func_8010B680(globalCtx, 0x702D, &this->actor); // "Hey you! Stop! You, kid, over there!"
+        func_8010B680(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
@@ -145,7 +145,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
  * Handles the guards standing in front of Hyrule Castle.
  **/
 void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     if ((player->actor.world.pos.x < -190.0f) && (player->actor.world.pos.x > -380.0f) &&
@@ -161,7 +161,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
             }
         }
         sPlayerCaught = 1;
-        func_8010B680(globalCtx, 0x702D, &this->actor); // "Hey you! Stop! You, kid, over there!"
+        func_8010B680(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
@@ -181,7 +181,7 @@ void EnHeishi3_CatchStart(EnHeishi3* this, GlobalContext* globalCtx) {
 void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
-    if ((Animation_OnFrame(&this->skelAnime, 1.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 17.0f) != 0)) {
+    if (Animation_OnFrame(&this->skelAnime, 1.0f) || Animation_OnFrame(&this->skelAnime, 17.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_KNIGHT_WALK);
     }
     if (this->caughtTimer == 0) {
