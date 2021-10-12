@@ -16,16 +16,16 @@
             <Vtx/>
         </Array>
 
-        <!-- D_80A8E610. Variable declared in `.bss` of EnJsjutan. Used by gJsjutanShadowVisualDL -->
+        <!-- D_80A8E610. Variable declared in `.bss` of EnJsjutan. Used by gJsjutanShadowMaterialDL -->
         <Symbol Name="gJsjutanShadowTex" Type="u8" TypeSize="1" Count="0x800" Offset="0x4E70"/>
 
         <!-- D_80A8D598. Draws the carpet's texture. -->
-        <DList Name="gJsjutanCarpetVisualDL" Offset="0x3DF8"/>
+        <DList Name="gJsjutanCarpetMaterialDL" Offset="0x3DF8"/>
         <!-- D_80A8D618. Draws the carpet's shadow texture. -->
-        <DList Name="gJsjutanShadowVisualDL" Offset="0x3E78"/>
+        <DList Name="gJsjutanShadowMaterialDL" Offset="0x3E78"/>
 
         <!-- D_80A8D688. Draws vertexs in segment 0x0C. -->
-        <DList Name="gJsjutanGeometryDL" Offset="0x3EE8"/>
+        <DList Name="gJsjutanModelDL" Offset="0x3EE8"/>
 
         <!-- D_80A8DAB8. Carpet vertices. Same vertex type as gJsjutanCarpetOddVtx. Used when gameplayFrames is even. -->
         <Array Name="gJsjutanCarpetEvenVtx" Count="144" Offset="0x4318">

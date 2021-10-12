@@ -415,7 +415,7 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     // Draws the carpet's shadow texture.
-    gSPDisplayList(POLY_OPA_DISP++, gJsjutanShadowVisualDL);
+    gSPDisplayList(POLY_OPA_DISP++, gJsjutanShadowMaterialDL);
     gDPPipeSync(POLY_OPA_DISP++);
 
     // Draws the carpet's shadow vertices. Swaps them between frames to get a smoother result.
@@ -424,7 +424,7 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x0C, gJsjutanShadowEvenVtx);
     }
-    gSPDisplayList(POLY_OPA_DISP++, gJsjutanGeometryDL);
+    gSPDisplayList(POLY_OPA_DISP++, gJsjutanModelDL);
 
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Translate(thisx->world.pos.x, this->unk_168 + 3.0f, thisx->world.pos.z, MTXMODE_NEW);
@@ -433,7 +433,7 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_jsjutan.c", 805),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     // Draws the carpet's texture.
-    gSPDisplayList(POLY_OPA_DISP++, gJsjutanCarpetVisualDL);
+    gSPDisplayList(POLY_OPA_DISP++, gJsjutanCarpetMaterialDL);
 
     gDPPipeSync(POLY_OPA_DISP++);
 
@@ -443,7 +443,7 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x0C, gJsjutanCarpetEvenVtx);
     }
-    gSPDisplayList(POLY_OPA_DISP++, gJsjutanGeometryDL);
+    gSPDisplayList(POLY_OPA_DISP++, gJsjutanModelDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_jsjutan.c", 823);
 }
