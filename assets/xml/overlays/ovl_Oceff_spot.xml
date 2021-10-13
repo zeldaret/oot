@@ -6,7 +6,7 @@
             <Vtx/>
         </Array>
 
-        <DList Name="sSunSongMaterialDL" Offset="0xDA0"/>
-        <DList Name="sSunSongCylinderDL" Offset="0xE38"/>
+        <DList Name="sSunSongCylinderMaterialDL" Offset="0xDA0"/>
+        <DList Name="sSunSongCylinderModelDL" Offset="0xE38"/>
     </File>
 </Root>

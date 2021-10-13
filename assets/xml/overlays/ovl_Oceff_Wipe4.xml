@@ -4,8 +4,8 @@
         <Array Name="sScarecrowsSongFrustumVtx" Count="22" Offset="0xC60">
             <Vtx/>
         </Array>
-        <DList Name="sOceff4Texture0DL" Offset="0xDC0"/>
-        <DList Name="sOceff4Texture1DL" Offset="0xE28"/>
-        <DList Name="sOceff4Texture2DL" Offset="0xE90"/>
+        <DList Name="sOceff4Material0DL" Offset="0xDC0"/>
+        <DList Name="sOceff4Material1DL" Offset="0xE28"/>
+        <DList Name="sOceff4Material2DL" Offset="0xE90"/>
     </File>
 </Root>

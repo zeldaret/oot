@@ -6,6 +6,6 @@
             <Vtx/>
         </Array>
         <DList Name="sNayrusLoveDiamondMaterialDL" Offset="0x1650"/>
-        <DList Name="sNayrusLoveModelDL" Offset="0x1700"/>
+        <DList Name="sNayrusLoveDiamondModelDL" Offset="0x1700"/>
     </File>
 </Root>

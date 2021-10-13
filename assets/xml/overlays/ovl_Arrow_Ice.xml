@@ -5,7 +5,7 @@
         <Array Name="sIceArrowVtx" Count="43" Offset="0x19F0">
             <Vtx/>
         </Array>
-        <DList Name="sIceArrowDL" Offset="0x1CA0"/>
+        <DList Name="sIceArrowMaterialDL" Offset="0x1CA0"/>
         <DList Name="sIceArrowModelDL" Offset="0x1D50"/>
     </File>
 </Root>
