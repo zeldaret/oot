@@ -1,15 +1,15 @@
 <Root>
     <File Name="ovl_En_Clear_Tag" BaseAddress="0x809D35B0" RangeStart="0x26F0" RangeEnd="0x89F0" Segment="128">
-        <DList Name="gArwingDL" Offset="0x26F0" Static="Off"/>
-        <DList Name="gArwingLaserDL" Offset="0x6388" Static="Off"/>
-        <DList Name="gArwingBackfireDL" Offset="0x6688" Static="Off"/>
-        <DList Name="gArwingDebrisEffectMaterialDL" Offset="0x6A38" Static="Off"/>
-        <DList Name="gArwingDebrisEffectDL" Offset="0x6AB8" Static="Off"/>
-        <DList Name="gArwingFireEffectMaterialDL" Offset="0x7100" Static="Off"/>
-        <DList Name="gArwingFireEffectDL" Offset="0x71A8" Static="Off"/>
-        <DList Name="gArwingFlashEffectDL" Offset="0x8208" Static="Off"/>
-        <DList Name="gArwingFlashEffectGroundDL" Offset="0x84B8" Static="Off"/>
-        <DList Name="gArwingShadowDL" Offset="0x8970" Static="Off"/>
+        <DList Name="gArwingDL" Offset="0x26F0"/>
+        <DList Name="gArwingLaserDL" Offset="0x6388"/>
+        <DList Name="gArwingBackfireDL" Offset="0x6688"/>
+        <DList Name="gArwingDebrisEffectMaterialDL" Offset="0x6A38"/>
+        <DList Name="gArwingDebrisEffectDL" Offset="0x6AB8"/>
+        <DList Name="gArwingFireEffectMaterialDL" Offset="0x7100"/>
+        <DList Name="gArwingFireEffectDL" Offset="0x71A8"/>
+        <DList Name="gArwingFlashEffectDL" Offset="0x8208"/>
+        <DList Name="gArwingFlashEffectGroundDL" Offset="0x84B8"/>
+        <DList Name="gArwingShadowDL" Offset="0x8970"/>
         <!-- These textures come after the DList they are used in and because they are normally static it wont compile-->
         <Texture Name="ovl_En_Clear_TagTex_003B88" Format="rgba16" Width="64" Height="32" Offset="0x3B88" Static="Off"/>
         <Texture Name="ovl_En_Clear_TagTex_003888" Format="rgba16" Width="32" Height="32" Offset="0x3388" Static="Off"/>
