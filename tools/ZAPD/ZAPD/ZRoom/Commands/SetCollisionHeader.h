@@ -6,6 +6,8 @@
 class SetCollisionHeader : public ZRoomCommand
 {
 public:
+	ZCollisionHeader* collisionHeader;
+
 	SetCollisionHeader(ZFile* nParent);
 	~SetCollisionHeader();
 
@@ -15,7 +17,4 @@ public:
 
 	std::string GetCommandCName() const override;
 	RoomCommand GetRoomCommand() const override;
-
-private:
-	ZCollisionHeader* collisionHeader;
 };

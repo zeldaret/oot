@@ -1,30 +1,17 @@
 #include "ZBlob.h"
-#include "BitConverter.h"
-#include "File.h"
-#include "Path.h"
-#include "StringHelper.h"
-#include "ZFile.h"
 
-using namespace tinyxml2;
+#include "Globals.h"
+#include "Utils/BitConverter.h"
+#include "Utils/File.h"
+#include "Utils/Path.h"
+#include "Utils/StringHelper.h"
+#include "ZFile.h"
 
 REGISTER_ZFILENODE(Blob, ZBlob);
 
 ZBlob::ZBlob(ZFile* nParent) : ZResource(nParent)
 {
 	RegisterRequiredAttribute("Size");
-}
-
-// Build Source File Mode
-ZBlob* ZBlob::BuildFromXML(XMLElement* reader, const std::string& inFolder, bool readFile)
-{
-	ZBlob* blob = new ZBlob(nullptr);
-
-	blob->ParseXML(reader);
-
-	if (readFile)
-		blob->blobData = File::ReadAllBytes(inFolder + "/" + blob->name + ".bin");
-
-	return blob;
 }
 
 ZBlob* ZBlob::FromFile(const std::string& filePath)
@@ -49,14 +36,34 @@ void ZBlob::ParseRawData()
 	                parent->GetRawData().begin() + rawDataIndex + blobSize);
 }
 
-std::string ZBlob::GetSourceOutputCode(const std::string& prefix)
+Declaration* ZBlob::DeclareVar(const std::string& prefix,
+                               [[maybe_unused]] const std::string& bodyStr)
 {
-	sourceOutput = "";
+	std::string auxName = name;
+
+	if (name == "")
+		auxName = GetDefaultName(prefix);
+
+	std::string path = Path::GetFileNameWithoutExtension(auxName);
+
+	std::string assetOutDir =
+		(Globals::Instance->outputPath / Path::GetFileNameWithoutExtension(GetOutName())).string();
+
+	std::string incStr =
+		StringHelper::Sprintf("%s.%s.inc", assetOutDir.c_str(), GetExternalExtension().c_str());
+
+	return parent->AddDeclarationIncludeArray(rawDataIndex, incStr, GetRawDataSize(),
+	                                          GetSourceTypeName(), auxName, 0);
+}
+
+std::string ZBlob::GetBodySourceCode() const
+{
+	std::string sourceOutput;
 
 	for (size_t i = 0; i < blobData.size(); i += 1)
 	{
 		if (i % 16 == 0)
-			sourceOutput += "    ";
+			sourceOutput += "\t";
 
 		sourceOutput += StringHelper::Sprintf("0x%02X, ", blobData[i]);
 
@@ -72,14 +79,14 @@ std::string ZBlob::GetSourceOutputCode(const std::string& prefix)
 	return sourceOutput;
 }
 
-std::string ZBlob::GetSourceOutputHeader(const std::string& prefix)
+std::string ZBlob::GetSourceOutputHeader([[maybe_unused]] const std::string& prefix)
 {
 	return StringHelper::Sprintf("extern u8 %s[];\n", name.c_str());
 }
 
 void ZBlob::Save(const fs::path& outFolder)
 {
-	File::WriteAllBytes(outFolder / (name + ".bin"), blobData);
+	File::WriteAllBytes((outFolder / (name + ".bin")).string(), blobData);
 }
 
 bool ZBlob::IsExternalResource() const

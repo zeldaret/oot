@@ -84,7 +84,7 @@ public:
 	Struct_800A598C(ZFile* parent, const std::vector<uint8_t>& rawData, uint32_t fileOffset,
 	                size_t index);
 
-	void PreGenSourceFiles(const std::string& prefix);
+	void DeclareReferences(const std::string& prefix);
 	[[nodiscard]] std::string GetSourceOutputCode(const std::string& prefix) const;
 
 	static size_t GetRawDataSize();
@@ -111,7 +111,7 @@ public:
 	                size_t index);
 	~Struct_800A5E28();
 
-	void PreGenSourceFiles(const std::string& prefix);
+	void DeclareReferences(const std::string& prefix);
 	[[nodiscard]] std::string GetSourceOutputCode(const std::string& prefix) const;
 
 	static size_t GetRawDataSize();
@@ -147,16 +147,17 @@ public:
 	uint8_t childIndex, siblingIndex;
 
 	ZLimb(ZFile* nParent);
-	ZLimb(ZLimbType limbType, const std::string& prefix, uint32_t nRawDataIndex, ZFile* nParent);
 
-	void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex) override;
+	void ExtractFromBinary(uint32_t nRawDataIndex, ZLimbType nType);
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
 	void DeclareReferences(const std::string& prefix) override;
 
+	std::string GetBodySourceCode() const override;
+	std::string GetDefaultName(const std::string& prefix) const override;
+
 	size_t GetRawDataSize() const override;
-	std::string GetSourceOutputCode(const std::string& prefix) override;
 	std::string GetSourceTypeName() const override;
 	ZResourceType GetResourceType() const override;
 
@@ -164,7 +165,4 @@ public:
 	void SetLimbType(ZLimbType value);
 	static const char* GetSourceTypeName(ZLimbType limbType);
 	static ZLimbType GetTypeByAttributeName(const std::string& attrName);
-
-	uint32_t GetFileAddress();
-	void SetFileAddress(uint32_t nAddress);
 };

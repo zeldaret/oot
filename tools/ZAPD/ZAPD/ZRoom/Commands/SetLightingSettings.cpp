@@ -1,6 +1,6 @@
 #include "SetLightingSettings.h"
-#include "BitConverter.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 #include "ZRoom/ZRoom.h"
 
@@ -21,7 +21,7 @@ void SetLightingSettings::DeclareReferences(const std::string& prefix)
 {
 	if (settings.size() > 0)
 	{
-		std::string declaration = "";
+		std::string declaration;
 
 		for (size_t i = 0; i < settings.size(); i++)
 		{
