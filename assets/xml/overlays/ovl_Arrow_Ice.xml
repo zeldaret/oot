@@ -1,11 +1,11 @@
 <Root>
     <File Name="ovl_Arrow_Ice" BaseAddress="0x80867cd0" RangeStart="0x9F0" RangeEnd="0x1E10" Segment="128">    
-        <Texture Name="sIceArrow1Tex" OutName="ice_tex_1" Format="ia8" Width="32" Height="64" Offset="0x9F0"/>
-        <Texture Name="sIceArrow2Tex" OutName="ice_tex_2" Format="ia8" Width="32" Height="64" Offset="0x11F0"/>
-        <Array Name="sIceArrowVtx" Count="43" Offset="0x19F0">
+        <Texture Name="s1Tex" OutName="ice_tex_1" Format="ia8" Width="32" Height="64" Offset="0x9F0" Static="On"/>
+        <Texture Name="s2Tex" OutName="ice_tex_2" Format="ia8" Width="32" Height="64" Offset="0x11F0" Static="On"/>
+        <Array Name="sVtx" Count="43" Offset="0x19F0" Static="On">
             <Vtx/>
         </Array>
-        <DList Name="sIceArrowMaterialDL" Offset="0x1CA0"/>
-        <DList Name="sIceArrowModelDL" Offset="0x1D50"/>
+        <DList Name="sMaterialDL" Offset="0x1CA0" Static="On"/>
+        <DList Name="sModelDL" Offset="0x1D50" Static="On"/>
     </File>
 </Root>

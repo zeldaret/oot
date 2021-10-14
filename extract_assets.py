@@ -9,6 +9,7 @@ import signal
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
 
+
 def SignalHandler(sig, frame):
     print(f'Signal {sig} received. Aborting...')
     mainAbort.set()
@@ -18,8 +19,10 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
     if globalAbort.is_set():
         # Don't extract if another file wasn't extracted properly.
         return
-
-    execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath)
+    if "overlays" in xmlPath:
+        execStr = "tools/ZAPD/ZAPD.out e -s -eh -i %s -b baserom/ -o %s -osf %s -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath)
+    else:
+        execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath)
     if globalUnaccounted:
         execStr += " -wu"
 
