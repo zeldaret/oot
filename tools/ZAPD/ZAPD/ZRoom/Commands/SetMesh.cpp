@@ -1,8 +1,8 @@
 #include "SetMesh.h"
 #include <Globals.h>
-#include <Path.h>
-#include "BitConverter.h"
-#include "StringHelper.h"
+#include <Utils/Path.h>
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZBackground.h"
 #include "ZFile.h"
 #include "ZRoom/ZRoom.h"
@@ -59,7 +59,6 @@ void GenDListDeclarations(ZRoom* zRoom, ZFile* parent, ZDisplayList* dList)
 		StringHelper::Sprintf("%s%s", zRoom->GetName().c_str(), dList->GetName().c_str());
 
 	dList->SetName(srcVarName);
-	dList->scene = zRoom->scene;
 	std::string sourceOutput = dList->GetSourceOutputCode(zRoom->GetName());
 
 	for (ZDisplayList* otherDList : dList->otherDLists)
@@ -67,11 +66,9 @@ void GenDListDeclarations(ZRoom* zRoom, ZFile* parent, ZDisplayList* dList)
 
 	for (const auto& vtxEntry : dList->vtxDeclarations)
 	{
-		DeclarationAlignment alignment = DeclarationAlignment::Align4;
-		if (Globals::Instance->game == ZGame::MM_RETAIL)
-			alignment = DeclarationAlignment::None;
 		parent->AddDeclarationArray(
-			vtxEntry.first, alignment, dList->vertices[vtxEntry.first].size() * 16, "static Vtx",
+			vtxEntry.first, DeclarationAlignment::Align16,
+			dList->vertices[vtxEntry.first].size() * 16, "Vtx",
 			StringHelper::Sprintf("%sVtx_%06X", zRoom->GetName().c_str(), vtxEntry.first),
 			dList->vertices[vtxEntry.first].size(), vtxEntry.second);
 	}
@@ -79,7 +76,7 @@ void GenDListDeclarations(ZRoom* zRoom, ZFile* parent, ZDisplayList* dList)
 
 std::string SetMesh::GenDListExterns(ZDisplayList* dList)
 {
-	std::string sourceOutput = "";
+	std::string sourceOutput;
 
 	sourceOutput += StringHelper::Sprintf("extern Gfx %sDL_%06X[];\n", zRoom->GetName().c_str(),
 	                                      dList->GetRawDataIndex());
@@ -98,11 +95,6 @@ std::string SetMesh::GetBodySourceCode() const
 	return StringHelper::Sprintf("SCENE_CMD_MESH(%s)", list.c_str());
 }
 
-size_t SetMesh::GetRawDataSize() const
-{
-	return ZRoomCommand::GetRawDataSize();
-}
-
 std::string SetMesh::GetCommandCName() const
 {
 	return "SCmdMesh";
@@ -113,7 +105,8 @@ RoomCommand SetMesh::GetRoomCommand() const
 	return RoomCommand::SetMesh;
 }
 
-PolygonDlist::PolygonDlist(const std::string& prefix, const std::vector<uint8_t>& nRawData,
+PolygonDlist::PolygonDlist(const std::string& prefix,
+                           [[maybe_unused]] const std::vector<uint8_t>& nRawData,
                            uint32_t nRawDataIndex, ZFile* nParent, ZRoom* nRoom)
 {
 	rawDataIndex = nRawDataIndex;
@@ -151,7 +144,7 @@ void PolygonDlist::DeclareReferences(const std::string& prefix)
 	xluDList = MakeDlist(xlu, prefix);
 }
 
-ZDisplayList* PolygonDlist::MakeDlist(segptr_t ptr, const std::string& prefix)
+ZDisplayList* PolygonDlist::MakeDlist(segptr_t ptr, [[maybe_unused]] const std::string& prefix)
 {
 	if (ptr == 0)
 	{
@@ -163,7 +156,9 @@ ZDisplayList* PolygonDlist::MakeDlist(segptr_t ptr, const std::string& prefix)
 	int32_t dlistLength = ZDisplayList::GetDListLength(
 		parent->GetRawData(), dlistAddress,
 		Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX);
-	ZDisplayList* dlist = new ZDisplayList(dlistAddress, dlistLength, parent);
+	ZDisplayList* dlist = new ZDisplayList(parent);
+	dlist->ExtractFromBinary(dlistAddress, dlistLength);
+	dlist->SetName(dlist->GetDefaultName(prefix));
 	GenDListDeclarations(zRoom, parent, dlist);
 
 	return dlist;
@@ -199,7 +194,7 @@ void PolygonDlist::DeclareVar(const std::string& prefix, const std::string& body
 
 std::string PolygonDlist::GetBodySourceCode(bool arrayElement)
 {
-	std::string bodyStr = "";
+	std::string bodyStr;
 	std::string opaStr = parent->GetDeclarationPtrName(opa);
 	std::string xluStr = parent->GetDeclarationPtrName(xlu);
 	if (arrayElement)
@@ -268,8 +263,9 @@ std::string PolygonDlist::GetName()
 	return name;
 }
 
-BgImage::BgImage(bool nIsSubStruct, const std::string& prefix, const std::vector<uint8_t>& nRawData,
-                 uint32_t nRawDataIndex, ZFile* nParent)
+BgImage::BgImage(bool nIsSubStruct, const std::string& prefix,
+                 [[maybe_unused]] const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
+                 ZFile* nParent)
 {
 	rawDataIndex = nRawDataIndex;
 	parent = nParent;
@@ -306,13 +302,17 @@ void BgImage::ParseRawData()
 ZBackground* BgImage::MakeBackground(segptr_t ptr, const std::string& prefix)
 {
 	if (ptr == 0)
-	{
 		return nullptr;
-	}
 
 	uint32_t backAddress = Seg2Filespace(ptr, parent->baseAddress);
 
-	ZBackground* background = new ZBackground(prefix, backAddress, parent);
+	ZBackground* background = new ZBackground(parent);
+	background->ExtractFromFile(backAddress);
+
+	std::string defaultName = background->GetDefaultName(prefix);
+	background->SetName(defaultName);
+	background->SetOutName(defaultName);
+
 	background->DeclareVar(prefix, "");
 	parent->resources.push_back(background);
 
@@ -406,7 +406,8 @@ std::string BgImage::GetName()
 
 /* PolygonType section */
 
-PolygonTypeBase::PolygonTypeBase(ZFile* nParent, const std::vector<uint8_t>& nRawData,
+PolygonTypeBase::PolygonTypeBase(ZFile* nParent,
+                                 [[maybe_unused]] const std::vector<uint8_t>& nRawData,
                                  uint32_t nRawDataIndex, ZRoom* nRoom)
 	: rawDataIndex{nRawDataIndex}, parent{nParent}, zRoom{nRoom}
 {
@@ -504,7 +505,7 @@ void PolygonType1::DeclareReferences(const std::string& prefix)
 	polyDLists.at(0).DeclareAndGenerateOutputCode();
 
 	uint32_t listAddress;
-	std::string bgImageArrayBody = "";
+	std::string bgImageArrayBody;
 	switch (format)
 	{
 	case 1:
@@ -634,7 +635,7 @@ void PolygonType2::DeclareReferences(const std::string& prefix)
 {
 	if (num > 0)
 	{
-		std::string declaration = "";
+		std::string declaration;
 
 		for (size_t i = 0; i < polyDLists.size(); i++)
 		{
@@ -644,7 +645,7 @@ void PolygonType2::DeclareReferences(const std::string& prefix)
 		}
 
 		std::string polyDlistType = polyDLists.at(0).GetSourceTypeName();
-		std::string polyDListName = "";
+		std::string polyDListName;
 		polyDListName = StringHelper::Sprintf("%s%s_%06X", prefix.c_str(), polyDlistType.c_str(),
 		                                      GETSEGOFFSET(start));
 
@@ -653,8 +654,9 @@ void PolygonType2::DeclareReferences(const std::string& prefix)
 		                            polyDlistType, polyDListName, polyDLists.size(), declaration);
 	}
 
-	parent->AddDeclaration(GETSEGOFFSET(end), DeclarationAlignment::Align4,
-	                       DeclarationPadding::Pad16, 4, "static s32", "terminatorMaybe",
+	parent->AddDeclaration(GETSEGOFFSET(end), DeclarationAlignment::Align4, 4, "s32",
+	                       StringHelper::Sprintf("%s_terminatorMaybe_%06X",
+	                                             parent->GetName().c_str(), GETSEGOFFSET(end)),
 	                       "0x01000000");
 }
 

@@ -5,7 +5,7 @@
 #include <png.h>
 #include <stdexcept>
 
-#include "StringHelper.h"
+#include "Utils/StringHelper.h"
 
 /* ImageBackend */
 
@@ -216,7 +216,9 @@ void ImageBackend::WritePng(const char* filename)
 
 void ImageBackend::WritePng(const fs::path& filename)
 {
-	WritePng(filename.c_str());
+	// Note: The .string() is necessary for MSVC, due to the implementation of std::filesystem
+	// differing from GCC. Do not remove!
+	WritePng(filename.string().c_str());
 }
 
 void ImageBackend::SetTextureData(const std::vector<std::vector<RGBAPixel>>& texData,

@@ -1,9 +1,8 @@
 #pragma once
 
+#include <Utils/Directory.h>
 #include <string>
 #include <vector>
-#include "Directory.h"
-#include "ZResource.h"
 #include "ZTexture.h"
 #include "tinyxml2.h"
 
@@ -11,13 +10,12 @@ enum class ZFileMode
 {
 	BuildTexture,
 	BuildOverlay,
-	BuildModelIntermediette,
-	BuildAnimationIntermediette,
 	BuildBlob,
 	BuildSourceFile,
 	BuildBackground,
 	Extract,
-	Invalid
+	Invalid,
+	Custom = 1000  // Used for exporter file modes
 };
 
 enum class ZGame
@@ -36,9 +34,9 @@ public:
 	uint32_t segment;
 	uint32_t baseAddress, rangeStart, rangeEnd;
 
-	ZFile(std::string nName);
+	ZFile(const std::string& nName);
 	ZFile(ZFileMode mode, tinyxml2::XMLElement* reader, const fs::path& nBasePath,
-	      std::string filename, const fs::path& nXmlFilePath, bool placeholderMode);
+	      const std::string& filename, const fs::path& nXmlFilePath, bool placeholderMode);
 	~ZFile();
 
 	std::string GetVarName(uint32_t address);
@@ -51,32 +49,25 @@ public:
 	ZResource* FindResource(uint32_t rawDataIndex);
 	std::vector<ZResource*> GetResourcesOfType(ZResourceType resType);
 
-	Declaration* AddDeclaration(uint32_t address, DeclarationAlignment alignment, size_t size,
-	                            std::string varType, std::string varName, std::string body);
-	Declaration* AddDeclaration(uint32_t address, DeclarationAlignment alignment,
-	                            DeclarationPadding padding, size_t size, std::string varType,
-	                            std::string varName, std::string body);
-	Declaration* AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, size_t size,
-	                                 std::string varType, std::string varName, size_t arrayItemCnt,
-	                                 std::string body);
-	Declaration* AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, size_t size,
-	                                 std::string varType, std::string varName, size_t arrayItemCnt,
-	                                 std::string body, bool isExternal);
-	Declaration* AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, size_t size,
-	                                 std::string varType, std::string varName,
-	                                 std::string arrayItemCntStr, std::string body);
-	Declaration* AddDeclarationArray(uint32_t address, DeclarationAlignment alignment,
-	                                 DeclarationPadding padding, size_t size, std::string varType,
-	                                 std::string varName, size_t arrayItemCnt, std::string body);
+	Declaration* AddDeclaration(offset_t address, DeclarationAlignment alignment, size_t size,
+	                            const std::string& varType, const std::string& varName,
+	                            const std::string& body);
+	Declaration* AddDeclarationArray(offset_t address, DeclarationAlignment alignment, size_t size,
+	                                 const std::string& varType, const std::string& varName,
+	                                 size_t arrayItemCnt, const std::string& body);
+	Declaration* AddDeclarationArray(offset_t address, DeclarationAlignment alignment, size_t size,
+	                                 const std::string& varType, const std::string& varName,
+	                                 const std::string& arrayItemCntStr, const std::string& body);
 	Declaration* AddDeclarationPlaceholder(uint32_t address);
-	Declaration* AddDeclarationPlaceholder(uint32_t address, std::string varName);
-	Declaration* AddDeclarationInclude(uint32_t address, std::string includePath, size_t size,
-	                                   std::string varType, std::string varName);
-	Declaration* AddDeclarationIncludeArray(uint32_t address, std::string includePath, size_t size,
-	                                        std::string varType, std::string varName,
+	Declaration* AddDeclarationPlaceholder(offset_t address, const std::string& varName);
+	Declaration* AddDeclarationInclude(offset_t address, const std::string& includePath,
+	                                   size_t size, const std::string& varType,
+	                                   const std::string& varName);
+	Declaration* AddDeclarationIncludeArray(offset_t address, std::string& includePath, size_t size,
+	                                        const std::string& varType, const std::string& varName,
 	                                        size_t arrayItemCnt);
 	std::string GetDeclarationName(uint32_t address) const;
-	std::string GetDeclarationName(uint32_t address, std::string defaultResult) const;
+	std::string GetDeclarationName(uint32_t address, const std::string& defaultResult) const;
 	std::string GetDeclarationPtrName(segptr_t segAddress) const;
 	Declaration* GetDeclaration(uint32_t address) const;
 	Declaration* GetDeclarationRanged(uint32_t address) const;
@@ -99,22 +90,22 @@ protected:
 	fs::path outName = "";
 	fs::path basePath;
 	fs::path xmlFilePath;
+
 	// Keep track of every texture of this ZFile.
 	// The pointers declared here are "borrowed" (somebody else is the owner),
 	// so ZFile shouldn't delete/free those textures.
 	std::map<uint32_t, ZTexture*> texturesResources;
 
 	ZFile();
-	void ParseXML(ZFileMode mode, tinyxml2::XMLElement* reader, std::string filename,
+	void ParseXML(ZFileMode mode, tinyxml2::XMLElement* reader, const std::string& filename,
 	              bool placeholderMode);
 	void DeclareResourceSubReferences();
 	void GenerateSourceFiles(fs::path outputDir);
 	void GenerateSourceHeaderFiles();
-	void GenerateHLIntermediette();
 	void AddDeclarationDebugChecks(uint32_t address);
 	std::string ProcessDeclarations();
 	void ProcessDeclarationText(Declaration* decl);
 	std::string ProcessExterns();
 
-	std::string ProcessTextureIntersections(std::string prefix);
+	std::string ProcessTextureIntersections(const std::string& prefix);
 };

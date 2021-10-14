@@ -13,12 +13,7 @@ struct RotationIndex
 	// uint16_t transX, transY, transZ;
 	uint16_t x, y, z;
 
-	RotationIndex(uint16_t nX, uint16_t nY, uint16_t nZ)
-	{
-		x = nX;
-		y = nY;
-		z = nZ;
-	};
+	RotationIndex(uint16_t nX, uint16_t nY, uint16_t nZ) : x(nX), y(nY), z(nZ) {}
 };
 
 class ZAnimation : public ZResource
@@ -33,7 +28,6 @@ public:
 
 protected:
 	void ParseRawData() override;
-	void Save(const fs::path& outFolder) override;
 };
 
 class ZNormalAnimation : public ZAnimation
@@ -41,8 +35,10 @@ class ZNormalAnimation : public ZAnimation
 public:
 	std::vector<uint16_t> rotationValues;
 	std::vector<RotationIndex> rotationIndices;
-	uint32_t rotationValuesSeg;
-	uint32_t rotationIndicesSeg;
+	segptr_t rotationValuesSeg;
+	segptr_t rotationIndicesSeg;
+	uint32_t rotationValuesOffset;
+	uint32_t rotationIndicesOffset;
 	int16_t limit;
 
 	ZNormalAnimation(ZFile* nParent);
@@ -52,7 +48,7 @@ public:
 	std::string GetSourceTypeName() const override;
 
 protected:
-	virtual void ParseRawData() override;
+	void ParseRawData() override;
 };
 
 class ZLinkAnimation : public ZAnimation
@@ -67,7 +63,7 @@ public:
 	std::string GetSourceTypeName() const override;
 
 protected:
-	virtual void ParseRawData() override;
+	void ParseRawData() override;
 };
 
 class TransformData
@@ -126,7 +122,6 @@ public:
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
-	void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex) override;
 
 	void DeclareReferences(const std::string& prefix) override;
 	size_t GetRawDataSize() const override;
@@ -161,8 +156,6 @@ class ZLegacyAnimation : public ZAnimation
 {
 public:
 	ZLegacyAnimation(ZFile* nParent);
-
-	void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex) override;
 
 	void ParseRawData() override;
 	void DeclareReferences(const std::string& prefix) override;

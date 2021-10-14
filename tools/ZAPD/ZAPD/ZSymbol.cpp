@@ -1,5 +1,6 @@
 #include "ZSymbol.h"
-#include "StringHelper.h"
+
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 
 REGISTER_ZFILENODE(Symbol, ZSymbol);
@@ -54,6 +55,12 @@ void ZSymbol::ParseXML(tinyxml2::XMLElement* reader)
 		if (countXml != "")
 			count = StringHelper::StrToL(countXml, 0);
 	}
+
+	if (registeredAttributes.at("Static").value == "On")
+	{
+		fprintf(stderr, "A <Symbol> can't be marked as static.\n\t Disabling static\n");
+	}
+	staticConf = StaticConfig::Off;
 }
 
 size_t ZSymbol::GetRawDataSize() const

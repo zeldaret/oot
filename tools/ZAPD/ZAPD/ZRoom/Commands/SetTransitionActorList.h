@@ -5,11 +5,6 @@
 class TransitionActorEntry
 {
 public:
-	TransitionActorEntry(const std::vector<uint8_t>& rawData, int rawDataIndex);
-
-	std::string GetBodySourceCode() const;
-
-protected:
 	uint8_t frontObjectRoom;
 	uint8_t frontTransitionReaction;
 	uint8_t backObjectRoom;
@@ -18,11 +13,17 @@ protected:
 	int16_t posX, posY, posZ;
 	int16_t rotY;
 	uint16_t initVar;
+
+	TransitionActorEntry(const std::vector<uint8_t>& rawData, int rawDataIndex);
+
+	std::string GetBodySourceCode() const;
 };
 
 class SetTransitionActorList : public ZRoomCommand
 {
 public:
+	std::vector<TransitionActorEntry> transitionActors;
+
 	SetTransitionActorList(ZFile* nParent);
 
 	void ParseRawData() override;
@@ -31,9 +32,5 @@ public:
 	std::string GetBodySourceCode() const override;
 
 	RoomCommand GetRoomCommand() const override;
-	size_t GetRawDataSize() const override;
 	std::string GetCommandCName() const override;
-
-private:
-	std::vector<TransitionActorEntry> transitionActors;
 };

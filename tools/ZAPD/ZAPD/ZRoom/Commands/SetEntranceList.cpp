@@ -1,7 +1,8 @@
 #include "SetEntranceList.h"
-#include "BitConverter.h"
+
 #include "SetStartPositionList.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 #include "ZRoom/ZRoom.h"
 
@@ -9,7 +10,7 @@ SetEntranceList::SetEntranceList(ZFile* nParent) : ZRoomCommand(nParent)
 {
 }
 
-void SetEntranceList::DeclareReferences(const std::string& prefix)
+void SetEntranceList::DeclareReferences([[maybe_unused]] const std::string& prefix)
 {
 	if (segmentOffset != 0)
 		parent->AddDeclarationPlaceholder(segmentOffset);
@@ -30,11 +31,11 @@ void SetEntranceList::ParseRawDataLate()
 	}
 }
 
-void SetEntranceList::DeclareReferencesLate(const std::string& prefix)
+void SetEntranceList::DeclareReferencesLate([[maybe_unused]] const std::string& prefix)
 {
 	if (!entrances.empty())
 	{
-		std::string declaration = "";
+		std::string declaration;
 
 		size_t index = 0;
 		for (const auto& entry : entrances)
@@ -49,8 +50,8 @@ void SetEntranceList::DeclareReferencesLate(const std::string& prefix)
 		}
 
 		parent->AddDeclarationArray(
-			segmentOffset, DeclarationAlignment::None, entrances.size() * 2, "EntranceEntry",
-			StringHelper::Sprintf("%sEntranceList0x%06X", zRoom->GetName().c_str(), segmentOffset),
+			segmentOffset, DeclarationAlignment::Align4, entrances.size() * 2, "EntranceEntry",
+			StringHelper::Sprintf("%sEntranceList0x%06X", prefix.c_str(), segmentOffset),
 			entrances.size(), declaration);
 	}
 }

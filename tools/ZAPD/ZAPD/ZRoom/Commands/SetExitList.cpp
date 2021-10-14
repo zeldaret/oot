@@ -1,7 +1,7 @@
 #include "SetExitList.h"
 
-#include "BitConverter.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 #include "ZRoom/ZRoom.h"
 
@@ -9,7 +9,7 @@ SetExitList::SetExitList(ZFile* nParent) : ZRoomCommand(nParent)
 {
 }
 
-void SetExitList::DeclareReferences(const std::string& prefix)
+void SetExitList::DeclareReferences([[maybe_unused]] const std::string& prefix)
 {
 	if (segmentOffset != 0)
 		parent->AddDeclarationPlaceholder(segmentOffset);
@@ -30,11 +30,11 @@ void SetExitList::ParseRawDataLate()
 	}
 }
 
-void SetExitList::DeclareReferencesLate(const std::string& prefix)
+void SetExitList::DeclareReferencesLate([[maybe_unused]] const std::string& prefix)
 {
 	if (!exits.empty())
 	{
-		std::string declaration = "";
+		std::string declaration;
 
 		for (size_t i = 0; i < exits.size(); i++)
 		{
@@ -45,8 +45,8 @@ void SetExitList::DeclareReferencesLate(const std::string& prefix)
 
 		parent->AddDeclarationArray(
 			segmentOffset, DeclarationAlignment::Align4, exits.size() * 2, "u16",
-			StringHelper::Sprintf("%sExitList_%06X", zRoom->GetName().c_str(), segmentOffset),
-			exits.size(), declaration);
+			StringHelper::Sprintf("%sExitList_%06X", prefix.c_str(), segmentOffset), exits.size(),
+			declaration);
 	}
 }
 

@@ -1,8 +1,8 @@
 #include "SetStartPositionList.h"
 
-#include "BitConverter.h"
 #include "Globals.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 #include "ZRoom/ZNames.h"
 #include "ZRoom/ZRoom.h"
@@ -29,7 +29,7 @@ void SetStartPositionList::DeclareReferences(const std::string& prefix)
 {
 	if (!actors.empty())
 	{
-		std::string declaration = "";
+		std::string declaration;
 
 		size_t index = 0;
 		for (const auto& entry : actors)

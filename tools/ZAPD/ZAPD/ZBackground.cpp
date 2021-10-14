@@ -1,9 +1,10 @@
 #include "ZBackground.h"
-#include "BitConverter.h"
-#include "File.h"
+
 #include "Globals.h"
-#include "Path.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/File.h"
+#include "Utils/Path.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 
 REGISTER_ZFILENODE(Background, ZBackground);
@@ -13,16 +14,6 @@ REGISTER_ZFILENODE(Background, ZBackground);
 
 ZBackground::ZBackground(ZFile* nParent) : ZResource(nParent)
 {
-}
-
-ZBackground::ZBackground(const std::string& prefix, uint32_t nRawDataIndex, ZFile* nParent)
-	: ZResource(nParent)
-{
-	rawDataIndex = nRawDataIndex;
-	name = GetDefaultName(prefix.c_str(), rawDataIndex);
-	outName = name;
-
-	ParseRawData();
 }
 
 void ZBackground::ParseRawData()
@@ -58,12 +49,6 @@ void ZBackground::ParseBinaryFile(const std::string& inFolder, bool appendOutNam
 	// Add padding.
 	data.insert(data.end(), GetRawDataSize() - data.size(), 0x00);
 	CheckValidJpeg(filepath.generic_string());
-}
-
-void ZBackground::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
-{
-	ZResource::ExtractFromXML(reader, nRawDataIndex);
-	DeclareVar("", "");
 }
 
 void ZBackground::CheckValidJpeg(const std::string& filepath)
@@ -132,16 +117,18 @@ size_t ZBackground::GetRawDataSize() const
 	return Globals::Instance->cfg.bgScreenHeight * Globals::Instance->cfg.bgScreenWidth * 2;
 }
 
-void ZBackground::DeclareVar(const std::string& prefix, const std::string& bodyStr) const
+Declaration* ZBackground::DeclareVar(const std::string& prefix, const std::string& bodyStr)
 {
 	std::string auxName = name;
 
 	if (name == "")
-		auxName = GetDefaultName(prefix, rawDataIndex);
+		auxName = GetDefaultName(prefix);
 
-	parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::Align8, GetRawDataSize(),
-	                            GetSourceTypeName(), auxName, "SCREEN_WIDTH * SCREEN_HEIGHT / 4",
-	                            bodyStr);
+	Declaration* decl = parent->AddDeclarationArray(rawDataIndex, GetDeclarationAlignment(),
+	                                                GetRawDataSize(), GetSourceTypeName(), auxName,
+	                                                "SCREEN_WIDTH * SCREEN_HEIGHT / 4", bodyStr);
+	decl->staticConf = staticConf;
+	return decl;
 }
 
 bool ZBackground::IsExternalResource() const
@@ -160,7 +147,7 @@ void ZBackground::Save(const fs::path& outFolder)
 	File::WriteAllBytes(filepath.string(), data);
 }
 
-std::string ZBackground::GetBodySourceCode()
+std::string ZBackground::GetBodySourceCode() const
 {
 	std::string bodyStr = "    ";
 
@@ -177,23 +164,9 @@ std::string ZBackground::GetBodySourceCode()
 	return bodyStr;
 }
 
-std::string ZBackground::GetSourceOutputCode(const std::string& prefix)
+std::string ZBackground::GetDefaultName(const std::string& prefix) const
 {
-	std::string bodyStr = GetBodySourceCode();
-
-	Declaration* decl = parent->GetDeclaration(rawDataIndex);
-
-	if (decl == nullptr)
-		DeclareVar(prefix, bodyStr);
-	else
-		decl->text = bodyStr;
-
-	return "";
-}
-
-std::string ZBackground::GetDefaultName(const std::string& prefix, uint32_t address)
-{
-	return StringHelper::Sprintf("%sBackground_%06X", prefix.c_str(), address);
+	return StringHelper::Sprintf("%sBackground_%06X", prefix.c_str(), rawDataIndex);
 }
 
 std::string ZBackground::GetSourceTypeName() const
@@ -204,4 +177,9 @@ std::string ZBackground::GetSourceTypeName() const
 ZResourceType ZBackground::GetResourceType() const
 {
 	return ZResourceType::Background;
+}
+
+DeclarationAlignment ZBackground::GetDeclarationAlignment() const
+{
+	return DeclarationAlignment::Align8;
 }
