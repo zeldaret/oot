@@ -1,5 +1,6 @@
 <Root>
     <File Name="ydan_scene" Segment="2">
+        <Cutscene Name="gDekuTreeIntroCs" Offset="0xB650"/>
         <Scene Name="ydan_scene" Offset="0x0"/>
     </File>
     <File Name="ydan_room_0" Segment="3">

@@ -1,5 +1,7 @@
 <Root>
     <File Name="spot15_scene" Segment="2">
+        <Cutscene Name="gHyruleCastleIntroCs" Offset="0x3F40"/>
+        <!--<Cutscene Name="gHyruleCastleIntro2Cs" Offset="0x4280"/> There is an entry in the Entrance table but its not a valid cutscene -->
         <Scene Name="spot15_scene" Offset="0x0"/>
     </File>
     <File Name="spot15_room_0" Segment="3">

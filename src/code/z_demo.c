@@ -1,6 +1,29 @@
 #include "global.h"
 #include "z64camera.h"
+
+#include "scenes/indoors/tokinoma/tokinoma_scene.h"
+#include "scenes/overworld/spot00/spot00_scene.h"
+#include "scenes/overworld/spot01/spot01_scene.h"
+#include "scenes/overworld/spot02/spot02_scene.h"
+#include "scenes/overworld/spot04/spot04_scene.h"
+#include "scenes/overworld/spot06/spot06_scene.h"
+#include "scenes/overworld/spot07/spot07_scene.h"
+#include "scenes/overworld/spot08/spot08_scene.h"
+#include "scenes/overworld/spot09/spot09_scene.h"
+#include "scenes/overworld/spot11/spot11_scene.h"
+#include "scenes/overworld/spot12/spot12_scene.h"
+#include "scenes/overworld/spot15/spot15_scene.h"
+#include "scenes/overworld/spot16/spot16_scene.h"
+#include "scenes/overworld/spot17/spot17_scene.h"
+#include "scenes/overworld/spot18/spot18_scene.h"
+#include "scenes/overworld/spot20/spot20_scene.h"
+
+#include "scenes/dungeons/bdan/bdan_scene.h"
+#include "scenes/dungeons/ydan/ydan_scene.h"
 #include "scenes/dungeons/ganontika/ganontika_scene.h"
+#include "scenes/dungeons/jyasinboss/jyasinboss_scene.h"
+
+#include "scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;
@@ -24,24 +47,50 @@ CutsceneStateHandler sCsStateHandlers2[] = {
 
 u8 sTitleCsState = 0;
 
-// TODO: use symbols for these cutscene locations once scenes and rooms are in C
+// Todo use enum when one is created
+#define AGE_REQ_CHILD 1
+#define AGE_REQ_ADULT 0
+#define AGE_REQ_NONE 2
+
 EntranceCutscene sEntranceCutsceneTable[] = {
-    { 0x0185, 2, 0xA0, 0x02013AA0 },       { 0x013D, 2, 0xA1, 0x02007EA0 },      { 0x00DB, 2, 0xA3, 0x0200A540 },
-    { 0x0108, 2, 0xA4, 0x02003D70 },       { 0x0138, 1, 0xA5, 0x02003F40 },      { 0x014D, 2, 0xA6, 0x02008400 },
-    { 0x0053, 2, 0xA7, 0x0200CE00 },       { 0x0000, 2, 0xA8, 0x0200B650 },      { 0x028A, 0, 0x18, 0x0200F9E0 },
-    { 0x0292, 0, 0x18, 0x0200FF00 },       { 0x028E, 0, 0x18, 0x02010550 },      { 0x0476, 0, 0x18, 0x02010B30 },
-    { 0x050F, 1, 0xA9, 0x0200BB80 },       { 0x0102, 2, 0xB1, 0x02007A30 },      { 0x0117, 2, 0xB2, 0x020031E0 },
-    { 0x0129, 2, 0xB3, 0x02006490 },       { 0x0157, 2, 0xB4, 0x02005BD0 },      { 0x0028, 2, 0xB5, 0x02015600 },
-    { 0x00E4, 2, 0xB6, 0x020070C0 },       { 0x0225, 2, 0xB7, 0x02004A80 },      { 0x0123, 2, 0xB8, 0x02007990 },
-    { 0x0147, 2, 0xB9, 0x020076D0 },       { 0x0138, 0, 0xBA, 0x02004280 },      { 0x0574, 2, 0x5A, 0x020028E0 },
-    { 0x0538, 2, 0xBB, gForestBarrierCs }, { 0x053C, 2, 0xBC, gWaterBarrierCs }, { 0x0540, 2, 0xBD, gShadowBarrierCs },
-    { 0x0544, 2, 0xBE, gFireBarrierCs },   { 0x0548, 2, 0xBF, gLightBarrierCs }, { 0x054C, 2, 0xAD, gSpiritBarrierCs },
-    { 0x008D, 0, 0xC0, 0x02002BB0 },       { 0x03B4, 0, 0xC7, 0x020055C0 },      { 0x0246, 2, 0xB9, 0x020076D0 },
-    { 0x05E8, 2, 0xC6, 0x0200C9D0 },
+    { 0x0185, AGE_REQ_NONE, 0xA0, gHyruleFieldIntroCs },
+    { 0x013D, AGE_REQ_NONE, 0xA1, gDmtIntroCs },
+    { 0x00DB, AGE_REQ_NONE, 0xA3, gKakarikoVillageIntroCs },
+    { 0x0108, AGE_REQ_NONE, 0xA4, gZorasDomainIntroCs },
+    { 0x0138, AGE_REQ_CHILD, 0xA5, gHyruleCastleIntroCs },
+    { 0x014D, AGE_REQ_NONE, 0xA6, gGoronCityIntroCs },
+    { 0x0053, AGE_REQ_NONE, 0xA7, gTempleOfTimeIntroCs },
+    { 0x0000, AGE_REQ_NONE, 0xA8, gDekuTreeIntroCs },
+    { 0x028A, AGE_REQ_ADULT, 0x18, gHyruleFieldSouthEponaJumpCs },
+    { 0x0292, AGE_REQ_ADULT, 0x18, gHyruleFieldEastEponaJumpCs },
+    { 0x028E, AGE_REQ_ADULT, 0x18, gHyruleFieldWestEponaJumpCs },
+    { 0x0476, AGE_REQ_ADULT, 0x18, gHyruleFieldGateEponaJumpCs },
+    { 0x050F, AGE_REQ_CHILD, 0xA9, gHyruleFieldGetOotCs },
+    { 0x0102, AGE_REQ_NONE, 0xB1, gLakeHyliaIntroCs },
+    { 0x0117, AGE_REQ_NONE, 0xB2, gGerudoValleyIntroCs },
+    { 0x0129, AGE_REQ_NONE, 0xB3, gGerudoFortressIntroCs },
+    { 0x0157, AGE_REQ_NONE, 0xB4, gLonLonRanchIntroCs },
+    { 0x0028, AGE_REQ_NONE, 0xB5, gJabuJabuIntroCs },
+    { 0x00E4, AGE_REQ_NONE, 0xB6, gGraveYardIntroCs },
+    { 0x0225, AGE_REQ_NONE, 0xB7, gZorasFountainIntroCs },
+    { 0x0123, AGE_REQ_NONE, 0xB8, gDesertColossusIntroCs },
+    { 0x0147, AGE_REQ_NONE, 0xB9, gDeathMountainCraterIntroCs },
+    { 0x0138, AGE_REQ_ADULT, 0xBA, 0x02004280 }, // This doesn't seem to be a valid cutscene
+    { 0x0574, AGE_REQ_NONE, 0x5A, gSunSongTeachPart2Cs },
+    { 0x0538, AGE_REQ_NONE, 0xBB, gForestBarrierCs },
+    { 0x053C, AGE_REQ_NONE, 0xBC, gWaterBarrierCs },
+    { 0x0540, AGE_REQ_NONE, 0xBD, gShadowBarrierCs },
+    { 0x0544, AGE_REQ_NONE, 0xBE, gFireBarrierCs },
+    { 0x0548, AGE_REQ_NONE, 0xBF, gLightBarrierCs },
+    { 0x054C, AGE_REQ_NONE, 0xAD, gSpiritBarrierCs },
+    { 0x008D, AGE_REQ_ADULT, 0xC0, gNabooruKnuckleIntroCs },
+    { 0x03B4, AGE_REQ_ADULT, 0xC7, gGerudoValleyFirstCaptureCs },
+    { 0x0246, AGE_REQ_NONE, 0xB9, gDeathMountainCraterIntroCs },
+    { 0x05E8, AGE_REQ_NONE, 0xC6, gDekuSproutCs },
 };
 
 // Unused, seems to be an early list of dungeon entrance cutscene locations
-u32 D_8011E304[] = { 0x0200B650, 0x02015600, 0x02014F80, 0x02003F80, 0x02000330, gTowerBarrierCs };
+void* D_8011E304[] = { 0x0200B650, 0x02015600, 0x02014F80, 0x02003F80, 0x02000330, gTowerBarrierCs };
 
 u16 D_8015FCC0;
 u16 D_8015FCC2;
@@ -2049,7 +2098,7 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
     }
 }
 
-void Cutscene_SetSegment(GlobalContext* globalCtx, u32 segment) {
+void Cutscene_SetSegment(GlobalContext* globalCtx, void* segment) {
     if (SEGMENT_NUMBER(segment) != 0) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(segment);
     } else {

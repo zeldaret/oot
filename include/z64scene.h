@@ -26,31 +26,31 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdSpawnList;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdActorList;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdUnused02;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdColHeader;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdRoomList;
 
 typedef struct {
@@ -66,7 +66,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdEntranceList;
 
 typedef struct {
@@ -84,37 +84,37 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdMesh;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdObjectList;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdLightList;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdPathList;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdTransiActorList;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdLightSettingList;
 
 typedef struct {
@@ -152,7 +152,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdExitList;
 
 typedef struct {
@@ -173,13 +173,13 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdCutsceneData;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } SCmdAltHeaders;
 
 typedef struct {
