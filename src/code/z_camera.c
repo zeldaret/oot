@@ -7541,7 +7541,7 @@ Vec3s Camera_Update(Camera* camera) {
 }
 
 /**
- * When the camera's timer is 0, change the camera to it's parent
+ * When the camera's timer is 0, change the camera to its parent
  */
 void Camera_Finish(Camera* camera) {
     Camera* mainCam = camera->globalCtx->cameraPtrs[MAIN_CAM];
