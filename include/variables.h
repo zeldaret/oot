@@ -2932,7 +2932,6 @@ extern GameInfo* gGameInfo; // 0x8015FA90
 extern u16 D_8015FCC0;
 extern u16 D_8015FCC2;
 extern u16 D_8015FCC4;
-//extern ? D_8015FCC6;
 extern u8 D_8015FCC8;
 //extern ? D_8015FCCA;
 extern u8 gCustomLensFlareOn;

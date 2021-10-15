@@ -95,9 +95,9 @@ void* D_8011E304[] = { 0x0200B650, 0x02015600, 0x02014F80, 0x02003F80, 0x0200033
 u16 D_8015FCC0;
 u16 D_8015FCC2;
 u16 D_8015FCC4;
-s16 D_8015FCC6;
+s16 sActiveCam;
 u8 D_8015FCC8;
-s16 D_8015FCCA;
+s16 sQuakeIndex;
 u16 D_8015FCCC;      // only written to, never read
 char D_8015FCD0[20]; // unreferenced
 u8 D_8015FCE4;       // only written to, never read
@@ -315,15 +315,15 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 16:
             if (sp3F != 0) {
-                D_8015FCCA = Quake_Add(GET_ACTIVE_CAM(globalCtx), 6);
-                Quake_SetSpeed(D_8015FCCA, 0x7FFF);
-                Quake_SetQuakeValues(D_8015FCCA, 4, 0, 1000, 0);
-                Quake_SetCountdown(D_8015FCCA, 800);
+                sQuakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 6);
+                Quake_SetSpeed(sQuakeIndex, 0x7FFF);
+                Quake_SetQuakeValues(sQuakeIndex, 4, 0, 1000, 0);
+                Quake_SetCountdown(sQuakeIndex, 800);
             }
             break;
         case 17:
             if (sp3F != 0) {
-                Quake_RemoveFromIdx(D_8015FCCA);
+                Quake_RemoveFromIdx(sQuakeIndex);
             }
             break;
         case 18:
@@ -1340,7 +1340,7 @@ s32 Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContext* 
             csCtx->unk_18 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_DEMO0);
-                Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, sActiveCam, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus,
@@ -1377,7 +1377,7 @@ s32 Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCt
             D_8015FCC0 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_DEMO0);
-                Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, sActiveCam, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus,
@@ -1959,12 +1959,12 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
                 case 0x028E:
                 case 0x0292:
                 case 0x0476:
-                    Gameplay_CopyCamera(globalCtx, D_8015FCC6, csCtx->unk_14);
+                    Gameplay_CopyCamera(globalCtx, sActiveCam, csCtx->unk_14);
             }
 
-            Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, sActiveCam, CAM_STAT_ACTIVE);
             Gameplay_ClearCamera(globalCtx, csCtx->unk_14);
-            func_8005B1A4(globalCtx->cameraPtrs[D_8015FCC6]);
+            func_8005B1A4(globalCtx->cameraPtrs[sActiveCam]);
         }
 
         Audio_SetCutsceneFlag(0);
@@ -2003,7 +2003,7 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
             D_8015FCC4 = 0xFFFF;
             csCtx->unk_1A = 0;
             csCtx->unk_1B = 0;
-            D_8015FCC6 = globalCtx->activeCamera;
+            sActiveCam = globalCtx->activeCamera;
 
             if (D_8015FCC8 != 0) {
                 csCtx->unk_14 = Gameplay_CreateSubCamera(globalCtx);
@@ -2102,6 +2102,6 @@ void Cutscene_SetSegment(GlobalContext* globalCtx, void* segment) {
     if (SEGMENT_NUMBER(segment) != 0) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(segment);
     } else {
-        globalCtx->csCtx.segment = (void*)segment;
+        globalCtx->csCtx.segment = segment;
     }
 }
