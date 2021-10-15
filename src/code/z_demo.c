@@ -237,7 +237,6 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 func_800F6D58(0xF, 0, 0);
                 Environment_AddLightningBolts(globalCtx, 3);
-                if (1) {}
                 gLightningStrike.state = LIGHTNING_STRIKE_START;
             }
             break;
