@@ -407,27 +407,26 @@ void BossMo_SetupTentacle(BossMo* this, GlobalContext* globalCtx) {
 }
 
 void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
-    // variables marked real are put on the stack and cannot be reordered
     s16 tentXrot;
-    s16 sp1B4 = 0; // real
+    s16 sp1B4 = 0;
     s32 buttons;
     Player* player = GET_PLAYER(globalCtx);
     s16 indS0;
     s16 indS1;
     Camera* camera1;
     Camera* camera2;
-    BossMo* otherTent = (BossMo*)this->otherTent; // real
-    f32 maxSwingRateX;                            // real
-    f32 maxSwingLagX;                             // real
-    f32 maxSwingSizeX;                            // real
-    f32 maxSwingRateZ;                            // real
-    f32 maxSwingLagZ;                             // real
-    f32 maxSwingSizeZ;                            // real
-    f32 swingRateAccel;                           // real
-    f32 swingSizeAccel;                           // real
-    s16 rippleCount;                              // real
+    BossMo* otherTent = (BossMo*)this->otherTent;
+    f32 maxSwingRateX;
+    f32 maxSwingLagX;
+    f32 maxSwingSizeX;
+    f32 maxSwingRateZ;
+    f32 maxSwingLagZ;
+    f32 maxSwingSizeZ;
+    f32 swingRateAccel;
+    f32 swingSizeAccel;
+    s16 rippleCount;
     s16 indT5;
-    Vec3f ripplePos; // real
+    Vec3f ripplePos;
     f32 randAngle;
     f32 randFloat;
     f32 tempf1;
@@ -438,21 +437,21 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dy;
     f32 dz;
-    Vec3f sp138; // real
-    Vec3f sp12C; // real
-    Vec3f sp120; // real
+    Vec3f sp138;
+    Vec3f sp12C;
+    Vec3f sp120;
     s32 pad11C;
     s32 pad118;
     s32 pad114;
     s32 pad110;
     s32 pad10C;
     s32 pad108;
-    Vec3f spFC; // real
-    Vec3f spF0; // real
+    Vec3f spFC;
+    Vec3f spF0;
     f32 padEC;
-    Vec3f spE0; // real
-    Vec3f spD4; // real
-    Vec3f spC8; // real
+    Vec3f spE0;
+    Vec3f spD4;
+    Vec3f spC8;
 
     if (this->work[MO_TENT_ACTION_STATE] <= MO_TENT_DEATH_3) {
         this->actor.world.pos.y = MO_WATER_LEVEL(globalCtx);
@@ -1117,8 +1116,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
          (this->work[MO_TENT_ACTION_STATE] == MO_TENT_DEATH_2) || (this->work[MO_TENT_ACTION_STATE] == MO_TENT_CURL) ||
          (this->work[MO_TENT_ACTION_STATE] == MO_TENT_GRAB)) &&
         (Rand_ZeroOne() < 0.8f) && (this->actor.scale.x > 0.001f)) {
-        Vec3f pos;                             // real
-        Vec3f velocity = { 0.0f, 0.0f, 0.0f }; // real
+        Vec3f pos;
+        Vec3f velocity = { 0.0f, 0.0f, 0.0f };
         f32 scale;
         f32 temp;
 
