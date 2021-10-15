@@ -980,6 +980,7 @@ void Audio_OcaPlayback(void) {
 
             if (sDisplayedNoteValue != sPlaybackSong[sPlaybackNotePos].noteIdx) {
                 u8 tmp = sPlaybackSong[sPlaybackNotePos].noteIdx;
+
                 if (tmp == 0xA) {
                     sDisplayedNoteValue = tmp + sPlaybackSong[sPlaybackNotePos].semitone;
                 } else {

@@ -325,6 +325,7 @@ void EffectSs_DrawAll(GlobalContext* globalCtx) {
 
 s16 func_80027DD4(s16 arg0, s16 arg1, s32 arg2) {
     s16 ret = (arg2 == 0) ? arg1 : (arg0 + (s32)((arg1 - arg0) / (f32)arg2));
+
     return ret;
 }
 

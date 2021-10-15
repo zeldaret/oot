@@ -293,6 +293,7 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
 
 void EnDoor_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDoor* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 

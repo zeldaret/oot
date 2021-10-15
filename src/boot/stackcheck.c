@@ -115,6 +115,7 @@ u32 StackCheck_CheckAll(void) {
 
     while (iter) {
         u32 state = StackCheck_GetState(iter);
+
         if (state != STACK_STATUS_OK) {
             ret = 1;
         }

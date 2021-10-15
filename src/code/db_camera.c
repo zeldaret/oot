@@ -425,6 +425,7 @@ void DbCamera_PrintPoints(const char* name, s16 count, CutsceneCameraPoint* poin
 void DbCamera_PrintF32Bytes(f32 value) {
     f32 b = value;
     char* a = (char*)&b;
+
     osSyncPrintf("\n@@@%d,%d,%d,%d,", a[0], a[1], a[2], a[3]);
 }
 
@@ -432,6 +433,7 @@ void DbCamera_PrintU16Bytes(u16 value) {
     u16 pad;
     u16 b = value;
     char* a = (char*)&b;
+
     osSyncPrintf("\n@@@%d,%d,", a[0], a[1]);
 }
 
@@ -439,6 +441,7 @@ void DbCamera_PrintS16Bytes(s16 value) {
     u16 pad;
     s16 b = value;
     char* a = (char*)&b;
+
     osSyncPrintf("\n@@@%d,%d,", a[0], a[1]);
 }
 

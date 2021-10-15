@@ -259,6 +259,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 func_80A7949C(GlobalContext* globalCtx, Actor* thisx) {
     s32 phi_v1 = 1;
+
     if (thisx->textId == 0x2035) {
         Rupees_ChangeBy(-10);
         thisx->textId = 0x205C;

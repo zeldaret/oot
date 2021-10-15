@@ -281,6 +281,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                 return (gSaveContext.eventInf[3] & 1) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
                 s16 dogParam = (gSaveContext.dogParams & 0xF00) >> 8;
+
                 if (dogParam) {
                     this->unk_215 = false;
                     return (dogParam == 1) ? 0x709F : 0x709E;

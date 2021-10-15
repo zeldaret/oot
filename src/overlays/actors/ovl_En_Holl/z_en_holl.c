@@ -332,6 +332,7 @@ void EnHoll_NextAction(EnHoll* this, GlobalContext* globalCtx) {
 
 void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHoll* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 

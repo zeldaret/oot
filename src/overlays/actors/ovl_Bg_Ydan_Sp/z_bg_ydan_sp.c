@@ -416,6 +416,7 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
 
 void BgYdanSp_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanSp* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 

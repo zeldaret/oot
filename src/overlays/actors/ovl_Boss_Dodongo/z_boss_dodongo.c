@@ -1053,6 +1053,7 @@ s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     f32 mtxScaleY;
     f32 mtxScaleZ;
     BossDodongo* this = THIS;
+
     // required for matching
     if ((limbIndex == 6) || (limbIndex == 7)) {
         if (this->unk_25C) {}

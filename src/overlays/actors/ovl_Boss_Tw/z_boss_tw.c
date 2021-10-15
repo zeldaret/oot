@@ -1093,6 +1093,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
             case 0:
                 if (this->timers[0] != 0) {
                     s32 beamReflection = BossTw_CheckBeamReflection(this, globalCtx);
+
                     if (beamReflection == 1) {
                         Vec3f pos;
                         Vec3f velocity;

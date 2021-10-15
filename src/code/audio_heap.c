@@ -1249,6 +1249,7 @@ void func_800E0E0C(Struct_800E0E0C* arg0, AudioBankSample* sample) {
         u8* start = arg0->unk_0;
         u8* end = arg0->unk_0 + arg0->unk_8;
         u8* sampleAddr = sample->sampleAddr;
+
         if (start <= sampleAddr && sampleAddr < end) {
             sample->sampleAddr = sampleAddr - start + arg0->unk_4;
             sample->medium = arg0->unk_C & 0xFF;

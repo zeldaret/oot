@@ -183,6 +183,7 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
 
         if (sqrt(this->actor.xyzDistToPlayerSq) <= 40.0f) {
             u8 prevInvincibilityTimer = player->invincibilityTimer;
+
             if (player->invincibilityTimer <= 0) {
                 if (player->invincibilityTimer <= -40) {
                     player->invincibilityTimer = 0;
@@ -217,6 +218,7 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         f32 diffsSum = Math_SmoothStepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 1.0f, 5.0f, 0.0f);
+
         diffsSum += Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->rotZ, 0.0f, 1.0f, 0.25f, 0.0f);

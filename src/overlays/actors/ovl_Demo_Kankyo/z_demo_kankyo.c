@@ -873,6 +873,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                                sWarpSparkleEnvColors[globalCtx->msgCtx.unk_E3EC].b, 255);
             } else {
                 s8 respawnData = gSaveContext.respawn[1].data;
+
                 gDPSetEnvColor(POLY_XLU_DISP++, sWarpSparkleEnvColors[respawnData].r,
                                sWarpSparkleEnvColors[respawnData].g, sWarpSparkleEnvColors[respawnData].b, 255);
             }

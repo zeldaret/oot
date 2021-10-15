@@ -977,6 +977,7 @@ void func_80ADB770(EnPoSisters* this, GlobalContext* globalCtx) {
         }
     } else if (this->unk_195 != 0) {
         EnPoSisters* realMeg = (EnPoSisters*)this->actor.parent;
+
         if (realMeg->actionFunc == func_80ADAAA4) {
             func_80AD95D8(this);
         }

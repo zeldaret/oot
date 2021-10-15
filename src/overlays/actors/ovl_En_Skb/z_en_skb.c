@@ -176,6 +176,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnSkb* this = THIS;
+
     if (this->actor.parent != NULL) {
         EnEncount1* spawner = (EnEncount1*)this->actor.parent;
 
@@ -378,6 +379,7 @@ void func_80AFD644(EnSkb* this) {
 void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
     // this cast is likely not real, but allows for a match
     u8* new_var;
+
     new_var = &this->unk_283;
     if ((this->unk_283 != 1) || BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, 1)) {
         if ((*new_var) != 0) {

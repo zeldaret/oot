@@ -1171,6 +1171,7 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     switch (limbIndex) {
         case 13: {
             EnIk* this = THIS;
+
             if (EnIk_curFrame(&this->actor) < 30.0f) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 267),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

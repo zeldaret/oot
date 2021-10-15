@@ -356,12 +356,14 @@ u8 Audio_M64ReadU8(M64ScriptState* state) {
 
 s16 Audio_M64ReadS16(M64ScriptState* state) {
     s16 ret = *(state->pc++) << 8;
+
     ret = *(state->pc++) | ret;
     return ret;
 }
 
 u16 Audio_M64ReadCompressedU16(M64ScriptState* state) {
     u16 ret = *(state->pc++);
+
     if (ret & 0x80) {
         ret = (ret << 8) & 0x7F00;
         ret = *(state->pc++) | ret;
@@ -473,6 +475,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
         }
         if (cmd >= 0xF2) {
             u16 arg = Audio_GetScriptControlFlowArgument(state, cmd);
+
             if (Audio_HandleScriptFlowControl(seqPlayer, state, cmd, arg) == 0) {
                 continue;
             }
@@ -485,6 +488,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
             case 0xCA: // layer_setpan
             {
                 u8 tempByte = *(state->pc++);
+
                 if (cmd == 0xC1) {
                     layer->velocitySquare = (f32)(tempByte * tempByte) / 16129.0f;
                 } else {
@@ -497,6 +501,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
             case 0xC2: // layer_transpose; set transposition in semitones
             {
                 u8 tempByte = *(state->pc++);
+
                 if (cmd == 0xC9) {
                     layer->noteDuration = tempByte;
                 } else {

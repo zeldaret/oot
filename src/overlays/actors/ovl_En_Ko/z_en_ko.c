@@ -544,6 +544,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
 
 s32 EnKo_GetForestQuestState(EnKo* this) {
     s32 result;
+
     if (!LINK_IS_ADULT) {
         // Obtained Zelda's Letter
         if (gSaveContext.eventChkInf[4] & 1) {

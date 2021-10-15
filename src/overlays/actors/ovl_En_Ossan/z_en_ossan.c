@@ -455,6 +455,7 @@ void EnOssan_UpdateShopOfferings(EnOssan* this, GlobalContext* globalCtx) {
             shopItem = &storeItems[i];
             if (shopItem->shopItemIndex >= 0 && this->shelfSlots[i] == NULL) {
                 s16 params = sShopItemReplaceFunc[shopItem->shopItemIndex](shopItem->shopItemIndex);
+
                 if (params >= 0) {
                     this->shelfSlots[i] = (EnGirlA*)Actor_Spawn(
                         &globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA,
