@@ -22,6 +22,7 @@
 #include "scenes/dungeons/ydan/ydan_scene.h"
 #include "scenes/dungeons/ganontika/ganontika_scene.h"
 #include "scenes/dungeons/jyasinboss/jyasinboss_scene.h"
+#include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 
 #include "scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 
@@ -75,7 +76,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { 0x0225, AGE_REQ_NONE, 0xB7, gZorasFountainIntroCs },
     { 0x0123, AGE_REQ_NONE, 0xB8, gDesertColossusIntroCs },
     { 0x0147, AGE_REQ_NONE, 0xB9, gDeathMountainCraterIntroCs },
-    { 0x0138, AGE_REQ_ADULT, 0xBA, 0x02004280 }, // This doesn't seem to be a valid cutscene
+    { 0x0138, AGE_REQ_ADULT, 0xBA, gGanonsCastleIntroCs }, // This doesn't seem to be a valid cutscene
     { 0x0574, AGE_REQ_NONE, 0x5A, gSunSongTeachPart2Cs },
     { 0x0538, AGE_REQ_NONE, 0xBB, gForestBarrierCs },
     { 0x053C, AGE_REQ_NONE, 0xBC, gWaterBarrierCs },
@@ -211,9 +212,9 @@ void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
     Player* player = GET_PLAYER(globalCtx);
     f32 temp;
-    u8 sp3F;
+    u8 sp3F = 0;
 
-    sp3F = 0;
+   
 
     if ((csCtx->frames < cmd->startFrame) || ((csCtx->frames >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame))) {
         return;
