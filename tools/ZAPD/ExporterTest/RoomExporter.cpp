@@ -234,17 +234,17 @@ void ExporterExample_Room::Save(ZResource* res, fs::path outPath, BinaryWriter* 
 		{
 			SetRoomList* cmdRoom = (SetRoomList*)cmd;
 
-			writer->Write((uint8_t)cmdRoom->rooms.size());  // 0x01
-			writer->Write((uint8_t)0);                      // 0x02
-			writer->Write((uint8_t)0);                      // 0x03
+			writer->Write((uint8_t)cmdRoom->romfile->rooms.size());  // 0x01
+			writer->Write((uint8_t)0);                               // 0x02
+			writer->Write((uint8_t)0);                               // 0x03
 
-			int baseStreamEnd = writer->GetLength();
+			auto baseStreamEnd = writer->GetLength();
 			writer->Write(baseStreamEnd);  // 0x04
 
 			uint32_t oldOffset = writer->GetBaseAddress();
 			writer->Seek(baseStreamEnd, SeekOffsetType::Start);
 
-			for (RoomEntry entry : cmdRoom->rooms)
+			for (const auto& entry : cmdRoom->romfile->rooms)
 			{
 				writer->Write(entry.virtualAddressStart);
 				writer->Write(entry.virtualAddressEnd);

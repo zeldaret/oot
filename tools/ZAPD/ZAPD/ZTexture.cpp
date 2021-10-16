@@ -33,6 +33,10 @@ void ZTexture::ExtractFromBinary(uint32_t nRawDataIndex, int32_t nWidth, int32_t
 	name = GetDefaultName(parent->GetName());
 	outName = name;
 
+	// Don't parse raw data of external files
+	if (parent->GetMode() == ZFileMode::ExternalFile)
+		return;
+
 	ParseRawData();
 	CalcHash();
 }
@@ -327,15 +331,10 @@ void ZTexture::DeclareReferences([[maybe_unused]] const std::string& prefix)
 			if (format == TextureType::Palette4bpp)
 				tlutDim = 4;
 
-			auto filepath = Globals::Instance->outputPath / fs::path(name).stem();
-			std::string incStr = StringHelper::Sprintf("%s.%s.inc.c", filepath.c_str(),
-			                                           GetExternalExtension().c_str());
-
 			tlut = new ZTexture(parent);
 			tlut->ExtractFromBinary(tlutOffset, tlutDim, tlutDim, TextureType::RGBA16bpp, true);
 			parent->AddTextureResource(tlutOffset, tlut);
-			parent->AddDeclarationIncludeArray(tlutOffset, incStr, tlut->GetRawDataSize(),
-			                                   tlut->GetSourceTypeName(), tlut->GetName(), 0);
+			tlut->DeclareVar(prefix, "");
 		}
 		else
 		{
@@ -738,14 +737,31 @@ Declaration* ZTexture::DeclareVar(const std::string& prefix,
                                   [[maybe_unused]] const std::string& bodyStr)
 {
 	std::string auxName = name;
+	std::string auxOutName = outName;
 
-	if (name == "")
+	if (auxName == "")
 		auxName = GetDefaultName(prefix);
 
-	auto filepath = Globals::Instance->outputPath / fs::path(auxName).stem();
+	if (auxOutName == "")
+		auxOutName = GetDefaultName(prefix);
+
+	auto filepath = Globals::Instance->outputPath / fs::path(auxOutName).stem();
 
 	std::string incStr =
 		StringHelper::Sprintf("%s.%s.inc.c", filepath.c_str(), GetExternalExtension().c_str());
+
+	if (!Globals::Instance->cfg.texturePool.empty())
+	{
+		CalcHash();
+
+		// TEXTURE POOL CHECK
+		const auto& poolEntry = Globals::Instance->cfg.texturePool.find(hash);
+		if (poolEntry != Globals::Instance->cfg.texturePool.end())
+		{
+			incStr = StringHelper::Sprintf("%s.%s.inc.c", poolEntry->second.path.c_str(),
+			                               GetExternalExtension().c_str());
+		}
+	}
 
 	Declaration* decl = parent->AddDeclarationIncludeArray(rawDataIndex, incStr, GetRawDataSize(),
 	                                                       GetSourceTypeName(), auxName, 0);

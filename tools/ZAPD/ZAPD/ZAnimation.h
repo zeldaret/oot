@@ -23,7 +23,6 @@ public:
 
 	ZAnimation(ZFile* nParent);
 
-	std::string GetSourceOutputCode(const std::string& prefix) override;
 	ZResourceType GetResourceType() const override;
 
 protected:
@@ -35,19 +34,21 @@ class ZNormalAnimation : public ZAnimation
 public:
 	std::vector<uint16_t> rotationValues;
 	std::vector<RotationIndex> rotationIndices;
-	segptr_t rotationValuesSeg;
-	segptr_t rotationIndicesSeg;
-	uint32_t rotationValuesOffset;
-	uint32_t rotationIndicesOffset;
-	int16_t limit;
+	segptr_t rotationValuesSeg = 0;
+	segptr_t rotationIndicesSeg = 0;
+	offset_t rotationValuesOffset = 0;
+	offset_t rotationIndicesOffset = 0;
+	int16_t limit = 0;
 
 	ZNormalAnimation(ZFile* nParent);
 
-	std::string GetSourceOutputCode(const std::string& prefix) override;
+	void DeclareReferences(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
 	size_t GetRawDataSize() const override;
 	std::string GetSourceTypeName() const override;
 
-protected:
 	void ParseRawData() override;
 };
 
@@ -58,11 +59,11 @@ public:
 
 	ZLinkAnimation(ZFile* nParent);
 
-	std::string GetSourceOutputCode(const std::string& prefix) override;
+	std::string GetBodySourceCode() const override;
+
 	size_t GetRawDataSize() const override;
 	std::string GetSourceTypeName() const override;
 
-protected:
 	void ParseRawData() override;
 };
 
@@ -117,15 +118,17 @@ protected:
 	std::vector<int16_t> copyValuesArr;
 
 public:
-	ZCurveAnimation();
 	ZCurveAnimation(ZFile* nParent);
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
 
 	void DeclareReferences(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
 	size_t GetRawDataSize() const override;
-	std::string GetSourceOutputCode(const std::string& prefix) override;
+	DeclarationAlignment GetDeclarationAlignment() const override;
 
 	std::string GetSourceTypeName() const override;
 };
@@ -159,9 +162,8 @@ public:
 
 	void ParseRawData() override;
 	void DeclareReferences(const std::string& prefix) override;
-	std::string GetBodySourceCode() const override;
 
-	std::string GetSourceOutputCode(const std::string& prefix) override;
+	std::string GetBodySourceCode() const override;
 
 	std::string GetSourceTypeName() const override;
 

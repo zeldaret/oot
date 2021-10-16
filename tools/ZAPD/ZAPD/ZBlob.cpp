@@ -40,17 +40,21 @@ Declaration* ZBlob::DeclareVar(const std::string& prefix,
                                [[maybe_unused]] const std::string& bodyStr)
 {
 	std::string auxName = name;
+	std::string auxOutName = outName;
 
-	if (name == "")
+	if (auxName == "")
 		auxName = GetDefaultName(prefix);
 
-	std::string path = Path::GetFileNameWithoutExtension(auxName);
+	if (auxOutName == "")
+		auxOutName = GetDefaultName(prefix);
+
+	std::string path = Path::GetFileNameWithoutExtension(auxOutName);
 
 	std::string assetOutDir =
 		(Globals::Instance->outputPath / Path::GetFileNameWithoutExtension(GetOutName())).string();
 
 	std::string incStr =
-		StringHelper::Sprintf("%s.%s.inc", assetOutDir.c_str(), GetExternalExtension().c_str());
+		StringHelper::Sprintf("%s.%s.inc.c", assetOutDir.c_str(), GetExternalExtension().c_str());
 
 	return parent->AddDeclarationIncludeArray(rawDataIndex, incStr, GetRawDataSize(),
 	                                          GetSourceTypeName(), auxName, 0);

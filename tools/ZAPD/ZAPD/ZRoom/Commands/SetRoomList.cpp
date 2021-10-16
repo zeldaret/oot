@@ -33,8 +33,9 @@ void SetRoomList::DeclareReferences(const std::string& prefix)
 
 std::string SetRoomList::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
-	return StringHelper::Sprintf("SCENE_CMD_ROOM_LIST(%i, %s)", romfile->numRooms,
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "RomFile", listName);
+	return StringHelper::Sprintf("SCENE_CMD_ROOM_LIST(%i, %s)", romfile->rooms.size(),
 	                             listName.c_str());
 }
 

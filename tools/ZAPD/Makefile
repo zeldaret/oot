@@ -34,7 +34,7 @@ else
 endif
 
 ifneq ($(ASAN),0)
-  CXXFLAGS += -fsanitize=address
+  CXXFLAGS += -fsanitize=address -fsanitize=pointer-compare -fsanitize=pointer-subtract -fsanitize=undefined
 endif
 ifneq ($(DEPRECATION_ON),0)
   CXXFLAGS += -DDEPRECATION_ON

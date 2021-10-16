@@ -112,7 +112,6 @@ void ZRoom::ParseXML(tinyxml2::XMLElement* reader)
 	std::string nodeName = std::string(reader->Name());
 	if (nodeName == "Scene")
 	{
-		Globals::Instance->lastScene = this;
 		zroomType = ZResourceType::Scene;
 	}
 	else if (nodeName == "Room")
@@ -335,11 +334,11 @@ std::string ZRoom::GetDefaultName(const std::string& prefix) const
  */
 void ZRoom::SyotesRoomHack()
 {
-	PolygonType2 poly(parent, parent->GetRawData(), 0, this);
+	PolygonType2 poly(parent, 0, this);
 
 	poly.ParseRawData();
 	poly.DeclareReferences(GetName());
-	parent->AddDeclaration(0, DeclarationAlignment::Align4, poly.GetRawDataSize(),
+	parent->AddDeclaration(0, poly.GetDeclarationAlignment(), poly.GetRawDataSize(),
 	                       poly.GetSourceTypeName(), poly.GetDefaultName(GetName()),
 	                       poly.GetBodySourceCode());
 }
@@ -393,32 +392,14 @@ size_t ZRoom::GetCommandSizeFromNeighbor(ZRoomCommand* cmd)
 	return 0;
 }
 
-std::string ZRoom::GetSourceOutputHeader([[maybe_unused]] const std::string& prefix)
-{
-	return "\n" + extDefines + "\n\n";
-}
-
 std::string ZRoom::GetSourceOutputCode([[maybe_unused]] const std::string& prefix)
 {
-	std::string sourceOutput;
-
-	if (zroomType == ZResourceType::Scene || zroomType == ZResourceType::Room)
-	{
-		sourceOutput += "#include \"segment_symbols.h\"\n";
-		sourceOutput += "#include \"command_macros_base.h\"\n";
-		sourceOutput += "#include \"z64cutscene_commands.h\"\n";
-		sourceOutput += "#include \"variables.h\"\n";
-
-		if (Globals::Instance->lastScene != nullptr)
-			sourceOutput += Globals::Instance->lastScene->parent->GetHeaderInclude();
-	}
-
 	if (hackMode == "syotes_room")
-		return sourceOutput;
+		return "";
 
 	DeclareVar(prefix, GetBodySourceCode());
 
-	return sourceOutput;
+	return "";
 }
 
 size_t ZRoom::GetRawDataSize() const

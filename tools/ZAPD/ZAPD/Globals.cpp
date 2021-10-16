@@ -13,63 +13,24 @@ Globals::Globals()
 {
 	Instance = this;
 
-	files = std::vector<ZFile*>();
-	segments = std::vector<int32_t>();
 	game = ZGame::OOT_RETAIL;
 	genSourceFile = true;
 	testMode = false;
 	profile = false;
 	useLegacyZDList = false;
 	useExternalResources = true;
-	lastScene = nullptr;
 	verbosity = VerbosityLevel::VERBOSITY_SILENT;
 	outputPath = Directory::GetCurrentDirectory();
-}
-
-std::string Globals::FindSymbolSegRef(int32_t segNumber, uint32_t symbolAddress)
-{
-	if (cfg.segmentRefs.find(segNumber) != cfg.segmentRefs.end())
-	{
-		if (cfg.segmentRefFiles.find(segNumber) == cfg.segmentRefFiles.end())
-		{
-			tinyxml2::XMLDocument doc;
-			std::string filePath = cfg.segmentRefs[segNumber];
-			tinyxml2::XMLError eResult = doc.LoadFile(filePath.c_str());
-
-			if (eResult != tinyxml2::XML_SUCCESS)
-				return "ERROR";
-
-			tinyxml2::XMLNode* root = doc.FirstChild();
-
-			if (root == nullptr)
-				return "ERROR";
-
-			for (tinyxml2::XMLElement* child = root->FirstChildElement(); child != NULL;
-			     child = child->NextSiblingElement())
-			{
-				if (std::string_view(child->Name()) == "File")
-				{
-					ZFile* file = new ZFile(fileMode, child, "", "", filePath, true);
-					file->GeneratePlaceholderDeclarations();
-					cfg.segmentRefFiles[segNumber] = file;
-					break;
-				}
-			}
-		}
-
-		return cfg.segmentRefFiles[segNumber]->GetDeclarationName(symbolAddress, "ERROR");
-	}
-
-	return "ERROR";
 }
 
 void Globals::AddSegment(int32_t segment, ZFile* file)
 {
 	if (std::find(segments.begin(), segments.end(), segment) == segments.end())
 		segments.push_back(segment);
+	if (cfg.segmentRefFiles.find(segment) == cfg.segmentRefFiles.end())
+		cfg.segmentRefFiles[segment] = std::vector<ZFile*>();
 
-	cfg.segmentRefs[segment] = file->GetXmlFilePath().string();
-	cfg.segmentRefFiles[segment] = file;
+	cfg.segmentRefFiles[segment].push_back(file);
 }
 
 bool Globals::HasSegment(int32_t segment)
@@ -108,4 +69,127 @@ ExporterSet* Globals::GetExporterSet()
 		return exporters[currentExporter];
 	else
 		return nullptr;
+}
+
+bool Globals::GetSegmentedPtrName(segptr_t segAddress, ZFile* currentFile,
+                                  const std::string& expectedType, std::string& declName)
+{
+	if (segAddress == 0)
+	{
+		declName = "NULL";
+		return true;
+	}
+
+	uint8_t segment = GETSEGNUM(segAddress);
+	uint32_t offset = Seg2Filespace(segAddress, currentFile->baseAddress);
+	ZSymbol* sym;
+
+	sym = currentFile->GetSymbolResource(offset);
+	if (sym != nullptr)
+	{
+		if (expectedType == "" || expectedType == sym->GetSourceTypeName())
+		{
+			declName = sym->GetName();
+			return true;
+		}
+	}
+	sym = currentFile->GetSymbolResource(segAddress);
+	if (sym != nullptr)
+	{
+		if (expectedType == "" || expectedType == sym->GetSourceTypeName())
+		{
+			declName = sym->GetName();
+			return true;
+		}
+	}
+
+	if (currentFile->IsSegmentedInFilespaceRange(segAddress))
+	{
+		if (currentFile->GetDeclarationPtrName(segAddress, expectedType, declName))
+			return true;
+	}
+	else if (HasSegment(segment))
+	{
+		for (auto file : cfg.segmentRefFiles[segment])
+		{
+			offset = Seg2Filespace(segAddress, file->baseAddress);
+
+			sym = file->GetSymbolResource(offset);
+			if (sym != nullptr)
+			{
+				if (expectedType == "" || expectedType == sym->GetSourceTypeName())
+				{
+					declName = sym->GetName();
+					return true;
+				}
+			}
+			sym = file->GetSymbolResource(segAddress);
+			if (sym != nullptr)
+			{
+				if (expectedType == "" || expectedType == sym->GetSourceTypeName())
+				{
+					declName = sym->GetName();
+					return true;
+				}
+			}
+
+			if (file->IsSegmentedInFilespaceRange(segAddress))
+			{
+				if (file->GetDeclarationPtrName(segAddress, expectedType, declName))
+					return true;
+			}
+		}
+	}
+
+	const auto& symbolFromMap = Globals::Instance->symbolMap.find(segAddress);
+	if (symbolFromMap != Globals::Instance->symbolMap.end())
+	{
+		declName = "&" + symbolFromMap->second;
+		return true;
+	}
+
+	declName = StringHelper::Sprintf("0x%08X", segAddress);
+	return false;
+}
+
+bool Globals::GetSegmentedArrayIndexedName(segptr_t segAddress, size_t elementSize,
+                                           ZFile* currentFile, const std::string& expectedType,
+                                           std::string& declName)
+{
+	if (segAddress == 0)
+	{
+		declName = "NULL";
+		return true;
+	}
+
+	uint8_t segment = GETSEGNUM(segAddress);
+
+	if (currentFile->IsSegmentedInFilespaceRange(segAddress))
+	{
+		bool addressFound = currentFile->GetDeclarationArrayIndexedName(segAddress, elementSize,
+		                                                                expectedType, declName);
+		if (addressFound)
+			return true;
+	}
+	else if (HasSegment(segment))
+	{
+		for (auto file : cfg.segmentRefFiles[segment])
+		{
+			if (file->IsSegmentedInFilespaceRange(segAddress))
+			{
+				bool addressFound = file->GetDeclarationArrayIndexedName(segAddress, elementSize,
+				                                                         expectedType, declName);
+				if (addressFound)
+					return true;
+			}
+		}
+	}
+
+	declName = StringHelper::Sprintf("0x%08X", segAddress);
+	return false;
+}
+
+ExternalFile::ExternalFile(fs::path nXmlPath, fs::path nOutPath)
+	: xmlPath{nXmlPath}, outPath{nOutPath}
+{
 }

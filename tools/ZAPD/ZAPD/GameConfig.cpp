@@ -2,14 +2,27 @@
 
 #include <functional>
 #include <string_view>
+
 #include "Utils/Directory.h"
 #include "Utils/File.h"
 #include "Utils/Path.h"
+#include "ZFile.h"
 #include "tinyxml2.h"
 
 using ConfigFunc = void (GameConfig::*)(const tinyxml2::XMLElement&);
 
-void GameConfig::ReadTexturePool(const std::string& texturePoolXmlPath)
+GameConfig::~GameConfig()
+{
+	for (auto& declPair : segmentRefFiles)
+	{
+		for (auto& file : declPair.second)
+		{
+			delete file;
+		}
+	}
+}
+
+void GameConfig::ReadTexturePool(const fs::path& texturePoolXmlPath)
 {
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError eResult = doc.LoadFile(texturePoolXmlPath.c_str());
@@ -41,7 +54,7 @@ void GameConfig::ReadTexturePool(const std::string& texturePoolXmlPath)
 	}
 }
 
-void GameConfig::GenSymbolMap(const std::string& symbolMapPath)
+void GameConfig::GenSymbolMap(const fs::path& symbolMapPath)
 {
 	auto symbolLines = File::ReadAllLines(symbolMapPath);
 
@@ -58,21 +71,14 @@ void GameConfig::GenSymbolMap(const std::string& symbolMapPath)
 void GameConfig::ConfigFunc_SymbolMap(const tinyxml2::XMLElement& element)
 {
 	std::string fileName = element.Attribute("File");
-	GenSymbolMap(Path::GetDirectoryName(configFilePath) + "/" + fileName);
-}
-
-void GameConfig::ConfigFunc_Segment(const tinyxml2::XMLElement& element)
-{
-	std::string fileName = element.Attribute("File");
-	int32_t segNumber = element.IntAttribute("Number");
-	segmentRefs[segNumber] = std::move(fileName);
+	GenSymbolMap(Path::GetDirectoryName(configFilePath) / fileName);
 }
 
 void GameConfig::ConfigFunc_ActorList(const tinyxml2::XMLElement& element)
 {
 	std::string fileName = element.Attribute("File");
 	std::vector<std::string> lines =
-		File::ReadAllLines(Path::GetDirectoryName(configFilePath) + "/" + fileName);
+		File::ReadAllLines(Path::GetDirectoryName(configFilePath) / fileName);
 
 	for (auto& line : lines)
 		actorList.emplace_back(std::move(line));
@@ -82,7 +88,7 @@ void GameConfig::ConfigFunc_ObjectList(const tinyxml2::XMLElement& element)
 {
 	std::string fileName = element.Attribute("File");
 	std::vector<std::string> lines =
-		File::ReadAllLines(Path::GetDirectoryName(configFilePath) + "/" + fileName);
+		File::ReadAllLines(Path::GetDirectoryName(configFilePath) / fileName);
 
 	for (auto& line : lines)
 		objectList.emplace_back(std::move(line));
@@ -91,7 +97,7 @@ void GameConfig::ConfigFunc_ObjectList(const tinyxml2::XMLElement& element)
 void GameConfig::ConfigFunc_TexturePool(const tinyxml2::XMLElement& element)
 {
 	std::string fileName = element.Attribute("File");
-	ReadTexturePool(Path::GetDirectoryName(configFilePath) + "/" + fileName);
+	ReadTexturePool(Path::GetDirectoryName(configFilePath) / fileName);
 }
 
 void GameConfig::ConfigFunc_BGConfig(const tinyxml2::XMLElement& element)
@@ -100,15 +106,53 @@ void GameConfig::ConfigFunc_BGConfig(const tinyxml2::XMLElement& element)
 	bgScreenHeight = element.IntAttribute("ScreenHeight", 240);
 }
 
-void GameConfig::ReadConfigFile(const std::string& argConfigFilePath)
+void GameConfig::ConfigFunc_ExternalXMLFolder(const tinyxml2::XMLElement& element)
+{
+	const char* pathValue = element.Attribute("Path");
+	if (pathValue == nullptr)
+	{
+		throw std::runtime_error(
+			StringHelper::Sprintf("Parse: Fatal error in configuration file.\n"
+		                          "\t Missing 'Path' attribute in `ExternalXMLFolder` element.\n"));
+	}
+	if (externalXmlFolder != "")
+	{
+		throw std::runtime_error(StringHelper::Sprintf("Parse: Fatal error in configuration file.\n"
+		                                               "\t `ExternalXMLFolder` is duplicated.\n"));
+	}
+	externalXmlFolder = pathValue;
+}
+
+void GameConfig::ConfigFunc_ExternalFile(const tinyxml2::XMLElement& element)
+{
+	const char* xmlPathValue = element.Attribute("XmlPath");
+	if (xmlPathValue == nullptr)
+	{
+		throw std::runtime_error(
+			StringHelper::Sprintf("Parse: Fatal error in configuration file.\n"
+		                          "\t Missing 'XmlPath' attribute in `ExternalFile` element.\n"));
+	}
+	const char* outPathValue = element.Attribute("OutPath");
+	if (outPathValue == nullptr)
+	{
+		throw std::runtime_error(
+			StringHelper::Sprintf("Parse: Fatal error in configuration file.\n"
+		                          "\t Missing 'OutPath' attribute in `ExternalFile` element.\n"));
+	}
+
+	externalFiles.push_back(ExternalFile(fs::path(xmlPathValue), fs::path(outPathValue)));
+}
+
+void GameConfig::ReadConfigFile(const fs::path& argConfigFilePath)
 {
 	static const std::map<std::string, ConfigFunc> ConfigFuncDictionary = {
 		{"SymbolMap", &GameConfig::ConfigFunc_SymbolMap},
-		{"Segment", &GameConfig::ConfigFunc_Segment},
 		{"ActorList", &GameConfig::ConfigFunc_ActorList},
 		{"ObjectList", &GameConfig::ConfigFunc_ObjectList},
 		{"TexturePool", &GameConfig::ConfigFunc_TexturePool},
 		{"BGConfig", &GameConfig::ConfigFunc_BGConfig},
+		{"ExternalXMLFolder", &GameConfig::ConfigFunc_ExternalXMLFolder},
+		{"ExternalFile", &GameConfig::ConfigFunc_ExternalFile},
 	};
 
 	configFilePath = argConfigFilePath;

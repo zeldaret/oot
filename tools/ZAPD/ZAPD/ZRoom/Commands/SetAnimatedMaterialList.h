@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include "ZRoom/ZRoomCommand.h"
 #include "ZTextureAnimation.h"
 

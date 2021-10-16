@@ -1239,7 +1239,7 @@ Declaration* ZCutsceneBase::DeclareVar(const std::string& prefix, const std::str
 {
 	std::string auxName = name;
 
-	if (name == "")
+	if (auxName == "")
 		auxName = GetDefaultName(prefix);
 
 	Declaration* decl =
