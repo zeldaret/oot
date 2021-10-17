@@ -1,5 +1,5 @@
 /**
- * gbi.h version 0.3.5
+ * gbi.h version 0.3.6
  * n64 graphics microcode interface library
  * compatible with fast3d, f3dex, f3dex2, s2dex, and s2dex2
  *
@@ -2766,6 +2766,14 @@
 		gF_(gV4_(v2, v3, v0, v1, flag) * 2, 8, 8) | \
 		gF_(gV4_(v3, v0, v1, v2, flag) * 2, 8, 0))
 
+# define gsSPLineW3D(v0, v1, wd, flag) \
+	gO_( \
+		G_LINE3D, \
+		0, \
+		gF_(gV2_(v0, v1, flag) * 2, 8, 16) | \
+		gF_(gV2_(v1, v0, flag) * 2, 8, 8) | \
+		gF_(wd, 8, 0))
+
 # define gsSPVertex(v, n, v0) \
 	gO_( \
 		G_VTX, \
@@ -2806,14 +2814,6 @@
 		G_CULLDL, \
 		gF_((v0) * 2, 16, 0), \
 		gF_((vn) * 2, 16, 0))
-
-# define gsSPLineW3D(v0, v1, wd, flag) \
-	gO_( \
-		G_LINE3D, \
-		gF_(gV2_(v0, v1, flag) * 2, 8, 16) | \
-		gF_(gV2_(v1, v0, flag) * 2, 8, 8) | \
-		gF_(wd, 8, 0), \
-		0)
 
 # define gsSPLoadUcode(uc_start, uc_dstart) \
 	gsSPLoadUcodeEx(uc_start, uc_dstart, 0x800)
@@ -2885,6 +2885,14 @@
 
 # define gsSPLoadGeometryMode(mode) \
 	gsSPGeometryMode(~gI_(0), mode)
+
+# define gsSPLineW3D(v0, v1, wd, flag) \
+	gO_( \
+		G_LINE3D, \
+		gF_(gV2_(v0, v1, flag) * 2, 8, 16) | \
+		gF_(gV2_(v1, v0, flag) * 2, 8, 8) | \
+		gF_(wd, 8, 0), \
+		0)
 
 # define gsSPLookAtX(l) \
 	gsMoveMem(sizeof(Light), G_MV_LIGHT, G_MVO_LOOKATX, l)
