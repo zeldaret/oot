@@ -43,8 +43,8 @@ void SetStartPositionList::DeclareReferences(const std::string& prefix)
 
 		parent->AddDeclarationArray(
 			segmentOffset, DeclarationAlignment::Align4, actors.size() * 16, "ActorEntry",
-			StringHelper::Sprintf("%sStartPositionList0x%06X", prefix.c_str(), segmentOffset), 0,
-			declaration);
+			StringHelper::Sprintf("%sStartPositionList0x%06X", prefix.c_str(), segmentOffset),
+			actors.size(), declaration);
 	}
 }
 

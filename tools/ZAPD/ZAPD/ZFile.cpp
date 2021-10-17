@@ -702,8 +702,6 @@ void ZFile::GenerateSourceFiles()
 
 	sourceOutput += GetExternalFileHeaderInclude();
 
-	sourceOutput += "\n";
-
 	GeneratePlaceholderDeclarations();
 
 	// Generate Code
@@ -810,7 +808,8 @@ void ZFile::GeneratePlaceholderDeclarations()
 			continue;
 		}
 
-		Declaration* decl = AddDeclarationPlaceholder(res->GetRawDataIndex(), res->GetName());
+		Declaration* decl = res->DeclareVar(GetName(), "");
+		decl->staticConf = res->GetStaticConf();
 		if (res->GetResourceType() == ZResourceType::Symbol)
 		{
 			decl->staticConf = StaticConfig::Off;
@@ -1122,6 +1121,7 @@ std::string ZFile::ProcessTextureIntersections([[maybe_unused]] const std::strin
 				// Shrink palette so it doesn't overlap
 				currentTex->SetDimensions(offsetDiff / currentTex->GetPixelMultiplyer(), 1);
 				declarations.at(currentOffset)->size = currentTex->GetRawDataSize();
+				currentTex->DeclareVar(GetName(), "");
 			}
 			else
 			{

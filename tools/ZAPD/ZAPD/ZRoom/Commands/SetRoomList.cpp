@@ -86,7 +86,7 @@ Declaration* RomFile::DeclareVar(const std::string& prefix, const std::string& b
 
 	return parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::Align4,
 	                                   rooms.size() * rooms.at(0).GetRawDataSize(),
-	                                   GetSourceTypeName(), auxName, 0, body);
+	                                   GetSourceTypeName(), auxName, rooms.size(), body);
 }
 
 std::string RomFile::GetBodySourceCode() const

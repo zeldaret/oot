@@ -301,7 +301,7 @@ Declaration* ZRoom::DeclareVar(const std::string& prefix, const std::string& bod
 
 	Declaration* decl =
 		parent->AddDeclarationArray(rawDataIndex, GetDeclarationAlignment(), GetRawDataSize(),
-	                                GetSourceTypeName(), auxName, 0, body);
+	                                GetSourceTypeName(), auxName, commands.size(), body);
 	decl->staticConf = staticConf;
 	return decl;
 }

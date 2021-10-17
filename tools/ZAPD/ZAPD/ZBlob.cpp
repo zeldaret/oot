@@ -57,7 +57,7 @@ Declaration* ZBlob::DeclareVar(const std::string& prefix,
 		StringHelper::Sprintf("%s.%s.inc.c", assetOutDir.c_str(), GetExternalExtension().c_str());
 
 	return parent->AddDeclarationIncludeArray(rawDataIndex, incStr, GetRawDataSize(),
-	                                          GetSourceTypeName(), auxName, 0);
+	                                          GetSourceTypeName(), auxName, blobData.size());
 }
 
 std::string ZBlob::GetBodySourceCode() const

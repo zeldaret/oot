@@ -44,6 +44,7 @@ void ZResource::ExtractFromXML(tinyxml2::XMLElement* reader, offset_t nRawDataIn
 		if (decl != nullptr)
 		{
 			decl->declaredInXml = true;
+			decl->staticConf = staticConf;
 		}
 	}
 }
@@ -229,6 +230,11 @@ DeclarationAlignment ZResource::GetDeclarationAlignment() const
 bool ZResource::WasDeclaredInXml() const
 {
 	return declaredInXml;
+}
+
+StaticConfig ZResource::GetStaticConf() const
+{
+	return staticConf;
 }
 
 offset_t ZResource::GetRawDataIndex() const

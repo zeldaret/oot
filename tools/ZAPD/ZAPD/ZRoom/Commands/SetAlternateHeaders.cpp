@@ -59,7 +59,7 @@ void SetAlternateHeaders::DeclareReferencesLate(const std::string& prefix)
 		std::string varName =
 			StringHelper::Sprintf("%sAlternateHeaders0x%06X", prefix.c_str(), segmentOffset);
 		parent->AddDeclarationArray(segmentOffset, GetDeclarationAlignment(), headers.size() * 4,
-		                            "SceneCmd*", varName, 0, declaration);
+		                            "SceneCmd*", varName, headers.size(), declaration);
 	}
 }
 
