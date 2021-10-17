@@ -38,6 +38,7 @@ enum class ZResourceType
 	LimbTable,
 	Mtx,
 	Path,
+	PlayerAnimationData,
 	Room,
 	RoomCommand,
 	Scalar,
