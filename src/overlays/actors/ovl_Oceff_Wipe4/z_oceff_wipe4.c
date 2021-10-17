@@ -74,7 +74,7 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
         z = 1330.0f;
     }
 
-    vtxPtr = sScarecrowsSongFrustumVtx;
+    vtxPtr = sFrustumVtx;
     if (this->timer >= 30) {
         alpha = 12 * (50 - this->timer);
     } else {
@@ -98,15 +98,15 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params == OCEFF_WIPE4_UNUSED) {
-        gSPDisplayList(POLY_XLU_DISP++, sOceff4Material1DL);
+        gSPDisplayList(POLY_XLU_DISP++, sUnusedMaterial1DL);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, sOceff4Material0DL);
+        gSPDisplayList(POLY_XLU_DISP++, sUnusedMaterial0DL);
     }
 
-    gSPDisplayList(POLY_XLU_DISP++, sOceff4Material2DL);
+    gSPDisplayList(POLY_XLU_DISP++, sUnusedMaterial2DL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64, 1,
                                                      scroll * (-1), scroll, 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, &sOceff4Material2DL[11]);
+    gSPDisplayList(POLY_XLU_DISP++, &sUnusedMaterial2DL[11]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 344);
 }

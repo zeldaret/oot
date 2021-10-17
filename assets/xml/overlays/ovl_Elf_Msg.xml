@@ -3,14 +3,14 @@
 
         <DList Name="D_809AD278" Offset="0x758"/>
 
-        <Array Name="sElfMsgCylinderVtx" Count="16" Offset="0x798">
+        <Array Name="sCylinderVtx" Count="16" Offset="0x798">
             <Vtx/>
         </Array>
-        <DList Name="sElfMsgCylinderDL" Offset="0x898"/>
+        <DList Name="sCylinderDL" Offset="0x898"/>
 
-        <Array Name="sElfMsgCubeVtx" Count="8" Offset="0x918">
+        <Array Name="sCubeVtx" Count="8" Offset="0x918">
             <Vtx/>
         </Array>
-        <DList Name="sElfMsgCubeDL" Offset="0x998"/>
+        <DList Name="sCubeDL" Offset="0x998"/>
     </File>
 </Root>

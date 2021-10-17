@@ -3,9 +3,9 @@
 
         <DList Name="D_809ADC38" Offset="0x538"/>
 
-        <Array Name="sElfMsg2CubeVtx" Count="8" Offset="0x578">
+        <Array Name="sCubeVtx" Count="8" Offset="0x578">
             <Vtx/>
         </Array>
-        <DList Name="sElfMsg2CubeDL" Offset="0x5F8"/>
+        <DList Name="sCubeDL" Offset="0x5F8"/>
     </File>
 </Root>

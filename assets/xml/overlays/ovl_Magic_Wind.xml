@@ -1,15 +1,15 @@
 <Root>
     <File Name="ovl_Magic_Wind" BaseAddress="0x80B8B100" RangeStart="0x780" RangeEnd="0x1C98" Segment="128">
-        <Skeleton Name="sMagicWindSkel" Type="Curve" LimbType="Curve" Offset="0x1C90"/>
-        <CurveAnimation Name="sMagicWindAnim" SkelOffset="0x1C90" Offset="0x1C50"/>
-        <Limb Name="sMagicWindRootLimb" Type="Curve" Offset="0x1C60"/>
-        <Limb Name="sMagicWindInnerCylinderLimb" Type="Curve" Offset="0x1C6C"/>
-        <Limb Name="sMagicWindOuterCylinderLimb" Type="Curve" Offset="0x1C78"/>
-        <Array Name="sMagicWindCylinderVtx" Count="36" Offset="0x780">
+        <Skeleton Name="sdSkel" Type="Curve" LimbType="Curve" Offset="0x1C90"/>
+        <CurveAnimation Name="sdAnim" SkelOffset="0x1C90" Offset="0x1C50"/>
+        <Limb Name="sdRootLimb" Type="Curve" Offset="0x1C60"/>
+        <Limb Name="sdInnerCylinderLimb" Type="Curve" Offset="0x1C6C"/>
+        <Limb Name="sdOuterCylinderLimb" Type="Curve" Offset="0x1C78"/>
+        <Array Name="sdCylinderVtx" Count="36" Offset="0x780">
             <Vtx/>
         </Array>
-        <Texture Name="sMagicWindTex" OutName="magic_wind" Format="ia8" Width="64" Height="64" Offset="0x9C0"/>
-        <DList Name="sMagicWindInnerCylinderDL" Offset="0x19C0"/>
-        <DList Name="sMagicWindOuterCylinderDL" Offset="0x1AC8"/>
+        <Texture Name="sdTex" OutName="magic_wind" Format="ia8" Width="64" Height="64" Offset="0x9C0"/>
+        <DList Name="sdInnerCylinderDL" Offset="0x19C0"/>
+        <DList Name="sdOuterCylinderDL" Offset="0x1AC8"/>
     </File>
 </Root>

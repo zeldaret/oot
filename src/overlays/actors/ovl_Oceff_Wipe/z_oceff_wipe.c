@@ -60,7 +60,7 @@ void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 #include "overlays/ovl_Oceff_Wipe/ovl_Oceff_Wipe.c"
 
-static u8 sOceffWipeAlphaIndices[] = {
+static u8 sAlphaIndices[] = {
     0x01, 0x10, 0x22, 0x01, 0x20, 0x12, 0x01, 0x20, 0x12, 0x01,
     0x10, 0x22, 0x01, 0x20, 0x12, 0x01, 0x12, 0x21, 0x01, 0x02,
 };
@@ -98,9 +98,9 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     for (i = 0; i < 20; i++) {
-        vtxPtr = sOceffWipeFrustumVtx;
-        vtxPtr[i * 2 + 0].v.cn[3] = alphaTable[(sOceffWipeAlphaIndices[i] & 0xF0) >> 4];
-        vtxPtr[i * 2 + 1].v.cn[3] = alphaTable[sOceffWipeAlphaIndices[i] & 0xF];
+        vtxPtr = sFrustumVtx;
+        vtxPtr[i * 2 + 0].v.cn[3] = alphaTable[(sAlphaIndices[i] & 0xF0) >> 4];
+        vtxPtr[i * 2 + 1].v.cn[3] = alphaTable[sAlphaIndices[i] & 0xF];
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
@@ -121,10 +121,10 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 100, 0, 255, 128);
     }
 
-    gSPDisplayList(POLY_XLU_DISP++, sOceffWipeMaterialDL);
+    gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 - scroll, scroll * (-2), 32, 32, 1,
                                                      0 - scroll, scroll * (-2), 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, sOceffWipeFrustumDL);
+    gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 398);
 }

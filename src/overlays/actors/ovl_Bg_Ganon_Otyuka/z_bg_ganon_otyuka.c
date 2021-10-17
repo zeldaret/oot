@@ -67,14 +67,14 @@ static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
 #include "overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c"
 
-void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx2) {
     BgGanonOtyuka* this = THIS;
-    s32 pad;
+    GlobalContext* globalCtx = globalCtx2;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&sOtyukaCol, &colHeader);
+    CollisionHeader_GetVirtual(&sCollision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (thisx->params != 0x23) {
@@ -85,9 +85,10 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     BgGanonOtyuka* this = THIS;
-
+    GlobalContext* globalCtx = globalCtx2;
+    
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
     osSyncPrintf(VT_FGCOL(GREEN));
@@ -275,7 +276,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPDisplayList(POLY_OPA_DISP++, sOtyukaPlatformMaterialDL);
+    gSPDisplayList(POLY_OPA_DISP++, sPlatformMaterialDL);
 
     actor = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
     while (actor != NULL) {
@@ -284,9 +285,9 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             if (platform->dyna.actor.projectedPos.z > spBC) {
                 if (camera->eye.y > platform->dyna.actor.world.pos.y) {
-                    phi_s2 = sOtyukaPlatformTopDL;
+                    phi_s2 = sPlatformTopDL;
                 } else {
-                    phi_s2 = sOtyukaPlatformBottomDL;
+                    phi_s2 = sPlatformBottomDL;
                 }
                 Matrix_Translate(platform->dyna.actor.world.pos.x, platform->dyna.actor.world.pos.y,
                                  platform->dyna.actor.world.pos.z, MTXMODE_NEW);
@@ -295,9 +296,9 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                     Matrix_RotateX((platform->dyna.actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
                     Matrix_RotateZ((platform->dyna.actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
                     if (camera->eye.y > platform->dyna.actor.world.pos.y) {
-                        phi_s1 = sOtyukaPlatformBottomDL;
+                        phi_s1 = sPlatformBottomDL;
                     } else {
-                        phi_s1 = sOtyukaPlatformTopDL;
+                        phi_s1 = sPlatformTopDL;
                     }
                 }
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766),
@@ -316,7 +317,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         gSPMatrix(POLY_OPA_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                        gSPDisplayList(POLY_OPA_DISP++, sOtyukaPlatformSideDL);
+                        gSPDisplayList(POLY_OPA_DISP++, sPlatformSideDL);
                         Matrix_Pop();
                     }
                 }
@@ -352,7 +353,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         gSPMatrix(POLY_XLU_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                        gSPDisplayList(POLY_XLU_DISP++, sOtyukaFlashDL);
+                        gSPDisplayList(POLY_XLU_DISP++, sFlashDL);
                         Matrix_Pop();
                     }
                 }

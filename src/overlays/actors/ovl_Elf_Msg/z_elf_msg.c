@@ -46,7 +46,6 @@ void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
  * Can also set a switch flag from params while killing.
  */
 s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
-
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
         Flags_GetSwitch(globalCtx, this->actor.world.rot.y - 1)) {
         LOG_STRING("共倒れ", "../z_elf_msg.c", 161); // "Mutual destruction"
@@ -187,9 +186,9 @@ void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_XLU_DISP++, D_809AD278);
 
     if (thisx->params & 0x4000) {
-        gSPDisplayList(POLY_XLU_DISP++, sElfMsgCubeDL);
+        gSPDisplayList(POLY_XLU_DISP++, sCubeDL);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, sElfMsgCylinderDL);
+        gSPDisplayList(POLY_XLU_DISP++, sCylinderDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_elf_msg.c", 457);
