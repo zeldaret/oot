@@ -1,8 +1,8 @@
 #include "SetRoomList.h"
 
-#include "BitConverter.h"
 #include "Globals.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 #include "ZRoom/ZRoom.h"
 
@@ -15,30 +15,28 @@ void SetRoomList::ParseRawData()
 	ZRoomCommand::ParseRawData();
 	int numRooms = cmdArg1;
 
-	int32_t currentPtr = segmentOffset;
+	romfile = new RomFile(parent);
+	romfile->numRooms = numRooms;
+	romfile->ExtractFromFile(segmentOffset);
 
-	for (int32_t i = 0; i < numRooms; i++)
-	{
-		RoomEntry entry(parent->GetRawData(), currentPtr);
-		rooms.push_back(entry);
-
-		currentPtr += 8;
-	}
+	parent->resources.push_back(romfile);
 
 	zRoom->roomCount = numRooms;
 }
 
 void SetRoomList::DeclareReferences(const std::string& prefix)
 {
-	parent->AddDeclarationArray(
-		segmentOffset, DeclarationAlignment::None, rooms.size() * 8, "RomFile",
-		StringHelper::Sprintf("%sRoomList0x%06X", prefix.c_str(), segmentOffset), 0, "");
+	ZRoomCommand::DeclareReferences(prefix);
+
+	romfile->DeclareVar(prefix, "");
 }
 
 std::string SetRoomList::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
-	return StringHelper::Sprintf("SCENE_CMD_ROOM_LIST(%i, %s)", rooms.size(), listName.c_str());
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "RomFile", listName);
+	return StringHelper::Sprintf("SCENE_CMD_ROOM_LIST(%i, %s)", romfile->rooms.size(),
+	                             listName.c_str());
 }
 
 std::string SetRoomList::GetCommandCName() const
@@ -51,28 +49,93 @@ RoomCommand SetRoomList::GetRoomCommand() const
 	return RoomCommand::SetRoomList;
 }
 
-void SetRoomList::PreGenSourceFiles()
+RomFile::RomFile(ZFile* nParent) : ZResource(nParent)
 {
-	std::string declaration = "";
+}
+
+void RomFile::ParseXML(tinyxml2::XMLElement* reader)
+{
+	ZResource::ParseXML(reader);
+
+	if (reader->Attribute("NumRooms") != nullptr)
+	{
+		numRooms = StringHelper::StrToL(std::string(reader->Attribute("NumRooms")));
+	}
+}
+
+void RomFile::ParseRawData()
+{
+	ZResource::ParseRawData();
+
+	uint32_t currentPtr = rawDataIndex;
+
+	for (int32_t i = 0; i < numRooms; i++)
+	{
+		RoomEntry entry(parent->GetRawData(), currentPtr);
+		rooms.push_back(entry);
+
+		currentPtr += 8;
+	}
+}
+
+Declaration* RomFile::DeclareVar(const std::string& prefix, const std::string& body)
+{
+	std::string auxName = name;
+	if (name == "")
+		auxName = StringHelper::Sprintf("%sRoomList0x%06X", prefix.c_str(), rawDataIndex);
+
+	return parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::Align4,
+	                                   rooms.size() * rooms.at(0).GetRawDataSize(),
+	                                   GetSourceTypeName(), auxName, rooms.size(), body);
+}
+
+std::string RomFile::GetBodySourceCode() const
+{
+	std::string declaration;
+	bool isFirst = true;
 
 	for (ZFile* file : Globals::Instance->files)
 	{
 		for (ZResource* res : file->resources)
 		{
-			if (res->GetResourceType() == ZResourceType::Room && res != zRoom)
+			if (res->GetResourceType() == ZResourceType::Room)
 			{
 				std::string roomName = res->GetName();
+				if (!isFirst)
+					declaration += "\n";
+
 				declaration +=
-					StringHelper::Sprintf("\t{ (u32)_%sSegmentRomStart, (u32)_%sSegmentRomEnd },\n",
+					StringHelper::Sprintf("\t{ (u32)_%sSegmentRomStart, (u32)_%sSegmentRomEnd },",
 				                          roomName.c_str(), roomName.c_str());
+				isFirst = false;
 			}
 		}
 	}
 
-	parent->AddDeclarationArray(
-		segmentOffset, DeclarationAlignment::None, rooms.size() * 8, "RomFile",
-		StringHelper::Sprintf("%sRoomList0x%06X", zRoom->GetName().c_str(), segmentOffset), 0,
-		declaration);
+	return declaration;
+}
+
+std::string RomFile::GetSourceOutputCode(const std::string& prefix)
+{
+	DeclareVar(prefix, GetBodySourceCode());
+
+	return "";
+}
+
+std::string RomFile::GetSourceTypeName() const
+{
+	return "RomFile";
+}
+
+ZResourceType RomFile::GetResourceType() const
+{
+	// TODO
+	return ZResourceType::Error;
+}
+
+size_t RomFile::GetRawDataSize() const
+{
+	return 8 * rooms.size();
 }
 
 RoomEntry::RoomEntry(uint32_t nVAS, uint32_t nVAE)
@@ -85,4 +148,9 @@ RoomEntry::RoomEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
 	: RoomEntry(BitConverter::ToInt32BE(rawData, rawDataIndex + 0),
                 BitConverter::ToInt32BE(rawData, rawDataIndex + 4))
 {
+}
+
+size_t RoomEntry::GetRawDataSize() const
+{
+	return 0x08;
 }
