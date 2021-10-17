@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="misc/link_animetion.xml" OutPath="misc/link_animetion/"/>
     <File Name="gameplay_keep" Segment="4">
         <Texture Name="gHilite1Tex" OutName="hilite_1" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
         <Texture Name="gHilite2Tex" OutName="hilite_2" Format="rgba16" Width="16" Height="16" Offset="0x200"/>
