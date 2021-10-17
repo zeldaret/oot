@@ -13,7 +13,9 @@ This document aims to be a small reference of how to create a compatible xml fil
     - [Background](#background)
     - [Blob](#blob)
     - [DList](#dlist)
+    - [TextureAnimation](#textureanimation)
     - [Scene and Room](#scene-and-room)
+    - [AltHeader](#altheader)
     - [Animation](#animation)
     - [PlayerAnimation](#playeranimation)
     - [CurveAnimation](#curveanimation)
@@ -30,6 +32,7 @@ This document aims to be a small reference of how to create a compatible xml fil
     - [Cutscene](#cutscene)
     - [Array](#array)
     - [Path](#path)
+    - [PlayerAnimationData](#playeranimationdata)
 
 ## Basic XML
 
@@ -42,7 +45,7 @@ An example of an object xml:
         <Animation Name="gJabuJabuAnim" Offset="0x1F4C"/>
 
         <Skeleton Name="gJabuJabuSkel" Type="Flex" LimbType="Standard" Offset="0xB9A8"/>
-            
+
         <!-- Jabu Jabu eye textures -->
         <Texture Name="gJabuJabuEyeOpenTex" OutName="jabu_jabu_eye_open" Format="rgba16" Width="16" Height="32" Offset="0x7698"/>
         <Texture Name="gJabuJabuEyeHalfTex" OutName="jabu_jabu_eye_half" Format="rgba16" Width="16" Height="32" Offset="0x7A98"/>
@@ -66,6 +69,20 @@ The following is a list of the resources/tags supported by ZAPD, and the attribu
 For most resources inside a `<File>` tag **you should also set an `Offset` attribute**. This is the offset (within the file) of the resource you are exporting. The `Offset` attribute is expected to be in hexadecimal, for example `Offset="0x41F0"`.
 
 It's worth noting that every tag expects a `Name="gNameOfTheAsset"`. This is will be the name of the extracted variable in the output C code. Every asset must be prefixed with `g` and the suffix should represent the type of the variable.
+
+Every tag can accept a `Static` attribute to specify if the asset should be marked as `static` or not.
+There are 3 valid values (defaults to `Global`):
+
+- `Global`: Mark static if the flag `--static` was used.
+- `On`: Override the global config and **always mark** as `static`.
+- `Off`: Override the global config and **don't mark** as `static`.
+
+This table summarizes if the asset will be marked `static` (✅) or not (❌)
+| `Static=""` attribute in XML | Without `--static` flag | With `--static` flag |
+| ---------------------------- | ----------------------- | -------------------- |
+| `On`                         | ✅                       | ✅                    |
+| `Global` (default)           | ❌                       | ✅                    |
+| `Off`                        | ❌                       | ❌                    |
 
 -------------------------
 
@@ -129,7 +146,7 @@ The following is a list of the texture formats the Nintendo 64 supports, with th
 | 16-bit red, green, blue, alpha (RGBA) (5/5/5/1) | `G_IM_FMT_RGBA, G_IM_SIZ_16b`    | `rgba16`        |
 | 16-bit IA (8/8)                                 | `G_IM_FMT_IA, G_IM_SIZ_16b`      | `ia16`          |
 | 16-bit YUV (Luminance, Blue-Y, Red-Y)           | `G_IM_FMT_YUV, G_IM_SIZ_16b`     | (not used)      |
-| 32-bit RGBA (8/8/8/8)                           | `G_IM_FMT_RGBA, G_IM_SIZ_32b`    | `rgba8`         |
+| 32-bit RGBA (8/8/8/8)                           | `G_IM_FMT_RGBA, G_IM_SIZ_32b`    | `rgba32`        |
 
 If you want to know more about this formats, you can check [`gsDPLoadTextureBlock`](http://n64devkit.square7.ch/n64man/gdp/gDPLoadTextureBlock.htm) for most formats, or [`gDPLoadTextureBlock_4b`](http://n64devkit.square7.ch/n64man/gdp/gDPLoadTextureBlock_4b.htm) for the 4-bit formats.
 
@@ -196,9 +213,77 @@ A.k.a. Display list, or Gfx.
 
 -------------------------
 
+### TextureAnimation
+
+A data type exclusive to Majora's Mask, that has scrolling, color changing, and texture changing capabilities. Declaring the main array will generate everything else; textures for the TextureCycle type must be declared manually in the XML to use symbols. (If it does reference any undeclared textures, ZAPD will warn and give the their offsets.)
+
+```xml
+<TextureAnimation Name="gRosaSistersTexAnim" Offset="0xD768"/>
+```
+
+- Attributes:
+
+  - `Name`: Required. Suxffixed by `TexAnim`.
+
+-------------------------
+
 ### Scene and Room
 
-TODO. I'm hoping somebody else will do this.
+`Scene`s and `Room`s are a bit special, because `Room`s usually needs assets declared in their respective `Scene` (which is in a different file), so they need to be extracted together.
+
+To accomplish this, the scene and each of their rooms must be declared in the same XML.
+
+- Example:
+
+```xml
+<Root>
+    <File Name="spot12_scene" Segment="2">
+        <Cutscene Name="gSpot12Cs_006490" Offset="0x6490"/>
+
+        <Scene Name="spot12_scene" Offset="0x0"/>
+    </File>
+    <File Name="spot12_room_0" Segment="3">
+        <Room Name="spot12_room_0" Offset="0x0"/>
+    </File>
+    <File Name="spot12_room_1" Segment="3">
+        <Room Name="spot12_room_1" Offset="0x0"/>
+    </File>
+</Root>
+
+```
+
+- Attributes:
+
+  - `HackMode`: Optional. This is a simple non-hardcoded way to handle some edge cases. Valid values: `syotes_room`.
+
+-------------------------
+
+### AltHeader
+
+Like `Scene`s and `Room`s, `AltHeader`s is special too. It should always be declared in the same `File` as a `Scene` or a `Room`.
+
+- Example:
+
+```xml
+<File Name="spot01_scene" Segment="2">
+    <Path Name="gSpot01Path_0003D0" NumPaths="3" Offset="0x3D0"/>
+
+    <Texture Name="gSpot01TLUT_00A870" OutName="spot01_tlut_A870" Format="rgb5a1" Width="220" Height="1" Offset="0xA870"/>
+    <Texture Name="gSpot01GrassTex" OutName="spot01_grass" Format="rgb5a1" Width="32" Height="32" Offset="0xAA50"/>
+
+    <Texture Name="gSpot01WindowDayTex" OutName="spot01_window_day" Format="rgb5a1" Width="32" Height="64" Offset="0x15b50"/>
+    <Texture Name="gSpot01WindowNightTex" OutName="spot01_window_night" Format="rgb5a1" Width="32" Height="64" Offset="0x16b50"/>
+
+    <Cutscene Name="gKakarikoFirstTimeCs" Offset="0xA540"/>
+
+    <Scene Name="spot01_scene" Offset="0x0"/>
+    <AltHeader Name="gKakarikoAltHeader_009980" Offset="0x9980"/>
+</File>
+```
+
+- Attributes:
+
+  - `Name`: Required. Suxffixed by `AltHeader`.
 
 -------------------------
 
@@ -331,6 +416,7 @@ extern u8 gJsjutanShadowTex[2048];
   - `Type`: The type of the declared variable. If missing, it will default to `void*`.
   - `TypeSize`: The size in bytes of the type. If missing, it will default to `4` (the size of a word and a pointer). Integer or hex value.
   - `Count`: Optional. If it is present, the variable will be declared as an array instead of a plain variable. The value of this attribute specifies the length of the array. If `Count` is present but it has no value (`Count=""`), then the length of the array will not be specified either in the declared variable. Integer or hex value.
+  - `Static`: This attribute can't be enabled on a Symbol node. A warning will be showed in this case.
 
 -------------------------
 
@@ -499,8 +585,6 @@ Currently, only [`Scalar`](#scalar), [`Vector`](#vector) and [`Vtx`](#vtx) suppo
 
 -------------------------
 
--------------------------
-
 ### Path
 
 - Example:
@@ -513,5 +597,22 @@ Currently, only [`Scalar`](#scalar), [`Vector`](#vector) and [`Vtx`](#vtx) suppo
 
   - `Name`: Required. Suxffixed by `Path`.
   - `NumPaths`: Optional. The amount of paths contained in the array. It must be a positive integer.
+
+-------------------------
+
+### PlayerAnimationData
+
+Allows the extraction of the specific data of the player animations which are found in the `link_animetion` file.
+
+- Example:
+
+```xml
+<PlayerAnimationData Name="gPlayerAnimData_000000" FrameCount="20" Offset="0x0"/>
+```
+
+- Attributes:
+
+  - `Name`: Required. Suxffixed by `AnimData`.
+  - `FrameCount`: Required. The length of the animation in frames. It must be a positive integer.
 
 -------------------------

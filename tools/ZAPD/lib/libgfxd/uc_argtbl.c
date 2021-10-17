@@ -422,11 +422,6 @@ static const gfxd_arg_type_t arg_tbl[] =
 		.fmt = gfxd_argfmt_u,
 		.fn = argfn_x32,
 	},
-	[gfxd_Dlflag] =
-	{
-		.fmt = gfxd_argfmt_i,
-		.fn = argfn_i,
-	},
 	[gfxd_Sftlo] =
 	{
 		.fmt = gfxd_argfmt_i,
