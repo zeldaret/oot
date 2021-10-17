@@ -1,5 +1,6 @@
 #include "SetCollisionHeader.h"
 
+#include "Globals.h"
 #include "Utils/BitConverter.h"
 #include "Utils/StringHelper.h"
 #include "ZFile.h"
@@ -12,20 +13,23 @@ SetCollisionHeader::SetCollisionHeader(ZFile* nParent) : ZRoomCommand(nParent)
 void SetCollisionHeader::ParseRawData()
 {
 	ZRoomCommand::ParseRawData();
+
 	collisionHeader = new ZCollisionHeader(parent);
 	collisionHeader->SetName(
 		StringHelper::Sprintf("%sCollisionHeader_%06X", parent->GetName().c_str(), segmentOffset));
 	collisionHeader->ExtractFromFile(segmentOffset);
+	parent->AddResource(collisionHeader);
 }
 
-SetCollisionHeader::~SetCollisionHeader()
+void SetCollisionHeader::DeclareReferences(const std::string& prefix)
 {
-	delete collisionHeader;
+	collisionHeader->DeclareVar(prefix, "");
 }
 
 std::string SetCollisionHeader::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "CollisionHeader", listName);
 	return StringHelper::Sprintf("SCENE_CMD_COL_HEADER(%s)", listName.c_str());
 }
 

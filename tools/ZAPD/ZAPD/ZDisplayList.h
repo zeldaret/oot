@@ -324,9 +324,7 @@ protected:
 	void Opcode_G_ENDDL(const std::string& prefix, char* line);
 
 public:
-	std::string sceneSegName;
 	std::vector<uint64_t> instructions;
-	std::string curPrefix;
 
 	int32_t lastTexWidth, lastTexHeight, lastTexAddr, lastTexSeg;
 	F3DZEXTexFormats lastTexFmt;
@@ -337,15 +335,12 @@ public:
 	DListType dListType;
 
 	std::map<uint32_t, std::vector<ZVtx>> vertices;
-	std::map<uint32_t, std::string> vtxDeclarations;
 	std::vector<ZDisplayList*> otherDLists;
 
 	ZTexture* lastTexture = nullptr;
 	ZTexture* lastTlut = nullptr;
 
-	std::vector<uint32_t> references;
-
-	std::string defines;  // Hack for special cases where vertex arrays intersect...
+	std::vector<segptr_t> references;
 	std::vector<ZMtx> mtxList;
 
 	ZDisplayList(ZFile* nParent);
@@ -357,16 +352,17 @@ public:
 	void ParseRawData() override;
 
 	Declaration* DeclareVar(const std::string& prefix, const std::string& bodyStr) override;
+	std::string GetDefaultName(const std::string& prefix) const override;
 
-	void TextureGenCheck(const std::string& prefix);
-	static bool TextureGenCheck(ZFile* parent, const std::string& prefix, int32_t texWidth,
-	                            int32_t texHeight, uint32_t texAddr, uint32_t texSeg,
-	                            F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz, bool texLoaded,
-	                            bool texIsPalette, ZDisplayList* self);
+	void TextureGenCheck();
+	static bool TextureGenCheck(int32_t texWidth, int32_t texHeight, uint32_t texAddr,
+	                            uint32_t texSeg, F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz,
+	                            bool texLoaded, bool texIsPalette, ZDisplayList* self);
 	static int32_t GetDListLength(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex,
 	                              DListType dListType);
 
 	size_t GetRawDataSize() const override;
+	DeclarationAlignment GetDeclarationAlignment() const override;
 	std::string GetSourceOutputHeader(const std::string& prefix) override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 	std::string ProcessLegacy(const std::string& prefix);

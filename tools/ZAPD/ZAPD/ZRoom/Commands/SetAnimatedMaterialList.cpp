@@ -32,7 +32,8 @@ void SetAnimatedMaterialList::DeclareReferences(const std::string& prefix)
 
 std::string SetAnimatedMaterialList::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "AnimatedMaterial", listName);
 	return StringHelper::Sprintf("SCENE_CMD_ANIMATED_MATERIAL_LIST(%s)", listName.c_str());
 }
 

@@ -136,7 +136,6 @@ public:
 	ZTextureAnimation(ZFile* nParent);
 
 	void ParseRawData() override;
-
 	void DeclareReferences(const std::string& prefix) override;
 
 	std::string GetSourceTypeName() const override;

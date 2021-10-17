@@ -20,6 +20,10 @@ void ZScalar::ExtractFromBinary(uint32_t nRawDataIndex, ZScalarType nScalarType)
 	rawDataIndex = nRawDataIndex;
 	scalarType = nScalarType;
 
+	// Don't parse raw data of external files
+	if (parent->GetMode() == ZFileMode::ExternalFile)
+		return;
+
 	ParseRawData();
 }
 

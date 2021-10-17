@@ -23,7 +23,7 @@ std::string ZCutsceneMM::GetBodySourceCode() const
 	{
 		if ((i % 4) == 0)
 			output += "\n    ";
-		output += StringHelper::Sprintf("0x%08X,", data[i]);
+		output += StringHelper::Sprintf("0x%08X, ", data[i]);
 	}
 
 	return output;

@@ -13,7 +13,11 @@ SetPathways::SetPathways(ZFile* nParent) : ZRoomCommand(nParent), pathwayList(nP
 void SetPathways::DeclareReferences([[maybe_unused]] const std::string& prefix)
 {
 	if (segmentOffset != 0)
-		parent->AddDeclarationPlaceholder(segmentOffset);
+	{
+		std::string varName =
+			StringHelper::Sprintf("%sPathway_%06X", prefix.c_str(), segmentOffset);
+		parent->AddDeclarationPlaceholder(segmentOffset, varName);
+	}
 }
 
 void SetPathways::ParseRawDataLate()
@@ -29,14 +33,16 @@ void SetPathways::ParseRawDataLate()
 
 void SetPathways::DeclareReferencesLate(const std::string& prefix)
 {
-	pathwayList.SetName(StringHelper::Sprintf("%sPathway_%06X", prefix.c_str(), segmentOffset));
+	std::string varName = StringHelper::Sprintf("%sPathway_%06X", prefix.c_str(), segmentOffset);
+	pathwayList.SetName(varName);
 	pathwayList.DeclareReferences(prefix);
 	pathwayList.GetSourceOutputCode(prefix);
 }
 
 std::string SetPathways::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "Path", listName);
 	return StringHelper::Sprintf("SCENE_CMD_PATH_LIST(%s)", listName.c_str());
 }
 

@@ -25,7 +25,8 @@
 
 extern const char gBuildHash[];
 
-bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, ZFileMode fileMode);
+bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, const fs::path& outPath,
+           ZFileMode fileMode);
 
 void BuildAssetTexture(const fs::path& pngFilePath, TextureType texType, const fs::path& outPath);
 void BuildAssetBackground(const fs::path& imageFilePath, const fs::path& outPath);
@@ -261,6 +262,7 @@ int main(int argc, char* argv[])
 	if (Globals::Instance->verbosity >= VerbosityLevel::VERBOSITY_INFO)
 		printf("ZAPD: Zelda Asset Processor For Decomp: %s\n", gBuildHash);
 
+	// TODO: switch
 	if (fileMode == ZFileMode::Extract || fileMode == ZFileMode::BuildSourceFile)
 	{
 		bool procFileModeSuccess = false;
@@ -270,39 +272,30 @@ int main(int argc, char* argv[])
 
 		if (!procFileModeSuccess)
 		{
-			if (fileMode == ZFileMode::Extract || fileMode == ZFileMode::BuildSourceFile)
+			bool parseSuccessful;
+
+			for (auto& extFile : Globals::Instance->cfg.externalFiles)
 			{
-				bool parseSuccessful =
-					Parse(Globals::Instance->inputPath, Globals::Instance->baseRomPath, fileMode);
+				fs::path externalXmlFilePath =
+					Globals::Instance->cfg.externalXmlFolder / extFile.xmlPath;
+
+				if (Globals::Instance->verbosity >= VerbosityLevel::VERBOSITY_INFO)
+				{
+					printf("Parsing external file from config: '%s'\n",
+					       externalXmlFilePath.c_str());
+				}
+
+				parseSuccessful = Parse(externalXmlFilePath, Globals::Instance->baseRomPath,
+				                        extFile.outPath, ZFileMode::ExternalFile);
 
 				if (!parseSuccessful)
 					return 1;
 			}
-			else if (fileMode == ZFileMode::BuildTexture)
-			{
-				TextureType texType = Globals::Instance->texType;
 
-				BuildAssetTexture(Globals::Instance->inputPath, texType,
-				                  Globals::Instance->outputPath);
-			}
-			else if (fileMode == ZFileMode::BuildBackground)
-			{
-				BuildAssetBackground(Globals::Instance->inputPath, Globals::Instance->outputPath);
-			}
-			else if (fileMode == ZFileMode::BuildBlob)
-			{
-				BuildAssetBlob(Globals::Instance->inputPath, Globals::Instance->outputPath);
-			}
-			else if (fileMode == ZFileMode::BuildOverlay)
-			{
-				ZOverlay* overlay = ZOverlay::FromBuild(
-					Path::GetDirectoryName(Globals::Instance->inputPath.string()),
-					Path::GetDirectoryName(Globals::Instance->cfgPath.string()));
-
-				if (overlay)
-					File::WriteAllText(Globals::Instance->outputPath.string(),
-					                   overlay->GetSourceOutputCode(""));
-			}
+			parseSuccessful = Parse(Globals::Instance->inputPath, Globals::Instance->baseRomPath,
+			                        Globals::Instance->outputPath, fileMode);
+			if (!parseSuccessful)
+				return 1;
 		}
 	}
 	else if (fileMode == ZFileMode::BuildTexture)
@@ -324,15 +317,17 @@ int main(int argc, char* argv[])
 			ZOverlay::FromBuild(Path::GetDirectoryName(Globals::Instance->inputPath),
 		                        Path::GetDirectoryName(Globals::Instance->cfgPath));
 
-		if (overlay)
+		if (overlay != nullptr)
 			File::WriteAllText(Globals::Instance->outputPath.string(),
 			                   overlay->GetSourceOutputCode(""));
 	}
+
 	delete g;
 	return 0;
 }
 
-bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, ZFileMode fileMode)
+bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, const fs::path& outPath,
+           ZFileMode fileMode)
 {
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError eResult = doc.LoadFile(xmlFilePath.string().c_str());
@@ -356,39 +351,72 @@ bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, ZFileMode file
 	{
 		if (std::string_view(child->Name()) == "File")
 		{
-			ZFile* file = new ZFile(fileMode, child, basePath, "", xmlFilePath, false);
+			ZFile* file = new ZFile(fileMode, child, basePath, outPath, "", xmlFilePath);
 			Globals::Instance->files.push_back(file);
+			if (fileMode == ZFileMode::ExternalFile)
+			{
+				Globals::Instance->externalFiles.push_back(file);
+				file->isExternalFile = true;
+			}
+		}
+		else if (std::string(child->Name()) == "ExternalFile")
+		{
+			const char* xmlPathValue = child->Attribute("XmlPath");
+			if (xmlPathValue == nullptr)
+			{
+				throw std::runtime_error(StringHelper::Sprintf(
+					"Parse: Fatal error in '%s'.\n"
+					"\t Missing 'XmlPath' attribute in `ExternalFile` element.\n",
+					xmlFilePath.c_str()));
+			}
+			const char* outPathValue = child->Attribute("OutPath");
+			if (outPathValue == nullptr)
+			{
+				throw std::runtime_error(StringHelper::Sprintf(
+					"Parse: Fatal error in '%s'.\n"
+					"\t Missing 'OutPath' attribute in `ExternalFile` element.\n",
+					xmlFilePath.c_str()));
+			}
+
+			fs::path externalXmlFilePath =
+				Globals::Instance->cfg.externalXmlFolder / fs::path(xmlPathValue);
+			fs::path externalOutFilePath = fs::path(outPathValue);
+
+			if (Globals::Instance->verbosity >= VerbosityLevel::VERBOSITY_INFO)
+			{
+				printf("Parsing external file: '%s'\n", externalXmlFilePath.c_str());
+			}
+
+			// Recursion. What can go wrong?
+			Parse(externalXmlFilePath, basePath, externalOutFilePath, ZFileMode::ExternalFile);
 		}
 		else
 		{
-			throw std::runtime_error(
-				StringHelper::Sprintf("Parse: Fatal error in '%s'.\n\t Found a resource outside of "
-			                          "a File element: '%s'\n",
-			                          xmlFilePath.c_str(), child->Name()));
+			throw std::runtime_error(StringHelper::Sprintf(
+				"Parse: Fatal error in '%s'.\n\t A resource was found outside of "
+				"a File element: '%s'\n",
+				xmlFilePath.c_str(), child->Name()));
 		}
 	}
 
-	ExporterSet* exporterSet = Globals::Instance->GetExporterSet();
-
-	if (exporterSet != nullptr && exporterSet->beginXMLFunc != nullptr)
-		exporterSet->beginXMLFunc();
-
-	for (ZFile* file : Globals::Instance->files)
+	if (fileMode != ZFileMode::ExternalFile)
 	{
-		if (fileMode == ZFileMode::BuildSourceFile)
-			file->BuildSourceFile();
-		else
-			file->ExtractResources();
+		ExporterSet* exporterSet = Globals::Instance->GetExporterSet();
+
+		if (exporterSet != nullptr && exporterSet->beginXMLFunc != nullptr)
+			exporterSet->beginXMLFunc();
+
+		for (ZFile* file : Globals::Instance->files)
+		{
+			if (fileMode == ZFileMode::BuildSourceFile)
+				file->BuildSourceFile();
+			else
+				file->ExtractResources();
+		}
+
+		if (exporterSet != nullptr && exporterSet->endXMLFunc != nullptr)
+			exporterSet->endXMLFunc();
 	}
-
-	if (exporterSet != nullptr && exporterSet->endXMLFunc != nullptr)
-		exporterSet->endXMLFunc();
-
-	// All done, free files
-	for (ZFile* file : Globals::Instance->files)
-		delete file;
-
-	Globals::Instance->files.clear();
 
 	return true;
 }

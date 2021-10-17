@@ -139,6 +139,10 @@ void PathwayEntry::DeclareReferences(const std::string& prefix)
 		return;
 
 	std::string pointsName;
+	bool addressFound =
+		Globals::Instance->GetSegmentedPtrName(listSegmentAddress, parent, "Vec3s", pointsName);
+	if (addressFound)
+		return;
 
 	std::string declaration;
 
@@ -154,16 +158,23 @@ void PathwayEntry::DeclareReferences(const std::string& prefix)
 	}
 
 	uint32_t pointsOffset = Seg2Filespace(listSegmentAddress, parent->baseAddress);
-	pointsName = StringHelper::Sprintf("%sPathwayList_%06X", prefix.c_str(), pointsOffset);
-	parent->AddDeclarationArray(pointsOffset, points.at(0).GetDeclarationAlignment(),
-	                            points.size() * 6, points.at(0).GetSourceTypeName(), pointsName,
-	                            points.size(), declaration);
+	Declaration* decl = parent->GetDeclaration(pointsOffset);
+	if (decl == nullptr)
+	{
+		pointsName = StringHelper::Sprintf("%sPathwayList_%06X", prefix.c_str(), pointsOffset);
+		parent->AddDeclarationArray(pointsOffset, points.at(0).GetDeclarationAlignment(),
+		                            points.size() * 6, points.at(0).GetSourceTypeName(), pointsName,
+		                            points.size(), declaration);
+	}
+	else
+		decl->text = declaration;
 }
 
 std::string PathwayEntry::GetBodySourceCode() const
 {
 	std::string declaration;
-	std::string listName = parent->GetDeclarationPtrName(listSegmentAddress);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(listSegmentAddress, parent, "Vec3s", listName);
 
 	if (Globals::Instance->game == ZGame::MM_RETAIL)
 		declaration +=

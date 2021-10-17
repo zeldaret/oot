@@ -1,24 +1,25 @@
 #pragma once
 
+#include <cstdint>
+#include <vector>
+
 #include "ZResource.h"
-#include "tinyxml2.h"
 
-class ZSymbol : public ZResource
+class ZPlayerAnimationData : public ZResource
 {
-protected:
-	std::string type;
-	size_t typeSize;
-	bool isArray = false;
-	uint32_t count = 0;
-
 public:
-	ZSymbol(ZFile* nParent);
+	int16_t frameCount = 0;
+	std::vector<uint16_t> limbRotData;
+
+	ZPlayerAnimationData(ZFile* nParent);
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
+	void ParseRawData() override;
 
 	Declaration* DeclareVar(const std::string& prefix, const std::string& bodyStr) override;
 
-	std::string GetSourceOutputHeader(const std::string& prefix) override;
+	std::string GetBodySourceCode() const override;
+	std::string GetDefaultName(const std::string& prefix) const override;
 
 	std::string GetSourceTypeName() const override;
 	ZResourceType GetResourceType() const override;

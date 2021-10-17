@@ -14,6 +14,7 @@ public:
 	virtual ~ZCutsceneMM();
 
 	std::string GetBodySourceCode() const override;
+
 	size_t GetRawDataSize() const override;
 
 	void ParseRawData() override;

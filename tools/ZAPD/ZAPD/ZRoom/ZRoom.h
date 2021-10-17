@@ -14,8 +14,6 @@ public:
 	std::vector<ZRoomCommand*> commands;
 	int32_t roomCount;  // Only valid for scenes
 
-	std::string extDefines;
-
 	std::string hackMode;
 
 	ZResourceType zroomType = ZResourceType::Error;
@@ -36,6 +34,8 @@ public:
 	Declaration* DeclareVar(const std::string& prefix, const std::string& body) override;
 	std::string GetBodySourceCode() const override;
 
+	std::string GetSourceOutputCode(const std::string& prefix) override;
+
 	std::string GetDefaultName(const std::string& prefix) const override;
 	size_t GetDeclarationSizeFromNeighbor(uint32_t declarationAddress);
 	size_t GetCommandSizeFromNeighbor(ZRoomCommand* cmd);
@@ -46,7 +46,5 @@ public:
 	ZResourceType GetResourceType() const override;
 
 protected:
-	std::string GetSourceOutputHeader(const std::string& prefix) override;
-	std::string GetSourceOutputCode(const std::string& prefix) override;
 	void SyotesRoomHack();
 };

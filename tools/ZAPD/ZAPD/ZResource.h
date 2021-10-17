@@ -38,6 +38,7 @@ enum class ZResourceType
 	LimbTable,
 	Mtx,
 	Path,
+	PlayerAnimationData,
 	Room,
 	RoomCommand,
 	Scalar,
@@ -163,6 +164,7 @@ public:
 	 * `false` otherwise (for example, a Vtx extracted indirectly by a DList)
 	 */
 	[[nodiscard]] bool WasDeclaredInXml() const;
+	[[nodiscard]] StaticConfig GetStaticConf() const;
 
 protected:
 	std::string name;

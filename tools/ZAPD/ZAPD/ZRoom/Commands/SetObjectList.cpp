@@ -23,9 +23,6 @@ void SetObjectList::ParseRawData()
 		objects.push_back(objectIndex);
 		currentPtr += 2;
 	}
-
-	if (segmentOffset != 0)
-		parent->AddDeclarationPlaceholder(segmentOffset);
 }
 
 void SetObjectList::DeclareReferences(const std::string& prefix)
@@ -53,7 +50,8 @@ void SetObjectList::DeclareReferences(const std::string& prefix)
 
 std::string SetObjectList::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "s16", listName);
 	return StringHelper::Sprintf("SCENE_CMD_OBJECT_LIST(%i, %s)", objects.size(), listName.c_str());
 }
 

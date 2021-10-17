@@ -38,7 +38,6 @@ public:
 class SetRoomList : public ZRoomCommand
 {
 public:
-	std::vector<RoomEntry> rooms;
 	// Borrowed reference. Don't delete.
 	RomFile* romfile = nullptr;
 

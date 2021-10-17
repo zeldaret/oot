@@ -26,6 +26,7 @@ enum class StaticConfig
 class Declaration
 {
 public:
+	offset_t address;
 	DeclarationAlignment alignment;
 	size_t size;
 	std::string preText;
@@ -47,19 +48,21 @@ public:
 	bool declaredInXml = false;
 	StaticConfig staticConf = StaticConfig::Global;
 
-	Declaration(DeclarationAlignment nAlignment, size_t nSize, const std::string& nVarType,
-	            const std::string& nVarName, bool nIsArray, const std::string& nText);
-	Declaration(DeclarationAlignment nAlignment, size_t nSize, const std::string& nVarType,
-	            const std::string& nVarName, bool nIsArray, size_t nArrayItemCnt,
+	Declaration(offset_t nAddress, DeclarationAlignment nAlignment, size_t nSize,
+	            const std::string& nVarType, const std::string& nVarName, bool nIsArray,
 	            const std::string& nText);
-	Declaration(DeclarationAlignment nAlignment, size_t nSize, const std::string& nVarType,
-	            const std::string& nVarName, bool nIsArray, const std::string& nArrayItemCntStr,
-	            const std::string& nText);
-	Declaration(DeclarationAlignment nAlignment, size_t nSize, const std::string& nVarType,
-	            const std::string& nVarName, bool nIsArray, size_t nArrayItemCnt,
-	            const std::string& nText, bool nIsExternal);
-	Declaration(const std::string& nIncludePath, size_t nSize, const std::string& nVarType,
-	            const std::string& nVarName);
+	Declaration(offset_t nAddress, DeclarationAlignment nAlignment, size_t nSize,
+	            const std::string& nVarType, const std::string& nVarName, bool nIsArray,
+	            size_t nArrayItemCnt, const std::string& nText);
+	Declaration(offset_t nAddress, DeclarationAlignment nAlignment, size_t nSize,
+	            const std::string& nVarType, const std::string& nVarName, bool nIsArray,
+	            const std::string& nArrayItemCntStr, const std::string& nText);
+	Declaration(offset_t nAddress, DeclarationAlignment nAlignment, size_t nSize,
+	            const std::string& nVarType, const std::string& nVarName, bool nIsArray,
+	            size_t nArrayItemCnt, const std::string& nText, bool nIsExternal);
+
+	Declaration(offset_t nAddress, const std::string& nIncludePath, size_t nSize,
+	            const std::string& nVarType, const std::string& nVarName);
 
 	bool IsStatic() const;
 
@@ -71,5 +74,6 @@ public:
 	std::string GetStaticForwardDeclarationStr() const;
 
 protected:
-	Declaration(DeclarationAlignment nAlignment, size_t nSize, const std::string& nText);
+	Declaration(offset_t nAddress, DeclarationAlignment nAlignment, size_t nSize,
+	            const std::string& nText);
 };

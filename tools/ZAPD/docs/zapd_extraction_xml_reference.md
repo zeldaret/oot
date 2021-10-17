@@ -32,6 +32,7 @@ This document aims to be a small reference of how to create a compatible xml fil
     - [Cutscene](#cutscene)
     - [Array](#array)
     - [Path](#path)
+    - [PlayerAnimationData](#playeranimationdata)
 
 ## Basic XML
 
@@ -215,7 +216,6 @@ A.k.a. Display list, or Gfx.
 ### TextureAnimation
 
 A data type exclusive to Majora's Mask, that has scrolling, color changing, and texture changing capabilities. Declaring the main array will generate everything else; textures for the TextureCycle type must be declared manually in the XML to use symbols. (If it does reference any undeclared textures, ZAPD will warn and give the their offsets.)
-
 
 ```xml
 <TextureAnimation Name="gRosaSistersTexAnim" Offset="0xD768"/>
@@ -597,5 +597,22 @@ Currently, only [`Scalar`](#scalar), [`Vector`](#vector) and [`Vtx`](#vtx) suppo
 
   - `Name`: Required. Suxffixed by `Path`.
   - `NumPaths`: Optional. The amount of paths contained in the array. It must be a positive integer.
+
+-------------------------
+
+### PlayerAnimationData
+
+Allows the extraction of the specific data of the player animations which are found in the `link_animetion` file.
+
+- Example:
+
+```xml
+<PlayerAnimationData Name="gPlayerAnimData_000000" FrameCount="20" Offset="0x0"/>
+```
+
+- Attributes:
+
+  - `Name`: Required. Suxffixed by `AnimData`.
+  - `FrameCount`: Required. The length of the animation in frames. It must be a positive integer.
 
 -------------------------

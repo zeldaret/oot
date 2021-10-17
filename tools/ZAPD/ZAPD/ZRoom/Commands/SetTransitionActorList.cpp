@@ -45,13 +45,14 @@ void SetTransitionActorList::DeclareReferences(const std::string& prefix)
 	parent->AddDeclarationArray(
 		segmentOffset, DeclarationAlignment::Align4, transitionActors.size() * 16,
 		"TransitionActorEntry",
-		StringHelper::Sprintf("%sTransitionActorList_%06X", prefix.c_str(), segmentOffset), 0,
-		declaration);
+		StringHelper::Sprintf("%sTransitionActorList_%06X", prefix.c_str(), segmentOffset),
+		transitionActors.size(), declaration);
 }
 
 std::string SetTransitionActorList::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "TransitionActorEntry", listName);
 	return StringHelper::Sprintf("SCENE_CMD_TRANSITION_ACTOR_LIST(%i, %s)", transitionActors.size(),
 	                             listName.c_str());
 }

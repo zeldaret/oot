@@ -59,17 +59,33 @@ public:
 	bool forceStatic = false;
 
 	std::vector<ZFile*> files;
+	std::vector<ZFile*> externalFiles;
 	std::vector<int32_t> segments;
-	ZRoom* lastScene;
+	std::map<uint32_t, std::string> symbolMap;
 
 	std::string currentExporter;
 	static std::map<std::string, ExporterSet*>* GetExporterMap();
 	static void AddExporter(std::string exporterName, ExporterSet* exporterSet);
 
 	Globals();
-	std::string FindSymbolSegRef(int32_t segNumber, uint32_t symbolAddress);
+
 	void AddSegment(int32_t segment, ZFile* file);
 	bool HasSegment(int32_t segment);
+
 	ZResourceExporter* GetExporter(ZResourceType resType);
 	ExporterSet* GetExporterSet();
+
+	/**
+	 * Search in every file (and the symbol map) for the `segAddress` passed as parameter.
+	 * If the segment of `currentFile` is the same segment of `segAddress`, then that file will be
+	 * used only, otherwise, the search will be performed in every other file.
+	 * The name of that variable will be stored in the `declName` parameter.
+	 * Returns `true` if the address is found. `false` otherwise,
+	 * in which case `declName` will be set to the address formatted as a pointer.
+	 */
+	bool GetSegmentedPtrName(segptr_t segAddress, ZFile* currentFile,
+	                         const std::string& expectedType, std::string& declName);
+
+	bool GetSegmentedArrayIndexedName(segptr_t segAddress, size_t elementSize, ZFile* currentFile,
+	                                  const std::string& expectedType, std::string& declName);
 };

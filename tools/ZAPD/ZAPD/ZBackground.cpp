@@ -11,6 +11,7 @@ REGISTER_ZFILENODE(Background, ZBackground);
 
 #define JPEG_MARKER 0xFFD8FFE0
 #define MARKER_DQT 0xFFDB
+#define MARKER_EOI 0xFFD9
 
 ZBackground::ZBackground(ZFile* nParent) : ZResource(nParent)
 {
@@ -27,7 +28,7 @@ void ZBackground::ParseRawData()
 		uint8_t val = rawData.at(rawDataIndex + i);
 		data.push_back(val);
 
-		if (BitConverter::ToUInt16BE(rawData, rawDataIndex + i) == 0xFFD9)
+		if (BitConverter::ToUInt16BE(rawData, rawDataIndex + i) == MARKER_EOI)
 		{
 			data.push_back(rawData.at(rawDataIndex + i + 1));
 			break;
@@ -117,16 +118,26 @@ size_t ZBackground::GetRawDataSize() const
 	return Globals::Instance->cfg.bgScreenHeight * Globals::Instance->cfg.bgScreenWidth * 2;
 }
 
-Declaration* ZBackground::DeclareVar(const std::string& prefix, const std::string& bodyStr)
+Declaration* ZBackground::DeclareVar(const std::string& prefix,
+                                     [[maybe_unused]] const std::string& bodyStr)
 {
 	std::string auxName = name;
+	std::string auxOutName = outName;
 
-	if (name == "")
+	if (auxName == "")
 		auxName = GetDefaultName(prefix);
 
-	Declaration* decl = parent->AddDeclarationArray(rawDataIndex, GetDeclarationAlignment(),
-	                                                GetRawDataSize(), GetSourceTypeName(), auxName,
-	                                                "SCREEN_WIDTH * SCREEN_HEIGHT / 4", bodyStr);
+	if (auxOutName == "")
+		auxOutName = GetDefaultName(prefix);
+
+	auto filepath = Globals::Instance->outputPath / fs::path(auxOutName).stem();
+
+	std::string incStr =
+		StringHelper::Sprintf("%s.%s.inc.c", filepath.c_str(), GetExternalExtension().c_str());
+
+	Declaration* decl = parent->AddDeclarationIncludeArray(rawDataIndex, incStr, GetRawDataSize(),
+	                                                       GetSourceTypeName(), auxName, 0);
+	decl->arrayItemCntStr = "SCREEN_WIDTH * SCREEN_HEIGHT / 4";
 	decl->staticConf = staticConf;
 	return decl;
 }

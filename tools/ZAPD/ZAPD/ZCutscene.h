@@ -427,6 +427,7 @@ public:
 	void ParseRawData() override;
 
 	std::string GetBodySourceCode() const override;
+
 	size_t GetRawDataSize() const override;
 
 	ZResourceType GetResourceType() const override;

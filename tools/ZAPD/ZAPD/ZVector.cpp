@@ -26,6 +26,10 @@ void ZVector::ExtractFromBinary(uint32_t nRawDataIndex, ZScalarType nScalarType,
 	scalarType = nScalarType;
 	dimensions = nDimensions;
 
+	// Don't parse raw data of external files
+	if (parent->GetMode() == ZFileMode::ExternalFile)
+		return;
+
 	ParseRawData();
 }
 
@@ -115,5 +119,9 @@ ZResourceType ZVector::GetResourceType() const
 
 DeclarationAlignment ZVector::GetDeclarationAlignment() const
 {
+	if (scalars.size() == 0)
+	{
+		return DeclarationAlignment::Align4;
+	}
 	return scalars.at(0).GetDeclarationAlignment();
 }
