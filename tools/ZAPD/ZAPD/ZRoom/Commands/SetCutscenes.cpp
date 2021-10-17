@@ -1,8 +1,8 @@
 #include "SetCutscenes.h"
 
-#include "BitConverter.h"
 #include "Globals.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 #include "ZRoom/ZRoom.h"
 
@@ -10,10 +10,16 @@ SetCutscenes::SetCutscenes(ZFile* nParent) : ZRoomCommand(nParent)
 {
 }
 
+SetCutscenes::~SetCutscenes()
+{
+	for (ZCutsceneBase* cutscene : cutscenes)
+		delete cutscene;
+}
+
 void SetCutscenes::ParseRawData()
 {
 	ZRoomCommand::ParseRawData();
-	std::string output = "";
+	std::string output;
 
 	numCutscenes = cmdArg1;
 	if (Globals::Instance->game == ZGame::OOT_RETAIL || Globals::Instance->game == ZGame::OOT_SW97)
@@ -32,7 +38,7 @@ void SetCutscenes::ParseRawData()
 	else
 	{
 		int32_t currentPtr = segmentOffset;
-		std::string declaration = "";
+		std::string declaration;
 
 		for (uint8_t i = 0; i < numCutscenes; i++)
 		{
@@ -40,8 +46,9 @@ void SetCutscenes::ParseRawData()
 			cutsceneEntries.push_back(entry);
 			currentPtr += 8;
 
+			// TODO: don't hardcode %sCutsceneData_%06X, look up for the declared name instead
 			declaration += StringHelper::Sprintf(
-				"    { %sCutsceneData0x%06X, 0x%04X, 0x%02X, 0x%02X },", zRoom->GetName().c_str(),
+				"    { %sCutsceneData_%06X, 0x%04X, 0x%02X, 0x%02X },", zRoom->GetName().c_str(),
 				entry.segmentOffset, entry.exit, entry.entrance, entry.flag);
 
 			if (i < numCutscenes - 1)
@@ -61,9 +68,9 @@ void SetCutscenes::ParseRawData()
 
 	for (ZCutsceneBase* cutscene : cutscenes)
 	{
-		if (cutscene->getSegmentOffset() != 0)
+		if (cutscene->GetRawDataIndex() != 0)
 		{
-			Declaration* decl = parent->GetDeclaration(cutscene->getSegmentOffset());
+			Declaration* decl = parent->GetDeclaration(cutscene->GetRawDataIndex());
 			if (decl == nullptr)
 			{
 				cutscene->GetSourceOutputCode(zRoom->GetName());
@@ -76,25 +83,15 @@ void SetCutscenes::ParseRawData()
 	}
 }
 
-SetCutscenes::~SetCutscenes()
-{
-	for (ZCutsceneBase* cutscene : cutscenes)
-		delete cutscene;
-}
-
 std::string SetCutscenes::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "CutsceneData", listName);
 
 	if (Globals::Instance->game == ZGame::MM_RETAIL)
 		return StringHelper::Sprintf("SCENE_CMD_CUTSCENE_LIST(%i, %s)", numCutscenes,
 		                             listName.c_str());
 	return StringHelper::Sprintf("SCENE_CMD_CUTSCENE_DATA(%s)", listName.c_str());
-}
-
-size_t SetCutscenes::GetRawDataSize() const
-{
-	return ZRoomCommand::GetRawDataSize();
 }
 
 std::string SetCutscenes::GetCommandCName() const

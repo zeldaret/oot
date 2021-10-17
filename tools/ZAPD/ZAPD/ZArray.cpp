@@ -1,7 +1,9 @@
 #include "ZArray.h"
+
 #include <cassert>
+
 #include "Globals.h"
-#include "StringHelper.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 
 REGISTER_ZFILENODE(Array, ZArray);
@@ -53,23 +55,56 @@ void ZArray::ParseXML(tinyxml2::XMLElement* reader)
 	}
 }
 
-std::string ZArray::GetSourceOutputCode(const std::string& prefix)
+Declaration* ZArray::DeclareVar(const std::string& prefix, const std::string& bodyStr)
 {
-	std::string output = "";
+	std::string auxName = name;
+
+	if (name == "")
+		auxName = GetDefaultName(prefix);
+
+	ZResource* res = resList.at(0);
+	Declaration* decl;
+	if (res->IsExternalResource())
+	{
+		auto filepath = Globals::Instance->outputPath / name;
+		std::string includePath = StringHelper::Sprintf("%s.%s.inc", filepath.c_str(),
+		                                                res->GetExternalExtension().c_str());
+		decl = parent->AddDeclarationIncludeArray(rawDataIndex, includePath, GetRawDataSize(),
+		                                          GetSourceTypeName(), name, arrayCnt);
+		decl->text = bodyStr;
+		decl->isExternal = true;
+	}
+	else
+	{
+		decl =
+			parent->AddDeclarationArray(rawDataIndex, GetDeclarationAlignment(), GetRawDataSize(),
+		                                GetSourceTypeName(), name, arrayCnt, bodyStr);
+	}
+
+	decl->staticConf = staticConf;
+	return decl;
+}
+
+std::string ZArray::GetBodySourceCode() const
+{
+	std::string output;
 
 	for (size_t i = 0; i < arrayCnt; i++)
 	{
-		output += resList.at(i)->GetBodySourceCode();
+		const auto& res = resList[i];
+		output += "\t";
 
-		if (i < arrayCnt - 1)
+		if (res->GetResourceType() == ZResourceType::Scalar ||
+		    res->GetResourceType() == ZResourceType::Vertex)
+			output += resList.at(i)->GetBodySourceCode();
+		else
+			output += StringHelper::Sprintf("{ %s }", resList.at(i)->GetBodySourceCode().c_str());
+
+		if (i < arrayCnt - 1 || res->IsExternalResource())
 			output += ",\n";
 	}
 
-	if (parent != nullptr)
-		parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::None, GetRawDataSize(),
-		                            resList.at(0)->GetSourceTypeName(), name, arrayCnt, output);
-
-	return "";
+	return output;
 }
 
 size_t ZArray::GetRawDataSize() const
@@ -80,7 +115,21 @@ size_t ZArray::GetRawDataSize() const
 	return size;
 }
 
+std::string ZArray::GetSourceTypeName() const
+{
+	return resList.at(0)->GetSourceTypeName();
+}
+
 ZResourceType ZArray::GetResourceType() const
 {
 	return ZResourceType::Array;
+}
+
+DeclarationAlignment ZArray::GetDeclarationAlignment() const
+{
+	if (resList.size() == 0)
+	{
+		return DeclarationAlignment::Align4;
+	}
+	return resList.at(0)->GetDeclarationAlignment();
 }
