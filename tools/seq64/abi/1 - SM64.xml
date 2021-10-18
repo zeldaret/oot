@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<cmdlist>
+  <command cmd="0" name="notedvg" action="Note" cmdend="63" validintrk="1"
+           comments="Note with delay (duration), velocity, and gate length.">
+    <parameter datasrc="offset" name="Note" meaning="Note"/>
+    <parameter datasrc="variable" name="Delay" meaning="Delay"/>
+    <parameter datasrc="fixed" datalen="1" name="Velocity" meaning="Velocity"/>
+    <parameter datasrc="fixed" datalen="1" name="Gate" meaning="Gate Time"/>
+  </command>
+  <command cmd="64" name="notedv" action="Note" validintrk="1" cmdend="127"
+           comments="Note with delay and velocity; gate length is 0 (full).">
+    <parameter datasrc="offset" name="Note" meaning="Note"/>
+    <parameter datasrc="variable" name="Delay" meaning="Delay"/>
+    <parameter datasrc="fixed" datalen="1" name="Velocity" meaning="Velocity"/>
+  </command>
+  <command cmd="128" name="notevg" action="Note" validintrk="1" cmdend="191"
+           comments="Note with velocity and gate length; delay (duration) is the same as the last note.">
+    <parameter datasrc="offset" name="Note" meaning="Note"/>
+    <parameter datasrc="fixed" datalen="1" name="Velocity" meaning="Velocity"/>
+    <parameter datasrc="fixed" datalen="1" name="Gate" meaning="Gate Time"/>
+  </command>
+  <command cmd="192" name="ldelay" action="Delay" validintrk="1" comments="Delay for N ticks"
+           cname="XXX">
+    <parameter datasrc="variable" name="Delay" meaning="Delay"/>
+  </command>
+  <command cmd="193" name="shortvel" action="No Action" validintrk="1" comments="Set velocity for future short notes."
+           cname="velo">
+    <parameter name="Velocity" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="194" name="ltp" action="Layer Transpose" validintrk="1"
+           comments="Set note track transposition in semitones." cname="ntrans">
+    <parameter datasrc="fixed" datalen="1" name="Value" meaning="Value"/>
+  </command>
+  <command cmd="195" name="shortdelay" action="No Action" validintrk="1"
+           comments="Set the default delay (duration until next note) for short notes."
+           cname="deflen">
+    <parameter name="Delay" meaning="None" datasrc="variable"/>
+  </command>
+  <command cmd="196" name="legatoon" action="No Action" validintrk="1" comments="Turn on legato (continuousNotes, i.e. envelope doesn't restart when next note happens)."
+           cname="tieon"/>
+  <command cmd="197" name="legatooff" action="No Action" validintrk="1"
+           comments="Turn off legato (continuousNotes, i.e. envelope restarts like normal when next note happens)."
+           cname="tieoff"/>
+  <command cmd="198" name="linst" action="No Action" validintrk="1" comments="Set instrument/program. Similar to the channel command, except arguments 0x7f and above are not supported."
+           cname="nprg">
+    <parameter name="Instrument (0-0x7E)" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="199" name="portamento" action="No Action" comments="Enable portamento (aka glissando; continuously sliding pitch). X describes the mode of operation somehow using its 0x80 bit and a value 0-5 in its lower-order bits. (Probably 0x80 = set = fixed sweep rate, 0x80 = clear = fixed sweep time, or maybe vice versa.) Y describes the target pitch. Z gives the duration, and is a u8 if the 0x80 bit is set in X, otherwise a var. Note that parsing this data-dependent datatype is not supported by SEQ64!&#10;Canon parameter description info: 01-05 are &quot;SWEEP&quot;, 81-85 are &quot;ASWEEP&quot; with comment &quot;Set length next notetime&quot;. 1=&quot;AB1&quot;, 2=&quot;BA1&quot;, 3=&quot;ABL&quot;, 4=&quot;BAL&quot;, 5=&quot;NBL&quot; with comment &quot;Set basekey before key&quot;."
+           validintrk="1" cname="sweepfrom" oname="sweep">
+    <parameter name="Mode" meaning="None" datasrc="fixed" datalen="1"/>
+    <parameter name="Target Pitch" meaning="None" datasrc="fixed" datalen="1"/>
+    <parameter name="Time/Rate" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="200" name="portamentooff" action="No Action" comments="Disable portamento."
+           validintrk="1" cname="sweepend"/>
+  <command cmd="201" name="shortgate" action="No Action" validintrk="1"
+           comments="Set the gate length for future short notes." cname="dgate">
+    <parameter name="Gate" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="202" name="lpan" action="No Action" validintrk="1" comments="Set the pan for this layer (0&#8230;128)."
+           cname="npan">
+    <parameter name="Pan" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="208" name="shorttablevel" action="No Action" comments="Set the velocity for future short notes to table[N], where table defaults to {12, 25, 38, 51, 57, 64, 71, 76, 83, 89, 96, 102, 109, 115, 121, 127} and can be set by shortnotevelocitytable."
+           cmdend="223" validintrk="1" cname="tvelo">
+    <parameter name="Table index" meaning="None" datasrc="offset"/>
+  </command>
+  <command cmd="224" name="shorttablegate" action="No Action" cmdend="239"
+           validintrk="1" comments="Set the gate time for future short notes to table[N], where table defaults to {229, 203, 177, 151, 139, 126, 113, 100, 87, 74, 61, 48, 36, 23, 10, 0} and can be set by shortnotedurationtable."
+           cname="tgate">
+    <parameter name="Table index" meaning="None" datasrc="offset"/>
+  </command>
+  <command cmd="0" name="testlayer" action="No Action" cmdend="15" comments="Set Q to 1 or 0, depending on whether layer N has been disabled (either forcibly or by finishing its script)."
+           validinchn="1" oname="chknote">
+    <parameter name="Layer" meaning="None" datasrc="offset"/>
+  </command>
+  <command cmd="16" name="startchan" action="Ptr Channel Header" cmdend="31"
+           validinchn="1" comments="Start channel N for the parent sequence, with channel script starting at address X."
+           cname="sopensub">
+    <parameter name="Channel" meaning="None" datasrc="offset"/>
+    <parameter name="Address" meaning="Absolute Address" datasrc="fixed" datalen="2"/>
+  </command>
+  <command cmd="32" name="stopchan" action="No Action" cmdend="47" validinchn="1"
+           comments="Disable channel N for the parent sequence." cname="sclosesub"
+           oname="ctblopen">
+    <parameter name="Channel" meaning="None" datasrc="offset"/>
+  </command>
+  <command cmd="48" name="stcio" action="No Action" cmdend="63" comments="IOn[X] = Q, where IOn is the IO array for channel N."
+           validinchn="1" cname="sr_subportwrite" oname="dtblopen">
+    <parameter name="N (channel)" meaning="None" datasrc="offset"/>
+    <parameter name="X (IO address)" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="64" name="ldcio" action="No Action" cmdend="79" validinchn="1"
+           comments="Q = IOn[X], where IOn is the IO array for channel N."
+           cname="sr_subportread">
+    <parameter name="N (channel)" meaning="None" datasrc="offset"/>
+    <parameter name="X (IO address)" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="80" name="subio" action="No Action" cmdend="95" validinchn="1"
+           comments="Decrease Q by IO[N]." cname="sr_portsbc" oname="cmpmyb">
+    <parameter datasrc="offset" name="N" meaning="None"/>
+  </command>
+  <command cmd="96" name="notepriority" action="No Action" cmdend="111"
+           validinchn="1" comments="Set note priority for later notes played on this channel to N. When the game wants to play a note and there aren&#8217;t any free notes available, a note with smaller or equal priority is discarded. Should be &gt;= 2; 0 and 1 have internal meaning. Defaults to 3.">
+    <parameter name="Priority" meaning="Delay" datasrc="offset"/>
+  </command>
+  <command cmd="112" name="stio" action="No Action" cmdend="127" validinchn="1"
+           comments="Set IO[N] to Q." cname="sr_portwrite" oname="cpymyb">
+    <parameter datasrc="offset" name="N" meaning="None"/>
+  </command>
+  <command cmd="128" name="ldio" action="No Action" cmdend="143" validinchn="1"
+           comments="Set Q to IO[N], where IO is an array of bytes that can be read/written by both the game and the channel script. If N &lt; 4, IO[N] is then set to -1."
+           cname="sr_portread" oname="chkmyb">
+    <parameter datasrc="offset" name="N" meaning="None"/>
+  </command>
+  <command cmd="144" name="startlayer" action="Ptr Note Layer" cmdend="159"
+           validinchn="1" comments="Start note layer N, with script starting at address X."
+           oname="opennote">
+    <parameter datasrc="offset" name="Note Layer" meaning="Note Layer"/>
+    <parameter datasrc="fixed" datalen="2" name="Address" meaning="Absolute Address"/>
+  </command>
+  <command cmd="160" name="stoplayer" action="No Action" cmdend="175" validinchn="1"
+           comments="Stop note layer N." oname="closenote">
+    <parameter name="Note Layer" meaning="None" datasrc="offset"/>
+  </command>
+  <command cmd="176" name="dynstartlayer" action="Layer from Dyntable" cmdend="191"
+           validinchn="1" comments="If Q != -1, start layer N, with layer script given by dyntable[Q]."
+           cname="sr_tblnopen" oname="ctblopen">
+    <parameter name="Note Layer" meaning="Note Layer" datasrc="offset"/>
+  </command>
+  <command cmd="193" name="instr" action="CC or CC Group" validinchn="1"
+           comments="Set instrument (program?) within bank. 0x80-0x83 set raw waves (sawtooth, triangle, sine, square), 0x7f is special, otherwise 0-indexed.&#10;Canon info: 80 saw, 01 triangle (&quot;delta&quot;), 02 sine, 03 square (&quot;pulse&quot;), 06 &quot;pulse0&quot;, 07 &quot;pulse1&quot;"
+           oname="prg">
+    <parameter datasrc="fixed" datalen="1" name="Instrument" meaning="CC" cc="129"/>
+  </command>
+  <command cmd="194" name="dyntable" action="Set Dyntable" validinchn="1"
+           comments="Set dyntable to point to a given u16 array from the sequence data."
+           oname="tblset">
+    <parameter name="Address" meaning="Absolute Address" datasrc="fixed" datalen="2"/>
+  </command>
+  <command cmd="195" name="shorton" action="No Action" comments="Set notes for this channel to use &#8220;short notes&#8221; format."
+           validinchn="1" oname="Amode"/>
+  <command cmd="196" name="shortoff" action="Enable Long Notes" validinchn="1"
+           comments="Set notes for this channel to use &#8220;large notes&#8221; format. SM64 does this for all channels."
+           oname="Bmode"/>
+  <command cmd="197" name="dynsetdyntable" action="Dyntable from Dyntable"
+           validinchn="1" comments="If Q != -1, set dyntable to point to position dyntable[Q] in the sequence data."
+           cname="sr_jptbl" oname="ctbljump"/>
+  <command cmd="198" name="bank" action="CC or CC Group" comments="Switch bank within instrument bank sets, to the X&#8217;th bank, 0-indexed, counting from the end."
+           validinchn="1" oname="bankchg">
+    <parameter name="Bank" meaning="CC" datasrc="fixed" datalen="1" cc="0"/>
+  </command>
+  <command cmd="199" name="sts" action="Ptr Self" validinchn="1" comments="Self-Modifying Code -- sequenceData[A] = Q + imm"
+           cname="sr_store" oname="cselfwriteb">
+    <parameter datasrc="fixed" datalen="1" name="Immediate" meaning="None"/>
+    <parameter datasrc="fixed" datalen="2" name="Address" meaning="Absolute Address"/>
+    <parameter name="Const size" meaning="Size" datasrc="constant" datalen="1"/>
+  </command>
+  <command cmd="200" name="sub" action="No Action" validinchn="1" comments="Q -= val"
+           cname="sr_sbc" oname="chkcmp">
+    <parameter name="Value" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="201" name="and" action="No Action" validinchn="1" cname="sr_and"
+           comments="Q &amp;= val" oname="chkbit">
+    <parameter name="Value" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="202" name="mutebhv" action="Mute Behavior" comments="Set mute behavior for this channel."
+           validinchn="1" oname="pausestatus">
+    <parameter name="Behavior" meaning="Value" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="203" name="lds" action="Ptr Self" validinchn="1" comments="Introspection -- Q = sequenceData[A + Q]."
+           cname="sr_extbl" oname="cextable">
+    <parameter name="Address" meaning="Absolute Address" datasrc="fixed" datalen="2"/>
+  </command>
+  <command cmd="204" name="ldi" action="No Action" cname="sr_load" comments="Q = val"
+           validinchn="1" oname="cload">
+    <parameter name="Value" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="208" name="stereoheadseteffects" action="No Action" comments="Enable (1) or disable (0) some pan/volume effects related to stereo/headset. I don&#8217;t know which ones precisely &#8211; pan is still taken into account even with this disabled. With this disabled, stereo/headset gets the same output."
+           validinchn="1" oname="panmode">
+    <parameter name="Value" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="209" name="noteallocpolicy" action="No Action" validinchn="1"
+           comments="Set note allocation policy (bitmask). If bit 0x1 is set, it will try to steal notes back from what was previously played on the same layer. If bit 0x2 is set, notes will be allocated exclusively from the channel&#8217;s reserved notes, else if 0x4 is set, from the channel&#8217;s or sequence&#8217;s reserved notes, else if 0x8 is set, from unreserved notes, otherwise from all sources.&#10;Canon info basically matches this: 0=poly, 1=mono, 2=&quot;LIMIT_INSUB&quot; (channel), 4=&quot;LIMIT_INGROUP&quot; (seq), 8=&quot;LIMIT_GLOBAL&quot;"
+           oname="monomode">
+    <parameter name="Bitmask" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="210" name="sustain" action="No Action" validinchn="1" comments="Set envelope sustain volume"
+           oname="sreverb">
+    <parameter name="Value" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="211" name="pitchbend" action="CC or CC Group" validinchn="1"
+           comments="Pitch bend by &lt;= 1 octave in either direction (-127&#8230;127)."
+           oname="pitchbend">
+    <parameter datasrc="fixed" datalen="1" name="Bend" meaning="CC" cc="128"/>
+  </command>
+  <command cmd="212" name="reverb" action="CC or CC Group" validinchn="1"
+           comments="Set amount of reverb (dry/wet mix)." oname="fxmix">
+    <parameter datasrc="fixed" datalen="1" name="Wet" meaning="CC" cc="91"/>
+  </command>
+  <command cmd="214" name="updatesperframe" action="No Action" comments="Seems like it was meant to set the number of updates per frame? But it doesn&#8217;t actually do anything."
+           validinchn="1">
+    <parameter name="Updates per frame" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="215" name="vibfreq" action="CC or CC Group" validinchn="1"
+           comments="Set vibrato frequency / rate." oname="vibpitch">
+    <parameter name="Frequency" meaning="CC" datasrc="fixed" datalen="1" cc="76"/>
+  </command>
+  <command cmd="216" name="vibdepth" action="CC or CC Group" validinchn="1"
+           comments="Set vibrato depth." oname="vibdepth">
+    <parameter datasrc="fixed" datalen="1" name="Depth" meaning="CC" cc="77"/>
+  </command>
+  <command cmd="217" name="release" action="CC or CC Group" validinchn="1"
+           comments="Set envelope release rate." oname="release">
+    <parameter name="Release" meaning="CC" datasrc="fixed" datalen="1" cc="72"/>
+  </command>
+  <command cmd="218" name="cenvelope" action="Ptr Envelope" validinchn="1"
+           comments="Load channel envelope from sequence data." oname="envelope">
+    <parameter datasrc="fixed" datalen="2" name="Address" meaning="Absolute Address"/>
+  </command>
+  <command cmd="219" name="ctp" action="Chn Transpose" comments="Channel transposition in semitones."
+           validinchn="1" oname="strans">
+    <parameter name="Transpose" meaning="Value" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="220" name="panmix" action="CC or CC Group" validinchn="1"
+           comments="How much to weight channel pan vs. note pan. The pan for each note will be computed as W * channel pan + (1 - W) * note pan. This sets W (0&#8230;128 maps to 0&#8230;1). W defaults to 1.0."
+           oname="spanpow">
+    <parameter datasrc="fixed" datalen="1" name="W" meaning="CC" cc="8"/>
+  </command>
+  <command cmd="221" name="cpan" action="CC or CC Group" validinchn="1"
+           comments="Set the pan for this channel (0&#8230;128)" oname="span">
+    <parameter datasrc="fixed" datalen="1" name="Pan" meaning="CC" cc="10"/>
+  </command>
+  <command cmd="222" name="freqscale" action="No Action" validinchn="1"
+           comments="Pitch bend using a raw frequency multiplier X/2&#94;15."
+           oname="stune">
+    <parameter name="X" meaning="None" datasrc="fixed" datalen="2"/>
+  </command>
+  <command cmd="223" name="cvol" action="CC or CC Group" validinchn="1"
+           comments="Set channel volume scale factor (MIDI range 0-127, but accepts through 255 and will go louder). This corresponds to MIDI volume (CC 7)."
+           oname="svolume">
+    <parameter datasrc="fixed" datalen="1" name="Volume" meaning="CC" cc="7"/>
+  </command>
+  <command cmd="224" name="cexp" action="CC or CC Group" validinchn="1"
+           comments="Set channel expression (second volume scale factor) (MIDI range 0-127, but accepts through 255 and will go louder). This corresponds to MIDI expression (CC 11)."
+           oname="evolume">
+    <parameter datasrc="fixed" datalen="1" name="Value" meaning="CC" cc="11"/>
+  </command>
+  <command cmd="225" name="vibfreqenv" action="CC or CC Group" validinchn="1"
+           comments="Set vibrato frequency for each note as a function that starts at X, goes up linearly to Y over a time span given by Z, then stays there."
+           oname="vibpitchmv">
+    <parameter name="Start" meaning="CC" datasrc="fixed" datalen="1" cc="78"/>
+    <parameter name="Target" meaning="CC" datasrc="fixed" datalen="1" cc="79"/>
+    <parameter name="Time" meaning="CC" datasrc="fixed" datalen="1" cc="80"/>
+  </command>
+  <command cmd="226" name="vibdepthenv" action="CC or CC Group" validinchn="1"
+           comments="Set vibrato depth for each note as a function that starts at X, goes up linearly to Y over a time span given by Z, then stays there."
+           oname="vibdepthmv">
+    <parameter name="Start" meaning="CC" datasrc="fixed" datalen="1" cc="81"/>
+    <parameter name="Target" meaning="CC" datasrc="fixed" datalen="1" cc="82"/>
+    <parameter name="Time" meaning="CC" datasrc="fixed" datalen="1" cc="83"/>
+  </command>
+  <command cmd="227" name="vibdelay" action="CC or CC Group" validinchn="1"
+           comments="Set delay until vibrato starts for each note." oname="vibdelay">
+    <parameter name="Delay" meaning="CC" datasrc="fixed" datalen="1" cc="75"/>
+  </command>
+  <command cmd="228" name="dyncall" action="Channel from Dyntable" validinchn="1"
+           comments="If Q != -1, make a function call to position dyntable[Q], where dyntable is a channel-specific u16 array which can set by dyntable/dynsetdyntable."
+           cname="sr_calltbl" oname="ctblcall"/>
+  <command cmd="0" name="testchan" action="No Action" cmdend="15" validinseq="1"
+           comments="Set Q to 1 or 0, depending on whether channel N has been disabled by channel script."
+           cname="chksub">
+    <parameter datasrc="offset" name="Channel" meaning="None"/>
+  </command>
+  <command cmd="80" name="subv" action="No Action" validinseq="1" comments="Q -= variation byte. The offset parameter does nothing (there is only one variation byte, not 16). But it must be defined for canon mus compatibility."
+           cmdend="95" cname="gr_portsbc">
+    <parameter name="Nothing" meaning="None" datasrc="offset"/>
+  </command>
+  <command cmd="112" name="stv" action="No Action" cmdend="127" comments="variation byte = Q. The offset parameter does nothing (there is only one variation byte, not 16). But it must be defined for canon mus compatibility."
+           validinseq="1" cname="gr_portwrite">
+    <parameter name="Nothing" meaning="None" datasrc="offset"/>
+  </command>
+  <command cmd="128" name="ldv" action="No Action" cmdend="143" comments="Q = variation byte. The offset parameter does nothing (there is only one variation byte, not 16). But it must be defined for canon mus compatibility."
+           validinseq="1" cname="gr_portread">
+    <parameter name="Nothing" meaning="None" datasrc="offset"/>
+  </command>
+  <command cmd="144" name="startchan" action="Ptr Channel Header" cmdend="159"
+           validinseq="1" comments="Start channel N, with a given channel script."
+           cname="opensub">
+    <parameter datasrc="offset" name="Channel" meaning="Channel"/>
+    <parameter datasrc="fixed" datalen="2" name="Address" meaning="Absolute Address"/>
+  </command>
+  <command cmd="200" name="sub" action="No Action" validinseq="1" comments="Q -= val"
+           cname="gr_sbc">
+    <parameter datasrc="fixed" datalen="1" name="Value" meaning="None"/>
+  </command>
+  <command cmd="201" name="and" action="No Action" validinseq="1" comments="Q &amp;= val"
+           cname="gr_and">
+    <parameter datasrc="fixed" datalen="1" name="Value" meaning="None"/>
+  </command>
+  <command cmd="204" name="ldi" action="No Action" validinseq="1" comments="Q = val"
+           cname="gr_load">
+    <parameter datasrc="fixed" datalen="1" name="Value" meaning="None"/>
+  </command>
+  <command cmd="208" name="noteallocpolicy" action="No Action" comments="Set note allocation policy (bitmask). If bit 0x1 is set, it will try to steal notes back from what was previously played on the same layer. If bit 0x2 is set, notes will be allocated exclusively from the channel&#8217;s reserved notes, else if 0x4 is set, from the channel&#8217;s or sequence&#8217;s reserved notes, else if 0x8 is set, from unreserved notes, otherwise from all sources. Not used by the game."
+           validinseq="1" cname="defmonomode">
+    <parameter name="Bitmask" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="209" name="ldshorttablegate" action="Ptr Other Table" comments="Set gate table for short notes. Target should be an array of bytes in the sequence data of length 16."
+           validinseq="1" cname="gtset">
+    <parameter name="Address" meaning="Absolute Address" datasrc="fixed" datalen="2"/>
+    <parameter name="Size (const)" meaning="Size" datasrc="constant" datalen="16"/>
+  </command>
+  <command cmd="210" name="ldshorttablevel" action="Ptr Table Data" comments="Set velocity table for short notes. Target should be an array of bytes in the sequence data of length 16."
+           validinseq="1" cname="vtset">
+    <parameter name="Address" meaning="Absolute Address" datasrc="fixed" datalen="2"/>
+    <parameter name="Size (const)" meaning="None" datasrc="constant" datalen="16"/>
+  </command>
+  <command cmd="211" name="mutebhv" action="Mute Behavior" validinseq="1"
+           comments="Set mute behavior (bitmask). Bit 0x20 lowers volume, bit 0x40 does something to tracks, and bit 0x80 pauses the sequence script. Default mute behavior is to have all of those bits set.&#10;Canon parameter names:&#10;80 = &quot;SEQSTOP&quot; = &quot;sequence stop.&quot;&#10;40 = &quot;VOICECUT&quot; = &quot;voice stop immediately,and not entry.&quot;&#10;20 = &quot;VOLDOWN&quot; = &quot;volume down.(x pausevolume)&quot;&#10;10 = &quot;ENTRYOFF&quot; = &quot;now voice will continue,but next isn't on.&quot;&#10;08 = &quot;FREEZE&quot; = &quot;restart OK.&quot;"
+           cname="defpause">
+    <parameter datasrc="fixed" datalen="1" name="Format" meaning="Value"/>
+  </command>
+  <command cmd="212" name="mute" action="No Action" comments="Set sequence to muted mode. Depending on what behavior has been set this will do different things; from lowering volume to not running scripts."
+           validinseq="1" cname="selfpause"/>
+  <command cmd="213" name="mutescale" action="Mute Scale" validinseq="1"
+           comments="Set volume multiplier for muted mode (0&#8230;127)."
+           cname="pausevolume">
+    <parameter datasrc="fixed" datalen="1" name="Volume Multiplier" meaning="Value"/>
+  </command>
+  <command cmd="214" name="disablechan" action="Channel Disable" validinseq="1"
+           comments="Uninitialize channels (bitmask)." cname="deallocsub">
+    <parameter datasrc="fixed" datalen="2" name="Channels" meaning="Bitfield"/>
+  </command>
+  <command cmd="215" name="initchan" action="Channel Enable" validinseq="1"
+           comments="Initialize channels (bitmask). This copies mute behavior and note allocation policy."
+           cname="allocsub">
+    <parameter datasrc="fixed" datalen="2" name="Channels" meaning="Bitfield"/>
+  </command>
+  <command cmd="218" name="sfade" action="No Action" comments="Fade volume over time.&#10;Canon info: 0=&quot;MOVE&quot;, 1=&quot;FADEIN&quot;, 2=&quot;FADEOUT&quot;. Guessing this is related to sequence metadata, not the fade command."
+           validinseq="1" cname="volumemode">
+    <parameter name="Target volume" meaning="None" datasrc="fixed" datalen="1"/>
+    <parameter name="Time" meaning="None" datasrc="fixed" datalen="2"/>
+  </command>
+  <command cmd="219" name="svol" action="Master Volume" validinseq="1" comments="Set volume scale (0&#8230;255 = none to twice normal).&#10;Actually normal is 0x58, not 0x80."
+           cname="volumechg">
+    <parameter datasrc="fixed" datalen="1" name="Volume" meaning="Value"/>
+  </command>
+  <command cmd="220" name="temporel" action="No Action" comments="Change tempo by some delta."
+           validinseq="1" cname="tempoofs">
+    <parameter name="Delta Tempo" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="221" name="tempo" action="Tempo" validinseq="1" comments="Set tempo in BPM."
+           cname="tempochg">
+    <parameter datasrc="fixed" datalen="1" name="Tempo" meaning="Value"/>
+  </command>
+  <command cmd="222" name="stprel" action="No Action" comments="Change sequence transposition by some delta."
+           validinseq="1" cname="transofs">
+    <parameter name="Delta Semitones" meaning="None" datasrc="fixed" datalen="1"/>
+  </command>
+  <command cmd="223" name="stp" action="No Action" validinseq="1" comments="Set sequence transposition in semitones."
+           cname="transchg">
+    <parameter datasrc="fixed" datalen="1" name="Semitones" meaning="None"/>
+  </command>
+  <command cmd="241" name="unreservenotes" action="No Action" validinseq="1"
+           comments="Drop all earlier reservations made by this sequence/channel."
+           validinchn="1" cname="deallocvoice"/>
+  <command cmd="242" name="reservenotes" action="No Action" validinseq="1"
+           comments="Reserve X notes for exclusive use by this sequence/channel (dropping earlier reservations). A limited number of notes can be played at once (configurable per level, usually 16); if more than that are played, an existing one will be stopped and reused. This command can prevent that from happening across sequences."
+           validinchn="1" cname="allocvoice">
+    <parameter datasrc="fixed" datalen="1" name="Notes to reserve" meaning="None"/>
+  </command>
+  <command cmd="243" name="halt" action="No Action" comments="Infinite delay"
+           validinchn="1" oname="halt">
+    <parameter name="Infinity" meaning="Delay" datasrc="constant" datalen="999999999"/>
+  </command>
+  <command cmd="245" name="bgez" action="Branch" validinseq="1" validinchn="1"
+           comments="Branch Absolute if Q&gt;=0" cname="jumpp">
+    <parameter datasrc="fixed" datalen="2" name="Address" meaning="Absolute Address"/>
+  </command>
+  <command cmd="246" name="break" action="Loop Break" comments="Decrease loop/function stack depth by 1. Combine with a jump to break out of a loop. Only supported in channels."
+           validinchn="1" cname="loopbreak"/>
+  <command cmd="247" name="loopend" action="Loop End" validinseq="1" validinchn="1"
+           validintrk="1" comments="Loop End" cname="loope"/>
+  <command cmd="248" name="loop" action="Loop Start" validinseq="1" validinchn="1"
+           validintrk="1" comments="Loop Start" cname="loops">
+    <parameter datasrc="fixed" datalen="1" name="Loop Count" meaning="Loop Count"/>
+  </command>
+  <command cmd="249" name="bltz" action="Branch" validinseq="1" validinchn="1"
+           comments="Branch Absolute if Q &lt; 0" cname="jumpn">
+    <parameter datasrc="fixed" datalen="2" name="Address" meaning="Absolute Address"/>
+  </command>
+  <command cmd="250" name="beqz" action="Branch" validinseq="1" validinchn="1"
+           comments="Branch Absolute if Q == 0" cname="jump0">
+    <parameter datasrc="fixed" datalen="2" name="Address" meaning="Absolute Address"/>
+  </command>
+  <command cmd="251" name="jump" action="Jump" validinseq="1" validinchn="1"
+           validintrk="1" comments="Branch Absolute Always" cname="jump">
+    <parameter datasrc="fixed" datalen="2" name="Address" meaning="Absolute Address"/>
+  </command>
+  <command cmd="252" name="call" action="Call" validinseq="1" validinchn="1"
+           validintrk="1" comments="Call Absolute" cname="call">
+    <parameter datasrc="fixed" datalen="2" name="Address" meaning="Absolute Address"/>
+  </command>
+  <command cmd="253" name="delay" action="Delay" validinseq="1" validinchn="1"
+           cname="wait">
+    <parameter datasrc="variable" name="Delay" meaning="Delay"/>
+  </command>
+  <command cmd="254" name="yield" action="Delay" validinseq="1" validinchn="1"
+           cname="return" comments="Return from parsing, to pick up from the next command on the next parse cycle. Effectively delay by 1 tick.">
+    <parameter name="Constant delay" meaning="Delay" datasrc="constant" datalen="1"/>
+  </command>
+  <command cmd="255" name="end" action="End of Data" validinseq="1" validinchn="1"
+           validintrk="1" cname="fin"/>
+</cmdlist>

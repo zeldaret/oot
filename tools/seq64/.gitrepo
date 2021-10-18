@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/sauraen/seq64
+	branch = master
+	commit = b2c5f8348048adc24eac45b1504c332a0de5c5f5
+	parent = b34606fe69de1e9a9b3c49d5625142a35aecde7e
+	cmdver = 0.1.0
