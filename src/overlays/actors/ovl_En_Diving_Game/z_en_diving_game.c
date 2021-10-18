@@ -314,7 +314,8 @@ void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) 
     } else {
         this->rupeesLeftToThrow = 10;
     }
-    this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
+    this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z =
+        this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
     this->subCamAt.x = globalCtx->view.at.x;
     this->subCamAt.y = globalCtx->view.at.y;
     this->subCamAt.z = globalCtx->view.at.z;
@@ -341,11 +342,16 @@ void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
         func_800F6828(0);
     }
     if (this->subCamId != CAM_ID_MAIN) {
-        Math_ApproachF(&this->subCamEye.x, this->subCamEyeNext.x, this->subCamEyeMaxVelFrac.x, this->subCamEyeVel.x * this->subCamVelFactor);
-        Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z, this->subCamEyeVel.z * this->subCamVelFactor);
-        Math_ApproachF(&this->subCamAt.x, this->subCamAtNext.x, this->subCamAtMaxVelFrac.x, this->subCamAtVel.x * this->subCamVelFactor);
-        Math_ApproachF(&this->subCamAt.y, this->subCamAtNext.y, this->subCamAtMaxVelFrac.y, this->subCamAtVel.y * this->subCamVelFactor);
-        Math_ApproachF(&this->subCamAt.z, this->subCamAtNext.z, this->subCamAtMaxVelFrac.z, this->subCamAtVel.z * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamEye.x, this->subCamEyeNext.x, this->subCamEyeMaxVelFrac.x,
+                       this->subCamEyeVel.x * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z,
+                       this->subCamEyeVel.z * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.x, this->subCamAtNext.x, this->subCamAtMaxVelFrac.x,
+                       this->subCamAtVel.x * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.y, this->subCamAtNext.y, this->subCamAtMaxVelFrac.y,
+                       this->subCamAtVel.y * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.z, this->subCamAtNext.z, this->subCamAtMaxVelFrac.z,
+                       this->subCamAtVel.z * this->subCamVelFactor);
         Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, 0.02f);
     }
     Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
@@ -363,10 +369,12 @@ void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
             this->allRupeesThrown = true;
         }
     }
-    if (this->subCamTimer == 0 ||
-        ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 2.0f) && (fabsf(this->subCamEye.y - this->subCamEyeNext.y) < 2.0f) &&
-         (fabsf(this->subCamEye.z - this->subCamEyeNext.z) < 2.0f) && (fabsf(this->subCamAt.x - this->subCamAtNext.x) < 2.0f) &&
-         (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 2.0f) && (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 2.0f))) {
+    if (this->subCamTimer == 0 || ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 2.0f) &&
+                                   (fabsf(this->subCamEye.y - this->subCamEyeNext.y) < 2.0f) &&
+                                   (fabsf(this->subCamEye.z - this->subCamEyeNext.z) < 2.0f) &&
+                                   (fabsf(this->subCamAt.x - this->subCamAtNext.x) < 2.0f) &&
+                                   (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 2.0f) &&
+                                   (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 2.0f))) {
         if (this->unk_2A2 != 0) {
             this->subCamTimer = 70;
             this->unk_2A2 = 2;

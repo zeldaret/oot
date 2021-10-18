@@ -1294,8 +1294,8 @@ s32 Cutscene_Command_CameraEyePoints(GlobalContext* globalCtx, CutsceneContext* 
                 Gameplay_ChangeCameraStatus(globalCtx, sActiveCamId, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->subCamId));
-                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamLookAtPoints, csCtx->subCamEyePoints,
-                                   GET_PLAYER(globalCtx), relativeToLink);
+                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamLookAtPoints,
+                                   csCtx->subCamEyePoints, GET_PLAYER(globalCtx), relativeToLink);
             }
         }
     }
@@ -1331,8 +1331,8 @@ s32 Cutscene_Command_CameraLookAtPoints(GlobalContext* globalCtx, CutsceneContex
                 Gameplay_ChangeCameraStatus(globalCtx, sActiveCamId, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->subCamId));
-                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamLookAtPoints, csCtx->subCamEyePoints,
-                                   GET_PLAYER(globalCtx), relativeToLink);
+                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamLookAtPoints,
+                                   csCtx->subCamEyePoints, GET_PLAYER(globalCtx), relativeToLink);
             }
         }
     }
