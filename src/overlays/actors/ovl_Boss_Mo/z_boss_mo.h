@@ -9,45 +9,45 @@ struct BossMo;
 typedef void (*BossMoActionFunc)(struct BossMo*, GlobalContext*);
 
 typedef enum {
-    /*  0 */ MO_TENT_ACTION_STATE,
-    /*  1 */ MO_TENT_MOVE_TIMER,
-    /*  2 */ MO_TENT_VAR_TIMER,
-    /*  3 */ MO_TENT_UNK_TIMER,
-    /*  4 */ MO_TENT_INVINC_TIMER,
-    /*  5 */ MO_TENT_BASE_TEX1_X,
-    /*  6 */ MO_TENT_BASE_TEX1_Y,
-    /*  7 */ MO_TENT_BASE_TEX2_X,
-    /*  8 */ MO_TENT_BASE_TEX2_Y,
+    /* 0 */ MO_TENT_ACTION_STATE,
+    /* 1 */ MO_TENT_MOVE_TIMER,
+    /* 2 */ MO_TENT_VAR_TIMER,
+    /* 3 */ MO_TENT_UNK_TIMER,
+    /* 4 */ MO_TENT_INVINC_TIMER,
+    /* 5 */ MO_TENT_BASE_TEX1_X,
+    /* 6 */ MO_TENT_BASE_TEX1_Y,
+    /* 7 */ MO_TENT_BASE_TEX2_X,
+    /* 8 */ MO_TENT_BASE_TEX2_Y,
     /* 9 */ MO_TENT_SHORT_MAX
 } BossMoTentS16Var;
 
 typedef enum {
-    /*  0 */ MO_CORE_ACTION_STATE,
-    /*  1 */ MO_CORE_MOVE_TIMER,
-    /*  2 */ MO_CORE_VAR_TIMER,
-    /*  3 */ MO_CORE_DMG_FLASH_TIMER,
-    /*  4 */ MO_CORE_INVINC_TIMER,
-    /*  5 */ MO_CORE_SHORT_5,
-    /*  6 */ MO_CORE_POS_IN_TENT,
-    /*  7 */ MO_CORE_DRAW_SHADOW,
-    /*  8 */ MO_CORE_WAIT_IN_WATER,
-    /*  9 */ MO_CORE_SHORT_MAX
+    /* 0 */ MO_CORE_ACTION_STATE,
+    /* 1 */ MO_CORE_MOVE_TIMER,
+    /* 2 */ MO_CORE_VAR_TIMER,
+    /* 3 */ MO_CORE_DMG_FLASH_TIMER,
+    /* 4 */ MO_CORE_INVINC_TIMER,
+    /* 5 */ MO_CORE_SHORT_5,
+    /* 6 */ MO_CORE_POS_IN_TENT,
+    /* 7 */ MO_CORE_DRAW_SHADOW,
+    /* 8 */ MO_CORE_WAIT_IN_WATER,
+    /* 9 */ MO_CORE_SHORT_MAX
 } BossMoCoreS16Var;
 
 typedef enum {
-    /*  0 */ MO_TENT_SWING_LAG_X,
-    /*  1 */ MO_TENT_SWING_SIZE_X,
-    /*  2 */ MO_TENT_SWING_RATE_X,
-    /*  3 */ MO_TENT_SWING_LAG_Z,
-    /*  4 */ MO_TENT_SWING_SIZE_Z,
-    /*  5 */ MO_TENT_SWING_RATE_Z,
-    /*  6 */ MO_TENT_MAX_STRETCH,
-    /*  7 */ MO_TENT_FLOAT_MAX
+    /* 0 */ MO_TENT_SWING_LAG_X,
+    /* 1 */ MO_TENT_SWING_SIZE_X,
+    /* 2 */ MO_TENT_SWING_RATE_X,
+    /* 3 */ MO_TENT_SWING_LAG_Z,
+    /* 4 */ MO_TENT_SWING_SIZE_Z,
+    /* 5 */ MO_TENT_SWING_RATE_Z,
+    /* 6 */ MO_TENT_MAX_STRETCH,
+    /* 7 */ MO_TENT_FLOAT_MAX
 } BossMoTentF32Var;
 
 typedef enum {
-    /*  0 */ MO_CORE_INTRO_WATER_ALPHA,
-    /*  7 */ MO_CORE_FLOAT_MAX
+    /* 0 */ MO_CORE_INTRO_WATER_ALPHA,
+    /* 1 */ MO_CORE_FLOAT_MAX
 } BossMoCoreF32Var;
 
 #define MO_SHORT_MAX MAX((s32)MO_TENT_SHORT_MAX, (s32)MO_CORE_SHORT_MAX)

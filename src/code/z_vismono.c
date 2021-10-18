@@ -1,7 +1,7 @@
 #include "global.h"
 
 // (Note: 80 = SCREEN_HEIGHT/3, see VisMono_DrawTexture)
-// Did the devs forget to update this? 1+1+1+80*(7+2+2+3)+1+1 makes more sense
+// This may not have been kept up-to-date with the code, 1+1+1+80*(7+2+2+3)+1+1 makes more sense
 #define DLSIZE (1 + 3 + 1 + 1 + 80 * (7 + 2 + 2 + 3) + 1)
 
 // framebuffer

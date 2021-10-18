@@ -346,7 +346,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (BREG(3) != 0) {
-        // No way!
+        // "No way!"
         osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.unk_E3EE);
     }
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
@@ -365,7 +365,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.unk_E3EE = 4;
         if (BREG(3) != 0) {
             osSyncPrintf("\n\n");
-            // With this, other guys are OK! That's it!
+            // "With this, other guys are OK! That's it!"
             osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ これで、他の奴もＯＫ！だ！ ☆☆☆☆☆ %d\n" VT_RST,
                          globalCtx->msgCtx.unk_E3EE);
         }
@@ -414,7 +414,7 @@ void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (BREG(2) != 0) {
         osSyncPrintf("\n\n");
-        // flag!
+        // "flag!"
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowSpawnSongSet);
     }
 

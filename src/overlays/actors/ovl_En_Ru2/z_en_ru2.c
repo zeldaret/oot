@@ -554,7 +554,7 @@ void func_80AF3564(EnRu2* this, GlobalContext* globalCtx) {
                     func_80AF34F0(this);
                     break;
                 default:
-                    // There is no such action!
+                    // "There is no such action!"
                     osSyncPrintf("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -670,12 +670,12 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
 
     if (dialogState == 3) {
         if (this->unk_2C3 != 3) {
-            // I'm Komatsu! (cinema scene dev)
+            // "I'm Komatsu!" (cinema scene dev)
             osSyncPrintf("おれが小松だ！ \n");
             this->unk_2C2++;
             if (this->unk_2C2 % 6 == 3) {
                 player = GET_PLAYER(globalCtx);
-                // uorya-! (screeming sound)
+                // "uorya-!" (screeming sound)
                 osSyncPrintf("うおりゃー！ \n");
                 func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
                 player->actor.world.pos.x = 820.0f;
@@ -759,7 +759,7 @@ void EnRu2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = THIS;
 
     if ((this->action < 0) || (this->action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[this->action] == NULL)) {
-        // Main Mode is improper!
+        // "Main Mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -821,7 +821,7 @@ void EnRu2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
         (sDrawFuncs[this->drawConfig] == 0)) {
-        // Draw Mode is improper!
+        // "Draw Mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

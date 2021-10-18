@@ -2694,7 +2694,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     objBankIndex = Object_GetIndex(&globalCtx->objectCtx, actorInit->objectId);
 
     if ((objBankIndex < 0) ||
-        ((actorInit->category == ACTORCAT_ENEMY) && (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)))) {
+        ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num))) {
         // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
         osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
                      objBankIndex, actorInit->objectId);
@@ -4372,7 +4372,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 if (Flags_GetEventChkInf(0x5C)) {
                     retTextId = 0x1079;
                 } else {
-                    retTextId = 0x104e;
+                    retTextId = 0x104E;
                 }
             }
             break;
@@ -4402,7 +4402,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 }
             } else {
                 if (Flags_GetEventChkInf(0x5C)) {
-                    retTextId = 0x107b;
+                    retTextId = 0x107B;
                 } else {
                     retTextId = 0x1051;
                 }
@@ -4462,7 +4462,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             break;
         case 17:
             if (Flags_GetEventChkInf(0x9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
-                if (Flags_GetInfTable(0x6c)) {
+                if (Flags_GetInfTable(0x6C)) {
                     retTextId = 0x7008;
                 } else {
                     retTextId = 0x7007;
@@ -4524,7 +4524,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             if (Flags_GetEventChkInf(0x9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
                 retTextId = 0x7046;
             } else {
-                Flags_GetInfTable(0xc2);
+                Flags_GetInfTable(0xC2);
                 retTextId = 0x7018;
             }
             break;
@@ -4547,7 +4547,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             if (Flags_GetEventChkInf(0x9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
                 retTextId = 0x7048;
             } else {
-                Flags_GetInfTable(0xca);
+                Flags_GetInfTable(0xCA);
                 retTextId = 0x701D;
             }
             break;
@@ -4555,7 +4555,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             if (Flags_GetEventChkInf(0x9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
                 retTextId = 0x7049;
             } else {
-                Flags_GetInfTable(0xcc);
+                Flags_GetInfTable(0xCC);
                 retTextId = 0x701F;
             }
             break;
@@ -5044,7 +5044,7 @@ void func_80036E50(u16 textId, s16 arg1) {
             }
             return;
         case 34:
-            if (textId == 0x403c) {
+            if (textId == 0x403C) {
                 Flags_SetInfTable(0xD6);
             }
             return;

@@ -301,7 +301,7 @@ BgBdanObjects* EnRu1_FindSwitch(GlobalContext* globalCtx) {
         }
         actorIt = actorIt->next;
     }
-    // There is no stand
+    // "There is no stand"
     osSyncPrintf(VT_FGCOL(RED) "お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     return NULL;
 }
@@ -573,9 +573,8 @@ void func_80AEBB3C(EnRu1* this) {
 void func_80AEBB78(EnRu1* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((((Animation_OnFrame(skelAnime, 4.0f)) || (Animation_OnFrame(skelAnime, 13.0f))) ||
-         (Animation_OnFrame(skelAnime, 22.0f))) ||
-        (Animation_OnFrame(skelAnime, 31.0f))) {
+    if (Animation_OnFrame(skelAnime, 4.0f) || Animation_OnFrame(skelAnime, 13.0f) ||
+        Animation_OnFrame(skelAnime, 22.0f) || Animation_OnFrame(skelAnime, 31.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_SWIM);
     }
 }
@@ -832,7 +831,7 @@ void func_80AEC650(EnRu1* this) {
     s32 pad[2];
 
     if (this->unk_280 == 0) {
-        if ((Animation_OnFrame(&this->skelAnime, 2.0f)) || (Animation_OnFrame(&this->skelAnime, 7.0f))) {
+        if (Animation_OnFrame(&this->skelAnime, 2.0f) || Animation_OnFrame(&this->skelAnime, 7.0f)) {
             func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
         }
     }
@@ -1893,9 +1892,9 @@ void func_80AEF3A8(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEF40C(EnRu1* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((Animation_OnFrame(skelAnime, 2.0f)) || (Animation_OnFrame(skelAnime, 7.0f)) ||
-        (Animation_OnFrame(skelAnime, 12.0f)) || (Animation_OnFrame(skelAnime, 18.0f)) ||
-        (Animation_OnFrame(skelAnime, 25.0f)) || (Animation_OnFrame(skelAnime, 33.0f))) {
+    if (Animation_OnFrame(skelAnime, 2.0f) || Animation_OnFrame(skelAnime, 7.0f) ||
+        Animation_OnFrame(skelAnime, 12.0f) || Animation_OnFrame(skelAnime, 18.0f) ||
+        Animation_OnFrame(skelAnime, 25.0f) || Animation_OnFrame(skelAnime, 33.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
     }
 }
@@ -2187,10 +2186,10 @@ void func_80AEFF94(EnRu1* this, GlobalContext* globalCtx) {
         this->roomNum1 = actorRoom;
         this->roomNum3 = actorRoom;
         this->roomNum2 = actorRoom;
-        // Ruto switch set
+        // "Ruto switch set"
         osSyncPrintf("スイッチルトセット!!!!!!!!!!!!!!!!!!!!!!\n");
     } else {
-        // Ruto switch not set
+        // "Ruto switch not set"
         osSyncPrintf("スイッチルトセットしない!!!!!!!!!!!!!!!!!!!!!!\n");
         Actor_Kill(&this->actor);
     }
@@ -2208,7 +2207,7 @@ void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRu1* this = THIS;
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
-        // Main mode is improper!
+        // "Main mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -2250,7 +2249,7 @@ void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         default:
             Actor_Kill(&this->actor);
-            // Relevant arge_data = %d unacceptable
+            // "Relevant arge_data = %d unacceptable"
             osSyncPrintf("該当 arge_data = %d 無し\n", func_80AEADF0(this));
             break;
     }
@@ -2277,7 +2276,7 @@ s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     EnRu1* this = THIS;
 
     if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*sPreLimbDrawFuncs[this->unk_290] == NULL)) {
-        // Neck rotation mode is improper!
+        // "Neck rotation mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sPreLimbDrawFuncs[this->unk_290](this, globalCtx, limbIndex, rot);
@@ -2359,7 +2358,7 @@ void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnRu1* this = THIS;
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == 0) {
-        // Draw mode is improper!
+        // "Draw mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

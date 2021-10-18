@@ -239,7 +239,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE == 4 && globalCtx->msgCtx.msgMode == 0) {
-        // end?
+        // "end?"
         osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n" VT_RST);
 
         if (this->unk_19A != 0) {
@@ -344,7 +344,7 @@ void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (BREG(3) != 0) {
         osSyncPrintf("\n\n");
-        // flag!
+        // "flag!"
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowCustomSongSet);
     }
     func_80093D18(globalCtx->state.gfxCtx);

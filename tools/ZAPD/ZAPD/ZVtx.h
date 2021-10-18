@@ -18,8 +18,9 @@ public:
 	ZVtx(ZFile* nParent);
 
 	void ParseRawData() override;
+
+	Declaration* DeclareVar(const std::string& prefix, const std::string& bodyStr) override;
 	std::string GetBodySourceCode() const override;
-	std::string GetSourceOutputCode(const std::string& prefix) override;
 
 	bool IsExternalResource() const override;
 	bool DoesSupportArray() const override;
@@ -28,6 +29,5 @@ public:
 	std::string GetExternalExtension() const override;
 
 	size_t GetRawDataSize() const override;
-
-protected:
+	DeclarationAlignment GetDeclarationAlignment() const override;
 };
