@@ -165,6 +165,7 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
                                    thisx->world.rot.z, 2) == NULL) {
                 Actor_Kill(thisx);
             }
+            break;
     }
 }
 
