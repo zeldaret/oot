@@ -1608,7 +1608,7 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
             osSyncPrintf("%10lld ノーマルＤＭＡ START (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), gPiMgrCmdQ.validCount);
         }
 
-        osRecvMesg(&queue, NULL, 1);
+        osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
         if (D_80009460 == 10) {
             osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), gPiMgrCmdQ.validCount);
         }
@@ -1636,7 +1636,7 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
         goto end;
     }
 
-    osRecvMesg(&queue, NULL, 1);
+    osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
     if (D_80009460 == 10) {
         osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), gPiMgrCmdQ.validCount);
     }
@@ -1684,7 +1684,7 @@ void DmaMgr_DmaFromDriveRom(u32 ram, u32 rom, u32 size) {
     ioMsg.size = size;
     handle->transferInfo.cmdType = 2;
 
-    osEPiStartDma(handle, &ioMsg, 0);
+    osEPiStartDma(handle, &ioMsg, OS_READ);
     osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
     return;
 }
@@ -1837,7 +1837,7 @@ void DmaMgr_ThreadEntry(void* arg0) {
 
     osSyncPrintf("ＤＭＡマネージャスレッド実行開始\n");
     while (true) {
-        osRecvMesg(&sDmaMgrMsgQueue, &msg, 1);
+        osRecvMesg(&sDmaMgrMsgQueue, &msg, OS_MESG_BLOCK);
         req = (DmaRequest*)msg;
         if (req == NULL) {
             break;
@@ -1972,6 +1972,6 @@ s32 DmaMgr_SendRequest1(void* ram0, u32 vrom, u32 size, const char* file, s32 li
         return ret;
     }
 
-    osRecvMesg(&queue, NULL, 1);
+    osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
     return 0;
 }

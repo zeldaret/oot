@@ -1152,7 +1152,7 @@ void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
     s32 drumId;
     s32 sfxId;
 
-    for (instId = 0; instId < gAudioContext.ctlEntries[fontId].numInstruments; instId++) {
+    for (instId = 0; instId < gAudioContext.soundFonts[fontId].numInstruments; instId++) {
         inst = Audio_GetInstrumentInner(fontId, instId);
         if (inst != NULL) {
             if (inst->normalRangeLo != 0) {
@@ -1165,14 +1165,14 @@ void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
         }
     }
 
-    for (drumId = 0; drumId < gAudioContext.ctlEntries[fontId].numDrums; drumId++) {
+    for (drumId = 0; drumId < gAudioContext.soundFonts[fontId].numDrums; drumId++) {
         drum = Audio_GetDrum(fontId, drumId);
         if (drum != NULL) {
             AudioHeap_UnapplySampleCache(entry, drum->sound.sample);
         }
     }
 
-    for (sfxId = 0; sfxId < gAudioContext.ctlEntries[fontId].numSfx; sfxId++) {
+    for (sfxId = 0; sfxId < gAudioContext.soundFonts[fontId].numSfx; sfxId++) {
         sfx = Audio_GetSfx(fontId, sfxId);
         if (sfx != NULL) {
             AudioHeap_UnapplySampleCache(entry, sfx->sample);
@@ -1186,10 +1186,10 @@ void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry) {
     s32 sampleBankId2;
     s32 fontId;
 
-    numFonts = gAudioContext.soundFontTable->entryCnt;
+    numFonts = gAudioContext.soundFontTable->numEntries;
     for (fontId = 0; fontId < numFonts; fontId++) {
-        sampleBankId1 = gAudioContext.ctlEntries[fontId].sampleBankId1;
-        sampleBankId2 = gAudioContext.ctlEntries[fontId].sampleBankId2;
+        sampleBankId1 = gAudioContext.soundFonts[fontId].sampleBankId1;
+        sampleBankId2 = gAudioContext.soundFonts[fontId].sampleBankId2;
         if (((sampleBankId1 != 0xFF) && (entry->sampleBankId == sampleBankId1)) ||
             ((sampleBankId2 != 0xFF) && (entry->sampleBankId == sampleBankId2)) || entry->sampleBankId == 0) {
             if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) != NULL) {
@@ -1242,10 +1242,10 @@ void AudioHeap_DiscardSampleCaches(void) {
     s32 fontId;
     s32 j;
 
-    numFonts = gAudioContext.soundFontTable->entryCnt;
+    numFonts = gAudioContext.soundFontTable->numEntries;
     for (fontId = 0; fontId < numFonts; fontId++) {
-        sampleBankId1 = gAudioContext.ctlEntries[fontId].sampleBankId1;
-        sampleBankId2 = gAudioContext.ctlEntries[fontId].sampleBankId2;
+        sampleBankId1 = gAudioContext.soundFonts[fontId].sampleBankId1;
+        sampleBankId2 = gAudioContext.soundFonts[fontId].sampleBankId2;
         if ((sampleBankId1 == 0xFF) && (sampleBankId2 == 0xFF)) {
             continue;
         }
@@ -1311,7 +1311,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     s32 pad[4];
 
     sampleBankTable = gAudioContext.sampleBankTable;
-    numFonts = gAudioContext.soundFontTable->entryCnt;
+    numFonts = gAudioContext.soundFontTable->numEntries;
     change.oldAddr = AudioHeap_SearchCaches(SAMPLE_TABLE, CACHE_EITHER, sampleBankId);
     if (change.oldAddr == 0) {
         return;
@@ -1336,8 +1336,8 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     }
 
     for (fontId = 0; fontId < numFonts; fontId++) {
-        sampleBankId1 = gAudioContext.ctlEntries[fontId].sampleBankId1;
-        sampleBankId2 = gAudioContext.ctlEntries[fontId].sampleBankId2;
+        sampleBankId1 = gAudioContext.soundFonts[fontId].sampleBankId1;
+        sampleBankId2 = gAudioContext.soundFonts[fontId].sampleBankId2;
         if ((sampleBankId1 != 0xFF) || (sampleBankId2 != 0xFF)) {
             if (!AudioLoad_IsFontLoadComplete(fontId) ||
                 AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) == NULL) {
@@ -1350,7 +1350,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
                 continue;
             }
 
-            for (instId = 0; instId < gAudioContext.ctlEntries[fontId].numInstruments; instId++) {
+            for (instId = 0; instId < gAudioContext.soundFonts[fontId].numInstruments; instId++) {
                 inst = Audio_GetInstrumentInner(fontId, instId);
                 if (inst != NULL) {
                     if (inst->normalRangeLo != 0) {
@@ -1363,14 +1363,14 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
                 }
             }
 
-            for (drumId = 0; drumId < gAudioContext.ctlEntries[fontId].numDrums; drumId++) {
+            for (drumId = 0; drumId < gAudioContext.soundFonts[fontId].numDrums; drumId++) {
                 drum = Audio_GetDrum(fontId, drumId);
                 if (drum != NULL) {
                     AudioHeap_ChangeStorage(&change, drum->sound.sample);
                 }
             }
 
-            for (sfxId = 0; sfxId < gAudioContext.ctlEntries[fontId].numSfx; sfxId++) {
+            for (sfxId = 0; sfxId < gAudioContext.soundFonts[fontId].numSfx; sfxId++) {
                 sfx = Audio_GetSfx(fontId, sfxId);
                 if (sfx != NULL) {
                     AudioHeap_ChangeStorage(&change, sfx->sample);

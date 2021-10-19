@@ -494,8 +494,8 @@ u8* func_800E5E84(s32 arg0, u32* arg1) {
 }
 
 void func_800E5EA4(s32 arg0, u32* arg1, u32* arg2) {
-    *arg1 = gAudioContext.ctlEntries[arg0].sampleBankId1;
-    *arg2 = gAudioContext.ctlEntries[arg0].sampleBankId2;
+    *arg1 = gAudioContext.soundFonts[arg0].sampleBankId1;
+    *arg2 = gAudioContext.soundFonts[arg0].sampleBankId2;
 }
 
 s32 func_800E5EDC(void) {
