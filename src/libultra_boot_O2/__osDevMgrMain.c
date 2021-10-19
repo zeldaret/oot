@@ -43,7 +43,7 @@ void __osDevMgrMain(void* arg) {
                         __osEPiRawWriteIo(ioMesg->piHandle, 0x05000510, transfer->bmCtlShadow | 0x1000000);
                     }
                     block->errStatus = 4;
-                    HW_REG(PI_STATUS_REG, u32) = PI_STATUS_CLEAR_INTR;
+                    HW_REG(PI_STATUS_REG, u32) = PI_STATUS_CLR_INTR;
                     __osSetGlobalIntMask(0x00100C01);
                 }
                 osSendMesg(ioMesg->hdr.retQueue, ioMesg, OS_MESG_NOBLOCK);

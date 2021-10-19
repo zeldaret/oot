@@ -11,6 +11,6 @@
 .balign 16
 
 glabel osGetCount
-    mfc0    $v0, C0_COUNT
+    mfc0    $v0, Count
     jr      $ra
      nop
