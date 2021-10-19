@@ -1,3 +1,9 @@
+#include "ultra64/r4300.h"
+#include "ultra64/hardware.h"
+#include "ultra64/rsp.h"
+#include "ultra64/message.h"
+#include "ultra64/thread.h"
+#include "ultra64/internal.h"
 .include "macro.inc"
 
 # assembler directives
@@ -161,8 +167,8 @@ savecontext:
     sw      $t3, THREAD_SR($k0)
     or      $k1, $k1, $t1
 savercp:
-    lui     $t1, %hi(MI_INTR_MASK_REG)
-    lw      $t1, %lo(MI_INTR_MASK_REG)($t1)
+    lui     $t1, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
+    lw      $t1, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($t1)
     beqz    $t1, endrcp
      nop
     # If there are RCP interrupts
@@ -271,16 +277,16 @@ IP7_Hdlr:
  *  cop0 compare register, this interrupt is triggered
  */
 counter:
-    mfc0  $t1, Compare
-    mtc0  $t1, Compare
+    mfc0    $t1, Compare
+    mtc0    $t1, Compare
     # Post counter message
-    jal   send_mesg
-     li    $a0, OS_EVENT_COUNTER*8
+    jal     send_mesg
+     li     $a0, OS_EVENT_COUNTER*8
     # Clear interrupt and continue
-    lui   $at, %hi(~CAUSE_IP8)
-    ori   $at, %lo(~CAUSE_IP8)
-    b     next_interrupt
-     and   $s0, $s0, $at
+    lui     $at, %hi(~CAUSE_IP8)
+    ori     $at, %lo(~CAUSE_IP8)
+    b       next_interrupt
+     and    $s0, $s0, $at
 
 /**
  *  IP4/Cartridge Interrupt
@@ -322,8 +328,8 @@ rcp:
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
-    lui     $s1, %hi(MI_INTR_REG)
-    lw      $s1, %lo(MI_INTR_REG)($s1)
+    lui     $s1, %hi(PHYS_TO_K1(MI_INTR_REG))
+    lw      $s1, %lo(PHYS_TO_K1(MI_INTR_REG))($s1)
     srl     $t0, $t0, 0x10
     and     $s1, $s1, $t0
 
@@ -336,16 +342,16 @@ sp:
     beqz    $t1, vi
      nop
     # Test for yielded or done signals in particular
-    lui     $t4, %hi(SP_STATUS_REG)
-    lw      $t4, %lo(SP_STATUS_REG)($t4)
+    lui     $t4, %hi(PHYS_TO_K1(SP_STATUS_REG))
+    lw      $t4, %lo(PHYS_TO_K1(SP_STATUS_REG))($t4)
     li      $t1, (SP_CLR_INTR | SP_CLR_SIG3)
-    lui     $at, %hi(SP_STATUS_REG)
+    lui     $at, %hi(PHYS_TO_K1(SP_STATUS_REG))
     andi    $t4, $t4, (SP_STATUS_YIELDED | SP_STATUS_TASKDONE)
     # Mask out SP interrupt
     andi    $s1, $s1, (MI_INTR_MASK_SI | MI_INTR_MASK_AI | MI_INTR_MASK_VI | MI_INTR_MASK_PI | MI_INTR_MASK_DP)
     beqz    $t4, sp_other_break
     # Clear interrupt and signal 3
-     sw     $t1, %lo(SP_STATUS_REG)($at)
+     sw     $t1, %lo(PHYS_TO_K1(SP_STATUS_REG))($at)
     # Post an SP event message
     jal     send_mesg
      li     $a0, OS_EVENT_SP*8
@@ -370,11 +376,11 @@ vi:
     # Test for vi interrupt
     andi    $t1, $s1, MI_INTR_MASK_VI
     beqz    $t1, ai
-     lui    $at, %hi(VI_CURRENT_REG)
+     lui    $at, %hi(PHYS_TO_K1(VI_CURRENT_REG))
     # Mask out vi interrupt
     andi    $s1, $s1, (MI_INTR_MASK_SP | MI_INTR_MASK_SI | MI_INTR_MASK_AI | MI_INTR_MASK_PI | MI_INTR_MASK_DP)
     # Clear interrupt
-    sw      $zero, %lo(VI_CURRENT_REG)($at)
+    sw      $zero, %lo(PHYS_TO_K1(VI_CURRENT_REG))($at)
     # Post vi event message
     jal     send_mesg
      li     $a0, OS_EVENT_VI*8
@@ -390,11 +396,11 @@ ai:
     beqz    $t1, si
      nop
     li      $t1, 1
-    lui     $at, %hi(AI_STATUS_REG)
+    lui     $at, %hi(PHYS_TO_K1(AI_STATUS_REG))
     # Mask out ai interrupt
     andi    $s1, $s1, (MI_INTR_MASK_SP | MI_INTR_MASK_SI | MI_INTR_MASK_VI | MI_INTR_MASK_PI | MI_INTR_MASK_DP)
     # Clear interrupt
-    sw      $t1, %lo(AI_STATUS_REG)($at)
+    sw      $t1, %lo(PHYS_TO_K1(AI_STATUS_REG))($at)
     # Post ai event message
     jal     send_mesg
      li     $a0, OS_EVENT_AI*8
@@ -408,11 +414,11 @@ si:
     # Test for si interrupt
     andi    $t1, $s1, MI_INTR_MASK_SI
     beqz    $t1, pi
-     lui    $at, %hi(SI_STATUS_REG)
+     lui    $at, %hi(PHYS_TO_K1(SI_STATUS_REG))
     # Mask out si interrupt
     andi    $s1, $s1, (MI_INTR_MASK_SP | MI_INTR_MASK_AI | MI_INTR_MASK_VI | MI_INTR_MASK_PI | MI_INTR_MASK_DP)
     # Clear interrupt
-    sw      $zero, %lo(SI_STATUS_REG)($at)
+    sw      $zero, %lo(PHYS_TO_K1(SI_STATUS_REG))($at)
     # Post si event message
     jal     send_mesg
      li     $a0, OS_EVENT_SI*8
@@ -429,8 +435,8 @@ pi:
      nop
     # Clear interrupt
     li      $t1, PI_STATUS_CLR_INTR
-    lui     $at, %hi(PI_STATUS_REG)
-    sw      $t1, %lo(PI_STATUS_REG)($at)
+    lui     $at, %hi(PHYS_TO_K1(PI_STATUS_REG))
+    sw      $t1, %lo(PHYS_TO_K1(PI_STATUS_REG))($at)
     # Load pi callback
     lui     $t1, %hi(__osPiIntTable)
     addiu   $t1, %lo(__osPiIntTable)
@@ -465,10 +471,10 @@ dp:
      nop
     # Clear dp interrupt
     li      $t1, MI_CLR_DP_INTR
-    lui     $at, %hi(MI_INIT_MODE_REG)
+    lui     $at, %hi(PHYS_TO_K1(MI_INIT_MODE_REG))
     # Mask out dp interrupt
     andi    $s1, $s1, (MI_INTR_MASK_SP | MI_INTR_MASK_SI | MI_INTR_MASK_AI | MI_INTR_MASK_VI | MI_INTR_MASK_PI)
-    sw      $t1, %lo(MI_INIT_MODE_REG)($at)
+    sw      $t1, %lo(PHYS_TO_K1(MI_INIT_MODE_REG))($at)
     # Post dp event message
     jal     send_mesg
      li     $a0, OS_EVENT_DP*8
@@ -585,7 +591,7 @@ enqueueRunning:
      sw     $k0, ($t1)
 
 /**
- *  Unhandled exceptions & interrupts end up here, 
+ *  Unhandled exceptions & interrupts end up here,
  *  trap to software by posting a fault message
  */
 panic:
@@ -633,14 +639,14 @@ glabel send_mesg
     div     $zero, $t5, $t4
     bnez    $t4, .L80003F74
      nop
-    break 7 # div0
+    break   7 # div0
 .L80003F74:
     li      $at, -1
     bne     $t4, $at, .L80003F8C
      lui    $at, 0x8000
     bne     $t5, $at, .L80003F8C
      nop
-    break 6 # overflow
+    break   6 # overflow
 .L80003F8C:
     # End Modulo
     lw      $t4, MQ_MSG($t1)
@@ -748,8 +754,8 @@ glabel __osEnqueueAndYield
     or      $k1, $k1, $t1
     sw      $k1, THREAD_SR($a1)
 .L800040C4:
-    lui     $k1, %hi(MI_INTR_MASK_REG)
-    lw      $k1, %lo(MI_INTR_MASK_REG)($k1)
+    lui     $k1, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
+    lw      $k1, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($k1)
     beqz    $k1, .L800040FC
      nop
     # If there are RCP interrupts pending
@@ -809,7 +815,7 @@ glabel __osEnqueueThread
 /**
  *  OSThread* __osPopThread(OSThread** threadQ);
  *
- *  Pops the highest priority thread from the top of the 
+ *  Pops the highest priority thread from the top of the
  *   thread queue `threadQ` and returns it
  */
 glabel __osPopThread
@@ -921,8 +927,8 @@ glabel __osDispatchThread
     addiu   $k0, %lo(__osRcpImTable)
     addu    $k1, $k1, $k0
     lhu     $k1, ($k1)
-    lui     $k0, %hi(MI_INTR_MASK_REG)
-    addiu   $k0, %lo(MI_INTR_MASK_REG)
+    lui     $k0, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
+    addiu   $k0, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))
     sw      $k1, ($k0)
     # Empty pipeline
     nop

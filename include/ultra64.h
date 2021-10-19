@@ -24,5 +24,6 @@
 #include "ultra64/printf.h"
 #include "ultra64/mbi.h"
 #include "ultra64/pfs.h"
+#include "ultra64/r4300.h"
 
 #endif

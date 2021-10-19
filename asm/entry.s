@@ -26,14 +26,5 @@ glabel entrypoint
     addiu   $t2, %lo(bootproc)
     jr      $t2
      addiu  $sp, %lo(sBootThreadStack + BOOT_STACK_SIZE)
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
+
+.fill 0x60 - (. - entrypoint)

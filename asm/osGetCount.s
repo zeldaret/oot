@@ -1,3 +1,4 @@
+#include "ultra64/r4300.h"
 .include "macro.inc"
 
 # assembler directives
@@ -8,8 +9,8 @@
 .section .text
 
 .balign 16
-  
+
 glabel osGetCount
-    mfc0    $v0, Count
+    mfc0    $v0, C0_COUNT
     jr      $ra
      nop

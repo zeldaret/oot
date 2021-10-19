@@ -1,6 +1,10 @@
 #ifndef ULTRA64_INTERNAL_H
 #define ULTRA64_INTERNAL_H
 
+#define OS_INTR_CART    1
+
+#ifdef _LANGUAGE_C
+
 typedef struct {
     /* 0x00 */ u32 initialized;
     /* 0x04 */ OSThread* mgrThread;
@@ -24,5 +28,14 @@ typedef struct  {
 extern OSMgrArgs __osPiDevMgr;
 extern __osHwInt __osHwIntTable[];
 extern __OSEventState __osEventStateTab[];
+
+#else
+
+// __osHwInt struct member offsets
+
+#define HWINTR_CB   0x00
+#define HWINTR_SP   0x04
+
+#endif
 
 #endif

@@ -1,3 +1,5 @@
+#include "ultra64/r4300.h"
+#include "ultra64/hardware.h"
 .include "macro.inc"
 
 # assembler directives
@@ -33,8 +35,8 @@ glabel osSetIntMask
     xor     $t0, $t3, $at
     andi    $t0, $t0, SR_IMASK
     or      $v0, $v0, $t0
-    lui     $t2, %hi(MI_INTR_MASK_REG)
-    lw      $t2, %lo(MI_INTR_MASK_REG)($t2)
+    lui     $t2, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
+    lw      $t2, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($t2)
     beqz    $t2, .L80004F84
      srl    $t1, $t3, 0x10
     li      $at, -1
@@ -51,8 +53,8 @@ glabel osSetIntMask
     lui     $t2, %hi(__osRcpImTable)
     addu    $t2, $t2, $t0
     lhu     $t2, %lo(__osRcpImTable)($t2)
-    lui     $at, %hi(MI_INTR_MASK_REG)
-    sw      $t2, %lo(MI_INTR_MASK_REG)($at)
+    lui     $at, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
+    sw      $t2, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($at)
     andi    $t0, $a0, (SR_IMASK | SR_IE)
     andi    $t1, $t3, SR_IMASK
     and     $t0, $t0, $t1
@@ -61,7 +63,7 @@ glabel osSetIntMask
     and     $t4, $t4, $at
     or      $t4, $t4, $t0
     mtc0    $t4, Status
-    nop   
-    nop   
+    nop
+    nop
     jr      $ra
-     nop   
+     nop

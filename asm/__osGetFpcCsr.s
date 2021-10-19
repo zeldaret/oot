@@ -1,3 +1,4 @@
+#include "ultra64/r4300.h"
 .include "macro.inc"
 
 # assembler directives

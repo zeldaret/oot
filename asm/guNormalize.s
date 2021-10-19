@@ -28,9 +28,9 @@ glabel guNormalize
     sqrt.s  $f16, $f10
     div.s   $f10, $f18, $f16
     mul.s   $f16, $f4, $f10
-    nop   
+    nop
     mul.s   $f18, $f6, $f10
-    nop   
+    nop
     mul.s   $f4, $f8, $f10
     swc1    $f16, ($a0)
     swc1    $f18, ($a1)

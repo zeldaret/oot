@@ -1,3 +1,4 @@
+#include "ultra64/r4300.h"
 .include "macro.inc"
 
 # assembler directives
@@ -8,7 +9,7 @@
 .section .text
 
 .balign 16
- 
+
 glabel osInvalDCache
     # If the amount to invalidate is less or equal to 0, return immediately
     blez    $a1, .ret

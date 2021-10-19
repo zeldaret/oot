@@ -1,13 +1,8 @@
 #ifndef ULTRA64_MESSAGE_H
 #define ULTRA64_MESSAGE_H
 
-#include "ultra64/types.h"
-
 #define OS_MESG_NOBLOCK         0
 #define OS_MESG_BLOCK           1
-
-typedef void* OSMesg;
-typedef u32 OSEvent;
 
 #define OS_NUM_EVENTS           15
 
@@ -27,6 +22,13 @@ typedef u32 OSEvent;
 #define OS_EVENT_THREADSTATUS   13    /* CPU thread status: used by rmon */
 #define OS_EVENT_PRENMI         14    /* Pre NMI interrupt */
 
+#ifdef _LANGUAGE_C
+
+#include "ultra64/types.h"
+
+typedef void* OSMesg;
+typedef u32 OSEvent;
+
 typedef struct OSMesgQueue {
     /* 0x00 */ OSThread* mtqueue;
     /* 0x04 */ OSThread* fullqueue;
@@ -35,5 +37,18 @@ typedef struct OSMesgQueue {
     /* 0x10 */ s32 msgCount;
     /* 0x14 */ OSMesg* msg;
 } OSMesgQueue; // size = 0x18
+
+#else
+
+// OSMesgQueue struct member offsets
+
+#define MQ_MTQUEUE      0x00
+#define MQ_FULLQUEUE    0x04
+#define MQ_VALIDCOUNT   0x08
+#define MQ_FIRST        0x0C
+#define MQ_MSGCOUNT     0x10
+#define MQ_MSG          0x14
+
+#endif
 
 #endif

@@ -1,6 +1,7 @@
 .include "macro.inc"
 
 # assembler directives
+.set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
 .set gp=64     # allow use of 64-bit general purpose registers
 
@@ -14,8 +15,8 @@
     nop
 
 glabel guMtxF2L
-    li    $at, 0x47800000 # 65536.0
-    mtc1  $at, $f0
+    li      $at, 0x47800000 # 65536.0
+    mtc1    $at, $f0
     lui     $t9, 0xffff
     addiu   $t8, $a1, 0x20
 .L801064F0:
@@ -39,4 +40,4 @@ glabel guMtxF2L
     bne     $a1, $t8, .L801064F0
      sw     $t7, 0x1c($a1)
     jr      $ra
-     nop   
+     nop

@@ -62,7 +62,7 @@ glabel bzero
     bne     $a0, $a1, 1b
      sb     $zero, -1($a0)
 .zerodone:
-    jr    $ra
+    jr      $ra
      nop
 
     nop

@@ -1,3 +1,4 @@
+#include "ultra64/r4300.h"
 .include "macro.inc"
 
 # assembler directives
@@ -8,7 +9,7 @@
 .section .text
 
 .balign 16
- 
+
 glabel __osSetFpcCsr
     cfc1    $v0, FpCsr
     ctc1    $a0, FpCsr

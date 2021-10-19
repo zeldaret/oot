@@ -1,3 +1,4 @@
+#include "ultra64/r4300.h"
 .include "macro.inc"
 
 # assembler directives
@@ -19,7 +20,7 @@ glabel osUnmapTLBAll
 .all:
     mtc0    $t1, Index
     nop
-    tlbwi 
+    tlbwi
     nop
     nop
     addi    $t1, $t1, -1

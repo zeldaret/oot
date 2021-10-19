@@ -1,3 +1,5 @@
+#include "ultra64/r4300.h"
+#include "ultra64/thread.h"
 .include "macro.inc"
 
 # assembler directives
@@ -10,7 +12,8 @@
 .balign 16
 
 glabel __osDisableInt
-    la      $t2, __OSGlobalIntMask
+    lui     $t2, %hi(__OSGlobalIntMask)
+    addiu   $t2, $t2, %lo(__OSGlobalIntMask)
     lw      $t3, ($t2)
     andi    $t3, $t3, SR_IMASK
     mfc0    $t0, Status
@@ -22,7 +25,7 @@ glabel __osDisableInt
     andi    $t0, $t0, SR_IMASK
     beq     $t0, $t3, .L800072E8
      lui    $t2, %hi(__osRunningThread)
-     addiu  $t2, $t2, %lo(__osRunningThread)
+    addiu   $t2, $t2, %lo(__osRunningThread)
     lw      $t1, THREAD_SR($t2)
     andi    $t2, $t1, SR_IMASK
     and     $t2, $t2, $t0

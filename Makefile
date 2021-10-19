@@ -1,5 +1,8 @@
 MAKEFLAGS += --no-builtin-rules
 
+SHELL = /bin/bash
+.SHELLFLAGS = -o pipefail -c
+
 # Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
 
 # If COMPARE is 1, check the output md5sum after building
@@ -75,7 +78,7 @@ ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 
 OPTFLAGS := -O2
-ASFLAGS := -march=vr4300 -32 -Iinclude
+ASFLAGS := -march=vr4300 -32 -I include
 MIPS_VERSION := -mips2
 
 # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
@@ -210,7 +213,7 @@ build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 build/asm/%.o: asm/%.s
-	$(AS) $(ASFLAGS) $< -o $@
+	$(CPP) $(CPPFLAGS) -I include $< | $(AS) $(ASFLAGS) -o $@
 
 build/data/%.o: data/%.s
 	iconv --from UTF-8 --to EUC-JP $< | $(AS) $(ASFLAGS) -o $@

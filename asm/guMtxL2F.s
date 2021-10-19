@@ -30,10 +30,10 @@ glabel guMtxL2F
     addiu   $a0, $a0, 8
     cvt.s.w $f16, $f10
     mul.s   $f8, $f6, $f0
-    nop   
+    nop
     mul.s   $f18, $f16, $f0
     swc1    $f8, -8($a0)
     bne     $a1, $t8, .L80102FB0
      swc1   $f18, -4($a0)
     jr      $ra
-     nop   
+     nop
