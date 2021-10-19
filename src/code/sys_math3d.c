@@ -13,7 +13,7 @@ s32 Math3D_SphCubeVsTriCube(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* center, f32 
 /**
  * Creates an infinite line along the intersection of the plane defined from `planeAA`x + `planeAB`y + `planeAB`z +
  * `planeADist` = 0 and `planeBA`x + `planeBB`y + `planeBC`z + `planeBDist` = 0, and finds the closest point on that
- * intersection to the line segment `linePointA and linePointB`, outputs the intersection to `closestPoint`
+ * intersection to the line segment `linePointA and linePointB`, outputs the intersection to `closestPoint`.
  */
 s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB,
                                       f32 planeBC, f32 planeBDist, Vec3f* linePointA, Vec3f* linePointB,
@@ -21,7 +21,7 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
     static InfiniteLine planeIntersectLine;
     static Linef planeIntersectSeg;
 
-    Vec3f sp34; // unused
+    Vec3f sp34; // Unused
 
     if (!Math3D_PlaneVsPlaneNewLine(planeAA, planeAB, planeAC, planeADist, planeBA, planeBB, planeBC, planeBDist,
                                     &planeIntersectLine)) {
@@ -29,13 +29,13 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
         return false;
     }
 
-    // create a line segment on the plane.
+    // Create a line segment on the plane
     Math_Vec3f_Copy(&planeIntersectSeg.a, &planeIntersectLine.point);
     planeIntersectSeg.b.x = (planeIntersectLine.dir.x * 100.0f) + planeIntersectLine.point.x;
     planeIntersectSeg.b.y = (planeIntersectLine.dir.y * 100.0f) + planeIntersectLine.point.y;
     planeIntersectSeg.b.z = (planeIntersectLine.dir.z * 100.0f) + planeIntersectLine.point.z;
 
-    // closestPoint is a point on planeIntersect, sp34 is a point on linePointA, linePointB
+    // `closestPoint` is a point on `planeIntersect`, `sp34` is a point on `linePointA`, `linePointB`
     if (!Math3D_LineVsLineClosestTwoPoints(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB,
                                            closestPoint, &sp34)) {
         return false;
@@ -207,7 +207,7 @@ s32 Math3D_PlaneVsPlaneVsLineClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC,
 
 /**
  * Finds a point on the line from starting point `v0`, and directional vector `dir`
- * which is `dist` length from the starting point.  Result is placed in `ret`
+ * which is `dist` length from the starting point. Result is placed in `ret`.
  */
 void Math3D_PointOnInfiniteLine(Vec3f* v0, Vec3f* dir, f32 dist, Vec3f* ret) {
     ret->x = (dir->x * dist) + v0->x;
@@ -217,7 +217,7 @@ void Math3D_PointOnInfiniteLine(Vec3f* v0, Vec3f* dir, f32 dist, Vec3f* ret) {
 
 /**
  * Splits the line segment from end points `v0` and `v1`, and splits that segment
- * by `ratio` of `v0`:`v1`, places the resulting point on the line in `ret`
+ * by `ratio` of `v0`:`v1`, places the resulting point on the line in `ret`.
  */
 void Math3D_LineSplitRatio(Vec3f* v0, Vec3f* v1, f32 ratio, Vec3f* ret) {
     Vec3f diff;
@@ -227,7 +227,7 @@ void Math3D_LineSplitRatio(Vec3f* v0, Vec3f* v1, f32 ratio, Vec3f* ret) {
 }
 
 /**
- * Calculates the cosine between vectors `a` and `b`
+ * Calculates the cosine between vectors `a` and `b`.
  */
 f32 Math3D_Cos(Vec3f* a, Vec3f* b) {
     f32 ret;
@@ -237,8 +237,8 @@ f32 Math3D_Cos(Vec3f* a, Vec3f* b) {
 }
 
 /**
- * Calculates the cosine between bectors `a` and `b` and places the result in `ret`
- * returns true if the cosine cannot be calculated because the product of the magnitudes is zero
+ * Calculates the cosine between vectors `a` and `b` and places the result in `ret`.
+ * Returns true if the cosine cannot be calculated because the product of the magnitudes is zero.
  */
 s32 Math3D_CosOut(Vec3f* a, Vec3f* b, f32* dst) {
     f32 magProduct;
@@ -254,7 +254,7 @@ s32 Math3D_CosOut(Vec3f* a, Vec3f* b, f32* dst) {
 
 /**
  * Reflects vector `vec` across the normal vector `normal`, reflection vector is placed in
- * `reflVec`
+ * `reflVec`.
  */
 void Math3D_Vec3fReflect(Vec3f* vec, Vec3f* normal, Vec3f* reflVec) {
 
@@ -281,7 +281,7 @@ void Math3D_Vec3fReflect(Vec3f* vec, Vec3f* normal, Vec3f* reflVec) {
 
 /**
  * Checks if the point (`x`,`y`) is contained within the square formed from (`upperLeftX`,`upperLeftY`) to
- * (`lowerRightX`,`lowerRightY`)
+ * (`lowerRightX`,`lowerRightY`).
  */
 s32 Math3D_PointInSquare2D(f32 upperLeftX, f32 lowerRightX, f32 upperLeftY, f32 lowerRightY, f32 x, f32 y) {
     if (x >= upperLeftX && x <= lowerRightX && y >= upperLeftY && y <= lowerRightY) {
@@ -293,7 +293,7 @@ s32 Math3D_PointInSquare2D(f32 upperLeftX, f32 lowerRightX, f32 upperLeftY, f32 
 /**
  * Checks if the square formed around the circle with center (`centerX`,`centerY`) with radius `radius`
  * touches any portion of the square formed around the triangle with vertices (`x0`,`y0`), (`x1`,`y1`),
- * and (`x2`,`y2`)
+ * and (`x2`,`y2`).
  */
 s32 Math3D_CirSquareVsTriSquare(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32 centerX, f32 centerY, f32 radius) {
     f32 minX;
@@ -338,7 +338,7 @@ s32 Math3D_CirSquareVsTriSquare(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, 
 /**
  * Checks if the cube formed around the triangle formed from `v0`, `v1`, and `v2`
  * has any portion touching the cube formed around the sphere with center `center`
- * and radius of `radius`
+ * and radius of `radius`.
  */
 s32 Math3D_SphCubeVsTriCube(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* center, f32 radius) {
     f32 minX;
@@ -397,42 +397,42 @@ s32 Math3D_SphCubeVsTriCube(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* center, f32 
 }
 
 /**
- * Returns the distance squared between `a` and `b` on a single axis
+ * Returns the distance squared between `a` and `b` on a single axis.
  */
 f32 Math3D_Dist1DSq(f32 a, f32 b) {
     return SQ(a) + SQ(b);
 }
 
 /**
- * Returns the distance between `a` and `b` on a single axis
+ * Returns the distance between `a` and `b` on a single axis.
  */
 f32 Math3D_Dist1D(f32 a, f32 b) {
     return sqrtf(Math3D_Dist1DSq(a, b));
 }
 
 /**
- * Returns the distance squared between (`x0`,`y0`) and (`x1`,`x2`)
+ * Returns the distance squared between (`x0`,`y0`) and (`x1`,`x2`).
  */
 f32 Math3D_Dist2DSq(f32 x0, f32 y0, f32 x1, f32 y1) {
     return Math3D_Dist1DSq(x0 - x1, y0 - y1);
 }
 
 /**
- * Returns the distance between points (`x0`,`y0`) and (`x1`,`y1`)
+ * Returns the distance between points (`x0`,`y0`) and (`x1`,`y1`).
  */
 f32 Math3D_Dist2D(f32 x0, f32 y0, f32 x1, f32 y1) {
     return sqrtf(Math3D_Dist2DSq(x0, y0, x1, y1));
 }
 
 /**
- * Returns the magntiude (length) squared of `vec`
+ * Returns the magntiude (length) squared of `vec`.
  */
 f32 Math3D_Vec3fMagnitudeSq(Vec3f* vec) {
     return SQ(vec->x) + SQ(vec->y) + SQ(vec->z);
 }
 
 /**
- * Returns the magnitude(length) of `vec`
+ * Returns the magnitude (length) of `vec`.
  */
 f32 Math3D_Vec3fMagnitude(Vec3f* vec) {
     return sqrt(Math3D_Vec3fMagnitudeSq(vec));
@@ -449,14 +449,14 @@ f32 Math3D_Vec3fDistSq(Vec3f* a, Vec3f* b) {
 }
 
 /*
- * Calculates the distance between points `a` and `b`
+ * Returns the distance between points `a` and `b`
  */
 f32 Math3D_Vec3f_DistXYZ(Vec3f* a, Vec3f* b) {
     return Math_Vec3f_DistXYZ(a, b);
 }
 
 /*
- * Calculates the distance between `a` and `b`.
+ * Returns the distance between `a` and `b`.
  */
 f32 Math3D_DistXYZ16toF(Vec3s* a, Vec3f* b) {
     Vec3f diff;
@@ -468,28 +468,28 @@ f32 Math3D_DistXYZ16toF(Vec3s* a, Vec3f* b) {
 }
 
 /**
- * Gets the Z portion of the cross product of vectors `a - (`dx`,`dy`,z) and `b` - (`dx`,`dy`,z)
+ * Gets the Z portion of the cross product of vectors `a` - (`dx`,`dy`,z) and `b` - (`dx`,`dy`,z).
  */
 f32 Math3D_Vec3fDiff_CrossZ(Vec3f* a, Vec3f* b, f32 dx, f32 dy) {
     return ((a->x - dx) * (b->y - dy)) - ((a->y - dy) * (b->x - dx));
 }
 
 /**
- * Gets the X portion of the cross product of vectors `a - (x,`dy`,`dz`) and `b` - (x,`dy`,`dz`)
+ * Gets the X portion of the cross product of vectors `a` - (x,`dy`,`dz`) and `b` - (x,`dy`,`dz`).
  */
 f32 Math3D_Vec3fDiff_CrossX(Vec3f* a, Vec3f* b, f32 dy, f32 dz) {
     return ((a->y - dy) * (b->z - dz)) - ((a->z - dz) * (b->y - dy));
 }
 
 /**
- * Gets the Y portion of the cross product of vectors `a - (`dx`,y,`dz`) and `b` - (`dx`,y,`dz`)
+ * Gets the Y portion of the cross product of vectors `a` - (`dx`,y,`dz`) and `b` - (`dx`,y,`dz`).
  */
 f32 Math3D_Vec3fDiff_CrossY(Vec3f* a, Vec3f* b, f32 dz, f32 dx) {
     return ((a->z - dz) * (b->x - dx)) - ((a->x - dx) * (b->z - dz));
 }
 
 /**
- * Gets the Cross Product of vectors `a` and `b` and places the result in `ret`
+ * Gets the cross product of vectors `a` and `b` and places the result in `ret`.
  */
 void Math3D_Vec3f_Cross(Vec3f* a, Vec3f* b, Vec3f* ret) {
     ret->x = (a->y * b->z) - (a->z * b->y);
@@ -499,7 +499,7 @@ void Math3D_Vec3f_Cross(Vec3f* a, Vec3f* b, Vec3f* ret) {
 
 /*
  * Calculates the normal vector to a surface with sides `vb` - `va` and `vc` - `va`
- * outputs the normal to `normal`
+ * outputs the normal to `normal`.
  */
 void Math3D_SurfaceNorm(Vec3f* va, Vec3f* vb, Vec3f* vc, Vec3f* normal) {
     static Vec3f abDiff;
@@ -544,7 +544,7 @@ s32 Math3D_PointRelativeToCubeFaces(Vec3f* point, Vec3f* min, Vec3f* max) {
 }
 
 /**
- * Creates flags of `point` relative to the edges of a cube
+ * Creates flags of `point` relative to the edges of a cube.
  */
 s32 Math3D_PointRelativeToCubeEdges(Vec3f* point, Vec3f* min, Vec3f* max) {
     s32 ret = 0;
@@ -600,7 +600,7 @@ s32 Math3D_PointRelativeToCubeEdges(Vec3f* point, Vec3f* min, Vec3f* max) {
 }
 
 /**
- * Creates flags for `point` relative to the vertices of a cube
+ * Creates flags for `point` relative to the vertices of a cube.
  */
 s32 Math3D_PointRelativeToCubeVertices(Vec3f* point, Vec3f* min, Vec3f* max) {
     s32 ret = 0;
@@ -641,7 +641,7 @@ s32 Math3D_PointRelativeToCubeVertices(Vec3f* point, Vec3f* min, Vec3f* max) {
 }
 
 /**
- * Checks if a line segment with endpoints `a` and `b` intersect a cube
+ * Checks if a line segment with endpoints `a` and `b` intersect a cube.
  */
 s32 Math3D_LineVsCube(Vec3f* min, Vec3f* max, Vec3f* a, Vec3f* b) {
     static Vec3f triVtx0;
@@ -840,7 +840,7 @@ s32 Math3D_LineVsCube(Vec3f* min, Vec3f* max, Vec3f* a, Vec3f* b) {
 }
 
 /**
- * Checks if a line segment with endpoints `a` and `b` intersect a cube
+ * Checks if a line segment with endpoints `a` and `b` intersect a cube.
  */
 s32 Math3D_LineVsCubeShort(Vec3s* min, Vec3s* max, Vec3s* a, Vec3s* b) {
     static Vec3f minF;
@@ -865,7 +865,7 @@ s32 Math3D_LineVsCubeShort(Vec3s* min, Vec3s* max, Vec3s* a, Vec3s* b) {
 
 /**
  * Rotates the xz plane around the y axis `angle` degrees.
- * outputs the plane equation `a``pointOnPlane->x` + 0y + `c``pointOnPlane->z`+`d` = 0
+ * Outputs the plane equation `a``pointOnPlane->x` + 0y + `c``pointOnPlane->z`+`d` = 0
  */
 void Math3D_RotateXZPlane(Vec3f* pointOnPlane, s16 angle, f32* a, f32* c, f32* d) {
     *a = Math_SinS(angle) * 32767.0f;
@@ -875,8 +875,8 @@ void Math3D_RotateXZPlane(Vec3f* pointOnPlane, s16 angle, f32* a, f32* c, f32* d
 
 /*
  * Defines a plane from verticies `va`, `vb`, and `vc`.  Normal components are output to
- * `nx`, `ny`, and `nz`.  Distance from the origin is output to `originDist`
- * Satisifes the plane equation NxVx + NyVy + NzVz + D = 0
+ * `nx`, `ny`, and `nz`. Distance from the origin is output to `originDist`.
+ * Satisifes the plane equation NxVx + NyVy + NzVz + D = 0.
  */
 void Math3D_DefPlane(Vec3f* va, Vec3f* vb, Vec3f* vc, f32* nx, f32* ny, f32* nz, f32* originDist) {
     static Vec3f normal;
@@ -908,7 +908,7 @@ f32 Math3D_Planef(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* pointOnPlane) {
 }
 
 /*
- * Returns the answer to the plane equation
+ * Returns the answer to the plane equation.
  */
 f32 Math3D_Plane(Plane* plane, Vec3f* pointOnPlane) {
     return (plane->normal.x * pointOnPlane->x) + (plane->normal.y * pointOnPlane->y) +
@@ -917,13 +917,13 @@ f32 Math3D_Plane(Plane* plane, Vec3f* pointOnPlane) {
 
 /*
  * Calculates the absolute distance from a point `p` to the plane defined as
- * `nx`, `ny`, `nz`, and `originDist`
+ * `nx`, `ny`, `nz`, and `originDist`.
  */
 f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
     if (IS_ZERO(sqrtf(SQ(nx) + SQ(ny) + SQ(nz)))) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // "Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f"
+        // "Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f".
         osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
         osSyncPrintf(VT_RST);
         return 0.0f;
@@ -933,7 +933,7 @@ f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
 /*
  * Calculates the signed distance from a point `p` to a plane defined as
- * `nx`, `ny`, `nz`, and `originDist`
+ * `nx`, `ny`, `nz`, and `originDist`.
  */
 f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
     f32 normMagnitude;
@@ -941,7 +941,7 @@ f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
     normMagnitude = sqrtf(SQ(nx) + SQ(ny) + SQ(nz));
     if (IS_ZERO(normMagnitude)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // "Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f"
+        // "Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f".
         osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
         osSyncPrintf(VT_RST);
         return 0.0f;
@@ -950,7 +950,7 @@ f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 }
 
 /**
- * Checks if the point defined by (`z`,`x`) is within distance of the triangle defined from `v0`,`v1`, and `v2`
+ * Checks if the point defined by (`z`,`x`) is within distance of the triangle defined from `v0`,`v1`, and `v2`.
  */
 s32 Math3D_TriChkPointParaYImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x, f32 detMax, f32 chkDist, f32 ny) {
     f32 detv0v1;
@@ -959,12 +959,12 @@ s32 Math3D_TriChkPointParaYImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x, f
     f32 distToEdgeSq;
     f32 chkDistSq;
 
-    // first check if the point is within range of the triangle.
+    // First, check if the point is within range of the triangle.
     if (!Math3D_CirSquareVsTriSquare(v0->z, v0->x, v1->z, v1->x, v2->z, v2->x, z, x, chkDist)) {
         return false;
     }
 
-    // check if the point is within `chkDist` units of any vertex of the triangle.
+    // Check if the point is within `chkDist` units of any vertex of the triangle.
     chkDistSq = SQ(chkDist);
     if (((SQ(v0->z - z) + SQ(v0->x - x)) < chkDistSq) || ((SQ(v1->z - z) + SQ(v1->x - x)) < chkDistSq) ||
         ((SQ(v2->z - z) + SQ(v2->x - x)) < chkDistSq)) {
@@ -1009,7 +1009,7 @@ s32 Math3D_TriChkPointParaYSlopedY(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x
 }
 
 /**
- * Performs the triangle and point check parallel to the Y axis, outputs the y coordinate of the point to `yIntersect`
+ * Performs the triangle and point check parallel to the Y axis, outputs the y coordinate of the point to `yIntersect`.
  */
 s32 Math3D_TriChkPointParaYIntersectDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 z,
                                          f32 x, f32* yIntersect, f32 chkDist) {
@@ -1293,7 +1293,7 @@ s32 Math3D_TriChkLineSegParaZIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, 
     planePos.z = z1;
     pointBDist = Math3D_Planef(nx, ny, nz, originDist, &planePos);
     if (((pointADist > 0.0f) && (pointBDist > 0.0f)) || ((pointADist < 0.0f) && (pointBDist < 0.0f))) {
-        // points on the line segment are on the same side of the plane
+        // Points on the line segment are on the same side of the plane.
         return false;
     }
 
@@ -1319,19 +1319,19 @@ s32 Math3D_LineSegFindPlaneIntersect(f32 pointADist, f32 pointBDist, Vec3f* poin
 
     distDiff = pointADist - pointBDist;
     if (IS_ZERO(distDiff)) {
-        // both points lie on the plane.
+        // Both points lie on the plane.
         *intersect = *pointB;
         return false;
     }
 
     if (pointADist == 0.0f) {
-        // pointA is on the plane
+        // `pointA` is on the plane.
         *intersect = *pointA;
     } else if (pointBDist == 0.0f) {
-        // pointB is on the plane
+        // `pointB` is on the plane.
         *intersect = *pointB;
     } else {
-        // place the point at the intersection point.
+        // Place the point at the intersection point.
         Math3D_LineSplitRatio(pointA, pointB, pointADist / distDiff, intersect);
     }
     return true;
@@ -1340,7 +1340,7 @@ s32 Math3D_LineSegFindPlaneIntersect(f32 pointADist, f32 pointBDist, Vec3f* poin
 /**
  * Determines if the line segement from `linePointA` to `linePointB` crosses the plane
  * from `nx` + `ny` + `nz` + `originDist` = 0.  If fromFront is set, then detection will only
- * be true if point A crosses from the front of the plane
+ * be true if point A crosses from the front of the plane.
  */
 s32 Math3D_LineSegVsPlane(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA, Vec3f* linePointB,
                           Vec3f* intersect, s32 fromFront) {
@@ -1366,8 +1366,8 @@ s32 Math3D_LineSegVsPlane(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePoi
 /*
  * Determines if the line formed by `linePiontA` and `linePointB` intersect with Triangle formed from
  * vertices `v0`, `v1`, and `v2` with normal vector `nx`, `ny`, and `nz` with plane distance from origin
- * `originDist` Outputs the intersection point at to `intersect`
- * Returns 1 if the line intersects with the triangle, 0 otherwise
+ * `originDist` Outputs the intersection point at to `intersect`.
+ * Returns 1 if the line intersects with the triangle; otherwise, 0.
  */
 s32 Math3D_TriLineIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA,
                             Vec3f* linePointB, Vec3f* intersect, s32 fromFront) {
@@ -1388,7 +1388,7 @@ s32 Math3D_TriLineIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32
 
 /*
  * Creates a TriNorm output to `tri`, and calculates the normal vector and plane from vertices
- * `va`, `vb`, and `vc`
+ * `va`, `vb`, and `vc`.
  */
 void Math3D_TriNorm(TriNorm* tri, Vec3f* va, Vec3f* vb, Vec3f* vc) {
     tri->vtx[0] = *va;
@@ -1399,7 +1399,7 @@ void Math3D_TriNorm(TriNorm* tri, Vec3f* va, Vec3f* vb, Vec3f* vc) {
 }
 
 /*
- * Determines if point `point` lies within `sphere`
+ * Determines if point `point` lies within `sphere`.
  */
 s32 Math3D_PointInSph(Sphere16* sphere, Vec3f* point) {
 
@@ -1410,9 +1410,9 @@ s32 Math3D_PointInSph(Sphere16* sphere, Vec3f* point) {
 }
 
 /**
- * Determines the distance from point (`x0`,`y0`) to the line fromed from (`x1`,`y1`) and (`x2`,`y2`)
+ * Determines the distance from point (`x0`,`y0`) to the line formed from (`x1`,`y1`) and (`x2`,`y2`).
  * Distance squared is output to `lineLenSq`, returns true if the point perpendicular from (`x0`,`y0`)
- * is contained within the segement between (`x1`,`y1`) and (`x2`,`y2`)
+ * is contained within the segment between (`x1`,`y1`) and (`x2`,`y2`).
  */
 s32 Math3D_PointDistToLine2D(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32* lineLenSq) {
     static Vec3f perpendicularPoint;
@@ -1452,7 +1452,7 @@ s32 Math3D_LineVsSph(Sphere16* sphere, Linef* line) {
     f32 lineLenSq;
 
     if ((Math3D_PointInSph(sphere, &line->a)) || (Math3D_PointInSph(sphere, &line->b))) {
-        // either point of the line is in the sphere.
+        // Either point of the line is in the sphere.
         return true;
     }
     lineDiff.x = line->b.x - line->a.x;
@@ -1461,7 +1461,7 @@ s32 Math3D_LineVsSph(Sphere16* sphere, Linef* line) {
 
     lineLenSq = SQ(lineDiff.x) + SQ(lineDiff.y) + SQ(lineDiff.z);
     if (IS_ZERO(lineLenSq)) {
-        // line length is "0"
+        // Line length is "0".
         return false;
     }
     temp_f0_2 = ((((sphere->center.x - line->a.x) * lineDiff.x) + ((sphere->center.y - line->a.y) * lineDiff.y)) +
@@ -1485,7 +1485,7 @@ s32 Math3D_LineVsSph(Sphere16* sphere, Linef* line) {
 
 /**
  * Gets the surface point of `sphere` intersecting with `tri` generated from the line formed from the
- * sphere's surface to the midpoint of the line formed from the first two vertices of the tri
+ * sphere's surface to the midpoint of the line formed from the first two vertices of the tri.
  */
 void Math3D_GetSphVsTriIntersectPoint(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoint) {
     static Vec3f v0v1Center;
@@ -1501,7 +1501,7 @@ void Math3D_GetSphVsTriIntersectPoint(Sphere16* sphere, TriNorm* tri, Vec3f* int
     sphereCenter.y = sphere->center.y;
     sphereCenter.z = sphere->center.z;
     dist = Math3D_Vec3f_DistXYZ(&v0v1Center, &sphereCenter);
-    // Distance from the sphere's center to the center of the line formed from v0->v1
+    // Distance from the sphere's center to the center of the line formed from v0->v1.
     if (IS_ZERO(dist)) {
         intersectPoint->x = sphereCenter.x;
         intersectPoint->y = sphereCenter.y;
@@ -1513,7 +1513,7 @@ void Math3D_GetSphVsTriIntersectPoint(Sphere16* sphere, TriNorm* tri, Vec3f* int
 }
 
 /**
- * Determines if `sphere` and `tri` and touching, and outputs the intersection point to `intersectPoint`
+ * Determines if `sphere` and `tri` are touching, and outputs the intersection point to `intersectPoint`.
  */
 s32 Math3D_TriVsSphIntersect(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoint) {
     static Linef triTestLine;
@@ -1538,12 +1538,12 @@ s32 Math3D_TriVsSphIntersect(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoi
     planeDist = Math3D_UDistPlaneToPos(tri->plane.normal.x, tri->plane.normal.y, tri->plane.normal.z,
                                        tri->plane.originDist, &sphereCenter);
     if (radius < planeDist) {
-        // the point that lies within the plane of the triangle which is perpendicular to the sphere's center is more
+        // The point that lies within the plane of the triangle which is perpendicular to the sphere's center is more
         // than the radius of the sphere, the plane never crosses the sphere.
         return false;
     }
 
-    // tests if any of the edges of the triangle are intersecting the sphere
+    // Tests if any of the edges of the triangle are intersecting the sphere.
     triTestLine.a = tri->vtx[0];
     triTestLine.b = tri->vtx[1];
     if (Math3D_LineVsSph(sphere, &triTestLine)) {
@@ -1601,8 +1601,8 @@ s32 Math3D_TriVsSphIntersect(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoi
 }
 
 /*
- * Checks if point `point` is within cylinder `cyl`
- * Returns 1 if the point is inside the cylinder, 0 otherwise.
+ * Checks if point `point` is within cylinder `cyl`.
+ * Returns 1 if the point is inside the cylinder; otherwise, 0.
  */
 s32 Math3D_PointInCyl(Cylinder16* cyl, Vec3f* point) {
     f32 bottom;
@@ -1645,7 +1645,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
     s32 i;
 
     if (Math3D_PointInCyl(cyl, linePointA) && Math3D_PointInCyl(cyl, linePointB)) {
-        // both points are in the cylinder
+        // Both points are in the cylinder.
         *intersectA = *linePointA;
         *intersectB = *linePointB;
         return 2;
@@ -1661,31 +1661,31 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
     cylRadiusSq = SQ(cyl->radius);
 
     /**
-     * This section checks for intersections with the cylinder's base and top
+     * This section checks for intersections with the cylinder's base and top.
      */
     if (!IS_ZERO(ptAToPtB.y)) {
-        // fraction of length along AB to reach y = 0
+        // Fraction of length along AB to reach y = 0.
         fracBase = -cylToPtA.y / ptAToPtB.y;
         if ((0.0f <= fracBase) && (fracBase <= 1.0f)) {
             f32 baseIntX = (ptAToPtB.x * fracBase) + cylToPtA.x;
             f32 baseIntZ = (ptAToPtB.z * fracBase) + cylToPtA.z;
 
             if (SQ(baseIntX) + SQ(baseIntZ) < cylRadiusSq) {
-                // adds base intersection point to intPts and sets its flag
+                // Adds base intersection point to intPts and sets its flag.
                 intPts[0].x = cyl->pos.x + baseIntX;
                 intPts[0].y = (f32)cyl->pos.y + cyl->yShift;
                 intPts[0].z = cyl->pos.z + baseIntZ;
                 intFlags |= 1;
             }
         }
-        // fraction of length along AB to reach y = cyl->height
+        // Fraction of length along AB to reach y = cyl->height.
         fracA = (cyl->height - cylToPtA.y) / ptAToPtB.y;
         if ((0.0f <= fracA) && (fracA <= 1.0f)) {
             f32 topIntX = ptAToPtB.x * fracA + cylToPtA.x;
             f32 topIntZ = ptAToPtB.z * fracA + cylToPtA.z;
 
             if (SQ(topIntX) + SQ(topIntZ) < cylRadiusSq) {
-                // adds top intersection point to intPts and sets its flag
+                // Adds top intersection point to intPts and sets its flag.
                 intPts[1].x = cyl->pos.x + topIntX;
                 intPts[1].y = (f32)cyl->pos.y + cyl->yShift + cyl->height;
                 intPts[1].z = cyl->pos.z + topIntZ;
@@ -1695,8 +1695,8 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
     }
     /**
      * This section finds the points of intersection of the infinite line containing AB with the side of the infinite
-     * cylinder containing cyl. Intersection points beyond the bounds of the segment and cylinder are filtered out
-     * afterward.
+     * cylinder containing `cyl`. Intersection points beyond the bounds of the segment and cylinder are filtered out
+     * afterwards.
      */
     radSqDiff = SQXZ(cylToPtA) - cylRadiusSq;
     if (!IS_ZERO(2.0f * SQXZ(ptAToPtB))) {
@@ -1714,11 +1714,11 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
         }
         distCent2 = sqrtf(SQ(dot2AB) - (4.0f * SQXZ(ptAToPtB) * radSqDiff));
         if (sideIntA == 1) {
-            // fraction of length along AB for side intersection closer to A
+            // Fraction of length along AB for side intersection closer to A.
             fracA = (distCent2 - dot2AB) / (2.0f * SQXZ(ptAToPtB));
         }
         if (sideIntB == 1) {
-            // fraction of length along AB for side intersection closer to B
+            // Fraction of length along AB for side intersection closer to B.
             fracB = (-dot2AB - distCent2) / (2.0f * SQXZ(ptAToPtB));
         }
     } else if (!IS_ZERO(2.0f * DOTXZ(ptAToPtB, cylToPtA))) {
@@ -1729,7 +1729,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
     } else {
         return 0;
     }
-    // checks for intersection points outside the bounds of the segment
+    // Checks for intersection points outside of the segment's bounds.
     if (!sideIntB) {
         if (fracA < 0.0f || 1.0f < fracA) {
             return 0;
@@ -1747,7 +1747,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
             sideIntB = 0;
         }
     }
-    // checks for intersection points outside the bounds of the cylinder
+    // Checks for intersection points outside of the cylinder's bounds.
     if ((sideIntA == 1) &&
         ((fracA * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracA * ptAToPtB.y + cylToPtA.y))) {
         sideIntA = 0;
@@ -1759,7 +1759,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
     if (sideIntA == 0 && sideIntB == 0) {
         return 0;
     }
-    // Adds intersection points to intPts and sets side A and side B flags
+    // Adds intersection points to intPts and sets side A and side B flags.
     if (sideIntA == 1 && sideIntB == 1) {
         intPts[2].x = (fracA * ptAToPtB.x + cylToPtA.x) + cyl->pos.x;
         intPts[2].y = (fracA * ptAToPtB.y + cylToPtA.y) + cyl->pos.y + cyl->yShift;
@@ -1782,7 +1782,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
     }
 
     /**
-     * Places the found intersection points into intersectA and intersectB. IntersectA is always closer to point A
+     * Places the found intersection points into `intersectA` and `intersectB`. `intersectA` is always closer to point A.
      */
     for (count = 0, i = 0; i < 4; i++) {
         if (intFlags & (1 << i)) {
@@ -1805,7 +1805,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
 
 /*
  * Determines if `cyl` and `tri` are touching.  The point of intersection
- * is placed in `intersect` Returns 1 if they are touching, 0 otherwise.
+ * is placed in `intersect`. Returns 1 if they are touching; otherwise, 0.
  */
 s32 Math3D_CylTriVsIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect) {
     static Sphere16 topSphere;
@@ -1901,7 +1901,7 @@ s32 Math3D_CylTriVsIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect) {
 }
 
 /*
- * Determines if `cyl` and `tri` are touching.
+ * Determines whether `cyl` and `tri` are touching.
  */
 s32 Math3D_CylVsTri(Cylinder16* cyl, TriNorm* tri) {
     Vec3f intersect;
@@ -1910,7 +1910,7 @@ s32 Math3D_CylVsTri(Cylinder16* cyl, TriNorm* tri) {
 }
 
 /*
- * Deteremines if two spheres are touching.
+ * Determines whether `sphereA` and `sphereB` are touching.
  */
 s32 Math3D_SphVsSph(Sphere16* sphereA, Sphere16* sphereB) {
     f32 overlapSize;
@@ -1919,7 +1919,7 @@ s32 Math3D_SphVsSph(Sphere16* sphereA, Sphere16* sphereB) {
 }
 
 /*
- * Determines if two spheres are touching.  The amount that they're overlapping is placed in `overlapSize`
+ * Determines whether `sphereA` and `sphereB` are touching. The amount that they're overlapping is placed in `overlapSize`.
  */
 s32 Math3D_SphVsSphOverlap(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize) {
     f32 centerDist;
@@ -1928,8 +1928,8 @@ s32 Math3D_SphVsSphOverlap(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSiz
 }
 
 /*
- * Determines if two spheres are touching  The distance from the centers is placed in `centerDist`,
- * and the amount that they're overlapping is placed in `overlapSize`
+ * Determines whether `sphereA` and `sphereB` are touching. The distance from the centers is placed in `centerDist`,
+ * and the amount that they're overlapping is placed in `overlapSize`.
  */
 s32 Math3D_SphVsSphOverlapCenter(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centerDist) {
     Vec3f diff;
@@ -1950,7 +1950,7 @@ s32 Math3D_SphVsSphOverlapCenter(Sphere16* sphereA, Sphere16* sphereB, f32* over
 }
 
 /**
- * Checks if `sph` and `cyl` are touching, output the amount of overlap to `overlapSize`
+ * Determines whether `sph` and `cyl` are touching. Outputs the amount of overlap to `overlapSize`.
  */
 s32 Math3D_SphVsCylOverlapDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize) {
     f32 centerDist;
@@ -1959,7 +1959,7 @@ s32 Math3D_SphVsCylOverlapDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize)
 }
 
 /**
- * Checks if `sph` and `cyl` are touching, output the xz distance of the centers to `centerDist`, and the amount of
+ * Determines whether `sph` and `cyl` are touching. Outputs the xz distance of the centers to `centerDist`, and the amount of
  * overlap to `overlapSize`
  */
 s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize, f32* centerDist) {
@@ -1975,7 +1975,7 @@ s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overla
     f32 sphTop;
 
     if (sph->radius <= 0 || cyl->radius <= 0) {
-        // either radius is 0
+        // Either radius is 0.
         return false;
     }
     sphf.center.y = sph->center.y;
@@ -1988,7 +1988,7 @@ s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overla
     combinedRadius = (f32)sph->radius + cyl->radius;
     *centerDist = sqrtf(SQ(x) + SQ(z));
     if (combinedRadius < *centerDist) {
-        // if the combined radii is less than the distance to the centers, they cannot be touching.
+        // If the combined radii is less than the distance to the centers, they cannot be touching.
         return false;
     }
 
@@ -1998,8 +1998,8 @@ s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overla
     sphTop = sphf.center.y + sphf.radius;
 
     if ((sphTop >= cylBottom) && (sphBottom <= cylTop)) {
-        // if the cylinder and sphere are intersecting on the xz plane, check if they're intersecting on
-        // the y axis.
+        // If the cylinder and sphere are intersecting on the xz plane, check if they're intersecting on
+        // the y-axis.
         *overlapSize = combinedRadius - *centerDist;
         return true;
     }
@@ -2007,7 +2007,7 @@ s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overla
 }
 
 /*
- * returns 1 if cylinder `ca` is outside cylinder `cb`.
+ * Returns 1 if cylinder `ca` is outside cylinder `cb`.
  * Sets `deadSpace` to the mininum space between the cylinders not occupied by the other.
  */
 s32 Math3D_CylOutsideCyl(Cylinder16* ca, Cylinder16* cb, f32* deadSpace) {
@@ -2017,7 +2017,7 @@ s32 Math3D_CylOutsideCyl(Cylinder16* ca, Cylinder16* cb, f32* deadSpace) {
 }
 
 /*
- * returns 1 if cylinder `ca` is outside cylinder `cb`.
+ * Returns 1 if cylinder `ca` is outside cylinder `cb`.
  * Sets `xzDist` to the xz distance between the centers of the cylinders.
  * Sets `deadSpace` to the mininum space between the cylinders not occupied by the other.
  */
@@ -2037,12 +2037,12 @@ s32 Math3D_CylOutsideCylDist(Cylinder16* ca, Cylinder16* cb, f32* deadSpace, f32
 
     *xzDist = sqrtf(SQ(caf.pos.x - cbf.pos.x) + SQ(caf.pos.z - cbf.pos.z));
 
-    // The combined radix are within the xz distance
+    // The combined radix are within the xz distance.
     if ((caf.radius + cbf.radius) < *xzDist) {
         return false;
     }
 
-    // top of ca < bottom of cb or top of cb < bottom of ca
+    // Top of `ca` < bottom of `cb` or top of `cb` < bottom of `ca`.
     if (((caf.pos.y + caf.yShift) + caf.height) < (cbf.pos.y + cbf.yShift) ||
         (((cbf.pos.y + cbf.yShift) + cbf.height) < (caf.pos.y + caf.yShift))) {
         return false;
@@ -2053,9 +2053,9 @@ s32 Math3D_CylOutsideCylDist(Cylinder16* ca, Cylinder16* cb, f32* deadSpace, f32
 }
 
 /*
- * Determines if triangle `ta` intersects with triangle `tb` the point of
- * intersection is output to `intersect.
- * Returns 1 is the triangles intersect, 0 otherwise
+ * Determines if triangle `ta` intersects with triangle `tb`.
+ * Outputs the point of intersection to `intersect`.
+ * Returns 1 is the triangles intersect; otherwise, 0.
  */
 
 s32 Math3D_TriVsTriIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect) {
