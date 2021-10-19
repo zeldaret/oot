@@ -21,15 +21,15 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
     static InfiniteLine planeIntersectLine;
     static Linef planeIntersectSeg;
 
-    Vec3f sp34; // Unused
+    Vec3f sp34; // Unused...
 
     if (!Math3D_PlaneVsPlaneNewLine(planeAA, planeAB, planeAC, planeADist, planeBA, planeBB, planeBC, planeBDist,
                                     &planeIntersectLine)) {
-        // The planes are parallel
+        // The planes are parallel.
         return false;
     }
 
-    // Create a line segment on the plane
+    // Create a line segment on the plane.
     Math_Vec3f_Copy(&planeIntersectSeg.a, &planeIntersectLine.point);
     planeIntersectSeg.b.x = (planeIntersectLine.dir.x * 100.0f) + planeIntersectLine.point.x;
     planeIntersectSeg.b.y = (planeIntersectLine.dir.y * 100.0f) + planeIntersectLine.point.y;
@@ -112,7 +112,7 @@ s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Ve
 
 /**
  * Determines the closest point on the line `line` to `pos`, by forming a line perpendicular from
- * `point` to `line` closest point is placed in `closestPoint`
+ * `point` to `line` closest point is placed in `closestPoint`.
  */
 void Math3D_LineClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint) {
     f32 dirVectorSize;
@@ -121,7 +121,7 @@ void Math3D_LineClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint) {
     dirVectorSize = Math3D_Vec3fMagnitudeSq(&line->b);
     if (IS_ZERO(dirVectorSize)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // "Math3D_lineVsPosSuisenCross(): No straight line length"
+        // "Math3D_lineVsPosSuisenCross(): No straight line length".
         osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
         osSyncPrintf("cross = pos を返します。\n"); // "Returns cross = pos."
         osSyncPrintf(VT_RST);
@@ -162,7 +162,7 @@ s32 Math3D_PlaneVsPlaneNewLine(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeA
     Math3D_Vec3f_Cross(&planeANormal, &planeBNormal, &intersect->dir);
 
     if (IS_ZERO(intersect->dir.x) && IS_ZERO(intersect->dir.y) && IS_ZERO(intersect->dir.z)) {
-        // planes are parallel
+        // Planes are parallel.
         return false;
     }
 
@@ -189,8 +189,8 @@ s32 Math3D_PlaneVsPlaneNewLine(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeA
 /**
  * Gets the closest point on the line formed from the intersection of of the planes defined from
  * `planeAA`x + `planeAB`y + `planeAC`z + `planeADist` = 0 and
- * `planeBA`x + `planeBB`y + `planeBC`z + `planeBDist` = 0
- * the point on the intersection line closest to `point` is placed in `closestPoint`
+ * `planeBA`x + `planeBB`y + `planeBC`z + `planeBDist` = 0.
+ * The point on the intersection line closest to `point` is placed in `closestPoint`
  * returns false if the planes are parallel.
  */
 s32 Math3D_PlaneVsPlaneVsLineClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA,
