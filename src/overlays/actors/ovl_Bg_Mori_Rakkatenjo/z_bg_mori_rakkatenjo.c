@@ -53,21 +53,21 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    // Forest Temple obj. Falling Ceiling
+    // "Forest Temple obj. Falling Ceiling"
     osSyncPrintf("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||
         (fabsf(683.0f - this->dyna.actor.home.pos.y) > 0.001f) ||
         (fabsf(-2520.0f - this->dyna.actor.home.pos.z) > 0.001f)) {
-        // The set position has been changed. Let's fix the program.
+        // "The set position has been changed. Let's fix the program."
         osSyncPrintf("Warning : セット位置が変更されています。プログラムを修正しましょう。\n");
     }
     if (this->dyna.actor.home.rot.y != 0x8000) {
-        // The set Angle has changed. Let's fix the program.
+        // "The set Angle has changed. Let's fix the program."
         osSyncPrintf("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
     }
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
-        // Forest Temple obj Falling Ceiling Bank Danger!
+        // "Forest Temple obj Falling Ceiling Bank Danger!"
         osSyncPrintf("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n", "../z_bg_mori_rakkatenjo.c", 205);
         Actor_Kill(&this->dyna.actor);
         return;

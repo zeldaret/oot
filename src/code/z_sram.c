@@ -63,8 +63,8 @@ typedef struct {
     /* 0x08 */ s32 cutsceneIndex;
     /* 0x0C */ u16 dayTime; // "zelda_time"
     /* 0x10 */ s32 nightFlag;
-    /* 0x14 */ s32 numDays;
-    /* 0x18 */ s32 unk_18;    // increments with numDays, gets reset by goron for bgs and one other use
+    /* 0x14 */ s32 totalDays;
+    /* 0x18 */ s32 unk_18;    // increments with totalDays, gets reset by goron for bgs and one other use
     /* 0x1C */ SaveInfo info; // "information"
 } Save;                       // size = 0x1354
 
@@ -161,8 +161,8 @@ void Sram_InitNewSave(void) {
     SaveContext* temp = &gSaveContext;
 
     bzero(&SAVE_INFO, sizeof(SaveInfo));
-    gSaveContext.numDays = 0;
-    gSaveContext.unk_18 = 0;
+    gSaveContext.totalDays = 0;
+    gSaveContext.bgsDayCount = 0;
 
     SAVE_PLAYER_DATA = sNewSavePlayerData;
     gSaveContext.equips = sNewSaveEquips;
@@ -250,8 +250,8 @@ void Sram_InitDebugSave(void) {
     SaveContext* temp = &gSaveContext;
 
     bzero(&SAVE_INFO, sizeof(SaveInfo));
-    gSaveContext.numDays = 0;
-    gSaveContext.unk_18 = 0;
+    gSaveContext.totalDays = 0;
+    gSaveContext.bgsDayCount = 0;
 
     SAVE_PLAYER_DATA = sDebugSavePlayerData;
     gSaveContext.equips = sDebugSaveEquips;
@@ -383,7 +383,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
         MemCopy(gScarecrowCustomSongPtr, &gSaveContext.scarecrowCustomSong, 0x360);
 
-        ptr = gScarecrowCustomSongPtr;
+        ptr = (u8*)gScarecrowCustomSongPtr;
         for (i = 0; i < 0x360; i++, ptr++) {
             osSyncPrintf("%d, ", *ptr);
         }
@@ -461,7 +461,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
     j = 0;
 
     for (offset = 0; offset < CHECKSUM_SIZE; offset++) {
-        if (++j == 0x20U) {
+        if (++j == 0x20) {
             j = 0;
         }
         checksum += *ptr++;
@@ -473,7 +473,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
     checksum = 0;
 
     for (offset = 0; offset < CHECKSUM_SIZE; offset++) {
-        if (++j == 0x20U) {
+        if (++j == 0x20) {
             j = 0;
         }
         checksum += *ptr++;
@@ -486,7 +486,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
     checksum = 0;
 
     for (offset = 0; offset < CHECKSUM_SIZE; offset++) {
-        if (++j == 0x20U) {
+        if (++j == 0x20) {
             j = 0;
         }
         checksum += *ptr++;
@@ -561,8 +561,8 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
                 // note that gSaveContext.dayTime is not actually the sizeof(s32)
                 bzero(&gSaveContext.dayTime, sizeof(s32));
                 bzero(&gSaveContext.nightFlag, sizeof(s32));
-                bzero(&gSaveContext.numDays, sizeof(s32));
-                bzero(&gSaveContext.unk_18, sizeof(s32));
+                bzero(&gSaveContext.totalDays, sizeof(s32));
+                bzero(&gSaveContext.bgsDayCount, sizeof(s32));
 
                 if (!slotNum) {
                     Sram_InitDebugSave();
@@ -715,7 +715,7 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     for (offset = 0; offset < CHECKSUM_SIZE; offset++) {
         osSyncPrintf("%x ", *ptr);
         checksum += *ptr++;
-        if (++j == 0x20u) {
+        if (++j == 0x20) {
             osSyncPrintf("\n");
             j = 0;
         }

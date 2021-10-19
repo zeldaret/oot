@@ -1,5 +1,5 @@
-#ifndef _Z64EFFECT_H_
-#define _Z64EFFECT_H_
+#ifndef Z64EFFECT_H
+#define Z64EFFECT_H
 
 #include "color.h"
 

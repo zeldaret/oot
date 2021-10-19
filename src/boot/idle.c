@@ -51,7 +51,7 @@ void Idle_ThreadEntry(void* arg) {
 
     osCreateViManager(OS_PRIORITY_VIMGR);
 
-    gViConfigFeatures = 0x42;
+    gViConfigFeatures = OS_VI_GAMMA_OFF | OS_VI_DITHER_FILTER_ON;
     gViConfigXScale = 1.0f;
     gViConfigYScale = 1.0f;
 

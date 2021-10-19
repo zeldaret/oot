@@ -16,8 +16,6 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
-                            DynaPolyMoveFlag moveFlag);
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);
 void BgJyaLift_SetInitPosY(BgJyaLift* this);
 void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
@@ -45,8 +43,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
-                            DynaPolyMoveFlag moveFlag) {
+void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -64,7 +61,7 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    // Goddess lift CT
+    // "Goddess lift CT"
     osSyncPrintf("女神リフト CT\n");
     BgJyaLift_InitDynapoly(this, globalCtx, &gLiftCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -83,7 +80,7 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->isSpawned) {
 
-        // Goddess Lift DT
+        // "Goddess Lift DT"
         osSyncPrintf("女神リフト DT\n");
         sIsSpawned = false;
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);

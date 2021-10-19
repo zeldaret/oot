@@ -76,7 +76,7 @@ void KaleidoManager_Destroy() {
     sKaleidoAreaPtr = NULL;
 }
 
-// NOTE: this function looks messed up and probably doesn't work like how the devs wanted it to work
+// NOTE: this function looks messed up and probably doesn't work how it was intended to
 void* KaleidoManager_GetRamAddr(void* vram) {
     KaleidoMgrOverlay* iter = gKaleidoMgrCurOvl;
     KaleidoMgrOverlay* ovl = iter;
@@ -90,7 +90,7 @@ void* KaleidoManager_GetRamAddr(void* vram) {
                 ovl = iter;
                 goto KaleidoManager_GetRamAddr_end;
             }
-            //! @bug Devs probably forgot iter++ here
+            //! @bug Probably missing iter++ here
         }
 
         osSyncPrintf("異常\n"); // "Abnormal"

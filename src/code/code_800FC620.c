@@ -157,10 +157,9 @@ void func_800FCA18(void* blk, u32 nBlk, u32 blkSize, arg3_800FCA18 arg3, s32 arg
         if (masked_arg2) {}
 
         while (pos > end) {
-            do {
-                pos -= masked_arg2;
-                arg3((void*)pos, 2);
-            } while (0);
+            pos -= masked_arg2;
+            arg3((void*)pos, 2);
+            if (1) {}
         }
 
         if (!masked_arg2) {}

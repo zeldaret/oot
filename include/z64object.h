@@ -1,5 +1,5 @@
-#ifndef _Z64OBJECT_H_
-#define _Z64OBJECT_H_
+#ifndef Z64OBJECT_H
+#define Z64OBJECT_H
 
 #define OBJECT_EXCHANGE_BANK_MAX 19
 

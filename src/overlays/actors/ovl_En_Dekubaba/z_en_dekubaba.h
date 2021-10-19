@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DEKUBABA_H_
-#define _Z_EN_DEKUBABA_H_
+#ifndef Z_EN_DEKUBABA_H
+#define Z_EN_DEKUBABA_H
 
 #include "ultra64.h"
 #include "global.h"

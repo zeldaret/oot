@@ -2860,8 +2860,6 @@ void Interface_DrawActionButton(GlobalContext* globalCtx) {
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
     Matrix_RotateX(interfaceCtx->unk_1F4 / 10000.0f, MTXMODE_APPLY);
 
-    if (1) {} // Necessary to match
-
     gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_parameter.c", 3177),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPVertex(OVERLAY_DISP++, &interfaceCtx->actionVtx[0], 4, 0);
@@ -3183,7 +3181,6 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (gSaveContext.equips.buttonItems[1] < 0xF0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->cLeftAlpha);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
-            if (1) {}
             Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x1000, 1);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -3197,7 +3194,6 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (gSaveContext.equips.buttonItems[2] < 0xF0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->cDownAlpha);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
-            if (1) {}
             Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x2000, 2);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -3211,7 +3207,6 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (gSaveContext.equips.buttonItems[3] < 0xF0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->cRightAlpha);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
-            if (1) {}
             Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x3000, 3);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -3794,7 +3789,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
 void Interface_Update(GlobalContext* globalCtx) {
     static u8 D_80125B60 = 0;
-    static s16 D_80125B64 = 0;
+    static s16 sPrevTimeIncrement = 0;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     Player* player = GET_PLAYER(globalCtx);
@@ -4103,30 +4098,32 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    if (gSaveContext.unk_1422 != 0) {
-        if ((msgCtx->unk_E3F0 != 0x31) && (gSaveContext.unk_1422 == 1)) {
+    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
+        // exit out of ocarina mode after suns song finishes playing
+        if ((msgCtx->unk_E3F0 != 0x31) && (gSaveContext.sunsSongState == SUNSSONG_START)) {
             globalCtx->msgCtx.unk_E3EE = 4;
         }
 
-        if (globalCtx->envCtx.unk_02 != 0) {
-            if (gSaveContext.unk_1422 != 2) {
+        // handle suns song in areas where time moves
+        if (globalCtx->envCtx.timeIncrement != 0) {
+            if (gSaveContext.sunsSongState != SUNSSONG_SPEED_TIME) {
                 D_80125B60 = 0;
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
                     D_80125B60 = 1;
                 }
 
-                gSaveContext.unk_1422 = 2;
-                D_80125B64 = D_8011FB40;
-                D_8011FB40 = 400;
+                gSaveContext.sunsSongState = SUNSSONG_SPEED_TIME;
+                sPrevTimeIncrement = gTimeIncrement;
+                gTimeIncrement = 400;
             } else if (D_80125B60 == 0) {
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
-                    gSaveContext.unk_1422 = 0;
-                    D_8011FB40 = D_80125B64;
+                    gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+                    gTimeIncrement = sPrevTimeIncrement;
                     globalCtx->msgCtx.unk_E3EE = 4;
                 }
             } else if (gSaveContext.dayTime > 0xC001) {
-                gSaveContext.unk_1422 = 0;
-                D_8011FB40 = D_80125B64;
+                gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+                gTimeIncrement = sPrevTimeIncrement;
                 globalCtx->msgCtx.unk_E3EE = 4;
             }
         } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
@@ -4150,12 +4147,12 @@ void Interface_Update(GlobalContext* globalCtx) {
             gSaveContext.respawnFlag = -2;
             globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
             globalCtx->sceneLoadFlag = 0x14;
-            gSaveContext.unk_1422 = 0;
+            gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
             func_800F6964(30);
             gSaveContext.seqIndex = 0xFF;
             gSaveContext.nightSeqIndex = 0xFF;
         } else {
-            gSaveContext.unk_1422 = 3;
+            gSaveContext.sunsSongState = SUNSSONG_SPECIAL;
         }
     }
 }
