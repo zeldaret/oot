@@ -767,7 +767,7 @@ typedef struct {
     /* 0x0B38 */ char unk_0B38[0x30];
     /* 0x0B68 */ SoundFontSample* usedSamples[128];
     /* 0x0D68 */ AudioPreloadReq preloadSampleStack[128];
-    /* 0x1768 */ s32 usedSamplesCount;
+    /* 0x1768 */ s32 numUsedSamples;
     /* 0x176C */ s32 preloadSampleStackTop;
     /* 0x1770 */ AudioAsyncLoad asyncLoads[0x10];
     /* 0x1CF0 */ OSMesgQueue asyncLoadUnkMediumQueue;
