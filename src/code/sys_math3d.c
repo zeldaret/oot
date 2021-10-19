@@ -21,21 +21,21 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
     static InfiniteLine planeIntersectLine;
     static Linef planeIntersectSeg;
 
-    Vec3f sp34; // Unused
+    Vec3f sp34; // Unused...
 
     if (!Math3D_PlaneVsPlaneNewLine(planeAA, planeAB, planeAC, planeADist, planeBA, planeBB, planeBC, planeBDist,
                                     &planeIntersectLine)) {
-        // The planes are parallel
+        // The planes are parallel.
         return false;
     }
 
-    // Create a line segment on the plane
+    // Create a line segment on the plane.
     Math_Vec3f_Copy(&planeIntersectSeg.a, &planeIntersectLine.point);
     planeIntersectSeg.b.x = (planeIntersectLine.dir.x * 100.0f) + planeIntersectLine.point.x;
     planeIntersectSeg.b.y = (planeIntersectLine.dir.y * 100.0f) + planeIntersectLine.point.y;
     planeIntersectSeg.b.z = (planeIntersectLine.dir.z * 100.0f) + planeIntersectLine.point.z;
 
-    // `closestPoint` is a point on `planeIntersect`, `sp34` is a point on `linePointA`, `linePointB`
+    // `closestPoint` is a point on `planeIntersect`, `sp34` is a point on `linePointA`, `linePointB`.
     if (!Math3D_LineVsLineClosestTwoPoints(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB,
                                            closestPoint, &sp34)) {
         return false;
@@ -112,7 +112,7 @@ s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Ve
 
 /**
  * Determines the closest point on the line `line` to `pos`, by forming a line perpendicular from
- * `point` to `line` closest point is placed in `closestPoint`
+ * `point` to `line` closest point is placed in `closestPoint`.
  */
 void Math3D_LineClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint) {
     f32 dirVectorSize;
@@ -121,7 +121,7 @@ void Math3D_LineClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint) {
     dirVectorSize = Math3D_Vec3fMagnitudeSq(&line->b);
     if (IS_ZERO(dirVectorSize)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // "Math3D_lineVsPosSuisenCross(): No straight line length"
+        // "Math3D_lineVsPosSuisenCross(): No straight line length".
         osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
         osSyncPrintf("cross = pos を返します。\n"); // "Returns cross = pos."
         osSyncPrintf(VT_RST);
