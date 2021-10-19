@@ -1,5 +1,5 @@
 <Root>
-    <File Name="ovl_En_Ganon_Organ" BaseAddress="0x80A28000" RangeStart="0x3E0" RangeEnd="0x6F70" Segment="128">
+    <File Name="ovl_En_Ganon_Organ" BaseAddress="0x80A28000" RangeStart="0x3E0" RangeEnd="0x6F70">
         <Texture Name="gGanondorfRoomCarpetTex" OutName="ganondorf_room_carpet" Format="rgba16" Width="64" Height="16" Offset="0x3E8"/>
         <Texture Name="gGanondorfRoomOrganPipeTex" OutName="ganondorf_room_organ_pipe" Format="i4" Width="16" Height="64" Offset="0xBE8"/>
         <Texture Name="gGanondorfRoomOrganCorbelsTex" OutName="ganondorf_room_organ_corbels" Format="i4" Width="16" Height="16" Offset="0xDE8"/>
