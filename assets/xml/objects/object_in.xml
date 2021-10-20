@@ -12,12 +12,12 @@
         <Texture Name="gIngoFingersTex" OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0x2B90" TlutOffset="0x1CD0"/>
         <Texture Name="gIngoShirtSleeveTex" OutName="sleeve" Format="ci8" Width="8" Height="8" Offset="0x2C90" TlutOffset="0x1CD0"/>
         <Texture Name="gIngoShirtButtonsTex" OutName="shirt_buttons" Format="ci8" Width="32" Height="32" Offset="0x2CD0" TlutOffset="0x1CD0"/>
-        <Texture Name="gIngoShirtTex" OutName="shirt" Format="ci8" Width="8" Height="8" Offset="0x30D0" TlutOffset="0x1CD0"/>
-        <Texture Name="gIngoShirtStainTex" OutName="shirt_stain" Format="ci8" Width="8" Height="8" Offset="0x3110" TlutOffset="0x1CD0"/>
+        <Texture Name="gIngoClothTex" OutName="cloth" Format="ci8" Width="8" Height="8" Offset="0x30D0" TlutOffset="0x1CD0"/>
+        <Texture Name="gIngoClothStainTex" OutName="cloth_stain" Format="ci8" Width="8" Height="8" Offset="0x3110" TlutOffset="0x1CD0"/>
         <Texture Name="gIngoPocketTex" OutName="pocket" Format="ci8" Width="8" Height="8" Offset="0x31D0" TlutOffset="0x1CD0"/>
         <Texture Name="gIngoHeadTLUT" OutName="head_tlut" Format="rgba16" Width="252" Height="1" Offset="0x3210"/>
         <Texture Name="gIngoTLUT2" OutName="tlut2" Format="rgba16" Width="100" Height="1" Offset="0x3408"/>
-        <Texture Name="gIngoHeadGradient2" OutName="head_gradient_2" Format="ci8" Width="8" Height="8" Offset="0x34D0" TlutOffset="0x3210"/>
+        <Texture Name="gIngoHeadGradient2Tex" OutName="head_gradient_2" Format="ci8" Width="8" Height="8" Offset="0x34D0" TlutOffset="0x3210"/>
         <Texture Name="gIngoEarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x3510" TlutOffset="0x3408"/>
         <Texture Name="gIngoBrownTex" OutName="brown" Format="ci8" Width="8" Height="8" Offset="0x3550" TlutOffset="0x3408"/> <!-- Used in his mustache, eyebrows, pitchfork -->
         <Texture Name="gIngoEyebrowEdgeTex" OutName="eyebrow_edge" Format="rgba16" Width="16" Height="16" Offset="0x3990"/>
@@ -28,7 +28,7 @@
         <Texture Name="gIngoBeardTex" OutName="beard" Format="ci8" Width="16" Height="32" Offset="0x3ED0" TlutOffset="0x3408"/>
         <Texture Name="gIngoBasketInsideTex" OutName="basket_inside" Format="rgba16" Width="8" Height="16" Offset="0x40D0"/>
         <Texture Name="gIngoBootSideTex" OutName="boot_side" Format="ci8" Width="8" Height="16" Offset="0x41D0" TlutOffset="0x3408"/>
-        <Texture Name="gIngoBootTop" OutName="boot_top" Format="ci8" Width="16" Height="16" Offset="0x4250" TlutOffset="0x3408"/>
+        <Texture Name="gIngoBootTopTex" OutName="boot_top" Format="ci8" Width="16" Height="16" Offset="0x4250" TlutOffset="0x3408"/>
         <Texture Name="gIngoHeadGradientTex" OutName="head_gradient" Format="ci8" Width="8" Height="8" Offset="0x4790" TlutOffset="0x3408"/>
 
         <Texture Name="gIngoEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x3590" TlutOffset="0x3210"/>
@@ -46,7 +46,7 @@
         <DList Name="gIngoChildEraBasketDL" Offset="0x7A20"/>
         <DList Name="gIngoChildEraPitchForkDL" Offset="0x7BF8"/>
         <DList Name="gIngoChildEraChestDL" Offset="0xA0D8"/>
-        <DList Name="gIngoChildEraRightSHoulderDL" Offset="0xA408"/>
+        <DList Name="gIngoChildEraRightShoulderDL" Offset="0xA408"/>
         <DList Name="gIngoChildEraRightArmDL" Offset="0xA630"/>
         <DList Name="gIngoChildEraRightHandDL" Offset="0xA8E0"/>
         <DList Name="gIngoChildEraLeftShoulderDL" Offset="0xACA0"/>
@@ -65,7 +65,7 @@
         <Texture Name="gIngoAdultEraEarTex" OutName="adult_era_ear" Format="ci8" Width="8" Height="8" Offset="0xC718" TlutOffset="0xC298"/>
         <Texture Name="object_in_Tex_00C758" OutName="tex_0000C758" Format="ci8" Width="16" Height="32" Offset="0xC758" TlutOffset="0xC298"/>
         <Texture Name="gIngoAdultEraHairTex" OutName="adult_era_hair" Format="ci8" Width="16" Height="16" Offset="0xC958" TlutOffset="0xC298"/>
-        <Texture Name="gIngoAdultEraHair2Tex" OutName="adult_era_hair_2" Format="ci8" Width="16" Height="16" Offset="0xCA58" TlutOffset="0xC298"/>
+        <Texture Name="gIngoAdultEraSideburnsTex" OutName="adult_era_sideburns" Format="ci8" Width="16" Height="16" Offset="0xCA58" TlutOffset="0xC298"/>
         <Texture Name="gIngoAdultEraGradient2Tex" OutName="adult_era_gradient_2" Format="ci8" Width="8" Height="8" Offset="0xCB58" TlutOffset="0xC298"/>
 
         <Texture Name="gIngoUnusedEyeOpenTex" OutName="unused_eye_open" Format="rgba16" Width="32" Height="32" Offset="0xCB98"/>

@@ -1836,13 +1836,13 @@ std::string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 
 			std::string declaration;
 
-			int32_t curAddr = vtxKeys[i];
+			//int32_t curAddr = vtxKeys[i];
 
 			for (auto& vtx : item)
 			{
 				declaration += StringHelper::Sprintf("\t%s,\n", vtx.GetBodySourceCode().c_str());
 
-				curAddr += 16;
+			//	curAddr += 16;
 			}
 
 			// Ensure there's always a trailing line feed to prevent dumb warnings.

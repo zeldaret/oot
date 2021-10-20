@@ -93,9 +93,9 @@ static Gfx* sAdultEraDLs[] = {
     gIngoAdultEraRightArmDL,
     gIngoAdultEraRightHandDL,
     gIngoAdultEraHeadDL,
-    gIngoAdultEraLeftEyebrowLimb,
-    gIngoAdultEraRightEyebrowLimb,
-    gIngoAdultEraMustacheLimb,
+    gIngoAdultEraLeftEyebrowDL,
+    gIngoAdultEraRightEyebrowDL,
+    gIngoAdultEraMustacheDL,
 };
 
 u16 func_80A78FB0(GlobalContext* globalCtx) {
