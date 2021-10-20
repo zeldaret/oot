@@ -1013,7 +1013,7 @@ void func_80099760(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4859);
 }
 
-void* gDcEntrenceTextures[] = { gDcDayEntrenceTex, gDcNightEntrenceTex };
+void* gDcEntranceTextures[] = { gDcDayEntranceTex, gDcNightEntranceTex };
 void* sDcLaveFloorTextures[] = { gDcLavaFloor1Tex, gDcLavaFloor2Tex, gDcLavaFloor3Tex, gDcLavaFloor4Tex, gDcLavaFloor5Tex, gDcLavaFloor6Tex, gDcLavaFloor7Tex, gDcLavaFloor8Tex };
 
 // Scene Draw Config 20
@@ -1025,7 +1025,7 @@ void func_80099878(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4905);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDcEntrenceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDcEntranceTextures[gSaveContext.nightFlag]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sDcLaveFloorTextures[(s32)(gameplayFrames & 14) >> 1]));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 1) % 256, 0, 64, 32, 1, 0,
@@ -1263,7 +1263,7 @@ void func_8009AE30(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5416);
 }
 
-void* sThievesHideoutEntrenceTextures[] = { gThievesHideoutDayEntrenceTex, gThievesHideoutNightEntrenceTex };
+void* sThievesHideoutEntranceTextures[] = { gThievesHideoutDayEntranceTex, gThievesHideoutNightEntranceTex };
 
 // Scene Draw Config 40
 void func_8009AFE0(GlobalContext* globalCtx) {
@@ -1276,12 +1276,12 @@ void func_8009AFE0(GlobalContext* globalCtx) {
 
     { s32 pad[2]; }
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sThievesHideoutEntrenceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sThievesHideoutEntranceTextures[gSaveContext.nightFlag]));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5507);
 }
 
-void* D_8012A330[] = { gWaterTempleDayEntrenceTex, gWaterTempleNightEntrenceTex };
+void* D_8012A330[] = { gWaterTempleDayEntranceTex, gWaterTempleNightEntranceTex };
 
 // Scene Draw Config 23 (Water Temple)
 void func_8009B0FC(GlobalContext* globalCtx) {
@@ -1514,7 +1514,7 @@ void func_8009C0AC(GlobalContext* globalCtx) {
     }
 }
 
-void* sIceCavernEntrenceTextures[] = { gIceCavernDayEntrenceTex, gIceCavernNightEntrenceTex };
+void* sIceCavernEntranceTextures[] = { gIceCavernDayEntranceTex, gIceCavernNightEntranceTex };
 
 // Scene Draw Config 37
 void func_8009C3EC(GlobalContext* globalCtx) {
@@ -1525,7 +1525,7 @@ void func_8009C3EC(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6042);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sIceCavernEntrenceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sIceCavernEntranceTextures[gSaveContext.nightFlag]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32,
                                 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
@@ -1615,7 +1615,7 @@ void func_8009CAC0(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6264);
 }
 
-void* sGtgEntrenceTextures[] = { gGtgDayEntrenceTex, gGtgNightEntrenceTex };
+void* sGtgEntranceTextures[] = { gGtgDayEntranceTex, gGtgNightEntranceTex };
 
 // Scene Draw Config 27
 void func_8009CC00(GlobalContext* globalCtx) {
@@ -1626,7 +1626,7 @@ void func_8009CC00(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6290);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGtgEntrenceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGtgEntranceTextures[gSaveContext.nightFlag]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32,
                                 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
@@ -1711,7 +1711,7 @@ void func_8009D0E8(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6491);
 }
 
-void* sLonLonHouseEntrenceTextures[] = { gLonLonHouseDayEntrenceTex, gLonLonHouseNightEntrenceTex };
+void* sLonLonHouseEntranceTextures[] = { gLonLonHouseDayEntranceTex, gLonLonHouseNightEntranceTex };
 
 // Scene Draw Config 44
 void func_8009D31C(GlobalContext* globalCtx) {
@@ -1719,7 +1719,7 @@ void func_8009D31C(GlobalContext* globalCtx) {
 
     { s32 pad[2]; }
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sLonLonHouseEntrenceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sLonLonHouseEntranceTextures[gSaveContext.nightFlag]));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1778,7 +1778,7 @@ void func_8009D5B4(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6615);
 }
 
-void* sForestTempleEntrenceTextures[] = { gForestTempleDayEntrenceTex, gForestTempleNightEntrenceTex };
+void* sForestTempleEntranceTextures[] = { gForestTempleDayEntranceTex, gForestTempleNightEntranceTex };
 
 // Scene Draw Config 22
 void func_8009D758(GlobalContext* globalCtx) {
@@ -1789,7 +1789,7 @@ void func_8009D758(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6640);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sForestTempleEntrenceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sForestTempleEntranceTextures[gSaveContext.nightFlag]));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32,
                                 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
@@ -1808,7 +1808,7 @@ void func_8009D758(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6671);
 }
 
-void* sSpiritTempleEntrenceTextures[] = { gSpiritTempleDayEntrenceTex, gSpiritTempleNightEntrenceTex };
+void* sSpiritTempleEntranceTextures[] = { gSpiritTempleDayEntranceTex, gSpiritTempleNightEntranceTex };
 
 // Scene Draw Config 25
 void func_8009D974(GlobalContext* globalCtx) {
@@ -1816,7 +1816,7 @@ void func_8009D974(GlobalContext* globalCtx) {
 
     { s32 pad[2]; }
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sSpiritTempleEntrenceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sSpiritTempleEntranceTextures[gSaveContext.nightFlag]));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6762);
 }
@@ -1992,7 +1992,7 @@ void func_8009E54C(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7097);
 }
 
-void* sZorasDomainEntrenceTextures[] = { gZorasDomainDayEntrenceTex, gZorasDomainNightEntrenceTex };
+void* sZorasDomainEntranceTextures[] = { gZorasDomainDayEntranceTex, gZorasDomainNightEntranceTex };
 
 // Scene Draw Config 6
 void func_8009E730(GlobalContext* globalCtx) {
@@ -2011,7 +2011,7 @@ void func_8009E730(GlobalContext* globalCtx) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sZorasDomainEntrenceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sZorasDomainEntranceTextures[gSaveContext.nightFlag]));
 
     { s32 pad[2]; }
 
@@ -2249,7 +2249,7 @@ void func_8009F7D4(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7530);
 }
 
-void* sGoronCityEntrenceTextures[] = { gGoronCityDayEntrenceTex, gGoronCityNightEntrenceTex };
+void* sGoronCityEntranceTextures[] = { gGoronCityDayEntranceTex, gGoronCityNightEntranceTex };
 
 // Scene Draw Config 16
 void func_8009F9D0(GlobalContext* globalCtx) {
@@ -2268,7 +2268,7 @@ void func_8009F9D0(GlobalContext* globalCtx) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGoronCityEntrenceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGoronCityEntranceTextures[gSaveContext.nightFlag]));
 
     { s32 pad[2]; }
 

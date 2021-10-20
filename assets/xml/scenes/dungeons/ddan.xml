@@ -1,7 +1,7 @@
 <Root>
     <File Name="ddan_scene" Segment="2">
-        <Texture Name="gDcDayEntrenceTex" OutName="day_entrence" Format="ci8" Width="32" Height="64" Offset="0x12378" TlutOffset="0x11D70"/>
-        <Texture Name="gDcNightEntrenceTex" OutName="night_entrence" Format="ci8" Width="32" Height="64" Offset="0x13378" TlutOffset="0x11D70"/>
+        <Texture Name="gDcDayEntranceTex" OutName="day_entrance" Format="ci8" Width="32" Height="64" Offset="0x12378" TlutOffset="0x11D70"/>
+        <Texture Name="gDcNightEntranceTex" OutName="night_entrance" Format="ci8" Width="32" Height="64" Offset="0x13378" TlutOffset="0x11D70"/>
 
         <!-- these need to have TLUTs extract from room 0 at 0x11290-->
         <Texture Name="gDcLavaFloor1Tex" OutName="lave_floor_1" Format="ci8" Width="32" Height="32" Offset="0x11F78" />
