@@ -54,9 +54,6 @@ void func_80987330(DemoIm* this, GlobalContext* globalCtx);
 void DemoIm_DrawNothing(DemoIm* this, GlobalContext* globalCtx);
 void DemoIm_DrawSolid(DemoIm* this, GlobalContext* globalCtx);
 
-#define ANIM_FORWARD 0
-#define ANIM_BACKWARD 1
-
 static void* sEyeTextures[] = {
     gImpaEyeOpenTex,
     gImpaEyeHalfTex,
@@ -280,13 +277,13 @@ void func_80985200(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode, f32 transitionRate, s32 animDir) {
+void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode, f32 transitionRate, s32 playBackwards) {
     f32 frameCount = Animation_GetLastFrame(animHeaderSeg);
     f32 playbackSpeed;
     f32 startFrame;
     f32 endFrame;
 
-    if (animDir == ANIM_FORWARD) {
+    if (!playBackwards) {
         startFrame = 0.0f;
         endFrame = frameCount;
         playbackSpeed = 1.0f;
@@ -300,7 +297,7 @@ void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode
 }
 
 void func_80985310(DemoIm* this, GlobalContext* globalCtx) {
-    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, false);
     this->actor.shape.yOffset = -10000.0f;
 }
 
@@ -363,7 +360,7 @@ void func_8098557C(DemoIm* this) {
 void func_809855A8(DemoIm* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[5] != NULL) &&
         (globalCtx->csCtx.npcActions[5]->action == 3)) {
-        Animation_Change(&this->skelAnime, &gImpaRaiseArms, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaRaiseArms),
+        Animation_Change(&this->skelAnime, &gImpaRaiseArmsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaRaiseArmsAnim),
                          ANIMMODE_ONCE, 4.0f);
         this->action = 4;
     }
@@ -371,8 +368,8 @@ void func_809855A8(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985640(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &gImpaPresentShadowMedallion, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gImpaPresentShadowMedallion), ANIMMODE_LOOP, 0.0f);
+        Animation_Change(&this->skelAnime, &gImpaPresentShadowMedallionAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gImpaPresentShadowMedallionAnim), ANIMMODE_LOOP, 0.0f);
         this->action = 5;
     }
 }
@@ -430,7 +427,7 @@ void func_80985830(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80985860(DemoIm* this, GlobalContext* globalCtx) {
-    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, false);
     this->action = 7;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -543,7 +540,7 @@ void DemoIm_DrawTranslucent(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80985E60(DemoIm* this, GlobalContext* globalCtx) {
-    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, false);
     this->action = 10;
     this->unk_280 = 1;
 }
@@ -718,7 +715,7 @@ void func_809864D4(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_8098652C(DemoIm* this, GlobalContext* globalCtx) {
-    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, false);
     this->action = 15;
 }
 
@@ -827,7 +824,7 @@ void func_80986948(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_809869B0(DemoIm* this, GlobalContext* globalCtx) {
-    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, false);
     this->action = 18;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -999,7 +996,7 @@ void func_80986FA8(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80987018(DemoIm* this, GlobalContext* globalCtx) {
-    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, false);
     this->action = 27;
     this->drawConfig = 0;
     this->actor.shape.shadowAlpha = 0;
@@ -1034,13 +1031,13 @@ void func_80987128(DemoIm* this) {
 }
 
 void func_80987174(DemoIm* this) {
-    DemoIm_ChangeAnim(this, &object_im_Anim_0101C8, ANIMMODE_ONCE, -8.0f, ANIM_FORWARD);
+    DemoIm_ChangeAnim(this, &object_im_Anim_0101C8, ANIMMODE_ONCE, -8.0f, false);
     this->action = 30;
 }
 
 void func_809871B4(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        DemoIm_ChangeAnim(this, &object_im_Anim_00FB10, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
+        DemoIm_ChangeAnim(this, &object_im_Anim_00FB10, ANIMMODE_LOOP, 0.0f, false);
     }
 }
 

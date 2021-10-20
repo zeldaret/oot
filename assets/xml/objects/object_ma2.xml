@@ -67,7 +67,7 @@
         <Limb Name="gMalonAdultRightHandLimb" LimbType="Standard" Offset="0x8D30"/>
         <Limb Name="gMalonAdultHeadLimb" LimbType="Standard" Offset="0x8D3C"/>
         <Animation Name="gMalonAdultIdleAnim" Offset="0x7D4"/>
-        <Animation Name="gMalonAdultHandsFromFaceToSideAnim" Offset="0x92F0"/> <!-- Unused -->
+        <Animation Name="gMalonAdultSingToIdleAnim" Offset="0x92F0"/> <!-- Unused -->
         <Animation Name="gMalonAdultStandStillAnim" Offset="0x93BC"/>
         <Animation Name="gMalonAdultSingAnim" Offset="0x9EE0"/>
 

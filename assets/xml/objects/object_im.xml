@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_im" Segment="6">
-        <Animation Name="gImpaRaiseArms" Offset="0x710"/>
-        <Animation Name="gImpaPresentShadowMedallion" Offset="0xAFC"/>
+        <Animation Name="gImpaRaiseArmsAnim" Offset="0x710"/>
+        <Animation Name="gImpaPresentShadowMedallionAnim" Offset="0xAFC"/>
         <Animation Name="gImpaThrowDekuNutAnim" Offset="0x14E4"/>
         <Animation Name="gImpaIdleAnim" Offset="0x1868"/>
         <Texture Name="object_im_TLUT_001880" OutName="tlut_00001880" Format="rgba16" Width="16" Height="16" Offset="0x1880"/>
