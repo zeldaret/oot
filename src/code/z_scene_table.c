@@ -1,22 +1,25 @@
 #include "global.h"
 
+#include "scenes/overworld/spot00/spot00_scene.h"
 #include "scenes/overworld/spot00/spot00_room_0.h"
 #include "scenes/overworld/spot01/spot01_scene.h"
 #include "scenes/overworld/spot07/spot07_scene.h"
 #include "scenes/overworld/spot12/spot12_scene.h"
+#include "scenes/overworld/spot16/spot16_scene.h"
 #include "scenes/overworld/spot16/spot16_room_0.h"
 #include "scenes/overworld/spot18/spot18_scene.h"
 #include "scenes/overworld/spot20/spot20_scene.h"
 #include "scenes/overworld/souko/souko_scene.h"
 
+#include "scenes/dungeons/men/men_scene.h"
+#include "scenes/dungeons/ddan/ddan_scene.h"
 #include "scenes/dungeons/ydan/ydan_scene.h"
+#include "scenes/dungeons/Bmori1/Bmori1_scene.h"
 #include "scenes/dungeons/MIZUsin/MIZUsin_scene.h"
 #include "scenes/dungeons/gerudoway/gerudoway_scene.h"
-#include "scenes/dungeons/Bmori1/Bmori1_scene.h"
 #include "scenes/dungeons/jyasinzou/jyasinzou_scene.h"
-#include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
-#include "scenes/dungeons/men/men_scene.h"
 #include "scenes/indoors/miharigoya/miharigoya_scene.h"
+#include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 
 #define ENTRANCE(scene, spawn, continueBgm, displayTitleCard, fadeIn, fadeOut)                                     \
     {                                                                                                              \
@@ -1010,8 +1013,8 @@ void func_80099760(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4859);
 }
 
-u32 D_8012A300[] = { 0x02012378, 0x02013378 };
-u32 D_8012A308[] = { 0x02011F78, 0x02014778, 0x02014378, 0x02013F78, 0x02014B78, 0x02013B78, 0x02012F78, 0x02012B78 };
+void* gDcEntrenceTextures[] = { gDcDayEntrenceTex, gDcNightEntrenceTex };
+void* sDcLaveFloorTextures[] = { gDcLavaFloor1Tex, gDcLavaFloor2Tex, gDcLavaFloor3Tex, gDcLavaFloor4Tex, gDcLavaFloor5Tex, gDcLavaFloor6Tex, gDcLavaFloor7Tex, gDcLavaFloor8Tex };
 
 // Scene Draw Config 20
 void func_80099878(GlobalContext* globalCtx) {
@@ -1022,8 +1025,8 @@ void func_80099878(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4905);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A300[gSaveContext.nightFlag]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_8012A308[(s32)(gameplayFrames & 14) >> 1]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDcEntrenceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sDcLaveFloorTextures[(s32)(gameplayFrames & 14) >> 1]));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 1) % 256, 0, 64, 32, 1, 0,
                                 (gameplayFrames * 1) % 128, 64, 32));
