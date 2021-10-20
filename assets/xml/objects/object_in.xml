@@ -83,9 +83,9 @@
 
         <DList Name="gIngoAdultEraChestDL" Offset="0x11758"/>
         <DList Name="gIngoAdultEraHeadDL" Offset="0x11AD8"/>
-        <DList Name="gIngoAdultEraMustacheLimb" Offset="0x12120"/>
-        <DList Name="gIngoAdultEraRightEyebrowLimb" Offset="0x12220"/>
-        <DList Name="gIngoAdultEraLeftEyebrowLimb" Offset="0x12350"/>
+        <DList Name="gIngoAdultEraMustacheDL" Offset="0x12120"/>
+        <DList Name="gIngoAdultEraRightEyebrowDL" Offset="0x12220"/>
+        <DList Name="gIngoAdultEraLeftEyebrowDL" Offset="0x12350"/>
         <DList Name="gIngoAdultEraRightShoulderDL" Offset="0x12480"/>
         <DList Name="gIngoAdultEraRightArmDL" Offset="0x125B0"/>
         <DList Name="gIngoAdultEraRightHandDL" Offset="0x126E0"/>
