@@ -21,8 +21,8 @@
         <Texture Name="gIngoEarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x3510" TlutOffset="0x3408"/>
         <Texture Name="gIngoBrownTex" OutName="brown" Format="ci8" Width="8" Height="8" Offset="0x3550" TlutOffset="0x3408"/> <!-- Used in his mustache, eyebrows, pitchfork -->
         <Texture Name="gIngoEyebrowEdgeTex" OutName="eyebrow_edge" Format="rgba16" Width="16" Height="16" Offset="0x3990"/>
-        <Texture Name="gIngoHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x3B90" TlutOffset="0x3408"/> <!-- Top of head -->
-        <Texture Name="gIngoHair2Tex" OutName="hair_2" Format="ci8" Width="16" Height="16" Offset="0x3C90" TlutOffset="0x3408"/> <!-- Side of head -->
+        <Texture Name="gIngoHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x3B90" TlutOffset="0x3408"/>
+        <Texture Name="gIngoSideburnsTex" OutName="sideburns" Format="ci8" Width="16" Height="16" Offset="0x3C90" TlutOffset="0x3408"/>
         <Texture Name="gIngoPitchforkTex" OutName="pitchfork" Format="i8" Width="8" Height="8" Offset="0x3D90"/>
         <Texture Name="gIngoBasketTex" OutName="basket" Format="rgba16" Width="8" Height="16" Offset="0x3DD0"/>
         <Texture Name="gIngoBeardTex" OutName="beard" Format="ci8" Width="16" Height="32" Offset="0x3ED0" TlutOffset="0x3408"/>
