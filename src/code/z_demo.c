@@ -76,7 +76,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { 0x0225, AGE_REQ_NONE, 0xB7, gZorasFountainIntroCs },
     { 0x0123, AGE_REQ_NONE, 0xB8, gDesertColossusIntroCs },
     { 0x0147, AGE_REQ_NONE, 0xB9, gDeathMountainCraterIntroCs },
-    { 0x0138, AGE_REQ_ADULT, 0xBA, gGanonsCastleIntroCs }, // This doesn't seem to be a valid cutscene
+    { 0x0138, AGE_REQ_ADULT, 0xBA, gGanonsCastleIntroCs },
     { 0x0574, AGE_REQ_NONE, 0x5A, gSunSongTeachPart2Cs },
     { 0x0538, AGE_REQ_NONE, 0xBB, gForestBarrierCs },
     { 0x053C, AGE_REQ_NONE, 0xBC, gWaterBarrierCs },
