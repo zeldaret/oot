@@ -7,7 +7,7 @@
         <Texture Name="gIngoShirtTLUT" OutName="shirt_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1CD0"/>
         <Texture Name="gIngoShoulderTLUT" OutName="shoulder_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1ED0"/>
         <Texture Name="gIngoUnusedEyeTex" OutName="unused_eye" Format="rgba16" Width="32" Height="32" Offset="0x2150"/>
-        <Texture Name="gIngoShoulderGradient" OutName="shoulder_gradient" Format="ci8" Width="8" Height="8" Offset="0x2950" TlutOffset="0x1ED0"/>
+        <Texture Name="gIngoSkinGradientTex" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x2950" TlutOffset="0x1ED0"/>
         <Texture Name="gIngoArmHairTex" OutName="arm_hair" Format="ci8" Width="16" Height="32" Offset="0x2990" TlutOffset="0x1CD0"/>
         <Texture Name="gIngoFingersTex" OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0x2B90" TlutOffset="0x1CD0"/>
         <Texture Name="gIngoShirtSleeveTex" OutName="sleeve" Format="ci8" Width="8" Height="8" Offset="0x2C90" TlutOffset="0x1CD0"/>
