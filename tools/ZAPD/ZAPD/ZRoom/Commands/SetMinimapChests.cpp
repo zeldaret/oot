@@ -1,8 +1,8 @@
 #include "SetMinimapChests.h"
 
-#include "BitConverter.h"
 #include "Globals.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 #include "ZRoom/ZRoom.h"
 
@@ -28,7 +28,7 @@ void SetMinimapChests::ParseRawData()
 
 void SetMinimapChests::DeclareReferences(const std::string& prefix)
 {
-	std::string declaration = "";
+	std::string declaration;
 
 	size_t index = 0;
 	for (const auto& chest : chests)
@@ -42,14 +42,15 @@ void SetMinimapChests::DeclareReferences(const std::string& prefix)
 	}
 
 	parent->AddDeclarationArray(
-		segmentOffset, DeclarationAlignment::None, chests.size() * 10, "MinimapChest",
+		segmentOffset, DeclarationAlignment::Align4, chests.size() * 10, "MinimapChest",
 		StringHelper::Sprintf("%sMinimapChests0x%06X", prefix.c_str(), segmentOffset),
 		chests.size(), declaration);
 }
 
 std::string SetMinimapChests::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "MinimapChest", listName);
 	return StringHelper::Sprintf("SCENE_CMD_MINIMAP_COMPASS_ICON_INFO(0x%02X, %s)", chests.size(),
 	                             listName.c_str());
 }
@@ -62,11 +63,6 @@ std::string SetMinimapChests::GetCommandCName() const
 RoomCommand SetMinimapChests::GetRoomCommand() const
 {
 	return RoomCommand::SetMinimapChests;
-}
-
-size_t SetMinimapChests::GetRawDataSize() const
-{
-	return ZRoomCommand::GetRawDataSize() + (chests.size() * 10);
 }
 
 MinimapChest::MinimapChest(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)

@@ -128,8 +128,9 @@ void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc) {
  * Gives a number on the range of 0.0f - 1.0f representing current cutscene action completion percentage.
  */
 f32 DemoEffect_InterpolateCsFrames(GlobalContext* globalCtx, s32 csActionId) {
-    f32 interpolated = func_8006F93C(globalCtx->csCtx.npcActions[csActionId]->endFrame,
-                                     globalCtx->csCtx.npcActions[csActionId]->startFrame, globalCtx->csCtx.frames);
+    f32 interpolated =
+        Environment_LerpWeight(globalCtx->csCtx.npcActions[csActionId]->endFrame,
+                               globalCtx->csCtx.npcActions[csActionId]->startFrame, globalCtx->csCtx.frames);
     if (interpolated > 1.0f) {
         interpolated = 1.0f;
     }

@@ -102,7 +102,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "(head) maximum turning angle speed"
     osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
     osSyncPrintf(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, ((void)0, gSaveContext.dayTime)); // "current time"
-    osSyncPrintf(VT_FGCOL(YELLOW) " チェック時間 %d\n" VT_RST, 0xBAAA); // "check time"
+    osSyncPrintf(VT_FGCOL(YELLOW) " チェック時間 %d\n" VT_RST, 0xBAAA);                   // "check time"
     osSyncPrintf("\n\n");
 
     if (this->path == 3) {
@@ -426,7 +426,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         searchBallPos.z = this->actor.world.pos.z;
 
                         Matrix_Push();
-                        Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, 0);
+                        Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, MTXMODE_NEW);
                         searchBallMult.z = 30.0f;
                         Matrix_MultVec3f(&searchBallMult, &searchBallVel);
                         Matrix_Pop();

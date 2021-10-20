@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT00_HANEBASI_H_
-#define _Z_BG_SPOT00_HANEBASI_H_
+#ifndef Z_BG_SPOT00_HANEBASI_H
+#define Z_BG_SPOT00_HANEBASI_H
 
 #include "ultra64.h"
 #include "global.h"

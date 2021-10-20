@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_RDP_H_
-#define _ULTRA64_RDP_H_
+#ifndef ULTRA64_RDP_H
+#define ULTRA64_RDP_H
 
 /* DP Command Registers */
 

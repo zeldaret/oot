@@ -100,7 +100,7 @@ void ObjKibako_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjKibako_InitCollider(&this->actor, globalCtx);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sCCInfoInit);
     ObjKibako_SetupIdle(this);
-    // wooden box
+    // "wooden box"
     osSyncPrintf("(dungeon keep 木箱)(arg_data 0x%04x)\n", this->actor.params);
 }
 

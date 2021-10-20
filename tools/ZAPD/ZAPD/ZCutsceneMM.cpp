@@ -1,6 +1,7 @@
 #include "ZCutsceneMM.h"
-#include "BitConverter.h"
-#include "StringHelper.h"
+
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 
 ZCutsceneMM::ZCutsceneMM(ZFile* nParent) : ZCutsceneBase(nParent)
 {
@@ -12,9 +13,9 @@ ZCutsceneMM::~ZCutsceneMM()
 		delete cmd;
 }
 
-std::string ZCutsceneMM::GetBodySourceCode()
+std::string ZCutsceneMM::GetBodySourceCode() const
 {
-	std::string output = "";
+	std::string output;
 
 	output += StringHelper::Sprintf("    CS_BEGIN_CUTSCENE(%i, %i),", numCommands, endFrame);
 
@@ -22,35 +23,10 @@ std::string ZCutsceneMM::GetBodySourceCode()
 	{
 		if ((i % 4) == 0)
 			output += "\n    ";
-		output += StringHelper::Sprintf("0x%08X,", data[i]);
+		output += StringHelper::Sprintf("0x%08X, ", data[i]);
 	}
 
 	return output;
-}
-
-std::string ZCutsceneMM::GetSourceOutputCode(const std::string& prefix)
-{
-	std::string bodyStr = GetBodySourceCode();
-
-	Declaration* decl = parent->GetDeclaration(rawDataIndex);
-
-	if (decl == nullptr)
-		DeclareVar(prefix, bodyStr);
-	else
-		decl->text = bodyStr;
-
-	return "";
-}
-
-void ZCutsceneMM::DeclareVar(const std::string& prefix, const std::string& bodyStr) const
-{
-	std::string auxName = name;
-
-	if (auxName == "")
-		auxName = StringHelper::Sprintf("%sCutsceneData0x%06X", prefix.c_str(), rawDataIndex);
-
-	parent->AddDeclarationArray(getSegmentOffset(), DeclarationAlignment::Align4, GetRawDataSize(),
-	                            "s32", auxName, 0, bodyStr);
 }
 
 size_t ZCutsceneMM::GetRawDataSize() const
@@ -58,15 +34,8 @@ size_t ZCutsceneMM::GetRawDataSize() const
 	return 8 + data.size() * 4;
 }
 
-void ZCutsceneMM::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
-{
-	ZResource::ExtractFromXML(reader, nRawDataIndex);
-	DeclareVar(parent->GetName(), "");
-}
-
 void ZCutsceneMM::ParseRawData()
 {
-	segmentOffset = rawDataIndex;
 	const auto& rawData = parent->GetRawData();
 
 	numCommands = BitConverter::ToInt32BE(rawData, rawDataIndex + 0);

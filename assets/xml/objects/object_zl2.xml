@@ -27,7 +27,7 @@
         <DList Name="gZelda2OcarinaDL" Offset="0xBAE8"/>
         <Texture Name="gZelda2OcarinaTex" OutName="zelda_2_ocarina" Format="rgba16" Width="32" Height="16" Offset="0xB598"/>
 
-        <!-- Palletes -->
+        <!-- palettes -->
         <Texture Name="gZelda2_0TLUT" OutName="zelda_2_0_tlut" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
         <Texture Name="gZelda2_1TLUT" OutName="zelda_2_1_tlut" Format="rgba16" Width="16" Height="16" Offset="0x200"/>
         <Texture Name="gZelda2_2TLUT" OutName="zelda_2_2_tlut" Format="rgba16" Width="16" Height="16" Offset="0x400"/>

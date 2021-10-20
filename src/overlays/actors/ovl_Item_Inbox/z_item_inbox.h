@@ -1,5 +1,5 @@
-#ifndef _Z_ITEM_INBOX_H_
-#define _Z_ITEM_INBOX_H_
+#ifndef Z_ITEM_INBOX_H
+#define Z_ITEM_INBOX_H
 
 #include "ultra64.h"
 #include "global.h"

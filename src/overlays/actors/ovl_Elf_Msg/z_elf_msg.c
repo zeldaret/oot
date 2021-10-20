@@ -105,7 +105,7 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
         return 1;
-    } else if ((this->actor.world.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
+    } else if ((this->actor.world.rot.y == -1) && Flags_GetClear(globalCtx, this->actor.room)) {
         LOG_STRING("共倒れ", "../z_elf_msg.c", 172); // "Mutual destruction"
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
