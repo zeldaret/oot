@@ -27,7 +27,7 @@
         <Animation Name="gTalonWakeUpAnim" Offset="0xE3D8"/>
         <DList Name="gTalonTorsoDL" Offset="0x3F70"/>
         <DList Name="gTalonChestDL" Offset="0x4288"/>
-        <DList Name="gTalonRightSHoulderDL" Offset="0x4918"/>
+        <DList Name="gTalonRightShoulderDL" Offset="0x4918"/>
         <DList Name="gTalonRightArmDL" Offset="0x4B40"/>
         <DList Name="gTalonRightHandDL" Offset="0x4DF0"/>
         <DList Name="gTalonLeftShoulderDL" Offset="0x5298"/>
