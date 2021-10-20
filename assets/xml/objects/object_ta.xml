@@ -41,6 +41,7 @@
         <DList Name="gTalonRightFootDL" Offset="0xA2F8"/>
         <DList Name="gTalonLeftFootDL" Offset="0xA498"/>
         <Texture Name="gTalon2TLUT" OutName="tlut_2" Format="rgba16" Width="132" Height="1" Offset="0x6AC0"/>
+        <Texture Name="gTalonEyeTLUT" OutName="eye_tlut" Format="rgba16" Width="63" Height="4" Offset="0x6BC8"/>
         <Texture Name="gTalonHeadSkinTex" OutName="head_skin" Format="ci8" Width="8" Height="8" Offset="0x6DC0" TlutOffset="0x6AC0"/>
         <Texture Name="gTalonEarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x6E00" TlutOffset="0x6AC0"/>
         <Texture Name="gTalonFaceHairTex" OutName="face_hair" Format="ci8" Width="8" Height="16" Offset="0x6E40" TlutOffset="0x6AC0"/>
