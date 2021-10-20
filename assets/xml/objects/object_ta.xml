@@ -15,7 +15,7 @@
         <Limb Name="gTalonRightShoulderLimb" LimbType="Standard" Offset="0xB73C"/>
         <Limb Name="gTalonRightArmLimb" LimbType="Standard" Offset="0xB748"/>
         <Limb Name="gTalonRightHandLimb" LimbType="Standard" Offset="0xB754"/>
-        <Limb Name="gTalonHead" LimbType="Standard" Offset="0xB760"/>
+        <Limb Name="gTalonHeadLimb" LimbType="Standard" Offset="0xB760"/>
         <Limb Name="gTalonTorsoLimb" LimbType="Standard" Offset="0xB76C"/>
         <Animation Name="gTalonSitSleepingAnim" Offset="0x17E8"/>
         <Animation Name="gTalonStandAnim" Offset="0x1C94"/>
