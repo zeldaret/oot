@@ -4,7 +4,7 @@
         <Animation Name="object_in_Anim_000CB0" Offset="0xCB0"/>
         <Animation Name="object_in_Anim_001BE0" Offset="0x1BE0"/>
         <Animation Name="object_in_Anim_001CC0" Offset="0x1CC0"/>
-        <Texture Name="gIngoShirtTLUT" OutName="shirt_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1CD0"/>
+        <Texture Name="gIngoTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x1CD0"/>
         <Texture Name="gIngoSkinGradientTLUT" OutName="skin_gradient_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1ED0"/>
         <Texture Name="gIngoUnusedEyeTex" OutName="unused_eye" Format="rgba16" Width="32" Height="32" Offset="0x2150"/>
         <Texture Name="gIngoSkinGradientTex" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x2950" TlutOffset="0x1ED0"/>
