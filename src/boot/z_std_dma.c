@@ -1699,7 +1699,8 @@ void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, cons
     osSyncPrintf("%c", 7);
     osSyncPrintf(VT_FGCOL(RED));
     osSyncPrintf("DMA致命的エラー(%s)\nROM:%X RAM:%X SIZE:%X %s\n",
-                 errorDesc ? errorDesc : (errorName ? errorName : "???"), vrom, ram, size, file ? file : "???");
+                 errorDesc != NULL ? errorDesc : (errorName != NULL ? errorName : "???"), vrom, ram, size,
+                 file != NULL ? file : "???");
 
     if (req->filename) {
         osSyncPrintf("DMA ERROR: %s %d", req->filename, req->line);
@@ -1714,10 +1715,10 @@ void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, cons
     } else if (sDmaMgrCurFileName) {
         sprintf(buff1, "DMA ERROR: %s %d", sDmaMgrCurFileName, sDmaMgrCurFileLine);
     } else {
-        sprintf(buff1, "DMA ERROR: %s", errorName ? errorName : "???");
+        sprintf(buff1, "DMA ERROR: %s", errorName != NULL ? errorName : "???");
     }
 
-    sprintf(buff2, "%07X %08X %X %s", vrom, ram, size, file ? file : "???");
+    sprintf(buff2, "%07X %08X %X %s", vrom, ram, size, file != NULL ? file : "???");
     Fault_AddHungupAndCrashImpl(buff1, buff2);
 }
 
@@ -1733,7 +1734,7 @@ const char* DmaMgr_GetFileNameImpl(u32 vrom) {
         iter++;
         name++;
     }
-    //! @bug Since the devs forgot to return in case the file isn't found, the return value will be a pointer to the end
+    //! @bug Since there is no return, in case the file isn't found, the return value will be a pointer to the end
     // of gDmaDataTable
 }
 
@@ -1860,7 +1861,7 @@ void DmaMgr_ThreadEntry(void* arg0) {
 s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg) {
     static s32 sDmaMgrQueueFullLogged = 0;
 
-    if ((1 && (ram == 0)) || (osMemSize < ram + size + 0x80000000) || (vrom & 1) || (vrom > 0x4000000U) ||
+    if ((1 && (ram == 0)) || (osMemSize < ram + size + 0x80000000) || (vrom & 1) || (vrom > 0x4000000) ||
         (size == 0) || (size & 1)) {
         DmaMgr_Error(req, NULL, "ILLIGAL DMA-FUNCTION CALL", "パラメータ異常です");
     }

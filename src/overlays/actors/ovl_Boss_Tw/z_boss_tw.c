@@ -3951,7 +3951,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
 
                         this->actor.world.pos = player2->bodyPartsPos[15];
                         this->actor.world.pos.y = -2000.0f;
-                        Matrix_MtxFToYXZRotS(&player2->shieldMf, &blastDir, MTXMODE_NEW);
+                        Matrix_MtxFToYXZRotS(&player2->shieldMf, &blastDir, 0);
                         blastDir.x = -blastDir.x;
                         blastDir.y = blastDir.y + 0x8000;
                         Math_ApproachS(&this->magicDir.x, blastDir.x, 0xA, 0x800);

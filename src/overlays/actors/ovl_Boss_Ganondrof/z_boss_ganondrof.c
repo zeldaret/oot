@@ -1493,7 +1493,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("STOP TIMER = %d ==============\n", this->actor.freezeTimer);
     horse = (EnfHG*)this->actor.child;
     if (this->flyMode == GND_FLY_PAINTING) {
-        Matrix_RotateY((horse->turnRot * 3.1416f) / (f32)0x8000, 1);
+        Matrix_RotateY((horse->turnRot * 3.1416f) / (f32)0x8000, MTXMODE_APPLY);
     }
 
     osSyncPrintf("YP %f\n", this->actor.world.pos.y);
