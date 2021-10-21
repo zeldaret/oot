@@ -15,10 +15,6 @@
 
 #define THIS ((EnKusa*)thisx)
 
-#define TYPE(params) ((params) & 3)
-#define SPAWN_BUGS ((this->actor.params >> 4) & 1)
-#define DROPS ((this->actor.params >> 8) & 0xF)
-
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -131,10 +127,10 @@ s32 EnKusa_SnapToFloor(EnKusa* this, GlobalContext* globalCtx, f32 yOffset) {
 void EnKusa_DropCollectible(EnKusa* this, GlobalContext* globalCtx) {
     s16 dropParams;
 
-    switch (TYPE(this->actor.params)) {
+    switch (this->actor.params & 3) {
         case ENKUSA_TYPE_0:
         case ENKUSA_TYPE_2:
-            dropParams = DROPS;
+            dropParams = (this->actor.params >> 8) & 0xF;
 
             if (dropParams >= 0xD) {
                 dropParams = 0;
@@ -257,7 +253,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[TYPE(thisx->params)]);
+    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[thisx->params & 3]);
 
     if (this->objBankIndex < 0) {
         // "Bank danger!"
@@ -311,11 +307,11 @@ void EnKusa_Main(EnKusa* this, GlobalContext* globalCtx) {
         EnKusa_DropCollectible(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
 
-        if (SPAWN_BUGS) {
+        if ((this->actor.params >> 4) & 1) {
             EnKusa_SpawnBugs(this, globalCtx);
         }
 
-        if (TYPE(this->actor.params) == ENKUSA_TYPE_0) {
+        if ((this->actor.params & 3) == ENKUSA_TYPE_0) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -381,7 +377,7 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
         }
         EnKusa_SpawnFragments(this, globalCtx);
         EnKusa_DropCollectible(this, globalCtx);
-        switch (TYPE(this->actor.params)) {
+        switch (this->actor.params & 3) {
             case ENKUSA_TYPE_0:
             case ENKUSA_TYPE_2:
                 Actor_Kill(&this->actor);
@@ -424,7 +420,7 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void EnKusa_SetupCut(EnKusa* this) {
-    switch (TYPE(this->actor.params)) {
+    switch (this->actor.params & 3) {
         case ENKUSA_TYPE_2:
             EnKusa_SetupAction(this, EnKusa_DoNothing);
             break;
@@ -504,6 +500,6 @@ void EnKusa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.flags & 0x800) {
         Gfx_DrawDListOpa(globalCtx, object_kusa_DL_0002E0);
     } else {
-        Gfx_DrawDListOpa(globalCtx, dLists[TYPE(thisx->params)]);
+        Gfx_DrawDListOpa(globalCtx, dLists[thisx->params & 3]);
     }
 }
