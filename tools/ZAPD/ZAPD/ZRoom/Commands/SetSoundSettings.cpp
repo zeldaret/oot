@@ -1,5 +1,5 @@
 #include "SetSoundSettings.h"
-#include "StringHelper.h"
+#include "Utils/StringHelper.h"
 
 SetSoundSettings::SetSoundSettings(ZFile* nParent) : ZRoomCommand(nParent)
 {
