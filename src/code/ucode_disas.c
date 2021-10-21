@@ -155,8 +155,7 @@ void UCodeDisas_SetCurUCodeImpl(UCodeDisas* this, void* ptr) {
         }
     }
     if (i >= this->ucodeInfoCount) {
-        // Microcode did not match
-        DISAS_LOG("マイクロコードが一致しなかった\n");
+        DISAS_LOG("マイクロコードが一致しなかった\n"); // "Microcode did not match"
         this->ucodeType = UCODE_NULL;
     }
 }

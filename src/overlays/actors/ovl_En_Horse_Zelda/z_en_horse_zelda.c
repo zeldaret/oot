@@ -262,6 +262,8 @@ void func_80A6DFD4(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
         this->colliderSphere.elements[i].dim.worldSphere.radius =
             this->colliderSphere.elements[i].dim.modelSphere.radius * this->colliderSphere.elements[i].dim.scale;
     }
+
+    //! @bug see relevant comment in `EnHorse_SkinCallback1`
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
 }
 

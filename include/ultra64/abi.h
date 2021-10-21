@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_ABI_H_
-#define _ULTRA64_ABI_H_
+#ifndef ULTRA64_ABI_H
+#define ULTRA64_ABI_H
 
 /* Audio commands: */
 /*
@@ -528,4 +528,4 @@ typedef short ENVMIX_STATE[40];
         _a->words.w1 = _SHIFTL(pitchAccu, 0, 16);                       \
 }
 
-#endif /* _ULTRA64_ABI_H_ */
+#endif /* ULTRA64_ABI_H */

@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Vb_Ball/z_en_vb_ball.h"
 #include "overlays/actors/ovl_Bg_Vb_Sima/z_bg_vb_sima.h"
 #include "overlays/actors/ovl_Boss_Fd2/z_boss_fd2.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000035
@@ -219,7 +220,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0, 0,
-                           -1);
+                           WARP_DUNGEON_ADULT);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 0.0f, 100.0f, 200.0f, 0, 0, 0, 0);
     } else {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_FD2, this->actor.world.pos.x,
@@ -1643,7 +1644,7 @@ void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         BossFd_DrawBody(globalCtx, this);
-        POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4243);
     }
 
@@ -1756,7 +1757,7 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
         Matrix_RotateY((maneRot + maneIndex)->y + phi_f20, MTXMODE_APPLY);
         Matrix_RotateX(-((maneRot + maneIndex)->x + phi_f22), MTXMODE_APPLY);
         Matrix_Scale(maneScale[maneIndex] * (0.01f - (i * 0.0008f)), maneScale[maneIndex] * (0.01f - (i * 0.0008f)),
-                     0.01f, 1);
+                     0.01f, MTXMODE_APPLY);
         Matrix_RotateX(-M_PI / 2.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4480),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1868,7 +1869,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                          MTXMODE_NEW);
         Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
         Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
-        Matrix_Translate(0.0f, 0.0f, 35.0f, 1);
+        Matrix_Translate(0.0f, 0.0f, 35.0f, MTXMODE_APPLY);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         if (i < this->skinSegments) {
             Matrix_Scale(1.0f + (Math_SinS((this->work[BFD_LEAD_BODY_SEG] * 5000.0f) + (i * 7000.0f)) *
@@ -1896,7 +1897,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                 if (i >= 14) {
                     f32 sp84 = 1.0f - ((i - 14) * 0.2f);
 
-                    Matrix_Scale(sp84, sp84, 1.0f, 1);
+                    Matrix_Scale(sp84, sp84, 1.0f, MTXMODE_APPLY);
                     spD4 = 0.1f * sp84;
                     temp_float = 0.1f * sp84;
                 }

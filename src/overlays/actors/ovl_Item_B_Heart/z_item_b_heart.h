@@ -1,5 +1,5 @@
-#ifndef _Z_ITEM_B_HEART_H_
-#define _Z_ITEM_B_HEART_H_
+#ifndef Z_ITEM_B_HEART_H
+#define Z_ITEM_B_HEART_H
 
 #include "ultra64.h"
 #include "global.h"

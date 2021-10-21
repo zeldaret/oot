@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_BOMBCHUIWA_H_
-#define _Z_BG_JYA_BOMBCHUIWA_H_
+#ifndef Z_BG_JYA_BOMBCHUIWA_H
+#define Z_BG_JYA_BOMBCHUIWA_H
 
 #include "ultra64.h"
 #include "global.h"

@@ -62,7 +62,7 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->osAnimeBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
         if (this->osAnimeBankIndex < 0) {
             osSyncPrintf(VT_COL(RED, WHITE));
-            // No such bank!!
+            // "No such bank!!"
             osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
             osSyncPrintf(VT_RST);
             ASSERT(0, "0", "../z_en_guest.c", 132);
@@ -84,7 +84,8 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_boj_Skel_0000F0, NULL, this->jointTable, this->morphTable, 16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_boj_Skel_0000F0, NULL, this->jointTable,
+                           this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
         Animation_Change(&this->skelAnime, &gObjOsAnim_42AC, 1.0f, 0.0f, Animation_GetLastFrame(&gObjOsAnim_42AC),
                          ANIMMODE_LOOP, 0.0f);

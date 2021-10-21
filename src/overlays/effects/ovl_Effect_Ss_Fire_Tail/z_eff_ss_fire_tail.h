@@ -1,5 +1,5 @@
-#ifndef _Z_EFF_SS_FIRE_TAIL_H_
-#define _Z_EFF_SS_FIRE_TAIL_H_
+#ifndef Z_EFF_SS_FIRE_TAIL_H
+#define Z_EFF_SS_FIRE_TAIL_H
 
 #include "ultra64.h"
 #include "global.h"
