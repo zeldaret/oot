@@ -66,7 +66,7 @@ typedef struct EnViewer {
     /* 0x01E0 */ EnViewerActionFunc actionFunc;
     /* 0x01E4 */ u8 unused;
     /* 0x01E5 */ u8 state;
-    /* 0x01E6 */ u8 draw;
+    /* 0x01E6 */ u8 isVisible;
     /* 0x01E8 */ EnViewerFireEffect fireEffects[20];
 } EnViewer; // size = 0x05F8
 

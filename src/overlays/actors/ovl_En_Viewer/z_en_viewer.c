@@ -139,7 +139,7 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
     type = TYPE;
     this->unused = 0;
     this->state = 0;
-    this->draw = false;
+    this->isVisible = false;
     if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
         type == ENVIEWER_TYPE_8_GANONDORF || type == ENVIEWER_TYPE_9_GANONDORF) {
         sGanondorfCape = (EnGanonMant*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
@@ -208,7 +208,7 @@ void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
         return;
     }
 
-    this->draw = true;
+    this->isVisible = true;
     this->actor.objBankIndex = skelObjBankIndex;
     Actor_SetObjectDependency(globalCtx, &this->actor);
     Actor_SetScale(&this->actor, initData->scale / 100.0f);
@@ -713,7 +713,7 @@ void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s16 type;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1760);
-    if (this->draw) {
+    if (this->isVisible) {
         type = TYPE;
         if (type <= ENVIEWER_TYPE_2_ZELDA) { // zelda's horse, impa and zelda
             if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[0] != NULL) {
