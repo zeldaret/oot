@@ -19,8 +19,6 @@
 
 #define THIS ((EnViewer*)thisx)
 
-#define TYPE (this->actor.params >> 8)
-
 void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -136,7 +134,7 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnViewer_SetupAction(this, EnViewer_InitImpl);
     sHorseSfxPlayed = false;
-    type = TYPE;
+    type = this->actor.params >> 8;
     this->unused = 0;
     this->state = 0;
     this->isVisible = false;
@@ -155,7 +153,7 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
                                    AnimationHeader* anim) {
-    s16 type = TYPE;
+    s16 type = this->actor.params >> 8;
 
     if (type == ENVIEWER_TYPE_2_ZELDA || type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF ||
         type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF || type == ENVIEWER_TYPE_9_GANONDORF) {
@@ -184,7 +182,7 @@ void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skel
     u8 type;
 
     func_800A663C(globalCtx, &this->skin, skeletonHeaderSeg, anim);
-    type = TYPE;
+    type = this->actor.params >> 8;
     if (!(type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
           type == ENVIEWER_TYPE_8_GANONDORF || type == ENVIEWER_TYPE_9_GANONDORF)) {
         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 3.0f);
@@ -194,7 +192,7 @@ void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skel
 }
 
 void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
-    EnViewerInitData* initData = &sInitData[TYPE];
+    EnViewerInitData* initData = &sInitData[this->actor.params >> 8];
     s32 skelObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, initData->skeletonObject);
 
     ASSERT(skelObjBankIndex >= 0, "bank_ID >= 0", "../z_en_viewer.c", 576);
@@ -220,7 +218,7 @@ void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
 }
 
 void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
-    u8 type = TYPE;
+    u8 type = this->actor.params >> 8;
     u16 csFrames;
     s32 animationEnded;
 
@@ -551,7 +549,7 @@ void EnViewer_DrawGanondorf(EnViewer* this, GlobalContext* globalCtx) {
     s16 type;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1405);
-    type = TYPE;
+    type = this->actor.params >> 8;
     if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
         type == ENVIEWER_TYPE_8_GANONDORF) {
         if (gSaveContext.sceneSetupIndex != 4) {
@@ -714,7 +712,7 @@ void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1760);
     if (this->isVisible) {
-        type = TYPE;
+        type = this->actor.params >> 8;
         if (type <= ENVIEWER_TYPE_2_ZELDA) { // zelda's horse, impa and zelda
             if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[0] != NULL) {
                 func_80093D18(globalCtx->state.gfxCtx);
@@ -733,7 +731,7 @@ void EnViewer_UpdatePosition(EnViewer* this, GlobalContext* globalCtx) {
     Vec3f startPos;
     Vec3f endPos;
     f32 lerpFactor;
-    s16 type = TYPE;
+    s16 type = this->actor.params >> 8;
 
     if (type <= ENVIEWER_TYPE_2_ZELDA) { // zelda's horse, impa and zelda
         if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[0] != NULL &&
@@ -881,7 +879,7 @@ void EnViewer_UpdateGanondorfCape(GlobalContext* globalCtx, EnViewer* this) {
     Vec3f forearmModelOffset;
     Vec3f forearmWorldOffset;
 
-    if (TYPE == ENVIEWER_TYPE_5_GANONDORF) {
+    if ((this->actor.params >> 8) == ENVIEWER_TYPE_5_GANONDORF) {
         if (1) {}
         sGanondorfCape->backPush = BREG(54) / 10.0f;
         sGanondorfCape->backSwayMagnitude = (BREG(60) + 25) / 100.0f;
