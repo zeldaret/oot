@@ -19,9 +19,6 @@
 
 #define THIS ((EnHy*)thisx)
 
-#define TYPE (this->actor.params & 0x7F)
-#define PATH_ID ((this->actor.params & 0x780) >> 7)
-
 void EnHy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHy_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -344,9 +341,9 @@ static EnHyInit2Info sInit2Infos[] = {
 };
 
 s32 EnHy_FindSkelAndHeadObjects(EnHy* this, GlobalContext* globalCtx) {
-    u8 headInfoIndex = sModelInfos[TYPE].headInfoIndex;
-    u8 unusedSkelInfoIndex = sModelInfos[TYPE].unusedSkelInfoIndex;
-    u8 skelInfoIndex = sModelInfos[TYPE].skelInfoIndex;
+    u8 headInfoIndex = sModelInfos[this->actor.params & 0x7F].headInfoIndex;
+    u8 unusedSkelInfoIndex = sModelInfos[this->actor.params & 0x7F].unusedSkelInfoIndex;
+    u8 skelInfoIndex = sModelInfos[this->actor.params & 0x7F].skelInfoIndex;
 
     this->objBankIndexSkel = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfos[skelInfoIndex].objectId);
     if (this->objBankIndexSkel < 0) {
@@ -409,16 +406,16 @@ void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
 u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = GET_PLAYER(globalCtx);
     EnHy* this = THIS;
-    u16 textId = Text_GetFaceReaction(globalCtx, TYPE + 37);
+    u16 textId = Text_GetFaceReaction(globalCtx, (this->actor.params & 0x7F) + 37);
 
     if (textId != 0) {
-        if (TYPE == ENHY_TYPE_BOJ_5) {
+        if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
             player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
         }
         return textId;
     }
 
-    switch (TYPE) {
+    switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
                 return (this->unk_330 & 0x800) ? 0x508D : ((gSaveContext.infTable[12] & 0x800) ? 0x508C : 0x508B);
@@ -668,7 +665,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
 
 void EnHy_UpdateEyes(EnHy* this) {
     if (DECR(this->nextEyeIndexTimer) == 0) {
-        u8 headInfoIndex = sModelInfos[TYPE].headInfoIndex;
+        u8 headInfoIndex = sModelInfos[this->actor.params & 0x7F].headInfoIndex;
 
         this->curEyeIndex++;
         if ((sHeadInfos[headInfoIndex].eyeTextures != NULL) &&
@@ -680,14 +677,14 @@ void EnHy_UpdateEyes(EnHy* this) {
 }
 
 void EnHy_InitCollider(EnHy* this) {
-    u8 type = TYPE;
+    u8 type = this->actor.params & 0x7F;
 
     this->collider.dim.radius = sColliderInfos[type].radius;
     this->collider.dim.height = sColliderInfos[type].height;
 }
 
 void EnHy_InitSetProperties(EnHy* this) {
-    u8 type = TYPE;
+    u8 type = this->actor.params & 0x7F;
 
     this->actor.shape.shadowScale = sInit2Infos[type].shadowScale;
     Actor_SetScale(&this->actor, sInit2Infos[type].scale);
@@ -703,9 +700,9 @@ void EnHy_UpdateCollider(EnHy* this, GlobalContext* globalCtx) {
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.world.pos.y;
     pos.z = this->actor.world.pos.z;
-    pos.x += sColliderInfos[TYPE].offset.x;
-    pos.y += sColliderInfos[TYPE].offset.y;
-    pos.z += sColliderInfos[TYPE].offset.z;
+    pos.x += sColliderInfos[this->actor.params & 0x7F].offset.x;
+    pos.y += sColliderInfos[this->actor.params & 0x7F].offset.y;
+    pos.z += sColliderInfos[this->actor.params & 0x7F].offset.z;
     this->collider.dim.pos = pos;
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
@@ -713,7 +710,7 @@ void EnHy_UpdateCollider(EnHy* this, GlobalContext* globalCtx) {
 void func_80A70834(EnHy* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (TYPE == ENHY_TYPE_BOJ_5) {
+    if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
         if (!Inventory_HasSpecificBottle(ITEM_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BUG) &&
             !Inventory_HasSpecificBottle(ITEM_FISH)) {
             switch (func_8002F368(globalCtx)) {
@@ -755,7 +752,7 @@ void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3;
 
-    switch (TYPE) {
+    switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_BOJ_3:
         case ENHY_TYPE_BJI_7:
         case ENHY_TYPE_BOJ_9:
@@ -781,12 +778,12 @@ void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
     this->unk_1E8.unk_18 = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
-        this->unk_1E8.unk_14 = sInit1Infos[TYPE].unkValueAdult;
+        this->unk_1E8.unk_14 = sInit1Infos[this->actor.params & 0x7F].unkValueAdult;
     } else {
-        this->unk_1E8.unk_14 = sInit1Infos[TYPE].unkValueChild;
+        this->unk_1E8.unk_14 = sInit1Infos[this->actor.params & 0x7F].unkValueChild;
     }
 
-    func_80034A14(&this->actor, &this->unk_1E8, sInit1Infos[TYPE].unkPresetIndex, phi_a3);
+    func_80034A14(&this->actor, &this->unk_1E8, sInit1Infos[this->actor.params & 0x7F].unkPresetIndex, phi_a3);
 
     if (func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, this->unkRange, func_80A6F810, func_80A70058)) {
         func_80A70834(this, globalCtx);
@@ -796,28 +793,28 @@ void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
 s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT01:
-            if (!(TYPE == ENHY_TYPE_BOJ_9 || TYPE == ENHY_TYPE_BOJ_10 || TYPE == ENHY_TYPE_BOJ_12 ||
-                  TYPE == ENHY_TYPE_AHG_2 || TYPE == ENHY_TYPE_BJI_7)) {
+            if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_12 ||
+                  (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 || (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
                 return true;
             } else if (!LINK_IS_ADULT) {
                 return true;
-            } else if (TYPE != ENHY_TYPE_BOJ_12 && IS_NIGHT) {
+            } else if ((this->actor.params & 0x7F) != ENHY_TYPE_BOJ_12 && IS_NIGHT) {
                 return false;
             } else {
                 return true;
             }
         case SCENE_LABO:
-            if (TYPE != ENHY_TYPE_BOJ_10) {
+            if ((this->actor.params & 0x7F) != ENHY_TYPE_BOJ_10) {
                 return true;
             } else if (LINK_IS_CHILD) {
                 return false;
-            } else if (TYPE == ENHY_TYPE_BOJ_10 && IS_DAY) {
+            } else if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 && IS_DAY) {
                 return false;
             } else {
                 return true;
             }
         case SCENE_IMPA:
-            if (TYPE != ENHY_TYPE_AOB) {
+            if ((this->actor.params & 0x7F) != ENHY_TYPE_AOB) {
                 return true;
             } else if (IS_DAY) {
                 return false;
@@ -825,9 +822,9 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
                 return true;
             }
         case SCENE_KAKARIKO:
-            if (TYPE == ENHY_TYPE_AOB) {
+            if ((this->actor.params & 0x7F) == ENHY_TYPE_AOB) {
                 return !LINK_IS_ADULT ? false : true;
-            } else if (!(TYPE == ENHY_TYPE_BOJ_9 || TYPE == ENHY_TYPE_AHG_2 || TYPE == ENHY_TYPE_BJI_7)) {
+            } else if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 || (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
                 return true;
             } else if (IS_DAY) {
                 return false;
@@ -838,7 +835,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
             }
         case SCENE_MARKET_ALLEY:
         case SCENE_MARKET_ALLEY_N:
-            if (TYPE != ENHY_TYPE_BOJ_14) {
+            if ((this->actor.params & 0x7F) != ENHY_TYPE_BOJ_14) {
                 return true;
             } else if (IS_NIGHT) {
                 return false;
@@ -848,7 +845,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
                 return true;
             }
         default:
-            switch (TYPE) {
+            switch (this->actor.params & 0x7F) {
                 case ENHY_TYPE_BJI_19:
                 case ENHY_TYPE_AHG_20:
                     if (LINK_IS_ADULT) {
@@ -862,7 +859,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
 void EnHy_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHy* this = THIS;
 
-    if (TYPE >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, globalCtx) ||
+    if ((this->actor.params & 0x7F) >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, globalCtx) ||
         !EnHy_FindSkelAndHeadObjects(this, globalCtx)) {
         Actor_Kill(&this->actor);
     }
@@ -884,7 +881,7 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
     if (EnHy_IsOsAnimeObjectLoaded(this, globalCtx) && EnHy_AreSkelAndHeadObjectsLoaded(this, globalCtx)) {
         this->actor.objBankIndex = this->objBankIndexSkel;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeletonInfos[sModelInfos[TYPE].skelInfoIndex].skeleton, NULL,
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeletonInfos[sModelInfos[this->actor.params & 0x7F].skelInfoIndex].skeleton, NULL,
                            this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexOsAnime].segment);
@@ -892,7 +889,7 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColCylInit);
         EnHy_InitCollider(this);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        func_80034EC0(&this->skelAnime, sAnimationInfos, sModelInfos[TYPE].animInfoIndex);
+        func_80034EC0(&this->skelAnime, sAnimationInfos, sModelInfos[this->actor.params & 0x7F].animInfoIndex);
 
         if ((globalCtx->sceneNum == SCENE_MARKET_ALLEY) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) {
             this->actor.flags &= ~0x10;
@@ -904,9 +901,9 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
         }
 
         EnHy_InitSetProperties(this);
-        this->path = Path_GetByIndex(globalCtx, PATH_ID, 15);
+        this->path = Path_GetByIndex(globalCtx, (this->actor.params & 0x780) >> 7, 15);
 
-        switch (TYPE) {
+        switch (this->actor.params & 0x7F) {
             case ENHY_TYPE_BOJ_3:
                 if (this->path != NULL) {
                     this->actor.speedXZ = 3.0f;
@@ -1095,7 +1092,7 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (limbIndex == 15) {
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objBankIndexHead].segment);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexHead].segment);
-        i = sModelInfos[TYPE].headInfoIndex;
+        i = sModelInfos[this->actor.params & 0x7F].headInfoIndex;
         *dList = sHeadInfos[i].headDList;
 
         if (sHeadInfos[i].eyeTextures != NULL) {
@@ -1142,7 +1139,7 @@ void EnHy_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexSkelUnused].segment);
     }
 
-    if (TYPE == ENHY_TYPE_BOJ_3 && limbIndex == 8) {
+    if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_3 && limbIndex == 8) {
         gSPDisplayList(POLY_OPA_DISP++, object_boj_DL_005BC8);
     }
 
@@ -1174,10 +1171,10 @@ void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != EnHy_InitImpl) {
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Translate(this->modelOffset.x, this->modelOffset.y, this->modelOffset.z, MTXMODE_APPLY);
-        envColorSeg8 = sModelInfos[TYPE].envColorSeg8;
-        envColorSeg9 = sModelInfos[TYPE].envColorSeg9;
+        envColorSeg8 = sModelInfos[this->actor.params & 0x7F].envColorSeg8;
+        envColorSeg9 = sModelInfos[this->actor.params & 0x7F].envColorSeg9;
 
-        switch (TYPE) {
+        switch (this->actor.params & 0x7F) {
             // ENHY_TYPE_AOB
             // ENHY_TYPE_COB
             case ENHY_TYPE_AHG_2:
@@ -1206,11 +1203,11 @@ void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx) {
                            EnHy_SetEnvColor(globalCtx->state.gfxCtx, envColorSeg9.r, envColorSeg9.g, envColorSeg9.b,
                                             envColorSeg9.a));
 
-                if (TYPE == ENHY_TYPE_CNE_8 || TYPE == ENHY_TYPE_CNE_11) {
-                    if (TYPE == ENHY_TYPE_CNE_8) {
+                if ((this->actor.params & 0x7F) == ENHY_TYPE_CNE_8 || (this->actor.params & 0x7F) == ENHY_TYPE_CNE_11) {
+                    if ((this->actor.params & 0x7F) == ENHY_TYPE_CNE_8) {
                         envColorSeg10 = envColorSeg8;
                     }
-                    if (TYPE == ENHY_TYPE_CNE_11) {
+                    if ((this->actor.params & 0x7F) == ENHY_TYPE_CNE_11) {
                         envColorSeg10.r = envColorSeg10.g = envColorSeg10.b = 255;
                         envColorSeg10.a = 0;
                     }
