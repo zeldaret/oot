@@ -102,7 +102,7 @@ typedef enum {
 } EnHyHeadIndex;
 
 // indexed by EnHyHeadIndex
-static EnHyHeadInfo sHeadInfos[] = {
+static EnHyHeadInfo sHeadInfo[] = {
     /*  0 */ { OBJECT_AOB, gDogLadyHeadDL, sEyeTexturesAOB },
     /*  1 */ { OBJECT_BOB, object_bob_DL_003B78, sEyeTexturesBOB },
     /*  2 */ { OBJECT_BOJ, 0x060026F0, sEyeTexturesBOJ2 },
@@ -138,7 +138,7 @@ typedef enum {
 } EnHySkeletonIndex;
 
 // indexed by EnHySkeletonIndex
-static EnHySkeletonInfo sSkeletonInfos[] = {
+static EnHySkeletonInfo sSkeletonInfo[] = {
     /* 0 */ { OBJECT_AOB, &gDogLadySkel },
     /* 1 */ { OBJECT_BOB, &object_bob_Skel_0000F0 },
     /* 2 */ { OBJECT_BOJ, 0x060000F0 },
@@ -180,7 +180,7 @@ typedef enum {
 } EnHyAnimationIndex;
 
 // indexed by EnHyAnimationIndex
-static struct_80034EC0_Entry sAnimationInfos[] = {
+static struct_80034EC0_Entry sAnimationInfo[] = {
     /*  0 */ { &gObjOsAnim_092C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
     /*  1 */ { &gObjOsAnim_0228, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
     /*  2 */ { &gObjOsAnim_4CF4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
@@ -220,7 +220,7 @@ typedef struct {
 } EnHyModelInfo;                 // size = 0xC
 
 // indexed by EnHyType
-static EnHyModelInfo sModelInfos[] = {
+static EnHyModelInfo sModelInfo[] = {
     /*  0 */
     { ENHY_HEAD_AOB, ENHY_SKEL_AOB, { 255, 255, 255, 255 }, ENHY_SKEL_AOB, { 255, 255, 255, 255 }, ENHY_ANIM_0 },
     /*  1 */
@@ -272,7 +272,7 @@ typedef struct {
 } EnHyColliderInfo; // size 0xA
 
 // indexed by EnHyType
-static EnHyColliderInfo sColliderInfos[] = {
+static EnHyColliderInfo sColliderInfo[] = {
     /*  0 */ { { 0, 0, 4 }, 24, 70 },  /*  1 */ { { 0, 0, 8 }, 28, 62 },
     /*  2 */ { { 0, 0, 4 }, 20, 60 },  /*  3 */ { { 0, 0, 2 }, 20, 60 },
     /*  4 */ { { 0, 0, -2 }, 20, 60 }, /*  5 */ { { 0, 0, 8 }, 24, 40 },
@@ -293,7 +293,7 @@ typedef struct {
 } EnHyInit1Info; // size = 0xC
 
 // indexed by EnHyType
-static EnHyInit1Info sInit1Infos[] = {
+static EnHyInit1Info sInit1Info[] = {
     /*  0 */ { 0x06, 20.0f, 10.0f }, /*  1 */ { 0x06, 20.0f, 10.0f },
     /*  2 */ { 0x07, 40.0f, 20.0f }, /*  3 */ { 0x06, 20.0f, 10.0f },
     /*  4 */ { 0x07, 40.0f, 20.0f }, /*  5 */ { 0x08, 0.0f, -20.0f },
@@ -316,7 +316,7 @@ typedef struct {
 } EnHyInit2Info; // size = 0x1C
 
 // indexed by EnHyType
-static EnHyInit2Info sInit2Infos[] = {
+static EnHyInit2Info sInit2Info[] = {
     /*  0 */ { 36.0f, { 0.0f, 0.0f, 600.0f }, 0.01f, 0x06, 30.0f },
     /*  1 */ { 40.0f, { -100.0f, 0.0f, 400.0f }, 0.01f, 0x06, 30.0f },
     /*  2 */ { 22.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
@@ -341,21 +341,21 @@ static EnHyInit2Info sInit2Infos[] = {
 };
 
 s32 EnHy_FindSkelAndHeadObjects(EnHy* this, GlobalContext* globalCtx) {
-    u8 headInfoIndex = sModelInfos[this->actor.params & 0x7F].headInfoIndex;
-    u8 unusedSkelInfoIndex = sModelInfos[this->actor.params & 0x7F].unusedSkelInfoIndex;
-    u8 skelInfoIndex = sModelInfos[this->actor.params & 0x7F].skelInfoIndex;
+    u8 headInfoIndex = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
+    u8 unusedSkelInfoIndex = sModelInfo[this->actor.params & 0x7F].unusedSkelInfoIndex;
+    u8 skelInfoIndex = sModelInfo[this->actor.params & 0x7F].skelInfoIndex;
 
-    this->objBankIndexSkel = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfos[skelInfoIndex].objectId);
+    this->objBankIndexSkel = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfo[skelInfoIndex].objectId);
     if (this->objBankIndexSkel < 0) {
         return false;
     }
 
-    this->objBankIndexSkelUnused = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfos[unusedSkelInfoIndex].objectId);
+    this->objBankIndexSkelUnused = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfo[unusedSkelInfoIndex].objectId);
     if (this->objBankIndexSkelUnused < 0) {
         return false;
     }
 
-    this->objBankIndexHead = Object_GetIndex(&globalCtx->objectCtx, sHeadInfos[headInfoIndex].objectId);
+    this->objBankIndexHead = Object_GetIndex(&globalCtx->objectCtx, sHeadInfo[headInfoIndex].objectId);
     if (this->objBankIndexHead < 0) {
         return false;
     }
@@ -570,7 +570,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F2:
                 case 0x70F3:
                     if (this->skelAnime.animation != &gObjOsAnim_33B4) {
-                        func_80034EC0(&this->skelAnime, sAnimationInfos, 23);
+                        func_80034EC0(&this->skelAnime, sAnimationInfo, 23);
                         func_800F5C64(0x922);
                     }
                     break;
@@ -583,7 +583,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F2:
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
-                    func_80034EC0(&this->skelAnime, sAnimationInfos, 17);
+                    func_80034EC0(&this->skelAnime, sAnimationInfo, 17);
                     Player_UpdateBottleHeld(globalCtx, GET_PLAYER(globalCtx), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
                     break;
                 case 0x7016:
@@ -665,11 +665,11 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
 
 void EnHy_UpdateEyes(EnHy* this) {
     if (DECR(this->nextEyeIndexTimer) == 0) {
-        u8 headInfoIndex = sModelInfos[this->actor.params & 0x7F].headInfoIndex;
+        u8 headInfoIndex = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
 
         this->curEyeIndex++;
-        if ((sHeadInfos[headInfoIndex].eyeTextures != NULL) &&
-            (sHeadInfos[headInfoIndex].eyeTextures[this->curEyeIndex] == NULL)) {
+        if ((sHeadInfo[headInfoIndex].eyeTextures != NULL) &&
+            (sHeadInfo[headInfoIndex].eyeTextures[this->curEyeIndex] == NULL)) {
             this->nextEyeIndexTimer = Rand_S16Offset(30, 30);
             this->curEyeIndex = 0;
         }
@@ -679,18 +679,18 @@ void EnHy_UpdateEyes(EnHy* this) {
 void EnHy_InitCollider(EnHy* this) {
     u8 type = this->actor.params & 0x7F;
 
-    this->collider.dim.radius = sColliderInfos[type].radius;
-    this->collider.dim.height = sColliderInfos[type].height;
+    this->collider.dim.radius = sColliderInfo[type].radius;
+    this->collider.dim.height = sColliderInfo[type].height;
 }
 
 void EnHy_InitSetProperties(EnHy* this) {
     u8 type = this->actor.params & 0x7F;
 
-    this->actor.shape.shadowScale = sInit2Infos[type].shadowScale;
-    Actor_SetScale(&this->actor, sInit2Infos[type].scale);
-    this->actor.targetMode = sInit2Infos[type].targetMode;
-    this->modelOffset = sInit2Infos[type].modelOffset;
-    this->unkRange = sInit2Infos[type].unkRange;
+    this->actor.shape.shadowScale = sInit2Info[type].shadowScale;
+    Actor_SetScale(&this->actor, sInit2Info[type].scale);
+    this->actor.targetMode = sInit2Info[type].targetMode;
+    this->modelOffset = sInit2Info[type].modelOffset;
+    this->unkRange = sInit2Info[type].unkRange;
     this->unkRange += this->collider.dim.radius;
 }
 
@@ -700,9 +700,9 @@ void EnHy_UpdateCollider(EnHy* this, GlobalContext* globalCtx) {
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.world.pos.y;
     pos.z = this->actor.world.pos.z;
-    pos.x += sColliderInfos[this->actor.params & 0x7F].offset.x;
-    pos.y += sColliderInfos[this->actor.params & 0x7F].offset.y;
-    pos.z += sColliderInfos[this->actor.params & 0x7F].offset.z;
+    pos.x += sColliderInfo[this->actor.params & 0x7F].offset.x;
+    pos.y += sColliderInfo[this->actor.params & 0x7F].offset.y;
+    pos.z += sColliderInfo[this->actor.params & 0x7F].offset.z;
     this->collider.dim.pos = pos;
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
@@ -778,12 +778,12 @@ void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
     this->unk_1E8.unk_18 = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
-        this->unk_1E8.unk_14 = sInit1Infos[this->actor.params & 0x7F].unkValueAdult;
+        this->unk_1E8.unk_14 = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
     } else {
-        this->unk_1E8.unk_14 = sInit1Infos[this->actor.params & 0x7F].unkValueChild;
+        this->unk_1E8.unk_14 = sInit1Info[this->actor.params & 0x7F].unkValueChild;
     }
 
-    func_80034A14(&this->actor, &this->unk_1E8, sInit1Infos[this->actor.params & 0x7F].unkPresetIndex, phi_a3);
+    func_80034A14(&this->actor, &this->unk_1E8, sInit1Info[this->actor.params & 0x7F].unkPresetIndex, phi_a3);
 
     if (func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, this->unkRange, func_80A6F810, func_80A70058)) {
         func_80A70834(this, globalCtx);
@@ -885,7 +885,7 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->objBankIndexSkel;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime,
-                           sSkeletonInfos[sModelInfos[this->actor.params & 0x7F].skelInfoIndex].skeleton, NULL,
+                           sSkeletonInfo[sModelInfo[this->actor.params & 0x7F].skelInfoIndex].skeleton, NULL,
                            this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexOsAnime].segment);
@@ -893,7 +893,7 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColCylInit);
         EnHy_InitCollider(this);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        func_80034EC0(&this->skelAnime, sAnimationInfos, sModelInfos[this->actor.params & 0x7F].animInfoIndex);
+        func_80034EC0(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
 
         if ((globalCtx->sceneNum == SCENE_MARKET_ALLEY) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) {
             this->actor.flags &= ~0x10;
@@ -956,14 +956,14 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
 void func_80A710F8(EnHy* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
-            func_80034EC0(&this->skelAnime, sAnimationInfos, 26);
+            func_80034EC0(&this->skelAnime, sAnimationInfo, 26);
         }
     } else if (gSaveContext.eventInf[3] & 1) {
         if (this->skelAnime.animation != &gObjOsAnim_0FE4) {
-            func_80034EC0(&this->skelAnime, sAnimationInfos, 25);
+            func_80034EC0(&this->skelAnime, sAnimationInfo, 25);
         }
     } else if (this->skelAnime.animation != &gObjOsAnim_12E8) {
-        func_80034EC0(&this->skelAnime, sAnimationInfos, 24);
+        func_80034EC0(&this->skelAnime, sAnimationInfo, 24);
     }
 }
 
@@ -992,7 +992,7 @@ void EnHy_DoNothing(EnHy* this, GlobalContext* globalCtx) {
 
 void func_80A712C0(EnHy* this, GlobalContext* globalCtx) {
     if ((this->actor.xzDistToPlayer <= 100.0f) && (this->path != NULL)) {
-        func_80034EC0(&this->skelAnime, sAnimationInfos, 7);
+        func_80034EC0(&this->skelAnime, sAnimationInfo, 7);
         this->actor.speedXZ = 0.4f;
         this->actionFunc = func_80A7134C;
     }
@@ -1005,11 +1005,11 @@ void func_80A7134C(EnHy* this, GlobalContext* globalCtx) {
     f32 distSq;
 
     if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.unk_00 != 0)) {
-        func_80034EC0(&this->skelAnime, sAnimationInfos, 8);
+        func_80034EC0(&this->skelAnime, sAnimationInfo, 8);
     }
 
     if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.unk_00 == 0)) {
-        func_80034EC0(&this->skelAnime, sAnimationInfos, 7);
+        func_80034EC0(&this->skelAnime, sAnimationInfo, 7);
     }
 
     this->actor.speedXZ = 0.4f;
@@ -1096,11 +1096,11 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (limbIndex == 15) {
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objBankIndexHead].segment);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexHead].segment);
-        i = sModelInfos[this->actor.params & 0x7F].headInfoIndex;
-        *dList = sHeadInfos[i].headDList;
+        i = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
+        *dList = sHeadInfo[i].headDList;
 
-        if (sHeadInfos[i].eyeTextures != NULL) {
-            ptr = sHeadInfos[i].eyeTextures[this->curEyeIndex];
+        if (sHeadInfo[i].eyeTextures != NULL) {
+            ptr = sHeadInfo[i].eyeTextures[this->curEyeIndex];
             gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(ptr));
         }
 
@@ -1175,8 +1175,8 @@ void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != EnHy_InitImpl) {
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Translate(this->modelOffset.x, this->modelOffset.y, this->modelOffset.z, MTXMODE_APPLY);
-        envColorSeg8 = sModelInfos[this->actor.params & 0x7F].envColorSeg8;
-        envColorSeg9 = sModelInfos[this->actor.params & 0x7F].envColorSeg9;
+        envColorSeg8 = sModelInfo[this->actor.params & 0x7F].envColorSeg8;
+        envColorSeg9 = sModelInfo[this->actor.params & 0x7F].envColorSeg9;
 
         switch (this->actor.params & 0x7F) {
             // ENHY_TYPE_AOB
