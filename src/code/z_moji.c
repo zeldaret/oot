@@ -71,7 +71,7 @@ void Moji_DrawChar(GraphicsContext* gfxCtx, char c) {
  * For example this works with the render mode used in `GfxPrint_InitDlist`,
  * and `G_CC_MODULATEI_PRIM` for both combiner cycles.
  */
-void Moji_DrawString(GraphicsContext* gfxCtx, char* str) {
+void Moji_DrawString(GraphicsContext* gfxCtx, const char* str) {
     s32 i;
 
     OPEN_DISPS(gfxCtx, "../z_moji.c", 137);
