@@ -81,7 +81,6 @@ s16 sTextboxBackgroundYOffsets[] = {
     2,
 };
 
-// Ocarina Note buffer
 // original name: onpu_buff
 u8 sOcarinaNoteBuf[12] = { 0 };
 
@@ -138,13 +137,13 @@ void Message_UpdateOcarinaGame(GlobalContext* globalCtx) {
 
     globalCtx->msgCtx.msgMode++;
 
-    if (globalCtx->msgCtx.msgMode == MSGMODE_MEMORY_GAME_PLAYER_PLAYING) { // Player playing
+    if (globalCtx->msgCtx.msgMode == MSGMODE_MEMORY_GAME_PLAYER_PLAYING) {
         Audio_OcaSetInstrument(1);
         msgCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
         msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
         func_800ECC04((1 << OCARINA_SONG_MEMORY_GAME) + 0x8000);
         msgCtx->textDrawPos = msgCtx->decodedTextLen;
-    } else if (msgCtx->msgMode == MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_PLAYING) { // Skull kids playing
+    } else if (msgCtx->msgMode == MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_PLAYING) {
         Audio_OcaSetInstrument(6);
         msgCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
         msgCtx->ocarinaStaff->pos = sOcarinaNoteBufPos = 0;
@@ -189,7 +188,6 @@ void Message_CloseTextbox(GlobalContext* globalCtx) {
 
 void Message_HandleChoiceSelection(GlobalContext* globalCtx, u8 numChoices) {
     static s16 sAnalogStickHeld = false;
-
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Input* curInput = &globalCtx->state.input[0];
 
@@ -256,7 +254,6 @@ void Message_GrowTextbox(MessageContext* msgCtx) {
     static f32 sHeightCoefficients[] = {
         0.6f, 0.75f, 0.9f, 1.0f, 1.05f, 1.1f, 1.05f, 1.0f,
     };
-
     f32 width =
         R_TEXTBOX_WIDTH_TARGET * (sWidthCoefficients[msgCtx->stateTimer] + sWidthCoefficients[msgCtx->stateTimer]);
     f32 height = R_TEXTBOX_HEIGHT_TARGET * sHeightCoefficients[msgCtx->stateTimer];
@@ -467,9 +464,9 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
             break;
         case MSGCOL_DEFAULT:
         default:
-            if (msgCtx->textBoxType == BOX_NONE_NO_SHADOW) { // black
+            if (msgCtx->textBoxType == BOX_NONE_NO_SHADOW) {
                 msgCtx->textColorR = msgCtx->textColorG = msgCtx->textColorB = 0;
-            } else { // white
+            } else {
                 msgCtx->textColorR = msgCtx->textColorG = msgCtx->textColorB = 255;
             }
             break;
@@ -493,7 +490,6 @@ void Message_DrawTextboxIcon(GlobalContext* globalCtx, Gfx** p, s16 x, s16 y) {
     static s16 sIconEnvR = 0;
     static s16 sIconEnvG = 0;
     static s16 sIconEnvB = 0;
-
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Font* font = &msgCtx->font;
     Gfx* gfx = *p;
@@ -592,150 +588,150 @@ void Message_DrawTextboxIcon(GlobalContext* globalCtx, Gfx** p, s16 x, s16 y) {
 #define MESSAGE_SPACE_WIDTH 6
 // font widths
 f32 sFontWidths[144] = {
-    /*               */ 8.0f,
-    /* !             */ 8.0f,
-    /* "             */ 6.0f,
-    /* #             */ 9.0f,
-    /* $             */ 9.0f,
-    /* %             */ 14.0f,
-    /* &             */ 12.0f,
-    /* '             */ 3.0f,
-    /* (             */ 7.0f,
-    /* )             */ 7.0f,
-    /* *             */ 7.0f,
-    /* +             */ 9.0f,
-    /* ,             */ 4.0f,
-    /* -             */ 6.0f,
-    /* .             */ 4.0f,
-    /* /             */ 9.0f,
-    /* 0             */ 10.0f,
-    /* 1             */ 5.0f,
-    /* 2             */ 9.0f,
-    /* 3             */ 9.0f,
-    /* 4             */ 10.0f,
-    /* 5             */ 9.0f,
-    /* 6             */ 9.0f,
-    /* 7             */ 9.0f,
-    /* 8             */ 9.0f,
-    /* 9             */ 9.0f,
-    /* :             */ 6.0f,
-    /* ;             */ 6.0f,
-    /* <             */ 9.0f,
-    /* =             */ 11.0f,
-    /* >             */ 9.0f,
-    /* ?             */ 11.0f,
-    /* @             */ 13.0f,
-    /* A             */ 12.0f,
-    /* B             */ 9.0f,
-    /* C             */ 11.0f,
-    /* D             */ 11.0f,
-    /* E             */ 8.0f,
-    /* F             */ 8.0f,
-    /* G             */ 12.0f,
-    /* H             */ 10.0f,
-    /* I             */ 4.0f,
-    /* J             */ 8.0f,
-    /* K             */ 10.0f,
-    /* L             */ 8.0f,
-    /* M             */ 13.0f,
-    /* N             */ 11.0f,
-    /* O             */ 13.0f,
-    /* P             */ 9.0f,
-    /* Q             */ 13.0f,
-    /* R             */ 10.0f,
-    /* S             */ 10.0f,
-    /* T             */ 9.0f,
-    /* U             */ 10.0f,
-    /* V             */ 11.0f,
-    /* W             */ 15.0f,
-    /* X             */ 11.0f,
-    /* Y             */ 10.0f,
-    /* Z             */ 10.0f,
-    /* [             */ 7.0f,
-    /* ¥             */ 10.0f,
-    /* ]             */ 7.0f,
-    /* ^             */ 10.0f,
-    /* _             */ 9.0f,
-    /* `             */ 5.0f,
-    /* a             */ 8.0f,
-    /* b             */ 9.0f,
-    /* c             */ 8.0f,
-    /* d             */ 9.0f,
-    /* e             */ 9.0f,
-    /* f             */ 6.0f,
-    /* g             */ 9.0f,
-    /* h             */ 8.0f,
-    /* i             */ 4.0f,
-    /* j             */ 6.0f,
-    /* k             */ 8.0f,
-    /* l             */ 4.0f,
-    /* m             */ 12.0f,
-    /* n             */ 9.0f,
-    /* o             */ 9.0f,
-    /* p             */ 9.0f,
-    /* q             */ 9.0f,
-    /* r             */ 7.0f,
-    /* s             */ 8.0f,
-    /* t             */ 7.0f,
-    /* u             */ 8.0f,
-    /* v             */ 9.0f,
-    /* w             */ 12.0f,
-    /* x             */ 8.0f,
-    /* y             */ 9.0f,
-    /* z             */ 8.0f,
-    /* {             */ 7.0f,
-    /* |             */ 5.0f,
-    /* }             */ 7.0f,
-    /* ~             */ 10.0f,
-    /* ‾             */ 10.0f,
-    /* À             */ 12.0f,
-    /* î             */ 6.0f,
-    /* Â             */ 12.0f,
-    /* Ä             */ 12.0f,
-    /* Ç             */ 11.0f,
-    /* È             */ 8.0f,
-    /* É             */ 8.0f,
-    /* Ê             */ 8.0f,
-    /* Ë             */ 6.0f,
-    /* Ï             */ 6.0f,
-    /* Ô             */ 13.0f,
-    /* Ö             */ 13.0f,
-    /* Ù             */ 10.0f,
-    /* Û             */ 10.0f,
-    /* Ü             */ 10.0f,
-    /* ß             */ 9.0f,
-    /* à             */ 8.0f,
-    /* á             */ 8.0f,
-    /* â             */ 8.0f,
-    /* ä             */ 8.0f,
-    /* ç             */ 8.0f,
-    /* è             */ 9.0f,
-    /* é             */ 9.0f,
-    /* ê             */ 9.0f,
-    /* ë             */ 9.0f,
-    /* ï             */ 6.0f,
-    /* ô             */ 9.0f,
-    /* ö             */ 9.0f,
-    /* ù             */ 9.0f,
-    /* û             */ 9.0f,
-    /* ü             */ 9.0f,
-    /* [A]           */ 14.0f,
-    /* [B]           */ 14.0f,
-    /* [C]           */ 14.0f,
-    /* [L]           */ 14.0f,
-    /* [R]           */ 14.0f,
-    /* [Z]           */ 14.0f,
-    /* [C-Up]        */ 14.0f,
-    /* [C-Down]      */ 14.0f,
-    /* [C-Left]      */ 14.0f,
-    /* [C-Right]     */ 14.0f,
-    /* ▼             */ 14.0f,
-    /* [Control-Pad] */ 14.0f,
-    /* [D-Pad]       */ 14.0f,
-    /* ?             */ 14.0f,
-    /* ?             */ 14.0f,
-    /* ?             */ 14.0f,
-    /* ?             */ 14.0f,
+    8.0f,  // ' '
+    8.0f,  // '!'
+    6.0f,  // '"'
+    9.0f,  // '#'
+    9.0f,  // '$'
+    14.0f, // '%'
+    12.0f, // '&'
+    3.0f,  // '''
+    7.0f,  // '('
+    7.0f,  // ')'
+    7.0f,  // '*'
+    9.0f,  // '+'
+    4.0f,  // ','
+    6.0f,  // '-'
+    4.0f,  // '.'
+    9.0f,  // '/'
+    10.0f, // '0'
+    5.0f,  // '1'
+    9.0f,  // '2'
+    9.0f,  // '3'
+    10.0f, // '4'
+    9.0f,  // '5'
+    9.0f,  // '6'
+    9.0f,  // '7'
+    9.0f,  // '8'
+    9.0f,  // '9'
+    6.0f,  // ':'
+    6.0f,  // ';'
+    9.0f,  // '<'
+    11.0f, // '='
+    9.0f,  // '>'
+    11.0f, // '?'
+    13.0f, // '@'
+    12.0f, // 'A'
+    9.0f,  // 'B'
+    11.0f, // 'C'
+    11.0f, // 'D'
+    8.0f,  // 'E'
+    8.0f,  // 'F'
+    12.0f, // 'G'
+    10.0f, // 'H'
+    4.0f,  // 'I'
+    8.0f,  // 'J'
+    10.0f, // 'K'
+    8.0f,  // 'L'
+    13.0f, // 'M'
+    11.0f, // 'N'
+    13.0f, // 'O'
+    9.0f,  // 'P'
+    13.0f, // 'Q'
+    10.0f, // 'R'
+    10.0f, // 'S'
+    9.0f,  // 'T'
+    10.0f, // 'U'
+    11.0f, // 'V'
+    15.0f, // 'W'
+    11.0f, // 'X'
+    10.0f, // 'Y'
+    10.0f, // 'Z'
+    7.0f,  // '['
+    10.0f, // '\'
+    7.0f,  // ']'
+    10.0f, // '^'
+    9.0f,  // '_'
+    5.0f,  // '`'
+    8.0f,  // 'a'
+    9.0f,  // 'b'
+    8.0f,  // 'c'
+    9.0f,  // 'd'
+    9.0f,  // 'e'
+    6.0f,  // 'f'
+    9.0f,  // 'g'
+    8.0f,  // 'h'
+    4.0f,  // 'i'
+    6.0f,  // 'j'
+    8.0f,  // 'k'
+    4.0f,  // 'l'
+    12.0f, // 'm'
+    9.0f,  // 'n'
+    9.0f,  // 'o'
+    9.0f,  // 'p'
+    9.0f,  // 'q'
+    7.0f,  // 'r'
+    8.0f,  // 's'
+    7.0f,  // 't'
+    8.0f,  // 'u'
+    9.0f,  // 'v'
+    12.0f, // 'w'
+    8.0f,  // 'x'
+    9.0f,  // 'y'
+    8.0f,  // 'z'
+    7.0f,  // '{'
+    5.0f,  // '|'
+    7.0f,  // '}'
+    10.0f, // '~'
+    10.0f, // '‾'
+    12.0f, // 'À'
+    6.0f,  // 'î'
+    12.0f, // 'Â'
+    12.0f, // 'Ä'
+    11.0f, // 'Ç'
+    8.0f,  // 'È'
+    8.0f,  // 'É'
+    8.0f,  // 'Ê'
+    6.0f,  // 'Ë'
+    6.0f,  // 'Ï'
+    13.0f, // 'Ô'
+    13.0f, // 'Ö'
+    10.0f, // 'Ù'
+    10.0f, // 'Û'
+    10.0f, // 'Ü'
+    9.0f,  // 'ß'
+    8.0f,  // 'à'
+    8.0f,  // 'á'
+    8.0f,  // 'â'
+    8.0f,  // 'ä'
+    8.0f,  // 'ç'
+    9.0f,  // 'è'
+    9.0f,  // 'é'
+    9.0f,  // 'ê'
+    9.0f,  // 'ë'
+    6.0f,  // 'ï'
+    9.0f,  // 'ô'
+    9.0f,  // 'ö'
+    9.0f,  // 'ù'
+    9.0f,  // 'û'
+    9.0f,  // 'ü'
+    14.0f, // '[A]'
+    14.0f, // '[B]'
+    14.0f, // '[C]'
+    14.0f, // '[L]'
+    14.0f, // '[R]'
+    14.0f, // '[Z]'
+    14.0f, // '[C-Up]'
+    14.0f, // '[C-Down]'
+    14.0f, // '[C-Left]'
+    14.0f, // '[C-Right]'
+    14.0f, // '▼'
+    14.0f, // '[Control-Pad]'
+    14.0f, // '[D-Pad]'
+    14.0f, // ?
+    14.0f, // ?
+    14.0f, // ?
+    14.0f, // ?
 };
 
 u16 Message_DrawItemIcon(GlobalContext* globalCtx, u16 itemId, Gfx** p, u16 i) {
@@ -995,7 +991,8 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 // clang-format on
                 gDPPipeSync(gfx++);
                 gDPSetCombineMode(gfx++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-                gDPSetPrimColor(gfx++, 0, 0, D_80153930[msgCtx->textboxBackgroundBackColorIdx].r, D_80153930[msgCtx->textboxBackgroundBackColorIdx].g,
+                gDPSetPrimColor(gfx++, 0, 0, D_80153930[msgCtx->textboxBackgroundBackColorIdx].r,
+                                D_80153930[msgCtx->textboxBackgroundBackColorIdx].g,
                                 D_80153930[msgCtx->textboxBackgroundBackColorIdx].b, msgCtx->textColorAlpha);
 
                 gDPLoadTextureBlock_4b(gfx++, (u32)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_I, 96, 48,
@@ -1019,7 +1016,8 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                     G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
                 gDPPipeSync(gfx++);
-                gDPSetPrimColor(gfx++, 0, 0, D_80153900[msgCtx->textboxBackgroundForeColorIdx].r, D_80153900[msgCtx->textboxBackgroundForeColorIdx].g,
+                gDPSetPrimColor(gfx++, 0, 0, D_80153900[msgCtx->textboxBackgroundForeColorIdx].r,
+                                D_80153900[msgCtx->textboxBackgroundForeColorIdx].g,
                                 D_80153900[msgCtx->textboxBackgroundForeColorIdx].b, msgCtx->textColorAlpha);
 
                 gDPLoadTextureBlock_4b(gfx++, ((u32)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE), G_IM_FMT_I, 96,
@@ -1139,7 +1137,6 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
 void Message_LoadItemIcon(GlobalContext* globalCtx, u16 itemId, s16 y) {
     static s16 sIconItem32XOffsets[] = { 74, 74, 74, 0 };
     static s16 sIconItem24XOffsets[] = { 72, 72, 72, 0 };
-
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
@@ -1194,9 +1191,7 @@ void Message_Decode(GlobalContext* globalCtx) {
 
         if (temp_s2 == MESSAGE_BOX_BREAK || temp_s2 == MESSAGE_TEXTID || temp_s2 == MESSAGE_BOX_BREAK_DELAYED ||
             temp_s2 == MESSAGE_EVENT || temp_s2 == MESSAGE_END) {
-            /*
-             *  Textbox decoding ends with any of the above text control characters
-             */
+            // Textbox decoding ends with any of the above text control characters
             msgCtx->msgMode = MSGMODE_TEXT_DISPLAYING;
             msgCtx->textDrawPos = 1;
             R_TEXT_INIT_YPOS = R_TEXTBOX_Y + 8;
@@ -1228,9 +1223,7 @@ void Message_Decode(GlobalContext* globalCtx) {
             }
             break;
         } else if (temp_s2 == MESSAGE_NAME) {
-            /*
-             *  Substitute the player name control character for the file's player name.
-             */
+            // Substitute the player name control character for the file's player name.
             for (playerNameLen = ARRAY_COUNT(gSaveContext.playerName); playerNameLen > 0; playerNameLen--) {
                 if (gSaveContext.playerName[playerNameLen - 1] != 0x3E) {
                     break;
@@ -1266,10 +1259,8 @@ void Message_Decode(GlobalContext* globalCtx) {
             }
             decodedBufPos--;
         } else if (temp_s2 == MESSAGE_MARATHON_TIME || temp_s2 == MESSAGE_RACE_TIME) {
-            /*
-             *  Convert the values of the appropriate timer to digits and add the
-             *   digits to the decoded buffer in place of the control character.
-             */
+            // Convert the values of the appropriate timer to digits and add the
+            //  digits to the decoded buffer in place of the control character.
             // "EVENT timer"
             osSyncPrintf("\nＥＶＥＮＴタイマー ＝ ");
             digits[0] = digits[1] = digits[2] = 0;
@@ -1309,10 +1300,8 @@ void Message_Decode(GlobalContext* globalCtx) {
                 }
             }
         } else if (temp_s2 == MESSAGE_POINTS) {
-            /*
-             *  Convert the values of the current minigame score to digits and
-             *   add the digits to the decoded buffer in place of the control character.
-             */
+            // Convert the values of the current minigame score to digits and
+            //  add the digits to the decoded buffer in place of the control character.
             // "Yabusame score"
             osSyncPrintf("\n流鏑馬スコア ＝ %d\n", gSaveContext.minigameScore);
             digits[0] = digits[1] = digits[2] = 0;
@@ -1345,10 +1334,8 @@ void Message_Decode(GlobalContext* globalCtx) {
             }
             decodedBufPos--;
         } else if (temp_s2 == MESSAGE_TOKENS) {
-            /*
-             *  Convert the current number of collected gold skulltula tokens to digits and
-             *   add the digits to the decoded buffer in place of the control character.
-             */
+            // Convert the current number of collected gold skulltula tokens to digits and
+            //  add the digits to the decoded buffer in place of the control character.
             // "Total number of gold stars"
             osSyncPrintf("\n金スタ合計数 ＝ %d", gSaveContext.inventory.gsTokens);
             digits[0] = digits[1] = 0;
@@ -1576,13 +1563,7 @@ void Message_Decode(GlobalContext* globalCtx) {
 }
 
 void Message_OpenText(GlobalContext* globalCtx, u16 textId) {
-    static s16 messageStaticIndices[] = {
-        0,
-        1,
-        3,
-        2,
-    };
-
+    static s16 messageStaticIndices[] = { 0, 1, 3, 2 };
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Font* font = &msgCtx->font;
     s16 textBoxType;
@@ -1963,7 +1944,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
         ACTOR_OCEFF_WIPE,  ACTOR_OCEFF_STORM, ACTOR_OCEFF_WIPE4,
     };
     static s16 sOcarinaEffectActorParams[] = { 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 0x0000 };
-    static u64* sOcarinaNoteTextures[] = {
+    static void* sOcarinaNoteTextures[] = {
         gOcarinaATex, gOcarinaCDownTex, gOcarinaCRightTex, gOcarinaCLeftTex, gOcarinaCUpTex,
     };
     static Color_RGB_s16 sOcarinaNoteAPrimColors[] = {
@@ -2908,7 +2889,6 @@ end:
 void Message_DrawSetup(s16* scarecrowCustomSongSet, GraphicsContext* gfxCtx) {
     static s16 sScarecrowCustomSongSet = 0;
     static s16 sFillTimer = 0;
-
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_message_PAL.c", 3485);
@@ -3003,7 +2983,6 @@ void Message_Update(GlobalContext* globalCtx) {
     };
     static u8 D_80153D74 = 0;
     static u16 D_80153D78 = 0;
-
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     Player* player = GET_PLAYER(globalCtx);
