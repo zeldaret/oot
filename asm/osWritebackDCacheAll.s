@@ -11,7 +11,7 @@
 .balign 16
 
 glabel osWritebackDCacheAll
-    lui     $t0, %hi(K0BASE)
+    li      $t0, K0BASE
     li      $t2, DCACHE_SIZE
     addu    $t1, $t0, $t2
     addiu   $t1, $t1, -DCACHE_LINESIZE

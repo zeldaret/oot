@@ -155,9 +155,9 @@ savecontext:
     lw      $t0, ($t0)
     li      $at, -1
     xor     $t2, $t0, $at
-    lui     $at, %hi(~SR_IMASK)
+    lui     $at, ((~SR_IMASK) >> 0x10) & 0xFFFF
     andi    $t2, $t2, SR_IMASK
-    ori     $at, %lo(~SR_IMASK)
+    ori     $at, (~SR_IMASK) & 0xFFFF
     or      $t4, $t1, $t2
     and     $t3, $k1, $at
     andi    $t0, $t0, SR_IMASK
@@ -283,8 +283,8 @@ counter:
     jal     send_mesg
      li     $a0, OS_EVENT_COUNTER*8
     # Clear interrupt and continue
-    lui     $at, %hi(~CAUSE_IP8)
-    ori     $at, %lo(~CAUSE_IP8)
+    lui     $at, ((~CAUSE_IP8) >> 0x10) & 0xFFFF
+    ori     $at, (~CAUSE_IP8) & 0xFFFF
     b       next_interrupt
      and    $s0, $s0, $at
 
@@ -681,7 +681,7 @@ send_done:
  *  Handle coprocessor unusable exception
  */
 handle_CpU:
-    lui     $at, %hi(CAUSE_CEMASK)
+    li      $at, CAUSE_CEMASK
     and     $t1, $t0, $at
     srl     $t1, $t1, CAUSE_CESHIFT
     li      $t2, 1 # if not coprocessor 1, panic
@@ -689,7 +689,7 @@ handle_CpU:
      nop
     # Mark cop1 as usable for this thread
     lw      $k1, THREAD_SR($k0)
-    lui     $at, %hi(SR_CU1)
+    li      $at, SR_CU1
     li      $t1, 1
     or      $k1, $k1, $at
     sw      $t1, THREAD_FP($k0)
@@ -746,9 +746,9 @@ glabel __osEnqueueAndYield
     lw      $t0, ($t0)
     li      $at, -1
     xor     $t0, $t0, $at
-    lui     $at, %hi(~SR_IMASK)
+    lui     $at, ((~SR_IMASK) >> 0x10) & 0xFFFF
     andi    $t0, $t0, SR_IMASK
-    ori     $at, %lo(~SR_IMASK)
+    ori     $at, (~SR_IMASK) & 0xFFFF
     or      $t1, $t1, $t0
     and     $k1, $k1, $at
     or      $k1, $k1, $t1
@@ -847,9 +847,9 @@ glabel __osDispatchThread
     lw      $k1, THREAD_SR($k0)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
-    lui     $at, %hi(~SR_IMASK)
+    lui     $at, ((~SR_IMASK) >> 0x10) & 0xFFFF
     andi    $t1, $k1, SR_IMASK
-    ori     $at, %lo(~SR_IMASK)
+    ori     $at, (~SR_IMASK) & 0xFFFF
     andi    $t0, $t0, SR_IMASK
     and     $t1, $t1, $t0
     and     $k1, $k1, $at

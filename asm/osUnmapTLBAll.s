@@ -13,7 +13,7 @@
 glabel osUnmapTLBAll
     mfc0    $t0, EntryHi
     li      $t1, (NTLBENTRIES - 1)
-    lui     $t2, %hi(K0BASE)
+    li      $t2, K0BASE
     mtc0    $t2, EntryHi
     mtc0    $zero, EntryLo0
     mtc0    $zero, EntryLo1

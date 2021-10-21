@@ -58,8 +58,8 @@ glabel osSetIntMask
     andi    $t0, $a0, (SR_IMASK | SR_IE)
     andi    $t1, $t3, SR_IMASK
     and     $t0, $t0, $t1
-    lui     $at, %hi(~SR_IMASK)
-    ori     $at, %lo(~SR_IMASK)
+    lui     $at, ((~SR_IMASK) >> 0x10) & 0xFFFF
+    ori     $at, (~SR_IMASK) & 0xFFFF
     and     $t4, $t4, $at
     or      $t4, $t4, $t0
     mtc0    $t4, Status

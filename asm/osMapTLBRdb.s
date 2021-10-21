@@ -16,9 +16,9 @@ glabel osMapTLBRdb
     mtc0    $t1, Index
     mtc0    $zero, PageMask
     li      $t2, (TLBLO_UNCACHED | TLBLO_D | TLBLO_V | TLBLO_G)
-    lui     $t1, %hi(K2BASE)
+    li      $t1, K2BASE
     mtc0    $t1, EntryHi
-    lui     $t1, %hi(K0BASE)
+    li      $t1, K0BASE
     srl     $t3, $t1, TLBLO_PFNSHIFT
     or      $t3, $t3, $t2
     mtc0    $t3, EntryLo0

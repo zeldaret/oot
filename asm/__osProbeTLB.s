@@ -24,7 +24,7 @@ glabel __osProbeTLB
     nop
     nop
     mfc0    $t3, Index
-    lui     $at, %hi(TLBINX_PROBE)
+    li      $at, TLBINX_PROBE
     and     $t3, $t3, $at
     bnez    $t3, .L800050E8
      nop

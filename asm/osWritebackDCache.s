@@ -42,7 +42,7 @@ glabel osWritebackDCache
 
 # same as osWritebackDCacheAll in operation
 .writeback_all:
-    lui     $t0, %hi(K0BASE)
+    li      $t0, K0BASE
     addu    $t1, $t0, $t3
     addiu   $t1, $t1, -DCACHE_LINESIZE
 .all:
