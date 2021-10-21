@@ -32,7 +32,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx);
 
 // sInitAnimFuncs
 void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
-                                   AnimationHeader* anim);
+                                       AnimationHeader* anim);
 void EnViewer_InitAnimImpa(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim);
 void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim);
 
@@ -141,7 +141,7 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
         type == ENVIEWER_TYPE_8_GANONDORF || type == ENVIEWER_TYPE_9_GANONDORF) {
         sGanondorfCape = (EnGanonMant*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
-                                                      ACTOR_EN_GANON_MANT, 0.0f, 0.0f, 0.0f, 0, 0, 0, 35);
+                                                          ACTOR_EN_GANON_MANT, 0.0f, 0.0f, 0.0f, 0, 0, 0, 35);
     }
 }
 
@@ -152,7 +152,7 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
-                                   AnimationHeader* anim) {
+                                       AnimationHeader* anim) {
     s16 type = this->actor.params >> 8;
 
     if (type == ENVIEWER_TYPE_2_ZELDA || type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF ||
@@ -183,8 +183,9 @@ void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skel
 
     func_800A663C(globalCtx, &this->skin, skeletonHeaderSeg, anim);
     type = this->actor.params >> 8;
-    if (!(type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
-          type == ENVIEWER_TYPE_8_GANONDORF || type == ENVIEWER_TYPE_9_GANONDORF)) {
+    if (!(type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF ||
+          type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF ||
+          type == ENVIEWER_TYPE_9_GANONDORF)) {
         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 3.0f);
     } else {
         Animation_PlayOnceSetSpeed(&this->skin.skelAnime, anim, 1.0f);
@@ -509,7 +510,7 @@ void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnViewer_Ganondorf3OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                    void* thisx) {
+                                        void* thisx) {
     if (gSaveContext.sceneSetupIndex == 4) {
         if (globalCtx->csCtx.frames >= 400) {
             if (limbIndex == 5) {
@@ -538,7 +539,7 @@ void EnViewer_Ganondorf9PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
 }
 
 void EnViewer_GanondorfPostLimbDrawUpdateCapeVec(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot,
-                                             void* thisx) {
+                                                 void* thisx) {
     if (limbIndex == 15) {
         Matrix_MultVec3f(&sZeroVec, &sGanondorfNeckWorldPos);
     }
@@ -584,11 +585,12 @@ void EnViewer_DrawGanondorf(EnViewer* this, GlobalContext* globalCtx) {
                               this->skin.skelAnime.dListCount, EnViewer_Ganondorf3OverrideLimbDraw,
                               EnViewer_GanondorfPostLimbDrawUpdateCapeVec, this);
         EnViewer_UpdateGanondorfCape(globalCtx, this);
-    } else if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
-               type == ENVIEWER_TYPE_8_GANONDORF) {
+    } else if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF ||
+               type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF) {
         if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[1] != NULL)) {
             SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
-                                  this->skin.skelAnime.dListCount, NULL, EnViewer_GanondorfPostLimbDrawUpdateCapeVec, this);
+                                  this->skin.skelAnime.dListCount, NULL, EnViewer_GanondorfPostLimbDrawUpdateCapeVec,
+                                  this);
             EnViewer_UpdateGanondorfCape(globalCtx, this);
         }
     } else {
