@@ -6,7 +6,7 @@
 
 #define THIS ((EnBomChu*)thisx)
 
-#define SCALE 0.01f
+#define BOMBCHU_SCALE 0.01f
 
 void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -58,7 +58,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F_DIV1000(scale, 1000 * SCALE, ICHAIN_STOP),
+    ICHAIN_VEC3F_DIV1000(scale, 1000 * BOMBCHU_SCALE, ICHAIN_STOP),
 };
 
 void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -509,7 +509,7 @@ void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetEnvColor(POLY_OPA_DISP++, 9.0f + (colorIntensity * 209.0f), 9.0f + (colorIntensity * 34.0f),
                    35.0f + (colorIntensity * -35.0f), 255);
-    Matrix_Translate(this->visualJitter * (1.0f / SCALE), 0.0f, 0.0f, MTXMODE_APPLY);
+    Matrix_Translate(this->visualJitter * (1.0f / BOMBCHU_SCALE), 0.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom_chu.c", 956),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gBombchuDL);
