@@ -28,18 +28,18 @@ void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnViewer_UpdatePosition(EnViewer* this, GlobalContext* globalCtx);
 void EnViewer_DrawFireEffects(EnViewer* this2, GlobalContext* globalCtx);
-void EnViewer_UpdateGanonCape(GlobalContext* globalCtx, EnViewer* this);
+void EnViewer_UpdateGanondorfCape(GlobalContext* globalCtx, EnViewer* this);
 void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx);
 void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx);
 
 // sInitDrawFuncs
-void EnViewer_InitDrawGanonOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
+void EnViewer_InitDrawGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
                                    AnimationHeader* anim);
 void EnViewer_InitDrawImpa(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim);
 void EnViewer_InitDrawHorse(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim);
 
 // sDrawFuncs
-void EnViewer_DrawGanon(EnViewer* this, GlobalContext* globalCtx);
+void EnViewer_DrawGanondorf(EnViewer* this, GlobalContext* globalCtx);
 void EnViewer_DrawHorse(EnViewer* this, GlobalContext* globalCtx);
 void EnViewer_DrawZelda(EnViewer* this, GlobalContext* globalCtx);
 void EnViewer_DrawImpa(EnViewer* this, GlobalContext* globalCtx);
@@ -74,33 +74,33 @@ static EnViewerInitData sInitData[] = {
               ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_ZELDA,
               &gChildZeldaSkel, &object_opening_demo1_Anim_000450 },
     /* 3 */ { OBJECT_GNDD, OBJECT_GNDD, 1, -6,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANON,
+              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF,
               &object_gndd_Skel_0119E8, &object_gndd_Anim_002928 },
     /* 4 */ { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0,
               ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE,
               &gHorseGanonSkel, &gHorseGanonRearingAnim },
     /* 5 */ { OBJECT_GNDD, OBJECT_GNDD, 1, -6,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANON,
+              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF,
               &object_gndd_Skel_0119E8, &object_gndd_Anim_0005B4 },
     /* 6 */ { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0,
               ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE,
               &gHorseGanonSkel, &gHorseGanonGallopingAnim },
     /* 7 */ { OBJECT_GNDD, OBJECT_GNDD, 1, -6,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANON,
+              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF,
               &object_gndd_Skel_0119E8, &object_gndd_Anim_004260 },
     /* 8 */ { OBJECT_GNDD, OBJECT_GNDD, 1, -6,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANON,
+              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF,
               &object_gndd_Skel_0119E8, &object_gndd_Anim_0050A8 },
     /* 9 */ { OBJECT_GANON, OBJECT_GANON, 1, -6,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANON,
+              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF,
               &object_ganon_Skel_0114E8, &object_ganon_Anim_011348 },
 };
 // clang-format on
 
 static EnViewerInitDrawFunc sInitDrawFuncs[] = {
-    EnViewer_InitDrawGanonOrZelda,
+    EnViewer_InitDrawGanondorfOrZelda,
     EnViewer_InitDrawHorse,
-    EnViewer_InitDrawGanonOrZelda,
+    EnViewer_InitDrawGanondorfOrZelda,
     EnViewer_InitDrawImpa,
 };
 
@@ -115,15 +115,15 @@ static s16 sTimer = 0;
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 static EnViewerDrawFunc sDrawFuncs[] = {
-    EnViewer_DrawGanon,
+    EnViewer_DrawGanondorf,
     EnViewer_DrawHorse,
     EnViewer_DrawZelda,
     EnViewer_DrawImpa,
 };
 
-static EnGanonMant* sGanonCape;
+static EnGanonMant* sGanondorfCape;
 
-static Vec3f sGanonNeckWorldPos;
+static Vec3f sGanondorfNeckWorldPos;
 
 void EnViewer_SetupAction(EnViewer* this, EnViewerActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -140,9 +140,9 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unused = 0;
     this->state = 0;
     this->draw = false;
-    if (type == ENVIEWER_TYPE_3_GANON || type == ENVIEWER_TYPE_5_GANON || type == ENVIEWER_TYPE_7_GANON ||
-        type == ENVIEWER_TYPE_8_GANON || type == ENVIEWER_TYPE_9_GANON) {
-        sGanonCape = (EnGanonMant*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
+    if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
+        type == ENVIEWER_TYPE_8_GANONDORF || type == ENVIEWER_TYPE_9_GANONDORF) {
+        sGanondorfCape = (EnGanonMant*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
                                                       ACTOR_EN_GANON_MANT, 0.0f, 0.0f, 0.0f, 0, 0, 0, 35);
     }
 }
@@ -153,12 +153,12 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_800A6888(globalCtx, &this->skin);
 }
 
-void EnViewer_InitDrawGanonOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
+void EnViewer_InitDrawGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
                                    AnimationHeader* anim) {
     s16 type = TYPE;
 
-    if (type == ENVIEWER_TYPE_2_ZELDA || type == ENVIEWER_TYPE_3_GANON || type == ENVIEWER_TYPE_5_GANON ||
-        type == ENVIEWER_TYPE_7_GANON || type == ENVIEWER_TYPE_8_GANON || type == ENVIEWER_TYPE_9_GANON) {
+    if (type == ENVIEWER_TYPE_2_ZELDA || type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF ||
+        type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF || type == ENVIEWER_TYPE_9_GANONDORF) {
         SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     } else {
         // dead code, this function is only used with the types in the previous conditional
@@ -166,8 +166,8 @@ void EnViewer_InitDrawGanonOrZelda(EnViewer* this, GlobalContext* globalCtx, voi
     }
 
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
-    if (type == ENVIEWER_TYPE_3_GANON || type == ENVIEWER_TYPE_7_GANON || type == ENVIEWER_TYPE_8_GANON ||
-        type == ENVIEWER_TYPE_9_GANON) {
+    if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF ||
+        type == ENVIEWER_TYPE_9_GANONDORF) {
         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 1.0f);
     } else {
         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 3.0f);
@@ -185,8 +185,8 @@ void EnViewer_InitDrawHorse(EnViewer* this, GlobalContext* globalCtx, void* skel
 
     func_800A663C(globalCtx, &this->skin, skeletonHeaderSeg, anim);
     type = TYPE;
-    if (!(type == ENVIEWER_TYPE_3_GANON || type == ENVIEWER_TYPE_4_HORSE_GANON || type == ENVIEWER_TYPE_7_GANON ||
-          type == ENVIEWER_TYPE_8_GANON || type == ENVIEWER_TYPE_9_GANON)) {
+    if (!(type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
+          type == ENVIEWER_TYPE_8_GANONDORF || type == ENVIEWER_TYPE_9_GANONDORF)) {
         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 3.0f);
     } else {
         Animation_PlayOnceSetSpeed(&this->skin.skelAnime, anim, 1.0f);
@@ -233,12 +233,12 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_THROW);
             }
         }
-    } else if (type == ENVIEWER_TYPE_7_GANON) {
+    } else if (type == ENVIEWER_TYPE_7_GANONDORF) {
         Actor_SetScale(&this->actor, 0.3f);
         this->actor.uncullZoneForward = 10000.0f;
         this->actor.uncullZoneScale = 10000.0f;
         this->actor.uncullZoneDownward = 10000.0f;
-    } else if (type == ENVIEWER_TYPE_3_GANON) {
+    } else if (type == ENVIEWER_TYPE_3_GANONDORF) {
         if (gSaveContext.sceneSetupIndex == 4) {
             switch (globalCtx->csCtx.frames) {
                 case 20:
@@ -272,11 +272,11 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
         }
-    } else if (type == ENVIEWER_TYPE_6_HORSE_GANON) {
+    } else if (type == ENVIEWER_TYPE_6_HORSE_GANONDORF) {
         if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 10) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_RUN_LEVEL - SFX_FLAG);
         }
-    } else if (type == ENVIEWER_TYPE_4_HORSE_GANON) {
+    } else if (type == ENVIEWER_TYPE_4_HORSE_GANONDORF) {
         s16 curFrame = this->skin.skelAnime.curFrame;
 
         if (this->skin.skelAnime.animation == &gHorseGanonRearingAnim) {
@@ -303,10 +303,10 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor); // has no effect, speed is 0
 
     animationEnded = SkelAnime_Update(&this->skin.skelAnime);
-    if (type == ENVIEWER_TYPE_3_GANON || type == ENVIEWER_TYPE_4_HORSE_GANON) {
+    if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF) {
         if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL) {
             if (globalCtx->csCtx.npcActions[1]->action == 2 && sTimer == 0) {
-                if (type == ENVIEWER_TYPE_3_GANON) {
+                if (type == ENVIEWER_TYPE_3_GANONDORF) {
                     if (this->skin.skelAnime.animation != &object_gndd_Anim_002928) {
                         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &object_gndd_Anim_002928, 1.0f);
                     }
@@ -315,14 +315,14 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
                 }
             } else if (globalCtx->csCtx.npcActions[1]->action == 1) {
                 sTimer = 100;
-                if (type == ENVIEWER_TYPE_3_GANON) {
+                if (type == ENVIEWER_TYPE_3_GANONDORF) {
                     if (this->skin.skelAnime.animation != &object_gndd_Anim_001D28) {
                         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &object_gndd_Anim_001D28, 1.0f);
                     }
                 } else if (this->skin.skelAnime.animation != &gHorseGanonRearingAnim) {
                     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &gHorseGanonRearingAnim, 1.0f);
                 }
-            } else if (type == ENVIEWER_TYPE_3_GANON) {
+            } else if (type == ENVIEWER_TYPE_3_GANONDORF) {
                 switch (this->state) {
                     case 0:
                         if (globalCtx->csCtx.npcActions[1]->action == 4) {
@@ -451,7 +451,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
                     break;
             }
         }
-    } else if (type == ENVIEWER_TYPE_7_GANON) {
+    } else if (type == ENVIEWER_TYPE_7_GANONDORF) {
         switch (this->state) {
             case 0:
                 if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL &&
@@ -468,7 +468,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
                 }
                 break;
         }
-    } else if (type == ENVIEWER_TYPE_8_GANON) {
+    } else if (type == ENVIEWER_TYPE_8_GANONDORF) {
         switch (this->state) {
             case 0:
                 if (globalCtx->csCtx.state != CS_STATE_IDLE) {
@@ -510,7 +510,7 @@ void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnViewer_Ganon3OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+s32 EnViewer_Ganondorf3OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                     void* thisx) {
     if (gSaveContext.sceneSetupIndex == 4) {
         if (globalCtx->csCtx.frames >= 400) {
@@ -528,7 +528,7 @@ s32 EnViewer_Ganon3OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx
     return false;
 }
 
-void EnViewer_Ganon9PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnViewer_Ganondorf9PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     if (limbIndex == 11) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1365);
         func_80093D84(globalCtx->state.gfxCtx);
@@ -539,21 +539,21 @@ void EnViewer_Ganon9PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     }
 }
 
-void EnViewer_GanonPostLimbDrawUpdateCapeVec(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot,
+void EnViewer_GanondorfPostLimbDrawUpdateCapeVec(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot,
                                              void* thisx) {
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&sZeroVec, &sGanonNeckWorldPos);
+        Matrix_MultVec3f(&sZeroVec, &sGanondorfNeckWorldPos);
     }
 }
 
-void EnViewer_DrawGanon(EnViewer* this, GlobalContext* globalCtx) {
+void EnViewer_DrawGanondorf(EnViewer* this, GlobalContext* globalCtx) {
     s16 frames = 0;
     s16 type;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1405);
     type = TYPE;
-    if (type == ENVIEWER_TYPE_3_GANON || type == ENVIEWER_TYPE_5_GANON || type == ENVIEWER_TYPE_7_GANON ||
-        type == ENVIEWER_TYPE_8_GANON) {
+    if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
+        type == ENVIEWER_TYPE_8_GANONDORF) {
         if (gSaveContext.sceneSetupIndex != 4) {
             frames = 149;
         }
@@ -574,24 +574,24 @@ void EnViewer_DrawGanon(EnViewer* this, GlobalContext* globalCtx) {
             gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&object_gndd_Tex_00F778));
             gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&object_gndd_Tex_00F778));
         }
-    } else if (type == ENVIEWER_TYPE_9_GANON) {
+    } else if (type == ENVIEWER_TYPE_9_GANONDORF) {
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&object_ganon_Tex_00A4E0));
     }
 
-    if (type == ENVIEWER_TYPE_9_GANON) {
+    if (type == ENVIEWER_TYPE_9_GANONDORF) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
-                              this->skin.skelAnime.dListCount, NULL, EnViewer_Ganon9PostLimbDraw, this);
-    } else if (type == ENVIEWER_TYPE_3_GANON) {
+                              this->skin.skelAnime.dListCount, NULL, EnViewer_Ganondorf9PostLimbDraw, this);
+    } else if (type == ENVIEWER_TYPE_3_GANONDORF) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
-                              this->skin.skelAnime.dListCount, EnViewer_Ganon3OverrideLimbDraw,
-                              EnViewer_GanonPostLimbDrawUpdateCapeVec, this);
-        EnViewer_UpdateGanonCape(globalCtx, this);
-    } else if (type == ENVIEWER_TYPE_3_GANON || type == ENVIEWER_TYPE_5_GANON || type == ENVIEWER_TYPE_7_GANON ||
-               type == ENVIEWER_TYPE_8_GANON) {
+                              this->skin.skelAnime.dListCount, EnViewer_Ganondorf3OverrideLimbDraw,
+                              EnViewer_GanondorfPostLimbDrawUpdateCapeVec, this);
+        EnViewer_UpdateGanondorfCape(globalCtx, this);
+    } else if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
+               type == ENVIEWER_TYPE_8_GANONDORF) {
         if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[1] != NULL)) {
             SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
-                                  this->skin.skelAnime.dListCount, NULL, EnViewer_GanonPostLimbDrawUpdateCapeVec, this);
-            EnViewer_UpdateGanonCape(globalCtx, this);
+                                  this->skin.skelAnime.dListCount, NULL, EnViewer_GanondorfPostLimbDrawUpdateCapeVec, this);
+            EnViewer_UpdateGanondorfCape(globalCtx, this);
         }
     } else {
         SkelAnime_DrawOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable, NULL, NULL, this);
@@ -721,7 +721,7 @@ void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 sDrawFuncs[this->drawFuncIndex](this, globalCtx);
             }
         } else if ((globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL) ||
-                   type == ENVIEWER_TYPE_9_GANON) {
+                   type == ENVIEWER_TYPE_9_GANONDORF) {
             func_80093D18(globalCtx->state.gfxCtx);
             sDrawFuncs[this->drawFuncIndex](this, globalCtx);
         }
@@ -759,7 +759,7 @@ void EnViewer_UpdatePosition(EnViewer* this, GlobalContext* globalCtx) {
             this->actor.world.pos.y = (endPos.y - startPos.y) * lerpFactor + startPos.y;
             this->actor.world.pos.z = (endPos.z - startPos.z) * lerpFactor + startPos.z;
         }
-    } else { // ganon and ganon's horse
+    } else { // ganondorf and ganondorf's horse
         if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL &&
             globalCtx->csCtx.frames < globalCtx->csCtx.npcActions[1]->endFrame) {
             startPos.x = globalCtx->csCtx.npcActions[1]->startPos.x;
@@ -781,7 +781,7 @@ void EnViewer_UpdatePosition(EnViewer* this, GlobalContext* globalCtx) {
                 Math_SmoothStepToS(&this->actor.shape.rot.y, yaw, 0xA, 0x3E8, 1);
             }
 
-            if (type == ENVIEWER_TYPE_9_GANON) {
+            if (type == ENVIEWER_TYPE_9_GANONDORF) {
                 this->actor.world.rot.x = globalCtx->csCtx.npcActions[1]->urot.x;
                 this->actor.world.rot.y = globalCtx->csCtx.npcActions[1]->urot.y;
                 this->actor.world.rot.z = globalCtx->csCtx.npcActions[1]->urot.z;
@@ -790,7 +790,7 @@ void EnViewer_UpdatePosition(EnViewer* this, GlobalContext* globalCtx) {
                 this->actor.shape.rot.z = globalCtx->csCtx.npcActions[1]->urot.z;
             }
         }
-        if (type == ENVIEWER_TYPE_5_GANON) {
+        if (type == ENVIEWER_TYPE_5_GANONDORF) {
             Audio_PlaySoundGeneral(NA_SE_EV_BURNING - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             EnViewer_DrawFireEffects(this, globalCtx);
         }
@@ -876,19 +876,19 @@ void EnViewer_DrawFireEffects(EnViewer* this2, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2034);
 }
 
-void EnViewer_UpdateGanonCape(GlobalContext* globalCtx, EnViewer* this) {
+void EnViewer_UpdateGanondorfCape(GlobalContext* globalCtx, EnViewer* this) {
     static s16 yOscillationPhase = 0;
     Vec3f forearmModelOffset;
     Vec3f forearmWorldOffset;
 
-    if (TYPE == ENVIEWER_TYPE_5_GANON) {
+    if (TYPE == ENVIEWER_TYPE_5_GANONDORF) {
         if (1) {}
-        sGanonCape->backPush = BREG(54) / 10.0f;
-        sGanonCape->backSwayMagnitude = (BREG(60) + 25) / 100.0f;
-        sGanonCape->sideSwayMagnitude = (BREG(55) - 45) / 10.0f;
-        sGanonCape->minY = -10000.0f;
-        sGanonCape->minDist = 0.0f;
-        sGanonCape->gravity = (BREG(67) - 10) / 10.0f;
+        sGanondorfCape->backPush = BREG(54) / 10.0f;
+        sGanondorfCape->backSwayMagnitude = (BREG(60) + 25) / 100.0f;
+        sGanondorfCape->sideSwayMagnitude = (BREG(55) - 45) / 10.0f;
+        sGanondorfCape->minY = -10000.0f;
+        sGanondorfCape->minDist = 0.0f;
+        sGanondorfCape->gravity = (BREG(67) - 10) / 10.0f;
         forearmModelOffset.x = KREG(16) - 13.0f;
         forearmModelOffset.y = KREG(17) + 3.0f + Math_SinS(yOscillationPhase) * KREG(20);
         forearmModelOffset.z = KREG(18) - 10.0f;
@@ -896,13 +896,13 @@ void EnViewer_UpdateGanonCape(GlobalContext* globalCtx, EnViewer* this) {
 
         Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
-        sGanonCape->rightForearmPos.x = sGanonNeckWorldPos.x + forearmWorldOffset.x;
-        sGanonCape->rightForearmPos.y = sGanonNeckWorldPos.y + forearmWorldOffset.y;
-        sGanonCape->rightForearmPos.z = sGanonNeckWorldPos.z + forearmWorldOffset.z;
+        sGanondorfCape->rightForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
+        sGanondorfCape->rightForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
+        sGanondorfCape->rightForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
         forearmModelOffset.x = -(KREG(16) - 13.0f);
         Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
-        sGanonCape->leftForearmPos.x = sGanonNeckWorldPos.x + forearmWorldOffset.x;
-        sGanonCape->leftForearmPos.y = sGanonNeckWorldPos.y + forearmWorldOffset.y;
-        sGanonCape->leftForearmPos.z = sGanonNeckWorldPos.z + forearmWorldOffset.z;
+        sGanondorfCape->leftForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
+        sGanondorfCape->leftForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
+        sGanondorfCape->leftForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
     }
 }
