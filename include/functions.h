@@ -908,6 +908,8 @@ void Environment_ClearBgsDayCount(void);
 s32 Environment_GetTotalDays(void);
 void func_800775F0(u16);
 s32 func_80077600(void);
+void func_80077624(GlobalContext* globalCtx);
+void func_80077684(GlobalContext* globalCtx);
 void Environment_WarpSongLeave(GlobalContext* globalCtx);
 void Lib_MemSet(u8* dest, size_t size, u8 val);
 f32 Math_CosS(s16 angle);

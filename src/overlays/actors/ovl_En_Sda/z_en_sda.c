@@ -291,7 +291,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
             *shadowTextureTemp32 = 0;
         }
     }
-    Matrix_RotateX((BREG(50) + 70) / 100.0f, 0);
+    Matrix_RotateX((BREG(50) + 70) / 100.0f, MTXMODE_NEW);
     for (i = 0; i < 18; i++) {
         if (D_80AFA16C[i] >= 0) {
             D_80AFA660[D_80AFA16C[i]] = player->bodyPartsPos[i];
@@ -321,7 +321,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
             sp64[i].y = (((KREG(82) / 100.0f) + 4.0f) * sp188.y) + sp16C.y;
             sp64[i].z = (((KREG(82) / 100.0f) + 4.0f) * sp188.z) + sp16C.z;
         }
-        Matrix_RotateX((BREG(50) + 70) / 100.0f, 0);
+        Matrix_RotateX((BREG(50) + 70) / 100.0f, MTXMODE_NEW);
         for (i = 0; i < 22; i++) {
             sp194.x = sp64[i].x - player->actor.world.pos.x;
             sp194.y = sp64[i].y - player->actor.world.pos.y + KREG(80) + 16.0f;

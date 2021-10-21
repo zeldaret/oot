@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "Directory.h"
+#include "Utils/Directory.h"
 
 class RGBAPixel
 {
