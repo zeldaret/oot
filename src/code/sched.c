@@ -46,10 +46,10 @@ void Sched_SwapFrameBuffer(CfbInfo* cfbInfo) {
             HREG(95) = 0xD;
         }
         if (HREG(80) == 0xD && HREG(81) == 2) {
-            osViSetSpecialFeatures(HREG(82) != 0 ? 1 : 2);
-            osViSetSpecialFeatures(HREG(83) != 0 ? 0x40 : 0x80);
-            osViSetSpecialFeatures(HREG(84) != 0 ? 0x4 : 0x8);
-            osViSetSpecialFeatures(HREG(85) != 0 ? 0x10 : 0x20);
+            osViSetSpecialFeatures(HREG(82) != 0 ? OS_VI_GAMMA_ON : OS_VI_GAMMA_OFF);
+            osViSetSpecialFeatures(HREG(83) != 0 ? OS_VI_DITHER_FILTER_ON : OS_VI_DITHER_FILTER_OFF);
+            osViSetSpecialFeatures(HREG(84) != 0 ? OS_VI_GAMMA_DITHER_ON : OS_VI_GAMMA_DITHER_OFF);
+            osViSetSpecialFeatures(HREG(85) != 0 ? OS_VI_DIVOT_ON : OS_VI_DIVOT_OFF);
         }
     }
     cfbInfo->unk_10 = 0;

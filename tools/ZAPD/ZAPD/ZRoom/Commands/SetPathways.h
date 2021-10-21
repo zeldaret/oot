@@ -8,6 +8,8 @@
 class SetPathways : public ZRoomCommand
 {
 public:
+	ZPath pathwayList;
+
 	SetPathways(ZFile* nParent);
 
 	void DeclareReferences(const std::string& prefix) override;
@@ -15,14 +17,8 @@ public:
 	void ParseRawDataLate() override;
 	void DeclareReferencesLate(const std::string& prefix) override;
 
-	void DeclareVar(const std::string& prefix, const std::string& bodyStr);
-
 	std::string GetBodySourceCode() const override;
 
 	RoomCommand GetRoomCommand() const override;
-	size_t GetRawDataSize() const override;
 	std::string GetCommandCName() const override;
-
-private:
-	ZPath pathwayList;
 };

@@ -68,13 +68,6 @@ const ActorInit Bg_Dy_Yoseizo_InitVars = {
     NULL,
 };
 
-extern CutsceneData D_02000130;
-extern CutsceneData D_02000160;
-extern CutsceneData D_02001020;
-extern CutsceneData D_020013E0;
-extern CutsceneData D_02001F40;
-extern CutsceneData D_020025D0;
-
 void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     BgDyYoseizo* this = THIS;

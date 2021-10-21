@@ -44,25 +44,25 @@ class ZScalar : public ZResource
 	friend class ZVector;
 
 public:
+	ZScalarData scalarData;
+	ZScalarType scalarType;
+
 	ZScalar(ZFile* nParent);
-	ZScalar(const ZScalarType scalarType, ZFile* nParent);
+
+	void ExtractFromBinary(uint32_t nRawDataIndex, ZScalarType nScalarType);
 
 	void ParseRawData() override;
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	std::string GetBodySourceCode() const override;
-	std::string GetSourceOutputCode(const std::string& prefix) override;
 
 	bool DoesSupportArray() const override;
 	std::string GetSourceTypeName() const override;
 	ZResourceType GetResourceType() const override;
 
 	size_t GetRawDataSize() const override;
+	DeclarationAlignment GetDeclarationAlignment() const override;
 
 	static size_t MapTypeToSize(const ZScalarType scalarType);
 	static ZScalarType MapOutputTypeToScalarType(const std::string& type);
 	static std::string MapScalarTypeToOutputType(const ZScalarType scalarType);
-
-protected:
-	ZScalarData scalarData;
-	ZScalarType scalarType;
 };

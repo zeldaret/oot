@@ -5,6 +5,8 @@
 class SetEchoSettings : public ZRoomCommand
 {
 public:
+	uint8_t echo;
+
 	SetEchoSettings(ZFile* nParent);
 
 	void ParseRawData() override;
@@ -13,7 +15,4 @@ public:
 
 	std::string GetCommandCName() const override;
 	RoomCommand GetRoomCommand() const override;
-
-private:
-	uint8_t echo;
 };

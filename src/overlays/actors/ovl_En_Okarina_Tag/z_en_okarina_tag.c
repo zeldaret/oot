@@ -96,7 +96,6 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_80ABF28C;
                 break;
             case 5:
-                // "This poem is dedicated to the memory of the dearly departed members of the Royal Family."
                 this->actor.textId = 0x5021;
                 this->actionFunc = func_80ABF708;
                 break;
@@ -288,7 +287,6 @@ void func_80ABF708(EnOkarinaTag* this, GlobalContext* globalCtx) {
         this->unk_15A++;
         if (!(this->actor.xzDistToPlayer > 120.0f)) {
             if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
-                // "This poem is dedicated to the memory of the dearly departed members of the Royal Family."
                 this->actor.textId = 0x5021;
             }
             yawDiffNew = ABS(yawDiff);
