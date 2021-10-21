@@ -69,7 +69,7 @@ static ColliderCylinderInit sColCylInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = { 0x00, 0x0000, 0x0000, 0x0000, MASS_IMMOVABLE };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 // NULL-terminated arrays of eye textures
 static void* sEyeTexturesAOB[] = { 0x060005C8, 0x06000DC8, 0x060015C8, NULL };
