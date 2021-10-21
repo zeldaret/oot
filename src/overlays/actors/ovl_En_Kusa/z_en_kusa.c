@@ -371,7 +371,7 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f contactPos;
 
-    if (this->actor.bgCheckFlags & (1 | 2 | 8)) {
+    if (this->actor.bgCheckFlags & 0xB) {
         if (!(this->actor.bgCheckFlags & 0x20)) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
