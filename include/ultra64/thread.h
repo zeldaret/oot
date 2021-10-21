@@ -73,12 +73,7 @@ typedef struct OSThread {
 #define THREAD_FLAGS    0x12
 #define THREAD_ID       0x14
 #define THREAD_FP       0x18
-
 #define THREAD_PROFILE  0x1C
-#define THREAD_PROFILE_FLAG     (THREAD_PROFILE + 0x0)
-#define THREAD_PROFILE_COUNT    (THREAD_PROFILE + 0x4)
-#define THREAD_PROFILE_TIME     (THREAD_PROFILE + 0x8)
-
 #define THREAD_CONTEXT  0x20
 #define THREAD_AT       (THREAD_CONTEXT + 0x000)
 #define THREAD_V0       (THREAD_CONTEXT + 0x008)

@@ -237,11 +237,11 @@ next_interrupt:
     # to enter into the appropriate handler
     andi    $t1, $s0, SR_IMASK
     srl     $t2, $t1, 0xc
-    bnez    $t2, .L80003BF8
+    bnez    $t2, 1f
      nop
-    srl     $t2, $t1, 8
+    srl     $t2, $t1, SR_IMASKSHIFT
     addi    $t2, $t2, 0x10
-.L80003BF8:
+1:
     lui     $at, %hi(__osIntOffTable)
     addu    $at, $at, $t2
     lbu     $t2, %lo(__osIntOffTable)($at)
@@ -296,22 +296,22 @@ cart:
     # Load cart callback set by __osSetHWIntrRoutine
     lui     $t1, %hi(__osHwIntTable)
     addiu   $t1, %lo(__osHwIntTable)
-    lw      $t2, (OS_INTR_CART*8)($t1)
+    lw      $t2, (OS_INTR_CART*8+HWINTR_CB)($t1)
     # Clear interrupt
     li      $at, ~CAUSE_IP4
     and     $s0, $s0, $at
     # If the callback is NULL, handling is done
-    beqz    $t2, .send_cart_mesg
+    beqz    $t2, send_cart_mesg
      addi   $t1, $t1, (OS_INTR_CART*8)
     # Set up a stack and run the callback
     jalr    $t2
     lw      $sp, HWINTR_SP($t1)
-    beqz    $v0, .send_cart_mesg
+    beqz    $v0, send_cart_mesg
      nop
     # Redispatch immediately if the callback returned nonzero
     b       redispatch
      nop
-.send_cart_mesg:
+send_cart_mesg:
     # Post a cart event message
     jal     send_mesg
      li     $a0, OS_EVENT_CART*8
@@ -444,20 +444,20 @@ pi:
     # Mask out pi interrupt
     andi    $s1, $s1, (MI_INTR_MASK_SP | MI_INTR_MASK_SI | MI_INTR_MASK_AI | MI_INTR_MASK_VI | MI_INTR_MASK_DP)
     # Skip callback if NULL
-    beqz    $t2, .no_pi_callback
+    beqz    $t2, no_pi_callback
      nop
     # Set up a stack and run the callback
     lw      $sp, HWINTR_SP($t1)
     jalr    $t2
     move    $a0, $v0
     # If the callback returns non-zero, don't post a pi event message
-    bnez    $v0, .skip_pi_mesg
+    bnez    $v0, skip_pi_mesg
      nop
-.no_pi_callback:
+no_pi_callback:
     # Post pi event message
     jal     send_mesg
      li     $a0, OS_EVENT_PI*8
-.skip_pi_mesg:
+skip_pi_mesg:
     beqz    $s1, NoMoreRcpInts
      nop
 
@@ -637,17 +637,17 @@ glabel send_mesg
     addu    $t5, $t5, $t3
     # Modulo
     div     $zero, $t5, $t4
-    bnez    $t4, .L80003F74
+    bnez    $t4, 1f
      nop
     break   7 # div0
-.L80003F74:
+1:
     li      $at, -1
-    bne     $t4, $at, .L80003F8C
+    bne     $t4, $at, 2f
      lui    $at, 0x8000
-    bne     $t5, $at, .L80003F8C
+    bne     $t5, $at, 2f
      nop
     break   6 # overflow
-.L80003F8C:
+2:
     # End Modulo
     lw      $t4, MQ_MSG($t1)
     mfhi    $t5
@@ -725,7 +725,7 @@ glabel __osEnqueueAndYield
     sd      $fp, THREAD_S8($a1)
     sd      $ra, THREAD_RA($a1)
     # Save fpu callee-saved registers if thread has touched the fpu
-    beqz    $k1, .no_save_fpu
+    beqz    $k1, 1f
      sw     $ra, THREAD_PC($a1)
     cfc1    $k1, FpCsr
     sdc1    $f20, THREAD_FP20($a1)
@@ -735,10 +735,10 @@ glabel __osEnqueueAndYield
     sdc1    $f28, THREAD_FP28($a1)
     sdc1    $f30, THREAD_FP30($a1)
     sw      $k1, THREAD_FPCSR($a1)
-.no_save_fpu:
+1:
     lw      $k1, THREAD_SR($a1)
     andi    $t1, $k1, SR_IMASK
-    beqz    $t1, .L800040C4
+    beqz    $t1, 2f
      nop
     # If any interrupts are enabled
     lui     $t0, %hi(__OSGlobalIntMask)
@@ -753,10 +753,10 @@ glabel __osEnqueueAndYield
     and     $k1, $k1, $at
     or      $k1, $k1, $t1
     sw      $k1, THREAD_SR($a1)
-.L800040C4:
+2:
     lui     $k1, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
     lw      $k1, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($k1)
-    beqz    $k1, .L800040FC
+    beqz    $k1, 3f
      nop
     # If there are RCP interrupts pending
     lui     $k0, %hi(__OSGlobalIntMask)
@@ -769,14 +769,14 @@ glabel __osEnqueueAndYield
     andi    $k0, $k0, 0x3f
     and     $k0, $k0, $t0
     or      $k1, $k1, $k0
-.L800040FC:
+3:
     # If the specified thread queue is null, skip
     #  straight to dispatching
-    beqz    $a0, .no_enqueue
+    beqz    $a0, no_enqueue
      sw     $k1, THREAD_RCP($a1)
     jal     __osEnqueueThread
      nop
-.no_enqueue:
+no_enqueue:
     j       __osDispatchThread
      nop
 
@@ -894,7 +894,7 @@ glabel __osDispatchThread
     mtc0    $k1, EPC
     # Check if the fpu was touched by this thread and if so also restore the fpu registers
     lw      $k1, THREAD_FP($k0)
-    beqz    $k1, .no_load_fpu
+    beqz    $k1, 1f
      nop
     lw      $k1, THREAD_FPCSR($k0)
     ctc1    $k1, FpCsr
@@ -914,7 +914,7 @@ glabel __osDispatchThread
     ldc1    $f26, THREAD_FP26($k0)
     ldc1    $f28, THREAD_FP28($k0)
     ldc1    $f30, THREAD_FP30($k0)
-.no_load_fpu:
+1:
     # Restore RCP interrupt mask
     lw      $k1, THREAD_RCP($k0)
     lui     $k0, %hi(__OSGlobalIntMask)

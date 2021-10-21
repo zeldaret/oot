@@ -68,7 +68,7 @@
 // PI_STATUS (read) bits
 #define PI_STATUS_BUSY          (1 << 0)
 #define PI_STATUS_IOBUSY        (1 << 1)
-#define PI_STATUS_ERROR         3
+#define PI_STATUS_ERROR         (1 << 2)
 
 // PI_STATUS (write) bits
 #define PI_STATUS_RESET         (1 << 0)
