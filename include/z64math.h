@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 
-#define VEC_SET(V,X,Y,Z) V.x=X;V.y=Y;V.z=Z
+#define VEC_SET(V,X,Y,Z) (V).x=(X);(V).y=(Y);(V).z=(Z)
 
 typedef struct {
     f32 x, y;

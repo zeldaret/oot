@@ -1,5 +1,6 @@
 #include "ZSymbol.h"
-#include "StringHelper.h"
+
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 
 REGISTER_ZFILENODE(Symbol, ZSymbol);
@@ -54,6 +55,18 @@ void ZSymbol::ParseXML(tinyxml2::XMLElement* reader)
 		if (countXml != "")
 			count = StringHelper::StrToL(countXml, 0);
 	}
+
+	if (registeredAttributes.at("Static").value == "On")
+	{
+		fprintf(stderr, "A <Symbol> can't be marked as static.\n\t Disabling static\n");
+	}
+	staticConf = StaticConfig::Off;
+}
+
+Declaration* ZSymbol::DeclareVar([[maybe_unused]] const std::string& prefix,
+                                 [[maybe_unused]] const std::string& bodyStr)
+{
+	return nullptr;
 }
 
 size_t ZSymbol::GetRawDataSize() const
@@ -64,19 +77,17 @@ size_t ZSymbol::GetRawDataSize() const
 	return typeSize;
 }
 
-std::string ZSymbol::GetSourceOutputHeader(const std::string& prefix)
+std::string ZSymbol::GetSourceOutputHeader([[maybe_unused]] const std::string& prefix)
 {
 	if (isArray)
 	{
 		if (count == 0)
-			return StringHelper::Sprintf("extern %s %s%s[];\n", type.c_str(), prefix.c_str(),
-			                             name.c_str());
+			return StringHelper::Sprintf("extern %s %s[];\n", type.c_str(), name.c_str());
 		else
-			return StringHelper::Sprintf("extern %s %s%s[%i];\n", type.c_str(), prefix.c_str(),
-			                             name.c_str(), count);
+			return StringHelper::Sprintf("extern %s %s[%i];\n", type.c_str(), name.c_str(), count);
 	}
 
-	return StringHelper::Sprintf("extern %s %s%s;\n", type.c_str(), prefix.c_str(), name.c_str());
+	return StringHelper::Sprintf("extern %s %s;\n", type.c_str(), name.c_str());
 }
 
 std::string ZSymbol::GetSourceTypeName() const
