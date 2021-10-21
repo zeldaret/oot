@@ -357,7 +357,7 @@ void EnBomChu_WaitForKill(EnBomChu* this, GlobalContext* globalCtx) {
     }
 }
 
-/*
+/**
  * Transform coordinates from model space to world space, according to current orientation.
  * `posModel` is expected to already be at world scale (1/100 compared to model scale)
  */
