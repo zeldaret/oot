@@ -21,7 +21,7 @@ static s16 D_80812750[] = { 36, 36, 36, 36, 24 };
 
 static s16 D_8081275C[2][3] = { { 100, 150, 255 }, { 100, 100, 100 } };
 
-void FileChoose_SetupView(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
+void FileChoose_SetView(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
     Vec3f eye;
     Vec3f lookAt;
     Vec3f up;
@@ -118,7 +118,7 @@ void FileChoose_SplitNumber(u16 value, s16* hundreds, s16* tens, s16* ones) {
 
 /**
  * Reduce the alpha of the black screen fill to create a fade in effect.
- * Additionally, slide the window from the right to the center of the screen
+ * Additionally, slide the window from the right to the center of the screen.
  */
 void FileChoose_StartFadeIn(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -1080,14 +1080,14 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     skyboxY = ZREG(13);
     skyboxZ = (1000.0f * Math_SinS(ZREG(11))) + (1000.0f * Math_CosS(ZREG(11)));
 
-    FileChoose_SetupView(this, skyboxX, skyboxY, skyboxZ);
+    FileChoose_SetView(this, skyboxX, skyboxY, skyboxZ);
     SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, skyboxX, skyboxY, skyboxZ);
     gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_NONE);
     ZREG(11) += ZREG(10);
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
     gDPPipeSync(POLY_OPA_DISP++);
     func_800949A8(this->state.gfxCtx);
-    FileChoose_SetupView(this, 0.0f, 0.0f, 64.0f);
+    FileChoose_SetView(this, 0.0f, 0.0f, 64.0f);
     func_8080C330(&this->state);
     func_8080C60C(&this->state);
 
@@ -1178,7 +1178,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
-    FileChoose_SetupView(this, 0.0f, 0.0f, 64.0f);
+    FileChoose_SetView(this, 0.0f, 0.0f, 64.0f);
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2352);
 }
@@ -1457,14 +1457,14 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
     eyeY = ZREG(13);
     eyeZ = (1000.0f * Math_SinS(ZREG(11))) + (1000.0f * Math_CosS(ZREG(11)));
 
-    FileChoose_SetupView(this, eyeX, eyeY, eyeZ);
+    FileChoose_SetView(this, eyeX, eyeY, eyeZ);
     SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, eyeX, eyeY, eyeZ);
     gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_NONE);
     ZREG(11) += ZREG(10);
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
     gDPPipeSync(POLY_OPA_DISP++);
     func_800949A8(this->state.gfxCtx);
-    FileChoose_SetupView(this, 0.0f, 0.0f, 64.0f);
+    FileChoose_SetView(this, 0.0f, 0.0f, 64.0f);
     func_8080C330(&this->state);
     func_8080C60C(&this->state);
 
@@ -1490,7 +1490,7 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
 
     func_8080E074(this);
     gDPPipeSync(POLY_OPA_DISP++);
-    FileChoose_SetupView(this, 0.0f, 0.0f, 64.0f);
+    FileChoose_SetView(this, 0.0f, 0.0f, 64.0f);
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2834);
 }
