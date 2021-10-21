@@ -793,8 +793,9 @@ void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
 s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT01:
-            if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_12 ||
-                  (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 || (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
+            if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 ||
+                  (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_12 || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 ||
+                  (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
                 return true;
             } else if (!LINK_IS_ADULT) {
                 return true;
@@ -824,7 +825,9 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
         case SCENE_KAKARIKO:
             if ((this->actor.params & 0x7F) == ENHY_TYPE_AOB) {
                 return !LINK_IS_ADULT ? false : true;
-            } else if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 || (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
+            } else if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 ||
+                         (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 ||
+                         (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
                 return true;
             } else if (IS_DAY) {
                 return false;
@@ -881,7 +884,8 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
     if (EnHy_IsOsAnimeObjectLoaded(this, globalCtx) && EnHy_AreSkelAndHeadObjectsLoaded(this, globalCtx)) {
         this->actor.objBankIndex = this->objBankIndexSkel;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeletonInfos[sModelInfos[this->actor.params & 0x7F].skelInfoIndex].skeleton, NULL,
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime,
+                           sSkeletonInfos[sModelInfos[this->actor.params & 0x7F].skelInfoIndex].skeleton, NULL,
                            this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexOsAnime].segment);
