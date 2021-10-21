@@ -3,7 +3,7 @@
 #include <string>
 
 #include "Globals.h"
-#include "StringHelper.h"
+#include "Utils/StringHelper.h"
 
 class ZNames
 {
@@ -29,7 +29,7 @@ public:
 		{
 			int32_t flags = id & 0xF000;
 			id &= 0xFFF;
-			std::string name = "";
+			std::string name;
 			if (id < ZNames::GetNumActors())
 				name = Globals::Instance->cfg.actorList.at(id);
 			else

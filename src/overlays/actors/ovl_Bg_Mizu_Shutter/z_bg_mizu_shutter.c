@@ -65,9 +65,9 @@ void BgMizuShutter_Init(BgMizuShutter* thisx, GlobalContext* globalCtx) {
         this->closedPos = this->dyna.actor.world.pos;
         this->timer = 0;
         this->timerMax = TIMER_PARAM * 20;
-        Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 0x8000), 0);
-        Matrix_RotateX(this->dyna.actor.world.rot.x * (M_PI / 0x8000), 1);
-        Matrix_RotateZ(this->dyna.actor.world.rot.z * (M_PI / 0x8000), 1);
+        Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+        Matrix_RotateX(this->dyna.actor.world.rot.x * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateZ(this->dyna.actor.world.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_MultVec3f(&sDisplacements[SIZE_PARAM], &this->openPos);
         this->openPos.x += this->dyna.actor.world.pos.x;
         this->openPos.y += this->dyna.actor.world.pos.y;

@@ -56,7 +56,7 @@ void Main(void* arg) {
     // "System heap initalization"
     osSyncPrintf("システムヒープ初期化 %08x-%08x %08x\n", sysHeap, fb, gSystemHeapSize);
     SystemHeap_Init(sysHeap, gSystemHeapSize); // initializes the system heap
-    if (osMemSize >= 0x800000U) {
+    if (osMemSize >= 0x800000) {
         debugHeap = SysCfb_GetFbEnd();
         debugHeapSize = (s32)(0x80600000 - debugHeap);
     } else {
@@ -74,7 +74,7 @@ void Main(void* arg) {
 
     Main_LogSystemHeap();
 
-    osCreateMesgQueue(&irqMgrMsgQ, irqMgrMsgBuf, 0x3c);
+    osCreateMesgQueue(&irqMgrMsgQ, irqMgrMsgBuf, 0x3C);
     StackCheck_Init(&sIrqMgrStackInfo, sIrqMgrStack, sIrqMgrStack + sizeof(sIrqMgrStack), 0, 0x100, "irqmgr");
     IrqMgr_Init(&gIrqMgr, &sGraphStackInfo, Z_PRIORITY_IRQMGR, 1);
 
@@ -85,7 +85,7 @@ void Main(void* arg) {
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQ);
 
     StackCheck_Init(&sAudioStackInfo, sAudioStack, sAudioStack + sizeof(sAudioStack), 0, 0x100, "audio");
-    AudioMgr_Init(&gAudioMgr, sAudioStack + sizeof(sAudioStack), Z_PRIORITY_AUDIOMGR, 0xa, &gSchedContext, &gIrqMgr);
+    AudioMgr_Init(&gAudioMgr, sAudioStack + sizeof(sAudioStack), Z_PRIORITY_AUDIOMGR, 0xA, &gSchedContext, &gIrqMgr);
 
     StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, sPadMgrStack + sizeof(sPadMgrStack), 0, 0x100, "padmgr");
     PadMgr_Init(&gPadMgr, &sSiIntMsgQ, &gIrqMgr, 7, Z_PRIORITY_PADMGR, &sIrqMgrStack);

@@ -1,28 +1,20 @@
 #include "ZBackground.h"
-#include "BitConverter.h"
-#include "File.h"
+
 #include "Globals.h"
-#include "Path.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/File.h"
+#include "Utils/Path.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 
 REGISTER_ZFILENODE(Background, ZBackground);
 
 #define JPEG_MARKER 0xFFD8FFE0
 #define MARKER_DQT 0xFFDB
+#define MARKER_EOI 0xFFD9
 
 ZBackground::ZBackground(ZFile* nParent) : ZResource(nParent)
 {
-}
-
-ZBackground::ZBackground(const std::string& prefix, uint32_t nRawDataIndex, ZFile* nParent)
-	: ZResource(nParent)
-{
-	rawDataIndex = nRawDataIndex;
-	name = GetDefaultName(prefix.c_str(), rawDataIndex);
-	outName = name;
-
-	ParseRawData();
 }
 
 void ZBackground::ParseRawData()
@@ -36,7 +28,7 @@ void ZBackground::ParseRawData()
 		uint8_t val = rawData.at(rawDataIndex + i);
 		data.push_back(val);
 
-		if (BitConverter::ToUInt16BE(rawData, rawDataIndex + i) == 0xFFD9)
+		if (BitConverter::ToUInt16BE(rawData, rawDataIndex + i) == MARKER_EOI)
 		{
 			data.push_back(rawData.at(rawDataIndex + i + 1));
 			break;
@@ -58,12 +50,6 @@ void ZBackground::ParseBinaryFile(const std::string& inFolder, bool appendOutNam
 	// Add padding.
 	data.insert(data.end(), GetRawDataSize() - data.size(), 0x00);
 	CheckValidJpeg(filepath.generic_string());
-}
-
-void ZBackground::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
-{
-	ZResource::ExtractFromXML(reader, nRawDataIndex);
-	DeclareVar("", "");
 }
 
 void ZBackground::CheckValidJpeg(const std::string& filepath)
@@ -132,16 +118,28 @@ size_t ZBackground::GetRawDataSize() const
 	return Globals::Instance->cfg.bgScreenHeight * Globals::Instance->cfg.bgScreenWidth * 2;
 }
 
-void ZBackground::DeclareVar(const std::string& prefix, const std::string& bodyStr) const
+Declaration* ZBackground::DeclareVar(const std::string& prefix,
+                                     [[maybe_unused]] const std::string& bodyStr)
 {
 	std::string auxName = name;
+	std::string auxOutName = outName;
 
-	if (name == "")
-		auxName = GetDefaultName(prefix, rawDataIndex);
+	if (auxName == "")
+		auxName = GetDefaultName(prefix);
 
-	parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::Align8, GetRawDataSize(),
-	                            GetSourceTypeName(), auxName, "SCREEN_WIDTH * SCREEN_HEIGHT / 4",
-	                            bodyStr);
+	if (auxOutName == "")
+		auxOutName = GetDefaultName(prefix);
+
+	auto filepath = Globals::Instance->outputPath / fs::path(auxOutName).stem();
+
+	std::string incStr =
+		StringHelper::Sprintf("%s.%s.inc.c", filepath.c_str(), GetExternalExtension().c_str());
+
+	Declaration* decl = parent->AddDeclarationIncludeArray(rawDataIndex, incStr, GetRawDataSize(),
+	                                                       GetSourceTypeName(), auxName, 0);
+	decl->arrayItemCntStr = "SCREEN_WIDTH * SCREEN_HEIGHT / 4";
+	decl->staticConf = staticConf;
+	return decl;
 }
 
 bool ZBackground::IsExternalResource() const
@@ -160,7 +158,7 @@ void ZBackground::Save(const fs::path& outFolder)
 	File::WriteAllBytes(filepath.string(), data);
 }
 
-std::string ZBackground::GetBodySourceCode()
+std::string ZBackground::GetBodySourceCode() const
 {
 	std::string bodyStr = "    ";
 
@@ -177,23 +175,9 @@ std::string ZBackground::GetBodySourceCode()
 	return bodyStr;
 }
 
-std::string ZBackground::GetSourceOutputCode(const std::string& prefix)
+std::string ZBackground::GetDefaultName(const std::string& prefix) const
 {
-	std::string bodyStr = GetBodySourceCode();
-
-	Declaration* decl = parent->GetDeclaration(rawDataIndex);
-
-	if (decl == nullptr)
-		DeclareVar(prefix, bodyStr);
-	else
-		decl->text = bodyStr;
-
-	return "";
-}
-
-std::string ZBackground::GetDefaultName(const std::string& prefix, uint32_t address)
-{
-	return StringHelper::Sprintf("%sBackground_%06X", prefix.c_str(), address);
+	return StringHelper::Sprintf("%sBackground_%06X", prefix.c_str(), rawDataIndex);
 }
 
 std::string ZBackground::GetSourceTypeName() const
@@ -204,4 +188,9 @@ std::string ZBackground::GetSourceTypeName() const
 ZResourceType ZBackground::GetResourceType() const
 {
 	return ZResourceType::Background;
+}
+
+DeclarationAlignment ZBackground::GetDeclarationAlignment() const
+{
+	return DeclarationAlignment::Align8;
 }
