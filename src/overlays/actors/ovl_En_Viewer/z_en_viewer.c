@@ -32,11 +32,11 @@ void EnViewer_UpdateGanondorfCape(GlobalContext* globalCtx, EnViewer* this);
 void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx);
 void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx);
 
-// sInitDrawFuncs
-void EnViewer_InitDrawGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
+// sInitAnimFuncs
+void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
                                    AnimationHeader* anim);
-void EnViewer_InitDrawImpa(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim);
-void EnViewer_InitDrawHorse(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim);
+void EnViewer_InitAnimImpa(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim);
+void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim);
 
 // sDrawFuncs
 void EnViewer_DrawGanondorf(EnViewer* this, GlobalContext* globalCtx);
@@ -97,11 +97,11 @@ static EnViewerInitData sInitData[] = {
 };
 // clang-format on
 
-static EnViewerInitDrawFunc sInitDrawFuncs[] = {
-    EnViewer_InitDrawGanondorfOrZelda,
-    EnViewer_InitDrawHorse,
-    EnViewer_InitDrawGanondorfOrZelda,
-    EnViewer_InitDrawImpa,
+static EnViewerInitAnimFunc sInitAnimFuncs[] = {
+    EnViewer_InitAnimGanondorfOrZelda,
+    EnViewer_InitAnimHorse,
+    EnViewer_InitAnimGanondorfOrZelda,
+    EnViewer_InitAnimImpa,
 };
 
 static ActorShadowFunc sShadowFuncs[] = {
@@ -153,7 +153,7 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_800A6888(globalCtx, &this->skin);
 }
 
-void EnViewer_InitDrawGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
+void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
                                    AnimationHeader* anim) {
     s16 type = TYPE;
 
@@ -174,13 +174,13 @@ void EnViewer_InitDrawGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx,
     }
 }
 
-void EnViewer_InitDrawImpa(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim) {
+void EnViewer_InitAnimImpa(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim) {
     SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 3.0f);
 }
 
-void EnViewer_InitDrawHorse(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim) {
+void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim) {
     u8 type;
 
     func_800A663C(globalCtx, &this->skin, skeletonHeaderSeg, anim);
@@ -215,7 +215,7 @@ void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, initData->yOffset * 100, sShadowFuncs[initData->shadowType],
                     initData->shadowScale);
     this->drawFuncIndex = initData->drawType;
-    sInitDrawFuncs[this->drawFuncIndex](this, globalCtx, initData->skeletonHeaderSeg, initData->anim);
+    sInitAnimFuncs[this->drawFuncIndex](this, globalCtx, initData->skeletonHeaderSeg, initData->anim);
     EnViewer_SetupAction(this, EnViewer_UpdateImpl);
 }
 
