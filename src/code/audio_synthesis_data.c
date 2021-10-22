@@ -344,7 +344,6 @@ s16* gWaveSamples[] = {
     D_8012EA90,          gEighthPulseWaveSample, gQuarterPulseWaveSample, gQuarterPulseWaveSample,
 };
 
-
 f32 gBendPitchOneOctaveFrequencies[] = {
     0.5f,      0.5f,      0.502736f, 0.505488f, 0.508254f, 0.511036f, 0.513833f, 0.516645f, 0.519472f, 0.522315f,
     0.525174f, 0.528048f, 0.530938f, 0.533843f, 0.536765f, 0.539702f, 0.542656f, 0.545626f, 0.548612f, 0.551614f,
