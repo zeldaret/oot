@@ -983,7 +983,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00000 */ GameState state;
-    /* 0x000A4 */ Vtx* allocVtx1;
+    /* 0x000A4 */ Vtx* windowVtx;
     /* 0x000A8 */ u8* staticSegment;
     /* 0x000AC */ u8* parameterSegment;
     /* 0x000B0 */ char unk_B0[0x8];
@@ -995,7 +995,7 @@ typedef struct {
     /* 0x0E760 */ Font font;
     /* 0x1C8E8 */ EnvironmentContext envCtx;
     /* 0x1C9E4 */ char unk_1C9E4[0x4];
-    /* 0x1C9E8 */ Vtx* allocVtx2;
+    /* 0x1C9E8 */ Vtx* windowContentVtx;
     /* 0x1C9EC */ Vtx* allocVtx3;
     /* 0x1C9F0 */ Vtx* allocVtx4;
     /* 0x1C9F4 */ u8 n64ddFlag;
@@ -1038,9 +1038,9 @@ typedef struct {
     /* 0x1CA9E */ s16 controlsAlpha;
     /* 0x1CAA0 */ s16 emptyFileTextAlpha;
     /* 0x1CAA2 */ s16 highlightColor[4];
-    /* 0x1CAAA */ s16 highlightFlashDir; // 0 decrease, 1 increase
+    /* 0x1CAAA */ s16 highlightFlashDir; // 0 fade out, 1 fade in
     /* 0x1CAAC */ s16 unk_1CAAC; // initialized but never used
-    /* 0x1CAAE */ s16 unk_1CAAE[2]; // no array?
+    /* 0x1CAAE */ s16 unk_1CAAE[2];
     /* 0x1CAB2 */ s16 inputTimerX;
     /* 0x1CAB4 */ s16 inputTimerY;
     /* 0x1CAB6 */ s16 xIndexOffset; // better name
@@ -1050,11 +1050,11 @@ typedef struct {
     /* 0x1CABE */ s16 nameEntryBoxPosX;
     /* 0x1CAC0 */ s16 windowPosX;
     /* 0x1CAC4 */ f32 windowRot;
-    /* 0x1CAC8 */ s16 kbdButton; // only for extra buttons, not characters
+    /* 0x1CAC8 */ s16 kbdButton; // only for buttons, not characters
     /* 0x1CACA */ s16 charPage; // 0: hiragana, 1: katakana, 2: alphabet
     /* 0x1CACC */ s16 charBgAlpha; // square shape the letter sits in
     /* 0x1CACE */ s16 charIndex; // 0 - 64, top left to bottom right
-    /* 0x1CAD0 */ s16 kbdX; // 0,0 is top left character
+    /* 0x1CAD0 */ s16 kbdX; // (0, 0) is top left character
     /* 0x1CAD2 */ s16 kbdY;
     /* 0x1CAD4 */ s16 newFileNameCharCount;
     /* 0x1CAD6 */ s16 unk_1CAD6[5];

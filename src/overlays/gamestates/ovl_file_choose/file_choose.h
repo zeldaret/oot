@@ -15,6 +15,9 @@
      (GET_NEWF(sramCtx, slotNum, 4) == 'A') || \
      (GET_NEWF(sramCtx, slotNum, 5) == 'Z'))
 
+// Init mode: Initial setup as the file select is starting up, fades and slides in various menu elements
+// Config mode: Handles the bulk of the file select, various configuration tasks like picking a file, copy/erase, and the options menu
+// Select mode: Displays the selected file with various details about it, and allows the player to confirm and open it
 typedef enum {
     /* 0 */ MENU_MODE_INIT,
     /* 1 */ MENU_MODE_CONFIG,
@@ -111,6 +114,17 @@ typedef enum {
 } KeyboardButton;
 
 typedef enum {
+    /* 00 */ SM_FADE_OUT_MAIN,
+    /* 01 */ SM_MOVE_FILE_TO_TOP,
+    /* 02 */ SM_FADE_IN_FILE_INFO,
+    /* 03 */ SM_CONFIRM_FILE,
+    /* 04 */ SM_FADE_OUT_FILE_INFO,
+    /* 05 */ SM_MOVE_FILE_TO_SLOT,
+    /* 06 */ SM_FADE_OUT,
+    /* 07 */ SM_LOAD_GAME
+} SelectMode;
+
+typedef enum {
     /* 00 */ CM_FADE_IN_START,
     /* 01 */ CM_FADE_IN_END,
     /* 02 */ CM_MAIN_MENU,
@@ -196,31 +210,6 @@ typedef enum {
 /* 38 */ void FileChoose_StartOptions(GameState* thisx);
 /* 39 */ void FileChoose_RotateToMain(GameState* thisx);
 /* 40 */ void func_8080BE30(GameState* thisx);
-
-typedef enum {
-    /* 00 */ SM_00,
-    /* 01 */ SM_01,
-    /* 02 */ SM_02,
-    /* 03 */ SM_03,
-    /* 04 */ SM_04,
-    /* 05 */ SM_05,
-    /* 06 */ SM_FADE_OUT,
-    /* 07 */ SM_LOAD_GAME
-} SelectMode;
-
-// Select Mode Update Functions
-void func_8080FE2C(GameState* thisx);
-void func_8080FF98(GameState* thisx);
-void func_8081009C(GameState* thisx);
-void func_8081017C(GameState* thisx);
-void func_80810354(GameState* thisx);
-void func_80810440(GameState* thisx);
-void FileChoose_FadeOut(GameState* thisx);
-void FileChoose_LoadGame(GameState* thisx);
-
-void FileChoose_InitModeUpdate(GameState* thisx);
-void FileChoose_ConfigModeUpdate(GameState* thisx);
-void FileChoose_SelectModeUpdate(GameState* thisx);
 
 void FileChoose_InitModeDraw(GameState* thisx);
 void FileChoose_ConfigModeDraw(GameState* thisx);
