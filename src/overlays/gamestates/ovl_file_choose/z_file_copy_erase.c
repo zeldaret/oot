@@ -14,7 +14,8 @@ static s16 sEraseDelayTimer = 15;
 /**
  * Start moving the main menu buttons toward their final positions indicated by `sChooseFileYOffsets`
  * Fade out the copy/erase/options buttons and bring in the new title
- * When action timer is 0 set the cursor to the quit button and move on to the next config mode
+ * When action timer is 0 set the cursor to the quit button and move on to the next config mode.
+ * Update function for `CM_COPY_SOURCE_MENU`
  */
 void FileCopy_SetupSourceSelect(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -54,6 +55,10 @@ void FileCopy_SetupSourceSelect(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_SELECT_COPY_SOURCE`
+ */
 void FileCopy_SelectSource(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
@@ -74,7 +79,7 @@ void FileCopy_SelectSource(GameState* thisx) {
         if (SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
             this->actionTimer = 8;
             this->selectedFileIndex = this->buttonIndex;
-            this->configMode = 5;
+            this->configMode = CM_05;
             this->nextTitleLabel = TITLE_COPY_TO;
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
@@ -113,6 +118,10 @@ void FileCopy_SelectSource(GameState* thisx) {
 }
 
 // move buttons to setup for copy decision
+/**
+ * Description here
+ * Update function for `CM_05`
+ */
 void func_80804248(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 yStep;
@@ -144,6 +153,10 @@ void func_80804248(GameState* thisx) {
 }
 
 // show name and info box, put cursor on quit
+/**
+ * Description here
+ * Update function for `CM_06`
+ */
 void func_808043D8(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
@@ -156,10 +169,14 @@ void func_808043D8(GameState* thisx) {
         this->fileInfoAlpha[this->buttonIndex] = 200;
         this->buttonIndex = BTN_COPY_QUIT;
         this->actionTimer = 8;
-        this->configMode = 7;
+        this->configMode = CM_07;
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_07`
+ */
 void FileChoose_SelectCopyDest(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
@@ -170,7 +187,7 @@ void FileChoose_SelectCopyDest(GameState* thisx) {
         this->buttonIndex = this->selectedFileIndex;
         this->nextTitleLabel = TITLE_COPY_FROM;
         this->actionTimer = 8;
-        this->configMode = 8;
+        this->configMode = CM_08;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         return;
     }
@@ -180,7 +197,7 @@ void FileChoose_SelectCopyDest(GameState* thisx) {
             this->copyDestFileIndex = this->buttonIndex;
             this->nextTitleLabel = TITLE_COPY_CONFIRM;
             this->actionTimer = 8;
-            this->configMode = 10;
+            this->configMode = CM_10;
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -229,6 +246,10 @@ void FileChoose_SelectCopyDest(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_08`
+ */
 void func_80804858(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
@@ -245,6 +266,10 @@ void func_80804858(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_09`
+ */
 void func_80804924(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
@@ -270,10 +295,14 @@ void func_80804924(GameState* thisx) {
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
         this->buttonIndex = 3;
-        this->configMode = 4;
+        this->configMode = CM_SELECT_COPY_SOURCE;
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_10`
+ */
 void func_80804A50(GameState* thisx) {
     static s16 D_808124A4[] = { -56, -40, -24, 0 };
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -313,6 +342,10 @@ void func_80804A50(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_11`
+ */
 void func_80804C74(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
@@ -320,11 +353,15 @@ void func_80804C74(GameState* thisx) {
     this->actionTimer--;
 
     if (this->actionTimer == 0) {
-        this->configMode = 12;
+        this->configMode = CM_12;
         this->buttonIndex = BTN_CONFIRM_QUIT;
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_12`
+ */
 void func_80804CD0(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
@@ -335,7 +372,7 @@ void func_80804CD0(GameState* thisx) {
         CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
         this->actionTimer = 8;
         this->nextTitleLabel = TITLE_COPY_TO;
-        this->configMode = 13;
+        this->configMode = CM_13;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else if (CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) {
         dayTime = gSaveContext.dayTime;
@@ -344,7 +381,7 @@ void func_80804CD0(GameState* thisx) {
         this->fileInfoAlpha[this->copyDestFileIndex] = this->nameAlpha[this->copyDestFileIndex] = 0;
         this->nextTitleLabel = TITLE_COPY_COMPLETE;
         this->actionTimer = 8;
-        this->configMode = 14;
+        this->configMode = CM_14;
         func_800AA000(300.0f, 0xB4, 0x14, 0x64);
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else if (ABS(this->stickRelY) >= 30) {
@@ -353,6 +390,10 @@ void func_80804CD0(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_13`
+ */
 void func_80804ED8(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
@@ -390,10 +431,14 @@ void func_80804ED8(GameState* thisx) {
         this->titleAlpha[1] = 0;
         this->actionTimer = 8;
         this->buttonIndex = BTN_COPY_QUIT;
-        this->configMode = 7;
+        this->configMode = CM_07;
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_14`
+ */
 void func_8080510C(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
@@ -411,6 +456,10 @@ void func_8080510C(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_15`
+ */
 void func_808051C8(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 yStep;
@@ -436,6 +485,10 @@ void func_808051C8(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_16`
+ */
 void func_80805318(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];
@@ -458,6 +511,10 @@ void func_80805318(GameState* thisx) {
 }
 
 // QuitCopyTo
+/**
+ * Description here
+ * Update function for `CM_17`
+ */
 void func_80805434(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
@@ -477,6 +534,10 @@ void func_80805434(GameState* thisx) {
 }
 
 // QuitCopyFrom
+/**
+ * Description here
+ * Update function for `CM_18`
+ */
 void func_80805524(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
@@ -529,10 +590,14 @@ void func_80805524(GameState* thisx) {
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
-        this->configMode = 2;
+        this->configMode = CM_MAIN_MENU;
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_COPY_RETURN_MAIN`
+ */
 void FileCopy_SetupMainMenu(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 i;
@@ -566,6 +631,10 @@ void FileCopy_SetupMainMenu(GameState* thisx) {
     this->optionButtonAlpha = this->actionButtonAlpha[BTN_ACTION_ERASE] = this->actionButtonAlpha[BTN_ACTION_COPY];
 }
 
+/**
+ * Description here
+ * Update function for `CM_20`
+ */
 void func_8080595C(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 i;
@@ -608,6 +677,10 @@ void func_8080595C(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_21`
+ */
 void func_80805B2C(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
@@ -619,7 +692,7 @@ void func_80805B2C(GameState* thisx) {
         this->buttonIndex = BTN_MAIN_ERASE;
         this->actionTimer = 8;
         this->nextTitleLabel = TITLE_SELECT_FILE;
-        this->configMode = 30;
+        this->configMode = CM_30;
         this->warningLabel = WARNING_NONE;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         return;
@@ -627,7 +700,7 @@ void func_80805B2C(GameState* thisx) {
         if (SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
             this->actionTimer = 8;
             this->selectedFileIndex = this->buttonIndex;
-            this->configMode = 22;
+            this->configMode = CM_22;
             this->nextTitleLabel = TITLE_ERASE_CONFIRM;
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
@@ -664,6 +737,10 @@ void func_80805B2C(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_22`
+ */
 void func_80805EB8(GameState* thisx) {
     static s16 D_808124AC[] = { 0, 16, 32, 0, 0, 0, 0 };
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -716,6 +793,10 @@ void func_80805EB8(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_23`
+ */
 void func_80806180(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
@@ -732,10 +813,14 @@ void func_80806180(GameState* thisx) {
         this->titleAlpha[1] = 0;
         this->confirmButtonAlpha[BTN_CONFIRM_YES] = 200;
         this->buttonIndex = BTN_ERASE_FILE_2;
-        this->configMode = 24;
+        this->configMode = CM_24;
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_24`
+ */
 void func_8080625C(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];
@@ -744,14 +829,14 @@ void func_8080625C(GameState* thisx) {
         CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
         this->buttonIndex = this->selectedFileIndex;
         this->nextTitleLabel = TITLE_ERASE_FILE;
-        this->configMode = 25;
+        this->configMode = CM_25;
         this->actionTimer = 8;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else if (CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) {
         this->n64ddFlags[this->selectedFileIndex] = this->connectorAlpha[this->selectedFileIndex] = 0;
         Audio_PlaySoundGeneral(NA_SE_EV_DIAMOND_SWITCH, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->actionTimer = 8;
-        this->configMode = 27;
+        this->configMode = CM_27;
         this->nextTitleLabel = TITLE_ERASE_COMPLETE;
         func_800AA000(200.0f, 0xFF, 0x14, 0x96);
         sEraseDelayTimer = 15;
@@ -761,6 +846,10 @@ void func_8080625C(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_25`
+ */
 void func_80806444(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
@@ -776,6 +865,10 @@ void func_80806444(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_26`
+ */
 void func_808064F4(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
@@ -812,10 +905,14 @@ void func_808064F4(GameState* thisx) {
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
-        this->configMode = 21;
+        this->configMode = CM_21;
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_27`
+ */
 void func_80806710(GameState* thisx) {
     static s16 D_80813800;
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -859,6 +956,10 @@ void func_80806710(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_28`
+ */
 void func_808068F0(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];
@@ -872,6 +973,10 @@ void func_808068F0(GameState* thisx) {
     }
 }
 
+/**
+ * Description here
+ * Update function for `CM_29`
+ */
 void func_808069B4(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
@@ -915,12 +1020,16 @@ void func_808069B4(GameState* thisx) {
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
-        this->configMode = 2;
+        this->configMode = CM_MAIN_MENU;
     }
 
     this->optionButtonAlpha = this->actionButtonAlpha[BTN_ACTION_ERASE] = this->actionButtonAlpha[BTN_ACTION_COPY];
 }
 
+/**
+ * Description here
+ * Update function for `CM_30`
+ */
 void func_80806C20(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 i;
@@ -958,7 +1067,7 @@ void func_80806C20(GameState* thisx) {
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
-        this->configMode = 2;
+        this->configMode = CM_MAIN_MENU;
     }
 
     this->optionButtonAlpha = this->actionButtonAlpha[BTN_ACTION_ERASE] = this->actionButtonAlpha[BTN_ACTION_COPY];

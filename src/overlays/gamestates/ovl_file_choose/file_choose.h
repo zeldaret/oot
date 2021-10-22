@@ -156,16 +156,16 @@ typedef enum {
     /* 28 */ CM_28,
     /* 29 */ CM_29,
     /* 30 */ CM_30,
-    /* 31 */ CM_31,
-    /* 32 */ CM_MAIN_TO_KEYBOARD,
-    /* 33 */ CM_KEYBOARD,
+    /* 31 */ CM_UNUSED_31,
+    /* 32 */ CM_ROTATE_TO_NAME_ENTRY,
+    /* 33 */ CM_NAME_ENTRY,
     /* 34 */ CM_START_NAME_ENTRY,
-    /* 35 */ CM_KEYBOARD_TO_MAIN,
+    /* 35 */ CM_NAME_ENTRY_TO_MAIN,
     /* 36 */ CM_MAIN_TO_OPTIONS,
     /* 37 */ CM_OPTIONS_MENU,
     /* 38 */ CM_START_OPTIONS,
     /* 39 */ CM_OPTIONS_TO_MAIN,
-    /* 40 */ CM_40
+    /* 40 */ CM_UNUSED_DELAY
 } ConfigMode;
 
 // Config Mode Update Functions
@@ -200,7 +200,7 @@ typedef enum {
 /* 28 */ void func_808068F0(GameState* thisx); 
 /* 29 */ void func_808069B4(GameState* thisx); 
 /* 30 */ void func_80806C20(GameState* thisx); 
-/* 31 */ void func_8080BE28(GameState* thisx); 
+/* 31 */ void FileChoose_UnusedCM31(GameState* thisx); 
 /* 32 */ void FileChoose_RotateToNameEntry(GameState* thisx);
 /* 33 */ void FileChoose_UpdateKeyboardCursor(GameState* thisx);
 /* 34 */ void FileChoose_StartNameEntry(GameState* thisx);
@@ -209,7 +209,7 @@ typedef enum {
 /* 37 */ void FileChoose_UpdateOptionsMenu(GameState* thisx);
 /* 38 */ void FileChoose_StartOptions(GameState* thisx);
 /* 39 */ void FileChoose_RotateToMain(GameState* thisx);
-/* 40 */ void func_8080BE30(GameState* thisx);
+/* 40 */ void FileChoose_UnusedCMDelay(GameState* thisx);
 
 void FileChoose_InitModeDraw(GameState* thisx);
 void FileChoose_ConfigModeDraw(GameState* thisx);

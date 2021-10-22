@@ -351,7 +351,7 @@ void FileChoose_DrawNameEntry(FileChooseContext* thisx) {
                       PRIMITIVE, 0);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
-    if (this->configMode == CM_KEYBOARD) {
+    if (this->configMode == CM_NAME_ENTRY) {
         if (CHECK_BTN_ALL(controller1->press.button, BTN_START)) {
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             // place cursor on END button
@@ -373,7 +373,7 @@ void FileChoose_DrawNameEntry(FileChooseContext* thisx) {
 
                     if (this->newFileNameCharCount < 0) {
                         this->newFileNameCharCount = 0;
-                        this->configMode = CM_KEYBOARD_TO_MAIN;
+                        this->configMode = CM_NAME_ENTRY_TO_MAIN;
                     } else {
                         for (i = this->newFileNameCharCount; i < 7; i++) {
                             this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
@@ -447,7 +447,7 @@ void FileChoose_DrawNameEntry(FileChooseContext* thisx) {
                                 dayTime = ((void)0, gSaveContext.dayTime);
                                 Sram_InitSave(this, &this->sramCtx);
                                 gSaveContext.dayTime = dayTime;
-                                this->configMode = CM_KEYBOARD_TO_MAIN;
+                                this->configMode = CM_NAME_ENTRY_TO_MAIN;
                                 this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
                                 this->connectorAlpha[this->buttonIndex] = 255;
                                 func_800AA000(300.0f, 0xB4, 0x14, 0x64);
@@ -488,7 +488,8 @@ void FileChoose_DrawNameEntry(FileChooseContext* thisx) {
 
 /**
  * Fade in the name entry box and slide it to the center of the screen from the right side.
- * After the name entry box is in place, init the keyboard/cursor and change modes
+ * After the name entry box is in place, init the keyboard/cursor and change modes.
+ * Update function for `CM_START_NAME_ENTRY`
  */
 void FileChoose_StartNameEntry(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -507,14 +508,15 @@ void FileChoose_StartNameEntry(GameState* thisx) {
         this->kbdX = 0;
         this->kbdY = 0;
         this->kbdButton = 99;
-        this->configMode = CM_KEYBOARD;
+        this->configMode = CM_NAME_ENTRY;
     }
 }
 
 /**
  * Update the keyboard cursor and play sounds at the appropriate times.
  * There are many special cases for warping the cursor depending on where
- * on the keyboard the cursor currently is.
+ * the cursor currently is.
+ * Update function for `CM_NAME_ENTRY`
  */
 void FileChoose_UpdateKeyboardCursor(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -631,7 +633,8 @@ void FileChoose_UpdateKeyboardCursor(GameState* thisx) {
 /**
  * This function is mostly a copy paste of `FileChoose_StartNameEntry`.
  * The name entry box fades and slides in even though it is not visible.
- * After this is complete, change to the options menu mode
+ * After this is complete, change to the options config mode.
+ * Update function for `CM_START_OPTIONS`
  */
 void FileChoose_StartOptions(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -656,7 +659,8 @@ static u8 gSelectedSetting;
 /**
  * Update the cursor and appropriate settings for the options menu.
  * If the player presses B, write the selected options to the SRAM header
- * and set configMode to rotate back to the main menu
+ * and set config mode to rotate back to the main menu.
+ * Update function for `CM_OPTIONS_MENU`
  */
 void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;

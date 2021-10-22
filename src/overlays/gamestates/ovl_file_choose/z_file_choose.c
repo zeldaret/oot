@@ -124,6 +124,7 @@ void FileChoose_SplitNumber(u16 value, s16* hundreds, s16* tens, s16* ones) {
 /**
  * Reduce the alpha of the black screen fill to create a fade in effect.
  * Additionally, slide the window from the right to the center of the screen.
+ * Update function for `CM_FADE_IN_START`
  */
 void FileChoose_StartFadeIn(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -142,6 +143,7 @@ void FileChoose_StartFadeIn(GameState* thisx) {
 /**
  * Finish fading in the remaining menu elements.
  * Fade in the controls text at the bottom of the screen.
+ * Update function for `CM_FADE_IN_END`
  */
 void FileChoose_FinishFadeIn(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -163,6 +165,7 @@ void FileChoose_FinishFadeIn(GameState* thisx) {
  * If an occupied file is selected, enter the `Select` menu mode.
  * If copy, erase, or options is selected, set config mode accordingly.
  * Lastly, set any warning labels if appropriate.
+ * Update function for `CM_MAIN_MENU`
  */
 void FileChoose_UpdateMainMenu(GameState* thisx) {
     static u8 gEmptyName[] = { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E };
@@ -179,7 +182,7 @@ void FileChoose_UpdateMainMenu(GameState* thisx) {
 
             if (!SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->configMode = CM_MAIN_TO_KEYBOARD;
+                this->configMode = CM_ROTATE_TO_NAME_ENTRY;
                 this->kbdButton = KBD_BTN_NONE;
                 this->charPage = CHAR_PAGE_ENG;
                 this->kbdX = 0;
@@ -193,7 +196,7 @@ void FileChoose_UpdateMainMenu(GameState* thisx) {
             } else if (this->n64ddFlags[this->buttonIndex] == this->n64ddFlag) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->actionTimer = 8;
-                this->selectMode = 0;
+                this->selectMode = SM_FADE_OUT_MAIN;
                 this->selectedFileIndex = this->buttonIndex;
                 this->menuMode = MENU_MODE_SELECT;
                 this->nextTitleLabel = TITLE_OPEN_FILE;
@@ -269,22 +272,32 @@ void FileChoose_UpdateMainMenu(GameState* thisx) {
     }
 }
 
-void func_8080BE28(GameState* thisx) {
+/**
+ * Update function for `CM_UNUSED_31`
+ */
+void FileChoose_UnusedCM31(GameState* thisx) {
 }
 
-void func_8080BE30(GameState* thisx) {
+/**
+ * Delay the next config mode from running until `XREG(73)` reaches 254.
+ * Because the timer increments by 2, the delay is 127 frames (assuming the value was not changed by reg editor).
+ * Unused in the final game, was possibly used for debugging.
+ * Update function for `CM_UNUSED_DELAY`
+ */
+void FileChoose_UnusedCMDelay(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
     XREG(73) += 2;
 
-    if (XREG(73) == 0xFE) {
+    if (XREG(73) == 254) {
         this->configMode = this->nextConfigMode;
         XREG(73) = 0;
     }
 }
 
 /**
- * Rotate the window from the main menu to the name entry menu
+ * Rotate the window from the main menu to the name entry menu.
+ * Update function for `CM_ROTATE_TO_NAME_ENTRY`
  */
 void FileChoose_RotateToNameEntry(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -298,7 +311,8 @@ void FileChoose_RotateToNameEntry(GameState* thisx) {
 }
 
 /**
- * Rotate the window from the main menu to the options menu
+ * Rotate the window from the main menu to the options menu.
+ * Update function for `CM_MAIN_TO_OPTIONS`
  */
 void FileChoose_RotateToOptions(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -312,7 +326,8 @@ void FileChoose_RotateToOptions(GameState* thisx) {
 }
 
 /**
- * Rotate the window from the options menu to the main menu
+ * Rotate the window from the options menu to the main menu.
+ * Update function for `CM_NAME_ENTRY_TO_MAIN` and `CM_OPTIONS_TO_MAIN`
  */
 void FileChoose_RotateToMain(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -325,7 +340,7 @@ void FileChoose_RotateToMain(GameState* thisx) {
     }
 }
 
-void (*gConfigModeUpdateFuncs[])(GameState*) = {
+static void (*gConfigModeUpdateFuncs[])(GameState*) = {
     FileChoose_StartFadeIn,
     FileChoose_FinishFadeIn,
     FileChoose_UpdateMainMenu,
@@ -357,7 +372,7 @@ void (*gConfigModeUpdateFuncs[])(GameState*) = {
     func_808068F0,
     func_808069B4,
     func_80806C20,
-    func_8080BE28,
+    FileChoose_UnusedCM31,
     FileChoose_RotateToNameEntry,
     FileChoose_UpdateKeyboardCursor,
     FileChoose_StartNameEntry,
@@ -366,7 +381,7 @@ void (*gConfigModeUpdateFuncs[])(GameState*) = {
     FileChoose_UpdateOptionsMenu,
     FileChoose_StartOptions,
     FileChoose_RotateToMain,
-    func_8080BE30,
+    FileChoose_UnusedCMDelay,
 };
 
 /**
@@ -1117,19 +1132,19 @@ void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
 
 void FileChoose_ConfigModeDraw(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    f32 skyboxX;
-    f32 skyboxY;
-    f32 skyboxZ;
+    f32 eyeX;
+    f32 eyeY;
+    f32 eyeZ;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2218);
     gDPPipeSync(POLY_OPA_DISP++);
 
-    skyboxX = (1000.0f * Math_CosS(ZREG(11))) - (1000.0f * Math_SinS(ZREG(11)));
-    skyboxY = ZREG(13);
-    skyboxZ = (1000.0f * Math_SinS(ZREG(11))) + (1000.0f * Math_CosS(ZREG(11)));
+    eyeX = (1000.0f * Math_CosS(ZREG(11))) - (1000.0f * Math_SinS(ZREG(11)));
+    eyeY = ZREG(13);
+    eyeZ = (1000.0f * Math_SinS(ZREG(11))) + (1000.0f * Math_CosS(ZREG(11)));
 
-    FileChoose_SetView(this, skyboxX, skyboxY, skyboxZ);
-    SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, skyboxX, skyboxY, skyboxZ);
+    FileChoose_SetView(this, eyeX, eyeY, eyeZ);
+    SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, eyeX, eyeY, eyeZ);
     gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_NONE);
     ZREG(11) += ZREG(10);
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
@@ -1139,7 +1154,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     FileChoose_SetWindowVtx(&this->state);
     FileChoose_SetWindowContentVtx(&this->state);
 
-    if ((this->configMode != CM_KEYBOARD) && (this->configMode != CM_START_NAME_ENTRY)) {
+    if ((this->configMode != CM_NAME_ENTRY) && (this->configMode != CM_START_NAME_ENTRY)) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -1171,7 +1186,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     }
 
     // draw name entry menu
-    if ((this->configMode >= CM_MAIN_TO_KEYBOARD) && (this->configMode <= CM_KEYBOARD_TO_MAIN)) {
+    if ((this->configMode >= CM_ROTATE_TO_NAME_ENTRY) && (this->configMode <= CM_NAME_ENTRY_TO_MAIN)) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -1674,7 +1689,7 @@ void FileChoose_Main(GameState* thisx) {
     gFileSelectDrawFuncs[this->menuMode](&this->state);
 
     // do not draw controls text in the options menu
-    if ((this->configMode <= CM_KEYBOARD_TO_MAIN) || (this->configMode >= CM_40)) {
+    if ((this->configMode <= CM_NAME_ENTRY_TO_MAIN) || (this->configMode >= CM_UNUSED_DELAY)) {
         func_800944C4(this->state.gfxCtx);
 
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -1790,7 +1805,7 @@ void FileChoose_InitContext(GameState* thisx) {
     this->highlightColor[1] = 255;
     this->highlightColor[2] = 255;
     this->highlightColor[3] = 70;
-    this->configMode = 0;
+    this->configMode = CM_FADE_IN_START;
     this->windowRot = 0.0f;
     this->xIndexOffset = this->inputTimerX = 0;
     this->yIndexOffset = this->inputTimerY = 0;
