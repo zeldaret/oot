@@ -996,8 +996,8 @@ typedef struct {
     /* 0x1C8E8 */ EnvironmentContext envCtx;
     /* 0x1C9E4 */ char unk_1C9E4[0x4];
     /* 0x1C9E8 */ Vtx* windowContentVtx;
-    /* 0x1C9EC */ Vtx* allocVtx3;
-    /* 0x1C9F0 */ Vtx* allocVtx4;
+    /* 0x1C9EC */ Vtx* keyboardVtx;
+    /* 0x1C9F0 */ Vtx* nameEntryVtx;
     /* 0x1C9F4 */ u8 n64ddFlag;
     /* 0x1C9F6 */ u16 deaths[3];
     /* 0x1C9FC */ u8 fileNames[3][8];

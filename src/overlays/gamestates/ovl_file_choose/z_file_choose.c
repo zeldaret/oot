@@ -72,7 +72,8 @@ void FileChoose_InitModeDraw(GameState* thisx) {
  * If a file is occupied fade in the name, name box, and connector.
  * Fade in the copy erase and options button according to the window alpha.
  */
-void FileChoose_FadeInMenuElements(FileChooseContext* this) {
+void FileChoose_FadeInMenuElements(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
 
@@ -126,7 +127,7 @@ void FileChoose_SplitNumber(u16 value, s16* hundreds, s16* tens, s16* ones) {
 void FileChoose_StartFadeIn(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
-    FileChoose_FadeInMenuElements(this);
+    FileChoose_FadeInMenuElements(thisx);
     gScreenFillAlpha -= 40;
     this->windowPosX -= 20;
 
@@ -145,7 +146,7 @@ void FileChoose_FinishFadeIn(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
     this->controlsAlpha += VREG(1);
-    FileChoose_FadeInMenuElements(this);
+    FileChoose_FadeInMenuElements(thisx);
 
     if (this->titleAlpha[0] >= 255) {
         this->titleAlpha[0] = 255;
@@ -1189,7 +1190,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
 
         gDPPipeSync(POLY_OPA_DISP++);
 
-        func_80808000(this);
+        FileChoose_DrawNameEntry(this);
     }
 
     if ((this->configMode >= CM_MAIN_TO_OPTIONS) && (this->configMode <= CM_OPTIONS_TO_MAIN)) {
@@ -1217,7 +1218,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
 
         gDPPipeSync(POLY_OPA_DISP++);
 
-        FileChoose_DrawSettings(this);
+        FileChoose_DrawSettings(&this->state);
     }
 
     gDPPipeSync(POLY_OPA_DISP++);

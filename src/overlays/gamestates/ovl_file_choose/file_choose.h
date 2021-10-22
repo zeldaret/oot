@@ -216,9 +216,9 @@ void FileChoose_ConfigModeDraw(GameState* thisx);
 void FileChoose_SelectModeDraw(GameState* thisx);
 
 void FileChoose_PulsateCursor(GameState* thisx);
-void FileChoose_DrawSettings(FileChooseContext* this);
+void FileChoose_DrawSettings(GameState* thisx);
 
-void func_80808000(FileChooseContext* this);
+void FileChoose_DrawNameEntry(FileChooseContext* this);
 void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
 
 #endif
