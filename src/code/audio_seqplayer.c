@@ -592,7 +592,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
 
             case 0xCE: {
                 u8 tempByte = Audio_M64ReadU8(state);
-                layer->unk_34 = D_8012F4B4[(tempByte + 0x80) & 0xFF];
+                layer->unk_34 = gBendPitchTwoSemitonesFrequencies[(tempByte + 0x80) & 0xFF];
                 break;
             }
 
@@ -1080,13 +1080,13 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                     case 0xD3:
                         command = (u8)parameters[0];
                         command += 0x80;
-                        channel->freqScale = gPitchBendFrequencyScale[command];
+                        channel->freqScale = gBendPitchOneOctaveFrequencies[command];
                         channel->changes.s.freqScale = true;
                         break;
                     case 0xEE:
                         command = (u8)parameters[0];
                         command += 0x80;
-                        channel->freqScale = D_8012F4B4[command];
+                        channel->freqScale = gBendPitchTwoSemitonesFrequencies[command];
                         channel->changes.s.freqScale = true;
                         break;
                     case 0xDD:

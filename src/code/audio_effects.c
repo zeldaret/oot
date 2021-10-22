@@ -93,7 +93,7 @@ f32 Audio_GetPortamentoFreqScale(Portamento* p) {
         p->mode = 0;
     }
 
-    result = 1.0f + p->extent * (gPitchBendFrequencyScale[loResCur + 128] - 1.0f);
+    result = 1.0f + p->extent * (gBendPitchOneOctaveFrequencies[loResCur + 128] - 1.0f);
     return result;
 }
 
