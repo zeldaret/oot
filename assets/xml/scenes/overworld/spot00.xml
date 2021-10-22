@@ -1,7 +1,7 @@
 <Root>
     <File Name="spot00_scene" Segment="2">
-        <Cutscene Name="gHyruleFieldGetOotCs" Offset="0xBB80"/>
-        <Cutscene Name="gZeldaSongOfTimeCs" Offset="0xF870"/>
+        <Cutscene Name="gHyruleFieldGetOoTCs" Offset="0xBB80"/>
+        <Cutscene Name="gHyruleFieldZeldaSongOfTimeCs" Offset="0xF870"/>
         <Cutscene Name="gHyruleFieldEastEponaJumpCs" Offset="0xFF00"/>
         <Cutscene Name="gHyruleFieldIntroCs" Offset="0x13AA0"/>
         <Cutscene Name="gHyruleFieldSouthEponaJumpCs" Offset="0xF9E0"/>

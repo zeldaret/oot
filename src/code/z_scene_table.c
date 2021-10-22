@@ -1013,8 +1013,8 @@ void func_80099760(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4859);
 }
 
-void* gDcEntranceTextures[] = { gDcDayEntranceTex, gDcNightEntranceTex };
-void* sDcLaveFloorTextures[] = { gDcLavaFloor1Tex, gDcLavaFloor2Tex, gDcLavaFloor3Tex, gDcLavaFloor4Tex, gDcLavaFloor5Tex, gDcLavaFloor6Tex, gDcLavaFloor7Tex, gDcLavaFloor8Tex };
+void* gDCEntranceTextures[] = { gDCDayEntranceTex, gDCNightEntranceTex };
+void* sDCLavaFloorTextures[] = { gDCLavaFloor1Tex, gDCLavaFloor2Tex, gDCLavaFloor3Tex, gDCLavaFloor4Tex, gDCLavaFloor5Tex, gDCLavaFloor6Tex, gDCLavaFloor7Tex, gDCLavaFloor8Tex };
 
 // Scene Draw Config 20
 void func_80099878(GlobalContext* globalCtx) {
@@ -1025,8 +1025,8 @@ void func_80099878(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4905);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDcEntranceTextures[gSaveContext.nightFlag]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sDcLaveFloorTextures[(s32)(gameplayFrames & 14) >> 1]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDCEntranceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sDCLavaFloorTextures[(s32)(gameplayFrames & 14) >> 1]));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 1) % 256, 0, 64, 32, 1, 0,
                                 (gameplayFrames * 1) % 128, 64, 32));
@@ -1615,7 +1615,7 @@ void func_8009CAC0(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6264);
 }
 
-void* sGtgEntranceTextures[] = { gGtgDayEntranceTex, gGtgNightEntranceTex };
+void* sGTGEntranceTextures[] = { gGTGDayEntranceTex, gGTGNightEntranceTex };
 
 // Scene Draw Config 27
 void func_8009CC00(GlobalContext* globalCtx) {
@@ -1626,7 +1626,7 @@ void func_8009CC00(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6290);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGtgEntranceTextures[gSaveContext.nightFlag]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGTGEntranceTextures[gSaveContext.nightFlag]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32,
                                 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
@@ -1730,7 +1730,7 @@ void func_8009D31C(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6528);
 }
 
-void* sGuardHouseView2Texures[] = { gGuardHouseOutSideView1DayTex, gGuardHouseOutSideView1NightTex };
+void* sGuardHouseView2Textures[] = { gGuardHouseOutSideView1DayTex, gGuardHouseOutSideView1NightTex };
 void* sGuardHouseView1Textures[] = { gGuardHouseOutSideView2DayTex, gGuardHouseOutSideView2NightTex };
 
 // Scene Draw Config 45
@@ -1746,7 +1746,7 @@ void func_8009D438(GlobalContext* globalCtx) {
     }
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGuardHouseView1Textures[var]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sGuardHouseView2Texures[var]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sGuardHouseView2Textures[var]));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -2318,8 +2318,8 @@ void func_8009FC90(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7653);
 }
 
+f32 D_8012A398 = 0.0f; //Can not be in function static
 
-f32 D_8012A398 = 0.0f;
 void func_8009FE58(GlobalContext* globalCtx) {
     static s16 D_8012A39C = 538;
     static s16 D_8012A3A0 = 4272;
@@ -2349,6 +2349,7 @@ void func_8009FE58(GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
     if (FrameAdvance_IsEnabled(globalCtx) != true) {
+
         D_8012A39C += 1820;
         D_8012A3A0 += 1820;
 

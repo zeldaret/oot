@@ -1426,7 +1426,7 @@ void func_80A781CC(Actor* thisx, GlobalContext* globalCtx) {
     if (!Gameplay_InCsMode(globalCtx)) {
         this->actor.update = EnIk_Update;
         this->actor.draw = EnIk_Draw;
-        Cutscene_SetSegment(globalCtx, gNabooruKnuckleDefeatCs);
+        Cutscene_SetSegment(globalCtx, gSpiritBossNabooruKnuckleDefeatCs);
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
         gSaveContext.eventChkInf[3] |= 0x1000;
