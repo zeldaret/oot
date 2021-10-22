@@ -584,7 +584,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                     gSaveContext.minigameState = 3;
                                 }
                             } else {
-                                SET_NEXT_GAMESTATE(&globalCtx->state, FileChoose_Init, char[0x1CAE0]);
+                                SET_NEXT_GAMESTATE(&globalCtx->state, FileChoose_Init, FileChooseContext);
                             }
                         } else {
                             globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx);
