@@ -775,7 +775,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     u32 nEntries;
                     switch (bookOffset) {
                         case 1:
-                            gAudioContext.curLoadedBook = &D_8012FBA4[3];
+                            gAudioContext.curLoadedBook = &D_8012FBA8[1];
                             break;
                         case 2:
                         case 3:
