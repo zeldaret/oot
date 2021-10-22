@@ -98,11 +98,32 @@ This table summarizes if the asset will be marked `static` (✅) or not (❌)
 
   - `Name`: Required. The name of the file in `baserom/` which will be extracted.
   - `OutName`: Optional. The output name of the generated C source file. Defaults to the value passed to `Name`.
-  - `Segment`: Required. This is the segment number of the current file. Expects a decimal number, usually 6 if it is an object, or 128 for overlays (It's kinda a whacky hack to get around of the `0x80` addresses).
+  - `Segment`: Optional. This is the segment number of the current file. Expects a decimal number between 0 and 15 inclusive, usually 6 if it is an object. If not specified, the file will use VRAM instead of segmented addresses.
   - `BaseAddress`: Optional. RAM address of the file. Expects a hex number (with `0x` prefix). Default value: `0`.
   - `RangeStart`: Optional. File offset where the extraction will begin. Hex. Default value: `0x000000000`.
   - `RangeEnd`: Optional. File offset where the extraction will end. Hex. Default value: `0xFFFFFFFF`.
   - `Game`: Optional. Valid values: `OOT`, `MM`, `SW97` and `OOTSW97`. Default value: `OOT`.
+
+-------------------------
+
+### ExternalFile
+
+Allows ZAPD to map segmented addresses to variables declared in other files by using its XML.
+
+It is useful for objects that use variables from `gameplay_keep`, `gameplay_dangeon_keep`, `gameplay_field_keep`, etc.
+
+This tag can be used in the global `config.xml` file.
+
+- Example of this tag:
+
+```xml
+<ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
+```
+
+- Attributes:
+
+  - `XmlPath`: Required. The path of the XML, relative to the value set by `ExternalXMLFolder` in the configuration file.
+  - `OutPath`: Required. The path were the header for the corresponding external file is. It is used to `#include` it in the generated `.c` file.
 
 -------------------------
 
