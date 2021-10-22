@@ -82,6 +82,7 @@ void FileChoose_FadeInMenuElements(GameState* thisx) {
 
     for (i = 0; i < 3; i++) {
         this->fileButtonAlpha[i] = this->windowAlpha;
+
         if (SLOT_OCCUPIED(sramCtx, i)) {
             this->nameBoxAlpha[i] = this->nameAlpha[i] = this->windowAlpha;
             this->connectorAlpha[i] += VREG(1);
@@ -91,7 +92,7 @@ void FileChoose_FadeInMenuElements(GameState* thisx) {
         }
     }
 
-    this->actionBtnAlpha[BTN_ACTION_COPY] = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha =
+    this->actionButtonAlpha[BTN_ACTION_COPY] = this->actionButtonAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha =
         this->windowAlpha;
 }
 
@@ -170,7 +171,7 @@ void FileChoose_UpdateMainMenu(GameState* thisx) {
     Input* controller1 = &this->state.input[0];
 
     if (CHECK_BTN_ALL(controller1->press.button, BTN_START) || CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
-        if (this->buttonIndex < BTN_MAIN_COPY) {
+        if (this->buttonIndex <= BTN_MAIN_FILE_3) {
             osSyncPrintf("REGCK_ALL[%x]=%x,%x,%x,%x,%x,%x\n", this->buttonIndex,
                          GET_NEWF(sramCtx, this->buttonIndex, 0), GET_NEWF(sramCtx, this->buttonIndex, 1),
                          GET_NEWF(sramCtx, this->buttonIndex, 2), GET_NEWF(sramCtx, this->buttonIndex, 3),
@@ -196,7 +197,7 @@ void FileChoose_UpdateMainMenu(GameState* thisx) {
                 this->selectedFileIndex = this->buttonIndex;
                 this->menuMode = MENU_MODE_SELECT;
                 this->nextTitleLabel = TITLE_OPEN_FILE;
-            } else if (this->n64ddFlags[this->buttonIndex] == 0) {
+            } else if (!this->n64ddFlags[this->buttonIndex]) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
         } else {
@@ -599,9 +600,10 @@ void FileChoose_SetWindowContentVtx(GameState* thisx) {
 
         this->windowContentVtx[phi_t2 + 5].v.tc[0] = this->windowContentVtx[phi_t2 + 7].v.tc[0] = 0xD80;
 
-        if ((this->configMode == 0xF) && (phi_t5 == this->copyDestFileIndex)) {
+        if ((this->configMode == CM_15) && (phi_t5 == this->copyDestFileIndex)) {
             temp_t1 = this->fileNamesY[phi_t5] + 0x2C;
-        } else if (((this->configMode == 0x10) || (this->configMode == 0x11)) && (phi_t5 == this->copyDestFileIndex)) {
+        } else if (((this->configMode == CM_16) || (this->configMode == CM_17)) &&
+                   (phi_t5 == this->copyDestFileIndex)) {
             temp_t1 = this->buttonYOffsets[phi_t5] + phi_ra;
         } else {
             temp_t1 = phi_ra + this->buttonYOffsets[phi_t5] + this->fileNamesY[phi_t5];
@@ -649,7 +651,7 @@ void FileChoose_SetWindowContentVtx(GameState* thisx) {
 
             if ((this->configMode == 0xF) && (phi_t5 == this->copyDestFileIndex)) {
                 temp_t1 = this->fileNamesY[phi_t5] + 0x2C;
-            } else if (((this->configMode == 0x10) || (this->configMode == 0x11)) &&
+            } else if (((this->configMode == CM_16) || (this->configMode == CM_17)) &&
                        (phi_t5 == this->copyDestFileIndex)) {
                 temp_t1 = this->buttonYOffsets[phi_t5] + phi_ra;
             } else {
@@ -668,7 +670,7 @@ void FileChoose_SetWindowContentVtx(GameState* thisx) {
                     this->windowContentVtx[phi_t2].v.ob[1] - WREG(43);
             }
 
-            phi_t0 = this->windowPosX - 0xE;
+            phi_t0 = this->windowPosX - 14;
             temp_t1 -= 0x16;
 
             for (phi_a1 = 0; phi_a1 < 4; phi_a1++, phi_t2 += 4) {
@@ -683,7 +685,7 @@ void FileChoose_SetWindowContentVtx(GameState* thisx) {
 
             this->windowContentVtx[phi_t2 - 15].v.tc[0] = this->windowContentVtx[phi_t2 - 13].v.tc[0] = 0x400;
 
-            phi_t0 = this->windowPosX + 0x3F;
+            phi_t0 = this->windowPosX + 63;
             temp_t1 += 4;
 
             for (phi_a1 = 0; phi_a1 < 20; phi_a1++, phi_t2 += 4, phi_t0 += 9) {
@@ -695,7 +697,7 @@ void FileChoose_SetWindowContentVtx(GameState* thisx) {
                     this->windowContentVtx[phi_t2].v.ob[1] - 0xA;
 
                 if (phi_a1 == 9) {
-                    phi_t0 = this->windowPosX + 0x36;
+                    phi_t0 = this->windowPosX + 54;
                     temp_t1 -= 8;
                 }
             }
@@ -741,11 +743,13 @@ void FileChoose_SetWindowContentVtx(GameState* thisx) {
 
     phi_t2 += 4;
 
-    if (((this->menuMode == 1) && (this->configMode >= 2)) || ((this->menuMode == 2) && (this->selectMode == 3))) {
-        if (this->menuMode == 1) {
-            if ((this->configMode == 4) || (this->configMode == 7) || (this->configMode == 0x15)) {
+    if (((this->menuMode == MENU_MODE_CONFIG) && (this->configMode >= CM_MAIN_MENU)) ||
+        ((this->menuMode == MENU_MODE_SELECT) && (this->selectMode == SM_CONFIRM_FILE))) {
+        if (this->menuMode == MENU_MODE_CONFIG) {
+            if ((this->configMode == CM_SELECT_COPY_SOURCE) || (this->configMode == CM_07) ||
+                (this->configMode == CM_21)) {
                 phi_t5 = D_8081283C[this->buttonIndex];
-            } else if ((this->configMode == 0x18) || (this->configMode == 0xC)) {
+            } else if ((this->configMode == CM_24) || (this->configMode == CM_12)) {
                 phi_t5 = D_80812844[this->buttonIndex];
             } else {
                 phi_t5 = D_80812830[this->buttonIndex];
@@ -796,9 +800,9 @@ void FileChoose_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     Font* sp54 = &this->font;
     s32 heartType;
-    s16 phi_s0;
-    s16 phi_s2;
-    s16 phi_s3;
+    s16 i;
+    s16 vtxOffset;
+    s16 j;
     s16 deathCountSplit[3];
 
     if (1) {}
@@ -814,9 +818,10 @@ void FileChoose_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
         gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_8081284C[fileIndex]], 32, 0);
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sNamePrimColors[isActive][0], sNamePrimColors[isActive][1],
                         sNamePrimColors[isActive][2], this->nameAlpha[fileIndex]);
-        for (phi_s0 = 0, phi_s2 = 0; phi_s2 < 0x20; phi_s0++, phi_s2 += 4) {
+
+        for (i = 0, vtxOffset = 0; vtxOffset < 0x20; i++, vtxOffset += 4) {
             FileChoose_DrawCharacter(this->state.gfxCtx,
-                                     sp54->fontBuf + this->fileNames[fileIndex][phi_s0] * FONT_CHAR_TEX_SIZE, phi_s2);
+                                     sp54->fontBuf + this->fileNames[fileIndex][i] * FONT_CHAR_TEX_SIZE, vtxOffset);
         }
     }
 
@@ -830,9 +835,9 @@ void FileChoose_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
         FileChoose_SplitNumber(this->deaths[fileIndex], &deathCountSplit[0], &deathCountSplit[1], &deathCountSplit[2]);
 
         // draw death count
-        for (phi_s0 = 0, phi_s2 = 0; phi_s0 < 3; phi_s0++, phi_s2 += 4) {
-            FileChoose_DrawCharacter(this->state.gfxCtx, sp54->fontBuf + deathCountSplit[phi_s0] * FONT_CHAR_TEX_SIZE,
-                                     phi_s2);
+        for (i = 0, vtxOffset = 0; i < 3; i++, vtxOffset += 4) {
+            FileChoose_DrawCharacter(this->state.gfxCtx, sp54->fontBuf + deathCountSplit[i] * FONT_CHAR_TEX_SIZE,
+                                     vtxOffset);
         }
 
         gDPPipeSync(POLY_OPA_DISP++);
@@ -847,11 +852,11 @@ void FileChoose_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
         gDPSetEnvColor(POLY_OPA_DISP++, sHeartEnvColors[heartType][0], sHeartEnvColors[heartType][1],
                        sHeartEnvColors[heartType][2], 255);
 
-        phi_s0 = this->healthCapacities[fileIndex] / 0x10;
+        i = this->healthCapacities[fileIndex] / 0x10;
 
         // draw hearts
-        for (phi_s2 = 0, phi_s3 = 0; phi_s3 < phi_s0; phi_s3++, phi_s2 += 4) {
-            gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_8081284C[fileIndex] + phi_s2] + 0x30, 4, 0);
+        for (vtxOffset = 0, j = 0; j < i; j++, vtxOffset += 4) {
+            gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_8081284C[fileIndex] + vtxOffset] + 0x30, 4, 0);
 
             POLY_OPA_DISP = FileChoose_DrawTextureIA8(POLY_OPA_DISP, sHeartTextures[heartType], 0x10, 0x10, 0);
         }
@@ -859,22 +864,22 @@ void FileChoose_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
         gDPPipeSync(POLY_OPA_DISP++);
 
         // draw quest items
-        for (phi_s2 = 0, phi_s3 = 0; phi_s3 < 9; phi_s3++, phi_s2 += 4) {
-            if (this->questItems[fileIndex] & gBitFlags[sQuestItemFlags[phi_s3]]) {
-                gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_8081284C[fileIndex] + phi_s2] + 0x80, 4, 0);
+        for (vtxOffset = 0, j = 0; j < 9; j++, vtxOffset += 4) {
+            if (this->questItems[fileIndex] & gBitFlags[sQuestItemFlags[j]]) {
+                gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_8081284C[fileIndex] + vtxOffset] + 0x80, 4, 0);
                 gDPPipeSync(POLY_OPA_DISP++);
-                gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sQuestItemRed[phi_s3], sQuestItemGreen[phi_s3],
-                                sQuestItemBlue[phi_s3], this->fileInfoAlpha[fileIndex]);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sQuestItemRed[j], sQuestItemGreen[j], sQuestItemBlue[j],
+                                this->fileInfoAlpha[fileIndex]);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-                if (phi_s3 < 3) {
-                    gDPLoadTextureBlock(POLY_OPA_DISP++, sQuestItemTextures[phi_s3], G_IM_FMT_RGBA, G_IM_SIZ_32b, 16,
-                                        16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
-                                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+                if (j < 3) {
+                    gDPLoadTextureBlock(POLY_OPA_DISP++, sQuestItemTextures[j], G_IM_FMT_RGBA, G_IM_SIZ_32b, 16, 16, 0,
+                                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
+                                        G_TX_NOMASK, G_TX_NOLOD);
                     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
                 } else {
-                    POLY_OPA_DISP = FileChoose_DrawTextureIA8(POLY_OPA_DISP, sQuestItemTextures[phi_s3], 0x10, 0x10, 0);
+                    POLY_OPA_DISP = FileChoose_DrawTextureIA8(POLY_OPA_DISP, sQuestItemTextures[j], 0x10, 0x10, 0);
                 }
             }
         }
@@ -1044,7 +1049,7 @@ void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
     for (quadVtxIndex = 0, i = 0; i < 2; i++, quadVtxIndex += 4) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
-                        this->actionBtnAlpha[i]);
+                        this->actionButtonAlpha[i]);
         gDPLoadTextureBlock(POLY_OPA_DISP++, sActionButtonTextures[gSaveContext.language][i], G_IM_FMT_IA, G_IM_SIZ_16b,
                             64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
@@ -1165,7 +1170,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
         FileChoose_DrawWindowContents(this);
     }
 
-    // draw keyboard
+    // draw name entry menu
     if ((this->configMode >= CM_MAIN_TO_KEYBOARD) && (this->configMode <= CM_KEYBOARD_TO_MAIN)) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
@@ -1193,6 +1198,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
         FileChoose_DrawNameEntry(this);
     }
 
+    // draw options menu
     if ((this->configMode >= CM_MAIN_TO_OPTIONS) && (this->configMode <= CM_OPTIONS_TO_MAIN)) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
@@ -1218,7 +1224,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
 
         gDPPipeSync(POLY_OPA_DISP++);
 
-        FileChoose_DrawSettings(&this->state);
+        FileChoose_DrawOptions(&this->state);
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1239,8 +1245,8 @@ void FileChoose_FadeMainToSelect(GameState* thisx) {
     for (i = 0; i < 3; i++) {
         if (i != this->buttonIndex) {
             this->fileButtonAlpha[i] -= 25;
-            this->actionBtnAlpha[BTN_ACTION_COPY] = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha =
-                this->fileButtonAlpha[i];
+            this->actionButtonAlpha[BTN_ACTION_COPY] = this->actionButtonAlpha[BTN_ACTION_ERASE] =
+                this->optionButtonAlpha = this->fileButtonAlpha[i];
 
             if (SLOT_OCCUPIED(sramCtx, i)) {
                 this->nameAlpha[i] = this->nameBoxAlpha[i] = this->fileButtonAlpha[i];
@@ -1381,8 +1387,8 @@ void FileChoose_MoveSelectedFileToSlot(GameState* thisx) {
                 this->fileButtonAlpha[i] = 200;
             }
 
-            this->actionBtnAlpha[BTN_ACTION_COPY] = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha =
-                this->fileButtonAlpha[i];
+            this->actionButtonAlpha[BTN_ACTION_COPY] = this->actionButtonAlpha[BTN_ACTION_ERASE] =
+                this->optionButtonAlpha = this->fileButtonAlpha[i];
 
             if (SLOT_OCCUPIED(sramCtx, i)) {
                 this->nameBoxAlpha[i] = this->nameAlpha[i] = this->fileButtonAlpha[i];
@@ -1799,8 +1805,8 @@ void FileChoose_InitContext(GameState* thisx) {
         this->fileButtonAlpha[1] = this->fileButtonAlpha[2] = this->nameBoxAlpha[0] = this->nameBoxAlpha[1] =
             this->nameBoxAlpha[2] = this->nameAlpha[0] = this->nameAlpha[1] = this->nameAlpha[2] =
                 this->connectorAlpha[0] = this->connectorAlpha[1] = this->connectorAlpha[2] = this->fileInfoAlpha[0] =
-                    this->fileInfoAlpha[1] = this->fileInfoAlpha[2] = this->actionBtnAlpha[BTN_ACTION_COPY] =
-                        this->actionBtnAlpha[BTN_ACTION_ERASE] = this->confirmButtonAlpha[BTN_CONFIRM_YES] =
+                    this->fileInfoAlpha[1] = this->fileInfoAlpha[2] = this->actionButtonAlpha[BTN_ACTION_COPY] =
+                        this->actionButtonAlpha[BTN_ACTION_ERASE] = this->confirmButtonAlpha[BTN_CONFIRM_YES] =
                             this->confirmButtonAlpha[BTN_CONFIRM_QUIT] = this->optionButtonAlpha =
                                 this->nameEntryBoxAlpha = this->controlsAlpha = this->emptyFileTextAlpha = 0;
 
@@ -1823,7 +1829,7 @@ void FileChoose_InitContext(GameState* thisx) {
     gSaveContext.skyboxTime = 0;
     gSaveContext.dayTime = 0;
 
-    Skybox_Init(&this->state, &this->skyboxCtx, 1);
+    Skybox_Init(&this->state, &this->skyboxCtx, SKYBOX_NORMAL_SKY);
 
     gTimeIncrement = 10;
 

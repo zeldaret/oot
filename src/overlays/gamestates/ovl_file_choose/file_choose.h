@@ -216,7 +216,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx);
 void FileChoose_SelectModeDraw(GameState* thisx);
 
 void FileChoose_PulsateCursor(GameState* thisx);
-void FileChoose_DrawSettings(GameState* thisx);
+void FileChoose_DrawOptions(GameState* thisx);
 
 void FileChoose_DrawNameEntry(FileChooseContext* this);
 void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);

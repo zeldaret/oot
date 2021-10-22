@@ -1,5 +1,6 @@
 #include "file_choose.h"
 
+// todo: petrie has this as s16 but it should be vtx?
 s16 D_80811BB0[6][32] = {
     {
         0xFFA2, 0x0048, 0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFDA, 0x0048, 0x0000,

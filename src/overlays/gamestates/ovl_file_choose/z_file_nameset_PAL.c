@@ -117,7 +117,7 @@ static s16 D_80812604[] = {
  */
 void FileChoose_SetNameEntryVtx(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    Font* sp30 = &this->font;
+    Font* font = &this->font;
     s16 phi_s0;
     s16 phi_t1;
     u8 temp;
@@ -219,7 +219,7 @@ void FileChoose_SetNameEntryVtx(GameState* thisx) {
 
     for (phi_v0 = 0, phi_s0 = 0; phi_s0 < 0x20; phi_s0 += 4, phi_v0++) {
         FileChoose_DrawCharacter(this->state.gfxCtx,
-                                 sp30->fontBuf + this->fileNames[this->buttonIndex][phi_v0] * FONT_CHAR_TEX_SIZE,
+                                 font->fontBuf + this->fileNames[this->buttonIndex][phi_v0] * FONT_CHAR_TEX_SIZE,
                                  phi_s0);
     }
 
@@ -252,12 +252,14 @@ void FileChoose_DrawKeyboard(FileChooseContext* thisx) {
                       0, 0, COMBINED);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, this->charBgAlpha, 255, 255, 255, 255);
 
-    for (; vtx < 0x100; vtx += 32) {
+    while (vtx < 0x100) {
         gSPVertex(POLY_OPA_DISP++, &this->keyboardVtx[vtx], 32, 0);
 
         for (tmp = 0; tmp < 32; i++, tmp += 4) {
             FileChoose_DrawCharacter(this->state.gfxCtx, font->fontBuf + D_808123F0[i] * FONT_CHAR_TEX_SIZE, tmp);
         }
+
+        vtx += 32;
     }
 
     gSPVertex(POLY_OPA_DISP++, &this->keyboardVtx[0x100], 4, 0);
@@ -383,7 +385,7 @@ void FileChoose_DrawNameEntry(FileChooseContext* thisx) {
                     }
                 }
             } else {
-                if (this->charPage < 3) {
+                if (this->charPage <= CHAR_PAGE_ENG) {
                     if (this->kbdY != 5) {
                         // draw the character the cursor is hovering over in yellow
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, 255);
@@ -399,7 +401,7 @@ void FileChoose_DrawNameEntry(FileChooseContext* thisx) {
                                 D_808123F0[this->charIndex];
                             this->newFileNameCharCount++;
 
-                            if (this->newFileNameCharCount >= 8) {
+                            if (this->newFileNameCharCount > 7) {
                                 this->newFileNameCharCount = 7;
                             }
                         }
@@ -649,7 +651,7 @@ void FileChoose_StartOptions(GameState* thisx) {
     }
 }
 
-u8 gSelectedSetting;
+static u8 gSelectedSetting;
 
 /**
  * Update the cursor and appropriate settings for the options menu.
@@ -710,7 +712,6 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     if ((this->stickRelY < -30) || (this->stickRelY > 30)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         gSelectedSetting ^= 1;
-        return;
     } else if (CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         gSelectedSetting ^= 1;
@@ -721,9 +722,9 @@ typedef struct {
     /* 0x00 */ void* texture[3];
     /* 0x0C */ u16 width[3];
     /* 0x12 */ u16 height;
-} OptionsMenuTextures; // size = 0x14
+} OptionsMenuTextureInfo; // size = 0x14
 
-static OptionsMenuTextures gOptionsMenuHeaders[] = {
+static OptionsMenuTextureInfo gOptionsMenuHeaders[] = {
     {
         { gTitleStaticOptionsENGTex, gTitleStaticOptionsGERTex, gTitleStaticOptionsENGTex },
         { 128, 128, 128 },
@@ -746,7 +747,7 @@ static OptionsMenuTextures gOptionsMenuHeaders[] = {
     },
 };
 
-static OptionsMenuTextures gOptionsMenuSettings[] = {
+static OptionsMenuTextureInfo gOptionsMenuSettings[] = {
     {
         { gTitleStaticStereoENGTex, gTitleStaticStereoENGTex, gTitleStaticStereoFRATex },
         { 48, 48, 48 },
@@ -779,7 +780,7 @@ static OptionsMenuTextures gOptionsMenuSettings[] = {
     },
 };
 
-void FileChoose_DrawSettingsImpl(GameState* thisx) {
+void FileChoose_DrawOptionsImpl(GameState* thisx) {
     static s16 cursorPrimRed = 255;
     static s16 cursorPrimGreen = 255;
     static s16 cursorPrimBlue = 255;
@@ -995,6 +996,6 @@ void FileChoose_DrawSettingsImpl(GameState* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1040);
 }
 
-void FileChoose_DrawSettings(GameState* thisx) {
-    FileChoose_DrawSettingsImpl(thisx);
+void FileChoose_DrawOptions(GameState* thisx) {
+    FileChoose_DrawOptionsImpl(thisx);
 }

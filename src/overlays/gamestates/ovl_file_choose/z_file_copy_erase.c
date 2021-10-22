@@ -1,15 +1,15 @@
 #include "file_choose.h"
 
 // when choosing a file to copy or erase, the 6 main menu buttons are placed at these offsets
-s16 sChooseFileYOffsets[] = { -48, -48, -48, -24, -24, 0 };
+static s16 sChooseFileYOffsets[] = { -48, -48, -48, -24, -24, 0 };
 
-s16 D_8081248C[3][3] = {
+static s16 D_8081248C[3][3] = {
     { 0, -48, -48 },
     { -64, 16, -48 },
     { -64, -64, 32 },
 };
 
-s16 D_808124A0 = 15;
+static s16 sEraseDelayTimer = 15;
 
 /**
  * Start moving the main menu buttons toward their final positions indicated by `sChooseFileYOffsets`
@@ -31,8 +31,8 @@ void FileCopy_SetupSourceSelect(GameState* thisx) {
         }
     }
 
-    this->actionBtnAlpha[BTN_ACTION_COPY] -= 25;
-    this->actionBtnAlpha[BTN_ACTION_ERASE] -= 25;
+    this->actionButtonAlpha[BTN_ACTION_COPY] -= 25;
+    this->actionButtonAlpha[BTN_ACTION_ERASE] -= 25;
     this->optionButtonAlpha -= 25;
     this->confirmButtonAlpha[BTN_CONFIRM_QUIT] += 25;
     this->titleAlpha[0] -= 31;
@@ -42,7 +42,7 @@ void FileCopy_SetupSourceSelect(GameState* thisx) {
     if (this->actionTimer == 0) {
         this->actionTimer = 8;
 
-        this->actionBtnAlpha[BTN_ACTION_COPY] = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha = 0;
+        this->actionButtonAlpha[BTN_ACTION_COPY] = this->actionButtonAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha = 0;
 
         this->confirmButtonAlpha[BTN_CONFIRM_QUIT] = 200;
         this->titleLabel = this->nextTitleLabel;
@@ -504,8 +504,8 @@ void func_80805524(GameState* thisx) {
         }
     }
 
-    this->actionBtnAlpha[BTN_ACTION_COPY] += 25;
-    this->actionBtnAlpha[BTN_ACTION_ERASE] += 25;
+    this->actionButtonAlpha[BTN_ACTION_COPY] += 25;
+    this->actionButtonAlpha[BTN_ACTION_ERASE] += 25;
     this->optionButtonAlpha += 25;
     this->titleAlpha[1] += 31;
     this->actionTimer--;
@@ -548,14 +548,14 @@ void FileCopy_SetupMainMenu(GameState* thisx) {
         }
     }
 
-    this->actionBtnAlpha[BTN_ACTION_COPY] += 25;
+    this->actionButtonAlpha[BTN_ACTION_COPY] += 25;
     this->confirmButtonAlpha[BTN_CONFIRM_QUIT] -= 25;
     this->titleAlpha[0] -= 31;
     this->titleAlpha[1] += 31;
     this->actionTimer--;
 
     if (this->actionTimer == 0) {
-        this->actionBtnAlpha[BTN_ACTION_COPY] = 200;
+        this->actionButtonAlpha[BTN_ACTION_COPY] = 200;
         this->confirmButtonAlpha[BTN_CONFIRM_QUIT] = 0;
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
@@ -563,7 +563,7 @@ void FileCopy_SetupMainMenu(GameState* thisx) {
         this->configMode = CM_MAIN_MENU;
     }
 
-    this->optionButtonAlpha = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->actionBtnAlpha[BTN_ACTION_COPY];
+    this->optionButtonAlpha = this->actionButtonAlpha[BTN_ACTION_ERASE] = this->actionButtonAlpha[BTN_ACTION_COPY];
 }
 
 void func_8080595C(GameState* thisx) {
@@ -581,13 +581,13 @@ void func_8080595C(GameState* thisx) {
         }
     }
 
-    this->actionBtnAlpha[BTN_ACTION_COPY] -= 50;
-    this->actionBtnAlpha[BTN_ACTION_ERASE] -= 50;
+    this->actionButtonAlpha[BTN_ACTION_COPY] -= 50;
+    this->actionButtonAlpha[BTN_ACTION_ERASE] -= 50;
     this->optionButtonAlpha -= 50;
     this->confirmButtonAlpha[BTN_CONFIRM_QUIT] += 25;
 
-    if (this->actionBtnAlpha[BTN_ACTION_COPY] <= 0) {
-        this->actionBtnAlpha[BTN_ACTION_COPY] = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha = 0;
+    if (this->actionButtonAlpha[BTN_ACTION_COPY] <= 0) {
+        this->actionButtonAlpha[BTN_ACTION_COPY] = this->actionButtonAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha = 0;
     }
 
     this->titleAlpha[0] -= 31;
@@ -598,7 +598,7 @@ void func_8080595C(GameState* thisx) {
         this->highlightColor[3] = 70;
         this->highlightFlashDir = 1;
         XREG(35) = XREG(36);
-        this->actionBtnAlpha[BTN_ACTION_COPY] = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha = 0;
+        this->actionButtonAlpha[BTN_ACTION_COPY] = this->actionButtonAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha = 0;
         this->confirmButtonAlpha[1] = 200;
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
@@ -754,7 +754,7 @@ void func_8080625C(GameState* thisx) {
         this->configMode = 27;
         this->nextTitleLabel = TITLE_ERASE_COMPLETE;
         func_800AA000(200.0f, 0xFF, 0x14, 0x96);
-        D_808124A0 = 15;
+        sEraseDelayTimer = 15;
     } else if (ABS(this->stickRelY) >= 30) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->buttonIndex ^= 1;
@@ -821,7 +821,7 @@ void func_80806710(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
 
-    if (D_808124A0 == 0) {
+    if (sEraseDelayTimer == 0) {
         if (this->actionTimer == 8) {
             D_80813800 = 1;
         }
@@ -851,9 +851,9 @@ void func_80806710(GameState* thisx) {
             this->actionTimer = 90;
         }
     } else {
-        D_808124A0--;
+        sEraseDelayTimer--;
 
-        if (D_808124A0 == 0) {
+        if (sEraseDelayTimer == 0) {
             Audio_PlaySoundGeneral(NA_SE_OC_ABYSS, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
@@ -910,7 +910,7 @@ void func_808069B4(GameState* thisx) {
         this->highlightColor[3] = 70;
         this->highlightFlashDir = 1;
         XREG(35) = XREG(36);
-        this->actionBtnAlpha[BTN_ACTION_COPY] = 200;
+        this->actionButtonAlpha[BTN_ACTION_COPY] = 200;
         this->confirmButtonAlpha[0] = this->confirmButtonAlpha[1] = 0;
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
@@ -918,7 +918,7 @@ void func_808069B4(GameState* thisx) {
         this->configMode = 2;
     }
 
-    this->optionButtonAlpha = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->actionBtnAlpha[BTN_ACTION_COPY];
+    this->optionButtonAlpha = this->actionButtonAlpha[BTN_ACTION_ERASE] = this->actionButtonAlpha[BTN_ACTION_COPY];
 }
 
 void func_80806C20(GameState* thisx) {
@@ -936,8 +936,8 @@ void func_80806C20(GameState* thisx) {
         }
     }
 
-    this->actionBtnAlpha[BTN_ACTION_COPY] += 25;
-    this->actionBtnAlpha[BTN_ACTION_ERASE] += 25;
+    this->actionButtonAlpha[BTN_ACTION_COPY] += 25;
+    this->actionButtonAlpha[BTN_ACTION_ERASE] += 25;
     this->optionButtonAlpha += 25;
     this->confirmButtonAlpha[BTN_CONFIRM_QUIT] -= 50;
 
@@ -953,7 +953,7 @@ void func_80806C20(GameState* thisx) {
         this->highlightColor[3] = 70;
         this->highlightFlashDir = 1;
         XREG(35) = XREG(36);
-        this->actionBtnAlpha[BTN_ACTION_COPY] = 200;
+        this->actionButtonAlpha[BTN_ACTION_COPY] = 200;
         this->confirmButtonAlpha[BTN_CONFIRM_QUIT] = 0;
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
@@ -961,5 +961,5 @@ void func_80806C20(GameState* thisx) {
         this->configMode = 2;
     }
 
-    this->optionButtonAlpha = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->actionBtnAlpha[BTN_ACTION_COPY];
+    this->optionButtonAlpha = this->actionButtonAlpha[BTN_ACTION_ERASE] = this->actionButtonAlpha[BTN_ACTION_COPY];
 }
