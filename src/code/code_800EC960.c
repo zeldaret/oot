@@ -81,7 +81,7 @@ typedef enum {
 
 #define SCROLL_PRINT_BUF_SIZE 25
 
-extern f32 D_8012F6B4[]; // from audio_synthesis
+extern f32 D_8012F4B4[]; // from audio_synthesis
 
 u8 D_80130570[7] = { 0, 0, 0, 1, 0, 0, 0 };
 u8 D_80130578[4][7] = {
@@ -535,7 +535,7 @@ f32 Audio_OcaAdjStick(s8 inp) {
     } else {
         inpAdj = (inp * 128) / 64;
     }
-    ret = D_8012F6B4[inpAdj];
+    ret = D_8012F4B4[inpAdj + 128];
     return ret;
 }
 

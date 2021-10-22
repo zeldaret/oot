@@ -30,12 +30,9 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
 Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem,
                                s32 resampleFlags);
 
-extern s16 D_8012FBAA[];
-extern u32 D_801304A0;
-extern u32 D_801304A4;
-extern u32 D_801304A8;
-extern u32 D_801304AC;
-extern u8 D_801304C0[];
+#include "audio_wave_samples.c"
+#include "audio_frequencies.c"
+#include "audio_synthesis_data.c"
 
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;
@@ -778,7 +775,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     u32 nEntries;
                     switch (bookOffset) {
                         case 1:
-                            gAudioContext.curLoadedBook = D_8012FBAA;
+                            gAudioContext.curLoadedBook = &D_8012FBA4[3];
                             break;
                         case 2:
                         case 3:

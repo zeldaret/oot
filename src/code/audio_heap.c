@@ -631,7 +631,7 @@ void func_800DF5AC(s16* filter) {
 
 void func_800DF5DC(s16* filter, s32 arg1) {
     s32 i;
-    s16* ptr = &D_80130228[8 * arg1];
+    s16* ptr = &sLowPassFilterData[8 * arg1];
 
     for (i = 0; i < 8; i++) {
         filter[i] = ptr[i];
@@ -640,7 +640,7 @@ void func_800DF5DC(s16* filter, s32 arg1) {
 
 void func_800DF630(s16* filter, s32 arg1) {
     s32 i;
-    s16* ptr = &D_80130328[8 * (arg1 - 1)];
+    s16* ptr = &sHighPassFilterData[8 * (arg1 - 1)];
 
     for (i = 0; i < 8; i++) {
         filter[i] = ptr[i];
@@ -657,8 +657,8 @@ void func_800DF688(s16* filter, s32 arg1, s32 arg2) {
     } else if (arg1 == 0) {
         func_800DF630(filter, arg2);
     } else {
-        s16* ptr1 = &D_80130228[8 * arg1];
-        s16* ptr2 = &D_80130328[8 * (arg2 - 1)];
+        s16* ptr1 = &sLowPassFilterData[8 * arg1];
+        s16* ptr2 = &sHighPassFilterData[8 * (arg2 - 1)];
         for (i = 0; i < 8; i++) {
             filter[i] = (ptr1[i] + ptr2[i]) / 2;
         }

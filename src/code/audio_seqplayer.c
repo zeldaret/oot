@@ -1780,7 +1780,7 @@ void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     seqPlayer->transposition = 0;
     seqPlayer->noteAllocPolicy = 0;
     seqPlayer->shortNoteVelocityTable = gDefaultShortNoteVelocityTable;
-    seqPlayer->shortNoteDurationTable = gDefaultShortNoteDurationTable;
+    seqPlayer->shortNoteDurationTable = gDefaultShortNoteGateTimeTable;
     seqPlayer->unk_E0 = 0;
     seqPlayer->fadeVolume = 1.0f;
     seqPlayer->fadeVelocity = 0.0f;

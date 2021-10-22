@@ -402,7 +402,6 @@ beginseg
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
     include "build/src/code/audio_synthesis.o"
-    include "build/data/audio_synthesis.data.o"
     include "build/src/code/audio_heap.o"
     include "build/src/code/audio_load.o"
     include "build/src/code/code_800E4FE0.o"
