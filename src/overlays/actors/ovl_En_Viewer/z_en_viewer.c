@@ -61,34 +61,34 @@ static InitChainEntry sInitChain[] = {
 };
 
 static EnViewerInitData sInitData[] = {
-    /* 0 */
+    /* ENVIEWER_TYPE_0_HORSE_ZELDA */
     { OBJECT_HORSE_ZELDA, OBJECT_HORSE_ZELDA, 1, 0, ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE, &gHorseZeldaSkel,
       &gHorseZeldaGallopingAnim },
-    /* 1 */
+    /* ENVIEWER_TYPE_1_IMPA */
     { OBJECT_IM, OBJECT_OPENING_DEMO1, 1, 0, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_IMPA, &object_im_Skel_00F788,
       &object_opening_demo1_Anim_0029CC },
-    /* 2 */
+    /* ENVIEWER_TYPE_2_ZELDA */
     { OBJECT_ZL4, OBJECT_OPENING_DEMO1, 1, 0, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_ZELDA, &gChildZeldaSkel,
       &object_opening_demo1_Anim_000450 },
-    /* 3 */
+    /* ENVIEWER_TYPE_3_GANONDORF */
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_gndd_Skel_0119E8,
       &object_gndd_Anim_002928 },
-    /* 4 */
+    /* ENVIEWER_TYPE_4_HORSE_GANONDORF */
     { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE, &gHorseGanonSkel,
       &gHorseGanonRearingAnim },
-    /* 5 */
+    /* ENVIEWER_TYPE_5_GANONDORF */
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_gndd_Skel_0119E8,
       &object_gndd_Anim_0005B4 },
-    /* 6 */
+    /* ENVIEWER_TYPE_6_HORSE_GANONDORF */
     { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE, &gHorseGanonSkel,
       &gHorseGanonGallopingAnim },
-    /* 7 */
+    /* ENVIEWER_TYPE_7_GANONDORF */
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_gndd_Skel_0119E8,
       &object_gndd_Anim_004260 },
-    /* 8 */
+    /* ENVIEWER_TYPE_8_GANONDORF */
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_gndd_Skel_0119E8,
       &object_gndd_Anim_0050A8 },
-    /* 9 */
+    /* ENVIEWER_TYPE_9_GANONDORF */
     { OBJECT_GANON, OBJECT_GANON, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_ganon_Skel_0114E8,
       &object_ganon_Anim_011348 },
 };
