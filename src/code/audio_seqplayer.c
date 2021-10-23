@@ -20,7 +20,7 @@ u16 Audio_M64ReadCompressedU16(M64ScriptState* state);
 u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** instOut, AdsrSettings* adsr);
 
 u16 Audio_GetScriptControlFlowArgument(M64ScriptState* state, u8 arg1) {
-    u8 temp_v0 = D_80130470[arg1];
+    u8 temp_v0 = D_80130520[arg1 - 0xB0];
     u8 loBits = temp_v0 & 3;
     u16 ret = 0;
 
@@ -989,7 +989,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
         s32 pad2;
 
         if (command >= 0xB0) {
-            highBits = D_80130470[(s32)command];
+            highBits = D_80130520[(s32)command - 0xB0];
             lowBits = highBits & 3;
 
             for (i = 0; i < lowBits; i++, highBits <<= 1) {

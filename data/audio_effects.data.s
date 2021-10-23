@@ -13,4 +13,7 @@ glabel D_80130510
     .incbin "baserom.z64", 0xBA76B0, 0x4
 
 glabel D_80130514
-    .incbin "baserom.z64", 0xBA76B4, 0x5C
+    .incbin "baserom.z64", 0xBA76B4, 0xC
+
+glabel D_80130520
+    .incbin "baserom.z64", 0xBA76C0, 0x50
