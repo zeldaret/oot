@@ -30,7 +30,22 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
 Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem,
                                s32 resampleFlags);
 
-#include "audio_synthesis_data.c"
+u32 D_801304A0 = 0x13000000;
+
+u32 D_801304A4 = 0x5CAEC8E2;
+u32 D_801304A8 = 0x945CC8E2;
+u32 D_801304AC = 0x94AEC8E2;
+
+u16 D_801304B0[] = {
+    0x7FFF, 0xD001, 0x3FFF, 0xF001, 0x5FFF, 0x9001, 0x7FFF, 0x8001,
+};
+
+u8 D_801304C0[] = {
+    0x40,
+    0x20,
+    0x10,
+    0x8,
+};
 
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;

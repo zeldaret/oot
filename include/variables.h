@@ -335,6 +335,7 @@ extern AdsrEnvelope gDefaultEnvelope[];
 extern NoteSubEu gZeroNoteSub;
 extern NoteSubEu gDefaultNoteSub;
 extern u16 gHeadsetPanQuantization[];
+extern s16 D_8012FBA8[];
 extern f32 gHeadsetPanVolume[128];
 extern f32 gStereoPanVolume[128];
 extern f32 gDefaultPanVolume[128];

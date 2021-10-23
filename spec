@@ -401,6 +401,7 @@ beginseg
     include "build/src/code/fault_drawer.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
+    include "build/src/code/audio_data.o"
     include "build/src/code/audio_synthesis.o"
     include "build/src/code/audio_heap.o"
     include "build/src/code/audio_load.o"
