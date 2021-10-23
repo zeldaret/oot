@@ -5,6 +5,9 @@ ZAPD := ZAPD/ZAPD.out
 
 all: $(PROGRAMS)
 	cd ZAPD && $(MAKE)
+	mkdir -p seq64/build
+	cd seq64/build && cmake ..
+	cd seq64/build && $(MAKE) -j
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))

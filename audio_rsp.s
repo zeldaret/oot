@@ -383,9 +383,9 @@ cmd_ADPCM:
 /* 04001280 000280 200F0330 */  addi	$t7, $zero, adpcmTable  // possibly adpcmTable
 /* 04001284 000284 001A0C02 */  srl		$at, $k0, 0x10          // load flags
 /* 04001288 000288 30280004 */  andi	$t0, $at, 4
-/* 0400128C 00028C 1100000A */  beqz	$t0, .L040012B8         // if !(flags & 4) , skip
+/* 0400128C 00028C 1100000A */  beqz	$t0, .L040012B8         // if !(flags & 4) aka reg ADPCM , skip
 /* 04001290 000290 00000000 */   nop	
-/* 04001294 000294 200A0005 */  addi	$t2, $zero, 5
+/* 04001294 000294 200A0005 */  addi	$t2, $zero, 5           // process SHORT ADPCM
 /* 04001298 000298 2009000E */  addi	$t1, $zero, 0xe
 /* 0400129C 00029C CA191802 */  ldv		$v25[0], 0x10($s0)
 /* 040012A0 0002A0 CA171803 */  ldv		$v23[0], 0x18($s0)
