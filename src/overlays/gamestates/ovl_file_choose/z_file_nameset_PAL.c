@@ -226,8 +226,8 @@ void FileChoose_SetNameEntryVtx(GameState* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 307);
 }
 
-void FileChoose_DrawKeyboard(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void FileChoose_DrawKeyboard(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     Font* font = &this->font;
     s16 i = 0;
     s16 tmp;
@@ -258,8 +258,8 @@ void FileChoose_DrawKeyboard(FileChooseContext* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 347);
 }
 
-void FileChoose_DrawNameEntry(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void FileChoose_DrawNameEntry(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     Font* font = &this->font;
     Input* controller1 = &this->state.input[0];
     s16 i;
@@ -333,7 +333,7 @@ void FileChoose_DrawNameEntry(FileChooseContext* thisx) {
 
     gSP1Quadrangle(POLY_OPA_DISP++, 4, 6, 7, 5, 0);
 
-    FileChoose_DrawKeyboard(this);
+    FileChoose_DrawKeyboard(&this->state);
     gDPPipeSync(POLY_OPA_DISP++);
     func_800949A8(this->state.gfxCtx);
 

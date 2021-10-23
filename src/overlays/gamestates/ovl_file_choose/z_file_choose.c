@@ -129,7 +129,7 @@ void FileChoose_SplitNumber(u16 value, s16* hundreds, s16* tens, s16* ones) {
 void FileChoose_StartFadeIn(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
-    FileChoose_FadeInMenuElements(thisx);
+    FileChoose_FadeInMenuElements(&this->state);
     gScreenFillAlpha -= 40;
     this->windowPosX -= 20;
 
@@ -149,7 +149,7 @@ void FileChoose_FinishFadeIn(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
     this->controlsAlpha += VREG(1);
-    FileChoose_FadeInMenuElements(thisx);
+    FileChoose_FadeInMenuElements(&this->state);
 
     if (this->titleAlpha[0] >= 255) {
         this->titleAlpha[0] = 255;
@@ -435,7 +435,7 @@ void FileChoose_PulsateCursor(GameState* thisx) {
 void FileChoose_ConfigModeUpdate(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
-    gConfigModeUpdateFuncs[this->configMode](thisx);
+    gConfigModeUpdateFuncs[this->configMode](&this->state);
 }
 
 void FileChoose_SetWindowVtx(GameState* thisx) {
@@ -931,8 +931,8 @@ static void* sOptionsButtonTextures[] = {
  * Draw most window contents including buttons, labels, and icons.
  * Does not include anything from the keyboard and settings windows.
  */
-void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void FileChoose_DrawWindowContents(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     s16 fileIndex;
     s16 temp;
     s16 i;
@@ -1159,7 +1159,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
 
         gDPPipeSync(POLY_OPA_DISP++);
 
-        FileChoose_DrawWindowContents(this);
+        FileChoose_DrawWindowContents(&this->state);
     }
 
     // draw name entry menu
@@ -1187,7 +1187,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
 
         gDPPipeSync(POLY_OPA_DISP++);
 
-        FileChoose_DrawNameEntry(this);
+        FileChoose_DrawNameEntry(&this->state);
     }
 
     // draw options menu
@@ -1510,7 +1510,7 @@ static void (*gSelectModeUpdateFuncs[])(GameState*) = {
 void FileChoose_SelectModeUpdate(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
-    gSelectModeUpdateFuncs[this->selectMode](thisx);
+    gSelectModeUpdateFuncs[this->selectMode](&this->state);
 }
 
 void FileChoose_SelectModeDraw(GameState* thisx) {
@@ -1558,7 +1558,7 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
     gSPVertex(POLY_OPA_DISP++, &this->windowVtx[64], 16, 0);
     gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow3DL);
 
-    FileChoose_DrawWindowContents(this);
+    FileChoose_DrawWindowContents(&this->state);
     gDPPipeSync(POLY_OPA_DISP++);
     FileChoose_SetView(this, 0.0f, 0.0f, 64.0f);
 

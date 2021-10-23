@@ -1,9 +1,10 @@
+#ifndef _FILE_CHOOSE_H_
+#define _FILE_CHOOSE_H_
+
 #include "ultra64.h"
 #include "global.h"
 #include "vt.h"
 
-#ifndef _FILE_CHOOSE_H_
-#define _FILE_CHOOSE_H_
 
 #define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[index])])
 
@@ -210,7 +211,7 @@ void FileChoose_SelectModeDraw(GameState* thisx);
 void FileChoose_PulsateCursor(GameState* thisx);
 void FileChoose_DrawOptions(GameState* thisx);
 
-void FileChoose_DrawNameEntry(FileChooseContext* this);
+void FileChoose_DrawNameEntry(GameState* thisx);
 void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
 
 extern Vtx D_80811BB0[];
