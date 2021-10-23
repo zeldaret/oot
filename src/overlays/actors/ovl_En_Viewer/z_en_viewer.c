@@ -299,7 +299,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
     }
 
     EnViewer_UpdatePosition(this, globalCtx);
-    Actor_MoveForward(&this->actor); // has no effect, speed is 0
+    Actor_MoveForward(&this->actor); // has no effect, speed/velocity and gravity are 0
 
     animationEnded = SkelAnime_Update(&this->skin.skelAnime);
     if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF) {
