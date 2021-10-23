@@ -4,7 +4,7 @@
 
 static s16 sUnused = 106;
 
-static s16 gScreenFillAlpha = 255;
+static s16 sScreenFillAlpha = 255;
 
 static Gfx sScreenFillSetupDL[] = {
     gsDPPipeSync(),
@@ -130,13 +130,13 @@ void FileChoose_StartFadeIn(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
     FileChoose_FadeInMenuElements(&this->state);
-    gScreenFillAlpha -= 40;
+    sScreenFillAlpha -= 40;
     this->windowPosX -= 20;
 
     if (this->windowPosX <= -94) {
         this->windowPosX = -94;
         this->configMode = CM_FADE_IN_END;
-        gScreenFillAlpha = 0;
+        sScreenFillAlpha = 0;
     }
 }
 
@@ -1116,9 +1116,9 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2218);
     gDPPipeSync(POLY_OPA_DISP++);
 
-    eyeX = (1000.0f * Math_CosS(ZREG(11))) - (1000.0f * Math_SinS(ZREG(11)));
+    eyeX = 1000.0f * Math_CosS(ZREG(11)) - 1000.0f * Math_SinS(ZREG(11));
     eyeY = ZREG(13);
-    eyeZ = (1000.0f * Math_SinS(ZREG(11))) + (1000.0f * Math_CosS(ZREG(11)));
+    eyeZ = 1000.0f * Math_SinS(ZREG(11)) + 1000.0f * Math_CosS(ZREG(11));
 
     FileChoose_SetView(this, eyeX, eyeY, eyeZ);
     SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, eyeX, eyeY, eyeZ);
@@ -1412,10 +1412,10 @@ void FileChoose_MoveSelectedFileToSlot(GameState* thisx) {
 void FileChoose_FadeOut(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
 
-    gScreenFillAlpha += VREG(10);
+    sScreenFillAlpha += VREG(10);
 
-    if (gScreenFillAlpha >= 255) {
-        gScreenFillAlpha = 255;
+    if (sScreenFillAlpha >= 255) {
+        sScreenFillAlpha = 255;
         this->selectMode++;
     }
 }
@@ -1523,9 +1523,9 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-    eyeX = (1000.0f * Math_CosS(ZREG(11))) - (1000.0f * Math_SinS(ZREG(11)));
+    eyeX = 1000.0f * Math_CosS(ZREG(11)) - 1000.0f * Math_SinS(ZREG(11));
     eyeY = ZREG(13);
-    eyeZ = (1000.0f * Math_SinS(ZREG(11))) + (1000.0f * Math_CosS(ZREG(11)));
+    eyeZ = 1000.0f * Math_SinS(ZREG(11)) + 1000.0f * Math_CosS(ZREG(11));
 
     FileChoose_SetView(this, eyeX, eyeY, eyeZ);
     SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, eyeX, eyeY, eyeZ);
@@ -1677,7 +1677,7 @@ void FileChoose_Main(GameState* thisx) {
 
     gDPPipeSync(POLY_OPA_DISP++);
     gSPDisplayList(POLY_OPA_DISP++, sScreenFillSetupDL);
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, gScreenFillAlpha);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, sScreenFillAlpha);
     gDPFillRectangle(POLY_OPA_DISP++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 3035);
@@ -1731,7 +1731,7 @@ void FileChoose_InitContext(GameState* thisx) {
     VREG(7) = 6;
     VREG(8) = 80;
 
-    gScreenFillAlpha = 255;
+    sScreenFillAlpha = 255;
 
     VREG(10) = 10;
     VREG(11) = 30;
