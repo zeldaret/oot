@@ -111,6 +111,7 @@ typedef struct
 
 static char usage[] = "input.aifc output.aiff";
 static const char *progname, *infilename;
+static int framesize = 9;
 
 #define checked_fread(a, b, c, d) if (fread(a, b, c, d) != c) fail_parse("error parsing file")
 
@@ -445,6 +446,15 @@ int main(int argc, char **argv)
         exit(1);
     }
 
+    if (argc == 4) {
+        framesize = strtol(argv[3], NULL, 10);
+
+        if (framesize < 1) {
+            fprintf(stderr, "frame size set to invalid value %d, defaulting to 9", framesize);
+            framesize = 9;
+        }
+    }
+
     memset(&InstChunk, 0, sizeof(InstChunk));
 
     checked_fread(&FormChunk, sizeof(FormChunk), 1, ifile);
@@ -557,15 +567,15 @@ int main(int argc, char **argv)
 
     fseek(ifile, soundPointer, SEEK_SET);
     while (currPos < nSamples) {
-        u8 input[9];
-        u8 encoded[9];
+        u8 input[framesize];
+        u8 encoded[framesize];
         s32 lastState[16];
         s32 decoded[16];
         s16 guess[16];
         s16 origGuess[16];
 
         memcpy(lastState, state, sizeof(lastState));
-        checked_fread(input, 9, 1, ifile);
+        checked_fread(input, framesize, 1, ifile);
 
         // Decode for real
         LOG_2("decoding frame %d/%d\n", currPos, nSamples);
@@ -585,7 +595,7 @@ int main(int argc, char **argv)
         my_encodeframe(encoded, guess, state, coefTable, order, npredictors);
 
         // If it doesn't match, randomly round numbers until it does.
-        if (memcmp(input, encoded, 9) != 0) {
+        if (memcmp(input, encoded, framesize) != 0) {
             s32 scale = 1 << (input[0] >> 4);
 			s32 maxTries = 50000;
 			
@@ -600,7 +610,7 @@ int main(int argc, char **argv)
 					fail_parse("Unable to find a matching permutation for this frame!");
 					exit(1);
 				}
-            } while (memcmp(input, encoded, 9) != 0);
+            } while (memcmp(input, encoded, framesize) != 0);
 
             // Bring the matching closer to the original decode (not strictly
             // necessary, but it will move us closer to the target on average).
@@ -612,7 +622,7 @@ int main(int argc, char **argv)
                 if (myrand() % 2) guess[ind] += (old - origGuess[ind]) / 2;
                 memcpy(state, lastState, sizeof(lastState));
                 my_encodeframe(encoded, guess, state, coefTable, order, npredictors);
-                if (memcmp(input, encoded, 9) == 0) {
+                if (memcmp(input, encoded, framesize) == 0) {
                     failures = -1;
                 }
                 else {

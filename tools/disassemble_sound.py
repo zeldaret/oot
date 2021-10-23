@@ -129,7 +129,11 @@ class Envelope:
 
 class SampleHeader:
     def __init__(self, bank, record, tbl, baseOffset, offset):
-        self.u1, self.u2, self.length, self.address, self.loopOffset, self.bookOffset = struct.unpack(">bbHLLL", record)
+        modes, self.u2, self.length, self.address, self.loopOffset, self.bookOffset = struct.unpack(">bbHLLL", record)
+        self.codec = (modes >> 4) & 0xF
+        self.medium = (modes & 0xC) >> 2
+        assert self.codec == 0 or self.codec == 3
+        assert self.medium == 0 or self.medium == 2
         usedSetData.append((self, baseOffset + offset, baseOffset + offset + 16))
         self.bank = bank
         assert self.length % 2 == 0
@@ -312,115 +316,6 @@ class AifcWriter:
             if len(data) % 2:
                 self.out.write(b"\0")
 
-
-def write_aifc(data, entry, out):
-    writer = AifcWriter(out)
-    num_channels = 1
-    assert len(data) % 9 == 0
-    if len(data) % 2 == 1:
-        data += b"\0"
-    # (Computing num_frames this way makes it off by one when the data length
-    # is odd. It matches vadpcm_enc, though.)
-    num_frames = len(data) * 16 // 9
-    sample_size = 16  # bits per sample
-
-    sample_rate = 32000
-    #if len(set(entry.tunings)) == 1:
-    #    sample_rate = 32000 * entry.tunings[0]
-    #else:
-        # Some drum sounds in sample bank B don't have unique sample rates, so
-        # we have to guess. This doesn't matter for matching, it's just to make
-        # the sounds easy to listen to.
-    #    if min(entry.tunings) <= 0.5 <= max(entry.tunings):
-    #        sample_rate = 16000
-    #    elif min(entry.tunings) <= 1.0 <= max(entry.tunings):
-    #        sample_rate = 32000
-    #    elif min(entry.tunings) <= 1.5 <= max(entry.tunings):
-    #        sample_rate = 48000
-    #    elif min(entry.tunings) <= 2.5 <= max(entry.tunings):
-    #        sample_rate = 80000
-    #    else:
-    #        sample_rate = 16000 * (min(entry.tunings) + max(entry.tunings))
-
-    writer.add_section(
-        b"COMM",
-        struct.pack(">hIh", num_channels, num_frames, sample_size)
-        + serialize_f80(sample_rate)
-        + b"VAPC"
-        + writer.pstring(b"VADPCM ~4-1"),
-    )
-    writer.add_section(b"INST", b"\0" * 20)
-    predictors = []
-    for table in entry.book.predictors:
-        for predictor in table:
-            predictors.append(predictor)
-    table_data = b"".join(struct.pack(">h", x) for x in predictors)
-    writer.add_custom_section(
-        b"VADPCMCODES",
-        struct.pack(">hhh", 1, entry.book.order, entry.book.predictorCount) + table_data,
-    )
-    writer.add_section(b"SSND", struct.pack(">II", 0, 0) + data)
-    if entry.loop.count != 0:
-        writer.add_custom_section(
-            b"VADPCMLOOPS",
-            struct.pack(
-                ">HHIIi16h",
-                1,
-                1,
-                entry.loop.start,
-                entry.loop.end,
-                entry.loop.count,
-                *entry.loop.state
-            ),
-        )
-    writer.finish()
-
-
-def write_aiff(raw, offset, entry, basedir, filename):
-    temp = tempfile.NamedTemporaryFile(suffix=".aifc", delete=False)
-    #temp = open("tempfile.aifc", "wb")
-    try:
-        data = raw[offset:offset + entry.length]
-        usedRawData.append((data, offset, offset + entry.length))
-        write_aifc(data, entry, temp)
-        temp.flush()
-        temp.close()
-        aifc_decode = os.path.join(os.path.dirname(__file__), "aifc_decode")
-        common_dir = os.getcwd()
-        rel_aifc_decode = "./" + os.path.relpath(aifc_decode, common_dir).replace("\\", "/")
-        rel_temp_file = os.path.relpath(temp.name, common_dir).replace("\\", "/")
-        rel_aiff_file = os.path.join(os.path.relpath(basedir, common_dir).replace("\\", "/"), str(entry.bank), filename)
-        os.makedirs(os.path.join(basedir, str(entry.bank)), exist_ok=True)
-        subprocess.run(["bash", "-c", "{0} {1} {2}".format(rel_aifc_decode, rel_temp_file, rel_aiff_file)], check=True)
-    except subprocess.CalledProcessError:
-        targetfile = os.path.join(basedir, "bad", str(entry.bank), f"{os.path.splitext(filename)[0]}.aifc")
-        os.makedirs(os.path.dirname(targetfile), exist_ok=True)
-        os.remove(rel_aiff_file)
-        shutil.copy2(temp.name, targetfile)
-    finally:
-        os.remove(temp.name)
-
-def write_zmidi(sequence, filename):
-    file = open(filename, "wb")
-    file.write(sequence.sequence)
-    file.flush()
-    file.close()
-
-def write_zmidi_header(sequence, header_name):
-    file = open(header_name, "w")
-    obj = {
-        "unknown": sequence.unknown,
-        "type": {
-            0: "Dynamic",
-            1: "Interrupt",
-            2: "Background"
-        }.get(sequence.type),
-        "sets": sequence.inst_sets
-    }
-    file.write(json.dumps(obj, indent=2))
-    file.flush()
-    file.close()
-
 def generate_drum_obj(drum, samples, envelopes):
     if drum is not None:
         samples[drum.headerOffset] = drum.sample
@@ -558,10 +453,97 @@ def report_gaps(report_type, data, bin):
         for cross in intersections:
             print(f"{type(cross[0][0]).__name__} at {cross[0][1]:08X}-{cross[0][2]:08X} overlaps {type(cross[1][0]).__name__} at {cross[1][1]:08X}-{cross[1][2]:08X}")
 
-# Modified from https://stackoverflow.com/a/25935321/1359139, cc by-sa 3.0
-class NoIndent(object):
-    def __init__(self, value):
-        self.value = value
+def write_aifc(raw, bank_defs, entry, filename):
+    offset = bank_defs[entry.bank] + entry.address
+    data = raw[offset:offset + entry.length]
+    usedRawData.append((data, offset, offset + entry.length))
+    frame_size = {
+        0: 9,
+        1: 16,
+        2: 32,
+        3: 5,
+        4: 0,
+        5: 32
+    }.get(entry.codec)
+    sample_size = 16  # bits per sample
+
+    with open(filename, "wb") as file:
+        writer = AifcWriter(file)
+        num_channels = 1
+        frame_size = 9
+        assert len(data) % frame_size == 0
+        if len(data) % 2 == 1:
+            data += b"\0"
+        # (Computing num_frames this way makes it off by one when the data length
+        # is odd. It matches vadpcm_enc, though.)
+        num_frames = len(data) * sample_size // frame_size
+
+        sample_rate = 32000
+
+        writer.add_section(
+            b"COMM",
+            struct.pack(">hIh", num_channels, num_frames, sample_size)
+            + serialize_f80(sample_rate)
+            + b"VAPC"
+            + writer.pstring(b"VADPCM ~4-1"),
+        )
+        writer.add_section(b"INST", b"\0" * 20)
+        predictors = []
+        for table in entry.book.predictors:
+            for predictor in table:
+                predictors.append(predictor)
+        table_data = b"".join(struct.pack(">h", x) for x in predictors)
+        writer.add_custom_section(
+            b"VADPCMCODES",
+            struct.pack(">hhh", 1, entry.book.order, entry.book.predictorCount) + table_data,
+        )
+        writer.add_section(b"SSND", struct.pack(">II", 0, 0) + data)
+        if entry.loop.count != 0:
+            writer.add_custom_section(
+                b"VADPCMLOOPS",
+                struct.pack(
+                    ">HHIIi16h",
+                    1,
+                    1,
+                    entry.loop.start,
+                    entry.loop.end,
+                    entry.loop.count,
+                    *entry.loop.state
+                ),
+            )
+        writer.finish()
+# for reference oot supports 4 formats: 9 bytes -> 16 samples ADPCM (what sm64 uses), 5 bytes -> 16 samples ADPCM (new in oot), 16 bytes -> 16 samples (new in sm64 shindou), 32 bytes -> 16 samples (new in oot) 
+# codec = 0:CODEC_ADPCM, 1:CODEC_S8, 2:CODEC_S16_INMEMORY, 3:CODEC_SMALL_ADPCM, 4:CODEC_REVERB, 5:CODEC_S16
+#medium = 0:MEDIUM_RAM, 1:MEDIUM_UNK, 2:MEDIUM_CART, 3:MEDIUM_DISK_DRIVE
+#
+#AudioLoad_GetRealTableIndex adds a wrench: if sz == 0, the ROM address contains the actual ID for the entry
+#Adjust sample rate based on sample IDs
+def write_aiff(entry, basedir, aifc_filename, aiff_filename):
+    try:
+        frame_size = "" # if entry.codec == 0 else "5"
+        aifc_decode = os.path.join(os.path.dirname(__file__), "aifc_decode")
+        common_dir = os.getcwd()
+        rel_aifc_decode = "./" + os.path.relpath(aifc_decode, common_dir).replace("\\", "/")
+        rel_aifc_file = os.path.relpath(aifc_filename, common_dir).replace("\\", "/")
+        rel_aiff_file = os.path.join(os.path.dirname(aifc_filename).replace("\\", "/"), aiff_filename)
+        os.makedirs(os.path.join(basedir, str(entry.bank)), exist_ok=True)
+        subprocess.run(["bash", "-c", f"{rel_aifc_decode} {rel_aifc_file} {rel_aiff_file} {frame_size}"], check=True)
+    except subprocess.CalledProcessError:
+        print(f"File failed to decode, codec was {entry.codec}")
+        targetfile = os.path.join(basedir, "bad", str(entry.bank), f"{rel_aifc_file}")
+        os.makedirs(os.path.dirname(targetfile), exist_ok=True)
+        os.remove(rel_aiff_file)
+        shutil.copy2(rel_aifc_file, targetfile)
+
+def convert_aseq_to_mus(aseq_name, mus_name):
+    seq64_cli = os.path.join(os.path.dirname(__file__), "seq64", "build", "seq64_console")
+    common_dir = os.getcwd()
+    rel_seq64_cli = "./" + os.path.relpath(seq64_cli, common_dir).replace("\\", "/")
+    try:
+        subprocess.run(["bash", "-c", f"{rel_seq64_cli} --in={aseq_name} --out={mus_name} --dialect=community-music --abi=zelda"], check=True)
+    except subprocess.CalledProcessError:
+        print(f"failed to convert {aseq_name} to mus format")
+        exit(1)
 
 def main():
     args = []
@@ -621,24 +603,30 @@ def main():
     # Export AIFF samples
     for header in rawSamples:
         bank_ctr[header.bank] += 1
-        os.makedirs(samples_out_dir, exist_ok=True)
-        filename = f"{header.address:0>8x}-{header.length:0>8x}.aiff"
-        # if not os.path.exists(filename) or os.path.getsize(filename) == 0:
-        write_aiff(raw_data, bank_defs[header.bank] + header.address, header, samples_out_dir, filename)
+        filename_base = os.path.join(samples_out_dir, str(header.bank))
+        os.makedirs(filename_base, exist_ok=True)
+        aifc_filename = os.path.join(filename_base, f"{header.address:0>8x}.aifc")
+        if not os.path.exists(aifc_filename) or os.path.getsize(aifc_filename) == 0:
+            write_aifc(raw_data, bank_defs, header, aifc_filename)
+            write_aiff(header, samples_out_dir, aifc_filename, f"{header.address:0>8x}.aiff")
     
-    report_gaps("SAMPLE", usedRawData, raw_data)
+    if len(usedRawData) > 0:
+        report_gaps("SAMPLE", usedRawData, raw_data)
 
     # Export sequences
     sequences = parse_seq_def_data(seqdef_data, setmap_data, seq_data)
 
     for sequence in sequences:
-        dir = os.path.join(midi_out_dir)
-        os.makedirs(dir, exist_ok=True)
-        filename = os.path.join(dir, str(sequence.offset) + ".zmidi")
-        def_filename = os.path.join(dir, str(sequence.offset) + ".json")
-        if not os.path.exists(filename) or os.path.getsize(filename) == 0:
-            write_zmidi(sequence, filename)
-            write_zmidi_header(sequence, def_filename)
+        if sequence.offset != 0:
+            dir = os.path.join(midi_out_dir)
+            os.makedirs(dir, exist_ok=True)
+            #with tempfile.NamedTemporaryFile(suffix=".aseq", delete=False) as aseq:
+            with open(f"{midi_out_dir}/{str(sequence.offset)}.aseq", "wb") as aseq:
+                aseq.write(sequence.sequence)
+                aseq.flush()
+                mus_file = os.path.join(dir, str(sequence.offset) + ".mus")
+                #if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
+                #    convert_aseq_to_mus(aseq.name, mus_file)
 
     # Export instrument sets
     setId = 0
