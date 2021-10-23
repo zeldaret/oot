@@ -341,46 +341,26 @@ void FileChoose_RotateToMain(GameState* thisx) {
 }
 
 static void (*gConfigModeUpdateFuncs[])(GameState*) = {
-    FileChoose_StartFadeIn,
-    FileChoose_FinishFadeIn,
-    FileChoose_UpdateMainMenu,
-    FileChoose_SetupCopySource,
-    FileChoose_SelectCopySource,
-    FileChoose_SetupCopyDest1,
-    FileChoose_SetupCopyDest2,
-    FileChoose_SelectCopyDest,
-    FileChoose_ExitToCopySource1,
-    FileChoose_ExitToCopySource2,
-    FileChoose_SetupCopyConfirm1,
-    FileChoose_SetupCopyConfirm2,
-    FileChoose_CopyConfirm,
-    FileChoose_ReturnToCopyDest,
-    FileChoose_CopyAnim1,
-    FileChoose_CopyAnim2,
-    FileChoose_CopyAnim3,
-    FileChoose_CopyAnim4,
-    FileChoose_CopyAnim5,
-    FileChoose_ExitCopyToMain,
-    FileChoose_SetupEraseSelect,
-    FileChoose_EraseSelect,
-    FileChoose_SetupEraseConfirm1,
-    FileChoose_SetupEraseConfirm2,
-    FileChoose_EraseConfirm,
-    FileChoose_ExitToEraseSelect1,
-    FileChoose_ExitToEraseSelect2,
-    FileChoose_EraseAnim1,
-    FileChoose_EraseAnim2,
-    FileChoose_EraseAnim3,
-    FileChoose_ExitEraseToMain,
-    FileChoose_UnusedCM31,
-    FileChoose_RotateToNameEntry,
-    FileChoose_UpdateKeyboardCursor,
-    FileChoose_StartNameEntry,
-    FileChoose_RotateToMain,
-    FileChoose_RotateToOptions,
-    FileChoose_UpdateOptionsMenu,
-    FileChoose_StartOptions,
-    FileChoose_RotateToMain,
+    FileChoose_StartFadeIn,        FileChoose_FinishFadeIn,
+    FileChoose_UpdateMainMenu,     FileChoose_SetupCopySource,
+    FileChoose_SelectCopySource,   FileChoose_SetupCopyDest1,
+    FileChoose_SetupCopyDest2,     FileChoose_SelectCopyDest,
+    FileChoose_ExitToCopySource1,  FileChoose_ExitToCopySource2,
+    FileChoose_SetupCopyConfirm1,  FileChoose_SetupCopyConfirm2,
+    FileChoose_CopyConfirm,        FileChoose_ReturnToCopyDest,
+    FileChoose_CopyAnim1,          FileChoose_CopyAnim2,
+    FileChoose_CopyAnim3,          FileChoose_CopyAnim4,
+    FileChoose_CopyAnim5,          FileChoose_ExitCopyToMain,
+    FileChoose_SetupEraseSelect,   FileChoose_EraseSelect,
+    FileChoose_SetupEraseConfirm1, FileChoose_SetupEraseConfirm2,
+    FileChoose_EraseConfirm,       FileChoose_ExitToEraseSelect1,
+    FileChoose_ExitToEraseSelect2, FileChoose_EraseAnim1,
+    FileChoose_EraseAnim2,         FileChoose_EraseAnim3,
+    FileChoose_ExitEraseToMain,    FileChoose_UnusedCM31,
+    FileChoose_RotateToNameEntry,  FileChoose_UpdateKeyboardCursor,
+    FileChoose_StartNameEntry,     FileChoose_RotateToMain,
+    FileChoose_RotateToOptions,    FileChoose_UpdateOptionsMenu,
+    FileChoose_StartOptions,       FileChoose_RotateToMain,
     FileChoose_UnusedCMDelay,
 };
 
@@ -797,9 +777,9 @@ void FileChoose_SetWindowContentVtx(GameState* thisx) {
 static u16 D_8081284C[] = { 0x007C, 0x0124, 0x01CC };
 
 static void* sQuestItemTextures[] = {
-    gTitleStaticKokiriEmeraldTex,   gTitleStaticGoronRubyTex,       gTitleStaticZoraSapphireTex,
-    gTitleStaticForestMedallionTex, gTitleStaticFireMedallionTex,   gTitleStaticWaterMedallionTex,
-    gTitleStaticSpiritMedallionTex, gTitleStaticShadowMedallionTex, gTitleStaticLightMedallionTex,
+    gFileSelKokiriEmeraldTex,   gFileSelGoronRubyTex,       gFileSelZoraSapphireTex,
+    gFileSelForestMedallionTex, gFileSelFireMedallionTex,   gFileSelWaterMedallionTex,
+    gFileSelSpiritMedallionTex, gFileSelShadowMedallionTex, gFileSelLightMedallionTex,
 };
 
 static s16 sQuestItemRed[] = { 255, 255, 255, 0, 255, 0, 255, 200, 200 };
@@ -904,50 +884,47 @@ void FileChoose_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
 }
 
 static void* sFileInfoBoxTextures[] = {
-    gTitleStaticFileBackground1Tex, gTitleStaticFileBackground2Tex, gTitleStaticFileBackground3Tex,
-    gTitleStaticFileBackground4Tex, gTitleStaticFileBackground5Tex,
+    gFileSelFileInfoBox1Tex, gFileSelFileInfoBox2Tex, gFileSelFileInfoBox3Tex,
+    gFileSelFileInfoBox4Tex, gFileSelFileInfoBox5Tex,
 };
 
 static void* sTitleLabels[3][9] = {
-    { gTitleStaticPleaseSelectAFileENGTex, gTitleStaticOpenThisFileENGTex, gTitleStaticCopyWhichFileENGTex,
-      gTitleStaticCopyToWhichFileENGTex, gTitleStaticAreYouSureENGTex, gTitleStaticFileCopiedENGTex,
-      gTitleStaticEraseWhichFileENGTex, gTitleStaticAreYouSure2ENGTex, gTitleStaticFileErasedENGTex },
-    { gTitleStaticPleaseSelectAFileGERTex, gTitleStaticOpenThisFileGERTex, gTitleStaticWhichFile1GERTex,
-      gTitleStaticCopyToWhichFileGERTex, gTitleStaticAreYouSureGERTex, gTitleStaticFileCopiedGERTex,
-      gTitleStaticWhichFile2GERTex, gTitleStaticAreYouSure2GERTex, gTitleStaticFileErasedGERTex },
-    { gTitleStaticPleaseSelectAFileFRATex, gTitleStaticOpenThisFileFRATex, gTitleStaticCopyWhichFileFRATex,
-      gTitleStaticCopyToWhichFileFRATex, gTitleStaticAreYouSureFRATex, gTitleStaticFileCopiedFRATex,
-      gTitleStaticEraseWhichFileFRATex, gTitleStaticAreYouSure2FRATex, gTitleStaticFileErasedFRATex }
+    { gFileSelPleaseSelectAFileENGTex, gFileSelOpenThisFileENGTex, gFileSelCopyWhichFileENGTex,
+      gFileSelCopyToWhichFileENGTex, gFileSelAreYouSureENGTex, gFileSelFileCopiedENGTex, gFileSelEraseWhichFileENGTex,
+      gFileSelAreYouSure2ENGTex, gFileSelFileErasedENGTex },
+    { gFileSelPleaseSelectAFileGERTex, gFileSelOpenThisFileGERTex, gFileSelWhichFile1GERTex,
+      gFileSelCopyToWhichFileGERTex, gFileSelAreYouSureGERTex, gFileSelFileCopiedGERTex, gFileSelWhichFile2GERTex,
+      gFileSelAreYouSure2GERTex, gFileSelFileErasedGERTex },
+    { gFileSelPleaseSelectAFileFRATex, gFileSelOpenThisFileFRATex, gFileSelCopyWhichFileFRATex,
+      gFileSelCopyToWhichFileFRATex, gFileSelAreYouSureFRATex, gFileSelFileCopiedFRATex, gFileSelEraseWhichFileFRATex,
+      gFileSelAreYouSure2FRATex, gFileSelFileErasedFRATex }
 };
 
 static void* sWarningLabels[3][5] = {
-    { gTitleStaticNoFileToCopyENGTex, gTitleStaticNoFileToEraseENGTex, gTitleStaticThereIsNoEmptyFileENGTex,
-      gTitleStaticThisIsAnEmptyFileENGTex, gTitleStaticThisFileIsInUseENGTex },
-    { gTitleStaticNoFileToCopyGERTex, gTitleStaticNoFileToEraseGERTex, gTitleStaticThereIsNoEmptyFileGERTex,
-      gTitleStaticThisIsAnEmptyFileGERTex, gTitleStaticThisFileIsInUseGERTex },
-    { gTitleStaticNoFileToCopyFRATex, gTitleStaticNoFileToEraseFRATex, gTitleStaticThereIsNoEmptyFileFRATex,
-      gTitleStaticThisIsAnEmptyFileFRATex, gTitleStaticThisFileIsInUseFRATex },
+    { gFileSelNoFileToCopyENGTex, gFileSelNoFileToEraseENGTex, gFileSelNoEmptyFileENGTex, gFileSelFileEmptyENGTex,
+      gFileSelFileInUseENGTex },
+    { gFileSelNoFileToCopyGERTex, gFileSelNoFileToEraseGERTex, gFileSelNoEmptyFileGERTex, gFileSelFileEmptyGERTex,
+      gFileSelFileInUseGERTex },
+    { gFileSelNoFileToCopyFRATex, gFileSelNoFileToEraseFRATex, gFileSelNoEmptyFileFRATex, gFileSelFileEmptyFRATex,
+      gFileSelFileInUseFRATex },
 };
 
 static void* sFileButtonTextures[3][3] = {
-    { gTitleStaticFile1ButtonENGTex, gTitleStaticFile2ButtonENGTex, gTitleStaticFile3ButtonENGTex },
-    { gTitleStaticFile1ButtonGERTex, gTitleStaticFile2ButtonGERTex, gTitleStaticFile3ButtonGERTex },
-    { gTitleStaticFile1ButtonFRATex, gTitleStaticFile2ButtonFRATex, gTitleStaticFile3ButtonFRATex },
+    { gFileSelFile1ButtonENGTex, gFileSelFile2ButtonENGTex, gFileSelFile3ButtonENGTex },
+    { gFileSelFile1ButtonGERTex, gFileSelFile2ButtonGERTex, gFileSelFile3ButtonGERTex },
+    { gFileSelFile1ButtonFRATex, gFileSelFile2ButtonFRATex, gFileSelFile3ButtonFRATex },
 };
 
 static void* sActionButtonTextures[3][4] = {
-    { gTitleStaticCopyButtonENGTex, gTitleStaticEraseButtonENGTex, gTitleStaticYesButtonENGTex,
-      gTitleStaticQuitButtonENGTex },
-    { gTitleStaticCopyButtonGERTex, gTitleStaticEraseButtonGERTex, gTitleStaticYesButtonGERTex,
-      gTitleStaticQuitButtonGERTex },
-    { gTitleStaticCopyButtonFRATex, gTitleStaticEraseButtonFRATex, gTitleStaticYesButtonFRATex,
-      gTitleStaticQuitButtonFRATex },
+    { gFileSelCopyButtonENGTex, gFileSelEraseButtonENGTex, gFileSelYesButtonENGTex, gFileSelQuitButtonENGTex },
+    { gFileSelCopyButtonGERTex, gFileSelEraseButtonGERTex, gFileSelYesButtonGERTex, gFileSelQuitButtonGERTex },
+    { gFileSelCopyButtonFRATex, gFileSelEraseButtonFRATex, gFileSelYesButtonFRATex, gFileSelQuitButtonFRATex },
 };
 
 static void* sOptionsButtonTextures[] = {
-    gTitleStaticOptionsButtonENGTex,
-    gTitleStaticOptionsButtonGERTex,
-    gTitleStaticOptionsButtonENGTex,
+    gFileSelOptionsButtonENGTex,
+    gFileSelOptionsButtonGERTex,
+    gFileSelOptionsButtonENGTex,
 };
 
 /**
@@ -1020,7 +997,7 @@ void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
         // draw file name background
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sWindowContentColors[isActive][0], sWindowContentColors[isActive][1],
                         sWindowContentColors[isActive][2], this->nameBoxAlpha[i]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticFileNameBackgroundTex, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelNameBoxTex, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 4, 6, 7, 5, 0);
@@ -1029,7 +1006,7 @@ void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
         if (this->n64ddFlags[i]) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sWindowContentColors[isActive][0], sWindowContentColors[isActive][1],
                             sWindowContentColors[isActive][2], this->nameAlpha[i]);
-            gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticDISKButtonTex, G_IM_FMT_IA, G_IM_SIZ_16b, 44, 16, 0,
+            gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelDISKButtonTex, G_IM_FMT_IA, G_IM_SIZ_16b, 44, 16, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                 G_TX_NOLOD, G_TX_NOLOD);
             gSP1Quadrangle(POLY_OPA_DISP++, 8, 10, 11, 9, 0);
@@ -1038,7 +1015,7 @@ void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
         // draw connectors
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sWindowContentColors[isActive][0], sWindowContentColors[isActive][1],
                         sWindowContentColors[isActive][2], this->connectorAlpha[i]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticFileAttachmentTex, G_IM_FMT_IA, G_IM_SIZ_8b, 24, 16, 0,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelConnectorTex, G_IM_FMT_IA, G_IM_SIZ_8b, 24, 16, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 12, 14, 15, 13, 0);
@@ -1097,15 +1074,15 @@ void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
     // draw highlight over currently selected button
     if (((this->menuMode == MENU_MODE_CONFIG) &&
          ((this->configMode == CM_MAIN_MENU) || (this->configMode == CM_SELECT_COPY_SOURCE) ||
-          (this->configMode == CM_SELECT_COPY_DEST) || (this->configMode == CM_COPY_CONFIRM) || (this->configMode == CM_ERASE_SELECT) ||
-          (this->configMode == CM_ERASE_CONFIRM))) ||
+          (this->configMode == CM_SELECT_COPY_DEST) || (this->configMode == CM_COPY_CONFIRM) ||
+          (this->configMode == CM_ERASE_SELECT) || (this->configMode == CM_ERASE_CONFIRM))) ||
         ((this->menuMode == MENU_MODE_SELECT) && (this->selectMode == SM_CONFIRM_FILE))) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
                           PRIMITIVE, 0);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->highlightColor[0], this->highlightColor[1],
                         this->highlightColor[2], this->highlightColor[3]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticBigButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 72, 24, 0,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelBigButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 72, 24, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 12, 14, 15, 13, 0);
@@ -1172,13 +1149,13 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[0], 32, 0);
-        gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL46F00);
+        gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow1DL);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[32], 32, 0);
-        gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL47118);
+        gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow2DL);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[64], 16, 0);
-        gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL47328);
+        gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow3DL);
 
         gDPPipeSync(POLY_OPA_DISP++);
 
@@ -1200,13 +1177,13 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[0], 32, 0);
-        gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL46F00);
+        gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow1DL);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[32], 32, 0);
-        gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL47118);
+        gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow2DL);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[64], 16, 0);
-        gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL47328);
+        gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow3DL);
 
         gDPPipeSync(POLY_OPA_DISP++);
 
@@ -1229,13 +1206,13 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[0], 32, 0);
-        gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL46F00);
+        gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow1DL);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[32], 32, 0);
-        gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL47118);
+        gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow2DL);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[64], 16, 0);
-        gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL47328);
+        gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow3DL);
 
         gDPPipeSync(POLY_OPA_DISP++);
 
@@ -1573,13 +1550,13 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPVertex(POLY_OPA_DISP++, &this->windowVtx[0], 32, 0);
-    gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL46F00);
+    gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow1DL);
 
     gSPVertex(POLY_OPA_DISP++, &this->windowVtx[32], 32, 0);
-    gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL47118);
+    gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow2DL);
 
     gSPVertex(POLY_OPA_DISP++, &this->windowVtx[64], 16, 0);
-    gSPDisplayList(POLY_OPA_DISP++, gFileSelectDL47328);
+    gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow3DL);
 
     FileChoose_DrawWindowContents(this);
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1602,9 +1579,9 @@ static void (*gFileSelectUpdateFuncs[])(GameState*) = {
 
 void FileChoose_Main(GameState* thisx) {
     static void* controlsTextures[] = {
-        gTitleStaticADecideBCancelENGTex,
-        gTitleStaticADecideBCancelGERTex,
-        gTitleStaticADecideBCancelFRATex,
+        gFileSelControlsENGTex,
+        gFileSelControlsGERTex,
+        gFileSelControlsFRATex,
     };
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];

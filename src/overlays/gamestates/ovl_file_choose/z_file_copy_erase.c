@@ -936,7 +936,7 @@ void FileChoose_EraseAnim1(GameState* thisx) {
 
             // probably a fake match, there should be a better chained assignment
             this->confirmButtonAlpha[0] = this->confirmButtonAlpha[1] = 0;
-            if (1) {} 
+            if (1) {}
             this->fileInfoAlpha[this->selectedFileIndex] = this->nameBoxAlpha[this->selectedFileIndex] =
                 this->confirmButtonAlpha[1];
 

@@ -666,8 +666,7 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
                  fileChooseCtx->n64ddFlags[2]);
     osSyncPrintf("heart_status=%d, %d, %d\n", fileChooseCtx->defense[0], fileChooseCtx->defense[1],
                  fileChooseCtx->defense[2]);
-    osSyncPrintf("now_life=%d, %d, %d\n", fileChooseCtx->health[0], fileChooseCtx->health[1],
-                 fileChooseCtx->health[2]);
+    osSyncPrintf("now_life=%d, %d, %d\n", fileChooseCtx->health[0], fileChooseCtx->health[1], fileChooseCtx->health[2]);
 }
 
 void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {

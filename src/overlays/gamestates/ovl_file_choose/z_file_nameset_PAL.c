@@ -83,12 +83,12 @@ void FileChoose_SetKeyboardVtx(GameState* thisx) {
     }
 }
 
-static void* sNameLabelTextures[] = { gTitleStaticNameENGTex, gTitleStaticNameENGTex, gTitleStaticNameFRATex };
+static void* sNameLabelTextures[] = { gFileSelNameENGTex, gFileSelNameENGTex, gFileSelNameFRATex };
 
 static void* sBackspaceEndTextures[][2] = {
-    { gTitleStaticBackspaceButtonTex, gTitleStaticENDButtonENGTex },
-    { gTitleStaticBackspaceButtonTex, gTitleStaticENDButtonGERTex },
-    { gTitleStaticBackspaceButtonTex, gTitleStaticENDButtonFRATex },
+    { gFileSelBackspaceButtonTex, gFileSelENDButtonENGTex },
+    { gFileSelBackspaceButtonTex, gFileSelENDButtonGERTex },
+    { gFileSelBackspaceButtonTex, gFileSelENDButtonFRATex },
 };
 
 static u16 sBackspaceEndWidths[] = { 28, 44 };
@@ -197,7 +197,7 @@ void FileChoose_SetNameEntryVtx(GameState* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                     this->nameEntryBoxAlpha);
     gSPVertex(POLY_OPA_DISP++, this->nameEntryVtx, 4, 0);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticFileNameBackgroundTex, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelNameBoxTex, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
@@ -315,18 +315,18 @@ void FileChoose_DrawNameEntry(FileChooseContext* thisx) {
                       PRIMITIVE, 0);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->highlightColor[0], this->highlightColor[1], this->highlightColor[2],
                     this->highlightColor[3]);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticNameSelectLetterHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 24, 24, 0,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelCharHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 24, 24, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
     if ((this->kbdButton == KBD_BTN_HIRA) || (this->kbdButton == KBD_BTN_KATA) || (this->kbdButton == KBD_BTN_END)) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticMediumButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 56, 24, 0,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelMediumButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 56, 24, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
     } else if ((this->kbdButton == KBD_BTN_ENG) || (this->kbdButton == KBD_BTN_BACKSPACE)) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticSmallButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 40, 24, 0,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelSmallButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 40, 24, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
     }
@@ -720,22 +720,22 @@ typedef struct {
 
 static OptionsMenuTextureInfo gOptionsMenuHeaders[] = {
     {
-        { gTitleStaticOptionsENGTex, gTitleStaticOptionsGERTex, gTitleStaticOptionsENGTex },
+        { gFileSelOptionsENGTex, gFileSelOptionsGERTex, gFileSelOptionsENGTex },
         { 128, 128, 128 },
         16,
     },
     {
-        { gTitleStaticSOUNDENGTex, gTitleStaticSOUNDENGTex, gTitleStaticSOUNDFRATex },
+        { gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDFRATex },
         { 64, 64, 64 },
         16,
     },
     {
-        { gTitleStaticLTargetingENGTex, gTitleStaticLTargetingGERTex, gTitleStaticLTargetingFRATex },
+        { gFileSelLTargetingENGTex, gFileSelLTargetingGERTex, gFileSelLTargetingFRATex },
         { 64, 144, 64 },
         16,
     },
     {
-        { gTitleStaticCheckBrightnessENGTex, gTitleStaticCheckBrightnessGERTex, gTitleStaticCheckBrightnessFRATex },
+        { gFileSelCheckBrightnessENGTex, gFileSelCheckBrightnessGERTex, gFileSelCheckBrightnessFRATex },
         { 128, 128, 128 },
         16,
     },
@@ -743,32 +743,32 @@ static OptionsMenuTextureInfo gOptionsMenuHeaders[] = {
 
 static OptionsMenuTextureInfo gOptionsMenuSettings[] = {
     {
-        { gTitleStaticStereoENGTex, gTitleStaticStereoENGTex, gTitleStaticStereoFRATex },
+        { gFileSelStereoENGTex, gFileSelStereoENGTex, gFileSelStereoFRATex },
         { 48, 48, 48 },
         16,
     },
     {
-        { gTitleStaticMonoENGTex, gTitleStaticMonoENGTex, gTitleStaticMonoENGTex },
+        { gFileSelMonoENGTex, gFileSelMonoENGTex, gFileSelMonoENGTex },
         { 48, 48, 48 },
         16,
     },
     {
-        { gTitleStaticHeadsetENGTex, gTitleStaticHeadsetGERTex, gTitleStaticHeadsetFRATex },
+        { gFileSelHeadsetENGTex, gFileSelHeadsetGERTex, gFileSelHeadsetFRATex },
         { 48, 48, 48 },
         16,
     },
     {
-        { gTitleStaticSurroundENGTex, gTitleStaticSurroundENGTex, gTitleStaticSurroundENGTex },
+        { gFileSelSurroundENGTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex },
         { 48, 48, 48 },
         16,
     },
     {
-        { gTitleStaticSwitchENGTex, gTitleStaticSwitchGERTex, gTitleStaticSwitchFRATex },
+        { gFileSelSwitchENGTex, gFileSelSwitchGERTex, gFileSelSwitchFRATex },
         { 48, 80, 48 },
         16,
     },
     {
-        { gTitleStaticHoldENGTex, gTitleStaticHoldGERTex, gTitleStaticHoldFRATex },
+        { gFileSelHoldENGTex, gFileSelHoldGERTex, gFileSelHoldFRATex },
         { 48, 80, 48 },
         16,
     },
@@ -937,7 +937,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
     gDPPipeSync(POLY_OPA_DISP++);
 
     // check brightness bars
-    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gTitleStaticBrightnessCheckTex, G_IM_FMT_IA, 96, 16, 0,
+    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gFileSelBrightnessCheckTex, G_IM_FMT_IA, 96, 16, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 55, 55, 55, this->titleAlpha[0]);
@@ -958,7 +958,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gTitleStaticOptionsSeparatorTex, G_IM_FMT_IA, 256, 2, 0,
+    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gFileSelOptionsDividerTex, G_IM_FMT_IA, 256, 2, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
 
