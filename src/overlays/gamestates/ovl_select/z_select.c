@@ -595,7 +595,7 @@ void Select_Main(GameState* thisx) {
 }
 
 void Select_Destroy(GameState* thisx) {
-    osSyncPrintf("%c", '\x07'); // ASCII's 0x07 is the BEL character
+    osSyncPrintf("%c", '\a'); // ASCII BEL character, plays an alert tone
     // "view_cleanup will hang, so it won't be called"
     osSyncPrintf("*** view_cleanupはハングアップするので、呼ばない ***\n");
 }

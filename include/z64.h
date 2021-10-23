@@ -861,7 +861,6 @@ typedef struct SelectContext {
     /* 0x0230 */ s32 lockDown;
     /* 0x0234 */ s32 unk_234; // unused
     /* 0x0238 */ u8* staticSegment;
-    /* 0x023C */ char unk_23C[0x04];
 } SelectContext; // size = 0x240
 
 typedef struct {
