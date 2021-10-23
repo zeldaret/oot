@@ -24,6 +24,8 @@ typedef void (*ExporterSetFuncVoid3)();
 class ExporterSet
 {
 public:
+	~ExporterSet();
+
 	std::map<ZResourceType, ZResourceExporter*> exporters;
 	ExporterSetFuncVoid parseArgsFunc = nullptr;
 	ExporterSetFuncVoid2 parseFileModeFunc = nullptr;
@@ -64,10 +66,11 @@ public:
 	std::map<uint32_t, std::string> symbolMap;
 
 	std::string currentExporter;
-	static std::map<std::string, ExporterSet*>* GetExporterMap();
+	static std::map<std::string, ExporterSet*>& GetExporterMap();
 	static void AddExporter(std::string exporterName, ExporterSet* exporterSet);
 
 	Globals();
+	~Globals();
 
 	void AddSegment(int32_t segment, ZFile* file);
 	bool HasSegment(int32_t segment);

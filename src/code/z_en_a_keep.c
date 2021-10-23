@@ -11,16 +11,16 @@ void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_8001D204(EnAObj* this, GlobalContext* globalCtx);
-void func_8001D25C(EnAObj* this, GlobalContext* globalCtx);
-void func_8001D360(EnAObj* this, GlobalContext* globalCtx);
-void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx);
-void func_8001D608(EnAObj* this, GlobalContext* globalCtx);
+void EnAObj_WaitFinishedTalking(EnAObj* this, GlobalContext* globalCtx);
+void EnAObj_WaitTalk(EnAObj* this, GlobalContext* globalCtx);
+void EnAObj_BlockRot(EnAObj* this, GlobalContext* globalCtx);
+void EnAObj_BoulderFragment(EnAObj* this, GlobalContext* globalCtx);
+void EnAObj_Block(EnAObj* this, GlobalContext* globalCtx);
 
-void func_8001D234(EnAObj* this, s16 params);
-void func_8001D310(EnAObj* this, s16 params);
-void func_8001D480(EnAObj* this, s16 params);
-void func_8001D5C8(EnAObj* this, s16 params);
+void EnAObj_SetupWaitTalk(EnAObj* this, s16 type);
+void EnAObj_SetupBlockRot(EnAObj* this, s16 type);
+void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type);
+void EnAObj_SetupBlock(EnAObj* this, s16 type);
 
 const ActorInit En_A_Obj_InitVars = {
     ACTOR_EN_A_OBJ,
@@ -54,22 +54,27 @@ static ColliderCylinderInit sCylinderInit = {
     { 25, 60, 0, { 0, 0, 0 } },
 };
 
-extern CollisionHeader D_06000730;
+extern CollisionHeader D_06000730; // gHookshotTargetCol ?
 
-static CollisionHeader* D_8011546C[] = {
-    &gUnknown1Col, &gUnknown1Col, &gUnknown4Col, &gUnknown5Col, &gUnknown6Col, &D_06000730,
+static CollisionHeader* sColHeaders[] = {
+    &gLargerCubeCol,       // A_OBJ_GRASS_CLUMP, A_OBJ_TREE_STUMP
+    &gLargerCubeCol,       // A_OBJ_BLOCK_LARGE, A_OBJ_BLOCK_HUGE
+    &gSmallerFlatBlockCol, // unused
+    &gLargerFlatBlockCol,  // A_OBJ_BLOCK_SMALL_ROT, A_OBJ_BLOCK_LARGE_ROT
+    &gSmallerCubeCol,      // unused
+    &D_06000730,           // A_OBJ_UNKNOWN_6
 };
 
-static Gfx* D_80115484[] = {
-    gUnusedRockRectangularPrism2DL,
-    gUnusedRockRectangularPrism2DL,
-    gUnusedRockRectangularPrism2DL,
-    gUnusedRockRectangularPrism4DL,
-    gUnusedRockRectangularPrism4DL,
-    gUnusedRockRectangularPrism5DL,
-    0x06000210,
-    gUnusedGrassBladesDL,
-    gUnusedTreeStumpDL,
+static Gfx* sDLists[] = {
+    gFlatBlockDL,
+    gFlatBlockDL,
+    gFlatBlockDL,
+    gFlatRotBlockDL,
+    gFlatRotBlockDL,
+    gSmallCubeDL,
+    /* gHookshotPostDL ? */ 0x06000210,
+    gGrassBladesDL,
+    gTreeStumpDL,
     gSignRectangularDL,
     gSignDirectionalDL,
     gBoulderFragmentsDL,
@@ -83,7 +88,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 pad;
     EnAObj* this = THIS;
-    f32 sp28 = 6.0f;
+    f32 shadowScale = 6.0f;
 
     this->textId = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
@@ -109,11 +114,11 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    if (thisx->params >= 9) {
-        sp28 = 12.0f;
+    if (thisx->params >= A_OBJ_SIGNPOST_OBLONG) {
+        shadowScale = 12.0f;
     }
 
-    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, sp28);
+    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, shadowScale);
 
     thisx->focus.pos = thisx->world.pos;
     this->dyna.bgId = BGACTOR_NEG_ONE;
@@ -127,25 +132,25 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
         case A_OBJ_BLOCK_HUGE:
             this->dyna.bgId = 1;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BG);
-            func_8001D5C8(this, thisx->params);
+            EnAObj_SetupBlock(this, thisx->params);
             break;
         case A_OBJ_BLOCK_SMALL_ROT:
         case A_OBJ_BLOCK_LARGE_ROT:
             this->dyna.bgId = 3;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BG);
-            func_8001D310(this, thisx->params);
+            EnAObj_SetupBlockRot(this, thisx->params);
             break;
         case A_OBJ_UNKNOWN_6:
             // clang-format off
-            thisx->flags |= 0x1; this->dyna.bgId = 5; this->unk_178 = 10.0f;
+            thisx->flags |= 0x1; this->dyna.bgId = 5; this->focusYoffset = 10.0f;
             // clang-format on
             thisx->gravity = -2.0f;
-            func_8001D234(this, thisx->params);
+            EnAObj_SetupWaitTalk(this, thisx->params);
             break;
         case A_OBJ_GRASS_CLUMP:
         case A_OBJ_TREE_STUMP:
             this->dyna.bgId = 0;
-            func_8001D234(this, thisx->params);
+            EnAObj_SetupWaitTalk(this, thisx->params);
             break;
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
@@ -153,29 +158,29 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
             // clang-format off
             thisx->flags |= 0x1 | 0x8; thisx->targetArrowOffset = 500.0f;
             // clang-format on
-            this->unk_178 = 45.0f;
-            func_8001D234(this, thisx->params);
+            this->focusYoffset = 45.0f;
+            EnAObj_SetupWaitTalk(this, thisx->params);
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
             thisx->colChkInfo.mass = MASS_IMMOVABLE;
             thisx->targetMode = 0;
             break;
-        case A_OBJ_KNOB:
+        case A_OBJ_BOULDER_FRAGMENT:
             thisx->gravity = -1.5f;
-            func_8001D480(this, thisx->params);
+            EnAObj_SetupBoulderFragment(this, thisx->params);
             break;
         default:
             thisx->gravity = -2.0f;
-            func_8001D234(this, thisx->params);
+            EnAObj_SetupWaitTalk(this, thisx->params);
             break;
     }
 
-    if (thisx->params < 5) {
+    if (thisx->params <= A_OBJ_BLOCK_LARGE_ROT) { // A_OBJ_BLOCK_*
         thisx->colChkInfo.mass = MASS_IMMOVABLE;
     }
 
     if (this->dyna.bgId != BGACTOR_NEG_ONE) {
-        CollisionHeader_GetVirtual(D_8011546C[this->dyna.bgId], &colHeader);
+        CollisionHeader_GetVirtual(sColHeaders[this->dyna.bgId], &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
 }
@@ -189,27 +194,29 @@ void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
             Collider_DestroyCylinder(globalCtx, &this->collider);
+            break;
     }
 }
 
-void func_8001D204(EnAObj* this, GlobalContext* globalCtx) {
+void EnAObj_WaitFinishedTalking(EnAObj* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->dyna.actor, globalCtx)) {
-        func_8001D234(this, this->dyna.actor.params);
+        EnAObj_SetupWaitTalk(this, this->dyna.actor.params);
     }
 }
 
-void func_8001D234(EnAObj* this, s16 params) {
-    EnAObj_SetupAction(this, func_8001D25C);
+void EnAObj_SetupWaitTalk(EnAObj* this, s16 type) {
+    EnAObj_SetupAction(this, EnAObj_WaitTalk);
 }
 
-void func_8001D25C(EnAObj* this, GlobalContext* globalCtx) {
-    s16 var;
+void EnAObj_WaitTalk(EnAObj* this, GlobalContext* globalCtx) {
+    s16 relYawTowardsPlayer;
 
     if (this->dyna.actor.textId != 0) {
-        var = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
-        if ((ABS(var) < 0x2800) || ((this->dyna.actor.params == 0xA) && (ABS(var) > 0x5800))) {
+        relYawTowardsPlayer = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
+        if (ABS(relYawTowardsPlayer) < 0x2800 ||
+            (this->dyna.actor.params == A_OBJ_SIGNPOST_ARROW && ABS(relYawTowardsPlayer) > 0x5800)) {
             if (func_8002F194(&this->dyna.actor, globalCtx)) {
-                EnAObj_SetupAction(this, func_8001D204);
+                EnAObj_SetupAction(this, EnAObj_WaitFinishedTalking);
             } else {
                 func_8002F2F4(&this->dyna.actor, globalCtx);
             }
@@ -217,45 +224,45 @@ void func_8001D25C(EnAObj* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8001D310(EnAObj* this, s16 params) {
-    this->unk_16E = 0;
-    this->unk_168 = 10;
+void EnAObj_SetupBlockRot(EnAObj* this, s16 type) {
+    this->rotateState = 0;
+    this->rotateWaitTimer = 10;
     this->dyna.actor.world.rot.y = 0;
     this->dyna.actor.shape.rot = this->dyna.actor.world.rot;
-    EnAObj_SetupAction(this, func_8001D360);
+    EnAObj_SetupAction(this, EnAObj_BlockRot);
 }
 
-void func_8001D360(EnAObj* this, GlobalContext* globalCtx) {
-    if (this->unk_16E == 0) {
+void EnAObj_BlockRot(EnAObj* this, GlobalContext* globalCtx) {
+    if (this->rotateState == 0) {
         if (this->dyna.unk_160 != 0) {
-            this->unk_16E++;
-            this->unk_170 = 20;
+            this->rotateState++;
+            this->rotateForTimer = 20;
 
             if ((s16)(this->dyna.actor.yawTowardsPlayer + 0x4000) < 0) {
-                this->unk_174 = -1000;
+                this->rotSpeedX = -0x3E8;
             } else {
-                this->unk_174 = 1000;
+                this->rotSpeedX = 0x3E8;
             }
 
             if (this->dyna.actor.yawTowardsPlayer < 0) {
-                this->unk_172 = -this->unk_174;
+                this->rotSpeedY = -this->rotSpeedX;
             } else {
-                this->unk_172 = this->unk_174;
+                this->rotSpeedY = this->rotSpeedX;
             }
         }
     } else {
-        if (this->unk_168 != 0) {
-            this->unk_168--;
+        if (this->rotateWaitTimer != 0) {
+            this->rotateWaitTimer--;
         } else {
-            this->dyna.actor.shape.rot.y += this->unk_172;
-            this->dyna.actor.shape.rot.x += this->unk_174;
-            this->unk_170--;
+            this->dyna.actor.shape.rot.y += this->rotSpeedY;
+            this->dyna.actor.shape.rot.x += this->rotSpeedX;
+            this->rotateForTimer--;
             this->dyna.actor.gravity = -1.0f;
 
-            if (this->unk_170 == 0) {
+            if (this->rotateForTimer == 0) {
                 this->dyna.actor.world.pos = this->dyna.actor.home.pos;
-                this->unk_16E = 0;
-                this->unk_168 = 10;
+                this->rotateState = 0;
+                this->rotateWaitTimer = 10;
                 this->dyna.actor.velocity.y = 0.0f;
                 this->dyna.actor.gravity = 0.0f;
                 this->dyna.actor.shape.rot = this->dyna.actor.world.rot;
@@ -264,19 +271,19 @@ void func_8001D360(EnAObj* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8001D480(EnAObj* this, s16 params) {
-    EnAObj_SetupAction(this, func_8001D4A8);
+void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type) {
+    EnAObj_SetupAction(this, EnAObj_BoulderFragment);
 }
 
-void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
+void EnAObj_BoulderFragment(EnAObj* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->dyna.actor.speedXZ, 1.0f, 1.0f, 0.5f, 0.0f);
-    this->dyna.actor.shape.rot.x = this->dyna.actor.shape.rot.x + (this->dyna.actor.world.rot.x >> 1);
-    this->dyna.actor.shape.rot.z = this->dyna.actor.shape.rot.z + (this->dyna.actor.world.rot.z >> 1);
+    this->dyna.actor.shape.rot.x += this->dyna.actor.world.rot.x >> 1;
+    this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z >> 1;
 
-    if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 0x8)) {
+    if (this->dyna.actor.speedXZ != 0.0f && this->dyna.actor.bgCheckFlags & 0x8) {
         this->dyna.actor.world.rot.y =
-            ((this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw) - 0x8000;
-        if (1) {} // Necessary to match
+            this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y + this->dyna.actor.wallYaw - 0x8000;
+        if (1) {}
         this->dyna.actor.bgCheckFlags &= ~0x8;
     }
 
@@ -291,13 +298,13 @@ void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8001D5C8(EnAObj* this, s16 params) {
+void EnAObj_SetupBlock(EnAObj* this, s16 type) {
     this->dyna.actor.uncullZoneDownward = 1200.0f;
     this->dyna.actor.uncullZoneScale = 720.0f;
-    EnAObj_SetupAction(this, func_8001D608);
+    EnAObj_SetupAction(this, EnAObj_Block);
 }
 
-void func_8001D608(EnAObj* this, GlobalContext* globalCtx) {
+void EnAObj_Block(EnAObj* this, GlobalContext* globalCtx) {
     this->dyna.actor.speedXZ += this->dyna.unk_150;
     this->dyna.actor.world.rot.y = this->dyna.unk_158;
     this->dyna.actor.speedXZ = CLAMP(this->dyna.actor.speedXZ, -2.5f, 2.5f);
@@ -319,7 +326,7 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
     if (this->dyna.actor.gravity != 0.0f) {
-        if (this->dyna.actor.params != A_OBJ_KNOB) {
+        if (this->dyna.actor.params != A_OBJ_BOULDER_FRAGMENT) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f, 0x1D);
         } else {
             Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f, 0x1D);
@@ -327,13 +334,14 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->dyna.actor.focus.pos = this->dyna.actor.world.pos;
-    this->dyna.actor.focus.pos.y += this->unk_178;
+    this->dyna.actor.focus.pos.y += this->focusYoffset;
 
     switch (this->dyna.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
             Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            break;
     }
 }
 
@@ -344,17 +352,17 @@ void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    if (type > A_OBJ_KNOB) {
-        type = A_OBJ_KNOB;
+    if (type >= A_OBJ_MAX) {
+        type = A_OBJ_BOULDER_FRAGMENT;
     }
 
-    if (thisx->params == A_OBJ_KNOB) {
+    if (thisx->params == A_OBJ_BOULDER_FRAGMENT) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 1, 60, 60, 60, 50);
     }
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 712),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, D_80115484[type]);
+    gSPDisplayList(POLY_OPA_DISP++, sDLists[type]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 715);
 }
