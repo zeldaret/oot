@@ -1,6 +1,7 @@
 #include "z_demo_du.h"
 #include "objects/object_du/object_du.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -171,7 +172,8 @@ void DemoDu_CsFireMedallion_SpawnDoorWarp(DemoDu* this, GlobalContext* globalCtx
     f32 posY = this->actor.world.pos.y;
     f32 posZ = this->actor.world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 // Gives the Fire Medallion to Link.
@@ -444,7 +446,7 @@ void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu* this, GlobalContext* globalCtx) 
         Vec3f* pos = &this->actor.world.pos;
 
         if (npcAction != NULL) {
-            f32 traveledPercent = func_8006F93C(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
+            f32 traveledPercent = Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
 
             startPos.x = npcAction->startPos.x;
             startPos.y = npcAction->startPos.y;
@@ -898,7 +900,7 @@ void DemoDu_CsCredits_HandleSubscenesByNpcAction(DemoDu* this, GlobalContext* gl
                     DemoDu_CsCredits_AdvanceTo04(this);
                     break;
                 default:
-                    // Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!
+                    // "Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!"
                     osSyncPrintf("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -955,7 +957,7 @@ void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
 
     if (this->updateIndex < 0 || this->updateIndex >= 29 || sUpdateFuncs[this->updateIndex] == NULL) {
-        // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -1027,7 +1029,7 @@ void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
 
     if (this->drawIndex < 0 || this->drawIndex >= 3 || sDrawFuncs[this->drawIndex] == NULL) {
-        // The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

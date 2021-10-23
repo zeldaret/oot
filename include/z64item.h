@@ -1,5 +1,5 @@
-#ifndef _Z64ITEM_H_
-#define _Z64ITEM_H_
+#ifndef Z64ITEM_H
+#define Z64ITEM_H
 
 typedef enum {
     /* 0x00 */ EQUIP_SWORD,

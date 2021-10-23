@@ -2,6 +2,7 @@
 #include "objects/object_goma/object_goma.h"
 #include "overlays/actors/ovl_En_Goma/z_en_goma.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #define FLAGS 0x00000035
 
@@ -361,7 +362,7 @@ void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, -640.0f, 0.0f, 0, 0,
-                           0, 0);
+                           0, WARP_DUNGEON_CHILD);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 141.0f, -640.0f, -84.0f, 0, 0, 0, 0);
     }
 }
@@ -1151,7 +1152,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
                 }
 
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, childPos.x,
-                                   this->actor.world.pos.y, childPos.z, 0, 0, 0, 0);
+                                   this->actor.world.pos.y, childPos.z, 0, 0, 0, WARP_DUNGEON_CHILD);
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }
 
@@ -1197,57 +1198,57 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
     if (this->blinkTimer != 0) {
         this->blinkTimer--;
-        globalCtx->envCtx.unk_8C[0][0] += 40;
-        globalCtx->envCtx.unk_8C[0][1] += 40;
-        globalCtx->envCtx.unk_8C[0][2] += 80;
-        globalCtx->envCtx.unk_8C[2][0] += 10;
-        globalCtx->envCtx.unk_8C[2][1] += 10;
-        globalCtx->envCtx.unk_8C[2][2] += 20;
+        globalCtx->envCtx.adjAmbientColor[0] += 40;
+        globalCtx->envCtx.adjAmbientColor[1] += 40;
+        globalCtx->envCtx.adjAmbientColor[2] += 80;
+        globalCtx->envCtx.adjFogColor[0] += 10;
+        globalCtx->envCtx.adjFogColor[1] += 10;
+        globalCtx->envCtx.adjFogColor[2] += 20;
     } else {
-        globalCtx->envCtx.unk_8C[0][0] -= 20;
-        globalCtx->envCtx.unk_8C[0][1] -= 20;
-        globalCtx->envCtx.unk_8C[0][2] -= 40;
-        globalCtx->envCtx.unk_8C[2][0] -= 5;
-        globalCtx->envCtx.unk_8C[2][1] -= 5;
-        globalCtx->envCtx.unk_8C[2][2] -= 10;
+        globalCtx->envCtx.adjAmbientColor[0] -= 20;
+        globalCtx->envCtx.adjAmbientColor[1] -= 20;
+        globalCtx->envCtx.adjAmbientColor[2] -= 40;
+        globalCtx->envCtx.adjFogColor[0] -= 5;
+        globalCtx->envCtx.adjFogColor[1] -= 5;
+        globalCtx->envCtx.adjFogColor[2] -= 10;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][0] > 200) {
-        globalCtx->envCtx.unk_8C[0][0] = 200;
+    if (globalCtx->envCtx.adjAmbientColor[0] > 200) {
+        globalCtx->envCtx.adjAmbientColor[0] = 200;
     }
-    if (globalCtx->envCtx.unk_8C[0][1] > 200) {
-        globalCtx->envCtx.unk_8C[0][1] = 200;
+    if (globalCtx->envCtx.adjAmbientColor[1] > 200) {
+        globalCtx->envCtx.adjAmbientColor[1] = 200;
     }
-    if (globalCtx->envCtx.unk_8C[0][2] > 200) {
-        globalCtx->envCtx.unk_8C[0][2] = 200;
+    if (globalCtx->envCtx.adjAmbientColor[2] > 200) {
+        globalCtx->envCtx.adjAmbientColor[2] = 200;
     }
-    if (globalCtx->envCtx.unk_8C[2][0] > 70) {
-        globalCtx->envCtx.unk_8C[2][0] = 70;
+    if (globalCtx->envCtx.adjFogColor[0] > 70) {
+        globalCtx->envCtx.adjFogColor[0] = 70;
     }
-    if (globalCtx->envCtx.unk_8C[2][1] > 70) {
-        globalCtx->envCtx.unk_8C[2][1] = 70;
+    if (globalCtx->envCtx.adjFogColor[1] > 70) {
+        globalCtx->envCtx.adjFogColor[1] = 70;
     }
-    if (globalCtx->envCtx.unk_8C[2][2] > 140) {
-        globalCtx->envCtx.unk_8C[2][2] = 140;
+    if (globalCtx->envCtx.adjFogColor[2] > 140) {
+        globalCtx->envCtx.adjFogColor[2] = 140;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][0] < 0) {
-        globalCtx->envCtx.unk_8C[0][0] = 0;
+    if (globalCtx->envCtx.adjAmbientColor[0] < 0) {
+        globalCtx->envCtx.adjAmbientColor[0] = 0;
     }
-    if (globalCtx->envCtx.unk_8C[0][1] < 0) {
-        globalCtx->envCtx.unk_8C[0][1] = 0;
+    if (globalCtx->envCtx.adjAmbientColor[1] < 0) {
+        globalCtx->envCtx.adjAmbientColor[1] = 0;
     }
-    if (globalCtx->envCtx.unk_8C[0][2] < 0) {
-        globalCtx->envCtx.unk_8C[0][2] = 0;
+    if (globalCtx->envCtx.adjAmbientColor[2] < 0) {
+        globalCtx->envCtx.adjAmbientColor[2] = 0;
     }
-    if (globalCtx->envCtx.unk_8C[2][0] < 0) {
-        globalCtx->envCtx.unk_8C[2][0] = 0;
+    if (globalCtx->envCtx.adjFogColor[0] < 0) {
+        globalCtx->envCtx.adjFogColor[0] = 0;
     }
-    if (globalCtx->envCtx.unk_8C[2][1] < 0) {
-        globalCtx->envCtx.unk_8C[2][1] = 0;
+    if (globalCtx->envCtx.adjFogColor[1] < 0) {
+        globalCtx->envCtx.adjFogColor[1] = 0;
     }
-    if (globalCtx->envCtx.unk_8C[2][2] < 0) {
-        globalCtx->envCtx.unk_8C[2][2] = 0;
+    if (globalCtx->envCtx.adjFogColor[2] < 0) {
+        globalCtx->envCtx.adjFogColor[2] = 0;
     }
 }
 

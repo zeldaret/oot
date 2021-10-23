@@ -1,5 +1,5 @@
-#ifndef _Z_BG_BOMBWALL_H_
-#define _Z_BG_BOMBWALL_H_
+#ifndef Z_BG_BOMBWALL_H
+#define Z_BG_BOMBWALL_H
 
 #include "ultra64.h"
 #include "global.h"

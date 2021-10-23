@@ -1,11 +1,8 @@
 #include "ZRoom.h"
-#include <Path.h>
 #include <algorithm>
+#include <cassert>
 #include <chrono>
-#include "../File.h"
-#include "../Globals.h"
-#include "../StringHelper.h"
-#include "../ZBlob.h"
+#include <string_view>
 #include "Commands/EndMarker.h"
 #include "Commands/SetActorCutsceneList.h"
 #include "Commands/SetActorList.h"
@@ -39,13 +36,17 @@
 #include "Commands/Unused09.h"
 #include "Commands/Unused1D.h"
 #include "Commands/ZRoomCommandUnk.h"
+#include "Globals.h"
+#include "Utils/File.h"
+#include "Utils/Path.h"
+#include "Utils/StringHelper.h"
+#include "ZBlob.h"
 #include "ZCutscene.h"
 #include "ZFile.h"
 
-using namespace tinyxml2;
-
 REGISTER_ZFILENODE(Room, ZRoom);
 REGISTER_ZFILENODE(Scene, ZRoom);
+REGISTER_ZFILENODE(AltHeader, ZRoom);
 
 ZRoom::ZRoom(ZFile* nParent) : ZResource(nParent)
 {
@@ -64,122 +65,84 @@ void ZRoom::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
 {
 	ZResource::ExtractFromXML(reader, nRawDataIndex);
 
-	scene = Globals::Instance->lastScene;
-
-	if (std::string(reader->Name()) == "Scene")
-	{
-		scene = this;
-		Globals::Instance->lastScene = this;
-	}
-
-	uint32_t cmdCount = UINT32_MAX;
-
-	if (name == "syotes_room_0")
+	if (hackMode == "syotes_room")
 	{
 		SyotesRoomHack();
-		cmdCount = 0;
 	}
-
-	for (XMLElement* child = reader->FirstChildElement(); child != nullptr;
-	     child = child->NextSiblingElement())
+	else
 	{
-		std::string childName =
-			child->Attribute("Name") == NULL ? "" : std::string(child->Attribute("Name"));
-		std::string childComment = child->Attribute("Comment") == NULL ?
-                                       "" :
-                                       "// " + std::string(child->Attribute("Comment")) + "\n";
-
-		// TODO: Bunch of repeated code between all of these that needs to be combined.
-		if (std::string(child->Name()) == "DListHint")
-		{
-			std::string addressStr = child->Attribute("Offset");
-			int32_t address = strtol(StringHelper::Split(addressStr, "0x")[1].c_str(), NULL, 16);
-
-			ZDisplayList* dList = new ZDisplayList(
-				address,
-				ZDisplayList::GetDListLength(parent->GetRawData(), address,
-			                                 Globals::Instance->game == ZGame::OOT_SW97 ?
-                                                 DListType::F3DEX :
-                                                 DListType::F3DZEX),
-				parent);
-			dList->SetInnerNode(true);
-
-			dList->GetSourceOutputCode(name);
-			delete dList;
-		}
-		else if (std::string(child->Name()) == "CutsceneHint")
-		{
-			std::string addressStr = child->Attribute("Offset");
-			int32_t address = strtol(StringHelper::Split(addressStr, "0x")[1].c_str(), NULL, 16);
-
-			ZCutscene* cutscene = new ZCutscene(parent);
-			cutscene->SetInnerNode(true);
-			cutscene->ExtractFromXML(child, address);
-
-			cutscene->GetSourceOutputCode(name);
-
-			delete cutscene;
-		}
-		else if (std::string(child->Name()) == "AltHeaderHint")
-		{
-			std::string addressStr = child->Attribute("Offset");
-			int32_t address = strtol(StringHelper::Split(addressStr, "0x")[1].c_str(), NULL, 16);
-
-			uint32_t commandsCount = UINT32_MAX;
-
-			if (child->FindAttribute("Count") != NULL)
-			{
-				std::string commandCountStr = child->Attribute("Count");
-				commandsCount = strtol(commandCountStr.c_str(), NULL, 10);
-			}
-
-			commandSets.push_back(CommandSet(address, commandsCount));
-		}
-		else if (std::string(child->Name()) == "PathHint")
-		{
-			std::string addressStr = child->Attribute("Offset");
-			int32_t address = strtol(StringHelper::Split(addressStr, "0x")[1].c_str(), NULL, 16);
-
-			// TODO: add this to command set
-			ZPath* pathway = new ZPath(parent);
-			pathway->SetInnerNode(true);
-			pathway->SetRawDataIndex(address);
-			pathway->ParseRawData();
-			pathway->DeclareReferences(name);
-			pathway->GetSourceOutputCode(name);
-
-			delete pathway;
-		}
-
-#ifdef DEPRECATION_ON
-		fprintf(stderr,
-		        "ZRoom::ExtractFromXML: Deprecation warning in '%s'.\n"
-		        "\t The resource '%s' is currently deprecated, and will be removed in a future "
-		        "version.\n"
-		        "\t Use the non-hint version instead.\n",
-		        name.c_str(), child->Name());
-#endif
+		DeclareVar(name, "");
 	}
-
-	commandSets.push_back(CommandSet(rawDataIndex, cmdCount));
-	ProcessCommandSets();
 }
 
-void ZRoom::ParseCommands(std::vector<ZRoomCommand*>& commandList, CommandSet commandSet)
+void ZRoom::ExtractFromBinary(uint32_t nRawDataIndex, ZResourceType parentType)
 {
+	rawDataIndex = nRawDataIndex;
+	name = GetDefaultName(parent->GetName());
+
+	zroomType = ZResourceType::AltHeader;
+	switch (parentType)
+	{
+	case ZResourceType::Scene:
+	case ZResourceType::Room:
+	case ZResourceType::AltHeader:
+		parentZroomType = parentType;
+		break;
+
+	default:
+		// TODO: error message or something
+		assert(false);
+		break;
+	}
+
+	ParseRawData();
+	DeclareVar(name, "");
+}
+
+void ZRoom::ParseXML(tinyxml2::XMLElement* reader)
+{
+	ZResource::ParseXML(reader);
+
+	// TODO: HACK: remove this specific check when the repo uses the correct HackMode="syotes_room"
+	if (name == "syotes_room_0")
+	{
+		hackMode = "syotes_room";
+	}
+
+	std::string nodeName = std::string(reader->Name());
+	if (nodeName == "Scene")
+	{
+		zroomType = ZResourceType::Scene;
+	}
+	else if (nodeName == "Room")
+		zroomType = ZResourceType::Room;
+	else if (nodeName == "AltHeader")
+		zroomType = ZResourceType::AltHeader;
+
+	if (reader->Attribute("HackMode") != nullptr)
+	{
+		hackMode = std::string(reader->Attribute("HackMode"));
+		if (hackMode != "syotes_room")
+			throw std::runtime_error(
+				StringHelper::Sprintf("ZRoom::ParseXML: Fatal error in '%s'.\n"
+			                          "\t Invalid value for attribute 'HackMode': '%s'\n",
+			                          name.c_str(), hackMode.c_str()));
+	}
+}
+
+void ZRoom::ParseRawData()
+{
+	if (hackMode == "syotes_room")
+		return;
+
 	bool shouldContinue = true;
 	uint32_t currentIndex = 0;
-	uint32_t rawDataIndex = GETSEGOFFSET(commandSet.address);
-
-	uint32_t commandsLeft = commandSet.commandCount;
+	uint32_t currentPtr = rawDataIndex;
 
 	const auto& rawData = parent->GetRawData();
 	while (shouldContinue)
 	{
-		if (commandsLeft <= 0)
-			break;
-
-		RoomCommand opcode = static_cast<RoomCommand>(rawData.at(rawDataIndex));
+		RoomCommand opcode = static_cast<RoomCommand>(rawData.at(currentPtr));
 
 		ZRoomCommand* cmd = nullptr;
 
@@ -287,8 +250,8 @@ void ZRoom::ParseCommands(std::vector<ZRoomCommand*>& commandList, CommandSet co
 			cmd = new ZRoomCommandUnk(parent);
 		}
 
-		cmd->ExtractCommandFromRoom(this, rawDataIndex);
-		cmd->DeclareReferences(GetName());
+		cmd->commandSet = rawDataIndex;
+		cmd->ExtractCommandFromRoom(this, currentPtr);
 
 		if (Globals::Instance->profile)
 		{
@@ -300,74 +263,82 @@ void ZRoom::ParseCommands(std::vector<ZRoomCommand*>& commandList, CommandSet co
 
 		cmd->cmdIndex = currentIndex;
 
-		commandList.push_back(cmd);
+		commands.push_back(cmd);
 
 		if (opcode == RoomCommand::EndMarker)
 			shouldContinue = false;
 
-		rawDataIndex += 8;
+		currentPtr += 8;
 		currentIndex++;
-
-		commandsLeft--;
 	}
 }
 
-void ZRoom::ProcessCommandSets()
+void ZRoom::DeclareReferences(const std::string& prefix)
 {
-	while (commandSets.size() > 0)
+	for (auto& cmd : commands)
+		cmd->DeclareReferences(prefix);
+}
+
+void ZRoom::ParseRawDataLate()
+{
+	for (auto& cmd : commands)
+		cmd->ParseRawDataLate();
+}
+
+void ZRoom::DeclareReferencesLate(const std::string& prefix)
+{
+	for (auto& cmd : commands)
+		cmd->DeclareReferencesLate(prefix);
+}
+
+Declaration* ZRoom::DeclareVar(const std::string& prefix, const std::string& body)
+{
+	std::string auxName = name;
+	if (auxName == "")
+		auxName = GetDefaultName(prefix);
+	if (zroomType == ZResourceType::Scene || zroomType == ZResourceType::Room)
+		auxName = StringHelper::Sprintf("%sCommands", name.c_str());
+
+	Declaration* decl =
+		parent->AddDeclarationArray(rawDataIndex, GetDeclarationAlignment(), GetRawDataSize(),
+	                                GetSourceTypeName(), auxName, commands.size(), body);
+	decl->staticConf = staticConf;
+	return decl;
+}
+
+std::string ZRoom::GetBodySourceCode() const
+{
+	std::string declaration;
+
+	for (size_t i = 0; i < commands.size(); i++)
 	{
-		std::vector<ZRoomCommand*> setCommands = std::vector<ZRoomCommand*>();
+		ZRoomCommand* cmd = commands[i];
+		declaration += StringHelper::Sprintf("\t%s,", cmd->GetBodySourceCode().c_str());
 
-		int32_t commandSet = commandSets[0].address;
-		ParseCommands(setCommands, commandSets[0]);
-		commandSets.erase(commandSets.begin());
-
-		for (auto& cmd : setCommands)
-		{
-			cmd->ParseRawDataLate();
-			cmd->DeclareReferencesLate(name);
-		}
-
-		if (!setCommands.empty())
-		{
-			std::string declaration = "";
-
-			for (size_t i = 0; i < setCommands.size(); i++)
-			{
-				ZRoomCommand* cmd = setCommands[i];
-				cmd->commandSet = GETSEGOFFSET(commandSet);
-				declaration += StringHelper::Sprintf("\t%s,", cmd->GetBodySourceCode().c_str());
-
-				if (i + 1 < setCommands.size())
-					declaration += "\n";
-			}
-
-			parent->AddDeclarationArray(
-				GETSEGOFFSET(commandSet), DeclarationAlignment::Align16, 8 * setCommands.size(),
-				"static SCmdBase",
-				StringHelper::Sprintf("%sSet%04X", name.c_str(), GETSEGOFFSET(commandSet)),
-				setCommands.size(), declaration);
-
-			sourceOutput += "\n";
-
-			for (ZRoomCommand* cmd : setCommands)
-				commands.push_back(cmd);
-		}
+		if (i + 1 < commands.size())
+			declaration += "\n";
 	}
+
+	return declaration;
+}
+
+std::string ZRoom::GetDefaultName(const std::string& prefix) const
+{
+	return StringHelper::Sprintf("%sSet_%06X", prefix.c_str(), rawDataIndex);
 }
 
 /*
- * There is one room in Ocarina of Time that lacks a header. Room 120, "Syotes", dates back to very
- * early in the game's development. Since this room is a special case, this hack adds back a header
- * so that the room can be processed properly.
+ * There is one room in Ocarina of Time that lacks a header. Room 120, "Syotes", dates
+ * back to very early in the game's development. Since this room is a special case,
+ * declare automatically the data its contains whitout the need of a header.
  */
 void ZRoom::SyotesRoomHack()
 {
-	PolygonType2 poly(parent, parent->GetRawData(), 0, this);
+	PolygonType2 poly(parent, 0, this);
 
 	poly.ParseRawData();
 	poly.DeclareReferences(GetName());
-	parent->AddDeclaration(0, DeclarationAlignment::Align4, poly.GetRawDataSize(),
+	parent->AddDeclaration(0, poly.GetDeclarationAlignment(), poly.GetRawDataSize(),
 	                       poly.GetSourceTypeName(), poly.GetDefaultName(GetName()),
 	                       poly.GetBodySourceCode());
 }
@@ -421,26 +392,14 @@ size_t ZRoom::GetCommandSizeFromNeighbor(ZRoomCommand* cmd)
 	return 0;
 }
 
-std::string ZRoom::GetSourceOutputHeader(const std::string& prefix)
+std::string ZRoom::GetSourceOutputCode([[maybe_unused]] const std::string& prefix)
 {
-	return "\n" + extDefines + "\n\n";
-}
+	if (hackMode == "syotes_room")
+		return "";
 
-std::string ZRoom::GetSourceOutputCode(const std::string& prefix)
-{
-	sourceOutput = "";
+	DeclareVar(prefix, GetBodySourceCode());
 
-	sourceOutput += "#include \"segment_symbols.h\"\n";
-	sourceOutput += "#include \"command_macros_base.h\"\n";
-	sourceOutput += "#include \"z64cutscene_commands.h\"\n";
-	sourceOutput += "#include \"variables.h\"\n";
-
-	if (scene != nullptr)
-		sourceOutput += scene->parent->GetHeaderInclude();
-
-	ProcessCommandSets();
-
-	return sourceOutput;
+	return "";
 }
 
 size_t ZRoom::GetRawDataSize() const
@@ -453,21 +412,14 @@ size_t ZRoom::GetRawDataSize() const
 	return size;
 }
 
+std::string ZRoom::GetSourceTypeName() const
+{
+	return "SceneCmd";
+}
+
 ZResourceType ZRoom::GetResourceType() const
 {
-	return ZResourceType::Room;
-}
-
-void ZRoom::PreGenSourceFiles()
-{
-	for (ZRoomCommand* cmd : commands)
-		cmd->PreGenSourceFiles();
-}
-
-/* CommandSet */
-
-CommandSet::CommandSet(uint32_t nAddress, uint32_t nCommandCount)
-{
-	address = nAddress;
-	commandCount = nCommandCount;
+	assert(zroomType == ZResourceType::Scene || zroomType == ZResourceType::Room ||
+	       zroomType == ZResourceType::AltHeader);
+	return zroomType;
 }

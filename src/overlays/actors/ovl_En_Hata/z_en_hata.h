@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HATA_H_
-#define _Z_EN_HATA_H_
+#ifndef Z_EN_HATA_H
+#define Z_EN_HATA_H
 
 #include "ultra64.h"
 #include "global.h"

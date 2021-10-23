@@ -30,7 +30,8 @@ You can configure a bit your ZAPD build with the following options:
 - `DEBUG`: If non-zero, ZAPD will be compiled in _development mode_. This implies the following:
   - Debugging symbols enabled (`-g3`). They are disabled by default.
   - `OPTIMIZATION_ON=0`: Disables optimizations (`-O0`).
-  - `DEPRECATION_OFF=1`: Disables deprecation warnings.
+  - `DEPRECATION_ON=0`: Disables deprecation warnings.
+- `LLD=1`: builds with the LLVM linker `ld.lld` instead of the system default.
 
 As an example, if you want to build ZAPD with optimizations disabled and use the address sanitizer, you could use the following command:
 
@@ -109,6 +110,10 @@ ZAPD also accepts the following list of extra parameters:
   - Can be used only in `e` or `bsf` modes.
 - `-tm MODE`: Test Mode (enables certain experimental features). To enable it, set `MODE` to `1`.
 - `-wno` / `--warn-no-offsets` : Enable warnings for nodes that dont have offsets specified. Takes priority over `-eno`/ `--error-no-offsets`.
-- `-eno`/ `--error-no-offsets` : Enable errors for nodes that dont have offsets specified.
+- `-eno` / `--error-no-offsets` : Enable errors for nodes that dont have offsets specified.
+- `-se` / `--set-exporter` : Sets which exporter to use.
+- `--gcc-compat` : Enables GCC compatible mode. Slower.
+- `-s` / `--static` : Mark every asset as `static`.
+  - This behaviour can be overridden per asset using `Static=` in the respective XML node.
 
 Additionally, you can pass the flag `--version` to see the current ZAPD version. If that flag is passed, ZAPD will ignore any other parameter passed.

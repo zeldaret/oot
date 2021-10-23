@@ -57,8 +57,6 @@ static Gfx* sDLists[] = {
     0x06002ED0,
 };
 
-extern Gfx D_06001250[];
-
 void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaMegane* this = THIS;
 

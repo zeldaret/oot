@@ -1,5 +1,5 @@
-#ifndef _Z64_H_
-#define _Z64_H_
+#ifndef Z64_H
+#define Z64_H
 
 #include "ultra64.h"
 #include "ultra64/gs2dex.h"
@@ -11,6 +11,7 @@
 #include "z64audio.h"
 #include "z64object.h"
 #include "z64camera.h"
+#include "z64environment.h"
 #include "z64cutscene.h"
 #include "z64collision_check.h"
 #include "z64scene.h"
@@ -66,13 +67,13 @@ typedef struct {
 } GameInfo; // size = 0x15D4
 
 typedef struct {
-    /* 0x00000 */ u16 headMagic; // 1234
+    /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC
     /* 0x00008 */ Gfx polyOpaBuffer[0x17E0];
     /* 0x0BF08 */ Gfx polyXluBuffer[0x800];
     /* 0x0FF08 */ Gfx overlayBuffer[0x400];
     /* 0x11F08 */ Gfx workBuffer[0x80];
     /* 0x11308 */ Gfx unusedBuffer[0x20];
-    /* 0x12408 */ u16 tailMagic; // 5678
+    /* 0x12408 */ u16 tailMagic; // GFXPOOL_TAIL_MAGIC
 } GfxPool; // size = 0x12410
 
 typedef struct {
@@ -130,16 +131,16 @@ typedef struct GraphicsContext {
     /* 0x01C4 */ char unk_01C4[0xC0];
     /* 0x0284 */ OSViMode* viMode;
     /* 0x0288 */ char unk_0288[0x20]; // Unused, could this be Zelda 2/3 ?
-    /* 0x02A8 */ TwoHeadGfxArena    overlay; // "Zelda 4"
-    /* 0x02B8 */ TwoHeadGfxArena    polyOpa; // "Zelda 0"
-    /* 0x02C8 */ TwoHeadGfxArena    polyXlu; // "Zelda 1"
+    /* 0x02A8 */ TwoHeadGfxArena overlay; // "Zelda 4"
+    /* 0x02B8 */ TwoHeadGfxArena polyOpa; // "Zelda 0"
+    /* 0x02C8 */ TwoHeadGfxArena polyXlu; // "Zelda 1"
     /* 0x02D8 */ u32 gfxPoolIdx;
     /* 0x02DC */ u16* curFrameBuffer;
     /* 0x02E0 */ char unk_2E0[0x04];
     /* 0x02E4 */ u32 viFeatures;
     /* 0x02E8 */ s32 fbIdx;
-    /* 0x02EC */ void (*callback)(struct GraphicsContext*, u32);
-    /* 0x02F0 */ u32 callbackParam;
+    /* 0x02EC */ void (*callback)(struct GraphicsContext*, void*);
+    /* 0x02F0 */ void* callbackParam;
     /* 0x02F4 */ f32 xScale;
     /* 0x02F8 */ f32 yScale;
     /* 0x02FC */ char unk_2FC[0x04];
@@ -321,10 +322,11 @@ typedef enum {
 
 typedef struct {
     /* 0x000 */ char unk_00[0x128];
-    /* 0x128 */ void* staticSegments[3];
-    /* 0x134 */ Gfx* dListBuf;
+    /* 0x128 */ void* staticSegments[2];
+    /* 0x130 */ u16 (*palettes)[256];
+    /* 0x134 */ Gfx (*dListBuf)[150];
     /* 0x138 */ Gfx* unk_138;
-    /* 0x13C */ void* roomVtx;
+    /* 0x13C */ Vtx* roomVtx;
     /* 0x140 */ s16  unk_140;
     /* 0x144 */ Vec3f rot;
     /* 0x150 */ char unk_150[0x10];
@@ -575,71 +577,7 @@ typedef enum {
 
 typedef struct {
     /* 0x00 */ u16 state;
-} GameOverContext; // size = 0x02
-
-typedef struct {
-    /* 0x00 */ char     unk_00[0x02];
-    /* 0x02 */ u16      unk_02;
-    /* 0x04 */ Vec3f    unk_04;
-    /* 0x10 */ u8       unk_10;
-    /* 0x11 */ u8       unk_11;
-    /* 0x12 */ char     unk_12[0x1];
-    /* 0x13 */ u8       unk_13;
-    /* 0x14 */ char     unk_14[0x01];
-    /* 0x15 */ u8       skyDisabled;
-    /* 0x16 */ u8       sunMoonDisabled;
-    /* 0x17 */ u8       gloomySky;
-    /* 0x18 */ u8       unk_18;
-    /* 0x19 */ u8       unk_19;
-    /* 0x1A */ u16      unk_1A;
-    /* 0x1C */ char     unk_1C[0x02];
-    /* 0x1E */ u8       unk_1E;
-    /* 0x1F */ u8       unk_1F;
-    /* 0x20 */ u8       unk_20;
-    /* 0x21 */ u8       unk_21;
-    /* 0x22 */ u16      unk_22;
-    /* 0x24 */ u16      unk_24;
-    /* 0x26 */ char     unk_26[0x04];
-    /* 0x2A */ s8       unk_2A;
-    /* 0x2B */ s8       unk_2B;
-    /* 0x2C */ s8       unk_2C;
-    /* 0x2D */ char     unk_2D[0x5E];
-    /* 0x8C */ s16      unk_8C[3][3];
-    /* 0x9E */ s16      unk_9E;
-    /* 0xA0 */ s16      unk_A0;
-    /* 0xA2 */ char     unk_A2[0x06];
-    /* 0xA8 */ s16      unk_A8;
-    /* 0xAA */ s16      unk_AA;
-    /* 0xAC */ s16      unk_AC;
-    /* 0xB0 */ f32      unk_B0;
-    /* 0xB4 */ u8       numLightSettings;
-    /* 0xB8 */ UNK_PTR  lightSettingsList;
-    /* 0xBC */ u8       unk_BC;
-    /* 0xBD */ u8       unk_BD;
-    /* 0xBE */ u8       unk_BE;
-    /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x0F];
-    /* 0xCF */ u8       unk_CF[3];
-    /* 0xD2 */ s16      unk_D2;
-    /* 0xD4 */ char     unk_D4[0x02];
-    /* 0xD6 */ u16      unk_D6;
-    /* 0xD8 */ f32      unk_D8;
-    /* 0xDC */ u8       unk_DC;
-    /* 0xDD */ u8       gloomySkyEvent;
-    /* 0xDE */ u8       unk_DE;
-    /* 0xDF */ u8       lightning;
-    /* 0xE0 */ u8       unk_E0;
-    /* 0xE1 */ u8       unk_E1;
-    /* 0xE2 */ u8       unk_E2[4];
-    /* 0xE6 */ u8       unk_E6;
-    /* 0xE7 */ u8       unk_E7;
-    /* 0xE8 */ u8       unk_E8;
-    /* 0xE9 */ u8       unk_E9;
-    /* 0xEA */ u8       unk_EA[4];
-    /* 0xEE */ u8       unk_EE[4];
-    /* 0xF2 */ u8       unk_F2[4];
-    /* 0xF6 */ char     unk_F6[0x06];
-} EnvironmentContext; // size = 0xFC
+} GameOverContext; // size = 0x2
 
 typedef struct {
     /* 0x00 */ s16      id;
@@ -1716,15 +1654,15 @@ typedef struct {
     /* 0x0050 */ s32 viHeight;
     /* 0x0054 */ s32 viWidth;
     /* 0x0058 */ s32 unk_58; // Right adjustment?
-    /* 0x005c */ s32 unk_5C; // Left adjustment?
+    /* 0x005C */ s32 unk_5C; // Left adjustment?
     /* 0x0060 */ s32 unk_60; // Bottom adjustment?
     /* 0x0064 */ s32 unk_64; // Top adjustment?
     /* 0x0068 */ s32 viModeBase; // enum: {0, 1, 2, 3}
-    /* 0x006c */ s32 viTvType;
+    /* 0x006C */ s32 viTvType;
     /* 0x0070 */ u32 unk_70; // bool
     /* 0x0074 */ u32 unk_74; // bool
     /* 0x0078 */ u32 unk_78; // bool
-    /* 0x007c */ u32 unk_7C; // bool
+    /* 0x007C */ u32 unk_7C; // bool
     /* 0x0080 */ u32 viFeatures;
     /* 0x0084 */ u32 unk_84;
 } ViMode;
@@ -1832,5 +1770,17 @@ typedef struct {
     /* 0x00 */ u16* value;
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
+
+typedef struct {
+    /* 0x00 */ RomFile file;
+    /* 0x08 */ RomFile palette;
+} SkyboxFile; // size = 0x10
+
+#define ROM_FILE(name) \
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
+#define ROM_FILE_EMPTY(name) \
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
+#define ROM_FILE_UNSET \
+    { 0 }
 
 #endif
