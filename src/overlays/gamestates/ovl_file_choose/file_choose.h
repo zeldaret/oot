@@ -25,6 +25,61 @@ typedef enum {
 } MenuMode;
 
 typedef enum {
+    /* 00 */ CM_FADE_IN_START,
+    /* 01 */ CM_FADE_IN_END,
+    /* 02 */ CM_MAIN_MENU,
+    /* 03 */ CM_SETUP_COPY_SOURCE,
+    /* 04 */ CM_SELECT_COPY_SOURCE,
+    /* 05 */ CM_SETUP_COPY_DEST_1,
+    /* 06 */ CM_SETUP_COPY_DEST_2,
+    /* 07 */ CM_SELECT_COPY_DEST,
+    /* 08 */ CM_EXIT_TO_COPY_SOURCE_1,
+    /* 09 */ CM_EXIT_TO_COPY_SOURCE_2,
+    /* 10 */ CM_SETUP_COPY_CONFIRM_1,
+    /* 11 */ CM_SETUP_COPY_CONFIRM_2,
+    /* 12 */ CM_COPY_CONFIRM,
+    /* 13 */ CM_RETURN_TO_COPY_DEST,
+    /* 14 */ CM_COPY_ANIM_1,
+    /* 15 */ CM_COPY_ANIM_2,
+    /* 16 */ CM_COPY_ANIM_3,
+    /* 17 */ CM_COPY_ANIM_4,
+    /* 18 */ CM_COPY_ANIM_5,
+    /* 19 */ CM_COPY_RETURN_MAIN,
+    /* 20 */ CM_SETUP_ERASE_SELECT,
+    /* 21 */ CM_ERASE_SELECT,
+    /* 22 */ CM_SETUP_ERASE_CONFIRM_1,
+    /* 23 */ CM_SETUP_ERASE_CONFIRM_2,
+    /* 24 */ CM_ERASE_CONFIRM,
+    /* 25 */ CM_EXIT_TO_ERASE_SELECT_1,
+    /* 26 */ CM_EXIT_TO_ERASE_SELECT_2,
+    /* 27 */ CM_ERASE_ANIM_1,
+    /* 28 */ CM_ERASE_ANIM_2,
+    /* 29 */ CM_ERASE_ANIM_3,
+    /* 30 */ CM_EXIT_ERASE_TO_MAIN,
+    /* 31 */ CM_UNUSED_31,
+    /* 32 */ CM_ROTATE_TO_NAME_ENTRY,
+    /* 33 */ CM_NAME_ENTRY,
+    /* 34 */ CM_START_NAME_ENTRY,
+    /* 35 */ CM_NAME_ENTRY_TO_MAIN,
+    /* 36 */ CM_MAIN_TO_OPTIONS,
+    /* 37 */ CM_OPTIONS_MENU,
+    /* 38 */ CM_START_OPTIONS,
+    /* 39 */ CM_OPTIONS_TO_MAIN,
+    /* 40 */ CM_UNUSED_DELAY
+} ConfigMode;
+
+typedef enum {
+    /* 00 */ SM_FADE_MAIN_TO_SELECT,
+    /* 01 */ SM_MOVE_FILE_TO_TOP,
+    /* 02 */ SM_FADE_IN_FILE_INFO,
+    /* 03 */ SM_CONFIRM_FILE,
+    /* 04 */ SM_FADE_OUT_FILE_INFO,
+    /* 05 */ SM_MOVE_FILE_TO_SLOT,
+    /* 06 */ SM_FADE_OUT,
+    /* 07 */ SM_LOAD_GAME
+} SelectMode;
+
+typedef enum {
     /* 0 */ TITLE_SELECT_FILE,   // "Please select a file."
     /* 1 */ TITLE_OPEN_FILE,     // "Open this file?"
     /* 2 */ TITLE_COPY_FROM,     // "Copy which file?"
@@ -113,103 +168,40 @@ typedef enum {
     /* 99 */ KBD_BTN_NONE = 99
 } KeyboardButton;
 
-typedef enum {
-    /* 00 */ SM_FADE_OUT_MAIN,
-    /* 01 */ SM_MOVE_FILE_TO_TOP,
-    /* 02 */ SM_FADE_IN_FILE_INFO,
-    /* 03 */ SM_CONFIRM_FILE,
-    /* 04 */ SM_FADE_OUT_FILE_INFO,
-    /* 05 */ SM_MOVE_FILE_TO_SLOT,
-    /* 06 */ SM_FADE_OUT,
-    /* 07 */ SM_LOAD_GAME
-} SelectMode;
+void FileChoose_SetupCopySource(GameState* thisx); 
+void FileChoose_SelectCopySource(GameState* thisx); 
+void FileChoose_SetupCopyDest1(GameState* thisx); 
+void FileChoose_SetupCopyDest2(GameState* thisx); 
+void FileChoose_SelectCopyDest(GameState* thisx); 
+void FileChoose_ExitToCopySource1(GameState* thisx); 
+void FileChoose_ExitToCopySource2(GameState* thisx); 
+void FileChoose_SetupCopyConfirm1(GameState* thisx); 
+void FileChoose_SetupCopyConfirm2(GameState* thisx); 
+void FileChoose_CopyConfirm(GameState* thisx); 
+void FileChoose_ReturnToCopyDest(GameState* thisx); 
+void FileChoose_CopyAnim1(GameState* thisx); 
+void FileChoose_CopyAnim2(GameState* thisx); 
+void FileChoose_CopyAnim3(GameState* thisx); 
+void FileChoose_CopyAnim4(GameState* thisx); 
+void FileChoose_CopyAnim5(GameState* thisx); 
 
-typedef enum {
-    /* 00 */ CM_FADE_IN_START,
-    /* 01 */ CM_FADE_IN_END,
-    /* 02 */ CM_MAIN_MENU,
-    /* 03 */ CM_COPY_SOURCE_MENU,
-    /* 04 */ CM_SELECT_COPY_SOURCE,
-    /* 05 */ CM_05,
-    /* 06 */ CM_06,
-    /* 07 */ CM_07,
-    /* 08 */ CM_08,
-    /* 09 */ CM_09,
-    /* 10 */ CM_10,
-    /* 11 */ CM_11,
-    /* 12 */ CM_12,
-    /* 13 */ CM_13,
-    /* 14 */ CM_14,
-    /* 15 */ CM_15,
-    /* 16 */ CM_16,
-    /* 17 */ CM_17,
-    /* 18 */ CM_18,
-    /* 19 */ CM_COPY_RETURN_MAIN,
-    /* 20 */ CM_20,
-    /* 21 */ CM_21,
-    /* 22 */ CM_22,
-    /* 23 */ CM_23,
-    /* 24 */ CM_24,
-    /* 25 */ CM_25,
-    /* 26 */ CM_26,
-    /* 27 */ CM_27,
-    /* 28 */ CM_28,
-    /* 29 */ CM_29,
-    /* 30 */ CM_30,
-    /* 31 */ CM_UNUSED_31,
-    /* 32 */ CM_ROTATE_TO_NAME_ENTRY,
-    /* 33 */ CM_NAME_ENTRY,
-    /* 34 */ CM_START_NAME_ENTRY,
-    /* 35 */ CM_NAME_ENTRY_TO_MAIN,
-    /* 36 */ CM_MAIN_TO_OPTIONS,
-    /* 37 */ CM_OPTIONS_MENU,
-    /* 38 */ CM_START_OPTIONS,
-    /* 39 */ CM_OPTIONS_TO_MAIN,
-    /* 40 */ CM_UNUSED_DELAY
-} ConfigMode;
+void FileChoose_ExitCopyToMain(GameState* thisx); 
+void FileChoose_SetupEraseSelect(GameState* thisx); 
+void FileChoose_EraseSelect(GameState* thisx); 
+void FileChoose_SetupEraseConfirm1(GameState* thisx); 
+void FileChoose_SetupEraseConfirm2(GameState* thisx); 
+void FileChoose_EraseConfirm(GameState* thisx); 
+void FileChoose_ExitToEraseSelect1(GameState* thisx); 
+void FileChoose_ExitToEraseSelect2(GameState* thisx); 
+void FileChoose_EraseAnim1(GameState* thisx); 
+void FileChoose_EraseAnim2(GameState* thisx); 
+void FileChoose_EraseAnim3(GameState* thisx); 
+void FileChoose_ExitEraseToMain(GameState* thisx); 
 
-// Config Mode Update Functions
-/* 00 */ void FileChoose_StartFadeIn(GameState* thisx);
-/* 01 */ void FileChoose_FinishFadeIn(GameState* thisx);
-/* 02 */ void FileChoose_UpdateMainMenu(GameState* thisx);
-/* 03 */ void FileCopy_SetupSourceSelect(GameState* thisx); 
-/* 04 */ void FileCopy_SelectSource(GameState* thisx); 
-/* 05 */ void func_80804248(GameState* thisx); 
-/* 06 */ void func_808043D8(GameState* thisx); 
-/* 07 */ void FileChoose_SelectCopyDest(GameState* thisx); 
-/* 08 */ void func_80804858(GameState* thisx); 
-/* 09 */ void func_80804924(GameState* thisx); 
-/* 10 */ void func_80804A50(GameState* thisx); 
-/* 11 */ void func_80804C74(GameState* thisx); 
-/* 12 */ void func_80804CD0(GameState* thisx); 
-/* 13 */ void func_80804ED8(GameState* thisx); 
-/* 14 */ void func_8080510C(GameState* thisx); 
-/* 15 */ void func_808051C8(GameState* thisx); 
-/* 16 */ void func_80805318(GameState* thisx); 
-/* 17 */ void func_80805434(GameState* thisx); 
-/* 18 */ void func_80805524(GameState* thisx); 
-/* 19 */ void FileCopy_SetupMainMenu(GameState* thisx); 
-/* 20 */ void func_8080595C(GameState* thisx); 
-/* 21 */ void func_80805B2C(GameState* thisx); 
-/* 22 */ void func_80805EB8(GameState* thisx); 
-/* 23 */ void func_80806180(GameState* thisx); 
-/* 24 */ void func_8080625C(GameState* thisx); 
-/* 25 */ void func_80806444(GameState* thisx); 
-/* 26 */ void func_808064F4(GameState* thisx); 
-/* 27 */ void func_80806710(GameState* thisx); 
-/* 28 */ void func_808068F0(GameState* thisx); 
-/* 29 */ void func_808069B4(GameState* thisx); 
-/* 30 */ void func_80806C20(GameState* thisx); 
-/* 31 */ void FileChoose_UnusedCM31(GameState* thisx); 
-/* 32 */ void FileChoose_RotateToNameEntry(GameState* thisx);
-/* 33 */ void FileChoose_UpdateKeyboardCursor(GameState* thisx);
-/* 34 */ void FileChoose_StartNameEntry(GameState* thisx);
-/* 35 */ void FileChoose_RotateToMain(GameState* thisx);
-/* 36 */ void FileChoose_RotateToOptions(GameState* thisx);
-/* 37 */ void FileChoose_UpdateOptionsMenu(GameState* thisx);
-/* 38 */ void FileChoose_StartOptions(GameState* thisx);
-/* 39 */ void FileChoose_RotateToMain(GameState* thisx);
-/* 40 */ void FileChoose_UnusedCMDelay(GameState* thisx);
+void FileChoose_UpdateKeyboardCursor(GameState* thisx);
+void FileChoose_StartNameEntry(GameState* thisx);
+void FileChoose_UpdateOptionsMenu(GameState* thisx);
+void FileChoose_StartOptions(GameState* thisx);
 
 void FileChoose_InitModeDraw(GameState* thisx);
 void FileChoose_ConfigModeDraw(GameState* thisx);
@@ -220,5 +212,15 @@ void FileChoose_DrawOptions(GameState* thisx);
 
 void FileChoose_DrawNameEntry(FileChooseContext* this);
 void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
+
+extern Vtx D_80811BB0[];
+extern s16 D_808123F0[];
+extern Vtx D_80811E30[];
+extern Vtx D_80811D30[];
+extern Vtx D_80812130[];
+extern Vtx D_80811F30[];
+extern Vtx gOptionsDividerTop[];
+extern Vtx gOptionsDividerMiddle[];
+extern Vtx gOptionsDividerBottom[];
 
 #endif

@@ -1,16 +1,6 @@
 #include "file_choose.h"
 #include "textures/title_static/title_static.h"
 
-extern Vtx D_80811BB0[24];
-extern s16 D_808123F0[];
-extern Vtx D_80811E30[];
-extern Vtx D_80811D30[];
-extern Vtx D_80812130[];
-extern Vtx D_80811F30[];
-extern Vtx gOptionsDividerTop[];
-extern Vtx gOptionsDividerMiddle[];
-extern Vtx gOptionsDividerBottom[];
-
 static s16 D_808124C0[] = {
     0x0002, 0x0003, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0002, 0x0000, 0x0001,
     0x0001, 0x0002, 0x0001, 0x0001, 0x0004, 0x0002, 0x0002, 0x0002, 0x0001, 0x0001, 0x0000, 0x0002, 0x0000, 0x0001,
@@ -654,7 +644,7 @@ void FileChoose_StartOptions(GameState* thisx) {
     }
 }
 
-static u8 gSelectedSetting;
+static u8 sSelectedSetting;
 
 /**
  * Update the cursor and appropriate settings for the options menu.
@@ -689,7 +679,7 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     if (this->stickRelX < -30) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
-        if (gSelectedSetting == SETTING_AUDIO) {
+        if (sSelectedSetting == SETTING_AUDIO) {
             gSaveContext.audioSetting--;
 
             // because audio setting is unsigned, can't check for < 0
@@ -702,7 +692,7 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     } else if (this->stickRelX > 30) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
-        if (gSelectedSetting == SETTING_AUDIO) {
+        if (sSelectedSetting == SETTING_AUDIO) {
             gSaveContext.audioSetting++;
 
             if (gSaveContext.audioSetting > AUDIO_SURROUND) {
@@ -715,10 +705,10 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
 
     if ((this->stickRelY < -30) || (this->stickRelY > 30)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        gSelectedSetting ^= 1;
+        sSelectedSetting ^= 1;
     } else if (CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        gSelectedSetting ^= 1;
+        sSelectedSetting ^= 1;
     }
 }
 
@@ -900,7 +890,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
     for (i = 0, vtx = 0; i < 4; i++, vtx += 4) {
         gDPPipeSync(POLY_OPA_DISP++);
         if (i == gSaveContext.audioSetting) {
-            if (gSelectedSetting == SETTING_AUDIO) {
+            if (sSelectedSetting == SETTING_AUDIO) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, cursorPrimRed, cursorPrimGreen, cursorPrimBlue,
                                 this->titleAlpha[0]);
                 gDPSetEnvColor(POLY_OPA_DISP++, cursorEnvRed, cursorEnvGreen, cursorEnvBlue, 255);
@@ -924,7 +914,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
         gDPPipeSync(POLY_OPA_DISP++);
 
         if (i == (gSaveContext.zTargetSetting + 4)) {
-            if (gSelectedSetting != SETTING_AUDIO) {
+            if (sSelectedSetting != SETTING_AUDIO) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, cursorPrimRed, cursorPrimGreen, cursorPrimBlue,
                                 this->titleAlpha[0]);
                 gDPSetEnvColor(POLY_OPA_DISP++, cursorEnvRed, cursorEnvGreen, cursorEnvBlue, 0xFF);

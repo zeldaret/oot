@@ -196,7 +196,7 @@ void FileChoose_UpdateMainMenu(GameState* thisx) {
             } else if (this->n64ddFlags[this->buttonIndex] == this->n64ddFlag) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->actionTimer = 8;
-                this->selectMode = SM_FADE_OUT_MAIN;
+                this->selectMode = SM_FADE_MAIN_TO_SELECT;
                 this->selectedFileIndex = this->buttonIndex;
                 this->menuMode = MENU_MODE_SELECT;
                 this->nextTitleLabel = TITLE_OPEN_FILE;
@@ -209,10 +209,10 @@ void FileChoose_UpdateMainMenu(GameState* thisx) {
                 this->prevConfigMode = this->configMode;
 
                 if (this->buttonIndex == BTN_MAIN_COPY) {
-                    this->configMode = CM_COPY_SOURCE_MENU;
+                    this->configMode = CM_SETUP_COPY_SOURCE;
                     this->nextTitleLabel = TITLE_COPY_FROM;
                 } else if (this->buttonIndex == BTN_MAIN_ERASE) {
-                    this->configMode = CM_20;
+                    this->configMode = CM_SETUP_ERASE_SELECT;
                     this->nextTitleLabel = TITLE_ERASE_FILE;
                 } else {
                     this->configMode = CM_MAIN_TO_OPTIONS;
@@ -344,34 +344,34 @@ static void (*gConfigModeUpdateFuncs[])(GameState*) = {
     FileChoose_StartFadeIn,
     FileChoose_FinishFadeIn,
     FileChoose_UpdateMainMenu,
-    FileCopy_SetupSourceSelect,
-    FileCopy_SelectSource,
-    func_80804248,
-    func_808043D8,
+    FileChoose_SetupCopySource,
+    FileChoose_SelectCopySource,
+    FileChoose_SetupCopyDest1,
+    FileChoose_SetupCopyDest2,
     FileChoose_SelectCopyDest,
-    func_80804858,
-    func_80804924,
-    func_80804A50,
-    func_80804C74,
-    func_80804CD0,
-    func_80804ED8,
-    func_8080510C,
-    func_808051C8,
-    func_80805318,
-    func_80805434,
-    func_80805524,
-    FileCopy_SetupMainMenu,
-    func_8080595C,
-    func_80805B2C,
-    func_80805EB8,
-    func_80806180,
-    func_8080625C,
-    func_80806444,
-    func_808064F4,
-    func_80806710,
-    func_808068F0,
-    func_808069B4,
-    func_80806C20,
+    FileChoose_ExitToCopySource1,
+    FileChoose_ExitToCopySource2,
+    FileChoose_SetupCopyConfirm1,
+    FileChoose_SetupCopyConfirm2,
+    FileChoose_CopyConfirm,
+    FileChoose_ReturnToCopyDest,
+    FileChoose_CopyAnim1,
+    FileChoose_CopyAnim2,
+    FileChoose_CopyAnim3,
+    FileChoose_CopyAnim4,
+    FileChoose_CopyAnim5,
+    FileChoose_ExitCopyToMain,
+    FileChoose_SetupEraseSelect,
+    FileChoose_EraseSelect,
+    FileChoose_SetupEraseConfirm1,
+    FileChoose_SetupEraseConfirm2,
+    FileChoose_EraseConfirm,
+    FileChoose_ExitToEraseSelect1,
+    FileChoose_ExitToEraseSelect2,
+    FileChoose_EraseAnim1,
+    FileChoose_EraseAnim2,
+    FileChoose_EraseAnim3,
+    FileChoose_ExitEraseToMain,
     FileChoose_UnusedCM31,
     FileChoose_RotateToNameEntry,
     FileChoose_UpdateKeyboardCursor,
@@ -615,9 +615,9 @@ void FileChoose_SetWindowContentVtx(GameState* thisx) {
 
         this->windowContentVtx[phi_t2 + 5].v.tc[0] = this->windowContentVtx[phi_t2 + 7].v.tc[0] = 0xD80;
 
-        if ((this->configMode == CM_15) && (phi_t5 == this->copyDestFileIndex)) {
+        if ((this->configMode == CM_COPY_ANIM_2) && (phi_t5 == this->copyDestFileIndex)) {
             temp_t1 = this->fileNamesY[phi_t5] + 0x2C;
-        } else if (((this->configMode == CM_16) || (this->configMode == CM_17)) &&
+        } else if (((this->configMode == CM_COPY_ANIM_3) || (this->configMode == CM_COPY_ANIM_4)) &&
                    (phi_t5 == this->copyDestFileIndex)) {
             temp_t1 = this->buttonYOffsets[phi_t5] + phi_ra;
         } else {
@@ -666,7 +666,7 @@ void FileChoose_SetWindowContentVtx(GameState* thisx) {
 
             if ((this->configMode == 0xF) && (phi_t5 == this->copyDestFileIndex)) {
                 temp_t1 = this->fileNamesY[phi_t5] + 0x2C;
-            } else if (((this->configMode == CM_16) || (this->configMode == CM_17)) &&
+            } else if (((this->configMode == CM_COPY_ANIM_3) || (this->configMode == CM_COPY_ANIM_4)) &&
                        (phi_t5 == this->copyDestFileIndex)) {
                 temp_t1 = this->buttonYOffsets[phi_t5] + phi_ra;
             } else {
@@ -761,10 +761,10 @@ void FileChoose_SetWindowContentVtx(GameState* thisx) {
     if (((this->menuMode == MENU_MODE_CONFIG) && (this->configMode >= CM_MAIN_MENU)) ||
         ((this->menuMode == MENU_MODE_SELECT) && (this->selectMode == SM_CONFIRM_FILE))) {
         if (this->menuMode == MENU_MODE_CONFIG) {
-            if ((this->configMode == CM_SELECT_COPY_SOURCE) || (this->configMode == CM_07) ||
-                (this->configMode == CM_21)) {
+            if ((this->configMode == CM_SELECT_COPY_SOURCE) || (this->configMode == CM_SELECT_COPY_DEST) ||
+                (this->configMode == CM_ERASE_SELECT)) {
                 phi_t5 = D_8081283C[this->buttonIndex];
-            } else if ((this->configMode == CM_24) || (this->configMode == CM_12)) {
+            } else if ((this->configMode == CM_ERASE_CONFIRM) || (this->configMode == CM_COPY_CONFIRM)) {
                 phi_t5 = D_80812844[this->buttonIndex];
             } else {
                 phi_t5 = D_80812830[this->buttonIndex];
@@ -1097,8 +1097,8 @@ void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
     // draw highlight over currently selected button
     if (((this->menuMode == MENU_MODE_CONFIG) &&
          ((this->configMode == CM_MAIN_MENU) || (this->configMode == CM_SELECT_COPY_SOURCE) ||
-          (this->configMode == CM_07) || (this->configMode == CM_12) || (this->configMode == CM_21) ||
-          (this->configMode == CM_24))) ||
+          (this->configMode == CM_SELECT_COPY_DEST) || (this->configMode == CM_COPY_CONFIRM) || (this->configMode == CM_ERASE_SELECT) ||
+          (this->configMode == CM_ERASE_CONFIRM))) ||
         ((this->menuMode == MENU_MODE_SELECT) && (this->selectMode == SM_CONFIRM_FILE))) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
@@ -1250,7 +1250,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
 
 /**
  * Fade out the main menu elements to transition to select mode.
- * Update function for `SM_FADE_OUT_MAIN`
+ * Update function for `SM_FADE_MAIN_TO_SELECT`
  */
 void FileChoose_FadeMainToSelect(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -1424,7 +1424,7 @@ void FileChoose_MoveSelectedFileToSlot(GameState* thisx) {
         this->menuMode = MENU_MODE_CONFIG;
         this->configMode = CM_MAIN_MENU;
         this->nextConfigMode = CM_MAIN_MENU;
-        this->selectMode = SM_FADE_OUT_MAIN;
+        this->selectMode = SM_FADE_MAIN_TO_SELECT;
     }
 }
 
