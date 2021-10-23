@@ -60,40 +60,38 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 300, ICHAIN_STOP),
 };
 
-// clang-format off
 static EnViewerInitData sInitData[] = {
-    /* 0 */ { OBJECT_HORSE_ZELDA, OBJECT_HORSE_ZELDA, 1, 0,
-              ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE,
-              &gHorseZeldaSkel, &gHorseZeldaGallopingAnim },
-    /* 1 */ { OBJECT_IM, OBJECT_OPENING_DEMO1, 1, 0,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_IMPA,
-              &object_im_Skel_00F788, &object_opening_demo1_Anim_0029CC },
-    /* 2 */ { OBJECT_ZL4, OBJECT_OPENING_DEMO1, 1, 0,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_ZELDA,
-              &gChildZeldaSkel, &object_opening_demo1_Anim_000450 },
-    /* 3 */ { OBJECT_GNDD, OBJECT_GNDD, 1, -6,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF,
-              &object_gndd_Skel_0119E8, &object_gndd_Anim_002928 },
-    /* 4 */ { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0,
-              ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE,
-              &gHorseGanonSkel, &gHorseGanonRearingAnim },
-    /* 5 */ { OBJECT_GNDD, OBJECT_GNDD, 1, -6,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF,
-              &object_gndd_Skel_0119E8, &object_gndd_Anim_0005B4 },
-    /* 6 */ { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0,
-              ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE,
-              &gHorseGanonSkel, &gHorseGanonGallopingAnim },
-    /* 7 */ { OBJECT_GNDD, OBJECT_GNDD, 1, -6,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF,
-              &object_gndd_Skel_0119E8, &object_gndd_Anim_004260 },
-    /* 8 */ { OBJECT_GNDD, OBJECT_GNDD, 1, -6,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF,
-              &object_gndd_Skel_0119E8, &object_gndd_Anim_0050A8 },
-    /* 9 */ { OBJECT_GANON, OBJECT_GANON, 1, -6,
-              ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF,
-              &object_ganon_Skel_0114E8, &object_ganon_Anim_011348 },
+    /* 0 */
+    { OBJECT_HORSE_ZELDA, OBJECT_HORSE_ZELDA, 1, 0, ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE, &gHorseZeldaSkel,
+      &gHorseZeldaGallopingAnim },
+    /* 1 */
+    { OBJECT_IM, OBJECT_OPENING_DEMO1, 1, 0, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_IMPA, &object_im_Skel_00F788,
+      &object_opening_demo1_Anim_0029CC },
+    /* 2 */
+    { OBJECT_ZL4, OBJECT_OPENING_DEMO1, 1, 0, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_ZELDA, &gChildZeldaSkel,
+      &object_opening_demo1_Anim_000450 },
+    /* 3 */
+    { OBJECT_GNDD, OBJECT_GNDD, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_gndd_Skel_0119E8,
+      &object_gndd_Anim_002928 },
+    /* 4 */
+    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE, &gHorseGanonSkel,
+      &gHorseGanonRearingAnim },
+    /* 5 */
+    { OBJECT_GNDD, OBJECT_GNDD, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_gndd_Skel_0119E8,
+      &object_gndd_Anim_0005B4 },
+    /* 6 */
+    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, ENVIEWER_SHADOW_HORSE, 20, ENVIEWER_DRAW_HORSE, &gHorseGanonSkel,
+      &gHorseGanonGallopingAnim },
+    /* 7 */
+    { OBJECT_GNDD, OBJECT_GNDD, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_gndd_Skel_0119E8,
+      &object_gndd_Anim_004260 },
+    /* 8 */
+    { OBJECT_GNDD, OBJECT_GNDD, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_gndd_Skel_0119E8,
+      &object_gndd_Anim_0050A8 },
+    /* 9 */
+    { OBJECT_GANON, OBJECT_GANON, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_ganon_Skel_0114E8,
+      &object_ganon_Anim_011348 },
 };
-// clang-format on
 
 static EnViewerInitAnimFunc sInitAnimFuncs[] = {
     EnViewer_InitAnimGanondorfOrZelda,
