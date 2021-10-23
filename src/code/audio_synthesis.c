@@ -31,7 +31,6 @@ Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 co
                                s32 resampleFlags);
 
 u32 D_801304A0 = 0x13000000;
-
 u32 D_801304A4 = 0x5CAEC8E2;
 u32 D_801304A8 = 0x945CC8E2;
 u32 D_801304AC = 0x94AEC8E2;

@@ -81,8 +81,6 @@ typedef enum {
 
 #define SCROLL_PRINT_BUF_SIZE 25
 
-extern f32 gBendPitchTwoSemitonesFrequencies[]; // from audio_synthesis
-
 u8 D_80130570[7] = { 0, 0, 0, 1, 0, 0, 0 };
 u8 D_80130578[4][7] = {
     { 3, 2, 3, 3, 2, 1, 2 },
