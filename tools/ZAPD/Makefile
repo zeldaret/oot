@@ -24,7 +24,7 @@ ifneq ($(DEBUG),0)
   COPYCHECK_ARGS += --devel
   DEPRECATION_ON = 0
 else
-  CXXFLAGS += -Werror
+  CXXFLAGS +=
 endif
 
 ifeq ($(OPTIMIZATION_ON),0)
