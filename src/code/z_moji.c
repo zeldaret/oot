@@ -17,8 +17,6 @@ s32 sScreenPosY = 0;
 
 s32 sCurTLUTIndex;
 
-static s32 sUnused;
-
 void Moji_SetColor(u32 red, u32 green, u32 blue, u32 alpha) {
     sFontColorRed = red;
     sFontColorGreen = green;
