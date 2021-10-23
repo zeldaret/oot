@@ -994,7 +994,7 @@ void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
                             G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
-        // draw file name background
+        // draw file name box
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sWindowContentColors[isActive][0], sWindowContentColors[isActive][1],
                         sWindowContentColors[isActive][2], this->nameBoxAlpha[i]);
         gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelNameBoxTex, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0,
@@ -1037,7 +1037,7 @@ void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
     gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[0x274], 20, 0);
 
-    // draw action buttons
+    // draw primary action buttons (copy/erase)
     for (quadVtxIndex = 0, i = 0; i < 2; i++, quadVtxIndex += 4) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -1050,9 +1050,9 @@ void FileChoose_DrawWindowContents(FileChooseContext* thisx) {
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-    // draw confirm buttons
+    // draw confirm buttons (yes/quit)
     for (quadVtxIndex = 0, i = 0; i < 2; i++, quadVtxIndex += 4) {
-        temp = this->unk_1CAAE[i];
+        temp = this->confirmButtonTexIndices[i];
 
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->confirmButtonAlpha[i]);
@@ -1600,7 +1600,7 @@ void FileChoose_Main(GameState* thisx) {
     this->stickRelY = controller1->rel.stick_y;
 
     if (this->stickRelX < -30) {
-        if (this->xIndexOffset == -1) {
+        if (this->stickXDir == -1) {
             this->inputTimerX--;
             if (this->inputTimerX < 0) {
                 this->inputTimerX = 2;
@@ -1609,28 +1609,26 @@ void FileChoose_Main(GameState* thisx) {
             }
         } else {
             this->inputTimerX = 10;
-            this->xIndexOffset = -1;
+            this->stickXDir = -1;
         }
-    } else {
-        if (this->stickRelX > 30) {
-            if (this->xIndexOffset == 1) {
-                this->inputTimerX--;
-                if (this->inputTimerX < 0) {
-                    this->inputTimerX = 2;
-                } else {
-                    this->stickRelX = 0;
-                }
+    } else if (this->stickRelX > 30) {
+        if (this->stickXDir == 1) {
+            this->inputTimerX--;
+            if (this->inputTimerX < 0) {
+                this->inputTimerX = 2;
             } else {
-                this->inputTimerX = 10;
-                this->xIndexOffset = 1;
+                this->stickRelX = 0;
             }
         } else {
-            this->xIndexOffset = 0;
+            this->inputTimerX = 10;
+            this->stickXDir = 1;
         }
+    } else {
+        this->stickXDir = 0;
     }
 
     if (this->stickRelY < -30) {
-        if (this->yIndexOffset == -1) {
+        if (this->stickYDir == -1) {
             this->inputTimerY -= 1;
             if (this->inputTimerY < 0) {
                 this->inputTimerY = 2;
@@ -1639,24 +1637,22 @@ void FileChoose_Main(GameState* thisx) {
             }
         } else {
             this->inputTimerY = 10;
-            this->yIndexOffset = -1;
+            this->stickYDir = -1;
         }
-    } else {
-        if (this->stickRelY > 30) {
-            if (this->yIndexOffset == 1) {
-                this->inputTimerY -= 1;
-                if (this->inputTimerY < 0) {
-                    this->inputTimerY = 2;
-                } else {
-                    this->stickRelY = 0;
-                }
+    } else if (this->stickRelY > 30) {
+        if (this->stickYDir == 1) {
+            this->inputTimerY -= 1;
+            if (this->inputTimerY < 0) {
+                this->inputTimerY = 2;
             } else {
-                this->inputTimerY = 10;
-                this->yIndexOffset = 1;
+                this->stickRelY = 0;
             }
         } else {
-            this->yIndexOffset = 0;
+            this->inputTimerY = 10;
+            this->stickYDir = 1;
         }
+    } else {
+        this->stickYDir = 0;
     }
 
     this->emptyFileTextAlpha = 0;
@@ -1772,8 +1768,8 @@ void FileChoose_InitContext(GameState* thisx) {
     this->buttonIndex = this->selectMode = this->selectedFileIndex = this->copyDestFileIndex =
         this->confirmButtonIndex = 0;
 
-    this->unk_1CAAE[0] = 2;
-    this->unk_1CAAE[1] = 3;
+    this->confirmButtonTexIndices[0] = 2;
+    this->confirmButtonTexIndices[1] = 3;
     this->titleLabel = TITLE_SELECT_FILE;
     this->nextTitleLabel = TITLE_OPEN_FILE;
     this->highlightFlashDir = 1;
@@ -1784,8 +1780,8 @@ void FileChoose_InitContext(GameState* thisx) {
     this->highlightColor[3] = 70;
     this->configMode = CM_FADE_IN_START;
     this->windowRot = 0.0f;
-    this->xIndexOffset = this->inputTimerX = 0;
-    this->yIndexOffset = this->inputTimerY = 0;
+    this->stickXDir = this->inputTimerX = 0;
+    this->stickYDir = this->inputTimerY = 0;
     this->kbdX = this->kbdY = this->charIndex = 0;
     this->kbdButton = KBD_BTN_NONE;
 
