@@ -30,18 +30,6 @@ void EnViewer_UpdateGanondorfCape(GlobalContext* globalCtx, EnViewer* this);
 void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx);
 void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx);
 
-// sInitAnimFuncs
-void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
-                                       AnimationHeader* anim);
-void EnViewer_InitAnimImpa(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim);
-void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim);
-
-// sDrawFuncs
-void EnViewer_DrawGanondorf(EnViewer* this, GlobalContext* globalCtx);
-void EnViewer_DrawHorse(EnViewer* this, GlobalContext* globalCtx);
-void EnViewer_DrawZelda(EnViewer* this, GlobalContext* globalCtx);
-void EnViewer_DrawImpa(EnViewer* this, GlobalContext* globalCtx);
-
 static u8 sHorseSfxPlayed = false;
 
 const ActorInit En_Viewer_InitVars = {
@@ -91,30 +79,6 @@ static EnViewerInitData sInitData[] = {
     /* ENVIEWER_TYPE_9_GANONDORF */
     { OBJECT_GANON, OBJECT_GANON, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_ganon_Skel_0114E8,
       &object_ganon_Anim_011348 },
-};
-
-static EnViewerInitAnimFunc sInitAnimFuncs[] = {
-    EnViewer_InitAnimGanondorfOrZelda,
-    EnViewer_InitAnimHorse,
-    EnViewer_InitAnimGanondorfOrZelda,
-    EnViewer_InitAnimImpa,
-};
-
-static ActorShadowFunc sShadowFuncs[] = {
-    NULL,
-    ActorShadow_DrawCircle,
-    ActorShadow_DrawHorse,
-};
-
-static s16 sTimer = 0;
-
-static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
-
-static EnViewerDrawFunc sDrawFuncs[] = {
-    EnViewer_DrawGanondorf,
-    EnViewer_DrawHorse,
-    EnViewer_DrawZelda,
-    EnViewer_DrawImpa,
 };
 
 static EnGanonMant* sGanondorfCape;
@@ -190,6 +154,19 @@ void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skel
     }
 }
 
+static EnViewerInitAnimFunc sInitAnimFuncs[] = {
+    EnViewer_InitAnimGanondorfOrZelda,
+    EnViewer_InitAnimHorse,
+    EnViewer_InitAnimGanondorfOrZelda,
+    EnViewer_InitAnimImpa,
+};
+
+static ActorShadowFunc sShadowFuncs[] = {
+    NULL,
+    ActorShadow_DrawCircle,
+    ActorShadow_DrawHorse,
+};
+
 void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
     EnViewerInitData* initData = &sInitData[this->actor.params >> 8];
     s32 skelObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, initData->skeletonObject);
@@ -215,6 +192,8 @@ void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
     sInitAnimFuncs[this->drawFuncIndex](this, globalCtx, initData->skeletonHeaderSeg, initData->anim);
     EnViewer_SetupAction(this, EnViewer_UpdateImpl);
 }
+
+static s16 sTimer = 0;
 
 void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
     u8 type = this->actor.params >> 8;
@@ -538,8 +517,10 @@ void EnViewer_Ganondorf9PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
 
 void EnViewer_GanondorfPostLimbDrawUpdateCapeVec(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot,
                                                  void* thisx) {
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&sZeroVec, &sGanondorfNeckWorldPos);
+        Matrix_MultVec3f(&zeroVec, &sGanondorfNeckWorldPos);
     }
 }
 
@@ -704,6 +685,13 @@ void EnViewer_DrawImpa(EnViewer* this, GlobalContext* globalCtx) {
                           this->skin.skelAnime.dListCount, EnViewer_ImpaOverrideLimbDraw, NULL, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1740);
 }
+
+static EnViewerDrawFunc sDrawFuncs[] = {
+    EnViewer_DrawGanondorf,
+    EnViewer_DrawHorse,
+    EnViewer_DrawZelda,
+    EnViewer_DrawImpa,
+};
 
 void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnViewer* this = THIS;
