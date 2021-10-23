@@ -206,8 +206,9 @@ extern u16 gSramSlotOffsets[];
 //extern ? D_8012A6A4;
 //extern ? D_8012A704;
 //extern ? D_8012A71C;
-extern Color_RGBA16 gMojiFontTLUTs[4][16]; // original name: "moji_tlut"
-extern u8 gMojiFontTex[]; // original name: "font_ff"
+// 4 16-colors palettes
+extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
+extern u64 gMojiFontTex[]; // original name: "font_ff"
 //extern ? D_8012AC90;
 //extern ? D_8012ACA0;
 //extern ? D_8012AD20;
