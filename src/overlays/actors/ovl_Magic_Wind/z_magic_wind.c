@@ -47,19 +47,19 @@ void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx) {
     MagicWind* this = THIS;
     Player* player = GET_PLAYER(globalCtx);
 
-    if (SkelCurve_Init(globalCtx, &this->skelCurve, &sdSkel, &sdAnim) == 0) {
+    if (SkelCurve_Init(globalCtx, &this->skelCurve, &sSkel, &sAnim) == 0) {
         // "Magic_Wind_Actor_ct (): Construct failed"
         osSyncPrintf("Magic_Wind_Actor_ct():コンストラクト失敗\n");
     }
     this->actor.room = -1;
     switch (this->actor.params) {
         case 0:
-            SkelCurve_SetAnim(&this->skelCurve, &sdAnim, 0.0f, 60.0f, 0.0f, 1.0f);
+            SkelCurve_SetAnim(&this->skelCurve, &sAnim, 0.0f, 60.0f, 0.0f, 1.0f);
             this->timer = 29;
             MagicWind_SetupAction(this, MagicWind_WaitForTimer);
             break;
         case 1:
-            SkelCurve_SetAnim(&this->skelCurve, &sdAnim, 60.0f, 0.0f, 60.0f, -1.0f);
+            SkelCurve_SetAnim(&this->skelCurve, &sAnim, 60.0f, 0.0f, 60.0f, -1.0f);
             MagicWind_SetupAction(this, MagicWind_Shrink);
             // "Means start"
             LOG_STRING("表示開始", "../z_magic_wind.c", 486);
@@ -80,7 +80,7 @@ void MagicWind_UpdateAlpha(f32 alpha) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sAlphaUpdVals); i++) {
-        sdCylinderVtx[sAlphaUpdVals[i]].n.a = alpha * 255.0f;
+        sCylinderVtx[sAlphaUpdVals[i]].n.a = alpha * 255.0f;
     }
 }
 

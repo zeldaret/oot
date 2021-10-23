@@ -1,5 +1,5 @@
 <Root>
-    <File Name="ovl_Demo_Shd" BaseAddress="0x80991230" RangeStart="0x450" RangeEnd="0x23D0" Segment="128">
+    <File Name="ovl_Demo_Shd" BaseAddress="0x80991230" RangeStart="0x450" RangeEnd="0x23D0">
 
     <DList Name="D_809932D0" Offset="0x20A0"/>
     <DList Name="D_80993390" Offset="0x2160"/>

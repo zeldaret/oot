@@ -1,5 +1,5 @@
 <Root>
-    <File Name="ovl_En_Kanban" BaseAddress="0x80A91FA0" RangeStart="0x2F80" RangeEnd="0x3040" Segment="128">
+    <File Name="ovl_En_Kanban" BaseAddress="0x80A91FA0" RangeStart="0x2F80" RangeEnd="0x3040">
         <Array Name="sShadowVtx" Count="4" Offset="0x2F80">
             <Vtx/>
         </Array>

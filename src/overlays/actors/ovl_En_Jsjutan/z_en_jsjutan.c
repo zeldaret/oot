@@ -44,7 +44,7 @@ void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->dyna.actor.flags &= ~1;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&sCollision, &header);
+    CollisionHeader_GetVirtual(&sCol, &header);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, header);
     Actor_SetScale(thisx, 0.02f);
     this->unk_164 = true;
@@ -167,9 +167,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             }
             actorBeanGuy = actorBeanGuy->next;
         }
-
-        //! @bug If somehow, neither of these two actors is not found, the game
-        // will dereference a NULL pointer, but this is unlikely to happen.
 
         spD4[1] = 50.0f * (actorProfessor->world.pos.x - this->dyna.actor.world.pos.x);
         spC8[1] = 50.0f * (actorProfessor->world.pos.y - this->unk_168);

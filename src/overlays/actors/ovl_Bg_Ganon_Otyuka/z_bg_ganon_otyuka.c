@@ -74,7 +74,7 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&sCollision, &colHeader);
+    CollisionHeader_GetVirtual(&sCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (thisx->params != 0x23) {

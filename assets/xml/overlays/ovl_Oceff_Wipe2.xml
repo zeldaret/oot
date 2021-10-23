@@ -1,5 +1,5 @@
 <Root>
-    <File Name="ovl_Oceff_Wipe2" BaseAddress="0x80BA9BB0" RangeStart="0x480" RangeEnd="0x16E8" Segment="128">
+    <File Name="ovl_Oceff_Wipe2" BaseAddress="0x80BA9BB0" RangeStart="0x480" RangeEnd="0x16E8">
         <Texture Name="s1Tex" OutName="eponas_song_effect_1" Format="ia4" Width="64" Height="64" Offset="0x480"/>
         <Texture Name="s2Tex" OutName="eponas_song_effect_2" Format="ia4" Width="64" Height="64" Offset="0xC80"/>
         <Array Name="sFrustumVtx" Count="22" Offset="0x1480">

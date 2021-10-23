@@ -323,7 +323,7 @@ void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
 
-    //Likely an unused blink timer and eye index
+    // Likely an unused blink timer and eye index
     if (DECR(this->unk_2B6) == 0) {
         this->unk_2B6 = Rand_S16Offset(0x3C, 0x3C);
     }
@@ -362,7 +362,7 @@ void EnSth_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80B0B49C, &this->actor.focus.pos);
-        if (this->actor.params != 0) { //Children 
+        if (this->actor.params != 0) { // Children
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sth.c", 2079);
 
             gSPDisplayList(POLY_OPA_DISP++, D_80B0A3C0);
