@@ -214,14 +214,6 @@ void FileChoose_DrawOptions(GameState* thisx);
 void FileChoose_DrawNameEntry(GameState* thisx);
 void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
 
-extern Vtx D_80811BB0[];
 extern s16 D_808123F0[];
-extern Vtx D_80811E30[];
-extern Vtx D_80811D30[];
-extern Vtx D_80812130[];
-extern Vtx D_80811F30[];
-extern Vtx gOptionsDividerTop[];
-extern Vtx gOptionsDividerMiddle[];
-extern Vtx gOptionsDividerBottom[];
 
 #endif
