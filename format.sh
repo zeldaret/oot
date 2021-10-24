@@ -9,7 +9,7 @@ shopt -s globstar
 if (( $# > 0 )); then
     echo "Formatting file(s) $*"
     echo "Running clang-format..."
-    clang-format ${FORMAT_OPTS} "$@"
+    clang-format-11 ${FORMAT_OPTS} "$@"
     echo "Running clang-tidy..."
     clang-tidy ${TIDY_OPTS} "$@" -- ${COMPILER_OPTS} &> /dev/null
     echo "Adding missing final new lines..."
