@@ -99,7 +99,7 @@ typedef struct EnZf {
     /* 0x03E4 */ s32 hopAnimIndex;
     /* 0x03E8 */ EnZfActionFunc actionFunc;
     /* 0x03EC */ s16 headRot;
-    /* 0x03EE */ s16 headRotTemp; // Only used in one function
+    /* 0x03EE */ s16 headRotTemp;
     /* 0x03F0 */ s32 unk_3F0; // attack timer?
     /* 0x03F4 */ s16 unk_3F4; // tag timer?
     /* 0x03F6 */ s16 iceTimer;

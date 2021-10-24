@@ -244,7 +244,7 @@ s32 EnZf_PrimaryFloorCheck(EnZf* this, GlobalContext* globalCtx, f32 dist) {
 }
 
 /**
- * Supplementary floor test. Only used twice.
+ * Supplementary floor test.
  */
 s16 EnZf_SecondaryFloorCheck(EnZf* this, GlobalContext* globalCtx, f32 dist) {
     s16 ret;
@@ -521,7 +521,7 @@ s16 EnZf_FindNextPlatformTowardsPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, Gl
 }
 
 // Player not targeting this or another EnZf?
-s32 EnZf_MayAttack(GlobalContext* globalCtx, EnZf* this) {
+s32 EnZf_CanAttack(GlobalContext* globalCtx, EnZf* this) {
     Actor* targetedActor;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -555,9 +555,7 @@ s32 EnZf_MayAttack(GlobalContext* globalCtx, EnZf* this) {
 }
 
 void func_80B44DC4(EnZf* this, GlobalContext* globalCtx) {
-    s16 angleDiff;
-
-    angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (angleDiff < 0) {
         angleDiff = -angleDiff;
@@ -566,7 +564,7 @@ void func_80B44DC4(EnZf* this, GlobalContext* globalCtx) {
     if (angleDiff >= 0x1B58) {
         func_80B483E4(this, globalCtx);
     } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames % 8) != 0) &&
-               EnZf_MayAttack(globalCtx, this)) {
+               EnZf_CanAttack(globalCtx, this)) {
         EnZf_SetupSlash(this);
     } else {
         func_80B45384(this);
@@ -783,7 +781,6 @@ void EnZf_ApproachPlayer(EnZf* this, GlobalContext* globalCtx) {
     }
 
     if (!EnZf_DodgeRangedEngaging(globalCtx, this)) {
-
         if (sp48 != this->curPlatform) {
             this->nextPlatform = EnZf_FindNextPlatformTowardsPlayer(&this->actor.world.pos, this->curPlatform,
                                                                     this->homePlatform, globalCtx);
@@ -858,7 +855,7 @@ void EnZf_ApproachPlayer(EnZf* this, GlobalContext* globalCtx) {
                     func_80B45384(this);
                 }
             } else if (this->actor.xzDistToPlayer < 100.0f) {
-                if ((Rand_ZeroOne() > 0.05f) && EnZf_MayAttack(globalCtx, this)) {
+                if ((Rand_ZeroOne() > 0.05f) && EnZf_CanAttack(globalCtx, this)) {
                     EnZf_SetupSlash(this);
                 } else if (Rand_ZeroOne() > 0.5f) {
                     func_80B483E4(this, globalCtx);
@@ -908,7 +905,6 @@ void EnZf_ApproachPlayer(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// Jump between platforms
 void EnZf_SetupJumpForward(EnZf* this) {
     Animation_Change(&this->skelAnime, &gZfJumpingAnim, 1.0f, 0.0f, 3.0f, ANIMMODE_ONCE, -3.0f);
     this->unk_3F0 = 0;
@@ -950,7 +946,7 @@ void EnZf_JumpForward(EnZf* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.params == ENZF_TYPE_DINOLFOS) && (this->actor.bgCheckFlags & 3)) {
-        if (EnZf_MayAttack(globalCtx, this)) {
+        if (EnZf_CanAttack(globalCtx, this)) {
             EnZf_SetupSlash(this);
         } else {
             func_80B483E4(this, globalCtx);
@@ -1143,7 +1139,7 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
             this->actor.world.rot.y = this->actor.shape.rot.y;
 
             if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames % 4) == 0) &&
-                EnZf_MayAttack(globalCtx, this)) {
+                EnZf_CanAttack(globalCtx, this)) {
                 EnZf_SetupSlash(this);
             } else {
                 func_80B45384(this);
@@ -1206,7 +1202,7 @@ void EnZf_Slash(EnZf* this, GlobalContext* globalCtx) {
                     if (yawDiff > 16000) {
                         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                         func_80B483E4(this, globalCtx);
-                    } else if ((player->stateFlags1 & 0x6010)) {
+                    } else if (player->stateFlags1 & 0x6010) {
                         if (this->actor.isTargeted) {
                             EnZf_SetupSlash(this);
                         } else {
@@ -1235,7 +1231,7 @@ void EnZf_RecoilFromBlockedSlash(EnZf* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (Rand_ZeroOne() > 0.7f) {
             func_80B45384(this);
-        } else if ((Rand_ZeroOne() > 0.2f) && EnZf_MayAttack(globalCtx, this)) {
+        } else if ((Rand_ZeroOne() > 0.2f) && EnZf_CanAttack(globalCtx, this)) {
             EnZf_SetupSlash(this);
         } else {
             func_80B483E4(this, globalCtx);
@@ -1330,7 +1326,7 @@ void EnZf_Stunned(EnZf* this, GlobalContext* globalCtx) {
                     if (this->actor.params != ENZF_TYPE_DINOLFOS) {
                         func_80B44DC4(this, globalCtx);
                     } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames % 4) != 0) &&
-                               EnZf_MayAttack(globalCtx, this)) {
+                               EnZf_CanAttack(globalCtx, this)) {
                         EnZf_SetupSlash(this);
                     } else {
                         func_80B44DC4(this, globalCtx);
@@ -1529,7 +1525,6 @@ void EnZf_HopAway(EnZf* this, GlobalContext* globalCtx) {
                     if (this->actor.speedXZ == 0.0f) {
                         EnZf_SetupHopAndTaunt(this);
                     }
-                    // Does not match with a break here
             }
             break;
 
@@ -1680,7 +1675,7 @@ void EnZf_Damaged(EnZf* this, GlobalContext* globalCtx) {
                         func_80B44DC4(this, globalCtx);
                     }
                 } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames % 4) == 0) &&
-                           EnZf_MayAttack(globalCtx, this)) {
+                           EnZf_CanAttack(globalCtx, this)) {
                     EnZf_SetupSlash(this);
                 } else {
                     func_80B44DC4(this, globalCtx);
@@ -1864,7 +1859,7 @@ void EnZf_CircleAroundPlayer(EnZf* this, GlobalContext* globalCtx) {
                 this->actor.world.rot.y = this->actor.shape.rot.y;
 
                 if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames % 4) == 0) &&
-                    EnZf_MayAttack(globalCtx, this)) {
+                    EnZf_CanAttack(globalCtx, this)) {
                     EnZf_SetupSlash(this);
                 } else if ((this->actor.xzDistToPlayer < 280.0f) && (this->actor.xzDistToPlayer > 240.0f) &&
                            !EnZf_PrimaryFloorCheck(this, globalCtx, 191.9956f) &&
@@ -2352,7 +2347,6 @@ s32 EnZf_DodgeRangedEngaging(GlobalContext* globalCtx, EnZf* this) {
     return false;
 }
 
-// Only used in EnZf_HopAndTaunt
 s32 EnZf_DodgeRangedWaiting(GlobalContext* globalCtx, EnZf* this) {
     Actor* projectileActor;
     s16 yawToProjectile;
