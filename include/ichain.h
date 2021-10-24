@@ -1,6 +1,8 @@
 #ifndef ICHAIN_H
 #define ICHAIN_H
 
+#include "global.h"
+
 typedef struct {
     u32 cont:   1;
     u32 type:   4;
