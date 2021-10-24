@@ -3051,9 +3051,9 @@ void EnHorse_ResolveCollision(EnHorse* this, GlobalContext* globalCtx, Collision
     f32 nz;
     f32 offset;
 
-    nx = colPoly->normal.x * COLPOLY_NORMAL_FRAC;
-    ny = colPoly->normal.y * COLPOLY_NORMAL_FRAC;
-    nz = colPoly->normal.z * COLPOLY_NORMAL_FRAC;
+    nx = COLPOLY_GET_NORMAL(colPoly->normal.x);
+    ny = COLPOLY_GET_NORMAL(colPoly->normal.y);
+    nz = COLPOLY_GET_NORMAL(colPoly->normal.z);
     if (!(Math_CosS(this->actor.world.rot.y -
                     (s16)(Math_FAtan2F(colPoly->normal.x, colPoly->normal.z) * (0x8000 / M_PI)) - 0x7FFF) <
           0.7071f)) { // cos(45 degrees)
