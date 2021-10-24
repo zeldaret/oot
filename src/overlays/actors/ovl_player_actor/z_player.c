@@ -11803,9 +11803,9 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
             if ((this->getItemId == GI_HEART_CONTAINER_2) || (this->getItemId == GI_HEART_CONTAINER) ||
                 ((this->getItemId == GI_HEART_PIECE) &&
                  ((gSaveContext.inventory.questItems & 0xF0000000) == 0x40000000))) {
-                temp1 = 0x900 | NA_BGM_HEART_GET;
+                temp1 = NA_BGM_HEART_GET | 0x900;
             } else {
-                temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? NA_BGM_SMALL_ITEM_GET : 0x900 | NA_BGM_ITEM_GET;
+                temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? NA_BGM_SMALL_ITEM_GET : NA_BGM_ITEM_GET | 0x900;
             }
             func_800F5C64(temp1);
         }
@@ -12129,7 +12129,7 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F != 0) {
             if (this->unk_850 == 0) {
                 func_8010B680(globalCtx, D_80854A04[this->unk_84F - 1].textId, &this->actor);
-                func_800F5C64(0x900 | NA_BGM_ITEM_GET);
+                func_800F5C64(NA_BGM_ITEM_GET | 0x900);
                 this->unk_850 = 1;
             } else if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
                 this->unk_84F = 0;

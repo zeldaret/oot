@@ -215,7 +215,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                                     this->subCamera = SUBCAM_FREE;
                                     OnePointCutscene_Init(globalCtx, 2350, -99, &this->scrubs[3]->actor, MAIN_CAM);
                                 }
-                                Audio_QueueSeqCmd(0x800 | NA_BGM_ENEMY);
+                                Audio_QueueSeqCmd(NA_BGM_ENEMY | 0x800);
                                 break;
                             case DNT_ACTION_DANCE:
                                 Audio_QueueSeqCmd(NA_BGM_SHOP);

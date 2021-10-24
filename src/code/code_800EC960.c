@@ -3782,7 +3782,7 @@ void func_800F5E90(u8 arg0) {
             arg0 = 3;
         }
         phi_t1 = D_8016E750[0].unk_254;
-        if (phi_t1 == NA_BGM_FIELD_LOGIC && func_800FA0B4(3) == (0x800 | NA_BGM_ENEMY)) {
+        if (phi_t1 == NA_BGM_FIELD_LOGIC && func_800FA0B4(3) == (NA_BGM_ENEMY | 0x800)) {
             arg0 = 3;
         }
 
@@ -3796,7 +3796,7 @@ void func_800F5E90(u8 arg0) {
                         phi_t0 = D_8016E750[3].volScales[1] - sAudioEnemyVol;
                     }
                     Audio_SetVolScale(3, 3, sAudioEnemyVol, phi_t0);
-                    Audio_StartSeq(3, 10, 0x800 | NA_BGM_ENEMY);
+                    Audio_StartSeq(3, 10, NA_BGM_ENEMY | 0x800);
                     if (phi_t1 != NA_BGM_NATURE_BACKGROUND) {
                         Audio_SetVolScale(0, 3, (0x7F - sAudioEnemyVol) & 0xFF, 0xA);
                         func_800F510C(sAudioEnemyVol);
