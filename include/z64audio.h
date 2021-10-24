@@ -557,7 +557,8 @@ typedef struct {
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 numNotes;
     /* 0x06 */ u8 numSequencePlayers;
-    /* 0x07 */ u8 unk_07[0x2]; // zeroes
+    /* 0x07 */ u8 unk_07; // unused, set to zero
+    /* 0x08 */ u8 unk_08; // unused, set to zero
     /* 0x09 */ u8 numReverbs;
     /* 0x0C */ ReverbSettings* reverbSettings;
     /* 0x10 */ u16 sampleDmaBufSize1;

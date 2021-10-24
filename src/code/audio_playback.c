@@ -795,7 +795,7 @@ void Audio_NoteReleaseAndTakeOwnership(Note* note, SequenceLayer* layer) {
     note->playbackState.adsr.action.s.release = true;
 }
 
-Note* AudioHeap_AllocNoteFromDisabled(NotePool* pool, SequenceLayer* layer) {
+Note* Audio_AllocNoteFromDisabled(NotePool* pool, SequenceLayer* layer) {
     Note* note = AudioSeq_AudioListPopBack(&pool->disabled);
     if (note != NULL) {
         Audio_NoteInitForLayer(note, layer);
@@ -804,7 +804,7 @@ Note* AudioHeap_AllocNoteFromDisabled(NotePool* pool, SequenceLayer* layer) {
     return note;
 }
 
-Note* AudioHeap_AllocNoteFromDecaying(NotePool* pool, SequenceLayer* layer) {
+Note* Audio_AllocNoteFromDecaying(NotePool* pool, SequenceLayer* layer) {
     Note* note = AudioSeq_AudioListPopBack(&pool->decaying);
     if (note != NULL) {
         Audio_NoteReleaseAndTakeOwnership(note, layer);
@@ -813,7 +813,7 @@ Note* AudioHeap_AllocNoteFromDecaying(NotePool* pool, SequenceLayer* layer) {
     return note;
 }
 
-Note* AudioHeap_AllocNoteFromActive(NotePool* pool, SequenceLayer* layer) {
+Note* Audio_AllocNoteFromActive(NotePool* pool, SequenceLayer* layer) {
     Note* rNote;
     Note* aNote;
     s32 rPriority;
@@ -848,7 +848,7 @@ Note* AudioHeap_AllocNoteFromActive(NotePool* pool, SequenceLayer* layer) {
     return rNote;
 }
 
-Note* AudioHeap_AllocNote(SequenceLayer* layer) {
+Note* Audio_AllocNote(SequenceLayer* layer) {
     Note* ret;
     u32 policy = layer->channel->noteAllocPolicy;
 
@@ -864,44 +864,44 @@ Note* AudioHeap_AllocNote(SequenceLayer* layer) {
     }
 
     if (policy & 2) {
-        if (!(ret = AudioHeap_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
-            !(ret = AudioHeap_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
-            !(ret = AudioHeap_AllocNoteFromActive(&layer->channel->notePool, layer))) {
+        if (!(ret = Audio_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
+            !(ret = Audio_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
+            !(ret = Audio_AllocNoteFromActive(&layer->channel->notePool, layer))) {
             goto null_return;
         }
         return ret;
     }
 
     if (policy & 4) {
-        if (!(ret = AudioHeap_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
-            !(ret = AudioHeap_AllocNoteFromDisabled(&layer->channel->seqPlayer->notePool, layer)) &&
-            !(ret = AudioHeap_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
-            !(ret = AudioHeap_AllocNoteFromDecaying(&layer->channel->seqPlayer->notePool, layer)) &&
-            !(ret = AudioHeap_AllocNoteFromActive(&layer->channel->notePool, layer)) &&
-            !(ret = AudioHeap_AllocNoteFromActive(&layer->channel->seqPlayer->notePool, layer))) {
+        if (!(ret = Audio_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
+            !(ret = Audio_AllocNoteFromDisabled(&layer->channel->seqPlayer->notePool, layer)) &&
+            !(ret = Audio_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
+            !(ret = Audio_AllocNoteFromDecaying(&layer->channel->seqPlayer->notePool, layer)) &&
+            !(ret = Audio_AllocNoteFromActive(&layer->channel->notePool, layer)) &&
+            !(ret = Audio_AllocNoteFromActive(&layer->channel->seqPlayer->notePool, layer))) {
             goto null_return;
         }
         return ret;
     }
 
     if (policy & 8) {
-        if (!(ret = AudioHeap_AllocNoteFromDisabled(&gAudioContext.noteFreeLists, layer)) &&
-            !(ret = AudioHeap_AllocNoteFromDecaying(&gAudioContext.noteFreeLists, layer)) &&
-            !(ret = AudioHeap_AllocNoteFromActive(&gAudioContext.noteFreeLists, layer))) {
+        if (!(ret = Audio_AllocNoteFromDisabled(&gAudioContext.noteFreeLists, layer)) &&
+            !(ret = Audio_AllocNoteFromDecaying(&gAudioContext.noteFreeLists, layer)) &&
+            !(ret = Audio_AllocNoteFromActive(&gAudioContext.noteFreeLists, layer))) {
             goto null_return;
         }
         return ret;
     }
 
-    if (!(ret = AudioHeap_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
-        !(ret = AudioHeap_AllocNoteFromDisabled(&layer->channel->seqPlayer->notePool, layer)) &&
-        !(ret = AudioHeap_AllocNoteFromDisabled(&gAudioContext.noteFreeLists, layer)) &&
-        !(ret = AudioHeap_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
-        !(ret = AudioHeap_AllocNoteFromDecaying(&layer->channel->seqPlayer->notePool, layer)) &&
-        !(ret = AudioHeap_AllocNoteFromDecaying(&gAudioContext.noteFreeLists, layer)) &&
-        !(ret = AudioHeap_AllocNoteFromActive(&layer->channel->notePool, layer)) &&
-        !(ret = AudioHeap_AllocNoteFromActive(&layer->channel->seqPlayer->notePool, layer)) &&
-        !(ret = AudioHeap_AllocNoteFromActive(&gAudioContext.noteFreeLists, layer))) {
+    if (!(ret = Audio_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
+        !(ret = Audio_AllocNoteFromDisabled(&layer->channel->seqPlayer->notePool, layer)) &&
+        !(ret = Audio_AllocNoteFromDisabled(&gAudioContext.noteFreeLists, layer)) &&
+        !(ret = Audio_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
+        !(ret = Audio_AllocNoteFromDecaying(&layer->channel->seqPlayer->notePool, layer)) &&
+        !(ret = Audio_AllocNoteFromDecaying(&gAudioContext.noteFreeLists, layer)) &&
+        !(ret = Audio_AllocNoteFromActive(&layer->channel->notePool, layer)) &&
+        !(ret = Audio_AllocNoteFromActive(&layer->channel->seqPlayer->notePool, layer)) &&
+        !(ret = Audio_AllocNoteFromActive(&gAudioContext.noteFreeLists, layer))) {
         goto null_return;
     }
     return ret;

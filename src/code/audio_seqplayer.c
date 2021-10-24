@@ -444,7 +444,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameSound) {
         if (sameSound == false) {
             Audio_SeqLayerNoteDecay(layer);
         }
-        layer->note = AudioHeap_AllocNote(layer);
+        layer->note = Audio_AllocNote(layer);
         if (layer->note != NULL && layer->note->playbackState.parentLayer == layer) {
             Audio_NoteVibratoInit(layer->note);
         }

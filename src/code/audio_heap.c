@@ -109,7 +109,7 @@ void AudioHeap_WritebackDCache(void* mem, u32 size) {
     Audio_osWritebackDCache(mem, size);
 }
 
-void* AudioHeap_AllocZeroedMaybeExternal(AudioAllocPool* pool, u32 size) {
+void* AudioHeap_AllocZeroedAttemptExternal(AudioAllocPool* pool, u32 size) {
     void* ret = NULL;
 
     if (gAudioContext.externalPool.start != 0) {
@@ -121,7 +121,7 @@ void* AudioHeap_AllocZeroedMaybeExternal(AudioAllocPool* pool, u32 size) {
     return ret;
 }
 
-void* AudioHeap_AllocMaybeExternal(AudioAllocPool* pool, u32 size) {
+void* AudioHeap_AllocAttemptExternal(AudioAllocPool* pool, u32 size) {
     void* ret = NULL;
 
     if (gAudioContext.externalPool.start != NULL) {
@@ -922,9 +922,9 @@ void AudioHeap_Init(void) {
         reverb->unk_08 = settings->unk_12;
         reverb->useReverb = 8;
         reverb->leftRingBuf =
-            AudioHeap_AllocZeroedMaybeExternal(&gAudioContext.notesAndBuffersPool, reverb->windowSize * sizeof(s16));
+            AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.notesAndBuffersPool, reverb->windowSize * sizeof(s16));
         reverb->rightRingBuf =
-            AudioHeap_AllocZeroedMaybeExternal(&gAudioContext.notesAndBuffersPool, reverb->windowSize * sizeof(s16));
+            AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.notesAndBuffersPool, reverb->windowSize * sizeof(s16));
         reverb->nextRingBufPos = 0;
         reverb->unk_20 = 0;
         reverb->curFrame = 0;
@@ -949,10 +949,10 @@ void AudioHeap_Init(void) {
             reverb->unk_38 = AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, 0x20);
             reverb->unk_3C = AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, 0x20);
             for (j = 0; j < gAudioContext.audioBufferParameters.updatesPerFrame; j++) {
-                mem = AudioHeap_AllocZeroedMaybeExternal(&gAudioContext.notesAndBuffersPool, 0x340);
+                mem = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.notesAndBuffersPool, 0x340);
                 reverb->items[0][j].toDownsampleLeft = mem;
                 reverb->items[0][j].toDownsampleRight = mem + 0x1A0 / sizeof(s16);
-                mem = AudioHeap_AllocZeroedMaybeExternal(&gAudioContext.notesAndBuffersPool, 0x340);
+                mem = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.notesAndBuffersPool, 0x340);
                 reverb->items[1][j].toDownsampleLeft = mem;
                 reverb->items[1][j].toDownsampleRight = mem + 0x1A0 / sizeof(s16);
             }
@@ -1045,13 +1045,13 @@ void* AudioHeap_AllocSampleCache(u32 size, s32 fontId, void* sampleAddr, s8 medi
 void AudioHeap_InitSampleCaches(u32 persistentSize, u32 temporarySize) {
     void* mem;
 
-    mem = AudioHeap_AllocMaybeExternal(&gAudioContext.notesAndBuffersPool, persistentSize);
+    mem = AudioHeap_AllocAttemptExternal(&gAudioContext.notesAndBuffersPool, persistentSize);
     if (mem == NULL) {
         gAudioContext.persistentSampleCache.pool.size = 0;
     } else {
         AudioHeap_AllocPoolInit(&gAudioContext.persistentSampleCache.pool, mem, persistentSize);
     }
-    mem = AudioHeap_AllocMaybeExternal(&gAudioContext.notesAndBuffersPool, temporarySize);
+    mem = AudioHeap_AllocAttemptExternal(&gAudioContext.notesAndBuffersPool, temporarySize);
     if (mem == NULL) {
         gAudioContext.temporarySampleCache.pool.size = 0;
     } else {
