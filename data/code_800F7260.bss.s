@@ -54,13 +54,13 @@ glabel gSoundBankMuted
 glabel sUnusedBankLerp
     .space 0x70
 
-glabel gAudioSEFlagSwapSource
+glabel gAudioSfxSwapSource
     .space 0x18
 
-glabel gAudioSEFlagSwapTarget
+glabel gAudioSfxSwapTarget
     .space 0x18
 
-glabel gAudioSEFlagSwapMode
+glabel gAudioSfxSwapMode
     .space 0x10
 
 glabel D_8016E320

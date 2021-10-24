@@ -89,7 +89,7 @@ s32 D_801333EC = 0; // unused
 
 u8 D_801333F0 = 0;
 
-u8 gAudioSEFlagSwapOff = 0;
+u8 gAudioSfxSwapOff = 0;
 
 u8 D_801333F8 = 0;
 
@@ -126,13 +126,13 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32
 
     if (!gSoundBankMuted[SFX_BANK_SHIFT(sfxId)]) {
         req = &sSoundRequests[sSoundRequestWriteIndex];
-        if (!gAudioSEFlagSwapOff) {
+        if (!gAudioSfxSwapOff) {
             for (i = 0; i < 10; i++) {
-                if (sfxId == gAudioSEFlagSwapSource[i]) {
-                    if (gAudioSEFlagSwapMode[i] == 0) { // "SWAP"
-                        sfxId = gAudioSEFlagSwapTarget[i];
+                if (sfxId == gAudioSfxSwapSource[i]) {
+                    if (gAudioSfxSwapMode[i] == 0) { // "SWAP"
+                        sfxId = gAudioSfxSwapTarget[i];
                     } else { // "ADD"
-                        req->sfxId = gAudioSEFlagSwapTarget[i];
+                        req->sfxId = gAudioSfxSwapTarget[i];
                         req->pos = pos;
                         req->token = token;
                         req->freqScale = freqScale;
@@ -772,9 +772,9 @@ void Audio_ResetSounds(void) {
     }
     if (D_801333F8 == 0) {
         for (bankId = 0; bankId < 10; bankId++) {
-            gAudioSEFlagSwapSource[bankId] = 0;
-            gAudioSEFlagSwapTarget[bankId] = 0;
-            gAudioSEFlagSwapMode[bankId] = 0;
+            gAudioSfxSwapSource[bankId] = 0;
+            gAudioSfxSwapTarget[bankId] = 0;
+            gAudioSfxSwapMode[bankId] = 0;
         }
         D_801333F8++;
     }
