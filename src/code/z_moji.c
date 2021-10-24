@@ -56,9 +56,9 @@ void Moji_DrawChar(GraphicsContext* gfxCtx, char c) {
         sCurTLUTIndex = c & 3;
     }
 
-    gSPTextureRectangle(POLY_OPA_DISP++, sScreenPosX << 2, sScreenPosY << 2, (sScreenPosX + 8) << 2,
-                        (sScreenPosY + 8) << 2, G_TX_RENDERTILE, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10,
-                        1 << 10);
+    gSPTextureRectangle(POLY_OPA_DISP++, sScreenPosX << 2, sScreenPosY << 2, (sScreenPosX + CHAR_WIDTH) << 2,
+                        (sScreenPosY + CHAR_HEIGHT) << 2, G_TX_RENDERTILE, (u16)(c & 4) * 64, (u16)(c >> 3) * 256,
+                        (1 << 10) * 8 / CHAR_WIDTH, (1 << 10) * 8 / CHAR_HEIGHT);
 
     CLOSE_DISPS(gfxCtx, "../z_moji.c", 123);
 }
