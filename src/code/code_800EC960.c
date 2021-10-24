@@ -3688,7 +3688,8 @@ void func_800F5ACC(u16 arg0) {
 }
 
 void func_800F5B58(void) {
-    if ((func_800FA0B4(0) != NA_BGM_DISABLED) && (D_80130628 != NA_BGM_DISABLED) && (D_80130658[func_800FA0B4(0) & 0xFF] & 8)) {
+    if ((func_800FA0B4(0) != NA_BGM_DISABLED) && (D_80130628 != NA_BGM_DISABLED) &&
+        (D_80130658[func_800FA0B4(0) & 0xFF] & 8)) {
         if (D_80130628 == NA_BGM_DISABLED) {
             Audio_SeqCmd1(0, 0);
         } else {
