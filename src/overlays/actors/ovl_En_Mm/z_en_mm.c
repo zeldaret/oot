@@ -449,7 +449,7 @@ void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
 
         if (func_80AADA70() == 0) {
             if (this->actor.floorPoly != NULL) {
-                floorYNorm = this->actor.floorPoly->normal.y * COLPOLY_NORMAL_FRAC;
+                floorYNorm = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
 
                 if ((floorYNorm > 0.9848f) || (floorYNorm < -0.9848f)) {
                     if (this->sitTimer > 30) {
