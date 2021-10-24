@@ -1,7 +1,7 @@
 #include "ZString.h"
 
-#include "File.h"
-#include "StringHelper.h"
+#include "Utils/File.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 
 REGISTER_ZFILENODE(String, ZString);
@@ -29,20 +29,26 @@ void ZString::ParseRawData()
 	strData.assign(dataStart, dataStart + size);
 }
 
+Declaration* ZString::DeclareVar(const std::string& prefix, const std::string& bodyStr)
+{
+	std::string auxName = name;
+
+	if (name == "")
+		auxName = GetDefaultName(prefix);
+
+	Declaration* decl =
+		parent->AddDeclarationArray(rawDataIndex, GetDeclarationAlignment(), GetRawDataSize(),
+	                                GetSourceTypeName(), auxName, 0, bodyStr);
+	decl->staticConf = staticConf;
+	return decl;
+}
+
 std::string ZString::GetBodySourceCode() const
 {
 	return StringHelper::Sprintf("\t\"%s\"", strData.data());
 }
 
-std::string ZString::GetSourceOutputCode(const std::string& prefix)
-{
-	parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::None, GetRawDataSize(),
-	                            GetSourceTypeName(), name, 0, GetBodySourceCode());
-
-	return "";
-}
-
-std::string ZString::GetSourceOutputHeader(const std::string& prefix)
+std::string ZString::GetSourceOutputHeader([[maybe_unused]] const std::string& prefix)
 {
 	return StringHelper::Sprintf("#define %s_macro \"%s\"", name.c_str(), strData.data());
 }

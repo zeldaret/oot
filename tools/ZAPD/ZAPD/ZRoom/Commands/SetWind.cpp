@@ -1,5 +1,5 @@
 #include "SetWind.h"
-#include "StringHelper.h"
+#include "Utils/StringHelper.h"
 
 SetWind::SetWind(ZFile* nParent) : ZRoomCommand(nParent)
 {

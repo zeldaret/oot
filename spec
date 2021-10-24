@@ -1013,11 +1013,7 @@ endseg
 beginseg
     name "ovl_Bg_Mizu_Movebg"
     include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/z_bg_mizu_movebg.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/ovl_Bg_Mizu_Movebg_reloc.o"
-#else
-    include "build/data/overlays/actors/z_bg_mizu_movebg.reloc.o"
-#endif
 endseg
 
 beginseg

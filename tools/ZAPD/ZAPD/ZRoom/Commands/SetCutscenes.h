@@ -18,6 +18,10 @@ public:
 class SetCutscenes : public ZRoomCommand
 {
 public:
+	std::vector<ZCutsceneBase*> cutscenes;
+	std::vector<CutsceneEntry> cutsceneEntries;  // (MM Only)
+	uint8_t numCutscenes;                        // (MM Only)
+
 	SetCutscenes(ZFile* nParent);
 	~SetCutscenes();
 
@@ -26,11 +30,5 @@ public:
 	std::string GetBodySourceCode() const override;
 
 	RoomCommand GetRoomCommand() const override;
-	size_t GetRawDataSize() const override;
 	std::string GetCommandCName() const override;
-
-private:
-	std::vector<ZCutsceneBase*> cutscenes;
-	std::vector<CutsceneEntry> cutsceneEntries;  // (MM Only)
-	uint8_t numCutscenes;                        // (MM Only)
 };

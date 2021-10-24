@@ -40,18 +40,6 @@
     <Filter Include="Header Files\Z64\ZRoom\Commands">
       <UniqueIdentifier>{73db0879-6df8-4f6a-8cc2-a1f836e9e796}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\HighLevel">
-      <UniqueIdentifier>{9464ff21-96af-4b7d-a57b-f62bd9b7389a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\HighLevel\Model">
-      <UniqueIdentifier>{e9865c34-fd69-413c-8cce-3f51331c3503}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\HighLevel">
-      <UniqueIdentifier>{0f9980bb-ae46-4891-a39e-275bf255f010}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\HighLevel\Room">
-      <UniqueIdentifier>{11dbd8e6-d97a-42a5-b40c-e1350389544d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Libraries\fbx">
       <UniqueIdentifier>{be9a5be0-ec6a-4200-8e39-bb58c7da7aa8}</UniqueIdentifier>
     </Filter>
@@ -174,15 +162,6 @@
     <ClCompile Include="Overlays\ZOverlay.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
-    <ClCompile Include="HighLevel\HLAnimationIntermediette.cpp">
-      <Filter>Source Files\HighLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="HighLevel\HLModelIntermediette.cpp">
-      <Filter>Source Files\HighLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="HighLevel\HLTexture.cpp">
-      <Filter>Source Files\HighLevel</Filter>
-    </ClCompile>
     <ClCompile Include="ZSkeleton.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
@@ -249,9 +228,6 @@
     <ClCompile Include="ZRoom\Commands\SetActorCutsceneList.cpp">
       <Filter>Source Files\Z64\ZRoom\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="ZRoom\Commands\SetAnimatedTextureList.cpp">
-      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="ZRoom\Commands\SetCsCamera.cpp">
       <Filter>Source Files\Z64\ZRoom\Commands</Filter>
     </ClCompile>
@@ -267,17 +243,23 @@
     <ClCompile Include="ZBackground.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetAnimatedMaterialList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZPath.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="Declaration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageBackend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZString.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Path.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="File.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Directory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ZRoom\ZRoom.h">
       <Filter>Header Files\Z64\ZRoom</Filter>
     </ClInclude>
@@ -295,9 +277,6 @@
     </ClInclude>
     <ClInclude Include="ZRoom\Commands\SetTimeSettings.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="BitConverter.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ZRoom\Commands\SetSpecialObjects.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
@@ -359,9 +338,6 @@
     <ClInclude Include="..\lib\elfio\elfio\elfio_utils.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="StringHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -389,12 +365,6 @@
     <ClInclude Include="ZRoom\Commands\Unused09.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="ZRoom\ObjectList.h">
-      <Filter>Header Files\Z64\ZRoom</Filter>
-    </ClInclude>
-    <ClInclude Include="ZRoom\ActorList.h">
-      <Filter>Header Files\Z64\ZRoom</Filter>
-    </ClInclude>
     <ClInclude Include="ZRoom\Commands\SetLightingSettings.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
@@ -407,19 +377,10 @@
     <ClInclude Include="ZRoom\Commands\SetCutscenes.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="Vec3s.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\json\include\nlohmann\json.hpp">
-      <Filter>Header Files\Libraries</Filter>
-    </ClInclude>
     <ClInclude Include="..\lib\stb\stb_image.h">
       <Filter>Header Files\Libraries</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\stb\stb_image_write.h">
-      <Filter>Header Files\Libraries</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\tinygtlf\tiny_gltf.h">
       <Filter>Header Files\Libraries</Filter>
     </ClInclude>
     <ClInclude Include="Overlays\ZOverlay.h">
@@ -446,23 +407,8 @@
     <ClInclude Include="ZResource.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
-    <ClInclude Include="HighLevel\HLTexture.h">
-      <Filter>Header Files\HighLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="HighLevel\HLAnimation.h">
-      <Filter>Header Files\HighLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="HighLevel\HLAnimationIntermediette.h">
-      <Filter>Header Files\HighLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="HighLevel\HLModelIntermediette.h">
-      <Filter>Header Files\HighLevel</Filter>
-    </ClInclude>
     <ClInclude Include="ZSkeleton.h">
       <Filter>Header Files\Z64</Filter>
-    </ClInclude>
-    <ClInclude Include="HighLevel\HLFileIntermediette.h">
-      <Filter>Header Files\HighLevel</Filter>
     </ClInclude>
     <ClInclude Include="ZRoom\Commands\SetLightList.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
@@ -521,9 +467,6 @@
     <ClInclude Include="ZRoom\Commands\Unused1D.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="ZRoom\Commands\SetAnimatedTextureList.h">
-      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="ZRoom\Commands\SetCsCamera.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
@@ -539,6 +482,21 @@
     <ClInclude Include="ZBackground.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetAnimatedMaterialList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageBackend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZPath.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="Declaration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZString.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\SymbolMap_OoTMqDbg.txt">
@@ -546,8 +504,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\lib\assimp-built\assimp-vc142-mt.dll">
-      <Filter>Resource Files</Filter>
-    </CopyFileToFolders>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
