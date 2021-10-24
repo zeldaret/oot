@@ -160,7 +160,7 @@ static EnViewerInitAnimFunc sInitAnimFuncs[] = {
     EnViewer_InitAnimImpa,
 };
 
-static ActorShadowFunc sShadowFuncs[] = {
+static ActorShadowFunc sShadowDrawFuncs[] = {
     NULL,
     ActorShadow_DrawCircle,
     ActorShadow_DrawHorse,
@@ -185,7 +185,7 @@ void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
     this->actor.objBankIndex = skelObjBankIndex;
     Actor_SetObjectDependency(globalCtx, &this->actor);
     Actor_SetScale(&this->actor, initData->scale / 100.0f);
-    ActorShape_Init(&this->actor.shape, initData->yOffset * 100, sShadowFuncs[initData->shadowType],
+    ActorShape_Init(&this->actor.shape, initData->yOffset * 100, sShadowDrawFuncs[initData->shadowType],
                     initData->shadowScale);
     this->drawFuncIndex = initData->drawType;
     sInitAnimFuncs[this->drawFuncIndex](this, globalCtx, initData->skeletonHeaderSeg, initData->anim);
