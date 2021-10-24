@@ -1,5 +1,6 @@
 #include "file_choose.h"
 #include "textures/title_static/title_static.h"
+#include "assets/overlays/ovl_File_Choose/ovl_file_choose.h"
 
 static s16 D_808124C0[] = {
     0x0002, 0x0003, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0002, 0x0000, 0x0001,
@@ -966,7 +967,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
     Matrix_Translate(0.0f, 0.1f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1009),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPVertex(POLY_OPA_DISP++, gOptionsDividerTop, 4, 0);
+    gSPVertex(POLY_OPA_DISP++, gOptionsDividerTopVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     Matrix_Pop();
 
@@ -975,7 +976,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1021),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPVertex(POLY_OPA_DISP++, gOptionsDividerMiddle, 4, 0);
+    gSPVertex(POLY_OPA_DISP++, gOptionsDividerMiddleVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     Matrix_Pop();
 
@@ -983,7 +984,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
     Matrix_Translate(0.0f, 0.4f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1033),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPVertex(POLY_OPA_DISP++, gOptionsDividerBottom, 4, 0);
+    gSPVertex(POLY_OPA_DISP++, gOptionsDividerBottomVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     Matrix_Pop();
 
