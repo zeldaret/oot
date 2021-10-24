@@ -156,7 +156,7 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSyatekiMan* this = THIS;
 
     osSyncPrintf("\n\n");
-    // Old man appeared!! Muhohohohohohohon
+    // "Old man appeared!! Muhohohohohohohon"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
     this->actor.targetMode = 1;
     Actor_SetScale(&this->actor, 0.01f);
@@ -403,7 +403,7 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
 void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
-        // Successful completion
+        // "Successful completion"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         if (!LINK_IS_ADULT) {
             gSaveContext.itemGetInf[0] |= 0x2000;
@@ -426,7 +426,7 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
             gallery->signal = ENSYATEKI_START;
             this->gameResult = SYATEKI_RESULT_NONE;
             this->actionFunc = EnSyatekiMan_WaitForGame;
-            // Let's try again! Baby!
+            // "Let's try again! Baby!"
             osSyncPrintf(VT_FGCOL(BLUE) "再挑戦だぜ！ベイビー！" VT_RST "\n", this);
         }
     }

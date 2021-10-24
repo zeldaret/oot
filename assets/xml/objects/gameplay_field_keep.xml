@@ -1,5 +1,5 @@
 <Root>
-    <File Name="gameplay_field_keep" Segment= "5">
+    <File Name="gameplay_field_keep" Segment="5">
         <DList Name="gHanaFlower1DL" Offset="0x000"/>
         <DList Name="gHanaFlower2DL" Offset="0x0A0"/>
         <DList Name="gHanaFlower3DL" Offset="0x0140"/>

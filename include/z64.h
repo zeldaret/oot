@@ -67,13 +67,13 @@ typedef struct {
 } GameInfo; // size = 0x15D4
 
 typedef struct {
-    /* 0x00000 */ u16 headMagic; // 1234
+    /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC
     /* 0x00008 */ Gfx polyOpaBuffer[0x17E0];
     /* 0x0BF08 */ Gfx polyXluBuffer[0x800];
     /* 0x0FF08 */ Gfx overlayBuffer[0x400];
     /* 0x11F08 */ Gfx workBuffer[0x80];
     /* 0x11308 */ Gfx unusedBuffer[0x20];
-    /* 0x12408 */ u16 tailMagic; // 5678
+    /* 0x12408 */ u16 tailMagic; // GFXPOOL_TAIL_MAGIC
 } GfxPool; // size = 0x12410
 
 typedef struct {
@@ -847,25 +847,20 @@ typedef struct SelectContext {
     /* 0x01D0 */ s32 count;
     /* 0x01D4 */ SceneSelectEntry* scenes;
     /* 0x01D8 */ s32 currentScene;
-    /* 0x01DC */ s32 unk_1DC;
-    /* 0x01E0 */ s32 unk_1E0[7];
-    /* 0x01FC */ s32 unk_1FC;
-    /* 0x0200 */ s32 unk_200;
-    /* 0x0204 */ s32 unk_204;
+    /* 0x01DC */ s32 pageDownIndex; // Index of pageDownStops
+    /* 0x01E0 */ s32 pageDownStops[7];
+    /* 0x01FC */ char unk_1FC[0x0C];
     /* 0x0208 */ s32 opt;
-    /* 0x020C */ s32 unk_20C;
-    /* 0x0210 */ s32 unk_210;
-    /* 0x0214 */ s32 unk_214;
-    /* 0x0218 */ s32 unk_218;
-    /* 0x021C */ s32 unk_21C;
-    /* 0x0220 */ s32 unk_220;
-    /* 0x0224 */ s32 unk_224;
-    /* 0x0228 */ s32 unk_228;
-    /* 0x022C */ s32 unk_22C;
-    /* 0x0230 */ s32 unk_230;
-    /* 0x0234 */ s32 unk_234;
+    /* 0x020C */ s32 topDisplayedScene; // The scene which is currently at the top of the screen
+    /* 0x0210 */ char unk_210[0x0C];
+    /* 0x021C */ s32 verticalInputAccumulator;
+    /* 0x0220 */ s32 verticalInput;
+    /* 0x0224 */ s32 timerUp;
+    /* 0x0228 */ s32 timerDown;
+    /* 0x022C */ s32 lockUp;
+    /* 0x0230 */ s32 lockDown;
+    /* 0x0234 */ s32 unk_234; // unused
     /* 0x0238 */ u8* staticSegment;
-    /* 0x023C */ s32 unk_23C;
 } SelectContext; // size = 0x240
 
 typedef struct {
@@ -1658,15 +1653,15 @@ typedef struct {
     /* 0x0050 */ s32 viHeight;
     /* 0x0054 */ s32 viWidth;
     /* 0x0058 */ s32 unk_58; // Right adjustment?
-    /* 0x005c */ s32 unk_5C; // Left adjustment?
+    /* 0x005C */ s32 unk_5C; // Left adjustment?
     /* 0x0060 */ s32 unk_60; // Bottom adjustment?
     /* 0x0064 */ s32 unk_64; // Top adjustment?
     /* 0x0068 */ s32 viModeBase; // enum: {0, 1, 2, 3}
-    /* 0x006c */ s32 viTvType;
+    /* 0x006C */ s32 viTvType;
     /* 0x0070 */ u32 unk_70; // bool
     /* 0x0074 */ u32 unk_74; // bool
     /* 0x0078 */ u32 unk_78; // bool
-    /* 0x007c */ u32 unk_7C; // bool
+    /* 0x007C */ u32 unk_7C; // bool
     /* 0x0080 */ u32 viFeatures;
     /* 0x0084 */ u32 unk_84;
 } ViMode;

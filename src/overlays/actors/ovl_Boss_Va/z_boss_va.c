@@ -2809,10 +2809,10 @@ void BossVa_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
-            if (THIS->colliderBody.base.acFlags & AC_HIT) {
+            if (this->colliderBody.base.acFlags & AC_HIT) {
                 this->colliderBody.base.acFlags &= ~AC_HIT;
-                boomerang = (EnBoom*)this->colliderBody.base.ac;
-                if (boomerang->actor.id == ACTOR_EN_BOOM) {
+                if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
+                    boomerang = (EnBoom*)this->colliderBody.base.ac;
                     boomerang->returnTimer = 0;
                 }
             }

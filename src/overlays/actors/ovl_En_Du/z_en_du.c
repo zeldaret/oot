@@ -88,7 +88,7 @@ u16 func_809FDC38(GlobalContext* globalCtx, Actor* actor) {
     if (reaction != 0) {
         return reaction;
     }
-    if (CUR_UPG_VALUE(UPG_STRENGTH)) {
+    if (CUR_UPG_VALUE(UPG_STRENGTH) != 0) {
         if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
             return 0x301E;
         } else {

@@ -1,6 +1,6 @@
 #include "SetTimeSettings.h"
-#include "BitConverter.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 
 SetTimeSettings::SetTimeSettings(ZFile* nParent) : ZRoomCommand(nParent)
 {

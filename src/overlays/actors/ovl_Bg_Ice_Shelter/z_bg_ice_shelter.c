@@ -110,7 +110,7 @@ void func_80890874(BgIceShelter* this, GlobalContext* globalCtx, CollisionHeader
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // Warning : move BG registration failed
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_ice_shelter.c", 362,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
