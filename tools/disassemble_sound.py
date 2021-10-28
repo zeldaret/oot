@@ -18,7 +18,7 @@ rawSamples = []
 usedSetData = []
 usedRawData = []
 
-class InstrumentSet:
+class Soundfont:
     def __init__(self, record, ctl):
         self.offset, self.length, self.major, self.minor, self.bank, self.unk, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBBBBBH", record)
         endOffset = self.offset + 8
@@ -177,11 +177,16 @@ class AifcEntry:
         self.tunings = []
 
 class SequenceEntry:
-    def __init__(self, data, raw_data):
-        self.offset, self.length, self.unknown, self.type = struct.unpack(">LLBBxxxxxx", data)
-        self.sequence = raw_data[self.offset:self.offset + self.length]
-        self.inst_sets = []
+    def __init__(self, data):
+        self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBBxxxxxx", data)
 
+class SampleTableEntry:
+    def __init__(self, data):
+        self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBBxxxxxx", data)
+
+class SoundfontEntry:
+    def __init__(self, data):
+        self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBBBBBH", data)
 
 def parse_seq_def_data(seqdef_data, setmap_data, seq_data):
     count = struct.unpack(">H", seqdef_data[:2])[0]
@@ -190,26 +195,34 @@ def parse_seq_def_data(seqdef_data, setmap_data, seq_data):
         entry = SequenceEntry(seqdef_data[16 + (i * 16):16 + ((i + 1) * 16)], seq_data)
         instSetListOffset = struct.unpack(">H", setmap_data[i * 2:(i * 2) + 2])[0]
         instSetListSize = struct.unpack(">b", setmap_data[instSetListOffset:instSetListOffset + 1])[0]
-        entry.inst_sets = list(struct.unpack(">" + str(instSetListSize) + "b", setmap_data[instSetListOffset + 1:instSetListOffset + 1 + instSetListSize]))
+        entry.inst_sets = list(struct.unpack(f">{str(instSetListSize)}b", setmap_data[instSetListOffset + 1:instSetListOffset + 1 + instSetListSize]))
         entries.append(entry)
+    for index in range(len(entries)):
+        entry = entries[index]
+        if entry.length == 0:
+            entries[index] = entries[entry.offset]
     return entries
 
 def parse_raw_def_data(raw_def_data):
     count = struct.unpack(">H", raw_def_data[:2])[0]
-    raw_indexes = []
+    entries = []
     for i in range(count):
         buffer = raw_def_data[16 + (i * 16):20 + (i * 16)]
-        index = struct.unpack(">L", buffer)[0]
-        raw_indexes.append(index)
-    return raw_indexes
+        entry = SampleTableEntry(buffer)
+        entries.append(entry)
+    for index in range(len(entries)):
+        entry = entries[index]
+        if entry.length == 0:
+            entries[index] = entries[entry.offset]
+    return entries
 
-def parse_setfile(setdef_data, set_data, raw_indexes):
-    count = struct.unpack(">H", setdef_data[:2])[0]
+def parse_soundfonts(fontdef_data, font_data):
+    count = struct.unpack(">H", fontdef_data[:2])[0]
     sets = []
     for i in range(count):
-        buffer = setdef_data[16 + (i * 16):32 + (i * 16)]
-        #if i != 37:
-        sets.append(InstrumentSet(buffer, set_data))
+        buffer = fontdef_data[16 + (i * 16):32 + (i * 16)]
+        entry = SoundfontEntry(buffer)
+        sets.append(Soundfont(entry, font_data))
     return sets
 
 def align(val, al):
@@ -286,35 +299,6 @@ def toNoteEnum(note):
     }.get(tone)
 
     return "{0}{1}".format(tone_str, octave)
-
-class AifcWriter:
-    def __init__(self, out):
-        self.out = out
-        self.sections = []
-        self.total_size = 0
-
-    def add_section(self, tp, data):
-        assert isinstance(tp, bytes)
-        assert isinstance(data, bytes)
-        self.sections.append((tp, data))
-        self.total_size += align(len(data), 2) + 8
-
-    def add_custom_section(self, tp, data):
-        self.add_section(b"APPL", b"stoc" + self.pstring(tp) + data)
-
-    def pstring(self, data):
-        return bytes([len(data)]) + data + (b"" if len(data) % 2 else b"\0")
-
-    def finish(self):
-        # total_size isn't used, and is regularly wrong. In particular, vadpcm_enc
-        # preserves the size of the input file...
-        self.total_size += 4
-        self.out.write(b"FORM" + struct.pack(">I", self.total_size) + b"AIFC")
-        for (tp, data) in self.sections:
-            self.out.write(tp + struct.pack(">I", len(data)))
-            self.out.write(data)
-            if len(data) % 2:
-                self.out.write(b"\0")
 
 def generate_drum_obj(drum, samples, envelopes):
     if drum is not None:
@@ -403,7 +387,7 @@ def generate_pcm_loop_obj(loop):
 
     return loop_data
 
-def write_instrument_set(_set, filename):
+def write_soundfont(_set, filename):
     samples = {}
     envelopes = {}
     books = {}
@@ -453,6 +437,36 @@ def report_gaps(report_type, data, bin):
         for cross in intersections:
             print(f"{type(cross[0][0]).__name__} at {cross[0][1]:08X}-{cross[0][2]:08X} overlaps {type(cross[1][0]).__name__} at {cross[1][1]:08X}-{cross[1][2]:08X}")
 
+class AifcWriter:
+    def __init__(self, out):
+        self.out = out
+        self.sections = []
+        self.total_size = 0
+
+    def add_section(self, tp, data):
+        assert isinstance(tp, bytes)
+        assert isinstance(data, bytes)
+        self.sections.append((tp, data))
+        self.total_size += align(len(data), 2) + 8
+
+    def add_custom_section(self, tp, data):
+        self.add_section(b"APPL", b"stoc" + self.pstring(tp) + data)
+
+    def pstring(self, data):
+        return bytes([len(data)]) + data + (b"" if len(data) % 2 else b"\0")
+
+    def finish(self):
+        # total_size isn't used, and is regularly wrong. In particular, vadpcm_enc
+        # preserves the size of the input file...
+        self.total_size += 4
+        self.out.write(b"FORM" + struct.pack(">I", self.total_size) + b"AIFC")
+        for (tp, data) in self.sections:
+            self.out.write(tp + struct.pack(">I", len(data)))
+            self.out.write(data)
+            if len(data) % 2:
+                self.out.write(b"\0")
+
+
 def write_aifc(raw, bank_defs, entry, filename):
     offset = bank_defs[entry.bank] + entry.address
     data = raw[offset:offset + entry.length]
@@ -471,7 +485,7 @@ def write_aifc(raw, bank_defs, entry, filename):
         writer = AifcWriter(file)
         num_channels = 1
         frame_size = 9
-        assert len(data) % frame_size == 0
+        assert len(data) % frame_size == 0 or len(data) - 1 % frame_size == 0
         if len(data) % 2 == 1:
             data += b"\0"
         # (Computing num_frames this way makes it off by one when the data length
@@ -594,7 +608,7 @@ def main():
         sets_out_dir = args[9]
 
     bank_defs = parse_raw_def_data(rawdef_data)
-    sets = parse_setfile(setdef_data, set_data, bank_defs)
+    sets = parse_soundfonts(setdef_data, set_data, bank_defs)
 
     report_gaps("SET", usedSetData, set_data)
 
@@ -634,7 +648,7 @@ def main():
         dir = os.path.join(sets_out_dir)
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, str(setId) + ".json")
-        write_instrument_set(_set, filename)
+        write_soundfont(_set, filename)
         setId += 1
 
 if __name__ == "__main__":
