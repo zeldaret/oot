@@ -180,18 +180,13 @@ void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
     this->actor.world.pos.y = -3000.0f;
 }
 
-#ifdef NON_MATCHING
 void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
-    s16 pad2;
+    s16 pad;
     u8 sp8D;
     Player* player;
-    s32 pad[3];
-    Camera* temp_v0;
-    BossGanon2Effect* temp_v0_3;
-    Vec3f sp68;
     s32 objectIdx;
-    s16 temp_a1;
-    Vec3f* temp[2];
+    s32 zero = 0;
+    s32 pad2;
 
     sp8D = false;
     player = GET_PLAYER(globalCtx);
@@ -227,6 +222,10 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 player->actor.shape.rot.y = -0x5000;
                 Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime3_Anim_002168, 0.0f);
                 globalCtx->envCtx.unk_D8 = 0.0f;
+                // fake, tricks the compiler into allocating more stack
+                if (zero) {
+                    this->unk_3A4.x *= 2.0;
+                }
             } else {
                 break;
             }
@@ -316,10 +315,11 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->unk_3A4.z, -20.0f, 0.1f, this->unk_410.x * 170.0f);
             Math_ApproachF(&this->unk_410.x, 0.04f, 1.0f, 0.0005f);
             if (this->unk_398 == 100) {
-                temp_v0 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-                temp_v0->eye = this->unk_3A4;
-                temp_v0->eyeNext = this->unk_3A4;
-                temp_v0->at = this->unk_3B0;
+                Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+
+                camera->eye = this->unk_3A4;
+                camera->eyeNext = this->unk_3A4;
+                camera->at = this->unk_3B0;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
                 this->unk_39E = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
@@ -541,10 +541,11 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 sp8D = true;
             }
             if (this->unk_398 >= 60) {
-                temp_v0 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-                temp_v0->eye = this->unk_3A4;
-                temp_v0->eyeNext = this->unk_3A4;
-                temp_v0->at = this->unk_3B0;
+                Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+
+                camera->eye = this->unk_3A4;
+                camera->eyeNext = this->unk_3A4;
+                camera->at = this->unk_3B0;
                 this->unk_39C = 17;
                 this->unk_398 = 0;
                 this->unk_337 = 2;
@@ -554,6 +555,10 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON_ANIME3, false);
                 func_8002DF54(globalCtx, &this->actor, 0x54);
                 this->unk_314 = 3;
+            }
+            // fake, tricks the compiler into using stack the way we need it to
+            if (zero) {
+                Math_ApproachF(&this->unk_3B0.y, 0.0f, 0.0f, 0.0f);
             }
             break;
         case 17:
@@ -717,6 +722,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                     globalCtx->envCtx.screenFillColor[2] = 255;
                 globalCtx->envCtx.screenFillColor[3] = 100;
                 if (this->unk_398 == 234) {
+                    Vec3f sp68;
+
                     globalCtx->envCtx.fillScreen = false;
                     this->unk_39C = 24;
                     this->unk_398 = 0;
@@ -731,12 +738,14 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 24:
             SkelAnime_Update(&this->skelAnime);
-            if (1) {}
-            temp_v0_3 = globalCtx->specialEffects;
-            this->unk_3B0 = temp_v0_3->position;
-            this->unk_3A4.x = temp_v0_3->position.x + 70.0f;
-            this->unk_3A4.y = temp_v0_3->position.y - 30.0f;
-            this->unk_3A4.z = temp_v0_3->position.z + 70.0f;
+            if (1) {
+                BossGanon2Effect* effect = globalCtx->specialEffects;
+
+                this->unk_3B0 = effect->position;
+                this->unk_3A4.x = effect->position.x + 70.0f;
+                this->unk_3A4.y = effect->position.y - 30.0f;
+                this->unk_3A4.z = effect->position.z + 70.0f;
+            }
             if ((this->unk_398 & 3) == 0) {
                 func_80078884(NA_SE_IT_SWORD_SWING);
             }
@@ -755,14 +764,15 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = ((player->actor.world.pos.y + 10.0f + 60.0f) - 20.0f) - 3.0f;
             this->unk_3B0.z = (player->actor.world.pos.z - 40.0f) - 10.0f;
             if (this->unk_398 == 10) {
-                temp_v0_3 = globalCtx->specialEffects;
-                temp_v0_3->unk_2E = 1;
-                temp_v0_3->position.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
-                temp_v0_3->position.y = sZelda->actor.world.pos.y + 350.0f;
-                temp_v0_3->position.z = sZelda->actor.world.pos.z - 25.0f;
-                temp_v0_3->velocity.x = 0.0f;
-                temp_v0_3->velocity.z = 0.0f;
-                temp_v0_3->velocity.y = -30.0f;
+                BossGanon2Effect* effect = globalCtx->specialEffects;
+
+                effect->unk_2E = 1;
+                effect->position.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
+                effect->position.y = sZelda->actor.world.pos.y + 350.0f;
+                effect->position.z = sZelda->actor.world.pos.z - 25.0f;
+                effect->velocity.x = 0.0f;
+                effect->velocity.z = 0.0f;
+                effect->velocity.y = -30.0f;
                 this->unk_39C = 26;
                 this->unk_398 = 0;
             } else {
@@ -852,10 +862,11 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_ROAR);
             }
             if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
-                temp_v0 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-                temp_v0->eye = this->unk_3A4;
-                temp_v0->eyeNext = this->unk_3A4;
-                temp_v0->at = this->unk_3B0;
+                Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+
+                camera->eye = this->unk_3A4;
+                camera->eyeNext = this->unk_3A4;
+                camera->at = this->unk_3B0;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
                 this->unk_39E = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
@@ -874,19 +885,15 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BODY_SPARK - SFX_FLAG);
     }
 
-    temp_a1 = this->unk_39E;
-    if (temp_a1 != 0) {
-        // Definitely fake.
-        temp[1] = &this->unk_3A4;
-        temp[0] = &this->unk_3B0;
-
+    if (this->unk_39E != 0) {
+        // fake, tricks the compiler into putting some pointers on the stack
+        if (zero) {
+            osSyncPrintf(NULL, 0, 0);
+        }
         this->unk_3B0.y += this->unk_41C;
-        Gameplay_CameraSetAtEyeUp(globalCtx, temp_a1, temp[0], temp[1], &this->unk_3BC);
+        Gameplay_CameraSetAtEyeUp(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4, &this->unk_3BC);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD5F4.s")
-#endif
 
 void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
     if ((this->unk_312 != 0) && (this->unk_39E == 0)) {
@@ -2175,182 +2182,200 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80905DA8(this, globalCtx);
 }
 
-#ifdef NON_MATCHING
 void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
+    Vtx* vtx;
     Vec3f sp2D0;
+    s16 temp_s1;
+    s16 temp_a1;
     s16 sp2CA;
     s16 sp2C8;
-    f32 sp294;
-    Vec3f sp18C[20];
-    Vec3f sp9C[20];
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f0_3;
-    f32 temp_f12;
-    Vec3f temp_f20;
-    Vec3f temp_f22_2;
-    f32 temp_f26;
-    f32 temp_f28;
-    Vec3f temp_f2;
-    s16 temp_s1;
-    Vtx* temp_a1;
+    s16 i;
+    u8 phi_s2;
     u8 temp_s4;
     u8 temp_s4_2;
-    s16 i;
-    Vec3f phi_f20;
+    f32 temp_f12;
+    Vec3f temp_f20;
+    Vec3f temp_f2;
+    Vec3f temp_f22;
+    f32 sp294;
     f32 phi_f30;
-    s32 phi_s2;
+    f32 temp_f28;
+    f32 temp_f26;
+    s32 pad[3];
+    Vec3f sp18C[20];
+    Vec3f sp9C[20];
 
     for (i = 0; i < 20; i++) {
         sp18C[i] = *arg0;
         sp9C[i] = *arg1;
     }
 
+    temp_s4 = 0;
+
     D_809105D8[3] = D_809105D8[2];
     D_809105D8[2] = D_809105D8[1];
     D_809105D8[1] = D_809105D8[0];
     D_809105D8[0] = *arg0;
+
     sp2D0 = D_809105D8[0];
+
     temp_f20.x = D_809105D8[1].x - sp2D0.x;
     temp_f20.y = D_809105D8[1].y - sp2D0.y;
     temp_f20.z = D_809105D8[1].z - sp2D0.z;
+
     sp2CA = Math_Atan2S(temp_f20.z, temp_f20.x);
     sp2C8 = Math_Atan2S(sqrtf(SQXZ(temp_f20)), temp_f20.y);
+
     temp_f2.x = D_809105D8[2].x - D_809105D8[1].x;
     temp_f2.y = D_809105D8[2].y - D_809105D8[1].y;
     temp_f2.z = D_809105D8[2].z - D_809105D8[1].z;
-    temp_f22_2.x = D_809105D8[3].x - D_809105D8[2].x;
-    temp_f22_2.y = D_809105D8[3].y - D_809105D8[2].y;
-    temp_f22_2.z = D_809105D8[3].z - D_809105D8[2].z;
-    temp_f0 = sqrtf(SQXYZ(temp_f2));
-    temp_f0_2 = sqrtf(SQXYZ(temp_f20));
-    temp_f12 = sqrtf(SQXYZ(temp_f22_2)) + (temp_f0_2 + temp_f0);
+
+    temp_f22.x = D_809105D8[3].x - D_809105D8[2].x;
+    temp_f22.y = D_809105D8[3].y - D_809105D8[2].y;
+    temp_f22.z = D_809105D8[3].z - D_809105D8[2].z;
+
+    temp_f12 = sqrtf(SQXYZ(temp_f20)) + sqrtf(SQXYZ(temp_f2)) + sqrtf(SQXYZ(temp_f22));
     if (temp_f12 <= 1.0f) {
         temp_f12 = 1.0f;
     }
 
-    sp294 = temp_f0 / 2.0f;
     temp_f28 = temp_f12 * 0.083f;
-    phi_f20.x = D_809105D8[1].x - sp2D0.x;
-    phi_f20.y = D_809105D8[1].y - sp2D0.y;
-    phi_f20.z = D_809105D8[1].z - sp2D0.z;
+    phi_f30 = sqrtf(SQXYZ(temp_f20)) / 2.0f;
+    sp294 = sqrtf(SQXYZ(temp_f2)) / 2.0f;
+
     phi_s2 = 1;
-    temp_s4 = 0;
-    phi_f30 = temp_f0_2 / 2.0f;
+
     while (true) {
-        temp_s1 = Math_Atan2S(phi_f20.z, phi_f20.x);
-        Math_ApproachS(&sp2C8, Math_Atan2S(sqrtf(SQXZ(phi_f20)), phi_f20.y), 1, 0x1000);
+        temp_f20.x = D_809105D8[phi_s2].x - sp2D0.x;
+        temp_f20.y = D_809105D8[phi_s2].y - sp2D0.y;
+        temp_f20.z = D_809105D8[phi_s2].z - sp2D0.z;
+
+        temp_s1 = Math_Atan2S(temp_f20.z, temp_f20.x);
+        temp_a1 = Math_Atan2S(sqrtf(SQXZ(temp_f20)), temp_f20.y);
+
+        Math_ApproachS(&sp2C8, temp_a1, 1, 0x1000);
         Math_ApproachS(&sp2CA, temp_s1, 1, 0x1000);
-        temp_f0_3 = Math_CosS(sp2C8);
+
+        temp_f26 = temp_f28 * Math_CosS(sp2C8);
+
         sp18C[temp_s4] = sp2D0;
-        temp_f26 = temp_f0_3 * temp_f28;
+
         sp2D0.x += temp_f26 * Math_SinS(sp2CA);
         sp2D0.y += temp_f28 * Math_SinS(sp2C8);
         sp2D0.z += temp_f26 * Math_CosS(sp2CA);
-        phi_f20.x = D_809105D8[phi_s2].x - sp2D0.x;
-        phi_f20.y = D_809105D8[phi_s2].y - sp2D0.y;
-        phi_f20.z = D_809105D8[phi_s2].z - sp2D0.z;
+
+        temp_f20.x = D_809105D8[phi_s2].x - sp2D0.x;
+        temp_f20.y = D_809105D8[phi_s2].y - sp2D0.y;
+        temp_f20.z = D_809105D8[phi_s2].z - sp2D0.z;
+
         if (phi_s2 < 3) {
-            if (sqrtf(SQXYZ(phi_f20)) <= phi_f30) {
-                phi_s2++;
+            if (sqrtf(SQXYZ(temp_f20)) <= phi_f30) {
                 phi_f30 = sp294;
+                phi_s2++;
             }
         } else {
-            if (sqrtf(SQXYZ(phi_f20)) <= (temp_f28 + 1.0f)) {
+            if (sqrtf(SQXYZ(temp_f20)) <= (temp_f28 + 1.0f)) {
                 phi_s2++;
             }
         }
+
         temp_s4++;
-        if ((temp_s4 < 20) && (phi_s2 < 4)) {
-            phi_f20.x = D_809105D8[phi_s2].x - sp2D0.x;
-            phi_f20.y = D_809105D8[phi_s2].y - sp2D0.y;
-            phi_f20.z = D_809105D8[phi_s2].z - sp2D0.z;
-        } else {
+
+        if ((temp_s4 >= 20) || (phi_s2 >= 4)) {
             break;
         }
     }
+
+    temp_s4_2 = 0;
 
     D_80910608[3] = D_80910608[2];
     D_80910608[2] = D_80910608[1];
     D_80910608[1] = D_80910608[0];
     D_80910608[0] = *arg1;
+
     sp2D0 = D_80910608[0];
+
     temp_f20.x = D_80910608[1].x - sp2D0.x;
     temp_f20.y = D_80910608[1].y - sp2D0.y;
     temp_f20.z = D_80910608[1].z - sp2D0.z;
+
     sp2CA = Math_Atan2S(temp_f20.z, temp_f20.x);
     sp2C8 = Math_Atan2S(sqrtf(SQXZ(temp_f20)), temp_f20.y);
+
     temp_f2.x = D_80910608[2].x - D_80910608[1].x;
     temp_f2.y = D_80910608[2].y - D_80910608[1].y;
     temp_f2.z = D_80910608[2].z - D_80910608[1].z;
-    temp_f22_2.x = D_80910608[3].x - D_80910608[2].x;
-    temp_f22_2.y = D_80910608[3].y - D_80910608[2].y;
-    temp_f22_2.z = D_80910608[3].z - D_80910608[2].z;
-    temp_f0 = sqrtf(SQXYZ(temp_f2));
-    temp_f0_2 = sqrtf(SQXYZ(temp_f20));
-    temp_f12 = sqrtf(SQXYZ(temp_f22_2)) + (temp_f0_2 + temp_f0);
+
+    temp_f22.x = D_80910608[3].x - D_80910608[2].x;
+    temp_f22.y = D_80910608[3].y - D_80910608[2].y;
+    temp_f22.z = D_80910608[3].z - D_80910608[2].z;
+
+    temp_f12 = sqrtf(SQXYZ(temp_f20)) + sqrtf(SQXYZ(temp_f2)) + sqrtf(SQXYZ(temp_f22));
     if (temp_f12 <= 1.0f) {
         temp_f12 = 1.0f;
     }
 
-    sp294 = temp_f0 / 2.0f;
     temp_f28 = temp_f12 * 0.083f;
-    phi_f20.x = D_80910608[1].x - sp2D0.x;
-    phi_f20.y = D_80910608[1].y - sp2D0.y;
-    phi_f20.z = D_80910608[1].z - sp2D0.z;
+    phi_f30 = sqrtf(SQXYZ(temp_f20)) / 2.0f;
+    sp294 = sqrtf(SQXYZ(temp_f2)) / 2.0f;
+
     phi_s2 = 1;
-    temp_s4_2 = 0;
-    phi_f30 = temp_f0_2 / 2.0f;
+
     while (true) {
-        temp_s1 = Math_Atan2S(phi_f20.z, phi_f20.x);
-        Math_ApproachS(&sp2C8, Math_Atan2S(sqrtf(SQXZ(phi_f20)), phi_f20.y), 1, 0x1000);
+        temp_f20.x = D_80910608[phi_s2].x - sp2D0.x;
+        temp_f20.y = D_80910608[phi_s2].y - sp2D0.y;
+        temp_f20.z = D_80910608[phi_s2].z - sp2D0.z;
+
+        temp_s1 = Math_Atan2S(temp_f20.z, temp_f20.x);
+        temp_a1 = Math_Atan2S(sqrtf(SQXZ(temp_f20)), temp_f20.y);
+
+        Math_ApproachS(&sp2C8, temp_a1, 1, 0x1000);
         Math_ApproachS(&sp2CA, temp_s1, 1, 0x1000);
-        temp_f0_3 = Math_CosS(sp2C8);
+
+        temp_f26 = temp_f28 * Math_CosS(sp2C8);
+
         sp9C[temp_s4_2] = sp2D0;
-        temp_f26 = temp_f0_3 * temp_f28;
+
         sp2D0.x += temp_f26 * Math_SinS(sp2CA);
         sp2D0.y += temp_f28 * Math_SinS(sp2C8);
         sp2D0.z += temp_f26 * Math_CosS(sp2CA);
-        phi_f20.x = D_80910608[phi_s2].x - sp2D0.x;
-        phi_f20.y = D_80910608[phi_s2].y - sp2D0.y;
-        phi_f20.z = D_80910608[phi_s2].z - sp2D0.z;
+
+        temp_f20.x = D_80910608[phi_s2].x - sp2D0.x;
+        temp_f20.y = D_80910608[phi_s2].y - sp2D0.y;
+        temp_f20.z = D_80910608[phi_s2].z - sp2D0.z;
+
         if (phi_s2 < 3) {
-            if (sqrtf(SQXYZ(phi_f20)) <= phi_f30) {
-                phi_s2++;
+            if (sqrtf(SQXYZ(temp_f20)) <= phi_f30) {
                 phi_f30 = sp294;
+                phi_s2++;
             }
         } else {
-            if (sqrtf(SQXYZ(phi_f20)) <= (temp_f28 + 1.0f)) {
+            if (sqrtf(SQXYZ(temp_f20)) <= (temp_f28 + 1.0f)) {
                 phi_s2++;
             }
         }
+
         temp_s4_2++;
-        if ((temp_s4_2 < 20) && (phi_s2 < 4)) {
-            phi_f20.x = D_80910608[phi_s2].x - sp2D0.x;
-            phi_f20.y = D_80910608[phi_s2].y - sp2D0.y;
-            phi_f20.z = D_80910608[phi_s2].z - sp2D0.z;
-        } else {
+
+        if ((temp_s4_2 >= 20) || (phi_s2 >= 4)) {
             break;
         }
     }
 
-    temp_a1 = SEGMENTED_TO_VIRTUAL(ovl_Boss_Ganon2_Vtx_00BA20);
+    vtx = SEGMENTED_TO_VIRTUAL(ovl_Boss_Ganon2_Vtx_00BA20);
     for (i = 0; i < 11; i++) {
         if ((temp_s4 - i) > 0) {
-            temp_a1[D_80907084[i]].n.ob[0] = sp18C[temp_s4 - i - 1].x;
-            temp_a1[D_80907084[i]].n.ob[1] = sp18C[temp_s4 - i - 1].y;
-            temp_a1[D_80907084[i]].n.ob[2] = sp18C[temp_s4 - i - 1].z;
+            vtx[D_80907084[i]].n.ob[0] = sp18C[temp_s4 - i - 1].x;
+            vtx[D_80907084[i]].n.ob[1] = sp18C[temp_s4 - i - 1].y;
+            vtx[D_80907084[i]].n.ob[2] = sp18C[temp_s4 - i - 1].z;
         }
         if ((temp_s4_2 - i) > 0) {
-            temp_a1[D_80907090[i]].n.ob[0] = sp9C[temp_s4_2 - i - 1].x;
-            temp_a1[D_80907090[i]].n.ob[1] = sp9C[temp_s4_2 - i - 1].y;
-            temp_a1[D_80907090[i]].n.ob[2] = sp9C[temp_s4_2 - i - 1].z;
+            vtx[D_80907090[i]].n.ob[0] = sp9C[temp_s4_2 - i - 1].x;
+            vtx[D_80907090[i]].n.ob[1] = sp9C[temp_s4_2 - i - 1].y;
+            vtx[D_80907090[i]].n.ob[2] = sp9C[temp_s4_2 - i - 1].z;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809034E4.s")
-#endif
 
 void func_80903F38(BossGanon2* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5083);
