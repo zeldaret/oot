@@ -15,68 +15,67 @@ rawSamples = []
 
 # Used for data gap detection (finding potentially unreferenced data)
 # Format: list of tuples (object, start offset, end offset)
-usedSetData = []
+usedFontData = []
 usedRawData = []
 
 class Soundfont:
-    def __init__(self, record, ctl):
-        self.offset, self.length, self.major, self.minor, self.bank, self.unk, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBBBBBH", record)
-        endOffset = self.offset + 8
-        percussionOffset, effectsOffset = struct.unpack(">LL", ctl[self.offset:endOffset])
+    def __init__(self, entry, ctl):
+        endOffset = entry.offset + 8
+        percussionOffset, effectsOffset = struct.unpack(">LL", ctl[entry.offset:endOffset])
         instrumentOffsets = []
-        if self.instrumentCount != 0:
-            newEndOffset = endOffset + (self.instrumentCount * 4)
-            instrumentOffsets = struct.unpack(">" + str(self.instrumentCount) + "L", ctl[endOffset:newEndOffset])
+        if entry.instrumentCount != 0:
+            newEndOffset = endOffset + (entry.instrumentCount * 4)
+            instrumentOffsets = struct.unpack(">" + str(entry.instrumentCount) + "L", ctl[endOffset:newEndOffset])
             endOffset = newEndOffset
 
-        usedSetData.append((self, self.offset, endOffset))
+        usedFontData.append((self, entry.offset, endOffset))
 
-        setCtl = ctl[self.offset:]
+        setCtl = ctl[entry.offset:]
         percussionTable = setCtl[percussionOffset:]
         effectsTable = setCtl[effectsOffset:]
         self.instruments = []
         self.effects = []
         self.percussions = []
 
-        if self.instrumentCount > 0:
+        if entry.instrumentCount > 0:
             for offset in instrumentOffsets:
                 buffer = setCtl[offset:offset + 32]
-                instrument = None if offset == 0 else Instrument(self.bank, buffer, setCtl, self.offset, offset)
+                instrument = None if offset == 0 else Instrument(entry.bank, buffer, setCtl, entry.offset, offset)
                 self.instruments.append(instrument)
 
-        if self.effectCount > 0:
+        if entry.effectCount > 0:
             #usedSetData.append((self, self.offset + effectsOffset, self.offset + effectsOffset + (self.effectCount * 8)))
-            for i in range(self.effectCount):
+            for i in range(entry.effectCount):
                 buffer = effectsTable[i * 8:(i * 8) + 8]
                 offset = struct.unpack(">L", buffer[0:4])[0]
-                effect = None if offset == 0 else SoundEffect(self.bank, buffer, setCtl, self.offset, effectsOffset + (i * 8))
+                effect = None if offset == 0 else SoundEffect(entry.bank, buffer, setCtl, entry.offset, effectsOffset + (i * 8))
                 self.effects.append(effect)
         
-        if self.percussionCount > 0:
-            usedSetData.append((self, self.offset + percussionOffset, self.offset + percussionOffset + (self.percussionCount * 4)))
-            percussionsOffsets = struct.unpack(">" + str(self.percussionCount) + "L", percussionTable[:self.percussionCount * 4])
-            for i in range(self.percussionCount):
+        if entry.percussionCount > 0:
+            usedFontData.append((self, entry.offset + percussionOffset, entry.offset + percussionOffset + (entry.percussionCount * 4)))
+            percussionsOffsets = struct.unpack(">" + str(entry.percussionCount) + "L", percussionTable[:entry.percussionCount * 4])
+            for i in range(entry.percussionCount):
                 offset = percussionsOffsets[i]
-                percussion = None if offset == 0 else Percussion(self.bank, setCtl[offset:offset + 16], setCtl, self.offset, offset)
+                percussion = None if offset == 0 else Percussion(entry.bank, setCtl[offset:offset + 16], setCtl, entry.offset, offset)
                 self.percussions.append(percussion)
 
 class SoundEffect:
     def __init__(self, bank, record, tbl, baseOffset, offset):
         self.headerOffset, self.pitch = struct.unpack(">Lf", record)
-        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 8))
+        usedFontData.append((self, baseOffset + offset, baseOffset + offset + 8))
         self.sample = SampleHeader(bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
 
 class Percussion:
     def __init__(self, bank, record, tbl, baseOffset, offset):
         self.unk, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">LLfL", record)
-        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 16))
+        usedFontData.append((self, baseOffset + offset, baseOffset + offset + 16))
         self.sample = SampleHeader(bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
         self.envelope = Envelope(tbl, baseOffset, self.envelopeOffset)
 
 class Instrument:
     def __init__(self, bank, record, tbl, baseOffset, offset):
         self.keyLow, self.keyMedium, self.keyHigh, self.decay, self.envelopeOffset, self.keyLowOffset, self.keyLowPitch, self.keyMedOffset, self.keyMedPitch, self.keyHighOffset, self.keyHighPitch = struct.unpack(">BBBbLLfLfLf", record)
-        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 32))
+        usedFontData.append((self, baseOffset + offset, baseOffset + offset + 32))
         self.envelope = Envelope(tbl, baseOffset, self.envelopeOffset)
         self.keyLowSample = None if self.keyLowOffset == 0 else SampleHeader(bank, tbl[self.keyLowOffset:self.keyLowOffset + 16], tbl, baseOffset, self.keyLowOffset)
         self.keyMedSample = None if self.keyMedOffset == 0 else SampleHeader(bank, tbl[self.keyMedOffset:self.keyMedOffset + 16], tbl, baseOffset, self.keyMedOffset)
@@ -125,16 +124,17 @@ class Envelope:
         if len(self.script) == 0:
             raise Exception("Not a valid envelope script")
 
-        usedSetData.append((self, baseOffset + offset, baseOffset + offset + advanceOffset + 4))
+        usedFontData.append((self, baseOffset + offset, baseOffset + offset + advanceOffset + 4))
 
 class SampleHeader:
     def __init__(self, bank, record, tbl, baseOffset, offset):
         modes, self.u2, self.length, self.address, self.loopOffset, self.bookOffset = struct.unpack(">bbHLLL", record)
+        self.offset = baseOffset + offset
         self.codec = (modes >> 4) & 0xF
         self.medium = (modes & 0xC) >> 2
         assert self.codec == 0 or self.codec == 3
         assert self.medium == 0 or self.medium == 2
-        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 16))
+        usedFontData.append((self, baseOffset + offset, baseOffset + offset + 16))
         self.bank = bank
         assert self.length % 2 == 0
         if (self.length % 9 != 0):
@@ -157,14 +157,14 @@ class PCMLoop:
         if self.count != 0:
             self.state = struct.unpack(">16h", record[16:])
             endOffset += 32
-        usedSetData.append((self, baseOffset + offset, baseOffset + endOffset))
+        usedFontData.append((self, baseOffset + offset, baseOffset + endOffset))
 
 class PCMBook:
     def __init__(self, record, remainder, baseOffset, offset):
         self.order, self.predictorCount = struct.unpack(">LL", record)
         self.predictors = []
         predictorSize = self.order * 8
-        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 8 + (predictorSize * self.predictorCount * 2)))
+        usedFontData.append((self, baseOffset + offset, baseOffset + offset + 8 + (predictorSize * self.predictorCount * 2)))
         for i in range(self.predictorCount):
             self.predictors.append(struct.unpack(">" + str(predictorSize) + "h", remainder[i * predictorSize * 2:(i * predictorSize * 2) + (predictorSize * 2)]))
 
@@ -192,7 +192,7 @@ def parse_seq_def_data(seqdef_data, setmap_data, seq_data):
     count = struct.unpack(">H", seqdef_data[:2])[0]
     entries = []
     for i in range(count):
-        entry = SequenceEntry(seqdef_data[16 + (i * 16):16 + ((i + 1) * 16)], seq_data)
+        entry = SequenceEntry(seqdef_data[16 + (i * 16):32 + (i * 16)], seq_data)
         instSetListOffset = struct.unpack(">H", setmap_data[i * 2:(i * 2) + 2])[0]
         instSetListSize = struct.unpack(">b", setmap_data[instSetListOffset:instSetListOffset + 1])[0]
         entry.inst_sets = list(struct.unpack(f">{str(instSetListSize)}b", setmap_data[instSetListOffset + 1:instSetListOffset + 1 + instSetListSize]))
@@ -207,7 +207,7 @@ def parse_raw_def_data(raw_def_data):
     count = struct.unpack(">H", raw_def_data[:2])[0]
     entries = []
     for i in range(count):
-        buffer = raw_def_data[16 + (i * 16):20 + (i * 16)]
+        buffer = raw_def_data[16 + (i * 16):32 + (i * 16)]
         entry = SampleTableEntry(buffer)
         entries.append(entry)
     for index in range(len(entries)):
@@ -218,12 +218,14 @@ def parse_raw_def_data(raw_def_data):
 
 def parse_soundfonts(fontdef_data, font_data):
     count = struct.unpack(">H", fontdef_data[:2])[0]
-    sets = []
+    fonts = []
     for i in range(count):
         buffer = fontdef_data[16 + (i * 16):32 + (i * 16)]
         entry = SoundfontEntry(buffer)
-        sets.append(Soundfont(entry, font_data))
-    return sets
+        font = Soundfont(entry, font_data)
+        entry.font = font
+        fonts.append(entry)
+    return fonts
 
 def align(val, al):
     return (val + (al - 1)) & -al
@@ -425,7 +427,7 @@ def report_gaps(report_type, data, bin):
         elif tup[1] < currentEnd and (lastTuple[1] != tup[1] or lastTuple[2] != tup[2]):
             intersections.append((lastTuple, tup))
         lastTuple = tup
-        currentEnd = tup[2] if report_type == "SET" else (16 * math.ceil(tup[2] / 16))
+        currentEnd = tup[2] if report_type == "SOUNDFONT" else (16 * math.ceil(tup[2] / 16))
     if currentEnd < length:
         gaps.append((sorted_data[-1][2], length))
     if len(gaps) > 0:
@@ -468,7 +470,7 @@ class AifcWriter:
 
 
 def write_aifc(raw, bank_defs, entry, filename):
-    offset = bank_defs[entry.bank] + entry.address
+    offset = bank_defs[entry.bank].offset + entry.address
     data = raw[offset:offset + entry.length]
     usedRawData.append((data, offset, offset + entry.length))
     frame_size = {
@@ -484,8 +486,8 @@ def write_aifc(raw, bank_defs, entry, filename):
     with open(filename, "wb") as file:
         writer = AifcWriter(file)
         num_channels = 1
-        frame_size = 9
-        assert len(data) % frame_size == 0 or len(data) - 1 % frame_size == 0
+#        length = len(data)
+#        assert len(data) % frame_size == 0 or len(data) - 1 % frame_size == 0
         if len(data) % 2 == 1:
             data += b"\0"
         # (Computing num_frames this way makes it off by one when the data length
@@ -534,7 +536,7 @@ def write_aifc(raw, bank_defs, entry, filename):
 #Adjust sample rate based on sample IDs
 def write_aiff(entry, basedir, aifc_filename, aiff_filename):
     try:
-        frame_size = "" # if entry.codec == 0 else "5"
+        frame_size = "" if entry.codec == 0 else "5"
         aifc_decode = os.path.join(os.path.dirname(__file__), "aifc_decode")
         common_dir = os.getcwd()
         rel_aifc_decode = "./" + os.path.relpath(aifc_decode, common_dir).replace("\\", "/")
@@ -581,20 +583,20 @@ def main():
     if need_help or len(args) != expected_num_args:
         print(
             "Usage: {} "
-            "<.setdef file> <.set file> <.seqdef file> <.setmap file> <.seq file> <.rawdef file> <.raw file> "
-            "(<samples outdir> <midi outdir> <instrument set outdir> | "
+            "<.fontdef file> <.font file> <.seqdef file> <.fontmap file> <.seq file> <.rawdef file> <.raw file> "
+            "(<samples outdir> <mus outdir> <soundfont outdir> | "
             "--only-samples file:index ...)".format(sys.argv[0])
         )
         sys.exit(0 if need_help else 1)
 
-    # Instrument Set Defs
-    setdef_data = open(args[0], "rb").read()
-    # Instrument Sets
-    set_data = open(args[1], "rb").read()
+    # Soundfont Defs
+    fontdef_data = open(args[0], "rb").read()
+    # Soundfonts
+    font_data = open(args[1], "rb").read()
     # Sequence Defs
     seqdef_data = open(args[2], "rb").read()
     # Sequence->Instrument Set Mapping
-    setmap_data = open(args[3], "rb").read()
+    fontmap_data = open(args[3], "rb").read()
     # Sequences
     seq_data = open(args[4], "rb").read()
     # Sample Bank Defs
@@ -605,12 +607,12 @@ def main():
     if not only_samples:
         samples_out_dir = args[7]
         midi_out_dir = args[8]
-        sets_out_dir = args[9]
+        fonts_out_dir = args[9]
 
     bank_defs = parse_raw_def_data(rawdef_data)
-    sets = parse_soundfonts(setdef_data, set_data, bank_defs)
+    fonts = parse_soundfonts(fontdef_data, font_data)
 
-    report_gaps("SET", usedSetData, set_data)
+    report_gaps("SOUNDFONT", usedFontData, font_data)
 
     bank_ctr = defaultdict(int)
 
@@ -628,7 +630,7 @@ def main():
         report_gaps("SAMPLE", usedRawData, raw_data)
 
     # Export sequences
-    sequences = parse_seq_def_data(seqdef_data, setmap_data, seq_data)
+    sequences = parse_seq_def_data(seqdef_data, fontmap_data, seq_data)
 
     for sequence in sequences:
         if sequence.offset != 0:
@@ -644,8 +646,8 @@ def main():
 
     # Export instrument sets
     setId = 0
-    for _set in sets:
-        dir = os.path.join(sets_out_dir)
+    for _set in fonts:
+        dir = os.path.join(fonts_out_dir)
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, str(setId) + ".json")
         write_soundfont(_set, filename)
