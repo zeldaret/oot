@@ -188,19 +188,21 @@ class SoundfontEntry:
     def __init__(self, data):
         self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBBBBBH", data)
 
-def parse_seq_def_data(seqdef_data, setmap_data, seq_data):
+def parse_seq_def_data(seqdef_data, fontmap_data, seq_data):
     count = struct.unpack(">H", seqdef_data[:2])[0]
     entries = []
     for i in range(count):
-        entry = SequenceEntry(seqdef_data[16 + (i * 16):32 + (i * 16)], seq_data)
-        instSetListOffset = struct.unpack(">H", setmap_data[i * 2:(i * 2) + 2])[0]
-        instSetListSize = struct.unpack(">b", setmap_data[instSetListOffset:instSetListOffset + 1])[0]
-        entry.inst_sets = list(struct.unpack(f">{str(instSetListSize)}b", setmap_data[instSetListOffset + 1:instSetListOffset + 1 + instSetListSize]))
+        entry = SequenceEntry(seqdef_data[16 + (i * 16):32 + (i * 16)])
+        fontListOffset = struct.unpack(">H", fontmap_data[i * 2:(i * 2) + 2])[0]
+        fontListSize = struct.unpack(">b", fontmap_data[fontListOffset:fontListOffset + 1])[0]
+        entry.fonts = list(struct.unpack(f">{str(fontListSize)}b", fontmap_data[fontListOffset + 1:fontListOffset + 1 + fontListSize]))
         entries.append(entry)
     for index in range(len(entries)):
         entry = entries[index]
         if entry.length == 0:
             entries[index] = entries[entry.offset]
+        else:
+            entry.sequence = seq_data[entry.offset:entry.offset + entry.length]
     return entries
 
 def parse_raw_def_data(raw_def_data):
@@ -632,17 +634,17 @@ def main():
     # Export sequences
     sequences = parse_seq_def_data(seqdef_data, fontmap_data, seq_data)
 
-    for sequence in sequences:
-        if sequence.offset != 0:
+    for header in sequences:
+        if header.offset != 0:
             dir = os.path.join(midi_out_dir)
             os.makedirs(dir, exist_ok=True)
             #with tempfile.NamedTemporaryFile(suffix=".aseq", delete=False) as aseq:
-            with open(f"{midi_out_dir}/{str(sequence.offset)}.aseq", "wb") as aseq:
-                aseq.write(sequence.sequence)
+            with open(f"{midi_out_dir}/{str(header.offset)}.aseq", "wb") as aseq:
+                aseq.write(header.sequence)
                 aseq.flush()
-                mus_file = os.path.join(dir, str(sequence.offset) + ".mus")
-                #if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
-                #    convert_aseq_to_mus(aseq.name, mus_file)
+                mus_file = os.path.join(dir, str(header.offset) + ".mus")
+                if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
+                   convert_aseq_to_mus(aseq.name, mus_file)
 
     # Export instrument sets
     setId = 0
