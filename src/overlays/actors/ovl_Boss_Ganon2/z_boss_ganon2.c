@@ -316,6 +316,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->unk_410.x, 0.04f, 1.0f, 0.0005f);
             if (this->unk_398 == 100) {
                 Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+
                 camera->eye = this->unk_3A4;
                 camera->eyeNext = this->unk_3A4;
                 camera->at = this->unk_3B0;
@@ -541,6 +542,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
             if (this->unk_398 >= 60) {
                 Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+
                 camera->eye = this->unk_3A4;
                 camera->eyeNext = this->unk_3A4;
                 camera->at = this->unk_3B0;
@@ -738,6 +740,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             SkelAnime_Update(&this->skelAnime);
             if (1) {
                 BossGanon2Effect* effect = globalCtx->specialEffects;
+
                 this->unk_3B0 = effect->position;
                 this->unk_3A4.x = effect->position.x + 70.0f;
                 this->unk_3A4.y = effect->position.y - 30.0f;
@@ -762,6 +765,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.z = (player->actor.world.pos.z - 40.0f) - 10.0f;
             if (this->unk_398 == 10) {
                 BossGanon2Effect* effect = globalCtx->specialEffects;
+
                 effect->unk_2E = 1;
                 effect->position.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
                 effect->position.y = sZelda->actor.world.pos.y + 350.0f;
@@ -859,6 +863,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
             if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
                 Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+
                 camera->eye = this->unk_3A4;
                 camera->eyeNext = this->unk_3A4;
                 camera->at = this->unk_3B0;
