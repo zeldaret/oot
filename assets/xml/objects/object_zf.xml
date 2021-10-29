@@ -84,7 +84,7 @@
         <Animation Name="gZfLandingAnim" Offset="0x8C6C"/>
         <Animation Name="gZfJumpingAnim" Offset="0x9530"/>
         <Animation Name="gZfSlashAnim" Offset="0xA3D4"/>
-        <Animation Name="gZFCryingAnim" Offset="0xB10C"/>
+        <Animation Name="gZfCryingAnim" Offset="0xB10C"/>
 
         <Texture Name="object_zf_Tex_00B120" OutName="tex_0000B120" Format="rgba16" Width="32" Height="32" Offset="0xB120"/>
         <Texture Name="object_zf_Tex_00B920" OutName="tex_0000B920" Format="rgba16" Width="8" Height="8" Offset="0xB920"/>

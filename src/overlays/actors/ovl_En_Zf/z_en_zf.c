@@ -16,7 +16,7 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s16 EnZf_FindPlatform(Vec3f* pos, s16 startIndex);
+s16 EnZf_FindPlatform(Vec3f* pos, s16 preferredIndex);
 void EnZf_SetupDropIn(EnZf* this);
 void EnZf_DropIn(EnZf* this, GlobalContext* globalCtx);
 void func_80B45384(EnZf* this);
@@ -156,8 +156,8 @@ static ColliderQuadInit sSwordQuadInit = {
 typedef enum {
     /* 0x0 */ ENZF_DMGEFF_NONE,
     /* 0x1 */ ENZF_DMGEFF_STUN,
-    /* 0x6 */ ENZF_DMGEFF_IMMUNE = 6,       // Does nothing
-    /* 0xD */ ENZF_DMGEFF_PROJECTILE = 0xD, // But not one of the others
+    /* 0x6 */ ENZF_DMGEFF_IMMUNE = 6,       // Skips damage code, but also skips the top half of Update
+    /* 0xD */ ENZF_DMGEFF_PROJECTILE = 0xD, // Projectiles that don't have another damageeffect
     /* 0xF */ ENZF_DMGEFF_ICE = 0xF
 } EnZfDamageEffect;
 
@@ -212,7 +212,7 @@ void EnZf_SetupAction(EnZf* this, EnZfActionFunc actionFunc) {
 
 /**
  * Tests if it will still be on a floor after moving forwards a distance determined by dist, in the shape forward
- * direction (special case for 0, testing using the speed instead).
+ * direction. If `dist` is 0, it defaults to a dist depending on speed direction, and params.
  */
 s32 EnZf_PrimaryFloorCheck(EnZf* this, GlobalContext* globalCtx, f32 dist) {
     s16 ret;
@@ -284,9 +284,11 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->targetMode = 3;
     this->clearFlag = (thisx->params & 0xFF00) >> 8;
+    /* Strip the top byte of params */
     thisx->params &= 0xFF;
 
-    if (thisx->params & 0x80) { // unused in game
+    /* Return the params to their original value if they were originally negative, i.e. 0xFFFF or 0xFFFE */
+    if (thisx->params & 0x80) {
         thisx->params |= 0xFF00;
     }
 
@@ -320,12 +322,12 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params == ENZF_TYPE_DINOLFOS) {
         thisx->colChkInfo.health = 12;
         thisx->naviEnemyId = 0x10;
-        SkelAnime_Init(globalCtx, &this->skelAnime, &gZfDinolfosSkel, &gZFCryingAnim, this->jointTable,
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gZfDinolfosSkel, &gZfCryingAnim, this->jointTable,
                        this->morphTable, ENZF_LIMB_MAX);
     } else { // Lizalfos
         thisx->colChkInfo.health = 6;
         thisx->naviEnemyId = 0x0F;
-        SkelAnime_Init(globalCtx, &this->skelAnime, &gZfLizalfosSkel, &gZFCryingAnim, this->jointTable,
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gZfLizalfosSkel, &gZfCryingAnim, this->jointTable,
                        this->morphTable, ENZF_LIMB_MAX);
     }
 
@@ -365,9 +367,10 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 /**
- * Finds the index of the platform position sufficiently close to pos, starting from startIndex and working down.
+ * Finds the index of the platform position in `sPlatformPositions` that is sufficiently close to `pos`.
+ * Returns `preferedIndex` if the associated position is close enough.
  */
-s16 EnZf_FindPlatform(Vec3f* pos, s16 startIndex) {
+s16 EnZf_FindPlatform(Vec3f* pos, s16 preferredIndex) {
     f32 rangeXZ;
     s16 i;
 
@@ -378,13 +381,13 @@ s16 EnZf_FindPlatform(Vec3f* pos, s16 startIndex) {
         rangeXZ = 110.0f;
     }
 
-    if ((startIndex != -1) && ((sPlatformPositions[startIndex].y - 150.0f) <= pos->y) &&
-        (pos->y <= (sPlatformPositions[startIndex].y + 150.0f)) &&
-        ((sPlatformPositions[startIndex].x - rangeXZ) <= pos->x) &&
-        (pos->x <= (sPlatformPositions[startIndex].x + rangeXZ)) &&
-        ((sPlatformPositions[startIndex].z - rangeXZ) <= pos->z) &&
-        (pos->z <= (sPlatformPositions[startIndex].z + rangeXZ))) {
-        return startIndex;
+    if (preferredIndex != -1) {
+        i = preferredIndex;
+        if (((sPlatformPositions[i].y - 150.0f) <= pos->y) && (pos->y <= (sPlatformPositions[i].y + 150.0f)) &&
+            ((sPlatformPositions[i].x - rangeXZ) <= pos->x) && (pos->x <= (sPlatformPositions[i].x + rangeXZ)) &&
+            ((sPlatformPositions[i].z - rangeXZ) <= pos->z) && (pos->z <= (sPlatformPositions[i].z + rangeXZ))) {
+            return preferredIndex;
+        }
     }
 
     for (i = ARRAY_COUNT(sPlatformPositions) - 1; i > -1; i--) {
@@ -617,7 +620,7 @@ s32 EnZf_ChooseAction(GlobalContext* globalCtx, EnZf* this) {
 // Setup functions and action functions
 
 /**
- * Set position 300 above ground and invisible, fade in and drop to ground, fully solid when on ground
+ * Set position 300 units above ground and invisible, fade in and drop to ground, fully solid when on ground
  */
 void EnZf_SetupDropIn(EnZf* this) {
     Animation_Change(&this->skelAnime, &gZfJumpingAnim, 0.0f, 9.0f, Animation_GetLastFrame(&gZfJumpingAnim),
@@ -655,7 +658,7 @@ void EnZf_DropIn(EnZf* this, GlobalContext* globalCtx) {
 
         this->actor.world.pos.y = this->actor.floorHeight + 300.0f;
     } else if (this->alpha < 255) {
-        this->alpha += 51;
+        this->alpha += 255 / 5;
     }
 
     if ((this->actor.bgCheckFlags & 3) && (this->hopAnimIndex != 0)) {
@@ -682,7 +685,7 @@ void EnZf_DropIn(EnZf* this, GlobalContext* globalCtx) {
 
 // stop? and choose an action
 void func_80B45384(EnZf* this) {
-    Animation_Change(&this->skelAnime, &gZFCryingAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gZFCryingAnim),
+    Animation_Change(&this->skelAnime, &gZfCryingAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gZfCryingAnim),
                      ANIMMODE_LOOP_INTERP, -4.0f);
     this->action = ENZF_ACTION_3;
     this->unk_3F0 = Rand_ZeroOne() * 10.0f + 5.0f;
