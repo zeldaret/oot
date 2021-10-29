@@ -4,11 +4,13 @@ PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis
 ZAPD := ZAPD/ZAPD.out
 
 all: $(PROGRAMS)
-	cd ZAPD && $(MAKE)
+	$(MAKE) -C ZAPD
+	$(MAKE) -C fado
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
 	$(MAKE) -C ZAPD clean
+	$(MAKE) -C fado clean
 
 distclean: clean
 

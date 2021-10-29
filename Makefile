@@ -110,11 +110,15 @@ C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*
 S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
-                 $(foreach f,$(wildcard baserom/*),build/$f.o)
+                 $(foreach f,$(wildcard baserom/*),build/$f.o) \
+                 $(shell awk -F"\"" '/_reloc.o/ { print $$2 }' spec )
 
 # Automatic dependency files
-# (Only asm_processor dependencies are handled for now)
+# (Only asm_processor dependencies and reloc dependencies are handled for now)
 DEP_FILES := $(O_FILES:.o=.asmproc.d)
+
+RELOC_DEPS    := build/reloc_deps.d
+$(shell awk -F\" '/name "ovl/ { flag=1; out=null; dep=null } /include/ && flag && !/reloc.o/ { dep=dep " " $$2 } /_reloc.o/ { out=$$2 } /endseg/ && out && flag { flag=0; printf "%s:%s\n\n", out, dep }' spec > $(RELOC_DEPS))
 
 TEXTURE_FILES_PNG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_JPG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.jpg))
@@ -222,9 +226,11 @@ build/assets/%.o: assets/%.c
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
-	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
-	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+
+build/src/overlays/%_reloc.o:
+	./tools/fado/fado.elf -o $(@D)/$(notdir $(@D))_reloc.s $^
+	$(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 
 build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
@@ -253,3 +259,4 @@ build/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
 
 -include $(DEP_FILES)
+-include $(RELOC_DEPS)
