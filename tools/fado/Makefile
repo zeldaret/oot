@@ -7,7 +7,7 @@ ELF         := fado.elf
 CC          := $(shell ./find_program.sh gcc clang clang-[0-9][0-9] clang-[0-9])
 LD          := $(shell ./find_program.sh ld ld.lld ld.lld-*)
 INC         := -I include -I lib
-WARNINGS    := -Wall -Wextra -Wpedantic -Wshadow -Werror=implicit-function-declaration -Wvla -Wno-unused-function -Wno-implicit-fallthrough
+WARNINGS    := -Wall -Wextra -Wpedantic -Wshadow -Werror=implicit-function-declaration -Wvla -Wno-unused-function 
 CFLAGS      := -std=c11
 LDFLAGS     := 
 
@@ -32,7 +32,7 @@ endif
 
 # GCC is too stupid to be trusted with these warnings
 ifeq ($(CC),gcc)
-  WARNINGS += -Wno-maybe-uninitialized
+  WARNINGS += -Wno-implicit-fallthrough -Wno-maybe-uninitialized
 endif
 
 SRC_DIRS    := $(shell find src -type d)

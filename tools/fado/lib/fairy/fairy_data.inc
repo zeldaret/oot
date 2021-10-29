@@ -119,7 +119,7 @@ static const FairyDefineString shTypes[] = {
     FAIRY_DEF_STRING(SHT_, MIPS_EH_REGION),
     FAIRY_DEF_STRING(SHT_, MIPS_XLATE_OLD),
     FAIRY_DEF_STRING(SHT_, MIPS_PDR_EXCEPTION),
-    FAIRY_DEF_STRING(SHT_, MIPS_XHASH),
+    // FAIRY_DEF_STRING(SHT_, MIPS_XHASH), /* New in 2019 */
     { 0 },
 };
 
