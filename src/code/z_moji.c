@@ -4,8 +4,25 @@
 
 #include "global.h"
 
-#define CHAR_WIDTH 8
-#define CHAR_HEIGHT 8
+// how big to draw the characters on screen
+#define DISP_CHAR_WIDTH 8
+#define DISP_CHAR_HEIGHT 8
+
+// gMojiFontTex is a TEX_CHAR_COLS x TEX_CHAR_ROWS grid of characters,
+// each character being TEX_CHAR_WIDTH x TEX_CHAR_HEIGHT in size.
+// Each spot on the grid contains 4 characters, which are revealed by using different TLUTs.
+
+#define TEX_CHAR_WIDTH 8
+#define TEX_CHAR_HEIGHT 8
+
+#define TEX_CHAR_COLS 2
+#define TEX_CHAR_ROWS 16
+
+// A character `c = 0bRRRRRCTT` maps to row 0bRRRRR, column 0bC and TLUT 0bTT.
+#define GET_CHAR_TLUT_INDEX(c) (c & 3)
+// `/ 4` matches the `& 4` (`(c & 4) / 4` is the column the character is in)
+#define GET_TEX_CHAR_S(c) ((u16)(c & 4) * ((1 << 5) * TEX_CHAR_WIDTH / 4))
+#define GET_TEX_CHAR_T(c) ((u16)(c >> 3) * ((1 << 5) * TEX_CHAR_HEIGHT))
 
 u32 sFontColorRed = 255;
 u32 sFontColorGreen = 255;
@@ -25,20 +42,20 @@ void Moji_SetColor(u32 red, u32 green, u32 blue, u32 alpha) {
 }
 
 void Moji_SetPosition(s32 gridX, s32 gridY) {
-    if (gridX >= SCREEN_WIDTH / CHAR_WIDTH) {
-        sScreenPosX = SCREEN_WIDTH - CHAR_WIDTH;
+    if (gridX >= SCREEN_WIDTH / DISP_CHAR_WIDTH) {
+        sScreenPosX = SCREEN_WIDTH - DISP_CHAR_WIDTH;
     } else if (gridX < 0) {
         sScreenPosX = 0;
     } else {
-        sScreenPosX = gridX * CHAR_WIDTH;
+        sScreenPosX = gridX * DISP_CHAR_WIDTH;
     }
 
-    if (gridY >= SCREEN_HEIGHT / CHAR_HEIGHT) {
-        sScreenPosY = SCREEN_HEIGHT - CHAR_HEIGHT;
+    if (gridY >= SCREEN_HEIGHT / DISP_CHAR_HEIGHT) {
+        sScreenPosY = SCREEN_HEIGHT - DISP_CHAR_HEIGHT;
     } else if (gridY < 0) {
         sScreenPosY = 0;
     } else {
-        sScreenPosY = gridY * CHAR_HEIGHT;
+        sScreenPosY = gridY * DISP_CHAR_HEIGHT;
     }
 }
 
@@ -51,14 +68,13 @@ void Moji_DrawChar(GraphicsContext* gfxCtx, char c) {
         osSyncPrintf("moji_tlut --> %X\n", gMojiFontTLUTs);
     }
 
-    if (sCurTLUTIndex != (c & 3)) {
-        gDPLoadTLUT(POLY_OPA_DISP++, 16, 256, &gMojiFontTLUTs[c & 3]);
-        sCurTLUTIndex = c & 3;
+    if (sCurTLUTIndex != GET_CHAR_TLUT_INDEX(c)) {
+        gDPLoadTLUT(POLY_OPA_DISP++, 16, 256, &gMojiFontTLUTs[GET_CHAR_TLUT_INDEX(c)]);
+        sCurTLUTIndex = GET_CHAR_TLUT_INDEX(c);
     }
-
-    gSPTextureRectangle(POLY_OPA_DISP++, sScreenPosX << 2, sScreenPosY << 2, (sScreenPosX + CHAR_WIDTH) << 2,
-                        (sScreenPosY + CHAR_HEIGHT) << 2, G_TX_RENDERTILE, (u16)(c & 4) * 64, (u16)(c >> 3) * 256,
-                        (1 << 10) * 8 / CHAR_WIDTH, (1 << 10) * 8 / CHAR_HEIGHT);
+    gSPTextureRectangle(POLY_OPA_DISP++, sScreenPosX << 2, sScreenPosY << 2, (sScreenPosX + DISP_CHAR_WIDTH) << 2,
+                        (sScreenPosY + DISP_CHAR_HEIGHT) << 2, G_TX_RENDERTILE, GET_TEX_CHAR_S(c), GET_TEX_CHAR_T(c),
+                        (1 << 10) * TEX_CHAR_WIDTH / DISP_CHAR_WIDTH, (1 << 10) * TEX_CHAR_HEIGHT / DISP_CHAR_HEIGHT);
 
     CLOSE_DISPS(gfxCtx, "../z_moji.c", 123);
 }
@@ -81,18 +97,19 @@ void Moji_DrawString(GraphicsContext* gfxCtx, const char* str) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sFontColorRed, sFontColorGreen, sFontColorBlue, sFontColorAlpha);
 
-    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, (s32)gMojiFontTex, G_IM_FMT_CI, 16, 128, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, (s32)gMojiFontTex, G_IM_FMT_CI, TEX_CHAR_COLS * TEX_CHAR_WIDTH,
+                           TEX_CHAR_ROWS * TEX_CHAR_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                           G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     sCurTLUTIndex = -1;
 
     for (i = 0; str[i] != '\0'; i++) {
         switch (str[i]) {
             case '\t':
-                sScreenPosX = (((sScreenPosX / CHAR_WIDTH) / 8) + 1) * CHAR_WIDTH * 8;
+                sScreenPosX = (((sScreenPosX / DISP_CHAR_WIDTH) / 8) + 1) * DISP_CHAR_WIDTH * 8;
                 if (sScreenPosX >= SCREEN_WIDTH) {
                     sScreenPosX = 0;
-                    sScreenPosY += CHAR_HEIGHT;
+                    sScreenPosY += DISP_CHAR_HEIGHT;
                     if (sScreenPosY >= SCREEN_HEIGHT) {
                         sScreenPosY = 0;
                     }
@@ -101,14 +118,14 @@ void Moji_DrawString(GraphicsContext* gfxCtx, const char* str) {
             case '\n':
             case '\r':
                 sScreenPosX = 0;
-                sScreenPosY += CHAR_HEIGHT;
+                sScreenPosY += DISP_CHAR_HEIGHT;
                 if (sScreenPosY >= SCREEN_HEIGHT) {
                     sScreenPosY = 0;
                 }
                 break;
             default:
                 Moji_DrawChar(gfxCtx, str[i]);
-                sScreenPosX += CHAR_WIDTH;
+                sScreenPosX += DISP_CHAR_WIDTH;
         }
     }
 
