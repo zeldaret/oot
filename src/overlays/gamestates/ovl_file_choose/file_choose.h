@@ -70,14 +70,14 @@ typedef enum {
 } ConfigMode;
 
 typedef enum {
-    /* 00 */ SM_FADE_MAIN_TO_SELECT,
-    /* 01 */ SM_MOVE_FILE_TO_TOP,
-    /* 02 */ SM_FADE_IN_FILE_INFO,
-    /* 03 */ SM_CONFIRM_FILE,
-    /* 04 */ SM_FADE_OUT_FILE_INFO,
-    /* 05 */ SM_MOVE_FILE_TO_SLOT,
-    /* 06 */ SM_FADE_OUT,
-    /* 07 */ SM_LOAD_GAME
+    /* 0 */ SM_FADE_MAIN_TO_SELECT,
+    /* 1 */ SM_MOVE_FILE_TO_TOP,
+    /* 2 */ SM_FADE_IN_FILE_INFO,
+    /* 3 */ SM_CONFIRM_FILE,
+    /* 4 */ SM_FADE_OUT_FILE_INFO,
+    /* 5 */ SM_MOVE_FILE_TO_SLOT,
+    /* 6 */ SM_FADE_OUT,
+    /* 7 */ SM_LOAD_GAME
 } SelectMode;
 
 typedef enum {
