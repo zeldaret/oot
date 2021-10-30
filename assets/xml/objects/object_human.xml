@@ -10,7 +10,7 @@
 
         <Texture Name="gHumanEyeLookLeftOpenTex" OutName="eye_look_left_open" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x1400"/>
         <Texture Name="gHumanEyeLookLeftHalfTex" OutName="eye_look_left_half" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x1800"/>
-    
+
         <Texture Name="gHumanEyeLookUpOpenTex" OutName="eye_look_up_open" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x1C00"/>
         <Texture Name="gHumanEyeLookDownOpenTex" OutName="eye_look_down_open" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x2000"/>
 
