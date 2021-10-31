@@ -1690,9 +1690,9 @@ s32 Camera_Normal2(Camera* camera) {
             anim->unk_20 = BGCAM_ROT(bgData).x;
             anim->unk_22 = BGCAM_ROT(bgData).y;
             anim->unk_24 = playerPosRot->pos.y;
-            anim->unk_1C = BGCAM_FOV(bgData) == -1
-                               ? norm2->unk_14
-                               : BGCAM_FOV(bgData) >= 0x169 ? PCT(BGCAM_FOV(bgData)) : BGCAM_FOV(bgData);
+            anim->unk_1C = BGCAM_FOV(bgData) == -1      ? norm2->unk_14
+                           : BGCAM_FOV(bgData) >= 0x169 ? PCT(BGCAM_FOV(bgData))
+                                                        : BGCAM_FOV(bgData);
 
             anim->unk_28 = BGCAM_JFIFID(bgData) == -1 ? 0 : BGCAM_JFIFID(bgData);
 
@@ -2923,7 +2923,9 @@ s32 Camera_Battle1(Camera* camera) {
     }
     anim->roll += (((OREG(36) * camera->speedRatio) * (1.0f - distRatio)) - anim->roll) * PCT(OREG(37));
     camera->roll = DEGF_TO_BINANG(anim->roll);
-    camera->fov = Camera_LERPCeilF((player->swordState != 0 ? 0.8f : gSaveContext.health <= 0x10 ? 0.8f : 1.0f) *
+    camera->fov = Camera_LERPCeilF((player->swordState != 0       ? 0.8f
+                                    : gSaveContext.health <= 0x10 ? 0.8f
+                                                                  : 1.0f) *
                                        (fov - ((fov * 0.05f) * distRatio)),
                                    camera->fov, camera->fovUpdateRate, 1.0f);
 }

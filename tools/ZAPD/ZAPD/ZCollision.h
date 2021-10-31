@@ -82,7 +82,7 @@ public:
 	std::vector<PolygonEntry> polygons;
 	std::vector<uint64_t> polygonTypes;
 	std::vector<WaterBoxHeader> waterBoxes;
-	CameraDataList* camData;
+	CameraDataList* camData = nullptr;
 
 	ZCollisionHeader(ZFile* nParent);
 	~ZCollisionHeader();
