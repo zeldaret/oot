@@ -118,4 +118,26 @@
 #define MI_INTR_MASK_PI         0x10
 #define MI_INTR_MASK_DP         0x20
 
+#define MI_INTR_MASK  \
+   (MI_INTR_MASK_SP | \
+    MI_INTR_MASK_SI | \
+    MI_INTR_MASK_AI | \
+    MI_INTR_MASK_VI | \
+    MI_INTR_MASK_PI | \
+    MI_INTR_MASK_DP)
+
+// MI_INTR_MASK_REG masks (write)
+#define MI_INTR_MASK_CLR_SP     0x0001
+#define MI_INTR_MASK_SET_SP     0x0002
+#define MI_INTR_MASK_CLR_SI     0x0004
+#define MI_INTR_MASK_SET_SI     0x0008
+#define MI_INTR_MASK_CLR_AI     0x0010
+#define MI_INTR_MASK_SET_AI     0x0020
+#define MI_INTR_MASK_CLR_VI     0x0040
+#define MI_INTR_MASK_SET_VI     0x0080
+#define MI_INTR_MASK_CLR_PI     0x0100
+#define MI_INTR_MASK_SET_PI     0x0200
+#define MI_INTR_MASK_CLR_DP     0x0400
+#define MI_INTR_MASK_SET_DP     0x0800
+
 #endif

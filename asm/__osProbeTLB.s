@@ -10,7 +10,16 @@
 
 .balign 16
 
+/**
+ *  u32 __osProbeTLB(void* vaddr);
+ *
+ *  Searches the TLB for the physical address associated with
+ *  the virtual address `vaddr`.
+ *
+ *  Returns the physical address if found, or -1 if not found.
+ */
 glabel __osProbeTLB
+    # Set EntryHi based on supplied vaddr
     mfc0    $t0, EntryHi
     andi    $t1, $t0, TLBHI_PIDMASK
     li      $at, TLBHI_VPN2MASK
@@ -20,43 +29,58 @@ glabel __osProbeTLB
     nop
     nop
     nop
+    # TLB probe, sets the Index register to a value matching EntryHi.
+    # If no match is found the TLBINX_PROBE bit is set to indicate this.
     tlbp
     nop
     nop
+    # Read result
     mfc0    $t3, Index
     li      $at, TLBINX_PROBE
     and     $t3, $t3, $at
-    bnez    $t3, .L800050E8
+    # Branch if no match was found
+    bnez    $t3, .no_paddr
      nop
+    # Read TLB, sets EntryHi, EntryLo0, EntryLo1 and PageMask for the TLB
+    # entry indicated by the Index register
     tlbr
     nop
     nop
     nop
+    # Get PageMask
     mfc0    $t3, PageMask
     addi    $t3, $t3, DCACHE_SIZE
     srl     $t3, $t3, 1
     and     $t4, $t3, $a0
-    bnez    $t4, .L800050B8
+    # Select EntryLo0 or EntryLo1
+    bnez    $t4, .get_lo1
      addi   $t3, $t3, -1
     mfc0    $v0, EntryLo0
-    b       .L800050BC
+    b       .got_lo0
      nop
-.L800050B8:
+.get_lo1:
     mfc0    $v0, EntryLo1
-.L800050BC:
+.got_lo0:
+    # Check valid bit and branch if not valid
     andi    $t5, $v0, TLBLO_V
-    beqz    $t5, .L800050E8
+    beqz    $t5, .no_paddr
      nop
+    # Extract the Page Frame Number from the entry
     li      $at, TLBLO_PFNMASK
     and     $v0, $v0, $at
     sll     $v0, $v0, TLBLO_PFNSHIFT
+    # Mask vaddr
     and     $t5, $a0, $t3
+    # Add masked vaddr to pfn to obtain the physical address
     add     $v0, $v0, $t5
-    b       .L800050EC
+    b       .got_paddr
      nop
-.L800050E8:
+.no_paddr:
+    # No physical address for the supplied virtual address was found,
+    # return -1
     li      $v0, -1
-.L800050EC:
+.got_paddr:
+    # Restore original EntryHi value before returning
     mtc0    $t0, EntryHi
     jr      $ra
      nop
