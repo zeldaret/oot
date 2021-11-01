@@ -101,24 +101,23 @@ typedef enum {
     /* 15 */ ENHY_HEAD_COB
 } EnHyHeadIndex;
 
-// indexed by EnHyHeadIndex
 static EnHyHeadInfo sHeadInfo[] = {
-    /*  0 */ { OBJECT_AOB, gDogLadyHeadDL, sEyeTexturesAOB },
-    /*  1 */ { OBJECT_BOB, object_bob_DL_003B78, sEyeTexturesBOB },
-    /*  2 */ { OBJECT_BOJ, 0x060026F0, sEyeTexturesBOJ2 },
-    /*  3 */ { OBJECT_BOJ, object_boj_DL_0052E0, NULL },
-    /*  4 */ { OBJECT_BOJ, object_boj_DL_005528, NULL },
-    /*  5 */ { OBJECT_BOJ, object_boj_DL_005738, NULL },
-    /*  6 */ { OBJECT_BOJ, object_boj_DL_0059B0, NULL },
-    /*  7 */ { OBJECT_AHG, 0x060030F0, sEyeTexturesAHG7 },
-    /*  8 */ { OBJECT_AHG, object_ahg_DL_005508, NULL },
-    /*  9 */ { OBJECT_AHG, object_ahg_DL_005728, NULL },
-    /* 10 */ { OBJECT_BBA, object_bba_DL_002948, sEyeTexturesBBA },
-    /* 11 */ { OBJECT_CNE, 0x06001300, NULL },
-    /* 12 */ { OBJECT_CNE, object_cne_DL_002860, NULL },
-    /* 13 */ { OBJECT_BJI, 0x06002560, sEyeTexturesBJI13 },
-    /* 14 */ { OBJECT_BJI, object_bji_DL_003F68, NULL },
-    /* 15 */ { OBJECT_COB, object_cob_DL_001300, NULL },
+    /* ENHY_HEAD_AOB */ { OBJECT_AOB, gDogLadyHeadDL, sEyeTexturesAOB },
+    /* ENHY_HEAD_BOB */ { OBJECT_BOB, object_bob_DL_003B78, sEyeTexturesBOB },
+    /* ENHY_HEAD_BOJ_2 */ { OBJECT_BOJ, 0x060026F0, sEyeTexturesBOJ2 },
+    /* ENHY_HEAD_BOJ_3 */ { OBJECT_BOJ, object_boj_DL_0052E0, NULL },
+    /* ENHY_HEAD_BOJ_4 */ { OBJECT_BOJ, object_boj_DL_005528, NULL },
+    /* ENHY_HEAD_BOJ_5 */ { OBJECT_BOJ, object_boj_DL_005738, NULL },
+    /* ENHY_HEAD_BOJ_6 */ { OBJECT_BOJ, object_boj_DL_0059B0, NULL },
+    /* ENHY_HEAD_AHG_7 */ { OBJECT_AHG, 0x060030F0, sEyeTexturesAHG7 },
+    /* ENHY_HEAD_AHG_8 */ { OBJECT_AHG, object_ahg_DL_005508, NULL },
+    /* ENHY_HEAD_AHG_9 */ { OBJECT_AHG, object_ahg_DL_005728, NULL },
+    /* ENHY_HEAD_BBA */ { OBJECT_BBA, object_bba_DL_002948, sEyeTexturesBBA },
+    /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, 0x06001300, NULL },
+    /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, object_cne_DL_002860, NULL },
+    /* ENHY_HEAD_BJI_13 */ { OBJECT_BJI, 0x06002560, sEyeTexturesBJI13 },
+    /* ENHY_HEAD_BJI_14 */ { OBJECT_BJI, object_bji_DL_003F68, NULL },
+    /* ENHY_HEAD_COB */ { OBJECT_COB, object_cob_DL_001300, NULL },
 };
 
 typedef struct {
@@ -127,26 +126,25 @@ typedef struct {
 } EnHySkeletonInfo; // size = 0x8
 
 typedef enum {
-    /*  0 */ ENHY_SKEL_AOB,
-    /*  1 */ ENHY_SKEL_BOB,
-    /*  2 */ ENHY_SKEL_BOJ,
-    /*  3 */ ENHY_SKEL_AHG,
-    /*  4 */ ENHY_SKEL_BBA,
-    /*  5 */ ENHY_SKEL_CNE,
-    /*  6 */ ENHY_SKEL_BJI,
-    /*  7 */ ENHY_SKEL_COB
+    /* 0 */ ENHY_SKEL_AOB,
+    /* 1 */ ENHY_SKEL_BOB,
+    /* 2 */ ENHY_SKEL_BOJ,
+    /* 3 */ ENHY_SKEL_AHG,
+    /* 4 */ ENHY_SKEL_BBA,
+    /* 5 */ ENHY_SKEL_CNE,
+    /* 6 */ ENHY_SKEL_BJI,
+    /* 7 */ ENHY_SKEL_COB
 } EnHySkeletonIndex;
 
-// indexed by EnHySkeletonIndex
 static EnHySkeletonInfo sSkeletonInfo[] = {
-    /* 0 */ { OBJECT_AOB, &gDogLadySkel },
-    /* 1 */ { OBJECT_BOB, &object_bob_Skel_0000F0 },
-    /* 2 */ { OBJECT_BOJ, 0x060000F0 },
-    /* 3 */ { OBJECT_AHG, 0x060000F0 },
-    /* 4 */ { OBJECT_BBA, &object_bba_Skel_0000F0 },
-    /* 5 */ { OBJECT_CNE, 0x060000F0 },
-    /* 6 */ { OBJECT_BJI, 0x060000F0 },
-    /* 7 */ { OBJECT_COB, &object_cob_Skel_0021F8 },
+    /* ENHY_SKEL_AOB */ { OBJECT_AOB, &gDogLadySkel },
+    /* ENHY_SKEL_BOB */ { OBJECT_BOB, &object_bob_Skel_0000F0 },
+    /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, 0x060000F0 },
+    /* ENHY_SKEL_AHG */ { OBJECT_AHG, 0x060000F0 },
+    /* ENHY_SKEL_BBA */ { OBJECT_BBA, &object_bba_Skel_0000F0 },
+    /* ENHY_SKEL_CNE */ { OBJECT_CNE, 0x060000F0 },
+    /* ENHY_SKEL_BJI */ { OBJECT_BJI, 0x060000F0 },
+    /* ENHY_SKEL_COB */ { OBJECT_COB, &object_cob_Skel_0021F8 },
 };
 
 typedef enum {
@@ -179,35 +177,34 @@ typedef enum {
     /* 26 */ ENHY_ANIM_26
 } EnHyAnimationIndex;
 
-// indexed by EnHyAnimationIndex
 static struct_80034EC0_Entry sAnimationInfo[] = {
-    /*  0 */ { &gObjOsAnim_092C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /*  1 */ { &gObjOsAnim_0228, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /*  2 */ { &gObjOsAnim_4CF4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /*  3 */ { &gObjOsAnim_16EC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /*  4 */ { &gObjOsAnim_265C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /*  5 */ { &gObjOsAnim_42AC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /*  6 */ { &gObjOsAnim_28DC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /*  7 */ { &gObjOsAnim_2160, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
-    /*  8 */ { &gObjOsAnim_265C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
-    /*  9 */ { &gObjOsAnim_4E90, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 10 */ { &gObjOsAnim_1E7C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 11 */ { &gObjOsAnim_0170, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 12 */ { &gObjOsAnim_00B4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 13 */ { &gObjOsAnim_3D84, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 14 */ { &gObjOsAnim_41F8, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 15 */ { &gObjOsAnim_300C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 16 */ { &gObjOsAnim_31B0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 17 */ { &gObjOsAnim_31B0, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    /* 18 */ { &gObjOsAnim_2D0C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 19 */ { &gObjOsAnim_2DC0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 20 */ { &gObjOsAnim_4408, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 21 */ { &gObjOsAnim_1F18, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 22 */ { &gObjOsAnim_4F28, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    /* 23 */ { &gObjOsAnim_33B4, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    /* 24 */ { &gObjOsAnim_12E8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    /* 25 */ { &gObjOsAnim_0FE4, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    /* 26 */ { &gObjOsAnim_0BFC, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    /* ENHY_ANIM_0 */ { &gObjOsAnim_092C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_1 */ { &gObjOsAnim_0228, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_2 */ { &gObjOsAnim_4CF4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_3 */ { &gObjOsAnim_16EC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_4 */ { &gObjOsAnim_265C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_5 */ { &gObjOsAnim_42AC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_6 */ { &gObjOsAnim_28DC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_7 */ { &gObjOsAnim_2160, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
+    /* ENHY_ANIM_8 */ { &gObjOsAnim_265C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
+    /* ENHY_ANIM_9 */ { &gObjOsAnim_4E90, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_10 */ { &gObjOsAnim_1E7C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_11 */ { &gObjOsAnim_0170, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_12 */ { &gObjOsAnim_00B4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_13 */ { &gObjOsAnim_3D84, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_14 */ { &gObjOsAnim_41F8, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_15 */ { &gObjOsAnim_300C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_16 */ { &gObjOsAnim_31B0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_17 */ { &gObjOsAnim_31B0, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    /* ENHY_ANIM_18 */ { &gObjOsAnim_2D0C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_19 */ { &gObjOsAnim_2DC0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_20 */ { &gObjOsAnim_4408, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_21 */ { &gObjOsAnim_1F18, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_22 */ { &gObjOsAnim_4F28, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    /* ENHY_ANIM_23 */ { &gObjOsAnim_33B4, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    /* ENHY_ANIM_24 */ { &gObjOsAnim_12E8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    /* ENHY_ANIM_25 */ { &gObjOsAnim_0FE4, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    /* ENHY_ANIM_26 */ { &gObjOsAnim_0BFC, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
 };
 
 typedef struct {
@@ -219,49 +216,48 @@ typedef struct {
     /* 0x0B */ u8 animInfoIndex; // EnHyAnimationIndex
 } EnHyModelInfo;                 // size = 0xC
 
-// indexed by EnHyType
 static EnHyModelInfo sModelInfo[] = {
-    /*  0 */
+    /* ENHY_TYPE_AOB */
     { ENHY_HEAD_AOB, ENHY_SKEL_AOB, { 255, 255, 255, 255 }, ENHY_SKEL_AOB, { 255, 255, 255, 255 }, ENHY_ANIM_0 },
-    /*  1 */
+    /* ENHY_TYPE_COB */
     { ENHY_HEAD_COB, ENHY_SKEL_COB, { 255, 255, 255, 255 }, ENHY_SKEL_COB, { 255, 255, 255, 255 }, ENHY_ANIM_22 },
-    /*  2 */
+    /* ENHY_TYPE_AHG_2 */
     { ENHY_HEAD_AHG_7, ENHY_SKEL_AHG, { 255, 255, 255, 255 }, ENHY_SKEL_AHG, { 255, 255, 255, 255 }, ENHY_ANIM_1 },
-    /*  3 */
+    /* ENHY_TYPE_BOJ_3 */
     { ENHY_HEAD_BOJ_3, ENHY_SKEL_BOJ, { 255, 255, 255, 0 }, ENHY_SKEL_BOJ, { 55, 55, 255, 0 }, ENHY_ANIM_15 },
-    /*  4 */
+    /* ENHY_TYPE_AHG_4 */
     { ENHY_HEAD_AHG_8, ENHY_SKEL_AHG, { 0, 0, 0, 0 }, ENHY_SKEL_AHG, { 255, 0, 0, 0 }, ENHY_ANIM_11 },
-    /*  5 */
+    /* ENHY_TYPE_BOJ_5 */
     { ENHY_HEAD_BOJ_4, ENHY_SKEL_BOJ, { 50, 80, 0, 0 }, ENHY_SKEL_BOJ, { 50, 80, 0, 0 }, ENHY_ANIM_16 },
-    /*  6 */
+    /* ENHY_TYPE_BBA */
     { ENHY_HEAD_BBA, ENHY_SKEL_BBA, { 255, 255, 255, 255 }, ENHY_SKEL_BBA, { 255, 255, 255, 255 }, ENHY_ANIM_10 },
-    /*  7 */
+    /* ENHY_TYPE_BJI_7 */
     { ENHY_HEAD_BJI_13, ENHY_SKEL_BJI, { 0, 50, 160, 0 }, ENHY_SKEL_BJI, { 255, 255, 255, 0 }, ENHY_ANIM_4 },
-    /*  8 */
+    /* ENHY_TYPE_CNE_8 */
     { ENHY_HEAD_CNE_11, ENHY_SKEL_CNE, { 160, 180, 255, 0 }, ENHY_SKEL_CNE, { 160, 180, 255, 0 }, ENHY_ANIM_9 },
-    /*  9 */
+    /* ENHY_TYPE_BOJ_9 */
     { ENHY_HEAD_BOJ_2, ENHY_SKEL_BOJ, { 220, 0, 80, 0 }, ENHY_SKEL_BOJ, { 255, 255, 255, 0 }, ENHY_ANIM_13 },
-    /* 10 */
+    /* ENHY_TYPE_BOJ_10 */
     { ENHY_HEAD_BOJ_2, ENHY_SKEL_BOJ, { 0, 130, 220, 0 }, ENHY_SKEL_BOJ, { 255, 255, 255, 0 }, ENHY_ANIM_14 },
-    /* 11 */
+    /* ENHY_TYPE_CNE_11 */
     { ENHY_HEAD_CNE_12, ENHY_SKEL_CNE, { 70, 160, 230, 0 }, ENHY_SKEL_CNE, { 255, 255, 100, 0 }, ENHY_ANIM_20 },
-    /* 12 */
+    /* ENHY_TYPE_BOJ_12 */
     { ENHY_HEAD_BOJ_5, ENHY_SKEL_BOJ, { 150, 60, 90, 0 }, ENHY_SKEL_BOJ, { 255, 240, 150, 0 }, ENHY_ANIM_18 },
-    /* 13 */
+    /* ENHY_TYPE_AHG_13 */
     { ENHY_HEAD_AHG_9, ENHY_SKEL_AHG, { 200, 180, 255, 0 }, ENHY_SKEL_AHG, { 200, 180, 255, 0 }, ENHY_ANIM_12 },
-    /* 14 */
+    /* ENHY_TYPE_BOJ_14 */
     { ENHY_HEAD_BOJ_6, ENHY_SKEL_BOJ, { 140, 255, 110, 0 }, ENHY_SKEL_BOJ, { 255, 255, 255, 0 }, ENHY_ANIM_19 },
-    /* 15 */
+    /* ENHY_TYPE_BJI_15 */
     { ENHY_HEAD_BJI_14, ENHY_SKEL_BJI, { 130, 70, 20, 0 }, ENHY_SKEL_BJI, { 130, 180, 255, 0 }, ENHY_ANIM_21 },
-    /* 16 */
+    /* ENHY_TYPE_BOJ_16 */
     { ENHY_HEAD_BOJ_2, ENHY_SKEL_BOJ, { 255, 255, 255, 255 }, ENHY_SKEL_BOJ, { 255, 255, 255, 255 }, ENHY_ANIM_5 },
-    /* 17 */
+    /* ENHY_TYPE_AHG_17 */
     { ENHY_HEAD_AHG_8, ENHY_SKEL_AHG, { 90, 100, 20, 255 }, ENHY_SKEL_AHG, { 100, 140, 50, 255 }, ENHY_ANIM_11 },
-    /* 18 */
+    /* ENHY_TYPE_BOB_18 */
     { ENHY_HEAD_BOB, ENHY_SKEL_BOB, { 255, 255, 255, 255 }, ENHY_SKEL_BOB, { 255, 255, 255, 255 }, ENHY_ANIM_6 },
-    /* 19 */
+    /* ENHY_TYPE_BJI_19 */
     { ENHY_HEAD_BJI_14, ENHY_SKEL_BJI, { 160, 0, 100, 0 }, ENHY_SKEL_BJI, { 70, 130, 210, 0 }, ENHY_ANIM_21 },
-    /* 20 */
+    /* ENHY_TYPE_AHG_20 */
     { ENHY_HEAD_AHG_9, ENHY_SKEL_AHG, { 160, 230, 0, 0 }, ENHY_SKEL_AHG, { 0, 150, 110, 0 }, ENHY_ANIM_12 },
 };
 
@@ -271,19 +267,28 @@ typedef struct {
     /* 0x08 */ s16 height;
 } EnHyColliderInfo; // size 0xA
 
-// indexed by EnHyType
 static EnHyColliderInfo sColliderInfo[] = {
-    /*  0 */ { { 0, 0, 4 }, 24, 70 },  /*  1 */ { { 0, 0, 8 }, 28, 62 },
-    /*  2 */ { { 0, 0, 4 }, 20, 60 },  /*  3 */ { { 0, 0, 2 }, 20, 60 },
-    /*  4 */ { { 0, 0, -2 }, 20, 60 }, /*  5 */ { { 0, 0, 8 }, 24, 40 },
-    /*  6 */ { { 0, 0, 10 }, 26, 40 }, /*  7 */ { { 0, 0, 12 }, 26, 58 },
-    /*  8 */ { { 0, 0, 2 }, 18, 68 },  /*  9 */ { { 0, 0, 4 }, 20, 60 },
-    /* 10 */ { { 0, 0, 4 }, 20, 60 },  /* 11 */ { { 0, 0, 6 }, 20, 64 },
-    /* 12 */ { { 0, 0, 0 }, 18, 60 },  /* 13 */ { { 0, 0, 0 }, 16, 60 },
-    /* 14 */ { { 0, 0, 0 }, 16, 64 },  /* 15 */ { { 0, 0, 8 }, 20, 58 },
-    /* 16 */ { { 4, 0, 0 }, 18, 62 },  /* 17 */ { { 4, 0, 0 }, 18, 62 },
-    /* 18 */ { { 0, 0, 8 }, 28, 62 },  /* 19 */ { { 0, 0, 0 }, 16, 60 },
-    /* 20 */ { { 0, 0, 8 }, 20, 58 },
+    /* ENHY_TYPE_AOB */ { { 0, 0, 4 }, 24, 70 },
+    /* ENHY_TYPE_COB */ { { 0, 0, 8 }, 28, 62 },
+    /* ENHY_TYPE_AHG_2 */ { { 0, 0, 4 }, 20, 60 },
+    /* ENHY_TYPE_BOJ_3 */ { { 0, 0, 2 }, 20, 60 },
+    /* ENHY_TYPE_AHG_4 */ { { 0, 0, -2 }, 20, 60 },
+    /* ENHY_TYPE_BOJ_5 */ { { 0, 0, 8 }, 24, 40 },
+    /* ENHY_TYPE_BBA */ { { 0, 0, 10 }, 26, 40 },
+    /* ENHY_TYPE_BJI_7 */ { { 0, 0, 12 }, 26, 58 },
+    /* ENHY_TYPE_CNE_8 */ { { 0, 0, 2 }, 18, 68 },
+    /* ENHY_TYPE_BOJ_9 */ { { 0, 0, 4 }, 20, 60 },
+    /* ENHY_TYPE_BOJ_10 */ { { 0, 0, 4 }, 20, 60 },
+    /* ENHY_TYPE_CNE_11 */ { { 0, 0, 6 }, 20, 64 },
+    /* ENHY_TYPE_BOJ_12 */ { { 0, 0, 0 }, 18, 60 },
+    /* ENHY_TYPE_AHG_13 */ { { 0, 0, 0 }, 16, 60 },
+    /* ENHY_TYPE_BOJ_14 */ { { 0, 0, 0 }, 16, 64 },
+    /* ENHY_TYPE_BJI_15 */ { { 0, 0, 8 }, 20, 58 },
+    /* ENHY_TYPE_BOJ_16 */ { { 4, 0, 0 }, 18, 62 },
+    /* ENHY_TYPE_AHG_17 */ { { 4, 0, 0 }, 18, 62 },
+    /* ENHY_TYPE_BOB_18 */ { { 0, 0, 8 }, 28, 62 },
+    /* ENHY_TYPE_BJI_19 */ { { 0, 0, 0 }, 16, 60 },
+    /* ENHY_TYPE_AHG_20 */ { { 0, 0, 8 }, 20, 58 },
 };
 
 typedef struct {
@@ -292,19 +297,28 @@ typedef struct {
     /* 0x08 */ f32 unkValueAdult;
 } EnHyInit1Info; // size = 0xC
 
-// indexed by EnHyType
 static EnHyInit1Info sInit1Info[] = {
-    /*  0 */ { 0x06, 20.0f, 10.0f }, /*  1 */ { 0x06, 20.0f, 10.0f },
-    /*  2 */ { 0x07, 40.0f, 20.0f }, /*  3 */ { 0x06, 20.0f, 10.0f },
-    /*  4 */ { 0x07, 40.0f, 20.0f }, /*  5 */ { 0x08, 0.0f, -20.0f },
-    /*  6 */ { 0x09, 20.0f, 0.0f },  /*  7 */ { 0x09, 20.0f, 0.0f },
-    /*  8 */ { 0x06, 20.0f, 10.0f }, /*  9 */ { 0x06, 20.0f, 10.0f },
-    /* 10 */ { 0x06, 20.0f, 10.0f }, /* 11 */ { 0x06, 20.0f, 10.0f },
-    /* 12 */ { 0x00, 0.0f, 0.0f },   /* 13 */ { 0x06, 20.0f, 10.0f },
-    /* 14 */ { 0x06, 20.0f, 10.0f }, /* 15 */ { 0x0A, 20.0f, 0.0f },
-    /* 16 */ { 0x06, 20.0f, 10.0f }, /* 17 */ { 0x06, 20.0f, 10.0f },
-    /* 18 */ { 0x06, 20.0f, 10.0f }, /* 19 */ { 0x06, 20.0f, 10.0f },
-    /* 20 */ { 0x0A, 20.0f, 0.0f },
+    /* ENHY_TYPE_AOB */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_COB */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_AHG_2 */ { 0x07, 40.0f, 20.0f },
+    /* ENHY_TYPE_BOJ_3 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_AHG_4 */ { 0x07, 40.0f, 20.0f },
+    /* ENHY_TYPE_BOJ_5 */ { 0x08, 0.0f, -20.0f },
+    /* ENHY_TYPE_BBA */ { 0x09, 20.0f, 0.0f },
+    /* ENHY_TYPE_BJI_7 */ { 0x09, 20.0f, 0.0f },
+    /* ENHY_TYPE_CNE_8 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_BOJ_9 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_BOJ_10 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_CNE_11 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_BOJ_12 */ { 0x00, 0.0f, 0.0f },
+    /* ENHY_TYPE_AHG_13 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_BOJ_14 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_BJI_15 */ { 0x0A, 20.0f, 0.0f },
+    /* ENHY_TYPE_BOJ_16 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_AHG_17 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_BOB_18 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_BJI_19 */ { 0x06, 20.0f, 10.0f },
+    /* ENHY_TYPE_AHG_20 */ { 0x0A, 20.0f, 0.0f },
 };
 
 typedef struct {
@@ -315,29 +329,28 @@ typedef struct {
     /* 0x18 */ f32 unkRange;
 } EnHyInit2Info; // size = 0x1C
 
-// indexed by EnHyType
 static EnHyInit2Info sInit2Info[] = {
-    /*  0 */ { 36.0f, { 0.0f, 0.0f, 600.0f }, 0.01f, 0x06, 30.0f },
-    /*  1 */ { 40.0f, { -100.0f, 0.0f, 400.0f }, 0.01f, 0x06, 30.0f },
-    /*  2 */ { 22.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
-    /*  3 */ { 20.0f, { -100.0f, 0.0f, 0.0f }, 0.01f, 0x06, 30.0f },
-    /*  4 */ { 22.0f, { 0.0f, 0.0f, 0.0f }, 0.01f, 0x06, 30.0f },
-    /*  5 */ { 21.0f, { 0.0f, 0.0f, 0.0f }, 0.01f, 0x06, 30.0f },
-    /*  6 */ { 25.0f, { -100.0f, 0.0f, 600.0f }, 0.01f, 0x06, 30.0f },
-    /*  7 */ { 28.0f, { -100.0f, 0.0f, 800.0f }, 0.01f, 0x06, 30.0f },
-    /*  8 */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 0x06, 30.0f },
-    /*  9 */ { 18.0f, { 0.0f, 0.0f, 100.0f }, 0.01f, 0x06, 30.0f },
-    /* 10 */ { 18.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
-    /* 11 */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 0x06, 30.0f },
-    /* 12 */ { 21.0f, { 0.0f, 0.0f, -300.0f }, 0.01f, 0x06, 30.0f },
-    /* 13 */ { 20.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
-    /* 14 */ { 18.0f, { -200.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
-    /* 15 */ { 27.0f, { -100.0f, 0.0f, 800.0f }, 0.01f, 0x06, 30.0f },
-    /* 16 */ { 19.0f, { 400.0f, 0.0f, 0.0f }, 0.01f, 0x04, 30.0f },
-    /* 17 */ { 19.0f, { 400.0f, 0.0f, 0.0f }, 0.01f, 0x06, 30.0f },
-    /* 18 */ { 40.0f, { -100.0f, 0.0f, 400.0f }, 0.01f, 0x06, 30.0f },
-    /* 19 */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 0x06, 30.0f },
-    /* 20 */ { 20.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_AOB */ { 36.0f, { 0.0f, 0.0f, 600.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_COB */ { 40.0f, { -100.0f, 0.0f, 400.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_AHG_2 */ { 22.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BOJ_3 */ { 20.0f, { -100.0f, 0.0f, 0.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_AHG_4 */ { 22.0f, { 0.0f, 0.0f, 0.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BOJ_5 */ { 21.0f, { 0.0f, 0.0f, 0.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BBA */ { 25.0f, { -100.0f, 0.0f, 600.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BJI_7 */ { 28.0f, { -100.0f, 0.0f, 800.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_CNE_8 */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BOJ_9 */ { 18.0f, { 0.0f, 0.0f, 100.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BOJ_10 */ { 18.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_CNE_11 */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BOJ_12 */ { 21.0f, { 0.0f, 0.0f, -300.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_AHG_13 */ { 20.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BOJ_14 */ { 18.0f, { -200.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BJI_15 */ { 27.0f, { -100.0f, 0.0f, 800.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BOJ_16 */ { 19.0f, { 400.0f, 0.0f, 0.0f }, 0.01f, 0x04, 30.0f },
+    /* ENHY_TYPE_AHG_17 */ { 19.0f, { 400.0f, 0.0f, 0.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BOB_18 */ { 40.0f, { -100.0f, 0.0f, 400.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_BJI_19 */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 0x06, 30.0f },
+    /* ENHY_TYPE_AHG_20 */ { 20.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
 };
 
 s32 EnHy_FindSkelAndHeadObjects(EnHy* this, GlobalContext* globalCtx) {
