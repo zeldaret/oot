@@ -190,7 +190,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
                    0);
     this->introState = BFD_CS_WAIT;
     if (this->introState == BFD_CS_NONE) {
-        Audio_QueueSeqCmd(0x6B);
+        Audio_QueueSeqCmd(NA_BGM_FIRE_BOSS);
     }
 
     this->actor.world.pos.x = this->actor.world.pos.z = 0.0f;
@@ -490,7 +490,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
                 }
                 if (this->timers[3] == 160) {
-                    Audio_QueueSeqCmd(0x6B);
+                    Audio_QueueSeqCmd(NA_BGM_FIRE_BOSS);
                 }
                 if ((this->timers[3] == 130) && !(gSaveContext.eventChkInf[7] & 8)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
@@ -745,7 +745,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->skinSegments != 0) {
                     this->skinSegments--;
                     if (this->skinSegments == 0) {
-                        Audio_QueueSeqCmd(0x21);
+                        Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
                     }
                 } else {
                     this->work[BFD_ACTION_STATE] = BOSSFD_BONES_FALL;

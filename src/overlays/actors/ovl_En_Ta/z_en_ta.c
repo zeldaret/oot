@@ -724,7 +724,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             gSaveContext.eventInf[0] |= 0x100;
                             Audio_QueueSeqCmd(NA_BGM_STOP);
                             this->unk_2E0 &= ~0x200;
-                            func_800F5C64(0x39);
+                            func_800F5C64(NA_BGM_SMALL_ITEM_GET);
                             return;
                         case 2:
                             this->actor.textId = 0x2083;
@@ -819,7 +819,7 @@ void func_80B15AD4(EnTa* this, GlobalContext* globalCtx) {
                          Animation_GetLastFrame(&object_ta_Anim_00BF38), ANIMMODE_ONCE, 0.0f);
         this->unk_2CC = 50;
         func_80088B34(0x1E);
-        func_800F5ACC(0x6C);
+        func_800F5ACC(NA_BGM_MINI_GAME_2);
         this->unk_2E0 |= 0x200;
         func_80106CCC(globalCtx);
         func_8002DF54(globalCtx, &this->actor, 1);

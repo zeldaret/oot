@@ -160,7 +160,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, GlobalContext* globalCt
             func_8010B680(globalCtx, this->actor.textId, NULL);
             this->unk_292 = 5;
             func_800F5B58();
-            func_800F5C64(0x39);
+            func_800F5C64(NA_BGM_SMALL_ITEM_GET);
             func_8002DF54(globalCtx, NULL, 8);
             if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 this->actionFunc = func_809EE96C;
@@ -416,7 +416,7 @@ void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
         } else {
             func_80088B34(BREG(2) + 50);
         }
-        func_800F5ACC(0x6C);
+        func_800F5ACC(NA_BGM_MINI_GAME_2);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.textId = 0x405B;
         this->unk_292 = 5;

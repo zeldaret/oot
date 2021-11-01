@@ -360,7 +360,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
             return;
         }
         if (gSaveContext.eventChkInf[7] & 0x10) {
-            Audio_QueueSeqCmd(0x1B);
+            Audio_QueueSeqCmd(NA_BGM_BOSS);
             this->tentMaxAngle = 5.0f;
             this->timers[0] = 50;
         } else {
@@ -1104,7 +1104,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                        WARP_DUNGEON_ADULT);
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
                                 -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
-                    Audio_QueueSeqCmd(0x21);
+                    Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
                     Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
                 }
             }
@@ -1419,7 +1419,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 this->cameraAccel = 0.01f;
             }
             if (this->timers[2] == 150) {
-                Audio_QueueSeqCmd(0x1B);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
             }
             if (this->timers[2] == 130) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,

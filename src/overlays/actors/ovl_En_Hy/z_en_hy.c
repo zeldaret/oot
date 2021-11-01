@@ -428,7 +428,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F3:
                     if (this->skelAnime.animation != &gObjOsAnim_33B4) {
                         func_80034EC0(&this->skelAnime, D_80A72050, 23);
-                        func_800F5C64(0x922);
+                        func_800F5C64(NA_BGM_ITEM_GET | 0x900);
                     }
                     break;
             }

@@ -64,7 +64,7 @@ void func_800F9280(u8 playerIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
 void func_800F9474(u8 arg0, u16 arg1) {
     Audio_QueueCmdS32(0x83000000 | ((u8)arg0 << 16),
                       (arg1 * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
-    D_8016E750[arg0].unk_254 = 0xFFFF;
+    D_8016E750[arg0].unk_254 = NA_BGM_DISABLED;
 }
 
 typedef enum {
@@ -371,7 +371,7 @@ void Audio_ProcessSeqCmds(void) {
 
 u16 func_800FA0B4(u8 playerIdx) {
     if (!gAudioContext.seqPlayers[playerIdx].enabled) {
-        return 0xFFFF;
+        return NA_BGM_DISABLED;
     }
     return D_8016E750[playerIdx].unk_254;
 }
@@ -673,8 +673,8 @@ void func_800FADF8(void) {
 
     for (i = 0; i < 4; i++) {
         D_8016E348[i] = 0;
-        D_8016E750[i].unk_254 = 0xFFFF;
-        D_8016E750[i].unk_256 = 0xFFFF;
+        D_8016E750[i].unk_254 = NA_BGM_DISABLED;
+        D_8016E750[i].unk_256 = NA_BGM_DISABLED;
         D_8016E750[i].unk_28 = 0;
         D_8016E750[i].unk_18 = 0;
         D_8016E750[i].unk_14 = 0;
