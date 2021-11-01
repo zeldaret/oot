@@ -898,7 +898,7 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->objBankIndexSkel1;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime,
-                           sSkeletonInfo[sModelInfo[this->actor.params & 0x7F].skelInfoIndex].skeleton, NULL,
+                           sSkeletonInfo[sModelInfo[this->actor.params & 0x7F].skelInfoIndex1].skeleton, NULL,
                            this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexOsAnime].segment);
