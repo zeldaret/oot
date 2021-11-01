@@ -306,7 +306,7 @@ void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 3; i++) {
         globalCtx->envCtx.adjAmbientColor[i] = globalCtx->envCtx.adjFogColor[i] = globalCtx->envCtx.adjLight1Color[i] =
-            -255 * darkness;
+            -255.0f * darkness;
     }
     globalCtx->envCtx.adjFogNear = -500.0f * darkness;
 

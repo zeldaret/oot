@@ -189,7 +189,7 @@ u8 sPrevOcarinaNoteVal = 0;
 u8 sCurOcarinaBtnIdx = 0; // note index?
 u8 sLearnSongLastBtn = 0;
 f32 D_80130F24 = 1.0f;
-f32 D_80130F28 = 0.68503934f;
+f32 D_80130F28 = 87.0f / 127.0f;
 s8 D_80130F2C = 0; // pitch?
 s8 D_80130F30 = 0x57;
 s8 D_80130F34 = 0;
@@ -2783,16 +2783,16 @@ f32 func_800F3188(u8 bankIdx, u8 entryIdx) {
     } else {
         switch (bankEntry->sfxParams & 3) {
             case 1:
-                phi_f0 = 666.6667f;
+                phi_f0 = 10000.0f / 15.0f;
                 break;
             case 2:
-                phi_f0 = 952.381f;
+                phi_f0 = 10000.0f / 10.5f;
                 break;
             case 3:
-                phi_f0 = 3846.154f;
+                phi_f0 = 10000.0f / 2.6f;
                 break;
             default:
-                phi_f0 = 500.0f;
+                phi_f0 = 10000.0f / 20.0f;
                 break;
         }
 
@@ -2876,7 +2876,7 @@ s8 Audio_ComputeSoundPanSigned(f32 x, f32 z, u8 arg2) {
             pan = 1.0f - pan;
         }
     } else {
-        pan = (x / (5.0769234f * absZ)) + 0.5f;
+        pan = (x / (5.0769234f * absZ)) + 0.5f; // about 66 / 13
     }
 
     if (absZ < 50.0f) {
@@ -2982,9 +2982,9 @@ u8 func_800F37B8(f32 arg0, SoundBankEntry* arg1, s8 arg2) {
             break;
     }
 
-    phi_f12 = CLAMP_MAX(arg1->dist, 1923.077f);
+    phi_f12 = CLAMP_MAX(arg1->dist, 10000.0f / 5.2f);
 
-    return (phi_v1 * 0x10) + (u8)((phi_f0 * phi_f12) / 1923.077f);
+    return (phi_v1 * 0x10) + (u8)((phi_f0 * phi_f12) / (10000.0f / 5.2f));
 }
 
 s8 func_800F3990(f32 arg0, u16 sfxParams) {
