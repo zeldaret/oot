@@ -2667,7 +2667,7 @@ void func_80835DE4(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s
 
 void func_80835E44(GlobalContext* globalCtx, s16 camSetting) {
     if (!func_800C0CB8(globalCtx)) {
-        if (camSetting == CAM_SET_SCENE1) {
+        if (camSetting == CAM_SET_SCENE_TRANSITION) {
             Interface_ChangeAlpha(2);
         }
     } else {
@@ -2676,7 +2676,7 @@ void func_80835E44(GlobalContext* globalCtx, s16 camSetting) {
 }
 
 void func_80835EA4(GlobalContext* globalCtx, s32 arg1) {
-    func_80835E44(globalCtx, CAM_SET_ITEM2);
+    func_80835E44(globalCtx, CAM_SET_TURN_AROUND);
     Camera_SetCameraData(Gameplay_GetCamera(globalCtx, 0), 4, 0, 0, arg1, 0, 0);
 }
 
@@ -5944,7 +5944,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                     func_808322D0(globalCtx, this, this->ageProperties->unk_98);
                     func_80832F54(globalCtx, this, 0x28F);
                     chest->unk_1F4 = 1;
-                    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_ITEM0);
+                    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_SLOW_CHEST_CS);
                 } else {
                     func_80832264(globalCtx, this, &gPlayerAnim_002DF8);
                     chest->unk_1F4 = -1;
@@ -9639,7 +9639,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
             Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), CAM_MODE_NORMAL);
         } else if (!(this->stateFlags1 & 0x100000)) {
             if ((this->actor.parent != NULL) && (this->stateFlags3 & 0x80)) {
-                camMode = CAM_MODE_FOOKSHOT;
+                camMode = CAM_MODE_HOOKSHOT;
                 Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->actor.parent);
             } else if (func_8084377C == this->func_674) {
                 camMode = CAM_MODE_STILL;
@@ -9650,7 +9650,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
                     camMode = CAM_MODE_TALK;
                 } else if (this->stateFlags1 & 0x10000) {
                     if (this->stateFlags1 & 0x2000000) {
-                        camMode = CAM_MODE_BOOMFOLLLOW;
+                        camMode = CAM_MODE_FOLLOWBOOMERANG;
                     } else {
                         camMode = CAM_MODE_FOLLOWTARGET;
                     }
@@ -9661,7 +9661,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
             } else if (this->stateFlags1 & 0x1000) {
                 camMode = CAM_MODE_CHARGE;
             } else if (this->stateFlags1 & 0x2000000) {
-                camMode = CAM_MODE_BOOMFOLLLOW;
+                camMode = CAM_MODE_FOLLOWBOOMERANG;
                 Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->boomerangActor);
             } else if (this->stateFlags1 & 0x6000) {
                 if (func_80833B2C(this)) {
