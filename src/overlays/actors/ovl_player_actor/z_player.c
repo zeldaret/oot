@@ -2823,8 +2823,8 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
         } else {
             globalCtx->gameOverCtx.state = GAMEOVER_DEATH_START;
             func_800F6AB0(0);
-            func_800F5C64(0x20);
-            gSaveContext.seqIndex = 0xFF;
+            func_800F5C64(NA_BGM_GAME_OVER);
+            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
             gSaveContext.nightSeqIndex = 0xFF;
         }
 
@@ -3986,7 +3986,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                 if (temp == 11) {
                     func_800788CC(NA_SE_OC_SECRET_HOLE_OUT);
                     func_800F6964(5);
-                    gSaveContext.seqIndex = 0xFF;
+                    gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
                     gSaveContext.nightSeqIndex = 0xFF;
                 } else {
                     linearVel = this->linearVelocity;
@@ -11803,9 +11803,9 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
             if ((this->getItemId == GI_HEART_CONTAINER_2) || (this->getItemId == GI_HEART_CONTAINER) ||
                 ((this->getItemId == GI_HEART_PIECE) &&
                  ((gSaveContext.inventory.questItems & 0xF0000000) == 0x40000000))) {
-                temp1 = 0x924;
+                temp1 = NA_BGM_HEART_GET | 0x900;
             } else {
-                temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? 0x39 : 0x922;
+                temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? NA_BGM_SMALL_ITEM_GET : NA_BGM_ITEM_GET | 0x900;
             }
             func_800F5C64(temp1);
         }
@@ -11920,7 +11920,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
             Environment_WarpSongLeave(globalCtx);
         }
 
-        gSaveContext.seqIndex = 0xFF;
+        gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
         gSaveContext.nightSeqIndex = 0xFF;
     }
 }
@@ -12129,7 +12129,7 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F != 0) {
             if (this->unk_850 == 0) {
                 func_8010B680(globalCtx, D_80854A04[this->unk_84F - 1].textId, &this->actor);
-                func_800F5C64(0x922);
+                func_800F5C64(NA_BGM_ITEM_GET | 0x900);
                 this->unk_850 = 1;
             } else if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
                 this->unk_84F = 0;
@@ -12437,7 +12437,7 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
         } else {
             globalCtx->fadeTransition = 2;
             gSaveContext.nextTransition = 2;
-            gSaveContext.seqIndex = 0xFF;
+            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
             gSaveContext.nightSeqIndex = 0xFF;
         }
 

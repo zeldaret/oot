@@ -407,7 +407,7 @@ void func_809BD84C(EnBigokuta* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
     }
     if (this->unk_196 == 1) {
-        func_800F5ACC(0x38);
+        func_800F5ACC(NA_BGM_MINI_BOSS);
     }
     if (this->actor.params == 1) {
         func_809BD370(this);
@@ -470,7 +470,7 @@ void func_809BDB90(EnBigokuta* this, GlobalContext* globalCtx) {
     }
     if (this->unk_196 == 0) {
         if (this->actor.params == 3) {
-            func_800F5ACC(0x38);
+            func_800F5ACC(NA_BGM_MINI_BOSS);
         }
         func_809BD3F8(this);
     }

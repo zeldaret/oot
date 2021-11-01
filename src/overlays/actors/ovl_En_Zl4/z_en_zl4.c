@@ -1135,7 +1135,7 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
             this->blinkTimer = 0;
             this->eyeExpression = ZL4_EYES_NEUTRAL;
             this->mouthExpression = ZL4_MOUTH_SURPRISED;
-            func_800F5C64(0x51);
+            func_800F5C64(NA_BGM_APPEAR);
             EnZl4_SetCsCameraAngle(globalCtx, 0);
             Interface_ChangeAlpha(2);
             ShrinkWindow_SetVal(0x20);

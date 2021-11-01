@@ -409,7 +409,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                                            SEGMENTED_TO_VIRTUAL(&object_kingdodongo_Blob_017410), 0xA0, 0xB4, 0x80,
                                            0x28);
                 }
-                Audio_QueueSeqCmd(0x6B);
+                Audio_QueueSeqCmd(NA_BGM_FIRE_BOSS);
             }
 
             if (this->unk_198 == 0) {
@@ -1598,7 +1598,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
 
             if (this->unk_1DA == 820) {
-                Audio_QueueSeqCmd(0x21);
+                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART,
                             Math_SinS(this->actor.shape.rot.y) * -50.0f + this->actor.world.pos.x,
                             this->actor.world.pos.y,

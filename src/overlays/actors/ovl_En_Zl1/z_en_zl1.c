@@ -390,7 +390,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         player->actor.speedXZ = 0.0f;
         this->unk_1E2 = 0;
         this->actionFunc = func_80B4B240;
-        func_800F5C64(0x51);
+        func_800F5C64(NA_BGM_APPEAR);
     } else {
         if (1) {} // necessary to match
         rotDiff = ABS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
