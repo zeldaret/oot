@@ -382,7 +382,7 @@ void DoorWarp1_ChooseInitialAction(DoorWarp1* this, GlobalContext* globalCtx) {
 void DoorWarp1_AwaitClearFlag(DoorWarp1* this, GlobalContext* globalCtx) {
     if (Flags_GetTempClear(globalCtx, this->actor.room)) {
         this->warpTimer = 200;
-        Audio_QueueSeqCmd(0x21);
+        Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
         DoorWarp1_SetupAction(this, func_809995D4);
     }
 }

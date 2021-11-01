@@ -482,7 +482,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                 // "Sound initalized. 222"
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
-                                gSaveContext.seqIndex = 0xFF;
+                                gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
                                 gSaveContext.nightSeqIndex = 0xFF;
                             }
                         }

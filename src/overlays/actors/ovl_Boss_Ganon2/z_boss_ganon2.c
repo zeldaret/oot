@@ -444,7 +444,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->actor.world.pos.x = -200.0f;
                 this->actor.world.pos.y = this->actor.world.pos.y - 30.0f;
                 this->actor.world.pos.z = -200.0f;
-                Audio_QueueSeqCmd(0x23);
+                Audio_QueueSeqCmd(NA_BGM_OPENING_GANON);
             } else {
                 break;
             }
@@ -587,7 +587,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         case 18:
             this->unk_339 = 6;
             if (this->unk_398 == 30) {
-                Audio_QueueSeqCmd(0x65);
+                Audio_QueueSeqCmd(NA_BGM_GANON_BATTLE_2);
             }
             Math_ApproachF(&this->unk_30C, 7.0f, 1.0f, 0.1f);
             Math_ApproachF(&this->unk_3A4.x, (this->actor.world.pos.x + 500.0f) - 350.0f, 0.1f, 1.0f);
