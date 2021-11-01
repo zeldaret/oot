@@ -3586,7 +3586,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                     this->unk_198 = 1.7f;
                     this->unk_19C = 7000.0f;
                     D_80B7E124 = 1;
-                    Audio_QueueSeqCmd(0x81A);
+                    Audio_QueueSeqCmd(NA_BGM_ENEMY | 0x800);
                     D_80B7E0A6 = 0;
 
                     if (this->unk_150 == 1) {
@@ -3859,7 +3859,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             }
 
             if (this->unk_17A[0] == 90) {
-                Audio_QueueSeqCmd(0x924);
+                Audio_QueueSeqCmd(NA_BGM_HEART_GET | 0x900);
                 D_80B7A67C = 40;
 
                 if (this->unk_150 == 0) {
@@ -5429,7 +5429,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
         case 22:
             if (D_80B7A6D0 == 30) {
-                Audio_QueueSeqCmd(0x922);
+                Audio_QueueSeqCmd(NA_BGM_ITEM_GET | 0x900);
             }
 
             D_80B7A6D4 = 1;
@@ -5740,15 +5740,15 @@ void Fishing_DrawOwner(Actor* thisx, GlobalContext* globalCtx) {
 
         if (D_80B7E0A6 == 0) {
             if (sLinkAge != 1) {
-                Audio_QueueSeqCmd(0x19);
+                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_ADULT);
             } else {
-                Audio_QueueSeqCmd(0x27);
+                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_KID);
             }
 
             if (sLinkAge != 1) {
-                Audio_QueueSeqCmd(0x19);
+                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_ADULT);
             } else {
-                Audio_QueueSeqCmd(0x27);
+                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_KID);
             }
         }
     }
