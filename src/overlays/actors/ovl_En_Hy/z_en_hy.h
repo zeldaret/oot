@@ -40,8 +40,8 @@ typedef struct EnHy {
     /* 0x0194 */ char unk_194; // unused
     /* 0x0195 */ u8 pathReverse;
     /* 0x0196 */ s8 objBankIndexHead;
-    /* 0x0197 */ s8 objBankIndexSkelUnused; // always the same as objBankIndexSkel, and doesn't achieve anything
-    /* 0x0198 */ s8 objBankIndexSkel;
+    /* 0x0197 */ s8 objBankIndexSkel2; // 7 < limb < 15 (upper part?) (always same as objBankIndexSkel1)
+    /* 0x0198 */ s8 objBankIndexSkel1; // sets the object used when drawing the skeleton for limb <= 7 (lower part?)
     /* 0x0199 */ s8 objBankIndexOsAnime;
     /* 0x019C */ ColliderCylinder collider;
     /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;

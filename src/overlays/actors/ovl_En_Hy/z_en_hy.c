@@ -208,10 +208,10 @@ static struct_80034EC0_Entry sAnimationInfo[] = {
 };
 
 typedef struct {
-    /* 0x00 */ u8 headInfoIndex;       // EnHyHeadIndex
-    /* 0x01 */ u8 unusedSkelInfoIndex; // EnHySkeletonIndex, see EnHy#objBankIndexSkelUnused
+    /* 0x00 */ u8 headInfoIndex;  // EnHyHeadIndex
+    /* 0x01 */ u8 skelInfoIndex2; // EnHySkeletonIndex, see EnHy#objBankIndexSkel2
     /* 0x02 */ Color_RGBA8 envColorSeg8;
-    /* 0x06 */ u8 skelInfoIndex; // EnHySkeletonIndex
+    /* 0x06 */ u8 skelInfoIndex1; // EnHySkeletonIndex, see EnHy#objBankIndexSkel1
     /* 0x07 */ Color_RGBA8 envColorSeg9;
     /* 0x0B */ u8 animInfoIndex; // EnHyAnimationIndex
 } EnHyModelInfo;                 // size = 0xC
@@ -355,16 +355,16 @@ static EnHyInit2Info sInit2Info[] = {
 
 s32 EnHy_FindSkelAndHeadObjects(EnHy* this, GlobalContext* globalCtx) {
     u8 headInfoIndex = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
-    u8 unusedSkelInfoIndex = sModelInfo[this->actor.params & 0x7F].unusedSkelInfoIndex;
-    u8 skelInfoIndex = sModelInfo[this->actor.params & 0x7F].skelInfoIndex;
+    u8 skelInfoIndex2 = sModelInfo[this->actor.params & 0x7F].skelInfoIndex2;
+    u8 skelInfoIndex1 = sModelInfo[this->actor.params & 0x7F].skelInfoIndex1;
 
-    this->objBankIndexSkel = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfo[skelInfoIndex].objectId);
-    if (this->objBankIndexSkel < 0) {
+    this->objBankIndexSkel1 = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfo[skelInfoIndex1].objectId);
+    if (this->objBankIndexSkel1 < 0) {
         return false;
     }
 
-    this->objBankIndexSkelUnused = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfo[unusedSkelInfoIndex].objectId);
-    if (this->objBankIndexSkelUnused < 0) {
+    this->objBankIndexSkel2 = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfo[skelInfoIndex2].objectId);
+    if (this->objBankIndexSkel2 < 0) {
         return false;
     }
 
@@ -377,11 +377,11 @@ s32 EnHy_FindSkelAndHeadObjects(EnHy* this, GlobalContext* globalCtx) {
 }
 
 s32 EnHy_AreSkelAndHeadObjectsLoaded(EnHy* this, GlobalContext* globalCtx) {
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexSkel)) {
+    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexSkel1)) {
         return false;
     }
 
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexSkelUnused)) {
+    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexSkel2)) {
         return false;
     }
 
@@ -895,7 +895,7 @@ void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
     if (EnHy_IsOsAnimeObjectLoaded(this, globalCtx) && EnHy_AreSkelAndHeadObjectsLoaded(this, globalCtx)) {
-        this->actor.objBankIndex = this->objBankIndexSkel;
+        this->actor.objBankIndex = this->objBankIndexSkel1;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime,
                            sSkeletonInfo[sModelInfo[this->actor.params & 0x7F].skelInfoIndex].skeleton, NULL,
@@ -1117,7 +1117,7 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
             gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(ptr));
         }
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexSkel].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexSkel1].segment);
     }
 
     if (limbIndex == 15) {
@@ -1152,8 +1152,8 @@ void EnHy_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_hy.c", 2255);
 
     if (limbIndex == 7) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objBankIndexSkelUnused].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexSkelUnused].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objBankIndexSkel2].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexSkel2].segment);
     }
 
     if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_3 && limbIndex == 8) {
