@@ -1379,11 +1379,7 @@ endseg
 beginseg
     name "ovl_Boss_Ganon2"
     include "build/src/overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Boss_Ganon2/ovl_Boss_Ganon2_reloc.o"
-#else
-    include "build/data/overlays/actors/z_boss_ganon2.reloc.o"
-#endif
 endseg
 
 beginseg

@@ -1212,7 +1212,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if ((globalCtx->skyboxCtx.unk_140 != 0) &&
-                        (GET_ACTIVE_CAM(globalCtx)->setting != CAM_SET_PREREND0)) {
+                        (GET_ACTIVE_CAM(globalCtx)->setting != CAM_SET_PREREND_FIXED)) {
                         Vec3f sp74;
 
                         Camera_GetSkyboxOffset(&sp74, GET_ACTIVE_CAM(globalCtx));
