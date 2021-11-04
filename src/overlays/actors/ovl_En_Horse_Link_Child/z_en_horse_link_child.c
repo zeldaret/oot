@@ -621,5 +621,6 @@ void EnHorseLinkChild_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseLinkChild* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6360(&this->actor, globalCtx, &this->skin, EnHorseLinkChild_PostLimbDraw, EnHorseLinkChild_OverrideLimbDraw, 1);
+    func_800A6360(&this->actor, globalCtx, &this->skin, EnHorseLinkChild_PostLimbDraw,
+                  EnHorseLinkChild_OverrideLimbDraw, 1);
 }

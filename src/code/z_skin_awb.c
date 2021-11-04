@@ -4,7 +4,8 @@
 void Skin_InitAnimatedLimb(GlobalContext* globalCtx, PSkinAwb* skin, s32 limbIndex) {
     s32 i;
     SkinLimb** skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
-    SkinAnimatedLimbData* animatedLimbData = SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment);
+    SkinAnimatedLimbData* animatedLimbData =
+        SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment);
     Struct_800A598C* temp_v0 = SEGMENTED_TO_VIRTUAL(animatedLimbData->unk_4);
     Struct_800A598C* entry;
     SkinVtx* skinVtxEntry;
@@ -28,7 +29,7 @@ void Skin_InitAnimatedLimb(GlobalContext* globalCtx, PSkinAwb* skin, s32 limbInd
 }
 
 void Skin_Init(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* skeletonHeader,
-                   AnimationHeader* animationHeader) {
+               AnimationHeader* animationHeader) {
     s32 limbCount;
     s32 i;
     SkinLimb** skeleton;

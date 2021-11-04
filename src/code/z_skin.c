@@ -95,7 +95,8 @@ void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 a
 
             phi_f20.x = phi_f20.y = phi_f20.z = 0.0f;
 
-            for (modifEntry = &limbsModifications[0]; modifEntry < &limbsModifications[limbsModificationsCount]; modifEntry++) {
+            for (modifEntry = &limbsModifications[0]; modifEntry < &limbsModifications[limbsModificationsCount];
+                 modifEntry++) {
                 scale = modifEntry->scale * 0.01f;
 
                 sp88.x = modifEntry->x;
@@ -170,8 +171,8 @@ void Skin_DrawLimb(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* 
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 433);
 }
 
-void Skin_DrawImpl(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, SkinOverrideLimbDraw overrideLimbDraw,
-                   s32 arg5, s32 arg6, s32 drawFlag) {
+void Skin_DrawImpl(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw,
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 arg5, s32 arg6, s32 drawFlag) {
     s32 i;
     s32 segmentType;
     SkinLimb** skeleton;
@@ -220,21 +221,26 @@ close_disps:
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 534);
 }
 
+// Skin_Draw... Something?
 void func_800A6330(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, s32 arg4) {
     Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, NULL, arg4, false, SKIN_DRAW_FLAG_NONE);
 }
 
-void func_800A6360(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, SkinOverrideLimbDraw overrideLimbDraw, s32 arg5) {
+// Skin_Draw... Something?
+void func_800A6360(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw,
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 arg5) {
     Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, arg5, false, SKIN_DRAW_FLAG_NONE);
 }
 
-void func_800A6394(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, SkinOverrideLimbDraw overrideLimbDraw,
-                   s32 arg5, s32 arg6) {
+// Skin_Draw... Something?
+void func_800A6394(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw,
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 arg5, s32 arg6) {
     Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, arg5, arg6, SKIN_DRAW_FLAG_NONE);
 }
 
-void func_800A63CC(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, SkinOverrideLimbDraw overrideLimbDraw,
-                   s32 arg5, s32 arg6, s32 drawFlag) {
+// Skin_Draw?
+void func_800A63CC(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw,
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 arg5, s32 arg6, s32 drawFlag) {
     Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, arg5, arg6, drawFlag);
 }
 

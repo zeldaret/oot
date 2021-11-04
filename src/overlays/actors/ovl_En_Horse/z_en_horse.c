@@ -851,8 +851,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->stateFlags |= ENHORSE_UNRIDEABLE;
     }
 
-    Skin_Init(globalCtx, &this->skin, sSkeletonHeaders[this->type],
-                  sAnimationHeaders[this->type][ENHORSE_ANIM_IDLE]);
+    Skin_Init(globalCtx, &this->skin, sSkeletonHeaders[this->type], sAnimationHeaders[this->type][ENHORSE_ANIM_IDLE]);
     this->animationIdx = ENHORSE_ANIM_IDLE;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx]);
     this->numBoosts = 6;
