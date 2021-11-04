@@ -47,8 +47,6 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx);
 void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx);
 void EnfHG_Done(EnfHG* this, GlobalContext* globalCtx);
 
-void EnfHG_Noop(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin);
-
 const ActorInit En_fHG_InitVars = {
     ACTOR_EN_FHG,
     ACTORCAT_BG,
@@ -710,7 +708,7 @@ void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.z = (s16)(Math_SinS(this->hitTimer * 0x7000) * 1500.0f) * (this->hitTimer / 20.0f);
 }
 
-void EnfHG_Noop(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
+void EnfHG_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
 }
 
 void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -726,7 +724,7 @@ void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpColorFilterR, (u32)this->warpColorFilterG,
                                      (u32)this->warpColorFilterB, 0, (s32)this->warpColorFilterUnk1 + 995,
                                      (s32)this->warpColorFilterUnk2 + 1000);
-    func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_Noop, 0x23);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_PostLimbDraw, 0x23);
     POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2480);
 }

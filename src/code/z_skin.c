@@ -157,7 +157,7 @@ void Skin_DrawLimb(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* 
 void Skin_DrawImpl(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, SkinOverrideLimbDraw overrideLimbDraw,
                    s32 arg5, s32 arg6, s32 drawFlag) {
     s32 i;
-    s32 dataType;
+    s32 segmentType;
     SkinLimb** skeleton;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
@@ -187,10 +187,10 @@ void Skin_DrawImpl(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinP
             shouldDraw = overrideLimbDraw(actor, globalCtx, i, skin);
         }
 
-        dataType = ((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[i]))->unk_8;
-        if (dataType == SKIN_LIMB_TYPE_ANIMATED && shouldDraw == true) {
+        segmentType = ((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[i]))->unk_8;
+        if (segmentType == SKIN_LIMB_TYPE_ANIMATED && shouldDraw == true) {
             Skin_DrawAnimatedLimb(gfxCtx, skin, i, arg6, drawFlag);
-        } else if (dataType == SKIN_LIMB_TYPE_NORMAL && shouldDraw == true) {
+        } else if (segmentType == SKIN_LIMB_TYPE_NORMAL && shouldDraw == true) {
             Skin_DrawLimb(gfxCtx, skin, i, NULL, drawFlag);
         }
     }
