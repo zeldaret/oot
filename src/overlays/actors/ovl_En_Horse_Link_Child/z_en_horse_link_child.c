@@ -153,7 +153,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->action = 1;
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gChildEponaSkel, &gChildEponaGallopingAnim);
+    Skin_Init(globalCtx, &this->skin, &gChildEponaSkel, &gChildEponaGallopingAnim);
     this->animationIdx = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
@@ -183,7 +183,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnHorseLinkChild_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseLinkChild* this = THIS;
 
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
     Collider_DestroyJntSph(globalCtx, &this->headCollider);
 }

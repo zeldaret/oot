@@ -851,7 +851,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->stateFlags |= ENHORSE_UNRIDEABLE;
     }
 
-    func_800A663C(globalCtx, &this->skin, sSkeletonHeaders[this->type],
+    Skin_Init(globalCtx, &this->skin, sSkeletonHeaders[this->type],
                   sAnimationHeaders[this->type][ENHORSE_ANIM_IDLE]);
     this->animationIdx = ENHORSE_ANIM_IDLE;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx]);
@@ -901,7 +901,7 @@ void EnHorse_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (this->stateFlags & ENHORSE_DRAW) {
         func_800F89E8(&this->unk_21C);
     }
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->cyl1);
     Collider_DestroyCylinder(globalCtx, &this->cyl2);
     Collider_DestroyJntSph(globalCtx, &this->jntSph);

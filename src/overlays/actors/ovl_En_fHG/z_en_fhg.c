@@ -82,7 +82,7 @@ void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.speedXZ = 0.0f;
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gPhantomHorseSkel, &gPhantomHorseRunningAnim);
+    Skin_Init(globalCtx, &this->skin, &gPhantomHorseSkel, &gPhantomHorseRunningAnim);
 
     if (this->actor.params >= GND_FAKE_BOSS) {
         EnfHG_SetupApproach(this, globalCtx, this->actor.params - GND_FAKE_BOSS);
@@ -96,7 +96,7 @@ void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnfHG* this = THIS;
 
     osSyncPrintf("F DT1\n");
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
     osSyncPrintf("F DT2\n");
 }
 

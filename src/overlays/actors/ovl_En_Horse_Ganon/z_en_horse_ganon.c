@@ -179,7 +179,7 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gHorseGanonSkel, &gHorseGanonIdleAnim);
+    Skin_Init(globalCtx, &this->skin, &gHorseGanonSkel, &gHorseGanonIdleAnim);
     this->currentAnimation = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
 
@@ -195,7 +195,7 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseGanon* this = THIS;
 
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->colliderBody);
     Collider_DestroyJntSph(globalCtx, &this->colliderHead);
 }

@@ -159,7 +159,7 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gHorseZeldaSkel, &gHorseZeldaGallopingAnim);
+    Skin_Init(globalCtx, &this->skin, &gHorseZeldaSkel, &gHorseZeldaGallopingAnim);
     this->animationIndex = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[0]);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
@@ -176,7 +176,7 @@ void EnHorseZelda_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
     Collider_DestroyJntSph(globalCtx, &this->colliderSphere);
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
 }
 
 void func_80A6DC7C(EnHorseZelda* this) {

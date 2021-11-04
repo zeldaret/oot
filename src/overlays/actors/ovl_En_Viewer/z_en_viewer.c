@@ -110,7 +110,7 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnViewer* this = THIS;
 
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
 }
 
 void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
@@ -142,7 +142,7 @@ void EnViewer_InitAnimImpa(EnViewer* this, GlobalContext* globalCtx, void* skele
 void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim) {
     u8 type;
 
-    func_800A663C(globalCtx, &this->skin, skeletonHeaderSeg, anim);
+    Skin_Init(globalCtx, &this->skin, skeletonHeaderSeg, anim);
     type = this->actor.params >> 8;
     if (!(type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF ||
           type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF ||
