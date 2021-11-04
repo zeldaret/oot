@@ -118,28 +118,28 @@ void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 a
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 344);
 }
 
-void func_800A5E28(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3, s32 arg4) {
+void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3, s32 drawFlag) {
     SkinLimb** skeleton;
     Struct_800A5E28* temp_t9;
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 364);
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     temp_t9 = SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment);
-    if (!(arg4 & 1)) {
+    if (!(drawFlag & SKIN_DRAW_FLAG_1)) {
         func_800A598C(gfxCtx, skin, limbIndex, arg3);
     }
     gSPDisplayList(POLY_OPA_DISP++, temp_t9->unk_8);
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 377);
 }
 
-void func_800A5F60(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* arg3, s32 arg4) {
-    Gfx* gfx = arg3;
+void Skin_DrawLimb(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* dlistOverride, s32 drawFlag) {
+    Gfx* gfx = dlistOverride;
     SkinLimb** skeleton;
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 395);
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
-    if (arg3 == NULL) {
+    if (dlistOverride == NULL) {
         gfx = ((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment;
     }
     if (gfx != NULL) {
@@ -154,8 +154,8 @@ void func_800A5F60(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* 
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 433);
 }
 
-void func_800A60D8(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
-                   s32 arg5, s32 arg6, s32 arg7) {
+void Skin_DrawImpl(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, SkinOverrideLimbDraw overrideLimbDraw,
+                   s32 arg5, s32 arg6, s32 drawFlag) {
     s32 i;
     s32 dataType;
     SkinLimb** skeleton;
@@ -163,11 +163,13 @@ void func_800A60D8(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinC
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 471);
-    if ((arg7 & 1) == 0) {
+    if (!(drawFlag & SKIN_DRAW_FLAG_1)) {
         func_800A6AC4(skin, &D_801600C0[0], actor, arg5);
     }
+
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
-    if ((arg7 & 2) == 0) {
+
+    if (!(drawFlag & SKIN_DRAW_FLAG_CUSTOM_MATRIX)) {
         Mtx* mtx;
 
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -177,48 +179,51 @@ void func_800A60D8(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinC
         }
         gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     }
-    for (i = 0; i < skin->skeletonHeader->limbCount; i++) {
-        s32 phi_a0 = 1;
 
-        if (arg4 != NULL) {
-            phi_a0 = arg4(actor, globalCtx, i, skin);
+    for (i = 0; i < skin->skeletonHeader->limbCount; i++) {
+        s32 shouldDraw = true;
+
+        if (overrideLimbDraw != NULL) {
+            shouldDraw = overrideLimbDraw(actor, globalCtx, i, skin);
         }
+
         dataType = ((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[i]))->unk_8;
-        if (dataType == 4 && phi_a0 == 1) {
-            func_800A5E28(gfxCtx, skin, i, arg6, arg7);
-        } else if (dataType == 0xB && phi_a0 == 1) {
-            func_800A5F60(gfxCtx, skin, i, NULL, arg7);
+        if (dataType == SKIN_LIMB_TYPE_ANIMATED && shouldDraw == true) {
+            Skin_DrawAnimatedLimb(gfxCtx, skin, i, arg6, drawFlag);
+        } else if (dataType == SKIN_LIMB_TYPE_NORMAL && shouldDraw == true) {
+            Skin_DrawLimb(gfxCtx, skin, i, NULL, drawFlag);
         }
     }
-    if (callback != NULL) {
-        callback(actor, globalCtx, skin);
+
+    if (postLimbDraw != NULL) {
+        postLimbDraw(actor, globalCtx, skin);
     }
+
 close_disps:
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 534);
 }
 
-void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, s32 arg4) {
-    func_800A60D8(this, globalCtx, skin, callback, NULL, arg4, 0, 0);
+void func_800A6330(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, s32 arg4) {
+    Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, NULL, arg4, false, SKIN_DRAW_FLAG_NONE);
 }
 
-void func_800A6360(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
-                   s32 arg5) {
-    func_800A60D8(this, globalCtx, skin, callback, arg4, arg5, 0, 0);
+void func_800A6360(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, SkinOverrideLimbDraw overrideLimbDraw, s32 arg5) {
+    Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, arg5, false, SKIN_DRAW_FLAG_NONE);
 }
 
-void func_800A6394(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+void func_800A6394(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, SkinOverrideLimbDraw overrideLimbDraw,
                    s32 arg5, s32 arg6) {
-    func_800A60D8(this, globalCtx, skin, callback, arg4, arg5, arg6, 0);
+    Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, arg5, arg6, SKIN_DRAW_FLAG_NONE);
 }
 
-void func_800A63CC(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
-                   s32 arg5, s32 arg6, s32 arg7) {
-    func_800A60D8(this, globalCtx, skin, callback, arg4, arg5, arg6, arg7);
+void func_800A63CC(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinPostLimbDraw postLimbDraw, SkinOverrideLimbDraw overrideLimbDraw,
+                   s32 arg5, s32 arg6, s32 drawFlag) {
+    Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, arg5, arg6, drawFlag);
 }
 
-void func_800A6408(PSkinAwb* skin, s32 joint, Vec3f* arg2, Vec3f* arg3) {
-    MtxF sp18;
+void func_800A6408(PSkinAwb* skin, s32 limbIndex, Vec3f* arg2, Vec3f* dst) {
+    MtxF mtxf;
 
-    SkinMatrix_MtxFMtxFMult(&skin->mtx, &D_801600C0[joint], &sp18);
-    SkinMatrix_Vec3fMtxFMultXYZ(&sp18, arg2, arg3);
+    SkinMatrix_MtxFMtxFMult(&skin->mtx, &D_801600C0[limbIndex], &mtxf);
+    SkinMatrix_Vec3fMtxFMultXYZ(&mtxf, arg2, dst);
 }

@@ -318,7 +318,24 @@ typedef struct {
     /* 0x04C */ SkelAnime skelAnime;
 } PSkinAwb; // size = 0x90
 
-typedef void (*SkinCallback)(struct Actor*, struct GlobalContext*, PSkinAwb*);
-typedef s32 (*SkinCallback2)(struct Actor*, struct GlobalContext*, s32, PSkinAwb*);
+// ZAPD compatibility typedefs
+//typedef SkinVtx Struct_800A57C0;
+//typedef SkinLimbModif Struct_800A598C_2;
+//typedef SkinAnimatedLimbData Struct_800A5E28;
+
+typedef enum {
+    /* 04 */ SKIN_LIMB_TYPE_ANIMATED = 4,
+    /* 11 */ SKIN_LIMB_TYPE_NORMAL = 11
+} SkinLimbType;
+
+//typedef void (*SkinCallback)(struct Actor*, struct GlobalContext*, PSkinAwb*);
+//typedef s32 (*SkinCallback2)(struct Actor*, struct GlobalContext*, s32, PSkinAwb*);
+
+typedef void (*SkinPostLimbDraw)(struct Actor*, struct GlobalContext*, PSkinAwb*);
+typedef s32 (*SkinOverrideLimbDraw)(struct Actor*, struct GlobalContext*, s32, PSkinAwb*);
+
+#define SKIN_DRAW_FLAG_NONE          0
+#define SKIN_DRAW_FLAG_1             (1 << 0)
+#define SKIN_DRAW_FLAG_CUSTOM_MATRIX (1 << 1)
 
 #endif
