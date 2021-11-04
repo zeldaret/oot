@@ -272,6 +272,10 @@ typedef struct SkelAnime {
     /* 0x3E */ Vec3s baseTransl;  // Base modelspace translation.
 } SkelAnime; // size = 0x44
 
+/**
+ * Holds a compact version of a vertex used in the Skin system
+ * It is used to initialise the Vtx used by an animated limb
+ */
 typedef struct {
     /* 0x00 */ u16 vtxIndex;
     /* 0x02 */ s16 u; // u and v are texture coordinates

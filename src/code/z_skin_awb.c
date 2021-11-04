@@ -1,6 +1,9 @@
 #include "global.h"
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 
+/**
+ * Initialises the Vtx buffers used for limb at index `limbIndex`
+ */
 void Skin_InitAnimatedLimb(GlobalContext* globalCtx, PSkinAwb* skin, s32 limbIndex) {
     s32 i;
     SkinLimb** skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
@@ -28,6 +31,10 @@ void Skin_InitAnimatedLimb(GlobalContext* globalCtx, PSkinAwb* skin, s32 limbInd
     }
 }
 
+/**
+ * Initializes a skin skeleton to looping animation, dynamically allocating the frame tables,
+ * and dynamically allocating and initializing the Vtx buffers for its animated limbs
+ */
 void Skin_Init(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* skeletonHeader,
                AnimationHeader* animationHeader) {
     s32 limbCount;
@@ -68,6 +75,9 @@ void Skin_Init(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* skeleto
     SkelAnime_InitSkin(globalCtx, &skin->skelAnime, skeletonHeader, animationHeader);
 }
 
+/**
+ * Frees the dynamically allocated Vtx buffers and tables
+ */
 void Skin_Free(GlobalContext* globalCtx, PSkinAwb* skin) {
     if (skin->avbTbl != NULL) {
         s32 i;
