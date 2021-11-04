@@ -1,5 +1,3 @@
-#include "ultra64/types.h"
+#include "global.h"
 
-Mtx gSoftSpriteMatrixStatic = {
-    65536, 0, 1, 0, 0, 65536, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-};
+Mtx gSoftSpriteMatrixStatic = gdSPDefMtx(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1);

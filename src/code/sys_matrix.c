@@ -1,13 +1,8 @@
 #include "global.h"
 
-// clang-format off
-Mtx gMtxClear = {
-    65536,     0,     1,     0,
-        0, 65536,     0,     1,
-        0,     0,     0,     0,
-        0,     0,     0,     0,
-};
+Mtx gMtxClear = gdSPDefMtx(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1);
 
+// clang-format off
 MtxF gMtxFClear = {
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, 1.0f, 0.0f, 0.0f,
