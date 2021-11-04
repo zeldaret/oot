@@ -10466,5 +10466,6 @@ endseg
 beginseg
     name "softsprite_matrix_static"
     romalign 0x1000
-    include "build/baserom/softsprite_matrix_static.o"
+    include "build/src/code/softsprite_matrix_static.o"
+    number 1
 endseg

@@ -4,7 +4,7 @@
 #include "z64.h"
 #include "segment_symbols.h"
 
-extern Mtx D_01000000;
+extern Mtx gSoftSpriteMartixStatic;
 extern Gfx D_06025218[];
 extern Gfx D_060252D8[];
 extern Gfx D_06025438[];
