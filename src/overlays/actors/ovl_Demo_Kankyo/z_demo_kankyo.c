@@ -680,7 +680,7 @@ void DemoKankyo_DrawClouds(Actor* thisx, GlobalContext* globalCtx) {
 
         func_80094C50(globalCtx->state.gfxCtx);
 
-        gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMartixStatic, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMatrixStatic, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffDustDL);
     }
 

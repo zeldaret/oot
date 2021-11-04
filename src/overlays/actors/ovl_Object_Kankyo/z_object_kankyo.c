@@ -694,7 +694,7 @@ void ObjectKankyo_DrawSnow(ObjectKankyo* this2, GlobalContext* globalCtx2) {
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust5Tex));
 
             func_80094C50(globalCtx->state.gfxCtx);
-            gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMartixStatic, G_MTX_MODELVIEW | G_MTX_NOPUSH | G_MTX_MUL);
+            gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMatrixStatic, G_MTX_MODELVIEW | G_MTX_NOPUSH | G_MTX_MUL);
 
             gDPPipeSync(POLY_XLU_DISP++);
 
@@ -749,7 +749,7 @@ void ObjectKankyo_DrawLightning(ObjectKankyo* this, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 1213), G_MTX_LOAD);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEffLightningTextures[this->effects[0].timer]));
         func_80094C50(globalCtx->state.gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMartixStatic, G_MTX_MODELVIEW | G_MTX_NOPUSH | G_MTX_MUL);
+        gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMatrixStatic, G_MTX_MODELVIEW | G_MTX_NOPUSH | G_MTX_MUL);
         gDPPipeSync(POLY_XLU_DISP++);
         gSPDisplayList(POLY_XLU_DISP++, gEffLightningDL);
         gDPPipeSync(POLY_XLU_DISP++);

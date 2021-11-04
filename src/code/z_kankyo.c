@@ -1510,7 +1510,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
                               0, PRIMITIVE, 0);
             gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
             gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
-            gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMartixStatic, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+            gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMatrixStatic, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
 
             switch (lensFlareTypes[i]) {
                 case LENS_FLARE_CIRCLE0:
@@ -1631,7 +1631,7 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
             vec.z = windDirection.z;
             length = sqrtf(SQXZ(vec));
 
-            gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMartixStatic, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+            gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMatrixStatic, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
             rotX = Math_Atan2F(length, -vec.y);
             rotY = Math_Atan2F(vec.z, vec.x);
             Matrix_RotateY(-rotY, MTXMODE_APPLY);
@@ -1914,7 +1914,7 @@ void Environment_DrawLightning(GlobalContext* globalCtx, s32 unused) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(lightningTextures[sLightningBolts[i].textureIndex]));
             func_80094C50(globalCtx->state.gfxCtx);
-            gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMartixStatic, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+            gSPMatrix(POLY_XLU_DISP++, &gSoftSpriteMatrixStatic, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gEffLightningDL);
         }
     }
