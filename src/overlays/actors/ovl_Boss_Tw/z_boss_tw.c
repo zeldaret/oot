@@ -520,7 +520,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.world.pos.x = -600.0f;
             this->actor.world.pos.y = 400.0f;
             this->actor.world.pos.z = 0.0f;
-            Audio_QueueSeqCmd(0x1B);
+            Audio_QueueSeqCmd(NA_BGM_BOSS);
         } else {
             BossTw_SetupCSWait(this, globalCtx);
         }
@@ -1642,7 +1642,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
                     this->timers[0] = 50;
                     func_8002DF54(globalCtx, &this->actor, 2);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
-                    Audio_QueueSeqCmd(0x1B);
+                    Audio_QueueSeqCmd(NA_BGM_BOSS);
                 }
             }
 
@@ -1783,7 +1783,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
     if (this->csSfxTimer == 180) {
         func_80078914(&D_8094A7D0, NA_SE_EN_TWINROBA_LAUGH);
         func_80078914(&D_8094A7D0, NA_SE_EN_TWINROBA_LAUGH2);
-        Audio_QueueSeqCmd(0x61);
+        Audio_QueueSeqCmd(NA_BGM_KOTAKE_KOUME);
     }
 
     this->csSfxTimer++;
@@ -2220,7 +2220,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                        SEGMENTED_TO_VIRTUAL(object_tw_Blob_02E170), 0xA0, 0xB4, 0x80, 0x28);
                 gSaveContext.eventChkInf[7] |= 0x20;
-                Audio_QueueSeqCmd(0x1B);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
             }
 
             if (this->work[CS_TIMER_1] >= 160) {
@@ -2767,7 +2767,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
                 sKoumePtr->visible = 1;
                 sKotakePtr->visible = 1;
                 func_80078884(NA_SE_EN_TWINROBA_TRANSFORM);
-                Audio_QueueSeqCmd(0x61);
+                Audio_QueueSeqCmd(NA_BGM_KOTAKE_KOUME);
                 this->csState2 = 3;
                 this->work[CS_TIMER_2] = 0;
                 this->subCamYaw = this->subCamYawStep = this->actor.speedXZ = this->subCamDistStep = 0.0f;
@@ -2815,7 +2815,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
                 this->subCamId = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
-                Audio_QueueSeqCmd(0x21);
+                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 600.0f, 230.0f,
                                    0.0f, 0, 0, 0, WARP_DUNGEON_ADULT);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, -600.0f, 230.f, 0.0f, 0, 0, 0, 0);

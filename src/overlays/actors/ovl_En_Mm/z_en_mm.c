@@ -347,7 +347,7 @@ s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
     xDiff = waypointPos.x - this->actor.world.pos.x;
     zDiff = waypointPos.z - this->actor.world.pos.z;
 
-    this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * 10430.378f);
+    this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
     this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
 
     while ((this->distToWaypoint <= 10.44f) && (this->unk_1E8 != 0)) {
@@ -392,7 +392,7 @@ s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
         xDiff = waypointPos.x - this->actor.world.pos.x;
         zDiff = waypointPos.z - this->actor.world.pos.z;
 
-        this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * 10430.378f);
+        this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
         this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
     }
 
@@ -450,7 +450,7 @@ void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
 
         if (func_80AADA70() == 0) {
             if (this->actor.floorPoly != NULL) {
-                floorYNorm = this->actor.floorPoly->normal.y * 0.00003051851f;
+                floorYNorm = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
 
                 if ((floorYNorm > 0.9848f) || (floorYNorm < -0.9848f)) {
                     if (this->sitTimer > 30) {
@@ -603,7 +603,7 @@ void EnMm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_Translate(260.0f, 20.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(0.0f, MTXMODE_APPLY);
         Matrix_RotateX(0.0f, MTXMODE_APPLY);
-        Matrix_RotateZ(2.5132742f, MTXMODE_APPLY);
+        Matrix_RotateZ(4.0f * M_PI / 5.0f, MTXMODE_APPLY);
         Matrix_Translate(-260.0f, 58.0f, 10.0f, MTXMODE_APPLY);
         Matrix_Get(&this->unk_208);
     }
