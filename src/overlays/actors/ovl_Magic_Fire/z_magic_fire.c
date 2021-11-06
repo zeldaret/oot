@@ -406,7 +406,7 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case DF_ACTION_EXPAND_QUICKLY: // Sphere beings to grow again and quickly expands out until killed
-            this->alphaMultiplier -= 8.0f / 119.000008f;
+            this->alphaMultiplier -= 8.0f / 119.00001f;
             this->actor.scale.x += this->scalingSpeed;
             this->actor.scale.y += this->scalingSpeed;
             this->actor.scale.z += this->scalingSpeed;

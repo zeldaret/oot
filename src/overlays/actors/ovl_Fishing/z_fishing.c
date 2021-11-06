@@ -2039,13 +2039,13 @@ void Fishing_DrawRod(GlobalContext* globalCtx) {
     }
 
     if (D_80B7A694 == 5) {
-        Matrix_RotateY(1.7592919f, MTXMODE_APPLY);
+        Matrix_RotateY(0.56f * M_PI, MTXMODE_APPLY);
     } else {
-        Matrix_RotateY(1.288053f, MTXMODE_APPLY);
+        Matrix_RotateY(0.41f * M_PI, MTXMODE_APPLY);
     }
 
-    Matrix_RotateX(-0.6283185f, MTXMODE_APPLY);
-    Matrix_RotateZ((player->unk_858 * 0.5f) + 0.4712389f, MTXMODE_APPLY);
+    Matrix_RotateX(-M_PI / 5.0000003f, MTXMODE_APPLY);
+    Matrix_RotateZ((player->unk_858 * 0.5f) + 3.0f * M_PI / 20.0f, MTXMODE_APPLY);
     Matrix_RotateX((D_80B7A6C0 + 20.0f) * 0.01f * M_PI, MTXMODE_APPLY);
     Matrix_Scale(0.70000005f, 0.70000005f, 0.70000005f, MTXMODE_APPLY);
 
@@ -2390,7 +2390,7 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
 
             if (D_80B7E138 < 3.0f) {
                 spD0 = D_80B7E10C * Math_SinS(D_80B7E0AE * 0x1060);
-                Math_ApproachF(&sLureRot.x, -0.5235988f + spD0, 0.3f, D_80B7E110);
+                Math_ApproachF(&sLureRot.x, -M_PI / 6.0f + spD0, 0.3f, D_80B7E110);
                 Math_ApproachF(&D_80B7E110, 0.5f, 1.0f, 0.02f);
                 Math_ApproachZeroF(&D_80B7E10C, 1.0f, 0.02f);
             } else {
@@ -3050,7 +3050,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             Math_ApproachS(&this->unk_174, Math_SinS(this->unk_15C * 0xA00) * 1500.0f, 2, 0x7D0);
 
             this->unk_190 = 0.3f;
-            this->unk_194 = 333.33334f;
+            this->unk_194 = 1000.0f / 3.0f;
             return;
 
         case 10:
@@ -3639,7 +3639,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                         sp10C.z = 200.0f;
 
                         for (spA2 = 0; spA2 < 100; spA2++) {
-                            Matrix_RotateY(Rand_CenteredFloat(2.3561945f) +
+                            Matrix_RotateY(Rand_CenteredFloat(3.0f * M_PI / 4.0f) +
                                                (((this->actor.yawTowardsPlayer + 0x8000) / 32768.0f) * M_PI),
                                            MTXMODE_NEW);
                             Matrix_MultVec3f(&sp10C, &sp100);
@@ -5644,7 +5644,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         Vec3f projectedPos;
         s32 pad2;
 
-        rot.x = 1.6707964f;
+        rot.x = M_PI / 2.0f + 0.1f;
         rot.y = 1.0f;
         rot.z = (Camera_GetInputDirYaw(camera) * -(M_PI / 32768)) + rot.y;
 
