@@ -6,6 +6,7 @@
 #include "scenes/overworld/spot01/spot01_scene.h"
 #include "scenes/overworld/spot02/spot02_scene.h"
 #include "scenes/overworld/spot04/spot04_scene.h"
+#include "scenes/overworld/spot05/spot05_scene.h"
 #include "scenes/overworld/spot06/spot06_scene.h"
 #include "scenes/overworld/spot07/spot07_scene.h"
 #include "scenes/overworld/spot08/spot08_scene.h"
@@ -19,10 +20,12 @@
 #include "scenes/overworld/spot20/spot20_scene.h"
 
 #include "scenes/dungeons/bdan/bdan_scene.h"
+#include "scenes/dungeons/ddan/ddan_scene.h"
 #include "scenes/dungeons/ydan/ydan_scene.h"
 #include "scenes/dungeons/ganontika/ganontika_scene.h"
-#include "scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
+#include "scenes/dungeons/jyasinboss/jyasinboss_scene.h"
+#include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 
 #include "scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 
@@ -91,7 +94,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
 };
 
 // Unused, seems to be an early list of dungeon entrance cutscene locations
-void* D_8011E304[] = { 0x0200B650, 0x02015600, 0x02014F80, 0x02003F80, 0x02000330, gTowerBarrierCs };
+void* D_8011E304[] = { gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs };
 
 u16 D_8015FCC0;
 u16 D_8015FCC2;
