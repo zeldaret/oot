@@ -1887,7 +1887,7 @@ void UCodeDisas_Destroy(UCodeDisas*);
 // ? UCodeDisas_ParseGeometryMode(?);
 // ? UCodeDisas_ParseRenderMode(?);
 // ? UCodeDisas_PrintVertices(?);
-void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
+// void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
 void UCodeDisas_RegisterUCode(UCodeDisas*, s32, UCodeInfo*);
 void UCodeDisas_SetCurUCode(UCodeDisas*, void*);
 Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen);

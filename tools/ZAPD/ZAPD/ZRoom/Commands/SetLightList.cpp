@@ -1,6 +1,8 @@
 #include "SetLightList.h"
-#include "BitConverter.h"
-#include "StringHelper.h"
+
+#include "Globals.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 
 SetLightList::SetLightList(ZFile* nParent) : ZRoomCommand(nParent)
 {
@@ -9,7 +11,7 @@ SetLightList::SetLightList(ZFile* nParent) : ZRoomCommand(nParent)
 void SetLightList::ParseRawData()
 {
 	ZRoomCommand::ParseRawData();
-	std::string declarations = "";
+	std::string declarations;
 
 	numLights = cmdArg1;
 	int32_t currentPtr = segmentOffset;
@@ -26,7 +28,7 @@ void SetLightList::DeclareReferences(const std::string& prefix)
 {
 	if (!lights.empty())
 	{
-		std::string declarations = "";
+		std::string declarations;
 
 		for (size_t i = 0; i < lights.size(); i++)
 		{
@@ -40,7 +42,7 @@ void SetLightList::DeclareReferences(const std::string& prefix)
 		const auto& light = lights.front();
 
 		parent->AddDeclarationArray(
-			segmentOffset, DeclarationAlignment::None, lights.size() * light.GetRawDataSize(),
+			segmentOffset, DeclarationAlignment::Align4, lights.size() * light.GetRawDataSize(),
 			light.GetSourceTypeName(),
 			StringHelper::Sprintf("%sLightInfo0x%06X", prefix.c_str(), segmentOffset),
 			lights.size(), declarations);
@@ -49,7 +51,8 @@ void SetLightList::DeclareReferences(const std::string& prefix)
 
 std::string SetLightList::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "LightInfo", listName);
 	return StringHelper::Sprintf("SCENE_CMD_LIGHT_LIST(%i, %s)", numLights, listName.c_str());
 }
 

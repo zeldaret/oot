@@ -2667,7 +2667,7 @@ void func_80835DE4(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s
 
 void func_80835E44(GlobalContext* globalCtx, s16 camSetting) {
     if (!func_800C0CB8(globalCtx)) {
-        if (camSetting == CAM_SET_SCENE1) {
+        if (camSetting == CAM_SET_SCENE_TRANSITION) {
             Interface_ChangeAlpha(2);
         }
     } else {
@@ -2676,7 +2676,7 @@ void func_80835E44(GlobalContext* globalCtx, s16 camSetting) {
 }
 
 void func_80835EA4(GlobalContext* globalCtx, s32 arg1) {
-    func_80835E44(globalCtx, CAM_SET_ITEM2);
+    func_80835E44(globalCtx, CAM_SET_TURN_AROUND);
     Camera_SetCameraData(Gameplay_GetCamera(globalCtx, 0), 4, 0, 0, arg1, 0, 0);
 }
 
@@ -2823,8 +2823,8 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
         } else {
             globalCtx->gameOverCtx.state = GAMEOVER_DEATH_START;
             func_800F6AB0(0);
-            func_800F5C64(0x20);
-            gSaveContext.seqIndex = 0xFF;
+            func_800F5C64(NA_BGM_GAME_OVER);
+            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
             gSaveContext.nightSeqIndex = 0xFF;
         }
 
@@ -3986,7 +3986,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                 if (temp == 11) {
                     func_800788CC(NA_SE_OC_SECRET_HOLE_OUT);
                     func_800F6964(5);
-                    gSaveContext.seqIndex = 0xFF;
+                    gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
                     gSaveContext.nightSeqIndex = 0xFF;
                 } else {
                     linearVel = this->linearVelocity;
@@ -5944,7 +5944,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                     func_808322D0(globalCtx, this, this->ageProperties->unk_98);
                     func_80832F54(globalCtx, this, 0x28F);
                     chest->unk_1F4 = 1;
-                    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_ITEM0);
+                    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_SLOW_CHEST_CS);
                 } else {
                     func_80832264(globalCtx, this, &gPlayerAnim_002DF8);
                     chest->unk_1F4 = -1;
@@ -9639,7 +9639,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
             Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), CAM_MODE_NORMAL);
         } else if (!(this->stateFlags1 & 0x100000)) {
             if ((this->actor.parent != NULL) && (this->stateFlags3 & 0x80)) {
-                camMode = CAM_MODE_FOOKSHOT;
+                camMode = CAM_MODE_HOOKSHOT;
                 Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->actor.parent);
             } else if (func_8084377C == this->func_674) {
                 camMode = CAM_MODE_STILL;
@@ -9650,7 +9650,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
                     camMode = CAM_MODE_TALK;
                 } else if (this->stateFlags1 & 0x10000) {
                     if (this->stateFlags1 & 0x2000000) {
-                        camMode = CAM_MODE_BOOMFOLLLOW;
+                        camMode = CAM_MODE_FOLLOWBOOMERANG;
                     } else {
                         camMode = CAM_MODE_FOLLOWTARGET;
                     }
@@ -9661,7 +9661,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
             } else if (this->stateFlags1 & 0x1000) {
                 camMode = CAM_MODE_CHARGE;
             } else if (this->stateFlags1 & 0x2000000) {
-                camMode = CAM_MODE_BOOMFOLLLOW;
+                camMode = CAM_MODE_FOLLOWBOOMERANG;
                 Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->boomerangActor);
             } else if (this->stateFlags1 & 0x6000) {
                 if (func_80833B2C(this)) {
@@ -10089,9 +10089,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8000000)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this)
-                                      ? &gPlayerAnim_003310
-                                      : (this->shockTimer != 0) ? &gPlayerAnim_002F08 : &gPlayerAnim_002878);
+                                  func_808332B8(this)       ? &gPlayerAnim_003310
+                                  : (this->shockTimer != 0) ? &gPlayerAnim_002F08
+                                                            : &gPlayerAnim_002878);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&
@@ -11803,9 +11803,9 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
             if ((this->getItemId == GI_HEART_CONTAINER_2) || (this->getItemId == GI_HEART_CONTAINER) ||
                 ((this->getItemId == GI_HEART_PIECE) &&
                  ((gSaveContext.inventory.questItems & 0xF0000000) == 0x40000000))) {
-                temp1 = 0x924;
+                temp1 = NA_BGM_HEART_GET | 0x900;
             } else {
-                temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? 0x39 : 0x922;
+                temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? NA_BGM_SMALL_ITEM_GET : NA_BGM_ITEM_GET | 0x900;
             }
             func_800F5C64(temp1);
         }
@@ -11920,7 +11920,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
             Environment_WarpSongLeave(globalCtx);
         }
 
-        gSaveContext.seqIndex = 0xFF;
+        gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
         gSaveContext.nightSeqIndex = 0xFF;
     }
 }
@@ -12129,7 +12129,7 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F != 0) {
             if (this->unk_850 == 0) {
                 func_8010B680(globalCtx, D_80854A04[this->unk_84F - 1].textId, &this->actor);
-                func_800F5C64(0x922);
+                func_800F5C64(NA_BGM_ITEM_GET | 0x900);
                 this->unk_850 = 1;
             } else if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
                 this->unk_84F = 0;
@@ -12437,7 +12437,7 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
         } else {
             globalCtx->fadeTransition = 2;
             gSaveContext.nextTransition = 2;
-            gSaveContext.seqIndex = 0xFF;
+            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
             gSaveContext.nightSeqIndex = 0xFF;
         }
 
