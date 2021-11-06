@@ -443,7 +443,7 @@ void EnTest_WaitGround(EnTest* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
 
         if (this->actor.params != STALFOS_TYPE_2) {
-            func_800F5ACC(0x38);
+            func_800F5ACC(NA_BGM_MINI_BOSS);
         }
     } else {
         if (this->timer != 0) {
