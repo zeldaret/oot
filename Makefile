@@ -73,6 +73,7 @@ CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
+FADO       := tools/fado/fado.elf
 
 OPTFLAGS := -O2
 ASFLAGS := -march=vr4300 -32 -Iinclude
@@ -110,15 +111,14 @@ C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*
 S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
-                 $(foreach f,$(wildcard baserom/*),build/$f.o) \
-                 $(shell awk -F"\"" '/_reloc.o/ { print $$2 }' spec )
+                 $(foreach f,$(wildcard baserom/*),build/$f.o)
+
+OVL_RELOC_FILES := $(shell awk -F\" '/_reloc.o/ { print $$2 }' spec )
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
-DEP_FILES := $(O_FILES:.o=.asmproc.d)
+DEP_FILES := $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d)
 
-RELOC_DEPS    := build/reloc_deps.d
-$(shell awk -F\" '/name "ovl/ { flag=1; out=null; dep=null } /include/ && flag && !/reloc.o/ { dep=dep " " $$2 } /_reloc.o/ { out=$$2 } /endseg/ && out && flag { flag=0; printf "%s:%s\n\n", out, dep }' spec > $(RELOC_DEPS))
 
 TEXTURE_FILES_PNG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_JPG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.jpg))
@@ -174,15 +174,19 @@ endif
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
-build/ldscript.txt: $(SPEC)
-	$(CPP) $(CPPFLAGS) $< > build/spec
-	$(MKLDSCRIPT) build/spec $@
+$(OVL_RELOC_FILES): | $(O_FILES)
+
+build/spec: $(SPEC)
+	$(CPP) $(CPPFLAGS) $< > $@
+
+build/ldscript.txt: build/spec
+	$(MKLDSCRIPT) $< $@
 
 build/undefined_syms.txt: undefined_syms.txt
-	$(CPP) $(CPPFLAGS) $< > build/undefined_syms.txt
+	$(CPP) $(CPPFLAGS) $< > $@
 
 clean:
 	$(RM) -r $(ROM) $(ELF) build
@@ -223,15 +227,6 @@ build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
 
-build/src/overlays/%.o: src/overlays/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(CC_CHECK) $<
-	@$(OBJDUMP) -d $@ > $(@:.o=.s)
-
-build/src/overlays/%_reloc.o:
-	./tools/fado/fado.elf -o $(@D)/$(notdir $(@D))_reloc.s $^
-	$(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
-
 build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
@@ -249,6 +244,22 @@ build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
+build/src/overlays/%_reloc.o: build/spec
+	$(eval RELOC_PREQ = $(shell grep -o "$(@D).*.o" build/spec | grep -vF 'reloc.o'))
+	$(shell printf "%s: %s\n\n" $@: "$(RELOC_PREQ)" > $(@:.o=.d))
+	$(foreach f,$(RELOC_PREQ), $(shell printf "%s: \n\n" $f >> $(@:.o=.d)))
+#	$(FADO) -o $(@:.o=.s) $(RELOC_PREQ)
+#	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
+
+
+#	$(info Generating dependency file $(@:.o=.d))
+#	$(info Generating reloc file $(@:.o=.s))
+#	@printf "%s: " $@ > $(@:.o=.d)
+#	bash mido.sh $@ build/spec
+#	@grep '$(@D)' build/spec | awk -F\" '$$2 ~ "$(basename $@)" { print pre "\n"; exit } { pre=pre $$2 " " }' | tee -a $(@:.o=.d) | xargs $(FADO) -o $(@:.o=.s)
+	
+#	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
+
 build/%.inc.c: %.png
 	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
 
@@ -259,4 +270,3 @@ build/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
 
 -include $(DEP_FILES)
--include $(RELOC_DEPS)
