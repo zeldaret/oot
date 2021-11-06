@@ -94,7 +94,9 @@ EntranceCutscene sEntranceCutsceneTable[] = {
 };
 
 // Unused, seems to be an early list of dungeon entrance cutscene locations
-void* D_8011E304[] = { gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs };
+void* D_8011E304[] = {
+    gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
+};
 
 u16 D_8015FCC0;
 u16 D_8015FCC2;
@@ -216,8 +218,6 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
     Player* player = GET_PLAYER(globalCtx);
     f32 temp;
     u8 sp3F = 0;
-
-   
 
     if ((csCtx->frames < cmd->startFrame) || ((csCtx->frames >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame))) {
         return;
