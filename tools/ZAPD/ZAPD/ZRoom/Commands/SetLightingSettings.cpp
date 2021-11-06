@@ -1,6 +1,8 @@
 #include "SetLightingSettings.h"
-#include "BitConverter.h"
-#include "StringHelper.h"
+
+#include "Globals.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 #include "ZRoom/ZRoom.h"
 
@@ -21,13 +23,12 @@ void SetLightingSettings::DeclareReferences(const std::string& prefix)
 {
 	if (settings.size() > 0)
 	{
-		std::string declaration = "";
+		std::string declaration;
 
 		for (size_t i = 0; i < settings.size(); i++)
 		{
-			declaration += StringHelper::Sprintf("\t{ %s }, // 0x%06X",
-			                                     settings.at(i).GetBodySourceCode().c_str(),
-			                                     segmentOffset + (i * 22));
+			declaration +=
+				StringHelper::Sprintf("\t{ %s },", settings.at(i).GetBodySourceCode().c_str());
 			if (i + 1 < settings.size())
 				declaration += "\n";
 		}
@@ -42,7 +43,8 @@ void SetLightingSettings::DeclareReferences(const std::string& prefix)
 
 std::string SetLightingSettings::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "LightSettings", listName);
 	return StringHelper::Sprintf("SCENE_CMD_ENV_LIGHT_SETTINGS(%i, %s)", settings.size(),
 	                             listName.c_str());
 }

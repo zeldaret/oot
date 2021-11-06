@@ -5,6 +5,9 @@
 class SetCameraSettings : public ZRoomCommand
 {
 public:
+	uint8_t cameraMovement;
+	uint32_t mapHighlight;
+
 	SetCameraSettings(ZFile* nParent);
 
 	void ParseRawData() override;
@@ -15,6 +18,4 @@ public:
 	RoomCommand GetRoomCommand() const override;
 
 private:
-	uint8_t cameraMovement;
-	uint32_t mapHighlight;
 };

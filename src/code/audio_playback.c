@@ -79,7 +79,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     } else if (gAudioContext.soundMode == 3) {
         sub->bitField0.s.stereoHeadsetEffects = false;
         sub->bitField0.s.usesHeadsetPanEffects = false;
-        volLeft = 0.707f;
+        volLeft = 0.707f; // approx 1/sqrt(2)
         volRight = 0.707f;
     } else {
         sub->bitField0.s.stereoStrongRight = sp24.strongRight;
@@ -91,8 +91,8 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     vel = 0.0f > vel ? 0.0f : vel;
     vel = 1.0f < vel ? 1.0f : vel;
 
-    sub->targetVolLeft = (s32)((vel * volLeft) * 4095.999f);
-    sub->targetVolRight = (s32)((vel * volRight) * 4095.999f);
+    sub->targetVolLeft = (s32)((vel * volLeft) * (0x1000 - 0.001f));
+    sub->targetVolRight = (s32)((vel * volRight) * (0x1000 - 0.001f));
 
     sub->unk_2 = attrs->unk_1;
     sub->filter = attrs->filter;

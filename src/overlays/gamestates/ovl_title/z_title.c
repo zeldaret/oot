@@ -136,7 +136,7 @@ void Title_Main(GameState* thisx) {
     }
 
     if (this->exit) {
-        gSaveContext.seqIndex = 0xFF;
+        gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
         gSaveContext.nightSeqIndex = 0xFF;
         gSaveContext.gameMode = 1;
         this->state.running = false;
