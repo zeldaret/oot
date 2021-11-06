@@ -1380,6 +1380,7 @@ s32 Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCt
             D_8015FCC0 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_CS_0);
+                Gameplay_ChangeCameraStatus(globalCtx, sActiveCam, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus,
