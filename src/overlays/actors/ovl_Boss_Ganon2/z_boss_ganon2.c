@@ -1022,11 +1022,11 @@ void func_808FFCFC(BossGanon2* this, GlobalContext* globalCtx) {
         ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2800) {
         this->unk_311 = false;
         func_80900580(this, globalCtx);
-        Audio_StopSfx(NA_SE_EN_MGANON_UNARI);
+        Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
     } else if ((this->actor.bgCheckFlags & 8) && func_808FFA24(this, globalCtx)) {
         this->unk_311 = false;
         func_80900580(this, globalCtx);
-        Audio_StopSfx(NA_SE_EN_MGANON_UNARI);
+        Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
     }
 }
 
@@ -1889,12 +1889,12 @@ void func_80902524(BossGanon2* this, GlobalContext* globalCtx) {
                     func_809000A0(this, globalCtx);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
-                    Audio_StopSfx(NA_SE_EN_MGANON_UNARI);
+                    Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
                 } else if ((this->actionFunc == func_80900890) && (acHitInfo->toucher.dmgFlags & 0x9000200)) {
                     this->unk_316 = 60;
                     this->unk_342 = 5;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
-                    Audio_StopSfx(NA_SE_EN_MGANON_UNARI);
+                    Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
                     this->actor.colChkInfo.health -= 2;
                     temp_v0_4 = this->actor.colChkInfo.health;
                     if (temp_v0_4 < 0x15 && this->unk_334 == 0) {
@@ -1920,7 +1920,7 @@ void func_80902524(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_344 = 0x32;
             this->unk_342 = 5;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
-            Audio_StopSfx(NA_SE_EN_MGANON_UNARI);
+            Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
             phi_v1_2 = 1;
             if (acHitInfo->toucher.dmgFlags & 0x9000200) {
                 if (acHitInfo->toucher.dmgFlags & 0x8000000) {

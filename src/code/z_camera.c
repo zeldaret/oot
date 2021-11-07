@@ -7129,7 +7129,7 @@ s32 Camera_CheckWater(Camera* camera) {
             camera->unk_150 = 0x50;
         }
 
-        func_800F6828(0x20);
+        Audio_SetExtraFilter(0x20);
 
         if (PREG(81)) {
             Quake_RemoveFromIdx(*quakeId);
@@ -7164,7 +7164,7 @@ s32 Camera_CheckWater(Camera* camera) {
             camera->unk_150 = 0;
             camera->unk_152 = 0;
         }
-        func_800F6828(0);
+        Audio_SetExtraFilter(0);
     }
     //! @bug: doesn't always return a value, but sometimes does.
 }

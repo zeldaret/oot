@@ -177,7 +177,7 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
             func_800F5C64(NA_BGM_ITEM_GET | 0x900);
         }
         if (scoreIndex == 1) {
-            Audio_StopSfx(NA_SE_SY_TRE_BOX_APPEAR);
+            Audio_StopSfxById(NA_SE_SY_TRE_BOX_APPEAR);
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         }
         if (scoreIndex == 0) {

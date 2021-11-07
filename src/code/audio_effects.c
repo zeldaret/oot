@@ -1,51 +1,51 @@
 #include "ultra64.h"
 #include "global.h"
 
-void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalculateVolume, s32 b) {
+void Audio_SequenceChannelProcessSound(SequenceChannel* channel, s32 recalculateVolume, s32 b) {
     f32 channelVolume;
     f32 chanFreqScale;
     s32 i;
 
-    if (seqChannel->changes.s.volume || recalculateVolume) {
-        channelVolume = seqChannel->volume * seqChannel->volumeScale * seqChannel->seqPlayer->appliedFadeVolume;
-        if (seqChannel->seqPlayer->muted && (seqChannel->muteBehavior & 0x20)) {
-            channelVolume = seqChannel->seqPlayer->muteVolumeScale * channelVolume;
+    if (channel->changes.s.volume || recalculateVolume) {
+        channelVolume = channel->volume * channel->volumeScale * channel->seqPlayer->appliedFadeVolume;
+        if (channel->seqPlayer->muted && (channel->muteBehavior & 0x20)) {
+            channelVolume = channel->seqPlayer->muteVolumeScale * channelVolume;
         }
-        seqChannel->appliedVolume = channelVolume * channelVolume;
+        channel->appliedVolume = channelVolume * channelVolume;
     }
 
-    if (seqChannel->changes.s.pan) {
-        seqChannel->pan = seqChannel->newPan * seqChannel->panChannelWeight;
+    if (channel->changes.s.pan) {
+        channel->pan = channel->newPan * channel->panChannelWeight;
     }
 
-    chanFreqScale = seqChannel->freqScale;
+    chanFreqScale = channel->freqScale;
     if (b != 0) {
-        chanFreqScale *= seqChannel->seqPlayer->unk_34;
-        seqChannel->changes.s.freqScale = true;
+        chanFreqScale *= channel->seqPlayer->unk_34;
+        channel->changes.s.freqScale = true;
     }
 
     for (i = 0; i < 4; i++) {
-        SequenceChannelLayer* layer = seqChannel->layers[i];
+        SequenceLayer* layer = channel->layers[i];
         if (layer != NULL && layer->enabled && layer->note != NULL) {
             if (layer->notePropertiesNeedInit) {
                 layer->noteFreqScale = layer->freqScale * chanFreqScale;
-                layer->noteVelocity = layer->velocitySquare2 * seqChannel->appliedVolume;
-                layer->notePan = (seqChannel->pan + layer->pan * (0x80 - seqChannel->panChannelWeight)) >> 7;
+                layer->noteVelocity = layer->velocitySquare2 * channel->appliedVolume;
+                layer->notePan = (channel->pan + layer->pan * (0x80 - channel->panChannelWeight)) >> 7;
                 layer->notePropertiesNeedInit = false;
             } else {
-                if (seqChannel->changes.s.freqScale) {
+                if (channel->changes.s.freqScale) {
                     layer->noteFreqScale = layer->freqScale * chanFreqScale;
                 }
-                if (seqChannel->changes.s.volume || recalculateVolume) {
-                    layer->noteVelocity = layer->velocitySquare2 * seqChannel->appliedVolume;
+                if (channel->changes.s.volume || recalculateVolume) {
+                    layer->noteVelocity = layer->velocitySquare2 * channel->appliedVolume;
                 }
-                if (seqChannel->changes.s.pan) {
-                    layer->notePan = (seqChannel->pan + layer->pan * (0x80 - seqChannel->panChannelWeight)) >> 7;
+                if (channel->changes.s.pan) {
+                    layer->notePan = (channel->pan + layer->pan * (0x80 - channel->panChannelWeight)) >> 7;
                 }
             }
         }
     }
-    seqChannel->changes.asByte = 0;
+    channel->changes.asByte = 0;
 }
 
 void Audio_SequencePlayerProcessSound(SequencePlayer* seqPlayer) {
@@ -63,7 +63,7 @@ void Audio_SequencePlayerProcessSound(SequencePlayer* seqPlayer) {
         }
 
         if (--seqPlayer->fadeTimer == 0 && seqPlayer->state == 2) {
-            Audio_SequencePlayerDisable(seqPlayer);
+            AudioSeq_SequencePlayerDisable(seqPlayer);
             return;
         }
     }
@@ -112,14 +112,16 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
     f32 temp;
     f32 twoToThe16th = 65536.0f;
     s32 one = 1;
-    SequenceChannel* channel = vib->seqChannel;
+    SequenceChannel* channel = vib->channel;
 
     if (vib->delay != 0) {
         vib->delay--;
         return 1;
     }
 
-    if (channel != NO_CHANNEL) {
+    //! @bug this probably meant to compare with gAudioContext.sequenceChannelNone.
+    //! -1 isn't used as a channel pointer anywhere else.
+    if (channel != ((SequenceChannel*)(-1))) {
         if (vib->extentChangeTimer) {
             if (vib->extentChangeTimer == 1) {
                 vib->extent = (s32)channel->vibratoExtentTarget;
@@ -179,7 +181,7 @@ void Audio_NoteVibratoUpdate(Note* note) {
 
 void Audio_NoteVibratoInit(Note* note) {
     VibratoState* vib;
-    SequenceChannel* seqChannel;
+    SequenceChannel* channel;
 
     note->playbackState.vibratoFreqScale = 1.0f;
 
@@ -189,20 +191,20 @@ void Audio_NoteVibratoInit(Note* note) {
     vib->time = 0;
 
     vib->curve = gWaveSamples[2];
-    vib->seqChannel = note->playbackState.parentLayer->seqChannel;
-    seqChannel = vib->seqChannel;
-    if ((vib->extentChangeTimer = seqChannel->vibratoExtentChangeDelay) == 0) {
-        vib->extent = (s32)seqChannel->vibratoExtentTarget;
+    vib->channel = note->playbackState.parentLayer->channel;
+    channel = vib->channel;
+    if ((vib->extentChangeTimer = channel->vibratoExtentChangeDelay) == 0) {
+        vib->extent = (s32)channel->vibratoExtentTarget;
     } else {
-        vib->extent = (s32)seqChannel->vibratoExtentStart;
+        vib->extent = (s32)channel->vibratoExtentStart;
     }
 
-    if ((vib->rateChangeTimer = seqChannel->vibratoRateChangeDelay) == 0) {
-        vib->rate = (s32)seqChannel->vibratoRateTarget;
+    if ((vib->rateChangeTimer = channel->vibratoRateChangeDelay) == 0) {
+        vib->rate = (s32)channel->vibratoRateTarget;
     } else {
-        vib->rate = (s32)seqChannel->vibratoRateStart;
+        vib->rate = (s32)channel->vibratoRateStart;
     }
-    vib->delay = seqChannel->vibratoDelay;
+    vib->delay = channel->vibratoDelay;
 }
 
 void Audio_NotePortamentoInit(Note* note) {

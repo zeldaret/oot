@@ -688,7 +688,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             if ((this->work[FD2_HOLE_COUNTER] == 1) || (this->work[FD2_HOLE_COUNTER] == 40)) {
                 this->work[FD2_SCREAM_TIMER] = 20;
                 if (this->work[FD2_HOLE_COUNTER] == 40) {
-                    Audio_StopSfx(NA_SE_EN_VALVAISA_DEAD);
+                    Audio_StopSfxById(NA_SE_EN_VALVAISA_DEAD);
                 }
 
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);

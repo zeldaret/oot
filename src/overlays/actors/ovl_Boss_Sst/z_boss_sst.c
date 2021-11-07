@@ -342,7 +342,7 @@ void BossSst_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_DestroyJntSph(globalCtx, &this->colliderJntSph);
     Collider_DestroyCylinder(globalCtx, &this->colliderCyl);
-    func_800F89E8(&this->center);
+    Audio_StopSfxByPos(&this->center);
 }
 
 void BossSst_HeadSetupLurk(BossSst* this) {
