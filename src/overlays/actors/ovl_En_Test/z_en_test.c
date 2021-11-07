@@ -894,7 +894,7 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
 
 void EnTest_SetupSlashDown(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosDownSlashAnim);
-    func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
+    Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x10;
     this->actor.speedXZ = 0.0f;
@@ -1076,7 +1076,7 @@ void EnTest_JumpBack(EnTest* this, GlobalContext* globalCtx) {
 
 void EnTest_SetupJumpslash(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosJumpAnim);
-    func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
+    Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->timer = 0;
     this->unk_7C8 = 0x17;
     this->actor.velocity.y = 10.0f;
@@ -1669,7 +1669,7 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
             this->unk_7DC = player->unk_845;
             this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, false);
-            func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
+            Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
             if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||
                 (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_FREEZE) ||

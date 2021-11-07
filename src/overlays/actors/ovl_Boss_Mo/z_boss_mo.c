@@ -2262,7 +2262,7 @@ void BossMo_UpdateTent(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.draw = NULL;
         if (this->tent2KillTimer > 20) {
             Actor_Kill(&this->actor);
-            func_800F89E8(&this->tentTipPos);
+            Audio_StopSfxByPos(&this->tentTipPos);
             sMorphaTent2 = NULL;
         }
         return;
