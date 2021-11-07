@@ -3,6 +3,8 @@
 #include "scenes/overworld/spot00/spot00_room_0.h"
 #include "scenes/overworld/spot16/spot16_room_0.h"
 
+#include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
+
 #define ENTRANCE(scene, spawn, continueBgm, displayTitleCard, fadeIn, fadeOut)                                     \
     {                                                                                                              \
         scene, spawn,                                                                                              \
@@ -998,11 +1000,11 @@ void func_80099760(GlobalContext* globalCtx) {
 u32 D_8012A300[] = { 0x02012378, 0x02013378 };
 u32 D_8012A308[] = { 0x02011F78, 0x02014778, 0x02014378, 0x02013F78, 0x02014B78, 0x02013B78, 0x02012F78, 0x02012B78 };
 
-// Scene Draw Config 20
+// Scene Draw Config 20 - Dodongo's Cavern
 void func_80099878(GlobalContext* globalCtx) {
     u32 gameplayFrames;
     s32 pad;
-    Gfx* displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 6 * sizeof(Gfx));
+    Gfx* dlistBuffer = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Gfx[3]));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4905);
 
@@ -1024,14 +1026,15 @@ void func_80099878(GlobalContext* globalCtx) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    gSPSegment(POLY_OPA_DISP++, 0x0B, displayListHead);
-    gDPPipeSync(displayListHead++);
-    gDPSetEnvColor(displayListHead++, 255, 255, 255, globalCtx->roomCtx.unk_74[0]);
-    gSPEndDisplayList(displayListHead++);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, displayListHead);
-    gDPPipeSync(displayListHead++);
-    gDPSetEnvColor(displayListHead++, 255, 255, 255, globalCtx->roomCtx.unk_74[1]);
-    gSPEndDisplayList(displayListHead);
+    gSPSegment(POLY_OPA_DISP++, 0x0B, dlistBuffer);
+    gDPPipeSync(dlistBuffer++);
+    gDPSetEnvColor(dlistBuffer++, 255, 255, 255, globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_LEFT]);
+    gSPEndDisplayList(dlistBuffer++);
+
+    gSPSegment(POLY_OPA_DISP++, 0x0C, dlistBuffer);
+    gDPPipeSync(dlistBuffer++);
+    gDPSetEnvColor(dlistBuffer++, 255, 255, 255, globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT]);
+    gSPEndDisplayList(dlistBuffer);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4956);
 }
