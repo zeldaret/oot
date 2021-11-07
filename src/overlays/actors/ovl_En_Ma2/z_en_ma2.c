@@ -361,16 +361,8 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* sMouthTextures[] = {
-        gMalonAdultMouthNeutralTex,
-        gMalonAdultMouthSadTex,
-        gMalonAdultMouthHappyTex
-    };
-    static void* sEyeTextures[] = {
-        gMalonAdultEyeOpenTex,
-        gMalonAdultEyeHalfTex,
-        gMalonAdultEyeClosedTex
-    };
+    static void* sMouthTextures[] = { gMalonAdultMouthNeutralTex, gMalonAdultMouthSadTex, gMalonAdultMouthHappyTex };
+    static void* sEyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
 
     EnMa2* this = THIS;
     Camera* camera;

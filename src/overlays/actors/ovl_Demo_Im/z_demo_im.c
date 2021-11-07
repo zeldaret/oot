@@ -277,7 +277,8 @@ void func_80985200(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode, f32 transitionRate, s32 playBackwards) {
+void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode, f32 transitionRate,
+                       s32 playBackwards) {
     f32 frameCount = Animation_GetLastFrame(animHeaderSeg);
     f32 playbackSpeed;
     f32 startFrame;
@@ -603,9 +604,7 @@ void func_809860DC(DemoIm* this, s32 arg1) {
 
 void func_80986148(DemoIm* this) {
     Animation_Change(&this->skelAnime, &gImpaStartWhistlingAnim, -1.0f,
-                     Animation_GetLastFrame(&gImpaStartWhistlingAnim),
-
-                     0.0f, ANIMMODE_ONCE, -8.0f);
+                     Animation_GetLastFrame(&gImpaStartWhistlingAnim), 0.0f, ANIMMODE_ONCE, -8.0f);
     this->action = 14;
     this->drawConfig = 1;
 }
@@ -1205,7 +1204,6 @@ void DemoIm_DrawSolid(DemoIm* this, GlobalContext* globalCtx) {
 
 void DemoIm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
-    GfxPrint printer;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 3) || (sDrawFuncs[this->drawConfig] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

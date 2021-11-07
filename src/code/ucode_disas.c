@@ -661,11 +661,10 @@ void UCodeDisas_Disassemble(UCodeDisas* this, u32 ptr) {
                 Gfillrect setscissor = curGfx.fillrect;
                 const char* modeStr;
 
-                modeStr = (setscissor.pad == G_SC_NON_INTERLACE)
-                              ? "G_SC_NON_INTERLACE"
-                              : (setscissor.pad == G_SC_ODD_INTERLACE)
-                                    ? "G_SC_ODD_INTERLACE"
-                                    : (setscissor.pad == G_SC_EVEN_INTERLACE) ? "G_SC_EVEN_INTERLACE" : "???";
+                modeStr = (setscissor.pad == G_SC_NON_INTERLACE)    ? "G_SC_NON_INTERLACE"
+                          : (setscissor.pad == G_SC_ODD_INTERLACE)  ? "G_SC_ODD_INTERLACE"
+                          : (setscissor.pad == G_SC_EVEN_INTERLACE) ? "G_SC_EVEN_INTERLACE"
+                                                                    : "???";
                 if ((setscissor.x0frac | setscissor.y0frac | setscissor.x1frac | setscissor.y1frac)) {
                     // 1368
                     // reordering here
@@ -696,12 +695,15 @@ void UCodeDisas_Disassemble(UCodeDisas* this, u32 ptr) {
                 u8 siz = (curGfx.words.w0 & 0x180000) >> 0x13;
 
                 DISAS_LOG("gsDPSetColorImage(G_IM_FMT_%s, G_IM_SIZ_%s, %d, 0x%08x(0x%08x) ),",
-                          (fmt == G_IM_FMT_RGBA)
-                              ? "RGBA"
-                              : (fmt == G_IM_FMT_YUV) ? "YUV"
-                                                      : (fmt == G_IM_FMT_CI) ? "CI" : (fmt == G_IM_FMT_IA) ? "IA" : "I",
-                          (siz == G_IM_SIZ_4b) ? "4b"
-                                               : (siz == G_IM_SIZ_8b) ? "8b" : (siz == G_IM_SIZ_16b) ? "16b" : "32b",
+                          (fmt == G_IM_FMT_RGBA)  ? "RGBA"
+                          : (fmt == G_IM_FMT_YUV) ? "YUV"
+                          : (fmt == G_IM_FMT_CI)  ? "CI"
+                          : (fmt == G_IM_FMT_IA)  ? "IA"
+                                                  : "I",
+                          (siz == G_IM_SIZ_4b)    ? "4b"
+                          : (siz == G_IM_SIZ_8b)  ? "8b"
+                          : (siz == G_IM_SIZ_16b) ? "16b"
+                                                  : "32b",
                           curGfx.setimg.wd + 1, curGfx.setimg.dram, addr);
 
                 if (this->pipeSyncRequired) {
@@ -727,12 +729,15 @@ void UCodeDisas_Disassemble(UCodeDisas* this, u32 ptr) {
                 u8 siz = (curGfx.words.w0 & 0x180000) >> 0x13;
 
                 DISAS_LOG("gsDPSetTextureImage(G_IM_FMT_%s, G_IM_SIZ_%s, %d, 0x%08x(0x%08x)),",
-                          (fmt == G_IM_FMT_RGBA)
-                              ? "RGBA"
-                              : (fmt == G_IM_FMT_YUV) ? "YUV"
-                                                      : (fmt == G_IM_FMT_CI) ? "CI" : (fmt == G_IM_FMT_IA) ? "IA" : "I",
-                          (siz == G_IM_SIZ_4b) ? "4b"
-                                               : (siz == G_IM_SIZ_8b) ? "8b" : (siz == G_IM_SIZ_16b) ? "16b" : "32b",
+                          (fmt == G_IM_FMT_RGBA)  ? "RGBA"
+                          : (fmt == G_IM_FMT_YUV) ? "YUV"
+                          : (fmt == G_IM_FMT_CI)  ? "CI"
+                          : (fmt == G_IM_FMT_IA)  ? "IA"
+                                                  : "I",
+                          (siz == G_IM_SIZ_4b)    ? "4b"
+                          : (siz == G_IM_SIZ_8b)  ? "8b"
+                          : (siz == G_IM_SIZ_16b) ? "16b"
+                                                  : "32b",
                           curGfx.setimg.wd + 1, curGfx.setimg.dram, addr);
                 break;
             }
@@ -981,14 +986,11 @@ void UCodeDisas_Disassemble(UCodeDisas* this, u32 ptr) {
                                 // 1F74
                                 u16 where = curGfx.dma.len;
                                 DISAS_LOG("gsSPModifyVertex(%d, %s, %08x),", curGfx.dma.par,
-                                          (where == G_MWO_POINT_RGBA)
-                                              ? "G_MWO_POINT_RGBA"
-                                              : (where == G_MWO_POINT_ST)
-                                                    ? "G_MWO_POINT_ST"
-                                                    : (where == G_MWO_POINT_XYSCREEN)
-                                                          ? "G_MWO_POINT_XYSCREEN"
-                                                          : (where == G_MWO_POINT_ZSCREEN) ? "G_MWO_POINT_ZSCREEN"
-                                                                                           : "G_MWO_POINT_????",
+                                          (where == G_MWO_POINT_RGBA)       ? "G_MWO_POINT_RGBA"
+                                          : (where == G_MWO_POINT_ST)       ? "G_MWO_POINT_ST"
+                                          : (where == G_MWO_POINT_XYSCREEN) ? "G_MWO_POINT_XYSCREEN"
+                                          : (where == G_MWO_POINT_ZSCREEN)  ? "G_MWO_POINT_ZSCREEN"
+                                                                            : "G_MWO_POINT_????",
                                           curGfx.dma.addr);
                                 this->vtxCnt += curGfx.dma.par;
                                 this->spvtxCnt++;

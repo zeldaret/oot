@@ -189,7 +189,8 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->actionFunc = func_808A3E54;
 
         mainCamChildIdx = globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx;
-        if ((mainCamChildIdx != SUBCAM_FREE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
+        if ((mainCamChildIdx != SUBCAM_FREE) &&
+            (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
             OnePointCutscene_EndCutscene(globalCtx, mainCamChildIdx);
         }
         OnePointCutscene_Init(globalCtx, 3260, 40, &this->dyna.actor, MAIN_CAM);
