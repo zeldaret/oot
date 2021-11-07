@@ -97,7 +97,7 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
                 Item_Give(globalCtx, ITEM_SKULL_TOKEN);
                 player->actor.freezeTimer = 10;
                 func_8010B680(globalCtx, 0xB4, 0);
-                func_800F5C64(0x39);
+                func_800F5C64(NA_BGM_SMALL_ITEM_GET);
                 this->actionFunc = func_80AFB950;
             } else {
                 Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -119,7 +119,7 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
         Item_Give(globalCtx, ITEM_SKULL_TOKEN);
         player->actor.freezeTimer = 10;
         func_8010B680(globalCtx, 0xB4, 0);
-        func_800F5C64(0x39);
+        func_800F5C64(NA_BGM_SMALL_ITEM_GET);
         this->actionFunc = func_80AFB950;
     }
 }
