@@ -974,7 +974,10 @@ void func_80099550(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4735);
 }
 
-void* D_8012A2F8[] = { gYdanTex_00BA18, gYdanTex_00CA18 };
+void* D_8012A2F8[] = {
+    gYdanTex_00BA18,
+    gYdanTex_00CA18,
+};
 
 // Scene Draw Config 19
 void func_800995DC(GlobalContext* globalCtx) {
@@ -1013,8 +1016,14 @@ void func_80099760(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4859);
 }
 
-void* gDCEntranceTextures[] = { gDCDayEntranceTex, gDCNightEntranceTex };
-void* sDCLavaFloorTextures[] = { gDCLavaFloor1Tex, gDCLavaFloor2Tex, gDCLavaFloor3Tex, gDCLavaFloor4Tex, gDCLavaFloor5Tex, gDCLavaFloor6Tex, gDCLavaFloor7Tex, gDCLavaFloor8Tex };
+void* gDCEntranceTextures[] = {
+    gDCDayEntranceTex,
+    gDCNightEntranceTex,
+};
+void* sDCLavaFloorTextures[] = {
+    gDCLavaFloor1Tex, gDCLavaFloor2Tex, gDCLavaFloor3Tex, gDCLavaFloor4Tex,
+    gDCLavaFloor5Tex, gDCLavaFloor6Tex, gDCLavaFloor7Tex, gDCLavaFloor8Tex,
+};
 
 // Scene Draw Config 20
 void func_80099878(GlobalContext* globalCtx) {
@@ -1263,7 +1272,10 @@ void func_8009AE30(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5416);
 }
 
-void* sThievesHideoutEntranceTextures[] = { gThievesHideoutDayEntranceTex, gThievesHideoutNightEntranceTex };
+void* sThievesHideoutEntranceTextures[] = {
+    gThievesHideoutDayEntranceTex,
+    gThievesHideoutNightEntranceTex,
+};
 
 // Scene Draw Config 40
 void func_8009AFE0(GlobalContext* globalCtx) {
@@ -1281,7 +1293,10 @@ void func_8009AFE0(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5507);
 }
 
-void* D_8012A330[] = { gWaterTempleDayEntranceTex, gWaterTempleNightEntranceTex };
+void* D_8012A330[] = {
+    gWaterTempleDayEntranceTex,
+    gWaterTempleNightEntranceTex,
+};
 
 // Scene Draw Config 23 (Water Temple)
 void func_8009B0FC(GlobalContext* globalCtx) {
@@ -1514,7 +1529,10 @@ void func_8009C0AC(GlobalContext* globalCtx) {
     }
 }
 
-void* sIceCavernEntranceTextures[] = { gIceCavernDayEntranceTex, gIceCavernNightEntranceTex };
+void* sIceCavernEntranceTextures[] = {
+    gIceCavernDayEntranceTex,
+    gIceCavernNightEntranceTex,
+};
 
 // Scene Draw Config 37
 void func_8009C3EC(GlobalContext* globalCtx) {
@@ -1615,7 +1633,10 @@ void func_8009CAC0(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6264);
 }
 
-void* sGTGEntranceTextures[] = { gGTGDayEntranceTex, gGTGNightEntranceTex };
+void* sGTGEntranceTextures[] = {
+    gGTGDayEntranceTex,
+    gGTGNightEntranceTex,
+};
 
 // Scene Draw Config 27
 void func_8009CC00(GlobalContext* globalCtx) {
@@ -1711,7 +1732,10 @@ void func_8009D0E8(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6491);
 }
 
-void* sLonLonHouseEntranceTextures[] = { gLonLonHouseDayEntranceTex, gLonLonHouseNightEntranceTex };
+void* sLonLonHouseEntranceTextures[] = {
+    gLonLonHouseDayEntranceTex,
+    gLonLonHouseNightEntranceTex,
+};
 
 // Scene Draw Config 44
 void func_8009D31C(GlobalContext* globalCtx) {
@@ -1730,8 +1754,14 @@ void func_8009D31C(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6528);
 }
 
-void* sGuardHouseView2Textures[] = { gGuardHouseOutSideView1DayTex, gGuardHouseOutSideView1NightTex };
-void* sGuardHouseView1Textures[] = { gGuardHouseOutSideView2DayTex, gGuardHouseOutSideView2NightTex };
+void* sGuardHouseView2Textures[] = {
+    gGuardHouseOutSideView1DayTex,
+    gGuardHouseOutSideView1NightTex,
+};
+void* sGuardHouseView1Textures[] = {
+    gGuardHouseOutSideView2DayTex,
+    gGuardHouseOutSideView2NightTex,
+};
 
 // Scene Draw Config 45
 void func_8009D438(GlobalContext* globalCtx) {
@@ -1778,7 +1808,10 @@ void func_8009D5B4(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6615);
 }
 
-void* sForestTempleEntranceTextures[] = { gForestTempleDayEntranceTex, gForestTempleNightEntranceTex };
+void* sForestTempleEntranceTextures[] = {
+    gForestTempleDayEntranceTex,
+    gForestTempleNightEntranceTex,
+};
 
 // Scene Draw Config 22
 void func_8009D758(GlobalContext* globalCtx) {
@@ -1808,7 +1841,10 @@ void func_8009D758(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6671);
 }
 
-void* sSpiritTempleEntranceTextures[] = { gSpiritTempleDayEntranceTex, gSpiritTempleNightEntranceTex };
+void* sSpiritTempleEntranceTextures[] = {
+    gSpiritTempleDayEntranceTex,
+    gSpiritTempleNightEntranceTex,
+};
 
 // Scene Draw Config 25
 void func_8009D974(GlobalContext* globalCtx) {
@@ -1867,7 +1903,10 @@ void func_8009DA30(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6866);
 }
 
-void* sKakarikoWindowTextures[] = { gKakarikoVillageDayWindowTex, gKakarikoVillageNightWindowTex };
+void* sKakarikoWindowTextures[] = {
+    gKakarikoVillageDayWindowTex,
+    gKakarikoVillageNightWindowTex,
+};
 
 // Scene Draw Config 2
 void func_8009DD5C(GlobalContext* globalCtx) {
@@ -1992,7 +2031,10 @@ void func_8009E54C(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7097);
 }
 
-void* sZorasDomainEntranceTextures[] = { gZorasDomainDayEntranceTex, gZorasDomainNightEntranceTex };
+void* sZorasDomainEntranceTextures[] = {
+    gZorasDomainDayEntranceTex,
+    gZorasDomainNightEntranceTex,
+};
 
 // Scene Draw Config 6
 void func_8009E730(GlobalContext* globalCtx) {
@@ -2130,7 +2172,10 @@ void func_8009F074(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7339);
 }
 
-void* D_8012A380[] = { gSpot12_009678Tex, gSpot12_00DE78Tex };
+void* D_8012A380[] = {
+    gSpot12_009678Tex,
+    gSpot12_00DE78Tex,
+};
 
 // Scene Draw Config 11
 void func_8009F1B4(GlobalContext* globalCtx) {
@@ -2249,7 +2294,10 @@ void func_8009F7D4(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7530);
 }
 
-void* sGoronCityEntranceTextures[] = { gGoronCityDayEntranceTex, gGoronCityNightEntranceTex };
+void* sGoronCityEntranceTextures[] = {
+    gGoronCityDayEntranceTex,
+    gGoronCityNightEntranceTex,
+};
 
 // Scene Draw Config 16
 void func_8009F9D0(GlobalContext* globalCtx) {
@@ -2275,7 +2323,10 @@ void func_8009F9D0(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7578);
 }
 
-void* sLonLonRanchWindowTextures[] = { gLonLonRanchDayWindowTex, gLonLonRangeNightWindowsTex };
+void* sLonLonRanchWindowTextures[] = {
+    gLonLonRanchDayWindowTex,
+    gLonLonRangeNightWindowsTex,
+};
 
 // Scene Draw Config 17
 void func_8009FB74(GlobalContext* globalCtx) {
@@ -2318,7 +2369,7 @@ void func_8009FC90(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7653);
 }
 
-f32 D_8012A398 = 0.0f; //Can not be in function static
+f32 D_8012A398 = 0.0f;
 
 void func_8009FE58(GlobalContext* globalCtx) {
     static s16 D_8012A39C = 538;
