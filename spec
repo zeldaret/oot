@@ -133,7 +133,8 @@ endseg
 
 beginseg
     name "link_animetion"
-    include "build/baserom/link_animetion.o"
+    include "build/assets/misc/link_animetion/link_animetion.o"
+    number 7
 endseg
 
 beginseg
