@@ -1615,7 +1615,7 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
                 BossGoma_SetupFloorAttackPosture(this);
             }
 
-            Math_ApproachF(&this->actor.speedXZ, 3.3333333f, 0.5f, 2.0f);
+            Math_ApproachF(&this->actor.speedXZ, 10.0f / 3.0f, 0.5f, 2.0f);
             Math_ApproachS(&this->actor.world.rot.y, rot, 5, 0x3E8);
         } else {
             if (this->timer != 0) {
@@ -1627,7 +1627,7 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
                 }
             } else {
                 // move away from the player, walking forwards
-                Math_ApproachF(&this->actor.speedXZ, 6.6666665f, 0.5f, 2.0f);
+                Math_ApproachF(&this->actor.speedXZ, 20.0f / 3.0f, 0.5f, 2.0f);
                 this->skelanime.playSpeed = 2.0f;
                 rot += 0x8000;
             }
@@ -1837,7 +1837,7 @@ void BossGoma_UpdateHit(BossGoma* this, GlobalContext* globalCtx) {
             } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0 &&
                        (acHitInfo->toucher.dmgFlags & 0x00000005)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DAM2);
-                Audio_StopSfx(NA_SE_EN_GOMA_CRY1);
+                Audio_StopSfxById(NA_SE_EN_GOMA_CRY1);
                 this->invincibilityFrames = 10;
                 BossGoma_SetupFloorStunned(this);
                 this->sfxFaintTimer = 100;

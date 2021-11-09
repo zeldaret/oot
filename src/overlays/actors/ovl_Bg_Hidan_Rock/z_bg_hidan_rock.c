@@ -112,7 +112,7 @@ void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
-    func_800F89E8(&this->unk_170);
+    Audio_StopSfxByPos(&this->unk_170);
 }
 
 void func_8088B24C(BgHidanRock* this) {

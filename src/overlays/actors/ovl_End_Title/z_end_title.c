@@ -13,8 +13,8 @@
 void EndTitle_Init(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_Update(Actor* thisx, GlobalContext* globalCtx);
-void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx);
-void func_80B65DA8(Actor* thisx, GlobalContext* globalCtx);
+void EndTitle_DrawFull(Actor* thisx, GlobalContext* globalCtx);
+void EndTitle_DrawNintendoLogo(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit End_Title_InitVars = {
     ACTOR_END_TITLE,
@@ -25,10 +25,10 @@ const ActorInit End_Title_InitVars = {
     (ActorFunc)EndTitle_Init,
     (ActorFunc)EndTitle_Destroy,
     (ActorFunc)EndTitle_Update,
-    (ActorFunc)EndTitle_Draw,
+    (ActorFunc)EndTitle_DrawFull,
 };
 
-#include "z_end_title_gfx.c"
+#include "overlays/ovl_End_Title/ovl_End_Title.c"
 
 void EndTitle_Init(Actor* thisx, GlobalContext* globalCtx) {
     EndTitle* this = THIS;
@@ -37,7 +37,7 @@ void EndTitle_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->tlozAlpha = 0;
     this->ootAlpha = 0;
     if (this->actor.params == 1) {
-        this->actor.draw = func_80B65DA8;
+        this->actor.draw = EndTitle_DrawNintendoLogo;
     }
 }
 
@@ -47,7 +47,8 @@ void EndTitle_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EndTitle_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
+// Used in the castle courtyard
+void EndTitle_DrawFull(Actor* thisx, GlobalContext* globalCtx) {
     MtxF* mf;
     EndTitle* this = THIS;
     s32 frameCount = globalCtx->csCtx.frames;
@@ -66,7 +67,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
     Matrix_RotateZ(0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_end_title.c", 412), G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, sTriforceDList);
+    gSPDisplayList(POLY_XLU_DISP++, sTriforceDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_end_title.c", 417);
 
@@ -92,18 +93,18 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0,
                       COMBINED, 0, 0, 0, COMBINED);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->endAlpha);
-    gDPLoadTextureTile(OVERLAY_DISP++, D_80B670E0, G_IM_FMT_IA, G_IM_SIZ_8b, 80, 24, 0, 0, 80, 24, 0,
+    gDPLoadTextureTile(OVERLAY_DISP++, sTheEndTex, G_IM_FMT_IA, G_IM_SIZ_8b, 80, 24, 0, 0, 80, 24, 0,
                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
     gSPTextureRectangle(OVERLAY_DISP++, 120 << 2, 90 << 2, 200 << 2, 113 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->tlozAlpha);
-    gDPLoadTextureTile(OVERLAY_DISP++, D_80B65EA0, G_IM_FMT_IA, G_IM_SIZ_8b, 120, 24, 0, 0, 120, 24, 0,
+    gDPLoadTextureTile(OVERLAY_DISP++, sTheLegendOfZeldaTex, G_IM_FMT_IA, G_IM_SIZ_8b, 120, 24, 0, 0, 120, 24, 0,
                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
     gSPTextureRectangle(OVERLAY_DISP++, 100 << 2, 160 << 2, 220 << 2, 183 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
                         1 << 10);
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->ootAlpha);
-    gDPLoadTextureTile(OVERLAY_DISP++, D_80B669E0, G_IM_FMT_IA, G_IM_SIZ_8b, 112, 16, 0, 0, 112, 16, 0,
+    gDPLoadTextureTile(OVERLAY_DISP++, sOcarinaOfTimeTex, G_IM_FMT_IA, G_IM_SIZ_8b, 112, 16, 0, 0, 112, 16, 0,
                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
     gSPTextureRectangle(OVERLAY_DISP++, 104 << 2, 177 << 2, 216 << 2, 192 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
                         1 << 10);
@@ -111,11 +112,8 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_end_title.c", 515);
 }
 
-/**
- * This function is never executed in normal gameplay because actor params are never set to 1
- * Produces the same results as the main draw function, except without the title cards on the end screen
- */
-void func_80B65DA8(Actor* thisx, GlobalContext* globalCtx) {
+// Used in the Temple of Time
+void EndTitle_DrawNintendoLogo(Actor* thisx, GlobalContext* globalCtx) {
     EndTitle* this = THIS;
     s32 pad;
     s32 frames = globalCtx->csCtx.frames;
@@ -128,7 +126,7 @@ void func_80B65DA8(Actor* thisx, GlobalContext* globalCtx) {
 
     OVERLAY_DISP = func_80093F34(OVERLAY_DISP);
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0x80, 0, 0, 0, this->endAlpha);
-    gSPDisplayList(OVERLAY_DISP++, dList_80B69720);
+    gSPDisplayList(OVERLAY_DISP++, sPresentedByNintendoDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_end_title.c", 600);
 }

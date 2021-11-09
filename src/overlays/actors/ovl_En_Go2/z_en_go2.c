@@ -506,12 +506,12 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3033 : 0x3035;
                         if (this->actor.textId == 0x3035) {
-                            Audio_StopSfx(0x39EB);
+                            Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
                     } else {
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3036 : 0x3033;
                         if (this->actor.textId == 0x3036) {
-                            Audio_StopSfx(0x39EB);
+                            Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
                     }
                     func_8010B720(globalCtx, this->actor.textId);

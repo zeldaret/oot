@@ -60,7 +60,7 @@ typedef struct {
     /* 0x01A */ u16 normal;
     /* 0x020 */ Mtx projection;
     /* 0x060 */ Mtx lookAt;
-    /* 0x0A0 */ char* texture;
+    /* 0x0A0 */ void* texture;
     /* 0x0A8 */ Mtx modelView[2][3];
 } TransitionCircle; // size = 0x228;
 
