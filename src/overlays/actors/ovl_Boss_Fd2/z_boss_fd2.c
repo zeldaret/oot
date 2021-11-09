@@ -1150,7 +1150,7 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2498),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeVtxDL);
+        gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeModelDL);
     }
     Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2503);
@@ -1171,7 +1171,7 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeSetupDL);
+    gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeMaterialDL);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, bossFd->fwork[BFD_MANE_COLOR_CENTER], 0, 255);
     BossFd2_UpdateMane(this, globalCtx, &this->centerMane.head, this->centerMane.pos, this->centerMane.rot,

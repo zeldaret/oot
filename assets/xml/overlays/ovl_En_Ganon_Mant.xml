@@ -8,10 +8,10 @@
             <Vtx/>
         </Array>
 
-        <DList Name="gMantTexDL" Offset="0x3318"/>
+        <DList Name="gMantMaterialDL" Offset="0x3318"/>
 
         <!-- ! @bug gMantUnusedTex is 32x32 not 32x64, however this dlist is unused -->
-        <DList Name="gMantUnusedTexDL" Offset="0x3370"/>
+        <DList Name="gMantUnusedMaterialDL" Offset="0x3370"/>
 
         <DList Name="gMantDL" Offset="0x33C8"/>
 

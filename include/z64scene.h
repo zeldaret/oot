@@ -196,8 +196,8 @@ typedef struct {
     MeshHeaderBase base;
 
     u8 numEntries;
-    u32 dListStart;
-    u32 dListEnd;
+    Gfx* dListStart;
+    Gfx* dListEnd;
 } MeshHeader0;
 
 typedef struct {
@@ -254,8 +254,8 @@ typedef struct {
 typedef struct {
     MeshHeaderBase base;
     u8 numEntries;
-    u32 dListStart;
-    u32 dListEnd;
+    Gfx* dListStart;
+    Gfx* dListEnd;
 } MeshHeader2;
 
 typedef struct {
