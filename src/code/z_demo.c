@@ -1,6 +1,33 @@
 #include "global.h"
 #include "z64camera.h"
+
+#include "scenes/indoors/tokinoma/tokinoma_scene.h"
+#include "scenes/overworld/spot00/spot00_scene.h"
+#include "scenes/overworld/spot01/spot01_scene.h"
+#include "scenes/overworld/spot02/spot02_scene.h"
+#include "scenes/overworld/spot04/spot04_scene.h"
+#include "scenes/overworld/spot05/spot05_scene.h"
+#include "scenes/overworld/spot06/spot06_scene.h"
+#include "scenes/overworld/spot07/spot07_scene.h"
+#include "scenes/overworld/spot08/spot08_scene.h"
+#include "scenes/overworld/spot09/spot09_scene.h"
+#include "scenes/overworld/spot11/spot11_scene.h"
+#include "scenes/overworld/spot12/spot12_scene.h"
+#include "scenes/overworld/spot15/spot15_scene.h"
+#include "scenes/overworld/spot16/spot16_scene.h"
+#include "scenes/overworld/spot17/spot17_scene.h"
+#include "scenes/overworld/spot18/spot18_scene.h"
+#include "scenes/overworld/spot20/spot20_scene.h"
+
+#include "scenes/dungeons/bdan/bdan_scene.h"
+#include "scenes/dungeons/ddan/ddan_scene.h"
+#include "scenes/dungeons/ydan/ydan_scene.h"
 #include "scenes/dungeons/ganontika/ganontika_scene.h"
+#include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
+#include "scenes/dungeons/jyasinboss/jyasinboss_scene.h"
+#include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
+
+#include "scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;
@@ -24,31 +51,54 @@ CutsceneStateHandler sCsStateHandlers2[] = {
 
 u8 sTitleCsState = 0;
 
-// TODO: use symbols for these cutscene locations once scenes and rooms are in C
 EntranceCutscene sEntranceCutsceneTable[] = {
-    { 0x0185, 2, 0xA0, 0x02013AA0 },       { 0x013D, 2, 0xA1, 0x02007EA0 },      { 0x00DB, 2, 0xA3, 0x0200A540 },
-    { 0x0108, 2, 0xA4, 0x02003D70 },       { 0x0138, 1, 0xA5, 0x02003F40 },      { 0x014D, 2, 0xA6, 0x02008400 },
-    { 0x0053, 2, 0xA7, 0x0200CE00 },       { 0x0000, 2, 0xA8, 0x0200B650 },      { 0x028A, 0, 0x18, 0x0200F9E0 },
-    { 0x0292, 0, 0x18, 0x0200FF00 },       { 0x028E, 0, 0x18, 0x02010550 },      { 0x0476, 0, 0x18, 0x02010B30 },
-    { 0x050F, 1, 0xA9, 0x0200BB80 },       { 0x0102, 2, 0xB1, 0x02007A30 },      { 0x0117, 2, 0xB2, 0x020031E0 },
-    { 0x0129, 2, 0xB3, 0x02006490 },       { 0x0157, 2, 0xB4, 0x02005BD0 },      { 0x0028, 2, 0xB5, 0x02015600 },
-    { 0x00E4, 2, 0xB6, 0x020070C0 },       { 0x0225, 2, 0xB7, 0x02004A80 },      { 0x0123, 2, 0xB8, 0x02007990 },
-    { 0x0147, 2, 0xB9, 0x020076D0 },       { 0x0138, 0, 0xBA, 0x02004280 },      { 0x0574, 2, 0x5A, 0x020028E0 },
-    { 0x0538, 2, 0xBB, gForestBarrierCs }, { 0x053C, 2, 0xBC, gWaterBarrierCs }, { 0x0540, 2, 0xBD, gShadowBarrierCs },
-    { 0x0544, 2, 0xBE, gFireBarrierCs },   { 0x0548, 2, 0xBF, gLightBarrierCs }, { 0x054C, 2, 0xAD, gSpiritBarrierCs },
-    { 0x008D, 0, 0xC0, 0x02002BB0 },       { 0x03B4, 0, 0xC7, 0x020055C0 },      { 0x0246, 2, 0xB9, 0x020076D0 },
-    { 0x05E8, 2, 0xC6, 0x0200C9D0 },
+    { 0x0185, 2, 0xA0, gHyruleFieldIntroCs },
+    { 0x013D, 2, 0xA1, gDMTIntroCs },
+    { 0x00DB, 2, 0xA3, gKakarikoVillageIntroCs },
+    { 0x0108, 2, 0xA4, gZorasDomainIntroCs },
+    { 0x0138, 1, 0xA5, gHyruleCastleIntroCs },
+    { 0x014D, 2, 0xA6, gGoronCityIntroCs },
+    { 0x0053, 2, 0xA7, gTempleOfTimeIntroCs },
+    { 0x0000, 2, 0xA8, gDekuTreeIntroCs },
+    { 0x028A, 0, 0x18, gHyruleFieldSouthEponaJumpCs },
+    { 0x0292, 0, 0x18, gHyruleFieldEastEponaJumpCs },
+    { 0x028E, 0, 0x18, gHyruleFieldWestEponaJumpCs },
+    { 0x0476, 0, 0x18, gHyruleFieldGateEponaJumpCs },
+    { 0x050F, 1, 0xA9, gHyruleFieldGetOoTCs },
+    { 0x0102, 2, 0xB1, gLakeHyliaIntroCs },
+    { 0x0117, 2, 0xB2, gGerudoValleyIntroCs },
+    { 0x0129, 2, 0xB3, gGerudoFortressIntroCs },
+    { 0x0157, 2, 0xB4, gLonLonRanchIntroCs },
+    { 0x0028, 2, 0xB5, gJabuJabuIntroCs },
+    { 0x00E4, 2, 0xB6, gGraveyardIntroCs },
+    { 0x0225, 2, 0xB7, gZorasFountainIntroCs },
+    { 0x0123, 2, 0xB8, gDesertColossusIntroCs },
+    { 0x0147, 2, 0xB9, gDeathMountainCraterIntroCs },
+    { 0x0138, 0, 0xBA, gGanonsCastleIntroCs },
+    { 0x0574, 2, 0x5A, gSunSongGraveSunSongTeachPart2Cs },
+    { 0x0538, 2, 0xBB, gForestBarrierCs },
+    { 0x053C, 2, 0xBC, gWaterBarrierCs },
+    { 0x0540, 2, 0xBD, gShadowBarrierCs },
+    { 0x0544, 2, 0xBE, gFireBarrierCs },
+    { 0x0548, 2, 0xBF, gLightBarrierCs },
+    { 0x054C, 2, 0xAD, gSpiritBarrierCs },
+    { 0x008D, 0, 0xC0, gSpiritBossNabooruKnuckleIntroCs },
+    { 0x03B4, 0, 0xC7, gGerudoFortressFirstCaptureCs },
+    { 0x0246, 2, 0xB9, gDeathMountainCraterIntroCs },
+    { 0x05E8, 2, 0xC6, gKokiriForestDekuSproutCs },
 };
 
 // Unused, seems to be an early list of dungeon entrance cutscene locations
-u32 D_8011E304[] = { 0x0200B650, 0x02015600, 0x02014F80, 0x02003F80, 0x02000330, gTowerBarrierCs };
+void* D_8011E304[] = {
+    gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
+};
 
 u16 D_8015FCC0;
 u16 D_8015FCC2;
 u16 D_8015FCC4;
 s16 D_8015FCC6;
 u8 D_8015FCC8;
-s16 D_8015FCCA;
+s16 sQuakeIndex;
 u16 D_8015FCCC;      // only written to, never read
 char D_8015FCD0[20]; // unreferenced
 u8 D_8015FCE4;       // only written to, never read
@@ -162,9 +212,7 @@ void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
     Player* player = GET_PLAYER(globalCtx);
     f32 temp;
-    u8 sp3F;
-
-    sp3F = 0;
+    u8 sp3F = 0;
 
     if ((csCtx->frames < cmd->startFrame) || ((csCtx->frames >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame))) {
         return;
@@ -188,7 +236,6 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 func_800F6D58(0xF, 0, 0);
                 Environment_AddLightningBolts(globalCtx, 3);
-                if (1) {}
                 gLightningStrike.state = LIGHTNING_STRIKE_START;
             }
             break;
@@ -266,15 +313,15 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 16:
             if (sp3F != 0) {
-                D_8015FCCA = Quake_Add(GET_ACTIVE_CAM(globalCtx), 6);
-                Quake_SetSpeed(D_8015FCCA, 0x7FFF);
-                Quake_SetQuakeValues(D_8015FCCA, 4, 0, 1000, 0);
-                Quake_SetCountdown(D_8015FCCA, 800);
+                sQuakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 6);
+                Quake_SetSpeed(sQuakeIndex, 0x7FFF);
+                Quake_SetQuakeValues(sQuakeIndex, 4, 0, 1000, 0);
+                Quake_SetCountdown(sQuakeIndex, 800);
             }
             break;
         case 17:
             if (sp3F != 0) {
-                Quake_RemoveFromIdx(D_8015FCCA);
+                Quake_RemoveFromIdx(sQuakeIndex);
             }
             break;
         case 18:
@@ -2049,10 +2096,10 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
     }
 }
 
-void Cutscene_SetSegment(GlobalContext* globalCtx, u32 segment) {
+void Cutscene_SetSegment(GlobalContext* globalCtx, void* segment) {
     if (SEGMENT_NUMBER(segment) != 0) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(segment);
     } else {
-        globalCtx->csCtx.segment = (void*)segment;
+        globalCtx->csCtx.segment = segment;
     }
 }

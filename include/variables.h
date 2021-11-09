@@ -2927,15 +2927,10 @@ extern u64 gJpegUCodeData[];
 //extern ? D_8015E648;
 extern SaveContext gSaveContext; // 0x8015E660
 extern GameInfo* gGameInfo; // 0x8015FA90
-//extern ? D_8015FA98;
-//extern ? D_8015FA9B;
-//extern ? D_8015FC18;
 extern u16 D_8015FCC0;
 extern u16 D_8015FCC2;
 extern u16 D_8015FCC4;
-//extern ? D_8015FCC6;
 extern u8 D_8015FCC8;
-//extern ? D_8015FCCA;
 extern u8 gCustomLensFlareOn;
 extern Vec3f gCustomLensFlarePos;
 extern s16 D_8015FD06;

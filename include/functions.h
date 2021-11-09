@@ -831,7 +831,7 @@ void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx);
 void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx);
-void Cutscene_SetSegment(GlobalContext* globalCtx, u32 segment);
+void Cutscene_SetSegment(GlobalContext* globalCtx, void* segment);
 void* MemCopy(void* dest, void* src, s32 size);
 void GetItem_Draw(GlobalContext* globalCtx, s16 drawId);
 void func_8006BA00(GlobalContext* globalCtx);

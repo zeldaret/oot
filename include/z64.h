@@ -1553,7 +1553,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u32 segments[NUM_SEGMENTS];
-    /* 0x40 */ u32 dlStack[18];
+    /* 0x40 */ Gfx* dlStack[18];
     /* 0x88 */ s32 dlDepth;
     /* 0x8C */ u32 dlCnt;
     /* 0x90 */ u32 vtxCnt;
