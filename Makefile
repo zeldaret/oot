@@ -15,6 +15,50 @@ ifeq ($(NON_MATCHING),1)
   COMPARE := 0
 endif
 
+# Whether to hide commands or not
+VERBOSE ?= 0
+ifeq ($(VERBOSE),0)
+  V := @
+  MAKE_QUIET := -s
+endif
+
+# Whether to colorize build messages
+COLOR ?= 1
+
+# display selected options unless 'make clean' or 'make distclean' is run
+ifeq ($(filter clean distclean,$(MAKECMDGOALS)),)
+  $(info ==== Build Options ====)
+  $(info Version:        mq_dbg)
+  $(info Microcode:      f3dzex)
+  ifeq ($(COMPARE),1)
+    $(info Compare ROM:    yes)
+  else
+    $(info Compare ROM:    no)
+  endif
+  ifeq ($(NON_MATCHING),1)
+    $(info Build Matching: no)
+  else
+    $(info Build Matching: yes)
+  endif
+  $(info =======================)
+endif
+
+PRINT = printf
+
+ifeq ($(COLOR),1)
+NO_COL  := \033[0m
+RED     := \033[0;31m
+GREEN   := \033[0;32m
+BLUE    := \033[0;34m
+YELLOW  := \033[0;33m
+BLINK   := \033[33;5m
+endif
+
+# Common build print status function
+define print
+  @$(PRINT) "$(GREEN)$(1) $(YELLOW)$(2)$(GREEN) -> $(BLUE)$(3)$(NO_COL)\n"
+endef
+
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 MAKE = make
@@ -163,22 +207,26 @@ build/assets/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(AS
 
 all: $(ROM)
 ifeq ($(COMPARE),1)
-	@md5sum $(ROM)
-	@md5sum -c checksum.md5
+	@$(PRINT) "$(GREEN)Checking if ROM matches.. $(NO_COL)\n"
+	@md5sum --quiet -c checksum.md5 && $(PRINT) "zelda_ocarina_mq_dbg.z64: $(GREEN)OK$(NO_COL)\n" || ($(PRINT) "$(YELLOW)Building the ROM file has succeeded, but does not match the original ROM.\nThis is expected, and not an error, if you are making modifications.\nTo silence this message, use 'make COMPARE=0.' $(NO_COL)\n" && false)
 endif
 
 $(ROM): $(ELF)
-	$(ELF2ROM) -cic 6105 $< $@
+	$(call print,Making ROM:,$<,$@)
+	$(V)$(ELF2ROM) -cic 6105 $< $@
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
-	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
+	$(call print,Making ELF:,$<,$@)
+	$(V)$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 build/ldscript.txt: $(SPEC)
-	$(CPP) $(CPPFLAGS) $< > build/spec
-	$(MKLDSCRIPT) build/spec $@
+	$(call print,Making linker script:,$<,ldscript.txt)
+	$(V)$(CPP) $(CPPFLAGS) $< > build/spec
+	$(V)$(MKLDSCRIPT) build/spec $@
 
 build/undefined_syms.txt: undefined_syms.txt
-	$(CPP) $(CPPFLAGS) $< > build/undefined_syms.txt
+	$(call print,Processing undefined syms:,$<,$@)
+	$(V)$(CPP) $(CPPFLAGS) $< > build/undefined_syms.txt
 
 clean:
 	$(RM) -r $(ROM) $(ELF) build
@@ -193,10 +241,14 @@ distclean: clean assetclean
 	$(MAKE) -C tools distclean
 
 setup:
-	$(MAKE) -C tools
-	python3 fixbaserom.py
-	python3 extract_baserom.py
-	python3 extract_assets.py
+	@$(PRINT) "$(GREEN)Building tools...\n$(NO_COL)"
+	$(V)$(MAKE) $(MAKE_QUIET) -C tools
+	@$(PRINT) "$(GREEN)Fixing baserom if possible...\n$(NO_COL)"
+	$(V)python3 fixbaserom.py
+	@$(PRINT) "$(GREEN)Extracting baserom files...\n$(NO_COL)"
+	$(V)python3 extract_baserom.py
+	@$(PRINT) "$(GREEN)Extracting assets...\n$(NO_COL)"
+	$(V)python3 extract_assets.py
 
 resources: $(ASSET_FILES_OUT)
 test: $(ROM)
@@ -207,49 +259,62 @@ test: $(ROM)
 #### Various Recipes ####
 
 build/baserom/%.o: baserom/%
-	$(OBJCOPY) -I binary -O elf32-big $< $@
+	$(call print,Building baserom object:,$<,$@)
+	$(V)$(OBJCOPY) -I binary -O elf32-big $< $@
 
 build/asm/%.o: asm/%.s
-	$(AS) $(ASFLAGS) $< -o $@
+	$(call print,Assembling file:,$<,$@)
+	$(V)$(AS) $(ASFLAGS) $< -o $@
 
 build/data/%.o: data/%.s
-	iconv --from UTF-8 --to EUC-JP $< | $(AS) $(ASFLAGS) -o $@
+	$(call print,Converting UTF-8:,$<,$@)
+	$(V)iconv --from UTF-8 --to EUC-JP $< | $(AS) $(ASFLAGS) -o $@
 
 build/assets/%.o: assets/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(OBJCOPY) -O binary $@ $@.bin
+	$(call print,Compiling asset:,$<,$@.bin)
+	$(V)$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(V)$(OBJCOPY) -O binary $@ $@.bin
 
 build/src/overlays/%.o: src/overlays/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(CC_CHECK) $<
-	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
-	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
+	$(call print,Compiling overlay:,$<,$@)
+	$(V)$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(V)$(CC_CHECK) $<
+	$(V)$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s $(ZAPD_QUIET)
+	$(V)-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/%.o: src/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(CC_CHECK) $<
+	$(call print,Compiling file:,$<,$@)
+	$(V)$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(V)$(CC_CHECK) $<
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra_boot_O1/ll.o: src/libultra_boot_O1/ll.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(CC_CHECK) $<
+	$(call print,Compiling file:,$<,$@)
+	$(V)$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(V)$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(CC_CHECK) $<
+	$(call print,Compiling file:,$<,$@)
+	$(V)$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(V)$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/%.inc.c: %.png
-	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
+	$(call print,Making asset include:,$<,$@)
+	$(V)$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@ $(ZAPD_QUIET)
 
 build/assets/%.bin.inc.c: assets/%.bin
-	$(ZAPD) bblb -eh -i $< -o $@
+	$(call print,Making asset include:,$<,$@)
+	$(V)$(ZAPD) bblb -eh -i $< -o $@ $(ZAPD_QUIET)
 
 build/assets/%.jpg.inc.c: assets/%.jpg
-	$(ZAPD) bren -eh -i $< -o $@
+	$(call print,Making asset include:,$<,$@)
+	$(V)$(ZAPD) bren -eh -i $< -o $@ $(ZAPD_QUIET)
 
 -include $(DEP_FILES)
+
+print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
