@@ -35,8 +35,8 @@ glabel func_808DE988
 /* 08164 808DE9D4 AFA20018 */  sw      $v0, 0x0018($sp)           
 /* 08168 808DE9D8 8FA20018 */  lw      $v0, 0x0018($sp)           
 .L808DE9DC:
-/* 0816C 808DE9DC 3C18808E */  lui     $t8, %hi(D_808E4D82)       ## $t8 = 808E0000
-/* 08170 808DE9E0 27184D82 */  addiu   $t8, $t8, %lo(D_808E4D82)  ## $t8 = 808E4D82
+/* 0816C 808DE9DC 3C18808E */  lui     $t8, %hi(D_808E4D80+0x2)       ## $t8 = 808E0000
+/* 08170 808DE9E0 27184D82 */  addiu   $t8, $t8, %lo(D_808E4D80+0x2)  ## $t8 = 808E4D82
 /* 08174 808DE9E4 14580007 */  bne     $v0, $t8, .L808DEA04       
 /* 08178 808DE9E8 8FA30068 */  lw      $v1, 0x0068($sp)           
 /* 0817C 808DE9EC 3C04808E */  lui     $a0, %hi(D_808E4DB8)       ## $a0 = 808E0000
@@ -46,10 +46,10 @@ glabel func_808DE988
 /* 0818C 808DE9FC 100000C9 */  beq     $zero, $zero, .L808DED24   
 /* 08190 808DEA00 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808DEA04:
-/* 08194 808DEA04 3C19808E */  lui     $t9, %hi(D_808E4D93)       ## $t9 = 808E0000
-/* 08198 808DEA08 27394D93 */  addiu   $t9, $t9, %lo(D_808E4D93)  ## $t9 = 808E4D93
+/* 08194 808DEA04 3C19808E */  lui     $t9, %hi(D_808E4D80+0x13)       ## $t9 = 808E0000
+/* 08198 808DEA08 27394D93 */  addiu   $t9, $t9, %lo(D_808E4D80+0x13)  ## $t9 = 808E4D93
 /* 0819C 808DEA0C 14590007 */  bne     $v0, $t9, .L808DEA2C       
-/* 081A0 808DEA10 3C08808E */  lui     $t0, %hi(D_808E4D8B)       ## $t0 = 808E0000
+/* 081A0 808DEA10 3C08808E */  lui     $t0, %hi(D_808E4D80+0xB)       ## $t0 = 808E0000
 /* 081A4 808DEA14 3C04808E */  lui     $a0, %hi(D_808E4DB8)       ## $a0 = 808E0000
 /* 081A8 808DEA18 24844DB8 */  addiu   $a0, $a0, %lo(D_808E4DB8)  ## $a0 = 808E4DB8
 /* 081AC 808DEA1C 0C0346BD */  jal     Matrix_MultVec3f              
@@ -57,9 +57,9 @@ glabel func_808DE988
 /* 081B4 808DEA24 100000BF */  beq     $zero, $zero, .L808DED24   
 /* 081B8 808DEA28 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808DEA2C:
-/* 081BC 808DEA2C 25084D8B */  addiu   $t0, $t0, %lo(D_808E4D8B)  ## $t0 = 00004D8B
+/* 081BC 808DEA2C 25084D8B */  addiu   $t0, $t0, %lo(D_808E4D80+0xB)  ## $t0 = 00004D8B
 /* 081C0 808DEA30 1448003C */  bne     $v0, $t0, .L808DEB24       
-/* 081C4 808DEA34 3C0D808E */  lui     $t5, %hi(D_808E4D86)       ## $t5 = 808E0000
+/* 081C4 808DEA34 3C0D808E */  lui     $t5, %hi(D_808E4D80+0x6)       ## $t5 = 808E0000
 /* 081C8 808DEA38 8FA90058 */  lw      $t1, 0x0058($sp)           
 /* 081CC 808DEA3C 3C06808F */  lui     $a2, %hi(D_808F7A50)       ## $a2 = 808F0000
 /* 081D0 808DEA40 24C67A50 */  addiu   $a2, $a2, %lo(D_808F7A50)  ## $a2 = 808F7A50
@@ -120,9 +120,9 @@ glabel func_808DE988
 /* 082AC 808DEB1C 10000081 */  beq     $zero, $zero, .L808DED24   
 /* 082B0 808DEB20 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808DEB24:
-/* 082B4 808DEB24 25AD4D86 */  addiu   $t5, $t5, %lo(D_808E4D86)  ## $t5 = 00004D86
+/* 082B4 808DEB24 25AD4D86 */  addiu   $t5, $t5, %lo(D_808E4D80+0x6)  ## $t5 = 00004D86
 /* 082B8 808DEB28 144D0007 */  bne     $v0, $t5, .L808DEB48       
-/* 082BC 808DEB2C 3C0F808E */  lui     $t7, %hi(D_808E4D8A)       ## $t7 = 808E0000
+/* 082BC 808DEB2C 3C0F808E */  lui     $t7, %hi(D_808E4D80+0xA)       ## $t7 = 808E0000
 /* 082C0 808DEB30 3C04808E */  lui     $a0, %hi(D_808E4DC4)       ## $a0 = 808E0000
 /* 082C4 808DEB34 24844DC4 */  addiu   $a0, $a0, %lo(D_808E4DC4)  ## $a0 = 808E4DC4
 /* 082C8 808DEB38 0C0346BD */  jal     Matrix_MultVec3f              
@@ -130,9 +130,9 @@ glabel func_808DE988
 /* 082D0 808DEB40 10000078 */  beq     $zero, $zero, .L808DED24   
 /* 082D4 808DEB44 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808DEB48:
-/* 082D8 808DEB48 25EF4D8A */  addiu   $t7, $t7, %lo(D_808E4D8A)  ## $t7 = 00004D8A
+/* 082D8 808DEB48 25EF4D8A */  addiu   $t7, $t7, %lo(D_808E4D80+0xA)  ## $t7 = 00004D8A
 /* 082DC 808DEB4C 144F0018 */  bne     $v0, $t7, .L808DEBB0       
-/* 082E0 808DEB50 3C08808E */  lui     $t0, %hi(D_808E4D84)       ## $t0 = 808E0000
+/* 082E0 808DEB50 3C08808E */  lui     $t0, %hi(D_808E4D80+0x4)       ## $t0 = 808E0000
 /* 082E4 808DEB54 3C04808E */  lui     $a0, %hi(D_808E4DD0)       ## $a0 = 808E0000
 /* 082E8 808DEB58 24844DD0 */  addiu   $a0, $a0, %lo(D_808E4DD0)  ## $a0 = 808E4DD0
 /* 082EC 808DEB5C 0C0346BD */  jal     Matrix_MultVec3f              
@@ -158,9 +158,9 @@ glabel func_808DE988
 /* 08338 808DEBA8 1000005E */  beq     $zero, $zero, .L808DED24   
 /* 0833C 808DEBAC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808DEBB0:
-/* 08340 808DEBB0 25084D84 */  addiu   $t0, $t0, %lo(D_808E4D84)  ## $t0 = 00004D84
+/* 08340 808DEBB0 25084D84 */  addiu   $t0, $t0, %lo(D_808E4D80+0x4)  ## $t0 = 00004D84
 /* 08344 808DEBB4 1448002B */  bne     $v0, $t0, .L808DEC64       
-/* 08348 808DEBB8 3C0C808E */  lui     $t4, %hi(D_808E4D88)       ## $t4 = 808E0000
+/* 08348 808DEBB8 3C0C808E */  lui     $t4, %hi(D_808E4D80+0x8)       ## $t4 = 808E0000
 /* 0834C 808DEBBC 3C09808E */  lui     $t1, %hi(D_808E4DA0)       ## $t1 = 808E0000
 /* 08350 808DEBC0 25294DA0 */  addiu   $t1, $t1, %lo(D_808E4DA0)  ## $t1 = 808E4DA0
 /* 08354 808DEBC4 8D2B0000 */  lw      $t3, 0x0000($t1)           ## 808E4DA0
@@ -206,7 +206,7 @@ glabel func_808DE988
 /* 083EC 808DEC5C 10000031 */  beq     $zero, $zero, .L808DED24   
 /* 083F0 808DEC60 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808DEC64:
-/* 083F4 808DEC64 258C4D88 */  addiu   $t4, $t4, %lo(D_808E4D88)  ## $t4 = 00004D88
+/* 083F4 808DEC64 258C4D88 */  addiu   $t4, $t4, %lo(D_808E4D80+0x8)  ## $t4 = 00004D88
 /* 083F8 808DEC68 144C002D */  bne     $v0, $t4, .L808DED20       
 /* 083FC 808DEC6C 3C0E808E */  lui     $t6, %hi(D_808E4DAC)       ## $t6 = 808E0000
 /* 08400 808DEC70 25CE4DAC */  addiu   $t6, $t6, %lo(D_808E4DAC)  ## $t6 = 808E4DAC

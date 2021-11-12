@@ -1,0 +1,52 @@
+<Root>
+    <File Name="ovl_Boss_Ganon" BaseAddress="0x808D6870" RangeStart="0xE6B8" RangeEnd="0x211D8">
+        <Texture Name="D_808E7E70" OutName="D_808E7E70" Format="i8" Width="32" Height="96" Offset="0x11600" Static="Off"/>
+        <Texture Name="D_808E8A70" OutName="D_808E8A70" Format="i8" Width="32" Height="96" Offset="0x12200" Static="Off"/>
+        <Texture Name="D_808E9670" OutName="D_808E9670" Format="i8" Width="32" Height="96" Offset="0x12E00" Static="Off"/>
+        <Texture Name="D_808EA270" OutName="D_808EA270" Format="i8" Width="32" Height="96" Offset="0x13A00" Static="Off"/>
+        <Texture Name="D_808EAE70" OutName="D_808EAE70" Format="i8" Width="32" Height="96" Offset="0x14600" Static="Off"/>
+        <Texture Name="D_808EBA70" OutName="D_808EBA70" Format="i8" Width="32" Height="96" Offset="0x15200" Static="Off"/>
+        <Texture Name="D_808EC670" OutName="D_808EC670" Format="i8" Width="32" Height="96" Offset="0x15E00" Static="Off"/>
+        <Texture Name="D_808ED270" OutName="D_808ED270" Format="i8" Width="32" Height="96" Offset="0x16A00" Static="Off"/>
+        <Texture Name="D_808EDE70" OutName="D_808EDE70" Format="i8" Width="32" Height="96" Offset="0x17600" Static="Off"/>
+        <Texture Name="D_808EEA70" OutName="D_808EEA70" Format="i8" Width="32" Height="96" Offset="0x18200" Static="Off"/>
+        <Texture Name="D_808EF670" OutName="D_808EF670" Format="i8" Width="32" Height="96" Offset="0x18E00" Static="Off"/>
+        <Texture Name="D_808F0270" OutName="D_808F0270" Format="i8" Width="32" Height="96" Offset="0x19A00" Static="Off"/>
+        
+        <Texture Name="D_808E65A8" OutName="D_808E65A8" Format="ci8" Width="32" Height="64" Offset="0xFD38"/>
+
+        <DList Name="D_808F6560" Offset="0x1FCF0" Static="Off"/>
+        <DList Name="D_808F6598" Offset="0x1FD28" Static="Off"/>
+        <DList Name="D_808F65D0" Offset="0x1FD60" Static="Off"/>
+        <DList Name="D_808F6608" Offset="0x1FD98" Static="Off"/>
+        <DList Name="D_808F6640" Offset="0x1FDD0" Static="Off"/>
+        <DList Name="D_808F6678" Offset="0x1FE08" Static="Off"/>
+        <DList Name="D_808F66B0" Offset="0x1FE40" Static="Off"/>
+        <DList Name="D_808F66E8" Offset="0x1FE78" Static="Off"/>
+        <DList Name="D_808F6720" Offset="0x1FEB0" Static="Off"/>
+        <DList Name="D_808F6758" Offset="0x1FEE8" Static="Off"/>
+        <DList Name="D_808F6790" Offset="0x1FF20" Static="Off"/>
+        <DList Name="D_808F67C8" Offset="0x1FF58" Static="Off"/>
+
+        <DList Name="D_808E4F68" Offset="0xE6F8" Static="Off"/>
+        <DList Name="D_808E4F88" Offset="0xE718" Static="Off"/>
+        <DList Name="D_808E5FF8" Offset="0xF788" Static="Off"/>
+        <DList Name="D_808E64E8" Offset="0xFC78" Static="Off"/>
+        <DList Name="D_808E6590" Offset="0xFD20" Static="Off"/>
+        <DList Name="D_808E7DE8" Offset="0x11578" Static="Off"/>
+        <DList Name="D_808E7E58" Offset="0x115E8" Static="Off"/>
+        <DList Name="D_808F0EB0" Offset="0x1A640" Static="Off"/>
+        <DList Name="D_808F0F60" Offset="0x1A6F0" Static="Off"/>
+        <DList Name="D_808F0FD8" Offset="0x1A768" Static="Off"/>
+        <DList Name="D_808F2A30" Offset="0x1C1C0" Static="Off"/>
+        <DList Name="D_808F2B20" Offset="0x1C2B0" Static="Off"/>
+        <DList Name="D_808F2BC8" Offset="0x1C358" Static="Off"/>
+        <DList Name="D_808F3630" Offset="0x1CDC0" Static="Off"/>
+        <DList Name="D_808F44C8" Offset="0x1DC58" Static="Off"/>
+        <DList Name="D_808F45E0" Offset="0x1DD70" Static="Off"/>
+        <DList Name="D_808F5738" Offset="0x1EEC8" Static="Off"/>
+        <DList Name="D_808F6A98" Offset="0x20228" Static="Off"/>
+        <DList Name="D_808F6B60" Offset="0x202F0" Static="Off"/>
+        <DList Name="D_808F7940" Offset="0x210D0" Static="Off"/>
+    </File>
+</Root>
