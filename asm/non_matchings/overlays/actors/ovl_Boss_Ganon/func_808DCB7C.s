@@ -134,8 +134,8 @@ glabel L808DCCD4
 /* 064A8 808DCD18 100000EE */  beq     $zero, $zero, .L808DD0D4
 /* 064AC 808DCD1C 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L808DCD20
-/* 064B0 808DCD20 3C0C8090 */  lui     $t4, %hi(D_808F93C0)       ## $t4 = 80900000
-/* 064B4 808DCD24 8D8C93C0 */  lw      $t4, %lo(D_808F93C0)($t4)
+/* 064B0 808DCD20 3C0C8090 */  lui     $t4, %hi(sCape)       ## $t4 = 80900000
+/* 064B4 808DCD24 8D8C93C0 */  lw      $t4, %lo(sCape)($t4)
 /* 064B8 808DCD28 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 064BC 808DCD2C 44810000 */  mtc1    $at, $f0                   ## $f0 = 40.00
 /* 064C0 808DCD30 E59416D0 */  swc1    $f20, 0x16D0($t4)          ## 809016D0
@@ -274,8 +274,8 @@ glabel L808DCEC8
 /* 066A4 808DCF14 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 066A8 808DCF18 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 066AC 808DCF1C 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
-/* 066B0 808DCF20 3C0B8090 */  lui     $t3, %hi(D_808F93C0)       ## $t3 = 80900000
-/* 066B4 808DCF24 8D6B93C0 */  lw      $t3, %lo(D_808F93C0)($t3)
+/* 066B0 808DCF20 3C0B8090 */  lui     $t3, %hi(sCape)       ## $t3 = 80900000
+/* 066B4 808DCF24 8D6B93C0 */  lw      $t3, %lo(sCape)($t3)
 /* 066B8 808DCF28 44814000 */  mtc1    $at, $f8                   ## $f8 = 20.00
 /* 066BC 808DCF2C 240C0001 */  addiu   $t4, $zero, 0x0001         ## $t4 = 00000001
 /* 066C0 808DCF30 E56816D0 */  swc1    $f8, 0x16D0($t3)           ## 809016D0
@@ -324,8 +324,8 @@ glabel L808DCF74
 
 /* 06758 808DCFC8 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 0675C 808DCFCC 3C014190 */  lui     $at, 0x4190                ## $at = 41900000
-/* 06760 808DCFD0 3C0E8090 */  lui     $t6, %hi(D_808F93C0)       ## $t6 = 80900000
-/* 06764 808DCFD4 8DCE93C0 */  lw      $t6, %lo(D_808F93C0)($t6)
+/* 06760 808DCFD0 3C0E8090 */  lui     $t6, %hi(sCape)       ## $t6 = 80900000
+/* 06764 808DCFD4 8DCE93C0 */  lw      $t6, %lo(sCape)($t6)
 /* 06768 808DCFD8 44819000 */  mtc1    $at, $f18                  ## $f18 = 18.00
 /* 0676C 808DCFDC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 06770 808DCFE0 240528C7 */  addiu   $a1, $zero, 0x28C7         ## $a1 = 000028C7

@@ -136,11 +136,11 @@ glabel func_808DC14C
 /* 05AB0 808DC320 8CA54D38 */  lw      $a1, %lo(D_808E4D38)($a1)
 /* 05AB4 808DC324 87AA004E */  lh      $t2, 0x004E($sp)
 /* 05AB8 808DC328 3C0C808E */  lui     $t4, %hi(D_808E4D40)       ## $t4 = 808E0000
-/* 05ABC 808DC32C 3C0D8090 */  lui     $t5, %hi(D_808F93C0)       ## $t5 = 80900000
+/* 05ABC 808DC32C 3C0D8090 */  lui     $t5, %hi(sCape)       ## $t5 = 80900000
 /* 05AC0 808DC330 000A5840 */  sll     $t3, $t2,  1
 /* 05AC4 808DC334 018B6021 */  addu    $t4, $t4, $t3
 /* 05AC8 808DC338 858C4D40 */  lh      $t4, %lo(D_808E4D40)($t4)
-/* 05ACC 808DC33C 8DAD93C0 */  lw      $t5, %lo(D_808F93C0)($t5)
+/* 05ACC 808DC33C 8DAD93C0 */  lw      $t5, %lo(sCape)($t5)
 /* 05AD0 808DC340 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 05AD4 808DC344 448C8000 */  mtc1    $t4, $f16                  ## $f16 = -0.00
 /* 05AD8 808DC348 240528C7 */  addiu   $a1, $zero, 0x28C7         ## $a1 = 000028C7

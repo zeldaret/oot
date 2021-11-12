@@ -182,8 +182,8 @@ glabel func_808DFBD0
 /* 095A0 808DFE10 E61002E0 */  swc1    $f16, 0x02E0($s0)          ## 000002E0
 .L808DFE14:
 /* 095A4 808DFE14 14410012 */  bne     $v0, $at, .L808DFE60       
-/* 095A8 808DFE18 3C0D8090 */  lui     $t5, %hi(D_808F93D4)       ## $t5 = 80900000
-/* 095AC 808DFE1C 8DAD93D4 */  lw      $t5, %lo(D_808F93D4)($t5)  
+/* 095A8 808DFE18 3C0D8090 */  lui     $t5, %hi(sZelda)       ## $t5 = 80900000
+/* 095AC 808DFE1C 8DAD93D4 */  lw      $t5, %lo(sZelda)($t5)  
 /* 095B0 808DFE20 3C018090 */  lui     $at, %hi(D_808F8150)       ## $at = 80900000
 /* 095B4 808DFE24 8DB8031C */  lw      $t8, 0x031C($t5)           ## 8090031C
 /* 095B8 808DFE28 AE1802D8 */  sw      $t8, 0x02D8($s0)           ## 000002D8

@@ -27,9 +27,9 @@ glabel BossGanon_Init
 /* 00954 808D71C4 0C00B2DD */  jal     Flags_SetSwitch
 
 /* 00958 808D71C8 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
-/* 0095C 808D71CC 3C048090 */  lui     $a0, %hi(D_808F93D8)       ## $a0 = 80900000
+/* 0095C 808D71CC 3C048090 */  lui     $a0, %hi(sEffectBuf)       ## $a0 = 80900000
 /* 00960 808D71D0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
-/* 00964 808D71D4 248493D8 */  addiu   $a0, $a0, %lo(D_808F93D8)  ## $a0 = 808F93D8
+/* 00964 808D71D4 248493D8 */  addiu   $a0, $a0, %lo(sEffectBuf)  ## $a0 = 808F93D8
 /* 00968 808D71D8 00310821 */  addu    $at, $at, $s1
 /* 0096C 808D71DC AC241E10 */  sw      $a0, 0x1E10($at)           ## 00011E10
 /* 00970 808D71E0 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
@@ -44,8 +44,8 @@ glabel BossGanon_Init
 /* 00990 808D7200 008FC021 */  addu    $t8, $a0, $t7
 /* 00994 808D7204 1420FFF8 */  bne     $at, $zero, .L808D71E8
 /* 00998 808D7208 A3000000 */  sb      $zero, 0x0000($t8)         ## 00000000
-/* 0099C 808D720C 3C018090 */  lui     $at, %hi(D_808F93D0)       ## $at = 80900000
-/* 009A0 808D7210 AC3093D0 */  sw      $s0, %lo(D_808F93D0)($at)
+/* 0099C 808D720C 3C018090 */  lui     $at, %hi(sGanondorf)       ## $at = 80900000
+/* 009A0 808D7210 AC3093D0 */  sw      $s0, %lo(sGanondorf)($at)
 /* 009A4 808D7214 24190028 */  addiu   $t9, $zero, 0x0028         ## $t9 = 00000028
 /* 009A8 808D7218 3C05808E */  lui     $a1, %hi(D_808E4C84)       ## $a1 = 808E0000
 /* 009AC 808D721C A21900AF */  sb      $t9, 0x00AF($s0)           ## 000000AF
@@ -152,8 +152,8 @@ glabel BossGanon_Init
 /* 00B10 808D7380 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00B14 808D7384 E7A00018 */  swc1    $f0, 0x0018($sp)
-/* 00B18 808D7388 3C018090 */  lui     $at, %hi(D_808F93C0)       ## $at = 80900000
-/* 00B1C 808D738C AC2293C0 */  sw      $v0, %lo(D_808F93C0)($at)
+/* 00B18 808D7388 3C018090 */  lui     $at, %hi(sCape)       ## $at = 80900000
+/* 00B1C 808D738C AC2293C0 */  sw      $v0, %lo(sCape)($at)
 /* 00B20 808D7390 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B24 808D7394 8FA50044 */  lw      $a1, 0x0044($sp)
 /* 00B28 808D7398 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000

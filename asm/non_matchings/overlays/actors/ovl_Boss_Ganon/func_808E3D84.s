@@ -509,8 +509,8 @@ glabel func_808E3D84
 /* 0DBE0 808E4450 000EC400 */  sll     $t8, $t6, 16               
 /* 0DBE4 808E4454 01386825 */  or      $t5, $t1, $t8              ## $t5 = 808E4ECC
 /* 0DBE8 808E4458 AC4D0004 */  sw      $t5, 0x0004($v0)           ## 00000004
-/* 0DBEC 808E445C 3C028090 */  lui     $v0, %hi(D_808F93D0)       ## $v0 = 80900000
-/* 0DBF0 808E4460 8C4293D0 */  lw      $v0, %lo(D_808F93D0)($v0)  
+/* 0DBEC 808E445C 3C028090 */  lui     $v0, %hi(sGanondorf)       ## $v0 = 80900000
+/* 0DBF0 808E4460 8C4293D0 */  lw      $v0, %lo(sGanondorf)($v0)  
 /* 0DBF4 808E4464 C44C0260 */  lwc1    $f12, 0x0260($v0)          ## 80900260
 /* 0DBF8 808E4468 C44E0264 */  lwc1    $f14, 0x0264($v0)          ## 80900264
 /* 0DBFC 808E446C 0C034261 */  jal     Matrix_Translate              

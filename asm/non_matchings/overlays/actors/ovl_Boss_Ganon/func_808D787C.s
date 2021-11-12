@@ -1,4 +1,4 @@
-glabel func_808D787C
+glabel BossGanon_SetIntroCsCamera
 /* 0100C 808D787C AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 01010 808D7880 30A500FF */  andi    $a1, $a1, 0x00FF           ## $a1 = 00000000
 /* 01014 808D7884 00057080 */  sll     $t6, $a1,  2               

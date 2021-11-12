@@ -58,9 +58,9 @@ glabel func_808E3564
 /* 0CD48 808E35B8 8C971C44 */  lw      $s7, 0x1C44($a0)           ## 00001C44
 /* 0CD4C 808E35BC 8E101E10 */  lw      $s0, 0x1E10($s0)           ## 00011E10
 /* 0CD50 808E35C0 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
-/* 0CD54 808E35C4 3C158090 */  lui     $s5, %hi(D_808F93D0)       ## $s5 = 80900000
+/* 0CD54 808E35C4 3C158090 */  lui     $s5, %hi(sGanondorf)       ## $s5 = 80900000
 /* 0CD58 808E35C8 4481F000 */  mtc1    $at, $f30                  ## $f30 = 1.00
-/* 0CD5C 808E35CC 26B593D0 */  addiu   $s5, $s5, %lo(D_808F93D0)  ## $s5 = 808F93D0
+/* 0CD5C 808E35CC 26B593D0 */  addiu   $s5, $s5, %lo(sGanondorf)  ## $s5 = 808F93D0
 /* 0CD60 808E35D0 24130001 */  addiu   $s3, $zero, 0x0001         ## $s3 = 00000001
 /* 0CD64 808E35D4 241400FF */  addiu   $s4, $zero, 0x00FF         ## $s4 = 000000FF
 /* 0CD68 808E35D8 24160002 */  addiu   $s6, $zero, 0x0002         ## $s6 = 00000002

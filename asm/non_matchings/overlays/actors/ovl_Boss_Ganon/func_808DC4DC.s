@@ -11,8 +11,8 @@ glabel func_808DC4DC
 /* 05C90 808DC500 0C02927F */  jal     SkelAnime_Update
 
 /* 05C94 808DC504 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000150
-/* 05C98 808DC508 3C038090 */  lui     $v1, %hi(D_808F93C0)       ## $v1 = 80900000
-/* 05C9C 808DC50C 246393C0 */  addiu   $v1, $v1, %lo(D_808F93C0)  ## $v1 = 808F93C0
+/* 05C98 808DC508 3C038090 */  lui     $v1, %hi(sCape)       ## $v1 = 80900000
+/* 05C9C 808DC50C 246393C0 */  addiu   $v1, $v1, %lo(sCape)  ## $v1 = 808F93C0
 /* 05CA0 808DC510 3C01C110 */  lui     $at, 0xC110                ## $at = C1100000
 /* 05CA4 808DC514 44812000 */  mtc1    $at, $f4                   ## $f4 = -9.00
 /* 05CA8 808DC518 8C6F0000 */  lw      $t7, 0x0000($v1)           ## 808F93C0
@@ -52,8 +52,8 @@ glabel func_808DC4DC
 /* 05D2C 808DC59C 0C02927F */  jal     SkelAnime_Update
 
 /* 05D30 808DC5A0 E61201CC */  swc1    $f18, 0x01CC($s0)          ## 000001CC
-/* 05D34 808DC5A4 3C038090 */  lui     $v1, %hi(D_808F93C0)       ## $v1 = 80900000
-/* 05D38 808DC5A8 246393C0 */  addiu   $v1, $v1, %lo(D_808F93C0)  ## $v1 = 808F93C0
+/* 05D34 808DC5A4 3C038090 */  lui     $v1, %hi(sCape)       ## $v1 = 80900000
+/* 05D38 808DC5A8 246393C0 */  addiu   $v1, $v1, %lo(sCape)  ## $v1 = 808F93C0
 /* 05D3C 808DC5AC 3C014170 */  lui     $at, 0x4170                ## $at = 41700000
 /* 05D40 808DC5B0 44812000 */  mtc1    $at, $f4                   ## $f4 = 15.00
 /* 05D44 808DC5B4 8C6C0000 */  lw      $t4, 0x0000($v1)           ## 808F93C0

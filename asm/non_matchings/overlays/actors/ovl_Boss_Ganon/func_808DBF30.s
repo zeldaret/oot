@@ -18,8 +18,8 @@ glabel func_808DBF30
 /* 056D4 808DBF44 0C02927F */  jal     SkelAnime_Update
               
 /* 056D8 808DBF48 24840150 */  addiu   $a0, $a0, 0x0150           ## $a0 = 00000150
-/* 056DC 808DBF4C 3C038090 */  lui     $v1, %hi(D_808F93C0)       ## $v1 = 80900000
-/* 056E0 808DBF50 246393C0 */  addiu   $v1, $v1, %lo(D_808F93C0)  ## $v1 = 808F93C0
+/* 056DC 808DBF4C 3C038090 */  lui     $v1, %hi(sCape)       ## $v1 = 80900000
+/* 056E0 808DBF50 246393C0 */  addiu   $v1, $v1, %lo(sCape)  ## $v1 = 808F93C0
 /* 056E4 808DBF54 3C01C040 */  lui     $at, 0xC040                ## $at = C0400000
 /* 056E8 808DBF58 44812000 */  mtc1    $at, $f4                   ## $f4 = -3.00
 /* 056EC 808DBF5C 8C6E0000 */  lw      $t6, 0x0000($v1)           ## 808F93C0

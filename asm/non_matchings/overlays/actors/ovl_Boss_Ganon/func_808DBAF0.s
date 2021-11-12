@@ -22,12 +22,12 @@ glabel func_808DBAF0
 /* 052CC 808DBB3C 4600018D */  trunc.w.s $f6, $f0
 /* 052D0 808DBB40 A60001C2 */  sh      $zero, 0x01C2($s0)         ## 000001C2
 /* 052D4 808DBB44 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
-/* 052D8 808DBB48 3C0A8090 */  lui     $t2, %hi(D_808F93C0)       ## $t2 = 80900000
+/* 052D8 808DBB48 3C0A8090 */  lui     $t2, %hi(sCape)       ## $t2 = 80900000
 /* 052DC 808DBB4C 44083000 */  mfc1    $t0, $f6
 /* 052E0 808DBB50 44814000 */  mtc1    $at, $f8                   ## $f8 = 2.00
 /* 052E4 808DBB54 2509001E */  addiu   $t1, $t0, 0x001E           ## $t1 = 0000001E
 /* 052E8 808DBB58 A60901B6 */  sh      $t1, 0x01B6($s0)           ## 000001B6
-/* 052EC 808DBB5C 8D4A93C0 */  lw      $t2, %lo(D_808F93C0)($t2)
+/* 052EC 808DBB5C 8D4A93C0 */  lw      $t2, %lo(sCape)($t2)
 /* 052F0 808DBB60 E54816AC */  swc1    $f8, 0x16AC($t2)           ## 809016AC
 /* 052F4 808DBB64 8FBF001C */  lw      $ra, 0x001C($sp)
 /* 052F8 808DBB68 8FB00018 */  lw      $s0, 0x0018($sp)

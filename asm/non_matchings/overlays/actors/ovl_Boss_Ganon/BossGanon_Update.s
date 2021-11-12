@@ -208,8 +208,8 @@ glabel BossGanon_Update
 /* 06F30 808DD7A0 240B0003 */  addiu   $t3, $zero, 0x0003         ## $t3 = 00000003
 /* 06F34 808DD7A4 A2AB0624 */  sb      $t3, 0x0624($s5)           ## 00000624
 /* 06F38 808DD7A8 3C01C040 */  lui     $at, 0xC040                ## $at = C0400000
-/* 06F3C 808DD7AC 3C0C8090 */  lui     $t4, %hi(D_808F93C0)       ## $t4 = 80900000
-/* 06F40 808DD7B0 8D8C93C0 */  lw      $t4, %lo(D_808F93C0)($t4)  
+/* 06F3C 808DD7AC 3C0C8090 */  lui     $t4, %hi(sCape)       ## $t4 = 80900000
+/* 06F40 808DD7B0 8D8C93C0 */  lw      $t4, %lo(sCape)($t4)  
 /* 06F44 808DD7B4 44819000 */  mtc1    $at, $f18                  ## $f18 = -3.00
 /* 06F48 808DD7B8 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE
 /* 06F4C 808DD7BC 3C09808E */  lui     $t1, %hi(func_808DBB78)    ## $t1 = 808E0000

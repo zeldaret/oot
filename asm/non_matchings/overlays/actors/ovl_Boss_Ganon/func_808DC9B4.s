@@ -30,8 +30,8 @@ glabel func_808DC9B4
 /* 061B0 808DCA20 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06004884
 /* 061B4 808DCA24 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 061B8 808DCA28 E62601CC */  swc1    $f6, 0x01CC($s1)           ## 000001CC
-/* 061BC 808DCA2C 3C028090 */  lui     $v0, %hi(D_808F93C0)       ## $v0 = 80900000
-/* 061C0 808DCA30 244293C0 */  addiu   $v0, $v0, %lo(D_808F93C0)  ## $v0 = 808F93C0
+/* 061BC 808DCA2C 3C028090 */  lui     $v0, %hi(sCape)       ## $v0 = 80900000
+/* 061C0 808DCA30 244293C0 */  addiu   $v0, $v0, %lo(sCape)  ## $v0 = 808F93C0
 /* 061C4 808DCA34 8C4F0000 */  lw      $t7, 0x0000($v0)           ## 808F93C0
 /* 061C8 808DCA38 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 061CC 808DCA3C 3C01C080 */  lui     $at, 0xC080                ## $at = C0800000

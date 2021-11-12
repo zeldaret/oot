@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel D_808F93C0
+glabel sCape
  .space 0x04
 glabel D_808F93C4
  .space 0x04
@@ -17,10 +17,10 @@ glabel D_808F93C8
  .space 0x04
 glabel D_808F93CC
  .space 0x04
-glabel D_808F93D0
+glabel sGanondorf
  .space 0x04
-glabel D_808F93D4
+glabel sZelda
  .space 0x04
-glabel D_808F93D8
+glabel sEffectBuf
  .space 0x3B68
 
