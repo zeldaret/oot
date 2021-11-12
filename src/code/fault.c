@@ -51,7 +51,7 @@ void Fault_ClientProcessThread(void* arg) {
     }
 
     if (ctx->queue != NULL) {
-        osSendMesg(ctx->queue, ctx->msg, 1);
+        osSendMesg(ctx->queue, ctx->msg, OS_MESG_BLOCK);
     }
 }
 
@@ -81,7 +81,7 @@ void Fault_ProcessClientContext(FaultClientContext* ctx) {
 
     while (true) {
         osSetTimer(&timer, OS_USEC_TO_CYCLES(1000000), 0, &queue, (OSMesg)timerMsgVal);
-        osRecvMesg(&queue, &recMsg, 1);
+        osRecvMesg(&queue, &recMsg, OS_MESG_BLOCK);
 
         if (recMsg != (OSMesg)666) {
             break;
@@ -957,7 +957,7 @@ void Fault_ThreadEntry(void* arg) {
 
     while (true) {
         do {
-            osRecvMesg(&sFaultStructPtr->queue, &msg, 1);
+            osRecvMesg(&sFaultStructPtr->queue, &msg, OS_MESG_BLOCK);
 
             if (msg == (OSMesg)1) {
                 sFaultStructPtr->msgId = 1;

@@ -72,7 +72,7 @@ void BgHakaShip_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaShip* this = THIS;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-    func_800F89E8(&this->bellSoundPos);
+    Audio_StopSfxByPos(&this->bellSoundPos);
 }
 
 void BgHakaShip_ChildUpdatePosition(BgHakaShip* this, GlobalContext* globalCtx) {

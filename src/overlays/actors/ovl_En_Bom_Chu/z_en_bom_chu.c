@@ -6,6 +6,8 @@
 
 #define THIS ((EnBomChu*)thisx)
 
+#define BOMBCHU_SCALE 0.01f
+
 void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -50,13 +52,13 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElemInit),
     sJntSphElemInit,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
+    ICHAIN_VEC3F_DIV1000(scale, 1000 * BOMBCHU_SCALE, ICHAIN_STOP),
 };
 
 void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -129,61 +131,70 @@ void EnBomChu_CrossProduct(Vec3f* a, Vec3f* b, Vec3f* dest) {
     dest->z = (a->x * b->y) - (a->y * b->x);
 }
 
-void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* globalCtx) {
-    Vec3f sp84;
-    Vec3f sp78;
-    f32 sp74;
+void EnBomChu_UpdateFloorPoly(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* globalCtx) {
+    Vec3f normal;
+    Vec3f vec;
+    f32 angle;
     f32 magnitude;
-    f32 temp_f12;
+    f32 normDotUp;
     MtxF mf;
 
     this->actor.floorPoly = floorPoly;
 
-    sp84.x = COLPOLY_GET_NORMAL(floorPoly->normal.x);
-    sp84.y = COLPOLY_GET_NORMAL(floorPoly->normal.y);
-    sp84.z = COLPOLY_GET_NORMAL(floorPoly->normal.z);
+    normal.x = COLPOLY_GET_NORMAL(floorPoly->normal.x);
+    normal.y = COLPOLY_GET_NORMAL(floorPoly->normal.y);
+    normal.z = COLPOLY_GET_NORMAL(floorPoly->normal.z);
 
-    temp_f12 = (sp84.x * this->unk_160.x) + (sp84.y * this->unk_160.y) + (sp84.z * this->unk_160.z);
+    normDotUp = DOTXYZ(normal, this->axisUp);
 
-    if (!(fabsf(temp_f12) >= 1.0f)) {
-        sp74 = Math_FAcosF(temp_f12);
+    if (!(fabsf(normDotUp) >= 1.0f)) {
+        angle = Math_FAcosF(normDotUp);
 
-        if (!(sp74 < 0.001f)) {
-            EnBomChu_CrossProduct(&this->unk_160, &sp84, &sp78);
-            Matrix_RotateAxis(sp74, &sp78, MTXMODE_NEW);
-            Matrix_MultVec3f(&this->unk_16C, &sp78);
-            this->unk_16C = sp78;
-            EnBomChu_CrossProduct(&this->unk_16C, &sp84, &this->unk_154);
+        if (!(angle < 0.001f)) {
+            EnBomChu_CrossProduct(&this->axisUp, &normal, &vec);
+            //! @bug this function expects a unit vector but `vec` is not normalized
+            Matrix_RotateAxis(angle, &vec, MTXMODE_NEW);
 
-            magnitude = Math3D_Vec3fMagnitude(&this->unk_154);
+            Matrix_MultVec3f(&this->axisLeft, &vec);
+            this->axisLeft = vec;
+
+            EnBomChu_CrossProduct(&this->axisLeft, &normal, &this->axisForwards);
+
+            magnitude = Math3D_Vec3fMagnitude(&this->axisForwards);
 
             if (magnitude < 0.001f) {
                 EnBomChu_Explode(this, globalCtx);
                 return;
             }
 
-            this->unk_154.x *= (1.0f / magnitude);
-            this->unk_154.y *= (1.0f / magnitude);
-            this->unk_154.z *= (1.0f / magnitude);
+            this->axisForwards.x *= 1.0f / magnitude;
+            this->axisForwards.y *= 1.0f / magnitude;
+            this->axisForwards.z *= 1.0f / magnitude;
 
-            this->unk_160 = sp84;
+            this->axisUp = normal;
 
             if (1) {}
 
-            mf.xx = this->unk_16C.x;
-            mf.yx = this->unk_16C.y;
-            mf.zx = this->unk_16C.z;
+            // mf = (axisLeft | axisUp | axisForwards)
 
-            mf.xy = sp84.x;
-            mf.yy = sp84.y;
-            mf.zy = sp84.z;
+            mf.xx = this->axisLeft.x;
+            mf.yx = this->axisLeft.y;
+            mf.zx = this->axisLeft.z;
 
-            mf.xz = this->unk_154.x;
-            mf.yz = this->unk_154.y;
-            mf.zz = this->unk_154.z;
+            mf.xy = normal.x;
+            mf.yy = normal.y;
+            mf.zy = normal.z;
+
+            mf.xz = this->axisForwards.x;
+            mf.yz = this->axisForwards.y;
+            mf.zz = this->axisForwards.z;
 
             Matrix_MtxFToYXZRotS(&mf, &this->actor.world.rot, 0);
 
+            // A hack for preventing bombchus from sticking to ledges.
+            // The visual rotation reverts the sign inversion (shape.rot.x = -world.rot.x).
+            // The better fix would be making func_8002D908 compute XYZ velocity better,
+            // or not using it and make the bombchu compute its own velocity.
             this->actor.world.rot.x = -this->actor.world.rot.x;
         }
     }
@@ -206,22 +217,25 @@ void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
         this->actor.shape.rot.y = player->actor.shape.rot.y;
 
-        this->unk_154.x = Math_SinS(this->actor.shape.rot.y);
-        this->unk_154.y = 0.0f;
-        this->unk_154.z = Math_CosS(this->actor.shape.rot.y);
+        // rot.y = 0 -> +z (forwards in model space)
+        this->axisForwards.x = Math_SinS(this->actor.shape.rot.y);
+        this->axisForwards.y = 0.0f;
+        this->axisForwards.z = Math_CosS(this->actor.shape.rot.y);
 
-        this->unk_160.x = 0.0f;
-        this->unk_160.y = 1.0f;
-        this->unk_160.z = 0.0f;
+        // +y (up in model space)
+        this->axisUp.x = 0.0f;
+        this->axisUp.y = 1.0f;
+        this->axisUp.z = 0.0f;
 
-        this->unk_16C.x = Math_SinS(this->actor.shape.rot.y + 0x4000);
-        this->unk_16C.y = 0;
-        this->unk_16C.z = Math_CosS(this->actor.shape.rot.y + 0x4000);
+        // rot.y = 0 -> +x (left in model space)
+        this->axisLeft.x = Math_SinS(this->actor.shape.rot.y + 0x4000);
+        this->axisLeft.y = 0;
+        this->axisLeft.z = Math_CosS(this->actor.shape.rot.y + 0x4000);
 
         this->actor.speedXZ = 8.0f;
         //! @bug there is no NULL check on the floor poly.  If the player is out of bounds the floor poly will be NULL
         //! and will cause a crash inside this function.
-        func_809C5BA8(this, this->actor.floorPoly, globalCtx);
+        EnBomChu_UpdateFloorPoly(this, this->actor.floorPoly, globalCtx);
         this->actor.flags |= 1; // make chu targetable
         func_8002F850(globalCtx, &this->actor);
         this->actionFunc = EnBomChu_Move;
@@ -229,19 +243,19 @@ void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
 }
 
 void EnBomChu_Move(EnBomChu* this, GlobalContext* globalCtx) {
-    CollisionPoly* sp9C;
-    CollisionPoly* sp98;
-    s32 sp94;
-    s32 sp90;
+    CollisionPoly* polySide;
+    CollisionPoly* polyUpDown;
+    s32 bgIdSide;
+    s32 bgIdUpDown;
     s32 i;
-    f32 sp54;
-    Vec3f sp7C;
-    Vec3f sp70;
-    Vec3f sp64;
-    Vec3f sp58;
+    f32 lineLength;
+    Vec3f posA;
+    Vec3f posB;
+    Vec3f posSide;
+    Vec3f posUpDown;
 
     this->actor.speedXZ = 8.0f;
-    sp54 = this->actor.speedXZ * 2.0f;
+    lineLength = this->actor.speedXZ * 2.0f;
 
     if (this->timer != 0) {
         this->timer--;
@@ -253,68 +267,75 @@ void EnBomChu_Move(EnBomChu* this, GlobalContext* globalCtx) {
         return;
     }
 
-    sp7C.x = this->actor.world.pos.x + (this->unk_160.x * 2.0f);
-    sp7C.y = this->actor.world.pos.y + (this->unk_160.y * 2.0f);
-    sp7C.z = this->actor.world.pos.z + (this->unk_160.z * 2.0f);
+    posA.x = this->actor.world.pos.x + (this->axisUp.x * 2.0f);
+    posA.y = this->actor.world.pos.y + (this->axisUp.y * 2.0f);
+    posA.z = this->actor.world.pos.z + (this->axisUp.z * 2.0f);
 
-    sp70.x = this->actor.world.pos.x - (this->unk_160.x * 4.0f);
-    sp70.y = this->actor.world.pos.y - (this->unk_160.y * 4.0f);
-    sp70.z = this->actor.world.pos.z - (this->unk_160.z * 4.0f);
+    posB.x = this->actor.world.pos.x - (this->axisUp.x * 4.0f);
+    posB.y = this->actor.world.pos.y - (this->axisUp.y * 4.0f);
+    posB.z = this->actor.world.pos.z - (this->axisUp.z * 4.0f);
 
-    if ((BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp7C, &sp70, &sp58, &sp98, true, true, true, true, &sp90)) &&
-        (!(func_80041DB8(&globalCtx->colCtx, sp98, sp90) & 0x30)) &&
-        !SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, sp98, sp90)) {
-        sp70.x = (this->unk_154.x * sp54) + sp7C.x;
-        sp70.y = (this->unk_154.y * sp54) + sp7C.y;
-        sp70.z = (this->unk_154.z * sp54) + sp7C.z;
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &posA, &posB, &posUpDown, &polyUpDown, true, true, true, true,
+                                &bgIdUpDown) &&
+        !(func_80041DB8(&globalCtx->colCtx, polyUpDown, bgIdUpDown) & 0x30) && // && not crawl space?
+        !SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, polyUpDown, bgIdUpDown)) {
+        // forwards
+        posB.x = (this->axisForwards.x * lineLength) + posA.x;
+        posB.y = (this->axisForwards.y * lineLength) + posA.y;
+        posB.z = (this->axisForwards.z * lineLength) + posA.z;
 
-        if ((BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp7C, &sp70, &sp64, &sp9C, true, true, true, true, &sp94)) &&
-            (!(func_80041DB8(&globalCtx->colCtx, sp9C, sp94) & 0x30)) &&
-            !SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, sp9C, sp94)) {
-            func_809C5BA8(this, sp9C, globalCtx);
-            this->actor.world.pos = sp64;
-            this->actor.floorBgId = sp94;
+        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true,
+                                    &bgIdSide) &&
+            !(func_80041DB8(&globalCtx->colCtx, polySide, bgIdSide) & 0x30) &&
+            !SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, polySide, bgIdSide)) {
+            EnBomChu_UpdateFloorPoly(this, polySide, globalCtx);
+            this->actor.world.pos = posSide;
+            this->actor.floorBgId = bgIdSide;
             this->actor.speedXZ = 0.0f;
         } else {
-            if (this->actor.floorPoly != sp98) {
-                func_809C5BA8(this, sp98, globalCtx);
+            if (this->actor.floorPoly != polyUpDown) {
+                EnBomChu_UpdateFloorPoly(this, polyUpDown, globalCtx);
             }
 
-            this->actor.world.pos = sp58;
-            this->actor.floorBgId = sp90;
+            this->actor.world.pos = posUpDown;
+            this->actor.floorBgId = bgIdUpDown;
         }
     } else {
         this->actor.speedXZ = 0.0f;
-        sp54 = sp54 * 3.0f;
-        sp7C = sp70;
+        lineLength *= 3.0f;
+        posA = posB;
 
         for (i = 0; i < 3; i++) {
             if (i == 0) {
-                sp70.x = sp7C.x - (this->unk_154.x * sp54);
-                sp70.y = sp7C.y - (this->unk_154.y * sp54);
-                sp70.z = sp7C.z - (this->unk_154.z * sp54);
+                // backwards
+                posB.x = posA.x - (this->axisForwards.x * lineLength);
+                posB.y = posA.y - (this->axisForwards.y * lineLength);
+                posB.z = posA.z - (this->axisForwards.z * lineLength);
             } else if (i == 1) {
-                sp70.x = sp7C.x + (this->unk_16C.x * sp54);
-                sp70.y = sp7C.y + (this->unk_16C.y * sp54);
-                sp70.z = sp7C.z + (this->unk_16C.z * sp54);
+                // left
+                posB.x = posA.x + (this->axisLeft.x * lineLength);
+                posB.y = posA.y + (this->axisLeft.y * lineLength);
+                posB.z = posA.z + (this->axisLeft.z * lineLength);
             } else {
-                sp70.x = sp7C.x - (this->unk_16C.x * sp54);
-                sp70.y = sp7C.y - (this->unk_16C.y * sp54);
-                sp70.z = sp7C.z - (this->unk_16C.z * sp54);
+                // right
+                posB.x = posA.x - (this->axisLeft.x * lineLength);
+                posB.y = posA.y - (this->axisLeft.y * lineLength);
+                posB.z = posA.z - (this->axisLeft.z * lineLength);
             }
 
-            if ((BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp7C, &sp70, &sp64, &sp9C, true, true, true, true,
-                                         &sp94)) &&
-                (!(func_80041DB8(&globalCtx->colCtx, sp9C, sp94) & 0x30)) &&
-                !SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, sp9C, sp94)) {
-                func_809C5BA8(this, sp9C, globalCtx);
-                this->actor.world.pos = sp64;
-                this->actor.floorBgId = sp94;
+            if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true,
+                                        &bgIdSide) &&
+                !(func_80041DB8(&globalCtx->colCtx, polySide, bgIdSide) & 0x30) &&
+                !SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, polySide, bgIdSide)) {
+                EnBomChu_UpdateFloorPoly(this, polySide, globalCtx);
+                this->actor.world.pos = posSide;
+                this->actor.floorBgId = bgIdSide;
                 break;
             }
         }
 
         if (i == 3) {
+            // no collision nearby
             EnBomChu_Explode(this, globalCtx);
         }
     }
@@ -336,22 +357,26 @@ void EnBomChu_WaitForKill(EnBomChu* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C649C(EnBomChu* this, Vec3f* arg1, Vec3f* dest) {
-    f32 scale = arg1->x + this->unk_178;
+/**
+ * Transform coordinates from model space to world space, according to current orientation.
+ * `posModel` is expected to already be at world scale (1/100 compared to model scale)
+ */
+void EnBomChu_ModelToWorld(EnBomChu* this, Vec3f* posModel, Vec3f* dest) {
+    f32 x = posModel->x + this->visualJitter;
 
-    dest->x =
-        this->actor.world.pos.x + (this->unk_16C.x * scale) + (this->unk_160.x * arg1->y) + (this->unk_154.x * arg1->z);
-    dest->y =
-        this->actor.world.pos.y + (this->unk_16C.y * scale) + (this->unk_160.y * arg1->y) + (this->unk_154.y * arg1->z);
-    dest->z =
-        this->actor.world.pos.z + (this->unk_16C.z * scale) + (this->unk_160.z * arg1->y) + (this->unk_154.z * arg1->z);
+    dest->x = this->actor.world.pos.x + (this->axisLeft.x * x) + (this->axisUp.x * posModel->y) +
+              (this->axisForwards.x * posModel->z);
+    dest->y = this->actor.world.pos.y + (this->axisLeft.y * x) + (this->axisUp.y * posModel->y) +
+              (this->axisForwards.y * posModel->z);
+    dest->z = this->actor.world.pos.z + (this->axisLeft.z * x) + (this->axisUp.z * posModel->y) +
+              (this->axisForwards.z * posModel->z);
 }
 
-void EnBomChu_SpawnRipples(EnBomChu* this, GlobalContext* globalCtx, f32 height) {
+void EnBomChu_SpawnRipples(EnBomChu* this, GlobalContext* globalCtx, f32 y) {
     Vec3f pos;
 
     pos.x = this->actor.world.pos.x;
-    pos.y = height;
+    pos.y = y;
     pos.z = this->actor.world.pos.z;
 
     EffectSsGRipple_Spawn(globalCtx, &pos, 70, 500, 0);
@@ -360,41 +385,41 @@ void EnBomChu_SpawnRipples(EnBomChu* this, GlobalContext* globalCtx, f32 height)
 }
 
 void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    static Vec3f D_809C6D7C = { 0.0f, 7.0f, -6.0f };
-    static Vec3f D_809C6D88 = { 12.0f, 0.0f, -5.0f };
-    static Vec3f D_809C6D94 = { -12.0f, 0.0f, -5.0f };
+    static Vec3f blureP1Model = { 0.0f, 7.0f, -6.0f };
+    static Vec3f blureP2LeftModel = { 12.0f, 0.0f, -5.0f };
+    static Vec3f blureP2RightModel = { -12.0f, 0.0f, -5.0f };
     GlobalContext* globalCtx = globalCtx2;
     EnBomChu* this = THIS;
-    s16 prevYaw;
+    s16 yaw;
     f32 sin;
     f32 cos;
     f32 tempX;
-    Vec3f sp54;
-    Vec3f sp48;
+    Vec3f blureP1;
+    Vec3f blureP2;
     WaterBox* waterBox;
-    f32 waterHeight;
+    f32 waterY;
 
     if (this->actor.floorBgId != BGCHECK_SCENE) {
-        prevYaw = this->actor.shape.rot.y;
+        yaw = this->actor.shape.rot.y;
         func_800433A4(&globalCtx->colCtx, this->actor.floorBgId, &this->actor);
 
-        if (prevYaw != this->actor.shape.rot.y) {
-            prevYaw = this->actor.shape.rot.y - prevYaw;
+        if (yaw != this->actor.shape.rot.y) {
+            yaw = this->actor.shape.rot.y - yaw;
 
-            sin = Math_SinS(prevYaw);
-            cos = Math_CosS(prevYaw);
+            sin = Math_SinS(yaw);
+            cos = Math_CosS(yaw);
 
-            tempX = this->unk_154.x;
-            this->unk_154.x = (this->unk_154.z * sin) + (cos * tempX);
-            this->unk_154.z = (this->unk_154.z * cos) - (sin * tempX);
+            tempX = this->axisForwards.x;
+            this->axisForwards.x = (this->axisForwards.z * sin) + (cos * tempX);
+            this->axisForwards.z = (this->axisForwards.z * cos) - (sin * tempX);
 
-            tempX = this->unk_160.x;
-            this->unk_160.x = (this->unk_160.z * sin) + (cos * tempX);
-            this->unk_160.z = (this->unk_160.z * cos) - (sin * tempX);
+            tempX = this->axisUp.x;
+            this->axisUp.x = (this->axisUp.z * sin) + (cos * tempX);
+            this->axisUp.z = (this->axisUp.z * cos) - (sin * tempX);
 
-            tempX = this->unk_16C.x;
-            this->unk_16C.x = (this->unk_16C.z * sin) + (cos * tempX);
-            this->unk_16C.z = (this->unk_16C.z * cos) - (sin * tempX);
+            tempX = this->axisLeft.x;
+            this->axisLeft.x = (this->axisLeft.z * sin) + (cos * tempX);
+            this->axisLeft.z = (this->axisLeft.z * cos) - (sin * tempX);
         }
     }
 
@@ -414,32 +439,32 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_SetFocus(&this->actor, 0.0f);
 
     if (this->actionFunc == EnBomChu_Move) {
-        this->unk_178 =
-            (5.0f + (Rand_ZeroOne() * 3.0f)) * Math_SinS(((Rand_ZeroOne() * 512.0f) + 12288.0f) * this->timer);
+        this->visualJitter =
+            (5.0f + (Rand_ZeroOne() * 3.0f)) * Math_SinS(((Rand_ZeroOne() * (f32)0x200) + (f32)0x3000) * this->timer);
 
-        func_809C649C(this, &D_809C6D7C, &sp54);
+        EnBomChu_ModelToWorld(this, &blureP1Model, &blureP1);
 
-        func_809C649C(this, &D_809C6D88, &sp48);
-        EffectBlure_AddVertex(Effect_GetByIndex(this->blure1Index), &sp54, &sp48);
+        EnBomChu_ModelToWorld(this, &blureP2LeftModel, &blureP2);
+        EffectBlure_AddVertex(Effect_GetByIndex(this->blure1Index), &blureP1, &blureP2);
 
-        func_809C649C(this, &D_809C6D94, &sp48);
-        EffectBlure_AddVertex(Effect_GetByIndex(this->blure2Index), &sp54, &sp48);
+        EnBomChu_ModelToWorld(this, &blureP2RightModel, &blureP2);
+        EffectBlure_AddVertex(Effect_GetByIndex(this->blure2Index), &blureP1, &blureP2);
 
-        waterHeight = this->actor.world.pos.y;
+        waterY = this->actor.world.pos.y;
 
         if (WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
-                                 &waterHeight, &waterBox)) {
-            this->actor.yDistToWater = waterHeight - this->actor.world.pos.y;
+                                 &waterY, &waterBox)) {
+            this->actor.yDistToWater = waterY - this->actor.world.pos.y;
 
             if (this->actor.yDistToWater < 0.0f) {
                 if (this->actor.bgCheckFlags & 0x20) {
-                    EnBomChu_SpawnRipples(this, globalCtx, waterHeight);
+                    EnBomChu_SpawnRipples(this, globalCtx, waterY);
                 }
 
                 this->actor.bgCheckFlags &= ~0x20;
             } else {
                 if (!(this->actor.bgCheckFlags & 0x20) && (this->timer != 120)) {
-                    EnBomChu_SpawnRipples(this, globalCtx, waterHeight);
+                    EnBomChu_SpawnRipples(this, globalCtx, waterY);
                 } else {
                     EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 3.0f, 15.0f, 0.25f);
                 }
@@ -452,12 +477,13 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 }
+
 void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBomChu* this = THIS;
     f32 colorIntensity;
-    s32 phi_a1;
-    s32 timerMod;
+    s32 blinkHalfPeriod;
+    s32 blinkTime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_chu.c", 921);
 
@@ -465,25 +491,25 @@ void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_8002EBCC(&this->actor, globalCtx, 0);
 
     if (this->timer >= 40) {
-        timerMod = this->timer % 20;
-        phi_a1 = 10;
+        blinkTime = this->timer % 20;
+        blinkHalfPeriod = 10;
     } else if (this->timer >= 10) {
-        timerMod = this->timer % 10;
-        phi_a1 = 5;
+        blinkTime = this->timer % 10;
+        blinkHalfPeriod = 5;
     } else {
-        timerMod = this->timer & 1;
-        phi_a1 = 1;
+        blinkTime = this->timer & 1;
+        blinkHalfPeriod = 1;
     }
 
-    if (phi_a1 < timerMod) {
-        timerMod = (phi_a1 * 2) - timerMod;
+    if (blinkTime > blinkHalfPeriod) {
+        blinkTime = 2 * blinkHalfPeriod - blinkTime;
     }
 
-    colorIntensity = timerMod / (f32)phi_a1;
+    colorIntensity = blinkTime / (f32)blinkHalfPeriod;
 
-    gDPSetEnvColor(POLY_OPA_DISP++, (9.0f + (colorIntensity * 209.0f)), (9.0f + (colorIntensity * 34.0f)),
-                   (35.0f + (colorIntensity * -35.0f)), 255);
-    Matrix_Translate(this->unk_178 * 100.0f, 0.0f, 0.0f, MTXMODE_APPLY);
+    gDPSetEnvColor(POLY_OPA_DISP++, 9.0f + (colorIntensity * 209.0f), 9.0f + (colorIntensity * 34.0f),
+                   35.0f + (colorIntensity * -35.0f), 255);
+    Matrix_Translate(this->visualJitter * (1.0f / BOMBCHU_SCALE), 0.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom_chu.c", 956),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gBombchuDL);

@@ -30,7 +30,7 @@ const ActorInit Oceff_Spot_InitVars = {
     (ActorFunc)OceffSpot_Draw,
 };
 
-#include "z_oceff_spot_gfx.c"
+#include "overlays/ovl_Oceff_Spot/ovl_Oceff_Spot.c"
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
@@ -61,7 +61,7 @@ void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.scale.y = 0.3f;
     }
 
-    this->unk_174 = 0;
+    this->unk_174 = 0.0f;
 }
 
 void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -78,7 +78,7 @@ void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
-    if (this->unk_174 > 0) {
+    if (this->unk_174 > 0.0f) {
         this->unk_174 -= 0.05f;
     } else {
         Actor_Kill(&this->actor);
@@ -156,10 +156,10 @@ void OceffSpot_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_spot.c", 469),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+    gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 32, 1,
                                                      0, scroll * (-8), 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, sCylinderDL);
+    gSPDisplayList(POLY_XLU_DISP++, sCylinderModelDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_spot.c", 485);
 }
