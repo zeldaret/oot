@@ -316,5 +316,3 @@ build/assets/%.jpg.inc.c: assets/%.jpg
 	$(V)$(ZAPD) bren -eh -i $< -o $@ $(ZAPD_QUIET)
 
 -include $(DEP_FILES)
-
-print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
