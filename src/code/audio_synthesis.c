@@ -39,12 +39,7 @@ u16 D_801304B0[] = {
     0x7FFF, 0xD001, 0x3FFF, 0xF001, 0x5FFF, 0x9001, 0x7FFF, 0x8001,
 };
 
-u8 D_801304C0[] = {
-    0x40,
-    0x20,
-    0x10,
-    0x8,
-};
+u8 D_801304C0[] = { 0x40, 0x20, 0x10, 0x8 };
 
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;
