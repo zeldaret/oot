@@ -207,8 +207,8 @@ void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
     BgHidanCurtainParams* hcParams = &sHCParams[this->size];
     f32 riseProgress;
 
-    if ((globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_ITEM0) ||
-        (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_ITEM2)) {
+    if ((globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_SLOW_CHEST_CS) ||
+        (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_TURN_AROUND)) {
         this->collider.base.atFlags &= ~AT_HIT;
     } else {
         if (this->collider.base.atFlags & AT_HIT) {

@@ -27,7 +27,7 @@ void BgMoriRakkatenjo_Rest(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_SetupRise(BgMoriRakkatenjo* this);
 void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
 
-static s16 sCamSetting = 0;
+static s16 sCamSetting = CAM_SET_NONE;
 
 const ActorInit Bg_Mori_Rakkatenjo_InitVars = {
     ACTOR_BG_MORI_RAKKATENJO,
@@ -76,7 +76,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader_GetVirtual(&gMoriRakkatenjoCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     BgMoriRakkatenjo_SetupWaitForMoriTex(this);
-    sCamSetting = 0;
+    sCamSetting = CAM_SET_NONE;
 }
 
 void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -210,12 +210,12 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
             sCamSetting = globalCtx->cameraPtrs[CAM_ID_MAIN]->setting;
             Camera_SetCameraData(globalCtx->cameraPtrs[CAM_ID_MAIN], 1, &this->dyna.actor, NULL, 0, 0, 0);
-            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_MORI1);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_FOREST_BIRDS_EYE);
         }
     } else if (sCamSetting != CAM_SET_NONE) {
         osSyncPrintf("camera changed (previous) ... \n");
         Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON1);
-        sCamSetting = 0;
+        sCamSetting = CAM_SET_NONE;
     }
 }
 

@@ -1928,12 +1928,12 @@ void func_800758AC(GlobalContext* globalCtx) {
     // both lost woods exits on the bridge from kokiri to hyrule field
     if (((void)0, gSaveContext.entranceIndex) == 0x4DE || ((void)0, gSaveContext.entranceIndex) == 0x5E0) {
         func_800F6FB4(4);
-    } else if (((void)0, gSaveContext.unk_140E) != 0) {
+    } else if (((void)0, gSaveContext.unk_140E) != NA_BGM_GENERAL_SFX) {
         if (!func_80077600()) {
             Audio_QueueSeqCmd((s32)((void)0, gSaveContext.unk_140E));
         }
-        gSaveContext.unk_140E = 0;
-    } else if (globalCtx->soundCtx.seqIndex == 0x7F) {
+        gSaveContext.unk_140E = NA_BGM_GENERAL_SFX;
+    } else if (globalCtx->soundCtx.seqIndex == NA_BGM_NO_MUSIC) {
         if (globalCtx->soundCtx.nightSeqIndex == 0x13) {
             return;
         }
@@ -2402,7 +2402,7 @@ void func_800775F0(u16 arg0) {
 s32 func_80077600(void) {
     s32 ret = false;
 
-    if (gSaveContext.unk_140E == 0xFFFF) {
+    if (gSaveContext.unk_140E == NA_BGM_DISABLED) {
         ret = true;
     }
 
@@ -2424,8 +2424,8 @@ void func_80077684(GlobalContext* globalCtx) {
     func_800F6D58(14, 1, 0);
     func_800F6D58(15, 1, 0);
 
-    if (func_800FA0B4(0) == 1) {
-        gSaveContext.seqIndex = 0x80;
+    if (func_800FA0B4(0) == NA_BGM_NATURE_BACKGROUND) {
+        gSaveContext.seqIndex = NA_BGM_NATURE_SFX_RAIN;
         func_800758AC(globalCtx);
     }
 }

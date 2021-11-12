@@ -5,13 +5,14 @@
 #include <string_view>
 #include <unordered_set>
 
-#include <Utils/BinaryWriter.h>
-#include <Utils/MemoryStream.h>
 #include "Globals.h"
 #include "OutputFormatter.h"
+#include "Utils/BinaryWriter.h"
 #include "Utils/Directory.h"
 #include "Utils/File.h"
+#include "Utils/MemoryStream.h"
 #include "Utils/Path.h"
+#include "Utils/StringHelper.h"
 #include "ZAnimation.h"
 #include "ZArray.h"
 #include "ZBackground.h"
@@ -129,17 +130,47 @@ void ZFile::ParseXML(tinyxml2::XMLElement* reader, const std::string& filename)
 	if (rangeStart > rangeEnd)
 		throw std::runtime_error("Error: RangeStart must be before than RangeEnd.");
 
-	// Not every XML may have a segment number, so this doesn't make much sense anymore.
-	// if (reader->Attribute("Segment") == nullptr)
-	// 	throw std::runtime_error(
-	// 		StringHelper::Sprintf("ZFile::ParseXML: Error in '%s'.\n"
-	// 	                          "\t Missing 'Segment' attribute in File node. \n",
-	// 	                          name.c_str()));
-
-	if (reader->Attribute("Segment") != nullptr)
+	const char* segmentXml = reader->Attribute("Segment");
+	if (segmentXml != nullptr)
 	{
-		segment = StringHelper::StrToL(reader->Attribute("Segment"), 10);
-		Globals::Instance->AddSegment(segment, this);
+		if (!StringHelper::HasOnlyDigits(segmentXml))
+		{
+			throw std::runtime_error(StringHelper::Sprintf(
+				"error: Invalid segment value '%s': must be a decimal between 0 and 15 inclusive",
+				segmentXml));
+		}
+
+		segment = StringHelper::StrToL(segmentXml, 10);
+		if (segment > 15)
+		{
+			if (segment == 128)
+			{
+#ifdef DEPRECATION_ON
+				fprintf(stderr, "warning: segment 128 is deprecated.\n\tRemove "
+				                "'Segment=\"128\"' from the xml to use virtual addresses\n");
+#endif
+			}
+			else
+			{
+				throw std::runtime_error(
+					StringHelper::Sprintf("error: invalid segment value '%s': must be a decimal "
+				                          "number between 0 and 15 inclusive",
+				                          segmentXml));
+			}
+		}
+	}
+	Globals::Instance->AddSegment(segment, this);
+
+	if (Globals::Instance->verbosity >= VerbosityLevel::VERBOSITY_INFO)
+	{
+		if (segment == 0x80)
+		{
+			printf("File '%s' using virtual addresses.\n", GetName().c_str());
+		}
+		else
+		{
+			printf("File '%s' using segment %X.\n", GetName().c_str(), segment);
+		}
 	}
 
 	if (mode == ZFileMode::Extract || mode == ZFileMode::ExternalFile)
@@ -938,6 +969,7 @@ std::string ZFile::ProcessDeclarations()
 							lastItem.second->text += "\n" + curItem.second->text;
 							declarations.erase(curItem.first);
 							declarationKeys.erase(declarationKeys.begin() + i);
+							delete curItem.second;
 							i--;
 							continue;
 						}

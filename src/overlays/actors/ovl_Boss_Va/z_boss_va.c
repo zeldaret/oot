@@ -959,7 +959,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_BF = 1;
                 func_8002DF54(globalCtx, &this->actor, 8);
             } else if (this->timer >= 35000) {
-                Audio_QueueSeqCmd(0x1B);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
             }
 
             this->timer += this->unk_1F2;
@@ -1600,7 +1600,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
             break;
         case DEATH_CORE_BURST:
             if (this->timer == 13) {
-                Audio_QueueSeqCmd(0x21);
+                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
             }
 
             this->timer--;
@@ -2809,10 +2809,10 @@ void BossVa_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
-            if (THIS->colliderBody.base.acFlags & AC_HIT) {
+            if (this->colliderBody.base.acFlags & AC_HIT) {
                 this->colliderBody.base.acFlags &= ~AC_HIT;
-                boomerang = (EnBoom*)this->colliderBody.base.ac;
-                if (boomerang->actor.id == ACTOR_EN_BOOM) {
+                if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
+                    boomerang = (EnBoom*)this->colliderBody.base.ac;
                     boomerang->returnTimer = 0;
                 }
             }

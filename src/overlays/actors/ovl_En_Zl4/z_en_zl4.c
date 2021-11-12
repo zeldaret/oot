@@ -194,7 +194,7 @@ void EnZl4_SetActiveCamMove(GlobalContext* globalCtx, s16 index) {
     Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
     Player* player = GET_PLAYER(globalCtx);
 
-    Camera_ChangeSetting(activeCam, CAM_SET_DEMO0);
+    Camera_ChangeSetting(activeCam, CAM_SET_CS_0);
     Camera_ResetAnim(activeCam);
     Camera_SetCSParams(activeCam, sCamMove[index].atPoints, sCamMove[index].eyePoints, player,
                        sCamMove[index].relativeToPlayer);
@@ -1135,7 +1135,7 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
             this->blinkTimer = 0;
             this->eyeExpression = ZL4_EYES_NEUTRAL;
             this->mouthExpression = ZL4_MOUTH_SURPRISED;
-            func_800F5C64(0x51);
+            func_800F5C64(NA_BGM_APPEAR);
             EnZl4_SetActiveCamDir(globalCtx, 0);
             Interface_ChangeAlpha(2);
             ShrinkWindow_SetVal(0x20);

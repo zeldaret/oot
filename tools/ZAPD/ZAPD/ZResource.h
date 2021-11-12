@@ -209,6 +209,7 @@ class ZResourceExporter
 {
 public:
 	ZResourceExporter() = default;
+	virtual ~ZResourceExporter() = default;
 
 	virtual void Save(ZResource* res, fs::path outPath, BinaryWriter* writer) = 0;
 };
@@ -239,4 +240,4 @@ typedef ZResource*(ZResourceFactoryFunc)(ZFile* nParent);
 	public:                                                                                        \
 		ZResExp_##expFunc() { expFunc(); }                                                         \
 	};                                                                                             \
-	static ZResExp_##expFunc inst_ZResExp_##expFunc;
+	static ZResExp_##expFunc inst_ZResExp_##expFunc

@@ -1,6 +1,15 @@
 #include "ultra64.h"
 #include "global.h"
 
+void AudioHeap_InitSampleCaches(u32 persistentSize, u32 temporarySize);
+SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size);
+SampleCacheEntry* AudioHeap_AllocPersistentSampleCacheEntry(u32 size);
+void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry);
+void AudioHeap_UnapplySampleCache(SampleCacheEntry* entry, SoundFontSample* sample);
+void AudioHeap_DiscardSampleCaches(void);
+void AudioHeap_DiscardSampleBank(s32 sampleBankId);
+void AudioHeap_DiscardSampleBanks(void);
+
 f32 func_800DDE20(f32 arg0) {
     return 256.0f * gAudioContext.audioBufferParameters.unkUpdatesPerFrameScaled / arg0;
 }
@@ -29,18 +38,18 @@ void func_800DDE3C(void) {
     gAudioContext.unk_3520[0] = 0.0f;
 }
 
-void Audio_ResetLoadStatus(void) {
+void AudioHeap_ResetLoadStatus(void) {
     s32 i;
 
     for (i = 0; i < 0x30; i++) {
-        if (gAudioContext.bankLoadStatus[i] != 5) {
-            gAudioContext.bankLoadStatus[i] = 0;
+        if (gAudioContext.fontLoadStatus[i] != 5) {
+            gAudioContext.fontLoadStatus[i] = 0;
         }
     }
 
     for (i = 0; i < 0x30; i++) {
-        if (gAudioContext.audioTableLoadStatus[i] != 5) {
-            gAudioContext.audioTableLoadStatus[i] = 0;
+        if (gAudioContext.sampleFontLoadStatus[i] != 5) {
+            gAudioContext.sampleFontLoadStatus[i] = 0;
         }
     }
 
@@ -51,32 +60,32 @@ void Audio_ResetLoadStatus(void) {
     }
 }
 
-void Audio_DiscardBank(s32 bankId) {
+void AudioHeap_DiscardFont(s32 fontId) {
     s32 i;
 
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.numNotes; i++) {
         Note* note = &gAudioContext.notes[i];
 
-        if (note->playbackState.bankId == bankId) {
+        if (note->playbackState.fontId == fontId) {
             if (note->playbackState.unk_04 == 0 && note->playbackState.priority != 0) {
                 note->playbackState.parentLayer->enabled = false;
                 note->playbackState.parentLayer->finished = true;
             }
             Audio_NoteDisable(note);
             Audio_AudioListRemove(&note->listItem);
-            Audio_AudioListPushBack(&gAudioContext.noteFreeLists.disabled, &note->listItem);
+            AudioSeq_AudioListPushBack(&gAudioContext.noteFreeLists.disabled, &note->listItem);
         }
     }
 }
 
-void func_800DE12C(s32 bankId) {
+void AudioHeap_ReleaseNotesForFont(s32 fontId) {
     s32 i;
 
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.numNotes; i++) {
         Note* note = &gAudioContext.notes[i];
         NotePlaybackState* state = &note->playbackState;
 
-        if (state->bankId == bankId) {
+        if (state->fontId == fontId) {
             if (state->priority != 0 && state->adsr.action.s.state == ADSR_STATE_DECAY) {
                 state->priority = 1;
                 state->adsr.fadeOutVel = gAudioContext.audioBufferParameters.updatesPerFrameInv;
@@ -86,66 +95,66 @@ void func_800DE12C(s32 bankId) {
     }
 }
 
-void Audio_DiscardSequence(s32 seqId) {
+void AudioHeap_DiscardSequence(s32 seqId) {
     s32 i;
 
     for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
         if (gAudioContext.seqPlayers[i].enabled && gAudioContext.seqPlayers[i].seqId == seqId) {
-            Audio_SequencePlayerDisable(&gAudioContext.seqPlayers[i]);
+            AudioSeq_SequencePlayerDisable(&gAudioContext.seqPlayers[i]);
         }
     }
 }
 
-void func_800DE238(void* mem, u32 size) {
+void AudioHeap_WritebackDCache(void* mem, u32 size) {
     Audio_osWritebackDCache(mem, size);
 }
 
-void* func_800DE258(SoundAllocPool* pool, u32 size) {
+void* AudioHeap_AllocZeroedAttemptExternal(AudioAllocPool* pool, u32 size) {
     void* ret = NULL;
 
-    if (gAudioContext.unkPool.start != 0) {
-        ret = Audio_AllocZeroed(&gAudioContext.unkPool, size);
+    if (gAudioContext.externalPool.start != 0) {
+        ret = AudioHeap_AllocZeroed(&gAudioContext.externalPool, size);
     }
     if (ret == NULL) {
-        ret = Audio_AllocZeroed(pool, size);
+        ret = AudioHeap_AllocZeroed(pool, size);
     }
     return ret;
 }
 
-void* func_800DE2B0(SoundAllocPool* pool, u32 size) {
+void* AudioHeap_AllocAttemptExternal(AudioAllocPool* pool, u32 size) {
     void* ret = NULL;
 
-    if (gAudioContext.unkPool.start != NULL) {
-        ret = Audio_Alloc(&gAudioContext.unkPool, size);
+    if (gAudioContext.externalPool.start != NULL) {
+        ret = AudioHeap_Alloc(&gAudioContext.externalPool, size);
     }
     if (ret == NULL) {
-        ret = Audio_Alloc(pool, size);
+        ret = AudioHeap_Alloc(pool, size);
     }
     return ret;
 }
 
-void* Audio_AllocDmaMemory(SoundAllocPool* pool, u32 size) {
+void* AudioHeap_AllocDmaMemory(AudioAllocPool* pool, u32 size) {
     void* ret;
 
-    ret = Audio_Alloc(pool, size);
+    ret = AudioHeap_Alloc(pool, size);
     if (ret != NULL) {
-        func_800DE238(ret, size);
+        AudioHeap_WritebackDCache(ret, size);
     }
     return ret;
 }
 
-void* Audio_AllocDmaMemoryZeroed(SoundAllocPool* pool, u32 size) {
+void* AudioHeap_AllocDmaMemoryZeroed(AudioAllocPool* pool, u32 size) {
     void* ret;
 
-    ret = Audio_AllocZeroed(pool, size);
+    ret = AudioHeap_AllocZeroed(pool, size);
     if (ret != NULL) {
-        func_800DE238(ret, size);
+        AudioHeap_WritebackDCache(ret, size);
     }
     return ret;
 }
 
-void* Audio_AllocZeroed(SoundAllocPool* pool, u32 size) {
-    u8* ret = Audio_Alloc(pool, size);
+void* AudioHeap_AllocZeroed(AudioAllocPool* pool, u32 size) {
+    u8* ret = AudioHeap_Alloc(pool, size);
     u8* ptr;
 
     if (ret != NULL) {
@@ -157,7 +166,7 @@ void* Audio_AllocZeroed(SoundAllocPool* pool, u32 size) {
     return ret;
 }
 
-void* Audio_Alloc(SoundAllocPool* pool, u32 size) {
+void* AudioHeap_Alloc(AudioAllocPool* pool, u32 size) {
     u32 aligned = ALIGN16(size);
     u8* ret = pool->cur;
 
@@ -166,24 +175,24 @@ void* Audio_Alloc(SoundAllocPool* pool, u32 size) {
     } else {
         return NULL;
     }
-    pool->unused++;
+    pool->count++;
     return ret;
 }
 
-void Audio_SoundAllocPoolInit(SoundAllocPool* pool, void* memAddr, u32 size) {
-    pool->cur = pool->start = (u8*)ALIGN16((u32)memAddr);
-    pool->size = size - ((u32)memAddr & 0xF);
-    pool->unused = 0;
+void AudioHeap_AllocPoolInit(AudioAllocPool* pool, void* mem, u32 size) {
+    pool->cur = pool->start = (u8*)ALIGN16((u32)mem);
+    pool->size = size - ((u32)mem & 0xF);
+    pool->count = 0;
 }
 
-void Audio_PersistentPoolClear(PersistentPool* persistent) {
-    persistent->pool.unused = 0;
+void AudioHeap_PersistentCacheClear(AudioPersistentCache* persistent) {
+    persistent->pool.count = 0;
     persistent->numEntries = 0;
     persistent->pool.cur = persistent->pool.start;
 }
 
-void Audio_TemporaryPoolClear(TemporaryPool* temporary) {
-    temporary->pool.unused = 0;
+void AudioHeap_TemporaryCacheClear(AudioTemporaryCache* temporary) {
+    temporary->pool.count = 0;
     temporary->pool.cur = temporary->pool.start;
     temporary->nextSide = 0;
     temporary->entries[0].ptr = temporary->pool.start;
@@ -192,30 +201,30 @@ void Audio_TemporaryPoolClear(TemporaryPool* temporary) {
     temporary->entries[1].id = -1;
 }
 
-void func_800DE4A0(SoundAllocPool* pool) {
-    pool->unused = 0;
+void AudioHeap_ResetPool(AudioAllocPool* pool) {
+    pool->count = 0;
     pool->cur = pool->start;
 }
 
-void func_800DE4B0(s32 poolIdx) {
-    SoundMultiPool* loadedPool;
-    SoundAllocPool* persistentPool;
-    PersistentPool* persistent;
+void AudioHeap_PopCache(s32 tableType) {
+    AudioCache* loadedPool;
+    AudioAllocPool* persistentPool;
+    AudioPersistentCache* persistent;
     void* entryPtr;
     u8* table;
 
-    switch (poolIdx) {
-        case 0:
-            loadedPool = &gAudioContext.seqLoadedPool;
+    switch (tableType) {
+        case SEQUENCE_TABLE:
+            loadedPool = &gAudioContext.seqCache;
             table = gAudioContext.seqLoadStatus;
             break;
-        case 1:
-            loadedPool = &gAudioContext.bankLoadedPool;
-            table = gAudioContext.bankLoadStatus;
+        case FONT_TABLE:
+            loadedPool = &gAudioContext.fontCache;
+            table = gAudioContext.fontLoadStatus;
             break;
-        case 2:
-            loadedPool = &gAudioContext.unusedLoadedPool;
-            table = gAudioContext.audioTableLoadStatus;
+        case SAMPLE_TABLE:
+            loadedPool = &gAudioContext.sampleBankCache;
+            table = gAudioContext.sampleFontLoadStatus;
             break;
     }
 
@@ -228,71 +237,71 @@ void func_800DE4B0(s32 poolIdx) {
 
     entryPtr = persistent->entries[persistent->numEntries - 1].ptr;
     persistentPool->cur = entryPtr;
-    persistentPool->unused--;
+    persistentPool->count--;
 
-    if (poolIdx == 2) {
-        func_800E0E6C(persistent->entries[persistent->numEntries - 1].id);
+    if (tableType == SAMPLE_TABLE) {
+        AudioHeap_DiscardSampleBank(persistent->entries[persistent->numEntries - 1].id);
     }
-    if (poolIdx == 1) {
-        Audio_DiscardBank(persistent->entries[persistent->numEntries - 1].id);
+    if (tableType == FONT_TABLE) {
+        AudioHeap_DiscardFont(persistent->entries[persistent->numEntries - 1].id);
     }
     table[persistent->entries[persistent->numEntries - 1].id] = 0;
     persistent->numEntries--;
 }
 
-void Audio_InitMainPools(s32 sizeForAudioInitPool) {
-    Audio_SoundAllocPoolInit(&gAudioContext.audioInitPool, gAudioContext.audioHeap, sizeForAudioInitPool);
-    Audio_SoundAllocPoolInit(&gAudioContext.audioSessionPool, gAudioContext.audioHeap + sizeForAudioInitPool,
-                             gAudioContext.audioHeapSize - sizeForAudioInitPool);
-    gAudioContext.unkPool.start = NULL;
+void AudioHeap_InitMainPools(s32 initPoolSize) {
+    AudioHeap_AllocPoolInit(&gAudioContext.audioInitPool, gAudioContext.audioHeap, initPoolSize);
+    AudioHeap_AllocPoolInit(&gAudioContext.audioSessionPool, gAudioContext.audioHeap + initPoolSize,
+                            gAudioContext.audioHeapSize - initPoolSize);
+    gAudioContext.externalPool.start = NULL;
 }
 
-void Audio_SessionPoolsInit(AudioPoolSplit4* split) {
+void AudioHeap_SessionPoolsInit(AudioPoolSplit4* split) {
     gAudioContext.audioSessionPool.cur = gAudioContext.audioSessionPool.start;
-    Audio_SoundAllocPoolInit(&gAudioContext.notesAndBuffersPool,
-                             Audio_Alloc(&gAudioContext.audioSessionPool, split->wantSeq), split->wantSeq);
-    Audio_SoundAllocPoolInit(&gAudioContext.seqAndBankPool,
-                             Audio_Alloc(&gAudioContext.audioSessionPool, split->wantCustom), split->wantCustom);
+    AudioHeap_AllocPoolInit(&gAudioContext.notesAndBuffersPool,
+                            AudioHeap_Alloc(&gAudioContext.audioSessionPool, split->wantSeq), split->wantSeq);
+    AudioHeap_AllocPoolInit(&gAudioContext.cachePool,
+                            AudioHeap_Alloc(&gAudioContext.audioSessionPool, split->wantCustom), split->wantCustom);
 }
 
-void Audio_SeqAndBankPoolInit(AudioPoolSplit2* split) {
-    gAudioContext.seqAndBankPool.cur = gAudioContext.seqAndBankPool.start;
-    Audio_SoundAllocPoolInit(&gAudioContext.persistentCommonPool,
-                             Audio_Alloc(&gAudioContext.seqAndBankPool, split->wantPersistent), split->wantPersistent);
-    Audio_SoundAllocPoolInit(&gAudioContext.temporaryCommonPool,
-                             Audio_Alloc(&gAudioContext.seqAndBankPool, split->wantTemporary), split->wantTemporary);
+void AudioHeap_CachePoolInit(AudioPoolSplit2* split) {
+    gAudioContext.cachePool.cur = gAudioContext.cachePool.start;
+    AudioHeap_AllocPoolInit(&gAudioContext.persistentCommonPool,
+                            AudioHeap_Alloc(&gAudioContext.cachePool, split->wantPersistent), split->wantPersistent);
+    AudioHeap_AllocPoolInit(&gAudioContext.temporaryCommonPool,
+                            AudioHeap_Alloc(&gAudioContext.cachePool, split->wantTemporary), split->wantTemporary);
 }
 
-void Audio_PersistentPoolsInit(AudioPoolSplit3* split) {
+void AudioHeap_PersistentCachesInit(AudioPoolSplit3* split) {
     gAudioContext.persistentCommonPool.cur = gAudioContext.persistentCommonPool.start;
-    Audio_SoundAllocPoolInit(&gAudioContext.seqLoadedPool.persistent.pool,
-                             Audio_Alloc(&gAudioContext.persistentCommonPool, split->wantSeq), split->wantSeq);
-    Audio_SoundAllocPoolInit(&gAudioContext.bankLoadedPool.persistent.pool,
-                             Audio_Alloc(&gAudioContext.persistentCommonPool, split->wantBank), split->wantBank);
-    Audio_SoundAllocPoolInit(&gAudioContext.unusedLoadedPool.persistent.pool,
-                             Audio_Alloc(&gAudioContext.persistentCommonPool, split->wantUnused), split->wantUnused);
-    Audio_PersistentPoolClear(&gAudioContext.seqLoadedPool.persistent);
-    Audio_PersistentPoolClear(&gAudioContext.bankLoadedPool.persistent);
-    Audio_PersistentPoolClear(&gAudioContext.unusedLoadedPool.persistent);
+    AudioHeap_AllocPoolInit(&gAudioContext.seqCache.persistent.pool,
+                            AudioHeap_Alloc(&gAudioContext.persistentCommonPool, split->wantSeq), split->wantSeq);
+    AudioHeap_AllocPoolInit(&gAudioContext.fontCache.persistent.pool,
+                            AudioHeap_Alloc(&gAudioContext.persistentCommonPool, split->wantFont), split->wantFont);
+    AudioHeap_AllocPoolInit(&gAudioContext.sampleBankCache.persistent.pool,
+                            AudioHeap_Alloc(&gAudioContext.persistentCommonPool, split->wantSample), split->wantSample);
+    AudioHeap_PersistentCacheClear(&gAudioContext.seqCache.persistent);
+    AudioHeap_PersistentCacheClear(&gAudioContext.fontCache.persistent);
+    AudioHeap_PersistentCacheClear(&gAudioContext.sampleBankCache.persistent);
 }
 
-void Audio_TemporaryPoolsInit(AudioPoolSplit3* split) {
+void AudioHeap_TemporaryCachesInit(AudioPoolSplit3* split) {
     gAudioContext.temporaryCommonPool.cur = gAudioContext.temporaryCommonPool.start;
-    Audio_SoundAllocPoolInit(&gAudioContext.seqLoadedPool.temporary.pool,
-                             Audio_Alloc(&gAudioContext.temporaryCommonPool, split->wantSeq), split->wantSeq);
-    Audio_SoundAllocPoolInit(&gAudioContext.bankLoadedPool.temporary.pool,
-                             Audio_Alloc(&gAudioContext.temporaryCommonPool, split->wantBank), split->wantBank);
-    Audio_SoundAllocPoolInit(&gAudioContext.unusedLoadedPool.temporary.pool,
-                             Audio_Alloc(&gAudioContext.temporaryCommonPool, split->wantUnused), split->wantUnused);
-    Audio_TemporaryPoolClear(&gAudioContext.seqLoadedPool.temporary);
-    Audio_TemporaryPoolClear(&gAudioContext.bankLoadedPool.temporary);
-    Audio_TemporaryPoolClear(&gAudioContext.unusedLoadedPool.temporary);
+    AudioHeap_AllocPoolInit(&gAudioContext.seqCache.temporary.pool,
+                            AudioHeap_Alloc(&gAudioContext.temporaryCommonPool, split->wantSeq), split->wantSeq);
+    AudioHeap_AllocPoolInit(&gAudioContext.fontCache.temporary.pool,
+                            AudioHeap_Alloc(&gAudioContext.temporaryCommonPool, split->wantFont), split->wantFont);
+    AudioHeap_AllocPoolInit(&gAudioContext.sampleBankCache.temporary.pool,
+                            AudioHeap_Alloc(&gAudioContext.temporaryCommonPool, split->wantSample), split->wantSample);
+    AudioHeap_TemporaryCacheClear(&gAudioContext.seqCache.temporary);
+    AudioHeap_TemporaryCacheClear(&gAudioContext.fontCache.temporary);
+    AudioHeap_TemporaryCacheClear(&gAudioContext.sampleBankCache.temporary);
 }
 
-void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
-    SoundMultiPool* loadedPool;
-    TemporaryPool* tp;
-    SoundAllocPool* pool;
+void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
+    AudioCache* loadedPool;
+    AudioTemporaryCache* tp;
+    AudioAllocPool* pool;
     void* mem;
     void* ret;
     u8 firstVal;
@@ -301,22 +310,22 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
     u8* table;
     s32 side;
 
-    switch (poolIdx) {
-        case 0:
-            loadedPool = &gAudioContext.seqLoadedPool;
+    switch (tableType) {
+        case SEQUENCE_TABLE:
+            loadedPool = &gAudioContext.seqCache;
             table = gAudioContext.seqLoadStatus;
             break;
-        case 1:
-            loadedPool = &gAudioContext.bankLoadedPool;
-            table = gAudioContext.bankLoadStatus;
+        case FONT_TABLE:
+            loadedPool = &gAudioContext.fontCache;
+            table = gAudioContext.fontLoadStatus;
             break;
-        case 2:
-            loadedPool = &gAudioContext.unusedLoadedPool;
-            table = gAudioContext.audioTableLoadStatus;
+        case SAMPLE_TABLE:
+            loadedPool = &gAudioContext.sampleBankCache;
+            table = gAudioContext.sampleFontLoadStatus;
             break;
     }
 
-    if (arg2 == 0) {
+    if (cache == CACHE_TEMPORARY) {
         tp = &loadedPool->temporary;
         pool = &tp->pool;
 
@@ -327,31 +336,31 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
         firstVal = (tp->entries[0].id == -1) ? 0 : table[tp->entries[0].id];
         secondVal = (tp->entries[1].id == -1) ? 0 : table[tp->entries[1].id];
 
-        if (poolIdx == 1) {
+        if (tableType == FONT_TABLE) {
             if (firstVal == 4) {
-                for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
-                    if (gAudioContext.notes[i].playbackState.bankId == tp->entries[0].id &&
-                        gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
+                for (i = 0; i < gAudioContext.numNotes; i++) {
+                    if (gAudioContext.notes[i].playbackState.fontId == tp->entries[0].id &&
+                        gAudioContext.notes[i].noteSubEu.bitField0.enabled != 0) {
                         break;
                     }
                 }
 
-                if (i == gAudioContext.maxSimultaneousNotes) {
-                    Audio_SetBankLoadStatus(tp->entries[0].id, 3);
+                if (i == gAudioContext.numNotes) {
+                    AudioLoad_SetFontLoadStatus(tp->entries[0].id, 3);
                     firstVal = 3;
                 }
             }
 
             if (secondVal == 4) {
-                for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
-                    if (gAudioContext.notes[i].playbackState.bankId == tp->entries[1].id &&
-                        gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
+                for (i = 0; i < gAudioContext.numNotes; i++) {
+                    if (gAudioContext.notes[i].playbackState.fontId == tp->entries[1].id &&
+                        gAudioContext.notes[i].noteSubEu.bitField0.enabled != 0) {
                         break;
                     }
                 }
 
-                if (i == gAudioContext.maxSimultaneousNotes) {
-                    Audio_SetBankLoadStatus(tp->entries[1].id, 3);
+                if (i == gAudioContext.numNotes) {
+                    AudioLoad_SetFontLoadStatus(tp->entries[1].id, 3);
                     secondVal = 3;
                 }
             }
@@ -369,7 +378,7 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
             tp->nextSide = 1;
         } else {
             // Check if there is a side which isn't in active use, if so, evict that one.
-            if (poolIdx == 0) {
+            if (tableType == SEQUENCE_TABLE) {
                 if (firstVal == 2) {
                     for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
                         if (gAudioContext.seqPlayers[i].enabled != 0 &&
@@ -397,28 +406,28 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
                         goto done;
                     }
                 }
-            } else if (poolIdx == 1) {
+            } else if (tableType == FONT_TABLE) {
                 if (firstVal == 2) {
-                    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
-                        if (gAudioContext.notes[i].playbackState.bankId == tp->entries[0].id &&
-                            gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
+                    for (i = 0; i < gAudioContext.numNotes; i++) {
+                        if (gAudioContext.notes[i].playbackState.fontId == tp->entries[0].id &&
+                            gAudioContext.notes[i].noteSubEu.bitField0.enabled != 0) {
                             break;
                         }
                     }
-                    if (i == gAudioContext.maxSimultaneousNotes) {
+                    if (i == gAudioContext.numNotes) {
                         tp->nextSide = 0;
                         goto done;
                     }
                 }
 
                 if (secondVal == 2) {
-                    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
-                        if (gAudioContext.notes[i].playbackState.bankId == tp->entries[1].id &&
-                            gAudioContext.notes[i].noteSubEu.bitField0.s.enabled != 0) {
+                    for (i = 0; i < gAudioContext.numNotes; i++) {
+                        if (gAudioContext.notes[i].playbackState.fontId == tp->entries[1].id &&
+                            gAudioContext.notes[i].noteSubEu.bitField0.enabled != 0) {
                             break;
                         }
                     }
-                    if (i == gAudioContext.maxSimultaneousNotes) {
+                    if (i == gAudioContext.numNotes) {
                         tp->nextSide = 1;
                         goto done;
                     }
@@ -454,12 +463,12 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
         side = tp->nextSide;
 
         if (tp->entries[side].id != -1) {
-            if (poolIdx == 2) {
-                func_800E0E6C(tp->entries[side].id);
+            if (tableType == SAMPLE_TABLE) {
+                AudioHeap_DiscardSampleBank(tp->entries[side].id);
             }
             table[tp->entries[side].id] = 0;
-            if (poolIdx == 1) {
-                Audio_DiscardBank(tp->entries[side].id);
+            if (tableType == FONT_TABLE) {
+                AudioHeap_DiscardFont(tp->entries[side].id);
             }
         }
 
@@ -471,17 +480,17 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
                 pool->cur = pool->start + size;
 
                 if (tp->entries[1].id != -1 && tp->entries[1].ptr < pool->cur) {
-                    if (poolIdx == 2) {
-                        func_800E0E6C(tp->entries[1].id);
+                    if (tableType == SAMPLE_TABLE) {
+                        AudioHeap_DiscardSampleBank(tp->entries[1].id);
                     }
 
                     table[tp->entries[1].id] = 0;
-                    switch (poolIdx) {
-                        case 0:
-                            Audio_DiscardSequence((s32)tp->entries[1].id);
+                    switch (tableType) {
+                        case SEQUENCE_TABLE:
+                            AudioHeap_DiscardSequence((s32)tp->entries[1].id);
                             break;
-                        case 1:
-                            Audio_DiscardBank((s32)tp->entries[1].id);
+                        case FONT_TABLE:
+                            AudioHeap_DiscardFont((s32)tp->entries[1].id);
                             break;
                     }
 
@@ -497,17 +506,17 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
                 tp->entries[1].id = id;
                 tp->entries[1].size = size;
                 if (tp->entries[0].id != -1 && tp->entries[1].ptr < pool->cur) {
-                    if (poolIdx == 2) {
-                        func_800E0E6C(tp->entries[0].id);
+                    if (tableType == SAMPLE_TABLE) {
+                        AudioHeap_DiscardSampleBank(tp->entries[0].id);
                     }
 
                     table[tp->entries[0].id] = 0;
-                    switch (poolIdx) {
-                        case 0:
-                            Audio_DiscardSequence(tp->entries[0].id);
+                    switch (tableType) {
+                        case SEQUENCE_TABLE:
+                            AudioHeap_DiscardSequence(tp->entries[0].id);
                             break;
-                        case 1:
-                            Audio_DiscardBank(tp->entries[0].id);
+                        case FONT_TABLE:
+                            AudioHeap_DiscardFont(tp->entries[0].id);
                             break;
                     }
 
@@ -525,16 +534,16 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
         return ret;
     }
 
-    mem = Audio_Alloc(&loadedPool->persistent.pool, size);
+    mem = AudioHeap_Alloc(&loadedPool->persistent.pool, size);
     loadedPool->persistent.entries[loadedPool->persistent.numEntries].ptr = mem;
 
     if (mem == NULL) {
-        switch (arg2) {
-            case 2:
-                return Audio_AllocBankOrSeq(poolIdx, size, 0, id);
+        switch (cache) {
+            case CACHE_EITHER:
+                return AudioHeap_AllocCached(tableType, size, CACHE_TEMPORARY, id);
 
-            case 0:
-            case 1:
+            case CACHE_TEMPORARY:
+            case CACHE_PERSISTENT:
                 return NULL;
         }
     }
@@ -544,43 +553,44 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
     return loadedPool->persistent.entries[loadedPool->persistent.numEntries++].ptr;
 }
 
-void* func_800DF074(s32 poolIdx, s32 arg1, s32 id) {
+void* AudioHeap_SearchCaches(s32 tableType, s32 cache, s32 id) {
     void* ret;
 
-    ret = func_800E04E8(poolIdx, id);
+    // Always search the permanent cache in addition to the regular ones.
+    ret = AudioHeap_SearchPermanentCache(tableType, id);
     if (ret != NULL) {
         return ret;
     }
-    if (arg1 == 3) {
+    if (cache == CACHE_PERMANENT) {
         return NULL;
     }
-    return func_800DF0CC(poolIdx, arg1, id);
+    return AudioHeap_SearchRegularCaches(tableType, cache, id);
 }
 
-void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 bankId) {
+void* AudioHeap_SearchRegularCaches(s32 tableType, s32 cache, s32 id) {
     u32 i;
-    SoundMultiPool* loadedPool;
-    TemporaryPool* temporary;
-    PersistentPool* persistent;
+    AudioCache* loadedPool;
+    AudioTemporaryCache* temporary;
+    AudioPersistentCache* persistent;
 
-    switch (poolIdx) {
-        case 0:
-            loadedPool = &gAudioContext.seqLoadedPool;
+    switch (tableType) {
+        case SEQUENCE_TABLE:
+            loadedPool = &gAudioContext.seqCache;
             break;
-        case 1:
-            loadedPool = &gAudioContext.bankLoadedPool;
+        case FONT_TABLE:
+            loadedPool = &gAudioContext.fontCache;
             break;
-        case 2:
-            loadedPool = &gAudioContext.unusedLoadedPool;
+        case SAMPLE_TABLE:
+            loadedPool = &gAudioContext.sampleBankCache;
             break;
     }
 
     temporary = &loadedPool->temporary;
-    if (arg1 == 0) {
-        if (temporary->entries[0].id == bankId) {
+    if (cache == CACHE_TEMPORARY) {
+        if (temporary->entries[0].id == id) {
             temporary->nextSide = 1;
             return temporary->entries[0].ptr;
-        } else if (temporary->entries[1].id == bankId) {
+        } else if (temporary->entries[1].id == id) {
             temporary->nextSide = 0;
             return temporary->entries[1].ptr;
         } else {
@@ -590,38 +600,46 @@ void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 bankId) {
 
     persistent = &loadedPool->persistent;
     for (i = 0; i < persistent->numEntries; i++) {
-        if (persistent->entries[i].id == bankId) {
+        if (persistent->entries[i].id == id) {
             return persistent->entries[i].ptr;
         }
     }
 
-    if (arg1 == 2) {
-        return func_800DF074(poolIdx, 0, bankId);
+    if (cache == CACHE_EITHER) {
+        return AudioHeap_SearchCaches(tableType, CACHE_TEMPORARY, id);
     }
     return NULL;
 }
 
-void func_800DF1D8(f32 arg0, f32 arg1, u16* arg2) {
+void func_800DF1D8(f32 p, f32 q, u16* out) {
+    // With the bug below fixed, this mysterious unused function computes two recurrences
+    // out[0..7] = a_i, out[8..15] = b_i, where
+    // a_{-2} = b_{-1} = 262159 = 2^18 + 15
+    // a_{-1} = b_{-2} = 0
+    // a_i = q * a_{i-1} + p * a_{i-2}
+    // b_i = q * b_{i-1} + p * b_{i-2}
+    // These grow exponentially if p < -1 or p + |q| > 1.
     s32 i;
     f32 tmp[16];
 
-    tmp[0] = (f32)(arg1 * 262159.0f);
-    tmp[8] = (f32)(arg0 * 262159.0f);
-    tmp[1] = (f32)((arg1 * arg0) * 262159.0f);
-    tmp[9] = (f32)(((arg0 * arg0) + arg1) * 262159.0f);
+    tmp[0] = (f32)(q * 262159.0f);
+    tmp[8] = (f32)(p * 262159.0f);
+    tmp[1] = (f32)((q * p) * 262159.0f);
+    tmp[9] = (f32)(((p * p) + q) * 262159.0f);
 
     for (i = 2; i < 8; i++) {
-        //! @bug value was probably meant to be stored to tmp[i] and tmp[8 + i]
-        arg2[i] = arg1 * tmp[i - 2] + arg0 * tmp[i - 1];
-        arg2[8 + i] = arg1 * tmp[6 + i] + arg0 * tmp[7 + i];
+        //! @bug value should be stored to tmp[i] and tmp[8 + i], otherwise we read
+        //! garbage in later loop iterations.
+        out[i] = q * tmp[i - 2] + p * tmp[i - 1];
+        out[8 + i] = q * tmp[6 + i] + p * tmp[7 + i];
     }
 
     for (i = 0; i < 16; i++) {
-        arg2[i] = tmp[i];
+        out[i] = tmp[i];
     }
 }
 
-void func_800DF5AC(s16* filter) {
+void AudioHeap_ClearFilter(s16* filter) {
     s32 i;
 
     for (i = 0; i < 8; i++) {
@@ -629,46 +647,47 @@ void func_800DF5AC(s16* filter) {
     }
 }
 
-void func_800DF5DC(s16* filter, s32 arg1) {
+void AudioHeap_LoadLowPassFilter(s16* filter, s32 cutoff) {
     s32 i;
-    s16* ptr = &D_80130228[8 * arg1];
+    s16* ptr = &sLowPassFilterData[8 * cutoff];
 
     for (i = 0; i < 8; i++) {
         filter[i] = ptr[i];
     }
 }
 
-void func_800DF630(s16* filter, s32 arg1) {
+void AudioHeap_LoadHighPassFilter(s16* filter, s32 cutoff) {
     s32 i;
-    s16* ptr = &D_80130328[8 * (arg1 - 1)];
+    s16* ptr = &sHighPassFilterData[8 * (cutoff - 1)];
 
     for (i = 0; i < 8; i++) {
         filter[i] = ptr[i];
     }
 }
 
-void func_800DF688(s16* filter, s32 arg1, s32 arg2) {
+void AudioHeap_LoadFilter(s16* filter, s32 lowPassCutoff, s32 highPassCutoff) {
     s32 i;
 
-    if (arg1 == 0 && arg2 == 0) {
-        func_800DF5DC(filter, 0);
-    } else if (arg2 == 0) {
-        func_800DF5DC(filter, arg1);
-    } else if (arg1 == 0) {
-        func_800DF630(filter, arg2);
+    if (lowPassCutoff == 0 && highPassCutoff == 0) {
+        // Identity filter
+        AudioHeap_LoadLowPassFilter(filter, 0);
+    } else if (highPassCutoff == 0) {
+        AudioHeap_LoadLowPassFilter(filter, lowPassCutoff);
+    } else if (lowPassCutoff == 0) {
+        AudioHeap_LoadHighPassFilter(filter, highPassCutoff);
     } else {
-        s16* ptr1 = &D_80130228[8 * arg1];
-        s16* ptr2 = &D_80130328[8 * (arg2 - 1)];
+        s16* ptr1 = &sLowPassFilterData[8 * lowPassCutoff];
+        s16* ptr2 = &sHighPassFilterData[8 * (highPassCutoff - 1)];
         for (i = 0; i < 8; i++) {
             filter[i] = (ptr1[i] + ptr2[i]) / 2;
         }
     }
 }
 
-void func_800DF7BC(SynthesisReverb* reverb) {
+void AudioHeap_UpdateReverb(SynthesisReverb* reverb) {
 }
 
-void func_800DF7C4(void) {
+void AudioHeap_UpdateReverbs(void) {
     s32 count;
     s32 i;
     s32 j;
@@ -681,24 +700,24 @@ void func_800DF7C4(void) {
 
     for (i = 0; i < gAudioContext.numSynthesisReverbs; i++) {
         for (j = 0; j < count; j++) {
-            func_800DF7BC(&gAudioContext.synthesisReverbs[i]);
+            AudioHeap_UpdateReverb(&gAudioContext.synthesisReverbs[i]);
         }
     }
 }
 
-void func_800DF888(void) {
+void AudioHeap_ClearAiBuffers(void) {
     s32 ind;
     s32 i;
 
     ind = gAudioContext.curAIBufIdx;
     gAudioContext.aiBufLengths[ind] = gAudioContext.audioBufferParameters.minAiBufferLength;
 
-    for (i = 0; i < 0x580; i++) {
+    for (i = 0; i < AIBUF_LEN; i++) {
         gAudioContext.aiBuffers[ind][i] = 0;
     }
 }
 
-s32 Audio_ResetStep(void) {
+s32 AudioHeap_ResetStep(void) {
     s32 i;
     s32 j;
     s32 sp24;
@@ -712,7 +731,7 @@ s32 Audio_ResetStep(void) {
     switch (gAudioContext.resetStatus) {
         case 5:
             for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
-                Audio_SequencePlayerDisableAsFinished(&gAudioContext.seqPlayers[i]);
+                AudioSeq_SequencePlayerDisableAsFinished(&gAudioContext.seqPlayers[i]);
             }
             gAudioContext.audioResetFadeOutFramesLeft = 2 / sp24;
             gAudioContext.resetStatus--;
@@ -721,10 +740,10 @@ s32 Audio_ResetStep(void) {
         case 4:
             if (gAudioContext.audioResetFadeOutFramesLeft != 0) {
                 gAudioContext.audioResetFadeOutFramesLeft--;
-                func_800DF7C4();
+                AudioHeap_UpdateReverbs();
             } else {
-                for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
-                    if (gAudioContext.notes[i].noteSubEu.bitField0.s.enabled &&
+                for (i = 0; i < gAudioContext.numNotes; i++) {
+                    if (gAudioContext.notes[i].noteSubEu.bitField0.enabled &&
                         gAudioContext.notes[i].playbackState.adsr.action.s.state != ADSR_STATE_DISABLED) {
                         gAudioContext.notes[i].playbackState.adsr.fadeOutVel =
                             gAudioContext.audioBufferParameters.updatesPerFrameInv;
@@ -739,7 +758,7 @@ s32 Audio_ResetStep(void) {
         case 3:
             if (gAudioContext.audioResetFadeOutFramesLeft != 0) {
                 gAudioContext.audioResetFadeOutFramesLeft--;
-                func_800DF7C4();
+                AudioHeap_UpdateReverbs();
             } else {
                 gAudioContext.audioResetFadeOutFramesLeft = 2 / sp24;
                 gAudioContext.resetStatus--;
@@ -747,22 +766,22 @@ s32 Audio_ResetStep(void) {
             break;
 
         case 2:
-            func_800DF888();
+            AudioHeap_ClearAiBuffers();
             if (gAudioContext.audioResetFadeOutFramesLeft != 0) {
                 gAudioContext.audioResetFadeOutFramesLeft--;
             } else {
                 gAudioContext.resetStatus--;
-                func_800E0CBC();
-                func_800E1148();
+                AudioHeap_DiscardSampleCaches();
+                AudioHeap_DiscardSampleBanks();
             }
             break;
 
         case 1:
-            Audio_InitHeap();
+            AudioHeap_Init();
             gAudioContext.resetStatus = 0;
             for (i = 0; i < 3; i++) {
                 gAudioContext.aiBufLengths[i] = gAudioContext.audioBufferParameters.maxAiBufferLength;
-                for (j = 0; j < 0x580; j++) {
+                for (j = 0; j < AIBUF_LEN; j++) {
                     gAudioContext.aiBuffers[i][j] = 0;
                 }
             }
@@ -776,7 +795,7 @@ s32 Audio_ResetStep(void) {
     return 1;
 }
 
-void Audio_InitHeap(void) {
+void AudioHeap_Init(void) {
     s32 pad1[4];
     s16* mem;
     s32 persistentMem;
@@ -790,7 +809,7 @@ void Audio_InitHeap(void) {
     AudioSpec* spec;
 
     spec = &gAudioSpecs[gAudioContext.audioResetSpecIdToLoad];
-    gAudioContext.sampleDmaReqCnt = 0;
+    gAudioContext.sampleDmaCount = 0;
     gAudioContext.audioBufferParameters.frequency = spec->frequency;
     gAudioContext.audioBufferParameters.aiFrequency = osAiSetFrequency(gAudioContext.audioBufferParameters.frequency);
     gAudioContext.audioBufferParameters.samplesPerFrameTarget =
@@ -811,10 +830,10 @@ void Audio_InitHeap(void) {
         (1.0f / 256.0f) / gAudioContext.audioBufferParameters.updatesPerFrame;
     gAudioContext.audioBufferParameters.unk_24 = gAudioContext.audioBufferParameters.updatesPerFrame * 0.25f;
     gAudioContext.audioBufferParameters.updatesPerFrameInv = 1.0f / gAudioContext.audioBufferParameters.updatesPerFrame;
-    gAudioContext.unk_2874 = spec->unk_10;
-    gAudioContext.unk_2878 = spec->unk_12;
+    gAudioContext.sampleDmaBufSize1 = spec->sampleDmaBufSize1;
+    gAudioContext.sampleDmaBufSize2 = spec->sampleDmaBufSize2;
 
-    gAudioContext.maxSimultaneousNotes = spec->maxSimultaneousNotes;
+    gAudioContext.numNotes = spec->numNotes;
     gAudioContext.audioBufferParameters.numSequencePlayers = spec->numSequencePlayers;
     if (gAudioContext.audioBufferParameters.numSequencePlayers > 4) {
         gAudioContext.audioBufferParameters.numSequencePlayers = 4;
@@ -838,49 +857,48 @@ void Audio_InitHeap(void) {
         gAudioContext.audioBufferParameters.maxAiBufferLength -= 0x10;
     }
 
-    gAudioContext.maxAudioCmds =
-        gAudioContext.maxSimultaneousNotes * 0x10 * gAudioContext.audioBufferParameters.updatesPerFrame +
-        spec->numReverbs * 0x18 + 0x140;
+    gAudioContext.maxAudioCmds = gAudioContext.numNotes * 0x10 * gAudioContext.audioBufferParameters.updatesPerFrame +
+                                 spec->numReverbs * 0x18 + 0x140;
 
-    persistentMem = spec->persistentSeqMem + spec->persistentBankMem + spec->persistentUnusedMem + 0x10;
-    temporaryMem = spec->temporarySeqMem + spec->temporaryBankMem + spec->temporaryUnusedMem + 0x10;
+    persistentMem = spec->persistentSeqMem + spec->persistentFontMem + spec->persistentSampleMem + 0x10;
+    temporaryMem = spec->temporarySeqMem + spec->temporaryFontMem + spec->temporarySampleMem + 0x10;
     totalMem = persistentMem + temporaryMem;
     wantMisc = gAudioContext.audioSessionPool.size - totalMem - 0x100;
 
-    if (gAudioContext.unkPool.start != NULL) {
-        gAudioContext.unkPool.cur = gAudioContext.unkPool.start;
+    if (gAudioContext.externalPool.start != NULL) {
+        gAudioContext.externalPool.cur = gAudioContext.externalPool.start;
     }
 
     gAudioContext.sessionPoolSplit.wantSeq = wantMisc;
     gAudioContext.sessionPoolSplit.wantCustom = totalMem;
-    Audio_SessionPoolsInit(&gAudioContext.sessionPoolSplit);
-    gAudioContext.seqAndBankPoolSplit.wantPersistent = persistentMem;
-    gAudioContext.seqAndBankPoolSplit.wantTemporary = temporaryMem;
-    Audio_SeqAndBankPoolInit(&gAudioContext.seqAndBankPoolSplit);
+    AudioHeap_SessionPoolsInit(&gAudioContext.sessionPoolSplit);
+    gAudioContext.cachePoolSplit.wantPersistent = persistentMem;
+    gAudioContext.cachePoolSplit.wantTemporary = temporaryMem;
+    AudioHeap_CachePoolInit(&gAudioContext.cachePoolSplit);
     gAudioContext.persistentCommonPoolSplit.wantSeq = spec->persistentSeqMem;
-    gAudioContext.persistentCommonPoolSplit.wantBank = spec->persistentBankMem;
-    gAudioContext.persistentCommonPoolSplit.wantUnused = spec->persistentUnusedMem;
-    Audio_PersistentPoolsInit(&gAudioContext.persistentCommonPoolSplit);
+    gAudioContext.persistentCommonPoolSplit.wantFont = spec->persistentFontMem;
+    gAudioContext.persistentCommonPoolSplit.wantSample = spec->persistentSampleMem;
+    AudioHeap_PersistentCachesInit(&gAudioContext.persistentCommonPoolSplit);
     gAudioContext.temporaryCommonPoolSplit.wantSeq = spec->temporarySeqMem;
-    gAudioContext.temporaryCommonPoolSplit.wantBank = spec->temporaryBankMem;
-    gAudioContext.temporaryCommonPoolSplit.wantUnused = spec->temporaryUnusedMem;
-    Audio_TemporaryPoolsInit(&gAudioContext.temporaryCommonPoolSplit);
+    gAudioContext.temporaryCommonPoolSplit.wantFont = spec->temporaryFontMem;
+    gAudioContext.temporaryCommonPoolSplit.wantSample = spec->temporarySampleMem;
+    AudioHeap_TemporaryCachesInit(&gAudioContext.temporaryCommonPoolSplit);
 
-    Audio_ResetLoadStatus();
+    AudioHeap_ResetLoadStatus();
     gAudioContext.notes =
-        Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool, gAudioContext.maxSimultaneousNotes * sizeof(Note));
+        AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, gAudioContext.numNotes * sizeof(Note));
     Audio_NoteInitAll();
     Audio_InitNoteFreeList();
-    gAudioContext.noteSubsEu = Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool,
-                                                 gAudioContext.audioBufferParameters.updatesPerFrame *
-                                                     gAudioContext.maxSimultaneousNotes * sizeof(NoteSubEu));
+    gAudioContext.noteSubsEu =
+        AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, gAudioContext.audioBufferParameters.updatesPerFrame *
+                                                                      gAudioContext.numNotes * sizeof(NoteSubEu));
 
     for (i = 0; i != 2; i++) {
-        gAudioContext.abiCmdBufs[i] =
-            Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, gAudioContext.maxAudioCmds * sizeof(u64));
+        gAudioContext.abiCmdBufs[i] = AudioHeap_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool,
+                                                                     gAudioContext.maxAudioCmds * sizeof(u64));
     }
 
-    gAudioContext.unk_3520 = Audio_Alloc(&gAudioContext.notesAndBuffersPool, 0x100 * sizeof(f32));
+    gAudioContext.unk_3520 = AudioHeap_Alloc(&gAudioContext.notesAndBuffersPool, 0x100 * sizeof(f32));
     func_800DDE3C();
     for (i = 0; i < 4; i++) {
         gAudioContext.synthesisReverbs[i].useReverb = 0;
@@ -903,8 +921,10 @@ void Audio_InitHeap(void) {
         reverb->unk_05 = settings->unk_10;
         reverb->unk_08 = settings->unk_12;
         reverb->useReverb = 8;
-        reverb->leftRingBuf = func_800DE258(&gAudioContext.notesAndBuffersPool, reverb->windowSize * sizeof(s16));
-        reverb->rightRingBuf = func_800DE258(&gAudioContext.notesAndBuffersPool, reverb->windowSize * sizeof(s16));
+        reverb->leftRingBuf =
+            AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.notesAndBuffersPool, reverb->windowSize * sizeof(s16));
+        reverb->rightRingBuf =
+            AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.notesAndBuffersPool, reverb->windowSize * sizeof(s16));
         reverb->nextRingBufPos = 0;
         reverb->unk_20 = 0;
         reverb->curFrame = 0;
@@ -914,8 +934,8 @@ void Audio_InitHeap(void) {
         reverb->sound.sample = &reverb->sample;
         reverb->sample.loop = &reverb->loop;
         reverb->sound.tuning = 1.0f;
-        reverb->sample.codec = 4;
-        reverb->sample.medium = 0;
+        reverb->sample.codec = CODEC_REVERB;
+        reverb->sample.medium = MEDIUM_RAM;
         reverb->sample.size = reverb->windowSize * 2;
         reverb->sample.sampleAddr = (u8*)reverb->leftRingBuf;
         reverb->loop.start = 0;
@@ -924,156 +944,160 @@ void Audio_InitHeap(void) {
 
         if (reverb->downsampleRate != 1) {
             reverb->unk_0E = 0x8000 / reverb->downsampleRate;
-            reverb->unk_30 = Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool, 0x20);
-            reverb->unk_34 = Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool, 0x20);
-            reverb->unk_38 = Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool, 0x20);
-            reverb->unk_3C = Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool, 0x20);
+            reverb->unk_30 = AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, 0x20);
+            reverb->unk_34 = AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, 0x20);
+            reverb->unk_38 = AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, 0x20);
+            reverb->unk_3C = AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, 0x20);
             for (j = 0; j < gAudioContext.audioBufferParameters.updatesPerFrame; j++) {
-                mem = func_800DE258(&gAudioContext.notesAndBuffersPool, 0x340);
+                mem = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.notesAndBuffersPool, 0x340);
                 reverb->items[0][j].toDownsampleLeft = mem;
                 reverb->items[0][j].toDownsampleRight = mem + 0x1A0 / sizeof(s16);
-                mem = func_800DE258(&gAudioContext.notesAndBuffersPool, 0x340);
+                mem = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.notesAndBuffersPool, 0x340);
                 reverb->items[1][j].toDownsampleLeft = mem;
                 reverb->items[1][j].toDownsampleRight = mem + 0x1A0 / sizeof(s16);
             }
         }
 
-        if (settings->unk_14 != 0) {
-            reverb->filterLeftState = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
-            reverb->filterLeft = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
-            func_800DF5DC(reverb->filterLeft, settings->unk_14);
+        if (settings->lowPassFilterCutoffLeft != 0) {
+            reverb->filterLeftState = AudioHeap_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
+            reverb->filterLeft = AudioHeap_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
+            AudioHeap_LoadLowPassFilter(reverb->filterLeft, settings->lowPassFilterCutoffLeft);
         } else {
             reverb->filterLeft = NULL;
         }
 
-        if (settings->unk_16 != 0) {
-            reverb->filterRightState = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
-            reverb->filterRight = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
-            func_800DF5DC(reverb->filterRight, settings->unk_16);
+        if (settings->lowPassFilterCutoffRight != 0) {
+            reverb->filterRightState = AudioHeap_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
+            reverb->filterRight = AudioHeap_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
+            AudioHeap_LoadLowPassFilter(reverb->filterRight, settings->lowPassFilterCutoffRight);
         } else {
             reverb->filterRight = NULL;
         }
     }
 
-    Audio_InitSequencePlayers();
+    AudioSeq_InitSequencePlayers();
     for (j = 0; j < gAudioContext.audioBufferParameters.numSequencePlayers; j++) {
-        func_800EC734(j);
-        Audio_ResetSequencePlayer(&gAudioContext.seqPlayers[j]);
+        AudioSeq_InitSequencePlayerChannels(j);
+        AudioSeq_ResetSequencePlayer(&gAudioContext.seqPlayers[j]);
     }
 
-    func_800E0634(spec->unk_30, spec->unk_34);
-    func_800E1618(gAudioContext.maxSimultaneousNotes);
-    gAudioContext.unk_176C = 0;
-    Audio_SyncLoadsInit();
-    func_800E4FB0();
-    Audio_AsyncLoadReqInit();
+    AudioHeap_InitSampleCaches(spec->persistentSampleCacheMem, spec->temporarySampleCacheMem);
+    AudioLoad_InitSampleDmaBuffers(gAudioContext.numNotes);
+    gAudioContext.preloadSampleStackTop = 0;
+    AudioLoad_InitSlowLoads();
+    AudioLoad_InitScriptLoads();
+    AudioLoad_InitAsyncLoads();
     gAudioContext.unk_4 = 0x1000;
-    func_800E4D94();
+    AudioLoad_LoadPermanentSamples();
     intMask = osSetIntMask(1);
     osWritebackDCacheAll();
     osSetIntMask(intMask);
 }
 
-void* func_800E04E8(s32 poolIdx, s32 id) {
+void* AudioHeap_SearchPermanentCache(s32 tableType, s32 id) {
     s32 i;
 
-    for (i = 0; i < gAudioContext.unk_2D50.unused; i++) {
-        if (gAudioContext.unk_2D60[i].poolIndex == poolIdx && gAudioContext.unk_2D60[i].id == id) {
-            return gAudioContext.unk_2D60[i].ptr;
+    for (i = 0; i < gAudioContext.permanentPool.count; i++) {
+        if (gAudioContext.permanentCache[i].tableType == tableType && gAudioContext.permanentCache[i].id == id) {
+            return gAudioContext.permanentCache[i].ptr;
         }
     }
     return NULL;
 }
 
-void* func_800E0540(s32 poolIdx, s32 id, u32 size) {
+void* AudioHeap_AllocPermanent(s32 tableType, s32 id, u32 size) {
     void* ret;
-    s32 sp18;
+    s32 index;
 
-    sp18 = gAudioContext.unk_2D50.unused;
+    index = gAudioContext.permanentPool.count;
 
-    ret = Audio_Alloc(&gAudioContext.unk_2D50, size);
-    gAudioContext.unk_2D60[sp18].ptr = ret;
+    ret = AudioHeap_Alloc(&gAudioContext.permanentPool, size);
+    gAudioContext.permanentCache[index].ptr = ret;
     if (ret == NULL) {
         return NULL;
     }
-    gAudioContext.unk_2D60[sp18].poolIndex = poolIdx;
-    gAudioContext.unk_2D60[sp18].id = id;
-    gAudioContext.unk_2D60[sp18].size = size;
+    gAudioContext.permanentCache[index].tableType = tableType;
+    gAudioContext.permanentCache[index].id = id;
+    gAudioContext.permanentCache[index].size = size;
     //! @bug UB: missing return. "ret" is in v0 at this point, but doing an
     // explicit return uses an additional register.
     // return ret;
 }
 
-void* func_800E05C4(u32 size, s32 arg1, void* arg2, s8 arg3, s32 arg4) {
-    UnkHeapEntry* entry;
+void* AudioHeap_AllocSampleCache(u32 size, s32 fontId, void* sampleAddr, s8 medium, s32 cache) {
+    SampleCacheEntry* entry;
 
-    if (arg4 == 0) {
-        entry = func_800E06CC(size);
+    if (cache == CACHE_TEMPORARY) {
+        entry = AudioHeap_AllocTemporarySampleCacheEntry(size);
     } else {
-        entry = func_800E0BF8(size);
+        entry = AudioHeap_AllocPersistentSampleCacheEntry(size);
     }
     if (entry != NULL) {
-        entry->unk_02 = arg1;
-        entry->unk_0C = arg2;
-        entry->unk_01 = arg3;
-        return entry->unk_08;
+        //! @bug Should use sampleBankId, not fontId
+        entry->sampleBankId = fontId;
+        entry->sampleAddr = sampleAddr;
+        entry->origMedium = medium;
+        return entry->allocatedAddr;
     }
     return NULL;
 }
 
-void func_800E0634(u32 arg0, u32 arg1) {
+void AudioHeap_InitSampleCaches(u32 persistentSize, u32 temporarySize) {
     void* mem;
 
-    mem = func_800DE2B0(&gAudioContext.notesAndBuffersPool, arg0);
+    mem = AudioHeap_AllocAttemptExternal(&gAudioContext.notesAndBuffersPool, persistentSize);
     if (mem == NULL) {
-        gAudioContext.unk_2EE0.pool.size = 0;
+        gAudioContext.persistentSampleCache.pool.size = 0;
     } else {
-        Audio_SoundAllocPoolInit(&gAudioContext.unk_2EE0.pool, mem, arg0);
+        AudioHeap_AllocPoolInit(&gAudioContext.persistentSampleCache.pool, mem, persistentSize);
     }
-    mem = func_800DE2B0(&gAudioContext.notesAndBuffersPool, arg1);
+    mem = AudioHeap_AllocAttemptExternal(&gAudioContext.notesAndBuffersPool, temporarySize);
     if (mem == NULL) {
-        gAudioContext.unk_3174.pool.size = 0;
+        gAudioContext.temporarySampleCache.pool.size = 0;
     } else {
-        Audio_SoundAllocPoolInit(&gAudioContext.unk_3174.pool, mem, arg1);
+        AudioHeap_AllocPoolInit(&gAudioContext.temporarySampleCache.pool, mem, temporarySize);
     }
-    gAudioContext.unk_2EE0.size = 0;
-    gAudioContext.unk_3174.size = 0;
+    gAudioContext.persistentSampleCache.size = 0;
+    gAudioContext.temporarySampleCache.size = 0;
 }
 
-UnkHeapEntry* func_800E06CC(u32 size) {
+SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size) {
     u8* allocAfter;
     u8* allocBefore;
     void* mem;
     s32 index;
     s32 i;
-    UnkHeapEntry* ret;
-    AudioStruct0D68* item;
-    UnkPool* unkPool;
+    SampleCacheEntry* ret;
+    AudioPreloadReq* preload;
+    AudioSampleCache* pool;
     u8* start;
     u8* end;
 
-    unkPool = &gAudioContext.unk_3174;
-    allocBefore = unkPool->pool.cur;
-    mem = Audio_Alloc(&unkPool->pool, size);
+    pool = &gAudioContext.temporarySampleCache;
+    allocBefore = pool->pool.cur;
+    mem = AudioHeap_Alloc(&pool->pool, size);
     if (mem == NULL) {
-        u8* old = unkPool->pool.cur;
-        unkPool->pool.cur = unkPool->pool.start;
-        mem = Audio_Alloc(&unkPool->pool, size);
+        // Reset the pool and try again. We still keep pointers to within the
+        // pool, so we have to be careful to discard existing overlapping
+        // allocations further down.
+        u8* old = pool->pool.cur;
+        pool->pool.cur = pool->pool.start;
+        mem = AudioHeap_Alloc(&pool->pool, size);
         if (mem == NULL) {
-            unkPool->pool.cur = old;
+            pool->pool.cur = old;
             return NULL;
         }
-        allocBefore = unkPool->pool.start;
+        allocBefore = pool->pool.start;
     }
 
-    allocAfter = unkPool->pool.cur;
+    allocAfter = pool->pool.cur;
 
     index = -1;
-    for (i = 0; i < gAudioContext.unk_176C; i++) {
-        item = &gAudioContext.unk_0D68[i];
-        if (item->isFree == false) {
-            start = item->ramAddr;
-            end = item->ramAddr + item->sample->size - 1;
+    for (i = 0; i < gAudioContext.preloadSampleStackTop; i++) {
+        preload = &gAudioContext.preloadSampleStack[i];
+        if (preload->isFree == false) {
+            start = preload->ramAddr;
+            end = preload->ramAddr + preload->sample->size - 1;
 
             if (end < allocBefore && start < allocBefore) {
                 continue;
@@ -1082,18 +1106,18 @@ UnkHeapEntry* func_800E06CC(u32 size) {
                 continue;
             }
 
-            // Overlap
-            item->isFree = true;
+            // Overlap, skip this preload.
+            preload->isFree = true;
         }
     }
 
-    for (i = 0; i < unkPool->size; i++) {
-        if (unkPool->entries[i].unk_00 == 0) {
+    for (i = 0; i < pool->size; i++) {
+        if (pool->entries[i].inUse == false) {
             continue;
         }
 
-        start = unkPool->entries[i].unk_08;
-        end = start + unkPool->entries[i].size - 1;
+        start = pool->entries[i].allocatedAddr;
+        end = start + pool->entries[i].size - 1;
 
         if (end < allocBefore && start < allocBefore) {
             continue;
@@ -1102,273 +1126,279 @@ UnkHeapEntry* func_800E06CC(u32 size) {
             continue;
         }
 
-        // Overlap. Discard existing entry?
-        func_800E0AD8(&unkPool->entries[i]);
+        // Overlap, discard existing entry.
+        AudioHeap_DiscardSampleCacheEntry(&pool->entries[i]);
         if (index == -1) {
             index = i;
         }
     }
 
     if (index == -1) {
-        index = unkPool->size++;
+        index = pool->size++;
     }
 
-    ret = &unkPool->entries[index];
-    ret->unk_00 = 1;
-    ret->unk_08 = mem;
+    ret = &pool->entries[index];
+    ret->inUse = true;
+    ret->allocatedAddr = mem;
     ret->size = size;
     return ret;
 }
 
-void func_800E0964(UnkHeapEntry* entry, s32 bankId) {
+void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
     Drum* drum;
     Instrument* inst;
-    AudioBankSound* sfx;
+    SoundFontSound* sfx;
     s32 instId;
     s32 drumId;
     s32 sfxId;
 
-    for (instId = 0; instId < gAudioContext.ctlEntries[bankId].numInstruments; instId++) {
-        inst = Audio_GetInstrumentInner(bankId, instId);
+    for (instId = 0; instId < gAudioContext.soundFonts[fontId].numInstruments; instId++) {
+        inst = Audio_GetInstrumentInner(fontId, instId);
         if (inst != NULL) {
             if (inst->normalRangeLo != 0) {
-                func_800E0BB4(entry, inst->lowNotesSound.sample);
+                AudioHeap_UnapplySampleCache(entry, inst->lowNotesSound.sample);
             }
             if (inst->normalRangeHi != 0x7F) {
-                func_800E0BB4(entry, inst->highNotesSound.sample);
+                AudioHeap_UnapplySampleCache(entry, inst->highNotesSound.sample);
             }
-            func_800E0BB4(entry, inst->normalNotesSound.sample);
+            AudioHeap_UnapplySampleCache(entry, inst->normalNotesSound.sample);
         }
     }
 
-    for (drumId = 0; drumId < gAudioContext.ctlEntries[bankId].numDrums; drumId++) {
-        drum = Audio_GetDrum(bankId, drumId);
+    for (drumId = 0; drumId < gAudioContext.soundFonts[fontId].numDrums; drumId++) {
+        drum = Audio_GetDrum(fontId, drumId);
         if (drum != NULL) {
-            func_800E0BB4(entry, drum->sound.sample);
+            AudioHeap_UnapplySampleCache(entry, drum->sound.sample);
         }
     }
 
-    for (sfxId = 0; sfxId < gAudioContext.ctlEntries[bankId].numSfx; sfxId++) {
-        sfx = Audio_GetSfx(bankId, sfxId);
+    for (sfxId = 0; sfxId < gAudioContext.soundFonts[fontId].numSfx; sfxId++) {
+        sfx = Audio_GetSfx(fontId, sfxId);
         if (sfx != NULL) {
-            func_800E0BB4(entry, sfx->sample);
+            AudioHeap_UnapplySampleCache(entry, sfx->sample);
         }
     }
 }
 
-void func_800E0AD8(UnkHeapEntry* entry) {
-    s32 numBanks;
-    s32 unk2;
-    s32 unk3;
-    s32 bankId;
+void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry) {
+    s32 numFonts;
+    s32 sampleBankId1;
+    s32 sampleBankId2;
+    s32 fontId;
 
-    numBanks = gAudioContext.audioBankTable->header.entryCnt;
-    for (bankId = 0; bankId < numBanks; bankId++) {
-        unk2 = gAudioContext.ctlEntries[bankId].unk_02;
-        unk3 = gAudioContext.ctlEntries[bankId].unk_03;
-        if (((unk2 != 0xFF) && (entry->unk_02 == unk2)) || ((unk3 != 0xFF) && (entry->unk_02 == unk3)) ||
-            entry->unk_02 == 0) {
-            if (func_800DF074(1, 2, bankId) != NULL) {
-                if (Audio_IsBankLoadComplete(bankId) != 0) {
-                    func_800E0964(entry, bankId);
+    numFonts = gAudioContext.soundFontTable->numEntries;
+    for (fontId = 0; fontId < numFonts; fontId++) {
+        sampleBankId1 = gAudioContext.soundFonts[fontId].sampleBankId1;
+        sampleBankId2 = gAudioContext.soundFonts[fontId].sampleBankId2;
+        if (((sampleBankId1 != 0xFF) && (entry->sampleBankId == sampleBankId1)) ||
+            ((sampleBankId2 != 0xFF) && (entry->sampleBankId == sampleBankId2)) || entry->sampleBankId == 0) {
+            if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) != NULL) {
+                if (AudioLoad_IsFontLoadComplete(fontId) != 0) {
+                    AudioHeap_UnapplySampleCacheForFont(entry, fontId);
                 }
             }
         }
     }
 }
 
-void func_800E0BB4(UnkHeapEntry* entry, AudioBankSample* sample) {
+void AudioHeap_UnapplySampleCache(SampleCacheEntry* entry, SoundFontSample* sample) {
     if (sample != NULL) {
-        if (sample->sampleAddr == entry->unk_08) {
-            sample->sampleAddr = entry->unk_0C;
-            sample->medium = entry->unk_01;
+        if (sample->sampleAddr == entry->allocatedAddr) {
+            sample->sampleAddr = entry->sampleAddr;
+            sample->medium = entry->origMedium;
         }
     }
 }
 
-UnkHeapEntry* func_800E0BF8(u32 size) {
-    UnkPool* pool;
-    UnkHeapEntry* entry;
+SampleCacheEntry* AudioHeap_AllocPersistentSampleCacheEntry(u32 size) {
+    AudioSampleCache* pool;
+    SampleCacheEntry* entry;
     void* mem;
 
-    pool = &gAudioContext.unk_2EE0;
-    mem = Audio_Alloc(&pool->pool, size);
+    pool = &gAudioContext.persistentSampleCache;
+    mem = AudioHeap_Alloc(&pool->pool, size);
     if (mem == NULL) {
         return NULL;
     }
     entry = &pool->entries[pool->size];
-    entry->unk_00 = 1;
-    entry->unk_08 = mem;
+    entry->inUse = true;
+    entry->allocatedAddr = mem;
     entry->size = size;
     pool->size++;
     return entry;
 }
 
-void func_800E0C80(UnkHeapEntry* entry, s32 arg1, s32 arg2, s32 bankId) {
-    if ((entry->unk_02 == arg1) || (entry->unk_02 == arg2) || (entry->unk_02 == 0)) {
-        func_800E0964(entry, bankId);
+void AudioHeap_DiscardSampleCacheForFont(SampleCacheEntry* entry, s32 sampleBankId1, s32 sampleBankId2, s32 fontId) {
+    if ((entry->sampleBankId == sampleBankId1) || (entry->sampleBankId == sampleBankId2) ||
+        (entry->sampleBankId == 0)) {
+        AudioHeap_UnapplySampleCacheForFont(entry, fontId);
     }
 }
 
-void func_800E0CBC(void) {
-    s32 numBanks;
-    s32 unk2;
-    s32 unk3;
-    s32 bankId;
+void AudioHeap_DiscardSampleCaches(void) {
+    s32 numFonts;
+    s32 sampleBankId1;
+    s32 sampleBankId2;
+    s32 fontId;
     s32 j;
 
-    numBanks = gAudioContext.audioBankTable->header.entryCnt;
-    for (bankId = 0; bankId < numBanks; bankId++) {
-        unk2 = gAudioContext.ctlEntries[bankId].unk_02;
-        unk3 = gAudioContext.ctlEntries[bankId].unk_03;
-        if ((unk2 == 0xFF) && (unk3 == 0xFF)) {
+    numFonts = gAudioContext.soundFontTable->numEntries;
+    for (fontId = 0; fontId < numFonts; fontId++) {
+        sampleBankId1 = gAudioContext.soundFonts[fontId].sampleBankId1;
+        sampleBankId2 = gAudioContext.soundFonts[fontId].sampleBankId2;
+        if ((sampleBankId1 == 0xFF) && (sampleBankId2 == 0xFF)) {
             continue;
         }
-        if (func_800DF074(1, 3, bankId) == NULL || !Audio_IsBankLoadComplete(bankId)) {
+        if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_PERMANENT, fontId) == NULL ||
+            !AudioLoad_IsFontLoadComplete(fontId)) {
             continue;
         }
 
-        for (j = 0; j < gAudioContext.unk_2EE0.size; j++) {
-            func_800E0C80(&gAudioContext.unk_2EE0.entries[j], unk2, unk3, bankId);
+        for (j = 0; j < gAudioContext.persistentSampleCache.size; j++) {
+            AudioHeap_DiscardSampleCacheForFont(&gAudioContext.persistentSampleCache.entries[j], sampleBankId1,
+                                                sampleBankId2, fontId);
         }
-        for (j = 0; j < gAudioContext.unk_3174.size; j++) {
-            func_800E0C80(&gAudioContext.unk_3174.entries[j], unk2, unk3, bankId);
+        for (j = 0; j < gAudioContext.temporarySampleCache.size; j++) {
+            AudioHeap_DiscardSampleCacheForFont(&gAudioContext.temporarySampleCache.entries[j], sampleBankId1,
+                                                sampleBankId2, fontId);
         }
     }
 }
 
 typedef struct {
-    u8* unk_0;
-    u8* unk_4;
-    u32 unk_8;
-    u8 unk_C;
-} Struct_800E0E0C;
+    u32 oldAddr;
+    u32 newAddr;
+    u32 size;
+    u8 newMedium;
+} StorageChange;
 
-void func_800E0E0C(Struct_800E0E0C* arg0, AudioBankSample* sample) {
+void AudioHeap_ChangeStorage(StorageChange* change, SoundFontSample* sample) {
     if (sample != NULL) {
-        u8* start = arg0->unk_0;
-        u8* end = arg0->unk_0 + arg0->unk_8;
-        u8* sampleAddr = sample->sampleAddr;
-        if (start <= sampleAddr && sampleAddr < end) {
-            sample->sampleAddr = sampleAddr - start + arg0->unk_4;
-            sample->medium = arg0->unk_C & 0xFF;
+        u32 start = change->oldAddr;
+        u32 end = change->oldAddr + change->size;
+        if (start <= (u32)sample->sampleAddr && (u32)sample->sampleAddr < end) {
+            sample->sampleAddr = sample->sampleAddr - start + change->newAddr;
+            sample->medium = change->newMedium;
         }
     }
 }
 
-void func_800E0E6C(s32 id) {
-    func_800E0EB4(0, id);
+void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 id);
+
+void AudioHeap_DiscardSampleBank(s32 sampleBankId) {
+    AudioHeap_ApplySampleBankCacheInternal(false, sampleBankId);
 }
 
-void func_800E0E90(s32 id) {
-    func_800E0EB4(1, id);
+void AudioHeap_ApplySampleBankCache(s32 sampleBankId) {
+    AudioHeap_ApplySampleBankCacheInternal(true, sampleBankId);
 }
 
-void func_800E0EB4(s32 arg0, s32 id) {
-    AudioTable* audioTable;
-    AudioTableEntry* thing;
-    s32 numBanks;
+void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
+    AudioTable* sampleBankTable;
+    AudioTableEntry* entry;
+    s32 numFonts;
     s32 instId;
     s32 drumId;
     s32 sfxId;
-    Struct_800E0E0C sp78;
-    s32 unk2;
-    s32 unk3;
-    s32 bankId;
+    StorageChange change;
+    s32 sampleBankId1;
+    s32 sampleBankId2;
+    s32 fontId;
     Drum* drum;
     Instrument* inst;
-    AudioBankSound* sfx;
-    u8** fakematch;
+    SoundFontSound* sfx;
+    u32* fakematch;
     s32 pad[4];
 
-    audioTable = gAudioContext.audioTable;
-    numBanks = gAudioContext.audioBankTable->header.entryCnt;
-    sp78.unk_0 = func_800DF074(2, 2, id);
-    if (sp78.unk_0 == NULL) {
+    sampleBankTable = gAudioContext.sampleBankTable;
+    numFonts = gAudioContext.soundFontTable->numEntries;
+    change.oldAddr = AudioHeap_SearchCaches(SAMPLE_TABLE, CACHE_EITHER, sampleBankId);
+    if (change.oldAddr == 0) {
         return;
     }
 
-    thing = &audioTable->entries[id];
-    sp78.unk_8 = thing->size;
-    sp78.unk_C = thing->unk_08;
+    entry = &sampleBankTable->entries[sampleBankId];
+    change.size = entry->size;
+    change.newMedium = entry->medium;
 
-    if ((sp78.unk_C == 2) || (sp78.unk_C == 3)) {
-        sp78.unk_4 = thing->romAddr;
+    if ((change.newMedium == MEDIUM_CART) || (change.newMedium == MEDIUM_DISK_DRIVE)) {
+        change.newAddr = entry->romAddr;
     } else {
-        sp78.unk_4 = NULL;
+        change.newAddr = 0;
     }
 
-    fakematch = &sp78.unk_0;
-    if ((arg0 != 0) && (arg0 == 1)) {
-        u8* temp = sp78.unk_4;
-        sp78.unk_4 = *fakematch;
-        sp78.unk_0 = temp;
-        sp78.unk_C = 0;
+    fakematch = &change.oldAddr;
+    if ((apply != false) && (apply == true)) {
+        u32 temp = change.newAddr;
+        change.newAddr = *fakematch; // = change.oldAddr
+        change.oldAddr = temp;
+        change.newMedium = MEDIUM_RAM;
     }
 
-    for (bankId = 0; bankId < numBanks; bankId++) {
-        unk2 = gAudioContext.ctlEntries[bankId].unk_02;
-        unk3 = gAudioContext.ctlEntries[bankId].unk_03;
-        if ((unk2 != 0xFF) || (unk3 != 0xFF)) {
-            if (!Audio_IsBankLoadComplete(bankId) || func_800DF074(1, 2, bankId) == NULL) {
+    for (fontId = 0; fontId < numFonts; fontId++) {
+        sampleBankId1 = gAudioContext.soundFonts[fontId].sampleBankId1;
+        sampleBankId2 = gAudioContext.soundFonts[fontId].sampleBankId2;
+        if ((sampleBankId1 != 0xFF) || (sampleBankId2 != 0xFF)) {
+            if (!AudioLoad_IsFontLoadComplete(fontId) ||
+                AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) == NULL) {
                 continue;
             }
 
-            if (unk2 == id) {
-            } else if (unk3 == id) {
+            if (sampleBankId1 == sampleBankId) {
+            } else if (sampleBankId2 == sampleBankId) {
             } else {
                 continue;
             }
 
-            for (instId = 0; instId < gAudioContext.ctlEntries[bankId].numInstruments; instId++) {
-                inst = Audio_GetInstrumentInner(bankId, instId);
+            for (instId = 0; instId < gAudioContext.soundFonts[fontId].numInstruments; instId++) {
+                inst = Audio_GetInstrumentInner(fontId, instId);
                 if (inst != NULL) {
                     if (inst->normalRangeLo != 0) {
-                        func_800E0E0C(&sp78, inst->lowNotesSound.sample);
+                        AudioHeap_ChangeStorage(&change, inst->lowNotesSound.sample);
                     }
                     if (inst->normalRangeHi != 0x7F) {
-                        func_800E0E0C(&sp78, inst->highNotesSound.sample);
+                        AudioHeap_ChangeStorage(&change, inst->highNotesSound.sample);
                     }
-                    func_800E0E0C(&sp78, inst->normalNotesSound.sample);
+                    AudioHeap_ChangeStorage(&change, inst->normalNotesSound.sample);
                 }
             }
 
-            for (drumId = 0; drumId < gAudioContext.ctlEntries[bankId].numDrums; drumId++) {
-                drum = Audio_GetDrum(bankId, drumId);
+            for (drumId = 0; drumId < gAudioContext.soundFonts[fontId].numDrums; drumId++) {
+                drum = Audio_GetDrum(fontId, drumId);
                 if (drum != NULL) {
-                    func_800E0E0C(&sp78, drum->sound.sample);
+                    AudioHeap_ChangeStorage(&change, drum->sound.sample);
                 }
             }
 
-            for (sfxId = 0; sfxId < gAudioContext.ctlEntries[bankId].numSfx; sfxId++) {
-                sfx = Audio_GetSfx(bankId, sfxId);
+            for (sfxId = 0; sfxId < gAudioContext.soundFonts[fontId].numSfx; sfxId++) {
+                sfx = Audio_GetSfx(fontId, sfxId);
                 if (sfx != NULL) {
-                    func_800E0E0C(&sp78, sfx->sample);
+                    AudioHeap_ChangeStorage(&change, sfx->sample);
                 }
             }
         }
     }
 }
 
-void func_800E1148(void) {
-    SoundMultiPool* pool;
-    PersistentPool* persistent;
-    TemporaryPool* temporary;
+void AudioHeap_DiscardSampleBanks(void) {
+    AudioCache* pool;
+    AudioPersistentCache* persistent;
+    AudioTemporaryCache* temporary;
     u32 i;
 
-    pool = &gAudioContext.unusedLoadedPool;
+    pool = &gAudioContext.sampleBankCache;
     temporary = &pool->temporary;
 
     if (temporary->entries[0].id != -1) {
-        func_800E0E6C(temporary->entries[0].id);
+        AudioHeap_DiscardSampleBank(temporary->entries[0].id);
     }
 
     if (temporary->entries[1].id != -1) {
-        func_800E0E6C(temporary->entries[1].id);
+        AudioHeap_DiscardSampleBank(temporary->entries[1].id);
     }
 
     persistent = &pool->persistent;
     for (i = 0; i < persistent->numEntries; i++) {
-        func_800E0E6C(persistent->entries[i].id);
+        AudioHeap_DiscardSampleBank(persistent->entries[i].id);
     }
 }

@@ -306,7 +306,7 @@ void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 3; i++) {
         globalCtx->envCtx.adjAmbientColor[i] = globalCtx->envCtx.adjFogColor[i] = globalCtx->envCtx.adjLight1Color[i] =
-            -255 * darkness;
+            -255.0f * darkness;
     }
     globalCtx->envCtx.adjFogNear = -500.0f * darkness;
 
@@ -382,7 +382,7 @@ void DoorWarp1_ChooseInitialAction(DoorWarp1* this, GlobalContext* globalCtx) {
 void DoorWarp1_AwaitClearFlag(DoorWarp1* this, GlobalContext* globalCtx) {
     if (Flags_GetTempClear(globalCtx, this->actor.room)) {
         this->warpTimer = 200;
-        Audio_QueueSeqCmd(0x21);
+        Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
         DoorWarp1_SetupAction(this, func_809995D4);
     }
 }
