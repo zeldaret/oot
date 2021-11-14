@@ -792,8 +792,8 @@ typedef enum {
     /* 0x00 */ SRAM_HEADER_SOUND,
     /* 0x01 */ SRAM_HEADER_ZTARGET,
     /* 0x02 */ SRAM_HEADER_LANGUAGE,
-    /* 0x03 */ SRAM_HEADER_MAGIC // must be value of `sZeldaMagic`  for save to be considered valid
-} SramHeaderFields;
+    /* 0x03 */ SRAM_HEADER_MAGIC // must be the value of `sZeldaMagic` for save to be considered valid
+} SramHeaderField;
 
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;
@@ -1038,7 +1038,7 @@ typedef struct {
     /* 0x1CA9E */ s16 controlsAlpha;
     /* 0x1CAA0 */ s16 emptyFileTextAlpha;
     /* 0x1CAA2 */ s16 highlightColor[4];
-    /* 0x1CAAA */ s16 highlightFlashDir; // 0 fade out, 1 fade in
+    /* 0x1CAAA */ s16 highlightPulseDir; // 0 fade out, 1 fade in
     /* 0x1CAAC */ s16 unk_1CAAC; // initialized but never used
     /* 0x1CAAE */ s16 confirmButtonTexIndices[2];
     /* 0x1CAB2 */ s16 inputTimerX;

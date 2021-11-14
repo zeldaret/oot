@@ -262,7 +262,7 @@ void FileChoose_DrawKeyboard(GameState* thisx) {
 void FileChoose_DrawNameEntry(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     Font* font = &this->font;
-    Input* controller1 = &this->state.input[0];
+    Input* input1 = &this->state.input[0];
     s16 i;
     s16 tmp;
     u16 dayTime;
@@ -280,7 +280,8 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
     this->nameEntryVtx[36].v.ob[1] = this->nameEntryVtx[37].v.ob[1] = this->nameEntryVtx[tmp].v.ob[1] + 7;
     this->nameEntryVtx[38].v.ob[1] = this->nameEntryVtx[39].v.ob[1] = this->nameEntryVtx[36].v.ob[1] - 24;
 
-    if ((this->kbdButton == KBD_BTN_HIRA) || (this->kbdButton == KBD_BTN_KATA) || (this->kbdButton == KBD_BTN_END)) {
+    if ((this->kbdButton == FS_KBD_BTN_HIRA) || (this->kbdButton == FS_KBD_BTN_KATA) ||
+        (this->kbdButton == FS_KBD_BTN_END)) {
         if (this->kbdX != this->kbdButton) {
             osSyncPrintf("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
@@ -288,7 +289,7 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
         this->nameEntryVtx[41].v.ob[0] = this->nameEntryVtx[43].v.ob[0] = this->nameEntryVtx[40].v.ob[0] + 52;
         this->nameEntryVtx[40].v.ob[1] = this->nameEntryVtx[41].v.ob[1] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[1] + 4;
 
-    } else if ((this->kbdButton == KBD_BTN_ENG) || (this->kbdButton == KBD_BTN_BACKSPACE)) {
+    } else if ((this->kbdButton == FS_KBD_BTN_ENG) || (this->kbdButton == FS_KBD_BTN_BACKSPACE)) {
         if (this->kbdX != this->kbdButton) {
             osSyncPrintf("23 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
@@ -321,12 +322,13 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
                         G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
-    if ((this->kbdButton == KBD_BTN_HIRA) || (this->kbdButton == KBD_BTN_KATA) || (this->kbdButton == KBD_BTN_END)) {
+    if ((this->kbdButton == FS_KBD_BTN_HIRA) || (this->kbdButton == FS_KBD_BTN_KATA) ||
+        (this->kbdButton == FS_KBD_BTN_END)) {
         gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelMediumButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 56, 24, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
-    } else if ((this->kbdButton == KBD_BTN_ENG) || (this->kbdButton == KBD_BTN_BACKSPACE)) {
+    } else if ((this->kbdButton == FS_KBD_BTN_ENG) || (this->kbdButton == FS_KBD_BTN_BACKSPACE)) {
         gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelSmallButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 40, 24, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
@@ -343,15 +345,26 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
     if (this->configMode == CM_NAME_ENTRY) {
-        if (CHECK_BTN_ALL(controller1->press.button, BTN_START)) {
+        if (CHECK_BTN_ALL(input1->press.button, BTN_START)) {
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             // place cursor on END button
             this->kbdY = 5;
             this->kbdX = 4;
+        } else if (CHECK_BTN_ALL(input1->press.button, BTN_B)) {
+            if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
+                for (i = this->newFileNameCharCount; i < 7; i++) {
+                    this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
+                }
 
-        } else {
-            if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
-                if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
+                this->fileNames[this->buttonIndex][i] = 0x3E;
+                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            } else {
+                this->newFileNameCharCount--;
+
+                if (this->newFileNameCharCount < 0) {
+                    this->newFileNameCharCount = 0;
+                    this->configMode = CM_NAME_ENTRY_TO_MAIN;
+                } else {
                     for (i = this->newFileNameCharCount; i < 7; i++) {
                         this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
                     }
@@ -359,112 +372,94 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
                     this->fileNames[this->buttonIndex][i] = 0x3E;
                     Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
-                } else {
-                    this->newFileNameCharCount--;
+                }
+            }
+        } else {
+            if (this->charPage <= FS_CHAR_PAGE_ENG) {
+                if (this->kbdY != 5) {
+                    // draw the character the cursor is hovering over in yellow
+                    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, 255);
+                    gSPVertex(POLY_OPA_DISP++, &this->keyboardVtx[this->charIndex * 4], 4, 0);
 
-                    if (this->newFileNameCharCount < 0) {
-                        this->newFileNameCharCount = 0;
-                        this->configMode = CM_NAME_ENTRY_TO_MAIN;
-                    } else {
-                        for (i = this->newFileNameCharCount; i < 7; i++) {
-                            this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
-                        }
+                    FileChoose_DrawCharacter(this->state.gfxCtx,
+                                             font->fontBuf + D_808123F0[this->charIndex] * FONT_CHAR_TEX_SIZE, 0);
 
-                        this->fileNames[this->buttonIndex][i] = 0x3E;
+                    if (CHECK_BTN_ALL(input1->press.button, BTN_A)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
-                    }
-                }
-            } else {
-                if (this->charPage <= CHAR_PAGE_ENG) {
-                    if (this->kbdY != 5) {
-                        // draw the character the cursor is hovering over in yellow
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, 255);
-                        gSPVertex(POLY_OPA_DISP++, &this->keyboardVtx[this->charIndex * 4], 4, 0);
-
-                        FileChoose_DrawCharacter(this->state.gfxCtx,
-                                                 font->fontBuf + D_808123F0[this->charIndex] * FONT_CHAR_TEX_SIZE, 0);
-
-                        if (CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
-                            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                                   &D_801333E8);
-                            this->fileNames[this->buttonIndex][this->newFileNameCharCount] =
-                                D_808123F0[this->charIndex];
-                            this->newFileNameCharCount++;
-
-                            if (this->newFileNameCharCount > 7) {
-                                this->newFileNameCharCount = 7;
-                            }
-                        }
-                    } else if (CHECK_BTN_ALL(controller1->press.button, BTN_A) && (this->charPage != this->kbdButton)) {
-                        if (this->kbdButton == KBD_BTN_BACKSPACE) {
-                            if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
-                                for (i = this->newFileNameCharCount; i < 7; i++) {
-                                    this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
-                                }
-
-                                this->fileNames[this->buttonIndex][i] = 0x3E;
-                                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                                       &D_801333E8);
-                            } else {
-                                this->newFileNameCharCount--;
-
-                                if (this->newFileNameCharCount < 0) {
-                                    this->newFileNameCharCount = 0;
-                                }
-
-                                for (i = this->newFileNameCharCount; i < 7; i++) {
-                                    this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
-                                }
-
-                                this->fileNames[this->buttonIndex][i] = 0x3E;
-                                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                                       &D_801333E8);
-                            }
-                        } else if (this->kbdButton == KBD_BTN_END) {
-                            validName = false;
-
-                            for (i = 0; i < 8; i++) {
-                                if (this->fileNames[this->buttonIndex][i] != 0x3E) {
-                                    validName = true;
-                                    break;
-                                }
-                            }
-
-                            if (validName) {
-                                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                                       &D_801333E8);
-                                gSaveContext.fileNum = this->buttonIndex;
-                                dayTime = ((void)0, gSaveContext.dayTime);
-                                Sram_InitSave(this, &this->sramCtx);
-                                gSaveContext.dayTime = dayTime;
-                                this->configMode = CM_NAME_ENTRY_TO_MAIN;
-                                this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
-                                this->connectorAlpha[this->buttonIndex] = 255;
-                                func_800AA000(300.0f, 0xB4, 0x14, 0x64);
-                            } else {
-                                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                                       &D_801333E8);
-                            }
-                        }
-                    }
-
-                    if (CHECK_BTN_ALL(controller1->press.button, BTN_CRIGHT)) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                               &D_801333E8);
+                        this->fileNames[this->buttonIndex][this->newFileNameCharCount] = D_808123F0[this->charIndex];
                         this->newFileNameCharCount++;
 
                         if (this->newFileNameCharCount > 7) {
                             this->newFileNameCharCount = 7;
                         }
-                    } else if (CHECK_BTN_ALL(controller1->press.button, BTN_CLEFT)) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                               &D_801333E8);
-                        this->newFileNameCharCount--;
+                    }
+                } else if (CHECK_BTN_ALL(input1->press.button, BTN_A) && (this->charPage != this->kbdButton)) {
+                    if (this->kbdButton == FS_KBD_BTN_BACKSPACE) {
+                        if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
+                            for (i = this->newFileNameCharCount; i < 7; i++) {
+                                this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
+                            }
 
-                        if (this->newFileNameCharCount < 0) {
-                            this->newFileNameCharCount = 0;
+                            this->fileNames[this->buttonIndex][i] = 0x3E;
+                            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                        } else {
+                            this->newFileNameCharCount--;
+
+                            if (this->newFileNameCharCount < 0) {
+                                this->newFileNameCharCount = 0;
+                            }
+
+                            for (i = this->newFileNameCharCount; i < 7; i++) {
+                                this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
+                            }
+
+                            this->fileNames[this->buttonIndex][i] = 0x3E;
+                            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
                         }
+                    } else if (this->kbdButton == FS_KBD_BTN_END) {
+                        validName = false;
+
+                        for (i = 0; i < 8; i++) {
+                            if (this->fileNames[this->buttonIndex][i] != 0x3E) {
+                                validName = true;
+                                break;
+                            }
+                        }
+
+                        if (validName) {
+                            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            gSaveContext.fileNum = this->buttonIndex;
+                            dayTime = ((void)0, gSaveContext.dayTime);
+                            Sram_InitSave(this, &this->sramCtx);
+                            gSaveContext.dayTime = dayTime;
+                            this->configMode = CM_NAME_ENTRY_TO_MAIN;
+                            this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
+                            this->connectorAlpha[this->buttonIndex] = 255;
+                            func_800AA000(300.0f, 0xB4, 0x14, 0x64);
+                        } else {
+                            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                        }
+                    }
+                }
+
+                if (CHECK_BTN_ALL(input1->press.button, BTN_CRIGHT)) {
+                    Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    this->newFileNameCharCount++;
+
+                    if (this->newFileNameCharCount > 7) {
+                        this->newFileNameCharCount = 7;
+                    }
+                } else if (CHECK_BTN_ALL(input1->press.button, BTN_CLEFT)) {
+                    Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    this->newFileNameCharCount--;
+
+                    if (this->newFileNameCharCount < 0) {
+                        this->newFileNameCharCount = 0;
                     }
                 }
             }
@@ -656,9 +651,9 @@ static u8 sSelectedSetting;
 void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
-    Input* controller1 = &this->state.input[0];
+    Input* input1 = &this->state.input[0];
 
-    if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
+    if (CHECK_BTN_ALL(input1->press.button, BTN_B)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->configMode = CM_OPTIONS_TO_MAIN;
         sramCtx->readBuff[0] = gSaveContext.audioSetting;
@@ -680,12 +675,12 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     if (this->stickRelX < -30) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
-        if (sSelectedSetting == SETTING_AUDIO) {
+        if (sSelectedSetting == FS_SETTING_AUDIO) {
             gSaveContext.audioSetting--;
 
             // because audio setting is unsigned, can't check for < 0
             if (gSaveContext.audioSetting > 0xF0) {
-                gSaveContext.audioSetting = AUDIO_SURROUND;
+                gSaveContext.audioSetting = FS_AUDIO_SURROUND;
             }
         } else {
             gSaveContext.zTargetSetting ^= 1;
@@ -693,11 +688,11 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     } else if (this->stickRelX > 30) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
-        if (sSelectedSetting == SETTING_AUDIO) {
+        if (sSelectedSetting == FS_SETTING_AUDIO) {
             gSaveContext.audioSetting++;
 
-            if (gSaveContext.audioSetting > AUDIO_SURROUND) {
-                gSaveContext.audioSetting = AUDIO_STEREO;
+            if (gSaveContext.audioSetting > FS_AUDIO_SURROUND) {
+                gSaveContext.audioSetting = FS_AUDIO_STEREO;
             }
         } else {
             gSaveContext.zTargetSetting ^= 1;
@@ -707,7 +702,7 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     if ((this->stickRelY < -30) || (this->stickRelY > 30)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         sSelectedSetting ^= 1;
-    } else if (CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
+    } else if (CHECK_BTN_ALL(input1->press.button, BTN_A)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         sSelectedSetting ^= 1;
     }
@@ -782,13 +777,13 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
     static s16 cursorEnvRed = 0;
     static s16 cursorEnvGreen = 0;
     static s16 cursorEnvBlue = 0;
-    static s16 cursorFlashDir = 1;
+    static s16 cursorPulseDir = 1;
     static s16 cursorFlashTimer = 20;
-    static s16 cursorPrimMax[][3] = {
+    static s16 cursorPrimColors[][3] = {
         { 255, 255, 255 },
         { 0, 255, 255 },
     };
-    static s16 cursorEnvMax[][3] = {
+    static s16 cursorEnvColors[][3] = {
         { 0, 0, 0 },
         { 0, 150, 150 },
     };
@@ -802,63 +797,63 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 848);
 
-    cursorRed = ABS(cursorPrimRed - cursorPrimMax[cursorFlashDir][0]) / cursorFlashTimer;
-    cursorGreen = ABS(cursorPrimGreen - cursorPrimMax[cursorFlashDir][1]) / cursorFlashTimer;
-    cursorBlue = ABS(cursorPrimBlue - cursorPrimMax[cursorFlashDir][2]) / cursorFlashTimer;
+    cursorRed = ABS(cursorPrimRed - cursorPrimColors[cursorPulseDir][0]) / cursorFlashTimer;
+    cursorGreen = ABS(cursorPrimGreen - cursorPrimColors[cursorPulseDir][1]) / cursorFlashTimer;
+    cursorBlue = ABS(cursorPrimBlue - cursorPrimColors[cursorPulseDir][2]) / cursorFlashTimer;
 
-    if (cursorPrimRed >= cursorPrimMax[cursorFlashDir][0]) {
+    if (cursorPrimRed >= cursorPrimColors[cursorPulseDir][0]) {
         cursorPrimRed -= cursorRed;
     } else {
         cursorPrimRed += cursorRed;
     }
 
-    if (cursorPrimGreen >= cursorPrimMax[cursorFlashDir][1]) {
+    if (cursorPrimGreen >= cursorPrimColors[cursorPulseDir][1]) {
         cursorPrimGreen -= cursorGreen;
     } else {
         cursorPrimGreen += cursorGreen;
     }
 
-    if (cursorPrimBlue >= cursorPrimMax[cursorFlashDir][2]) {
+    if (cursorPrimBlue >= cursorPrimColors[cursorPulseDir][2]) {
         cursorPrimBlue -= cursorBlue;
     } else {
         cursorPrimBlue += cursorBlue;
     }
 
-    cursorRed = ABS(cursorEnvRed - cursorEnvMax[cursorFlashDir][0]) / cursorFlashTimer;
-    cursorGreen = ABS(cursorEnvGreen - cursorEnvMax[cursorFlashDir][1]) / cursorFlashTimer;
-    cursorBlue = ABS(cursorEnvBlue - cursorEnvMax[cursorFlashDir][2]) / cursorFlashTimer;
+    cursorRed = ABS(cursorEnvRed - cursorEnvColors[cursorPulseDir][0]) / cursorFlashTimer;
+    cursorGreen = ABS(cursorEnvGreen - cursorEnvColors[cursorPulseDir][1]) / cursorFlashTimer;
+    cursorBlue = ABS(cursorEnvBlue - cursorEnvColors[cursorPulseDir][2]) / cursorFlashTimer;
 
-    if (cursorEnvRed >= cursorEnvMax[cursorFlashDir][0]) {
+    if (cursorEnvRed >= cursorEnvColors[cursorPulseDir][0]) {
         cursorEnvRed -= cursorRed;
     } else {
         cursorEnvRed += cursorRed;
     }
 
-    if (cursorEnvGreen >= cursorEnvMax[cursorFlashDir][1]) {
+    if (cursorEnvGreen >= cursorEnvColors[cursorPulseDir][1]) {
         cursorEnvGreen -= cursorGreen;
     } else {
         cursorEnvGreen += cursorGreen;
     }
 
-    if (cursorEnvBlue >= cursorEnvMax[cursorFlashDir][2]) {
+    if (cursorEnvBlue >= cursorEnvColors[cursorPulseDir][2]) {
         cursorEnvBlue -= cursorBlue;
     } else {
         cursorEnvBlue += cursorBlue;
     }
 
     if (--cursorFlashTimer == 0) {
-        cursorPrimRed = cursorPrimMax[cursorFlashDir][0];
-        cursorPrimGreen = cursorPrimMax[cursorFlashDir][1];
-        cursorPrimBlue = cursorPrimMax[cursorFlashDir][2];
+        cursorPrimRed = cursorPrimColors[cursorPulseDir][0];
+        cursorPrimGreen = cursorPrimColors[cursorPulseDir][1];
+        cursorPrimBlue = cursorPrimColors[cursorPulseDir][2];
 
-        cursorEnvRed = cursorEnvMax[cursorFlashDir][0];
-        cursorEnvGreen = cursorEnvMax[cursorFlashDir][1];
-        cursorEnvBlue = cursorEnvMax[cursorFlashDir][2];
+        cursorEnvRed = cursorEnvColors[cursorPulseDir][0];
+        cursorEnvGreen = cursorEnvColors[cursorPulseDir][1];
+        cursorEnvBlue = cursorEnvColors[cursorPulseDir][2];
 
         cursorFlashTimer = 20;
 
-        if (++cursorFlashDir > 1) {
-            cursorFlashDir = 0;
+        if (++cursorPulseDir > 1) {
+            cursorPulseDir = 0;
         }
     }
 
@@ -891,7 +886,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
     for (i = 0, vtx = 0; i < 4; i++, vtx += 4) {
         gDPPipeSync(POLY_OPA_DISP++);
         if (i == gSaveContext.audioSetting) {
-            if (sSelectedSetting == SETTING_AUDIO) {
+            if (sSelectedSetting == FS_SETTING_AUDIO) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, cursorPrimRed, cursorPrimGreen, cursorPrimBlue,
                                 this->titleAlpha[0]);
                 gDPSetEnvColor(POLY_OPA_DISP++, cursorEnvRed, cursorEnvGreen, cursorEnvBlue, 255);
@@ -915,7 +910,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
         gDPPipeSync(POLY_OPA_DISP++);
 
         if (i == (gSaveContext.zTargetSetting + 4)) {
-            if (sSelectedSetting != SETTING_AUDIO) {
+            if (sSelectedSetting != FS_SETTING_AUDIO) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, cursorPrimRed, cursorPrimGreen, cursorPrimBlue,
                                 this->titleAlpha[0]);
                 gDPSetEnvColor(POLY_OPA_DISP++, cursorEnvRed, cursorEnvGreen, cursorEnvBlue, 0xFF);

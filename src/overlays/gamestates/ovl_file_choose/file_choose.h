@@ -20,9 +20,9 @@
 // Config mode: Handles the bulk of the file select, various configuration tasks like picking a file, copy/erase, and the options menu
 // Select mode: Displays the selected file with various details about it, and allows the player to confirm and open it
 typedef enum {
-    /* 0 */ MENU_MODE_INIT,
-    /* 1 */ MENU_MODE_CONFIG,
-    /* 2 */ MENU_MODE_SELECT
+    /* 0 */ FS_MENU_MODE_INIT,
+    /* 1 */ FS_MENU_MODE_CONFIG,
+    /* 2 */ FS_MENU_MODE_SELECT
 } MenuMode;
 
 typedef enum {
@@ -81,92 +81,92 @@ typedef enum {
 } SelectMode;
 
 typedef enum {
-    /* 0 */ TITLE_SELECT_FILE,   // "Please select a file."
-    /* 1 */ TITLE_OPEN_FILE,     // "Open this file?"
-    /* 2 */ TITLE_COPY_FROM,     // "Copy which file?"
-    /* 3 */ TITLE_COPY_TO,       // "Copy to which file?"
-    /* 4 */ TITLE_COPY_CONFIRM,  // "Are you sure?"
-    /* 5 */ TITLE_COPY_COMPLETE, // "File copied."
-    /* 6 */ TITLE_ERASE_FILE,    // "Erase which file?"
-    /* 7 */ TITLE_ERASE_CONFIRM, // "Are you sure?"
-    /* 8 */ TITLE_ERASE_COMPLETE // "File erased."
+    /* 0 */ FS_TITLE_SELECT_FILE,   // "Please select a file."
+    /* 1 */ FS_TITLE_OPEN_FILE,     // "Open this file?"
+    /* 2 */ FS_TITLE_COPY_FROM,     // "Copy which file?"
+    /* 3 */ FS_TITLE_COPY_TO,       // "Copy to which file?"
+    /* 4 */ FS_TITLE_COPY_CONFIRM,  // "Are you sure?"
+    /* 5 */ FS_TITLE_COPY_COMPLETE, // "File copied."
+    /* 6 */ FS_TITLE_ERASE_FILE,    // "Erase which file?"
+    /* 7 */ FS_TITLE_ERASE_CONFIRM, // "Are you sure?"
+    /* 8 */ FS_TITLE_ERASE_COMPLETE // "File erased."
 } TitleLabel;
 
 typedef enum {
-    /* -1 */ WARNING_NONE = -1,
-    /*  0 */ WARNING_NO_FILE_COPY,   // "No file to copy."
-    /*  1 */ WARNING_NO_FILE_ERASE,  // "No file to erase."
-    /*  2 */ WARNING_NO_EMPTY_FILES, // "There is no empty file."
-    /*  3 */ WARNING_FILE_EMPTY,     // "This is an empty file."
-    /*  4 */ WARNING_FILE_IN_USE     // "This file is in use."
+    /* -1 */ FS_WARNING_NONE = -1,
+    /*  0 */ FS_WARNING_NO_FILE_COPY,   // "No file to copy."
+    /*  1 */ FS_WARNING_NO_FILE_ERASE,  // "No file to erase."
+    /*  2 */ FS_WARNING_NO_EMPTY_FILES, // "There is no empty file."
+    /*  3 */ FS_WARNING_FILE_EMPTY,     // "This is an empty file."
+    /*  4 */ FS_WARNING_FILE_IN_USE     // "This file is in use."
 } WarningLabel;
 
 typedef enum {
-    /* 0 */ BTN_MAIN_FILE_1,
-    /* 1 */ BTN_MAIN_FILE_2,
-    /* 2 */ BTN_MAIN_FILE_3,
-    /* 3 */ BTN_MAIN_COPY,
-    /* 4 */ BTN_MAIN_ERASE,
-    /* 5 */ BTN_MAIN_OPTIONS
+    /* 0 */ FS_BTN_MAIN_FILE_1,
+    /* 1 */ FS_BTN_MAIN_FILE_2,
+    /* 2 */ FS_BTN_MAIN_FILE_3,
+    /* 3 */ FS_BTN_MAIN_COPY,
+    /* 4 */ FS_BTN_MAIN_ERASE,
+    /* 5 */ FS_BTN_MAIN_OPTIONS
 } MainMenuButtonIndex;
 
 typedef enum {
-    /* 0 */ BTN_COPY_FILE_1,
-    /* 1 */ BTN_COPY_FILE_2,
-    /* 2 */ BTN_COPY_FILE_3,
-    /* 3 */ BTN_COPY_QUIT
+    /* 0 */ FS_BTN_COPY_FILE_1,
+    /* 1 */ FS_BTN_COPY_FILE_2,
+    /* 2 */ FS_BTN_COPY_FILE_3,
+    /* 3 */ FS_BTN_COPY_QUIT
 } CopyMenuButtonIndex;
 
 typedef enum {
-    /* 0 */ BTN_ERASE_FILE_1,
-    /* 1 */ BTN_ERASE_FILE_2,
-    /* 2 */ BTN_ERASE_FILE_3,
-    /* 3 */ BTN_ERASE_QUIT
+    /* 0 */ FS_BTN_ERASE_FILE_1,
+    /* 1 */ FS_BTN_ERASE_FILE_2,
+    /* 2 */ FS_BTN_ERASE_FILE_3,
+    /* 3 */ FS_BTN_ERASE_QUIT
 } EraseMenuButtonIndex;
 
 typedef enum {
-    /* 0 */ BTN_SELECT_FILE_1,
-    /* 1 */ BTN_SELECT_FILE_2,
-    /* 2 */ BTN_SELECT_FILE_3,
-    /* 3 */ BTN_SELECT_YES,
-    /* 4 */ BTN_SELECT_QUIT
+    /* 0 */ FS_BTN_SELECT_FILE_1,
+    /* 1 */ FS_BTN_SELECT_FILE_2,
+    /* 2 */ FS_BTN_SELECT_FILE_3,
+    /* 3 */ FS_BTN_SELECT_YES,
+    /* 4 */ FS_BTN_SELECT_QUIT
 } SelectMenuButtonIndex;
 
 typedef enum {
-    /* 0 */ BTN_CONFIRM_YES,
-    /* 1 */ BTN_CONFIRM_QUIT
+    /* 0 */ FS_BTN_CONFIRM_YES,
+    /* 1 */ FS_BTN_CONFIRM_QUIT
 } ConfirmButtonIndex;
 
 typedef enum {
-    /* 0 */ BTN_ACTION_COPY,
-    /* 1 */ BTN_ACTION_ERASE
+    /* 0 */ FS_BTN_ACTION_COPY,
+    /* 1 */ FS_BTN_ACTION_ERASE
 } ActionButtonIndex;
 
 typedef enum {
-    /* 0 */ SETTING_AUDIO,
-    /* 1 */ SETTING_TARGET
+    /* 0 */ FS_SETTING_AUDIO,
+    /* 1 */ FS_SETTING_TARGET
 } SettingIndex;
 
 typedef enum {
-    /* 0 */ AUDIO_STEREO,
-    /* 1 */ AUDIO_MONO,
-    /* 2 */ AUDIO_HEADSET,
-    /* 3 */ AUDIO_SURROUND
+    /* 0 */ FS_AUDIO_STEREO,
+    /* 1 */ FS_AUDIO_MONO,
+    /* 2 */ FS_AUDIO_HEADSET,
+    /* 3 */ FS_AUDIO_SURROUND
 } AudioOption;
 
 typedef enum {
-    /* 0 */ CHAR_PAGE_HIRA,
-    /* 1 */ CHAR_PAGE_KATA,
-    /* 2 */ CHAR_PAGE_ENG
+    /* 0 */ FS_CHAR_PAGE_HIRA,
+    /* 1 */ FS_CHAR_PAGE_KATA,
+    /* 2 */ FS_CHAR_PAGE_ENG
 } CharPage;
 
 typedef enum {
-    /* 00 */ KBD_BTN_HIRA,
-    /* 01 */ KBD_BTN_KATA,
-    /* 02 */ KBD_BTN_ENG,
-    /* 03 */ KBD_BTN_BACKSPACE,
-    /* 04 */ KBD_BTN_END,
-    /* 99 */ KBD_BTN_NONE = 99
+    /* 00 */ FS_KBD_BTN_HIRA,
+    /* 01 */ FS_KBD_BTN_KATA,
+    /* 02 */ FS_KBD_BTN_ENG,
+    /* 03 */ FS_KBD_BTN_BACKSPACE,
+    /* 04 */ FS_KBD_BTN_END,
+    /* 99 */ FS_KBD_BTN_NONE = 99
 } KeyboardButton;
 
 void FileChoose_SetupCopySource(GameState* thisx); 

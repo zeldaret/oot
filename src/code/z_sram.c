@@ -384,7 +384,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
         MemCopy(gScarecrowCustomSongPtr, &gSaveContext.scarecrowCustomSong, sizeof(gSaveContext.scarecrowCustomSong));
 
         ptr = (u8*)gScarecrowCustomSongPtr;
-        for (i = 0; i < (s32)sizeof(gSaveContext.scarecrowCustomSong); i++, ptr++) {
+        for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowCustomSong); i++, ptr++) {
             osSyncPrintf("%d, ", *ptr);
         }
 
@@ -399,7 +399,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
         MemCopy(gScarecrowSpawnSongPtr, &gSaveContext.scarecrowSpawnSong, sizeof(gSaveContext.scarecrowSpawnSong));
 
         ptr = gScarecrowSpawnSongPtr;
-        for (i = 0; i < (s32)sizeof(gSaveContext.scarecrowSpawnSong); i++, ptr++) {
+        for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowSpawnSong); i++, ptr++) {
             osSyncPrintf("%d, ", *ptr);
         }
 
