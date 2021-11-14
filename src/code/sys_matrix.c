@@ -3,8 +3,8 @@
 // clang-format off
 Mtx gMtxClear = gdSPDefMtx(
     1,0,0,0,
-    0,1,0,0, 
-    0,0,1,0, 
+    0,1,0,0,
+    0,0,1,0,
     0,0,0,1
 );
 
