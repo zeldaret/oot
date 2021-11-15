@@ -543,7 +543,7 @@ f32 Audio_OcaAdjStick(s8 inp) {
     } else {
         inpAdj = (inp * 128) / 64;
     }
-    ret = D_8012F6B4[inpAdj];
+    ret = gBendPitchTwoSemitonesFrequencies[inpAdj + 128];
     return ret;
 }
 
