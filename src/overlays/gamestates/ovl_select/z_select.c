@@ -25,11 +25,8 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
         gSaveContext.unk_13F4 = 0;
         gSaveContext.magicLevel = gSaveContext.magic;
     }
-    gSaveContext.buttonStatus[4] = BTN_ENABLED;
-    gSaveContext.buttonStatus[3] = BTN_ENABLED;
-    gSaveContext.buttonStatus[2] = BTN_ENABLED;
-    gSaveContext.buttonStatus[1] = BTN_ENABLED;
-    gSaveContext.buttonStatus[0] = BTN_ENABLED;
+    gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
+        gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
     Audio_QueueSeqCmd(NA_BGM_STOP);
     gSaveContext.entranceIndex = entranceIndex;
@@ -195,19 +192,19 @@ static SceneSelectEntry sScenes[] = {
 };
 
 void Select_UpdateMenu(SelectContext* this) {
-    Input* controller1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
     s32 pad;
     SceneSelectEntry* selectedScene;
 
     if (this->verticalInputAccumulator == 0) {
-        if (CHECK_BTN_ALL(controller1->press.button, BTN_A) || CHECK_BTN_ALL(controller1->press.button, BTN_START)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_A) || CHECK_BTN_ALL(input->press.button, BTN_START)) {
             selectedScene = &this->scenes[this->currentScene];
             if (selectedScene->loadFunc != NULL) {
                 selectedScene->loadFunc(this, selectedScene->entranceIndex);
             }
         }
 
-        if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
                 gSaveContext.linkAge = 1;
             } else {
@@ -215,7 +212,7 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_BTN_ALL(controller1->press.button, BTN_Z)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
             if (gSaveContext.cutsceneIndex == 0x8000) {
                 gSaveContext.cutsceneIndex = 0;
             } else if (gSaveContext.cutsceneIndex == 0) {
@@ -243,7 +240,7 @@ void Select_UpdateMenu(SelectContext* this) {
             } else if (gSaveContext.cutsceneIndex == 0xFFFA) {
                 gSaveContext.cutsceneIndex = 0x8000;
             }
-        } else if (CHECK_BTN_ALL(controller1->press.button, BTN_R)) {
+        } else if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
             if (gSaveContext.cutsceneIndex == 0x8000) {
                 gSaveContext.cutsceneIndex = 0xFFFA;
             } else if (gSaveContext.cutsceneIndex == 0) {
@@ -279,14 +276,14 @@ void Select_UpdateMenu(SelectContext* this) {
         }
 
         // user can change "opt", but it doesn't do anything
-        if (CHECK_BTN_ALL(controller1->press.button, BTN_CUP)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
             this->opt--;
         }
-        if (CHECK_BTN_ALL(controller1->press.button, BTN_CDOWN)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN)) {
             this->opt++;
         }
 
-        if (CHECK_BTN_ALL(controller1->press.button, BTN_DUP)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DUP)) {
             if (this->lockUp == true) {
                 this->timerUp = 0;
             }
@@ -298,12 +295,12 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_BTN_ALL(controller1->cur.button, BTN_DUP) && this->timerUp == 0) {
+        if (CHECK_BTN_ALL(input->cur.button, BTN_DUP) && this->timerUp == 0) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->verticalInput = R_UPDATE_RATE * 3;
         }
 
-        if (CHECK_BTN_ALL(controller1->press.button, BTN_DDOWN)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DDOWN)) {
             if (this->lockDown == true) {
                 this->timerDown = 0;
             }
@@ -315,24 +312,23 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_BTN_ALL(controller1->cur.button, BTN_DDOWN) && (this->timerDown == 0)) {
+        if (CHECK_BTN_ALL(input->cur.button, BTN_DDOWN) && (this->timerDown == 0)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->verticalInput = -R_UPDATE_RATE * 3;
         }
 
-        if (CHECK_BTN_ALL(controller1->press.button, BTN_DLEFT) || CHECK_BTN_ALL(controller1->cur.button, BTN_DLEFT)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) || CHECK_BTN_ALL(input->cur.button, BTN_DLEFT)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->verticalInput = R_UPDATE_RATE;
         }
 
-        if (CHECK_BTN_ALL(controller1->press.button, BTN_DRIGHT) ||
-            CHECK_BTN_ALL(controller1->cur.button, BTN_DRIGHT)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DRIGHT) || CHECK_BTN_ALL(input->cur.button, BTN_DRIGHT)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->verticalInput = -R_UPDATE_RATE;
         }
     }
 
-    if (CHECK_BTN_ALL(controller1->press.button, BTN_L)) {
+    if (CHECK_BTN_ALL(input->press.button, BTN_L)) {
         this->pageDownIndex++;
         this->pageDownIndex =
             (this->pageDownIndex + ARRAY_COUNT(this->pageDownStops)) % ARRAY_COUNT(this->pageDownStops);

@@ -148,16 +148,16 @@ void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 }
 
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
-    Input* pad1 = &globalCtx->state.input[0];
+    Input* input = &globalCtx->state.input[0];
 
-    if (CHECK_BTN_ALL(pad1->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) &&
+    if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) &&
         (gSaveContext.sceneSetupIndex >= 4)) {
         D_8015FCC8 = 0;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
     }
 
-    if (CHECK_BTN_ALL(pad1->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
+    if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
         (gSaveContext.sceneSetupIndex >= 4) && !gDbgCamEnabled) {
         D_8015FCC8 = 1;
         gSaveContext.cutsceneIndex = 0xFFFD;

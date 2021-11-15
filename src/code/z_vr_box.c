@@ -907,7 +907,9 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
     }
 }
 
-void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId) {
+void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId) {
+    GlobalContext* globalCtx = (GlobalContext*)state;
+
     skyboxCtx->unk_140 = 0;
     skyboxCtx->rot.x = skyboxCtx->rot.y = skyboxCtx->rot.z = 0.0f;
 
@@ -921,24 +923,24 @@ void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxI
         osSyncPrintf(VT_FGCOL(GREEN));
 
         if (skyboxCtx->unk_140 != 0) {
-            skyboxCtx->dListBuf = GameState_Alloc(&globalCtx->state, 8 * 150 * sizeof(Gfx), "../z_vr_box.c", 1636);
+            skyboxCtx->dListBuf = GameState_Alloc(state, 8 * 150 * sizeof(Gfx), "../z_vr_box.c", 1636);
             ASSERT(skyboxCtx->dListBuf != NULL, "vr_box->dpList != NULL", "../z_vr_box.c", 1637);
 
-            skyboxCtx->roomVtx = GameState_Alloc(&globalCtx->state, 256 * sizeof(Vtx), "../z_vr_box.c", 1639);
+            skyboxCtx->roomVtx = GameState_Alloc(state, 256 * sizeof(Vtx), "../z_vr_box.c", 1639);
             ASSERT(skyboxCtx->roomVtx != NULL, "vr_box->roomVtx != NULL", "../z_vr_box.c", 1640);
 
             func_800AEFC8(skyboxCtx, skyboxId);
         } else {
-            skyboxCtx->dListBuf = GameState_Alloc(&globalCtx->state, 12 * 150 * sizeof(Gfx), "../z_vr_box.c", 1643);
+            skyboxCtx->dListBuf = GameState_Alloc(state, 12 * 150 * sizeof(Gfx), "../z_vr_box.c", 1643);
             ASSERT(skyboxCtx->dListBuf != NULL, "vr_box->dpList != NULL", "../z_vr_box.c", 1644);
 
             if (skyboxId == SKYBOX_CUTSCENE_MAP) {
-                skyboxCtx->roomVtx = GameState_Alloc(&globalCtx->state, 192 * sizeof(Vtx), "../z_vr_box.c", 1648);
+                skyboxCtx->roomVtx = GameState_Alloc(state, 192 * sizeof(Vtx), "../z_vr_box.c", 1648);
                 ASSERT(skyboxCtx->roomVtx != NULL, "vr_box->roomVtx != NULL", "../z_vr_box.c", 1649);
 
                 func_800AF178(skyboxCtx, 6);
             } else {
-                skyboxCtx->roomVtx = GameState_Alloc(&globalCtx->state, 160 * sizeof(Vtx), "../z_vr_box.c", 1653);
+                skyboxCtx->roomVtx = GameState_Alloc(state, 160 * sizeof(Vtx), "../z_vr_box.c", 1653);
                 ASSERT(skyboxCtx->roomVtx != NULL, "vr_box->roomVtx != NULL", "../z_vr_box.c", 1654);
 
                 func_800AF178(skyboxCtx, 5);
