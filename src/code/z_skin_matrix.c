@@ -470,7 +470,7 @@ void SkinMatrix_SetTranslate(MtxF* mf, f32 x, f32 y, f32 z) {
 /**
  * Produces a matrix which scales, then rotates (using ZYX Tait-Bryan angles), then translates.
  */
-void SkinMatrix_SetScaleRotateZYXTranslate(MtxF* dest, f32 scaleX, f32 scaleY, f32 scaleZ, s16 rotX, s16 rotY, s16 rotZ,
+void SkinMatrix_SetTranslateRotateZYXScale(MtxF* dest, f32 scaleX, f32 scaleY, f32 scaleZ, s16 rotX, s16 rotY, s16 rotZ,
                                            f32 translateX, f32 translateY, f32 translateZ) {
     MtxF mft1;
     MtxF mft2;
@@ -485,7 +485,7 @@ void SkinMatrix_SetScaleRotateZYXTranslate(MtxF* dest, f32 scaleX, f32 scaleY, f
 /**
  * Produces a matrix which scales, then rotates (using YXZ Tait-Bryan angles), then translates.
  */
-void SkinMatrix_SetScaleRotateYXZTranslate(MtxF* dest, f32 scaleX, f32 scaleY, f32 scaleZ, s16 rotX, s16 rotY, s16 rotZ,
+void SkinMatrix_SetTranslateRotateYXZScale(MtxF* dest, f32 scaleX, f32 scaleY, f32 scaleZ, s16 rotX, s16 rotY, s16 rotZ,
                                            f32 translateX, f32 translateY, f32 translateZ) {
     MtxF mft1;
     MtxF mft2;
@@ -500,7 +500,7 @@ void SkinMatrix_SetScaleRotateYXZTranslate(MtxF* dest, f32 scaleX, f32 scaleY, f
 /**
  * Produces a matrix which rotates (using ZYX Tait-Bryan angles), then translates.
  */
-void SkinMatrix_SetRotateZYXTranslate(MtxF* dest, s16 rotX, s16 rotY, s16 rotZ, f32 translateX, f32 translateY,
+void SkinMatrix_SetTranslateRotateZYX(MtxF* dest, s16 rotX, s16 rotY, s16 rotZ, f32 translateX, f32 translateY,
                                       f32 translateZ) {
     MtxF rotation;
     MtxF translation;
