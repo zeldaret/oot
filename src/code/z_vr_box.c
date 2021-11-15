@@ -1024,10 +1024,12 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
 }
 
 void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId) {
+    GlobalContext* globalCtx = (GlobalContext*)state;
+
     skyboxCtx->unk_140 = 0;
     skyboxCtx->rot.x = skyboxCtx->rot.y = skyboxCtx->rot.z = 0.0f;
 
-    Skybox_Setup(state, skyboxCtx, skyboxId);
+    Skybox_Setup(globalCtx, skyboxCtx, skyboxId);
     osSyncPrintf("\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\n"
                  "ＴＹＰＥ＝%d"
                  "\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\n",

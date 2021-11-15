@@ -1439,7 +1439,7 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
 }
 
 void Gameplay_InitEnvironment(GlobalContext* globalCtx, s16 skyboxId) {
-    Skybox_Init(globalCtx, &globalCtx->skyboxCtx, skyboxId);
+    Skybox_Init(&globalCtx->state, &globalCtx->skyboxCtx, skyboxId);
     Environment_Init(globalCtx, &globalCtx->envCtx, 0);
 }
 
