@@ -161,7 +161,7 @@
            validinchn="1"/>
   <command cmd="178" name="ldptbl" action="Ptr Other Table" validinchn="1"
            comments="Load pointer from table. P = sequenceData[A + Q]">
-    <parameter name="Address" meaning="Absolute Address" datasrc="fixed" datalen="1"/>
+    <parameter name="Address" meaning="Absolute Address" datasrc="fixed" datalen="2"/>
   </command>
   <command cmd="179" name="copyfilter" action="No Action" validinchn="1"
            comments="Copy one or two filters into the sequence data at the current filter pointer. The parameter is of the form XY in hex, where the first and second nybble are each two different filter indices from different banks of filter points in the ROM. If either is 0, only the other filter is copied. If both are nonzero, two are averaged as they are copied. If both are zero, a filter which is just a delayed impulse is used.">
@@ -413,7 +413,7 @@
   <command cmd="160" name="rstartchan" action="Ptr Channel Header" oname="brsub"
            cmdend="175" validinseq="1" comments="Enables channel N with the channel script at the relative address.">
     <parameter name="Channel" meaning="Channel" datasrc="offset"/>
-    <parameter name="Relative Address" meaning="None" datasrc="fixed" datalen="2"/>
+    <parameter name="Relative Address" meaning="Relative Address" datasrc="fixed" datalen="2"/>
   </command>
   <command cmd="176" name="loadseq" action="Ptr Seq Header" comments="Load new sequence (given index) into current sequence's data at address. sequenceIO[N] is passed as some parameter to that sequence."
            cmdend="191" validinseq="1">
