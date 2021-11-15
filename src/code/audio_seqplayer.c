@@ -573,7 +573,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
 
             case 0xCB:
                 sp3A = AudioSeq_ScriptReadS16(state);
-                layer->adsr.envelope = (AdsrEnvelope*)(seqPlayer->seqData + sp3A);
+                layer->adsr.envelope = (EnvelopePoint*)(seqPlayer->seqData + sp3A);
                 // fallthrough
 
             case 0xCF:
@@ -652,7 +652,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
                 return -1;
             }
             sound = &drum->sound;
-            layer->adsr.envelope = (AdsrEnvelope*)drum->envelope;
+            layer->adsr.envelope = (EnvelopePoint*)drum->envelope;
             layer->adsr.releaseRate = (u8)drum->releaseRate;
             if (!layer->ignoreDrumPan) {
                 layer->pan = drum->pan;
@@ -1103,7 +1103,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xDA:
                         offset = (u16)parameters[0];
-                        channel->adsr.envelope = (AdsrEnvelope*)&seqPlayer->seqData[offset];
+                        channel->adsr.envelope = (EnvelopePoint*)&seqPlayer->seqData[offset];
                         break;
                     case 0xD9:
                         command = (u8)parameters[0];

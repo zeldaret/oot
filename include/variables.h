@@ -332,7 +332,7 @@ extern f32 gBendPitchTwoSemitonesFrequencies[256];
 extern f32 gNoteFrequencies[];
 extern u8 gDefaultShortNoteVelocityTable[16];
 extern u8 gDefaultShortNoteGateTimeTable[16];
-extern AdsrEnvelope gDefaultEnvelope[4];
+extern EnvelopePoint gDefaultEnvelope[4];
 extern NoteSubEu gZeroNoteSub;
 extern NoteSubEu gDefaultNoteSub;
 extern u16 gHeadsetPanQuantization[64];

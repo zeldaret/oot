@@ -1997,7 +1997,7 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib);
 void Audio_NoteVibratoUpdate(Note* note);
 void Audio_NoteVibratoInit(Note* note);
 void Audio_NotePortamentoInit(Note* note);
-void Audio_AdsrInit(AdsrState* adsr, AdsrEnvelope* envelope, s16* volOut);
+void Audio_AdsrInit(AdsrState* adsr, EnvelopePoint* envelope, s16* volOut);
 f32 Audio_AdsrUpdate(AdsrState* adsr);
 void AudioSeq_SequenceChannelDisable(SequenceChannel* channel);
 void AudioSeq_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer);

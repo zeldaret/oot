@@ -104,20 +104,20 @@ typedef struct {
 typedef struct {
     /* 0x0 */ s16 delay;
     /* 0x2 */ s16 arg;
-} AdsrEnvelope; // size = 0x4
+} EnvelopePoint; // size = 0x4
 
 typedef struct {
     /* 0x00 */ u32 start;
     /* 0x04 */ u32 end;
     /* 0x08 */ u32 count;
-    /* 0x0C */ char unk_0C[0x4];
+    /* 0x0C */ u32 originalLength;
     /* 0x10 */ s16 state[16]; // only exists if count != 0. 8-byte aligned
 } AdpcmLoop; // size = 0x30 (or 0x10)
 
 typedef struct {
     /* 0x00 */ s32 order;
     /* 0x04 */ s32 npredictors;
-    /* 0x08 */ s16 book[1]; // size 8 * order * npredictors. 8-byte aligned
+    /* 0x08 */ s16 book[]; // size 8 * order * npredictors. 8-byte aligned
 } AdpcmBook; // size >= 0x8
 
 typedef struct {
@@ -194,7 +194,7 @@ typedef struct {
     /* 0x01 */ u8 normalRangeLo;
     /* 0x02 */ u8 normalRangeHi;
     /* 0x03 */ u8 releaseRate;
-    /* 0x04 */ AdsrEnvelope* envelope;
+    /* 0x04 */ EnvelopePoint* envelope;
     /* 0x08 */ SoundFontSound lowNotesSound;
     /* 0x10 */ SoundFontSound normalNotesSound;
     /* 0x18 */ SoundFontSound highNotesSound;
@@ -205,7 +205,7 @@ typedef struct {
     /* 0x01 */ u8 pan;
     /* 0x02 */ u8 loaded;
     /* 0x04 */ SoundFontSound sound;
-    /* 0x14 */ AdsrEnvelope* envelope;
+    /* 0x14 */ EnvelopePoint* envelope;
 } Drum; // size = 0x14
 
 typedef struct {
@@ -273,7 +273,7 @@ typedef struct {
 typedef struct {
     /* 0x0 */ u8 releaseRate;
     /* 0x1 */ u8 sustain;
-    /* 0x4 */ AdsrEnvelope* envelope;
+    /* 0x4 */ EnvelopePoint* envelope;
 } AdsrSettings; // size = 0x8
 
 typedef struct {
@@ -295,7 +295,7 @@ typedef struct {
     /* 0x10 */ f32 current;
     /* 0x14 */ f32 target;
     /* 0x18 */ char unk_18[4];
-    /* 0x1C */ AdsrEnvelope* envelope;
+    /* 0x1C */ EnvelopePoint* envelope;
 } AdsrState;
 
 typedef struct {
