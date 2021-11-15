@@ -262,7 +262,7 @@ void FileChoose_DrawKeyboard(GameState* thisx) {
 void FileChoose_DrawNameEntry(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     Font* font = &this->font;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
     s16 i;
     s16 tmp;
     u16 dayTime;
@@ -345,12 +345,12 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
     if (this->configMode == CM_NAME_ENTRY) {
-        if (CHECK_BTN_ALL(input1->press.button, BTN_START)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             // place cursor on END button
             this->kbdY = 5;
             this->kbdX = 4;
-        } else if (CHECK_BTN_ALL(input1->press.button, BTN_B)) {
+        } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
             if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
                 for (i = this->newFileNameCharCount; i < 7; i++) {
                     this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
@@ -384,7 +384,7 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
                     FileChoose_DrawCharacter(this->state.gfxCtx,
                                              font->fontBuf + D_808123F0[this->charIndex] * FONT_CHAR_TEX_SIZE, 0);
 
-                    if (CHECK_BTN_ALL(input1->press.button, BTN_A)) {
+                    if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         this->fileNames[this->buttonIndex][this->newFileNameCharCount] = D_808123F0[this->charIndex];
@@ -394,7 +394,7 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
                             this->newFileNameCharCount = 7;
                         }
                     }
-                } else if (CHECK_BTN_ALL(input1->press.button, BTN_A) && (this->charPage != this->kbdButton)) {
+                } else if (CHECK_BTN_ALL(input->press.button, BTN_A) && (this->charPage != this->kbdButton)) {
                     if (this->kbdButton == FS_KBD_BTN_BACKSPACE) {
                         if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
                             for (i = this->newFileNameCharCount; i < 7; i++) {
@@ -447,14 +447,14 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
                     }
                 }
 
-                if (CHECK_BTN_ALL(input1->press.button, BTN_CRIGHT)) {
+                if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     this->newFileNameCharCount++;
 
                     if (this->newFileNameCharCount > 7) {
                         this->newFileNameCharCount = 7;
                     }
-                } else if (CHECK_BTN_ALL(input1->press.button, BTN_CLEFT)) {
+                } else if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     this->newFileNameCharCount--;
 
@@ -651,9 +651,9 @@ static u8 sSelectedSetting;
 void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
 
-    if (CHECK_BTN_ALL(input1->press.button, BTN_B)) {
+    if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->configMode = CM_OPTIONS_TO_MAIN;
         sramCtx->readBuff[0] = gSaveContext.audioSetting;
@@ -702,7 +702,7 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     if ((this->stickRelY < -30) || (this->stickRelY > 30)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         sSelectedSetting ^= 1;
-    } else if (CHECK_BTN_ALL(input1->press.button, BTN_A)) {
+    } else if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         sSelectedSetting ^= 1;
     }

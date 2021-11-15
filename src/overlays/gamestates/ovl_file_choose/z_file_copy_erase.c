@@ -61,17 +61,17 @@ void FileChoose_SetupCopySource(GameState* thisx) {
 void FileChoose_SelectCopySource(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
 
-    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_START)) ||
-        CHECK_BTN_ALL(input1->press.button, BTN_B)) {
+    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) ||
+        CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->actionTimer = 8;
         this->buttonIndex = FS_BTN_MAIN_COPY;
         this->nextTitleLabel = FS_TITLE_SELECT_FILE;
         this->configMode = CM_COPY_RETURN_MAIN;
         this->warningLabel = FS_WARNING_NONE;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    } else if (CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_START)) {
+    } else if (CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) {
         if (SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
             this->actionTimer = 8;
             this->selectedFileIndex = this->buttonIndex;
@@ -173,16 +173,16 @@ void FileChoose_SetupCopyDest2(GameState* thisx) {
 void FileChoose_SelectCopyDest(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
 
-    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_START)) ||
-        CHECK_BTN_ALL(input1->press.button, BTN_B)) {
+    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) ||
+        CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->buttonIndex = this->selectedFileIndex;
         this->nextTitleLabel = FS_TITLE_COPY_FROM;
         this->actionTimer = 8;
         this->configMode = CM_EXIT_TO_COPY_SOURCE_1;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    } else if (CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_START)) {
+    } else if (CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) {
         if (!SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
             this->copyDestFileIndex = this->buttonIndex;
             this->nextTitleLabel = FS_TITLE_COPY_CONFIRM;
@@ -358,16 +358,16 @@ void FileChoose_SetupCopyConfirm2(GameState* thisx) {
 void FileChoose_CopyConfirm(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
     u16 dayTime;
 
-    if (((this->buttonIndex != FS_BTN_CONFIRM_YES) && CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_START)) ||
-        CHECK_BTN_ALL(input1->press.button, BTN_B)) {
+    if (((this->buttonIndex != FS_BTN_CONFIRM_YES) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) ||
+        CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->actionTimer = 8;
         this->nextTitleLabel = FS_TITLE_COPY_TO;
         this->configMode = CM_RETURN_TO_COPY_DEST;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    } else if (CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_START)) {
+    } else if (CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) {
         dayTime = gSaveContext.dayTime;
         Sram_CopySave(this, sramCtx);
         gSaveContext.dayTime = dayTime;
@@ -485,7 +485,7 @@ void FileChoose_CopyAnim2(GameState* thisx) {
  */
 void FileChoose_CopyAnim3(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
 
     if (this->actionTimer == 75) {
         this->connectorAlpha[this->copyDestFileIndex] = 255;
@@ -495,7 +495,7 @@ void FileChoose_CopyAnim3(GameState* thisx) {
     this->actionTimer--;
 
     if (this->actionTimer < 74) {
-        if (CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_B | BTN_START) || (this->actionTimer == 0)) {
+        if (CHECK_BTN_ANY(input->press.button, BTN_A | BTN_B | BTN_START) || (this->actionTimer == 0)) {
             this->actionTimer = 8;
             this->nextTitleLabel = FS_TITLE_SELECT_FILE;
             this->configMode++;
@@ -679,17 +679,17 @@ void FileChoose_SetupEraseSelect(GameState* thisx) {
 void FileChoose_EraseSelect(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
 
-    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_START)) ||
-        CHECK_BTN_ALL(input1->press.button, BTN_B)) {
+    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) ||
+        CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->buttonIndex = FS_BTN_MAIN_ERASE;
         this->actionTimer = 8;
         this->nextTitleLabel = FS_TITLE_SELECT_FILE;
         this->configMode = CM_EXIT_ERASE_TO_MAIN;
         this->warningLabel = FS_WARNING_NONE;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    } else if (CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_START)) {
+    } else if (CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) {
         if (SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
             this->actionTimer = 8;
             this->selectedFileIndex = this->buttonIndex;
@@ -816,16 +816,16 @@ void FileChoose_SetupEraseConfirm2(GameState* thisx) {
  */
 void FileChoose_EraseConfirm(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
 
-    if (((this->buttonIndex != FS_BTN_CONFIRM_YES) && CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_START)) ||
-        CHECK_BTN_ALL(input1->press.button, BTN_B)) {
+    if (((this->buttonIndex != FS_BTN_CONFIRM_YES) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) ||
+        CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->buttonIndex = this->selectedFileIndex;
         this->nextTitleLabel = FS_TITLE_ERASE_FILE;
         this->configMode = CM_EXIT_TO_ERASE_SELECT_1;
         this->actionTimer = 8;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    } else if (CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_START)) {
+    } else if (CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) {
         this->n64ddFlags[this->selectedFileIndex] = this->connectorAlpha[this->selectedFileIndex] = 0;
         Audio_PlaySoundGeneral(NA_SE_EV_DIAMOND_SWITCH, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->actionTimer = 8;
@@ -959,9 +959,9 @@ void FileChoose_EraseAnim1(GameState* thisx) {
  */
 void FileChoose_EraseAnim2(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
 
-    if (CHECK_BTN_ANY(input1->press.button, BTN_A | BTN_B | BTN_START) || (--this->actionTimer == 0)) {
+    if (CHECK_BTN_ANY(input->press.button, BTN_A | BTN_B | BTN_START) || (--this->actionTimer == 0)) {
         this->buttonYOffsets[3] = 0;
         this->actionTimer = 8;
         this->nextTitleLabel = FS_TITLE_SELECT_FILE;

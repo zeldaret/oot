@@ -171,9 +171,9 @@ void FileChoose_UpdateMainMenu(GameState* thisx) {
     static u8 emptyName[] = { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E };
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
 
-    if (CHECK_BTN_ALL(input1->press.button, BTN_START) || CHECK_BTN_ALL(input1->press.button, BTN_A)) {
+    if (CHECK_BTN_ALL(input->press.button, BTN_START) || CHECK_BTN_ALL(input->press.button, BTN_A)) {
         if (this->buttonIndex <= FS_BTN_MAIN_FILE_3) {
             osSyncPrintf("REGCK_ALL[%x]=%x,%x,%x,%x,%x,%x\n", this->buttonIndex,
                          GET_NEWF(sramCtx, this->buttonIndex, 0), GET_NEWF(sramCtx, this->buttonIndex, 1),
@@ -373,9 +373,9 @@ void FileChoose_PulsateCursor(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 alphaStep;
     SramContext* sramCtx = &this->sramCtx;
-    Input* input3 = &this->state.input[2];
+    Input* debugInput = &this->state.input[2];
 
-    if (CHECK_BTN_ALL(input3->press.button, BTN_DLEFT)) {
+    if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = 0;
         *((u8*)0x80000002) = 0;
 
@@ -388,7 +388,7 @@ void FileChoose_PulsateCursor(GameState* thisx) {
         osSyncPrintf("read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
                      sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                      sramCtx->readBuff[SRAM_HEADER_MAGIC]);
-    } else if (CHECK_BTN_ALL(input3->press.button, BTN_DUP)) {
+    } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DUP)) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = 1;
         *((u8*)0x80000002) = 1;
 
@@ -400,7 +400,7 @@ void FileChoose_PulsateCursor(GameState* thisx) {
         osSyncPrintf("read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
                      sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                      sramCtx->readBuff[SRAM_HEADER_MAGIC]);
-    } else if (CHECK_BTN_ALL(input3->press.button, BTN_DRIGHT)) {
+    } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DRIGHT)) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = 2;
         *((u8*)0x80000002) = 2;
 
@@ -1310,9 +1310,9 @@ void FileChoose_FadeInFileInfo(GameState* thisx) {
  */
 void FileChoose_ConfirmFile(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
 
-    if (CHECK_BTN_ALL(input1->press.button, BTN_START) || (CHECK_BTN_ALL(input1->press.button, BTN_A))) {
+    if (CHECK_BTN_ALL(input->press.button, BTN_START) || (CHECK_BTN_ALL(input->press.button, BTN_A))) {
         if (this->confirmButtonIndex == FS_BTN_CONFIRM_YES) {
             func_800AA000(300.0f, 180, 20, 100);
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -1322,7 +1322,7 @@ void FileChoose_ConfirmFile(GameState* thisx) {
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->selectMode++;
         }
-    } else if (CHECK_BTN_ALL(input1->press.button, BTN_B)) {
+    } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->selectMode++;
     } else if (ABS(this->stickRelY) >= 30) {
@@ -1584,7 +1584,7 @@ void FileChoose_Main(GameState* thisx) {
         gFileSelControlsFRATex,
     };
     FileChooseContext* this = (FileChooseContext*)thisx;
-    Input* input1 = &this->state.input[0];
+    Input* input = &this->state.input[0];
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2898);
 
@@ -1596,8 +1596,8 @@ void FileChoose_Main(GameState* thisx) {
 
     func_80095248(this->state.gfxCtx, 0, 0, 0);
 
-    this->stickRelX = input1->rel.stick_x;
-    this->stickRelY = input1->rel.stick_y;
+    this->stickRelX = input->rel.stick_x;
+    this->stickRelY = input->rel.stick_y;
 
     if (this->stickRelX < -30) {
         if (this->stickXDir == -1) {
