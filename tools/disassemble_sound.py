@@ -561,7 +561,7 @@ def convert_aseq_to_mus(aseq_name, mus_name):
         subprocess.run(["bash", "-c", f"{rel_seq64_cli} --in={aseq_name} --out={mus_name} --dialect=community-music --abi=zelda"], check=True)
     except subprocess.CalledProcessError:
         print(f"failed to convert {aseq_name} to mus format")
-        exit(1)
+        # exit(1)
 
 def main():
     args = []
@@ -639,10 +639,10 @@ def main():
             dir = os.path.join(midi_out_dir)
             os.makedirs(dir, exist_ok=True)
             #with tempfile.NamedTemporaryFile(suffix=".aseq", delete=False) as aseq:
-            with open(f"{midi_out_dir}/{str(header.offset)}.aseq", "wb") as aseq:
+            with open(f"{midi_out_dir}/{header.offset:08x}.aseq", "wb") as aseq:
                 aseq.write(header.sequence)
                 aseq.flush()
-                mus_file = os.path.join(dir, str(header.offset) + ".mus")
+                mus_file = os.path.join(dir, f"{header.offset:08x}.mus")
                 if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
                    convert_aseq_to_mus(aseq.name, mus_file)
 
