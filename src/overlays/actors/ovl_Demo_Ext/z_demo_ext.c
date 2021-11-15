@@ -110,7 +110,7 @@ void DemoExt_CheckCsMode(DemoExt* this, GlobalContext* globalCtx) {
                     DemoExt_SetupDispellVortex(this);
                     break;
                 default:
-                    // Demo_Ext_Check_DemoMode: there is no such action!
+                    // "Demo_Ext_Check_DemoMode: there is no such action!"
                     osSyncPrintf("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -173,7 +173,7 @@ void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoExt* this = THIS;
 
     if ((this->action < EXT_WAIT) || (this->action > EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
-        // Main mode is abnormal!
+        // "Main mode is abnormal!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sActionFuncs[this->action](this, globalCtx);
@@ -228,7 +228,7 @@ void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX) ||
         sDrawFuncs[this->drawMode] == NULL) {
-        // Draw mode is abnormal!
+        // "Draw mode is abnormal!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sDrawFuncs[this->drawMode](thisx, globalCtx);

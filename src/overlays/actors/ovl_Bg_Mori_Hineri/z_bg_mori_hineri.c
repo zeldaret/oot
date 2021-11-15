@@ -115,9 +115,9 @@ void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
 
-    if ((Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx)) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx)) &&
-        ((this->boxObjIdx < 0) || (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx)))) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx) &&
+        Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx) &&
+        ((this->boxObjIdx < 0) || Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
         this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
         if (this->dyna.actor.params >= 4) {
             this->dyna.actor.params -= 4;
@@ -189,7 +189,7 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->actionFunc = func_808A3E54;
 
         mainCamChildIdx = globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx;
-        if ((mainCamChildIdx != SUBCAM_FREE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_DEMO1)) {
+        if ((mainCamChildIdx != SUBCAM_FREE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
             OnePointCutscene_EndCutscene(globalCtx, mainCamChildIdx);
         }
         OnePointCutscene_Init(globalCtx, 3260, 40, &this->dyna.actor, MAIN_CAM);

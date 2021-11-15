@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HAKA_TRAP_H_
-#define _Z_BG_HAKA_TRAP_H_
+#ifndef Z_BG_HAKA_TRAP_H
+#define Z_BG_HAKA_TRAP_H
 
 #include "ultra64.h"
 #include "global.h"

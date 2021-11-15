@@ -194,7 +194,7 @@ void EnZl4_SetCsCameraMove(GlobalContext* globalCtx, s16 index) {
     Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
     Player* player = GET_PLAYER(globalCtx);
 
-    Camera_ChangeSetting(activeCam, CAM_SET_DEMO0);
+    Camera_ChangeSetting(activeCam, CAM_SET_CS_0);
     Camera_ResetAnim(activeCam);
     Camera_SetCSParams(activeCam, sCsCameraMove[index].atPoints, sCsCameraMove[index].eyePoints, player,
                        sCsCameraMove[index].relativeToPlayer);
@@ -1135,7 +1135,7 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
             this->blinkTimer = 0;
             this->eyeExpression = ZL4_EYES_NEUTRAL;
             this->mouthExpression = ZL4_MOUTH_SURPRISED;
-            func_800F5C64(0x51);
+            func_800F5C64(NA_BGM_APPEAR);
             EnZl4_SetCsCameraAngle(globalCtx, 0);
             Interface_ChangeAlpha(2);
             ShrinkWindow_SetVal(0x20);
@@ -1256,10 +1256,10 @@ s32 EnZl4_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
     if (limbIndex == 17) {
         sp1C = this->unk_1E0.unk_08;
-        Matrix_Translate(900.0f, 0.0f, 0.0f, 1);
+        Matrix_Translate(900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateX((sp1C.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((sp1C.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_Translate(-900.0f, 0.0f, 0.0f, 1);
+        Matrix_Translate(-900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 10) {
         sp1C = this->unk_1E0.unk_0E;

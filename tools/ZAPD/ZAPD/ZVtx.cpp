@@ -1,6 +1,7 @@
 #include "ZVtx.h"
-#include "BitConverter.h"
-#include "StringHelper.h"
+
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 
 REGISTER_ZFILENODE(Vtx, ZVtx);
@@ -36,25 +37,17 @@ void ZVtx::ParseRawData()
 	a = rawData[rawDataIndex + 15];
 }
 
+Declaration* ZVtx::DeclareVar(const std::string& prefix, const std::string& bodyStr)
+{
+	Declaration* decl = ZResource::DeclareVar(prefix, bodyStr);
+	decl->isExternal = true;
+	return decl;
+}
+
 std::string ZVtx::GetBodySourceCode() const
 {
 	return StringHelper::Sprintf("VTX(%i, %i, %i, %i, %i, %i, %i, %i, %i)", x, y, z, s, t, r, g, b,
 	                             a);
-}
-
-std::string ZVtx::GetSourceOutputCode(const std::string& prefix)
-{
-	std::string output = GetBodySourceCode();
-
-	if (parent != nullptr)
-	{
-		Declaration* decl =
-			parent->AddDeclaration(rawDataIndex, DeclarationAlignment::Align16, GetRawDataSize(),
-		                           GetSourceTypeName(), name, output);
-		decl->isExternal = true;
-	}
-
-	return "";
 }
 
 size_t ZVtx::GetRawDataSize() const
@@ -85,4 +78,9 @@ std::string ZVtx::GetSourceTypeName() const
 std::string ZVtx::GetExternalExtension() const
 {
 	return "vtx";
+}
+
+DeclarationAlignment ZVtx::GetDeclarationAlignment() const
+{
+	return DeclarationAlignment::Align16;
 }

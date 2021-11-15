@@ -17,7 +17,7 @@ void* Yaz0_FirstDMA(void) {
     curSize = sYaz0CurDataEnd - (u32)sYaz0DataBuffer;
     dmaSize = (curSize > sYaz0CurSize) ? sYaz0CurSize : curSize;
 
-    DmaMgr_DMARomToRam(sYaz0CurRomStart, sYaz0DataBuffer, dmaSize);
+    DmaMgr_DmaRomToRam(sYaz0CurRomStart, sYaz0DataBuffer, dmaSize);
     sYaz0CurRomStart += dmaSize;
     sYaz0CurSize -= dmaSize;
     return sYaz0DataBuffer;
@@ -38,7 +38,7 @@ void* Yaz0_NextDMA(void* curSrcPos) {
     }
 
     if (dmaSize != 0) {
-        DmaMgr_DMARomToRam(sYaz0CurRomStart, (u32)dst + restSize, dmaSize);
+        DmaMgr_DmaRomToRam(sYaz0CurRomStart, (u32)dst + restSize, dmaSize);
         sYaz0CurRomStart += dmaSize;
         sYaz0CurSize -= dmaSize;
         if (!sYaz0CurSize) {

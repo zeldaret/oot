@@ -1,5 +1,5 @@
-#ifndef _Z64_H_
-#define _Z64_H_
+#ifndef Z64_H
+#define Z64_H
 
 #include "ultra64.h"
 #include "ultra64/gs2dex.h"
@@ -11,6 +11,7 @@
 #include "z64audio.h"
 #include "z64object.h"
 #include "z64camera.h"
+#include "z64environment.h"
 #include "z64cutscene.h"
 #include "z64collision_check.h"
 #include "z64scene.h"
@@ -66,13 +67,13 @@ typedef struct {
 } GameInfo; // size = 0x15D4
 
 typedef struct {
-    /* 0x00000 */ u16 headMagic; // 1234
+    /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC
     /* 0x00008 */ Gfx polyOpaBuffer[0x17E0];
     /* 0x0BF08 */ Gfx polyXluBuffer[0x800];
     /* 0x0FF08 */ Gfx overlayBuffer[0x400];
     /* 0x11F08 */ Gfx workBuffer[0x80];
     /* 0x11308 */ Gfx unusedBuffer[0x20];
-    /* 0x12408 */ u16 tailMagic; // 5678
+    /* 0x12408 */ u16 tailMagic; // GFXPOOL_TAIL_MAGIC
 } GfxPool; // size = 0x12410
 
 typedef struct {
@@ -130,16 +131,16 @@ typedef struct GraphicsContext {
     /* 0x01C4 */ char unk_01C4[0xC0];
     /* 0x0284 */ OSViMode* viMode;
     /* 0x0288 */ char unk_0288[0x20]; // Unused, could this be Zelda 2/3 ?
-    /* 0x02A8 */ TwoHeadGfxArena    overlay; // "Zelda 4"
-    /* 0x02B8 */ TwoHeadGfxArena    polyOpa; // "Zelda 0"
-    /* 0x02C8 */ TwoHeadGfxArena    polyXlu; // "Zelda 1"
+    /* 0x02A8 */ TwoHeadGfxArena overlay; // "Zelda 4"
+    /* 0x02B8 */ TwoHeadGfxArena polyOpa; // "Zelda 0"
+    /* 0x02C8 */ TwoHeadGfxArena polyXlu; // "Zelda 1"
     /* 0x02D8 */ u32 gfxPoolIdx;
     /* 0x02DC */ u16* curFrameBuffer;
     /* 0x02E0 */ char unk_2E0[0x04];
     /* 0x02E4 */ u32 viFeatures;
     /* 0x02E8 */ s32 fbIdx;
-    /* 0x02EC */ void (*callback)(struct GraphicsContext*, u32);
-    /* 0x02F0 */ u32 callbackParam;
+    /* 0x02EC */ void (*callback)(struct GraphicsContext*, void*);
+    /* 0x02F0 */ void* callbackParam;
     /* 0x02F4 */ f32 xScale;
     /* 0x02F8 */ f32 yScale;
     /* 0x02FC */ char unk_2FC[0x04];
@@ -321,10 +322,11 @@ typedef enum {
 
 typedef struct {
     /* 0x000 */ char unk_00[0x128];
-    /* 0x128 */ void* staticSegments[3];
-    /* 0x134 */ Gfx* dListBuf;
+    /* 0x128 */ void* staticSegments[2];
+    /* 0x130 */ u16 (*palettes)[256];
+    /* 0x134 */ Gfx (*dListBuf)[150];
     /* 0x138 */ Gfx* unk_138;
-    /* 0x13C */ void* roomVtx;
+    /* 0x13C */ Vtx* roomVtx;
     /* 0x140 */ s16  unk_140;
     /* 0x144 */ Vec3f rot;
     /* 0x150 */ char unk_150[0x10];
@@ -575,71 +577,7 @@ typedef enum {
 
 typedef struct {
     /* 0x00 */ u16 state;
-} GameOverContext; // size = 0x02
-
-typedef struct {
-    /* 0x00 */ char     unk_00[0x02];
-    /* 0x02 */ u16      unk_02;
-    /* 0x04 */ Vec3f    unk_04;
-    /* 0x10 */ u8       unk_10;
-    /* 0x11 */ u8       unk_11;
-    /* 0x12 */ char     unk_12[0x1];
-    /* 0x13 */ u8       unk_13;
-    /* 0x14 */ char     unk_14[0x01];
-    /* 0x15 */ u8       skyDisabled;
-    /* 0x16 */ u8       sunMoonDisabled;
-    /* 0x17 */ u8       gloomySky;
-    /* 0x18 */ u8       unk_18;
-    /* 0x19 */ u8       unk_19;
-    /* 0x1A */ u16      unk_1A;
-    /* 0x1C */ char     unk_1C[0x02];
-    /* 0x1E */ u8       unk_1E;
-    /* 0x1F */ u8       unk_1F;
-    /* 0x20 */ u8       unk_20;
-    /* 0x21 */ u8       unk_21;
-    /* 0x22 */ u16      unk_22;
-    /* 0x24 */ u16      unk_24;
-    /* 0x26 */ char     unk_26[0x04];
-    /* 0x2A */ s8       unk_2A;
-    /* 0x2B */ s8       unk_2B;
-    /* 0x2C */ s8       unk_2C;
-    /* 0x2D */ char     unk_2D[0x5E];
-    /* 0x8C */ s16      unk_8C[3][3];
-    /* 0x9E */ s16      unk_9E;
-    /* 0xA0 */ s16      unk_A0;
-    /* 0xA2 */ char     unk_A2[0x06];
-    /* 0xA8 */ s16      unk_A8;
-    /* 0xAA */ s16      unk_AA;
-    /* 0xAC */ s16      unk_AC;
-    /* 0xB0 */ f32      unk_B0;
-    /* 0xB4 */ u8       numLightSettings;
-    /* 0xB8 */ UNK_PTR  lightSettingsList;
-    /* 0xBC */ u8       unk_BC;
-    /* 0xBD */ u8       unk_BD;
-    /* 0xBE */ u8       unk_BE;
-    /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x0F];
-    /* 0xCF */ u8       unk_CF[3];
-    /* 0xD2 */ s16      unk_D2;
-    /* 0xD4 */ char     unk_D4[0x02];
-    /* 0xD6 */ u16      unk_D6;
-    /* 0xD8 */ f32      unk_D8;
-    /* 0xDC */ u8       unk_DC;
-    /* 0xDD */ u8       gloomySkyEvent;
-    /* 0xDE */ u8       unk_DE;
-    /* 0xDF */ u8       lightning;
-    /* 0xE0 */ u8       unk_E0;
-    /* 0xE1 */ u8       unk_E1;
-    /* 0xE2 */ u8       unk_E2[4];
-    /* 0xE6 */ u8       unk_E6;
-    /* 0xE7 */ u8       unk_E7;
-    /* 0xE8 */ u8       unk_E8;
-    /* 0xE9 */ u8       unk_E9;
-    /* 0xEA */ u8       unk_EA[4];
-    /* 0xEE */ u8       unk_EE[4];
-    /* 0xF2 */ u8       unk_F2[4];
-    /* 0xF6 */ char     unk_F6[0x06];
-} EnvironmentContext; // size = 0xFC
+} GameOverContext; // size = 0x2
 
 typedef struct {
     /* 0x00 */ s16      id;
@@ -848,6 +786,14 @@ typedef struct {
 } SramContext; // size = 0x4
 
 #define SRAM_SIZE 0x8000
+#define SRAM_HEADER_SIZE 0x10
+
+typedef enum {
+    /* 0x00 */ SRAM_HEADER_SOUND,
+    /* 0x01 */ SRAM_HEADER_ZTARGET,
+    /* 0x02 */ SRAM_HEADER_LANGUAGE,
+    /* 0x03 */ SRAM_HEADER_MAGIC // must be the value of `sZeldaMagic` for save to be considered valid
+} SramHeaderField;
 
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;
@@ -909,25 +855,20 @@ typedef struct SelectContext {
     /* 0x01D0 */ s32 count;
     /* 0x01D4 */ SceneSelectEntry* scenes;
     /* 0x01D8 */ s32 currentScene;
-    /* 0x01DC */ s32 unk_1DC;
-    /* 0x01E0 */ s32 unk_1E0[7];
-    /* 0x01FC */ s32 unk_1FC;
-    /* 0x0200 */ s32 unk_200;
-    /* 0x0204 */ s32 unk_204;
+    /* 0x01DC */ s32 pageDownIndex; // Index of pageDownStops
+    /* 0x01E0 */ s32 pageDownStops[7];
+    /* 0x01FC */ char unk_1FC[0x0C];
     /* 0x0208 */ s32 opt;
-    /* 0x020C */ s32 unk_20C;
-    /* 0x0210 */ s32 unk_210;
-    /* 0x0214 */ s32 unk_214;
-    /* 0x0218 */ s32 unk_218;
-    /* 0x021C */ s32 unk_21C;
-    /* 0x0220 */ s32 unk_220;
-    /* 0x0224 */ s32 unk_224;
-    /* 0x0228 */ s32 unk_228;
-    /* 0x022C */ s32 unk_22C;
-    /* 0x0230 */ s32 unk_230;
-    /* 0x0234 */ s32 unk_234;
+    /* 0x020C */ s32 topDisplayedScene; // The scene which is currently at the top of the screen
+    /* 0x0210 */ char unk_210[0x0C];
+    /* 0x021C */ s32 verticalInputAccumulator;
+    /* 0x0220 */ s32 verticalInput;
+    /* 0x0224 */ s32 timerUp;
+    /* 0x0228 */ s32 timerDown;
+    /* 0x022C */ s32 lockUp;
+    /* 0x0230 */ s32 lockDown;
+    /* 0x0234 */ s32 unk_234; // unused
     /* 0x0238 */ u8* staticSegment;
-    /* 0x023C */ s32 unk_23C;
 } SelectContext; // size = 0x240
 
 typedef struct {
@@ -1037,7 +978,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00000 */ GameState state;
-    /* 0x000A4 */ Vtx* allocVtx1;
+    /* 0x000A4 */ Vtx* windowVtx;
     /* 0x000A8 */ u8* staticSegment;
     /* 0x000AC */ u8* parameterSegment;
     /* 0x000B0 */ char unk_B0[0x8];
@@ -1046,82 +987,73 @@ typedef struct {
     /* 0x001E4 */ char unk_1E4[0x4];
     /* 0x001E8 */ SkyboxContext skyboxCtx;
     /* 0x00348 */ MessageContext msgCtx;
-    /* 0x0E760 */ char kanfont[0xE188];
+    /* 0x0E760 */ Font font;
     /* 0x1C8E8 */ EnvironmentContext envCtx;
     /* 0x1C9E4 */ char unk_1C9E4[0x4];
-    /* 0x1C9E8 */ Vtx* allocVtx2;
-    /* 0x1C9EC */ Vtx* allocVtx3;
-    /* 0x1C9F0 */ Vtx* allocVtx4;
+    /* 0x1C9E8 */ Vtx* windowContentVtx;
+    /* 0x1C9EC */ Vtx* keyboardVtx;
+    /* 0x1C9F0 */ Vtx* nameEntryVtx;
     /* 0x1C9F4 */ u8 n64ddFlag;
     /* 0x1C9F6 */ u16 deaths[3];
     /* 0x1C9FC */ u8 fileNames[3][8];
     /* 0x1CA14 */ u16 healthCapacities[3];
     /* 0x1CA1C */ u32 questItems[3];
     /* 0x1CA28 */ s16 n64ddFlags[3];
-    /* 0x1CA2E */ s8 heartStatus[3];
-    /* 0x1CA32 */ u16 nowLife[3];
-    /* 0x1CA38 */ s16 btnIdx;
-    /* 0x1CA3A */ u16 yesNoButtonIdx;
-    /* 0x1CA3C */ s16 menuIdx;
-    /* 0x1CA3E */ s16 fileSelectStateIdx;
-    /* 0x1CA40 */ s16 unkActionIndex;
-    /* 0x1CA42 */ u16 nextFileSelectStateIdx;
-    /* 0x1CA44 */ s16 openFileStateIdx;
-    /* 0x1CA46 */ s16 selectedFileIdx;
+    /* 0x1CA2E */ s8 defense[3];
+    /* 0x1CA32 */ u16 health[3];
+    /* 0x1CA38 */ s16 buttonIndex;
+    /* 0x1CA3A */ s16 confirmButtonIndex; // 0: yes, 1: quit
+    /* 0x1CA3C */ s16 menuMode;
+    /* 0x1CA3E */ s16 configMode;
+    /* 0x1CA40 */ s16 prevConfigMode;
+    /* 0x1CA42 */ s16 nextConfigMode;
+    /* 0x1CA44 */ s16 selectMode;
+    /* 0x1CA46 */ s16 selectedFileIndex;
     /* 0x1CA48 */ char unk_1CA48[0x2];
-    /* 0x1CA4A */ u16 fileNamesY[3];
-    /* 0x1CA50 */ u16 actionTimer;
-    /* 0x1CA52 */ u16 buttonsY[6];
-    /* 0x1CA5E */ s16 copyDestFileIdx;
-    /* 0x1CA60 */ u16 fileWarningTexIdx;
-    /* 0x1CA62 */ u16 warningFileIdx;
-    /* 0x1CA64 */ u16 titleTexIdx;
-    /* 0x1CA66 */ u16 nextTitleTexIdx;
-    /* 0x1CA68 */ s16 windowR;
-    /* 0x1CA6A */ s16 windowG;
-    /* 0x1CA6C */ s16 windowB;
-    /* 0x1CA6E */ u16 selectFileTitleA;
-    /* 0x1CA70 */ u16 openFileTitleA;
-    /* 0x1CA72 */ u16 windowA;
-    /* 0x1CA74 */ u16 fileButtonsA[3];
-    /* 0x1CA7A */ u16 fileNameBoxesA[3];
-    /* 0x1CA80 */ u16 fileNamesA[3];
-    /* 0x1CA86 */ u16 metalJointsA[3];
-    /* 0x1CA8C */ u16 fileInfoA;
-    /* 0x1CA8E */ u16 targetFileInfoBoxA;
-    /* 0x1CA90 */ u16 unkFileInfoBoxA;
-    /* 0x1CA92 */ u16 copyButtonA;
-    /* 0x1CA94 */ u16 eraseButtonA;
-    /* 0x1CA96 */ u16 yesBiuttonA;
-    /* 0x1CA98 */ u16 quitButtonA;
-    /* 0x1CA9A */ u16 optionButtonA;
-    /* 0x1CA9C */ u16 newFileNameBoxA;
-    /* 0x1CA9E */ u16 decideCancelTextA;
-    /* 0x1CAA0 */ u16 fileEmptyTextA;
-    /* 0x1CAA2 */ u16 highlightColorR;
-    /* 0x1CAA4 */ u16 highlightColorG;
-    /* 0x1CAA6 */ u16 highlightColorB;
-    /* 0x1CAA8 */ u16 highlightColorA;
-    /* 0x1CAAA */ u16 highlightColorAIncrease;
-    /* 0x1CAAC */ char unk_1CAAC[0x6];
-    /* 0x1CAB2 */ u16 stickXTimer;
-    /* 0x1CAB4 */ u16 stickYTimer;
-    /* 0x1CAB6 */ u16 idxXOff;
-    /* 0x1CAB8 */ u16 idxYOff;
-    /* 0x1CABA */ s16 stickX;
-    /* 0x1CABC */ s16 stickY;
-    /* 0x1CABE */ u16 newFileNameBoxX;
-    /* 0x1CAC0 */ u16 windowX;
-    /* 0x1CAC4 */ f32 windowRotX;
-    /* 0x1CAC8 */ u16 kbdButtonIdx;
-    /* 0x1CACA */ u16 unk_1CACA;
-    /* 0x1CACC */ u16 kbdCharBoxA;
-    /* 0x1CACE */ s16 kbdCharIdx;
-    /* 0x1CAD0 */ s16 kbdCharX;
-    /* 0x1CAD2 */ s16 kbdCharY;
+    /* 0x1CA4A */ s16 fileNamesY[3];
+    /* 0x1CA50 */ s16 actionTimer;
+    /* 0x1CA52 */ s16 buttonYOffsets[6];
+    /* 0x1CA5E */ s16 copyDestFileIndex;
+    /* 0x1CA60 */ s16 warningLabel;
+    /* 0x1CA62 */ s16 warningButtonIndex;
+    /* 0x1CA64 */ s16 titleLabel;
+    /* 0x1CA66 */ s16 nextTitleLabel;
+    /* 0x1CA68 */ s16 windowColor[3];
+    /* 0x1CA6E */ s16 titleAlpha[2];
+    /* 0x1CA72 */ s16 windowAlpha;
+    /* 0x1CA74 */ s16 fileButtonAlpha[3];
+    /* 0x1CA7A */ s16 nameBoxAlpha[3];
+    /* 0x1CA80 */ s16 nameAlpha[3];
+    /* 0x1CA86 */ s16 connectorAlpha[3];
+    /* 0x1CA8C */ s16 fileInfoAlpha[3];
+    /* 0x1CA92 */ s16 actionButtonAlpha[2];
+    /* 0x1CA96 */ s16 confirmButtonAlpha[2];
+    /* 0x1CA9A */ s16 optionButtonAlpha;
+    /* 0x1CA9C */ s16 nameEntryBoxAlpha;
+    /* 0x1CA9E */ s16 controlsAlpha;
+    /* 0x1CAA0 */ s16 emptyFileTextAlpha;
+    /* 0x1CAA2 */ s16 highlightColor[4];
+    /* 0x1CAAA */ s16 highlightPulseDir; // 0 fade out, 1 fade in
+    /* 0x1CAAC */ s16 unk_1CAAC; // initialized but never used
+    /* 0x1CAAE */ s16 confirmButtonTexIndices[2];
+    /* 0x1CAB2 */ s16 inputTimerX;
+    /* 0x1CAB4 */ s16 inputTimerY;
+    /* 0x1CAB6 */ s16 stickXDir;
+    /* 0x1CAB8 */ s16 stickYDir;
+    /* 0x1CABA */ s16 stickRelX;
+    /* 0x1CABC */ s16 stickRelY;
+    /* 0x1CABE */ s16 nameEntryBoxPosX;
+    /* 0x1CAC0 */ s16 windowPosX;
+    /* 0x1CAC4 */ f32 windowRot;
+    /* 0x1CAC8 */ s16 kbdButton; // only for buttons, not characters
+    /* 0x1CACA */ s16 charPage; // 0: hiragana, 1: katakana, 2: alphabet
+    /* 0x1CACC */ s16 charBgAlpha; // square shape the letter sits in
+    /* 0x1CACE */ s16 charIndex; // 0 - 64, top left to bottom right
+    /* 0x1CAD0 */ s16 kbdX; // (0, 0) is top left character
+    /* 0x1CAD2 */ s16 kbdY;
     /* 0x1CAD4 */ s16 newFileNameCharCount;
-    /* 0x1CAD6 */ u16 unk_1CAD6[3];
-} FileChooseContext; // size = 0x1CADC
+    /* 0x1CAD6 */ s16 unk_1CAD6[5];
+} FileChooseContext; // size = 0x1CAE0
 
 typedef enum {
     DPM_UNK = 0,
@@ -1620,7 +1552,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u32 segments[NUM_SEGMENTS];
-    /* 0x40 */ u32 dlStack[18];
+    /* 0x40 */ Gfx* dlStack[18];
     /* 0x88 */ s32 dlDepth;
     /* 0x8C */ u32 dlCnt;
     /* 0x90 */ u32 vtxCnt;
@@ -1720,15 +1652,15 @@ typedef struct {
     /* 0x0050 */ s32 viHeight;
     /* 0x0054 */ s32 viWidth;
     /* 0x0058 */ s32 unk_58; // Right adjustment?
-    /* 0x005c */ s32 unk_5C; // Left adjustment?
+    /* 0x005C */ s32 unk_5C; // Left adjustment?
     /* 0x0060 */ s32 unk_60; // Bottom adjustment?
     /* 0x0064 */ s32 unk_64; // Top adjustment?
     /* 0x0068 */ s32 viModeBase; // enum: {0, 1, 2, 3}
-    /* 0x006c */ s32 viTvType;
+    /* 0x006C */ s32 viTvType;
     /* 0x0070 */ u32 unk_70; // bool
     /* 0x0074 */ u32 unk_74; // bool
     /* 0x0078 */ u32 unk_78; // bool
-    /* 0x007c */ u32 unk_7C; // bool
+    /* 0x007C */ u32 unk_7C; // bool
     /* 0x0080 */ u32 viFeatures;
     /* 0x0084 */ u32 unk_84;
 } ViMode;
@@ -1836,5 +1768,17 @@ typedef struct {
     /* 0x00 */ u16* value;
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
+
+typedef struct {
+    /* 0x00 */ RomFile file;
+    /* 0x08 */ RomFile palette;
+} SkyboxFile; // size = 0x10
+
+#define ROM_FILE(name) \
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
+#define ROM_FILE_EMPTY(name) \
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
+#define ROM_FILE_UNSET \
+    { 0 }
 
 #endif

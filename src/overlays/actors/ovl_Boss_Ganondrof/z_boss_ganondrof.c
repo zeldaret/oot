@@ -10,6 +10,7 @@
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #define FLAGS 0x00000035
 
@@ -301,7 +302,7 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, GND_BOSSROOM_CENTER_X, GND_BOSSROOM_CENTER_Y,
-                    GND_BOSSROOM_CENTER_Z, 0, 0, 0, -1);
+                    GND_BOSSROOM_CENTER_Z, 0, 0, 0, WARP_DUNGEON_ADULT);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 200.0f + GND_BOSSROOM_CENTER_X,
                     GND_BOSSROOM_CENTER_Y, GND_BOSSROOM_CENTER_Z, 0, 0, 0, 0);
     } else {
@@ -1100,9 +1101,9 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             holdCamera = true;
             bodyDecayLevel = 10;
             if (this->timers[0] == 150) {
-                Audio_QueueSeqCmd(0x21);
+                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, GND_BOSSROOM_CENTER_X,
-                            GND_BOSSROOM_CENTER_Y, GND_BOSSROOM_CENTER_Z, 0, 0, 0, -1);
+                            GND_BOSSROOM_CENTER_Y, GND_BOSSROOM_CENTER_Z, 0, 0, 0, WARP_DUNGEON_ADULT);
             }
 
             Math_ApproachZeroF(&this->cameraEye.y, 0.05f, 1.0f); // GND_BOSSROOM_CENTER_Y + 33.0f
@@ -1492,7 +1493,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("STOP TIMER = %d ==============\n", this->actor.freezeTimer);
     horse = (EnfHG*)this->actor.child;
     if (this->flyMode == GND_FLY_PAINTING) {
-        Matrix_RotateY((horse->turnRot * 3.1416f) / (f32)0x8000, 1);
+        Matrix_RotateY((horse->turnRot * 3.1416f) / (f32)0x8000, MTXMODE_APPLY);
     }
 
     osSyncPrintf("YP %f\n", this->actor.world.pos.y);
@@ -1518,7 +1519,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, BossGanondrof_OverrideLimbDraw,
                       BossGanondrof_PostLimbDraw, this);
     osSyncPrintf("DRAW 22\n");
-    POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+    POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganondrof.c", 3814);
     osSyncPrintf("DRAW END %d\n", this->actor.params);
 }

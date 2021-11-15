@@ -86,31 +86,7 @@ static Vec3f D_80AFA288[] = {
 
 static u32 D_80AFA390[] = { 0, 0 };
 
-static Vtx D_80AFA398[] = {
-    VTX(-100, 0, -100, 0, 2048, 255, 255, 255, 255),
-    VTX(100, 0, -100, 2048, 2048, 255, 255, 255, 255),
-    VTX(100, 0, 100, 2048, 0, 255, 255, 255, 255),
-    VTX(-100, 0, 100, 0, 0, 255, 255, 255, 255),
-};
-
-static Gfx D_80AFA3D8[] = {
-    gsDPPipeSync(),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsSPEndDisplayList(),
-};
-
-static Gfx D_80AFA3F8[] = {
-    gsDPSetCombineLERP(PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
-                       COMBINED),
-    gsDPSetRenderMode(AA_EN | Z_CMP | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_DEC | FORCE_BL |
-                          GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1),
-                      G_RM_AA_ZB_XLU_DECAL2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPVertex(&D_80AFA398, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_Sda/ovl_En_Sda.c"
 
 static Vec3f D_80AFA660[16];
 
@@ -291,7 +267,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
             *shadowTextureTemp32 = 0;
         }
     }
-    Matrix_RotateX((BREG(50) + 70) / 100.0f, 0);
+    Matrix_RotateX((BREG(50) + 70) / 100.0f, MTXMODE_NEW);
     for (i = 0; i < 18; i++) {
         if (D_80AFA16C[i] >= 0) {
             D_80AFA660[D_80AFA16C[i]] = player->bodyPartsPos[i];
@@ -321,7 +297,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
             sp64[i].y = (((KREG(82) / 100.0f) + 4.0f) * sp188.y) + sp16C.y;
             sp64[i].z = (((KREG(82) / 100.0f) + 4.0f) * sp188.z) + sp16C.z;
         }
-        Matrix_RotateX((BREG(50) + 70) / 100.0f, 0);
+        Matrix_RotateX((BREG(50) + 70) / 100.0f, MTXMODE_NEW);
         for (i = 0; i < 22; i++) {
             sp194.x = sp64[i].x - player->actor.world.pos.x;
             sp194.y = sp64[i].y - player->actor.world.pos.y + KREG(80) + 16.0f;

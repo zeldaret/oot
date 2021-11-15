@@ -103,7 +103,7 @@ void EffectSsDeadDs_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                       PRIMITIVE, 0);
-    gSPDisplayList(POLY_XLU_DISP++, gEffBurnMark1DL);
+    gSPDisplayList(POLY_XLU_DISP++, gLensFlareCircleDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead_ds.c", 255);
 }

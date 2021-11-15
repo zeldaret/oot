@@ -1,5 +1,5 @@
-#ifndef _Z_ARMS_HOOK_H_
-#define _Z_ARMS_HOOK_H_
+#ifndef Z_ARMS_HOOK_H
+#define Z_ARMS_HOOK_H
 
 #include "ultra64.h"
 #include "global.h"

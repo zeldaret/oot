@@ -1,5 +1,5 @@
-#ifndef _Z_EFF_SS_HITMARK_H_
-#define _Z_EFF_SS_HITMARK_H_
+#ifndef Z_EFF_SS_HITMARK_H
+#define Z_EFF_SS_HITMARK_H
 
 #include "ultra64.h"
 #include "global.h"

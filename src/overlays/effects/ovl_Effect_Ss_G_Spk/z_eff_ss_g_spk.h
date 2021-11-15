@@ -1,5 +1,5 @@
-#ifndef _Z_EFF_SS_G_SPK_H_
-#define _Z_EFF_SS_G_SPK_H_
+#ifndef Z_EFF_SS_G_SPK_H
+#define Z_EFF_SS_G_SPK_H
 
 #include "ultra64.h"
 #include "global.h"

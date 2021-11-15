@@ -30,7 +30,7 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
 
                 osSyncPrintf(VT_FGCOL(RED));
                 //! @bug file and line are not passed to osSyncPrintf
-                // Position is not valid
+                // "Position is not valid"
                 osSyncPrintf(
                     "BGCheckCollection_typicalActorPos():位置が妥当ではありません。\npos (%f,%f,%f) file:%s line:%d\n",
                     pos.x, pos.y, pos.z);

@@ -487,7 +487,7 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
                     if (spawner->killCount < 10) {
                         spawner->killCount++;
                     }
-                    // How many are dead?
+                    // "How many are dead?"
                     osSyncPrintf("\n\n");
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n" VT_RST, spawner->killCount);
                     osSyncPrintf("\n\n");

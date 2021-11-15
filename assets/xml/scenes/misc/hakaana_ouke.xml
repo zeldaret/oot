@@ -1,6 +1,7 @@
 <Root>
     <File Name="hakaana_ouke_scene" Segment="2">
-        <Cutscene Name="gSunSongTeachCs" Offset="0x24A0"/>
+        <Cutscene Name="gSunSongGraveSunSongTeachCs" Offset="0x24A0"/>
+        <Cutscene Name="gSunSongGraveSunSongTeachPart2Cs" Offset="0x28E0"/>
         <Scene Name="hakaana_ouke_scene" Offset="0x0"/>
     </File>
     <File Name="hakaana_ouke_room_0" Segment="3">

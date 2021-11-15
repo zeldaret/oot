@@ -69,7 +69,7 @@ void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    // Medi Goron"
+    // "Medi Goron"
     osSyncPrintf(VT_FGCOL(GREEN) "%s[%d] : 中ゴロン[%d]" VT_RST "\n", "../z_en_gm.c", 133, this->actor.params);
 
     this->objGmBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GM);

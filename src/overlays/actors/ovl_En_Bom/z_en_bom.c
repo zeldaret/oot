@@ -181,28 +181,28 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
     }
 
-    if (globalCtx->envCtx.unk_8C[1][0] != 0) {
-        globalCtx->envCtx.unk_8C[1][0] -= 0x19;
+    if (globalCtx->envCtx.adjLight1Color[0] != 0) {
+        globalCtx->envCtx.adjLight1Color[0] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[1][1] != 0) {
-        globalCtx->envCtx.unk_8C[1][1] -= 0x19;
+    if (globalCtx->envCtx.adjLight1Color[1] != 0) {
+        globalCtx->envCtx.adjLight1Color[1] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[1][2] != 0) {
-        globalCtx->envCtx.unk_8C[1][2] -= 0x19;
+    if (globalCtx->envCtx.adjLight1Color[2] != 0) {
+        globalCtx->envCtx.adjLight1Color[2] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][0] != 0) {
-        globalCtx->envCtx.unk_8C[0][0] -= 0x19;
+    if (globalCtx->envCtx.adjAmbientColor[0] != 0) {
+        globalCtx->envCtx.adjAmbientColor[0] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][1] != 0) {
-        globalCtx->envCtx.unk_8C[0][1] -= 0x19;
+    if (globalCtx->envCtx.adjAmbientColor[1] != 0) {
+        globalCtx->envCtx.adjAmbientColor[1] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][2] != 0) {
-        globalCtx->envCtx.unk_8C[0][2] -= 0x19;
+    if (globalCtx->envCtx.adjAmbientColor[2] != 0) {
+        globalCtx->envCtx.adjAmbientColor[2] -= 25;
     }
 
     if (this->timer == 0) {
@@ -315,8 +315,13 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
 
             Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
-            globalCtx->envCtx.unk_8C[1][0] = globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = 0xFA;
-            globalCtx->envCtx.unk_8C[0][0] = globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = 0xFA;
+
+            globalCtx->envCtx.adjLight1Color[0] = globalCtx->envCtx.adjLight1Color[1] =
+                globalCtx->envCtx.adjLight1Color[2] = 250;
+
+            globalCtx->envCtx.adjAmbientColor[0] = globalCtx->envCtx.adjAmbientColor[1] =
+                globalCtx->envCtx.adjAmbientColor[2] = 250;
+
             Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
             thisx->params = BOMB_EXPLOSION;
             this->timer = 10;

@@ -274,7 +274,7 @@ void EnRr_SetupGrabPlayer(EnRr* this, Player* player) {
 u8 EnRr_GetMessage(u8 shield, u8 tunic) {
     u8 messageIndex = 0;
 
-    if ((shield == PLAYER_SHIELD_DEKU) || (shield == PLAYER_SHIELD_HYLIAN)) {
+    if ((shield == 1 /* Deku shield */) || (shield == 2 /* Hylian shield */)) {
         messageIndex = RR_MESSAGE_SHIELD;
     }
     if ((tunic == 2 /* Goron tunic */) || (tunic == 3 /* Zora tunic */)) {
@@ -296,15 +296,15 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     this->segPhaseVelTarget = 2500.0f;
     this->wobbleSizeTarget = 2048.0f;
     tunic = 0;
-    shield = PLAYER_SHIELD_NONE;
-    if (CUR_EQUIP_VALUE(EQUIP_SHIELD) != PLAYER_SHIELD_MIRROR) {
+    shield = 0;
+    if (CUR_EQUIP_VALUE(EQUIP_SHIELD) != 3 /* Mirror shield */) {
         shield = Inventory_DeleteEquipment(globalCtx, EQUIP_SHIELD);
-        if (shield != PLAYER_SHIELD_NONE) {
+        if (shield != 0) {
             this->eatenShield = shield;
             this->retreat = true;
         }
     }
-    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != 1 /* Kokiri tunic*/) {
+    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != 1 /* Kokiri tunic */) {
         tunic = Inventory_DeleteEquipment(globalCtx, EQUIP_TUNIC);
         if (tunic != 0) {
             this->eatenTunic = tunic;
@@ -417,7 +417,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
 
     if (this->collider2.base.acFlags & AC_HIT) {
         this->collider2.base.acFlags &= ~AC_HIT;
-        // Kakin (not sure what this means)
+        // "Kakin" (not sure what this means)
         osSyncPrintf(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
         hitPos.x = this->collider2.info.bumper.hitPos.x;
         hitPos.y = this->collider2.info.bumper.hitPos.y;
@@ -444,7 +444,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                 case RR_DMG_SPRT_ARROW:
                     dropType++; // magic jar
                 case RR_DMG_NORMAL:
-                    // ouch
+                    // "ouch"
                     osSyncPrintf(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n",
                                  this->frameCount, this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
                                  this->actor.colChkInfo.damageEffect);
@@ -501,7 +501,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
             ((this->collider1.base.ocFlags1 & OC1_HIT) || (this->collider2.base.ocFlags1 & OC1_HIT))) {
             this->collider1.base.ocFlags1 &= ~OC1_HIT;
             this->collider2.base.ocFlags1 &= ~OC1_HIT;
-            // catch
+            // "catch"
             osSyncPrintf(VT_FGCOL(GREEN) "キャッチ(%d)！！" VT_RST "\n", this->frameCount);
             if (globalCtx->grabPlayer(globalCtx, player)) {
                 player->actor.parent = &this->actor;
@@ -668,22 +668,22 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
         dropPos.y = this->actor.world.pos.y;
         dropPos.z = this->actor.world.pos.z;
         switch (this->eatenShield) {
-            case PLAYER_SHIELD_DEKU:
+            case 1:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_SHIELD_DEKU);
                 break;
-            case PLAYER_SHIELD_HYLIAN:
+            case 2:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_SHIELD_HYLIAN);
                 break;
         }
         switch (this->eatenTunic) {
-            case PLAYER_TUNIC_GORON + 1:
+            case 2:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_TUNIC_GORON);
                 break;
-            case PLAYER_TUNIC_ZORA + 1:
+            case 3:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_TUNIC_ZORA);
                 break;
         }
-        // dropped
+        // "dropped"
         osSyncPrintf(VT_FGCOL(GREEN) "「%s」が出た！！" VT_RST "\n", sDropNames[this->dropType]);
         switch (this->dropType) {
             case RR_DROP_MAGIC:

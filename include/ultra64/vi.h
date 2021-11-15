@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_VI_H_
-#define _ULTRA64_VI_H_
+#ifndef ULTRA64_VI_H
+#define ULTRA64_VI_H
 
 /* Special Features */
 #define OS_VI_GAMMA_ON          0x0001

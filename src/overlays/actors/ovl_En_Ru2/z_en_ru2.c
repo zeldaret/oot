@@ -6,6 +6,7 @@
 
 #include "z_en_ru2.h"
 #include "objects/object_ru2/object_ru2.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -247,7 +248,8 @@ void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
     f32 posY = thisx->world.pos.y;
     f32 posZ = thisx->world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
@@ -552,7 +554,7 @@ void func_80AF3564(EnRu2* this, GlobalContext* globalCtx) {
                     func_80AF34F0(this);
                     break;
                 default:
-                    // There is no such action!
+                    // "There is no such action!"
                     osSyncPrintf("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -608,14 +610,14 @@ void func_80AF3744(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF37AC() {
-    func_800F5C64(0x51);
+    func_800F5C64(NA_BGM_APPEAR);
 }
 
 void func_80AF37CC(EnRu2* this) {
     f32 funcFloat;
 
     this->unk_2C0++;
-    funcFloat = func_8006F9BC((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
+    funcFloat = Environment_LerpWeightAccelDecel((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
     this->actor.world.pos.y = this->actor.home.pos.y + (300.0f * funcFloat);
 }
 
@@ -668,12 +670,12 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
 
     if (dialogState == 3) {
         if (this->unk_2C3 != 3) {
-            // I'm Komatsu! (cinema scene dev)
+            // "I'm Komatsu!" (cinema scene dev)
             osSyncPrintf("おれが小松だ！ \n");
             this->unk_2C2++;
             if (this->unk_2C2 % 6 == 3) {
                 player = GET_PLAYER(globalCtx);
-                // uorya-! (screeming sound)
+                // "uorya-!" (screeming sound)
                 osSyncPrintf("うおりゃー！ \n");
                 func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
                 player->actor.world.pos.x = 820.0f;
@@ -757,7 +759,7 @@ void EnRu2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = THIS;
 
     if ((this->action < 0) || (this->action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[this->action] == NULL)) {
-        // Main Mode is improper!
+        // "Main Mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -819,7 +821,7 @@ void EnRu2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
         (sDrawFuncs[this->drawConfig] == 0)) {
-        // Draw Mode is improper!
+        // "Draw Mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

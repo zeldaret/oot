@@ -1,5 +1,5 @@
-#ifndef _Z_EFF_SS_DEAD_DB_H_
-#define _Z_EFF_SS_DEAD_DB_H_
+#ifndef Z_EFF_SS_DEAD_DB_H
+#define Z_EFF_SS_DEAD_DB_H
 
 #include "ultra64.h"
 #include "global.h"

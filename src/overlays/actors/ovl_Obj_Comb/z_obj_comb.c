@@ -211,12 +211,12 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y + (118.0f * this->actor.scale.y),
-                     this->actor.world.pos.z, 0);
-    Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), 1);
-    Matrix_RotateX(this->actor.shape.rot.x * (M_PI / 0x8000), 1);
-    Matrix_RotateZ(this->actor.shape.rot.z * (M_PI / 0x8000), 1);
-    Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, 1);
-    Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
+                     this->actor.world.pos.z, MTXMODE_NEW);
+    Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateX(this->actor.shape.rot.x * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateZ(this->actor.shape.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, MTXMODE_APPLY);
+    Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

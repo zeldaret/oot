@@ -1,5 +1,5 @@
-#ifndef _Z_BOSS_FD_H_
-#define _Z_BOSS_FD_H_
+#ifndef Z_BOSS_FD_H
+#define Z_BOSS_FD_H
 
 #include "ultra64.h"
 #include "global.h"

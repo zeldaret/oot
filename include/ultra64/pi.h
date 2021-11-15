@@ -1,5 +1,5 @@
-#ifndef _ULTRA64_PI_H_
-#define _ULTRA64_PI_H_
+#ifndef ULTRA64_PI_H
+#define ULTRA64_PI_H
 
 typedef struct {
     /* 0x00 */ u32 errStatus;

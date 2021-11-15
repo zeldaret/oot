@@ -1,5 +1,5 @@
-#ifndef _Z_OCEFF_WIPE3_H_
-#define _Z_OCEFF_WIPE3_H_
+#ifndef Z_OCEFF_WIPE3_H
+#define Z_OCEFF_WIPE3_H
 
 #include "ultra64.h"
 #include "global.h"

@@ -1,5 +1,5 @@
-#ifndef _Z_EFF_SS_FHGFLASH_h_
-#define _Z_EFF_SS_FHGFLASH_h_
+#ifndef Z_EFF_SS_FHGFLASH_H
+#define Z_EFF_SS_FHGFLASH_H
 
 #include "ultra64.h"
 #include "global.h"
