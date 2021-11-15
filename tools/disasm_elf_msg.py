@@ -164,12 +164,6 @@ item_ids = {
     0xFF : "ITEM_NONE",
 }
 
-strength_upgrades = {
-    0x00 : "STR_UPG_GORON_BRACELET",
-    0x01 : "STR_UPG_SILVER_GAUNTLETS",
-    0x02 : "STR_UPG_GOLDEN_GAUNTLETS",
-}
-
 def disas_elfmsgs(start):
     baserom = None
     with open("baserom.z64", "rb") as infile:
@@ -187,7 +181,7 @@ def disas_elfmsgs(start):
             0x00: "CHECK",
             0x20: "UNK_1",
             0x40: "UNK_2",
-            0x60: "BRANCHING",
+            0x60: "SKIP",
             0xE0: "END",
         }
 
@@ -199,20 +193,15 @@ def disas_elfmsgs(start):
         elf_message_type = b0 & 0xE0
         ARG_0 = elf_message_types[elf_message_type]
 
-        if elf_message_type == 0:
-            ARG_1 = f"0x{0x100 | (b2 & 0xFF):04X}"
-        elif elf_message_type == 0x20:
-            ARG_1 = f"0x{0x100 | (b2 & 0xFF):04X}"
-        elif elf_message_type == 0x40:
-            ARG_1 = f"0x{0x100 | (b2 & 0xFF):04X}"
+        if elf_message_type in [0, 0x20, 0x40, 0xE0]:
+            if elf_message_type == 0xE0:
+                cont = False
+            ARG_1 = f"0x{(b2 & 0xFF):04X}"
         elif elf_message_type == 0x60:
             branch_to = 4 * (b2 & 0xFF)
             ARG_1 = (b2 & 0xFF)
-        elif elf_message_type == 0xE0:
-            cont = False
-            ARG_1 = f"0x{0x100 | (b2 & 0xFF):04X}"
         else:
-            assert False , "Unknown type"
+            assert False , "Encountered unknown type"
 
         ARG_2 = f"{bool(b0 & 1)}".lower()
     
@@ -221,38 +210,38 @@ def disas_elfmsgs(start):
 
         if condition_type == 0:
             if elf_message_type == 0xE0 and b1 == 0 and not (b0 & 1):
-                print(f"ELF_MESSAGE_END({ARG_1}),")
+                print(f"ELF_MSG_END({ARG_1}),")
             else:
-                print(f"ELF_MESSAGE_FLAG({ARG_0}, {ARG_1}, {ARG_2}, 0x{b1:02X}), /* eventChkInf[{(b1 >> 4) & 0xF}] & 0x{1 << (b1 & 0xF):X} */")
+                print(f"ELF_MSG_FLAG({ARG_0}, {ARG_1}, {ARG_2}, 0x{b1:02X}), /* eventChkInf[{(b1 >> 4) & 0xF}] & 0x{1 << (b1 & 0xF):X} */")
             assert b3 == 0
         elif condition_type == 2:
-            print(f"ELF_MESSAGE_DUNGEON_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}),")
+            print(f"ELF_MSG_DUNGEON_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}),")
             assert b3 == 0
         elif condition_type == 4:
-            print(f"ELF_MESSAGE_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}, {item_ids[b3]}),")
+            print(f"ELF_MSG_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}, {item_ids[b3]}),")
         elif condition_type == 6:
             condition_other_type = b1 & 0xF0
 
             if condition_other_type == 0:
-                print(f"ELF_MESSAGE_STRENGTH_UPG({ARG_0}, {ARG_1}, {ARG_2}, {strength_upgrades[b1 & 0xF]}),")
+                print(f"ELF_MSG_STRENGTH_UPG({ARG_0}, {ARG_1}, {ARG_2}, {b1 & 0xF}),")
                 assert b3 == 0
             elif condition_other_type == 0x10:
-                print(f"ELF_MESSAGE_BOOTS({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
+                print(f"ELF_MSG_BOOTS({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
                 assert (b1 & 0xF) == 0
             elif condition_other_type == 0x20:
-                print(f"ELF_MESSAGE_SONG({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
+                print(f"ELF_MSG_SONG({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
                 assert (b1 & 0xF) == 0
             elif condition_other_type == 0x30:
-                print(f"ELF_MESSAGE_MEDALLION({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
+                print(f"ELF_MSG_MEDALLION({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
                 assert (b1 & 0xF) == 0
             elif condition_other_type == 0x40:
-                print(f"ELF_MESSAGE_MAGIC({ARG_0}, {ARG_1}, {ARG_2}),")
+                print(f"ELF_MSG_MAGIC({ARG_0}, {ARG_1}, {ARG_2}),")
                 assert (b1 & 0xF) == 0
                 assert b3 == 0
             else:
-                assert False , "Unknown condition (other) type"
+                assert False , "Encountered unknown condition (other) type"
         else:
-            assert False , "Unknown condition type"
+            assert False , "Encountered unknown condition type"
 
         # Control flow
 
