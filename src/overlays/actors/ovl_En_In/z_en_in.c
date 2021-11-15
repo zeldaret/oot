@@ -636,7 +636,7 @@ void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0001;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         gSaveContext.infTable[10] &= ~4;
-        func_800775F0(0x40);
+        func_800775F0(NA_BGM_HORSE);
         globalCtx->msgCtx.unk_E3E7 = 0;
         globalCtx->msgCtx.msgMode = 0x36;
         this->unk_308.unk_00 = 0;
@@ -981,8 +981,8 @@ void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_TYPE* D_80A7B9B4[] = { object_in_Tex_003590, object_in_Tex_0047D0, object_in_Tex_004BD0,
-                                      object_in_Tex_004390 };
+    static void* D_80A7B9B4[] = { object_in_Tex_003590, object_in_Tex_0047D0, object_in_Tex_004BD0,
+                                  object_in_Tex_004390 };
     EnIn* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2384);

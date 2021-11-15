@@ -1,5 +1,8 @@
 <Root>
     <File Name="spot07_scene" Segment="2">
+        <Cutscene Name="gZorasDomainIntroCs" Offset="0x3D70"/>
+        <Texture Name="gZorasDomainDayEntranceTex" OutName="day_entrance" Format="ia8" Width="8" Height="8" Offset="0x8F98"/>
+        <Texture Name="gZorasDomainNightEntranceTex" OutName="night_entrance" Format="ia8" Width="8" Height="8" Offset="0x8FD8"/>
         <Scene Name="spot07_scene" Offset="0x0"/>
     </File>
     <File Name="spot07_room_0" Segment="3">

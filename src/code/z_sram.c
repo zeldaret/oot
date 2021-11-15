@@ -383,7 +383,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
         MemCopy(gScarecrowCustomSongPtr, &gSaveContext.scarecrowCustomSong, 0x360);
 
-        ptr = gScarecrowCustomSongPtr;
+        ptr = (u8*)gScarecrowCustomSongPtr;
         for (i = 0; i < 0x360; i++, ptr++) {
             osSyncPrintf("%d, ", *ptr);
         }

@@ -506,12 +506,12 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3033 : 0x3035;
                         if (this->actor.textId == 0x3035) {
-                            Audio_StopSfx(0x39EB);
+                            Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
                     } else {
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3036 : 0x3033;
                         if (this->actor.textId == 0x3036) {
-                            Audio_StopSfx(0x39EB);
+                            Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
                     }
                     func_8010B720(globalCtx, this->actor.textId);
@@ -1127,9 +1127,9 @@ s32 EnGo2_IsCameraModified(EnGo2* this, GlobalContext* globalCtx) {
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if (EnGo2_IsWakingUp(this)) {
-            Camera_ChangeSetting(camera, CAM_SET_TEPPEN);
+            Camera_ChangeSetting(camera, CAM_SET_DIRECTED_YAW);
             func_8005AD1C(camera, 4);
-        } else if (!EnGo2_IsWakingUp(this) && (camera->setting == CAM_SET_TEPPEN)) {
+        } else if (!EnGo2_IsWakingUp(this) && (camera->setting == CAM_SET_DIRECTED_YAW)) {
             Camera_ChangeSetting(camera, CAM_SET_DUNGEON1);
             func_8005ACFC(camera, 4);
         }
@@ -1884,7 +1884,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 player->actor.world.pos.z =
                     (f32)((Math_CosS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.z);
                 func_8002DF54(globalCtx, &this->actor, 8);
-                func_800F5C64(0x51);
+                func_800F5C64(NA_BGM_APPEAR);
             }
             break;
         case 2: // Walking away

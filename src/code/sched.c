@@ -87,7 +87,7 @@ void Sched_HandleReset(SchedContext* sc) {
             if (sc->curRDPTask != NULL) {
                 LOG_TIME("(((u64)(now - rdp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
                          OS_CYCLES_TO_USEC(now - sRDPStartTime), "../sched.c", 431);
-                osSendMesg(&sc->interruptQ, RDP_DONE_MSG, 0);
+                osSendMesg(&sc->interruptQ, RDP_DONE_MSG, OS_MESG_NOBLOCK);
             }
         }
     }

@@ -11,25 +11,24 @@ protected:
 
 public:
 	ZBackground(ZFile* nParent);
-	ZBackground(const std::string& prefix, uint32_t nRawDataIndex, ZFile* nParent);
+
+	void ParseBinaryFile(const std::string& inFolder, bool appendOutName);
 
 	void ParseRawData() override;
-	void ParseBinaryFile(const std::string& inFolder, bool appendOutName);
-	void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex) override;
 
-	void CheckValidJpeg(const std::string& filepath);
+	Declaration* DeclareVar(const std::string& prefix, const std::string& bodyStr) override;
+	std::string GetBodySourceCode() const override;
+	std::string GetDefaultName(const std::string& prefix) const override;
 
-	size_t GetRawDataSize() const override;
-
-	void DeclareVar(const std::string& prefix, const std::string& bodyStr) const;
+	void Save(const fs::path& outFolder) override;
 
 	bool IsExternalResource() const override;
-	std::string GetExternalExtension() const override;
-	void Save(const fs::path& outFolder) override;
-	std::string GetBodySourceCode();
-	std::string GetSourceOutputCode(const std::string& prefix) override;
-	static std::string GetDefaultName(const std::string& prefix, uint32_t address);
-
 	std::string GetSourceTypeName() const override;
 	ZResourceType GetResourceType() const override;
+	std::string GetExternalExtension() const override;
+
+	size_t GetRawDataSize() const override;
+	DeclarationAlignment GetDeclarationAlignment() const override;
+
+	void CheckValidJpeg(const std::string& filepath);
 };

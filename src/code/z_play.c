@@ -205,7 +205,7 @@ void Gameplay_Init(GameState* thisx) {
     GameState_Realloc(&globalCtx->state, 0x1D4790);
     KaleidoManager_Init(globalCtx);
     View_Init(&globalCtx->view, gfxCtx);
-    func_800F6828(0);
+    Audio_SetExtraFilter(0);
     Quake_Init();
 
     for (i = 0; i < 4; i++) {
@@ -402,7 +402,7 @@ void Gameplay_Init(GameState* thisx) {
     if (dREG(95) != 0) {
         D_8012D1F0 = D_801614D0;
         osSyncPrintf("\nkawauso_data=[%x]", D_8012D1F0);
-        DmaMgr_DMARomToRam(0x03FEB000, (u32)D_8012D1F0, sizeof(D_801614D0));
+        DmaMgr_DmaRomToRam(0x03FEB000, (u32)D_8012D1F0, sizeof(D_801614D0));
     }
 }
 
@@ -482,7 +482,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                 // "Sound initalized. 222"
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
-                                gSaveContext.seqIndex = 0xFF;
+                                gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
                                 gSaveContext.nightSeqIndex = 0xFF;
                             }
                         }
@@ -1212,7 +1212,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if ((globalCtx->skyboxCtx.unk_140 != 0) &&
-                        (GET_ACTIVE_CAM(globalCtx)->setting != CAM_SET_PREREND0)) {
+                        (GET_ACTIVE_CAM(globalCtx)->setting != CAM_SET_PREREND_FIXED)) {
                         Vec3f sp74;
 
                         Camera_GetSkyboxOffset(&sp74, GET_ACTIVE_CAM(globalCtx));
