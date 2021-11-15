@@ -636,7 +636,7 @@ void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0001;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         gSaveContext.infTable[10] &= ~4;
-        func_800775F0(0x40);
+        func_800775F0(NA_BGM_HORSE);
         globalCtx->msgCtx.unk_E3E7 = 0;
         globalCtx->msgCtx.msgMode = 0x36;
         this->unk_308.unk_00 = 0;

@@ -25,8 +25,8 @@ EffectSsInit Effect_Ss_Fhg_Flash_InitVars = {
     EffectSsFhgFlash_Init,
 };
 
-UNK_TYPE D_809A5178[];
-Gfx D_809A5100[];
+static UNK_TYPE D_809A5178[258];
+static Gfx D_809A5100[15];
 
 u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
@@ -201,14 +201,14 @@ void EffectSsFhgFlash_UpdateShock(GlobalContext* globalCtx, u32 index, EffectSs*
     }
 }
 
-Vtx D_809A50C0[] = {
+static Vtx D_809A50C0[4] = {
     VTX(-10, -10, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(10, -10, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(10, 10, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(-10, 10, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-Gfx D_809A5100[] = {
+static Gfx D_809A5100[15] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -222,7 +222,7 @@ Gfx D_809A5100[] = {
     gsSPEndDisplayList(),
 };
 
-UNK_TYPE D_809A5178[] = {
+static UNK_TYPE D_809A5178[258] = {
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,

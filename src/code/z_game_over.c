@@ -64,7 +64,7 @@ void GameOver_Update(GlobalContext* globalCtx) {
 
             gSaveContext.nayrusLoveTimer = 2000;
             gSaveContext.naviTimer = 0;
-            gSaveContext.seqIndex = 0xFF;
+            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
             gSaveContext.nightSeqIndex = 0xFF;
             gSaveContext.eventInf[0] = 0;
             gSaveContext.eventInf[1] = 0;

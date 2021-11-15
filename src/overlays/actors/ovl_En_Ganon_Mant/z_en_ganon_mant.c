@@ -368,7 +368,7 @@ void EnGanonMant_DrawCloak(GlobalContext* globalCtx, EnGanonMant* this) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     // set texture
-    gSPDisplayList(POLY_OPA_DISP++, gMantTexDL);
+    gSPDisplayList(POLY_OPA_DISP++, gMantMaterialDL);
 
     // set vertices, vertices are double buffered to prevent
     // modification of vertices as they are being drawn
