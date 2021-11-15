@@ -252,7 +252,7 @@ void DemoKekkai_TrialBarrierIdle(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
     if (this->collider2.base.acFlags & AC_HIT) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        // I got it
+        // "I got it"
         LOG_STRING("当ったよ", "../z_demo_kekkai.c", 572);
         this->actor.update = DemoKekkai_TrialBarrierDispel;
         this->timer = 0;

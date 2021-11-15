@@ -672,7 +672,7 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
             bomb->actor.velocity.y = Rand_CenteredFloat(5.0f) + 10.0f;
         }
 
-        // This is down!
+        // "This is down!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n" VT_RST);
         this->actionFunc = func_80A546DC;
     }

@@ -88,7 +88,7 @@ void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B53468(void) {
-    Audio_QueueSeqCmd(0x62);
+    Audio_QueueSeqCmd(NA_BGM_ESCAPE);
 }
 
 BossGanon2* func_80B53488(EnZl3* this, GlobalContext* globalCtx) {

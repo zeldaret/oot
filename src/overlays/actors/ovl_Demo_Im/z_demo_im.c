@@ -717,7 +717,7 @@ void func_8098652C(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986570(DemoIm* this, GlobalContext* globalCtx) {
-    if ((Animation_OnFrame(&this->skelAnime, 7.0f)) && (this->actor.bgCheckFlags & 1)) {
+    if (Animation_OnFrame(&this->skelAnime, 7.0f) && (this->actor.bgCheckFlags & 1)) {
         u32 sfxId = SFX_FLAG;
 
         sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);

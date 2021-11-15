@@ -77,7 +77,7 @@ void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->man = (EnSyatekiMan*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_SYATEKI_MAN,
                                                   140.0f, 0.0f, 255.0f, 0, -0x4000, 0, 0);
     if (this->man == NULL) {
-        // Spawn error
+        // "Spawn error"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ エラー原 ☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
         return;
@@ -87,7 +87,7 @@ void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx2) {
             (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY,
                                            sRupeePos[i].x, sRupeePos[i].y, sRupeePos[i].z, 0, 0, 0, 4);
         if (this->markers[i] == NULL) {
-            // Second spawn error
+            // "Second spawn error"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ エラー原セカンド ☆☆☆☆ \n" VT_RST);
             Actor_Kill(&this->actor);
             return;
@@ -239,7 +239,7 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_G_SWITCH, this->targetHome[i].x,
                 this->targetHome[i].y, this->targetHome[i].z, 0, 0, 0, (ENGSWITCH_TARGET_RUPEE << 0xC) | 0x3F);
             if (this->targets[i] == NULL) {
-                // Rupee spawn error
+                // "Rupee spawn error"
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ルピーでエラー原 ☆☆☆☆ \n" VT_RST);
                 Actor_Kill(&this->actor);
                 return;
@@ -317,7 +317,7 @@ void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
         this->actionFunc = EnSyatekiItm_Idle;
     }
     if (this->signal == ENSYATEKI_START) {
-        // 1 frame attack and defense!
+        // "1 frame attack and defense!"
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);

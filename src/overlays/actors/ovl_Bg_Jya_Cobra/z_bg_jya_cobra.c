@@ -18,22 +18,7 @@ void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx);
 void func_808969F8(BgJyaCobra* this, GlobalContext* globalCtx);
 void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx);
 
-static Vtx sShadowVtx[4] = {
-    VTX(-800, 0, -800, 0, 2048, 255, 255, 255, 255),
-    VTX(800, 0, -800, 2048, 2048, 255, 255, 255, 255),
-    VTX(800, 0, 800, 2048, 0, 255, 255, 255, 255),
-    VTX(-800, 0, 800, 0, 0, 255, 255, 255, 255),
-};
-
-static Gfx sShadowDL[] = {
-    gsDPPipeSync(),
-    gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
-    gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_XLU_DECAL2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPVertex(sShadowVtx, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
 
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
@@ -141,7 +126,7 @@ void BgJyaCobra_InitDynapoly(BgJyaCobra* this, GlobalContext* globalCtx, Collisi
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // Warning : move BG Registration Failure
+        // "Warning : move BG Registration Failure"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_cobra.c", 247,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -152,7 +137,7 @@ void BgJyaCobra_SpawnRay(BgJyaCobra* this, GlobalContext* globalCtx) {
                        this->dyna.actor.world.pos.y + 57.0f, this->dyna.actor.world.pos.z, 0, 0, 0, 6);
     if (this->dyna.actor.child == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // Ｅｒｒｏｒ : Mir Ray occurrence failure
+        // "Ｅｒｒｏｒ : Mir Ray occurrence failure"
         osSyncPrintf("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 270);
         osSyncPrintf(VT_RST);
     }
@@ -365,7 +350,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
         temp_s2[j * 0x40 + 0] = 0;
         temp_s2[j * 0x40 + 0x3F] = 0;
     }
-    if (D_80897398) {}
+    if (D_80897398[0][0]) {}
 }
 
 /*
@@ -434,7 +419,7 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
         BgJyaCobra_UpdateShadowFromTop(this);
     }
 
-    // (jya cobra)
+    // "(jya cobra)"
     osSyncPrintf("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
                  &this->shadowTexture, ALIGN16((s32)(&this->shadowTexture)));
 }
@@ -527,8 +512,8 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
     func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
-void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     BgJyaCobra* this = THIS;
 
     this->actionFunc(this, globalCtx);

@@ -335,7 +335,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
         if (this->unk16C > 3.0f) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WEB_VIBRATION);
         } else {
-            Audio_StopSfx(NA_SE_EV_WEB_VIBRATION);
+            Audio_StopSfxById(NA_SE_EV_WEB_VIBRATION);
         }
     }
     BgYdanSp_UpdateFloorWebCollision(this);

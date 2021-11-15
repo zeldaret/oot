@@ -87,7 +87,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ AnimationHeaderCommon common;
-    /* 0x04 */ u32 segment;
+    /* 0x04 */ void* segment;
 } LinkAnimationHeader; // size = 0x8
 
 typedef struct {
@@ -212,7 +212,7 @@ typedef struct {
     /* 0x0004 */ TransformData* transformData;
     /* 0x0008 */ s16* copyValues;
     /* 0x000C */ s16 unk_0C;
-    /* 0x000E */ s16 unk_10;
+    /* 0x000E */ s16 unk_0E;
 } TransformUpdateIndex; // size = 0x10
 
 typedef struct {

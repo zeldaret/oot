@@ -9,6 +9,7 @@ import signal
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
 
+
 def SignalHandler(sig, frame):
     print(f'Signal {sig} received. Aborting...')
     mainAbort.set()
@@ -20,6 +21,10 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
         return
 
     execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath)
+    
+    if "overlays" in xmlPath:
+        execStr += " --static"
+    
     if globalUnaccounted:
         execStr += " -wu"
 

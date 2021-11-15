@@ -29,7 +29,7 @@ const ActorInit Demo_Shd_InitVars = {
     (ActorFunc)DemoShd_Draw,
 };
 
-#include "z_demo_shd_gfxdata.c"
+#include "overlays/ovl_Demo_Shd/ovl_Demo_Shd.c"
 
 void DemoShd_SetupAction(DemoShd* this, DemoShdActionFunc actionFunc) {
     this->actionFunc = actionFunc;

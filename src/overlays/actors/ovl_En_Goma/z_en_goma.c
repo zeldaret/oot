@@ -195,7 +195,7 @@ void EnGoma_SetupFlee(EnGoma* this) {
 
 void EnGoma_Flee(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
-    Math_ApproachF(&this->actor.speedXZ, 6.6666665f, 0.5f, 2.0f);
+    Math_ApproachF(&this->actor.speedXZ, 20.0f / 3.0f, 0.5f, 2.0f);
     Math_ApproachS(&this->actor.world.rot.y,
                    Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000, 3, 2000);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 3000);
@@ -535,7 +535,7 @@ void EnGoma_ChasePlayer(EnGoma* this, GlobalContext* globalCtx) {
         }
     }
 
-    Math_ApproachF(&this->actor.speedXZ, 3.3333333f, 0.5f, 2.0f);
+    Math_ApproachF(&this->actor.speedXZ, 10.0f / 3.0f, 0.5f, 2.0f);
     Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 3, 2000);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 3000);
 
@@ -632,7 +632,7 @@ void EnGoma_UpdateHit(EnGoma* this, GlobalContext* globalCtx) {
                         this->actor.velocity.y = 0.0f;
                         this->actor.speedXZ = -5.0f;
                     } else {
-                        Matrix_RotateY(player->actor.shape.rot.y / 32768.0f * 3.1415927f, MTXMODE_NEW);
+                        Matrix_RotateY(player->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_NEW);
                         Matrix_MultVec3f(&sShieldKnockbackVel, &this->shieldKnockbackVel);
                         this->invincibilityTimer = 5;
                     }
@@ -690,8 +690,8 @@ void EnGoma_SetFloorRot(EnGoma* this) {
         nx = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
         ny = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
         nz = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
-        Math_ApproachS(&this->slopePitch, -Math_FAtan2F(-nz * ny, 1.0f) * 10430.378f, 1, 1000);
-        Math_ApproachS(&this->slopeRoll, Math_FAtan2F(-nx * ny, 1.0f) * 10430.378f, 1, 1000);
+        Math_ApproachS(&this->slopePitch, -Math_FAtan2F(-nz * ny, 1.0f) * (0x8000 / M_PI), 1, 1000);
+        Math_ApproachS(&this->slopeRoll, Math_FAtan2F(-nx * ny, 1.0f) * (0x8000 / M_PI), 1, 1000);
     }
 }
 
@@ -791,11 +791,11 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
                              this->actor.world.pos.y + ((this->actor.shape.yOffset * this->actor.scale.y) +
                                                         globalCtx->mainCamera.skyboxOffset.y),
                              this->actor.world.pos.z, MTXMODE_NEW);
-            Matrix_RotateX(this->slopePitch / 32768.0f * 3.1415927f, MTXMODE_APPLY);
-            Matrix_RotateZ(this->slopeRoll / 32768.0f * 3.1415927f, MTXMODE_APPLY);
-            Matrix_RotateY(this->actor.shape.rot.y / 32768.0f * 3.1415927f, MTXMODE_APPLY);
-            Matrix_RotateX(this->actor.shape.rot.x / 32768.0f * 3.1415927f, MTXMODE_APPLY);
-            Matrix_RotateZ(this->actor.shape.rot.z / 32768.0f * 3.1415927f, MTXMODE_APPLY);
+            Matrix_RotateX(this->slopePitch / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+            Matrix_RotateZ(this->slopeRoll / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+            Matrix_RotateY(this->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+            Matrix_RotateX(this->actor.shape.rot.x / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+            Matrix_RotateZ(this->actor.shape.rot.z / (f32)0x8000 * M_PI, MTXMODE_APPLY);
             Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
             SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, EnGoma_OverrideLimbDraw,
                               NULL, this);
@@ -862,8 +862,8 @@ void EnGoma_SpawnHatchDebris(EnGoma* this, GlobalContext* globalCtx2) {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA,
                            Rand_CenteredFloat(10.0f) + this->actor.world.pos.x,
                            Rand_CenteredFloat(10.0f) + this->actor.world.pos.y + 15.0f,
-                           Rand_CenteredFloat(10.0f) + this->actor.world.pos.z, 0, Rand_CenteredFloat(65535.99f), 0,
-                           i + 10);
+                           Rand_CenteredFloat(10.0f) + this->actor.world.pos.z, 0, Rand_CenteredFloat(0x10000 - 0.01f),
+                           0, i + 10);
     }
 }
 

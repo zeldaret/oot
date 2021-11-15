@@ -103,7 +103,7 @@ void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgMjin* this = THIS;
-    u32 dlist;
+    Gfx* dlist;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
 

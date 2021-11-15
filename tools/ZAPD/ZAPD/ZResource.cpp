@@ -2,7 +2,8 @@
 
 #include <cassert>
 #include <regex>
-#include "StringHelper.h"
+
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 
 ZResource::ZResource(ZFile* nParent)
@@ -19,22 +20,42 @@ ZResource::ZResource(ZFile* nParent)
 	RegisterOptionalAttribute("OutName");
 	RegisterOptionalAttribute("Offset");
 	RegisterOptionalAttribute("Custom");
+	RegisterOptionalAttribute("Static", "Global");
 }
 
-void ZResource::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
+void ZResource::ExtractFromXML(tinyxml2::XMLElement* reader, offset_t nRawDataIndex)
 {
 	rawDataIndex = nRawDataIndex;
+	declaredInXml = true;
 
 	if (reader != nullptr)
 		ParseXML(reader);
 
-	ParseRawData();
-	CalcHash();
+	// Don't parse raw data of external files
+	if (parent->GetMode() != ZFileMode::ExternalFile)
+	{
+		ParseRawData();
+		CalcHash();
+	}
+
+	if (!isInner)
+	{
+		Declaration* decl = DeclareVar(parent->GetName(), "");
+		if (decl != nullptr)
+		{
+			decl->declaredInXml = true;
+			decl->staticConf = staticConf;
+		}
+	}
 }
 
-void ZResource::ExtractFromFile(uint32_t nRawDataIndex)
+void ZResource::ExtractFromFile(offset_t nRawDataIndex)
 {
 	rawDataIndex = nRawDataIndex;
+
+	// Don't parse raw data of external files
+	if (parent->GetMode() == ZFileMode::ExternalFile)
+		return;
 
 	ParseRawData();
 	CalcHash();
@@ -110,15 +131,59 @@ void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 
 		isCustomAsset = registeredAttributes["Custom"].wasSet;
 
+		std::string& staticXml = registeredAttributes["Static"].value;
+		if (staticXml == "Global")
+		{
+			staticConf = StaticConfig::Global;
+		}
+		else if (staticXml == "On")
+		{
+			staticConf = StaticConfig::On;
+		}
+		else if (staticXml == "Off")
+		{
+			staticConf = StaticConfig::Off;
+		}
+		else
+		{
+			throw std::runtime_error("Invalid value for 'Static' attribute.");
+		}
+
 		declaredInXml = true;
 	}
 }
 
-void ZResource::Save(const fs::path& outFolder)
+void ZResource::ParseRawData()
 {
 }
 
-void ZResource::PreGenSourceFiles()
+void ZResource::DeclareReferences([[maybe_unused]] const std::string& prefix)
+{
+}
+
+void ZResource::ParseRawDataLate()
+{
+}
+
+void ZResource::DeclareReferencesLate([[maybe_unused]] const std::string& prefix)
+{
+}
+
+Declaration* ZResource::DeclareVar(const std::string& prefix, const std::string& bodyStr)
+{
+	std::string auxName = name;
+
+	if (name == "")
+		auxName = GetDefaultName(prefix);
+
+	Declaration* decl =
+		parent->AddDeclaration(rawDataIndex, GetDeclarationAlignment(), GetRawDataSize(),
+	                           GetSourceTypeName(), auxName, bodyStr);
+	decl->staticConf = staticConf;
+	return decl;
+}
+
+void ZResource::Save([[maybe_unused]] const fs::path& outFolder)
 {
 }
 
@@ -157,19 +222,24 @@ std::string ZResource::GetExternalExtension() const
 	return "";
 }
 
+DeclarationAlignment ZResource::GetDeclarationAlignment() const
+{
+	return DeclarationAlignment::Align4;
+}
+
 bool ZResource::WasDeclaredInXml() const
 {
 	return declaredInXml;
 }
 
-uint32_t ZResource::GetRawDataIndex() const
+StaticConfig ZResource::GetStaticConf() const
 {
-	return rawDataIndex;
+	return staticConf;
 }
 
-void ZResource::SetRawDataIndex(uint32_t value)
+offset_t ZResource::GetRawDataIndex() const
 {
-	rawDataIndex = value;
+	return rawDataIndex;
 }
 
 std::string ZResource::GetBodySourceCode() const
@@ -177,31 +247,29 @@ std::string ZResource::GetBodySourceCode() const
 	return "ERROR";
 }
 
-std::string ZResource::GetSourceOutputCode(const std::string& prefix)
+std::string ZResource::GetDefaultName(const std::string& prefix) const
 {
+	return StringHelper::Sprintf("%s%s_%06X", prefix.c_str(), GetSourceTypeName().c_str(),
+	                             rawDataIndex);
+}
+
+std::string ZResource::GetSourceOutputCode([[maybe_unused]] const std::string& prefix)
+{
+	std::string bodyStr = GetBodySourceCode();
+
+	Declaration* decl = parent->GetDeclaration(rawDataIndex);
+	if (decl == nullptr || decl->isPlaceholder)
+		decl = DeclareVar(prefix, bodyStr);
+	else
+		decl->text = bodyStr;
+	decl->staticConf = staticConf;
+
 	return "";
 }
 
-std::string ZResource::GetSourceOutputHeader(const std::string& prefix)
+std::string ZResource::GetSourceOutputHeader([[maybe_unused]] const std::string& prefix)
 {
 	return "";
-}
-
-void ZResource::ParseRawData()
-{
-}
-
-void ZResource::DeclareReferences(const std::string& prefix)
-{
-}
-
-void ZResource::GenerateHLIntermediette(HLFileIntermediette& hlFile)
-{
-}
-
-std::string ZResource::GetSourceTypeName() const
-{
-	return "u8";
 }
 
 ZResourceType ZResource::GetResourceType() const
@@ -235,12 +303,24 @@ void ZResource::RegisterOptionalAttribute(const std::string& attr, const std::st
 	registeredAttributes[attr] = resAtrr;
 }
 
-uint32_t Seg2Filespace(segptr_t segmentedAddress, uint32_t parentBaseAddress)
+offset_t Seg2Filespace(segptr_t segmentedAddress, uint32_t parentBaseAddress)
 {
-	uint32_t currentPtr = GETSEGOFFSET(segmentedAddress);
+	offset_t currentPtr = GETSEGOFFSET(segmentedAddress);
 
 	if (GETSEGNUM(segmentedAddress) == 0x80)  // Is defined in code?
-		currentPtr -= GETSEGOFFSET(parentBaseAddress);
+	{
+		uint32_t parentBaseOffset = GETSEGOFFSET(parentBaseAddress);
+		if (parentBaseOffset > currentPtr)
+		{
+			throw std::runtime_error(
+				StringHelper::Sprintf("\nSeg2Filespace: Segmented address is smaller than "
+			                          "'BaseAddress'. Maybe your 'BaseAddress' is wrong?\n"
+			                          "\t SegmentedAddress: 0x%08X\n"
+			                          "\t BaseAddress:      0x%08X\n",
+			                          segmentedAddress, parentBaseAddress));
+		}
+		currentPtr -= parentBaseOffset;
+	}
 
 	return currentPtr;
 }

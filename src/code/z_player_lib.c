@@ -683,10 +683,10 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
         if (LINK_IS_ADULT) {
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
-            if (strengthUpgrade >= PLAYER_STR_SILVER_G) {
+            if (strengthUpgrade >= 2) { // silver or gold gauntlets
                 gDPPipeSync(POLY_OPA_DISP++);
 
-                color = &sGauntletColors[strengthUpgrade - PLAYER_STR_SILVER_G];
+                color = &sGauntletColors[strengthUpgrade - 2];
                 gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
 
                 gSPDisplayList(POLY_OPA_DISP++, D_06025218);
@@ -697,6 +697,7 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
 
             if (boots != 0) {
                 Gfx** bootDLists = sBootDListGroups[boots - 1];
+
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[0]);
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[1]);
             }

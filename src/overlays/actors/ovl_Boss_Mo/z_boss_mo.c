@@ -360,7 +360,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
             return;
         }
         if (gSaveContext.eventChkInf[7] & 0x10) {
-            Audio_QueueSeqCmd(0x1B);
+            Audio_QueueSeqCmd(NA_BGM_BOSS);
             this->tentMaxAngle = 5.0f;
             this->timers[0] = 50;
         } else {
@@ -1104,7 +1104,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                        WARP_DUNGEON_ADULT);
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
                                 -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
-                    Audio_QueueSeqCmd(0x21);
+                    Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
                     Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
                 }
             }
@@ -1419,7 +1419,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 this->cameraAccel = 0.01f;
             }
             if (this->timers[2] == 150) {
-                Audio_QueueSeqCmd(0x1B);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
             }
             if (this->timers[2] == 130) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
@@ -1745,19 +1745,19 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
     }
     if (this->coreCollider.base.acFlags & AC_HIT) {
         ColliderInfo* hurtbox = this->coreCollider.info.acHitInfo;
-        // hit!!
+        // "hit!!"
         osSyncPrintf("Core_Damage_check 当り！！\n");
         this->coreCollider.base.acFlags &= ~AC_HIT;
         if ((hurtbox->toucher.dmgFlags & 0x00020000) && (this->work[MO_TENT_ACTION_STATE] == MO_CORE_ATTACK)) {
             this->work[MO_TENT_ACTION_STATE] = MO_CORE_RETREAT;
         }
-        // hit 2 !!
+        // "hit 2 !!"
         osSyncPrintf("Core_Damage_check 当り 2 ！！\n");
         if ((this->work[MO_TENT_ACTION_STATE] != MO_CORE_UNDERWATER) && (this->work[MO_TENT_INVINC_TIMER] == 0)) {
             u8 damage = CollisionCheck_GetSwordDamage(hurtbox->toucher.dmgFlags);
 
             if ((damage != 0) && (this->work[MO_TENT_ACTION_STATE] < MO_CORE_ATTACK)) {
-                // sword hit !!
+                // "sword hit !!"
                 osSyncPrintf("Core_Damage_check 剣 当り！！\n");
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_STUNNED;
                 this->timers[0] = 25;
@@ -1826,7 +1826,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
             }
         }
     }
-    // end !!
+    // "end !!"
     osSyncPrintf("Core_Damage_check 終わり ！！\n");
     osSyncPrintf(VT_RST);
 }
@@ -2262,7 +2262,7 @@ void BossMo_UpdateTent(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.draw = NULL;
         if (this->tent2KillTimer > 20) {
             Actor_Kill(&this->actor);
-            func_800F89E8(&this->tentTipPos);
+            Audio_StopSfxByPos(&this->tentTipPos);
             sMorphaTent2 = NULL;
         }
         return;
@@ -2959,7 +2959,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
-                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
 
                 flag++;
@@ -2975,7 +2975,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletVtxDL);
+            gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletModelDL);
         }
     }
 
@@ -2988,7 +2988,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
-                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
 
                 flag++;
             }
@@ -3001,7 +3001,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7441),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gMorphaWetSpotVtxDL);
+            gSPDisplayList(POLY_XLU_DISP++, gMorphaWetSpotModelDL);
         }
     }
 

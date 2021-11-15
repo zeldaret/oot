@@ -134,11 +134,11 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
         owlType = OWL_OUTSIDE_KOKIRI;
         switchFlag = 0x20;
     }
-    osSyncPrintf(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, owlType,
-                 switchFlag); // conversation owl %4x no = %d, sv = %d
+    // "conversation owl %4x no = %d, sv = %d"
+    osSyncPrintf(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, owlType, switchFlag);
 
     if ((owlType != OWL_DEFAULT) && (switchFlag < 0x20) && Flags_GetSwitch(globalCtx, switchFlag)) {
-        osSyncPrintf("savebitでフクロウ退避\n"); // Save owl with savebit
+        osSyncPrintf("savebitでフクロウ退避\n"); // "Save owl with savebit"
         Actor_Kill(&this->actor);
         return;
     }
@@ -163,7 +163,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
         case OWL_KAKARIKO:
             if (gSaveContext.eventChkInf[4] & 1) {
                 // has zelda's letter
-                osSyncPrintf("フクロウ退避\n"); // Owl evacuation
+                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -173,7 +173,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
         case OWL_HYLIA_GERUDO:
             if (gSaveContext.eventChkInf[4] & 8) {
                 // has ocarina of time
-                osSyncPrintf("フクロウ退避\n"); // Owl evacuation
+                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -185,7 +185,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
         case OWL_ZORA_RIVER:
             if ((gSaveContext.eventChkInf[3] & 0x200) || !(gSaveContext.eventChkInf[4] & 1)) {
                 // opened zora's domain or has zelda's letter
-                osSyncPrintf("フクロウ退避\n"); // Owl evacuation
+                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -207,7 +207,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case OWL_LOST_WOODS_PRESARIA:
             if (!CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-                osSyncPrintf("フクロウ退避\n"); // Owl evacuation
+                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -215,7 +215,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case OWL_LOST_WOODS_POSTSARIA:
             if (!CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
-                osSyncPrintf("フクロウ退避\n"); // Owl evacuation
+                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -225,8 +225,8 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Outside kokiri forest
             osSyncPrintf(VT_FGCOL(CYAN));
             osSyncPrintf("no = %d  \n", owlType);
-            osSyncPrintf(
-                "未完成のフクロウ未完成のフクロウ未完成のフクロウ\n"); // Unfinished owl unfinished owl unfinished owl
+            // "Unfinished owl unfinished owl unfinished owl"
+            osSyncPrintf("未完成のフクロウ未完成のフクロウ未完成のフクロウ\n");
             osSyncPrintf(VT_RST);
             this->actionFlags |= 2;
             this->unk_3EE = 0x20;
@@ -384,7 +384,7 @@ void EnOwl_WaitOutsideKokiri(EnOwl* this, GlobalContext* globalCtx) {
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2064, 360.0f, 0)) {
         // Sets BGM
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
 
         this->actionFunc = EnOwl_ConfirmKokiriMessage;
         // spoke to owl by lost woods
@@ -431,7 +431,7 @@ void EnOwl_WaitHyruleCastle(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2068, 540.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACAAC0;
     }
 }
@@ -472,7 +472,7 @@ void EnOwl_WaitKakariko(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x206C, 480.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACAC6C;
     }
 }
@@ -508,7 +508,7 @@ void EnOwl_WaitGerudo(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x206F, 360.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACADF0;
     }
 }
@@ -544,7 +544,7 @@ void EnOwl_WaitLakeHylia(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2071, 360.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACAF74;
     }
 }
@@ -575,7 +575,7 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx) {
     }
 
     if (EnOwl_CheckInitTalk(this, globalCtx, textId, 360.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACB03C;
     }
 }
@@ -595,7 +595,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
     if (func_80ACA558(this, globalCtx, textId)) {
         gSaveContext.infTable[25] |= 0x20;
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACB148;
     }
 }
@@ -620,13 +620,13 @@ void EnOwl_WaitDeathMountainShortcut(EnOwl* this, GlobalContext* globalCtx) {
 
     if (!gSaveContext.magicAcquired) {
         if (func_80ACA558(this, globalCtx, 0x3062)) {
-            func_800F5C64(0x5A);
+            func_800F5C64(NA_BGM_OWL);
             this->actionFunc = func_80ACB274;
             return;
         }
     } else {
         if (func_80ACA558(this, globalCtx, 0x3063)) {
-            func_800F5C64(0x5A);
+            func_800F5C64(NA_BGM_OWL);
             this->actionFunc = func_80ACB22C;
         }
     }
@@ -650,7 +650,7 @@ void func_80ACB3E0(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x6079, 360.0f, 2)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACB344;
     }
 }
@@ -685,7 +685,7 @@ void EnOwl_WaitLWPreSaria(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x10C0, 190.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACB4FC;
     }
 }
@@ -721,7 +721,7 @@ void EnOwl_WaitLWPostSaria(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x10C4, 360.0f, 0)) {
-        func_800F5C64(0x5A);
+        func_800F5C64(NA_BGM_OWL);
         this->actionFunc = func_80ACB680;
     }
 }
@@ -937,14 +937,14 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
             switch (owlType) {
                 case 7:
                     osSyncPrintf(VT_FGCOL(CYAN));
-                    osSyncPrintf("SPOT 06 の デモがはしった\n"); // Demo of SPOT 06
+                    osSyncPrintf("SPOT 06 の デモがはしった\n"); // "Demo of SPOT 06 has been completed"
                     osSyncPrintf(VT_RST);
                     globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
                     this->actor.draw = NULL;
                     break;
                 case 8:
                 case 9:
-                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDmtOwlCs);
+                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDMTOwlCs);
                     this->actor.draw = NULL;
                     break;
                 default:
@@ -1088,7 +1088,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFlags &= ~8;
     this->actionFunc(this, globalCtx);
     if (this->actor.update == NULL) {
-        // Owl disappears
+        // "Owl disappears"
         osSyncPrintf("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
         return;
     }

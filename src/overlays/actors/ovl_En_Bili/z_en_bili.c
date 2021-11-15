@@ -747,17 +747,7 @@ static void* sTentaclesTextures[] = {
     gBiriTentacles4Tex, gBiriTentacles5Tex, gBiriTentacles6Tex, gBiriTentacles7Tex,
 };
 
-static Gfx D_809C16F0[] = {
-    gsDPSetCombineLERP(1, TEXEL0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0, TEXEL1, 0,
-                       PRIM_LOD_FRAC, COMBINED),
-    gsSPEndDisplayList(),
-};
-
-static Gfx D_809C1700[] = {
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0, TEXEL1, 0,
-                       PRIM_LOD_FRAC, COMBINED),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_Bili/ovl_En_Bili.c"
 
 void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBili* this = THIS;
@@ -770,9 +760,9 @@ void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTentaclesTextures[this->tentaclesTexIndex]));
 
     if ((this->actionFunc == EnBili_DischargeLightning) && ((this->timer & 1) != 0)) {
-        gSPSegment(POLY_XLU_DISP++, 0x09, &D_809C16F0);
+        gSPSegment(POLY_XLU_DISP++, 0x09, D_809C16F0);
     } else {
-        gSPSegment(POLY_XLU_DISP++, 0x09, &D_809C1700);
+        gSPSegment(POLY_XLU_DISP++, 0x09, D_809C1700);
     }
 
     POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,

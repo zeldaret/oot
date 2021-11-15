@@ -261,7 +261,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 switch (thisx->textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
-                            if (CUR_UPG_VALUE(UPG_STRENGTH) || (gSaveContext.infTable[14] & 0x800)) {
+                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || (gSaveContext.infTable[14] & 0x800)) {
                                 thisx->textId = 0x300B;
                             } else {
                                 thisx->textId = 0x300C;
@@ -429,12 +429,12 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
 
     xyzDist = (this->actor.scale.x / 0.01f) * 10000.0f;
     if ((this->actor.params & 0xF0) == 0x90) {
-        Camera_ChangeSetting(camera, CAM_SET_TEPPEN);
+        Camera_ChangeSetting(camera, CAM_SET_DIRECTED_YAW);
         xyzDist *= 4.8f;
     }
 
     if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDist) {
-        if (camera->setting == CAM_SET_TEPPEN) {
+        if (camera->setting == CAM_SET_DIRECTED_YAW) {
             Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
         }
         return 0;

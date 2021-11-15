@@ -476,7 +476,7 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
             path = (this->dyna.actor.params >> 8) & 0x1F;
             if (path == 0x1F) {
                 osSyncPrintf(VT_COL(RED, WHITE));
-                // No path data?
+                // "No path data?"
                 osSyncPrintf("パスデータが無い？(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 909,
                              this->dyna.actor.params);
                 osSyncPrintf(VT_RST);
@@ -485,7 +485,7 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             if (globalCtx->setupPathList[path].count < 3) {
                 osSyncPrintf(VT_COL(RED, WHITE));
-                // Incorrect number of path data
+                // "Incorrect number of path data"
                 osSyncPrintf("パスデータ数が不正(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 921,
                              this->dyna.actor.params);
                 osSyncPrintf(VT_RST);
@@ -515,7 +515,7 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
         ObjBean_SetupWaitForBean(this);
     }
     this->dyna.actor.world.rot.z = this->dyna.actor.home.rot.z = this->dyna.actor.shape.rot.z = 0;
-    // Magic bean tree lift
+    // "Magic bean tree lift"
     osSyncPrintf("(魔法の豆の木リフト)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
@@ -756,9 +756,9 @@ void ObjBean_WaitForPlayer(ObjBean* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna)) { // Player is standing on
         ObjBean_SetupFly(this);
         if (globalCtx->sceneNum == SCENE_SPOT10) { // Lost woods
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_LIFTBEAN);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_LOST_WOODS);
         } else {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_UFOBEAN);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_GENERIC);
         }
     }
     ObjBean_UpdatePosition(this);
@@ -783,7 +783,7 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
         this->dyna.actor.flags &= ~ACTOR_FLAG_4; // Never stop updating (disable)
         camera = globalCtx->cameraPtrs[MAIN_CAM];
 
-        if ((camera->setting == CAM_SET_LIFTBEAN) || (camera->setting == CAM_SET_UFOBEAN)) {
+        if ((camera->setting == CAM_SET_BEAN_LOST_WOODS) || (camera->setting == CAM_SET_BEAN_GENERIC)) {
             Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
         }
 
@@ -792,14 +792,14 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
         func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
 
         if (globalCtx->sceneNum == SCENE_SPOT10) {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_LIFTBEAN);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_LOST_WOODS);
         } else {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_UFOBEAN);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_GENERIC);
         }
     } else if (this->stateFlags & BEAN_STATE_PLAYER_ON_TOP) {
         camera = globalCtx->cameraPtrs[MAIN_CAM];
 
-        if ((camera->setting == CAM_SET_LIFTBEAN) || (camera->setting == CAM_SET_UFOBEAN)) {
+        if ((camera->setting == CAM_SET_BEAN_LOST_WOODS) || (camera->setting == CAM_SET_BEAN_GENERIC)) {
             Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
         }
     }
@@ -893,7 +893,7 @@ void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if (ObjBean_CheckForHorseTrample(this, globalCtx)) {
             osSyncPrintf(VT_FGCOL(CYAN));
-            // Horse and bean tree lift collision
+            // "Horse and bean tree lift collision"
             osSyncPrintf("馬と豆の木リフト衝突！！！\n");
             osSyncPrintf(VT_RST);
             ObjBean_Break(this, globalCtx);

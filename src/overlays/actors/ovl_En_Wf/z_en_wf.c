@@ -1433,7 +1433,8 @@ void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_wf.c", 2157);
 
-    // This conditional will always evaluate to true, since unk_300 is false whenever action is WOLFOS_ACTION_WAIT_TO_APPEAR.
+    // This conditional will always evaluate to true, since unk_300 is false whenever action is
+    // WOLFOS_ACTION_WAIT_TO_APPEAR.
     if ((this->action != WOLFOS_ACTION_WAIT_TO_APPEAR) || !this->unk_300) {
         func_80093D18(globalCtx->state.gfxCtx);
 

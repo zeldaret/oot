@@ -268,7 +268,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
         EnSb_SpawnBubbles(globalCtx, this);
         this->bouncesLeft = 3;
         EnSb_SetupLunge(this);
-        // Attack!!
+        // "Attack!!"
         osSyncPrintf("アタァ〜ック！！\n");
     }
 }

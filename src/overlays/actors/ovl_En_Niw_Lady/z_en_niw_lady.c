@@ -210,7 +210,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
                 if (this->unk_26C == 0) {
                     gSaveContext.infTable[25] |= D_80ABB3B4[currentCucco->unk_2AA];
                     if (BREG(1) != 0) {
-                        // GET inside the chicken fence!
+                        // "GET inside the chicken fence!"
                         osSyncPrintf(VT_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" VT_RST,
                                      D_80ABB3B4[currentCucco->unk_2AA]);
                     }
@@ -321,7 +321,7 @@ static s16 sTradeItemTextIds[] = { 0x503E, 0x503F, 0x5047, 0x5040, 0x5042, 0x504
                                    0x5044, 0x00CF, 0x5045, 0x5042, 0x5027 };
 
 void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
-    //☆☆☆☆☆ Adult message check ☆☆☆☆☆
+    // "☆☆☆☆☆ Adult message check ☆☆☆☆☆"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n" VT_RST);
     this->unk_262 = 6;
     this->unk_273 = 0;

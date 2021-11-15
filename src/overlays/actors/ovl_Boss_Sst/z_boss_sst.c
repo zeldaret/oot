@@ -342,7 +342,7 @@ void BossSst_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_DestroyJntSph(globalCtx, &this->colliderJntSph);
     Collider_DestroyCylinder(globalCtx, &this->colliderCyl);
-    func_800F89E8(&this->center);
+    Audio_StopSfxByPos(&this->center);
 }
 
 void BossSst_HeadSetupLurk(BossSst* this) {
@@ -599,7 +599,7 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
                         TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                                SEGMENTED_TO_VIRTUAL(&gBongoTitleCardTex), 160, 180, 128, 40);
                     }
-                    Audio_QueueSeqCmd(0x1B);
+                    Audio_QueueSeqCmd(NA_BGM_BOSS);
                     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadEyeCloseAnim, -5.0f);
                     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_DISAPPEAR);
                 }
@@ -1157,7 +1157,7 @@ void BossSst_HeadMelt(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HeadSetupFinish(BossSst* this) {
     this->actor.draw = BossSst_DrawEffect;
     this->timer = 40;
-    Audio_QueueSeqCmd(0x21);
+    Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
     BossSst_SetCameraTargets(1.0 / 40, 6);
     this->actionFunc = BossSst_HeadFinish;
 }

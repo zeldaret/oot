@@ -321,7 +321,7 @@ s32 EnXc_BoleroCS(EnXc* this, GlobalContext* globalCtx) {
         if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
             (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f) &&
             !Gameplay_InCsMode(globalCtx)) {
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gBoleroCs);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gDeathMountainCraterBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
             gSaveContext.eventChkInf[5] |= 2;
             Item_Give(globalCtx, ITEM_SONG_BOLERO);
@@ -370,7 +370,7 @@ void EnXc_SetWalkingSFX(EnXc* this, GlobalContext* globalCtx) {
     u32 sfxId;
     s32 pad2;
 
-    if ((Animation_OnFrame(&this->skelAnime, 11.0f)) || (Animation_OnFrame(&this->skelAnime, 23.0f))) {
+    if (Animation_OnFrame(&this->skelAnime, 11.0f) || Animation_OnFrame(&this->skelAnime, 23.0f)) {
         if (this->actor.bgCheckFlags & 1) {
             sfxId = SFX_FLAG;
             sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
@@ -2142,13 +2142,13 @@ void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
     if (LINK_IS_ADULT) {
         if (!(gSaveContext.eventChkInf[12] & 0x20)) {
             gSaveContext.eventChkInf[12] |= 0x20;
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gFirstAdultCs);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTempleOfTimeFirstAdultCs);
             gSaveContext.cutsceneTrigger = 1;
             func_80B3EBF0(this, globalCtx);
         } else if (!(gSaveContext.eventChkInf[5] & 0x20) && (gSaveContext.eventChkInf[4] & 0x100)) {
             gSaveContext.eventChkInf[5] |= 0x20;
             Item_Give(globalCtx, ITEM_SONG_PRELUDE);
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gPreludeCs);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTempleOfTimePreludeCs);
             gSaveContext.cutsceneTrigger = 1;
             this->action = SHEIK_ACTION_30;
         } else if (!(gSaveContext.eventChkInf[5] & 0x20)) {

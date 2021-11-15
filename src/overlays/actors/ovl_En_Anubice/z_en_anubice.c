@@ -128,7 +128,7 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
                    16);
 
     osSyncPrintf("\n\n");
-    // ☆☆☆☆☆ Anubis occurence ☆☆☆☆☆
+    // "☆☆☆☆☆ Anubis occurence ☆☆☆☆☆"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n" VT_RST);
 
     this->actor.naviEnemyId = 0x3A;
@@ -177,7 +177,7 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx) {
                     currentProp = currentProp->next;
                 } else {
                     this->flameCircles[flameCirclesFound] = (BgHidanCurtain*)currentProp;
-                    // ☆☆☆☆☆ How many fires? ☆☆☆☆☆
+                    // "☆☆☆☆☆ How many fires? ☆☆☆☆☆"
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n" VT_RST, flameCirclesFound);
                     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n" VT_RST,
                                  this->flameCircles[flameCirclesFound]);

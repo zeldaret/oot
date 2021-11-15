@@ -51,7 +51,7 @@ void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoTreLgt* this = THIS;
 
     if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTreasureChestCurveSkel, sTransformUpdIdx[0])) {
-        // Demo_Tre_Lgt_Actor_ct (); Construct failed
+        // "Demo_Tre_Lgt_Actor_ct (); Construct failed"
         osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
     }
 

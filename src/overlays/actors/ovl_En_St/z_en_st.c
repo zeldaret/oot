@@ -23,25 +23,7 @@ void EnSt_Die(EnSt* this, GlobalContext* globalCtx);
 void EnSt_BounceAround(EnSt* this, GlobalContext* globalCtx);
 void EnSt_FinishBouncing(EnSt* this, GlobalContext* globalCtx);
 
-static Vtx sUnusedVertices[] = {
-    VTX(-1, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1, 100, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-1, 100, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-};
-
-static Gfx sUnusedDList[] = {
-    gsDPPipeSync(),
-    gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
-    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
-    gsSPVertex(sUnusedVertices, 4, 0),
-    gsSP1Triangle(0, 1, 2, 0),
-    gsSP1Triangle(0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_St/ovl_En_St.c"
 
 const ActorInit En_St_InitVars = {
     ACTOR_EN_ST,

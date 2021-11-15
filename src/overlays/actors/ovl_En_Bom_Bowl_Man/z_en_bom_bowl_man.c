@@ -60,9 +60,9 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gChuGirlSkel, &gChuGirlNoddingOffAnim, this->jointTable,
                        this->morphTable, 11);
-    // ☆ Man, my shoulders hurt~ ☆
+    // "☆ Man, my shoulders hurt~ ☆"
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" VT_RST);
-    // ☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d
+    // "☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d"
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" VT_RST,
                  globalCtx->bombchuBowlingStatus);
     this->posCopy = this->actor.world.pos;
@@ -222,11 +222,11 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
     if (BREG(3)) {
         osSyncPrintf(VT_FGCOL(RED) "☆ game_play->bomchu_game_flag ☆ %d\n" VT_RST, globalCtx->bombchuBowlingStatus);
-        //  HOW'S THE FIRST WALL DOING?
+        // "HOW'S THE FIRST WALL DOING?"
         osSyncPrintf(VT_FGCOL(RED) "☆ 壁１の状態どう？ ☆ %d\n" VT_RST, this->wallStatus[0]);
-        //  HOW'S THE SECOND WALL DOING?
+        // "HOW'S THE SECOND WALL DOING?"
         osSyncPrintf(VT_FGCOL(RED) "☆ 壁２の状態どう？ ☆ %d\n" VT_RST, this->wallStatus[1]);
-        // HOLE INFORMATION
+        // "HOLE INFORMATION"
         osSyncPrintf(VT_FGCOL(RED) "☆ 穴情報\t     ☆ %d\n" VT_RST, this->bowlPit->status);
         osSyncPrintf("\n\n");
     }
@@ -237,7 +237,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
         if ((this->wallStatus[0] != 1) && (this->wallStatus[1] != 1) && (this->bowlPit->status == 2)) {
             this->gameResult = 1; // Won
             this->bowlPit->status = 0;
-            // Center HIT!
+            // "Center HIT!"
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
 
@@ -245,7 +245,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length == 0) && (this->bowlPit->status == 0) &&
             (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
-            // Bombchu lost
+            // "Bombchu lost"
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" VT_RST);
         }
     }

@@ -443,7 +443,7 @@ void EnPoh_Talk(EnPoh* this, GlobalContext* globalCtx) {
 
 void func_80ADE950(EnPoh* this, s32 arg1) {
     if (arg1) {
-        func_800F8A44(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
+        Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
     }
     this->actionFunc = func_80AE009C;
@@ -816,7 +816,7 @@ void EnPoh_TalkRegular(EnPoh* this, GlobalContext* globalCtx) {
     }
     if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
         if (func_80106BC8(globalCtx) != 0) {
-            func_800F8A44(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
+            Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
             if (globalCtx->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {
                     this->actor.textId = 0x5008;

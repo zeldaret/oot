@@ -62,11 +62,11 @@ void EffectSs_ClearAll(GlobalContext* globalCtx) {
 
 void EffectSs_Delete(EffectSs* effectSs) {
     if (effectSs->flags & 2) {
-        func_800F89E8(&effectSs->pos);
+        Audio_StopSfxByPos(&effectSs->pos);
     }
 
     if (effectSs->flags & 4) {
-        func_800F89E8(&effectSs->vec);
+        Audio_StopSfxByPos(&effectSs->vec);
     }
 
     EffectSs_Reset(effectSs);

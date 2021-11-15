@@ -201,7 +201,7 @@ void EnDh_SetupWait(EnDh* this) {
 
 void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
     if ((s32)this->skelAnime.curFrame == 5) {
-        func_800F5ACC(0x38);
+        func_800F5ACC(NA_BGM_MINI_BOSS);
     }
     if (Actor_GetCollidedExplosive(globalCtx, &this->collider1.base)) {
         this->actor.params = ENDH_START_ATTACK_BOMB;

@@ -1101,7 +1101,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             holdCamera = true;
             bodyDecayLevel = 10;
             if (this->timers[0] == 150) {
-                Audio_QueueSeqCmd(0x21);
+                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, GND_BOSSROOM_CENTER_X,
                             GND_BOSSROOM_CENTER_Y, GND_BOSSROOM_CENTER_Z, 0, 0, 0, WARP_DUNGEON_ADULT);
             }
@@ -1493,7 +1493,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("STOP TIMER = %d ==============\n", this->actor.freezeTimer);
     horse = (EnfHG*)this->actor.child;
     if (this->flyMode == GND_FLY_PAINTING) {
-        Matrix_RotateY((horse->turnRot * 3.1416f) / (f32)0x8000, 1);
+        Matrix_RotateY((horse->turnRot * 3.1416f) / (f32)0x8000, MTXMODE_APPLY);
     }
 
     osSyncPrintf("YP %f\n", this->actor.world.pos.y);

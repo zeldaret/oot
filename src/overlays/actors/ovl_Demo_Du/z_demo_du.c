@@ -900,7 +900,7 @@ void DemoDu_CsCredits_HandleSubscenesByNpcAction(DemoDu* this, GlobalContext* gl
                     DemoDu_CsCredits_AdvanceTo04(this);
                     break;
                 default:
-                    // Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!
+                    // "Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!"
                     osSyncPrintf("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -957,7 +957,7 @@ void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
 
     if (this->updateIndex < 0 || this->updateIndex >= 29 || sUpdateFuncs[this->updateIndex] == NULL) {
-        // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -1029,7 +1029,7 @@ void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
 
     if (this->drawIndex < 0 || this->drawIndex >= 3 || sDrawFuncs[this->drawIndex] == NULL) {
-        // The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

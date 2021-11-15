@@ -38,7 +38,7 @@ void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnWallTubo* this = THIS;
 
     osSyncPrintf("\n\n");
-    // Wall Target
+    // "Wall Target"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n" VT_RST);
     this->unk_164 = this->actor.world.pos;
     this->actionFunc = EnWallTubo_FindGirl;
@@ -73,7 +73,7 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
     s16 quakeIndex;
 
     if (this->chuGirl->minigamePlayStatus != 0) {
-        if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FIXED1) {
+        if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_CHU_BOWLING) {
             chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
             while (chu != NULL) {
@@ -127,7 +127,7 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx) {
 
         if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
             wall->isHit = true;
-            //  You did it field! (repeated 5 times)
+            // "You did it field!" (repeated 5 times)
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
             osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);

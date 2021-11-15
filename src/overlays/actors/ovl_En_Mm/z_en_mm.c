@@ -6,6 +6,7 @@
 
 #include "z_en_mm.h"
 #include "objects/object_mm/object_mm.h"
+#include "objects/object_link_child/object_link_child.h"
 
 #define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
 
@@ -346,7 +347,7 @@ s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
     xDiff = waypointPos.x - this->actor.world.pos.x;
     zDiff = waypointPos.z - this->actor.world.pos.z;
 
-    this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * 10430.378f);
+    this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
     this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
 
     while ((this->distToWaypoint <= 10.44f) && (this->unk_1E8 != 0)) {
@@ -391,7 +392,7 @@ s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
         xDiff = waypointPos.x - this->actor.world.pos.x;
         zDiff = waypointPos.z - this->actor.world.pos.z;
 
-        this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * 10430.378f);
+        this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
         this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
     }
 
@@ -449,7 +450,7 @@ void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
 
         if (func_80AADA70() == 0) {
             if (this->actor.floorPoly != NULL) {
-                floorYNorm = this->actor.floorPoly->normal.y * 0.00003051851f;
+                floorYNorm = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
 
                 if ((floorYNorm > 0.9848f) || (floorYNorm < -0.9848f)) {
                     if (this->sitTimer > 30) {
@@ -519,8 +520,6 @@ void EnMm_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-extern Gfx D_0602CA38[]; // bunny hood dlist from object_link_child. replace with proper symbol later
-
 void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
     s32 pad;
@@ -566,7 +565,7 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_800D1694(97.0f, -1203.0f, 240.0f, &sp50);
             Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
 
-            gSPDisplayList(POLY_OPA_DISP++, D_0602CA38);
+            gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         }
     }
@@ -604,7 +603,7 @@ void EnMm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_Translate(260.0f, 20.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(0.0f, MTXMODE_APPLY);
         Matrix_RotateX(0.0f, MTXMODE_APPLY);
-        Matrix_RotateZ(2.5132742f, MTXMODE_APPLY);
+        Matrix_RotateZ(4.0f * M_PI / 5.0f, MTXMODE_APPLY);
         Matrix_Translate(-260.0f, 58.0f, 10.0f, MTXMODE_APPLY);
         Matrix_Get(&this->unk_208);
     }

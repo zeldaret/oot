@@ -38,7 +38,7 @@ void EnWonderTalk_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnWonderTalk* this = THIS;
 
     osSyncPrintf("\n\n");
-    // Special conversation
+    // "Special conversation"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 特殊会話くん ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
 
     this->unk_150 = (this->actor.params >> 0xB) & 0x1F;
@@ -63,18 +63,18 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
     if (this->switchFlag < 0 || !Flags_GetSwitch(globalCtx, this->switchFlag)) {
         switch (this->unk_150) {
             case 1:
-                // Slate GO!
+                // "Slate GO!"
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 石板ＧＯ！ ☆☆☆☆☆ \n" VT_RST);
                 this->height = 0.0f;
                 this->unk_15C = 80.0f;
-                // Attention coordinates
+                // "Attention coordinates"
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 if (!LINK_IS_ADULT) {
                     this->actor.textId = 0x7040;
-                    // Children
+                    // "Children"
                     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ こども ☆☆☆☆☆ \n" VT_RST);
                 } else {
-                    // Adult
+                    // "Adult"
                     osSyncPrintf(VT_FGCOL(CYAN) " ☆☆☆☆☆ おとな ☆☆☆☆☆ \n" VT_RST);
                     this->actor.textId = 0x7088;
                 }
@@ -83,13 +83,13 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n" VT_RST, this->actor.textId);
                 break;
             case 2:
-                // Diary start!
+                // "Diary start!"
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 日記帳スタート！ ☆☆☆☆☆ \n" VT_RST);
                 this->actor.textId = 0x5002;
                 this->unk_156 = 4;
                 this->height = 30.0f;
                 this->unk_15C = 40.0f;
-                // Attention coordinates
+                // "Attention coordinates"
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 30.0f);
                 break;
             case 3:
@@ -97,14 +97,14 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 this->unk_156 = 5;
                 this->height = 0.0f;
                 this->unk_15C = 110.0f;
-                // Attention coordinates
+                // "Attention coordinates"
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 break;
             case 4:
                 this->actor.textId = 0x5020;
                 this->unk_156 = 6;
                 this->height = 0.0f;
-                // Attention coordinates
+                // "Attention coordinates"
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 this->unk_15C = 120.0f;
                 if (gSaveContext.eventChkInf[1] & 0x2000) {
@@ -116,7 +116,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 this->unk_156 = 5;
                 this->height = 0.0f;
                 this->unk_15C = 110.0f;
-                // Attention coordinates
+                // "Attention coordinates"
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 break;
             default:
@@ -157,13 +157,13 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
             if (yawDiff < 0x4000) {
                 if (this->unk_15A >= 2) {
                     osSyncPrintf("\n\n");
-                    // Save information
+                    // "Save information"
                     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報\t\t☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
-                    // Type index
+                    // "Type index"
                     osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 種類インデックス\t☆☆☆☆☆ %d\n" VT_RST, this->unk_150);
-                    // Actual message type
+                    // "Actual message type"
                     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" VT_RST, this->actor.textId);
-                    // Specified range
+                    // "Specified range"
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" VT_RST, this->actor.world.rot.z);
                     osSyncPrintf("\n\n");
                 }
@@ -190,17 +190,17 @@ void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
                     switch (globalCtx->msgCtx.choiceIndex) {
                         case 0:
                             if (!LINK_IS_ADULT) {
-                                // I'm still a child!
+                                // "I'm still a child!"
                                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ まだコドモなの！ ☆☆☆☆☆ \n" VT_RST);
                                 this->actor.textId = 0x5001;
                             } else {
-                                // I'm an adult. .. ..
+                                // "I'm an adult. .. .."
                                 osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ アダルトなの。。。 ☆☆☆☆☆ \n" VT_RST);
                                 this->actor.textId = 0x5003;
                             }
                             break;
                         case 1:
-                            // Out!
+                            // "Out!"
                             osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n" VT_RST);
                             this->actor.textId = 0x5004;
                             break;

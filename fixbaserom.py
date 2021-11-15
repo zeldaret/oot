@@ -17,14 +17,19 @@ if path.exists("baserom.z64"):
             sys.exit(0)
 
 # Determine if we have a ROM file
-romFileName = ""
-if path.exists("baserom_original.z64"):
-    romFileName = "baserom_original.z64"
-elif path.exists("baserom_original.n64"):
-    romFileName = "baserom_original.n64"
-elif path.exists("baserom_original.v64"):
-    romFileName = "baserom_original.v64"
-else:
+romFileExtensions = ["z64", "n64", "v64"]
+
+def find_baserom_original():
+    for romFileExtLower in romFileExtensions:
+        for romFileExt in (romFileExtLower, romFileExtLower.upper()):
+            romFileNameCandidate = "baserom_original." + romFileExt
+            if path.exists(romFileNameCandidate):
+                return romFileNameCandidate
+    return None
+
+romFileName = find_baserom_original()
+
+if romFileName is None:
     print("Error: Could not find baserom_original.z64/baserom_original.n64/baserom_original.v64.")
     sys.exit(1)
 
@@ -68,11 +73,19 @@ elif fileContent[0] == 0x37:
 print("Patching header...")
 fileContent[0x3E] = 0x50
 
+for i in range(0x35CF000, len(fileContent)):
+    fileContent[i] = 0xFF
+
 # Check to see if the ROM is a "vanilla" Debug ROM
 str_hash = get_str_hash(bytearray(fileContent))
 if str_hash != "f0b7f35375f9cc8ca1b2d59d78e35405":
     print("Error: Expected a hash of f0b7f35375f9cc8ca1b2d59d78e35405 but got " + str_hash + ". " +
           "The baserom has probably been tampered, find a new one")
+
+    if str_hash == "32fe2770c0f9b1a9cd2a4d449348c1cb":
+        print("The provided baserom is a rom which has been edited with ZeldaEdit and is not suitable for use with decomp. " +
+              "Find a new one.")
+
     sys.exit(1)
 
 # Write out our new ROM

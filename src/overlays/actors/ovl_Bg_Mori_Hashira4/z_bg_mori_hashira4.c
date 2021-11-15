@@ -62,7 +62,7 @@ void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, GlobalContext* globalCtx,
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // Warning : move BG login failed
+        // "Warning : move BG login failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 155,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -84,7 +84,7 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
         Actor_Kill(&this->dyna.actor);
-        // Bank danger!
+        // "Bank danger!"
         osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
                      "../z_bg_mori_hashira4.c", 196);
         return;
@@ -95,7 +95,7 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetFocus(&this->dyna.actor, 50.0f);
     BgMoriHashira4_SetupWaitForMoriTex(this);
-    // (4 pillars of the Forest Temple) Bank danger
+    // "(4 pillars of the Forest Temple) Bank danger"
     osSyncPrintf("(森の神殿 ４本柱)(arg_data 0x%04x)\n", this->dyna.actor.params);
     sUnkTimer = 0;
 }
