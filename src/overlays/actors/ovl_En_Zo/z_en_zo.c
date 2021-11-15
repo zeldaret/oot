@@ -185,7 +185,7 @@ void EnZo_DrawRipples(EnZo* this, GlobalContext* globalCtx) {
             if (!setup) {
                 if (1) {}
                 gDPPipeSync(POLY_XLU_DISP++);
-                gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesVisualDL);
+                gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                 setup = true;
             }
@@ -195,7 +195,7 @@ void EnZo_DrawRipples(EnZo* this, GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 242),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesGeometryDL);
+            gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesModelDL);
         }
         effect++;
     }
@@ -214,7 +214,7 @@ void EnZo_DrawBubbles(EnZo* this, GlobalContext* globalCtx) {
         if (effect->type == ENZO_EFFECT_BUBBLE) {
             if (!setup) {
                 if (1) {}
-                gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesVisualDL);
+                gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesMaterialDL);
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
@@ -228,7 +228,7 @@ void EnZo_DrawBubbles(EnZo* this, GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 281),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesGeometryDL);
+            gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesModelDL);
         }
         effect++;
     }
@@ -248,7 +248,7 @@ void EnZo_DrawSplashes(EnZo* this, GlobalContext* globalCtx) {
         if (effect->type == ENZO_EFFECT_SPLASH) {
             if (!setup) {
                 if (1) {}
-                gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesVisualDL);
+                gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesMaterialDL);
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
                 setup = true;
@@ -261,7 +261,7 @@ void EnZo_DrawSplashes(EnZo* this, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 325),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesGeometryDL);
+            gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesModelDL);
         }
         effect++;
     }

@@ -665,8 +665,8 @@ void EnOssan_EndInteraction(GlobalContext* globalCtx, EnOssan* this) {
     this->stateFlag = OSSAN_STATE_IDLE;
 }
 
-s32 EnOssan_TestEndInteraction(EnOssan* this, GlobalContext* globalCtx, Input* controller1) {
-    if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
+s32 EnOssan_TestEndInteraction(EnOssan* this, GlobalContext* globalCtx, Input* input) {
+    if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
         EnOssan_EndInteraction(globalCtx, this);
         return true;
     } else {
@@ -674,8 +674,8 @@ s32 EnOssan_TestEndInteraction(EnOssan* this, GlobalContext* globalCtx, Input* c
     }
 }
 
-s32 EnOssan_TestCancelOption(EnOssan* this, GlobalContext* globalCtx, Input* controller1) {
-    if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
+s32 EnOssan_TestCancelOption(EnOssan* this, GlobalContext* globalCtx, Input* input) {
+    if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->stateFlag = this->tempStateFlag;
         func_8010B720(globalCtx, this->shelfSlots[this->cursorIndex]->actor.textId);
         return true;
@@ -747,9 +747,9 @@ void EnOssan_State_Idle(EnOssan* this, GlobalContext* globalCtx, Player* player)
 }
 
 void EnOssan_UpdateJoystickInputState(GlobalContext* globalCtx, EnOssan* this) {
-    Input* controller1 = &globalCtx->state.input[0];
-    s8 stickX = controller1->rel.stick_x;
-    s8 stickY = controller1->rel.stick_y;
+    Input* input = &globalCtx->state.input[0];
+    s8 stickX = input->rel.stick_x;
+    s8 stickY = input->rel.stick_y;
 
     this->moveHorizontal = this->moveVertical = false;
 

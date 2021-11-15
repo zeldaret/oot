@@ -582,7 +582,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, gGossipStoneSetupDL);
+        gSPDisplayList(POLY_OPA_DISP++, gGossipStoneMaterialDL);
 
         if (this->unk_19E & 4) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,

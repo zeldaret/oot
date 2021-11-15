@@ -404,7 +404,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
                     break;
             }
         } else {
-            func_800F67A0(0);
+            Audio_SetBaseFilter(0);
             switch (this->state) {
                 case 0:
                     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &object_opening_demo1_Anim_00504C, 1.0f);

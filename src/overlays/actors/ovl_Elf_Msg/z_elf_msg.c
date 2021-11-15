@@ -37,56 +37,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
 };
 
-// Draw properties
-static Gfx D_809AD278[] = {
-    gsDPPipeSync(),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(PRIMITIVE, 0, SHADE, 0, 0, 0, 0, PRIMITIVE, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
-    gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_XLU_SURF2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPSetGeometryMode(G_LIGHTING),
-    gsSPEndDisplayList(),
-};
-
-static Vtx sCylinderVertices[] = {
-    VTX(100, 0, 0, 0, 0, 0x59, 0xA7, 0x00, 0xFF),    VTX(70, 0, 70, 0, 0, 0x49, 0xB7, 0x49, 0xFF),
-    VTX(0, 0, 100, 0, 0, 0x00, 0xA7, 0x59, 0xFF),    VTX(-70, 0, 70, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
-    VTX(-100, 0, 0, 0, 0, 0xA7, 0xA7, 0x00, 0xFF),   VTX(-70, 0, -70, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),
-    VTX(0, 0, -100, 0, 0, 0x00, 0xA7, 0xA7, 0xFF),   VTX(70, 0, -70, 0, 0, 0x49, 0xB7, 0xB7, 0xFF),
-    VTX(100, 100, 0, 0, 0, 0x59, 0x59, 0x00, 0xFF),  VTX(70, 100, 70, 0, 0, 0x49, 0x49, 0x49, 0xFF),
-    VTX(0, 100, 100, 0, 0, 0x00, 0x59, 0x59, 0xFF),  VTX(-70, 100, 70, 0, 0, 0xB7, 0x49, 0x49, 0xFF),
-    VTX(-100, 100, 0, 0, 0, 0xA7, 0x59, 0x00, 0xFF), VTX(-70, 100, -70, 0, 0, 0xB7, 0x49, 0xB7, 0xFF),
-    VTX(0, 100, -100, 0, 0, 0x00, 0x59, 0xA7, 0xFF), VTX(70, 100, -70, 0, 0, 0x49, 0x49, 0xB7, 0xFF),
-};
-
-// Polygons for cylinder
-static Gfx D_809AD3B8[] = {
-    gsSPVertex(sCylinderVertices, 16, 0),       gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),     gsSP2Triangles(0, 5, 6, 0, 0, 6, 7, 0),
-    gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0),  gsSP2Triangles(8, 11, 12, 0, 8, 12, 13, 0),
-    gsSP2Triangles(8, 13, 14, 0, 8, 14, 15, 0), gsSP2Triangles(0, 1, 8, 0, 1, 8, 9, 0),
-    gsSP2Triangles(1, 2, 9, 0, 2, 9, 10, 0),    gsSP2Triangles(2, 3, 10, 0, 3, 10, 11, 0),
-    gsSP2Triangles(3, 4, 11, 0, 4, 11, 12, 0),  gsSP2Triangles(4, 5, 12, 0, 5, 12, 13, 0),
-    gsSP2Triangles(5, 6, 13, 0, 6, 13, 14, 0),  gsSP2Triangles(6, 7, 14, 0, 7, 14, 15, 0),
-    gsSP2Triangles(7, 0, 15, 0, 0, 15, 8, 0),   gsSPEndDisplayList(),
-};
-
-static Vtx sCuboidVertices[] = {
-    VTX(100, 0, 100, 0, 0, 0x49, 0xB7, 0x49, 0xFF),     VTX(100, 0, -100, 0, 0, 0x49, 0xB7, 0xB7, 0xFF),
-    VTX(-100, 0, -100, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),   VTX(-100, 0, 100, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
-    VTX(100, 100, 100, 0, 0, 0x49, 0x49, 0x49, 0xFF),   VTX(100, 100, -100, 0, 0, 0x49, 0x49, 0xB7, 0xFF),
-    VTX(-100, 100, -100, 0, 0, 0xB7, 0x49, 0xB7, 0xFF), VTX(-100, 100, 100, 0, 0, 0xB7, 0x49, 0x49, 0xFF),
-};
-
-// Polygons for cuboid
-static Gfx D_809AD4B8[] = {
-    gsSPVertex(sCuboidVertices, 8, 0),      gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
-    gsSP2Triangles(1, 2, 5, 0, 2, 5, 6, 0), gsSP2Triangles(2, 3, 6, 0, 3, 6, 7, 0),
-    gsSP2Triangles(3, 0, 7, 0, 0, 7, 4, 0), gsSPEndDisplayList(),
-};
-
 void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -96,25 +46,24 @@ void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
  * Can also set a switch flag from params while killing.
  */
 s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
-
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
-        (Flags_GetSwitch(globalCtx, this->actor.world.rot.y - 1))) {
+        Flags_GetSwitch(globalCtx, this->actor.world.rot.y - 1)) {
         LOG_STRING("共倒れ", "../z_elf_msg.c", 161); // "Mutual destruction"
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-            Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
+            Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.world.rot.y == -1) && Flags_GetClear(globalCtx, this->actor.room)) {
         LOG_STRING("共倒れ", "../z_elf_msg.c", 172); // "Mutual destruction"
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-            Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
+            Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
         return 0;
-    } else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
+    } else if (Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
         Actor_Kill(&this->actor);
         return 1;
     }
@@ -216,6 +165,8 @@ void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+#include "overlays/ovl_Elf_Msg/ovl_Elf_Msg.c"
+
 void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_elf_msg.c", 436);
 
@@ -235,9 +186,9 @@ void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_XLU_DISP++, D_809AD278);
 
     if (thisx->params & 0x4000) {
-        gSPDisplayList(POLY_XLU_DISP++, D_809AD4B8);
+        gSPDisplayList(POLY_XLU_DISP++, sCubeDL);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, D_809AD3B8);
+        gSPDisplayList(POLY_XLU_DISP++, sCylinderDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_elf_msg.c", 457);

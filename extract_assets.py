@@ -9,6 +9,7 @@ import signal
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
 
+
 def SignalHandler(sig, frame):
     print(f'Signal {sig} received. Aborting...')
     mainAbort.set()

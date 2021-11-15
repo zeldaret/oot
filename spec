@@ -133,7 +133,8 @@ endseg
 
 beginseg
     name "link_animetion"
-    include "build/baserom/link_animetion.o"
+    include "build/assets/misc/link_animetion/link_animetion.o"
+    number 7
 endseg
 
 beginseg
@@ -401,8 +402,8 @@ beginseg
     include "build/src/code/fault_drawer.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
+    include "build/src/code/audio_data.o"
     include "build/src/code/audio_synthesis.o"
-    include "build/data/audio_synthesis.data.o"
     include "build/src/code/audio_heap.o"
     include "build/src/code/audio_load.o"
     include "build/src/code/code_800E4FE0.o"
@@ -418,7 +419,7 @@ beginseg
     include "build/data/code_800F7260.bss.o"
     include "build/src/code/code_800F9280.o"
     include "build/data/code_800F9280.data.o"
-    include "build/src/code/audio_rodata.o"
+    include "build/src/code/audio_init_params.o"
     include "build/src/code/logseverity.o"
     include "build/src/code/gfxprint.o"
     include "build/src/code/code_800FBCE0.o"
@@ -543,13 +544,11 @@ endseg
 
 beginseg
     name "ovl_file_choose"
+    include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_data.o"
+    include "build/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_PAL.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.data.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.rodata.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.bss.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_choose.o"
-    include "build/data/overlays/gamestates/z_file_choose.rodata.o"
-    include "build/data/overlays/gamestates/z_file_choose.reloc.o"
+    include "build/src/overlays/gamestates/ovl_file_choose/ovl_file_choose_reloc.o"
 endseg
 
 beginseg

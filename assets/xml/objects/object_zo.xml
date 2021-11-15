@@ -75,14 +75,14 @@
         <Texture Name="gZoraTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x3000"/>
 
         <Texture Name="gZoraBubblesTex" OutName="bubbles" Format="ia8" Width="16" Height="16" Offset="0x21B0"/>
-        <DList Name="gZoraBubblesVisualDL" Offset="0x22F0"/>
-        <DList Name="gZoraBubblesGeometryDL" Offset="0x2350"/>
+        <DList Name="gZoraBubblesMaterialDL" Offset="0x22F0"/>
+        <DList Name="gZoraBubblesModelDL" Offset="0x2350"/>
 
         <Texture Name="gZoraSplashesTex" OutName="splashes" Format="i8" Width="16" Height="16" Offset="0x2370"/>
-        <DList Name="gZoraSplashesVisualDL" Offset="0x24A0"/>
-        <DList Name="gZoraSplashesGeometryDL" Offset="0x2510"/>
+        <DList Name="gZoraSplashesMaterialDL" Offset="0x24A0"/>
+        <DList Name="gZoraSplashesModelDL" Offset="0x2510"/>
 
-        <DList Name="gZoraRipplesVisualDL" Offset="0xBFC0"/>
-        <DList Name="gZoraRipplesGeometryDL" Offset="0xC028"/>
+        <DList Name="gZoraRipplesMaterialDL" Offset="0xBFC0"/>
+        <DList Name="gZoraRipplesModelDL" Offset="0xC028"/>
     </File>
 </Root>
