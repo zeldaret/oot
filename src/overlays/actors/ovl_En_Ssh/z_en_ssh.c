@@ -30,25 +30,7 @@ void EnSsh_Drop(EnSsh* this, GlobalContext* globalCtx);
 void EnSsh_Return(EnSsh* this, GlobalContext* globalCtx);
 void EnSsh_Start(EnSsh* this, GlobalContext* globalCtx);
 
-static Vtx D_80B043C0[] = {
-    VTX(-1, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1, 100, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-1, 100, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-};
-
-static Gfx D_80B04400[] = {
-    gsDPPipeSync(),
-    gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
-    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
-    gsSPVertex(D_80B043C0, 4, 0),
-    gsSP1Triangle(0, 1, 2, 0),
-    gsSP1Triangle(0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_Ssh/ovl_En_Ssh.c"
 
 const ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,
@@ -127,7 +109,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -235,7 +217,8 @@ void EnSsh_InitColliders(EnSsh* this, GlobalContext* globalCtx) {
 
 f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
     AnimationHeader* animation[] = {
-        0x06005BE8, 0x06000304, 0x06000304, 0x060055F8, 0x06000304, 0x06000304, 0x06005BE8
+        &object_ssh_Anim_005BE8, &object_ssh_Anim_000304, &object_ssh_Anim_000304, &object_ssh_Anim_0055F8,
+        &object_ssh_Anim_000304, &object_ssh_Anim_000304, &object_ssh_Anim_005BE8,
     };
     f32 playbackSpeed[] = { 1.0f, 4.0f, 1.0f, 1.0f, 8.0f, 6.0f, 2.0f };
     u8 mode[] = { 3, 3, 1, 3, 1, 1, 1 };
@@ -449,21 +432,21 @@ void EnSsh_Sway(EnSsh* this) {
 }
 
 void EnSsh_CheckBodyStickHit(EnSsh* this, GlobalContext* globalCtx) {
-    ColliderInfo* info0 = &this->colCylinder[0].info;
+    ColliderInfo* info = &this->colCylinder[0].info;
     Player* player = GET_PLAYER(globalCtx);
 
     if (player->unk_860 != 0) {
-        info0->bumper.dmgFlags |= 2;
+        info->bumper.dmgFlags |= 2;
         this->colCylinder[1].info.bumper.dmgFlags &= ~2;
         this->colCylinder[2].info.bumper.dmgFlags &= ~2;
     } else {
-        info0->bumper.dmgFlags &= ~2;
+        info->bumper.dmgFlags &= ~2;
         this->colCylinder[1].info.bumper.dmgFlags |= 2;
         this->colCylinder[2].info.bumper.dmgFlags |= 2;
     }
 }
 
-s32 EnSsh_CheckHitLink(EnSsh* this, GlobalContext* globalCtx) {
+s32 EnSsh_CheckHitPlayer(EnSsh* this, GlobalContext* globalCtx) {
     s32 i;
     s32 hit = false;
 
@@ -540,7 +523,7 @@ s32 EnSsh_CheckHitBack(EnSsh* this, GlobalContext* globalCtx) {
 
 s32 EnSsh_CollisionCheck(EnSsh* this, GlobalContext* globalCtx) {
     if (this->stunTimer == 0) {
-        EnSsh_CheckHitLink(this, globalCtx);
+        EnSsh_CheckHitPlayer(this, globalCtx);
     }
     if (EnSsh_CheckHitFront(this)) {
         return false;

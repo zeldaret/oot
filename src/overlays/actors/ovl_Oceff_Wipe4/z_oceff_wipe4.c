@@ -28,13 +28,11 @@ const ActorInit Oceff_Wipe4_InitVars = {
     (ActorFunc)OceffWipe4_Draw,
 };
 
-#include "z_oceff_wipe4_gfx.c"
-
 void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
 
     Actor_SetScale(&this->actor, 0.1f);
-    this->counter = 0;
+    this->timer = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
 }
@@ -49,12 +47,14 @@ void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
 
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
-    if (this->counter < 50) {
-        this->counter++;
+    if (this->timer < 50) {
+        this->timer++;
     } else {
         Actor_Kill(&this->actor);
     }
 }
+
+#include "overlays/ovl_Oceff_Wipe4/ovl_Oceff_Wipe4.c"
 
 void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll = globalCtx->state.frames & 0xFFF;
@@ -68,15 +68,15 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     eye = GET_ACTIVE_CAM(globalCtx)->eye;
     Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(globalCtx));
-    if (this->counter < 16) {
-        z = Math_SinS(this->counter << 10) * 1330;
+    if (this->timer < 16) {
+        z = Math_SinS(this->timer * 1024) * 1330.0f;
     } else {
-        z = 1330;
+        z = 1330.0f;
     }
 
     vtxPtr = sFrustumVtx;
-    if (this->counter >= 30) {
-        alpha = 12 * (50 - this->counter);
+    if (this->timer >= 30) {
+        alpha = 12 * (50 - this->timer);
     } else {
         alpha = 255;
     }
@@ -98,15 +98,15 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params == OCEFF_WIPE4_UNUSED) {
-        gSPDisplayList(POLY_XLU_DISP++, sTexture1DL);
+        gSPDisplayList(POLY_XLU_DISP++, sUnusedMaterialDL);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, sTexture0DL);
+        gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     }
 
-    gSPDisplayList(POLY_XLU_DISP++, sTexture2DL);
+    gSPDisplayList(POLY_XLU_DISP++, sMaterial2DL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64, 1,
                                                      scroll * (-1), scroll, 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
+    gSPDisplayList(POLY_XLU_DISP++, &sMaterial2DL[11]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 344);
 }

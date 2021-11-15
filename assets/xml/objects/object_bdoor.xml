@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="objects/gameplay_dangeon_keep.xml" OutPath="objects/gameplay_dangeon_keep/"/>
     <File Name="object_bdoor" Segment="6">
         <Blob Name="object_bdoor_Blob_000000" Size="0x1000" Offset="0x0"/>
         <DList Name="object_bdoor_DL_0010C0" Offset="0x10C0"/>

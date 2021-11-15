@@ -4149,7 +4149,7 @@ void Interface_Update(GlobalContext* globalCtx) {
             globalCtx->sceneLoadFlag = 0x14;
             gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
             func_800F6964(30);
-            gSaveContext.seqIndex = 0xFF;
+            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
             gSaveContext.nightSeqIndex = 0xFF;
         } else {
             gSaveContext.sunsSongState = SUNSSONG_SPECIAL;
