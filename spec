@@ -6796,13 +6796,15 @@ endseg
 beginseg
     name "elf_message_field"
     romalign 0x1000
-    include "build/baserom/elf_message_field.o"
+    include "build/src/elf_message/elf_message_field.o"
+    number 0
 endseg
 
 beginseg
     name "elf_message_ydan"
     romalign 0x1000
-    include "build/baserom/elf_message_ydan.o"
+    include "build/src/elf_message/elf_message_ydan.o"
+    number 0
 endseg
 
 beginseg
