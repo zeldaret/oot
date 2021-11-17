@@ -54,7 +54,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
     EnBomChu* chu;
     Vec3f chuPosDiff;
 
-    if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FIXED1) {
+    if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_CHU_BOWLING) {
         chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
         while (chu != NULL) {
@@ -200,11 +200,11 @@ void EnBomBowlPit_WaitTillPrizeGiven(EnBomBowlPit* this, GlobalContext* globalCt
 
 void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
-        // Normal termination/completion
+        // "Normal termination"/"completion"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         if (this->getItemId == GI_HEART_PIECE) {
             gSaveContext.healthAccumulator = 0x140;
-            // Ah recovery! (?)
+            // "Ah recovery!" (?)
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n" VT_RST);
         }
         this->exItemDone = 0;

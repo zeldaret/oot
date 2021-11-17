@@ -83,12 +83,12 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     if (this->unk_29E == 0) {
         osSyncPrintf("\n\n");
-        // Archery range chicken
+        // "Archery range chicken"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" VT_RST);
         Actor_SetScale(&this->actor, 0.01f);
     } else {
         osSyncPrintf("\n\n");
-        // Bomb chicken
+        // "Bomb chicken"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n" VT_RST);
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         Actor_SetScale(&this->actor, 0.01f);

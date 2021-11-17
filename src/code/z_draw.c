@@ -107,7 +107,7 @@ void GetItem_DrawWallet(GlobalContext* globalCtx, s16 drawId);
 
 typedef struct {
     /* 0x00 */ void (*drawFunc)(GlobalContext*, s16);
-    /* 0x04 */ u32 dlists[8];
+    /* 0x04 */ Gfx* dlists[8];
 } DrawItemTableEntry; // size = 0x24
 
 DrawItemTableEntry sDrawItemTable[] = {
@@ -196,7 +196,7 @@ DrawItemTableEntry sDrawItemTable[] = {
     // bombchus, OBJECT_GI_BOMB_2
     { GetItem_DrawMaskOrBombchu, { gGiBombchuDL } },
     // egg, OBJECT_GI_EGG
-    { GetItem_DrawEggOrMedallion, { gGiEggSetupDL, gGiEggDL } },
+    { GetItem_DrawEggOrMedallion, { gGiEggMaterialDL, gGiEggDL } },
     // silver scale, OBJECT_GI_SCALE
     { GetItem_DrawScale, { gGiScaleWaterDL, gGiSilverScaleWaterColorDL, gGiSilverScaleColorDL, gGiScaleDL } },
     // gold scale, OBJECT_GI_SCALE

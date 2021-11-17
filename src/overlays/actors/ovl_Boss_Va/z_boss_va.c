@@ -401,7 +401,7 @@ void BossVa_AttachToBody(BossVa* this) {
     BossVa* vaBody = GET_BODY(this);
 
     Matrix_Translate(vaBody->actor.world.pos.x, vaBody->actor.world.pos.y, vaBody->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(vaBody->actor.shape.rot.x, 0, vaBody->actor.shape.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(vaBody->actor.shape.rot.x, 0, vaBody->actor.shape.rot.z, MTXMODE_APPLY);
     Matrix_MultVec3f(&sInitPosOffsets[this->actor.params], &this->actor.world.pos);
 
     switch (this->actor.params) {
@@ -508,33 +508,33 @@ void BossVa_Tumor(GlobalContext* globalCtx, BossVa* this, s32 count, s16 scale, 
 }
 
 void BossVa_SetSparkEnv(GlobalContext* globalCtx) {
-    globalCtx->envCtx.unk_8C[0][0] = 0xA;
-    globalCtx->envCtx.unk_8C[0][1] = 0xA;
-    globalCtx->envCtx.unk_8C[0][2] = 0xA;
-    globalCtx->envCtx.unk_8C[1][0] = 0x73;
-    globalCtx->envCtx.unk_8C[1][1] = 0x41;
-    globalCtx->envCtx.unk_8C[1][2] = 0x64;
-    globalCtx->envCtx.unk_8C[2][0] = 0x78;
-    globalCtx->envCtx.unk_8C[2][1] = 0x78;
-    globalCtx->envCtx.unk_8C[2][2] = 0x46;
+    globalCtx->envCtx.adjAmbientColor[0] = 0xA;
+    globalCtx->envCtx.adjAmbientColor[1] = 0xA;
+    globalCtx->envCtx.adjAmbientColor[2] = 0xA;
+    globalCtx->envCtx.adjLight1Color[0] = 0x73;
+    globalCtx->envCtx.adjLight1Color[1] = 0x41;
+    globalCtx->envCtx.adjLight1Color[2] = 0x64;
+    globalCtx->envCtx.adjFogColor[0] = 0x78;
+    globalCtx->envCtx.adjFogColor[1] = 0x78;
+    globalCtx->envCtx.adjFogColor[2] = 0x46;
 }
 
 void BossVa_SetDeathEnv(GlobalContext* globalCtx) {
-    globalCtx->envCtx.unk_8C[2][0] = 0xDC;
-    globalCtx->envCtx.unk_8C[2][1] = 0xDC;
-    globalCtx->envCtx.unk_8C[2][2] = 0x96;
-    globalCtx->envCtx.unk_9E = -0x3E8;
-    globalCtx->envCtx.unk_A0 = -0x384;
-    globalCtx->envCtx.unk_8C[0][0] = 0xC8;
-    globalCtx->envCtx.unk_8C[0][1] = 0xC8;
-    globalCtx->envCtx.unk_8C[0][2] = 0xC8;
-    globalCtx->envCtx.unk_8C[1][0] = 0xD7;
-    globalCtx->envCtx.unk_8C[1][1] = 0xA5;
-    globalCtx->envCtx.unk_8C[1][2] = 0xC8;
-    globalCtx->envCtx.unk_E2[0] = 0xDC;
-    globalCtx->envCtx.unk_E2[1] = 0xDC;
-    globalCtx->envCtx.unk_E2[2] = 0x96;
-    globalCtx->envCtx.unk_E2[3] = 0x64;
+    globalCtx->envCtx.adjFogColor[0] = 0xDC;
+    globalCtx->envCtx.adjFogColor[1] = 0xDC;
+    globalCtx->envCtx.adjFogColor[2] = 0x96;
+    globalCtx->envCtx.adjFogNear = -0x3E8;
+    globalCtx->envCtx.adjFogFar = -0x384;
+    globalCtx->envCtx.adjAmbientColor[0] = 0xC8;
+    globalCtx->envCtx.adjAmbientColor[1] = 0xC8;
+    globalCtx->envCtx.adjAmbientColor[2] = 0xC8;
+    globalCtx->envCtx.adjLight1Color[0] = 0xD7;
+    globalCtx->envCtx.adjLight1Color[1] = 0xA5;
+    globalCtx->envCtx.adjLight1Color[2] = 0xC8;
+    globalCtx->envCtx.screenFillColor[0] = 0xDC;
+    globalCtx->envCtx.screenFillColor[1] = 0xDC;
+    globalCtx->envCtx.screenFillColor[2] = 0x96;
+    globalCtx->envCtx.screenFillColor[3] = 0x64;
 }
 
 EnBoom* BossVa_FindBoomerang(GlobalContext* globalCtx) {
@@ -630,7 +630,8 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     warpId = ACTOR_DOOR_WARP1;
                 }
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, warpId, this->actor.world.pos.x, this->actor.world.pos.y,
-                            this->actor.world.pos.z, 0, 0, 0, 0);
+                            this->actor.world.pos.z, 0, 0, 0,
+                            0); //! params could be WARP_DUNGEON_CHILD however this can also spawn Ru1
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 160.0f,
                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 sDoorState = 100;
@@ -642,10 +643,10 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     sCsState = INTRO_CALL_BARI;
                     sDoorState = 100;
                     func_8002DF54(globalCtx, &this->actor, 1);
-                    globalCtx->envCtx.unk_E2[0] = 0xDC;
-                    globalCtx->envCtx.unk_E2[1] = 0xDC;
-                    globalCtx->envCtx.unk_E2[2] = 0xBE;
-                    globalCtx->envCtx.unk_E2[3] = 0xD2;
+                    globalCtx->envCtx.screenFillColor[0] = 0xDC;
+                    globalCtx->envCtx.screenFillColor[1] = 0xDC;
+                    globalCtx->envCtx.screenFillColor[2] = 0xBE;
+                    globalCtx->envCtx.screenFillColor[3] = 0xD2;
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     sCsCamera = Gameplay_CreateSubCamera(globalCtx);
                     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
@@ -778,10 +779,10 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             }
             break;
         case INTRO_START:
-            globalCtx->envCtx.unk_E2[0] = 0xDC;
-            globalCtx->envCtx.unk_E2[1] = 0xDC;
-            globalCtx->envCtx.unk_E2[2] = 0xBE;
-            globalCtx->envCtx.unk_E2[3] = 0xD2;
+            globalCtx->envCtx.screenFillColor[0] = 0xDC;
+            globalCtx->envCtx.screenFillColor[1] = 0xDC;
+            globalCtx->envCtx.screenFillColor[2] = 0xBE;
+            globalCtx->envCtx.screenFillColor[3] = 0xD2;
             func_8002DF54(globalCtx, &this->actor, 8);
             player->actor.world.rot.y = player->actor.shape.rot.y = 0x7FFF;
             sCsState++;
@@ -958,7 +959,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_BF = 1;
                 func_8002DF54(globalCtx, &this->actor, 8);
             } else if (this->timer >= 35000) {
-                Audio_QueueSeqCmd(0x1B);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
             }
 
             this->timer += this->unk_1F2;
@@ -1552,9 +1553,10 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
 
             this->unk_1AC = Math_Vec3f_Yaw(&sCameraEye, &sCameraNextAt) - 0x100;
             this->unk_1B0 = 15;
-            globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0xFF;
-            globalCtx->envCtx.unk_E2[3] = 0;
-            globalCtx->envCtx.unk_E1 = 1;
+            globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+                globalCtx->envCtx.screenFillColor[2] = 0xFF;
+            globalCtx->envCtx.screenFillColor[3] = 0;
+            globalCtx->envCtx.fillScreen = true;
             sCsState++;
         case DEATH_BODY_TUMORS:
             this->unk_1AC += 0x100;
@@ -1598,7 +1600,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
             break;
         case DEATH_CORE_BURST:
             if (this->timer == 13) {
-                Audio_QueueSeqCmd(0x21);
+                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
             }
 
             this->timer--;
@@ -1652,7 +1654,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
             }
         case DEATH_FINISH:
             Rand_CenteredFloat(0.5f);
-            globalCtx->envCtx.unk_E1 = 0;
+            globalCtx->envCtx.fillScreen = false;
             break;
     }
 
@@ -1671,8 +1673,8 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0xC8, 0);
     Math_SmoothStepToS(&this->vaCamRotMod, 0, 1, 0xC8, 0);
     Math_SmoothStepToS(&this->bodyGlow, 200, 1, 10, 0);
-    if (globalCtx->envCtx.unk_E2[3] != 0) {
-        globalCtx->envCtx.unk_E2[3] -= 50;
+    if (globalCtx->envCtx.screenFillColor[3] != 0) {
+        globalCtx->envCtx.screenFillColor[3] -= 50;
     }
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
@@ -2807,10 +2809,10 @@ void BossVa_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
-            if (THIS->colliderBody.base.acFlags & AC_HIT) {
+            if (this->colliderBody.base.acFlags & AC_HIT) {
                 this->colliderBody.base.acFlags &= ~AC_HIT;
-                boomerang = (EnBoom*)this->colliderBody.base.ac;
-                if (boomerang->actor.id == ACTOR_EN_BOOM) {
+                if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
+                    boomerang = (EnBoom*)this->colliderBody.base.ac;
                     boomerang->returnTimer = 0;
                 }
             }
@@ -2818,22 +2820,22 @@ void BossVa_Update(Actor* thisx, GlobalContext* globalCtx2) {
             BossVa_UpdateEffects(globalCtx);
 
             for (i = 2; i >= 0; i--) {
-                if ((globalCtx->envCtx.unk_8C[0][i] - 1) > 0) {
-                    globalCtx->envCtx.unk_8C[0][i] -= 1;
+                if ((globalCtx->envCtx.adjAmbientColor[i] - 1) > 0) {
+                    globalCtx->envCtx.adjAmbientColor[i] -= 1;
                 } else {
-                    globalCtx->envCtx.unk_8C[0][i] = 0;
+                    globalCtx->envCtx.adjAmbientColor[i] = 0;
                 }
 
-                if ((globalCtx->envCtx.unk_8C[1][i] - 10) > 0) {
-                    globalCtx->envCtx.unk_8C[1][i] -= 10;
+                if ((globalCtx->envCtx.adjLight1Color[i] - 10) > 0) {
+                    globalCtx->envCtx.adjLight1Color[i] -= 10;
                 } else {
-                    globalCtx->envCtx.unk_8C[1][i] = 0;
+                    globalCtx->envCtx.adjLight1Color[i] = 0;
                 }
 
-                if ((globalCtx->envCtx.unk_8C[2][i] - 10) > 0) {
-                    globalCtx->envCtx.unk_8C[2][i] -= 10;
+                if ((globalCtx->envCtx.adjFogColor[i] - 10) > 0) {
+                    globalCtx->envCtx.adjFogColor[i] -= 10;
                 } else {
-                    globalCtx->envCtx.unk_8C[2][i] = 0;
+                    globalCtx->envCtx.adjFogColor[i] = 0;
                 }
             }
 
@@ -3084,7 +3086,7 @@ void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
             sp3C = this->headRot.y;
             Matrix_Push();
             Matrix_Translate(this->effectPos[9].x, this->effectPos[9].y, this->effectPos[9].z, MTXMODE_NEW);
-            Matrix_RotateRPY(sp3E, sp3C, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(sp3E, sp3C, 0, MTXMODE_APPLY);
             sp70.x = 0.0f;
             if (sFightPhase >= PHASE_4) {
                 sp70.z = ((this->timer2 - 16) & 7) * 120.0f;
@@ -3187,17 +3189,17 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
-            if (globalCtx->envCtx.unk_9E != 0) {
-                globalCtx->envCtx.unk_9E += 0x15E;
-                if (globalCtx->envCtx.unk_9E > 0) {
-                    globalCtx->envCtx.unk_9E = 0;
+            if (globalCtx->envCtx.adjFogNear != 0) {
+                globalCtx->envCtx.adjFogNear += 0x15E;
+                if (globalCtx->envCtx.adjFogNear > 0) {
+                    globalCtx->envCtx.adjFogNear = 0;
                 }
             }
 
-            if (globalCtx->envCtx.unk_A0 != 0) {
-                globalCtx->envCtx.unk_A0 += 0x15E;
-                if (globalCtx->envCtx.unk_A0 > 0) {
-                    globalCtx->envCtx.unk_A0 = 0;
+            if (globalCtx->envCtx.adjFogFar != 0) {
+                globalCtx->envCtx.adjFogFar += 0x15E;
+                if (globalCtx->envCtx.adjFogFar > 0) {
+                    globalCtx->envCtx.adjFogFar = 0;
                 }
             }
 
@@ -3249,7 +3251,7 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 Matrix_MultVec3f(&sZeroVec, &this->effectPos[1]);
                 Matrix_Push();
                 Matrix_Translate(spBC.x, spBC.y, spBC.z, MTXMODE_NEW);
-                Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
+                Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
                 sp80.z = sp74.z = this->unk_1A0;
                 spB0.z = (this->timer2 & 0xF) * (this->unk_1A0 * 0.0625f);
                 Matrix_MultVec3f(&spB0, &this->effectPos[0]);
@@ -3626,7 +3628,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
                             effect->primColor[3]);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_RotateRPY(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
             Matrix_RotateX(effect->offset.x * 0.115f, MTXMODE_APPLY);
             Matrix_RotateY(effect->offset.x * 0.13f, MTXMODE_APPLY);
@@ -3656,7 +3658,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->primColor[3]);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_RotateRPY(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5152),

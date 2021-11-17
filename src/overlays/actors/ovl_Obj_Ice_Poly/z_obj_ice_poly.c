@@ -197,7 +197,7 @@ void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_ice_poly.c", 421);
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
-    Matrix_RotateRPY(0x500, 0, -0x500, MTXMODE_APPLY);
+    Matrix_RotateZYX(0x500, 0, -0x500, MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_ice_poly.c", 428),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

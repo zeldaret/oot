@@ -88,7 +88,7 @@ void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B53468(void) {
-    Audio_QueueSeqCmd(0x62);
+    Audio_QueueSeqCmd(NA_BGM_ESCAPE);
 }
 
 BossGanon2* func_80B53488(EnZl3* this, GlobalContext* globalCtx) {
@@ -616,7 +616,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
-        Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
+        Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
@@ -626,7 +626,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B54360(this, sp30.x, 1);
             func_80B53B64(this, sp30.z, 2);
         }
-        Matrix_RotateRPY(unk_28C[0] + kREG(31), unk_28C[1] + kREG(32), unk_28C[2] + kREG(33), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[0] + kREG(31), unk_28C[1] + kREG(32), unk_28C[2] + kREG(33), MTXMODE_APPLY);
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[0], "../z_en_zl3.c", 1490);
         Matrix_Get(&sp38);
@@ -634,7 +634,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 3);
         }
-        Matrix_RotateRPY(unk_28C[3] + kREG(34), unk_28C[4] + kREG(35), unk_28C[5] + kREG(36), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[3] + kREG(34), unk_28C[4] + kREG(35), unk_28C[5] + kREG(36), MTXMODE_APPLY);
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[1], "../z_en_zl3.c", 1534);
         Matrix_Get(&sp38);
@@ -642,7 +642,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B54360(this, sp30.x, 7);
         }
-        Matrix_RotateRPY(unk_28C[6] + kREG(37), unk_28C[7] + kREG(38), unk_28C[8] + kREG(39), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[6] + kREG(37), unk_28C[7] + kREG(38), unk_28C[8] + kREG(39), MTXMODE_APPLY);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[2], "../z_en_zl3.c", 1554);
         Matrix_Pop();
@@ -655,7 +655,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B54360(this, sp30.x, 10);
             func_80B53B64(this, sp30.z, 11);
         }
-        Matrix_RotateRPY(unk_28C[9] + kREG(40), unk_28C[10] + kREG(41), unk_28C[11] + kREG(42), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[9] + kREG(40), unk_28C[10] + kREG(41), unk_28C[11] + kREG(42), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[3], "../z_en_zl3.c", 1579);
         Matrix_Get(&sp38);
@@ -665,7 +665,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B54360(this, sp30.x, 13);
             func_80B53B64(this, sp30.z, 14);
         }
-        Matrix_RotateRPY(unk_28C[12] + kREG(43), unk_28C[13] + kREG(44), unk_28C[14] + kREG(45), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[12] + kREG(43), unk_28C[13] + kREG(44), unk_28C[14] + kREG(45), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[4], "../z_en_zl3.c", 1598);
         Matrix_Pop();
@@ -678,7 +678,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B54360(this, sp30.x, 16);
             func_80B53B64(this, sp30.z, 17);
         }
-        Matrix_RotateRPY(unk_28C[15] + kREG(46), unk_28C[16] + kREG(47), unk_28C[17] + kREG(48), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[15] + kREG(46), unk_28C[16] + kREG(47), unk_28C[17] + kREG(48), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[5], "../z_en_zl3.c", 1623);
         Matrix_Get(&sp38);
@@ -688,7 +688,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B54360(this, sp30.x, 19);
             func_80B53B64(this, sp30.z, 20);
         }
-        Matrix_RotateRPY(unk_28C[18] + kREG(49), unk_28C[19] + kREG(50), unk_28C[20] + kREG(51), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[18] + kREG(49), unk_28C[19] + kREG(50), unk_28C[20] + kREG(51), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[6], "../z_en_zl3.c", 1642);
         Matrix_Pop();
@@ -786,7 +786,7 @@ void func_80B54F18(EnZl3* this, GlobalContext* globalCtx) {
         f32 posZ = this->actor.world.pos.z;
 
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
-                           0, 3);
+                           0, WARP_PURPLE_CRYSTAL);
         this->unk_2F8 = 1;
     }
 }
@@ -813,7 +813,7 @@ void func_80B55054(EnZl3* this) {
             f32* temp_v0 = &this->unk_2EC;
 
             if (*temp_v0 < 19.0f) {
-                ((DoorWarp1*)child)->alpha = (20.0f - *temp_v0) * 12.75f;
+                ((DoorWarp1*)child)->crystalAlpha = (20.0f - *temp_v0) * 12.75f;
                 *temp_v0 += 1.0f;
             } else {
                 Actor_Kill(child);
@@ -1045,8 +1045,8 @@ void func_80B559C4(EnZl3* this) {
     Vec3f* thisPos = &this->actor.world.pos;
     Vec3f* unk_32C = &this->unk_32C;
     Vec3f* unk_338 = &this->unk_338;
-    f32 temp_f0 =
-        func_8006F9BC(Animation_GetLastFrame(&gZelda2Anime2Anim_005248), 0, (s32)this->skelAnime.curFrame, 3, 3);
+    f32 temp_f0 = Environment_LerpWeightAccelDecel(Animation_GetLastFrame(&gZelda2Anime2Anim_005248), 0,
+                                                   (s32)this->skelAnime.curFrame, 3, 3);
 
     thisPos->x = unk_32C->x + (temp_f0 * (unk_338->x - unk_32C->x));
     thisPos->z = unk_32C->z + (temp_f0 * (unk_338->z - unk_32C->z));
@@ -1959,7 +1959,7 @@ void func_80B57CB4(EnZl3* this, GlobalContext* globalCtx) {
     f32 temp_f0;
 
     this->unk_344 += 1;
-    temp_f0 = func_8006F9BC(this->unk_346, 0, this->unk_344, 3, 3);
+    temp_f0 = Environment_LerpWeightAccelDecel(this->unk_346, 0, this->unk_344, 3, 3);
     thisPos->x = unk_348->x + (temp_f0 * (unk_354->x - unk_348->x));
     thisPos->y = (unk_348->y + (temp_f0 * (unk_354->y - unk_348->y))) + this->unk_360;
     thisPos->z = unk_348->z + (temp_f0 * (unk_354->z - unk_348->z));
@@ -2262,7 +2262,7 @@ void func_80B58C08(EnZl3* this, GlobalContext* globalCtx) {
     unk_344 = this->unk_344;
     unk_346 = this->unk_346;
     sp28 = unk_346 - kREG(11) - 2;
-    temp_f0 = func_8006F9BC(unk_346, 0, unk_344, 3, 0);
+    temp_f0 = Environment_LerpWeightAccelDecel(unk_346, 0, unk_344, 3, 0);
 
     thisPos->x = unk_348->x + (temp_f0 * (unk_354->x - unk_348->x));
     thisPos->y = (unk_348->y + (temp_f0 * (unk_354->y - unk_348->y))) + this->unk_360;
@@ -2458,7 +2458,7 @@ s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         rot->z += vec->x;
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
-        Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
+        Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Translate(174.0f, -317.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&mtx[0], "../z_en_zl3_inEscape.c", 2471);

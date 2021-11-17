@@ -358,7 +358,7 @@ s16 EnGo2_GetStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
                 // Ask question to DMT Goron by bomb flower
                 if (this->actor.textId == 0x300A) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
-                        this->actor.textId = CUR_UPG_VALUE(UPG_STRENGTH) ? 0x300B : 0x300C;
+                        this->actor.textId = CUR_UPG_VALUE(UPG_STRENGTH) != 0 ? 0x300B : 0x300C;
                     } else {
                         this->actor.textId = 0x300D;
                     }
@@ -456,7 +456,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return CUR_UPG_VALUE(UPG_STRENGTH)
+        return CUR_UPG_VALUE(UPG_STRENGTH) != 0
                    ? 0x302C
                    : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017 : gSaveContext.infTable[15] & 0x100 ? 0x3019 : 0x3018;
     }
@@ -506,12 +506,12 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3033 : 0x3035;
                         if (this->actor.textId == 0x3035) {
-                            Audio_StopSfx(0x39EB);
+                            Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
                     } else {
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3036 : 0x3033;
                         if (this->actor.textId == 0x3036) {
-                            Audio_StopSfx(0x39EB);
+                            Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
                     }
                     func_8010B720(globalCtx, this->actor.textId);
@@ -1004,14 +1004,14 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
 
         } else if (!gSaveContext.bgsFlag && (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK)) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_CLAIM_CHECK) {
-                if (func_800775CC() >= 3) {
+                if (Environment_GetBgsDayCount() >= 3) {
                     textId = 0x305E;
                 } else {
                     textId = 0x305D;
                 }
                 this->actor.textId = textId;
             } else {
-                if (func_800775CC() >= 3) {
+                if (Environment_GetBgsDayCount() >= 3) {
                     textId = 0x3002;
                 } else {
                     textId = 0x305D;
@@ -1127,9 +1127,9 @@ s32 EnGo2_IsCameraModified(EnGo2* this, GlobalContext* globalCtx) {
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if (EnGo2_IsWakingUp(this)) {
-            Camera_ChangeSetting(camera, CAM_SET_TEPPEN);
+            Camera_ChangeSetting(camera, CAM_SET_DIRECTED_YAW);
             func_8005AD1C(camera, 4);
-        } else if (!EnGo2_IsWakingUp(this) && (camera->setting == CAM_SET_TEPPEN)) {
+        } else if (!EnGo2_IsWakingUp(this) && (camera->setting == CAM_SET_DIRECTED_YAW)) {
             Camera_ChangeSetting(camera, CAM_SET_DUNGEON1);
             func_8005ACFC(camera, 4);
         }
@@ -1760,7 +1760,7 @@ void EnGo2_SetGetItem(EnGo2* this, GlobalContext* globalCtx) {
         this->unk_194.unk_00 = 0;
         switch (this->getItemId) {
             case GI_CLAIM_CHECK:
-                func_800775D8();
+                Environment_ClearBgsDayCount();
                 EnGo2_GetItemAnimation(this, globalCtx);
                 return;
             case GI_TUNIC_GORON:
@@ -1884,7 +1884,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 player->actor.world.pos.z =
                     (f32)((Math_CosS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.z);
                 func_8002DF54(globalCtx, &this->actor, 8);
-                func_800F5C64(0x51);
+                func_800F5C64(NA_BGM_APPEAR);
             }
             break;
         case 2: // Walking away
@@ -1971,7 +1971,7 @@ s32 EnGo2_DrawRolling(EnGo2* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 2914);
     func_80093D18(globalCtx->state.gfxCtx);
     speedXZ = this->actionFunc == EnGo2_ReverseRolling ? 0.0f : this->actor.speedXZ;
-    Matrix_RotateRPY((globalCtx->state.frames * ((s16)speedXZ * 1400)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX((globalCtx->state.frames * ((s16)speedXZ * 1400)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2.c", 2926),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00C140);

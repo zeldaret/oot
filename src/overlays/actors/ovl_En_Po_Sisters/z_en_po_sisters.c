@@ -898,7 +898,7 @@ void func_80ADB51C(EnPoSisters* this, GlobalContext* globalCtx) {
     if (this->unk_19A == 0) {
         this->actor.world.rot.y = this->actor.shape.rot.y += 0x4000 * (s32)(Rand_ZeroOne() * 4.0f);
         if (this->unk_195 == 0) {
-            func_800F5ACC(0x38);
+            func_800F5ACC(NA_BGM_MINI_BOSS);
         }
         func_80AD9F1C(this);
     } else {
@@ -1405,7 +1405,7 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, temp_s7->r, temp_s7->g, temp_s7->b, phi_s5);
         Matrix_Translate(this->unk_234[i].x, this->unk_234[i].y, this->unk_234[i].z, MTXMODE_NEW);
-        Matrix_RotateRPY(0, (s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000), 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, (s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000), 0, MTXMODE_APPLY);
         if (this->actionFunc == func_80ADAFC0) {
             phi_f20 = (this->unk_19A - i) * 0.025f + 0.5f;
             phi_f20 = CLAMP(phi_f20, 0.5f, 0.8f) * 0.007f;

@@ -32,7 +32,7 @@ const ActorInit Magic_Dark_InitVars = {
     (ActorFunc)MagicDark_OrbDraw,
 };
 
-#include "z_magic_dark_gfx.c"
+#include "overlays/ovl_Magic_Dark/ovl_Magic_Dark.c"
 
 // unused
 static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
@@ -111,7 +111,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
     if (nayrusLoveTimer >= 1180) {
         this->primAlpha = 15595 - (nayrusLoveTimer * 13);
         if (nayrusLoveTimer & 1) {
-            this->primAlpha = (u8)(this->primAlpha >> 1);
+            this->primAlpha = this->primAlpha >> 1;
         }
     } else if (nayrusLoveTimer >= 1100) {
         this->primAlpha = (u8)(nayrusLoveTimer << 7) + 127;
@@ -137,29 +137,33 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
 
 void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity) {
     s32 i;
-    f32 temp_f0;
-    f32 phi_f0;
+    f32 colorScale;
+    f32 fogScale;
 
     if (globalCtx->roomCtx.curRoom.unk_03 != 5) {
         intensity = CLAMP_MIN(intensity, 0.0f);
         intensity = CLAMP_MAX(intensity, 1.0f);
-        phi_f0 = intensity - 0.2f;
+        fogScale = intensity - 0.2f;
+
         if (intensity < 0.2f) {
-            phi_f0 = 0.0f;
+            fogScale = 0.0f;
         }
-        globalCtx->envCtx.unk_9E = (850.0f - globalCtx->envCtx.unk_D2) * phi_f0;
+
+        globalCtx->envCtx.adjFogNear = (850.0f - globalCtx->envCtx.lightSettings.fogNear) * fogScale;
+
         if (intensity == 0.0f) {
-            for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.unk_8C[2]); i++) {
-                globalCtx->envCtx.unk_8C[2][i] = 0;
+            for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.adjFogColor); i++) {
+                globalCtx->envCtx.adjFogColor[i] = 0;
             }
         } else {
-            temp_f0 = intensity * 5.0f;
-            if (temp_f0 > 1.0f) {
-                temp_f0 = 1.0f;
+            colorScale = intensity * 5.0f;
+
+            if (colorScale > 1.0f) {
+                colorScale = 1.0f;
             }
 
-            for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.unk_8C[2]); i++) {
-                globalCtx->envCtx.unk_8C[2][i] = -(s16)(globalCtx->envCtx.unk_CF[i] * temp_f0);
+            for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.adjFogColor); i++) {
+                globalCtx->envCtx.adjFogColor[i] = -(s16)(globalCtx->envCtx.lightSettings.fogColor[i] * colorScale);
             }
         }
     }
@@ -221,11 +225,11 @@ void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (s32)(this->primAlpha * 0.6f) & 0xFF);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
-        gSPDisplayList(POLY_XLU_DISP++, sDiamondTexDList);
+        gSPDisplayList(POLY_XLU_DISP++, sDiamondMaterialDL);
         gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 2, gameplayFrames * -4, 32, 32, 1,
                                         0, gameplayFrames * -16, 64, 32));
-        gSPDisplayList(POLY_XLU_DISP++, sDiamondVertsDList);
+        gSPDisplayList(POLY_XLU_DISP++, sDiamondModelDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 570);

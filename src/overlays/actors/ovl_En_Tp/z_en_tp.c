@@ -130,16 +130,12 @@ void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-#ifdef NON_MATCHING
-// Regalloc, some stack, and compiler refuses to put zero in $s4 with temp_s4; all seems to be related
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnTp* this = THIS;
-
     EnTp* now;
     EnTp* next;
     s32 i;
-    s64 temp_s4;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.targetMode = 3;
@@ -163,11 +159,10 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_SetScale(&this->actor, 1.5f);
 
         for (i = 0; i <= 6; i++) {
-            temp_s4 = 0;
-
             next = (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
-                                      this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
+                                      this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0 * i);
 
+            if (0 * i) {} // Very fake, but needed to get the s registers right
             if (next != NULL) {
                 now->actor.child = &next->actor;
                 next->actor.parent = &now->actor;
@@ -183,6 +178,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 next->timer = next->unk_15C = i * -5;
                 next->horizontalVariation = 6.0f - (i * 0.75f);
                 now = next;
+                if (0 * i) {}
             }
         }
     } else if (this->actor.params == TAILPASARAN_TAIL) {
@@ -191,9 +187,6 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         EnTp_Fragment_SetupFade(this);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-#endif
 
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnTp* this = THIS;

@@ -38,7 +38,6 @@ AudioTask* func_800E4FE0(void) {
 extern u64 rspAspMainDataStart[];
 extern u64 rspAspMainDataEnd[];
 
-#ifdef NON_MATCHING
 AudioTask* func_800E5000(void) {
     static s32 sMaxAbiCmdCnt = 0x80;
     static AudioTask* sWaitingAudioTask = NULL;
@@ -47,7 +46,7 @@ AudioTask* func_800E5000(void) {
     s32 pad;
     s32 j;
     s32 sp5C;
-    s16* currAiBuffer; // sp58
+    s16* currAiBuffer;
     OSTask_t* task;
     s32 index;
     u32 sp4C;
@@ -77,8 +76,9 @@ AudioTask* func_800E5000(void) {
 
     if (gAudioContext.resetTimer < 16) {
         if (gAudioContext.aiBufLengths[index] != 0) {
-            // &gAudioContext + index*{2,4} should be saved across here
             osAiSetNextBuffer(gAudioContext.aiBuffers[index], gAudioContext.aiBufLengths[index] * 4);
+            if (gAudioContext.aiBuffers[index]) {}
+            if (gAudioContext.aiBufLengths[index]) {}
         }
     }
 
@@ -107,12 +107,12 @@ AudioTask* func_800E5000(void) {
     }
 
     gAudioContext.curAudioFrameDmaCount = 0;
-    func_800E11F0();
-    Audio_ProcessLoads(gAudioContext.resetStatus);
-    func_800E4F58();
+    AudioLoad_DecreaseSampleDmaTtls();
+    AudioLoad_ProcessLoads(gAudioContext.resetStatus);
+    AudioLoad_ProcessScriptLoads();
 
     if (gAudioContext.resetStatus != 0) {
-        if (Audio_ResetStep() == 0) {
+        if (AudioHeap_ResetStep() == 0) {
             if (gAudioContext.resetStatus == 0) {
                 osSendMesg(gAudioContext.audioResetQueueP, gAudioContext.audioResetSpecIdToLoad, OS_MESG_NOBLOCK);
             }
@@ -187,6 +187,7 @@ AudioTask* func_800E5000(void) {
     task->dram_stack_size = 0;
     task->output_buff = NULL;
     task->output_buff_size = NULL;
+    if (1) {}
     task->data_ptr = (u64*)gAudioContext.abiCmdBufs[index];
     task->data_size = abiCmdCnt * sizeof(Acmd);
     task->yield_data_ptr = NULL;
@@ -203,11 +204,6 @@ AudioTask* func_800E5000(void) {
         return NULL;
     }
 }
-#else
-s32 sMaxAbiCmdCnt = 0x80;
-AudioTask* sWaitingAudioTask = NULL;
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5000.s")
-#endif
 
 #define ACMD_SND_MDE ((u32)0xF0000000)
 #define ACMD_MUTE ((u32)0xF1000000)
@@ -221,19 +217,19 @@ void func_800E5584(AudioCmd* cmd) {
 
     switch (cmd->op) {
         case 0x81:
-            func_800E1C18(cmd->arg1, cmd->arg2);
+            AudioLoad_SyncLoadSeqParts(cmd->arg1, cmd->arg2);
             return;
         case 0x82:
-            func_800E20D4(cmd->arg0, cmd->arg1, cmd->arg2);
+            AudioLoad_SyncInitSeqPlayer(cmd->arg0, cmd->arg1, cmd->arg2);
             func_800E59AC(cmd->arg0, cmd->data);
             return;
         case 0x85:
-            func_800E2124(cmd->arg0, cmd->arg1, cmd->data);
+            AudioLoad_SyncInitSeqPlayerSkipTicks(cmd->arg0, cmd->arg1, cmd->data);
             return;
         case 0x83:
             if (gAudioContext.seqPlayers[cmd->arg0].enabled) {
                 if (cmd->asInt == 0) {
-                    Audio_SequencePlayerDisableAsFinished(&gAudioContext.seqPlayers[cmd->arg0]);
+                    AudioSeq_SequencePlayerDisableAsFinished(&gAudioContext.seqPlayers[cmd->arg0]);
                 } else {
                     func_800E5958(cmd->arg0, cmd->asInt);
                 }
@@ -251,12 +247,12 @@ void func_800E5584(AudioCmd* cmd) {
             return;
         case 0xF2:
             if (cmd->asUInt == 1) {
-                for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+                for (i = 0; i < gAudioContext.numNotes; i++) {
                     Note* note = &gAudioContext.notes[i];
                     NoteSubEu* subEu = &note->noteSubEu;
-                    if (subEu->bitField0.s.enabled && note->playbackState.unk_04 == 0) {
-                        if (note->playbackState.parentLayer->seqChannel->muteBehavior & 8) {
-                            subEu->bitField0.s.finished = 1;
+                    if (subEu->bitField0.enabled && note->playbackState.unk_04 == 0) {
+                        if (note->playbackState.parentLayer->channel->muteBehavior & 8) {
+                            subEu->bitField0.finished = 1;
                         }
                     }
                 }
@@ -270,19 +266,19 @@ void func_800E5584(AudioCmd* cmd) {
 
             return;
         case 0xF3:
-            func_800E1D64(cmd->arg0, cmd->arg1, cmd->arg2);
+            AudioLoad_SyncLoadInstrument(cmd->arg0, cmd->arg1, cmd->arg2);
             return;
         case 0xF4:
-            Audio_AudioTableAsyncLoad(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.unk_1E20);
+            AudioLoad_AsyncLoadSampleBank(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
             return;
         case 0xF5:
-            Audio_AudioBankAsyncLoad(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.unk_1E20);
+            AudioLoad_AsyncLoadFont(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
             return;
         case 0xFC:
-            Audio_AudioSeqAsyncLoad(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.unk_1E20);
+            AudioLoad_AsyncLoadSeq(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
             return;
         case 0xF6:
-            func_800E1F7C(cmd->arg1);
+            AudioLoad_DiscardSeqFonts(cmd->arg1);
             return;
         case 0x90:
             gAudioContext.unk_5BDC[cmd->arg0] = cmd->asUShort;
@@ -297,7 +293,7 @@ void func_800E5584(AudioCmd* cmd) {
         case 0xE0:
         case 0xE1:
         case 0xE2:
-            func_800E7744(cmd->op - 0xE0, cmd->arg0, cmd->arg1, cmd->data);
+            Audio_SetFontInstrument(cmd->op - 0xE0, cmd->arg0, cmd->arg1, cmd->data);
             return;
         case 0xFE:
             temp_t7 = cmd->asUInt;
@@ -305,14 +301,14 @@ void func_800E5584(AudioCmd* cmd) {
                 for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
                     SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[i];
                     if (seqPlayer->enabled) {
-                        Audio_SequencePlayerDisableAsFinished(seqPlayer);
+                        AudioSeq_SequencePlayerDisableAsFinished(seqPlayer);
                     }
                 }
             }
             func_800E66C0(temp_t7);
             return;
         case 0xE3:
-            func_800DE4B0(cmd->asInt);
+            AudioHeap_PopCache(cmd->asInt);
             return;
         default:
             return;
@@ -482,24 +478,24 @@ void Audio_ProcessCmds(u32 msg) {
     }
 }
 
-u32 func_800E5E20(u32* arg0) {
+u32 func_800E5E20(u32* out) {
     u32 sp1C;
 
-    if (osRecvMesg(&gAudioContext.unk_1E20, (OSMesg*)&sp1C, OS_MESG_NOBLOCK) == -1) {
-        *arg0 = 0;
+    if (osRecvMesg(&gAudioContext.externalLoadQueue, (OSMesg*)&sp1C, OS_MESG_NOBLOCK) == -1) {
+        *out = 0;
         return 0;
     }
-    *arg0 = sp1C & 0xFFFFFF;
+    *out = sp1C & 0xFFFFFF;
     return sp1C >> 0x18;
 }
 
 u8* func_800E5E84(s32 arg0, u32* arg1) {
-    return func_800E1F38(arg0, arg1);
+    return AudioLoad_GetFontsForSequence(arg0, arg1);
 }
 
 void func_800E5EA4(s32 arg0, u32* arg1, u32* arg2) {
-    *arg1 = gAudioContext.ctlEntries[arg0].unk_02;
-    *arg2 = gAudioContext.ctlEntries[arg0].unk_03;
+    *arg1 = gAudioContext.soundFonts[arg0].sampleBankId1;
+    *arg2 = gAudioContext.soundFonts[arg0].sampleBankId2;
 }
 
 s32 func_800E5EDC(void) {
@@ -567,15 +563,15 @@ s8 func_800E6070(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
 }
 
 s8 func_800E60C4(s32 arg0, s32 arg1) {
-    return gAudioContext.seqPlayers[arg0].unk_158[arg1];
+    return gAudioContext.seqPlayers[arg0].soundScriptIO[arg1];
 }
 
-void func_800E60EC(void* memAddr, u32 size) {
-    Audio_SoundAllocPoolInit(&gAudioContext.unkPool, memAddr, size);
+void Audio_InitExternalPool(void* mem, u32 size) {
+    AudioHeap_AllocPoolInit(&gAudioContext.externalPool, mem, size);
 }
 
-void func_800E611C(void) {
-    gAudioContext.unkPool.start = NULL;
+void Audio_DestroyExternalPool(void) {
+    gAudioContext.externalPool.start = NULL;
 }
 
 void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
@@ -600,7 +596,7 @@ void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
             seqPlayer->transposition = cmd->asSbyte;
             return;
         case 0x46:
-            seqPlayer->unk_158[cmd->arg2] = cmd->asSbyte;
+            seqPlayer->soundScriptIO[cmd->arg2] = cmd->asSbyte;
             return;
         case 0x4A:
             fadeVolume = (s32)cmd->arg1 / 127.0f;
@@ -729,9 +725,9 @@ void Audio_WaitForAudioTask(void) {
 
 s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
     SequencePlayer* seqPlayer;
-    SequenceChannelLayer* layer;
+    SequenceLayer* layer;
     Note* note;
-    AudioBankSound* sound;
+    SoundFontSound* sound;
     s32 loopEnd;
     s32 samplePos;
 
@@ -753,7 +749,7 @@ s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
 
             note = layer->note;
             if (layer == note->playbackState.parentLayer) {
-                sound = note->noteSubEu.sound.audioBankSound;
+                sound = note->noteSubEu.sound.soundFontSound;
                 if (sound == NULL) {
                     return 0;
                 }
@@ -781,21 +777,21 @@ s32 func_800E66C0(s32 arg0) {
     NoteSubEu* temp_a3;
     s32 i;
     Note* note;
-    AudioBankSound* sound;
+    SoundFontSound* sound;
 
     phi_v1 = 0;
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.numNotes; i++) {
         note = &gAudioContext.notes[i];
         temp_a2 = &note->playbackState;
-        if (note->noteSubEu.bitField0.s.enabled) {
+        if (note->noteSubEu.bitField0.enabled) {
             temp_a3 = &note->noteSubEu;
             if (temp_a2->adsr.action.s.state != 0) {
                 if (arg0 >= 2) {
-                    sound = temp_a3->sound.audioBankSound;
-                    if (sound == NULL || temp_a3->bitField1.s.isSyntheticWave) {
+                    sound = temp_a3->sound.soundFontSound;
+                    if (sound == NULL || temp_a3->bitField1.isSyntheticWave) {
                         continue;
                     }
-                    if (sound->sample->medium == 0) {
+                    if (sound->sample->medium == MEDIUM_RAM) {
                         continue;
                     }
                 }

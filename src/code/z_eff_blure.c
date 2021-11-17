@@ -289,7 +289,7 @@ void EffectBlure_UpdateFlags(EffectBlureElement* elem) {
             Math3D_CosOut(&sp4C, &sp40, &sp2C)) {
             elem->flags &= ~3;
             elem->flags |= 0;
-        } else if ((sp34 <= -0.5f) || (sp30 <= -0.5f) || (sp2C <= 0.7071f)) {
+        } else if ((sp34 <= -0.5f) || (sp30 <= -0.5f) || (sp2C <= 0.7071f)) { // cos(45 degrees)
             elem->flags &= ~3;
             elem->flags |= 0;
         } else {

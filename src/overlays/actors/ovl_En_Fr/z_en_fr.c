@@ -544,7 +544,7 @@ void EnFr_ButterflyPath(EnFr* this, GlobalContext* globalCtx) {
 
     this->xyAngleButterfly += 0x1000;
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = 0.0f;
     vec1.z = 25.0f;
     Matrix_MultVec3f(&vec1, &vec2);
@@ -553,7 +553,7 @@ void EnFr_ButterflyPath(EnFr* this, GlobalContext* globalCtx) {
     this->posButterfly.y = (2.0f * Math_CosS(this->xyAngleButterfly)) + (this->posLogSpot.y + 50.0f);
     this->posButterfly.z = (Math_CosS(rotY) * sin) + vec2.z;
     Matrix_Translate(this->posButterfly.x, this->posButterfly.y, this->posButterfly.z, MTXMODE_NEW);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = 0.0f;
     vec1.y = -15.0f;
     vec1.z = 20.0f;
@@ -1081,7 +1081,7 @@ void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->isButterflyDrawn) {
         Matrix_Translate(this->posButterfly.x, this->posButterfly.y, this->posButterfly.z, MTXMODE_NEW);
         Matrix_Scale(0.015f, 0.015f, 0.015f, MTXMODE_APPLY);
-        Matrix_RotateRPY(this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, MTXMODE_APPLY);
         SkelAnime_DrawOpa(globalCtx, this->skelAnimeButterfly.skeleton, this->skelAnimeButterfly.jointTable, NULL, NULL,
                           NULL);
     }

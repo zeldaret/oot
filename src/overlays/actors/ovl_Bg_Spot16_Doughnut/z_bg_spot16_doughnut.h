@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT16_DOUGHNUT_H_
-#define _Z_BG_SPOT16_DOUGHNUT_H_
+#ifndef Z_BG_SPOT16_DOUGHNUT_H
+#define Z_BG_SPOT16_DOUGHNUT_H
 
 #include "ultra64.h"
 #include "global.h"

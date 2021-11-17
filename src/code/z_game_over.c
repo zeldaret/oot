@@ -9,7 +9,7 @@ void GameOver_FadeInLights(GlobalContext* globalCtx) {
 
     if ((gameOverCtx->state >= GAMEOVER_DEATH_WAIT_GROUND && gameOverCtx->state < GAMEOVER_REVIVE_START) ||
         (gameOverCtx->state >= GAMEOVER_REVIVE_RUMBLE && gameOverCtx->state < GAMEOVER_REVIVE_FADE_OUT)) {
-        Kankyo_FadeInGameOverLights(globalCtx);
+        Environment_FadeInGameOverLights(globalCtx);
     }
 }
 
@@ -64,7 +64,7 @@ void GameOver_Update(GlobalContext* globalCtx) {
 
             gSaveContext.nayrusLoveTimer = 2000;
             gSaveContext.naviTimer = 0;
-            gSaveContext.seqIndex = 0xFF;
+            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
             gSaveContext.nightSeqIndex = 0xFF;
             gSaveContext.eventInf[0] = 0;
             gSaveContext.eventInf[1] = 0;
@@ -74,7 +74,7 @@ void GameOver_Update(GlobalContext* globalCtx) {
                 gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
             gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
 
-            Kankyo_InitGameOverLights(globalCtx);
+            Environment_InitGameOverLights(globalCtx);
             D_80153D80 = 20;
             if (1) {}
             v90 = VREG(90);
@@ -103,7 +103,7 @@ void GameOver_Update(GlobalContext* globalCtx) {
         case GAMEOVER_REVIVE_START:
             gameOverCtx->state++;
             D_80153D80 = 0;
-            Kankyo_InitGameOverLights(globalCtx);
+            Environment_InitGameOverLights(globalCtx);
             ShrinkWindow_SetVal(0x20);
             return;
 
@@ -139,7 +139,7 @@ void GameOver_Update(GlobalContext* globalCtx) {
             break;
 
         case GAMEOVER_REVIVE_FADE_OUT:
-            Kankyo_FadeOutGameOverLights(globalCtx);
+            Environment_FadeOutGameOverLights(globalCtx);
             D_80153D80--;
 
             if (D_80153D80 == 0) {

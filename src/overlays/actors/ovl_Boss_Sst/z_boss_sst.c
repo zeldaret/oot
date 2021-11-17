@@ -8,6 +8,7 @@
 #include "objects/object_sst/object_sst.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #define FLAGS 0x00000435
 
@@ -289,7 +290,7 @@ void BossSst_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.shape.rot.y = 0;
         if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, ROOM_CENTER_X, ROOM_CENTER_Y,
-                        ROOM_CENTER_Z + 400.0f, 0, 0, 0, -1);
+                        ROOM_CENTER_Z + 400.0f, 0, 0, 0, WARP_DUNGEON_ADULT);
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, ROOM_CENTER_X, ROOM_CENTER_Y,
                         ROOM_CENTER_Z - 200.0f, 0, 0, 0, 0);
             Actor_Kill(&this->actor);
@@ -341,7 +342,7 @@ void BossSst_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_DestroyJntSph(globalCtx, &this->colliderJntSph);
     Collider_DestroyCylinder(globalCtx, &this->colliderCyl);
-    func_800F89E8(&this->center);
+    Audio_StopSfxByPos(&this->center);
 }
 
 void BossSst_HeadSetupLurk(BossSst* this) {
@@ -598,7 +599,7 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
                         TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                                SEGMENTED_TO_VIRTUAL(&gBongoTitleCardTex), 160, 180, 128, 40);
                     }
-                    Audio_QueueSeqCmd(0x1B);
+                    Audio_QueueSeqCmd(NA_BGM_BOSS);
                     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadEyeCloseAnim, -5.0f);
                     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_DISAPPEAR);
                 }
@@ -1156,7 +1157,7 @@ void BossSst_HeadMelt(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HeadSetupFinish(BossSst* this) {
     this->actor.draw = BossSst_DrawEffect;
     this->timer = 40;
-    Audio_QueueSeqCmd(0x21);
+    Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
     BossSst_SetCameraTargets(1.0 / 40, 6);
     this->actionFunc = BossSst_HeadFinish;
 }
@@ -1188,7 +1189,7 @@ void BossSst_HeadFinish(BossSst* this, GlobalContext* globalCtx) {
         }
     } else if (this->effects[0].alpha == 0) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, ROOM_CENTER_X, ROOM_CENTER_Y, ROOM_CENTER_Z, 0,
-                    0, 0, -1);
+                    0, 0, WARP_DUNGEON_ADULT);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART,
                     (Math_SinS(this->actor.shape.rot.y) * 200.0f) + ROOM_CENTER_X, ROOM_CENTER_Y,
                     Math_CosS(this->actor.shape.rot.y) * 200.0f + ROOM_CENTER_Z, 0, 0, 0, 0);
@@ -3174,7 +3175,7 @@ void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
                                          effect->pos.z + this->actor.world.pos.z, MTXMODE_NEW);
                     }
 
-                    Matrix_RotateRPY(effect->rot.x, effect->rot.y, effect->rot.z, MTXMODE_APPLY);
+                    Matrix_RotateZYX(effect->rot.x, effect->rot.y, effect->rot.z, MTXMODE_APPLY);
                     Matrix_Scale(effect->scale * 0.001f, effect->scale * 0.001f, effect->scale * 0.001f, MTXMODE_APPLY);
 
                     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7350),

@@ -11,10 +11,13 @@ MtxF sMtxFClear = {
 // clang-format on
 
 /**
- * Multiplies a 4 component row vector [ src , 1 ] by the matrix mf and writes the resulting 4 components to xyzDest
+ * Multiplies the matrix mf by a 4 components column vector [ src , 1 ] and writes the resulting 4 components to xyzDest
  * and wDest.
  *
- * \f[ [\texttt{xyzDest}, \texttt{wDest}] = [\texttt{src}, 1] \cdot [mf] \f]
+ * \f[ \begin{bmatrix} \texttt{xyzDest} \\ \texttt{wDest} \\ \end{bmatrix}
+ *      = [\texttt{mf}] \cdot
+ *        \begin{bmatrix} \texttt{src} \\ 1 \\ \end{bmatrix}
+ * \f]
  */
 void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
     xyzDest->x = mf->xw + ((src->x * mf->xx) + (src->y * mf->xy) + (src->z * mf->xz));
@@ -24,9 +27,12 @@ void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDe
 }
 
 /**
- * Multiplies a 4 component row vector [ src , 1 ] by the matrix mf and writes the resulting xyz components to dest.
+ * Multiplies the matrix mf by a 4 components column vector [ src , 1 ] and writes the resulting xyz components to dest.
  *
- * \f[ [\texttt{dest}, -] = [\texttt{src}, 1] \cdot [mf] \f]
+ * \f[ \begin{bmatrix} \texttt{dest} \\ - \\ \end{bmatrix}
+ *      = [\texttt{mf}] \cdot
+ *        \begin{bmatrix} \texttt{src} \\ 1 \\ \end{bmatrix}
+ * \f]
  */
 void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest) {
     f32 mx = mf->xx;
@@ -49,133 +55,133 @@ void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest) {
 
 /**
  * Matrix multiplication, dest = mfA * mfB.
- * mfA and dest should not be the same matrix.
+ * mfB and dest should not be the same matrix.
  */
-void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
-    f32 x2;
-    f32 y2;
-    f32 z2;
-    f32 w2;
+void SkinMatrix_MtxFMtxFMult(MtxF* mfA, MtxF* mfB, MtxF* dest) {
+    f32 cx;
+    f32 cy;
+    f32 cz;
+    f32 cw;
     //---ROW1---
-    f32 x1 = mfB->xx;
-    f32 y1 = mfB->xy;
-    f32 z1 = mfB->xz;
-    f32 w1 = mfB->xw;
+    f32 rx = mfA->xx;
+    f32 ry = mfA->xy;
+    f32 rz = mfA->xz;
+    f32 rw = mfA->xw;
     //--------
 
-    x2 = mfA->xx;
-    y2 = mfA->yx;
-    z2 = mfA->zx;
-    w2 = mfA->wx;
-    dest->xx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xx;
+    cy = mfB->yx;
+    cz = mfB->zx;
+    cw = mfB->wx;
+    dest->xx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xy;
-    y2 = mfA->yy;
-    z2 = mfA->zy;
-    w2 = mfA->wy;
-    dest->xy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xy;
+    cy = mfB->yy;
+    cz = mfB->zy;
+    cw = mfB->wy;
+    dest->xy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xz;
-    y2 = mfA->yz;
-    z2 = mfA->zz;
-    w2 = mfA->wz;
-    dest->xz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xz;
+    cy = mfB->yz;
+    cz = mfB->zz;
+    cw = mfB->wz;
+    dest->xz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xw;
-    y2 = mfA->yw;
-    z2 = mfA->zw;
-    w2 = mfA->ww;
-    dest->xw = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xw;
+    cy = mfB->yw;
+    cz = mfB->zw;
+    cw = mfB->ww;
+    dest->xw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     //---ROW2---
-    x1 = mfB->yx;
-    y1 = mfB->yy;
-    z1 = mfB->yz;
-    w1 = mfB->yw;
+    rx = mfA->yx;
+    ry = mfA->yy;
+    rz = mfA->yz;
+    rw = mfA->yw;
     //--------
-    x2 = mfA->xx;
-    y2 = mfA->yx;
-    z2 = mfA->zx;
-    w2 = mfA->wx;
-    dest->yx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xx;
+    cy = mfB->yx;
+    cz = mfB->zx;
+    cw = mfB->wx;
+    dest->yx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xy;
-    y2 = mfA->yy;
-    z2 = mfA->zy;
-    w2 = mfA->wy;
-    dest->yy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xy;
+    cy = mfB->yy;
+    cz = mfB->zy;
+    cw = mfB->wy;
+    dest->yy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xz;
-    y2 = mfA->yz;
-    z2 = mfA->zz;
-    w2 = mfA->wz;
-    dest->yz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xz;
+    cy = mfB->yz;
+    cz = mfB->zz;
+    cw = mfB->wz;
+    dest->yz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xw;
-    y2 = mfA->yw;
-    z2 = mfA->zw;
-    w2 = mfA->ww;
-    dest->yw = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xw;
+    cy = mfB->yw;
+    cz = mfB->zw;
+    cw = mfB->ww;
+    dest->yw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     //---ROW3---
-    x1 = mfB->zx;
-    y1 = mfB->zy;
-    z1 = mfB->zz;
-    w1 = mfB->zw;
+    rx = mfA->zx;
+    ry = mfA->zy;
+    rz = mfA->zz;
+    rw = mfA->zw;
     //--------
-    x2 = mfA->xx;
-    y2 = mfA->yx;
-    z2 = mfA->zx;
-    w2 = mfA->wx;
-    dest->zx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xx;
+    cy = mfB->yx;
+    cz = mfB->zx;
+    cw = mfB->wx;
+    dest->zx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xy;
-    y2 = mfA->yy;
-    z2 = mfA->zy;
-    w2 = mfA->wy;
-    dest->zy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xy;
+    cy = mfB->yy;
+    cz = mfB->zy;
+    cw = mfB->wy;
+    dest->zy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xz;
-    y2 = mfA->yz;
-    z2 = mfA->zz;
-    w2 = mfA->wz;
-    dest->zz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xz;
+    cy = mfB->yz;
+    cz = mfB->zz;
+    cw = mfB->wz;
+    dest->zz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xw;
-    y2 = mfA->yw;
-    z2 = mfA->zw;
-    w2 = mfA->ww;
-    dest->zw = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xw;
+    cy = mfB->yw;
+    cz = mfB->zw;
+    cw = mfB->ww;
+    dest->zw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     //---ROW4---
-    x1 = mfB->wx;
-    y1 = mfB->wy;
-    z1 = mfB->wz;
-    w1 = mfB->ww;
+    rx = mfA->wx;
+    ry = mfA->wy;
+    rz = mfA->wz;
+    rw = mfA->ww;
     //--------
-    x2 = mfA->xx;
-    y2 = mfA->yx;
-    z2 = mfA->zx;
-    w2 = mfA->wx;
-    dest->wx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xx;
+    cy = mfB->yx;
+    cz = mfB->zx;
+    cw = mfB->wx;
+    dest->wx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xy;
-    y2 = mfA->yy;
-    z2 = mfA->zy;
-    w2 = mfA->wy;
-    dest->wy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xy;
+    cy = mfB->yy;
+    cz = mfB->zy;
+    cw = mfB->wy;
+    dest->wy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xz;
-    y2 = mfA->yz;
-    z2 = mfA->zz;
-    w2 = mfA->wz;
-    dest->wz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xz;
+    cy = mfB->yz;
+    cz = mfB->zz;
+    cw = mfB->wz;
+    dest->wz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
-    x2 = mfA->xw;
-    y2 = mfA->yw;
-    z2 = mfA->zw;
-    w2 = mfA->ww;
-    dest->ww = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    cx = mfB->xw;
+    cy = mfB->yw;
+    cz = mfB->zw;
+    cw = mfB->ww;
+    dest->ww = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 }
 
 /**
@@ -224,8 +230,7 @@ void SkinMatrix_MtxFCopy(MtxF* src, MtxF* dest) {
 }
 
 /**
- * Inverts a matrix using a slight modification of the Gauss-Jordan method
- * (column operations instead of row operations).
+ * Inverts a matrix using the Gauss-Jordan method.
  * returns 0 if successfully inverted
  * returns 2 if matrix non-invertible (0 determinant)
  */
@@ -235,50 +240,53 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
     s32 pad;
     f32 temp2;
     f32 temp1;
-    s32 thisRow;
     s32 thisCol;
+    s32 thisRow;
 
     SkinMatrix_MtxFCopy(src, &mfCopy);
     SkinMatrix_Clear(dest);
-    for (thisRow = 0; thisRow < 4; thisRow++) {
-        thisCol = thisRow;
-        while ((thisCol < 4) && (fabsf(mfCopy.mf[thisRow][thisCol]) < 0.0005f)) {
-            thisCol++;
+    for (thisCol = 0; thisCol < 4; thisCol++) {
+        thisRow = thisCol;
+        while ((thisRow < 4) && (fabsf(mfCopy.mf[thisCol][thisRow]) < 0.0005f)) {
+            thisRow++;
         }
-        if (thisCol == 4) {
-            // reaching col = 4 means the row is either all 0 or a duplicate row.
-            // therefore singular matrix (0 determinant).
+        if (thisRow == 4) {
+            // Reaching row = 4 means the column is either all 0 or a duplicate column.
+            // Therefore src is a singular matrix (0 determinant).
 
             osSyncPrintf(VT_COL(YELLOW, BLACK));
             osSyncPrintf("Skin_Matrix_InverseMatrix():逆行列つくれません\n");
             osSyncPrintf(VT_RST);
             return 2;
         }
-        if (thisCol != thisRow) { // responsible for swapping columns if zero on diagonal
-            for (i = 0; i < 4; i++) {
-                temp1 = mfCopy.mf[i][thisCol];
-                mfCopy.mf[i][thisCol] = mfCopy.mf[i][thisRow];
-                mfCopy.mf[i][thisRow] = temp1;
 
-                temp2 = dest->mf[i][thisCol];
-                dest->mf[i][thisCol] = dest->mf[i][thisRow];
-                dest->mf[i][thisRow] = temp2;
+        if (thisRow != thisCol) {
+            // Diagonal element mf[thisCol][thisCol] is zero.
+            // Swap the rows thisCol and thisRow.
+            for (i = 0; i < 4; i++) {
+                temp1 = mfCopy.mf[i][thisRow];
+                mfCopy.mf[i][thisRow] = mfCopy.mf[i][thisCol];
+                mfCopy.mf[i][thisCol] = temp1;
+
+                temp2 = dest->mf[i][thisRow];
+                dest->mf[i][thisRow] = dest->mf[i][thisCol];
+                dest->mf[i][thisCol] = temp2;
             }
         }
 
-        // Scale this whole column s.t. the diag element = 1
-        temp1 = mfCopy.mf[thisRow][thisRow];
+        // Scale this whole row such that the diagonal element is 1.
+        temp1 = mfCopy.mf[thisCol][thisCol];
         for (i = 0; i < 4; i++) {
-            mfCopy.mf[i][thisRow] /= temp1;
-            dest->mf[i][thisRow] /= temp1;
+            mfCopy.mf[i][thisCol] /= temp1;
+            dest->mf[i][thisCol] /= temp1;
         }
 
-        for (thisCol = 0; thisCol < 4; thisCol++) {
-            if (thisCol != thisRow) {
-                temp1 = mfCopy.mf[thisRow][thisCol];
+        for (thisRow = 0; thisRow < 4; thisRow++) {
+            if (thisRow != thisCol) {
+                temp1 = mfCopy.mf[thisCol][thisRow];
                 for (i = 0; i < 4; i++) {
-                    mfCopy.mf[i][thisCol] -= mfCopy.mf[i][thisRow] * temp1;
-                    dest->mf[i][thisCol] -= dest->mf[i][thisRow] * temp1;
+                    mfCopy.mf[i][thisRow] -= mfCopy.mf[i][thisCol] * temp1;
+                    dest->mf[i][thisRow] -= dest->mf[i][thisCol] * temp1;
                 }
             }
         }
@@ -309,85 +317,84 @@ void SkinMatrix_SetScale(MtxF* mf, f32 x, f32 y, f32 z) {
 }
 
 /**
- * Produces a rotation matrix = (roll rotation matrix) * (pitch rotation matrix) * (yaw rotation matrix)
+ * Produces a rotation matrix using ZYX Tait-Bryan angles.
  */
-void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
-    f32 cos2;
-    f32 sin = Math_SinS(yaw);
-    f32 cos = Math_CosS(yaw);
+void SkinMatrix_SetRotateZYX(MtxF* mf, s16 x, s16 y, s16 z) {
+    f32 cos;
+    f32 sinZ = Math_SinS(z);
+    f32 cosZ = Math_CosS(z);
     f32 xy;
-    f32 sin2;
+    f32 sin;
     f32 xz;
     f32 yy;
     f32 yz;
 
-    mf->yy = cos;
-    mf->xy = -sin;
+    mf->yy = cosZ;
+    mf->xy = -sinZ;
     mf->wx = mf->wy = mf->wz = 0;
     mf->xw = mf->yw = mf->zw = 0;
     mf->ww = 1;
 
-    if (pitch != 0) {
-        sin2 = Math_SinS(pitch);
-        cos2 = Math_CosS(pitch);
+    if (y != 0) {
+        sin = Math_SinS(y);
+        cos = Math_CosS(y);
 
-        mf->xx = cos * cos2;
-        mf->xz = cos * sin2;
+        mf->xx = cosZ * cos;
+        mf->xz = cosZ * sin;
 
-        mf->yx = sin * cos2;
-        mf->yz = sin * sin2;
-        mf->zx = -sin2;
-        mf->zz = cos2;
+        mf->yx = sinZ * cos;
+        mf->yz = sinZ * sin;
+        mf->zx = -sin;
+        mf->zz = cos;
 
     } else {
-        mf->xx = cos;
+        mf->xx = cosZ;
         if (1) {}
         if (1) {}
-        xz = sin; // required to match
-        mf->yx = sin;
+        xz = sinZ; // required to match
+        mf->yx = sinZ;
         mf->zx = mf->xz = mf->yz = 0;
         mf->zz = 1;
     }
 
-    if (roll != 0) {
-        sin2 = Math_SinS(roll);
-        cos2 = Math_CosS(roll);
+    if (x != 0) {
+        sin = Math_SinS(x);
+        cos = Math_CosS(x);
 
         xy = mf->xy;
         xz = mf->xz;
-        mf->xy = (xy * cos2) + (xz * sin2);
-        mf->xz = (xz * cos2) - (xy * sin2);
+        mf->xy = (xy * cos) + (xz * sin);
+        mf->xz = (xz * cos) - (xy * sin);
 
         if (1) {}
         yz = mf->yz;
         yy = mf->yy;
-        mf->yy = (yy * cos2) + (yz * sin2);
-        mf->yz = (yz * cos2) - (yy * sin2);
+        mf->yy = (yy * cos) + (yz * sin);
+        mf->yz = (yz * cos) - (yy * sin);
 
-        if (cos2) {}
-        mf->zy = mf->zz * sin2;
-        mf->zz = mf->zz * cos2;
+        if (cos) {}
+        mf->zy = mf->zz * sin;
+        mf->zz = mf->zz * cos;
     } else {
         mf->zy = 0;
     }
 }
 
 /**
- * Produces a rotation matrix = (yaw rotation matrix) * (roll rotation matrix) * (pitch rotation matrix)
+ * Produces a rotation matrix using YXZ Tait-Bryan angles.
  */
-void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
-    f32 cos2;
-    f32 sin;
+void SkinMatrix_SetRotateYXZ(MtxF* mf, s16 x, s16 y, s16 z) {
     f32 cos;
+    f32 sinY = Math_SinS(y);
+    f32 cosY = Math_CosS(y);
     f32 zx;
-    f32 sin2;
+    f32 sin;
     f32 zy;
     f32 xx;
     f32 xy;
-    sin = Math_SinS(roll);
-    cos = Math_CosS(roll);
-    mf->xx = cos;
-    mf->zx = -sin;
+
+    mf->xx = cosY;
+    mf->zx = -sinY;
     mf->wz = 0;
     mf->wy = 0;
     mf->wx = 0;
@@ -396,43 +403,43 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     mf->xw = 0;
     mf->ww = 1;
 
-    if (yaw != 0) {
-        sin2 = Math_SinS(yaw);
-        cos2 = Math_CosS(yaw);
+    if (x != 0) {
+        sin = Math_SinS(x);
+        cos = Math_CosS(x);
 
-        mf->zz = cos * cos2;
-        mf->zy = cos * sin2;
+        mf->zz = cosY * cos;
+        mf->zy = cosY * sin;
 
-        mf->xz = sin * cos2;
-        mf->xy = sin * sin2;
-        mf->yz = -sin2;
-        mf->yy = cos2;
+        mf->xz = sinY * cos;
+        mf->xy = sinY * sin;
+        mf->yz = -sin;
+        mf->yy = cos;
 
     } else {
-        mf->zz = cos;
+        mf->zz = cosY;
         if (1) {}
         if (1) {}
-        xy = sin; // required to match
-        mf->xz = sin;
+        xy = sinY; // required to match
+        mf->xz = sinY;
         mf->xy = mf->zy = mf->yz = 0;
         mf->yy = 1;
     }
 
-    if (pitch != 0) {
-        sin2 = Math_SinS(pitch);
-        cos2 = Math_CosS(pitch);
+    if (z != 0) {
+        sin = Math_SinS(z);
+        cos = Math_CosS(z);
         xx = mf->xx;
         xy = mf->xy;
-        mf->xx = (xx * cos2) + (xy * sin2);
-        mf->xy = xy * cos2 - (xx * sin2);
+        mf->xx = (xx * cos) + (xy * sin);
+        mf->xy = xy * cos - (xx * sin);
         if (1) {}
         zy = mf->zy;
         zx = mf->zx;
-        mf->zx = (zx * cos2) + (zy * sin2);
-        mf->zy = (zy * cos2) - (zx * sin2);
-        if (cos2) {}
-        mf->yx = mf->yy * sin2;
-        mf->yy = mf->yy * cos2;
+        mf->zx = (zx * cos) + (zy * sin);
+        mf->zy = (zy * cos) - (zx * sin);
+        if (cos) {}
+        mf->yx = mf->yy * sin;
+        mf->yy = mf->yy * cos;
     } else {
         mf->yx = 0;
     }
@@ -461,45 +468,46 @@ void SkinMatrix_SetTranslate(MtxF* mf, f32 x, f32 y, f32 z) {
 }
 
 /**
- * Produces a matrix which scales, then rotates (RPY), then translates a vector
+ * Produces a matrix which scales, then rotates (using ZYX Tait-Bryan angles), then translates.
  */
-void SkinMatrix_SetScaleRotateRPYTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 roll, s16 pitch, s16 yaw,
-                                           f32 dx, f32 dy, f32 dz) {
+void SkinMatrix_SetTranslateRotateZYXScale(MtxF* dest, f32 scaleX, f32 scaleY, f32 scaleZ, s16 rotX, s16 rotY, s16 rotZ,
+                                           f32 translateX, f32 translateY, f32 translateZ) {
     MtxF mft1;
     MtxF mft2;
 
-    SkinMatrix_SetTranslate(mf, dx, dy, dz);
-    SkinMatrix_SetRotateRPY(&mft1, roll, pitch, yaw);
-    SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);
+    SkinMatrix_SetTranslate(dest, translateX, translateY, translateZ);
+    SkinMatrix_SetRotateZYX(&mft1, rotX, rotY, rotZ);
+    SkinMatrix_MtxFMtxFMult(dest, &mft1, &mft2);
     SkinMatrix_SetScale(&mft1, scaleX, scaleY, scaleZ);
-    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
+    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, dest);
 }
 
 /**
- * Produces a matrix which scales, then rotates (YRP), then translates a vector
+ * Produces a matrix which scales, then rotates (using YXZ Tait-Bryan angles), then translates.
  */
-void SkinMatrix_SetScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 yaw, s16 roll, s16 pitch,
-                                           f32 dx, f32 dy, f32 dz) {
+void SkinMatrix_SetTranslateRotateYXZScale(MtxF* dest, f32 scaleX, f32 scaleY, f32 scaleZ, s16 rotX, s16 rotY, s16 rotZ,
+                                           f32 translateX, f32 translateY, f32 translateZ) {
     MtxF mft1;
     MtxF mft2;
 
-    SkinMatrix_SetTranslate(mf, dx, dy, dz);
-    SkinMatrix_SetRotateYRP(&mft1, yaw, roll, pitch);
-    SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);
+    SkinMatrix_SetTranslate(dest, translateX, translateY, translateZ);
+    SkinMatrix_SetRotateYXZ(&mft1, rotX, rotY, rotZ);
+    SkinMatrix_MtxFMtxFMult(dest, &mft1, &mft2);
     SkinMatrix_SetScale(&mft1, scaleX, scaleY, scaleZ);
-    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
+    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, dest);
 }
 
 /**
- * Produces a matrix which rotates (RPY), then translates a vector
+ * Produces a matrix which rotates (using ZYX Tait-Bryan angles), then translates.
  */
-void SkinMatrix_SetRotateRPYTranslate(MtxF* mf, s16 roll, s16 pitch, s16 yaw, f32 dx, f32 dy, f32 dz) {
-    MtxF mft1;
-    MtxF mft2;
+void SkinMatrix_SetTranslateRotateZYX(MtxF* dest, s16 rotX, s16 rotY, s16 rotZ, f32 translateX, f32 translateY,
+                                      f32 translateZ) {
+    MtxF rotation;
+    MtxF translation;
 
-    SkinMatrix_SetTranslate(&mft2, dx, dy, dz);
-    SkinMatrix_SetRotateRPY(&mft1, roll, pitch, yaw);
-    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
+    SkinMatrix_SetTranslate(&translation, translateX, translateY, translateZ);
+    SkinMatrix_SetRotateZYX(&rotation, rotX, rotY, rotZ);
+    SkinMatrix_MtxFMtxFMult(&translation, &rotation, dest);
 }
 
 void SkinMatrix_Vec3fToVec3s(Vec3f* src, Vec3s* dest) {

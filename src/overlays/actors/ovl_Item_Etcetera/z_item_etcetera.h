@@ -1,5 +1,5 @@
-#ifndef _Z_ITEM_ETC_H_
-#define _Z_ITEM_ETC_H_
+#ifndef Z_ITEM_ETC_H
+#define Z_ITEM_ETC_H
 
 #include "ultra64.h"
 #include "global.h"

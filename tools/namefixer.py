@@ -155,6 +155,11 @@ wordReplace = {
     "func_800D23FC": "Matrix_RotateAxis",
     "PLAYER": ("GET_PLAYER(globalCtx)", {"ignore": (-1, '"PLAYER"')}), # ignore "PLAYER" in sSoundBankNames
     "ACTIVE_CAM": "GET_ACTIVE_CAM(globalCtx)",
+    "SkinMatrix_SetRotateRPY": "SkinMatrix_SetRotateZYX",
+    "SkinMatrix_SetScaleRotateYRPTranslate": "SkinMatrix_SetScaleRotateYXZTranslate",
+    "SkinMatrix_SetRotateRPYTranslate": "SkinMatrix_SetRotateZYXTranslate",
+    "Matrix_RotateRPY": "Matrix_RotateZYX",
+    "Matrix_JointPosition": "Matrix_TranslateRotateZYX",
     "func_800D1694": "Matrix_TranslateRotateYXZ",
     "func_800D1FD4": "Matrix_ReplaceRotation",
     "func_800A7EC0": "SkinMatrix_SetRotateAxis",

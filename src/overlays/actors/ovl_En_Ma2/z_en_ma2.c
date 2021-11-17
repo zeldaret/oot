@@ -379,7 +379,7 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     camera = GET_ACTIVE_CAM(globalCtx);
     someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
-    func_800F6268(someFloat, 0x2F);
+    func_800F6268(someFloat, NA_BGM_LONLON);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA28B4[this->unk_210]));

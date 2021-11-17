@@ -1,5 +1,5 @@
-#ifndef _Z_MIR_RAY_H_
-#define _Z_MIR_RAY_H_
+#ifndef Z_MIR_RAY_H
+#define Z_MIR_RAY_H
 
 #include "ultra64.h"
 #include "global.h"

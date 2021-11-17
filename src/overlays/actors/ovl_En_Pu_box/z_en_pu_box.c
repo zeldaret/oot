@@ -57,7 +57,7 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.unk_15C = DPM_UNK;
     thisx->targetMode = 1;
     thisx->gravity = -2.0f;
-    CollisionHeader_GetVirtual(&gUnknownUnusedBox2Col, &colHeader);
+    CollisionHeader_GetVirtual(&gBlockMediumCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
@@ -87,5 +87,5 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gUnknownUnusedBox2DL);
+    Gfx_DrawDListOpa(globalCtx, gBlockMediumDL);
 }

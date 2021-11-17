@@ -9,14 +9,14 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     Vec3f tempPos;
 
     if (DynaPoly_IsBgIdBgActor(bgId)) {
-        SkinMatrix_SetScaleRotateYRPTranslate(
+        SkinMatrix_SetTranslateRotateYXZScale(
             &prevTransform, colCtx->dyna.bgActors[bgId].prevTransform.scale.x,
             colCtx->dyna.bgActors[bgId].prevTransform.scale.y, colCtx->dyna.bgActors[bgId].prevTransform.scale.z,
             colCtx->dyna.bgActors[bgId].prevTransform.rot.x, colCtx->dyna.bgActors[bgId].prevTransform.rot.y,
             colCtx->dyna.bgActors[bgId].prevTransform.rot.z, colCtx->dyna.bgActors[bgId].prevTransform.pos.x,
             colCtx->dyna.bgActors[bgId].prevTransform.pos.y, colCtx->dyna.bgActors[bgId].prevTransform.pos.z);
         if (SkinMatrix_Invert(&prevTransform, &prevTransformInv) != 2) {
-            SkinMatrix_SetScaleRotateYRPTranslate(
+            SkinMatrix_SetTranslateRotateYXZScale(
                 &curTransform, colCtx->dyna.bgActors[bgId].curTransform.scale.x,
                 colCtx->dyna.bgActors[bgId].curTransform.scale.y, colCtx->dyna.bgActors[bgId].curTransform.scale.z,
                 colCtx->dyna.bgActors[bgId].curTransform.rot.x, colCtx->dyna.bgActors[bgId].curTransform.rot.y,
@@ -30,7 +30,7 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
 
                 osSyncPrintf(VT_FGCOL(RED));
                 //! @bug file and line are not passed to osSyncPrintf
-                // Position is not valid
+                // "Position is not valid"
                 osSyncPrintf(
                     "BGCheckCollection_typicalActorPos():位置が妥当ではありません。\npos (%f,%f,%f) file:%s line:%d\n",
                     pos.x, pos.y, pos.z);

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SA_H_
-#define _Z_EN_SA_H_
+#ifndef Z_EN_SA_H
+#define Z_EN_SA_H
 
 #include "ultra64.h"
 #include "global.h"

@@ -6,6 +6,7 @@
 
 #include "z_demo_im.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "scenes/indoors/nakaniwa/nakaniwa_scene.h"
 #include "objects/object_im/object_im.h"
 #include "vt.h"
@@ -304,7 +305,8 @@ void func_80985358(DemoIm* this, GlobalContext* globalCtx) {
     f32 posY = this->actor.world.pos.y;
     f32 posZ = this->actor.world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 void func_809853B4(DemoIm* this, GlobalContext* globalCtx) {
@@ -715,7 +717,7 @@ void func_8098652C(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986570(DemoIm* this, GlobalContext* globalCtx) {
-    if ((Animation_OnFrame(&this->skelAnime, 7.0f)) && (this->actor.bgCheckFlags & 1)) {
+    if (Animation_OnFrame(&this->skelAnime, 7.0f) && (this->actor.bgCheckFlags & 1)) {
         u32 sfxId = SFX_FLAG;
 
         sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
