@@ -401,7 +401,7 @@ void BossVa_AttachToBody(BossVa* this) {
     BossVa* vaBody = GET_BODY(this);
 
     Matrix_Translate(vaBody->actor.world.pos.x, vaBody->actor.world.pos.y, vaBody->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(vaBody->actor.shape.rot.x, 0, vaBody->actor.shape.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(vaBody->actor.shape.rot.x, 0, vaBody->actor.shape.rot.z, MTXMODE_APPLY);
     Matrix_MultVec3f(&sInitPosOffsets[this->actor.params], &this->actor.world.pos);
 
     switch (this->actor.params) {
@@ -3086,7 +3086,7 @@ void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
             sp3C = this->headRot.y;
             Matrix_Push();
             Matrix_Translate(this->effectPos[9].x, this->effectPos[9].y, this->effectPos[9].z, MTXMODE_NEW);
-            Matrix_RotateRPY(sp3E, sp3C, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(sp3E, sp3C, 0, MTXMODE_APPLY);
             sp70.x = 0.0f;
             if (sFightPhase >= PHASE_4) {
                 sp70.z = ((this->timer2 - 16) & 7) * 120.0f;
@@ -3251,7 +3251,7 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 Matrix_MultVec3f(&sZeroVec, &this->effectPos[1]);
                 Matrix_Push();
                 Matrix_Translate(spBC.x, spBC.y, spBC.z, MTXMODE_NEW);
-                Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
+                Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
                 sp80.z = sp74.z = this->unk_1A0;
                 spB0.z = (this->timer2 & 0xF) * (this->unk_1A0 * 0.0625f);
                 Matrix_MultVec3f(&spB0, &this->effectPos[0]);
@@ -3628,7 +3628,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
                             effect->primColor[3]);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_RotateRPY(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
             Matrix_RotateX(effect->offset.x * 0.115f, MTXMODE_APPLY);
             Matrix_RotateY(effect->offset.x * 0.13f, MTXMODE_APPLY);
@@ -3658,7 +3658,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->primColor[3]);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_RotateRPY(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5152),

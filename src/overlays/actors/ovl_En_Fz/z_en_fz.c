@@ -224,7 +224,7 @@ void EnFz_UpdateTargetPos(EnFz* this, GlobalContext* globalCtx) {
     pos.z = this->actor.world.pos.z;
 
     Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = 0.0f;
     vec1.z = 220.0f;
     Matrix_MultVec3f(&vec1, &this->wallHitPos);
