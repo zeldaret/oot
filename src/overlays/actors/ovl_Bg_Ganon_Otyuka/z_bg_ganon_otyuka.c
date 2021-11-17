@@ -88,7 +88,7 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx2) {
 void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     BgGanonOtyuka* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
-    
+
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
     osSyncPrintf(VT_FGCOL(GREEN));

@@ -2438,15 +2438,13 @@ void AudioDebug_ProcessInput_SfxSwap(void) {
                 val = gAudioSfxSwapSource[sAudioSfxSwapSel] >> ((3 - sAudioSfxSwapNibbleSel) * 4);
                 val = (val + step) & 0xF;
                 gAudioSfxSwapSource[sAudioSfxSwapSel] =
-                    (gAudioSfxSwapSource[sAudioSfxSwapSel] &
-                     ((0xF << ((3 - sAudioSfxSwapNibbleSel) * 4)) ^ 0xFFFF)) +
+                    (gAudioSfxSwapSource[sAudioSfxSwapSel] & ((0xF << ((3 - sAudioSfxSwapNibbleSel) * 4)) ^ 0xFFFF)) +
                     (val << ((3 - sAudioSfxSwapNibbleSel) * 4));
             } else {
                 val = gAudioSfxSwapTarget[sAudioSfxSwapSel] >> ((7 - sAudioSfxSwapNibbleSel) * 4);
                 val = (val + step) & 0xF;
                 gAudioSfxSwapTarget[sAudioSfxSwapSel] =
-                    (gAudioSfxSwapTarget[sAudioSfxSwapSel] &
-                     ((0xF << ((7 - sAudioSfxSwapNibbleSel) * 4)) ^ 0xFFFF)) +
+                    (gAudioSfxSwapTarget[sAudioSfxSwapSel] & ((0xF << ((7 - sAudioSfxSwapNibbleSel) * 4)) ^ 0xFFFF)) +
                     (val << ((7 - sAudioSfxSwapNibbleSel) * 4));
             }
         }
