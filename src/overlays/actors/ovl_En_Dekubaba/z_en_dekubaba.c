@@ -1155,7 +1155,7 @@ void EnDekubaba_DrawStemRetracted(EnDekubaba* this, GlobalContext* globalCtx) {
 
     Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y + (-6.0f * this->size), this->actor.home.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateRPY(this->stemSectionAngle[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->stemSectionAngle[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     Matrix_Scale(horizontalScale, horizontalScale, horizontalScale, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2461),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1201,7 +1201,7 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
         mtx.zw -= horizontalStepSize * Math_CosS(this->actor.shape.rot.y);
 
         Matrix_Put(&mtx);
-        Matrix_RotateRPY(this->stemSectionAngle[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->stemSectionAngle[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2533),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -1236,7 +1236,7 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
 void EnDekubaba_DrawStemBasePruned(EnDekubaba* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2579);
 
-    Matrix_RotateRPY(this->stemSectionAngle[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->stemSectionAngle[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2586),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBaseDL);

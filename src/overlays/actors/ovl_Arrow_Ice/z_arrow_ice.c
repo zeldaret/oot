@@ -225,7 +225,7 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 170, 255, 255, this->alpha);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 128);
-        Matrix_RotateRPY(0x4000, 0x0, 0x0, MTXMODE_APPLY);
+        Matrix_RotateZYX(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
             Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         } else {
