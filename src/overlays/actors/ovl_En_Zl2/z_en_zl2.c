@@ -450,7 +450,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
-        Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
+        Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
@@ -460,7 +460,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B4F230(this, sp2C.x, 1);
             func_80B4EF64(this, sp2C.z, 2);
         }
-        Matrix_RotateRPY(unk_1DC[0] + kREG(31), unk_1DC[1] + kREG(32), unk_1DC[2] + kREG(33), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[0] + kREG(31), unk_1DC[1] + kREG(32), unk_1DC[2] + kREG(33), MTXMODE_APPLY);
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[0], "../z_en_zl2.c", 1056);
         Matrix_Get(&sp34);
@@ -469,7 +469,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B4EE38(this, sp2C.y, 3);
             func_80B4F230(this, sp2C.x, 4);
         }
-        Matrix_RotateRPY(unk_1DC[3] + kREG(34), unk_1DC[4] + kREG(35), unk_1DC[5] + kREG(36), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[3] + kREG(34), unk_1DC[4] + kREG(35), unk_1DC[5] + kREG(36), MTXMODE_APPLY);
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[1], "../z_en_zl2.c", 1100);
         Matrix_Get(&sp34);
@@ -478,7 +478,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B4EE38(this, sp2C.y, 6);
             func_80B4F230(this, sp2C.x, 7);
         }
-        Matrix_RotateRPY(unk_1DC[6] + kREG(37), unk_1DC[7] + kREG(38), unk_1DC[8] + kREG(39), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[6] + kREG(37), unk_1DC[7] + kREG(38), unk_1DC[8] + kREG(39), MTXMODE_APPLY);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[2], "../z_en_zl2.c", 1120);
         Matrix_Pop();
@@ -491,7 +491,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B4F230(this, sp2C.x, 10);
             func_80B4EF64(this, sp2C.z, 11);
         }
-        Matrix_RotateRPY(unk_1DC[9] + kREG(40), unk_1DC[10] + kREG(41), unk_1DC[11] + kREG(42), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[9] + kREG(40), unk_1DC[10] + kREG(41), unk_1DC[11] + kREG(42), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[3], "../z_en_zl2.c", 1145);
         Matrix_Get(&sp34);
@@ -501,7 +501,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B4F230(this, sp2C.x, 13);
             func_80B4EF64(this, sp2C.z, 14);
         }
-        Matrix_RotateRPY(unk_1DC[12] + kREG(43), unk_1DC[13] + kREG(44), unk_1DC[14] + kREG(45), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[12] + kREG(43), unk_1DC[13] + kREG(44), unk_1DC[14] + kREG(45), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[4], "../z_en_zl2.c", 1164);
         Matrix_Pop();
@@ -514,7 +514,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B4F230(this, sp2C.x, 16);
             func_80B4EF64(this, sp2C.z, 17);
         }
-        Matrix_RotateRPY(unk_1DC[15] + kREG(46), unk_1DC[16] + kREG(47), unk_1DC[17] + kREG(48), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[15] + kREG(46), unk_1DC[16] + kREG(47), unk_1DC[17] + kREG(48), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[5], "../z_en_zl2.c", 1189);
         Matrix_Get(&sp34);
@@ -524,7 +524,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B4F230(this, sp2C.x, 19);
             func_80B4EF64(this, sp2C.z, 20);
         }
-        Matrix_RotateRPY(unk_1DC[18] + kREG(49), unk_1DC[19] + kREG(50), unk_1DC[20] + kREG(51), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[18] + kREG(49), unk_1DC[19] + kREG(50), unk_1DC[20] + kREG(51), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[6], "../z_en_zl2.c", 1208);
         Matrix_Pop();
@@ -549,7 +549,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
             if (player->rightHandType == 0xFF) {
                 Matrix_Put(&player->shieldMf);
                 Matrix_Translate(180.0f, 979.0f, -375.0f, MTXMODE_APPLY);
-                Matrix_RotateRPY(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
+                Matrix_RotateZYX(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
                 Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
                 gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1253),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

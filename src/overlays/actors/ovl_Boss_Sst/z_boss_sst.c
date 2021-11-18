@@ -3174,7 +3174,7 @@ void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
                                          effect->pos.z + this->actor.world.pos.z, MTXMODE_NEW);
                     }
 
-                    Matrix_RotateRPY(effect->rot.x, effect->rot.y, effect->rot.z, MTXMODE_APPLY);
+                    Matrix_RotateZYX(effect->rot.x, effect->rot.y, effect->rot.z, MTXMODE_APPLY);
                     Matrix_Scale(effect->scale * 0.001f, effect->scale * 0.001f, effect->scale * 0.001f, MTXMODE_APPLY);
 
                     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7350),

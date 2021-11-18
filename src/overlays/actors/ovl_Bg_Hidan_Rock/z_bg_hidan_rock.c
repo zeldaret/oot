@@ -366,7 +366,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
                          MTXMODE_NEW);
     }
 
-    Matrix_RotateRPY(0, Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(0, Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000, 0, MTXMODE_APPLY);
     Matrix_Translate(-10.5f, 0.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(6.0f, this->unk_16C, 6.0f, MTXMODE_APPLY);
 

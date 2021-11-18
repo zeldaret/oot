@@ -296,7 +296,7 @@ void func_80A3E090(EnGm* this) {
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 2600.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &vec2);
     this->collider.dim.pos.x = vec2.x;
@@ -305,12 +305,12 @@ void func_80A3E090(EnGm* this) {
     Matrix_Pop();
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 4300.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &this->talkPos);
     Matrix_Pop();
     Matrix_Translate(0.0f, 0.0f, 3800.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &this->actor.focus.pos);
     this->actor.focus.pos.y += 100.0f;
