@@ -427,8 +427,8 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (tmpf1 == 0.0f) {
-            this->unk_1E8 = 0.34906584f * 2.0f;
-            this->unk_1EC = 0.34906584f; // M_PI / 9
+            this->unk_1E8 = 2.0f * M_PI / 9.0000002;
+            this->unk_1EC = M_PI / 9.0000002;
             this->unk_19F = 4;
         }
     }
@@ -584,7 +584,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, gGossipStoneSetupDL);
+        gSPDisplayList(POLY_OPA_DISP++, gGossipStoneMaterialDL);
 
         if (this->unk_19E & 4) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,

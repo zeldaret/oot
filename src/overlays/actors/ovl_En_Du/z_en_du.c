@@ -343,7 +343,7 @@ void func_809FE638(EnDu* this, GlobalContext* globalCtx) {
     if (!(player->stateFlags1 & 0x20000000)) {
         OnePointCutscene_Init(globalCtx, 3330, -99, &this->actor, MAIN_CAM);
         player->actor.shape.rot.y = player->actor.world.rot.y = this->actor.world.rot.y + 0x7FFF;
-        Audio_PlayFanfare(0x51);
+        Audio_PlayFanfare(NA_BGM_APPEAR);
         EnDu_SetupAction(this, func_809FE6CC);
         this->unk_1E2 = 0x32;
     }

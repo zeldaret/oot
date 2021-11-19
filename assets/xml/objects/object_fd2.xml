@@ -4,8 +4,8 @@
         <Skeleton Name="gHoleVolvagiaSkel" Type="Flex" LimbType="Standard" Offset="0x11A78"/>
 
         <!-- Display lists -->
-        <DList Name="gHoleVolvagiaManeSetupDL" Offset="0x4B48"/>
-        <DList Name="gHoleVolvagiaManeVtxDL" Offset="0x4BC8"/>
+        <DList Name="gHoleVolvagiaManeMaterialDL" Offset="0x4B48"/>
+        <DList Name="gHoleVolvagiaManeModelDL" Offset="0x4BC8"/>
         <DList Name="gHoleVolvagiaBrokenFaceDL" Offset="0x4E38"/>
 
         <!-- Animations -->

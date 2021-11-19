@@ -403,7 +403,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
     Vec3s* pointPos;
     s32 exitLoop;
 
-    Audio_PlayFanfare(0x51);
+    Audio_PlayFanfare(NA_BGM_APPEAR);
     EnDaiku_Change(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 

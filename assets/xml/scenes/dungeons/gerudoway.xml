@@ -1,5 +1,7 @@
 <Root>
     <File Name="gerudoway_scene" Segment="2">
+        <Texture Name="gThievesHideoutNightEntranceTex" OutName="night_entrance" Format="ia16" Width="128" Height="4" Offset="0xB920"/>
+        <Texture Name="gThievesHideoutDayEntranceTex" OutName="day_entrance" Format="ia16" Width="128" Height="4" Offset="0xBD20"/>
         <Scene Name="gerudoway_scene" Offset="0x0"/>
     </File>
     <File Name="gerudoway_room_0" Segment="3">

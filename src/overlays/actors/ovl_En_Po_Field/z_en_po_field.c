@@ -699,7 +699,7 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
     }
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) {
         if (Message_ShouldAdvance(globalCtx)) {
-            func_800F8A44(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
+            Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
             if (globalCtx->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_BIG_GET);

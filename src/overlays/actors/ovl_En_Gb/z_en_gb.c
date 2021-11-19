@@ -207,7 +207,7 @@ void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->lightColor.a = 200;
     Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
+    Matrix_RotateZYX(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
                      MTXMODE_APPLY);
     focusOffset.x = focusOffset.y = 0.0f;
     focusOffset.z = 44.0f;
@@ -232,7 +232,7 @@ void func_80A2F608(EnGb* this) {
 
     Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
+    Matrix_RotateZYX(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
                      MTXMODE_APPLY);
     sp48.x = sp48.y = 0.0f;
     sp48.z = 25.0f;
@@ -244,7 +244,7 @@ void func_80A2F608(EnGb* this) {
     for (i = 0; i < ARRAY_COUNT(sBottlesPositions); i++) {
         Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                          MTXMODE_NEW);
-        Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
+        Matrix_RotateZYX(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
                          MTXMODE_APPLY);
         Matrix_MultVec3f(&sBottlesPositions[i], &sp3C);
         this->bottlesColliders[i].dim.pos.x = sp3C.x;
@@ -540,7 +540,7 @@ void EnGb_DrawCagedSouls(EnGb* this, GlobalContext* globalCtx) {
         func_800D1FD4(&globalCtx->mf_11DA0);
 
         if (this->cagedSouls[i].rotate180) {
-            Matrix_RotateRPY(0, -0x8000, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(0, -0x8000, 0, MTXMODE_APPLY);
         }
         Matrix_Scale(0.007f, 0.007f, 1.0f, MTXMODE_APPLY);
 

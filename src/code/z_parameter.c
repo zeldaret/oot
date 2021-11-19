@@ -3805,15 +3805,15 @@ void Interface_Update(GlobalContext* globalCtx) {
     s16 alpha;
     s16 alpha1;
     u16 action;
-    Input* input = &globalCtx->state.input[2];
+    Input* debugInput = &globalCtx->state.input[2];
 
-    if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT)) {
+    if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
         gSaveContext.language = LANGUAGE_ENG;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (CHECK_BTN_ALL(input->press.button, BTN_DUP)) {
+    } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DUP)) {
         gSaveContext.language = LANGUAGE_GER;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (CHECK_BTN_ALL(input->press.button, BTN_DRIGHT)) {
+    } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DRIGHT)) {
         gSaveContext.language = LANGUAGE_FRA;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
     }
@@ -4159,7 +4159,7 @@ void Interface_Update(GlobalContext* globalCtx) {
             globalCtx->sceneLoadFlag = 0x14;
             gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
             func_800F6964(30);
-            gSaveContext.seqIndex = 0xFF;
+            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
             gSaveContext.nightSeqIndex = 0xFF;
         } else {
             gSaveContext.sunsSongState = SUNSSONG_SPECIAL;

@@ -5,6 +5,7 @@ from multiprocessing import Pool, cpu_count, Event, Manager, ProcessError
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
 
+
 def SignalHandler(sig, frame):
     print(f'Signal {sig} received. Aborting...')
     mainAbort.set()

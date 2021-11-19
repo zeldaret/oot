@@ -88,7 +88,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_801208EC;
             csInfo->keyFrameCnt = 3;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 1030:
             D_80120964[0].atTargetInit = globalCtx->view.lookAt;
@@ -101,7 +101,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80120964;
             csInfo->keyFrameCnt = 2;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 5000:
             D_801209B4[0].atTargetInit = D_801209B4[1].atTargetInit = globalCtx->view.lookAt;
@@ -115,17 +115,17 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_801209B4;
             csInfo->keyFrameCnt = 4;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 5010:
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMO4);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_ATTENTION);
             Gameplay_CameraSetAtEye(globalCtx, camIdx, &mainCam->at, &mainCam->eye);
             csCam->roll = 0;
             break;
         case 9500:
             csInfo->keyFrames = D_80120A54;
             csInfo->keyFrameCnt = 3;
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 2260:
             D_80120ACC[0].atTargetInit.x = D_80120ACC[2].atTargetInit.x =
@@ -137,7 +137,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80120ACC;
             csInfo->keyFrameCnt = 5;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 2270:
             csInfo->keyFrames = D_80120B94;
@@ -154,7 +154,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
 
             D_80120B94[camIdx - 1].eyeTargetInit.y =
                 ((mainCam->globalCtx->state.frames & 1) ? 3.0f : -3.0f) + Rand_ZeroOne();
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 5);
             Quake_SetSpeed(i, 400);
@@ -175,7 +175,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             }
             D_80120D4C[camIdx - 1].eyeTargetInit.y =
                 ((mainCam->globalCtx->state.frames & 1) ? 3.0f : -3.0f) + Rand_ZeroOne();
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 5);
             Quake_SetSpeed(i, 400);
@@ -186,7 +186,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80120E64;
             csInfo->keyFrameCnt = 8;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 5);
             Quake_SetSpeed(i, 400);
@@ -202,13 +202,13 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80120FA4;
             csInfo->keyFrameCnt = 6;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 2340:
             csInfo->keyFrames = D_80121094;
             csInfo->keyFrameCnt = 3;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 5);
             Quake_SetSpeed(i, 400);
@@ -219,7 +219,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_8012110C;
             csInfo->keyFrameCnt = 3;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 2200: {
             s16 sp82;
@@ -256,7 +256,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
                 csInfo->keyFrameCnt = 2;
             }
             Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_UNK3);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
         } break;
         case 2290: {
             Actor* rideActor = player->rideActor;
@@ -269,7 +269,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80121224;
             csInfo->keyFrameCnt = 6;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
         } break;
         case 5120:
             func_8002DF54(globalCtx, NULL, 8);
@@ -277,7 +277,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80121314;
             csInfo->keyFrameCnt = 1;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4510:
             D_8012133C[0].eyeTargetInit = actor->world.pos;
@@ -287,7 +287,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_8012133C;
             csInfo->keyFrameCnt = 3;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4500:
             Actor_GetFocus(&spA0, actor);
@@ -319,7 +319,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_801213B4;
             csInfo->keyFrameCnt = 5;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 1010:
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_FREE2);
@@ -328,12 +328,12 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             Gameplay_SetCameraRoll(globalCtx, camIdx, childCam->roll);
             break;
         case 9601:
-            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
+            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_CS_3);
             Gameplay_CameraChangeSetting(globalCtx, MAIN_CAM, mainCam->prevSetting);
             OnePointCutscene_SetCsCamPoints(csCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120398);
             break;
         case 9602:
-            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
+            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_CS_3);
             Gameplay_CameraChangeSetting(globalCtx, MAIN_CAM, mainCam->prevSetting);
             OnePointCutscene_SetCsCamPoints(csCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120434);
             break;
@@ -341,7 +341,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_8012147C;
             csInfo->keyFrameCnt = 4;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4180:
             spC0.x = -1881.0f;
@@ -363,7 +363,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_8012151C;
             csInfo->keyFrameCnt = 2;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3020:
             D_8012156C[1].timerInit = timer - 1;
@@ -380,7 +380,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_8012156C;
             csInfo->keyFrameCnt = 2;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             func_8002DF54(globalCtx, NULL, 8);
             break;
         case 3010:
@@ -389,13 +389,13 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_801215BC;
             csInfo->keyFrameCnt = 1;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3070:
             csInfo->keyFrames = D_801215E4;
             csInfo->keyFrameCnt = 10;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 3);
             Quake_SetSpeed(i, 22000);
@@ -406,7 +406,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80121774;
             csInfo->keyFrameCnt = 4;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3090:
             func_8002DF54(globalCtx, NULL, 8);
@@ -414,14 +414,14 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80121814;
             csInfo->keyFrameCnt = 4;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3100:
             VEC_SET(spB4, 0.0f, -280.0f, -1400.0f);
 
             Actor_GetFocus(&spA0, actor);
             spC0 = spA0.pos;
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_CIRCLE6);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_PIVOT_VERTICAL);
             Gameplay_CameraSetAtEye(globalCtx, camIdx, &spC0, &spB4);
             csCam->roll = 0;
             csCam->fov = 70.0f;
@@ -433,7 +433,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 2;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 1);
             Quake_SetSpeed(i, 24000);
@@ -445,10 +445,10 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 2;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3050:
-            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
+            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_CS_3);
             func_8002DF54(globalCtx, &player->actor, 5);
             OnePointCutscene_SetCsCamPoints(csCam, D_80120304 | 0x2000, D_80120300, D_8012013C, D_8012021C);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -479,14 +479,14 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 2;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3130:
             csInfo->keyFrames = D_80121A44;
             csInfo->keyFrameCnt = 12;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             csCam->unk_14C |= 2;
             break;
         case 3140:
@@ -497,7 +497,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80121C24;
             csInfo->keyFrameCnt = 7;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3150:
             spC0.x = 1890.0f;
@@ -556,7 +556,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             func_8002DF38(globalCtx, actor, 1);
             break;
         case 3190:
-            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_MORI3);
+            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_FOREST_DEFEAT_POE);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
             func_8002DF38(globalCtx, actor, 0xC);
             break;
@@ -605,7 +605,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
         case 3220:
             Actor_GetFocus(&spA0, actor);
             spC0 = spA0.pos;
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_CIRCLE6);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_PIVOT_VERTICAL);
             Actor_GetWorld(&spA0, &player->actor);
             OLib_Vec3fDiffToVecSphGeo(&spD0, &spC0, &spA0.pos);
             spD0.yaw += 0x3E8;
@@ -625,10 +625,10 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 3;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 6001:
-            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
+            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_CS_3);
             func_8002DF54(globalCtx, NULL, 8);
             Actor_GetWorld(&spA0, actor);
             if (spA0.pos.z > -750.0f) {
@@ -643,7 +643,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             Quake_SetCountdown(i, D_801208E4 - 10);
             break;
         case 3400:
-            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
+            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_CS_3);
             func_8002DF38(globalCtx, &player->actor, 8);
             OnePointCutscene_SetCsCamPoints(csCam, D_8012069C | 0x2000, D_80120698, D_801204D4, D_801205B4);
             OnePointCutscene_Vec3sToVec3f(&mainCam->eye, &D_801205B4[D_80120694 - 2].pos);
@@ -661,10 +661,10 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 9;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3310:
-            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_HIDAN2);
+            Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_FIRE_STAIRCASE);
             func_8002DF54(globalCtx, NULL, 8);
             Gameplay_CopyCamera(globalCtx, camIdx, MAIN_CAM);
 
@@ -683,7 +683,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80121F1C;
             csInfo->keyFrameCnt = 4;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 3);
             Quake_SetSpeed(i, 12000);
@@ -699,7 +699,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 4;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 3);
             Quake_SetSpeed(i, 12000);
@@ -711,7 +711,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 3;
 
             func_8002DF38(globalCtx, &player->actor, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3350:
             D_801220D4[0].atTargetInit = globalCtx->view.lookAt;
@@ -730,21 +730,21 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_801220D4;
             csInfo->keyFrameCnt = 5;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3330:
             csInfo->keyFrames = D_8012219C;
             csInfo->keyFrameCnt = 7;
 
             func_8002DF38(globalCtx, &player->actor, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3410:
             csInfo->keyFrames = D_801222B4;
             csInfo->keyFrameCnt = 5;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 1);
             Quake_SetSpeed(i, 32000);
@@ -756,7 +756,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 2;
 
             func_8002DF38(globalCtx, &player->actor, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 1);
             Quake_SetSpeed(i, 32000);
@@ -768,7 +768,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 6;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             player->stateFlags1 |= 0x20000000;
             player->actor.freezeTimer = 90;
 
@@ -782,7 +782,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 7;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 1);
             Quake_SetSpeed(i, 32000);
@@ -794,7 +794,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 5;
 
             player->actor.shape.rot.y = player->actor.world.rot.y = player->currentYaw = 0x3FFC;
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             func_8002DF54(globalCtx, NULL, 8);
             break;
         case 4110:
@@ -802,7 +802,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 3;
 
             func_8002DF38(globalCtx, &player->actor, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4120:
             func_8002DF54(globalCtx, NULL, 8);
@@ -810,13 +810,13 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80122714;
             csInfo->keyFrameCnt = 4;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4140:
             csInfo->keyFrames = D_801227B4;
             csInfo->keyFrameCnt = 6;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
             break;
         case 4150:
@@ -825,7 +825,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
 
             func_8002DF54(globalCtx, NULL, 8);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4160:
             csInfo->keyFrames = D_8012296C;
@@ -833,7 +833,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
 
             func_8002DF54(globalCtx, NULL, 8);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4170:
             csInfo->keyFrames = D_80122A0C;
@@ -841,7 +841,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
 
             func_8002DF54(globalCtx, NULL, 8);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4190:
             csInfo->keyFrames = D_80122A5C;
@@ -849,7 +849,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
 
             func_8002DF38(globalCtx, &player->actor, 8);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4200:
             csInfo->keyFrames = D_80122B9C;
@@ -857,7 +857,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
 
             func_8002DF38(globalCtx, &player->actor, 8);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4210:
             player->actor.freezeTimer = timer;
@@ -865,7 +865,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80122C14;
             csInfo->keyFrameCnt = 1;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
 
             i = Quake_Add(csCam, 3);
             Quake_SetSpeed(i, 12000);
@@ -876,7 +876,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = (player->actor.world.pos.z < -15.0f) ? D_80122C3C : D_80122C64;
             csInfo->keyFrameCnt = 1;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             func_8002DF38(globalCtx, &player->actor, 1);
 
             i = Quake_Add(csCam, 3);
@@ -889,7 +889,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrameCnt = 1;
 
             func_8002DF54(globalCtx, NULL, 8);
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3260:
             func_8002DF54(globalCtx, NULL, 8);
@@ -898,7 +898,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80122CB4;
             csInfo->keyFrameCnt = 2;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3261:
             func_8002DF54(globalCtx, NULL, 8);
@@ -907,19 +907,19 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80122D04;
             csInfo->keyFrameCnt = 2;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 8010:
             csInfo->keyFrames = D_80122D54;
             csInfo->keyFrameCnt = 3;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 8002:
             csInfo->keyFrames = D_80122DCC;
             csInfo->keyFrameCnt = 3;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 8700:
             Actor_GetFocus(&spA0, actor);
@@ -930,7 +930,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80122E44[timer & 1];
             csInfo->keyFrameCnt = 7;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 1100: {
             s32 tempDiff = globalCtx->state.frames - sPrevFrameCs1100;
@@ -948,14 +948,14 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
                 csInfo->keyFrames = D_8012313C;
                 csInfo->keyFrameCnt = 3;
             }
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             sPrevFrameCs1100 = globalCtx->state.frames;
 
         } break;
         case 9806:
             csCam->timer = -99;
             if (func_800C0CB8(globalCtx)) {
-                func_800C0808(globalCtx, camIdx, player, CAM_SET_ITEM2);
+                func_800C0808(globalCtx, camIdx, player, CAM_SET_TURN_AROUND);
                 csCam->data2 = 0xC;
             } else {
                 Gameplay_CopyCamera(globalCtx, camIdx, MAIN_CAM);
@@ -982,7 +982,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
                 csInfo->keyFrames = D_801231B4;
                 csInfo->keyFrameCnt = 4;
 
-                func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+                func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             } else {
                 D_80123254[1].timerInit = timer - 1;
                 D_80123254[0].fovTargetInit = mainCam->fov;
@@ -992,7 +992,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
                 csInfo->keyFrames = D_80123254;
                 csInfo->keyFrameCnt = 2;
 
-                func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+                func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             }
             break;
         case 1000:
@@ -1003,49 +1003,49 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_801232A4;
             csInfo->keyFrameCnt = 1;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 8603:
             csInfo->keyFrames = D_801232CC;
             csInfo->keyFrameCnt = 5;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 8604:
             csInfo->keyFrames = D_80123394;
             csInfo->keyFrameCnt = 5;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4000:
             csInfo->keyFrames = D_8012345C;
             csInfo->keyFrameCnt = 4;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4010:
             csInfo->keyFrames = D_801234FC;
             csInfo->keyFrameCnt = 5;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4011:
             csInfo->keyFrames = D_801235C4;
             csInfo->keyFrameCnt = 5;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4020:
             csInfo->keyFrames = D_8012368C;
             csInfo->keyFrameCnt = 4;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4021:
             csInfo->keyFrames = D_8012372C;
             csInfo->keyFrameCnt = 4;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 4022:
             csCam->timer = D_801237CC[0].timerInit + D_801237CC[3].timerInit + D_801237CC[1].timerInit +
@@ -1054,7 +1054,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_801237CC;
             csInfo->keyFrameCnt = 5;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 9703:
             D_80123894[0].atTargetInit = globalCtx->view.lookAt;
@@ -1068,7 +1068,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_80123894;
             csInfo->keyFrameCnt = 3;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 9704:
             D_8012390C[0].atTargetInit = globalCtx->view.lookAt;
@@ -1078,7 +1078,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_8012390C;
             csInfo->keyFrameCnt = 2;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 9705:
             D_8012395C[0].atTargetInit = globalCtx->view.lookAt;
@@ -1088,7 +1088,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_8012395C;
             csInfo->keyFrameCnt = 3;
 
-            func_800C0808(globalCtx, camIdx, player, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 5110:
             D_801239D4[1].timerInit = 10;
@@ -1096,7 +1096,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csInfo->keyFrames = D_801239D4;
             csInfo->keyFrameCnt = 3;
 
-            func_800C0808(globalCtx, camIdx, (Player*)actor, CAM_SET_DEMOC);
+            func_800C0808(globalCtx, camIdx, (Player*)actor, CAM_SET_CS_C);
             break;
         default:
             osSyncPrintf(VT_COL(RED, WHITE) "onepointdemo camera: demo number not found !! (%d)\n" VT_RST, csId);
@@ -1259,7 +1259,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
     sUnused = -1;
 
     parentCam = globalCtx->cameraPtrs[MAIN_CAM];
-    if (parentCam->mode == CAM_MODE_BOOMFOLLLOW) {
+    if (parentCam->mode == CAM_MODE_FOLLOWBOOMERANG) {
         osSyncPrintf(VT_COL(YELLOW, BLACK) "actor attention demo camera: change mode BOOKEEPON -> NORMAL\n" VT_RST);
         Camera_ChangeMode(parentCam, CAM_MODE_NORMAL);
     }
@@ -1272,7 +1272,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
         parentCam = globalCtx->cameraPtrs[parentCam->childCamIdx];
         if (parentCam == NULL) {
             break;
-        } else if (parentCam->setting != CAM_SET_DEMO4) {
+        } else if (parentCam->setting != CAM_SET_CS_ATTENTION) {
             if (vLastHigherCat == -1) {
                 continue;
             } else {
@@ -1363,7 +1363,7 @@ s32 OnePointCutscene_CheckForCategory(GlobalContext* globalCtx, s32 category) {
 
     while (parentCam->childCamIdx != SUBCAM_FREE) {
         parentCam = globalCtx->cameraPtrs[parentCam->childCamIdx];
-        if ((parentCam == NULL) || (parentCam->setting != CAM_SET_DEMO4)) {
+        if ((parentCam == NULL) || (parentCam->setting != CAM_SET_CS_ATTENTION)) {
             break;
         } else if (category == parentCam->target->category) {
             return true;

@@ -609,8 +609,8 @@ void func_80AF3744(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AF37AC() {
-    Audio_PlayFanfare(0x51);
+void func_80AF37AC(void) {
+    Audio_PlayFanfare(NA_BGM_APPEAR);
 }
 
 void func_80AF37CC(EnRu2* this) {

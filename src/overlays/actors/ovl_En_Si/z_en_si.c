@@ -96,8 +96,8 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
                 this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
                 Item_Give(globalCtx, ITEM_SKULL_TOKEN);
                 player->actor.freezeTimer = 10;
-                Message_StartTextbox(globalCtx, 0xB4, 0);
-                Audio_PlayFanfare(0x39);
+                Message_StartTextbox(globalCtx, 0xB4, NULL);
+                Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
                 this->actionFunc = func_80AFB950;
             } else {
                 Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -118,8 +118,8 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
     if ((this->actor.flags & 0x2000) != 0x2000) {
         Item_Give(globalCtx, ITEM_SKULL_TOKEN);
         player->actor.freezeTimer = 10;
-        Message_StartTextbox(globalCtx, 0xB4, 0);
-        Audio_PlayFanfare(0x39);
+        Message_StartTextbox(globalCtx, 0xB4, NULL);
+        Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
         this->actionFunc = func_80AFB950;
     }
 }
