@@ -1966,8 +1966,9 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
     static s16 sOcarinaNoteFlashTimer = 12;
     static s16 sOcarinaNoteFlashColorIdx = 1;
     static s16 sOcarinaSongFanfares[] = {
-        // BGM ids
-        0x0034, 0x0033, 0x0035, 0x0036, 0x0037, 0x0025, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049,
+        NA_BGM_OCA_MINUET,   NA_BGM_OCA_BOLERO, NA_BGM_OCA_SERENADE, NA_BGM_OCA_REQUIEM,
+        NA_BGM_OCA_NOCTURNE, NA_BGM_OCA_LIGHT,  NA_BGM_OCA_SARIA,    NA_BGM_OCA_EPONA,
+        NA_BGM_OCA_ZELDA,    NA_BGM_OCA_SUNS,   NA_BGM_OCA_TIME,     NA_BGM_OCA_STORM,
     };
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     MessageContext* msgCtx = &globalCtx->msgCtx;

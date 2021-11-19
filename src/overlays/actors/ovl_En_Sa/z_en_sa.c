@@ -102,8 +102,8 @@ static struct_80034EC0_Entry sAnimations[] = {
 s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
     s16 textState = Message_GetState(&globalCtx->msgCtx);
 
-    if (this->unk_209 == TEXT_STATE_AWAITING_NEXT || this->unk_209 == TEXT_STATE_EVENT || this->unk_209 == TEXT_STATE_CLOSING ||
-        this->unk_209 == TEXT_STATE_DONE_HAS_NEXT) {
+    if (this->unk_209 == TEXT_STATE_AWAITING_NEXT || this->unk_209 == TEXT_STATE_EVENT ||
+        this->unk_209 == TEXT_STATE_CLOSING || this->unk_209 == TEXT_STATE_DONE_HAS_NEXT) {
         if (textState != this->unk_209) {
             this->unk_208++;
         }

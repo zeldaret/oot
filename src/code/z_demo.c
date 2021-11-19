@@ -1509,8 +1509,8 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
             originalCsFrames = csCtx->frames;
             dialogState = Message_GetState(&globalCtx->msgCtx);
 
-            if ((dialogState != TEXT_STATE_CLOSING) && (dialogState != TEXT_STATE_NONE) && (dialogState != TEXT_STATE_SONG_DEMO_DONE) &&
-                (dialogState != TEXT_STATE_8)) {
+            if ((dialogState != TEXT_STATE_CLOSING) && (dialogState != TEXT_STATE_NONE) &&
+                (dialogState != TEXT_STATE_SONG_DEMO_DONE) && (dialogState != TEXT_STATE_8)) {
                 csCtx->frames--;
 
                 if ((dialogState == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {

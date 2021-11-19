@@ -335,8 +335,8 @@ void func_80AAAA24(EnMd* this) {
 s16 func_80AAAC78(EnMd* this, GlobalContext* globalCtx) {
     s16 dialogState = Message_GetState(&globalCtx->msgCtx);
 
-    if ((this->unk_209 == TEXT_STATE_AWAITING_NEXT) || (this->unk_209 == TEXT_STATE_EVENT) || (this->unk_209 == TEXT_STATE_CLOSING) ||
-        (this->unk_209 == TEXT_STATE_DONE_HAS_NEXT)) {
+    if ((this->unk_209 == TEXT_STATE_AWAITING_NEXT) || (this->unk_209 == TEXT_STATE_EVENT) ||
+        (this->unk_209 == TEXT_STATE_CLOSING) || (this->unk_209 == TEXT_STATE_DONE_HAS_NEXT)) {
         if (this->unk_209 != dialogState) {
             this->unk_208++;
         }
