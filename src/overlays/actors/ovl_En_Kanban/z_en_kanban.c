@@ -234,7 +234,7 @@ void EnKanban_Message(EnKanban* this, GlobalContext* globalCtx) {
     if (!this->msgFlag) {
         if (this->msgTimer == 0) {
             if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2800) {
-                if (Actor_TalkRequested(&this->actor, globalCtx)) {
+                if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
                     this->msgFlag = true;
                 } else {
                     func_8002F2CC(&this->actor, globalCtx, 68.0f);
@@ -244,7 +244,7 @@ void EnKanban_Message(EnKanban* this, GlobalContext* globalCtx) {
             this->msgTimer--;
         }
     } else {
-        if (func_8002F334(&this->actor, globalCtx)) {
+        if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
             this->msgFlag = false;
             this->msgTimer = 20;
         }

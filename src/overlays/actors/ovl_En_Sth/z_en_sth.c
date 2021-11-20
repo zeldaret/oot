@@ -209,7 +209,7 @@ void EnSth_LookAtPlayer(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         if (this->actor.params == 0) {
             EnSth_SetupAction(this, EnSth_ParentRewardObtainedWait);
         } else {
@@ -220,7 +220,7 @@ void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_ParentRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         this->actor.textId = 0x23;
@@ -273,7 +273,7 @@ void EnSth_RewardUnobtainedTalk(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
@@ -289,7 +289,7 @@ void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.inventory.gsTokens < 50) {

@@ -1293,7 +1293,7 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSkj* this = THIS;
 
-    D_80B01EA0 = Actor_TalkRequested(&this->actor, globalCtx);
+    D_80B01EA0 = Actor_ProcessTalkRequest(&this->actor, globalCtx);
 
     this->timer++;
 
@@ -1349,7 +1349,7 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
     EnSkj* this = THIS;
 
-    D_80B01EA0 = Actor_TalkRequested(&this->actor, globalCtx);
+    D_80B01EA0 = Actor_ProcessTalkRequest(&this->actor, globalCtx);
 
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
@@ -1584,7 +1584,7 @@ void EnSkj_CleanupOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
 void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
     EnSkj* this = THIS;
 
-    D_80B01EA0 = Actor_TalkRequested(&this->actor, globalCtx);
+    D_80B01EA0 = Actor_ProcessTalkRequest(&this->actor, globalCtx);
     this->timer++;
 
     this->actor.focus.pos.x = 1230.0f;

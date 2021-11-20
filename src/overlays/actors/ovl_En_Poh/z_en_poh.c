@@ -767,7 +767,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
     if (this->unk_198 != 0) {
         this->unk_198--;
     }
-    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (this->actor.params >= EN_POH_SHARP) {
             func_80ADE9BC(this);
         } else {
@@ -832,7 +832,7 @@ void EnPoh_TalkRegular(EnPoh* this, GlobalContext* globalCtx) {
             }
             Message_ContinueTextbox(globalCtx, this->actor.textId);
         }
-    } else if (func_8002F334(&this->actor, globalCtx) != 0) {
+    } else if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         func_80ADE950(this, 0);
     }
 }
@@ -857,7 +857,7 @@ void EnPoh_TalkComposer(EnPoh* this, GlobalContext* globalCtx) {
                 func_80ADE950(this, 1);
             }
         }
-    } else if (func_8002F334(&this->actor, globalCtx) != 0) {
+    } else if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x5000) {
             Flags_SetSwitch(globalCtx, 9);
         }

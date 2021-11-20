@@ -82,7 +82,7 @@ void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
     s16 yawDiff;
 
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         return 1;
     } else {
         this->actor.textId = textId;
@@ -103,14 +103,14 @@ void func_80A89008(EnJs* this) {
 }
 
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         func_80A89008(this);
         this->actor.flags &= ~0x10000;
     }
 }
 
 void func_80A890C0(EnJs* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         En_Js_SetupAction(this, func_80A89078);
     } else {
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
@@ -118,7 +118,7 @@ void func_80A890C0(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A8910C(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actor.textId = 0x6078;
         En_Js_SetupAction(this, func_80A890C0);
         this->actor.flags |= 0x10000;

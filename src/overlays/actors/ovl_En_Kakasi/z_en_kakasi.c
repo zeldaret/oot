@@ -200,7 +200,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
     SkelAnime_Update(&this->skelanime);
     this->camId = SUBCAM_NONE;
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (this->unk_196 == TEXT_STATE_EVENT) {
             this->actionFunc = func_80A8F9C8;
         } else {

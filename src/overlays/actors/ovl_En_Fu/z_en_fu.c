@@ -105,8 +105,7 @@ void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFunc actionFunc) {
     s16 yawDiff;
 
-    // Actor_TalkRequested returns 1 if actor flags & 0x100 is set and unsets it
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return true;
     }
@@ -122,7 +121,7 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
 }
 
 void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->behaviorFlags &= ~FU_WAIT;
         this->actionFunc = EnFu_WaitChild;
 
@@ -159,8 +158,7 @@ void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
 }
 
 void func_80A1DBA0(EnFu* this, GlobalContext* globalCtx) {
-    // if dialog state is 2 set action to WaitAdult
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnFu_WaitAdult;
     }
 }
@@ -225,7 +223,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
         Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
         this->behaviorFlags |= FU_WAIT;
-    } else if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
         if (this->actor.xzDistToPlayer < 100.0f) {

@@ -652,7 +652,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnPoField_SetupInteractWithSoul(this);
         return;
     }
@@ -722,7 +722,7 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
             Message_ContinueTextbox(globalCtx, this->actor.textId);
             return;
         }
-    } else if (func_8002F334(&this->actor, globalCtx) != 0) {
+    } else if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         EnPoField_SetupSoulDisappear(this);
     }
 }

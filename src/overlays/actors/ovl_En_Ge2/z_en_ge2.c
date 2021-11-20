@@ -422,7 +422,7 @@ void EnGe2_LookAtPlayer(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void EnGe2_SetActionAfterTalk(EnGe2* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
 
         switch (this->actor.params & 0xFF) {
             case GE2_TYPE_PATROLLING:
@@ -465,7 +465,7 @@ void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
 
 void EnGe2_ForceTalk(EnGe2* this, GlobalContext* globalCtx) {
 
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe2_GiveCard;
     } else {
         this->actor.textId = 0x6004;
@@ -518,7 +518,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
     this->actionFunc(this, globalCtx);
 
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if ((this->actor.params & 0xFF) == GE2_TYPE_PATROLLING) {
             this->actor.speedXZ = 0.0f;
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);

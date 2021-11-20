@@ -845,7 +845,7 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     gSaveContext.zTargetSetting = sramCtx->readBuff[SRAM_HEADER_ZTARGET] & 1;
     gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
 
-    if (gSaveContext.language > LANGUAGE_MAX) {
+    if (gSaveContext.language >= LANGUAGE_MAX) {
         gSaveContext.language = LANGUAGE_ENG;
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language;
         Sram_WriteSramHeader(sramCtx);

@@ -429,10 +429,12 @@ typedef enum {
     MESSAGE_ICON_ARROW
 } MessageBoxIcon;
 
-#define LANGUAGE_ENG 0
-#define LANGUAGE_GER 1
-#define LANGUAGE_FRA 2
-#define LANGUAGE_MAX LANGUAGE_FRA
+typedef enum {
+    LANGUAGE_ENG,
+    LANGUAGE_GER,
+    LANGUAGE_FRA,
+    LANGUAGE_MAX
+} Language;
 
 // TODO get these properties from the textures themselves
 #define FONT_CHAR_TEX_WIDTH  16
@@ -518,10 +520,7 @@ typedef enum {
 typedef struct {
     /* 0x0000 */ u32    msgOffset;
     /* 0x0004 */ u32    msgLength;
-    union {
-    /* 0x0008 */ u8     msgProperties;
     /* 0x0008 */ u8     charTexBuf[FONT_CHAR_TEX_SIZE * 120];
-    };
     /* 0x3C08 */ u8     iconBuf[FONT_CHAR_TEX_SIZE];
     /* 0x3C88 */ u8     fontBuf[FONT_CHAR_TEX_SIZE * 320];
     union {

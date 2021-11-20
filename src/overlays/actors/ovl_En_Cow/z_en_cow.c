@@ -204,7 +204,7 @@ void func_809DF6BC(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF730(EnCow* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = func_809DF96C;
     }
@@ -241,7 +241,7 @@ void func_809DF870(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF8FC(EnCow* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_809DF870;
     } else {
         this->actor.flags |= 0x10000;

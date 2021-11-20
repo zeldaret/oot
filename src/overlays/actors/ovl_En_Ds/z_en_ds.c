@@ -53,7 +53,7 @@ void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnDs_Wait;
         this->actor.flags &= ~0x10000;
     }
@@ -69,7 +69,7 @@ void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnDs_Talk;
     } else {
         this->actor.flags |= 0x10000;
@@ -78,7 +78,7 @@ void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
         this->actor.flags &= ~0x100;
@@ -207,7 +207,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff;
 
-    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (func_8002F368(globalCtx) == EXCH_ITEM_ODD_MUSHROOM) {
             Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             player->actor.textId = 0x504A;

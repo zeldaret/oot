@@ -297,7 +297,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
     s16 sp30;
 
     if (this->unk_1E4 == 3) {
-        Actor_TalkRequested(&this->actor, globalCtx);
+        Actor_ProcessTalkRequest(&this->actor, globalCtx);
         Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E4 = 1;
     }
@@ -327,7 +327,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1E4 == 0) {
-        if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
+        if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
             this->unk_1E0 = func_8002F368(globalCtx);
             if (this->unk_1E0 != 0) {
                 player->actor.textId = func_80B20634(this, globalCtx);

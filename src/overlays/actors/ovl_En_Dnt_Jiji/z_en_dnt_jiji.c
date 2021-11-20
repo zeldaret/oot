@@ -236,7 +236,7 @@ void EnDntJiji_Cower(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if (frame >= this->endFrame) {
-        if (Actor_TalkRequested(&this->actor, globalCtx)) {
+        if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
             this->actionFunc = EnDntJiji_SetupTalk;
         } else {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);

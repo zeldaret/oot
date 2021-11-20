@@ -299,7 +299,7 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
     } else if (this->unk_1E0 == 1) {
         this->unk_1E0 = func_80AADAA0(this, globalCtx);
     } else {
-        if (Actor_TalkRequested(&this->actor, globalCtx)) {
+        if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
             this->unk_1E0 = 1;
 
             if (this->curAnimIndex != 5) {

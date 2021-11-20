@@ -184,7 +184,7 @@ void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnGe1_SetTalkAction(EnGe1* this, GlobalContext* globalCtx, u16 textId, f32 arg3, EnGe1ActionFunc actionFunc) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         this->animFunc = EnGe1_StopFidget;
         this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
@@ -268,7 +268,7 @@ void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_ChooseActionFromTextId(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         switch (this->actor.textId) {
             case 0x6001:
                 this->actionFunc = EnGe1_SetNormalText;
@@ -385,7 +385,7 @@ void EnGe1_OfferOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_RefuseOpenNoCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_CheckForCard_GTGGuard;
         EnGe1_SetAnimationIdle(this);
     }
@@ -460,7 +460,7 @@ void EnGe1_CheckGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_Talk_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_GetReaction_GateGuard;
         EnGe1_SetAnimationIdle(this);
     }
@@ -486,7 +486,7 @@ void EnGe1_GetReaction_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
 // Archery functions
 
 void EnGe1_SetupWait_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_Wait_Archery;
         EnGe1_SetAnimationIdle(this);
     }
@@ -523,7 +523,7 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
     s32 getItemId;
 
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnGe1_WaitTillItemGiven_Archery;
     }
@@ -549,7 +549,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
         this->actor.flags &= ~0x10000;
     } else {
@@ -620,7 +620,7 @@ void EnGe1_TalkOfferPlay_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_TalkOfferPlay_Archery;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 300.0f);
@@ -659,7 +659,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_TalkNoHorse_Archery(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_Wait_Archery;
         EnGe1_SetAnimationIdle(this);
     }

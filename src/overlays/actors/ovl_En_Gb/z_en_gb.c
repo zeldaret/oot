@@ -281,7 +281,7 @@ void func_80A2F83C(EnGb* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    if (Actor_TalkRequested(&this->dyna.actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->dyna.actor, globalCtx)) {
         switch (func_8002F368(globalCtx)) {
             case EXCH_ITEM_NONE:
                 func_80A2F180(this);
@@ -368,7 +368,7 @@ void func_80A2FBB0(EnGb* this, GlobalContext* globalCtx) {
 
 void func_80A2FC0C(EnGb* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
-        Actor_TalkRequested(&this->dyna.actor, globalCtx);
+        Actor_ProcessTalkRequest(&this->dyna.actor, globalCtx);
         func_80A2F180(this);
         this->actionFunc = func_80A2F83C;
     }

@@ -1271,7 +1271,7 @@ void KaleidoScope_DrawInfoPanel(GlobalContext* globalCtx) {
                     pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
                         pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
 
-                    if (gSaveContext.language == 1) {
+                    if (gSaveContext.language == LANGUAGE_GER) {
                         pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
                             pauseCtx->infoPanelVtx[16].v.ob[0] - 99;
                     }
@@ -1341,7 +1341,7 @@ void KaleidoScope_UpdateNamePanel(GlobalContext* globalCtx) {
                 if (gSaveContext.language) {
                     sp2A += 12;
                 }
-                if (gSaveContext.language == 2) {
+                if (gSaveContext.language == LANGUAGE_FRA) {
                     sp2A += 12;
                 }
 
@@ -1353,7 +1353,7 @@ void KaleidoScope_UpdateNamePanel(GlobalContext* globalCtx) {
                 if (gSaveContext.language) {
                     sp2A += 123;
                 }
-                if (gSaveContext.language == 2) {
+                if (gSaveContext.language == LANGUAGE_FRA) {
                     sp2A += 123;
                 }
 
@@ -2587,12 +2587,12 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             pauseCtx->iconItemLangSegment = (void*)(((u32)pauseCtx->iconItemAltSegment + size2 + 0xF) & ~0xF);
 
-            if (gSaveContext.language == 0) {
+            if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (u32)_icon_item_nes_staticSegmentRomEnd - (u32)_icon_item_nes_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
                 DmaMgr_SendRequest1(pauseCtx->iconItemLangSegment, _icon_item_nes_staticSegmentRomStart, size,
                                     "../z_kaleido_scope_PAL.c", 3739);
-            } else if (gSaveContext.language == 1) {
+            } else if (gSaveContext.language == LANGUAGE_GER) {
                 size = (u32)_icon_item_ger_staticSegmentRomEnd - (u32)_icon_item_ger_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
                 DmaMgr_SendRequest1(pauseCtx->iconItemLangSegment, (u32)_icon_item_ger_staticSegmentRomStart, size,
@@ -2612,12 +2612,12 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             osSyncPrintf("サイズ＝%x\n", size2 + size1 + size0 + size + 0x800);
 
             if (((void)0, gSaveContext.worldMapArea) < 22) {
-                if (gSaveContext.language == 0) {
+                if (gSaveContext.language == LANGUAGE_ENG) {
                     DmaMgr_SendRequest1(pauseCtx->nameSegment + 0x400,
                                         (u32)_map_name_staticSegmentRomStart +
                                             (((void)0, gSaveContext.worldMapArea) * 0xA00) + 0x9000,
                                         0xA00, "../z_kaleido_scope_PAL.c", 3776);
-                } else if (gSaveContext.language == 1) {
+                } else if (gSaveContext.language == LANGUAGE_GER) {
                     DmaMgr_SendRequest1(pauseCtx->nameSegment + 0x400,
                                         (u32)_map_name_staticSegmentRomStart +
                                             (((void)0, gSaveContext.worldMapArea) * 0xA00) + 0x16C00,
@@ -3148,12 +3148,12 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             pauseCtx->iconItemLangSegment = (void*)(((u32)pauseCtx->iconItemAltSegment + size2 + 0xF) & ~0xF);
 
-            if (gSaveContext.language == 0) {
+            if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (u32)_icon_item_nes_staticSegmentRomEnd - (u32)_icon_item_nes_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
                 DmaMgr_SendRequest1(pauseCtx->iconItemLangSegment, (u32)_icon_item_nes_staticSegmentRomStart, size,
                                     "../z_kaleido_scope_PAL.c", 4379);
-            } else if (gSaveContext.language == 1) {
+            } else if (gSaveContext.language == LANGUAGE_GER) {
                 size = (u32)_icon_item_ger_staticSegmentRomEnd - (u32)_icon_item_ger_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
                 DmaMgr_SendRequest1(pauseCtx->iconItemLangSegment, (u32)_icon_item_ger_staticSegmentRomStart, size,

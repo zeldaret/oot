@@ -124,7 +124,7 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
                     ret = 2;
                     break;
                 case 0x401B:
-                    ret = (!Message_ShouldAdvance(globalCtx)) ? 1 : 2;
+                    ret = !Message_ShouldAdvance(globalCtx) ? 1 : 2;
                     break;
                 case 0x401F:
                     gSaveContext.infTable[19] |= 0x200;
@@ -191,7 +191,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
     f32 xzDistToPlayer;
     f32 yaw;
 
-    if (Actor_TalkRequested(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         *arg2 = 1;
         return 1;
     }

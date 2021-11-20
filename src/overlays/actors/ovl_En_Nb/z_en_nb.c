@@ -1195,7 +1195,7 @@ void EnNb_SetupIdleCrawlspace(EnNb* this, s32 animFinished) {
 }
 
 void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = NB_IN_DIALOG;
     } else {
         this->actor.flags |= 9;
@@ -1287,7 +1287,7 @@ void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, s32 animFinished) {
 }
 
 void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = NB_ACTION_30;
     } else {
         this->actor.flags |= 9;

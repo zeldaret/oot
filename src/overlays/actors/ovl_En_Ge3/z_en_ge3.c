@@ -126,7 +126,7 @@ void EnGe3_LookAtPlayer(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void EnGe3_Wait(EnGe3* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnGe3_WaitLookAtPlayer;
         this->actor.update = EnGe3_UpdateWhenNotTalking;
         this->actor.flags &= ~0x10000;
@@ -157,7 +157,7 @@ void EnGe3_GiveCard(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void EnGe3_ForceTalk(EnGe3* this, GlobalContext* globalCtx) {
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe3_GiveCard;
     } else {
         if (!(this->unk_30C & 4)) {
@@ -205,7 +205,7 @@ void EnGe3_UpdateWhenNotTalking(Actor* thisx, GlobalContext* globalCtx) {
     EnGe3_UpdateCollision(this, globalCtx);
     this->actionFunc(this, globalCtx);
 
-    if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe3_Wait;
         this->actor.update = EnGe3_Update;
     } else {

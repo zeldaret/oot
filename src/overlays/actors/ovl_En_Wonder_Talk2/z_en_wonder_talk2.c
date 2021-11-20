@@ -119,7 +119,7 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
             this->actor.flags &= ~1;
             this->unk_15A = true;
         }
-    } else if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if ((this->switchFlag >= 0) && (this->talkMode != 2)) {
             Flags_SetSwitch(globalCtx, this->switchFlag);
             // "I saved it! All of it!"

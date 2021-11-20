@@ -1489,7 +1489,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
     return false;
 }
 
-u32 Actor_TalkRequested(Actor* actor, GlobalContext* globalCtx) {
+u32 Actor_ProcessTalkRequest(Actor* actor, GlobalContext* globalCtx) {
     if (actor->flags & 0x100) {
         actor->flags &= ~0x100;
         return true;
@@ -1530,7 +1530,7 @@ s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
     return func_8002F2CC(actor, globalCtx, var1);
 }
 
-u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
+u32 Actor_TextboxIsClosing(Actor* actor, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         return true;
     } else {
@@ -3590,7 +3590,7 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interac
     s16 x;
     s16 y;
 
-    if (Actor_TalkRequested(actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(actor, globalCtx)) {
         *arg2 = 1;
         return true;
     }
@@ -5386,7 +5386,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
     s16 sp2A;
     s16 abs_var;
 
-    if (Actor_TalkRequested(actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(actor, globalCtx)) {
         *arg3 = 1;
         return true;
     }

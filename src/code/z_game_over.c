@@ -14,7 +14,7 @@ void GameOver_FadeInLights(GlobalContext* globalCtx) {
 }
 
 // This variable cannot be moved into this file as all of z_message_PAL rodata is in the way
-extern s16 sGameOverTimer;
+extern s16 gGameOverTimer;
 
 void GameOver_Update(GlobalContext* globalCtx) {
     GameOverContext* gameOverCtx = &globalCtx->gameOverCtx;
@@ -73,7 +73,7 @@ void GameOver_Update(GlobalContext* globalCtx) {
             gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
 
             Environment_InitGameOverLights(globalCtx);
-            sGameOverTimer = 20;
+            gGameOverTimer = 20;
             if (1) {}
             v90 = VREG(90);
             v91 = VREG(91);
@@ -89,9 +89,9 @@ void GameOver_Update(GlobalContext* globalCtx) {
             break;
 
         case GAMEOVER_DEATH_DELAY_MENU:
-            sGameOverTimer--;
+            gGameOverTimer--;
 
-            if (sGameOverTimer == 0) {
+            if (gGameOverTimer == 0) {
                 globalCtx->pauseCtx.state = 8;
                 gameOverCtx->state++;
                 func_800AA15C();
@@ -100,13 +100,13 @@ void GameOver_Update(GlobalContext* globalCtx) {
 
         case GAMEOVER_REVIVE_START:
             gameOverCtx->state++;
-            sGameOverTimer = 0;
+            gGameOverTimer = 0;
             Environment_InitGameOverLights(globalCtx);
             ShrinkWindow_SetVal(0x20);
             return;
 
         case GAMEOVER_REVIVE_RUMBLE:
-            sGameOverTimer = 50;
+            gGameOverTimer = 50;
             gameOverCtx->state++;
             if (1) {}
 
@@ -119,28 +119,28 @@ void GameOver_Update(GlobalContext* globalCtx) {
             break;
 
         case GAMEOVER_REVIVE_WAIT_GROUND:
-            sGameOverTimer--;
+            gGameOverTimer--;
 
-            if (sGameOverTimer == 0) {
-                sGameOverTimer = 64;
+            if (gGameOverTimer == 0) {
+                gGameOverTimer = 64;
                 gameOverCtx->state++;
             }
             break;
 
         case GAMEOVER_REVIVE_WAIT_FAIRY:
-            sGameOverTimer--;
+            gGameOverTimer--;
 
-            if (sGameOverTimer == 0) {
-                sGameOverTimer = 50;
+            if (gGameOverTimer == 0) {
+                gGameOverTimer = 50;
                 gameOverCtx->state++;
             }
             break;
 
         case GAMEOVER_REVIVE_FADE_OUT:
             Environment_FadeOutGameOverLights(globalCtx);
-            sGameOverTimer--;
+            gGameOverTimer--;
 
-            if (sGameOverTimer == 0) {
+            if (gGameOverTimer == 0) {
                 gameOverCtx->state = GAMEOVER_INACTIVE;
             }
             break;

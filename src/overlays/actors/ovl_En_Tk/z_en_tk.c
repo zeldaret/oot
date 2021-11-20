@@ -540,7 +540,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
         this->actionCountdown = 0;
         func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
                       func_80B1C5A0);
-    } else if (Actor_TalkRequested(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
