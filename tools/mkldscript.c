@@ -22,7 +22,7 @@ enum
     STMT_entry,
     STMT_flags,
     STMT_include,
-    STMT_include_readonly,
+    STMT_include_data_with_rodata,
     STMT_name,
     STMT_number,
     STMT_romalign,
@@ -51,7 +51,7 @@ struct Segment
     uint32_t entry;
     uint32_t number;
     char **includes;
-    uint8_t *readOnlyData;
+    uint8_t *data_with_rodata;
     int includesCount;
 };
 
@@ -178,7 +178,7 @@ static const char *const stmtNames[] =
     [STMT_entry]     = "entry",
     [STMT_flags]     = "flags",
     [STMT_include]   = "include",
-    [STMT_include_readonly] = "include_readonly",
+    [STMT_include_data_with_rodata] = "include_data_with_rodata",
     [STMT_name]      = "name",
     [STMT_number]    = "number",
     [STMT_romalign]  = "romalign",
@@ -218,7 +218,7 @@ static void parse_rom_spec(char *spec)
             if (currSeg != NULL)
             {
                 // ensure no duplicates (except for 'include')
-                if (stmt != STMT_include && stmt != STMT_include_readonly && (currSeg->fields & (1 << stmt)))
+                if (stmt != STMT_include && stmt != STMT_include_data_with_rodata && (currSeg->fields & (1 << stmt)))
                     util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtName);
 
                 currSeg->fields |= 1 << stmt;
@@ -270,11 +270,11 @@ static void parse_rom_spec(char *spec)
                         util_fatal_error("line %i: alignment is not a power of two", lineNum);
                     break;
                 case STMT_include:
-                case STMT_include_readonly:
+                case STMT_include_data_with_rodata:
                     currSeg->includesCount++;
                     currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
-                    currSeg->readOnlyData = realloc(currSeg->readOnlyData, currSeg->includesCount * sizeof(*currSeg->readOnlyData));
-                    currSeg->readOnlyData[currSeg->includesCount - 1] = (stmt == STMT_include_readonly);
+                    currSeg->data_with_rodata = realloc(currSeg->data_with_rodata, currSeg->includesCount * sizeof(*currSeg->data_with_rodata));
+                    currSeg->data_with_rodata[currSeg->includesCount - 1] = (stmt == STMT_include_data_with_rodata);
                     if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1]))
                         util_fatal_error("line %i: invalid filename", lineNum);
                     break;
@@ -366,7 +366,7 @@ static void write_ld_script(void)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (!seg->readOnlyData[j])
+            if (!seg->data_with_rodata[j])
                 fprintf(fout, "            %s (.data)\n", seg->includes[j]);
         }
 
@@ -387,7 +387,7 @@ static void write_ld_script(void)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (seg->readOnlyData[j])
+            if (seg->data_with_rodata[j])
                 fprintf(fout, "            %s (.data)\n", seg->includes[j]);
             fprintf(fout, "            %s (.rodata)\n", seg->includes[j]);
             // Compilers other than IDO, such as GCC, produce different sections such as

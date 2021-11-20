@@ -510,7 +510,7 @@ beginseg
     include "build/src/code/code_801067F0.o"
     include "build/src/code/code_80106860.o"
     include "build/src/code/code_801068B0.o"
-    include_readonly "build/src/code/z_message_PAL.o"
+    include_data_with_rodata "build/src/code/z_message_PAL.o"
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
