@@ -1,3 +1,0 @@
-[submodule "juce"]
-	path = tools/seq64/juce
-	url = https://github.com/juce-framework/JUCE

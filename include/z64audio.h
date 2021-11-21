@@ -111,13 +111,13 @@ typedef struct {
     /* 0x04 */ u32 end;
     /* 0x08 */ u32 count;
     /* 0x0C */ u32 originalLength;
-    /* 0x10 */ s16 state[16]; // only exists if count != 0. 8-byte aligned
+    /* 0x10 */ s16 predictorState[16]; // The predictor output state for the first frame of the loop
 } AdpcmLoop; // size = 0x30 (or 0x10)
 
 typedef struct {
     /* 0x00 */ s32 order;
-    /* 0x04 */ s32 npredictors;
-    /* 0x08 */ s16 book[]; // size 8 * order * npredictors. 8-byte aligned
+    /* 0x04 */ s32 numPredictors;
+    /* 0x08 */ s16 book[]; // Predictor coefficients, where each book size is 8 * order * npredictors. 8-byte aligned
 } AdpcmBook; // size >= 0x8
 
 typedef struct {

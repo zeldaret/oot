@@ -6,12 +6,16 @@ import math
 import shutil
 import uuid
 import json
+import xml.etree.ElementTree as XmlTree
 import os
 import re
 import struct
 import sys
 
-rawSamples = []
+rawSamples = {}
+bankOffsets = {}
+sampleNameLookup = {}
+usedTuning = {}
 
 # Used for data gap detection (finding potentially unreferenced data)
 # Format: list of tuples (object, start offset, end offset)
@@ -19,7 +23,11 @@ usedFontData = []
 usedRawData = []
 
 class Soundfont:
-    def __init__(self, entry, ctl):
+    def __init__(self, entry, ctl, fontdef):
+        if fontdef:
+            self.name = fontdef.name
+
+        self.definition = entry
         endOffset = entry.offset + 8
         percussionOffset, effectsOffset = struct.unpack(">LL", ctl[entry.offset:endOffset])
         instrumentOffsets = []
@@ -38,48 +46,70 @@ class Soundfont:
         self.percussions = []
 
         if entry.instrumentCount > 0:
+            instIdx = 0
             for offset in instrumentOffsets:
+                instdef = None
+                if fontdef:
+                    instdef = fontdef.instruments[instIdx]
                 buffer = setCtl[offset:offset + 32]
-                instrument = None if offset == 0 else Instrument(entry.bank, buffer, setCtl, entry.offset, offset)
+                instrument = None if offset == 0 else Instrument(entry.bank, buffer, setCtl, entry.offset, offset, instdef)
                 self.instruments.append(instrument)
+                instIdx += 1
 
         if entry.effectCount > 0:
             #usedSetData.append((self, self.offset + effectsOffset, self.offset + effectsOffset + (self.effectCount * 8)))
             for i in range(entry.effectCount):
+                effectdef = None
+                if fontdef:
+                    effectdef = fontdef.effects[i]
                 buffer = effectsTable[i * 8:(i * 8) + 8]
                 offset = struct.unpack(">L", buffer[0:4])[0]
-                effect = None if offset == 0 else SoundEffect(entry.bank, buffer, setCtl, entry.offset, effectsOffset + (i * 8))
+                effect = None if offset == 0 else SoundEffect(entry.bank, buffer, setCtl, entry.offset, effectsOffset + (i * 8), effectdef)
                 self.effects.append(effect)
         
         if entry.percussionCount > 0:
             usedFontData.append((self, entry.offset + percussionOffset, entry.offset + percussionOffset + (entry.percussionCount * 4)))
             percussionsOffsets = struct.unpack(">" + str(entry.percussionCount) + "L", percussionTable[:entry.percussionCount * 4])
             for i in range(entry.percussionCount):
+                drumdef = None
+                if fontdef:
+                    drumdef = fontdef.drums[i]
                 offset = percussionsOffsets[i]
-                percussion = None if offset == 0 else Percussion(entry.bank, setCtl[offset:offset + 16], setCtl, entry.offset, offset)
+                percussion = None if offset == 0 else Percussion(entry.bank, setCtl[offset:offset + 16], setCtl, entry.offset, offset, drumdef)
                 self.percussions.append(percussion)
 
 class SoundEffect:
-    def __init__(self, bank, record, tbl, baseOffset, offset):
+    def __init__(self, bank, record, tbl, baseOffset, offset, effectdef):
+        if effectdef:
+            self.name = effectdef.name
+            self.enum = effectdef.enum
         self.headerOffset, self.pitch = struct.unpack(">Lf", record)
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 8))
-        self.sample = SampleHeader(bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
+        self.sample = SampleHeader(bank, self.name, self.pitch, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
 
 class Percussion:
-    def __init__(self, bank, record, tbl, baseOffset, offset):
-        self.unk, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">LLfL", record)
+    def __init__(self, bank, record, tbl, baseOffset, offset, drumdef):
+        if drumdef:
+            self.name = drumdef.name
+            self.enum = drumdef.enum
+        self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">BBBxLfL", record)
+        assert self.loaded == 0
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 16))
-        self.sample = SampleHeader(bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
+        self.sample = SampleHeader(bank, self.name, self.pitch, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
         self.envelope = Envelope(tbl, baseOffset, self.envelopeOffset)
 
 class Instrument:
-    def __init__(self, bank, record, tbl, baseOffset, offset):
-        self.keyLow, self.keyMedium, self.keyHigh, self.decay, self.envelopeOffset, self.keyLowOffset, self.keyLowPitch, self.keyMedOffset, self.keyMedPitch, self.keyHighOffset, self.keyHighPitch = struct.unpack(">BBBbLLfLfLf", record)
+    def __init__(self, bank, record, tbl, baseOffset, offset, instdef):
+        if instdef:
+            self.name = instdef.name
+            self.enum = instdef.enum
+        self.loaded, self.lowRange, self.highRange, self.decay, self.envelopeOffset, self.keyLowOffset, self.keyLowPitch, self.keyMedOffset, self.keyMedPitch, self.keyHighOffset, self.keyHighPitch = struct.unpack(">BBBbLLfLfLf", record)
+        assert self.loaded == 0
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 32))
         self.envelope = Envelope(tbl, baseOffset, self.envelopeOffset)
-        self.keyLowSample = None if self.keyLowOffset == 0 else SampleHeader(bank, tbl[self.keyLowOffset:self.keyLowOffset + 16], tbl, baseOffset, self.keyLowOffset)
-        self.keyMedSample = None if self.keyMedOffset == 0 else SampleHeader(bank, tbl[self.keyMedOffset:self.keyMedOffset + 16], tbl, baseOffset, self.keyMedOffset)
-        self.keyHighSample = None if self.keyHighOffset == 0 else SampleHeader(bank, tbl[self.keyHighOffset:self.keyHighOffset + 16], tbl, baseOffset, self.keyHighOffset)
+        self.keyLowSample = None if self.keyLowOffset == 0 else SampleHeader(bank, self.name, self.keyLowPitch, tbl[self.keyLowOffset:self.keyLowOffset + 16], tbl, baseOffset, self.keyLowOffset)
+        self.keyMedSample = None if self.keyMedOffset == 0 else SampleHeader(bank, self.name, self.keyMedPitch, tbl[self.keyMedOffset:self.keyMedOffset + 16], tbl, baseOffset, self.keyMedOffset)
+        self.keyHighSample = None if self.keyHighOffset == 0 else SampleHeader(bank, self.name, self.keyHighPitch, tbl[self.keyHighOffset:self.keyHighOffset + 16], tbl, baseOffset, self.keyHighOffset)
 
 class Envelope:
     def __init__(self, tbl, baseOffset, offset):
@@ -127,7 +157,7 @@ class Envelope:
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + advanceOffset + 4))
 
 class SampleHeader:
-    def __init__(self, bank, record, tbl, baseOffset, offset):
+    def __init__(self, bank, name, tuning, record, tbl, baseOffset, offset):
         modes, self.u2, self.length, self.address, self.loopOffset, self.bookOffset = struct.unpack(">bbHLLL", record)
         self.offset = baseOffset + offset
         self.codec = (modes >> 4) & 0xF
@@ -137,7 +167,7 @@ class SampleHeader:
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 16))
         self.bank = bank
         assert self.length % 2 == 0
-        if (self.length % 9 != 0):
+        if self.length % 9 != 0:
             self.length -= self.length % 9
         
         self.loop = None
@@ -147,7 +177,18 @@ class SampleHeader:
         self.book = None
         if self.bookOffset != 0:
             self.book = PCMBook(tbl[self.bookOffset:self.bookOffset + 8], tbl[self.bookOffset + 8:], baseOffset, self.bookOffset)
-        rawSamples.append(self)
+        
+        sampleOffset = bankOffsets[bank]
+        
+        if bank not in sampleNameLookup:
+            sampleNameLookup[bank] = {}
+        
+        sampleNameLookup[bank][self.address] = name or f"{self.address:08x}"
+        
+        if sampleOffset in rawSamples:
+            rawSamples[sampleOffset].add(tuning)
+        else:
+            rawSamples[sampleOffset] = { tuning }
 
 class PCMLoop:
     def __init__(self, record, baseOffset, offset):
@@ -155,7 +196,7 @@ class PCMLoop:
         endOffset = offset + 16
         assert unused == 0
         if self.count != 0:
-            self.state = struct.unpack(">16h", record[16:])
+            self.predictorState = struct.unpack(">16h", record[16:])
             endOffset += 32
         usedFontData.append((self, baseOffset + offset, baseOffset + endOffset))
 
@@ -168,18 +209,6 @@ class PCMBook:
         for i in range(self.predictorCount):
             self.predictors.append(struct.unpack(">" + str(predictorSize) + "h", remainder[i * predictorSize * 2:(i * predictorSize * 2) + (predictorSize * 2)]))
 
-class AifcEntry:
-    def __init__(self, data, book, loop):
-        self.name = None
-        self.data = data
-        self.book = book
-        self.loop = loop
-        self.tunings = []
-
-class SequenceEntry:
-    def __init__(self, data):
-        self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBBxxxxxx", data)
-
 class SampleTableEntry:
     def __init__(self, data):
         self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBBxxxxxx", data)
@@ -188,29 +217,13 @@ class SoundfontEntry:
     def __init__(self, data):
         self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBBBBBH", data)
 
-def parse_seq_def_data(seqdef_data, fontmap_data, seq_data):
-    count = struct.unpack(">H", seqdef_data[:2])[0]
-    entries = []
-    for i in range(count):
-        entry = SequenceEntry(seqdef_data[16 + (i * 16):32 + (i * 16)])
-        fontListOffset = struct.unpack(">H", fontmap_data[i * 2:(i * 2) + 2])[0]
-        fontListSize = struct.unpack(">b", fontmap_data[fontListOffset:fontListOffset + 1])[0]
-        entry.fonts = list(struct.unpack(f">{str(fontListSize)}b", fontmap_data[fontListOffset + 1:fontListOffset + 1 + fontListSize]))
-        entries.append(entry)
-    for index in range(len(entries)):
-        entry = entries[index]
-        if entry.length == 0:
-            entries[index] = entries[entry.offset]
-        else:
-            entry.sequence = seq_data[entry.offset:entry.offset + entry.length]
-    return entries
-
 def parse_raw_def_data(raw_def_data):
     count = struct.unpack(">H", raw_def_data[:2])[0]
     entries = []
     for i in range(count):
         buffer = raw_def_data[16 + (i * 16):32 + (i * 16)]
         entry = SampleTableEntry(buffer)
+        bankOffsets[i] = entry.offset
         entries.append(entry)
     for index in range(len(entries)):
         entry = entries[index]
@@ -218,72 +231,72 @@ def parse_raw_def_data(raw_def_data):
             entries[index] = entries[entry.offset]
     return entries
 
-def parse_soundfonts(fontdef_data, font_data):
+def parse_soundfonts(fontdef_data, font_data, fontdefs):
     count = struct.unpack(">H", fontdef_data[:2])[0]
     fonts = []
     for i in range(count):
+        fontdef = fontdefs[i]
         buffer = fontdef_data[16 + (i * 16):32 + (i * 16)]
         entry = SoundfontEntry(buffer)
-        font = Soundfont(entry, font_data)
+        font = Soundfont(entry, font_data, fontdef)
         entry.font = font
         fonts.append(entry)
     return fonts
 
-def align(val, al):
-    return (val + (al - 1)) & -al
+class SoundfontDefinition:
+    def __init__(self, name, index) -> None:
+        self.name = name or ""
+        self.index = index or -1
+        self.instruments = []
+        self.drums = []
+        self.effects = []
 
-name_tbl = {}
+class ElementDefinition:
+    def __init__(self, name, enum) -> None:
+        self.name = name
+        self.enum = enum
 
-def gen_name(prefix, name_table=[]):
-    if prefix not in name_tbl:
-        name_tbl[prefix] = 0
-    ind = name_tbl[prefix]
-    name_tbl[prefix] += 1
-    if ind < len(name_table):
-        return name_table[ind]
-    return prefix + str(ind)
+def read_soundfont_xmls(xml_dir):
+    results = {}
 
+    for file in os.listdir(xml_dir):
+        if file.endswith(".xml"):
+            xml = XmlTree.parse(file)
+            soundfontElement = xml.find("./Soundfont")
+            soundfont = SoundfontDefinition(soundfontElement.get("Name"), soundfontElement.get("Index"))
+            instrumentsElement = soundfontElement.find("Instruments")
+            instrumentElements = (instrumentsElement and instrumentsElement.findall("Instrument")) or []
+            drumsElement = soundfontElement.find("Drums")
+            drumElements = (drumsElement and drumsElement.findall("Drum")) or []
+            effectsElement = soundfontElement.find("Effects")
+            effectsElements = (effectsElement and effectsElement.findall("Effect")) or []
 
-def parse_bcd(data):
-    ret = 0
-    for c in data:
-        ret *= 10
-        ret += c >> 4
-        ret *= 10
-        ret += c & 15
-    return ret
+            for instrumentElement in instrumentElements:
+                instrument = ElementDefinition(instrumentElement.get("Name"), instrumentElement.get("Enum"))
+                soundfont.instruments.append(instrument)
+            
+            for drumElement in drumElements:
+                drum = ElementDefinition(drumElement.get("Name"), drumElement.get("Enum"))
+                soundfont.drums.append(drum)
+            
+            for effectElement in effectsElements:
+                effect = ElementDefinition(effectElement.get("Name"), effectElement.get("Enum"))
+                soundfont.effects.append(effect)
 
+            results[soundfont.index] = soundfont
 
-def serialize_f80(num):
-    num = float(num)
-    f64, = struct.unpack(">Q", struct.pack(">d", num))
-    f64_sign_bit = f64 & 2 ** 63
-    if num == 0.0:
-        if f64_sign_bit:
-            return b"\x80" + b"\0" * 9
-        else:
-            return b"\0" * 10
-    exponent = (f64 ^ f64_sign_bit) >> 52
-    assert exponent != 0, "can't handle denormals"
-    assert exponent != 0x7FF, "can't handle infinity/nan"
-    exponent -= 1023
-    f64_mantissa_bits = f64 & (2 ** 52 - 1)
-    f80_sign_bit = f64_sign_bit << (80 - 64)
-    f80_exponent = (exponent + 0x3FFF) << 64
-    f80_mantissa_bits = 2 ** 63 | (f64_mantissa_bits << (63 - 52))
-    f80 = f80_sign_bit | f80_exponent | f80_mantissa_bits
-    return struct.pack(">HQ", f80 >> 64, f80 & (2 ** 64 - 1))
+    return results
 
+def read_samplebank_xml(xmlfile):
+    root = XmlTree.parse(xmlfile)
+    idx = 0
+    results = {}
+    for bank in root.findall("Bank"):
+        results[idx] = bank.get("Name")
+        idx += 1
+    return results
 
-def round_f32(num):
-    enc = struct.pack(">f", num)
-    for decimals in range(5, 20):
-        num2 = round(num, decimals)
-        if struct.pack(">f", num2) == enc:
-            return num2
-    return num
-
-def toNoteEnum(note):
+def toNote(note):
     tone = (note + 9) % 12
     octave = str(math.floor((((note + 9) / 12) + 1)))
 
@@ -304,113 +317,140 @@ def toNoteEnum(note):
 
     return "{0}{1}".format(tone_str, octave)
 
-def generate_drum_obj(drum, samples, envelopes):
-    if drum is not None:
-        samples[drum.headerOffset] = drum.sample
-        envelopes[drum.envelopeOffset] = drum.envelope
-
-    return None if drum is None else {
-        "unknown": drum.unk,
-        "sample": "Sample_{0:0>8x}".format(drum.headerOffset),
-        "pitch": drum.pitch,
-        "envelope": "Envelope_{0:0>8x}".format(drum.envelopeOffset)
-    }
-
-def generate_effect_obj(effect, samples, envelopes):
-    if effect is not None:
-        samples[effect.headerOffset] = effect.sample
-
-    return None if effect is None else {
-        "sample": "Sample_{0:0>8x}".format(effect.headerOffset),
-        "pitch": effect.pitch
-    }
-
-def generate_instrument_obj(instrument, samples, envelopes):
-    if instrument is not None:
-        if instrument.keyLowSample is not None:
-            samples[instrument.keyLowOffset] = instrument.keyLowSample
-        if instrument.keyMedSample is not None:
-            samples[instrument.keyMedOffset] = instrument.keyMedSample
-        if instrument.keyHighSample is not None:
-            samples[instrument.keyHighOffset] = instrument.keyHighSample
-        envelopes[instrument.envelopeOffset] = instrument.envelope
-
-    return None if instrument is None else {
-        "keyLow": None if instrument.keyLowOffset == 0 else {
-            "note": toNoteEnum(instrument.keyLow),
-            "pitch": instrument.keyLowPitch,
-            "sample": "Sample_{0:0>8x}".format(instrument.keyLowOffset)
-        },
-        "keyMedium": None if instrument.keyMedOffset == 0 else {
-            "note": toNoteEnum(instrument.keyMedium),
-            "pitch": instrument.keyMedPitch,
-            "sample": "Sample_{0:0>8x}".format(instrument.keyMedOffset)
-        },
-        "keyHigh": None if instrument.keyHighOffset == 0 else {
-            "note": toNoteEnum(instrument.keyHigh),
-            "pitch": instrument.keyHighPitch,
-            "sample": "Sample_{0:0>8x}".format(instrument.keyHighOffset)
-        },
-        "decay": instrument.decay,
-        "envelope": "Envelope_{0:0>8x}".format(instrument.envelopeOffset)
-    }
-
-def generate_envelope_obj(envelope):
-    return [{
-        "delay": x[0],
-        "arg": x[1]
-    } for x in envelope.script]
-
-def generate_sample_obj(sample, books, loops):
-    books[sample.bookOffset] = sample.book
-    loops[sample.loopOffset] = sample.loop
-
+def toMedium(medium):
     return {
-        "unknown1": sample.u1,
-        "unknown2": sample.u2,
-        "file": "{0:0>8x}.aiff".format(sample.address),
-        "book": "Book_{0:0>8x}".format(sample.bookOffset),
-        "loop": "Loop_{0:0>8x}".format(sample.loopOffset)
-    }
+        0: "RAM",
+        2: "Cartridge",
+        3: "Disk Drive"
+    }.get(medium)
 
-def generate_pcm_book_obj(book):
+def toCachePolicy(policy):
     return {
-        "order": book.order,
-        "predictors": book.predictors
-    }
+        0: "Permanent",
+        1: "Persistent",
+        2: "Temporary",
+        3: "Any"
+    }.get(policy)
 
-def generate_pcm_loop_obj(loop):
-    loop_data = {
-        "start": loop.start,
-        "end": loop.end,
-        "count": loop.count
-    }
+def generate_drum_obj(root, drum, envelopes):
+    drumElement = XmlTree.SubElement(root, "Drum")
 
-    if loop.count != 0:
-        loop_data["state"] = loop.state
+    if drum is None:
+        return drumElement
 
-    return loop_data
+    # self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">BBBxLfL", record)
+    drumElement.set("Name", drum.name or f"Drum_{drum.offset:08x}")
+    drumElement.set("Enum", drum.enum or "")
+    drumElement.set("Decay", drum.decay)
+    drumElement.set("Pan", drum.pan)
+    drumElement.set("Sample", sampleNameLookup[drum.sample.bank][drum.sample.address])
+    drumElement.set("Envelope", f"Env_{drum.envelopeOffset:08x}")
+    envelopes[f"Env_{drum.envelopeOffset:08x}"] = drum.envelope
+    if drum.pitch != usedTuning[drum.sample.bank][drum.sample.address]:
+        drumElement.set("Pitch", drum.pitch)
 
-def write_soundfont(_set, filename):
-    samples = {}
-    envelopes = {}
-    books = {}
-    loops = {}
+    return drumElement
 
+def generate_effect_obj(root, effect):
+    element = XmlTree.SubElement(root, "SoundEffect")
+
+    if effect is None:
+        return element
+    
+    element.set("Name", effect.name or f"Effect_{effect.offset:08x}")
+    element.set("Enum", effect.enum or "")
+    element.set("Sample", sampleNameLookup[effect.sample.bank][effect.sample.address])
+
+    if effect.pitch != usedTuning[effect.sample.bank][effect.sample.address]:
+        element.set("Pitch", effect.pitch)
+
+    return element
+
+def generate_instrument_obj(root, instrument, envelopes):
+    if instrument is None:
+        return XmlTree.SubElement(root, "Instrument")
+    
+    element = XmlTree.SubElement(
+        root,
+        "Instrument",
+        {
+            "Name": instrument.name or f"Inst_{instrument.offset:08x}",
+            "Enum": instrument.enum or "",
+            "Decay": instrument.decay,
+            "Envelope": f"Env_{instrument.envelopeOffset:08x}"
+        }
+    )
+
+    lowKeyElement = XmlTree.SubElement(element, "LowKey")
+    medKeyElement = XmlTree.SubElement(element, "MediumKey")
+    hiKeyElement = XmlTree.SubElement(element, "HighKey")
+    if instrument.keyLowSample is not None:
+        keyLow = instrument.keyLowSample
+        lowKeyElement.set("Sample", sampleNameLookup[keyLow.bank][keyLow.address])
+        lowKeyElement.set("MaxNote", instrument.lowRange)
+        if instrument.keyLowPitch != usedTuning[keyLow.bank][keyLow.address]:
+            lowKeyElement.set("Pitch", instrument.keyLowPitch)
+    if instrument.keyMedSample is not None:
+        keyMed = instrument.keyMedSample
+        medKeyElement.set("Sample", sampleNameLookup[keyMed.bank][keyMed.address])
+        if instrument.keyMedPitch != usedTuning[keyMed.bank][keyMed.address]:
+            medKeyElement.set("Pitch", instrument.keyMedPitch)
+    if instrument.keyHighSample is not None:
+        keyHigh = instrument.keyHighSample
+        hiKeyElement.set("Sample", sampleNameLookup[keyHigh.bank][keyHigh.address])
+        hiKeyElement.set("MinNote", instrument.highRange)
+        if instrument.keyHighPitch != usedTuning[keyHigh.bank][keyHigh.address]:
+            hiKeyElement.set("Pitch", instrument.keyHighPitch)
+
+    envelopes[f"Env_{instrument.envelopeOffset:08x}"] = instrument.envelope
+
+    return element
+
+def generate_envelope_obj(root, name, envelope):
+    envelopeRoot = XmlTree.SubElement(root, "Envelope", { "Name": name })
+    if envelope.name:
+        envelopeRoot.set("Name", envelope.name)
+    script = XmlTree.SubElement(envelopeRoot, "Script")
+    [XmlTree.SubElement(
+        script,
+        "Point",
+        {
+            "Delay": x[0],
+            "Command": x[1]
+        }
+    ) for x in envelope.script]
+    return envelopeRoot
+
+def write_soundfont(font, filename, banknames):
+    envelopesFound = {}
+
+    root = XmlTree.Element(
+        tag="Soundfont",
+        attrib={
+            "medium": toMedium(font.definition.medium),
+            "cachePolicy": toCachePolicy(font.definition.cache)
+        }
+    )
+
+    banks = XmlTree.SubElement(root, "SampleBanks")
+    XmlTree.SubElement(banks, "Bank", { "Name": banknames[font.definition.bank] })
+
+    if font.definition.bank2 >= 0:
+        XmlTree.SubElement(banks, "Bank", { "Name": banknames[font.definition.bank2] })
+
+    instruments = XmlTree.SubElement(root, "Instruments")
+    drums = XmlTree.SubElement(root, "Drums")
+    effects = XmlTree.SubElement(root, "SoundEffects")
+    envelopes = XmlTree.SubElement(root, "Envelopes")
+    [generate_instrument_obj(instruments, inst, envelopesFound) for inst in font.instruments]
+    [generate_drum_obj(drums, drum, envelopesFound) for drum in font.percussions]
+    [generate_effect_obj(effects, effect, envelopesFound) for effect in font.effects]
+    for foundEnvelope in envelopesFound:
+        for referencedEnvelope in foundEnvelope.referencedScripts:
+            envelopesFound[f"Env_{referencedEnvelope.offset:08x}"] = referencedEnvelope
+    [generate_envelope_obj(envelopes, name, envelope) for name, envelope in envelopesFound.items()]
     file = open(filename, "w")
-    obj = {
-        "version": "{0}, {1}".format(_set.major, _set.minor),
-        "bank": _set.bank,
-        "unknown": _set.unk,
-        "drums": [generate_drum_obj(x, samples, envelopes) for x in _set.percussions],
-        "effects": [generate_effect_obj(x, samples, envelopes) for x in _set.effects],
-        "instruments": [generate_instrument_obj(x, samples, envelopes) for x in _set.instruments],
-        "envelopes": {"Envelope_{0:0>8x}".format(k): generate_envelope_obj(v) for k, v in envelopes.items()},
-        "samples": {"Sample_{0:0>8x}".format(k): generate_sample_obj(v, books, loops) for k, v in samples.items()},
-        "books": {"Book_{0:0>8x}".format(k): generate_pcm_book_obj(v) for k, v in books.items()},
-        "loops": {"Loop_{0:0>8x}".format(k): generate_pcm_loop_obj(v) for k, v in loops.items()}
-    }
-    file.write(json.dumps(obj, indent=2))
+    file.write(XmlTree.tostring(root, encoding="unicode"))
     file.flush()
     file.close()
 
@@ -470,8 +510,30 @@ class AifcWriter:
             if len(data) % 2:
                 self.out.write(b"\0")
 
+def align(val, al):
+    return (val + (al - 1)) & -al
 
-def write_aifc(raw, bank_defs, entry, filename):
+def serialize_f80(num):
+    num = float(num)
+    f64, = struct.unpack(">Q", struct.pack(">d", num))
+    f64_sign_bit = f64 & 2 ** 63
+    if num == 0.0:
+        if f64_sign_bit:
+            return b"\x80" + b"\0" * 9
+        else:
+            return b"\0" * 10
+    exponent = (f64 ^ f64_sign_bit) >> 52
+    assert exponent != 0, "can't handle denormals"
+    assert exponent != 0x7FF, "can't handle infinity/nan"
+    exponent -= 1023
+    f64_mantissa_bits = f64 & (2 ** 52 - 1)
+    f80_sign_bit = f64_sign_bit << (80 - 64)
+    f80_exponent = (exponent + 0x3FFF) << 64
+    f80_mantissa_bits = 2 ** 63 | (f64_mantissa_bits << (63 - 52))
+    f80 = f80_sign_bit | f80_exponent | f80_mantissa_bits
+    return struct.pack(">HQ", f80 >> 64, f80 & (2 ** 64 - 1))
+
+def write_aifc(raw, bank_defs, entry, tunings, filename):
     offset = bank_defs[entry.bank].offset + entry.address
     data = raw[offset:offset + entry.length]
     usedRawData.append((data, offset, offset + entry.length))
@@ -496,7 +558,15 @@ def write_aifc(raw, bank_defs, entry, filename):
         # is odd. It matches vadpcm_enc, though.)
         num_frames = len(data) * sample_size // frame_size
 
-        sample_rate = 32000
+        assert tunings is not None
+        assert len(tunings) > 0
+
+        if entry.bank in usedTuning:
+            usedTuning[entry.bank] = {}
+        
+        usedTuning[entry.bank][entry.address] = tunings[0]
+
+        sample_rate = 32000 * tunings[0]
 
         writer.add_section(
             b"COMM",
@@ -530,12 +600,7 @@ def write_aifc(raw, bank_defs, entry, filename):
                 ),
             )
         writer.finish()
-# for reference oot supports 4 formats: 9 bytes -> 16 samples ADPCM (what sm64 uses), 5 bytes -> 16 samples ADPCM (new in oot), 16 bytes -> 16 samples (new in sm64 shindou), 32 bytes -> 16 samples (new in oot) 
-# codec = 0:CODEC_ADPCM, 1:CODEC_S8, 2:CODEC_S16_INMEMORY, 3:CODEC_SMALL_ADPCM, 4:CODEC_REVERB, 5:CODEC_S16
-#medium = 0:MEDIUM_RAM, 1:MEDIUM_UNK, 2:MEDIUM_CART, 3:MEDIUM_DISK_DRIVE
-#
-#AudioLoad_GetRealTableIndex adds a wrench: if sz == 0, the ROM address contains the actual ID for the entry
-#Adjust sample rate based on sample IDs
+
 def write_aiff(entry, basedir, aifc_filename, aiff_filename):
     try:
         frame_size = "" if entry.codec == 0 else "5"
@@ -553,41 +618,25 @@ def write_aiff(entry, basedir, aifc_filename, aiff_filename):
         os.remove(rel_aiff_file)
         shutil.copy2(rel_aifc_file, targetfile)
 
-def convert_aseq_to_mus(aseq_name, mus_name):
-    seq64_cli = os.path.join(os.path.dirname(__file__), "seq64", "build", "seq64_console")
-    common_dir = os.getcwd()
-    rel_seq64_cli = "./" + os.path.relpath(seq64_cli, common_dir).replace("\\", "/")
-    try:
-        subprocess.run(["bash", "-c", f"{rel_seq64_cli} --in={aseq_name} --out={mus_name} --dialect=community-music --abi=zelda"], check=True)
-    except subprocess.CalledProcessError:
-        print(f"failed to convert {aseq_name} to mus format")
-        # exit(1)
-
 def main():
     args = []
     need_help = False
-    only_samples = False
-    only_samples_list = []
     for a in sys.argv[1:]:
         if a == "--help" or a == "-h":
             need_help = True
-        elif a == "--only-samples":
-            only_samples = True
         elif a.startswith("-"):
             print("Unrecognized option " + a)
             sys.exit(1)
-        elif only_samples:
-            only_samples_list.append(a)
         else:
             args.append(a)
 
-    expected_num_args = 7 if only_samples else 10
+    expected_num_args = 7
     if need_help or len(args) != expected_num_args:
         print(
-            "Usage: {} "
-            "<.fontdef file> <.font file> <.seqdef file> <.fontmap file> <.seq file> <.rawdef file> <.raw file> "
-            "(<samples outdir> <mus outdir> <soundfont outdir> | "
-            "--only-samples file:index ...)".format(sys.argv[0])
+            f"Usage: {sys.argv[0]} "
+            "<.fontdef file> <.font file> <.rawdef file> <.raw file> <assets XML dir> "
+            "(<samples outdir> <soundfont outdir> | "
+            "--only-samples file:index ...)"
         )
         sys.exit(0 if need_help else 1)
 
@@ -595,24 +644,28 @@ def main():
     fontdef_data = open(args[0], "rb").read()
     # Soundfonts
     font_data = open(args[1], "rb").read()
-    # Sequence Defs
-    seqdef_data = open(args[2], "rb").read()
-    # Sequence->Instrument Set Mapping
-    fontmap_data = open(args[3], "rb").read()
-    # Sequences
-    seq_data = open(args[4], "rb").read()
     # Sample Bank Defs
-    rawdef_data = open(args[5], "rb").read()
+    rawdef_data = open(args[2], "rb").read()
     # Sample Banks
-    raw_data = open(args[6], "rb").read()
+    raw_data = open(args[3], "rb").read()
 
-    if not only_samples:
-        samples_out_dir = args[7]
-        midi_out_dir = args[8]
-        fonts_out_dir = args[9]
+    asset_xml_dir = args[4]
+    samples_out_dir = args[5]
+    fonts_out_dir = args[6]
+
+    def check_dir(path):
+        if not os.path.isdir(path):
+            print(f"{path} must be a directory!", file=sys.stderr)
+            sys.exit(1)
+
+    check_dir(os.path.join(asset_xml_dir, "samples"))
+    check_dir(os.path.join(asset_xml_dir, "soundfonts"))
+    
+    soundfont_defs = read_soundfont_xmls(asset_xml_dir)
+    samplebanks = read_samplebank_xml(os.path.join(asset_xml_dir, "samples", "Banks.xml"))
 
     bank_defs = parse_raw_def_data(rawdef_data)
-    fonts = parse_soundfonts(fontdef_data, font_data)
+    fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
 
     report_gaps("SOUNDFONT", usedFontData, font_data)
 
@@ -621,7 +674,7 @@ def main():
     # Export AIFF samples
     for header in rawSamples:
         bank_ctr[header.bank] += 1
-        filename_base = os.path.join(samples_out_dir, str(header.bank))
+        filename_base = os.path.join(samples_out_dir, samplebanks[header.bank])
         os.makedirs(filename_base, exist_ok=True)
         aifc_filename = os.path.join(filename_base, f"{header.address:0>8x}.aifc")
         if not os.path.exists(aifc_filename) or os.path.getsize(aifc_filename) == 0:
@@ -631,29 +684,14 @@ def main():
     if len(usedRawData) > 0:
         report_gaps("SAMPLE", usedRawData, raw_data)
 
-    # Export sequences
-    sequences = parse_seq_def_data(seqdef_data, fontmap_data, seq_data)
-
-    for header in sequences:
-        if header.offset != 0:
-            dir = os.path.join(midi_out_dir)
-            os.makedirs(dir, exist_ok=True)
-            #with tempfile.NamedTemporaryFile(suffix=".aseq", delete=False) as aseq:
-            with open(f"{midi_out_dir}/{header.offset:08x}.aseq", "wb") as aseq:
-                aseq.write(header.sequence)
-                aseq.flush()
-                mus_file = os.path.join(dir, f"{header.offset:08x}.mus")
-                if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
-                   convert_aseq_to_mus(aseq.name, mus_file)
-
-    # Export instrument sets
-    setId = 0
-    for _set in fonts:
+    # Export soundfonts (todo: switch to XML export)
+    fontId = 0
+    for font in fonts:
         dir = os.path.join(fonts_out_dir)
         os.makedirs(dir, exist_ok=True)
-        filename = os.path.join(dir, str(setId) + ".json")
-        write_soundfont(_set, filename)
-        setId += 1
+        filename = os.path.join(dir, f"{font.name or fontId}.xml")
+        write_soundfont(font, filename, samplebanks)
+        fontId += 1
 
 if __name__ == "__main__":
     main()
