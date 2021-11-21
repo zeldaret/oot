@@ -1,0 +1,89 @@
+<Root>
+    <Soundfont Name="03 - General MIDI" Index="3">
+        <Instruments>
+            <Instrument Name="Pan Flute" Enum=""/>
+            <Instrument Name="Oboe" Enum=""/>
+            <Instrument Name="Clarinet" Enum=""/>
+            <Instrument Name="Bassoon" Enum=""/>
+            <Instrument Name="Horn" Enum=""/>
+            <Instrument Name="Trumpet" Enum=""/>
+            <Instrument Name="Trombone" Enum=""/>
+            <Instrument Name="Tuba" Enum=""/>
+            <Instrument Name="Glockenspiel" Enum=""/>
+            <Instrument/>
+            <Instrument Name="Strings 1" Enum=""/>
+            <Instrument Name="Strings 2" Enum=""/>
+            <Instrument Name="Pizzicato Strings" Enum=""/>
+            <Instrument Name="Piano" Enum=""/>
+            <Instrument Name="Harp" Enum=""/>
+            <Instrument Name="Marimba" Enum=""/>
+        </Instruments>
+        <Drums>
+            <Drum Name="Bass Drum 1" Enum=""/>
+            <Drum Name="Bass Drum 2" Enum=""/>
+            <Drum Name="Bass Drum 3" Enum=""/>
+            <Drum Name="Bass Drum 4" Enum=""/>
+            <Drum Name="Bass Drum 5" Enum=""/>
+            <Drum Name="Bass Drum 6" Enum=""/>
+            <Drum Name="Bass Drum 7" Enum=""/>
+            <Drum Name="Bass Drum 8" Enum=""/>
+            <Drum Name="Bass Drum 9" Enum=""/>
+            <Drum Name="Bass Drum 10" Enum=""/>
+            <Drum Name="Bass Drum 11" Enum=""/>
+            <Drum Name="Bass Drum 12" Enum=""/>
+            <Drum Name="Bass Drum 13" Enum=""/>
+            <Drum Name="Bass Drum 14" Enum=""/>
+            <Drum Name="Bass Drum 15" Enum=""/>
+            <Drum Name="Bass Drum 16" Enum=""/>
+            <Drum Name="Heavy Snare 1" Enum=""/>
+            <Drum Name="Heavy Snare 2" Enum=""/>
+            <Drum Name="Light Snare 1" Enum=""/>
+            <Drum Name="Light Snare 2" Enum=""/>
+            <Drum Name="Light Snare 3" Enum=""/>
+            <Drum Name="Cymbals 1" Enum=""/>
+            <Drum Name="Cymbals 2" Enum=""/>
+            <Drum Name="Cymbals 3" Enum=""/>
+            <Drum Name="Cymbals 4" Enum=""/>
+            <Drum Name="Cymbals 5" Enum=""/>
+            <Drum Name="Cymbals 6" Enum=""/>
+            <Drum Name="Cymbals 7" Enum=""/>
+            <Drum Name="Cymbals 8" Enum=""/>
+            <Drum Name="Cymbals 9" Enum=""/>
+            <Drum Name="Cymbals 10" Enum=""/>
+            <Drum Name="Cymbals 11" Enum=""/>
+            <Drum Name="Cymbals 12" Enum=""/>
+            <Drum Name="Timpani 1" Enum=""/>
+            <Drum Name="Timpani 2" Enum=""/>
+            <Drum Name="Timpani 3" Enum=""/>
+            <Drum Name="Timpani 4" Enum=""/>
+            <Drum Name="Timpani 5" Enum=""/>
+            <Drum Name="Timpani 6" Enum=""/>
+            <Drum Name="Timpani 7" Enum=""/>
+            <Drum Name="Timpani 8" Enum=""/>
+            <Drum Name="Timpani 9" Enum=""/>
+            <Drum Name="Timpani 10" Enum=""/>
+            <Drum Name="Timpani 11" Enum=""/>
+            <Drum Name="Timpani 12" Enum=""/>
+            <Drum Name="Timpani 13" Enum=""/>
+            <Drum Name="Timpani 14" Enum=""/>
+            <Drum Name="Timpani 15" Enum=""/>
+            <Drum Name="Timpani 16" Enum=""/>
+            <Drum Name="Timpani 17" Enum=""/>
+            <Drum Name="Timpani 18" Enum=""/>
+            <Drum Name="Timpani 19" Enum=""/>
+            <Drum Name="Timpani 20" Enum=""/>
+            <Drum Name="Timpani 21" Enum=""/>
+            <Drum Name="Timpani 22" Enum=""/>
+            <Drum Name="Timpani 23" Enum=""/>
+            <Drum Name="Timpani 24" Enum=""/>
+            <Drum Name="Timpani 25" Enum=""/>
+            <Drum Name="Timpani 26" Enum=""/>
+            <Drum Name="Timpani 27" Enum=""/>
+            <Drum Name="Timpani 28" Enum=""/>
+            <Drum Name="Timpani 29" Enum=""/>
+            <Drum Name="Timpani 30" Enum=""/>
+            <Drum Name="Timpani 31" Enum=""/>
+        </Drums>
+        <Effects/>
+    </Soundfont>
+</Root>
