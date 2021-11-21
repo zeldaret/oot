@@ -8,21 +8,16 @@ class ZMtx : public ZResource
 {
 public:
 	ZMtx(ZFile* nParent);
-	ZMtx(const std::string& prefix, uint32_t nRawDataIndex, ZFile* nParent);
 
 	void ParseRawData() override;
-	void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex) override;
 
-	size_t GetRawDataSize() const override;
-
-	void DeclareVar(const std::string& prefix, const std::string& bodyStr) const;
-
-	std::string GetBodySourceCode();
-	std::string GetSourceOutputCode(const std::string& prefix) override;
-	static std::string GetDefaultName(const std::string& prefix, uint32_t address);
+	std::string GetBodySourceCode() const override;
 
 	std::string GetSourceTypeName() const override;
 	ZResourceType GetResourceType() const override;
+
+	size_t GetRawDataSize() const override;
+	DeclarationAlignment GetDeclarationAlignment() const override;
 
 protected:
 	std::array<std::array<int32_t, 4>, 4> mtx;

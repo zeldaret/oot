@@ -781,26 +781,7 @@ static f32 sCutAngles[] = {
 
 static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 
-static Vtx sShadowVertices[] = {
-    VTX(-2000, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(2000, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(2000, 6000, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-2000, 6000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-};
-
-static Gfx sShadowDList[] = {
-    gsDPPipeSync(),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(0x08000000, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                         G_TX_NOMIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD),
-    gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
-    gsDPSetRenderMode(G_RM_PASS, G_RM_ZB_OVL_SURF2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPVertex(sShadowVertices, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_Kanban/ovl_En_Kanban.c"
 
 void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKanban* this = THIS;
@@ -908,7 +889,7 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(shadowTex));
-            gSPDisplayList(POLY_XLU_DISP++, sShadowDList);
+            gSPDisplayList(POLY_XLU_DISP++, sShadowDL);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1857);

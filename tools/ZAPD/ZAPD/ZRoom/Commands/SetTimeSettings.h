@@ -5,6 +5,10 @@
 class SetTimeSettings : public ZRoomCommand
 {
 public:
+	uint8_t hour;
+	uint8_t min;
+	uint8_t unk;
+
 	SetTimeSettings(ZFile* nParent);
 
 	void ParseRawData() override;
@@ -13,9 +17,4 @@ public:
 
 	std::string GetCommandCName() const override;
 	RoomCommand GetRoomCommand() const override;
-
-private:
-	uint8_t hour;
-	uint8_t min;
-	uint8_t unk;
 };

@@ -1,0 +1,101 @@
+<Root>
+    <Soundfont Name="01 - Sound Effects 2" Index="1">
+        <Instruments>
+            <Instrument Name="Door Knock" Enum="DOOR_KNOCK"/>
+            <Instrument Name="Dodongo Hurt" Enum="DODONGO_HURT"/>
+            <Instrument Name="Freezing Breath" Enum="ATK_BREATH"/>
+            <Instrument Name="Growling Monster" Enum="MONSTER_GROWL"/>
+            <Instrument Name="Rupee Tick" Enum="RUPEE_TICK"/>
+            <Instrument Name="Chomp" Enum="CHOMP"/>
+            <Instrument Name="Damage" Enum="DAMAGE"/>
+            <Instrument Name="Frog" Enum="FROG"/>
+            <Instrument Name="Magic Cry" Enum=""/>
+            <Instrument Name="Magic Charge" Enum=""/>
+            <Instrument Name="Flutter" Enum=""/>
+            <Instrument Name="Monster Cry" Enum=""/>
+            <Instrument Name="Tap" Enum=""/>
+            <Instrument Name="Voice Fast" Enum=""/>
+            <Instrument Name="Laughing" Enum=""/>
+            <Instrument Name="Deku Scrub - Scared" Enum="DEKU_FRIGHT"/>
+            <Instrument Name="Deku Scrub - Caught" Enum="DEKU_CAUGHT"/>
+            <Instrument Name="Broken Pottery" Enum="POT_BREAK"/>
+            <Instrument Name="Fire" Enum="FIRE"/>
+            <Instrument Name="Shrieking Monster" Enum=""/>
+            <Instrument Name="Step - Dirt" Enum=""/>
+            <Instrument Name="Step - Dirty" Enum=""/>
+            <Instrument Name="Howling Wind" Enum=""/>
+            <Instrument Name="Witch Hurt" Enum=""/>
+            <Instrument Name="Motor" Enum=""/>
+            <Instrument Name="Lizalfos Attack" Enum=""/>
+            <Instrument Name="Freezard Hurt" Enum=""/>
+            <Instrument Name="Ganondorf Laugh" Enum=""/>
+            <Instrument Name="Attack Shout" Enum=""/>
+            <Instrument Name="Powerful Magic" Enum=""/>
+            <Instrument Name="Electric Shock" Enum=""/>
+            <Instrument Name="Ganondorf Flying" Enum=""/>
+            <Instrument Name="Charging Magic" Enum=""/>
+            <Instrument Name="Dissonant Harp" Enum=""/>
+            <Instrument Name="Thunder" Enum=""/>
+            <Instrument Name="Crazy Wail" Enum=""/>
+            <Instrument Name="Attack - Hah!" Enum=""/>
+            <Instrument Name="Annoyed Moan" Enum=""/>
+            <Instrument Name="Water Splash" Enum=""/>
+            <Instrument Name="Step - Water" Enum=""/>
+            <Instrument Name="Explosion" Enum=""/>
+            <Instrument Name="Big Monster Hurt" Enum=""/>
+            <Instrument Name="Worried Crying" Enum=""/>
+            <Instrument Name="Scary Laughter" Enum=""/>
+            <Instrument Name="Underwater Bubble" Enum=""/>
+            <Instrument Name="Annoyed Groan" Enum=""/>
+            <Instrument Name="Goron Sound" Enum=""/>
+            <Instrument Name="Ice Block Sliding" Enum=""/>
+            <Instrument Name="Bongo" Enum=""/>
+            <Instrument Name="Wolfos Hurt" Enum=""/>
+            <Instrument Name="Deku Hurt" Enum=""/>
+        </Instruments>
+        <Drums/>
+        <Effects>
+            <Effect Name="Twinrova Laughter 1" Enum=""/>
+            <Effect Name="Twinrova Laughter 2" Enum=""/>
+            <Effect Name="Twinrova Hurt" Enum=""/>
+            <Effect Name="Twinrova Attacks" Enum=""/>
+            <Effect Name="Twinrova Sense?" Enum=""/>
+            <Effect Name="Twinrova Dies" Enum=""/>
+            <Effect Name="Twinrova Shudders" Enum=""/>
+            <Effect Name="Combined Twinrova Hurt" Enum=""/>
+            <Effect Name="Combined Twinrova Attacks" Enum=""/>
+            <Effect Name="Combined Twinrova Laughter" Enum=""/>
+            <Effect Name="Combined Twinrova Scream" Enum=""/>
+            <Effect Name="Combined Twinrova Wink" Enum=""/>
+            <Effect Name="Finger Snap" Enum=""/>
+            <Effect Name="Iron Knuckle Attacks" Enum=""/>
+            <Effect Name="Iron Knuckle Hurt" Enum=""/>
+            <Effect Name="Iron Knuckle Runs" Enum=""/>
+            <Effect Name="Iron Knuckle Dies" Enum=""/>
+            <Effect Name="Iron Knuckle Pulls Weapon Back" Enum=""/>
+            <Effect Name="Iron Knuckle Awakens" Enum=""/>
+            <Effect Name="Kid Attacks" Enum=""/>
+            <Effect Name="Kid Hurt" Enum=""/>
+            <Effect Name="Kid Scream" Enum=""/>
+            <Effect Name="Gerudo Gasp" Enum=""/>
+            <Effect Name="Ganon Laughter" Enum=""/>
+            <Effect Name="Ganon Voice Demo" Enum=""/>
+            <Effect Name="Ganon Throw" Enum=""/>
+            <Effect Name="Ganon At Return" Enum=""/>
+            <Effect Name="Ganon Strikes Ground" Enum=""/>
+            <Effect Name="Ganon Hurt 1" Enum=""/>
+            <Effect Name="Ganon Hurt 2" Enum=""/>
+            <Effect Name="Ganon Stunned" Enum=""/>
+            <Effect Name="Ganon Recovered" Enum=""/>
+            <Effect Name="Ganon Dies" Enum=""/>
+            <Effect Name="Ganon Breathes" Enum=""/>
+            <Effect Name="Ganon Vomits" Enum=""/>
+            <Effect Name="Ganon Breaks" Enum=""/>
+            <Effect Name="Ganon Casts Magic" Enum=""/>
+            <Effect Name="Ganon's Darkwave Attack" Enum=""/>
+            <Effect Name="Phantom Ganon Laughter" Enum=""/>
+            <Effect Name="Gooey Slash" Enum=""/>
+            <Effect Name="Redead Scream" Enum=""/>
+        </Effects>
+    </Soundfont>
+</Root>

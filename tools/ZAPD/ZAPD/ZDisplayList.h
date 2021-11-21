@@ -288,14 +288,15 @@ class ZDisplayList : public ZResource
 protected:
 	static TextureType TexFormatToTexType(F3DZEXTexFormats fmt, F3DZEXTexSizes siz);
 
-	void ParseF3DZEX(F3DZEXOpcode opcode, uint64_t data, int32_t i, std::string prefix, char* line);
-	void ParseF3DEX(F3DEXOpcode opcode, uint64_t data, std::string prefix, char* line);
+	void ParseF3DZEX(F3DZEXOpcode opcode, uint64_t data, int32_t i, const std::string& prefix,
+	                 char* line);
+	void ParseF3DEX(F3DEXOpcode opcode, uint64_t data, const std::string& prefix, char* line);
 
 	// Various Instruction Optimizations
 	bool SequenceCheck(std::vector<F3DZEXOpcode> sequence, int32_t startIndex);
-	int32_t OptimizationChecks(int32_t startIndex, std::string& output, std::string prefix);
+	int32_t OptimizationChecks(int32_t startIndex, std::string& output, const std::string& prefix);
 	int32_t OptimizationCheck_LoadTextureBlock(int32_t startIndex, std::string& output,
-	                                           std::string prefix);
+	                                           const std::string& prefix);
 	// int32_t OptimizationCheck_LoadMultiBlock(int32_t startIndex, std::string& output, std::string
 	// prefix);
 
@@ -303,7 +304,7 @@ protected:
 	void Opcode_F3DEX_G_SETOTHERMODE_L(uint64_t data, char* line);
 
 	// Shared Opcodes between F3DZEX and F3DEX
-	void Opcode_G_DL(uint64_t data, std::string prefix, char* line);
+	void Opcode_G_DL(uint64_t data, const std::string& prefix, char* line);
 	void Opcode_G_MODIFYVTX(uint64_t data, char* line);
 	void Opcode_G_CULLDL(uint64_t data, char* line);
 	void Opcode_G_TRI1(uint64_t data, char* line);
@@ -311,22 +312,19 @@ protected:
 	void Opcode_G_MTX(uint64_t data, char* line);
 	void Opcode_G_VTX(uint64_t data, char* line);
 	void Opcode_G_TEXTURE(uint64_t data, char* line);
-	void Opcode_G_SETTIMG(uint64_t data, std::string prefix, char* line);
+	void Opcode_G_SETTIMG(uint64_t data, const std::string& prefix, char* line);
 	void Opcode_G_SETTILE(uint64_t data, char* line);
-	void Opcode_G_SETTILESIZE(uint64_t data, std::string prefix, char* line);
+	void Opcode_G_SETTILESIZE(uint64_t data, const std::string& prefix, char* line);
 	void Opcode_G_LOADBLOCK(uint64_t data, char* line);
 	void Opcode_G_SETCOMBINE(uint64_t data, char* line);
 	void Opcode_G_SETPRIMCOLOR(uint64_t data, char* line);
 	void Opcode_G_SETOTHERMODE_L(uint64_t data, char* line);
 	void Opcode_G_SETOTHERMODE_H(uint64_t data, char* line);
-	void Opcode_G_LOADTLUT(uint64_t data, std::string prefix, char* line);
-	void Opcode_G_ENDDL(std::string prefix, char* line);
+	void Opcode_G_LOADTLUT(uint64_t data, const std::string& prefix, char* line);
+	void Opcode_G_ENDDL(const std::string& prefix, char* line);
 
 public:
-	std::string sceneSegName;
-	ZRoom* scene;
 	std::vector<uint64_t> instructions;
-	std::string curPrefix;
 
 	int32_t lastTexWidth, lastTexHeight, lastTexAddr, lastTexSeg;
 	F3DZEXTexFormats lastTexFmt;
@@ -337,44 +335,41 @@ public:
 	DListType dListType;
 
 	std::map<uint32_t, std::vector<ZVtx>> vertices;
-	std::map<uint32_t, std::string> vtxDeclarations;
 	std::vector<ZDisplayList*> otherDLists;
 
 	ZTexture* lastTexture = nullptr;
 	ZTexture* lastTlut = nullptr;
 
-	std::vector<uint32_t> references;
-
-	std::string defines;  // Hack for special cases where vertex arrays intersect...
+	std::vector<segptr_t> references;
 	std::vector<ZMtx> mtxList;
 
 	ZDisplayList(ZFile* nParent);
-	ZDisplayList(uint32_t rawDataIndex, int32_t rawDataSize, ZFile* nParent);
 	~ZDisplayList();
 
 	void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex) override;
+	void ExtractFromBinary(uint32_t nRawDataIndex, int32_t rawDataSize);
 
 	void ParseRawData() override;
 
-	Declaration* DeclareVar(const std::string& prefix, const std::string& bodyStr);
+	Declaration* DeclareVar(const std::string& prefix, const std::string& bodyStr) override;
+	std::string GetDefaultName(const std::string& prefix) const override;
 
-	void TextureGenCheck(std::string prefix);
-	static bool TextureGenCheck(ZRoom* scene, ZFile* parent, std::string prefix, int32_t texWidth,
-	                            int32_t texHeight, uint32_t texAddr, uint32_t texSeg,
-	                            F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz, bool texLoaded,
-	                            bool texIsPalette, ZDisplayList* self);
+	void TextureGenCheck();
+	static bool TextureGenCheck(int32_t texWidth, int32_t texHeight, uint32_t texAddr,
+	                            uint32_t texSeg, F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz,
+	                            bool texLoaded, bool texIsPalette, ZDisplayList* self);
 	static int32_t GetDListLength(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex,
 	                              DListType dListType);
 
 	size_t GetRawDataSize() const override;
+	DeclarationAlignment GetDeclarationAlignment() const override;
 	std::string GetSourceOutputHeader(const std::string& prefix) override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 	std::string ProcessLegacy(const std::string& prefix);
 	std::string ProcessGfxDis(const std::string& prefix);
 
-	virtual void GenerateHLIntermediette(HLFileIntermediette& hlFile) override;
 	bool IsExternalResource() const override;
-	virtual std::string GetExternalExtension() const override;
+	std::string GetExternalExtension() const override;
 	std::string GetSourceTypeName() const override;
 
 	ZResourceType GetResourceType() const override;

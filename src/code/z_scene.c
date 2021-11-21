@@ -416,7 +416,7 @@ void func_80099140(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->soundCtx.seqIndex = cmd->soundSettings.seqIndex;
     globalCtx->soundCtx.nightSeqIndex = cmd->soundSettings.nightSeqIndex;
 
-    if (gSaveContext.seqIndex == 0xFF) {
+    if (gSaveContext.seqIndex == (u8)NA_BGM_DISABLED) {
         Audio_QueueSeqCmd(cmd->soundSettings.bgmId | 0xF0000000);
     }
 }

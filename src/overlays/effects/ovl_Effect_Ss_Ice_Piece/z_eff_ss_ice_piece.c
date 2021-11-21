@@ -22,8 +22,6 @@ EffectSsInit Effect_Ss_Ice_Piece_InitVars = {
     EffectSsIcePiece_Init,
 };
 
-extern Gfx gEffIceFragment1DL[];
-
 u32 EffectSsIcePiece_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsIcePieceInitParams* initParams = (EffectSsIcePieceInitParams*)initParamsx;
 

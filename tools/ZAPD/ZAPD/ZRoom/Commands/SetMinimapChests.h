@@ -20,6 +20,8 @@ protected:
 class SetMinimapChests : public ZRoomCommand
 {
 public:
+	std::vector<MinimapChest> chests;
+
 	SetMinimapChests(ZFile* nParent);
 
 	void ParseRawData() override;
@@ -28,9 +30,5 @@ public:
 	std::string GetBodySourceCode() const override;
 
 	RoomCommand GetRoomCommand() const override;
-	size_t GetRawDataSize() const override;
 	std::string GetCommandCName() const override;
-
-private:
-	std::vector<MinimapChest> chests;
 };

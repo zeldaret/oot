@@ -32,9 +32,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern Gfx gGTGRotatingRingPlatformDL[];
-extern CollisionHeader gGTGRotatingRingPlatformCol;
-
 void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriKaiten* this = THIS;
     s32 pad;
