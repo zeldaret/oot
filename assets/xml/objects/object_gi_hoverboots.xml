@@ -1,7 +1,6 @@
 <Root>
     <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
     <File Name="object_gi_hoverboots" Segment="6">
-        <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
         <DList Name="gGiHoverBootsDL" Offset="0x1850"/>
     </File>
 </Root>
