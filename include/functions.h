@@ -1302,16 +1302,17 @@ s32 func_800A698C(PSkinAwb* skin, SkinLimb** limbs, MtxF* arg2, u8 arg3, u8 arg4
 s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3);
 void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest);
 void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest);
-void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest);
+void SkinMatrix_MtxFMtxFMult(MtxF* mfA, MtxF* mfB, MtxF* dest);
 void SkinMatrix_GetClear(MtxF** mf);
 void SkinMatrix_MtxFCopy(MtxF* src, MtxF* dest);
 s32 SkinMatrix_Invert(MtxF* src, MtxF* dest);
 void SkinMatrix_SetScale(MtxF* mf, f32 x, f32 y, f32 z);
-void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw);
+void SkinMatrix_SetRotateZYX(MtxF* mf, s16 x, s16 y, s16 z);
 void SkinMatrix_SetTranslate(MtxF* mf, f32 x, f32 y, f32 z);
-void SkinMatrix_SetScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 yaw, s16 roll, s16 pitch,
-                                           f32 dx, f32 dy, f32 dz);
-void SkinMatrix_SetRotateRPYTranslate(MtxF* mf, s16 roll, s16 pitch, s16 yaw, f32 dx, f32 dy, f32 dz);
+void SkinMatrix_SetTranslateRotateYXZScale(MtxF* dest, f32 scaleX, f32 scaleY, f32 scaleZ, s16 rotX, s16 rotY, s16 rotZ,
+                                           f32 translateX, f32 translateY, f32 translateZ);
+void SkinMatrix_SetTranslateRotateZYX(MtxF* dest, s16 rotX, s16 rotY, s16 rotZ, f32 translateX, f32 translateY,
+                                      f32 translateZ);
 Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src);
 void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z);
 void Sram_InitNewSave(void);
@@ -1322,7 +1323,7 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChoose, SramContext* sram
 void Sram_InitSave(FileChooseContext* fileChoose, SramContext* sramCtx);
 void Sram_EraseSave(FileChooseContext* fileChoose, SramContext* sramCtx);
 void Sram_CopySave(FileChooseContext* fileChoose, SramContext* sramCtx);
-void Sram_Write16Bytes(SramContext* sramCtx);
+void Sram_WriteSramHeader(SramContext* sramCtx);
 void Sram_InitSram(GameState* gameState, SramContext* sramCtx);
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx);
 void Sram_Init(GlobalContext* globalCtx, SramContext* sramCtx);
@@ -1388,7 +1389,7 @@ void VisMono_DrawOld(VisMono* this);
 void func_800AD920(struct_80166500* this);
 void func_800AD950(struct_80166500* this);
 void func_800AD958(struct_80166500* this, Gfx** gfxp);
-void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId);
+void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId);
 Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z);
 void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y, f32 z);
 void SkyboxDraw_Update(SkyboxContext* skyboxCtx);
@@ -1761,8 +1762,8 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode);
 void Matrix_RotateX(f32 x, u8 mode);
 void Matrix_RotateY(f32 y, u8 mode);
 void Matrix_RotateZ(f32 z, u8 mode);
-void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode);
-void Matrix_JointPosition(Vec3f* position, Vec3s* rotation);
+void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
+void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation);
 void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec);
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line);
@@ -2420,7 +2421,7 @@ void Select_Init(GameState* thisx);
 void Select_Destroy(GameState* thisx);
 void Opening_Init(GameState* thisx);
 void Opening_Destroy(GameState* thisx);
-void func_80811A20(GameState* thisx); // FileChoose_Init
-void func_80811A18(GameState* thisx); // FileChoose_Destroy
+void FileChoose_Init(GameState* thisx);
+void FileChoose_Destroy(GameState* thisx);
 
 #endif

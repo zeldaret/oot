@@ -584,7 +584,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                     gSaveContext.minigameState = 3;
                                 }
                             } else {
-                                SET_NEXT_GAMESTATE(&globalCtx->state, func_80811A20, char[0x1CAE0]);
+                                SET_NEXT_GAMESTATE(&globalCtx->state, FileChoose_Init, FileChooseContext);
                             }
                         } else {
                             globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx);
@@ -1439,7 +1439,7 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
 }
 
 void Gameplay_InitEnvironment(GlobalContext* globalCtx, s16 skyboxId) {
-    Skybox_Init(globalCtx, &globalCtx->skyboxCtx, skyboxId);
+    Skybox_Init(&globalCtx->state, &globalCtx->skyboxCtx, skyboxId);
     Environment_Init(globalCtx, &globalCtx->envCtx, 0);
 }
 
