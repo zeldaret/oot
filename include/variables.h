@@ -349,7 +349,7 @@ extern u8 gChannelsPerBank[4][7];
 extern u8 gUsedChannelsPerBank[4][7];
 extern u8 gMorphaTransposeTable[16];
 extern u8* gFrogsSongPtr;
-extern OcarinaNote* gScarecrowCustomSongPtr;
+extern OcarinaNote* gScarecrowLongSongPtr;
 extern u8* gScarecrowSpawnSongPtr;
 extern OcarinaSongButtons gOcarinaSongButtons[];
 extern SoundParams* gSoundParams[7];
