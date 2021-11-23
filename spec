@@ -402,8 +402,8 @@ beginseg
     include "build/src/code/fault_drawer.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
+    include "build/src/code/audio_data.o"
     include "build/src/code/audio_synthesis.o"
-    include "build/data/audio_synthesis.data.o"
     include "build/src/code/audio_heap.o"
     include "build/src/code/audio_load.o"
     include "build/src/code/code_800E4FE0.o"
@@ -544,13 +544,11 @@ endseg
 
 beginseg
     name "ovl_file_choose"
+    include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_data.o"
+    include "build/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_PAL.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.data.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.rodata.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.bss.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_choose.o"
-    include "build/data/overlays/gamestates/z_file_choose.rodata.o"
-    include "build/data/overlays/gamestates/z_file_choose.reloc.o"
+    include "build/src/overlays/gamestates/ovl_file_choose/ovl_file_choose_reloc.o"
 endseg
 
 beginseg
@@ -6796,13 +6794,15 @@ endseg
 beginseg
     name "elf_message_field"
     romalign 0x1000
-    include "build/baserom/elf_message_field.o"
+    include "build/src/elf_message/elf_message_field.o"
+    number 0
 endseg
 
 beginseg
     name "elf_message_ydan"
     romalign 0x1000
-    include "build/baserom/elf_message_ydan.o"
+    include "build/src/elf_message/elf_message_ydan.o"
+    number 0
 endseg
 
 beginseg

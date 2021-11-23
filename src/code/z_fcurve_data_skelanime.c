@@ -120,7 +120,7 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
         pos.y = transform->y;
         pos.z = transform->z;
 
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
         if (lod == 0) {

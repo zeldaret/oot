@@ -519,15 +519,15 @@ void func_800EC960(u8 custom) {
 
 void Audio_GetOcaInput(void) {
     Input inputs[4];
-    Input* controller1 = &inputs[0];
+    Input* input = &inputs[0];
     u32 sp18;
 
     sp18 = sCurOcarinaBtnPress;
     PadMgr_RequestPadData(&gPadMgr, inputs, 0);
-    sCurOcarinaBtnPress = controller1->cur.button;
+    sCurOcarinaBtnPress = input->cur.button;
     sPrevOcarinaBtnPress = sp18;
-    sCurOcaStick.x = controller1->rel.stick_x;
-    sCurOcaStick.y = controller1->rel.stick_y;
+    sCurOcaStick.x = input->rel.stick_x;
+    sCurOcaStick.y = input->rel.stick_y;
 }
 
 f32 Audio_OcaAdjStick(s8 inp) {
@@ -543,7 +543,7 @@ f32 Audio_OcaAdjStick(s8 inp) {
     } else {
         inpAdj = (inp * 128) / 64;
     }
-    ret = D_8012F6B4[inpAdj];
+    ret = gBendPitchTwoSemitonesFrequencies[inpAdj + 128];
     return ret;
 }
 
