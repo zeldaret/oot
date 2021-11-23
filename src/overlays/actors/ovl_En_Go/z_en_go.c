@@ -202,9 +202,9 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
     f32 yRange = fabsf(thisx->yDistToPlayer) + 1.0f;
 
     xzRange = thisx->xzDistToPlayer + 1.0f;
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
         if (globalCtx) {}
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x3008:
                     gSaveContext.infTable[14] |= 1;
@@ -256,8 +256,8 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case 4:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -269,7 +269,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                         } else {
                             thisx->textId = 0x300D;
                         }
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3034:
@@ -284,7 +284,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                         } else {
                             thisx->textId = 0x3033;
                         }
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3054:
@@ -293,7 +293,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                             unkState = 2;
                         } else {
                             thisx->textId = 0x3056;
-                            func_8010B720(globalCtx, thisx->textId);
+                            Message_ContinueTextbox(globalCtx, thisx->textId);
                             unkState = 1;
                         }
                         gSaveContext.infTable[11] |= 0x10;
@@ -301,15 +301,15 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case 5:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x3035:
                         gSaveContext.infTable[16] |= 0x800;
                     case 0x3032:
                     case 0x3033:
                         thisx->textId = 0x3034;
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     default:
@@ -318,16 +318,16 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 unkState = 3;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 7:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_9:
             break;
     }
     return unkState;
@@ -338,7 +338,7 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     if (arg2->unk_00) {
         arg2->unk_00 = unkFunc2(globalCtx, &this->actor);
         return false;
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         arg2->unk_00 = 1;
         return true;
     } else if (!func_8002F2CC(&this->actor, globalCtx, arg3)) {
@@ -865,20 +865,20 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
                 this->unk_21E = 100;
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 gSaveContext.timer2State = 0;
                 OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
             } else {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_GetItem);
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 EnGo_GetItem(this, globalCtx);
             }
         }
     } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.unk_00 == 2)) {
         EnGo_SetupAction(this, EnGo_GetItem);
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else {
         if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, globalCtx)) {
             EnGo_ReverseAnimation(this);
@@ -986,11 +986,11 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
             gSaveContext.bgsFlag = true;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) {
             this->actor.textId = 0x3058;
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
             this->actor.textId = 0x305C;
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
             Environment_ClearBgsDayCount();
         }
@@ -1000,7 +1000,7 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
 void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_21E) == 0) {
         this->actor.textId = 0x305A;
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E0.unk_00 = 1;
         EnGo_SetupAction(this, func_80A40DCC);
     }
@@ -1010,7 +1010,7 @@ void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         EnGo_ChangeAnimation(this, 1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         EnGo_SetupAction(this, EnGo_GetItem);
         EnGo_GetItem(this, globalCtx);
     }

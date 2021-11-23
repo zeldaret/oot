@@ -182,7 +182,8 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
 void ArrowFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     ArrowFire* this = THIS;
 
-    if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
+    if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK ||
+        globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
         Actor_Kill(&this->actor);
     } else {
         this->actionFunc(this, globalCtx);

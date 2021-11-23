@@ -196,15 +196,15 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF6BC(EnCow* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->actor.flags &= ~0x10000;
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = func_809DF96C;
     }
 }
 
 void func_809DF730(EnCow* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = func_809DF96C;
     }
@@ -220,28 +220,28 @@ void func_809DF778(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF7D8(EnCow* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->actor.flags &= ~0x10000;
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = func_809DF778;
         func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
     }
 }
 
 void func_809DF870(EnCow* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         if (Inventory_HasEmptyBottle()) {
-            func_8010B720(globalCtx, 0x2007);
+            Message_ContinueTextbox(globalCtx, 0x2007);
             this->actionFunc = func_809DF7D8;
         } else {
-            func_8010B720(globalCtx, 0x2013);
+            Message_ContinueTextbox(globalCtx, 0x2013);
             this->actionFunc = func_809DF6BC;
         }
     }
 }
 
 void func_809DF8FC(EnCow* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_809DF870;
     } else {
         this->actor.flags |= 0x10000;
@@ -252,7 +252,7 @@ void func_809DF8FC(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
-    if ((globalCtx->msgCtx.unk_E3EE == 0) || (globalCtx->msgCtx.unk_E3EE == 4)) {
+    if ((globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_00) || (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04)) {
         if (DREG(53) != 0) {
             if (this->unk_276 & 4) {
                 this->unk_276 &= ~0x4;

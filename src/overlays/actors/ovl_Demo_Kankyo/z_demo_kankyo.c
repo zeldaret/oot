@@ -868,9 +868,9 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                          this->unk_150[i].unk_18 * (0.018f * temp_f22), MTXMODE_APPLY);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 255, 255);
             if (this->actor.params == DEMOKANKYO_WARP_OUT) {
-                gDPSetEnvColor(POLY_XLU_DISP++, sWarpSparkleEnvColors[globalCtx->msgCtx.unk_E3EC].r,
-                               sWarpSparkleEnvColors[globalCtx->msgCtx.unk_E3EC].g,
-                               sWarpSparkleEnvColors[globalCtx->msgCtx.unk_E3EC].b, 255);
+                gDPSetEnvColor(POLY_XLU_DISP++, sWarpSparkleEnvColors[globalCtx->msgCtx.lastPlayedSong].r,
+                               sWarpSparkleEnvColors[globalCtx->msgCtx.lastPlayedSong].g,
+                               sWarpSparkleEnvColors[globalCtx->msgCtx.lastPlayedSong].b, 255);
             } else {
                 s8 respawnData = gSaveContext.respawn[1].data;
                 gDPSetEnvColor(POLY_XLU_DISP++, sWarpSparkleEnvColors[respawnData].r,
