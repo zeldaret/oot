@@ -2017,7 +2017,7 @@ void AudioOcarina_SetRecordingState(u8);
 OcarinaStaff* AudioOcarina_GetRecordingStaff(void);
 OcarinaStaff* AudioOcarina_GetPlayingStaff(void);
 OcarinaStaff* AudioOcarina_GetDisplayedStaff(void);
-void Audio_OcaMemoryGameStart(u8 minigameIdx);
+void AudioOcarina_MemoryGameSetNumNotes(u8 minigameIdx);
 s32 AudioOcarina_MemoryGameGenerateNotes(void);
 void func_800EE824(void);
 void AudioDebug_Draw(GfxPrint* printer);

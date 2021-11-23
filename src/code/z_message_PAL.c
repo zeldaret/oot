@@ -2683,7 +2683,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             case MSGMODE_MEMORY_GAME_START:
                 Audio_OcaSetInstrument(1);
                 Audio_OcaSetInstrument(6);
-                Audio_OcaMemoryGameStart(gSaveContext.ocarinaGameRoundNum);
+                AudioOcarina_MemoryGameSetNumNotes(gSaveContext.ocarinaGameRoundNum);
                 msgCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
                 msgCtx->ocarinaStaff->pos = sOcarinaButtonIdxBufPos = 0;
                 Message_ResetOcarinaNoteState();

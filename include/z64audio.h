@@ -1031,33 +1031,4 @@ typedef struct {
     u8 pos;     // original name: "locate"
 } OcarinaStaff;
 
-typedef enum {
-    /*  0 */ OCARINA_BTN_A,
-    /*  1 */ OCARINA_BTN_C_DOWN,
-    /*  2 */ OCARINA_BTN_C_RIGHT,
-    /*  3 */ OCARINA_BTN_C_LEFT,
-    /*  4 */ OCARINA_BTN_C_UP,
-    /* -1 */ OCARINA_BTN_INVALID = 0xFF
-} OcarinaButtonIdx;
-
-typedef enum {
-    /* 0x0 */ NOTE_C4,
-    /* 0x1 */ NOTE_DFLAT4,
-    /* 0x2 */ NOTE_D4,
-    /* 0x3 */ NOTE_EFLAT4,
-    /* 0x4 */ NOTE_E4,
-    /* 0x5 */ NOTE_F4,
-    /* 0x6 */ NOTE_GFLAT4,
-    /* 0x7 */ NOTE_G4,
-    /* 0x8 */ NOTE_AFLAT4,
-    /* 0x9 */ NOTE_A4,
-    /* 0xA */ NOTE_BFLAT4,
-    /* 0xB */ NOTE_B4,
-    /* 0xC */ NOTE_C5,
-    /* 0xD */ NOTE_DFLAT5,
-    /* 0xE */ NOTE_D5,
-    /* 0xF */ NOTE_EFLAT5,
-    /* -1  */ NOTE_NONE = 0xFF
-} OcarinaNoteIdx;
-
 #endif
