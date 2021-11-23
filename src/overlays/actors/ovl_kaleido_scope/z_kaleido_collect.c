@@ -187,8 +187,8 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
                         D_8082A11C = 0;
                         Audio_OcaSetInstrument(1);
-                        func_800ECC04((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
-                        pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
+                        AudioOcarina_StartOcarina((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
+                        pauseCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
                         pauseCtx->ocarinaStaff->pos = 0;
                         pauseCtx->ocarinaStaff->state = 0xFF;
                         VREG(21) = -62;
@@ -274,9 +274,9 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 Audio_OcaSetInstrument(1);
                 Audio_OcaSetInstrument(1);
                 pauseCtx->ocarinaSongIdx = gOcarinaSongItemMap[sp216 - QUEST_SONG_MINUET];
-                Audio_OcaSetSongPlayback(pauseCtx->ocarinaSongIdx + 1, 1);
+                AudioOcarina_SetPlaybackSong(pauseCtx->ocarinaSongIdx + 1, 1);
                 pauseCtx->unk_1E4 = 2;
-                pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
+                pauseCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
                 pauseCtx->ocarinaStaff->pos = 0;
                 sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
                 KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
@@ -466,12 +466,12 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
         }
 
         if (pauseCtx->unk_1E4 == 2) {
-            pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
+            pauseCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
 
             if (pauseCtx->ocarinaStaff->pos != 0) {
                 if (D_8082A11C + 1 == pauseCtx->ocarinaStaff->pos) {
                     D_8082A11C++;
-                    D_8082A124[pauseCtx->ocarinaStaff->pos - 1] = pauseCtx->ocarinaStaff->noteIdx;
+                    D_8082A124[pauseCtx->ocarinaStaff->pos - 1] = pauseCtx->ocarinaStaff->buttonIdx;
                 }
 
                 for (sp218 = 0, phi_s3 = 0; sp218 < 8; sp218++, phi_s3 += 4, sp21A += 4) {
@@ -512,11 +512,11 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
             }
         } else if (((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 6)) || (pauseCtx->unk_1E4 == 8)) {
             sp224 = pauseCtx->ocarinaSongIdx;
-            sp226 = gOcarinaSongNotes[sp224].len;
+            sp226 = gOcarinaSongButtons[sp224].numButtons;
 
             for (sp218 = sp21A, phi_s3 = 0; phi_s3 < sp226; phi_s3++, sp21A += 4) {
                 pauseCtx->questVtx[sp21A + 0].v.ob[1] = pauseCtx->questVtx[sp21A + 1].v.ob[1] =
-                    VREG(21 + gOcarinaSongNotes[sp224].notesIdx[phi_s3]);
+                    VREG(21 + gOcarinaSongButtons[sp224].buttonIdx[phi_s3]);
 
                 pauseCtx->questVtx[sp21A + 2].v.ob[1] = pauseCtx->questVtx[sp21A + 3].v.ob[1] =
                     pauseCtx->questVtx[sp21A + 0].v.ob[1] - 12;
@@ -524,7 +524,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 gDPPipeSync(POLY_OPA_DISP++);
 
                 if (pauseCtx->unk_1E4 == 8) {
-                    if (gOcarinaSongNotes[sp224].notesIdx[phi_s3] == 0) {
+                    if (gOcarinaSongButtons[sp224].buttonIdx[phi_s3] == OCARINA_BTN_A) {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, 200);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, 200);
@@ -537,7 +537,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
                 gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
-                gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[gOcarinaSongNotes[sp224].notesIdx[phi_s3]], G_IM_FMT_IA,
+                gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[gOcarinaSongButtons[sp224].buttonIdx[phi_s3]], G_IM_FMT_IA,
                                     G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                     G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -545,13 +545,13 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
             }
 
             if (pauseCtx->unk_1E4 != 8) {
-                pauseCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
+                pauseCtx->ocarinaStaff = AudioOcarina_GetPlayingStaff();
 
                 if (pauseCtx->ocarinaStaff->pos != 0) {
                     if (D_8082A11C == (pauseCtx->ocarinaStaff->pos - 1)) {
-                        if ((pauseCtx->ocarinaStaff->noteIdx >= OCARINA_BTN_A) &&
-                            (pauseCtx->ocarinaStaff->noteIdx <= OCARINA_BTN_C_UP)) {
-                            D_8082A124[pauseCtx->ocarinaStaff->pos - 1] = pauseCtx->ocarinaStaff->noteIdx;
+                        if ((pauseCtx->ocarinaStaff->buttonIdx >= OCARINA_BTN_A) &&
+                            (pauseCtx->ocarinaStaff->buttonIdx <= OCARINA_BTN_C_UP)) {
+                            D_8082A124[pauseCtx->ocarinaStaff->pos - 1] = pauseCtx->ocarinaStaff->buttonIdx;
                             D_8082A124[pauseCtx->ocarinaStaff->pos] = 0xFF;
                             D_8082A11C++;
                         }
@@ -604,8 +604,8 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
                     D_8082A11C = 0;
                     Audio_OcaSetInstrument(1);
-                    func_800ECC04((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
-                    pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
+                    AudioOcarina_StartOcarina((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
+                    pauseCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
                     pauseCtx->ocarinaStaff->pos = 0;
                     pauseCtx->ocarinaStaff->state = 0xFE;
                     pauseCtx->unk_1E4 = 5;

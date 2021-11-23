@@ -1021,12 +1021,12 @@ typedef struct {
 } OcarinaNote;  // size = 0x8
 
 typedef struct {
-    u8 len;
-    u8 notesIdx[8];
-} OcarinaSongInfo;
+    u8 numButtons;
+    u8 buttonIdx[8];
+} OcarinaSongButtons;
 
 typedef struct {
-    u8 noteIdx;
+    u8 buttonIdx;
     u8 state;   // original name: "status"
     u8 pos;     // original name: "locate"
 } OcarinaStaff;

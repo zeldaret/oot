@@ -94,7 +94,7 @@ void func_80A8F28C(EnKakasi* this) {
 }
 
 void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
-    s16 ocarinaNote = globalCtx->msgCtx.lastOcaNoteIdx;
+    s16 ocarinaNote = globalCtx->msgCtx.lastOcaButtonIdx;
     s16 currentFrame;
 
     if (arg != 0) {

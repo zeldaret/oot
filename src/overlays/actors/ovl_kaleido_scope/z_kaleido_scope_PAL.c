@@ -2920,7 +2920,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 2:
-                    pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
+                    pauseCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
                     if (pauseCtx->ocarinaStaff->state == 0) {
                         pauseCtx->unk_1E4 = 4;
                         Audio_OcaSetInstrument(0);
@@ -2935,7 +2935,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 5:
-                    pauseCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
+                    pauseCtx->ocarinaStaff = AudioOcarina_GetPlayingStaff();
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
                         Audio_OcaSetInstrument(0);

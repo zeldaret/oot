@@ -351,7 +351,7 @@ extern u8 gMorphaTransposeTable[16];
 extern u8* gFrogsSongPtr;
 extern OcarinaNote* gScarecrowCustomSongPtr;
 extern u8* gScarecrowSpawnSongPtr;
-extern OcarinaSongInfo gOcarinaSongNotes[];
+extern OcarinaSongButtons gOcarinaSongButtons[];
 extern SoundParams* gSoundParams[7];
 extern char D_80133390[];
 extern char D_80133398[];
