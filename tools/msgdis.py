@@ -116,41 +116,6 @@ control_codes = {
     '\x1F': "TIME",
 }
 
-"""
-color_type_default = {
-    0x40 : "WHITE",
-    0x41 : "RED",
-    0x42 : "GREEN",
-    0x43 : "BLUE",
-    0x44 : "LIGHTBLUE",
-    0x45 : "PINK",
-    0x46 : "YELLOW",
-    0x47 : "BLACK",
-}
-
-color_type_1 = {
-    0x40 : "WHITE",
-    0x41 : "TYPE1_ORANGE",
-    0x42 : "TYPE1_GREEN",
-    0x43 : "TYPE1_BLUE",
-    0x44 : "TYPE1_LIGHTBLUE",
-    0x45 : "TYPE1_PURPLE",
-    0x46 : "TYPE1_YELLOW",
-    0x47 : "BLACK",
-}
-
-color_type_5 = {
-    0x40 : "TYPE5_BLACK",
-    0x41 : "RED",
-    0x42 : "GREEN",
-    0x43 : "BLUE",
-    0x44 : "LIGHTBLUE",
-    0x45 : "PINK",
-    0x46 : "YELLOW",
-    0x47 : "BLACK",
-}
-"""
-
 colors = {
     0x40 : "DEFAULT",
     0x41 : "RED",
@@ -277,20 +242,20 @@ def decode(read_bytes, box_type):
 # ===================================================
 
 textbox_type = {
-    0: "BOX_BLACK",
-    1: "BOX_WOODEN",
-    2: "BOX_BLUE",
-    3: "BOX_OCARINA",
-    4: "BOX_NONE_BOTTOM",
-    5: "BOX_NONE_NO_SHADOW",
-    0xB: "BOX_CREDITS",
+    0: "TEXTBOX_TYPE_BLACK",
+    1: "TEXTBOX_TYPE_WOODEN",
+    2: "TEXTBOX_TYPE_BLUE",
+    3: "TEXTBOX_TYPE_OCARINA",
+    4: "TEXTBOX_TYPE_NONE_BOTTOM",
+    5: "TEXTBOX_TYPE_NONE_NO_SHADOW",
+    0xB: "TEXTBOX_TYPE_CREDITS",
 }
 
 textbox_ypos = {
-    0: "POS_VARIABLE",
-    1: "POS_TOP",
-    2: "POS_BOTTOM",
-    3: "POS_MIDDLE",
+    0: "TEXTBOX_POS_VARIABLE",
+    1: "TEXTBOX_POS_TOP",
+    2: "TEXTBOX_POS_BOTTOM",
+    3: "TEXTBOX_POS_MIDDLE",
 }
 
 # message entry tables vrom addresses
@@ -414,8 +379,8 @@ def extract_all_text(text_out, staff_text_out):
                 continue
 
             if message[0] == 0xFFFC:
-                out += "#ifdef DECLARE_MESSAGE_FFFC\n"
-            out += f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},"
+                out += "#ifdef DEFINE_MESSAGE_FFFC\n"
+            out += f"DEFINE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},"
             out += "\n"
             out += f"{message[3]}" + ("\n" if message[3] != "" else "") + ","
             out += "\n" if message[3] != "" else ""
@@ -435,7 +400,7 @@ def extract_all_text(text_out, staff_text_out):
             if message[0] == 0xFFFF:
                 continue
 
-            out += f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},\n{message[3]}\n)\n\n"
+            out += f"DEFINE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},\n{message[3]}\n)\n\n"
 
         with open(staff_text_out, "w") as outfile:
             outfile.write(out.strip() + "\n")

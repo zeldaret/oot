@@ -2,11 +2,11 @@
 
 #include "message_data_fmt.h"
 
-#define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
+#define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
     const char _message_##textId##_nes[sizeof(nesMessage)] = { nesMessage END };
 
-#define DECLARE_MESSAGE_FFFC
+#define DEFINE_MESSAGE_FFFC
 
-#include "assets/text/declare_messages.enc.h"
+#include "assets/text/message_data.enc.h"
 
-#undef DECLARE_MESSAGE_FFFC
+#undef DEFINE_MESSAGE_FFFC

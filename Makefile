@@ -220,10 +220,10 @@ build/data/%.o: data/%.s
 build/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
 	python3 tools/msgenc.py assets/text/charmap.txt $< $@
 
-build/assets/text/fra_message_data_static.o: build/assets/text/declare_messages.enc.h build/assets/text/declare_messages_staff.enc.h
-build/assets/text/ger_message_data_static.o: build/assets/text/declare_messages.enc.h build/assets/text/declare_messages_staff.enc.h
-build/assets/text/nes_message_data_static.o: build/assets/text/declare_messages.enc.h build/assets/text/declare_messages_staff.enc.h
-build/assets/text/staff_message_data_static.o: build/assets/text/declare_messages.enc.h build/assets/text/declare_messages_staff.enc.h
+build/assets/text/fra_message_data_static.o: build/assets/text/message_data.enc.h
+build/assets/text/ger_message_data_static.o: build/assets/text/message_data.enc.h
+build/assets/text/nes_message_data_static.o: build/assets/text/message_data.enc.h
+build/assets/text/staff_message_data_static.o: build/assets/text/message_data_staff.enc.h
 
 build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<

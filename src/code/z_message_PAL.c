@@ -28,34 +28,34 @@ s16 sMessageHasSetSfx = false;
 u16 sOcarinaSongBitFlags = 0; // ocarina bit flags
 
 MessageTableEntry sNesMessageEntryTable[] = {
-#define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
+#define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
     { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_nes },
-#define DECLARE_MESSAGE_FFFC
-#include "text/declare_messages.h"
-#undef DECLARE_MESSAGE_FFFC
-#undef DECLARE_MESSAGE
+#define DEFINE_MESSAGE_FFFC
+#include "text/message_data.h"
+#undef DEFINE_MESSAGE_FFFC
+#undef DEFINE_MESSAGE
     { 0xFFFF, 0, NULL },
 };
 
 const char* sGerMessageEntryTable[] = {
-#define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_ger,
-#include "text/declare_messages.h"
-#undef DECLARE_MESSAGE
+#define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_ger,
+#include "text/message_data.h"
+#undef DEFINE_MESSAGE
     NULL,
 };
 
 const char* sFraMessageEntryTable[] = {
-#define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_fra,
-#include "text/declare_messages.h"
-#undef DECLARE_MESSAGE
+#define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_fra,
+#include "text/message_data.h"
+#undef DEFINE_MESSAGE
     NULL,
 };
 
 MessageTableEntry sStaffMessageEntryTable[] = {
-#define DECLARE_MESSAGE(textId, type, yPos, staffMessage) \
+#define DEFINE_MESSAGE(textId, type, yPos, staffMessage) \
     { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_staff },
-#include "text/declare_messages_staff.h"
-#undef DECLARE_MESSAGE
+#include "text/message_data_staff.h"
+#undef DEFINE_MESSAGE
     { 0xFFFF, 0, NULL },
 };
 
@@ -231,7 +231,7 @@ void Message_DrawTextChar(GlobalContext* globalCtx, void* textureImage, Gfx** p)
                            G_TX_NOLOD);
 
     // Draw drop shadow
-    if (msgCtx->textBoxType != BOX_NONE_NO_SHADOW) {
+    if (msgCtx->textBoxType != TEXTBOX_TYPE_NONE_NO_SHADOW) {
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, msgCtx->textColorAlpha);
         gSPTextureRectangle(gfx++, (x + R_TEXT_DROP_SHADOW_OFFSET) << 2, (y + R_TEXT_DROP_SHADOW_OFFSET) << 2,
                             (x + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2,
@@ -390,7 +390,7 @@ void Message_FindCreditsMessage(GlobalContext* globalCtx, u16 textId) {
 void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
     switch (colorParameter) {
         case MSGCOL_RED:
-            if (msgCtx->textBoxType == BOX_WOODEN) {
+            if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 255;
                 msgCtx->textColorG = 120;
                 msgCtx->textColorB = 0;
@@ -401,7 +401,7 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
             }
             break;
         case MSGCOL_ADJUSTABLE:
-            if (msgCtx->textBoxType == BOX_WOODEN) {
+            if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = R_TEXT_ADJUST_COLOR_1_R;
                 msgCtx->textColorG = R_TEXT_ADJUST_COLOR_1_G;
                 msgCtx->textColorB = R_TEXT_ADJUST_COLOR_1_B;
@@ -412,7 +412,7 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
             }
             break;
         case MSGCOL_BLUE:
-            if (msgCtx->textBoxType == BOX_WOODEN) {
+            if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 80;
                 msgCtx->textColorG = 110;
                 msgCtx->textColorB = 255;
@@ -423,11 +423,11 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
             }
             break;
         case MSGCOL_LIGHTBLUE:
-            if (msgCtx->textBoxType == BOX_WOODEN) {
+            if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 90;
                 msgCtx->textColorG = 180;
                 msgCtx->textColorB = 255;
-            } else if (msgCtx->textBoxType == BOX_NONE_NO_SHADOW) {
+            } else if (msgCtx->textBoxType == TEXTBOX_TYPE_NONE_NO_SHADOW) {
                 msgCtx->textColorR = 80;
                 msgCtx->textColorG = 150;
                 msgCtx->textColorB = 180;
@@ -438,7 +438,7 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
             }
             break;
         case MSGCOL_PURPLE:
-            if (msgCtx->textBoxType == BOX_WOODEN) {
+            if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 210;
                 msgCtx->textColorG = 100;
                 msgCtx->textColorB = 255;
@@ -449,7 +449,7 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
             }
             break;
         case MSGCOL_YELLOW:
-            if (msgCtx->textBoxType == BOX_WOODEN) {
+            if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 255;
                 msgCtx->textColorG = 255;
                 msgCtx->textColorB = 30;
@@ -464,7 +464,7 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
             break;
         case MSGCOL_DEFAULT:
         default:
-            if (msgCtx->textBoxType == BOX_NONE_NO_SHADOW) {
+            if (msgCtx->textBoxType == TEXTBOX_TYPE_NONE_NO_SHADOW) {
                 msgCtx->textColorR = msgCtx->textColorG = msgCtx->textColorB = 0;
             } else {
                 msgCtx->textColorR = msgCtx->textColorG = msgCtx->textColorB = 255;
@@ -858,7 +858,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
         msgCtx->textPosY = YREG(1);
     }
 
-    if (msgCtx->textBoxType == BOX_NONE_NO_SHADOW) {
+    if (msgCtx->textBoxType == TEXTBOX_TYPE_NONE_NO_SHADOW) {
         msgCtx->textColorR = msgCtx->textColorG = msgCtx->textColorB = 0;
     } else {
         msgCtx->textColorR = msgCtx->textColorG = msgCtx->textColorB = 255;
@@ -1197,7 +1197,7 @@ void Message_Decode(GlobalContext* globalCtx) {
             msgCtx->textDrawPos = 1;
             R_TEXT_INIT_YPOS = R_TEXTBOX_Y + 8;
             osSyncPrintf("ＪＪ＝%d\n", numLines);
-            if (msgCtx->textBoxType != BOX_NONE_BOTTOM) {
+            if (msgCtx->textBoxType != TEXTBOX_TYPE_NONE_BOTTOM) {
                 if (numLines == 0) {
                     R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 26);
                 } else if (numLines == 1) {
@@ -1644,20 +1644,20 @@ void Message_OpenText(GlobalContext* globalCtx, u16 textId) {
     textBoxType = msgCtx->textBoxType;
     // "Text Box Type"
     osSyncPrintf("吹き出し種類＝%d\n", msgCtx->textBoxType);
-    if (textBoxType < BOX_NONE_BOTTOM) {
+    if (textBoxType < TEXTBOX_TYPE_NONE_BOTTOM) {
         DmaMgr_SendRequest1(
             msgCtx->textboxSegment,
             (u32)(_message_staticSegmentRomStart + (messageStaticIndices[textBoxType] * MESSAGE_STATIC_TEX_SIZE)),
             MESSAGE_STATIC_TEX_SIZE, "../z_message_PAL.c", 2006);
-        if (textBoxType == BOX_BLACK) {
+        if (textBoxType == TEXTBOX_TYPE_BLACK) {
             msgCtx->textboxColorRed = 0;
             msgCtx->textboxColorGreen = 0;
             msgCtx->textboxColorBlue = 0;
-        } else if (textBoxType == BOX_WOODEN) {
+        } else if (textBoxType == TEXTBOX_TYPE_WOODEN) {
             msgCtx->textboxColorRed = 70;
             msgCtx->textboxColorGreen = 50;
             msgCtx->textboxColorBlue = 30;
-        } else if (textBoxType == BOX_BLUE) {
+        } else if (textBoxType == TEXTBOX_TYPE_BLUE) {
             msgCtx->textboxColorRed = 0;
             msgCtx->textboxColorGreen = 10;
             msgCtx->textboxColorBlue = 50;
@@ -1666,9 +1666,9 @@ void Message_OpenText(GlobalContext* globalCtx, u16 textId) {
             msgCtx->textboxColorGreen = 0;
             msgCtx->textboxColorBlue = 0;
         }
-        if (textBoxType == BOX_WOODEN) {
+        if (textBoxType == TEXTBOX_TYPE_WOODEN) {
             msgCtx->textboxColorAlphaTarget = 230;
-        } else if (textBoxType == BOX_OCARINA) {
+        } else if (textBoxType == TEXTBOX_TYPE_OCARINA) {
             msgCtx->textboxColorAlphaTarget = 180;
         } else {
             msgCtx->textboxColorAlphaTarget = 170;
@@ -1823,7 +1823,7 @@ void Message_StartOcarina(GlobalContext* globalCtx, u16 ocarinaActionId) {
         msgCtx->textBoxType = 0x63;
     } else if (ocarinaActionId == OCARINA_ACTION_FROGS) {
         msgCtx->msgMode = MSGMODE_FROGS_START;
-        msgCtx->textBoxType = BOX_BLUE;
+        msgCtx->textBoxType = TEXTBOX_TYPE_BLUE;
     } else if (ocarinaActionId == OCARINA_ACTION_MEMORY_GAME) {
         Interface_ChangeAlpha(1);
         Message_Decode(globalCtx);
@@ -1901,11 +1901,11 @@ void Message_DrawTextBox(GlobalContext* globalCtx, Gfx** p) {
     gDPSetPrimColor(gfx++, 0, 0, msgCtx->textboxColorRed, msgCtx->textboxColorGreen, msgCtx->textboxColorBlue,
                     msgCtx->textboxColorAlphaCurrent);
 
-    if (!(msgCtx->textBoxType) || msgCtx->textBoxType == BOX_BLUE) {
+    if (!(msgCtx->textBoxType) || msgCtx->textBoxType == TEXTBOX_TYPE_BLUE) {
         gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment, G_IM_FMT_I, 128, 64, 0, G_TX_MIRROR, G_TX_NOMIRROR, 7, 0,
                                G_TX_NOLOD, G_TX_NOLOD);
     } else {
-        if (msgCtx->textBoxType == BOX_OCARINA) {
+        if (msgCtx->textBoxType == TEXTBOX_TYPE_OCARINA) {
             gDPSetEnvColor(gfx++, 0, 0, 0, 255);
         } else {
             gDPSetEnvColor(gfx++, 50, 20, 0, 255);
@@ -1920,7 +1920,7 @@ void Message_DrawTextBox(GlobalContext* globalCtx, Gfx** p) {
                         R_TEXTBOX_TEXHEIGHT << 1);
 
     // Draw treble clef
-    if (msgCtx->textBoxType == BOX_OCARINA) {
+    if (msgCtx->textBoxType == TEXTBOX_TYPE_OCARINA) {
         gDPPipeSync(gfx++);
         gDPSetCombineLERP(gfx++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
                           0);
@@ -1994,7 +1994,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
     if (msgCtx->msgLength != 0) {
         if (msgCtx->ocarinaAction != OCARINA_ACTION_FROGS && msgCtx->msgMode != MSGMODE_SONG_PLAYED_ACT &&
             msgCtx->msgMode >= MSGMODE_TEXT_BOX_GROWING && msgCtx->msgMode < MSGMODE_TEXT_CLOSING &&
-            msgCtx->textBoxType < BOX_NONE_BOTTOM) {
+            msgCtx->textBoxType < TEXTBOX_TYPE_NONE_BOTTOM) {
             Message_SetView(&msgCtx->view);
             func_8009457C(&gfx);
             Message_DrawTextBox(globalCtx, &gfx);
@@ -2105,7 +2105,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                                 osSyncPrintf("Ocarina_Flog 正解模範演奏=%x\n", msgCtx->lastPlayedSong);
                                 Message_ContinueTextbox(globalCtx, 0x86F); // Ocarina
                                 msgCtx->msgMode = MSGMODE_SONG_PLAYED;
-                                msgCtx->textBoxType = BOX_OCARINA;
+                                msgCtx->textBoxType = TEXTBOX_TYPE_OCARINA;
                                 msgCtx->stateTimer = 10;
                                 Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0,
                                                        &D_801333E0, &D_801333E8);
@@ -2123,7 +2123,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                                 osSyncPrintf("Ocarina_Flog 正解模範演奏=%x\n", msgCtx->lastPlayedSong);
                                 Message_ContinueTextbox(globalCtx, 0x86F); // Ocarina
                                 msgCtx->msgMode = MSGMODE_SONG_PLAYED;
-                                msgCtx->textBoxType = BOX_OCARINA;
+                                msgCtx->textBoxType = TEXTBOX_TYPE_OCARINA;
                                 msgCtx->stateTimer = 10;
                                 Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0,
                                                        &D_801333E0, &D_801333E8);
@@ -2134,7 +2134,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                             osSyncPrintf("Ocarina_Free 正解模範演奏=%x\n", msgCtx->lastPlayedSong);
                             Message_ContinueTextbox(globalCtx, 0x86F); // Ocarina
                             msgCtx->msgMode = MSGMODE_SONG_PLAYED;
-                            msgCtx->textBoxType = BOX_OCARINA;
+                            msgCtx->textBoxType = TEXTBOX_TYPE_OCARINA;
                             msgCtx->stateTimer = 10;
                             Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
@@ -2286,13 +2286,13 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                         osSyncPrintf("正解模範演奏=%x\n", msgCtx->lastPlayedSong);
                         Message_ContinueTextbox(globalCtx, 0x86F); // Ocarina
                         msgCtx->msgMode = MSGMODE_SONG_PLAYED;
-                        msgCtx->textBoxType = BOX_OCARINA;
+                        msgCtx->textBoxType = TEXTBOX_TYPE_OCARINA;
                         msgCtx->stateTimer = 1;
                     } else if (msgCtx->msgMode == MSGMODE_SONG_PLAYBACK_SUCCESS) {
                         if (msgCtx->lastPlayedSong >= OCARINA_SONG_SARIAS) {
                             Message_ContinueTextbox(globalCtx, 0x86F); // Ocarina
                             msgCtx->msgMode = MSGMODE_SONG_PLAYED;
-                            msgCtx->textBoxType = BOX_OCARINA;
+                            msgCtx->textBoxType = TEXTBOX_TYPE_OCARINA;
                             msgCtx->stateTimer = 1;
                         } else {
                             Message_CloseTextbox(globalCtx);
@@ -3102,9 +3102,9 @@ void Message_Update(GlobalContext* globalCtx) {
                         }
                     }
                 } else {
-                    if (msgCtx->textBoxPos == POS_TOP) {
+                    if (msgCtx->textBoxPos == TEXTBOX_POS_TOP) {
                         R_TEXTBOX_Y_TARGET = sTextboxUpperYPositions[var];
-                    } else if (msgCtx->textBoxPos == POS_BOTTOM) {
+                    } else if (msgCtx->textBoxPos == TEXTBOX_POS_BOTTOM) {
                         R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
                     } else {
                         R_TEXTBOX_Y_TARGET = sTextboxMidYPositions[var];
@@ -3117,7 +3117,7 @@ void Message_Update(GlobalContext* globalCtx) {
                 R_TEXT_CHOICE_YPOS(1) = R_TEXTBOX_Y_TARGET + 32;
                 R_TEXT_CHOICE_YPOS(2) = R_TEXTBOX_Y_TARGET + 44;
                 osSyncPrintf("message->msg_disp_type=%x\n", msgCtx->textBoxProperties & 0xF0);
-                if (msgCtx->textBoxType == BOX_NONE_BOTTOM || msgCtx->textBoxType == BOX_NONE_NO_SHADOW) {
+                if (msgCtx->textBoxType == TEXTBOX_TYPE_NONE_BOTTOM || msgCtx->textBoxType == TEXTBOX_TYPE_NONE_NO_SHADOW) {
                     msgCtx->msgMode = MSGMODE_TEXT_STARTING;
                     R_TEXTBOX_X = R_TEXTBOX_X_TARGET;
                     R_TEXTBOX_Y = R_TEXTBOX_Y_TARGET;
@@ -3159,7 +3159,7 @@ void Message_Update(GlobalContext* globalCtx) {
             }
             break;
         case MSGMODE_TEXT_DISPLAYING:
-            if (msgCtx->textBoxType != BOX_NONE_BOTTOM && YREG(31) == 0 &&
+            if (msgCtx->textBoxType != TEXTBOX_TYPE_NONE_BOTTOM && YREG(31) == 0 &&
                 CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B) && !msgCtx->textUnskippable) {
                 sTextboxSkipped = true;
                 msgCtx->textDrawPos = msgCtx->decodedTextLen;
