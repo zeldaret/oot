@@ -814,7 +814,7 @@ typedef struct {
     /* 0x2894 */ s32 numNotes;
     /* 0x2898 */ s16 tempoInternalToExternal;
     /* 0x289A */ s8 soundMode;
-    /* 0x289C */ s32 totalTaskCnt;
+    /* 0x289C */ s32 totalTaskCount;
     /* 0x28A0 */ s32 curAudioFrameDmaCount;
     /* 0x28A4 */ s32 rspTaskIdx;
     /* 0x28A8 */ s32 curAIBufIdx;
