@@ -466,6 +466,13 @@ typedef enum {
 } OcarinaFontId;
 
 typedef enum {
+    OCARINA_RECORD_OFF,
+    OCARINA_RECORD_SCARECROW_LONG,
+    OCARINA_RECORD_SCARECROW_SPAWN,
+    OCARINA_RECORD_CANCEL = 0xFF
+} OcarinaRecordingState;
+
+typedef enum {
     TEXTBOX_ICON_TRIANGLE,
     TEXTBOX_ICON_SQUARE,
     TEXTBOX_ICON_ARROW

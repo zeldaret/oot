@@ -187,7 +187,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
                         D_8082A11C = 0;
                         AudioOcarina_Reset(OCARINA_FONT_DEFAULT);
-                        AudioOcarina_StartOcarina((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
+                        AudioOcarina_Start((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
                         pauseCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
                         pauseCtx->ocarinaStaff->pos = 0;
                         pauseCtx->ocarinaStaff->state = 0xFF;
@@ -274,7 +274,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 AudioOcarina_Reset(OCARINA_FONT_DEFAULT);
                 AudioOcarina_Reset(OCARINA_FONT_DEFAULT);
                 pauseCtx->ocarinaSongIdx = gOcarinaSongItemMap[sp216 - QUEST_SONG_MINUET];
-                AudioOcarina_SetPlaybackSong(pauseCtx->ocarinaSongIdx + 1, 1);
+                AudioOcarina_SetDisplayedSong(pauseCtx->ocarinaSongIdx + 1, 1);
                 pauseCtx->unk_1E4 = 2;
                 pauseCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
                 pauseCtx->ocarinaStaff->pos = 0;
@@ -604,7 +604,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
                     D_8082A11C = 0;
                     AudioOcarina_Reset(OCARINA_FONT_DEFAULT);
-                    AudioOcarina_StartOcarina((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
+                    AudioOcarina_Start((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
                     pauseCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
                     pauseCtx->ocarinaStaff->pos = 0;
                     pauseCtx->ocarinaStaff->state = 0xFE;
