@@ -210,7 +210,7 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
             sCamSetting = globalCtx->cameraPtrs[MAIN_CAM]->setting;
             Camera_SetCameraData(globalCtx->cameraPtrs[MAIN_CAM], 1, &this->dyna.actor, NULL, 0, 0, 0);
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_MORI1);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_FOREST_BIRDS_EYE);
         }
     } else if (sCamSetting != CAM_SET_NONE) {
         osSyncPrintf("camera changed (previous) ... \n");

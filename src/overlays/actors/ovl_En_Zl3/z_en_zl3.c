@@ -88,7 +88,7 @@ void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B53468(void) {
-    Audio_QueueSeqCmd(0x62);
+    Audio_QueueSeqCmd(NA_BGM_ESCAPE);
 }
 
 BossGanon2* func_80B53488(EnZl3* this, GlobalContext* globalCtx) {
@@ -616,7 +616,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
-        Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
+        Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
@@ -626,7 +626,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B54360(this, sp30.x, 1);
             func_80B53B64(this, sp30.z, 2);
         }
-        Matrix_RotateRPY(unk_28C[0] + kREG(31), unk_28C[1] + kREG(32), unk_28C[2] + kREG(33), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[0] + kREG(31), unk_28C[1] + kREG(32), unk_28C[2] + kREG(33), MTXMODE_APPLY);
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[0], "../z_en_zl3.c", 1490);
         Matrix_Get(&sp38);
@@ -634,7 +634,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 3);
         }
-        Matrix_RotateRPY(unk_28C[3] + kREG(34), unk_28C[4] + kREG(35), unk_28C[5] + kREG(36), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[3] + kREG(34), unk_28C[4] + kREG(35), unk_28C[5] + kREG(36), MTXMODE_APPLY);
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[1], "../z_en_zl3.c", 1534);
         Matrix_Get(&sp38);
@@ -642,7 +642,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B54360(this, sp30.x, 7);
         }
-        Matrix_RotateRPY(unk_28C[6] + kREG(37), unk_28C[7] + kREG(38), unk_28C[8] + kREG(39), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[6] + kREG(37), unk_28C[7] + kREG(38), unk_28C[8] + kREG(39), MTXMODE_APPLY);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[2], "../z_en_zl3.c", 1554);
         Matrix_Pop();
@@ -655,7 +655,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B54360(this, sp30.x, 10);
             func_80B53B64(this, sp30.z, 11);
         }
-        Matrix_RotateRPY(unk_28C[9] + kREG(40), unk_28C[10] + kREG(41), unk_28C[11] + kREG(42), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[9] + kREG(40), unk_28C[10] + kREG(41), unk_28C[11] + kREG(42), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[3], "../z_en_zl3.c", 1579);
         Matrix_Get(&sp38);
@@ -665,7 +665,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B54360(this, sp30.x, 13);
             func_80B53B64(this, sp30.z, 14);
         }
-        Matrix_RotateRPY(unk_28C[12] + kREG(43), unk_28C[13] + kREG(44), unk_28C[14] + kREG(45), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[12] + kREG(43), unk_28C[13] + kREG(44), unk_28C[14] + kREG(45), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[4], "../z_en_zl3.c", 1598);
         Matrix_Pop();
@@ -678,7 +678,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B54360(this, sp30.x, 16);
             func_80B53B64(this, sp30.z, 17);
         }
-        Matrix_RotateRPY(unk_28C[15] + kREG(46), unk_28C[16] + kREG(47), unk_28C[17] + kREG(48), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[15] + kREG(46), unk_28C[16] + kREG(47), unk_28C[17] + kREG(48), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[5], "../z_en_zl3.c", 1623);
         Matrix_Get(&sp38);
@@ -688,7 +688,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             func_80B54360(this, sp30.x, 19);
             func_80B53B64(this, sp30.z, 20);
         }
-        Matrix_RotateRPY(unk_28C[18] + kREG(49), unk_28C[19] + kREG(50), unk_28C[20] + kREG(51), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_28C[18] + kREG(49), unk_28C[19] + kREG(50), unk_28C[20] + kREG(51), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[6], "../z_en_zl3.c", 1642);
         Matrix_Pop();
@@ -1118,7 +1118,7 @@ void func_80B55CCC(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55D00(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = 13;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         this->actor.flags |= 9;
@@ -1132,7 +1132,7 @@ void func_80B55D00(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B55DB0(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~0x9;
         this->actor.flags &= ~0x1;
         this->action = 12;
@@ -1174,7 +1174,7 @@ void func_80B55F38(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55F6C(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = 0x12;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
@@ -1211,7 +1211,7 @@ void func_80B56090(EnZl3* this, s32 arg1) {
 }
 
 void func_80B56108(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~0x9;
         this->actor.flags &= ~0x1;
         this->action = 16;
@@ -1235,7 +1235,7 @@ void func_80B561E0(EnZl3* this, s32 arg1) {
 }
 
 void func_80B56214(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = 21;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
@@ -1255,7 +1255,7 @@ void func_80B56214(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B562F4(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~0x9;
         this->actor.flags &= ~0x1;
         this->action = 20;
@@ -1687,7 +1687,7 @@ u16 func_80B572F0(GlobalContext* globalCtx) {
 }
 
 s32 func_80B57324(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         return 1;
     }
     return 0;
@@ -1704,7 +1704,7 @@ void func_80B57350(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B573C8(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         return 1;
     }
     return 0;
@@ -2148,10 +2148,10 @@ void func_80B58624(EnZl3* this, GlobalContext* globalCtx) {
     } else if (*unk_3CC == kREG(19) + 20.0f) {
         *unk_3CC += 1.0f;
         this->actor.textId = 0x71AC;
-        func_8010B680(globalCtx, this->actor.textId, 0);
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         func_80B54E14(this, &gZelda2Anime2Anim_003FF8, 0, -12.0f, 0);
     } else if (*unk_3CC == ((kREG(19) + 20.0f) + 1.0f)) {
-        if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+        if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
             *unk_3CC += 1.0f;
             func_80B5357C(this, globalCtx);
             func_80B5357C(this, globalCtx);
@@ -2458,7 +2458,7 @@ s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         rot->z += vec->x;
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
-        Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
+        Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Translate(174.0f, -317.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&mtx[0], "../z_en_zl3_inEscape.c", 2471);

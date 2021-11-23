@@ -28,10 +28,11 @@ const ActorInit Oceff_Wipe3_InitVars = {
     (ActorFunc)OceffWipe3_Draw,
 };
 
-#include "z_oceff_wipe3_gfx.c"
+#include "overlays/ovl_Oceff_Wipe3/ovl_Oceff_Wipe3.c"
 
 void OceffWipe3_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe3* this = THIS;
+
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
@@ -51,6 +52,7 @@ void OceffWipe3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe3_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe3* this = THIS;
+
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     if (this->counter < 100) {
         this->counter++;
@@ -102,7 +104,7 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 128);
-    gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+    gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 12, scroll * (-12), 64, 64, 1,
                                                      scroll * 8, scroll * (-8), 64, 64));
     gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);

@@ -133,7 +133,8 @@ endseg
 
 beginseg
     name "link_animetion"
-    include "build/baserom/link_animetion.o"
+    include "build/assets/misc/link_animetion/link_animetion.o"
+    number 7
 endseg
 
 beginseg
@@ -237,25 +238,29 @@ endseg
 beginseg
     name "nes_message_data_static"
     romalign 0x1000
-    include "build/baserom/nes_message_data_static.o"
+    include "build/assets/text/nes_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "ger_message_data_static"
     romalign 0x1000
-    include "build/baserom/ger_message_data_static.o"
+    include "build/assets/text/ger_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "fra_message_data_static"
     romalign 0x1000
-    include "build/baserom/fra_message_data_static.o"
+    include "build/assets/text/fra_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "staff_message_data_static"
     romalign 0x1000
-    include "build/baserom/staff_message_data_static.o"
+    include "build/assets/text/staff_message_data_static.o"
+    number 7
 endseg
 
 beginseg
@@ -401,8 +406,8 @@ beginseg
     include "build/src/code/fault_drawer.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
+    include "build/src/code/audio_data.o"
     include "build/src/code/audio_synthesis.o"
-    include "build/data/audio_synthesis.data.o"
     include "build/src/code/audio_heap.o"
     include "build/src/code/audio_load.o"
     include "build/src/code/code_800E4FE0.o"
@@ -418,7 +423,7 @@ beginseg
     include "build/data/code_800F7260.bss.o"
     include "build/src/code/code_800F9280.o"
     include "build/data/code_800F9280.data.o"
-    include "build/src/code/audio_rodata.o"
+    include "build/src/code/audio_init_params.o"
     include "build/src/code/logseverity.o"
     include "build/src/code/gfxprint.o"
     include "build/src/code/code_800FBCE0.o"
@@ -505,9 +510,7 @@ beginseg
     include "build/src/code/code_801067F0.o"
     include "build/src/code/code_80106860.o"
     include "build/src/code/code_801068B0.o"
-    include "build/data/z_message_PAL.rodata.o"
-    include "build/src/code/z_message_PAL.o"
-    include "build/data/z_message_PAL.bss.o"
+    include_data_with_rodata "build/src/code/z_message_PAL.o"
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
@@ -543,13 +546,11 @@ endseg
 
 beginseg
     name "ovl_file_choose"
+    include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_data.o"
+    include "build/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_PAL.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.data.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.rodata.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.bss.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_choose.o"
-    include "build/data/overlays/gamestates/z_file_choose.rodata.o"
-    include "build/data/overlays/gamestates/z_file_choose.reloc.o"
+    include "build/src/overlays/gamestates/ovl_file_choose/ovl_file_choose_reloc.o"
 endseg
 
 beginseg
@@ -1379,11 +1380,7 @@ endseg
 beginseg
     name "ovl_Boss_Ganon2"
     include "build/src/overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Boss_Ganon2/ovl_Boss_Ganon2_reloc.o"
-#else
-    include "build/data/overlays/actors/z_boss_ganon2.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3060,9 +3057,7 @@ endseg
 beginseg
     name "ovl_En_Zf"
     include "build/src/overlays/actors/ovl_En_Zf/z_en_zf.o"
-    include "build/data/overlays/actors/z_en_zf.data.o"
-    include "build/data/overlays/actors/z_en_zf.bss.o"
-    include "build/data/overlays/actors/z_en_zf.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Zf/ovl_En_Zf_reloc.o"
 endseg
 
 beginseg
@@ -6803,13 +6798,15 @@ endseg
 beginseg
     name "elf_message_field"
     romalign 0x1000
-    include "build/baserom/elf_message_field.o"
+    include "build/src/elf_message/elf_message_field.o"
+    number 0
 endseg
 
 beginseg
     name "elf_message_ydan"
     romalign 0x1000
-    include "build/baserom/elf_message_ydan.o"
+    include "build/src/elf_message/elf_message_ydan.o"
+    number 0
 endseg
 
 beginseg

@@ -115,11 +115,11 @@ void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, GlobalConte
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 6;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
             globalCtx->fadeTransition = 3;
-            func_800775F0(0x42);
+            func_800775F0(NA_BGM_INGO);
         } else {
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 4;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-            func_800775F0(0x42);
+            func_800775F0(NA_BGM_INGO);
             globalCtx->fadeTransition = 0x2E;
         }
     } else {
@@ -183,7 +183,7 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
             if (this->playerFinish > 0) {
                 this->result = INGORACE_PLAYER_WIN;
                 this->finishTimer = 55;
-                Audio_QueueSeqCmd(0x41);
+                Audio_QueueSeqCmd(NA_BGM_HORSE_GOAL);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
             for (i = 0; i < 3; i++) {
@@ -198,7 +198,7 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
                 this->result = INGORACE_INGO_WIN;
                 this->finishTimer = 70;
                 ingoHorse->stateFlags |= ENHORSE_INGO_WON;
-                Audio_QueueSeqCmd(0x41);
+                Audio_QueueSeqCmd(NA_BGM_HORSE_GOAL);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
             for (i = 0; i < 3; i++) {
@@ -206,12 +206,12 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
             }
         }
         if (((player2->rideActor != NULL) && AT_RANCH_EXIT(player2->rideActor)) || AT_RANCH_EXIT(&player2->actor)) {
-            Audio_QueueSeqCmd(0x41);
+            Audio_QueueSeqCmd(NA_BGM_HORSE_GOAL);
             this->result = INGORACE_INGO_WIN;
             this->finishTimer = 20;
         }
         if ((gSaveContext.timer1Value >= 180) && (this->startFlags & 2)) {
-            Audio_QueueSeqCmd(0x41);
+            Audio_QueueSeqCmd(NA_BGM_HORSE_GOAL);
             this->result = INGORACE_TIME_UP;
             this->finishTimer = 20;
         }
@@ -360,7 +360,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
 
                     if ((this->fenceCheck[i - 1] == 0) && !(this->raceFlags & MALONRACE_BROKE_RULE)) {
                         this->raceFlags |= MALONRACE_BROKE_RULE;
-                        func_8010B680(globalCtx, 0x208C, NULL);
+                        Message_StartTextbox(globalCtx, 0x208C, NULL);
                         this->result = 4;
                         this->finishTimer = 30;
                     }
@@ -371,12 +371,12 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
             AT_FINISH_LINE(player2->rideActor)) {
             if ((this->lapCount == 1) && (this->fenceCheck[15] == 0) && (player2->rideActor->prevPos.x < -200.0f)) {
                 this->raceFlags |= MALONRACE_BROKE_RULE;
-                func_8010B680(globalCtx, 0x208C, NULL);
+                Message_StartTextbox(globalCtx, 0x208C, NULL);
                 this->result = MALONRACE_FAILURE;
                 this->finishTimer = 30;
             } else if (this->fenceCheck[15] == 1) {
                 this->lapCount = 2;
-                Audio_QueueSeqCmd(0x41);
+                Audio_QueueSeqCmd(NA_BGM_HORSE_GOAL);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->result = MALONRACE_SUCCESS;
                 this->finishTimer = 70;
@@ -384,15 +384,15 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
             } else if ((this->fenceCheck[7] == 1) && !(this->raceFlags & MALONRACE_SECOND_LAP)) {
                 this->lapCount = 1;
                 this->raceFlags |= MALONRACE_SECOND_LAP;
-                func_8010B680(globalCtx, 0x208D, NULL);
+                Message_StartTextbox(globalCtx, 0x208D, NULL);
             } else if (this->fenceCheck[7] == 0) {
                 this->raceFlags |= MALONRACE_BROKE_RULE;
-                func_8010B680(globalCtx, 0x208C, NULL);
+                Message_StartTextbox(globalCtx, 0x208C, NULL);
                 this->result = MALONRACE_FAILURE;
                 this->finishTimer = 30;
             } else if (player2->rideActor->prevPos.x > 80.0f) {
                 this->raceFlags |= MALONRACE_BROKE_RULE;
-                func_8010B680(globalCtx, 0x208C, NULL);
+                Message_StartTextbox(globalCtx, 0x208C, NULL);
                 this->result = MALONRACE_FAILURE;
                 this->finishTimer = 30;
             }

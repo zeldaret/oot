@@ -205,7 +205,7 @@ void Gameplay_Init(GameState* thisx) {
     GameState_Realloc(&globalCtx->state, 0x1D4790);
     KaleidoManager_Init(globalCtx);
     View_Init(&globalCtx->view, gfxCtx);
-    func_800F6828(0);
+    Audio_SetExtraFilter(0);
     Quake_Init();
 
     for (i = 0; i < 4; i++) {
@@ -226,7 +226,7 @@ void Gameplay_Init(GameState* thisx) {
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
     Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
-    func_80110F68(globalCtx);
+    Message_Init(globalCtx);
     GameOver_Init(globalCtx);
     func_8006BA00(globalCtx);
     Effect_InitContext(globalCtx);
@@ -311,7 +311,7 @@ void Gameplay_Init(GameState* thisx) {
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                 Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
-                func_8010B680(globalCtx, 0x3066, NULL);
+                Message_StartTextbox(globalCtx, 0x3066, NULL);
             }
             gSaveContext.nextDayTime = 0xFFFE;
         } else {
@@ -402,7 +402,7 @@ void Gameplay_Init(GameState* thisx) {
     if (dREG(95) != 0) {
         D_8012D1F0 = D_801614D0;
         osSyncPrintf("\nkawauso_data=[%x]", D_8012D1F0);
-        DmaMgr_DMARomToRam(0x03FEB000, (u32)D_8012D1F0, sizeof(D_801614D0));
+        DmaMgr_DmaRomToRam(0x03FEB000, (u32)D_8012D1F0, sizeof(D_801614D0));
     }
 }
 
@@ -482,7 +482,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                 // "Sound initalized. 222"
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
-                                gSaveContext.seqIndex = 0xFF;
+                                gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
                                 gSaveContext.nightSeqIndex = 0xFF;
                             }
                         }
@@ -584,7 +584,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                     gSaveContext.minigameState = 3;
                                 }
                             } else {
-                                SET_NEXT_GAMESTATE(&globalCtx->state, func_80811A20, char[0x1CAE0]);
+                                SET_NEXT_GAMESTATE(&globalCtx->state, FileChoose_Init, FileChooseContext);
                             }
                         } else {
                             globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx);
@@ -773,7 +773,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3542);
             }
 
-            if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == 0) &&
+            if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == MSGMODE_NONE) &&
                 (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE)) {
                 KaleidoSetup_Update(globalCtx);
             }
@@ -951,7 +951,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     LOG_NUM("1", 1, "../z_play.c", 3733);
                 }
 
-                func_8010F6F0(globalCtx);
+                Message_Update(globalCtx);
             }
 
             if (1 && HREG(63)) {
@@ -1045,7 +1045,7 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
         Interface_Draw(globalCtx);
     }
 
-    func_8010F58C(globalCtx);
+    Message_Draw(globalCtx);
 
     if (globalCtx->gameOverCtx.state != GAMEOVER_INACTIVE) {
         GameOver_FadeInLights(globalCtx);
@@ -1212,7 +1212,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if ((globalCtx->skyboxCtx.unk_140 != 0) &&
-                        (GET_ACTIVE_CAM(globalCtx)->setting != CAM_SET_PREREND0)) {
+                        (GET_ACTIVE_CAM(globalCtx)->setting != CAM_SET_PREREND_FIXED)) {
                         Vec3f sp74;
 
                         Camera_GetSkyboxOffset(&sp74, GET_ACTIVE_CAM(globalCtx));
@@ -1439,7 +1439,7 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
 }
 
 void Gameplay_InitEnvironment(GlobalContext* globalCtx, s16 skyboxId) {
-    Skybox_Init(globalCtx, &globalCtx->skyboxCtx, skyboxId);
+    Skybox_Init(&globalCtx->state, &globalCtx->skyboxCtx, skyboxId);
     Environment_Init(globalCtx, &globalCtx->envCtx, 0);
 }
 

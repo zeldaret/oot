@@ -146,7 +146,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 }
                 if (this->timers[0] == 51) {
                     Audio_PlayActorSound2(this->actor.child, NA_SE_EV_SPEAR_FENCE);
-                    Audio_QueueSeqCmd(0x1B);
+                    Audio_QueueSeqCmd(NA_BGM_BOSS);
                 }
                 if (this->timers[0] == 0) {
                     EnfHG_SetupApproach(this, globalCtx, Rand_ZeroOne() * 5.99f);
@@ -198,7 +198,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, &this->actor, 9);
             }
             if (this->timers[0] == 1) {
-                Audio_QueueSeqCmd(0x23);
+                Audio_QueueSeqCmd(NA_BGM_OPENING_GANON);
             }
             Math_ApproachF(&this->cameraEye.x, GND_BOSSROOM_CENTER_X + 40.0f, 0.05f, this->cameraSpeedMod * 20.0f);
             Math_ApproachF(&this->cameraEye.y, GND_BOSSROOM_CENTER_Y + 37.0f, 0.05f, this->cameraSpeedMod * 20.0f);
@@ -299,7 +299,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_80078914(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
             }
             if (this->timers[0] == 20) {
-                Audio_QueueSeqCmd(0x1B);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
             }
             if (this->timers[0] == 2) {
                 this->cameraSpeedMod = 0.0f;

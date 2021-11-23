@@ -3,7 +3,7 @@
         <Path Name="gSpot04Path_000314" Offset="0x314"/>
         <Path Name="gSpot04Path_00031C" Offset="0x31C"/>
         <Path Name="gSpot04Path_00D730" Offset="0xD730"/>
-
+        <Cutscene Name="gKokiriForestDekuSproutCs" Offset="0xC9D0"/>
         <Cutscene Name="gSpot04Cs_10E20" Offset="0x10E20"/>
 
         <Scene Name="spot04_scene" Offset="0x0"/>

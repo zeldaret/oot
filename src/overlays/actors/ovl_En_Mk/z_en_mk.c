@@ -82,7 +82,7 @@ void EnMk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AACA40(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actor.flags &= 0xFFFEFFFF;
         this->actionFunc = EnMk_Wait;
     }
@@ -102,14 +102,14 @@ void func_80AACA94(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACB14(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACA94;
         func_8002F434(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
     }
 }
 
 void func_80AACB6C(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACB14;
     }
 
@@ -122,7 +122,7 @@ void func_80AACBAC(EnMk* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y -= 0x800;
     } else {
         this->actionFunc = func_80AACB6C;
-        func_8010B720(globalCtx, 0x4030);
+        Message_ContinueTextbox(globalCtx, 0x4030);
     }
 }
 
@@ -154,10 +154,10 @@ void func_80AACCA0(EnMk* this, GlobalContext* globalCtx) {
 void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = func_80AACCA0;
-        globalCtx->msgCtx.msgMode = 0x37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         player->exchangeItemId = EXCH_ITEM_NONE;
         this->timer = 16;
         Animation_Change(&this->skelAnime, &object_mk_Anim_000D88, 1.0f, 0.0f,
@@ -169,8 +169,8 @@ void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_8010B720(globalCtx, 0x4001);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x4001);
         Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_ONCE, -4.0f);
         this->flags &= ~2;
@@ -181,8 +181,8 @@ void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACEE8(EnMk* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_8010B720(globalCtx, 0x4000);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x4000);
         Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_LOOP, -4.0f);
         this->flags &= ~2;
@@ -203,7 +203,7 @@ void func_80AACFA0(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAD014(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACFA0;
         func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
@@ -217,7 +217,7 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 playerExchangeItem;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         playerExchangeItem = func_8002F368(globalCtx);
 
         if (this->actor.textId != 0x4018) {

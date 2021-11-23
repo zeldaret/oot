@@ -1257,14 +1257,14 @@ void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
-                func_8010B720(globalCtx, ElfMessage_GetSariaText(globalCtx));
+                Message_ContinueTextbox(globalCtx, ElfMessage_GetSariaText(globalCtx));
                 this->actor.update = func_80A05114;
                 break;
             case 1: // no
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 this->actor.update = func_80A053F0;
                 func_80A01C38(this, 0);
                 this->fairyFlags &= ~0x20;
@@ -1280,8 +1280,8 @@ void func_80A05114(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, 0xE3);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0xE3);
         this->actor.update = func_80A05040;
     }
 
@@ -1293,8 +1293,8 @@ void func_80A05188(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, ElfMessage_GetSariaText(globalCtx));
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, ElfMessage_GetSariaText(globalCtx));
         this->actor.update = func_80A05114;
     }
 
@@ -1308,21 +1308,21 @@ void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 naviCUpText = ElfMessage_GetCUpText(globalCtx);
 
                 if (naviCUpText != 0) {
-                    func_8010B720(globalCtx, naviCUpText);
+                    Message_ContinueTextbox(globalCtx, naviCUpText);
                 } else {
-                    func_8010B720(globalCtx, 0x15F);
+                    Message_ContinueTextbox(globalCtx, 0x15F);
                 }
 
                 this->actor.update = func_80A052F4;
                 break;
             case 1: // no
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 this->actor.update = func_80A053F0;
                 func_80A01C38(this, 0);
                 this->fairyFlags &= ~0x20;
@@ -1339,22 +1339,22 @@ void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) {
+        if (Message_ShouldAdvance(globalCtx)) {
             globalCtx->msgCtx.unk_E3F2 = 0xFF;
 
             switch (globalCtx->msgCtx.choiceIndex) {
                 case 0: // yes
                     this->actor.update = func_80A05188;
-                    func_8010B720(globalCtx, 0xE2);
+                    Message_ContinueTextbox(globalCtx, 0xE2);
                     break;
                 case 1: // no
                     this->actor.update = func_80A05208;
-                    func_8010B720(globalCtx, 0xE1);
+                    Message_ContinueTextbox(globalCtx, 0xE1);
                     break;
             }
         }
-    } else if (func_8002F334(thisx, globalCtx)) {
+    } else if (Actor_TextboxIsClosing(thisx, globalCtx)) {
         this->actor.update = func_80A053F0;
         func_80A01C38(this, 0);
         this->fairyFlags &= ~0x20;
@@ -1384,7 +1384,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags |= 0x10000;
     }
 
-    if (func_8002F194(thisx, globalCtx)) {
+    if (Actor_ProcessTalkRequest(thisx, globalCtx)) {
         func_800F4524(&D_801333D4, NA_SE_VO_SK_LAUGH, 0x20);
         thisx->focus.pos = thisx->world.pos;
 

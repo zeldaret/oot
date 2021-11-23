@@ -2810,7 +2810,7 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
         *polyStartIndex += pbgdata->numPolygons;
         *vtxStartIndex += pbgdata->numVertices;
     } else {
-        SkinMatrix_SetScaleRotateYRPTranslate(
+        SkinMatrix_SetTranslateRotateYXZScale(
             &mtx, dyna->bgActors[bgId].curTransform.scale.x, dyna->bgActors[bgId].curTransform.scale.y,
             dyna->bgActors[bgId].curTransform.scale.z, dyna->bgActors[bgId].curTransform.rot.x,
             dyna->bgActors[bgId].curTransform.rot.y, dyna->bgActors[bgId].curTransform.rot.z,
@@ -3136,7 +3136,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
             polyIndex = *dynaRaycast->resultPoly - polyMin;
             poly = &dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].colHeader->polyList[polyIndex];
 
-            SkinMatrix_SetScaleRotateYRPTranslate(&srpMtx, curTransform->scale.x, curTransform->scale.y,
+            SkinMatrix_SetTranslateRotateYXZScale(&srpMtx, curTransform->scale.x, curTransform->scale.y,
                                                   curTransform->scale.z, curTransform->rot.x, curTransform->rot.y,
                                                   curTransform->rot.z, curTransform->pos.x, curTransform->pos.y,
                                                   curTransform->pos.z);
