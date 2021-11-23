@@ -161,7 +161,7 @@ s32 func_80BA2218(ObjWarp2block* this, GlobalContext* globalCtx) {
 
     if (func_80BA1ECC(this, globalCtx)) {
         if (player->stateFlags2 & 0x1000000) {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->func_168 = func_80BA228C;
         } else {
             player->stateFlags2 |= 0x800000;
@@ -172,11 +172,11 @@ s32 func_80BA2218(ObjWarp2block* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80BA228C(ObjWarp2block* this, GlobalContext* globalCtx) {
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         this->func_168 = func_80BA2218;
     }
 
-    if (globalCtx->msgCtx.unk_E3EC == 0xA) {
+    if (globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_TIME) {
         if (this->unk_172 == 0xFE) {
             this->unk_16E = 0x6E;
         } else {
@@ -191,7 +191,7 @@ s32 func_80BA228C(ObjWarp2block* this, GlobalContext* globalCtx) {
 
 s32 func_80BA2304(ObjWarp2block* this, GlobalContext* globalCtx) {
     s32 ret = this->func_168(this, globalCtx);
-    this->unk_172 = globalCtx->msgCtx.unk_E3EC;
+    this->unk_172 = globalCtx->msgCtx.lastPlayedSong;
 
     return ret;
 }

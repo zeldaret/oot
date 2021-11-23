@@ -1293,9 +1293,8 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                     DbCamera_SetTextValue(dbCamera->sub.lookAt[dbCamera->sub.unkIdx].cameraRoll, &D_8012D084[10], 3);
                     func_8006376C(0x10, 0x16, (dbCamera->sub.unk_0A == 2) ? 7 : 4, D_8012D084);
                     func_8006376C(0xF, 0x17, (dbCamera->sub.unk_0A == 3) ? 7 : 4,
-                                  (dbCamera->sub.mode == 1)   ? D_8012CF14
-                                  : (dbCamera->sub.mode == 0) ? *D_8012CF18
-                                                              : D_8012CFB0);
+                                  (dbCamera->sub.mode == 1) ? D_8012CF14
+                                                            : (dbCamera->sub.mode == 0) ? *D_8012CF18 : D_8012CFB0);
                     if (dbCamera->sub.unk_0C) {
                         D_8012D05C[80] = '>';
                     } else {
@@ -1320,9 +1319,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
 
             if (dbCamera->sub.mode != 1) {
                 func_8006376C(3, 0x16,
-                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144) ? 7
-                              : !D_80161144                                                               ? 4
-                                                                                                          : 3,
+                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144)
+                                  ? 7
+                                  : !D_80161144 ? 4 : 3,
                               D_8012CF30);
                 sp110 = 'X';
                 DbCamera_SetTextValue(dbCamera->at.x, &sp111, 6);
@@ -1333,11 +1332,10 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 sp110 = 'Z';
                 DbCamera_SetTextValue(dbCamera->at.z, &sp111, 6);
                 func_8006376C(3, 0x19, 2, &sp110);
-                func_8006376C(0x1E, 0x16,
-                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144) ? 7
-                              : D_80161144                                                               ? 4
-                                                                                                         : 3,
-                              D_8012CF34);
+                func_8006376C(
+                    0x1E, 0x16,
+                    ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144) ? 7 : D_80161144 ? 4 : 3,
+                    D_8012CF34);
                 sp110 = 'X';
                 DbCamera_SetTextValue(dbCamera->eye.x, &sp111, 6);
                 func_8006376C(0x1E, 0x17, 2, &sp110);
@@ -1352,9 +1350,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 OLib_Vec3fDiffToVecSphGeo(&spFC, sp90, sp7C);
                 spFC.yaw -= cam->playerPosRot.rot.y;
                 func_8006376C(3, 0x16,
-                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144) ? 7
-                              : !D_80161144                                                               ? 4
-                                                                                                          : 3,
+                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144)
+                                  ? 7
+                                  : !D_80161144 ? 4 : 3,
                               D_8012CF30);
                 DbCamera_SetTextValue(spFC.pitch * 0.00549325f, &D_8012D0E4[10], 4);
                 func_8006376C(3, 0x17, 3, D_8012D0E4);
@@ -1364,11 +1362,10 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 func_8006376C(3, 0x19, 3, D_8012D0D4);
                 OLib_Vec3fDiffToVecSphGeo(&spFC, sp90, sp80);
                 spFC.yaw -= cam->playerPosRot.rot.y;
-                func_8006376C(0x1E, 0x16,
-                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144) ? 7
-                              : D_80161144                                                               ? 4
-                                                                                                         : 3,
-                              D_8012CF34);
+                func_8006376C(
+                    0x1E, 0x16,
+                    ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144) ? 7 : D_80161144 ? 4 : 3,
+                    D_8012CF34);
                 DbCamera_SetTextValue(spFC.pitch * 0.00549325f, &D_8012D0E4[10], 4);
                 func_8006376C(0x1C, 0x17, 3, D_8012D0E4);
                 DbCamera_SetTextValue(spFC.yaw * 0.00549325f, &D_8012D0F8[10], 4);

@@ -106,9 +106,9 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 globalCtx->nextEntranceIndex = 0x157;
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
                 globalCtx->fadeTransition = 0x26;
@@ -117,21 +117,21 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 gSaveContext.timer1State = 0xF;
             }
             break;
-        case 4:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 gSaveContext.infTable[11] |= 0x200;
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     if (gSaveContext.eventChkInf[1] & 0x4000) {
-                        func_8010B720(globalCtx, 0x2091);
+                        Message_ContinueTextbox(globalCtx, 0x2091);
                     } else if (HIGH_SCORE(HS_HORSE_RACE) == 0) {
-                        func_8010B720(globalCtx, 0x2092);
+                        Message_ContinueTextbox(globalCtx, 0x2092);
                     } else {
-                        func_8010B720(globalCtx, 0x2090);
+                        Message_ContinueTextbox(globalCtx, 0x2090);
                     }
                 }
             }
             break;
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2000:
                     gSaveContext.infTable[11] |= 0x100;
@@ -161,13 +161,13 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                     ret = 0;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
     return ret;

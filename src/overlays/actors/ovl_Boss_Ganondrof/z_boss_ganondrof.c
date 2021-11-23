@@ -1035,7 +1035,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                                    GND_BOSSROOM_CENTER_X, GND_BOSSROOM_CENTER_Y + 3.0f, GND_BOSSROOM_CENTER_Z, 0x4000,
                                    0, 0, FHGFIRE_WARP_DEATH);
                 this->actor.child = &horseTemp->actor;
-                func_8010B680(globalCtx, 0x108E, NULL);
+                Message_StartTextbox(globalCtx, 0x108E, NULL);
             }
 
             this->actor.shape.rot.y -= 0xC8;

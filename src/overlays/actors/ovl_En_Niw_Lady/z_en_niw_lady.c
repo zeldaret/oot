@@ -193,7 +193,7 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
 
 void func_80ABA21C(EnNiwLady* this, GlobalContext* globalCtx) {
     this->actor.textId = sMissingCuccoTextIds[0];
-    this->unk_262 = 6;
+    this->unk_262 = TEXT_STATE_DONE;
     this->actionFunc = func_80ABA244;
 }
 
@@ -226,7 +226,8 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
         this->cuccosInPen = BREG(7) - 1;
     }
     phi_s1 = this->cuccosInPen;
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) ||
+        (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 101;
     }
     if (this->cuccosInPen >= 7) {
@@ -241,13 +242,13 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
     this->actor.textId = sMissingCuccoTextIds[phi_s1];
     if (Text_GetFaceReaction(globalCtx, 8) != 0) {
         this->actor.textId = Text_GetFaceReaction(globalCtx, 8);
-        this->unk_262 = 6;
+        this->unk_262 = TEXT_STATE_DONE;
     }
     if ((this->unk_26C != 0) && (phi_s1 != 9)) {
         phi_s1 = 10;
         this->unk_26E = 11;
     }
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         osSyncPrintf("\n\n");
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん選択\t ☆☆☆☆ %d\n" VT_RST, phi_s1);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n" VT_RST, this->unk_26C);
@@ -260,7 +261,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
             if (this->actor.textId == 0x503C) {
                 func_80078884(NA_SE_SY_ERROR);
                 this->unk_26C = 2;
-                this->unk_262 = 5;
+                this->unk_262 = TEXT_STATE_EVENT;
                 this->actionFunc = func_80ABA654;
                 return;
             }
@@ -268,7 +269,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
             if (phi_s1 == 7) {
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 this->unk_26C = 1;
-                this->unk_262 = 5;
+                this->unk_262 = TEXT_STATE_EVENT;
                 this->unk_26A = this->cuccosInPen;
                 osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST, gSaveContext.infTable[25]);
                 gSaveContext.infTable[25] &= 0x1FF;
@@ -295,8 +296,8 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx) {
-    if (this->unk_262 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx) != 0) {
-        func_80106CCC(globalCtx);
+    if (this->unk_262 == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ハート ☆☆☆☆☆ %d\n" VT_RST, this->unk_26C);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 爆弾   ☆☆☆☆☆ %d\n" VT_RST, this->unk_272);
         osSyncPrintf("\n\n");
@@ -323,7 +324,7 @@ static s16 sTradeItemTextIds[] = { 0x503E, 0x503F, 0x5047, 0x5040, 0x5042, 0x504
 void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
     // "☆☆☆☆☆ Adult message check ☆☆☆☆☆"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n" VT_RST);
-    this->unk_262 = 6;
+    this->unk_262 = TEXT_STATE_DONE;
     this->unk_273 = 0;
     if (!(gSaveContext.itemGetInf[2] & 0x1000)) {
         if (this->unk_274 != 0) {
@@ -332,7 +333,7 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
             this->unk_27A = 0;
         }
         this->unk_273 = 1;
-        this->unk_262 = 4;
+        this->unk_262 = TEXT_STATE_CHOICE;
     } else {
         this->unk_27A = 2;
         if (!(gSaveContext.itemGetInf[2] & 0x4000)) {
@@ -355,16 +356,17 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s8 playerExchangeItemId;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) ||
+        (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 11;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         playerExchangeItemId = func_8002F368(globalCtx);
         if ((playerExchangeItemId == 6) && (gSaveContext.eventChkInf[6] & 0x400)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             player->actor.textId = sTradeItemTextIds[5];
             this->unk_26E = this->unk_27A + 21;
-            this->unk_262 = 4;
+            this->unk_262 = TEXT_STATE_CHOICE;
             this->actionFunc = func_80ABAB08;
         } else if (playerExchangeItemId != 0) {
             player->actor.textId = sTradeItemTextIds[7];
@@ -380,10 +382,10 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx) {
-    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+    if ((this->unk_262 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 this->actor.parent = NULL;
                 func_8002F434(&this->actor, globalCtx, GI_POCKET_EGG, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
@@ -391,8 +393,8 @@ void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx) {
             case 1:
                 this->actor.textId = sTradeItemTextIds[3];
                 this->unk_26E = this->unk_27A + 21;
-                func_8010B720(globalCtx, this->actor.textId);
-                this->unk_262 = 5;
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
+                this->unk_262 = TEXT_STATE_EVENT;
                 this->actionFunc = func_80ABAA9C;
                 break;
         }
@@ -401,28 +403,28 @@ void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx) {
 
 void func_80ABAA9C(EnNiwLady* this, GlobalContext* globalCtx) {
     this->unk_26E = 11;
-    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->unk_262 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = func_80ABA778;
     }
 }
 
 void func_80ABAB08(EnNiwLady* this, GlobalContext* globalCtx) {
-    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+    if ((this->unk_262 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 this->actor.parent = NULL;
                 func_8002F434(&this->actor, globalCtx, GI_COJIRO, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
                 break;
             case 1:
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 this->unk_277 = 1;
                 this->actor.textId = sTradeItemTextIds[8];
                 this->unk_26E = this->unk_27A + 21;
-                func_8010B720(globalCtx, this->actor.textId);
-                this->unk_262 = 5;
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
+                this->unk_262 = TEXT_STATE_EVENT;
                 this->actionFunc = func_80ABAA9C;
                 break;
         }
@@ -444,7 +446,7 @@ void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) != 6) || (func_80106BC8(globalCtx) == 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_DONE) || !Message_ShouldAdvance(globalCtx)) {
         return;
     }
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
@@ -457,14 +459,14 @@ void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80ABA778;
     } else {
         gSaveContext.itemGetInf[0] |= 0x1000;
-        this->unk_262 = 6;
+        this->unk_262 = TEXT_STATE_DONE;
         this->actionFunc = func_80ABA244;
     }
 }
 
 void func_80ABAD38(EnNiwLady* this, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 通常メッセージチェック ☆☆☆☆☆ \n" VT_RST);
-    this->unk_262 = 6;
+    this->unk_262 = TEXT_STATE_DONE;
     this->actionFunc = func_80ABAD7C;
 }
 
@@ -473,10 +475,11 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx) {
     if (Text_GetFaceReaction(globalCtx, 8) != 0) {
         this->actor.textId = Text_GetFaceReaction(globalCtx, 8);
     }
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) ||
+        (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 8;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->unk_274 = 1;
         this->unk_26E = this->unk_27A + 9;
         this->actionFunc = func_80ABAD38;

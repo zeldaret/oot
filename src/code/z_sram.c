@@ -22,7 +22,7 @@ typedef struct {
     /* 0x20 */ u8 doubleMagic;
     /* 0x21 */ u8 doubleDefense;
     /* 0x22 */ u8 bgsFlag;
-    /* 0x23 */ u8 ocarinaGameReward;
+    /* 0x23 */ u8 ocarinaGameRoundNum;
     /* 0x24 */ ItemEquips childEquips;
     /* 0x2E */ ItemEquips adultEquips;
     /* 0x38 */ u32 unk_38; // this may be incorrect, currently used for alignement
@@ -113,7 +113,7 @@ static SavePlayerData sNewSavePlayerData = {
     0,                                                  // doubleMagic
     0,                                                  // doubleDefense
     0,                                                  // bgsFlag
-    0,                                                  // ocarinaGameReward
+    0,                                                  // ocarinaGameRoundNum
     {
         { ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE }, // buttonItems
         { SLOT_NONE, SLOT_NONE, SLOT_NONE },            // cButtonSlots
@@ -196,7 +196,7 @@ static SavePlayerData sDebugSavePlayerData = {
     0,                                                  // doubleMagic
     0,                                                  // doubleDefense
     0,                                                  // bgsFlag
-    0,                                                  // ocarinaGameReward
+    0,                                                  // ocarinaGameRoundNum
     {
         { ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE }, // buttonItems
         { SLOT_NONE, SLOT_NONE, SLOT_NONE },            // cButtonSlots
@@ -845,8 +845,8 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     gSaveContext.zTargetSetting = sramCtx->readBuff[SRAM_HEADER_ZTARGET] & 1;
     gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
 
-    if (gSaveContext.language > 2) {
-        gSaveContext.language = 0;
+    if (gSaveContext.language >= LANGUAGE_MAX) {
+        gSaveContext.language = LANGUAGE_ENG;
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language;
         Sram_WriteSramHeader(sramCtx);
     }

@@ -211,7 +211,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
             } else {
                 this->actor.textId = 0x2034;
             }
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             gSaveContext.infTable[9] |= 0x400;
             break;
         case 0x2034:
@@ -221,7 +221,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
             } else {
                 this->actor.textId = 0x2035;
             }
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             break;
         case 0x2036:
         case 0x2037:
@@ -229,7 +229,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
                 sp18 = 2;
             } else {
                 this->actor.textId = 0x201F;
-                func_8010B720(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
             }
             break;
         case 0x2038:
@@ -237,7 +237,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
                 sp18 = 2;
             } else {
                 this->actor.textId = 0x2039;
-                func_8010B720(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
                 gSaveContext.infTable[10] |= 4;
             }
             break;
@@ -245,7 +245,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
             if (globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
                 sp18 = 2;
             } else {
-                func_8010B720(globalCtx, this->actor.textId = 0x2039);
+                Message_ContinueTextbox(globalCtx, this->actor.textId = 0x2039);
                 gSaveContext.eventInf[0] &= ~0xF;
                 gSaveContext.eventInf[0] &= ~0x20;
                 gSaveContext.eventInf[0] &= ~0x40;
@@ -264,7 +264,7 @@ s16 func_80A7949C(GlobalContext* globalCtx, Actor* thisx) {
     if (thisx->textId == 0x2035) {
         Rupees_ChangeBy(-10);
         thisx->textId = 0x205C;
-        func_8010B720(globalCtx, thisx->textId);
+        Message_ContinueTextbox(globalCtx, thisx->textId);
     } else {
         phi_v1 = 2;
     }
@@ -274,30 +274,30 @@ s16 func_80A7949C(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80A79500(GlobalContext* globalCtx, Actor* thisx) {
     s16 sp1E = 1;
 
-    osSyncPrintf("message_check->(%d[%x])\n", func_8010BDBC(&globalCtx->msgCtx), thisx->textId);
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
+    osSyncPrintf("message_check->(%d[%x])\n", Message_GetState(&globalCtx->msgCtx), thisx->textId);
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
             break;
-        case 2:
+        case TEXT_STATE_CLOSING:
             sp1E = func_80A791CC(globalCtx, thisx);
             break;
-        case 3:
+        case TEXT_STATE_DONE_FADING:
             break;
-        case 4:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 sp1E = func_80A7924C(globalCtx, thisx);
             }
             break;
-        case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 sp1E = func_80A7949C(globalCtx, thisx);
             }
             break;
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
     return sp1E;
@@ -448,7 +448,7 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &sp3C);
     this->unk_308.unk_08 = zeroVec;
     this->unk_308.unk_0E = zeroVec;
-    func_8010B680(globalCtx, 0x2025, NULL);
+    Message_StartTextbox(globalCtx, 0x2025, NULL);
     this->unk_308.unk_00 = 1;
     player->actor.world.pos = this->actor.world.pos;
     player->actor.world.pos.x += 100.0f * Math_SinS(this->actor.shape.rot.y);
@@ -631,8 +631,8 @@ void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         gSaveContext.infTable[10] &= ~4;
         func_800775F0(NA_BGM_HORSE);
-        globalCtx->msgCtx.unk_E3E7 = 0;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 0;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -653,8 +653,8 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
     } else if (this->unk_308.unk_00 == 2) {
         if (globalCtx->msgCtx.choiceIndex == 0) {
             if (gSaveContext.rupees < 50) {
-                globalCtx->msgCtx.unk_E3E7 = 4;
-                globalCtx->msgCtx.msgMode = 0x36;
+                globalCtx->msgCtx.stateTimer = 4;
+                globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 this->unk_308.unk_00 = 0;
                 return;
             }
@@ -676,9 +676,9 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
             phi_a3 = 0x20;
         }
         func_80A79BAC(this, globalCtx, phi_a2, phi_a3);
-        globalCtx->msgCtx.unk_E3E7 = 0;
+        globalCtx->msgCtx.stateTimer = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -695,8 +695,8 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
         this->unk_308.unk_00 = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x20;
         if (!(gSaveContext.eventInf[0] & 0x40)) {
-            globalCtx->msgCtx.unk_E3E7 = 4;
-            globalCtx->msgCtx.msgMode = 0x36;
+            globalCtx->msgCtx.stateTimer = 4;
+            globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
     }
 }
@@ -710,8 +710,8 @@ void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
             func_80A79BAC(this, globalCtx, 2, 0x26);
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-            globalCtx->msgCtx.unk_E3E7 = 0;
-            globalCtx->msgCtx.msgMode = 0x36;
+            globalCtx->msgCtx.stateTimer = 0;
+            globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
         this->unk_308.unk_00 = 0;
         gSaveContext.eventInf[0] &= ~0x20;
@@ -735,8 +735,8 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
         func_80A79BAC(this, globalCtx, 2, 0x26);
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0002;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-        globalCtx->msgCtx.unk_E3E7 = 0;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 0;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x40;
     }
@@ -772,7 +772,7 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
 
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &sp30, &sp24);
     this->actor.textId = 0x203B;
-    func_8010B680(globalCtx, this->actor.textId, NULL);
+    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     this->unk_308.unk_00 = 1;
     this->unk_1FC = 0;
     globalCtx->csCtx.frames = 0;
@@ -802,11 +802,11 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
         if (this->unk_308.unk_00 == 2) {
             if (this->actor.textId == 0x203B) {
                 this->actor.textId = 0x203C;
-                func_8010B680(globalCtx, this->actor.textId, NULL);
+                Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                 this->unk_308.unk_00 = 1;
                 func_80A796EC(this, 3);
             } else {
-                globalCtx->msgCtx.msgMode = 0x36;
+                globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 this->unk_308.unk_00 = 0;
             }
         }
@@ -860,8 +860,8 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
         globalCtx->fadeTransition = 5;
         this->actionFunc = func_80A7B018;
     } else if (this->unk_308.unk_00 == 2) {
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -885,8 +885,8 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
         func_80A79BAC(this, globalCtx, 0, 0x26);
         gSaveContext.eventInf[0] = gSaveContext.eventInf[0] & ~0xF;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -914,14 +914,14 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, globalCtx);
         if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->unk_308.unk_00 == 0) {
-            if (func_8002F194(&this->actor, globalCtx)) {}
+            if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {}
         } else {
             func_800343CC(globalCtx, &this->actor, &this->unk_308.unk_00,
                           ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,
                           func_80A79500);
             if (this->unk_308.unk_00 != 0) {
                 this->unk_1FA = this->unk_1F8;
-                this->unk_1F8 = func_8010BDBC(&globalCtx->msgCtx);
+                this->unk_1F8 = Message_GetState(&globalCtx->msgCtx);
             }
         }
         func_80A795C8(this, globalCtx);

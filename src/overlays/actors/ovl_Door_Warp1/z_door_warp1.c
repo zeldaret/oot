@@ -573,13 +573,13 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
         Gameplay_CameraSetAtEye(globalCtx, sRutoWarpSubCamId, &at, &eye);
         Gameplay_CameraSetFov(globalCtx, sRutoWarpSubCamId, 90.0f);
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_TALKING;
-        func_8010B680(globalCtx, 0x4022, NULL);
+        Message_StartTextbox(globalCtx, 0x4022, NULL);
         DoorWarp1_SetupAction(this, func_80999FE4);
     }
 }
 
 void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         OnePointCutscene_Init(globalCtx, 0x25E9, 999, &this->actor, MAIN_CAM);
         Gameplay_CopyCamera(globalCtx, -1, sRutoWarpSubCamId);

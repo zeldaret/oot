@@ -85,8 +85,8 @@ u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 2:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2051:
                     gSaveContext.infTable[8] |= 0x1000;
@@ -101,14 +101,14 @@ s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_9:
             break;
     }
     return ret;
@@ -260,7 +260,7 @@ void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
     if (player->stateFlags2 & 0x1000000) {
         player->unk_6A8 = &this->actor;
         player->stateFlags2 |= 0x2000000;
-        func_8010BD58(globalCtx, 0x23);
+        func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_EPONA);
         this->actionFunc = func_80AA20E4;
     } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
         player->stateFlags2 |= 0x800000;
@@ -270,15 +270,15 @@ void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
 void func_80AA20E4(EnMa2* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE >= 4) {
+    if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
         this->actionFunc = func_80AA204C;
-        globalCtx->msgCtx.unk_E3EE = 4;
-    } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->unk_208 = 0x1E;
         gSaveContext.infTable[8] |= 0x4000;
         this->actionFunc = func_80AA21C8;
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
         player->stateFlags2 |= 0x800000;
     }
@@ -292,7 +292,7 @@ void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx) {
     } else {
         if (this->unk_1E0.unk_00 == 0) {
             this->actor.flags |= 0x10000;
-            func_80106CCC(globalCtx);
+            Message_CloseTextbox(globalCtx);
         } else {
             this->actor.flags &= ~0x10000;
             this->actionFunc = func_80AA2018;
