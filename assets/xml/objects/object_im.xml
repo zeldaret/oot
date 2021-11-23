@@ -53,7 +53,7 @@
         <DList Name="gImpaRightHandDL" Offset="0xE908"/>
         <DList Name="gImpaHandPointingDL" Offset="0xEDE8"/>
         <Limb Name="gImpaRootLimb" LimbType="Standard" Offset="0xF688"/>
-        <Limb Name="gImpaTorso" LimbType="Standard" Offset="0xF694"/>
+        <Limb Name="gImpaTorsoLimb" LimbType="Standard" Offset="0xF694"/>
         <Limb Name="gImpaLeftThighLimb" LimbType="Standard" Offset="0xF6A0"/>
         <Limb Name="gImpaLeftLegLimb" LimbType="Standard" Offset="0xF6AC"/>
         <Limb Name="gImpaLeftFootLimb" LimbType="Standard" Offset="0xF6B8"/>
