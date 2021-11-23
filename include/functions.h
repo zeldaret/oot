@@ -2019,7 +2019,7 @@ OcarinaStaff* AudioOcarina_GetPlayingStaff(void);
 OcarinaStaff* AudioOcarina_GetDisplayedStaff(void);
 void AudioOcarina_MemoryGameSetNumNotes(u8 minigameRound);
 s32 AudioOcarina_MemoryGameGenerateNotes(void);
-void AudioOcarina_PlayScarecrowAfterCredits(void);
+void AudioOcarina_PlayLongScarecrowAfterCredits(void);
 void AudioDebug_Draw(GfxPrint* printer);
 void AudioDebug_ScrPrt(const s8* str, u16 num);
 void Audio_Update(void);

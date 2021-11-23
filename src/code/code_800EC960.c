@@ -1178,21 +1178,25 @@ void AudioOcarina_PlayDisplayedSong(void) {
                 sDisplayedNoteTimer -= nextNoteTimerStep;
             }
 
+            // Update volume
             if (sNoteDisplayedVolume != sDisplayedSong[sDisplayedNotePos].volume) {
                 sNoteDisplayedVolume = sDisplayedSong[sDisplayedNotePos].volume;
                 sNormalizedNoteDisplayedVolume = sNoteDisplayedVolume / 127.0f;
             }
 
+            // Update vibrato
             if (sNoteDisplayedVibrato != sDisplayedSong[sDisplayedNotePos].vibrato) {
                 sNoteDisplayedVibrato = sDisplayedSong[sDisplayedNotePos].vibrato;
                 Audio_QueueCmdS8(0x06020D06, sNoteDisplayedVibrato);
             }
 
+            // Update bend
             if (sNoteDisplayedBend != sDisplayedSong[sDisplayedNotePos].bend) {
                 sNoteDisplayedBend = sDisplayedSong[sDisplayedNotePos].bend;
                 sNormalizedNoteDisplayedBend = AudioOcarina_BendPitchTwoSemitones(sNoteDisplayedBend);
             }
 
+            // No changes in volume, vibrato, or bend between notes
             if ((sDisplayedSong[sDisplayedNotePos].volume == sDisplayedSong[sDisplayedNotePos - 1].volume &&
                  (sDisplayedSong[sDisplayedNotePos].vibrato == sDisplayedSong[sDisplayedNotePos - 1].vibrato) &&
                  (sDisplayedSong[sDisplayedNotePos].bend == sDisplayedSong[sDisplayedNotePos - 1].bend))) {
@@ -1210,8 +1214,10 @@ void AudioOcarina_PlayDisplayedSong(void) {
 
                 if (sDisplayedNoteValue != NOTE_NONE) {
                     sDisplayedStaffPos++;
-                    Audio_QueueCmdS8(0x6020D07, sOcarinaFontId - 1); // Sets fontId to io port 7
-                    Audio_QueueCmdS8(0x6020D05, sDisplayedNoteValue & 0x3F); // Sets note to io port 5
+                    // Sets sOcarinaFontId to channel io port 7, which is used as an index to get the true fontId
+                    Audio_QueueCmdS8(0x6020D07, sOcarinaFontId - 1);
+                    // Sets sDisplayedNoteValue to channel io port 5
+                    Audio_QueueCmdS8(0x6020D05, sDisplayedNoteValue & 0x3F);
                     Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &D_801333D4, 4, &sNormalizedNoteDisplayedBend,
                                            &sNormalizedNoteDisplayedVolume, &D_801333E8);
                 } else {
@@ -1345,7 +1351,7 @@ void AudioOcarina_SetRecordingSong(u8 isRecordingComplete) {
             sOcarinaSongNotes[OCARINA_SONG_SCARECROW_SPAWN][1].volume = 0xFF;
         }
     }
-    
+
     sRecordingState = OCARINA_RECORD_OFF;
 }
 
@@ -1556,7 +1562,7 @@ void AudioOcarina_Update(void) {
     AudioOcarina_UpdateRecordingStaff();
 }
 
-void AudioOcarina_PlayScarecrowAfterCredits(void) {
+void AudioOcarina_PlayLongScarecrowAfterCredits(void) {
     static u8 sScarecrowAfterCreditsState = 0;
     static u8 sScarecrowAfterCreditsFont = OCARINA_FONT_DEFAULT;
     static u16 sScarecrowAfterCreditsTimer = 1200;
@@ -1605,7 +1611,7 @@ f32 D_80131C8C = 0.0f;
 
 // === Audio Debugging ===
 
-// These variables come between in-function statics in AudioOcarina_PlayScarecrowAfterCredits and func_800F510C
+// These variables come between in-function statics in AudioOcarina_PlayLongScarecrowAfterCredits and func_800F510C
 
 f32 sAudioUpdateDuration = 0.0f;
 f32 sAudioUpdateDurationMax = 0.0f;
