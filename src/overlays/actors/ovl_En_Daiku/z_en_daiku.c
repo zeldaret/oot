@@ -231,9 +231,9 @@ void EnDaiku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnDaiku_UpdateTalking(EnDaiku* this, GlobalContext* globalCtx) {
     s32 newTalkState = ENDAIKU_STATE_TALKING;
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) {
         if (globalCtx->sceneNum == SCENE_GERUDOWAY) {
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x6007) {
                     Flags_SetSwitch(globalCtx, this->startFightSwitchFlag);
                     newTalkState = ENDAIKU_STATE_CAN_TALK;
@@ -243,7 +243,7 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, GlobalContext* globalCtx) {
                 }
             }
         } else if (globalCtx->sceneNum == SCENE_TENT) {
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x6061:
                         gSaveContext.infTable[23] |= 0x40;
@@ -269,10 +269,10 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
 
     if (this->talkState == ENDAIKU_STATE_TALKING) {
         this->talkState = EnDaiku_UpdateTalking(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->talkState = ENDAIKU_STATE_TALKING;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp2E, &sp2C);
         if (sp2E >= 0 && sp2E <= 320 && sp2C >= 0 && sp2C <= 240 && this->talkState == ENDAIKU_STATE_CAN_TALK &&
             func_8002F2CC(&this->actor, globalCtx, 100.0f) == 1) {
             if (globalCtx->sceneNum == SCENE_GERUDOWAY) {
@@ -403,7 +403,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
     Vec3s* pointPos;
     s32 exitLoop;
 
-    func_800F5C64(NA_BGM_APPEAR);
+    Audio_PlayFanfare(NA_BGM_APPEAR);
     EnDaiku_Change(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 

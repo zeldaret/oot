@@ -238,25 +238,29 @@ endseg
 beginseg
     name "nes_message_data_static"
     romalign 0x1000
-    include "build/baserom/nes_message_data_static.o"
+    include "build/assets/text/nes_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "ger_message_data_static"
     romalign 0x1000
-    include "build/baserom/ger_message_data_static.o"
+    include "build/assets/text/ger_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "fra_message_data_static"
     romalign 0x1000
-    include "build/baserom/fra_message_data_static.o"
+    include "build/assets/text/fra_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "staff_message_data_static"
     romalign 0x1000
-    include "build/baserom/staff_message_data_static.o"
+    include "build/assets/text/staff_message_data_static.o"
+    number 7
 endseg
 
 beginseg
@@ -506,9 +510,7 @@ beginseg
     include "build/src/code/code_801067F0.o"
     include "build/src/code/code_80106860.o"
     include "build/src/code/code_801068B0.o"
-    include "build/data/z_message_PAL.rodata.o"
-    include "build/src/code/z_message_PAL.o"
-    include "build/data/z_message_PAL.bss.o"
+    include_data_with_rodata "build/src/code/z_message_PAL.o"
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"

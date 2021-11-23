@@ -850,7 +850,7 @@ s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
 
 s32 func_80986AD0(DemoIm* this, GlobalContext* globalCtx) {
     this->actor.flags |= 9;
-    if (!func_8002F194(&this->actor, globalCtx)) {
+    if (!Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actor.textId = 0x708E;
         func_8002F2F4(&this->actor, globalCtx);
     } else {
@@ -860,7 +860,7 @@ s32 func_80986AD0(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986B2C(GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         Player* player = GET_PLAYER(globalCtx);
 
         globalCtx->nextEntranceIndex = 0xCD;

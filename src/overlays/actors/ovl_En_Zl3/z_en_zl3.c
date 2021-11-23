@@ -1118,7 +1118,7 @@ void func_80B55CCC(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55D00(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = 13;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         this->actor.flags |= 9;
@@ -1132,7 +1132,7 @@ void func_80B55D00(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B55DB0(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~0x9;
         this->actor.flags &= ~0x1;
         this->action = 12;
@@ -1174,7 +1174,7 @@ void func_80B55F38(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55F6C(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = 0x12;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
@@ -1211,7 +1211,7 @@ void func_80B56090(EnZl3* this, s32 arg1) {
 }
 
 void func_80B56108(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~0x9;
         this->actor.flags &= ~0x1;
         this->action = 16;
@@ -1235,7 +1235,7 @@ void func_80B561E0(EnZl3* this, s32 arg1) {
 }
 
 void func_80B56214(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = 21;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
@@ -1255,7 +1255,7 @@ void func_80B56214(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B562F4(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~0x9;
         this->actor.flags &= ~0x1;
         this->action = 20;
@@ -1687,7 +1687,7 @@ u16 func_80B572F0(GlobalContext* globalCtx) {
 }
 
 s32 func_80B57324(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         return 1;
     }
     return 0;
@@ -1704,7 +1704,7 @@ void func_80B57350(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B573C8(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         return 1;
     }
     return 0;
@@ -2148,10 +2148,10 @@ void func_80B58624(EnZl3* this, GlobalContext* globalCtx) {
     } else if (*unk_3CC == kREG(19) + 20.0f) {
         *unk_3CC += 1.0f;
         this->actor.textId = 0x71AC;
-        func_8010B680(globalCtx, this->actor.textId, 0);
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         func_80B54E14(this, &gZelda2Anime2Anim_003FF8, 0, -12.0f, 0);
     } else if (*unk_3CC == ((kREG(19) + 20.0f) + 1.0f)) {
-        if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+        if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
             *unk_3CC += 1.0f;
             func_80B5357C(this, globalCtx);
             func_80B5357C(this, globalCtx);

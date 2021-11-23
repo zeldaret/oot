@@ -239,7 +239,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 5.0f)) {
                 globalCtx->roomCtx.unk_74[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
             }
             BgMizuWater_SetWaterBoxesHeight(globalCtx->colCtx.colHeader->waterBoxes, this->actor.world.pos.y);
             break;

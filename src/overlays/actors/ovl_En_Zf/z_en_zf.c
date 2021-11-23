@@ -1841,8 +1841,9 @@ void EnZf_CircleAroundPlayer(EnZf* this, GlobalContext* globalCtx) {
         if ((this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) /* miniboss */ &&
             (D_80B4A1B4 == this->actor.params)) {
             EnZf_SetupHopAndTaunt(this);
-        } else
+        } else {
             EnZf_SetupApproachPlayer(this, globalCtx);
+        }
     } else if ((this->actor.params != ENZF_TYPE_DINOLFOS) || !EnZf_ChooseAction(globalCtx, this)) {
         if (this->unk_3F0 == 0) {
             phi_v0_4 = player->actor.shape.rot.y - this->actor.shape.rot.y;

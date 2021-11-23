@@ -324,7 +324,7 @@ void EnDns_SetupWait(EnDns* this, GlobalContext* globalCtx) {
 void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 2000, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnDns_Talk;
     } else {
         if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
@@ -339,31 +339,31 @@ void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_Talk(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // OK
                 switch (this->dnsItemEntry->purchaseableCheck(this)) {
                     case 0:
-                        func_8010B720(globalCtx, 0x10A5);
+                        Message_ContinueTextbox(globalCtx, 0x10A5);
                         this->actionFunc = func_809F008C;
                         break;
                     case 1:
-                        func_8010B720(globalCtx, 0x10A6);
+                        Message_ContinueTextbox(globalCtx, 0x10A6);
                         this->actionFunc = func_809F008C;
                         break;
                     case 3:
-                        func_8010B720(globalCtx, 0x10DE);
+                        Message_ContinueTextbox(globalCtx, 0x10DE);
                         this->actionFunc = func_809F008C;
                         break;
                     case 2:
                     case 4:
-                        func_8010B720(globalCtx, 0x10A7);
+                        Message_ContinueTextbox(globalCtx, 0x10A7);
                         this->actionFunc = func_809EFEE8;
                         break;
                 }
                 break;
             case 1: // No way
-                func_8010B720(globalCtx, 0x10A4);
+                Message_ContinueTextbox(globalCtx, 0x10A4);
                 this->actionFunc = func_809F008C;
         }
     }
@@ -388,8 +388,8 @@ void func_809EFDD0(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809EFEE8(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         func_809EFDD0(this, globalCtx);
         this->actionFunc = func_809EFF50;
     }
@@ -408,7 +408,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags1 & 0x400) {
-        if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
             this->dnsItemEntry->setRupeesAndFlags(this);
             this->dropCollectible = 1;
             this->maintainCollider = 0;
@@ -427,7 +427,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->maintainCollider = 0;
         this->actor.flags &= ~1;
         EnDns_Change(this, 1);

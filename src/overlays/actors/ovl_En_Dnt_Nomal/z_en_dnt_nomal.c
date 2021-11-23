@@ -331,14 +331,14 @@ void EnDntNomal_SetupTargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsTalkAnim);
     Animation_Change(&this->skelAnime, &gHintNutsTalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.textId = 0x10AF;
-    func_8010B680(globalCtx, this->actor.textId, NULL);
+    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     this->actionFunc = EnDntNomal_TargetTalk;
 }
 
 void EnDntNomal_TargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         GET_ACTIVE_CAM(globalCtx)->csId = 0;
         func_8002DF54(globalCtx, NULL, 8);
@@ -521,7 +521,7 @@ void EnDntNomal_StageCelebrate(EnDntNomal* this, GlobalContext* globalCtx) {
         f32 dx = this->targetPos.x - this->actor.world.pos.x;
         f32 dz = this->targetPos.z - this->actor.world.pos.z;
 
-        if ((fabsf(dx) < 10.0f) && (fabsf(dz) < 10.0f) && func_8010BDBC(&globalCtx->msgCtx)) {
+        if ((fabsf(dx) < 10.0f) && (fabsf(dz) < 10.0f) && (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {
             this->action = DNT_ACTION_PRIZE;
             this->actionFunc = EnDntNomal_SetupStageDance;
             this->actor.speedXZ = 0.0f;

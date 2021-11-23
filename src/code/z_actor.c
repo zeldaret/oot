@@ -1489,7 +1489,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
     return false;
 }
 
-u32 func_8002F194(Actor* actor, GlobalContext* globalCtx) {
+u32 Actor_ProcessTalkRequest(Actor* actor, GlobalContext* globalCtx) {
     if (actor->flags & 0x100) {
         actor->flags &= ~0x100;
         return true;
@@ -1530,8 +1530,8 @@ s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
     return func_8002F2CC(actor, globalCtx, var1);
 }
 
-u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+u32 Actor_TextboxIsClosing(Actor* actor, GlobalContext* globalCtx) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         return true;
     } else {
         return false;
@@ -1544,13 +1544,13 @@ s8 func_8002F368(GlobalContext* globalCtx) {
     return player->exchangeItemId;
 }
 
-void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
-    Vec3f sp1C;
-    f32 sp18;
+void Actor_GetScreenPos(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
+    Vec3f projectedPos;
+    f32 w;
 
-    func_8002BE04(globalCtx, &actor->focus.pos, &sp1C, &sp18);
-    *x = sp1C.x * sp18 * 160.0f + 160.0f;
-    *y = sp1C.y * sp18 * -120.0f + 120.0f;
+    func_8002BE04(globalCtx, &actor->focus.pos, &projectedPos, &w);
+    *x = projectedPos.x * w * (SCREEN_WIDTH / 2) + (SCREEN_WIDTH / 2);
+    *y = projectedPos.y * w * -(SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 2);
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
@@ -2862,7 +2862,7 @@ s32 func_80032880(GlobalContext* globalCtx, Actor* actor) {
     s16 sp1E;
     s16 sp1C;
 
-    func_8002F374(globalCtx, actor, &sp1E, &sp1C);
+    Actor_GetScreenPos(globalCtx, actor, &sp1E, &sp1C);
 
     return (sp1E > -20) && (sp1E < 340) && (sp1C > -160) && (sp1C < 400);
 }
@@ -3585,12 +3585,12 @@ Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx) {
     return func_8002EB44(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 }
 
-s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, callback1_800343CC unkFunc1,
+s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interactRange, callback1_800343CC unkFunc1,
                   callback2_800343CC unkFunc2) {
-    s16 sp26;
-    s16 sp24;
+    s16 x;
+    s16 y;
 
-    if (func_8002F194(actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(actor, globalCtx)) {
         *arg2 = 1;
         return true;
     }
@@ -3600,13 +3600,13 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, c
         return false;
     }
 
-    func_8002F374(globalCtx, actor, &sp26, &sp24);
+    Actor_GetScreenPos(globalCtx, actor, &x, &y);
 
-    if ((sp26 < 0) || (sp26 > SCREEN_WIDTH) || (sp24 < 0) || (sp24 > SCREEN_HEIGHT)) {
+    if ((x < 0) || (x > SCREEN_WIDTH) || (y < 0) || (y > SCREEN_HEIGHT)) {
         return false;
     }
 
-    if (!func_8002F2CC(actor, globalCtx, arg3)) {
+    if (!func_8002F2CC(actor, globalCtx, interactRange)) {
         return false;
     }
 
@@ -4128,7 +4128,7 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
 }
 
 void func_80035B18(GlobalContext* globalCtx, Actor* actor, u16 textId) {
-    func_8010B720(globalCtx, textId);
+    Message_ContinueTextbox(globalCtx, textId);
     actor->textId = textId;
 }
 
@@ -5203,7 +5203,7 @@ s32 func_800374E0(GlobalContext* globalCtx, Actor* actor, u16 textId) {
             ret = 0;
             break;
         case 0x1041:
-            if (msgCtx->unk_E2FA == 0x1035) {
+            if (msgCtx->choiceTextId == 0x1035) {
                 if (msgCtx->choiceIndex == 0) {
                     func_80035B18(globalCtx, actor, 0x1036);
                     Flags_SetInfTable(0x2A);
@@ -5213,7 +5213,7 @@ s32 func_800374E0(GlobalContext* globalCtx, Actor* actor, u16 textId) {
                     Flags_SetInfTable(0x2B);
                 }
             }
-            if (msgCtx->unk_E2FA == 0x1038) {
+            if (msgCtx->choiceTextId == 0x1038) {
                 if (msgCtx->choiceIndex == 0) {
                     func_80035B18(globalCtx, actor, 0x1039);
                     Flags_SetInfTable(0x2E);
@@ -5362,16 +5362,16 @@ s32 func_80037CB8(GlobalContext* globalCtx, Actor* actor, s16 arg2) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     s32 ret = false;
 
-    switch (func_8010BDBC(msgCtx)) {
-        case 2:
+    switch (Message_GetState(msgCtx)) {
+        case TEXT_STATE_CLOSING:
             func_80037C5C(globalCtx, arg2, actor->textId);
             ret = true;
             break;
-        case 4:
-        case 5:
-            if (func_80106BC8(globalCtx) && func_80037C94(globalCtx, actor, arg2)) {
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx) && func_80037C94(globalCtx, actor, arg2)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                msgCtx->msgMode = 0x36;
+                msgCtx->msgMode = MSGMODE_TEXT_CLOSING;
                 ret = true;
             }
             break;
@@ -5386,7 +5386,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
     s16 sp2A;
     s16 abs_var;
 
-    if (func_8002F194(actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(actor, globalCtx)) {
         *arg3 = 1;
         return true;
     }
@@ -5398,7 +5398,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
         return false;
     }
 
-    func_8002F374(globalCtx, actor, &sp2C, &sp2A);
+    Actor_GetScreenPos(globalCtx, actor, &sp2C, &sp2A);
 
     if (0) {} // Necessary to match
 

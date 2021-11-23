@@ -1271,7 +1271,7 @@ void KaleidoScope_DrawInfoPanel(GlobalContext* globalCtx) {
                     pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
                         pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
 
-                    if (gSaveContext.language == 1) {
+                    if (gSaveContext.language == LANGUAGE_GER) {
                         pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
                             pauseCtx->infoPanelVtx[16].v.ob[0] - 99;
                     }
@@ -1341,7 +1341,7 @@ void KaleidoScope_UpdateNamePanel(GlobalContext* globalCtx) {
                 if (gSaveContext.language) {
                     sp2A += 12;
                 }
-                if (gSaveContext.language == 2) {
+                if (gSaveContext.language == LANGUAGE_FRA) {
                     sp2A += 12;
                 }
 
@@ -1353,7 +1353,7 @@ void KaleidoScope_UpdateNamePanel(GlobalContext* globalCtx) {
                 if (gSaveContext.language) {
                     sp2A += 123;
                 }
-                if (gSaveContext.language == 2) {
+                if (gSaveContext.language == LANGUAGE_FRA) {
                     sp2A += 123;
                 }
 
@@ -2337,7 +2337,7 @@ void func_808265BC(GlobalContext* globalCtx) {
         pauseCtx->unk_1E4 = 0;
         pauseCtx->state++;
         pauseCtx->alpha = 255;
-        Interface_LoadActionLabelB(globalCtx, 0xE);
+        Interface_LoadActionLabelB(globalCtx, DO_ACTION_SAVE);
     } else if (pauseCtx->unk_1EA == 64) {
         pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
         pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
@@ -2587,12 +2587,12 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             pauseCtx->iconItemLangSegment = (void*)(((u32)pauseCtx->iconItemAltSegment + size2 + 0xF) & ~0xF);
 
-            if (gSaveContext.language == 0) {
+            if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (u32)_icon_item_nes_staticSegmentRomEnd - (u32)_icon_item_nes_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
                 DmaMgr_SendRequest1(pauseCtx->iconItemLangSegment, _icon_item_nes_staticSegmentRomStart, size,
                                     "../z_kaleido_scope_PAL.c", 3739);
-            } else if (gSaveContext.language == 1) {
+            } else if (gSaveContext.language == LANGUAGE_GER) {
                 size = (u32)_icon_item_ger_staticSegmentRomEnd - (u32)_icon_item_ger_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
                 DmaMgr_SendRequest1(pauseCtx->iconItemLangSegment, (u32)_icon_item_ger_staticSegmentRomStart, size,
@@ -2608,16 +2608,16 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             osSyncPrintf("サイズ＝%x\n", size2 + size1 + size0 + size);
             osSyncPrintf("item_name I_N_PT=%x\n", 0x800);
-            Interface_SetDoAction(globalCtx, 6);
+            Interface_SetDoAction(globalCtx, DO_ACTION_DECIDE);
             osSyncPrintf("サイズ＝%x\n", size2 + size1 + size0 + size + 0x800);
 
             if (((void)0, gSaveContext.worldMapArea) < 22) {
-                if (gSaveContext.language == 0) {
+                if (gSaveContext.language == LANGUAGE_ENG) {
                     DmaMgr_SendRequest1(pauseCtx->nameSegment + 0x400,
                                         (u32)_map_name_staticSegmentRomStart +
                                             (((void)0, gSaveContext.worldMapArea) * 0xA00) + 0x9000,
                                         0xA00, "../z_kaleido_scope_PAL.c", 3776);
-                } else if (gSaveContext.language == 1) {
+                } else if (gSaveContext.language == LANGUAGE_GER) {
                     DmaMgr_SendRequest1(pauseCtx->nameSegment + 0x400,
                                         (u32)_map_name_staticSegmentRomStart +
                                             (((void)0, gSaveContext.worldMapArea) * 0xA00) + 0x16C00,
@@ -2897,7 +2897,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             switch (pauseCtx->unk_1E4) {
                 case 0:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-                        Interface_SetDoAction(globalCtx, 10);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
@@ -2920,10 +2920,10 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 2:
-                    pauseCtx->unk_194 = Audio_OcaGetDisplayStaff();
-                    if (pauseCtx->unk_194->state == 0) {
+                    pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
+                    if (pauseCtx->ocarinaStaff->state == 0) {
                         pauseCtx->unk_1E4 = 4;
-                        func_800ED858(0);
+                        Audio_OcaSetInstrument(0);
                     }
                     break;
 
@@ -2935,18 +2935,18 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 5:
-                    pauseCtx->unk_194 = func_800EE3D4();
+                    pauseCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-                        func_800ED858(0);
-                        Interface_SetDoAction(globalCtx, 10);
+                        Audio_OcaSetInstrument(0);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
                         pauseCtx->unk_1E4 = 0;
                         break;
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        func_800ED858(0);
+                        Audio_OcaSetInstrument(0);
                         pauseCtx->unk_1E4 = 0;
                         pauseCtx->mode = 0;
                         pauseCtx->promptChoice = 0;
@@ -2958,13 +2958,13 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         Interface_ChangeAlpha(50);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
-                    } else if (pauseCtx->unk_194->state == pauseCtx->unk_264) {
+                    } else if (pauseCtx->ocarinaStaff->state == pauseCtx->ocarinaSongIdx) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         D_8082B258 = 0;
                         D_8082B25C = 30;
                         pauseCtx->unk_1E4 = 6;
-                    } else if (pauseCtx->unk_194->state == 0xFF) {
+                    } else if (pauseCtx->ocarinaStaff->state == 0xFF) {
                         Audio_PlaySoundGeneral(NA_SE_SY_OCARINA_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         D_8082B258 = 4;
@@ -2978,7 +2978,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     if (D_8082B25C == 0) {
                         pauseCtx->unk_1E4 = D_8082B258;
                         if (pauseCtx->unk_1E4 == 0) {
-                            func_800ED858(0);
+                            Audio_OcaSetInstrument(0);
                         }
                     }
                     break;
@@ -2988,14 +2988,14 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
                 case 8:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-                        func_800ED858(0);
-                        Interface_SetDoAction(globalCtx, 10);
+                        Audio_OcaSetInstrument(0);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
                         pauseCtx->unk_1E4 = 0;
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        func_800ED858(0);
+                        Audio_OcaSetInstrument(0);
                         pauseCtx->unk_1E4 = 0;
                         pauseCtx->mode = 0;
                         pauseCtx->promptChoice = 0;
@@ -3034,7 +3034,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 case 1:
                     if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
                         if (pauseCtx->promptChoice != 0) {
-                            Interface_SetDoAction(globalCtx, 10);
+                            Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                                 gSaveContext.buttonStatus[3] = BTN_ENABLED;
                             gSaveContext.unk_13EA = 0;
@@ -3054,7 +3054,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_START) ||
                                CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        Interface_SetDoAction(globalCtx, 10);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->unk_1EC = 2;
                         WREG(2) = -6240;
                         YREG(8) = pauseCtx->unk_204;
@@ -3069,7 +3069,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 case 4:
                     if (CHECK_BTN_ALL(input->press.button, BTN_B) || CHECK_BTN_ALL(input->press.button, BTN_A) ||
                         CHECK_BTN_ALL(input->press.button, BTN_START) || (--D_8082B25C == 0)) {
-                        Interface_SetDoAction(globalCtx, 10);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
@@ -3148,12 +3148,12 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             pauseCtx->iconItemLangSegment = (void*)(((u32)pauseCtx->iconItemAltSegment + size2 + 0xF) & ~0xF);
 
-            if (gSaveContext.language == 0) {
+            if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (u32)_icon_item_nes_staticSegmentRomEnd - (u32)_icon_item_nes_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
                 DmaMgr_SendRequest1(pauseCtx->iconItemLangSegment, (u32)_icon_item_nes_staticSegmentRomStart, size,
                                     "../z_kaleido_scope_PAL.c", 4379);
-            } else if (gSaveContext.language == 1) {
+            } else if (gSaveContext.language == LANGUAGE_GER) {
                 size = (u32)_icon_item_ger_staticSegmentRomEnd - (u32)_icon_item_ger_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
                 DmaMgr_SendRequest1(pauseCtx->iconItemLangSegment, (u32)_icon_item_ger_staticSegmentRomStart, size,

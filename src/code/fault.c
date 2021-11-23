@@ -283,7 +283,7 @@ void Fault_UpdatePadImpl() {
 }
 
 u32 Fault_WaitForInputImpl() {
-    Input* curInput = &sFaultStructPtr->padInput;
+    Input* input = &sFaultStructPtr->padInput;
     s32 count = 600;
     u32 kDown;
 
@@ -291,7 +291,7 @@ u32 Fault_WaitForInputImpl() {
         Fault_Sleep(0x10);
         Fault_UpdatePadImpl();
 
-        kDown = curInput->press.button;
+        kDown = input->press.button;
 
         if (kDown == BTN_L) {
             sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
@@ -539,7 +539,7 @@ void Fault_Wait5Seconds(void) {
 }
 
 void Fault_WaitForButtonCombo() {
-    Input* curInput = &sFaultStructPtr->padInput;
+    Input* input = &sFaultStructPtr->padInput;
     s32 state;
     u32 s1;
     u32 s2;
@@ -567,8 +567,8 @@ void Fault_WaitForButtonCombo() {
         Fault_Sleep(0x10);
         Fault_UpdatePadImpl();
 
-        kDown = curInput->press.button;
-        kCur = curInput->cur.button;
+        kDown = input->press.button;
+        kCur = input->cur.button;
 
         if ((kCur == 0) && (s1 == s2)) {
             s1 = 0;
@@ -717,7 +717,7 @@ void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
 }
 
 void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
-    Input* curInput = &sFaultStructPtr->padInput;
+    Input* input = &sFaultStructPtr->padInput;
     u32 addr = pc;
     s32 count;
     u32 off;
@@ -743,7 +743,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             count--;
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-            if (CHECK_BTN_ALL(curInput->press.button, BTN_L)) {
+            if (CHECK_BTN_ALL(input->press.button, BTN_L)) {
                 sFaultStructPtr->faultActive = false;
             }
         }
@@ -751,40 +751,40 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         do {
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-        } while (curInput->press.button == 0);
+        } while (input->press.button == 0);
 
-        if (CHECK_BTN_ALL(curInput->press.button, BTN_START) || CHECK_BTN_ALL(curInput->cur.button, BTN_A)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_START) || CHECK_BTN_ALL(input->cur.button, BTN_A)) {
             return;
         }
 
         off = 0x10;
-        if (CHECK_BTN_ALL(curInput->cur.button, BTN_Z)) {
+        if (CHECK_BTN_ALL(input->cur.button, BTN_Z)) {
             off = 0x100;
         }
 
-        if (CHECK_BTN_ALL(curInput->cur.button, BTN_B)) {
+        if (CHECK_BTN_ALL(input->cur.button, BTN_B)) {
             off <<= 8;
         }
 
-        if (CHECK_BTN_ALL(curInput->press.button, BTN_DUP)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DUP)) {
             addr -= off;
         }
-        if (CHECK_BTN_ALL(curInput->press.button, BTN_DDOWN)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DDOWN)) {
             addr += off;
         }
-        if (CHECK_BTN_ALL(curInput->press.button, BTN_CUP)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
             addr = pc;
         }
-        if (CHECK_BTN_ALL(curInput->press.button, BTN_CDOWN)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN)) {
             addr = sp;
         }
-        if (CHECK_BTN_ALL(curInput->press.button, BTN_CLEFT)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
             addr = unk0;
         }
-        if (CHECK_BTN_ALL(curInput->press.button, BTN_CRIGHT)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
             addr = unk1;
         }
-    } while (!CHECK_BTN_ALL(curInput->press.button, BTN_L));
+    } while (!CHECK_BTN_ALL(input->press.button, BTN_L));
 
     sFaultStructPtr->faultActive = true;
 }

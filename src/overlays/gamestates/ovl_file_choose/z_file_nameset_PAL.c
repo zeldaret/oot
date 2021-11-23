@@ -857,7 +857,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
         }
     }
 
-    if (gSaveContext.language == 1) {
+    if (gSaveContext.language == LANGUAGE_GER) {
         gSPVertex(POLY_OPA_DISP++, D_80811E30, 32, 0);
     } else {
         gSPVertex(POLY_OPA_DISP++, D_80811D30, 32, 0);
@@ -877,7 +877,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
 
-    if (gSaveContext.language == 1) {
+    if (gSaveContext.language == LANGUAGE_GER) {
         gSPVertex(POLY_OPA_DISP++, D_80812130, 32, 0);
     } else {
         gSPVertex(POLY_OPA_DISP++, D_80811F30, 32, 0);

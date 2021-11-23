@@ -1195,7 +1195,7 @@ void EnNb_SetupIdleCrawlspace(EnNb* this, s32 animFinished) {
 }
 
 void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = NB_IN_DIALOG;
     } else {
         this->actor.flags |= 9;
@@ -1225,7 +1225,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
 
     textId = this->actor.textId;
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (textId == 0x6025) {
             EnNb_SetupPathMovement(this, globalCtx);
         } else {
@@ -1235,7 +1235,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             this->action = NB_IDLE_CRAWLSPACE;
         }
         this->actor.flags &= ~9;
-    } else if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    } else if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         choiceIndex = globalCtx->msgCtx.choiceIndex;
 
         if (textId == 0x601D) {
@@ -1269,7 +1269,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             }
         }
 
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
     }
 }
 
@@ -1287,7 +1287,7 @@ void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, s32 animFinished) {
 }
 
 void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = NB_ACTION_30;
     } else {
         this->actor.flags |= 9;
@@ -1302,7 +1302,7 @@ void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB3B7C(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->action = NB_IDLE_AFTER_TALK;
         this->actor.flags &= ~9;
     }

@@ -652,7 +652,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnPoField_SetupInteractWithSoul(this);
         return;
     }
@@ -697,8 +697,8 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
     } else {
         func_8002F974(&this->actor, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (func_80106BC8(globalCtx) != 0) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) {
+        if (Message_ShouldAdvance(globalCtx)) {
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
             if (globalCtx->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {
@@ -719,10 +719,10 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x5007;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
             }
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             return;
         }
-    } else if (func_8002F334(&this->actor, globalCtx) != 0) {
+    } else if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         EnPoField_SetupSoulDisappear(this);
     }
 }

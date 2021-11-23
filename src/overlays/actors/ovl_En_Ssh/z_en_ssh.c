@@ -657,14 +657,14 @@ void EnSsh_Wait(EnSsh* this, GlobalContext* globalCtx) {
 
 void EnSsh_Talk(EnSsh* this, GlobalContext* globalCtx) {
     EnSsh_Bob(this, globalCtx);
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnSsh_Idle;
     }
 }
 
 void EnSsh_Idle(EnSsh* this, GlobalContext* globalCtx) {
     if (1) {}
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnSsh_Talk;
         if (this->actor.params == ENSSH_FATHER) {
             gSaveContext.eventChkInf[9] |= 0x40;

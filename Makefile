@@ -99,11 +99,12 @@ SPEC := spec
 
 SRC_DIRS := $(shell find src -type d)
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
-ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*")
+ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*" -not -path "assets/text")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
-				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f)
+				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f) \
+				   $(foreach f,$(wildcard assets/text/*.c),build/$(f:.c=.o))
 
 # source files
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
@@ -122,7 +123,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),build/$f) \
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),build/$f) \
 
 # create build directories
-$(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
+$(shell mkdir -p build/baserom build/assets/text $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
@@ -185,6 +186,7 @@ clean:
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
+	$(RM) -r assets/text/*.h
 	$(RM) -r build/assets
 	$(RM) -r .extracted-assets.json
 
@@ -214,6 +216,14 @@ build/asm/%.o: asm/%.s
 
 build/data/%.o: data/%.s
 	iconv --from UTF-8 --to EUC-JP $< | $(AS) $(ASFLAGS) -o $@
+
+build/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
+	python3 tools/msgenc.py assets/text/charmap.txt $< $@
+
+build/assets/text/fra_message_data_static.o: build/assets/text/message_data.enc.h
+build/assets/text/ger_message_data_static.o: build/assets/text/message_data.enc.h
+build/assets/text/nes_message_data_static.o: build/assets/text/message_data.enc.h
+build/assets/text/staff_message_data_static.o: build/assets/text/message_data_staff.enc.h
 
 build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<

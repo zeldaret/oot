@@ -882,7 +882,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         }
 
         if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
-            if (((msgCtx->unk_E300 == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
+            if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
                 if ((envCtx->unk_1A == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
                     (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
 
@@ -2029,7 +2029,7 @@ void func_80075B44(GlobalContext* globalCtx) {
                 if ((Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                      Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) &&
                     globalCtx->csCtx.state == 0 && !Player_InCsMode(globalCtx)) {
-                    func_8010B680(globalCtx, 0x3066, NULL);
+                    Message_StartTextbox(globalCtx, 0x3066, NULL);
                 }
                 globalCtx->envCtx.unk_E0++;
             }

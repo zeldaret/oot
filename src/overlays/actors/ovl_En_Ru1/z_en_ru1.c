@@ -333,11 +333,11 @@ Actor* func_80AEB124(GlobalContext* globalCtx) {
 }
 
 s32 func_80AEB174(GlobalContext* globalCtx) {
-    return (func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx));
+    return (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx);
 }
 
 s32 func_80AEB1B4(GlobalContext* globalCtx) {
-    return func_8010BDBC(&globalCtx->msgCtx) == 2;
+    return Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING;
 }
 
 void func_80AEB1D8(EnRu1* this) {
@@ -1493,7 +1493,7 @@ void func_80AEE050(EnRu1* this) {
 }
 
 s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
-    if (!func_8002F194(&this->actor, globalCtx)) {
+    if (!Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actor.flags |= 9;
         if ((gSaveContext.infTable[20] & 8)) {
             this->actor.textId = 0x404E;
@@ -1537,7 +1537,7 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
         floorBgId = this->actor.floorBgId; // necessary match, can't move this out of this block unfortunately
         dynaPolyActor = DynaPoly_GetActor(colCtx, floorBgId);
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS &&
-            dynaPolyActor->actor.params == 0 && !Player_InCsMode(globalCtx) && globalCtx->msgCtx.unk_E300 == 0) {
+            dynaPolyActor->actor.params == 0 && !Player_InCsMode(globalCtx) && globalCtx->msgCtx.msgLength == 0) {
             func_80AEE02C(this);
             globalCtx->csCtx.segment = &D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
@@ -1812,7 +1812,7 @@ s32 func_80AEF0BC(EnRu1* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[20] & 4) {
         frameCount = Animation_GetLastFrame(&gRutoChildSitAnim);
         Animation_Change(&this->skelAnime, &gRutoChildSitAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
-        globalCtx->msgCtx.msgMode = 0x37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         this->action = 26;
         this->actor.flags &= ~0x9;
         return true;
@@ -1828,7 +1828,7 @@ void func_80AEF170(EnRu1* this, GlobalContext* globalCtx, s32 cond) {
 
 void func_80AEF188(EnRu1* this, GlobalContext* globalCtx) {
     if (func_80AEB174(globalCtx) && !func_80AEF0BC(this, globalCtx)) {
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         gSaveContext.infTable[20] |= 4;
         this->action = 24;
     }
@@ -1838,7 +1838,7 @@ void func_80AEF1F0(EnRu1* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
     if (arg2 != 0) {
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gRutoChildSittingAnim), ANIMMODE_LOOP, 0.0f);
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         gSaveContext.infTable[20] |= 8;
         func_80AED6DC(this, globalCtx);
         func_8002F580(&this->actor, globalCtx);
@@ -2013,7 +2013,7 @@ void func_80AEF930(EnRu1* this, GlobalContext* globalCtx) {
     if (func_80AEB104(this) == 3) {
         this->actor.flags |= 9;
         this->actor.textId = 0x4048;
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         func_80AEF4A8(this, globalCtx);
         this->action = 43;
         this->drawConfig = 0;
@@ -2124,7 +2124,7 @@ void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
-    if (!func_8002F194(&this->actor, globalCtx)) {
+    if (!Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actor.flags |= 9;
         this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1F);
         if (this->actor.textId == 0) {
@@ -2137,7 +2137,7 @@ s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AEFE38(EnRu1* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~0x9;
         return true;
     }
