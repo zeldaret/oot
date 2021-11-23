@@ -458,11 +458,11 @@ typedef enum {
     /* 2 */ OCARINA_FONT_MALON,
     /* 3 */ OCARINA_FONT_WHISTLE,
     /* 4 */ OCARINA_FONT_HARP,
-    /* 5 */ OCARINA_FONT_STORMS,
+    /* 5 */ OCARINA_FONT_GRIND_ORGAN,
     /* 6 */ OCARINA_FONT_FLUTE,
     /* 7 */ OCARINA_FONT_MAX,
-    /* 7 */ OCARINA_FONT_DEFAULT_COPY1 = OCARINA_FONT_FLUTE, // Unused but present in Sequence 0 table
-    /* 8 */ OCARINA_FONT_DEFAULT_COPY2 = OCARINA_FONT_FLUTE + 1 // Unused but present in Sequence 0 table
+    /* 7 */ OCARINA_FONT_DEFAULT_COPY1 = OCARINA_FONT_MAX, // Unused but present in Sequence 0 table
+    /* 8 */ OCARINA_FONT_DEFAULT_COPY2 = OCARINA_FONT_MAX + 1 // Unused but present in Sequence 0 table
 } OcarinaFontId;
 
 typedef enum {

@@ -2397,7 +2397,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                     } else if (msgCtx->ocarinaAction == OCARINA_ACTION_TEACH_LULLABY) {
                         AudioOcarina_Reset(OCARINA_FONT_WHISTLE);
                     } else if (msgCtx->ocarinaAction == OCARINA_ACTION_TEACH_STORMS) {
-                        AudioOcarina_Reset(OCARINA_FONT_STORMS);
+                        AudioOcarina_Reset(OCARINA_FONT_GRIND_ORGAN);
                     } else {
                         AudioOcarina_Reset(OCARINA_FONT_DEFAULT);
                     }
