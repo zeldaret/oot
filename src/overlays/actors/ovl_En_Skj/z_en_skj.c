@@ -1478,7 +1478,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                             SKULL_KID_OCARINA_PLAY_NOTES;
                     }
                     this->songFailTimer = 160;
-                    AudioOcarina_Reset(OCARINA_FONT_FLUTE);
+                    AudioOcarina_Reset(OCARINA_INSTRUMENT_FLUTE);
                     AudioOcarina_SetDisplayedSong(OCARINA_SONG_MEMORY_GAME + 1, 1);
                     globalCtx->msgCtx.msgMode = MSGMODE_MEMORY_GAME_LEFT_SKULLKID_PLAYING;
                     globalCtx->msgCtx.stateTimer = 2;

@@ -206,7 +206,7 @@ s32 sOcarinaAButtonMap = BTN_A;
 s32 sOcarinaCUpButtonMap = BTN_CUP;
 s32 sOcarinaCDownButtonMap = BTN_CDOWN;
 u8 sIsOcarinaInputEnabled = false;
-s8 sOcarinaFontId = OCARINA_FONT_OFF;
+s8 sOcarinaInstrumentId = OCARINA_INSTRUMENT_OFF;
 u8 sCurOcarinaNoteIdx = NOTE_NONE;
 u8 sPrevOcarinaNoteIdx = 0;
 u8 sCurOcarinaButtonIdx = 0;
@@ -409,7 +409,7 @@ u8 sRecordOcarinaVolume = 0;
 u8 sRecordOcarinaVibrato = 0;
 s8 sRecordOcarinaBendIdx = 0;
 u8 sRecordOcarinaButtonIdx = 0;
-u8 sPlayedOcarinaSongIdxPlusOne = 0;
+u8 sActivatedOcarinaSongIdxPlusOne = 0;
 u8 sPlaybackOcarinaMaxNotes = 0;
 u8 sIsOcarinaNoteChanged = false;
 
@@ -718,19 +718,24 @@ f32 AudioOcarina_BendPitchTwoSemitones(s8 bendIdx) {
     return bendFreq;
 }
 
+/**
+ * If an available song has been played, then return that song index
+ * If the ocarina is on, but no song has been played then return 0xFE
+ * If the ocarina is off, return 0xFF
+ */
 u8 AudioOcarina_GetPlayingState(void) {
-    u8 playedOcarinaSongIdx;
+    u8 activatedOcarinaSongIdx;
 
-    if (sPlayedOcarinaSongIdxPlusOne != 0) {
-        playedOcarinaSongIdx = sPlayedOcarinaSongIdxPlusOne - 1;
-        sPlayedOcarinaSongIdxPlusOne = 0;
+    if (sActivatedOcarinaSongIdxPlusOne != 0) {
+        activatedOcarinaSongIdx = sActivatedOcarinaSongIdxPlusOne - 1;
+        sActivatedOcarinaSongIdxPlusOne = 0;
     } else if (sOcarinaFlags != 0) {
-        playedOcarinaSongIdx = 0xFE;
+        activatedOcarinaSongIdx = 0xFE;
     } else {
-        playedOcarinaSongIdx = 0xFF;
+        activatedOcarinaSongIdx = 0xFF;
     }
 
-    return playedOcarinaSongIdx;
+    return activatedOcarinaSongIdx;
 }
 
 u8 AudioOcarina_MapNoteToButton(u8 noteIdx) {
@@ -794,7 +799,7 @@ void AudioOcarina_Start(u16 ocarinaFlags) {
         sAvailOcarinaSongFlags = ocarinaFlags & 0x3FFF;
         sPlaybackOcarinaMaxNotes = 8;
         sOcarinaHasStartedSong = false;
-        sPlayedOcarinaSongIdxPlusOne = 0;
+        sActivatedOcarinaSongIdxPlusOne = 0;
         sStaffOcarinaPlayingPos = 0;
         sPlayingStaff.state = AudioOcarina_GetPlayingState();
         sIsOcarinaInputEnabled = true;
@@ -832,6 +837,11 @@ void AudioOcarina_CheckIfStartedSong(void) {
     }
 }
 
+/**
+ * As a new song is being played back to the teacher, each note is checked to make sure
+ * the correct note is played in the song. If a wrong note is played, reset from the beginning
+ * of the song and try again
+ */
 void AudioOcarina_CheckNotesInPlayback(void) {
     u16 curOcarinaSongFlag;
     u16 pad;
@@ -868,7 +878,7 @@ void AudioOcarina_CheckNotesInPlayback(void) {
                 if ((D_8016BA50[songIdx] >= sPlaybackExpectedLength[songIdx] - 0x12) && (D_8016BA50[songIdx] >= sPlaybackExpectedLength[songIdx] + 0x12) &&
                     (sOcarinaSongNotes[songIdx][sPlaybackPos[songIdx]].length == 0) &&
                     (sPlaybackPrevNoteIdx == sPlaybackExpectedNoteIdx[songIdx])) {
-                    sPlayedOcarinaSongIdxPlusOne = songIdx + 1;
+                    sActivatedOcarinaSongIdxPlusOne = songIdx + 1;
                     sIsOcarinaInputEnabled = false;
                     sOcarinaFlags = 0;
                 }
@@ -926,7 +936,10 @@ void AudioOcarina_CheckNotesInPlayback(void) {
     
 }
 
-// TODO: Also checks for songs in NOWARP
+/**
+ * This is the default ocarina state that reads in inputs
+ * Is also used for the NOWARP state
+ */
 void AudioOcarina_CheckSongsInFreePlay(void) {
     u32 temp_v0;
     u8 i;
@@ -980,7 +993,7 @@ void AudioOcarina_CheckSongsInFreePlay(void) {
 
                 // This conditional is true if songIdx = i is detected
                 if (j == gOcarinaSongButtons[i].numButtons) {
-                    sPlayedOcarinaSongIdxPlusOne = i + 1;
+                    sActivatedOcarinaSongIdxPlusOne = i + 1;
                     sIsOcarinaInputEnabled = false;
                     sOcarinaFlags = 0;
                 }
@@ -991,7 +1004,9 @@ void AudioOcarina_CheckSongsInFreePlay(void) {
 }
 
 /**
- * In Majora's Mask, this equivalent function uses arg0 to surpress the final Audio_StopSfxById(NA_SE_OC_OCARINA);
+ * 
+ * Trivia: In Majora's Mask, this equivalent function uses arg0 to surpress 
+ * the final Audio_StopSfxById(NA_SE_OC_OCARINA);
  */
 void AudioOcarina_FreePlay(u8 arg0) {
     u32 ocarinaBtnsHeld;
@@ -1067,7 +1082,7 @@ void AudioOcarina_FreePlay(u8 arg0) {
 
         if ((sCurOcarinaNoteIdx != NOTE_NONE) && (sPrevOcarinaNoteIdx != sCurOcarinaNoteIdx)) {
             // Processes new and valid notes
-            Audio_QueueCmdS8(0x6020D07, sOcarinaFontId - 1); // Sets fontId to io port 7
+            Audio_QueueCmdS8(0x6020D07, sOcarinaInstrumentId - 1); // Sets fontId to io port 7
             Audio_QueueCmdS8(0x6020D05, sCurOcarinaNoteIdx); // Sets noteIdx to io port 5
             Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &D_801333D4, 4, &sCurOcarinaBendFreq, &sOcarinaVolume, &D_801333E8);
         } else if ((sPrevOcarinaNoteIdx != NOTE_NONE) && (sCurOcarinaNoteIdx == NOTE_NONE)) {
@@ -1077,22 +1092,26 @@ void AudioOcarina_FreePlay(u8 arg0) {
     }
 }
 
-// Unused
+/**
+ * Directly enable the ocarina to receive input without
+ * properly reseting it based on an ocarina font
+ * Unused.
+ */
 void AudioOcarina_EnableInput(u8 inputEnabled) {
     sIsOcarinaInputEnabled = inputEnabled;
 }
 
 /**
- * Resets ocarina properties based on the ocarina font id
+ * Resets ocarina properties based on the ocarina instrument id
  */
-void AudioOcarina_Reset(u8 ocarinaFontId) {
-    if (sOcarinaFontId == ocarinaFontId) {
+void AudioOcarina_Reset(u8 ocarinaInstrumentId) {
+    if (sOcarinaInstrumentId == ocarinaInstrumentId) {
         return;
     }
 
-    Audio_SeqCmd8(2, 1, SFX_CHANNEL_OCARINA, ocarinaFontId);
-    sOcarinaFontId = ocarinaFontId;
-    if (ocarinaFontId == OCARINA_FONT_OFF) {
+    Audio_SeqCmd8(2, 1, SFX_CHANNEL_OCARINA, ocarinaInstrumentId);
+    sOcarinaInstrumentId = ocarinaInstrumentId;
+    if (ocarinaInstrumentId == OCARINA_INSTRUMENT_OFF) {
         sOcarinaInputButtonCur = 0;
         sOcarinaInputButtonPrev = 0;
         sOcarinaInputButtonPress = 0;
@@ -1206,6 +1225,8 @@ void AudioOcarina_PlayDisplayedSong(void) {
             if (sDisplayedNoteValue != sDisplayedSong[sDisplayedNotePos].noteIdx) {
                 u8 noteIdx = sDisplayedSong[sDisplayedNotePos].noteIdx;
 
+                // As BFlat4 is exactly in the middle of notes B & A, a flag is 
+                // added to the noteIdx to resolve which button to map Bflat4 to 
                 if (noteIdx == NOTE_BFLAT4) {
                     sDisplayedNoteValue = noteIdx + sDisplayedSong[sDisplayedNotePos].BFlat4Flag;
                 } else {
@@ -1214,8 +1235,8 @@ void AudioOcarina_PlayDisplayedSong(void) {
 
                 if (sDisplayedNoteValue != NOTE_NONE) {
                     sDisplayedStaffPos++;
-                    // Sets sOcarinaFontId to channel io port 7, which is used as an index to get the true fontId
-                    Audio_QueueCmdS8(0x6020D07, sOcarinaFontId - 1);
+                    // Sets ocarina instrument Id to channel io port 7, which is used as an index in seq 0 to get the true instrument Id
+                    Audio_QueueCmdS8(0x6020D07, sOcarinaInstrumentId - 1);
                     // Sets sDisplayedNoteValue to channel io port 5
                     Audio_QueueCmdS8(0x6020D05, sDisplayedNoteValue & 0x3F);
                     Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &D_801333D4, 4, &sNormalizedNoteDisplayedBend,
@@ -1250,7 +1271,7 @@ void AudioOcarina_SetRecordingSong(u8 isRecordingComplete) {
          * game address to act as a buffer. That way, if a new scarecrow spawn song is 
          * rejected, the previous scarecrow spawn song is not overwritten. If the scarecrow
          * spawn song is accepted, then the notes are then copied over to the scarecrow spawn
-         * song address through AudioOcarina_MapNotesToScarecrowButtons(OCARINA_SONG_MEMORY_GAME);
+         * song address
          */
         recordedSong = sMemoryGameSongPtr;
     }
@@ -1270,7 +1291,7 @@ void AudioOcarina_SetRecordingSong(u8 isRecordingComplete) {
 
     sRecordSongPos++;
 
-    if ((sRecordSongPos != 107) && !isRecordingComplete) {
+    if ((sRecordSongPos != (ARRAY_COUNT(sScarecrowsLongSongNotes) - 1)) && !isRecordingComplete) {
         // Continue recording
         return;
     }
@@ -1526,7 +1547,7 @@ s32 AudioOcarina_MemoryGameGenerateNotes(void) {
 
 void AudioOcarina_Update(void) {
     sOcarinaUpdateTaskCurrent = gAudioContext.totalTaskCount;
-    if (sOcarinaFontId != 0) {
+    if (sOcarinaInstrumentId != 0) {
         if (sIsOcarinaInputEnabled == true) {
             AudioOcarina_ReadControllerInput();
         }
@@ -1564,17 +1585,17 @@ void AudioOcarina_Update(void) {
 
 void AudioOcarina_PlayLongScarecrowAfterCredits(void) {
     static u8 sScarecrowAfterCreditsState = 0;
-    static u8 sScarecrowAfterCreditsFont = OCARINA_FONT_DEFAULT;
+    static u8 sScarecrowAfterCreditsFont = OCARINA_INSTRUMENT_DEFAULT;
     static u16 sScarecrowAfterCreditsTimer = 1200;
 
     switch (sScarecrowAfterCreditsState) {
         case 0:
             if (sScarecrowAfterCreditsTimer-- == 0) {
-                if (sScarecrowAfterCreditsFont < OCARINA_FONT_MAX) {
+                if (sScarecrowAfterCreditsFont < OCARINA_INSTRUMENT_MAX) {
                     sScarecrowAfterCreditsState++;
                 } else {
                     sScarecrowAfterCreditsState = 3;
-                    AudioOcarina_Reset(OCARINA_FONT_OFF);
+                    AudioOcarina_Reset(OCARINA_INSTRUMENT_OFF);
                 }
                 sScarecrowAfterCreditsTimer = 1200;
             }
@@ -2281,7 +2302,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             }
 
             GfxPrint_SetPos(printer, 3, 24);
-            GfxPrint_Printf(printer, "OCA:%02x SEQ:%04x PLAY:%02x REC:%02x", sOcarinaFontId, sOcarinaFlags, sDisplayedState,
+            GfxPrint_Printf(printer, "OCA:%02x SEQ:%04x PLAY:%02x REC:%02x", sOcarinaInstrumentId, sOcarinaFlags, sDisplayedState,
                             sRecordingState);
             break;
 
@@ -4368,7 +4389,7 @@ void func_800F6C34(void) {
     sAudioExtraFilter = 0;
     sAudioBaseFilter2 = 0;
     sAudioExtraFilter2 = 0;
-    AudioOcarina_Reset(OCARINA_FONT_OFF);
+    AudioOcarina_Reset(OCARINA_INSTRUMENT_OFF);
     sRiverFreqScaleLerp.remainingFrames = 0;
     sWaterfallFreqScaleLerp.remainingFrames = 0;
     sRiverFreqScaleLerp.value = 1.0f;

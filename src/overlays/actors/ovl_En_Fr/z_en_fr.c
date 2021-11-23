@@ -847,7 +847,7 @@ void EnFr_OcarinaMistake(EnFr* this, GlobalContext* globalCtx) {
     Message_CloseTextbox(globalCtx);
     this->reward = GI_NONE;
     func_80078884(NA_SE_SY_OCARINA_ERROR);
-    AudioOcarina_Reset(OCARINA_FONT_OFF);
+    AudioOcarina_Reset(OCARINA_INSTRUMENT_OFF);
     sEnFrPointers.flags = 12;
     EnFr_DeactivateButterfly();
     this->actionFunc = EnFr_Deactivate;
@@ -912,7 +912,7 @@ void EnFr_SetupReward(EnFr* this, GlobalContext* globalCtx, u8 unkCondition) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }
 
-    AudioOcarina_Reset(OCARINA_FONT_OFF);
+    AudioOcarina_Reset(OCARINA_INSTRUMENT_OFF);
     globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
     this->actionFunc = EnFr_PrintTextBox;
 }
