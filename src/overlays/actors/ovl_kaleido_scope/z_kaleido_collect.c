@@ -549,8 +549,8 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
                 if (pauseCtx->ocarinaStaff->pos != 0) {
                     if (D_8082A11C == (pauseCtx->ocarinaStaff->pos - 1)) {
-                        if ((pauseCtx->ocarinaStaff->noteIdx >= OCARINA_NOTE_A) &&
-                            (pauseCtx->ocarinaStaff->noteIdx <= OCARINA_NOTE_C_UP)) {
+                        if ((pauseCtx->ocarinaStaff->noteIdx >= OCARINA_BTN_A) &&
+                            (pauseCtx->ocarinaStaff->noteIdx <= OCARINA_BTN_C_UP)) {
                             D_8082A124[pauseCtx->ocarinaStaff->pos - 1] = pauseCtx->ocarinaStaff->noteIdx;
                             D_8082A124[pauseCtx->ocarinaStaff->pos] = 0xFF;
                             D_8082A11C++;
