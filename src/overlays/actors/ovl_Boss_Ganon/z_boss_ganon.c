@@ -102,7 +102,7 @@ u8 D_808E4C58[] = { 0, 12, 10, 12, 14, 16, 12, 14, 16, 12, 14, 16, 12, 14, 16, 1
 Vec3f D_808E4C6C = { 0.0f, 0.0f, 0.0f };
 Color_RGB8 D_808E4C78[] = { { 255, 175, 85 }, { 155, 205, 155 }, { 155, 125, 55 } };
 
-static InitChainEntry D_808E4C84[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 61, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
@@ -444,7 +444,7 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         sGanondorf = this;
         thisx->colChkInfo.health = 40;
-        Actor_ProcessInitChain(thisx, D_808E4C84);
+        Actor_ProcessInitChain(thisx, sInitChain);
         ActorShape_Init(&thisx->shape, 0, NULL, 0);
         Actor_SetScale(thisx, 0.01f);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060114E8, NULL, NULL, NULL, 0);
@@ -878,10 +878,10 @@ void func_808D7918(BossGanon* this, GlobalContext* globalCtx) {
             }
 
             if (this->csTimer == 80) {
-                func_8010B680(globalCtx, 0x70C8, NULL);
+                Message_StartTextbox(globalCtx, 0x70C8, NULL);
             }
 
-            if ((this->csTimer > 180) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->csTimer > 180) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
                 this->cutsceneState = 15;
                 this->csTimer = 0;
                 this->unk_71A = 0;
@@ -893,10 +893,10 @@ void func_808D7918(BossGanon* this, GlobalContext* globalCtx) {
             BossGanon_SetIntroCsCamera(this, 10);
 
             if (this->csTimer == 30) {
-                func_8010B680(globalCtx, 0x70C9, NULL);
+                Message_StartTextbox(globalCtx, 0x70C9, NULL);
             }
 
-            if ((this->csTimer > 100) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->csTimer > 100) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
                 this->cutsceneState = 16;
                 this->csTimer = 0;
                 BossGanon_SetIntroCsCamera(this, 11);
@@ -915,12 +915,12 @@ void func_808D7918(BossGanon* this, GlobalContext* globalCtx) {
                     this->animationLength = Animation_GetLastFrame(&D_06004304);
                 }
             } else if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
-                func_8010B680(globalCtx, 0x70CA, NULL);
+                Message_StartTextbox(globalCtx, 0x70CA, NULL);
                 Animation_MorphToLoop(&this->skelAnime, &D_060089F8, -5.0f);
                 this->animationLength = 1000.0f;
             }
 
-            if ((this->csTimer > 100) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->csTimer > 100) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
                 this->cutsceneState = 17;
                 this->csTimer = 0;
             }
@@ -951,7 +951,7 @@ void func_808D7918(BossGanon* this, GlobalContext* globalCtx) {
                     this->csTimer = 0;
                     this->csCamFov = 60.0f;
                     BossGanon_SetIntroCsCamera(this, 12);
-                    func_8010B680(globalCtx, 0x70CB, NULL);
+                    Message_StartTextbox(globalCtx, 0x70CB, NULL);
                 }
             }
             break;
@@ -966,13 +966,13 @@ void func_808D7918(BossGanon* this, GlobalContext* globalCtx) {
                 this->animationLength = 1000.0f;
             }
 
-            if ((this->csTimer <= 50) || (func_8010BDBC(&globalCtx->msgCtx) != 0)) {
+            if ((this->csTimer <= 50) || (Message_GetState(&globalCtx->msgCtx) != 0)) {
                 break;
             }
 
             this->cutsceneState = 19;
             this->csTimer = 0;
-            func_8010B680(globalCtx, 0x70CC, NULL);
+            Message_StartTextbox(globalCtx, 0x70CC, NULL);
             Animation_MorphToPlayOnce(&this->skelAnime, &D_06007268, -5.0f);
             this->unk_1AE = 2;
             this->unk_1E0 = 10.0f;
@@ -1010,7 +1010,7 @@ void func_808D7918(BossGanon* this, GlobalContext* globalCtx) {
                 Animation_MorphToLoop(&this->skelAnime, &D_06007A64, -5.0f);
             }
 
-            if ((this->csTimer > 80) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->csTimer > 80) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
                 this->cutsceneState = 20;
                 this->csTimer = 0;
                 this->csCamTargetEye.x = this->csCamEye.x - 50.0f;
@@ -1077,10 +1077,10 @@ void func_808D7918(BossGanon* this, GlobalContext* globalCtx) {
             this->csCamAt.z = 0.0f;
 
             if (this->csTimer == 13) {
-                func_8010B680(globalCtx, 0x70CD, NULL);
+                Message_StartTextbox(globalCtx, 0x70CD, NULL);
             }
 
-            if ((this->csTimer <= 120) || (func_8010BDBC(&globalCtx->msgCtx) != 0)) {
+            if ((this->csTimer <= 120) || (Message_GetState(&globalCtx->msgCtx) != 0)) {
                 break;
             }
 
@@ -1328,7 +1328,7 @@ void func_808D90F8(BossGanon* this, GlobalContext* globalCtx) {
 //             if (this->csTimer >= 30) {
 //                 this->cutsceneState = 3;
 //                 this->csTimer = 0;
-//                 func_8010B680(globalCtx, 0x70CE, NULL);
+//                 Message_StartTextbox(globalCtx, 0x70CE, NULL);
 //                 this->animationLength = 1000.0f;
 //             }
 
@@ -1351,7 +1351,7 @@ void func_808D90F8(BossGanon* this, GlobalContext* globalCtx) {
 //             this->csCamAt.y = (this->unk_1FC.y + 30.0f) - 10.0f;
 //             this->csCamAt.z = this->unk_1FC.z;
 
-//             if ((this->animationLength > 100.0f) && (this->csTimer > 100) && (func_8010BDBC(&globalCtx->msgCtx) ==
+//             if ((this->animationLength > 100.0f) && (this->csTimer > 100) && (Message_GetState(&globalCtx->msgCtx) ==
 //             0)) {
 //                 Animation_MorphToPlayOnce(&this->skelAnime, 0x0600B668, 0.0f);
 //                 this->animationLength = Animation_GetLastFrame(0x0600B668);
@@ -1386,7 +1386,7 @@ void func_808D90F8(BossGanon* this, GlobalContext* globalCtx) {
 //             this->unk_1A0 = 0xE;
 
 //             if (this->csTimer == 0x1E) {
-//                 func_8010B680(globalCtx, 0x70CF, NULL);
+//                 Message_StartTextbox(globalCtx, 0x70CF, NULL);
 //                 this->cutsceneState = 5;
 //                 this->csTimer = 0;
 //             }
@@ -1395,7 +1395,7 @@ void func_808D90F8(BossGanon* this, GlobalContext* globalCtx) {
 //         case 5:
 //             this->unk_1A0 = 0xE;
 
-//             if ((this->csTimer > 70) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+//             if ((this->csTimer > 70) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
 //                 this->cutsceneState = 6;
 //                 this->csTimer = 0;
 //                 Animation_MorphToPlayOnce(&this->skelAnime, 0x6010298, 0.0f);
