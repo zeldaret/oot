@@ -424,10 +424,10 @@ typedef enum {
 } OcarinaMode;
 
 typedef enum {
-    MESSAGE_ICON_TRIANGLE,
-    MESSAGE_ICON_SQUARE,
-    MESSAGE_ICON_ARROW
-} MessageBoxIcon;
+    TEXTBOX_ICON_TRIANGLE,
+    TEXTBOX_ICON_SQUARE,
+    TEXTBOX_ICON_ARROW
+} TextBoxIcon;
 
 typedef enum {
     LANGUAGE_ENG,

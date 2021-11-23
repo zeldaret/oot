@@ -12,18 +12,18 @@ typedef enum {
     /*  4 */ TEXTBOX_TYPE_NONE_BOTTOM,
     /*  5 */ TEXTBOX_TYPE_NONE_NO_SHADOW,
     /* 11 */ TEXTBOX_TYPE_CREDITS = 11
-} MessageBoxType;
+} TextBoxType;
 
 typedef enum {
     /* 0 */ TEXTBOX_BG_CROSS
-} MessageBoxBackground;
+} TextBoxBackground;
 
 typedef enum {
-    TEXTBOX_POS_VARIABLE,
-    TEXTBOX_POS_TOP,
-    TEXTBOX_POS_BOTTOM,
-    TEXTBOX_POS_MIDDLE
-} MessageBoxPosition;
+    /* 0 */ TEXTBOX_POS_VARIABLE,
+    /* 1 */ TEXTBOX_POS_TOP,
+    /* 2 */ TEXTBOX_POS_BOTTOM,
+    /* 3 */ TEXTBOX_POS_MIDDLE
+} TextBoxPosition;
 
 typedef struct {
     u16 textId;

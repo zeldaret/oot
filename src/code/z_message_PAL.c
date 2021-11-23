@@ -892,7 +892,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                     if (!sTextboxSkipped) {
                         Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         msgCtx->msgMode = MSGMODE_TEXT_AWAIT_NEXT;
-                        Font_LoadMessageBoxIcon(font, MESSAGE_ICON_TRIANGLE);
+                        Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_TRIANGLE);
                     } else {
                         msgCtx->msgMode = MSGMODE_TEXT_NEXT_MSG;
                         msgCtx->textUnskippable = false;
@@ -909,7 +909,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
-                    Font_LoadMessageBoxIcon(font, MESSAGE_ICON_TRIANGLE);
+                    Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_TRIANGLE);
                 }
                 *gfxP = gfx;
                 return;
@@ -944,7 +944,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 if (i + 1 == msgCtx->textDrawPos) {
                     if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                         msgCtx->msgMode = MSGMODE_TEXT_AWAIT_INPUT;
-                        Font_LoadMessageBoxIcon(font, MESSAGE_ICON_TRIANGLE);
+                        Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_TRIANGLE);
                     }
                     *gfxP = gfx;
                     return;
@@ -1052,7 +1052,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                     msgCtx->choiceTextId = msgCtx->textId;
                     msgCtx->stateTimer = 4;
                     msgCtx->choiceIndex = 0;
-                    Font_LoadMessageBoxIcon(font, MESSAGE_ICON_ARROW);
+                    Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_ARROW);
                 }
                 break;
             case MESSAGE_THREE_CHOICE:
@@ -1061,7 +1061,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                     msgCtx->choiceTextId = msgCtx->textId;
                     msgCtx->stateTimer = 4;
                     msgCtx->choiceIndex = 0;
-                    Font_LoadMessageBoxIcon(font, MESSAGE_ICON_ARROW);
+                    Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_ARROW);
                 }
                 break;
             case MESSAGE_END:
@@ -1070,7 +1070,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                     if (msgCtx->textboxEndType == TEXTBOX_ENDTYPE_DEFAULT) {
                         Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_END, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
-                        Font_LoadMessageBoxIcon(font, MESSAGE_ICON_SQUARE);
+                        Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_SQUARE);
                         if (globalCtx->csCtx.state == 0) {
                             Interface_SetDoAction(globalCtx, DO_ACTION_RETURN);
                         }
@@ -1090,7 +1090,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
                     msgCtx->textboxEndType = TEXTBOX_ENDTYPE_FADING;
                     msgCtx->stateTimer = msgCtx->msgBufDecoded[++i];
-                    Font_LoadMessageBoxIcon(font, MESSAGE_ICON_SQUARE);
+                    Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_SQUARE);
                     if (globalCtx->csCtx.state == 0) {
                         Interface_SetDoAction(globalCtx, DO_ACTION_RETURN);
                     }
@@ -1109,7 +1109,7 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
                     msgCtx->textboxEndType = TEXTBOX_ENDTYPE_EVENT;
-                    Font_LoadMessageBoxIcon(font, MESSAGE_ICON_TRIANGLE);
+                    Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_TRIANGLE);
                     Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_END, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
                 *gfxP = gfx;
