@@ -688,7 +688,7 @@ void EnFr_ListeningToOcarinaNotes(EnFr* this, GlobalContext* globalCtx) {
         case OCARINA_MODE_04:
             EnFr_OcarinaMistake(this, globalCtx);
             break;
-        case OCARINA_MODE_01:                           // Ocarina note played, but no song played
+        case OCARINA_MODE_01:                             // Ocarina note played, but no song played
             switch (globalCtx->msgCtx.lastOcaButtonIdx) { // Jumping frogs in open ocarina based on ocarina note played
                 case OCARINA_BTN_A:
                     EnFr_SetupJumpingUp(this, FROG_BLUE);
