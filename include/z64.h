@@ -453,6 +453,19 @@ typedef enum {
 } OcarinaNoteIdx;
 
 typedef enum {
+    /* 0 */ OCARINA_FONT_OFF,
+    /* 1 */ OCARINA_FONT_DEFAULT,
+    /* 2 */ OCARINA_FONT_MALON,
+    /* 3 */ OCARINA_FONT_WHISTLE,
+    /* 4 */ OCARINA_FONT_HARP,
+    /* 5 */ OCARINA_FONT_STORMS,
+    /* 6 */ OCARINA_FONT_FLUTE,
+    /* 7 */ OCARINA_FONT_MAX,
+    /* 7 */ OCARINA_FONT_DEFAULT_COPY1 = OCARINA_FONT_FLUTE, // Unused but present in Sequence 0 table
+    /* 8 */ OCARINA_FONT_DEFAULT_COPY2 = OCARINA_FONT_FLUTE + 1 // Unused but present in Sequence 0 table
+} OcarinaFontId;
+
+typedef enum {
     TEXTBOX_ICON_TRIANGLE,
     TEXTBOX_ICON_SQUARE,
     TEXTBOX_ICON_ARROW

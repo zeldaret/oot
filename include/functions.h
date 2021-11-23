@@ -2011,7 +2011,7 @@ void AudioSeq_ResetSequencePlayer(SequencePlayer* seqPlayer);
 void AudioSeq_InitSequencePlayerChannels(s32 playerIdx);
 void AudioSeq_InitSequencePlayers(void);
 void AudioOcarina_StartOcarina(u16);
-void Audio_OcaSetInstrument(u8);
+void AudioOcarina_Reset(u8);
 void AudioOcarina_SetPlaybackSong(s8 songIdxPlusOne, s8 playbackState);
 void AudioOcarina_SetRecordingState(u8);
 OcarinaStaff* AudioOcarina_GetRecordingStaff(void);

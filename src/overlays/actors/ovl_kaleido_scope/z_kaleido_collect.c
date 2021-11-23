@@ -186,7 +186,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                         }
 
                         D_8082A11C = 0;
-                        Audio_OcaSetInstrument(1);
+                        AudioOcarina_Reset(OCARINA_FONT_DEFAULT);
                         AudioOcarina_StartOcarina((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
                         pauseCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
                         pauseCtx->ocarinaStaff->pos = 0;
@@ -197,13 +197,13 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                         VREG(24) = -46;
                         VREG(25) = -41;
                         pauseCtx->unk_1E4 = 8;
-                        Audio_OcaSetInstrument(0);
+                        AudioOcarina_Reset(OCARINA_FONT_OFF);
                     }
                 }
             } else if (pauseCtx->unk_1E4 == 5) {
                 if ((pauseCtx->stickRelX != 0) || (pauseCtx->stickRelY != 0)) {
                     pauseCtx->unk_1E4 = 0;
-                    Audio_OcaSetInstrument(0);
+                    AudioOcarina_Reset(OCARINA_FONT_OFF);
                 }
             } else if (pauseCtx->unk_1E4 == 8) {
                 if (CHECK_BTN_ALL(input->press.button, BTN_A) && (sp216 >= QUEST_SONG_MINUET) &&
@@ -271,8 +271,8 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 VREG(24) = -46;
                 VREG(25) = -41;
                 sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
-                Audio_OcaSetInstrument(1);
-                Audio_OcaSetInstrument(1);
+                AudioOcarina_Reset(OCARINA_FONT_DEFAULT);
+                AudioOcarina_Reset(OCARINA_FONT_DEFAULT);
                 pauseCtx->ocarinaSongIdx = gOcarinaSongItemMap[sp216 - QUEST_SONG_MINUET];
                 AudioOcarina_SetPlaybackSong(pauseCtx->ocarinaSongIdx + 1, 1);
                 pauseCtx->unk_1E4 = 2;
@@ -603,7 +603,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                     }
 
                     D_8082A11C = 0;
-                    Audio_OcaSetInstrument(1);
+                    AudioOcarina_Reset(OCARINA_FONT_DEFAULT);
                     AudioOcarina_StartOcarina((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
                     pauseCtx->ocarinaStaff = AudioOcarina_GetDisplayedStaff();
                     pauseCtx->ocarinaStaff->pos = 0;

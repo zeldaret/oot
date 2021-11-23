@@ -2615,7 +2615,7 @@ s32 func_80835C58(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s3
     }
 
     if (func_8084E3C4 == this->func_674) {
-        Audio_OcaSetInstrument(0);
+        AudioOcarina_Reset(OCARINA_FONT_OFF);
         this->stateFlags2 &= ~0x3000000;
     } else if (func_808507F4 == this->func_674) {
         func_80832340(globalCtx, this);
