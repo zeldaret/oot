@@ -706,7 +706,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
 
                             Message_StartTextbox(globalCtx, 0x2084, &this->actor);
                             this->actionFunc = func_80B15424;
-                            Animation_Change(&this->skelAnime, &object_ta_Anim_00BF38, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE,
+                            Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE,
                                              -10.0f);
                             this->unk_2E0 &= ~0x10;
                             this->unk_2E0 &= ~0x100;
