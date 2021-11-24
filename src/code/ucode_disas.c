@@ -1356,8 +1356,3 @@ void UCodeDisas_RegisterUCode(UCodeDisas* this, s32 count, UCodeInfo* ucodeArray
 void UCodeDisas_SetCurUCode(UCodeDisas* this, void* ptr) {
     UCodeDisas_SetCurUCodeImpl(this, ptr);
 }
-
-// 4 bytes of nops, separating this file from audio_synthesis and padding .text
-// to a 32-byte boundary. Unclear what this comes from... maybe the audio
-// library was built separately and aligned to 32 bytes?
-#pragma GLOBAL_ASM("asm/non_matchings/code/ucode_disas/pad_800DACB0.s")
