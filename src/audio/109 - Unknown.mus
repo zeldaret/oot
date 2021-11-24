@@ -1,0 +1,1186 @@
+.include "seq_macros.inc"
+.section .rodata
+.balign 0x10
+sequence_start:
+
+seq_setmutebhv 0x60
+seq_setmutescale 0
+seq_setvol 127
+seq_settempo 120
+seq_initchannels 0x1
+seq_startchannel 0, .chan_13
+.seq_E:
+seq_delay1
+seq_testchdisabled 0
+seq_beqzrel .seq_E
+seq_end
+
+.chan_13:
+chan_largenoteson
+chan_setmutebhv 0x20
+chan_stereoheadseteffects 128
+chan_setnotepriority 14
+chan_setreverbindex 1
+chan_setfont 0
+chan_setreverb 15
+chan_setpanmix 127
+chan_setdyntable .table_646
+chan_ioreadval 0
+chan_bltzrel .chan_2D
+chan_dyncall
+.chan_29:
+chan_delay1
+chan_testlayerfinished 0
+chan_beqzrel .chan_29
+.chan_2D:
+chan_end
+
+.chan_2E:
+chan_setreverb 30
+chan_setpanmix 118
+chan_setlayer 0, .layer_45
+chan_setlayer 1, .layer_58
+chan_setlayer 2, .layer_71
+chan_delayshort 1
+chan_setvibratoextentlinear 60, 0, 18
+chan_setvibratoratelinear 240, 20, 18
+chan_end
+
+.layer_45:
+layer_setpan 127
+layer_setinstr 68
+layer_transpose 24
+layer_setenvelope .envelope_78A, 230
+layer_note1 48, 0x10e, 80
+layer_note1 60, 0x12c, 80
+layer_end
+
+.layer_58:
+layer_setpan 0
+layer_delay 0x1
+layer_setinstr 51
+layer_transpose 48
+layer_setenvelope .envelope_78A, 180
+layer_portamento 0x81, 56, 255
+layer_note1 56, 0xfa, 72
+layer_note1 60, 0x140, 72
+layer_end
+
+.layer_71:
+layer_delay 0x1
+layer_setinstr 46
+layer_setenvelope .envelope_78A, 230
+layer_portamento 0x1, 15, 0x5c8
+layer_note1 51, 0x23a, 64
+layer_end
+
+.chan_83:
+chan_setlayer 0, .layer_99
+chan_setlayer 1, .layer_A6
+chan_setlayer 2, .layer_B7
+chan_delayshort 1
+chan_setvibratoratelinear 127, 255, 40
+chan_setvibratoextentlinear 20, 127, 40
+chan_delayshort 1
+chan_setvibratoextent 0
+chan_end
+
+.layer_99:
+layer_setinstr 68
+layer_setenvelope .envelope_8D2, 221
+layer_transpose 24
+layer_note1 51, 0x190, 105
+layer_end
+
+.layer_A6:
+layer_delay 0x1
+layer_setinstr 69
+layer_setenvelope .envelope_90A, 224
+layer_portamento 0x81, 3, 255
+layer_note1 31, 0x12c, 65
+layer_end
+
+.layer_B7:
+layer_setinstr 8
+layer_portamento 0x81, 24, 25
+layer_note1 29, 0x46, 85
+layer_delay 0xc8
+layer_setenvelope .envelope_916, 221
+layer_portamento 0x81, 27, 25
+layer_note1 32, 0x96, 85
+layer_end
+
+.chan_D0:
+chan_setlayer 0, .layer_F7
+chan_setlayer 1, .layer_DE
+chan_setlayer 2, .layer_EF
+chan_setvibratorate 255
+chan_setvibratoextent 40
+chan_end
+
+.layer_DE:
+layer_transpose 48
+layer_setinstr 44
+layer_setreleaserate 221
+layer_portamento 0x84, 22, 127
+layer_note1 48, 0x60, 85
+layer_note1 50, 0x7f, 95
+layer_end
+
+.layer_EF:
+layer_setinstr 47
+layer_setenvelope .envelope_72A, 221
+layer_jumprel .layer_FD
+
+.layer_F7:
+layer_setinstr 13
+layer_transpose 36
+layer_setreleaserate 221
+.layer_FD:
+layer_portamento 0x85, 46, 255
+layer_note1 24, 0x3c, 90
+layer_setenvelope .envelope_712, 221
+layer_note1 36, 0x24, 90
+layer_portamento 0x85, 51, 255
+layer_note1 27, 0x7f, 90
+layer_end
+
+.chan_113:
+chan_setlayer 0, .layer_127
+chan_setlayer 1, .layer_11A
+chan_end
+
+.layer_11A:
+layer_transpose 36
+layer_setinstr 46
+layer_setenvelope .envelope_87A, 180
+layer_note1 43, 0x226, 70
+layer_end
+
+.layer_127:
+layer_transpose 30
+layer_setinstr 68
+layer_setenvelope .envelope_87A, 221
+layer_note1 32, 0x9b, 100
+layer_note1 44, 0x7f, 100
+layer_transpose 36
+layer_setinstr 68
+layer_setenvelope .envelope_88A, 221
+layer_note1 39, 0xf8, 100
+layer_end
+
+.chan_143:
+chan_setlayer 0, .layer_14D
+chan_setlayer 1, .layer_127
+chan_setlayer 2, .layer_11A
+chan_end
+
+.layer_14D:
+layer_delay 0x190
+layer_end
+
+.chan_151:
+chan_setreverb 30
+chan_setlayer 1, .layer_172
+
+.chan_156:
+chan_setinstr 17
+chan_setlayer 0, .layer_165
+chan_setlayer 2, .layer_182
+chan_setvibratorate 160
+chan_setvibratoextentlinear 0, 48, 9
+chan_end
+
+.layer_165:
+layer_setenvelope .envelope_78A, 231
+layer_portamento 0x81, 38, 255
+layer_note1 32, 0x24e, 75
+layer_end
+
+.layer_172:
+layer_delay 0x15e
+layer_setenvelope .envelope_792, 231
+layer_portamento 0x81, 3, 255
+layer_note1 27, 0xf0, 100
+layer_end
+
+.layer_182:
+layer_setinstr 77
+layer_setenvelope .envelope_792, 231
+layer_note1 35, 0x208, 92
+layer_end
+
+.chan_18D:
+chan_startchannel 1, .chan_251
+chan_setlayer 0, .layer_1D4
+chan_setlayer 1, .layer_1E9
+chan_setlayer 2, .layer_243
+chan_setpan 58
+chan_delay 0x30
+chan_transpose 1
+chan_setlayer 0, .layer_1D4
+chan_setlayer 1, .layer_1E9
+chan_setlayer 2, .layer_24A
+chan_setpan 70
+chan_delay 0x47
+chan_transpose 2
+chan_setlayer 0, .layer_1D4
+chan_setlayer 1, .layer_1E9
+chan_setlayer 2, .layer_1FA
+chan_setpan 64
+chan_delay 0x8e
+chan_transpose 0
+chan_setlayer 0, .layer_201
+chan_setlayer 1, .layer_210
+chan_setlayer 2, .layer_21B
+chan_setlayer 3, .layer_236
+chan_sethilogain 25
+chan_delay 0x64
+chan_sethilogain 0
+chan_delay 0x1e0
+chan_end
+
+.layer_1D4:
+layer_setinstr 30
+layer_setenvelope .envelope_75E, 251
+layer_portamento 0x81, 55, 127
+layer_note1 4, 0x8, 115
+layer_portamento 0x81, 6, 255
+layer_note1 35, 0xb, 105
+layer_end
+
+.layer_1E9:
+layer_setinstr 31
+layer_portamento 0x81, 49, 222
+layer_note1 25, 0x8, 115
+layer_portamento 0x81, 19, 255
+layer_note1 32, 0xc, 115
+layer_end
+
+.layer_1FA:
+layer_setinstr 126
+layer_note0 15, 0x0, 100, 0
+layer_end
+
+.layer_201:
+layer_setinstr 21
+layer_setenvelope .envelope_746, 250
+layer_portamento 0x81, 38, 200
+layer_note0 37, 0x24, 115, 100
+layer_end
+
+.layer_210:
+layer_setinstr 5
+layer_note1 43, 0xa, 75
+layer_note1 34, 0xa, 75
+layer_delay 0x7
+layer_end
+
+.layer_21B:
+layer_delay 0x7
+layer_setinstr 32
+layer_setenvelope .envelope_6F6, 250
+layer_note0 51, 0x6, 39, 127
+layer_setinstr 26
+layer_note0 41, 0x4, 49, 127
+layer_setinstr 23
+layer_note1 38, 0x5, 39
+layer_note1 32, 0x5, 39
+layer_end
+
+.layer_236:
+layer_setinstr 126
+layer_note0 14, 0x0, 95, 0
+layer_delay 0x14
+layer_note0 14, 0xf, 90, 0
+layer_end
+
+.layer_243:
+layer_setinstr 126
+layer_note0 10, 0x0, 100, 0
+layer_end
+
+.layer_24A:
+layer_setinstr 126
+layer_note0 12, 0x0, 110, 0
+layer_end
+
+.chan_251:
+chan_largenoteson
+chan_setmutebhv 0x20
+chan_stereoheadseteffects 128
+chan_setnotepriority 14
+chan_setreverbindex 1
+chan_setreverb 15
+chan_setfont 1
+chan_setlayer 0, .layer_2AE
+chan_setlayer 2, .layer_2C3
+chan_setvibratorate 96
+chan_setvibratoextent 84
+chan_delay 0x17c
+chan_delayshort 10
+chan_setpan 60
+chan_delayshort 10
+chan_setpan 56
+chan_delayshort 10
+chan_setpan 52
+chan_delayshort 10
+chan_setpan 48
+chan_delayshort 10
+chan_setpan 52
+chan_delayshort 10
+chan_setpan 56
+chan_delayshort 10
+chan_setpan 60
+chan_delayshort 10
+chan_setpan 64
+chan_delayshort 10
+chan_setpan 68
+chan_delayshort 10
+chan_setpan 72
+chan_delayshort 10
+chan_setpan 76
+chan_delayshort 10
+chan_setpan 80
+chan_delayshort 10
+chan_setpan 86
+chan_delayshort 10
+chan_setpan 94
+chan_delayshort 10
+chan_setpan 104
+chan_delayshort 10
+chan_setpan 116
+chan_delayshort 10
+chan_setpan 127
+chan_delayshort 10
+chan_setpan 124
+chan_delayshort 10
+chan_setpan 120
+chan_delayshort 10
+chan_setpan 116
+chan_delayshort 10
+chan_setpan 112
+chan_delay 0x118
+chan_end
+
+.layer_2AE:
+layer_transpose -4
+layer_setinstr 19
+layer_setenvelope .envelope_8C2, 251
+.layer_2B6:
+layer_enablelegato
+layer_portamento 0x85, 24, 255
+.layer_2BB:
+layer_note1 36, 0x64, 90
+layer_note1 24, 0x64, 90
+layer_jumprel .layer_2BB
+
+.layer_2C3:
+layer_transpose 4
+layer_setinstr 18
+layer_setenvelope .envelope_8C2, 251
+.layer_2CB:
+layer_enablelegato
+layer_portamento 0x85, 48, 255
+.layer_2D0:
+layer_note1 60, 0x32, 76
+layer_note1 48, 0x32, 76
+layer_jumprel .layer_2D0
+
+.chan_2D8:
+chan_setlayer 0, .layer_2E8
+chan_setlayer 1, .layer_2EC
+chan_setlayer 2, .layer_2F6
+chan_setfont 1
+chan_setvibratorate 96
+chan_setvibratoextent 84
+chan_end
+
+.layer_2E8:
+layer_delay 0x750
+layer_end
+
+.layer_2EC:
+layer_transpose -4
+layer_setinstr 19
+layer_setenvelope .envelope_8EA, 251
+layer_jumprel .layer_2B6
+
+.layer_2F6:
+layer_transpose 4
+layer_setinstr 18
+layer_setenvelope .envelope_8EA, 251
+layer_jumprel .layer_2CB
+
+.chan_300:
+chan_setfont 1
+chan_startchannel 1, .chan_344
+chan_delay 0x102
+chan_setlayer 0, .layer_312
+chan_setlayer 1, .layer_32C
+chan_delay 0x47e
+chan_end
+
+.layer_312:
+layer_setinstr 3
+layer_setenvelope .envelope_916, 221
+layer_note0 45, 0x64, 90, 50
+layer_portamento 0x81, 48, 255
+layer_note1 39, 0x64, 90
+layer_portamento 0x81, 50, 100
+layer_note1 15, 0x1f4, 90
+layer_end
+
+.layer_32C:
+layer_setinstr 41
+layer_setreleaserate 221
+layer_note0 43, 0x64, 90, 50
+layer_portamento 0x81, 46, 255
+layer_note1 38, 0x64, 90
+layer_portamento 0x81, 48, 100
+layer_note1 14, 0x1f4, 90
+layer_end
+
+.chan_344:
+chan_largenoteson
+chan_setmutebhv 0x20
+chan_stereoheadseteffects 128
+chan_setnotepriority 14
+chan_setreverbindex 1
+chan_setreverb 15
+chan_setlayer 0, .layer_36A
+chan_setlayer 1, .layer_375
+chan_setfont 1
+chan_setvibratorate 96
+chan_setvibratoextent 84
+chan_transpose -12
+chan_delay 0x102
+chan_transpose 4
+chan_delay 0x47e
+.chan_365:
+chan_delay1
+chan_testlayerfinished 0
+chan_beqzrel .chan_365
+chan_end
+
+.layer_36A:
+layer_transpose -4
+layer_setinstr 19
+layer_setenvelope .envelope_91E, 200
+layer_jump .layer_2B6
+
+.layer_375:
+layer_transpose 4
+layer_setinstr 18
+layer_setenvelope .envelope_91E, 200
+layer_jump .layer_2CB
+
+.chan_380:
+chan_setreverb 40
+chan_setlayer 0, .layer_38E
+chan_setlayer 1, .layer_38C
+chan_setlayer 2, .layer_39D
+chan_end
+
+.layer_38C:
+layer_transpose -4
+
+.layer_38E:
+layer_setinstr 60
+layer_setenvelope .envelope_78A, 241
+layer_portamento 0x81, 3, 224
+layer_note1 50, 0xc6, 80
+layer_end
+
+.layer_39D:
+layer_setinstr 14
+layer_setenvelope .envelope_86E, 221
+layer_transpose 12
+layer_portamento 0x81, 2, 255
+layer_note1 62, 0xfa, 85
+layer_end
+
+.chan_3AE:
+chan_setinstr 46
+chan_setreverb 40
+chan_setlayer 0, .layer_3C5
+chan_setlayer 1, .layer_3D7
+chan_setlayer 2, .layer_3DB
+chan_setlayer 3, .layer_3EC
+chan_setvibratoextentlinear 255, 60, 10
+chan_setvibratorate 150
+chan_end
+
+.layer_3C5:
+layer_setinstr 70
+layer_setenvelope .envelope_6CE, 245
+layer_portamento 0x82, 27, 255
+layer_note1 39, 0x96, 80
+layer_delay 0x96
+layer_end
+
+.layer_3D7:
+layer_note1 27, 0x64, 85
+layer_end
+
+.layer_3DB:
+layer_transpose 24
+layer_setinstr 12
+layer_setenvelope .envelope_78A, 200
+layer_portamento 0x82, 51, 180
+layer_note1 62, 0xb4, 75
+layer_end
+
+.layer_3EC:
+layer_setinstr 42
+layer_portamento 0x81, 34, 208
+layer_note1 29, 0xf0, 105
+layer_end
+
+.layer_unused_3F7:
+layer_setinstr 39
+layer_portamento 0x81, 10, 44
+layer_note1 22, 0x8c, 75
+layer_end
+
+.chan_402:
+chan_setpanmix 48
+chan_setvol 78
+chan_setreverb 55
+chan_startchannel 1, .chan_467
+chan_setlayer 0, .layer_44C
+chan_setlayer 1, .layer_424
+chan_setlayer 2, .layer_445
+chan_setlayer 3, .layer_43B
+chan_setvibratorate 20
+chan_setvibratoextent 70
+chan_delay 0x60
+chan_setvibratoratelinear 20, 150, 60
+chan_setvibratoextent 70
+chan_end
+
+.layer_424:
+layer_setinstr 74
+layer_setenvelope .envelope_78A, 211
+layer_enablelegato
+layer_portamento 0x85, 3, 255
+layer_note1 20, 0x60, 100
+layer_note1 20, 0xc8, 100
+layer_note1 32, 0x12c, 74
+layer_end
+
+.layer_43B:
+layer_setinstr 82
+layer_transpose 24
+layer_setpan 88
+layer_delay 0x4
+layer_jumprel .layer_452
+
+.layer_445:
+layer_transpose -18
+layer_setinstr 52
+layer_jump .layer_452
+
+.layer_44C:
+layer_setinstr 68
+layer_transpose 12
+layer_setpan 40
+.layer_452:
+layer_setenvelope .envelope_78A, 211
+layer_enablelegato
+layer_portamento 0x85, 15, 255
+layer_note1 32, 0x60, 74
+layer_note1 32, 0xc8, 74
+layer_note1 44, 0x12c, 74
+layer_end
+
+.chan_467:
+chan_largenoteson
+chan_setmutebhv 0x20
+chan_stereoheadseteffects 128
+chan_setnotepriority 14
+chan_setreverbindex 1
+chan_setreverb 40
+chan_setfont 0
+chan_call .chan_156
+chan_delay 0x60
+chan_call .chan_156
+chan_setlayer 1, .layer_486
+chan_setlayer 3, .layer_498
+chan_delay 0x3e8
+chan_end
+
+.layer_486:
+layer_setinstr 12
+layer_setenvelope .envelope_78A, 231
+layer_delay 0x96
+layer_portamento 0x81, 27, 255
+layer_note1 51, 0x1b8, 45
+layer_end
+
+.layer_498:
+layer_setinstr 47
+layer_setenvelope .envelope_792, 231
+layer_delay 0xdc
+layer_portamento 0x81, 15, 255
+layer_note1 27, 0x172, 110
+layer_end
+
+.chan_4AA:
+chan_startchannel 1, .chan_4BC
+chan_setvol 105
+chan_setlayer 0, .layer_545
+chan_setlayer 1, .layer_536
+chan_setlayer 2, .layer_571
+chan_setlayer 3, .layer_566
+chan_end
+
+.chan_4BC:
+chan_largenoteson
+chan_setmutebhv 0x20
+chan_stereoheadseteffects 128
+chan_setnotepriority 14
+chan_setreverbindex 1
+chan_setreverb 40
+chan_setvol 105
+chan_setpanmix 64
+chan_setlayer 0, .layer_4F5
+chan_setlayer 1, .layer_4DB
+chan_setlayer 2, .layer_514
+chan_setlayer 3, .layer_50E
+chan_delay 0x1388
+chan_end
+
+.layer_4DB:
+layer_setinstr 47
+layer_setenvelope .envelope_792, 221
+layer_setstereo 20
+layer_setpan 84
+layer_note1 20, 0x91, 72
+.layer_4E9:
+layer_note1 29, 0x5a, 70
+layer_note1 32, 0xe1, 74
+layer_note1 24, 0x61, 68
+layer_jumprel .layer_4E9
+
+.layer_4F5:
+layer_setinstr 47
+layer_setenvelope .envelope_792, 221
+layer_setstereo 20
+layer_setpan 44
+layer_note1 29, 0x10b, 72
+.layer_503:
+layer_note1 27, 0x5e, 40
+layer_note1 29, 0x7c, 44
+layer_note1 26, 0x30, 68
+layer_jumprel .layer_503
+
+.layer_50E:
+layer_transpose -12
+layer_setinstr 77
+layer_jumprel .layer_51A
+
+.layer_514:
+layer_setinstr 47
+layer_setenvelope .envelope_71E, 230
+.layer_51A:
+layer_delay 0xa82
+layer_portamento 0x81, 55, 60
+layer_note1 15, 0xc0, 100
+layer_portamento 0x81, 58, 60
+layer_note1 19, 0xc0, 100
+layer_portamento 0x81, 62, 45
+layer_note1 22, 0x1f4, 100
+layer_end
+
+.layer_536:
+layer_transpose -6
+layer_call .layer_fn_552
+layer_disablelegato
+layer_disableportamento
+layer_setinstr 65
+layer_delay 0x14
+layer_transpose -3
+layer_jumprel .layer_589
+
+.layer_545:
+layer_call .layer_fn_552
+layer_disablelegato
+layer_disableportamento
+layer_setinstr 77
+layer_delay 0xa
+layer_transpose 10
+layer_jumprel .layer_589
+
+.layer_fn_552:
+layer_setinstr 77
+layer_setenvelope .envelope_792, 211
+layer_enablelegato
+layer_portamento 0x85, 51, 255
+layer_note1 55, 0xc8, 90
+layer_note1 58, 0x979, 80
+layer_end
+
+.layer_566:
+layer_transpose 5
+layer_call .layer_fn_581
+layer_delay 0x14
+layer_setinstr 77
+layer_jumprel .layer_589
+
+.layer_571:
+layer_call .layer_fn_581
+layer_setinstr 65
+layer_jumprel .layer_589
+
+.layer_unused_578:
+layer_setenvelope .envelope_792, 200
+layer_enablelegato
+layer_portamento 0x81, 17, 255
+
+.layer_fn_581:
+layer_setinstr 54
+layer_note1 24, 0xa41, 65
+layer_disablelegato
+layer_end
+.layer_589:
+layer_note1 31, 0xc0, 120
+layer_note1 34, 0xc0, 120
+layer_setreleaserate 160
+layer_note1 36, 0xc0, 120
+layer_end
+
+.chan_598:
+chan_setvol 110
+chan_setinstr 126
+chan_setfilter .filter_5B0
+chan_loadfilter 64
+chan_setreverb 40
+chan_sethilogain 25
+chan_setlayer 0, .layer_5A9
+chan_end
+
+.layer_5A9:
+layer_note1 44, 0x0, 110
+layer_end
+
+.balign 16
+
+.filter_5B0:
+filter 0, 0, 0, 0, 0, 0, 0, 0
+
+.chan_5C0:
+chan_setinstr 127
+chan_setenvelope .envelope_90A
+chan_setdecayrelease 200
+chan_setpanmix 0
+chan_setlayer 0, .layer_5DA
+chan_setlayer 1, .layer_5E0
+chan_startchannel 1, .chan_5E6
+chan_delay 0x708
+chan_freelayer 0
+chan_freelayer 1
+chan_delay 0x64
+chan_end
+
+.layer_5DA:
+layer_enablelegato
+.layer_5DB:
+layer_note1 3, 0x64, 80
+layer_jumprel .layer_5DB
+
+.layer_5E0:
+layer_enablelegato
+.layer_5E1:
+layer_note1 2, 0x64, 80
+layer_jumprel .layer_5E1
+
+.chan_5E6:
+chan_largenoteson
+chan_setmutebhv 0x20
+chan_stereoheadseteffects 128
+chan_setnotepriority 14
+chan_setreverbindex 1
+chan_setreverb 20
+chan_setvol 100
+chan_sethilogain 15
+chan_delay 0x240
+chan_setlayer 0, .layer_633
+chan_setlayer 1, .layer_62F
+chan_setlayer 2, .layer_63F
+chan_setvol 75
+chan_delay 0xc8
+chan_setlayer 0, .layer_633
+chan_setlayer 1, .layer_62F
+chan_setlayer 2, .layer_63F
+chan_setvol 110
+chan_delay 0x87
+chan_setlayer 0, .layer_633
+chan_setlayer 1, .layer_62F
+chan_setlayer 2, .layer_63F
+chan_setvol 95
+chan_delay 0x156
+chan_setlayer 0, .layer_633
+chan_setlayer 1, .layer_62F
+chan_setlayer 2, .layer_63F
+chan_delay 0xfa
+chan_end
+
+.layer_62F:
+layer_transpose 36
+layer_jumprel .layer_635
+
+.layer_633:
+layer_transpose 48
+.layer_635:
+layer_setinstr 74
+layer_setenvelope .envelope_692, 200
+layer_note1 46, 0x0, 110
+layer_end
+
+.layer_63F:
+layer_setinstr 70
+layer_note1 34, 0x32, 50
+layer_end
+
+.unused_645:
+.byte 0x0
+
+.table_646:
+entry .chan_2E
+entry .chan_83
+entry .chan_D0
+entry .chan_113
+entry .chan_143
+entry .chan_151
+entry .chan_156
+entry .chan_18D
+entry .chan_2D8
+entry .chan_300
+entry .chan_380
+entry .chan_3AE
+entry .chan_402
+entry .chan_4AA
+entry .chan_598
+entry .chan_5C0
+
+.balign 2
+
+.envelope_unused_666:
+envelope_line 1 32700
+envelope_hang 0
+
+.envelope_unused_66E:
+envelope_line 1 32700
+envelope_line 100 30000
+envelope_line 200 5000
+envelope_hang 0
+
+.envelope_unused_67E:
+envelope_line 1 32700
+envelope_line 25 25000
+envelope_line 100 25000
+envelope_line 200 5000
+envelope_hang 0
+
+.envelope_692:
+envelope_line 1 32700
+envelope_line 100 30000
+envelope_line 250 30000
+envelope_line 200 5000
+envelope_hang 0
+
+.envelope_unused_6A6:
+envelope_line 1 32700
+envelope_line 50 30000
+envelope_line 100 10000
+envelope_line 100 0
+envelope_hang 0
+
+.envelope_unused_6BA:
+envelope_line 1 32700
+envelope_line 30 30000
+envelope_line 50 10000
+envelope_line 50 0
+envelope_hang 0
+
+.envelope_6CE:
+envelope_line 1 32700
+envelope_line 70 30000
+envelope_line 120 10000
+envelope_line 120 0
+envelope_hang 0
+
+.envelope_unused_6E2:
+envelope_line 1 32700
+envelope_line 15 32700
+envelope_line 15 22000
+envelope_line 100 15000
+envelope_hang 0
+
+.envelope_6F6:
+envelope_line 1 32700
+envelope_line 8 32700
+envelope_line 8 22000
+envelope_line 100 15000
+envelope_hang 0
+
+.envelope_unused_70A:
+envelope_line 10 32700
+envelope_hang 0
+
+.envelope_712:
+envelope_line 30 10000
+envelope_line 30 32700
+envelope_hang 0
+
+.envelope_71E:
+envelope_line 20 15000
+envelope_line 10 32700
+envelope_hang 0
+
+.envelope_72A:
+envelope_line 48 10000
+envelope_line 32 32700
+envelope_hang 0
+
+.envelope_unused_736:
+envelope_line 47 15000
+envelope_line 13 32700
+envelope_line 72 10000
+envelope_hang 0
+
+.envelope_746:
+envelope_line 6 32700
+envelope_hang 0
+
+.envelope_unused_74E:
+envelope_line 20 32700
+envelope_line 50 10000
+envelope_line 40 0
+envelope_hang 0
+
+.envelope_75E:
+envelope_line 18 32700
+envelope_hang 0
+
+.envelope_unused_766:
+envelope_line 10 32700
+envelope_line 240 31000
+envelope_line 150 2000
+envelope_hang 0
+
+.envelope_unused_776:
+envelope_line 14 15000
+envelope_line 13 32700
+envelope_hang 0
+
+.envelope_unused_782:
+envelope_line 40 32700
+envelope_hang 0
+
+.envelope_78A:
+envelope_line 400 32700
+envelope_hang 0
+
+.envelope_792:
+envelope_line 100 32700
+envelope_hang 0
+
+.envelope_unused_79A:
+envelope_line 225 32700
+envelope_line 30 30000
+envelope_hang 0
+
+.envelope_unused_7A6:
+envelope_line 200 32700
+envelope_hang 0
+
+.envelope_unused_7AE:
+envelope_line 3 32700
+envelope_hang 0
+
+.envelope_unused_7B6:
+envelope_line 12 32700
+envelope_line 40 5000
+envelope_hang 0
+
+.envelope_unused_7C2:
+envelope_line 10 32700
+envelope_line 4 20000
+envelope_line 4 10000
+envelope_line 50 2000
+envelope_hang 0
+
+.envelope_unused_7D6:
+envelope_line 40 32700
+envelope_line 150 32700
+envelope_line 300 0
+envelope_hang 0
+
+.envelope_unused_7E6:
+envelope_line 40 32700
+envelope_line 800 32700
+envelope_line 100 16000
+envelope_line 100 32700
+envelope_line 100 16000
+envelope_line 100 32700
+envelope_line 100 16000
+envelope_line 100 32700
+envelope_line 600 0
+envelope_hang 0
+
+.envelope_unused_80E:
+envelope_line 200 32700
+envelope_line 100 16000
+envelope_line 100 32700
+envelope_line 100 16000
+envelope_line 100 32700
+envelope_line 600 0
+envelope_hang 0
+
+.envelope_unused_82A:
+envelope_line 35 32700
+envelope_line 40 32700
+envelope_line 105 0
+envelope_hang 0
+
+.envelope_unused_83A:
+envelope_line 1 25000
+envelope_line 12 32700
+envelope_line 40 32700
+envelope_line 60 15000
+envelope_line 80 5000
+envelope_hang 0
+
+.envelope_unused_852:
+envelope_line 10 32700
+envelope_line 50 32700
+envelope_line 60 5000
+envelope_hang 0
+
+.envelope_unused_862:
+envelope_line 200 32700
+envelope_line 340 0
+envelope_hang 0
+
+.envelope_86E:
+envelope_line 400 32700
+envelope_line 400 20000
+envelope_goto 0
+
+.envelope_87A:
+envelope_line 1400 32700
+envelope_line 400 14000
+envelope_line 400 32700
+envelope_goto 1
+
+.envelope_88A:
+envelope_line 25 32700
+envelope_line 490 12000
+envelope_hang 0
+
+.envelope_unused_896:
+envelope_line 100 32700
+envelope_line 450 32700
+envelope_line 150 32700
+envelope_line 1200 32700
+envelope_line 400 20000
+envelope_hang 0
+
+.envelope_unused_8AE:
+envelope_line 200 32700
+envelope_line 200 20000
+envelope_goto 0
+
+.envelope_unused_8BA:
+envelope_line 2 25000
+envelope_hang 0
+
+.envelope_8C2:
+envelope_line 1 32700
+envelope_line 712 32700
+envelope_line 900 0
+envelope_hang 0
+
+.envelope_8D2:
+envelope_line 1 32700
+envelope_line 200 32700
+envelope_line 200 16000
+envelope_line 200 32700
+envelope_line 600 0
+envelope_hang 0
+
+.envelope_8EA:
+envelope_line 140 20000
+envelope_line 2540 10000
+envelope_line 200 32700
+envelope_line 720 20000
+envelope_line 240 27000
+envelope_line 20 16000
+envelope_line 940 32700
+envelope_hang 0
+
+.envelope_90A:
+envelope_line 100 20000
+envelope_line 400 32700
+envelope_hang 0
+
+.envelope_916:
+envelope_line 50 32700
+envelope_hang 0
+
+.envelope_91E:
+envelope_line 500 25000
+envelope_line 675 30000
+envelope_line 800 25000
+envelope_line 20 20000
+envelope_hang 0
+
+.unused_932:
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0

@@ -26,14 +26,17 @@ def parse_seq_def_data(seqdef_data, seq_data):
     return entries
 
 def convert_aseq_to_mus(aseq_name, mus_name):
-    seq64_cli = os.path.join(os.path.dirname(__file__), "seq64", "build", "seq64_console")
+    seqdecode = os.path.join(os.path.dirname(__file__), "seq_decoder.py")
     common_dir = os.getcwd()
-    rel_seq64_cli = "./" + os.path.relpath(seq64_cli, common_dir).replace("\\", "/")
+    rel_seqdecode = "./" + os.path.relpath(seqdecode, common_dir).replace("\\", "/")
+    output_file = open(mus_name, "w", encoding="utf8")
     try:
-        subprocess.run(["bash", "-c", f"{rel_seq64_cli} --in={aseq_name} --out={mus_name} --dialect=community-music --abi=zelda"], check=True)
+        subprocess.run(["python3", rel_seqdecode, aseq_name], check=True, stdout=output_file)
     except subprocess.CalledProcessError:
         print(f"failed to convert {aseq_name} to mus format")
         # exit(1)
+    finally:
+        output_file.close()
 
 def main():
     args = []
@@ -79,7 +82,7 @@ def main():
         dir = os.path.join(midi_out_dir)
         os.makedirs(dir, exist_ok=True)
         seq_name = name.get("Name") if name.get("Name") else f"{sequence.offset:08x}"
-        with open(f"{midi_out_dir}/{seq_name}.aseq", "wb") as aseq:
+        with open(os.path.join(midi_out_dir, f"{seq_name}.aseq"), "wb") as aseq:
             aseq.write(sequence.sequence)
             aseq.flush()
             mus_file = os.path.join(dir, f"{seq_name}.mus")

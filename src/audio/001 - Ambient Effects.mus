@@ -1,0 +1,2096 @@
+.include "seq_macros.inc"
+.section .rodata
+.balign 0x10
+sequence_start:
+
+seq_setmutebhv 0x20
+seq_setmutescale 70
+seq_setvol 115
+seq_settempo 120
+seq_ioreadval 0
+seq_bgez .seq_D
+seq_end
+.seq_D:
+seq_ioreadval 4
+seq_writeseq 32, .seq_17+1
+seq_ioreadval 5
+seq_writeseq_nextinstr 0, 2
+.seq_17:
+seq_initchannels 0xd000
+seq_startchannel 13, .chan_EDB
+seq_ioreadval 5
+seq_bitand 1
+seq_beqzrel .seq_25
+seq_startchannel 0, .chan_2AA
+.seq_25:
+seq_ioreadval 5
+seq_bitand 2
+seq_beqzrel .seq_2D
+seq_startchannel 1, .chan_91
+.seq_2D:
+seq_ioreadval 5
+seq_bitand 4
+seq_beqzrel .seq_35
+seq_startchannel 2, .chan_91
+.seq_35:
+seq_ioreadval 5
+seq_bitand 8
+seq_beqzrel .seq_3D
+seq_startchannel 3, .chan_91
+.seq_3D:
+seq_ioreadval 5
+seq_bitand 16
+seq_beqzrel .seq_45
+seq_startchannel 4, .chan_91
+.seq_45:
+seq_ioreadval 5
+seq_bitand 32
+seq_beqzrel .seq_4D
+seq_startchannel 5, .chan_91
+.seq_4D:
+seq_ioreadval 5
+seq_bitand 64
+seq_beqzrel .seq_55
+seq_startchannel 6, .chan_91
+.seq_55:
+seq_ioreadval 5
+seq_bitand 128
+seq_beqzrel .seq_5D
+seq_startchannel 7, .chan_91
+.seq_5D:
+seq_ioreadval 4
+seq_bitand 1
+seq_beqzrel .seq_65
+seq_startchannel 8, .chan_91
+.seq_65:
+seq_ioreadval 4
+seq_bitand 2
+seq_beqzrel .seq_6A
+.seq_6A:
+seq_ioreadval 4
+seq_bitand 4
+seq_beqzrel .seq_6F
+.seq_6F:
+seq_ioreadval 4
+seq_bitand 8
+seq_beqzrel .seq_74
+.seq_74:
+seq_ioreadval 4
+seq_bitand 16
+seq_beqzrel .seq_7C
+seq_startchannel 12, .chan_2AA
+.seq_7C:
+seq_ioreadval 4
+seq_bitand 64
+seq_beqzrel .seq_84
+seq_startchannel 14, .chan_DA3
+.seq_84:
+seq_ioreadval 4
+seq_bitand 128
+seq_beqzrel .seq_8C
+seq_startchannel 15, .chan_E0B
+.seq_8C:
+seq_delay 0x7fd0
+seq_jumprel .seq_8C
+
+.chan_91:
+chan_largenoteson
+chan_setreverbindex 1
+chan_setfilter .filter_1030
+chan_loadfilter 0
+.chan_99:
+chan_delay1
+chan_setpanmix 0
+chan_ioreadval 1
+chan_subtract 1
+chan_beqzrel .chan_A3
+chan_jumprel .chan_99
+.chan_A3:
+chan_ioreadval 2
+chan_subtract 18
+chan_bltzrel .chan_AB
+chan_setval 17
+chan_iowriteval 2
+.chan_AB:
+chan_ioreadval 2
+chan_readseq .addr_16B
+chan_writeseq 0, .chan_D7+1
+chan_ioreadval 2
+chan_readseq .addr_17F
+chan_writeseq 0, .chan_D9+1
+chan_ioreadval 2
+chan_dynreadseqlarge .addr_192
+chan_writeseqlarge .chan_DE+1
+chan_ioreadval 2
+chan_dynreadseqlarge .addr_1BA
+chan_writeseqlarge .chan_E5+1
+chan_ioreadval 2
+chan_dynreadseqlarge .addr_1E2
+chan_writeseqlarge .chan_EC+1
+chan_ioreadval 2
+chan_dynreadseqlarge .addr_20A
+chan_writeseqlarge .chan_F3+1
+.chan_D7:
+chan_setinstr 1
+.chan_D9:
+chan_setvol 60
+chan_ioreadval 4
+chan_bitand 3
+.chan_DE:
+chan_setlayer 0, .layer_393
+chan_beqzrel .chan_F9
+chan_subtract 1
+.chan_E5:
+chan_setlayer 1, .layer_3CE
+chan_beqzrel .chan_F9
+chan_subtract 1
+.chan_EC:
+chan_setlayer 2, .layer_38C
+chan_beqzrel .chan_F9
+chan_subtract 1
+.chan_F3:
+chan_setlayer 3, .layer_3C4
+chan_setval 1
+chan_iowriteval 7
+.chan_F9:
+chan_delay1
+chan_ioreadval 5
+chan_bitand 63
+chan_iowriteval 5
+chan_readseq .addr_F7A
+chan_writeseq 10, .chan_10E+1
+chan_setval 127
+chan_ioreadvalsub 5
+chan_writeseq_nextinstr 0, 1
+chan_setvolscale 127
+.chan_10E:
+chan_setreverb 0
+chan_ioreadval 1
+chan_subtract 0
+chan_beqzrel .chan_164
+chan_ioreadval 7
+chan_subtract 1
+chan_iowriteval 7
+chan_beqzrel .chan_11D
+chan_jumprel .chan_F9
+.chan_11D:
+chan_ioreadval 2
+chan_dynreadseqlarge .addr_232
+chan_writeseqlarge .chan_134+2
+chan_ioreadval 2
+chan_dynreadseqlarge .addr_25A
+chan_writeseqlarge .chan_146+2
+chan_ioreadval 2
+chan_dynreadseqlarge .addr_282
+chan_writeseqlarge .chan_15B+2
+chan_rand 90
+.chan_134:
+chan_writeseq 37, .layer_fn_EFC+1
+chan_ioreadval 3
+chan_bitand 127
+chan_iowriteval 3
+chan_setval 0
+chan_ioreadvalsub 3
+chan_writeseq 0, .chan_144+1
+chan_ioreadval 3
+.chan_144:
+chan_pitchbend2 0
+.chan_146:
+chan_writeseq 0, .layer_EFE+1
+chan_setval 0
+chan_readseq .addr_EFB
+chan_beqzrel .chan_15B
+chan_rand 3
+chan_beqzrel .chan_159
+chan_setval 0
+chan_jumprel .chan_15B
+.chan_159:
+chan_setval 20
+.chan_15B:
+chan_writeseq 0, .layer_F00+1
+chan_setval 50
+chan_iowriteval 7
+chan_jumprel .chan_F9
+.chan_164:
+chan_freelayer 0
+chan_freelayer 1
+chan_freelayer 2
+chan_freelayer 3
+chan_jump .chan_99
+
+.addr_16B:
+.byte 0x1
+.byte 0x2
+.byte 0x3
+.byte 0x1
+.byte 0x4
+.byte 0x1
+.byte 0x5
+.byte 0x1
+.byte 0x1
+.byte 0x6
+.byte 0xd
+.byte 0x8
+.byte 0x9
+.byte 0xb
+.byte 0xc
+.byte 0x7
+.byte 0xe
+.byte 0xa
+.byte 0x3
+.byte 0x1
+
+.addr_17F:
+.byte 0x4b
+.byte 0x55
+.byte 0x32
+.byte 0x3c
+.byte 0x50
+.byte 0x50
+.byte 0x50
+.byte 0x50
+.byte 0x50
+.byte 0x64
+.byte 0x50
+.byte 0x50
+.byte 0x50
+.byte 0x52
+.byte 0x50
+.byte 0x4b
+.byte 0x5a
+.byte 0x50
+.byte 0x0
+
+.addr_192:
+entry .layer_393
+entry .layer_404
+entry .layer_48A
+entry .layer_4D1
+entry .layer_54E
+entry .layer_5B2
+entry .layer_665
+entry .layer_6CE
+entry .layer_734
+entry .layer_78B
+entry .layer_7E6
+entry .layer_B39
+entry .layer_C5E
+entry .layer_9C2
+entry .layer_A6C
+entry .layer_D39
+entry .layer_8A2
+entry .layer_AE6
+entry .layer_48A
+entry .layer_4D1
+
+.addr_1BA:
+entry .layer_3CE
+entry .layer_449
+entry .layer_487
+entry .layer_516
+entry .layer_560
+entry .layer_612
+entry .layer_676
+entry .layer_6E8
+entry .layer_731
+entry .layer_794
+entry .layer_849
+entry .layer_BC9
+entry .layer_CCD
+entry .layer_A09
+entry .layer_A59
+entry .layer_D27
+entry .layer_932
+entry .layer_AFA
+entry .layer_A59
+entry .layer_D27
+
+.addr_1E2:
+entry .layer_38C
+entry .layer_3FD
+entry .layer_484
+entry .layer_4C7
+entry .layer_572
+entry .layer_5AC
+entry .layer_68B
+entry .layer_6FA
+entry .layer_74E
+entry .layer_7B2
+entry .layer_7E0
+entry .layer_B26
+entry .layer_C4D
+entry .layer_9B8
+entry .layer_A62
+entry .layer_D2A
+entry .layer_898
+entry .layer_AE5
+entry .layer_A62
+entry .layer_D2A
+
+.addr_20A:
+entry .layer_3C4
+entry .layer_43F
+entry .layer_481
+entry .layer_50C
+entry .layer_58D
+entry .layer_609
+entry .layer_6B4
+entry .layer_716
+entry .layer_770
+entry .layer_7C9
+entry .layer_843
+entry .layer_BB3
+entry .layer_CB9
+entry .layer_9FC
+entry .layer_A4C
+entry .layer_D24
+entry .layer_924
+entry .layer_AE5
+entry .layer_A4C
+entry .layer_D24
+
+.addr_232:
+entry .layer_fn_EFC+1
+entry .layer_fn_F03+1
+entry .layer_fn_F0A+1
+entry .layer_fn_F11+1
+entry .layer_fn_F18+1
+entry .layer_fn_F1F+1
+entry .layer_fn_F26+1
+entry .layer_fn_F2D+1
+entry .layer_fn_F34+1
+entry .layer_fn_F3B+1
+entry .layer_fn_F42+1
+entry .layer_fn_F49+1
+entry .layer_fn_F50+1
+entry .layer_fn_F57+1
+entry .layer_fn_F5E+1
+entry .layer_fn_F65+1
+entry .layer_fn_F6C+1
+entry .layer_fn_F73+1
+entry .layer_fn_F0A+1
+entry .layer_fn_F11+1
+
+.addr_25A:
+entry .layer_EFE+1
+entry .layer_F05+1
+entry .layer_F0C+1
+entry .layer_F13+1
+entry .layer_F1A+1
+entry .layer_F21+1
+entry .layer_F28+1
+entry .layer_F2F+1
+entry .layer_F36+1
+entry .layer_F3D+1
+entry .layer_F44+1
+entry .layer_F4B+1
+entry .layer_F52+1
+entry .layer_F59+1
+entry .layer_F60+1
+entry .layer_F67+1
+entry .layer_F6E+1
+entry .layer_F75+1
+entry .layer_F60+1
+entry .layer_F67+1
+
+.addr_282:
+entry .layer_F00+1
+entry .layer_F07+1
+entry .layer_F0E+1
+entry .layer_F15+1
+entry .layer_F1C+1
+entry .layer_F23+1
+entry .layer_F2A+1
+entry .layer_F31+1
+entry .layer_F38+1
+entry .layer_F3F+1
+entry .layer_F46+1
+entry .layer_F4D+1
+entry .layer_F54+1
+entry .layer_F5B+1
+entry .layer_F62+1
+entry .layer_F69+1
+entry .layer_F70+1
+entry .layer_F77+1
+entry .layer_F62+1
+entry .layer_F69+1
+
+.chan_2AA:
+chan_largenoteson
+chan_setreverbindex 1
+chan_transpose 12
+chan_setfilter .filter_1030
+chan_loadfilter 0
+.chan_2B4:
+chan_delay1
+chan_ioreadval 1
+chan_subtract 1
+chan_beqzrel .chan_2BC
+chan_jumprel .chan_2B4
+.chan_2BC:
+chan_setvolscale 127
+chan_setpanmix 0
+chan_ioreadval 2
+chan_bitand 3
+chan_readseq .addr_35A
+chan_writeseq 0, .chan_2D6+1
+chan_ioreadval 2
+chan_bitand 3
+chan_readseq .addr_35E
+chan_writeseq_nextinstr 0, 1
+chan_setvol 60
+.chan_2D6:
+chan_setinstr 16
+chan_setenvelope .envelope_FFA
+chan_setreverb 20
+chan_setlayer 0, .layer_368
+chan_setlayer 1, .layer_362
+chan_setval 1
+chan_iowriteval 7
+chan_jumprel .chan_2F4
+.chan_2E8:
+chan_delay1
+chan_ioreadval 1
+chan_subtract 0
+chan_beqzrel .chan_335
+chan_ioreadval 0
+chan_bltzrel .chan_2F4
+chan_call .chan_fn_33E
+.chan_2F4:
+chan_ioreadval 6
+chan_bltzrel .chan_300
+chan_writeseq 0, .chan_2FE+1
+chan_setval 255
+chan_iowriteval 6
+.chan_2FE:
+chan_loadfilter 15
+.chan_300:
+chan_ioreadval 7
+chan_subtract 1
+chan_iowriteval 7
+chan_beqzrel .chan_308
+chan_jumprel .chan_2E8
+.chan_308:
+chan_ioreadval 3
+chan_bitand 63
+chan_iowriteval 3
+chan_readseq .addr_FBA
+chan_subtract 255
+chan_writeseq 5, .chan_31D+1
+chan_ioreadval 3
+chan_readseq .addr_F7A
+chan_writeseq 96, .envelope_FFE+2
+.chan_31D:
+chan_rand 24
+chan_writeseq 98, .layer_36F
+chan_setval 64
+chan_ioreadvalsub 3
+chan_writeseq_nextinstr 0, 1
+chan_rand 64
+chan_writeseq 63, .layer_36F+1
+chan_setval 100
+chan_iowriteval 7
+chan_jumprel .chan_2E8
+.chan_335:
+chan_setdecayrelease 112
+chan_freelayer 0
+chan_freelayer 1
+chan_freelayer 2
+chan_freelayer 3
+chan_jump .chan_2B4
+
+.chan_fn_33E:
+chan_setlayer 2, .layer_37A
+chan_setlayer 3, .layer_374
+chan_ioreadval 3
+chan_bitand 63
+chan_iowriteval 3
+chan_readseq .addr_FBA
+chan_subtract 255
+chan_writeseq 100, .layer_385+2
+chan_writeseq 100, .layer_388+2
+chan_writeseq 103, .layer_385
+chan_end
+
+.addr_35A:
+.byte 0xf
+.byte 0x10
+.byte 0x11
+.byte 0x11
+
+.addr_35E:
+.byte 0x3c
+.byte 0x73
+.byte 0x64
+.byte 0x64
+
+.layer_362:
+layer_setstereo 20
+layer_transpose 9
+layer_jumprel .layer_368
+
+.layer_368:
+layer_setreleaserate 100
+layer_enablelegato
+layer_portamento 0x85, 34, 255
+.layer_36F:
+layer_note1 27, 0x64, 75
+layer_jumprel .layer_36F
+
+.layer_374:
+layer_transpose 9
+layer_setpan 74
+layer_jumprel .layer_37C
+
+.layer_37A:
+layer_setpan 54
+.layer_37C:
+layer_setenvelope .envelope_1006, 255
+layer_enablelegato
+layer_portamento 0x85, 39, 255
+.layer_385:
+layer_note1 46, 0xc, 40
+.layer_388:
+layer_note1 22, 0x73, 40
+layer_end
+
+.layer_38C:
+layer_setpan 94
+layer_call .layer_fn_EFC
+layer_jumprel .layer_395
+
+.layer_393:
+layer_setpan 84
+.layer_395:
+layer_call .layer_fn_EFC
+layer_note1 43, 0x7e, 100
+layer_note1 41, 0x15f, 78
+layer_call .layer_fn_EFC
+layer_note1 41, 0xe2, 95
+layer_note1 39, 0x2d, 86
+layer_note1 44, 0x144, 75
+layer_note1 41, 0xc4, 97
+layer_call .layer_fn_EFC
+layer_note1 41, 0xd3, 67
+layer_note1 43, 0x3b, 106
+layer_note1 39, 0x10b, 94
+layer_call .layer_fn_EFC
+layer_jumprel .layer_395
+
+.layer_3C4:
+layer_setpan 34
+layer_call .layer_fn_EFC
+layer_call .layer_fn_EFC
+layer_jumprel .layer_395
+
+.layer_3CE:
+layer_setpan 44
+.layer_3D0:
+layer_call .layer_fn_EFC
+layer_call .layer_fn_EFC
+layer_note1 39, 0x9, 64
+layer_note1 39, 0x96, 75
+layer_call .layer_fn_EFC
+layer_note1 39, 0x5f, 100
+layer_note1 39, 0x137, 90
+layer_note1 39, 0xce, 75
+layer_call .layer_fn_EFC
+layer_note1 39, 0x119, 86
+layer_note1 39, 0x23, 69
+layer_note1 39, 0x54, 77
+layer_note1 39, 0x65, 81
+layer_jumprel .layer_3D0
+
+.layer_3FD:
+layer_setpan 84
+layer_call .layer_fn_F03
+layer_jumprel .layer_406
+
+.layer_404:
+layer_setpan 94
+.layer_406:
+layer_call .layer_fn_F03
+layer_note1 41, 0xc, 81
+layer_note1 43, 0xfe, 99
+layer_note1 41, 0x34, 89
+layer_call .layer_fn_F03
+layer_note1 39, 0xf4, 86
+layer_note1 41, 0x187, 97
+layer_call .layer_fn_F03
+layer_note1 39, 0x15, 72
+layer_note1 41, 0xd3, 67
+layer_note1 43, 0x91, 98
+layer_call .layer_fn_F03
+layer_note1 43, 0x8, 86
+layer_note1 41, 0x13b, 94
+layer_note1 39, 0xb, 94
+layer_note1 39, 0x10f, 94
+layer_jumprel .layer_406
+
+.layer_43F:
+layer_setpan 44
+layer_call .layer_fn_F03
+layer_call .layer_fn_F03
+layer_jumprel .layer_44B
+
+.layer_449:
+layer_setpan 34
+.layer_44B:
+layer_call .layer_fn_F03
+layer_call .layer_fn_F03
+layer_note1 39, 0xd3, 72
+layer_call .layer_fn_F03
+layer_note1 39, 0xb, 85
+layer_note1 43, 0x126, 100
+layer_note1 41, 0xa7, 90
+layer_call .layer_fn_F03
+layer_note1 41, 0xa6, 75
+layer_note1 44, 0x18, 86
+layer_note1 39, 0x163, 84
+layer_call .layer_fn_F03
+layer_note1 41, 0xdb, 94
+layer_note1 43, 0x9, 67
+layer_note1 39, 0xe0, 81
+layer_jumprel .layer_44B
+
+.layer_481:
+layer_call .layer_fn_F0A
+
+.layer_484:
+layer_call .layer_fn_F0A
+
+.layer_487:
+layer_call .layer_fn_F0A
+
+.layer_48A:
+layer_call .layer_fn_F0A
+layer_setpan 64
+layer_note0 39, 0x200, 90, 127
+layer_call .layer_fn_F0A
+layer_setpan 91
+layer_note0 41, 0x7f, 61, 127
+layer_delay 0x96
+layer_setpan 77
+layer_note0 40, 0x1c8, 100, 127
+layer_call .layer_fn_F0A
+layer_setpan 38
+layer_note0 39, 0x174, 54, 127
+layer_delay 0xae
+layer_setpan 87
+layer_note0 40, 0x298, 73, 127
+layer_call .layer_fn_F0A
+layer_setpan 54
+layer_note0 39, 0x1b5, 95, 127
+layer_jumprel .layer_48A
+
+.layer_4C7:
+layer_setpan 74
+layer_call .layer_fn_F11
+layer_call .layer_fn_F11
+layer_jumprel .layer_4D3
+
+.layer_4D1:
+layer_setpan 94
+.layer_4D3:
+layer_call .layer_fn_F11
+layer_call .layer_fn_F11
+layer_note1 43, 0x108, 100
+layer_note1 41, 0xb, 78
+layer_note1 41, 0x2d, 95
+layer_call .layer_fn_F11
+layer_note1 39, 0xf6, 86
+layer_note1 41, 0x155, 97
+layer_call .layer_fn_F11
+layer_note1 41, 0xd3, 67
+layer_note1 39, 0x15, 94
+layer_note1 43, 0x91, 106
+layer_call .layer_fn_F11
+layer_note1 41, 0x13b, 94
+layer_note1 43, 0x8, 106
+layer_note1 39, 0x10f, 94
+layer_jumprel .layer_4D3
+
+.layer_50C:
+layer_setpan 54
+layer_call .layer_fn_F11
+layer_call .layer_fn_F11
+layer_jumprel .layer_518
+
+.layer_516:
+layer_setpan 34
+.layer_518:
+layer_call .layer_fn_F11
+layer_call .layer_fn_F11
+layer_note1 39, 0xfa, 64
+layer_call .layer_fn_F11
+layer_note1 39, 0xe, 75
+layer_note1 43, 0x10f, 100
+layer_note1 41, 0x8, 90
+layer_call .layer_fn_F11
+layer_note1 41, 0x92, 75
+layer_note1 44, 0x43, 86
+layer_note1 39, 0x155, 69
+layer_call .layer_fn_F11
+layer_note1 41, 0xf5, 77
+layer_note1 43, 0xbd, 77
+layer_note1 39, 0xda, 81
+layer_jumprel .layer_518
+
+.layer_54E:
+layer_call .layer_fn_F18
+layer_setpan 84
+layer_note1 43, 0x126, 100
+layer_setpan 74
+layer_note1 43, 0x9, 78
+layer_note1 39, 0x16f, 74
+
+.layer_560:
+layer_call .layer_fn_F18
+layer_call .layer_fn_F18
+layer_setpan 47
+layer_note1 39, 0x1c2, 100
+layer_setpan 58
+layer_note1 41, 0xf8, 91
+
+.layer_572:
+layer_call .layer_fn_F18
+layer_delay 0x14
+layer_call .layer_fn_F18
+layer_setpan 95
+layer_note1 44, 0x4b, 67
+layer_setpan 87
+layer_note1 41, 0x9, 55
+layer_note1 41, 0x18, 60
+layer_setpan 91
+layer_note1 43, 0x126, 100
+
+.layer_58D:
+layer_call .layer_fn_F18
+layer_call .layer_fn_F18
+layer_delay 0x30
+layer_call .layer_fn_F18
+layer_setpan 72
+layer_note1 39, 0xa, 91
+layer_note1 40, 0xc2, 88
+layer_setpan 37
+layer_note1 41, 0x9, 76
+layer_note1 41, 0x155, 91
+layer_jumprel .layer_54E
+
+.layer_5AC:
+layer_call .layer_fn_F1F
+layer_call .layer_fn_F1F
+
+.layer_5B2:
+layer_call .layer_fn_F1F
+layer_setpan 84
+layer_call .layer_fn_F1F
+layer_note1 41, 0xc2, 90
+layer_note1 42, 0x68, 94
+layer_call .layer_fn_F1F
+layer_note1 41, 0x95, 100
+layer_note1 43, 0x61, 105
+layer_call .layer_fn_F1F
+layer_note1 41, 0x126, 78
+layer_call .layer_fn_F1F
+layer_note1 39, 0x6, 84
+layer_note1 43, 0x24, 76
+layer_note1 39, 0x19d, 78
+layer_note1 39, 0x5e, 57
+layer_setpan 74
+layer_call .layer_fn_F1F
+layer_note1 41, 0xa8, 88
+layer_note1 39, 0x159, 67
+layer_note1 43, 0x105, 84
+layer_note1 43, 0x43, 67
+layer_call .layer_fn_F1F
+layer_note1 40, 0xd3, 81
+layer_call .layer_fn_F1F
+layer_note1 41, 0xb, 91
+layer_note1 43, 0x126, 88
+layer_jumprel .layer_5B2
+
+.layer_609:
+layer_call .layer_fn_F1F
+layer_call .layer_fn_F1F
+layer_call .layer_fn_F1F
+
+.layer_612:
+layer_call .layer_fn_F1F
+layer_setpan 44
+layer_note1 41, 0x15, 75
+layer_note1 42, 0x3d, 94
+layer_call .layer_fn_F1F
+layer_note1 41, 0x95, 81
+layer_note1 43, 0x137, 42
+layer_note1 39, 0x1f4, 69
+layer_call .layer_fn_F1F
+layer_note1 44, 0xc8, 91
+layer_note1 41, 0x95, 84
+layer_setpan 54
+layer_call .layer_fn_F1F
+layer_note1 42, 0x95, 87
+layer_note1 41, 0x163, 96
+layer_call .layer_fn_F1F
+layer_note1 42, 0xd8, 61
+layer_call .layer_fn_F1F
+layer_note1 39, 0x1e0, 81
+layer_note1_long 39, 0x4f, 68
+layer_call .layer_fn_F1F
+layer_note1 43, 0x8, 75
+layer_note1 42, 0x1a5, 94
+layer_call .layer_fn_F1F
+layer_jumprel .layer_612
+
+.layer_665:
+layer_loop 3
+layer_setpan 104
+layer_note1 43, 0x1cc, 75
+layer_call .layer_fn_F26
+layer_setpan 50
+layer_note1 39, 0x167, 87
+
+.layer_676:
+layer_call .layer_fn_F26
+layer_call .layer_fn_F26
+layer_setpan 34
+layer_note1 41, 0x167, 94
+layer_call .layer_fn_F26
+layer_setpan 64
+layer_note1 41, 0x167, 62
+
+.layer_68B:
+layer_call .layer_fn_F26
+layer_delay 0x22
+layer_call .layer_fn_F26
+layer_setpan 79
+layer_note1 43, 0x167, 79
+layer_call .layer_fn_F26
+layer_setpan 91
+layer_note1 44, 0x167, 62
+layer_call .layer_fn_F26
+layer_setpan 54
+layer_note1 39, 0x167, 86
+layer_call .layer_fn_F26
+layer_setpan 36
+layer_note1 41, 0x167, 57
+
+.layer_6B4:
+layer_call .layer_fn_F26
+layer_call .layer_fn_F26
+layer_delay 0x37
+layer_call .layer_fn_F26
+layer_loopend
+layer_setpan 64
+layer_note1 39, 0x9, 57
+layer_note1 43, 0xd8, 69
+layer_call .layer_fn_F26
+layer_jumprel .layer_665
+
+.layer_6CE:
+layer_call .layer_fn_F2D
+layer_setpan 74
+layer_note1 43, 0x15f, 86
+layer_call .layer_fn_F2D
+layer_note1 43, 0x126, 59
+layer_setpan 90
+layer_note1 43, 0x15f, 66
+layer_note1 39, 0x126, 49
+
+.layer_6E8:
+layer_call .layer_fn_F2D
+layer_delay 0x47
+layer_call .layer_fn_F2D
+layer_note1 41, 0x137, 81
+layer_setpan 83
+layer_note1 43, 0x10b, 99
+
+.layer_6FA:
+layer_call .layer_fn_F2D
+layer_call .layer_fn_F2D
+layer_delay 0x21
+layer_call .layer_fn_F2D
+layer_note1 39, 0x18d, 49
+layer_note1 39, 0x116, 78
+layer_setpan 69
+layer_call .layer_fn_F2D
+layer_note1 39, 0x1c4, 57
+
+.layer_716:
+layer_call .layer_fn_F2D
+layer_call .layer_fn_F2D
+layer_call .layer_fn_F2D
+layer_call .layer_fn_F2D
+layer_note1 39, 0x149, 92
+layer_setpan 78
+layer_note1 39, 0x108, 75
+layer_call .layer_fn_F2D
+layer_jumprel .layer_6CE
+
+.layer_731:
+layer_call .layer_fn_F34
+
+.layer_734:
+layer_setpan 54
+layer_call .layer_fn_F34
+layer_setpan 49
+layer_note1 43, 0xbf, 86
+layer_setpan 41
+layer_note1 41, 0x44, 59
+layer_note1 39, 0x1ca, 91
+layer_setpan 57
+layer_note1 39, 0xee, 77
+
+.layer_74E:
+layer_call .layer_fn_F34
+layer_call .layer_fn_F34
+layer_delay 0x19
+layer_setpan 39
+layer_note1 43, 0xc2, 59
+layer_note1 41, 0xa4, 49
+layer_setpan 51
+layer_note1 41, 0x13f, 55
+layer_setpan 59
+layer_note1 39, 0xdb, 72
+layer_note1 39, 0x2f9, 86
+
+.layer_770:
+layer_call .layer_fn_F34
+layer_call .layer_fn_F34
+layer_call .layer_fn_F34
+layer_delay 0x4b
+layer_setpan 48
+layer_note1 41, 0x34, 95
+layer_setpan 53
+layer_note1 39, 0xed, 64
+layer_call .layer_fn_F34
+layer_jumprel .layer_734
+
+.layer_78B:
+layer_call .layer_fn_F3B
+layer_note1 39, 0x4f, 95
+layer_note1 39, 0x4f, 95
+
+.layer_794:
+layer_call .layer_fn_F3B
+layer_call .layer_fn_F3B
+layer_note1 39, 0xa9, 75
+layer_note1 39, 0x63, 73
+layer_note1 39, 0x91, 71
+layer_call .layer_fn_F3B
+layer_note1 39, 0x55, 78
+layer_note1 39, 0xd3, 74
+layer_call .layer_fn_F3B
+
+.layer_7B2:
+layer_call .layer_fn_F3B
+layer_delay 0x29
+layer_call .layer_fn_F3B
+layer_note1 39, 0x45, 57
+layer_note1 39, 0x5e, 57
+layer_call .layer_fn_F3B
+layer_note1 39, 0x4b, 49
+layer_note1 39, 0x48, 46
+
+.layer_7C9:
+layer_call .layer_fn_F3B
+layer_delay 0x44
+layer_call .layer_fn_F3B
+layer_call .layer_fn_F3B
+layer_note1 39, 0x54, 88
+layer_note1 39, 0x5b, 88
+layer_note1 39, 0xbf, 83
+layer_jumprel .layer_78B
+
+.layer_7E0:
+layer_call .layer_fn_F42
+layer_call .layer_fn_F42
+
+.layer_7E6:
+layer_call .layer_fn_F42
+layer_setpan 24
+layer_note0 43, 0x1aa, 86, 127
+layer_note0 41, 0x73, 56, 127
+layer_call .layer_fn_F42
+layer_setpan 49
+layer_note0 39, 0x1f4, 94, 127
+layer_call .layer_fn_F42
+layer_note0 43, 0x349, 68, 127
+layer_note0 44, 0x167, 71, 127
+layer_call .layer_fn_F42
+layer_note0 43, 0x349, 68, 127
+layer_note0 43, 0x229, 91, 127
+layer_note0 44, 0xdb, 71, 127
+layer_call .layer_fn_F42
+layer_note0 44, 0x12c, 82, 220
+layer_call .layer_fn_F42
+layer_note0 43, 0x282, 81, 127
+layer_note0 43, 0x4f, 68, 127
+layer_note0 44, 0xdb, 71, 127
+layer_call .layer_fn_F42
+layer_note0 44, 0x1c3, 54, 127
+layer_call .layer_fn_F42
+layer_jumprel .layer_7E6
+
+.layer_843:
+layer_call .layer_fn_F42
+layer_call .layer_fn_F42
+
+.layer_849:
+layer_call .layer_fn_F42
+layer_call .layer_fn_F42
+layer_setpan 76
+layer_call .layer_fn_F42
+layer_note0 43, 0x142, 86, 127
+layer_call .layer_fn_F42
+layer_note0 41, 0x1f4, 94, 127
+layer_call .layer_fn_F42
+layer_note0 43, 0xfe, 49, 127
+layer_note0 39, 0xc3, 71, 127
+layer_note0 41, 0x1cb, 61, 127
+layer_call .layer_fn_F42
+layer_note0 41, 0x25, 51, 127
+layer_call .layer_fn_F42
+layer_note0 40, 0x23d, 91, 127
+layer_note0 39, 0x2fd, 88, 127
+layer_setpan 100
+layer_call .layer_fn_F42
+layer_note0 43, 0x15c, 76, 127
+layer_note0 44, 0x284, 59, 180
+layer_jumprel .layer_849
+
+.layer_898:
+layer_setpan 84
+layer_call .layer_fn_EFC
+layer_call .layer_fn_EFC
+layer_jumprel .layer_8A4
+
+.layer_8A2:
+layer_setpan 60
+.layer_8A4:
+layer_call .layer_fn_EFC
+layer_note1 27, 0x34, 89
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x34, 77
+layer_note1 27, 0x34, 77
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x34, 71
+layer_note1 27, 0x34, 71
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x34, 76
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x34, 89
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x34, 64
+layer_note1 27, 0x34, 66
+layer_note1 27, 0x34, 69
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x34, 75
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x34, 85
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x34, 79
+layer_note1 27, 0x34, 77
+layer_note1 27, 0x34, 71
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_jumprel .layer_8A4
+
+.layer_924:
+layer_setpan 42
+layer_call .layer_fn_EFC
+layer_call .layer_fn_EFC
+layer_call .layer_fn_EFC
+layer_jump .layer_934
+
+.layer_932:
+layer_setpan 69
+.layer_934:
+layer_call .layer_fn_EFC
+layer_note1 27, 0x30, 45
+layer_note1 27, 0x32, 48
+layer_note1 27, 0x34, 47
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x34, 80
+layer_note1 27, 0x34, 81
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x32, 88
+layer_note1 27, 0x34, 84
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x32, 94
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x32, 76
+layer_call .layer_fn_F6C
+layer_note1 27, 0x32, 55
+layer_call .layer_fn_F6C
+layer_note1 27, 0x32, 65
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x36, 83
+layer_note1 27, 0x34, 87
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x36, 91
+layer_note1 27, 0x34, 85
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 27, 0x34, 65
+layer_note1 27, 0x30, 59
+layer_call .layer_fn_F6C
+layer_jump .layer_934
+
+.layer_9B8:
+layer_setpan 40
+layer_call .layer_fn_F57
+layer_call .layer_fn_F57
+layer_jumprel .layer_A11
+
+.layer_9C2:
+layer_setpan 50
+.layer_9C4:
+layer_call .layer_fn_F57
+layer_note1 39, 0x41, 86
+layer_delay 0x9f
+layer_call .layer_fn_F57
+layer_note1 40, 0x36, 56
+layer_delay 0x123
+layer_call .layer_fn_F57
+layer_note1 39, 0x45, 36
+layer_delay 0x95
+layer_call .layer_fn_F57
+layer_note1 41, 0x32, 70
+layer_delay 0xe2
+layer_call .layer_fn_F57
+layer_note1 39, 0x4c, 51
+layer_delay 0x8f
+layer_note1 41, 0x3d, 70
+layer_delay 0x14e
+layer_call .layer_fn_F57
+layer_jumprel .layer_9C4
+
+.layer_9FC:
+layer_setpan 88
+layer_call .layer_fn_F57
+layer_call .layer_fn_F57
+layer_call .layer_fn_F57
+layer_jumprel .layer_A11
+
+.layer_A09:
+layer_call .layer_fn_F57
+layer_setpan 78
+layer_delay 0xd3
+.layer_A11:
+layer_call .layer_fn_F57
+layer_delay 0x1bb
+layer_call .layer_fn_F57
+layer_delay 0x108
+layer_call .layer_fn_F57
+layer_note1 39, 0x47, 44
+layer_delay 0x1a3
+layer_call .layer_fn_F57
+layer_note1 39, 0x47, 64
+layer_call .layer_fn_F57
+layer_note1 40, 0x38, 71
+layer_delay 0x15f
+layer_call .layer_fn_F57
+layer_note1 41, 0x3c, 89
+layer_delay 0x2c1
+layer_call .layer_fn_F57
+layer_note1 39, 0x39, 57
+layer_delay 0x160
+layer_call .layer_fn_F57
+layer_jumprel .layer_A11
+
+.layer_A4C:
+layer_setpan 78
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_jumprel .layer_AAA
+
+.layer_A59:
+layer_setpan 70
+layer_call .layer_fn_F5E
+layer_delay 0x38
+layer_jumprel .layer_AAA
+
+.layer_A62:
+layer_setpan 40
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_jumprel .layer_A6E
+
+.layer_A6C:
+layer_setpan 50
+.layer_A6E:
+layer_call .layer_fn_F57
+layer_note1 31, 0x61, 75
+layer_note1 31, 0x5e, 79
+layer_note1 31, 0x5f, 77
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_note1 32, 0x69, 78
+layer_note1 32, 0x70, 79
+layer_note1 32, 0x6b, 72
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_note1 31, 0x5f, 69
+layer_note1 31, 0x59, 74
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+.layer_AAA:
+layer_note1 31, 0x58, 81
+layer_note1 31, 0x5d, 83
+layer_note1 31, 0x5b, 77
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_note1 31, 0x66, 69
+layer_note1 31, 0x64, 74
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_note1 32, 0x66, 74
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_note1 31, 0x4e, 87
+layer_note1 31, 0x51, 78
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_jumprel .layer_A6E
+
+.layer_AE5:
+layer_end
+
+.layer_AE6:
+layer_call .layer_fn_F73
+layer_note1 39, 0xa6, 75
+layer_call .layer_fn_F73
+layer_call .layer_fn_F73
+layer_call .layer_fn_F73
+layer_note1 40, 0xa6, 79
+
+.layer_AFA:
+layer_call .layer_fn_F73
+layer_call .layer_fn_F73
+layer_call .layer_fn_F73
+layer_call .layer_fn_F73
+layer_note1 40, 0xa6, 84
+layer_call .layer_fn_F73
+layer_call .layer_fn_F73
+layer_call .layer_fn_F73
+layer_note1 39, 0xa6, 102
+layer_call .layer_fn_F73
+layer_call .layer_fn_F73
+layer_call .layer_fn_F73
+layer_note1 39, 0xa6, 64
+layer_jumprel .layer_AE6
+
+.layer_B26:
+layer_setreleaserate 236
+layer_enablelegato
+layer_setpan 34
+layer_note1 39, 0x2a, 85
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_jumprel .layer_B3F
+
+.layer_B39:
+layer_setreleaserate 236
+layer_call .layer_fn_F49
+layer_enablelegato
+.layer_B3F:
+layer_setpan 95
+layer_portamento 0x85, 38, 255
+layer_note1 40, 0x34, 76
+layer_note1 39, 0x4f, 76
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_setpan 37
+layer_portamento 0x81, 38, 127
+layer_note1 39, 0xe1, 99
+layer_call .layer_fn_F49
+layer_setpan 49
+layer_note1 39, 0x1a, 81
+layer_call .layer_fn_F49
+layer_setpan 39
+layer_portamento 0x81, 38, 127
+layer_note1 39, 0x112, 91
+layer_call .layer_fn_F49
+layer_setpan 55
+layer_portamento 0x85, 39, 255
+layer_note1 40, 0x112, 78
+layer_note1 40, 0x5e, 78
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_setpan 74
+layer_portamento 0x81, 38, 127
+layer_note1 39, 0x16, 105
+layer_call .layer_fn_F49
+layer_setpan 46
+layer_portamento 0x81, 38, 127
+layer_note1 40, 0x24, 94
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_setpan 94
+layer_portamento 0x85, 39, 255
+layer_note1 40, 0x112, 78
+layer_note1 40, 0x5e, 78
+layer_jumprel .layer_B3F
+
+.layer_BB3:
+layer_setreleaserate 236
+layer_enablelegato
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_setpan 84
+layer_note1 40, 0x5e, 64
+layer_jumprel .layer_BD2
+
+.layer_BC9:
+layer_setreleaserate 236
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_enablelegato
+.layer_BD2:
+layer_setpan 94
+layer_portamento 0x81, 38, 127
+layer_note1 39, 0x74, 100
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_setpan 76
+layer_portamento 0x85, 39, 255
+layer_note1 40, 0x43, 85
+layer_note1 38, 0xf1, 85
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_setpan 57
+layer_note1 39, 0x44, 78
+layer_call .layer_fn_F49
+layer_setpan 94
+layer_portamento 0x81, 38, 127
+layer_note1 40, 0x91, 78
+layer_call .layer_fn_F49
+layer_setpan 38
+layer_portamento 0x81, 38, 127
+layer_note1 40, 0x59, 96
+layer_call .layer_fn_F49
+layer_setpan 94
+layer_portamento 0x85, 38, 255
+layer_note1 39, 0xc3, 99
+layer_note1 38, 0x17, 99
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_setpan 64
+layer_note1 38, 0x11, 76
+layer_call .layer_fn_F49
+layer_setpan 37
+layer_note1 38, 0x13, 105
+layer_call .layer_fn_F49
+layer_setpan 43
+layer_portamento 0x81, 38, 127
+layer_note1 39, 0x112, 91
+layer_call .layer_fn_F49
+layer_call .layer_fn_F49
+layer_jumprel .layer_BD2
+
+.layer_C4D:
+layer_setreleaserate 236
+layer_setpan 34
+layer_delay 0x18
+layer_call .layer_fn_F50
+layer_note1 39, 0x2a, 85
+layer_call .layer_fn_F50
+layer_jumprel .layer_C60
+
+.layer_C5E:
+layer_setreleaserate 236
+.layer_C60:
+layer_call .layer_fn_F50
+layer_setpan 75
+layer_note1 39, 0x34, 94
+layer_call .layer_fn_F50
+layer_setpan 34
+layer_note1 39, 0x9f, 67
+layer_call .layer_fn_F50
+layer_call .layer_fn_F50
+layer_setpan 72
+layer_note1 39, 0xc5, 79
+layer_call .layer_fn_F50
+layer_setpan 41
+layer_note1 39, 0x85, 68
+layer_call .layer_fn_F50
+layer_setpan 49
+layer_note1 39, 0xd3, 99
+layer_call .layer_fn_F50
+layer_call .layer_fn_F50
+layer_setpan 68
+layer_note1 39, 0x3b, 94
+layer_call .layer_fn_F50
+layer_call .layer_fn_F50
+layer_call .layer_fn_F50
+layer_setpan 105
+layer_note1 39, 0xc5, 81
+layer_call .layer_fn_F50
+layer_setpan 76
+layer_note1 39, 0x3b, 86
+layer_call .layer_fn_F50
+layer_call .layer_fn_F50
+layer_jumprel .layer_C60
+
+.layer_CB9:
+layer_setreleaserate 236
+layer_setpan 34
+layer_call .layer_fn_F50
+layer_delay 0x18
+layer_note1 39, 0x5e, 77
+layer_call .layer_fn_F50
+layer_call .layer_fn_F50
+layer_jumprel .layer_CD2
+
+.layer_CCD:
+layer_setreleaserate 236
+layer_call .layer_fn_F50
+.layer_CD2:
+layer_call .layer_fn_F50
+layer_setpan 75
+layer_note1 39, 0x98, 94
+layer_call .layer_fn_F50
+layer_setpan 34
+layer_note1 39, 0xd2, 84
+layer_call .layer_fn_F50
+layer_call .layer_fn_F50
+layer_setpan 59
+layer_note1 39, 0xa8, 99
+layer_call .layer_fn_F50
+layer_setpan 95
+layer_note1 39, 0x25, 74
+layer_call .layer_fn_F50
+layer_call .layer_fn_F50
+layer_setpan 81
+layer_note1 39, 0x2c, 88
+layer_call .layer_fn_F50
+layer_call .layer_fn_F50
+layer_setpan 64
+layer_note1 39, 0x4e, 91
+layer_call .layer_fn_F50
+layer_setpan 37
+layer_note1 39, 0x9e, 68
+layer_call .layer_fn_F50
+layer_setpan 45
+layer_note1 39, 0x73, 78
+layer_call .layer_fn_F50
+layer_jumprel .layer_CD2
+
+.layer_D24:
+layer_call .layer_fn_F65
+
+.layer_D27:
+layer_call .layer_fn_F65
+
+.layer_D2A:
+layer_setpan 34
+layer_delay 0x18
+layer_call .layer_fn_F65
+layer_note1 39, 0x2a, 85
+layer_call .layer_fn_F65
+layer_jumprel .layer_D3C
+
+.layer_D39:
+layer_call .layer_fn_F65
+.layer_D3C:
+layer_setpan 75
+layer_note1 39, 0x34, 94
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_setpan 47
+layer_note1 40, 0x28, 76
+layer_note1 40, 0x2a, 77
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_setpan 61
+layer_note1 39, 0x24, 76
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_setpan 37
+layer_note1 39, 0x2b, 65
+layer_note1 39, 0x33, 65
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_setpan 87
+layer_note1 39, 0x21, 88
+layer_note1 39, 0x2f, 88
+layer_call .layer_fn_F65
+layer_setpan 71
+layer_note1 39, 0x2d, 77
+layer_note1 39, 0x27, 77
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_setpan 49
+layer_note1 39, 0x37, 85
+layer_call .layer_fn_F65
+layer_call .layer_fn_F65
+layer_jumprel .layer_D3C
+
+.chan_DA3:
+chan_largenoteson
+chan_setreverbindex 1
+chan_setfilter .filter_1030
+chan_loadfilter 0
+.chan_DAB:
+chan_delay1
+chan_ioreadval 1
+chan_subtract 1
+chan_beqzrel .chan_DB3
+chan_jumprel .chan_DAB
+.chan_DB3:
+chan_setvol 80
+chan_setvolscale 127
+chan_setpanmix 0
+chan_setinstr 18
+chan_setenvelope .envelope_1012
+chan_setlayer 0, .layer_DED
+chan_setlayer 1, .layer_DF9
+chan_setlayer 2, .layer_DFF
+.chan_DC7:
+chan_delay1
+chan_ioreadval 4
+chan_bltzrel .chan_DDF
+chan_bitand 63
+chan_writeseq 0, .chan_DDD+1
+chan_ioreadval 4
+chan_bitand 63
+chan_readseq .addr_F7A
+chan_writeseq_nextinstr 80, 1
+chan_setvol 96
+.chan_DDD:
+chan_pitchbend 0
+.chan_DDF:
+chan_ioreadval 1
+chan_subtract 0
+chan_beqzrel .chan_DE6
+chan_jumprel .chan_DC7
+.chan_DE6:
+chan_setdecayrelease 92
+chan_freelayer 0
+chan_freelayer 1
+chan_freelayer 2
+chan_jumprel .chan_DAB
+
+.layer_DED:
+layer_setpan 84
+.layer_DEF:
+layer_enablelegato
+layer_portamento 0x1, 34, 0x64
+.layer_DF4:
+layer_note1 39, 0x60, 100
+layer_jumprel .layer_DF4
+
+.layer_DF9:
+layer_transpose 1
+layer_setpan 44
+layer_jumprel .layer_DEF
+
+.layer_DFF:
+layer_setstereo 20
+layer_enablelegato
+layer_portamento 0x1, 34, 0x64
+.layer_E06:
+layer_note1 37, 0x60, 100
+layer_jumprel .layer_E06
+
+.chan_E0B:
+chan_largenoteson
+chan_setreverbindex 1
+chan_setfilter .filter_1030
+chan_loadfilter 0
+.chan_E13:
+chan_delay1
+chan_ioreadval 1
+chan_subtract 1
+chan_beqzrel .chan_E1B
+chan_jumprel .chan_E13
+.chan_E1B:
+chan_setvol 95
+chan_setvolscale 127
+chan_setpanmix 0
+chan_setreverb 24
+.chan_E23:
+chan_setlayer 0, .layer_EAD
+chan_setlayer 1, .layer_EA7
+chan_setval 1
+chan_iowriteval 7
+.chan_E2C:
+chan_delay1
+chan_ioreadval 0
+chan_iowriteval 2
+chan_beqzrel .chan_E5C
+chan_ioreadval 1
+chan_subtract 0
+chan_beqzrel .chan_E58
+chan_ioreadval 7
+chan_subtract 1
+chan_iowriteval 7
+chan_beqzrel .chan_E3E
+chan_jumprel .chan_E2C
+.chan_E3E:
+chan_rand 90
+chan_writeseq 10, .layer_EBC+1
+chan_writeseq 10, .layer_EBF+1
+chan_rand 40
+chan_writeseq 68, .layer_EB8+3
+chan_writeseq 68, .layer_EBF
+chan_iowriteval 6
+chan_setval 50
+chan_iowriteval 7
+chan_jumprel .chan_E2C
+.chan_E58:
+chan_freelayer 0
+chan_freelayer 1
+chan_jumprel .chan_E13
+.chan_E5C:
+chan_setvol 115
+chan_ioreadval 5
+chan_bgez .chan_E64
+chan_setval 0
+.chan_E64:
+chan_bitand 63
+chan_iowriteval 5
+chan_setval 63
+chan_ioreadvalsub 5
+chan_subtract 208
+chan_writeseq 0, .chan_E72+1
+chan_rand 16
+.chan_E72:
+chan_writeseq 100, .layer_ECF+3
+chan_setval 63
+chan_ioreadvalsub 5
+chan_readseq .addr_FBA
+chan_readseq .addr_F7A
+chan_iowriteval 4
+chan_writeseq 103, .chan_E87+1
+chan_rand 2
+chan_iowriteval 3
+.chan_E87:
+chan_writeseq 103, .layer_ECF
+chan_rand 30
+chan_writeseq 49, .layer_ECB+1
+chan_iowriteval 6
+chan_setlayer 0, .layer_EC7
+chan_setlayer 1, .layer_EC5
+.chan_E98:
+chan_delay1
+chan_ioreadval 0
+chan_beqzrel .chan_E5C
+chan_ioreadval 1
+chan_subtract 0
+chan_beqzrel .chan_E58
+chan_testlayerfinished 0
+chan_beqzrel .chan_E98
+chan_jump .chan_E23
+
+.layer_EA7:
+layer_transpose -12
+.layer_EA9:
+layer_setstereo 20
+layer_jumprel .layer_EAD
+
+.layer_EAD:
+layer_setinstr 19
+layer_setenvelope .envelope_101E, 97
+.layer_EB3:
+layer_portamento 0x85, 27, 255
+layer_enablelegato
+.layer_EB8:
+layer_note1 24, 0x1c2, 110
+.layer_EBC:
+layer_note1 24, 0x64, 110
+.layer_EBF:
+layer_delay 0x60
+layer_disablelegato
+layer_disableportamento
+layer_jumprel .layer_EB3
+
+.layer_EC5:
+layer_transpose -12
+
+.layer_EC7:
+layer_setinstr 20
+layer_setreleaserate 97
+.layer_ECB:
+layer_setpan 64
+layer_delay 0x1
+.layer_ECF:
+layer_note1 39, 0xc8, 127
+.layer_ED3:
+layer_setstereo 20
+layer_note1 12, 0x28, 80
+layer_setstereo 0
+layer_end
+
+.chan_EDB:
+chan_ioreadval 7
+chan_subtract 2
+chan_beqzrel .chan_EE4
+chan_setval 0
+chan_jumprel .chan_EE6
+.chan_EE4:
+chan_setval 20
+.chan_EE6:
+chan_writeseq 0, .addr_EFB
+chan_writeseq 0, .layer_DFF+1
+chan_writeseq 0, .layer_EA9+1
+chan_writeseq 0, .layer_ED3+1
+chan_writeseq 0, .layer_362+1
+chan_end
+
+.addr_EFB:
+.byte 0x0
+
+.layer_fn_EFC:
+layer_delay 0x64
+.layer_EFE:
+layer_delay 0x7f
+.layer_F00:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F03:
+layer_delay 0x64
+.layer_F05:
+layer_delay 0x7f
+.layer_F07:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F0A:
+layer_delay 0x64
+.layer_F0C:
+layer_delay 0x7f
+.layer_F0E:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F11:
+layer_delay 0x64
+.layer_F13:
+layer_delay 0x7f
+.layer_F15:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F18:
+layer_delay 0x64
+.layer_F1A:
+layer_delay 0x7f
+.layer_F1C:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F1F:
+layer_delay 0x64
+.layer_F21:
+layer_delay 0x7f
+.layer_F23:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F26:
+layer_delay 0x64
+.layer_F28:
+layer_delay 0x7f
+.layer_F2A:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F2D:
+layer_delay 0x64
+.layer_F2F:
+layer_delay 0x7f
+.layer_F31:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F34:
+layer_delay 0x64
+.layer_F36:
+layer_delay 0x7f
+.layer_F38:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F3B:
+layer_delay 0x64
+.layer_F3D:
+layer_delay 0x7f
+.layer_F3F:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F42:
+layer_delay 0x64
+.layer_F44:
+layer_delay 0x7f
+.layer_F46:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F49:
+layer_delay 0x64
+.layer_F4B:
+layer_delay 0x7f
+.layer_F4D:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F50:
+layer_delay 0x64
+.layer_F52:
+layer_delay 0x7f
+.layer_F54:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F57:
+layer_delay 0x64
+.layer_F59:
+layer_delay 0x7f
+.layer_F5B:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F5E:
+layer_delay 0x64
+.layer_F60:
+layer_delay 0x7f
+.layer_F62:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F65:
+layer_delay 0x64
+.layer_F67:
+layer_delay 0x7f
+.layer_F69:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F6C:
+layer_delay 0x64
+.layer_F6E:
+layer_delay 0x7f
+.layer_F70:
+layer_setstereo 0
+layer_end
+
+.layer_fn_F73:
+layer_delay 0x64
+.layer_F75:
+layer_delay 0x7f
+.layer_F77:
+layer_setstereo 0
+layer_end
+
+.addr_F7A:
+.byte 0x0
+.byte 0x0
+.byte 0x1
+.byte 0x1
+.byte 0x2
+.byte 0x2
+.byte 0x3
+.byte 0x3
+.byte 0x4
+.byte 0x4
+.byte 0x5
+.byte 0x5
+.byte 0x6
+.byte 0x6
+.byte 0x7
+.byte 0x7
+.byte 0x8
+.byte 0x8
+.byte 0x9
+.byte 0x9
+.byte 0xa
+.byte 0xa
+.byte 0xb
+.byte 0xb
+.byte 0xc
+.byte 0xc
+.byte 0xd
+.byte 0xd
+.byte 0xe
+.byte 0xe
+.byte 0xf
+.byte 0xf
+.byte 0x10
+.byte 0x10
+.byte 0x11
+.byte 0x11
+.byte 0x12
+.byte 0x12
+.byte 0x13
+.byte 0x13
+.byte 0x14
+.byte 0x14
+.byte 0x15
+.byte 0x15
+.byte 0x16
+.byte 0x16
+.byte 0x17
+.byte 0x17
+.byte 0x18
+.byte 0x18
+.byte 0x19
+.byte 0x19
+.byte 0x1a
+.byte 0x1a
+.byte 0x1b
+.byte 0x1b
+.byte 0x1c
+.byte 0x1c
+.byte 0x1d
+.byte 0x1d
+.byte 0x1e
+.byte 0x1e
+.byte 0x1f
+.byte 0x1f
+
+.addr_FBA:
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x0
+.byte 0x1
+.byte 0x1
+.byte 0x1
+.byte 0x1
+.byte 0x2
+.byte 0x2
+.byte 0x2
+.byte 0x2
+.byte 0x3
+.byte 0x3
+.byte 0x3
+.byte 0x3
+.byte 0x4
+.byte 0x4
+.byte 0x4
+.byte 0x4
+.byte 0x5
+.byte 0x5
+.byte 0x5
+.byte 0x5
+.byte 0x6
+.byte 0x6
+.byte 0x6
+.byte 0x6
+.byte 0x7
+.byte 0x7
+.byte 0x7
+.byte 0x7
+.byte 0x8
+.byte 0x8
+.byte 0x8
+.byte 0x8
+.byte 0x9
+.byte 0x9
+.byte 0x9
+.byte 0x9
+.byte 0xa
+.byte 0xa
+.byte 0xa
+.byte 0xa
+.byte 0xb
+.byte 0xb
+.byte 0xb
+.byte 0xb
+.byte 0xc
+.byte 0xc
+.byte 0xc
+.byte 0xc
+.byte 0xd
+.byte 0xd
+.byte 0xd
+.byte 0xd
+.byte 0xe
+.byte 0xe
+.byte 0xe
+.byte 0xe
+.byte 0xf
+.byte 0xf
+.byte 0xf
+.byte 0xf
+
+.balign 2
+
+.envelope_FFA:
+envelope_line 270 32700
+.envelope_FFE:
+envelope_line 125 32700
+envelope_goto 1
+
+.envelope_1006:
+envelope_line 25 32700
+envelope_line 310 5000
+envelope_hang 0
+
+.envelope_1012:
+envelope_line 2000 32700
+envelope_line 32700 32700
+envelope_hang 0
+
+.envelope_101E:
+envelope_line 100 32700
+envelope_line 2000 10000
+envelope_hang 0
+
+.balign 16
+
+.filter_1030:
+filter 0, 0, 0, 0, 0, 0, 0, 0
