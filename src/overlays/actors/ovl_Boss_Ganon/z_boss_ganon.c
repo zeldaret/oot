@@ -3242,7 +3242,7 @@ void func_808DFFC8(BossGanon* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808E0254.s")
 
-void func_808E06FC(u8* mtx, BossGanon* this, GlobalContext* globalCtx);
+void func_808E06FC(u8* tex, BossGanon* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808E06FC.s")
 // void func_808E06FC(u8* tex, BossGanon* this, GlobalContext* globalCtx) {
 //     f32 sp84;
