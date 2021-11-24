@@ -2335,7 +2335,8 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                     sOcarinaButtonIdxBuf[0] = OCARINA_BTN_INVALID;
                     sOcarinaButtonAlphaValues[0] = sOcarinaButtonAlphaValues[1] = sOcarinaButtonAlphaValues[2] =
                         sOcarinaButtonAlphaValues[3] = sOcarinaButtonAlphaValues[4] = sOcarinaButtonAlphaValues[5] =
-                            sOcarinaButtonAlphaValues[6] = sOcarinaButtonAlphaValues[7] = sOcarinaButtonAlphaValues[8] = 0;
+                            sOcarinaButtonAlphaValues[6] = sOcarinaButtonAlphaValues[7] = sOcarinaButtonAlphaValues[8] =
+                                0;
                     if (msgCtx->msgMode == MSGMODE_SONG_PLAYBACK_NOTES_DROP) {
                         msgCtx->msgMode = MSGMODE_OCARINA_AWAIT_INPUT;
                     } else {
@@ -2566,7 +2567,8 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                     }
                     // "Button Entered"
                     osSyncPrintf("    入力ボタン【%d】=%d", sOcarinaButtonIdxBufLen, msgCtx->ocarinaStaff->buttonIdx);
-                    msgCtx->lastOcaButtonIdx = sOcarinaButtonIdxBuf[sOcarinaButtonIdxBufLen] = msgCtx->ocarinaStaff->buttonIdx;
+                    msgCtx->lastOcaButtonIdx = sOcarinaButtonIdxBuf[sOcarinaButtonIdxBufLen] =
+                        msgCtx->ocarinaStaff->buttonIdx;
                     sOcarinaButtonIdxBufLen++;
                     sOcarinaButtonIdxBuf[sOcarinaButtonIdxBufLen] = OCARINA_BTN_INVALID;
                     sOcarinaButtonIdxBufPos++;
@@ -2574,7 +2576,8 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                         sOcarinaButtonIdxBufPos = 0;
                     }
                 }
-                if (msgCtx->ocarinaStaff->state == OCARINA_RECORD_OFF || CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
+                if (msgCtx->ocarinaStaff->state == OCARINA_RECORD_OFF ||
+                    CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
                     if (sOcarinaButtonIdxBufLen != 0) {
                         // "Recording complete！！！！！！！！！"
                         osSyncPrintf("録音終了！！！！！！！！！  message->info->status=%d \n",
@@ -2641,7 +2644,8 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             case MSGMODE_SCARECROW_SPAWN_RECORDING_ONGOING:
                 msgCtx->ocarinaStaff = AudioOcarina_GetRecordingStaff();
                 if (msgCtx->ocarinaStaff->pos && sOcarinaButtonIdxBufPos == msgCtx->ocarinaStaff->pos - 1) {
-                    msgCtx->lastOcaButtonIdx = sOcarinaButtonIdxBuf[sOcarinaButtonIdxBufPos] = msgCtx->ocarinaStaff->buttonIdx;
+                    msgCtx->lastOcaButtonIdx = sOcarinaButtonIdxBuf[sOcarinaButtonIdxBufPos] =
+                        msgCtx->ocarinaStaff->buttonIdx;
                     sOcarinaButtonIdxBufPos++;
                     sOcarinaButtonIdxBuf[sOcarinaButtonIdxBufPos] = OCARINA_BTN_INVALID;
                 }
@@ -2889,13 +2893,14 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                         gDPSetEnvColor(gfx++, sOcarinaButtonCEnvR, sOcarinaButtonCEnvG, sOcarinaButtonCEnvB, 0);
                     }
 
-                    gDPLoadTextureBlock(gfx++, sOcarinaNoteTextures[sOcarinaButtonIdxBuf[i]], G_IM_FMT_IA, G_IM_SIZ_8b, 16,
-                                        16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                    gDPLoadTextureBlock(gfx++, sOcarinaNoteTextures[sOcarinaButtonIdxBuf[i]], G_IM_FMT_IA, G_IM_SIZ_8b,
+                                        16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                     gSPTextureRectangle(gfx++, notePosX << 2, R_OCARINA_BUTTONS_YPOS(sOcarinaButtonIdxBuf[i]) << 2,
-                                        (notePosX + 16) << 2, (R_OCARINA_BUTTONS_YPOS(sOcarinaButtonIdxBuf[i]) + 16) << 2,
-                                        G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+                                        (notePosX + 16) << 2,
+                                        (R_OCARINA_BUTTONS_YPOS(sOcarinaButtonIdxBuf[i]) + 16) << 2, G_TX_RENDERTILE, 0,
+                                        0, 1 << 10, 1 << 10);
                 }
             }
         }
@@ -3117,7 +3122,8 @@ void Message_Update(GlobalContext* globalCtx) {
                 R_TEXT_CHOICE_YPOS(1) = R_TEXTBOX_Y_TARGET + 32;
                 R_TEXT_CHOICE_YPOS(2) = R_TEXTBOX_Y_TARGET + 44;
                 osSyncPrintf("message->msg_disp_type=%x\n", msgCtx->textBoxProperties & 0xF0);
-                if (msgCtx->textBoxType == TEXTBOX_TYPE_NONE_BOTTOM || msgCtx->textBoxType == TEXTBOX_TYPE_NONE_NO_SHADOW) {
+                if (msgCtx->textBoxType == TEXTBOX_TYPE_NONE_BOTTOM ||
+                    msgCtx->textBoxType == TEXTBOX_TYPE_NONE_NO_SHADOW) {
                     msgCtx->msgMode = MSGMODE_TEXT_STARTING;
                     R_TEXTBOX_X = R_TEXTBOX_X_TARGET;
                     R_TEXTBOX_Y = R_TEXTBOX_Y_TARGET;

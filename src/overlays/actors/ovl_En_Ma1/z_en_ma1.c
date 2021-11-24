@@ -361,8 +361,6 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
     if (this->unk_1E8.unk_00 == 2) {
-        // TODO: Confirm that calling AudioOcarina_Reset does nothing as
-        // AudioOcarina_Reset is called again in message and overwrites the font chosen
         AudioOcarina_Reset(OCARINA_INSTRUMENT_MALON);
         func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_EPONA);
         this->actor.flags &= ~0x10000;

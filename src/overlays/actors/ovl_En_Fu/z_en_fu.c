@@ -206,8 +206,6 @@ void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->behaviorFlags &= ~FU_WAIT;
         AudioOcarina_Reset(OCARINA_INSTRUMENT_HARP);
-        // TODO: Confirm that calling AudioOcarina_Reset does nothing as
-        // AudioOcarina_Reset is called again in message and overwrites the font chosen
         func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_STORMS);
         this->actionFunc = EnFu_WaitForPlayback;
     }
