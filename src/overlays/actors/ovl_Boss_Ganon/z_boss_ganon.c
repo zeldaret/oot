@@ -3240,127 +3240,68 @@ void func_808DFFC8(BossGanon* this, GlobalContext* globalCtx) {
     }
 }
 
+void func_808E0254(BossGanon* this, u8* tex, f32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808E0254.s")
 
-void func_808E06FC(u8* tex, BossGanon* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808E06FC.s")
-// void func_808E06FC(u8* tex, BossGanon* this, GlobalContext* globalCtx) {
-//     f32 sp84;
-//     f32 sp80;
-//     f32 sp7C;
-//     f32 sp74;
-//     f32 sp70;
-//     f32 temp_f16;
-//     f32 temp_f4;
-//     f32 temp_f6;
-//     f32* temp_a0;
-//     s16 temp_a2;
-//     s16 temp_a3;
-//     s16 temp_a3_2;
-//     s16 temp_s2;
-//     s16 temp_s3;
-//     s16 temp_s3_2;
-//     s16 temp_s3_3;
-//     s16 temp_v0_3;
-//     s16 temp_v0_4;
-//     s16 temp_v1;
-//     s16 temp_v1_2;
-//     s32 temp_f8;
-//     void* temp_v0;
-//     void* temp_v0_2;
-//     void* phi_v0;
-//     s16 phi_s3;
-//     s16 phi_s3_2;
-//     s16 phi_s3_3;
-//     s16 phi_s2;
-//     s16 phi_v1;
-//     s16 phi_a0;
-//     s16 phi_a3;
-//     s16 phi_v1_2;
-//     s16 phi_a0_2;
-//     s16 phi_a3_2;
+void func_808E06FC(u8* tex, BossGanon* this, GlobalContext* globalCtx) {
+    s16 addY;
+    s16 baseX;
+    s16 baseY;
+    s16 i;
+    s16 j;
+    s16 y;
+    s16 x;
+    s16 index;
+    Vec3f sp7C;
+    Vec3f sp70;
+    s32* ptr = (s32*)tex;
 
-//     phi_v0 = tex;
-//     phi_s3 = 0;
-//     phi_s3_2 = 0;
-//     phi_s3_3 = 0;
-//     do {
-//         temp_s3 = phi_s3 + 1;
-//         temp_v0 = phi_v0 + 4;
-//         temp_v0->unk-4 = 0;
-//         phi_v0 = temp_v0;
-//         phi_s3 = temp_s3;
-//     } while (temp_s3 < 0x400);
-//     Matrix_RotateX(1.0f, 0);
-//     do {
-//         func_808E0254(this, tex, phi_s3_2 / 5.0f);
-//         temp_s3_2 = phi_s3_2 + 1;
-//         phi_s3_2 = temp_s3_2;
-//     } while (temp_s3_2 < 6);
-//     do {
-//         phi_s2 = 0;
-// loop_6:
-//         temp_a0 = &sp7C;
-//         temp_v0_2 = sCape + (phi_s3_3 * 0x1C8) + (phi_s2 * 0xC);
-//         sp7C = temp_v0_2->unk158 - this->actor.world.pos.x;
-//         sp80 = (temp_v0_2->unk15C - this->actor.world.pos.y) + 76.0f + 100.0f + 30.0f;
-//         sp84 = temp_v0_2->unk160 - this->actor.world.pos.z;
-//         Matrix_MultVec3f(temp_a0, &sp70);
-//         temp_f16 = sp70 * 0.28f;
-//         temp_f4 = sp74 * 0.28f;
-//         temp_f6 = temp_f16 + 32.0f;
-//         sp70 = temp_f16;
-//         sp74 = temp_f4;
-//         temp_f8 = temp_f6;
-//         temp_s2 = phi_s2 + 1;
-//         temp_a2 = temp_f4 << 6;
-//         if ((sCape + (phi_s3_3 * 0x1C8) + phi_s2)->unk308 == 0) {
-//             phi_a0 = -0x40;
-//             phi_a3 = -1;
-//             do {
-//                 phi_v1 = -3;
-// loop_9:
-//                 temp_v0_3 = temp_f8 + phi_v1 + temp_a2 + phi_a0;
-//                 temp_v1 = phi_v1 + 1;
-//                 if ((temp_v0_3 >= 0) && (temp_v0_3 < 0x1000)) {
-//                     *(tex + temp_v0_3) = 0xFF;
-//                 }
-//                 phi_v1 = temp_v1;
-//                 if (temp_v1 < 4) {
-//                     goto loop_9;
-//                 }
-//                 temp_a3 = phi_a3 + 1;
-//                 phi_a0 = phi_a0 + 0x40;
-//                 phi_a3 = temp_a3;
-//             } while (temp_a3 < 2);
-//         } else {
-//             phi_a0_2 = -0x40;
-//             phi_a3_2 = -1;
-//             do {
-//                 phi_v1_2 = -1;
-// loop_17:
-//                 temp_v0_4 = temp_f8 + phi_v1_2 + temp_a2 + phi_a0_2;
-//                 temp_v1_2 = phi_v1_2 + 1;
-//                 if ((temp_v0_4 >= 0) && (temp_v0_4 < 0x1000)) {
-//                     *(tex + temp_v0_4) = 0xFF;
-//                 }
-//                 phi_v1_2 = temp_v1_2;
-//                 if (temp_v1_2 < 2) {
-//                     goto loop_17;
-//                 }
-//                 temp_a3_2 = phi_a3_2 + 1;
-//                 phi_a0_2 = phi_a0_2 + 0x40;
-//                 phi_a3_2 = temp_a3_2;
-//             } while (temp_a3_2 < 2);
-//         }
-//         phi_s2 = temp_s2;
-//         if (temp_s2 < 0xC) {
-//             goto loop_6;
-//         }
-//         temp_s3_3 = phi_s3_3 + 1;
-//         phi_s3_3 = temp_s3_3;
-//     } while (temp_s3_3 < 0xC);
-// }
+    for (i = 0; i < 0x400; i++) {
+        ptr++;
+        ptr[-1] = 0;
+    }
+
+    Matrix_RotateX(1.0f, 0);
+    for (i = 0; i <= 5; i++) {
+        func_808E0254(this, tex, i / 5.0f);
+    }
+
+    for (i = 0; i < 12; i++) {
+        for (j = 0; j < 12; j++) {
+            sp7C.x = sCape->strands[i].joints[j].x - this->actor.world.pos.x;
+            sp7C.y = sCape->strands[i].joints[j].y - this->actor.world.pos.y + 76.0f + 100.0f + 30.0f;
+            sp7C.z = sCape->strands[i].joints[j].z - this->actor.world.pos.z;
+
+            Matrix_MultVec3f(&sp7C, &sp70);
+
+            sp70.x = sp70.x * 0.28f;
+            sp70.y = sp70.y * 0.28f;
+
+            baseX = (s32)(sp70.x + 32.0f);
+            baseY = (s16)sp70.y * 0x40;
+
+            if (!sCape->strands[i].torn[j]) {
+                for (y = -1, addY = -0x40; y <= 1; y++, addY += 0x40) {
+                    for (x = -3; x <= 3; x++) {
+                        index = baseX + x + baseY + addY;
+                        if (0 <= index && index < 0x1000) {
+                            tex[index] = 255;
+                        }
+                    }
+                }
+            } else {
+                for (y = -1, addY = -0x40; y <= 1; y++, addY += 0x40) {
+                    for (x = -1; x <= 1; x++) {
+                        index = baseX + x + baseY + addY;
+                        if (0 <= index && index < 0x1000) {
+                            tex[index] = 255;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 void func_808E0A3C(void* tex, BossGanon* this, GlobalContext* globalCtx) {
     s32 pad;
