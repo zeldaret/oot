@@ -33,6 +33,25 @@ typedef struct {
     /* 0xC */ u8 unk_0C;
 } SfxPlayerState;
 
+typedef enum {
+    /* 0x0 */ SFX_CHANNEL_PLAYER0, // SfxPlayerBank
+    /* 0x1 */ SFX_CHANNEL_PLAYER1,
+    /* 0x2 */ SFX_CHANNEL_PLAYER2,
+    /* 0x3 */ SFX_CHANNEL_ITEM0, // SfxItemBank
+    /* 0x4 */ SFX_CHANNEL_ITEM1,
+    /* 0x5 */ SFX_CHANNEL_ENV0, // SfxEnvironmentBank
+    /* 0x6 */ SFX_CHANNEL_ENV1,
+    /* 0x7 */ SFX_CHANNEL_ENV2,
+    /* 0x8 */ SFX_CHANNEL_ENEMY0, // SfxEnemyBank
+    /* 0x9 */ SFX_CHANNEL_ENEMY1,
+    /* 0xA */ SFX_CHANNEL_ENEMY2,
+    /* 0xB */ SFX_CHANNEL_SYSTEM0, // SfxSystemBank
+    /* 0xC */ SFX_CHANNEL_SYSTEM1,
+    /* 0xD */ SFX_CHANNEL_OCARINA, // SfxOcarinaBank
+    /* 0xE */ SFX_CHANNEL_VOICE0,  // SfxVoiceBank
+    /* 0xF */ SFX_CHANNEL_VOICE1
+} SfxChannels; // playerIdx = 2
+
 typedef struct {
     /* 0x0 */ f32 value;
     /* 0x4 */ f32 target;
@@ -65,53 +84,20 @@ typedef enum {
     /* 0xF */ PAGE_MAX
 } AudioDebugPage;
 
-/** bit field of songs that can be played
- * 0x0800 storms
- * 0x0400 song of time
- * 0x0200 suns
- * 0x0100 lullaby
- * 0x0080 epona
- * 0x0040 sarias
- * 0x0020 prelude
- * 0x0010 nocturne
- * 0x0008 requiem
- * 0x0004 serenade
- * 0x0002 bolero
- * 0x0001 minuet
- */
-
 #define SCROLL_PRINT_BUF_SIZE 25
-
-// The sfx are played on playerIdx = 2
-typedef enum {
-    /* 0x0 */ SFX_CHANNEL_PLAYER0, // SfxPlayerBank
-    /* 0x1 */ SFX_CHANNEL_PLAYER1,
-    /* 0x2 */ SFX_CHANNEL_PLAYER2,
-    /* 0x3 */ SFX_CHANNEL_ITEM0, // SfxItemBank
-    /* 0x4 */ SFX_CHANNEL_ITEM1,
-    /* 0x5 */ SFX_CHANNEL_ENV0, // SfxEnvironmentBank
-    /* 0x6 */ SFX_CHANNEL_ENV1,
-    /* 0x7 */ SFX_CHANNEL_ENV2,
-    /* 0x8 */ SFX_CHANNEL_ENEMY0, // SfxEnemyBank
-    /* 0x9 */ SFX_CHANNEL_ENEMY1,
-    /* 0xA */ SFX_CHANNEL_ENEMY2,
-    /* 0xB */ SFX_CHANNEL_SYSTEM0, // SfxSystemBank
-    /* 0xC */ SFX_CHANNEL_SYSTEM1,
-    /* 0xD */ SFX_CHANNEL_OCARINA, // SfxOcarinaBank
-    /* 0xE */ SFX_CHANNEL_VOICE0,  // SfxVoiceBank
-    /* 0xF */ SFX_CHANNEL_VOICE1
-} SfxPlayerChannels;
 
 typedef struct {
     s8 x;
     s8 y;
 } OcarinaStick;
 
-extern f32 D_8012F6B4[]; // from audio_synthesis
+
 
 /**
- * Audio Bgm & Sfx Interface Bss
+ * Audio Interface Data
  */
+
+
 
 u8 gIsLargeSoundBank[7] = { 0, 0, 0, 1, 0, 0, 0 };
 
@@ -210,9 +196,13 @@ D_801306DC_s D_801306DC[20] = {
     { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
 };
 
+
+
 /**
  * Audio Ocarina Data
  */
+
+
 
 u32 sOcarinaAllowedButtonMask = (BTN_A | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP);
 s32 sOcarinaAButtonMap = BTN_A;
@@ -230,6 +220,20 @@ s8 sCurOcarinaBendIdx = 0;
 s8 sCurOcarinaVolume = 87;
 s8 sCurOcarinaVibrato = 0;
 u8 sDisplayedState = 0;
+/** bit field of songs that can be played
+ * 0x0800 storms
+ * 0x0400 song of time
+ * 0x0200 suns
+ * 0x0100 lullaby
+ * 0x0080 epona
+ * 0x0040 sarias
+ * 0x0020 prelude
+ * 0x0010 nocturne
+ * 0x0008 requiem
+ * 0x0004 serenade
+ * 0x0002 bolero
+ * 0x0001 minuet
+ */
 u32 sOcarinaFlags = 0;
 u32 sDisplayedNoteTimer = 0;
 u16 sDisplayedNotePos = 0;
@@ -584,15 +588,15 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
 };
 // clang-format on
 
-extern u8 D_801333F0;
-extern u8 gAudioSfxSwapOff;
-extern u8 D_80133408;
-extern u8 D_80133418;
+
 
 /**
- * Audio Bgm & Sfx Interface Bss
+ * Audio Interface Bss
  */
-u32 sAudioUpdateStartTime; // 8016B7A0
+
+
+
+u32 sAudioUpdateStartTime;
 u32 sAudioUpdateEndTime;
 f32 D_8016B7A8;
 f32 D_8016B7AC;
@@ -614,7 +618,6 @@ u8 D_8016B8B2;
 u8 D_8016B8B3;
 u8 sAudioGanonDistVol;
 SfxPlayerState sSfxChannelState[0x10];
-
 char sBinToStrBuf[0x20];
 u8 D_8016B9D8;
 u8 sAudioSpecPeakNumNotes[0x12];
@@ -623,13 +626,18 @@ u8 D_8016B9F3;
 u8 D_8016B9F4;
 u16 D_8016B9F6;
 
+
+
 /**
  * Audio Ocarina Bss
  */
+
+
+
 OcarinaStaff sPlayingStaff;
 OcarinaStaff sDisplayedStaff;
 OcarinaStaff sRecordingStaff;
-u32 sOcarinaUpdateTaskCurrent;
+u32 sOcarinaUpdateTaskStart;
 OcarinaStick sOcarinaInputStickRel;
 u32 sOcarinaInputButtonCur;
 u32 sOcarinaInputButtonStart;
@@ -651,25 +659,17 @@ OcarinaNote sScarecrowsLongSongSecondNote;
 u8 sAudioHasMalonBgm;
 f32 sAudioMalonBgmDist;
 
-/**
- * Audio Debug Bss
- */
-u32 sDebugPadHold;
-u32 sDebugPadBtnLast;
-u32 sDebugPadPress;
-s32 sAudioUpdateTaskStart;
-s32 sAudioUpdateTaskEnd;
-
-extern u16 gAudioSfxSwapSource[];
-extern u16 gAudioSfxSwapTarget[];
-extern u8 gAudioSfxSwapMode[];
-
 void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
-
 void Audio_StepFreqLerp(FreqLerp* lerp);
 void func_800F56A8(void);
 void func_800F6FB4(u8);
 s32 Audio_SetGanonDistVol(u8 targetVol);
+
+
+
+// =========== Audio Ocarina ===========
+
+
 
 /**
  * Audio Ocarina Functions
@@ -867,15 +867,15 @@ void AudioOcarina_CheckIfStartedSong(void) {
 }
 
 /**
- * A certain song being tested for. 
- * Can test note-by-note (ocarinaFlag & 0xC000 == 0x8000) eg:
+ * Checks for ocarina songs from user input with a music staff prompt
+ * Type 1) Playback: tests note-by-note (ocarinaFlag & 0xC000 == 0x8000) eg:
  *      - learning a new song
  *      - playing the ocarina memory game
- * Can test in 8-note chunks (ocarinaFlag & 0xC000 == 0x0000) eg:
+ * Type 2) Check: tests in 8-note chunks (ocarinaFlag & 0xC000 == 0x0000) eg:
  *      - validating scarecrow spawn song as adult
- *      - ocarina prompt for zelda's lullaby, saria's song, ...
+ *      - ocarina prompt for zelda's lullaby, saria's song, Storms, Song of Time, etc...
  */
-void AudioOcarina_CheckSongsInPlayback(void) {
+void AudioOcarina_CheckSongsWithMusicStaff(void) {
     u16 curOcarinaSongFlag;
     u16 pad;
     u8 noNewValidInput = false;
@@ -980,10 +980,10 @@ void AudioOcarina_CheckSongsInPlayback(void) {
 }
 
 /**
- * This is the default ocarina state that reads in inputs
- * Is also used for the NOWARP state
+ * Checks for ocarina songs from user input with no music staff prompt. 
+ * Includes ocarina actions such as free play, no warp
  */
-void AudioOcarina_CheckSongsInFreePlay(void) {
+void AudioOcarina_CheckSongsWithoutMusicStaff(void) {
     u32 temp_v0;
     u8 i;
     u8 j;
@@ -1046,7 +1046,7 @@ void AudioOcarina_CheckSongsInFreePlay(void) {
     }
 }
 
-void AudioOcarina_FreePlay(u8 unused) {
+void AudioOcarina_PlayControllerInput(u8 unused) {
     u32 ocarinaBtnsHeld;
 
     // Prevents two different ocarina notes from being played on two consecutive frames
@@ -1160,7 +1160,7 @@ void AudioOcarina_Reset(u8 ocarinaInstrumentId) {
 
         sOcarinaInputButtonStart = 0xFFFF;
 
-        AudioOcarina_FreePlay(false);
+        AudioOcarina_PlayControllerInput(false);
         Audio_StopSfxById(NA_SE_OC_OCARINA);
         Audio_SetSoundBanksMute(0);
         sDisplayedState = 0;
@@ -1210,7 +1210,7 @@ void AudioOcarina_PlayDisplayedSong(void) {
     if (sDisplayedStaffPos == 0) {
         noteTimerStep = 3;
     } else {
-        noteTimerStep = sOcarinaUpdateTaskCurrent - sOcarinaDisplayedTaskStart;
+        noteTimerStep = sOcarinaUpdateTaskStart - sOcarinaDisplayedTaskStart;
     }
 
     if (noteTimerStep < sDisplayedNoteTimer) {
@@ -1322,7 +1322,7 @@ void AudioOcarina_SetRecordingSong(u8 isRecordingComplete) {
     }
 
     recordedSong[sRecordSongPos].noteIdx = sRecordOcarinaNoteIdx;
-    recordedSong[sRecordSongPos].length = sOcarinaUpdateTaskCurrent - sOcarinaRecordTaskStart;
+    recordedSong[sRecordSongPos].length = sOcarinaUpdateTaskStart - sOcarinaRecordTaskStart;
     recordedSong[sRecordSongPos].volume = sRecordOcarinaVolume;
     recordedSong[sRecordSongPos].vibrato = sRecordOcarinaVibrato;
     recordedSong[sRecordSongPos].bend = sRecordOcarinaBendIdx;
@@ -1432,7 +1432,7 @@ void AudioOcarina_SetRecordingState(u8 recordingState) {
     }
 
     if (recordingState != OCARINA_RECORD_OFF) {
-        sOcarinaRecordTaskStart = sOcarinaUpdateTaskCurrent;
+        sOcarinaRecordTaskStart = sOcarinaUpdateTaskStart;
         sRecordOcarinaNoteIdx = NOTE_NONE;
         sRecordOcarinaVolume = 0x57;
         sRecordOcarinaVibrato = 0;
@@ -1509,7 +1509,7 @@ OcarinaStaff* AudioOcarina_GetDisplayedStaff(void) {
 void AudioOcarina_RecordSong(void) {
     s32 noteChanged;
 
-    if ((sRecordingState != OCARINA_RECORD_OFF) && ((sOcarinaUpdateTaskCurrent - sOcarinaRecordTaskStart) >= 3)) {
+    if ((sRecordingState != OCARINA_RECORD_OFF) && ((sOcarinaUpdateTaskStart - sOcarinaRecordTaskStart) >= 3)) {
         noteChanged = false;
         if (sRecordOcarinaNoteIdx != sCurOcarinaNoteIdx) {
             if (sCurOcarinaNoteIdx != NOTE_NONE) {
@@ -1540,7 +1540,7 @@ void AudioOcarina_RecordSong(void) {
 
         if (noteChanged) {
             AudioOcarina_SetRecordingSong(false);
-            sOcarinaRecordTaskStart = sOcarinaUpdateTaskCurrent;
+            sOcarinaRecordTaskStart = sOcarinaUpdateTaskStart;
         }
     }
 }
@@ -1561,18 +1561,18 @@ void AudioOcarina_MemoryGameSetNumNotes(u8 minigameRound) {
 }
 
 s32 AudioOcarina_MemoryGameGenerateNotes(void) {
-    u32 rnd;
+    u32 rndButtonIdx;
     u8 rndNoteIdx;
 
     if (sOcaMemoryGameAppendPos == sOcaMemoryGameEndPos) {
         return true;
     }
 
-    rnd = Audio_NextRandom();
-    rndNoteIdx = sButtonToNoteMap[rnd % 5];
+    rndButtonIdx = Audio_NextRandom();
+    rndNoteIdx = sButtonToNoteMap[rndButtonIdx % 5];
 
     if (sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos - 1].noteIdx == rndNoteIdx) {
-        rndNoteIdx = sButtonToNoteMap[(rnd + 1) % 5];
+        rndNoteIdx = sButtonToNoteMap[(rndButtonIdx + 1) % 5];
     }
 
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].noteIdx = rndNoteIdx;
@@ -1592,26 +1592,26 @@ s32 AudioOcarina_MemoryGameGenerateNotes(void) {
 }
 
 void AudioOcarina_Update(void) {
-    sOcarinaUpdateTaskCurrent = gAudioContext.totalTaskCount;
-    if (sOcarinaInstrumentId != 0) {
+    sOcarinaUpdateTaskStart = gAudioContext.totalTaskCount;
+    if (sOcarinaInstrumentId != OCARINA_INSTRUMENT_OFF) {
         if (sIsOcarinaInputEnabled == true) {
             AudioOcarina_ReadControllerInput();
         }
 
         if ((sDisplayedState == 0) && (sIsOcarinaInputEnabled == true)) {
-            AudioOcarina_FreePlay(false);
+            AudioOcarina_PlayControllerInput(false);
         }
 
         if (sOcarinaFlags != 0) {
             if (sOcarinaFlags & 0x4000) {
-                AudioOcarina_CheckSongsInFreePlay();
+                AudioOcarina_CheckSongsWithoutMusicStaff();
             } else {
-                AudioOcarina_CheckSongsInPlayback();
+                AudioOcarina_CheckSongsWithMusicStaff();
             }
         }
 
         AudioOcarina_PlayDisplayedSong();
-        sOcarinaDisplayedTaskStart = sOcarinaUpdateTaskCurrent;
+        sOcarinaDisplayedTaskStart = sOcarinaUpdateTaskStart;
 
         if (sDisplayedState == 0) {
             AudioOcarina_RecordSong();
@@ -1678,9 +1678,39 @@ void AudioOcarina_ResetStaff(void) {
 
 f32 D_80131C8C = 0.0f;
 
-// === Audio Debugging ===
 
-// These variables come between in-function statics in AudioOcarina_PlayLongScarecrowAfterCredits and func_800F510C
+
+// =========== Audio Debugging ===========
+
+
+
+extern u16 gAudioSfxSwapSource[];
+extern u16 gAudioSfxSwapTarget[];
+extern u8 gAudioSfxSwapMode[];
+extern u8 gAudioSfxSwapOff;
+extern u8 D_801333F0;
+
+
+
+/**
+ * Audio Debug Bss
+ */ 
+
+
+
+u32 sDebugPadHold;
+u32 sDebugPadBtnLast;
+u32 sDebugPadPress;
+s32 sAudioUpdateTaskStart;
+s32 sAudioUpdateTaskEnd;
+
+
+
+/**
+ * Audio Debug Data
+ */ 
+
+
 
 f32 sAudioUpdateDuration = 0.0f;
 f32 sAudioUpdateDurationMax = 0.0f;
@@ -1738,6 +1768,14 @@ u8 sAudioBlkChgBgmSel = 0;
 char sBoolStrs[3][5] = { "OFF", "ON", "STBY" };
 u8 sAudioNatureFailed = 0;
 u8 sPeakNumNotes = 0;
+
+
+
+/**
+ * Audio Debug Functions
+ */ 
+
+
 
 void AudioDebug_SetInput(void) {
     Input inputs[4];
@@ -3052,6 +3090,12 @@ void AudioDebug_ProcessInput(void) {
 
     D_8013340C = sAudioScrPrtWork[10];
 }
+
+
+
+// =========== Audio Interface ===========
+
+
 
 void func_800F4A70(void);
 void func_800F5CF8(void);

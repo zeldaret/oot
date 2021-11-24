@@ -19,7 +19,7 @@ s16 sTextIsCredits = false;
 
 UNK_TYPE D_8014B30C = 0;
 
-s16 sLastPlayedSong = 0xFF; // last played song?
+s16 sLastPlayedSong = 0xFF;
 
 s16 sHasSunsSong = false;
 

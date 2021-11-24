@@ -137,30 +137,41 @@ typedef enum {
 } OcarinaFontId;
 
 typedef enum {
-    OCARINA_RECORD_OFF,
-    OCARINA_RECORD_SCARECROW_LONG,
-    OCARINA_RECORD_SCARECROW_SPAWN,
-    OCARINA_RECORD_REJECTED = 0xFF
+    /* 0  */ OCARINA_RECORD_OFF,
+    /* 1  */ OCARINA_RECORD_SCARECROW_LONG,
+    /* 2  */ OCARINA_RECORD_SCARECROW_SPAWN,
+    /* -1 */ OCARINA_RECORD_REJECTED = 0xFF
 } OcarinaRecordingState;
 
+/**
+ * BFlat4Flag Note:
+ * Flag for resolving whether (noteIdx = NOTE_BFLAT4) 
+ * gets mapped to either C_RIGHT and C_LEFT
+ * 
+ * This is required as C_RIGHT and C_LEFT are the only notes
+ * that map to two semitones apart (NOTE_A4 and NOTE_B4)
+ *      0x40 - BTN_Z is pressed to lower note by a semitone
+ *      0x80 - BTN_R is pressed to raise note by a semitone
+ */ 
+
 typedef struct {
-    /* 0x0 */ u8 noteIdx;
-    /* 0x2 */ u16 length;
+    /* 0x0 */ u8 noteIdx; // number of semitones above middle C
+    /* 0x2 */ u16 length; // number of frames the note is sustained
     /* 0x4 */ u8 volume;
     /* 0x5 */ u8 vibrato;
-    /* 0x6 */ s8 bend;
-    /* 0x7 */ u8 BFlat4Flag;
+    /* 0x6 */ s8 bend; // frequency multiplicative offset from the pitch defined by noteIdx
+    /* 0x7 */ u8 BFlat4Flag; // See note above
 } OcarinaNote;  // size = 0x8
 
 typedef struct {
-    u8 numButtons;
-    u8 buttonIdx[8];
-} OcarinaSongButtons;
+    /* 0x0 */ u8 numButtons;
+    /* 0x1 */ u8 buttonIdx[8];
+} OcarinaSongButtons; // size = 0x9
 
 typedef struct {
-    u8 buttonIdx;
-    u8 state;   // original name: "status"
-    u8 pos;     // original name: "locate"
-} OcarinaStaff;
+    /* 0x0 */ u8 buttonIdx;
+    /* 0x1 */ u8 state;   // original name: "status"
+    /* 0x2 */ u8 pos;     // original name: "locate"
+} OcarinaStaff; // size = 0x3
 
 #endif
