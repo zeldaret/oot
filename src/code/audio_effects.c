@@ -105,13 +105,13 @@ s16 Audio_GetVibratoPitchChange(VibratoState* vib) {
 }
 
 f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
+    static f32 D_80130510 = 0.0f;
+    static s32 D_80130514 = 0;
     f32 pitchChange;
     f32 extent;
     f32 invExtent;
     f32 result;
     f32 temp;
-    f32 twoToThe16th = 65536.0f;
-    s32 one = 1;
     SequenceChannel* channel = vib->channel;
 
     if (vib->delay != 0) {
@@ -160,13 +160,11 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
     extent = temp + 1.0f;
     invExtent = 1.0f / extent;
 
-    // fakematch: 2^16 and 1 need to be set at the very top of this function,
-    // or else the addresses of D_80130510 and D_80130514 get computed once
-    // instead of twice. 'temp' is also a fakematch sign; removing it causes
-    // regalloc differences and reorderings at the top of the function.
-    result = 1.0f / ((extent - invExtent) * pitchChange / twoToThe16th + invExtent);
+    result = 1.0f / ((extent - invExtent) * pitchChange / 65536.0f + invExtent);
+
     D_80130510 += result;
-    D_80130514 += one;
+    D_80130514++;
+
     return result;
 }
 

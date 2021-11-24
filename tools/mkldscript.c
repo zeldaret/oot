@@ -28,6 +28,7 @@ enum
     STMT_romalign,
     STMT_stack,
     STMT_increment,
+    STMT_pad_text,
 };
 
 enum
@@ -35,6 +36,13 @@ enum
     FLAG_BOOT = (1 << 0),
     FLAG_OBJECT = (1 << 1),
     FLAG_RAW = (1 << 2),
+};
+
+struct Include
+{
+    char *fpath;
+    int linkerPadding;
+    uint8_t dataWithRodata;
 };
 
 struct Segment
@@ -50,8 +58,7 @@ struct Segment
     uint32_t increment;
     uint32_t entry;
     uint32_t number;
-    char **includes;
-    uint8_t *data_with_rodata;
+    struct Include *includes;
     int includesCount;
 };
 
@@ -184,6 +191,7 @@ static const char *const stmtNames[] =
     [STMT_romalign]  = "romalign",
     [STMT_stack]     = "stack",
     [STMT_increment] = "increment",
+    [STMT_pad_text]  = "pad_text",
 };
 
 static void parse_rom_spec(char *spec)
@@ -217,8 +225,9 @@ static void parse_rom_spec(char *spec)
 
             if (currSeg != NULL)
             {
-                // ensure no duplicates (except for 'include')
-                if (stmt != STMT_include && stmt != STMT_include_data_with_rodata && (currSeg->fields & (1 << stmt)))
+                // ensure no duplicates (except for 'include' or 'pad_text')
+                if (stmt != STMT_include && stmt != STMT_include_data_with_rodata && stmt != STMT_pad_text && 
+                    (currSeg->fields & (1 << stmt)))
                     util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtName);
 
                 currSeg->fields |= 1 << stmt;
@@ -273,14 +282,19 @@ static void parse_rom_spec(char *spec)
                 case STMT_include_data_with_rodata:
                     currSeg->includesCount++;
                     currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
-                    currSeg->data_with_rodata = realloc(currSeg->data_with_rodata, currSeg->includesCount * sizeof(*currSeg->data_with_rodata));
-                    currSeg->data_with_rodata[currSeg->includesCount - 1] = (stmt == STMT_include_data_with_rodata);
-                    if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1]))
+
+                    if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1].fpath))
                         util_fatal_error("line %i: invalid filename", lineNum);
+
+                    currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
+                    currSeg->includes[currSeg->includesCount - 1].dataWithRodata = (stmt == STMT_include_data_with_rodata);
                     break;
                  case STMT_increment:
                     if (!parse_number(args, &currSeg->increment))
                         util_fatal_error("line %i: expected number after 'increment'", lineNum);
+                    break;
+                case STMT_pad_text:
+                    currSeg->includes[currSeg->includesCount - 1].linkerPadding += 0x10;
                     break;
                 default:
                     fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
@@ -356,7 +370,11 @@ static void write_ld_script(void)
             fprintf(fout, "        . = ALIGN(0x%X);\n", seg->align);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.text)\n", seg->includes[j]);
+        {
+            fprintf(fout, "            %s (.text)\n", seg->includes[j].fpath);
+            if (seg->includes[j].linkerPadding != 0)
+                fprintf(fout, "            . += 0x%X;\n", seg->includes[j].linkerPadding);
+        }
 
         fprintf(fout, "        _%sSegmentTextEnd = .;\n", seg->name);
 
@@ -366,16 +384,16 @@ static void write_ld_script(void)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (!seg->data_with_rodata[j])
-                fprintf(fout, "            %s (.data)\n", seg->includes[j]);
+            if (!seg->includes[j].dataWithRodata)
+                fprintf(fout, "            %s (.data)\n", seg->includes[j].fpath);
         }
 
         /*
          for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.rodata)\n", seg->includes[j]);
+            fprintf(fout, "            %s (.rodata)\n", seg->includes[j].fpath);
 
           for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.sdata)\n", seg->includes[j]);
+            fprintf(fout, "            %s (.sdata)\n", seg->includes[j].fpath);
         */
 
         //fprintf(fout, "        . = ALIGN(0x10);\n");
@@ -387,9 +405,9 @@ static void write_ld_script(void)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (seg->data_with_rodata[j])
-                fprintf(fout, "            %s (.data)\n", seg->includes[j]);
-            fprintf(fout, "            %s (.rodata)\n", seg->includes[j]);
+            if (seg->includes[j].dataWithRodata)
+                fprintf(fout, "            %s (.data)\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (.rodata)\n", seg->includes[j].fpath);
             // Compilers other than IDO, such as GCC, produce different sections such as
             // the ones named directly below. These sections do not contain values that
             // need relocating, but we need to ensure that the base .rodata section
@@ -398,9 +416,9 @@ static void write_ld_script(void)
             // the beginning of the entire rodata area in order to remain consistent.
             // Inconsistencies will lead to various .rodata reloc crashes as a result of
             // either missing relocs or wrong relocs.
-            fprintf(fout, "            %s (.rodata.str1.4)\n", seg->includes[j]);
-            fprintf(fout, "            %s (.rodata.cst4)\n", seg->includes[j]);
-            fprintf(fout, "            %s (.rodata.cst8)\n", seg->includes[j]);
+            fprintf(fout, "            %s (.rodata.str1.4)\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (.rodata.cst4)\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (.rodata.cst8)\n", seg->includes[j].fpath);
         }
 
          //fprintf(fout, "        . = ALIGN(0x10);\n");
@@ -412,7 +430,7 @@ static void write_ld_script(void)
         fprintf(fout, "        _%sSegmentSDataStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.sdata)\n", seg->includes[j]);
+            fprintf(fout, "            %s (.sdata)\n", seg->includes[j].fpath);
 
          fprintf(fout, "        . = ALIGN(0x10);\n");
 
@@ -421,7 +439,7 @@ static void write_ld_script(void)
 		fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
 
 		for (j = 0; j < seg->includesCount; j++)
-			fprintf(fout, "            %s (.ovl)\n", seg->includes[j]);
+			fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
 
 		fprintf(fout, "        . = ALIGN(0x10);\n");
 
@@ -453,13 +471,13 @@ static void write_ld_script(void)
         if (seg->fields & (1 << STMT_align))
             fprintf(fout, "        . = ALIGN(0x%X);\n", seg->align);
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.sbss)\n", seg->includes[j]);
+            fprintf(fout, "            %s (.sbss)\n", seg->includes[j].fpath);
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.scommon)\n", seg->includes[j]);
+            fprintf(fout, "            %s (.scommon)\n", seg->includes[j].fpath);
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.bss)\n", seg->includes[j]);
+            fprintf(fout, "            %s (.bss)\n", seg->includes[j].fpath);
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (COMMON)\n", seg->includes[j]);
+            fprintf(fout, "            %s (COMMON)\n", seg->includes[j].fpath);
         fprintf(fout, "        . = ALIGN(0x10);\n"
                       "        _%sSegmentBssEnd = .;\n"
                       "        _%sSegmentEnd = .;\n"
@@ -478,7 +496,7 @@ static void write_ld_script(void)
 		//fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
 
 		//for (j = 0; j < seg->includesCount; j++)
-		//	fprintf(fout, "            %s (.ovl)\n", seg->includes[j]);
+		//	fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
 
 		////fprintf(fout, "        . = ALIGN(0x10);\n");
 
