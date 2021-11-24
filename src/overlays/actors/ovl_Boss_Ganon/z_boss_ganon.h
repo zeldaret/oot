@@ -8,6 +8,31 @@ struct BossGanon;
 
 typedef void (*BossGanonActionFunc)(struct BossGanon*, GlobalContext*);
 
+// // float work buffer before merging
+// INDEX 0 /* 0x01C8 */ f32 unk_1C8;
+// INDEX 1 /* 0x01CC */ f32 animationLength; // used for many things depending on instance
+// INDEX 2 /* 0x01D0 */ f32 unk_1D0;
+// INDEX 3 /* 0x01D4 */ f32 unk_1D4; // triforce rgba?
+// INDEX 4 /* 0x01D8 */ f32 unk_1D8; 
+// INDEX 5 /* 0x01DC */ f32 unk_1DC; 
+// INDEX 6 /* 0x01E0 */ f32 unk_1E0; // scale for something
+// INDEX 7 /* 0x01E4 */ f32 unk_1E4; // alpha for something
+// INDEX 8 /* 0x01E8 */ f32 unk_1E8; // scale for something
+// /* 0x01EC */ char unk_1EC[0x10];
+
+typedef enum {
+    /* 0 */ FWORK_0,
+    /* 1 */ FWORK_1,
+    /* 2 */ FWORK_2,
+    /* 3 */ FWORK_3,
+    /* 4 */ FWORK_4,
+    /* 5 */ FWORK_5,
+    /* 6 */ FWORK_6,
+    /* 7 */ FWORK_7,
+    /* 8 */ FWORK_8,
+    FWORK_MAX
+} GanondorfFwork;
+
 typedef struct BossGanon {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 animBankIndex;
@@ -36,15 +61,7 @@ typedef struct BossGanon {
     /* 0x01C2 */ s16 unk_1C2;
     /* 0x01C4 */ s16 unk_1C4; // timer?
     /* 0x01C6 */ char unk_1C6[0x2];
-    /* 0x01C8 */ f32 unk_1C8;
-    /* 0x01CC */ f32 animationLength;
-    /* 0x01D0 */ f32 unk_1D0;
-    /* 0x01D4 */ f32 unk_1D4; // triforce rgba?
-    /* 0x01D8 */ f32 unk_1D8; 
-    /* 0x01DC */ f32 unk_1DC; 
-    /* 0x01E0 */ f32 unk_1E0;
-    /* 0x01E4 */ f32 unk_1E4;
-    /* 0x01E8 */ f32 unk_1E8;
+    /* 0x01C8 */ f32 fwork[FWORK_MAX];
     /* 0x01EC */ char unk_1EC[0x10];
     /* 0x01FC */ Vec3f unk_1FC;
     /* 0x0208 */ Vec3f unk_208;
@@ -53,7 +70,7 @@ typedef struct BossGanon {
     /* 0x022C */ Vec3f unk_22C;
     /* 0x0238 */ Vec3f unk_238;
     /* 0x0244 */ char unk_244[0x10];
-    /* 0x0254 */ f32 unk_254;
+    /* 0x0254 */ f32 unk_254; // scale for something
     /* 0x0258 */ f32 unk_258;
     /* 0x025C */ u8 unk_25C;
     /* 0x025D */ char unk_25D[0x3];
@@ -71,13 +88,15 @@ typedef struct BossGanon {
     /* 0x0294 */ f32 unk_294[15];
     /* 0x02D0 */ f32 unk_2D0;
     /* 0x02D4 */ s16 unk_2D4; // timer
-    /* 0x02D6 */ char unk_2D6[0xE];
+    /* 0x02D6 */ char unk_2D6[0x2];
+    /* 0x02D8 */ Vec3f unk_2D8;
     /* 0x02E4 */ u8 unk_2E4;
     /* 0x02E5 */ char unk_2E5[0x1];
     /* 0x02E6 */ s16 unk_2E6; // timer
     /* 0x02E8 */ s16 unk_2E8; // timer
     /* 0x02EC */ Vec3f unk_2EC[15];
-    /* 0x03A0 */ char unk_3A0[0xFC];
+    /* 0x03A0 */ char unk_3A0[0x24];
+    /* 0x03C4 */ Vec3f unk_3C4[18]; // size not known for sure
     /* 0x049C */ f32 unk_49C[18];
     /* 0x04E4 */ s16 unk_4E4[18];
     /* 0x0508 */ f32 unk_508;
@@ -110,7 +129,7 @@ typedef struct BossGanon {
     /* 0x0708 */ char unk_708[0xC];
     /* 0x0714 */ f32 unk_714;
     /* 0x0718 */ s16 organAlpha;
-    /* 0x071A */ s8 unk_71A;
+    /* 0x071A */ u8 unk_71A;
     /* 0x071B */ u8 unk_71B;
 } BossGanon; // size = 0x71C
 

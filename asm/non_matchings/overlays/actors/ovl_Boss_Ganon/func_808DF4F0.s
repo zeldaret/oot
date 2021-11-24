@@ -337,7 +337,7 @@ glabel func_808DF4F0
 /* 0912C 808DF99C 864401AA */  lh      $a0, 0x01AA($s2)           ## 000001AA
 /* 09130 808DF9A0 240571AC */  addiu   $a1, $zero, 0x71AC         ## $a1 = 000071AC
 /* 09134 808DF9A4 2406263A */  addiu   $a2, $zero, 0x263A         ## $a2 = 0000263A
-/* 09138 808DF9A8 0C237B4C */  jal     func_808DED30              
+/* 09138 808DF9A8 0C237B4C */  jal     BossGanon_InitRand              
 /* 0913C 808DF9AC 24840001 */  addiu   $a0, $a0, 0x0001           ## $a0 = 00000001
 /* 09140 808DF9B0 C64C0278 */  lwc1    $f12, 0x0278($s2)          ## 00000278
 /* 09144 808DF9B4 C64E027C */  lwc1    $f14, 0x027C($s2)          ## 0000027C
@@ -378,7 +378,7 @@ glabel func_808DF4F0
 /* 091D0 808DFA40 00000000 */  nop
 /* 091D4 808DFA44 AFAE0054 */  sw      $t6, 0x0054($sp)           
 .L808DFA48:
-/* 091D8 808DFA48 0C237B53 */  jal     func_808DED4C              
+/* 091D8 808DFA48 0C237B53 */  jal     BossGanon_RandZeroOne              
 /* 091DC 808DFA4C 00000000 */  nop
 /* 091E0 808DFA50 8E2302D0 */  lw      $v1, 0x02D0($s1)           ## 000002D0
 /* 091E4 808DFA54 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -409,7 +409,7 @@ glabel func_808DF4F0
 /* 09248 808DFAB8 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 0924C 808DFABC 0C034348 */  jal     Matrix_RotateY              
 /* 09250 808DFAC0 4612A300 */  add.s   $f12, $f20, $f18           
-/* 09254 808DFAC4 0C237B53 */  jal     func_808DED4C              
+/* 09254 808DFAC4 0C237B53 */  jal     BossGanon_RandZeroOne              
 /* 09258 808DFAC8 00000000 */  nop
 /* 0925C 808DFACC 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
 /* 09260 808DFAD0 44812000 */  mtc1    $at, $f4                   ## $f4 = 0.50

@@ -13,7 +13,7 @@
         <Texture Name="D_808EF670" OutName="D_808EF670" Format="i8" Width="32" Height="96" Offset="0x18E00" Static="Off"/>
         <Texture Name="D_808F0270" OutName="D_808F0270" Format="i8" Width="32" Height="96" Offset="0x19A00" Static="Off"/>
         
-        <Texture Name="D_808E65A8" OutName="D_808E65A8" Format="ci8" Width="32" Height="64" Offset="0xFD38"/>
+        <Texture Name="D_808E65A8" OutName="D_808E65A8" Format="ci8" Width="32" Height="64" Offset="0xFD38" Static="Off"/>
 
         <DList Name="D_808F6560" Offset="0x1FCF0" Static="Off"/>
         <DList Name="D_808F6598" Offset="0x1FD28" Static="Off"/>
