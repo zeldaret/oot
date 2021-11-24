@@ -2,14 +2,14 @@
     <File Name="object_ssh" Segment="6">
         <Animation Name="object_ssh_Anim_000304" Offset="0x304"/>
         <Texture Name="object_ssh_TLUT_000320" OutName="tlut_00000320" Format="rgba16" Width="16" Height="16" Offset="0x320"/>
-        <Texture Name="object_ssh_Tex_000520" OutName="tex_00000520" Format="ci8" Width="8" Height="8" Offset="0x520"/>
-        <Texture Name="object_ssh_Tex_000560" OutName="tex_00000560" Format="ci8" Width="16" Height="8" Offset="0x560"/>
-        <Texture Name="object_ssh_Tex_0005E0" OutName="tex_000005E0" Format="ci8" Width="8" Height="8" Offset="0x5E0"/>
+        <Texture Name="object_ssh_Tex_000520" OutName="tex_00000520" Format="ci8" Width="8" Height="8" Offset="0x520" TlutOffset="0x320"/>
+        <Texture Name="object_ssh_Tex_000560" OutName="tex_00000560" Format="ci8" Width="16" Height="8" Offset="0x560" TlutOffset="0x320"/>
+        <Texture Name="object_ssh_Tex_0005E0" OutName="tex_000005E0" Format="ci8" Width="8" Height="8" Offset="0x5E0" TlutOffset="0x320"/>
         <Texture Name="object_ssh_Tex_000620" OutName="tex_00000620" Format="i8" Width="16" Height="16" Offset="0x620"/>
-        <Texture Name="object_ssh_Tex_000720" OutName="tex_00000720" Format="ci8" Width="8" Height="16" Offset="0x720"/>
-        <Texture Name="object_ssh_Tex_0007A0" OutName="tex_000007A0" Format="ci8" Width="8" Height="8" Offset="0x7A0"/>
+        <Texture Name="object_ssh_Tex_000720" OutName="tex_00000720" Format="ci8" Width="8" Height="16" Offset="0x720" TlutOffset="0x320"/>
+        <Texture Name="object_ssh_Tex_0007A0" OutName="tex_000007A0" Format="ci8" Width="8" Height="8" Offset="0x7A0" TlutOffset="0x320"/>
         <Blob Name="object_ssh_Blob_0007E0" Size="0x400" Offset="0x7E0"/>
-        <Texture Name="object_ssh_Tex_000BE0" OutName="tex_00000BE0" Format="ci8" Width="8" Height="16" Offset="0xBE0"/>
+        <Texture Name="object_ssh_Tex_000BE0" OutName="tex_00000BE0" Format="ci8" Width="8" Height="16" Offset="0xBE0" TlutOffset="0x320"/>
         <Blob Name="object_ssh_Blob_000C60" Size="0x800" Offset="0xC60"/>
         <DList Name="object_ssh_DL_003CD0" Offset="0x3CD0"/>
         <DList Name="object_ssh_DL_004080" Offset="0x4080"/>

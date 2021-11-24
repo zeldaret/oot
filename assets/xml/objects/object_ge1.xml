@@ -43,17 +43,17 @@
         <Texture Name="gGerudoWhiteHairTLUT" OutName="gerudo_white_hair_tlut" Format="rgba16" Width="16" Height="16" Offset="0x2808"/>
 
         <!-- White-clothed Gerudo Displaylist textures -->
-        <Texture Name="gGerudoWhiteSkinGradientTex" OutName="gerudo_white_skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x0548"/>
-        <Texture Name="gGerudoWhiteWhiteFabricLipsTex" OutName="gerudo_white_white_fabric_lips" Format="ci8" Width="16" Height="16" Offset="0x0588"/>
-        <Texture Name="gGerudoWhiteEarTex" OutName="gerudo_white_ear" Format="ci8" Width="8" Height="16" Offset="0x0688"/>
-        <Texture Name="gGerudoWhiteFingersTex" OutName="gerudo_white_fingers" Format="ci8" Width="32" Height="32" Offset="0x1F08"/>
-        <Texture Name="gGerudoWhiteArmletTex" OutName="gerudo_white_armlet" Format="ci8" Width="8" Height="16" Offset="0x2308"/>
-        <Texture Name="gGerudoWhiteJacketTex" OutName="gerudo_white_jacket" Format="ci8" Width="16" Height="16" Offset="0x2388"/>
-        <Texture Name="gGerudoWhiteTubeTopTex" OutName="gerudo_white_tube_top" Format="ci8" Width="16" Height="16" Offset="0x2488"/>
-        <Texture Name="gGerudoWhiteNavelTex" OutName="gerudo_white_navel" Format="ci8" Width="16" Height="16" Offset="0x2588"/>
-        <Texture Name="gGerudoWhiteCleavageTex" OutName="gerudo_white_cleavage" Format="ci8" Width="8" Height="8" Offset="0x2688"/>
-        <Texture Name="gGerudoWhiteShoeUpperTex" OutName="gerudo_white_shoe_upper" Format="ci8" Width="8" Height="16" Offset="0x26C8"/>
-        <Texture Name="gGerudoWhiteShoeSoleTex" OutName="gerudo_white_shoe_sole" Format="ci8" Width="8" Height="8" Offset="0x2748"/>
+        <Texture Name="gGerudoWhiteSkinGradientTex" OutName="gerudo_white_skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x0548" TlutOffset="0x0348"/>
+        <Texture Name="gGerudoWhiteWhiteFabricLipsTex" OutName="gerudo_white_white_fabric_lips" Format="ci8" Width="16" Height="16" Offset="0x0588" TlutOffset="0x0348"/>
+        <Texture Name="gGerudoWhiteEarTex" OutName="gerudo_white_ear" Format="ci8" Width="8" Height="16" Offset="0x0688" TlutOffset="0x0348"/>
+        <Texture Name="gGerudoWhiteFingersTex" OutName="gerudo_white_fingers" Format="ci8" Width="32" Height="32" Offset="0x1F08" TlutOffset="0x0348"/>
+        <Texture Name="gGerudoWhiteArmletTex" OutName="gerudo_white_armlet" Format="ci8" Width="8" Height="16" Offset="0x2308" TlutOffset="0x0348"/>
+        <Texture Name="gGerudoWhiteJacketTex" OutName="gerudo_white_jacket" Format="ci8" Width="16" Height="16" Offset="0x2388" TlutOffset="0x0348"/>
+        <Texture Name="gGerudoWhiteTubeTopTex" OutName="gerudo_white_tube_top" Format="ci8" Width="16" Height="16" Offset="0x2488" TlutOffset="0x0348"/>
+        <Texture Name="gGerudoWhiteNavelTex" OutName="gerudo_white_navel" Format="ci8" Width="16" Height="16" Offset="0x2588" TlutOffset="0x0348"/>
+        <Texture Name="gGerudoWhiteCleavageTex" OutName="gerudo_white_cleavage" Format="ci8" Width="8" Height="8" Offset="0x2688" TlutOffset="0x0348"/>
+        <Texture Name="gGerudoWhiteShoeUpperTex" OutName="gerudo_white_shoe_upper" Format="ci8" Width="8" Height="16" Offset="0x26C8" TlutOffset="0x0348"/>
+        <Texture Name="gGerudoWhiteShoeSoleTex" OutName="gerudo_white_shoe_sole" Format="ci8" Width="8" Height="8" Offset="0x2748" TlutOffset="0x0348"/>
         <Texture Name="gGerudoWhiteCrotchTex" OutName="gerudo_white_crotch" Format="rgba16" Width="8" Height="8" Offset="0x2788"/>
 
         <!-- White-clothed Gerudo Hairstyle DisplayLists -->
@@ -62,7 +62,7 @@
         <DList Name="gGerudoWhiteHairstyleSpikyDL" Offset="0x9690"/>
 
         <!-- White-clothed Gerudo Hair textures -->
-        <Texture Name="gGerudoWhiteHairTex" OutName="gerudo_white_hair" Format="ci8" Width="16" Height="16" Offset="0x2A08"/>
+        <Texture Name="gGerudoWhiteHairTex" OutName="gerudo_white_hair" Format="ci8" Width="16" Height="16" Offset="0x2A08" TlutOffset="0x2808"/>
         
         <!-- White-clothed Gerudo Eye Textures -->
         <Texture Name="gGerudoWhiteEyeOpenTex" OutName="gerudo_white_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x0708"/>
