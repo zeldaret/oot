@@ -379,7 +379,7 @@ void func_80AEB264(EnRu1* this, AnimationHeader* animation, u8 arg2, f32 transit
     Animation_Change(&this->skelAnime, animHeader, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
-s32 EnRu1_FrameUpdateMatrix(EnRu1* this) {
+s32 EnRu1_UpdateSkelAnime(EnRu1* this) {
     // why?
     if (this->action != 32) {
         return SkelAnime_Update(&this->skelAnime);
@@ -696,7 +696,7 @@ void func_80AEC070(EnRu1* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
 
 void func_80AEC0B4(EnRu1* this, GlobalContext* globalCtx) {
     func_80AEB89C(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     func_80AEBC84(this, globalCtx);
     func_80AEBC30(globalCtx);
     func_80AEBD1C(this, globalCtx);
@@ -708,7 +708,7 @@ void func_80AEC100(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEC130(EnRu1* this, GlobalContext* globalCtx) {
-    s32 something = EnRu1_FrameUpdateMatrix(this);
+    s32 something = EnRu1_UpdateSkelAnime(this);
 
     func_80AEAECC(this, globalCtx);
     func_80AEBB3C(this);
@@ -718,7 +718,7 @@ void func_80AEC130(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEC17C(EnRu1* this, GlobalContext* globalCtx) {
     func_80AEB974(this, globalCtx);
     func_80AEAECC(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     func_80AEB50C(this, globalCtx);
     func_80AEBEC8(this, globalCtx);
 }
@@ -726,7 +726,7 @@ void func_80AEC17C(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEC1D4(EnRu1* this, GlobalContext* globalCtx) {
     s32 something;
 
-    something = EnRu1_FrameUpdateMatrix(this);
+    something = EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, globalCtx);
     EnRu1_UpdateEyes(this);
     func_80AEB50C(this, globalCtx);
@@ -738,7 +738,7 @@ void func_80AEC1D4(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEC244(EnRu1* this, GlobalContext* globalCtx) {
     s32 something;
 
-    something = EnRu1_FrameUpdateMatrix(this);
+    something = EnRu1_UpdateSkelAnime(this);
     func_80AEBA2C(this, globalCtx);
     func_80AEAECC(this, globalCtx);
     EnRu1_UpdateEyes(this);
@@ -751,7 +751,7 @@ void func_80AEC244(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEC2C0(EnRu1* this, GlobalContext* globalCtx) {
     s32 something;
 
-    something = EnRu1_FrameUpdateMatrix(this);
+    something = EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, globalCtx);
     EnRu1_UpdateEyes(this);
     func_80AEB50C(this, globalCtx);
@@ -933,7 +933,7 @@ void func_80AECAB4(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AECAD4(EnRu1* this, GlobalContext* globalCtx) {
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, globalCtx);
     func_80AEC8B8(this, globalCtx);
@@ -942,7 +942,7 @@ void func_80AECAD4(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AECB18(EnRu1* this, GlobalContext* globalCtx) {
     s32 something;
 
-    something = EnRu1_FrameUpdateMatrix(this);
+    something = EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, globalCtx);
     func_80AEC93C(this, something);
@@ -950,7 +950,7 @@ void func_80AECB18(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AECB60(EnRu1* this, GlobalContext* globalCtx) {
     func_80AEC40C(this);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, globalCtx);
     func_80AEC650(this);
@@ -960,7 +960,7 @@ void func_80AECB60(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AECBB8(EnRu1* this, GlobalContext* globalCtx) {
     func_80AEC4CC(this);
     func_80AEC6E4(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, globalCtx);
     func_80AEC650(this);
@@ -970,7 +970,7 @@ void func_80AECBB8(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AECC1C(EnRu1* this, GlobalContext* globalCtx) {
     func_80AEC4F4(this);
     func_80AEC6E4(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, globalCtx);
     func_80AEC650(this);
@@ -1142,29 +1142,29 @@ void func_80AED324(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AED344(EnRu1* this, GlobalContext* globalCtx) {
     func_80AECE04(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     func_80AED110(this);
 }
 
 void func_80AED374(EnRu1* this, GlobalContext* globalCtx) {
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     func_80AED154(this, globalCtx);
 }
 
 void func_80AED3A4(EnRu1* this, GlobalContext* globalCtx) {
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     func_80AED19C(this, func_80AECF6C(this, globalCtx));
 }
 
 void func_80AED3E0(EnRu1* this, GlobalContext* globalCtx) {
     func_80AEAECC(this, globalCtx);
-    func_80AED218(this, EnRu1_FrameUpdateMatrix(this));
+    func_80AED218(this, EnRu1_UpdateSkelAnime(this));
 }
 
 void func_80AED414(EnRu1* this, GlobalContext* globalCtx) {
     func_80AECE20(this, globalCtx);
     func_80AEAECC(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
 }
 
 void func_80AED44C(EnRu1* this, GlobalContext* globalCtx) {
@@ -1696,7 +1696,7 @@ void func_80AEEBD4(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
     func_80AEAC54(this, globalCtx);
     func_80AEAECC(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEEBB4(this, globalCtx);
     func_80AEE488(this, globalCtx);
@@ -1710,7 +1710,7 @@ void func_80AEEC5C(EnRu1* this, GlobalContext* globalCtx) {
     func_80AEAECC(this, globalCtx);
     func_80AEE2F8(this, globalCtx);
     func_80AEDFF4(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEE568(this, globalCtx);
     func_80AED624(this, globalCtx);
@@ -1721,7 +1721,7 @@ void func_80AEECF0(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
     func_80AEAECC(this, globalCtx);
     func_80AEE050(this);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEEB24(this, globalCtx);
     func_80AED624(this, globalCtx);
@@ -1731,7 +1731,7 @@ void func_80AEED58(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
     func_80AEAECC(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEEAC8(this, globalCtx);
     func_80AED624(this, globalCtx);
@@ -1740,7 +1740,7 @@ void func_80AEED58(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEEDCC(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED8DC(this);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, globalCtx);
     func_80AEE2F8(this, globalCtx);
     EnRu1_UpdateEyes(this);
@@ -1750,7 +1750,7 @@ void func_80AEEDCC(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEEE34(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, globalCtx);
     func_80AEE2F8(this, globalCtx);
     EnRu1_UpdateEyes(this);
@@ -1762,7 +1762,7 @@ void func_80AEEE9C(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
     func_80AEAECC(this, globalCtx);
     func_80AEDFF4(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AED738(this, globalCtx);
     func_80AED624(this, globalCtx);
@@ -1770,7 +1770,7 @@ void func_80AEEE9C(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEEF08(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, globalCtx);
     EnRu1_UpdateEyes(this);
     func_80AEE628(this, globalCtx);
@@ -1861,7 +1861,7 @@ void func_80AEF2D0(EnRu1* this, GlobalContext* globalCtx) {
     s32 cond;
 
     func_80AEEF68(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAC10(this, globalCtx);
     func_80AEAECC(this, globalCtx);
@@ -1872,7 +1872,7 @@ void func_80AEF2D0(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEF354(EnRu1* this, GlobalContext* globalCtx) {
     func_80AEEFEC(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, globalCtx);
     func_80AEF188(this, globalCtx);
@@ -1882,7 +1882,7 @@ void func_80AEF3A8(EnRu1* this, GlobalContext* globalCtx) {
     s32 something;
 
     func_80AED83C(this);
-    something = EnRu1_FrameUpdateMatrix(this);
+    something = EnRu1_UpdateSkelAnime(this);
     func_80AEF080(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, globalCtx);
@@ -2029,7 +2029,7 @@ void func_80AEF99C(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEF9D8(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEF624(this, globalCtx);
     func_80AEB220(this, globalCtx);
@@ -2041,7 +2041,7 @@ void func_80AEFA2C(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
     func_80AEB364(this, globalCtx);
     func_80AEAECC(this, globalCtx);
-    something = EnRu1_FrameUpdateMatrix(this);
+    something = EnRu1_UpdateSkelAnime(this);
     func_80AEF4E0(this);
     func_80AEF5B8(this);
     func_80AEF40C(this);
@@ -2052,7 +2052,7 @@ void func_80AEFA2C(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEFAAC(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
     func_80AEAECC(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     func_80AEF79C(this, globalCtx);
     func_80AEB220(this, globalCtx);
 }
@@ -2062,7 +2062,7 @@ void func_80AEFB04(EnRu1* this, GlobalContext* globalCtx) {
 
     func_80AED83C(this);
     func_80AEAECC(this, globalCtx);
-    something = EnRu1_FrameUpdateMatrix(this);
+    something = EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEF820(this, something);
     func_80AEB220(this, globalCtx);
@@ -2071,7 +2071,7 @@ void func_80AEFB04(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEFB68(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
     func_80AEAECC(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEF890(this, globalCtx);
     func_80AEB220(this, globalCtx);
@@ -2080,7 +2080,7 @@ void func_80AEFB68(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEFBC8(EnRu1* this, GlobalContext* globalCtx) {
     func_80AED83C(this);
     func_80AEAECC(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEF540(this);
     func_80AEF930(this, globalCtx);
@@ -2158,7 +2158,7 @@ void func_80AEFE9C(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEFECC(EnRu1* this, GlobalContext* globalCtx) {
     func_80AEEF68(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAC10(this, globalCtx);
     func_80AEAECC(this, globalCtx);
@@ -2167,7 +2167,7 @@ void func_80AEFECC(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEFF40(EnRu1* this, GlobalContext* globalCtx) {
     func_80AEEFEC(this, globalCtx);
-    EnRu1_FrameUpdateMatrix(this);
+    EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, globalCtx);
     func_80AEFE9C(this, globalCtx);

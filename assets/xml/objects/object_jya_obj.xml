@@ -56,23 +56,24 @@
         <DList Name="gMegamiPiece12DL" Offset="0xA978"/>
         <DList Name="gMegamiPiece13DL" Offset="0xAAC8"/>
         <Texture Name="gMegami1TLUT" OutName="megami_palette_1" Format="rgba16" Width="4" Height="4" Offset="0x5C80"/>
-        <Texture Name="gMegami1Tex" OutName="megami_tex_1" Format="ci4" Width="64" Height="64" Offset="0x5CE8"/>
+        <Texture Name="gMegami1Tex" OutName="megami_tex_1" Format="ci4" Width="64" Height="64" Offset="0x5CE8" TlutOffset="0x5C80"/>
         <Texture Name="gMegami2TLUT" OutName="megami_palette_2" Format="rgba16" Width="4" Height="4" Offset="0xAC50"/>
-        <Texture Name="gMegami2Tex" OutName="megami_tex_2" Format="ci4" Width="64" Height="64" Offset="0xACB8"/>
+        <Texture Name="gMegami2Tex" OutName="megami_tex_2" Format="ci4" Width="64" Height="64" Offset="0xACB8" TlutOffset="0xAC50"/>
         <Texture Name="gMegami3TLUT" OutName="megami_palette_3" Format="rgba16" Width="4" Height="64" Offset="0x6CE8"/>
-        <Texture Name="gMegami3Tex" OutName="megami_tex_3" Format="ci4" Width="64" Height="64" Offset="0x64E8"/>
+        <Texture Name="gMegami3Tex" OutName="megami_tex_3" Format="ci4" Width="64" Height="64" Offset="0x64E8" TlutOffset="0x5C80"/>
         <Texture Name="gMegami4TLUT" OutName="megami_palette_4" Format="rgba16" Width="4" Height="4" Offset="0x5CA0"/>
         <Texture Name="gMegami5TLUT" OutName="megami_palette_5" Format="rgba16" Width="4" Height="4" Offset="0xAC70"/>
-        <Texture Name="gMeagmiRightCrumble1Tex" OutName="megami_right_crumble_1" Format="ci4" Width="64" Height="64" Offset="0xD00"/>
-        <Texture Name="gMeagmiRightCrumble2Tex" OutName="megami_right_crumble_2" Format="ci4" Width="64" Height="64" Offset="0x1D00"/>
-        <Texture Name="gMeagmiRightCrumble3Tex" OutName="megami_right_crumble_3" Format="ci4" Width="64" Height="64" Offset="0x2500"/>
-        <Texture Name="gMeagmiRightCrumble4Tex" OutName="megami_right_crumble_4" Format="ci4" Width="64" Height="64" Offset="0x2D00"/>
-        <Texture Name="gMeagmiRightCrumble5Tex" OutName="megami_right_crumble_5" Format="ci4" Width="64" Height="64" Offset="0x4D00"/>
-        <Texture Name="gMeagmiLeftCrumble1Tex" OutName="megami_left_crumble_1" Format="ci4" Width="64" Height="64" Offset="0x1500"/>
-        <Texture Name="gMeagmiLeftCrumble2Tex" OutName="megami_left_crumble_2" Format="ci4" Width="64" Height="64" Offset="0x3500"/>
-        <Texture Name="gMeagmiLeftCrumble3Tex" OutName="megami_left_crumble_3" Format="ci4" Width="64" Height="64" Offset="0x3D00"/>
-        <Texture Name="gMeagmiLeftCrumble4Tex" OutName="megami_left_crumble_4" Format="ci4" Width="64" Height="64" Offset="0x4500"/>
-        <Texture Name="gMeagmiLeftCrumble5Tex" OutName="megami_left_crumble_5" Format="ci4" Width="64" Height="64" Offset="0x0500"/>
+        <Texture Name="gMegamiCrumbleTLUT" OutName="megami_crumble_palette" Format="rgba16" Width="4" Height="4" Offset="0x4E0"/>
+        <Texture Name="gMegamiRightCrumble1Tex" OutName="megami_right_crumble_1" Format="ci4" Width="64" Height="64" Offset="0xD00" TlutOffset="0x4E0"/>
+        <Texture Name="gMegamiRightCrumble2Tex" OutName="megami_right_crumble_2" Format="ci4" Width="64" Height="64" Offset="0x1D00" TlutOffset="0x4E0"/>
+        <Texture Name="gMegamiRightCrumble3Tex" OutName="megami_right_crumble_3" Format="ci4" Width="64" Height="64" Offset="0x2500" TlutOffset="0x4E0"/>
+        <Texture Name="gMegamiRightCrumble4Tex" OutName="megami_right_crumble_4" Format="ci4" Width="64" Height="64" Offset="0x2D00" TlutOffset="0x4E0"/>
+        <Texture Name="gMegamiRightCrumble5Tex" OutName="megami_right_crumble_5" Format="ci4" Width="64" Height="64" Offset="0x4D00" TlutOffset="0x4E0"/>
+        <Texture Name="gMegamiLeftCrumble1Tex" OutName="megami_left_crumble_1" Format="ci4" Width="64" Height="64" Offset="0x1500" TlutOffset="0x4E0"/>
+        <Texture Name="gMegamiLeftCrumble2Tex" OutName="megami_left_crumble_2" Format="ci4" Width="64" Height="64" Offset="0x3500" TlutOffset="0x4E0"/>
+        <Texture Name="gMegamiLeftCrumble3Tex" OutName="megami_left_crumble_3" Format="ci4" Width="64" Height="64" Offset="0x3D00" TlutOffset="0x4E0"/>
+        <Texture Name="gMegamiLeftCrumble4Tex" OutName="megami_left_crumble_4" Format="ci4" Width="64" Height="64" Offset="0x4500" TlutOffset="0x4E0"/>
+        <Texture Name="gMegamiLeftCrumble5Tex" OutName="megami_left_crumble_5" Format="ci4" Width="64" Height="64" Offset="0x0500" TlutOffset="0x4E0"/>
         <DList Name="gZurerukabeDL" Offset="0x12340"/>
         <Collision Name="gZurerukabeCol" Offset="0x12508" />
     </File>

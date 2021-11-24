@@ -170,7 +170,7 @@ void func_80AF2744(EnRu2* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
 }
 
-s32 EnRu2_FrameUpdateMatrix(EnRu2* this) {
+s32 EnRu2_UpdateSkelAnime(EnRu2* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -342,14 +342,14 @@ void func_80AF2CD4(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF2CF4(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2978(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF2B94(this);
 }
 
 void func_80AF2D2C(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF2BC0(this, globalCtx);
 }
@@ -358,21 +358,21 @@ void func_80AF2D6C(EnRu2* this, GlobalContext* globalCtx) {
     UNK_TYPE something;
 
     func_80AF2744(this, globalCtx);
-    something = EnRu2_FrameUpdateMatrix(this);
+    something = EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF2C54(this, something);
 }
 
 void func_80AF2DAC(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF2C68(this, globalCtx);
 }
 
 void func_80AF2DEC(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
 }
 
@@ -453,7 +453,7 @@ void func_80AF3144(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF3174(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF2F58(this, globalCtx);
     func_80AF26D0(this, globalCtx);
@@ -461,7 +461,7 @@ void func_80AF3174(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF31C8(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF30AC(this, globalCtx);
     func_80AF26D0(this, globalCtx);
@@ -569,7 +569,7 @@ void func_80AF3604(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF3624(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF33E0(this);
     func_80AF34A4(this);
@@ -577,7 +577,7 @@ void func_80AF3624(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF366C(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF3564(this, globalCtx);
 }
@@ -586,7 +586,7 @@ void func_80AF36AC(EnRu2* this, GlobalContext* globalCtx) {
     UNK_TYPE something;
 
     func_80AF2744(this, globalCtx);
-    something = EnRu2_FrameUpdateMatrix(this);
+    something = EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF3530(this, something);
 }
@@ -716,7 +716,7 @@ void func_80AF3BC8(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF3C04(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     func_80AF259C(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     Actor_SetFocus(&this->actor, 50.0f);
     func_80AF38D0(this, globalCtx);
@@ -724,7 +724,7 @@ void func_80AF3C04(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF3C64(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     Actor_SetFocus(&this->actor, 50.0f);
     func_80AF390C(this, globalCtx);
@@ -732,7 +732,7 @@ void func_80AF3C64(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF3CB8(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     Actor_SetFocus(&this->actor, 50.0f);
     func_80AF39DC(this, globalCtx);
@@ -740,7 +740,7 @@ void func_80AF3CB8(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF3D0C(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     Actor_SetFocus(&this->actor, 50.0f);
     func_80AF3ADC(this, globalCtx);
@@ -749,7 +749,7 @@ void func_80AF3D0C(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF3D60(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF37CC(this);
     func_80AF2744(this, globalCtx);
-    EnRu2_FrameUpdateMatrix(this);
+    EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     Actor_SetFocus(&this->actor, 50.0f);
     func_80AF3B74(this, globalCtx);

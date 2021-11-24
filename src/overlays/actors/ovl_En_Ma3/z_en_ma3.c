@@ -22,8 +22,8 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* this);
 void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2F28(EnMa3* this);
-void func_80AA2F80(EnMa3* this);
-void func_80AA3004(EnMa3* this, s32 arg1);
+void EnMa3_UpdateEyes(EnMa3* this);
+void EnMa3_ChangeAnim(EnMa3* this, s32 arg1);
 void func_80AA3200(EnMa3* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma3_InitVars = {
@@ -60,10 +60,10 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static struct_D_80AA1678 D_80AA3848[] = {
-    { 0x060007D4, 1.0f, ANIMMODE_LOOP, 0.0f },   { 0x060007D4, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x060093BC, 1.0f, ANIMMODE_LOOP, 0.0f },   { 0x06009EE0, 1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06009EE0, 1.0f, ANIMMODE_LOOP, -10.0f },
+static struct_D_80AA1678 sAnimationInfo[] = {
+    { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },       { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gMalonAdultStandStillAnim, 1.0f, ANIMMODE_LOOP, 0.0f }, { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
 u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
@@ -177,7 +177,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3;
 
-    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &object_ma2_Anim_009EE0)) {
+    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &gMalonAdultSingAnim)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -202,35 +202,35 @@ s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA2F28(EnMa3* this) {
-    if (this->skelAnime.animation != &object_ma2_Anim_009EE0) {
+    if (this->skelAnime.animation != &gMalonAdultSingAnim) {
         return 0;
     }
     if (this->unk_1E0.unk_00 != 0) {
         return 0;
     }
-    this->unk_20C = 0;
-    if (this->unk_20E != 2) {
+    this->blinkTimer = 0;
+    if (this->eyeIndex != 2) {
         return 0;
     }
-    this->unk_210 = 2;
+    this->mouthIndex = 2;
     return 1;
 }
 
-void func_80AA2F80(EnMa3* this) {
-    if ((!func_80AA2F28(this)) && (DECR(this->unk_20C) == 0)) {
-        this->unk_20E += 1;
-        if (this->unk_20E >= 3) {
-            this->unk_20C = Rand_S16Offset(0x1E, 0x1E);
-            this->unk_20E = 0;
+void EnMa3_UpdateEyes(EnMa3* this) {
+    if ((!func_80AA2F28(this)) && (DECR(this->blinkTimer) == 0)) {
+        this->eyeIndex += 1;
+        if (this->eyeIndex >= 3) {
+            this->blinkTimer = Rand_S16Offset(30, 30);
+            this->eyeIndex = 0;
         }
     }
 }
 
-void func_80AA3004(EnMa3* this, s32 idx) {
-    f32 frameCount = Animation_GetLastFrame(D_80AA3848[idx].animation);
+void EnMa3_ChangeAnim(EnMa3* this, s32 idx) {
+    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
 
-    Animation_Change(&this->skelAnime, D_80AA3848[idx].animation, 1.0f, 0.0f, frameCount, D_80AA3848[idx].mode,
-                     D_80AA3848[idx].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
+                     sAnimationInfo[idx].transitionRate);
 }
 
 void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -238,18 +238,18 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ma2_Skel_008D90, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gMalonAdultSkel, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
 
     switch (func_80AA2EC8(this, globalCtx)) {
         case 0:
-            func_80AA3004(this, 0);
+            EnMa3_ChangeAnim(this, 0);
             this->actionFunc = func_80AA3200;
             break;
         case 1:
-            func_80AA3004(this, 0);
+            EnMa3_ChangeAnim(this, 0);
             this->actionFunc = func_80AA3200;
             break;
         case 2:
@@ -283,7 +283,7 @@ void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
-    func_80AA2F80(this);
+    EnMa3_UpdateEyes(this);
     this->actionFunc(this, globalCtx);
     func_80AA2E54(this, globalCtx);
     func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 150.0f,
@@ -303,22 +303,23 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     EnMa3* this = THIS;
     Vec3s vec;
 
-    if ((limbIndex == 3) || (limbIndex == 6)) {
+    if ((limbIndex == MALON_ADULT_LIMB_LEFT_THIGH) || (limbIndex == MALON_ADULT_LIMB_RIGHT_THIGH)) {
         *dList = NULL;
     }
-    if (limbIndex == 18) {
+    if (limbIndex == MALON_ADULT_LIMB_HEAD) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec = this->unk_1E0.unk_08;
         Matrix_RotateX((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limbIndex == 11) {
+    if (limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) {
         vec = this->unk_1E0.unk_0E;
         Matrix_RotateY((-vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateX((-vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
-    if ((limbIndex == 11) || (limbIndex == 12) || (limbIndex == 15)) {
+    if ((limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) || (limbIndex == MALON_ADULT_LIMB_LEFT_SHOULDER) ||
+        (limbIndex == MALON_ADULT_LIMB_RIGHT_SHOULDER)) {
         rot->y += Math_SinS(this->unk_212[limbIndex].y) * 200.0f;
         rot->z += Math_CosS(this->unk_212[limbIndex].z) * 200.0f;
     }
@@ -331,27 +332,20 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
 
-    if (limbIndex == 18) {
+    if (limbIndex == MALON_ADULT_LIMB_HEAD) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
-    if ((limbIndex == 14) && (this->skelAnime.animation == &object_ma2_Anim_0093BC)) {
-        gSPDisplayList(POLY_OPA_DISP++, &object_ma2_DL_005420);
+
+    if ((limbIndex == MALON_ADULT_LIMB_LEFT_HAND) && (this->skelAnime.animation == &gMalonAdultStandStillAnim)) {
+        gSPDisplayList(POLY_OPA_DISP++, gMalonAdultBasketDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 950);
 }
 
 void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* D_80AA38A4[] = {
-        0x06002970,
-        0x06003570,
-        0x06003770,
-    };
-    static void* D_80AA38B0[] = {
-        0x06002570,
-        0x06002C70,
-        0x06003070,
-    };
+    static void* sMouthTextures[] = { gMalonAdultMouthNeutralTex, gMalonAdultMouthSadTex, gMalonAdultMouthHappyTex };
+    static void* sEyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
     EnMa3* this = THIS;
     Camera* camera;
     f32 someFloat;
@@ -364,8 +358,8 @@ void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800F6268(someFloat, NA_BGM_LONLON);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA38A4[this->unk_210]));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA38B0[this->unk_20E]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, this);
