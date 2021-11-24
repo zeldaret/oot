@@ -2375,17 +2375,16 @@ void func_808DD20C(BossGanon* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
     BossGanon* this = (BossGanon*)thisx;
     GlobalContext* globalCtx = globalCtx2;
+    f32 target50C_X;
+    f32 target50C_Y; // target50C_Y
+    f32 target50C_Z;
     Player* player = GET_PLAYER(globalCtx);
     s16 i;
     f32 sin;
     f32 cos;
-    f32 target50C_X;
-    f32 target50C_Y;
-    f32 target50C_Z;
     Vec3f sp100;
     Vec3f spF4;
     Vec3f spE8;
@@ -2400,7 +2399,6 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Actor* prop;
     BgGanonOtyuka* platform;
     f32 target670;
-    s16 decr274; // seems fake but cant seem to get rid of it
     f32 xOffset;
     f32 zOffset;
 
@@ -2732,8 +2730,8 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->unk_1A0 = 0;
 
     if (this->unk_714 != 0) {
-        globalCtx->envCtx.screenFillColor[3] = this->unk_714;
-        globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+        globalCtx->envCtx.screenFillColor[3] = (s8)(u8)this->unk_714;
+        globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] = 
             globalCtx->envCtx.screenFillColor[2] = 255;
         globalCtx->envCtx.fillScreen = 1;
     } else if (this->unk_1C4 != 0) {
@@ -2783,28 +2781,24 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (this->unk_274 != 0) {
-
-
-        decr274 = this->unk_274 - 1;
+        i = this->unk_274 - 1;
 
         this->unk_278.x = this->unk_2EC[0].x;
         this->unk_278.y = this->unk_2EC[0].y + 50.0f + 30.0f;
         this->unk_278.z = this->unk_2EC[0].z;
 
-        xOffset = (sinf(decr274 * 1.2566371f) * 600.0f);
-        zOffset = (cosf(decr274 * 1.2566371f) * 600.0f);
+        xOffset = (sinf(i * 1.2566371f) * 600.0f);
+        zOffset = (cosf(i * 1.2566371f) * 600.0f);
 
         // 5 or 6 light balls that go into the charge. not the same as the ones that he throws
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_GANON,
                            this->unk_1FC.x + xOffset, this->unk_1FC.y,
-                           this->unk_1FC.z + zOffset, 0, (s16)(decr274 * 13107.2f) + 0x6000, 0,
-                           0xFA + decr274);
+                           this->unk_1FC.z + zOffset, 0, (s16)(i * 13107.2f) + 0x6000, 0,
+                           0xFA + i);
         this->unk_274 = 0;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/BossGanon_Update.s")
-#endif
+
 
 s32 func_808DE734(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossGanon* this = (BossGanon*)thisx;
