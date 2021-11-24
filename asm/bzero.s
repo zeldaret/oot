@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel bzero
+BEGIN bzero
     slti    $at, $a1, 0xc
     bnez    $at, .bytezero
      negu   $v1, $a0
@@ -64,7 +64,9 @@ glabel bzero
 .zerodone:
     jr      $ra
      nop
+END bzero
 
+# padding?
     nop
     nop
     nop

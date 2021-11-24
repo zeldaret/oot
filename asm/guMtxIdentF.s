@@ -9,8 +9,8 @@
 
 .balign 16
 
-glabel guMtxIdentF
-    lui     $t0, 0x3f80
+BEGIN guMtxIdentF
+    li      $t0, 0x3f800000 # 1.0f
     sw      $t0, ($a0)
     sw      $zero, 4($a0)
     sw      $zero, 8($a0)
@@ -28,3 +28,4 @@ glabel guMtxIdentF
     sw      $zero, 0x38($a0)
     jr      $ra
      sw     $t0, 0x3c($a0)
+END guMtxIdentF

@@ -10,7 +10,7 @@
 
 .balign 16
 
-glabel __osRestoreInt
+BEGIN __osRestoreInt
     mfc0    $t0, Status
     or      $t0, $t0, $a0
     mtc0    $t0, Status
@@ -18,3 +18,4 @@ glabel __osRestoreInt
     nop
     jr      $ra
      nop
+END __osRestoreInt

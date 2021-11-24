@@ -10,7 +10,8 @@
 
 .balign 16
 
-glabel __osGetSR
+BEGIN __osGetSR
     mfc0    $v0, Status
     jr      $ra
      nop
+END __osGetSR

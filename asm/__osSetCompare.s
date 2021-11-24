@@ -10,7 +10,8 @@
 
 .balign 16
 
-glabel __osSetCompare
+BEGIN __osSetCompare
     mtc0    $a0, Compare
     jr      $ra
      nop
+END __osSetCompare

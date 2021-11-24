@@ -10,7 +10,7 @@
 
 .balign 16
 
-glabel osInvalICache
+BEGIN osInvalICache
     # If the amount to invalidate is less or equal to 0, return immediately
     blez    $a1, .invalidate_none
      nop
@@ -51,3 +51,4 @@ glabel osInvalICache
      addiu  $t0, ICACHE_LINESIZE
     jr      $ra
      nop
+END osInvalICache

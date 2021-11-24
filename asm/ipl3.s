@@ -7,4 +7,4 @@
 
 .section .text
 
-.incbin "baserom/makerom", 0x40, 0xFC0
+.incbin "baserom.z64", 0x40, 0xFC0

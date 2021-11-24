@@ -7,9 +7,11 @@
 
 .section .text
 
+.balign 16
+
 .set BOOT_STACK_SIZE, 0x400
 
-glabel entrypoint
+BEGIN entrypoint
     # Clear boot segment .bss
     lui     $t0, %hi(_bootSegmentBssStart)
     addiu   $t0, %lo(_bootSegmentBssStart)
@@ -26,5 +28,6 @@ glabel entrypoint
     addiu   $t2, %lo(bootproc)
     jr      $t2
      addiu  $sp, %lo(sBootThreadStack + BOOT_STACK_SIZE)
+END entrypoint
 
 .fill 0x60 - (. - entrypoint)

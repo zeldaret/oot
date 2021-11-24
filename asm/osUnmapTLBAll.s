@@ -10,22 +10,23 @@
 
 .balign 16
 
-glabel osUnmapTLBAll
+BEGIN osUnmapTLBAll
     mfc0    $t0, EntryHi
     li      $t1, (NTLBENTRIES - 1)
     li      $t2, K0BASE
     mtc0    $t2, EntryHi
     mtc0    $zero, EntryLo0
     mtc0    $zero, EntryLo1
-.all:
+1:
     mtc0    $t1, Index
     nop
     tlbwi
     nop
     nop
     addi    $t1, $t1, -1
-    bgez    $t1, .all
+    bgez    $t1, 1b
      nop
     mtc0    $t0, EntryHi
     jr      $ra
      nop
+END osUnmapTLBAll

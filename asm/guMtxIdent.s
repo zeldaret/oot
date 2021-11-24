@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel guMtxIdent
+BEGIN guMtxIdent
     addi    $t0, $zero, 1
     sll     $t1, $t0, 0x10
     sw      $t1, ($a0)
@@ -29,3 +29,4 @@ glabel guMtxIdent
     sw      $zero, 0x38($a0)
     jr      $ra
      sw     $zero, 0x3c($a0)
+END guMtxIdent

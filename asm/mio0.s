@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel Mio0_Decompress
+BEGIN Mio0_Decompress
     lw      $a3, 8($a0)
     lw      $t9, 0xc($a0)
     lw      $t8, 4($a0)
@@ -59,3 +59,4 @@ glabel Mio0_Decompress
     addi    $t9, $t9, 1
     b       .L80002620
      addi   $t3, $t3, 0x12
+END Mio0_Decompress

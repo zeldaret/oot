@@ -10,7 +10,15 @@
 
 .balign 16
 
-glabel osWritebackDCache
+/**
+ *  void osWritebackDCache(void* vaddr, s32 nbytes);
+ *
+ *  Writes back the contents of the data cache for addresses vaddr
+ *  to vaddr + nbytes to main memory.
+ *  If nbytes is larger than the data cache size, the entire cache
+ *  is written back.
+ */
+BEGIN osWritebackDCache
     # If the amount to write back is less or equal to 0, return immediately
     blez    $a1, .writeback_none
      nop
@@ -52,3 +60,4 @@ glabel osWritebackDCache
      addiu  $t0, DCACHE_LINESIZE
     jr      $ra
      nop
+END osWritebackDCache

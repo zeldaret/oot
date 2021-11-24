@@ -9,17 +9,18 @@
 
 .balign 16
 
+# padding?
     nop
     nop
     nop
     nop
 
-glabel guMtxF2L
+BEGIN guMtxF2L
     li      $at, 0x47800000 # 65536.0
     mtc1    $at, $f0
     lui     $t9, 0xffff
     addiu   $t8, $a1, 0x20
-.L801064F0:
+1:
     lwc1    $f4, ($a0)
     lwc1    $f10, 4($a0)
     addiu   $a1, $a1, 4
@@ -37,7 +38,8 @@ glabel guMtxF2L
     or      $t4, $t2, $t3
     or      $t7, $t5, $t6
     sw      $t4, -4($a1)
-    bne     $a1, $t8, .L801064F0
+    bne     $a1, $t8, 1b
      sw     $t7, 0x1c($a1)
     jr      $ra
      nop
+END guMtxF2L

@@ -12,11 +12,10 @@
 .balign 16
 
 /** 
- *  LUT to convert between MI_INTR and MI_INTR_MASK
- *  MI_INTR is status for each interrupt whereas
- *  MI_INTR_MASK has seperate bits for set/clr
+ *  LUT to convert between MI_INTR and MI_INTR_MASK.
+ *  MI_INTR is status for each interrupt whereas MI_INTR_MASK has seperate bits for set/clr.
  */
-glabel __osRcpImTable
+BEGINDATA __osRcpImTable
     .half MI_INTR_MASK_CLR_SP | MI_INTR_MASK_CLR_SI | MI_INTR_MASK_CLR_AI | MI_INTR_MASK_CLR_VI | MI_INTR_MASK_CLR_PI | MI_INTR_MASK_CLR_DP
     .half MI_INTR_MASK_SET_SP | MI_INTR_MASK_CLR_SI | MI_INTR_MASK_CLR_AI | MI_INTR_MASK_CLR_VI | MI_INTR_MASK_CLR_PI | MI_INTR_MASK_CLR_DP
     .half MI_INTR_MASK_CLR_SP | MI_INTR_MASK_SET_SI | MI_INTR_MASK_CLR_AI | MI_INTR_MASK_CLR_VI | MI_INTR_MASK_CLR_PI | MI_INTR_MASK_CLR_DP
@@ -81,12 +80,13 @@ glabel __osRcpImTable
     .half MI_INTR_MASK_SET_SP | MI_INTR_MASK_CLR_SI | MI_INTR_MASK_SET_AI | MI_INTR_MASK_SET_VI | MI_INTR_MASK_SET_PI | MI_INTR_MASK_SET_DP
     .half MI_INTR_MASK_CLR_SP | MI_INTR_MASK_SET_SI | MI_INTR_MASK_SET_AI | MI_INTR_MASK_SET_VI | MI_INTR_MASK_SET_PI | MI_INTR_MASK_SET_DP
     .half MI_INTR_MASK_SET_SP | MI_INTR_MASK_SET_SI | MI_INTR_MASK_SET_AI | MI_INTR_MASK_SET_VI | MI_INTR_MASK_SET_PI | MI_INTR_MASK_SET_DP
+ENDDATA __osRcpImTable
 
 .section .text
 
 .balign 16
 
-glabel osSetIntMask
+BEGIN osSetIntMask
     mfc0    $t4, Status
     andi    $v0, $t4, (SR_IMASK | SR_IE)
     lui     $t0, %hi(__OSGlobalIntMask)
@@ -98,13 +98,13 @@ glabel osSetIntMask
     or      $v0, $v0, $t0
     lui     $t2, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
     lw      $t2, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($t2)
-    beqz    $t2, .L80004F84
+    beqz    $t2, 1f
      srl    $t1, $t3, 0x10
     li      $at, -1
     xor     $t1, $t1, $at
     andi    $t1, $t1, MI_INTR_MASK
     or      $t2, $t2, $t1
-.L80004F84:
+1:
     sll     $t2, $t2, 0x10
     or      $v0, $v0, $t2
     lui     $at, MI_INTR_MASK
@@ -128,3 +128,4 @@ glabel osSetIntMask
     nop
     jr      $ra
      nop
+END osSetIntMask

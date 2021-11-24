@@ -10,7 +10,8 @@
 
 .balign 16
 
-glabel __osGetFpcCsr
+BEGIN __osGetFpcCsr
     cfc1    $v0, FpCsr
     jr      $ra
      nop
+END __osGetFpcCsr

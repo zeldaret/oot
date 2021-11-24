@@ -10,8 +10,9 @@
 
 .balign 16
 
-glabel __osSetWatchLo
+BEGIN __osSetWatchLo
     mtc0    $a0, WatchLo
     nop
     jr      $ra
      nop
+END __osSetWatchLo

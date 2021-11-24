@@ -18,7 +18,7 @@
  *
  *  Returns the physical address if found, or -1 if not found.
  */
-glabel __osProbeTLB
+BEGIN __osProbeTLB
     # Set EntryHi based on supplied vaddr
     mfc0    $t0, EntryHi
     andi    $t1, $t0, TLBHI_PIDMASK
@@ -84,3 +84,4 @@ glabel __osProbeTLB
     mtc0    $t0, EntryHi
     jr      $ra
      nop
+END __osProbeTLB

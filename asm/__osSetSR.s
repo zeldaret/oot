@@ -10,8 +10,9 @@
 
 .balign 16
 
-glabel __osSetSR
+BEGIN __osSetSR
     mtc0    $a0, Status
     nop
     jr      $ra
      nop
+END __osSetSR

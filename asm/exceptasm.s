@@ -13,20 +13,22 @@
 
 .section .data
 
-glabel __osHwIntTable
+BEGINDATA __osHwIntTable
     .word 0, 0
     .word 0, 0 # cart
     .word 0, 0
     .word 0, 0
     .word 0, 0
+ENDDATA __osHwIntTable
 
-glabel __osPiIntTable
+BEGINDATA __osPiIntTable
     .word 0
     .word 0
+ENDDATA __osPiIntTable
 
 .section .rodata
 
-glabel __osIntOffTable
+__osIntOffTable:
 	.byte 0x00 /* redispatch */
 	.byte 0x14 /* prenmi */
 	.byte 0x18 /* IP6_Hdlr */
@@ -60,7 +62,7 @@ glabel __osIntOffTable
 	.byte 0x10 /* cart */
 	.byte 0x10 /* cart */
 
-glabel __osIntTable
+__osIntTable:
     .word redispatch
     .word sw1
     .word sw2
@@ -75,13 +77,14 @@ glabel __osIntTable
 
 .balign 16
 
-glabel __osExceptionPreamble
+BEGIN __osExceptionPreamble
     lui     $k0, %hi(__osException)
     addiu   $k0, %lo(__osException)
     jr      $k0
      nop
+END __osExceptionPreamble
 
-glabel __osException
+BEGIN __osException
     # Load scratch space for thread saving
     lui     $k0, %hi(__osThreadSave)
     addiu   $k0, %lo(__osThreadSave)
@@ -615,7 +618,7 @@ panic:
 /**
  *  Handles posting event messages to the listening message queue, if there is one
  */
-glabel send_mesg
+send_mesg:
     # Load pointer to listening message queue
     lui     $t2, %hi(__osEventStateTab)
     addiu   $t2, %lo(__osEventStateTab)
@@ -695,6 +698,7 @@ handle_CpU:
     sw      $t1, THREAD_FP($k0)
     b       enqueueRunning
      sw     $k1, THREAD_SR($k0)
+END __osException
 
 /**
  *  void __osEnqueueAndYield(OSThread** threadQ);
@@ -703,7 +707,7 @@ handle_CpU:
  *   thread queue `threadQ` and yields to the highest priority
  *   unblocked runnable thread
  */
-glabel __osEnqueueAndYield
+BEGIN __osEnqueueAndYield
     lui     $a1, %hi(__osRunningThread)
     lw      $a1, %lo(__osRunningThread)($a1)
     # Save SR
@@ -779,13 +783,14 @@ glabel __osEnqueueAndYield
 no_enqueue:
     j       __osDispatchThread
      nop
+END __osEnqueueAndYield
 
 /**
  *  void __osEnqueueThread(OSThread** threadQ, OSThread* thread);
  *
  *  Enqueues `thread` to the thread queue `threadQ`, inserted by priority
  */
-glabel __osEnqueueThread
+BEGIN __osEnqueueThread
     lw      $t8, ($a0)
     lw      $t7, THREAD_PRI($a1)
     move    $t9, $a0
@@ -811,6 +816,7 @@ glabel __osEnqueueThread
     sw      $a1, THREAD_NEXT($t9)
     jr      $ra
      sw     $a0, THREAD_QUEUE($a1)
+END __osEnqueueThread
 
 /**
  *  OSThread* __osPopThread(OSThread** threadQ);
@@ -818,20 +824,24 @@ glabel __osEnqueueThread
  *  Pops the highest priority thread from the top of the
  *   thread queue `threadQ` and returns it
  */
-glabel __osPopThread
+BEGIN __osPopThread
     lw      $v0, ($a0)
     lw      $t9, ($v0)
     jr      $ra
      sw     $t9, ($a0)
+END __osPopThread
 
-glabel __osNop
+BEGIN __osNop
     jr      $ra
      nop
+END __osNop
 
 /**
+ *  void __osDispatchThread(void);
+ * 
  *  Dispatches the next thread to run after restoring it
  */
-glabel __osDispatchThread
+BEGIN __osDispatchThread
     # Obtain highest priority thread from the active run queue
     lui     $a0, %hi(__osRunQueue)
     jal     __osPopThread
@@ -937,6 +947,7 @@ glabel __osDispatchThread
     nop
     # Resume thread execution
     eret
+END __osDispatchThread
 
 /**
  *  void __osCleanupThread(void);
@@ -945,7 +956,8 @@ glabel __osDispatchThread
  *  This function is responsible for cleaning up the thread, signalling for the
  *  current thread to be destroyed.
  */
-glabel __osCleanupThread
+BEGIN __osCleanupThread
     jal     osDestroyThread
      move   $a0, $zero
     # Despite being a jal, this function does not return as the thread will have been destroyed
+END __osCleanupThread

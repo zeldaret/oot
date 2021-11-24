@@ -11,7 +11,7 @@
 
 .balign 16
 
-glabel __osDisableInt
+BEGIN __osDisableInt
     lui     $t2, %hi(__OSGlobalIntMask)
     addiu   $t2, $t2, %lo(__OSGlobalIntMask)
     lw      $t3, ($t2)
@@ -23,7 +23,7 @@ glabel __osDisableInt
     andi    $v0, $t0, SR_IE
     lw      $t0, ($t2)
     andi    $t0, $t0, SR_IMASK
-    beq     $t0, $t3, .L800072E8
+    beq     $t0, $t3, 1f
      lui    $t2, %hi(__osRunningThread)
     addiu   $t2, $t2, %lo(__osRunningThread)
     lw      $t1, THREAD_SR($t2)
@@ -37,6 +37,7 @@ glabel __osDisableInt
     mtc0    $t1, Status
     nop
     nop
-.L800072E8:
+1:
     jr      $ra
      nop
+END __osDisableInt

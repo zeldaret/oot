@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel guScale
+BEGIN guScale
     li      $at, 0x47800000 # 65536.0
     mtc1    $at, $f4
     mtc1    $a1, $f6
@@ -51,3 +51,4 @@ glabel guScale
     sw      $t2, 0x34($a0)
     jr      $ra
      sw     $t0, 0x1c($a0)
+END guScale

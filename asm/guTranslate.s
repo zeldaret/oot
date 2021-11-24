@@ -9,12 +9,13 @@
 
 .balign 16
 
+# padding?
     nop
     nop
     nop
     nop
 
-glabel guTranslate
+BEGIN guTranslate
     li      $at, 0x47800000 # 65536.0
     mtc1    $at, $f4
     mtc1    $a1, $f6
@@ -65,3 +66,4 @@ glabel guTranslate
     sw      $t2, 0x3c($a0)
     jr      $ra
      sw     $t0, 8($a0)
+END guTranslate

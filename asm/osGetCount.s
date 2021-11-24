@@ -10,7 +10,8 @@
 
 .balign 16
 
-glabel osGetCount
+BEGIN osGetCount
     mfc0    $v0, Count
     jr      $ra
      nop
+END osGetCount

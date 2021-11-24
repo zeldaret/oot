@@ -10,7 +10,7 @@
 
 .balign 16
 
-glabel osMapTLBRdb
+BEGIN osMapTLBRdb
     mfc0    $t0, EntryHi
     li      $t1, NTLBENTRIES
     mtc0    $t1, Index
@@ -33,3 +33,4 @@ glabel osMapTLBRdb
     mtc0    $t0, EntryHi
     jr      $ra
      nop
+END osMapTLBRdb

@@ -7,7 +7,10 @@
     .4byte 0
 .endm
 
-glabel gDmaDataTable
+.section .rodata
+
+BEGINDATA gDmaDataTable
+
 DMA_TABLE_ENTRY makerom
 DMA_TABLE_ENTRY boot
 DMA_TABLE_ENTRY dmadata
@@ -1540,6 +1543,8 @@ DMA_TABLE_ENTRY anime_texture_4_static
 DMA_TABLE_ENTRY anime_texture_5_static
 DMA_TABLE_ENTRY anime_texture_6_static
 DMA_TABLE_ENTRY softsprite_matrix_static
+
+ENDDATA gDmaDataTable
 
 # Why the empty space?
 .space 0x100

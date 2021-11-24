@@ -9,12 +9,13 @@
 
 .balign 16
 
+# padding?
     nop
     nop
     nop
     nop
 
-glabel guNormalize
+BEGIN guNormalize
     lwc1    $f4, ($a0)
     lwc1    $f6, ($a1)
     lwc1    $f8, ($a2)
@@ -36,3 +37,4 @@ glabel guNormalize
     swc1    $f18, ($a1)
     jr      $ra
      swc1   $f4, ($a2)
+END guNormalize

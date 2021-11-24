@@ -10,7 +10,8 @@
 
 .balign 16
 
-glabel __osGetCause
+BEGIN __osGetCause
     mfc0    $v0, Cause
     jr      $ra
      nop
+END __osGetCause

@@ -5,6 +5,26 @@
     \label:
 .endm
 
+.macro BEGIN label
+    glabel \label
+    .ent \label
+.endm
+
+.macro END label
+    .type \label, @function
+    .size \label, . - \label
+    .end \label
+.endm
+
+.macro BEGINDATA label
+    glabel \label
+.endm
+
+.macro ENDDATA label
+    .type \label, @object
+    .size \label, . - \label
+.endm
+
 # cop0 register aliases
 
 .set Index,         $0

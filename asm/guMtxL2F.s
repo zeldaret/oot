@@ -9,12 +9,12 @@
 
 .balign 16
 
-glabel guMtxL2F
+BEGIN guMtxL2F
     li      $at, 0x37800000 # 1.0 / 65536.0
     mtc1    $at, $f0
     li      $t9, 0xFFFF0000
     addiu   $t8, $a1, 0x20
-.L80102FB0:
+1:
     lw      $t0, ($a1)
     lw      $t1, 0x20($a1)
     addiu   $a1, $a1, 4
@@ -33,7 +33,8 @@ glabel guMtxL2F
     nop
     mul.s   $f18, $f16, $f0
     swc1    $f8, -8($a0)
-    bne     $a1, $t8, .L80102FB0
+    bne     $a1, $t8, 1b
      swc1   $f18, -4($a0)
     jr      $ra
      nop
+END guMtxL2F

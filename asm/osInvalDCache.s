@@ -25,7 +25,7 @@
  *  If the amount to invalidate is greater than the data cache size, 8192, 
  *  the entire data cache is invalidated.
  */
-glabel osInvalDCache
+BEGIN osInvalDCache
     # If the amount to invalidate is less or equal to 0, return immediately
     blez    $a1, .ret
      nop
@@ -93,3 +93,4 @@ glabel osInvalDCache
      addiu  $t0, DCACHE_LINESIZE
     jr      $ra
      nop
+END osInvalDCache

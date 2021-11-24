@@ -7,6 +7,8 @@ typedef struct {
     u32 ins_0C; // nop
 } struct_exceptionPreamble;
 
+void __osExceptionPreamble(void);
+
 u64 osClockRate = OS_CLOCK_RATE;
 s32 osViClock = VI_NTSC_CLOCK;
 u32 __osShutdown = 0;
@@ -32,8 +34,8 @@ void __osInitialize_common(void) {
     u32 sp2C;
 
     D_800145C0 = 1;
-    __osSetSR(__osGetSR() | 0x20000000);
-    __osSetFpcCsr(0x1000800);
+    __osSetSR(__osGetSR() | SR_CU1);
+    __osSetFpcCsr(FPCSR_FS | FPCSR_EV);
     __osSetWatchLo(0x4900000);
 
     while (__osSiRawReadIo((void*)0x1fc007fc, &sp2C)) {
@@ -58,7 +60,7 @@ void __osInitialize_common(void) {
     osClockRate = (u64)((osClockRate * 3ll) / 4ull);
 
     if (!osResetType) {
-        bzero(osAppNmiBuffer, 0x40);
+        bzero(osAppNmiBuffer, sizeof(osAppNmiBuffer));
     }
 
     if (osTvType == OS_TV_PAL) {

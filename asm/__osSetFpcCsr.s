@@ -10,8 +10,9 @@
 
 .balign 16
 
-glabel __osSetFpcCsr
+BEGIN __osSetFpcCsr
     cfc1    $v0, FpCsr
     ctc1    $a0, FpCsr
     jr      $ra
      nop
+END __osSetFpcCsr
