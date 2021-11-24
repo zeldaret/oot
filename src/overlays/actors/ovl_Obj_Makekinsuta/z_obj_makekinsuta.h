@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_MAKEKINSUTA_H_
-#define _Z_OBJ_MAKEKINSUTA_H_
+#ifndef Z_OBJ_MAKEKINSUTA_H
+#define Z_OBJ_MAKEKINSUTA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -14,7 +14,5 @@ typedef struct ObjMakekinsuta {
     /* 0x150  */ s16 timer;
     /* 0x152  */ s16 unk_152;
 } ObjMakekinsuta; // size = 0x0154
-
-extern const ActorInit Obj_Makekinsuta_InitVars;
 
 #endif

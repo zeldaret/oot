@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SA_H_
-#define _Z_EN_SA_H_
+#ifndef Z_EN_SA_H
+#define Z_EN_SA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -29,7 +29,5 @@ typedef struct EnSa {
     /* 0x0220 */ Vec3s jointTable[17];
     /* 0x0286 */ Vec3s morphTable[17];
 } EnSa; // size = 0x02EC
-
-extern const ActorInit En_Sa_InitVars;
 
 #endif

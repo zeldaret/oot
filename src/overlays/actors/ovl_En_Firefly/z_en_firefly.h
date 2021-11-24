@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FIREFLY_H_
-#define _Z_EN_FIREFLY_H_
+#ifndef Z_EN_FIREFLY_H
+#define Z_EN_FIREFLY_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -31,7 +31,5 @@ typedef enum {
     /* 3 */ KEESE_NORMAL_PERCH,
     /* 4 */ KEESE_ICE_FLY
 } KeeseType;
-
-extern const ActorInit En_Firefly_InitVars;
 
 #endif

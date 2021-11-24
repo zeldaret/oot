@@ -64,7 +64,7 @@ void func_80A9EFE0(EnMThunder* this, EnMThunderActionFunc actionFunc) {
 void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnMThunder* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AA0420);
@@ -126,11 +126,11 @@ void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A9F314(GlobalContext* globalCtx, f32 arg1) {
-    func_800773A8(globalCtx, arg1, 850.0f, 0.2f, 0.0f);
+    Environment_AdjustLights(globalCtx, arg1, 850.0f, 0.2f, 0.0f);
 }
 
 void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags2 & 0x20000) {
         if (player->swordAnimation >= 0x18) {
@@ -150,7 +150,7 @@ void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* child = this->actor.child;
 
     this->unk_1B8 = player->unk_858;
@@ -271,7 +271,7 @@ void func_80A9F938(EnMThunder* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (Math_StepToF(&this->unk_1AC, 0.0f, 1 / 16.0f)) {
         Actor_Kill(&this->actor);
@@ -316,17 +316,13 @@ void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx) {
                               (s32)(blueRadius * 800.0f));
 }
 
-#ifdef NON_MATCHING
 void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     static f32 D_80AA046C[] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f };
     GlobalContext* globalCtx = globalCtx2;
     EnMThunder* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 phi_f14;
     s32 phi_t1;
-    // u8 frames;
-
-    if (1) {}
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 844);
     func_80093D84(globalCtx->state.gfxCtx);
@@ -334,21 +330,23 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 853),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (((this->unk_1C6 & 0xFF) == 0) || ((this->unk_1C6) == 1)) {
-        gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0xFF - ((s8)(this->unk_1B4 * 30) & 0xFF), 0, 0x40, 0x20,
-                                    1, 0xFF - ((s8)(this->unk_1B4 * 20) & 0xFF), 0, 8, 8));
-        if (1) {}
+    switch (this->unk_1C6) {
+        case 0:
+        case 1:
+            gSPSegment(POLY_XLU_DISP++, 0x08,
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0xFF - ((u8)(s32)(this->unk_1B4 * 30) & 0xFF), 0,
+                                        0x40, 0x20, 1, 0xFF - ((u8)(s32)(this->unk_1B4 * 20) & 0xFF), 0, 8, 8));
+            break;
     }
 
     switch (this->unk_1C6) {
         case 0:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 170, (u8)((u32)(this->unk_1B0 * 255) & 0xFF));
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 170, (u8)(this->unk_1B0 * 255));
             gSPDisplayList(POLY_XLU_DISP++, gSpinAttack3DL);
             gSPDisplayList(POLY_XLU_DISP++, gSpinAttack4DL);
             break;
         case 1:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, (u8)((u32)(this->unk_1B0 * 255) & 0xFF));
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, (u8)(this->unk_1B0 * 255));
             gSPDisplayList(POLY_XLU_DISP++, gSpinAttack1DL);
             gSPDisplayList(POLY_XLU_DISP++, gSpinAttack2DL);
             break;
@@ -389,25 +387,12 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 960),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    // redGreen_14 = temp_s0->polyXlu.p;
-    // temp_s0->polyXlu.p = redGreen_14 + 8;
-    // redGreen_14->words.w0 = 0xDB060024;
-    // temp_v1_3 = temp_t2->unk1DE4;
-    // temp_v1_3 = globalCtx->gameplayFrames;
-    // sp50 = redGreen_14;
-    // sp50->words.w1 = Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (temp_v1_3 * 5) & 0xFF, 0U, 0x20, 0x20, 1,
-    // (temp_v1_3 * 0x14) & 0xFF, (temp_v1_3 * temp_t1) & 0xFF, 8, 8);
-    // frames = globalCtx->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->gameplayFrames * 5) & 0xFF, 0, 0x20, 0x20, 1,
-                                (globalCtx->gameplayFrames * 0x14) & 0xFF,
-                                (u8)(globalCtx->gameplayFrames * phi_t1) & 0xFF, 8, 8));
+                                (globalCtx->gameplayFrames * 20) & 0xFF, (globalCtx->gameplayFrames * phi_t1) & 0xFF, 8,
+                                8));
 
     gSPDisplayList(POLY_XLU_DISP++, gSpinAttackChargingDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 1031);
 }
-#else
-static f32 D_80AA046C[] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/EnMThunder_Draw.s")
-#endif

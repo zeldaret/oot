@@ -1,5 +1,5 @@
-#ifndef _COMMAND_MACROS_BASE_H_
-#define _COMMAND_MACROS_BASE_H_
+#ifndef COMMAND_MACROS_BASE_H
+#define COMMAND_MACROS_BASE_H
 
 /**
  * Command Base macros intended for use in designing of more specific command macros

@@ -1,5 +1,5 @@
-#ifndef _Z_COLLISION_CHECK_H_
-#define _Z_COLLISION_CHECK_H_
+#ifndef Z_COLLISION_CHECK_H
+#define Z_COLLISION_CHECK_H
 
 #define COLLISION_CHECK_AT_MAX 50
 #define COLLISION_CHECK_AC_MAX 60
@@ -171,7 +171,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ ColliderInfoInit info;
     /* 0x18 */ ColliderTrisElementDimInit dim;
-} ColliderTrisElementInit; // size 0x3C
+} ColliderTrisElementInit; // size = 0x3C
 
 typedef struct {
     /* 0x00 */ Collider base;

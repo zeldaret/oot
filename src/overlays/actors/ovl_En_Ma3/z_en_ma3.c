@@ -67,7 +67,7 @@ static struct_D_80AA1678 D_80AA3848[] = {
 };
 
 u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16* timer1ValuePtr; // weirdness with this necessary to match
 
     if (!(gSaveContext.infTable[11] & 0x100)) {
@@ -106,9 +106,9 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 globalCtx->nextEntranceIndex = 0x157;
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
                 globalCtx->fadeTransition = 0x26;
@@ -117,21 +117,21 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 gSaveContext.timer1State = 0xF;
             }
             break;
-        case 4:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 gSaveContext.infTable[11] |= 0x200;
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     if (gSaveContext.eventChkInf[1] & 0x4000) {
-                        func_8010B720(globalCtx, 0x2091);
+                        Message_ContinueTextbox(globalCtx, 0x2091);
                     } else if (HIGH_SCORE(HS_HORSE_RACE) == 0) {
-                        func_8010B720(globalCtx, 0x2092);
+                        Message_ContinueTextbox(globalCtx, 0x2092);
                     } else {
-                        func_8010B720(globalCtx, 0x2090);
+                        Message_ContinueTextbox(globalCtx, 0x2090);
                     }
                 }
             }
             break;
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2000:
                     gSaveContext.infTable[11] |= 0x100;
@@ -161,20 +161,20 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                     ret = 0;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
     return ret;
 }
 
 void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3;
 
     if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &object_ma2_Anim_009EE0)) {
@@ -359,9 +359,9 @@ void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
-    func_800F6268(someFloat, 0x2F);
+    func_800F6268(someFloat, NA_BGM_LONLON);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA38A4[this->unk_210]));

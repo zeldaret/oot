@@ -1,5 +1,5 @@
-#ifndef _Z_OBJ_MURE_H_
-#define _Z_OBJ_MURE_H_
+#ifndef Z_OBJ_MURE_H
+#define Z_OBJ_MURE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -23,7 +23,5 @@ typedef struct ObjMure {
     /* 0x01A6 */ s16 unk_1A6;
     /* 0x01A8 */ s16 unk_1A8;
 } ObjMure; // size = 0x01AC
-
-extern const ActorInit Obj_Mure_InitVars;
 
 #endif

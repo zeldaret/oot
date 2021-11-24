@@ -38,7 +38,7 @@ void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnWallTubo* this = THIS;
 
     osSyncPrintf("\n\n");
-    // Wall Target
+    // "Wall Target"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n" VT_RST);
     this->unk_164 = this->actor.world.pos;
     this->actionFunc = EnWallTubo_FindGirl;
@@ -73,7 +73,7 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
     s16 quakeIndex;
 
     if (this->chuGirl->minigamePlayStatus != 0) {
-        if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FIXED1) {
+        if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_CHU_BOWLING) {
             chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
             while (chu != NULL) {
@@ -93,7 +93,7 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
                     func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                     this->timer = 60;
                     EffectSsBomb2_SpawnLayered(globalCtx, &this->explosionCenter, &effVelocity, &effAccel, 200, 40);
-                    quakeIndex = Quake_Add(ACTIVE_CAM, 1);
+                    quakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 1);
                     Quake_SetSpeed(quakeIndex, 0x7FFF);
                     Quake_SetQuakeValues(quakeIndex, 100, 0, 0, 0);
                     Quake_SetCountdown(quakeIndex, 100);
@@ -127,7 +127,7 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx) {
 
         if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
             wall->isHit = true;
-            //  You did it field! (repeated 5 times)
+            // "You did it field!" (repeated 5 times)
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
             osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);

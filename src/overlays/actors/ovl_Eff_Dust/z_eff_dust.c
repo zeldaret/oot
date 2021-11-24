@@ -36,7 +36,7 @@ const ActorInit Eff_Dust_InitVars = {
     (ActorFunc)EffDust_Draw,
 };
 
-static Gfx D_8099EB60[] = {
+static Gfx sEmptyDL[] = {
     gsSPEndDisplayList(),
 };
 
@@ -174,7 +174,7 @@ void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx) {
 
 void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
     s16 theta;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* parent = this->actor.parent;
     f32* distanceTraveled = this->distanceTraveled;
     s32 i;
@@ -281,7 +281,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
     initialPositions = this->initialPositions;
     distanceTraveled = this->distanceTraveled;
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
+    gSPSegment(POLY_XLU_DISP++, 0x08, sEmptyDL);
 
     for (i = 0; i < 64; i++) {
         if (*distanceTraveled < 1.0f) {
@@ -316,7 +316,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
     Vec3f* initialPositions;
     s32 i;
     f32 aux;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     OPEN_DISPS(gfxCtx, "../z_eff_dust.c", 472);
 
@@ -333,7 +333,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
     initialPositions = this->initialPositions;
     distanceTraveled = this->distanceTraveled;
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
+    gSPSegment(POLY_XLU_DISP++, 0x08, sEmptyDL);
 
     for (i = 0; i < 64; i++) {
         if (*distanceTraveled < 1.0f) {

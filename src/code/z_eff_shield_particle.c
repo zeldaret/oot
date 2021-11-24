@@ -166,8 +166,6 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gDPLoadTextureBlock(POLY_XLU_DISP++, gUnknownCircle6Tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
-        if (1) {} // Necessary to match
-
         gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0, 0, 0, 0,
                           0, COMBINED, 0, 0, 0, COMBINED);
         gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
@@ -194,9 +192,9 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
             }
 
             SkinMatrix_SetTranslate(&spC4, this->position.x, this->position.y, this->position.z);
-            SkinMatrix_SetRotateRPY(&sp104, 0, elem->yaw, 0);
+            SkinMatrix_SetRotateZYX(&sp104, 0, elem->yaw, 0);
             SkinMatrix_MtxFMtxFMult(&spC4, &sp104, &sp84);
-            SkinMatrix_SetRotateRPY(&sp104, 0, 0, elem->pitch);
+            SkinMatrix_SetRotateZYX(&sp104, 0, 0, elem->pitch);
             SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
             SkinMatrix_SetTranslate(&sp104, temp1, 0.0f, 0.0f);
             SkinMatrix_MtxFMtxFMult(&spC4, &sp104, &sp84);

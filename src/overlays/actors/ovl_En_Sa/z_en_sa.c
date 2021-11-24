@@ -1,6 +1,8 @@
 #include "z_en_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/object_sa/object_sa.h"
+#include "scenes/overworld/spot04/spot04_scene.h"
+#include "scenes/overworld/spot05/spot05_scene.h"
 
 #define FLAGS 0x02000019
 
@@ -97,13 +99,11 @@ static struct_80034EC0_Entry sAnimations[] = {
     { &gSariaWaitArmsToSideAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
-extern CutsceneData D_02005730[];
-extern CutsceneData D_02010E20[];
-
 s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
-    s16 textState = func_8010BDBC(&globalCtx->msgCtx);
+    s16 textState = Message_GetState(&globalCtx->msgCtx);
 
-    if (this->unk_209 == 10 || this->unk_209 == 5 || this->unk_209 == 2 || this->unk_209 == 1) {
+    if (this->unk_209 == TEXT_STATE_AWAITING_NEXT || this->unk_209 == TEXT_STATE_EVENT ||
+        this->unk_209 == TEXT_STATE_CLOSING || this->unk_209 == TEXT_STATE_DONE_HAS_NEXT) {
         if (textState != this->unk_209) {
             this->unk_208++;
         }
@@ -124,7 +124,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         this->unk_208 = 0;
-        this->unk_209 = 0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 0x20) {
             return 0x1048;
         } else {
@@ -133,7 +133,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (gSaveContext.eventChkInf[0] & 4) {
         this->unk_208 = 0;
-        this->unk_209 = 0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 8) {
             return 0x1032;
         } else {
@@ -142,7 +142,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (gSaveContext.infTable[0] & 1) {
         this->unk_208 = 0;
-        this->unk_209 = 0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 2) {
             return 0x1003;
         } else {
@@ -157,7 +157,7 @@ s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
     EnSa* this = THIS;
 
     switch (func_80AF5560(this, globalCtx)) {
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1002:
                     gSaveContext.infTable[0] |= 2;
@@ -177,14 +177,14 @@ s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 5:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
     return ret;
@@ -372,7 +372,7 @@ s32 func_80AF5DFC(EnSa* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF5F34(EnSa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3 = 0;
 
     if (globalCtx->sceneNum == SCENE_SPOT04) {
@@ -471,7 +471,7 @@ void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 4:
             this->unk_210 = 0;
             this->actor.gravity = -1.0f;
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02010E20);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
             gSaveContext.cutsceneTrigger = 1;
             EnSa_ChangeAnim(this, 4);
             this->actionFunc = func_80AF68E4;
@@ -588,10 +588,10 @@ void func_80AF67D0(EnSa* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF683C(EnSa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Gameplay_InCsMode(globalCtx)) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02005730);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot05_sceneCutsceneData0x005730);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = func_80AF68E4;
     }

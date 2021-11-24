@@ -1,5 +1,5 @@
-#ifndef _Z_EN_VM_H_
-#define _Z_EN_VM_H_
+#ifndef Z_EN_VM_H
+#define Z_EN_VM_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -36,7 +36,5 @@ typedef enum {
     /* 0x00 */ BEAMOS_LARGE,
     /* 0x01 */ BEAMOS_SMALL
 } BeamosType;
-
-extern const ActorInit En_Vm_InitVars;
 
 #endif

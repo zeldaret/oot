@@ -23,25 +23,7 @@ void EnSt_Die(EnSt* this, GlobalContext* globalCtx);
 void EnSt_BounceAround(EnSt* this, GlobalContext* globalCtx);
 void EnSt_FinishBouncing(EnSt* this, GlobalContext* globalCtx);
 
-static Vtx sUnusedVertices[] = {
-    VTX(-1, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1, 100, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-1, 100, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-};
-
-static Gfx sUnusedDList[] = {
-    gsDPPipeSync(),
-    gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
-    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
-    gsSPVertex(sUnusedVertices, 4, 0),
-    gsSP1Triangle(0, 1, 2, 0),
-    gsSP1Triangle(0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_St/ovl_En_St.c"
 
 const ActorInit En_St_InitVars = {
     ACTOR_EN_ST,
@@ -309,7 +291,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
 
 void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
     ColliderInfo* body = &this->colCylinder[0].info;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->unk_860 != 0) {
         body->bumper.dmgFlags |= 2;
@@ -384,7 +366,7 @@ void EnSt_UpdateCylinders(EnSt* this, GlobalContext* globalCtx) {
 }
 
 s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 hit;
     s32 i;
 
@@ -566,7 +548,7 @@ s32 EnSt_DecrStunTimer(EnSt* this) {
     if (this->stunTimer == 0) {
         return 0;
     }
-    this->stunTimer--; //! @bug ? no return but v0 ends up being stunTimer before decrement
+    this->stunTimer--; //! @bug  no return but v0 ends up being stunTimer before decrement
 }
 
 /**
@@ -692,7 +674,7 @@ void EnSt_Bob(EnSt* this, GlobalContext* globalCtx) {
 }
 
 s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 yDist;
 
     if (this->takeDamageSpinTimer != 0) {

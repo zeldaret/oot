@@ -1,5 +1,5 @@
-#ifndef _Z_EN_AM_H_
-#define _Z_EN_AM_H_
+#ifndef Z_EN_AM_H
+#define Z_EN_AM_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -34,7 +34,5 @@ typedef enum {
     /* 0 */ ARMOS_STATUE,
     /* 1 */ ARMOS_ENEMY
 } ArmosType;
-
-extern const ActorInit En_Am_InitVars;
 
 #endif

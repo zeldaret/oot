@@ -7,7 +7,7 @@ void FrameAdvance_Init(FrameAdvanceContext* frameAdvCtx) {
 
 /**
  * Frame advance allows you to advance through the game one frame at a time on command.
- * To enable, hold R and press Dpad Down on the provided controller.
+ * To enable, hold R and press Dpad Down on the specified controller.
  * To advance a frame, hold Z and press R.
  * Holding Z and R will advance a frame every half second.
  *

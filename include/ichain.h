@@ -1,5 +1,5 @@
-#ifndef _ICHAIN_H_
-#define _ICHAIN_H_
+#ifndef ICHAIN_H
+#define ICHAIN_H
 
 typedef struct {
     u32 cont:   1;
@@ -7,8 +7,6 @@ typedef struct {
     u32 offset: 11;
     s32 value:  16;
 } InitChainEntry;
-
-#define OFFSETOF(structure, member) ((size_t)&(((structure*)0)->member))
 
 typedef enum {
     /* 0x0 */ ICHAINTYPE_U8,            // sets byte

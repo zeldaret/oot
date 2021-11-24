@@ -129,7 +129,7 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->objId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
         osSyncPrintf("\n\n");
-        // Deku Scrub target
+        // "Deku Scrub target"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n" VT_RST);
         Collider_InitQuad(globalCtx, &this->targetQuad);
         Collider_SetQuad(globalCtx, &this->targetQuad, &this->actor, &sTargetQuadInit);
@@ -137,7 +137,7 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->objId = OBJECT_HINTNUTS;
     } else {
         osSyncPrintf("\n\n");
-        // Deku Scrub mask show audience
+        // "Deku Scrub mask show audience"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
         Collider_InitCylinder(globalCtx, &this->bodyCyl);
         Collider_SetCylinder(globalCtx, &this->bodyCyl, &this->actor, &sBodyCylinderInit);
@@ -147,9 +147,9 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->objIndex = Object_GetIndex(&globalCtx->objectCtx, this->objId);
         if (this->objIndex < 0) {
             Actor_Kill(&this->actor);
-            // What?
+            // "What?"
             osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
-            // Bank is funny
+            // "Bank is funny"
             osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
         }
@@ -244,9 +244,9 @@ void EnDntNomal_TargetWait(EnDntNomal* this, GlobalContext* globalCtx) {
             scorePos.y = this->actor.world.pos.y + 20.0f;
             scorePos.z = this->actor.world.pos.z;
             EffectSsExtra_Spawn(globalCtx, &scorePos, &scoreVel, &scoreAccel, 4, 2);
-            Audio_StopSfx(NA_SE_SY_TRE_BOX_APPEAR);
+            Audio_StopSfxById(NA_SE_SY_TRE_BOX_APPEAR);
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-            // Big hit
+            // "Big hit"
             osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n" VT_RST, this->hitCounter);
             if (!LINK_IS_ADULT && !(gSaveContext.itemGetInf[1] & 0x2000)) {
                 this->hitCounter++;
@@ -331,16 +331,16 @@ void EnDntNomal_SetupTargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsTalkAnim);
     Animation_Change(&this->skelAnime, &gHintNutsTalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.textId = 0x10AF;
-    func_8010B680(globalCtx, this->actor.textId, NULL);
+    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     this->actionFunc = EnDntNomal_TargetTalk;
 }
 
 void EnDntNomal_TargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_80106CCC(globalCtx);
-        func_8005B1A4(ACTIVE_CAM);
-        ACTIVE_CAM->csId = 0;
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
+        GET_ACTIVE_CAM(globalCtx)->csId = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = EnDntNomal_SetupTargetGivePrize;
     }
@@ -521,7 +521,7 @@ void EnDntNomal_StageCelebrate(EnDntNomal* this, GlobalContext* globalCtx) {
         f32 dx = this->targetPos.x - this->actor.world.pos.x;
         f32 dz = this->targetPos.z - this->actor.world.pos.z;
 
-        if ((fabsf(dx) < 10.0f) && (fabsf(dz) < 10.0f) && func_8010BDBC(&globalCtx->msgCtx)) {
+        if ((fabsf(dx) < 10.0f) && (fabsf(dz) < 10.0f) && (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {
             this->action = DNT_ACTION_PRIZE;
             this->actionFunc = EnDntNomal_SetupStageDance;
             this->actor.speedXZ = 0.0f;
@@ -658,7 +658,7 @@ void EnDntNomal_SetupStageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
 }
 
 void EnDntNomal_StageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* nut;
     f32 frame = this->skelAnime.curFrame;
     f32 dz;

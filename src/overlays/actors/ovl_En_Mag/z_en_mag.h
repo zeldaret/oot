@@ -1,5 +1,5 @@
-#ifndef _Z_EN_MAG_H_
-#define _Z_EN_MAG_H_
+#ifndef Z_EN_MAG_H
+#define Z_EN_MAG_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -31,8 +31,6 @@ typedef struct EnMag {
     /* 0xE320 */ s32 unk_E320;
     /* 0xE324 */ char unk_E324[0x0004];
 } EnMag; // size = 0xE328
-
-extern const ActorInit En_Mag_InitVars;
 
 typedef enum {
     /* 0x00 */ MAG_STATE_INITIAL,

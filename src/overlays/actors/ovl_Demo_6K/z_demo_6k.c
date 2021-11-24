@@ -520,9 +520,9 @@ void func_80967DBC(Demo6K* this, GlobalContext* globalCtx) {
         }
 
         if (this->timer2 > 104) {
-            func_80967BF8(PLAYER, globalCtx);
+            func_80967BF8(GET_PLAYER(globalCtx), globalCtx);
             Actor_Kill(&this->actor);
-            Audio_PlayActorSound2(&PLAYER->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
+            Audio_PlayActorSound2(&GET_PLAYER(globalCtx)->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
         } else if (this->timer2 > 94) {
             Actor_SetScale(&this->actor, this->actor.scale.x + 0.03f);
 
@@ -695,7 +695,7 @@ void func_809688C4(Actor* thisx, GlobalContext* globalCtx2) {
 
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, 255);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
 
         for (i = 0; i < 16; i++) {
             gDPPipeSync(POLY_XLU_DISP++);
@@ -811,7 +811,7 @@ void func_809691BC(Demo6K* this, GlobalContext* globalCtx, s32 params) {
     endPos.y = csAction->endPos.y;
     endPos.z = csAction->endPos.z;
 
-    temp = func_8006F93C(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
+    temp = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
 
     this->actor.world.pos.x = (((endPos.x - startPos.x) * temp) + startPos.x);
     this->actor.world.pos.y = (((endPos.y - startPos.y) * temp) + startPos.y);

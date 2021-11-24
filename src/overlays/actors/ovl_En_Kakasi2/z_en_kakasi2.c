@@ -62,7 +62,7 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 spawnRangeXZ;
 
     osSyncPrintf("\n\n");
-    // Visit Umeda
+    // "Visit Umeda"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n" VT_RST);
 
     this->switchFlag = this->actor.params & 0x3F;
@@ -75,15 +75,15 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->maxSpawnDistance.x = (spawnRangeY * 40.0f) + 40.0f;
     this->maxSpawnDistance.y = (spawnRangeXZ * 40.0f) + 40.0f;
 
-    // Former? (Argument 0)
+    // "Former? (Argument 0)"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(引数０) ☆☆☆☆ %f\n" VT_RST, spawnRangeY);
-    // Former? (Z angle)
+    // "Former? (Z angle)"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(Ｚアングル) ☆☆ %f\n" VT_RST, spawnRangeXZ);
-    // Correction coordinates X
+    // "Correction coordinates X"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｘ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
-    // Correction coordinates Y
+    // "Correction coordinates Y"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｙ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.y);
-    // Correction coordinates Z
+    // "Correction coordinates Z"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｚ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.z);
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ SAVE       ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
     osSyncPrintf("\n\n");
@@ -114,7 +114,7 @@ void EnKakasi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_194++;
 
@@ -140,12 +140,12 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
                (gSaveContext.eventChkInf[9] & 0x1000)) {
 
         this->unk_194 = 0;
-        if (globalCtx->msgCtx.unk_E3EE == 11) {
+        if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_0B) {
             if (this->switchFlag >= 0) {
                 Flags_SetSwitch(globalCtx, this->switchFlag);
             }
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
-            globalCtx->msgCtx.unk_E3EE = 4;
+            globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
             this->actor.draw = func_80A90948;
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);

@@ -13,6 +13,7 @@ beginseg
     name "boot"
     address 0x80000460
     include "build/src/boot/boot_main.o"
+    include "build/data/unk_80009410.data.o"
     include "build/src/boot/idle.o"
     include "build/src/boot/viconfig.o"
     include "build/src/boot/z_std_dma.o"
@@ -133,7 +134,8 @@ endseg
 
 beginseg
     name "link_animetion"
-    include "build/baserom/link_animetion.o"
+    include "build/assets/misc/link_animetion/link_animetion.o"
+    number 7
 endseg
 
 beginseg
@@ -237,25 +239,29 @@ endseg
 beginseg
     name "nes_message_data_static"
     romalign 0x1000
-    include "build/baserom/nes_message_data_static.o"
+    include "build/assets/text/nes_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "ger_message_data_static"
     romalign 0x1000
-    include "build/baserom/ger_message_data_static.o"
+    include "build/assets/text/ger_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "fra_message_data_static"
     romalign 0x1000
-    include "build/baserom/fra_message_data_static.o"
+    include "build/assets/text/fra_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "staff_message_data_static"
     romalign 0x1000
-    include "build/baserom/staff_message_data_static.o"
+    include "build/assets/text/staff_message_data_static.o"
+    number 7
 endseg
 
 beginseg
@@ -320,8 +326,6 @@ beginseg
     include "build/src/code/z_kaleido_setup.o"
     include "build/src/code/z_kanfont.o"
     include "build/src/code/z_kankyo.o"
-    include "build/data/z_kankyo.data.o"
-    include "build/data/z_kankyo.bss.o"
     include "build/src/code/z_lib.o"
     include "build/src/code/z_lifemeter.o"
     include "build/src/code/z_lights.o"
@@ -354,13 +358,13 @@ beginseg
     include "build/src/code/z_ss_sram.o"
     include "build/src/code/code_800A9F30.o"
     include "build/data/z_text.data.o"
+    include "build/data/unk_8012ABC0.data.o"
     include "build/src/code/z_view.o"
     include "build/src/code/z_vimode.o"
     include "build/src/code/code_800ACE70.o"
     include "build/src/code/z_vismono.o"
     include "build/src/code/code_800AD920.o"
     include "build/src/code/z_vr_box.o"
-    include "build/data/z_vr_box.data.o"
     include "build/src/code/z_vr_box_draw.o"
     include "build/src/code/z_player_call.o"
     include "build/src/code/z_fbdemo.o"
@@ -395,7 +399,6 @@ beginseg
     include "build/src/code/sys_matrix.o"
     include "build/src/code/sys_ucode.o"
     include "build/src/code/code_800D2E30.o"
-    include "build/data/code_800D2E30.data.o"
     include "build/src/code/code_800D31A0.o"
     include "build/src/code/irqmgr.o"
     include "build/src/code/debug_malloc.o"
@@ -404,8 +407,9 @@ beginseg
     include "build/src/code/fault_drawer.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
+    pad_text // audio library aligned to 32 bytes?
+    include "build/src/code/audio_data.o"
     include "build/src/code/audio_synthesis.o"
-    include "build/data/audio_synthesis.data.o"
     include "build/src/code/audio_heap.o"
     include "build/src/code/audio_load.o"
     include "build/src/code/code_800E4FE0.o"
@@ -413,15 +417,14 @@ beginseg
     include "build/src/libultra_code_O2/osAiSetNextBuffer.o"
     include "build/src/code/audio_playback.o"
     include "build/src/code/audio_effects.o"
-    include "build/data/audio_effects.data.o"
     include "build/src/code/audio_seqplayer.o"
     include "build/src/code/code_800EC960.o"
-    include "build/data/code_800EC960.data.o"
+    include "build/src/code/audio_sound_params.o"
     include "build/src/code/code_800F7260.o"
     include "build/data/code_800F7260.bss.o"
     include "build/src/code/code_800F9280.o"
     include "build/data/code_800F9280.data.o"
-    include "build/src/code/audio_rodata.o"
+    include "build/src/code/audio_init_params.o"
     include "build/src/code/logseverity.o"
     include "build/src/code/gfxprint.o"
     include "build/src/code/code_800FBCE0.o"
@@ -508,9 +511,7 @@ beginseg
     include "build/src/code/code_801067F0.o"
     include "build/src/code/code_80106860.o"
     include "build/src/code/code_801068B0.o"
-    include "build/data/z_message_PAL.rodata.o"
-    include "build/src/code/z_message_PAL.o"
-    include "build/data/z_message_PAL.bss.o"
+    include_data_with_rodata "build/src/code/z_message_PAL.o"
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
@@ -546,13 +547,11 @@ endseg
 
 beginseg
     name "ovl_file_choose"
+    include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_data.o"
+    include "build/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_PAL.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.data.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.rodata.o"
-    include "build/data/overlays/gamestates/z_file_nameset_PAL.bss.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_choose.o"
-    include "build/data/overlays/gamestates/z_file_choose.rodata.o"
-    include "build/data/overlays/gamestates/z_file_choose.reloc.o"
+    include "build/src/overlays/gamestates/ovl_file_choose/ovl_file_choose_reloc.o"
 endseg
 
 beginseg
@@ -566,11 +565,7 @@ beginseg
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark_data.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
-#else
-    include "build/data/overlays/actors/z_kaleido_scope.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -864,8 +859,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Sekizou"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Sekizou/z_bg_hidan_sekizou.o"
-    include "build/data/overlays/actors/z_bg_hidan_sekizou.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_sekizou.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Sekizou/ovl_Bg_Hidan_Sekizou_reloc.o"
 endseg
 
 beginseg
@@ -949,11 +943,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Cobra"
     include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra_reloc.o"
-#else
-    include "build/data/overlays/actors/z_bg_jya_cobra.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -1025,11 +1015,7 @@ endseg
 beginseg
     name "ovl_Bg_Mizu_Movebg"
     include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/z_bg_mizu_movebg.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/ovl_Bg_Mizu_Movebg_reloc.o"
-#else
-    include "build/data/overlays/actors/z_bg_mizu_movebg.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -1395,11 +1381,7 @@ endseg
 beginseg
     name "ovl_Boss_Ganon2"
     include "build/src/overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Boss_Ganon2/ovl_Boss_Ganon2_reloc.o"
-#else
-    include "build/data/overlays/actors/z_boss_ganon2.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -1429,11 +1411,7 @@ endseg
 beginseg
     name "ovl_Boss_Tw"
     include "build/src/overlays/actors/ovl_Boss_Tw/z_boss_tw.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Boss_Tw/ovl_Boss_Tw_reloc.o"
-#else
-    include "build/data/overlays/actors/z_boss_tw.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -1579,9 +1557,7 @@ endseg
 beginseg
     name "ovl_Door_Warp1"
     include "build/src/overlays/actors/ovl_Door_Warp1/z_door_warp1.o"
-    include "build/data/overlays/actors/z_door_warp1.data.o"
-    include "build/data/overlays/actors/z_door_warp1.bss.o"
-    include "build/data/overlays/actors/z_door_warp1.reloc.o"
+    include "build/src/overlays/actors/ovl_Door_Warp1/ovl_Door_Warp1_reloc.o"
 endseg
 
 beginseg
@@ -2241,15 +2217,13 @@ endseg
 beginseg
     name "ovl_En_Ganon_Mant"
     include "build/src/overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.o"
-    include "build/data/overlays/actors/z_en_ganon_mant.data.o"
-    include "build/data/overlays/actors/z_en_ganon_mant.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ganon_Mant/ovl_En_Ganon_Mant_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Ganon_Organ"
     include "build/src/overlays/actors/ovl_En_Ganon_Organ/z_en_ganon_organ.o"
-    include "build/data/overlays/actors/z_en_ganon_organ.data.o"
-    include "build/data/overlays/actors/z_en_ganon_organ.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ_reloc.o"
 endseg
 
 beginseg
@@ -2555,11 +2529,7 @@ endseg
 beginseg
     name "ovl_En_M_Thunder"
     include "build/src/overlays/actors/ovl_En_M_Thunder/z_en_m_thunder.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_M_Thunder/ovl_En_M_Thunder_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_m_thunder.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2950,11 +2920,7 @@ endseg
 beginseg
     name "ovl_En_Torch2"
     include "build/src/overlays/actors/ovl_En_Torch2/z_en_torch2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Torch2/ovl_En_Torch2_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_torch2.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2966,11 +2932,7 @@ endseg
 beginseg
     name "ovl_En_Tp"
     include "build/src/overlays/actors/ovl_En_Tp/z_en_tp.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Tp/ovl_En_Tp_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_tp.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3048,8 +3010,7 @@ endseg
 beginseg
     name "ovl_En_Wf"
     include "build/src/overlays/actors/ovl_En_Wf/z_en_wf.o"
-    include "build/data/overlays/actors/z_en_wf.data.o"
-    include "build/data/overlays/actors/z_en_wf.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wf/ovl_En_Wf_reloc.o"
 endseg
 
 beginseg
@@ -3085,11 +3046,7 @@ endseg
 beginseg
     name "ovl_En_Yabusame_Mark"
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/z_en_yabusame_mark.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/ovl_En_Yabusame_Mark_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_yabusame_mark.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3101,9 +3058,7 @@ endseg
 beginseg
     name "ovl_En_Zf"
     include "build/src/overlays/actors/ovl_En_Zf/z_en_zf.o"
-    include "build/data/overlays/actors/z_en_zf.data.o"
-    include "build/data/overlays/actors/z_en_zf.bss.o"
-    include "build/data/overlays/actors/z_en_zf.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Zf/ovl_En_Zf_reloc.o"
 endseg
 
 beginseg
@@ -3368,8 +3323,7 @@ endseg
 beginseg
     name "ovl_Object_Kankyo"
     include "build/src/overlays/actors/ovl_Object_Kankyo/z_object_kankyo.o"
-    include "build/data/overlays/actors/z_object_kankyo.data.o"
-    include "build/data/overlays/actors/z_object_kankyo.reloc.o"
+    include "build/src/overlays/actors/ovl_Object_Kankyo/ovl_Object_Kankyo_reloc.o"
 endseg
 
 beginseg
@@ -6845,13 +6799,15 @@ endseg
 beginseg
     name "elf_message_field"
     romalign 0x1000
-    include "build/baserom/elf_message_field.o"
+    include "build/src/elf_message/elf_message_field.o"
+    number 0
 endseg
 
 beginseg
     name "elf_message_ydan"
     romalign 0x1000
-    include "build/baserom/elf_message_ydan.o"
+    include "build/src/elf_message/elf_message_ydan.o"
+    number 0
 endseg
 
 beginseg

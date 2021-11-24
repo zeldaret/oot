@@ -6,6 +6,7 @@
 
 #include "vt.h"
 #include "z_item_shield.h"
+#include "objects/object_link_child/object_link_child.h"
 
 #define FLAGS 0x00000010
 
@@ -18,8 +19,6 @@ void ItemShield_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80B86F68(ItemShield* this, GlobalContext* globalCtx);
 void func_80B86BC8(ItemShield* this, GlobalContext* globalCtx);
-
-extern Gfx D_060224F8[];
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -187,16 +186,16 @@ void func_80B86CA8(ItemShield* this, GlobalContext* globalCtx) {
 
 void func_80B86F68(ItemShield* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     MtxF* shield = &player->shieldMf;
 
-    this->actor.world.pos.x = shield->wx;
-    this->actor.world.pos.y = shield->wy;
-    this->actor.world.pos.z = shield->wz;
+    this->actor.world.pos.x = shield->xw;
+    this->actor.world.pos.y = shield->yw;
+    this->actor.world.pos.z = shield->zw;
     this->unk_19C &= ~2;
 
-    this->actor.shape.rot.y = Math_Atan2S(-shield->zz, -shield->zx);
-    this->actor.shape.rot.x = Math_Atan2S(-shield->zy, sqrtf(shield->zz * shield->zz + shield->zx * shield->zx));
+    this->actor.shape.rot.y = Math_Atan2S(-shield->zz, -shield->xz);
+    this->actor.shape.rot.x = Math_Atan2S(-shield->yz, sqrtf(shield->zz * shield->zz + shield->xz * shield->xz));
 
     if (ABS(this->actor.shape.rot.x) > 0x4000) {
         this->unk_19C |= 1;
@@ -226,7 +225,7 @@ void ItemShield_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_shield.c", 460),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(D_060224F8));
+        gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gLinkChildDekuShieldDL));
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_item_shield.c", 465);
     }
 }

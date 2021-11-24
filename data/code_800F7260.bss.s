@@ -30,37 +30,37 @@ glabel D_8016C820
 glabel D_8016C8B0
     .space 0xF0
 
-glabel D_8016C9A0
+glabel sSoundRequests
     .space 0x1800
 
-glabel D_8016E1A0
+glabel sSoundBankListEnd
     .space 0x8
 
-glabel D_8016E1A8
+glabel sSoundBankFreeListStart
     .space 0x8
 
-glabel D_8016E1B0
+glabel sSoundBankUnused
     .space 0x8
 
-glabel D_8016E1B8
+glabel gActiveSounds
     .space 0xA8
 
-glabel D_8016E260
+glabel sCurSfxPlayerChannelIdx
     .space 0x4
 
-glabel D_8016E264
+glabel gSoundBankMuted
     .space 0xC
 
-glabel D_8016E270
+glabel sUnusedBankLerp
     .space 0x70
 
-glabel D_8016E2E0
+glabel gAudioSfxSwapSource
     .space 0x18
 
-glabel D_8016E2F8
+glabel gAudioSfxSwapTarget
     .space 0x18
 
-glabel D_8016E310
+glabel gAudioSfxSwapMode
     .space 0x10
 
 glabel D_8016E320

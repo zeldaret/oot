@@ -1,5 +1,5 @@
-#ifndef _Z_EN_CHANGER_H_
-#define _Z_EN_CHANGER_H_
+#ifndef Z_EN_CHANGER_H
+#define Z_EN_CHANGER_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -23,7 +23,5 @@ typedef struct EnChanger {
     /* 0x0166 */ s16 timer;
     /* 0x0168 */ s16 roomChestsOpened;
 } EnChanger; // size = 0x016C
-
-extern const ActorInit En_Changer_InitVars;
 
 #endif

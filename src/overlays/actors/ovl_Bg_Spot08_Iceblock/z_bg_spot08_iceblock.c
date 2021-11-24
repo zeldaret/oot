@@ -41,7 +41,7 @@ void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockAction
 }
 
 void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                                   DynaPolyMoveFlag flags) {
+                                   s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -50,7 +50,7 @@ void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, GlobalContext* global
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // Warning: move BG registration failed
+        // "Warning: move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 0xD9,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -63,7 +63,7 @@ void BgSpot08Iceblock_CheckParams(BgSpot08Iceblock* this) {
             this->dyna.actor.params = 0x10;
             break;
         default:
-            // Error: arg_data setting error
+            // "Error: arg_data setting error"
             osSyncPrintf("Error : arg_data 設定ミスです。(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 0xF6,
                          this->dyna.actor.params);
             this->dyna.actor.params = 0x10;
@@ -174,7 +174,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     s32 rollDataIndex;
     MtxF mtx;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (this->dyna.actor.params & 0xFF) {
         case 0x11: // Medium nonrotating
@@ -286,7 +286,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot08Iceblock* this = THIS;
     CollisionHeader* colHeader;
 
-    // spot08 ice floe
+    // "spot08 ice floe"
     osSyncPrintf("(spot08 流氷)(arg_data 0x%04x)\n", this->dyna.actor.params);
     BgSpot08Iceblock_CheckParams(this);
 

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_NY_H_
-#define _Z_EN_NY_H_
+#ifndef Z_EN_NY_H
+#define Z_EN_NY_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -31,7 +31,5 @@ typedef struct EnNy {
     /* 0x01F4 */ f32 unk_1F4;
     /* 0x01F8 */ Vec3f unk_1F8[16];
 } EnNy; // size = 0x02B8
-
-extern const ActorInit En_Ny_InitVars;
 
 #endif

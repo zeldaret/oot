@@ -95,7 +95,7 @@ static DamageTable sDamageTable[] = {
 };
 
 void EnAnubice_Hover(EnAnubice* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->hoverVelocityTimer += 1500.0f;
     this->targetHeight = player->actor.world.pos.y + this->playerHeightOffset;
@@ -109,7 +109,7 @@ void EnAnubice_SetFireballRot(EnAnubice* this, GlobalContext* globalCtx) {
     f32 x;
     f32 y;
     f32 z;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     x = player->actor.world.pos.x - this->fireballPos.x;
     y = player->actor.world.pos.y + 10.0f - this->fireballPos.y;
@@ -128,7 +128,7 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
                    16);
 
     osSyncPrintf("\n\n");
-    // ☆☆☆☆☆ Anubis occurence ☆☆☆☆☆
+    // "☆☆☆☆☆ Anubis occurence ☆☆☆☆☆"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n" VT_RST);
 
     this->actor.naviEnemyId = 0x3A;
@@ -177,7 +177,7 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx) {
                     currentProp = currentProp->next;
                 } else {
                     this->flameCircles[flameCirclesFound] = (BgHidanCurtain*)currentProp;
-                    // ☆☆☆☆☆ How many fires? ☆☆☆☆☆
+                    // "☆☆☆☆☆ How many fires? ☆☆☆☆☆"
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n" VT_RST, flameCirclesFound);
                     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n" VT_RST,
                                  this->flameCircles[flameCirclesFound]);
@@ -204,7 +204,7 @@ void EnAnubice_SetupIdle(EnAnubice* this, GlobalContext* globalCtx) {
 }
 
 void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachZeroF(&this->actor.shape.yOffset, 0.5f, 300.0f);

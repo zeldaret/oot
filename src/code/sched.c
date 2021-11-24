@@ -46,10 +46,10 @@ void Sched_SwapFrameBuffer(CfbInfo* cfbInfo) {
             HREG(95) = 0xD;
         }
         if (HREG(80) == 0xD && HREG(81) == 2) {
-            osViSetSpecialFeatures(HREG(82) != 0 ? 1 : 2);
-            osViSetSpecialFeatures(HREG(83) != 0 ? 0x40 : 0x80);
-            osViSetSpecialFeatures(HREG(84) != 0 ? 0x4 : 0x8);
-            osViSetSpecialFeatures(HREG(85) != 0 ? 0x10 : 0x20);
+            osViSetSpecialFeatures(HREG(82) != 0 ? OS_VI_GAMMA_ON : OS_VI_GAMMA_OFF);
+            osViSetSpecialFeatures(HREG(83) != 0 ? OS_VI_DITHER_FILTER_ON : OS_VI_DITHER_FILTER_OFF);
+            osViSetSpecialFeatures(HREG(84) != 0 ? OS_VI_GAMMA_DITHER_ON : OS_VI_GAMMA_DITHER_OFF);
+            osViSetSpecialFeatures(HREG(85) != 0 ? OS_VI_DIVOT_ON : OS_VI_DIVOT_OFF);
         }
     }
     cfbInfo->unk_10 = 0;
@@ -87,7 +87,7 @@ void Sched_HandleReset(SchedContext* sc) {
             if (sc->curRDPTask != NULL) {
                 LOG_TIME("(((u64)(now - rdp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
                          OS_CYCLES_TO_USEC(now - sRDPStartTime), "../sched.c", 431);
-                osSendMesg(&sc->interruptQ, RDP_DONE_MSG, 0);
+                osSendMesg(&sc->interruptQ, RDP_DONE_MSG, OS_MESG_NOBLOCK);
             }
         }
     }
@@ -106,7 +106,7 @@ void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
 
     if (type == M_AUDTASK) {
         if (sLogScheduler) {
-            // You have entered an audio task
+            // "You have entered an audio task"
             osSyncPrintf("オーディオタスクをエントリしました\n");
         }
         if (sc->audioListTail != NULL) {
@@ -118,8 +118,7 @@ void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
         sc->doAudio = 1;
     } else {
         if (sLogScheduler) {
-            // Entered graph task
-            osSyncPrintf("グラフタスクをエントリしました\n");
+            osSyncPrintf("グラフタスクをエントリしました\n"); // "Entered graph task"
         }
 
         if (sc->gfxListTail != NULL) {
@@ -437,7 +436,7 @@ void Sched_ThreadEntry(void* arg) {
 
     while (true) {
         if (sLogScheduler) {
-            // %08d: standby
+            // "%08d: standby"
             osSyncPrintf("%08d:待機中\n", (u32)OS_CYCLES_TO_USEC(osGetTime()));
         }
 

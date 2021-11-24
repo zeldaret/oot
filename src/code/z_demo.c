@@ -1,6 +1,33 @@
 #include "global.h"
 #include "z64camera.h"
+
+#include "scenes/indoors/tokinoma/tokinoma_scene.h"
+#include "scenes/overworld/spot00/spot00_scene.h"
+#include "scenes/overworld/spot01/spot01_scene.h"
+#include "scenes/overworld/spot02/spot02_scene.h"
+#include "scenes/overworld/spot04/spot04_scene.h"
+#include "scenes/overworld/spot05/spot05_scene.h"
+#include "scenes/overworld/spot06/spot06_scene.h"
+#include "scenes/overworld/spot07/spot07_scene.h"
+#include "scenes/overworld/spot08/spot08_scene.h"
+#include "scenes/overworld/spot09/spot09_scene.h"
+#include "scenes/overworld/spot11/spot11_scene.h"
+#include "scenes/overworld/spot12/spot12_scene.h"
+#include "scenes/overworld/spot15/spot15_scene.h"
+#include "scenes/overworld/spot16/spot16_scene.h"
+#include "scenes/overworld/spot17/spot17_scene.h"
+#include "scenes/overworld/spot18/spot18_scene.h"
+#include "scenes/overworld/spot20/spot20_scene.h"
+
+#include "scenes/dungeons/bdan/bdan_scene.h"
+#include "scenes/dungeons/ddan/ddan_scene.h"
+#include "scenes/dungeons/ydan/ydan_scene.h"
 #include "scenes/dungeons/ganontika/ganontika_scene.h"
+#include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
+#include "scenes/dungeons/jyasinboss/jyasinboss_scene.h"
+#include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
+
+#include "scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;
@@ -24,31 +51,54 @@ CutsceneStateHandler sCsStateHandlers2[] = {
 
 u8 sTitleCsState = 0;
 
-// TODO: use symbols for these cutscene locations once scenes and rooms are in C
 EntranceCutscene sEntranceCutsceneTable[] = {
-    { 0x0185, 2, 0xA0, 0x02013AA0 },       { 0x013D, 2, 0xA1, 0x02007EA0 },      { 0x00DB, 2, 0xA3, 0x0200A540 },
-    { 0x0108, 2, 0xA4, 0x02003D70 },       { 0x0138, 1, 0xA5, 0x02003F40 },      { 0x014D, 2, 0xA6, 0x02008400 },
-    { 0x0053, 2, 0xA7, 0x0200CE00 },       { 0x0000, 2, 0xA8, 0x0200B650 },      { 0x028A, 0, 0x18, 0x0200F9E0 },
-    { 0x0292, 0, 0x18, 0x0200FF00 },       { 0x028E, 0, 0x18, 0x02010550 },      { 0x0476, 0, 0x18, 0x02010B30 },
-    { 0x050F, 1, 0xA9, 0x0200BB80 },       { 0x0102, 2, 0xB1, 0x02007A30 },      { 0x0117, 2, 0xB2, 0x020031E0 },
-    { 0x0129, 2, 0xB3, 0x02006490 },       { 0x0157, 2, 0xB4, 0x02005BD0 },      { 0x0028, 2, 0xB5, 0x02015600 },
-    { 0x00E4, 2, 0xB6, 0x020070C0 },       { 0x0225, 2, 0xB7, 0x02004A80 },      { 0x0123, 2, 0xB8, 0x02007990 },
-    { 0x0147, 2, 0xB9, 0x020076D0 },       { 0x0138, 0, 0xBA, 0x02004280 },      { 0x0574, 2, 0x5A, 0x020028E0 },
-    { 0x0538, 2, 0xBB, gForestBarrierCs }, { 0x053C, 2, 0xBC, gWaterBarrierCs }, { 0x0540, 2, 0xBD, gShadowBarrierCs },
-    { 0x0544, 2, 0xBE, gFireBarrierCs },   { 0x0548, 2, 0xBF, gLightBarrierCs }, { 0x054C, 2, 0xAD, gSpiritBarrierCs },
-    { 0x008D, 0, 0xC0, 0x02002BB0 },       { 0x03B4, 0, 0xC7, 0x020055C0 },      { 0x0246, 2, 0xB9, 0x020076D0 },
-    { 0x05E8, 2, 0xC6, 0x0200C9D0 },
+    { 0x0185, 2, 0xA0, gHyruleFieldIntroCs },
+    { 0x013D, 2, 0xA1, gDMTIntroCs },
+    { 0x00DB, 2, 0xA3, gKakarikoVillageIntroCs },
+    { 0x0108, 2, 0xA4, gZorasDomainIntroCs },
+    { 0x0138, 1, 0xA5, gHyruleCastleIntroCs },
+    { 0x014D, 2, 0xA6, gGoronCityIntroCs },
+    { 0x0053, 2, 0xA7, gTempleOfTimeIntroCs },
+    { 0x0000, 2, 0xA8, gDekuTreeIntroCs },
+    { 0x028A, 0, 0x18, gHyruleFieldSouthEponaJumpCs },
+    { 0x0292, 0, 0x18, gHyruleFieldEastEponaJumpCs },
+    { 0x028E, 0, 0x18, gHyruleFieldWestEponaJumpCs },
+    { 0x0476, 0, 0x18, gHyruleFieldGateEponaJumpCs },
+    { 0x050F, 1, 0xA9, gHyruleFieldGetOoTCs },
+    { 0x0102, 2, 0xB1, gLakeHyliaIntroCs },
+    { 0x0117, 2, 0xB2, gGerudoValleyIntroCs },
+    { 0x0129, 2, 0xB3, gGerudoFortressIntroCs },
+    { 0x0157, 2, 0xB4, gLonLonRanchIntroCs },
+    { 0x0028, 2, 0xB5, gJabuJabuIntroCs },
+    { 0x00E4, 2, 0xB6, gGraveyardIntroCs },
+    { 0x0225, 2, 0xB7, gZorasFountainIntroCs },
+    { 0x0123, 2, 0xB8, gDesertColossusIntroCs },
+    { 0x0147, 2, 0xB9, gDeathMountainCraterIntroCs },
+    { 0x0138, 0, 0xBA, gGanonsCastleIntroCs },
+    { 0x0574, 2, 0x5A, gSunSongGraveSunSongTeachPart2Cs },
+    { 0x0538, 2, 0xBB, gForestBarrierCs },
+    { 0x053C, 2, 0xBC, gWaterBarrierCs },
+    { 0x0540, 2, 0xBD, gShadowBarrierCs },
+    { 0x0544, 2, 0xBE, gFireBarrierCs },
+    { 0x0548, 2, 0xBF, gLightBarrierCs },
+    { 0x054C, 2, 0xAD, gSpiritBarrierCs },
+    { 0x008D, 0, 0xC0, gSpiritBossNabooruKnuckleIntroCs },
+    { 0x03B4, 0, 0xC7, gGerudoFortressFirstCaptureCs },
+    { 0x0246, 2, 0xB9, gDeathMountainCraterIntroCs },
+    { 0x05E8, 2, 0xC6, gKokiriForestDekuSproutCs },
 };
 
 // Unused, seems to be an early list of dungeon entrance cutscene locations
-u32 D_8011E304[] = { 0x0200B650, 0x02015600, 0x02014F80, 0x02003F80, 0x02000330, gTowerBarrierCs };
+void* D_8011E304[] = {
+    gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
+};
 
 u16 D_8015FCC0;
 u16 D_8015FCC2;
 u16 D_8015FCC4;
 s16 D_8015FCC6;
 u8 D_8015FCC8;
-s16 D_8015FCCA;
+s16 sQuakeIndex;
 u16 D_8015FCCC;      // only written to, never read
 char D_8015FCD0[20]; // unreferenced
 u8 D_8015FCE4;       // only written to, never read
@@ -98,16 +148,16 @@ void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 }
 
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
-    Input* pad1 = &globalCtx->state.input[0];
+    Input* input = &globalCtx->state.input[0];
 
-    if (CHECK_BTN_ALL(pad1->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) &&
+    if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) &&
         (gSaveContext.sceneSetupIndex >= 4)) {
         D_8015FCC8 = 0;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
     }
 
-    if (CHECK_BTN_ALL(pad1->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
+    if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
         (gSaveContext.sceneSetupIndex >= 4) && !gDbgCamEnabled) {
         D_8015FCC8 = 1;
         gSaveContext.cutsceneIndex = 0xFFFD;
@@ -119,8 +169,7 @@ void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     }
 
     if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE)) {
-        // Translates to: "CUTSCENE START REQUEST ANNOUNCEMENT!"
-        osSyncPrintf("\nデモ開始要求 発令！");
+        osSyncPrintf("\nデモ開始要求 発令！"); // "Cutscene start request announcement!"
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
     }
@@ -143,7 +192,7 @@ void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
-        func_800F68BC(1);
+        Audio_SetCutsceneFlag(1);
         csCtx->state++;
     }
 }
@@ -154,24 +203,22 @@ void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
-        func_800F68BC(1);
+        Audio_SetCutsceneFlag(1);
         csCtx->state++;
     }
 }
 
 // Command 3: Misc. Actions
 void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp;
-    u8 sp3F;
-
-    sp3F = 0;
+    u8 sp3F = 0;
 
     if ((csCtx->frames < cmd->startFrame) || ((csCtx->frames >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame))) {
         return;
     }
 
-    temp = func_8006F93C(cmd->endFrame - 1, cmd->startFrame, csCtx->frames);
+    temp = Environment_LerpWeight(cmd->endFrame - 1, cmd->startFrame, csCtx->frames);
 
     if (csCtx->frames == cmd->startFrame) {
         sp3F = 1;
@@ -182,15 +229,14 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 func_800F6D58(0xE, 4, 0x3F);
                 func_800F6D58(0xE, 1, 1);
-                globalCtx->envCtx.unk_EE[0] = 0x14;
+                globalCtx->envCtx.unk_EE[0] = 20;
             }
             break;
         case 2:
             if (sp3F != 0) {
                 func_800F6D58(0xF, 0, 0);
-                func_800753C4(globalCtx, 3);
-                if (1) {}
-                D_8015FD70 = 1;
+                Environment_AddLightningBolts(globalCtx, 3);
+                gLightningStrike.state = LIGHTNING_STRIKE_START;
             }
             break;
         case 3:
@@ -202,14 +248,14 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 6:
-            if (globalCtx->envCtx.unk_A0 < 0x3200) {
-                globalCtx->envCtx.unk_A0 += 0x23;
+            if (globalCtx->envCtx.adjFogFar < 12800) {
+                globalCtx->envCtx.adjFogFar += 35;
             }
             break;
         case 7:
             if (sp3F != 0) {
                 globalCtx->envCtx.unk_19 = 1;
-                globalCtx->envCtx.gloomySky = 1;
+                globalCtx->envCtx.unk_17 = 1;
                 globalCtx->envCtx.unk_18 = 0;
                 globalCtx->envCtx.unk_1A = 0x3C;
                 globalCtx->envCtx.unk_21 = 1;
@@ -224,7 +270,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 9:
-            globalCtx->envCtx.unk_EE[3] = 0x10;
+            globalCtx->envCtx.unk_EE[3] = 16;
             break;
         case 10:
             Flags_SetEnv(globalCtx, 1);
@@ -267,25 +313,25 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 16:
             if (sp3F != 0) {
-                D_8015FCCA = Quake_Add(ACTIVE_CAM, 6);
-                Quake_SetSpeed(D_8015FCCA, 0x7FFF);
-                Quake_SetQuakeValues(D_8015FCCA, 4, 0, 1000, 0);
-                Quake_SetCountdown(D_8015FCCA, 800);
+                sQuakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 6);
+                Quake_SetSpeed(sQuakeIndex, 0x7FFF);
+                Quake_SetQuakeValues(sQuakeIndex, 4, 0, 1000, 0);
+                Quake_SetCountdown(sQuakeIndex, 800);
             }
             break;
         case 17:
             if (sp3F != 0) {
-                Quake_RemoveFromIdx(D_8015FCCA);
+                Quake_RemoveFromIdx(sQuakeIndex);
             }
             break;
         case 18:
             globalCtx->envCtx.unk_EE[0] = 0;
-            globalCtx->envCtx.gloomySkyEvent = 2;
+            globalCtx->envCtx.gloomySkyMode = 2;
             if (gSaveContext.dayTime < 0x4AAB) {
                 gSaveContext.dayTime += 30;
             }
             if (globalCtx->envCtx.unk_EE[1] == 0) {
-                D_8011FB30 = 0;
+                gWeatherMode = 0;
                 func_800F6D58(14, 1, 0);
             }
             break;
@@ -332,16 +378,16 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 27:
             if (globalCtx->state.frames & 8) {
-                if (globalCtx->envCtx.unk_8C[0][0] < 40) {
-                    globalCtx->envCtx.unk_8C[0][0] += 2;
-                    globalCtx->envCtx.unk_8C[1][1] -= 3;
-                    globalCtx->envCtx.unk_8C[1][2] -= 3;
+                if (globalCtx->envCtx.adjAmbientColor[0] < 40) {
+                    globalCtx->envCtx.adjAmbientColor[0] += 2;
+                    globalCtx->envCtx.adjLight1Color[1] -= 3;
+                    globalCtx->envCtx.adjLight1Color[2] -= 3;
                 }
             } else {
-                if (globalCtx->envCtx.unk_8C[0][0] > 2) {
-                    globalCtx->envCtx.unk_8C[0][0] -= 2;
-                    globalCtx->envCtx.unk_8C[1][1] += 3;
-                    globalCtx->envCtx.unk_8C[1][2] += 3;
+                if (globalCtx->envCtx.adjAmbientColor[0] > 2) {
+                    globalCtx->envCtx.adjAmbientColor[0] -= 2;
+                    globalCtx->envCtx.adjLight1Color[1] += 3;
+                    globalCtx->envCtx.adjLight1Color[2] += 3;
                 }
             }
             break;
@@ -359,18 +405,18 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 32:
             if (sp3F != 0) {
-                globalCtx->envCtx.unk_E6 = 1;
+                globalCtx->envCtx.sandstormState = 1;
             }
             func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
         case 33:
-            gSaveContext.unk_1422 = 1;
+            gSaveContext.sunsSongState = SUNSSONG_START;
             break;
         case 34:
             if (IS_DAY) {
-                gSaveContext.dayTime -= D_8011FB40;
+                gSaveContext.dayTime -= gTimeIncrement;
             } else {
-                gSaveContext.dayTime -= D_8011FB40 * 2;
+                gSaveContext.dayTime -= gTimeIncrement * 2;
             }
             break;
         case 35:
@@ -434,13 +480,13 @@ void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTim
         temp2 = (cmd->minute + 1) / (360.0f / 0x4000);
 
         gSaveContext.dayTime = temp1 + temp2;
-        gSaveContext.environmentTime = temp1 + temp2;
+        gSaveContext.skyboxTime = temp1 + temp2;
     }
 }
 
 // Command 0x3E8: Code Execution (& Terminates Cutscene?)
 void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 temp = 0;
 
     if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3) && (globalCtx->sceneNum != SCENE_SPOT00) &&
@@ -457,11 +503,10 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
         ((csCtx->frames > 20) && CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_START) &&
          (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_UNSKIPPABLE_EXEC;
-        func_800F68BC(0);
+        Audio_SetCutsceneFlag(0);
         gSaveContext.unk_1410 = 1;
 
-        // Translates to: "FUTURE FORK DESIGNATION=No. [%d]"
-        osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->base);
+        osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->base); // "Future fork designation=No. [%d]"
 
         if ((gSaveContext.gameMode != 0) && (csCtx->frames != cmd->startFrame)) {
             gSaveContext.unk_13E7 = 1;
@@ -781,7 +826,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 54:
                 gSaveContext.gameMode = 3;
-                func_800F7260(0x6F);
+                Audio_SetSoundBanksMute(0x6F);
                 globalCtx->linkAgeOnLoad = 1;
                 globalCtx->nextEntranceIndex = 0x0117;
                 gSaveContext.cutsceneIndex = 0xFFF2;
@@ -1161,7 +1206,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 117:
                 gSaveContext.gameMode = 3;
-                func_800F7260(0x6F);
+                Audio_SetSoundBanksMute(0x6F);
                 globalCtx->linkAgeOnLoad = 0;
                 globalCtx->nextEntranceIndex = 0x00CD;
                 gSaveContext.cutsceneIndex = 0xFFF7;
@@ -1176,7 +1221,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 119:
                 gSaveContext.dayTime = 0x8000;
-                gSaveContext.environmentTime = 0x8000;
+                gSaveContext.skyboxTime = 0x8000;
                 globalCtx->nextEntranceIndex = 0x05F0;
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->fadeTransition = 3;
@@ -1190,17 +1235,17 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
     f32 temp;
 
     if ((csCtx->frames >= cmd->startFrame) && (csCtx->frames <= cmd->endFrame)) {
-        globalCtx->envCtx.unk_E1 = 1;
-        temp = func_8006F93C(cmd->endFrame, cmd->startFrame, csCtx->frames);
+        globalCtx->envCtx.fillScreen = true;
+        temp = Environment_LerpWeight(cmd->endFrame, cmd->startFrame, csCtx->frames);
 
         switch (cmd->base) {
             case 1:
             case 5:
-                globalCtx->envCtx.unk_E2[0] = 0xA0;
-                globalCtx->envCtx.unk_E2[1] = 0xA0;
-                globalCtx->envCtx.unk_E2[2] = 0xA0;
+                globalCtx->envCtx.screenFillColor[0] = 160;
+                globalCtx->envCtx.screenFillColor[1] = 160;
+                globalCtx->envCtx.screenFillColor[2] = 160;
                 if (cmd->base == 1) {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                     if ((temp == 0.0f) && (gSaveContext.entranceIndex == 0x006B)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_WHITE_OUT_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
@@ -1213,40 +1258,40 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                         func_800788CC(NA_SE_EV_WHITE_OUT);
                     }
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 }
                 break;
             case 2:
             case 6:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0xFF;
+                globalCtx->envCtx.screenFillColor[0] = 0;
+                globalCtx->envCtx.screenFillColor[1] = 0;
+                globalCtx->envCtx.screenFillColor[2] = 255;
                 if (cmd->base == 2) {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 }
                 break;
             case 3:
             case 7:
-                globalCtx->envCtx.unk_E2[0] = 0xFF;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0;
+                globalCtx->envCtx.screenFillColor[0] = 255;
+                globalCtx->envCtx.screenFillColor[1] = 0;
+                globalCtx->envCtx.screenFillColor[2] = 0;
                 if (cmd->base == 3) {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
             case 4:
             case 8:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0xFF;
-                globalCtx->envCtx.unk_E2[2] = 0;
+                globalCtx->envCtx.screenFillColor[0] = 0;
+                globalCtx->envCtx.screenFillColor[1] = 255;
+                globalCtx->envCtx.screenFillColor[2] = 0;
                 if (cmd->base == 4) {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
             case 9:
@@ -1254,23 +1299,23 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                 break;
             case 10:
             case 11:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0;
+                globalCtx->envCtx.screenFillColor[0] = 0;
+                globalCtx->envCtx.screenFillColor[1] = 0;
+                globalCtx->envCtx.screenFillColor[2] = 0;
                 if (cmd->base == 10) {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
             case 12:
                 gSaveContext.unk_1410 = 255.0f - (155.0f * temp);
                 break;
             case 13:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0;
-                globalCtx->envCtx.unk_E2[3] = 255.0f - ((1.0f - temp) * 155.0f);
+                globalCtx->envCtx.screenFillColor[0] = 0;
+                globalCtx->envCtx.screenFillColor[1] = 0;
+                globalCtx->envCtx.screenFillColor[2] = 0;
+                globalCtx->envCtx.screenFillColor[3] = 255.0f - ((1.0f - temp) * 155.0f);
                 break;
         }
     }
@@ -1292,12 +1337,12 @@ s32 Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContext* 
         if (csCtx->unk_1A != 0) {
             csCtx->unk_18 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_DEMO0);
+                Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_CS_0);
                 Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus,
-                                   csCtx->cameraPosition, PLAYER, relativeToLink);
+                                   csCtx->cameraPosition, GET_PLAYER(globalCtx), relativeToLink);
             }
         }
     }
@@ -1329,12 +1374,12 @@ s32 Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCt
         if (csCtx->unk_1B != 0) {
             D_8015FCC0 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_DEMO0);
+                Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_CS_0);
                 Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus,
-                                   csCtx->cameraPosition, PLAYER, relativeToLink);
+                                   csCtx->cameraPosition, GET_PLAYER(globalCtx), relativeToLink);
             }
         }
     }
@@ -1444,11 +1489,11 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
             if (D_8011E1C0 != cmd->base) {
                 D_8011E1C0 = cmd->base;
                 if ((cmd->type == 3) && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-                    func_8010B680(globalCtx, cmd->textId1, NULL);
+                    Message_StartTextbox(globalCtx, cmd->textId1, NULL);
                 } else if ((cmd->type == 4) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-                    func_8010B680(globalCtx, cmd->textId1, NULL);
+                    Message_StartTextbox(globalCtx, cmd->textId1, NULL);
                 } else {
-                    func_8010B680(globalCtx, cmd->base, NULL);
+                    Message_StartTextbox(globalCtx, cmd->base, NULL);
                 }
                 return;
             }
@@ -1462,37 +1507,38 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
 
         if (csCtx->frames >= cmd->endFrame) {
             originalCsFrames = csCtx->frames;
-            dialogState = func_8010BDBC(&globalCtx->msgCtx);
+            dialogState = Message_GetState(&globalCtx->msgCtx);
 
-            if ((dialogState != 2) && (dialogState != 0) && (dialogState != 7) && (dialogState != 8)) {
+            if ((dialogState != TEXT_STATE_CLOSING) && (dialogState != TEXT_STATE_NONE) &&
+                (dialogState != TEXT_STATE_SONG_DEMO_DONE) && (dialogState != TEXT_STATE_8)) {
                 csCtx->frames--;
 
-                if ((dialogState == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if ((dialogState == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         if (cmd->textId1 != 0xFFFF) {
-                            func_8010B720(globalCtx, cmd->textId1);
+                            Message_ContinueTextbox(globalCtx, cmd->textId1);
                         } else {
                             csCtx->frames++;
                         }
                     } else {
                         if (cmd->textId2 != 0xFFFF) {
-                            func_8010B720(globalCtx, cmd->textId2);
+                            Message_ContinueTextbox(globalCtx, cmd->textId2);
                         } else {
                             csCtx->frames++;
                         }
                     }
                 }
 
-                if (dialogState == 9) {
+                if (dialogState == TEXT_STATE_9) {
                     if (cmd->textId1 != 0xFFFF) {
-                        func_8010B720(globalCtx, cmd->textId1);
+                        Message_ContinueTextbox(globalCtx, cmd->textId1);
                     } else {
                         csCtx->frames++;
                     }
                 }
 
-                if (dialogState == 5) {
-                    if (func_80106BC8(globalCtx) != 0) {
+                if (dialogState == TEXT_STATE_EVENT) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         func_8010BD58(globalCtx, cmd->base);
                     }
                 }
@@ -1887,7 +1933,7 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
 void func_80068D84(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     if (func_8006472C(globalCtx, csCtx, 0.0f)) {
-        func_800F68BC(0);
+        Audio_SetCutsceneFlag(0);
         csCtx->state = CS_STATE_IDLE;
     }
 }
@@ -1902,8 +1948,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
             csCtx->npcActions[i] = NULL;
         }
 
-        // Translates to: "RIGHT HERE, HUH"
-        osSyncPrintf("\n\n\n\n\nやっぱりここかいな");
+        osSyncPrintf("\n\n\n\n\nやっぱりここかいな"); // "Right here, huh"
         gSaveContext.cutsceneIndex = 0;
         gSaveContext.gameMode = 0;
 
@@ -1921,7 +1966,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
             func_8005B1A4(globalCtx->cameraPtrs[D_8015FCC6]);
         }
 
-        func_800F68BC(0);
+        Audio_SetCutsceneFlag(0);
         csCtx->state = CS_STATE_IDLE;
     }
 }
@@ -1948,7 +1993,7 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         csCtx->state++;
 
         if (csCtx->state == CS_STATE_SKIPPABLE_INIT) {
-            func_800F68BC(1);
+            Audio_SetCutsceneFlag(1);
 
             csCtx->frames = 0xFFFF;
             csCtx->unk_18 = 0xFFFF;
@@ -2052,10 +2097,10 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
     }
 }
 
-void Cutscene_SetSegment(GlobalContext* globalCtx, u32 segment) {
+void Cutscene_SetSegment(GlobalContext* globalCtx, void* segment) {
     if (SEGMENT_NUMBER(segment) != 0) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(segment);
     } else {
-        globalCtx->csCtx.segment = (void*)segment;
+        globalCtx->csCtx.segment = segment;
     }
 }

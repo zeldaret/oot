@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DIVING_GAME_H_
-#define _Z_EN_DIVING_GAME_H_
+#ifndef Z_EN_DIVING_GAME_H
+#define Z_EN_DIVING_GAME_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -48,8 +48,6 @@ typedef struct EnDivingGame {
     /* 0x0324 */ struct_80034A14_arg1 unk_324;
     /* 0x034C */ ColliderCylinder collider;
 } EnDivingGame; // size = 0x0398
-
-extern const ActorInit En_Diving_Game_InitVars;
 
 typedef enum {
     /* 0 */ ENDIVINGGAME_PHASE_ENDED,

@@ -115,7 +115,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 tagIndex;
 
     osSyncPrintf("\n\n");
-    // Mysterious mystery, very mysterious
+    // "Mysterious mystery, very mysterious"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
     this->actor.flags &= ~1;
 
@@ -202,7 +202,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 prevTagFlags = this->tagFlags;
     s32 i;
     s32 mask;
@@ -239,7 +239,7 @@ void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_ProximityDrop(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.xzDistToPlayer < 50.0f) && (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {
         EnWonderItem_DropCollectible(this, globalCtx, true);
@@ -254,7 +254,7 @@ void EnWonderItem_InteractSwitch(EnWonderItem* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_ProximitySwitch(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.xzDistToPlayer < 50.0f) && (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {
         if (this->switchFlag >= 0) {
@@ -265,7 +265,7 @@ void EnWonderItem_ProximitySwitch(EnWonderItem* this, GlobalContext* globalCtx) 
 }
 
 void EnWonderItem_MultitagOrdered(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 prevTagFlags = this->tagFlags;
     s32 i;
     s32 mask;
@@ -311,7 +311,7 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx) {
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HEISHI2, this->actor.world.pos.x,
                         this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0,
                         9) != NULL) {
-            // Careless soldier spawned
+            // "Careless soldier spawned"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n" VT_RST);
         }
         if (this->switchFlag >= 0) {
@@ -322,7 +322,7 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_RollDrop(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.xzDistToPlayer < 50.0f) && (player->invincibilityTimer < 0) &&
         (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {

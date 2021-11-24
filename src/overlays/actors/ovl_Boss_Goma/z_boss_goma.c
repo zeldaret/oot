@@ -2,6 +2,7 @@
 #include "objects/object_goma/object_goma.h"
 #include "overlays/actors/ovl_En_Goma/z_en_goma.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #define FLAGS 0x00000035
 
@@ -361,7 +362,7 @@ void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, -640.0f, 0.0f, 0, 0,
-                           0, 0);
+                           0, WARP_DUNGEON_CHILD);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 141.0f, -640.0f, -84.0f, 0, 0, 0, 0);
     }
 }
@@ -625,7 +626,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
     Camera* camera;
 
     camera = Gameplay_GetCamera(globalCtx, 0);
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->actionState = 4;
     this->actor.flags |= 1;
     func_80064520(globalCtx, &globalCtx->csCtx);
@@ -646,7 +647,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
     player->actor.world.pos.z = 300.0f;
 
     player->actor.world.rot.y = player->actor.shape.rot.y = -0x705C;
-    this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) + 0x8000;
+    this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000;
 
     // room entrance, closer to room center
     this->subCameraEye.x = 90.0f;
@@ -671,7 +672,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
  */
 void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
     Camera* cam;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad[2];
 
     Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
@@ -779,7 +780,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                 this->lookedAtFrames++;
                 Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
                 Math_ApproachS(&this->actor.world.rot.y,
-                               Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) + 0x8000, 2, 0xBB8);
+                               Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000, 2,
+                               0xBB8);
                 this->eyeLidBottomRotX = this->eyeLidTopRotX = this->eyeIrisRotX = this->eyeIrisRotY = 0;
             } else {
                 this->lookedAtFrames = 0;
@@ -879,7 +881,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             this->subCameraAt.z = this->actor.world.pos.z;
             SkelAnime_Update(&this->skelanime);
             Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-            Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 2, 0x7D0);
+            Math_ApproachS(&this->actor.world.rot.y,
+                           Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
 
             if (this->actor.bgCheckFlags & 1) {
                 this->actionState = 130;
@@ -901,7 +904,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->subCameraEye.z, this->actor.world.pos.z + 45.0f + 40.0f, 0.1f,
                            this->subCameraFollowSpeed * 30.0f);
             Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-            Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 2, 0x7D0);
+            Math_ApproachS(&this->actor.world.rot.y,
+                           Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
             SkelAnime_Update(&this->skelanime);
             this->subCameraAt.x = this->actor.world.pos.x;
             this->subCameraAt.z = this->actor.world.pos.z;
@@ -921,7 +925,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                                            SEGMENTED_TO_VIRTUAL(gGohmaTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
 
-                Audio_QueueSeqCmd(0x1B);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
                 gSaveContext.eventChkInf[7] |= 1;
             }
 
@@ -988,7 +992,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
     Vec3f accel2 = { 0.0f, -0.5f, 0.0f };
     Vec3f pos;
     Camera* camera;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f childPos;
     s16 i;
 
@@ -1106,7 +1110,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
             Math_SmoothStepToF(&this->subCameraAt.z, this->firstTailLimbWorldPos.z, 0.2f, 50.0f, 0.1f);
 
             if (this->timer == 80) {
-                Audio_QueueSeqCmd(0x21);
+                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
             }
 
             if (this->timer == 0) {
@@ -1148,7 +1152,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
                 }
 
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, childPos.x,
-                                   this->actor.world.pos.y, childPos.z, 0, 0, 0, 0);
+                                   this->actor.world.pos.y, childPos.z, 0, 0, 0, WARP_DUNGEON_CHILD);
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }
 
@@ -1194,57 +1198,57 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
     if (this->blinkTimer != 0) {
         this->blinkTimer--;
-        globalCtx->envCtx.unk_8C[0][0] += 40;
-        globalCtx->envCtx.unk_8C[0][1] += 40;
-        globalCtx->envCtx.unk_8C[0][2] += 80;
-        globalCtx->envCtx.unk_8C[2][0] += 10;
-        globalCtx->envCtx.unk_8C[2][1] += 10;
-        globalCtx->envCtx.unk_8C[2][2] += 20;
+        globalCtx->envCtx.adjAmbientColor[0] += 40;
+        globalCtx->envCtx.adjAmbientColor[1] += 40;
+        globalCtx->envCtx.adjAmbientColor[2] += 80;
+        globalCtx->envCtx.adjFogColor[0] += 10;
+        globalCtx->envCtx.adjFogColor[1] += 10;
+        globalCtx->envCtx.adjFogColor[2] += 20;
     } else {
-        globalCtx->envCtx.unk_8C[0][0] -= 20;
-        globalCtx->envCtx.unk_8C[0][1] -= 20;
-        globalCtx->envCtx.unk_8C[0][2] -= 40;
-        globalCtx->envCtx.unk_8C[2][0] -= 5;
-        globalCtx->envCtx.unk_8C[2][1] -= 5;
-        globalCtx->envCtx.unk_8C[2][2] -= 10;
+        globalCtx->envCtx.adjAmbientColor[0] -= 20;
+        globalCtx->envCtx.adjAmbientColor[1] -= 20;
+        globalCtx->envCtx.adjAmbientColor[2] -= 40;
+        globalCtx->envCtx.adjFogColor[0] -= 5;
+        globalCtx->envCtx.adjFogColor[1] -= 5;
+        globalCtx->envCtx.adjFogColor[2] -= 10;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][0] > 200) {
-        globalCtx->envCtx.unk_8C[0][0] = 200;
+    if (globalCtx->envCtx.adjAmbientColor[0] > 200) {
+        globalCtx->envCtx.adjAmbientColor[0] = 200;
     }
-    if (globalCtx->envCtx.unk_8C[0][1] > 200) {
-        globalCtx->envCtx.unk_8C[0][1] = 200;
+    if (globalCtx->envCtx.adjAmbientColor[1] > 200) {
+        globalCtx->envCtx.adjAmbientColor[1] = 200;
     }
-    if (globalCtx->envCtx.unk_8C[0][2] > 200) {
-        globalCtx->envCtx.unk_8C[0][2] = 200;
+    if (globalCtx->envCtx.adjAmbientColor[2] > 200) {
+        globalCtx->envCtx.adjAmbientColor[2] = 200;
     }
-    if (globalCtx->envCtx.unk_8C[2][0] > 70) {
-        globalCtx->envCtx.unk_8C[2][0] = 70;
+    if (globalCtx->envCtx.adjFogColor[0] > 70) {
+        globalCtx->envCtx.adjFogColor[0] = 70;
     }
-    if (globalCtx->envCtx.unk_8C[2][1] > 70) {
-        globalCtx->envCtx.unk_8C[2][1] = 70;
+    if (globalCtx->envCtx.adjFogColor[1] > 70) {
+        globalCtx->envCtx.adjFogColor[1] = 70;
     }
-    if (globalCtx->envCtx.unk_8C[2][2] > 140) {
-        globalCtx->envCtx.unk_8C[2][2] = 140;
+    if (globalCtx->envCtx.adjFogColor[2] > 140) {
+        globalCtx->envCtx.adjFogColor[2] = 140;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][0] < 0) {
-        globalCtx->envCtx.unk_8C[0][0] = 0;
+    if (globalCtx->envCtx.adjAmbientColor[0] < 0) {
+        globalCtx->envCtx.adjAmbientColor[0] = 0;
     }
-    if (globalCtx->envCtx.unk_8C[0][1] < 0) {
-        globalCtx->envCtx.unk_8C[0][1] = 0;
+    if (globalCtx->envCtx.adjAmbientColor[1] < 0) {
+        globalCtx->envCtx.adjAmbientColor[1] = 0;
     }
-    if (globalCtx->envCtx.unk_8C[0][2] < 0) {
-        globalCtx->envCtx.unk_8C[0][2] = 0;
+    if (globalCtx->envCtx.adjAmbientColor[2] < 0) {
+        globalCtx->envCtx.adjAmbientColor[2] = 0;
     }
-    if (globalCtx->envCtx.unk_8C[2][0] < 0) {
-        globalCtx->envCtx.unk_8C[2][0] = 0;
+    if (globalCtx->envCtx.adjFogColor[0] < 0) {
+        globalCtx->envCtx.adjFogColor[0] = 0;
     }
-    if (globalCtx->envCtx.unk_8C[2][1] < 0) {
-        globalCtx->envCtx.unk_8C[2][1] = 0;
+    if (globalCtx->envCtx.adjFogColor[1] < 0) {
+        globalCtx->envCtx.adjFogColor[1] = 0;
     }
-    if (globalCtx->envCtx.unk_8C[2][2] < 0) {
-        globalCtx->envCtx.unk_8C[2][2] = 0;
+    if (globalCtx->envCtx.adjFogColor[2] < 0) {
+        globalCtx->envCtx.adjFogColor[2] = 0;
     }
 }
 
@@ -1256,7 +1260,8 @@ void BossGoma_FloorAttackPosture(BossGoma* this, GlobalContext* globalCtx) {
     Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
 
     if (this->skelanime.curFrame >= (19.0f + 1.0f / 3.0f) && this->skelanime.curFrame <= 30.0f) {
-        Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 3, 0xBB8);
+        Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor),
+                       3, 0xBB8);
     }
 
     if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&gGohmaPrepareAttackAnim))) {
@@ -1424,7 +1429,8 @@ void BossGoma_FloorStunned(BossGoma* this, GlobalContext* globalCtx) {
 void BossGoma_FallJump(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 2, 0x7D0);
+    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2,
+                   0x7D0);
 
     if (this->actor.bgCheckFlags & 1) {
         BossGoma_SetupFloorLand(this);
@@ -1440,7 +1446,8 @@ void BossGoma_FallJump(BossGoma* this, GlobalContext* globalCtx) {
 void BossGoma_FallStruckDown(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 3, 0x7D0);
+    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 3,
+                   0x7D0);
 
     if (this->actor.bgCheckFlags & 1) {
         BossGoma_SetupFloorLandStruckDown(this);
@@ -1599,7 +1606,7 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
     }
 
     if (!this->doNotMoveThisFrame) {
-        rot = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor);
+        rot = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
 
         if (this->patienceTimer != 0) {
             this->patienceTimer--;
@@ -1608,7 +1615,7 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
                 BossGoma_SetupFloorAttackPosture(this);
             }
 
-            Math_ApproachF(&this->actor.speedXZ, 3.3333333f, 0.5f, 2.0f);
+            Math_ApproachF(&this->actor.speedXZ, 10.0f / 3.0f, 0.5f, 2.0f);
             Math_ApproachS(&this->actor.world.rot.y, rot, 5, 0x3E8);
         } else {
             if (this->timer != 0) {
@@ -1620,7 +1627,7 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
                 }
             } else {
                 // move away from the player, walking forwards
-                Math_ApproachF(&this->actor.speedXZ, 6.6666665f, 0.5f, 2.0f);
+                Math_ApproachF(&this->actor.speedXZ, 20.0f / 3.0f, 0.5f, 2.0f);
                 this->skelanime.playSpeed = 2.0f;
                 rot += 0x8000;
             }
@@ -1713,7 +1720,7 @@ void BossGoma_UpdateEye(BossGoma* this, GlobalContext* globalCtx) {
     s16 targetEyeIrisRotY;
 
     if (!this->disableGameplayLogic) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         if (this->eyeState == EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES) {
             // player + 0xA73 seems to be related to "throwing something"
@@ -1743,8 +1750,10 @@ void BossGoma_UpdateEye(BossGoma* this, GlobalContext* globalCtx) {
         }
 
         if (this->eyeState != EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES) {
-            targetEyeIrisRotY = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.shape.rot.y;
-            targetEyeIrisRotX = Actor_WorldPitchTowardActor(&this->actor, &PLAYER->actor) - this->actor.shape.rot.x;
+            targetEyeIrisRotY =
+                Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.shape.rot.y;
+            targetEyeIrisRotX =
+                Actor_WorldPitchTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.shape.rot.x;
 
             if (this->actor.shape.rot.x > 0x4000 || this->actor.shape.rot.x < -0x4000) {
                 targetEyeIrisRotY = -(s16)(targetEyeIrisRotY + 0x8000);
@@ -1828,7 +1837,7 @@ void BossGoma_UpdateHit(BossGoma* this, GlobalContext* globalCtx) {
             } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0 &&
                        (acHitInfo->toucher.dmgFlags & 0x00000005)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DAM2);
-                Audio_StopSfx(NA_SE_EN_GOMA_CRY1);
+                Audio_StopSfxById(NA_SE_EN_GOMA_CRY1);
                 this->invincibilityFrames = 10;
                 BossGoma_SetupFloorStunned(this);
                 this->sfxFaintTimer = 100;
@@ -1993,7 +2002,7 @@ s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
                     gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
                 }
 
-                Matrix_JointPosition(pos, rot);
+                Matrix_TranslateRotateZYX(pos, rot);
 
                 if (*dList != NULL) {
                     Matrix_Push();
@@ -2012,7 +2021,7 @@ s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         case BOSSGOMA_LIMB_TAIL3:
         case BOSSGOMA_LIMB_TAIL2:
         case BOSSGOMA_LIMB_TAIL1:
-            Matrix_JointPosition(pos, rot);
+            Matrix_TranslateRotateZYX(pos, rot);
 
             if (*dList != NULL) {
                 Matrix_Push();

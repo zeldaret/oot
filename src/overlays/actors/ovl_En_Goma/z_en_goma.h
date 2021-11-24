@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GOMA_H_
-#define _Z_EN_GOMA_H_
+#ifndef Z_EN_GOMA_H
+#define Z_EN_GOMA_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -76,7 +76,5 @@ typedef struct EnGoma {
     /* 0x30C */ ColliderCylinder colCyl1;
     /* 0x358 */ ColliderCylinder colCyl2;
 } EnGoma; // size = 0x03A4
-
-extern const ActorInit En_Goma_InitVars;
 
 #endif

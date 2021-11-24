@@ -1,5 +1,5 @@
-#ifndef _Z64SAVE_H_
-#define _Z64SAVE_H_
+#ifndef Z64SAVE_H
+#define Z64SAVE_H
 
 #include "ultra64.h"
 #include "z64math.h"
@@ -66,8 +66,8 @@ typedef struct {
     /* 0x0008 */ s32 cutsceneIndex;
     /* 0x000C */ u16 dayTime; // "zelda_time"
     /* 0x0010 */ s32 nightFlag;
-    /* 0x0014 */ s32 numDays;
-    /* 0x0018 */ s32 unk_18; // increments with numDays, gets reset by goron for bgs and one other use
+    /* 0x0014 */ s32 totalDays;
+    /* 0x0018 */ s32 bgsDayCount; // increments with totalDays, can be cleared with `Environment_ClearBgsDayCount`
     /* 0x001C */ char newf[6]; // string "ZELDAZ". start of `info` substruct, originally called "information"
     /* 0x0022 */ u16 deaths;
     /* 0x0024 */ char playerName[8];
@@ -84,7 +84,7 @@ typedef struct {
     /* 0x003C */ u8 doubleMagic;
     /* 0x003D */ u8 doubleDefense;
     /* 0x003E */ u8 bgsFlag;
-    /* 0x003F */ u8 ocarinaGameReward;
+    /* 0x003F */ u8 ocarinaGameRoundNum;
     /* 0x0040 */ ItemEquips childEquips;
     /* 0x004A */ ItemEquips adultEquips;
     /* 0x0054 */ u32 unk_54; // this may be incorrect, currently used for alignement
@@ -153,7 +153,7 @@ typedef struct {
     /* 0x1404 */ u16 minigameState;
     /* 0x1406 */ u16 minigameScore; // "yabusame_total"
     /* 0x1408 */ char unk_1408[0x0001];
-    /* 0x1409 */ u8 language;
+    /* 0x1409 */ u8 language; // NTSC 0: Japanese; 1: English | PAL 0: English; 1: German; 2: French
     /* 0x140A */ u8 audioSetting;
     /* 0x140B */ char unk_140B[0x0001];
     /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold
@@ -166,12 +166,12 @@ typedef struct {
     /* 0x1416 */ u16 nextDayTime; // "next_zelda_time"
     /* 0x1418 */ u8 fadeDuration;
     /* 0x1419 */ u8 unk_1419; // transition related
-    /* 0x141A */ u16 environmentTime;
+    /* 0x141A */ u16 skyboxTime;
     /* 0x141C */ u8 dogIsLost;
     /* 0x141D */ u8 nextTransition;
     /* 0x141E */ char unk_141E[0x0002];
     /* 0x1420 */ s16 worldMapArea;
-    /* 0x1422 */ s16 unk_1422; // day time related
+    /* 0x1422 */ s16 sunsSongState; // controls the effects of suns song
     /* 0x1424 */ s16 healthAccumulator;
 } SaveContext; // size = 0x1428
 
@@ -187,6 +187,15 @@ typedef enum {
 } ButtonStatus;
 
 typedef enum {
+    /* 0x00 */ CHAMBER_CS_FOREST,
+    /* 0x01 */ CHAMBER_CS_FIRE,
+    /* 0x02 */ CHAMBER_CS_WATER,
+    /* 0x03 */ CHAMBER_CS_SPIRIT,
+    /* 0x04 */ CHAMBER_CS_SHADOW,
+    /* 0x05 */ CHAMBER_CS_LIGHT
+} ChamberCutsceneNum;
+
+typedef enum {
     /* 0x00 */ HS_HBA,          // horseback archery
     /* 0x01 */ HS_POE_POINTS,
     /* 0x02 */ HS_FISHING,
@@ -195,5 +204,12 @@ typedef enum {
     /* 0x05 */ HS_UNK_05,
     /* 0x06 */ HS_DAMPE_RACE
 } HighScores;
+
+typedef enum {
+    /* 0 */ SUNSSONG_INACTIVE,
+    /* 1 */ SUNSSONG_START, // the suns ocarina effect signals that the song has finished playing
+    /* 2 */ SUNSSONG_SPEED_TIME, // suns was played where time passes, speed up the advancement of time
+    /* 3 */ SUNSSONG_SPECIAL // time does not advance, but signals the song was played. used for freezing redeads
+} SunsSongState;
 
 #endif

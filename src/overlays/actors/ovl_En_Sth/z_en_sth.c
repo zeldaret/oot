@@ -34,7 +34,7 @@ const ActorInit En_Sth_InitVars = {
     NULL,
 };
 
-#include "z_en_sth_gfx.c"
+#include "overlays/ovl_En_Sth/ovl_En_Sth.c"
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -65,7 +65,7 @@ static FlexSkeletonHeader* sSkeletons[6] = {
 };
 
 static AnimationHeader* sAnimations[6] = {
-    &gParentDanceAnim, &gChildDanceAnim, &gChildDanceAnim, &gChildDanceAnim, &gChildDanceAnim, &gChildDanceAnim,
+    &sParentDanceAnim, &sChildDanceAnim, &sChildDanceAnim, &sChildDanceAnim, &sChildDanceAnim, &sChildDanceAnim,
 };
 
 static EnSthActionFunc sRewardObtainedWaitActions[6] = {
@@ -98,18 +98,17 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 params = this->actor.params;
     s32 objectBankIdx;
 
-    // Translation: Gold Skulltula Shop
-    osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params);
+    osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
     if (this->actor.params == 0) {
         if (gSaveContext.inventory.gsTokens < 100) {
             Actor_Kill(&this->actor);
-            // Translation: Gold Skulltula Shop I still can't be a human
+            // "Gold Skulltula Shop I still can't be a human"
             osSyncPrintf("金スタル屋 まだ 人間に戻れない \n");
             return;
         }
     } else if (gSaveContext.inventory.gsTokens < (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
-        // Translation: Gold Skulltula Shop I still can't be a human
+        // "Gold Skulltula Shop I still can't be a human"
         osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" VT_RST);
         return;
     }
@@ -210,7 +209,7 @@ void EnSth_LookAtPlayer(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         if (this->actor.params == 0) {
             EnSth_SetupAction(this, EnSth_ParentRewardObtainedWait);
         } else {
@@ -221,7 +220,7 @@ void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_ParentRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         this->actor.textId = 0x23;
@@ -265,8 +264,8 @@ void EnSth_GiveReward(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardUnobtainedTalk(EnSth* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         EnSth_SetupAction(this, EnSth_GiveReward);
         EnSth_GivePlayerItem(this, globalCtx);
     }
@@ -274,7 +273,7 @@ void EnSth_RewardUnobtainedTalk(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
@@ -290,7 +289,7 @@ void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.inventory.gsTokens < 50) {
@@ -324,6 +323,7 @@ void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
 
+    // Likely an unused blink timer and eye index
     if (DECR(this->unk_2B6) == 0) {
         this->unk_2B6 = Rand_S16Offset(0x3C, 0x3C);
     }
@@ -362,7 +362,7 @@ void EnSth_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80B0B49C, &this->actor.focus.pos);
-        if (this->actor.params != 0) {
+        if (this->actor.params != 0) { // Children
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sth.c", 2079);
 
             gSPDisplayList(POLY_OPA_DISP++, D_80B0A3C0);

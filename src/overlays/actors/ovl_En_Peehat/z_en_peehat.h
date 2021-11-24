@@ -1,5 +1,5 @@
-#ifndef _Z_EN_PEEHAT_H_
-#define _Z_EN_PEEHAT_H_
+#ifndef Z_EN_PEEHAT_H
+#define Z_EN_PEEHAT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -43,7 +43,5 @@ typedef struct EnPeehat {
     /* 0x036C */ ColliderJntSphElement colJntSphItemList[1];
     /* 0x03AC */ ColliderQuad colQuad;
 } EnPeehat; // size = 0x042C
-
-extern const ActorInit En_Peehat_InitVars;
 
 #endif

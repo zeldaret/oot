@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_BIGMIRROR_H_
-#define _Z_BG_JYA_BIGMIRROR_H_
+#ifndef Z_BG_JYA_BIGMIRROR_H
+#define Z_BG_JYA_BIGMIRROR_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -28,7 +28,5 @@ typedef struct BgJyaBigmirror {
     /* 0x016C */ s32 mirRayObjIndex;
     /* 0x0170 */ f32 liftHeight;
 } BgJyaBigmirror; // size = 0x0174
-
-extern const ActorInit Bg_Jya_Bigmirror_InitVars;
 
 #endif

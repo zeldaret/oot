@@ -1,5 +1,5 @@
-#ifndef _Z_EN_JS_H_
-#define _Z_EN_JS_H_
+#ifndef Z_EN_JS_H
+#define Z_EN_JS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -21,7 +21,5 @@ typedef struct EnJs {
     /* 0x0288 */ s16 unk_288;
     /* 0x028C */ EnJsActionFunc actionFunc;
 } EnJs; // size = 0x0290
-
-extern const ActorInit En_Js_InitVars;
 
 #endif

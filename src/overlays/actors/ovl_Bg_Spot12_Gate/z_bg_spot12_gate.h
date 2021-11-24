@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT12_GATE_H_
-#define _Z_BG_SPOT12_GATE_H_
+#ifndef Z_BG_SPOT12_GATE_H
+#define Z_BG_SPOT12_GATE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,7 +13,5 @@ typedef struct BgSpot12Gate {
     /* 0x0164 */ BgSpot12GateActionFunc actionFunc;
     /* 0x0168 */ s16 unk_168;
 } BgSpot12Gate; // size = 0x016C
-
-extern const ActorInit Bg_Spot12_Gate_InitVars;
 
 #endif

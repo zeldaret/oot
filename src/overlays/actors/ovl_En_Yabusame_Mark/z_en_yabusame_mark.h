@@ -1,5 +1,5 @@
-#ifndef _Z_EN_YABUSAME_MARK_H_
-#define _Z_EN_YABUSAME_MARK_H_
+#ifndef Z_EN_YABUSAME_MARK_H
+#define Z_EN_YABUSAME_MARK_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -20,7 +20,5 @@ typedef struct EnYabusameMark {
     /* 0x0184 */ Vec3f vertexD;
     /* 0x0190 */ ColliderQuad collider;
 } EnYabusameMark; // size = 0x0210
-
-extern const ActorInit En_Yabusame_Mark_InitVars;
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _Z64PLAYER_H_
-#define _Z64PLAYER_H_
+#ifndef Z64PLAYER_H
+#define Z64PLAYER_H
 
 #include "z64actor.h"
 

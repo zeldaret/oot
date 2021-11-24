@@ -1,5 +1,5 @@
-#ifndef _Z_BG_HAKA_MEGANE_H_
-#define _Z_BG_HAKA_MEGANE_H_
+#ifndef Z_BG_HAKA_MEGANE_H
+#define Z_BG_HAKA_MEGANE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct BgHakaMegane {
     /* 0x0169 */ s8 objBankIndex;
     /* 0x016A */ char unk_16A[0x2];
 } BgHakaMegane; // size = 0x016C
-
-extern const ActorInit Bg_Haka_Megane_InitVars;
 
 #endif

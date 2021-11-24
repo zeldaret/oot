@@ -75,7 +75,7 @@ void EnHs2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80A6F0B4(EnHs2* this, GlobalContext* globalCtx, u16 textId, EnHs2ActionFunc actionFunc) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return 1;
     }
@@ -90,7 +90,7 @@ s32 func_80A6F0B4(EnHs2* this, GlobalContext* globalCtx, u16 textId, EnHs2Action
 }
 
 void func_80A6F164(EnHs2* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = func_80A6F1A4;
     }
     this->unk_2A8 |= 0x1;

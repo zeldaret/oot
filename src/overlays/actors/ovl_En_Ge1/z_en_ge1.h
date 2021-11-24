@@ -1,5 +1,5 @@
-#ifndef _Z_EN_GE1_H_
-#define _Z_EN_GE1_H_
+#ifndef Z_EN_GE1_H
+#define Z_EN_GE1_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -55,7 +55,5 @@ typedef struct EnGe1 {
     /* 0x02B4 */ EnGe1ActionFunc actionFunc;
     /* 0x02B8 */ EnGe1AnimFunc animFunc;
 } EnGe1; // size = 0x02BC
-
-extern const ActorInit En_Ge1_InitVars;
 
 #endif

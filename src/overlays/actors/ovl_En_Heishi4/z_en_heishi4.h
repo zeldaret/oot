@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HEISHI4_H_
-#define _Z_EN_HEISHI4_H_
+#ifndef Z_EN_HEISHI4_H
+#define Z_EN_HEISHI4_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -36,7 +36,5 @@ typedef struct EnHeishi4 {
     /* 0x02B6 */ char unk_2B6[7];
     /* 0x02BC */ ColliderCylinder collider;
 } EnHeishi4; // size = 0x0308
-
-extern const ActorInit En_Heishi4_InitVars;
 
 #endif

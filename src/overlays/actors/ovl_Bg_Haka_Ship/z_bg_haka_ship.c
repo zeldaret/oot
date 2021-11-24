@@ -72,7 +72,7 @@ void BgHakaShip_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaShip* this = THIS;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-    func_800F89E8(&this->bellSoundPos);
+    Audio_StopSfxByPos(&this->bellSoundPos);
 }
 
 void BgHakaShip_ChildUpdatePosition(BgHakaShip* this, GlobalContext* globalCtx) {
@@ -132,7 +132,7 @@ void BgHakaShip_Move(BgHakaShip* this, GlobalContext* globalCtx) {
     if (distanceFromHome > 7600.0f && !Gameplay_InCsMode(globalCtx)) {
         this->counter = 40;
         this->dyna.actor.speedXZ = 0.0f;
-        func_8010B680(globalCtx, 0x5071, NULL);
+        Message_StartTextbox(globalCtx, 0x5071, NULL);
         this->actionFunc = BgHakaShip_SetupCrash;
     } else {
         Math_StepToF(&this->dyna.actor.speedXZ, 4.0f, 0.2f);

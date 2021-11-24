@@ -1,5 +1,5 @@
-#ifndef _Z_EN_RIVER_SOUND_H_
-#define _Z_EN_RIVER_SOUND_H_
+#ifndef Z_EN_RIVER_SOUND_H
+#define Z_EN_RIVER_SOUND_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -39,7 +39,5 @@ typedef enum {
     /* 0xF7 */ RS_UNK_F7 = 0xF7,
     /* 0xF8 */ RS_MAX
 } RiverSoundType;
-
-extern const ActorInit En_River_Sound_InitVars;
 
 #endif

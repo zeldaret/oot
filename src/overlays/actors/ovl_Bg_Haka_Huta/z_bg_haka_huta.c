@@ -180,7 +180,7 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     this->counter++;
     if (this->counter == 6) {
         this->actionFunc = BgHakaHuta_DoNothing;
-        quakeIndex = Quake_Add(ACTIVE_CAM, 3);
+        quakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
         Quake_SetSpeed(quakeIndex, 0x7530);
         Quake_SetQuakeValues(quakeIndex, 4, 0, 0, 0);
         Quake_SetCountdown(quakeIndex, 2);
@@ -193,8 +193,8 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (D_8087D958.x > 30.0f) {
         D_8087D958.x = 30.0f;
     }
-    Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 0x8000), 0);
-    Matrix_RotateAxis(this->counter * (191 * M_PI / 3750), &D_8087D964, 1);
+    Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+    Matrix_RotateAxis(this->counter * (191 * M_PI / 3750), &D_8087D964, MTXMODE_APPLY);
     Matrix_MultVec3f(&D_8087D958, &vec);
     this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + vec.x;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + vec.y;

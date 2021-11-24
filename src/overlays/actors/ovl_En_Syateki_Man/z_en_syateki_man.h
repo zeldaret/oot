@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SYATEKI_MAN_H_
-#define _Z_EN_SYATEKI_MAN_H_
+#ifndef Z_EN_SYATEKI_MAN_H
+#define Z_EN_SYATEKI_MAN_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -29,7 +29,5 @@ typedef struct EnSyatekiMan {
     /* 0x0224 */ EnSyatekiManOtherFunc blinkFunc; // Seems to be part of a blink system with unk_20C and unk_20E, but it's unused.
     /* 0x0228 */ s16 csCam;
 } EnSyatekiMan; // size = 0x022C
-
-extern const ActorInit En_Syateki_Man_InitVars;
 
 #endif

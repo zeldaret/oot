@@ -95,7 +95,7 @@ void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this)
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     xzScale = yScale * 0.6f;
     SkinMatrix_SetScale(&mfScale, xzScale, yScale, xzScale);
-    SkinMatrix_SetRotateRPY(&mfRotate, this->vec.x, this->vec.y, this->rYaw);
+    SkinMatrix_SetRotateZYX(&mfRotate, this->vec.x, this->vec.y, this->rYaw);
     SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
     SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfRotate, &mfTrans11DA0Rotate);
     SkinMatrix_MtxFMtxFMult(&mfTrans11DA0Rotate, &mfScale, &mfResult);
@@ -131,8 +131,8 @@ void EffectSsLightning_Update(GlobalContext* globalCtx, u32 index, EffectSs* thi
         pos.y = this->pos.y + (Math_SinS(this->rYaw - 0x4000) * scale);
 
         scale = Math_CosS(this->rYaw - 0x4000) * scale;
-        pos.x = this->pos.x - (Math_CosS(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
-        pos.z = this->pos.z + (Math_SinS(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
+        pos.x = this->pos.x - (Math_CosS(Camera_GetInputDirYaw(GET_ACTIVE_CAM(globalCtx))) * scale);
+        pos.z = this->pos.z + (Math_SinS(Camera_GetInputDirYaw(GET_ACTIVE_CAM(globalCtx))) * scale);
 
         EffectSsLightning_NewLightning(globalCtx, &pos, yaw, this);
 

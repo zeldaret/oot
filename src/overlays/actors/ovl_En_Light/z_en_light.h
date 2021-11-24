@@ -1,5 +1,5 @@
-#ifndef _Z_EN_LIGHT_H_
-#define _Z_EN_LIGHT_H_
+#ifndef Z_EN_LIGHT_H
+#define Z_EN_LIGHT_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -12,7 +12,5 @@ typedef struct EnLight {
     /* 0x0150 */ LightNode* lightNode;
     /* 0x0154 */ LightInfo lightInfo;
 } EnLight; // size = 0x0164
-
-extern const ActorInit En_Light_InitVars;
 
 #endif

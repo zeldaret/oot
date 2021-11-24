@@ -6,6 +6,7 @@
 
 #include "z_eff_ss_fhg_flash.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
+#include "objects/object_fhg/object_fhg.h"
 
 #define rAlpha regs[0]
 #define rObjBankIdx regs[2]
@@ -24,9 +25,8 @@ EffectSsInit Effect_Ss_Fhg_Flash_InitVars = {
     EffectSsFhgFlash_Init,
 };
 
-UNK_TYPE D_809A5178[];
-Gfx D_809A5100[];
-extern Gfx D_06012160[];
+static UNK_TYPE D_809A5178[258];
+static Gfx D_809A5100[15];
 
 u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
@@ -52,7 +52,7 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
             this->rAlpha = 255;
             this->draw = EffectSsFhgFlash_DrawLightBall;
             this->update = EffectSsFhgFlash_UpdateLightBall;
-            this->gfx = SEGMENTED_TO_VIRTUAL(D_06012160);
+            this->gfx = SEGMENTED_TO_VIRTUAL(gPhantomEnergyBallDL);
             gSegments[6] = oldSeg6;
         } else {
             osSyncPrintf("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n");
@@ -95,7 +95,7 @@ void EffectSsFhgFlash_DrawLightBall(GlobalContext* globalCtx, u32 index, EffectS
 
     OPEN_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 268);
 
-    Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, 0);
+    Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
     gSPSegment(POLY_XLU_DISP++, 0x06, object);
@@ -178,7 +178,7 @@ void EffectSsFhgFlash_UpdateShock(GlobalContext* globalCtx, u32 index, EffectSs*
     this->rXZRot = (this->rXZRot + rand) + 0x4000;
 
     if (this->rParam == FHGFLASH_SHOCK_PLAYER) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         randBodypart = Rand_ZeroFloat(17.9f);
         this->pos.x = player->bodyPartsPos[randBodypart].x + Rand_CenteredFloat(10.0f);
         this->pos.y = player->bodyPartsPos[randBodypart].y + Rand_CenteredFloat(15.0f);
@@ -201,14 +201,14 @@ void EffectSsFhgFlash_UpdateShock(GlobalContext* globalCtx, u32 index, EffectSs*
     }
 }
 
-Vtx D_809A50C0[] = {
+static Vtx D_809A50C0[4] = {
     VTX(-10, -10, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(10, -10, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(10, 10, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(-10, 10, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-Gfx D_809A5100[] = {
+static Gfx D_809A5100[15] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -222,7 +222,7 @@ Gfx D_809A5100[] = {
     gsSPEndDisplayList(),
 };
 
-UNK_TYPE D_809A5178[] = {
+static UNK_TYPE D_809A5178[258] = {
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,

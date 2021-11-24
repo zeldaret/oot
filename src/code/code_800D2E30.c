@@ -1,23 +1,22 @@
 #include "global.h"
 
 void func_800D2E30(UnkRumbleStruct* arg0) {
+    static u8 D_8012DBB0 = 1;
     s32 i;
     s32 unk_a3;
     s32 index = -1;
-    UnkRumbleStruct* new_var;
 
     for (i = 0; i < 4; i++) {
         arg0->rumbleEnable[i] = 0;
     }
 
     if (arg0->unk_105 == 0) {
-        new_var = arg0;
         if (D_8012DBB0 != 0) {
             for (i = 0; i < 4; i++) {
                 gPadMgr.pakType[i] = 0;
             }
         }
-        D_8012DBB0 = new_var->unk_105;
+        D_8012DBB0 = arg0->unk_105;
         return;
     }
 

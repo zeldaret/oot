@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DODONGO_H_
-#define _Z_EN_DODONGO_H_
+#ifndef Z_EN_DODONGO_H
+#define Z_EN_DODONGO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -43,7 +43,5 @@ typedef enum {
     EN_DODONGO_NORMAL = -1,
     EN_DODONGO_SMOKE_DEATH
 } EnDodongoParam;
-
-extern const ActorInit En_Dodongo_InitVars;
 
 #endif

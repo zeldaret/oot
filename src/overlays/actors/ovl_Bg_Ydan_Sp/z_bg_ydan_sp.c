@@ -153,7 +153,7 @@ void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyTris(globalCtx, &this->trisCollider);
 }
 
-void* BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
+void BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
     s16 newY;
     CollisionHeader* colHeader;
 
@@ -278,7 +278,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
     f32 sqrtFallDistance;
     f32 unk;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     webPos.x = this->dyna.actor.world.pos.x;
     webPos.y = this->dyna.actor.world.pos.y - 50.0f;
     webPos.z = this->dyna.actor.world.pos.z;
@@ -335,7 +335,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
         if (this->unk16C > 3.0f) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WEB_VIBRATION);
         } else {
-            Audio_StopSfx(NA_SE_EV_WEB_VIBRATION);
+            Audio_StopSfxById(NA_SE_EV_WEB_VIBRATION);
         }
     }
     BgYdanSp_UpdateFloorWebCollision(this);
@@ -399,7 +399,7 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
     Player* player;
     Vec3f sp30;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if (Flags_GetSwitch(globalCtx, this->burnSwitchFlag) || (this->trisCollider.base.acFlags & 2)) {
         this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, globalCtx);
@@ -441,7 +441,7 @@ void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         for (i = 0; i < 8; i++) {
             Matrix_Put(&mtxF);
-            Matrix_RotateRPY(-0x5A0, i * 0x2000, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(-0x5A0, i * 0x2000, 0, MTXMODE_APPLY);
             Matrix_Translate(0.0f, 700.0f, -900.0f, MTXMODE_APPLY);
             Matrix_Scale(3.5f, 5.0f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 830),

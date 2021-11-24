@@ -285,7 +285,7 @@ void EnBox_FallOnSwitchFlag(EnBox* this, GlobalContext* globalCtx) {
 // used for types 9, 10
 void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
     s32 treasureFlag = this->dyna.actor.params & 0x1F;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
         func_8002F5F0(&this->dyna.actor, globalCtx);
@@ -303,11 +303,11 @@ void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
         }
 
         if (this->unk_1FB == ENBOX_STATE_1) {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->unk_1FB = ENBOX_STATE_2;
-        } else if (this->unk_1FB == ENBOX_STATE_2 && globalCtx->msgCtx.unk_E3EE == 4) {
-            if ((globalCtx->msgCtx.unk_E3EC == 8 && this->type == ENBOX_TYPE_9) ||
-                (globalCtx->msgCtx.unk_E3EC == 9 && this->type == ENBOX_TYPE_10)) {
+        } else if (this->unk_1FB == ENBOX_STATE_2 && globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+            if ((globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_LULLABY && this->type == ENBOX_TYPE_9) ||
+                (globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS && this->type == ENBOX_TYPE_10)) {
                 this->dyna.actor.flags &= ~0x2000000;
                 EnBox_SetupAction(this, EnBox_AppearInit);
                 OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
@@ -415,13 +415,13 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
                                        this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
                                        this->dyna.actor.world.pos.z, this->dyna.actor.shape.rot.x,
                                        this->dyna.actor.shape.rot.y, this->dyna.actor.shape.rot.z, 0xFFFF);
-                    func_800F5C64(0x92B);
+                    Audio_PlayFanfare(NA_BGM_OPEN_TRE_BOX | 0x900);
             }
         }
         osSyncPrintf("Actor_Environment_Tbox_On() %d\n", this->dyna.actor.params & 0x1F);
         Flags_SetTreasure(globalCtx, this->dyna.actor.params & 0x1F);
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         func_8002DBD0(&this->dyna.actor, &sp4C, &player->actor.world.pos);
         if (sp4C.z > -50.0f && sp4C.z < 0.0f && fabsf(sp4C.y) < 10.0f && fabsf(sp4C.x) < 20.0f &&
             Player_IsFacingActor(&this->dyna.actor, 0x3000, globalCtx)) {

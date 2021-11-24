@@ -115,9 +115,9 @@ void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
 
-    if ((Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx)) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx)) &&
-        ((this->boxObjIdx < 0) || (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx)))) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx) &&
+        Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx) &&
+        ((this->boxObjIdx < 0) || Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
         this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
         if (this->dyna.actor.params >= 4) {
             this->dyna.actor.params -= 4;
@@ -168,7 +168,7 @@ void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, GlobalContext* globalCtx
 
 void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
     f32 f0;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     f0 = 1100.0f - (player->actor.world.pos.z - this->dyna.actor.world.pos.z);
     this->dyna.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;
@@ -189,7 +189,8 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->actionFunc = func_808A3E54;
 
         mainCamChildIdx = globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx;
-        if ((mainCamChildIdx != SUBCAM_FREE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_DEMO1)) {
+        if ((mainCamChildIdx != SUBCAM_FREE) &&
+            (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
             OnePointCutscene_EndCutscene(globalCtx, mainCamChildIdx);
         }
         OnePointCutscene_Init(globalCtx, 3260, 40, &this->dyna.actor, MAIN_CAM);
@@ -214,7 +215,8 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
             sNextCamIdx = SUBCAM_NONE;
         }
     }
-    if ((sNextCamIdx >= SUBCAM_FIRST) && ((ACTIVE_CAM->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
+    if ((sNextCamIdx >= SUBCAM_FIRST) &&
+        ((GET_ACTIVE_CAM(globalCtx)->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
 }
@@ -247,7 +249,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             Matrix_Translate(1999.0f, 1278.0f, -1821.0f, MTXMODE_NEW);
         }
-        Matrix_RotateRPY(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 652),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

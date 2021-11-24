@@ -58,7 +58,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     ShotSun* this = THIS;
     s32 params;
 
-    // Translation: Ocarina secret occurrence
+    // "Ocarina secret occurrence"
     osSyncPrintf("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", this->actor.params);
     params = this->actor.params & 0xFF;
     if (params == 0x40 || params == 0x41) {
@@ -121,7 +121,7 @@ void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx) {
 }
 
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s32 params = this->actor.params & 0xFF;
 
@@ -137,11 +137,11 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
             }
         }
         if (this->unk_1A4 == 1) {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->unk_1A4 = 2;
-        } else if (this->unk_1A4 == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
-            if ((params == 0x40 && globalCtx->msgCtx.unk_E3EC == 9) ||
-                (params == 0x41 && globalCtx->msgCtx.unk_E3EC == 0xB)) {
+        } else if (this->unk_1A4 == 2 && globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+            if ((params == 0x40 && globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS) ||
+                (params == 0x41 && globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_STORMS)) {
                 this->actionFunc = ShotSun_TriggerFairy;
                 OnePointCutscene_Attention(globalCtx, &this->actor);
                 this->timer = 0;
@@ -155,7 +155,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
 
 void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
     Vec3s cylinderPos;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnItem00* collectible;
     s32 pad;
     Vec3f spawnPos;
@@ -165,7 +165,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(CYAN) "SHOT_SUN HIT!!!!!!!\n" VT_RST);
         if (INV_CONTENT(ITEM_ARROW_FIRE) == ITEM_NONE) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gFireArrowsCS);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gLakeHyliaFireArrowsCS);
             if (1) {}
             gSaveContext.cutsceneTrigger = 1;
         } else {
@@ -182,9 +182,9 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         if (!(this->actor.xzDistToPlayer > 120.0f) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
-            cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.unk_04.x * (1.0f / 6.0f);
-            cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.unk_04.y * (1.0f / 6.0f);
-            cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.unk_04.z * (1.0f / 6.0f);
+            cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.sunPos.x * (1.0f / 6.0f);
+            cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.sunPos.y * (1.0f / 6.0f);
+            cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.sunPos.z * (1.0f / 6.0f);
 
             this->hitboxPos = cylinderPos;
 

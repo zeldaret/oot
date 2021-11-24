@@ -279,7 +279,7 @@ s32 func_809F6DD0(EnDodojr* this) {
 void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
     f32 angles[] = { 0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f };
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f pos;
     s16 angleIndex;
 
@@ -391,7 +391,7 @@ void func_809F72A4(EnDodojr* this, GlobalContext* globalCtx) {
 
 void func_809F73AC(EnDodojr* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&object_dodojr_Anim_000860);
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 dist;
 
     if (!(this->actor.xzDistToPlayer >= 320.0f)) {
@@ -626,7 +626,8 @@ s32 func_809F7D50(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     Vec3f D_809F7F64 = { 480.0f, 620.0f, 0.0f };
 
     if (limbIndex == 1) {
-        Matrix_Scale((this->rootScale * 0.5f) + 1.0f, this->rootScale + 1.0f, (this->rootScale * 0.5f) + 1.0f, 1);
+        Matrix_Scale((this->rootScale * 0.5f) + 1.0f, this->rootScale + 1.0f, (this->rootScale * 0.5f) + 1.0f,
+                     MTXMODE_APPLY);
     }
 
     if (limbIndex == 4) {

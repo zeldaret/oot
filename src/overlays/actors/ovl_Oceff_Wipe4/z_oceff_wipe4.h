@@ -1,5 +1,5 @@
-#ifndef _Z_OCEFF_WIPE4_H_
-#define _Z_OCEFF_WIPE4_H_
+#ifndef Z_OCEFF_WIPE4_H
+#define Z_OCEFF_WIPE4_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -13,9 +13,7 @@ struct OceffWipe4;
 
 typedef struct OceffWipe4 {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ s16 counter;
+    /* 0x014C */ s16 timer;
 } OceffWipe4; // size = 0x0150
-
-extern const ActorInit Oceff_Wipe4_InitVars;
 
 #endif

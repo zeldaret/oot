@@ -1,5 +1,5 @@
-#ifndef _Z_BG_SPOT16_BOMBSTONE_H_
-#define _Z_BG_SPOT16_BOMBSTONE_H_
+#ifndef Z_BG_SPOT16_BOMBSTONE_H
+#define Z_BG_SPOT16_BOMBSTONE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -24,7 +24,5 @@ typedef struct BgSpot16Bombstone {
     /* 0x0212 */ s16 unk_212;
     /* 0x0214 */ s8 bombiwaBankIndex;
 } BgSpot16Bombstone; // size = 0x0218
-
-extern const ActorInit Bg_Spot16_Bombstone_InitVars;
 
 #endif

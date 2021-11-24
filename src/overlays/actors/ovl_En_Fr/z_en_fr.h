@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FR_H_
-#define _Z_EN_FR_H_
+#ifndef Z_EN_FR_H
+#define Z_EN_FR_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -52,7 +52,7 @@ typedef struct EnFr {
     /* 0x037E */ u8 growingScaleIndex; // Target Scale Level 0-3 while growing (3 highest smooth)
     /* 0x037F */ u8 isGrowing; // While growing, the frog will switch between its larger size and its original size every frame
     /* 0x0380 */ u8 ocarinaNoteIndex; // Related to unk_381
-    /* 0x0381 */ u8 ocarinaNote; // Ocarina Note to Play for Frogs 2. Related to globalCtx->msgCtx.unk_E410
+    /* 0x0381 */ u8 ocarinaNote; // Ocarina Note to Play for Frogs 2
     /* 0x0382 */ u8 songIndex; // Song index 1-7 (6 songs + custom HP Song): 5 = sos, 6 = all songs
     /* 0x0383 */ u8 isJumpingToFrogSong; // Conditional: 
     /* 0x0384 */ char unk_384[0x02];
@@ -68,7 +68,5 @@ typedef struct EnFr {
     /* 0x03AC */ Vec3f posButterfly; // Position/Coordinates of the Butterfly
     /* 0x03B8 */ Vec3f posButterflyLight; // Used in Lights_PointNoGlowSetInfo()
 } EnFr; // size = 0x03C4
-
-extern const ActorInit En_Fr_InitVars;
 
 #endif

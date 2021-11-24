@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DH_H_
-#define _Z_EN_DH_H_
+#ifndef Z_EN_DH_H
+#define Z_EN_DH_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -31,8 +31,6 @@ typedef struct EnDh {
     /* 0x031C */ f32 dirtWaveHeight;
     /* 0x0320 */ f32 dirtWaveAlpha;
 } EnDh; // size = 0x0324
-
-extern const ActorInit En_Dh_InitVars;
 
 typedef enum {
     ENDH_HANDS_KILLED_4 = -4,

@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FHG_FIRE_H_
-#define _Z_EN_FHG_FIRE_H_
+#ifndef Z_EN_FHG_FIRE_H
+#define Z_EN_FHG_FIRE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -65,7 +65,5 @@ typedef struct EnFhgFire {
     /* 0x01FE */ s16 lensFlareTimer;
     /* 0x0200 */ f32 lensFlareScale;
 } EnFhgFire; // size = 0x0204
-
-extern const ActorInit En_Fhg_Fire_InitVars;
 
 #endif

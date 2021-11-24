@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 
-import argparse
-from multiprocessing import Pool, cpu_count, Event, Manager
-import os
-import json
-import time
-import signal
+import argparse, json, os, signal, time
+from multiprocessing import Pool, cpu_count, Event, Manager, ProcessError
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
+
 
 def SignalHandler(sig, frame):
     print(f'Signal {sig} received. Aborting...')
@@ -20,6 +17,10 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
         return
 
     execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath)
+    
+    if "overlays" in xmlPath:
+        execStr += " --static"
+    
     if globalUnaccounted:
         execStr += " -wu"
 
@@ -96,6 +97,18 @@ def main():
             del extractedAssetsTracker[fullPath]
         ExtractFunc(fullPath)
     else:
+        extract_text_path = "assets/text/message_data.h"
+        if os.path.isfile(extract_text_path):
+            extract_text_path = None
+        extract_staff_text_path = "assets/text/message_data_staff.h"
+        if os.path.isfile(extract_staff_text_path):
+            extract_staff_text_path = None
+        # Only extract text if the header does not already exist, or if --force was passed
+        if args.force or extract_text_path is not None or extract_staff_text_path is not None:
+            print("Extracting text")
+            from tools import msgdis
+            msgdis.extract_all_text(extract_text_path, extract_staff_text_path)
+
         xmlFiles = []
         for currentPath, _, files in os.walk(os.path.join("assets", "xml")):
             for file in files:
@@ -103,10 +116,18 @@ def main():
                 if file.endswith(".xml"):
                     xmlFiles.append(fullPath)
 
-        numCores = cpu_count()
-        print("Extracting assets with " + str(numCores) + " CPU cores.")
-        with Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
-            p.map(ExtractFunc, xmlFiles)
+        try:
+            numCores = cpu_count()
+            print("Extracting assets with " + str(numCores) + " CPU cores.")
+            with Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
+                p.map(ExtractFunc, xmlFiles)
+        except (ProcessError, TypeError):
+            print("Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
+            print("Disabling mutliprocessing.", file=os.sys.stderr)
+
+            initializeWorker(mainAbort, args.unaccounted, extractedAssetsTracker, manager)
+            for singlePath in xmlFiles:
+                ExtractFunc(singlePath)
 
     with open(EXTRACTED_ASSETS_NAMEFILE, 'w', encoding='utf-8') as f:
         serializableDict = dict()

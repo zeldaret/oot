@@ -1,5 +1,5 @@
-#ifndef _Z_BG_DY_YOSEIZO_H_
-#define _Z_BG_DY_YOSEIZO_H_
+#ifndef Z_BG_DY_YOSEIZO_H
+#define Z_BG_DY_YOSEIZO_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -69,7 +69,5 @@ typedef struct BgDyYoseizo {
     /* 0x0348 */ char unk_348[0x4C];
     /* 0x0394 */ BgDyYoseizoParticle particles[200];
 } BgDyYoseizo; // size = 0x38B4
-
-extern const ActorInit Bg_Dy_Yoseizo_InitVars;
 
 #endif

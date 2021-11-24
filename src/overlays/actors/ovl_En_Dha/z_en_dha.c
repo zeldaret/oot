@@ -194,7 +194,7 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f armPosMultiplier1 = { 0.0f, 0.0f, 55.0f };
     Vec3f armPosMultiplier2 = { 0.0f, 0.0f, -54.0f };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s32 pad2;
     Vec3f playerPos = player->actor.world.pos;
@@ -264,11 +264,11 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
 
         func_80035844(&this->armPos, &this->handPos[0], &angle, 0);
         Matrix_Translate(this->handPos[0].x, this->handPos[0].y, this->handPos[0].z, MTXMODE_NEW);
-        Matrix_RotateRPY(angle.x, angle.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(angle.x, angle.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&armPosMultiplier2, &this->armPos);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
         func_80035844(&this->actor.world.pos, &this->armPos, &angle, 0);
-        Matrix_RotateRPY(angle.x, angle.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(angle.x, angle.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&armPosMultiplier1, &this->armPos);
         this->limbAngleX[0] = Math_Vec3f_Pitch(&this->actor.world.pos, &this->armPos);
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->armPos) - this->actor.shape.rot.y;
@@ -303,7 +303,7 @@ void EnDha_SetupTakeDamage(EnDha* this) {
 }
 
 void EnDha_TakeDamage(EnDha* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~0x80;
@@ -341,7 +341,7 @@ void EnDha_SetupDeath(EnDha* this) {
 void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     s16 angle;
     Vec3f vec;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~0x80;

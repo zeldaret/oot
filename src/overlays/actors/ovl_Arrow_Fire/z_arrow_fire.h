@@ -1,5 +1,5 @@
-#ifndef _Z_ARROW_FIRE_H_
-#define _Z_ARROW_FIRE_H_
+#ifndef Z_ARROW_FIRE_H
+#define Z_ARROW_FIRE_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -18,7 +18,5 @@ typedef struct ArrowFire {
     /* 0x0166 */ u16 timer;
     /* 0x0168 */ u8 alpha;
 } ArrowFire; // size = 0x016C
-
-extern const ActorInit Arrow_Fire_InitVars;
 
 #endif

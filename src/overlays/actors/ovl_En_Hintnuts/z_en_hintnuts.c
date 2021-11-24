@@ -372,7 +372,7 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnHintnuts_SetupTalk(this);
     } else if (this->animFlagAndTimer == 0 && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f &&
                fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
@@ -391,7 +391,7 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
 void EnHintnuts_Talk(EnHintnuts* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x3, 0x400, 0x100);
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) {
         EnHintnuts_SetupLeave(this, globalCtx);
     }
 }
@@ -403,23 +403,23 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->animFlagAndTimer != 0) {
         this->animFlagAndTimer--;
     }
-    if ((Animation_OnFrame(&this->skelAnime, 0.0f)) || (Animation_OnFrame(&this->skelAnime, 6.0f))) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 6.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if (this->actor.bgCheckFlags & 8) {
         temp_a1 = this->actor.wallYaw;
     } else {
-        temp_a1 = this->actor.yawTowardsPlayer - Camera_GetCamDirYaw(ACTIVE_CAM) - 0x8000;
+        temp_a1 = this->actor.yawTowardsPlayer - Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - 0x8000;
         if (ABS(temp_a1) >= 0x4001) {
-            temp_a1 = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000;
+            temp_a1 = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000;
         } else {
-            temp_a1 = Camera_GetCamDirYaw(ACTIVE_CAM) - (temp_a1 >> 1) + 0x8000;
+            temp_a1 = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - (temp_a1 >> 1) + 0x8000;
         }
     }
     Math_ScaledStepToS(&this->actor.shape.rot.y, temp_a1, 0x800);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if ((this->animFlagAndTimer == 0) || (this->actor.projectedPos.z < 0.0f)) {
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         if (this->actor.params == 3) {
             Flags_SetClear(globalCtx, this->actor.room);
             sPuzzleCounter = 3;

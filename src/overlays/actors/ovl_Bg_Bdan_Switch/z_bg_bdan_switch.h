@@ -1,5 +1,5 @@
-#ifndef _Z_BG_BDAN_SWITCH_H_
-#define _Z_BG_BDAN_SWITCH_H_
+#ifndef Z_BG_BDAN_SWITCH_H
+#define Z_BG_BDAN_SWITCH_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -32,7 +32,5 @@ typedef struct BgBdanSwitch {
     /* 0x01DC */ u8 unk_1DC;
     /* 0x01DD */ char unk_1DD[0x3];
 } BgBdanSwitch; // size = 0x01E0
-
-extern const ActorInit Bg_Bdan_Switch_InitVars;
 
 #endif

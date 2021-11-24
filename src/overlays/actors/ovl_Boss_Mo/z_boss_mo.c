@@ -6,6 +6,7 @@
 
 #include "z_boss_mo.h"
 #include "objects/object_mo/object_mo.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
@@ -352,14 +353,14 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
             Actor_Kill(&this->actor);
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, -280.0f, 0.0f, 0,
-                               0, 0, -1);
+                               0, 0, WARP_DUNGEON_ADULT);
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, -200.0f, -280.0f, 0.0f, 0, 0, 0, 0);
             globalCtx->roomCtx.unk_74[0] = 0xFF;
             MO_WATER_LEVEL(globalCtx) = -500;
             return;
         }
         if (gSaveContext.eventChkInf[7] & 0x10) {
-            Audio_QueueSeqCmd(0x1B);
+            Audio_QueueSeqCmd(NA_BGM_BOSS);
             this->tentMaxAngle = 5.0f;
             this->timers[0] = 50;
         } else {
@@ -410,7 +411,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
     s16 tentXrot;
     s16 sp1B4 = 0; // real
     s32 buttons;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 indS0;
     s16 indS1;
     Camera* camera1;
@@ -490,7 +491,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             swingRateAccel = 30.0f;
             swingSizeAccel = 60.0f;
             if (((this->sfxTimer % 16) == 0) && (this->timers[0] < 30)) {
-                func_800F4B58(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, D_801305D0);
+                Audio_PlaySoundIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
             }
         } else if (this->work[MO_TENT_ACTION_STATE] == MO_TENT_SHAKE) {
             if (this->timers[0] > 40) {
@@ -503,7 +504,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 swingRateAccel = 30.0f;
                 swingSizeAccel = 60.0f;
                 if ((this->sfxTimer % 32) == 0) {
-                    func_800F4B58(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, D_801305D0);
+                    Audio_PlaySoundIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE,
+                                                          gMorphaTransposeTable);
                     func_800AA000(0, 100, 5, 2);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
                 }
@@ -517,7 +519,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 swingRateAccel = 70.0f;
                 swingSizeAccel = 70.0f;
                 if ((this->sfxTimer % 16) == 0) {
-                    func_800F4B58(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, D_801305D0);
+                    Audio_PlaySoundIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE,
+                                                          gMorphaTransposeTable);
                     func_800AA000(0, 160, 5, 4);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
                 }
@@ -630,7 +633,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 if ((this->timers[0] == 0) && !HAS_LINK(otherTent)) {
                     this->work[MO_TENT_ACTION_STATE] = MO_TENT_SWING;
                     this->timers[0] = 50;
-                    func_800F4BE8();
+                    Audio_ResetIncreasingTranspose();
                     this->attackAngleMod = Rand_CenteredFloat(0x1000);
                 }
             } else {
@@ -772,7 +775,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     this->timers[0] = 150;
                     this->mashCounter = 0;
                     this->sfxTimer = 30;
-                    func_800F4BE8();
+                    Audio_ResetIncreasingTranspose();
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     this->csCamera = Gameplay_CreateSubCamera(globalCtx);
                     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
@@ -1097,10 +1100,11 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                             ((300 - indS1) * .0015f) + 0.13f);
                     }
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
-                                       this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0, -1);
+                                       this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0,
+                                       WARP_DUNGEON_ADULT);
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
                                 -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
-                    Audio_QueueSeqCmd(0x21);
+                    Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
                     Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
                 }
             }
@@ -1196,7 +1200,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
     f32 sp80;
     f32 sp7C;
     f32 sp78;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
     Vec3f bubblePos;
     Vec3f bubblePos2;
@@ -1211,7 +1215,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
     switch (this->csState) {
         case MO_INTRO_WAIT:
             if (this->timers[0] == 1) {
-                func_8010B680(globalCtx, 0x403F, NULL);
+                Message_StartTextbox(globalCtx, 0x403F, NULL);
             }
             if (((fabsf(player->actor.world.pos.z - 180.0f) < 40.0f) &&
                  (fabsf(player->actor.world.pos.x - 180.0f) < 40.0f)) ||
@@ -1235,7 +1239,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_READY;
                 sMorphaTent1->timers[0] = 30000;
                 Audio_QueueSeqCmd(0x103200FF);
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
             } else {
                 break;
             }
@@ -1415,7 +1419,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 this->cameraAccel = 0.01f;
             }
             if (this->timers[2] == 150) {
-                Audio_QueueSeqCmd(0x1B);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
             }
             if (this->timers[2] == 130) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
@@ -1728,7 +1732,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
 
 void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
     s16 i;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     osSyncPrintf(VT_FGCOL(YELLOW));
     osSyncPrintf("Core_Damage_check START\n");
@@ -1741,19 +1745,19 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
     }
     if (this->coreCollider.base.acFlags & AC_HIT) {
         ColliderInfo* hurtbox = this->coreCollider.info.acHitInfo;
-        // hit!!
+        // "hit!!"
         osSyncPrintf("Core_Damage_check 当り！！\n");
         this->coreCollider.base.acFlags &= ~AC_HIT;
         if ((hurtbox->toucher.dmgFlags & 0x00020000) && (this->work[MO_TENT_ACTION_STATE] == MO_CORE_ATTACK)) {
             this->work[MO_TENT_ACTION_STATE] = MO_CORE_RETREAT;
         }
-        // hit 2 !!
+        // "hit 2 !!"
         osSyncPrintf("Core_Damage_check 当り 2 ！！\n");
         if ((this->work[MO_TENT_ACTION_STATE] != MO_CORE_UNDERWATER) && (this->work[MO_TENT_INVINC_TIMER] == 0)) {
             u8 damage = CollisionCheck_GetSwordDamage(hurtbox->toucher.dmgFlags);
 
             if ((damage != 0) && (this->work[MO_TENT_ACTION_STATE] < MO_CORE_ATTACK)) {
-                // sword hit !!
+                // "sword hit !!"
                 osSyncPrintf("Core_Damage_check 剣 当り！！\n");
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_STUNNED;
                 this->timers[0] = 25;
@@ -1822,7 +1826,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
             }
         }
     }
-    // end !!
+    // "end !!"
     osSyncPrintf("Core_Damage_check 終わり ！！\n");
     osSyncPrintf(VT_RST);
 }
@@ -1832,8 +1836,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
         0.1f, 0.15f, 0.2f, 0.3f, 0.4f, 0.43f, 0.4f, 0.3f, 0.2f, 0.15f, 0.1f,
     };
     u8 nearLand;
-    s16 i;                   // not on stack
-    Player* player = PLAYER; // not on stack
+    s16 i;                                  // not on stack
+    Player* player = GET_PLAYER(globalCtx); // not on stack
     f32 spDC;
     f32 spD8;
     f32 spD4;
@@ -2203,7 +2207,7 @@ void BossMo_UpdateCore(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BossMo* this = THIS;
     s16 i;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     osSyncPrintf("CORE mode = <%d>\n", this->work[MO_TENT_ACTION_STATE]);
     if (sMorphaTent2 == NULL) {
@@ -2250,7 +2254,7 @@ void BossMo_UpdateTent(Actor* thisx, GlobalContext* globalCtx) {
     s16 index;
     s32 pad;
     BossMo* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 phi_f0;
 
     if ((this == sMorphaTent2) && (this->tent2KillTimer != 0)) {
@@ -2258,7 +2262,7 @@ void BossMo_UpdateTent(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.draw = NULL;
         if (this->tent2KillTimer > 20) {
             Actor_Kill(&this->actor);
-            func_800F89E8(&this->tentTipPos);
+            Audio_StopSfxByPos(&this->tentTipPos);
             sMorphaTent2 = NULL;
         }
         return;
@@ -2434,9 +2438,9 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6366);
 
-    sp110.x = globalCtx->envCtx.unk_2A;
-    sp110.y = globalCtx->envCtx.unk_2B;
-    sp110.z = globalCtx->envCtx.unk_2C;
+    sp110.x = globalCtx->envCtx.dirLight1.params.dir.x;
+    sp110.y = globalCtx->envCtx.dirLight1.params.dir.y;
+    sp110.z = globalCtx->envCtx.dirLight1.params.dir.z;
 
     Matrix_Push();
 
@@ -2955,7 +2959,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
-                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
 
                 flag++;
@@ -2971,7 +2975,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletVtxDL);
+            gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletModelDL);
         }
     }
 
@@ -2984,7 +2988,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
-                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
 
                 flag++;
             }
@@ -2997,7 +3001,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7441),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gMorphaWetSpotVtxDL);
+            gSPDisplayList(POLY_XLU_DISP++, gMorphaWetSpotModelDL);
         }
     }
 

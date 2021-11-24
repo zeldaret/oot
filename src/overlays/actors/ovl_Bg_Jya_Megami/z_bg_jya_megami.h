@@ -1,5 +1,5 @@
-#ifndef _Z_BG_JYA_MEGAMI_H_
-#define _Z_BG_JYA_MEGAMI_H_
+#ifndef Z_BG_JYA_MEGAMI_H
+#define Z_BG_JYA_MEGAMI_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -25,7 +25,5 @@ typedef struct BgJyaMegami {
     /* 0x01CC */ s16 crumbleIndex;
     /* 0x01D0 */ BgJyaMegamiPiece pieces[13];
 } BgJyaMegami; // size = 0x033C
-
-extern const ActorInit Bg_Jya_Megami_InitVars;
 
 #endif

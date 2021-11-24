@@ -1,5 +1,5 @@
-#ifndef _Z_EN_DNS_H_
-#define _Z_EN_DNS_H_
+#ifndef Z_EN_DNS_H
+#define Z_EN_DNS_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -33,7 +33,5 @@ typedef struct EnDns {
     /* 0x02C0 */ DnsItemEntry* dnsItemEntry;
     /* 0x02C4 */ f32 yInitPos;
 } EnDns; // size = 0x02C8
-
-extern const ActorInit En_Dns_InitVars;
 
 #endif

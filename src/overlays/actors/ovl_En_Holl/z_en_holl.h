@@ -1,5 +1,5 @@
-#ifndef _Z_EN_HOLL_H_
-#define _Z_EN_HOLL_H_
+#ifndef Z_EN_HOLL_H
+#define Z_EN_HOLL_H
 
 #include "ultra64.h"
 #include "global.h"
@@ -15,7 +15,5 @@ typedef struct EnHoll {
     /* 0x014F */ u8 unk_14F;
     /* 0x0150 */ EnHollActionFunc actionFunc;
 } EnHoll; // size = 0x0154
-
-extern const ActorInit En_Holl_InitVars;
 
 #endif
