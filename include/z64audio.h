@@ -1011,24 +1011,4 @@ typedef struct {
     u16 params;
 } SoundParams;
 
-typedef struct {
-    /* 0x0 */ u8 noteIdx;
-    /* 0x2 */ u16 length;
-    /* 0x4 */ u8 volume;
-    /* 0x5 */ u8 vibrato;
-    /* 0x6 */ s8 bend;
-    /* 0x7 */ u8 BFlat4Flag;
-} OcarinaNote;  // size = 0x8
-
-typedef struct {
-    u8 numButtons;
-    u8 buttonIdx[8];
-} OcarinaSongButtons;
-
-typedef struct {
-    u8 buttonIdx;
-    u8 state;   // original name: "status"
-    u8 pos;     // original name: "locate"
-} OcarinaStaff;
-
 #endif
