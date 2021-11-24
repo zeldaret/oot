@@ -132,7 +132,7 @@ void Message_ResetOcarinaNoteState(void) {
     sOcarinaButtonCEnvB = 10;
 }
 
-void Message_UpdateOcarinaGame(GlobalContext* globalCtx) {
+void Message_UpdateOcarinaMemoryGame(GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
 
     globalCtx->msgCtx.msgMode++;
@@ -1736,7 +1736,7 @@ void Message_StartOcarina(GlobalContext* globalCtx, u16 ocarinaActionId) {
 
     osSyncPrintf(VT_FGCOL(GREEN));
 
-    for (i = sOcarinaSongBitFlags = 0; i < (QUEST_KOKIRI_EMERALD - QUEST_SONG_MINUET); i++) {
+    for (i = sOcarinaSongBitFlags = 0; i <= (QUEST_SONG_STORMS - QUEST_SONG_MINUET); i++) {
         if (CHECK_QUEST_ITEM(QUEST_SONG_MINUET + i)) {
             osSyncPrintf("ocarina_check_bit[%d]=%x\n", i, sOcarinaSongFlagsMap[i]);
             sOcarinaSongBitFlags |= sOcarinaSongFlagsMap[i];
@@ -2579,7 +2579,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                         // "Recording complete！！！！！！！！！"
                         osSyncPrintf("録音終了！！！！！！！！！  message->info->status=%d \n",
                                      msgCtx->ocarinaStaff->state);
-                        gSaveContext.scarecrowCustomSongSet = true;
+                        gSaveContext.scarecrowLongSongSet = true;
                     }
                     Audio_PlaySoundGeneral(NA_SE_SY_OCARINA_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
@@ -2592,10 +2592,10 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                     osSyncPrintf("録音終了！！！！！！！！！録音終了\n");
                     osSyncPrintf(VT_FGCOL(YELLOW));
                     osSyncPrintf("\n====================================================================\n");
-                    MemCopy(gSaveContext.scarecrowCustomSong, gScarecrowLongSongPtr,
-                            sizeof(gSaveContext.scarecrowCustomSong));
-                    for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowCustomSong); i++) {
-                        osSyncPrintf("%d, ", gSaveContext.scarecrowCustomSong[i]);
+                    MemCopy(gSaveContext.scarecrowLongSong, gScarecrowLongSongPtr,
+                            sizeof(gSaveContext.scarecrowLongSong));
+                    for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowLongSong); i++) {
+                        osSyncPrintf("%d, ", gSaveContext.scarecrowLongSong[i]);
                     }
                     osSyncPrintf(VT_RST);
                     osSyncPrintf("\n====================================================================\n");
@@ -2962,7 +2962,7 @@ void Message_Draw(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_message_PAL.c", 3554);
 
-    watchVar = gSaveContext.scarecrowCustomSongSet;
+    watchVar = gSaveContext.scarecrowLongSongSet;
     Message_DrawDebugVariableChanged(&watchVar, globalCtx->state.gfxCtx);
     if (BREG(0) != 0 && globalCtx->msgCtx.textId != 0) {
         plusOne = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);

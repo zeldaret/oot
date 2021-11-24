@@ -104,8 +104,8 @@ typedef struct {
     /* 0x0F34 */ char unk_F34[0x04];
     /* 0x0F38 */ u32 worldMapAreaData; // "area_arrival"
     /* 0x0F3C */ char unk_F3C[0x4];
-    /* 0x0F40 */ u8 scarecrowCustomSongSet;
-    /* 0x0F41 */ u8 scarecrowCustomSong[0x360];
+    /* 0x0F40 */ u8 scarecrowLongSongSet;
+    /* 0x0F41 */ u8 scarecrowLongSong[0x360];
     /* 0x12A1 */ char unk_12A1[0x24];
     /* 0x12C5 */ u8 scarecrowSpawnSongSet;
     /* 0x12C6 */ u8 scarecrowSpawnSong[0x80];

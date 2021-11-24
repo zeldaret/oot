@@ -1446,7 +1446,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                         sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState =
                             SKULL_KID_OCARINA_PLAY_NOTES;
                     }
-                    Message_UpdateOcarinaGame(globalCtx);
+                    Message_UpdateOcarinaMemoryGame(globalCtx);
                 }
                 break;
             case MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_WAIT:
@@ -1454,7 +1454,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState = SKULL_KID_OCRAINA_WAIT;
                 }
                 if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
-                    Message_UpdateOcarinaGame(globalCtx);
+                    Message_UpdateOcarinaMemoryGame(globalCtx);
                     this->songFailTimer = 160;
                 }
                 break;

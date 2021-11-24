@@ -2374,7 +2374,7 @@ s32 __osSpSetPc(void* pc);
 f32 absf(f32);
 void* func_80106860(void* ptr, s32 val, size_t size);
 void* func_801068B0(void* dst, void* src, size_t size);
-void Message_UpdateOcarinaGame(GlobalContext* globalCtx);
+void Message_UpdateOcarinaMemoryGame(GlobalContext* globalCtx);
 u8 Message_ShouldAdvance(GlobalContext* globalCtx);
 void Message_CloseTextbox(GlobalContext*);
 void Message_StartTextbox(GlobalContext* globalCtx, u16 textId, Actor* actor);
