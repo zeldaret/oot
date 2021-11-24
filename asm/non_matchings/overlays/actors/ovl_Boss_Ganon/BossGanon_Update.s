@@ -1223,18 +1223,18 @@ glabel L808DE3B0
 /* 07D5C 808DE5CC AF290008 */  sw      $t1, 0x0008($t9)           ## 8015FD00
 /* 07D60 808DE5D0 C6A60670 */  lwc1    $f6, 0x0670($s5)           ## 00000670
 .L808DE5D4:
-/* 07D64 808DE5D4 3C018016 */  lui     $at, %hi(D_8015FD06)
+/* 07D64 808DE5D4 3C018016 */  lui     $at, %hi(gLensFlareScale)
 /* 07D68 808DE5D8 4600320D */  trunc.w.s $f8, $f6                   
 /* 07D6C 808DE5DC 440B4000 */  mfc1    $t3, $f8                   
 /* 07D70 808DE5E0 00000000 */  nop
-/* 07D74 808DE5E4 A42BFD06 */  sh      $t3, %lo(D_8015FD06)($at)
+/* 07D74 808DE5E4 A42BFD06 */  sh      $t3, %lo(gLensFlareScale)($at)
 /* 07D78 808DE5E8 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 07D7C 808DE5EC 44818000 */  mtc1    $at, $f16                  ## $f16 = 10.00
-/* 07D80 808DE5F0 3C018016 */  lui     $at, %hi(D_8015FD08)
-/* 07D84 808DE5F4 E430FD08 */  swc1    $f16, %lo(D_8015FD08)($at)
-/* 07D88 808DE5F8 3C018016 */  lui     $at, %hi(D_8015FD0C)
+/* 07D80 808DE5F0 3C018016 */  lui     $at, %hi(gLensFlareColorIntensity)
+/* 07D84 808DE5F4 E430FD08 */  swc1    $f16, %lo(gLensFlareColorIntensity)($at)
+/* 07D88 808DE5F8 3C018016 */  lui     $at, %hi(gLensFlareScreenFillAlpha)
 /* 07D8C 808DE5FC 10000002 */  beq     $zero, $zero, .L808DE608   
-/* 07D90 808DE600 A420FD0C */  sh      $zero, %lo(D_8015FD0C)($at)
+/* 07D90 808DE600 A420FD0C */  sh      $zero, %lo(gLensFlareScreenFillAlpha)($at)
 .L808DE604:
 /* 07D94 808DE604 A020FCF0 */  sb      $zero, %lo(gCustomLensFlareOn)($at)
 .L808DE608:

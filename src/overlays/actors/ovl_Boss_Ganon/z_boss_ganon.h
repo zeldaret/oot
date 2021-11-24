@@ -81,12 +81,12 @@ typedef struct BossGanon {
     /* 0x0274 */ u8 unk_274;
     /* 0x0275 */ char unk_275[0x3];
     /* 0x0278 */ Vec3f unk_278;
-    /* 0x0284 */ f32 unk_284;
+    /* 0x0284 */ f32 unk_284; // scale for something
     /* 0x0288 */ f32 unk_288;
-    /* 0x028C */ f32 unk_28C;
+    /* 0x028C */ f32 unk_28C; // scale for something
     /* 0x0290 */ f32 unk_290;
     /* 0x0294 */ f32 unk_294[15];
-    /* 0x02D0 */ f32 unk_2D0;
+    /* 0x02D0 */ f32 unk_2D0; // scale for something
     /* 0x02D4 */ s16 unk_2D4; // timer
     /* 0x02D6 */ char unk_2D6[0x2];
     /* 0x02D8 */ Vec3f unk_2D8;

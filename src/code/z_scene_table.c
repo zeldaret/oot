@@ -1119,9 +1119,9 @@ void func_80099BD8(GlobalContext* globalCtx) {
         gCustomLensFlarePos.x = -20.0f;
         gCustomLensFlarePos.y = 1220.0f;
         gCustomLensFlarePos.z = -684.0f;
-        D_8015FD06 = 10;
-        D_8015FD08 = 8.0f;
-        D_8015FD0C = 200;
+        gLensFlareScale = 10;
+        gLensFlareColorIntensity = 8.0f;
+        gLensFlareScreenFillAlpha = 200;
     }
 }
 
