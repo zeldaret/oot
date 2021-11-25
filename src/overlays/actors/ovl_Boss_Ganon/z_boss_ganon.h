@@ -62,7 +62,8 @@ typedef struct BossGanon {
     /* 0x01C4 */ s16 unk_1C4; // timer?
     /* 0x01C6 */ char unk_1C6[0x2];
     /* 0x01C8 */ f32 fwork[FWORK_MAX];
-    /* 0x01EC */ char unk_1EC[0x10];
+    /* 0x01EC */ char unk_1EC[0x4];
+    /* 0x01F0 */ Vec3f unk_1F0;
     /* 0x01FC */ Vec3f unk_1FC;
     /* 0x0208 */ Vec3f unk_208;
     /* 0x0214 */ Vec3f unk_214;
