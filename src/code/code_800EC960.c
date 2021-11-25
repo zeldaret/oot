@@ -1117,7 +1117,7 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
 
 /**
  * Directly enable the ocarina to receive input without
- * properly resetting it based on an ocarina font
+ * properly resetting it based on an ocarina instrument id
  * Unused.
  */
 void AudioOcarina_EnableInput(u8 inputEnabled) {
