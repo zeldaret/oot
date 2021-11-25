@@ -1,0 +1,233 @@
+.include "seq_macros.inc"
+.section .rodata
+.balign 1
+sequence_start:
+
+# io slot 0 = temp, for communicating with loaded seqs. Initially time of day, with 1 = morning
+# io slot 1 = temp, for seq loading
+# io slot 2 = new external state (input from the game)
+# io slot 3 = current external state (0, 1 or 2)
+# io slot 4 = current internal state (0, 1 or 2, same as slot 3)
+# io slot 5 = last random index
+# io slot 6 = which sequence buffer to load into next (either 0 or 1)
+
+seq_setmutebhv 0x20
+seq_setmutescale 70
+seq_initchannels 0xffff
+seq_setval 0
+seq_iowriteval 3  # set current external state = 0 (moving)
+seq_iowriteval 6  # set buffer index = 0
+seq_setval 255
+seq_iowriteval 5  # set last random index = -1
+
+# Play intro sequence (either morning version or default)
+seq_ioreadval 0
+seq_subtract 1
+seq_beqzrel .morning
+seq_setval 3  # "Initial Segment From Loading Area"
+seq_call .playseq
+seq_jumprel .state_moving
+.morning:
+seq_setval 49  # "Hyrule Field Morning Theme"
+seq_call .playseq
+
+.state_moving:
+seq_setval 0
+seq_iowriteval 4  # set internal state = 0
+seq_ioreadval 2
+seq_bltzrel .playrandom_moving  # if new state = -1, goto moving
+seq_ioreadvalsub 3
+seq_beqzrel .playrandom_moving  # if external state is unchanged, goto moving
+seq_ioreadval 2
+seq_iowriteval 3  # set external state = new state
+seq_subtract 1
+seq_beqzrel .state_enemy_intro  # if new state = 1, goto enemy
+seq_ioreadval 2
+seq_subtract 2
+seq_beqzrel .state_still_intro  # if new state = 2, goto still
+
+# Play a random sequence from among 4..14, but no the same as last time.
+# (If the same sequence is chosen as last time, choose the one just before it instead.)
+.playrandom_moving:
+seq_rand 11
+seq_ioreadvalsub 5
+seq_beqzrel .same_moving
+seq_rand 11  # same audio frame, so reads the same random value as before
+seq_jumprel .play_moving
+.same_moving:
+seq_rand 11
+seq_beqzrel .iszero_moving
+seq_subtract 1
+seq_jumprel .play_moving
+.iszero_moving:
+seq_setval 11
+seq_subtract 1
+.play_moving:
+seq_iowriteval 5
+seq_subtract 252  # += 4
+seq_call .playseq
+seq_jumprel .state_moving
+
+.state_enemy_intro:
+seq_setval 1
+seq_iowriteval 4  # set internal state = 1
+seq_setval 255
+seq_iowriteval 5  # set last random index = -1
+seq_setval 15  # "Enemy Approaches"
+seq_call .playseq
+
+.state_enemy:
+seq_ioreadval 2
+seq_bltzrel .playrandom_enemy  # if new state = -1, goto enemy
+seq_ioreadvalsub 3
+seq_beqzrel .playrandom_enemy  # if external state is unchanged, goto enemy
+seq_ioreadval 2
+seq_iowriteval 3  # set external state = new state
+seq_beqzrel .state_moving  # if new state = 0, goto moving
+seq_subtract 2
+seq_beqzrel .state_still_intro  # if new state = 2, goto still
+
+# Play a random sequence from among 16..19, but not the same as last time.
+.playrandom_enemy:
+seq_rand 4
+seq_ioreadvalsub 5
+seq_beqzrel .same_enemy
+seq_rand 4
+seq_jumprel .play_enemy
+.same_enemy:
+seq_rand 4
+seq_beqzrel .iszero_enemy
+seq_subtract 1
+seq_jumprel .play_enemy
+.iszero_enemy:
+seq_setval 4
+seq_subtract 1
+.play_enemy:
+seq_iowriteval 5
+seq_subtract 240  # += 16
+seq_call .playseq
+seq_jumprel .state_enemy
+
+.state_still_intro:
+seq_setval 2
+seq_iowriteval 4  # set internal state = 2
+seq_setval 255
+seq_iowriteval 5  # set last random index = -1
+seq_setval 20  # "Standing Still Segment 1"
+seq_call .playseq
+
+.state_still:
+seq_ioreadval 2
+seq_bltzrel .playrandom_still  # if new state = -1, goto still
+seq_ioreadvalsub 3
+seq_beqzrel .playrandom_still  # if external state is unchanged, goto still
+seq_ioreadval 2
+seq_iowriteval 3
+seq_beqzrel .state_moving  # if new state = 0, goto moving
+seq_subtract 1
+seq_beqzrel .state_enemy_intro  # if new state = 1, goto enemy
+
+# Play a random sequence from among 21..23, but not the same as last time.
+.playrandom_still:
+seq_rand 3
+seq_ioreadvalsub 5
+seq_beqzrel .same_still
+seq_rand 3
+seq_jumprel .play_still
+.same_still:
+seq_rand 3
+seq_beqzrel .iszero_still
+seq_subtract 1
+seq_jumprel .play_still
+.iszero_still:
+seq_setval 3
+seq_subtract 1
+.play_still:
+seq_iowriteval 5
+seq_subtract 235  # += 21
+seq_call .playseq
+seq_jumprel .state_still
+
+.loadseq_fns:
+entry .loadseq1
+entry .loadseq2
+
+.playseq_fns:
+entry .seqmem1
+entry .seqmem2
+
+# Play the sequence given by the temp register
+.playseq:
+seq_iowriteval 7
+
+# Write 0 to port 0 to tell the top-level sequence script that we load to
+# return 30 ticks early, so we have time to load the next sequence.
+# Sound will continue playing during those 30 ticks.
+seq_setval 0
+seq_iowriteval 0
+
+# Load the chosen sequence into the free buffer. This may take a few ticks.
+seq_ioreadval 6
+seq_dyncall .loadseq_fns
+
+# Wait for previous sequence to finish playing.
+.playseq_retry:
+seq_delay1
+seq_testchdisabled 0
+seq_beqzrel .playseq_retry
+seq_testchdisabled 6
+seq_beqzrel .playseq_retry
+seq_testchdisabled 9
+seq_beqzrel .playseq_retry
+seq_testchdisabled 10
+seq_beqzrel .playseq_retry
+seq_testchdisabled 12
+seq_beqzrel .playseq_retry
+seq_testchdisabled 14
+seq_beqzrel .playseq_retry
+seq_ioreadval 6
+seq_dyncall .playseq_fns
+seq_setval 1
+seq_ioreadvalsub 6
+seq_iowriteval 6  # set buffer index = 1 - buffer index
+seq_end
+
+# Synchronously load the sequence specified by io slot 7 at .seqbuf1
+.loadseq1:
+seq_ioreadval 7
+seq_writeseq 0, .loadseq1instr+1
+seq_setval 255
+seq_iowriteval 1
+.loadseq1instr:
+seq_loadseq 1, 2, .seqbuf1
+seq_jumprel .loadseq_loop
+
+# Synchronously load the sequence specified by io slot 7 at .seqbuf2
+.loadseq2:
+seq_ioreadval 7
+seq_writeseq 0, .loadseq2instr+1
+seq_setval 255
+seq_iowriteval 1
+.loadseq2instr:
+seq_loadseq 1, 2, .seqbuf2
+
+# Wait for the sequence to load. This will be signalled by a write to io port 1,
+# as specified by the seq_loadseq call.
+.loadseq_loop:
+seq_delay1
+seq_ioreadval 1
+seq_beqzrel .loadseq_done
+seq_bltzrel .loadseq_loop
+seq_end
+.loadseq_done:
+seq_end
+
+.balign 16
+
+.seqbuf1:
+.space 4600
+
+# Bug? This buffer is only 8-byte aligned, which I'm not sure if it's enough for filters.
+# None of the field sequences use filters though, so it's not actually a problem.
+.seqbuf2:
+.space 4600

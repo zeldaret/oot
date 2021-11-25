@@ -3,6 +3,7 @@
     <Bank Name="1 General MIDI"/>
     <Bank Name="2 Deku Tree BGM"/>
     <Bank Name="3 Jabu Jabu BGM"/>
+    <Bank/>
     <Bank Name="5 Goron City"/>
     <Bank Name="6 Spirit Temple"/>
 </Root>

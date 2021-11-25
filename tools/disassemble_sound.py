@@ -4,17 +4,15 @@ import subprocess
 import tempfile
 import math
 import shutil
-import uuid
-import json
 import xml.etree.ElementTree as XmlTree
 import os
-import re
 import struct
 import sys
 
-rawSamples = {}
+rawSamples = []
 bankOffsets = {}
 sampleNameLookup = {}
+tunings = {}
 usedTuning = {}
 
 # Used for data gap detection (finding potentially unreferenced data)
@@ -26,8 +24,9 @@ class Soundfont:
     def __init__(self, entry, ctl, fontdef):
         if fontdef:
             self.name = fontdef.name
+        else:
+            self.name = f"Font_{entry.offset:0>8x}"
 
-        self.definition = entry
         endOffset = entry.offset + 8
         percussionOffset, effectsOffset = struct.unpack(">LL", ctl[entry.offset:endOffset])
         instrumentOffsets = []
@@ -50,7 +49,7 @@ class Soundfont:
             for offset in instrumentOffsets:
                 instdef = None
                 if fontdef:
-                    instdef = fontdef.instruments[instIdx]
+                    instdef = fontdef.instruments[instIdx] if instIdx < len(fontdef.instruments) else None
                 buffer = setCtl[offset:offset + 32]
                 instrument = None if offset == 0 else Instrument(entry.bank, buffer, setCtl, entry.offset, offset, instdef)
                 self.instruments.append(instrument)
@@ -61,7 +60,7 @@ class Soundfont:
             for i in range(entry.effectCount):
                 effectdef = None
                 if fontdef:
-                    effectdef = fontdef.effects[i]
+                    effectdef = fontdef.effects[i] if i < len(fontdef.effects) else None
                 buffer = effectsTable[i * 8:(i * 8) + 8]
                 offset = struct.unpack(">L", buffer[0:4])[0]
                 effect = None if offset == 0 else SoundEffect(entry.bank, buffer, setCtl, entry.offset, effectsOffset + (i * 8), effectdef)
@@ -73,7 +72,7 @@ class Soundfont:
             for i in range(entry.percussionCount):
                 drumdef = None
                 if fontdef:
-                    drumdef = fontdef.drums[i]
+                    drumdef = fontdef.drums[i] if i < len(fontdef.drums) else None
                 offset = percussionsOffsets[i]
                 percussion = None if offset == 0 else Percussion(entry.bank, setCtl[offset:offset + 16], setCtl, entry.offset, offset, drumdef)
                 self.percussions.append(percussion)
@@ -81,8 +80,11 @@ class Soundfont:
 class SoundEffect:
     def __init__(self, bank, record, tbl, baseOffset, offset, effectdef):
         if effectdef:
-            self.name = effectdef.name
+            self.name = effectdef.name or f"Effect_{offset:0>8x}"
             self.enum = effectdef.enum
+        else:
+            self.name = f"Effect_{offset:0>8x}"
+            self.enum = ""
         self.headerOffset, self.pitch = struct.unpack(">Lf", record)
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 8))
         self.sample = SampleHeader(bank, self.name, self.pitch, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
@@ -90,8 +92,11 @@ class SoundEffect:
 class Percussion:
     def __init__(self, bank, record, tbl, baseOffset, offset, drumdef):
         if drumdef:
-            self.name = drumdef.name
+            self.name = drumdef.name or f"Drum_{offset:0>8x}"
             self.enum = drumdef.enum
+        else:
+            self.name = f"Drum_{offset:0>8x}"
+            self.enum = ""
         self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">BBBxLfL", record)
         assert self.loaded == 0
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 16))
@@ -101,8 +106,11 @@ class Percussion:
 class Instrument:
     def __init__(self, bank, record, tbl, baseOffset, offset, instdef):
         if instdef:
-            self.name = instdef.name
+            self.name = instdef.name or f"Inst_{offset:0>8x}"
             self.enum = instdef.enum
+        else:
+            self.name = f"Inst_{offset:0>8x}"
+            self.enum = ""
         self.loaded, self.lowRange, self.highRange, self.decay, self.envelopeOffset, self.keyLowOffset, self.keyLowPitch, self.keyMedOffset, self.keyMedPitch, self.keyHighOffset, self.keyHighPitch = struct.unpack(">BBBbLLfLfLf", record)
         assert self.loaded == 0
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 32))
@@ -114,6 +122,7 @@ class Instrument:
 class Envelope:
     def __init__(self, tbl, baseOffset, offset):
         advanceOffset = 0
+        self.name = f"Env_{offset:0>8x}"
         self.script = []
         self.referencedScripts = []
         while True:
@@ -159,6 +168,7 @@ class Envelope:
 class SampleHeader:
     def __init__(self, bank, name, tuning, record, tbl, baseOffset, offset):
         modes, self.u2, self.length, self.address, self.loopOffset, self.bookOffset = struct.unpack(">bbHLLL", record)
+        self.name = name or f"Sample_{offset:0>8x}"
         self.offset = baseOffset + offset
         self.codec = (modes >> 4) & 0xF
         self.medium = (modes & 0xC) >> 2
@@ -178,17 +188,19 @@ class SampleHeader:
         if self.bookOffset != 0:
             self.book = PCMBook(tbl[self.bookOffset:self.bookOffset + 8], tbl[self.bookOffset + 8:], baseOffset, self.bookOffset)
         
-        sampleOffset = bankOffsets[bank]
-        
         if bank not in sampleNameLookup:
             sampleNameLookup[bank] = {}
         
-        sampleNameLookup[bank][self.address] = name or f"{self.address:08x}"
+        sampleNameLookup[bank][self.address] = name or f"{self.address:0>8x}"
+
+        rawSamples.append(self)
         
-        if sampleOffset in rawSamples:
-            rawSamples[sampleOffset].add(tuning)
+        if self.bank not in tunings:
+            tunings[self.bank] = { self.address: { tuning }}
+        elif self.address not in tunings[self.bank]:
+            tunings[self.bank][self.address] = { tuning }
         else:
-            rawSamples[sampleOffset] = { tuning }
+            tunings[self.bank][self.address].add(tuning)
 
 class PCMLoop:
     def __init__(self, record, baseOffset, offset):
@@ -257,11 +269,11 @@ class ElementDefinition:
         self.enum = enum
 
 def read_soundfont_xmls(xml_dir):
-    results = {}
+    results = defaultdict(lambda: None)
 
     for file in os.listdir(xml_dir):
         if file.endswith(".xml"):
-            xml = XmlTree.parse(file)
+            xml = XmlTree.parse(os.path.join(xml_dir, file))
             soundfontElement = xml.find("./Soundfont")
             soundfont = SoundfontDefinition(soundfontElement.get("Name"), soundfontElement.get("Index"))
             instrumentsElement = soundfontElement.find("Instruments")
@@ -283,14 +295,14 @@ def read_soundfont_xmls(xml_dir):
                 effect = ElementDefinition(effectElement.get("Name"), effectElement.get("Enum"))
                 soundfont.effects.append(effect)
 
-            results[soundfont.index] = soundfont
+            results[int(soundfont.index)] = soundfont
 
     return results
 
 def read_samplebank_xml(xmlfile):
     root = XmlTree.parse(xmlfile)
     idx = 0
-    results = {}
+    results = defaultdict(lambda: None)
     for bank in root.findall("Bank"):
         results[idx] = bank.get("Name")
         idx += 1
@@ -339,15 +351,15 @@ def generate_drum_obj(root, drum, envelopes):
         return drumElement
 
     # self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">BBBxLfL", record)
-    drumElement.set("Name", drum.name or f"Drum_{drum.offset:08x}")
+    drumElement.set("Name", drum.name or f"Drum_{drum.offset:0>8x}")
     drumElement.set("Enum", drum.enum or "")
-    drumElement.set("Decay", drum.decay)
-    drumElement.set("Pan", drum.pan)
+    drumElement.set("Decay", str(drum.decay))
+    drumElement.set("Pan", str(drum.pan))
     drumElement.set("Sample", sampleNameLookup[drum.sample.bank][drum.sample.address])
-    drumElement.set("Envelope", f"Env_{drum.envelopeOffset:08x}")
-    envelopes[f"Env_{drum.envelopeOffset:08x}"] = drum.envelope
+    drumElement.set("Envelope", drum.envelope.name)
+    envelopes[drum.envelope.name] = drum.envelope
     if drum.pitch != usedTuning[drum.sample.bank][drum.sample.address]:
-        drumElement.set("Pitch", drum.pitch)
+        drumElement.set("Pitch", str(drum.pitch))
 
     return drumElement
 
@@ -357,12 +369,12 @@ def generate_effect_obj(root, effect):
     if effect is None:
         return element
     
-    element.set("Name", effect.name or f"Effect_{effect.offset:08x}")
+    element.set("Name", effect.name or f"Effect_{effect.offset:0>8x}")
     element.set("Enum", effect.enum or "")
     element.set("Sample", sampleNameLookup[effect.sample.bank][effect.sample.address])
 
     if effect.pitch != usedTuning[effect.sample.bank][effect.sample.address]:
-        element.set("Pitch", effect.pitch)
+        element.set("Pitch", str(effect.pitch))
 
     return element
 
@@ -374,10 +386,10 @@ def generate_instrument_obj(root, instrument, envelopes):
         root,
         "Instrument",
         {
-            "Name": instrument.name or f"Inst_{instrument.offset:08x}",
+            "Name": instrument.name or f"Inst_{instrument.offset:0>8x}",
             "Enum": instrument.enum or "",
-            "Decay": instrument.decay,
-            "Envelope": f"Env_{instrument.envelopeOffset:08x}"
+            "Decay": str(instrument.decay),
+            "Envelope": instrument.envelope.name
         }
     )
 
@@ -387,22 +399,22 @@ def generate_instrument_obj(root, instrument, envelopes):
     if instrument.keyLowSample is not None:
         keyLow = instrument.keyLowSample
         lowKeyElement.set("Sample", sampleNameLookup[keyLow.bank][keyLow.address])
-        lowKeyElement.set("MaxNote", instrument.lowRange)
+        lowKeyElement.set("MaxNote", toNote(instrument.lowRange))
         if instrument.keyLowPitch != usedTuning[keyLow.bank][keyLow.address]:
-            lowKeyElement.set("Pitch", instrument.keyLowPitch)
+            lowKeyElement.set("Pitch", str(instrument.keyLowPitch))
     if instrument.keyMedSample is not None:
         keyMed = instrument.keyMedSample
         medKeyElement.set("Sample", sampleNameLookup[keyMed.bank][keyMed.address])
         if instrument.keyMedPitch != usedTuning[keyMed.bank][keyMed.address]:
-            medKeyElement.set("Pitch", instrument.keyMedPitch)
+            medKeyElement.set("Pitch", str(instrument.keyMedPitch))
     if instrument.keyHighSample is not None:
         keyHigh = instrument.keyHighSample
         hiKeyElement.set("Sample", sampleNameLookup[keyHigh.bank][keyHigh.address])
-        hiKeyElement.set("MinNote", instrument.highRange)
+        hiKeyElement.set("MinNote", toNote(instrument.highRange))
         if instrument.keyHighPitch != usedTuning[keyHigh.bank][keyHigh.address]:
-            hiKeyElement.set("Pitch", instrument.keyHighPitch)
+            hiKeyElement.set("Pitch", str(instrument.keyHighPitch))
 
-    envelopes[f"Env_{instrument.envelopeOffset:08x}"] = instrument.envelope
+    envelopes[instrument.envelope.name] = instrument.envelope
 
     return element
 
@@ -411,44 +423,35 @@ def generate_envelope_obj(root, name, envelope):
     if envelope.name:
         envelopeRoot.set("Name", envelope.name)
     script = XmlTree.SubElement(envelopeRoot, "Script")
-    [XmlTree.SubElement(
-        script,
-        "Point",
-        {
-            "Delay": x[0],
-            "Command": x[1]
-        }
-    ) for x in envelope.script]
+    [XmlTree.SubElement(script, "Point", { "Delay": str(x[0]), "Command": str(x[1]) }) for x in envelope.script]
     return envelopeRoot
 
 def write_soundfont(font, filename, banknames):
     envelopesFound = {}
 
-    root = XmlTree.Element(
-        tag="Soundfont",
-        attrib={
-            "medium": toMedium(font.definition.medium),
-            "cachePolicy": toCachePolicy(font.definition.cache)
-        }
-    )
+    root = XmlTree.Element("Soundfont", {
+        "Medium": toMedium(font.medium),
+        "CachePolicy": toCachePolicy(font.cache)
+    })
 
     banks = XmlTree.SubElement(root, "SampleBanks")
-    XmlTree.SubElement(banks, "Bank", { "Name": banknames[font.definition.bank] })
+    XmlTree.SubElement(banks, "Bank", { "Name": banknames[font.bank] })
 
-    if font.definition.bank2 >= 0:
-        XmlTree.SubElement(banks, "Bank", { "Name": banknames[font.definition.bank2] })
+    if font.bank2 < 128:
+        XmlTree.SubElement(banks, "Bank", { "Name": banknames[font.bank2] })
 
     instruments = XmlTree.SubElement(root, "Instruments")
     drums = XmlTree.SubElement(root, "Drums")
     effects = XmlTree.SubElement(root, "SoundEffects")
     envelopes = XmlTree.SubElement(root, "Envelopes")
-    [generate_instrument_obj(instruments, inst, envelopesFound) for inst in font.instruments]
-    [generate_drum_obj(drums, drum, envelopesFound) for drum in font.percussions]
-    [generate_effect_obj(effects, effect, envelopesFound) for effect in font.effects]
-    for foundEnvelope in envelopesFound:
-        for referencedEnvelope in foundEnvelope.referencedScripts:
-            envelopesFound[f"Env_{referencedEnvelope.offset:08x}"] = referencedEnvelope
+    [generate_instrument_obj(instruments, inst, envelopesFound) for inst in font.font.instruments]
+    [generate_drum_obj(drums, drum, envelopesFound) for drum in font.font.percussions]
+    [generate_effect_obj(effects, effect) for effect in font.font.effects]
+    for name in envelopesFound:
+        for referencedEnvelope in envelopesFound[name].referencedScripts:
+            envelopesFound[referencedEnvelope.name] = referencedEnvelope
     [generate_envelope_obj(envelopes, name, envelope) for name, envelope in envelopesFound.items()]
+    XmlTree.indent(root, space="\t", level=0)
     file = open(filename, "w")
     file.write(XmlTree.tostring(root, encoding="unicode"))
     file.flush()
@@ -533,7 +536,7 @@ def serialize_f80(num):
     f80 = f80_sign_bit | f80_exponent | f80_mantissa_bits
     return struct.pack(">HQ", f80 >> 64, f80 & (2 ** 64 - 1))
 
-def write_aifc(raw, bank_defs, entry, tunings, filename):
+def write_aifc(raw, bank_defs, entry, filename):
     offset = bank_defs[entry.bank].offset + entry.address
     data = raw[offset:offset + entry.length]
     usedRawData.append((data, offset, offset + entry.length))
@@ -547,76 +550,80 @@ def write_aifc(raw, bank_defs, entry, tunings, filename):
     }.get(entry.codec)
     sample_size = 16  # bits per sample
 
-    with open(filename, "wb") as file:
-        writer = AifcWriter(file)
-        num_channels = 1
-#        length = len(data)
-#        assert len(data) % frame_size == 0 or len(data) - 1 % frame_size == 0
-        if len(data) % 2 == 1:
-            data += b"\0"
-        # (Computing num_frames this way makes it off by one when the data length
-        # is odd. It matches vadpcm_enc, though.)
-        num_frames = len(data) * sample_size // frame_size
+    sample_tunings = tunings[entry.bank][entry.address].copy()
 
-        assert tunings is not None
-        assert len(tunings) > 0
+    assert sample_tunings is not None
+    assert len(sample_tunings) > 0
 
-        if entry.bank in usedTuning:
-            usedTuning[entry.bank] = {}
-        
-        usedTuning[entry.bank][entry.address] = tunings[0]
+    if entry.bank not in usedTuning:
+        usedTuning[entry.bank] = {}
+    
+    tuning = sample_tunings.pop()
+    usedTuning[entry.bank][entry.address] = tuning
 
-        sample_rate = 32000 * tunings[0]
+    sample_rate = 32000 * tuning
 
-        writer.add_section(
-            b"COMM",
-            struct.pack(">hIh", num_channels, num_frames, sample_size)
-            + serialize_f80(sample_rate)
-            + b"VAPC"
-            + writer.pstring(b"VADPCM ~4-1"),
-        )
-        writer.add_section(b"INST", b"\0" * 20)
-        predictors = []
-        for table in entry.book.predictors:
-            for predictor in table:
-                predictors.append(predictor)
-        table_data = b"".join(struct.pack(">h", x) for x in predictors)
-        writer.add_custom_section(
-            b"VADPCMCODES",
-            struct.pack(">hhh", 1, entry.book.order, entry.book.predictorCount) + table_data,
-        )
-        writer.add_section(b"SSND", struct.pack(">II", 0, 0) + data)
-        if entry.loop.count != 0:
-            writer.add_custom_section(
-                b"VADPCMLOOPS",
-                struct.pack(
-                    ">HHIIi16h",
-                    1,
-                    1,
-                    entry.loop.start,
-                    entry.loop.end,
-                    entry.loop.count,
-                    *entry.loop.state
-                ),
+    if not os.path.exists(filename) or os.path.getsize(filename) == 0:
+        with open(filename, "wb") as file:
+            writer = AifcWriter(file)
+            num_channels = 1
+    #        length = len(data)
+    #        assert len(data) % frame_size == 0 or len(data) - 1 % frame_size == 0
+            if len(data) % 2 == 1:
+                data += b"\0"
+            # (Computing num_frames this way makes it off by one when the data length
+            # is odd. It matches vadpcm_enc, though.)
+            num_frames = len(data) * sample_size // frame_size
+
+            writer.add_section(
+                b"COMM",
+                struct.pack(">hIh", num_channels, num_frames, sample_size)
+                + serialize_f80(sample_rate)
+                + b"VAPC"
+                + writer.pstring(b"VADPCM ~4-1"),
             )
-        writer.finish()
+            writer.add_section(b"INST", b"\0" * 20)
+            predictors = []
+            for table in entry.book.predictors:
+                for predictor in table:
+                    predictors.append(predictor)
+            table_data = b"".join(struct.pack(">h", x) for x in predictors)
+            writer.add_custom_section(
+                b"VADPCMCODES",
+                struct.pack(">hhh", 1, entry.book.order, entry.book.predictorCount) + table_data,
+            )
+            writer.add_section(b"SSND", struct.pack(">II", 0, 0) + data)
+            if entry.loop.count != 0:
+                writer.add_custom_section(
+                    b"VADPCMLOOPS",
+                    struct.pack(
+                        ">HHIIi16h",
+                        1,
+                        1,
+                        entry.loop.start,
+                        entry.loop.end,
+                        entry.loop.count,
+                        *entry.loop.predictorState
+                    ),
+                )
+            writer.finish()
 
 def write_aiff(entry, basedir, aifc_filename, aiff_filename):
-    try:
-        frame_size = "" if entry.codec == 0 else "5"
-        aifc_decode = os.path.join(os.path.dirname(__file__), "aifc_decode")
-        common_dir = os.getcwd()
-        rel_aifc_decode = "./" + os.path.relpath(aifc_decode, common_dir).replace("\\", "/")
-        rel_aifc_file = os.path.relpath(aifc_filename, common_dir).replace("\\", "/")
-        rel_aiff_file = os.path.join(os.path.dirname(aifc_filename).replace("\\", "/"), aiff_filename)
-        os.makedirs(os.path.join(basedir, str(entry.bank)), exist_ok=True)
-        subprocess.run(["bash", "-c", f"{rel_aifc_decode} {rel_aifc_file} {rel_aiff_file} {frame_size}"], check=True)
-    except subprocess.CalledProcessError:
-        print(f"File failed to decode, codec was {entry.codec}")
-        targetfile = os.path.join(basedir, "bad", str(entry.bank), f"{rel_aifc_file}")
-        os.makedirs(os.path.dirname(targetfile), exist_ok=True)
-        os.remove(rel_aiff_file)
-        shutil.copy2(rel_aifc_file, targetfile)
+    rel_aiff_file = os.path.join(os.path.dirname(aifc_filename).replace("\\", "/"), aiff_filename)
+    if not os.path.exists(rel_aiff_file) or os.path.getsize(rel_aiff_file) == 0 or os.path.exists(os.path.join(basedir, "bad", str(entry.bank), os.path.basename(aifc_filename))):
+        try:
+            frame_size = "" if entry.codec == 0 else "5"
+            aifc_decode = os.path.join(os.path.dirname(__file__), "aifc_decode")
+            common_dir = os.getcwd()
+            rel_aifc_decode = "./" + os.path.relpath(aifc_decode, common_dir).replace("\\", "/")
+            os.makedirs(os.path.dirname(rel_aiff_file), exist_ok=True)
+            subprocess.run(["bash", "-c", f"{rel_aifc_decode} \"{aifc_filename}\" \"{rel_aiff_file}\" {frame_size}"], check=True)
+        except subprocess.CalledProcessError:
+            print(f"File failed to decode, codec was {entry.codec}")
+            targetfile = os.path.join(basedir, "bad", str(entry.bank), os.path.basename(aifc_filename))
+            os.makedirs(os.path.dirname(targetfile), exist_ok=True)
+            os.remove(rel_aiff_file)
+            shutil.copy2(aifc_filename, targetfile)
 
 def main():
     args = []
@@ -635,8 +642,7 @@ def main():
         print(
             f"Usage: {sys.argv[0]} "
             "<.fontdef file> <.font file> <.rawdef file> <.raw file> <assets XML dir> "
-            "(<samples outdir> <soundfont outdir> | "
-            "--only-samples file:index ...)"
+            "(<samples outdir> <soundfont outdir>"
         )
         sys.exit(0 if need_help else 1)
 
@@ -661,7 +667,7 @@ def main():
     check_dir(os.path.join(asset_xml_dir, "samples"))
     check_dir(os.path.join(asset_xml_dir, "soundfonts"))
     
-    soundfont_defs = read_soundfont_xmls(asset_xml_dir)
+    soundfont_defs = read_soundfont_xmls(os.path.join(asset_xml_dir, "soundfonts"))
     samplebanks = read_samplebank_xml(os.path.join(asset_xml_dir, "samples", "Banks.xml"))
 
     bank_defs = parse_raw_def_data(rawdef_data)
@@ -676,10 +682,9 @@ def main():
         bank_ctr[header.bank] += 1
         filename_base = os.path.join(samples_out_dir, samplebanks[header.bank])
         os.makedirs(filename_base, exist_ok=True)
-        aifc_filename = os.path.join(filename_base, f"{header.address:0>8x}.aifc")
-        if not os.path.exists(aifc_filename) or os.path.getsize(aifc_filename) == 0:
-            write_aifc(raw_data, bank_defs, header, aifc_filename)
-            write_aiff(header, samples_out_dir, aifc_filename, f"{header.address:0>8x}.aiff")
+        aifc_filename = os.path.join(filename_base, f"{header.name}.aifc")
+        write_aifc(raw_data, bank_defs, header, aifc_filename)
+        write_aiff(header, samples_out_dir, aifc_filename, f"{header.name}.aiff")
     
     if len(usedRawData) > 0:
         report_gaps("SAMPLE", usedRawData, raw_data)
@@ -689,7 +694,7 @@ def main():
     for font in fonts:
         dir = os.path.join(fonts_out_dir)
         os.makedirs(dir, exist_ok=True)
-        filename = os.path.join(dir, f"{font.name or fontId}.xml")
+        filename = os.path.join(dir, f"{font.font.name}.xml")
         write_soundfont(font, filename, samplebanks)
         fontId += 1
 
