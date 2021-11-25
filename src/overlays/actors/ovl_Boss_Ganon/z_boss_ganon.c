@@ -3240,8 +3240,84 @@ void func_808DFFC8(BossGanon* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_808E0254(BossGanon* this, u8* tex, f32 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808E0254.s")
+void func_808E0254(BossGanon* this, u8* tex, f32 arg2) {
+    s16 baseX;
+    s16 index;
+    s16 i;
+    s16 baseY;
+    s16 x;
+    s16 addY;
+    f32 lerpx;
+    s16 y;
+    f32 lerpy;
+    f32 lerpz;
+    Vec3f sp68;
+    Vec3f sp5C;
+
+    for (i = 0; i < 15; i++) {
+        if (arg2 == 0.0f || (y = D_808E4E38[i]) >= 0) {
+            if (arg2 > 0.0f) {
+                lerpx = this->unk_2EC[i].x + (this->unk_2EC[y].x - this->unk_2EC[i].x) * arg2;
+                lerpy = this->unk_2EC[i].y + (this->unk_2EC[y].y - this->unk_2EC[i].y) * arg2;
+                lerpz = this->unk_2EC[i].z + (this->unk_2EC[y].z - this->unk_2EC[i].z) * arg2;
+
+                sp68.x = lerpx - this->actor.world.pos.x;
+                sp68.y = lerpy - this->actor.world.pos.y + 76 + 30 + 30;
+                sp68.z = lerpz - this->actor.world.pos.z;
+            } else {
+                
+                sp68.x = this->unk_2EC[i].x - this->actor.world.pos.x;
+                sp68.y = this->unk_2EC[i].y - this->actor.world.pos.y + 76 + 30 + 30;
+                sp68.z = this->unk_2EC[i].z - this->actor.world.pos.z;
+            }
+            Matrix_MultVec3f(&sp68, &sp5C);
+
+            sp5C.x *= 0.4f;
+            sp5C.y *= 0.4f;
+
+            baseX = (s16)(sp5C.x + 32.0f);
+            baseY = (s16)sp5C.y * 64;
+
+            if (D_808E4E58[i] == 2) {
+                for (y = 0, addY = -0x180; y < 12; y++, addY += 0x40) {
+                    for (x = -D_808E4E20[y]; x < D_808E4E20[y]; x++) {
+                        index = baseX + x + baseY + addY;
+                        if ((index >= 0) && (index < 0x1000)) {
+                            tex[index] = 255;
+                        }
+                    }
+                }
+            } else if (D_808E4E58[i] == 1) {
+                for (y = 0, addY = -0x100; y < 8; y++, addY += 0x40) {
+                    for (x = -D_808E4E10[y]; x < D_808E4E10[y]; x++) {
+                        index = baseX + x + baseY + addY;
+                        if ((index >= 0) && (index < 0x1000)) {
+                            tex[index] = 255;
+                        }
+                    }
+                }
+            } else if (D_808E4E58[i] == 0) {
+                for (y = 0, addY = -0xC0; y < 7; y++, addY += 0x40) {
+                    for (x = -D_808E4E00[y]; x < D_808E4E00[y] - 1; x++) {
+                        index = baseX + x + baseY + addY;
+                        if ((index >= 0) && (index < 0x1000)) {
+                            tex[index] = 255;
+                        }
+                    }
+                }
+            } else {
+                for (y = 0, addY = -0x80; y < 6; y++, addY += 0x40) {
+                    for (x = -D_808E4DF4[y]; x < D_808E4DF4[y] - 1; x++) {
+                        index = baseX + x + baseY + addY;
+                        if ((index >= 0) && (index < 0x1000)) {
+                            tex[index] = 255;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 void func_808E06FC(u8* tex, BossGanon* this, GlobalContext* globalCtx) {
     s16 addY;
