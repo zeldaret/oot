@@ -5,6 +5,7 @@ import tempfile
 import math
 import shutil
 import xml.etree.ElementTree as XmlTree
+import json
 import os
 import struct
 import sys
@@ -637,27 +638,26 @@ def main():
         else:
             args.append(a)
 
-    expected_num_args = 7
+    expected_num_args = 8
     if need_help or len(args) != expected_num_args:
         print(
             f"Usage: {sys.argv[0]} "
-            "<.fontdef file> <.font file> <.rawdef file> <.raw file> <assets XML dir> "
-            "(<samples outdir> <soundfont outdir>"
+            "<code file> <offsets json file> <version> <Audiotable file> <Audiobank file> <assets XML dir> <samples outdir> <soundfont outdir>"
         )
         sys.exit(0 if need_help else 1)
 
-    # Soundfont Defs
-    fontdef_data = open(args[0], "rb").read()
-    # Soundfonts
-    font_data = open(args[1], "rb").read()
-    # Sample Bank Defs
-    rawdef_data = open(args[2], "rb").read()
-    # Sample Banks
-    raw_data = open(args[3], "rb").read()
-
-    asset_xml_dir = args[4]
-    samples_out_dir = args[5]
-    fonts_out_dir = args[6]
+    # code file
+    code_data = open(args[0], "rb").read()
+    # offsets.json file
+    with open(args[1], "r") as offset_file:
+        table_offsets = json.load(offset_file)
+    
+    version = args[2]
+    bank_data = open(args[3], "rb").read()
+    font_data = open(args[4], "rb").read()
+    asset_xml_dir = args[5]
+    samples_out_dir = args[6]
+    fonts_out_dir = args[7]
 
     def check_dir(path):
         if not os.path.isdir(path):
@@ -666,11 +666,27 @@ def main():
 
     check_dir(os.path.join(asset_xml_dir, "samples"))
     check_dir(os.path.join(asset_xml_dir, "soundfonts"))
+
+    def check_offset(offset, type):
+        if offset is None:
+            print(f"Offsets JSON file is missing a {type} offset for version {version}", file=sys.stderr)
+            sys.exit(1)
+        return offset
+
+    if table_offsets[version] is None:
+        print(f"Offsets JSON file does not contain version {version}", file=sys.stderr)
+        sys.exit(1)
+    
+    bankdef_offset, bankdef_length = check_offset(table_offsets[version]["bankdefs"], "bankdefs")
+    fontdef_offset, fontdef_length = check_offset(table_offsets[version]["fontdefs"], "fontdefs")
+
+    bankdef_data = code_data[bankdef_offset:bankdef_offset + bankdef_length]
+    fontdef_data = code_data[fontdef_offset:fontdef_offset + fontdef_length]
     
     soundfont_defs = read_soundfont_xmls(os.path.join(asset_xml_dir, "soundfonts"))
     samplebanks = read_samplebank_xml(os.path.join(asset_xml_dir, "samples", "Banks.xml"))
 
-    bank_defs = parse_raw_def_data(rawdef_data)
+    bank_defs = parse_raw_def_data(bankdef_data)
     fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
 
     report_gaps("SOUNDFONT", usedFontData, font_data)
@@ -683,11 +699,11 @@ def main():
         filename_base = os.path.join(samples_out_dir, samplebanks[header.bank])
         os.makedirs(filename_base, exist_ok=True)
         aifc_filename = os.path.join(filename_base, f"{header.name}.aifc")
-        write_aifc(raw_data, bank_defs, header, aifc_filename)
+        write_aifc(bank_data, bank_defs, header, aifc_filename)
         write_aiff(header, samples_out_dir, aifc_filename, f"{header.name}.aiff")
     
     if len(usedRawData) > 0:
-        report_gaps("SAMPLE", usedRawData, raw_data)
+        report_gaps("SAMPLE", usedRawData, bank_data)
 
     # Export soundfonts (todo: switch to XML export)
     fontId = 0
