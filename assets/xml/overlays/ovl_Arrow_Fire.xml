@@ -1,5 +1,5 @@
 <Root>
-    <File Name="ovl_Arrow_Fire" BaseAddress="0x80865d10" RangeStart="0x9D0" RangeEnd="0x1DF0">    
+    <File Name="ovl_Arrow_Fire" BaseAddress="0x80865d10" RangeStart="0x9D0" RangeEnd="0x1DF0">
         <Texture Name="s1Tex" OutName="fire_tex_1" Format="ia8" Width="32" Height="64" Offset="0x9D0" Static="On"/>
         <Texture Name="s2Tex" OutName="fire_tex_2" Format="ia8" Width="32" Height="64" Offset="0x11D0" Static="On"/>
         <Array Name="sVtx" Count="43" Offset="0x19D0" Static="On">

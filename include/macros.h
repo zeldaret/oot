@@ -164,4 +164,10 @@ extern GraphicsContext* __gfxCtx;
                        ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
     } while (0)
 
+#ifdef __GNUC__
+#define ALIGNED8 __attribute__ ((aligned (8)))
+#else
+#define ALIGNED8
+#endif
+
 #endif
