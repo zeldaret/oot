@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 import subprocess
-import shutil
 import xml.etree.ElementTree as XmlTree
 import os
-import re
+import json
 import struct
 import sys
 
@@ -50,20 +49,37 @@ def main():
         else:
             args.append(a)
 
-    expected_num_args = 4
+    expected_num_args = 6
     if need_help or len(args) != expected_num_args:
         print(
-            f"Usage: {sys.argv[0]} <.seqdef file> <.seq file> <assets sequence XML file> <samples output dir>"
+            f"Usage: {sys.argv[0]} <code file> <offsets json file> <version> <Audioseq file> <assets sequence XML file> <samples output dir>"
         )
         sys.exit(0 if need_help else 1)
 
-    # Sequence Defs
-    seqdef_data = open(args[0], "rb").read()
-    # Sequences
-    seq_data = open(args[1], "rb").read()
+    # code file
+    code_data = open(args[0], "rb").read()
+    # offsets.json file
+    with open(args[1], "r") as offset_file:
+        table_offsets = json.load(offset_file)
+    
+    version = args[2]
 
-    asset_input_xml_dir = args[2]
-    midi_out_dir = args[3]
+    seq_data = open(args[3], "rb").read()
+    asset_input_xml_dir = args[4]
+    midi_out_dir = args[5]
+
+    def check_offset(offset, type):
+        if offset is None:
+            print(f"Offsets JSON file is missing a {type} offset for version {version}", file=sys.stderr)
+            sys.exit(1)
+        return offset
+
+    if table_offsets[version] is None:
+        print(f"Offsets JSON file does not contain version {version}", file=sys.stderr)
+        sys.exit(1)
+    
+    seqdef_offset, seqdef_length = check_offset(table_offsets[version]["seqdefs"], "seqdefs")
+    seqdef_data = code_data[seqdef_offset:seqdef_offset + seqdef_length]
 
     # Import sequence names
     xml = XmlTree.parse(os.path.join(asset_input_xml_dir, "Sequences.xml"))
