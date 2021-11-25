@@ -50,7 +50,7 @@ typedef enum {
     /* 0xD */ SFX_CHANNEL_OCARINA, // SfxOcarinaBank
     /* 0xE */ SFX_CHANNEL_VOICE0,  // SfxVoiceBank
     /* 0xF */ SFX_CHANNEL_VOICE1
-} SfxChannels; // playerIdx = 2
+} SfxChannelIdx; // playerIdx = 2
 
 typedef struct {
     /* 0x0 */ f32 value;
@@ -1269,10 +1269,10 @@ void AudioOcarina_PlayDisplayedSong(void) {
 
             if (sDisplayedNoteValue != NOTE_NONE) {
                 sDisplayedStaffPos++;
-                // Sets ocarina instrument Id to channel io port 7, which is used as an index in seq 0 to get the
+                // Sets ocarina instrument Id to channelIdx io port 7, which is used as an index in seq 0 to get the
                 // true instrument Id
                 Audio_QueueCmdS8(0x6020D07, sOcarinaInstrumentId - 1);
-                // Sets sDisplayedNoteValue to channel io port 5
+                // Sets sDisplayedNoteValue to channelIdx io port 5
                 Audio_QueueCmdS8(0x6020D05, sDisplayedNoteValue & 0x3F);
                 Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &D_801333D4, 4, &sRelativeNoteDisplayedBend,
                                        &sRelativeNoteDisplayedVolume, &D_801333E8);
@@ -4378,13 +4378,13 @@ void Audio_PlaySoundIfNotInCutscene(u16 sfxId) {
 
 void func_800F6964(u16 arg0) {
     s32 skip;
-    u8 channel;
+    u8 channelIdx;
 
     Audio_SeqCmd1(0, (arg0 * 3) / 2);
     Audio_SeqCmd1(1, (arg0 * 3) / 2);
-    for (channel = 0; channel < 16; channel++) {
+    for (channelIdx = 0; channelIdx < 16; channelIdx++) {
         skip = false;
-        switch (channel) {
+        switch (channelIdx) {
             case SFX_CHANNEL_SYSTEM0:
             case SFX_CHANNEL_SYSTEM1:
                 if (gAudioSpecId == 10) {
@@ -4397,7 +4397,7 @@ void func_800F6964(u16 arg0) {
         }
 
         if (!skip) {
-            Audio_SeqCmd6(2, arg0 >> 1, channel, 0);
+            Audio_SeqCmd6(2, arg0 >> 1, channelIdx, 0);
         }
     }
 
