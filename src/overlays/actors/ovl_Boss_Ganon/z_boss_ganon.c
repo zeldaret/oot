@@ -209,6 +209,11 @@ extern AnimationHeader D_06006028;
 extern AnimationHeader D_06009D5C;
 extern AnimationHeader D_0600A598;
 extern AnimationHeader D_0600F19C;
+extern AnimationHeader D_0600B668;
+extern AnimationHeader D_0600BE38;
+extern AnimationHeader D_06010298;
+extern AnimationHeader D_06010514;
+extern AnimationHeader D_0600ADDC;
 extern Gfx D_0600C9E8[];
 
 void func_808D6870(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, f32 scale) {
@@ -582,7 +587,7 @@ void func_808D7918(BossGanon* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 sin;
     f32 cos;
-    Camera* gameplayCam;
+    Camera* mainCam;
 
     moveCam = false;
     player = GET_PLAYER(globalCtx);
@@ -1141,10 +1146,10 @@ void func_808D7918(BossGanon* this, GlobalContext* globalCtx) {
             }
 
             if (this->csTimer == 120) {
-                gameplayCam = Gameplay_GetCamera(globalCtx, 0);
-                gameplayCam->eye = this->csCamEye;
-                gameplayCam->eyeNext = this->csCamEye;
-                gameplayCam->at = this->csCamAt;
+                mainCam = Gameplay_GetCamera(globalCtx, 0);
+                mainCam->eye = this->csCamEye;
+                mainCam->eyeNext = this->csCamEye;
+                mainCam->at = this->csCamAt;
                 func_800C08AC(globalCtx, this->csCamIndex, 0);
                 this->cutsceneState = this->csCamIndex = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
@@ -1232,242 +1237,621 @@ void func_808D91F8(u8 arg0) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808D933C.s")
-// void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
-//     u8 moveCam = false;      // spAD
-//     Player* player = GET_PLAYER(globalCtx); // spA8
-//     s16 i;
-//     Vec3f sp98;
-//     Vec3f sp8C;
-//     Vec3f sp80;
-//     Vec3f sp64;
+// #ifdef NON_MATCHING
+void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
+    u8 moveCam = false;                     // spAD
+    Player* player = GET_PLAYER(globalCtx); // spA8
+    s16 i;
+    Vec3f sp98;
+    Vec3f sp8C;
+    Vec3f sp80;
+    Vec3f sp74;
+    Vec3f sp64;
+    Camera* mainCam;
 
-//     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animBankIndex].segment);
-//     this->csTimer++;
-//     SkelAnime_Update(&this->skelAnime);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animBankIndex].segment);
 
-//     switch (this->cutsceneState) {
-//         case 0:
-//             func_80064520(globalCtx, &globalCtx->csCtx);
-//             func_8002DF54(globalCtx, this, 8);
-//             this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
-//             Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-//             Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, 7);
-//             this->actor.world.pos.x = 0.0f;
-//             this->actor.world.pos.y = 70.0f;
-//             this->actor.world.pos.z = -80.0f;
-//             this->actor.shape.rot.y = 0;
-//             this->cutsceneState = 1;
-//             this->csTimer = 0;
-//             this->unk_71A = 1;
-//             this->actor.shape.unk_08 = -7000.0f;
-//         case 1:
-//             player->actor.shape.rot.y = -0x8000;
+    this->csTimer++;
+    SkelAnime_Update(&this->skelAnime);
 
-//             player->actor.world.pos.x = -10.0f;
-//             player->actor.world.pos.y = 0.0f;
-//             player->actor.world.pos.z = 115.0f;
+    switch (this->cutsceneState) {
+        case 0:
+            func_80064520(globalCtx, &globalCtx->csCtx);
+            func_8002DF54(globalCtx, this, 8);
+            this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+            Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, 7);
 
-//             this->unk_1A0 = 0xD;
+            this->actor.world.pos.x = 0.0f;
+            this->actor.world.pos.y = 70.0f;
+            this->actor.world.pos.z = -80.0f;
 
-//             if (this->csTimer < 30) {
-//                 globalCtx->envCtx.unk_D8 = 0.0f;
-//             }
+            this->actor.shape.rot.y = 0;
+            this->cutsceneState = 1;
+            this->csTimer = 0;
+            this->unk_71A = 1;
+            this->actor.shape.yOffset = -7000.0f;
+            // fallthrough
+        case 1:
+            player->actor.shape.rot.y = -0x8000;
 
-//             if (this->csTimer >= 2) {
-//                 globalCtx->envCtx.fillScreen = false;
-//             }
+            player->actor.world.pos.x = -10.0f;
+            player->actor.world.pos.y = 0.0f;
+            player->actor.world.pos.z = 115.0f;
 
-//             this->csCamEye.x = -50.0f;
-//             this->csCamEye.z = -50.0f;
-//             this->csCamEye.y = 50.0f;
+            this->unk_1A0 = 0xD;
 
-//             this->csCamAt.x = this->unk_1FC.x;
-//             this->csCamAt.y = this->unk_1FC.y + 30.0f;
-//             this->csCamAt.z = this->unk_1FC.z;
+            if (this->csTimer < 30) {
+                globalCtx->envCtx.unk_D8 = 0.0f;
+            }
 
-//             if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
-//                 Animation_MorphToLoop(&this->skelAnime, &D_0600F19C, 0.0f);
-//                 this->cutsceneState = 2;
-//                 this->csTimer = 0;
-//             }
-//             break;
-//         case 2:
-//             this->csCamEye.x = -100.0f;
-//             this->csCamEye.y = 20.0f;
-//             this->csCamEye.z = -130.0f;
+            if (this->csTimer >= 2) {
+                globalCtx->envCtx.fillScreen = false;
+            }
 
-//             this->unk_1A0 = 0xD;
+            this->csCamEye.x = -50.0f;
+            this->csCamEye.z = -50.0f;
+            this->csCamEye.y = 50.0f;
 
-//             this->csCamAt.x = this->unk_1FC.x;
-//             this->csCamAt.y = this->unk_1FC.y;
-//             this->csCamAt.z = this->unk_1FC.z + 40.0f;
+            this->csCamAt.x = this->unk_1FC.x;
+            this->csCamAt.y = this->unk_1FC.y + 30.0f;
+            this->csCamAt.z = this->unk_1FC.z;
 
-//             if (this->csTimer >= 30) {
-//                 this->cutsceneState = 3;
-//                 this->csTimer = 0;
-//                 Message_StartTextbox(globalCtx, 0x70CE, NULL);
-//                 this->fwork[FWORK_1] = 1000.0f;
-//             }
+            if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
+                Animation_MorphToLoop(&this->skelAnime, &D_0600F19C, 0.0f);
+                this->cutsceneState = 2;
+                this->csTimer = 0;
+            }
+            break;
 
-//             if ((this->unk_1A2 & 0x1F) == 0) {
-//                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BREATH);
-//             }
-//             break;
-//         case 3:
-//             this->unk_1A0 = 0xE;
+        case 2:
+            this->csCamEye.x = -100.0f;
+            this->csCamEye.y = 20.0f;
+            this->csCamEye.z = -130.0f;
 
-//             if ((this->fwork[FWORK_1] > 100.0f) && ((this->unk_1A2 & 0x1F) == 0)) {
-//                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BREATH);
-//             }
+            this->unk_1A0 = 0xD;
 
-//             this->csCamEye.x = 7.0f;
-//             this->csCamEye.y = 52.0f;
-//             this->csCamEye.z = -15.0f;
+            this->csCamAt.x = this->unk_1FC.x;
+            this->csCamAt.y = this->unk_1FC.y;
+            this->csCamAt.z = this->unk_1FC.z + 40.0f;
 
-//             this->csCamAt.x = this->unk_1FC.x - 5.0f;
-//             this->csCamAt.y = (this->unk_1FC.y + 30.0f) - 10.0f;
-//             this->csCamAt.z = this->unk_1FC.z;
+            if (this->csTimer >= 30) {
+                this->cutsceneState = 3;
+                this->csTimer = 0;
+                Message_StartTextbox(globalCtx, 0x70CE, NULL);
+                this->fwork[FWORK_1] = 1000.0f;
+            }
 
-//             if ((this->fwork[FWORK_1] > 100.0f) && (this->csTimer > 100) && (Message_GetState(&globalCtx->msgCtx) ==
-//             0)) {
-//                 Animation_MorphToPlayOnce(&this->skelAnime, 0x0600B668, 0.0f);
-//                 this->fwork[FWORK_1] = Animation_GetLastFrame(0x0600B668);
-//                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_TOKETU);
-//             } else {
-//                 if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1] - 16.0f)) {
-//                     for (i = 0; i < 40; i++) {
-//                         sp98.x = Rand_CenteredFloat(5.0f);
-//                         sp98.y = Rand_CenteredFloat(1.5f) + 1.0f;
-//                         sp98.z = Rand_ZeroFloat(5.0f) + 2.0f;
+            if ((this->unk_1A2 & 0x1F) == 0) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BREATH);
+            }
+            break;
 
-//                         sp8C.x = 0.0f;
-//                         sp8C.y = -1.0f;
-//                         sp8C.z = 0.0f;
+        case 3:
+            this->unk_1A0 = 0xE;
 
-//                         sp80.x = this->unk_208.x;
-//                         sp80.y = this->unk_208.y - 10.0f;
-//                         sp80.z = this->unk_208.z;
+            if ((this->fwork[FWORK_1] > 100.0f) && ((this->unk_1A2 & 0x1F) == 0)) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BREATH);
+            }
 
-//                         func_8002836C(globalCtx, &sp80, &sp98, &sp8C, &D_808E4D30, &D_808E4D34,
-//                                       Rand_ZeroFloat(50.0f) + 0x32, 0, 0x11);
-//                     }
-//                 }
-//                 if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
-//                     Animation_MorphToLoop(&this->skelAnime, 0x600BE38, 0.0f);
-//                     this->cutsceneState = 4;
-//                     this->csTimer = 0;
-//                 }
-//             }
-//             break;
-//         case 4:
-//             this->unk_1A0 = 0xE;
+            this->csCamEye.x = 7.0f;
+            this->csCamEye.y = 52.0f;
+            this->csCamEye.z = -15.0f;
 
-//             if (this->csTimer == 0x1E) {
-//                 Message_StartTextbox(globalCtx, 0x70CF, NULL);
-//                 this->cutsceneState = 5;
-//                 this->csTimer = 0;
-//             }
+            this->csCamAt.x = this->unk_1FC.x - 5.0f;
+            this->csCamAt.y = (this->unk_1FC.y + 30.0f) - 10.0f;
+            this->csCamAt.z = this->unk_1FC.z;
 
-//             break;
-//         case 5:
-//             this->unk_1A0 = 0xE;
+            if ((this->fwork[FWORK_1] > 100.0f) && (this->csTimer > 100) &&
+                (Message_GetState(&globalCtx->msgCtx) == 0)) {
+                Animation_MorphToPlayOnce(&this->skelAnime, &D_0600B668, 0.0f);
+                this->fwork[FWORK_1] = Animation_GetLastFrame(&D_0600B668);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_TOKETU);
+            } else {
+                if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1] - 16.0f)) {
+                    for (i = 0; i < 40; i++) {
+                        sp98.x = Rand_CenteredFloat(5.0f);
+                        sp98.y = Rand_CenteredFloat(1.5f) + 1.0f;
+                        sp98.z = Rand_ZeroFloat(5.0f) + 2.0f;
 
-//             if ((this->csTimer > 70) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
-//                 this->cutsceneState = 6;
-//                 this->csTimer = 0;
-//                 Animation_MorphToPlayOnce(&this->skelAnime, 0x6010298, 0.0f);
-//                 this->fwork[FWORK_1] = Animation_GetLastFrame(0x6010298);
+                        sp8C.x = 0.0f;
+                        sp8C.y = -1.0f;
+                        sp8C.z = 0.0f;
 
-//                 this->csCamTargetAt.z = this->unk_1FC.z;
-//                 this->csCamTargetAt.y = (this->unk_1FC.y + 30.0f) - 10.0f;
-//                 this->csCamTargetAt.x = this->unk_1FC.x - 5.0f;
+                        sp80.x = this->unk_208.x;
+                        sp80.y = this->unk_208.y - 10.0f;
+                        sp80.z = this->unk_208.z;
 
-//                 this->csCamMovementScale = 0.05f;
-//                 this->csCamMaxStepScale = 0.0f;
+                        func_8002836C(globalCtx, &sp80, &sp98, &sp8C, &D_808E4D30, &D_808E4D34,
+                                      Rand_ZeroFloat(50.0f) + 0x32, 0, 0x11);
+                    }
+                }
 
-//                 this->csCamTargetEye.x = 7.0f;
-//                 this->csCamTargetEye.y = 12.0f;
-//                 this->csCamTargetEye.z = 70.0f;
+                if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
+                    Animation_MorphToLoop(&this->skelAnime, &D_0600BE38, 0.0f);
+                    this->cutsceneState = 4;
+                    this->csTimer = 0;
+                }
+            }
+            break;
 
-//                 this->csCamEyeMaxStep.x = fabsf(this->csCamEye.x - 7.0f);
-//                 this->csCamEyeMaxStep.y = fabsf(this->csCamEye.y - 12.0f);
-//                 this->csCamEyeMaxStep.z = fabsf(this->csCamEye.z - this->csCamTargetEye.z);
+        case 4:
+            this->unk_1A0 = 0xE;
 
-//                 this->csCamAtMaxStep.x = fabsf(this->csCamAt.x - this->csCamTargetAt.x);
-//                 this->csCamAtMaxStep.y = fabsf(this->csCamAt.y - this->csCamTargetAt.y);
-//                 this->csCamAtMaxStep.z = fabsf(this->csCamAt.z - this->csCamTargetAt.z);
-//                 Audio_PlayActorSound2(&this->actor, 0x39D3);
-//             }
-//             break;
-//         case 6:
-//             this->unk_1A0 = 0xE;
-//             moveCam = true;
-//             Math_ApproachF(&this->csCamMaxStepScale, 0.2f, 1.0f, 0.01f);
+            if (this->csTimer == 0x1E) {
+                Message_StartTextbox(globalCtx, 0x70CF, NULL);
+                this->cutsceneState = 5;
+                this->csTimer = 0;
+            }
+            break;
 
-//             if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
-//                 Animation_MorphToLoop(&this->skelAnime, 0x6010514, 0.0f);
-//                 this->cutsceneState = 7;
-//                 this->csTimer = 0;
-//                 this->unk_2E8 = 0;
-//                 this->unk_1A0 = 0xF;
-//                 this->unk_508 = 0.0f;
-//                 this->fwork[FWORK_1] = 1000.0f;
-//                 globalCtx->envCtx.unk_D8 = 0.0f;
-//             }
-//             break;
-//         case 7:
-//             if (this->csTimer < 10) {
-//                 globalCtx->envCtx.unk_D8 = 0.0f;
-//             }
+        case 5:
+            this->unk_1A0 = 0xE;
 
-//             if (this->csTimer == 30) {
+            if ((this->csTimer > 70) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
+                this->cutsceneState = 6;
+                this->csTimer = 0;
+                Animation_MorphToPlayOnce(&this->skelAnime, &D_06010298, 0.0f);
+                this->fwork[FWORK_1] = Animation_GetLastFrame(&D_06010298);
 
-//             }
-//             goto case_8_not_30f;
-//         case 8:
-//         case_8_not_30f:
-//         case 9:
-//         case 100:
-//         case 101:
-//         case 102:
-//         case 103:
-//         case 104:
-//         case 105:
-//         case 1055:
-//         case 1056:
-//         case 1057:
-//         case 106:
-//         case 107:
-//         case 108:
-//         case 109:
-//     }
+                this->csCamTargetAt.x = this->unk_1FC.x - 5.0f;
+                this->csCamTargetAt.y = (this->unk_1FC.y + 30.0f) - 10.0f;
+                this->csCamTargetAt.z = this->unk_1FC.z;
 
-//     if (this->cutsceneState >= 100) {
-//         this->unk_1A0 = 0x14;
-//     }
+                this->csCamMovementScale = 0.05f;
+                this->csCamMaxStepScale = 0.0f;
 
-//     if (this->csCamIndex != 0) {
-//         if (moveCam) {
-//             Math_ApproachF(&this->csCamTargetEye.x, this->csCamTargetEye.x, this->csCamMovementScale,
-//                                  this->csCamEyeMaxStep.x * this->csCamMaxStepScale);
-//             Math_ApproachF(&this->csCamEye.y, this->csCamTargetEye.y, this->csCamMovementScale,
-//                                  this->csCamEyeMaxStep.y * this->csCamMaxStepScale);
-//             Math_ApproachF(&this->csCamEye.z, this->csCamTargetEye.z, this->csCamMovementScale,
-//                                  this->csCamEyeMaxStep.z * this->csCamMaxStepScale);
-//             Math_ApproachF(&this->csCamTargetEye.x, this->csCamTargetAt.x, this->csCamMovementScale,
-//                                  this->csCamAtMaxStep.x * this->csCamMaxStepScale);
-//             Math_ApproachF(&this->csCamAt.y, this->csCamTargetAt.y, this->csCamMovementScale,
-//                                  this->csCamAtMaxStep.y * this->csCamMaxStepScale);
-//             Math_ApproachF(&this->csCamAt.z, this->csCamTargetAt.z, this->csCamMovementScale,
-//                                  this->csCamAtMaxStep.z * this->csCamMaxStepScale);
-//         }
+                this->csCamTargetEye.x = 7.0f;
+                this->csCamTargetEye.y = 12.0f;
+                this->csCamTargetEye.z = 70.0f;
 
-//         sp64 = this->csCamTargetEye;
-//         sp64.y += this->unk70C;
-//         func_800C04D8(globalCtx, this->csCamIndex, &sp64, &this->csCamAt);
-//     }
-// }
+                this->csCamEyeMaxStep.x = fabsf(this->csCamEye.x - 7.0f);
+                this->csCamEyeMaxStep.y = fabsf(this->csCamEye.y - 12.0f);
+                this->csCamEyeMaxStep.z = fabsf(this->csCamEye.z - this->csCamTargetEye.z);
+
+                this->csCamAtMaxStep.x = fabsf(this->csCamAt.x - this->csCamTargetAt.x);
+                this->csCamAtMaxStep.y = fabsf(this->csCamAt.y - this->csCamTargetAt.y);
+                this->csCamAtMaxStep.z = fabsf(this->csCamAt.z - this->csCamTargetAt.z);
+
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_CASBREAK);
+            }
+            break;
+
+        case 6:
+            this->unk_1A0 = 0xE;
+            moveCam = true;
+            Math_ApproachF(&this->csCamMaxStepScale, 0.2f, 1.0f, 0.01f);
+
+            if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
+                Animation_MorphToLoop(&this->skelAnime, &D_06010514, 0.0f);
+                this->cutsceneState = 7;
+                this->csTimer = 0;
+                this->unk_2E8 = 0;
+                this->unk_1A0 = 0xF;
+                this->unk_508 = 0.0f;
+                this->fwork[FWORK_1] = 1000.0f;
+                globalCtx->envCtx.unk_D8 = 0.0f;
+            }
+            break;
+
+        case 7:
+            if (this->csTimer < 10) {
+                globalCtx->envCtx.unk_D8 = 0.0f;
+            }
+
+            if (this->csTimer == 30) {
+                this->cutsceneState = 8;
+                this->csTimer = 0;
+                this->unk_70C = 0.0f;
+            }
+            goto skip_8_start;
+
+        case 8:
+            this->csCamEye.x = -60.0f;
+            this->csCamEye.y = 80.0f;
+            this->csCamEye.z = -130.0f;
+
+            this->csCamAt.x = 0.0f;
+            this->csCamAt.y = 0.0f;
+            this->csCamAt.z = 70.0f;
+
+            this->unk_70C = Math_SinS(this->csTimer * 0x6300) * 0.2f;
+            func_80078884(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+
+        skip_8_start:
+            this->unk_1A0 = 0xF;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BODY_SPARK - SFX_FLAG);
+
+            for (i = 1; i < 15; i++) {
+                this->unk_4E4[i] = 0xA;
+            }
+
+            this->unk_2E6 = 0x4E20;
+            Math_ApproachF(&this->unk_508, 5.0f, 0.05f, 0.1f);
+
+            if (this->csTimer == 30) {
+                this->csCamEye.x = -30.0f;
+                this->csCamEye.y = 40.0f;
+                this->cutsceneState = 9;
+                this->csTimer = 0;
+                this->csCamEye.z = 60.0f;
+                this->csCamAt.x = 492.0f;
+                this->csCamAt.y = 43.0f;
+                this->csCamAt.z = 580.0f;
+                this->csCamMaxStepScale = 0.0f;
+                this->unk_710 = 10.0f;
+            }
+            break;
+
+        case 9:
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BODY_SPARK - SFX_FLAG);
+
+            if (this->csTimer == 2) {
+                func_8002DF54(globalCtx, &this->actor, 0x39);
+            }
+
+            if (this->csTimer > 50) {
+                Math_ApproachZeroF(&this->unk_710, 1.0f, 0.2f);
+                Math_ApproachF(&this->csCamEye.x, 270.0f, 0.05f, this->csCamMaxStepScale * 30.0f);
+                Math_ApproachF(&this->csCamEye.z, 260.0f, 0.05f, this->csCamMaxStepScale * 20.0f);
+                Math_ApproachF(&this->csCamAt.y, 103.0f, 0.05f, this->csCamMaxStepScale * 6.0f);
+                Math_ApproachF(&this->csCamAt.z, 280.0f, 0.05f, this->csCamMaxStepScale * 20.0f);
+                Math_ApproachF(&this->csCamMaxStepScale, 1.0f, 1.0f, 0.01f);
+            }
+
+            this->unk_70C = Math_SinS(this->csTimer * 0x6300) * this->unk_710;
+            func_80078884(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+
+            if (this->csTimer < 100) {
+                this->unk_71B = 1;
+                this->unk_1A0 = 0xF;
+            } else {
+                this->unk_1A0 = 0x10;
+                this->unk_71B = 2;
+            }
+
+            if (this->csTimer >= 130) {
+                Math_ApproachF(&this->unk_714, 255.0f, 1.0f, 5.0f);
+            }
+
+            if (this->csTimer == 180) {
+                globalCtx->sceneLoadFlag = 0x14;
+                globalCtx->nextEntranceIndex = 0x43F;
+                globalCtx->fadeTransition = 5;
+            }
+            break;
+
+        case 100:
+            func_80064520(globalCtx, &globalCtx->csCtx);
+            func_8002DF54(globalCtx, &this->actor, 8);
+            this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+            Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, 7);
+            Animation_MorphToPlayOnce(&this->skelAnime, &D_0600ADDC, 0.0f);
+            this->cutsceneState = 101;
+            this->skelAnime.playSpeed = 0.0f;
+            this->fwork[1] = Animation_GetLastFrame(&D_0600EA00); // above cs state?
+            sZelda = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ZL3, 0.0f, 6000.0f,
+                                        0.0f, 0, 0, 0, 0x2000);
+
+            player->actor.world.pos.x = -472.0f;
+            player->actor.world.pos.y = 4102.0f;
+            player->actor.world.pos.z = -130.0f;
+
+            player->actor.shape.rot.y = -0x8000;
+
+            this->actor.world.pos.x = -472.0f;
+            this->actor.world.pos.y = 4172.0f;
+            this->actor.world.pos.z = -400.0f;
+
+            this->actor.shape.rot.y = 0;
+
+            // xyz order?
+            this->csCamEye.x = -472.0f;
+            this->csCamAt.x = -472.0f;
+
+            this->csCamEye.y = 4152.0f;
+            this->csCamAt.y = 4152.0f;
+
+            this->csCamEye.z = -160.0f;
+            this->csCamAt.z = -100.0f;
+
+            this->actor.shape.yOffset = -7000.0f;
+
+            sCape->backPush = -2.0f;
+            sCape->backSwayMagnitude = 0.25f;
+            sCape->sideSwayMagnitude = -1.0f;
+            sCape->minDist = 0.0f;
+            sCape->minY = 4104.0f;
+            sCape->tearTimer = 20;
+
+            this->unk_714 = 255.0f;
+            globalCtx->envCtx.unk_D8 = 1.0f;
+            // fallthrough
+        case 101:
+            player->actor.world.pos.y = 4102.0f;
+            Math_ApproachZeroF(&this->unk_714, 1.0f, 5.0f);
+
+            if (this->csTimer > 40) {
+                Math_ApproachF(&this->csCamEye.z, -520.0f, 0.1f, this->csCamMaxStepScale);
+                Math_ApproachF(&this->csCamMaxStepScale, 5.0f, 1.0f, 0.1f);
+
+                if (this->csTimer == 150) {
+                    this->skelAnime.playSpeed = 1.0f;
+                }
+
+                if (this->csTimer == 160) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_PL_BOUND_NOWEAPON);
+                }
+
+                if (this->csTimer == 187) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_PL_BODY_HIT);
+                }
+
+                if (this->csTimer == 180) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_MANTLE);
+                }
+
+                if (this->csTimer == 190) {
+                    sp74 = this->actor.world.pos;
+                    sp74.y = 4102.0f;
+                    func_808D6D60(globalCtx, &sp74, 0.2f, 0.7f);
+                }
+
+                if (this->csTimer == 230) {
+                    this->cutsceneState = 102;
+                    this->csTimer = 0;
+                }
+            }
+            break;
+
+        case 102:
+            player->actor.world.pos.y = 4102.0f;
+            this->csCamAt.x = -472.0f;
+            this->csCamEye.y = 4152.0f;
+            this->csCamAt.y = 4152.0f;
+            this->csCamEye.z = -135.0f;
+            this->csCamAt.z = -135.0f;
+            this->csCamEye.x = -442.0f;
+
+            if (this->csTimer == 5) {
+                func_8002DF54(globalCtx, &this->actor, 0x4C);
+            }
+
+            if (this->csTimer == 70) {
+                func_8002DF54(globalCtx, &this->actor, 0x4D);
+            }
+
+            if (this->csTimer == 90) {
+                this->cutsceneState = 103;
+                this->csTimer = 0;
+                sZelda->actor.world.pos.x = -472.0f;
+                sZelda->actor.world.pos.y = 4352.0f;
+                sZelda->actor.world.pos.z = -200.0f;
+                sZelda->unk_3C8 = 3;
+            }
+            break;
+
+        case 103:
+            Audio_PlayActorSound2(&sZelda->actor, NA_SE_EV_DOWN_TO_GROUND - SFX_FLAG);
+            Math_ApproachF(&sZelda->actor.world.pos.y, 4102.0f, 0.05f, 1.5f);
+
+            this->csCamEye.x = -242.0f;
+            this->csCamEye.y = 4122.0f;
+            this->csCamEye.z = -190.0f;
+
+            this->csCamAt.x = sZelda->actor.world.pos.x;
+            this->csCamAt.y = sZelda->actor.world.pos.y + 40.0f + 5.0f;
+            this->csCamAt.z = sZelda->actor.world.pos.z;
+
+            if (this->csTimer == 200) {
+                sZelda->actor.world.pos.y = 4102.0f;
+                this->cutsceneState = 104;
+                this->csTimer = 0;
+                goto case_104; // can maybe flip to get rid of goto?
+            }
+            break;
+
+        case 104:
+        case_104:
+            this->csCamEye.x = -432.0f;
+            this->csCamEye.y = 4147.0f;
+            this->csCamEye.z = -200.0f;
+
+            this->csCamAt.x = sZelda->actor.world.pos.x;
+            this->csCamAt.y = sZelda->actor.world.pos.y + 40.0f + 5.0f;
+            this->csCamAt.z = sZelda->actor.world.pos.z;
+
+            if (this->csTimer >= 10) {
+                Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
+            }
+
+            if (this->csTimer == 10) {
+                sZelda->unk_3C8 = 8;
+            }
+
+            if (this->csTimer == 50) {
+                sZelda->unk_3C8 = 4;
+            }
+
+            if (this->csTimer == 100) {
+                this->cutsceneState = 105;
+                this->csTimer = 0;
+            }
+            break;
+
+        case 105:
+            this->csCamEye.x = -450.0f;
+            this->csCamEye.y = 4154.0f;
+            this->csCamEye.z = -182.0f;
+
+            this->csCamAt.x = sZelda->actor.world.pos.x - 5.0f;
+            this->csCamAt.y = sZelda->actor.world.pos.y + 40.0f + 5.0f;
+            this->csCamAt.z = sZelda->actor.world.pos.z - 25.0f;
+
+            if (this->csTimer == 10) {
+                Message_StartTextbox(globalCtx, 0x70D0, NULL);
+            }
+
+            if ((this->csTimer > 100) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
+                this->cutsceneState = 1055;
+                this->csTimer = 0;
+            }
+            break;
+
+        case 1055:
+            this->unk_70C = Math_SinS(this->csTimer * 0x6300) * 0.3f;
+            func_80078884(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+
+            if (this->csTimer == 20) {
+                sZelda->unk_3C8 = 5;
+                func_8002DF54(globalCtx, &this->actor, 0x39);
+            }
+
+            if (this->csTimer == 40) {
+                this->cutsceneState = 1056;
+                this->csTimer = 0;
+            }
+            break;
+
+        case 1056:
+            this->unk_70C = Math_SinS(this->csTimer * 0x6300) * 0.3f;
+            func_80078884(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+
+            this->csCamEye.x = -503.0f;
+            this->csCamEye.y = 4128.0f;
+            this->csCamEye.z = -162.0f;
+
+            this->csCamAt.x = -416.0f;
+            this->csCamAt.y = 4181.0f;
+            this->csCamAt.z = -75.0f;
+
+            if (this->csTimer > 40) {
+                this->cutsceneState = 1057;
+                this->csTimer = 0;
+            }
+            break;
+
+        case 1057:
+            this->unk_70C = Math_SinS(this->csTimer * 0x6300) * (50.0f * this->csCamMovementScale);
+            func_80078884(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+
+            Math_ApproachF(&this->csCamEye.x, -1200.0f, 0.1f, this->csCamMovementScale * 697.0f);
+            Math_ApproachF(&this->csCamEye.y, 4241.0f, 0.1f, this->csCamMovementScale * 113.0f);
+            Math_ApproachF(&this->csCamEye.z, -1048.0f, 0.1f, this->csCamMovementScale * 886.0f);
+
+            Math_ApproachF(&this->csCamMovementScale, 0.05f, 1.0f, 0.001f);
+
+            if (this->csTimer > 80) {
+                this->cutsceneState = 106;
+                this->csTimer = 60;
+            }
+            break;
+
+        case 106:
+            this->csCamEye.x = -450.0f;
+            this->csCamEye.y = 4154.0f;
+            this->csCamEye.z = -182.0f;
+
+            this->csCamAt.x = sZelda->actor.world.pos.x - 5.0f;
+            this->csCamAt.y = sZelda->actor.world.pos.y + 40.0f + 5.0f;
+            this->csCamAt.z = sZelda->actor.world.pos.z - 25.0f;
+
+            this->unk_70C = Math_SinS(this->csTimer * 0x6300) * 0.3f;
+            func_80078884(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+
+            if (this->csTimer == 70) {
+                sZelda->unk_3C8 = 6;
+            }
+
+            if (this->csTimer == 90) {
+                Message_StartTextbox(globalCtx, 0x70D1, NULL);
+            }
+
+            if ((this->csTimer > 150) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
+                this->cutsceneState = 107;
+                this->csTimer = 0;
+                Message_StartTextbox(globalCtx, 0x70D2, NULL);
+                func_8002DF54(globalCtx, &this->actor, 0x39);
+            }
+            break;
+
+        case 107:
+            this->unk_70C = Math_SinS(this->csTimer * 0x6300) * 0.8f;
+            func_80078884(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+
+            this->csCamEye.x = -380.0f;
+            this->csCamEye.y = 4154.0f;
+            this->csCamEye.z = -242.0f;
+
+            this->csCamAt.x = (sZelda->actor.world.pos.x - 5.0f) - 30.0f;
+            this->csCamAt.y = (sZelda->actor.world.pos.y + 40.0f + 5.0f) - 20.0f;
+            this->csCamAt.z = (sZelda->actor.world.pos.z - 25.0f) + 80.0f;
+
+            if ((this->csTimer > 50) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
+                sZelda->unk_3C8 = 7;
+                this->cutsceneState = 108;
+                this->csTimer = 0;
+            }
+            break;
+
+        case 108:
+            this->unk_70C = Math_SinS(this->csTimer * 0x6300) * 0.8f;
+            func_80078884(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+
+            this->csCamAt.x = (sZelda->actor.world.pos.x - 5.0f) - 30.0f;
+            this->csCamAt.y = (sZelda->actor.world.pos.y + 40.0f + 5.0f) - 20.0f;
+            this->csCamAt.z = (sZelda->actor.world.pos.z - 25.0f) + 80.0f;
+
+            if (this->csTimer > 50) {
+                mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+
+                mainCam->eye = this->csCamEye;
+                mainCam->eyeNext = this->csCamEye;
+                mainCam->at = this->csCamAt;
+
+                func_800C08AC(globalCtx, this->csCamIndex, 0);
+                this->cutsceneState = 109;
+                this->csCamIndex = 0;
+                func_80064534(globalCtx, &globalCtx->csCtx);
+                func_8002DF54(globalCtx, &this->actor, 7);
+                Flags_SetSwitch(globalCtx, 0x37);
+            }
+            break;
+
+        case 109:
+            func_80078884(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+            break;
+    }
+
+    if (this->cutsceneState >= 100) {
+        this->unk_1A0 = 0x14;
+    }
+
+    if (this->csCamIndex != 0) {
+        if (moveCam) {
+            Math_ApproachF(&this->csCamTargetEye.x, this->csCamTargetEye.x, this->csCamMovementScale,
+                           this->csCamEyeMaxStep.x * this->csCamMaxStepScale);
+            Math_ApproachF(&this->csCamEye.y, this->csCamTargetEye.y, this->csCamMovementScale,
+                           this->csCamEyeMaxStep.y * this->csCamMaxStepScale);
+            Math_ApproachF(&this->csCamEye.z, this->csCamTargetEye.z, this->csCamMovementScale,
+                           this->csCamEyeMaxStep.z * this->csCamMaxStepScale);
+            Math_ApproachF(&this->csCamTargetEye.x, this->csCamTargetAt.x, this->csCamMovementScale,
+                           this->csCamAtMaxStep.x * this->csCamMaxStepScale);
+            Math_ApproachF(&this->csCamAt.y, this->csCamTargetAt.y, this->csCamMovementScale,
+                           this->csCamAtMaxStep.y * this->csCamMaxStepScale);
+            Math_ApproachF(&this->csCamAt.z, this->csCamTargetAt.z, this->csCamMovementScale,
+                           this->csCamAtMaxStep.z * this->csCamMaxStepScale);
+        }
+
+        sp64 = this->csCamTargetEye;
+        sp64.y += this->unk_70C;
+        Gameplay_CameraSetAtEye(globalCtx, this->csCamIndex, &sp64, &this->csCamAt);
+    }
+}
+// #else
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808D933C.s")
+// #endif
 
 void func_808DACE8(BossGanon* this, GlobalContext* globalCtx) {
     this->unk_1C2 = 0;
@@ -2731,7 +3115,7 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (this->unk_714 != 0) {
         globalCtx->envCtx.screenFillColor[3] = (s8)(u8)this->unk_714;
-        globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] = 
+        globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
             globalCtx->envCtx.screenFillColor[2] = 255;
         globalCtx->envCtx.fillScreen = 1;
     } else if (this->unk_1C4 != 0) {
@@ -2791,14 +3175,11 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
         zOffset = (cosf(i * 1.2566371f) * 600.0f);
 
         // 5 or 6 light balls that go into the charge. not the same as the ones that he throws
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_GANON,
-                           this->unk_1FC.x + xOffset, this->unk_1FC.y,
-                           this->unk_1FC.z + zOffset, 0, (s16)(i * 13107.2f) + 0x6000, 0,
-                           0xFA + i);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_GANON, this->unk_1FC.x + xOffset,
+                           this->unk_1FC.y, this->unk_1FC.z + zOffset, 0, (s16)(i * 13107.2f) + 0x6000, 0, 0xFA + i);
         this->unk_274 = 0;
     }
 }
-
 
 s32 func_808DE734(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossGanon* this = (BossGanon*)thisx;
@@ -2954,8 +3335,6 @@ u8 D_808E4EF4[] = {
     100, 0,   255, 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
 };
 
-// need to move dlists here. they start at 8 so it cant be a real file split. though some of the zeros above might be
-// var padding
 // permuter
 #include "overlays/ovl_Boss_Ganon/ovl_Boss_Ganon.c"
 
@@ -3265,7 +3644,7 @@ void func_808E0254(BossGanon* this, u8* tex, f32 arg2) {
                 sp68.y = lerpy - this->actor.world.pos.y + 76 + 30 + 30;
                 sp68.z = lerpz - this->actor.world.pos.z;
             } else {
-                
+
                 sp68.x = this->unk_2EC[i].x - this->actor.world.pos.x;
                 sp68.y = this->unk_2EC[i].y - this->actor.world.pos.y + 76 + 30 + 30;
                 sp68.z = this->unk_2EC[i].z - this->actor.world.pos.z;
@@ -3935,17 +4314,17 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_1A2++;
     Actor_SetScale(&this->actor, 0.01f);
-    
+
     for (i = 0; i < 5; i++) {
         if (this->timers[i] != 0) {
             this->timers[i]--;
         }
     }
-    
+
     func_8002D908(&this->actor);
     func_8002D7EC(&this->actor);
     this->unk_1A6++;
-    
+
     if (this->unk_1A6 >= 15) {
         this->unk_1A6 = 0;
     }
@@ -3964,7 +4343,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             zDiff = dorf->unk_278.z - this->actor.world.pos.z;
             sp80 = Math_FAtan2F(xDiff, zDiff) * 10430.378f;
             xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-            
+
             temp_s0_4 = Math_FAtan2F(yDiff, xzDist) * 10430.378f;
             sp84 = (xzDist * 700.0f) / 10.0f;
             if (sp84 > 6144.0f) {
@@ -4000,7 +4379,9 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             this->fwork[1] = 255.0f;
             this->unk_1F0 = player->actor.world.pos;
             new_var = this->unk_1F0.x - this->actor.world.pos.x;
-            this->actor.shape.rot.y = (s16)(Math_FAtan2F(new_var, this->unk_1F0.z - this->actor.world.pos.z) * 10430.378f) + (this->actor.params << 0xD) + 0xFFDF4000;
+            this->actor.shape.rot.y =
+                (s16)(Math_FAtan2F(new_var, this->unk_1F0.z - this->actor.world.pos.z) * 10430.378f) +
+                (this->actor.params << 0xD) + 0xFFDF4000;
             // fallthrough
         case 11:
             if (this->timers[0] != 0) {
@@ -4014,13 +4395,13 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
                 Math_ApproachS(&this->actor.shape.rot.y, sp80, 1, this->csCamMaxStepScale);
                 Math_ApproachF(&this->csCamMaxStepScale, 4096.0f, 1.0f, 256.0f);
             }
-            
+
             sp84 = (sqrtf(this->actor.xyzDistToPlayerSq) * 200.0f) / 10.0f;
             if (sp84 > 13824.0f) {
                 sp84 = 13824.0f;
             }
-            this->actor.world.rot.x = (Math_CosS(this->unk_1A2 * 0x3400) * sp84 * 0.1f) + this->actor.shape.rot.x; 
-            this->actor.world.rot.y = (Math_SinS(this->unk_1A2 * 0x1A00) * sp84) + this->actor.shape.rot.y; 
+            this->actor.world.rot.x = (Math_CosS(this->unk_1A2 * 0x3400) * sp84 * 0.1f) + this->actor.shape.rot.x;
+            this->actor.world.rot.y = (Math_SinS(this->unk_1A2 * 0x1A00) * sp84) + this->actor.shape.rot.y;
             if ((player->swordState != 0) && (player->swordAnimation >= 0x18) && (this->actor.xzDistToPlayer < 80.0f)) {
                 this->unk_1C2 = 0xC;
                 this->actor.speedXZ = -30.0f;
@@ -4032,7 +4413,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 if (this->collider.base.acFlags & 2) {
                     acHitInfo = this->collider.info.acHitInfo; // TODO:
-                    
+
                     this->collider.base.acFlags = this->collider.base.acFlags & 0xFFFD;
                     if (!(acHitInfo->toucher.dmgFlags & 0x100000) || Player_HasMirrorShieldEquipped(globalCtx)) {
                         func_800AA000(this->actor.xyzDistToPlayerSq, 0xB4, 0x14, 0x64);
@@ -4058,8 +4439,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
                 xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
                 yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
                 zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
-                if (sqrtf(SQ(xDiff) + SQ(zDiff) + SQ(yDiff)) <
-                    30.0f) {
+                if (sqrtf(SQ(xDiff) + SQ(zDiff) + SQ(yDiff)) < 30.0f) {
                     this->unk_1C2 = 1;
                     this->actor.speedXZ = 0.0f;
                     if (dorf->timers[2] == 0) {
@@ -4089,15 +4469,15 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
             temp_s0_4 = Math_FAtan2F(yDiff, xzDist) * 10430.378f;
             sp84 = (xzDist * 700.0f) / 10.0f;
-            
+
             if (sp84 > 6144.0f) {
                 sp84 = 6144.0f;
             }
 
             sp80 += Math_SinS(this->unk_1A2 * 0x2200) * sp84;
-            
+
             temp_s0_4 += Math_CosS(this->unk_1A2 * 0x1800) * sp84;
-            
+
             this->actor.world.rot.x = temp_s0_4;
             this->actor.world.rot.y = sp80;
             xDiff = dorf->unk_1FC.x - this->actor.world.pos.x;
@@ -4115,8 +4495,9 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_1C2 >= 0xB) {
         xzDist = (this->unk_1C2 == 0xC) ? -65.0f : 0.0f;
-        if ((fabsf(this->actor.world.pos.x) > (465.0f + xzDist)) || (fabsf(this->actor.world.pos.z) > (465.0f + xzDist)) ||
-            ((this->actor.world.pos.y < 0.0f)) || (this->actor.world.pos.y > 450.0f)) {
+        if ((fabsf(this->actor.world.pos.x) > (465.0f + xzDist)) ||
+            (fabsf(this->actor.world.pos.z) > (465.0f + xzDist)) || ((this->actor.world.pos.y < 0.0f)) ||
+            (this->actor.world.pos.y > 450.0f)) {
             this->unk_1C2 = 1;
             this->actor.speedXZ = 0.0f;
             numEffects = 10;
@@ -4133,7 +4514,8 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             sp60.y = Rand_CenteredFloat(30.0f);
             sp60.z = Rand_CenteredFloat(30.0);
 
-            func_808D6AAC(globalCtx, &this->actor.world.pos, &sp60, &sZeroVec, Rand_ZeroFloat(200.0f) + 500.0f, 15.0f, 0x1E);
+            func_808D6AAC(globalCtx, &this->actor.world.pos, &sp60, &sZeroVec, Rand_ZeroFloat(200.0f) + 500.0f, 15.0f,
+                          0x1E);
         }
     }
 }

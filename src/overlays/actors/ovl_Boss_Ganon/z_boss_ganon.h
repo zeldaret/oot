@@ -127,7 +127,9 @@ typedef struct BossGanon {
     /* 0x06F4 */ f32 csCamFov;
     /* 0x06F8 */ char unk_6F8[0xC];
     /* 0x0704 */ f32 unk_704;
-    /* 0x0708 */ char unk_708[0xC];
+    /* 0x0708 */ char unk_708[0x4];
+    /* 0x070C */ f32 unk_70C;
+    /* 0x070C */ f32 unk_710;
     /* 0x0714 */ f32 unk_714;
     /* 0x0718 */ s16 organAlpha;
     /* 0x071A */ u8 unk_71A;
