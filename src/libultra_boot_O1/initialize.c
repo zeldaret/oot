@@ -2,7 +2,7 @@
 
 typedef struct {
     u32 ins_00; // lui     k0, 0x8000
-    u32 ins_04; // addiu   k0, k0, 0x39e0
+    u32 ins_04; // addiu   k0, k0, 0x39E0
     u32 ins_08; // jr      k0 ; __osException
     u32 ins_0C; // nop
 } struct_exceptionPreamble;
@@ -76,8 +76,8 @@ void __osInitialize_common(void) {
     }
 
     HW_REG(AI_CONTROL_REG, u32) = 1;
-    HW_REG(AI_DACRATE_REG, u32) = 0x3fff;
-    HW_REG(AI_BITRATE_REG, u32) = 0xf;
+    HW_REG(AI_DACRATE_REG, u32) = 0x3FFF;
+    HW_REG(AI_BITRATE_REG, u32) = 0xF;
 }
 
 void __osInitialize_autodetect(void) {

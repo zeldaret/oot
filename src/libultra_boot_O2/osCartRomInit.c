@@ -22,7 +22,7 @@ OSPiHandle* osCartRomInit(void) {
 
     D_8000AF10 = 0;
     __CartRomHandle.type = DEVICE_TYPE_CART;
-    __CartRomHandle.baseAddress = 0xb0000000;
+    __CartRomHandle.baseAddress = 0xB0000000;
     __CartRomHandle.domain = 0;
     __CartRomHandle.speed = 0;
     bzero(&__CartRomHandle.transferInfo, sizeof(__OSTranxInfo));
@@ -36,10 +36,10 @@ OSPiHandle* osCartRomInit(void) {
     lastRelDuration = HW_REG(PI_BSD_DOM1_RLS_REG, u32);
     lastPulse = HW_REG(PI_BSD_DOM1_PWD_REG, u32);
 
-    HW_REG(PI_BSD_DOM1_LAT_REG, u32) = 0xff;
+    HW_REG(PI_BSD_DOM1_LAT_REG, u32) = 0xFF;
     HW_REG(PI_BSD_DOM1_PGS_REG, u32) = 0;
     HW_REG(PI_BSD_DOM1_RLS_REG, u32) = 3;
-    HW_REG(PI_BSD_DOM1_PWD_REG, u32) = 0xff;
+    HW_REG(PI_BSD_DOM1_PWD_REG, u32) = 0xFF;
 
     a = HW_REG(__CartRomHandle.baseAddress, u32);
     __CartRomHandle.latency = a & 0xFF;
