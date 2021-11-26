@@ -1969,11 +1969,6 @@ typedef struct {
 } SpeedMeterTimeEntry; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ u16 intPart[4][4];
-    /* 0x20 */ u16 fracPart[4][4];
-} MatrixInternal; // size = 0x40
-
-typedef struct {
     /* 0x00 */ u32 value;
     /* 0x04 */ const char* name;
 } F3dzexConst; // size = 0x8

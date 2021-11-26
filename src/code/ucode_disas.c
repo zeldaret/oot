@@ -933,39 +933,37 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                 DISAS_LOG("),", gmtx.addr); /*! @bug gmtx.addr shouldn't be here*/
 
                                 if (this->enableLog >= 2) {
-                                    MtxConv_L2F(&mtx, ((MatrixInternal*)addr));
+                                    MtxConv_L2F(&mtx, (Mtx*)addr);
                                     DISAS_LOG("\n");
+
                                     /*! @bug  %.04x.%04x is a typo, should be  %04x.%04x */
+                                    // clang-format off
                                     DISAS_LOG(
-                                        "/ %04x.%04x %04x.%04x %04x.%04x %.04x.%04x \\/ %12.6f %12.6f %12.6f %12.6f "
-                                        "\\\n"
+                                        "/ %04x.%04x %04x.%04x %04x.%04x %.04x.%04x \\/ %12.6f %12.6f %12.6f %12.6f \\\n"
                                         "| %04x.%04x %04x.%04x %04x.%04x %.04x.%04x || %12.6f %12.6f %12.6f %12.6f |\n"
                                         "| %04x.%04x %04x.%04x %04x.%04x %.04x.%04x || %12.6f %12.6f %12.6f %12.6f |\n"
-                                        "\\ %04x.%04x %04x.%04x %04x.%04x %.04x.%04x /\\ %12.6f %12.6f %12.6f %12.6f "
-                                        "/\n",
-                                        ((MatrixInternal*)addr)->intPart[0][0], ((MatrixInternal*)addr)->fracPart[0][0],
-                                        ((MatrixInternal*)addr)->intPart[1][0], ((MatrixInternal*)addr)->fracPart[1][0],
-                                        ((MatrixInternal*)addr)->intPart[2][0], ((MatrixInternal*)addr)->fracPart[2][0],
-                                        ((MatrixInternal*)addr)->intPart[3][0], ((MatrixInternal*)addr)->fracPart[3][0],
+                                        "\\ %04x.%04x %04x.%04x %04x.%04x %.04x.%04x /\\ %12.6f %12.6f %12.6f %12.6f /\n",
+                                        ((Mtx*)addr)->intPart[0][0], ((Mtx*)addr)->fracPart[0][0],
+                                        ((Mtx*)addr)->intPart[1][0], ((Mtx*)addr)->fracPart[1][0],
+                                        ((Mtx*)addr)->intPart[2][0], ((Mtx*)addr)->fracPart[2][0],
+                                        ((Mtx*)addr)->intPart[3][0], ((Mtx*)addr)->fracPart[3][0],
                                         mtx.mf[0][0], mtx.mf[1][0], mtx.mf[2][0], mtx.mf[3][0],
-
-                                        ((MatrixInternal*)addr)->intPart[0][1], ((MatrixInternal*)addr)->fracPart[0][1],
-                                        ((MatrixInternal*)addr)->intPart[1][1], ((MatrixInternal*)addr)->fracPart[1][1],
-                                        ((MatrixInternal*)addr)->intPart[2][1], ((MatrixInternal*)addr)->fracPart[2][1],
-                                        ((MatrixInternal*)addr)->intPart[3][1], ((MatrixInternal*)addr)->fracPart[3][1],
+                                        ((Mtx*)addr)->intPart[0][1], ((Mtx*)addr)->fracPart[0][1],
+                                        ((Mtx*)addr)->intPart[1][1], ((Mtx*)addr)->fracPart[1][1],
+                                        ((Mtx*)addr)->intPart[2][1], ((Mtx*)addr)->fracPart[2][1],
+                                        ((Mtx*)addr)->intPart[3][1], ((Mtx*)addr)->fracPart[3][1],
                                         mtx.mf[0][1], mtx.mf[1][1], mtx.mf[2][1], mtx.mf[3][1],
-
-                                        ((MatrixInternal*)addr)->intPart[0][2], ((MatrixInternal*)addr)->fracPart[0][2],
-                                        ((MatrixInternal*)addr)->intPart[1][2], ((MatrixInternal*)addr)->fracPart[1][2],
-                                        ((MatrixInternal*)addr)->intPart[2][2], ((MatrixInternal*)addr)->fracPart[2][2],
-                                        ((MatrixInternal*)addr)->intPart[3][2], ((MatrixInternal*)addr)->fracPart[3][2],
+                                        ((Mtx*)addr)->intPart[0][2], ((Mtx*)addr)->fracPart[0][2],
+                                        ((Mtx*)addr)->intPart[1][2], ((Mtx*)addr)->fracPart[1][2],
+                                        ((Mtx*)addr)->intPart[2][2], ((Mtx*)addr)->fracPart[2][2],
+                                        ((Mtx*)addr)->intPart[3][2], ((Mtx*)addr)->fracPart[3][2],
                                         mtx.mf[0][2], mtx.mf[1][2], mtx.mf[2][2], mtx.mf[3][2],
-
-                                        ((MatrixInternal*)addr)->intPart[0][3], ((MatrixInternal*)addr)->fracPart[0][3],
-                                        ((MatrixInternal*)addr)->intPart[1][3], ((MatrixInternal*)addr)->fracPart[1][3],
-                                        ((MatrixInternal*)addr)->intPart[2][3], ((MatrixInternal*)addr)->fracPart[2][3],
-                                        ((MatrixInternal*)addr)->intPart[3][3], ((MatrixInternal*)addr)->fracPart[3][3],
+                                        ((Mtx*)addr)->intPart[0][3], ((Mtx*)addr)->fracPart[0][3],
+                                        ((Mtx*)addr)->intPart[1][3], ((Mtx*)addr)->fracPart[1][3],
+                                        ((Mtx*)addr)->intPart[2][3], ((Mtx*)addr)->fracPart[2][3],
+                                        ((Mtx*)addr)->intPart[3][3], ((Mtx*)addr)->fracPart[3][3],
                                         mtx.mf[0][3], mtx.mf[1][3], mtx.mf[2][3], mtx.mf[3][3]);
+                                    // clang-format on
                                 }
                             } break;
 
