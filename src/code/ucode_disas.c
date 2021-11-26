@@ -510,7 +510,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
             } break;
 
             case G_LOAD_UCODE: {
-                if (curGfx->dma.len == 0x7ff) {
+                if (curGfx->dma.len == 0x7FF) {
                     DISAS_LOG("gsSPLoadUcode(0x%08x, 0x%08x),", curGfx->dma.addr, rdpHalf);
                 } else {
                     DISAS_LOG("gsSPLoadUcodeEx(0x%08x, 0x%08x, 0x%05x),", curGfx->dma.addr, rdpHalf,
@@ -695,7 +695,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
 
             case G_RDPSETOTHERMODE: {
                 DISAS_LOG("gsDPSetOtherMode(0x%08x, 0x%08x),", curGfx->words.w0 & 0xFFFFFF, curGfx->words.w1);
-                this->modeH = curGfx->words.w0 & 0xfff;
+                this->modeH = curGfx->words.w0 & 0xFFF;
                 this->modeL = curGfx->words.w1;
 
                 if (this->pipeSyncRequired) {
@@ -734,8 +734,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
             } break;
 
             case G_SETCIMG: {
-                u32 fmt = ((curGfx->words.w0 & 0xE00000) >> 0x15) & 0xff;
-                u32 siz = ((curGfx->words.w0 & 0x180000) >> 0x13) & 0xff;
+                u32 fmt = ((curGfx->words.w0 & 0xE00000) >> 0x15) & 0xFF;
+                u32 siz = ((curGfx->words.w0 & 0x180000) >> 0x13) & 0xFF;
 
                 DISAS_LOG("gsDPSetColorImage(G_IM_FMT_%s, G_IM_SIZ_%s, %d, 0x%08x(0x%08x) ),",
                           (fmt == G_IM_FMT_RGBA)
@@ -744,7 +744,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                                       : (fmt == G_IM_FMT_CI) ? "CI" : (fmt == G_IM_FMT_IA) ? "IA" : "I",
                           (siz == G_IM_SIZ_4b) ? "4b"
                                                : (siz == G_IM_SIZ_8b) ? "8b" : (siz == G_IM_SIZ_16b) ? "16b" : "32b",
-                          (curGfx->dma.len & 0xfff) + 1, curGfx->setimg.dram, addr);
+                          (curGfx->dma.len & 0xFFF) + 1, curGfx->setimg.dram, addr);
 
                 if (this->pipeSyncRequired) {
                     DISAS_LOG("### PipeSyncが必要です。\n");
@@ -762,8 +762,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
             } break;
 
             case G_SETTIMG: {
-                u32 fmt = ((curGfx->words.w0 & 0xE00000) >> 0x15) & 0xff;
-                u32 siz = ((curGfx->words.w0 & 0x180000) >> 0x13) & 0xff;
+                u32 fmt = ((curGfx->words.w0 & 0xE00000) >> 0x15) & 0xFF;
+                u32 siz = ((curGfx->words.w0 & 0x180000) >> 0x13) & 0xFF;
 
                 DISAS_LOG("gsDPSetTextureImage(G_IM_FMT_%s, G_IM_SIZ_%s, %d, 0x%08x(0x%08x)),",
                           (fmt == G_IM_FMT_RGBA)
@@ -772,7 +772,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                                       : (fmt == G_IM_FMT_CI) ? "CI" : (fmt == G_IM_FMT_IA) ? "IA" : "I",
                           (siz == G_IM_SIZ_4b) ? "4b"
                                                : (siz == G_IM_SIZ_8b) ? "8b" : (siz == G_IM_SIZ_16b) ? "16b" : "32b",
-                          (curGfx->dma.len & 0xfff) + 1, curGfx->setimg.dram, addr);
+                          (curGfx->dma.len & 0xFFF) + 1, curGfx->setimg.dram, addr);
             } break;
 
             case G_SETENVCOLOR: {
@@ -972,7 +972,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                 u32 vbidx;
 
                                 numv >>= 12;
-                                numv &= 0xff;
+                                numv &= 0xFF;
                                 vbidx = (curGfx->vtx.vbidx >> 1) - numv;
 
                                 DISAS_LOG("gsSPVertex(0x%08x(0x%08x), %d, %d),", curGfx->words.w1, addr, numv, vbidx);

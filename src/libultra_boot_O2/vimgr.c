@@ -5,7 +5,7 @@ typedef struct {
     u16 unk00;
     u8 unk02;
     u32 unk04;
-    u8 pad[0xc];
+    u8 pad[0xC];
     u16 unk14;
     u16 unk16;
 } viMesgStruct;

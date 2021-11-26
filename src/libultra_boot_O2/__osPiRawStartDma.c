@@ -9,7 +9,7 @@ s32 __osPiRawStartDma(s32 dir, u32 cartAddr, void* dramAddr, size_t size) {
 
     HW_REG(PI_DRAM_ADDR_REG, void*) = (void*)osVirtualToPhysical(dramAddr);
 
-    HW_REG(PI_CART_ADDR_REG, void*) = (void*)((osRomBase | cartAddr) & 0x1fffffff);
+    HW_REG(PI_CART_ADDR_REG, void*) = (void*)((osRomBase | cartAddr) & 0x1FFFFFFF);
 
     switch (dir) {
         case OS_READ:
