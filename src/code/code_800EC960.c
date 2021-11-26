@@ -1137,6 +1137,8 @@ void AudioOcarina_EnableInput(u8 inputEnabled) {
 
 /**
  * Resets ocarina properties based on the ocarina instrument id
+ * If ocarina instrument id is "OCARINA_INSTRUMENT_OFF", turn off the ocarina
+ * For all ocarina instrument ids, turn the ocarina on with the instrument id
  */
 void AudioOcarina_Reset(u8 ocarinaInstrumentId) {
     if (sOcarinaInstrumentId == ocarinaInstrumentId) {
@@ -1159,11 +1161,14 @@ void AudioOcarina_Reset(u8 ocarinaInstrumentId) {
         sDisplayedStaffPos = 0;
         sIsOcarinaInputEnabled = false;
         sOcarinaFlags = 0;
+        // return to full volume for players 0 and 3 (background bgm) after ocarina is finished
         Audio_ClearBGMMute(SFX_CHANNEL_OCARINA);
     } else {
         sOcarinaInputButtonCur = 0;
         AudioOcarina_ReadControllerInput();
-        sOcarinaInputButtonStart = sOcarinaInputButtonCur; // Button used to turn on ocarina
+        // Store button used to turn on ocarina
+        sOcarinaInputButtonStart = sOcarinaInputButtonCur;
+        // lowers volumes of players 0 and 3 (background bgm) while playing ocarina
         Audio_QueueSeqCmdMute(SFX_CHANNEL_OCARINA);
     }
 }
@@ -1192,6 +1197,10 @@ void AudioOcarina_SetDisplayedSong(s8 songIdxPlusOne, s8 displayedState) {
     }
 }
 
+/**
+ * Play a song with the ocarina to the user that is 
+ * based on OcarinaNote data and not user input
+ */
 void AudioOcarina_PlayDisplayedSong(void) {
     u32 noteTimerStep;
     u32 nextNoteTimerStep;
@@ -1416,9 +1425,9 @@ void AudioOcarina_SetRecordingSong(u8 isRecordingComplete) {
 }
 
 /**
- * recordingState = 0, end
- * recordingState = 1, start long scarecrows song
- * recordingState = 2, start spawn scarecrows song
+ * recordingState = OCARINA_RECORD_OFF, end
+ * recordingState = OCARINA_RECORD_SCARECROW_LONG, start long scarecrows song
+ * recordingState = OCARINA_RECORD_SCARECROW_SPAWN, start spawn scarecrows song
  */
 void AudioOcarina_SetRecordingState(u8 recordingState) {
     if ((u32)recordingState == sRecordingState) {
