@@ -126,7 +126,8 @@ u8 sGfxPrintFontData[(16 * 256) / 2] = {
     0x1B, 0xAA, 0x40, 0x21, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-u8 D_801755F0;
+// Can be used to set GFXP_FLAG_ENLARGE by default
+static u8 sDefaultSpecialFlags;
 
 void GfxPrint_Setup(GfxPrint* this) {
     s32 width = 16;
@@ -276,7 +277,7 @@ void GfxPrint_PrintChar(GfxPrint* this, u8 c) {
                 this->flags &= ~GFXP_FLAG_RAINBOW;
                 this->flags |= GFXP_FLAG_UPDATE;
                 break;
-            case 0x8E:
+            case GFXP_UNUSED_CHAR:
             default:
                 break;
         }
@@ -323,7 +324,7 @@ void GfxPrint_Init(GfxPrint* this) {
     this->flags |= GFXP_FLAG_SHADOW;
     this->flags |= GFXP_FLAG_UPDATE;
 
-    if (D_801755F0 & GFXP_FLAG_ENLARGE) {
+    if (sDefaultSpecialFlags & GFXP_FLAG_ENLARGE) {
         this->flags |= GFXP_FLAG_ENLARGE;
     } else {
         this->flags &= ~GFXP_FLAG_ENLARGE;
