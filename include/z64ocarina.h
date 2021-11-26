@@ -134,7 +134,7 @@ typedef enum {
     /* 7 */ OCARINA_INSTRUMENT_MAX,
     /* 7 */ OCARINA_INSTRUMENT_DEFAULT_COPY1 = OCARINA_INSTRUMENT_MAX, // Unused but present in Sequence 0 table
     /* 8 */ OCARINA_INSTRUMENT_DEFAULT_COPY2 = OCARINA_INSTRUMENT_MAX + 1 // Unused but present in Sequence 0 table
-} OcarinaFontId;
+} OcarinaInstrumentId;
 
 typedef enum {
     /* 0  */ OCARINA_RECORD_OFF,

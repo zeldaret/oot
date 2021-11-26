@@ -1102,17 +1102,21 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
 
             // Add vibrato of the ocarina note based on the x control stick
             sCurOcarinaVibrato = ABS_ALT(sOcarinaInputStickRel.x) >> 2;
-            Audio_QueueCmdS8(0x6020D06, sCurOcarinaVibrato);
+            // Sets vibrato to io port 6
+            Audio_QueueCmdS8(6 << 24 | 2 << 16 | SFX_CHANNEL_OCARINA << 8 | 6, sCurOcarinaVibrato);
         } else {
             // no bending or vibrato for recording state OCARINA_RECORD_SCARECROW_SPAWN
             sCurOcarinaBendIdx = 0;
             sCurOcarinaBendFreq = 1.0f; // No bend
         }
 
+        // Processes new and valid notes
         if ((sCurOcarinaNoteIdx != NOTE_NONE) && (sPrevOcarinaNoteIdx != sCurOcarinaNoteIdx)) {
-            // Processes new and valid notes
-            Audio_QueueCmdS8(0x6020D07, sOcarinaInstrumentId - 1); // Sets fontId to io port 7
-            Audio_QueueCmdS8(0x6020D05, sCurOcarinaNoteIdx);       // Sets noteIdx to io port 5
+            // Sets ocarina instrument Id to channelIdx io port 7, which is used 
+            // as an index in seq 0 to get the true instrument Id
+            Audio_QueueCmdS8(6 << 24 | 2 << 16 | SFX_CHANNEL_OCARINA << 8 | 7, sOcarinaInstrumentId - 1);
+            // Sets noteIdx to io port 5
+            Audio_QueueCmdS8(6 << 24 | 2 << 16 | SFX_CHANNEL_OCARINA << 8 | 5, sCurOcarinaNoteIdx);
             Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &D_801333D4, 4, &sCurOcarinaBendFreq, &sRelativeOcarinaVolume,
                                    &D_801333E8);
         } else if ((sPrevOcarinaNoteIdx != NOTE_NONE) && (sCurOcarinaNoteIdx == NOTE_NONE)) {
@@ -1240,7 +1244,8 @@ void AudioOcarina_PlayDisplayedSong(void) {
         // Update vibrato
         if (sNoteDisplayedVibrato != sDisplayedSong[sDisplayedNotePos].vibrato) {
             sNoteDisplayedVibrato = sDisplayedSong[sDisplayedNotePos].vibrato;
-            Audio_QueueCmdS8(0x06020D06, sNoteDisplayedVibrato);
+            // Sets vibrato to io port 6
+            Audio_QueueCmdS8(6 << 24 | 2 << 16 | SFX_CHANNEL_OCARINA << 8 | 6, sNoteDisplayedVibrato);
         }
 
         // Update bend
@@ -1269,11 +1274,11 @@ void AudioOcarina_PlayDisplayedSong(void) {
 
             if (sDisplayedNoteValue != NOTE_NONE) {
                 sDisplayedStaffPos++;
-                // Sets ocarina instrument Id to channelIdx io port 7, which is used as an index in seq 0 to get the
-                // true instrument Id
-                Audio_QueueCmdS8(0x6020D07, sOcarinaInstrumentId - 1);
+                // Sets ocarina instrument Id to channelIdx io port 7, which is used 
+                // as an index in seq 0 to get the true instrument Id
+                Audio_QueueCmdS8(6 << 24 | 2 << 16 | SFX_CHANNEL_OCARINA << 8 | 7, sOcarinaInstrumentId - 1);
                 // Sets sDisplayedNoteValue to channelIdx io port 5
-                Audio_QueueCmdS8(0x6020D05, sDisplayedNoteValue & 0x3F);
+                Audio_QueueCmdS8(6 << 24 | 2 << 16 | SFX_CHANNEL_OCARINA << 8 | 5, sDisplayedNoteValue & 0x3F);
                 Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &D_801333D4, 4, &sRelativeNoteDisplayedBend,
                                        &sRelativeNoteDisplayedVolume, &D_801333E8);
             } else {
@@ -1620,13 +1625,13 @@ void AudioOcarina_Update(void) {
 
 void AudioOcarina_PlayLongScarecrowAfterCredits(void) {
     static u8 sScarecrowAfterCreditsState = 0;
-    static u8 sScarecrowAfterCreditsFont = OCARINA_INSTRUMENT_DEFAULT;
+    static u8 sScarecrowAfterCreditsIntrumentId = OCARINA_INSTRUMENT_DEFAULT;
     static u16 sScarecrowAfterCreditsTimer = 1200;
 
     switch (sScarecrowAfterCreditsState) {
         case 0:
             if (sScarecrowAfterCreditsTimer-- == 0) {
-                if (sScarecrowAfterCreditsFont < OCARINA_INSTRUMENT_MAX) {
+                if (sScarecrowAfterCreditsIntrumentId < OCARINA_INSTRUMENT_MAX) {
                     // set next ocarina instrument and restart
                     sScarecrowAfterCreditsState++;
                 } else {
@@ -1639,9 +1644,9 @@ void AudioOcarina_PlayLongScarecrowAfterCredits(void) {
             break;
         case 1:
             Audio_SetSoundBanksMute(0);
-            AudioOcarina_Reset(sScarecrowAfterCreditsFont);
+            AudioOcarina_Reset(sScarecrowAfterCreditsIntrumentId);
             AudioOcarina_SetDisplayedSong(OCARINA_SONG_SCARECROW_LONG + 1, 1);
-            sScarecrowAfterCreditsFont++;
+            sScarecrowAfterCreditsIntrumentId++;
             sScarecrowAfterCreditsState++;
             break;
         case 2:
