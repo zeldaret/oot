@@ -1237,17 +1237,18 @@ void func_808D91F8(u8 arg0) {
     }
 }
 
-// #ifdef NON_MATCHING
+
 void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
-    u8 moveCam = false;                     // spAD
-    Player* player = GET_PLAYER(globalCtx); // spA8
     s16 i;
+    u8 moveCam = false;
+    Player* player = GET_PLAYER(globalCtx);
+    s16 pad;
     Vec3f sp98;
     Vec3f sp8C;
     Vec3f sp80;
     Vec3f sp74;
-    Vec3f sp64;
     Camera* mainCam;
+    Vec3f sp64;
 
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animBankIndex].segment);
 
@@ -1257,7 +1258,7 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
     switch (this->cutsceneState) {
         case 0:
             func_80064520(globalCtx, &globalCtx->csCtx);
-            func_8002DF54(globalCtx, this, 8);
+            func_8002DF54(globalCtx, &this->actor, 8);
             this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
             Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
             Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, 7);
@@ -1266,11 +1267,12 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
             this->actor.world.pos.y = 70.0f;
             this->actor.world.pos.z = -80.0f;
 
+            this->actor.shape.yOffset = -7000.0f;
+
             this->actor.shape.rot.y = 0;
             this->cutsceneState = 1;
             this->csTimer = 0;
             this->unk_71A = 1;
-            this->actor.shape.yOffset = -7000.0f;
             // fallthrough
         case 1:
             player->actor.shape.rot.y = -0x8000;
@@ -1363,7 +1365,7 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
                         sp80.z = this->unk_208.z;
 
                         func_8002836C(globalCtx, &sp80, &sp98, &sp8C, &D_808E4D30, &D_808E4D34,
-                                      Rand_ZeroFloat(50.0f) + 0x32, 0, 0x11);
+                                      (s16)Rand_ZeroFloat(50.0f) + 0x32, 0, 0x11);
                     }
                 }
 
@@ -1392,11 +1394,8 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
                 this->cutsceneState = 6;
                 this->csTimer = 0;
                 Animation_MorphToPlayOnce(&this->skelAnime, &D_06010298, 0.0f);
+                // ordering issues: 3100 (l 400)
                 this->fwork[FWORK_1] = Animation_GetLastFrame(&D_06010298);
-
-                this->csCamTargetAt.x = this->unk_1FC.x - 5.0f;
-                this->csCamTargetAt.y = (this->unk_1FC.y + 30.0f) - 10.0f;
-                this->csCamTargetAt.z = this->unk_1FC.z;
 
                 this->csCamMovementScale = 0.05f;
                 this->csCamMaxStepScale = 0.0f;
@@ -1405,8 +1404,12 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
                 this->csCamTargetEye.y = 12.0f;
                 this->csCamTargetEye.z = 70.0f;
 
-                this->csCamEyeMaxStep.x = fabsf(this->csCamEye.x - 7.0f);
-                this->csCamEyeMaxStep.y = fabsf(this->csCamEye.y - 12.0f);
+                this->csCamTargetAt.x = this->unk_1FC.x - 5.0f;
+                this->csCamTargetAt.y = (this->unk_1FC.y + 30.0f) - 10.0f;
+                this->csCamTargetAt.z = this->unk_1FC.z;
+
+                this->csCamEyeMaxStep.x = fabsf(this->csCamEye.x - this->csCamTargetEye.x);
+                this->csCamEyeMaxStep.y = fabsf(this->csCamEye.y - this->csCamTargetEye.y);
                 this->csCamEyeMaxStep.z = fabsf(this->csCamEye.z - this->csCamTargetEye.z);
 
                 this->csCamAtMaxStep.x = fabsf(this->csCamAt.x - this->csCamTargetAt.x);
@@ -1444,9 +1447,10 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
                 this->csTimer = 0;
                 this->unk_70C = 0.0f;
             }
-            goto skip_8_start;
+            goto skip_cam_and_quake;
 
         case 8:
+            // ordering issues: 32C4
             this->csCamEye.x = -60.0f;
             this->csCamEye.y = 80.0f;
             this->csCamEye.z = -130.0f;
@@ -1456,9 +1460,10 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
             this->csCamAt.z = 70.0f;
 
             this->unk_70C = Math_SinS(this->csTimer * 0x6300) * 0.2f;
+
             func_80078884(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
 
-        skip_8_start:
+        skip_cam_and_quake:
             this->unk_1A0 = 0xF;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BODY_SPARK - SFX_FLAG);
 
@@ -1470,14 +1475,17 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->unk_508, 5.0f, 0.05f, 0.1f);
 
             if (this->csTimer == 30) {
-                this->csCamEye.x = -30.0f;
-                this->csCamEye.y = 40.0f;
                 this->cutsceneState = 9;
                 this->csTimer = 0;
+
+                this->csCamEye.x = -30.0f;
+                this->csCamEye.y = 40.0f;
                 this->csCamEye.z = 60.0f;
+
                 this->csCamAt.x = 492.0f;
                 this->csCamAt.y = 43.0f;
                 this->csCamAt.z = 580.0f;
+
                 this->csCamMaxStepScale = 0.0f;
                 this->unk_710 = 10.0f;
             }
@@ -1528,35 +1536,31 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
             Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
             Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, 7);
             Animation_MorphToPlayOnce(&this->skelAnime, &D_0600ADDC, 0.0f);
+            this->fwork[1] = Animation_GetLastFrame(&D_0600EA00); // above cs state?
             this->cutsceneState = 101;
             this->skelAnime.playSpeed = 0.0f;
-            this->fwork[1] = Animation_GetLastFrame(&D_0600EA00); // above cs state?
-            sZelda = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ZL3, 0.0f, 6000.0f,
-                                        0.0f, 0, 0, 0, 0x2000);
+            sZelda = (EnZl3*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ZL3, 0.0f,
+                                                6000.0f, 0.0f, 0, 0, 0, 0x2000);
 
+            // ordering issues: 36DC
             player->actor.world.pos.x = -472.0f;
             player->actor.world.pos.y = 4102.0f;
             player->actor.world.pos.z = -130.0f;
-
             player->actor.shape.rot.y = -0x8000;
 
             this->actor.world.pos.x = -472.0f;
             this->actor.world.pos.y = 4172.0f;
             this->actor.world.pos.z = -400.0f;
 
+            this->actor.shape.yOffset = -7000.0f;
             this->actor.shape.rot.y = 0;
 
             // xyz order?
-            this->csCamEye.x = -472.0f;
-            this->csCamAt.x = -472.0f;
-
-            this->csCamEye.y = 4152.0f;
-            this->csCamAt.y = 4152.0f;
-
+            this->csCamEye.x = this->csCamAt.x = -472.0f;
+            this->csCamEye.y = this->csCamAt.y = 4152.0f;
             this->csCamEye.z = -160.0f;
             this->csCamAt.z = -100.0f;
 
-            this->actor.shape.yOffset = -7000.0f;
 
             sCape->backPush = -2.0f;
             sCape->backSwayMagnitude = 0.25f;
@@ -1648,16 +1652,16 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
                 sZelda->actor.world.pos.y = 4102.0f;
                 this->cutsceneState = 104;
                 this->csTimer = 0;
-                goto case_104; // can maybe flip to get rid of goto?
+                // goto case_104; // can maybe flip to get rid of goto?
+            } else {
+                break;
             }
-            break;
 
+        // case_104:
         case 104:
-        case_104:
             this->csCamEye.x = -432.0f;
             this->csCamEye.y = 4147.0f;
             this->csCamEye.z = -200.0f;
-
             this->csCamAt.x = sZelda->actor.world.pos.x;
             this->csCamAt.y = sZelda->actor.world.pos.y + 40.0f + 5.0f;
             this->csCamAt.z = sZelda->actor.world.pos.z;
@@ -1830,13 +1834,13 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
 
     if (this->csCamIndex != 0) {
         if (moveCam) {
-            Math_ApproachF(&this->csCamTargetEye.x, this->csCamTargetEye.x, this->csCamMovementScale,
+            Math_ApproachF(&this->csCamEye.x, this->csCamTargetEye.x, this->csCamMovementScale,
                            this->csCamEyeMaxStep.x * this->csCamMaxStepScale);
             Math_ApproachF(&this->csCamEye.y, this->csCamTargetEye.y, this->csCamMovementScale,
                            this->csCamEyeMaxStep.y * this->csCamMaxStepScale);
             Math_ApproachF(&this->csCamEye.z, this->csCamTargetEye.z, this->csCamMovementScale,
                            this->csCamEyeMaxStep.z * this->csCamMaxStepScale);
-            Math_ApproachF(&this->csCamTargetEye.x, this->csCamTargetAt.x, this->csCamMovementScale,
+            Math_ApproachF(&this->csCamAt.x, this->csCamTargetAt.x, this->csCamMovementScale,
                            this->csCamAtMaxStep.x * this->csCamMaxStepScale);
             Math_ApproachF(&this->csCamAt.y, this->csCamTargetAt.y, this->csCamMovementScale,
                            this->csCamAtMaxStep.y * this->csCamMaxStepScale);
@@ -1844,14 +1848,12 @@ void func_808D933C(BossGanon* this, GlobalContext* globalCtx) {
                            this->csCamAtMaxStep.z * this->csCamMaxStepScale);
         }
 
-        sp64 = this->csCamTargetEye;
+        sp64 = this->csCamAt;
         sp64.y += this->unk_70C;
-        Gameplay_CameraSetAtEye(globalCtx, this->csCamIndex, &sp64, &this->csCamAt);
+        Gameplay_CameraSetAtEye(globalCtx, this->csCamIndex, &sp64, &this->csCamEye);
     }
 }
-// #else
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808D933C.s")
-// #endif
+
 
 void func_808DACE8(BossGanon* this, GlobalContext* globalCtx) {
     this->unk_1C2 = 0;
