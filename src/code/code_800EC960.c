@@ -529,7 +529,7 @@ OcarinaSongInfo gOcarinaSongNotes[OCARINA_SONG_MAX] = {
 
 extern u8 D_801333F0;
 extern u8 gAudioSfxSwapOff;
-extern u8 D_80133408;
+extern u8 sIsSeqStartDisabled;
 extern u8 D_80133418;
 
 /**
@@ -3695,7 +3695,7 @@ void func_800F5550(u16 seqId) {
 
     if (Audio_GetActiveSequence(0) != NA_BGM_WINDMILL) {
         if (Audio_GetActiveSequence(3) == NA_BGM_LONLON) {
-            func_800F9474(3, 0);
+            Audio_StopSequence(3, 0);
             Audio_QueueCmdS32(0xF8000000, 0);
         }
 
@@ -4199,7 +4199,7 @@ void func_800F6AB0(u16 arg0) {
 }
 
 void func_800F6B3C(void) {
-    func_800F9280(2, 0, 0xFF, 5);
+    Audio_StartSequence(2, 0, 0xFF, 5);
 }
 
 void Audio_DisableAllSeq(void) {
@@ -4299,7 +4299,7 @@ void func_800F6E7C(u16 arg0, u16 arg1) {
     Audio_SetVolumeScale(0, 0, 0x7F, 1);
 
     i = 0;
-    if (D_80133408 != 0) {
+    if (sIsSeqStartDisabled != 0) {
         i = 1;
         Audio_SeqCmdE01(0, 0);
     }
@@ -4347,11 +4347,11 @@ void Audio_InitSound(void) {
     Audio_ResetSfxChannelState();
     Audio_ResetSequencesAndVolume();
     Audio_ResetSounds();
-    func_800F9280(2, 0, 0x70, 10);
+    Audio_StartSequence(2, 0, 0x70, 10);
 }
 
 void func_800F7170(void) {
-    func_800F9280(2, 0, 0x70, 1);
+    Audio_StartSequence(2, 0, 0x70, 1);
     Audio_QueueCmdS32(0xF2000000, 1);
     Audio_ScheduleProcessCmds();
     Audio_QueueCmdS32(0xF8000000, 0);
@@ -4371,5 +4371,5 @@ void func_800F7208(void) {
     Audio_QueueCmdS32(0xF2000000, 1);
     func_800F6C34();
     Audio_ResetSfxChannelState();
-    func_800F9280(2, 0, 0x70, 1);
+    Audio_StartSequence(2, 0, 0x70, 1);
 }

@@ -15,13 +15,13 @@ glabel sSeqCmdWritePos
 glabel sSeqCmdReadPos
     .incbin "baserom.z64", 0xBAA5A4, 0x4
 
-glabel D_80133408
+glabel sIsSeqStartDisabled
     .incbin "baserom.z64", 0xBAA5A8, 0x4
 
 glabel D_8013340C
     .incbin "baserom.z64", 0xBAA5AC, 0x4
 
-glabel D_80133410
+glabel sSoundModes
     .incbin "baserom.z64", 0xBAA5B0, 0x4
 
 glabel gAudioSpecId

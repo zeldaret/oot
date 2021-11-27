@@ -63,7 +63,7 @@ glabel gAudioSfxSwapTarget
 glabel gAudioSfxSwapMode
     .space 0x10
 
-glabel D_8016E320
+glabel sSeqRequests
     .space 0x28
 
 glabel sNumSeqRequests
