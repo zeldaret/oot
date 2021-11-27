@@ -4,7 +4,7 @@ s32 __osEPiRawReadIo(OSPiHandle* handle, u32 devAddr, u32* data) {
     s32 status;
     OSPiHandle* curHandle;
 
-    while (status = HW_REG(PI_STATUS_REG, u32), status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY | PI_STATUS_ERROR)) {
+    while (status = HW_REG(PI_STATUS_REG, u32), status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
         ;
     }
 
