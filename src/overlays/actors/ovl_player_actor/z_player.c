@@ -8724,7 +8724,7 @@ void func_80846120(Player* this, GlobalContext* globalCtx) {
         this->heldActor = &heavyBlock->dyna.actor;
         this->actor.child = &heavyBlock->dyna.actor;
         heavyBlock->dyna.actor.parent = &this->actor;
-        func_8002DBD0(&heavyBlock->dyna.actor, &heavyBlock->unk_164, &this->leftHandPos);
+        func_8002DBD0(&heavyBlock->dyna.actor, &heavyBlock->unk_164, &this->leftForearmPos);
         return;
     }
 
@@ -12189,7 +12189,7 @@ void func_8084EED8(Player* this, GlobalContext* globalCtx) {
     }
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 37.0f)) {
-        Player_SpawnFairy(globalCtx, this, &this->leftHandPos, &D_80854A1C, FAIRY_REVIVE_BOTTLE);
+        Player_SpawnFairy(globalCtx, this, &this->leftForearmPos, &D_80854A1C, FAIRY_REVIVE_BOTTLE);
         Player_UpdateBottleHeld(globalCtx, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
         func_8002F7DC(&this->actor, NA_SE_EV_BOTTLE_CAP_OPEN);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
@@ -12222,8 +12222,8 @@ void func_8084EFC0(Player* this, GlobalContext* globalCtx) {
         BottleDropInfo* dropInfo = &D_80854A28[this->itemActionParam - PLAYER_AP_BOTTLE_FISH];
 
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, dropInfo->actorId,
-                    (Math_SinS(this->actor.shape.rot.y) * 5.0f) + this->leftHandPos.x, this->leftHandPos.y,
-                    (Math_CosS(this->actor.shape.rot.y) * 5.0f) + this->leftHandPos.z, 0x4000, this->actor.shape.rot.y,
+                    (Math_SinS(this->actor.shape.rot.y) * 5.0f) + this->leftForearmPos.x, this->leftForearmPos.y,
+                    (Math_CosS(this->actor.shape.rot.y) * 5.0f) + this->leftForearmPos.z, 0x4000, this->actor.shape.rot.y,
                     0, dropInfo->actorParams);
 
         Player_UpdateBottleHeld(globalCtx, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);

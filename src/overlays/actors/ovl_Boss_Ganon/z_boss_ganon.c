@@ -3325,7 +3325,7 @@ void func_808DE988(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             sp28.z += 700.0f;
         }
 
-        Matrix_MultVec3f(&sp28, &this->leftHandPos);
+        Matrix_MultVec3f(&sp28, &this->unk_220);
     } else if (limbIndex == 8) {
         Vec3f sp1C = D_808E4DAC;
 
@@ -3339,7 +3339,7 @@ void func_808DE988(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             sp1C.z += -700.0f;
         }
 
-        Matrix_MultVec3f(&sp1C, &this->rightHandPos);
+        Matrix_MultVec3f(&sp1C, &this->unk_214);
     }
 }
 
@@ -3853,8 +3853,8 @@ void BossGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_808E3D84(globalCtx);
 
     sCape->actor.world.pos = this->actor.world.pos;
-    sCape->rightHandPos = this->rightHandPos;
-    sCape->leftHandPos = this->leftHandPos;
+    sCape->rightForearmPos = this->unk_214;
+    sCape->leftForearmPos = this->unk_220;
     sCape->rightShoulderPos = this->unk_22C;
     sCape->leftShoulderPos = this->unk_238;
 

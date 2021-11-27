@@ -68,8 +68,8 @@ typedef struct BossGanon {
     /* 0x01F0 */ Vec3f unk_1F0;
     /* 0x01FC */ Vec3f unk_1FC;
     /* 0x0208 */ Vec3f unk_208;
-    /* 0x0214 */ Vec3f rightHandPos;
-    /* 0x0220 */ Vec3f leftHandPos;
+    /* 0x0214 */ Vec3f unk_214;
+    /* 0x0220 */ Vec3f unk_220;
     /* 0x022C */ Vec3f unk_22C;
     /* 0x0238 */ Vec3f unk_238;
     /* 0x0244 */ char unk_244[0x10];

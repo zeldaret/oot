@@ -241,7 +241,7 @@ typedef struct Player {
     /* 0x0318 */ Vec3s      blendTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x03A8 */ s16        unk_3A8[2];
     /* 0x03AC */ Actor*     heldActor;
-    /* 0x03B0 */ Vec3f      leftHandPos;
+    /* 0x03B0 */ Vec3f      leftForearmPos;
     /* 0x03BC */ Vec3s      unk_3BC;
     /* 0x03C4 */ Actor*     unk_3C4;
     /* 0x03C8 */ Vec3f      unk_3C8;

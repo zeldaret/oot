@@ -405,20 +405,20 @@ void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         // Choose endpoints
         if (this->attachRightArmTimer != 0.0f) {
-            rightPos = &this->rightHandPos;
+            rightPos = &this->rightForearmPos;
             leftPos = &this->leftShoulderPos;
             this->gravity = -13.0f;
         } else if (this->attachLeftArmTimer != 0.0f) {
             rightPos = &this->rightShoulderPos;
-            leftPos = &this->leftHandPos;
+            leftPos = &this->leftForearmPos;
             this->gravity = -13.0f;
         } else if (this->attachShouldersTimer != 0.0f) {
             rightPos = &this->rightShoulderPos;
             leftPos = &this->leftShoulderPos;
             this->gravity = -3.0f;
         } else {
-            rightPos = &this->rightHandPos;
-            leftPos = &this->leftHandPos;
+            rightPos = &this->rightForearmPos;
+            leftPos = &this->leftForearmPos;
         }
 
         xDiff = leftPos->x - rightPos->x;

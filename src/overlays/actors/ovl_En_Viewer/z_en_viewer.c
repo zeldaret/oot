@@ -863,8 +863,8 @@ void EnViewer_DrawFireEffects(EnViewer* this2, GlobalContext* globalCtx) {
 
 void EnViewer_UpdateGanondorfCape(GlobalContext* globalCtx, EnViewer* this) {
     static s16 yOscillationPhase = 0;
-    Vec3f handModelOffset;
-    Vec3f handWorldOffset;
+    Vec3f forearmModelOffset;
+    Vec3f forearmWorldOffset;
 
     if ((this->actor.params >> 8) == ENVIEWER_TYPE_5_GANONDORF) {
         if (1) {}
@@ -874,20 +874,20 @@ void EnViewer_UpdateGanondorfCape(GlobalContext* globalCtx, EnViewer* this) {
         sGanondorfCape->minY = -10000.0f;
         sGanondorfCape->minDist = 0.0f;
         sGanondorfCape->gravity = (BREG(67) - 10) / 10.0f;
-        handModelOffset.x = KREG(16) - 13.0f;
-        handModelOffset.y = KREG(17) + 3.0f + Math_SinS(yOscillationPhase) * KREG(20);
-        handModelOffset.z = KREG(18) - 10.0f;
+        forearmModelOffset.x = KREG(16) - 13.0f;
+        forearmModelOffset.y = KREG(17) + 3.0f + Math_SinS(yOscillationPhase) * KREG(20);
+        forearmModelOffset.z = KREG(18) - 10.0f;
         yOscillationPhase += KREG(19) * 0x1000 + 0x2000;
 
         Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
-        Matrix_MultVec3f(&handModelOffset, &handWorldOffset);
-        sGanondorfCape->righthandPos.x = sGanondorfNeckWorldPos.x + handWorldOffset.x;
-        sGanondorfCape->righthandPos.y = sGanondorfNeckWorldPos.y + handWorldOffset.y;
-        sGanondorfCape->righthandPos.z = sGanondorfNeckWorldPos.z + handWorldOffset.z;
-        handModelOffset.x = -(KREG(16) - 13.0f);
-        Matrix_MultVec3f(&handModelOffset, &handWorldOffset);
-        sGanondorfCape->leftHandPos.x = sGanondorfNeckWorldPos.x + handWorldOffset.x;
-        sGanondorfCape->leftHandPos.y = sGanondorfNeckWorldPos.y + handWorldOffset.y;
-        sGanondorfCape->leftHandPos.z = sGanondorfNeckWorldPos.z + handWorldOffset.z;
+        Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
+        sGanondorfCape->rightForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
+        sGanondorfCape->rightForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
+        sGanondorfCape->rightForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
+        forearmModelOffset.x = -(KREG(16) - 13.0f);
+        Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
+        sGanondorfCape->leftForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
+        sGanondorfCape->leftForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
+        sGanondorfCape->leftForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
     }
 }
