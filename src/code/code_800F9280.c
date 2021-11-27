@@ -2,10 +2,10 @@
 #include "global.h"
 #include "ultra64/abi.h"
 
-extern u8 D_8016E348[4];
+extern u8 sNumSeqRequests[4];
 extern u32 sAudioSeqCmds[0x100];
-extern u8 sSeqCmdRdPos;
-extern u8 sSeqCmdWrPos;
+extern u8 sSeqCmdReadPos;
+extern u8 sSeqCmdWritePos;
 extern u8 D_80133408;
 extern u8 D_80133418;
 extern u8 D_80133410[];
@@ -23,7 +23,7 @@ extern u8 D_80133410[];
     Audio_ProcessSeqCmd(0x40000000 | ((u8)playerIdx << 24) | ((u8)volFadeTimer << 16) | ((u8)(volScale * 127.0f)));
 
 void func_800F9280(u8 playerIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
-    u8 i;
+    u8 channelIdx;
     u16 dur;
     s32 pad;
 
@@ -37,33 +37,33 @@ void func_800F9280(u8 playerIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
                               (fadeTimer * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
         }
 
-        D_8016E750[playerIdx].unk_254 = seqId | (arg2 << 8);
-        D_8016E750[playerIdx].unk_256 = seqId | (arg2 << 8);
+        gActiveSeqs[playerIdx].seqId = seqId | (arg2 << 8);
+        gActiveSeqs[playerIdx].prevSeqId = seqId | (arg2 << 8);
 
-        if (D_8016E750[playerIdx].volCur != 1.0f) {
-            Audio_QueueCmdF32(0x41000000 | _SHIFTL(playerIdx, 16, 8), D_8016E750[playerIdx].volCur);
+        if (gActiveSeqs[playerIdx].volCur != 1.0f) {
+            Audio_QueueCmdF32(0x41000000 | _SHIFTL(playerIdx, 16, 8), gActiveSeqs[playerIdx].volCur);
         }
 
-        D_8016E750[playerIdx].unk_28 = 0;
-        D_8016E750[playerIdx].unk_18 = 0;
-        D_8016E750[playerIdx].unk_14 = 0;
+        gActiveSeqs[playerIdx].tempoDuration = 0;
+        gActiveSeqs[playerIdx].tempoDefault = 0;
+        gActiveSeqs[playerIdx].tempoCmd = 0;
 
-        for (i = 0; i < 0x10; i++) {
-            D_8016E750[playerIdx].unk_50[i].unk_00 = 1.0f;
-            D_8016E750[playerIdx].unk_50[i].unk_0C = 0;
-            D_8016E750[playerIdx].unk_50[i].unk_10 = 1.0f;
-            D_8016E750[playerIdx].unk_50[i].unk_1C = 0;
+        for (channelIdx = 0; channelIdx < 16; channelIdx++) {
+            gActiveSeqs[playerIdx].channelData[channelIdx].volCur = 1.0f;
+            gActiveSeqs[playerIdx].channelData[channelIdx].volDuration = 0;
+            gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleCur = 1.0f;
+            gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleDuration = 0;
         }
 
-        D_8016E750[playerIdx].unk_250 = 0;
-        D_8016E750[playerIdx].unk_252 = 0;
+        gActiveSeqs[playerIdx].freqScaleChannelFlags = 0;
+        gActiveSeqs[playerIdx].volChannelFlags = 0;
     }
 }
 
 void func_800F9474(u8 arg0, u16 arg1) {
     Audio_QueueCmdS32(0x83000000 | ((u8)arg0 << 16),
                       (arg1 * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
-    D_8016E750[arg0].unk_254 = NA_BGM_DISABLED;
+    gActiveSeqs[arg0].seqId = NA_BGM_DISABLED;
 }
 
 typedef enum {
@@ -106,7 +106,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     u8 found;
     u8 port;
     u8 duration;
-    u8 chanIdx;
+    u8 channelIdx;
     u8 i;
     s32 new_var;
     f32 freqScale;
@@ -125,7 +125,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             seqId = cmd & 0xFF;
             seqArgs = (cmd & 0xFF00) >> 8;
             fadeTimer = (cmd & 0xFF0000) >> 13;
-            if ((D_8016E750[playerIdx].unk_260 == 0) && (seqArgs < 0x80)) {
+            if (!gActiveSeqs[playerIdx].isWaitingForFonts && (seqArgs < 0x80)) {
                 func_800F9280(playerIdx, seqId, seqArgs, fadeTimer);
             }
             break;
@@ -142,7 +142,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             seqArgs = (cmd & 0xFF00) >> 8;
             fadeTimer = (cmd & 0xFF0000) >> 13;
             new_var = seqArgs;
-            for (i = 0; i < D_8016E348[playerIdx]; i++) {
+            for (i = 0; i < sNumSeqRequests[playerIdx]; i++) {
                 if (D_8016E320[playerIdx][i].unk_0 == seqId) {
                     if (i == 0) {
                         func_800F9280(playerIdx, seqId, seqArgs, fadeTimer);
@@ -151,18 +151,18 @@ void Audio_ProcessSeqCmd(u32 cmd) {
                 }
             }
 
-            found = D_8016E348[playerIdx];
-            for (i = 0; i < D_8016E348[playerIdx]; i++) {
+            found = sNumSeqRequests[playerIdx];
+            for (i = 0; i < sNumSeqRequests[playerIdx]; i++) {
                 if (D_8016E320[playerIdx][i].unk_1 <= new_var) {
                     found = i;
-                    i = D_8016E348[playerIdx]; // "break;"
+                    i = sNumSeqRequests[playerIdx]; // "break;"
                 }
             }
 
-            if (D_8016E348[playerIdx] < 5) {
-                D_8016E348[playerIdx]++;
+            if (sNumSeqRequests[playerIdx] < 5) {
+                sNumSeqRequests[playerIdx]++;
             }
-            for (i = D_8016E348[playerIdx] - 1; i != found; i--) {
+            for (i = sNumSeqRequests[playerIdx] - 1; i != found; i--) {
                 D_8016E320[playerIdx][i].unk_1 = D_8016E320[playerIdx][i - 1].unk_1;
                 D_8016E320[playerIdx][i].unk_0 = D_8016E320[playerIdx][i - 1].unk_0;
             }
@@ -179,25 +179,25 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             seqId = cmd & 0xFF;
             fadeTimer = (cmd & 0xFF0000) >> 13;
 
-            found = D_8016E348[playerIdx];
-            for (i = 0; i < D_8016E348[playerIdx]; i++) {
+            found = sNumSeqRequests[playerIdx];
+            for (i = 0; i < sNumSeqRequests[playerIdx]; i++) {
                 if (D_8016E320[playerIdx][i].unk_0 == seqId) {
                     found = i;
-                    i = D_8016E348[playerIdx]; // "break;"
+                    i = sNumSeqRequests[playerIdx]; // "break;"
                 }
             }
 
-            if (found != D_8016E348[playerIdx]) {
-                for (i = found; i < D_8016E348[playerIdx] - 1; i++) {
+            if (found != sNumSeqRequests[playerIdx]) {
+                for (i = found; i < sNumSeqRequests[playerIdx] - 1; i++) {
                     D_8016E320[playerIdx][i].unk_1 = D_8016E320[playerIdx][i + 1].unk_1;
                     D_8016E320[playerIdx][i].unk_0 = D_8016E320[playerIdx][i + 1].unk_0;
                 }
-                D_8016E348[playerIdx]--;
+                sNumSeqRequests[playerIdx]--;
             }
 
             if (found == 0) {
                 func_800F9474(playerIdx, fadeTimer);
-                if (D_8016E348[playerIdx] != 0) {
+                if (sNumSeqRequests[playerIdx] != 0) {
                     func_800F9280(playerIdx, D_8016E320[playerIdx][0].unk_0, D_8016E320[playerIdx][0].unk_1, fadeTimer);
                 }
             }
@@ -210,11 +210,11 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             if (duration == 0) {
                 duration++;
             }
-            D_8016E750[playerIdx].volTarget = (f32)val / 127.0f;
-            if (D_8016E750[playerIdx].volCur != D_8016E750[playerIdx].volTarget) {
-                D_8016E750[playerIdx].unk_08 =
-                    (D_8016E750[playerIdx].volCur - D_8016E750[playerIdx].volTarget) / (f32)duration;
-                D_8016E750[playerIdx].unk_0C = duration;
+            gActiveSeqs[playerIdx].volTarget = (f32)val / 127.0f;
+            if (gActiveSeqs[playerIdx].volCur != gActiveSeqs[playerIdx].volTarget) {
+                gActiveSeqs[playerIdx].volVelocity =
+                    (gActiveSeqs[playerIdx].volCur - gActiveSeqs[playerIdx].volTarget) / (f32)duration;
+                gActiveSeqs[playerIdx].volDuration = duration;
             }
             break;
 
@@ -227,45 +227,45 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             freqScale = (f32)val / 1000.0f;
             for (i = 0; i < 16; i++) {
-                D_8016E750[playerIdx].unk_50[i].unk_14 = freqScale;
-                D_8016E750[playerIdx].unk_50[i].unk_1C = duration;
-                D_8016E750[playerIdx].unk_50[i].unk_18 =
-                    (D_8016E750[playerIdx].unk_50[i].unk_10 - freqScale) / (f32)duration;
+                gActiveSeqs[playerIdx].channelData[i].freqScaleTarget = freqScale;
+                gActiveSeqs[playerIdx].channelData[i].freqScaleDuration = duration;
+                gActiveSeqs[playerIdx].channelData[i].freqScaleVelocity =
+                    (gActiveSeqs[playerIdx].channelData[i].freqScaleCur - freqScale) / (f32)duration;
             }
-            D_8016E750[playerIdx].unk_250 = 0xFFFF;
+            gActiveSeqs[playerIdx].freqScaleChannelFlags = 0xFFFF;
             break;
 
         case 0xD:
             // transition freq scale
             duration = (cmd & 0xFF0000) >> 15;
-            chanIdx = (cmd & 0xF000) >> 12;
+            channelIdx = (cmd & 0xF000) >> 12;
             val = cmd & 0xFFF;
             if (duration == 0) {
                 duration++;
             }
             freqScale = (f32)val / 1000.0f;
-            D_8016E750[playerIdx].unk_50[chanIdx].unk_14 = freqScale;
-            D_8016E750[playerIdx].unk_50[chanIdx].unk_18 =
-                (D_8016E750[playerIdx].unk_50[chanIdx].unk_10 - freqScale) / (f32)duration;
-            D_8016E750[playerIdx].unk_50[chanIdx].unk_1C = duration;
-            D_8016E750[playerIdx].unk_250 |= 1 << chanIdx;
+            gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleTarget = freqScale;
+            gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleVelocity =
+                (gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleCur - freqScale) / (f32)duration;
+            gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleDuration = duration;
+            gActiveSeqs[playerIdx].freqScaleChannelFlags |= 1 << channelIdx;
             break;
 
         case 0x6:
             // transition vol scale
             duration = (cmd & 0xFF0000) >> 15;
-            chanIdx = (cmd & 0xF00) >> 8;
+            channelIdx = (cmd & 0xF00) >> 8;
             val = cmd & 0xFF;
             if (duration == 0) {
                 duration++;
             }
-            D_8016E750[playerIdx].unk_50[chanIdx].unk_04 = (f32)val / 127.0f;
-            if (D_8016E750[playerIdx].unk_50[chanIdx].unk_00 != D_8016E750[playerIdx].unk_50[chanIdx].unk_04) {
-                D_8016E750[playerIdx].unk_50[chanIdx].unk_08 =
-                    (D_8016E750[playerIdx].unk_50[chanIdx].unk_00 - D_8016E750[playerIdx].unk_50[chanIdx].unk_04) /
+            gActiveSeqs[playerIdx].channelData[channelIdx].volTarget = (f32)val / 127.0f;
+            if (gActiveSeqs[playerIdx].channelData[channelIdx].volCur != gActiveSeqs[playerIdx].channelData[channelIdx].volTarget) {
+                gActiveSeqs[playerIdx].channelData[channelIdx].volVelocity =
+                    (gActiveSeqs[playerIdx].channelData[channelIdx].volCur - gActiveSeqs[playerIdx].channelData[channelIdx].volTarget) /
                     (f32)duration;
-                D_8016E750[playerIdx].unk_50[chanIdx].unk_0C = duration;
-                D_8016E750[playerIdx].unk_252 |= 1 << chanIdx;
+                gActiveSeqs[playerIdx].channelData[channelIdx].volDuration = duration;
+                gActiveSeqs[playerIdx].volChannelFlags |= 1 << channelIdx;
             }
             break;
 
@@ -278,18 +278,18 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 
         case 0x8:
             // set io port if channel masked
-            chanIdx = (cmd & 0xF00) >> 8;
+            channelIdx = (cmd & 0xF00) >> 8;
             port = (cmd & 0xFF0000) >> 16;
             val = cmd & 0xFF;
-            if ((D_8016E750[playerIdx].unk_258 & (1 << chanIdx)) == 0) {
-                Audio_QueueCmdS8(0x06000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(chanIdx, 8, 8) | _SHIFTL(port, 0, 8),
+            if ((gActiveSeqs[playerIdx].channelPortMask & (1 << channelIdx)) == 0) {
+                Audio_QueueCmdS8(0x06000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(channelIdx, 8, 8) | _SHIFTL(port, 0, 8),
                                  val);
             }
             break;
 
         case 0x9:
             // set channel mask for command 0x8
-            D_8016E750[playerIdx].unk_258 = cmd & 0xFFFF;
+            gActiveSeqs[playerIdx].channelPortMask = cmd & 0xFFFF;
             break;
 
         case 0xA:
@@ -311,22 +311,22 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 
         case 0xB:
             // update tempo
-            D_8016E750[playerIdx].unk_14 = cmd;
+            gActiveSeqs[playerIdx].tempoCmd = cmd;
             break;
 
         case 0xC:
             // start sequence with setup commands
             subOp = (cmd & 0xF00000) >> 20;
             if (subOp != 0xF) {
-                if (D_8016E750[playerIdx].unk_4D < 7) {
-                    found = D_8016E750[playerIdx].unk_4D++;
+                if (gActiveSeqs[playerIdx].setupCmdNum < 7) {
+                    found = gActiveSeqs[playerIdx].setupCmdNum++;
                     if (found < 8) {
-                        D_8016E750[playerIdx].unk_2C[found] = cmd;
-                        D_8016E750[playerIdx].unk_4C = 2;
+                        gActiveSeqs[playerIdx].setupCmd[found] = cmd;
+                        gActiveSeqs[playerIdx].setupCmdTimer = 2;
                     }
                 }
             } else {
-                D_8016E750[playerIdx].unk_4D = 0;
+                gActiveSeqs[playerIdx].setupCmdNum = 0;
             }
             break;
 
@@ -359,27 +359,27 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 }
 
 void Audio_QueueSeqCmd(u32 cmd) {
-    sAudioSeqCmds[sSeqCmdWrPos++] = cmd;
+    sAudioSeqCmds[sSeqCmdWritePos++] = cmd;
 }
 
 void Audio_ProcessSeqCmds(void) {
-    while (sSeqCmdWrPos != sSeqCmdRdPos) {
-        Audio_ProcessSeqCmd(sAudioSeqCmds[sSeqCmdRdPos++]);
+    while (sSeqCmdWritePos != sSeqCmdReadPos) {
+        Audio_ProcessSeqCmd(sAudioSeqCmds[sSeqCmdReadPos++]);
     }
 }
 
-u16 func_800FA0B4(u8 playerIdx) {
+u16 Audio_GetActiveSequence(u8 playerIdx) {
     if (!gAudioContext.seqPlayers[playerIdx].enabled) {
         return NA_BGM_DISABLED;
     }
-    return D_8016E750[playerIdx].unk_254;
+    return gActiveSeqs[playerIdx].seqId;
 }
 
-s32 func_800FA11C(u32 arg0, u32 arg1) {
+s32 Audio_IsSeqCmdNotQueued(u32 cmdVal, u32 cmdMask) {
     u8 i;
 
-    for (i = sSeqCmdRdPos; i != sSeqCmdWrPos; i++) {
-        if (arg0 == (sAudioSeqCmds[i] & arg1)) {
+    for (i = sSeqCmdReadPos; i != sSeqCmdWritePos; i++) {
+        if (cmdVal == (sAudioSeqCmds[i] & cmdMask)) {
             return false;
         }
     }
@@ -387,263 +387,266 @@ s32 func_800FA11C(u32 arg0, u32 arg1) {
     return true;
 }
 
-void func_800FA174(u8 arg0) {
-    D_8016E348[arg0] = 0;
+// Unused
+void Audio_ResetSequenceRequests(u8 playerIdx) {
+    sNumSeqRequests[playerIdx] = 0;
 }
 
-void func_800FA18C(u8 arg0, u8 arg1) {
+// Unused
+void Audio_DisableSeqCmdSetupOp(u8 playerIdx, u8 setupOpDisabled) {
     u8 i;
 
-    for (i = 0; i < D_8016E750[arg0].unk_4D; i++) {
-        u8 unkb = (D_8016E750[arg0].unk_2C[i] & 0xF00000) >> 20;
+    for (i = 0; i < gActiveSeqs[playerIdx].setupCmdNum; i++) {
+        u8 setupOp = (gActiveSeqs[playerIdx].setupCmd[i] & 0xF00000) >> 20;
 
-        if (unkb == arg1) {
-            D_8016E750[arg0].unk_2C[i] = 0xFF000000;
+        if (setupOp == setupOpDisabled) {
+            gActiveSeqs[playerIdx].setupCmd[i] = 0xFF000000;
         }
     }
 }
 
-void Audio_SetVolScale(u8 playerIdx, u8 scaleIdx, u8 targetVol, u8 volFadeTimer) {
+void Audio_SetVolumeScale(u8 playerIdx, u8 scaleIdx, u8 targetVol, u8 volFadeTimer) {
     f32 volScale;
     u8 i;
 
-    D_8016E750[playerIdx].volScales[scaleIdx] = targetVol & 0x7F;
+    gActiveSeqs[playerIdx].volScales[scaleIdx] = targetVol & 0x7F;
 
     if (volFadeTimer != 0) {
-        D_8016E750[playerIdx].fadeVolUpdate = 1;
-        D_8016E750[playerIdx].volFadeTimer = volFadeTimer;
+        gActiveSeqs[playerIdx].fadeVolUpdate = 1;
+        gActiveSeqs[playerIdx].volFadeTimer = volFadeTimer;
     } else {
         for (i = 0, volScale = 1.0f; i < 4; i++) {
-            volScale *= D_8016E750[playerIdx].volScales[i] / 127.0f;
+            volScale *= gActiveSeqs[playerIdx].volScales[i] / 127.0f;
         }
 
         Audio_SetVolScaleNow(playerIdx, volFadeTimer, volScale);
     }
 }
 
-void func_800FA3DC(void) {
-    u32 temp_a1;
-    u16 temp_lo;
-    u16 temp_v1;
-    u16 phi_a2;
-    u8 temp_v0_4;
-    u8 temp_a0;
-    u8 temp_s1;
-    u8 temp_s0_3;
-    u8 temp_a3_3;
-    s32 pad[3];
+void Audio_UpdateActiveSequences(void) {
+    u32 tempoCmd;
+    u16 tempoDefault;
+    u16 seqId;
+    u16 tempoTarget;
+    u8 tempoOp;
+    u8 setupOp;
+    u8 setupPlayerIdx;
+    u8 setupVal2;
+    u8 setupVal1;
+    s32 pad[2];
+    u16 channelMask;
     u32 dummy;
-    f32 phi_f0;
-    u8 phi_t0;
-    u8 i;
+    f32 volume;
+    u8 tempoDuration;
+    u8 playerIdx;
     u8 j;
-    u8 k;
+    u8 channelIdx;
 
-    for (i = 0; i < 4; i++) {
-        if (D_8016E750[i].unk_260 != 0) {
+    for (playerIdx = 0; playerIdx < 4; playerIdx++) {
+        if (gActiveSeqs[playerIdx].isWaitingForFonts) {
             switch (func_800E5E20(&dummy)) {
                 case 1:
                 case 2:
                 case 3:
                 case 4:
-                    D_8016E750[i].unk_260 = 0;
-                    Audio_ProcessSeqCmd(D_8016E750[i].unk_25C);
+                    gActiveSeqs[playerIdx].isWaitingForFonts = false;
+                    Audio_ProcessSeqCmd(gActiveSeqs[playerIdx].startSeqCmd);
                     break;
             }
         }
 
-        if (D_8016E750[i].fadeVolUpdate) {
-            phi_f0 = 1.0f;
+        if (gActiveSeqs[playerIdx].fadeVolUpdate) {
+            volume = 1.0f;
             for (j = 0; j < 4; j++) {
-                phi_f0 *= (D_8016E750[i].volScales[j] / 127.0f);
+                volume *= (gActiveSeqs[playerIdx].volScales[j] / 127.0f);
             }
-            Audio_SeqCmd4(i, D_8016E750[i].volFadeTimer, (u8)(phi_f0 * 127.0f));
-            D_8016E750[i].fadeVolUpdate = 0;
+            Audio_SeqCmd4(playerIdx, gActiveSeqs[playerIdx].volFadeTimer, (u8)(volume * 127.0f));
+            gActiveSeqs[playerIdx].fadeVolUpdate = 0;
         }
 
-        if (D_8016E750[i].unk_0C != 0) {
-            D_8016E750[i].unk_0C--;
+        if (gActiveSeqs[playerIdx].volDuration != 0) {
+            gActiveSeqs[playerIdx].volDuration--;
 
-            if (D_8016E750[i].unk_0C != 0) {
-                D_8016E750[i].volCur = D_8016E750[i].volCur - D_8016E750[i].unk_08;
+            if (gActiveSeqs[playerIdx].volDuration != 0) {
+                gActiveSeqs[playerIdx].volCur = gActiveSeqs[playerIdx].volCur - gActiveSeqs[playerIdx].volVelocity;
             } else {
-                D_8016E750[i].volCur = D_8016E750[i].volTarget;
+                gActiveSeqs[playerIdx].volCur = gActiveSeqs[playerIdx].volTarget;
             }
 
-            Audio_QueueCmdF32(0x41000000 | _SHIFTL(i, 16, 8), D_8016E750[i].volCur);
+            Audio_QueueCmdF32(0x41000000 | _SHIFTL(playerIdx, 16, 8), gActiveSeqs[playerIdx].volCur);
         }
 
-        if (D_8016E750[i].unk_14 != 0) {
-            temp_a1 = D_8016E750[i].unk_14;
-            phi_t0 = (temp_a1 & 0xFF0000) >> 15;
-            phi_a2 = temp_a1 & 0xFFF;
-            if (phi_t0 == 0) {
-                phi_t0++;
+        if (gActiveSeqs[playerIdx].tempoCmd != 0) {
+            tempoCmd = gActiveSeqs[playerIdx].tempoCmd;
+            tempoDuration = (tempoCmd & 0xFF0000) >> 15;
+            tempoTarget = tempoCmd & 0xFFF;
+            if (tempoDuration == 0) {
+                tempoDuration++;
             }
 
-            if (gAudioContext.seqPlayers[i].enabled) {
-                temp_lo = gAudioContext.seqPlayers[i].tempo / 0x30;
-                temp_v0_4 = (temp_a1 & 0xF000) >> 12;
-                switch (temp_v0_4) {
+            if (gAudioContext.seqPlayers[playerIdx].enabled) {
+                tempoDefault = gAudioContext.seqPlayers[playerIdx].tempo / 0x30;
+                tempoOp = (tempoCmd & 0xF000) >> 12;
+                switch (tempoOp) {
                     case 1:
-                        phi_a2 += temp_lo;
+                        tempoTarget += tempoDefault;
                         break;
                     case 2:
-                        if (phi_a2 < temp_lo) {
-                            phi_a2 = temp_lo - phi_a2;
+                        if (tempoTarget < tempoDefault) {
+                            tempoTarget = tempoDefault - tempoTarget;
                         }
                         break;
                     case 3:
-                        phi_a2 = temp_lo * (phi_a2 / 100.0f);
+                        tempoTarget = tempoDefault * (tempoTarget / 100.0f);
                         break;
                     case 4:
-                        if (D_8016E750[i].unk_18) {
-                            phi_a2 = D_8016E750[i].unk_18;
+                        if (gActiveSeqs[playerIdx].tempoDefault) {
+                            tempoTarget = gActiveSeqs[playerIdx].tempoDefault;
                         } else {
-                            phi_a2 = temp_lo;
+                            tempoTarget = tempoDefault;
                         }
                         break;
                 }
 
-                if (phi_a2 > 300) {
-                    phi_a2 = 300;
+                if (tempoTarget > 300) {
+                    tempoTarget = 300;
                 }
 
-                if (D_8016E750[i].unk_18 == 0) {
-                    D_8016E750[i].unk_18 = temp_lo;
+                if (gActiveSeqs[playerIdx].tempoDefault == 0) {
+                    gActiveSeqs[playerIdx].tempoDefault = tempoDefault;
                 }
 
-                D_8016E750[i].unk_20 = phi_a2;
-                D_8016E750[i].unk_1C = gAudioContext.seqPlayers[i].tempo / 0x30;
-                D_8016E750[i].unk_24 = (D_8016E750[i].unk_1C - D_8016E750[i].unk_20) / phi_t0;
-                D_8016E750[i].unk_28 = phi_t0;
-                D_8016E750[i].unk_14 = 0;
+                gActiveSeqs[playerIdx].tempoTarget = tempoTarget;
+                gActiveSeqs[playerIdx].tempoCur = gAudioContext.seqPlayers[playerIdx].tempo / 0x30;
+                gActiveSeqs[playerIdx].tempoVelocity = (gActiveSeqs[playerIdx].tempoCur - gActiveSeqs[playerIdx].tempoTarget) / tempoDuration;
+                gActiveSeqs[playerIdx].tempoDuration = tempoDuration;
+                gActiveSeqs[playerIdx].tempoCmd = 0;
             }
         }
 
-        if (D_8016E750[i].unk_28 != 0) {
-            D_8016E750[i].unk_28--;
-            if (D_8016E750[i].unk_28 != 0) {
-                D_8016E750[i].unk_1C = D_8016E750[i].unk_1C - D_8016E750[i].unk_24;
+        if (gActiveSeqs[playerIdx].tempoDuration != 0) {
+            gActiveSeqs[playerIdx].tempoDuration--;
+            if (gActiveSeqs[playerIdx].tempoDuration != 0) {
+                gActiveSeqs[playerIdx].tempoCur = gActiveSeqs[playerIdx].tempoCur - gActiveSeqs[playerIdx].tempoVelocity;
             } else {
-                D_8016E750[i].unk_1C = D_8016E750[i].unk_20;
+                gActiveSeqs[playerIdx].tempoCur = gActiveSeqs[playerIdx].tempoTarget;
             }
             // set tempo
-            Audio_QueueCmdS32(0x47000000 | _SHIFTL(i, 16, 8), D_8016E750[i].unk_1C);
+            Audio_QueueCmdS32(0x47000000 | _SHIFTL(playerIdx, 16, 8), gActiveSeqs[playerIdx].tempoCur);
         }
 
-        if (D_8016E750[i].unk_252 != 0) {
-            for (k = 0; k < 0x10; k++) {
-                if (D_8016E750[i].unk_50[k].unk_0C != 0) {
-                    D_8016E750[i].unk_50[k].unk_0C--;
-                    if (D_8016E750[i].unk_50[k].unk_0C != 0) {
-                        D_8016E750[i].unk_50[k].unk_00 -= D_8016E750[i].unk_50[k].unk_08;
+        if (gActiveSeqs[playerIdx].volChannelFlags != 0) {
+            for (channelIdx = 0; channelIdx < 0x10; channelIdx++) {
+                if (gActiveSeqs[playerIdx].channelData[channelIdx].volDuration != 0) {
+                    gActiveSeqs[playerIdx].channelData[channelIdx].volDuration--;
+                    if (gActiveSeqs[playerIdx].channelData[channelIdx].volDuration != 0) {
+                        gActiveSeqs[playerIdx].channelData[channelIdx].volCur -= gActiveSeqs[playerIdx].channelData[channelIdx].volVelocity;
                     } else {
-                        D_8016E750[i].unk_50[k].unk_00 = D_8016E750[i].unk_50[k].unk_04;
-                        D_8016E750[i].unk_252 ^= (1 << k);
+                        gActiveSeqs[playerIdx].channelData[channelIdx].volCur = gActiveSeqs[playerIdx].channelData[channelIdx].volTarget;
+                        gActiveSeqs[playerIdx].volChannelFlags ^= (1 << channelIdx);
                     }
-                    // CHAN_UPD_VOL_SCALE (i = seq, k = chan)
-                    Audio_QueueCmdF32(0x01000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8),
-                                      D_8016E750[i].unk_50[k].unk_00);
+                    // CHAN_UPD_VOL_SCALE (playerIdx = seq, channelIdx = chan)
+                    Audio_QueueCmdF32(0x01000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(channelIdx, 8, 8),
+                                      gActiveSeqs[playerIdx].channelData[channelIdx].volCur);
                 }
             }
         }
 
-        if (D_8016E750[i].unk_250 != 0) {
-            for (k = 0; k < 0x10; k++) {
-                if (D_8016E750[i].unk_50[k].unk_1C != 0) {
-                    D_8016E750[i].unk_50[k].unk_1C--;
-                    if (D_8016E750[i].unk_50[k].unk_1C != 0) {
-                        D_8016E750[i].unk_50[k].unk_10 -= D_8016E750[i].unk_50[k].unk_18;
+        if (gActiveSeqs[playerIdx].freqScaleChannelFlags != 0) {
+            for (channelIdx = 0; channelIdx < 0x10; channelIdx++) {
+                if (gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleDuration != 0) {
+                    gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleDuration--;
+                    if (gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleDuration != 0) {
+                        gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleCur -= gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleVelocity;
                     } else {
-                        D_8016E750[i].unk_50[k].unk_10 = D_8016E750[i].unk_50[k].unk_14;
-                        D_8016E750[i].unk_250 ^= (1 << k);
+                        gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleCur = gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleTarget;
+                        gActiveSeqs[playerIdx].freqScaleChannelFlags ^= (1 << channelIdx);
                     }
                     // CHAN_UPD_FREQ_SCALE
-                    Audio_QueueCmdF32(0x04000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8),
-                                      D_8016E750[i].unk_50[k].unk_10);
+                    Audio_QueueCmdF32(0x04000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(channelIdx, 8, 8),
+                                      gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleCur);
                 }
             }
         }
 
-        if (D_8016E750[i].unk_4D != 0) {
-            if (func_800FA11C(0xF0000000, 0xF0000000) == 0) {
-                D_8016E750[i].unk_4D = 0;
+        if (gActiveSeqs[playerIdx].setupCmdNum != 0) {
+            if (Audio_IsSeqCmdNotQueued(0xF0000000, 0xF0000000) == 0) {
+                gActiveSeqs[playerIdx].setupCmdNum = 0;
                 return;
             }
 
-            if (D_8016E750[i].unk_4C != 0) {
-                D_8016E750[i].unk_4C--;
+            if (gActiveSeqs[playerIdx].setupCmdTimer != 0) {
+                gActiveSeqs[playerIdx].setupCmdTimer--;
                 continue;
             }
 
-            if (gAudioContext.seqPlayers[i].enabled) {
+            if (gAudioContext.seqPlayers[playerIdx].enabled) {
                 continue;
             }
 
-            for (j = 0; j < D_8016E750[i].unk_4D; j++) {
-                temp_a0 = (D_8016E750[i].unk_2C[j] & 0x00F00000) >> 20;
-                temp_s1 = (D_8016E750[i].unk_2C[j] & 0x000F0000) >> 16;
-                temp_s0_3 = (D_8016E750[i].unk_2C[j] & 0xFF00) >> 8;
-                temp_a3_3 = D_8016E750[i].unk_2C[j] & 0xFF;
+            for (j = 0; j < gActiveSeqs[playerIdx].setupCmdNum; j++) {
+                setupOp = (gActiveSeqs[playerIdx].setupCmd[j] & 0x00F00000) >> 20;
+                setupPlayerIdx = (gActiveSeqs[playerIdx].setupCmd[j] & 0x000F0000) >> 16;
+                setupVal2 = (gActiveSeqs[playerIdx].setupCmd[j] & 0xFF00) >> 8;
+                setupVal1 = gActiveSeqs[playerIdx].setupCmd[j] & 0xFF;
 
-                switch (temp_a0) {
+                switch (setupOp) {
                     case 0:
-                        Audio_SetVolScale(temp_s1, 1, 0x7F, temp_a3_3);
+                        Audio_SetVolumeScale(setupPlayerIdx, 1, 0x7F, setupVal1);
                         break;
                     case 7:
-                        if (D_8016E348[i] == temp_a3_3) {
-                            Audio_SetVolScale(temp_s1, 1, 0x7F, temp_s0_3);
+                        if (sNumSeqRequests[playerIdx] == setupVal1) {
+                            Audio_SetVolumeScale(setupPlayerIdx, 1, 0x7F, setupVal2);
                         }
                         break;
                     case 1:
-                        Audio_SeqCmd3(i, D_8016E750[i].unk_254);
+                        Audio_SeqCmd3(playerIdx, gActiveSeqs[playerIdx].seqId);
                         break;
                     case 2:
-                        Audio_StartSeq(temp_s1, 1, D_8016E750[temp_s1].unk_254);
-                        D_8016E750[temp_s1].fadeVolUpdate = 1;
-                        D_8016E750[temp_s1].volScales[1] = 0x7F;
+                        Audio_StartSeq(setupPlayerIdx, 1, gActiveSeqs[setupPlayerIdx].seqId);
+                        gActiveSeqs[setupPlayerIdx].fadeVolUpdate = 1;
+                        gActiveSeqs[setupPlayerIdx].volScales[1] = 0x7F;
                         break;
                     case 3:
-                        Audio_SeqCmdB30(temp_s1, temp_s0_3, temp_a3_3);
+                        Audio_SeqCmdB30(setupPlayerIdx, setupVal2, setupVal1);
                         break;
                     case 4:
-                        Audio_SeqCmdB40(temp_s1, temp_a3_3, 0);
+                        Audio_SeqCmdB40(setupPlayerIdx, setupVal1, 0);
                         break;
                     case 5:
-                        temp_v1 = D_8016E750[i].unk_2C[j] & 0xFFFF;
-                        Audio_StartSeq(temp_s1, D_8016E750[temp_s1].unk_4E, temp_v1);
-                        Audio_SetVolScale(temp_s1, 1, 0x7F, 0);
-                        D_8016E750[temp_s1].unk_4E = 0;
+                        seqId = gActiveSeqs[playerIdx].setupCmd[j] & 0xFFFF;
+                        Audio_StartSeq(setupPlayerIdx, gActiveSeqs[setupPlayerIdx].setupFadeTimer, seqId);
+                        Audio_SetVolumeScale(setupPlayerIdx, 1, 0x7F, 0);
+                        gActiveSeqs[setupPlayerIdx].setupFadeTimer = 0;
                         break;
                     case 6:
-                        D_8016E750[i].unk_4E = temp_s0_3;
+                        gActiveSeqs[playerIdx].setupFadeTimer = setupVal2;
                         break;
                     case 8:
-                        Audio_SetVolScale(temp_s1, temp_s0_3, 0x7F, temp_a3_3);
+                        Audio_SetVolumeScale(setupPlayerIdx, setupVal2, 0x7F, setupVal1);
                         break;
                     case 14:
-                        if (temp_a3_3 & 1) {
+                        if (setupVal1 & 1) {
                             Audio_QueueCmdS32(0xE3000000, SEQUENCE_TABLE);
                         }
-                        if (temp_a3_3 & 2) {
+                        if (setupVal1 & 2) {
                             Audio_QueueCmdS32(0xE3000000, FONT_TABLE);
                         }
-                        if (temp_a3_3 & 4) {
+                        if (setupVal1 & 4) {
                             Audio_QueueCmdS32(0xE3000000, SAMPLE_TABLE);
                         }
                         break;
                     case 9:
-                        temp_v1 = D_8016E750[i].unk_2C[j] & 0xFFFF;
-                        Audio_SeqCmdA(temp_s1, temp_v1);
+                        channelMask = gActiveSeqs[playerIdx].setupCmd[j] & 0xFFFF;
+                        Audio_SeqCmdA(setupPlayerIdx, channelMask);
                         break;
                     case 10:
-                        Audio_SeqCmd5(temp_s1, temp_s0_3, (temp_a3_3 * 10) & 0xFFFF);
+                        Audio_SeqCmd5(setupPlayerIdx, setupVal2, (setupVal1 * 10) & 0xFFFF);
                         break;
                 }
             }
 
-            D_8016E750[i].unk_4D = 0;
+            gActiveSeqs[playerIdx].setupCmdNum = 0;
         }
     }
 }
@@ -667,39 +670,41 @@ u8 func_800FAD34(void) {
     return D_80133418;
 }
 
-void func_800FADF8(void) {
-    u8 i, j;
+void Audio_ResetSequences(void) {
+    u8 playerIdx;
+    u8 j;
 
-    for (i = 0; i < 4; i++) {
-        D_8016E348[i] = 0;
-        D_8016E750[i].unk_254 = NA_BGM_DISABLED;
-        D_8016E750[i].unk_256 = NA_BGM_DISABLED;
-        D_8016E750[i].unk_28 = 0;
-        D_8016E750[i].unk_18 = 0;
-        D_8016E750[i].unk_14 = 0;
-        D_8016E750[i].unk_258 = 0;
-        D_8016E750[i].unk_4D = 0;
-        D_8016E750[i].unk_4E = 0;
-        D_8016E750[i].unk_250 = 0;
-        D_8016E750[i].unk_252 = 0;
+    for (playerIdx = 0; playerIdx < 4; playerIdx++) {
+        sNumSeqRequests[playerIdx] = 0;
+        gActiveSeqs[playerIdx].seqId = NA_BGM_DISABLED;
+        gActiveSeqs[playerIdx].prevSeqId = NA_BGM_DISABLED;
+        gActiveSeqs[playerIdx].tempoDuration = 0;
+        gActiveSeqs[playerIdx].tempoDefault = 0;
+        gActiveSeqs[playerIdx].tempoCmd = 0;
+        gActiveSeqs[playerIdx].channelPortMask = 0;
+        gActiveSeqs[playerIdx].setupCmdNum = 0;
+        gActiveSeqs[playerIdx].setupFadeTimer = 0;
+        gActiveSeqs[playerIdx].freqScaleChannelFlags = 0;
+        gActiveSeqs[playerIdx].volChannelFlags = 0;
         for (j = 0; j < 4; j++) {
-            D_8016E750[i].volScales[j] = 0x7F;
+            gActiveSeqs[playerIdx].volScales[j] = 0x7F;
         }
-        D_8016E750[i].volFadeTimer = 1;
-        D_8016E750[i].fadeVolUpdate = 1;
+        gActiveSeqs[playerIdx].volFadeTimer = 1;
+        gActiveSeqs[playerIdx].fadeVolUpdate = 1;
     }
 }
 
-void func_800FAEB4(void) {
-    u8 i, j;
+void Audio_ResetSequencesAndVolume(void) {
+    u8 playerIdx;
+    u8 j;
 
-    for (i = 0; i < 4; i++) {
-        D_8016E750[i].volCur = 1.0f;
-        D_8016E750[i].unk_0C = 0;
-        D_8016E750[i].fadeVolUpdate = 0;
+    for (playerIdx = 0; playerIdx < 4; playerIdx++) {
+        gActiveSeqs[playerIdx].volCur = 1.0f;
+        gActiveSeqs[playerIdx].volDuration = 0;
+        gActiveSeqs[playerIdx].fadeVolUpdate = 0;
         for (j = 0; j < 4; j++) {
-            D_8016E750[i].volScales[j] = 0x7F;
+            gActiveSeqs[playerIdx].volScales[j] = 0x7F;
         }
     }
-    func_800FADF8();
+    Audio_ResetSequences();
 }

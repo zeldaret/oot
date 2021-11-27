@@ -66,13 +66,13 @@ glabel gAudioSfxSwapMode
 glabel D_8016E320
     .space 0x28
 
-glabel D_8016E348
+glabel sNumSeqRequests
     .space 0x8
 
 glabel sAudioSeqCmds
     .space 0x400
 
-glabel D_8016E750
+glabel gActiveSeqs
     .space 0x990
 
 glabel D_8016F0E0 # unused? 

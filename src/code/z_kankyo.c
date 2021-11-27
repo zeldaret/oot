@@ -2424,7 +2424,7 @@ void func_80077684(GlobalContext* globalCtx) {
     func_800F6D58(14, 1, 0);
     func_800F6D58(15, 1, 0);
 
-    if (func_800FA0B4(0) == NA_BGM_NATURE_BACKGROUND) {
+    if (Audio_GetActiveSequence(0) == NA_BGM_NATURE_BACKGROUND) {
         gSaveContext.seqIndex = NA_BGM_NATURE_SFX_RAIN;
         func_800758AC(globalCtx);
     }

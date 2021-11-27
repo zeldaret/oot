@@ -108,15 +108,15 @@ void Audio_SetSoundBanksMute(u16 muteMask) {
 
 void Audio_QueueSeqCmdMute(u8 channelIdx) {
     D_801333D0 |= (1 << channelIdx);
-    Audio_SetVolScale(0, 2, 0x40, 0xF);
-    Audio_SetVolScale(3, 2, 0x40, 0xF);
+    Audio_SetVolumeScale(0, 2, 0x40, 0xF);
+    Audio_SetVolumeScale(3, 2, 0x40, 0xF);
 }
 
 void Audio_ClearBGMMute(u8 channelIdx) {
     D_801333D0 &= ((1 << channelIdx) ^ 0xFFFF);
     if (D_801333D0 == 0) {
-        Audio_SetVolScale(0, 2, 0x7F, 0xF);
-        Audio_SetVolScale(3, 2, 0x7F, 0xF);
+        Audio_SetVolumeScale(0, 2, 0x7F, 0xF);
+        Audio_SetVolumeScale(3, 2, 0x7F, 0xF);
     }
 }
 
