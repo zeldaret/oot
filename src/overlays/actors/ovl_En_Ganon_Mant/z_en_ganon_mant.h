@@ -30,8 +30,8 @@ typedef struct EnGanonMant {
     /* 0x16C8 */ f32 gravity; // strand gravity
     /* 0x16CC */ f32 baseYaw;
     /* 0x16D0 */ f32 minDist; // closest distance the cloak can get to the attached actor without being pushed away
-    /* 0x16D4 */ Vec3f rightForearmPos;
-    /* 0x16E0 */ Vec3f leftForearmPos;
+    /* 0x16D4 */ Vec3f rightHandPos;
+    /* 0x16E0 */ Vec3f leftHandPos;
     /* 0x16EC */ Vec3f rightShoulderPos;
     /* 0x16F8 */ Vec3f leftShoulderPos;
     /* 0x1704 */ u8 tearTimer; // tear the cloak for x many frames
