@@ -26,7 +26,7 @@ void osCreateViManager(OSPri pri) {
         viRetraceMsg.hdr.retQueue = NULL;
         viCounterMsg.hdr.type = 14;
         viCounterMsg.hdr.pri = 0;
-        viCounterMsg.hdr.retQueue = 0;
+        viCounterMsg.hdr.retQueue = NULL;
         osSetEventMesg(OS_EVENT_VI, &viEventQueue, &viRetraceMsg);
         osSetEventMesg(OS_EVENT_COUNTER, &viEventQueue, &viCounterMsg);
         newPri = -1;
