@@ -329,7 +329,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     s16 eyeTexIdx = this->unk_190;
     SkelAnime* skelAnime = &this->skelAnime;
     void* eyeTexture = sEyeTextures[eyeTexIdx];
-    void* mouthTexture = &gGoronCsMouthSmileTex;
+    void* mouthTexture = gGoronCsMouthSmileTex;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
 
