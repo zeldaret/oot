@@ -24,7 +24,7 @@ extern u32 osTvType;
 extern u32 osRomBase;
 extern u32 osResetType;
 extern u32 osMemSize;
-extern u8 osAppNmiBuffer[];
+extern u8 osAppNmiBuffer[0x40];
 
 extern u8 D_80009320[];
 extern u8 D_800093F0[];
@@ -43,7 +43,7 @@ extern OSViMode osViModePalLan1;
 extern u64 osClockRate;
 extern s32 osViClock;
 extern u32 __osShutdown;
-extern u32 __OSGlobalIntMask;
+extern OSHWIntr __OSGlobalIntMask;
 extern OSThread* __osThreadTail[];
 extern OSThread* __osRunQueue;
 extern OSThread* __osActiveQueue;

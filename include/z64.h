@@ -27,8 +27,6 @@
 #include "sfx.h"
 #include "color.h"
 #include "ichain.h"
-#include "stdarg.h"
-#include "stdlib.h"
 #include "regs.h"
 
 #define SCREEN_WIDTH  320

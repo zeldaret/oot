@@ -1,7 +1,7 @@
 #ifndef ULTRA64_PFS_H
 #define ULTRA64_PFS_H
 
-#include "ultra64.h"
+#include "message.h"
 
 /* File System size */
 #define OS_PFS_VERSION      0x0200
