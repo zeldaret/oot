@@ -92,7 +92,7 @@ typedef struct BossGanon {
     /* 0x02E4 */ u8 unk_2E4;
     /* 0x02E6 */ s16 unk_2E6; // timer
     /* 0x02E8 */ s16 unk_2E8; // timer
-    /* 0x02EC */ Vec3f unk_2EC[15];
+    /* 0x02EC */ Vec3f bodyPartsPos[15];
     /* 0x03A0 */ char unk_3A0[0x24];
     /* 0x03C4 */ Vec3f unk_3C4[18]; // size not known for sure
     /* 0x049C */ f32 unk_49C[18];
