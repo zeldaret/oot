@@ -104,7 +104,7 @@ codePct = 100 * code / codeSize
 bootPct = 100 * boot / bootSize
 ovlPct = 100 * ovl / ovlSize
 
-bytesPerHeartPiece = total / 80
+bytesPerHeartPiece = total // 80
 
 if args.format == 'csv':
     version = 1
