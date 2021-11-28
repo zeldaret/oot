@@ -2,13 +2,7 @@
 #include "global.h"
 #include "ultra64/abi.h"
 
-extern u8 sNumSeqRequests[4];
-extern u32 sAudioSeqCmds[0x100];
-extern u8 sSeqCmdReadPos;
-extern u8 sSeqCmdWritePos;
-extern u8 sIsSeqStartDisabled;
-extern u8 D_80133418;
-extern u8 sSoundModes[];
+// ==== Primary commands ====
 
 typedef enum {
     /* 0x0 */ SEQ_CMD_START,
@@ -28,6 +22,8 @@ typedef enum {
     /* 0xE */ SEQ_CMD_SUB_CMD,
     /* 0xF */ SEQ_CMD_SET_SPEC
 } SeqCmdType;
+
+// ==== Secondary commands ====
 
 typedef enum {
     /* 0x1 */ TEMPO_CMD_SPEED_UP = 1,
@@ -56,36 +52,54 @@ typedef enum {
     /* 0x1 */ SUB_CMD_DISABLE_NEW_SEQUENCES
 } SubCmdType;
 
+// ==== Commands Wrappers ====
+
 // TODO: clean up these macros. They are similar to ones in code_800EC960.c but without casts.
+// TODO: Carefully double check all bit-shifts are correct
 // external audio commands
-#define AudioSeqCmd_StartSequence(playerIdx, fadeTimer, seqId) Audio_QueueSeqCmd((SEQ_CMD_START << 28) | ((playerIdx) << 24) | ((fadeTimer) << 16) | (seqId))
-#define AudioSeqCmd_StopSequence(playerIdx, fadeTimer) Audio_QueueSeqCmd((SEQ_CMD_STOP << 28) | ((u8)playerIdx << 24) | ((u8)(fadeTimer) << 16) | 0xFF)
-#define AudioSeqCmd_QueueSequence(playerIdx, fadeTimer, importance, seqId) Audio_QueueSeqCmd((SEQ_CMD_QUEUE << 28) | ((playerIdx) << 24) | ((fadeTimer) << 16) | ((importance) << 8) | (seqId))
-#define AudioSeqCmd_UnqueueSequence(playerIdx, fadeTimer) Audio_QueueSeqCmd((SEQ_CMD_UNQUEUE << 28) | ((playerIdx) << 24) | (fadeTimer))
-#define AudioSeqCmd_SetPlayerVol(playerIdx, duration, volume) Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_VOL << 28) | ((playerIdx) << 24) | ((duration) << 16) | (volume))
-#define AudioSeqCmd_SetPlayerFreq(playerIdx, duration, freq) Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_FREQ << 28) | ((playerIdx) << 24) | ((duration) << 16) | (freq))
-#define AudioSeqCmd_SetChannelFreq(playerIdx, duration, channelIdx, freq) Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_FREQ << 28) | ((playerIdx) << 24) | ((duration) << 16) | ((channelIdx) << 12) | (freq))
-#define AudioSeqCmd_SetChannelVol(playerIdx, duration, channelIdx, volume) Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_VOL << 28) | ((playerIdx) << 24) | ((duration) << 16) | ((channelIdx) << 8) | (volume))
-#define AudioSeqCmd_SetPlayerIO(playerIdx, port, val) Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_IO << 28) | ((playerIdx) << 24) | ((port) << 16) | (val))
-#define AudioSeqCmd_SetChannelIO(playerIdx, port, channelIdx, val) Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_IO << 28) | ((playerIdx) << 24) | ((port) << 16) | ((channelIdx) << 8) | (val))
-#define AudioSeqCmd_SetChannelIOMask(playerIdx, mask) Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_IO_MASK << 28) | ((playerIdx) << 24) | (mask))
-#define AudioSeqCmd_SetActiveChannels(playerIdx, channelMask) Audio_QueueSeqCmd((SEQ_CMD_SET_ACTIVE_CHANNELS << 28) | ((playerIdx) << 24) | (channelMask))
+#define AudioSeqCmd_StartSequence(playerIdx, fadeTimer, seqId)                          Audio_QueueSeqCmd((SEQ_CMD_START << 28)                 | ((playerIdx) << 24)   | ((fadeTimer) << 16) | (seqId))
+#define AudioSeqCmd_StopSequence(playerIdx, fadeTimer)                                  Audio_QueueSeqCmd((SEQ_CMD_STOP << 28)                  | ((u8)playerIdx << 24) | ((u8)(fadeTimer) << 16) | 0xFF)
+#define AudioSeqCmd_QueueSequence(playerIdx, fadeTimer, importance, seqId)              Audio_QueueSeqCmd((SEQ_CMD_QUEUE << 28)                 | ((playerIdx) << 24)   | ((fadeTimer) << 16) | ((importance) << 8) | (seqId))
+#define AudioSeqCmd_UnqueueSequence(playerIdx, fadeTimer)                               Audio_QueueSeqCmd((SEQ_CMD_UNQUEUE << 28)               | ((playerIdx) << 24)   | (fadeTimer))
+#define AudioSeqCmd_SetPlayerVol(playerIdx, duration, volume)                           Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_VOL << 28)        | ((playerIdx) << 24)   | ((duration) << 16) | (volume))
+#define AudioSeqCmd_SetPlayerFreq(playerIdx, duration, freq)                            Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_FREQ << 28)       | ((playerIdx) << 24)   | ((duration) << 16) | (freq))
+#define AudioSeqCmd_SetChannelFreq(playerIdx, duration, channelIdx, freq)               Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_FREQ << 28)      | ((playerIdx) << 24)   | ((duration) << 16) | ((channelIdx) << 12) | (freq))
+#define AudioSeqCmd_SetChannelVol(playerIdx, duration, channelIdx, volume)              Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_VOL << 28)       | ((playerIdx) << 24)   | ((duration) << 16) | ((channelIdx) << 8) | (volume))
+#define AudioSeqCmd_SetPlayerIO(playerIdx, port, val)                                   Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_IO << 28)         | ((playerIdx) << 24)   | ((port) << 16) | (val))
+#define AudioSeqCmd_SetChannelIO(playerIdx, port, channelIdx, val)                      Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_IO << 28)        | ((playerIdx) << 24)   | ((port) << 16) | ((channelIdx) << 8) | (val))
+#define AudioSeqCmd_SetChannelIOMask(playerIdx, mask)                                   Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_IO_MASK << 28)   | ((playerIdx) << 24)   | (mask))
+#define AudioSeqCmd_SetActiveChannels(playerIdx, channelMask)                           Audio_QueueSeqCmd((SEQ_CMD_SET_ACTIVE_CHANNELS << 28)   | ((playerIdx) << 24)   | (channelMask))
+#define AudioSeqCmd_SetSpec(playerIdx, sfxChannelLayout, spec)                          Audio_QueueSeqCmd((SEQ_CMD_SET_SPEC << 28)              | ((playerIdx) << 24)   | ((sfxChannelLayout) << 8) | (spec))
 
-// Tempo commands
-#define AudioSeqCmd_SpeedUpTempo(playerIdx, duration, tempoIncrease) Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_SPEED_UP << 12) | ((playerIdx) << 24) | ((duration) << 16) | (tempoIncrease))
-#define AudioSeqCmd_SlowDownTempo(playerIdx, duration, tempoDecrease) Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_SLOW_DOWN << 12) | ((playerIdx) << 24) | ((duration) << 16) | (tempoDecrease))
-#define AudioSeqCmd_ScaleTempo(playerIdx, duration, tempoScale) Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_SCALE << 12) | ((playerIdx) << 24) | ((duration) << 16) | (tempoScale))
-#define AudioSeqCmd_ResetTempo(playerIdx, duration) Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_RESET << 12) | ((playerIdx) << 24) | ((duration) << 16))
+// Tempo commands (secondary commands to SEQ_CMD_TEMPO_CMD)
+#define AudioSeqCmd_SpeedUpTempo(playerIdx, duration, tempoIncrease)                    Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_SPEED_UP << 12)    | ((playerIdx) << 24) | ((duration) << 16) | (tempoIncrease))
+#define AudioSeqCmd_SlowDownTempo(playerIdx, duration, tempoDecrease)                   Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_SLOW_DOWN << 12)   | ((playerIdx) << 24) | ((duration) << 16) | (tempoDecrease))
+#define AudioSeqCmd_ScaleTempo(playerIdx, duration, tempoScale)                         Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_SCALE << 12)       | ((playerIdx) << 24) | ((duration) << 16) | (tempoScale))
+#define AudioSeqCmd_ResetTempo(playerIdx, duration)                                     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_RESET << 12)       | ((playerIdx) << 24) | ((duration) << 16))
 
-// Setup commands
+// Setup commands (secondary commands to SEQ_CMD_SETUP_CMD)
+#define AudioSeqCmd_SetupSetPlayerVol(playerIdx, PlayerIdxToSet, volume)                Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_VOLUME << 20)              | ((playerIdx) << 24) | ((PlayerIdxToSet) << 16) | (volume))
+#define AudioSeqCmd_SetupUnqueueSequence(playerIdx)                                     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SEQ_UNQUEUE << 20)             | ((playerIdx) << 24))
+#define AudioSeqCmd_SetupStartSequence(playerIdx, PlayerIdxToStart)                     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SEQ_START << 20)               | ((playerIdx) << 24) | ((PlayerIdxToStart) << 16))
+#define AudioSeqCmd_SetupScaleTempo(playerIdx, PlayerIdxToSet, duration, tempoScale)    Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_TEMPO_SCALE << 20)             | ((playerIdx) << 24) | ((PlayerIdxToSet) << 16) | ((duration) << 8) | (tempoScale))
+#define AudioSeqCmd_SetupResetTempo(playerIdx, PlayerIdxToSet, duration)                Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_TEMPO_RESET << 20)             | ((playerIdx) << 24) | ((PlayerIdxToSet) << 16) | (duration))
+#define AudioSeqCmd_SetupStartSequenceWithFade(playerIdx, PlayerIdxToSet, seqId)        Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SEQ_START_WITH_FADE << 20)     | ((playerIdx) << 24) | ((PlayerIdxToSet) << 16) | (seqId))
+#define AudioSeqCmd_SetupSetFadeTimer(playerIdx, PlayerIdxToSet, fadeTimer)             Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_FADE_TIMER << 20)          | ((playerIdx) << 24) | ((PlayerIdxToSet) << 16) | ((fadeTimer) << 8))
+#define AudioSeqCmd_SetupSetPlayerVolumeIfQueued(playerIdx, PlayerIdxToSet, fadeTimer, numSeqRequests)  Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_VOLUME_IF_QUEUED << 20)    | ((playerIdx) << 24) | ((PlayerIdxToSet) << 16) | ((fadeTimer) << 8) | (numSeqRequests))
+#define AudioSeqCmd_SetupSetPlayerVolumeWithFade(playerIdx, PlayerIdxToSet, scaleIdx, fadeTimer)        Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_VOLUME_WITH_FADE << 20)    | ((playerIdx) << 24) | ((PlayerIdxToSet) << 16) | ((scaleIdx) << 8) | (fadeTimer))
+#define AudioSeqCmd_SetupSetActiveChannels(playerIdx, PlayerIdxToSet, channelMask)      Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SEQ_ACTIVE_CHANNELS << 20)     | ((playerIdx) << 24) | ((PlayerIdxToSet) << 16) | (channelMask))
+#define AudioSeqCmd_SetupSetPlayerFreq(playerIdx, PlayerIdxToSet, duration, freq)       Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_PLAYER_FREQ << 20)         | ((playerIdx) << 24) | ((PlayerIdxToSet) << 16) | ((duration) << 8) | (freq))
+#define AudioSeqCmd_SetupPopCache(playerIdx, PlayerIdxToSet, tableTypeFlag)             Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_POP_CACHE << 20)               | ((playerIdx) << 24) | ((PlayerIdxToSet) << 16) | (tableTypeFlag))
 
 // Sub commands
+#define AudioSeqCmd_SetSoundMode(playerIdx, soundMode)                                  Audio_QueueSeqCmd((SEQ_CMD_SUB_CMD << 28) | (SUB_CMD_SET_SOUND_MODE << 8)        | ((playerIdx) << 24) | (soundMode))
+#define AudioSeqCmd_DisableNewSequences(playerIdx, isDisabled)                          Audio_QueueSeqCmd((SEQ_CMD_SUB_CMD << 28) | (SUB_CMD_DISABLE_NEW_SEQUENCES << 8) | ((playerIdx) << 24) | (isDisabled))
 
-
-
-// internal audio commands
+// direct audio commands (skips the queueing system)
 #define Audio_SetVolScaleNow(playerIdx, volFadeTimer, volScale) \
     Audio_ProcessSeqCmd(0x40000000 | ((u8)playerIdx << 24) | ((u8)volFadeTimer << 16) | ((u8)(volScale * 127.0f)));
+
+
 
 typedef struct {
     u8 seqId;
@@ -93,6 +107,14 @@ typedef struct {
 } BgmRequest;
 
 extern BgmRequest sSeqRequests[4][5];
+extern u8 sNumSeqRequests[4];
+extern u32 sAudioSeqCmds[0x100];
+extern u8 sSeqCmdReadPos;
+extern u8 sSeqCmdWritePos;
+extern u8 sIsSeqStartDisabled;
+extern u8 D_80133418;
+extern u8 sSoundModes[];
+
 
 void Audio_StartSequence(u8 playerIdx, u8 seqId, u8 seqArgs, u16 fadeTimer) {
     u8 channelIdx;
