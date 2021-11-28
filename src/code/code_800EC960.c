@@ -11,7 +11,7 @@
 #define Audio_SeqCmdC(playerIdx, a, b, c) \
     Audio_QueueSeqCmd(0xC0000000 | ((u8)playerIdx << 24) | ((u8)a << 16) | ((u8)b << 8) | ((u8)(c)))
 #define Audio_SeqCmdA(playerIdx, a) Audio_QueueSeqCmd(0xA0000000 | ((u8)playerIdx << 24) | ((u16)(a)))
-#define Audio_SeqCmd1(playerIdx, a) Audio_QueueSeqCmd(0x100000FF | ((u8)playerIdx << 24) | ((u8)(a) << 16))
+#define Audio_StopSeq(playerIdx, a) Audio_QueueSeqCmd(0x100000FF | ((u8)playerIdx << 24) | ((u8)(a) << 16))
 #define Audio_SeqCmdB(playerIdx, a, b, c) \
     Audio_QueueSeqCmd(0xB0000000 | ((u8)playerIdx << 24) | ((u8)a << 16) | ((u8)b << 8) | ((u8)c))
 #define Audio_SeqCmdB40(playerIdx, a, b) Audio_QueueSeqCmd(0xB0004000 | ((u8)playerIdx << 24) | ((u8)a << 16) | ((u8)b))
@@ -2354,10 +2354,10 @@ void AudioDebug_ProcessInput_SndCont(void) {
         switch (sAudioSndContSel) {
             case 0:
             case 1:
-                Audio_SeqCmd1(sAudioSndContSel, 0);
+                Audio_StopSeq(sAudioSndContSel, 0);
                 break;
             case 7:
-                Audio_SeqCmd1(0, 0);
+                Audio_StopSeq(0, 0);
                 break;
             case 2:
             case 3:
@@ -2804,10 +2804,10 @@ void AudioDebug_ProcessInput(void) {
                 sAudioSndContWork[5] ^= 1;
                 Audio_SeqCmdE01(0, sAudioSndContWork[5]);
                 if (Audio_GetActiveSequence(0) != NA_BGM_NATURE_BACKGROUND) {
-                    Audio_SeqCmd1(0, 0);
+                    Audio_StopSeq(0, 0);
                 }
-                Audio_SeqCmd1(1, 0);
-                Audio_SeqCmd1(3, 0);
+                Audio_StopSeq(1, 0);
+                Audio_StopSeq(3, 0);
             }
 
             if (CHECK_BTN_ANY(sDebugPadPress, BTN_B)) {
@@ -3765,7 +3765,7 @@ void func_800F595C(u16 arg0) {
 
     } else {
         func_800F5E18(0, arg0, 0, 7, -1);
-        Audio_SeqCmd1(1, 0);
+        Audio_StopSeq(1, 0);
     }
 }
 
@@ -3773,11 +3773,11 @@ void func_800F59E8(u16 arg0) {
     u8 arg0b = arg0 & 0xFF;
 
     if (D_80130658[arg0b] & 2) {
-        Audio_SeqCmd1(1, 0);
+        Audio_StopSeq(1, 0);
     } else if (D_80130658[arg0b] & 4) {
-        Audio_SeqCmd1(1, 0);
+        Audio_StopSeq(1, 0);
     } else {
-        Audio_SeqCmd1(0, 0);
+        Audio_StopSeq(0, 0);
     }
 }
 
@@ -3816,7 +3816,7 @@ void func_800F5B58(void) {
     if ((Audio_GetActiveSequence(0) != NA_BGM_DISABLED) && (D_80130628 != NA_BGM_DISABLED) &&
         (D_80130658[Audio_GetActiveSequence(0) & 0xFF] & 8)) {
         if (D_80130628 == NA_BGM_DISABLED) {
-            Audio_SeqCmd1(0, 0);
+            Audio_StopSeq(0, 0);
         } else {
             Audio_StartSeq(0, 0, D_80130628);
         }
@@ -3854,7 +3854,7 @@ void Audio_PlayFanfare(u16 seqId) {
         D_8016B9F4 = 1;
     } else {
         D_8016B9F4 = 5;
-        Audio_SeqCmd1(1, 0);
+        Audio_StopSeq(1, 0);
     }
     D_8016B9F6 = seqId;
 }
@@ -3928,7 +3928,7 @@ void func_800F5E90(u8 arg0) {
                     }
                 } else {
                     if ((D_8013061C & 0x7F) == 1) {
-                        Audio_SeqCmd1(3, 10);
+                        Audio_StopSeq(3, 10);
                         if (arg0 == 3) {
                             phi_a3 = 0;
                         } else {
@@ -4166,8 +4166,8 @@ void func_800F6964(u16 arg0) {
     s32 skip;
     u8 i;
 
-    Audio_SeqCmd1(0, (arg0 * 3) / 2);
-    Audio_SeqCmd1(1, (arg0 * 3) / 2);
+    Audio_StopSeq(0, (arg0 * 3) / 2);
+    Audio_StopSeq(1, (arg0 * 3) / 2);
     for (i = 0; i < 0x10; i++) {
         skip = false;
         switch (i) {
@@ -4187,13 +4187,13 @@ void func_800F6964(u16 arg0) {
         }
     }
 
-    Audio_SeqCmd1(3, (arg0 * 3) / 2);
+    Audio_StopSeq(3, (arg0 * 3) / 2);
 }
 
 void func_800F6AB0(u16 arg0) {
-    Audio_SeqCmd1(0, arg0);
-    Audio_SeqCmd1(1, arg0);
-    Audio_SeqCmd1(3, arg0);
+    Audio_StopSeq(0, arg0);
+    Audio_StopSeq(1, arg0);
+    Audio_StopSeq(3, arg0);
     Audio_SetVolumeScale(0, 3, 0x7F, 0);
     Audio_SetVolumeScale(0, 1, 0x7F, 0);
 }
