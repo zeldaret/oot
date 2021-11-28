@@ -478,7 +478,7 @@ void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             idx = eff->timer * (8.0f / eff->initialTimer);
             gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
-            gSPDisplayList(POLY_XLU_DISP++, &gFlareDancerSquareParticleDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
         }
     }
 

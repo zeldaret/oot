@@ -69,7 +69,7 @@ void Moji_DrawChar(GraphicsContext* gfxCtx, char c) {
     }
 
     if (sCurTLUTIndex != GET_CHAR_TLUT_INDEX(c)) {
-        gDPLoadTLUT(POLY_OPA_DISP++, 16, 256, &gMojiFontTLUTs[GET_CHAR_TLUT_INDEX(c)]);
+        gDPLoadTLUT(POLY_OPA_DISP++, 16, 256, gMojiFontTLUTs[GET_CHAR_TLUT_INDEX(c)]);
         sCurTLUTIndex = GET_CHAR_TLUT_INDEX(c);
     }
     gSPTextureRectangle(POLY_OPA_DISP++, sScreenPosX << 2, sScreenPosY << 2, (sScreenPosX + DISP_CHAR_WIDTH) << 2,

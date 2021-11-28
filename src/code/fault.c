@@ -1038,18 +1038,18 @@ void Fault_Init(void) {
     sFaultStructPtr = &gFaultStruct;
     bzero(sFaultStructPtr, sizeof(FaultThreadStruct));
     FaultDrawer_SetDefault();
-    FaultDrawer_SetInputCallback(&Fault_WaitForInput);
+    FaultDrawer_SetInputCallback(Fault_WaitForInput);
     sFaultStructPtr->exitDebugger = false;
     sFaultStructPtr->msgId = 0;
     sFaultStructPtr->faultHandlerEnabled = false;
     sFaultStructPtr->faultedThread = NULL;
-    sFaultStructPtr->padCallback = &Fault_PadCallback;
+    sFaultStructPtr->padCallback = Fault_PadCallback;
     sFaultStructPtr->clients = NULL;
     sFaultStructPtr->faultActive = false;
     gFaultStruct.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultStructPtr->queue, &sFaultStructPtr->msg, 1);
     StackCheck_Init(&sFaultThreadInfo, &sFaultStack, sFaultStack + sizeof(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack),
+    osCreateThread(&sFaultStructPtr->thread, 2, Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack),
                    OS_PRIORITY_APPMAX);
     osStartThread(&sFaultStructPtr->thread);
 }
@@ -1067,7 +1067,7 @@ void Fault_AddHungupAndCrashImpl(const char* arg0, const char* arg1) {
     FaultClient client;
     s32 pad;
 
-    Fault_AddClient(&client, &Fault_HangupFaultClient, (void*)arg0, (void*)arg1);
+    Fault_AddClient(&client, Fault_HangupFaultClient, (void*)arg0, (void*)arg1);
     *(u32*)0x11111111 = 0; // trigger an exception
 }
 

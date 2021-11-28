@@ -80,7 +80,7 @@ void EnTkEff_Update(EnTk* this) {
 
 void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     static void* dustTextures[] = {
-        &gDust8Tex, &gDust7Tex, &gDust6Tex, &gDust5Tex, &gDust4Tex, &gDust3Tex, &gDust2Tex, &gDust1Tex,
+        gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
 
     EnTkEff* eff = this->eff;
