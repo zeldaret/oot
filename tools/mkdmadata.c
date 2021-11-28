@@ -32,25 +32,25 @@ static void usage(const char *execname)
 
 int main(int argc, char **argv)
 {
-    FILE *dmaout;
-	void *spec;
-	size_t size;
+    FILE *dmaout;s
+    void *spec;
+    size_t size;
     
-	if (argc != 3)
-	{
-		usage(argv[0]);
-		return 1;
-	}
+    if (argc != 3)
+    {
+        usage(argv[0]);
+        return 1;
+    }
 
-	spec = util_read_whole_file(argv[1], &size);
-	parse_rom_spec(spec, &g_segments, &g_segmentsCount);
+    spec = util_read_whole_file(argv[1], &size);
+    parse_rom_spec(spec, &g_segments, &g_segmentsCount);
 
-	dmaout = fopen(argv[2], "w");
-	if (dmaout == NULL)
-		util_fatal_error("failed to open file '%s' for writing", argv[3]);
+    dmaout = fopen(argv[2], "w");
+    if (dmaout == NULL)
+        util_fatal_error("failed to open file '%s' for writing", argv[3]);
     write_dmadata_table(dmaout);
-	fclose(dmaout);
-	free(spec);
+    fclose(dmaout);
+    free(spec);
 
-	return 0;
+    return 0;
 }

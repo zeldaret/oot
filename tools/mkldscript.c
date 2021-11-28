@@ -124,14 +124,14 @@ static void write_ld_script(FILE *fout)
 
         fprintf(fout, "        _%sSegmentSDataEnd = .;\n", seg->name);
 
-		fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
+        fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
 
-		for (j = 0; j < seg->includesCount; j++)
-			fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
+        for (j = 0; j < seg->includesCount; j++)
+            fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
 
-		fprintf(fout, "        . = ALIGN(0x10);\n");
+        fprintf(fout, "        . = ALIGN(0x10);\n");
 
-		fprintf(fout, "        _%sSegmentOvlEnd = .;\n", seg->name);
+        fprintf(fout, "        _%sSegmentOvlEnd = .;\n", seg->name);
 
         if (seg->fields & (1 << STMT_increment))
             fprintf(fout, "    . += 0x%08X;\n", seg->increment);
@@ -177,20 +177,20 @@ static void write_ld_script(FILE *fout)
         //if (seg->fields & (1 << STMT_increment))
             //fprintf(fout, "    . += 0x%08X;\n", seg->increment);
 
-		//fprintf(fout, "    ..%s.ovl ADDR(..%s) + SIZEOF(..%s) :\n"
-		//	/*"    ..%s.bss :\n"*/
-		//	"    {\n",
-		//	seg->name, seg->name, seg->name);
-		//fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
+        //fprintf(fout, "    ..%s.ovl ADDR(..%s) + SIZEOF(..%s) :\n"
+        //    /*"    ..%s.bss :\n"*/
+        //    "    {\n",
+        //    seg->name, seg->name, seg->name);
+        //fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
 
-		//for (j = 0; j < seg->includesCount; j++)
-		//	fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
+        //for (j = 0; j < seg->includesCount; j++)
+        //    fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
 
-		////fprintf(fout, "        . = ALIGN(0x10);\n");
+        ////fprintf(fout, "        . = ALIGN(0x10);\n");
 
-		//fprintf(fout, "        _%sSegmentOvlEnd = .;\n", seg->name);
+        //fprintf(fout, "        _%sSegmentOvlEnd = .;\n", seg->name);
 
-		//fprintf(fout, "\n    }\n");
+        //fprintf(fout, "\n    }\n");
     }
 
 
@@ -209,25 +209,25 @@ static void usage(const char *execname)
 int main(int argc, char **argv)
 {
     FILE *ldout;
-	void *spec;
-	size_t size;
+    void *spec;
+    size_t size;
 
-	if (argc != 3)
-	{
-		usage(argv[0]);
-		return 1;
-	}
+    if (argc != 3)
+    {
+        usage(argv[0]);
+        return 1;
+    }
 
-	spec = util_read_whole_file(argv[1], &size);
-	parse_rom_spec(spec, &g_segments, &g_segmentsCount);
+    spec = util_read_whole_file(argv[1], &size);
+    parse_rom_spec(spec, &g_segments, &g_segmentsCount);
 
-	ldout = fopen(argv[2], "w");
-	if (ldout == NULL)
-		util_fatal_error("failed to open file '%s' for writing", argv[2]);
-	write_ld_script(ldout);
-	fclose(ldout);
+    ldout = fopen(argv[2], "w");
+    if (ldout == NULL)
+        util_fatal_error("failed to open file '%s' for writing", argv[2]);
+    write_ld_script(ldout);
+    fclose(ldout);
 
-	free(spec);
+    free(spec);
 
-	return 0;
+    return 0;
 }
