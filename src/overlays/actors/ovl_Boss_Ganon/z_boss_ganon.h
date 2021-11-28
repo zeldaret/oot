@@ -51,7 +51,7 @@ typedef struct BossGanon {
     /* 0x019C */ s16 unk_19C; // timer
     /* 0x019E */ u8 unk_19E;
     /* 0x019F */ u8 unk_19F;
-    /* 0x01A0 */ s8 lightingMode;
+    /* 0x01A0 */ s8 envLightMode;
     /* 0x01A2 */ s16 unk_1A2;
     /* 0x01A4 */ s16 unk_1A4;
     /* 0x01A6 */ s16 unk_1A6;
@@ -61,7 +61,7 @@ typedef struct BossGanon {
     /* 0x01AE */ s16 unk_1AE;
     /* 0x01B0 */ char unk_1B0[0x6];
     /* 0x01B6 */ s16 timers[5];
-    /* 0x01C0 */ u8 unk_1C0; // start reflecting
+    /* 0x01C0 */ u8 startVolley;
     /* 0x01C2 */ s16 unk_1C2;
     /* 0x01C4 */ s16 screenFlashTimer;
     /* 0x01C8 */ f32 fwork[FWORK_MAX];
@@ -73,7 +73,7 @@ typedef struct BossGanon {
     /* 0x022C */ Vec3f unk_22C;
     /* 0x0238 */ Vec3f unk_238;
     /* 0x0244 */ char unk_244[0x10];
-    /* 0x0254 */ f32 unk_254; // scale for something
+    /* 0x0254 */ f32 handLightBallScale;
     /* 0x0258 */ f32 unk_258;
     /* 0x025C */ u8 unk_25C;
     /* 0x0260 */ Vec3f unk_260; // hand position?
