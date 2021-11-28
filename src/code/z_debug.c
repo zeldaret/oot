@@ -79,7 +79,7 @@ void func_8006376C(u8 x, u8 y, u8 colorId, const char* text) {
 }
 
 // Draw Text
-void func_80063828(GfxPrint* gfxPrint) {
+void func_80063828(GfxPrint* printer) {
     s32 i;
     Color_RGBA8* color;
     PrintTextBuffer* buffer;
@@ -92,9 +92,9 @@ void func_80063828(GfxPrint* gfxPrint) {
             text = buffer->text;
 
             color = &printTextColors[buffer->colorId];
-            GfxPrint_SetColor(gfxPrint, color->r, color->g, color->b, color->a);
-            GfxPrint_SetPos(gfxPrint, buffer->x, buffer->y);
-            GfxPrint_Printf(gfxPrint, "%s", text);
+            GfxPrint_SetColor(printer, color->r, color->g, color->b, color->a);
+            GfxPrint_SetPos(printer, buffer->x, buffer->y);
+            GfxPrint_Printf(printer, "%s", text);
             i += 1;
         } while (i < D_8011E0B0);
     }
@@ -186,7 +186,7 @@ void func_8006390C(Input* input) {
 }
 
 // Draw Memory Viewer
-void func_80063C04(GfxPrint* gfxPrint) {
+void func_80063C04(GfxPrint* printer) {
     s32 i;
     s32 page = (gGameInfo->regPage * REG_PER_PAGE) - REG_PER_PAGE;
     s32 regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
@@ -197,16 +197,16 @@ void func_80063C04(GfxPrint* gfxPrint) {
     name[0] = 'R';
     name[1] = regChar[gGameInfo->regGroup]; // r_group type char
     name[2] = '\0';
-    GfxPrint_SetColor(gfxPrint, 0, 128, 128, 128);
+    GfxPrint_SetColor(printer, 0, 128, 128, 128);
 
     for (i = 0; i != REG_PER_PAGE; i++) {
         if (i == gGameInfo->regCur) {
-            GfxPrint_SetColor(gfxPrint, 0, 255, 255, 255);
+            GfxPrint_SetColor(printer, 0, 255, 255, 255);
         }
-        GfxPrint_SetPos(gfxPrint, 3, i + 5);
-        GfxPrint_Printf(gfxPrint, "%s%02d%6d", &name, page + i, gGameInfo->data[i + regGroup]);
+        GfxPrint_SetPos(printer, 3, i + 5);
+        GfxPrint_Printf(printer, "%s%02d%6d", &name, page + i, gGameInfo->data[i + regGroup]);
         if (i == gGameInfo->regCur) {
-            GfxPrint_SetColor(gfxPrint, 0, 128, 128, 128);
+            GfxPrint_SetColor(printer, 0, 128, 128, 128);
         }
     }
 }
@@ -214,27 +214,27 @@ void func_80063C04(GfxPrint* gfxPrint) {
 void func_80063D7C(GraphicsContext* gfxCtx) {
     Gfx* sp7C;
     Gfx* sp78;
-    GfxPrint gfxPrint;
+    GfxPrint printer;
     Gfx* tempRet;
 
     OPEN_DISPS(gfxCtx, "../z_debug.c", 628);
 
-    GfxPrint_Init(&gfxPrint);
+    GfxPrint_Init(&printer);
     sp78 = POLY_OPA_DISP;
     tempRet = Graph_GfxPlusOne(POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, tempRet);
-    GfxPrint_Open(&gfxPrint, tempRet);
+    GfxPrint_Open(&printer, tempRet);
 
     if ((OREG(0) == 1) || (OREG(0) == 8)) {
-        func_80063828(&gfxPrint);
+        func_80063828(&printer);
     }
 
     if (gGameInfo->regPage != 0) {
-        func_80063C04(&gfxPrint);
+        func_80063C04(&printer);
     }
 
     D_8011E0B0 = 0;
-    sp7C = GfxPrint_Close(&gfxPrint);
+    sp7C = GfxPrint_Close(&printer);
     gSPEndDisplayList(sp7C++);
     Graph_BranchDlist(sp78, sp7C);
     POLY_OPA_DISP = sp7C;
@@ -243,5 +243,5 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
 
     CLOSE_DISPS(gfxCtx, "../z_debug.c", 664);
 
-    GfxPrint_Destroy(&gfxPrint);
+    GfxPrint_Destroy(&printer);
 }
