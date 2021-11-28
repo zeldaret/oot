@@ -1,5 +1,5 @@
 CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
-PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis
+PROGRAMS := elf2rom makeromfs mkdmadata mkldscript vtxdis yaz0
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
   CC := clang
@@ -28,11 +28,12 @@ distclean: clean
 
 .PHONY: all clean distclean
 
-mkldscript_SOURCES := mkldscript.c util.c
 elf2rom_SOURCES    := elf2rom.c elf32.c n64chksum.c util.c
-yaz0_SOURCES       := yaz0tool.c yaz0.c util.c
 makeromfs_SOURCES  := makeromfs.c n64chksum.c util.c
-vtxdis_SOURCES	   := vtxdis.c
+mkdmadata_SOURCES  := mkdmadata.c spec.c util.c
+mkldscript_SOURCES := mkldscript.c spec.c util.c
+vtxdis_SOURCES     := vtxdis.c
+yaz0_SOURCES       := yaz0tool.c yaz0.c util.c
 
 define COMPILE =
 $(1): $($1_SOURCES)

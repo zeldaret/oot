@@ -113,7 +113,7 @@ endseg
 
 beginseg
     name "dmadata"
-    include "build/asm/dmadata.o"
+    include "build/src/dmadata/dmadata.o"
 endseg
 
 beginseg

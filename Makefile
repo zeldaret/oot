@@ -71,6 +71,7 @@ CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUA
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
+MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 
@@ -123,7 +124,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),build/$f) \
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),build/$f) \
 
 # create build directories
-$(shell mkdir -p build/baserom build/assets/text $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
+$(shell mkdir -p build/baserom build/include/tables build/assets/text $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
@@ -174,9 +175,11 @@ $(ROM): $(ELF)
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
-build/ldscript.txt: $(SPEC)
-	$(CPP) $(CPPFLAGS) $< > build/spec
-	$(MKLDSCRIPT) build/spec $@
+build/$(SPEC): $(SPEC)
+	$(CPP) $(CPPFLAGS) $< > $@
+
+build/ldscript.txt: build/$(SPEC)
+	$(MKLDSCRIPT) $< $@
 
 build/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > build/undefined_syms.txt
@@ -228,6 +231,12 @@ build/assets/text/staff_message_data_static.o: build/assets/text/message_data_st
 build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
+
+build/include/tables/dmadata_table.h: build/$(SPEC)
+	$(MKDMADATA) $< $@
+
+build/src/boot/z_std_dma.o: build/include/tables/dmadata_table.h
+build/src/dmadata/dmadata.o: build/include/tables/dmadata_table.h
 
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
