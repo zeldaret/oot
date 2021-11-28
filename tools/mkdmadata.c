@@ -32,7 +32,7 @@ static void usage(const char *execname)
 
 int main(int argc, char **argv)
 {
-    FILE *dmaout;s
+    FILE *dmaout;
     void *spec;
     size_t size;
     
