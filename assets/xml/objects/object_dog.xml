@@ -6,14 +6,14 @@
         <Animation Name="gDogRunAnim" Offset="0xD78" />
         <Animation Name="gDogSitAnim" Offset="0x1150" />
         <Animation Name="gDogWalkAnim" Offset="0x1368" />
-        <Texture Name="object_dog_Tex_001380" OutName="tex_001380" Format="rgba16" Width="32" Height="32" Offset="0x1380" />
-        <Texture Name="object_dog_Tex_001B80" OutName="tex_001B80" Format="rgba16" Width="32" Height="32" Offset="0x1B80" />
-        <Texture Name="object_dog_Tex_002380" OutName="tex_002380" Format="rgba16" Width="32" Height="32" Offset="0x2380" />
-        <Texture Name="object_dog_Tex_002B80" OutName="tex_002B80" Format="rgba16" Width="32" Height="32" Offset="0x2B80" />
-        <Texture Name="object_dog_Tex_003380" OutName="tex_003380" Format="rgba16" Width="32" Height="32" Offset="0x3380" />
-        <Texture Name="object_dog_Tex_003B80" OutName="tex_003B80" Format="rgba16" Width="32" Height="32" Offset="0x3B80" />
-        <Texture Name="object_dog_Tex_004380" OutName="tex_004380" Format="rgba16" Width="16" Height="16" Offset="0x4380" />
-        <Texture Name="object_dog_Tex_004580" OutName="tex_004580" Format="rgba16" Width="32" Height="32" Offset="0x4580" />
+        <Texture Name="gDogFur1Tex" OutName="tex_001380" Format="rgba16" Width="32" Height="32" Offset="0x1380" /> <!-- Lower body-->
+        <Texture Name="gDogFur2Tex" OutName="fur_2" Format="rgba16" Width="32" Height="32" Offset="0x1B80" /> <!-- Front of ears, upper part of the tail, and around the feet-->
+        <Texture Name="gDogFur3Tex" OutName="tex_002380" Format="rgba16" Width="32" Height="32" Offset="0x2380" /> <!-- Upper body, top of head-->
+        <Texture Name="gDogFaceEyeTex" OutName="face_and_eye" Format="rgba16" Width="32" Height="32" Offset="0x2B80" />
+        <Texture Name="gDogFaceNoseTex" OutName="face_and_nose" Format="rgba16" Width="32" Height="32" Offset="0x3380" />
+        <Texture Name="gDogFur4Tex" OutName="fur_3" Format="rgba16" Width="32" Height="32" Offset="0x3B80" /> <!-- Back of ears, side of head, and part of front body-->
+        <Texture Name="gDogPawTex" OutName="paw" Format="rgba16" Width="16" Height="16" Offset="0x4380" />
+        <Texture Name="gDogFaceHairTex" OutName="face_hair" Format="rgba16" Width="32" Height="32" Offset="0x4580" />
         <DList Name="gDogHeadDL" Offset="0x60E0" />
         <DList Name="gDogRightFaceHairDL" Offset="0x6448" />
         <DList Name="gDogLeftFaceHairDL" Offset="0x64E8" />
