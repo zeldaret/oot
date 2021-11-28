@@ -10,7 +10,7 @@ s32 osEPiStartDma(OSPiHandle* handle, OSIoMesg* mb, s32 direction) {
 
     mb->piHandle = handle;
     if (direction == OS_READ) {
-        mb->hdr.type = 0xf;
+        mb->hdr.type = 0xF;
     } else {
         mb->hdr.type = 0x10;
     }

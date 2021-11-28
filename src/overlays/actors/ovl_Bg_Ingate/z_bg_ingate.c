@@ -78,7 +78,7 @@ void func_80892890(BgInGate* this, GlobalContext* globalCtx) {
             phi0 = -0x4000;
         }
         this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi0;
-        BgInGate_SetupAction(this, &BgInGate_DoNothing);
+        BgInGate_SetupAction(this, BgInGate_DoNothing);
     } else if (globalCtx->csCtx.frames >= 10) {
         csFrames = globalCtx->csCtx.frames - 10;
         csFrames *= 400;

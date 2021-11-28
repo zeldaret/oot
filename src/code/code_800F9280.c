@@ -2,7 +2,6 @@
 #include "global.h"
 #include "ultra64/abi.h"
 
-extern unk_D_8016E750 D_8016E750[4];
 extern u8 D_8016E348[4];
 extern u32 sAudioSeqCmds[0x100];
 extern u8 sSeqCmdRdPos;

@@ -17,13 +17,13 @@
 OSMesg sArenaLockMsg;
 u32 __osMalloc_FreeBlockTest_Enable;
 
-bool ArenaImpl_GetFillAllocBlock(Arena* arena) {
+u32 ArenaImpl_GetFillAllocBlock(Arena* arena) {
     return (arena->flag & FILL_ALLOCBLOCK) != 0;
 }
-bool ArenaImpl_GetFillFreeBlock(Arena* arena) {
+u32 ArenaImpl_GetFillFreeBlock(Arena* arena) {
     return (arena->flag & FILL_FREEBLOCK) != 0;
 }
-bool ArenaImpl_GetCheckFreeBlock(Arena* arena) {
+u32 ArenaImpl_GetCheckFreeBlock(Arena* arena) {
     return (arena->flag & CHECK_FREE_BLOCK) != 0;
 }
 

@@ -432,17 +432,17 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 3:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             return 1;
 
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x4020:
                 case 0x4021:
@@ -457,21 +457,21 @@ s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
             gSaveContext.eventChkInf[3] |= 1;
             return 0;
 
-        case 4:
-            switch (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            switch (Message_ShouldAdvance(globalCtx)) {
                 case 0:
                     return 1;
                 default:
                     if (thisx->textId == 0x400C) {
                         thisx->textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x400D : 0x400E;
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                     }
                     break;
             }
             return 1;
 
-        case 5:
-            switch (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_EVENT:
+            switch (Message_ShouldAdvance(globalCtx)) {
                 case 0:
                     return 1;
                 default:

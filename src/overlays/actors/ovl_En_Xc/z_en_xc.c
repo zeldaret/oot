@@ -2162,7 +2162,7 @@ void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = SHEIK_ACTION_IN_DIALOGUE;
     } else {
         this->actor.flags |= 9;
@@ -2176,7 +2176,7 @@ void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B41798(EnXc* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->action = SHEIK_ACTION_BLOCK_PEDESTAL;
         this->actor.flags &= ~9;
     }

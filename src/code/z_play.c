@@ -226,7 +226,7 @@ void Gameplay_Init(GameState* thisx) {
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
     Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
-    func_80110F68(globalCtx);
+    Message_Init(globalCtx);
     GameOver_Init(globalCtx);
     func_8006BA00(globalCtx);
     Effect_InitContext(globalCtx);
@@ -311,7 +311,7 @@ void Gameplay_Init(GameState* thisx) {
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                 Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
-                func_8010B680(globalCtx, 0x3066, NULL);
+                Message_StartTextbox(globalCtx, 0x3066, NULL);
             }
             gSaveContext.nextDayTime = 0xFFFE;
         } else {
@@ -773,7 +773,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3542);
             }
 
-            if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == 0) &&
+            if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == MSGMODE_NONE) &&
                 (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE)) {
                 KaleidoSetup_Update(globalCtx);
             }
@@ -951,7 +951,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     LOG_NUM("1", 1, "../z_play.c", 3733);
                 }
 
-                func_8010F6F0(globalCtx);
+                Message_Update(globalCtx);
             }
 
             if (1 && HREG(63)) {
@@ -1045,7 +1045,7 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
         Interface_Draw(globalCtx);
     }
 
-    func_8010F58C(globalCtx);
+    Message_Draw(globalCtx);
 
     if (globalCtx->gameOverCtx.state != GAMEOVER_INACTIVE) {
         GameOver_FadeInLights(globalCtx);

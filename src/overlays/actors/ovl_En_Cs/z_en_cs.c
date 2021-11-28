@@ -162,9 +162,9 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
     s32 pad2;
     s32 talkState = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 4:
-            if (func_80106BC8(globalCtx) != 0) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     this->actor.textId = 0x2026;
                     EnCs_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
@@ -176,8 +176,8 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x2026) {
                     Player_UnsetMask(globalCtx);
                     Item_Give(globalCtx, ITEM_SOLD_OUT);
@@ -190,11 +190,11 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 5:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CLOSING:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_EVENT:
             break;
     }
 
@@ -226,11 +226,11 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
     s16 sp28;
 
     if (this->talkState == 2) {
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->talkState = 1;
     } else if (this->talkState == 1) {
         this->talkState = EnCs_GetTalkState(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if ((this->actor.textId == 0x2022) || ((this->actor.textId != 0x2022) && (this->actor.textId != 0x2028))) {
             EnCs_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
         }
@@ -245,7 +245,7 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
 
         this->talkState = 1;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp2A, &sp28);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp2A, &sp28);
 
         if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) &&
             (func_8002F2CC(&this->actor, globalCtx, 100.0f))) {

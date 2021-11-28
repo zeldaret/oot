@@ -13,6 +13,7 @@ beginseg
     name "boot"
     address 0x80000460
     include "build/src/boot/boot_main.o"
+    include "build/data/unk_80009410.data.o"
     include "build/src/boot/idle.o"
     include "build/src/boot/viconfig.o"
     include "build/src/boot/z_std_dma.o"
@@ -238,25 +239,29 @@ endseg
 beginseg
     name "nes_message_data_static"
     romalign 0x1000
-    include "build/baserom/nes_message_data_static.o"
+    include "build/assets/text/nes_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "ger_message_data_static"
     romalign 0x1000
-    include "build/baserom/ger_message_data_static.o"
+    include "build/assets/text/ger_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "fra_message_data_static"
     romalign 0x1000
-    include "build/baserom/fra_message_data_static.o"
+    include "build/assets/text/fra_message_data_static.o"
+    number 7
 endseg
 
 beginseg
     name "staff_message_data_static"
     romalign 0x1000
-    include "build/baserom/staff_message_data_static.o"
+    include "build/assets/text/staff_message_data_static.o"
+    number 7
 endseg
 
 beginseg
@@ -353,6 +358,7 @@ beginseg
     include "build/src/code/z_ss_sram.o"
     include "build/src/code/code_800A9F30.o"
     include "build/data/z_text.data.o"
+    include "build/data/unk_8012ABC0.data.o"
     include "build/src/code/z_view.o"
     include "build/src/code/z_vimode.o"
     include "build/src/code/code_800ACE70.o"
@@ -393,7 +399,6 @@ beginseg
     include "build/src/code/sys_matrix.o"
     include "build/src/code/sys_ucode.o"
     include "build/src/code/code_800D2E30.o"
-    include "build/data/code_800D2E30.data.o"
     include "build/src/code/code_800D31A0.o"
     include "build/src/code/irqmgr.o"
     include "build/src/code/debug_malloc.o"
@@ -402,6 +407,7 @@ beginseg
     include "build/src/code/fault_drawer.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
+    pad_text // audio library aligned to 32 bytes?
     include "build/src/code/audio_data.o"
     include "build/src/code/audio_synthesis.o"
     include "build/src/code/audio_heap.o"
@@ -411,7 +417,6 @@ beginseg
     include "build/src/libultra_code_O2/osAiSetNextBuffer.o"
     include "build/src/code/audio_playback.o"
     include "build/src/code/audio_effects.o"
-    include "build/data/audio_effects.data.o"
     include "build/src/code/audio_seqplayer.o"
     include "build/src/code/code_800EC960.o"
     include "build/src/code/audio_sound_params.o"
@@ -506,9 +511,7 @@ beginseg
     include "build/src/code/code_801067F0.o"
     include "build/src/code/code_80106860.o"
     include "build/src/code/code_801068B0.o"
-    include "build/data/z_message_PAL.rodata.o"
-    include "build/src/code/z_message_PAL.o"
-    include "build/data/z_message_PAL.bss.o"
+    include_data_with_rodata "build/src/code/z_message_PAL.o"
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
@@ -553,16 +556,16 @@ endseg
 
 beginseg
     name "ovl_kaleido_scope"
-    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_collect.o"
-    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_debug.o"
-    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_equipment.o"
-    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_item.o"
-    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_map_PAL.o"
-    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_prompt.o"
-    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
-    include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o"
-    include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark_data.o"
-    include "build/src/overlays/actors/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
+    include "build/src/overlays/misc/ovl_kaleido_scope/z_kaleido_collect.o"
+    include "build/src/overlays/misc/ovl_kaleido_scope/z_kaleido_debug.o"
+    include "build/src/overlays/misc/ovl_kaleido_scope/z_kaleido_equipment.o"
+    include "build/src/overlays/misc/ovl_kaleido_scope/z_kaleido_item.o"
+    include "build/src/overlays/misc/ovl_kaleido_scope/z_kaleido_map_PAL.o"
+    include "build/src/overlays/misc/ovl_kaleido_scope/z_kaleido_prompt.o"
+    include "build/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
+    include "build/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark.o"
+    include "build/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data.o"
+    include "build/src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
 endseg
 
 beginseg
@@ -573,8 +576,8 @@ endseg
 
 beginseg
     name "ovl_map_mark_data"
-    include "build/src/overlays/ovl_map_mark_data/z_map_mark_data.o"
-    include "build/src/overlays/ovl_map_mark_data/ovl_map_mark_data_reloc.o"
+    include "build/src/overlays/misc/ovl_map_mark_data/z_map_mark_data.o"
+    include "build/src/overlays/misc/ovl_map_mark_data/ovl_map_mark_data_reloc.o"
 endseg
 
 beginseg

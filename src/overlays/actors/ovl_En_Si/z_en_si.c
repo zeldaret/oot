@@ -96,8 +96,8 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
                 this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
                 Item_Give(globalCtx, ITEM_SKULL_TOKEN);
                 player->actor.freezeTimer = 10;
-                func_8010B680(globalCtx, 0xB4, 0);
-                func_800F5C64(NA_BGM_SMALL_ITEM_GET);
+                Message_StartTextbox(globalCtx, 0xB4, NULL);
+                Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
                 this->actionFunc = func_80AFB950;
             } else {
                 Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -118,8 +118,8 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
     if ((this->actor.flags & 0x2000) != 0x2000) {
         Item_Give(globalCtx, ITEM_SKULL_TOKEN);
         player->actor.freezeTimer = 10;
-        func_8010B680(globalCtx, 0xB4, 0);
-        func_800F5C64(NA_BGM_SMALL_ITEM_GET);
+        Message_StartTextbox(globalCtx, 0xB4, NULL);
+        Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
         this->actionFunc = func_80AFB950;
     }
 }
@@ -127,7 +127,7 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
 void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
+    if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_CLOSING) {
         player->actor.freezeTimer = 10;
     } else {
         SET_GS_FLAGS((this->actor.params & 0x1F00) >> 8, this->actor.params & 0xFF);
