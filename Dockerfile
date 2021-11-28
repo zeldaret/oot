@@ -1,7 +1,7 @@
-FROM ubuntu:18.04 as build
+FROM ubuntu@sha256:626ffe58f6e7566e00254b638eb7e0f3b11d4da9675088f4781a50ae288f3322 as build
 
 RUN apt-get update && \
-    apt-get install -y \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
         binutils-mips-linux-gnu \
         build-essential \
         pkg-config \
