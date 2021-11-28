@@ -58,9 +58,9 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static void* sEyeTextures[] = {
-    &gAdultRutoEyeOpenTex,
-    &gAdultRutoEyeHalfTex,
-    &gAdultRutoEyeClosedTex,
+    gAdultRutoEyeOpenTex,
+    gAdultRutoEyeHalfTex,
+    gAdultRutoEyeClosedTex,
 };
 
 static UNK_TYPE D_80AF4118 = 0;

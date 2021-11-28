@@ -3,13 +3,13 @@
 s32 __osPiRawStartDma(s32 dir, u32 cartAddr, void* dramAddr, size_t size) {
     register s32 status = HW_REG(PI_STATUS_REG, u32);
 
-    while (status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY | PI_STATUS_ERROR)) {
+    while (status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
         status = HW_REG(PI_STATUS_REG, u32);
     }
 
     HW_REG(PI_DRAM_ADDR_REG, void*) = (void*)osVirtualToPhysical(dramAddr);
 
-    HW_REG(PI_CART_ADDR_REG, void*) = (void*)((osRomBase | cartAddr) & 0x1fffffff);
+    HW_REG(PI_CART_ADDR_REG, void*) = (void*)((osRomBase | cartAddr) & 0x1FFFFFFF);
 
     switch (dir) {
         case OS_READ:

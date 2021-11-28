@@ -14,17 +14,11 @@ extern Gfx D_060257B8[];
 extern Gfx D_0602A738[];
 extern Gfx D_0602CB48[];
 
-//extern ? D_80000004;
-//extern ? D_80000008;
-//extern ? D_8000000C;
-//extern ? D_80000010;
-//extern ? D_80000020;
-
 extern u32 osTvType;
 extern u32 osRomBase;
 extern u32 osResetType;
 extern u32 osMemSize;
-extern u8 osAppNmiBuffer[];
+extern u8 osAppNmiBuffer[0x40];
 
 extern u8 D_80009320[];
 extern u8 D_800093F0[];
@@ -187,8 +181,8 @@ extern u32 gUpgradeNegMasks[8];
 extern u8 gEquipShifts[4];
 extern u8 gUpgradeShifts[8];
 extern u16 gUpgradeCapacities[8][4];
-extern u32 gGsFlagsMask[4];
-extern u32 gGsFlagsShift[4];
+extern u32 gGsFlagsMasks[4];
+extern u32 gGsFlagsShifts[4];
 extern void* gItemIcons[0x82];
 extern u8 gItemSlots[56];
 extern void (*gSceneCmdHandlers[26])(GlobalContext*, SceneCmd*);

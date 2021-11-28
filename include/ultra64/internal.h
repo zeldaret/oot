@@ -12,8 +12,8 @@ typedef struct {
 } OSMgrArgs; // size = 0x1C
 
 typedef struct  {
-    /* 0x00 */ OSMesgQueue* queue;
-    /* 0x04 */ OSMesg msg;
+    /* 0x00 */ s32 (*handler)(void);
+    /* 0x04 */ void* sp;
 } __osHwInt; // size = 0x08
 
 typedef struct  {

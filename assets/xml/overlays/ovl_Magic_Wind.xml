@@ -8,7 +8,7 @@
         <Array Name="sCylinderVtx" Count="36" Offset="0x780">
             <Vtx/>
         </Array>
-        <Texture Name="sTex" OutName="magic_wind" Format="ia8" Width="64" Height="64" Offset="0x9C0"/>
+        <Texture Name="sTex" OutName="magic_wind" Format="i8" Width="64" Height="64" Offset="0x9C0"/>
         <DList Name="sInnerCylinderDL" Offset="0x19C0"/>
         <DList Name="sOuterCylinderDL" Offset="0x1AC8"/>
     </File>

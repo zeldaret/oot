@@ -28,7 +28,7 @@ u8 __osContAddressCrc(u16 addr) {
         }
     }
 
-    return ret & 0x1f;
+    return ret & 0x1F;
 }
 
 u8 __osContDataCrc(u8* data) {

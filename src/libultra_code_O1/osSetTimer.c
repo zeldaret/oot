@@ -5,7 +5,7 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
     OSTimer* next;
     u32 count;
     u32 value;
-    s32 prevInt;
+    u32 prevInt;
 
     timer->next = NULL;
     timer->prev = NULL;

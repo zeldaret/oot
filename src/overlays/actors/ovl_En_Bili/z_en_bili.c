@@ -766,6 +766,6 @@ void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                                   &EnBili_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
+                                   EnBili_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bili.c", 1552);
 }
