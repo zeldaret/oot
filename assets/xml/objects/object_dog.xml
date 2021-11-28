@@ -1,11 +1,11 @@
 ﻿<Root>
     <File Name="object_dog" Segment="6">
-        <Animation Name="object_dog_Anim_000278" Offset="0x278" />
-        <Animation Name="object_dog_Anim_000928" Offset="0x928" />
-        <Animation Name="object_dog_Anim_000C28" Offset="0xC28" />
-        <Animation Name="object_dog_Anim_000D78" Offset="0xD78" />
-        <Animation Name="object_dog_Anim_001150" Offset="0x1150" />
-        <Animation Name="object_dog_Anim_001368" Offset="0x1368" />
+        <Animation Name="gDogBarkAnim" Offset="0x278" />
+        <Animation Name="gDogBowAnim" Offset="0x928" />
+        <Animation Name="gDogBow2Anim" Offset="0xC28" />
+        <Animation Name="gDogRunAnim" Offset="0xD78" />
+        <Animation Name="gDogSitAnim" Offset="0x1150" />
+        <Animation Name="gDogWalkAnim" Offset="0x1368" />
         <Texture Name="object_dog_Tex_001380" OutName="tex_001380" Format="rgba16" Width="32" Height="32" Offset="0x1380" />
         <Texture Name="object_dog_Tex_001B80" OutName="tex_001B80" Format="rgba16" Width="32" Height="32" Offset="0x1B80" />
         <Texture Name="object_dog_Tex_002380" OutName="tex_002380" Format="rgba16" Width="32" Height="32" Offset="0x2380" />
@@ -36,6 +36,6 @@
         <Limb Name="object_dog_Limb_00723C" LimbType="Standard" Offset="0x723C" />
         <Limb Name="object_dog_Limb_007248" LimbType="Standard" Offset="0x7248" />
         <Limb Name="object_dog_Limb_007254" LimbType="Standard" Offset="0x7254" />
-        <Skeleton Name="object_dog_Skel_007290" Type="Flex" LimbType="Standard" Offset="0x7290" />
+        <Skeleton Name="gDogSkel" Type="Flex" LimbType="Standard" Offset="0x7290" />
     </File>
 </Root>
