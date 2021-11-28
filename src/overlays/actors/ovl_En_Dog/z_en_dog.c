@@ -18,7 +18,7 @@ void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx);
 void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx);
-void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx);
+void EnDog_FollowPlayer(EnDog* this, GlobalContext* globalCtx);
 void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx);
 void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx);
 void EnDog_Wait(EnDog* this, GlobalContext* globalCtx);
@@ -284,7 +284,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actor.params & 0x8000) {
         this->nextBehavior = DOG_WALK;
-        this->actionFunc = EnDog_FollowLink;
+        this->actionFunc = EnDog_FollowPlayer;
     } else {
         this->nextBehavior = DOG_SIT;
         this->actionFunc = EnDog_ChooseMovement;
@@ -303,7 +303,7 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
     s32 frame;
 
     if (EnDog_CanFollow(this, globalCtx) == 1) {
-        this->actionFunc = EnDog_FollowLink;
+        this->actionFunc = EnDog_FollowPlayer;
     }
 
     if (DECR(this->behaviorTimer) != 0) {
@@ -336,7 +336,7 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
 
 void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
     if (EnDog_CanFollow(this, globalCtx) == 1) {
-        this->actionFunc = EnDog_FollowLink;
+        this->actionFunc = EnDog_FollowPlayer;
     }
 
     if (DECR(this->behaviorTimer) == 0) {
@@ -355,7 +355,7 @@ void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
 }
 
-void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_FollowPlayer(EnDog* this, GlobalContext* globalCtx) {
     f32 speed;
 
     if (gSaveContext.dogParams == 0) {
