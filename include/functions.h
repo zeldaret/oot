@@ -160,8 +160,8 @@ OSViContext* __osViGetCurrentContext(void);
 void osStartThread(OSThread* thread);
 void osViSetYScale(f32 scale);
 void osViSetXScale(f32 value);
-void __osSetHWIntrRoutine(s32 idx, OSMesgQueue* queue, OSMesg msg);
-void __osGetHWIntrRoutine(s32 idx, OSMesgQueue** outQueue, OSMesg* outMsg);
+void __osSetHWIntrRoutine(OSHWIntr interrupt, s32 (*handler)(void), void* sp);
+void __osGetHWIntrRoutine(OSHWIntr interrupt, s32 (**handlerOut)(void), void** spOut);
 void __osSetWatchLo(u32);
 
 EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
