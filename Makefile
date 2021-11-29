@@ -235,11 +235,8 @@ build/assets/%.o: assets/%.c
 build/dmadata_table_spec.h: build/$(SPEC)
 	$(MKDMADATA) $< $@
 
-ifeq ($(NON_MATCHING),1)
-# Depend on generated dmadata layout when building NON_MATCHING
 build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
 build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
-endif
 
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
