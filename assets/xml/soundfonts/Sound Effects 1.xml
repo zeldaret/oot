@@ -7,80 +7,80 @@
             <Instrument Name="Step - Dirt" Enum="STEP_DIRT"/>
             <Instrument Name="Step - Water" Enum="STEP_WATER"/>
             <Instrument Name="Step - Carpet" Enum="STEP_CARPET"/>
-            <Instrument Name="Step - Metal" Enum="STEP_METAL"/>
+            <Instrument Name="Step - Scuff" Enum="STEP_METAL"/>
             <Instrument Name="Step - Grass" Enum="STEP_GRASS"/>
             <Instrument Name="Synth Pad" Enum="SYNTH"/>
             <Instrument Name="Slide" Enum="SLIDE"/>
             <Instrument Name="Drop" Enum="DROP"/>
-            <Instrument Name="Tap Wood" Enum="TAP_WOOD"/>
+            <Instrument Name="Step - Wood" Enum="TAP_WOOD"/>
             <Instrument Name="Ice - Slide" Enum="ICE_SLIDE"/>
             <Instrument Name="Ice - Slide (Loop)" Enum="ICE_SLIDE_L"/>
             <Instrument Name="Slide (Loop)" Enum="SLIDE_L"/>
-            <Instrument Name="Howling Wind (High)" Enum="WIND_HIGH"/>
+            <Instrument Name="006 Low Rumble" Enum="CRACKLING"/>
             <Instrument Name="Running Water" Enum="WATER"/>
             <Instrument Name="Water Faucet" Enum="WATER_START"/>
             <Instrument Name="Water End" Enum="WATER_END"/>
             <Instrument Name="Water Splash" Enum="WATER_SPLASH"/>
-            <Instrument Name="Water Bubble" Enum="WATER_BUBBLE"/>
-            <Instrument Name="Drop Underwater" Enum="DROP_WATER"/>
-            <Instrument Name="Landing - Wood" Enum="LAND_WOOD"/>
-            <Instrument Name="Landing - Grass" Enum="LAND_GRASS"/>
-            <Instrument Name="Sword Hit 1" Enum="SWD_HIT_1"/>
-            <Instrument Name="Plant Cut" Enum="CUT_PLANT"/>
-            <Instrument Name="Sword Hit 2" Enum="SWD_HIT_2"/>
-            <Instrument Name="High Cut" Enum="CUT_HIGH"/>
+            <Instrument Name="Swimming in Water" Enum="WATER_SWIM"/>
+            <Instrument Name="033 Gunshot" Enum="SLAM_HEAVY"/>
+            <Instrument Name="Step - Wood + Metal" Enum="LAND_WOOD"/>
+            <Instrument Name="Step - Tall Grass" Enum="LAND_GRASS"/>
+            <Instrument Name="Step - Iron Boots" Enum="SWD_HIT_1"/>
+            <Instrument Name="Step - Wet Rock" Enum="CUT_PLANT"/>
+            <Instrument Name="Sword - Strike" Enum="SWD_HIT_2"/>
+            <Instrument Name="Sword - Miss" Enum="CUT_HIGH"/>
             <Instrument Name="Put Away Sword" Enum="SWD_SHEATHE"/>
-            <Instrument Name="Swing Stick" Enum="STICK_SWING"/>
+            <Instrument Name="Draw Sword" Enum="STICK_SWING"/>
             <Instrument Name="Swing Sword" Enum="SWD_SWING"/>
-            <Instrument Name="Sword Hit 3" Enum="SWD_HIT_3"/>
-            <Instrument Name="Draw Bow" Enum="BOW_DRAW_ARROW"/>
-            <Instrument Name="Rupee Tick" Enum="RUPEE_TICK"/>
-            <Instrument Name="Water Sound" Enum="WATER_FLOW"/>
-            <Instrument Name="Crate Drop" Enum="CRATE_DROP"/>
-            <Instrument Name="Chomp" Enum="CHOMP"/>
-            <Instrument Name="Bowstring Boing" Enum="BOW_EMPTY"/>
-            <Instrument Name="Poe Cloaking Device" Enum="POE_DISAPPEAR"/>
-            <Instrument Name="Step - Stone" Enum="STEP_STONE"/>
-            <Instrument Name="Whip" Enum="WHIP"/>
-            <Instrument Name="Door - Open" Enum="DOOR_OPEN"/>
-            <Instrument Name="Bell Synth" Enum="BELL_SYNTH"/>
-            <Instrument Name="Explosion 1" Enum="EXPLOSION_1"/>
-            <Instrument Name="Gallop" Enum="HORSE_GALLOP"/>
+            <Instrument Name="Whistle" Enum="SWD_HIT_3"/>
+            <Instrument Name="Metallic Strike" Enum="BOW_DRAW_ARROW"/>
+            <Instrument Name="Wooden Creak" Enum="RUPEE_TICK"/>
+            <Instrument Name="Moving Metallic Chain" Enum="WATER_FLOW"/>
+            <Instrument Name="Fuse Hiss" Enum="CRATE_DROP"/>
+            <Instrument Name="Heavy Thump" Enum="CHOMP"/>
+            <Instrument Name="Squelching" Enum="BOW_EMPTY"/>
+            <Instrument Name="Arrow Thunk" Enum="POE_DISAPPEAR"/>
+            <Instrument Name="Air Whoosh" Enum="STEP_STONE"/>
+            <Instrument Name="Muffled Crunch" Enum="WHIP"/>
+            <Instrument Name="Whip" Enum="DOOR_OPEN"/>
+            <Instrument Name="Buzzing Synth" Enum="BELL_SYNTH"/>
+            <Instrument Name="Dirt Sound" Enum="EXPLOSION_1"/>
+            <Instrument Name="Activate Eye of Truth" Enum="HORSE_GALLOP"/>
             <Instrument/>
-            <Instrument Name="Neigh" Enum="HORSE_NEIGH"/>
-            <Instrument Name="Creek" Enum="WATER_SLOW_RIVER"/>
-            <Instrument Name="Ocarina 1" Enum="OCARINA_1"/>
-            <Instrument Name="Ocarina 2" Enum="OCARINA_2"/>
-            <Instrument Name="Heavy Slide" Enum="BLOCK_L_SLIDE"/>
-            <Instrument Name="Dirt Slide" Enum="PLAYER_SLIDE"/>
-            <Instrument Name="Explosion 2" Enum="EXPLOSION_2"/>
-            <Instrument Name="Drawbridge" Enum="DRAWBRIDGE"/>
-            <Instrument Name="Laughter" Enum="LAUGH"/>
-            <Instrument Name="Slingshot Boing" Enum="SLING_EMPTY"/>
-            <Instrument Name="Howling Wind" Enum="WIND"/>
-            <Instrument Name="Wolfos - Hurt" Enum="WOLFOS_HURT"/>
-            <Instrument Name="Water Splash 2" Enum="WATER_SPLASH_2"/>
-            <Instrument Name="Step - Dirt 2" Enum="STEP_DIRT_2"/>
+            <Instrument Name="035 Shimmering Treasure" Enum="HORSE_NEIGH"/>
+            <Instrument Name="Explosion 1" Enum="WATER_SLOW_RIVER"/>
+            <Instrument Name="Gallop" Enum="OCARINA_1"/>
+            <Instrument Name="Ocarina 2" Enum="OCARINA_2"/> <!-- ??? -->
+            <Instrument Name="014 Horse Snort" Enum="BLOCK_L_SLIDE"/>
+            <Instrument Name="Creek" Enum="PLAYER_SLIDE"/>
+            <Instrument Name="Ocarina 1" Enum="EXPLOSION_2"/>
+            <Instrument Name="Ocarina 2" Enum="DRAWBRIDGE"/>
+            <Instrument Name="010 Mechanically Shifting Stone" Enum="LAUGH"/>
+            <Instrument Name="009 Rolling Boulder" Enum="SLING_EMPTY"/>
+            <Instrument Name="011 Bubbling Magma" Enum="WIND"/>
+            <Instrument Name="008 Retracting Metal Chain" Enum="WOLFOS_HURT"/>
+            <Instrument Name="012 Relaxed Cucco Clucks" Enum="WATER_SPLASH_2"/>
+            <Instrument Name="013 Closed Stone Door" Enum="STEP_DIRT_2"/>
             <Instrument Name="Sparkle Bell" Enum="SPARKLE_BELL"/>
-            <Instrument Name="Heavy Land" Enum="HEAVY_LAND"/>
-            <Instrument Name="Door Creak" Enum="DOOR_CREAK"/>
-            <Instrument Name="Sword Squishy Slash" Enum="SWD_SLASH_SQUISH"/>
-            <Instrument Name="Warp Ambient Loop" Enum="WARP_LOOP"/>
-            <Instrument Name="Warp Teleport" Enum="WARP_ACTIVATE"/>
-            <Instrument Name="Electric Shock" Enum="SHOCK"/>
-            <Instrument Name="Water Drip" Enum="WATER_DRIPS"/>
-            <Instrument Name="Underwater Bubble" Enum="BUBBLE_UNDERWATER"/>
-            <Instrument Name="Crackling Fire" Enum="FIRE_CRACKLE"/>
+            <Instrument Name="034 Wolf Howl" Enum="HEAVY_LAND"/>
+            <Instrument Name="018 Water Splish" Enum="DOOR_CREAK"/>
+            <Instrument Name="019 Wooden Strike" Enum="SWD_SLASH_SQUISH"/>
+            <Instrument Name="015 Flying Fairy" Enum="WARP_LOOP"/>
+            <Instrument Name="016 Settled Stone Block" Enum="WARP_ACTIVATE"/>
+            <Instrument Name="017 Creaking Door" Enum="SHOCK"/>
+            <Instrument Name="021 Low Swooshing Sound" Enum="WATER_DRIPS"/>
+            <Instrument Name="022 Warp Circle Ambience" Enum="BUBBLE_UNDERWATER"/>
+            <Instrument Name="023 Fairy Magic" Enum="FIRE_CRACKLE"/>
             <Instrument Name="Freezing Breath" Enum="ATK_BREATH"/>
-            <Instrument Name="Loud Noise" Enum="LOUD_NOISE"/>
-            <Instrument Name="Shutting Door" Enum="DOOR_CLOSE"/>
-            <Instrument Name="Fire" Enum="FIRE"/>
+            <Instrument Name="025 Water Drips" Enum="LOUD_NOISE"/>
+            <Instrument Name="024 Underwater Bubbles" Enum="DOOR_CLOSE"/>
+            <Instrument Name="026 Fire" Enum="FIRE"/>
             <Instrument Name="Rolling Noise" Enum="ROLL_NOISE"/>
-            <Instrument Name="People Chattering" Enum="MARKET_MURMUR"/>
-            <Instrument Name="High Electricity" Enum="SHOCK_HIGH"/>
-            <Instrument Name="Dodongo Hurt" Enum="DODONGO_HURT"/>
-            <Instrument Name="Pan Flute" Enum="PAN_FLUTE"/>
-            <Instrument Name="Accordion" Enum="ACCORDION"/>
+            <Instrument Name="028 Heavy Platform Rotating" Enum="MARKET_MURMUR"/>
+            <Instrument Name="030 Light Rock Slam" Enum="SHOCK_HIGH"/>
+            <Instrument Name="032 Mechanical Ramp-Up" Enum="DODONGO_HURT"/>
+            <Instrument Name="027 Flapping Cloak" Enum="PAN_FLUTE"/>
+            <Instrument Name="029 People Chattering" Enum="ACCORDION"/>
             <Instrument Name="Harp 1" Enum="HARP_1"/>
             <Instrument Name="Female Singer" Enum="MALON_SINGING"/>
             <Instrument Name="Faded Ocarina" Enum="OCARINA_FADE"/>

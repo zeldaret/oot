@@ -1,0 +1,257 @@
+<Root>
+    <Sample Name="01 Ocarina">
+		<Offset Version="MQDebug" At="0xfad40"/>
+	</Sample>
+    <Sample Name="02 Accordion">
+		<Offset Version="MQDebug" At="0xfdfc0"/>
+	</Sample>
+    <Sample Name="03 Harp 1">
+		<Offset Version="MQDebug" At="0x1026f0"/>
+	</Sample>
+    <Sample Name="04 Goron Voice">
+		<Offset Version="MQDebug" At="0x106c20"/>
+	</Sample>
+    <Sample Name="05 Pan Flute">
+		<Offset Version="MQDebug" At="0x108690"/>
+	</Sample>
+    <Sample Name="06 Ghostly Wind?">
+		<Offset Version="MQDebug" At="0x29fe30"/>
+	</Sample>
+    <Sample Name="07 Ghostly Echoes">
+		<Offset Version="MQDebug" At="0x2a4d40"/>
+	</Sample>
+    <Sample Name="08 Echoing Drums">
+		<Offset Version="MQDebug" At="0x2a8500"/>
+	</Sample>
+    <Sample Name="09 Vocal Oohs">
+		<Offset Version="MQDebug" At="0x2af020"/>
+	</Sample>
+    <Sample Name="10 Vocal Eees">
+		<Offset Version="MQDebug" At="0x2b43b0"/>
+	</Sample>
+    <Sample Name="11 Rattling Scream">
+		<Offset Version="MQDebug" At="0x2b9e60"/>
+	</Sample>
+    <Sample Name="12 Harpsichord">
+		<Offset Version="MQDebug" At="0x2c8510"/>
+	</Sample>
+    <Sample Name="13 Piano">
+		<Offset Version="MQDebug" At="0x2cfee0"/>
+	</Sample>
+    <Sample Name="14 Piano (Soft)">
+		<Offset Version="MQDebug" At="0x2d96a0"/>
+	</Sample>
+    <Sample Name="15 Vocal Aahs">
+		<Offset Version="MQDebug" At="0x2dff40"/>
+	</Sample>
+    <Sample Name="16 Resonant Vocal Aahs">
+		<Offset Version="MQDebug" At="0x2e7410"/>
+	</Sample>
+    <Sample Name="17 Harp 2">
+		<Offset Version="MQDebug" At="0x2ef650"/>
+	</Sample>
+    <Sample Name="18 Glockenspiel">
+		<Offset Version="MQDebug" At="0x2f3300"/>
+	</Sample>
+    <Sample Name="19 Mechanical Rumbling">
+		<Offset Version="MQDebug" At="0x2f8690"/>
+	</Sample>
+    <Sample Name="20 Trumpet">
+		<Offset Version="MQDebug" At="0x2f9a90"/>
+	</Sample>
+    <Sample Name="21 Trombone?">
+		<Offset Version="MQDebug" At="0x2fd270"/>
+	</Sample>
+    <Sample Name="22 Tuba">
+		<Offset Version="MQDebug" At="0x301ec0"/>
+	</Sample>
+    <Sample Name="23 Bass Drum 1">
+		<Offset Version="MQDebug" At="0x304e30"/>
+	</Sample>
+    <Sample Name="24 Snare Drum 1">
+		<Offset Version="MQDebug" At="0x309bd0"/>
+	</Sample>
+    <Sample Name="25 Snare Drum 2">
+		<Offset Version="MQDebug" At="0x30c360"/>
+	</Sample>
+    <Sample Name="26 Cymbal">
+		<Offset Version="MQDebug" At="0x30eaf0"/>
+	</Sample>
+    <Sample Name="27 Timpani">
+		<Offset Version="MQDebug" At="0x317260"/>
+	</Sample>
+    <Sample Name="28 Strings (Low)">
+		<Offset Version="MQDebug" At="0x31f640"/>
+	</Sample>
+    <Sample Name="29 Strings 1">
+		<Offset Version="MQDebug" At="0x324660"/>
+	</Sample>
+    <Sample Name="30 Strings 2">
+		<Offset Version="MQDebug" At="0x328d10"/>
+	</Sample>
+    <Sample Name="31 Fiddle">
+		<Offset Version="MQDebug" At="0x32ca00"/>
+	</Sample>
+    <Sample Name="32 Guitar">
+		<Offset Version="MQDebug" At="0x32ecb0"/>
+	</Sample>
+    <Sample Name="33 Guitar?">
+		<Offset Version="MQDebug" At="0x332d10"/>
+	</Sample>
+    <Sample Name="34 Tom Drum">
+		<Offset Version="MQDebug" At="0x335740"/>
+	</Sample>
+    <Sample Name="35 Drum Sidestick?">
+		<Offset Version="MQDebug" At="0x337a10"/>
+	</Sample>
+    <Sample Name="36 Finger Cymbals">
+		<Offset Version="MQDebug" At="0x338450"/>
+	</Sample>
+    <Sample Name="37 Oboe">
+		<Offset Version="MQDebug" At="0x33a980"/>
+	</Sample>
+    <Sample Name="38 Bassoon">
+		<Offset Version="MQDebug" At="0x33bc30"/>
+	</Sample>
+    <Sample Name="39 Harp 3">
+		<Offset Version="MQDebug" At="0x33d130"/>
+	</Sample>
+    <Sample Name="40 Pizzicato Violin">
+		<Offset Version="MQDebug" At="0x3403f0"/>
+	</Sample>
+    <Sample Name="41 Electric Organ">
+		<Offset Version="MQDebug" At="0x343870"/>
+	</Sample>
+    <Sample Name="42 Organ">
+		<Offset Version="MQDebug" At="0x34d670"/>
+	</Sample>
+    <Sample Name="43 Horn">
+		<Offset Version="MQDebug" At="0x351810"/>
+	</Sample>
+    <Sample Name="44 Stringed Instrument (Low)">
+		<Offset Version="MQDebug" At="0x359170"/>
+	</Sample>
+    <Sample Name="45 Clap?">
+		<Offset Version="MQDebug" At="0x35c900"/>
+	</Sample>
+    <Sample Name="46 Resonant Melodic Sound?">
+		<Offset Version="MQDebug" At="0x35d100"/>
+	</Sample>
+    <Sample Name="47 Haunting Wind">
+		<Offset Version="MQDebug" At="0x364580"/>
+	</Sample>
+    <Sample Name="48 Off Hi-Hat">
+		<Offset Version="MQDebug" At="0x36fe80"/>
+	</Sample>
+    <Sample Name="49 Drum and Sitar?">
+		<Offset Version="MQDebug" At="0x374c20"/>
+	</Sample>
+    <Sample Name="50 Uncertain">
+		<Offset Version="MQDebug" At="0x378360"/>
+	</Sample>
+    <Sample Name="51 Clarinet">
+		<Offset Version="MQDebug" At="0x37a6b0"/>
+	</Sample>
+    <Sample Name="52 Harpsichord (High)">
+		<Offset Version="MQDebug" At="0x37b2a0"/>
+	</Sample>
+    <Sample Name="53 Marimba">
+		<Offset Version="MQDebug" At="0x382830"/>
+	</Sample>
+    <Sample Name="54 Marimba">
+		<Offset Version="MQDebug" At="0x384ed0"/>
+	</Sample>
+    <Sample Name="55 Crystal Synth">
+		<Offset Version="MQDebug" At="0x387060"/>
+	</Sample>
+    <Sample Name="56 Sitar (High?)">
+		<Offset Version="MQDebug" At="0x38f000"/>
+	</Sample>
+    <Sample Name="57 Detuned Dulcimer?">
+		<Offset Version="MQDebug" At="0x3926d0"/>
+	</Sample>
+    <Sample Name="58 Some Manner of Drum">
+		<Offset Version="MQDebug" At="0x396f80"/>
+	</Sample>
+    <Sample Name="59 Another Type of Drum">
+		<Offset Version="MQDebug" At="0x397fa0"/>
+	</Sample>
+    <Sample Name="60 Quick Drum">
+		<Offset Version="MQDebug" At="0x399790"/>
+	</Sample>
+    <Sample Name="61 Gong">
+		<Offset Version="MQDebug" At="0x39a6b0"/>
+	</Sample>
+    <Sample Name="62 Windchimes">
+		<Offset Version="MQDebug" At="0x3a4be0"/>
+	</Sample>
+    <Sample Name="63 Goron Drum">
+		<Offset Version="MQDebug" At="0x3aa6e0"/>
+	</Sample>
+    <Sample Name="64 Melodic Wooden Clacking">
+		<Offset Version="MQDebug" At="0x3acc20"/>
+	</Sample>
+    <Sample Name="65 Vocal Ohs">
+		<Offset Version="MQDebug" At="0x3ae1c0"/>
+	</Sample>
+    <Sample Name="66 Flute and Voice">
+		<Offset Version="MQDebug" At="0x3b45d0"/>
+	</Sample>
+    <Sample Name="67 Off-Kilter Flute">
+		<Offset Version="MQDebug" At="0x3b5490"/>
+	</Sample>
+    <Sample Name="68 Voice">
+		<Offset Version="MQDebug" At="0x3b63f0"/>
+	</Sample>
+    <Sample Name="69 Drum 1">
+		<Offset Version="MQDebug" At="0x3b71f0"/>
+	</Sample>
+    <Sample Name="70 Drum 2">
+		<Offset Version="MQDebug" At="0x3b94b0"/>
+	</Sample>
+    <Sample Name="71 Bass Drum 2">
+		<Offset Version="MQDebug" At="0x3bbc80"/>
+	</Sample>
+    <Sample Name="72 Shaker">
+		<Offset Version="MQDebug" At="0x3be750"/>
+	</Sample>
+    <Sample Name="73 Metal Drum?">
+		<Offset Version="MQDebug" At="0x3bf6a0"/>
+	</Sample>
+    <Sample Name="74 Guitar (Low)">
+		<Offset Version="MQDebug" At="0x3c0360"/>
+	</Sample>
+    <Sample Name="75 Guitar">
+		<Offset Version="MQDebug" At="0x3c2b40"/>
+	</Sample>
+    <Sample Name="76 Guitar (High)">
+		<Offset Version="MQDebug" At="0x3c4d00"/>
+	</Sample>
+    <Sample Name="77 Viola">
+		<Offset Version="MQDebug" At="0x3c6bd0"/>
+	</Sample>
+    <Sample Name="78 Church Bell">
+		<Offset Version="MQDebug" At="0x3cac50"/>
+	</Sample>
+    <Sample Name="79 Goron Oh (High)">
+		<Offset Version="MQDebug" At="0x3cf8a0"/>
+	</Sample>
+    <Sample Name="80 Goron Oh">
+		<Offset Version="MQDebug" At="0x3d0140"/>
+	</Sample>
+    <Sample Name="81 Banjo (Low)">
+		<Offset Version="MQDebug" At="0x3d0c00"/>
+	</Sample>
+    <Sample Name="82 Banjo">
+		<Offset Version="MQDebug" At="0x3d3a40"/>
+	</Sample>
+    <Sample Name="83 Islamic Chant">
+		<Offset Version="MQDebug" At="0x3d62e0"/>
+	</Sample>
+    <Sample Name="84 Steel Drum">
+		<Offset Version="MQDebug" At="0x3e3f50"/>
+	</Sample>
+    <Sample Name="85 Steel Drum (High?)">
+		<Offset Version="MQDebug" At="0x3e8bb0"/>
+	</Sample>
+</Root>
