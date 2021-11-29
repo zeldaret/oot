@@ -486,7 +486,7 @@ beginseg
     include "build/src/libultra/gu/coss.o"
     include "build/src/libultra/io/visetevent.o"
     include "build/src/libultra/io/pfsisplug.o"
-    include "build/src/libultra/gu/initbg.o"
+    include "build/src/libultra/gu/us2dex.o"
     include "build/src/libultra/io/pfsselectbank.o"
     include "build/src/libultra/io/contsetch.o"
     include "build/src/libultra/io/pfsfilestate.o"
