@@ -5,13 +5,12 @@
 #include "z64dma.h"
 #include "z64math.h"
 
-extern u32 link_animetion_segment;
 struct GlobalContext;
 struct Actor;
 struct SkelAnime;
 
 #define LINK_ANIMATION_OFFSET(addr, offset) \
-    (((u32)&_link_animetionSegmentRomStart) + ((u32)addr) - ((u32)&link_animetion_segment) + ((u32)offset))
+    (((u32)_link_animetionSegmentRomStart) + ((u32)addr) - ((u32)_link_animetionSegmentStart) + ((u32)offset))
 #define LIMB_DONE 0xFF
 #define ANIMATION_ENTRY_MAX 50
 #define ANIM_FLAG_UPDATEY (1 << 1)
