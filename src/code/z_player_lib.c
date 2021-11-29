@@ -1,6 +1,16 @@
 #include "global.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_link_boy/object_link_boy.h"
 #include "objects/object_link_child/object_link_child.h"
+
+extern Gfx D_06025218[];
+extern Gfx D_060252D8[];
+extern Gfx D_06025438[];
+extern Gfx D_06025598[];
+extern Gfx D_06025658[];
+extern Gfx D_060257B8[];
+extern Gfx D_0602A738[];
+extern Gfx D_0602CB48[];
 
 typedef struct {
     /* 0x00 */ u8 flag;
@@ -12,7 +22,7 @@ typedef struct {
     /* 0x04 */ Vec3f pos;
 } BowStringData; // size = 0x10
 
-FlexSkeletonHeader* gPlayerSkelHeaders[] = { 0x060377F4, &gLinkChildSkel };
+FlexSkeletonHeader* gPlayerSkelHeaders[] = { &gLinkAdultSkel, &gLinkChildSkel };
 
 s16 sBootData[PLAYER_BOOTS_MAX][17] = {
     { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 },

@@ -852,7 +852,7 @@ void func_8096F3D4(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawKingZora(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { object_kz_Tex_001470, object_kz_Tex_001870, object_kz_Tex_001C70, object_kz_Tex_002070 };
+    static void* eyeTextures[] = { gKzEyeOpenTex, gKzEyeHalfTex, gKzEyeClosedTex, gKzEyeOpen2Tex };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
