@@ -374,7 +374,7 @@ void DemoEc_UpdateIngo(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawIngo(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &gIngoEyeClosed2Tex, &gIngoRedTex, 0, 0);
+    DemoEc_DrawSkeleton(this, globalCtx, gIngoEyeClosed2Tex, gIngoRedTex, 0, 0);
 }
 
 void DemoEc_InitTalon(DemoEc* this, GlobalContext* globalCtx) {
@@ -395,7 +395,7 @@ void DemoEc_UpdateTalon(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawTalon(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &gTalonEyeClosed2Tex, &gTalonRedTex, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, gTalonEyeClosed2Tex, gTalonRedTex, NULL, NULL);
 }
 
 void DemoEc_InitWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
@@ -416,7 +416,7 @@ void DemoEc_UpdateWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &gWindmillManEyeClosedTex, &gWindmillManMouthAngryTex, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, gWindmillManEyeClosedTex, gWindmillManMouthAngryTex, NULL, NULL);
 }
 
 void DemoEc_InitKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
@@ -1026,7 +1026,7 @@ void DemoEc_UpdateMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &gOsEyeClosedTex, NULL, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, gOsEyeClosedTex, NULL, NULL, NULL);
 }
 
 void DemoEc_InitFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
@@ -1143,7 +1143,7 @@ void DemoEc_DrawGorons(DemoEc* this, GlobalContext* globalCtx) {
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &gGoronCsMouthNeutralTex, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, gGoronCsMouthNeutralTex, NULL, NULL);
 }
 
 void DemoEc_InitMalon(DemoEc* this, GlobalContext* globalCtx) {

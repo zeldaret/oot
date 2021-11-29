@@ -5,7 +5,7 @@ OSPiHandle __DriveRomHandle;
 OSPiHandle* osDriveRomInit(void) {
     register s32 status;
     register u32 a;
-    register s32 prevInt;
+    register u32 prevInt;
     static u32 D_8000AC70 = 1;
 
     __osPiGetAccess();
@@ -22,7 +22,7 @@ OSPiHandle* osDriveRomInit(void) {
     __DriveRomHandle.speed = 0;
     bzero(&__DriveRomHandle.transferInfo, sizeof(__OSTranxInfo));
 
-    while (status = HW_REG(PI_STATUS_REG, u32), status & PI_STATUS_ERROR) {
+    while (status = HW_REG(PI_STATUS_REG, u32), status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
         ;
     }
 

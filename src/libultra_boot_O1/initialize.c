@@ -58,7 +58,7 @@ void __osInitialize_common(void) {
     osClockRate = (u64)((osClockRate * 3ll) / 4ull);
 
     if (!osResetType) {
-        bzero(osAppNmiBuffer, 0x40);
+        bzero(osAppNmiBuffer, sizeof(osAppNmiBuffer));
     }
 
     if (osTvType == OS_TV_PAL) {

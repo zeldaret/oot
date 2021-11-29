@@ -1,21 +1,12 @@
 #include "global.h"
 #include "ultra64/internal.h"
 
-typedef struct {
-    u16 unk00;
-    u8 unk02;
-    u32 unk04;
-    u8 pad[0xC];
-    u16 unk14;
-    u16 unk16;
-} viMesgStruct;
-
 OSThread viThread;
 u8 viThreadStack[0x1000];
 OSMesgQueue viEventQueue;
 OSMesg viEventBuf[6];
-viMesgStruct viRetraceMsg;
-viMesgStruct viCounterMsg;
+OSIoMesg viRetraceMsg;
+OSIoMesg viCounterMsg;
 OSMgrArgs __osViDevMgr = { 0 };
 u32 __additional_scanline = 0;
 
@@ -30,12 +21,12 @@ void osCreateViManager(OSPri pri) {
         __osTimerServicesInit();
         __additional_scanline = 0;
         osCreateMesgQueue(&viEventQueue, viEventBuf, 5);
-        viRetraceMsg.unk00 = 13;
-        viRetraceMsg.unk02 = 0;
-        viRetraceMsg.unk04 = 0;
-        viCounterMsg.unk00 = 14;
-        viCounterMsg.unk02 = 0;
-        viCounterMsg.unk04 = 0;
+        viRetraceMsg.hdr.type = 13;
+        viRetraceMsg.hdr.pri = 0;
+        viRetraceMsg.hdr.retQueue = NULL;
+        viCounterMsg.hdr.type = 14;
+        viCounterMsg.hdr.pri = 0;
+        viCounterMsg.hdr.retQueue = NULL;
         osSetEventMesg(OS_EVENT_VI, &viEventQueue, &viRetraceMsg);
         osSetEventMesg(OS_EVENT_COUNTER, &viEventQueue, &viCounterMsg);
         newPri = -1;
@@ -68,10 +59,9 @@ void viMgrMain(void* vargs) {
     OSMgrArgs* args;
     static u16 viRetrace;
     u32 addTime;
-    viMesgStruct* mesg;
+    OSIoMesg* mesg = NULL;
     u32 temp = 0; // always 0
 
-    mesg = NULL;
     viRetrace = __osViGetCurrentContext()->retraceCount;
     if (viRetrace == 0) {
         viRetrace = 1;
@@ -81,7 +71,7 @@ void viMgrMain(void* vargs) {
 
     while (true) {
         osRecvMesg(args->eventQueue, (OSMesg)&mesg, OS_MESG_BLOCK);
-        switch (mesg->unk00) {
+        switch (mesg->hdr.type) {
             case 13:
                 __osViSwapContext();
                 viRetrace--;

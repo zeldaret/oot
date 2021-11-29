@@ -829,9 +829,9 @@ void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyeTextures[] = {
-        &gMidoEyeOpenTex,
-        &gMidoEyeHalfTex,
-        &gMidoEyeClosedTex,
+        gMidoEyeOpenTex,
+        gMidoEyeHalfTex,
+        gMidoEyeClosedTex,
     };
     EnMd* this = THIS;
 

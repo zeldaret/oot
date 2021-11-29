@@ -1511,26 +1511,35 @@ typedef struct {
     /* 0x38 */ void(*inputCallback)();
 } FaultDrawer; // size = 0x3C
 
-typedef struct GfxPrint {
-    /* 0x00 */ struct GfxPrint* (*callback)(struct GfxPrint*, const char*, size_t);
-    /* 0x04 */ Gfx* dlist;
+typedef struct {
+    /* 0x00 */ PrintCallback callback;
+    /* 0x04 */ Gfx* dList;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;
     /* 0x0C */ u16 baseX;
     /* 0x0E */ u8 baseY;
-    /* 0x0F */ u8 flag;
+    /* 0x0F */ u8 flags;
     /* 0x10 */ Color_RGBA8_u32 color;
     /* 0x14 */ char unk_14[0x1C]; // unused
 } GfxPrint; // size = 0x30
 
-typedef enum {
-    GFXPRINT_FLAG1 = 1,
-    GFXPRINT_USE_RGBA16 = 2,
-    GFXPRINT_FLAG4 = 4,
-    GFXPRINT_UPDATE_MODE = 8,
-    GFXPRINT_FLAG64 = 0x40,
-    GFXPRINT_OPEN = 0x80
-} GfxPrintFlag;
+#define GFXP_UNUSED "\x8E"
+#define GFXP_UNUSED_CHAR 0x8E
+#define GFXP_HIRAGANA "\x8D"
+#define GFXP_HIRAGANA_CHAR 0x8D
+#define GFXP_KATAKANA "\x8C"
+#define GFXP_KATAKANA_CHAR 0x8C
+#define GFXP_RAINBOW_ON "\x8B"
+#define GFXP_RAINBOW_ON_CHAR 0x8B
+#define GFXP_RAINBOW_OFF "\x8A"
+#define GFXP_RAINBOW_OFF_CHAR 0x8A
+
+#define GFXP_FLAG_HIRAGANA (1 << 0)
+#define GFXP_FLAG_RAINBOW  (1 << 1)
+#define GFXP_FLAG_SHADOW   (1 << 2)
+#define GFXP_FLAG_UPDATE   (1 << 3)
+#define GFXP_FLAG_ENLARGE  (1 << 6)
+#define GFXP_FLAG_OPEN     (1 << 7)
 
 typedef struct StackEntry {
     /* 0x00 */ struct StackEntry* next;

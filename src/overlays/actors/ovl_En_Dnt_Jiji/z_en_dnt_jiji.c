@@ -429,7 +429,7 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* blinkTex[] = { &gDntJijiEyeOpenTex, &gDntJijiEyeHalfTex, &gDntJijiEyeShutTex };
+    static void* blinkTex[] = { gDntJijiEyeOpenTex, gDntJijiEyeHalfTex, gDntJijiEyeShutTex };
     EnDntJiji* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_jiji.c", 1019);
