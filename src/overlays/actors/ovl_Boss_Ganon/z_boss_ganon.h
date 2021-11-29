@@ -8,28 +8,16 @@ struct BossGanon;
 
 typedef void (*BossGanonActionFunc)(struct BossGanon*, GlobalContext*);
 
-// // float work buffer before merging
-// INDEX 0 /* 0x01C8 */ f32 unk_1C8;
-// INDEX 1 /* 0x01CC */ f32 animationLength; // used for many things depending on instance
-// INDEX 2 /* 0x01D0 */ f32 unk_1D0;
-// INDEX 3 /* 0x01D4 */ f32 unk_1D4; // triforce rgba?
-// INDEX 4 /* 0x01D8 */ f32 unk_1D8; 
-// INDEX 5 /* 0x01DC */ f32 unk_1DC; 
-// INDEX 6 /* 0x01E0 */ f32 unk_1E0; // scale for something
-// INDEX 7 /* 0x01E4 */ f32 unk_1E4; // alpha for something
-// INDEX 8 /* 0x01E8 */ f32 unk_1E8; // scale for something
-// /* 0x01EC */ char unk_1EC[0x10];
-
 typedef enum {
     /* 0 */ FWORK_0,
     /* 1 */ FWORK_1,
-    /* 2 */ FWORK_2,
-    /* 3 */ FWORK_3,
-    /* 4 */ FWORK_4,
-    /* 5 */ FWORK_5,
-    /* 6 */ FWORK_6,
-    /* 7 */ FWORK_7,
-    /* 8 */ FWORK_8,
+    /* 2 */ DORF_CENTER_POS,
+    /* 3 */ DORF_TRIFORCE_PRIM_B,
+    /* 4 */ DORF_TRIFORCE_PRIM_A,
+    /* 5 */ DORF_TRIFORCE_ENV_G,
+    /* 6 */ DORF_TRIFORCE_SCALE,
+    /* 7 */ DORF_VORTEX_ALPHA,
+    /* 8 */ DORF_VORTEX_SCALE,
     /* 9 */ FWORK_UNUSED_9,
     /* 10 */ FWORK_MAX
 } GanondorfFwork;
@@ -39,6 +27,31 @@ typedef enum {
     /* 1 */ WINDOW_SHATTER_PARTIAL,
     /* 2 */ WINDOW_SHATTER_FULL
 } WindowShatterState;
+
+typedef enum {
+    /* 0 */ DORF_SHOCK_DORF_YELLOW,
+    /* 1 */ DORF_SHOCK_PLAYER_YELLOW,
+    /* 2 */ DORF_SHOCK_PLAYER_PURPLE
+} GanondorfShockType;
+
+typedef enum {
+    /* 0 */ DORF_EFF_NONE,
+    /* 1 */ DORF_EFF_SPARKLE,
+    /* 2 */ DORF_EFF_LIGHT_RAY,
+    /* 3 */ DORF_EFF_SHOCK,
+    /* 4 */ DORF_EFF_LIGHTNING,
+    /* 5 */ DORF_EFF_IMPACT_DUST_DARK,
+    /* 6 */ DORF_EFF_IMPACT_DUST_LIGHT,
+    /* 7 */ DORF_EFF_SHOCKWAVE,
+    /* 8 */ DORF_EFF_BLACK_DOT,
+    /* 9 */ DORF_EFF_WINDOW_SHARD
+} GanondorfEffectType;
+
+typedef enum {
+    /* 0 */ DORF_TRIFORCE_PLAYER,
+    /* 1 */ DORF_TRIFORCE_ZELDA,
+    /* 2 */ DORF_TRIFORCE_DORF
+} GanondorfTriforceType;
 
 typedef struct BossGanon {
     /* 0x0000 */ Actor actor;
@@ -58,7 +71,7 @@ typedef struct BossGanon {
     /* 0x01A8 */ s16 unk_1A8;
     /* 0x01AA */ s16 unk_1AA;
     /* 0x01AC */ s16 unk_1AC;
-    /* 0x01AE */ s16 unk_1AE;
+    /* 0x01AE */ s16 triforceType;
     /* 0x01B0 */ char unk_1B0[0x6];
     /* 0x01B6 */ s16 timers[5];
     /* 0x01C0 */ u8 startVolley;
@@ -88,8 +101,8 @@ typedef struct BossGanon {
     /* 0x0294 */ f32 unk_294[15];
     /* 0x02D0 */ f32 unk_2D0; // scale for something
     /* 0x02D4 */ s16 unk_2D4; // timer
-    /* 0x02D8 */ Vec3f unk_2D8;
-    /* 0x02E4 */ u8 unk_2E4;
+    /* 0x02D8 */ Vec3f triforcePos;
+    /* 0x02E4 */ u8 shockGlow;
     /* 0x02E6 */ s16 unk_2E6; // timer
     /* 0x02E8 */ s16 unk_2E8; // timer
     /* 0x02EC */ Vec3f bodyPartsPos[15];
@@ -128,7 +141,7 @@ typedef struct BossGanon {
     /* 0x070C */ f32 unk_710;
     /* 0x0714 */ f32 whiteFillAlpha;
     /* 0x0718 */ s16 organAlpha;
-    /* 0x071A */ u8 unk_71A; // toggles a hand dlist, but why?
+    /* 0x071A */ u8 useOpenHand;
     /* 0x071B */ u8 windowShatterState;
 } BossGanon; // size = 0x71C
 

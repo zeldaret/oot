@@ -12223,8 +12223,8 @@ void func_8084EFC0(Player* this, GlobalContext* globalCtx) {
 
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, dropInfo->actorId,
                     (Math_SinS(this->actor.shape.rot.y) * 5.0f) + this->leftForearmPos.x, this->leftForearmPos.y,
-                    (Math_CosS(this->actor.shape.rot.y) * 5.0f) + this->leftForearmPos.z, 0x4000, this->actor.shape.rot.y,
-                    0, dropInfo->actorParams);
+                    (Math_CosS(this->actor.shape.rot.y) * 5.0f) + this->leftForearmPos.z, 0x4000,
+                    this->actor.shape.rot.y, 0, dropInfo->actorParams);
 
         Player_UpdateBottleHeld(globalCtx, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
         return;

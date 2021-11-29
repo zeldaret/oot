@@ -1210,7 +1210,9 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                 }
                             } break;
 
-                            default: { DISAS_LOG("AnyDisplayList(),"); } break;
+                            default: {
+                                DISAS_LOG("AnyDisplayList(),");
+                            } break;
                         }
                     } break;
 
@@ -1335,7 +1337,9 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                 DISAS_LOG("gsSPObjRenderMode(0x%08x),", dma.addr);
                             } break;
 
-                            default: { DISAS_LOG("AnyDisplayList(),"); } break;
+                            default: {
+                                DISAS_LOG("AnyDisplayList(),");
+                            } break;
                         }
                     }
                 }
