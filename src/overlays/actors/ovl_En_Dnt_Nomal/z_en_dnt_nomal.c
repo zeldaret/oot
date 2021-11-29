@@ -849,7 +849,7 @@ void EnDntNomal_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnDntNomal_DrawStageScrub(Actor* thisx, GlobalContext* globalCtx) {
-    static void* blinkTex[] = { &gDntStageEyeOpenTex, &gDntStageEyeHalfTex, &gDntStageEyeShutTex };
+    static void* blinkTex[] = { gDntStageEyeOpenTex, gDntStageEyeHalfTex, gDntStageEyeShutTex };
     EnDntNomal* this = THIS;
     Vec3f dustScale = { 0.25f, 0.25f, 0.25f };
     s32 pad;

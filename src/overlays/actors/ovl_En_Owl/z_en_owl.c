@@ -1393,7 +1393,7 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx) {
         pos.z += Math_CosS(angle) * phi_f2;
         this->unk_3F8 = phi_f2;
         this->actor.world.pos = pos;
-        this->actor.draw = &EnOwl_Draw;
+        this->actor.draw = EnOwl_Draw;
         this->actionFlags &= ~4;
         this->actor.speedXZ = 0.0f;
     } else {

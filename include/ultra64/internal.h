@@ -1,6 +1,8 @@
 #ifndef ULTRA64_INTERNAL_H
 #define ULTRA64_INTERNAL_H
 
+#include "pi.h"
+
 typedef struct {
     /* 0x00 */ u32 initialized;
     /* 0x04 */ OSThread* mgrThread;

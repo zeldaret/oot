@@ -59,10 +59,9 @@ void viMgrMain(void* vargs) {
     static u16 viRetrace;
     OSMgrArgs* args;
     u32 addTime;
-    OSIoMesg* mesg;
+    OSIoMesg* mesg = NULL;
     u32 temp = 0; // always 0
 
-    mesg = NULL;
     viRetrace = __osViGetCurrentContext()->retraceCount;
     if (viRetrace == 0) {
         viRetrace = 1;
