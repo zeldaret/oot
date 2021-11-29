@@ -40,7 +40,7 @@ void __osInitialize_common(void) {
         ;
     }
 
-    while (__osSiRawWriteIo((void*)(PIF_RAM_START + 0x3C), sp2C | 8)) { 
+    while (__osSiRawWriteIo((void*)(PIF_RAM_START + 0x3C), sp2C | 8)) {
         ;
     }
 

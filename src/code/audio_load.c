@@ -1314,8 +1314,8 @@ void AudioLoad_ProcessSlowLoads(s32 resetStatus) {
 void AudioLoad_DmaSlowCopy(AudioSlowLoad* slowLoad, s32 size) {
     Audio_InvalDCache(slowLoad->curRamAddr, size);
     osCreateMesgQueue(&slowLoad->msgqueue, &slowLoad->msg, 1);
-    AudioLoad_Dma(&slowLoad->ioMesg, OS_MESG_PRI_NORMAL, 0, slowLoad->curDevAddr, slowLoad->curRamAddr, size, &slowLoad->msgqueue,
-                  slowLoad->medium, "SLOWCOPY");
+    AudioLoad_Dma(&slowLoad->ioMesg, OS_MESG_PRI_NORMAL, 0, slowLoad->curDevAddr, slowLoad->curRamAddr, size,
+                  &slowLoad->msgqueue, slowLoad->medium, "SLOWCOPY");
 }
 
 void AudioLoad_DmaSlowCopyUnkMedium(s32 devAddr, u8* ramAddr, s32 size, s32 arg3) {
