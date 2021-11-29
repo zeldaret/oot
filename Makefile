@@ -124,7 +124,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),build/$f) \
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),build/$f) \
 
 # create build directories
-$(shell mkdir -p build/baserom build/include/tables build/assets/text $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
+$(shell mkdir -p build/baserom build/assets/text $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
@@ -232,11 +232,14 @@ build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
 
-build/include/tables/dmadata_table.h: build/$(SPEC)
+build/dmadata_table_spec.h: build/$(SPEC)
 	$(MKDMADATA) $< $@
 
-build/src/boot/z_std_dma.o: build/include/tables/dmadata_table.h
-build/src/dmadata/dmadata.o: build/include/tables/dmadata_table.h
+ifeq ($(NON_MATCHING),1)
+# Depend on generated dmadata layout when building NON_MATCHING
+build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
+build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
+endif
 
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<

@@ -14,17 +14,13 @@ u32 gDmaMgrDmaBuffSize = 0x2000;
 u32 sDmaMgrDataExistError = 0;
 
 // dmadata filenames
-#define DEFINE_DMA_ENTRY(name) \
-    #name,
-
-#define DEFINE_DMA_ENTRY_END()
+#define DEFINE_DMA_ENTRY(name) #name,
 
 const char* sDmaMgrFileNames[] = {
-    #include "tables/dmadata_table.h"
+#include "tables/dmadata_table.h"
 };
 
 #undef DEFINE_DMA_ENTRY
-#undef DEFINE_DMA_ENTRY_END
 
 s32 DmaMgr_CompareName(const char* name1, const char* name2) {
     while (*name1 != 0u) {
