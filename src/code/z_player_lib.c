@@ -1189,7 +1189,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         MtxF sp14C;
         Actor* hookedActor;
 
-        Math_Vec3f_Copy(&this->leftForearmPos, D_80160000);
+        Math_Vec3f_Copy(&this->leftHandPos, D_80160000);
 
         if (this->itemActionParam == PLAYER_AP_STICK) {
             Vec3f sp124[3];
@@ -1340,11 +1340,11 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
             if ((this->unk_862 != 0) || ((func_8002DD6C(this) == 0) && (heldActor != NULL))) {
                 if (!(this->stateFlags1 & 0x400) && (this->unk_862 != 0) && (this->exchangeItemId != EXCH_ITEM_NONE)) {
-                    Math_Vec3f_Copy(&sGetItemRefPos, &this->leftForearmPos);
+                    Math_Vec3f_Copy(&sGetItemRefPos, &this->leftHandPos);
                 } else {
-                    sGetItemRefPos.x = (this->bodyPartsPos[15].x + this->leftForearmPos.x) * 0.5f;
-                    sGetItemRefPos.y = (this->bodyPartsPos[15].y + this->leftForearmPos.y) * 0.5f;
-                    sGetItemRefPos.z = (this->bodyPartsPos[15].z + this->leftForearmPos.z) * 0.5f;
+                    sGetItemRefPos.x = (this->bodyPartsPos[15].x + this->leftHandPos.x) * 0.5f;
+                    sGetItemRefPos.y = (this->bodyPartsPos[15].y + this->leftHandPos.y) * 0.5f;
+                    sGetItemRefPos.z = (this->bodyPartsPos[15].z + this->leftHandPos.z) * 0.5f;
                 }
 
                 if (this->unk_862 == 0) {
