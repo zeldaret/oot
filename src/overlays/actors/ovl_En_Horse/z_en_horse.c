@@ -3826,9 +3826,9 @@ void EnHorse_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         this->stateFlags |= ENHORSE_DRAW;
         if (this->stateFlags & ENHORSE_JUMPING) {
-            func_800A6360(thisx, globalCtx, &this->skin, &EnHorse_SkinCallback1, &EnHorse_SkinCallback2, 0);
+            func_800A6360(thisx, globalCtx, &this->skin, EnHorse_SkinCallback1, EnHorse_SkinCallback2, 0);
         } else {
-            func_800A6360(thisx, globalCtx, &this->skin, &EnHorse_SkinCallback1, &EnHorse_SkinCallback2, 1);
+            func_800A6360(thisx, globalCtx, &this->skin, EnHorse_SkinCallback1, EnHorse_SkinCallback2, 1);
         }
         if (this->postDrawFunc != NULL) {
             this->postDrawFunc(this, globalCtx);

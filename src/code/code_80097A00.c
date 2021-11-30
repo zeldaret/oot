@@ -33,8 +33,8 @@ u16 gUpgradeCapacities[][4] = {
     { 0, 20, 30, 40 },     // Deku Nut Upgrades
 };
 
-u32 gGsFlagsMask[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };
-u32 gGsFlagsShift[] = { 0, 8, 16, 24 };
+u32 gGsFlagsMasks[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };
+u32 gGsFlagsShifts[] = { 0, 8, 16, 24 };
 
 void* gItemIcons[] = {
     gDekuStickIconTex,

@@ -1,11 +1,4 @@
 // libultra OS symbols
-D_80000000 = 0x80000000;
-D_80000002 = 0x80000002;
-D_80000004 = 0x80000004;
-D_80000008 = 0x80000008;
-D_8000000C = 0x8000000C;
-D_80000010 = 0x80000010;
-D_80000020 = 0x80000020;
 osTvType = 0x80000300;
 osRomBase = 0x80000308;
 osResetType = 0x8000030C;
@@ -74,9 +67,6 @@ D_06025658 = 0x06025658;
 D_060257B8 = 0x060257B8;
 D_0602A738 = 0x0602A738;
 D_0602CB48 = 0x0602CB48;
-
-// z_skelanime
-link_animetion_segment = 0x07000000;
 
 // z_kankyo, z_demo_kankyo, z_en_viewer, z_object_kankyo, z_eff_ss_dead_dd
 D_01000000 = 0x01000000;

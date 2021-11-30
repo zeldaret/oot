@@ -1,7 +1,7 @@
 #include "global.h"
 
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag) {
-    register s32 prevInt = __osDisableInt();
+    register u32 prevInt = __osDisableInt();
 
     while (mq->validCount == 0) {
         if (flag == OS_MESG_NOBLOCK) {

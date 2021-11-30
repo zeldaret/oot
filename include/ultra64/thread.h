@@ -44,16 +44,16 @@ typedef struct {
 } __OSThreadprofile; // size = 0x10
 
 typedef struct OSThread {
-    /*0x00*/ struct OSThread* next;
-    /*0x04*/ OSPri priority;
-    /*0x08*/ struct OSThread** queue;
-    /*0x0C*/ struct OSThread* tlnext;
-    /*0x10*/ u16 state;
-    /*0x12*/ u16 flags;
-    /*0x14*/ OSId id;
-    /*0x18*/ s32 fp;
-    /*0x1C*/ __OSThreadprofile* thprof;
-    /*0x20*/ __OSThreadContext context;
+    /* 0x00 */ struct OSThread* next;
+    /* 0x04 */ OSPri priority;
+    /* 0x08 */ struct OSThread** queue;
+    /* 0x0C */ struct OSThread* tlnext;
+    /* 0x10 */ u16 state;
+    /* 0x12 */ u16 flags;
+    /* 0x14 */ OSId id;
+    /* 0x18 */ s32 fp;
+    /* 0x1C */ __OSThreadprofile* thprof;
+    /* 0x20 */ __OSThreadContext context;
 } OSThread; // size = 0x1B0
 
 #endif

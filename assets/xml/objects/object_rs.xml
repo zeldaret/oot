@@ -10,15 +10,15 @@
         <DList Name="object_rs_DL_002BA8" Offset="0x2BA8"/>
         <DList Name="object_rs_DL_002CD8" Offset="0x2CD8"/>
         <Texture Name="object_rs_TLUT_002EE8" OutName="tlut_00002EE8" Format="rgba16" Width="16" Height="16" Offset="0x2EE8"/>
-        <Texture Name="object_rs_Tex_0030E8" OutName="tex_000030E8" Format="ci8" Width="8" Height="8" Offset="0x30E8"/>
-        <Texture Name="object_rs_Tex_003128" OutName="tex_00003128" Format="ci8" Width="8" Height="8" Offset="0x3128"/>
-        <Texture Name="object_rs_Tex_003168" OutName="tex_00003168" Format="ci8" Width="32" Height="64" Offset="0x3168"/>
-        <Texture Name="gBombchuShopkeeperEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x3968"/>
-        <Texture Name="gBombchuShopkeeperEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x3D68"/>
-        <Texture Name="gBombchuShopkeeperEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x4168"/>
-        <Texture Name="object_rs_Tex_004568" OutName="tex_00004568" Format="ci8" Width="16" Height="16" Offset="0x4568"/>
+        <Texture Name="object_rs_Tex_0030E8" OutName="tex_000030E8" Format="ci8" Width="8" Height="8" Offset="0x30E8" TlutOffset="0x2EE8"/>
+        <Texture Name="object_rs_Tex_003128" OutName="tex_00003128" Format="ci8" Width="8" Height="8" Offset="0x3128" TlutOffset="0x2EE8"/>
+        <Texture Name="object_rs_Tex_003168" OutName="tex_00003168" Format="ci8" Width="32" Height="64" Offset="0x3168" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x3968" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x3D68" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x4168" TlutOffset="0x2EE8"/>
+        <Texture Name="object_rs_Tex_004568" OutName="tex_00004568" Format="ci8" Width="16" Height="16" Offset="0x4568" TlutOffset="0x2EE8"/>
         <Texture Name="object_rs_Tex_004668" OutName="tex_00004668" Format="i8" Width="8" Height="16" Offset="0x4668"/>
-        <Texture Name="object_rs_Tex_0046E8" OutName="tex_000046E8" Format="ci8" Width="8" Height="32" Offset="0x46E8"/>
+        <Texture Name="object_rs_Tex_0046E8" OutName="tex_000046E8" Format="ci8" Width="8" Height="32" Offset="0x46E8" TlutOffset="0x2EE8"/>
         <Limb Name="object_rs_Limb_0047E8" LimbType="Standard" Offset="0x47E8"/>
         <Limb Name="object_rs_Limb_0047F4" LimbType="Standard" Offset="0x47F4"/>
         <Limb Name="object_rs_Limb_004800" LimbType="Standard" Offset="0x4800"/>

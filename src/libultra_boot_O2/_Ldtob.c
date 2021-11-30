@@ -9,13 +9,13 @@ const f64 D_800122E0[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 1
 
 /* float properties */
 #define _D0 0
-#define _DBIAS 0x3ff
+#define _DBIAS 0x3FF
 #define _DLONG 1
 #define _DOFF 4
-#define _FBIAS 0x7e
+#define _FBIAS 0x7E
 #define _FOFF 7
 #define _FRND 1
-#define _LBIAS 0x3ffe
+#define _LBIAS 0x3FFE
 #define _LOFF 15
 /* integer properties */
 #define _C2 1
@@ -26,7 +26,7 @@ const f64 D_800122E0[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 1
 #define INF 1
 #define FINITE -1
 #define _DFRAC ((1 << _DOFF) - 1)
-#define _DMASK (0x7fff & ~_DFRAC)
+#define _DMASK (0x7FFF & ~_DFRAC)
 #define _DMAX ((1 << (15 - _DOFF)) - 1)
 #define _DNAN (0x8000 | _DMAX << _DOFF | 1 << (_DOFF - 1))
 #define _DSIGN 0x8000
