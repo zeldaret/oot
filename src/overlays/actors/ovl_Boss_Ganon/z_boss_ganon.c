@@ -542,7 +542,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
     sCape->minDist = 0.0f;
 
     this->csTimer++;
-    
+
     SkelAnime_Update(&this->skelAnime);
 
     switch (this->csState) {
@@ -575,7 +575,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
                 this->fwork[FWORK_1] = 1000.0f;
                 BossGanon_SetIntroCsCamera(this, 11);
                 this->unk_198 = 2;
-                this->timers[2] = 0x6E;
+                this->timers[2] = 110;
                 gSaveContext.healthAccumulator = 0x140;
                 Audio_QueueSeqCmd(NA_BGM_STOP);
             } else {
@@ -1020,7 +1020,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->fwork[DORF_VORTEX_SCALE] = 0.16f;
             goto skip_sound_and_fx;
 
-        case 21: // purple wave thing
+        case 21: // purple vortex
             this->envLightMode = 11;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_DARKWAVE_M - SFX_FLAG);
             BossGanonEff_SpawnShock(globalCtx, 700.0f, DORF_SHOCK_PLAYER_PURPLE);
@@ -1201,8 +1201,8 @@ void BossGanon_SetupTowerCutscene(BossGanon* this, GlobalContext* globalCtx) {
 
 void BossGanon_ShatterWindows(u8 windowShatterState) {
     s16 i;
-    u8* tex1 = (u8*)SEGMENTED_TO_VIRTUAL(ganon_boss_sceneTex_006C18);
-    u8* tex2 = (u8*)SEGMENTED_TO_VIRTUAL(ganon_boss_sceneTex_007418);
+    u8* tex1 = SEGMENTED_TO_VIRTUAL(ganon_boss_sceneTex_006C18);
+    u8* tex2 = SEGMENTED_TO_VIRTUAL(ganon_boss_sceneTex_007418);
 
     for (i = 0; i < 2048; i++) {
         if ((tex1[i] != 0) && (Rand_ZeroOne() < 0.03f)) {
@@ -1214,8 +1214,8 @@ void BossGanon_ShatterWindows(u8 windowShatterState) {
 }
 
 void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) {
-    static Color_RGBA8 D_808E4D30 = { 0, 120, 0, 255 };
-    static Color_RGBA8 D_808E4D34 = { 0, 120, 0, 255 };
+    static Color_RGBA8 bloodPrimColor = { 0, 120, 0, 255 };
+    static Color_RGBA8 bloodEnvColor = { 0, 120, 0, 255 };
     s16 i;
     u8 moveCam = false;
     Player* player = GET_PLAYER(globalCtx);
@@ -1341,8 +1341,8 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
                         sp80.y = this->unk_208.y - 10.0f;
                         sp80.z = this->unk_208.z;
 
-                        func_8002836C(globalCtx, &sp80, &sp98, &sp8C, &D_808E4D30, &D_808E4D34,
-                                      (s16)Rand_ZeroFloat(50.0f) + 0x32, 0, 0x11);
+                        func_8002836C(globalCtx, &sp80, &sp98, &sp8C, &bloodPrimColor, &bloodEnvColor,
+                                      (s16)Rand_ZeroFloat(50.0f) + 50, 0, 17);
                     }
                 }
 
@@ -4383,7 +4383,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
 
         case 10:
             this->unk_1C2 = 0xB;
-            this->timers[0] = 0xE;
+            this->timers[0] = 14;
 
             this->collider.dim.radius = 15;
             this->collider.dim.height = 20;
@@ -4470,7 +4470,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
                     if (dorf->timers[2] == 0) {
                         func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f, 0x50);
                         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 0x28, 0x390B);
-                        dorf->timers[2] = 0x14;
+                        dorf->timers[2] = 20;
 
                         for (i = 0; i < ARRAY_COUNT(this->unk_4E4); i++) {
                             dorf->unk_4E4[i] = D_808E4C58[i];
