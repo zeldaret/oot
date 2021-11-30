@@ -23,7 +23,7 @@ the codebase can drastically change at any time. Also note that some parts of th
 'shiftable' yet, so modifying them could be difficult at this point.
 ```
 
-This is a WIP **decompilation** of ***The Legend of Zelda: Ocarina of Time***. The purpose of the project is to recreate a source code base for the game from scratch, using information found inside the game along with static and/or dynamic analysis. **It is not producing a PC port.** For more information you can get in touch with the team on our [Discord server](https://discord.zelda64.dev).
+This is a WIP **decompilation** of ***The Legend of Zelda: Ocarina of Time***. The purpose of the project is to recreate a source code base for the game from scratch, using the information found inside the game along with static and/or dynamic analysis. **It is not producing a PC port.** For more information you can get in touch with the team on our [Discord server](https://discord.zelda64.dev).
 
 The only build currently supported is Master Quest (Debug), but other versions are planned to be supported.
 
@@ -41,7 +41,7 @@ It builds the following ROM:
 
 ### Windows
 
-For Windows 10, install WSL and a distribution by following this
+For Windows 10, install WSL and distribution by following this
 [Windows Subsystem for Linux Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 We recommend using Debian or Ubuntu 18.04 Linux distributions.
 
@@ -61,13 +61,13 @@ You can install them with the following commands:
 
 ```bash
 brew update
-brew install coreutils make python3 md5sha1sum libpng
+brew install Coreutils make python3 md5sha1sum libpng
 ```
 
 You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).
 
 Going forward in this guide, please use `gmake` whenever you encounter a `make` command.
-The `make` that comes with MacOS behaves differently than GNU make and is incompatible with this project.
+The `make` that comes with macOS behaves differently than GNU make and is incompatible with this project.
 
 You should now be able to continue from [step 2](#2-clone-the-repository) of the Linux instructions.
 
@@ -87,7 +87,7 @@ Under Debian / Ubuntu (which we recommend using), you can install them with the 
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-dev
+sudo apt-get install git build-essential Binutils-MIPS-Linux-gnu python3 libpng-dev
 ```
 
 #### 2. Clone the repository
@@ -152,7 +152,7 @@ If you want to use Cygwin, you will need to:
 * Download and install [Cygwin](https://cygwin.com).
 * [Build and install mips-linux-binutils](docs/BUILDING_BINUTILS_CYGWIN.md).
 
-Once mips-linux-binutils is installed you will need to install the following packages using Cygwin's installer:
+Once mips-Linux-Binutils is installed you will need to install the following packages using Cygwin's installer:
 
 * libiconv
 * dos2unix
@@ -172,16 +172,16 @@ dos2unix fixle.sh
 
 #### 1. Setup requirements
 
-To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and setup based on your system.
+To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and set up based on your system.
 
 You'll also need to prepare a local version of the project with a copied base ROM (see steps [2](#2-clone-the-repository) and [3](#3-prepare-a-base-rom) of the Linux instructions).
 
-#### 2. Create the docker image
+#### 2. Create the Docker image
 
 From inside your local project, run the following command:
 
 ```bash
-docker build . -t oot
+docker build. -t oot
 ```
 
 #### 3. Start the container
@@ -194,7 +194,7 @@ docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/
 
 #### 4. Setup and Build the ROM
 
-Once inside the container, you can follow steps [4](#4-setup-the-rom-and-build-process) and [5](#5-build-the-rom) of the Linux instructions to setup and build the ROM, or run any other command you need.
+Once inside the container, you can follow steps [4](#4-setup-the-rom-and-build-process) and [5](#5-build-the-rom) of the Linux instructions to set up and build the ROM, or run any other command you need.
 
 ## Contributing
 
