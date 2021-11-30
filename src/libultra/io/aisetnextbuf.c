@@ -23,9 +23,9 @@ s32 osAiSetNextBuffer(void* buf, u32 size) {
         return -1;
     }
 
-    // VIRTUAL_TO_PHYSICAL replaces osVirtualToPhysical, this replacement
+    // OS_K0_TO_PHYSICAL replaces osVirtualToPhysical, this replacement
     // assumes that only KSEG0 addresses are given
-    HW_REG(AI_DRAM_ADDR_REG, u32) = VIRTUAL_TO_PHYSICAL(bufAdjusted);
+    HW_REG(AI_DRAM_ADDR_REG, u32) = OS_K0_TO_PHYSICAL(bufAdjusted);
     HW_REG(AI_LEN_REG, u32) = size;
     return 0;
 }
