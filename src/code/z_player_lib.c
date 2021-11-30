@@ -635,14 +635,14 @@ u8 sEyeMouthIndexes[][2] = {
  * from adult Link's object are used here.
  */
 void* sEyeTextures[] = {
-    0x06000000, 0x06000800, 0x06001000, 0x06001800, 0x06002000, 0x06002800, 0x06003000, 0x06003800,
+    gLinkAdultEyesOpenTex, gLinkAdultEyesHalfTex, gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex, gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex, gLinkAdultEyesUnk2Tex,
 };
 
 void* sMouthTextures[] = {
-    0x06004000,
-    0x06004400,
-    0x06004800,
-    0x06004C00,
+    gLinkAdultMouth1Tex,
+    gLinkAdultMouth2Tex,
+    gLinkAdultMouth3Tex,
+    gLinkAdultMouth4Tex,
 };
 
 Color_RGB8 sTunicColors[] = {
@@ -657,8 +657,8 @@ Color_RGB8 sGauntletColors[] = {
 };
 
 Gfx* sBootDListGroups[][2] = {
-    { 0x06025918, 0x06025A60 },
-    { 0x06025BA8, 0x06025DB0 },
+    { gLinkAdultLeftIronBootDL, gLinkAdultRightIronBootDL },
+    { gLinkAdultLeftHoverBootDL, gLinkAdultRightHoverBootDL },
 };
 
 void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
