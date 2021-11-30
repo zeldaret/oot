@@ -295,7 +295,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_339 = 4;
             if (this->unk_398 == 10) {
                 func_80078914(&D_80906D6C, NA_SE_EV_STONE_BOUND);
-                Audio_QueueSeqCmd(NA_BGM_STOP);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
             }
             if (this->unk_398 == 20) {
                 sZelda->unk_3C8 = 3;
@@ -444,7 +444,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->actor.world.pos.x = -200.0f;
                 this->actor.world.pos.y = this->actor.world.pos.y - 30.0f;
                 this->actor.world.pos.z = -200.0f;
-                Audio_QueueSeqCmd(NA_BGM_OPENING_GANON);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_OPENING_GANON);
             } else {
                 break;
             }
@@ -587,7 +587,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         case 18:
             this->unk_339 = 6;
             if (this->unk_398 == 30) {
-                Audio_QueueSeqCmd(NA_BGM_GANON_BATTLE_2);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_GANON_BATTLE_2);
             }
             Math_ApproachF(&this->unk_30C, 7.0f, 1.0f, 0.1f);
             Math_ApproachF(&this->unk_3A4.x, (this->actor.world.pos.x + 500.0f) - 350.0f, 0.1f, 1.0f);
@@ -1683,7 +1683,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_3B0.z = D_80907050[phi_a1].z + player->actor.world.pos.z;
             }
             if (this->unk_398 > 80) {
-                Audio_QueueSeqCmd(0x100100FF);
+                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
                 this->unk_39C = 75;
                 this->unk_398 = 0;
                 this->unk_3A4.x = 112.0f;

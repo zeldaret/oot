@@ -1925,7 +1925,7 @@ void func_800758AC(GlobalContext* globalCtx) {
         func_800F6FB4(4);
     } else if (((void)0, gSaveContext.unk_140E) != NA_BGM_GENERAL_SFX) {
         if (!func_80077600()) {
-            Audio_QueueSeqCmd((s32)((void)0, gSaveContext.unk_140E));
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (s32)((void)0, gSaveContext.unk_140E));
         }
         gSaveContext.unk_140E = NA_BGM_GENERAL_SFX;
     } else if (globalCtx->soundCtx.seqIndex == NA_BGM_NO_MUSIC) {
@@ -1985,7 +1985,7 @@ void func_80075B44(GlobalContext* globalCtx) {
         case 1:
             if (gSaveContext.dayTime > 0xB71C) {
                 if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                    Audio_QueueSeqCmd(0x10F000FF);
+                    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xF000FF);
                 }
                 globalCtx->envCtx.unk_E0++;
             }

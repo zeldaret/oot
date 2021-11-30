@@ -407,7 +407,7 @@ void BossGoma_SetupDefeated(BossGoma* this, GlobalContext* globalCtx) {
     this->actor.flags &= ~5;
     this->actor.speedXZ = 0.0f;
     this->actor.shape.shadowScale = 0.0f;
-    Audio_QueueSeqCmd(0x100100FF);
+    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DEAD);
 }
 
@@ -660,7 +660,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
     this->subCameraAt.y = this->actor.world.pos.y;
     this->subCameraAt.z = this->actor.world.pos.z;
 
-    Audio_QueueSeqCmd(0x100100FF);
+    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
 }
 
 /**
@@ -925,7 +925,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                                            SEGMENTED_TO_VIRTUAL(gGohmaTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
 
-                Audio_QueueSeqCmd(NA_BGM_BOSS);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
                 gSaveContext.eventChkInf[7] |= 1;
             }
 
@@ -1110,7 +1110,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
             Math_SmoothStepToF(&this->subCameraAt.z, this->firstTailLimbWorldPos.z, 0.2f, 50.0f, 0.1f);
 
             if (this->timer == 80) {
-                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
             }
 
             if (this->timer == 0) {
