@@ -12,7 +12,6 @@ import sys
 
 rawSamples = {}
 bankOffsets = {}
-bankNames = {}
 sampleNameLookup = {}
 tunings = {}
 usedTuning = {}
@@ -234,25 +233,32 @@ class PCMBook:
             self.predictors.append(struct.unpack(">" + str(predictorSize) + "h", remainder[i * predictorSize * 2:(i * predictorSize * 2) + (predictorSize * 2)]))
 
 class SampleTableEntry:
-    def __init__(self, data):
+    def __init__(self, data, name):
         self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBBxxxxxx", data)
+        self.name = name
 
 class SoundfontEntry:
     def __init__(self, data):
         self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBBBBBH", data)
 
-def parse_raw_def_data(raw_def_data):
+def parse_raw_def_data(raw_def_data, samplebanks):
     count = struct.unpack(">H", raw_def_data[:2])[0]
     entries = []
     for i in range(count):
         buffer = raw_def_data[16 + (i * 16):32 + (i * 16)]
-        entry = SampleTableEntry(buffer)
+        entry = SampleTableEntry(buffer, samplebanks[i] or f"{i}")
         bankOffsets[i] = entry.offset
         entries.append(entry)
     for index in range(len(entries)):
         entry = entries[index]
         if entry.length == 0:
-            entries[index] = entries[entry.offset]
+            rawSamples[entry.offset] = {}
+            rawSamples[index] = rawSamples[entry.offset]
+            tunings[entry.offset] = {}
+            tunings[index] = tunings[entry.offset]
+            usedTuning[entry.offset] = {}
+            usedTuning[index] = usedTuning[entry.offset]
+            samplebanks[index] = samplebanks[entry.offset]
     return entries
 
 def parse_soundfonts(fontdef_data, font_data, fontdefs):
@@ -364,7 +370,8 @@ def toCachePolicy(policy):
         0: "Permanent",
         1: "Persistent",
         2: "Temporary",
-        3: "Any"
+        3: "Any",
+        4: "AnyNoSyncLoad"
     }.get(policy)
 
 def generate_drum_obj(root, drum, envelopes):
@@ -708,10 +715,28 @@ def main():
     soundfont_defs = read_soundfont_xmls(os.path.join(asset_xml_dir, "soundfonts"))
     samplebanks = read_samplebank_xml(os.path.join(asset_xml_dir, "samples"), version)
 
-    bank_defs = parse_raw_def_data(bankdef_data)
+    bank_defs = parse_raw_def_data(bankdef_data, samplebanks)
     fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
 
     report_gaps("SOUNDFONT", usedFontData, font_data)
+
+    os.makedirs(samples_out_dir, exist_ok=True)
+
+    with open(os.path.join(samples_out_dir, "Banks.xml"), "w") as bankdeffile:
+        bankdefxml = XmlTree.Element("SampleBanks")
+        for bankdef in bank_defs:
+            if bankdef.length == 0:
+                XmlTree.SubElement(bankdefxml, "SampleBank", {
+                    "Reference": bank_defs[bankdef.offset].name
+                })
+            else:
+                XmlTree.SubElement(bankdefxml, "SampleBank", {
+                    "Name": bankdef.name,
+                    "CachePolicy": toCachePolicy(bankdef.cache),
+                    "Medium": toMedium(bankdef.medium)
+                })
+        XmlTree.indent(bankdefxml, "\t")
+        bankdeffile.write(XmlTree.tostring(bankdefxml, "unicode"))
 
     # Export AIFF samples
     for bank in rawSamples:
