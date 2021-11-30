@@ -472,6 +472,7 @@ s32 EnHorse_BgCheckBridgeJumpPoint(EnHorse* this, GlobalContext* globalCtx) {
         xMax = (xMin + sBridgeJumps[i].xMax) + sBridgeJumps[i].xOffset;
         if (xMax < xMin) {
             f32 temp = xMin;
+
             xMin = xMax;
             xMax = temp;
         }
@@ -504,6 +505,7 @@ s32 EnHorse_CheckBridgeJumps(EnHorse* this, GlobalContext* globalCtx) {
 
         if (xMax < xMin) {
             f32 temp = xMin;
+
             xMin = xMax;
             xMax = temp;
         }
@@ -987,6 +989,7 @@ void EnHorse_UpdateSpeed(EnHorse* this, GlobalContext* globalCtx, f32 brakeDecel
     f32 temp_f12;
     f32 traction;
     s16 turn;
+
     if (!EnHorse_PlayerCanMove(this, globalCtx)) {
         if (this->actor.speedXZ > 8) {
             this->actor.speedXZ -= decel;

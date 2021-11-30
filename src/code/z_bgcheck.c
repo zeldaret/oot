@@ -1139,6 +1139,7 @@ void BgCheck_GetSubdivisionMinBounds(CollisionContext* colCtx, Vec3f* pos, s32* 
     f32 dx = pos->x - colCtx->minBounds.x;
     f32 dy = pos->y - colCtx->minBounds.y;
     f32 dz = pos->z - colCtx->minBounds.z;
+
     *sx = dx * colCtx->subdivLengthInv.x;
     *sy = dy * colCtx->subdivLengthInv.y;
     *sz = dz * colCtx->subdivLengthInv.z;
@@ -1165,6 +1166,7 @@ void BgCheck_GetSubdivisionMaxBounds(CollisionContext* colCtx, Vec3f* pos, s32* 
     f32 dx = pos->x - colCtx->minBounds.x;
     f32 dy = pos->y - colCtx->minBounds.y;
     f32 dz = pos->z - colCtx->minBounds.z;
+
     *sx = dx * colCtx->subdivLengthInv.x;
     *sy = dy * colCtx->subdivLengthInv.y;
     *sz = dz * colCtx->subdivLengthInv.z;
@@ -2848,6 +2850,7 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
 
         for (i = 0; i < pbgdata->numVertices; i++) {
             f32 radiusSq;
+
             newVtx.x = dyna->vtxList[*vtxStartIndex + i].x;
             newVtx.y = dyna->vtxList[*vtxStartIndex + i].y;
             newVtx.z = dyna->vtxList[*vtxStartIndex + i].z;
@@ -2862,6 +2865,7 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
         for (i = 0; i < pbgdata->numPolygons; i++) {
             CollisionPoly* newPoly = &dyna->polyList[*polyStartIndex + i];
             f32 newNormMagnitude;
+
             *newPoly = pbgdata->polyList[i];
 
             // Yeah, this is all kinds of fake, but my God, it matches.
@@ -4282,6 +4286,7 @@ u16 WaterBox_GetCameraSType(CollisionContext* colCtx, WaterBox* waterBox) {
  */
 u32 WaterBox_GetLightSettingIndex(CollisionContext* colCtx, WaterBox* waterBox) {
     u32 prop = waterBox->properties >> 8;
+
     return prop & 0x1F;
 }
 

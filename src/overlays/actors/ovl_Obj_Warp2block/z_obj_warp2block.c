@@ -191,6 +191,7 @@ s32 func_80BA228C(ObjWarp2block* this, GlobalContext* globalCtx) {
 
 s32 func_80BA2304(ObjWarp2block* this, GlobalContext* globalCtx) {
     s32 ret = this->func_168(this, globalCtx);
+
     this->unk_172 = globalCtx->msgCtx.lastPlayedSong;
 
     return ret;

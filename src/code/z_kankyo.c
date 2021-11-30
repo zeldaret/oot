@@ -844,7 +844,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
     u16 i;
     u16 j;
     u16 time;
-    EnvLightSettings* lightSettingsList = globalCtx->envCtx.lightSettingsList; // 7C
+    EnvLightSettings* lightSettingsList = globalCtx->envCtx.lightSettingsList;
     s32 adjustment;
 
     if ((((void)0, gSaveContext.gameMode) != 0) && (((void)0, gSaveContext.gameMode) != 3)) {
@@ -1027,7 +1027,6 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                     }
                 }
             } else {
-                // 3200 (l 1608)
                 if (!envCtx->blendIndoorLights) {
                     for (i = 0; i < 3; i++) {
                         envCtx->lightSettings.ambientColor[i] = lightSettingsList[envCtx->unk_BD].ambientColor[i];
@@ -1042,7 +1041,6 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                     envCtx->lightSettings.fogFar = lightSettingsList[envCtx->unk_BD].fogFar;
                     envCtx->unk_D8 = 1.0f;
                 } else {
-                    // 3344 (l 1689)
                     u8 blendRate = (lightSettingsList[envCtx->unk_BD].fogNear >> 0xA) * 4;
 
                     if (blendRate == 0) {

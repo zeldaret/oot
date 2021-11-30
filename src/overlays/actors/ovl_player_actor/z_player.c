@@ -7418,6 +7418,7 @@ s32 func_80842964(Player* this, GlobalContext* globalCtx) {
 
 void func_808429B4(GlobalContext* globalCtx, s32 speed, s32 y, s32 countdown) {
     s32 quakeIdx = Quake_Add(Gameplay_GetCamera(globalCtx, 0), 3);
+
     Quake_SetSpeed(quakeIdx, speed);
     Quake_SetQuakeValues(quakeIdx, y, 0, 0, 0);
     Quake_SetCountdown(quakeIdx, countdown);
@@ -11579,6 +11580,7 @@ void func_8084D610(Player* this, GlobalContext* globalCtx) {
 
             if (sp34 != 0.0f) {
                 s16 temp = this->actor.shape.rot.y - sp32;
+
                 if ((ABS(temp) > 0x6000) && !Math_StepToF(&this->linearVelocity, 0.0f, 1.0f)) {
                     return;
                 }

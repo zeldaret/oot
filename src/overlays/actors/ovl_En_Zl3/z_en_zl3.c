@@ -2491,6 +2491,7 @@ s32 func_80B59698(EnZl3* this, GlobalContext* globalCtx) {
 
     if (cond) {
         u8 curSpawn = globalCtx->curSpawn;
+
         if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) &&
             ((gSaveContext.timer2Value <= 0) || (gSaveContext.timer2State == 0))) {
             return 1;

@@ -2,8 +2,7 @@
     <File Name="spot02_scene" Segment="2">
         <Scene Name="spot02_scene" Offset="0x0"/>
 
-        <!-- This symbol should be named spot02_scene_Cs_003C80 but a ZAPD bug prevents it -->
-        <Cutscene Name="spot02_sceneCutsceneData0x003C80" Offset="0x3C80"/>
+        <Cutscene Name="spot02_scene_Cs_003C80" Offset="0x3C80"/>
 
         <Cutscene Name="spot02_scene_Cs_005020" Offset="0x5020"/>
         <Cutscene Name="gGraveyardIntroCs" Offset="0x70C0"/>

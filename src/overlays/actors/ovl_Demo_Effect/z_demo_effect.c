@@ -1134,7 +1134,7 @@ void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
  * Update action for the God Lgt Din Actor.
  * This is the Goddess Din.
  * This function moves God Lgt Din based on the current cutscene command.
- * This function also spawns a Fireball Actor and sets it's update function to the special InitCreationFireball.
+ * This function also spawns a Fireball Actor and sets its update function to the special InitCreationFireball.
  * The spawned Fireball Actor is also scaled to be smaller than regular by this function.
  */
 void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {

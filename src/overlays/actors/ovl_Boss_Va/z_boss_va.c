@@ -3594,6 +3594,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     for (i = 0, flag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
         if (effect->type == VA_TUMOR) {
             BossVa* parent = effect->parent;
+
             if (!flag) {
                 func_80093D18(globalCtx->state.gfxCtx);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, effect->envColor[3]);

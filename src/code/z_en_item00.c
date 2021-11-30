@@ -955,6 +955,7 @@ void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 if (this->unk_15A < 0) {
                     if (this->unk_15A == -1) {
                         s8 bankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_HEART);
+
                         if (Object_IsLoaded(&globalCtx->objectCtx, bankIndex)) {
                             this->actor.objBankIndex = bankIndex;
                             Actor_SetObjectDependency(globalCtx, &this->actor);

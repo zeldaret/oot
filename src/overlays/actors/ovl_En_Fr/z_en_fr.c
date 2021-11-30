@@ -746,6 +746,7 @@ void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
 
 void EnFr_ChildSongFirstTime(EnFr* this, GlobalContext* globalCtx) {
     EnFr* frog = sEnFrPointers.frogs[sSongToFrog[this->songIndex]];
+
     if (frog->isActive == false) {
         this->actor.textId = 0x40A9;
         EnFr_SetupReward(this, globalCtx, true);

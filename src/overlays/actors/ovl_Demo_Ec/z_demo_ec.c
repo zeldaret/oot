@@ -886,6 +886,7 @@ void func_8096F544(DemoEc* this, s32 changeAnim) {
 void func_8096F578(DemoEc* this, GlobalContext* globalCtx, s32 arg2) {
     CsCmdActorAction* npcAction;
     s32 sp18;
+
     npcAction = DemoEc_GetNpcAction(globalCtx, arg2);
     if (npcAction != NULL) {
         sp18 = npcAction->action;

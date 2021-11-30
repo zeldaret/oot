@@ -288,6 +288,7 @@ s32 EnXc_MinuetCS(EnXc* this, GlobalContext* globalCtx) {
     if (this->actor.params == SHEIK_TYPE_MINUET) {
         Player* player = GET_PLAYER(globalCtx);
         f32 z = player->actor.world.pos.z;
+
         if (z < -2225.0f) {
             if (!Gameplay_InCsMode(globalCtx)) {
                 globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gMinuetCs);
@@ -347,6 +348,7 @@ s32 EnXc_SerenadeCS(EnXc* this, GlobalContext* globalCtx) {
     if (this->actor.params == SHEIK_TYPE_SERENADE) {
         Player* player = GET_PLAYER(globalCtx);
         s32 stateFlags = player->stateFlags1;
+
         if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) && !(stateFlags & 0x20000000) &&
             !Gameplay_InCsMode(globalCtx)) {
             Cutscene_SetSegment(globalCtx, &gIceCavernSerenadeCs);
@@ -491,6 +493,7 @@ void EnXc_SpawnFlame(EnXc* this, GlobalContext* globalCtx) {
         f32 xPos = npcAction->startPos.x;
         f32 yPos = npcAction->startPos.y;
         f32 zPos = npcAction->startPos.z;
+
         this->flameActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_LIGHT, xPos, yPos, zPos, 0, 0, 0, 5);
         sFlameSpawned = true;
     }
@@ -526,6 +529,7 @@ void EnXc_InitFlame(EnXc* this, GlobalContext* globalCtx) {
         CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, 0);
         if (npcAction != NULL) {
             s32 action = npcAction->action;
+
             if (D_80B41DA8 != action) {
                 if (action != 1) {
                     EnXc_SpawnFlame(this, globalCtx);
@@ -564,6 +568,7 @@ AnimationHeader* EnXc_GetCurrentHarpAnim(GlobalContext* globalCtx, s32 index) {
 
     if (npcAction != NULL) {
         u16 action = npcAction->action;
+
         if (action == 11) {
             animation = &gSheikPlayingHarp3Anim;
         } else if (action == 12) {
@@ -1570,6 +1575,7 @@ void EnXc_CalcTriforce(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_274 == 1) {
             if (*timer < kREG(25) + 40.0f) {
                 f32 div = *timer / (kREG(25) + 40.0f);
+
                 prim[2] = -85.0f * div + 255;
                 prim[3] = 255.0f * div;
                 env[1] = 100.0f * div + 100;
@@ -1584,6 +1590,7 @@ void EnXc_CalcTriforce(Actor* thisx, GlobalContext* globalCtx) {
             scale[2] = kREG(21) * 0.1f + 40.0f;
         } else if (this->unk_274 == 2) {
             f32 maxTime = (kREG(25) + 40.0f) + (kREG(27) + 90.0f);
+
             if (*timer < maxTime) {
                 f32 div = (*timer - (kREG(25) + 40.0f)) / (kREG(27) + 90.0f);
                 scale[0] = (kREG(19) * 0.1f + 40.0f) + div * ((kREG(26) + 50.0f) * (kREG(19) * 0.1f + 40.0f));

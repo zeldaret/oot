@@ -64,6 +64,7 @@ static struct_D_80AA1678 sAnimationInfo[] = {
 
 u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 23);
+
     if (faceReaction != 0) {
         return faceReaction;
     }

@@ -63,7 +63,7 @@ void EffectSsBubble_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
 
     waterSurfaceY = this->pos.y;
 
-    // kill bubble if its out of range of a water box
+    // kill bubble if it's out of range of a water box
     if (!WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, this->pos.x, this->pos.z, &waterSurfaceY, &waterBox)) {
         this->life = -1;
         return;

@@ -1276,6 +1276,7 @@ void AudioHeap_ChangeStorage(StorageChange* change, SoundFontSample* sample) {
     if (sample != NULL) {
         u32 start = change->oldAddr;
         u32 end = change->oldAddr + change->size;
+
         if (start <= (u32)sample->sampleAddr && (u32)sample->sampleAddr < end) {
             sample->sampleAddr = sample->sampleAddr - start + change->newAddr;
             sample->medium = change->newMedium;

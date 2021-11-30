@@ -912,6 +912,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
 
             if (this->framesUntilNextAction != 0) {
                 f32 s = sinf(this->framesUntilNextAction * 3.1415f * 0.5f);
+
                 this->subCameraAt.y = this->framesUntilNextAction * s * 0.7f + this->actor.world.pos.y;
             } else {
                 Math_ApproachF(&this->subCameraAt.y, this->actor.focus.pos.y, 0.1f, 10.0f);

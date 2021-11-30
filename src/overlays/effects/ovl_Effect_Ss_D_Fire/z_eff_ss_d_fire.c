@@ -16,7 +16,7 @@
 #define rFadeDelay regs[6]
 #define rScaleStep regs[9]
 #define rObjBankIdx regs[10]
-#define rYAccelStep regs[11] // has no effect due to how its implemented
+#define rYAccelStep regs[11] // has no effect due to how it's implemented
 
 u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);

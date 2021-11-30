@@ -284,6 +284,7 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
     this->colCylinder.base.acFlags &= ~AC_HIT;
     if ((globalCtx->gameplayFrames & 0xF) == 0) {
         Vec3f itemDropPos = this->actor.world.pos;
+
         itemDropPos.y += 70.0f;
         Item_DropCollectibleRandom(globalCtx, &this->actor, &itemDropPos, 0x40);
         Item_DropCollectibleRandom(globalCtx, &this->actor, &itemDropPos, 0x40);
@@ -291,6 +292,7 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
         this->unk2D4 = 240;
     } else {
         s32 i;
+
         this->colCylinder.base.acFlags &= ~AC_HIT;
         for (i = MAX_LARVA - this->unk2FA; i > 0; i--) {
             Actor* larva =
@@ -298,6 +300,7 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
                                    Rand_CenteredFloat(25.0f) + this->actor.world.pos.x,
                                    Rand_CenteredFloat(25.0f) + (this->actor.world.pos.y + 50.0f),
                                    Rand_CenteredFloat(25.0f) + this->actor.world.pos.z, 0, 0, 0, PEAHAT_TYPE_LARVA);
+
             if (larva != NULL) {
                 larva->velocity.y = 6.0f;
                 larva->shape.rot.y = larva->world.rot.y = Rand_CenteredFloat(0xFFFF);

@@ -1004,6 +1004,7 @@ void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if ((this->spawnIceTimer & 3) == 0) {
             Vec3f iceChunk;
             s32 idx = this->spawnIceTimer >> 2;
+
             iceChunk.x = thisx->world.pos.x + sIceChunks[idx].x;
             iceChunk.y = thisx->world.pos.y + sIceChunks[idx].y;
             iceChunk.z = thisx->world.pos.z + sIceChunks[idx].z;

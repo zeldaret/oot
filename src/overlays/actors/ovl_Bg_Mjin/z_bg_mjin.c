@@ -110,6 +110,7 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params != 0) {
         // thisx is required
         s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
+
         if (objBankIndex >= 0) {
             gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
         }

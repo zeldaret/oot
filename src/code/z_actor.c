@@ -1438,6 +1438,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
         } else {
             f32 ret =
                 actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
+
             return ret;
         }
     }
@@ -2879,7 +2880,7 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
     Actor* actor;
     Actor* sp84;
     CollisionPoly* sp80;
-    UNK_TYPE sp7C;
+    s32 sp7C;
     Vec3f sp70;
 
     actor = actorCtx->actorLists[actorCategory].head;
@@ -3236,7 +3237,7 @@ Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 r
             //! @bug The projectile actor gets unsafely casted to a hookshot to check its timer, even though
             //  it can also be an arrow.
             //  Luckily, the field at the same offset in the arrow actor is the x component of a vector
-            //  which will rarely ever be 0. So its very unlikely for this bug to cause an issue.
+            //  which will rarely ever be 0. So it's very unlikely for this bug to cause an issue.
             if ((Math_Vec3f_DistXYZ(&refActor->world.pos, &actor->world.pos) > radius) ||
                 (((ArmsHook*)actor)->timer == 0)) {
                 actor = actor->next;
@@ -3454,6 +3455,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 
 void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
     s16 var = Quake_Add(&globalCtx->mainCamera, 3);
+
     Quake_SetSpeed(var, 20000);
     Quake_SetQuakeValues(var, arg1, 0, 0, 0);
     Quake_SetCountdown(var, arg2);
@@ -3461,6 +3463,7 @@ void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
 
 void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3) {
     s16 var = Quake_Add(&globalCtx->mainCamera, 3);
+
     Quake_SetSpeed(var, arg3);
     Quake_SetQuakeValues(var, arg1, 0, 0, 0);
     Quake_SetCountdown(var, arg2);
