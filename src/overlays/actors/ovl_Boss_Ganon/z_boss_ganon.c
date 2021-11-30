@@ -1103,8 +1103,8 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
                     globalCtx->objectCtx.status[Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON)].segment);
 
                 if (!(gSaveContext.eventChkInf[7] & 0x100)) {
-                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gDorfTitleCardTex),
-                                           160, 180, 128, 40);
+                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
+                                           SEGMENTED_TO_VIRTUAL(gDorfTitleCardTex), 160, 180, 128, 40);
                 }
 
                 gSaveContext.eventChkInf[7] |= 0x100;
