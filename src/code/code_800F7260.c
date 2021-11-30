@@ -520,7 +520,8 @@ void Audio_PlayActiveSounds(u8 bankId) {
                 }
                 Audio_SetSoundProperties(bankId, entryIndex, sCurSfxPlayerChannelIdx);
                 Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((sCurSfxPlayerChannelIdx & 0xFF) << 8), 1);
-                Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((sCurSfxPlayerChannelIdx & 0xFF) << 8) | 4, entry->sfxId & 0xFF);
+                Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((sCurSfxPlayerChannelIdx & 0xFF) << 8) | 4,
+                                 entry->sfxId & 0xFF);
                 if (gIsLargeSoundBank[bankId]) {
                     Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((sCurSfxPlayerChannelIdx & 0xFF) << 8) | 5,
                                      (entry->sfxId & 0x100) >> 8);
