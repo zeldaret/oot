@@ -62,14 +62,14 @@ Gfx* D_80125CE8[] = {
 };
 
 Gfx* D_80125D28[] = {
-    0x06023160, gLinkChildSwordAndSheathNearDL,
-    0x06027F00, gLinkChildSwordAndSheathFarDL,
-    0x06023160, gLinkChildDekuShieldSwordAndSheathNearDL,
-    0x06027F00, gLinkChildDekuShieldSwordAndSheathFarDL,
-    0x06020A78, gLinkChildHylianShieldSwordAndSheathNearDL,
-    0x06025FB8, gLinkChildHylianShieldSwordAndSheathFarDL,
-    0x060211B8, gLinkChildSwordAndSheathNearDL,
-    0x060264F0, gLinkChildSwordAndSheathFarDL,
+    gLinkAdultMasterSwordAndSheathNearDL, gLinkChildSwordAndSheathNearDL,
+    gLinkAdultMasterSwordAndSheathFarDL, gLinkChildSwordAndSheathFarDL,
+    gLinkAdultMasterSwordAndSheathNearDL, gLinkChildDekuShieldSwordAndSheathNearDL,
+    gLinkAdultMasterSwordAndSheathFarDL, gLinkChildDekuShieldSwordAndSheathFarDL,
+    gLinkAdultHylianShieldSwordAndSheathNearDL, gLinkChildHylianShieldSwordAndSheathNearDL,
+    gLinkAdultHylianShieldSwordAndSheathFarDL, gLinkChildHylianShieldSwordAndSheathFarDL,
+    gLinkAdultMirrorShieldSwordAndSheathNearDL, gLinkChildSwordAndSheathNearDL,
+    gLinkAdultMirrorShieldSwordAndSheathFarDL, gLinkChildSwordAndSheathFarDL,
 };
 
 Gfx* D_80125D68[] = {
@@ -77,18 +77,18 @@ Gfx* D_80125D68[] = {
 };
 
 Gfx* D_80125D88[] = {
-    0x060249D8, gLinkChildSheathNearDL,
-    0x06028150, gLinkChildSheathFarDL,
-    0x060249D8, gLinkChildDekuShieldAndSheathNearDL,
-    0x06028150, gLinkChildDekuShieldAndSheathFarDL,
-    0x06020E70, gLinkChildHylianShieldAndSheathNearDL,
-    0x060262B8, gLinkChildHylianShieldAndSheathFarDL,
-    0x060216B0, gLinkChildSheathNearDL,
-    0x06026910, gLinkChildSheathFarDL,
+    gLinkAdultSheathNearDL, gLinkChildSheathNearDL,
+    gLinkAdultSheathFarDL, gLinkChildSheathFarDL,
+    gLinkAdultSheathNearDL, gLinkChildDekuShieldAndSheathNearDL,
+    gLinkAdultSheathFarDL, gLinkChildDekuShieldAndSheathFarDL,
+    gLinkAdultHylianShieldAndSheathNearDL, gLinkChildHylianShieldAndSheathNearDL,
+    gLinkAdultHylianShieldAndSheathFarDL, gLinkChildHylianShieldAndSheathFarDL,
+    gLinkAdultMirrorShieldAndSheathNearDL, gLinkChildSheathNearDL,
+    gLinkAdultMirrorShieldAndSheathFarDL, gLinkChildSheathFarDL,
     NULL,       NULL,
     NULL,       NULL,
-    0x060249D8, gLinkChildDekuShieldWithMatrixDL,
-    0x060249D8, gLinkChildDekuShieldWithMatrixDL,
+    gLinkAdultSheathNearDL, gLinkChildDekuShieldWithMatrixDL,
+    gLinkAdultSheathNearDL, gLinkChildDekuShieldWithMatrixDL,
 };
 
 Gfx* D_80125DE8[] = {
@@ -145,24 +145,24 @@ Gfx* D_80125E68[] = {
     gLinkChildRightHandHoldingFairySlingshotFarDL,
 };
 
-Gfx* D_80125E78[] = {
-    0x06023160,
+Gfx* sSwordAndSheathDLs[] = {
+    gLinkAdultMasterSwordAndSheathNearDL,
     gLinkChildSwordAndSheathNearDL,
-    0x06027F00,
+    gLinkAdultMasterSwordAndSheathFarDL,
     gLinkChildSwordAndSheathFarDL,
 };
 
-Gfx* D_80125E88[] = {
-    0x060249D8,
+Gfx* sSheathDLs[] = {
+    gLinkAdultSheathNearDL,
     gLinkChildSheathNearDL,
-    0x06028150,
+    gLinkAdultSheathFarDL,
     gLinkChildSheathFarDL,
 };
 
-Gfx* D_80125E98[] = {
-    0x06035330,
+Gfx* sWaistDLs[] = {
+    gLinkAdultWaistNearDL,
     gLinkChildWaistNearDL,
-    0x0602F530,
+    gLinkAdultWaistFarDL,
     gLinkChildWaistFarDL,
 };
 
@@ -244,7 +244,7 @@ Gfx* D_80125F38[] = {
 Gfx** sPlayerDListGroups[] = {
     D_80125E08, D_80125E18, D_80125E38, D_80125E28, D_80125DE8, D_80125EE8, D_80125EF8,
     D_80125F08, D_80125E48, D_80125E58, D_80125CE8, D_80125E68, D_80125EA8, D_80125EB8,
-    D_80125EC8, D_80125ED8, D_80125E78, D_80125E88, D_80125D28, D_80125D88, D_80125E98,
+    D_80125EC8, D_80125ED8, sSwordAndSheathDLs, sSheathDLs, D_80125D28, D_80125D88, sWaistDLs,
 };
 
 Gfx gCullBackDList[] = {
@@ -1148,7 +1148,7 @@ f32 sSwordLengths[] = {
     0.0f, 4000.0f, 3000.0f, 5500.0f, 0.0f, 2500.0f,
 };
 
-Gfx* sBottleDLists[] = { 0x0602AD58, gLinkChildBottleDL };
+Gfx* sBottleDLists[] = { gLinkAdultBottleDL, gLinkChildBottleDL };
 
 Color_RGB8 sBottleColors[] = {
     { 255, 255, 255 }, { 80, 80, 255 },   { 255, 100, 255 }, { 0, 0, 255 }, { 255, 0, 255 },
@@ -1160,7 +1160,7 @@ Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
 
 BowStringData sBowStringData[] = {
     { 0x0602B108, { 0.0f, -360.4f, 0.0f } },  // bow
-    { 0x060221A8, { 606.0f, 236.0f, 0.0f } }, // slingshot
+    { gLinkChildSlinghotStringDL, { 606.0f, 236.0f, 0.0f } }, // slingshot
 };
 
 Vec3f D_80126154[] = {
