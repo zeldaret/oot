@@ -205,7 +205,7 @@ void EnDaikuKakariko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, GlobalContext* globalCtx) {
     s32 talkState = 2;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         switch (this->actor.textId) {
             case 0x6061:
                 gSaveContext.infTable[23] |= 0x40;
@@ -226,10 +226,10 @@ void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, GlobalContext* globalC
 
     if (this->talkState == 2) {
         this->talkState = EnDaikuKakariko_GetTalkState(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->talkState = 2;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);
 
         if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
             (func_8002F2CC(&this->actor, globalCtx, 100.0f) == 1)) {

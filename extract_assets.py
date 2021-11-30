@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
-import argparse
+import argparse, json, os, signal, time
 from multiprocessing import Pool, cpu_count, Event, Manager, ProcessError
-import os
-import json
-import time
-import signal
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
 
@@ -101,6 +97,18 @@ def main():
             del extractedAssetsTracker[fullPath]
         ExtractFunc(fullPath)
     else:
+        extract_text_path = "assets/text/message_data.h"
+        if os.path.isfile(extract_text_path):
+            extract_text_path = None
+        extract_staff_text_path = "assets/text/message_data_staff.h"
+        if os.path.isfile(extract_staff_text_path):
+            extract_staff_text_path = None
+        # Only extract text if the header does not already exist, or if --force was passed
+        if args.force or extract_text_path is not None or extract_staff_text_path is not None:
+            print("Extracting text")
+            from tools import msgdis
+            msgdis.extract_all_text(extract_text_path, extract_staff_text_path)
+
         xmlFiles = []
         for currentPath, _, files in os.walk(os.path.join("assets", "xml")):
             for file in files:

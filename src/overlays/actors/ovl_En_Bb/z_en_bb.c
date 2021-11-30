@@ -953,7 +953,7 @@ void EnBb_InitGreen(EnBb* this, GlobalContext* globalCtx) {
         EnBb_FaceWaypoint(this);
     }
     Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
     Matrix_RotateZ(this->bobPhase, MTXMODE_APPLY);
     bobOffset.y = this->bobSize;
     Matrix_MultVec3f(&bobOffset, &this->actor.world.pos);
@@ -1030,7 +1030,7 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
         this->bobSpeedMod = Rand_ZeroOne() * 0.05f;
     }
     Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
     Matrix_RotateZ(this->bobPhase, MTXMODE_APPLY);
     bobOffset.y = this->bobSize;
     Matrix_MultVec3f(&bobOffset, &nextPos);

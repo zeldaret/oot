@@ -100,9 +100,10 @@ static struct_80034EC0_Entry sAnimations[] = {
 };
 
 s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
-    s16 textState = func_8010BDBC(&globalCtx->msgCtx);
+    s16 textState = Message_GetState(&globalCtx->msgCtx);
 
-    if (this->unk_209 == 10 || this->unk_209 == 5 || this->unk_209 == 2 || this->unk_209 == 1) {
+    if (this->unk_209 == TEXT_STATE_AWAITING_NEXT || this->unk_209 == TEXT_STATE_EVENT ||
+        this->unk_209 == TEXT_STATE_CLOSING || this->unk_209 == TEXT_STATE_DONE_HAS_NEXT) {
         if (textState != this->unk_209) {
             this->unk_208++;
         }
@@ -123,7 +124,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         this->unk_208 = 0;
-        this->unk_209 = 0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 0x20) {
             return 0x1048;
         } else {
@@ -132,7 +133,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (gSaveContext.eventChkInf[0] & 4) {
         this->unk_208 = 0;
-        this->unk_209 = 0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 8) {
             return 0x1032;
         } else {
@@ -141,7 +142,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (gSaveContext.infTable[0] & 1) {
         this->unk_208 = 0;
-        this->unk_209 = 0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 2) {
             return 0x1003;
         } else {
@@ -156,7 +157,7 @@ s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
     EnSa* this = THIS;
 
     switch (func_80AF5560(this, globalCtx)) {
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1002:
                     gSaveContext.infTable[0] |= 2;
@@ -176,14 +177,14 @@ s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 5:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
     return ret;

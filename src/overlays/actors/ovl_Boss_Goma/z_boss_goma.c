@@ -2002,7 +2002,7 @@ s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
                     gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
                 }
 
-                Matrix_JointPosition(pos, rot);
+                Matrix_TranslateRotateZYX(pos, rot);
 
                 if (*dList != NULL) {
                     Matrix_Push();
@@ -2021,7 +2021,7 @@ s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         case BOSSGOMA_LIMB_TAIL3:
         case BOSSGOMA_LIMB_TAIL2:
         case BOSSGOMA_LIMB_TAIL1:
-            Matrix_JointPosition(pos, rot);
+            Matrix_TranslateRotateZYX(pos, rot);
 
             if (*dList != NULL) {
                 Matrix_Push();

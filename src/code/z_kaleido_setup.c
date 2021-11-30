@@ -111,7 +111,7 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
     pauseCtx->nameDisplayTimer = 0;
     pauseCtx->nameColorSet = 0;
     pauseCtx->cursorColorSet = 4;
-    pauseCtx->unk_264 = -1;
+    pauseCtx->ocarinaSongIdx = -1;
     pauseCtx->cursorSpecialPos = 0;
 
     View_Init(&pauseCtx->view, globalCtx->state.gfxCtx);

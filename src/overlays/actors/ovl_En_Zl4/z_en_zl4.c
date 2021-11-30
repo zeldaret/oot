@@ -229,7 +229,7 @@ u16 EnZl4_GetText(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80B5B9B0(GlobalContext* globalCtx, Actor* thisx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         return false;
     }
     return true;
@@ -425,7 +425,7 @@ s32 EnZl4_CsWaitForPlayer(EnZl4* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 absYawDiff;
 
-    if (!func_8002F194(&this->actor, globalCtx)) {
+    if (!Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         yawDiff = (f32)this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
         if ((playerx->world.pos.y != this->actor.world.pos.y) || (absYawDiff >= 0x3FFC)) {
@@ -453,24 +453,24 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, GlobalContext* globalCtx) {
             if (!EnZl4_SetNextAnim(this, ZL4_ANIM_4)) {
                 break;
             } else {
-                func_8010B680(globalCtx, 0x702E, NULL);
+                Message_StartTextbox(globalCtx, 0x702E, NULL);
                 this->talkState++;
             }
             break;
         case 1:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 1);
-                func_8010B680(globalCtx, 0x702F, NULL);
+                Message_StartTextbox(globalCtx, 0x702F, NULL);
                 this->talkTimer2 = 0;
                 this->talkState++;
             }
             break;
         case 2:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardMeetCs);
                 gSaveContext.cutsceneTrigger = 1;
                 EnZl4_SetCsCameraMove(globalCtx, 0);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkTimer2 = 0;
                 this->talkState++;
             }
@@ -478,14 +478,14 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, GlobalContext* globalCtx) {
         case 3:
             this->talkTimer2++;
             if (this->talkTimer2 >= 45) {
-                func_8010B680(globalCtx, 0x70F9, NULL);
+                Message_StartTextbox(globalCtx, 0x70F9, NULL);
                 this->talkState++;
             }
             break;
         case 4:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraMove(globalCtx, 1);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkTimer2 = 0;
                 this->talkState++;
             }
@@ -493,18 +493,18 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, GlobalContext* globalCtx) {
         case 5:
             this->talkTimer2++;
             if (this->talkTimer2 >= 10) {
-                func_8010B680(globalCtx, 0x70FA, NULL);
+                Message_StartTextbox(globalCtx, 0x70FA, NULL);
                 this->talkState++;
             }
             break;
         case 6:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 2);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_22);
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
                 this->talkTimer2 = 0;
                 this->talkState++;
-                func_8010B680(globalCtx, 0x70FB, NULL);
+                Message_StartTextbox(globalCtx, 0x70FB, NULL);
             }
             break;
     }
@@ -518,21 +518,21 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 1:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 3);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkTimer1 = 40;
                 this->talkState = 2;
             }
             break;
         case 2:
             if (DECR(this->talkTimer1) == 0) {
-                func_8010B680(globalCtx, 0x7030, NULL);
+                Message_StartTextbox(globalCtx, 0x7030, NULL);
                 this->talkState++;
             }
             break;
         case 3:
-            if (!((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx))) {
+            if (!((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx))) {
                 break;
             } else if (globalCtx->msgCtx.choiceIndex == 0) {
                 EnZl4_SetCsCameraAngle(globalCtx, 4);
@@ -540,13 +540,13 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
-                func_8010B680(globalCtx, 0x7032, NULL);
+                Message_StartTextbox(globalCtx, 0x7032, NULL);
                 this->talkState = 7;
             } else {
                 EnZl4_SetCsCameraAngle(globalCtx, 2);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_9);
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
-                func_8010B680(globalCtx, 0x7031, NULL);
+                Message_StartTextbox(globalCtx, 0x7031, NULL);
                 this->talkState++;
             }
             break;
@@ -558,8 +558,8 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 5:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-                globalCtx->msgCtx.msgMode = 0x37;
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_9);
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
                 EnZl4_ReverseAnimation(this);
@@ -569,7 +569,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
         case 6:
             this->mouthExpression = ZL4_MOUTH_NEUTRAL;
             EnZl4_SetCsCameraAngle(globalCtx, 3);
-            func_8010B680(globalCtx, 0x7030, NULL);
+            Message_StartTextbox(globalCtx, 0x7030, NULL);
             this->talkState = 12;
             break;
         case 12:
@@ -577,7 +577,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState = 13;
             }
         case 13:
-            if (!((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx))) {
+            if (!((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx))) {
                 break;
             } else if (globalCtx->msgCtx.choiceIndex == 0) {
                 EnZl4_SetCsCameraAngle(globalCtx, 4);
@@ -585,13 +585,13 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
-                func_8010B680(globalCtx, 0x7032, NULL);
+                Message_StartTextbox(globalCtx, 0x7032, NULL);
                 this->talkState = 7;
             } else {
                 EnZl4_SetCsCameraAngle(globalCtx, 2);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_9);
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
-                func_8010B680(globalCtx, 0x7031, NULL);
+                Message_StartTextbox(globalCtx, 0x7031, NULL);
                 this->talkState = 4;
             }
             break;
@@ -603,29 +603,29 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 8:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraMove(globalCtx, 2);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
-                func_8010B680(globalCtx, 0x70FC, NULL);
+                Message_StartTextbox(globalCtx, 0x70FC, NULL);
                 this->talkState = 9;
             }
             break;
         case 9:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 5);
-                func_8010B680(globalCtx, 0x70FD, NULL);
+                Message_StartTextbox(globalCtx, 0x70FD, NULL);
                 this->talkState++;
             }
             break;
         case 10:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_5);
                 this->eyeExpression = ZL4_EYES_OPEN;
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
-                func_8010B680(globalCtx, 0x70FE, NULL);
+                Message_StartTextbox(globalCtx, 0x70FE, NULL);
                 this->talkState++;
             }
             break;
@@ -641,14 +641,14 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 6);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_1);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
-                globalCtx->msgCtx.msgMode = 0x37;
-                func_8010B680(globalCtx, 0x70FF, NULL);
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
+                Message_StartTextbox(globalCtx, 0x70FF, NULL);
                 this->talkState++;
             }
             break;
@@ -657,25 +657,25 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 3:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_16);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState = 4;
             }
             break;
         case 4:
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_17)) {
-                func_8010B680(globalCtx, 0x2073, NULL);
+                Message_StartTextbox(globalCtx, 0x2073, NULL);
                 this->talkState++;
             }
             break;
         case 5:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraMove(globalCtx, 3);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkTimer2 = 0;
                 this->talkState = 6;
             }
@@ -683,15 +683,15 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
         case 6:
             this->talkTimer2++;
             if (this->talkTimer2 >= 15) {
-                func_8010B680(globalCtx, 0x2074, NULL);
+                Message_StartTextbox(globalCtx, 0x2074, NULL);
                 this->talkState++;
             }
             break;
         case 7:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_6);
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
-                func_8010B680(globalCtx, 0x2075, NULL);
+                Message_StartTextbox(globalCtx, 0x2075, NULL);
                 this->talkState++;
             }
             break;
@@ -700,23 +700,23 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 9:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-                func_8010B680(globalCtx, 0x7033, NULL);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_StartTextbox(globalCtx, 0x7033, NULL);
                 this->talkState = 10;
             }
             break;
         case 10:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     EnZl4_SetCsCameraMove(globalCtx, 4);
                     func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_33);
                     this->mouthExpression = ZL4_MOUTH_NEUTRAL;
-                    globalCtx->msgCtx.msgMode = 0x37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     this->talkTimer2 = 0;
                     this->talkState = 15;
                 } else {
                     EnZl4_SetCsCameraAngle(globalCtx, 6);
-                    globalCtx->msgCtx.msgMode = 0x37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     this->talkTimer1 = 20;
                     this->talkState++;
                     this->skelAnime.playSpeed = 0.0f;
@@ -729,7 +729,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_LOOK_RIGHT;
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
-                func_8010B680(globalCtx, 0x7034, NULL);
+                Message_StartTextbox(globalCtx, 0x7034, NULL);
                 this->talkState++;
             }
             break;
@@ -741,37 +741,37 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 13:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_6);
                 this->blinkTimer = 3;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState = 14;
             }
             break;
         case 14:
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_25)) {
-                func_8010B680(globalCtx, 0x7033, NULL);
+                Message_StartTextbox(globalCtx, 0x7033, NULL);
                 this->talkState = 10;
             }
             break;
         case 15:
             this->talkTimer2++;
             if (this->talkTimer2 >= 30) {
-                func_8010B680(globalCtx, 0x7035, NULL);
+                Message_StartTextbox(globalCtx, 0x7035, NULL);
                 this->talkState++;
             }
             break;
         case 16:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-                globalCtx->msgCtx.msgMode = 0x37;
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState++;
             }
         case 17:
             this->talkTimer2++;
             if (this->talkTimer2 == 130) {
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 globalCtx->nextEntranceIndex = 0xA0;
                 gSaveContext.nextCutsceneIndex = 0xFFF7;
                 globalCtx->sceneLoadFlag = 0x14;
@@ -792,41 +792,41 @@ s32 EnZl4_CsTellLegend(EnZl4* this, GlobalContext* globalCtx) {
         case 0:
             this->talkTimer2++;
             if (this->talkTimer2 >= 60) {
-                func_8010B680(globalCtx, 0x7037, NULL);
+                Message_StartTextbox(globalCtx, 0x7037, NULL);
                 this->talkState++;
             }
             break;
         case 1:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 7);
-                func_8010B680(globalCtx, 0x2076, NULL);
+                Message_StartTextbox(globalCtx, 0x2076, NULL);
                 this->talkState++;
             }
             break;
         case 2:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraMove(globalCtx, 6);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState++;
             }
             break;
         case 3:
             if (activeCam->animState == 2) {
-                func_8010B680(globalCtx, 0x2077, NULL);
+                Message_StartTextbox(globalCtx, 0x2077, NULL);
                 this->talkState++;
             }
             break;
         case 4:
-            if (!((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx))) {
+            if (!((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx))) {
                 break;
             } else if (globalCtx->msgCtx.choiceIndex == 0) {
                 EnZl4_SetCsCameraAngle(globalCtx, 8);
-                func_8010B680(globalCtx, 0x7005, NULL);
+                Message_StartTextbox(globalCtx, 0x7005, NULL);
                 this->talkState = 9;
             } else {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_5);
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
-                func_8010B680(globalCtx, 0x7038, NULL);
+                Message_StartTextbox(globalCtx, 0x7038, NULL);
                 this->talkState++;
                 Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_HURRY);
             }
@@ -836,29 +836,29 @@ s32 EnZl4_CsTellLegend(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 6:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_33);
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
-                func_8010B680(globalCtx, 0x7037, NULL);
+                Message_StartTextbox(globalCtx, 0x7037, NULL);
                 this->talkState++;
             }
             break;
         case 7:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-                func_8010B680(globalCtx, 0x2076, NULL);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_StartTextbox(globalCtx, 0x2076, NULL);
                 this->talkState++;
             }
             break;
         case 8:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-                func_8010B680(globalCtx, 0x2077, NULL);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_StartTextbox(globalCtx, 0x2077, NULL);
                 this->talkState = 4;
             }
             break;
         case 9:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_26);
-                func_8010B680(globalCtx, 0x2078, NULL);
+                Message_StartTextbox(globalCtx, 0x2078, NULL);
                 this->talkState++;
             }
             break;
@@ -867,19 +867,19 @@ s32 EnZl4_CsTellLegend(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 11:
-            if (!((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx))) {
+            if (!((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx))) {
                 break;
             } else if (globalCtx->msgCtx.choiceIndex == 0) {
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState = 13;
             } else {
-                func_8010B680(globalCtx, 0x700B, NULL);
+                Message_StartTextbox(globalCtx, 0x700B, NULL);
                 this->talkState = 12;
             }
             break;
         case 12:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-                globalCtx->msgCtx.msgMode = 0x37;
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState = 13;
             }
             break;
@@ -917,13 +917,13 @@ s32 EnZl4_CsLookWindow(EnZl4* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, &this->actor, 1);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_30);
                 EnZl4_SetCsCameraAngle(globalCtx, 11);
-                func_8010B680(globalCtx, 0x7039, NULL);
+                Message_StartTextbox(globalCtx, 0x7039, NULL);
                 this->talkState++;
             }
             break;
         case 3:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-                globalCtx->msgCtx.msgMode = 0x37;
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState++;
             }
             break;
@@ -947,7 +947,7 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
             this->mouthExpression = ZL4_MOUTH_WORRIED;
             this->talkTimer2 = 0;
             this->talkState++;
-            func_8010B680(globalCtx, 0x2079, NULL);
+            Message_StartTextbox(globalCtx, 0x2079, NULL);
         case 1:
             this->talkTimer2++;
             if (this->talkTimer2 >= 20) {
@@ -955,9 +955,9 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
             }
             break;
         case 2:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraMove(globalCtx, 9);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkTimer2 = 0;
                 this->talkState++;
             }
@@ -965,49 +965,49 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
         case 3:
             this->talkTimer2++;
             if (this->talkTimer2 >= 20) {
-                func_8010B680(globalCtx, 0x207A, NULL);
+                Message_StartTextbox(globalCtx, 0x207A, NULL);
                 this->talkState++;
             }
             break;
         case 4:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 12);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_23);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState++;
             }
             break;
         case 5:
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_24)) {
-                func_8010B680(globalCtx, 0x207B, NULL);
+                Message_StartTextbox(globalCtx, 0x207B, NULL);
                 this->talkState++;
             }
             break;
         case 6:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-                func_8010B680(globalCtx, 0x703A, NULL);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_StartTextbox(globalCtx, 0x703A, NULL);
                 this->talkState++;
             }
             break;
         case 7:
-            if (!((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx))) {
+            if (!((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx))) {
                 break;
             } else if (globalCtx->msgCtx.choiceIndex == 0) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_31);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
-                func_8010B680(globalCtx, 0x703B, NULL);
+                Message_StartTextbox(globalCtx, 0x703B, NULL);
                 this->talkState = 11;
             } else {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_13);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_LOOK_LEFT;
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState++;
             }
             break;
@@ -1016,20 +1016,20 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
                 this->blinkTimer = 3;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
-                func_8010B680(globalCtx, 0x7073, NULL);
+                Message_StartTextbox(globalCtx, 0x7073, NULL);
                 this->talkState++;
             }
             break;
         case 9:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_14);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState++;
             }
             break;
         case 10:
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_24)) {
-                func_8010B680(globalCtx, 0x703A, NULL);
+                Message_StartTextbox(globalCtx, 0x703A, NULL);
                 this->talkState = 7;
             }
             break;
@@ -1038,8 +1038,8 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 12:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-                globalCtx->msgCtx.msgMode = 0x37;
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState = 13;
             }
             break;
@@ -1060,18 +1060,18 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
         case 1:
             this->talkTimer2++;
             if (this->talkTimer2 >= 10) {
-                func_8010B680(globalCtx, 0x7123, NULL);
+                Message_StartTextbox(globalCtx, 0x7123, NULL);
                 this->talkState++;
             }
             break;
         case 2:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 13);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_19);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
-                func_8010B680(globalCtx, 0x207C, NULL);
+                Message_StartTextbox(globalCtx, 0x207C, NULL);
                 this->talkState++;
             }
             break;
@@ -1080,8 +1080,8 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 4:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-                func_8010B680(globalCtx, 0x207D, NULL);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_StartTextbox(globalCtx, 0x207D, NULL);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_7);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
@@ -1095,7 +1095,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             }
         case 6:
-            if (!((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx))) {
+            if (!((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx))) {
                 break;
             } else {
                 Camera_ChangeSetting(GET_ACTIVE_CAM(globalCtx), 1);
@@ -1103,8 +1103,8 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
                               fabsf(this->actor.yDistToPlayer) + 1.0f);
-                globalCtx->msgCtx.unk_E3E7 = 4;
-                globalCtx->msgCtx.msgMode = 0x36;
+                globalCtx->msgCtx.stateTimer = 4;
+                globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
             }
             break;
         case 7:
@@ -1135,7 +1135,7 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
             this->blinkTimer = 0;
             this->eyeExpression = ZL4_EYES_NEUTRAL;
             this->mouthExpression = ZL4_MOUTH_SURPRISED;
-            func_800F5C64(NA_BGM_APPEAR);
+            Audio_PlayFanfare(NA_BGM_APPEAR);
             EnZl4_SetCsCameraAngle(globalCtx, 0);
             Interface_ChangeAlpha(2);
             ShrinkWindow_SetVal(0x20);

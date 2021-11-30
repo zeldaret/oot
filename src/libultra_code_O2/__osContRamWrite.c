@@ -27,11 +27,11 @@ s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 
 
             gPifMempakBuf.status = 1;
 
-            ((__OSContRamHeader*)ptr)->unk_00 = 0xff;
+            ((__OSContRamHeader*)ptr)->unk_00 = 0xFF;
             ((__OSContRamHeader*)ptr)->txsize = 35;
             ((__OSContRamHeader*)ptr)->rxsize = 1;
             ((__OSContRamHeader*)ptr)->poll = CONT_CMD_WRITE_MEMPACK;
-            ((__OSContRamHeader*)ptr)->datacrc = 0xff;
+            ((__OSContRamHeader*)ptr)->datacrc = 0xFF;
 
             ptr[sizeof(__OSContRamHeader)] = CONT_CMD_END;
         } else {

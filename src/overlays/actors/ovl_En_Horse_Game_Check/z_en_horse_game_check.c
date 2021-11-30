@@ -360,7 +360,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
 
                     if ((this->fenceCheck[i - 1] == 0) && !(this->raceFlags & MALONRACE_BROKE_RULE)) {
                         this->raceFlags |= MALONRACE_BROKE_RULE;
-                        func_8010B680(globalCtx, 0x208C, NULL);
+                        Message_StartTextbox(globalCtx, 0x208C, NULL);
                         this->result = 4;
                         this->finishTimer = 30;
                     }
@@ -371,7 +371,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
             AT_FINISH_LINE(player2->rideActor)) {
             if ((this->lapCount == 1) && (this->fenceCheck[15] == 0) && (player2->rideActor->prevPos.x < -200.0f)) {
                 this->raceFlags |= MALONRACE_BROKE_RULE;
-                func_8010B680(globalCtx, 0x208C, NULL);
+                Message_StartTextbox(globalCtx, 0x208C, NULL);
                 this->result = MALONRACE_FAILURE;
                 this->finishTimer = 30;
             } else if (this->fenceCheck[15] == 1) {
@@ -384,15 +384,15 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
             } else if ((this->fenceCheck[7] == 1) && !(this->raceFlags & MALONRACE_SECOND_LAP)) {
                 this->lapCount = 1;
                 this->raceFlags |= MALONRACE_SECOND_LAP;
-                func_8010B680(globalCtx, 0x208D, NULL);
+                Message_StartTextbox(globalCtx, 0x208D, NULL);
             } else if (this->fenceCheck[7] == 0) {
                 this->raceFlags |= MALONRACE_BROKE_RULE;
-                func_8010B680(globalCtx, 0x208C, NULL);
+                Message_StartTextbox(globalCtx, 0x208C, NULL);
                 this->result = MALONRACE_FAILURE;
                 this->finishTimer = 30;
             } else if (player2->rideActor->prevPos.x > 80.0f) {
                 this->raceFlags |= MALONRACE_BROKE_RULE;
-                func_8010B680(globalCtx, 0x208C, NULL);
+                Message_StartTextbox(globalCtx, 0x208C, NULL);
                 this->result = MALONRACE_FAILURE;
                 this->finishTimer = 30;
             }

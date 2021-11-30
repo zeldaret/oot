@@ -1023,7 +1023,7 @@ void EnItem00_DrawRupee(EnItem00* this, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[texIndex]));
 
-    gSPDisplayList(POLY_OPA_DISP++, &gRupeeDL);
+    gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1568);
 }
@@ -1067,13 +1067,13 @@ void EnItem00_DrawHeartContainer(EnItem00* this, GlobalContext* globalCtx) {
     func_8002EBCC(&this->actor, globalCtx, 0);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1634),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, &gHeartPieceExteriorDL);
+    gSPDisplayList(POLY_OPA_DISP++, gHeartPieceExteriorDL);
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1644),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &gHeartContainerInteriorDL);
+    gSPDisplayList(POLY_XLU_DISP++, gHeartContainerInteriorDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1647);
 }
@@ -1090,7 +1090,7 @@ void EnItem00_DrawHeartPiece(EnItem00* this, GlobalContext* globalCtx) {
     func_8002ED80(&this->actor, globalCtx, 0);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1670),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &gHeartPieceInteriorDL);
+    gSPDisplayList(POLY_XLU_DISP++, gHeartPieceInteriorDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1673);
 }

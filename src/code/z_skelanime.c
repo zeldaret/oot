@@ -39,7 +39,7 @@ void SkelAnime_DrawLimbLod(GlobalContext* globalCtx, s32 limbIndex, void** skele
     dList = limb->dLists[lod];
 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, limbIndex, &dList, &pos, &rot, arg)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 805), G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, dList);
@@ -97,7 +97,7 @@ void SkelAnime_DrawLod(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
     dList = rootLimb->dLists[lod];
 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, 1, &dList, &pos, &rot, arg)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 881), G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, dList);
@@ -144,7 +144,7 @@ void SkelAnime_DrawFlexLimbLod(GlobalContext* globalCtx, s32 limbIndex, void** s
     newDList = limbDList = limb->dLists[lod];
 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, limbIndex, &newDList, &pos, &rot, arg)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             Matrix_ToMtx(*mtx, "../z_skelanime.c", 945);
             {
@@ -212,7 +212,7 @@ void SkelAnime_DrawFlexLod(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
     newDList = limbDList = rootLimb->dLists[lod];
 
     if ((overrideLimbDraw == 0) || !overrideLimbDraw(globalCtx, 1, &newDList, &pos, &rot, arg)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             Matrix_ToMtx(mtx, "../z_skelanime.c", 1033);
             gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_LOAD);
@@ -259,7 +259,7 @@ void SkelAnime_DrawLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** skele
     dList = limb->dList;
 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, limbIndex, &dList, &pos, &rot, arg)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 1103), G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, dList);
@@ -315,7 +315,7 @@ void SkelAnime_DrawOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
     dList = rootLimb->dList;
 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, 1, &dList, &pos, &rot, arg)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 1176), G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, dList);
@@ -362,7 +362,7 @@ void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** s
     newDList = limbDList = limb->dList;
 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, limbIndex, &newDList, &pos, &rot, arg)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             Matrix_ToMtx(*limbMatricies, "../z_skelanime.c", 1242);
             gSPMatrix(POLY_OPA_DISP++, *limbMatricies, G_MTX_LOAD);
@@ -431,7 +431,7 @@ void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
     newDList = limbDList = rootLimb->dList;
 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, 1, &newDList, &pos, &rot, arg)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             Matrix_ToMtx(mtx, "../z_skelanime.c", 1327);
             gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_LOAD);
@@ -523,7 +523,7 @@ Gfx* SkelAnime_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, void** skeleton
     dList = limb->dList;
 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, limbIndex, &dList, &pos, &rot, arg, &gfx)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
             gSPMatrix(gfx++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 1489), G_MTX_LOAD);
             gSPDisplayList(gfx++, dList);
@@ -581,7 +581,7 @@ Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable
     dList = rootLimb->dList;
 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, 1, &dList, &pos, &rot, arg, &gfx)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
             gSPMatrix(gfx++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 1558), G_MTX_LOAD);
             gSPDisplayList(gfx++, dList);
@@ -626,7 +626,7 @@ Gfx* SkelAnime_DrawFlexLimb(GlobalContext* globalCtx, s32 limbIndex, void** skel
 
     newDList = limbDList = limb->dList;
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, limbIndex, &newDList, &pos, &rot, arg, &gfx)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             Matrix_ToMtx(*mtx, "../z_skelanime.c", 1623);
             gSPMatrix(gfx++, *mtx, G_MTX_LOAD);
@@ -691,7 +691,7 @@ Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointT
     newDList = limbDList = rootLimb->dList;
 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, 1, &newDList, &pos, &rot, arg, &gfx)) {
-        Matrix_JointPosition(&pos, &rot);
+        Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             Matrix_ToMtx(mtx, "../z_skelanime.c", 1710);
             gSPMatrix(gfx++, mtx, G_MTX_LOAD);

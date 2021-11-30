@@ -170,7 +170,7 @@ s32 func_809B55EC(EnAttackNiw* this, GlobalContext* globalCtx) {
     s16 sp1C;
 
     Actor_SetFocus(&this->actor, this->unk_2E4);
-    func_8002F374(globalCtx, &this->actor, &sp1E, &sp1C);
+    Actor_GetScreenPos(globalCtx, &this->actor, &sp1E, &sp1C);
     if ((this->actor.projectedPos.z < -20.0f) || (sp1E < 0) || (sp1E > SCREEN_WIDTH) || (sp1C < 0) ||
         (sp1C > SCREEN_HEIGHT)) {
         return 0;
@@ -205,7 +205,7 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->unk_2DC, 5000.0f, 1.0f, 100.0f);
 
     Actor_SetFocus(&this->actor, this->unk_2E4);
-    func_8002F374(globalCtx, &this->actor, &sp4E, &sp4C);
+    Actor_GetScreenPos(globalCtx, &this->actor, &sp4E, &sp4C);
 
     if (this->actor.bgCheckFlags & 8) {
         this->unk_2D4 = this->actor.yawTowardsPlayer;

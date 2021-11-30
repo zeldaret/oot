@@ -1059,7 +1059,7 @@ s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
         goto block_1;
     }
 block_1:
-    Matrix_JointPosition(pos, rot);
+    Matrix_TranslateRotateZYX(pos, rot);
 
     if (*dList != NULL) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3787);

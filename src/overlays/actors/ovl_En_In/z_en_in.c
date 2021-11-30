@@ -75,27 +75,27 @@ static AnimationHeader* D_80A7B918[] = {
     &object_in_Anim_01646C, &object_in_Anim_0175D0, &object_in_Anim_017B58, &object_in_Anim_018C38,
 };
 
-static Gfx* sAlternateOutfitDLs[] = {
+static Gfx* sAdultEraDLs[] = {
     NULL,
     NULL,
-    object_in_DL_013688,
-    object_in_DL_0137C0,
-    object_in_DL_013910,
-    object_in_DL_0132B8,
-    object_in_DL_0133F0,
-    object_in_DL_013540,
-    object_in_DL_013100,
-    object_in_DL_011758,
-    object_in_DL_012AC0,
-    object_in_DL_012BF0,
-    object_in_DL_012D20,
-    object_in_DL_012480,
-    object_in_DL_0125B0,
-    object_in_DL_0126E0,
-    object_in_DL_011AD8,
-    object_in_DL_012350,
-    object_in_DL_012220,
-    object_in_DL_012120,
+    gIngoAdultEraLeftThighDL,
+    gIngoAdultEraLeftLegDL,
+    gIngoAdultEraLeftFootDL,
+    gIngoAdultEraRightThighDL,
+    gIngoAdultEraRightLegDL,
+    gIngoAdultEraRightFootDL,
+    gIngoAdultEraTorsoDL,
+    gIngoAdultEraChestDL,
+    gIngoAdultEraLeftShoulderDL,
+    gIngoAdultEraLeftArmDL,
+    gIngoAdultEraLeftHandDL,
+    gIngoAdultEraRightShoulderDL,
+    gIngoAdultEraRightArmDL,
+    gIngoAdultEraRightHandDL,
+    gIngoAdultEraHeadDL,
+    gIngoAdultEraLeftEyebrowDL,
+    gIngoAdultEraRightEyebrowDL,
+    gIngoAdultEraMustacheDL,
 };
 
 u16 func_80A78FB0(GlobalContext* globalCtx) {
@@ -180,20 +180,21 @@ u16 func_80A79168(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80A791CC(GlobalContext* globalCtx, Actor* thisx) {
-    s32 temp_var = 0;
+    s32 ret = 0;
+
     switch (thisx->textId) {
         case 0x2045:
             gSaveContext.infTable[9] |= 0x80;
             break;
         case 0x203E:
-            temp_var = 2;
+            ret = 2;
             break;
         case 0x203F:
             gSaveContext.eventChkInf[1] |= 2;
             gSaveContext.infTable[9] |= 0x10;
             break;
     }
-    return temp_var;
+    return ret;
 }
 
 s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
@@ -210,7 +211,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
             } else {
                 this->actor.textId = 0x2034;
             }
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             gSaveContext.infTable[9] |= 0x400;
             break;
         case 0x2034:
@@ -220,7 +221,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
             } else {
                 this->actor.textId = 0x2035;
             }
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             break;
         case 0x2036:
         case 0x2037:
@@ -228,7 +229,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
                 sp18 = 2;
             } else {
                 this->actor.textId = 0x201F;
-                func_8010B720(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
             }
             break;
         case 0x2038:
@@ -236,7 +237,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
                 sp18 = 2;
             } else {
                 this->actor.textId = 0x2039;
-                func_8010B720(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
                 gSaveContext.infTable[10] |= 4;
             }
             break;
@@ -244,7 +245,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
             if (globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
                 sp18 = 2;
             } else {
-                func_8010B720(globalCtx, this->actor.textId = 0x2039);
+                Message_ContinueTextbox(globalCtx, this->actor.textId = 0x2039);
                 gSaveContext.eventInf[0] &= ~0xF;
                 gSaveContext.eventInf[0] &= ~0x20;
                 gSaveContext.eventInf[0] &= ~0x40;
@@ -259,10 +260,11 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 func_80A7949C(GlobalContext* globalCtx, Actor* thisx) {
     s32 phi_v1 = 1;
+
     if (thisx->textId == 0x2035) {
         Rupees_ChangeBy(-10);
         thisx->textId = 0x205C;
-        func_8010B720(globalCtx, thisx->textId);
+        Message_ContinueTextbox(globalCtx, thisx->textId);
     } else {
         phi_v1 = 2;
     }
@@ -272,30 +274,30 @@ s16 func_80A7949C(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80A79500(GlobalContext* globalCtx, Actor* thisx) {
     s16 sp1E = 1;
 
-    osSyncPrintf("message_check->(%d[%x])\n", func_8010BDBC(&globalCtx->msgCtx), thisx->textId);
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
+    osSyncPrintf("message_check->(%d[%x])\n", Message_GetState(&globalCtx->msgCtx), thisx->textId);
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
             break;
-        case 2:
+        case TEXT_STATE_CLOSING:
             sp1E = func_80A791CC(globalCtx, thisx);
             break;
-        case 3:
+        case TEXT_STATE_DONE_FADING:
             break;
-        case 4:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 sp1E = func_80A7924C(globalCtx, thisx);
             }
             break;
-        case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 sp1E = func_80A7949C(globalCtx, thisx);
             }
             break;
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
     return sp1E;
@@ -385,20 +387,13 @@ s32 func_80A79830(EnIn* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_80A79A2C(EnIn* this) {
-    s16 phi_v1;
-
-    if (this->unk_1EE != 3) {
-        if (this->unk_1EA == 0) {
-            phi_v1 = 0;
-        } else {
-            phi_v1 = --this->unk_1EA;
-        }
-        if (phi_v1 == 0) {
-            this->unk_1EE++;
-            if (this->unk_1EE >= 3) {
-                this->unk_1EA = Rand_S16Offset(30, 30);
-                this->unk_1EE = 0;
+void EnIn_UpdateEyes(EnIn* this) {
+    if (this->eyeIndex != 3) {
+        if (DECR(this->blinkTimer) == 0) {
+            this->eyeIndex++;
+            if (this->eyeIndex >= 3) {
+                this->blinkTimer = Rand_S16Offset(30, 30);
+                this->eyeIndex = 0;
             }
         }
     }
@@ -453,7 +448,7 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &sp3C);
     this->unk_308.unk_08 = zeroVec;
     this->unk_308.unk_0E = zeroVec;
-    func_8010B680(globalCtx, 0x2025, NULL);
+    Message_StartTextbox(globalCtx, 0x2025, NULL);
     this->unk_308.unk_00 = 1;
     player->actor.world.pos = this->actor.world.pos;
     player->actor.world.pos.x += 100.0f * Math_SinS(this->actor.shape.rot.y);
@@ -503,8 +498,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_in_Skel_013B88, NULL, this->jointTable,
-                           this->morphTable, 20);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gIngoSkel, NULL, this->jointTable, this->morphTable, 20);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -531,7 +525,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                 break;
             case 4:
                 func_80A796EC(this, 8);
-                this->unk_1EE = 3;
+                this->eyeIndex = 3;
                 this->actionFunc = func_80A7A4BC;
                 break;
             case 0:
@@ -637,8 +631,8 @@ void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         gSaveContext.infTable[10] &= ~4;
         func_800775F0(NA_BGM_HORSE);
-        globalCtx->msgCtx.unk_E3E7 = 0;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 0;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -659,8 +653,8 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
     } else if (this->unk_308.unk_00 == 2) {
         if (globalCtx->msgCtx.choiceIndex == 0) {
             if (gSaveContext.rupees < 50) {
-                globalCtx->msgCtx.unk_E3E7 = 4;
-                globalCtx->msgCtx.msgMode = 0x36;
+                globalCtx->msgCtx.stateTimer = 4;
+                globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 this->unk_308.unk_00 = 0;
                 return;
             }
@@ -682,9 +676,9 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
             phi_a3 = 0x20;
         }
         func_80A79BAC(this, globalCtx, phi_a2, phi_a3);
-        globalCtx->msgCtx.unk_E3E7 = 0;
+        globalCtx->msgCtx.stateTimer = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -701,8 +695,8 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
         this->unk_308.unk_00 = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x20;
         if (!(gSaveContext.eventInf[0] & 0x40)) {
-            globalCtx->msgCtx.unk_E3E7 = 4;
-            globalCtx->msgCtx.msgMode = 0x36;
+            globalCtx->msgCtx.stateTimer = 4;
+            globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
     }
 }
@@ -716,8 +710,8 @@ void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
             func_80A79BAC(this, globalCtx, 2, 0x26);
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-            globalCtx->msgCtx.unk_E3E7 = 0;
-            globalCtx->msgCtx.msgMode = 0x36;
+            globalCtx->msgCtx.stateTimer = 0;
+            globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
         this->unk_308.unk_00 = 0;
         gSaveContext.eventInf[0] &= ~0x20;
@@ -741,8 +735,8 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
         func_80A79BAC(this, globalCtx, 2, 0x26);
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0002;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-        globalCtx->msgCtx.unk_E3E7 = 0;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 0;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x40;
     }
@@ -778,7 +772,7 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
 
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &sp30, &sp24);
     this->actor.textId = 0x203B;
-    func_8010B680(globalCtx, this->actor.textId, NULL);
+    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     this->unk_308.unk_00 = 1;
     this->unk_1FC = 0;
     globalCtx->csCtx.frames = 0;
@@ -808,11 +802,11 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
         if (this->unk_308.unk_00 == 2) {
             if (this->actor.textId == 0x203B) {
                 this->actor.textId = 0x203C;
-                func_8010B680(globalCtx, this->actor.textId, NULL);
+                Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                 this->unk_308.unk_00 = 1;
                 func_80A796EC(this, 3);
             } else {
-                globalCtx->msgCtx.msgMode = 0x36;
+                globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 this->unk_308.unk_00 = 0;
             }
         }
@@ -866,8 +860,8 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
         globalCtx->fadeTransition = 5;
         this->actionFunc = func_80A7B018;
     } else if (this->unk_308.unk_00 == 2) {
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -891,8 +885,8 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
         func_80A79BAC(this, globalCtx, 0, 0x26);
         gSaveContext.eventInf[0] = gSaveContext.eventInf[0] & ~0xF;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -915,19 +909,19 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
-    func_80A79A2C(this);
+    EnIn_UpdateEyes(this);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, globalCtx);
         if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->unk_308.unk_00 == 0) {
-            if (func_8002F194(&this->actor, globalCtx)) {}
+            if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {}
         } else {
             func_800343CC(globalCtx, &this->actor, &this->unk_308.unk_00,
                           ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,
                           func_80A79500);
             if (this->unk_308.unk_00 != 0) {
                 this->unk_1FA = this->unk_1F8;
-                this->unk_1F8 = func_8010BDBC(&globalCtx->msgCtx);
+                this->unk_1F8 = Message_GetState(&globalCtx->msgCtx);
             }
         }
         func_80A795C8(this, globalCtx);
@@ -938,24 +932,24 @@ s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     EnIn* this = THIS;
     Vec3s sp2C;
 
-    if (this->actor.params > 0 && limbIndex != 16) {
-        if (sAlternateOutfitDLs[limbIndex] != NULL) {
-            *dList = sAlternateOutfitDLs[limbIndex];
+    if (this->actor.params > 0 && limbIndex != INGO_HEAD_LIMB) {
+        if (sAdultEraDLs[limbIndex] != NULL) {
+            *dList = sAdultEraDLs[limbIndex];
         }
     }
-    if (limbIndex == 16) {
+    if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp2C = this->unk_308.unk_08;
         Matrix_RotateZ(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limbIndex == 9) {
+    if (limbIndex == INGO_CHEST_LIMB) {
         sp2C = this->unk_308.unk_0E;
         Matrix_RotateX(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
     }
-    if (limbIndex == 9 || limbIndex == 10 || limbIndex == 13) {
+    if (limbIndex == INGO_CHEST_LIMB || limbIndex == INGO_LEFT_SHOULDER_LIMB || limbIndex == INGO_RIGHT_SHOULDER_LIMB) {
         rot->y += Math_SinS(this->unk_330[limbIndex].y) * 200.0f;
         rot->z += Math_CosS(this->unk_330[limbIndex].z) * 200.0f;
     }
@@ -967,29 +961,31 @@ void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f D_80A7B9A8 = { 1600.0, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2335);
-    if (limbIndex == 16) {
+
+    if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_MultVec3f(&D_80A7B9A8, &this->actor.focus.pos);
         this->actor.focus.rot = this->actor.world.rot;
     }
-    if (limbIndex == 12 && this->skelAnime.animation == &object_in_Anim_014CA8) {
-        gSPDisplayList(POLY_OPA_DISP++, object_in_DL_007A20);
+    if (limbIndex == INGO_LEFT_HAND_LIMB && this->skelAnime.animation == &object_in_Anim_014CA8) {
+        gSPDisplayList(POLY_OPA_DISP++, gIngoChildEraBasketDL);
     }
-    if (limbIndex == 15 && this->skelAnime.animation == &object_in_Anim_014CA8) {
-        gSPDisplayList(POLY_OPA_DISP++, object_in_DL_007BF8);
+    if (limbIndex == INGO_RIGHT_HAND_LIMB && this->skelAnime.animation == &object_in_Anim_014CA8) {
+        gSPDisplayList(POLY_OPA_DISP++, gIngoChildEraPitchForkDL);
     }
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2365);
 }
 
 void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* D_80A7B9B4[] = { object_in_Tex_003590, object_in_Tex_0047D0, object_in_Tex_004BD0,
-                                  object_in_Tex_004390 };
+    static void* eyeTextures[] = { gIngoEyeOpenTex, gIngoEyeHalfTex, gIngoEyeClosedTex, gIngoEyeClosed2Tex };
+
     EnIn* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2384);
     if (this->actionFunc != func_80A79FB0) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A7B9B4[this->unk_1EE]));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&object_in_Tex_0034D0));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gIngoHeadGradient2Tex));
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnIn_OverrideLimbDraw, EnIn_PostLimbDraw, &this->actor);
     }

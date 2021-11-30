@@ -853,7 +853,7 @@ void EnPeehat_SetStateExplode(EnPeehat* this) {
     this->state = PEAHAT_STATE_EXPLODE;
     this->animTimer = 5;
     this->unk2E0 = 0.0f;
-    EnPeehat_SetupAction(this, &EnPeehat_StateExplode);
+    EnPeehat_SetupAction(this, EnPeehat_StateExplode);
 }
 
 void EnPeehat_StateExplode(EnPeehat* this, GlobalContext* globalCtx) {

@@ -682,6 +682,6 @@ void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    gSPDisplayList(POLY_OPA_DISP++, &gPushBlockDL);
+    gSPDisplayList(POLY_OPA_DISP++, gPushBlockDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1334);
 }

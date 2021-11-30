@@ -1,70 +1,72 @@
 <Root>
     <File Name="object_ta" Segment="6">
-        <Animation Name="object_ta_Anim_0017E8" Offset="0x17E8"/>
-        <Animation Name="object_ta_Anim_001C94" Offset="0x1C94"/>
-        <DList Name="object_ta_DL_003F70" Offset="0x3F70"/>
-        <DList Name="object_ta_DL_004288" Offset="0x4288"/>
-        <DList Name="object_ta_DL_004918" Offset="0x4918"/>
-        <DList Name="object_ta_DL_004B40" Offset="0x4B40"/>
-        <DList Name="object_ta_DL_004DF0" Offset="0x4DF0"/>
-        <DList Name="object_ta_DL_005298" Offset="0x5298"/>
-        <DList Name="object_ta_DL_0054C0" Offset="0x54C0"/>
-        <DList Name="object_ta_DL_005770" Offset="0x5770"/>
-        <DList Name="object_ta_DL_005B98" Offset="0x5B98"/>
-        <DList Name="object_ta_DL_005FD8" Offset="0x5FD8"/>
-        <DList Name="object_ta_DL_006330" Offset="0x6330"/>
-        <DList Name="object_ta_DL_006770" Offset="0x6770"/>
-        <Texture Name="object_ta_TLUT_006AC0" OutName="tlut_00006AC0" Format="rgba16" Width="132" Height="1" Offset="0x6AC0"/><!--Blob Name="object_ta_Blob_006CC0" Size="0x100" Offset="0x6CC0" /-->
-        <Texture Name="object_ta_Tex_006DC0" OutName="tex_00006DC0" Format="ci8" Width="8" Height="8" Offset="0x6DC0"/>
-        <Texture Name="object_ta_Tex_006E00" OutName="tex_00006E00" Format="ci8" Width="8" Height="8" Offset="0x6E00"/>
-        <Texture Name="object_ta_Tex_006E40" OutName="tex_00006E40" Format="ci8" Width="8" Height="16" Offset="0x6E40"/>
-        <Texture Name="object_ta_Tex_006EC0" OutName="tex_00006EC0" Format="ci8" Width="32" Height="32" Offset="0x6EC0"/>
-        <Texture Name="object_ta_Tex_0072C0" OutName="tex_000072C0" Format="ci8" Width="32" Height="32" Offset="0x72C0"/>
-        <Texture Name="object_ta_Tex_0076C0" OutName="tex_000076C0" Format="ci8" Width="32" Height="32" Offset="0x76C0"/>
-        <Texture Name="object_ta_Tex_007AC0" OutName="tex_00007AC0" Format="ci8" Width="8" Height="8" Offset="0x7AC0"/>
-        <Texture Name="object_ta_Tex_007B00" OutName="tex_00007B00" Format="ci8" Width="16" Height="32" Offset="0x7B00"/>
-        <Texture Name="object_ta_Tex_007D00" OutName="tex_00007D00" Format="ci8" Width="16" Height="16" Offset="0x7D00"/>
-        <Texture Name="object_ta_Tex_007E00" OutName="tex_00007E00" Format="ci8" Width="16" Height="16" Offset="0x7E00"/>
-        <Texture Name="object_ta_Tex_007F00" OutName="tex_00007F00" Format="ci8" Width="8" Height="16" Offset="0x7F00"/>
-        <Texture Name="object_ta_Tex_007F80" OutName="tex_00007F80" Format="ci8" Width="32" Height="32" Offset="0x7F80"/>
-        <DList Name="object_ta_DL_0096D0" Offset="0x96D0"/>
-        <DList Name="object_ta_DL_00A2F8" Offset="0xA2F8"/>
-        <DList Name="object_ta_DL_00A498" Offset="0xA498"/>
-        <Texture Name="object_ta_TLUT_00A638" OutName="tlut_0000A638" Format="rgba16" Width="16" Height="16" Offset="0xA638"/>
-        <Blob Name="object_ta_Blob_00A838" Size="0x80" Offset="0xA838"/>
-        <Texture Name="object_ta_Tex_00A8B8" OutName="tex_0000A8B8" Format="ci8" Width="8" Height="8" Offset="0xA8B8"/>
-        <Texture Name="object_ta_Tex_00A8F8" OutName="tex_0000A8F8" Format="ci8" Width="16" Height="16" Offset="0xA8F8"/>
-        <Texture Name="object_ta_Tex_00A9F8" OutName="tex_0000A9F8" Format="ci8" Width="16" Height="32" Offset="0xA9F8"/>
-        <Texture Name="object_ta_Tex_00ABF8" OutName="tex_0000ABF8" Format="ci8" Width="8" Height="8" Offset="0xABF8"/>
-        <Texture Name="object_ta_Tex_00AC38" OutName="tex_0000AC38" Format="ci8" Width="8" Height="8" Offset="0xAC38"/>
-        <Texture Name="object_ta_Tex_00AC78" OutName="tex_0000AC78" Format="ci8" Width="8" Height="8" Offset="0xAC78"/>
-        <Texture Name="object_ta_Tex_00ACB8" OutName="tex_0000ACB8" Format="ci8" Width="16" Height="16" Offset="0xACB8"/>
-        <Texture Name="object_ta_Tex_00ADB8" OutName="tex_0000ADB8" Format="ci8" Width="16" Height="32" Offset="0xADB8"/>
-        <Texture Name="object_ta_Tex_00AFB8" OutName="tex_0000AFB8" Format="rgba16" Width="16" Height="32" Offset="0xAFB8"/>
-        <Texture Name="object_ta_Tex_00B3B8" OutName="tex_0000B3B8" Format="rgba16" Width="8" Height="16" Offset="0xB3B8"/>
+        <Skeleton Name="gTalonSkel" Type="Flex" LimbType="Standard" Offset="0xB7B8"/>
+        <Limb Name="gTalonRootLimb" LimbType="Standard" Offset="0xB6B8"/>
+        <Limb Name="gTalonLeftThighLimb" LimbType="Standard" Offset="0xB6C4"/>
+        <Limb Name="gTalonLeftLegLimb" LimbType="Standard" Offset="0xB6D0"/>
+        <Limb Name="gTalonLeftFootLimb" LimbType="Standard" Offset="0xB6DC"/>
+        <Limb Name="gTalonRightThighLimb" LimbType="Standard" Offset="0xB6E8"/>
+        <Limb Name="gTalonRightLegLimb" LimbType="Standard" Offset="0xB6F4"/>
+        <Limb Name="gTalonRightFootLimb" LimbType="Standard" Offset="0xB700"/>
+        <Limb Name="gTalonChestLimb" LimbType="Standard" Offset="0xB70C"/>
+        <Limb Name="gTalonLeftShoulderLimb" LimbType="Standard" Offset="0xB718"/>
+        <Limb Name="gTalonLeftArmLimb" LimbType="Standard" Offset="0xB724"/>
+        <Limb Name="gTalonLeftHandLimb" LimbType="Standard" Offset="0xB730"/>
+        <Limb Name="gTalonRightShoulderLimb" LimbType="Standard" Offset="0xB73C"/>
+        <Limb Name="gTalonRightArmLimb" LimbType="Standard" Offset="0xB748"/>
+        <Limb Name="gTalonRightHandLimb" LimbType="Standard" Offset="0xB754"/>
+        <Limb Name="gTalonHeadLimb" LimbType="Standard" Offset="0xB760"/>
+        <Limb Name="gTalonTorsoLimb" LimbType="Standard" Offset="0xB76C"/>
+        <Animation Name="gTalonSitSleepingAnim" Offset="0x17E8"/>
+        <Animation Name="gTalonStandAnim" Offset="0x1C94"/>
+        <Animation Name="gTalonSitHandsUpAnim" Offset="0xBF38"/>
+        <Animation Name="gTalonSitWakeUpAnim" Offset="0xC48C"/>
+        <Animation Name="gTalonRunAnim" Offset="0xC858"/>
+        <Animation Name="gTalonSleepAnim" Offset="0xCD50"/>
+        <Animation Name="gTalonRunTransitionAnim" Offset="0xCF28"/>
+        <Animation Name="gTalonWakeUpAnim" Offset="0xE3D8"/>
+        <DList Name="gTalonTorsoDL" Offset="0x3F70"/>
+        <DList Name="gTalonChestDL" Offset="0x4288"/>
+        <DList Name="gTalonRightShoulderDL" Offset="0x4918"/>
+        <DList Name="gTalonRightArmDL" Offset="0x4B40"/>
+        <DList Name="gTalonRightHandDL" Offset="0x4DF0"/>
+        <DList Name="gTalonLeftShoulderDL" Offset="0x5298"/>
+        <DList Name="gTalonLeftArmDL" Offset="0x54C0"/>
+        <DList Name="gTalonLeftHandDL" Offset="0x5770"/>
+        <DList Name="gTalonRightThighDL" Offset="0x5B98"/>
+        <DList Name="gTalonRightLegDL" Offset="0x5FD8"/>
+        <DList Name="gTalonLeftThighDL" Offset="0x6330"/>
+        <DList Name="gTalonLeftLegDL" Offset="0x6770"/>
+        <DList Name="gTalonHeadDL" Offset="0x96D0"/>
+        <DList Name="gTalonRightFootDL" Offset="0xA2F8"/>
+        <DList Name="gTalonLeftFootDL" Offset="0xA498"/>
+        <Texture Name="gTalon2TLUT" OutName="tlut_2" Format="rgba16" Width="132" Height="1" Offset="0x6AC0"/>
+        <Texture Name="gTalonEyeTLUT" OutName="eye_tlut" Format="rgba16" Width="63" Height="4" Offset="0x6BC8"/>
+        <Texture Name="gTalonHeadSkinTex" OutName="head_skin" Format="ci8" Width="8" Height="8" Offset="0x6DC0" TlutOffset="0x6AC0"/>
+        <Texture Name="gTalonEarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x6E00" TlutOffset="0x6AC0"/>
+        <Texture Name="gTalonFaceHairTex" OutName="face_hair" Format="ci8" Width="8" Height="16" Offset="0x6E40" TlutOffset="0x6AC0"/>
+        <Texture Name="gTalonRedTex" OutName="red" Format="ci8" Width="8" Height="8" TlutOffset="0x6AC0" Offset="0x7AC0"/>
+        <Texture Name="gTalonHeadHairTex" OutName="head_hair" Format="ci8" Width="16" Height="32" Offset="0x7B00" TlutOffset="0x6AC0"/> <!-- Not clear where this is used -->
+        <Texture Name="gTalonBootSideTex" OutName="boot_side" Format="ci8" Width="16" Height="16" Offset="0x7D00" TlutOffset="0x6AC0"/>
+        <Texture Name="gTalonBootTopTex" OutName="boot_top" Format="ci8" Width="16" Height="16" Offset="0x7E00" TlutOffset="0x6AC0"/>
+        <Texture Name="gTalonHeadHairTopTex" OutName="head_hair_top" Format="ci8" Width="8" Height="16" Offset="0x7F00" TlutOffset="0x6AC0"/>
+        <Texture Name="gTalonEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x7F80" TlutOffset="0x6BC8"/>
+        <Texture Name="gTalonEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x6EC0" TlutOffset="0x6BC8"/>
+        <Texture Name="gTalonEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x72C0" TlutOffset="0x6BC8"/>
+        <Texture Name="gTalonEyeClosed2Tex" OutName="eye_closed_2" Format="ci8" Width="32" Height="32" Offset="0x76C0" TlutOffset="0x6BC8"/>
+        <Texture Name="gTalonSkinAndClothesTLUT" OutName="skin_and_clothes_tlut" Format="rgba16" Width="16" Height="16" Offset="0xA638"/>
+        <Texture Name="gTalonGradient2Tex" OutName="gradient" Format="rgba16" Width="8" Height="8" Offset="0xA838"/>
+        <Texture Name="gTalonSkinTex" OutName="skin" Format="ci8" Width="8" Height="8" Offset="0xA8B8" TlutOffset="0xA638"/>
+        <Texture Name="gTalonFingersTex" OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0xA8F8" TlutOffset="0xA638"/>
+        <Texture Name="gTalonArmHairTex" OutName="arm_hair" Format="ci8" Width="16" Height="32" Offset="0xA9F8" TlutOffset="0xA638"/>
+        <Texture Name="gTalonSleeveTex" OutName="sleeve" Format="ci8" Width="8" Height="8" Offset="0xABF8" TlutOffset="0xA638"/>
+        <Texture Name="gTalonBlueTex" OutName="blue_square" Format="ci8" Width="8" Height="8" Offset="0xAC38" TlutOffset="0xA638"/>
+        <Texture Name="gTalonBluePatternTex" OutName="blue_pattern" Format="ci8" Width="8" Height="8" Offset="0xAC78" TlutOffset="0xA638"/>
+        <Texture Name="gTalonBrownBlueOutlineTex" OutName="brown_blue_outline" Format="ci8" Width="16" Height="16" Offset="0xACB8" TlutOffset="0xA638"/>
+        <Texture Name="gTalonNecklaceStringUpperTex" OutName="necklace_string_upper" Format="ci8" Width="16" Height="32" Offset="0xADB8" TlutOffset="0xA638"/>
+        <Texture Name="gTalonBowserTex" OutName="bowser" Format="rgba16" Width="16" Height="32" Offset="0xAFB8"/>
+        <Texture Name="gTalonNecklaceLowerStringsTex" OutName="necklace_string_lower" Format="rgba16" Width="8" Height="16" Offset="0xB3B8"/>
+
         <Blob Name="object_ta_Blob_00B4B8" Size="0x200" Offset="0xB4B8"/>
-        <Limb Name="object_ta_Limb_00B6B8" LimbType="Standard" Offset="0xB6B8"/>
-        <Limb Name="object_ta_Limb_00B6C4" LimbType="Standard" Offset="0xB6C4"/>
-        <Limb Name="object_ta_Limb_00B6D0" LimbType="Standard" Offset="0xB6D0"/>
-        <Limb Name="object_ta_Limb_00B6DC" LimbType="Standard" Offset="0xB6DC"/>
-        <Limb Name="object_ta_Limb_00B6E8" LimbType="Standard" Offset="0xB6E8"/>
-        <Limb Name="object_ta_Limb_00B6F4" LimbType="Standard" Offset="0xB6F4"/>
-        <Limb Name="object_ta_Limb_00B700" LimbType="Standard" Offset="0xB700"/>
-        <Limb Name="object_ta_Limb_00B70C" LimbType="Standard" Offset="0xB70C"/>
-        <Limb Name="object_ta_Limb_00B718" LimbType="Standard" Offset="0xB718"/>
-        <Limb Name="object_ta_Limb_00B724" LimbType="Standard" Offset="0xB724"/>
-        <Limb Name="object_ta_Limb_00B730" LimbType="Standard" Offset="0xB730"/>
-        <Limb Name="object_ta_Limb_00B73C" LimbType="Standard" Offset="0xB73C"/>
-        <Limb Name="object_ta_Limb_00B748" LimbType="Standard" Offset="0xB748"/>
-        <Limb Name="object_ta_Limb_00B754" LimbType="Standard" Offset="0xB754"/>
-        <Limb Name="object_ta_Limb_00B760" LimbType="Standard" Offset="0xB760"/>
-        <Limb Name="object_ta_Limb_00B76C" LimbType="Standard" Offset="0xB76C"/>
-        <Skeleton Name="object_ta_Skel_00B7B8" Type="Flex" LimbType="Standard" Offset="0xB7B8"/>
-        <Animation Name="object_ta_Anim_00BF38" Offset="0xBF38"/>
-        <Animation Name="object_ta_Anim_00C48C" Offset="0xC48C"/>
-        <Animation Name="object_ta_Anim_00C858" Offset="0xC858"/>
-        <Animation Name="object_ta_Anim_00CD50" Offset="0xCD50"/>
-        <Animation Name="object_ta_Anim_00CF28" Offset="0xCF28"/>
-        <Animation Name="object_ta_Anim_00E3D8" Offset="0xE3D8"/>
     </File>
 </Root>

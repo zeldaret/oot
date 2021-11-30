@@ -456,8 +456,8 @@ u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
     EnKo* this = THIS;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 2:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1005:
                     gSaveContext.infTable[1] |= 0x4000;
@@ -496,7 +496,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                     return 1;
             }
             return 0;
-        case 3:
+        case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x10B7:
                 case 0x10B8:
@@ -507,22 +507,22 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                     }
             }
             return 1;
-        case 4:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x1035:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x1036 : 0x1037;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
                         break;
                     case 0x1038:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex != 0)
                                                  ? (globalCtx->msgCtx.choiceIndex == 1) ? 0x103A : 0x103B
                                                  : 0x1039;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
                         break;
                     case 0x103E:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x103F : 0x1040;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
                         break;
                     case 0x10B7:
                         gSaveContext.infTable[11] |= 0x1000;
@@ -534,8 +534,8 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                 return 1;
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 return 3;
             }
     }
@@ -1138,8 +1138,8 @@ void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A99438;
     } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
         this->actionFunc = func_80A99504;
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     }
 }
 
@@ -1147,8 +1147,8 @@ void func_80A99438(EnKo* this, GlobalContext* globalCtx) {
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
         func_80034EC0(&this->skelAnime, sOsAnimeTable, 6);
         this->actionFunc = func_80A99504;
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else if (this->unk_1E8.unk_00 == 0 || this->actor.textId != 0x10B9) {
         func_80034EC0(&this->skelAnime, sOsAnimeTable, 6);
         this->actionFunc = func_80A99384;
@@ -1167,7 +1167,7 @@ void func_80A99504(EnKo* this, GlobalContext* globalCtx) {
 void func_80A99560(EnKo* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 == 3) {
         this->actor.textId = 0x10B9;
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E8.unk_00 = 1;
         gSaveContext.itemGetInf[3] |= 2;
         this->actionFunc = func_80A99384;

@@ -1028,8 +1028,17 @@ typedef struct {
 
 typedef struct {
     u8 noteIdx;
-    u8 state;
-    u8 pos;
+    u8 state;   // original name: "status"
+    u8 pos;     // original name: "locate"
 } OcarinaStaff;
+
+typedef enum {
+    /*  0 */ OCARINA_NOTE_A,
+    /*  1 */ OCARINA_NOTE_C_DOWN,
+    /*  2 */ OCARINA_NOTE_C_RIGHT,
+    /*  3 */ OCARINA_NOTE_C_LEFT,
+    /*  4 */ OCARINA_NOTE_C_UP,
+    /* -1 */ OCARINA_NOTE_INVALID = 0xFF
+} OcarinaNoteIdx;
 
 #endif

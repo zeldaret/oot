@@ -540,7 +540,7 @@ void ObjBean_SetupWaitForBean(ObjBean* this) {
 }
 
 void ObjBean_WaitForBean(ObjBean* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->dyna.actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->dyna.actor, globalCtx)) {
         if (func_8002F368(globalCtx) == EXCH_ITEM_BEAN) {
             func_80B8FE00(this);
             Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);

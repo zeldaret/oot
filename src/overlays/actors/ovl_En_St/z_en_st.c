@@ -949,7 +949,7 @@ void EnSt_FinishBouncing(EnSt* this, GlobalContext* globalCtx) {
     if (DECR(this->deathTimer) == 0) {
         this->actor.velocity = zeroVec;
         this->finishDeathTimer = 8;
-        EnSt_SetupAction(this, &EnSt_Die);
+        EnSt_SetupAction(this, EnSt_Die);
         return;
     }
 

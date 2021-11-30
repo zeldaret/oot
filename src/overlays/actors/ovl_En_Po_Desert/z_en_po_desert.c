@@ -140,7 +140,7 @@ void EnPoDesert_WaitForPlayer(EnPoDesert* this, GlobalContext* globalCtx) {
                 this->actor.shape.rot.y += 0x800;
                 return;
             }
-            func_8010B680(globalCtx, 0x600B, NULL);
+            Message_StartTextbox(globalCtx, 0x600B, NULL);
         }
         EnPoDesert_SetupMoveToNextPoint(this);
     } else {

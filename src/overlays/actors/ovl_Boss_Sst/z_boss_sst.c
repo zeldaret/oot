@@ -597,7 +597,7 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
                 } else if (revealStateTimer == 85) {
                     if (!(gSaveContext.eventChkInf[7] & 0x80)) {
                         TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
-                                               SEGMENTED_TO_VIRTUAL(&gBongoTitleCardTex), 160, 180, 128, 40);
+                                               SEGMENTED_TO_VIRTUAL(gBongoTitleCardTex), 160, 180, 128, 40);
                     }
                     Audio_QueueSeqCmd(NA_BGM_BOSS);
                     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadEyeCloseAnim, -5.0f);
@@ -3174,7 +3174,7 @@ void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
                                          effect->pos.z + this->actor.world.pos.z, MTXMODE_NEW);
                     }
 
-                    Matrix_RotateRPY(effect->rot.x, effect->rot.y, effect->rot.z, MTXMODE_APPLY);
+                    Matrix_RotateZYX(effect->rot.x, effect->rot.y, effect->rot.z, MTXMODE_APPLY);
                     Matrix_Scale(effect->scale * 0.001f, effect->scale * 0.001f, effect->scale * 0.001f, MTXMODE_APPLY);
 
                     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7350),

@@ -298,7 +298,7 @@ void DemoGj_DrawRotated(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList
     OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1187);
 
     Matrix_Push();
-    Matrix_RotateRPY(x, y, z, MTXMODE_APPLY);
+    Matrix_RotateZYX(x, y, z, MTXMODE_APPLY);
     Matrix_ToMtx(matrix, "../z_demo_gj.c", 1193);
     Matrix_Pop();
 

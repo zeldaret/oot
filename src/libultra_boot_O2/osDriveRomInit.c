@@ -5,7 +5,7 @@ OSPiHandle __DriveRomHandle;
 OSPiHandle* osDriveRomInit(void) {
     register s32 status;
     register u32 a;
-    register s32 prevInt;
+    register u32 prevInt;
     static u32 D_8000AC70 = 1;
 
     __osPiGetAccess();
@@ -17,19 +17,19 @@ OSPiHandle* osDriveRomInit(void) {
 
     D_8000AC70 = 0;
     __DriveRomHandle.type = DEVICE_TYPE_BULK;
-    __DriveRomHandle.baseAddress = 0xa6000000;
+    __DriveRomHandle.baseAddress = 0xA6000000;
     __DriveRomHandle.domain = 0;
     __DriveRomHandle.speed = 0;
     bzero(&__DriveRomHandle.transferInfo, sizeof(__OSTranxInfo));
 
-    while (status = HW_REG(PI_STATUS_REG, u32), status & PI_STATUS_ERROR) {
+    while (status = HW_REG(PI_STATUS_REG, u32), status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
         ;
     }
 
-    HW_REG(PI_BSD_DOM1_LAT_REG, u32) = 0xff;
+    HW_REG(PI_BSD_DOM1_LAT_REG, u32) = 0xFF;
     HW_REG(PI_BSD_DOM1_PGS_REG, u32) = 0;
     HW_REG(PI_BSD_DOM1_RLS_REG, u32) = 3;
-    HW_REG(PI_BSD_DOM1_PWD_REG, u32) = 0xff;
+    HW_REG(PI_BSD_DOM1_PWD_REG, u32) = 0xFF;
 
     a = HW_REG(__DriveRomHandle.baseAddress, u32);
     __DriveRomHandle.latency = a & 0xFF;

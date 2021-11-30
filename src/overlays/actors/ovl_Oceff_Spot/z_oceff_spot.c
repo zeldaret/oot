@@ -83,7 +83,8 @@ void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
     } else {
         Actor_Kill(&this->actor);
         if (gTimeIncrement != 400 && globalCtx->msgCtx.unk_E40E == 0 && (gSaveContext.eventInf[0] & 0xF) != 1) {
-            if (globalCtx->msgCtx.unk_E3F0 != 0x31 || globalCtx->msgCtx.unk_E3EE != 8) {
+            if (globalCtx->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
+                globalCtx->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // "Sun's Song Flag"
@@ -91,7 +92,7 @@ void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
                 osSyncPrintf(VT_RST);
             }
         } else {
-            globalCtx->msgCtx.unk_E3EE = 4;
+            globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
             osSyncPrintf(VT_FGCOL(YELLOW));
             // "Ocarina End"
             osSyncPrintf("z_oceff_spot  オカリナ終了\n");

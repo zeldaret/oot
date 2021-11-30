@@ -232,7 +232,7 @@ void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     for (i = 0; i < 4; i++, mtx++) {
         Matrix_Translate(this->unk_154[i].x, this->unk_154[i].y, this->unk_154[i].z, MTXMODE_NEW);
-        Matrix_RotateRPY(this->unk_1B4[i].x, this->unk_1B4[i].y, this->unk_1B4[i].z, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->unk_1B4[i].x, this->unk_1B4[i].y, this->unk_1B4[i].z, MTXMODE_APPLY);
         Matrix_Scale(this->unk_184[i].x, this->unk_184[i].y, this->unk_184[i].z, MTXMODE_APPLY);
         Matrix_ToMtx(mtx, "../z_en_bx.c", 507);
     }

@@ -209,7 +209,7 @@ void EnSth_LookAtPlayer(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         if (this->actor.params == 0) {
             EnSth_SetupAction(this, EnSth_ParentRewardObtainedWait);
         } else {
@@ -220,7 +220,7 @@ void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_ParentRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         this->actor.textId = 0x23;
@@ -264,8 +264,8 @@ void EnSth_GiveReward(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardUnobtainedTalk(EnSth* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         EnSth_SetupAction(this, EnSth_GiveReward);
         EnSth_GivePlayerItem(this, globalCtx);
     }
@@ -273,7 +273,7 @@ void EnSth_RewardUnobtainedTalk(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
@@ -289,7 +289,7 @@ void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.inventory.gsTokens < 50) {
