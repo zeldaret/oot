@@ -117,4 +117,11 @@
 #define NA_BGM_NATURE_SFX_RAIN 0x80  // Related to rain
 #define NA_BGM_DISABLED 0xFFFF
 
+typedef enum {
+    /* 0 */ SEQ_PLAYER_BGM_MAIN,
+    /* 1 */ SEQ_PLAYER_FANFARE,
+    /* 2 */ SEQ_PLAYER_SFX,
+    /* 3 */ SEQ_PLAYER_BGM_SUB
+} SequencePlayerId;
+
 #endif

@@ -930,7 +930,7 @@ void BossGanondrof_SetupDeath(BossGanondrof* this, GlobalContext* globalCtx) {
     Animation_PlayOnce(&this->skelAnime, &gPhantomGanonDeathBlowAnim);
     this->fwork[GND_END_FRAME] = Animation_GetLastFrame(&gPhantomGanonDeathBlowAnim);
     this->actionFunc = BossGanondrof_Death;
-    Audio_QueueSeqCmd(0x100100FF);
+    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DEAD);
     this->deathState = DEATH_START;
     this->actor.flags &= ~1;
@@ -1101,7 +1101,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             holdCamera = true;
             bodyDecayLevel = 10;
             if (this->timers[0] == 150) {
-                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, GND_BOSSROOM_CENTER_X,
                             GND_BOSSROOM_CENTER_Y, GND_BOSSROOM_CENTER_Z, 0, 0, 0, WARP_DUNGEON_ADULT);
             }

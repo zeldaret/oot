@@ -23,7 +23,7 @@
 #include "z64map_mark.h"
 #include "z64transition.h"
 #include "z64interface.h"
-#include "bgm.h"
+#include "sequence.h"
 #include "sfx.h"
 #include "color.h"
 #include "ichain.h"
