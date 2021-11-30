@@ -1683,7 +1683,7 @@ void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_boss_dodongo.c", 5228);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    unkMtx = &globalCtx->mf_11DA0;
+    unkMtx = &globalCtx->billboardMtxF;
 
     for (i = 0; i < 80; i++, eff++) {
         if (eff->unk_24 == 1) {

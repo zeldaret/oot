@@ -1089,18 +1089,22 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.fogFar);
         func_800AAA50(&globalCtx->view, 15);
 
-        Matrix_MtxToMtxF(&globalCtx->view.viewing, &globalCtx->mf_11DA0);
-        Matrix_MtxToMtxF(&globalCtx->view.projection, &globalCtx->mf_11D60);
-        Matrix_Mult(&globalCtx->mf_11D60, MTXMODE_NEW);
-        Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-        Matrix_Get(&globalCtx->mf_11D60);
-        globalCtx->mf_11DA0.mf[0][3] = globalCtx->mf_11DA0.mf[1][3] = globalCtx->mf_11DA0.mf[2][3] =
-            globalCtx->mf_11DA0.mf[3][0] = globalCtx->mf_11DA0.mf[3][1] = globalCtx->mf_11DA0.mf[3][2] = 0.0f;
-        Matrix_Transpose(&globalCtx->mf_11DA0);
-        globalCtx->unk_11DE0 = Matrix_MtxFToMtx(Matrix_CheckFloats(&globalCtx->mf_11DA0, "../z_play.c", 4005),
-                                                Graph_Alloc(gfxCtx, sizeof(Mtx)));
+        // The billboard matrix temporarily stores the viewing matrix
+        Matrix_MtxToMtxF(&globalCtx->view.viewing, &globalCtx->billboardMtxF);
+        Matrix_MtxToMtxF(&globalCtx->view.projection, &globalCtx->viewProjectionMtxF);
+        Matrix_Mult(&globalCtx->viewProjectionMtxF, MTXMODE_NEW);
+        // The billboard is still a viewing matrix at this stage
+        Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
+        Matrix_Get(&globalCtx->viewProjectionMtxF);
+        globalCtx->billboardMtxF.mf[0][3] = globalCtx->billboardMtxF.mf[1][3] = globalCtx->billboardMtxF.mf[2][3] =
+            globalCtx->billboardMtxF.mf[3][0] = globalCtx->billboardMtxF.mf[3][1] = globalCtx->billboardMtxF.mf[3][2] =
+                0.0f;
+        // This transpose is where the viewing matrix is properly converted into a billboard matrix
+        Matrix_Transpose(&globalCtx->billboardMtxF);
+        globalCtx->billboardMtx = Matrix_MtxFToMtx(Matrix_CheckFloats(&globalCtx->billboardMtxF, "../z_play.c", 4005),
+                                                   Graph_Alloc(gfxCtx, sizeof(Mtx)));
 
-        gSPSegment(POLY_OPA_DISP++, 0x01, globalCtx->unk_11DE0);
+        gSPSegment(POLY_OPA_DISP++, 0x01, globalCtx->billboardMtx);
 
         if ((HREG(80) != 10) || (HREG(92) != 0)) {
             Gfx* gfxP;
@@ -1487,11 +1491,12 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
 void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
     f32 temp;
 
-    Matrix_Mult(&globalCtx->mf_11D60, MTXMODE_NEW);
+    Matrix_Mult(&globalCtx->viewProjectionMtxF, MTXMODE_NEW);
     Matrix_MultVec3f(src, dest);
 
-    temp = globalCtx->mf_11D60.ww +
-           (globalCtx->mf_11D60.wx * src->x + globalCtx->mf_11D60.wy * src->y + globalCtx->mf_11D60.wz * src->z);
+    temp = globalCtx->viewProjectionMtxF.ww +
+           (globalCtx->viewProjectionMtxF.wx * src->x + globalCtx->viewProjectionMtxF.wy * src->y +
+            globalCtx->viewProjectionMtxF.wz * src->z);
 
     dest->x = 160.0f + ((dest->x / temp) * 160.0f);
     dest->y = 120.0f - ((dest->y / temp) * 120.0f);

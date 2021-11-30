@@ -425,13 +425,13 @@ void EnXc_SetColossusAppearSFX(EnXc* this, GlobalContext* globalCtx) {
             if (frameCount == 119) {
                 Vec3f pos = { -611.0f, 728.0f, -2.0f };
 
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &sXyzDist, wDest);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &pos, &sXyzDist, wDest);
                 func_80078914(&sXyzDist, NA_SE_EV_JUMP_CONC);
             } else if (frameCount == 164) {
                 Vec3f pos = { -1069.0f, 38.0f, 0.0f };
                 s32 pad;
 
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &sXyzDist, wDest);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &pos, &sXyzDist, wDest);
                 func_80078914(&sXyzDist, NA_SE_PL_WALK_CONCRETE);
             }
         }
@@ -1371,7 +1371,7 @@ void func_80B3F3D8() {
 void EnXc_PlayDiveSFX(Vec3f* src, GlobalContext* globalCtx) {
     f32 wDest[2];
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, src, &D_80B42DA0, wDest);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, src, &D_80B42DA0, wDest);
     func_80078914(&D_80B42DA0, NA_SE_EV_DIVE_INTO_WATER);
 }
 
@@ -1541,7 +1541,7 @@ void EnXc_PlayTriforceSFX(Actor* thisx, GlobalContext* globalCtx) {
         f32 wDest;
 
         Matrix_MultVec3f(&sp1C, &src);
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &src, &pos, &wDest);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &src, &pos, &wDest);
         Audio_PlaySoundAtPosition(globalCtx, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
         this->unk_2A8 = 0;
     }

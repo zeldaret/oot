@@ -1167,9 +1167,9 @@ typedef struct GlobalContext {
     /* 0x11D54 */ void (*func_11D54)(Player* player, struct GlobalContext* globalCtx);
     /* 0x11D58 */ s32 (*damagePlayer)(struct GlobalContext* globalCtx, s32 damage);
     /* 0x11D5C */ void (*talkWithPlayer)(struct GlobalContext* globalCtx, Actor* actor);
-    /* 0x11D60 */ MtxF mf_11D60;
-    /* 0x11DA0 */ MtxF mf_11DA0;
-    /* 0x11DE0 */ Mtx* unk_11DE0;
+    /* 0x11D60 */ MtxF viewProjectionMtxF;
+    /* 0x11DA0 */ MtxF billboardMtxF;
+    /* 0x11DE0 */ Mtx* billboardMtx;
     /* 0x11DE4 */ u32 gameplayFrames;
     /* 0x11DE8 */ u8 linkAgeOnLoad;
     /* 0x11DE9 */ u8 unk_11DE9;
