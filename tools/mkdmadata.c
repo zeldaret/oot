@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
     dmaout = fopen(argv[2], "w");
     if (dmaout == NULL)
-        util_fatal_error("failed to open file '%s' for writing", argv[3]);
+        util_fatal_error("failed to open file '%s' for writing", argv[2]);
     write_dmadata_table(dmaout);
     fclose(dmaout);
     free(spec);
