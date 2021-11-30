@@ -225,14 +225,14 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 sp1C = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CLOSING:
+        case TEXT_STATE_DONE_FADING:
             break;
-        case 4:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     player->actor.textId = 0x202D;
                     this->unk_254 &= ~1;
@@ -244,8 +244,8 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                 sp1C = 2;
             }
             break;
-        case 5:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 Player_UnsetMask(globalCtx);
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
                 gSaveContext.itemGetInf[3] |= 0x800;
@@ -254,8 +254,8 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                 sp1C = 2;
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 if ((player->actor.textId == 0x202E) || (player->actor.textId == 0x202C)) {
                     this->unk_254 |= 1;
                     EnMm_ChangeAnimation(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
@@ -294,12 +294,12 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
     s16 sp24;
 
     if (this->unk_1E0 == 2) {
-        func_8010B720(globalCtx, player->actor.textId);
+        Message_ContinueTextbox(globalCtx, player->actor.textId);
         this->unk_1E0 = 1;
     } else if (this->unk_1E0 == 1) {
         this->unk_1E0 = func_80AADAA0(this, globalCtx);
     } else {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
             this->unk_1E0 = 1;
 
             if (this->curAnimIndex != 5) {
@@ -309,7 +309,7 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+            Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
             if ((sp26 >= 0) && (sp26 <= 0x140) && (sp24 >= 0) && (sp24 <= 0xF0) && (yawDiff <= 17152.0f) &&
@@ -347,7 +347,7 @@ s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
     xDiff = waypointPos.x - this->actor.world.pos.x;
     zDiff = waypointPos.z - this->actor.world.pos.z;
 
-    this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * 10430.378f);
+    this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
     this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
 
     while ((this->distToWaypoint <= 10.44f) && (this->unk_1E8 != 0)) {
@@ -392,7 +392,7 @@ s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
         xDiff = waypointPos.x - this->actor.world.pos.x;
         zDiff = waypointPos.z - this->actor.world.pos.z;
 
-        this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * 10430.378f);
+        this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
         this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
     }
 
@@ -450,7 +450,7 @@ void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
 
         if (func_80AADA70() == 0) {
             if (this->actor.floorPoly != NULL) {
-                floorYNorm = this->actor.floorPoly->normal.y * 0.00003051851f;
+                floorYNorm = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
 
                 if ((floorYNorm > 0.9848f) || (floorYNorm < -0.9848f)) {
                     if (this->sitTimer > 30) {
@@ -603,7 +603,7 @@ void EnMm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_Translate(260.0f, 20.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(0.0f, MTXMODE_APPLY);
         Matrix_RotateX(0.0f, MTXMODE_APPLY);
-        Matrix_RotateZ(2.5132742f, MTXMODE_APPLY);
+        Matrix_RotateZ(4.0f * M_PI / 5.0f, MTXMODE_APPLY);
         Matrix_Translate(-260.0f, 58.0f, 10.0f, MTXMODE_APPLY);
         Matrix_Get(&this->unk_208);
     }

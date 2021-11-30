@@ -1690,9 +1690,9 @@ s32 Camera_Normal2(Camera* camera) {
             anim->unk_20 = BGCAM_ROT(bgData).x;
             anim->unk_22 = BGCAM_ROT(bgData).y;
             anim->unk_24 = playerPosRot->pos.y;
-            anim->unk_1C = BGCAM_FOV(bgData) == -1      ? norm2->unk_14
-                           : BGCAM_FOV(bgData) >= 0x169 ? PCT(BGCAM_FOV(bgData))
-                                                        : BGCAM_FOV(bgData);
+            anim->unk_1C = BGCAM_FOV(bgData) == -1
+                               ? norm2->unk_14
+                               : BGCAM_FOV(bgData) >= 0x169 ? PCT(BGCAM_FOV(bgData)) : BGCAM_FOV(bgData);
 
             anim->unk_28 = BGCAM_JFIFID(bgData) == -1 ? 0 : BGCAM_JFIFID(bgData);
 
@@ -2923,9 +2923,7 @@ s32 Camera_Battle1(Camera* camera) {
     }
     anim->roll += (((OREG(36) * camera->speedRatio) * (1.0f - distRatio)) - anim->roll) * PCT(OREG(37));
     camera->roll = DEGF_TO_BINANG(anim->roll);
-    camera->fov = Camera_LERPCeilF((player->swordState != 0       ? 0.8f
-                                    : gSaveContext.health <= 0x10 ? 0.8f
-                                                                  : 1.0f) *
+    camera->fov = Camera_LERPCeilF((player->swordState != 0 ? 0.8f : gSaveContext.health <= 0x10 ? 0.8f : 1.0f) *
                                        (fov - ((fov * 0.05f) * distRatio)),
                                    camera->fov, camera->fovUpdateRate, 1.0f);
 }
@@ -4712,7 +4710,7 @@ s32 Camera_Unique3(Camera* camera) {
             if (params->interfaceFlags & 2) {
                 camera->unk_14C |= 4;
                 camera->unk_14C &= ~8;
-                Camera_ChangeSettingFlags(camera, CAM_SET_CIRCLE3, 2);
+                Camera_ChangeSettingFlags(camera, CAM_SET_PIVOT_IN_FRONT, 2);
                 break;
             }
             uniq3->doorParams.timer3 = 5;
@@ -4875,6 +4873,9 @@ s32 Camera_Unique4(Camera* camera) {
     return Camera_Noop(camera);
 }
 
+/**
+ * Was setup to be used by the camera setting "FOREST_UNUSED"
+ */
 s32 Camera_Unique5(Camera* camera) {
     return Camera_Noop(camera);
 }
@@ -5834,7 +5835,7 @@ s32 Camera_Demo5(Camera* camera) {
     Actor_GetFocus(&camera->targetPosRot, camera->target);
     OLib_Vec3fDiffToVecSphGeo(&playerTargetGeo, &camera->targetPosRot.pos, &camera->playerPosRot.pos);
     D_8011D3AC = camera->target->category;
-    func_8002F374(camera->globalCtx, camera->target, &sp78.yaw, &sp78.pitch);
+    Actor_GetScreenPos(camera->globalCtx, camera->target, &sp78.yaw, &sp78.pitch);
     eyeTargetDist = OLib_Vec3fDist(&camera->targetPosRot.pos, &camera->eye);
     OLib_Vec3fDiffToVecSphGeo(&eyePlayerGeo, &playerhead.pos, &camera->eyeNext);
     sp4A = eyePlayerGeo.yaw - playerTargetGeo.yaw;
@@ -6024,7 +6025,7 @@ s32 Camera_Demo5(Camera* camera) {
     }
 
     sDemo5PrevAction12Frame = camera->globalCtx->state.frames;
-    Camera_ChangeSettingFlags(camera, CAM_SET_DEMOC, (4 | 1));
+    Camera_ChangeSettingFlags(camera, CAM_SET_CS_C, (4 | 1));
     Camera_Unique9(camera);
     return true;
 }
@@ -7071,7 +7072,7 @@ s32 Camera_CheckWater(Camera* camera) {
 
     if (camera->unk_14C & 0x200) {
         if (player->stateFlags2 & 0x800) {
-            Camera_ChangeSettingFlags(camera, CAM_SET_CIRCLE5, 6);
+            Camera_ChangeSettingFlags(camera, CAM_SET_PIVOT_WATER_SURFACE, 6);
             camera->unk_14C |= (s16)0x8000;
         } else if (camera->unk_14C & (s16)0x8000) {
             Camera_ChangeSettingFlags(camera, *waterPrevCamSetting, 6);
@@ -7135,7 +7136,7 @@ s32 Camera_CheckWater(Camera* camera) {
             camera->unk_150 = 0x50;
         }
 
-        func_800F6828(0x20);
+        Audio_SetExtraFilter(0x20);
 
         if (PREG(81)) {
             Quake_RemoveFromIdx(*quakeId);
@@ -7170,7 +7171,7 @@ s32 Camera_CheckWater(Camera* camera) {
             camera->unk_150 = 0;
             camera->unk_152 = 0;
         }
-        func_800F6828(0);
+        Audio_SetExtraFilter(0);
     }
     //! @bug: doesn't always return a value, but sometimes does.
 }
@@ -7471,7 +7472,7 @@ Vec3s Camera_Update(Camera* camera) {
 
     // setting bgCheckId to the ret of Quake_Calc, and checking that
     // is required, it doesn't make too much sense though.
-    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_ITEM2)) {
+    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
         viewAt.x = camera->at.x + quake.atOffset.x;
         viewAt.y = camera->at.y + quake.atOffset.y;
         viewAt.z = camera->at.z + quake.atOffset.z;
@@ -7742,7 +7743,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
             return -2;
         }
     }
-    if (((setting == CAM_SET_SPOT05A) || (setting == CAM_SET_SPOT05B)) && LINK_IS_ADULT &&
+    if (((setting == CAM_SET_MEADOW_BIRDS_EYE) || (setting == CAM_SET_MEADOW_UNUSED)) && LINK_IS_ADULT &&
         (camera->globalCtx->sceneNum == SCENE_SPOT05)) {
         camera->unk_14A |= 0x10;
         return -5;
@@ -7902,7 +7903,7 @@ s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
                 camera->targetPosRot.pos = *(Vec3f*)value;
                 break;
             case 8:
-                if (camera->setting == CAM_SET_DEMOC || camera->setting == CAM_SET_DEMO4) {
+                if (camera->setting == CAM_SET_CS_C || camera->setting == CAM_SET_CS_ATTENTION) {
                     break;
                 }
                 camera->target = (Actor*)value;
@@ -7980,7 +7981,7 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
                          s16 timer3) {
     DoorParams* doorParams = (DoorParams*)camera->paramData;
 
-    if ((camera->setting == CAM_SET_DEMO4) || (camera->setting == CAM_SET_DOORC)) {
+    if ((camera->setting == CAM_SET_CS_ATTENTION) || (camera->setting == CAM_SET_DOORC)) {
         return 0;
     }
 

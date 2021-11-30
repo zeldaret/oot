@@ -150,9 +150,9 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
 
             yRot += horse->turnRot;
         }
-        SkinMatrix_SetRotateRPYTranslate(arg1, xRot, yRot, zRot, xTransl, yTransl, zTransl);
+        SkinMatrix_SetTranslateRotateZYX(arg1, xRot, yRot, zRot, xTransl, yTransl, zTransl);
     } else {
-        SkinMatrix_SetRotateRPYTranslate(arg1, xRot, yRot, zRot, 0.0f, 0.0f, 0.0f);
+        SkinMatrix_SetTranslateRotateZYX(arg1, xRot, yRot, zRot, 0.0f, 0.0f, 0.0f);
     }
     jointRot++;
     for (i = 1; i < skin->skeletonHeader->limbCount; i++) {
@@ -165,10 +165,10 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
         yRot = jointRot->y;
         zRot = jointRot->z;
         jointRot++;
-        SkinMatrix_SetRotateRPYTranslate(&arg1[i], xRot, yRot, zRot, xTransl, yTransl, zTransl);
+        SkinMatrix_SetTranslateRotateZYX(&arg1[i], xRot, yRot, zRot, xTransl, yTransl, zTransl);
     }
 
-    SkinMatrix_SetScaleRotateYRPTranslate(
+    SkinMatrix_SetTranslateRotateYXZScale(
         &skin->mtx, actor->scale.x, actor->scale.y, actor->scale.z, actor->shape.rot.x, actor->shape.rot.y,
         actor->shape.rot.z, actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
         actor->world.pos.z);

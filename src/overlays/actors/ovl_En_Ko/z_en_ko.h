@@ -19,7 +19,7 @@ typedef struct EnKo {
     /* 0x0198 */ ColliderCylinder collider;
     /* 0x01E4 */ Path* path;
     /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;
-    /* 0X0210 */ u8 unk_210; // block trade quest sfx
+    /* 0x0210 */ u8 unk_210; // block trade quest sfx
     /* 0x0212 */ s16 forestQuestState;
     /* 0x0214 */ s16 blinkTimer;
     /* 0x0216 */ s16 eyeTextureIndex;

@@ -130,7 +130,7 @@ void func_80A5046C(EnGuest* this) {
 }
 
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80A5057C;
     } else if (this->actor.xzDistToPlayer < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -138,10 +138,8 @@ void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
-        if (func_80106BC8(globalCtx) != 0) {
-            this->actionFunc = func_80A50518;
-        }
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
+        this->actionFunc = func_80A50518;
     }
 }
 

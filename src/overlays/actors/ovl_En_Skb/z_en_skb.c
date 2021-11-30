@@ -149,7 +149,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 0.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.health = 2;

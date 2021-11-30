@@ -133,7 +133,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
     if ((this->actor.xzDistToPlayer < sightRange) &&
         (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f) && (sPlayerCaught == 0)) {
         sPlayerCaught = 1;
-        func_8010B680(globalCtx, 0x702D, &this->actor);
+        Message_StartTextbox(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
@@ -161,7 +161,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
             }
         }
         sPlayerCaught = 1;
-        func_8010B680(globalCtx, 0x702D, &this->actor);
+        Message_StartTextbox(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
@@ -202,7 +202,8 @@ void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx) {
 // This function initiates the respawn after the player gets caught.
 void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0) && (this->respawnFlag == 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx) &&
+        (this->respawnFlag == 0)) {
         gSaveContext.eventChkInf[4] |= 0x4000;
         globalCtx->nextEntranceIndex = 0x47E; // Hyrule Castle from Guard Capture (outside)
         globalCtx->sceneLoadFlag = 0x14;

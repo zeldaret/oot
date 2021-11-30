@@ -1,7 +1,7 @@
 #include "global.h"
 
 s32 osStopTimer(OSTimer* timer) {
-    register s32 prevInt;
+    register u32 prevInt;
     OSTimer* next;
 
     if (!timer->next) {

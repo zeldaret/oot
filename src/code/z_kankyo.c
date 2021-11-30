@@ -777,8 +777,7 @@ void Environment_DisableUnderwaterLights(GlobalContext* globalCtx) {
 
 void Environment_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint printer;
-    u32 time;
-    s32 pad;
+    s32 pad[2];
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *gfx);
@@ -793,8 +792,7 @@ void Environment_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_Printf(&printer, "%s", "ZELDATIME ");
 
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
-    time = gSaveContext.dayTime;
-    GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * time / 60.0f));
+    GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.dayTime) / 60.0f));
 
     if ((gSaveContext.dayTime & 0x1F) >= 0x10 || gTimeIncrement >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
@@ -802,16 +800,14 @@ void Environment_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
         GfxPrint_Printf(&printer, "%s", " ");
     }
 
-    time = gSaveContext.dayTime;
-    GfxPrint_Printf(&printer, "%02d", (s16)(24 * 60 / (f32)0x10000 * time) % 60);
+    GfxPrint_Printf(&printer, "%02d", (s16)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.dayTime)) % 60);
 
     GfxPrint_SetColor(&printer, 255, 255, 55, 64);
     GfxPrint_SetPos(&printer, 22, 9);
     GfxPrint_Printf(&printer, "%s", "VRBOXTIME ");
 
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
-    time = ((void)0, gSaveContext.skyboxTime);
-    GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * time / 60.0f));
+    GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.skyboxTime) / 60.0f));
 
     if ((((void)0, gSaveContext.skyboxTime) & 0x1F) >= 0x10 || gTimeIncrement >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
@@ -819,8 +815,7 @@ void Environment_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
         GfxPrint_Printf(&printer, "%s", " ");
     }
 
-    time = ((void)0, gSaveContext.skyboxTime);
-    GfxPrint_Printf(&printer, "%02d", (s16)(45.0f / 2048.0f * time) % 60);
+    GfxPrint_Printf(&printer, "%02d", (s16)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.skyboxTime)) % 60);
 
     GfxPrint_SetColor(&printer, 55, 255, 255, 64);
     GfxPrint_SetPos(&printer, 22, 6);
@@ -882,7 +877,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         }
 
         if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
-            if (((msgCtx->unk_E300 == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
+            if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
                 if ((envCtx->unk_1A == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
                     (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
 
@@ -1926,12 +1921,12 @@ void func_800758AC(GlobalContext* globalCtx) {
     // both lost woods exits on the bridge from kokiri to hyrule field
     if (((void)0, gSaveContext.entranceIndex) == 0x4DE || ((void)0, gSaveContext.entranceIndex) == 0x5E0) {
         func_800F6FB4(4);
-    } else if (((void)0, gSaveContext.unk_140E) != 0) {
+    } else if (((void)0, gSaveContext.unk_140E) != NA_BGM_GENERAL_SFX) {
         if (!func_80077600()) {
             Audio_QueueSeqCmd((s32)((void)0, gSaveContext.unk_140E));
         }
-        gSaveContext.unk_140E = 0;
-    } else if (globalCtx->soundCtx.seqIndex == 0x7F) {
+        gSaveContext.unk_140E = NA_BGM_GENERAL_SFX;
+    } else if (globalCtx->soundCtx.seqIndex == NA_BGM_NO_MUSIC) {
         if (globalCtx->soundCtx.nightSeqIndex == 0x13) {
             return;
         }
@@ -2027,7 +2022,7 @@ void func_80075B44(GlobalContext* globalCtx) {
                 if ((Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                      Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) &&
                     globalCtx->csCtx.state == 0 && !Player_InCsMode(globalCtx)) {
-                    func_8010B680(globalCtx, 0x3066, NULL);
+                    Message_StartTextbox(globalCtx, 0x3066, NULL);
                 }
                 globalCtx->envCtx.unk_E0++;
             }
@@ -2400,7 +2395,7 @@ void func_800775F0(u16 arg0) {
 s32 func_80077600(void) {
     s32 ret = false;
 
-    if (gSaveContext.unk_140E == 0xFFFF) {
+    if (gSaveContext.unk_140E == NA_BGM_DISABLED) {
         ret = true;
     }
 
@@ -2422,8 +2417,8 @@ void func_80077684(GlobalContext* globalCtx) {
     func_800F6D58(14, 1, 0);
     func_800F6D58(15, 1, 0);
 
-    if (func_800FA0B4(0) == 1) {
-        gSaveContext.seqIndex = 0x80;
+    if (func_800FA0B4(0) == NA_BGM_NATURE_BACKGROUND) {
+        gSaveContext.seqIndex = NA_BGM_NATURE_SFX_RAIN;
         func_800758AC(globalCtx);
     }
 }

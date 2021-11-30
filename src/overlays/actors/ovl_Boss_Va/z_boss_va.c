@@ -401,7 +401,7 @@ void BossVa_AttachToBody(BossVa* this) {
     BossVa* vaBody = GET_BODY(this);
 
     Matrix_Translate(vaBody->actor.world.pos.x, vaBody->actor.world.pos.y, vaBody->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(vaBody->actor.shape.rot.x, 0, vaBody->actor.shape.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(vaBody->actor.shape.rot.x, 0, vaBody->actor.shape.rot.z, MTXMODE_APPLY);
     Matrix_MultVec3f(&sInitPosOffsets[this->actor.params], &this->actor.world.pos);
 
     switch (this->actor.params) {
@@ -959,7 +959,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_BF = 1;
                 func_8002DF54(globalCtx, &this->actor, 8);
             } else if (this->timer >= 35000) {
-                Audio_QueueSeqCmd(0x1B);
+                Audio_QueueSeqCmd(NA_BGM_BOSS);
             }
 
             this->timer += this->unk_1F2;
@@ -976,7 +976,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
 
                 if (!(gSaveContext.eventChkInf[7] & 0x40)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
-                                           SEGMENTED_TO_VIRTUAL(&gBarinadeTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
+                                           SEGMENTED_TO_VIRTUAL(gBarinadeTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
 
                 if (Rand_ZeroOne() < 0.1f) {
@@ -1600,7 +1600,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
             break;
         case DEATH_CORE_BURST:
             if (this->timer == 13) {
-                Audio_QueueSeqCmd(0x21);
+                Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
             }
 
             this->timer--;
@@ -2910,11 +2910,11 @@ void BossVa_BodyPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         if (((limbIndex >= 16) || (limbIndex == 10)) && (sFightPhase <= PHASE_3)) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_va.c", 4208),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, &gBarinadeDL_008BB8);
+            gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008BB8);
         } else if ((limbIndex >= 11) && (sFightPhase <= PHASE_2)) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_va.c", 4212),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, &gBarinadeDL_008BB8);
+            gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008BB8);
         }
 
         if (sCsState >= DEATH_START) {
@@ -2929,7 +2929,7 @@ void BossVa_BodyPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
                                     (globalCtx->gameplayFrames * 5) % 128, 16, 32));
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_va.c", 4232),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, &gBarinadeDL_008D70);
+        gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008D70);
     } else if ((*dList != NULL) && (limbIndex >= 29) && (limbIndex < 56)) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_va.c", 4236),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -3086,7 +3086,7 @@ void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
             sp3C = this->headRot.y;
             Matrix_Push();
             Matrix_Translate(this->effectPos[9].x, this->effectPos[9].y, this->effectPos[9].z, MTXMODE_NEW);
-            Matrix_RotateRPY(sp3E, sp3C, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(sp3E, sp3C, 0, MTXMODE_APPLY);
             sp70.x = 0.0f;
             if (sFightPhase >= PHASE_4) {
                 sp70.z = ((this->timer2 - 16) & 7) * 120.0f;
@@ -3251,7 +3251,7 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 Matrix_MultVec3f(&sZeroVec, &this->effectPos[1]);
                 Matrix_Push();
                 Matrix_Translate(spBC.x, spBC.y, spBC.z, MTXMODE_NEW);
-                Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
+                Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
                 sp80.z = sp74.z = this->unk_1A0;
                 spB0.z = (this->timer2 & 0xF) * (this->unk_1A0 * 0.0625f);
                 Matrix_MultVec3f(&spB0, &this->effectPos[0]);
@@ -3629,7 +3629,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
                             effect->primColor[3]);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_RotateRPY(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
             Matrix_RotateX(effect->offset.x * 0.115f, MTXMODE_APPLY);
             Matrix_RotateY(effect->offset.x * 0.13f, MTXMODE_APPLY);
@@ -3659,7 +3659,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->primColor[3]);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_RotateRPY(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5152),

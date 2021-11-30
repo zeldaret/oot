@@ -51,25 +51,25 @@
         <Texture Name="gGerudoPurple2TLUT" OutName="gerudo_purple_2_tlut" Format="rgba16" Width="18" Height="12" Offset="0x4D08"/>
 
         <!-- Purple-clothed Gerudo Displaylist textures -->
-        <Texture Name="gGerudoPurpleSkinShadowTex" OutName="gerudo_purple_skin_shadow" Format="ci8" Width="8" Height="8" Offset="0x4988"/>
-        <Texture Name="gGerudoPurpleNavelTex" OutName="gerudo_purple_navel" Format="ci8" Width="16" Height="16" Offset="0x4A08"/>
-        <Texture Name="gGerudoPurpleChestJewelTex" OutName="gerudo_purple_chest_jewel" Format="ci8" Width="16" Height="16" Offset="0x4B08"/>
-        <Texture Name="gGerudoPurpleSkinEdgeTex" OutName="gerudo_purple_skin_edge" Format="ci8" Width="8" Height="8" Offset="0x4EB8"/>
-        <Texture Name="gGerudoPurpleEarTex" OutName="gerudo_purple_ear" Format="ci8" Width="8" Height="16" Offset="0x4EF8"/>
-        <Texture Name="gGerudoPurpleDarkFabricTex" OutName="gerudo_purple_dark_fabric" Format="ci8" Width="8" Height="8" Offset="0x49C8"/>
+        <Texture Name="gGerudoPurpleSkinShadowTex" OutName="gerudo_purple_skin_shadow" Format="ci8" Width="8" Height="8" Offset="0x4988" TlutOffset="0x4788"/>
+        <Texture Name="gGerudoPurpleNavelTex" OutName="gerudo_purple_navel" Format="ci8" Width="16" Height="16" Offset="0x4A08" TlutOffset="0x4788"/>
+        <Texture Name="gGerudoPurpleChestJewelTex" OutName="gerudo_purple_chest_jewel" Format="ci8" Width="16" Height="16" Offset="0x4B08" TlutOffset="0x4788"/>
+        <Texture Name="gGerudoPurpleSkinEdgeTex" OutName="gerudo_purple_skin_edge" Format="ci8" Width="8" Height="8" Offset="0x4EB8" TlutOffset="0x4D08"/>
+        <Texture Name="gGerudoPurpleEarTex" OutName="gerudo_purple_ear" Format="ci8" Width="8" Height="16" Offset="0x4EF8" TlutOffset="0x4D08"/>
+        <Texture Name="gGerudoPurpleDarkFabricTex" OutName="gerudo_purple_dark_fabric" Format="ci8" Width="8" Height="8" Offset="0x49C8" TlutOffset="0x4788"/>
         <Texture Name="gGerudoPurpleFabricFoldTex" OutName="gerudo_purple_fabric_fold" Format="i8" Width="16" Height="16" Offset="0x4C08"/>
         <Texture Name="gGerudoPurpleGlaiveGuard" OutName="gerudo_purple_glaive_guard" Format="i8" Width="8" Height="8" Offset="0x5378"/>
         <Texture Name="gGerudoPurpleGlaiveBladeFabricPatternTex" OutName="gerudo_purple_fabric_pattern" Format="i8" Width="16" Height="16" Offset="0x53B8"/>
-        <Texture Name="gGerudoPurpleShoeUpperTex" OutName="gerudo_purple_shoe_upper" Format="ci8" Width="8" Height="16" Offset="0x54B8"/>
-        <Texture Name="gGerudoPurpleGlaiveHaftShoeSoleTex" OutName="gerudo_purple_glaive_haft_shoe_upper" Format="ci8" Width="8" Height="8" Offset="0x5538"/>
+        <Texture Name="gGerudoPurpleShoeUpperTex" OutName="gerudo_purple_shoe_upper" Format="ci8" Width="8" Height="16" Offset="0x54B8" TlutOffset="0x4D08"/>
+        <Texture Name="gGerudoPurpleGlaiveHaftShoeSoleTex" OutName="gerudo_purple_glaive_haft_shoe_upper" Format="ci8" Width="8" Height="8" Offset="0x5538" TlutOffset="0x4D08"/>
         <Texture Name="gGerudoPurpleMetalTex" OutName="gerudo_purple_metal" Format="i8" Width="8" Height="16" Offset="0x5978"/>
-        <Texture Name="gGerudoPurpleHairTex" OutName="gerudo_purple_hair" Format="ci8" Width="16" Height="16" Offset="0x59F8"/>
+        <Texture Name="gGerudoPurpleHairTex" OutName="gerudo_purple_hair" Format="ci8" Width="16" Height="16" Offset="0x59F8" TlutOffset="0x4D08"/>
         <Texture Name="gGerudoPurpleLipsFingersTex" OutName="gerudo_purple_lips_fingers" Format="i8" Width="16" Height="16" Offset="0x5AF8"/>
 
         <!-- Purple-clothed Gerudo Eye Textures -->
-        <Texture Name="gGerudoPurpleEyeOpenTex" OutName="gerudo_purple_eye_open" Format="ci8" Width="32" Height="32" Offset="0x4F78"/>
-        <Texture Name="gGerudoPurpleEyeHalfTex" OutName="gerudo_purple_eye_half" Format="ci8" Width="32" Height="32" Offset="0x5578"/>
-        <Texture Name="gGerudoPurpleEyeClosedTex" OutName="gerudo_purple_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x5BF8"/>
+        <Texture Name="gGerudoPurpleEyeOpenTex" OutName="gerudo_purple_eye_open" Format="ci8" Width="32" Height="32" Offset="0x4F78" TlutOffset="0x4D08"/>
+        <Texture Name="gGerudoPurpleEyeHalfTex" OutName="gerudo_purple_eye_half" Format="ci8" Width="32" Height="32" Offset="0x5578" TlutOffset="0x4D08"/>
+        <Texture Name="gGerudoPurpleEyeClosedTex" OutName="gerudo_purple_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x5BF8" TlutOffset="0x4D08"/>
         
         <!-- Purple-clothed Gerudo Animations -->
         <Animation Name="gGerudoPurpleUnusedHorizontalSlashAnim" Offset="0x0324"/>

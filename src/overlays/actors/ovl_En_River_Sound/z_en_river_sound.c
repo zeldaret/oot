@@ -242,9 +242,9 @@ void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else if (this->actor.params == RS_SARIAS_SONG) {
         func_800F4E30(&this->actor.projectedPos, this->actor.xzDistToPlayer);
     } else if (this->actor.params == RS_UNK_13) {
-        Audio_PlaySariaBgm(&this->actor.home.pos, 62, 1000);
+        Audio_PlaySariaBgm(&this->actor.home.pos, NA_BGM_SARIA_THEME, 1000);
     } else if (this->actor.params == RS_UNK_19) {
-        Audio_PlaySariaBgm(&this->actor.home.pos, 40, 800);
+        Audio_PlaySariaBgm(&this->actor.home.pos, NA_BGM_GREAT_FAIRY, 800);
     } else if ((this->actor.params == RS_SANDSTORM) || (this->actor.params == RS_CHAMBER_OF_SAGES_1) ||
                (this->actor.params == RS_CHAMBER_OF_SAGES_2) || (this->actor.params == RS_RUMBLING)) {
         func_800788CC(soundEffects[this->actor.params]);

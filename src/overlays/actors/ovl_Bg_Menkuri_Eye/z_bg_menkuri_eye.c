@@ -133,7 +133,7 @@ void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 200, 0, 0, 255);
     }
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_menkuri_eye.c", 331),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

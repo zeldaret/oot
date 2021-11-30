@@ -224,7 +224,7 @@ void EnFz_UpdateTargetPos(EnFz* this, GlobalContext* globalCtx) {
     pos.z = this->actor.world.pos.z;
 
     Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = 0.0f;
     vec1.z = 220.0f;
     Matrix_MultVec3f(&vec1, &this->wallHitPos);
@@ -871,7 +871,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             gDPPipeSync(POLY_XLU_DISP++);
 
             if (!texLoaded) {
-                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardSteamStartDL));
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamStartDL));
                 texLoaded++;
             }
 
@@ -884,7 +884,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             Matrix_Scale(iceSmoke->xyScale, iceSmoke->xyScale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_fz.c", 1424),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardSteamDL));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamDL));
         }
 
         iceSmoke++;
