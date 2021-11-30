@@ -10340,13 +10340,13 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
             sp68.x = D_80858AC8.unk_02 + 0x3E2;
             sp68.y = D_80858AC8.unk_04 + 0xDBE;
             sp68.z = D_80858AC8.unk_00 - 0x348A;
-            Matrix_TranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp68);
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp68);
             Matrix_ToMtx(sp70++, "../z_player.c", 19273);
 
             sp68.x = D_80858AC8.unk_02 - 0x3E2;
             sp68.y = -0xDBE - D_80858AC8.unk_04;
             sp68.z = D_80858AC8.unk_00 - 0x348A;
-            Matrix_TranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp68);
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp68);
             Matrix_ToMtx(sp70, "../z_player.c", 19279);
         }
 
@@ -10374,7 +10374,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
                 D_8085486C = D_8085486C * (sp5C * (1.0f / 9.0f));
             }
 
-            Matrix_TranslateRotateYXZ(this->actor.world.pos.x, this->actor.world.pos.y + 2.0f, this->actor.world.pos.z,
+            Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x, this->actor.world.pos.y + 2.0f, this->actor.world.pos.z,
                                       &D_80854864);
             Matrix_Scale(4.0f, 4.0f, 4.0f, MTXMODE_APPLY);
 
@@ -10440,7 +10440,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
             Matrix_Push();
             this->actor.scale.y = -this->actor.scale.y;
-            Matrix_TranslateRotateYXZ(this->actor.world.pos.x,
+            Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x,
                                       (this->actor.floorHeight + (this->actor.floorHeight - this->actor.world.pos.y)) +
                                           (this->actor.shape.yOffset * this->actor.scale.y),
                                       this->actor.world.pos.z, &this->actor.shape.rot);
