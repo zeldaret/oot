@@ -132,23 +132,6 @@ typedef struct {
 
 GanondorfEffect sEffectBuf[200];
 
-extern AnimationHeader object_ganon_anime2_Anim_005FFC;
-extern AnimationHeader object_ganon_anime2_Anim_0089F8;
-extern AnimationHeader object_ganon_anime2_Anim_00EA00;
-extern AnimationHeader object_ganon_anime2_Anim_004F64;
-extern AnimationHeader object_ganon_anime2_Anim_006AF4;
-extern AnimationHeader object_ganon_anime2_Anim_004304;
-extern AnimationHeader object_ganon_anime2_Anim_001F58;
-extern AnimationHeader object_ganon_anime2_Anim_003018;
-extern AnimationHeader object_ganon_anime2_Anim_007268;
-extern AnimationHeader object_ganon_anime2_Anim_007A64;
-extern AnimationHeader object_ganon_anime2_Anim_00F19C;
-extern AnimationHeader object_ganon_anime2_Anim_00B668;
-extern AnimationHeader object_ganon_anime2_Anim_00BE38;
-extern AnimationHeader object_ganon_anime2_Anim_010298;
-extern AnimationHeader object_ganon_anime2_Anim_010514;
-extern AnimationHeader object_ganon_anime2_Anim_00ADDC;
-
 void BossGanonEff_SpawnWindowShard(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, f32 scale) {
     static Color_RGB8 shardColors[] = { { 255, 175, 85 }, { 155, 205, 155 }, { 155, 125, 55 } };
     s16 i;
@@ -544,15 +527,13 @@ void BossGanon_SetIntroCsCamera(BossGanon* this, u8 camPosIndex) {
 }
 
 void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
-    u8 moveCam;
-    Player* player;
+    u8 moveCam = false;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     f32 sin;
     f32 cos;
     Camera* mainCam;
 
-    moveCam = false;
-    player = GET_PLAYER(globalCtx);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animBankIndex].segment);
 
     sCape->backPush = -2.0f;
@@ -561,6 +542,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
     sCape->minDist = 0.0f;
 
     this->csTimer++;
+    
     SkelAnime_Update(&this->skelAnime);
 
     switch (this->csState) {
