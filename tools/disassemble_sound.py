@@ -10,11 +10,12 @@ import os
 import struct
 import sys
 
-rawSamples = []
+rawSamples = {}
 bankOffsets = {}
 sampleNameLookup = {}
 tunings = {}
 usedTuning = {}
+bank_ctr = defaultdict(int)
 
 # Used for data gap detection (finding potentially unreferenced data)
 # Format: list of tuples (object, start offset, end offset)
@@ -52,7 +53,7 @@ class Soundfont:
                 if fontdef:
                     instdef = fontdef.instruments[instIdx] if instIdx < len(fontdef.instruments) else None
                 buffer = setCtl[offset:offset + 32]
-                instrument = None if offset == 0 else Instrument(entry.bank, buffer, setCtl, entry.offset, offset, instdef)
+                instrument = None if offset == 0 else Instrument(entry.bank, buffer, setCtl, entry.offset, offset, instdef, instIdx, self.name)
                 self.instruments.append(instrument)
                 instIdx += 1
 
@@ -105,12 +106,12 @@ class Percussion:
         self.envelope = Envelope(tbl, baseOffset, self.envelopeOffset)
 
 class Instrument:
-    def __init__(self, bank, record, tbl, baseOffset, offset, instdef):
+    def __init__(self, bank, record, tbl, baseOffset, offset, instdef, index, fontname):
         if instdef:
-            self.name = instdef.name or f"Inst_{offset:0>8x}"
+            self.name = f"{index} {instdef.name}" or f"Inst_{index}_{offset:0>8x}_{fontname}"
             self.enum = instdef.enum
         else:
-            self.name = f"Inst_{offset:0>8x}"
+            self.name = f"Inst_{index}_{offset:0>8x}_{fontname}"
             self.enum = ""
         self.loaded, self.lowRange, self.highRange, self.decay, self.envelopeOffset, self.keyLowOffset, self.keyLowPitch, self.keyMedOffset, self.keyMedPitch, self.keyHighOffset, self.keyHighPitch = struct.unpack(">BBBbLLfLfLf", record)
         assert self.loaded == 0
@@ -168,8 +169,13 @@ class Envelope:
 
 class SampleHeader:
     def __init__(self, bank, name, tuning, record, tbl, baseOffset, offset):
+        index = bank_ctr[bank]
+        bank_ctr[bank] += 1
         modes, self.u2, self.length, self.address, self.loopOffset, self.bookOffset = struct.unpack(">bbHLLL", record)
-        self.name = name or f"Sample_{offset:0>8x}"
+        if bank in sampleNameLookup and self.address in sampleNameLookup[bank]:
+            self.name = sampleNameLookup[bank][self.address]
+        else:
+            self.name = f"{self.address:0>8x} {index} {name}" or f"{self.address:0>8x} {index}"
         self.offset = baseOffset + offset
         self.codec = (modes >> 4) & 0xF
         self.medium = (modes & 0xC) >> 2
@@ -192,9 +198,13 @@ class SampleHeader:
         if bank not in sampleNameLookup:
             sampleNameLookup[bank] = {}
         
-        sampleNameLookup[bank][self.address] = name or f"{self.address:0>8x}"
+        if self.address not in sampleNameLookup[bank]:
+            sampleNameLookup[bank][self.address] = name or f"{self.address:0>8x}"
 
-        rawSamples.append(self)
+        if self.bank not in rawSamples:
+            rawSamples[self.bank] = { self.address: self }
+        elif self.address not in rawSamples[self.bank]:
+            rawSamples[self.bank][self.address] = self
         
         if self.bank not in tunings:
             tunings[self.bank] = { self.address: { tuning }}
@@ -223,25 +233,32 @@ class PCMBook:
             self.predictors.append(struct.unpack(">" + str(predictorSize) + "h", remainder[i * predictorSize * 2:(i * predictorSize * 2) + (predictorSize * 2)]))
 
 class SampleTableEntry:
-    def __init__(self, data):
+    def __init__(self, data, name):
         self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBBxxxxxx", data)
+        self.name = name
 
 class SoundfontEntry:
     def __init__(self, data):
         self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBBBBBH", data)
 
-def parse_raw_def_data(raw_def_data):
+def parse_raw_def_data(raw_def_data, samplebanks):
     count = struct.unpack(">H", raw_def_data[:2])[0]
     entries = []
     for i in range(count):
         buffer = raw_def_data[16 + (i * 16):32 + (i * 16)]
-        entry = SampleTableEntry(buffer)
+        entry = SampleTableEntry(buffer, samplebanks[i] or f"{i}")
         bankOffsets[i] = entry.offset
         entries.append(entry)
     for index in range(len(entries)):
         entry = entries[index]
         if entry.length == 0:
-            entries[index] = entries[entry.offset]
+            rawSamples[entry.offset] = {}
+            rawSamples[index] = rawSamples[entry.offset]
+            tunings[entry.offset] = {}
+            tunings[index] = tunings[entry.offset]
+            usedTuning[entry.offset] = {}
+            usedTuning[index] = usedTuning[entry.offset]
+            samplebanks[index] = samplebanks[entry.offset]
     return entries
 
 def parse_soundfonts(fontdef_data, font_data, fontdefs):
@@ -300,13 +317,24 @@ def read_soundfont_xmls(xml_dir):
 
     return results
 
-def read_samplebank_xml(xmlfile):
-    root = XmlTree.parse(xmlfile)
-    idx = 0
+def read_samplebank_xml(xml_dir, version):
     results = defaultdict(lambda: None)
-    for bank in root.findall("Bank"):
-        results[idx] = bank.get("Name")
-        idx += 1
+
+    for xmlfile in os.listdir(xml_dir):
+        if xmlfile.endswith(".xml"):
+            bankname = os.path.splitext(xmlfile)[0]
+            index = int(bankname.split(" - ")[0])
+            results[index] = bankname
+            root = XmlTree.parse(os.path.join(xml_dir, xmlfile))
+            for sample in root.findall("Sample"):
+                offsetElement = sample.find(f"./Offset[@Version='{version}']")
+                if offsetElement == None:
+                    continue
+                offset = int(offsetElement.get("At"), 0)
+                if index not in sampleNameLookup:
+                    sampleNameLookup[index] = defaultdict(lambda: None)
+                if offset not in sampleNameLookup[index]:
+                    sampleNameLookup[index][offset] = sample.get("Name")
     return results
 
 def toNote(note):
@@ -342,7 +370,8 @@ def toCachePolicy(policy):
         0: "Permanent",
         1: "Persistent",
         2: "Temporary",
-        3: "Any"
+        3: "Any",
+        4: "AnyNoSyncLoad"
     }.get(policy)
 
 def generate_drum_obj(root, drum, envelopes):
@@ -684,23 +713,40 @@ def main():
     fontdef_data = code_data[fontdef_offset:fontdef_offset + fontdef_length]
     
     soundfont_defs = read_soundfont_xmls(os.path.join(asset_xml_dir, "soundfonts"))
-    samplebanks = read_samplebank_xml(os.path.join(asset_xml_dir, "samples", "Banks.xml"))
+    samplebanks = read_samplebank_xml(os.path.join(asset_xml_dir, "samples"), version)
 
-    bank_defs = parse_raw_def_data(bankdef_data)
+    bank_defs = parse_raw_def_data(bankdef_data, samplebanks)
     fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
 
     report_gaps("SOUNDFONT", usedFontData, font_data)
 
-    bank_ctr = defaultdict(int)
+    os.makedirs(samples_out_dir, exist_ok=True)
+
+    with open(os.path.join(samples_out_dir, "Banks.xml"), "w") as bankdeffile:
+        bankdefxml = XmlTree.Element("SampleBanks")
+        for bankdef in bank_defs:
+            if bankdef.length == 0:
+                XmlTree.SubElement(bankdefxml, "SampleBank", {
+                    "Reference": bank_defs[bankdef.offset].name
+                })
+            else:
+                XmlTree.SubElement(bankdefxml, "SampleBank", {
+                    "Name": bankdef.name,
+                    "CachePolicy": toCachePolicy(bankdef.cache),
+                    "Medium": toMedium(bankdef.medium)
+                })
+        XmlTree.indent(bankdefxml, "\t")
+        bankdeffile.write(XmlTree.tostring(bankdefxml, "unicode"))
 
     # Export AIFF samples
-    for header in rawSamples:
-        bank_ctr[header.bank] += 1
-        filename_base = os.path.join(samples_out_dir, samplebanks[header.bank])
-        os.makedirs(filename_base, exist_ok=True)
-        aifc_filename = os.path.join(filename_base, f"{header.name}.aifc")
-        write_aifc(bank_data, bank_defs, header, aifc_filename)
-        write_aiff(header, samples_out_dir, aifc_filename, f"{header.name}.aiff")
+    for bank in rawSamples:
+        for address in rawSamples[bank]:
+            sample = rawSamples[bank][address]
+            filename_base = os.path.join(samples_out_dir, samplebanks[bank])
+            os.makedirs(filename_base, exist_ok=True)
+            aifc_filename = os.path.join(filename_base, f"{sample.name}.aifc")
+            write_aifc(bank_data, bank_defs, sample, aifc_filename)
+            write_aiff(sample, samples_out_dir, aifc_filename, f"{sample.name}.aiff")
     
     if len(usedRawData) > 0:
         report_gaps("SAMPLE", usedRawData, bank_data)

@@ -2,10 +2,10 @@
     <Soundfont Name="02 - Ambient Sounds" Index="2">
         <Instruments>
             <Instrument/>
-            <Instrument Name="Bird Chirp 1" Enum=""/>
+            <Instrument Name="000 Bird Chirp 1" Enum=""/>
             <Instrument Name="Tap" Enum=""/>
             <Instrument Name="Bird Chirp 2" Enum=""/>
-            <Instrument Name="Crickets" Enum=""/>
+            <Instrument Name="003 Crickets" Enum=""/>
             <Instrument Name="Loud Chirping" Enum=""/>
             <Instrument Name="Crow Caws" Enum=""/>
             <Instrument Name="Cucco Clucks" Enum=""/>
@@ -14,9 +14,9 @@
             <Instrument Name="Cucco Crows" Enum=""/>
             <Instrument Name="Owl Hoots" Enum=""/>
             <Instrument Name="Hawk Screech" Enum=""/>
-            <Instrument Name="Small Bird Chirps" Enum=""/>
+            <Instrument Name="004 Small Bird Chirps" Enum=""/>
             <Instrument Name="Wolfos Howl" Enum=""/>
-            <Instrument Name="Rushing Water" Enum=""/>
+            <Instrument Name="005 Rushing Water" Enum=""/>
             <Instrument Name="Howling Wind" Enum=""/>
             <Instrument Name="Screeching Wind" Enum=""/>
             <Instrument Name="Heavy Rain" Enum=""/>

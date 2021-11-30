@@ -31,7 +31,7 @@
             <Instrument Name="Ganondorf Laugh" Enum=""/>
             <Instrument Name="Attack Shout" Enum=""/>
             <Instrument Name="Powerful Magic" Enum=""/>
-            <Instrument Name="Electric Shock" Enum=""/>
+            <Instrument Name="020 Creaking Wood" Enum=""/>
             <Instrument Name="Ganondorf Flying" Enum=""/>
             <Instrument Name="Charging Magic" Enum=""/>
             <Instrument Name="Dissonant Harp" Enum=""/>
@@ -41,16 +41,16 @@
             <Instrument Name="Annoyed Moan" Enum=""/>
             <Instrument Name="Water Splash" Enum=""/>
             <Instrument Name="Step - Water" Enum=""/>
-            <Instrument Name="Explosion" Enum=""/>
+            <Instrument Name="011 Bubbling Magma" Enum=""/>
             <Instrument Name="Big Monster Hurt" Enum=""/>
             <Instrument Name="Worried Crying" Enum=""/>
             <Instrument Name="Scary Laughter" Enum=""/>
-            <Instrument Name="Underwater Bubble" Enum=""/>
+            <Instrument Name="024 Underwater Bubbles" Enum=""/>
             <Instrument Name="Annoyed Groan" Enum=""/>
             <Instrument Name="Goron Sound" Enum=""/>
             <Instrument Name="Ice Block Sliding" Enum=""/>
             <Instrument Name="Bongo" Enum=""/>
-            <Instrument Name="Wolfos Hurt" Enum=""/>
+            <Instrument Name="034 Wolf Howl" Enum=""/>
             <Instrument Name="Deku Hurt" Enum=""/>
         </Instruments>
         <Drums/>
