@@ -1215,7 +1215,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
     switch (this->csState) {
         case MO_INTRO_WAIT:
             if (this->timers[0] == 1) {
-                func_8010B680(globalCtx, 0x403F, NULL);
+                Message_StartTextbox(globalCtx, 0x403F, NULL);
             }
             if (((fabsf(player->actor.world.pos.z - 180.0f) < 40.0f) &&
                  (fabsf(player->actor.world.pos.x - 180.0f) < 40.0f)) ||
@@ -1239,7 +1239,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_READY;
                 sMorphaTent1->timers[0] = 30000;
                 Audio_QueueSeqCmd(0x103200FF);
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
             } else {
                 break;
             }

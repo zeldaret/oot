@@ -79,14 +79,14 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                     this->actor.textId = 0x7088;
                 }
 
-                this->unk_156 = 5;
+                this->unk_156 = TEXT_STATE_EVENT;
                 osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n" VT_RST, this->actor.textId);
                 break;
             case 2:
                 // "Diary start!"
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 日記帳スタート！ ☆☆☆☆☆ \n" VT_RST);
                 this->actor.textId = 0x5002;
-                this->unk_156 = 4;
+                this->unk_156 = TEXT_STATE_CHOICE;
                 this->height = 30.0f;
                 this->unk_15C = 40.0f;
                 // "Attention coordinates"
@@ -94,7 +94,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 break;
             case 3:
                 this->actor.textId = 0x501E;
-                this->unk_156 = 5;
+                this->unk_156 = TEXT_STATE_EVENT;
                 this->height = 0.0f;
                 this->unk_15C = 110.0f;
                 // "Attention coordinates"
@@ -102,7 +102,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 break;
             case 4:
                 this->actor.textId = 0x5020;
-                this->unk_156 = 6;
+                this->unk_156 = TEXT_STATE_DONE;
                 this->height = 0.0f;
                 // "Attention coordinates"
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
@@ -113,7 +113,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 break;
             case 5:
                 this->actor.textId = 0x501F;
-                this->unk_156 = 5;
+                this->unk_156 = TEXT_STATE_EVENT;
                 this->height = 0.0f;
                 this->unk_15C = 110.0f;
                 // "Attention coordinates"
@@ -121,7 +121,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 break;
             default:
                 this->actor.textId = 0x7072;
-                this->unk_156 = 5;
+                this->unk_156 = TEXT_STATE_EVENT;
                 break;
         }
 
@@ -140,8 +140,8 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
         return;
     }
     if (this->switchFlag < 0 || !Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        if ((func_8002F194(&this->actor, globalCtx))) {
-            if (this->unk_156 != 6) {
+        if ((Actor_ProcessTalkRequest(&this->actor, globalCtx))) {
+            if (this->unk_156 != TEXT_STATE_DONE) {
                 this->actionFunc = func_80B395F0;
             } else {
                 if (this->switchFlag >= 0) {
@@ -175,61 +175,59 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
 }
 
 void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
-    if (this->unk_156 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx)) {
-            if (this->switchFlag >= 0) {
-                this->actor.flags &= -2;
-                Flags_SetSwitch(globalCtx, this->switchFlag);
-            }
-            switch (this->unk_150) {
-                case 1:
-                    func_80106CCC(globalCtx);
-                    this->actionFunc = func_80B391CC;
-                    break;
-                case 2:
-                    switch (globalCtx->msgCtx.choiceIndex) {
-                        case 0:
-                            if (!LINK_IS_ADULT) {
-                                // "I'm still a child!"
-                                osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ まだコドモなの！ ☆☆☆☆☆ \n" VT_RST);
-                                this->actor.textId = 0x5001;
-                            } else {
-                                // "I'm an adult. .. .."
-                                osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ アダルトなの。。。 ☆☆☆☆☆ \n" VT_RST);
-                                this->actor.textId = 0x5003;
-                            }
-                            break;
-                        case 1:
-                            // "Out!"
-                            osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n" VT_RST);
-                            this->actor.textId = 0x5004;
-                            break;
-                    }
+    if (this->unk_156 == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
+        if (this->switchFlag >= 0) {
+            this->actor.flags &= -2;
+            Flags_SetSwitch(globalCtx, this->switchFlag);
+        }
+        switch (this->unk_150) {
+            case 1:
+                Message_CloseTextbox(globalCtx);
+                this->actionFunc = func_80B391CC;
+                break;
+            case 2:
+                switch (globalCtx->msgCtx.choiceIndex) {
+                    case 0:
+                        if (!LINK_IS_ADULT) {
+                            // "I'm still a child!"
+                            osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ まだコドモなの！ ☆☆☆☆☆ \n" VT_RST);
+                            this->actor.textId = 0x5001;
+                        } else {
+                            // "I'm an adult. .. .."
+                            osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ アダルトなの。。。 ☆☆☆☆☆ \n" VT_RST);
+                            this->actor.textId = 0x5003;
+                        }
+                        break;
+                    case 1:
+                        // "Out!"
+                        osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n" VT_RST);
+                        this->actor.textId = 0x5004;
+                        break;
+                }
 
-                    this->unk_156 = 6;
-                    func_8010B720(globalCtx, this->actor.textId);
-                    this->actionFunc = func_80B391CC;
-                    break;
-                case 3:
-                    func_80106CCC(globalCtx);
-                    if (this->unk_164 == 0) {
-                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->actor.world.pos.x,
-                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 2);
-                        this->unk_164 = 1;
-                    }
+                this->unk_156 = TEXT_STATE_DONE;
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
+                this->actionFunc = func_80B391CC;
+                break;
+            case 3:
+                Message_CloseTextbox(globalCtx);
+                if (this->unk_164 == 0) {
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->actor.world.pos.x,
+                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 2);
+                    this->unk_164 = 1;
+                }
 
-                    this->actionFunc = func_80B391CC;
-                    break;
-                case 5:
-                    func_80106CCC(globalCtx);
-                    if (this->unk_164 == 0) {
-                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->actor.world.pos.x,
-                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
-                        this->unk_164 = 1;
-                    }
-                    this->actionFunc = func_80B391CC;
-                    break;
-            }
+                this->actionFunc = func_80B391CC;
+                break;
+            case 5:
+                Message_CloseTextbox(globalCtx);
+                if (this->unk_164 == 0) {
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->actor.world.pos.x,
+                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
+                    this->unk_164 = 1;
+                }
+                this->actionFunc = func_80B391CC;
+                break;
         }
     }
 }

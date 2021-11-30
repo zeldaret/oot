@@ -1,14 +1,14 @@
 <Root>
     <File Name="object_zf" Segment="6">
         <Texture Name="gZfDinolfosTLUT" OutName="zf_dinolfos_tlut" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
-        <Texture Name="object_zf_Tex_000200" OutName="tex_00000200" Format="ci8" Width="8" Height="8" Offset="0x200"/>
-        <Texture Name="object_zf_Tex_000240" OutName="tex_00000240" Format="ci8" Width="16" Height="16" Offset="0x240"/>
+        <Texture Name="object_zf_Tex_000200" OutName="tex_00000200" Format="ci8" Width="8" Height="8" Offset="0x200" TlutOffset="0x0"/>
+        <Texture Name="object_zf_Tex_000240" OutName="tex_00000240" Format="ci8" Width="16" Height="16" Offset="0x240" TlutOffset="0x0"/>
         <Texture Name="gZfDinolfosSpineTex" OutName="zf_dinolfos_spine" Format="rgba16" Width="8" Height="8" Offset="0x340"/>
         <Texture Name="object_zf_Tex_0003C0" OutName="tex_000003C0" Format="rgba16" Width="8" Height="8" Offset="0x3C0"/>
-        <Texture Name="object_zf_Tex_000440" OutName="tex_00000440" Format="ci8" Width="16" Height="16" Offset="0x440"/>
+        <Texture Name="object_zf_Tex_000440" OutName="tex_00000440" Format="ci8" Width="16" Height="16" Offset="0x440" TlutOffset="0x0"/>
         <Texture Name="object_zf_Tex_000540" OutName="tex_00000540" Format="i8" Width="8" Height="8" Offset="0x540"/>
         <Texture Name="object_zf_Tex_000580" OutName="tex_00000580" Format="i8" Width="8" Height="16" Offset="0x580"/>
-        <Texture Name="object_zf_Tex_000600" OutName="tex_00000600" Format="ci8" Width="16" Height="16" Offset="0x600"/>
+        <Texture Name="object_zf_Tex_000600" OutName="tex_00000600" Format="ci8" Width="16" Height="16" Offset="0x600" TlutOffset="0x0"/>
         <Texture Name="gZfDinolfosNormalEyeTex" OutName="zf_dinolfos_normal_eye" Format="rgba16" Width="16" Height="16" Offset="0x700"/>
         <DList Name="gZfDinolfosRightThighDL" Offset="0x3510"/>
         <DList Name="gZfDinolfosRightShinDL" Offset="0x3778"/>

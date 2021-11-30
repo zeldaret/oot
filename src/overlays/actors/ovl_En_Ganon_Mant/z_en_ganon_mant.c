@@ -56,7 +56,7 @@ static TearShape sTearShapes[] = {
     { sTearSizesSmall, ARRAY_COUNT(sTearSizesSmall) },
 };
 
-/// How much each joint is affected by backwards/forwards swaying motion
+// How much each joint is affected by backwards/forwards swaying motion
 static f32 sBackSwayCoefficients[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 0.5f, 0.25f, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
@@ -65,7 +65,7 @@ static f32 D_80A24DB4[] = {
     0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
-/// How much each joint is affected by sideways swaying motion, tends to 0
+// How much each joint is affected by sideways swaying motion, tends to 0
 static f32 sSideSwayCoefficients[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f, 0.0f,
 };
