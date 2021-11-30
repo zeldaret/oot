@@ -6,6 +6,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "assets/objects/object_ganon/object_ganon.h"
 #include "assets/objects/object_ganon_anime1/object_ganon_anime1.h"
+#include "assets/scenes/dungeons/ganon_boss/ganon_boss_scene.h"
 
 #define FLAGS 0x00000035
 
@@ -57,7 +58,7 @@ const ActorInit Boss_Ganon_InitVars = {
     (ActorFunc)BossGanon_Draw,
 };
 
-static ColliderCylinderInit D_808E4C00 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_HIT3,
         AT_ON | AT_TYPE_ENEMY,
@@ -130,12 +131,6 @@ typedef struct {
 
 GanondorfEffect sEffectBuf[200];
 
-extern u8 D_0600CF00[]; // title card texture
-extern u8 D_02007418[];
-extern u8 D_02006C18[];
-extern UNK_TYPE D_06009A20;
-extern FlexSkeletonHeader D_060114E8;
-
 extern AnimationHeader D_06005FFC;
 extern AnimationHeader D_060089F8;
 extern AnimationHeader D_0600EA00;
@@ -152,8 +147,6 @@ extern AnimationHeader D_0600BE38;
 extern AnimationHeader D_06010298;
 extern AnimationHeader D_06010514;
 extern AnimationHeader D_0600ADDC;
-
-extern Gfx D_0600C9E8[];
 
 void BossGanonEff_SpawnWindowShard(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, f32 scale) {
     static Color_RGB8 shardColors[] = { { 255, 175, 85 }, { 155, 205, 155 }, { 155, 125, 55 } };
@@ -380,9 +373,9 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_ProcessInitChain(thisx, sInitChain);
         ActorShape_Init(&thisx->shape, 0, NULL, 0);
         Actor_SetScale(thisx, 0.01f);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060114E8, NULL, NULL, NULL, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDorfSkel, NULL, NULL, NULL, 0);
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_808E4C00);
+        Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
 
         if (thisx->params != 1) {
             BossGanon_SetupIntroCutscene(this, globalCtx);
@@ -1109,7 +1102,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
                     globalCtx->objectCtx.status[Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON)].segment);
 
                 if (!(gSaveContext.eventChkInf[7] & 0x100)) {
-                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(D_0600CF00),
+                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gDorfTitleCardTex),
                                            160, 180, 128, 40);
                 }
 
@@ -1225,8 +1218,8 @@ void BossGanon_SetupTowerCutscene(BossGanon* this, GlobalContext* globalCtx) {
 
 void BossGanon_ShatterWindows(u8 windowShatterState) {
     s16 i;
-    u8* tex1 = (u8*)SEGMENTED_TO_VIRTUAL(D_02006C18);
-    u8* tex2 = (u8*)SEGMENTED_TO_VIRTUAL(D_02007418);
+    u8* tex1 = (u8*)SEGMENTED_TO_VIRTUAL(ganon_boss_sceneTex_006C18);
+    u8* tex2 = (u8*)SEGMENTED_TO_VIRTUAL(ganon_boss_sceneTex_007418);
 
     for (i = 0; i < 2048; i++) {
         if ((tex1[i] != 0) && (Rand_ZeroOne() < 0.03f)) {
@@ -3224,7 +3217,7 @@ s32 BossGanon_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     switch (limbIndex) {
         case 10:
             if (this->useOpenHand) {
-                *dList = D_0600C9E8;
+                *dList = gDorfOpenHandDL;
             }
             break;
 
@@ -3826,7 +3819,7 @@ void BossGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099);
     }
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06009A20));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDorfEyeTex));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           BossGanon_OverrideLimbDraw, BossGanon_PostLimbDraw, &this->actor);
