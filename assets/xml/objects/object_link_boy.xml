@@ -3,6 +3,28 @@
         <Skeleton Name="gLinkAdultSkel" Type="Flex" LimbType="LOD" Offset="0x377F4"/>
 
         <!-- Far Limb DLists-->
+        <DList Name="gLinkAdultWaistFarDL" Offset="0x2F530"/>
+        
+        <DList Name="gLinkAdultLeftThighFarDL" Offset="0x2F7A0"/>
+        <DList Name="gLinkAdultLeftLegFarDL" Offset="0x2F9B8"/>
+        <DList Name="gLinkAdultLeftFootFarDL" Offset="0x2FB80"/>
+        
+        <DList Name="gLinkAdultRightThighFarDL" Offset="0x2FCA0"/>
+        <DList Name="gLinkAdultRightLegFarDL" Offset="0x2FEC0"/>
+        <DList Name="gLinkAdultRightFootFarDL" Offset="0x30088"/>
+
+        <DList Name="gLinkAdultCollarFarDL" Offset="0x301A8"/>
+        <DList Name="gLinkAdultTorsoFarDL" Offset="0x30250"/>
+        <DList Name="gLinkAdultHeadDL" Offset="0x30400"/>
+        <DList Name="gLinkAdultHatDL" Offset="0x309B0"/>
+        <DList Name="gLinkAdultLeftShoulderFarDL" Offset="0x30AA0"/>
+        <DList Name="gLinkAdultLeftArmFarDL" Offset="0x30C48"/>
+        <DList Name="gLinkAdultLeftHandFarDL" Offset="0x26C58"/>
+        
+        <DList Name="gLinkAdultRightShoulderFarDL" Offset="0x30EF8"/>
+        <DList Name="gLinkAdultRightArmFarDL" Offset="0x310A0"/>
+        <DList Name="gLinkAdultRightHandFarDL" Offset="0x274F8"/>
+
+        <DList Name="gLinkAdultSwordAndSheathFarDL" Offset="0x27F00"/>
     </File>
 </Root>
-        
