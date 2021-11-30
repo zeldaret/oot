@@ -1,6 +1,8 @@
 <Root>
     <File Name="object_link_boy" Segment="6">
         <Skeleton Name="gLinkAdultSkel" Type="Flex" LimbType="LOD" Offset="0x377F4"/>
+
+        <!-- Far Limb DLists-->
     </File>
 </Root>
         

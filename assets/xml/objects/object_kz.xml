@@ -1,13 +1,13 @@
 ﻿<Root>
     <File Name="object_kz" Segment="6">
-        <Animation Name="object_kz_Anim_00046C" Offset="0x46C" />
-        <Animation Name="object_kz_Anim_00075C" Offset="0x75C" />
-        <Texture Name="object_kz_TLUT_000770" OutName="tlut_000770" Format="rgba16" Width="16" Height="16" Offset="0x770"/>
+        <Animation Name="gKzMweepAnim" Offset="0x46C" />
+        <Animation Name="gKzIdleAnim" Offset="0x75C" />
+        <Texture Name="gKzTlut" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x770"/>
         <Texture Name="gKzEyeTlut" OutName="eye_tlut" Format="rgba16" Width="16" Height="16" Offset="0x970"/>
-        <Texture Name="object_kz_Tex_000B70" OutName="tex_000B70" Format="ci8" Width="32" Height="32" Offset="0xB70" TlutOffset="0x770"/>
-        <Texture Name="object_kz_Tex_000F70" OutName="tex_000F70" Format="ci8" Width="8" Height="16" Offset="0xF70" TlutOffset="0x770"/>
-        <Texture Name="object_kz_Tex_000FF0" OutName="tex_000FF0" Format="ci8" Width="32" Height="32" Offset="0xFF0" TlutOffset="0x770"/>
-        <Texture Name="object_kz_Tex_0013F0" OutName="tex_0013F0" Format="ci8" Width="8" Height="8" Offset="0x13F0" TlutOffset="0x770"/>
+        <Texture Name="gKzFaceScalesTex" OutName="face_scales" Format="ci8" Width="32" Height="32" Offset="0xB70" TlutOffset="0x770"/>
+        <Texture Name="gKzSkinGradientTex" OutName="skin_gradient" Format="ci8" Width="8" Height="16" Offset="0xF70" TlutOffset="0x770"/>
+        <Texture Name="gKzCrownTex" OutName="crown" Format="ci8" Width="32" Height="32" Offset="0xFF0" TlutOffset="0x770"/>
+        <Texture Name="gKzSkinGradient2Tex" OutName="skin_gradient_2" Format="ci8" Width="8" Height="8" Offset="0x13F0" TlutOffset="0x770"/>
         <Texture Name="object_kz_Tex_001430" OutName="tex_001430" Format="ci8" Width="8" Height="8" Offset="0x1430" TlutOffset="0x770"/>
 
         <Texture Name="gKzEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x1470" TlutOffset="0x970"/>

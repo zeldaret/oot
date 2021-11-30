@@ -59,9 +59,9 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { &object_kz_Anim_00075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &object_kz_Anim_00075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &object_kz_Anim_00046C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gKzIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKzIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gKzMweepAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
 u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
