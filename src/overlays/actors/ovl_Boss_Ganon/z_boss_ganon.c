@@ -6,6 +6,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "assets/objects/object_ganon/object_ganon.h"
 #include "assets/objects/object_ganon_anime1/object_ganon_anime1.h"
+#include "assets/objects/object_ganon_anime2/object_ganon_anime2.h"
 #include "assets/scenes/dungeons/ganon_boss/ganon_boss_scene.h"
 
 #define FLAGS 0x00000035
@@ -131,22 +132,22 @@ typedef struct {
 
 GanondorfEffect sEffectBuf[200];
 
-extern AnimationHeader D_06005FFC;
-extern AnimationHeader D_060089F8;
-extern AnimationHeader D_0600EA00;
-extern AnimationHeader D_06004F64;
-extern AnimationHeader D_06006AF4;
-extern AnimationHeader D_06004304;
-extern AnimationHeader D_06001F58;
-extern AnimationHeader D_06003018;
-extern AnimationHeader D_06007268;
-extern AnimationHeader D_06007A64;
-extern AnimationHeader D_0600F19C;
-extern AnimationHeader D_0600B668;
-extern AnimationHeader D_0600BE38;
-extern AnimationHeader D_06010298;
-extern AnimationHeader D_06010514;
-extern AnimationHeader D_0600ADDC;
+extern AnimationHeader object_ganon_anime2_Anim_005FFC;
+extern AnimationHeader object_ganon_anime2_Anim_0089F8;
+extern AnimationHeader object_ganon_anime2_Anim_00EA00;
+extern AnimationHeader object_ganon_anime2_Anim_004F64;
+extern AnimationHeader object_ganon_anime2_Anim_006AF4;
+extern AnimationHeader object_ganon_anime2_Anim_004304;
+extern AnimationHeader object_ganon_anime2_Anim_001F58;
+extern AnimationHeader object_ganon_anime2_Anim_003018;
+extern AnimationHeader object_ganon_anime2_Anim_007268;
+extern AnimationHeader object_ganon_anime2_Anim_007A64;
+extern AnimationHeader object_ganon_anime2_Anim_00F19C;
+extern AnimationHeader object_ganon_anime2_Anim_00B668;
+extern AnimationHeader object_ganon_anime2_Anim_00BE38;
+extern AnimationHeader object_ganon_anime2_Anim_010298;
+extern AnimationHeader object_ganon_anime2_Anim_010514;
+extern AnimationHeader object_ganon_anime2_Anim_00ADDC;
 
 void BossGanonEff_SpawnWindowShard(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, f32 scale) {
     static Color_RGB8 shardColors[] = { { 255, 175, 85 }, { 155, 205, 155 }, { 155, 125, 55 } };
@@ -503,7 +504,7 @@ void BossGanon_SetupIntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
         this->unk_198 = 1;
         this->animBankIndex = animBankIndex;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[animBankIndex].segment);
-        Animation_MorphToLoop(&this->skelAnime, &D_06005FFC, 0.0f);
+        Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime2_Anim_005FFC, 0.0f);
     } else {
         this->actionFunc = BossGanon_SetupIntroCutscene;
     }
@@ -588,7 +589,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
                 this->csTimer = 0;
                 player->actor.world.pos.z = 20.0f;
                 this->useOpenHand = false;
-                Animation_MorphToLoop(&this->skelAnime, &D_060089F8, -5.0f);
+                Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime2_Anim_0089F8, -5.0f);
                 this->fwork[FWORK_1] = 1000.0f;
                 BossGanon_SetIntroCsCamera(this, 11);
                 this->unk_198 = 2;
@@ -828,12 +829,12 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
 
             if (this->csTimer == 30) {
                 Audio_QueueSeqCmd(0x100100FF);
-                this->fwork[FWORK_1] = Animation_GetLastFrame(&D_06004F64);
-                Animation_MorphToPlayOnce(&this->skelAnime, &D_06004F64, -5.0f);
+                this->fwork[FWORK_1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_004F64);
+                Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_004F64, -5.0f);
             }
 
             if ((this->csTimer > 30) && Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
-                Animation_MorphToLoop(&this->skelAnime, &D_06006AF4, 0.0f);
+                Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime2_Anim_006AF4, 0.0f);
                 this->fwork[FWORK_1] = 1000.0f;
             }
 
@@ -873,12 +874,12 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
 
             if (this->csTimer <= 20) {
                 if (this->csTimer == 20) {
-                    Animation_MorphToPlayOnce(&this->skelAnime, &D_06004304, -5.0f);
-                    this->fwork[FWORK_1] = Animation_GetLastFrame(&D_06004304);
+                    Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_004304, -5.0f);
+                    this->fwork[FWORK_1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_004304);
                 }
             } else if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
                 Message_StartTextbox(globalCtx, 0x70CA, NULL);
-                Animation_MorphToLoop(&this->skelAnime, &D_060089F8, -5.0f);
+                Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime2_Anim_0089F8, -5.0f);
                 this->fwork[FWORK_1] = 1000.0f;
             }
 
@@ -892,8 +893,8 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->envLightMode = 3;
 
             if (this->csTimer == 20) {
-                Animation_MorphToPlayOnce(&this->skelAnime, &D_06001F58, -5.0f);
-                this->fwork[FWORK_1] = Animation_GetLastFrame(&D_06001F58);
+                Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_001F58, -5.0f);
+                this->fwork[FWORK_1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_001F58);
             }
 
             if (this->csTimer > 10) {
@@ -926,7 +927,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->csCamEye.z += 6.0f;
 
             if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1] - 5.0f)) {
-                Animation_MorphToLoop(&this->skelAnime, &D_06003018, -5.0f);
+                Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime2_Anim_003018, -5.0f);
                 this->fwork[FWORK_1] = 1000.0f;
             }
 
@@ -937,7 +938,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->csState = 19;
             this->csTimer = 0;
             Message_StartTextbox(globalCtx, 0x70CC, NULL);
-            Animation_MorphToPlayOnce(&this->skelAnime, &D_06007268, -5.0f);
+            Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_007268, -5.0f);
             this->triforceType = DORF_TRIFORCE_DORF;
             this->fwork[DORF_TRIFORCE_SCALE] = 10.0f;
             this->fwork[DORF_TRIFORCE_PRIM_A] = 0.0f;
@@ -973,7 +974,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             }
 
             if (this->csTimer == 17) {
-                Animation_MorphToLoop(&this->skelAnime, &D_06007A64, -5.0f);
+                Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime2_Anim_007A64, -5.0f);
             }
 
             if ((this->csTimer > 80) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
@@ -1190,8 +1191,8 @@ void BossGanon_SetupDeathCutscene(BossGanon* this, GlobalContext* globalCtx) {
         this->unk_198 = 1;
         this->animBankIndex = animBankIndex;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[animBankIndex].segment);
-        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600EA00, 0.0f);
-        this->fwork[FWORK_1] = Animation_GetLastFrame(&D_0600EA00);
+        Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_00EA00, 0.0f);
+        this->fwork[FWORK_1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_00EA00);
         this->unk_508 = 0.0f;
     }
 }
@@ -1203,8 +1204,8 @@ void BossGanon_SetupTowerCutscene(BossGanon* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, animBankIndex)) {
         this->animBankIndex = animBankIndex;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[animBankIndex].segment);
-        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600EA00, 0.0f);
-        this->fwork[FWORK_1] = Animation_GetLastFrame(&D_0600EA00);
+        Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_00EA00, 0.0f);
+        this->fwork[FWORK_1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_00EA00);
         this->actionFunc = BossGanon_DeathAndTowerCutscene;
         this->csTimer = 0;
         this->csState = 100;
@@ -1294,7 +1295,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             this->csCamAt.z = this->unk_1FC.z;
 
             if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
-                Animation_MorphToLoop(&this->skelAnime, &D_0600F19C, 0.0f);
+                Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime2_Anim_00F19C, 0.0f);
                 this->csState = 2;
                 this->csTimer = 0;
             }
@@ -1340,8 +1341,8 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
 
             if ((this->fwork[FWORK_1] > 100.0f) && (this->csTimer > 100) &&
                 (Message_GetState(&globalCtx->msgCtx) == 0)) {
-                Animation_MorphToPlayOnce(&this->skelAnime, &D_0600B668, 0.0f);
-                this->fwork[FWORK_1] = Animation_GetLastFrame(&D_0600B668);
+                Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_00B668, 0.0f);
+                this->fwork[FWORK_1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_00B668);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_TOKETU);
             } else {
                 if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1] - 16.0f)) {
@@ -1364,7 +1365,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
                 }
 
                 if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
-                    Animation_MorphToLoop(&this->skelAnime, &D_0600BE38, 0.0f);
+                    Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime2_Anim_00BE38, 0.0f);
                     this->csState = 4;
                     this->csTimer = 0;
                 }
@@ -1387,8 +1388,8 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             if ((this->csTimer > 70) && (Message_GetState(&globalCtx->msgCtx) == 0)) {
                 this->csState = 6;
                 this->csTimer = 0;
-                Animation_MorphToPlayOnce(&this->skelAnime, &D_06010298, 0.0f);
-                this->fwork[FWORK_1] = Animation_GetLastFrame(&D_06010298);
+                Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_010298, 0.0f);
+                this->fwork[FWORK_1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_010298);
 
                 this->csCamMovementScale = 0.05f;
                 this->csCamMaxStepScale = 0.0f;
@@ -1419,7 +1420,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             Math_ApproachF(&this->csCamMaxStepScale, 0.2f, 1.0f, 0.01f);
 
             if (Animation_OnFrame(&this->skelAnime, this->fwork[FWORK_1])) {
-                Animation_MorphToLoop(&this->skelAnime, &D_06010514, 0.0f);
+                Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime2_Anim_010514, 0.0f);
                 this->csState = 7;
                 this->csTimer = 0;
                 this->unk_2E8 = 0;
@@ -1527,8 +1528,8 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
             Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
-            Animation_MorphToPlayOnce(&this->skelAnime, &D_0600ADDC, 0.0f);
-            this->fwork[1] = Animation_GetLastFrame(&D_0600EA00);
+            Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_00ADDC, 0.0f);
+            this->fwork[1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_00EA00);
             this->csState = 101;
             this->skelAnime.playSpeed = 0.0f;
             sZelda = (EnZl3*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ZL3, 0.0f,
