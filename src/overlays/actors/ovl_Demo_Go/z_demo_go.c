@@ -76,7 +76,7 @@ void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
     f32 sp1C;
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &thisx->world.pos, &sp20, &sp1C);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &thisx->world.pos, &sp20, &sp1C);
         Audio_PlaySoundAtPosition(globalCtx, &sp20, 20, NA_SE_EV_OBJECT_FALL);
     }
 }
