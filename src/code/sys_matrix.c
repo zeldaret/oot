@@ -471,11 +471,10 @@ void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation) {
 }
 
 /**
- * Translate and rotate using YXZ Tait-Bryan angles.
- * This means a (column) vector is first rotated around Z, then around X, then around Y, then translated, then gets
- * transformed according to whatever the matrix was previously.
+ * Set the current matrix to translate and rotate using YXZ Tait-Bryan angles.
+ * This means a (column) vector is first rotated around Z, then around X, then around Y, then translated.
  */
-void Matrix_TranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot) {
+void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp1 = Math_SinS(rot->y);
     f32 temp2 = Math_CosS(rot->y);
