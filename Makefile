@@ -71,6 +71,7 @@ CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUA
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
+MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 
@@ -172,9 +173,11 @@ $(ROM): $(ELF)
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
-build/ldscript.txt: $(SPEC)
-	$(CPP) $(CPPFLAGS) $< > build/spec
-	$(MKLDSCRIPT) build/spec $@
+build/$(SPEC): $(SPEC)
+	$(CPP) $(CPPFLAGS) $< > $@
+
+build/ldscript.txt: build/$(SPEC)
+	$(MKLDSCRIPT) $< $@
 
 build/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > build/undefined_syms.txt
@@ -226,6 +229,12 @@ build/assets/text/staff_message_data_static.o: build/assets/text/message_data_st
 build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
+
+build/dmadata_table_spec.h: build/$(SPEC)
+	$(MKDMADATA) $< $@
+
+build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
+build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
