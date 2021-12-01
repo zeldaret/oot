@@ -37,7 +37,7 @@ extern OSViMode osViModePalLan1;
 extern u64 osClockRate;
 extern s32 osViClock;
 extern u32 __osShutdown;
-extern u32 __OSGlobalIntMask;
+extern OSHWIntr __OSGlobalIntMask;
 extern OSThread* __osThreadTail[];
 extern OSThread* __osRunQueue;
 extern OSThread* __osActiveQueue;

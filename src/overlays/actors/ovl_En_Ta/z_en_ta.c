@@ -711,7 +711,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             this->unk_2E0 &= ~0x10;
                             this->unk_2E0 &= ~0x100;
                             gSaveContext.eventInf[0] |= 0x100;
-                            Audio_QueueSeqCmd(NA_BGM_STOP);
+                            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
                             this->unk_2E0 &= ~0x200;
                             Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
                             return;
@@ -740,7 +740,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.timer1Value == 0 && !Gameplay_InCsMode(globalCtx)) {
-        Audio_QueueSeqCmd(NA_BGM_STOP);
+        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
         this->unk_2E0 &= ~0x200;
         func_80078884(NA_SE_SY_FOUND);
         gSaveContext.timer1State = 0;
@@ -774,6 +774,7 @@ void func_80B1585C(EnTa* this, GlobalContext* globalCtx) {
 
             if (this->superCuccos[i] != NULL) {
                 EnNiw* niw = this->superCuccos[i];
+
                 niw->unk_308 = 1;
                 niw->actor.gravity = 0.0f;
             }
@@ -1181,6 +1182,7 @@ s32 EnTa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         this->unk_2E0 &= ~0x8;
     } else if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
         s32 limbIdx50 = limbIndex * 50;
+
         rot->y += Math_SinS(globalCtx->state.frames * (limbIdx50 + 0x814)) * 200.0f;
         rot->z += Math_CosS(globalCtx->state.frames * (limbIdx50 + 0x940)) * 200.0f;
     }

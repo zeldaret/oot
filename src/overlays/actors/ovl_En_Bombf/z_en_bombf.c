@@ -472,7 +472,7 @@ Gfx* EnBombf_NewMtxDList(GraphicsContext* gfxCtx, GlobalContext* globalCtx) {
 
     displayList = Graph_Alloc(gfxCtx, 5 * sizeof(Gfx));
     displayListHead = displayList;
-    Matrix_ReplaceRotation(&globalCtx->mf_11DA0);
+    Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
     gSPMatrix(displayListHead++, Matrix_NewMtx(gfxCtx, "../z_en_bombf.c", 1021),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPEndDisplayList(displayListHead);

@@ -844,7 +844,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
     u16 i;
     u16 j;
     u16 time;
-    EnvLightSettings* lightSettingsList = globalCtx->envCtx.lightSettingsList; // 7C
+    EnvLightSettings* lightSettingsList = globalCtx->envCtx.lightSettingsList;
     s32 adjustment;
 
     if ((((void)0, gSaveContext.gameMode) != 0) && (((void)0, gSaveContext.gameMode) != 3)) {
@@ -1027,7 +1027,6 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                     }
                 }
             } else {
-                // 3200 (l 1608)
                 if (!envCtx->blendIndoorLights) {
                     for (i = 0; i < 3; i++) {
                         envCtx->lightSettings.ambientColor[i] = lightSettingsList[envCtx->unk_BD].ambientColor[i];
@@ -1042,7 +1041,6 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                     envCtx->lightSettings.fogFar = lightSettingsList[envCtx->unk_BD].fogFar;
                     envCtx->unk_D8 = 1.0f;
                 } else {
-                    // 3344 (l 1689)
                     u8 blendRate = (lightSettingsList[envCtx->unk_BD].fogNear >> 0xA) * 4;
 
                     if (blendRate == 0) {
@@ -1925,7 +1923,7 @@ void func_800758AC(GlobalContext* globalCtx) {
         func_800F6FB4(4);
     } else if (((void)0, gSaveContext.unk_140E) != NA_BGM_GENERAL_SFX) {
         if (!func_80077600()) {
-            Audio_QueueSeqCmd((s32)((void)0, gSaveContext.unk_140E));
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (s32)((void)0, gSaveContext.unk_140E));
         }
         gSaveContext.unk_140E = NA_BGM_GENERAL_SFX;
     } else if (globalCtx->soundCtx.seqIndex == NA_BGM_NO_MUSIC) {
@@ -1985,7 +1983,7 @@ void func_80075B44(GlobalContext* globalCtx) {
         case 1:
             if (gSaveContext.dayTime > 0xB71C) {
                 if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                    Audio_QueueSeqCmd(0x10F000FF);
+                    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xF000FF);
                 }
                 globalCtx->envCtx.unk_E0++;
             }
@@ -2419,7 +2417,7 @@ void func_80077684(GlobalContext* globalCtx) {
     func_800F6D58(14, 1, 0);
     func_800F6D58(15, 1, 0);
 
-    if (func_800FA0B4(0) == NA_BGM_NATURE_BACKGROUND) {
+    if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_BACKGROUND) {
         gSaveContext.seqIndex = NA_BGM_NATURE_SFX_RAIN;
         func_800758AC(globalCtx);
     }

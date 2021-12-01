@@ -6,6 +6,7 @@ s32 gUseAtanContFrac;
 f32 Math_FTanF(f32 x) {
     f32 sin = sinf(x);
     f32 cos = cosf(x);
+
     return sin / cos;
 }
 
