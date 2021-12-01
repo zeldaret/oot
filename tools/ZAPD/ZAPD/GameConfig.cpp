@@ -25,7 +25,7 @@ GameConfig::~GameConfig()
 void GameConfig::ReadTexturePool(const fs::path& texturePoolXmlPath)
 {
 	tinyxml2::XMLDocument doc;
-	tinyxml2::XMLError eResult = doc.LoadFile(texturePoolXmlPath.c_str());
+	tinyxml2::XMLError eResult = doc.LoadFile(texturePoolXmlPath.string().c_str());
 
 	if (eResult != tinyxml2::XML_SUCCESS)
 	{
@@ -155,7 +155,7 @@ void GameConfig::ReadConfigFile(const fs::path& argConfigFilePath)
 		{"ExternalFile", &GameConfig::ConfigFunc_ExternalFile},
 	};
 
-	configFilePath = argConfigFilePath;
+	configFilePath = argConfigFilePath.string();
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError eResult = doc.LoadFile(configFilePath.c_str());
 

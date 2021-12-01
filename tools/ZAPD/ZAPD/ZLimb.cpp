@@ -4,7 +4,7 @@
 
 #include "Globals.h"
 #include "Utils/BitConverter.h"
-#include "Utils/StringHelper.h"
+#include "WarningHandler.h"
 
 REGISTER_ZFILENODE(Limb, ZLimb);
 
@@ -37,17 +37,15 @@ void ZLimb::ParseXML(tinyxml2::XMLElement* reader)
 
 	if (limbType == "")
 	{
-		throw std::runtime_error(StringHelper::Sprintf("ZLimb::ParseXML: Error in '%s'.\n"
-		                                               "\t Missing 'LimbType' attribute in xml.\n",
-		                                               name.c_str()));
+		HANDLE_ERROR_RESOURCE(WarningType::MissingAttribute, parent, this, rawDataIndex,
+		                      "missing 'LimbType' attribute in <Limb>", "");
 	}
 
 	type = GetTypeByAttributeName(limbType);
 	if (type == ZLimbType::Invalid)
 	{
-		throw std::runtime_error(StringHelper::Sprintf("ZLimb::ParseXML: Error in '%s'.\n"
-		                                               "\t Invalid 'LimbType' found: '%s'.\n",
-		                                               name.c_str(), limbType.c_str()));
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      "invalid value found for 'LimbType' attribute", "");
 	}
 }
 
@@ -109,8 +107,12 @@ void ZLimb::ParseRawData()
 		}
 		break;
 
-	default:
-		throw std::runtime_error("Invalid ZLimb type");
+	case ZLimbType::Curve:
+	case ZLimbType::Legacy:
+		break;
+
+	case ZLimbType::Invalid:
+		assert(!"whoops");
 		break;
 	}
 }
