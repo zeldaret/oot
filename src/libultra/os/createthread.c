@@ -19,9 +19,9 @@ void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, 
     thread->context.sp = (u64)(s32)sp - 16;
     thread->context.ra = __osCleanupThread;
 
-    mask = 0x3FFF01;
-    thread->context.sr = (mask & 0xFF01) | 2;
-    thread->context.rcp = (mask & 0x3F0000) >> 16;
+    mask = OS_IM_ALL;
+    thread->context.sr = (mask & OS_IM_CPU) | 2;
+    thread->context.rcp = (mask & RCP_IMASK) >> 16;
     thread->context.fpcsr = FPCSR_FS | FPCSR_EV;
     thread->fp = 0;
     thread->state = OS_STATE_STOPPED;
