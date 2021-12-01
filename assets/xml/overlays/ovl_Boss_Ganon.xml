@@ -31,9 +31,9 @@
         <DList Name="gDorfShadowSetupDL" Offset="0xE6F8" Static="Off"/>
         <DList Name="gDorfShadowModelDL" Offset="0xE718" Static="Off"/>
         <DList Name="gDorfTriforceDL" Offset="0xF788" Static="Off"/>
-        <DList Name="gDorfWindowShardMatDL" Offset="0xFC78" Static="Off"/>
+        <DList Name="gDorfWindowShardMaterialDL" Offset="0xFC78" Static="Off"/>
         <DList Name="gDorfWindowShardModelDL" Offset="0xFD20" Static="Off"/>
-        <DList Name="gDorfLightBallMatDL" Offset="0x11578" Static="Off"/>
+        <DList Name="gDorfLightBallMaterialDL" Offset="0x11578" Static="Off"/>
         <DList Name="gDorfSquareDL" Offset="0x115E8" Static="Off"/>
         <DList Name="gDorfLightningDL" Offset="0x1A640" Static="Off"/>
         <DList Name="gDorfUnusedDL" Offset="0x1A6F0" Static="Off"/>

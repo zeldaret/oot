@@ -32,7 +32,7 @@ typedef enum {
     /* 1 */ EFF_DIST,
     /* 2 */ EFF_ROLL,
     /* 3 */ EFF_YAW,
-    /* 4 */ EFF_FWORK_MAX
+    /* 4 */ EFF_GDF_FWORK_MAX
 } EffectFWork;
 
 typedef enum {
@@ -56,7 +56,7 @@ typedef struct {
     /* 0x0028 */ Color_RGB8 color;
     /* 0x002C */ s16 alpha;
     /* 0x002E */ s16 work[EFF_WORK_MAX];
-    /* 0x0034 */ f32 workf[EFF_FWORK_MAX];
+    /* 0x0034 */ f32 workf[EFF_GDF_FWORK_MAX];
     /* 0x0044 */ Actor* target;
 } BossTwEffect;
 

@@ -52,7 +52,7 @@ typedef enum {
     /* 23 */ UNK_F17,
     /* 24 */ UNK_F18,
     /* 25 */ UNK_F19,
-    /* 26 */ FWORK_MAX
+    /* 26 */ GDF_FWORK_MAX
 } TwFwork;
 
 typedef struct BossTw {
@@ -61,7 +61,7 @@ typedef struct BossTw {
     /* 0x0150 */ s16 work[WORK_MAX];
     /* 0x0168 */ char unused_170[0xE]; // Likely unused Work variables
     /* 0x0178 */ s16 timers[5];
-    /* 0x0184 */ f32 workf[FWORK_MAX];
+    /* 0x0184 */ f32 workf[GDF_FWORK_MAX];
     /* 0x01D4 */ f32 fogR;
     /* 0x01D8 */ f32 fogG;
     /* 0x01DC */ f32 fogB;

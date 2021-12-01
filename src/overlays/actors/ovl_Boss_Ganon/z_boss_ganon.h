@@ -9,48 +9,48 @@ struct BossGanon;
 typedef void (*BossGanonActionFunc)(struct BossGanon*, GlobalContext*);
 
 typedef enum {
-    /* 0 */ FWORK_0,
-    /* 1 */ FWORK_1,
-    /* 2 */ DORF_CENTER_POS,
-    /* 3 */ DORF_TRIFORCE_PRIM_B,
-    /* 4 */ DORF_TRIFORCE_PRIM_A,
-    /* 5 */ DORF_TRIFORCE_ENV_G,
-    /* 6 */ DORF_TRIFORCE_SCALE,
-    /* 7 */ DORF_VORTEX_ALPHA,
-    /* 8 */ DORF_VORTEX_SCALE,
-    /* 9 */ FWORK_UNUSED_9,
-    /* 10 */ FWORK_MAX
+    /*  0 */ GDF_FWORK_0,
+    /*  1 */ GDF_FWORK_1,
+    /*  2 */ GDF_CENTER_POS,
+    /*  3 */ GDF_TRIFORCE_PRIM_B,
+    /*  4 */ GDF_TRIFORCE_PRIM_A,
+    /*  5 */ GDF_TRIFORCE_ENV_G,
+    /*  6 */ GDF_TRIFORCE_SCALE,
+    /*  7 */ GDF_VORTEX_ALPHA,
+    /*  8 */ GDF_VORTEX_SCALE,
+    /*  9 */ GDF_FWORK_UNUSED_9,
+    /* 10 */ GDF_FWORK_MAX
 } GanondorfFwork;
 
 typedef enum {
-    /* 0 */ WINDOW_SHATTER_OFF,
-    /* 1 */ WINDOW_SHATTER_PARTIAL,
-    /* 2 */ WINDOW_SHATTER_FULL
+    /* 0 */ GDF_WINDOW_SHATTER_OFF,
+    /* 1 */ GDF_WINDOW_SHATTER_PARTIAL,
+    /* 2 */ GDF_WINDOW_SHATTER_FULL
 } WindowShatterState;
 
 typedef enum {
-    /* 0 */ DORF_SHOCK_DORF_YELLOW,
-    /* 1 */ DORF_SHOCK_PLAYER_YELLOW,
-    /* 2 */ DORF_SHOCK_PLAYER_PURPLE
+    /* 0 */ GDF_SHOCK_DORF_YELLOW,
+    /* 1 */ GDF_SHOCK_PLAYER_YELLOW,
+    /* 2 */ GDF_SHOCK_PLAYER_PURPLE
 } GanondorfShockType;
 
 typedef enum {
-    /* 0 */ DORF_EFF_NONE,
-    /* 1 */ DORF_EFF_SPARKLE,
-    /* 2 */ DORF_EFF_LIGHT_RAY,
-    /* 3 */ DORF_EFF_SHOCK,
-    /* 4 */ DORF_EFF_LIGHTNING,
-    /* 5 */ DORF_EFF_IMPACT_DUST_DARK,
-    /* 6 */ DORF_EFF_IMPACT_DUST_LIGHT,
-    /* 7 */ DORF_EFF_SHOCKWAVE,
-    /* 8 */ DORF_EFF_BLACK_DOT,
-    /* 9 */ DORF_EFF_WINDOW_SHARD
+    /* 0 */ GDF_EFF_NONE,
+    /* 1 */ GDF_EFF_SPARKLE,
+    /* 2 */ GDF_EFF_LIGHT_RAY,
+    /* 3 */ GDF_EFF_SHOCK,
+    /* 4 */ GDF_EFF_LIGHTNING,
+    /* 5 */ GDF_EFF_IMPACT_DUST_DARK,
+    /* 6 */ GDF_EFF_IMPACT_DUST_LIGHT,
+    /* 7 */ GDF_EFF_SHOCKWAVE,
+    /* 8 */ GDF_EFF_BLACK_DOT,
+    /* 9 */ GDF_EFF_WINDOW_SHARD
 } GanondorfEffectType;
 
 typedef enum {
-    /* 0 */ DORF_TRIFORCE_PLAYER,
-    /* 1 */ DORF_TRIFORCE_ZELDA,
-    /* 2 */ DORF_TRIFORCE_DORF
+    /* 0 */ GDF_TRIFORCE_PLAYER,
+    /* 1 */ GDF_TRIFORCE_ZELDA,
+    /* 2 */ GDF_TRIFORCE_DORF
 } GanondorfTriforceType;
 
 typedef struct BossGanon {
@@ -77,7 +77,7 @@ typedef struct BossGanon {
     /* 0x01C0 */ u8 startVolley;
     /* 0x01C2 */ s16 unk_1C2;
     /* 0x01C4 */ s16 screenFlashTimer;
-    /* 0x01C8 */ f32 fwork[FWORK_MAX];
+    /* 0x01C8 */ f32 fwork[GDF_FWORK_MAX];
     /* 0x01F0 */ Vec3f unk_1F0;
     /* 0x01FC */ Vec3f unk_1FC;
     /* 0x0208 */ Vec3f unk_208;
