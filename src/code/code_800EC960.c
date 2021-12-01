@@ -136,7 +136,7 @@ u8 sAudioExtraFilter2 = 0;
 Vec3f* sSariaBgmPtr = NULL;
 f32 D_80130650 = 2000.0f;
 u8 sSeqModeInput = 0;
-u8 sSeqFlags[0x70] = {
+u8 sSeqFlags[0x6E] = {
     0x2,  // NA_BGM_GENERAL_SFX
     0x1,  // NA_BGM_NATURE_BACKGROUND
     0,    // NA_BGM_FIELD_LOGIC
@@ -247,8 +247,6 @@ u8 sSeqFlags[0x70] = {
     0,    // NA_BGM_FIRE_BOSS
     0x8,  // NA_BGM_MINI_GAME_2
     0,    // NA_BGM_VARIOUS_SFX
-    0,    //
-    0,    //
 };
 
 s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -3855,7 +3853,7 @@ void func_800F56A8(void) {
 
     temp_v0 = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
     bvar = temp_v0 & 0xFF;
-    if ((temp_v0 != NA_BGM_DISABLED) && ((sSeqFlags[bvar] & 0x10) != 0)) {
+    if ((temp_v0 != NA_BGM_DISABLED) && (sSeqFlags[bvar] & 0x10)) {
         if (D_8013062C != 0xC0) {
             D_8013062C = gAudioContext.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[3];
         } else {
@@ -4460,7 +4458,7 @@ void func_800F6FB4(u8 arg0) {
     u8 b2;
 
     if ((D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 == NA_BGM_DISABLED) ||
-        ((sSeqFlags[((u8)D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254) & 0xFF] & 0x80) == 0)) {
+        !(sSeqFlags[((u8)D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254) & 0xFF] & 0x80)) {
         func_800F6E7C(D_801306DC[arg0].unk_00, D_801306DC[arg0].unk_02);
         while ((D_801306DC[arg0].unk_04[i] != 0xFF) && (i < 100)) {
             // Probably a fake match, using Audio_SeqCmd8 doesn't work.
