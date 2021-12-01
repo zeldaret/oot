@@ -170,7 +170,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
 
         SREG(6) = -1;
-        if (D_8012D260 != 0) {
+        if (D_8012D260 != NULL) {
             HREG(80) = 7;
             HREG(81) = 1;
             HREG(83) = 2;

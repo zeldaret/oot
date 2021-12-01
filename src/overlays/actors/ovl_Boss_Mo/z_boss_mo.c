@@ -360,7 +360,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
             return;
         }
         if (gSaveContext.eventChkInf[7] & 0x10) {
-            Audio_QueueSeqCmd(NA_BGM_BOSS);
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
             this->tentMaxAngle = 5.0f;
             this->timers[0] = 50;
         } else {
@@ -407,27 +407,26 @@ void BossMo_SetupTentacle(BossMo* this, GlobalContext* globalCtx) {
 }
 
 void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
-    // variables marked real are put on the stack and cannot be reordered
     s16 tentXrot;
-    s16 sp1B4 = 0; // real
+    s16 sp1B4 = 0;
     s32 buttons;
     Player* player = GET_PLAYER(globalCtx);
     s16 indS0;
     s16 indS1;
     Camera* camera1;
     Camera* camera2;
-    BossMo* otherTent = (BossMo*)this->otherTent; // real
-    f32 maxSwingRateX;                            // real
-    f32 maxSwingLagX;                             // real
-    f32 maxSwingSizeX;                            // real
-    f32 maxSwingRateZ;                            // real
-    f32 maxSwingLagZ;                             // real
-    f32 maxSwingSizeZ;                            // real
-    f32 swingRateAccel;                           // real
-    f32 swingSizeAccel;                           // real
-    s16 rippleCount;                              // real
+    BossMo* otherTent = (BossMo*)this->otherTent;
+    f32 maxSwingRateX;
+    f32 maxSwingLagX;
+    f32 maxSwingSizeX;
+    f32 maxSwingRateZ;
+    f32 maxSwingLagZ;
+    f32 maxSwingSizeZ;
+    f32 swingRateAccel;
+    f32 swingSizeAccel;
+    s16 rippleCount;
     s16 indT5;
-    Vec3f ripplePos; // real
+    Vec3f ripplePos;
     f32 randAngle;
     f32 randFloat;
     f32 tempf1;
@@ -438,21 +437,21 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dy;
     f32 dz;
-    Vec3f sp138; // real
-    Vec3f sp12C; // real
-    Vec3f sp120; // real
+    Vec3f sp138;
+    Vec3f sp12C;
+    Vec3f sp120;
     s32 pad11C;
     s32 pad118;
     s32 pad114;
     s32 pad110;
     s32 pad10C;
     s32 pad108;
-    Vec3f spFC; // real
-    Vec3f spF0; // real
+    Vec3f spFC;
+    Vec3f spF0;
     f32 padEC;
-    Vec3f spE0; // real
-    Vec3f spD4; // real
-    Vec3f spC8; // real
+    Vec3f spE0;
+    Vec3f spD4;
+    Vec3f spC8;
 
     if (this->work[MO_TENT_ACTION_STATE] <= MO_TENT_DEATH_3) {
         this->actor.world.pos.y = MO_WATER_LEVEL(globalCtx);
@@ -1104,7 +1103,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                        WARP_DUNGEON_ADULT);
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
                                 -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
-                    Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
+                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
                     Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
                 }
             }
@@ -1117,8 +1116,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
          (this->work[MO_TENT_ACTION_STATE] == MO_TENT_DEATH_2) || (this->work[MO_TENT_ACTION_STATE] == MO_TENT_CURL) ||
          (this->work[MO_TENT_ACTION_STATE] == MO_TENT_GRAB)) &&
         (Rand_ZeroOne() < 0.8f) && (this->actor.scale.x > 0.001f)) {
-        Vec3f pos;                             // real
-        Vec3f velocity = { 0.0f, 0.0f, 0.0f }; // real
+        Vec3f pos;
+        Vec3f velocity = { 0.0f, 0.0f, 0.0f };
         f32 scale;
         f32 temp;
 
@@ -1238,7 +1237,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 this->actor.world.rot.y = 0x721A;
                 sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_READY;
                 sMorphaTent1->timers[0] = 30000;
-                Audio_QueueSeqCmd(0x103200FF);
+                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x3200FF);
                 Message_CloseTextbox(globalCtx);
             } else {
                 break;
@@ -1419,7 +1418,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 this->cameraAccel = 0.01f;
             }
             if (this->timers[2] == 150) {
-                Audio_QueueSeqCmd(NA_BGM_BOSS);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
             }
             if (this->timers[2] == 130) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
@@ -1773,7 +1772,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                     if (((sMorphaTent1->csCamera == 0) && (sMorphaTent2 == NULL)) ||
                         ((sMorphaTent1->csCamera == 0) && (sMorphaTent2 != NULL) && (sMorphaTent2->csCamera == 0))) {
                         Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                        Audio_QueueSeqCmd(0x100100FF);
+                        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
                         this->csState = MO_DEATH_START;
                         sMorphaTent1->drawActor = false;
                         sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_DEATH_START;
@@ -2268,7 +2267,8 @@ void BossMo_UpdateTent(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->tentPos[40], &this->tentTipPos, &this->actor.projectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &this->tentPos[40], &this->tentTipPos,
+                                 &this->actor.projectedW);
     osSyncPrintf("MO : Move mode = <%d>\n", this->work[MO_TENT_ACTION_STATE]);
     Math_ApproachS(&player->actor.shape.rot.x, 0, 5, 0x3E8);
     Math_ApproachS(&player->actor.shape.rot.z, 0, 5, 0x3E8);
@@ -2516,7 +2516,7 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
             Matrix_Translate(((BossMo_RandZeroOne() - 0.5f) * 10.0f) * this->tentScale[i - 2].x,
                              ((BossMo_RandZeroOne() - 0.5f) * 3.0f) + phi_f20,
                              ((BossMo_RandZeroOne() - 0.5f) * 10.0f) * this->tentScale[i - 2].z, MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(phi_f22, phi_f22, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6511),
@@ -2969,7 +2969,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
                             255, effect->alpha);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale / effect->fwork[MO_FX_STRETCH], effect->fwork[MO_FX_STRETCH] * effect->scale,
                          1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
@@ -3020,7 +3020,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, effect->alpha);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7476),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -3573,11 +3573,11 @@ void BossMo_Unknown(void) {
 
     if (BREG(32) != 0) {
         BREG(32)--;
-        Audio_QueueSeqCmd(0x100100FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
         func_80078914(&zeroVec, unkSfx[BREG(33)]);
     }
     if (BREG(34) != 0) {
         BREG(34) = 0;
-        Audio_QueueSeqCmd((u16)BREG(35));
+        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (u16)BREG(35));
     }
 }

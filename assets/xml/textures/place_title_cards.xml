@@ -1,5 +1,5 @@
 <Root>
-    <File Name="g_pn_01" >
+    <File Name="g_pn_01">
         <Texture Name="gForestTempleTitleCardENGTex" OutName="forest_temple_eng" Format="ia8" Width="144" Height="24" Offset="0x0"/>
         <Texture Name="gForestTempleTitleCardGERTex" OutName="forest_temple_ger" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gForestTempleTitleCardFRATex" OutName="forest_temple_fra" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
@@ -64,7 +64,7 @@
         <Texture Name="gGreatFairysFountainTitleCardGERTex" OutName="great_fairys_fountain_ger" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gGreatFairysFountainTitleCardFRATex" OutName="great_fairys_fountain_fra" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
-        <File Name="g_pn_14">
+    <File Name="g_pn_14">
         <Texture Name="gChamberOfTheSagesTitleCardENGTex" OutName="chamber_of_the_sages_eng" Format="ia8" Width="144" Height="24" Offset="0x0"/>
         <Texture Name="gChamberOfTheSagesTitleCardGERTex" OutName="chamber_of_the_sages_ger" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gChamberOfTheSagesTitleCardFRATex" OutName="chamber_of_the_sages_fra" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>

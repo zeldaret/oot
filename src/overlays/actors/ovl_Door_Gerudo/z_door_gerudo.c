@@ -37,8 +37,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_80994B70;
-
 void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     DoorGerudo* this = THIS;

@@ -275,6 +275,7 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
 
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardDieAnim);
+
     this->unk_288 = frames;
     Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardDieAnim, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A56ACC;

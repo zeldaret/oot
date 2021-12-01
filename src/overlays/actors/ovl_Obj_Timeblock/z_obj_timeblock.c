@@ -70,10 +70,12 @@ u32 ObjTimeblock_CalculateIsVisible(ObjTimeblock* this) {
             return this->unk_175;
         } else {
             u8 temp = ((this->dyna.actor.params >> 15) & 1) ? true : false;
+
             if (this->unk_177 == 1) {
                 return this->unk_174 ^ temp;
             } else {
                 u8 linkIsYoung = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? true : false;
+
                 return this->unk_174 ^ temp ^ linkIsYoung;
             }
         }
@@ -254,6 +256,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, GlobalContext* globalCtx) {
 
 void func_80BA06AC(ObjTimeblock* this, GlobalContext* globalCtx) {
     s32 switchFlag = this->dyna.actor.params & 0x3F;
+
     this->unk_172 = globalCtx->msgCtx.lastPlayedSong;
 
     if (this->demoEffectFirstPartTimer > 0 && --this->demoEffectFirstPartTimer == 0) {

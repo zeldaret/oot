@@ -1881,6 +1881,6 @@ void FileChoose_Init(GameState* thisx) {
     this->state.destroy = FileChoose_Destroy;
     FileChoose_InitContext(&this->state);
     Font_LoadOrderedFont(&this->font);
-    Audio_QueueSeqCmd(0xF000000A);
-    func_800F5E18(0, 0x57, 0, 7, 1);
+    Audio_QueueSeqCmd(0xF << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xA);
+    func_800F5E18(SEQ_PLAYER_BGM_MAIN, NA_BGM_FILE_SELECT, 0, 7, 1);
 }
