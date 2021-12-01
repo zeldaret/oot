@@ -56,10 +56,10 @@
         <Limb Name="gLinkChildHandLimb" Type="LOD" Offset="0x2CE68"/>
         <Limb Name="gLinkChildHatLimb" Type="LOD" Offset="0x2CE78"/>
         <Limb Name="gLinkChildCollarLimb" Type="LOD" Offset="0x2CE88"/>
-        <Limb Name="gLinkChildRightSholderLimb" Type="LOD" Offset="0x2CE98"/>
+        <Limb Name="gLinkChildRightshoulderLimb" Type="LOD" Offset="0x2CE98"/>
         <Limb Name="gLinkChildRightForearmLimb" Type="LOD" Offset="0x2CEA8"/>
         <Limb Name="gLinkChildLeftHandLimb" Type="LOD" Offset="0x2CEB8"/>
-        <Limb Name="gLinkChildLeftSholderLimb" Type="LOD" Offset="0x2CEC8"/>
+        <Limb Name="gLinkChildLeftshoulderLimb" Type="LOD" Offset="0x2CEC8"/>
         <Limb Name="gLinkChildLeftForearmLimb" Type="LOD" Offset="0x2CED8"/>
         <Limb Name="gLinkChildRightHandLimb" Type="LOD" Offset="0x2CEE8"/>
         <Limb Name="gLinkChildSwordAndSheathLimb" Type="LOD" Offset="0x2CEF8"/>

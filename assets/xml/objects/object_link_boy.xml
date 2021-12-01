@@ -20,11 +20,11 @@
         
         <DList Name="gLinkAdultRightShoulderFarDL" Offset="0x30AA0"/>
         <DList Name="gLinkAdultRightArmFarDL" Offset="0x30C48"/>
-        <DList Name="gLinkAdultRightHandFarDL" Offset="0x26C58"/>
+        <DList Name="gLinkAdultRightHandFarDL" Offset="0x274F8"/>
         
         <DList Name="gLinkAdultLeftShoulderFarDL" Offset="0x30EF8"/>
         <DList Name="gLinkAdultLeftArmFarDL" Offset="0x310A0"/>
-        <DList Name="gLinkAdultLeftHandFarDL" Offset="0x274F8"/>
+        <DList Name="gLinkAdultLeftHandFarDL" Offset="0x26C58"/>
 
         <!-- Near Limb DLists-->
         <DList Name="gLinkAdultWaistNearDL" Offset="0x35330"/>
@@ -44,11 +44,11 @@
         
         <DList Name="gLinkAdultRightShoulderNearDL" Offset="0x36E58"/>
         <DList Name="gLinkAdultRightArmNearDL" Offset="0x37018"/>
-        <DList Name="gLinkAdultRightHandNearDL" Offset="0x21AA8"/>
+        <DList Name="gLinkAdultRightHandNearDL" Offset="0x22498"/>
 
         <DList Name="gLinkAdultLeftShoulderNearDL" Offset="0x37210"/>
         <DList Name="gLinkAdultLeftArmNearDL" Offset="0x373D8"/>
-        <DList Name="gLinkAdultLeftHandNearDL" Offset="0x22498"/>
+        <DList Name="gLinkAdultLeftHandNearDL" Offset="0x21AA8"/>
 
 
         <DList Name="gLinkAdultBottleDL" Offset="0x2AD58"/>
