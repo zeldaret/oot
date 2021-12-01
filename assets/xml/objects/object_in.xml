@@ -32,7 +32,7 @@
         <Texture Name="gIngoHeadGradientTex" OutName="head_gradient" Format="ci8" Width="8" Height="8" Offset="0x4790" TlutOffset="0x3408"/>
 
         <Texture Name="gIngoEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x3590" TlutOffset="0x3210"/>
-        <Texture Name="gIngoRedTex" OutName="red" Format="ci8" Width="8" Height="8" TlutOffset="0x3210" Offset="0x4350"/>
+        <Texture Name="gIngoRedTex" OutName="red" Format="ci8" Width="8" Height="8" Offset="0x4350" TlutOffset="0x3210"/>
         <Texture Name="gIngoEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x47D0" TlutOffset="0x3210"/>
         <Texture Name="gIngoEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x4BD0" TlutOffset="0x3210"/>
         <Texture Name="gIngoEyeClosed2Tex" OutName="eye_closed_2" Format="ci8" Width="32" Height="32" Offset="0x4390" TlutOffset="0x3210"/>
