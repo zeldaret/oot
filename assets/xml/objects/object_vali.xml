@@ -30,34 +30,34 @@
         <Texture Name="gBariInnerHoodTex" OutName="bari_inner_hood" Format="ia16" Width="32" Height="32" Offset="0x3E88"/>
 
         <!-- Bari Limbs and Skeleton -->
-        <Limb Name="gBariNucleusBaseLimb" Type="Standard" Offset="0x4688"/>
-        <Limb Name="gBariNucleusLimb" Type="Standard" Offset="0x4694"/>
-        <Limb Name="gBariRightMandibleBaseBaseLimb" Type="Standard" Offset="0x46A0"/>
-        <Limb Name="gBariRightMandibleBaseLimb" Type="Standard" Offset="0x46AC"/>
-        <Limb Name="gBariRightMandibleLimb" Type="Standard" Offset="0x46B8"/>
-        <Limb Name="gBariLeftMandibleBaseBaseLimb" Type="Standard" Offset="0x46C4"/>
-        <Limb Name="gBariLeftMandibleBaseLimb" Type="Standard" Offset="0x46D0"/>
-        <Limb Name="gBariLeftMandibleLimb" Type="Standard" Offset="0x46DC"/>
-        <Limb Name="gBariLeftArmBaseLimb" Type="Standard" Offset="0x46E8"/>
-        <Limb Name="gBariLeftUpperArmBaseLimb" Type="Standard" Offset="0x46F4"/>
-        <Limb Name="gBariLeftForearmBaseLimb" Type="Standard" Offset="0x4700"/>
-        <Limb Name="gBariLeftClawBodyBaseLimb" Type="Standard" Offset="0x470C"/>
-        <Limb Name="gBariLeftClawTipBaseLimb" Type="Standard" Offset="0x4718"/>
-        <Limb Name="gBariLeftClawTipLimb" Type="Standard" Offset="0x4724"/>
-        <Limb Name="gBariLeftClawBodyLimb" Type="Standard" Offset="0x4730"/>
-        <Limb Name="gBariLeftForearmLimb" Type="Standard" Offset="0x473C"/>
-        <Limb Name="gBariLeftUpperArmLimb" Type="Standard" Offset="0x4748"/>
-        <Limb Name="gBariRightArmBaseLimb" Type="Standard" Offset="0x4754"/>
-        <Limb Name="gBariRightUpperArmBaseLimb" Type="Standard" Offset="0x4760"/>
-        <Limb Name="gBariRightForearmBaseLimb" Type="Standard" Offset="0x476C"/>
-        <Limb Name="gBariRightClawBodyBaseLimb" Type="Standard" Offset="0x4778"/>
-        <Limb Name="gBariRightClawTipBaseLimb" Type="Standard" Offset="0x4784"/>
-        <Limb Name="gBariRightClawTipLimb" Type="Standard" Offset="0x4790"/>
-        <Limb Name="gBariRightClawBodyLimb" Type="Standard" Offset="0x479C"/>
-        <Limb Name="gBariRightForearmLimb" Type="Standard" Offset="0x47A8"/>
-        <Limb Name="gBariRightUpperArmLimb" Type="Standard" Offset="0x47B4"/>
-        <Limb Name="gBariInnerHoodLimb" Type="Standard" Offset="0x47C0"/>
-        <Limb Name="gBariOuterHoodLimb" Type="Standard" Offset="0x47CC"/>
+        <Limb Name="gBariNucleusBaseLimb" LimbType="Standard" Offset="0x4688"/>
+        <Limb Name="gBariNucleusLimb" LimbType="Standard" Offset="0x4694"/>
+        <Limb Name="gBariRightMandibleBaseBaseLimb" LimbType="Standard" Offset="0x46A0"/>
+        <Limb Name="gBariRightMandibleBaseLimb" LimbType="Standard" Offset="0x46AC"/>
+        <Limb Name="gBariRightMandibleLimb" LimbType="Standard" Offset="0x46B8"/>
+        <Limb Name="gBariLeftMandibleBaseBaseLimb" LimbType="Standard" Offset="0x46C4"/>
+        <Limb Name="gBariLeftMandibleBaseLimb" LimbType="Standard" Offset="0x46D0"/>
+        <Limb Name="gBariLeftMandibleLimb" LimbType="Standard" Offset="0x46DC"/>
+        <Limb Name="gBariLeftArmBaseLimb" LimbType="Standard" Offset="0x46E8"/>
+        <Limb Name="gBariLeftUpperArmBaseLimb" LimbType="Standard" Offset="0x46F4"/>
+        <Limb Name="gBariLeftForearmBaseLimb" LimbType="Standard" Offset="0x4700"/>
+        <Limb Name="gBariLeftClawBodyBaseLimb" LimbType="Standard" Offset="0x470C"/>
+        <Limb Name="gBariLeftClawTipBaseLimb" LimbType="Standard" Offset="0x4718"/>
+        <Limb Name="gBariLeftClawTipLimb" LimbType="Standard" Offset="0x4724"/>
+        <Limb Name="gBariLeftClawBodyLimb" LimbType="Standard" Offset="0x4730"/>
+        <Limb Name="gBariLeftForearmLimb" LimbType="Standard" Offset="0x473C"/>
+        <Limb Name="gBariLeftUpperArmLimb" LimbType="Standard" Offset="0x4748"/>
+        <Limb Name="gBariRightArmBaseLimb" LimbType="Standard" Offset="0x4754"/>
+        <Limb Name="gBariRightUpperArmBaseLimb" LimbType="Standard" Offset="0x4760"/>
+        <Limb Name="gBariRightForearmBaseLimb" LimbType="Standard" Offset="0x476C"/>
+        <Limb Name="gBariRightClawBodyBaseLimb" LimbType="Standard" Offset="0x4778"/>
+        <Limb Name="gBariRightClawTipBaseLimb" LimbType="Standard" Offset="0x4784"/>
+        <Limb Name="gBariRightClawTipLimb" LimbType="Standard" Offset="0x4790"/>
+        <Limb Name="gBariRightClawBodyLimb" LimbType="Standard" Offset="0x479C"/>
+        <Limb Name="gBariRightForearmLimb" LimbType="Standard" Offset="0x47A8"/>
+        <Limb Name="gBariRightUpperArmLimb" LimbType="Standard" Offset="0x47B4"/>
+        <Limb Name="gBariInnerHoodLimb" LimbType="Standard" Offset="0x47C0"/>
+        <Limb Name="gBariOuterHoodLimb" LimbType="Standard" Offset="0x47CC"/>
         <Skeleton Name="gBariSkel" Type="Normal" LimbType="Standard" Offset="0x4848"/>
     </File>
 </Root>
