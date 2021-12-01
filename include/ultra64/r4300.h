@@ -23,7 +23,7 @@
 // Exception vectors
 #define SIZE_EXCVEC 0x80                    // Size of an exc. vec
 #define UT_VEC      K0BASE                  // utlbmiss vector
-#define R_VEC       (K1BASE + 0x1fc00000)   // reset vector
+#define R_VEC       (K1BASE + 0x1FC00000)   // reset vector
 #define XUT_VEC     (K0BASE + 0x80)         // extended address tlbmiss
 #define ECC_VEC     (K0BASE + 0x100)        // Ecc exception vector
 #define E_VEC       (K0BASE + 0x180)        // Gen. exception vector
@@ -48,13 +48,13 @@
 // TLB size constants
 #define NTLBENTRIES 31      /* entry 31 is reserved by rdb */
 
-#define TLBHI_VPN2MASK      0xffffe000
+#define TLBHI_VPN2MASK      0xFFFFE000
 #define TLBHI_VPN2SHIFT     13
-#define TLBHI_PIDMASK       0xff
+#define TLBHI_PIDMASK       0xFF
 #define TLBHI_PIDSHIFT      0
 #define TLBHI_NPID          255         // 255 to fit in 8 bits
 
-#define TLBLO_PFNMASK       0x3fffffc0
+#define TLBLO_PFNMASK       0x3FFFFFC0
 #define TLBLO_PFNSHIFT      6
 #define TLBLO_CACHMASK      0x38        // cache coherency algorithm
 #define TLBLO_CACHSHIFT     3
@@ -66,29 +66,29 @@
 #define TLBLO_G             0x1         // global access bit
 
 #define TLBINX_PROBE        0x80000000
-#define TLBINX_INXMASK      0x3f
+#define TLBINX_INXMASK      0x3F
 #define TLBINX_INXSHIFT     0
 
-#define TLBRAND_RANDMASK    0x3f
+#define TLBRAND_RANDMASK    0x3F
 #define TLBRAND_RANDSHIFT   0
 
-#define TLBWIRED_WIREDMASK  0x3f
+#define TLBWIRED_WIREDMASK  0x3F
 
-#define TLBCTXT_BASEMASK    0xff800000
+#define TLBCTXT_BASEMASK    0xFF800000
 #define TLBCTXT_BASESHIFT   23
 #define TLBCTXT_BASEBITS    9
 
-#define TLBCTXT_VPNMASK     0x7ffff0
+#define TLBCTXT_VPNMASK     0x7FFFF0
 #define TLBCTXT_VPNSHIFT    4
 
 #define TLBPGMASK_4K        0x0
 #define TLBPGMASK_16K       0x6000
-#define TLBPGMASK_64K       0x1e000
+#define TLBPGMASK_64K       0x1E000
 
 /*
  * Status register
  */
-#define SR_CUMASK   0xf0000000  // coproc usable bits
+#define SR_CUMASK   0xF0000000  // coproc usable bits
 
 #define SR_CU3      0x80000000  // Coprocessor 3 usable
 #define SR_CU2      0x40000000  // Coprocessor 2 usable
@@ -107,16 +107,16 @@
 
 // Interrupt enable bits
 // (NOTE: bits set to 1 enable the corresponding level interrupt)
-#define SR_IMASK    0x0000ff00  // Interrupt mask
+#define SR_IMASK    0x0000FF00  // Interrupt mask
 #define SR_IMASK8   0x00000000  // mask level 8
 #define SR_IMASK7   0x00008000  // mask level 7
-#define SR_IMASK6   0x0000c000  // mask level 6
-#define SR_IMASK5   0x0000e000  // mask level 5
-#define SR_IMASK4   0x0000f000  // mask level 4
-#define SR_IMASK3   0x0000f800  // mask level 3
-#define SR_IMASK2   0x0000fc00  // mask level 2
-#define SR_IMASK1   0x0000fe00  // mask level 1
-#define SR_IMASK0   0x0000ff00  // mask level 0
+#define SR_IMASK6   0x0000C000  // mask level 6
+#define SR_IMASK5   0x0000E000  // mask level 5
+#define SR_IMASK4   0x0000F000  // mask level 4
+#define SR_IMASK3   0x0000F800  // mask level 3
+#define SR_IMASK2   0x0000FC00  // mask level 2
+#define SR_IMASK1   0x0000FE00  // mask level 1
+#define SR_IMASK0   0x0000FF00  // mask level 0
 
 #define SR_IBIT8    0x00008000  // bit level 8
 #define SR_IBIT7    0x00004000  // bit level 7
@@ -186,12 +186,12 @@
 #define EXC_VCED    EXC_CODE(31)    // Virt. Coherency on data read
 
 // C0_PRID Defines
-#define C0_IMPMASK      0xff00
+#define C0_IMPMASK      0xFF00
 #define C0_IMPSHIFT     8
-#define C0_REVMASK      0xff
-#define C0_MAJREVMASK   0xf0
+#define C0_REVMASK      0xFF
+#define C0_MAJREVMASK   0xF0
 #define C0_MAJREVSHIFT  4
-#define C0_MINREVMASK   0xf
+#define C0_MINREVMASK   0xF
 
 // Coprocessor 0 operations
 #define C0_READI    0x1     // read ITLB entry addressed by C0_INDEX
@@ -213,12 +213,12 @@
 #define C_IWBINV    0x0     // index writeback inval (d, sd)
 #define C_ILT       0x4     // index load tag (all)
 #define C_IST       0x8     // index store tag (all)
-#define C_CDX       0xc     // create dirty exclusive (d, sd)
+#define C_CDX       0xC     // create dirty exclusive (d, sd)
 #define C_HINV      0x10    // hit invalidate (all)
 #define C_HWBINV    0x14    // hit writeback inv. (d, sd)
 #define C_FILL      0x14    // fill (i)
 #define C_HWB       0x18    // hit writeback (i, d, sd)
-#define C_HSV       0x1c    // hit set virt. (si, sd)
+#define C_HSV       0x1C    // hit set virt. (si, sd)
 
 // Cache size definitions
 #define ICACHE_SIZE         0x4000      // 16K
@@ -236,20 +236,20 @@
 #define CONFIG_EC_3_2   0x7             // System Clock ratio 1.5 :1
 #define CONFIG_EC_2_1   0x0             // System Clock ratio 2 :1
 #define CONFIG_EC_3_1   0x1             // System Clock ratio 3 :1
-#define CONFIG_EP       0x0f000000      // Transmit Data Pattern
-#define CONFIG_SB       0x00c00000      // Secondary cache block size
+#define CONFIG_EP       0x0F000000      // Transmit Data Pattern
+#define CONFIG_SB       0x00C00000      // Secondary cache block size
 
 #define CONFIG_SS       0x00200000      // Split scache: 0 == I&D combined
 #define CONFIG_SW       0x00100000      // scache port: 0==128, 1==64
-#define CONFIG_EW       0x000c0000      // System Port width: 0==64, 1==32
+#define CONFIG_EW       0x000C0000      // System Port width: 0==64, 1==32
 #define CONFIG_SC       0x00020000      // 0 -> 2nd cache present
 #define CONFIG_SM       0x00010000      // 0 -> Dirty Shared Coherency enable
 #define CONFIG_BE       0x00008000      // Endian-ness: 1 --> BE
 #define CONFIG_EM       0x00004000      // 1 -> ECC mode, 0 -> parity
 #define CONFIG_EB       0x00002000      // Block order:1->sequent,0->subblock
 
-#define CONFIG_IC       0x00000e00      // Primary Icache size
-#define CONFIG_DC       0x000001c0      // Primary Dcache size
+#define CONFIG_IC       0x00000E00      // Primary Icache size
+#define CONFIG_DC       0x000001C0      // Primary Dcache size
 #define CONFIG_IB       0x00000020      // Icache block size
 #define CONFIG_DB       0x00000010      // Dcache block size
 #define CONFIG_CU       0x00000008      // Update on Store-conditional
@@ -266,11 +266,11 @@
 // C0_TAGLO definitions for setting/getting cache states and physaddr bits
 #define SADDRMASK   0xFFFFE000  // 31..13 -> scache paddr bits 35..17
 #define SVINDEXMASK 0x00000380  // 9..7: prim virt index bits 14..12
-#define SSTATEMASK  0x00001c00  // bits 12..10 hold scache line state
+#define SSTATEMASK  0x00001C00  // bits 12..10 hold scache line state
 #define SINVALID    0x00000000  // invalid --> 000 == state 0
 #define SCLEANEXCL  0x00001000  // clean exclusive --> 100 == state 4
 #define SDIRTYEXCL  0x00001400  // dirty exclusive --> 101 == state 5
-#define SECC_MASK   0x0000007f  // low 7 bits are ecc for the tag
+#define SECC_MASK   0x0000007F  // low 7 bits are ecc for the tag
 #define SADDR_SHIFT 4           // shift STagLo (31..13) to 35..17
 
 #define PADDRMASK       0xFFFFFF00  // PTagLo31..8->prim paddr bits35..12
@@ -290,7 +290,7 @@
 #define CACHERR_EE          0x04000000  // error on SysAD bus
 #define CACHERR_EB          0x02000000  // complicated, see spec.
 #define CACHERR_EI          0x01000000  // complicated, see spec.
-#define CACHERR_SIDX_MASK   0x003ffff8  // secondary cache index
+#define CACHERR_SIDX_MASK   0x003FFFF8  // secondary cache index
 #define CACHERR_PIDX_MASK   0x00000007  // primary cache index
 #define CACHERR_PIDX_SHIFT  12          // bits 2..0 are paddr14..12
 
@@ -307,9 +307,9 @@
  */
 #define WATCHLO_WTRAP       0x00000001
 #define WATCHLO_RTRAP       0x00000002
-#define WATCHLO_ADDRMASK    0xfffffff8
-#define WATCHLO_VALIDMASK   0xfffffffb
-#define WATCHHI_VALIDMASK   0x0000000f
+#define WATCHLO_ADDRMASK    0xFFFFFFF8
+#define WATCHLO_VALIDMASK   0xFFFFFFFB
+#define WATCHHI_VALIDMASK   0x0000000F
 
 // Coprocessor 0 registers
 #define C0_INX          C_REG(0)

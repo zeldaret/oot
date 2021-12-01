@@ -62,7 +62,7 @@ typedef struct {
     /* 0x02 */ u16 retraceCount;
     /* 0x04 */ void* buffer;
     /* 0x08 */ OSViMode* modep;
-    /* 0x0c */ u32 features;
+    /* 0x0C */ u32 features;
     /* 0x10 */ OSMesgQueue* mq;
     /* 0x14 */ OSMesg* msg;
     /* 0x18 */ __OSViScale x;

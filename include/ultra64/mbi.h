@@ -36,7 +36,7 @@
 #include "abi.h"
 
 #define NUM_SEGMENTS        (16)
-#define SEGMENT_OFFSET(a)   ((u32)(a) & 0x00ffffff)
+#define SEGMENT_OFFSET(a)   ((u32)(a) & 0x00FFFFFF)
 #define SEGMENT_NUMBER(a)   (((u32)(a) << 4) >> 28)
 #define SEGMENT_ADDR(num, off)  (((num) << 24) + (off))
 
