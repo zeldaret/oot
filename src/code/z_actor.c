@@ -212,7 +212,7 @@ void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* lef
 }
 
 void func_8002BE04(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32* arg3) {
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, arg1, arg2, arg3);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, arg1, arg2, arg3);
     *arg3 = (*arg3 < 1.0f) ? 1.0f : (1.0f / *arg3);
 }
 
@@ -402,7 +402,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 2153),
                   G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_XLU_DISP++, &gZTargetArrowDL);
+        gSPDisplayList(POLY_XLU_DISP++, gZTargetArrowDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2158);
@@ -1438,6 +1438,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
         } else {
             f32 ret =
                 actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
+
             return ret;
         }
     }
@@ -1904,7 +1905,7 @@ void Actor_DrawFaroresWindPointer(GlobalContext* globalCtx) {
                              ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
                              ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z), MTXMODE_NEW);
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
             Matrix_Push();
 
             gDPPipeSync(POLY_XLU_DISP++);
@@ -1954,8 +1955,8 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     bzero(actorCtx, sizeof(*actorCtx));
 
     ActorOverlayTable_Init();
-    Matrix_MtxFCopy(&globalCtx->mf_11DA0, &gMtxFClear);
-    Matrix_MtxFCopy(&globalCtx->mf_11D60, &gMtxFClear);
+    Matrix_MtxFCopy(&globalCtx->billboardMtxF, &gMtxFClear);
+    Matrix_MtxFCopy(&globalCtx->viewProjectionMtxF, &gMtxFClear);
 
     overlayEntry = &gActorOverlayTable[0];
     for (i = 0; i < ARRAY_COUNT(gActorOverlayTable); i++) {
@@ -2357,7 +2358,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
             HREG(66) = i;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &actor->world.pos, &actor->projectedPos,
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &actor->world.pos, &actor->projectedPos,
                                              &actor->projectedW);
             }
 
@@ -2879,7 +2880,7 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
     Actor* actor;
     Actor* sp84;
     CollisionPoly* sp80;
-    UNK_TYPE sp7C;
+    s32 sp7C;
     Vec3f sp70;
 
     actor = actorCtx->actorLists[actorCategory].head;
@@ -3236,7 +3237,7 @@ Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 r
             //! @bug The projectile actor gets unsafely casted to a hookshot to check its timer, even though
             //  it can also be an arrow.
             //  Luckily, the field at the same offset in the arrow actor is the x component of a vector
-            //  which will rarely ever be 0. So its very unlikely for this bug to cause an issue.
+            //  which will rarely ever be 0. So it's very unlikely for this bug to cause an issue.
             if ((Math_Vec3f_DistXYZ(&refActor->world.pos, &actor->world.pos) > radius) ||
                 (((ArmsHook*)actor)->timer == 0)) {
                 actor = actor->next;
@@ -3447,13 +3448,14 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 8149),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, &gCircleShadowDL);
+    gSPDisplayList(POLY_OPA_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8155);
 }
 
 void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
     s16 var = Quake_Add(&globalCtx->mainCamera, 3);
+
     Quake_SetSpeed(var, 20000);
     Quake_SetQuakeValues(var, arg1, 0, 0, 0);
     Quake_SetCountdown(var, arg2);
@@ -3461,6 +3463,7 @@ void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
 
 void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3) {
     s16 var = Quake_Add(&globalCtx->mainCamera, 3);
+
     Quake_SetSpeed(var, arg3);
     Quake_SetQuakeValues(var, arg1, 0, 0, 0);
     Quake_SetCountdown(var, arg2);

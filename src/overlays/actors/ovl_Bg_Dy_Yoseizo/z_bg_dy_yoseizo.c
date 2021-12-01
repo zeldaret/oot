@@ -882,14 +882,14 @@ s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 static void* sEyeTextures[] = {
-    &gGreatFairyEyeOpenTex,   // Open
-    &gGreatFairyEyeHalfTex,   // Half
-    &gGreatFairyEyeClosedTex, // Closed
+    gGreatFairyEyeOpenTex,   // Open
+    gGreatFairyEyeHalfTex,   // Half
+    gGreatFairyEyeClosedTex, // Closed
 };
 
 static void* sMouthTextures[] = {
-    &gGreatFairyMouthClosedTex, // Closed
-    &gGreatFairyMouthOpenTex,   // Open
+    gGreatFairyMouthClosedTex, // Closed
+    gGreatFairyMouthOpenTex,   // Open
 };
 
 void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -1028,13 +1028,13 @@ void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
             gDPSetEnvColor(POLY_XLU_DISP++, particle->envColor.r, particle->envColor.g, particle->envColor.b, 0);
 
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(particle->roll, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gGreatFairyParticleAliveDL));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleAliveDL));
         }
     }
 

@@ -91,20 +91,20 @@
         <DList Name="gFishingWaterDustModelDL" Offset="0x8970"/>
 
         <Texture Name="gFishingOwnerTLUT" OutName="fishing_owner_tlut" Format="rgba16" Width="16" Height="16" Offset="0x8990"/>
-        <Texture Name="gFishingOwnerSkinTex" OutName="fishing_owner_skin" Format="ci8" Width="8" Height="8" Offset="0x8B90"/>
-        <Texture Name="gFishingOwnerHairFullTex" OutName="fishing_owner_hair_full" Format="ci8" Width="16" Height="16" Offset="0x8BD0"/>
-        <Texture Name="gFishingOwnerHairPartialTex" OutName="fishing_owner_hair_partial" Format="ci8" Width="16" Height="16" Offset="0x8CD0"/>
-        <Texture Name="gFishingOwnerHearTex" OutName="fishing_owner_hear" Format="ci8" Width="8" Height="8" Offset="0x8DD0"/>
-        <Texture Name="gFishingOwnerMouthTex" OutName="fishing_owner_mouth" Format="ci8" Width="32" Height="32" Offset="0x8E10"/>
-        <Texture Name="gFishingOwnerNostrilTex" OutName="fishing_owner_nostril" Format="ci8" Width="8" Height="8" Offset="0x9210"/>
-        <Texture Name="gFishingOwnerEyeOpenTex" OutName="fishing_owner_eye_open" Format="ci8" Width="32" Height="32" Offset="0x9250"/>
-        <Texture Name="gFishingOwnerEyeHalfTex" OutName="fishing_owner_eye_half" Format="ci8" Width="32" Height="32" Offset="0x9650"/>
-        <Texture Name="gFishingOwnerEyeClosedTex" OutName="fishing_owner_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x9A50"/>
-        <Texture Name="gFishingOwnerHatTex" OutName="fishing_owner_hat" Format="ci8" Width="64" Height="32" Offset="0x9E50"/>
-        <Texture Name="gFishingOwnerShirtTex" OutName="fishing_owner_shirt" Format="ci8" Width="8" Height="8" Offset="0xA650"/>
-        <Texture Name="gFishingOwnerFingersTex" OutName="fishing_owner_fingers" Format="ci8" Width="16" Height="16" Offset="0xA690"/>
-        <Texture Name="gFishingOwnerCollarTex" OutName="fishing_owner_collar" Format="ci8" Width="8" Height="16" Offset="0xA790"/>
-        <Texture Name="gFishingOwnerVestTex" OutName="fishing_owner_vest" Format="ci8" Width="16" Height="16" Offset="0xA810"/>
+        <Texture Name="gFishingOwnerSkinTex" OutName="fishing_owner_skin" Format="ci8" Width="8" Height="8" Offset="0x8B90" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerHairFullTex" OutName="fishing_owner_hair_full" Format="ci8" Width="16" Height="16" Offset="0x8BD0" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerHairPartialTex" OutName="fishing_owner_hair_partial" Format="ci8" Width="16" Height="16" Offset="0x8CD0" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerHearTex" OutName="fishing_owner_hear" Format="ci8" Width="8" Height="8" Offset="0x8DD0" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerMouthTex" OutName="fishing_owner_mouth" Format="ci8" Width="32" Height="32" Offset="0x8E10" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerNostrilTex" OutName="fishing_owner_nostril" Format="ci8" Width="8" Height="8" Offset="0x9210" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerEyeOpenTex" OutName="fishing_owner_eye_open" Format="ci8" Width="32" Height="32" Offset="0x9250" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerEyeHalfTex" OutName="fishing_owner_eye_half" Format="ci8" Width="32" Height="32" Offset="0x9650" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerEyeClosedTex" OutName="fishing_owner_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x9A50" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerHatTex" OutName="fishing_owner_hat" Format="ci8" Width="64" Height="32" Offset="0x9E50" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerShirtTex" OutName="fishing_owner_shirt" Format="ci8" Width="8" Height="8" Offset="0xA650" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerFingersTex" OutName="fishing_owner_fingers" Format="ci8" Width="16" Height="16" Offset="0xA690" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerCollarTex" OutName="fishing_owner_collar" Format="ci8" Width="8" Height="16" Offset="0xA790" TlutOffset="0x8990"/>
+        <Texture Name="gFishingOwnerVestTex" OutName="fishing_owner_vest" Format="ci8" Width="16" Height="16" Offset="0xA810" TlutOffset="0x8990"/>
 
         <Texture Name="gFishingSinkingLureSegmentTex" OutName="fishing_sinking_lure_segment" Format="ia8" Width="64" Height="64" Offset="0xA910"/>
         <DList Name="gFishingSinkingLureSegmentMaterialDL" Offset="0xB950"/>

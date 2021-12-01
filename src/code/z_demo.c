@@ -456,9 +456,9 @@ void Cutscene_Command_FadeBGM(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         var1 = cmd->endFrame - cmd->startFrame;
 
         if (cmd->type == 3) {
-            Audio_QueueSeqCmd(var1 << 0x10 | 0x110000FF);
+            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF));
         } else {
-            Audio_QueueSeqCmd(var1 << 0x10 | 0x100000FF);
+            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xFF));
         }
     }
 }

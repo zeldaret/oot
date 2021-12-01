@@ -343,7 +343,7 @@ void func_80ACA76C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA62C(this, globalCtx);
         this->actor.flags &= ~0x10000;
     }
@@ -353,7 +353,7 @@ void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         if ((this->unk_3EE & 0x3F) == 0) {
             func_80ACA62C(this, globalCtx);
         } else {
@@ -553,7 +553,7 @@ void func_80ACB03C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA62C(this, globalCtx);
         this->actor.flags &= ~0x10000;
     }
@@ -582,7 +582,7 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
         Flags_SetSwitch(globalCtx, 0x23);
@@ -591,6 +591,7 @@ void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
 
 void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
     u16 textId = (gSaveContext.infTable[25] & 0x20) ? 0x4004 : 0x4003;
+
     // Spoke to Owl in Lake Hylia
     EnOwl_LookAtLink(this, globalCtx);
     if (func_80ACA558(this, globalCtx, textId)) {
@@ -602,7 +603,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
     }
@@ -610,7 +611,7 @@ void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB274(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         this->actionFunc = EnOwl_WaitDeathMountainShortcut;
     }
 }
@@ -1393,7 +1394,7 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx) {
         pos.z += Math_CosS(angle) * phi_f2;
         this->unk_3F8 = phi_f2;
         this->actor.world.pos = pos;
-        this->actor.draw = &EnOwl_Draw;
+        this->actor.draw = EnOwl_Draw;
         this->actionFlags &= ~4;
         this->actor.speedXZ = 0.0f;
     } else {

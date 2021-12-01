@@ -1,6 +1,8 @@
 #ifndef ULTRA64_THREAD_H
 #define ULTRA64_THREAD_H
 
+#include "types.h"
+
 #define OS_PRIORITY_MAX      255
 #define OS_PRIORITY_VIMGR    254
 #define OS_PRIORITY_RMON     250

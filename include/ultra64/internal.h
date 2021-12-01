@@ -5,6 +5,8 @@
 
 #ifdef _LANGUAGE_C
 
+#include "pi.h"
+
 typedef struct {
     /* 0x00 */ u32 initialized;
     /* 0x04 */ OSThread* mgrThread;
@@ -16,17 +18,11 @@ typedef struct {
 } OSMgrArgs; // size = 0x1C
 
 typedef struct  {
-    /* 0x00 */ s32 (*callback)(void);
-    /* 0x04 */ void* sp;
-} __osHwInt; // size = 0x08
-
-typedef struct  {
     /* 0x00 */ OSMesgQueue* queue;
     /* 0x04 */ OSMesg msg;
 } __OSEventState; // size = 0x08
 
 extern OSMgrArgs __osPiDevMgr;
-extern __osHwInt __osHwIntTable[];
 extern __OSEventState __osEventStateTab[];
 
 #else

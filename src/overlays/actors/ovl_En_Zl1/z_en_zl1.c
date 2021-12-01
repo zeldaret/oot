@@ -122,8 +122,8 @@ void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B4AE18(EnZl1* this) {
     if ((this->skelAnime.animation == &gChildZelda1Anim_10B38) && (this->skelAnime.curFrame < 26.0f)) {
-        this->unk_1F4 = &gChildZelda1EyeOpenLookingRightTex;
-        this->unk_1F8 = &gChildZelda1EyeOpenLookingLeftTex;
+        this->unk_1F4 = gChildZelda1EyeOpenLookingRightTex;
+        this->unk_1F8 = gChildZelda1EyeOpenLookingLeftTex;
         this->unk_1FC = 2;
     } else {
         if (DECR(this->unk_1FC) == 0) {

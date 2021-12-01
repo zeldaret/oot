@@ -1,5 +1,5 @@
 #include "ultra64/r4300.h"
-#include "ultra64/hardware.h"
+#include "ultra64/rcp.h"
 .include "macro.inc"
 
 # assembler directives

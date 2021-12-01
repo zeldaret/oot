@@ -75,27 +75,27 @@ static AnimationHeader* D_80A7B918[] = {
     &object_in_Anim_01646C, &object_in_Anim_0175D0, &object_in_Anim_017B58, &object_in_Anim_018C38,
 };
 
-static Gfx* sAlternateOutfitDLs[] = {
+static Gfx* sAdultEraDLs[] = {
     NULL,
     NULL,
-    object_in_DL_013688,
-    object_in_DL_0137C0,
-    object_in_DL_013910,
-    object_in_DL_0132B8,
-    object_in_DL_0133F0,
-    object_in_DL_013540,
-    object_in_DL_013100,
-    object_in_DL_011758,
-    object_in_DL_012AC0,
-    object_in_DL_012BF0,
-    object_in_DL_012D20,
-    object_in_DL_012480,
-    object_in_DL_0125B0,
-    object_in_DL_0126E0,
-    object_in_DL_011AD8,
-    object_in_DL_012350,
-    object_in_DL_012220,
-    object_in_DL_012120,
+    gIngoAdultEraLeftThighDL,
+    gIngoAdultEraLeftLegDL,
+    gIngoAdultEraLeftFootDL,
+    gIngoAdultEraRightThighDL,
+    gIngoAdultEraRightLegDL,
+    gIngoAdultEraRightFootDL,
+    gIngoAdultEraTorsoDL,
+    gIngoAdultEraChestDL,
+    gIngoAdultEraLeftShoulderDL,
+    gIngoAdultEraLeftArmDL,
+    gIngoAdultEraLeftHandDL,
+    gIngoAdultEraRightShoulderDL,
+    gIngoAdultEraRightArmDL,
+    gIngoAdultEraRightHandDL,
+    gIngoAdultEraHeadDL,
+    gIngoAdultEraLeftEyebrowDL,
+    gIngoAdultEraRightEyebrowDL,
+    gIngoAdultEraMustacheDL,
 };
 
 u16 func_80A78FB0(GlobalContext* globalCtx) {
@@ -180,20 +180,21 @@ u16 func_80A79168(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80A791CC(GlobalContext* globalCtx, Actor* thisx) {
-    s32 temp_var = 0;
+    s32 ret = 0;
+
     switch (thisx->textId) {
         case 0x2045:
             gSaveContext.infTable[9] |= 0x80;
             break;
         case 0x203E:
-            temp_var = 2;
+            ret = 2;
             break;
         case 0x203F:
             gSaveContext.eventChkInf[1] |= 2;
             gSaveContext.infTable[9] |= 0x10;
             break;
     }
-    return temp_var;
+    return ret;
 }
 
 s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
@@ -259,6 +260,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 func_80A7949C(GlobalContext* globalCtx, Actor* thisx) {
     s32 phi_v1 = 1;
+
     if (thisx->textId == 0x2035) {
         Rupees_ChangeBy(-10);
         thisx->textId = 0x205C;
@@ -385,20 +387,13 @@ s32 func_80A79830(EnIn* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_80A79A2C(EnIn* this) {
-    s16 phi_v1;
-
-    if (this->unk_1EE != 3) {
-        if (this->unk_1EA == 0) {
-            phi_v1 = 0;
-        } else {
-            phi_v1 = --this->unk_1EA;
-        }
-        if (phi_v1 == 0) {
-            this->unk_1EE++;
-            if (this->unk_1EE >= 3) {
-                this->unk_1EA = Rand_S16Offset(30, 30);
-                this->unk_1EE = 0;
+void EnIn_UpdateEyes(EnIn* this) {
+    if (this->eyeIndex != 3) {
+        if (DECR(this->blinkTimer) == 0) {
+            this->eyeIndex++;
+            if (this->eyeIndex >= 3) {
+                this->blinkTimer = Rand_S16Offset(30, 30);
+                this->eyeIndex = 0;
             }
         }
     }
@@ -503,8 +498,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_in_Skel_013B88, NULL, this->jointTable,
-                           this->morphTable, 20);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gIngoSkel, NULL, this->jointTable, this->morphTable, 20);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -531,7 +525,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                 break;
             case 4:
                 func_80A796EC(this, 8);
-                this->unk_1EE = 3;
+                this->eyeIndex = 3;
                 this->actionFunc = func_80A7A4BC;
                 break;
             case 0:
@@ -915,7 +909,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
-    func_80A79A2C(this);
+    EnIn_UpdateEyes(this);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, globalCtx);
@@ -938,24 +932,24 @@ s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     EnIn* this = THIS;
     Vec3s sp2C;
 
-    if (this->actor.params > 0 && limbIndex != 16) {
-        if (sAlternateOutfitDLs[limbIndex] != NULL) {
-            *dList = sAlternateOutfitDLs[limbIndex];
+    if (this->actor.params > 0 && limbIndex != INGO_HEAD_LIMB) {
+        if (sAdultEraDLs[limbIndex] != NULL) {
+            *dList = sAdultEraDLs[limbIndex];
         }
     }
-    if (limbIndex == 16) {
+    if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp2C = this->unk_308.unk_08;
         Matrix_RotateZ(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limbIndex == 9) {
+    if (limbIndex == INGO_CHEST_LIMB) {
         sp2C = this->unk_308.unk_0E;
         Matrix_RotateX(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
     }
-    if (limbIndex == 9 || limbIndex == 10 || limbIndex == 13) {
+    if (limbIndex == INGO_CHEST_LIMB || limbIndex == INGO_LEFT_SHOULDER_LIMB || limbIndex == INGO_RIGHT_SHOULDER_LIMB) {
         rot->y += Math_SinS(this->unk_330[limbIndex].y) * 200.0f;
         rot->z += Math_CosS(this->unk_330[limbIndex].z) * 200.0f;
     }
@@ -967,29 +961,31 @@ void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f D_80A7B9A8 = { 1600.0, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2335);
-    if (limbIndex == 16) {
+
+    if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_MultVec3f(&D_80A7B9A8, &this->actor.focus.pos);
         this->actor.focus.rot = this->actor.world.rot;
     }
-    if (limbIndex == 12 && this->skelAnime.animation == &object_in_Anim_014CA8) {
-        gSPDisplayList(POLY_OPA_DISP++, object_in_DL_007A20);
+    if (limbIndex == INGO_LEFT_HAND_LIMB && this->skelAnime.animation == &object_in_Anim_014CA8) {
+        gSPDisplayList(POLY_OPA_DISP++, gIngoChildEraBasketDL);
     }
-    if (limbIndex == 15 && this->skelAnime.animation == &object_in_Anim_014CA8) {
-        gSPDisplayList(POLY_OPA_DISP++, object_in_DL_007BF8);
+    if (limbIndex == INGO_RIGHT_HAND_LIMB && this->skelAnime.animation == &object_in_Anim_014CA8) {
+        gSPDisplayList(POLY_OPA_DISP++, gIngoChildEraPitchForkDL);
     }
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2365);
 }
 
 void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* D_80A7B9B4[] = { object_in_Tex_003590, object_in_Tex_0047D0, object_in_Tex_004BD0,
-                                  object_in_Tex_004390 };
+    static void* eyeTextures[] = { gIngoEyeOpenTex, gIngoEyeHalfTex, gIngoEyeClosedTex, gIngoEyeClosed2Tex };
+
     EnIn* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2384);
     if (this->actionFunc != func_80A79FB0) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A7B9B4[this->unk_1EE]));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&object_in_Tex_0034D0));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gIngoHeadGradient2Tex));
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnIn_OverrideLimbDraw, EnIn_PostLimbDraw, &this->actor);
     }

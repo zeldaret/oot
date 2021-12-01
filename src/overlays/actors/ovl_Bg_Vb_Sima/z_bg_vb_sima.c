@@ -109,7 +109,6 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
                 } else {
                     edgeZ = 80.0f;
                     if (Rand_ZeroOne() < 0.5f) {
-                        // minus1 = -1.0f; // Not a fake match; the game really does this.
                         edgeZ = 80.0f * minus1;
                     }
                     edgeX = Rand_CenteredFloat(160.0f);

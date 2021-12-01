@@ -48,7 +48,7 @@ void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 i
 }
 
 void StackCheck_Cleanup(StackEntry* entry) {
-    bool inconsistency = false;
+    u32 inconsistency = false;
 
     if (!entry->prev) {
         if (entry == sStackInfoListStart) {
@@ -115,6 +115,7 @@ u32 StackCheck_CheckAll(void) {
 
     while (iter) {
         u32 state = StackCheck_GetState(iter);
+
         if (state != STACK_STATUS_OK) {
             ret = 1;
         }

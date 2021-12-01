@@ -24,7 +24,7 @@
 
 #ifdef _LANGUAGE_C
 
-#include "ultra64/types.h"
+#include "thread.h"
 
 typedef void* OSMesg;
 typedef u32 OSEvent;
