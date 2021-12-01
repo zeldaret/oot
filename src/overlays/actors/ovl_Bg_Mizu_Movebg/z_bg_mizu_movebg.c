@@ -87,64 +87,64 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f sp48;
 
     Actor_ProcessInitChain(thisx, D_8089EB90);
-    (BgMizuMovebg*)thisx->homeY = thisx->world.pos.y;
-    (BgMizuMovebg*)thisx->dlist = D_8089EB50[MOVEBG_TYPE(thisx->params)];
-    DynaPolyActor_Init(&(BgMizuMovebg*)thisx->dyna, DPM_PLAYER);
+    ((BgMizuMovebg*)thisx)->homeY = thisx->world.pos.y;
+    ((BgMizuMovebg*)thisx)->dlist = D_8089EB50[MOVEBG_TYPE(thisx->params)];
+    DynaPolyActor_Init(&((BgMizuMovebg*)thisx)->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(D_8089EB70[MOVEBG_TYPE(thisx->params)], &colHeader);
-    (BgMizuMovebg*)thisx->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    ((BgMizuMovebg*)thisx)->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
         case 0:
             temp = waterBoxes[2].ySurface + 15.0f;
-            if (temp < (BgMizuMovebg*)thisx->homeY - 700.0f) {
-                thisx->world.pos.y = (BgMizuMovebg*)thisx->homeY - 700.0f;
+            if (temp < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
+                thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
             } else {
                 thisx->world.pos.y = temp;
             }
-            (BgMizuMovebg*)thisx->actionFunc = func_8089E318;
+            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E318;
             break;
         case 1:
             temp = waterBoxes[2].ySurface + 15.0f;
-            if (temp < (BgMizuMovebg*)thisx->homeY - 710.0f) {
-                thisx->world.pos.y = (BgMizuMovebg*)thisx->homeY - 710.0f;
+            if (temp < ((BgMizuMovebg*)thisx)->homeY - 710.0f) {
+                thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 710.0f;
             } else {
                 thisx->world.pos.y = temp;
             }
-            (BgMizuMovebg*)thisx->actionFunc = func_8089E318;
+            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E318;
             break;
         case 2:
             temp = waterBoxes[2].ySurface + 15.0f;
-            if (temp < (BgMizuMovebg*)thisx->homeY - 700.0f) {
-                thisx->world.pos.y = (BgMizuMovebg*)thisx->homeY - 700.0f;
+            if (temp < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
+                thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
             } else {
                 thisx->world.pos.y = temp;
             }
-            (BgMizuMovebg*)thisx->actionFunc = func_8089E318;
+            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E318;
             break;
         case 3:
-            thisx->world.pos.y = (BgMizuMovebg*)thisx->homeY + D_8089EB40[func_8089DC30(globalCtx)];
-            (BgMizuMovebg*)thisx->actionFunc = func_8089E318;
+            thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY + D_8089EB40[func_8089DC30(globalCtx)];
+            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E318;
             break;
         case 4:
         case 5:
         case 6:
             if (Flags_GetSwitch(globalCtx, MOVEBG_FLAGS(thisx->params))) {
-                thisx->world.pos.y = (BgMizuMovebg*)thisx->homeY + 115.19999999999999;
+                thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY + 115.19999999999999;
             } else {
-                thisx->world.pos.y = (BgMizuMovebg*)thisx->homeY;
+                thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY;
             }
-            (BgMizuMovebg*)thisx->actionFunc = func_8089E318;
+            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E318;
             break;
         case 7:
-            (BgMizuMovebg*)thisx->scrollAlpha1 = 160;
-            (BgMizuMovebg*)thisx->scrollAlpha2 = 160;
-            (BgMizuMovebg*)thisx->scrollAlpha3 = 160;
-            (BgMizuMovebg*)thisx->scrollAlpha4 = 160;
+            ((BgMizuMovebg*)thisx)->scrollAlpha1 = 160;
+            ((BgMizuMovebg*)thisx)->scrollAlpha2 = 160;
+            ((BgMizuMovebg*)thisx)->scrollAlpha3 = 160;
+            ((BgMizuMovebg*)thisx)->scrollAlpha4 = 160;
             waypointId = MOVEBG_POINT_ID(thisx->params);
-            (BgMizuMovebg*)thisx->waypointId = waypointId;
+            ((BgMizuMovebg*)thisx)->waypointId = waypointId;
             func_8089E108(globalCtx->setupPathList, &thisx->world.pos, MOVEBG_PATH_ID(thisx->params), waypointId);
-            (BgMizuMovebg*)thisx->actionFunc = func_8089E650;
+            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E650;
             break;
     }
 
