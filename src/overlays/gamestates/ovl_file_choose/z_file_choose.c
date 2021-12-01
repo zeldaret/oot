@@ -1448,7 +1448,7 @@ void FileChoose_LoadGame(GameState* thisx) {
 
     gSaveContext.respawn[0].entranceIndex = -1;
     gSaveContext.respawnFlag = 0;
-    gSaveContext.seqId = 0xFF;
+    gSaveContext.seqId = (u8)NA_BGM_DISABLED;
     gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
     gSaveContext.dogParams = 0;
@@ -1463,7 +1463,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.healthAccumulator = 0;
     gSaveContext.unk_13F0 = 0;
     gSaveContext.unk_13F2 = 0;
-    gSaveContext.unk_140E = 0;
+    gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     gSaveContext.skyboxTime = 0;
     gSaveContext.nextTransition = 0xFF;
     gSaveContext.nextCutsceneIndex = 0xFFEF;

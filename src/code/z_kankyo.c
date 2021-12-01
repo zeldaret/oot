@@ -1921,11 +1921,11 @@ void func_800758AC(GlobalContext* globalCtx) {
     // both lost woods exits on the bridge from kokiri to hyrule field
     if (((void)0, gSaveContext.entranceIndex) == 0x4DE || ((void)0, gSaveContext.entranceIndex) == 0x5E0) {
         func_800F6FB4(4);
-    } else if (((void)0, gSaveContext.unk_140E) != NA_BGM_GENERAL_SFX) {
-        if (!func_80077600()) {
-            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (s32)((void)0, gSaveContext.unk_140E));
+    } else if (((void)0, gSaveContext.forcedSeqId) != NA_BGM_GENERAL_SFX) {
+        if (!Environment_IsForcedSequenceDisabled()) {
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (s32)((void)0, gSaveContext.forcedSeqId));
         }
-        gSaveContext.unk_140E = NA_BGM_GENERAL_SFX;
+        gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     } else if (globalCtx->sequenceCtx.seqId == NA_BGM_NO_MUSIC) {
         if (globalCtx->sequenceCtx.natureAmbienceId == 0x13) {
             return;
@@ -1960,8 +1960,8 @@ void func_800758AC(GlobalContext* globalCtx) {
         }
     }
 
-    osSyncPrintf("\n-----------------\n", ((void)0, gSaveContext.unk_140E));
-    osSyncPrintf("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.unk_140E)); // "Forced BGM"
+    osSyncPrintf("\n-----------------\n", ((void)0, gSaveContext.forcedSeqId));
+    osSyncPrintf("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.forcedSeqId)); // "Forced BGM"
     osSyncPrintf("\n     ＢＧＭ=[%d]", globalCtx->sequenceCtx.seqId);
     osSyncPrintf("\n     エンブ=[%d]", globalCtx->sequenceCtx.natureAmbienceId);
     osSyncPrintf("\n     status=[%d]", globalCtx->envCtx.unk_E0);
@@ -2388,18 +2388,18 @@ s32 Environment_GetTotalDays(void) {
     return gSaveContext.totalDays;
 }
 
-void func_800775F0(u16 arg0) {
-    gSaveContext.unk_140E = arg0;
+void Environment_ForcePlaySequence(u16 seqId) {
+    gSaveContext.forcedSeqId = seqId;
 }
 
-s32 func_80077600(void) {
-    s32 ret = false;
+s32 Environment_IsForcedSequenceDisabled(void) {
+    s32 isDisabled = false;
 
-    if (gSaveContext.unk_140E == NA_BGM_DISABLED) {
-        ret = true;
+    if (gSaveContext.forcedSeqId == NA_BGM_DISABLED) {
+        isDisabled = true;
     }
 
-    return ret;
+    return isDisabled;
 }
 
 void func_80077624(GlobalContext* globalCtx) {
