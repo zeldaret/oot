@@ -9693,8 +9693,8 @@ void Player_SetCamModeAndSeqMode(GlobalContext* globalCtx, Player* this) {
                 camMode = CAM_MODE_NORMAL;
                 if ((this->linearVelocity == 0.0f) &&
                     (!(this->stateFlags1 & 0x800000) || (this->rideActor->speedXZ == 0.0f))) {
-                        // not moving
-                        seqMode = SEQ_MODE_STILL;
+                    // not moving
+                    seqMode = SEQ_MODE_STILL;
                 }
             }
 

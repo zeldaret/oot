@@ -2213,8 +2213,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
             GfxPrint_Printf(printer, "SOUND GAME FRAME MAX %f", sAudioUpdateDurationMax);
 
             GfxPrint_SetPos(printer, 3, 9);
-            GfxPrint_Printf(printer, "SWITCH BGM MODE %d %d %d (FLAG %d)", sPrevSeqMode, sNumFramesStill, sNumFramesMoving,
-                            sSeqModeInput);
+            GfxPrint_Printf(printer, "SWITCH BGM MODE %d %d %d (FLAG %d)", sPrevSeqMode, sNumFramesStill,
+                            sNumFramesMoving, sSeqModeInput);
 
             GfxPrint_SetPos(printer, 3, 10);
             GfxPrint_Printf(printer, "ENEMY DIST %f VOL %3d", sAudioEnemyDist, sAudioEnemyVol);
@@ -3610,7 +3610,7 @@ void Audio_ClearSariaBgmAtPos(Vec3f* pos) {
 }
 
 /**
- * Turns on and off channels from both bgm players in a way that splits 
+ * Turns on and off channels from both bgm players in a way that splits
  * equally between the two bgm channels. Split based on note priority
  */
 void Audio_SplitBgmChannels(s8 volSplit) {
@@ -3643,7 +3643,7 @@ void Audio_SplitBgmChannels(s8 volSplit) {
             channelBits = 0;
             for (channelIdx = 0; channelIdx < 16; channelIdx++) {
                 if (notePriority > gAudioContext.seqPlayers[bgmPlayers[i]].channels[channelIdx]->notePriority) {
-                    // If the note currently playing in the channel is a high enough priority, 
+                    // If the note currently playing in the channel is a high enough priority,
                     // then keep the channel on by setting a channelBit
                     // If this condition fails, then the channel will be shut off
                     channelBits += (1 << channelIdx);
@@ -3934,7 +3934,8 @@ void Audio_SetSequenceMode(u8 seqMode) {
             seqMode = SEQ_MODE_IGNORE;
         }
 
-        if ((seqId == NA_BGM_DISABLED) || (sSeqFlags[(u8)(seqId & 0xFF)] & 1) || ((sPrevSeqMode & 0x7F) == SEQ_MODE_ENEMY)) {
+        if ((seqId == NA_BGM_DISABLED) || (sSeqFlags[(u8)(seqId & 0xFF)] & 1) ||
+            ((sPrevSeqMode & 0x7F) == SEQ_MODE_ENEMY)) {
             if (seqMode != (sPrevSeqMode & 0x7F)) {
                 if (seqMode == SEQ_MODE_ENEMY) {
                     // Start playing enemy bgm
@@ -3962,13 +3963,12 @@ void Audio_SetSequenceMode(u8 seqMode) {
 
                     Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 3, 0x7F, volumeFadeOutTimer);
                     Audio_SplitBgmChannels(0);
-                    
                 }
 
                 sPrevSeqMode = seqMode + 0x80;
             }
         } else {
-            // Hyrule Field will play slightly different bgm music depending on whether player is standing 
+            // Hyrule Field will play slightly different bgm music depending on whether player is standing
             // still or moving. This is the logic to determine the transition between those two states
             if (seqMode == SEQ_MODE_DEFAULT) {
                 if (sPrevSeqMode == SEQ_MODE_STILL) {
