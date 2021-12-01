@@ -10,7 +10,7 @@ typedef struct {
 u64 osClockRate = OS_CLOCK_RATE;
 s32 osViClock = VI_NTSC_CLOCK;
 u32 __osShutdown = 0;
-OSHWIntr __OSGlobalIntMask = 0x003FFF01;
+OSHWIntr __OSGlobalIntMask = OS_IM_ALL;
 
 u32 D_800145C0;
 
