@@ -124,4 +124,11 @@ typedef enum {
     /* 3 */ SEQ_PLAYER_BGM_SUB
 } SequencePlayerId;
 
+typedef enum {
+    /* 0 */ SEQ_MODE_DEFAULT,
+    /* 1 */ SEQ_MODE_ENEMY,
+    /* 2 */ SEQ_MODE_STILL, // Not moving or first-person view
+    /* 3 */ SEQ_MODE_IGNORE
+} SeqMode;
+
 #endif

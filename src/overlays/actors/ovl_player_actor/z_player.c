@@ -9708,7 +9708,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
         }
 
         if (globalCtx->sceneNum != SCENE_TURIBORI) {
-            func_800F5E90(sp27);
+            Audio_SetSequenceMode(sp27);
         }
     }
 }
