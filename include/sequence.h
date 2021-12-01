@@ -1,10 +1,10 @@
-#ifndef BGM_H
-#define BGM_H
+#ifndef SEQUENCE_H
+#define SEQUENCE_H
 
 #define NA_BGM_STOP 0x100000FF
 
 #define NA_BGM_GENERAL_SFX 0x0       // General Sound Effects
-#define NA_BGM_NATURE_BACKGROUND 0x1 // Environmental nature background sounds
+#define NA_BGM_NATURE_AMBIENCE 0x1   // Environmental nature background sounds
 #define NA_BGM_FIELD_LOGIC 0x2       // Hyrule Field
 #define NA_BGM_FIELD_INIT 0x3        // Hyrule Field	Initial Segment From Loading Area
 #define NA_BGM_FIELD_MOVE_1 0x4      // Hyrule Field	Moving Segment 1

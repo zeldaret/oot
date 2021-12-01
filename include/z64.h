@@ -187,8 +187,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8   seqId;
     /* 0x01 */ u8   natureAmbienceId;
-    /* 0x02 */ char unk_02[0x2];
-} SoundContext; // size = 0x4
+} SequenceContext; // size = 0x4
 
 typedef struct {
     /* 0x00 */ s32 enabled;
@@ -1138,7 +1137,7 @@ typedef struct GlobalContext {
     /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
-    /* 0x007A4 */ SoundContext soundCtx;
+    /* 0x007A4 */ SequenceContext sequenceCtx;
     /* 0x007A8 */ LightContext lightCtx;
     /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;
     /* 0x007C0 */ CollisionContext colCtx;

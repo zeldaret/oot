@@ -393,8 +393,8 @@ void Gameplay_Init(GameState* thisx) {
 
     Interface_SetSceneRestrictions(globalCtx);
     func_800758AC(globalCtx);
-    gSaveContext.seqId = globalCtx->soundCtx.seqId;
-    gSaveContext.natureAmbienceId = globalCtx->soundCtx.natureAmbienceId;
+    gSaveContext.seqId = globalCtx->sequenceCtx.seqId;
+    gSaveContext.natureAmbienceId = globalCtx->sequenceCtx.natureAmbienceId;
     func_8002DF18(globalCtx, GET_PLAYER(globalCtx));
     AnimationContext_Update(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
