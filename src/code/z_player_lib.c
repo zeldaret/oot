@@ -97,9 +97,9 @@ Gfx* D_80125DE8[] = {
 };
 
 Gfx* D_80125E08[] = {
-    0x06021AA8,
+    gLinkAdultLeftHandNearDL,
     gLinkChildLeftHandNearDL,
-    0x06026C58,
+    gLinkAdultLeftHandFarDL,
     gLinkChildLeftHandFarDL,
 };
 
@@ -202,9 +202,9 @@ Gfx* D_80125EE8[] = {
 };
 
 Gfx* D_80125EF8[] = {
-    0x06021AA8,
+    gLinkAdultLeftHandNearDL,
     gLinkChildLeftFistAndBoomerangNearDL,
-    0x06026C58,
+    gLinkAdultLeftHandFarDL,
     gLinkChildLeftFistAndBoomerangFarDL,
 };
 
@@ -226,7 +226,7 @@ Gfx* D_80125F20[] = {
 };
 
 Gfx* D_80125F28[] = {
-    0x06036E58,
+    gLinkAdultRightShoulderNearDL,
     gLinkChildRightShoulderNearDL,
 };
 
