@@ -393,8 +393,8 @@ void Gameplay_Init(GameState* thisx) {
 
     Interface_SetSceneRestrictions(globalCtx);
     func_800758AC(globalCtx);
-    gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
-    gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
+    gSaveContext.seqId = globalCtx->soundCtx.seqId;
+    gSaveContext.natureAmbienceId = globalCtx->soundCtx.natureAmbienceId;
     func_8002DF18(globalCtx, GET_PLAYER(globalCtx));
     AnimationContext_Update(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
@@ -483,8 +483,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                 // "Sound initalized. 222"
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
-                                gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
-                                gSaveContext.nightSeqIndex = 0xFF;
+                                gSaveContext.seqId = (u8)NA_BGM_DISABLED;
+                                gSaveContext.natureAmbienceId = 0xFF;
                             }
                         }
                     }

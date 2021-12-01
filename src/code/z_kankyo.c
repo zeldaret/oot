@@ -1926,29 +1926,29 @@ void func_800758AC(GlobalContext* globalCtx) {
             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (s32)((void)0, gSaveContext.unk_140E));
         }
         gSaveContext.unk_140E = NA_BGM_GENERAL_SFX;
-    } else if (globalCtx->soundCtx.seqIndex == NA_BGM_NO_MUSIC) {
-        if (globalCtx->soundCtx.nightSeqIndex == 0x13) {
+    } else if (globalCtx->soundCtx.seqId == NA_BGM_NO_MUSIC) {
+        if (globalCtx->soundCtx.natureAmbienceId == 0x13) {
             return;
         }
-        if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
-            func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
+        if (((void)0, gSaveContext.natureAmbienceId) != globalCtx->soundCtx.natureAmbienceId) {
+            func_800F6FB4(globalCtx->soundCtx.natureAmbienceId);
         }
-    } else if (globalCtx->soundCtx.nightSeqIndex == 0x13) {
+    } else if (globalCtx->soundCtx.natureAmbienceId == 0x13) {
         // "BGM Configuration"
-        osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", globalCtx->soundCtx.seqIndex,
-                     ((void)0, gSaveContext.seqIndex));
-        if (((void)0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
-            func_800F5550(globalCtx->soundCtx.seqIndex);
+        osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", globalCtx->soundCtx.seqId,
+                     ((void)0, gSaveContext.seqId));
+        if (((void)0, gSaveContext.seqId) != globalCtx->soundCtx.seqId) {
+            func_800F5550(globalCtx->soundCtx.seqId);
         }
     } else if (((void)0, gSaveContext.dayTime) > 0x4AAA && ((void)0, gSaveContext.dayTime) < 0xB71D) {
-        if (((void)0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
-            func_800F5550(globalCtx->soundCtx.seqIndex);
+        if (((void)0, gSaveContext.seqId) != globalCtx->soundCtx.seqId) {
+            func_800F5550(globalCtx->soundCtx.seqId);
         }
 
         globalCtx->envCtx.unk_E0 = 1;
     } else {
-        if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
-            func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
+        if (((void)0, gSaveContext.natureAmbienceId) != globalCtx->soundCtx.natureAmbienceId) {
+            func_800F6FB4(globalCtx->soundCtx.natureAmbienceId);
         }
 
         if (((void)0, gSaveContext.dayTime) > 0xB71C && ((void)0, gSaveContext.dayTime) < 0xCAAC) {
@@ -1962,8 +1962,8 @@ void func_800758AC(GlobalContext* globalCtx) {
 
     osSyncPrintf("\n-----------------\n", ((void)0, gSaveContext.unk_140E));
     osSyncPrintf("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.unk_140E)); // "Forced BGM"
-    osSyncPrintf("\n     ＢＧＭ=[%d]", globalCtx->soundCtx.seqIndex);
-    osSyncPrintf("\n     エンブ=[%d]", globalCtx->soundCtx.nightSeqIndex);
+    osSyncPrintf("\n     ＢＧＭ=[%d]", globalCtx->soundCtx.seqId);
+    osSyncPrintf("\n     エンブ=[%d]", globalCtx->soundCtx.natureAmbienceId);
     osSyncPrintf("\n     status=[%d]", globalCtx->envCtx.unk_E0);
 
     Audio_SetEnvReverb(globalCtx->roomCtx.curRoom.echo);
@@ -1976,7 +1976,7 @@ void func_80075B44(GlobalContext* globalCtx) {
             func_800F6D58(86, 1, 0);
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
                 osSyncPrintf("\n\n\nNa_StartMorinigBgm\n\n");
-                func_800F5510(globalCtx->soundCtx.seqIndex);
+                func_800F5510(globalCtx->soundCtx.seqId);
             }
             globalCtx->envCtx.unk_E0++;
             break;
@@ -1996,7 +1996,7 @@ void func_80075B44(GlobalContext* globalCtx) {
             break;
         case 3:
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
+                func_800F6FB4(globalCtx->soundCtx.natureAmbienceId);
                 func_800F6D58(1, 1, 1);
             }
             globalCtx->envCtx.unk_E0++;
@@ -2403,10 +2403,10 @@ s32 func_80077600(void) {
 }
 
 void func_80077624(GlobalContext* globalCtx) {
-    if (globalCtx->soundCtx.nightSeqIndex == 19) {
+    if (globalCtx->soundCtx.natureAmbienceId == 19) {
         func_800F6FB4(5);
     } else {
-        func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
+        func_800F6FB4(globalCtx->soundCtx.natureAmbienceId);
     }
 
     func_800F6D58(14, 1, 1);
@@ -2418,7 +2418,7 @@ void func_80077684(GlobalContext* globalCtx) {
     func_800F6D58(15, 1, 0);
 
     if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_BACKGROUND) {
-        gSaveContext.seqIndex = NA_BGM_NATURE_SFX_RAIN;
+        gSaveContext.seqId = NA_BGM_NATURE_SFX_RAIN;
         func_800758AC(globalCtx);
     }
 }

@@ -1448,8 +1448,8 @@ void FileChoose_LoadGame(GameState* thisx) {
 
     gSaveContext.respawn[0].entranceIndex = -1;
     gSaveContext.respawnFlag = 0;
-    gSaveContext.seqIndex = 0xFF;
-    gSaveContext.nightSeqIndex = 0xFF;
+    gSaveContext.seqId = 0xFF;
+    gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
     gSaveContext.dogParams = 0;
     gSaveContext.timer1State = 0;
