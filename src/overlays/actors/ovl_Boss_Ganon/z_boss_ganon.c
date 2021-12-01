@@ -3006,7 +3006,6 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
     while (prop != NULL) {
         if (prop->id != ACTOR_BG_GANON_OTYUKA) {
             prop = prop->next;
-            continue;
         } else {
             platform = (BgGanonOtyuka*)prop;
 
@@ -3014,6 +3013,7 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->envLightMode = 1;
                 break;
             }
+            
             prop = prop->next;
         }
     }
