@@ -2871,7 +2871,7 @@ s32 func_80032880(GlobalContext* globalCtx, Actor* actor) {
 Actor* D_8015BBE8;
 Actor* D_8015BBEC;
 f32 D_8015BBF0;
-f32 sNearestEnemyBgmDist;
+f32 sNearestEnemyBgmDistSq;
 s32 D_8015BBF8;
 s16 D_8015BBFC;
 
@@ -2892,9 +2892,9 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
             // This block below is for determining the closest actor to player in determining the volume
             // used while playing enemy bgm music
             if ((actorCategory == ACTORCAT_ENEMY) && ((actor->flags & 5) == 5) &&
-                (actor->xyzDistToPlayerSq < SQ(500.0f)) && (actor->xyzDistToPlayerSq < sNearestEnemyBgmDist)) {
+                (actor->xyzDistToPlayerSq < SQ(500.0f)) && (actor->xyzDistToPlayerSq < sNearestEnemyBgmDistSq)) {
                 actorCtx->targetCtx.nearestEnemyBgm = actor;
-                sNearestEnemyBgmDist = actor->xyzDistToPlayerSq;
+                sNearestEnemyBgmDistSq = actor->xyzDistToPlayerSq;
             }
 
             if (actor != sp84) {
@@ -2930,7 +2930,7 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
     u8* entry;
 
     D_8015BBE8 = D_8015BBEC = NULL;
-    D_8015BBF0 = sNearestEnemyBgmDist = FLT_MAX;
+    D_8015BBF0 = sNearestEnemyBgmDistSq = FLT_MAX;
     D_8015BBF8 = 0x7FFFFFFF;
 
     if (!Player_InCsMode(globalCtx)) {
