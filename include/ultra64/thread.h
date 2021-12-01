@@ -1,8 +1,6 @@
 #ifndef ULTRA64_THREAD_H
 #define ULTRA64_THREAD_H
 
-#include "types.h"
-
 #define OS_PRIORITY_MAX      255
 #define OS_PRIORITY_VIMGR    254
 #define OS_PRIORITY_RMON     250
@@ -21,6 +19,8 @@
 #define OS_FLAG_FAULT       2
 
 #ifdef _LANGUAGE_C
+
+#include "types.h"
 
 typedef s32 OSPri;
 typedef s32 OSId;
