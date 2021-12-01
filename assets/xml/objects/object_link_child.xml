@@ -7,60 +7,60 @@
         <DList Name="gLinkChildRightHandFarDL" Offset="0x164E0"/>  
         <DList Name="gLinkChildSwordAndSheathFarDL" Offset="0x17360"/>
         <DList Name="gLinkChildWaistFarDL" Offset="0x1AEC8"/>
-        <DList Name="gLinkChildLeftThighFarDL" Offset="0x1B0F8"/>
-        <DList Name="gLinkChildLeftShinFarDL" Offset="0x1B2B8"/>
-        <DList Name="gLinkChildLeftFootFarDL" Offset="0x1B510"/>
-        <DList Name="gLinkChildRightThighFarDL" Offset="0x1B638"/>
-        <DList Name="gLinkChildRightShinFarDL" Offset="0x1B7F8"/>
-        <DList Name="gLinkChildRightFootFarDL" Offset="0x1BA50"/>
+        <DList Name="gLinkChildRightThighFarDL" Offset="0x1B0F8"/>
+        <DList Name="gLinkChildRightShinFarDL" Offset="0x1B2B8"/>
+        <DList Name="gLinkChildRightFootFarDL" Offset="0x1B510"/>
+        <DList Name="gLinkChildLeftThighFarDL" Offset="0x1B638"/>
+        <DList Name="gLinkChildLeftShinFarDL" Offset="0x1B7F8"/>
+        <DList Name="gLinkChildLeftFootFarDL" Offset="0x1BA50"/>
         <DList Name="gLinkChildCollarFarDL" Offset="0x1BB78"/>
         <DList Name="gLinkChildTorsoFarDL" Offset="0x1BBD8"/>
         <DList Name="gLinkChildHeadFarDL" Offset="0x1BDA0"/>
         <DList Name="gLinkChildHatFarDL" Offset="0x1C2A8"/>
-        <DList Name="gLinkChildLeftShoulderFarDL" Offset="0x1C398"/>
-        <DList Name="gLinkChildLeftForearmFarDL" Offset="0x1C558"/>
-        <DList Name="gLinkChildRightShoulderFarDL" Offset="0x1C688"/>
-        <DList Name="gLinkChildRightForearmFarDL" Offset="0x1C848"/>
+        <DList Name="gLinkChildRightShoulderFarDL" Offset="0x1C398"/>
+        <DList Name="gLinkChildRightForearmFarDL" Offset="0x1C558"/>
+        <DList Name="gLinkChildLeftShoulderFarDL" Offset="0x1C688"/>
+        <DList Name="gLinkChildLeftForearmFarDL" Offset="0x1C848"/>
         
         <!--Near Limb DLists-->
         <DList Name="gLinkChildLeftHandNearDL" Offset="0x13CB0"/>
         <DList Name="gLinkChildRightHandNearDL" Offset="0x141C0"/>
         <DList Name="gLinkChildSwordAndSheathNearDL" Offset="0x15248"/>
         <DList Name="gLinkChildWaistNearDL" Offset="0x202A8"/>
-        <DList Name="gLinkChildLeftThighNearDL" Offset="0x204F0"/>
-        <DList Name="gLinkChildLeftShinNearDL" Offset="0x206E8"/>
-        <DList Name="gLinkChildLeftFootNearDL" Offset="0x20978"/>
-        <DList Name="gLinkChildRightThighNearDL" Offset="0x20AD8"/>
-        <DList Name="gLinkChildRightShinNearDL" Offset="0x20CD0"/>
-        <DList Name="gLinkChildRightFootNearDL" Offset="0x20F60"/>
+        <DList Name="gLinkChildRightThighNearDL" Offset="0x204F0"/>
+        <DList Name="gLinkChildRightShinNearDL" Offset="0x206E8"/>
+        <DList Name="gLinkChildRightFootNearDL" Offset="0x20978"/>
+        <DList Name="gLinkChildLeftThighNearDL" Offset="0x20AD8"/>
+        <DList Name="gLinkChildLeftShinNearDL" Offset="0x20CD0"/>
+        <DList Name="gLinkChildLeftFootNearDL" Offset="0x20F60"/>
         <DList Name="gLinkChildCollarNearDL" Offset="0x210C0"/>
         <DList Name="gLinkChildTorsoNearDL" Offset="0x21130"/>
         <DList Name="gLinkChildHeadNearDL" Offset="0x21360"/>
         <DList Name="gLinkChildHatNearDL" Offset="0x219B0"/>
-        <DList Name="gLinkChildLeftShoulderNearDL" Offset="0x21AE8"/>
-        <DList Name="gLinkChildLeftForearmNearDL" Offset="0x21CB8"/>
-        <DList Name="gLinkChildRightShoulderNearDL" Offset="0x21E18"/>
-        <DList Name="gLinkChildRightForearmNearDL" Offset="0x21FE8"/>
+        <DList Name="gLinkChildRightShoulderNearDL" Offset="0x21AE8"/>
+        <DList Name="gLinkChildRightForearmNearDL" Offset="0x21CB8"/>
+        <DList Name="gLinkChildLeftShoulderNearDL" Offset="0x21E18"/>
+        <DList Name="gLinkChildLeftForearmNearDL" Offset="0x21FE8"/>
         
         <!--Limbs-->
         <Limb Name="gLinkChildRootLimb" Type="LOD" Offset="0x2CDC8"/>
         <Limb Name="gLinkChildWaistLimb" Type="LOD" Offset="0x2CDD8"/>
         <Limb Name="gLinkChildLowerControlLimb" Type="LOD" Offset="0x2CDE8"/>
-        <Limb Name="gLinkChildLeftThighLimb" Type="LOD" Offset="0x2CDF8"/>
-        <Limb Name="gLinkChildLeftShinLimb" Type="LOD" Offset="0x2CE08"/>
-        <Limb Name="gLinkChildLeftFootLimb" Type="LOD" Offset="0x2CE18"/>
-        <Limb Name="gLinkChildRightThighLimb" Type="LOD" Offset="0x2CE28"/>
-        <Limb Name="gLinkChildRightShinLimb" Type="LOD" Offset="0x2CE38"/>
-        <Limb Name="gLinkChildRightFootLimb" Type="LOD" Offset="0x2CE48"/>
+        <Limb Name="gLinkChildRightThighLimb" Type="LOD" Offset="0x2CDF8"/>
+        <Limb Name="gLinkChildRightShinLimb" Type="LOD" Offset="0x2CE08"/>
+        <Limb Name="gLinkChildRightFootLimb" Type="LOD" Offset="0x2CE18"/>
+        <Limb Name="gLinkChildLeftThighLimb" Type="LOD" Offset="0x2CE28"/>
+        <Limb Name="gLinkChildLeftShinLimb" Type="LOD" Offset="0x2CE38"/>
+        <Limb Name="gLinkChildLeftFootLimb" Type="LOD" Offset="0x2CE48"/>
         <Limb Name="gLinkChildUpperControlLimb" Type="LOD" Offset="0x2CE58"/>
-        <Limb Name="gLinkChildHandLimb" Type="LOD" Offset="0x2CE68"/>
+        <Limb Name="gLinkChildHeadLimb" Type="LOD" Offset="0x2CE68"/>
         <Limb Name="gLinkChildHatLimb" Type="LOD" Offset="0x2CE78"/>
         <Limb Name="gLinkChildCollarLimb" Type="LOD" Offset="0x2CE88"/>
-        <Limb Name="gLinkChildRightshoulderLimb" Type="LOD" Offset="0x2CE98"/>
-        <Limb Name="gLinkChildRightForearmLimb" Type="LOD" Offset="0x2CEA8"/>
+        <Limb Name="gLinkChildLeftshoulderLimb" Type="LOD" Offset="0x2CE98"/>
+        <Limb Name="gLinkChildLeftForearmLimb" Type="LOD" Offset="0x2CEA8"/>
         <Limb Name="gLinkChildLeftHandLimb" Type="LOD" Offset="0x2CEB8"/>
-        <Limb Name="gLinkChildLeftshoulderLimb" Type="LOD" Offset="0x2CEC8"/>
-        <Limb Name="gLinkChildLeftForearmLimb" Type="LOD" Offset="0x2CED8"/>
+        <Limb Name="gLinkChildRightshoulderLimb" Type="LOD" Offset="0x2CEC8"/>
+        <Limb Name="gLinkChildRightForearmLimb" Type="LOD" Offset="0x2CED8"/>
         <Limb Name="gLinkChildRightHandLimb" Type="LOD" Offset="0x2CEE8"/>
         <Limb Name="gLinkChildSwordAndSheathLimb" Type="LOD" Offset="0x2CEF8"/>
         <Limb Name="gLinkChildTorsoLimb" Type="LOD" Offset="0x2CF08"/>

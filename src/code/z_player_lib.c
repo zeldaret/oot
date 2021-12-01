@@ -227,7 +227,7 @@ Gfx* D_80125F20[] = {
 
 Gfx* D_80125F28[] = {
     0x06036E58,
-    gLinkChildLeftShoulderNearDL,
+    gLinkChildRightShoulderNearDL,
 };
 
 Gfx* D_80125F30[] = {
