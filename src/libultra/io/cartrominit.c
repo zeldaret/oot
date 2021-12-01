@@ -23,7 +23,7 @@ OSPiHandle* osCartRomInit(void) {
     D_8000AF10 = 0;
     __CartRomHandle.type = DEVICE_TYPE_CART;
     __CartRomHandle.baseAddress = 0xB0000000;
-    __CartRomHandle.domain = 0;
+    __CartRomHandle.domain = PI_DOMAIN1;
     __CartRomHandle.speed = 0;
     bzero(&__CartRomHandle.transferInfo, sizeof(__OSTranxInfo));
 

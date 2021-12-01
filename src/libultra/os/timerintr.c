@@ -78,7 +78,7 @@ void __osSetTimerIntr(OSTime time) {
 OSTime __osInsertTimer(OSTimer* timer) {
     OSTimer* nextTimer;
     u64 timerValue;
-    s32 prevInt = __osDisableInt();
+    u32 prevInt = __osDisableInt();
 
     for (nextTimer = __osTimerList->next, timerValue = timer->value;
          nextTimer != __osTimerList && timerValue > nextTimer->value;

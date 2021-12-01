@@ -1,6 +1,6 @@
 #include "global.h"
 
-void __osResetGlobalIntMask(u32 mask) {
+void __osResetGlobalIntMask(OSHWIntr mask) {
     register u32 prevInt = __osDisableInt();
 
     __OSGlobalIntMask &= ~(mask & ~0x401);

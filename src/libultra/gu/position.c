@@ -43,7 +43,7 @@ void guPositionF(f32 mf[4][4], f32 rot, f32 pitch, f32 yaw, f32 scale, f32 x, f3
 
 /**
  * guPosition
- * Creates a rotational/paralell translation moeling matrix (fixed point)
+ * Creates a rotational/parallel translation modeling matrix (fixed point)
  */
 void guPosition(Mtx* m, f32 rot, f32 pitch, f32 yaw, f32 scale, f32 x, f32 y, f32 z) {
     f32 mf[4][4];

@@ -106,7 +106,7 @@ void AudioHeap_DiscardSequence(s32 seqId) {
 }
 
 void AudioHeap_WritebackDCache(void* mem, u32 size) {
-    Audio_osWritebackDCache(mem, size);
+    Audio_WritebackDCache(mem, size);
 }
 
 void* AudioHeap_AllocZeroedAttemptExternal(AudioAllocPool* pool, u32 size) {
@@ -802,7 +802,7 @@ void AudioHeap_Init(void) {
     s32 temporaryMem;
     s32 totalMem;
     s32 wantMisc;
-    u32 intMask;
+    OSIntMask intMask;
     s32 i;
     s32 j;
     s32 pad2;

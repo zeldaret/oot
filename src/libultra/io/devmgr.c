@@ -61,25 +61,25 @@ void __osDevMgrMain(void* arg) {
             }
         } else {
             switch (ioMesg->hdr.type) {
-                case 11:
+                case OS_MESG_TYPE_DMAREAD:
                     osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
                     phi_s0 = arg0->piDmaCallback(OS_READ, ioMesg->devAddr, ioMesg->dramAddr, ioMesg->size);
                     break;
-                case 12:
+                case OS_MESG_TYPE_DMAWRITE:
                     osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
                     phi_s0 = arg0->piDmaCallback(OS_WRITE, ioMesg->devAddr, ioMesg->dramAddr, ioMesg->size);
                     break;
-                case 15:
+                case OS_MESG_TYPE_EDMAREAD:
                     osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
                     phi_s0 = arg0->epiDmaCallback(ioMesg->piHandle, OS_READ, ioMesg->devAddr, ioMesg->dramAddr,
                                                   ioMesg->size);
                     break;
-                case 16:
+                case OS_MESG_TYPE_EDMAWRITE:
                     osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
                     phi_s0 = arg0->epiDmaCallback(ioMesg->piHandle, OS_WRITE, ioMesg->devAddr, ioMesg->dramAddr,
                                                   ioMesg->size);
                     break;
-                case 10:
+                case OS_MESG_TYPE_LOOPBACK:
                     osSendMesg(ioMesg->hdr.retQueue, ioMesg, OS_MESG_NOBLOCK);
                     phi_s0 = -1;
                     break;

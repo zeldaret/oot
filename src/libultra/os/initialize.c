@@ -10,7 +10,7 @@ typedef struct {
 u64 osClockRate = OS_CLOCK_RATE;
 s32 osViClock = VI_NTSC_CLOCK;
 u32 __osShutdown = 0;
-u32 __OSGlobalIntMask = 0x003FFF01;
+OSHWIntr __OSGlobalIntMask = OS_IM_ALL;
 
 u32 D_800145C0;
 
@@ -32,25 +32,25 @@ void __osInitialize_common(void) {
     u32 sp2C;
 
     D_800145C0 = 1;
-    __osSetSR(__osGetSR() | 0x20000000);
-    __osSetFpcCsr(0x1000800);
+    __osSetSR(__osGetSR() | SR_CU1);
+    __osSetFpcCsr(FPCSR_FS | FPCSR_EV);
     __osSetWatchLo(0x4900000);
 
-    while (__osSiRawReadIo((void*)0x1fc007fc, &sp2C)) {
+    while (__osSiRawReadIo((void*)(PIF_RAM_START + 0x3C), &sp2C)) {
         ;
     }
 
-    while (__osSiRawWriteIo((void*)0x1fc007fc, sp2C | 8)) {
+    while (__osSiRawWriteIo((void*)(PIF_RAM_START + 0x3C), sp2C | 8)) {
         ;
     }
 
-    *(struct_exceptionPreamble*)0x80000000 = *(struct_exceptionPreamble*)__osExceptionPreamble; // TLB miss
-    *(struct_exceptionPreamble*)0x80000080 = *(struct_exceptionPreamble*)__osExceptionPreamble; // XTLB miss
-    *(struct_exceptionPreamble*)0x80000100 = *(struct_exceptionPreamble*)__osExceptionPreamble; // cache errors
-    *(struct_exceptionPreamble*)0x80000180 = *(struct_exceptionPreamble*)__osExceptionPreamble; // general exceptions
+    *(struct_exceptionPreamble*)UT_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble; // TLB miss
+    *(struct_exceptionPreamble*)XUT_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble; // XTLB miss
+    *(struct_exceptionPreamble*)ECC_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble; // cache errors
+    *(struct_exceptionPreamble*)E_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble; // general exceptions
 
-    osWritebackDCache(0x80000000, 0x190);
-    osInvalICache(0x80000000, 0x190);
+    osWritebackDCache(K0BASE, E_VEC - K0BASE + sizeof(struct_exceptionPreamble));
+    osInvalICache(K0BASE, E_VEC - K0BASE + sizeof(struct_exceptionPreamble));
     __createSpeedParam();
     osUnmapTLBAll();
     osMapTLBRdb();
@@ -69,7 +69,8 @@ void __osInitialize_common(void) {
         osViClock = VI_NTSC_CLOCK;
     }
 
-    if (__osGetCause() & 0x1000) {
+    // Wait until there are no RCP interrupts
+    if (__osGetCause() & CAUSE_IP5) {
         while (true) {
             ;
         }

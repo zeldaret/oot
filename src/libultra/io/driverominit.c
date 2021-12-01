@@ -18,7 +18,7 @@ OSPiHandle* osDriveRomInit(void) {
     D_8000AC70 = 0;
     __DriveRomHandle.type = DEVICE_TYPE_BULK;
     __DriveRomHandle.baseAddress = 0xA6000000;
-    __DriveRomHandle.domain = 0;
+    __DriveRomHandle.domain = PI_DOMAIN1;
     __DriveRomHandle.speed = 0;
     bzero(&__DriveRomHandle.transferInfo, sizeof(__OSTranxInfo));
 

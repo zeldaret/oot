@@ -7,7 +7,7 @@ void* proutSprintf(void* dst, const char* fmt, u32 size) {
 s32 vsprintf(char* dst, const char* fmt, va_list args) {
     s32 ret = _Printf(proutSprintf, dst, fmt, args);
     if (ret > -1) {
-        dst[ret] = 0;
+        dst[ret] = '\0';
     }
     return ret;
 }
@@ -19,7 +19,7 @@ s32 sprintf(char* dst, const char* fmt, ...) {
 
     ret = _Printf(proutSprintf, dst, fmt, args);
     if (ret > -1) {
-        dst[ret] = 0;
+        dst[ret] = '\0';
     }
 
     va_end(args);

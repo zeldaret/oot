@@ -21,11 +21,11 @@ void osCreateViManager(OSPri pri) {
         __osTimerServicesInit();
         __additional_scanline = 0;
         osCreateMesgQueue(&viEventQueue, viEventBuf, 5);
-        viRetraceMsg.hdr.type = 13;
-        viRetraceMsg.hdr.pri = 0;
+        viRetraceMsg.hdr.type = OS_MESG_TYPE_VRETRACE;
+        viRetraceMsg.hdr.pri = OS_MESG_PRI_NORMAL;
         viRetraceMsg.hdr.retQueue = NULL;
-        viCounterMsg.hdr.type = 14;
-        viCounterMsg.hdr.pri = 0;
+        viCounterMsg.hdr.type = OS_MESG_TYPE_COUNTER;
+        viCounterMsg.hdr.pri = OS_MESG_PRI_NORMAL;
         viCounterMsg.hdr.retQueue = NULL;
         osSetEventMesg(OS_EVENT_VI, &viEventQueue, &viRetraceMsg);
         osSetEventMesg(OS_EVENT_COUNTER, &viEventQueue, &viCounterMsg);
@@ -56,8 +56,8 @@ void osCreateViManager(OSPri pri) {
 }
 
 void viMgrMain(void* vargs) {
-    OSMgrArgs* args;
     static u16 viRetrace;
+    OSMgrArgs* args;
     u32 addTime;
     OSIoMesg* mesg = NULL;
     u32 temp = 0; // always 0
@@ -72,7 +72,7 @@ void viMgrMain(void* vargs) {
     while (true) {
         osRecvMesg(args->eventQueue, (OSMesg)&mesg, OS_MESG_BLOCK);
         switch (mesg->hdr.type) {
-            case 13:
+            case OS_MESG_TYPE_VRETRACE:
                 __osViSwapContext();
                 viRetrace--;
                 if (!viRetrace) {
@@ -98,7 +98,7 @@ void viMgrMain(void* vargs) {
                 addTime = __osBaseCounter - addTime;
                 __osCurrentTime = __osCurrentTime + addTime;
                 break;
-            case 14:
+            case OS_MESG_TYPE_COUNTER:
                 __osTimerInterrupt();
                 break;
         }
