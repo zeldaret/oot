@@ -7,7 +7,7 @@
         <Scene Name="miharigoya_scene" Offset="0x0"/>
     </File>
     <File Name="miharigoya_room_0" Segment="3">
-        <Blob Name="gMiharigoyaBlob_0038D8" Offset="0x38D8" Size="0x68"/>
+        <Blob Name="gMiharigoyaBlob_0038D8" Size="0x68" Offset="0x38D8"/>
         <Room Name="miharigoya_room_0" Offset="0x0"/>
         <DList Name="gMiharigoyaDL_003DA0" Offset="0x3DA0"/>
     </File>
