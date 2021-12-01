@@ -3482,9 +3482,9 @@ void func_80943028(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 static void* sEyeTextures[] = {
-    0x0600A438,
-    0x0600B238,
-    0x0600B638,
+    object_tw_Tex_00A438,
+    object_tw_Tex_00B238,
+    object_tw_Tex_00B638,
 };
 
 void BossTw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
@@ -3568,10 +3568,10 @@ void BossTw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7123);
 }
 
-Gfx* D_8094A9B0[] = {
-    0x0602A9B0,
-    0x0602A070,
-    0x0602A470,
+void* D_8094A9B0[] = {
+    object_tw_Tex_02A9B0,
+    object_tw_Tex_02A070,
+    object_tw_Tex_02A470,
 };
 
 s32 BossTw_TwinrovaOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,

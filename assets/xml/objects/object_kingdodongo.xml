@@ -104,9 +104,9 @@
         <DList Name="object_kingdodongo_DL_01D950" Offset="0x1D950"/><!--Blob Name="object_kingdodongo_Blob_01D9F0" Size="0x8000" Offset="0x1D9F0" /-->
         <DList Name="object_kingdodongo_DL_0259F0" Offset="0x259F0"/>
         <DList Name="object_kingdodongo_DL_025A90" Offset="0x25A90"/>
-        <Blob Name="object_kingdodongo_Blob_025B30" Size="0x60" Offset="0x25B30"/>
+        <Collision Name="object_kingdodongo_Col_025B64" Offset="0x25B64"/>
         <DList Name="object_kingdodongo_DL_025BD0" Offset="0x25BD0"/>
         <Texture Name="object_kingdodongo_Tex_025C58" OutName="tex_00025C58" Format="rgba16" Width="32" Height="32" Offset="0x25C58"/>
-        <Blob Name="object_kingdodongo_Blob_026458" Size="0xA888" Offset="0x26458"/>
+        <Collision Name="object_kingdodongo_Col_0264A8" Offset="0x264A8"/>
     </File>
 </Root>
