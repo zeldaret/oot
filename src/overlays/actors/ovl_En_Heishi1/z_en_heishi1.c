@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnHeishi1*)thisx)
-
 void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +65,7 @@ static s16 sWaypoints[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
 
 void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f rupeePos;
     s32 i;
 
@@ -381,7 +379,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
     s16 path;
     u8 i;
     s32 pad;
@@ -474,7 +472,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
 
     // turn the guards head to match the direction he is looking
     if (limbIndex == 16) {
@@ -486,7 +484,7 @@ s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 
 void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 
     func_80093D18(globalCtx->state.gfxCtx);

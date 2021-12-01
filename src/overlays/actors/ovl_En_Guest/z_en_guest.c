@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnGuest*)thisx)
-
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -54,7 +52,7 @@ static InitChainEntry sInitChain[] = {
 extern FlexSkeletonHeader object_boj_Skel_0000F0;
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
 
     if (gSaveContext.infTable[7] & 0x40) {
         Actor_Kill(&this->actor);
@@ -71,13 +69,13 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     s32 pad;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex) != 0) {
@@ -144,7 +142,7 @@ void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
 }
 
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     s32 pad;
     Player* player;
 
@@ -185,7 +183,7 @@ Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 
 s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     Vec3s sp3C;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
@@ -221,7 +219,7 @@ void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
         0x060006FC,
         0x060007FC,
     };
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 404);

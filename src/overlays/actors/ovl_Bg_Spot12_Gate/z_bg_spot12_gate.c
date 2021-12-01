@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot12Gate*)thisx)
-
 void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot12Gate_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -59,7 +57,7 @@ void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, GlobalContext* globalCtx, Col
 }
 
 void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot12Gate* this = THIS;
+    BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
     BgSpot12Gate_InitDynaPoly(this, globalCtx, &gGerudoFortressWastelandGateCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -72,7 +70,7 @@ void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Gate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot12Gate* this = THIS;
+    BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -131,7 +129,7 @@ void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot12Gate* this = THIS;
+    BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
     if (this->unk_168 > 0) {
         this->unk_168--;

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnGe1*)thisx)
-
 #define GE1_STATE_TALKING (1 << 0)
 #define GE1_STATE_GIVE_QUIVER (1 << 1)
 #define GE1_STATE_IDLE_ANIM (1 << 2)
@@ -89,7 +87,7 @@ static void* sEyeTextures[] = {
 
 void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoWhiteSkel, &gGerudoWhiteIdleAnim, this->jointTable,
@@ -178,7 +176,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -720,7 +718,7 @@ void EnGe1_LookAtPlayer(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -766,7 +764,7 @@ void EnGe1_StopFidget(EnGe1* this) {
 
 s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     if (limbIndex == GE1_LIMB_HEAD) {
         rot->x += this->headRot.y;
@@ -788,7 +786,7 @@ s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1419);
 
@@ -802,7 +800,7 @@ void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
 void EnGe1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1442);
 

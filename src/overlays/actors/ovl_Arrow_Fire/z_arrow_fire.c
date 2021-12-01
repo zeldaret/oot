@@ -9,8 +9,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((ArrowFire*)thisx)
-
 void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArrowFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ArrowFire_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ void ArrowFire_SetupAction(ArrowFire* this, ArrowFireActionFunc actionFunc) {
 }
 
 void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowFire* this = THIS;
+    ArrowFire* this = (ArrowFire*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
@@ -180,7 +178,7 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
 }
 
 void ArrowFire_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowFire* this = THIS;
+    ArrowFire* this = (ArrowFire*)thisx;
 
     if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK ||
         globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
@@ -191,7 +189,7 @@ void ArrowFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx2) {
-    ArrowFire* this = THIS;
+    ArrowFire* this = (ArrowFire*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     u32 stateFrames;
     EnArrow* arrow;

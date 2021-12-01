@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnExRuppy*)thisx)
-
 void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnExRuppy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ const ActorInit En_Ex_Ruppy_InitVars = {
 };
 
 void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnExRuppy* this = THIS;
+    EnExRuppy* this = (EnExRuppy*)thisx;
     EnDivingGame* divingGame;
     f32 temp1;
     f32 temp2;
@@ -365,7 +363,7 @@ void EnExRuppy_GalleryTarget(EnExRuppy* this, GlobalContext* globalCtx) {
 }
 
 void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnExRuppy* this = THIS;
+    EnExRuppy* this = (EnExRuppy*)thisx;
 
     this->actor.shape.rot.y += 1960;
     this->actionFunc(this, globalCtx);
@@ -381,7 +379,7 @@ void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
     };
     s32 pad;
-    EnExRuppy* this = THIS;
+    EnExRuppy* this = (EnExRuppy*)thisx;
 
     if (!this->invisible) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 774);

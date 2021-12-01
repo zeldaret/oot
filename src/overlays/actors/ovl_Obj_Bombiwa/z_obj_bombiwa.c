@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ObjBombiwa*)thisx)
-
 void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx);
 void ObjBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -66,7 +64,7 @@ static s16 sEffectScales[] = {
 };
 
 void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBombiwa* this = THIS;
+    ObjBombiwa* this = (ObjBombiwa*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -93,7 +91,7 @@ void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjBombiwa* this = THIS;
+    ObjBombiwa* this = (ObjBombiwa*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -123,7 +121,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBombiwa* this = THIS;
+    ObjBombiwa* this = (ObjBombiwa*)thisx;
     s32 pad;
 
     if ((func_80033684(globalCtx, &this->actor) != NULL) ||

@@ -11,7 +11,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnKo*)thisx)
 #define ENKO_TYPE (this->actor.params & 0xFF)
 #define ENKO_PATH ((this->actor.params & 0xFF00) >> 8)
 
@@ -245,7 +244,7 @@ s32 EnKo_IsOsAnimeLoaded(EnKo* this, GlobalContext* globalCtx) {
 }
 
 u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     switch (ENKO_TYPE) {
         case ENKO_TYPE_CHILD_FADO:
             if (gSaveContext.eventChkInf[4] & 1) {
@@ -345,7 +344,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
 
 u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = GET_PLAYER(globalCtx);
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
 
     switch (ENKO_TYPE) {
         case ENKO_TYPE_CHILD_FADO:
@@ -430,7 +429,7 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
 
 u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction;
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
 
     if (ENKO_TYPE == ENKO_TYPE_CHILD_0 || ENKO_TYPE == ENKO_TYPE_CHILD_2 || ENKO_TYPE == ENKO_TYPE_CHILD_3 ||
         ENKO_TYPE == ENKO_TYPE_CHILD_4 || ENKO_TYPE == ENKO_TYPE_CHILD_7 || ENKO_TYPE == ENKO_TYPE_CHILD_8 ||
@@ -454,7 +453,7 @@ u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_CLOSING:
@@ -1068,7 +1067,7 @@ s32 func_80A98ECC(EnKo* this, GlobalContext* globalCtx) {
 }
 
 void EnKo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
 
     if (ENKO_TYPE >= ENKO_TYPE_CHILD_MAX || !EnKo_IsOsAnimeAvailable(this, globalCtx) ||
         !EnKo_AreObjectsAvailable(this, globalCtx)) {
@@ -1081,7 +1080,7 @@ void EnKo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -1202,7 +1201,7 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
 
 void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     s32 pad;
 
     if (this->actionFunc != func_80A99048) {
@@ -1233,7 +1232,7 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     void* eyeTexture;
     Vec3s sp40;
     u8 headId;
@@ -1272,7 +1271,7 @@ s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnKo_PostLimbDraw(GlobalContext* globalCtx2, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     GlobalContext* globalCtx = globalCtx2;
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     Vec3f D_80A9A774 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 7) {
@@ -1293,7 +1292,7 @@ Gfx* EnKo_SetEnvColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 }
 
 void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     Color_RGBA8 tunicColor = sModelInfo[ENKO_TYPE].tunicColor;
     Color_RGBA8 bootsColor = sModelInfo[ENKO_TYPE].bootsColor;
 

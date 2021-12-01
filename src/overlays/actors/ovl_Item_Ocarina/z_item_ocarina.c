@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((ItemOcarina*)thisx)
-
 void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemOcarina_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ItemOcarina_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ void ItemOcarina_SetupAction(ItemOcarina* this, ItemOcarinaActionFunc actionFunc
 }
 
 void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ItemOcarina* this = THIS;
+    ItemOcarina* this = (ItemOcarina*)thisx;
     s32 params = thisx->params;
 
     ActorShape_Init(&this->actor.shape, 0, 0, 0);
@@ -191,13 +189,13 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
 }
 
 void ItemOcarina_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ItemOcarina* this = THIS;
+    ItemOcarina* this = (ItemOcarina*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void ItemOcarina_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ItemOcarina* this = THIS;
+    ItemOcarina* this = (ItemOcarina*)thisx;
 
     func_8002EBCC(thisx, globalCtx, 0);
     func_8002ED80(thisx, globalCtx, 0);

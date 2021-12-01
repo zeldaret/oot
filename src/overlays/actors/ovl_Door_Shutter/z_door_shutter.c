@@ -18,8 +18,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((DoorShutter*)thisx)
-
 void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -212,7 +210,7 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
 }
 
 void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    DoorShutter* this = THIS;
+    DoorShutter* this = (DoorShutter*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s32 phi_a3;
     s32 pad;
@@ -268,7 +266,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DoorShutter* this = THIS;
+    DoorShutter* this = (DoorShutter*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if (this->dyna.actor.room >= 0) {
@@ -627,7 +625,7 @@ void func_80997744(DoorShutter* this, GlobalContext* globalCtx) {
 }
 
 void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DoorShutter* this = THIS;
+    DoorShutter* this = (DoorShutter*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x100004C0) || (this->actionFunc == DoorShutter_SetupType)) {
@@ -681,7 +679,7 @@ s32 func_80997A34(DoorShutter* this, GlobalContext* globalCtx) {
 }
 
 void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DoorShutter* this = THIS;
+    DoorShutter* this = (DoorShutter*)thisx;
 
     //! @bug This actor is not fully initialized until the required object dependency is loaded.
     //! In most cases, the check for objBankIndex to equal requiredObjBankIndex prevents the actor

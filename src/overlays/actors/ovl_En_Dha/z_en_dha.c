@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnDha*)thisx)
-
 void EnDha_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDha_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -154,7 +152,7 @@ void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
 }
 
 void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -175,7 +173,7 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -405,7 +403,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
 
 void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     if (this->actor.parent == NULL) {
         this->actor.parent = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, ACTORCAT_ENEMY, 10000.0f);
@@ -418,7 +416,7 @@ void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     if (limbIndex == 1) {
         rot->y = -(s16)(this->limbAngleX[0] + 0x4000);
@@ -437,7 +435,7 @@ s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Vec3f handVec = { 1100.0f, 0.0f, 0.0f };
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     switch (limbIndex) {
         case 1:
@@ -459,7 +457,7 @@ void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
 void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

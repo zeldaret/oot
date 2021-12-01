@@ -9,7 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnHorseGameCheckBase*)thisx)
 #define AT_FINISH_LINE(actor)                                                                                     \
     (Math3D_PointInSquare2D(sFinishLine[0], sFinishLine[1], sFinishLine[2], sFinishLine[3], (actor)->world.pos.x, \
                             (actor)->world.pos.z))
@@ -439,7 +438,7 @@ static EnHorseGameCheckFunc sUpdateFuncs[] = {
 
 void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHorseGameCheckBase* this = THIS;
+    EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
     if ((globalCtx->sceneNum == SCENE_SPOT20) && (Flags_GetEventChkInf(0x18) || DREG(1))) {
         this->actor.params = HORSEGAME_MALON_RACE;
@@ -451,7 +450,7 @@ void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHorseGameCheck_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHorseGameCheckBase* this = THIS;
+    EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
     if (sDestroyFuncs[this->actor.params] != NULL) {
         sDestroyFuncs[this->actor.params](this, globalCtx);
@@ -460,7 +459,7 @@ void EnHorseGameCheck_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHorseGameCheck_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHorseGameCheckBase* this = THIS;
+    EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
     if (sUpdateFuncs[this->type] != NULL) {
         sUpdateFuncs[this->type](this, globalCtx);

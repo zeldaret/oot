@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ObjHamishi*)thisx)
-
 void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjHamishi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjHamishi_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHamishi* this = THIS;
+    ObjHamishi* this = (ObjHamishi*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -137,7 +135,7 @@ void ObjHamishi_Break(ObjHamishi* this, GlobalContext* globalCtx) {
 }
 
 void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHamishi* this = THIS;
+    ObjHamishi* this = (ObjHamishi*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -161,13 +159,13 @@ void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjHamishi_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjHamishi* this = THIS;
+    ObjHamishi* this = (ObjHamishi*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHamishi* this = THIS;
+    ObjHamishi* this = (ObjHamishi*)thisx;
     CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
 
     ObjHamishi_Shake(this);

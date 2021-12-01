@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHidanHamstep*)thisx)
-
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHamstep_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -128,7 +126,7 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx2
 }
 
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanHamstep* this = THIS;
+    BgHidanHamstep* this = (BgHidanHamstep*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
     Vec3f sp48[3];
@@ -198,7 +196,7 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanHamstep* this = THIS;
+    BgHidanHamstep* this = (BgHidanHamstep*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
@@ -392,7 +390,7 @@ void BgHidanHamstep_DoNothing(BgHidanHamstep* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanHamstep_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanHamstep* this = THIS;
+    BgHidanHamstep* this = (BgHidanHamstep*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

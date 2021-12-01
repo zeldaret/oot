@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((DemoShd*)thisx)
-
 void DemoShd_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoShd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoShd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ void DemoShd_SetupAction(DemoShd* this, DemoShdActionFunc actionFunc) {
 }
 
 void DemoShd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoShd* this = THIS;
+    DemoShd* this = (DemoShd*)thisx;
 
     this->unk_14C = 0;
     DemoShd_SetupAction(this, func_80991298);
@@ -93,13 +91,13 @@ void func_80991298(DemoShd* this, GlobalContext* globalCtx) {
 }
 
 void DemoShd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoShd* this = THIS;
+    DemoShd* this = (DemoShd*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void DemoShd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoShd* this = THIS;
+    DemoShd* this = (DemoShd*)thisx;
     s32 pad;
     u32 unk_14E = this->unk_14E;
 

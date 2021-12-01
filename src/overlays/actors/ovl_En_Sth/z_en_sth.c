@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnSth*)thisx)
-
 void EnSth_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSth_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -92,7 +90,7 @@ void EnSth_SetupAction(EnSth* this, EnSthActionFunc actionFunc) {
 }
 
 void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
 
     s16 objectId;
     s32 params = this->actor.params;
@@ -164,7 +162,7 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -305,13 +303,13 @@ void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -334,7 +332,7 @@ void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnSth_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
 
     s32 temp_v1;
 
@@ -358,7 +356,7 @@ s32 EnSth_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnSth_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80B0B49C, &this->actor.focus.pos);
@@ -383,7 +381,7 @@ Gfx* EnSth_AllocColorDList(GraphicsContext* globalCtx, u8 envR, u8 envG, u8 envB
 }
 
 void EnSth_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
     Color_RGB8* envColor1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sth.c", 2133);

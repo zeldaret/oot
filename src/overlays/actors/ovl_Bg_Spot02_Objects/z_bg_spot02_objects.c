@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgSpot02Objects*)thisx)
-
 void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot02Objects_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot02Objects_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -49,7 +47,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSpot02Objects* this = THIS;
+    BgSpot02Objects* this = (BgSpot02Objects*)thisx;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -116,7 +114,7 @@ void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot02Objects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot02Objects* this = THIS;
+    BgSpot02Objects* this = (BgSpot02Objects*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -184,7 +182,7 @@ void func_808ACB58(BgSpot02Objects* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot02Objects_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot02Objects* this = THIS;
+    BgSpot02Objects* this = (BgSpot02Objects*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -211,7 +209,7 @@ void func_808ACC34(BgSpot02Objects* this, GlobalContext* globalCtx) {
 }
 
 void func_808ACCB8(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot02Objects* this = THIS;
+    BgSpot02Objects* this = (BgSpot02Objects*)thisx;
     f32 rate;
     s32 pad;
     u8 redPrim;
@@ -279,7 +277,7 @@ void func_808AD3D4(BgSpot02Objects* this, GlobalContext* globalCtx) {
 }
 
 void func_808AD450(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot02Objects* this = THIS;
+    BgSpot02Objects* this = (BgSpot02Objects*)thisx;
     s32 pad;
     f32 lerp;
 

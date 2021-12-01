@@ -10,8 +10,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((ArrowLight*)thisx)
-
 void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArrowLight_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ArrowLight_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -44,7 +42,7 @@ void ArrowLight_SetupAction(ArrowLight* this, ArrowLightActionFunc actionFunc) {
 }
 
 void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowLight* this = THIS;
+    ArrowLight* this = (ArrowLight*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
@@ -179,7 +177,7 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
 }
 
 void ArrowLight_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowLight* this = THIS;
+    ArrowLight* this = (ArrowLight*)thisx;
 
     if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK ||
         globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
@@ -190,7 +188,7 @@ void ArrowLight_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowLight* this = THIS;
+    ArrowLight* this = (ArrowLight*)thisx;
     s32 pad;
     u32 stateFrames = globalCtx->state.frames;
     EnArrow* arrow = (EnArrow*)this->actor.parent;

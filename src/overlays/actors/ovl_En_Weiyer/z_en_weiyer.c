@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnWeiyer*)thisx)
-
 void EnWeiyer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWeiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWeiyer_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -103,7 +101,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnWeiyer_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnWeiyer* this = THIS;
+    EnWeiyer* this = (EnWeiyer*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&this->actor.shape, 1000.0f, ActorShadow_DrawCircle, 65.0f);
@@ -116,7 +114,7 @@ void EnWeiyer_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWeiyer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnWeiyer* this = THIS;
+    EnWeiyer* this = (EnWeiyer*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -583,7 +581,7 @@ void func_80B3368C(EnWeiyer* this, GlobalContext* globalCtx) {
 }
 
 void EnWeiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnWeiyer* this = THIS;
+    EnWeiyer* this = (EnWeiyer*)thisx;
     s32 pad;
 
     this->actor.home.pos.y = this->actor.yDistToWater + this->actor.world.pos.y - 5.0f;
@@ -629,7 +627,7 @@ s32 EnWeiyer_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void EnWeiyer_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnWeiyer* this = THIS;
+    EnWeiyer* this = (EnWeiyer*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_weiyer.c", 1193);
 

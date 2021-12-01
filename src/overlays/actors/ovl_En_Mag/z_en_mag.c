@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnMag*)thisx)
-
 void EnMag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMag_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -31,7 +29,7 @@ const ActorInit En_Mag_InitVars = {
 static s16 sDelayTimer = 0;
 
 void EnMag_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMag* this = THIS;
+    EnMag* this = (EnMag*)thisx;
 
     YREG(1) = 63;
     YREG(3) = 80;
@@ -105,7 +103,7 @@ void EnMag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad[2];
-    EnMag* this = THIS;
+    EnMag* this = (EnMag*)thisx;
 
     if (gSaveContext.fileNum != 0xFEDC) {
         if (this->globalState < MAG_STATE_DISPLAY) {
@@ -386,7 +384,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         gTitleEffectMask10Tex, gTitleEffectMask11Tex, gTitleEffectMask12Tex,
         gTitleEffectMask20Tex, gTitleEffectMask21Tex, gTitleEffectMask22Tex,
     };
-    EnMag* this = THIS;
+    EnMag* this = (EnMag*)thisx;
     Font* font = &this->font;
     s32 pad;
     Gfx* gfx = *gfxp;

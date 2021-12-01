@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnEncount2*)thisx)
-
 typedef enum {
     /* 0x0 */ ENCOUNT2_INACTIVE,
     /* 0x1 */ ENCOUNT2_ACTIVE_DEATH_MOUNTAIN,
@@ -37,7 +35,7 @@ const ActorInit En_Encount2_InitVars = {
 };
 
 void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnEncount2* this = THIS;
+    EnEncount2* this = (EnEncount2*)thisx;
 
     if (globalCtx->sceneNum != SCENE_SPOT16) {
         this->isNotDeathMountain = true;
@@ -248,7 +246,7 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
 }
 
 void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnEncount2* this = THIS;
+    EnEncount2* this = (EnEncount2*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     if (this->deathMountainSpawnerTimer != 0) {
@@ -284,7 +282,7 @@ void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnEncount2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnEncount2* this = THIS;
+    EnEncount2* this = (EnEncount2*)thisx;
 
     EnEncount2_ParticleDraw(&this->actor, globalCtx);
 }
@@ -340,7 +338,7 @@ void EnEncount2_ParticleUpdate(EnEncount2* this, GlobalContext* globalCtx) {
 }
 
 void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx) {
-    EnEncount2* this = THIS;
+    EnEncount2* this = (EnEncount2*)thisx;
     EnEncount2Particle* particle = this->particles;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;

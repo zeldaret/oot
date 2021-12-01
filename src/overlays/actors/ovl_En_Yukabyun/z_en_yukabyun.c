@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnYukabyun*)thisx)
-
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnYukabyun_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ static InitChainEntry sInitChain[] = {
 static void* D_80B43F64[] = { gFloorTileEnemyTopTex, gFloorTileEnemyBottomTex };
 
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnYukabyun* this = THIS;
+    EnYukabyun* this = (EnYukabyun*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.4f);
@@ -73,7 +71,7 @@ void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnYukabyun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnYukabyun* this = THIS;
+    EnYukabyun* this = (EnYukabyun*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -115,7 +113,7 @@ void EnYukabyun_Break(EnYukabyun* this, GlobalContext* globalCtx) {
 }
 
 void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnYukabyun* this = THIS;
+    EnYukabyun* this = (EnYukabyun*)thisx;
     s32 pad;
 
     if (((this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
@@ -146,7 +144,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnYukabyun_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnYukabyun* this = THIS;
+    EnYukabyun* this = (EnYukabyun*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 366);
 

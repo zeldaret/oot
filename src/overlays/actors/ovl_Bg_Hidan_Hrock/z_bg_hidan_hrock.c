@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHidanHrock*)thisx)
-
 void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHrock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHrock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -76,7 +74,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanHrock* this = THIS;
+    BgHidanHrock* this = (BgHidanHrock*)thisx;
     ColliderTrisElementInit* colliderElementInit;
     Vec3f vertices[3];
     f32 cosRotY;
@@ -143,7 +141,7 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanHrock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanHrock* this = THIS;
+    BgHidanHrock* this = (BgHidanHrock*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->collider);
@@ -225,7 +223,7 @@ void func_808896B8(BgHidanHrock* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanHrock_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanHrock* this = THIS;
+    BgHidanHrock* this = (BgHidanHrock*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

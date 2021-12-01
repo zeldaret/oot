@@ -2,8 +2,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((BossGanon*)thisx)
-
 void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx);

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EffDust*)thisx)
-
 void EffDust_Init(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ void EffDust_InitPosAndDistance(EffDust* this) {
 }
 
 void EffDust_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EffDust* this = THIS;
+    EffDust* this = (EffDust*)thisx;
     EffDustType dustEffect = this->actor.params;
 
     EffDust_InitPosAndDistance(this);
@@ -256,13 +254,13 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
 }
 
 void EffDust_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EffDust* this = THIS;
+    EffDust* this = (EffDust*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
-    EffDust* this = THIS;
+    EffDust* this = (EffDust*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Vec3f* initialPositions;
@@ -309,7 +307,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
-    EffDust* this = THIS;
+    EffDust* this = (EffDust*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32* distanceTraveled;
@@ -368,7 +366,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EffDust* this = THIS;
+    EffDust* this = (EffDust*)thisx;
 
     this->drawFunc(thisx, globalCtx);
 }

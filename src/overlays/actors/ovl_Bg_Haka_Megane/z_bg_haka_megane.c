@@ -9,8 +9,6 @@
 
 #define FLAGS 0x000000B0
 
-#define THIS ((BgHakaMegane*)thisx)
-
 void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMegane_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMegane_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -58,7 +56,7 @@ static Gfx* sDLists[] = {
 };
 
 void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaMegane* this = THIS;
+    BgHakaMegane* this = (BgHakaMegane*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
@@ -77,7 +75,7 @@ void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaMegane_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaMegane* this = THIS;
+    BgHakaMegane* this = (BgHakaMegane*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -119,13 +117,13 @@ void BgHakaMegane_DoNothing(BgHakaMegane* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaMegane_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaMegane* this = THIS;
+    BgHakaMegane* this = (BgHakaMegane*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgHakaMegane_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaMegane* this = THIS;
+    BgHakaMegane* this = (BgHakaMegane*)thisx;
 
     if ((thisx->flags & 0x80) == 0x80) {
         Gfx_DrawDListXlu(globalCtx, sDLists[thisx->params]);

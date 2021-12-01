@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot00Break*)thisx)
-
 void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Break_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Break* this = THIS;
+    BgSpot00Break* this = (BgSpot00Break*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -57,7 +55,7 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Break* this = THIS;
+    BgSpot00Break* this = (BgSpot00Break*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -66,7 +64,7 @@ void BgSpot00Break_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot00Break_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Break* this = THIS;
+    BgSpot00Break* this = (BgSpot00Break*)thisx;
 
     if (this->dyna.actor.params == 1) {
         Gfx_DrawDListOpa(globalCtx, gBarbedWireFenceDL);

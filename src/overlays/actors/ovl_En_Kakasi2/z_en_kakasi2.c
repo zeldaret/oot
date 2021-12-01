@@ -10,8 +10,6 @@
 
 #define FLAGS 0x0A000031
 
-#define THIS ((EnKakasi2*)thisx)
-
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
@@ -56,7 +54,7 @@ const ActorInit En_Kakasi2_InitVars = {
 };
 
 void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi2* this = THIS;
+    EnKakasi2* this = (EnKakasi2*)thisx;
     s32 pad;
     f32 spawnRangeY;
     f32 spawnRangeXZ;
@@ -107,7 +105,7 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKakasi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi2* this = THIS;
+    EnKakasi2* this = (EnKakasi2*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
     //! @bug SkelAnime_Free is not called
@@ -203,7 +201,7 @@ void func_80A906C4(EnKakasi2* this, GlobalContext* globalCtx) {
 }
 
 void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnKakasi2* this = THIS;
+    EnKakasi2* this = (EnKakasi2*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     this->actor.world.rot = this->actor.shape.rot;
@@ -240,7 +238,7 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void func_80A90948(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi2* this = THIS;
+    EnKakasi2* this = (EnKakasi2*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

@@ -12,10 +12,8 @@ static Gfx sRCPSetupFade[] = {
     gsSPEndDisplayList(),
 };
 
-#define THIS ((TransitionFade*)thisx)
-
 void TransitionFade_Start(void* thisx) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     switch (this->fadeType) {
         case 0:
@@ -32,7 +30,7 @@ void TransitionFade_Start(void* thisx) {
 }
 
 void* TransitionFade_Init(void* thisx) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     bzero(this, sizeof(*this));
     return this;
@@ -44,7 +42,7 @@ void TransitionFade_Destroy(void* thisx) {
 void TransitionFade_Update(void* thisx, s32 updateRate) {
     s32 alpha;
     s16 newAlpha;
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     switch (this->fadeType) {
         case 0:
@@ -84,7 +82,7 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
 }
 
 void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
     Gfx* gfx;
     Color_RGBA8_u32* color = &this->fadeColor;
 
@@ -99,19 +97,19 @@ void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
 }
 
 s32 TransitionFade_IsDone(void* thisx) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     return this->isDone;
 }
 
 void TransitionFade_SetColor(void* thisx, u32 color) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     this->fadeColor.rgba = color;
 }
 
 void TransitionFade_SetType(void* thisx, s32 type) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     if (type == 1) {
         this->fadeType = 1;

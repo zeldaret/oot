@@ -15,8 +15,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgMoriHineri*)thisx)
-
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ static Gfx* sDLists[] = {
 };
 
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
     s8 moriHineriObjIdx;
     u32 switchFlagParam;
     s32 t6;
@@ -108,7 +106,7 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
@@ -222,13 +220,13 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
     s8 objIndex;
     MtxF mtx;
 

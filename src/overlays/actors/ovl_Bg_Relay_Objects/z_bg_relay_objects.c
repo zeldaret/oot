@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgRelayObjects*)thisx)
-
 typedef enum {
     /* 0 */ WINDMILL_ROTATING_GEAR,
     /* 1 */ WINDMILL_DAMPE_STONE_DOOR
@@ -47,7 +45,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u32 D_808A9508 = 0;
-    BgRelayObjects* this = THIS;
+    BgRelayObjects* this = (BgRelayObjects*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -107,7 +105,7 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgRelayObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgRelayObjects* this = THIS;
+    BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
@@ -195,13 +193,13 @@ void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx) {
 }
 
 void BgRelayObjects_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgRelayObjects* this = THIS;
+    BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgRelayObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgRelayObjects* this = THIS;
+    BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     if (this->dyna.actor.params == WINDMILL_ROTATING_GEAR) {
         Gfx_DrawDListOpa(globalCtx, gWindmillRotatingPlatformDL);

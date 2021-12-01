@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnInsect*)thisx)
-
 void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnInsect_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -165,7 +163,7 @@ void func_80A7C058(EnInsect* this) {
 }
 
 void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnInsect* this = THIS;
+    EnInsect* this = (EnInsect*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     f32 rand;
     s16 temp_s2;
@@ -227,7 +225,7 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnInsect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s16 temp_v0;
-    EnInsect* this = THIS;
+    EnInsect* this = (EnInsect*)thisx;
 
     temp_v0 = this->actor.params & 3;
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -713,7 +711,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
 }
 
 void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnInsect* this = THIS;
+    EnInsect* this = (EnInsect*)thisx;
     s32 phi_v0;
 
     if (this->actor.child != NULL) {
@@ -787,7 +785,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnInsect_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnInsect* this = THIS;
+    EnInsect* this = (EnInsect*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);

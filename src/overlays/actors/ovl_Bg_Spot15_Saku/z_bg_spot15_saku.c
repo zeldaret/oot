@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot15Saku*)thisx)
-
 void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Saku_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ const ActorInit Bg_Spot15_Saku_InitVars = {
 
 void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSpot15Saku* this = THIS;
+    BgSpot15Saku* this = (BgSpot15Saku*)thisx;
     s32 pad2;
     CollisionHeader* colHeader = NULL;
 
@@ -54,7 +52,7 @@ void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot15Saku* this = THIS;
+    BgSpot15Saku* this = (BgSpot15Saku*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -86,7 +84,7 @@ void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot15Saku* this = THIS;
+    BgSpot15Saku* this = (BgSpot15Saku*)thisx;
 
     if (this->timer != 0) {
         this->timer--;

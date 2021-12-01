@@ -6,15 +6,13 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((DemoGt*)thisx)
-
 void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGt* this = THIS;
+    DemoGt* this = (DemoGt*)thisx;
 
     if ((this->dyna.actor.params == 1) || (this->dyna.actor.params == 2)) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -1704,7 +1702,7 @@ static DemoGtUpdateFunc sUpdateFuncs[] = {
 };
 
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGt* this = THIS;
+    DemoGt* this = (DemoGt*)thisx;
     DemoGtUpdateFunc updateFunc;
 
     if ((this->updateMode < 0) || (this->updateMode >= 19) || (updateFunc = sUpdateFuncs[this->updateMode]) == NULL) {
@@ -1717,7 +1715,7 @@ void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGt* this = THIS;
+    DemoGt* this = (DemoGt*)thisx;
 
     switch (this->dyna.actor.params) {
         case 0:
@@ -1760,7 +1758,7 @@ static DemoGtDrawFunc sDrawFuncs[] = {
 };
 
 void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGt* this = THIS;
+    DemoGt* this = (DemoGt*)thisx;
     DemoGtDrawFunc drawFunc;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 9) || (drawFunc = sDrawFuncs[this->drawConfig]) == NULL) {

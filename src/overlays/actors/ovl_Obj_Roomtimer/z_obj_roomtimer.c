@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((ObjRoomtimer*)thisx)
-
 void ObjRoomtimer_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjRoomtimer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjRoomtimer_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -30,7 +28,7 @@ const ActorInit Obj_Roomtimer_InitVars = {
 };
 
 void ObjRoomtimer_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjRoomtimer* this = THIS;
+    ObjRoomtimer* this = (ObjRoomtimer*)thisx;
     s16 params = this->actor.params;
 
     this->switchFlag = (params >> 10) & 0x3F;
@@ -49,7 +47,7 @@ void ObjRoomtimer_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjRoomtimer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjRoomtimer* this = THIS;
+    ObjRoomtimer* this = (ObjRoomtimer*)thisx;
 
     if ((this->actor.params != 0x3FF) && (gSaveContext.timer1Value > 0)) {
         gSaveContext.timer1State = 10;
@@ -84,7 +82,7 @@ void func_80B9D0B0(ObjRoomtimer* this, GlobalContext* globalCtx) {
 }
 
 void ObjRoomtimer_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjRoomtimer* this = THIS;
+    ObjRoomtimer* this = (ObjRoomtimer*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

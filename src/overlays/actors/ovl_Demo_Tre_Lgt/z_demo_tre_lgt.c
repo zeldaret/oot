@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((DemoTreLgt*)thisx)
-
 void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -48,7 +46,7 @@ static DemoTreLgtActionFunc sActionFuncs[] = {
 };
 
 void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoTreLgt* this = THIS;
+    DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTreasureChestCurveSkel, sTransformUpdIdx[0])) {
         // "Demo_Tre_Lgt_Actor_ct (); Construct failed"
@@ -64,7 +62,7 @@ void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoTreLgt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoTreLgt* this = THIS;
+    DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     SkelCurve_Destroy(globalCtx, &this->skelCurve);
 }
@@ -128,14 +126,14 @@ void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx) {
 }
 
 void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoTreLgt* this = THIS;
+    DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     sActionFuncs[this->action](this, globalCtx);
 }
 
 s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
     s32 pad;
-    DemoTreLgt* this = THIS;
+    DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_tre_lgt.c", 423);
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -153,7 +151,7 @@ s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
 
 void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    DemoTreLgt* this = THIS;
+    DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_tre_lgt.c", 461);
 

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00800010
 
-#define THIS ((ObjTsubo*)thisx)
-
 void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -120,7 +118,7 @@ s32 ObjTsubo_SnapToFloor(ObjTsubo* this, GlobalContext* globalCtx) {
 }
 
 void ObjTsubo_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    ObjTsubo* this = THIS;
+    ObjTsubo* this = (ObjTsubo*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -128,7 +126,7 @@ void ObjTsubo_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjTsubo* this = THIS;
+    ObjTsubo* this = (ObjTsubo*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ObjTsubo_InitCollider(&this->actor, globalCtx);
@@ -149,7 +147,7 @@ void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjTsubo* this = THIS;
+    ObjTsubo* this = (ObjTsubo*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -329,7 +327,7 @@ void ObjTsubo_Thrown(ObjTsubo* this, GlobalContext* globalCtx) {
 }
 
 void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjTsubo* this = THIS;
+    ObjTsubo* this = (ObjTsubo*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
