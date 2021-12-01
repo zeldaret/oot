@@ -9628,7 +9628,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     }
 }
 
-void Player_SetCamModeAndSeqMode(GlobalContext* globalCtx, Player* this) {
+void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
     u8 seqMode;
     s32 pad;
     Actor* unk_664;
@@ -10159,7 +10159,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->func_674(this, globalCtx);
         }
 
-        Player_SetCamModeAndSeqMode(globalCtx, this);
+        Player_UpdateCamAndSeqModes(globalCtx, this);
 
         if (this->skelAnime.moveFlags & 8) {
             AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime,
