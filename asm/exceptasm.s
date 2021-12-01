@@ -13,6 +13,8 @@
 
 .section .data
 
+.balign 16
+
 BEGINDATA __osHwIntTable
     .word 0, 0
     .word 0, 0 # cart
@@ -27,6 +29,8 @@ BEGINDATA __osPiIntTable
 ENDDATA __osPiIntTable
 
 .section .rodata
+
+.balign 16
 
 __osIntOffTable:
 	.byte 0x00 /* redispatch */
@@ -77,6 +81,10 @@ __osIntTable:
 
 .balign 16
 
+/**
+ * The exception preamble is copied to the exception vectors at
+ * UT_VEC, XUT_VEC, ECC_VEC, E_VEC, to direct execution to __osException
+ */
 BEGIN __osExceptionPreamble
     lui     $k0, %hi(__osException)
     addiu   $k0, %lo(__osException)
@@ -838,7 +846,7 @@ END __osNop
 
 /**
  *  void __osDispatchThread(void);
- * 
+ *
  *  Dispatches the next thread to run after restoring it
  */
 BEGIN __osDispatchThread

@@ -9,5 +9,6 @@
 
 .balign 16
 
-glabel __libm_qnan_f
+BEGINDATA __libm_qnan_f
     .word 0x7F810000
+ENDDATA __libm_qnan_f

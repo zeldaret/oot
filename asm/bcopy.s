@@ -74,7 +74,7 @@ forw_copy3:
     sh      $v1, -2($a1)
 forwards_32:
     slti    $at, $a2, 0x20
-    bnezl   $at, .L80007048
+    bnezl   $at, forwards_16_likely
      slti   $at, $a2, 0x10
     lw      $v0, ($a0)
     lw      $v1, 4($a0)
@@ -98,8 +98,8 @@ forwards_32:
      sw     $t5, -4($a1)
 forwards_16:
     slti    $at, $a2, 0x10
-.L80007048:
-    bnezl   $at, .L80007084
+forwards_16_likely:
+    bnezl   $at, forwards_4_likely
      slti   $at, $a2, 4
     lw      $v0, ($a0)
     lw      $v1, 4($a0)
@@ -115,7 +115,7 @@ forwards_16:
      sw     $t1, -4($a1)
 forwards_4:
     slti    $at, $a2, 4
-.L80007084:
+forwards_4_likely:
     bnez    $at, forwards_bytecopy
      nop
     lw      $v0, ($a0)
@@ -139,11 +139,11 @@ backwards_bytecopy:
     addiu   $a0, $a0, -1
     addiu   $a1, $a1, -1
     subu    $v1, $a0, $a2
-.L800070D8:
+1:
     lb      $v0, ($a0)
     addiu   $a0, $a0, -1
     addiu   $a1, $a1, -1
-    bne     $a0, $v1, .L800070D8
+    bne     $a0, $v1, 1b
      sb     $v0, 1($a1)
     jr      $ra
      move   $v0, $a3
@@ -178,7 +178,7 @@ back_copy3:
     sh      $v1, ($a1)
 backwards_32:
     slti    $at, $a2, 0x20
-    bnezl   $at, .L800071B8
+    bnezl   $at, backwards_16_likely
      slti   $at, $a2, 0x10
     lw      $v0, -4($a0)
     lw      $v1, -8($a0)
@@ -202,8 +202,8 @@ backwards_32:
      sw     $t5, ($a1)
 backwards_16:
     slti    $at, $a2, 0x10
-.L800071B8:
-    bnezl   $at, .L800071F4
+backwards_16_likely:
+    bnezl   $at, backwards_4_likely
      slti   $at, $a2, 4
     lw      $v0, -4($a0)
     lw      $v1, -8($a0)
@@ -219,7 +219,7 @@ backwards_16:
      sw     $t1, ($a1)
 backwards_4:
     slti    $at, $a2, 4
-.L800071F4:
+backwards_4_likely:
     bnez    $at, backwards_bytecopy
      nop
     lw      $v0, -4($a0)

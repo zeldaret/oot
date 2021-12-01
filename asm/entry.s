@@ -1,3 +1,4 @@
+#include "boot.h"
 .include "macro.inc"
 
 # assembler directives
@@ -8,8 +9,6 @@
 .section .text
 
 .balign 16
-
-.set BOOT_STACK_SIZE, 0x400
 
 BEGIN entrypoint
     # Clear boot segment .bss

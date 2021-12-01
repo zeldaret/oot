@@ -22,7 +22,7 @@
  *  multiple of the data cache line size (16 bytes) a larger region is
  *  invalidated.
  *
- *  If the amount to invalidate is greater than the data cache size, 8192, 
+ *  If the amount to invalidate is greater than the data cache size, 8192,
  *  the entire data cache is invalidated.
  */
 BEGIN osInvalDCache
@@ -33,7 +33,7 @@ BEGIN osInvalDCache
     # the data cache size, invalidate all
     li      $t3, DCACHE_SIZE
     sltu    $at, $a1, $t3
-    beqz    $at, .invalidate_all
+    beqz    $at, .all
      nop
     # Ensure end address doesn't wrap around and end up smaller
     # than the start address
@@ -45,7 +45,7 @@ BEGIN osInvalDCache
     # Mask start with cache line
     andi    $t2, $t0, DCACHE_LINEMASK
     # If mask is not zero, the start is not cache aligned
-    beqz    $t2, .start_is_aligned
+    beqz    $t2, .aligned_start
      addiu  $t1, $t1, -DCACHE_LINESIZE
     # Subtract mask result to align to cache line
     subu    $t0, $t0, $t2
@@ -56,11 +56,11 @@ BEGIN osInvalDCache
     beqz    $at, .ret
      nop
     addiu   $t0, $t0, DCACHE_LINESIZE
-.start_is_aligned:
+.aligned_start:
     # Mask end with cache line
     andi    $t2, $t1, DCACHE_LINEMASK
     # If mask is not zero, the end is not cache aligned
-    beqz    $t2, .invalidate
+    beqz    $t2, 1f
      nop
     # Subtract mask result to align to cache line
     subu    $t1, $t1, $t2
@@ -71,25 +71,25 @@ BEGIN osInvalDCache
     bnez    $at, .ret
      nop
     # Invalidate the rest
-.invalidate:
+1:
     # Index-Invalidate
     cache   (CACH_PD | C_HINV), ($t0)
     sltu    $at, $t0, $t1
-    bnez    $at, .invalidate
+    bnez    $at, 1b
      addiu  $t0, $t0, DCACHE_LINESIZE
 .ret:
     jr      $ra
      nop
 
-.invalidate_all:
+.all:
     li      $t0, K0BASE
     addu    $t1, $t0, $t3
     addiu   $t1, $t1, -DCACHE_LINESIZE
-.all:
+1:
     # Index-Writeback-Invalidate
     cache   (CACH_PD | C_IWBINV), ($t0)
     sltu    $at, $t0, $t1
-    bnez    $at, .all
+    bnez    $at, 1b
      addiu  $t0, DCACHE_LINESIZE
     jr      $ra
      nop
