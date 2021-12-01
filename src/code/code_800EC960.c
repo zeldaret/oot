@@ -3609,39 +3609,48 @@ void Audio_ClearSariaBgmAtPos(Vec3f* pos) {
     }
 }
 
+/**
+ * Turns on and off channels from both bgm players in a way that splits 
+ * equally between the two bgm channels. Split based on note priority
+ */
 void Audio_SplitBgmChannels(s8 volSplit) {
-    u8 vol;
-    u8 prio;
+    u8 volume;
+    u8 notePriority;
     u16 channelBits;
-    u8 players[2] = { SEQ_PLAYER_BGM_MAIN, SEQ_PLAYER_BGM_SUB };
+    u8 bgmPlayers[2] = { SEQ_PLAYER_BGM_MAIN, SEQ_PLAYER_BGM_SUB };
+    u8 channelIdx;
     u8 i;
-    u8 j;
 
     if ((func_800FA0B4(SEQ_PLAYER_FANFARE) == NA_BGM_DISABLED) &&
         (func_800FA0B4(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON)) {
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < ARRAY_COUNT(bgmPlayers); i++) {
             if (i == 0) {
-                vol = volSplit;
+                // Main Bgm SeqPlayer
+                volume = volSplit;
             } else {
-                vol = 0x7F - volSplit;
+                // Sub Bgm SeqPlayer
+                volume = 0x7F - volSplit;
             }
 
-            if (vol > 100) {
-                prio = 11;
-            } else if (vol < 20) {
-                prio = 2;
+            if (volume > 100) {
+                notePriority = 11;
+            } else if (volume < 20) {
+                notePriority = 2;
             } else {
-                prio = ((vol - 20) / 10) + 2;
+                notePriority = ((volume - 20) / 10) + 2;
             }
 
             channelBits = 0;
-            for (j = 0; j < 0x10; j++) {
-                if (gAudioContext.seqPlayers[players[i]].channels[j]->notePriority < prio) {
-                    channelBits += (1 << j);
+            for (channelIdx = 0; channelIdx < 16; channelIdx++) {
+                if (notePriority > gAudioContext.seqPlayers[bgmPlayers[i]].channels[channelIdx]->notePriority) {
+                    // If the note currently playing in the channel is a high enough priority, 
+                    // then keep the channel on by setting a channelBit
+                    // If this condition fails, then the channel will be shut off
+                    channelBits += (1 << channelIdx);
                 }
             }
 
-            Audio_SeqCmdA(players[i], channelBits);
+            Audio_SeqCmdA(bgmPlayers[i], channelBits);
         }
     }
 }
@@ -3814,7 +3823,7 @@ void func_800F5ACC(u16 seqId) {
 
     temp_v0 = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
     if ((temp_v0 & 0xFF) != NA_BGM_GANON_TOWER && (temp_v0 & 0xFF) != NA_BGM_ESCAPE && temp_v0 != seqId) {
-        Audio_SetSequenceMode(3);
+        Audio_SetSequenceMode(SEQ_MODE_IGNORE);
         if (temp_v0 != NA_BGM_DISABLED) {
             D_80130628 = temp_v0;
         } else {
@@ -3925,9 +3934,10 @@ void Audio_SetSequenceMode(u8 seqMode) {
             seqMode = SEQ_MODE_IGNORE;
         }
 
-        if ((seqId == NA_BGM_DISABLED) || (sSeqFlags[(u8)(seqId & 0xFF)] & 1) || ((sPrevSeqMode & 0x7F) == 1)) {
+        if ((seqId == NA_BGM_DISABLED) || (sSeqFlags[(u8)(seqId & 0xFF)] & 1) || ((sPrevSeqMode & 0x7F) == SEQ_MODE_ENEMY)) {
             if (seqMode != (sPrevSeqMode & 0x7F)) {
                 if (seqMode == SEQ_MODE_ENEMY) {
+                    // Start playing enemy bgm
                     if (D_8016E750[SEQ_PLAYER_BGM_SUB].volScales[1] - sAudioEnemyVol < 0) {
                         volumeFadeInTimer = -(D_8016E750[SEQ_PLAYER_BGM_SUB].volScales[1] - sAudioEnemyVol);
                     } else {
@@ -3941,23 +3951,25 @@ void Audio_SetSequenceMode(u8 seqMode) {
                         Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 3, (0x7F - sAudioEnemyVol) & 0xFF, 0xA);
                         Audio_SplitBgmChannels(sAudioEnemyVol);
                     }
-                } else {
-                    if ((sPrevSeqMode & 0x7F) == SEQ_MODE_ENEMY) {
-                        Audio_SeqCmd1(SEQ_PLAYER_BGM_SUB, 10);
-                        if (seqMode == SEQ_MODE_IGNORE) {
-                            volumeFadeOutTimer = 0;
-                        } else {
-                            volumeFadeOutTimer = 10;
-                        }
-
-                        Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 3, 0x7F, volumeFadeOutTimer);
-                        Audio_SplitBgmChannels(0);
+                } else if ((sPrevSeqMode & 0x7F) == SEQ_MODE_ENEMY) {
+                    // Stop playing enemy bgm
+                    Audio_SeqCmd1(SEQ_PLAYER_BGM_SUB, 10);
+                    if (seqMode == SEQ_MODE_IGNORE) {
+                        volumeFadeOutTimer = 0;
+                    } else {
+                        volumeFadeOutTimer = 10;
                     }
+
+                    Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 3, 0x7F, volumeFadeOutTimer);
+                    Audio_SplitBgmChannels(0);
+                    
                 }
 
                 sPrevSeqMode = seqMode + 0x80;
             }
         } else {
+            // Hyrule Field will play slightly different bgm music depending on whether player is standing 
+            // still or moving. This is the logic to determine the transition between those two states
             if (seqMode == SEQ_MODE_DEFAULT) {
                 if (sPrevSeqMode == SEQ_MODE_STILL) {
                     sNumFramesMoving = 0;
@@ -3978,10 +3990,10 @@ void Audio_SetSequenceMode(u8 seqMode) {
     }
 }
 
-void func_800F6114(f32 dist) {
+void Audio_SetNearestEnemyBgmVolume(f32 dist) {
     f32 adjDist;
 
-    if (sPrevSeqMode == 0x81) {
+    if (sPrevSeqMode == (0x80 | SEQ_MODE_ENEMY)) {
         if (dist != sAudioEnemyDist) {
             if (dist < 150.0f) {
                 adjDist = 0.0f;
@@ -3992,9 +4004,9 @@ void func_800F6114(f32 dist) {
             }
 
             sAudioEnemyVol = ((350.0f - adjDist) * 127.0f) / 350.0f;
-            Audio_SetVolScale(SEQ_PLAYER_BGM_SUB, 3, sAudioEnemyVol, 0xA);
+            Audio_SetVolScale(SEQ_PLAYER_BGM_SUB, 3, sAudioEnemyVol, 10);
             if (D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 != NA_BGM_NATURE_BACKGROUND) {
-                Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 3, (0x7F - sAudioEnemyVol), 0xA);
+                Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 3, (0x7F - sAudioEnemyVol), 10);
             }
         }
         if (D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 != NA_BGM_NATURE_BACKGROUND) {

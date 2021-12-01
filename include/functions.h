@@ -2061,7 +2061,7 @@ void Audio_PlayFanfare(u16);
 void func_800F5C2C(void);
 void func_800F5E18(u8 playerIdx, u16 seqId, u8 fadeTimer, s8 arg3, s8 arg4);
 void Audio_SetSequenceMode(u8);
-void func_800F6114(f32 dist);
+void Audio_SetNearestEnemyBgmVolume(f32 dist);
 void func_800F6268(f32 dist, u16);
 void func_800F64E0(u8 arg0);
 void func_800F6584(u8 arg0);

@@ -9628,14 +9628,14 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     }
 }
 
-void func_808486A8(GlobalContext* globalCtx, Player* this) {
-    u8 sp27;
+void Player_SetCamModeAndSeqMode(GlobalContext* globalCtx, Player* this) {
+    u8 seqMode;
     s32 pad;
     Actor* unk_664;
     s32 camMode;
 
     if (this->actor.category == ACTORCAT_PLAYER) {
-        sp27 = 0;
+        seqMode = SEQ_MODE_DEFAULT;
 
         if (this->csMode != 0) {
             Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), CAM_MODE_NORMAL);
@@ -9693,22 +9693,24 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
                 camMode = CAM_MODE_NORMAL;
                 if ((this->linearVelocity == 0.0f) &&
                     (!(this->stateFlags1 & 0x800000) || (this->rideActor->speedXZ == 0.0f))) {
-                    sp27 = 2;
+                        // not moving
+                        seqMode = SEQ_MODE_STILL;
                 }
             }
 
             Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), camMode);
         } else {
-            sp27 = 2;
+            // First person mode
+            seqMode = SEQ_MODE_STILL;
         }
 
-        if (globalCtx->actorCtx.targetCtx.unk_90 != NULL) {
-            sp27 = 1;
-            func_800F6114(sqrtf(globalCtx->actorCtx.targetCtx.unk_90->xyzDistToPlayerSq));
+        if (globalCtx->actorCtx.targetCtx.nearestEnemyBgm != NULL) {
+            seqMode = SEQ_MODE_ENEMY;
+            Audio_SetNearestEnemyBgmVolume(sqrtf(globalCtx->actorCtx.targetCtx.nearestEnemyBgm->xyzDistToPlayerSq));
         }
 
         if (globalCtx->sceneNum != SCENE_TURIBORI) {
-            Audio_SetSequenceMode(sp27);
+            Audio_SetSequenceMode(seqMode);
         }
     }
 }
@@ -10157,7 +10159,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->func_674(this, globalCtx);
         }
 
-        func_808486A8(globalCtx, this);
+        Player_SetCamModeAndSeqMode(globalCtx, this);
 
         if (this->skelAnime.moveFlags & 8) {
             AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime,
