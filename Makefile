@@ -224,8 +224,7 @@ build/assets/text/nes_message_data_static.o: build/assets/text/message_data.enc.
 build/assets/text/staff_message_data_static.o: build/assets/text/message_data_staff.enc.h
 
 build/assets/%.o: assets/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(OBJCOPY) -O binary $@ $@.bin
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) -O1 -o $@ $<
 
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<

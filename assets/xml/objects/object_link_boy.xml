@@ -52,6 +52,24 @@
 
         <DList Name="gLinkAdultBottleDL" Offset="0x2AD58"/>
 
+        <!-- Bodypart DLs not directly used in the skeleton -->
+        
+        <!-- TODO check left vs right-->
+        <DList Name="gLinkAdultRightHandClosedNearDL" Offset="0x226E0"/>
+        <DList Name="gLinkAdultRightHandClosedFarDL" Offset="0x27690"/>
+        <DList Name="gLinkAdultLeftHandHoldingMasterSwordNearDL" Offset="0x21F78"/>
+        <DList Name="gLinkAdultLeftHandHoldingMasterSwordFarDL" Offset="0x27078"/>
+        
+        <DList Name="gLinkAdultLeftHandClosed2NearDL" Offset="0x21CE8"/>
+        <DList Name="gLinkAdultLeftHandClosed2FarDL" Offset="0x26DF0"/>
+
+        <!-- Left hand, left arm, and right arm are used with the Bow. Not sure what right hand is for -->
+        <DList Name="gLinkAdultRightArmOutNearDL" Offset="0x29918"/>
+        <DList Name="gLinkAdultRightHandOutNearDL" Offset="0x29C20"/>
+
+        <DList Name="gLinkAdultLeftArmOutNearDL" Offset="0x29FA0"/>
+        <DList Name="gLinkAdultLeftHandOutNearDL" Offset="0x24B58"/>
+        
         <!-- Limbs-->
         <Limb Name="gLinkAdultRootLimb" Type="LOD" Offset="0x37650"/>
         <Limb Name="gLinkAdultWaistLimb" Type="LOD" Offset="0x37660"/>
@@ -75,27 +93,70 @@
         <Limb Name="gLinkAdultSwordAndSheathLimb" Type="LOD" Offset="0x37780"/>
         <Limb Name="gLinkTorsoLimb" Type="LOD" Offset="0x37790"/>
 
-        
+        <!-- Swords and shields -->
         <DList Name="gLinkAdultMasterSwordAndSheathNearDL" Offset="0x23160"/>
         <DList Name="gLinkAdultMasterSwordAndSheathFarDL" Offset="0x27F00"/>
 
         <DList Name="gLinkAdultHylianShieldSwordAndSheathNearDL" Offset="0x20A78"/>
         <DList Name="gLinkAdultHylianShieldSwordAndSheathFarDL" Offset="0x25FB8"/>
+
         <DList Name="gLinkAdultHylianShieldAndSheathNearDL" Offset="0x20E70"/>
         <DList Name="gLinkAdultHylianShieldAndSheathFarDL" Offset="0x262B8"/>
+
         <DList Name="gLinkAdultMirrorShieldAndSheathNearDL" Offset="0x216B0"/>
         <DList Name="gLinkAdultMirrorShieldAndSheathFarDL" Offset="0x26910"/>
+
         <DList Name="gLinkAdultMirrorShieldSwordAndSheathNearDL" Offset="0x211B8"/>
         <DList Name="gLinkAdultMirrorShieldSwordAndSheathFarDL" Offset="0x264F0"/>
 
         <DList Name="gLinkAdultLeftHandHoldingBgsNearDL" Offset="0x238C8"/>
         <DList Name="gLinkAdultLeftHandHoldingBgsFarDL" Offset="0x286B8"/>
+
         <DList Name="gLinkAdultHandHoldingBrokenGiantsKnifeDL" Offset="0x23D50"/>
         <DList Name="gLinkAdultHandHoldingBrokenGiantsKnifeFarDL" Offset="0x291E8"/>
+
         <DList Name="gLinkAdultSheathNearDL" Offset="0x249D8"/>
         <DList Name="gLinkAdultSheathFarDL" Offset="0x28150"/>
 
+        <DList Name="gLinkAdultRightHandHoldingHylianShieldNearDL" Offset="0x22970"/>
+        <DList Name="gLinkAdultRightHandHoldingHylianShieldFarDL" Offset="0x27918"/>
+
+        <DList Name="gLinkAdultBrokenGiantsKnifeBladeDL" Offset="0x2BA38"/> <!-- Used for when Giants Knife shatters -->
+
+        <!-- Bow -->
+        <DList Name="gLinkAdultRightHandHoldingBowNearDL" Offset="0x22DA8"/>
+        <DList Name="gLinkAdultRightHandHoldingBowFarDL" Offset="0x27B88"/>
+        <DList Name="gLinkAdultRightHandHoldingBowFirstPersonDL" Offset="0x2A248"/>
+        <DList Name="gLinkAdultBowStringDL" Offset="0x2B108"/>
+        
+        <DList Name="gLinkAdultLeftHandHoldingHammerNearDL" Offset="0x233E0"/>
+        <DList Name="gLinkAdultLeftHandHoldingHammerFarDL" Offset="0x28288"/>
+
+        <DList Name="gLinkAdultRightHandHoldingMirrorShieldNearDL" Offset="0x241C0"/>
+        <DList Name="gLinkAdultRightHandHoldingMirrorShieldFarDL" Offset="0x28B40"/>
+        
+        <!-- Ocarina -->
+        <DList Name="gLinkAdultRightHandHoldingOotNearDL" Offset="0x24698"/>
+        <DList Name="gLinkAdultRightHandHoldingOotFarDL" Offset="0x28F58"/>
+
+        <!-- Hookshot -->
+        <DList Name="gLinkAdultRightHandHoldingHookshotNearDL" Offset="0x24D70"/>
+        <DList Name="gLinkAdultRIghtHandHoldingHookshotFarDL" Offset="0x2A738"/>
+        <DList Name="gLinkAdultHookshotChainDL" Offset="0x2AFF0"/>
+        <DList Name="gLinkAdultHookshotTipDL" Offset="0x2B288"/>
         <Texture Name="gLinkAdultBeltClaspTex" OutName="belt_clasp" Format="ci8" Width="32" Height="16" Offset="0x6F80" TlutOffset="0x5800"/>
+
+        <!-- Gauntlets -->
+        <DList Name="gLinkAdultLeftGauntletPlate1DL" Offset="0x25218"/>
+        <DList Name="gLinkAdultLeftGauntletPlate2DL" Offset="0x252D8"/>
+        <DList Name="gLinkAdultLeftGauntletPlate3DL" Offset="0x25438"/>
+
+        <DList Name="gLinkAdultRightGauntletPlate1DL" Offset="0x25598"/>
+        <DList Name="gLinkAdultRightGauntletPlate2DL" Offset="0x25658"/>
+        <DList Name="gLinkAdultRightGauntletPlate3DL" Offset="0x257B8"/>
+        
+        
+        <DList Name="gLinkAdultTriforceDL" Offset="0x2CB48"/>
 
         <!-- Boots -->
         <DList Name="gLinkAdultLeftIronBootDL" Offset="0x25918"/> <!-- TODO verify the positions-->
