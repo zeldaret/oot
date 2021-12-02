@@ -401,8 +401,8 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_1C2 = 10;
                 this->unk_1A2 = 520 + (-thisx->params * 2);
 
-                for (i = 0; i < ARRAY_COUNT(this->bodyPartsPos); i++) {
-                    this->bodyPartsPos[i] = thisx->world.pos;
+                for (i = 0; i < 15; i++) {
+                    this->unk_2EC[i] = thisx->world.pos;
                 }
 
                 this->timers[1] = 3;
@@ -414,8 +414,8 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 thisx->draw = func_808E324C;
                 this->unk_1A2 = Rand_ZeroFloat(10000.0f);
 
-                for (i = 0; i < ARRAY_COUNT(this->bodyPartsPos); i++) {
-                    this->bodyPartsPos[i] = thisx->world.pos;
+                for (i = 0; i < 15; i++) {
+                    this->unk_2EC[i] = thisx->world.pos;
                 }
 
                 this->fwork[GDF_FWORK_1] = 0;
@@ -431,8 +431,8 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     this->timers[0] = (s16)Rand_ZeroFloat(3.0f) + 3;
                 }
 
-                for (i = 0; i < ARRAY_COUNT(this->bodyPartsPos); i++) {
-                    this->bodyPartsPos[i].y = 5000.0f;
+                for (i = 0; i < 15; i++) {
+                    this->unk_2EC[i].y = 5000.0f;
                 }
             }
         } else {
@@ -2021,9 +2021,9 @@ void BossGanon_ChargeBigMagic(BossGanon* this, GlobalContext* globalCtx) {
         case 2:
             this->envLightMode = 2;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_CHARGE_MASIC - SFX_FLAG);
-            this->unk_278.x = this->bodyPartsPos[0].x;
-            this->unk_278.y = this->bodyPartsPos[0].y + 50.0f + 30.0f;
-            this->unk_278.z = this->bodyPartsPos[0].z;
+            this->unk_278.x = this->unk_2EC[0].x;
+            this->unk_278.y = this->unk_2EC[0].y + 50.0f + 30.0f;
+            this->unk_278.z = this->unk_2EC[0].z;
 
             Math_ApproachF(&this->unk_284, 0.25f, 0.1f, 0.006f);
             Math_ApproachF(&this->unk_288, 255.0f, 1.0f, 255.0f);
@@ -3177,9 +3177,9 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->unk_274 != 0) {
         i = this->unk_274 - 1;
 
-        this->unk_278.x = this->bodyPartsPos[0].x;
-        this->unk_278.y = this->bodyPartsPos[0].y + 50.0f + 30.0f;
-        this->unk_278.z = this->bodyPartsPos[0].z;
+        this->unk_278.x = this->unk_2EC[0].x;
+        this->unk_278.y = this->unk_2EC[0].y + 50.0f + 30.0f;
+        this->unk_278.z = this->unk_2EC[0].z;
 
         xOffset = (sinf(i * 1.2566371f) * 600.0f);
         zOffset = (cosf(i * 1.2566371f) * 600.0f);
@@ -3257,7 +3257,7 @@ void BossGanon_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
     bodyPart = bodyPartLimbMap[limbIndex];
     if (bodyPart >= 0) {
-        Matrix_MultVec3f(&D_808E4DB8, &this->bodyPartsPos[bodyPart]);
+        Matrix_MultVec3f(&D_808E4DB8, &this->unk_2EC[bodyPart]);
     }
 
     if (limbIndex == 2) {
@@ -3367,9 +3367,8 @@ void BossGanon_DrawShock(BossGanon* this, GlobalContext* globalCtx) {
                 gSPDisplayList(POLY_XLU_DISP++, gDorfSquareDL);
             }
         } else {
-            for (i = 1; i < ARRAY_COUNT(this->bodyPartsPos); i++) {
-                Matrix_Translate(this->bodyPartsPos[i].x, this->bodyPartsPos[i].y, this->bodyPartsPos[i].z,
-                                 MTXMODE_NEW);
+            for (i = 1; i < 15; i++) {
+                Matrix_Translate(this->unk_2EC[i].x, this->unk_2EC[i].y, this->unk_2EC[i].z, MTXMODE_NEW);
                 func_800D1FD4(&globalCtx->billboardMtxF);
                 Matrix_Scale(this->unk_49C[i], this->unk_49C[i], this->unk_49C[i], MTXMODE_APPLY);
 
@@ -3632,18 +3631,18 @@ void func_808E0254(BossGanon* this, u8* tex, f32 arg2) {
     for (i = 0; i < 15; i++) {
         if (arg2 == 0.0f || (y = D_808E4E38[i]) >= 0) {
             if (arg2 > 0.0f) {
-                lerpX = this->bodyPartsPos[i].x + (this->bodyPartsPos[y].x - this->bodyPartsPos[i].x) * arg2;
-                lerpY = this->bodyPartsPos[i].y + (this->bodyPartsPos[y].y - this->bodyPartsPos[i].y) * arg2;
-                lerpZ = this->bodyPartsPos[i].z + (this->bodyPartsPos[y].z - this->bodyPartsPos[i].z) * arg2;
+                lerpX = this->unk_2EC[i].x + (this->unk_2EC[y].x - this->unk_2EC[i].x) * arg2;
+                lerpY = this->unk_2EC[i].y + (this->unk_2EC[y].y - this->unk_2EC[i].y) * arg2;
+                lerpZ = this->unk_2EC[i].z + (this->unk_2EC[y].z - this->unk_2EC[i].z) * arg2;
 
                 sp68.x = lerpX - this->actor.world.pos.x;
                 sp68.y = lerpY - this->actor.world.pos.y + 76 + 30 + 30;
                 sp68.z = lerpZ - this->actor.world.pos.z;
             } else {
 
-                sp68.x = this->bodyPartsPos[i].x - this->actor.world.pos.x;
-                sp68.y = this->bodyPartsPos[i].y - this->actor.world.pos.y + 76 + 30 + 30;
-                sp68.z = this->bodyPartsPos[i].z - this->actor.world.pos.z;
+                sp68.x = this->unk_2EC[i].x - this->actor.world.pos.x;
+                sp68.y = this->unk_2EC[i].y - this->actor.world.pos.y + 76 + 30 + 30;
+                sp68.z = this->unk_2EC[i].z - this->actor.world.pos.z;
             }
             Matrix_MultVec3f(&sp68, &sp5C);
 
@@ -3804,9 +3803,9 @@ void BossGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           BossGanon_OverrideLimbDraw, BossGanon_PostLimbDraw, &this->actor);
 
-    this->bodyPartsPos[0].x = this->bodyPartsPos[1].x;
-    this->bodyPartsPos[0].y = this->bodyPartsPos[1].y + 30.0f;
-    this->bodyPartsPos[0].z = this->bodyPartsPos[1].z;
+    this->unk_2EC[0].x = this->unk_2EC[1].x;
+    this->unk_2EC[0].y = this->unk_2EC[1].y + 30.0f;
+    this->unk_2EC[0].z = this->unk_2EC[1].z;
 
     POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
 
@@ -4207,7 +4206,7 @@ void func_808E1EB4(Actor* thisx, GlobalContext* globalCtx2) {
         this->unk_1A6 = 0;
     }
 
-    this->bodyPartsPos[this->unk_1A6] = this->actor.world.pos;
+    this->unk_2EC[this->unk_1A6] = this->actor.world.pos;
 
     if (this->unk_1C2 == 0) {
         if (1) {}
@@ -4275,7 +4274,7 @@ void func_808E229C(Actor* thisx, GlobalContext* globalCtx2) {
     BossGanon* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
     s16 i;
-    s32 bodyPart;
+    s32 temp;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon.c", 10081);
     func_80093D84(globalCtx->state.gfxCtx);
@@ -4284,9 +4283,8 @@ void func_808E229C(Actor* thisx, GlobalContext* globalCtx2) {
     gSPDisplayList(POLY_XLU_DISP++, gDorfLightBallMaterialDL);
 
     for (i = 9; i >= 0; i--) {
-        bodyPart = (s16)(((this->unk_1A6 - i) + 0xF) % 15);
-        Matrix_Translate(this->bodyPartsPos[bodyPart].x, this->bodyPartsPos[bodyPart].y, this->bodyPartsPos[bodyPart].z,
-                         MTXMODE_NEW);
+        temp = (s16)(((this->unk_1A6 - i) + 0xF) % 15);
+        Matrix_Translate(this->unk_2EC[temp].x, this->unk_2EC[temp].y, this->unk_2EC[temp].z, MTXMODE_NEW);
         Matrix_Scale(this->actor.scale.x * (1.0f - (i * 0.07000001f)), this->actor.scale.y * (1.0f - (i * 0.07000001f)),
                      this->actor.scale.z * (1.0f - (i * 0.07000001f)), MTXMODE_APPLY);
         func_800D1FD4(&globalCtx->billboardMtxF);
@@ -4335,7 +4333,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_1A6 = 0;
     }
 
-    this->bodyPartsPos[this->unk_1A6] = this->actor.world.pos;
+    this->unk_2EC[this->unk_1A6] = this->actor.world.pos;
     this->unk_3C4[this->unk_1A6].x = BINANG_TO_RAD(this->actor.world.rot.x);
     this->unk_3C4[this->unk_1A6].y = BINANG_TO_RAD(this->actor.world.rot.y);
 
@@ -4555,7 +4553,7 @@ void func_808E324C(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon* this = THIS;
     Mtx* mtx;
     s16 i;
-    s32 bodyPart;
+    s32 temp;
 
     mtx = Graph_Alloc(globalCtx->state.gfxCtx, 12 * sizeof(Mtx));
 
@@ -4567,11 +4565,10 @@ void func_808E324C(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x0D, mtx);
 
     for (i = 0; i < 12; i++) {
-        bodyPart = (s16)(((this->unk_1A6 - i) + 0xF) % 15);
-        Matrix_Translate(this->bodyPartsPos[bodyPart].x, this->bodyPartsPos[bodyPart].y, this->bodyPartsPos[bodyPart].z,
-                         MTXMODE_NEW);
-        Matrix_RotateY(this->unk_3C4[bodyPart].y, MTXMODE_APPLY);
-        Matrix_RotateX(-this->unk_3C4[bodyPart].x, MTXMODE_APPLY);
+        temp = (s16)(((this->unk_1A6 - i) + 0xF) % 15);
+        Matrix_Translate(this->unk_2EC[temp].x, this->unk_2EC[temp].y, this->unk_2EC[temp].z, MTXMODE_NEW);
+        Matrix_RotateY(this->unk_3C4[temp].y, MTXMODE_APPLY);
+        Matrix_RotateX(-this->unk_3C4[temp].x, MTXMODE_APPLY);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         Matrix_RotateY(M_PI / 2, MTXMODE_APPLY);
         Matrix_ToMtx(mtx, "../z_boss_ganon.c", 10520);
@@ -4688,9 +4685,9 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
                 if (eff->unk_2E == GDF_SHOCK_DORF_YELLOW) {
                     bodyPart = (s16)Rand_ZeroFloat(13.9f) + 1;
 
-                    eff->pos.x = sGanondorf->bodyPartsPos[bodyPart].x + Rand_CenteredFloat(20.0f);
-                    eff->pos.y = sGanondorf->bodyPartsPos[bodyPart].y + Rand_CenteredFloat(20.0f);
-                    eff->pos.z = sGanondorf->bodyPartsPos[bodyPart].z + Rand_CenteredFloat(20.0f);
+                    eff->pos.x = sGanondorf->unk_2EC[bodyPart].x + Rand_CenteredFloat(20.0f);
+                    eff->pos.y = sGanondorf->unk_2EC[bodyPart].y + Rand_CenteredFloat(20.0f);
+                    eff->pos.z = sGanondorf->unk_2EC[bodyPart].z + Rand_CenteredFloat(20.0f);
                 } else {
                     bodyPart = (s16)Rand_ZeroFloat(17.9f);
 
