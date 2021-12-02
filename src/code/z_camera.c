@@ -1973,8 +1973,8 @@ s32 Camera_Parallel1(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
+        
         para1->yOffset = NEXTPCT * playerHeight * yNormal;
-        ;
         para1->distTarget = NEXTPCT * playerHeight * yNormal;
         para1->pitchTarget = DEGF_TO_BINANG(NEXTSETTING);
         para1->yawTarget = DEGF_TO_BINANG(NEXTSETTING);
@@ -2181,6 +2181,7 @@ s32 Camera_Jump1(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(R_CAM_YOFFSET_NORM)) - (PCT(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
+
         jump1->atYOffset = PCT(NEXTSETTING) * playerHeight * yNormal;
         jump1->distMin = PCT(NEXTSETTING) * playerHeight * yNormal;
         jump1->distMax = PCT(NEXTSETTING) * playerHeight * yNormal;
@@ -2721,6 +2722,7 @@ s32 Camera_Battle1(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
+
         batt1->yOffset = NEXTPCT * playerHeight * yNormal;
         batt1->distance = NEXTSETTING;
         batt1->swingYawInitial = NEXTSETTING;
@@ -2954,6 +2956,7 @@ s32 Camera_Battle4(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(R_CAM_YOFFSET_NORM)) - (PCT(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
+
         batt4->yOffset = NEXTPCT * playerHeight * yNormal;
         batt4->rTarget = NEXTPCT * playerHeight * yNormal;
         batt4->pitchTarget = DEGF_TO_BINANG(NEXTSETTING);
@@ -3062,6 +3065,7 @@ s32 Camera_KeepOn1(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
+
         keep1->unk_00 = NEXTPCT * playerHeight * yNormal;
         keep1->unk_04 = NEXTSETTING;
         keep1->unk_08 = NEXTSETTING;
@@ -3302,6 +3306,7 @@ s32 Camera_KeepOn3(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
+
         keep3->yOffset = NEXTPCT * playerHeight * yNormal;
         keep3->minDist = NEXTSETTING;
         keep3->maxDist = NEXTSETTING;
@@ -3494,6 +3499,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + t) - ((68.0f / playerHeight) * t);
+
         keep4->unk_00 = NEXTPCT * playerHeight * yNormal;
         keep4->unk_04 = NEXTPCT * playerHeight * yNormal;
         keep4->unk_08 = NEXTSETTING;
@@ -4652,6 +4658,7 @@ s32 Camera_Unique3(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(R_CAM_YOFFSET_NORM)) - (PCT(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
+
         params->yOffset = NEXTPCT * playerHeight * yNormal;
         params->fov = NEXTSETTING;
         params->interfaceFlags = NEXTSETTING;
@@ -5827,7 +5834,7 @@ s32 Camera_Demo5(Camera* camera) {
     Actor_GetFocus(&camera->targetPosRot, camera->target);
     OLib_Vec3fDiffToVecSphGeo(&playerTargetGeo, &camera->targetPosRot.pos, &camera->playerPosRot.pos);
     D_8011D3AC = camera->target->category;
-    func_8002F374(camera->globalCtx, camera->target, &sp78.yaw, &sp78.pitch);
+    Actor_GetScreenPos(camera->globalCtx, camera->target, &sp78.yaw, &sp78.pitch);
     eyeTargetDist = OLib_Vec3fDist(&camera->targetPosRot.pos, &camera->eye);
     OLib_Vec3fDiffToVecSphGeo(&eyePlayerGeo, &playerhead.pos, &camera->eyeNext);
     sp4A = eyePlayerGeo.yaw - playerTargetGeo.yaw;
@@ -6670,6 +6677,7 @@ s32 Camera_Special9(Camera* camera) {
                     spAC = *eye = *eyeNext;
                 } else {
                     s16 yaw;
+
                     // 0xE38 ~ 20 degrees
                     eyeAdjustment.pitch = 0xE38;
                     // 0xAAA ~ 15 degrees.
@@ -7127,7 +7135,7 @@ s32 Camera_CheckWater(Camera* camera) {
             camera->unk_150 = 0x50;
         }
 
-        func_800F6828(0x20);
+        Audio_SetExtraFilter(0x20);
 
         if (PREG(81)) {
             Quake_RemoveFromIdx(*quakeId);
@@ -7162,7 +7170,7 @@ s32 Camera_CheckWater(Camera* camera) {
             camera->unk_150 = 0;
             camera->unk_152 = 0;
         }
-        func_800F6828(0);
+        Audio_SetExtraFilter(0);
     }
     //! @bug: doesn't always return a value, but sometimes does.
 }
@@ -7535,7 +7543,7 @@ Vec3s Camera_Update(Camera* camera) {
 }
 
 /**
- * When the camera's timer is 0, change the camera to it's parent
+ * When the camera's timer is 0, change the camera to its parent
  */
 void Camera_Finish(Camera* camera) {
     Camera* mainCam = camera->globalCtx->cameraPtrs[MAIN_CAM];
@@ -7992,6 +8000,7 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
         osSyncPrintf(".... change default door camera (set %d)\n", CAM_SET_DOORC);
     } else {
         s32 setting = Camera_GetCamDataSetting(camera, camDataIdx);
+
         camera->unk_14A |= 0x40;
 
         if (Camera_ChangeSetting(camera, setting) >= 0) {

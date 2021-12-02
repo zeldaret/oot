@@ -5,6 +5,8 @@
 class SetExitList : public ZRoomCommand
 {
 public:
+	std::vector<uint16_t> exits;
+
 	SetExitList(ZFile* nParent);
 
 	void DeclareReferences(const std::string& prefix) override;
@@ -15,7 +17,4 @@ public:
 
 	RoomCommand GetRoomCommand() const override;
 	std::string GetCommandCName() const override;
-
-private:
-	std::vector<uint16_t> exits;
 };

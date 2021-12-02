@@ -82,6 +82,7 @@ void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
         if (thisx->shape.rot.y == 0) {
             s16 rand = (s16)Rand_ZeroFloat(65536.0f);
+
             thisx->world.rot.y = rand;
             thisx->shape.rot.y = rand;
         }

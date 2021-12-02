@@ -274,7 +274,7 @@ void EnRr_SetupGrabPlayer(EnRr* this, Player* player) {
 u8 EnRr_GetMessage(u8 shield, u8 tunic) {
     u8 messageIndex = 0;
 
-    if ((shield == PLAYER_SHIELD_DEKU) || (shield == PLAYER_SHIELD_HYLIAN)) {
+    if ((shield == 1 /* Deku shield */) || (shield == 2 /* Hylian shield */)) {
         messageIndex = RR_MESSAGE_SHIELD;
     }
     if ((tunic == 2 /* Goron tunic */) || (tunic == 3 /* Zora tunic */)) {
@@ -296,15 +296,15 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     this->segPhaseVelTarget = 2500.0f;
     this->wobbleSizeTarget = 2048.0f;
     tunic = 0;
-    shield = PLAYER_SHIELD_NONE;
-    if (CUR_EQUIP_VALUE(EQUIP_SHIELD) != PLAYER_SHIELD_MIRROR) {
+    shield = 0;
+    if (CUR_EQUIP_VALUE(EQUIP_SHIELD) != 3 /* Mirror shield */) {
         shield = Inventory_DeleteEquipment(globalCtx, EQUIP_SHIELD);
-        if (shield != PLAYER_SHIELD_NONE) {
+        if (shield != 0) {
             this->eatenShield = shield;
             this->retreat = true;
         }
     }
-    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != 1 /* Kokiri tunic*/) {
+    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != 1 /* Kokiri tunic */) {
         tunic = Inventory_DeleteEquipment(globalCtx, EQUIP_TUNIC);
         if (tunic != 0) {
             this->eatenTunic = tunic;
@@ -314,13 +314,13 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     player->actor.parent = NULL;
     switch (EnRr_GetMessage(shield, tunic)) {
         case RR_MESSAGE_SHIELD:
-            func_8010B680(globalCtx, 0x305F, NULL);
+            Message_StartTextbox(globalCtx, 0x305F, NULL);
             break;
         case RR_MESSAGE_TUNIC:
-            func_8010B680(globalCtx, 0x3060, NULL);
+            Message_StartTextbox(globalCtx, 0x3060, NULL);
             break;
         case RR_MESSAGE_TUNIC | RR_MESSAGE_SHIELD:
-            func_8010B680(globalCtx, 0x3061, NULL);
+            Message_StartTextbox(globalCtx, 0x3061, NULL);
             break;
     }
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d] : Rr_Catch_Cancel" VT_RST "\n", "../z_en_rr.c", 650);
@@ -668,18 +668,18 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
         dropPos.y = this->actor.world.pos.y;
         dropPos.z = this->actor.world.pos.z;
         switch (this->eatenShield) {
-            case PLAYER_SHIELD_DEKU:
+            case 1:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_SHIELD_DEKU);
                 break;
-            case PLAYER_SHIELD_HYLIAN:
+            case 2:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_SHIELD_HYLIAN);
                 break;
         }
         switch (this->eatenTunic) {
-            case PLAYER_TUNIC_GORON + 1:
+            case 2:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_TUNIC_GORON);
                 break;
-            case PLAYER_TUNIC_ZORA + 1:
+            case 3:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_TUNIC_ZORA);
                 break;
         }
@@ -868,7 +868,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     for (i = 1; i < 5; i++) {
         Matrix_Translate(0.0f, this->bodySegs[i].height + 1000.0f, 0.0f, MTXMODE_APPLY);
 
-        Matrix_RotateRPY(this->bodySegs[i].rot.x, this->bodySegs[i].rot.y, this->bodySegs[i].rot.z, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->bodySegs[i].rot.x, this->bodySegs[i].rot.y, this->bodySegs[i].rot.z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Scale((1.0f + this->bodySegs[i].scaleMod.x) * this->bodySegs[i].scale.x,
                      (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,

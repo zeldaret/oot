@@ -96,6 +96,7 @@ void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 // update routine for grottos that are currently "hidden"/unopened
 void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
     u32 openGrotto = false;
+
     if (!(this->actor.params & 0x200)) {
         // opening with song of storms
         if (this->actor.xyzDistToPlayerSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {

@@ -1,14 +1,16 @@
 #ifndef ULTRA64_SPTASK_H
 #define ULTRA64_SPTASK_H
 
+#include "types.h"
+
 /* Task Types */
-#define M_NULTASK 0
-#define M_GFXTASK 1
-#define M_AUDTASK 2
-#define M_VIDTASK 3
+#define M_NULTASK   0
+#define M_GFXTASK   1
+#define M_AUDTASK   2
+#define M_VIDTASK   3
 #define M_NJPEGTASK 4
-#define M_HVQTASK 6
-#define M_HVQMTASK 7
+#define M_HVQTASK   6
+#define M_HVQMTASK  7
 
 /* Task Flags  */
 #define M_TASK_FLAG0 1
@@ -52,8 +54,7 @@ typedef struct {
     /* 0x3C */ u32 yield_data_size;
 } OSTask_t; // size = 0x40
 
-typedef union
-{
+typedef union {
     OSTask_t t;
     long long int force_structure_alignment;
 } OSTask;

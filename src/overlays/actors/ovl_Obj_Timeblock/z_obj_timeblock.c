@@ -70,10 +70,12 @@ u32 ObjTimeblock_CalculateIsVisible(ObjTimeblock* this) {
             return this->unk_175;
         } else {
             u8 temp = ((this->dyna.actor.params >> 15) & 1) ? true : false;
+
             if (this->unk_177 == 1) {
                 return this->unk_174 ^ temp;
             } else {
                 u8 linkIsYoung = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? true : false;
+
                 return this->unk_174 ^ temp ^ linkIsYoung;
             }
         }
@@ -171,7 +173,7 @@ s32 ObjTimeblock_WaitForOcarina(ObjTimeblock* this, GlobalContext* globalCtx) {
 
     if (ObjTimeblock_PlayerIsInRange(this, globalCtx)) {
         if (player->stateFlags2 & 0x1000000) {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->songObserverFunc = ObjTimeblock_WaitForSong;
         } else {
             player->stateFlags2 |= 0x800000;
@@ -181,10 +183,10 @@ s32 ObjTimeblock_WaitForOcarina(ObjTimeblock* this, GlobalContext* globalCtx) {
 }
 
 s32 ObjTimeblock_WaitForSong(ObjTimeblock* this, GlobalContext* globalCtx) {
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         this->songObserverFunc = ObjTimeblock_WaitForOcarina;
     }
-    if (globalCtx->msgCtx.unk_E3EC == 10) {
+    if (globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_TIME) {
         if (this->unk_172 == 254) {
             this->songEndTimer = 110;
         } else {
@@ -229,7 +231,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->unk_172 = globalCtx->msgCtx.unk_E3EC;
+    this->unk_172 = globalCtx->msgCtx.lastPlayedSong;
     if (this->demoEffectFirstPartTimer > 0) {
         this->demoEffectFirstPartTimer--;
         if (this->demoEffectFirstPartTimer == 0) {
@@ -254,7 +256,8 @@ void ObjTimeblock_Normal(ObjTimeblock* this, GlobalContext* globalCtx) {
 
 void func_80BA06AC(ObjTimeblock* this, GlobalContext* globalCtx) {
     s32 switchFlag = this->dyna.actor.params & 0x3F;
-    this->unk_172 = globalCtx->msgCtx.unk_E3EC;
+
+    this->unk_172 = globalCtx->msgCtx.lastPlayedSong;
 
     if (this->demoEffectFirstPartTimer > 0 && --this->demoEffectFirstPartTimer == 0) {
         this->unk_174 = (Flags_GetSwitch(globalCtx, switchFlag)) ? true : false;

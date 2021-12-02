@@ -13,15 +13,19 @@
 #define ALIGN64(val) (((val) + 0x3F) & ~0x3F)
 #define ALIGN256(val) (((val) + 0xFF) & ~0xFF)
 
+#define OFFSETOF(structure, member) ((size_t)&(((structure*)0)->member))
+
 #define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define DECR(x) ((x) == 0 ? 0 : --(x))
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
-#define MEDIAN3(a1, a2, a3) ((a2 >= a1) ? ((a3 >= a2) ? a2 : ((a1 >= a3) ? a1 : a3)) : ((a2 >= a3) ? a2 : ((a3 >= a1) ? a1 : a3)))
+#define MEDIAN3(a1, a2, a3)                                                    \
+    (((a2) >= (a1)) ? (((a3) >= (a2)) ? (a2) : (((a1) >= (a3)) ? (a1) : (a3))) \
+                    : (((a2) >= (a3)) ? (a2) : (((a3) >= (a1)) ? (a1) : (a3))))
 
-#define RGBA8(r, g, b, a) (((r & 0xFF) << 24) | ((g & 0xFF) << 16) | ((b & 0xFF) << 8) | ((a & 0xFF) << 0))
+#define RGBA8(r, g, b, a) ((((r) & 0xFF) << 24) | (((g) & 0xFF) << 16) | (((b) & 0xFF) << 8) | (((a) & 0xFF) << 0))
 
 #define GET_PLAYER(globalCtx) ((Player*)(globalCtx)->actorCtx.actorLists[ACTORCAT_PLAYER].head)
 
@@ -54,9 +58,9 @@
 #define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
 
 #define GET_GS_FLAGS(index) \
-    ((gSaveContext.gsFlags[(index) >> 2] & gGsFlagsMask[(index) & 3]) >> gGsFlagsShift[(index) & 3])
+    ((gSaveContext.gsFlags[(index) >> 2] & gGsFlagsMasks[(index) & 3]) >> gGsFlagsShifts[(index) & 3])
 #define SET_GS_FLAGS(index, value) \
-    (gSaveContext.gsFlags[(index) >> 2] |= (value) << gGsFlagsShift[(index) & 3])
+    (gSaveContext.gsFlags[(index) >> 2] |= (value) << gGsFlagsShifts[(index) & 3])
 
 #define HIGH_SCORE(score) (gSaveContext.highScores[score])
 
@@ -66,8 +70,8 @@
                             ? ITEM_SWORD_BGS                                       \
                             : gSaveContext.equips.buttonItems[0])
 
-#define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[button + 1] != BTN_DISABLED) \
-                                ? gSaveContext.equips.buttonItems[button + 1]       \
+#define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[(button) + 1] != BTN_DISABLED) \
+                                ? gSaveContext.equips.buttonItems[(button) + 1]       \
                                 : ITEM_NONE)
 
 #define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)
@@ -161,5 +165,11 @@ extern GraphicsContext* __gfxCtx;
         gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,                                \
                        ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
     } while (0)
+
+#ifdef __GNUC__
+#define ALIGNED8 __attribute__ ((aligned (8)))
+#else
+#define ALIGNED8
+#endif
 
 #endif

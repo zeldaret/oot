@@ -48,10 +48,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Gfx* sDLists[] = {
-    0x060024E0,
-    0x06001980,
-    0x060020F0,
-    0x06002B70,
+    object_mori_hineri1_DL_0024E0,
+    object_mori_hineri1a_DL_001980,
+    object_mori_hineri2_DL_0020F0,
+    object_mori_hineri2a_DL_002B70,
 };
 
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -115,9 +115,9 @@ void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
 
-    if ((Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx)) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx)) &&
-        ((this->boxObjIdx < 0) || (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx)))) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx) &&
+        Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx) &&
+        ((this->boxObjIdx < 0) || Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
         this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
         if (this->dyna.actor.params >= 4) {
             this->dyna.actor.params -= 4;
@@ -189,7 +189,8 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->actionFunc = func_808A3E54;
 
         mainCamChildIdx = globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx;
-        if ((mainCamChildIdx != SUBCAM_FREE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_CS_1)) {
+        if ((mainCamChildIdx != SUBCAM_FREE) &&
+            (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
             OnePointCutscene_EndCutscene(globalCtx, mainCamChildIdx);
         }
         OnePointCutscene_Init(globalCtx, 3260, 40, &this->dyna.actor, MAIN_CAM);
@@ -248,7 +249,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             Matrix_Translate(1999.0f, 1278.0f, -1821.0f, MTXMODE_NEW);
         }
-        Matrix_RotateRPY(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 652),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

@@ -197,7 +197,7 @@ void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_demo_ext.c", 460);
     Matrix_Push();
     Matrix_Scale(scale->x, scale->y, scale->z, MTXMODE_APPLY);
-    Matrix_RotateRPY((s16)(kREG(16) + 0x4000), this->rotationPitch, kREG(18), MTXMODE_APPLY);
+    Matrix_RotateZYX((s16)(kREG(16) + 0x4000), this->rotationPitch, kREG(18), MTXMODE_APPLY);
     Matrix_Translate(kREG(22), kREG(23), kREG(24), MTXMODE_APPLY);
     Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
     Matrix_Pop();

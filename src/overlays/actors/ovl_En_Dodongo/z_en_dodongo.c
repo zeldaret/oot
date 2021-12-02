@@ -316,7 +316,7 @@ void EnDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->bombSmokePrimColor.a = this->bombSmokeEnvColor.a = 200;
     this->bombSmokeEnvColor.g = 10;
     this->bodyScale.x = this->bodyScale.y = this->bodyScale.z = 1.0f;
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 48.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 48.0f);
     Actor_SetScale(&this->actor, 0.01875f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gDodongoSkel, &gDodongoWaitAnim, this->jointTable, this->morphTable,
                    31);
@@ -465,7 +465,7 @@ void EnDodongo_SwallowBomb(EnDodongo* this, GlobalContext* globalCtx) {
     } else if (this->actor.parent != NULL) {
         this->actor.parent->world.pos = this->mouthPos;
         ((EnBombf*)this->actor.parent)->timer++;
-        //! @bug The devs forgot an explosive could also be a bombchu, which leads to a serious bug. ->timer (0x1F8) is
+        //! @bug An explosive can also be a bombchu, not always a bomb, which leads to a serious bug. ->timer (0x1F8) is
         //! outside the bounds of the bombchu actor, and the memory it writes to happens to be one of the pointers in
         //! the next arena node. When this value is written to, massive memory corruption occurs.
     }

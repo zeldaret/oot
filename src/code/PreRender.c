@@ -548,6 +548,7 @@ void PreRender_Calc(PreRender* this) {
         for (y = 0; y < this->height; y++) {
             for (x = 0; x < this->width; x++) {
                 s32 a = this->cvgSave[x + y * this->width];
+
                 a >>= 5;
                 a++;
                 if (a != 8) {

@@ -35,18 +35,18 @@ const u32 sFaultDrawerFont[] = {
 };
 
 FaultDrawer sFaultDrawerDefault = {
-    (u16*)0x803DA800,                   // fb
-    SCREEN_WIDTH,                       // w
-    SCREEN_HEIGHT,                      // h
-    16,                                 // yStart
-    223,                                // yEnd
-    22,                                 // xStart
-    297,                                // xEnd
-    GPACK_RGBA5551(255, 255, 255, 255), // foreColor
-    GPACK_RGBA5551(0, 0, 0, 0),         // backColor
-    22,                                 // cursorX
-    16,                                 // cursorY
-    sFaultDrawerFont,                   // font
+    (u16*)(0x80400000 - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH])), // fb
+    SCREEN_WIDTH,                                                  // w
+    SCREEN_HEIGHT,                                                 // h
+    16,                                                            // yStart
+    223,                                                           // yEnd
+    22,                                                            // xStart
+    297,                                                           // xEnd
+    GPACK_RGBA5551(255, 255, 255, 255),                            // foreColor
+    GPACK_RGBA5551(0, 0, 0, 0),                                    // backColor
+    22,                                                            // cursorX
+    16,                                                            // cursorY
+    sFaultDrawerFont,                                              // font
     8,
     8,
     0,
@@ -124,6 +124,7 @@ void FaultDrawer_DrawChar(char c) {
         ((sFaultDrawerStruct.charH + cursorY - 1) <= sFaultDrawerStruct.yEnd)) {
         for (y = 0; y < sFaultDrawerStruct.charH; y++) {
             u32 mask = 0x10000000 << shift;
+
             data = *dataPtr;
             for (x = 0; x < sFaultDrawerStruct.charW; x++) {
                 if (mask & data) {
@@ -151,6 +152,7 @@ s32 FaultDrawer_ColorToPrintColor(u16 color) {
 
 void FaultDrawer_UpdatePrintColor() {
     s32 idx;
+
     if (sFaultDrawerStruct.osSyncPrintfEnabled) {
         osSyncPrintf(VT_RST);
         idx = FaultDrawer_ColorToPrintColor(sFaultDrawerStruct.foreColor);
@@ -302,5 +304,5 @@ void FaultDrawer_WritebackFBDCache() {
 
 void FaultDrawer_SetDefault() {
     bcopy(&sFaultDrawerDefault, &sFaultDrawerStruct, sizeof(FaultDrawer));
-    sFaultDrawerStruct.fb = (u16*)((osMemSize | 0x80000000) - 0x25800);
+    sFaultDrawerStruct.fb = (u16*)((osMemSize | 0x80000000) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
 }
