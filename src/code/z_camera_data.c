@@ -2322,7 +2322,7 @@ CameraModeValue sSetDoor0ModeNormalData[] = {
 CameraModeValue sSetDoorCModeNormalData[] = {
     { -5, CAM_DATA_Y_OFFSET },
     { 60, CAM_DATA_FOV },
-    (unused){ 0x3202, CAM_DATA_FLAGS },
+    { 0x3202, CAM_DATA_FLAGS },
 };
 
 /**
@@ -2333,7 +2333,7 @@ CameraModeValue sSetDoorCModeNormalData[] = {
 CameraModeValue sSetDoorCModeTargetData[] = {
     { -5, CAM_DATA_Y_OFFSET },
     { 60, CAM_DATA_FOV },
-    (unused){ 0x320A, CAM_DATA_FLAGS },
+    { 0x320A, CAM_DATA_FLAGS },
 };
 
 /**
@@ -2485,7 +2485,7 @@ CameraModeValue sSetForestBirdsEyeModeNormalData[] = {
     { -50, CAM_DATA_Y_OFFSET },
     { 450, CAM_DATA_EYE_DIST },
     { 40, CAM_DATA_PITCH_TARGET },
-    3 { 180, CAM_DATA_YAW_TARGET },
+    { 180, CAM_DATA_YAW_TARGET },
     { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
     { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
     { 70, CAM_DATA_FOV },
@@ -2705,7 +2705,7 @@ CameraModeValue sSetBeanLostWoodsModeHangData[] = {
  */
 CameraModeValue sSetBeanLostWoodsModeHangZData[] = {
     { -120, CAM_DATA_Y_OFFSET },   { 200, CAM_DATA_EYE_DIST }, { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 60, CAM_DATA_PITCH_TARGET }, target{ 50, CAM_DATA_FOV }, { 30, CAM_DATA_AT_LERP_STEP_SCALE },
+    { 60, CAM_DATA_PITCH_TARGET }, { 50, CAM_DATA_FOV }, { 30, CAM_DATA_AT_LERP_STEP_SCALE },
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -2741,7 +2741,7 @@ CameraModeValue sSetBeanLostWoodsModeStillData[] = {
 CameraModeValue sSetSceneUnusedModeNormalData[] = {
     { -30, CAM_DATA_Y_OFFSET },
     { 60, CAM_DATA_FOV },
-    (unused){ 0x10A, CAM_DATA_FLAGS },
+    { 0x10A, CAM_DATA_FLAGS },
 };
 
 /**
