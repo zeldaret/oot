@@ -21,6 +21,7 @@
         <DList Name="object_ganon_DL_007518" Offset="0x7518"/>
         <DList Name="object_ganon_DL_007640" Offset="0x7640"/>
         <DList Name="object_ganon_DL_007908" Offset="0x7908"/>
+
         <Texture Name="object_ganon_TLUT_007B10" OutName="tlut_00007B10" Format="rgba16" Width="16" Height="16" Offset="0x7B10"/>
         <Texture Name="object_ganon_TLUT_007D10" OutName="tlut_00007D10" Format="rgba16" Width="16" Height="16" Offset="0x7D10"/>
         <Texture Name="object_ganon_Tex_007F10" OutName="tex_00007F10" Format="rgba16" Width="8" Height="8" Offset="0x7F10"/>
@@ -44,7 +45,7 @@
         <Texture Name="object_ganon_Tex_0091B0" OutName="tex_000091B0" Format="rgba16" Width="32" Height="16" Offset="0x91B0"/>
         <Texture Name="object_ganon_TLUT_0095B0" OutName="tlut_000095B0" Format="rgba16" Width="56" Height="1" Offset="0x95B0"/>
         <Texture Name="object_ganon_Tex_009620" OutName="tex_00009620" Format="rgba16" Width="16" Height="32" Offset="0x9620"/>
-        <Texture Name="object_ganon_Tex_009A20" OutName="tex_00009A20" Format="rgba16" Width="32" Height="16" Offset="0x9A20"/>
+        <Texture Name="gDorfEyeTex" OutName="dorf_eye" Format="rgba16" Width="32" Height="16" Offset="0x9A20"/>
         <Texture Name="object_ganon_Tex_009E20" OutName="tex_00009E20" Format="rgba16" Width="16" Height="16" Offset="0x9E20"/>
         <Texture Name="object_ganon_Tex_00A020" OutName="tex_0000A020" Format="rgba16" Width="16" Height="16" Offset="0xA020"/>
         <Texture Name="object_ganon_Tex_00A220" OutName="tex_0000A220" Format="ci8" Width="8" Height="8" Offset="0xA220" TlutOffset="0x95B0"/>
@@ -53,13 +54,17 @@
         <Texture Name="object_ganon_Tex_00A4A0" OutName="tex_0000A4A0" Format="ci8" Width="8" Height="8" Offset="0xA4A0"/>
         <Texture Name="object_ganon_Tex_00A4E0" OutName="tex_0000A4E0" Format="rgba16" Width="32" Height="16" Offset="0xA4E0"/>
         <Texture Name="object_ganon_Tex_00A8E0" OutName="tex_0000A8E0" Format="rgba16" Width="32" Height="16" Offset="0xA8E0"/>
+
         <DList Name="object_ganon_DL_00BE90" Offset="0xBE90"/>
         <DList Name="object_ganon_DL_00BF40" Offset="0xBF40"/>
         <DList Name="object_ganon_DL_00C048" Offset="0xC048"/>
         <DList Name="object_ganon_DL_00C518" Offset="0xC518"/>
-        <DList Name="object_ganon_DL_00C9E8" Offset="0xC9E8"/>
-        <Blob Name="object_ganon_Blob_00CF00" Size="0x3C00" Offset="0xCF00"/>
+        <DList Name="gDorfOpenHandDL" Offset="0xC9E8"/>
+
+        <Texture Name="gDorfTitleCardTex" OutName="ganondorf_title_card" Format="i8" Width="128" Height="40" Offset="0xCF00"/>
+
         <Animation Name="object_ganon_Anim_011348" Offset="0x11348"/>
+
         <Limb Name="object_ganon_Limb_011358" LimbType="Standard" Offset="0x11358"/>
         <Limb Name="object_ganon_Limb_011364" LimbType="Standard" Offset="0x11364"/>
         <Limb Name="object_ganon_Limb_011370" LimbType="Standard" Offset="0x11370"/>
@@ -85,6 +90,7 @@
         <Limb Name="object_ganon_Limb_011460" LimbType="Standard" Offset="0x11460"/>
         <Limb Name="object_ganon_Limb_01146C" LimbType="Standard" Offset="0x1146C"/>
         <Limb Name="object_ganon_Limb_011478" LimbType="Standard" Offset="0x11478"/>
-        <Skeleton Name="object_ganon_Skel_0114E8" Type="Flex" LimbType="Standard" Offset="0x114E8"/>
+
+        <Skeleton Name="gDorfSkel" Type="Flex" LimbType="Standard" Offset="0x114E8"/>
     </File>
 </Root>
