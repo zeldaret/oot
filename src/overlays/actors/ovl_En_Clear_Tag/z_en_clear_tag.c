@@ -565,7 +565,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     Actor_Kill(&this->actor);
                     // Player laser sound effect if the laser did not time out.
                     if (this->timers[CLEAR_TAG_TIMER_LASER_DEATH] != 0) {
-                        SoundSource_PlaySoundByPosition(globalCtx, &this->actor.world.pos, 20,
+                        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 20,
                                                       NA_SE_EN_FANTOM_THUNDER_GND);
                     }
                 }
@@ -633,7 +633,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
         Vec3f debrisEffectAcceleration;
 
         this->shouldExplode = false;
-        SoundSource_PlaySoundByPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_IT_BOMB_EXPLOSION);
+        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_IT_BOMB_EXPLOSION);
 
         // Spawn flash effect.
         crashEffectLocation.x = this->actor.world.pos.x;

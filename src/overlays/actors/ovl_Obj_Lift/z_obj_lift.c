@@ -178,7 +178,7 @@ void func_80B96678(ObjLift* this, GlobalContext* globalCtx) {
     }
 
     if ((this->timer & 3) == 3) {
-        SoundSource_PlaySoundByPosition(globalCtx, &this->dyna.actor.world.pos, 16, NA_SE_EV_BLOCK_SHAKE);
+        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->dyna.actor.world.pos, 16, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
@@ -202,7 +202,7 @@ void func_80B96840(ObjLift* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >=
         (sMaxFallDistances[(this->dyna.actor.params >> 1) & 1] - 0.001f)) {
         func_80B96160(this, globalCtx);
-        SoundSource_PlaySoundByPosition(globalCtx, &this->dyna.actor.world.pos, 20, NA_SE_EV_BOX_BREAK);
+        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->dyna.actor.world.pos, 20, NA_SE_EV_BOX_BREAK);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 2) & 0x3F);
         Actor_Kill(&this->dyna.actor);
     }

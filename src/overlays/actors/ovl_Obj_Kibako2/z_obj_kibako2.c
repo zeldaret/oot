@@ -148,7 +148,7 @@ void ObjKibako2_Idle(ObjKibako2* this, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & AC_HIT) || (this->dyna.actor.home.rot.z != 0) ||
         func_80033684(globalCtx, &this->dyna.actor) != NULL) {
         ObjKibako2_Break(this, globalCtx);
-        SoundSource_PlaySoundByPosition(globalCtx, &this->dyna.actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
+        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->dyna.actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         this->dyna.actor.flags |= 0x10;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->dyna.actor.draw = NULL;

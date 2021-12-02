@@ -498,7 +498,7 @@ void EnEiyer_Land(EnEiyer* this, GlobalContext* globalCtx) {
     if (this->timer == -1) {
         if (this->actor.bgCheckFlags & 8 || this->actor.bgCheckFlags & 1) {
             this->timer = 10;
-            SoundSource_PlaySoundByPosition(globalCtx, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_SINK);
+            SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_SINK);
 
             if (this->actor.bgCheckFlags & 1) {
                 EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, NULL, NULL, 1, 700);
