@@ -98,15 +98,15 @@ char sCameraModeNames[][12] = {
  * NORMAL0    NORMAL    NORM1
  */
 CameraModeValue sSetNormal0ModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_PITCH_TARGET },           // pitchtarget
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 35, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 200, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_PITCH_TARGET },           
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 35, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -134,17 +134,17 @@ CameraModeValue sSetNormal0ModeNormalData[] = {
  * NORMAL4                 TARGET    PARA1
  */
 CameraModeValue sSetNormal0ModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 250, CAM_DATA_EYE_DIST },             // distTarget
-    { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 45, CAM_DATA_FOV },                   // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 250, CAM_DATA_EYE_DIST },             
+    { 0, CAM_DATA_PITCH_TARGET },           
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 45, CAM_DATA_FOV },                   
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET }, // unk_18
-    { 20, 12 }                         // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET }, 
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }                         
 };
 
 /**
@@ -173,19 +173,19 @@ CameraModeValue sSetNormal0ModeTargetData[] = {
  * NORMAL4                FOLLOWTARGET    KEEP1
  */
 CameraModeValue sSetNormal0ModeFollowTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // unk_00
-    { 120, CAM_DATA_EYE_DIST },          // unk_04
-    { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
-    { 25, CAM_DATA_SWING_YAW_INIT },     // unk_0C
-    { 45, CAM_DATA_SWING_YAW_FINAL },    // unk_10
-    { -5, CAM_DATA_SWING_PITCH_INIT },   // unk_14
-    { 15, CAM_DATA_SWING_PITCH_FINAL },  // unk_18
-    { 15, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
-    { 45, CAM_DATA_FOV },                // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { -20, CAM_DATA_Y_OFFSET },         
+    { 120, CAM_DATA_EYE_DIST },          
+    { 140, CAM_DATA_EYE_DIST_NEXT },     
+    { 25, CAM_DATA_SWING_YAW_INIT },     
+    { 45, CAM_DATA_SWING_YAW_FINAL },    
+    { -5, CAM_DATA_SWING_PITCH_INIT },   
+    { 15, CAM_DATA_SWING_PITCH_FINAL },  
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2001, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
+    { -50, CAM_DATA_GROUND_Y_OFFSET },          
+    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -217,17 +217,17 @@ CameraModeValue sSetNormal0ModeFollowTargetData[] = {
  * PIVOT_FROM_SIDE         TALK    KEEP3
  */
 CameraModeValue sSetNormal0ModeTalkData[] = {
-    { -30, CAM_DATA_Y_OFFSET },              // yOffset
-    { 70, CAM_DATA_EYE_DIST },               // minDist
-    { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
-    { 40, CAM_DATA_SWING_YAW_INIT },         // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },        // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },        // swingPitchInitial
-    { 5, CAM_DATA_SWING_PITCH_FINAL },       // swingPitchFinal
-    { 70, CAM_DATA_SWING_PITCH_ADJ },        // swingPitchAdj
-    { 45, CAM_DATA_FOV },                    // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
+    { -30, CAM_DATA_Y_OFFSET },              
+    { 70, CAM_DATA_EYE_DIST },               
+    { 200, CAM_DATA_EYE_DIST_NEXT },         
+    { 40, CAM_DATA_SWING_YAW_INIT },         
+    { 10, CAM_DATA_SWING_YAW_FINAL },        
+    { 0, CAM_DATA_SWING_PITCH_INIT },        
+    { 5, CAM_DATA_SWING_PITCH_FINAL },       
+    { 70, CAM_DATA_SWING_PITCH_ADJ },        
+    { 45, CAM_DATA_FOV },                    
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
     { 0x3500, CAM_DATA_FLAGS },
 };
 
@@ -241,18 +241,18 @@ CameraModeValue sSetNormal0ModeTalkData[] = {
  * DIRECTED_YAW     BATTLE    BATT1
  */
 CameraModeValue sSetNormal0ModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 180, CAM_DATA_EYE_DIST },          // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 50, CAM_DATA_FOV },                // fov
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 180, CAM_DATA_EYE_DIST },          
+    { 10, CAM_DATA_SWING_YAW_INIT },     
+    { 80, CAM_DATA_SWING_YAW_FINAL },    
+    { 0, CAM_DATA_SWING_PITCH_INIT },    
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 50, CAM_DATA_FOV },                
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -282,14 +282,14 @@ CameraModeValue sSetNormal0ModeBattleData[] = {
  * NORMAL4                 CLIMB    JUMP2
  */
 CameraModeValue sSetNormal0ModeClimbData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // atYOffset
-    { 200, CAM_DATA_EYE_DIST },             // minDist
-    { 300, CAM_DATA_EYE_DIST_NEXT },        // maxDist
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },   // minMaxDistFactor
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdRateTarget
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // xzUpdRateTarget
-    { 60, CAM_DATA_FOV },                   // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPStepScale
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 200, CAM_DATA_EYE_DIST },             
+    { 300, CAM_DATA_EYE_DIST_NEXT },        
+    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },   
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                   
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -326,14 +326,14 @@ CameraModeValue sSetNormal0ModeClimbData[] = {
  * NORMAL4                 FIRSTPERSON    SUBJ3
  */
 CameraModeValue sSetNormal0ModeFirstPersonData[] = {
-    { 0, CAM_DATA_Y_OFFSET },                // eyeNextYOffset
-    { 5, CAM_DATA_EYE_DIST },                // eyeDist
-    { 50, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 0, CAM_DATA_AT_OFFSET_X },             // atOffset.x
-    { 0, CAM_DATA_AT_OFFSET_Y },             // atOffset.y
-    { 0, CAM_DATA_AT_OFFSET_Z },             // atOffset.z
-    { 45, CAM_DATA_FOV },                    // fovTarget
+    { 0, CAM_DATA_Y_OFFSET },                
+    { 5, CAM_DATA_EYE_DIST },                
+    { 50, CAM_DATA_EYE_DIST_NEXT },          
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 0, CAM_DATA_AT_OFFSET_X },             
+    { 0, CAM_DATA_AT_OFFSET_Y },             
+    { 0, CAM_DATA_AT_OFFSET_Z },             
+    { 45, CAM_DATA_FOV },                    
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -370,14 +370,14 @@ CameraModeValue sSetNormal0ModeFirstPersonData[] = {
  * NORMAL4                 BOWARROW    SUBJ3
  */
 CameraModeValue sSetNormal0ModeBowArrowData[] = {
-    { -7, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
-    { 14, CAM_DATA_EYE_DIST },               // eyeDist
-    { 50, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 0, CAM_DATA_AT_OFFSET_X },             // atOffset.x
-    { -30, CAM_DATA_AT_OFFSET_Y },           // atOffset.y
-    { -5, CAM_DATA_AT_OFFSET_Z },            // atOffset.z
-    { 45, CAM_DATA_FOV },                    // fovTarget
+    { -7, CAM_DATA_Y_OFFSET },               
+    { 14, CAM_DATA_EYE_DIST },               
+    { 50, CAM_DATA_EYE_DIST_NEXT },          
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 0, CAM_DATA_AT_OFFSET_X },             
+    { -30, CAM_DATA_AT_OFFSET_Y },           
+    { -5, CAM_DATA_AT_OFFSET_Z },            
+    { 45, CAM_DATA_FOV },                    
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -414,14 +414,14 @@ CameraModeValue sSetNormal0ModeBowArrowData[] = {
  * NORMAL4                 BOWARROWZ    SUBJ3
  */
 CameraModeValue sSetNormal0ModeBowArrowZData[] = {
-    { 20, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
-    { 70, CAM_DATA_EYE_DIST },               // eyeDist
-    { 70, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { -120, CAM_DATA_AT_OFFSET_X },          // atOffset.x
-    { 20, CAM_DATA_AT_OFFSET_Y },            // atOffset.y
-    { 0, CAM_DATA_AT_OFFSET_Z },             // atOffset.z
-    { 45, CAM_DATA_FOV },                    // fovTarget
+    { 20, CAM_DATA_Y_OFFSET },               
+    { 70, CAM_DATA_EYE_DIST },               
+    { 70, CAM_DATA_EYE_DIST_NEXT },          
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { -120, CAM_DATA_AT_OFFSET_X },          
+    { 20, CAM_DATA_AT_OFFSET_Y },            
+    { 0, CAM_DATA_AT_OFFSET_Z },             
+    { 45, CAM_DATA_FOV },                    
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -453,13 +453,13 @@ CameraModeValue sSetNormal0ModeBowArrowZData[] = {
  * NORMAL4                 HOOKSHOT    SPEC5
  */
 CameraModeValue sSetNormal0ModeHookshotData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset
-    { 80, CAM_DATA_EYE_DIST },           // eyeDist
-    { 250, CAM_DATA_EYE_DIST_NEXT },     // minDistForRot
-    { 45, CAM_DATA_PITCH_TARGET },       // timerInit
-    { 60, CAM_DATA_FOV },                // pitch
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // fovTarget
-    { 6, CAM_DATA_UNK_22 },              // atMaxLERPScale
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 80, CAM_DATA_EYE_DIST },           
+    { 250, CAM_DATA_EYE_DIST_NEXT },     
+    { 45, CAM_DATA_PITCH_TARGET },       
+    { 60, CAM_DATA_FOV },                
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, 
+    { 6, CAM_DATA_UNK_22 },              
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -495,14 +495,14 @@ CameraModeValue sSetNormal0ModeHookshotData[] = {
  * NORMAL4                 BOOMERANG    SUBJ3
  */
 CameraModeValue sSetNormal0ModeBoomerangData[] = {
-    { 5, CAM_DATA_Y_OFFSET },                // eyeNextYOffset
-    { 50, CAM_DATA_EYE_DIST },               // eyeDist
-    { 50, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 0, CAM_DATA_AT_OFFSET_X },             // atOffset.x
-    { 0, CAM_DATA_AT_OFFSET_Y },             // atOffset.y
-    { 0, CAM_DATA_AT_OFFSET_Z },             // atOffset.z
-    { 45, CAM_DATA_FOV },                    // fovTarget
+    { 5, CAM_DATA_Y_OFFSET },                
+    { 50, CAM_DATA_EYE_DIST },               
+    { 50, CAM_DATA_EYE_DIST_NEXT },          
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 0, CAM_DATA_AT_OFFSET_X },             
+    { 0, CAM_DATA_AT_OFFSET_Y },             
+    { 0, CAM_DATA_AT_OFFSET_Z },             
+    { 45, CAM_DATA_FOV },                    
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -538,14 +538,14 @@ CameraModeValue sSetNormal0ModeBoomerangData[] = {
  * NORMAL4                 SLINGSHOT    SUBJ3
  */
 CameraModeValue sSetNormal0ModeSlingshotData[] = {
-    { -7, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
-    { 14, CAM_DATA_EYE_DIST },               // eyeDist
-    { 50, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { -9, CAM_DATA_AT_OFFSET_X },            // atOffset.x
-    { -63, CAM_DATA_AT_OFFSET_Y },           // atOffset.y
-    { -30, CAM_DATA_AT_OFFSET_Z },           // atOffset.z
-    { 45, CAM_DATA_FOV },                    // fovTarget
+    { -7, CAM_DATA_Y_OFFSET },               
+    { 14, CAM_DATA_EYE_DIST },               
+    { 50, CAM_DATA_EYE_DIST_NEXT },          
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { -9, CAM_DATA_AT_OFFSET_X },            
+    { -63, CAM_DATA_AT_OFFSET_Y },           
+    { -30, CAM_DATA_AT_OFFSET_Z },           
+    { 45, CAM_DATA_FOV },                    
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -576,14 +576,14 @@ CameraModeValue sSetNormal0ModeSlingshotData[] = {
  * NORMAL4                 CLIMBZ    JUMP2
  */
 CameraModeValue sSetNormal0ModeClimbZData[] = {
-    { -20, CAM_DATA_Y_OFFSET },               // atYOffset
-    { 200, CAM_DATA_EYE_DIST },               // minDist
-    { 300, CAM_DATA_EYE_DIST_NEXT },          // maxDist
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },     // minMaxDistFactor
-    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdRateTarget
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // xzUpdRateTarget
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPStepScale
+    { -20, CAM_DATA_Y_OFFSET },               
+    { 200, CAM_DATA_EYE_DIST },               
+    { 300, CAM_DATA_EYE_DIST_NEXT },          
+    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },     
+    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    
+    { 60, CAM_DATA_FOV },                     
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },      
     { 0x2006, CAM_DATA_FLAGS },
 };
 
@@ -627,13 +627,13 @@ CameraModeValue sSetNormal0ModeClimbZData[] = {
  * NORMAL4                 FREEFALL    JUMP1
  */
 CameraModeValue sSetNormal0ModeJumpData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 35, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 200, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 35, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -661,12 +661,12 @@ CameraModeValue sSetNormal0ModeJumpData[] = {
  * NORMAL4                 HANG    UNIQ1
  */
 CameraModeValue sSetNormal0ModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },          // yOffset
-    { 200, CAM_DATA_EYE_DIST },          // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 60, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -80, CAM_DATA_Y_OFFSET },          
+    { 200, CAM_DATA_EYE_DIST },          
+    { 300, CAM_DATA_EYE_DIST_NEXT },     
+    { 40, CAM_DATA_PITCH_TARGET },       
+    { 60, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -694,12 +694,12 @@ CameraModeValue sSetNormal0ModeHangData[] = {
  * NORMAL4                 HANGZ    UNIQ1
  */
 CameraModeValue sSetNormal0ModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },         // yOffset
-    { 300, CAM_DATA_EYE_DIST },          // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 45, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -120, CAM_DATA_Y_OFFSET },         
+    { 300, CAM_DATA_EYE_DIST },          
+    { 300, CAM_DATA_EYE_DIST_NEXT },     
+    { 70, CAM_DATA_PITCH_TARGET },       
+    { 45, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -709,13 +709,13 @@ CameraModeValue sSetNormal0ModeHangZData[] = {
  * NORMAL0    FREEFALL    JUMP1
  */
 CameraModeValue sSetNormal0ModeFreeFallData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 200, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -745,12 +745,12 @@ CameraModeValue sSetNormal0ModeFreeFallData[] = {
  * NORMAL4                 CHARGE    BATT4
  */
 CameraModeValue sSetNormal0ModeChargeData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 300, CAM_DATA_EYE_DIST },             // rTarget
-    { 50, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpUpdateRate
-    { 80, CAM_DATA_FOV },                   // fovTarget
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPTarget
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 300, CAM_DATA_EYE_DIST },             
+    { 50, CAM_DATA_PITCH_TARGET },          
+    { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_FOV },                   
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0xF000, CAM_DATA_FLAGS },
 };
 
@@ -779,15 +779,15 @@ CameraModeValue sSetNormal0ModeChargeData[] = {
  * NORMAL4                 STILL    NORM1
  */
 CameraModeValue sSetNormal0ModeStillData[] = {
-    { -20, CAM_DATA_Y_OFFSET },               // yOffset
-    { 200, CAM_DATA_EYE_DIST },               // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },          // distMax
-    { 10, CAM_DATA_PITCH_TARGET },            // pitchTarget
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_10
-    { 100, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 5, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },               
+    { 200, CAM_DATA_EYE_DIST },               
+    { 300, CAM_DATA_EYE_DIST_NEXT },          
+    { 10, CAM_DATA_PITCH_TARGET },            
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 100, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                     
+    { 5, CAM_DATA_AT_LERP_STEP_SCALE },       
     { 0xF003, CAM_DATA_FLAGS },
 };
 
@@ -821,17 +821,17 @@ CameraModeValue sSetNormal0ModeStillData[] = {
  * NORMAL4                 PUSHPULL    PARA1
  */
 CameraModeValue sSetNormal0ModePushPullData[] = {
-    { 0, CAM_DATA_Y_OFFSET },               // yOffset
-    { 250, CAM_DATA_EYE_DIST },             // distTarget
-    { 25, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 70, CAM_DATA_FOV },                   // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0, CAM_DATA_Y_OFFSET },               
+    { 250, CAM_DATA_EYE_DIST },             
+    { 25, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 70, CAM_DATA_FOV },                   
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x206A, CAM_DATA_FLAGS },
-    { -20, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -20, CAM_DATA_GROUND_Y_OFFSET },          
+    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -866,19 +866,19 @@ CameraModeValue sSetNormal0ModePushPullData[] = {
  * NORMAL4                 FOLLOWBOOMERANG    KEEP1
  */
 CameraModeValue sSetNormal0ModeFollowBoomerangData[] = {
-    { -5, CAM_DATA_Y_OFFSET },           // unk_00
-    { 120, CAM_DATA_EYE_DIST },          // unk_04
-    { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
-    { 5, CAM_DATA_SWING_YAW_INIT },      // unk_0C
-    { 85, CAM_DATA_SWING_YAW_FINAL },    // unk_10
-    { 10, CAM_DATA_SWING_PITCH_INIT },   // unk_14
-    { 5, CAM_DATA_SWING_PITCH_FINAL },   // unk_18
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
-    { 45, CAM_DATA_FOV },                // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { -5, CAM_DATA_Y_OFFSET },           
+    { 120, CAM_DATA_EYE_DIST },          
+    { 140, CAM_DATA_EYE_DIST_NEXT },     
+    { 5, CAM_DATA_SWING_YAW_INIT },      
+    { 85, CAM_DATA_SWING_YAW_FINAL },    
+    { 10, CAM_DATA_SWING_PITCH_INIT },   
+    { 5, CAM_DATA_SWING_PITCH_FINAL },   
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2001, CAM_DATA_FLAGS },
-    { -15, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
+    { -15, CAM_DATA_GROUND_Y_OFFSET },          
+    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -893,15 +893,15 @@ CameraModeValue sSetNormal0ModeFollowBoomerangData[] = {
  * NORMAL1    NORMAL    NORM1
  */
 CameraModeValue sSetNormal1ModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },                // yOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 400, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { 0, CAM_DATA_Y_OFFSET },                
+    { 200, CAM_DATA_EYE_DIST },              
+    { 400, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_PITCH_TARGET },           
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -911,17 +911,17 @@ CameraModeValue sSetNormal1ModeNormalData[] = {
  * NORMAL1    TARGET    PARA1
  */
 CameraModeValue sSetNormal1ModeTargetData[] = {
-    { 0, CAM_DATA_Y_OFFSET },               // yOffset
-    { 250, CAM_DATA_EYE_DIST },             // distTarget
-    { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 45, CAM_DATA_FOV },                   // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0, CAM_DATA_Y_OFFSET },               
+    { 250, CAM_DATA_EYE_DIST },             
+    { 0, CAM_DATA_PITCH_TARGET },           
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 45, CAM_DATA_FOV },                   
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -931,19 +931,19 @@ CameraModeValue sSetNormal1ModeTargetData[] = {
  * DUNGEON1    FOLLOWTARGET    KEEP1
  */
 CameraModeValue sSetNormal1ModeFollowTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // unk_00
-    { 120, CAM_DATA_EYE_DIST },          // unk_04
-    { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
-    { 25, CAM_DATA_SWING_YAW_INIT },     // unk_0C
-    { 45, CAM_DATA_SWING_YAW_FINAL },    // unk_10
-    { -5, CAM_DATA_SWING_PITCH_INIT },   // unk_14
-    { 15, CAM_DATA_SWING_PITCH_FINAL },  // unk_18
-    { 15, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
-    { 45, CAM_DATA_FOV },                // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 120, CAM_DATA_EYE_DIST },          
+    { 140, CAM_DATA_EYE_DIST_NEXT },     
+    { 25, CAM_DATA_SWING_YAW_INIT },     
+    { 45, CAM_DATA_SWING_YAW_FINAL },    
+    { -5, CAM_DATA_SWING_PITCH_INIT },   
+    { 15, CAM_DATA_SWING_PITCH_FINAL },  
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2001, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
+    { -50, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -957,18 +957,18 @@ CameraModeValue sSetNormal1ModeFollowTargetData[] = {
  * NORMAL4            BATTLE    BATT1
  */
 CameraModeValue sSetNormal1ModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 250, CAM_DATA_EYE_DIST },          // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 50, CAM_DATA_FOV },                // fov
-    { 65, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 250, CAM_DATA_EYE_DIST },          
+    { 10, CAM_DATA_SWING_YAW_INIT },     
+    { 80, CAM_DATA_SWING_YAW_FINAL },    
+    { 0, CAM_DATA_SWING_PITCH_INIT },    
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 50, CAM_DATA_FOV },                
+    { 65, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -981,13 +981,13 @@ CameraModeValue sSetNormal1ModeBattleData[] = {
  * DUNGEON2    HOOKSHOT    SPEC5
  */
 CameraModeValue sSetNormal1ModeHookshotData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset
-    { 80, CAM_DATA_EYE_DIST },           // eyeDist
-    { 250, CAM_DATA_EYE_DIST_NEXT },     // minDistForRot
-    { 6, CAM_DATA_UNK_22 },              // timerInit
-    { 45, CAM_DATA_PITCH_TARGET },       // pitch
-    { 60, CAM_DATA_FOV },                // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atMaxLERPScale
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 80, CAM_DATA_EYE_DIST },           
+    { 250, CAM_DATA_EYE_DIST_NEXT },     
+    { 6, CAM_DATA_UNK_22 },              
+    { 45, CAM_DATA_PITCH_TARGET },       
+    { 60, CAM_DATA_FOV },                
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -997,13 +997,13 @@ CameraModeValue sSetNormal1ModeHookshotData[] = {
  * NORMAL1    JUMP    JUMP1
  */
 CameraModeValue sSetNormal1ModeJumpData[] = {
-    { 0, CAM_DATA_Y_OFFSET },                // atYOffset
-    { 250, CAM_DATA_EYE_DIST },              // distMin
-    { 400, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 50, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { 0, CAM_DATA_Y_OFFSET },                
+    { 250, CAM_DATA_EYE_DIST },              
+    { 400, CAM_DATA_EYE_DIST_NEXT },         
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 50, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1013,13 +1013,13 @@ CameraModeValue sSetNormal1ModeJumpData[] = {
  * NORMAL1    FREEFALL    JUMP1
  */
 CameraModeValue sSetNormal1ModeFreeFallData[] = {
-    { 0, CAM_DATA_Y_OFFSET },                // atYOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 400, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 30, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { 0, CAM_DATA_Y_OFFSET },                
+    { 200, CAM_DATA_EYE_DIST },              
+    { 400, CAM_DATA_EYE_DIST_NEXT },         
+    { 30, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1029,14 +1029,14 @@ CameraModeValue sSetNormal1ModeFreeFallData[] = {
  * NORMAL1    CLIMB    JUMP2
  */
 CameraModeValue sSetNormal1ModeClimbData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // atYOffset
-    { 200, CAM_DATA_EYE_DIST },             // minDist
-    { 400, CAM_DATA_EYE_DIST_NEXT },        // maxDist
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },   // minMaxDistFactor
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdRateTarget
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // xzUpdRateTarget
-    { 60, CAM_DATA_FOV },                   // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPStepScale
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 200, CAM_DATA_EYE_DIST },             
+    { 400, CAM_DATA_EYE_DIST_NEXT },        
+    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },   
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                   
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1046,14 +1046,14 @@ CameraModeValue sSetNormal1ModeClimbData[] = {
  * NORMAL1    CLIMBZ    JUMP2
  */
 CameraModeValue sSetNormal1ModeClimbZData[] = {
-    { -20, CAM_DATA_Y_OFFSET },               // atYOffset
-    { 250, CAM_DATA_EYE_DIST },               // minDist
-    { 400, CAM_DATA_EYE_DIST_NEXT },          // maxDist
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },     // minMaxDistFactor
-    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdRateTarget
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // xzUpdRateTarget
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPStepScale
+    { -20, CAM_DATA_Y_OFFSET },               
+    { 250, CAM_DATA_EYE_DIST },               
+    { 400, CAM_DATA_EYE_DIST_NEXT },          
+    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },     
+    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    
+    { 60, CAM_DATA_FOV },                     
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },      
     { 0x2006, CAM_DATA_FLAGS },
 };
 
@@ -1063,12 +1063,12 @@ CameraModeValue sSetNormal1ModeClimbZData[] = {
  * NORMAL1    CHARGE    BATT4
  */
 CameraModeValue sSetNormal1ModeChargeData[] = {
-    { 0, CAM_DATA_Y_OFFSET },               // yOffset
-    { 300, CAM_DATA_EYE_DIST },             // rTarget
-    { 50, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpUpdateRate
-    { 80, CAM_DATA_FOV },                   // fovTarget
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPTarget
+    { 0, CAM_DATA_Y_OFFSET },               
+    { 300, CAM_DATA_EYE_DIST },             
+    { 50, CAM_DATA_PITCH_TARGET },          
+    { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_FOV },                   
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0xF000, CAM_DATA_FLAGS },
 };
 
@@ -1078,12 +1078,12 @@ CameraModeValue sSetNormal1ModeChargeData[] = {
  * NORMAL1    HANG    UNIQ1
  */
 CameraModeValue sSetNormal1ModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },          // yOffset
-    { 200, CAM_DATA_EYE_DIST },          // distMin
-    { 400, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 60, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -80, CAM_DATA_Y_OFFSET },          
+    { 200, CAM_DATA_EYE_DIST },          
+    { 400, CAM_DATA_EYE_DIST_NEXT },     
+    { 40, CAM_DATA_PITCH_TARGET },       
+    { 60, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1093,12 +1093,12 @@ CameraModeValue sSetNormal1ModeHangData[] = {
  * NORMAL1    HANGZ    UNIQ1
  */
 CameraModeValue sSetNormal1ModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },         // yOffset
-    { 400, CAM_DATA_EYE_DIST },          // distMin
-    { 400, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 45, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -120, CAM_DATA_Y_OFFSET },         
+    { 400, CAM_DATA_EYE_DIST },          
+    { 400, CAM_DATA_EYE_DIST_NEXT },     
+    { 70, CAM_DATA_PITCH_TARGET },       
+    { 45, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -1108,15 +1108,15 @@ CameraModeValue sSetNormal1ModeHangZData[] = {
  * NORMAL1    STILL    NORM1
  */
 CameraModeValue sSetNormal1ModeStillData[] = {
-    { 0, CAM_DATA_Y_OFFSET },                 // yOffset
-    { 200, CAM_DATA_EYE_DIST },               // distMin
-    { 400, CAM_DATA_EYE_DIST_NEXT },          // distMax
-    { 10, CAM_DATA_PITCH_TARGET },            // pitchTarget
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_10
-    { 100, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 5, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleMax
+    { 0, CAM_DATA_Y_OFFSET },                 
+    { 200, CAM_DATA_EYE_DIST },               
+    { 400, CAM_DATA_EYE_DIST_NEXT },          
+    { 10, CAM_DATA_PITCH_TARGET },            
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 100, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                     
+    { 5, CAM_DATA_AT_LERP_STEP_SCALE },       
     { 0xF003, CAM_DATA_FLAGS },
 };
 
@@ -1132,15 +1132,15 @@ CameraModeValue sSetNormal1ModeStillData[] = {
  * DUNGEON0    NORMAL    NORM1
  */
 CameraModeValue sSetDungeon0ModeNormalData[] = {
-    { -10, CAM_DATA_Y_OFFSET },              // yOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 5, CAM_DATA_PITCH_TARGET },            // pitchTarget
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_10
-    { 30, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -10, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 250, CAM_DATA_EYE_DIST_NEXT },         
+    { 5, CAM_DATA_PITCH_TARGET },            
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 30, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -1152,17 +1152,17 @@ CameraModeValue sSetDungeon0ModeNormalData[] = {
  * BIG_OCTO    TARGET    PARA1
  */
 CameraModeValue sSetDungeon0ModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 150, CAM_DATA_EYE_DIST },             // distTarget
-    { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 45, CAM_DATA_FOV },                   // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 150, CAM_DATA_EYE_DIST },             
+    { 0, CAM_DATA_PITCH_TARGET },           
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 45, CAM_DATA_FOV },                   
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1173,19 +1173,19 @@ CameraModeValue sSetDungeon0ModeTargetData[] = {
  * DUNGEON2    FOLLOWTARGET    KEEP1
  */
 CameraModeValue sSetDungeon0ModeFollowTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // unk_00
-    { 120, CAM_DATA_EYE_DIST },          // unk_04
-    { 140, CAM_DATA_EYE_DIST_NEXT },     // unk_08
-    { 25, CAM_DATA_SWING_YAW_INIT },     // unk_0C
-    { 45, CAM_DATA_SWING_YAW_FINAL },    // unk_10
-    { -5, CAM_DATA_SWING_PITCH_INIT },   // unk_14
-    { 15, CAM_DATA_SWING_PITCH_FINAL },  // unk_18
-    { 15, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
-    { 45, CAM_DATA_FOV },                // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 120, CAM_DATA_EYE_DIST },          
+    { 140, CAM_DATA_EYE_DIST_NEXT },     
+    { 25, CAM_DATA_SWING_YAW_INIT },     
+    { 45, CAM_DATA_SWING_YAW_FINAL },    
+    { -5, CAM_DATA_SWING_PITCH_INIT },   
+    { 15, CAM_DATA_SWING_PITCH_FINAL },  
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2001, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1195,18 +1195,18 @@ CameraModeValue sSetDungeon0ModeFollowTargetData[] = {
  * DUNGEON1    BATTLE    BATT1
  */
 CameraModeValue sSetDungeon0ModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 180, CAM_DATA_EYE_DIST },          // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                // fov
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 180, CAM_DATA_EYE_DIST },          
+    { 10, CAM_DATA_SWING_YAW_INIT },     
+    { 80, CAM_DATA_SWING_YAW_FINAL },    
+    { 0, CAM_DATA_SWING_PITCH_INIT },    
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1216,13 +1216,13 @@ CameraModeValue sSetDungeon0ModeBattleData[] = {
  * BIG_OCTO    JUMP    JUMP1
  */
 CameraModeValue sSetDungeon0ModeJumpData[] = {
-    { -10, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 50, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -10, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 250, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 50, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1233,13 +1233,13 @@ CameraModeValue sSetDungeon0ModeJumpData[] = {
  * BIG_OCTO    FREEFALL    JUMP1
  */
 CameraModeValue sSetDungeon0ModeFreeFallData[] = {
-    { -10, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -10, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 250, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1250,14 +1250,14 @@ CameraModeValue sSetDungeon0ModeFreeFallData[] = {
  * BIG_OCTO    CLIMB    JUMP2
  */
 CameraModeValue sSetDungeon0ModeClimbData[] = {
-    { -40, CAM_DATA_Y_OFFSET },             // atYOffset
-    { 150, CAM_DATA_EYE_DIST },             // minDist
-    { 250, CAM_DATA_EYE_DIST_NEXT },        // maxDist
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },   // minMaxDistFactor
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdRateTarget
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // xzUpdRateTarget
-    { 60, CAM_DATA_FOV },                   // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPStepScale
+    { -40, CAM_DATA_Y_OFFSET },             
+    { 150, CAM_DATA_EYE_DIST },             
+    { 250, CAM_DATA_EYE_DIST_NEXT },        
+    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },   
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                   
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1268,14 +1268,14 @@ CameraModeValue sSetDungeon0ModeClimbData[] = {
  * BIG_OCTO    CLIMBZ    JUMP2
  */
 CameraModeValue sSetDungeon0ModeClimbZData[] = {
-    { -40, CAM_DATA_Y_OFFSET },               // atYOffset
-    { 250, CAM_DATA_EYE_DIST },               // minDist
-    { 250, CAM_DATA_EYE_DIST_NEXT },          // maxDist
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },     // minMaxDistFactor
-    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdRateTarget
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // xzUpdRateTarget
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPStepScale
+    { -40, CAM_DATA_Y_OFFSET },               
+    { 250, CAM_DATA_EYE_DIST },               
+    { 250, CAM_DATA_EYE_DIST_NEXT },          
+    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },     
+    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    
+    { 60, CAM_DATA_FOV },                     
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },      
     { 0x2006, CAM_DATA_FLAGS },
 };
 
@@ -1287,12 +1287,12 @@ CameraModeValue sSetDungeon0ModeClimbZData[] = {
  * BIG_OCTO      CHARGE    BATT4
  */
 CameraModeValue sSetDungeon0ModeChargeData[] = {
-    { -10, CAM_DATA_Y_OFFSET },             // yOffset
-    { 300, CAM_DATA_EYE_DIST },             // rTarget
-    { 50, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpUpdateRate
-    { 80, CAM_DATA_FOV },                   // fovTarget
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPTarget
+    { -10, CAM_DATA_Y_OFFSET },             
+    { 300, CAM_DATA_EYE_DIST },             
+    { 50, CAM_DATA_PITCH_TARGET },          
+    { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_FOV },                   
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0xF000, CAM_DATA_FLAGS },
 };
 
@@ -1303,12 +1303,12 @@ CameraModeValue sSetDungeon0ModeChargeData[] = {
  * BIG_OCTO    HANG    UNIQ1
  */
 CameraModeValue sSetDungeon0ModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },          // yOffset
-    { 150, CAM_DATA_EYE_DIST },          // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 60, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -80, CAM_DATA_Y_OFFSET },          
+    { 150, CAM_DATA_EYE_DIST },          
+    { 250, CAM_DATA_EYE_DIST_NEXT },     
+    { 40, CAM_DATA_PITCH_TARGET },       
+    { 60, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1319,12 +1319,12 @@ CameraModeValue sSetDungeon0ModeHangData[] = {
  * BIG_OCTO    HANGZ    UNIQ1
  */
 CameraModeValue sSetDungeon0ModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },         // yOffset
-    { 250, CAM_DATA_EYE_DIST },          // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 45, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -120, CAM_DATA_Y_OFFSET },         
+    { 250, CAM_DATA_EYE_DIST },          
+    { 250, CAM_DATA_EYE_DIST_NEXT },     
+    { 70, CAM_DATA_PITCH_TARGET },       
+    { 45, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -1334,15 +1334,15 @@ CameraModeValue sSetDungeon0ModeHangZData[] = {
  * DUNGEON0    STILL    NORM1
  */
 CameraModeValue sSetDungeon0ModeStillData[] = {
-    { -10, CAM_DATA_Y_OFFSET },               // yOffset
-    { 150, CAM_DATA_EYE_DIST },               // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },          // distMax
-    { 5, CAM_DATA_PITCH_TARGET },             // pitchTarget
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // unk_10
-    { 100, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 5, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleMax
+    { -10, CAM_DATA_Y_OFFSET },               
+    { 150, CAM_DATA_EYE_DIST },               
+    { 250, CAM_DATA_EYE_DIST_NEXT },          
+    { 5, CAM_DATA_PITCH_TARGET },             
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    
+    { 100, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                     
+    { 5, CAM_DATA_AT_LERP_STEP_SCALE },       
     { 0xF003, CAM_DATA_FLAGS },
 };
 
@@ -1358,15 +1358,15 @@ CameraModeValue sSetDungeon0ModeStillData[] = {
  * DUNGEON1    NORMAL    NORM1
  */
 CameraModeValue sSetDungeon1ModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },              // yOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 150, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 0, CAM_DATA_PITCH_TARGET },            // pitchTarget
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_10
-    { 30, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -40, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 150, CAM_DATA_EYE_DIST_NEXT },         
+    { 0, CAM_DATA_PITCH_TARGET },            
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 30, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -1376,17 +1376,17 @@ CameraModeValue sSetDungeon1ModeNormalData[] = {
  * DUNGEON1    TALK    KEEP3
  */
 CameraModeValue sSetDungeon1ModeTalkData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 70, CAM_DATA_EYE_DIST },               // minDist
-    { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
-    { 40, CAM_DATA_SWING_YAW_INIT },         // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },        // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },        // swingPitchInitial
-    { 5, CAM_DATA_SWING_PITCH_FINAL },       // swingPitchFinal
-    { 70, CAM_DATA_SWING_PITCH_ADJ },        // swingPitchAdj
-    { 45, CAM_DATA_FOV },                    // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 70, CAM_DATA_EYE_DIST },               
+    { 200, CAM_DATA_EYE_DIST_NEXT },         
+    { 40, CAM_DATA_SWING_YAW_INIT },         
+    { 10, CAM_DATA_SWING_YAW_FINAL },        
+    { 0, CAM_DATA_SWING_PITCH_INIT },        
+    { 5, CAM_DATA_SWING_PITCH_FINAL },       
+    { 70, CAM_DATA_SWING_PITCH_ADJ },        
+    { 45, CAM_DATA_FOV },                    
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
     { 0x3500, CAM_DATA_FLAGS },
 };
 
@@ -1396,13 +1396,13 @@ CameraModeValue sSetDungeon1ModeTalkData[] = {
  * DUNGEON1    JUMP    JUMP1
  */
 CameraModeValue sSetDungeon1ModeJumpData[] = {
-    { -40, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 150, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 50, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -40, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 150, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 50, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1412,13 +1412,13 @@ CameraModeValue sSetDungeon1ModeJumpData[] = {
  * DUNGEON1    FREEFALL    JUMP1
  */
 CameraModeValue sSetDungeon1ModeFreeFallData[] = {
-    { -40, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 180, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -40, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 180, CAM_DATA_EYE_DIST_NEXT },         
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1428,14 +1428,14 @@ CameraModeValue sSetDungeon1ModeFreeFallData[] = {
  * DUNGEON1    CLIMB    JUMP2
  */
 CameraModeValue sSetDungeon1ModeClimbData[] = {
-    { -40, CAM_DATA_Y_OFFSET },             // atYOffset
-    { 150, CAM_DATA_EYE_DIST },             // minDist
-    { 150, CAM_DATA_EYE_DIST_NEXT },        // maxDist
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },   // minMaxDistFactor
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdRateTarget
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // xzUpdRateTarget
-    { 60, CAM_DATA_FOV },                   // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPStepScale
+    { -40, CAM_DATA_Y_OFFSET },             
+    { 150, CAM_DATA_EYE_DIST },             
+    { 150, CAM_DATA_EYE_DIST_NEXT },        
+    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },   
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                   
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1445,14 +1445,14 @@ CameraModeValue sSetDungeon1ModeClimbData[] = {
  * DUNGEON1    CLIMBZ    JUMP2
  */
 CameraModeValue sSetDungeon1ModeClimbZData[] = {
-    { -40, CAM_DATA_Y_OFFSET },               // atYOffset
-    { 150, CAM_DATA_EYE_DIST },               // minDist
-    { 150, CAM_DATA_EYE_DIST_NEXT },          // maxDist
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },     // minMaxDistFactor
-    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdRateTarget
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // xzUpdRateTarget
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPStepScale
+    { -40, CAM_DATA_Y_OFFSET },               
+    { 150, CAM_DATA_EYE_DIST },               
+    { 150, CAM_DATA_EYE_DIST_NEXT },          
+    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },     
+    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    
+    { 60, CAM_DATA_FOV },                     
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },      
     { 0x2006, CAM_DATA_FLAGS },
 };
 
@@ -1462,12 +1462,12 @@ CameraModeValue sSetDungeon1ModeClimbZData[] = {
  * DUNGEON1    CHARGE    BATT4
  */
 CameraModeValue sSetDungeon1ModeChargeData[] = {
-    { -40, CAM_DATA_Y_OFFSET },             // yOffset
-    { 200, CAM_DATA_EYE_DIST },             // rTarget
-    { 50, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpUpdateRate
-    { 80, CAM_DATA_FOV },                   // fovTarget
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPTarget
+    { -40, CAM_DATA_Y_OFFSET },             
+    { 200, CAM_DATA_EYE_DIST },             
+    { 50, CAM_DATA_PITCH_TARGET },          
+    { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_FOV },                   
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0xF000, CAM_DATA_FLAGS },
 };
 
@@ -1477,12 +1477,12 @@ CameraModeValue sSetDungeon1ModeChargeData[] = {
  * DUNGEON1    HANG    UNIQ1
  */
 CameraModeValue sSetDungeon1ModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },          // yOffset */
-    { 150, CAM_DATA_EYE_DIST },          // distMin */
-    { 150, CAM_DATA_EYE_DIST_NEXT },     // distMax */
-    { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget */
-    { 60, CAM_DATA_FOV },                // fovTarget */
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax */
+    { -80, CAM_DATA_Y_OFFSET },           
+    { 150, CAM_DATA_EYE_DIST },           
+    { 150, CAM_DATA_EYE_DIST_NEXT },      
+    { 40, CAM_DATA_PITCH_TARGET },        
+    { 60, CAM_DATA_FOV },                 
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE },  
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -1492,12 +1492,12 @@ CameraModeValue sSetDungeon1ModeHangData[] = {
  * DUNGEON1    HANGZ    UNIQ1
  */
 CameraModeValue sSetDungeon1ModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },         // yOffset
-    { 150, CAM_DATA_EYE_DIST },          // distMin
-    { 150, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 45, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -120, CAM_DATA_Y_OFFSET },         
+    { 150, CAM_DATA_EYE_DIST },          
+    { 150, CAM_DATA_EYE_DIST_NEXT },     
+    { 70, CAM_DATA_PITCH_TARGET },       
+    { 45, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -1507,15 +1507,15 @@ CameraModeValue sSetDungeon1ModeHangZData[] = {
  * DUNGEON1    STILL    NORM1
  */
 CameraModeValue sSetDungeon1ModeStillData[] = {
-    { -40, CAM_DATA_Y_OFFSET },               // yOffset
-    { 150, CAM_DATA_EYE_DIST },               // distMin
-    { 150, CAM_DATA_EYE_DIST_NEXT },          // distMax
-    { 0, CAM_DATA_PITCH_TARGET },             // pitchTarget
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // unk_10
-    { 100, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 5, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleMax
+    { -40, CAM_DATA_Y_OFFSET },               
+    { 150, CAM_DATA_EYE_DIST },               
+    { 150, CAM_DATA_EYE_DIST_NEXT },          
+    { 0, CAM_DATA_PITCH_TARGET },             
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    
+    { 100, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                     
+    { 5, CAM_DATA_AT_LERP_STEP_SCALE },       
     { 0xF003, CAM_DATA_FLAGS },
 };
 
@@ -1525,17 +1525,17 @@ CameraModeValue sSetDungeon1ModeStillData[] = {
  * DUNGEON1    PUSHPULL    PARA1
  */
 CameraModeValue sSetDungeon1ModePushPullData[] = {
-    { -40, CAM_DATA_Y_OFFSET },             // yOffset
-    { 180, CAM_DATA_EYE_DIST },             // distTarget
-    { 25, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 60, CAM_DATA_FOV },                   // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -40, CAM_DATA_Y_OFFSET },             
+    { 180, CAM_DATA_EYE_DIST },             
+    { 25, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                   
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x206A, CAM_DATA_FLAGS },
-    { -20, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -20, CAM_DATA_GROUND_Y_OFFSET },          
+    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1550,15 +1550,15 @@ CameraModeValue sSetDungeon1ModePushPullData[] = {
  * NORMAL3    NORMAL    JUMP3
  */
 CameraModeValue sSetNormal3ModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 280, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 20, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // swingUpdateRate
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_1C
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 280, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 20, CAM_DATA_PITCH_TARGET },           
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0004, CAM_DATA_FLAGS },
 };
 
@@ -1568,17 +1568,17 @@ CameraModeValue sSetNormal3ModeNormalData[] = {
  * NORMAL3    TARGET    PARA1
  */
 CameraModeValue sSetNormal3ModeTargetData[] = {
-    { -50, CAM_DATA_Y_OFFSET },              // yOffset
-    { 250, CAM_DATA_EYE_DIST },              // distTarget
-    { 70, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },              // yawTarget
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_0C
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -50, CAM_DATA_Y_OFFSET },              
+    { 250, CAM_DATA_EYE_DIST },              
+    { 70, CAM_DATA_PITCH_TARGET },           
+    { 0, CAM_DATA_YAW_TARGET },              
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 60, CAM_DATA_FOV },                    
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x200A, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -50, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1587,17 +1587,17 @@ CameraModeValue sSetNormal3ModeTargetData[] = {
  * NORMAL3    TALK    KEEP3
  */
 CameraModeValue sSetNormal3ModeTalkData[] = {
-    { -30, CAM_DATA_Y_OFFSET },              // yOffset
-    { 70, CAM_DATA_EYE_DIST },               // minDist
-    { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
-    { 40, CAM_DATA_SWING_YAW_INIT },         // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },        // swingYawFinal
-    { 10, CAM_DATA_SWING_PITCH_INIT },       // swingPitchInitial
-    { 20, CAM_DATA_SWING_PITCH_FINAL },      // swingPitchFinal
-    { 70, CAM_DATA_SWING_PITCH_ADJ },        // swingPitchAdj
-    { 45, CAM_DATA_FOV },                    // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
+    { -30, CAM_DATA_Y_OFFSET },              
+    { 70, CAM_DATA_EYE_DIST },               
+    { 200, CAM_DATA_EYE_DIST_NEXT },         
+    { 40, CAM_DATA_SWING_YAW_INIT },         
+    { 10, CAM_DATA_SWING_YAW_FINAL },        
+    { 10, CAM_DATA_SWING_PITCH_INIT },       
+    { 20, CAM_DATA_SWING_PITCH_FINAL },      
+    { 70, CAM_DATA_SWING_PITCH_ADJ },        
+    { 45, CAM_DATA_FOV },                    
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE },     
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
     { 0x3500, CAM_DATA_FLAGS },
 };
 
@@ -1610,15 +1610,15 @@ CameraModeValue sSetNormal3ModeBoomerangData[] = {
     /* These values are for when the eye
      * >= OREG(45) units below the surface of the water.
      */
-    { -40, CAM_DATA_Y_OFFSET },              // yOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { -5, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 18, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // swingUpdateRate
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_10
-    { 60, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // unk_1C
+    { -40, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 250, CAM_DATA_EYE_DIST_NEXT },         
+    { -5, CAM_DATA_PITCH_TARGET },           
+    { 18, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 60, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0005, CAM_DATA_FLAGS },
 };
 
@@ -1634,14 +1634,14 @@ CameraModeValue sSetNormal3ModeBoomerangData[] = {
  * HORSE      NORMAL    NORM3
  */
 CameraModeValue sSetHorseModeNormalData[] = {
-    { -50, CAM_DATA_Y_OFFSET },              // yOffset
-    { 220, CAM_DATA_EYE_DIST },              // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateSpeed
-    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // maxAtLERPScale
+    { -50, CAM_DATA_Y_OFFSET },              
+    { 220, CAM_DATA_EYE_DIST },              
+    { 250, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_PITCH_TARGET },           
+    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                    
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0600, CAM_DATA_FLAGS },
 };
 
@@ -1651,14 +1651,14 @@ CameraModeValue sSetHorseModeNormalData[] = {
  * HORSE      TARGET    NORM3
  */
 CameraModeValue sSetHorseModeTargetData[] = {
-    { -40, CAM_DATA_Y_OFFSET },              // yOffset
-    { 180, CAM_DATA_EYE_DIST },              // distMin
-    { 220, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { -2, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateSpeed
-    { 100, CAM_DATA_XZ_UPDATE_RATE_TARGET }, // unk_10
-    { 45, CAM_DATA_FOV },                    // fovTarget
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // maxAtLERPScale
+    { -40, CAM_DATA_Y_OFFSET },              
+    { 180, CAM_DATA_EYE_DIST },              
+    { 220, CAM_DATA_EYE_DIST_NEXT },         
+    { -2, CAM_DATA_PITCH_TARGET },           
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 100, CAM_DATA_XZ_UPDATE_RATE_TARGET }, 
+    { 45, CAM_DATA_FOV },                    
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x2600, CAM_DATA_FLAGS },
 };
 
@@ -1668,14 +1668,14 @@ CameraModeValue sSetHorseModeTargetData[] = {
  * HORSE      BOWARROW    SUBJ3
  */
 CameraModeValue sSetHorseModeBowArrowData[] = {
-    { -7, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
-    { 14, CAM_DATA_EYE_DIST },               // eyeDist
-    { 100, CAM_DATA_EYE_DIST_NEXT },         // eyeNextDist
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 0, CAM_DATA_AT_OFFSET_X },             // atOffset.x
-    { -30, CAM_DATA_AT_OFFSET_Y },           // atOffset.y
-    { -5, CAM_DATA_AT_OFFSET_Z },            // atOffset.z
-    { 40, CAM_DATA_FOV },                    // fovTarget
+    { -7, CAM_DATA_Y_OFFSET },               
+    { 14, CAM_DATA_EYE_DIST },               
+    { 100, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 0, CAM_DATA_AT_OFFSET_X },             
+    { -30, CAM_DATA_AT_OFFSET_Y },           
+    { -5, CAM_DATA_AT_OFFSET_Z },            
+    { 40, CAM_DATA_FOV },                    
     { 0x2600, CAM_DATA_FLAGS },
 };
 
@@ -1685,19 +1685,19 @@ CameraModeValue sSetHorseModeBowArrowData[] = {
  * HORSE      FOLLOWTARGET    KEEP1
  */
 CameraModeValue sSetHorseModeFollowTargetData[] = {
-    { -60, CAM_DATA_Y_OFFSET },          // unk_00
-    { 180, CAM_DATA_EYE_DIST },          // unk_04
-    { 220, CAM_DATA_EYE_DIST_NEXT },     // unk_08
-    { 25, CAM_DATA_SWING_YAW_INIT },     // unk_0C
-    { 45, CAM_DATA_SWING_YAW_FINAL },    // unk_10
-    { -5, CAM_DATA_SWING_PITCH_INIT },   // unk_14
-    { 15, CAM_DATA_SWING_PITCH_FINAL },  // unk_18
-    { 15, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
-    { 45, CAM_DATA_FOV },                // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { -60, CAM_DATA_Y_OFFSET },          
+    { 180, CAM_DATA_EYE_DIST },          
+    { 220, CAM_DATA_EYE_DIST_NEXT },     
+    { 25, CAM_DATA_SWING_YAW_INIT },     
+    { 45, CAM_DATA_SWING_YAW_FINAL },    
+    { -5, CAM_DATA_SWING_PITCH_INIT },   
+    { 15, CAM_DATA_SWING_PITCH_FINAL },  
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2601, CAM_DATA_FLAGS },
-    { -60, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
+    { -60, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1706,17 +1706,17 @@ CameraModeValue sSetHorseModeFollowTargetData[] = {
  * HORSE      TALK    KEEP3
  */
 CameraModeValue sSetHorseModeTalkData[] = {
-    { -60, CAM_DATA_Y_OFFSET },              // yOffset
-    { 140, CAM_DATA_EYE_DIST },              // minDist
-    { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
-    { 40, CAM_DATA_SWING_YAW_INIT },         // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },        // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },        // swingPitchInitial
-    { 5, CAM_DATA_SWING_PITCH_FINAL },       // swingPitchFinal
-    { 70, CAM_DATA_SWING_PITCH_ADJ },        // swingPitchAdj
-    { 45, CAM_DATA_FOV },                    // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
+    { -60, CAM_DATA_Y_OFFSET },              
+    { 140, CAM_DATA_EYE_DIST },              
+    { 200, CAM_DATA_EYE_DIST_NEXT },         
+    { 40, CAM_DATA_SWING_YAW_INIT },         
+    { 10, CAM_DATA_SWING_YAW_FINAL },        
+    { 0, CAM_DATA_SWING_PITCH_INIT },        
+    { 5, CAM_DATA_SWING_PITCH_FINAL },       
+    { 70, CAM_DATA_SWING_PITCH_ADJ },        
+    { 45, CAM_DATA_FOV },                    
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
     { 0x3500, CAM_DATA_FLAGS },
 };
 
@@ -1732,15 +1732,15 @@ CameraModeValue sSetHorseModeTalkData[] = {
  * BOSS_GOHMA    NORMAL    NORM1
  */
 CameraModeValue sSetBossGohmaModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 0, CAM_DATA_PITCH_TARGET },            // pitchTarget
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 250, CAM_DATA_EYE_DIST_NEXT },         
+    { 0, CAM_DATA_PITCH_TARGET },            
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0001, CAM_DATA_FLAGS },
 };
 
@@ -1750,18 +1750,18 @@ CameraModeValue sSetBossGohmaModeNormalData[] = {
  * BOSS_GOHMA    BATTLE    BATT1
  */
 CameraModeValue sSetBossGohmaModeBattleData[] = {
-    { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 150, CAM_DATA_EYE_DIST },          // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 40, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { -10, CAM_DATA_SWING_PITCH_INIT },  // swingPitchInitial
-    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 60, CAM_DATA_FOV },                // fov
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -30, CAM_DATA_Y_OFFSET },          
+    { 150, CAM_DATA_EYE_DIST },          
+    { 10, CAM_DATA_SWING_YAW_INIT },     
+    { 40, CAM_DATA_SWING_YAW_FINAL },    
+    { -10, CAM_DATA_SWING_PITCH_INIT },  
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 60, CAM_DATA_FOV },                
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },      // yOffsetOffGround (PCT)
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -50, CAM_DATA_GROUND_Y_OFFSET },      
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1776,15 +1776,15 @@ CameraModeValue sSetBossGohmaModeBattleData[] = {
  * BOSS_DODONGO    NORMAL    NORM1
  */
 CameraModeValue sSetBossDodongoModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },                // yOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 0, CAM_DATA_PITCH_TARGET },            // pitchTarget
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_10
-    { 70, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 70, CAM_DATA_FOV },                    // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { 0, CAM_DATA_Y_OFFSET },                
+    { 150, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 0, CAM_DATA_PITCH_TARGET },            
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 70, CAM_DATA_MAX_YAW_UPDATE },         
+    { 70, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -1794,18 +1794,18 @@ CameraModeValue sSetBossDodongoModeNormalData[] = {
  * BOSS_DODONGO    BATTLE    BATT1
  */
 CameraModeValue sSetBossDodongoModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 160, CAM_DATA_EYE_DIST },          // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 60, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { -5, CAM_DATA_SWING_PITCH_INIT },   // swingPitchInitial
-    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 70, CAM_DATA_FOV },                // fov
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 160, CAM_DATA_EYE_DIST },          
+    { 10, CAM_DATA_SWING_YAW_INIT },     
+    { 60, CAM_DATA_SWING_YAW_FINAL },    
+    { -5, CAM_DATA_SWING_PITCH_INIT },   
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 70, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1820,15 +1820,15 @@ CameraModeValue sSetBossDodongoModeBattleData[] = {
  * BOSS_BARINADE    NORMAL    NORM1
  */
 CameraModeValue sSetBossBarinadeModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { -5, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 70, CAM_DATA_FOV },                    // fovTarget
-    { 70, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { -5, CAM_DATA_PITCH_TARGET },           
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 70, CAM_DATA_FOV },                    
+    { 70, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -1838,18 +1838,18 @@ CameraModeValue sSetBossBarinadeModeNormalData[] = {
  * BOSS_BARINADE    BATTLE    BATT1
  */
 CameraModeValue sSetBossBarinadeModeBattleData[] = {
-    { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 125, CAM_DATA_EYE_DIST },          // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
-    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
-    { 50, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 60, CAM_DATA_FOV },                // fov
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -30, CAM_DATA_Y_OFFSET },          
+    { 125, CAM_DATA_EYE_DIST },          
+    { 10, CAM_DATA_SWING_YAW_INIT },     
+    { 10, CAM_DATA_SWING_YAW_FINAL },    
+    { 0, CAM_DATA_SWING_PITCH_INIT },    
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   
+    { 50, CAM_DATA_SWING_PITCH_ADJ },    
+    { 60, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -50, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1864,15 +1864,15 @@ CameraModeValue sSetBossBarinadeModeBattleData[] = {
  * BOSS_PHANTOM_GANON    NORMAL    NORM1
  */
 CameraModeValue sSetBossPhantomGanonModeNormalData[] = {
-    { 10, CAM_DATA_Y_OFFSET },               // yOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 0, CAM_DATA_PITCH_TARGET },            // pitchTarget
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 15, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPScaleMax
+    { 10, CAM_DATA_Y_OFFSET },               
+    { 150, CAM_DATA_EYE_DIST },              
+    { 250, CAM_DATA_EYE_DIST_NEXT },         
+    { 0, CAM_DATA_PITCH_TARGET },            
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 15, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -1882,18 +1882,18 @@ CameraModeValue sSetBossPhantomGanonModeNormalData[] = {
  * BOSS_PHANTOM_GANON    BATTLE    BATT1
  */
 CameraModeValue sSetBossPhantomGanonModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },           // yOffset (PCT)
-    { 200, CAM_DATA_EYE_DIST },           // distance
-    { 45, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
-    { 40, CAM_DATA_SWING_YAW_FINAL },     // swingYawFinal
-    { 5, CAM_DATA_SWING_PITCH_INIT },     // swingPitchInitial
-    { -5, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
-    { 35, CAM_DATA_SWING_PITCH_ADJ },     // swingPitchAdj (PCT)
-    { 60, CAM_DATA_FOV },                 // fov
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },           
+    { 200, CAM_DATA_EYE_DIST },           
+    { 45, CAM_DATA_SWING_YAW_INIT },      
+    { 40, CAM_DATA_SWING_YAW_FINAL },     
+    { 5, CAM_DATA_SWING_PITCH_INIT },     
+    { -5, CAM_DATA_SWING_PITCH_FINAL },   
+    { 35, CAM_DATA_SWING_PITCH_ADJ },     
+    { 60, CAM_DATA_FOV },                 
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 60, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 60, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1908,15 +1908,15 @@ CameraModeValue sSetBossPhantomGanonModeBattleData[] = {
  * BOSS_VOLVAGIA    NORMAL    NORM1
  */
 CameraModeValue sSetBossVolvagiaModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 500, CAM_DATA_EYE_DIST },              // distMin
-    { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 500, CAM_DATA_EYE_DIST },              
+    { 500, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_PITCH_TARGET },           
+    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -1926,18 +1926,18 @@ CameraModeValue sSetBossVolvagiaModeNormalData[] = {
  * BOSS_VOLVAGIA    BATTLE    BATT1
  */
 CameraModeValue sSetBossVolvagiaModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 200, CAM_DATA_EYE_DIST },          // distance
-    { 20, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 60, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
-    { 15, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                // fov
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 200, CAM_DATA_EYE_DIST },          
+    { 20, CAM_DATA_SWING_YAW_INIT },     
+    { 60, CAM_DATA_SWING_YAW_FINAL },    
+    { 0, CAM_DATA_SWING_PITCH_INIT },    
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1952,15 +1952,15 @@ CameraModeValue sSetBossVolvagiaModeBattleData[] = {
  * BOSS_BONGO    NORMAL    NORM1
  */
 CameraModeValue sSetBossBongoModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 500, CAM_DATA_EYE_DIST },              // distMin
-    { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 500, CAM_DATA_EYE_DIST },              
+    { 500, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0083, CAM_DATA_FLAGS },
 };
 
@@ -1970,18 +1970,18 @@ CameraModeValue sSetBossBongoModeNormalData[] = {
  * BOSS_BONGO    BATTLE    BATT1
  */
 CameraModeValue sSetBossBongoModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 200, CAM_DATA_EYE_DIST },          // distance
-    { 20, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 60, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
-    { 15, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                // fov
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 200, CAM_DATA_EYE_DIST },          
+    { 20, CAM_DATA_SWING_YAW_INIT },     
+    { 60, CAM_DATA_SWING_YAW_FINAL },    
+    { 0, CAM_DATA_SWING_PITCH_INIT },    
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  
+    { 15, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2082, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -1991,15 +1991,15 @@ CameraModeValue sSetBossBongoModeBattleData[] = {
  * BOSS_BONGO    FREEFALL    NORM1
  */
 CameraModeValue sSetBossBongoModeJumpData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 500, CAM_DATA_EYE_DIST },              // distMin
-    { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 500, CAM_DATA_EYE_DIST },              
+    { 500, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0083, CAM_DATA_FLAGS },
 };
 
@@ -2015,15 +2015,15 @@ CameraModeValue sSetBossBongoModeJumpData[] = {
  * BOSS_MORPHA    NORMAL    NORM1
  */
 CameraModeValue sSetBossMorphaModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 100, CAM_DATA_EYE_DIST },              // distMin
-    { 150, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { -10, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 80, CAM_DATA_FOV },                    // fovTarget
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 100, CAM_DATA_EYE_DIST },              
+    { 150, CAM_DATA_EYE_DIST_NEXT },         
+    { -10, CAM_DATA_PITCH_TARGET },          
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 80, CAM_DATA_FOV },                    
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -2033,18 +2033,18 @@ CameraModeValue sSetBossMorphaModeNormalData[] = {
  * BOSS_MORPHA    BATTLE    BATT1
  */
 CameraModeValue sSetBossMorphaModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 200, CAM_DATA_EYE_DIST },          // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { -10, CAM_DATA_SWING_PITCH_INIT },  // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 70, CAM_DATA_FOV },                // fov
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 200, CAM_DATA_EYE_DIST },          
+    { 10, CAM_DATA_SWING_YAW_INIT },     
+    { 80, CAM_DATA_SWING_YAW_FINAL },    
+    { -10, CAM_DATA_SWING_PITCH_INIT },  
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 70, CAM_DATA_FOV },                
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -2059,15 +2059,15 @@ CameraModeValue sSetBossMorphaModeBattleData[] = {
  * BOSS_TWINROVA_PLATFORM    NORMAL    NORM1
  */
 CameraModeValue sSetBossTwinrovaPlatformModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 0, CAM_DATA_PITCH_TARGET },            // pitchTarget
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 0, CAM_DATA_PITCH_TARGET },            
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -2078,18 +2078,18 @@ CameraModeValue sSetBossTwinrovaPlatformModeNormalData[] = {
  * BOSS_TWINROVA_FLOOR       BATTLE    BATT1
  */
 CameraModeValue sSetBossTwinrovaModeBattleData[] = {
-    { 0, CAM_DATA_Y_OFFSET },            // yOffset (PCT)
-    { 400, CAM_DATA_EYE_DIST },          // distance
-    { 0, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
-    { 60, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { -10, CAM_DATA_SWING_PITCH_INIT },  // swingPitchInitial
-    { 5, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                // fov
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { 0, CAM_DATA_Y_OFFSET },            
+    { 400, CAM_DATA_EYE_DIST },          
+    { 0, CAM_DATA_SWING_YAW_INIT },      
+    { 60, CAM_DATA_SWING_YAW_FINAL },    
+    { -10, CAM_DATA_SWING_PITCH_INIT },  
+    { 5, CAM_DATA_SWING_PITCH_FINAL },   
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -20, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -20, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -2098,15 +2098,15 @@ CameraModeValue sSetBossTwinrovaModeBattleData[] = {
  * BOSS_TWINROVA_FLOOR    NORMAL    NORM1
  */
 CameraModeValue sSetBossTwinrovaFloorModeNormalData[] = {
-    { -10, CAM_DATA_Y_OFFSET },              // yOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 200, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { -10, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -10, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 200, CAM_DATA_EYE_DIST_NEXT },         
+    { -10, CAM_DATA_PITCH_TARGET },          
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -2122,15 +2122,15 @@ CameraModeValue sSetBossTwinrovaFloorModeNormalData[] = {
  * BOSS_GANONDORF    NORMAL    NORM1
  */
 CameraModeValue sSetBossGanondorfModeNormalData[] = {
-    { 40, CAM_DATA_Y_OFFSET },               // yOffset
-    { 330, CAM_DATA_EYE_DIST },              // distMin
-    { 330, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { -5, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 15, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPScaleMax
+    { 40, CAM_DATA_Y_OFFSET },               
+    { 330, CAM_DATA_EYE_DIST },              
+    { 330, CAM_DATA_EYE_DIST_NEXT },         
+    { -5, CAM_DATA_PITCH_TARGET },           
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 15, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2140,12 +2140,12 @@ CameraModeValue sSetBossGanondorfModeNormalData[] = {
  * BOSS_GANONDORF    CHARGE    BATT4
  */
 CameraModeValue sSetBossGanondorfModeChargeData[] = {
-    { -40, CAM_DATA_Y_OFFSET },             // yOffset
-    { 250, CAM_DATA_EYE_DIST },             // rTarget
-    { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpUpdateRate
-    { 80, CAM_DATA_FOV },                   // fovTarget
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPTarget
+    { -40, CAM_DATA_Y_OFFSET },             
+    { 250, CAM_DATA_EYE_DIST },             
+    { 0, CAM_DATA_PITCH_TARGET },           
+    { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_FOV },                   
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0xF000, CAM_DATA_FLAGS },
 };
 
@@ -2161,15 +2161,15 @@ CameraModeValue sSetBossGanondorfModeChargeData[] = {
  * BOSS_GANON    NORMAL    NORM1
  */
 CameraModeValue sSetBossGanonModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 500, CAM_DATA_EYE_DIST },              // distMin
-    { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 40, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 500, CAM_DATA_EYE_DIST },              
+    { 500, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 40, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -2179,18 +2179,18 @@ CameraModeValue sSetBossGanonModeNormalData[] = {
  * BOSS_GANON    BATTLE    BATT1
  */
 CameraModeValue sSetBossGanonModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 180, CAM_DATA_EYE_DIST },          // distance
-    { 20, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 60, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                // fov
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 180, CAM_DATA_EYE_DIST },          
+    { 20, CAM_DATA_SWING_YAW_INIT },     
+    { 60, CAM_DATA_SWING_YAW_FINAL },    
+    { 0, CAM_DATA_SWING_PITCH_INIT },    
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -2205,14 +2205,14 @@ CameraModeValue sSetBossGanonModeBattleData[] = {
  * TOWER_CLIMB    NORMAL    NORM2
  */
 CameraModeValue sSetTowerClimbModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },               // unk_00
-    { 120, CAM_DATA_EYE_DIST },             // unk_04
-    { 280, CAM_DATA_EYE_DIST_NEXT },        // unk_08
-    { 60, CAM_DATA_UNK_23 },                // unk_1C
-    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 40, CAM_DATA_MAX_YAW_UPDATE },        // unk_10
-    { 60, CAM_DATA_FOV },                   // unk_14
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_18
+    { 0, CAM_DATA_Y_OFFSET },               
+    { 120, CAM_DATA_EYE_DIST },             
+    { 280, CAM_DATA_EYE_DIST_NEXT },        
+    { 60, CAM_DATA_UNK_23 },                
+    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 40, CAM_DATA_MAX_YAW_UPDATE },        
+    { 60, CAM_DATA_FOV },                   
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2222,14 +2222,14 @@ CameraModeValue sSetTowerClimbModeNormalData[] = {
  * TOWER_CLIMB    JUMP    NORM2
  */
 CameraModeValue sSetTowerClimbModeJumpData[] = {
-    { 0, CAM_DATA_Y_OFFSET },               // unk_00
-    { 120, CAM_DATA_EYE_DIST },             // unk_04
-    { 280, CAM_DATA_EYE_DIST_NEXT },        // unk_08
-    { 60, CAM_DATA_UNK_23 },                // unk_1C
-    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 40, CAM_DATA_MAX_YAW_UPDATE },        // unk_10
-    { 60, CAM_DATA_FOV },                   // unk_14
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_18
+    { 0, CAM_DATA_Y_OFFSET },               
+    { 120, CAM_DATA_EYE_DIST },             
+    { 280, CAM_DATA_EYE_DIST_NEXT },        
+    { 60, CAM_DATA_UNK_23 },                
+    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 40, CAM_DATA_MAX_YAW_UPDATE },        
+    { 60, CAM_DATA_FOV },                   
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0080, CAM_DATA_FLAGS },
 };
 
@@ -2245,14 +2245,14 @@ CameraModeValue sSetTowerClimbModeJumpData[] = {
  * TOWER_UNUSED    NORMAL    NORM2
  */
 CameraModeValue sSetTowerUnusedModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },               // unk_00
-    { 270, CAM_DATA_EYE_DIST },             // unk_04
-    { 300, CAM_DATA_EYE_DIST_NEXT },        // unk_08
-    { 120, CAM_DATA_UNK_23 },               // unk_1C
-    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 60, CAM_DATA_MAX_YAW_UPDATE },        // unk_10
-    { 60, CAM_DATA_FOV },                   // unk_14
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },   // unk_18
+    { 0, CAM_DATA_Y_OFFSET },               
+    { 270, CAM_DATA_EYE_DIST },             
+    { 300, CAM_DATA_EYE_DIST_NEXT },        
+    { 120, CAM_DATA_UNK_23 },               
+    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 60, CAM_DATA_MAX_YAW_UPDATE },        
+    { 60, CAM_DATA_FOV },                   
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE },   
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2262,14 +2262,14 @@ CameraModeValue sSetTowerUnusedModeNormalData[] = {
  * TOWER_UNUSED    JUMP    NORM2
  */
 CameraModeValue sSetTowerUnusedModeJumpData[] = {
-    { 0, CAM_DATA_Y_OFFSET },               // unk_00
-    { 270, CAM_DATA_EYE_DIST },             // unk_04
-    { 300, CAM_DATA_EYE_DIST_NEXT },        // unk_08
-    { 120, CAM_DATA_UNK_23 },               // unk_1C
-    { 6, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 60, CAM_DATA_MAX_YAW_UPDATE },        // unk_10
-    { 60, CAM_DATA_FOV },                   // unk_14
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },   // unk_18
+    { 0, CAM_DATA_Y_OFFSET },               
+    { 270, CAM_DATA_EYE_DIST },             
+    { 300, CAM_DATA_EYE_DIST_NEXT },        
+    { 120, CAM_DATA_UNK_23 },               
+    { 6, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 60, CAM_DATA_MAX_YAW_UPDATE },        
+    { 60, CAM_DATA_FOV },                   
+    { 100, CAM_DATA_AT_LERP_STEP_SCALE },   
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2285,9 +2285,9 @@ CameraModeValue sSetTowerUnusedModeJumpData[] = {
  * MARKET_BALCONY    NORMAL    FIXD1
  */
 CameraModeValue sSetMarketBalconyModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },               // yOffset
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
-    { 60, CAM_DATA_FOV },                     // fov
+    { -40, CAM_DATA_Y_OFFSET },               
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 60, CAM_DATA_FOV },                     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2297,9 +2297,9 @@ CameraModeValue sSetMarketBalconyModeNormalData[] = {
  * MARKET_BALCONY    FOLLOWTARGET    FIXD1
  */
 CameraModeValue sSetMarketBalconyModeFollowTargetData[] = {
-    { -40, CAM_DATA_Y_OFFSET },               // yOffset
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
-    { 60, CAM_DATA_FOV },                     // fov
+    { -40, CAM_DATA_Y_OFFSET },               
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 60, CAM_DATA_FOV },                     
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -2309,9 +2309,9 @@ CameraModeValue sSetMarketBalconyModeFollowTargetData[] = {
  * MARKET_BALCONY    TALK    FIXD1
  */
 CameraModeValue sSetMarketBalconyModeTalkData[] = {
-    { -40, CAM_DATA_Y_OFFSET },               // yOffset
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
-    { 60, CAM_DATA_FOV },                     // fov
+    { -40, CAM_DATA_Y_OFFSET },               
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 60, CAM_DATA_FOV },                     
     { 0x3500, CAM_DATA_FLAGS },
 };
 
@@ -2327,9 +2327,9 @@ CameraModeValue sSetMarketBalconyModeTalkData[] = {
  * CHU_BOWLING    NORMAL    FIXD1
  */
 CameraModeValue sSetChuBowlingModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },              // yOffset
-    { 25, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpStep
-    { 60, CAM_DATA_FOV },                    // fov
+    { -40, CAM_DATA_Y_OFFSET },              
+    { 25, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 60, CAM_DATA_FOV },                    
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2345,10 +2345,10 @@ CameraModeValue sSetChuBowlingModeNormalData[] = {
  * PIVOT_CRAWLSPACE    NORMAL    FIXD2
  */
 CameraModeValue sSetPivotCrawlspaceModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },              // yOffset
-    { 50, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // eyeStepScale
-    { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // posStepScale
-    { 60, CAM_DATA_FOV },                    // fov
+    { -40, CAM_DATA_Y_OFFSET },              
+    { 50, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                    
     { 0x0001, CAM_DATA_FLAGS },
 };
 
@@ -2364,8 +2364,8 @@ CameraModeValue sSetPivotCrawlspaceModeNormalData[] = {
  * PIVOT_SHOP_BROWSING    NORMAL    DATA4
  */
 CameraModeValue sSetPivotShopBrowsingModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET }, // yOffset
-    { 60, CAM_DATA_FOV },       // fov
+    { -40, CAM_DATA_Y_OFFSET }, 
+    { 60, CAM_DATA_FOV },       
     { 0x3F00, CAM_DATA_FLAGS },
 };
 
@@ -2383,10 +2383,10 @@ CameraModeValue sSetPivotShopBrowsingModeNormalData[] = {
  * PIVOT_FROM_SIDE    FOLLOWTARGET    FIXD4
  */
 CameraModeValue sSetPivotInFrontAndFromSideModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },              // yOffset
-    { 50, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // speedToEyePos
-    { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // followSpeed
-    { 60, CAM_DATA_FOV },                    // fov
+    { -40, CAM_DATA_Y_OFFSET },              
+    { 50, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                    
     { 0x0004, CAM_DATA_FLAGS },
 };
 
@@ -2436,7 +2436,7 @@ CameraModeValue sSetPrerendFixedModeFollowTargetData[] = {
  * PREREND_PIVOT    NORMAL    UNIQ7
  */
 CameraModeValue sSetPrerendPivotModeNormalData[] = {
-    { 60, CAM_DATA_FOV }, // fov
+    { 60, CAM_DATA_FOV }, 
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2446,7 +2446,7 @@ CameraModeValue sSetPrerendPivotModeNormalData[] = {
  * PREREND_PIVOT    FOLLOWTARGET    UNIQ7
  */
 CameraModeValue sSetPrerendPivotModeFollowTargetData[] = {
-    { 60, CAM_DATA_FOV }, // fov
+    { 60, CAM_DATA_FOV }, 
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -2458,7 +2458,7 @@ CameraModeValue sSetPrerendPivotModeFollowTargetData[] = {
 CameraModeValue sSetPrerendPivotModeTalkData[] = {
     { 30, CAM_DATA_FOV_SCALE },
     { 0, CAM_DATA_YAW_SCALE },
-    { 4, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // timerInit
+    { 4, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
     { 0x3500, CAM_DATA_FLAGS },
 };
 
@@ -2474,8 +2474,8 @@ CameraModeValue sSetPrerendPivotModeTalkData[] = {
  * DOOR0      NORMAL    UNIQ3
  */
 CameraModeValue sSetDoor0ModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET }, // yOffset
-    { 60, CAM_DATA_FOV },       // fov
+    { -40, CAM_DATA_Y_OFFSET }, 
+    { 60, CAM_DATA_FOV },       
     { 0x3200, CAM_DATA_FLAGS },
 };
 
@@ -2491,8 +2491,8 @@ CameraModeValue sSetDoor0ModeNormalData[] = {
  * DOORC      NORMAL    SPEC9
  */
 CameraModeValue sSetDoorCModeNormalData[] = {
-    { -5, CAM_DATA_Y_OFFSET }, // yOffset
-    { 60, CAM_DATA_FOV },      // unk_04 (unused)
+    { -5, CAM_DATA_Y_OFFSET }, 
+    { 60, CAM_DATA_FOV },       (unused)
     { 0x3202, CAM_DATA_FLAGS },
 };
 
@@ -2502,8 +2502,8 @@ CameraModeValue sSetDoorCModeNormalData[] = {
  * DOORC      TARGET    SPEC9
  */
 CameraModeValue sSetDoorCModeTargetData[] = {
-    { -5, CAM_DATA_Y_OFFSET }, // yOffset
-    { 60, CAM_DATA_FOV },      // unk_04 (unused)
+    { -5, CAM_DATA_Y_OFFSET }, 
+    { 60, CAM_DATA_FOV },       (unused)
     { 0x320A, CAM_DATA_FLAGS },
 };
 
@@ -2519,7 +2519,7 @@ CameraModeValue sSetDoorCModeTargetData[] = {
  * CRAWLSPACE    NORMAL    SUBJ4 (Camera_Subj4 only reads one setting which is used for flags)
  */
 CameraModeValue sSetCrawlspaceModeNormalData[] = {
-    { 0x0000, CAM_DATA_Y_OFFSET },                // flags
+    { 0x0000, CAM_DATA_Y_OFFSET },           // flags
     { 2, CAM_DATA_EYE_DIST },                // unused
     { 30, CAM_DATA_EYE_DIST_NEXT },          // unused
     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unused
@@ -2584,10 +2584,10 @@ CameraModeValue sSetFree1ModeNormalData[] = {
  * PIVOT_CORNER    NORMAL    FIXD2
  */
 CameraModeValue sSetPivotCornerModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },               // yOffset
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // eyeStepScale
-    { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // posStepScale
-    { 60, CAM_DATA_FOV },                     // fov
+    { -40, CAM_DATA_Y_OFFSET },               
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 60, CAM_DATA_FOV },                     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2603,9 +2603,9 @@ CameraModeValue sSetPivotCornerModeNormalData[] = {
  * PIVOT_WATER_SURFACE    NORMAL    UNIQ2
  */
 CameraModeValue sSetPivotWaterSurfaceModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET }, // yOffset
-    { 60, CAM_DATA_EYE_DIST },  // distTarget
-    { 60, CAM_DATA_FOV },       // fovTarget
+    { -40, CAM_DATA_Y_OFFSET }, 
+    { 60, CAM_DATA_EYE_DIST },  
+    { 60, CAM_DATA_FOV },       
     { 0x0002, CAM_DATA_FLAGS },
 };
 
@@ -2615,9 +2615,9 @@ CameraModeValue sSetPivotWaterSurfaceModeNormalData[] = {
  * PIVOT_WATER_SURFACE    TARGET    UNIQ2
  */
 CameraModeValue sSetPivotWaterSurfaceModeTargetData[] = {
-    { -30, CAM_DATA_Y_OFFSET }, // yOffset
-    { 45, CAM_DATA_EYE_DIST },  // distTarget
-    { 100, CAM_DATA_FOV },      // fovTarget
+    { -30, CAM_DATA_Y_OFFSET }, 
+    { 45, CAM_DATA_EYE_DIST },  
+    { 100, CAM_DATA_FOV },      
     { 0x2001, CAM_DATA_FLAGS },
 };
 
@@ -2653,17 +2653,17 @@ CameraModeValue sDataOnlyInterfaceFlags[] = {
  * FOREST_BIRDS_EYE    NORMAL    PARA1
  */
 CameraModeValue sSetForestBirdsEyeModeNormalData[] = {
-    { -50, CAM_DATA_Y_OFFSET },             // yOffset
-    { 450, CAM_DATA_EYE_DIST },             // distTarget
-    { 40, CAM_DATA_PITCH_TARGET },          // pitchTarget3
-    { 180, CAM_DATA_YAW_TARGET },           // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 70, CAM_DATA_FOV },                   // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -50, CAM_DATA_Y_OFFSET },             
+    { 450, CAM_DATA_EYE_DIST },             
+    { 40, CAM_DATA_PITCH_TARGET },          3
+    { 180, CAM_DATA_YAW_TARGET },           
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 70, CAM_DATA_FOV },                   
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x000C, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -50, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -2688,8 +2688,8 @@ CameraModeValue sSetForestBirdsEyeModeTalkData[] = {
  * ITEM_UNUSED      NORMAL    CS_ATTENTION (not actually used in Camera_Demo4)
  */
 CameraModeValue sSetSlowChestCsModeNormalData[] = {
-    { 60, CAM_DATA_FOV },                // fov
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_04
+    { 60, CAM_DATA_FOV },                
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x3200, CAM_DATA_FLAGS },
 };
 
@@ -2720,15 +2720,15 @@ CameraModeValue sSetCs3ModeNormalData[] = {
  * BEAN_GENERIC    NORMAL    NORM1
  */
 CameraModeValue sSetBeanGenericModeNormalData[] = {
-    { -50, CAM_DATA_Y_OFFSET },              // yOffset
-    { 300, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 50, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 50, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 70, CAM_DATA_FOV },                    // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -50, CAM_DATA_Y_OFFSET },              
+    { 300, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 50, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 50, CAM_DATA_MAX_YAW_UPDATE },         
+    { 70, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0002, CAM_DATA_FLAGS },
 };
 
@@ -2738,17 +2738,17 @@ CameraModeValue sSetBeanGenericModeNormalData[] = {
  * BEAN_GENERIC    TARGET    PARA1
  */
 CameraModeValue sSetBeanGenericModeTargetData[] = {
-    { -50, CAM_DATA_Y_OFFSET },             // yOffset
-    { 300, CAM_DATA_EYE_DIST },             // distTarget
-    { 10, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 45, CAM_DATA_FOV },                   // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -50, CAM_DATA_Y_OFFSET },             
+    { 300, CAM_DATA_EYE_DIST },             
+    { 10, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 45, CAM_DATA_FOV },                   
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -2757,13 +2757,13 @@ CameraModeValue sSetBeanGenericModeTargetData[] = {
  * BEAN_GENERIC    JUMP    JUMP1
  */
 CameraModeValue sSetBeanGenericModeJumpData[] = {
-    { -50, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 300, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 35, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -50, CAM_DATA_Y_OFFSET },              
+    { 300, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 35, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2773,12 +2773,12 @@ CameraModeValue sSetBeanGenericModeJumpData[] = {
  * BEAN_GENERIC    HANG    UNIQ1
  */
 CameraModeValue sSetBeanGenericModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },          // yOffset
-    { 300, CAM_DATA_EYE_DIST },          // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 60, CAM_DATA_PITCH_TARGET },       // fovTarget
-    { 70, CAM_DATA_FOV },                // pitchTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -80, CAM_DATA_Y_OFFSET },          
+    { 300, CAM_DATA_EYE_DIST },          
+    { 300, CAM_DATA_EYE_DIST_NEXT },     
+    { 60, CAM_DATA_PITCH_TARGET },       
+    { 70, CAM_DATA_FOV },                
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2788,12 +2788,12 @@ CameraModeValue sSetBeanGenericModeHangData[] = {
  * BEAN_GENERIC    HANGZ    UNIQ1
  */
 CameraModeValue sSetBeanGenericModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },         // yOffset
-    { 300, CAM_DATA_EYE_DIST },          // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 50, CAM_DATA_FOV },                // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -120, CAM_DATA_Y_OFFSET },         
+    { 300, CAM_DATA_EYE_DIST },          
+    { 300, CAM_DATA_EYE_DIST_NEXT },     
+    { 70, CAM_DATA_PITCH_TARGET },       
+    { 50, CAM_DATA_FOV },                
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -2803,15 +2803,15 @@ CameraModeValue sSetBeanGenericModeHangZData[] = {
  * BEAN_GENERIC    STILL    NORM1
  */
 CameraModeValue sSetBeanGenericModeStillData[] = {
-    { -20, CAM_DATA_Y_OFFSET },               // yOffset
-    { 300, CAM_DATA_EYE_DIST },               // distMin
-    { 350, CAM_DATA_EYE_DIST_NEXT },          // distMax
-    { 50, CAM_DATA_PITCH_TARGET },            // pitchTarget
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_10
-    { 100, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 70, CAM_DATA_FOV },                     // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },               
+    { 300, CAM_DATA_EYE_DIST },               
+    { 350, CAM_DATA_EYE_DIST_NEXT },          
+    { 50, CAM_DATA_PITCH_TARGET },            
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 100, CAM_DATA_MAX_YAW_UPDATE },         
+    { 70, CAM_DATA_FOV },                     
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE },      
     { 0xF002, CAM_DATA_FLAGS },
 };
 
@@ -2827,15 +2827,15 @@ CameraModeValue sSetBeanGenericModeStillData[] = {
  * BEAN_LOST_WOODS    NORMAL    NORM1
  */
 CameraModeValue sSetBeanLostWoodsModeNormalData[] = {
-    { -50, CAM_DATA_Y_OFFSET },              // yOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 200, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 20, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 50, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -50, CAM_DATA_Y_OFFSET },              
+    { 200, CAM_DATA_EYE_DIST },              
+    { 200, CAM_DATA_EYE_DIST_NEXT },         
+    { 20, CAM_DATA_PITCH_TARGET },           
+    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 50, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0002, CAM_DATA_FLAGS },
 };
 
@@ -2845,17 +2845,17 @@ CameraModeValue sSetBeanLostWoodsModeNormalData[] = {
  * BEAN_LOST_WOODS    TARGET    PARA1
  */
 CameraModeValue sSetBeanLostWoodsModeTargetData[] = {
-    { -50, CAM_DATA_Y_OFFSET },             // yOffset
-    { 200, CAM_DATA_EYE_DIST },             // distTarget
-    { 40, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 45, CAM_DATA_FOV },                   // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -50, CAM_DATA_Y_OFFSET },             
+    { 200, CAM_DATA_EYE_DIST },             
+    { 40, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 45, CAM_DATA_FOV },                   
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -2864,13 +2864,13 @@ CameraModeValue sSetBeanLostWoodsModeTargetData[] = {
  * BEAN_LOST_WOODS    JUMP    JUMP1
  */
 CameraModeValue sSetBeanLostWoodsModeJumpData[] = {
-    { -50, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 150, CAM_DATA_EYE_DIST },              // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 35, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -50, CAM_DATA_Y_OFFSET },              
+    { 150, CAM_DATA_EYE_DIST },              
+    { 250, CAM_DATA_EYE_DIST_NEXT },         
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 35, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2880,12 +2880,12 @@ CameraModeValue sSetBeanLostWoodsModeJumpData[] = {
  * BEAN_LOST_WOODS    HANG    UNIQ1
  */
 CameraModeValue sSetBeanLostWoodsModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },          // yOffset
-    { 200, CAM_DATA_EYE_DIST },          // distMin
-    { 200, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 60, CAM_DATA_FOV },                // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -80, CAM_DATA_Y_OFFSET },          
+    { 200, CAM_DATA_EYE_DIST },          
+    { 200, CAM_DATA_EYE_DIST_NEXT },     
+    { 40, CAM_DATA_PITCH_TARGET },       
+    { 60, CAM_DATA_FOV },                
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -2895,12 +2895,12 @@ CameraModeValue sSetBeanLostWoodsModeHangData[] = {
  * BEAN_LOST_WOODS    HANGZ    UNIQ1
  */
 CameraModeValue sSetBeanLostWoodsModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },         // yOffset
-    { 200, CAM_DATA_EYE_DIST },          // distMin
-    { 200, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 60, CAM_DATA_PITCH_TARGET },       // pitchtarget
-    { 50, CAM_DATA_FOV },                // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -120, CAM_DATA_Y_OFFSET },         
+    { 200, CAM_DATA_EYE_DIST },          
+    { 200, CAM_DATA_EYE_DIST_NEXT },     
+    { 60, CAM_DATA_PITCH_TARGET },       target
+    { 50, CAM_DATA_FOV },                
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -2910,15 +2910,15 @@ CameraModeValue sSetBeanLostWoodsModeHangZData[] = {
  * BEAN_LOST_WOODS    STILL    NORM1
  */
 CameraModeValue sSetBeanLostWoodsModeStillData[] = {
-    { -20, CAM_DATA_Y_OFFSET },               // yOffset
-    { 200, CAM_DATA_EYE_DIST },               // distMin
-    { 250, CAM_DATA_EYE_DIST_NEXT },          // distMax
-    { 20, CAM_DATA_PITCH_TARGET },            // unk_0C
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_14
-    { 100, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },               
+    { 200, CAM_DATA_EYE_DIST },               
+    { 250, CAM_DATA_EYE_DIST_NEXT },          
+    { 20, CAM_DATA_PITCH_TARGET },            
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 100, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                     
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE },      
     { 0xF002, CAM_DATA_FLAGS },
 };
 
@@ -2934,8 +2934,8 @@ CameraModeValue sSetBeanLostWoodsModeStillData[] = {
  * SCENE_UNUSED    NORMAL    SPEC9
  */
 CameraModeValue sSetSceneUnusedModeNormalData[] = {
-    { -30, CAM_DATA_Y_OFFSET }, // yOffset
-    { 60, CAM_DATA_FOV },       // unk_04 (unused)
+    { -30, CAM_DATA_Y_OFFSET }, 
+    { 60, CAM_DATA_FOV },        (unused)
     { 0x10A, CAM_DATA_FLAGS },
 };
 
@@ -2951,9 +2951,9 @@ CameraModeValue sSetSceneUnusedModeNormalData[] = {
  * SCENE_TRANSITION    NORMAL    UNIQ2
  */
 CameraModeValue sSetSceneTransitionModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET }, // yOffset
-    { 150, CAM_DATA_EYE_DIST }, // distTarget
-    { 60, CAM_DATA_FOV },       // fovTarget
+    { -20, CAM_DATA_Y_OFFSET }, 
+    { 150, CAM_DATA_EYE_DIST }, 
+    { 60, CAM_DATA_FOV },       
     { 0x0210, CAM_DATA_FLAGS },
 };
 
@@ -2969,15 +2969,15 @@ CameraModeValue sSetSceneTransitionModeNormalData[] = {
  * BIG_OCTO    NORMAL    NORM1
  */
 CameraModeValue sSetBigOctoModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },                // yOffset
-    { 400, CAM_DATA_EYE_DIST },              // distMin
-    { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 35, CAM_DATA_PITCH_TARGET },           // unk_0C
-    { 14, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_14
-    { 20, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { 0, CAM_DATA_Y_OFFSET },                
+    { 400, CAM_DATA_EYE_DIST },              
+    { 500, CAM_DATA_EYE_DIST_NEXT },         
+    { 35, CAM_DATA_PITCH_TARGET },           
+    { 14, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 20, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0012, CAM_DATA_FLAGS },
 };
 
@@ -2987,18 +2987,18 @@ CameraModeValue sSetBigOctoModeNormalData[] = {
  * BIG_OCTO    BATTLE    BATT1
  */
 CameraModeValue sSetBigOctoModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 250, CAM_DATA_EYE_DIST },          // distance
-    { 5, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { 30, CAM_DATA_SWING_PITCH_INIT },   // swingPitchInitial
-    { 20, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                // fov
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 250, CAM_DATA_EYE_DIST },          
+    { 5, CAM_DATA_SWING_YAW_INIT },      
+    { 10, CAM_DATA_SWING_YAW_FINAL },    
+    { 30, CAM_DATA_SWING_PITCH_INIT },   
+    { 20, CAM_DATA_SWING_PITCH_FINAL },  
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3007,15 +3007,15 @@ CameraModeValue sSetBigOctoModeBattleData[] = {
  * BIG_OCTO    STILL    NORM1
  */
 CameraModeValue sSetBigOctoModeStillData[] = {
-    { 0, CAM_DATA_Y_OFFSET },               // yOffset
-    { 300, CAM_DATA_EYE_DIST },             // distMin
-    { 500, CAM_DATA_EYE_DIST_NEXT },        // distMax
-    { 60, CAM_DATA_PITCH_TARGET },          // unk_0C
-    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_14
-    { 60, CAM_DATA_MAX_YAW_UPDATE },        // pitchTarget
-    { 60, CAM_DATA_FOV },                   // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPScaleMax
+    { 0, CAM_DATA_Y_OFFSET },               
+    { 300, CAM_DATA_EYE_DIST },             
+    { 500, CAM_DATA_EYE_DIST_NEXT },        
+    { 60, CAM_DATA_PITCH_TARGET },          
+    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_MAX_YAW_UPDATE },        
+    { 60, CAM_DATA_FOV },                   
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0012, CAM_DATA_FLAGS },
 };
 
@@ -3031,15 +3031,15 @@ CameraModeValue sSetBigOctoModeStillData[] = {
  * MEADOW_BIRDS_EYE    NORMAL    NORM1
  */
 CameraModeValue sSetMeadowBirdsEyeModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 500, CAM_DATA_EYE_DIST },              // distMin
-    { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 80, CAM_DATA_PITCH_TARGET },           // unk_0C
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_14
-    { 70, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 70, CAM_DATA_FOV },                    // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 500, CAM_DATA_EYE_DIST },              
+    { 500, CAM_DATA_EYE_DIST_NEXT },         
+    { 80, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 70, CAM_DATA_MAX_YAW_UPDATE },         
+    { 70, CAM_DATA_FOV },                    
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0012, CAM_DATA_FLAGS },
 };
 
@@ -3049,17 +3049,17 @@ CameraModeValue sSetMeadowBirdsEyeModeNormalData[] = {
  * MEADOW_BIRDS_EYE    TARGET    PARA1
  */
 CameraModeValue sSetMeadowBirdsEyeModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 500, CAM_DATA_EYE_DIST },             // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 70, CAM_DATA_FOV },                   // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 500, CAM_DATA_EYE_DIST },             
+    { 80, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 70, CAM_DATA_FOV },                   
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x201A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3068,17 +3068,17 @@ CameraModeValue sSetMeadowBirdsEyeModeTargetData[] = {
  * MEADOW_BIRDS_EYE    BATTLE    PARA1
  */
 CameraModeValue sSetMeadowBirdsEyeModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 500, CAM_DATA_EYE_DIST },             // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 60, CAM_DATA_FOV },                   // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 500, CAM_DATA_EYE_DIST },             
+    { 80, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                   
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x201A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3087,15 +3087,15 @@ CameraModeValue sSetMeadowBirdsEyeModeBattleData[] = {
  * MEADOW_BIRDS_EYE    CLIMB    NORM1
  */
 CameraModeValue sSetMeadowBirdsEyeModeClimbData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 500, CAM_DATA_EYE_DIST },              // distMin
-    { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 80, CAM_DATA_PITCH_TARGET },           // unk_0C
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_14
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 500, CAM_DATA_EYE_DIST },              
+    { 500, CAM_DATA_EYE_DIST_NEXT },         
+    { 80, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0012, CAM_DATA_FLAGS },
 };
 
@@ -3111,15 +3111,15 @@ CameraModeValue sSetMeadowBirdsEyeModeClimbData[] = {
  * MEADOW_UNUSED    NORMAL    NORM1
  */
 CameraModeValue sSetMeadowUnusedModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 750, CAM_DATA_EYE_DIST },              // distMin
-    { 750, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 80, CAM_DATA_PITCH_TARGET },           // unk_0C
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_14
-    { 70, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 70, CAM_DATA_FOV },                    // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 750, CAM_DATA_EYE_DIST },              
+    { 750, CAM_DATA_EYE_DIST_NEXT },         
+    { 80, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 70, CAM_DATA_MAX_YAW_UPDATE },         
+    { 70, CAM_DATA_FOV },                    
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0012, CAM_DATA_FLAGS },
 };
 
@@ -3129,17 +3129,17 @@ CameraModeValue sSetMeadowUnusedModeNormalData[] = {
  * MEADOW_UNUSED    TARGET    PARA1
  */
 CameraModeValue sSetMeadowUnusedModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 750, CAM_DATA_EYE_DIST },             // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 70, CAM_DATA_FOV },                   // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 750, CAM_DATA_EYE_DIST },             
+    { 80, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 70, CAM_DATA_FOV },                   
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x201A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3148,17 +3148,17 @@ CameraModeValue sSetMeadowUnusedModeTargetData[] = {
  * MEADOW_UNUSED    BATTLE    PARA1
  */
 CameraModeValue sSetMeadowUnusedModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 750, CAM_DATA_EYE_DIST },             // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 70, CAM_DATA_FOV },                   // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 750, CAM_DATA_EYE_DIST },             
+    { 80, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 70, CAM_DATA_FOV },                   
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3167,15 +3167,15 @@ CameraModeValue sSetMeadowUnusedModeBattleData[] = {
  * MEADOW_UNUSED    CLIMB    NORM1
  */
 CameraModeValue sSetMeadowUnusedModeClimbData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 750, CAM_DATA_EYE_DIST },              // distMin
-    { 750, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 80, CAM_DATA_PITCH_TARGET },           // unk_0C
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_14
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 70, CAM_DATA_FOV },                    // fovTarget
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 750, CAM_DATA_EYE_DIST },              
+    { 750, CAM_DATA_EYE_DIST_NEXT },         
+    { 80, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 70, CAM_DATA_FOV },                    
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0012, CAM_DATA_FLAGS },
 };
 
@@ -3191,15 +3191,15 @@ CameraModeValue sSetMeadowUnusedModeClimbData[] = {
  * FIRE_BIRDS_EYE    NORMAL    NORM1
  */
 CameraModeValue sSetFireBirdsEyeModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 500, CAM_DATA_EYE_DIST },              // distMin
-    { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 80, CAM_DATA_PITCH_TARGET },           // unk_0C
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_14
-    { 70, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 70, CAM_DATA_FOV },                    // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 500, CAM_DATA_EYE_DIST },              
+    { 500, CAM_DATA_EYE_DIST_NEXT },         
+    { 80, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 70, CAM_DATA_MAX_YAW_UPDATE },         
+    { 70, CAM_DATA_FOV },                    
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0002, CAM_DATA_FLAGS },
 };
 
@@ -3209,17 +3209,17 @@ CameraModeValue sSetFireBirdsEyeModeNormalData[] = {
  * FIRE_BIRDS_EYE    TARGET    PARA1
  */
 CameraModeValue sSetFireBirdsEyeModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 500, CAM_DATA_EYE_DIST },             // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 70, CAM_DATA_FOV },                   // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 500, CAM_DATA_EYE_DIST },             
+    { 80, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 70, CAM_DATA_FOV },                   
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3228,17 +3228,17 @@ CameraModeValue sSetFireBirdsEyeModeTargetData[] = {
  * FIRE_BIRDS_EYE    BATTLE    PARA1
  */
 CameraModeValue sSetFireBirdsEyeModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 500, CAM_DATA_EYE_DIST },             // distTarget
-    { 80, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 60, CAM_DATA_FOV },                   // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 500, CAM_DATA_EYE_DIST },             
+    { 80, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                   
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3247,15 +3247,15 @@ CameraModeValue sSetFireBirdsEyeModeBattleData[] = {
  * FIRE_BIRDS_EYE    CLIMB    NORM1
  */
 CameraModeValue sSetFireBirdsEyeModeClimbData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 500, CAM_DATA_EYE_DIST },              // distMin
-    { 500, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 80, CAM_DATA_PITCH_TARGET },           // unk_0C
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_14
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 500, CAM_DATA_EYE_DIST },              
+    { 500, CAM_DATA_EYE_DIST_NEXT },         
+    { 80, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0002, CAM_DATA_FLAGS },
 };
 
@@ -3271,14 +3271,14 @@ CameraModeValue sSetFireBirdsEyeModeClimbData[] = {
  * TURN_AROUND    NORMAL    KEEP4
  */
 CameraModeValue sSetTurnAroundModeNormalData[] = {
-    { -30, CAM_DATA_Y_OFFSET },                                              // unk_00
-    { 120, CAM_DATA_EYE_DIST },                                              // unk_04
-    { -10, CAM_DATA_PITCH_TARGET },                                          // unk_08
-    { 170, CAM_DATA_YAW_TARGET },                                            // unk_0C
-    { 0, CAM_DATA_AT_OFFSET_Z },                                             // unk_10
-    { 60, CAM_DATA_FOV },                                                    // unk_18
-    { 0x2502, CAM_DATA_FLAGS },     { 25, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_14
-    { 6, CAM_DATA_UNK_22 },                                                  // unk_1E
+    { -30, CAM_DATA_Y_OFFSET },                                              
+    { 120, CAM_DATA_EYE_DIST },                                              
+    { -10, CAM_DATA_PITCH_TARGET },                                          
+    { 170, CAM_DATA_YAW_TARGET },                                            
+    { 0, CAM_DATA_AT_OFFSET_Z },                                             
+    { 60, CAM_DATA_FOV },                                                    
+    { 0x2502, CAM_DATA_FLAGS },     { 25, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 6, CAM_DATA_UNK_22 },                                                  
 };
 
 /**
@@ -3293,7 +3293,7 @@ CameraModeValue sSetTurnAroundModeNormalData[] = {
  * PIVOT_VERTICAL    NORMAL    SPEC0
  */
 CameraModeValue sSetPivotVerticalModeNormalData[] = {
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // lerpATScale
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
     { 0x3200, CAM_DATA_FLAGS },
 };
 
@@ -3310,15 +3310,15 @@ CameraModeValue sSetPivotVerticalModeNormalData[] = {
  * NORMAL4    NORMAL    NORM1
  */
 CameraModeValue sSetNormal2and4ModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_10
-    { 35, CAM_DATA_MAX_YAW_UPDATE },         // unk_14
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 200, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_PITCH_TARGET },           
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 35, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0002, CAM_DATA_FLAGS },
 };
 
@@ -3334,15 +3334,15 @@ CameraModeValue sSetNormal2and4ModeNormalData[] = {
  * FISHING    NORMAL    NORM1
  */
 CameraModeValue sSetFishingModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },                // yOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 20, CAM_DATA_PITCH_TARGET },           // unk_0C
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_14
-    { 35, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 55, CAM_DATA_FOV },                    // fovTarget
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { 0, CAM_DATA_Y_OFFSET },                
+    { 200, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 20, CAM_DATA_PITCH_TARGET },           
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 35, CAM_DATA_MAX_YAW_UPDATE },         
+    { 55, CAM_DATA_FOV },                    
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0F02, CAM_DATA_FLAGS },
 };
 
@@ -3352,17 +3352,17 @@ CameraModeValue sSetFishingModeNormalData[] = {
  * FISHING    TARGET    PARA1
  */
 CameraModeValue sSetFishingModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 250, CAM_DATA_EYE_DIST },             // distTarget
-    { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 45, CAM_DATA_FOV },                   // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 250, CAM_DATA_EYE_DIST },             
+    { 0, CAM_DATA_PITCH_TARGET },           
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 45, CAM_DATA_FOV },                   
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x2F0A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3372,18 +3372,18 @@ CameraModeValue sSetFishingModeTargetData[] = {
  * FISHING    BATTLE          BATT1
  */
 CameraModeValue sSetFishingModeFollowTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 250, CAM_DATA_EYE_DIST },          // distance
-    { 0, CAM_DATA_SWING_YAW_INIT },      // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
-    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 55, CAM_DATA_FOV },                // fov
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 250, CAM_DATA_EYE_DIST },          
+    { 0, CAM_DATA_SWING_YAW_INIT },      
+    { 80, CAM_DATA_SWING_YAW_FINAL },    
+    { 0, CAM_DATA_SWING_PITCH_INIT },    
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 55, CAM_DATA_FOV },                
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2F02, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3392,17 +3392,17 @@ CameraModeValue sSetFishingModeFollowTargetData[] = {
  * FISHING    TALK    KEEP3
  */
 CameraModeValue sSetFishingModeTalkData[] = {
-    { -30, CAM_DATA_Y_OFFSET },              // yOffset
-    { 70, CAM_DATA_EYE_DIST },               // minDist
-    { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
-    { 40, CAM_DATA_SWING_YAW_INIT },         // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },        // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },        // swingPitchInitial
-    { 5, CAM_DATA_SWING_PITCH_FINAL },       // swingPitchFinal
-    { 70, CAM_DATA_SWING_PITCH_ADJ },        // swingPitchAdj
-    { 45, CAM_DATA_FOV },                    // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
+    { -30, CAM_DATA_Y_OFFSET },              
+    { 70, CAM_DATA_EYE_DIST },               
+    { 200, CAM_DATA_EYE_DIST_NEXT },         
+    { 40, CAM_DATA_SWING_YAW_INIT },         
+    { 10, CAM_DATA_SWING_YAW_FINAL },        
+    { 0, CAM_DATA_SWING_PITCH_INIT },        
+    { 5, CAM_DATA_SWING_PITCH_FINAL },       
+    { 70, CAM_DATA_SWING_PITCH_ADJ },        
+    { 45, CAM_DATA_FOV },                    
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
     { 0x3F20, CAM_DATA_FLAGS },
 };
 
@@ -3412,14 +3412,14 @@ CameraModeValue sSetFishingModeTalkData[] = {
  * FISHING    FIRSTPERSON    SUBJ3
  */
 CameraModeValue sSetFishingModeFirstPersonData[] = {
-    { 0, CAM_DATA_Y_OFFSET },                // eyeNextYOffset
-    { 5, CAM_DATA_EYE_DIST },                // eyeDist
-    { 50, CAM_DATA_EYE_DIST_NEXT },          // eyeNextDist
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_0C
-    { 0, CAM_DATA_AT_OFFSET_X },             // atOffset.x
-    { 0, CAM_DATA_AT_OFFSET_Y },             // atOffset.y
-    { 0, CAM_DATA_AT_OFFSET_Z },             // atOffset.z
-    { 45, CAM_DATA_FOV },                    // fovTarget
+    { 0, CAM_DATA_Y_OFFSET },                
+    { 5, CAM_DATA_EYE_DIST },                
+    { 50, CAM_DATA_EYE_DIST_NEXT },          
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 0, CAM_DATA_AT_OFFSET_X },             
+    { 0, CAM_DATA_AT_OFFSET_Y },             
+    { 0, CAM_DATA_AT_OFFSET_Z },             
+    { 45, CAM_DATA_FOV },                    
     { 0x0F00, CAM_DATA_FLAGS },
 };
 
@@ -3429,13 +3429,13 @@ CameraModeValue sSetFishingModeFirstPersonData[] = {
  * FISHING    JUMP    JUMP1
  */
 CameraModeValue sSetFishingModeJumpData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 35, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 200, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 35, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0F00, CAM_DATA_FLAGS },
 };
 
@@ -3445,13 +3445,13 @@ CameraModeValue sSetFishingModeJumpData[] = {
  * FISHING    FREEFALL    JUMP1
  */
 CameraModeValue sSetFishingModeFreeFallData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 200, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0F00, CAM_DATA_FLAGS },
 };
 
@@ -3461,12 +3461,12 @@ CameraModeValue sSetFishingModeFreeFallData[] = {
  * FISHING    HANG    UNIQ1
  */
 CameraModeValue sSetFishingModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },          // yOffset
-    { 200, CAM_DATA_EYE_DIST },          // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 60, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -80, CAM_DATA_Y_OFFSET },          
+    { 200, CAM_DATA_EYE_DIST },          
+    { 300, CAM_DATA_EYE_DIST_NEXT },     
+    { 40, CAM_DATA_PITCH_TARGET },       
+    { 60, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x0F00, CAM_DATA_FLAGS },
 };
 
@@ -3476,12 +3476,12 @@ CameraModeValue sSetFishingModeHangData[] = {
  * FISHING    HANGZ    UNIQ1
  */
 CameraModeValue sSetFishingModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },         // yOffset
-    { 300, CAM_DATA_EYE_DIST },          // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 45, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -120, CAM_DATA_Y_OFFSET },         
+    { 300, CAM_DATA_EYE_DIST },          
+    { 300, CAM_DATA_EYE_DIST_NEXT },     
+    { 70, CAM_DATA_PITCH_TARGET },       
+    { 45, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2F00, CAM_DATA_FLAGS },
 };
 
@@ -3512,15 +3512,15 @@ CameraModeValue sSetCsCModeNormalData[] = {
  * JABU_TENTACLE    NORMAL    NORM1
  */
 CameraModeValue sSetJabuTentacleModeNormalData[] = {
-    { 30, CAM_DATA_Y_OFFSET },               // yOffset
-    { 200, CAM_DATA_EYE_DIST },              // distMin
-    { 300, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { -20, CAM_DATA_PITCH_TARGET },          // unk_0C
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 5, CAM_DATA_UNK_26 },                  // unk_14
-    { 50, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 70, CAM_DATA_FOV },                    // fovTarget
-    { 70, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { 30, CAM_DATA_Y_OFFSET },               
+    { 200, CAM_DATA_EYE_DIST },              
+    { 300, CAM_DATA_EYE_DIST_NEXT },         
+    { -20, CAM_DATA_PITCH_TARGET },          
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_UNK_26 },                  
+    { 50, CAM_DATA_MAX_YAW_UPDATE },         
+    { 70, CAM_DATA_FOV },                    
+    { 70, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -3530,18 +3530,18 @@ CameraModeValue sSetJabuTentacleModeNormalData[] = {
  * JABU_TENTACLE    BATTLE    BATT1
  */
 CameraModeValue sSetJabuTentacleModeBattleData[] = {
-    { -30, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 160, CAM_DATA_EYE_DIST },          // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },    // swingPitchInitial
-    { 0, CAM_DATA_SWING_PITCH_FINAL },   // swingPitchFinal
-    { 70, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 60, CAM_DATA_FOV },                // fov
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -30, CAM_DATA_Y_OFFSET },          
+    { 160, CAM_DATA_EYE_DIST },          
+    { 10, CAM_DATA_SWING_YAW_INIT },     
+    { 10, CAM_DATA_SWING_YAW_FINAL },    
+    { 0, CAM_DATA_SWING_PITCH_INIT },    
+    { 0, CAM_DATA_SWING_PITCH_FINAL },   
+    { 70, CAM_DATA_SWING_PITCH_ADJ },    
+    { 60, CAM_DATA_FOV },                
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -50, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3556,15 +3556,15 @@ CameraModeValue sSetJabuTentacleModeBattleData[] = {
  * DUNGEON2    NORMAL    NORM1
  */
 CameraModeValue sSetDungeon2ModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // yOffset
-    { 350, CAM_DATA_EYE_DIST },              // distMin
-    { 350, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 20, CAM_DATA_PITCH_TARGET },           // unk_0C
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   // unk_14
-    { 30, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 350, CAM_DATA_EYE_DIST },              
+    { 350, CAM_DATA_EYE_DIST_NEXT },         
+    { 20, CAM_DATA_PITCH_TARGET },           
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },   
+    { 30, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 60, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0003, CAM_DATA_FLAGS },
 };
 
@@ -3574,17 +3574,17 @@ CameraModeValue sSetDungeon2ModeNormalData[] = {
  * DUNGEON2    TARGET    PARA1
  */
 CameraModeValue sSetDungeon2ModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },             // yOffset
-    { 200, CAM_DATA_EYE_DIST },             // distTarget
-    { 0, CAM_DATA_PITCH_TARGET },           // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 45, CAM_DATA_FOV },                   // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { -20, CAM_DATA_Y_OFFSET },             
+    { 200, CAM_DATA_EYE_DIST },             
+    { 0, CAM_DATA_PITCH_TARGET },           
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 45, CAM_DATA_FOV },                   
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3593,18 +3593,18 @@ CameraModeValue sSetDungeon2ModeTargetData[] = {
  * DUNGEON2    BATTLE    BATT1
  */
 CameraModeValue sSetDungeon2ModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
-    { 180, CAM_DATA_EYE_DIST },          // distance
-    { 10, CAM_DATA_SWING_YAW_INIT },     // swingYawInitial
-    { 80, CAM_DATA_SWING_YAW_FINAL },    // swingYawFinal
-    { -10, CAM_DATA_SWING_PITCH_INIT },  // swingPitchInitial
-    { 10, CAM_DATA_SWING_PITCH_FINAL },  // swingPitchFinal
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    // swingPitchAdj (PCT)
-    { 45, CAM_DATA_FOV },                // fov
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleOnGround (PCT)
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 180, CAM_DATA_EYE_DIST },          
+    { 10, CAM_DATA_SWING_YAW_INIT },     
+    { 80, CAM_DATA_SWING_YAW_FINAL },    
+    { -10, CAM_DATA_SWING_PITCH_INIT },  
+    { 10, CAM_DATA_SWING_PITCH_FINAL },  
+    { 25, CAM_DATA_SWING_PITCH_ADJ },    
+    { 45, CAM_DATA_FOV },                
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },          // yOffsetOffGround (PCT)
-    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // atLERPScaleOffGround (PCT)
+    { -40, CAM_DATA_GROUND_Y_OFFSET },          
+    { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3613,13 +3613,13 @@ CameraModeValue sSetDungeon2ModeBattleData[] = {
  * DUNGEON2    JUMP    JUMP1
  */
 CameraModeValue sSetDungeon2ModeJumpData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 350, CAM_DATA_EYE_DIST },              // distMin
-    { 350, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 50, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 350, CAM_DATA_EYE_DIST },              
+    { 350, CAM_DATA_EYE_DIST_NEXT },         
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 50, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -3629,13 +3629,13 @@ CameraModeValue sSetDungeon2ModeJumpData[] = {
  * DUNGEON2    FREEFALL    JUMP1
  */
 CameraModeValue sSetDungeon2ModeFreeFallData[] = {
-    { -20, CAM_DATA_Y_OFFSET },              // atYOffset
-    { 350, CAM_DATA_EYE_DIST },              // distMin
-    { 350, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdateRateTarget
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // maxYawUpdate
-    { 60, CAM_DATA_FOV },                    // unk_14
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -20, CAM_DATA_Y_OFFSET },              
+    { 350, CAM_DATA_EYE_DIST },              
+    { 350, CAM_DATA_EYE_DIST_NEXT },         
+    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 20, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -3645,14 +3645,14 @@ CameraModeValue sSetDungeon2ModeFreeFallData[] = {
  * DUNGEON2    CLIMB    JUMP2
  */
 CameraModeValue sSetDungeon2ModeClimbData[] = {
-    { -40, CAM_DATA_Y_OFFSET },             // atYOffset
-    { 350, CAM_DATA_EYE_DIST },             // minDist
-    { 350, CAM_DATA_EYE_DIST_NEXT },        // maxDist
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },   // minMaxDistFactor
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdRateTarget
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // xzUpdRateTarget
-    { 60, CAM_DATA_FOV },                   // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },    // atLERPStepScale
+    { -40, CAM_DATA_Y_OFFSET },             
+    { 350, CAM_DATA_EYE_DIST },             
+    { 350, CAM_DATA_EYE_DIST_NEXT },        
+    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },   
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 60, CAM_DATA_FOV },                   
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -3662,14 +3662,14 @@ CameraModeValue sSetDungeon2ModeClimbData[] = {
  * DUNGEON2    CLIMBZ    JUMP2
  */
 CameraModeValue sSetDungeon2ModeClimbZData[] = {
-    { -40, CAM_DATA_Y_OFFSET },               // atYOffset
-    { 350, CAM_DATA_EYE_DIST },               // minDist
-    { 350, CAM_DATA_EYE_DIST_NEXT },          // maxDist
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },     // minMaxDistFactor
-    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // yawUpdRateTarget
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // xzUpdRateTarget
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },      // atLERPStepScale
+    { -40, CAM_DATA_Y_OFFSET },               
+    { 350, CAM_DATA_EYE_DIST },               
+    { 350, CAM_DATA_EYE_DIST_NEXT },          
+    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },     
+    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    
+    { 60, CAM_DATA_FOV },                     
+    { 40, CAM_DATA_AT_LERP_STEP_SCALE },      
     { 0x2006, CAM_DATA_FLAGS },
 };
 
@@ -3679,12 +3679,12 @@ CameraModeValue sSetDungeon2ModeClimbZData[] = {
  * DUNGEON2    HANG    UNIQ1
  */
 CameraModeValue sSetDungeon2ModeHangData[] = {
-    { -50, CAM_DATA_Y_OFFSET },          // yOffset
-    { 350, CAM_DATA_EYE_DIST },          // distMin
-    { 350, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 40, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 60, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -50, CAM_DATA_Y_OFFSET },          
+    { 350, CAM_DATA_EYE_DIST },          
+    { 350, CAM_DATA_EYE_DIST_NEXT },     
+    { 40, CAM_DATA_PITCH_TARGET },       
+    { 60, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x0000, CAM_DATA_FLAGS },
 };
 
@@ -3694,12 +3694,12 @@ CameraModeValue sSetDungeon2ModeHangData[] = {
  * DUNGEON2    HANGZ    UNIQ1
  */
 CameraModeValue sSetDungeon2ModeHangZData[] = {
-    { -100, CAM_DATA_Y_OFFSET },         // yOffset
-    { 350, CAM_DATA_EYE_DIST },          // distMin
-    { 350, CAM_DATA_EYE_DIST_NEXT },     // distMax
-    { 70, CAM_DATA_PITCH_TARGET },       // pitchTarget
-    { 45, CAM_DATA_FOV },                // fovTarget
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, // atLERPScaleMax
+    { -100, CAM_DATA_Y_OFFSET },         
+    { 350, CAM_DATA_EYE_DIST },          
+    { 350, CAM_DATA_EYE_DIST_NEXT },     
+    { 70, CAM_DATA_PITCH_TARGET },       
+    { 45, CAM_DATA_FOV },                
+    { 10, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2000, CAM_DATA_FLAGS },
 };
 
@@ -3709,15 +3709,15 @@ CameraModeValue sSetDungeon2ModeHangZData[] = {
  * DUNGEON2    STILL    NORM1
  */
 CameraModeValue sSetDungeon2ModeStillData[] = {
-    { -10, CAM_DATA_Y_OFFSET },               // yOffset
-    { 350, CAM_DATA_EYE_DIST },               // distMin
-    { 350, CAM_DATA_EYE_DIST_NEXT },          // distMax
-    { 20, CAM_DATA_PITCH_TARGET },            // unk_0C
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    // unk_14
-    { 100, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 60, CAM_DATA_FOV },                     // fovTarget
-    { 5, CAM_DATA_AT_LERP_STEP_SCALE },       // atLERPScaleMax
+    { -10, CAM_DATA_Y_OFFSET },               
+    { 350, CAM_DATA_EYE_DIST },               
+    { 350, CAM_DATA_EYE_DIST_NEXT },          
+    { 20, CAM_DATA_PITCH_TARGET },            
+    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },    
+    { 100, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                     
+    { 5, CAM_DATA_AT_LERP_STEP_SCALE },       
     { 0xF003, CAM_DATA_FLAGS },
 };
 
@@ -3727,17 +3727,17 @@ CameraModeValue sSetDungeon2ModeStillData[] = {
  * DUNGEON2    PUSHPULL    PARA1
  */
 CameraModeValue sSetDungeon2ModePushPullData[] = {
-    { 0, CAM_DATA_Y_OFFSET },               // yOffset
-    { 280, CAM_DATA_EYE_DIST },             // distTarget
-    { 25, CAM_DATA_PITCH_TARGET },          // pitchTarget
-    { 0, CAM_DATA_YAW_TARGET },             // yawTarget
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_08
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_0C
-    { 70, CAM_DATA_FOV },                   // fovTarget
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    // unk_14
+    { 0, CAM_DATA_Y_OFFSET },               
+    { 280, CAM_DATA_EYE_DIST },             
+    { 25, CAM_DATA_PITCH_TARGET },          
+    { 0, CAM_DATA_YAW_TARGET },             
+    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 70, CAM_DATA_FOV },                   
+    { 30, CAM_DATA_AT_LERP_STEP_SCALE },    
     { 0x206A, CAM_DATA_FLAGS },
-    { -20, CAM_DATA_GROUND_Y_OFFSET },          // unk_18
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_1C
+    { -20, CAM_DATA_GROUND_Y_OFFSET },          
+    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3752,15 +3752,15 @@ CameraModeValue sSetDungeon2ModePushPullData[] = {
  * DIRECTED_YAW    NORMAL    NORM1
  */
 CameraModeValue sSetDirectedYawModeNormalData[] = {
-    { -10, CAM_DATA_Y_OFFSET },              // yOffset
-    { 280, CAM_DATA_EYE_DIST },              // distMin
-    { 320, CAM_DATA_EYE_DIST_NEXT },         // distMax
-    { -8, CAM_DATA_PITCH_TARGET },           // unk_0C
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unk_10
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  // unk_14
-    { 80, CAM_DATA_MAX_YAW_UPDATE },         // pitchTarget
-    { 60, CAM_DATA_FOV },                    // fovTarget
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
+    { -10, CAM_DATA_Y_OFFSET },              
+    { 280, CAM_DATA_EYE_DIST },              
+    { 320, CAM_DATA_EYE_DIST_NEXT },         
+    { -8, CAM_DATA_PITCH_TARGET },           
+    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
+    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },  
+    { 80, CAM_DATA_MAX_YAW_UPDATE },         
+    { 60, CAM_DATA_FOV },                    
+    { 80, CAM_DATA_AT_LERP_STEP_SCALE },     
     { 0x0002, CAM_DATA_FLAGS },
 };
 
@@ -3770,19 +3770,19 @@ CameraModeValue sSetDirectedYawModeNormalData[] = {
  * DIRECTED_YAW    FOLLOWTARGET    KEEP1
  */
 CameraModeValue sSetDirectedYawModeFollowTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          // unk_00
-    { 180, CAM_DATA_EYE_DIST },          // unk_04
-    { 200, CAM_DATA_EYE_DIST_NEXT },     // unk_08
-    { 35, CAM_DATA_SWING_YAW_INIT },     // unk_0C
-    { 45, CAM_DATA_SWING_YAW_FINAL },    // unk_10
-    { 0, CAM_DATA_SWING_PITCH_INIT },    // unk_14
-    { -5, CAM_DATA_SWING_PITCH_FINAL },  // unk_18
-    { 20, CAM_DATA_SWING_PITCH_ADJ },    // unk_1C
-    { 50, CAM_DATA_FOV },                // unk_20
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, // unk_24
+    { -20, CAM_DATA_Y_OFFSET },          
+    { 180, CAM_DATA_EYE_DIST },          
+    { 200, CAM_DATA_EYE_DIST_NEXT },     
+    { 35, CAM_DATA_SWING_YAW_INIT },     
+    { 45, CAM_DATA_SWING_YAW_FINAL },    
+    { 0, CAM_DATA_SWING_PITCH_INIT },    
+    { -5, CAM_DATA_SWING_PITCH_FINAL },  
+    { 20, CAM_DATA_SWING_PITCH_ADJ },    
+    { 50, CAM_DATA_FOV },                
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, 
     { 0x2001, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },          // unk_28
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, // unk_2C
+    { -50, CAM_DATA_GROUND_Y_OFFSET },          
+    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }, 
 };
 
 /**
@@ -3791,17 +3791,17 @@ CameraModeValue sSetDirectedYawModeFollowTargetData[] = {
  * DIRECTED_YAW    TALK    KEEP3
  */
 CameraModeValue sSetDirectedYawModeTalkData[] = {
-    { -80, CAM_DATA_Y_OFFSET },              // yOffset
-    { 200, CAM_DATA_EYE_DIST },              // minDist
-    { 250, CAM_DATA_EYE_DIST_NEXT },         // maxDist
-    { 30, CAM_DATA_SWING_YAW_INIT },         // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },        // swingYawFinal
-    { -8, CAM_DATA_SWING_PITCH_INIT },       // swingPitchInitial
-    { -8, CAM_DATA_SWING_PITCH_FINAL },      // swingPitchFinal
-    { 30, CAM_DATA_SWING_PITCH_ADJ },        // swingPitchAdj
-    { 50, CAM_DATA_FOV },                    // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
+    { -80, CAM_DATA_Y_OFFSET },              
+    { 200, CAM_DATA_EYE_DIST },              
+    { 250, CAM_DATA_EYE_DIST_NEXT },         
+    { 30, CAM_DATA_SWING_YAW_INIT },         
+    { 10, CAM_DATA_SWING_YAW_FINAL },        
+    { -8, CAM_DATA_SWING_PITCH_INIT },       
+    { -8, CAM_DATA_SWING_PITCH_FINAL },      
+    { 30, CAM_DATA_SWING_PITCH_ADJ },        
+    { 50, CAM_DATA_FOV },                    
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
     { 0x3520, CAM_DATA_FLAGS },
 };
 
@@ -3817,17 +3817,17 @@ CameraModeValue sSetDirectedYawModeTalkData[] = {
  * NORMAL4    TALK    KEEP3
  */
 CameraModeValue sNormal4ModeTalkData[] = {
-    { -30, CAM_DATA_Y_OFFSET },              // yOffset
-    { 70, CAM_DATA_EYE_DIST },               // minDist
-    { 200, CAM_DATA_EYE_DIST_NEXT },         // maxDist
-    { 40, CAM_DATA_SWING_YAW_INIT },         // swingYawInitial
-    { 10, CAM_DATA_SWING_YAW_FINAL },        // swingYawFinal
-    { 0, CAM_DATA_SWING_PITCH_INIT },        // swingPitchInitial
-    { 5, CAM_DATA_SWING_PITCH_FINAL },       // swingPitchFinal
-    { 70, CAM_DATA_SWING_PITCH_ADJ },        // swingPitchAdj
-    { 45, CAM_DATA_FOV },                    // fovTarget
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     // atLERPScaleMax
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // initTimer
+    { -30, CAM_DATA_Y_OFFSET },              
+    { 70, CAM_DATA_EYE_DIST },               
+    { 200, CAM_DATA_EYE_DIST_NEXT },         
+    { 40, CAM_DATA_SWING_YAW_INIT },         
+    { 10, CAM_DATA_SWING_YAW_FINAL },        
+    { 0, CAM_DATA_SWING_PITCH_INIT },        
+    { 5, CAM_DATA_SWING_PITCH_FINAL },       
+    { 70, CAM_DATA_SWING_PITCH_ADJ },        
+    { 45, CAM_DATA_FOV },                    
+    { 50, CAM_DATA_AT_LERP_STEP_SCALE },     
+    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, 
     { 0x35A0, CAM_DATA_FLAGS },
 };
 
