@@ -6,6 +6,7 @@
 
 #include "z_bg_haka_megane.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
+#include "objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0x000000B0
 
@@ -37,24 +38,27 @@ static InitChainEntry sInitChain[] = {
 };
 
 static CollisionHeader* sCollisionHeaders[] = {
-    &gBotw1Col, &gBotw2Col, NULL,       0x06004330, 0x060044D0, NULL, 0x06004780,
-    0x06004940, NULL,       0x06004B00, NULL,       0x06004CC0, NULL,
+    &gBotw1Col,
+    &gBotw2Col,
+    NULL,
+    &object_haka_objects_Col_004330,
+    &object_haka_objects_Col_0044D0,
+    NULL,
+    &object_haka_objects_Col_004780,
+    &object_haka_objects_Col_004940,
+    NULL,
+    &object_haka_objects_Col_004B00,
+    NULL,
+    &object_haka_objects_Col_004CC0,
+    NULL,
 };
 
 static Gfx* sDLists[] = {
-    gBotwFakeWallsAndFloorsDL,
-    gBotwThreeFakeFloorsDL,
-    gBotwHoleTrap2DL,
-    0x060040F0,
-    0x060043B0,
-    0x06001120,
-    0x060045A0,
-    0x060047F0,
-    0x060018F0,
-    0x060049B0,
-    0x06003CF0,
-    0x06004B70,
-    0x06002ED0,
+    gBotwFakeWallsAndFloorsDL,     gBotwThreeFakeFloorsDL,        gBotwHoleTrap2DL,
+    object_haka_objects_DL_0040F0, object_haka_objects_DL_0043B0, object_haka_objects_DL_001120,
+    object_haka_objects_DL_0045A0, object_haka_objects_DL_0047F0, object_haka_objects_DL_0018F0,
+    object_haka_objects_DL_0049B0, object_haka_objects_DL_003CF0, object_haka_objects_DL_004B70,
+    object_haka_objects_DL_002ED0,
 };
 
 void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx) {

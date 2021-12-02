@@ -204,7 +204,11 @@ void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaHaheniron_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dLists[] = { 0x06000880, 0x06000AE0, 0x06000600 };
+    static Gfx* dLists[] = {
+        gObjectJyaIronDL_000880,
+        gObjectJyaIronDL_000AE0,
+        gObjectJyaIronDL_000600,
+    };
     s32 pad;
     BgJyaHaheniron* this = THIS;
 

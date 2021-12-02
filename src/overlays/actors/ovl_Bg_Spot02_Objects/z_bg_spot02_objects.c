@@ -27,8 +27,10 @@ void func_808ACC34(BgSpot02Objects* this, GlobalContext* globalCtx);
 void func_808AD3D4(BgSpot02Objects* this, GlobalContext* globalCtx);
 
 static void* D_808AD850[] = {
-    0x060096B0, 0x0600A2B0, 0x0600AEB0, 0x0600BAB0, 0x0600C6B0, 0x0600D2B0,
-    0x0600DEB0, 0x0600EAB0, 0x0600F6B0, 0x060102B0, 0x06010EB0, 0x06011AB0,
+    object_spot02_objects_Tex_0096B0, object_spot02_objects_Tex_00A2B0, object_spot02_objects_Tex_00AEB0,
+    object_spot02_objects_Tex_00BAB0, object_spot02_objects_Tex_00C6B0, object_spot02_objects_Tex_00D2B0,
+    object_spot02_objects_Tex_00DEB0, object_spot02_objects_Tex_00EAB0, object_spot02_objects_Tex_00F6B0,
+    object_spot02_objects_Tex_0102B0, object_spot02_objects_Tex_010EB0, object_spot02_objects_Tex_011AB0,
 };
 
 const ActorInit Bg_Spot02_Objects_InitVars = {
@@ -190,7 +192,11 @@ void BgSpot02Objects_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot02Objects_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dLists[] = { 0x06012A50, 0x060127C0, 0x060130B0 };
+    static Gfx* dLists[] = {
+        object_spot02_objects_DL_012A50,
+        object_spot02_objects_DL_0127C0,
+        object_spot02_objects_DL_0130B0,
+    };
 
     Gfx_DrawDListOpa(globalCtx, dLists[thisx->params]);
 }

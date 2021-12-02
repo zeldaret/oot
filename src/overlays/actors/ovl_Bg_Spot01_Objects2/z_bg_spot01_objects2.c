@@ -39,7 +39,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static Gfx* D_808AC510[] = { 0x06001EB0, 0x06002780, 0x06003078, 0x06001228, 0x06001528 };
+static Gfx* D_808AC510[] = {
+    gKakarikoPotionShopSignDL,   gKakarikoShootingGallerySignDL, gKakarikoBazaarSignDL,
+    gKakarikoConstructionSiteDL, gKakarikoShootingGalleryDL,
+};
 
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Objects2* this = THIS;
