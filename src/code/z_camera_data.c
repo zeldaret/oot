@@ -2705,7 +2705,7 @@ CameraModeValue sSetBeanLostWoodsModeHangData[] = {
  */
 CameraModeValue sSetBeanLostWoodsModeHangZData[] = {
     { -120, CAM_DATA_Y_OFFSET },   { 200, CAM_DATA_EYE_DIST }, { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 60, CAM_DATA_PITCH_TARGET }, { 50, CAM_DATA_FOV }, { 30, CAM_DATA_AT_LERP_STEP_SCALE },
+    { 60, CAM_DATA_PITCH_TARGET }, { 50, CAM_DATA_FOV },       { 30, CAM_DATA_AT_LERP_STEP_SCALE },
     { 0x2000, CAM_DATA_FLAGS },
 };
 
