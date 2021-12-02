@@ -15,16 +15,16 @@
             <Vector Type="s16" Dimensions="3"/>
         </Array>
         <Array Name="D_040020D0" Count="24" Offset="0x20D0">
-            <Vector Type="s16" Dimensions="3" />
+            <Vector Type="s16" Dimensions="3"/>
         </Array>
         <Array Name="D_04002160" Count="24" Offset="0x2160">
-            <Vector Type="s16" Dimensions="3" />
+            <Vector Type="s16" Dimensions="3"/>
         </Array>
         <Array Name="D_040021F0" Count="24" Offset="0x21F0">
-            <Vector Type="s16" Dimensions="3" />
+            <Vector Type="s16" Dimensions="3"/>
         </Array>
         <Array Name="D_04002280" Count="24" Offset="0x2280">
-            <Vector Type="s16" Dimensions="3" />
+            <Vector Type="s16" Dimensions="3"/>
         </Array>
 
         <PlayerAnimation Name="gPlayerAnim_002310" Offset="0x2310"/>

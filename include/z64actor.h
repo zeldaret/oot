@@ -321,4 +321,10 @@ typedef enum {
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
 
+typedef enum {
+    DOORLOCK_NORMAL,
+    DOORLOCK_BOSS,
+    DOORLOCK_NORMAL_SPIRIT
+} DoorLockType;
+
 #endif

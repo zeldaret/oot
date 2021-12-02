@@ -2,9 +2,9 @@
     <File Name="ovl_Magic_Wind" BaseAddress="0x80B8B100" RangeStart="0x780" RangeEnd="0x1C98">
         <Skeleton Name="sSkel" Type="Curve" LimbType="Curve" Offset="0x1C90"/>
         <CurveAnimation Name="sAnim" SkelOffset="0x1C90" Offset="0x1C50"/>
-        <Limb Name="sRootLimb" Type="Curve" Offset="0x1C60"/>
-        <Limb Name="sInnerCylinderLimb" Type="Curve" Offset="0x1C6C"/>
-        <Limb Name="sOuterCylinderLimb" Type="Curve" Offset="0x1C78"/>
+        <Limb Name="sRootLimb" LimbType="Curve" Offset="0x1C60"/>
+        <Limb Name="sInnerCylinderLimb" LimbType="Curve" Offset="0x1C6C"/>
+        <Limb Name="sOuterCylinderLimb" LimbType="Curve" Offset="0x1C78"/>
         <Array Name="sCylinderVtx" Count="36" Offset="0x780">
             <Vtx/>
         </Array>

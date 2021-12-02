@@ -1,9 +1,9 @@
 ﻿<Root>
     <File Name="object_kz" Segment="6">
-        <Animation Name="object_kz_Anim_00046C" Offset="0x46C" />
-        <Animation Name="object_kz_Anim_00075C" Offset="0x75C" />
-        <Texture Name="object_kz_TLUT_000770" OutName="tlut_000770" Format="rgba16" Width="16" Height="16" Offset="0x770" />
-        <Texture Name="object_kz_TLUT_000970" OutName="tlut_000970" Format="rgba16" Width="16" Height="16" Offset="0x970" />
+        <Animation Name="object_kz_Anim_00046C" Offset="0x46C"/>
+        <Animation Name="object_kz_Anim_00075C" Offset="0x75C"/>
+        <Texture Name="object_kz_TLUT_000770" OutName="tlut_000770" Format="rgba16" Width="16" Height="16" Offset="0x770"/>
+        <Texture Name="object_kz_TLUT_000970" OutName="tlut_000970" Format="rgba16" Width="16" Height="16" Offset="0x970"/>
         <Texture Name="object_kz_Tex_000B70" OutName="tex_000B70" Format="ci8" Width="32" Height="32" Offset="0xB70"  TlutOffset="0x770"/>
         <Texture Name="object_kz_Tex_000F70" OutName="tex_000F70" Format="ci8" Width="8" Height="16" Offset="0xF70"  TlutOffset="0x770"/>
         <Texture Name="object_kz_Tex_000FF0" OutName="tex_000FF0" Format="ci8" Width="32" Height="32" Offset="0xFF0"  TlutOffset="0x770"/>
@@ -12,32 +12,32 @@
         <Texture Name="object_kz_Tex_001470" OutName="tex_001470" Format="ci8" Width="32" Height="32" Offset="0x1470"  TlutOffset="0x970"/>
         <Texture Name="object_kz_Tex_001870" OutName="tex_001870" Format="ci8" Width="32" Height="32" Offset="0x1870"  TlutOffset="0x970"/>
         <Texture Name="object_kz_Tex_001C70" OutName="tex_001C70" Format="ci8" Width="32" Height="32" Offset="0x1C70"  TlutOffset="0x970"/>
-        <Blob Name="object_kz_Blob_002070" Size="0x400" Offset="0x2070" />
+        <Blob Name="object_kz_Blob_002070" Size="0x400" Offset="0x2070"/>
         <Texture Name="object_kz_Tex_002470" OutName="tex_002470" Format="ci8" Width="16" Height="16" Offset="0x2470"  TlutOffset="0x770"/>
         <Texture Name="object_kz_Tex_002570" OutName="tex_002570" Format="ci8" Width="16" Height="16" Offset="0x2570"  TlutOffset="0x770"/>
         <Texture Name="object_kz_Tex_002670" OutName="tex_002670" Format="ci8" Width="32" Height="32" Offset="0x2670"  TlutOffset="0x770"/>
-        <DList Name="object_kz_DL_005920" Offset="0x5920" />
-        <DList Name="object_kz_DL_006420" Offset="0x6420" />
-        <DList Name="object_kz_DL_007298" Offset="0x7298" />
-        <DList Name="object_kz_DL_0074B0" Offset="0x74B0" />
-        <DList Name="object_kz_DL_0076C8" Offset="0x76C8" />
-        <DList Name="object_kz_DL_0079E0" Offset="0x79E0" />
-        <DList Name="object_kz_DL_007C00" Offset="0x7C00" />
-        <DList Name="object_kz_DL_007D40" Offset="0x7D40" />
-        <DList Name="object_kz_DL_008000" Offset="0x8000" />
-        <DList Name="object_kz_DL_008220" Offset="0x8220" />
-        <DList Name="object_kz_DL_008360" Offset="0x8360" />
-        <Limb Name="object_kz_Limb_008620" LimbType="Standard" Offset="0x8620" />
-        <Limb Name="object_kz_Limb_00862C" LimbType="Standard" Offset="0x862C" />
-        <Limb Name="object_kz_Limb_008638" LimbType="Standard" Offset="0x8638" />
-        <Limb Name="object_kz_Limb_008644" LimbType="Standard" Offset="0x8644" />
-        <Limb Name="object_kz_Limb_008650" LimbType="Standard" Offset="0x8650" />
-        <Limb Name="object_kz_Limb_00865C" LimbType="Standard" Offset="0x865C" />
-        <Limb Name="object_kz_Limb_008668" LimbType="Standard" Offset="0x8668" />
-        <Limb Name="object_kz_Limb_008674" LimbType="Standard" Offset="0x8674" />
-        <Limb Name="object_kz_Limb_008680" LimbType="Standard" Offset="0x8680" />
-        <Limb Name="object_kz_Limb_00868C" LimbType="Standard" Offset="0x868C" />
-        <Limb Name="object_kz_Limb_008698" LimbType="Standard" Offset="0x8698" />
-        <Skeleton Name="object_kz_Skel_0086D0" Type="Flex" LimbType="Standard" Offset="0x86D0" />
+        <DList Name="object_kz_DL_005920" Offset="0x5920"/>
+        <DList Name="object_kz_DL_006420" Offset="0x6420"/>
+        <DList Name="object_kz_DL_007298" Offset="0x7298"/>
+        <DList Name="object_kz_DL_0074B0" Offset="0x74B0"/>
+        <DList Name="object_kz_DL_0076C8" Offset="0x76C8"/>
+        <DList Name="object_kz_DL_0079E0" Offset="0x79E0"/>
+        <DList Name="object_kz_DL_007C00" Offset="0x7C00"/>
+        <DList Name="object_kz_DL_007D40" Offset="0x7D40"/>
+        <DList Name="object_kz_DL_008000" Offset="0x8000"/>
+        <DList Name="object_kz_DL_008220" Offset="0x8220"/>
+        <DList Name="object_kz_DL_008360" Offset="0x8360"/>
+        <Limb Name="object_kz_Limb_008620" LimbType="Standard" Offset="0x8620"/>
+        <Limb Name="object_kz_Limb_00862C" LimbType="Standard" Offset="0x862C"/>
+        <Limb Name="object_kz_Limb_008638" LimbType="Standard" Offset="0x8638"/>
+        <Limb Name="object_kz_Limb_008644" LimbType="Standard" Offset="0x8644"/>
+        <Limb Name="object_kz_Limb_008650" LimbType="Standard" Offset="0x8650"/>
+        <Limb Name="object_kz_Limb_00865C" LimbType="Standard" Offset="0x865C"/>
+        <Limb Name="object_kz_Limb_008668" LimbType="Standard" Offset="0x8668"/>
+        <Limb Name="object_kz_Limb_008674" LimbType="Standard" Offset="0x8674"/>
+        <Limb Name="object_kz_Limb_008680" LimbType="Standard" Offset="0x8680"/>
+        <Limb Name="object_kz_Limb_00868C" LimbType="Standard" Offset="0x868C"/>
+        <Limb Name="object_kz_Limb_008698" LimbType="Standard" Offset="0x8698"/>
+        <Skeleton Name="object_kz_Skel_0086D0" Type="Flex" LimbType="Standard" Offset="0x86D0"/>
     </File>
 </Root>

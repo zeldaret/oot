@@ -4,16 +4,16 @@
         <Skeleton Name="gBeamosSkel" Type="Normal" LimbType="Standard" Offset="0x3F60"/>
 
         <!-- Beamos Skeleton Limbs -->
-        <Limb Name="gBeamosRootLimb" Type="Standard" Offset="0x3EC0"/>
-        <Limb Name="gBeamosLimb_3ECC" Type="Standard" Offset="0x3ECC"/>
-        <Limb Name="gBeamosLimb_3ED8" Type="Standard" Offset="0x3ED8"/>
-        <Limb Name="gBeamosLimb_3EE4" Type="Standard" Offset="0x3EE4"/>
-        <Limb Name="gBeamosTopEyelidLimb" Type="Standard" Offset="0x3EF0"/>
-        <Limb Name="gBeamosLimb_3EFC" Type="Standard" Offset="0x3EFC"/>
-        <Limb Name="gBeamosLimb_3F08" Type="Standard" Offset="0x3F08"/>
-        <Limb Name="gBeamosBottomEyelidLimb" Type="Standard" Offset="0x3F14"/>
-        <Limb Name="gBeamosEyeLimb" Type="Standard" Offset="0x3F20"/>
-        <Limb Name="gBeamosBodyLimb" Type="Standard" Offset="0x3F2C"/>
+        <Limb Name="gBeamosRootLimb" LimbType="Standard" Offset="0x3EC0"/>
+        <Limb Name="gBeamosLimb_3ECC" LimbType="Standard" Offset="0x3ECC"/>
+        <Limb Name="gBeamosLimb_3ED8" LimbType="Standard" Offset="0x3ED8"/>
+        <Limb Name="gBeamosLimb_3EE4" LimbType="Standard" Offset="0x3EE4"/>
+        <Limb Name="gBeamosTopEyelidLimb" LimbType="Standard" Offset="0x3EF0"/>
+        <Limb Name="gBeamosLimb_3EFC" LimbType="Standard" Offset="0x3EFC"/>
+        <Limb Name="gBeamosLimb_3F08" LimbType="Standard" Offset="0x3F08"/>
+        <Limb Name="gBeamosBottomEyelidLimb" LimbType="Standard" Offset="0x3F14"/>
+        <Limb Name="gBeamosEyeLimb" LimbType="Standard" Offset="0x3F20"/>
+        <Limb Name="gBeamosBodyLimb" LimbType="Standard" Offset="0x3F2C"/>
 
         <!-- Beamos Limb DisplayLists -->
         <DList Name="gBeamosTopEyelidDL" Offset="0x22B0"/>
