@@ -552,6 +552,7 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Vec3f tempVec;
         Vec3f* fireOffset;
         s16 temp;
+
         temp = this->unk_1CA - 1;
         this->actor.colorFilterTimer++;
         if (temp == 0) {

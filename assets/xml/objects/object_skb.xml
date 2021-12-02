@@ -4,25 +4,25 @@
         <Skeleton Name="gStalchildSkel" Type="Normal" LimbType="Standard" Offset="0x41F8"/>
 
         <!-- Stalchild Limbs -->
-        <Limb Name="gStalchildRootLimb" Type="Standard" Offset="0x40C8"/>
-        <Limb Name="gStalchildWaistLimb" Type="Standard" Offset="0x40D4"/>
-        <Limb Name="gStalchildRoot2Limb" Type="Standard" Offset="0x40E0"/>
-        <Limb Name="gStalchildRightFemurLimb" Type="Standard" Offset="0x40EC"/>
-        <Limb Name="gStalchildRightShinLimb" Type="Standard" Offset="0x40F8"/>
-        <Limb Name="gStalchildRightFootLimb" Type="Standard" Offset="0x4104"/>
-        <Limb Name="gStalchildLeftFemurLimb" Type="Standard" Offset="0x4110"/>
-        <Limb Name="gStalchildLeftShinLimb" Type="Standard" Offset="0x411C"/>
-        <Limb Name="gStalchildLeftFootLimb" Type="Standard" Offset="0x4128"/>
-        <Limb Name="gStalchildRibCageLimb" Type="Standard" Offset="0x4134"/>
-        <Limb Name="gStalchildHeadLimb" Type="Standard" Offset="0x4140"/>
-        <Limb Name="gStalchildJawLimb" Type="Standard" Offset="0x414C"/>
-        <Limb Name="gStalchildRightHumerusLimb" Type="Standard" Offset="0x4158"/>
-        <Limb Name="gStalchildRightForearmLimb" Type="Standard" Offset="0x4164"/>
-        <Limb Name="gStalchildRightHandLimb" Type="Standard" Offset="0x4170"/>
-        <Limb Name="gStalchildLeftHumerusLimb" Type="Standard" Offset="0x417C"/>
-        <Limb Name="gStalchildLeftForearmLimb" Type="Standard" Offset="0x4188"/>
-        <Limb Name="gStalchildLeftHandLimb" Type="Standard" Offset="0x4194"/>
-        <Limb Name="gStalchildSpineLimb" Type="Standard" Offset="0x41A0"/>
+        <Limb Name="gStalchildRootLimb" LimbType="Standard" Offset="0x40C8"/>
+        <Limb Name="gStalchildWaistLimb" LimbType="Standard" Offset="0x40D4"/>
+        <Limb Name="gStalchildRoot2Limb" LimbType="Standard" Offset="0x40E0"/>
+        <Limb Name="gStalchildRightFemurLimb" LimbType="Standard" Offset="0x40EC"/>
+        <Limb Name="gStalchildRightShinLimb" LimbType="Standard" Offset="0x40F8"/>
+        <Limb Name="gStalchildRightFootLimb" LimbType="Standard" Offset="0x4104"/>
+        <Limb Name="gStalchildLeftFemurLimb" LimbType="Standard" Offset="0x4110"/>
+        <Limb Name="gStalchildLeftShinLimb" LimbType="Standard" Offset="0x411C"/>
+        <Limb Name="gStalchildLeftFootLimb" LimbType="Standard" Offset="0x4128"/>
+        <Limb Name="gStalchildRibCageLimb" LimbType="Standard" Offset="0x4134"/>
+        <Limb Name="gStalchildHeadLimb" LimbType="Standard" Offset="0x4140"/>
+        <Limb Name="gStalchildJawLimb" LimbType="Standard" Offset="0x414C"/>
+        <Limb Name="gStalchildRightHumerusLimb" LimbType="Standard" Offset="0x4158"/>
+        <Limb Name="gStalchildRightForearmLimb" LimbType="Standard" Offset="0x4164"/>
+        <Limb Name="gStalchildRightHandLimb" LimbType="Standard" Offset="0x4170"/>
+        <Limb Name="gStalchildLeftHumerusLimb" LimbType="Standard" Offset="0x417C"/>
+        <Limb Name="gStalchildLeftForearmLimb" LimbType="Standard" Offset="0x4188"/>
+        <Limb Name="gStalchildLeftHandLimb" LimbType="Standard" Offset="0x4194"/>
+        <Limb Name="gStalchildSpineLimb" LimbType="Standard" Offset="0x41A0"/>
 
         <!-- Stalchild DisplayLists -->
         <DList Name="gStalchildHeadDL" Offset="0x3230"/>

@@ -5,24 +5,24 @@
         <Skeleton Name="gNabooruSkel" Type="Flex" LimbType="Standard" Offset="0x181C8"/>
 
         <!-- Nabooru Limbs -->
-        <Limb Name="gNabooruRootLimb" Type="Standard" Offset="0x180A8"/>
-        <Limb Name="gNabooruLeftThighLimb" Type="Standard" Offset="0x180B4"/>
-        <Limb Name="gNabooruLeftShinLimb" Type="Standard" Offset="0x180C0"/>
-        <Limb Name="gNabooruLeftFootLimb" Type="Standard" Offset="0x180CC"/>
-        <Limb Name="gNabooruRightThighLimb" Type="Standard" Offset="0x180D8"/>
-        <Limb Name="gNabooruRightShinLimb" Type="Standard" Offset="0x180E4"/>
-        <Limb Name="gNabooruRightFootLimb" Type="Standard" Offset="0x180F0"/>
-        <Limb Name="gNabooruTorsoLimb" Type="Standard" Offset="0x180FC"/>
-        <Limb Name="gNabooruLeftUpperArmLimb" Type="Standard" Offset="0x18108"/>
-        <Limb Name="gNabooruLeftForearmLimb" Type="Standard" Offset="0x18114"/>
-        <Limb Name="gNabooruLeftHandLimb" Type="Standard" Offset="0x18120"/>
-        <Limb Name="gNabooruRightUpperArmLimb" Type="Standard" Offset="0x1812C"/>
-        <Limb Name="gNabooruRightForearmLimb" Type="Standard" Offset="0x18138"/>
-        <Limb Name="gNabooruRightHandLimb" Type="Standard" Offset="0x18144"/>
-        <Limb Name="gNabooruHeadLimb" Type="Standard" Offset="0x18150"/>
-        <Limb Name="gNabooruBlankLimb" Type="Standard" Offset="0x1815C"/>
-        <Limb Name="gNabooruPonytailLimb" Type="Standard" Offset="0x18168"/>
-        <Limb Name="gNabooruWaistLimb" Type="Standard" Offset="0x18174"/>
+        <Limb Name="gNabooruRootLimb" LimbType="Standard" Offset="0x180A8"/>
+        <Limb Name="gNabooruLeftThighLimb" LimbType="Standard" Offset="0x180B4"/>
+        <Limb Name="gNabooruLeftShinLimb" LimbType="Standard" Offset="0x180C0"/>
+        <Limb Name="gNabooruLeftFootLimb" LimbType="Standard" Offset="0x180CC"/>
+        <Limb Name="gNabooruRightThighLimb" LimbType="Standard" Offset="0x180D8"/>
+        <Limb Name="gNabooruRightShinLimb" LimbType="Standard" Offset="0x180E4"/>
+        <Limb Name="gNabooruRightFootLimb" LimbType="Standard" Offset="0x180F0"/>
+        <Limb Name="gNabooruTorsoLimb" LimbType="Standard" Offset="0x180FC"/>
+        <Limb Name="gNabooruLeftUpperArmLimb" LimbType="Standard" Offset="0x18108"/>
+        <Limb Name="gNabooruLeftForearmLimb" LimbType="Standard" Offset="0x18114"/>
+        <Limb Name="gNabooruLeftHandLimb" LimbType="Standard" Offset="0x18120"/>
+        <Limb Name="gNabooruRightUpperArmLimb" LimbType="Standard" Offset="0x1812C"/>
+        <Limb Name="gNabooruRightForearmLimb" LimbType="Standard" Offset="0x18138"/>
+        <Limb Name="gNabooruRightHandLimb" LimbType="Standard" Offset="0x18144"/>
+        <Limb Name="gNabooruHeadLimb" LimbType="Standard" Offset="0x18150"/>
+        <Limb Name="gNabooruBlankLimb" LimbType="Standard" Offset="0x1815C"/>
+        <Limb Name="gNabooruPonytailLimb" LimbType="Standard" Offset="0x18168"/>
+        <Limb Name="gNabooruWaistLimb" LimbType="Standard" Offset="0x18174"/>
 
         <!-- Nabooru Limb DisplayLists -->
         <DList Name="gNabooruHeadMouthOpenDL" Offset="0x13158"/>

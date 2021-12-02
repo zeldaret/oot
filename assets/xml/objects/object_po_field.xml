@@ -6,8 +6,8 @@
         <Animation Name="gPoeFieldFloatAnim" Offset="0x0924"/>
         <Animation Name="gPoeFieldAppearAnim" Offset="0x0F9C"/>
         <Animation Name="gPoeFieldDisappearAnim" Offset="0x1360"/>
-        <Texture Name="gBigPoeSoulTex" Offset="0x1370" OutName="big_poe_soul" Format="i8" Width="32" Height="64"/>
-        <Texture Name="gPoeFieldSoulTex" Offset="0x1B70" OutName="poe_field_soul" Format="i8" Width="32" Height="64"/>
+        <Texture Name="gBigPoeSoulTex" OutName="big_poe_soul" Format="i8" Width="32" Height="64" Offset="0x1370"/>
+        <Texture Name="gPoeFieldSoulTex" OutName="poe_field_soul" Format="i8" Width="32" Height="64" Offset="0x1B70"/>
         <DList Name="gPoeFieldSoulDL" Offset="0x23B0"/>
         <DList Name="gPoeFieldLanternDL" Offset="0x4BA0"/>
         <DList Name="gPoeFieldLanternTopDL" Offset="0x4CC0"/>

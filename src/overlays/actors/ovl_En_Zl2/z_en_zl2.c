@@ -540,7 +540,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
     if (limbIndex == 10) {
         if ((this->unk_254 != 0) && (globalCtx->csCtx.frames >= 900)) {
-            gSPDisplayList((*gfx)++, &gZelda2OcarinaDL);
+            gSPDisplayList((*gfx)++, gZelda2OcarinaDL);
         }
 
         {
@@ -553,7 +553,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
                 Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
                 gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1253),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList((*gfx)++, &gZelda2OcarinaDL);
+                gSPDisplayList((*gfx)++, gZelda2OcarinaDL);
             }
             Matrix_Pop();
         }

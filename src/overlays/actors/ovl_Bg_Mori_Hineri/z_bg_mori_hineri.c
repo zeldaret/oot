@@ -48,10 +48,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Gfx* sDLists[] = {
-    0x060024E0,
-    0x06001980,
-    0x060020F0,
-    0x06002B70,
+    object_mori_hineri1_DL_0024E0,
+    object_mori_hineri1a_DL_001980,
+    object_mori_hineri2_DL_0020F0,
+    object_mori_hineri2a_DL_002B70,
 };
 
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {

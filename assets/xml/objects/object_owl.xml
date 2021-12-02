@@ -4,26 +4,26 @@
         <Skeleton Name="gOwlFlyingSkel" Type="Flex" LimbType="Standard" Offset="0xC0E8"/>
 
         <!-- Default Owl Limbs -->
-        <Limb Name="gOwlRootLimb" Type="Standard" Offset="0xBFA8"/>
-        <Limb Name="gOwlNeckLimb" Type="Standard" Offset="0xBFB4"/>
-        <Limb Name="gOwlHeadLimb" Type="Standard" Offset="0xBFC0"/>
-        <Limb Name="gOwlRightEyebrowLimb" Type="Standard" Offset="0xBFCC"/>
-        <Limb Name="gOwlLeftEyebrowLimb" Type="Standard" Offset="0xBFD8"/>
-        <Limb Name="gOwlLowerLeftWingLimb" Type="Standard" Offset="0xBFE4"/>
-        <Limb Name="gOwlMiddleLeftWing1Limb" Type="Standard" Offset="0xBFF0"/>
-        <Limb Name="gOwlMiddleLeftWing2Limb" Type="Standard" Offset="0xBFFC"/>
-        <Limb Name="gOwlUpperLeftWingLimb" Type="Standard" Offset="0xC008"/>
-        <Limb Name="gOwlLowerRightWingLimb" Type="Standard" Offset="0xC014"/>
-        <Limb Name="gOwlMiddleRightWing1Limb" Type="Standard" Offset="0xC020"/>
-        <Limb Name="gOwlMiddleRightWing2Limb" Type="Standard" Offset="0xC02C"/>
-        <Limb Name="gOwlUpperRightWingLimb" Type="Standard" Offset="0xC038"/>
-        <Limb Name="gOwlUpperRightLegLimb" Type="Standard" Offset="0xC044"/>
-        <Limb Name="gOwlLowerRightLegLimb" Type="Standard" Offset="0xC050"/>
-        <Limb Name="gOwlRightClawLimb" Type="Standard" Offset="0xC05C"/>
-        <Limb Name="gOwlUpperLeftLegLimb" Type="Standard" Offset="0xC068"/>
-        <Limb Name="gOwlLowerLeftLegLimb" Type="Standard" Offset="0xC074"/>
-        <Limb Name="gOwlLeftClawLimb" Type="Standard" Offset="0xC080"/>
-        <Limb Name="gOwlTailLimb" Type="Standard" Offset="0xC08C"/>
+        <Limb Name="gOwlRootLimb" LimbType="Standard" Offset="0xBFA8"/>
+        <Limb Name="gOwlNeckLimb" LimbType="Standard" Offset="0xBFB4"/>
+        <Limb Name="gOwlHeadLimb" LimbType="Standard" Offset="0xBFC0"/>
+        <Limb Name="gOwlRightEyebrowLimb" LimbType="Standard" Offset="0xBFCC"/>
+        <Limb Name="gOwlLeftEyebrowLimb" LimbType="Standard" Offset="0xBFD8"/>
+        <Limb Name="gOwlLowerLeftWingLimb" LimbType="Standard" Offset="0xBFE4"/>
+        <Limb Name="gOwlMiddleLeftWing1Limb" LimbType="Standard" Offset="0xBFF0"/>
+        <Limb Name="gOwlMiddleLeftWing2Limb" LimbType="Standard" Offset="0xBFFC"/>
+        <Limb Name="gOwlUpperLeftWingLimb" LimbType="Standard" Offset="0xC008"/>
+        <Limb Name="gOwlLowerRightWingLimb" LimbType="Standard" Offset="0xC014"/>
+        <Limb Name="gOwlMiddleRightWing1Limb" LimbType="Standard" Offset="0xC020"/>
+        <Limb Name="gOwlMiddleRightWing2Limb" LimbType="Standard" Offset="0xC02C"/>
+        <Limb Name="gOwlUpperRightWingLimb" LimbType="Standard" Offset="0xC038"/>
+        <Limb Name="gOwlUpperRightLegLimb" LimbType="Standard" Offset="0xC044"/>
+        <Limb Name="gOwlLowerRightLegLimb" LimbType="Standard" Offset="0xC050"/>
+        <Limb Name="gOwlRightClawLimb" LimbType="Standard" Offset="0xC05C"/>
+        <Limb Name="gOwlUpperLeftLegLimb" LimbType="Standard" Offset="0xC068"/>
+        <Limb Name="gOwlLowerLeftLegLimb" LimbType="Standard" Offset="0xC074"/>
+        <Limb Name="gOwlLeftClawLimb" LimbType="Standard" Offset="0xC080"/>
+        <Limb Name="gOwlTailLimb" LimbType="Standard" Offset="0xC08C"/>
 
         <!-- Default Owl Limb DisplayLists -->
         <DList Name="gOwlTorsoDL" Offset="0x4B40"/>
