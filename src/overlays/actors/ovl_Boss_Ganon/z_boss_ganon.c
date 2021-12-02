@@ -254,8 +254,7 @@ void BossGanonEff_SpawnDustDark(GlobalContext* globalCtx, Vec3f* pos, f32 scale,
             eff->unk_40 = 1.0f;
             eff->unk_38 = arg3;
             eff->unk_30 = (s16)Rand_ZeroFloat(100.0f);
-            eff->alpha = 0;
-            eff->unk_2E = eff->timer = eff->alpha;
+            eff->unk_2E = eff->timer = eff->alpha = 0;
             break;
         }
     }
@@ -285,7 +284,7 @@ void BossGanonEff_SpawnShockwave(GlobalContext* globalCtx, Vec3f* pos, f32 scale
             eff->pos = *pos;
             eff->velocity = sZeroVec;
             eff->accel = sZeroVec;
-            eff->alpha = 0xFF;
+            eff->alpha = 255;
             eff->unk_40 = 0.6f;
             eff->scale = scale;
             eff->unk_38 = arg3;
@@ -2326,7 +2325,7 @@ void BossGanon_PlayTennis(BossGanon* this, GlobalContext* globalCtx) {
                 this->handLightBallScale = 0.0f;
             }
 
-            if (Animation_OnFrame(&this->skelAnime, 11.0f) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
                 this->unk_25C = 1;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_THROW);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_THROW_MASIC);
@@ -2750,7 +2749,7 @@ void BossGanon_UpdateDamage(BossGanon* this, GlobalContext* globalCtx) {
                     sCape->tearTimer = 1;
                 }
             }
-        } else if ((acHitInfo->toucher.dmgFlags & 0x1F8A4) != 0) {
+        } else if (acHitInfo->toucher.dmgFlags & 0x1F8A4) {
             Audio_PlayActorSound2(&this->actor, 0);
 
             for (i = 0; i < ARRAY_COUNT(sCape->strands); i++) {
@@ -2977,7 +2976,6 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
     while (explosive != NULL) {
         if (explosive->params != BOMB_EXPLOSION) {
             explosive = explosive->next;
-            continue;
         } else {
             for (i = 0; i < 8; i++) {
                 spBC.x = 0.0f;
@@ -2993,9 +2991,9 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 BossGanon_CheckFallingPlatforms(this, globalCtx, &platCheckPosBomb);
             }
-        }
 
-        explosive = explosive->next;
+            explosive = explosive->next;
+        }
     }
 
     BossGanon_UpdateEffects(globalCtx);
@@ -3013,7 +3011,7 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->envLightMode = 1;
                 break;
             }
-            
+
             prop = prop->next;
         }
     }
@@ -3426,7 +3424,7 @@ void BossGanon_DrawHandLightBall(BossGanon* this, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gDorfSquareDL);
 
-        alpha = (this->unk_1A2 % 2) != 0 ? 100 : 80;
+        alpha = ((this->unk_1A2 % 2) != 0) ? 100 : 80;
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 155, alpha);
         Matrix_Translate(this->unk_260.x, 0.0f, this->unk_260.z, MTXMODE_NEW);
@@ -3613,11 +3611,11 @@ void BossGanon_DrawDarkVortex(BossGanon* this, GlobalContext* globalCtx) {
 
 void func_808E0254(BossGanon* this, u8* tex, f32 arg2) {
     static s16 D_808E4DF4[] = { 1, 2, 3, 3, 2, 1 };
-    static s16 D_808E4E00[] = { 2, 3, 4, 4, 4, 3, 2, 0 };
+    static s16 D_808E4E00[] = { 2, 3, 4, 4, 4, 3, 2 };
     static s16 D_808E4E10[] = { 2, 3, 4, 4, 4, 4, 3, 2 };
     static s16 D_808E4E20[] = { 2, 4, 5, 5, 6, 6, 6, 6, 5, 5, 4, 2 };
-    static s16 D_808E4E38[] = { 1, -1, 1, 1, 3, 4, 1, 6, 7, 2, 9, 10, 2, 12, 13, 0 };
-    static u8 D_808E4E58[] = { 3, 2, 2, 1, 3, 3, 1, 3, 3, 1, 0, 3, 1, 0, 3, 0 };
+    static s16 D_808E4E38[] = { 1, -1, 1, 1, 3, 4, 1, 6, 7, 2, 9, 10, 2, 12, 13 };
+    static u8 D_808E4E58[] = { 3, 2, 2, 1, 3, 3, 1, 3, 3, 1, 0, 3, 1, 0, 3 };
     s16 baseX;
     s16 index;
     s16 i;
@@ -4391,7 +4389,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_1F0 = player->actor.world.pos;
             new_var = this->unk_1F0.x - this->actor.world.pos.x;
             this->actor.shape.rot.y = RADF_TO_BINANG(Math_FAtan2F(new_var, this->unk_1F0.z - this->actor.world.pos.z)) +
-                                      (this->actor.params << 0xD) + 0xFFDF4000;
+                                      (this->actor.params << 0xD) - 0x20C000;
             // fallthrough
         case 11:
             if (this->timers[0] != 0) {
@@ -4422,61 +4420,61 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk_1F0 = dorf->unk_1FC;
                 numEffects = 10;
                 break;
-            } else {
-                if (this->collider.base.acFlags & 2) {
-                    acHitInfo = this->collider.info.acHitInfo;
+            }
 
-                    this->collider.base.acFlags &= ~2;
+            if (this->collider.base.acFlags & 2) {
+                acHitInfo = this->collider.info.acHitInfo;
 
-                    if (!(acHitInfo->toucher.dmgFlags & 0x100000) || Player_HasMirrorShieldEquipped(globalCtx)) {
-                        func_800AA000(this->actor.xyzDistToPlayerSq, 0xB4, 0x14, 0x64);
-                        this->unk_1C2 = 0xC;
-                        this->actor.speedXZ = -30.0f;
+                this->collider.base.acFlags &= ~2;
 
-                        func_8002D908(&this->actor);
-                        func_8002D7EC(&this->actor);
+                if (!(acHitInfo->toucher.dmgFlags & 0x100000) || Player_HasMirrorShieldEquipped(globalCtx)) {
+                    func_800AA000(this->actor.xyzDistToPlayerSq, 0xB4, 0x14, 0x64);
+                    this->unk_1C2 = 0xC;
+                    this->actor.speedXZ = -30.0f;
 
-                        this->unk_1F0.x = Rand_CenteredFloat(700.0f) + dorf->unk_1FC.x;
-                        this->unk_1F0.y = Rand_CenteredFloat(200.0f) + dorf->unk_1FC.y;
-                        this->unk_1F0.z = Rand_CenteredFloat(700.0f) + dorf->unk_1FC.z;
+                    func_8002D908(&this->actor);
+                    func_8002D7EC(&this->actor);
 
-                        this->unk_1F0.x = this->unk_1F0.x + ((this->unk_1F0.x - this->actor.world.pos.x) * 100.0f);
-                        this->unk_1F0.y = this->unk_1F0.y + ((this->unk_1F0.y - this->actor.world.pos.y) * 100.0f);
-                        this->unk_1F0.z = this->unk_1F0.z + ((this->unk_1F0.z - this->actor.world.pos.z) * 100.0f);
+                    this->unk_1F0.x = Rand_CenteredFloat(700.0f) + dorf->unk_1FC.x;
+                    this->unk_1F0.y = Rand_CenteredFloat(200.0f) + dorf->unk_1FC.y;
+                    this->unk_1F0.z = Rand_CenteredFloat(700.0f) + dorf->unk_1FC.z;
 
-                        numEffects = 10;
-                        break;
-                    }
+                    this->unk_1F0.x = this->unk_1F0.x + ((this->unk_1F0.x - this->actor.world.pos.x) * 100.0f);
+                    this->unk_1F0.y = this->unk_1F0.y + ((this->unk_1F0.y - this->actor.world.pos.y) * 100.0f);
+                    this->unk_1F0.z = this->unk_1F0.z + ((this->unk_1F0.z - this->actor.world.pos.z) * 100.0f);
+
+                    numEffects = 10;
+                    break;
                 }
+            }
 
-                Collider_UpdateCylinder(&this->actor, &this->collider);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
 
-                if (this->timers[1] == 0) {
-                    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-                }
+            if (this->timers[1] == 0) {
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            }
 
-                xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
-                yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
-                zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
+            xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
+            yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
+            zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
 
-                if (sqrtf(SQ(xDiff) + SQ(zDiff) + SQ(yDiff)) < 30.0f) {
-                    this->unk_1C2 = 1;
-                    this->actor.speedXZ = 0.0f;
+            if (sqrtf(SQ(xDiff) + SQ(zDiff) + SQ(yDiff)) < 30.0f) {
+                this->unk_1C2 = 1;
+                this->actor.speedXZ = 0.0f;
 
-                    if (dorf->timers[2] == 0) {
-                        func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f, 0x50);
-                        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GANON_HIT_THUNDER);
-                        dorf->timers[2] = 20;
+                if (dorf->timers[2] == 0) {
+                    func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f, 0x50);
+                    Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GANON_HIT_THUNDER);
+                    dorf->timers[2] = 20;
 
-                        for (i = 0; i < ARRAY_COUNT(this->unk_4E4); i++) {
-                            dorf->unk_4E4[i] = D_808E4C58[i];
-                        }
-
-                        dorf->unk_2E6 = 0;
-                        dorf->unk_2E8 = 60;
-                        dorf->unk_508 = 4.0f;
-                        numEffects = 40;
+                    for (i = 0; i < ARRAY_COUNT(this->unk_4E4); i++) {
+                        dorf->unk_4E4[i] = D_808E4C58[i];
                     }
+
+                    dorf->unk_2E6 = 0;
+                    dorf->unk_2E8 = 60;
+                    dorf->unk_508 = 4.0f;
+                    numEffects = 40;
                 }
             }
             break;
@@ -4528,7 +4526,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.speedXZ = 0.0f;
             numEffects = 10;
             BossGanon_CheckFallingPlatforms(this, globalCtx, &this->actor.world.pos);
-            Actor_SpawnAsChild(&globalCtx->actorCtx, &dorf->actor, globalCtx, 0xE8, this->actor.world.pos.x,
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &dorf->actor, globalCtx, ACTOR_BOSS_GANON, this->actor.world.pos.x,
                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x190);
         }
     }
@@ -4555,18 +4553,18 @@ static Gfx* sBigMagicLightStreakDLists[] = {
 
 void func_808E324C(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon* this = THIS;
-    Mtx* mtxArr;
+    Mtx* mtx;
     s16 i;
     s32 bodyPart;
 
-    mtxArr = Graph_Alloc(globalCtx->state.gfxCtx, 12 * sizeof(Mtx));
+    mtx = Graph_Alloc(globalCtx->state.gfxCtx, 12 * sizeof(Mtx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon.c", 10489);
 
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 255, (s8)this->fwork[GDF_FWORK_1]);
     gDPSetEnvColor(POLY_XLU_DISP++, 150, 255, 0, 128);
-    gSPSegment(POLY_XLU_DISP++, 0x0D, mtxArr);
+    gSPSegment(POLY_XLU_DISP++, 0x0D, mtx);
 
     for (i = 0; i < 12; i++) {
         bodyPart = (s16)(((this->unk_1A6 - i) + 0xF) % 15);
@@ -4576,10 +4574,10 @@ void func_808E324C(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateX(-this->unk_3C4[bodyPart].x, MTXMODE_APPLY);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         Matrix_RotateY(M_PI / 2, MTXMODE_APPLY);
-        Matrix_ToMtx(mtxArr, "../z_boss_ganon.c", 10520);
-        gSPMatrix(POLY_XLU_DISP++, mtxArr, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        Matrix_ToMtx(mtx, "../z_boss_ganon.c", 10520);
+        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, sBigMagicLightStreakDLists[i]);
-        mtxArr++;
+        mtx++;
     };
 
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
@@ -4615,7 +4613,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
     spA0.y = 0.0f;
 
     for (i = 0; i < ARRAY_COUNT(sEffectBuf); i++, eff++) {
-        if (eff->type != 0) {
+        if (eff->type != GDF_EFF_NONE) {
             eff->pos.x += eff->velocity.x;
             eff->pos.y += eff->velocity.y;
             eff->pos.z += eff->velocity.z;
