@@ -260,9 +260,9 @@ Gfx* D_80125F38[] = {
 
 // Indexed by model types (left hand, right hand, sheath or waist)
 Gfx** sPlayerDListGroups[] = {
-    gLeftHandDLs,   D_80125E18,   D_80125E38,         D_80125E28,          D_80125DE8, sHammerDLs, gBoomerrangDLs,
-    D_80125F08, sRightHandDLs,   sRightHandClosed2DLs,         sRightHandClosedDLs, D_80125E68, D_80125EA8, sFairyOcarinaDLs,
-    sOotDLs,    sHookshotDLs, sSwordAndSheathDLs, sSheathDLs,          D_80125D28, D_80125D88, sWaistDLs,
+    gLeftHandDLs, D_80125E18,    D_80125E38,           D_80125E28,          D_80125DE8, sHammerDLs, gBoomerrangDLs,
+    D_80125F08,   sRightHandDLs, sRightHandClosed2DLs, sRightHandClosedDLs, D_80125E68, D_80125EA8, sFairyOcarinaDLs,
+    sOotDLs,      sHookshotDLs,  sSwordAndSheathDLs,   sSheathDLs,          D_80125D28, D_80125D88, sWaistDLs,
 };
 
 Gfx gCullBackDList[] = {
@@ -1125,7 +1125,7 @@ void func_80090A28(Player* this, Vec3f* vecs) {
     Matrix_MultVec3f(&D_80126098, &vecs[2]);
 }
 
-void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
+void Player_DrawHookshotDot(GlobalContext* globalCtx, Player* this, f32 arg2) {
     static Vec3f D_801260C8 = { -500.0f, -100.0f, 0.0f };
     CollisionPoly* sp9C;
     s32 bgId;
@@ -1158,7 +1158,7 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2587),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(OVERLAY_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        gSPDisplayList(OVERLAY_DISP++, gLinkAdultTriforceDL);
+        gSPDisplayList(OVERLAY_DISP++, gLinkAdultHookshotDotDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2592);
     }
@@ -1364,7 +1364,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
                     if (func_8002DD78(this) != 0) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
-                        func_80090AFC(globalCtx, this,
+                        Player_DrawHookshotDot(globalCtx, this,
                                       (this->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 38600.0f : 77600.0f);
                     }
                 }
