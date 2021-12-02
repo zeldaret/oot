@@ -518,7 +518,8 @@ void func_80880D68(BgHakaTrap* this) {
 
 void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* sDLists[5] = {
-        0x06007610, 0x06009860, 0x06007EF0, 0x06008A20, 0x060072C0,
+        object_haka_objects_DL_007610, object_haka_objects_DL_009860, object_haka_objects_DL_007EF0,
+        object_haka_objects_DL_008A20, object_haka_objects_DL_0072C0,
     };
     static Color_RGBA8 D_8088103C = { 0, 0, 0, 0 };
     BgHakaTrap* this = THIS;

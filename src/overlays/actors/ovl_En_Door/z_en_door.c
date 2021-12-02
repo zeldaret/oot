@@ -344,7 +344,7 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         if (this->lockTimer != 0) {
-            Actor_DrawDoorLock(globalCtx, this->lockTimer, 0);
+            Actor_DrawDoorLock(globalCtx, this->lockTimer, DOORLOCK_NORMAL);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_door.c", 941);

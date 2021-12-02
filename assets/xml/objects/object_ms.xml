@@ -4,14 +4,14 @@
         <Skeleton Name="gBeanSalesmanSkel" Type="Flex" LimbType="Standard" Offset="0x3DC0"/>
         
         <!-- Bean Salesman Limbs -->
-        <Limb Name="gBeanSalesmanRootLimb" Type="Standard" Offset="0x3D40"/>
-        <Limb Name="gBeanSalesmanLeftUpperArmLimb" Type="Standard" Offset="0x3D4C"/>
-        <Limb Name="gBeanSalesmanLeftForearmLimb" Type="Standard" Offset="0x3D58"/>
-        <Limb Name="gBeanSalesmanLeftHandLimb" Type="Standard" Offset="0x3D64"/>
-        <Limb Name="gBeanSalesmanHeadLimb" Type="Standard" Offset="0x3D70"/>
-        <Limb Name="gBeanSalesmanMouthLimb" Type="Standard" Offset="0x3D7C"/>
-        <Limb Name="gBeanSalesmanBodyLimb" Type="Standard" Offset="0x3D88"/>
-        <Limb Name="gBeanSalesmanBeanbagLimb" Type="Standard" Offset="0x3D94"/>
+        <Limb Name="gBeanSalesmanRootLimb" LimbType="Standard" Offset="0x3D40"/>
+        <Limb Name="gBeanSalesmanLeftUpperArmLimb" LimbType="Standard" Offset="0x3D4C"/>
+        <Limb Name="gBeanSalesmanLeftForearmLimb" LimbType="Standard" Offset="0x3D58"/>
+        <Limb Name="gBeanSalesmanLeftHandLimb" LimbType="Standard" Offset="0x3D64"/>
+        <Limb Name="gBeanSalesmanHeadLimb" LimbType="Standard" Offset="0x3D70"/>
+        <Limb Name="gBeanSalesmanMouthLimb" LimbType="Standard" Offset="0x3D7C"/>
+        <Limb Name="gBeanSalesmanBodyLimb" LimbType="Standard" Offset="0x3D88"/>
+        <Limb Name="gBeanSalesmanBeanbagLimb" LimbType="Standard" Offset="0x3D94"/>
 
         <!-- Bean Salesman Limb DisplayLists -->
         <DList Name="gBeanSalesmanLeftUpperArmDL" Offset="0x2E58"/>

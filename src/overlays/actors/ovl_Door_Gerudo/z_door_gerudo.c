@@ -155,7 +155,7 @@ void DoorGerudo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_166 != 0) {
         Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
-        Actor_DrawDoorLock(globalCtx, this->unk_166, 0);
+        Actor_DrawDoorLock(globalCtx, this->unk_166, DOORLOCK_NORMAL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 377);
