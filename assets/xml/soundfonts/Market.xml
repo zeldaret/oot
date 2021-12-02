@@ -42,6 +42,7 @@
             <Drum Name="Tom Drum 24" Enum="TOM_24"/>
             <Drum Name="Tom Drum 25" Enum="TOM_25"/>
             <Drum Name="Tom Drum 26" Enum="TOM_26"/>
+            <Drum Name="Tom Drum 27" Enum="TOM_27"/>
             <Drum Name="Sidestick 1" Enum="SIDESTICK_1"/>
             <Drum Name="Sidestick 2" Enum="SIDESTICK_2"/>
             <Drum Name="Cymbal 1" Enum="CYMBAL_01"/>

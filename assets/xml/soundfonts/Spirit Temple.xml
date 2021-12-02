@@ -6,6 +6,7 @@
             <Instrument Name="Egyptian Flute 1" Enum="FLUTE_0"/>
             <Instrument Name="Drum and Voice" Enum="TOM_DRUM"/>
             <Instrument Name="Warm Synth 2" Enum="WARM_SYNTH_1"/>
+            <Instrument Name="Egyptian Flute 2" Enum="FLUTE_1"/>
         </Instruments>
         <Drums>
             <Drum Name="Gong 1" Enum="GONG_00"/>

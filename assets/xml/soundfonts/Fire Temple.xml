@@ -1,9 +1,9 @@
 <Root>
     <Soundfont Name="10 - Fire Temple" Index="10">
         <Instruments>
-            <Instrument/>
-            <Instrument/>
-            <Instrument/>
+            <Instrument Name="Islamic Chant 1" Enum="CHANT_0"/>
+            <Instrument Name="Islamic Chant 2" Enum="CHANT_1"/>
+            <Instrument Name="Islamic Chant 3" Enum="CHANT_2"/>
             <Instrument Name="Vibraphone" Enum="VIBRAPHONE"/>
             <Instrument/>
             <Instrument Name="Haunting Wind" Enum="WIND"/>

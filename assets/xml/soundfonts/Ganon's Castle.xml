@@ -1,6 +1,7 @@
 <Root>
     <Soundfont Name="31 - Ganon's Castle" Index="31">
         <Instruments>
+            <Instrument/>
             <Instrument Name="Ghostly Wind" Enum="WIND"/>
             <Instrument Name="Echoing Sounds" Enum="ECHOES"/>
             <Instrument Name="Vocals" Enum="VOCALS"/>
