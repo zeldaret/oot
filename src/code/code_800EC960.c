@@ -1002,7 +1002,7 @@ void AudioOcarina_CheckSongsWithoutMusicStaff(void) {
             sCurOcarinaSong[sOcarinaWithoutMusicStaffPos - 1] = sCurOcarinaNoteIdx;
         }
 
-        // This nested for-loop tests to see if the notes from the ocarina are identical 
+        // This nested for-loop tests to see if the notes from the ocarina are identical
         // to any of the songIdx from sFirstOcarinaSongIdx to sLastOcarinaSongIdx
 
         // Loop through each of the songs
@@ -1112,7 +1112,7 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
 
         // Processes new and valid notes
         if ((sCurOcarinaNoteIdx != NOTE_NONE) && (sPrevOcarinaNoteIdx != sCurOcarinaNoteIdx)) {
-            // Sets ocarina instrument Id to channelIdx io port 7, which is used 
+            // Sets ocarina instrument Id to channelIdx io port 7, which is used
             // as an index in seq 0 to get the true instrument Id
             Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 7, sOcarinaInstrumentId - 1);
             // Sets noteIdx to io port 5
@@ -1198,7 +1198,7 @@ void AudioOcarina_SetDisplayedSong(s8 songIdxPlusOne, s8 displayedState) {
 }
 
 /**
- * Play a song with the ocarina to the user that is 
+ * Play a song with the ocarina to the user that is
  * based on OcarinaNote data and not user input
  */
 void AudioOcarina_PlayDisplayedSong(void) {
@@ -1283,11 +1283,13 @@ void AudioOcarina_PlayDisplayedSong(void) {
 
             if (sDisplayedNoteValue != NOTE_NONE) {
                 sDisplayedStaffPos++;
-                // Sets ocarina instrument Id to channelIdx io port 7, which is used 
+                // Sets ocarina instrument Id to channelIdx io port 7, which is used
                 // as an index in seq 0 to get the true instrument Id
-                Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 7, sOcarinaInstrumentId - 1);
+                Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 7,
+                                 sOcarinaInstrumentId - 1);
                 // Sets sDisplayedNoteValue to channelIdx io port 5
-                Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 5, sDisplayedNoteValue & 0x3F);
+                Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 5,
+                                 sDisplayedNoteValue & 0x3F);
                 Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &D_801333D4, 4, &sRelativeNoteDisplayedBend,
                                        &sRelativeNoteDisplayedVolume, &D_801333E8);
             } else {
