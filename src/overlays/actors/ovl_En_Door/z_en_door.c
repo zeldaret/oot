@@ -228,7 +228,7 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
 }
 
 void EnDoor_WaitForCheck(EnDoor* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnDoor_Check;
     } else {
         func_8002F2CC(&this->actor, globalCtx, DOOR_CHECK_RANGE);
@@ -236,7 +236,7 @@ void EnDoor_WaitForCheck(EnDoor* this, GlobalContext* globalCtx) {
 }
 
 void EnDoor_Check(EnDoor* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnDoor_WaitForCheck;
     }
 }
@@ -293,6 +293,7 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
 
 void EnDoor_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDoor* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
@@ -343,7 +344,7 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         if (this->lockTimer != 0) {
-            Actor_DrawDoorLock(globalCtx, this->lockTimer, 0);
+            Actor_DrawDoorLock(globalCtx, this->lockTimer, DOORLOCK_NORMAL);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_door.c", 941);

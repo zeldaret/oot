@@ -105,7 +105,7 @@ s32 ElfMsg2_GetMessageId(ElfMsg2* this) {
 void ElfMsg2_WaitForTextClose(ElfMsg2* this, GlobalContext* globalCtx) {
     s32 switchFlag;
 
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         if (this->actor.world.rot.z != 1) {
             Actor_Kill(&this->actor);
             switchFlag = (this->actor.params >> 8) & 0x3F;
@@ -122,7 +122,7 @@ void ElfMsg2_WaitForTextClose(ElfMsg2* this, GlobalContext* globalCtx) {
  * Runs while Navi text is not up.
  */
 void ElfMsg2_WaitForTextRead(ElfMsg2* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextClose);
     }
 }

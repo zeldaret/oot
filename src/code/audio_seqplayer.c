@@ -9,16 +9,22 @@
 #define PORTAMENTO_MODE_4 4
 #define PORTAMENTO_MODE_5 5
 
-extern u8 D_80130470[];
-
 u8 AudioSeq_ScriptReadU8(SeqScriptState* state);
 s16 AudioSeq_ScriptReadS16(SeqScriptState* state);
 u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state);
 
 u8 AudioSeq_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** instOut, AdsrSettings* adsr);
 
+u8 D_80130520[] = {
+    0x81, 0x00, 0x81, 0x01, 0x00, 0x00, 0x00, 0x81, 0x01, 0x01, 0x01, 0x42, 0x81, 0xC2, 0x00, 0x00,
+    0x00, 0x01, 0x81, 0x00, 0x00, 0x00, 0x01, 0x42, 0x01, 0x01, 0x01, 0x81, 0x01, 0x01, 0x81, 0x81,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x81, 0x01, 0x01, 0x01, 0x81, 0x01,
+    0x01, 0x03, 0x03, 0x01, 0x00, 0x01, 0x01, 0x81, 0x03, 0x01, 0x00, 0x02, 0x00, 0x01, 0x01, 0x82,
+    0x00, 0x01, 0x01, 0x01, 0x01, 0x81, 0x00, 0x00, 0x01, 0x81, 0x81, 0x81, 0x81, 0x00, 0x00, 0x00,
+};
+
 u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 arg1) {
-    u8 temp_v0 = D_80130470[arg1];
+    u8 temp_v0 = D_80130520[arg1 - 0xB0];
     u8 loBits = temp_v0 & 3;
     u16 ret = 0;
 
@@ -354,12 +360,14 @@ u8 AudioSeq_ScriptReadU8(SeqScriptState* state) {
 
 s16 AudioSeq_ScriptReadS16(SeqScriptState* state) {
     s16 ret = *(state->pc++) << 8;
+
     ret = *(state->pc++) | ret;
     return ret;
 }
 
 u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state) {
     u16 ret = *(state->pc++);
+
     if (ret & 0x80) {
         ret = (ret << 8) & 0x7F00;
         ret = *(state->pc++) | ret;
@@ -471,6 +479,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
         }
         if (cmd >= 0xF2) {
             u16 arg = AudioSeq_GetScriptControlFlowArgument(state, cmd);
+
             if (AudioSeq_HandleScriptFlowControl(seqPlayer, state, cmd, arg) == 0) {
                 continue;
             }
@@ -483,6 +492,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
             case 0xCA: // layer_setpan
             {
                 u8 tempByte = *(state->pc++);
+
                 if (cmd == 0xC1) {
                     layer->velocitySquare = (f32)(tempByte * tempByte) / 16129.0f;
                 } else {
@@ -495,6 +505,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
             case 0xC2: // layer_transpose; set transposition in semitones
             {
                 u8 tempByte = *(state->pc++);
+
                 if (cmd == 0xC9) {
                     layer->gateTime = tempByte;
                 } else {
@@ -590,7 +601,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
 
             case 0xCE: {
                 u8 tempByte = AudioSeq_ScriptReadU8(state);
-                layer->unk_34 = D_8012F4B4[(tempByte + 0x80) & 0xFF];
+                layer->unk_34 = gBendPitchTwoSemitonesFrequencies[(tempByte + 0x80) & 0xFF];
                 break;
             }
 
@@ -987,7 +998,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
         s32 pad2;
 
         if (command >= 0xB0) {
-            highBits = D_80130470[(s32)command];
+            highBits = D_80130520[(s32)command - 0xB0];
             lowBits = highBits & 3;
 
             for (i = 0; i < lowBits; i++, highBits <<= 1) {
@@ -1078,13 +1089,13 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     case 0xD3:
                         command = (u8)parameters[0];
                         command += 0x80;
-                        channel->freqScale = gPitchBendFrequencyScale[command];
+                        channel->freqScale = gBendPitchOneOctaveFrequencies[command];
                         channel->changes.s.freqScale = true;
                         break;
                     case 0xEE:
                         command = (u8)parameters[0];
                         command += 0x80;
-                        channel->freqScale = D_8012F4B4[command];
+                        channel->freqScale = gBendPitchTwoSemitonesFrequencies[command];
                         channel->changes.s.freqScale = true;
                         break;
                     case 0xDD:

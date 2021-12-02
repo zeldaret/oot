@@ -502,7 +502,7 @@ void func_80B128F8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     s16 sp24;
 
     Actor_SetFocus(&this->actor, this->unk_2D4);
-    func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+    Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);
     if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (sp26 > 0) &&
         (sp26 < SCREEN_WIDTH) && (sp24 > 0) && (sp24 < SCREEN_HEIGHT)) {
         this->actor.speedXZ = 5.0f;
@@ -522,7 +522,7 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     f32 tmpf2;
 
     Actor_SetFocus(&this->actor, this->unk_2D4);
-    func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);
+    Actor_GetScreenPos(globalCtx, &this->actor, &sp2E, &sp2C);
     if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E > SCREEN_WIDTH) ||
         (sp2C < 0) || (sp2C > SCREEN_HEIGHT)) {
         Actor_Kill(&this->actor);
@@ -779,7 +779,7 @@ void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             }
 
             Matrix_Translate(ptr->unk_04.x, ptr->unk_04.y, ptr->unk_04.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(ptr->unk_2C, ptr->unk_2C, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(ptr->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);

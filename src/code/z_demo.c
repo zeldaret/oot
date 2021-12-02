@@ -148,16 +148,16 @@ void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 }
 
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
-    Input* pad1 = &globalCtx->state.input[0];
+    Input* input = &globalCtx->state.input[0];
 
-    if (CHECK_BTN_ALL(pad1->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) &&
+    if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) &&
         (gSaveContext.sceneSetupIndex >= 4)) {
         D_8015FCC8 = 0;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
     }
 
-    if (CHECK_BTN_ALL(pad1->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
+    if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
         (gSaveContext.sceneSetupIndex >= 4) && !gDbgCamEnabled) {
         D_8015FCC8 = 1;
         gSaveContext.cutsceneIndex = 0xFFFD;
@@ -456,9 +456,9 @@ void Cutscene_Command_FadeBGM(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         var1 = cmd->endFrame - cmd->startFrame;
 
         if (cmd->type == 3) {
-            Audio_QueueSeqCmd(var1 << 0x10 | 0x110000FF);
+            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF));
         } else {
-            Audio_QueueSeqCmd(var1 << 0x10 | 0x100000FF);
+            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xFF));
         }
     }
 }
@@ -1489,11 +1489,11 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
             if (D_8011E1C0 != cmd->base) {
                 D_8011E1C0 = cmd->base;
                 if ((cmd->type == 3) && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-                    func_8010B680(globalCtx, cmd->textId1, NULL);
+                    Message_StartTextbox(globalCtx, cmd->textId1, NULL);
                 } else if ((cmd->type == 4) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-                    func_8010B680(globalCtx, cmd->textId1, NULL);
+                    Message_StartTextbox(globalCtx, cmd->textId1, NULL);
                 } else {
-                    func_8010B680(globalCtx, cmd->base, NULL);
+                    Message_StartTextbox(globalCtx, cmd->base, NULL);
                 }
                 return;
             }
@@ -1507,37 +1507,38 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
 
         if (csCtx->frames >= cmd->endFrame) {
             originalCsFrames = csCtx->frames;
-            dialogState = func_8010BDBC(&globalCtx->msgCtx);
+            dialogState = Message_GetState(&globalCtx->msgCtx);
 
-            if ((dialogState != 2) && (dialogState != 0) && (dialogState != 7) && (dialogState != 8)) {
+            if ((dialogState != TEXT_STATE_CLOSING) && (dialogState != TEXT_STATE_NONE) &&
+                (dialogState != TEXT_STATE_SONG_DEMO_DONE) && (dialogState != TEXT_STATE_8)) {
                 csCtx->frames--;
 
-                if ((dialogState == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if ((dialogState == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         if (cmd->textId1 != 0xFFFF) {
-                            func_8010B720(globalCtx, cmd->textId1);
+                            Message_ContinueTextbox(globalCtx, cmd->textId1);
                         } else {
                             csCtx->frames++;
                         }
                     } else {
                         if (cmd->textId2 != 0xFFFF) {
-                            func_8010B720(globalCtx, cmd->textId2);
+                            Message_ContinueTextbox(globalCtx, cmd->textId2);
                         } else {
                             csCtx->frames++;
                         }
                     }
                 }
 
-                if (dialogState == 9) {
+                if (dialogState == TEXT_STATE_9) {
                     if (cmd->textId1 != 0xFFFF) {
-                        func_8010B720(globalCtx, cmd->textId1);
+                        Message_ContinueTextbox(globalCtx, cmd->textId1);
                     } else {
                         csCtx->frames++;
                     }
                 }
 
-                if (dialogState == 5) {
-                    if (func_80106BC8(globalCtx) != 0) {
+                if (dialogState == TEXT_STATE_EVENT) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         func_8010BD58(globalCtx, cmd->base);
                     }
                 }

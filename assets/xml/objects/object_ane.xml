@@ -4,21 +4,21 @@
         <Skeleton Name="gCuccoLadySkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
 
         <!-- Cucco Lady Skeleton Limbs -->
-        <Limb Name="gCuccoLadyRootLimb" Type="Standard" Offset="0x000"/>
-        <Limb Name="gCuccoLadyLimb_00C" Type="Standard" Offset="0x00C"/>
-        <Limb Name="gCuccoLadyLimb_018" Type="Standard" Offset="0x018"/>
-        <Limb Name="gCuccoLadyLimb_024" Type="Standard" Offset="0x024"/>
-        <Limb Name="gCuccoLadyLimb_030" Type="Standard" Offset="0x030"/>
-        <Limb Name="gCuccoLadyLimb_03C" Type="Standard" Offset="0x03C"/>
-        <Limb Name="gCuccoLadyLimb_048" Type="Standard" Offset="0x048"/>
-        <Limb Name="gCuccoLadyTorsoLimb" Type="Standard" Offset="0x054"/>
-        <Limb Name="gCuccoLadyLimb_060" Type="Standard" Offset="0x060"/>
-        <Limb Name="gCuccoLadyLimb_06C" Type="Standard" Offset="0x06C"/>
-        <Limb Name="gCuccoLadyLimb_078" Type="Standard" Offset="0x078"/>
-        <Limb Name="gCuccoLadyLimb_084" Type="Standard" Offset="0x084"/>
-        <Limb Name="gCuccoLadyLimb_090" Type="Standard" Offset="0x090"/>
-        <Limb Name="gCuccoLadyLimb_09C" Type="Standard" Offset="0x09C"/>
-        <Limb Name="gCuccoLadyHeadLimb" Type="Standard" Offset="0x0A8"/>
+        <Limb Name="gCuccoLadyRootLimb" LimbType="Standard" Offset="0x000"/>
+        <Limb Name="gCuccoLadyLimb_00C" LimbType="Standard" Offset="0x00C"/>
+        <Limb Name="gCuccoLadyLimb_018" LimbType="Standard" Offset="0x018"/>
+        <Limb Name="gCuccoLadyLimb_024" LimbType="Standard" Offset="0x024"/>
+        <Limb Name="gCuccoLadyLimb_030" LimbType="Standard" Offset="0x030"/>
+        <Limb Name="gCuccoLadyLimb_03C" LimbType="Standard" Offset="0x03C"/>
+        <Limb Name="gCuccoLadyLimb_048" LimbType="Standard" Offset="0x048"/>
+        <Limb Name="gCuccoLadyTorsoLimb" LimbType="Standard" Offset="0x054"/>
+        <Limb Name="gCuccoLadyLimb_060" LimbType="Standard" Offset="0x060"/>
+        <Limb Name="gCuccoLadyLimb_06C" LimbType="Standard" Offset="0x06C"/>
+        <Limb Name="gCuccoLadyLimb_078" LimbType="Standard" Offset="0x078"/>
+        <Limb Name="gCuccoLadyLimb_084" LimbType="Standard" Offset="0x084"/>
+        <Limb Name="gCuccoLadyLimb_090" LimbType="Standard" Offset="0x090"/>
+        <Limb Name="gCuccoLadyLimb_09C" LimbType="Standard" Offset="0x09C"/>
+        <Limb Name="gCuccoLadyHeadLimb" LimbType="Standard" Offset="0x0A8"/>
 
         <!-- Cucco Lady Limb DisplayLists -->
         <DList Name="gCuccoLadyDressDL" Offset="0x6DF0"/>

@@ -264,11 +264,11 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
 
         func_80035844(&this->armPos, &this->handPos[0], &angle, 0);
         Matrix_Translate(this->handPos[0].x, this->handPos[0].y, this->handPos[0].z, MTXMODE_NEW);
-        Matrix_RotateRPY(angle.x, angle.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(angle.x, angle.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&armPosMultiplier2, &this->armPos);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
         func_80035844(&this->actor.world.pos, &this->armPos, &angle, 0);
-        Matrix_RotateRPY(angle.x, angle.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(angle.x, angle.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&armPosMultiplier1, &this->armPos);
         this->limbAngleX[0] = Math_Vec3f_Pitch(&this->actor.world.pos, &this->armPos);
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->armPos) - this->actor.shape.rot.y;

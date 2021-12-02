@@ -151,7 +151,7 @@ void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
     ElfMsg* this = THIS;
 
     if (!ElfMsg_KillCheck(this, globalCtx)) {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
             if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
                 Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
             }

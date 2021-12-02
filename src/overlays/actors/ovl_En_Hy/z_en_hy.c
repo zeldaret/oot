@@ -559,16 +559,16 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
     s16 beggarItems[] = { ITEM_BLUE_FIRE, ITEM_FISH, ITEM_BUG, ITEM_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 4:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             return 1;
-        case 3:
+        case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x709E:
                 case 0x709F:
@@ -584,12 +584,12 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F3:
                     if (this->skelAnime.animation != &gObjOsAnim_33B4) {
                         func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_23);
-                        func_800F5C64(NA_BGM_ITEM_GET | 0x900);
+                        Audio_PlayFanfare(NA_BGM_ITEM_GET | 0x900);
                     }
                     break;
             }
             return 1;
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x70F0:
                 case 0x70F1:
@@ -665,8 +665,8 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             return 0;
-        case 5:
-            if (!func_80106BC8(globalCtx)) {
+        case TEXT_STATE_EVENT:
+            if (!Message_ShouldAdvance(globalCtx)) {
                 return 1;
             } else {
                 return 2;
@@ -1057,7 +1057,7 @@ void func_80A714C4(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void func_80A71530(EnHy* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         switch (this->unkGetItemId) {
             case GI_HEART_PIECE:
                 gSaveContext.dogParams = 0;

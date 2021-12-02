@@ -247,7 +247,7 @@ void func_80098904(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->roomCtx.curRoom.unk_03 = cmd->roomBehavior.gpFlag1;
     globalCtx->roomCtx.curRoom.unk_02 = cmd->roomBehavior.gpFlag2 & 0xFF;
     globalCtx->roomCtx.curRoom.showInvisActors = (cmd->roomBehavior.gpFlag2 >> 8) & 1;
-    globalCtx->msgCtx.unk_E40C = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
+    globalCtx->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }
 
 // Scene Command 0x0A: Mesh Header

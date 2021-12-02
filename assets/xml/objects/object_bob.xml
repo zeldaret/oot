@@ -17,15 +17,15 @@
         <Limb Name="object_bob_Limb_0000A8" LimbType="Standard" Offset="0xA8"/>
         <Skeleton Name="object_bob_Skel_0000F0" Type="Flex" LimbType="Standard" Offset="0xF0"/>
         <Texture Name="object_bob_TLUT_000108" OutName="tlut_00000108" Format="rgba16" Width="16" Height="16" Offset="0x108"/>
-        <Texture Name="object_bob_Tex_000308" OutName="tex_00000308" Format="ci8" Width="8" Height="8" Offset="0x308"/>
-        <Texture Name="object_bob_Tex_000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348"/>
-        <Texture Name="object_bob_Tex_000388" OutName="tex_00000388" Format="ci8" Width="32" Height="32" Offset="0x388"/>
-        <Texture Name="object_bob_Tex_000788" OutName="tex_00000788" Format="ci8" Width="8" Height="8" Offset="0x788"/>
+        <Texture Name="object_bob_Tex_000308" OutName="tex_00000308" Format="ci8" Width="8" Height="8" Offset="0x308" TlutOffset="0x108"/>
+        <Texture Name="object_bob_Tex_000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348" TlutOffset="0x108"/>
+        <Texture Name="object_bob_Tex_000388" OutName="tex_00000388" Format="ci8" Width="32" Height="32" Offset="0x388" TlutOffset="0x108"/>
+        <Texture Name="object_bob_Tex_000788" OutName="tex_00000788" Format="ci8" Width="8" Height="8" Offset="0x788" TlutOffset="0x108"/>
         <Blob Name="object_bob_Blob_0007C8" Size="0x1800" Offset="0x7C8"/>
-        <Texture Name="object_bob_Tex_001FC8" OutName="tex_00001FC8" Format="ci8" Width="16" Height="16" Offset="0x1FC8"/>
-        <Texture Name="object_bob_Tex_0020C8" OutName="tex_000020C8" Format="ci8" Width="16" Height="16" Offset="0x20C8"/>
-        <Texture Name="object_bob_Tex_0021C8" OutName="tex_000021C8" Format="ci8" Width="8" Height="8" Offset="0x21C8"/>
-        <Texture Name="object_bob_Tex_002208" OutName="tex_00002208" Format="ci8" Width="16" Height="16" Offset="0x2208"/>
+        <Texture Name="object_bob_Tex_001FC8" OutName="tex_00001FC8" Format="ci8" Width="16" Height="16" Offset="0x1FC8" TlutOffset="0x108"/>
+        <Texture Name="object_bob_Tex_0020C8" OutName="tex_000020C8" Format="ci8" Width="16" Height="16" Offset="0x20C8" TlutOffset="0x108"/>
+        <Texture Name="object_bob_Tex_0021C8" OutName="tex_000021C8" Format="ci8" Width="8" Height="8" Offset="0x21C8" TlutOffset="0x108"/>
+        <Texture Name="object_bob_Tex_002208" OutName="tex_00002208" Format="ci8" Width="16" Height="16" Offset="0x2208" TlutOffset="0x108"/>
         <DList Name="object_bob_DL_003B78" Offset="0x3B78"/>
         <DList Name="object_bob_DL_003F68" Offset="0x3F68"/>
         <DList Name="object_bob_DL_0040B0" Offset="0x40B0"/>

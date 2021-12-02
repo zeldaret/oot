@@ -132,7 +132,7 @@ void BgHakaShip_Move(BgHakaShip* this, GlobalContext* globalCtx) {
     if (distanceFromHome > 7600.0f && !Gameplay_InCsMode(globalCtx)) {
         this->counter = 40;
         this->dyna.actor.speedXZ = 0.0f;
-        func_8010B680(globalCtx, 0x5071, NULL);
+        Message_StartTextbox(globalCtx, 0x5071, NULL);
         this->actionFunc = BgHakaShip_SetupCrash;
     } else {
         Math_StepToF(&this->dyna.actor.speedXZ, 4.0f, 0.2f);
@@ -230,7 +230,7 @@ void BgHakaShip_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sp2C.y = this->dyna.actor.world.pos.y + 62.0f;
         sp2C.z = this->dyna.actor.world.pos.z;
 
-        SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &sp2C, &this->bellSoundPos);
+        SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &sp2C, &this->bellSoundPos);
         func_80078914(&this->bellSoundPos, NA_SE_EV_SHIP_BELL - SFX_FLAG);
     }
 }

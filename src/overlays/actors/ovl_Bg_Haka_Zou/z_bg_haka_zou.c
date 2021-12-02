@@ -402,7 +402,12 @@ void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaZou_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dLists[] = { 0x060064E0, 0x06005CE0, gBotwBombSpotDL, 0x06005CE0 };
+    static Gfx* dLists[] = {
+        object_haka_objects_DL_0064E0,
+        object_haka_objects_DL_005CE0,
+        gBotwBombSpotDL,
+        object_haka_objects_DL_005CE0,
+    };
 
     Gfx_DrawDListOpa(globalCtx, dLists[thisx->params]);
 }
