@@ -420,7 +420,7 @@ typedef struct {
 } Battle1; // size = 0x50
 
 typedef struct {
-    /* 0x00 */ s16 animTimer;
+    /* 0x0 */ s16 animTimer;
 } Battle4Anim; // size = 0x2
 
 typedef struct {
