@@ -977,6 +977,7 @@ void func_80ADB770(EnPoSisters* this, GlobalContext* globalCtx) {
         }
     } else if (this->unk_195 != 0) {
         EnPoSisters* realMeg = (EnPoSisters*)this->actor.parent;
+
         if (realMeg->actionFunc == func_80ADAAA4) {
             func_80AD95D8(this);
         }
@@ -1195,7 +1196,7 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f, 5);
         } else {
             Vec3f vec;
-            UNK_TYPE sp34;
+            s32 sp34;
 
             vec.x = this->actor.world.pos.x;
             vec.y = this->actor.world.pos.y + 10.0f;

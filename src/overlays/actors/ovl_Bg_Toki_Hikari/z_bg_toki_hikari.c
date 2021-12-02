@@ -66,6 +66,7 @@ void BgTokiHikari_DoNothing(BgTokiHikari* this, GlobalContext* globalCtx) {
 
 void BgTokiHikari_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgTokiHikari* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 

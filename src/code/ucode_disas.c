@@ -19,6 +19,7 @@
 
 u32 UCodeDisas_TranslateAddr(UCodeDisas* this, u32 addr) {
     u32 physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
+
     return PHYSICAL_TO_VIRTUAL(physical);
 }
 
@@ -136,6 +137,7 @@ const char* UCodeDisas_ParseCombineAlpha(u32 value, u32 idx) {
 
 void UCodeDisas_Init(UCodeDisas* this) {
     u32 i;
+
     bzero(this, sizeof(UCodeDisas));
     for (i = 0; i < NUM_SEGMENTS; i++) {
         this->segments[i] = gSegments[i];
@@ -1208,7 +1210,9 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                 }
                             } break;
 
-                            default: { DISAS_LOG("AnyDisplayList(),"); } break;
+                            default: {
+                                DISAS_LOG("AnyDisplayList(),");
+                            } break;
                         }
                     } break;
 
@@ -1333,7 +1337,9 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                 DISAS_LOG("gsSPObjRenderMode(0x%08x),", dma.addr);
                             } break;
 
-                            default: { DISAS_LOG("AnyDisplayList(),"); } break;
+                            default: {
+                                DISAS_LOG("AnyDisplayList(),");
+                            } break;
                         }
                     }
                 }

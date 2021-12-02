@@ -100,6 +100,7 @@ void func_809C1E00(EnBird* this, s16 params) {
 
 void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
     f32 fVar4 = sinf(this->unk_1B4);
+
     this->actor.shape.yOffset += fVar4 * this->unk_1A0;
     Math_SmoothStepToF(&this->actor.speedXZ, this->unk_1A8, 0.1f, this->unk_1AC, 0.0f);
 

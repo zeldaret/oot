@@ -478,7 +478,7 @@ void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         Matrix_Push();
-        Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+        Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
         // redundant check because this is contained in an if block for non-zero speed
         Matrix_RotateZ((this->actor.speedXZ == 0.0f) ? 0.0f
                                                      : ((globalCtx->gameplayFrames & 0xFF) * 4000) * (M_PI / 0x8000),

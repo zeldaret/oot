@@ -157,6 +157,7 @@ void func_809781FC(DemoGeff* this, GlobalContext* globalCtx) {
 void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
     DemoGt* demoGt = this->demoGt;
     s16 params = this->actor.params;
+
     if (demoGt != NULL && (params != 6) && (params != 7) && (params != 8)) {
         this->actor.world.pos.x = demoGt->dyna.actor.world.pos.x + this->deltaPosX;
         this->actor.world.pos.y = demoGt->dyna.actor.world.pos.y + this->deltaPosY;

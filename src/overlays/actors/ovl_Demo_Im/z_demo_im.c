@@ -648,6 +648,7 @@ void func_809862E0(DemoIm* this, GlobalContext* globalCtx) {
     if (npcAction != NULL) {
         u32 action = npcAction->action;
         u32 unk_274 = this->unk_274;
+
         if (action != unk_274) {
             switch (action) {
                 case 1:

@@ -609,6 +609,7 @@ s32 func_80A6AD84(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSkinAwb* ar
 
     if (arg2 == 0xD) {
         u8 index = sEyeIndexOrder[this->eyeTexIndex];
+
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[index]));
     }
 

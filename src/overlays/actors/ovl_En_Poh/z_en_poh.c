@@ -990,7 +990,7 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
     EnPoh* this = THIS;
     s32 pad;
     Vec3f vec;
-    UNK_TYPE sp38;
+    s32 sp38;
 
     if (this->colliderSph.base.atFlags & AT_HIT) {
         this->colliderSph.base.atFlags &= ~AT_HIT;
@@ -1180,6 +1180,7 @@ void EnPoh_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
         if (this->infoIdx == EN_POH_INFO_COMPOSER) {
             Color_RGBA8* envColor = (this->actor.params == EN_POH_SHARP) ? &D_80AE1B4C : &D_80AE1B50;
             s32 pad;
+
             gSPDisplayList(POLY_OPA_DISP++, gPoeComposerLanternBottomDL);
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetEnvColor(POLY_OPA_DISP++, envColor->r, envColor->g, envColor->b, 255);

@@ -76,6 +76,7 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
         }
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(globalCtx, 0x37))) {
         s16 scene = globalCtx->sceneNum;
+
         if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) ||
              (scene == SCENE_GANONTIKA_SONOGO)) &&
             (!this->collapseSpawnerInactive)) {

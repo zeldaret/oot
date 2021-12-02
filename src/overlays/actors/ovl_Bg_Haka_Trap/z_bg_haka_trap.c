@@ -355,7 +355,7 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     f32 tempf20;
     f32 temp;
     s32 i;
-    UNK_TYPE sp64;
+    s32 sp64;
 
     this->dyna.actor.velocity.y *= 1.6f;
 
@@ -518,7 +518,8 @@ void func_80880D68(BgHakaTrap* this) {
 
 void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* sDLists[5] = {
-        0x06007610, 0x06009860, 0x06007EF0, 0x06008A20, 0x060072C0,
+        object_haka_objects_DL_007610, object_haka_objects_DL_009860, object_haka_objects_DL_007EF0,
+        object_haka_objects_DL_008A20, object_haka_objects_DL_0072C0,
     };
     static Color_RGBA8 D_8088103C = { 0, 0, 0, 0 };
     BgHakaTrap* this = THIS;
@@ -544,7 +545,7 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sp2C.z = this->dyna.actor.world.pos.z;
         sp2C.y = this->dyna.actor.world.pos.y + 110.0f;
 
-        SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &sp2C, &this->unk_16C);
+        SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &sp2C, &this->unk_16C);
         func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
     }
 }

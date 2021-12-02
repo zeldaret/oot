@@ -314,7 +314,7 @@ void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AF2C54(EnRu2* this, UNK_TYPE arg1) {
+void func_80AF2C54(EnRu2* this, s32 arg1) {
     if (arg1 != 0) {
         this->action = 5;
     }
@@ -355,7 +355,7 @@ void func_80AF2D2C(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF2D6C(EnRu2* this, GlobalContext* globalCtx) {
-    UNK_TYPE something;
+    s32 something;
 
     func_80AF2744(this, globalCtx);
     something = EnRu2_UpdateSkelAnime(this);
@@ -531,7 +531,7 @@ void func_80AF34F0(EnRu2* this) {
     this->action = 13;
 }
 
-void func_80AF3530(EnRu2* this, UNK_TYPE arg1) {
+void func_80AF3530(EnRu2* this, s32 arg1) {
     if (arg1 != 0) {
         func_80AF28E8(this, &gAdultRutoLookingDownLeftAnim, 0, 0.0f, 0);
     }
@@ -583,7 +583,7 @@ void func_80AF366C(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF36AC(EnRu2* this, GlobalContext* globalCtx) {
-    UNK_TYPE something;
+    s32 something;
 
     func_80AF2744(this, globalCtx);
     something = EnRu2_UpdateSkelAnime(this);

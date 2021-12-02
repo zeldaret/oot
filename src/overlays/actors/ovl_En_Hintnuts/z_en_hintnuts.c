@@ -103,6 +103,7 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHintnuts_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHintnuts* this = THIS;
+
     if (this->actor.params != 0xA) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }

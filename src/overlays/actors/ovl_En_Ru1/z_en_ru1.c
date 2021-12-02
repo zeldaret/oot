@@ -482,6 +482,7 @@ void func_80AEB7D0(EnRu1* this) {
 
 f32 func_80AEB7E0(CsCmdActorAction* csCmdNPCAction, GlobalContext* globalCtx) {
     s32 csCtxFrames = globalCtx->csCtx.frames;
+
     if ((csCtxFrames < csCmdNPCAction->endFrame) && (csCmdNPCAction->endFrame - csCmdNPCAction->startFrame > 0)) {
         return (Math_CosS(((csCtxFrames - csCmdNPCAction->startFrame) /
                            (f32)(csCmdNPCAction->endFrame - csCmdNPCAction->startFrame)) *
@@ -548,6 +549,7 @@ void func_80AEBA2C(EnRu1* this, GlobalContext* globalCtx) {
     f32 temp_ret_2;
     CsCmdActorAction* csCmdNPCAction = func_80AEB438(globalCtx);
     s32 pad2;
+
     if (csCmdNPCAction != NULL) {
         temp_ret_2 = func_80AEB7E0(csCmdNPCAction, globalCtx);
         thisPos = &this->actor.world.pos;
@@ -1513,6 +1515,7 @@ s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
     DynaPolyActor* dynaPolyActor;
     s32 floorBgId;
+
     if ((this->actor.bgCheckFlags & 1) && (this->actor.floorBgId != BGCHECK_SCENE)) {
         floorBgId = this->actor.floorBgId;
         dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, floorBgId);

@@ -1166,11 +1166,13 @@ void func_80AB36DC(EnNb* this, GlobalContext* globalCtx) {
 
     if ((((u16)((u16)(kREG(17) + 25) - 4))) > moveTime) {
         s16 invScale = 4 - moveTime;
+
         if (invScale > 0) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->pathYaw, invScale, 6200, 100);
         }
     } else {
         s16 invScale = (u16)(kREG(17) + 25) - moveTime;
+
         if (invScale > 0) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, invScale, 6200, 100);
         }

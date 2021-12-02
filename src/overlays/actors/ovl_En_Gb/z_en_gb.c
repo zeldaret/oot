@@ -537,7 +537,7 @@ void EnGb_DrawCagedSouls(EnGb* this, GlobalContext* globalCtx) {
         Matrix_Push();
         Matrix_Translate(this->cagedSouls[i].translation.x, this->cagedSouls[i].translation.y,
                          this->cagedSouls[i].translation.z, MTXMODE_NEW);
-        func_800D1FD4(&globalCtx->mf_11DA0);
+        func_800D1FD4(&globalCtx->billboardMtxF);
 
         if (this->cagedSouls[i].rotate180) {
             Matrix_RotateZYX(0, -0x8000, 0, MTXMODE_APPLY);

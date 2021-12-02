@@ -13,7 +13,7 @@
         <!-- Running. -->
         <Animation Name="gChildEponaGallopingAnim" Offset="0x2F98"/>
 
-        <Texture Name="gChildEponaEyePal" OutName="child_epona_eye_pal" Format="rgba16" Width="16" Height="16" Offset="0x1728" />
+        <Texture Name="gChildEponaEyePal" OutName="child_epona_eye_pal" Format="rgba16" Width="16" Height="16" Offset="0x1728"/>
         <Texture Name="gChildEponaEyeOpenTex" OutName="child_epona_eye_open" Format="ci8" Width="32" Height="16" Offset="0x1D28"  TlutOffset="0x1728"/>
         <Texture Name="gChildEponaEyeHalfTex" OutName="child_epona_eye_half" Format="ci8" Width="32" Height="16" Offset="0x1928"  TlutOffset="0x1728"/>
         <Texture Name="gChildEponaEyeCloseTex" OutName="child_epona_eye_close" Format="ci8" Width="32" Height="16" Offset="0x1B28"  TlutOffset="0x1728"/>

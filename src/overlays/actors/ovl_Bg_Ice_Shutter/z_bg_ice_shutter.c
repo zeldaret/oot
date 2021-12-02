@@ -127,6 +127,7 @@ void func_80891DD4(BgIceShutter* this, GlobalContext* globalCtx) {
 
 void BgIceShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgIceShutter* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 

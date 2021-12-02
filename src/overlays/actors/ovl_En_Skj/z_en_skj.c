@@ -1113,6 +1113,7 @@ void EnSkj_SetupWaitForLandAnimFinish(EnSkj* this) {
 
 void EnSkj_WaitForLandAnimFinish(EnSkj* this, GlobalContext* globalCtx) {
     s16 lastFrame = Animation_GetLastFrame(&gSkullKidLandAnim);
+
     if (this->skelAnime.curFrame == lastFrame) {
         EnSkj_SetupWalkToPlayer(this);
     }

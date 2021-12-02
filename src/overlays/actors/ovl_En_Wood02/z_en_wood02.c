@@ -102,7 +102,8 @@ static f32 sSpawnSin;
 s32 EnWood02_SpawnZoneCheck(EnWood02* this, GlobalContext* globalCtx, Vec3f* pos) {
     f32 phi_f12;
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, pos, &this->actor.projectedPos, &this->actor.projectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, pos, &this->actor.projectedPos,
+                                 &this->actor.projectedW);
 
     phi_f12 = ((this->actor.projectedW == 0.0f) ? 1000.0f : fabsf(1.0f / this->actor.projectedW));
 

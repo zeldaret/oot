@@ -196,10 +196,10 @@ f32 D_8011FDD4 = 0.0f;
 
 u8 gCustomLensFlareOn;
 Vec3f gCustomLensFlarePos;
-s16 D_8015FD04;
-s16 D_8015FD06;
-f32 D_8015FD08;
-s16 D_8015FD0C;
+s16 gLensFlareUnused;
+s16 gLensFlareScale;
+f32 gLensFlareColorIntensity;
+s16 gLensFlareScreenFillAlpha;
 LightningBolt sLightningBolts[3];
 LightningStrike gLightningStrike;
 s16 sLightningFlashAlpha;
@@ -844,7 +844,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
     u16 i;
     u16 j;
     u16 time;
-    EnvLightSettings* lightSettingsList = globalCtx->envCtx.lightSettingsList; // 7C
+    EnvLightSettings* lightSettingsList = globalCtx->envCtx.lightSettingsList;
     s32 adjustment;
 
     if ((((void)0, gSaveContext.gameMode) != 0) && (((void)0, gSaveContext.gameMode) != 3)) {
@@ -894,9 +894,9 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         if (((((void)0, gSaveContext.sceneSetupIndex) >= 5 || gTimeIncrement != 0) &&
              ((void)0, gSaveContext.dayTime) > gSaveContext.skyboxTime) ||
             (((void)0, gSaveContext.dayTime) < 0xAAB || gTimeIncrement < 0)) {
-
             gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
         }
+
         time = gSaveContext.dayTime;
 
         if (time > 0xC000 || time < 0x4555) {
@@ -1027,7 +1027,6 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                     }
                 }
             } else {
-                // 3200 (l 1608)
                 if (!envCtx->blendIndoorLights) {
                     for (i = 0; i < 3; i++) {
                         envCtx->lightSettings.ambientColor[i] = lightSettingsList[envCtx->unk_BD].ambientColor[i];
@@ -1042,7 +1041,6 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                     envCtx->lightSettings.fogFar = lightSettingsList[envCtx->unk_BD].fogFar;
                     envCtx->unk_D8 = 1.0f;
                 } else {
-                    // 3344 (l 1689)
                     u8 blendRate = (lightSettingsList[envCtx->unk_BD].fogNear >> 0xA) * 4;
 
                     if (blendRate == 0) {
@@ -1355,7 +1353,8 @@ void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* 
 f32 sLensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
 
 void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
-                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
+                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
+                               s16 screenFillAlpha, u8 arg9) {
     s16 i;
     f32 tempX;
     f32 tempY;
@@ -1379,7 +1378,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
     f32 unk88Target;
     u32 isOffScreen = false;
     f32 alpha;
-    f32 scale;
+    f32 adjScale;
     Vec3f screenPos;
     f32 fogInfluence;
     f32 temp;
@@ -1467,17 +1466,17 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
             }
 
             Matrix_Translate(-posDirX * i * dist, -posDirY * i * dist, -posDirZ * i * dist, MTXMODE_APPLY);
-            scale = sLensFlareScales[i] * cosAngle;
+            adjScale = sLensFlareScales[i] * cosAngle;
 
             if (arg9) {
-                scale *= 0.001 * (arg6 + 630.0f * temp);
+                adjScale *= 0.001 * (scale + 630.0f * temp);
             } else {
-                scale *= 0.0001f * arg6 * (2.0f * dist);
+                adjScale *= 0.0001f * scale * (2.0f * dist);
             }
 
-            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+            Matrix_Scale(adjScale, adjScale, adjScale, MTXMODE_APPLY);
 
-            alpha = arg7 / 10.0f;
+            alpha = colorIntensity / 10.0f;
             alpha = CLAMP_MAX(alpha, 1.0f);
             alpha = alpha * lensFlareAlphas[i];
             alpha = CLAMP_MIN(alpha, 0.0f);
@@ -1520,13 +1519,13 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
 
         alphaScale = cosAngle - (1.5f - cosAngle);
 
-        if (arg8) {
+        if (screenFillAlpha != 0) {
             if (alphaScale > 0.0f) {
                 POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
 
-                alpha = arg7 / 10.0f;
+                alpha = colorIntensity / 10.0f;
                 alpha = CLAMP_MAX(alpha, 1.0f);
-                alpha = alpha * arg8;
+                alpha = alpha * screenFillAlpha;
                 alpha = CLAMP_MIN(alpha, 0.0f);
 
                 fogInfluence = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
@@ -1544,7 +1543,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
                     Math_SmoothStepToF(&envCtx->unk_84, 0.0f, 0.5f, 50.0f, 0.1f);
                 }
 
-                temp = arg7 / 120.0f;
+                temp = colorIntensity / 120.0f;
                 temp = CLAMP_MIN(temp, 0.0f);
 
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, (u8)(temp * 75.0f) + 180, (u8)(temp * 155.0f) + 100,
@@ -1925,7 +1924,7 @@ void func_800758AC(GlobalContext* globalCtx) {
         func_800F6FB4(4);
     } else if (((void)0, gSaveContext.unk_140E) != NA_BGM_GENERAL_SFX) {
         if (!func_80077600()) {
-            Audio_QueueSeqCmd((s32)((void)0, gSaveContext.unk_140E));
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (s32)((void)0, gSaveContext.unk_140E));
         }
         gSaveContext.unk_140E = NA_BGM_GENERAL_SFX;
     } else if (globalCtx->soundCtx.seqIndex == NA_BGM_NO_MUSIC) {
@@ -1985,7 +1984,7 @@ void func_80075B44(GlobalContext* globalCtx) {
         case 1:
             if (gSaveContext.dayTime > 0xB71C) {
                 if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                    Audio_QueueSeqCmd(0x10F000FF);
+                    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xF000FF);
                 }
                 globalCtx->envCtx.unk_E0++;
             }
@@ -2053,7 +2052,8 @@ void Environment_DrawCustomLensFlare(GlobalContext* globalCtx) {
         pos.z = gCustomLensFlarePos.z;
 
         Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos,
-                                  D_8015FD04, D_8015FD06, D_8015FD08, D_8015FD0C, 0);
+                                  gLensFlareUnused, gLensFlareScale, gLensFlareColorIntensity,
+                                  gLensFlareScreenFillAlpha, 0);
     }
 }
 
@@ -2419,7 +2419,7 @@ void func_80077684(GlobalContext* globalCtx) {
     func_800F6D58(14, 1, 0);
     func_800F6D58(15, 1, 0);
 
-    if (func_800FA0B4(0) == NA_BGM_NATURE_BACKGROUND) {
+    if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_BACKGROUND) {
         gSaveContext.seqIndex = NA_BGM_NATURE_SFX_RAIN;
         func_800758AC(globalCtx);
     }

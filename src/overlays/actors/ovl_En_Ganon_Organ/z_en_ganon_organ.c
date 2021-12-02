@@ -45,7 +45,7 @@ void EnGanonOrgan_Update(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("ORGAN MOVE 1\n");
     if (thisx->params == 1) {
         dorf = (BossGanon*)thisx->parent;
-        if (dorf->organFadeTimer == 0) {
+        if (dorf->organAlpha == 0) {
             Actor_Kill(thisx);
         }
     }
@@ -69,7 +69,7 @@ Gfx* func_80A280BC(GraphicsContext* gfxCtx, BossGanon* dorf) {
     gDPPipeSync(displayListHead++);
     if (1) {}
     if (1) {}
-    gDPSetEnvColor(displayListHead++, 25, 20, 0, dorf->organFadeTimer);
+    gDPSetEnvColor(displayListHead++, 25, 20, 0, dorf->organAlpha);
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gSPEndDisplayList(displayListHead);
     return displayList;
@@ -85,7 +85,7 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
     gDPPipeSync(displayListHead++);
     if (1) {}
     if (1) {}
-    gDPSetEnvColor(displayListHead++, 0, 0, 0, dorf->organFadeTimer);
+    gDPSetEnvColor(displayListHead++, 0, 0, 0, dorf->organAlpha);
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gSPEndDisplayList(displayListHead);
     return displayList;
@@ -98,7 +98,7 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("ORGAN DRAW  1\n");
     func_80093D18(globalCtx->state.gfxCtx);
-    if ((thisx->params == 1) && (dorf->organFadeTimer != 255)) {
+    if ((thisx->params == 1) && (dorf->organAlpha != 255)) {
         gSPSegment(POLY_OPA_DISP++, 0x08, func_80A280BC(globalCtx->state.gfxCtx, dorf));
         gSPSegment(POLY_OPA_DISP++, 0x09, func_80A28148(globalCtx->state.gfxCtx, dorf));
     } else {

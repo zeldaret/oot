@@ -109,8 +109,8 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
             } else {
                 globalCtx->csCtx.segment = D_808BB7A0;
             }
-            Audio_QueueSeqCmd(NA_BGM_STOP);
-            Audio_QueueSeqCmd(NA_BGM_MASTER_SWORD);
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_MASTER_SWORD);
             gSaveContext.cutsceneTrigger = 1;
             this->actor.parent = NULL;
             BgTokiSwd_SetupAction(this, func_808BB0AC);

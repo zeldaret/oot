@@ -5,21 +5,21 @@
         <Skeleton Name="gGerudoWhiteSkel" Type="Flex" LimbType="Standard" Offset="0x0330"/>
 
         <!-- White-clothed Gerudo Limbs -->
-        <Limb Name="gGerudoWhiteWaistLimb" Type="Standard" Offset="0x0240"/>
-        <Limb Name="gGerudoWhiteLeftThighLimb" Type="Standard" Offset="0x024C"/>
-        <Limb Name="gGerudoWhiteLeftShinLimb" Type="Standard" Offset="0x0258"/>
-        <Limb Name="gGerudoWhiteLeftFootLimb" Type="Standard" Offset="0x0264"/>
-        <Limb Name="gGerudoWhiteRightThighLimb" Type="Standard" Offset="0x0270"/>
-        <Limb Name="gGerudoWhiteRightShinLimb" Type="Standard" Offset="0x027C"/>
-        <Limb Name="gGerudoWhiteRightFootLimb" Type="Standard" Offset="0x0288"/>
-        <Limb Name="gGerudoWhiteTorsoLimb" Type="Standard" Offset="0x0294"/>
-        <Limb Name="gGerudoWhiteLeftUpperArmLimb" Type="Standard" Offset="0x02A0"/>
-        <Limb Name="gGerudoWhiteLeftForearmLimb" Type="Standard" Offset="0x02AC"/>
-        <Limb Name="gGerudoWhiteLeftHandLimb" Type="Standard" Offset="0x02B8"/>
-        <Limb Name="gGerudoWhiteRightUpperArmLimb" Type="Standard" Offset="0x02C4"/>
-        <Limb Name="gGerudoWhiteRightForearmLimb" Type="Standard" Offset="0x02D0"/>
-        <Limb Name="gGerudoWhiteRightHandLimb" Type="Standard" Offset="0x02DC"/>
-        <Limb Name="gGerudoWhiteHeadLimb" Type="Standard" Offset="0x02E8"/>
+        <Limb Name="gGerudoWhiteWaistLimb" LimbType="Standard" Offset="0x0240"/>
+        <Limb Name="gGerudoWhiteLeftThighLimb" LimbType="Standard" Offset="0x024C"/>
+        <Limb Name="gGerudoWhiteLeftShinLimb" LimbType="Standard" Offset="0x0258"/>
+        <Limb Name="gGerudoWhiteLeftFootLimb" LimbType="Standard" Offset="0x0264"/>
+        <Limb Name="gGerudoWhiteRightThighLimb" LimbType="Standard" Offset="0x0270"/>
+        <Limb Name="gGerudoWhiteRightShinLimb" LimbType="Standard" Offset="0x027C"/>
+        <Limb Name="gGerudoWhiteRightFootLimb" LimbType="Standard" Offset="0x0288"/>
+        <Limb Name="gGerudoWhiteTorsoLimb" LimbType="Standard" Offset="0x0294"/>
+        <Limb Name="gGerudoWhiteLeftUpperArmLimb" LimbType="Standard" Offset="0x02A0"/>
+        <Limb Name="gGerudoWhiteLeftForearmLimb" LimbType="Standard" Offset="0x02AC"/>
+        <Limb Name="gGerudoWhiteLeftHandLimb" LimbType="Standard" Offset="0x02B8"/>
+        <Limb Name="gGerudoWhiteRightUpperArmLimb" LimbType="Standard" Offset="0x02C4"/>
+        <Limb Name="gGerudoWhiteRightForearmLimb" LimbType="Standard" Offset="0x02D0"/>
+        <Limb Name="gGerudoWhiteRightHandLimb" LimbType="Standard" Offset="0x02DC"/>
+        <Limb Name="gGerudoWhiteHeadLimb" LimbType="Standard" Offset="0x02E8"/>
 
         <!-- White-clothed Gerudo Limb DisplayLists -->
         <DList Name="gGerudoWhiteWaistDL" Offset="0x69E0"/>

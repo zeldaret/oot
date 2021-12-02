@@ -324,6 +324,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         f32 rotX;
         f32 rotZ;
         s32 pad;
+
         // Carpet size is 12x12.
         if ((i % 12) == 11) { // Last column.
             j = i - 1;

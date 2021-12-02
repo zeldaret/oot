@@ -869,7 +869,11 @@ void EnSsh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u32* blinkTex[] = { 0x060007E0, 0x06000C60, 0x06001060 };
+    static void* blinkTex[] = {
+        object_ssh_Tex_0007E0,
+        object_ssh_Tex_000C60,
+        object_ssh_Tex_001060,
+    };
     s32 pad;
     EnSsh* this = THIS;
 

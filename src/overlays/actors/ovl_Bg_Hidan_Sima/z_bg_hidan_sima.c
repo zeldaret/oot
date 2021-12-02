@@ -214,6 +214,7 @@ void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     if (this->dyna.actor.params != 0) {
         s32 temp = (this->dyna.actor.world.rot.y == this->dyna.actor.shape.rot.y) ? this->timer : (this->timer + 80);
+
         if (this->actionFunc == func_8088E7A8) {
             temp += 20;
         }

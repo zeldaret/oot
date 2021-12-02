@@ -27,7 +27,7 @@ void func_800F9280(u8 playerIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
     u16 dur;
     s32 pad;
 
-    if (D_80133408 == 0 || playerIdx == 2) {
+    if (D_80133408 == 0 || playerIdx == SEQ_PLAYER_SFX) {
         arg2 &= 0x7F;
         if (arg2 == 0x7F) {
             dur = (fadeTimer >> 3) * 60 * gAudioContext.audioBufferParameters.updatesPerFrame;
@@ -60,10 +60,10 @@ void func_800F9280(u8 playerIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
     }
 }
 
-void func_800F9474(u8 arg0, u16 arg1) {
-    Audio_QueueCmdS32(0x83000000 | ((u8)arg0 << 16),
+void func_800F9474(u8 playerIdx, u16 arg1) {
+    Audio_QueueCmdS32(0x83000000 | ((u8)playerIdx << 16),
                       (arg1 * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
-    D_8016E750[arg0].unk_254 = NA_BGM_DISABLED;
+    D_8016E750[playerIdx].unk_254 = NA_BGM_DISABLED;
 }
 
 typedef enum {
@@ -387,18 +387,18 @@ s32 func_800FA11C(u32 arg0, u32 arg1) {
     return true;
 }
 
-void func_800FA174(u8 arg0) {
-    D_8016E348[arg0] = 0;
+void func_800FA174(u8 playerIdx) {
+    D_8016E348[playerIdx] = 0;
 }
 
-void func_800FA18C(u8 arg0, u8 arg1) {
+void func_800FA18C(u8 playeridx, u8 arg1) {
     u8 i;
 
-    for (i = 0; i < D_8016E750[arg0].unk_4D; i++) {
-        u8 unkb = (D_8016E750[arg0].unk_2C[i] & 0xF00000) >> 20;
+    for (i = 0; i < D_8016E750[playeridx].unk_4D; i++) {
+        u8 unkb = (D_8016E750[playeridx].unk_2C[i] & 0xF00000) >> 20;
 
         if (unkb == arg1) {
-            D_8016E750[arg0].unk_2C[i] = 0xFF000000;
+            D_8016E750[playeridx].unk_2C[i] = 0xFF000000;
         }
     }
 }
@@ -435,54 +435,54 @@ void func_800FA3DC(void) {
     u32 dummy;
     f32 phi_f0;
     u8 phi_t0;
-    u8 i;
+    u8 playerIdx;
     u8 j;
     u8 k;
 
-    for (i = 0; i < 4; i++) {
-        if (D_8016E750[i].unk_260 != 0) {
+    for (playerIdx = 0; playerIdx < 4; playerIdx++) {
+        if (D_8016E750[playerIdx].unk_260 != 0) {
             switch (func_800E5E20(&dummy)) {
                 case 1:
                 case 2:
                 case 3:
                 case 4:
-                    D_8016E750[i].unk_260 = 0;
-                    Audio_ProcessSeqCmd(D_8016E750[i].unk_25C);
+                    D_8016E750[playerIdx].unk_260 = 0;
+                    Audio_ProcessSeqCmd(D_8016E750[playerIdx].unk_25C);
                     break;
             }
         }
 
-        if (D_8016E750[i].fadeVolUpdate) {
+        if (D_8016E750[playerIdx].fadeVolUpdate) {
             phi_f0 = 1.0f;
             for (j = 0; j < 4; j++) {
-                phi_f0 *= (D_8016E750[i].volScales[j] / 127.0f);
+                phi_f0 *= (D_8016E750[playerIdx].volScales[j] / 127.0f);
             }
-            Audio_SeqCmd4(i, D_8016E750[i].volFadeTimer, (u8)(phi_f0 * 127.0f));
-            D_8016E750[i].fadeVolUpdate = 0;
+            Audio_SeqCmd4(playerIdx, D_8016E750[playerIdx].volFadeTimer, (u8)(phi_f0 * 127.0f));
+            D_8016E750[playerIdx].fadeVolUpdate = 0;
         }
 
-        if (D_8016E750[i].unk_0C != 0) {
-            D_8016E750[i].unk_0C--;
+        if (D_8016E750[playerIdx].unk_0C != 0) {
+            D_8016E750[playerIdx].unk_0C--;
 
-            if (D_8016E750[i].unk_0C != 0) {
-                D_8016E750[i].volCur = D_8016E750[i].volCur - D_8016E750[i].unk_08;
+            if (D_8016E750[playerIdx].unk_0C != 0) {
+                D_8016E750[playerIdx].volCur = D_8016E750[playerIdx].volCur - D_8016E750[playerIdx].unk_08;
             } else {
-                D_8016E750[i].volCur = D_8016E750[i].volTarget;
+                D_8016E750[playerIdx].volCur = D_8016E750[playerIdx].volTarget;
             }
 
-            Audio_QueueCmdF32(0x41000000 | _SHIFTL(i, 16, 8), D_8016E750[i].volCur);
+            Audio_QueueCmdF32(0x41000000 | _SHIFTL(playerIdx, 16, 8), D_8016E750[playerIdx].volCur);
         }
 
-        if (D_8016E750[i].unk_14 != 0) {
-            temp_a1 = D_8016E750[i].unk_14;
+        if (D_8016E750[playerIdx].unk_14 != 0) {
+            temp_a1 = D_8016E750[playerIdx].unk_14;
             phi_t0 = (temp_a1 & 0xFF0000) >> 15;
             phi_a2 = temp_a1 & 0xFFF;
             if (phi_t0 == 0) {
                 phi_t0++;
             }
 
-            if (gAudioContext.seqPlayers[i].enabled) {
-                temp_lo = gAudioContext.seqPlayers[i].tempo / 0x30;
+            if (gAudioContext.seqPlayers[playerIdx].enabled) {
+                temp_lo = gAudioContext.seqPlayers[playerIdx].tempo / 0x30;
                 temp_v0_4 = (temp_a1 & 0xF000) >> 12;
                 switch (temp_v0_4) {
                     case 1:
@@ -497,8 +497,8 @@ void func_800FA3DC(void) {
                         phi_a2 = temp_lo * (phi_a2 / 100.0f);
                         break;
                     case 4:
-                        if (D_8016E750[i].unk_18) {
-                            phi_a2 = D_8016E750[i].unk_18;
+                        if (D_8016E750[playerIdx].unk_18) {
+                            phi_a2 = D_8016E750[playerIdx].unk_18;
                         } else {
                             phi_a2 = temp_lo;
                         }
@@ -509,95 +509,95 @@ void func_800FA3DC(void) {
                     phi_a2 = 300;
                 }
 
-                if (D_8016E750[i].unk_18 == 0) {
-                    D_8016E750[i].unk_18 = temp_lo;
+                if (D_8016E750[playerIdx].unk_18 == 0) {
+                    D_8016E750[playerIdx].unk_18 = temp_lo;
                 }
 
-                D_8016E750[i].unk_20 = phi_a2;
-                D_8016E750[i].unk_1C = gAudioContext.seqPlayers[i].tempo / 0x30;
-                D_8016E750[i].unk_24 = (D_8016E750[i].unk_1C - D_8016E750[i].unk_20) / phi_t0;
-                D_8016E750[i].unk_28 = phi_t0;
-                D_8016E750[i].unk_14 = 0;
+                D_8016E750[playerIdx].unk_20 = phi_a2;
+                D_8016E750[playerIdx].unk_1C = gAudioContext.seqPlayers[playerIdx].tempo / 0x30;
+                D_8016E750[playerIdx].unk_24 = (D_8016E750[playerIdx].unk_1C - D_8016E750[playerIdx].unk_20) / phi_t0;
+                D_8016E750[playerIdx].unk_28 = phi_t0;
+                D_8016E750[playerIdx].unk_14 = 0;
             }
         }
 
-        if (D_8016E750[i].unk_28 != 0) {
-            D_8016E750[i].unk_28--;
-            if (D_8016E750[i].unk_28 != 0) {
-                D_8016E750[i].unk_1C = D_8016E750[i].unk_1C - D_8016E750[i].unk_24;
+        if (D_8016E750[playerIdx].unk_28 != 0) {
+            D_8016E750[playerIdx].unk_28--;
+            if (D_8016E750[playerIdx].unk_28 != 0) {
+                D_8016E750[playerIdx].unk_1C = D_8016E750[playerIdx].unk_1C - D_8016E750[playerIdx].unk_24;
             } else {
-                D_8016E750[i].unk_1C = D_8016E750[i].unk_20;
+                D_8016E750[playerIdx].unk_1C = D_8016E750[playerIdx].unk_20;
             }
             // set tempo
-            Audio_QueueCmdS32(0x47000000 | _SHIFTL(i, 16, 8), D_8016E750[i].unk_1C);
+            Audio_QueueCmdS32(0x47000000 | _SHIFTL(playerIdx, 16, 8), D_8016E750[playerIdx].unk_1C);
         }
 
-        if (D_8016E750[i].unk_252 != 0) {
+        if (D_8016E750[playerIdx].unk_252 != 0) {
             for (k = 0; k < 0x10; k++) {
-                if (D_8016E750[i].unk_50[k].unk_0C != 0) {
-                    D_8016E750[i].unk_50[k].unk_0C--;
-                    if (D_8016E750[i].unk_50[k].unk_0C != 0) {
-                        D_8016E750[i].unk_50[k].unk_00 -= D_8016E750[i].unk_50[k].unk_08;
+                if (D_8016E750[playerIdx].unk_50[k].unk_0C != 0) {
+                    D_8016E750[playerIdx].unk_50[k].unk_0C--;
+                    if (D_8016E750[playerIdx].unk_50[k].unk_0C != 0) {
+                        D_8016E750[playerIdx].unk_50[k].unk_00 -= D_8016E750[playerIdx].unk_50[k].unk_08;
                     } else {
-                        D_8016E750[i].unk_50[k].unk_00 = D_8016E750[i].unk_50[k].unk_04;
-                        D_8016E750[i].unk_252 ^= (1 << k);
+                        D_8016E750[playerIdx].unk_50[k].unk_00 = D_8016E750[playerIdx].unk_50[k].unk_04;
+                        D_8016E750[playerIdx].unk_252 ^= (1 << k);
                     }
-                    // CHAN_UPD_VOL_SCALE (i = seq, k = chan)
-                    Audio_QueueCmdF32(0x01000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8),
-                                      D_8016E750[i].unk_50[k].unk_00);
+                    // CHAN_UPD_VOL_SCALE (playerIdx = seq, k = chan)
+                    Audio_QueueCmdF32(0x01000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(k, 8, 8),
+                                      D_8016E750[playerIdx].unk_50[k].unk_00);
                 }
             }
         }
 
-        if (D_8016E750[i].unk_250 != 0) {
+        if (D_8016E750[playerIdx].unk_250 != 0) {
             for (k = 0; k < 0x10; k++) {
-                if (D_8016E750[i].unk_50[k].unk_1C != 0) {
-                    D_8016E750[i].unk_50[k].unk_1C--;
-                    if (D_8016E750[i].unk_50[k].unk_1C != 0) {
-                        D_8016E750[i].unk_50[k].unk_10 -= D_8016E750[i].unk_50[k].unk_18;
+                if (D_8016E750[playerIdx].unk_50[k].unk_1C != 0) {
+                    D_8016E750[playerIdx].unk_50[k].unk_1C--;
+                    if (D_8016E750[playerIdx].unk_50[k].unk_1C != 0) {
+                        D_8016E750[playerIdx].unk_50[k].unk_10 -= D_8016E750[playerIdx].unk_50[k].unk_18;
                     } else {
-                        D_8016E750[i].unk_50[k].unk_10 = D_8016E750[i].unk_50[k].unk_14;
-                        D_8016E750[i].unk_250 ^= (1 << k);
+                        D_8016E750[playerIdx].unk_50[k].unk_10 = D_8016E750[playerIdx].unk_50[k].unk_14;
+                        D_8016E750[playerIdx].unk_250 ^= (1 << k);
                     }
                     // CHAN_UPD_FREQ_SCALE
-                    Audio_QueueCmdF32(0x04000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8),
-                                      D_8016E750[i].unk_50[k].unk_10);
+                    Audio_QueueCmdF32(0x04000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(k, 8, 8),
+                                      D_8016E750[playerIdx].unk_50[k].unk_10);
                 }
             }
         }
 
-        if (D_8016E750[i].unk_4D != 0) {
+        if (D_8016E750[playerIdx].unk_4D != 0) {
             if (func_800FA11C(0xF0000000, 0xF0000000) == 0) {
-                D_8016E750[i].unk_4D = 0;
+                D_8016E750[playerIdx].unk_4D = 0;
                 return;
             }
 
-            if (D_8016E750[i].unk_4C != 0) {
-                D_8016E750[i].unk_4C--;
+            if (D_8016E750[playerIdx].unk_4C != 0) {
+                D_8016E750[playerIdx].unk_4C--;
                 continue;
             }
 
-            if (gAudioContext.seqPlayers[i].enabled) {
+            if (gAudioContext.seqPlayers[playerIdx].enabled) {
                 continue;
             }
 
-            for (j = 0; j < D_8016E750[i].unk_4D; j++) {
-                temp_a0 = (D_8016E750[i].unk_2C[j] & 0x00F00000) >> 20;
-                temp_s1 = (D_8016E750[i].unk_2C[j] & 0x000F0000) >> 16;
-                temp_s0_3 = (D_8016E750[i].unk_2C[j] & 0xFF00) >> 8;
-                temp_a3_3 = D_8016E750[i].unk_2C[j] & 0xFF;
+            for (j = 0; j < D_8016E750[playerIdx].unk_4D; j++) {
+                temp_a0 = (D_8016E750[playerIdx].unk_2C[j] & 0x00F00000) >> 20;
+                temp_s1 = (D_8016E750[playerIdx].unk_2C[j] & 0x000F0000) >> 16;
+                temp_s0_3 = (D_8016E750[playerIdx].unk_2C[j] & 0xFF00) >> 8;
+                temp_a3_3 = D_8016E750[playerIdx].unk_2C[j] & 0xFF;
 
                 switch (temp_a0) {
                     case 0:
                         Audio_SetVolScale(temp_s1, 1, 0x7F, temp_a3_3);
                         break;
                     case 7:
-                        if (D_8016E348[i] == temp_a3_3) {
+                        if (D_8016E348[playerIdx] == temp_a3_3) {
                             Audio_SetVolScale(temp_s1, 1, 0x7F, temp_s0_3);
                         }
                         break;
                     case 1:
-                        Audio_SeqCmd3(i, D_8016E750[i].unk_254);
+                        Audio_SeqCmd3(playerIdx, D_8016E750[playerIdx].unk_254);
                         break;
                     case 2:
                         Audio_StartSeq(temp_s1, 1, D_8016E750[temp_s1].unk_254);
@@ -611,13 +611,13 @@ void func_800FA3DC(void) {
                         Audio_SeqCmdB40(temp_s1, temp_a3_3, 0);
                         break;
                     case 5:
-                        temp_v1 = D_8016E750[i].unk_2C[j] & 0xFFFF;
+                        temp_v1 = D_8016E750[playerIdx].unk_2C[j] & 0xFFFF;
                         Audio_StartSeq(temp_s1, D_8016E750[temp_s1].unk_4E, temp_v1);
                         Audio_SetVolScale(temp_s1, 1, 0x7F, 0);
                         D_8016E750[temp_s1].unk_4E = 0;
                         break;
                     case 6:
-                        D_8016E750[i].unk_4E = temp_s0_3;
+                        D_8016E750[playerIdx].unk_4E = temp_s0_3;
                         break;
                     case 8:
                         Audio_SetVolScale(temp_s1, temp_s0_3, 0x7F, temp_a3_3);
@@ -634,7 +634,7 @@ void func_800FA3DC(void) {
                         }
                         break;
                     case 9:
-                        temp_v1 = D_8016E750[i].unk_2C[j] & 0xFFFF;
+                        temp_v1 = D_8016E750[playerIdx].unk_2C[j] & 0xFFFF;
                         Audio_SeqCmdA(temp_s1, temp_v1);
                         break;
                     case 10:
@@ -643,7 +643,7 @@ void func_800FA3DC(void) {
                 }
             }
 
-            D_8016E750[i].unk_4D = 0;
+            D_8016E750[playerIdx].unk_4D = 0;
         }
     }
 }
@@ -668,37 +668,37 @@ u8 func_800FAD34(void) {
 }
 
 void func_800FADF8(void) {
-    u8 i, j;
+    u8 playerIdx, j;
 
-    for (i = 0; i < 4; i++) {
-        D_8016E348[i] = 0;
-        D_8016E750[i].unk_254 = NA_BGM_DISABLED;
-        D_8016E750[i].unk_256 = NA_BGM_DISABLED;
-        D_8016E750[i].unk_28 = 0;
-        D_8016E750[i].unk_18 = 0;
-        D_8016E750[i].unk_14 = 0;
-        D_8016E750[i].unk_258 = 0;
-        D_8016E750[i].unk_4D = 0;
-        D_8016E750[i].unk_4E = 0;
-        D_8016E750[i].unk_250 = 0;
-        D_8016E750[i].unk_252 = 0;
+    for (playerIdx = 0; playerIdx < 4; playerIdx++) {
+        D_8016E348[playerIdx] = 0;
+        D_8016E750[playerIdx].unk_254 = NA_BGM_DISABLED;
+        D_8016E750[playerIdx].unk_256 = NA_BGM_DISABLED;
+        D_8016E750[playerIdx].unk_28 = 0;
+        D_8016E750[playerIdx].unk_18 = 0;
+        D_8016E750[playerIdx].unk_14 = 0;
+        D_8016E750[playerIdx].unk_258 = 0;
+        D_8016E750[playerIdx].unk_4D = 0;
+        D_8016E750[playerIdx].unk_4E = 0;
+        D_8016E750[playerIdx].unk_250 = 0;
+        D_8016E750[playerIdx].unk_252 = 0;
         for (j = 0; j < 4; j++) {
-            D_8016E750[i].volScales[j] = 0x7F;
+            D_8016E750[playerIdx].volScales[j] = 0x7F;
         }
-        D_8016E750[i].volFadeTimer = 1;
-        D_8016E750[i].fadeVolUpdate = 1;
+        D_8016E750[playerIdx].volFadeTimer = 1;
+        D_8016E750[playerIdx].fadeVolUpdate = 1;
     }
 }
 
 void func_800FAEB4(void) {
-    u8 i, j;
+    u8 playerIdx, j;
 
-    for (i = 0; i < 4; i++) {
-        D_8016E750[i].volCur = 1.0f;
-        D_8016E750[i].unk_0C = 0;
-        D_8016E750[i].fadeVolUpdate = 0;
+    for (playerIdx = 0; playerIdx < 4; playerIdx++) {
+        D_8016E750[playerIdx].volCur = 1.0f;
+        D_8016E750[playerIdx].unk_0C = 0;
+        D_8016E750[playerIdx].fadeVolUpdate = 0;
         for (j = 0; j < 4; j++) {
-            D_8016E750[i].volScales[j] = 0x7F;
+            D_8016E750[playerIdx].volScales[j] = 0x7F;
         }
     }
     func_800FADF8();

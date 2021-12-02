@@ -166,7 +166,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
         }
     }
 
-    // Decrement the return timer and check if its 0. If it is, check if Link can catch it and handle accordingly.
+    // Decrement the return timer and check if it's 0. If it is, check if Link can catch it and handle accordingly.
     // Otherwise handle grabbing and colliding.
     if (DECR(this->returnTimer) == 0) {
         distFromLink = Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.focus.pos);
@@ -179,7 +179,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 Math_Vec3f_Copy(&target->world.pos, &player->actor.world.pos);
 
                 // If the grabbed actor is EnItem00 (HP/Key etc) set gravity and flags so it falls in front of Link.
-                // Otherwise if its a Skulltula Token, just set flags so he collides with it to collect it.
+                // Otherwise if it's a Skulltula Token, just set flags so he collides with it to collect it.
                 if (target->id == ACTOR_EN_ITEM00) {
                     target->gravity = -0.9f;
                     target->bgCheckFlags &= ~0x03;
@@ -202,7 +202,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                                                &hitPoint, &this->actor.wallPoly, true, true, true, true, &hitDynaID);
 
             if (collided) {
-                // If the boomerang collides with something and its is a Jabu Object actor with params equal to 0, then
+                // If the boomerang collides with something and it's is a Jabu Object actor with params equal to 0, then
                 // set collided to 0 so that the boomerang will go through the wall.
                 // Otherwise play a clank sound and keep collided set to bounce back.
                 if (func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||

@@ -232,6 +232,7 @@ void EnFloormas_SetupRun(EnFloormas* this) {
 
 void EnFloormas_SetupTurn(EnFloormas* this) {
     s16 rotDelta = this->actionTarget - this->actor.shape.rot.y;
+
     this->actor.speedXZ = 0.0f;
     if (rotDelta > 0) {
         Animation_MorphToPlayOnce(&this->skelAnime, &gFloormasterTurnAnim, -3.0f);
@@ -470,6 +471,7 @@ void EnFloormas_Stand(EnFloormas* this, GlobalContext* globalCtx) {
 
 void EnFloormas_BigWalk(EnFloormas* this, GlobalContext* globalCtx) {
     s32 animPastFrame;
+
     SkelAnime_Update(&this->skelAnime);
     animPastFrame = Animation_OnFrame(&this->skelAnime, 0.0f);
     if (animPastFrame) {
@@ -1082,6 +1084,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnFloormas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx, Gfx** gfx) {
     EnFloormas* this = THIS;
+
     if (limbIndex == 1) {
         pos->z += this->zOffset;
     }

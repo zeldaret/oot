@@ -85,6 +85,7 @@ static void* sEyeTextures[] = {
 
 u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 0x17);
+
     if (faceReaction != 0) {
         return faceReaction;
     }

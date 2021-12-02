@@ -725,7 +725,7 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa* this = THIS;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
-    UNK_TYPE sp30;
+    s32 sp30;
 
     if (!(player->stateFlags1 & 0x300000C0)) {
         if (this->collisionDisabledTimer > 0) {
