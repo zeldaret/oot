@@ -1,4 +1,4 @@
-#include "ultra64/mbi.h"
+#include "mbi.h"
 
 #ifndef ULTRA64_GBI_H
 #define ULTRA64_GBI_H

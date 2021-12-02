@@ -154,7 +154,7 @@ typedef struct EnJj {
 } EnJj; // size = 0x0314
 ```
 
-We can eliminate the temp since it's use in a simple way one after the other. `this->unk308 = (s16) (this->unk308 - 0x66);` can be written as `this->unk308 -= 0x66;`.
+We can eliminate the temp since it's used in a simple way one after the other. `this->unk308 = (s16) (this->unk308 - 0x66);` can be written as `this->unk308 -= 0x66;`.
 
 In the `func_8003EBF8` we see that we should have at least made `this->childActor` a `DynaPolyActor*`, so that the last argument is its `bgId`. To avoid compiler warnings, we also need to cast the `Actor_SpawnAsChild` as such in Init,
 ```C

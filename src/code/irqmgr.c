@@ -17,7 +17,7 @@ u32 sIrqMgrRetraceCount = 0;
 #define STATUS_NMI 2
 
 void IrqMgr_AddClient(IrqMgr* this, IrqMgrClient* c, OSMesgQueue* msgQ) {
-    u32 prevInt;
+    OSIntMask prevInt;
 
     LogUtils_CheckNullPointer("this", this, "../irqmgr.c", 96);
     LogUtils_CheckNullPointer("c", c, "../irqmgr.c", 97);
@@ -43,7 +43,7 @@ void IrqMgr_AddClient(IrqMgr* this, IrqMgrClient* c, OSMesgQueue* msgQ) {
 void IrqMgr_RemoveClient(IrqMgr* this, IrqMgrClient* c) {
     IrqMgrClient* iter = this->clients;
     IrqMgrClient* lastIter = NULL;
-    u32 prevInt;
+    OSIntMask prevInt;
 
     LogUtils_CheckNullPointer("this", this, "../irqmgr.c", 129);
     LogUtils_CheckNullPointer("c", c, "../irqmgr.c", 130);

@@ -133,6 +133,7 @@ void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, GlobalContext* global
     coss = Math_CosS(rotY);
     for (j = 0; j < 32; j++) {
         f32 rand = Rand_ZeroOne();
+
         if (rand < 0.1f) {
             unkArg5 = 0x60;
         } else if (rand < 0.8f) {
@@ -191,6 +192,7 @@ void BgJyaIronobj_SpawnThoneParticles(BgJyaIronobj* this, GlobalContext* arg1, E
 
     for (j = 0; j < 32; j++) {
         f32 rand = Rand_ZeroOne();
+
         if (rand < 0.1f) {
             unkArg5 = 0x60;
         } else if (rand < 0.8f) {

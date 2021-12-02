@@ -869,7 +869,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         D_80B7E0AC = 0;
         D_80B7E0A6 = 10;
 
-        Audio_QueueSeqCmd(0x100100FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x0100FF);
 
         if (sLinkAge == 1) {
             if ((HIGH_SCORE(HS_FISHING) & 0x7F) != 0) {
@@ -1215,7 +1215,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->alpha);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2346),
@@ -1243,7 +1243,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
                                         (effect->timer + (i * 3)) * 5, 32, 64, 1, 0, 0, 32, 32));
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2394),
@@ -1266,7 +1266,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2423),
@@ -1343,7 +1343,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_RotateY(rotY, MTXMODE_APPLY);
             Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
@@ -1751,7 +1751,7 @@ void Fishing_DrawSinkingLure(GlobalContext* globalCtx) {
                 Matrix_Translate(sSinkingLurePos[i].x, sSinkingLurePos[i].y, sSinkingLurePos[i].z, MTXMODE_NEW);
                 scale = sSinkingLureSizes[i + D_80B7FEA0] * 0.04f;
                 Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-                func_800D1FD4(&globalCtx->mf_11DA0);
+                func_800D1FD4(&globalCtx->billboardMtxF);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3239),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1768,7 +1768,7 @@ void Fishing_DrawSinkingLure(GlobalContext* globalCtx) {
                 Matrix_Translate(sSinkingLurePos[i].x, sSinkingLurePos[i].y, sSinkingLurePos[i].z, MTXMODE_NEW);
                 scale = sSinkingLureSizes[i + D_80B7FEA0] * 0.04f;
                 Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-                func_800D1FD4(&globalCtx->mf_11DA0);
+                func_800D1FD4(&globalCtx->billboardMtxF);
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3265),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -2176,7 +2176,7 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sLurePos, &D_80B7AF94, &sProjectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &sLurePos, &D_80B7AF94, &sProjectedW);
 
     if (D_80B7A694 == 0) {
         Math_ApproachF(&D_80B7E108, -800.0f, 1.0f, 20.0f);
@@ -3586,7 +3586,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                     this->unk_198 = 1.7f;
                     this->unk_19C = 7000.0f;
                     D_80B7E124 = 1;
-                    Audio_QueueSeqCmd(NA_BGM_ENEMY | 0x800);
+                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
                     D_80B7E0A6 = 0;
 
                     if (this->unk_150 == 1) {
@@ -3791,7 +3791,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 } else {
                     D_80B7E086 = 0x4082;
                     func_800A9F6C(0.0f, 1, 3, 1);
-                    Audio_QueueSeqCmd(0x100A00FF);
+                    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x0A00FF);
                 }
 
                 this->unk_158 = this->unk_15A = 0;
@@ -3859,7 +3859,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             }
 
             if (this->unk_17A[0] == 90) {
-                Audio_QueueSeqCmd(NA_BGM_HEART_GET | 0x900);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HEART_GET | 0x900);
                 D_80B7A67C = 40;
 
                 if (this->unk_150 == 0) {
@@ -3971,7 +3971,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
 
                 D_80B7E148 = 520.0f;
                 D_80B7E144 = 195.0f;
-                Audio_QueueSeqCmd(0x100A00FF);
+                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xA00FF);
                 D_80B7E0A6 = 20;
                 D_80B7A6CC = 3;
             }
@@ -4330,7 +4330,7 @@ void Fishing_UpdatePondProps(GlobalContext* globalCtx) {
             prop->shouldDraw = false;
             prop->timer++;
 
-            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &prop->pos, &prop->projectedPos, &sProjectedW);
+            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &prop->pos, &prop->projectedPos, &sProjectedW);
 
             if ((prop->projectedPos.z < prop->drawDistance) &&
                 (fabsf(prop->projectedPos.x) < (100.0f + prop->projectedPos.z))) {
@@ -4578,7 +4578,7 @@ void Fishing_UpdateGroupFishes(GlobalContext* globalCtx) {
         if (fish->type != FS_GROUP_FISH_NONE) {
             fish->timer++;
 
-            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &fish->pos, &fish->projectedPos, &sProjectedW);
+            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &fish->pos, &fish->projectedPos, &sProjectedW);
 
             if ((fish->projectedPos.z < 400.0f) && (fabsf(fish->projectedPos.x) < (100.0f + fish->projectedPos.z))) {
                 fish->shouldDraw = true;
@@ -5207,7 +5207,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         D_80B7A6CC = 20;
         func_800A9F6C(0.0f, 150, 10, 10);
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-        Audio_QueueSeqCmd(0x101400FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x1400FF);
     }
 
     if (KREG(0) != 0) {
@@ -5216,7 +5216,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         D_80B7A6CC = 20;
         func_800A9F6C(0.0f, 150, 10, 10);
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-        Audio_QueueSeqCmd(0x101400FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x1400FF);
     }
 
     if (D_80B7A6D0 != 0) {
@@ -5432,7 +5432,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
         case 22:
             if (D_80B7A6D0 == 30) {
-                Audio_QueueSeqCmd(NA_BGM_ITEM_GET | 0x900);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ITEM_GET | 0x900);
             }
 
             D_80B7A6D4 = 1;
@@ -5659,7 +5659,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             pos.z = Rand_CenteredFloat(700.0f) + globalCtx->view.eye.z;
 
             if (pos.z < 1160.0f) {
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &projectedPos, &sProjectedW);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &pos, &projectedPos, &sProjectedW);
 
                 if (projectedPos.z < 0.0f) {
                     i--;
@@ -5670,7 +5670,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sStreamSoundPos, &sStreamSoundProjectedPos, &sProjectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &sStreamSoundPos, &sStreamSoundProjectedPos,
+                                 &sProjectedW);
 
     func_80078914(&sStreamSoundProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
 
@@ -5745,15 +5746,15 @@ void Fishing_DrawOwner(Actor* thisx, GlobalContext* globalCtx) {
 
         if (D_80B7E0A6 == 0) {
             if (sLinkAge != 1) {
-                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_ADULT);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_ADULT);
             } else {
-                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_KID);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_KID);
             }
 
             if (sLinkAge != 1) {
-                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_ADULT);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_ADULT);
             } else {
-                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_KID);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_KID);
             }
         }
     }

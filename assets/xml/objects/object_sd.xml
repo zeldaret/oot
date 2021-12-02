@@ -4,17 +4,17 @@
         <Limb Name="gEnHeishiRootLimb" LimbType="Standard" Offset="0xB9C8"/>
         <Limb Name="gEnHeishiTorsoLimb" LimbType="Standard" Offset="0xB9D4"/>
         <Limb Name="gEnHeishiLeftThighLimb" LimbType="Standard" Offset="0xB9E0"/>
-        <Limb Name="gEnHeishiLeftShinLimb" LimbType="Standard" Offset="0xB9EC"/>    
+        <Limb Name="gEnHeishiLeftShinLimb" LimbType="Standard" Offset="0xB9EC"/>
         <Limb Name="gEnHeishiLeftFootLimb" LimbType="Standard" Offset="0xB9F8"/>
         <Limb Name="gEnHeishiRightThighLimb" LimbType="Standard" Offset="0xBA04"/>
-        <Limb Name="gEnHeishiRightShinLimb" LimbType="Standard" Offset="0xBA10"/>    
+        <Limb Name="gEnHeishiRightShinLimb" LimbType="Standard" Offset="0xBA10"/>
         <Limb Name="gEnHeishiRightFootLimb" LimbType="Standard" Offset="0xBA1C"/>
         <Limb Name="gEnHeishiChestLimb" LimbType="Standard" Offset="0xBA28"/>
         <Limb Name="gEnHeishiLeftUpperArmLimb" LimbType="Standard" Offset="0xBA34"/>
-        <Limb Name="gEnHeishiLeftArmLimb" LimbType="Standard" Offset="0xBA40"/>    
+        <Limb Name="gEnHeishiLeftArmLimb" LimbType="Standard" Offset="0xBA40"/>
         <Limb Name="gEnHeishiLeftHandLimb" LimbType="Standard" Offset="0xBA4C"/>
         <Limb Name="gEnHeishiRightUpperArmLimb" LimbType="Standard" Offset="0xBA58"/>
-        <Limb Name="gEnHeishiRightArmLimb" LimbType="Standard" Offset="0xBA64"/>    
+        <Limb Name="gEnHeishiRightArmLimb" LimbType="Standard" Offset="0xBA64"/>
         <Limb Name="gEnHeishiRightHandLimb" LimbType="Standard" Offset="0xBA70"/>
         <Limb Name="gEnHeishiRightHeadLimb" LimbType="Standard" Offset="0xBA7C"/>
 

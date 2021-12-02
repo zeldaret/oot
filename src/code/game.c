@@ -418,7 +418,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     // "Other initialization processing time %d us"
     osSyncPrintf("その他初期化 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));
 
-    Fault_AddClient(&sGameFaultClient, &GameState_FaultPrint, NULL, NULL);
+    Fault_AddClient(&sGameFaultClient, GameState_FaultPrint, NULL, NULL);
 
     osSyncPrintf("game コンストラクタ終了\n"); // "game constructor end"
 }
