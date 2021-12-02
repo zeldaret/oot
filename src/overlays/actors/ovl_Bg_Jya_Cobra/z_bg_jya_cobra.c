@@ -18,22 +18,7 @@ void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx);
 void func_808969F8(BgJyaCobra* this, GlobalContext* globalCtx);
 void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx);
 
-static Vtx sShadowVtx[4] = {
-    VTX(-800, 0, -800, 0, 2048, 255, 255, 255, 255),
-    VTX(800, 0, -800, 2048, 2048, 255, 255, 255, 255),
-    VTX(800, 0, 800, 2048, 0, 255, 255, 255, 255),
-    VTX(-800, 0, 800, 0, 0, 255, 255, 255, 255),
-};
-
-static Gfx sShadowDL[] = {
-    gsDPPipeSync(),
-    gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
-    gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_XLU_DECAL2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPVertex(sShadowVtx, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
 
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
@@ -365,7 +350,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
         temp_s2[j * 0x40 + 0] = 0;
         temp_s2[j * 0x40 + 0x3F] = 0;
     }
-    if (D_80897398) {}
+    if (D_80897398[0][0]) {}
 }
 
 /*
@@ -527,8 +512,8 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
     func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
-void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     BgJyaCobra* this = THIS;
 
     this->actionFunc(this, globalCtx);

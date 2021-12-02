@@ -1,24 +1,6 @@
 #include "global.h"
 
-Gfx sTriforceDList[] = {
-    gsDPPipeSync(),
-    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
-    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
-                          G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
-    gsDPSetCombineMode(G_CC_DECALRGB, G_CC_DECALRGB),
-    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
-                         G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_1PRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | G_RM_AA_OPA_SURF | G_RM_AA_OPA_SURF2),
-    gsSPEndDisplayList(),
-};
-
-Vtx sTriforceVTX[] = {
-    VTX(0, 577, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),        VTX(1000, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-1000, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),  VTX(0, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(500, -288, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),     VTX(-500, -288, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-32000, 32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF), VTX(32000, 32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(32000, -32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF), VTX(-32000, -32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-};
+#include "code/fbdemo_triforce/z_fbdemo_triforce.c"
 
 #define THIS ((TransitionTriforce*)thisx)
 
@@ -102,14 +84,14 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
     guRotate(&modelView[1], rotation, 0.0f, 0.0f, 1.0f);
     guTranslate(&modelView[2], 0.0f, 0.0f, 0.0f);
     gDPPipeSync(gfx++);
-    gSPDisplayList(gfx++, sTriforceDList);
+    gSPDisplayList(gfx++, sTriforceWipeDL);
     gDPSetColor(gfx++, G_SETPRIMCOLOR, this->color.rgba);
     gDPSetCombineMode(gfx++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
     gSPMatrix(gfx++, &this->projection, G_MTX_LOAD | G_MTX_PROJECTION);
     gSPMatrix(gfx++, &modelView[0], G_MTX_LOAD);
     gSPMatrix(gfx++, &modelView[1], G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_MUL);
     gSPMatrix(gfx++, &modelView[2], G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_MUL);
-    gSPVertex(gfx++, sTriforceVTX, 10, 0);
+    gSPVertex(gfx++, sTriforceWipeVtx, 10, 0);
     if (!TransitionTriforce_IsDone(this)) {
         switch (this->fadeDirection) {
             case 1:

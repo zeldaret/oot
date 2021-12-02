@@ -166,6 +166,7 @@ u16 JpegDecoder_ReadBits(u8 len) {
     u8 data;
     s32 ret;
     u32 temp;
+
     ret = 0; // this is required for some reason
 
     for (byteCount = sJpegBitStreamBitIdx >> 3; byteCount > 0; byteCount--) {

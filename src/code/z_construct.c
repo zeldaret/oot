@@ -47,9 +47,9 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
 
-    if (gSaveContext.language == 0) {
+    if (gSaveContext.language == LANGUAGE_ENG) {
         doActionOffset = 0;
-    } else if (gSaveContext.language == 1) {
+    } else if (gSaveContext.language == LANGUAGE_GER) {
         doActionOffset = 0x2B80;
     } else {
         doActionOffset = 0x5700;
@@ -58,9 +58,9 @@ void func_801109B0(GlobalContext* globalCtx) {
     DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (u32)_do_action_staticSegmentRomStart + doActionOffset, 0x300,
                         "../z_construct.c", 174);
 
-    if (gSaveContext.language == 0) {
+    if (gSaveContext.language == LANGUAGE_ENG) {
         doActionOffset = 0x480;
-    } else if (gSaveContext.language == 1) {
+    } else if (gSaveContext.language == LANGUAGE_GER) {
         doActionOffset = 0x3000;
     } else {
         doActionOffset = 0x5B80;
@@ -164,18 +164,18 @@ void func_801109B0(GlobalContext* globalCtx) {
     R_A_BTN_COLOR(2) = 50;
 }
 
-void func_80110F68(GlobalContext* globalCtx) {
+void Message_Init(GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     s32 pad;
 
-    func_8011040C();
+    Message_SetTables();
 
-    globalCtx->msgCtx.unk_E3EE = 0;
+    globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
 
-    msgCtx->msgMode = 0;
-    msgCtx->unk_E300 = 0;
-    msgCtx->unk_E2F8 = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->unk_E3F0 = msgCtx->unk_E3D6 = 0;
-    msgCtx->unk_E3E2 = 0xFF;
+    msgCtx->msgMode = MSGMODE_NONE;
+    msgCtx->msgLength = 0;
+    msgCtx->textId = msgCtx->textboxEndType = msgCtx->choiceIndex = msgCtx->ocarinaAction = msgCtx->textUnskippable = 0;
+    msgCtx->textColorAlpha = 255;
 
     View_Init(&msgCtx->view, globalCtx->state.gfxCtx);
 
@@ -195,10 +195,10 @@ void func_80111070(void) {
     YREG(8) = 10;
     YREG(14) = 0;
     YREG(15) = 0;
-    YREG(16) = 0;
-    YREG(17) = 0;
-    YREG(22) = 50;
-    YREG(23) = 0;
+    R_TEXTBOX_TEXWIDTH = 0;
+    R_TEXTBOX_TEXHEIGHT = 0;
+    R_TEXTBOX_WIDTH = 50;
+    R_TEXTBOX_HEIGHT = 0;
     YREG(24) = -60;
     YREG(25) = 13;
     YREG(26) = 15;
@@ -240,15 +240,15 @@ void func_80111070(void) {
     YREG(68) = 0;
     YREG(69) = 0;
     YREG(70) = 0;
-    YREG(71) = -6;
-    YREG(72) = 10;
+    R_TEXTBOX_ICON_XPOS = -6;
+    R_TEXTBOX_ICON_YPOS = 10;
     YREG(73) = -8;
     YREG(74) = 8;
-    YREG(75) = 24;
+    R_TEXTBOX_ICON_SIZE = 24;
     YREG(76) = 32;
     YREG(77) = 0;
-    YREG(78) = 0;
-    YREG(79) = 48;
+    R_MESSAGE_DEBUGGER_SELECT = 0;
+    R_MESSAGE_DEBUGGER_TEXTID = 48;
     YREG(80) = 450;
     YREG(81) = 0;
     YREG(82) = -15;
@@ -388,30 +388,30 @@ void func_80111070(void) {
     R_MAGIC_FILL_X = 26;
     XREG(52) = 0;
     XREG(53) = 1;
-    XREG(54) = 65;
-    XREG(55) = 60;
-    XREG(56) = 16;
-    XREG(57) = 80;
+    R_TEXT_INIT_XPOS = 65;
+    R_TEXT_INIT_YPOS = 60;
+    R_TEXT_LINE_SPACING = 16;
+    R_TEXT_CHAR_SCALE = 80;
     XREG(58) = 80;
     XREG(59) = 12;
-    XREG(60) = 1;
-    XREG(61) = 3;
+    R_TEXT_DROP_SHADOW_OFFSET = 1;
+    R_TEXTBOX_BG_YPOS = 3;
     XREG(62) = 0;
     XREG(63) = 100;
-    XREG(64) = 158;
-    XREG(65) = 102;
-    XREG(66) = 48;
-    XREG(67) = 54;
-    XREG(68) = 70;
-    XREG(69) = 86;
+    R_TEXTBOX_END_XPOS = 158;
+    R_TEXTBOX_END_YPOS = 102;
+    R_TEXT_CHOICE_XPOS = 48;
+    R_TEXT_CHOICE_YPOS(0) = 54;
+    R_TEXT_CHOICE_YPOS(1) = 70;
+    R_TEXT_CHOICE_YPOS(2) = 86;
     XREG(70) = -300;
     XREG(71) = 0;
-    XREG(72) = 54;
-    XREG(73) = 48;
-    XREG(74) = 128;
-    XREG(75) = 64;
-    XREG(76) = 2048;
-    XREG(77) = 512;
+    R_TEXTBOX_X_TARGET = 54;
+    R_TEXTBOX_Y_TARGET = 48;
+    R_TEXTBOX_WIDTH_TARGET = 128;
+    R_TEXTBOX_HEIGHT_TARGET = 64;
+    R_TEXTBOX_TEXWIDTH_TARGET = 2048;
+    R_TEXTBOX_TEXHEIGHT_TARGET = 512;
     XREG(78) = 96;
     XREG(79) = 98;
     XREG(80) = 0;
@@ -507,15 +507,15 @@ void func_80111070(void) {
     WREG(95) = 6;
 
     if (gSaveContext.gameMode == 0) {
-        VREG(0) = 52;
-        VREG(1) = 36;
+        R_TEXTBOX_X = 52;
+        R_TEXTBOX_Y = 36;
         VREG(2) = 214;
         VREG(3) = 76;
         VREG(4) = 304;
         VREG(5) = 430;
         VREG(6) = 1;
-        VREG(7) = 78;
-        VREG(8) = 166;
+        R_TEXTBOX_CLEF_XPOS = 78;
+        R_TEXTBOX_CLEF_YPOS = 166;
         VREG(9) = 40;
         R_COMPASS_SCALE_X = 32;
         R_COMPASS_SCALE_Y = 32;
@@ -533,28 +533,31 @@ void func_80111070(void) {
     VREG(25) = 0;
     VREG(26) = 0;
     VREG(27) = 0;
-    VREG(28) = 98;
-    VREG(29) = 18;
+    R_OCARINA_NOTES_XPOS = 98;
+    R_OCARINA_NOTES_XPOS_OFFSET = 18;
     VREG(30) = 0;
     VREG(31) = 0;
     VREG(32) = 0;
-    VREG(33) = 70;
-    VREG(34) = 255;
-    VREG(35) = 80;
-    VREG(36) = 70;
-    VREG(37) = 255;
-    VREG(38) = 80;
+
+    R_TEXT_ADJUST_COLOR_1_R = 70;
+    R_TEXT_ADJUST_COLOR_1_G = 255;
+    R_TEXT_ADJUST_COLOR_1_B = 80;
+
+    R_TEXT_ADJUST_COLOR_2_R = 70;
+    R_TEXT_ADJUST_COLOR_2_G = 255;
+    R_TEXT_ADJUST_COLOR_2_B = 80;
+
     VREG(40) = 9;
     VREG(42) = 250;
     VREG(43) = 440;
     VREG(44) = 10;
-    VREG(45) = 190;
-    VREG(46) = 184;
-    VREG(47) = 176;
-    VREG(48) = 172;
-    VREG(49) = 170;
+    R_OCARINA_NOTES_YPOS(0) = 190;
+    R_OCARINA_NOTES_YPOS(1) = 184;
+    R_OCARINA_NOTES_YPOS(2) = 176;
+    R_OCARINA_NOTES_YPOS(3) = 172;
+    R_OCARINA_NOTES_YPOS(4) = 170;
     VREG(50) = 30;
-    VREG(51) = 0;
+    R_OCARINA_NOTES_YPOS_OFFSET = 0;
     VREG(52) = -16;
     VREG(53) = 230;
     VREG(54) = 230;

@@ -35,7 +35,7 @@
  */
 #define CS_CAM_EYE CS_CAM_POS
 #define CS_CAM_POS(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -59,7 +59,7 @@
  */
 #define CS_CAM_LOOK_AT CS_CAM_FOCUS_POINT
 #define CS_CAM_FOCUS_POINT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -128,7 +128,7 @@
  */
 #define CS_CAM_EYE_PLAYER CS_CAM_POS_PLAYER
 #define CS_CAM_POS_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -152,7 +152,7 @@
  */
 #define CS_CAM_LOOK_AT_PLAYER CS_CAM_FOCUS_POINT_PLAYER
 #define CS_CAM_FOCUS_POINT_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -175,7 +175,7 @@
  *   size = 0x10
  */
 #define CS_CMD_07(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -198,7 +198,7 @@
  *   size = 0x10
  */
 #define CS_CMD_08(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -265,7 +265,7 @@
     CMD_HH(npcAction, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
     CMD_W(startX), CMD_W(startY), CMD_W(startZ), \
     CMD_W(endX), CMD_W(endY), CMD_W(endZ), \
-    CMD_W(normX), CMD_W(normY), CMD_W(normZ)
+    CMD_F(normX), CMD_F(normY), CMD_F(normZ)
 
 /**
  * ARGS

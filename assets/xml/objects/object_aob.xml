@@ -4,21 +4,21 @@
         <Skeleton Name="gDogLadySkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
 
         <!-- Dog Lady Limbs -->
-        <Limb Name="gDogLadyRootLimb" Type="Standard" Offset="0x000"/>
-        <Limb Name="gDogLadyLimb_00C" Type="Standard" Offset="0x00C"/>
-        <Limb Name="gDogLadyLimb_018" Type="Standard" Offset="0x018"/>
-        <Limb Name="gDogLadyLimb_024" Type="Standard" Offset="0x024"/>
-        <Limb Name="gDogLadyLimb_030" Type="Standard" Offset="0x030"/>
-        <Limb Name="gDogLadyLimb_03C" Type="Standard" Offset="0x03C"/>
-        <Limb Name="gDogLadyLimb_048" Type="Standard" Offset="0x048"/>
-        <Limb Name="gDogLadyTorsoLimb" Type="Standard" Offset="0x054"/>
-        <Limb Name="gDogLadyLimb_060" Type="Standard" Offset="0x060"/>
-        <Limb Name="gDogLadyLimb_06C" Type="Standard" Offset="0x06C"/>
-        <Limb Name="gDogLadyLimb_078" Type="Standard" Offset="0x078"/>
-        <Limb Name="gDogLadyLimb_084" Type="Standard" Offset="0x084"/>
-        <Limb Name="gDogLadyLimb_090" Type="Standard" Offset="0x090"/>
-        <Limb Name="gDogLadyLimb_09C" Type="Standard" Offset="0x09C"/>
-        <Limb Name="gDogLadyHeadLimb" Type="Standard" Offset="0x0A8"/>
+        <Limb Name="gDogLadyRootLimb" LimbType="Standard" Offset="0x000"/>
+        <Limb Name="gDogLadyLimb_00C" LimbType="Standard" Offset="0x00C"/>
+        <Limb Name="gDogLadyLimb_018" LimbType="Standard" Offset="0x018"/>
+        <Limb Name="gDogLadyLimb_024" LimbType="Standard" Offset="0x024"/>
+        <Limb Name="gDogLadyLimb_030" LimbType="Standard" Offset="0x030"/>
+        <Limb Name="gDogLadyLimb_03C" LimbType="Standard" Offset="0x03C"/>
+        <Limb Name="gDogLadyLimb_048" LimbType="Standard" Offset="0x048"/>
+        <Limb Name="gDogLadyTorsoLimb" LimbType="Standard" Offset="0x054"/>
+        <Limb Name="gDogLadyLimb_060" LimbType="Standard" Offset="0x060"/>
+        <Limb Name="gDogLadyLimb_06C" LimbType="Standard" Offset="0x06C"/>
+        <Limb Name="gDogLadyLimb_078" LimbType="Standard" Offset="0x078"/>
+        <Limb Name="gDogLadyLimb_084" LimbType="Standard" Offset="0x084"/>
+        <Limb Name="gDogLadyLimb_090" LimbType="Standard" Offset="0x090"/>
+        <Limb Name="gDogLadyLimb_09C" LimbType="Standard" Offset="0x09C"/>
+        <Limb Name="gDogLadyHeadLimb" LimbType="Standard" Offset="0x0A8"/>
 
         
         <!-- Dog Lady Limb DisplayLists -->

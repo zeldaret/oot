@@ -271,7 +271,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     if (stickY) {}
                     sInput.cur.stick_y = stickY;
                 }
-                func_800F5ACC(0x38);
+                func_800F5ACC(NA_BGM_MINI_BOSS);
                 sActionState = ENTORCH2_ATTACK;
             }
             break;
@@ -574,7 +574,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     pad54 = input->prev.button ^ input->cur.button;
     input->press.button = input->cur.button & pad54;
-    if (input->cur.button & BTN_R) {
+    if (CHECK_BTN_ANY(input->cur.button, BTN_R)) {
         input->cur.button = ((sCounterState == 0) && (this->swordState == 0)) ? BTN_R : input->cur.button ^ BTN_R;
     }
     input->rel.button = input->prev.button & pad54;
@@ -610,7 +610,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &thisx->world.pos, 0xC0);
             this->stateFlags3 &= ~4;
         } else {
-            func_800F5ACC(0x38);
+            func_800F5ACC(NA_BGM_MINI_BOSS);
             if (this->actor.colChkInfo.damageEffect == 1) {
                 if (sAlpha == 255) {
                     Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);

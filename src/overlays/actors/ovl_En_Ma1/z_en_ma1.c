@@ -85,6 +85,7 @@ static void* sEyeTextures[] = {
 
 u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 0x17);
+
     if (faceReaction != 0) {
         return faceReaction;
     }
@@ -119,8 +120,9 @@ u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 2:
+
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2041:
                     gSaveContext.infTable[8] |= 0x10;
@@ -150,23 +152,23 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case 4:
-        case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 ret = 2;
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 ret = 3;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             ret = 1;
             break;
     }
@@ -305,8 +307,8 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
     } else if (!(gSaveContext.eventChkInf[1] & 0x10) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->unk_1E8.unk_00 == 2) {
             this->actionFunc = func_80AA0EA0;
-            globalCtx->msgCtx.unk_E3E7 = 4;
-            globalCtx->msgCtx.msgMode = 0x36;
+            globalCtx->msgCtx.stateTimer = 4;
+            globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
     }
 }
@@ -325,7 +327,7 @@ void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx) {
         this->unk_1E8.unk_00 = 0;
         this->actionFunc = func_80AA0D88;
         gSaveContext.eventChkInf[1] |= 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     }
 }
 
@@ -347,7 +349,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             player->stateFlags2 |= 0x2000000;
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
-            func_8010B680(globalCtx, this->actor.textId, NULL);
+            Message_StartTextbox(globalCtx, this->actor.textId, NULL);
             this->unk_1E8.unk_00 = 1;
             this->actor.flags |= 0x10000;
             this->actionFunc = func_80AA106C;
@@ -360,8 +362,8 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
     if (this->unk_1E8.unk_00 == 2) {
-        func_800ED858(2);
-        func_8010BD58(globalCtx, 9);
+        Audio_OcaSetInstrument(2);
+        func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_EPONA);
         this->actor.flags &= ~0x10000;
         this->actionFunc = func_80AA10EC;
     }
@@ -369,15 +371,15 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
 
 void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
-    if (func_8010BDBC(&globalCtx->msgCtx) == 7) {
-        func_8010BD58(globalCtx, 0x16);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
+        func_8010BD58(globalCtx, OCARINA_ACTION_PLAYBACK_EPONA);
         this->actionFunc = func_80AA1150;
     }
 }
 
 void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
-    if (globalCtx->msgCtx.unk_E3EE == 3) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         globalCtx->nextEntranceIndex = 0x157;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
         globalCtx->fadeTransition = 42;
@@ -447,7 +449,7 @@ void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     camera = GET_ACTIVE_CAM(globalCtx);
     distFromCamera = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
-    func_800F6268(distFromCamera, 0x2F);
+    func_800F6268(distFromCamera, NA_BGM_LONLON);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));

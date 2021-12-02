@@ -11,23 +11,8 @@
 
 # temporary file name, rename to something more appropriate when decompiled
 
-glabel gLetterTLUT
+glabel gMojiFontTLUTs
     .incbin "baserom.z64", 0xBA18E0, 0x80
 
-glabel gFontFF
+glabel gMojiFontTex
     .incbin "baserom.z64", 0xBA1960, 0x400
-
-# Unused
-glabel D_8012ABC0
-    .word func_801067F0 # fmodf?
-    .word guScale
-    .word guRotate
-    .word guTranslate
-    .word GfxPrint_SetPos
-    .word GfxPrint_SetColor
-    .word GfxPrint_Printf
-    .word GfxPrint_SetPosPx
-    .word GfxPrint_Init
-    .word GfxPrint_Open
-    .word GfxPrint_Close
-    .word GfxPrint_Destroy

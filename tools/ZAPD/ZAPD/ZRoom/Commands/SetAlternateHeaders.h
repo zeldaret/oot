@@ -6,6 +6,8 @@
 class SetAlternateHeaders : public ZRoomCommand
 {
 public:
+	std::vector<uint32_t> headers;
+
 	SetAlternateHeaders(ZFile* nParent);
 
 	void DeclareReferences(const std::string& prefix) override;
@@ -18,5 +20,4 @@ public:
 	std::string GetCommandCName() const override;
 
 private:
-	std::vector<uint32_t> headers;
 };

@@ -137,11 +137,11 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
             }
         }
         if (this->unk_1A4 == 1) {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->unk_1A4 = 2;
-        } else if (this->unk_1A4 == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
-            if ((params == 0x40 && globalCtx->msgCtx.unk_E3EC == 9) ||
-                (params == 0x41 && globalCtx->msgCtx.unk_E3EC == 0xB)) {
+        } else if (this->unk_1A4 == 2 && globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+            if ((params == 0x40 && globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS) ||
+                (params == 0x41 && globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_STORMS)) {
                 this->actionFunc = ShotSun_TriggerFairy;
                 OnePointCutscene_Attention(globalCtx, &this->actor);
                 this->timer = 0;
@@ -165,7 +165,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(CYAN) "SHOT_SUN HIT!!!!!!!\n" VT_RST);
         if (INV_CONTENT(ITEM_ARROW_FIRE) == ITEM_NONE) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gFireArrowsCS);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gLakeHyliaFireArrowsCS);
             if (1) {}
             gSaveContext.cutsceneTrigger = 1;
         } else {

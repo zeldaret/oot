@@ -8,7 +8,6 @@ class OutputFormatter
 {
 private:
 	const uint32_t tabSize;
-	const uint32_t defaultIndent;
 	const uint32_t lineLimit;
 
 	uint32_t col;
@@ -30,7 +29,7 @@ private:
 	static int WriteStatic(const char* buf, int count);
 
 public:
-	OutputFormatter(uint32_t tabSize = 4, uint32_t defaultIndent = 4, uint32_t lineLimit = 120);
+	OutputFormatter(uint32_t tabSize = 4, uint32_t indentation = 4, uint32_t lineLimit = 120);
 
 	int (*StaticWriter())(const char* buf, int count);  // Must be `int` due to libgfxd
 

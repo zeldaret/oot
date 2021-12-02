@@ -59,7 +59,7 @@ u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     return 1;
 }
 
-void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment) {
+void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, void* segment) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 radius;
     s32 pad;

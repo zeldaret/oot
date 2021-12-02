@@ -15,8 +15,8 @@
 
         <!-- Head display lists -->
         <DList Name="gVolvagiaBrokenFaceDL" Offset="0x59F8"/>
-        <DList Name="gVolvagiaManeSetupDL" Offset="0x9168"/>
-        <DList Name="gVolvagiaManeVtxDL" Offset="0x91E8"/>
+        <DList Name="gVolvagiaManeMaterialDL" Offset="0x9168"/>
+        <DList Name="gVolvagiaManeModelDL" Offset="0x91E8"/>
 
         <!-- Eye textures -->
         <Texture Name="gVolvagiaEyeOpenTex" OutName="volvagia_eye_open" Format="i8" Width="32" Height="32" Offset="0x38A8"/>
@@ -49,14 +49,14 @@
         <DList Name="gVolvagiaBodySeg18DL" Offset="0x80D8"/>
         
         <!-- Particle display lists -->
-        <DList Name="gVolvagiaEmberSetupDL" Offset="0xA880"/>
-        <DList Name="gVolvagiaEmberVtxDL" Offset="0xA900"/>
-        <DList Name="gVolvagiaDustSetupDL" Offset="0xB3A8"/>
-        <DList Name="gVolvagiaDustVtxDL" Offset="0xB3C8"/>
-        <DList Name="gVolvagiaDebrisSetupDL" Offset="0xD3A0"/>
-        <DList Name="gVolvagiaDebrisVtxDL" Offset="0xD420"/>
-        <DList Name="gVolvagiaSkullPieceSetupDL" Offset="0xD668"/>
-        <DList Name="gVolvagiaSkullPieceVtxDL" Offset="0xD6E8"/>
+        <DList Name="gVolvagiaEmberMaterialDL" Offset="0xA880"/>
+        <DList Name="gVolvagiaEmberModelDL" Offset="0xA900"/>
+        <DList Name="gVolvagiaDustMaterialDL" Offset="0xB3A8"/>
+        <DList Name="gVolvagiaDustModelDL" Offset="0xB3C8"/>
+        <DList Name="gVolvagiaDebrisMaterialDL" Offset="0xD3A0"/>
+        <DList Name="gVolvagiaDebrisModelDL" Offset="0xD420"/>
+        <DList Name="gVolvagiaSkullPieceMaterialDL" Offset="0xD668"/>
+        <DList Name="gVolvagiaSkullPieceModelDL" Offset="0xD6E8"/>
 
         <!-- Unused body skeleton assets -->
         <Skeleton Name="gVolvagiaBodySkel" Type="Flex" LimbType="Standard" Offset="0x11420"/>

@@ -657,7 +657,7 @@ void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1289);
     if (ObjOshihiki_MoveWithBlockUnder(this, globalCtx)) {
-        Matrix_Translate(this->underDistX * 10.0f, 0.0f, this->underDistZ * 10.0f, 1);
+        Matrix_Translate(this->underDistX * 10.0f, 0.0f, this->underDistZ * 10.0f, MTXMODE_APPLY);
     }
     this->stateFlags &= ~PUSHBLOCK_MOVE_UNDER;
     func_80093D18(globalCtx->state.gfxCtx);
@@ -682,6 +682,6 @@ void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    gSPDisplayList(POLY_OPA_DISP++, &gPushBlockDL);
+    gSPDisplayList(POLY_OPA_DISP++, gPushBlockDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1334);
 }

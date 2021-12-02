@@ -2,7 +2,7 @@
 
 OSPiHandle* sISVHandle; // official name : is_Handle
 
-#define gISVDbgPrnAdrs ((ISVDbg*)0xb3ff0000)
+#define gISVDbgPrnAdrs ((ISVDbg*)0xB3FF0000)
 #define ASCII_TO_U32(a, b, c, d) ((u32)((a << 24) | (b << 16) | (c << 8) | (d << 0)))
 
 void isPrintfInit(void) {
@@ -55,8 +55,8 @@ void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
     osEPiReadIo(sISVHandle, (u32)&gISVDbgPrnAdrs->put, &data);
     start = data;
     end = start + count;
-    if (end >= 0xffe0) {
-        end -= 0xffe0;
+    if (end >= 0xFFE0) {
+        end -= 0xFFE0;
         if (pos < end || start < pos) {
             return 1;
         }
@@ -66,15 +66,16 @@ void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
         }
     }
     while (count) {
-        u32 addr = (u32)&gISVDbgPrnAdrs->data + (start & 0xffffffc);
+        u32 addr = (u32)&gISVDbgPrnAdrs->data + (start & 0xFFFFFFC);
         s32 shift = ((3 - (start & 3)) * 8);
+
         if (*str) {
             osEPiReadIo(sISVHandle, addr, &data);
-            osEPiWriteIo(sISVHandle, addr, (*str << shift) | (data & ~(0xff << shift)));
+            osEPiWriteIo(sISVHandle, addr, (*str << shift) | (data & ~(0xFF << shift)));
 
             start++;
-            if (start >= 0xffe0) {
-                start -= 0xffe0;
+            if (start >= 0xFFE0) {
+                start -= 0xFFE0;
             }
         }
         count--;
