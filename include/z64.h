@@ -874,9 +874,9 @@ typedef struct {
     /* 0x04 */ Gfx* dlist;
     union {
         struct {
-            /* 0x08 */ void*   source;
+            /* 0x08 */ void* source;
             /* 0x0C */ u32   unk_0C;
-            /* 0x10 */ void*   tlut;
+            /* 0x10 */ void* tlut;
             /* 0x14 */ u16   width;
             /* 0x16 */ u16   height;
             /* 0x18 */ u8    fmt;
