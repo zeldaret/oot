@@ -111,27 +111,27 @@ CameraModeValue sSetNormal0ModeNormalData[] = {
 };
 
 /**
- * Setting            Mode      Function
- * ---------------    ------    --------
- * NORMAL0            TARGET    PARA1
- * BOSS_GOHMA         TARGET    PARA1
- * BOSS_DODONGO       TARGET    PARA1
- * BOSS_BARINADE      TARGET    PARA1
- * BOSS_PHANTOM_GANON       TARGET    PARA1
- * BOSS_VOLVAGIA      TARGET    PARA1
- * BOSS_BONGO         TARGET    PARA1
- * BOSS_MORPHA        TARGET    PARA1
+ * Setting                 Mode      Function
+ * --------------------    ------    --------
+ * NORMAL0                 TARGET    PARA1
+ * BOSS_GOHMA              TARGET    PARA1
+ * BOSS_DODONGO            TARGET    PARA1
+ * BOSS_BARINADE           TARGET    PARA1
+ * BOSS_PHANTOM_GANON      TARGET    PARA1
+ * BOSS_VOLVAGIA           TARGET    PARA1
+ * BOSS_BONGO              TARGET    PARA1
+ * BOSS_MORPHA             TARGET    PARA1
  * BOSS_TWINROVA_PLATFORM  TARGET    PARA1
  * BOSS_TWINROVA_FLOOR     TARGET    PARA1
- * BOSS_GANONDORF     TARGET    PARA1
- * BOSS_GANON        TARGET    PARA1
- * TOWER_CLIMB    TARGET    PARA1
- * TOWER_UNUSED             TARGET    PARA1
- * PIVOT_IN_FRONT            TARGET    PARA1
- * NORMAL2            TARGET    PARA1
+ * BOSS_GANONDORF          TARGET    PARA1
+ * BOSS_GANON              TARGET    PARA1
+ * TOWER_CLIMB             TARGET    PARA1
+ * TOWER_UNUSED            TARGET    PARA1
+ * PIVOT_IN_FRONT          TARGET    PARA1
+ * NORMAL2                 TARGET    PARA1
  * JABU_TENTACLE           TARGET    PARA1
- * DIRECTED_YAW             TARGET    PARA1
- * NORMAL4            TARGET    PARA1
+ * DIRECTED_YAW            TARGET    PARA1
+ * NORMAL4                 TARGET    PARA1
  */
 CameraModeValue sSetNormal0ModeTargetData[] = {
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
@@ -148,29 +148,29 @@ CameraModeValue sSetNormal0ModeTargetData[] = {
 };
 
 /**
- * Setting            Mode            Function
- * ---------------    ------------    --------
- * NORMAL0            FOLLOWTARGET    KEEP1
- * NORMAL3            FOLLOWTARGET    KEEP1
- * BOSS_GOHMA         FOLLOWTARGET    KEEP1
- * BOSS_DODONGO       FOLLOWTARGET    KEEP1
- * BOSS_BARINADE      FOLLOWTARGET    KEEP1
- * BOSS_PHANTOM_GANON       FOLLOWTARGET    KEEP1
- * BOSS_VOLVAGIA      FOLLOWTARGET    KEEP1
- * BOSS_BONGO         FOLLOWTARGET    KEEP1
- * BOSS_MORPHA        FOLLOWTARGET    KEEP1
- * TWINROVA_PLATFORM  FOLLOWTARGET    KEEP1
- * TWINROVA_FLOOR     FOLLOWTARGET    KEEP1
- * BOSS_GANONDORF     FOLLOWTARGET    KEEP1
- * BOSS_GANON        FOLLOWTARGET    KEEP1
- * TOWER_CLIMB    FOLLOWTARGET    KEEP1
- * TOWER_UNUSED             FOLLOWTARGET    KEEP1
- * PIVOT_IN_FRONT            FOLLOWTARGET    KEEP1
- * BEAN_GENERIC            FOLLOWTARGET    KEEP1
- * BEAN_LOST_WOODS           FOLLOWTARGET    KEEP1
- * NORMAL2            FOLLOWTARGET    KEEP1
- * JABU_TENTACLE           FOLLOWTARGET    KEEP1
- * NORMAL4            FOLLOWTARGET    KEEP1
+ * Setting                Mode            Function
+ * -------------------    ------------    --------
+ * NORMAL0                FOLLOWTARGET    KEEP1
+ * NORMAL3                FOLLOWTARGET    KEEP1
+ * BOSS_GOHMA             FOLLOWTARGET    KEEP1
+ * BOSS_DODONGO           FOLLOWTARGET    KEEP1
+ * BOSS_BARINADE          FOLLOWTARGET    KEEP1
+ * BOSS_PHANTOM_GANON     FOLLOWTARGET    KEEP1
+ * BOSS_VOLVAGIA          FOLLOWTARGET    KEEP1
+ * BOSS_BONGO             FOLLOWTARGET    KEEP1
+ * BOSS_MORPHA            FOLLOWTARGET    KEEP1
+ * BOSSTWINROVA_PLATFORM  FOLLOWTARGET    KEEP1
+ * BOSSTWINROVA_FLOOR     FOLLOWTARGET    KEEP1
+ * BOSS_GANONDORF         FOLLOWTARGET    KEEP1
+ * BOSS_GANON             FOLLOWTARGET    KEEP1
+ * TOWER_CLIMB            FOLLOWTARGET    KEEP1
+ * TOWER_UNUSED           FOLLOWTARGET    KEEP1
+ * PIVOT_IN_FRONT         FOLLOWTARGET    KEEP1
+ * BEAN_GENERIC           FOLLOWTARGET    KEEP1
+ * BEAN_LOST_WOODS        FOLLOWTARGET    KEEP1
+ * NORMAL2                FOLLOWTARGET    KEEP1
+ * JABU_TENTACLE          FOLLOWTARGET    KEEP1
+ * NORMAL4                FOLLOWTARGET    KEEP1
  */
 CameraModeValue sSetNormal0ModeFollowTargetData[] = {
     { -20, CAM_DATA_Y_OFFSET },          // unk_00
@@ -189,32 +189,32 @@ CameraModeValue sSetNormal0ModeFollowTargetData[] = {
 };
 
 /**
- * Setting            Mode    Function
- * ---------------    ----    --------
- * NORMAL0            TALK    KEEP3
- * NORMAL1            TALK    KEEP3
- * DUNGEON0           TALK    KEEP3
- * BOSS_GOHMA         TALK    KEEP3
- * BOSS_DODONGO       TALK    KEEP3
- * BOSS_BARINADE      TALK    KEEP3
- * BOSS_PHANTOM_GANON       TALK    KEEP3
- * BOSS_VOLVAGIA      TALK    KEEP3
- * BOSS_BONGO         TALK    KEEP3
- * BOSS_MORPHA        TALK    KEEP3
- * TWINROVA_PLATFORM  TALK    KEEP3
- * TWINROVA_FLOOR     TALK    KEEP3
- * BOSS_GANONDORF     TALK    KEEP3
- * BOSS_GANON        TALK    KEEP3
- * TOWER_CLIMB    TALK    KEEP3
- * TOWER_UNUSED             TALK    KEEP3
- * PIVOT_IN_FRONT            TALK    KEEP3
+ * Setting                 Mode    Function
+ * --------------------    ----    --------
+ * NORMAL0                 TALK    KEEP3
+ * NORMAL1                 TALK    KEEP3
+ * DUNGEON0                TALK    KEEP3
+ * BOSS_GOHMA              TALK    KEEP3
+ * BOSS_DODONGO            TALK    KEEP3
+ * BOSS_BARINADE           TALK    KEEP3
+ * BOSS_PHANTOM_GANON      TALK    KEEP3
+ * BOSS_VOLVAGIA           TALK    KEEP3
+ * BOSS_BONGO              TALK    KEEP3
+ * BOSS_MORPHA             TALK    KEEP3
+ * BOSS_TWINROVA_PLATFORM  TALK    KEEP3
+ * BOSS_TWINROVA_FLOOR     TALK    KEEP3
+ * BOSS_GANONDORF          TALK    KEEP3
+ * BOSS_GANON              TALK    KEEP3
+ * TOWER_CLIMB             TALK    KEEP3
+ * TOWER_UNUSED            TALK    KEEP3
+ * PIVOT_IN_FRONT          TALK    KEEP3
  * BEAN_GENERIC            TALK    KEEP3
- * BEAN_LOST_WOODS           TALK    KEEP3
- * BIG_OCTO               TALK    KEEP3
- * NORMAL2            TALK    KEEP3
+ * BEAN_LOST_WOODS         TALK    KEEP3
+ * BIG_OCTO                TALK    KEEP3
+ * NORMAL2                 TALK    KEEP3
  * JABU_TENTACLE           TALK    KEEP3
- * DUNGEON2           TALK    KEEP3
- * PIVOT_FROM_SIDE            TALK    KEEP3
+ * DUNGEON2                TALK    KEEP3
+ * PIVOT_FROM_SIDE         TALK    KEEP3
  */
 CameraModeValue sSetNormal0ModeTalkData[] = {
     { -30, CAM_DATA_Y_OFFSET },              // yOffset
@@ -236,9 +236,9 @@ CameraModeValue sSetNormal0ModeTalkData[] = {
  * -------------    ------    --------
  * NORMAL0          BATTLE    BATT1
  * NORMAL3          BATTLE    BATT1
- * TOWER_CLIMB  BATTLE    BATT1
- * TOWER_UNUSED           BATTLE    BATT1
- * DIRECTED_YAW           BATTLE    BATT1
+ * TOWER_CLIMB      BATTLE    BATT1
+ * TOWER_UNUSED     BATTLE    BATT1
+ * DIRECTED_YAW     BATTLE    BATT1
  */
 CameraModeValue sSetNormal0ModeBattleData[] = {
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
@@ -256,30 +256,30 @@ CameraModeValue sSetNormal0ModeBattleData[] = {
 };
 
 /**
- * Setting            Mode     Function
- * ---------------    -----    --------
- * NORMAL0            CLIMB    JUMP2
- * NORMAL3            CLIMB    JUMP2
- * BOSS_GOHMA         CLIMB    JUMP2
- * BOSS_DODONGO       CLIMB    JUMP2
- * BOSS_BARINADE      CLIMB    JUMP2
- * BOSS_PHANTOM_GANON       CLIMB    JUMP2
- * BOSS_VOLVAGIA      CLIMB    JUMP2
- * BOSS_BONGO         CLIMB    JUMP2
- * BOSS_MORPHA        CLIMB    JUMP2
- * TWINROVA_PLATFORM  CLIMB    JUMP2
- * TWINROVA_FLOOR     CLIMB    JUMP2
- * BOSS_GANONDORF     CLIMB    JUMP2
- * BOSS_GANON        CLIMB    JUMP2
- * TOWER_CLIMB    CLIMB    JUMP2
- * TOWER_UNUSED             CLIMB    JUMP2
- * PIVOT_IN_FRONT            CLIMB    JUMP2
+ * Setting                 Mode     Function
+ * --------------------    -----    --------
+ * NORMAL0                 CLIMB    JUMP2
+ * NORMAL3                 CLIMB    JUMP2
+ * BOSS_GOHMA              CLIMB    JUMP2
+ * BOSS_DODONGO            CLIMB    JUMP2
+ * BOSS_BARINADE           CLIMB    JUMP2
+ * BOSS_PHANTOM_GANON      CLIMB    JUMP2
+ * BOSS_VOLVAGIA           CLIMB    JUMP2
+ * BOSS_BONGO              CLIMB    JUMP2
+ * BOSS_MORPHA             CLIMB    JUMP2
+ * BOSS_TWINROVA_PLATFORM  CLIMB    JUMP2
+ * BOSS_TWINROVA_FLOOR     CLIMB    JUMP2
+ * BOSS_GANONDORF          CLIMB    JUMP2
+ * BOSS_GANON              CLIMB    JUMP2
+ * TOWER_CLIMB             CLIMB    JUMP2
+ * TOWER_UNUSED            CLIMB    JUMP2
+ * PIVOT_IN_FRONT          CLIMB    JUMP2
  * BEAN_GENERIC            CLIMB    JUMP2
- * BEAN_LOST_WOODS           CLIMB    JUMP2
- * NORMAL2            CLIMB    JUMP2
+ * BEAN_LOST_WOODS         CLIMB    JUMP2
+ * NORMAL2                 CLIMB    JUMP2
  * JABU_TENTACLE           CLIMB    JUMP2
- * DIRECTED_YAW             CLIMB    JUMP2
- * NORMAL4            CLIMB    JUMP2
+ * DIRECTED_YAW            CLIMB    JUMP2
+ * NORMAL4                 CLIMB    JUMP2
  */
 CameraModeValue sSetNormal0ModeClimbData[] = {
     { -20, CAM_DATA_Y_OFFSET },             // atYOffset
@@ -294,36 +294,36 @@ CameraModeValue sSetNormal0ModeClimbData[] = {
 };
 
 /**
- * Setting            Mode           Function
- * ---------------    -----------    --------
- * NORMAL0            FIRSTPERSON    SUBJ3
- * NORMAL1            FIRSTPERSON    SUBJ3
- * DUNGEON0           FIRSTPERSON    SUBJ3
- * DUNGEON1           FIRSTPERSON    SUBJ3
- * NORMAL3            FIRSTPERSON    SUBJ3
- * BOSS_GOHMA         FIRSTPERSON    SUBJ3
- * BOSS_DODONGO       FIRSTPERSON    SUBJ3
- * BOSS_BARINADE      FIRSTPERSON    SUBJ3
- * BOSS_PHANTOM_GANON       FIRSTPERSON    SUBJ3
- * BOSS_VOLVAGIA      FIRSTPERSON    SUBJ3
- * BOSS_BONGO         FIRSTPERSON    SUBJ3
- * BOSS_MORPHA        FIRSTPERSON    SUBJ3
- * TWINROVA_PLATFORM  FIRSTPERSON    SUBJ3
- * TWINROVA_FLOOR     FIRSTPERSON    SUBJ3
- * BOSS_GANONDORF     FIRSTPERSON    SUBJ3
- * BOSS_GANON        FIRSTPERSON    SUBJ3
- * TOWER_CLIMB    FIRSTPERSON    SUBJ3
- * TOWER_UNUSED             FIRSTPERSON    SUBJ3
- * PIVOT_IN_FRONT            FIRSTPERSON    SUBJ3
+ * Setting                 Mode           Function
+ * --------------------    -----------    --------
+ * NORMAL0                 FIRSTPERSON    SUBJ3
+ * NORMAL1                 FIRSTPERSON    SUBJ3
+ * DUNGEON0                FIRSTPERSON    SUBJ3
+ * DUNGEON1                FIRSTPERSON    SUBJ3
+ * NORMAL3                 FIRSTPERSON    SUBJ3
+ * BOSS_GOHMA              FIRSTPERSON    SUBJ3
+ * BOSS_DODONGO            FIRSTPERSON    SUBJ3
+ * BOSS_BARINADE           FIRSTPERSON    SUBJ3
+ * BOSS_PHANTOM_GANON      FIRSTPERSON    SUBJ3
+ * BOSS_VOLVAGIA           FIRSTPERSON    SUBJ3
+ * BOSS_BONGO              FIRSTPERSON    SUBJ3
+ * BOSS_MORPHA             FIRSTPERSON    SUBJ3
+ * BOSS_TWINROVA_PLATFORM  FIRSTPERSON    SUBJ3
+ * BOSS_TWINROVA_FLOOR     FIRSTPERSON    SUBJ3
+ * BOSS_GANONDORF          FIRSTPERSON    SUBJ3
+ * BOSS_GANON              FIRSTPERSON    SUBJ3
+ * TOWER_CLIMB             FIRSTPERSON    SUBJ3
+ * TOWER_UNUSED            FIRSTPERSON    SUBJ3
+ * PIVOT_IN_FRONT          FIRSTPERSON    SUBJ3
  * BEAN_GENERIC            FIRSTPERSON    SUBJ3
- * BEAN_LOST_WOODS           FIRSTPERSON    SUBJ3
- * BIG_OCTO               FIRSTPERSON    SUBJ3
- * NORMAL2            FIRSTPERSON    SUBJ3
+ * BEAN_LOST_WOODS         FIRSTPERSON    SUBJ3
+ * BIG_OCTO                FIRSTPERSON    SUBJ3
+ * NORMAL2                 FIRSTPERSON    SUBJ3
  * JABU_TENTACLE           FIRSTPERSON    SUBJ3
- * DUNGEON2           FIRSTPERSON    SUBJ3
- * DIRECTED_YAW             FIRSTPERSON    SUBJ3
- * PIVOT_FROM_SIDE            FIRSTPERSON    SUBJ3
- * NORMAL4            FIRSTPERSON    SUBJ3
+ * DUNGEON2                FIRSTPERSON    SUBJ3
+ * DIRECTED_YAW            FIRSTPERSON    SUBJ3
+ * PIVOT_FROM_SIDE         FIRSTPERSON    SUBJ3
+ * NORMAL4                 FIRSTPERSON    SUBJ3
  */
 CameraModeValue sSetNormal0ModeFirstPersonData[] = {
     { 0, CAM_DATA_Y_OFFSET },                // eyeNextYOffset
@@ -338,36 +338,36 @@ CameraModeValue sSetNormal0ModeFirstPersonData[] = {
 };
 
 /**
- * Setting            Mode        Function
- * ---------------    --------    --------
- * NORMAL0            BOWARROW    SUBJ3
- * NORMAL1            BOWARROW    SUBJ3
- * DUNGEON0           BOWARROW    SUBJ3
- * DUNGEON1           BOWARROW    SUBJ3
- * NORMAL3            BOWARROW    SUBJ3
- * BOSS_GOHMA         BOWARROW    SUBJ3
- * BOSS_DODONGO       BOWARROW    SUBJ3
- * BOSS_BARINADE      BOWARROW    SUBJ3
- * BOSS_PHANTOM_GANON       BOWARROW    SUBJ3
- * BOSS_VOLVAGIA      BOWARROW    SUBJ3
- * BOSS_BONGO         BOWARROW    SUBJ3
- * BOSS_MORPHA        BOWARROW    SUBJ3
- * TWINROVA_PLATFORM  BOWARROW    SUBJ3
- * TWINROVA_FLOOR     BOWARROW    SUBJ3
- * BOSS_GANONDORF     BOWARROW    SUBJ3
- * BOSS_GANON        BOWARROW    SUBJ3
- * TOWER_CLIMB    BOWARROW    SUBJ3
- * TOWER_UNUSED             BOWARROW    SUBJ3
- * PIVOT_IN_FRONT            BOWARROW    SUBJ3
+ * Setting                 Mode        Function
+ * --------------------    --------    --------
+ * NORMAL0                 BOWARROW    SUBJ3
+ * NORMAL1                 BOWARROW    SUBJ3
+ * DUNGEON0                BOWARROW    SUBJ3
+ * DUNGEON1                BOWARROW    SUBJ3
+ * NORMAL3                 BOWARROW    SUBJ3
+ * BOSS_GOHMA              BOWARROW    SUBJ3
+ * BOSS_DODONGO            BOWARROW    SUBJ3
+ * BOSS_BARINADE           BOWARROW    SUBJ3
+ * BOSS_PHANTOM_GANON      BOWARROW    SUBJ3
+ * BOSS_VOLVAGIA           BOWARROW    SUBJ3
+ * BOSS_BONGO              BOWARROW    SUBJ3
+ * BOSS_MORPHA             BOWARROW    SUBJ3
+ * BOSS_TWINROVA_PLATFORM  BOWARROW    SUBJ3
+ * BOSS_TWINROVA_FLOOR     BOWARROW    SUBJ3
+ * BOSS_GANONDORF          BOWARROW    SUBJ3
+ * BOSS_GANON              BOWARROW    SUBJ3
+ * TOWER_CLIMB             BOWARROW    SUBJ3
+ * TOWER_UNUSED            BOWARROW    SUBJ3
+ * PIVOT_IN_FRONT          BOWARROW    SUBJ3
  * BEAN_GENERIC            BOWARROW    SUBJ3
- * BEAN_LOST_WOODS           BOWARROW    SUBJ3
- * BIG_OCTO               BOWARROW    SUBJ3
- * NORMAL2            BOWARROW    SUBJ3
+ * BEAN_LOST_WOODS         BOWARROW    SUBJ3
+ * BIG_OCTO                BOWARROW    SUBJ3
+ * NORMAL2                 BOWARROW    SUBJ3
  * JABU_TENTACLE           BOWARROW    SUBJ3
- * DUNGEON2           BOWARROW    SUBJ3
- * DIRECTED_YAW             BOWARROW    SUBJ3
- * PIVOT_FROM_SIDE            BOWARROW    SUBJ3
- * NORMAL4            BOWARROW    SUBJ3
+ * DUNGEON2                BOWARROW    SUBJ3
+ * DIRECTED_YAW            BOWARROW    SUBJ3
+ * PIVOT_FROM_SIDE         BOWARROW    SUBJ3
+ * NORMAL4                 BOWARROW    SUBJ3
  */
 CameraModeValue sSetNormal0ModeBowArrowData[] = {
     { -7, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
@@ -382,36 +382,36 @@ CameraModeValue sSetNormal0ModeBowArrowData[] = {
 };
 
 /**
- * Setting            Mode         Function
- * ---------------    ---------    --------
- * NORMAL0            BOWARROWZ    SUBJ3
- * NORMAL1            BOWARROWZ    SUBJ3
- * DUNGEON0           BOWARROWZ    SUBJ3
- * DUNGEON1           BOWARROWZ    SUBJ3
- * NORMAL3            BOWARROWZ    SUBJ3
- * HORSE             BOWARROWZ    SUBJ3
- * BOSS_GOHMA         BOWARROWZ    SUBJ3
- * BOSS_DODONGO       BOWARROWZ    SUBJ3
- * BOSS_BARINADE      BOWARROWZ    SUBJ3
- * BOSS_PHANTOM_GANON       BOWARROWZ    SUBJ3
- * BOSS_VOLVAGIA      BOWARROWZ    SUBJ3
- * BOSS_BONGO         BOWARROWZ    SUBJ3
- * BOSS_MORPHA        BOWARROWZ    SUBJ3
- * TWINROVA_PLATFORM  BOWARROWZ    SUBJ3
- * TWINROVA_FLOOR     BOWARROWZ    SUBJ3
- * BOSS_GANONDORF     BOWARROWZ    SUBJ3
- * BOSS_GANON        BOWARROWZ    SUBJ3
- * TOWER_CLIMB    BOWARROWZ    SUBJ3
- * TOWER_UNUSED             BOWARROWZ    SUBJ3
- * PIVOT_IN_FRONT            BOWARROWZ    SUBJ3
+ * Setting                 Mode         Function
+ * --------------------    ---------    --------
+ * NORMAL0                 BOWARROWZ    SUBJ3
+ * NORMAL1                 BOWARROWZ    SUBJ3
+ * DUNGEON0                BOWARROWZ    SUBJ3
+ * DUNGEON1                BOWARROWZ    SUBJ3
+ * NORMAL3                 BOWARROWZ    SUBJ3
+ * HORSE                   BOWARROWZ    SUBJ3
+ * BOSS_GOHMA              BOWARROWZ    SUBJ3
+ * BOSS_DODONGO            BOWARROWZ    SUBJ3
+ * BOSS_BARINADE           BOWARROWZ    SUBJ3
+ * BOSS_PHANTOM_GANON      BOWARROWZ    SUBJ3
+ * BOSS_VOLVAGIA           BOWARROWZ    SUBJ3
+ * BOSS_BONGO              BOWARROWZ    SUBJ3
+ * BOSS_MORPHA             BOWARROWZ    SUBJ3
+ * BOSS_TWINROVA_PLATFORM  BOWARROWZ    SUBJ3
+ * BOSS_TWINROVA_FLOOR     BOWARROWZ    SUBJ3
+ * BOSS_GANONDORF          BOWARROWZ    SUBJ3
+ * BOSS_GANON              BOWARROWZ    SUBJ3
+ * TOWER_CLIMB             BOWARROWZ    SUBJ3
+ * TOWER_UNUSED            BOWARROWZ    SUBJ3
+ * PIVOT_IN_FRONT          BOWARROWZ    SUBJ3
  * BEAN_GENERIC            BOWARROWZ    SUBJ3
- * BEAN_LOST_WOODS           BOWARROWZ    SUBJ3
- * BIG_OCTO               BOWARROWZ    SUBJ3
- * NORMAL2            BOWARROWZ    SUBJ3
+ * BEAN_LOST_WOODS         BOWARROWZ    SUBJ3
+ * BIG_OCTO                BOWARROWZ    SUBJ3
+ * NORMAL2                 BOWARROWZ    SUBJ3
  * JABU_TENTACLE           BOWARROWZ    SUBJ3
- * DUNGEON2           BOWARROWZ    SUBJ3
- * DIRECTED_YAW             BOWARROWZ    SUBJ3
- * NORMAL4            BOWARROWZ    SUBJ3
+ * DUNGEON2                BOWARROWZ    SUBJ3
+ * DIRECTED_YAW            BOWARROWZ    SUBJ3
+ * NORMAL4                 BOWARROWZ    SUBJ3
  */
 CameraModeValue sSetNormal0ModeBowArrowZData[] = {
     { 20, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
@@ -426,31 +426,31 @@ CameraModeValue sSetNormal0ModeBowArrowZData[] = {
 };
 
 /**
- * Setting            Mode        Function
- * ---------------    --------    --------
- * NORMAL0            HOOKSHOT    SPEC5
- * NORMAL3            HOOKSHOT    SPEC5
- * BOSS_GOHMA         HOOKSHOT    SPEC5
- * BOSS_DODONGO       HOOKSHOT    SPEC5
- * BOSS_BARINADE      HOOKSHOT    SPEC5
- * BOSS_PHANTOM_GANON       HOOKSHOT    SPEC5
- * BOSS_VOLVAGIA      HOOKSHOT    SPEC5
- * BOSS_BONGO         HOOKSHOT    SPEC5
- * BOSS_MORPHA        HOOKSHOT    SPEC5
- * TWINROVA_PLATFORM  HOOKSHOT    SPEC5
- * TWINROVA_FLOOR     HOOKSHOT    SPEC5
- * BOSS_GANONDORF     HOOKSHOT    SPEC5
- * BOSS_GANON        HOOKSHOT    SPEC5
- * TOWER_CLIMB    HOOKSHOT    SPEC5
- * TOWER_UNUSED             HOOKSHOT    SPEC5
- * PIVOT_IN_FRONT            HOOKSHOT    SPEC5
+ * Setting                 Mode        Function
+ * --------------------    --------    --------
+ * NORMAL0                 HOOKSHOT    SPEC5
+ * NORMAL3                 HOOKSHOT    SPEC5
+ * BOSS_GOHMA              HOOKSHOT    SPEC5
+ * BOSS_DODONGO            HOOKSHOT    SPEC5
+ * BOSS_BARINADE           HOOKSHOT    SPEC5
+ * BOSS_PHANTOM_GANON      HOOKSHOT    SPEC5
+ * BOSS_VOLVAGIA           HOOKSHOT    SPEC5
+ * BOSS_BONGO              HOOKSHOT    SPEC5
+ * BOSS_MORPHA             HOOKSHOT    SPEC5
+ * BOSS_TWINROVA_PLATFORM  HOOKSHOT    SPEC5
+ * BOSS_TWINROVA_FLOOR     HOOKSHOT    SPEC5
+ * BOSS_GANONDORF          HOOKSHOT    SPEC5
+ * BOSS_GANON              HOOKSHOT    SPEC5
+ * TOWER_CLIMB             HOOKSHOT    SPEC5
+ * TOWER_UNUSED            HOOKSHOT    SPEC5
+ * PIVOT_IN_FRONT          HOOKSHOT    SPEC5
  * BEAN_GENERIC            HOOKSHOT    SPEC5
- * BEAN_LOST_WOODS           HOOKSHOT    SPEC5
- * NORMAL2            HOOKSHOT    SPEC5
+ * BEAN_LOST_WOODS         HOOKSHOT    SPEC5
+ * NORMAL2                 HOOKSHOT    SPEC5
  * JABU_TENTACLE           HOOKSHOT    SPEC5
- * DIRECTED_YAW             HOOKSHOT    SPEC5
- * PIVOT_FROM_SIDE            HOOKSHOT    SPEC5
- * NORMAL4            HOOKSHOT    SPEC5
+ * DIRECTED_YAW            HOOKSHOT    SPEC5
+ * PIVOT_FROM_SIDE         HOOKSHOT    SPEC5
+ * NORMAL4                 HOOKSHOT    SPEC5
  */
 CameraModeValue sSetNormal0ModeHookshotData[] = {
     { -20, CAM_DATA_Y_OFFSET },          // yOffset
@@ -464,35 +464,35 @@ CameraModeValue sSetNormal0ModeHookshotData[] = {
 };
 
 /**
- * Setting            Mode         Function
- * ---------------    ---------    --------
- * NORMAL0            BOOMERANG    SUBJ3
- * NORMAL1            BOOMERANG    SUBJ3
- * DUNGEON0           BOOMERANG    SUBJ3
- * DUNGEON1           BOOMERANG    SUBJ3
- * BOSS_GOHMA         BOOMERANG    SUBJ3
- * BOSS_DODONGO       BOOMERANG    SUBJ3
- * BOSS_BARINADE      BOOMERANG    SUBJ3
- * BOSS_PHANTOM_GANON       BOOMERANG    SUBJ3
- * BOSS_VOLVAGIA      BOOMERANG    SUBJ3
- * BOSS_BONGO         BOOMERANG    SUBJ3
- * BOSS_MORPHA        BOOMERANG    SUBJ3
- * TWINROVA_PLATFORM  BOOMERANG    SUBJ3
- * TWINROVA_FLOOR     BOOMERANG    SUBJ3
- * BOSS_GANONDORF     BOOMERANG    SUBJ3
- * BOSS_GANON        BOOMERANG    SUBJ3
- * TOWER_CLIMB    BOOMERANG    SUBJ3
- * TOWER_UNUSED             BOOMERANG    SUBJ3
- * PIVOT_IN_FRONT            BOOMERANG    SUBJ3
+ * Setting                 Mode         Function
+ * --------------------    ---------    --------
+ * NORMAL0                 BOOMERANG    SUBJ3
+ * NORMAL1                 BOOMERANG    SUBJ3
+ * DUNGEON0                BOOMERANG    SUBJ3
+ * DUNGEON1                BOOMERANG    SUBJ3
+ * BOSS_GOHMA              BOOMERANG    SUBJ3
+ * BOSS_DODONGO            BOOMERANG    SUBJ3
+ * BOSS_BARINADE           BOOMERANG    SUBJ3
+ * BOSS_PHANTOM_GANON      BOOMERANG    SUBJ3
+ * BOSS_VOLVAGIA           BOOMERANG    SUBJ3
+ * BOSS_BONGO              BOOMERANG    SUBJ3
+ * BOSS_MORPHA             BOOMERANG    SUBJ3
+ * BOSS_TWINROVA_PLATFORM  BOOMERANG    SUBJ3
+ * BOSS_TWINROVA_FLOOR     BOOMERANG    SUBJ3
+ * BOSS_GANONDORF          BOOMERANG    SUBJ3
+ * BOSS_GANON              BOOMERANG    SUBJ3
+ * TOWER_CLIMB             BOOMERANG    SUBJ3
+ * TOWER_UNUSED            BOOMERANG    SUBJ3
+ * PIVOT_IN_FRONT          BOOMERANG    SUBJ3
  * BEAN_GENERIC            BOOMERANG    SUBJ3
- * BEAN_LOST_WOODS           BOOMERANG    SUBJ3
- * BIG_OCTO               BOOMERANG    SUBJ3
- * NORMAL2            BOOMERANG    SUBJ3
+ * BEAN_LOST_WOODS         BOOMERANG    SUBJ3
+ * BIG_OCTO                BOOMERANG    SUBJ3
+ * NORMAL2                 BOOMERANG    SUBJ3
  * JABU_TENTACLE           BOOMERANG    SUBJ3
- * DUNGEON2           BOOMERANG    SUBJ3
- * DIRECTED_YAW             BOOMERANG    SUBJ3
- * PIVOT_FROM_SIDE            BOOMERANG    SUBJ3
- * NORMAL4            BOOMERANG    SUBJ3
+ * DUNGEON2                BOOMERANG    SUBJ3
+ * DIRECTED_YAW            BOOMERANG    SUBJ3
+ * PIVOT_FROM_SIDE         BOOMERANG    SUBJ3
+ * NORMAL4                 BOOMERANG    SUBJ3
  */
 CameraModeValue sSetNormal0ModeBoomerangData[] = {
     { 5, CAM_DATA_Y_OFFSET },                // eyeNextYOffset
@@ -507,35 +507,35 @@ CameraModeValue sSetNormal0ModeBoomerangData[] = {
 };
 
 /**
- * Setting            Mode         Function
- * ---------------    ---------    --------
- * NORMAL0            SLINGSHOT    SUBJ3
- * NORMAL1            SLINGSHOT    SUBJ3
- * DUNGEON0           SLINGSHOT    SUBJ3
- * DUNGEON1           SLINGSHOT    SUBJ3
- * BOSS_GOHMA         SLINGSHOT    SUBJ3
- * BOSS_DODONGO       SLINGSHOT    SUBJ3
- * BOSS_BARINADE      SLINGSHOT    SUBJ3
- * BOSS_PHANTOM_GANON       SLINGSHOT    SUBJ3
- * BOSS_VOLVAGIA      SLINGSHOT    SUBJ3
- * BOSS_BONGO         SLINGSHOT    SUBJ3
- * BOSS_MORPHA        SLINGSHOT    SUBJ3
- * TWINROVA_PLATFORM  SLINGSHOT    SUBJ3
- * TWINROVA_FLOOR     SLINGSHOT    SUBJ3
- * BOSS_GANONDORF     SLINGSHOT    SUBJ3
- * BOSS_GANON        SLINGSHOT    SUBJ3
- * TOWER_CLIMB    SLINGSHOT    SUBJ3
- * TOWER_UNUSED             SLINGSHOT    SUBJ3
- * PIVOT_IN_FRONT            SLINGSHOT    SUBJ3
+ * Setting                 Mode         Function
+ * --------------------    ---------    --------
+ * NORMAL0                 SLINGSHOT    SUBJ3
+ * NORMAL1                 SLINGSHOT    SUBJ3
+ * DUNGEON0                SLINGSHOT    SUBJ3
+ * DUNGEON1                SLINGSHOT    SUBJ3
+ * BOSS_GOHMA              SLINGSHOT    SUBJ3
+ * BOSS_DODONGO            SLINGSHOT    SUBJ3
+ * BOSS_BARINADE           SLINGSHOT    SUBJ3
+ * BOSS_PHANTOM_GANON      SLINGSHOT    SUBJ3
+ * BOSS_VOLVAGIA           SLINGSHOT    SUBJ3
+ * BOSS_BONGO              SLINGSHOT    SUBJ3
+ * BOSS_MORPHA             SLINGSHOT    SUBJ3
+ * BOSS_TWINROVA_PLATFORM  SLINGSHOT    SUBJ3
+ * BOSS_TWINROVA_FLOOR     SLINGSHOT    SUBJ3
+ * BOSS_GANONDORF          SLINGSHOT    SUBJ3
+ * BOSS_GANON              SLINGSHOT    SUBJ3
+ * TOWER_CLIMB             SLINGSHOT    SUBJ3
+ * TOWER_UNUSED            SLINGSHOT    SUBJ3
+ * PIVOT_IN_FRONT          SLINGSHOT    SUBJ3
  * BEAN_GENERIC            SLINGSHOT    SUBJ3
- * BEAN_LOST_WOODS           SLINGSHOT    SUBJ3
- * BIG_OCTO               SLINGSHOT    SUBJ3
- * NORMAL2            SLINGSHOT    SUBJ3
+ * BEAN_LOST_WOODS         SLINGSHOT    SUBJ3
+ * BIG_OCTO                SLINGSHOT    SUBJ3
+ * NORMAL2                 SLINGSHOT    SUBJ3
  * JABU_TENTACLE           SLINGSHOT    SUBJ3
- * DUNGEON2           SLINGSHOT    SUBJ3
- * DIRECTED_YAW             SLINGSHOT    SUBJ3
- * PIVOT_FROM_SIDE            SLINGSHOT    SUBJ3
- * NORMAL4            SLINGSHOT    SUBJ3
+ * DUNGEON2                SLINGSHOT    SUBJ3
+ * DIRECTED_YAW            SLINGSHOT    SUBJ3
+ * PIVOT_FROM_SIDE         SLINGSHOT    SUBJ3
+ * NORMAL4                 SLINGSHOT    SUBJ3
  */
 CameraModeValue sSetNormal0ModeSlingshotData[] = {
     { -7, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
@@ -550,30 +550,30 @@ CameraModeValue sSetNormal0ModeSlingshotData[] = {
 };
 
 /**
- * Setting            Mode      Function
- * ---------------    ------    --------
- * NORMAL0            CLIMBZ    JUMP2
- * NORMAL3            CLIMBZ    JUMP2
- * BOSS_GOHMA         CLIMBZ    JUMP2
- * BOSS_DODONGO       CLIMBZ    JUMP2
- * BOSS_BARINADE      CLIMBZ    JUMP2
- * BOSS_PHANTOM_GANON       CLIMBZ    JUMP2
- * BOSS_VOLVAGIA      CLIMBZ    JUMP2
- * BOSS_BONGO         CLIMBZ    JUMP2
- * BOSS_MORPHA        CLIMBZ    JUMP2
- * TWINROVA_PLATFORM  CLIMBZ    JUMP2
- * TWINROVA_FLOOR     CLIMBZ    JUMP2
- * BOSS_GANONDORF     CLIMBZ    JUMP2
- * BOSS_GANON        CLIMBZ    JUMP2
- * TOWER_CLIMB    CLIMBZ    JUMP2
- * TOWER_UNUSED             CLIMBZ    JUMP2
- * PIVOT_IN_FRONT            CLIMBZ    JUMP2
+ * Setting                 Mode      Function
+ * --------------------    ------    --------
+ * NORMAL0                 CLIMBZ    JUMP2
+ * NORMAL3                 CLIMBZ    JUMP2
+ * BOSS_GOHMA              CLIMBZ    JUMP2
+ * BOSS_DODONGO            CLIMBZ    JUMP2
+ * BOSS_BARINADE           CLIMBZ    JUMP2
+ * BOSS_PHANTOM_GANON      CLIMBZ    JUMP2
+ * BOSS_VOLVAGIA           CLIMBZ    JUMP2
+ * BOSS_BONGO              CLIMBZ    JUMP2
+ * BOSS_MORPHA             CLIMBZ    JUMP2
+ * BOSS_TWINROVA_PLATFORM  CLIMBZ    JUMP2
+ * BOSS_TWINROVA_FLOOR     CLIMBZ    JUMP2
+ * BOSS_GANONDORF          CLIMBZ    JUMP2
+ * BOSS_GANON              CLIMBZ    JUMP2
+ * TOWER_CLIMB             CLIMBZ    JUMP2
+ * TOWER_UNUSED            CLIMBZ    JUMP2
+ * PIVOT_IN_FRONT          CLIMBZ    JUMP2
  * BEAN_GENERIC            CLIMBZ    JUMP2
- * BEAN_LOST_WOODS           CLIMBZ    JUMP2
- * NORMAL2            CLIMBZ    JUMP2
+ * BEAN_LOST_WOODS         CLIMBZ    JUMP2
+ * NORMAL2                 CLIMBZ    JUMP2
  * JABU_TENTACLE           CLIMBZ    JUMP2
- * DIRECTED_YAW             CLIMBZ    JUMP2
- * NORMAL4            CLIMBZ    JUMP2
+ * DIRECTED_YAW            CLIMBZ    JUMP2
+ * NORMAL4                 CLIMBZ    JUMP2
  */
 CameraModeValue sSetNormal0ModeClimbZData[] = {
     { -20, CAM_DATA_Y_OFFSET },               // atYOffset
@@ -588,43 +588,43 @@ CameraModeValue sSetNormal0ModeClimbZData[] = {
 };
 
 /**
- * Setting            Mode        Function
- * ---------------    --------    --------
- * NORMAL0            JUMP        JUMP1
- * NORMAL3            JUMP        JUMP1
- * NORMAL3            FREEFALL    JUMP1
- * BOSS_GOHMA         JUMP        JUMP1
- * BOSS_GOHMA         FREEFALL    JUMP1
- * BOSS_DODONGO       JUMP        JUMP1
- * BOSS_DODONGO       FREEFALL    JUMP1
- * BOSS_BARINADE      JUMP        JUMP1
- * BOSS_BARINADE      FREEFALL    JUMP1
- * BOSS_PHANTOM_GANON       JUMP        JUMP1
- * BOSS_PHANTOM_GANON       FREEFALL    JUMP1
- * BOSS_VOLVAGIA      JUMP        JUMP1
- * BOSS_VOLVAGIA      FREEFALL    JUMP1
- * BOSS_MORPHA        JUMP        JUMP1
- * BOSS_MORPHA        FREEFALL    JUMP1
- * TWINROVA_PLATFORM  JUMP        JUMP1
- * TWINROVA_PLATFORM  FREEFALL    JUMP1
- * TWINROVA_FLOOR     JUMP        JUMP1
- * TWINROVA_FLOOR     FREEFALL    JUMP1
- * BOSS_GANONDORF     JUMP        JUMP1
- * BOSS_GANONDORF     FREEFALL    JUMP1
- * GANON2             JUMP        JUMP1
- * GANON2             FREEFALL    JUMP1
- * TOWER_CLIMB    FREEFALL    JUMP1
- * TOWER_UNUSED             FREEFALL    JUMP1
+ * Setting                 Mode        Function
+ * --------------------    --------    --------
+ * NORMAL0                 JUMP        JUMP1
+ * NORMAL3                 JUMP        JUMP1
+ * NORMAL3                 FREEFALL    JUMP1
+ * BOSS_GOHMA              JUMP        JUMP1
+ * BOSS_GOHMA              FREEFALL    JUMP1
+ * BOSS_DODONGO            JUMP        JUMP1
+ * BOSS_DODONGO            FREEFALL    JUMP1
+ * BOSS_BARINADE           JUMP        JUMP1
+ * BOSS_BARINADE           FREEFALL    JUMP1
+ * BOSS_PHANTOM_GANON      JUMP        JUMP1
+ * BOSS_PHANTOM_GANON      FREEFALL    JUMP1
+ * BOSS_VOLVAGIA           JUMP        JUMP1
+ * BOSS_VOLVAGIA           FREEFALL    JUMP1
+ * BOSS_MORPHA             JUMP        JUMP1
+ * BOSS_MORPHA             FREEFALL    JUMP1
+ * BOSS_TWINROVA_PLATFORM  JUMP        JUMP1
+ * BOSS_TWINROVA_PLATFORM  FREEFALL    JUMP1
+ * BOSS_TWINROVA_FLOOR     JUMP        JUMP1
+ * BOSS_TWINROVA_FLOOR     FREEFALL    JUMP1
+ * BOSS_GANONDORF          JUMP        JUMP1
+ * BOSS_GANONDORF          FREEFALL    JUMP1
+ * GANON2                  JUMP        JUMP1
+ * GANON2                  FREEFALL    JUMP1
+ * TOWER_CLIMB             FREEFALL    JUMP1
+ * TOWER_UNUSED            FREEFALL    JUMP1
  * BEAN_GENERIC            FREEFALL    JUMP1
- * BEAN_LOST_WOODS           FREEFALL    JUMP1
- * NORMAL2            JUMP        JUMP1
- * NORMAL2            FREEFALL    JUMP1
- * JABU_TENTACLE            JUMP        JUMP1
- * JABU_TENTACLE            FREEFALL    JUMP1
- * DIRECTED_YAW             JUMP        JUMP1
- * DIRECTED_YAW             FREEFALL    JUMP1
- * NORMAL4            JUMP        JUMP1
- * NORMAL4            FREEFALL    JUMP1
+ * BEAN_LOST_WOODS         FREEFALL    JUMP1
+ * NORMAL2                 JUMP        JUMP1
+ * NORMAL2                 FREEFALL    JUMP1
+ * JABU_TENTACLE           JUMP        JUMP1
+ * JABU_TENTACLE           FREEFALL    JUMP1
+ * DIRECTED_YAW            JUMP        JUMP1
+ * DIRECTED_YAW            FREEFALL    JUMP1
+ * NORMAL4                 JUMP        JUMP1
+ * NORMAL4                 FREEFALL    JUMP1
  */
 CameraModeValue sSetNormal0ModeJumpData[] = {
     { -20, CAM_DATA_Y_OFFSET },              // atYOffset
@@ -638,27 +638,27 @@ CameraModeValue sSetNormal0ModeJumpData[] = {
 };
 
 /**
- * Setting            Mode    Function
- * ---------------    ----    --------
- * NORMAL0            HANG    UNIQ1
- * NORMAL3            HANG    UNIQ1
- * BOSS_GOHMA         HANG    UNIQ1
- * BOSS_DODONGO       HANG    UNIQ1
- * BOSS_BARINADE      HANG    UNIQ1
- * BOSS_PHANTOM_GANON       HANG    UNIQ1
- * BOSS_VOLVAGIA      HANG    UNIQ1
- * BOSS_BONGO         HANG    UNIQ1
- * BOSS_MORPHA        HANG    UNIQ1
- * TWINROVA_PLATFORM  HANG    UNIQ1
- * TWINROVA_FLOOR     HANG    UNIQ1
- * BOSS_GANONDORF     HANG    UNIQ1
- * GANON2             HANG    UNIQ1
- * TOWER_CLIMB    HANG    UNIQ1
- * TOWER_UNUSED             HANG    UNIQ1
- * NORMAL2            HANG    UNIQ1
- * JABU_TENTACLE            HANG    UNIQ1
- * DIRECTED_YAW             HANG    UNIQ1
- * NORMAL4            HANG    UNIQ1
+ * Setting                 Mode    Function
+ * --------------------    ----    --------
+ * NORMAL0                 HANG    UNIQ1
+ * NORMAL3                 HANG    UNIQ1
+ * BOSS_GOHMA              HANG    UNIQ1
+ * BOSS_DODONGO            HANG    UNIQ1
+ * BOSS_BARINADE           HANG    UNIQ1
+ * BOSS_PHANTOM_GANON      HANG    UNIQ1
+ * BOSS_VOLVAGIA           HANG    UNIQ1
+ * BOSS_BONGO              HANG    UNIQ1
+ * BOSS_MORPHA             HANG    UNIQ1
+ * BOSS_TWINROVA_PLATFORM  HANG    UNIQ1
+ * BOSS_TWINROVA_FLOOR     HANG    UNIQ1
+ * BOSS_GANONDORF          HANG    UNIQ1
+ * GANON2                  HANG    UNIQ1
+ * TOWER_CLIMB             HANG    UNIQ1
+ * TOWER_UNUSED            HANG    UNIQ1
+ * NORMAL2                 HANG    UNIQ1
+ * JABU_TENTACLE           HANG    UNIQ1
+ * DIRECTED_YAW            HANG    UNIQ1
+ * NORMAL4                 HANG    UNIQ1
  */
 CameraModeValue sSetNormal0ModeHangData[] = {
     { -80, CAM_DATA_Y_OFFSET },          // yOffset
@@ -671,27 +671,27 @@ CameraModeValue sSetNormal0ModeHangData[] = {
 };
 
 /**
- * Setting            Mode     Function
- * ---------------    -----    --------
- * NORMAL0            HANGZ    UNIQ1
- * NORMAL3            HANGZ    UNIQ1
- * BOSS_GOHMA         HANGZ    UNIQ1
- * BOSS_DODONGO       HANGZ    UNIQ1
- * BOSS_BARINADE      HANGZ    UNIQ1
- * BOSS_PHANTOM_GANON       HANGZ    UNIQ1
- * BOSS_VOLVAGIA      HANGZ    UNIQ1
- * BOSS_BONGO         HANGZ    UNIQ1
- * BOSS_MORPHA        HANGZ    UNIQ1
- * TWINROVA_PLATFORM  HANGZ    UNIQ1
- * TWINROVA_FLOOR     HANGZ    UNIQ1
- * BOSS_GANONDORF     HANGZ    UNIQ1
- * GANON2             HANGZ    UNIQ1
- * TOWER_CLIMB    HANGZ    UNIQ1
- * TOWER_UNUSED             HANGZ    UNIQ1
- * NORMAL2            HANGZ    UNIQ1
- * JABU_TENTACLE            HANGZ    UNIQ1
- * DIRECTED_YAW             HANGZ    UNIQ1
- * NORMAL4            HANGZ    UNIQ1
+ * Setting                 Mode     Function
+ * --------------------    -----    --------
+ * NORMAL0                 HANGZ    UNIQ1
+ * NORMAL3                 HANGZ    UNIQ1
+ * BOSS_GOHMA              HANGZ    UNIQ1
+ * BOSS_DODONGO            HANGZ    UNIQ1
+ * BOSS_BARINADE           HANGZ    UNIQ1
+ * BOSS_PHANTOM_GANON      HANGZ    UNIQ1
+ * BOSS_VOLVAGIA           HANGZ    UNIQ1
+ * BOSS_BONGO              HANGZ    UNIQ1
+ * BOSS_MORPHA             HANGZ    UNIQ1
+ * BOSS_TWINROVA_PLATFORM  HANGZ    UNIQ1
+ * BOSS_TWINROVA_FLOOR     HANGZ    UNIQ1
+ * BOSS_GANONDORF          HANGZ    UNIQ1
+ * GANON2                  HANGZ    UNIQ1
+ * TOWER_CLIMB             HANGZ    UNIQ1
+ * TOWER_UNUSED            HANGZ    UNIQ1
+ * NORMAL2                 HANGZ    UNIQ1
+ * JABU_TENTACLE           HANGZ    UNIQ1
+ * DIRECTED_YAW            HANGZ    UNIQ1
+ * NORMAL4                 HANGZ    UNIQ1
  */
 CameraModeValue sSetNormal0ModeHangZData[] = {
     { -120, CAM_DATA_Y_OFFSET },         // yOffset
@@ -720,29 +720,29 @@ CameraModeValue sSetNormal0ModeFreeFallData[] = {
 };
 
 /**
- * Setting            Mode      Function
- * ---------------    ------    --------
- * NORMAL0            CHARGE    BATT4
- * NORMAL3            CHARGE    BATT4
- * BOSS_DODONGO       CHARGE    BATT4
- * BOSS_BARINADE      CHARGE    BATT4
- * BOSS_PHANTOM_GANON       CHARGE    BATT4
- * BOSS_VOLVAGIA      CHARGE    BATT4
- * BOSS_BONGO         CHARGE    BATT4
- * BOSS_MORPHA        CHARGE    BATT4
- * TWINROVA_PLATFORM  CHARGE    BATT4
- * TWINROVA_FLOOR     CHARGE    BATT4
- * GANON2             CHARGE    BATT4
- * TOWER_CLIMB    CHARGE    BATT4
- * TOWER_UNUSED             CHARGE    BATT4
- * PIVOT_IN_FRONT            CHARGE    BATT4
+ * Setting                 Mode      Function
+ * --------------------    ------    --------
+ * NORMAL0                 CHARGE    BATT4
+ * NORMAL3                 CHARGE    BATT4
+ * BOSS_DODONGO            CHARGE    BATT4
+ * BOSS_BARINADE           CHARGE    BATT4
+ * BOSS_PHANTOM_GANON      CHARGE    BATT4
+ * BOSS_VOLVAGIA           CHARGE    BATT4
+ * BOSS_BONGO              CHARGE    BATT4
+ * BOSS_MORPHA             CHARGE    BATT4
+ * BOSS_TWINROVA_PLATFORM  CHARGE    BATT4
+ * BOSS_TWINROVA_FLOOR     CHARGE    BATT4
+ * GANON2                  CHARGE    BATT4
+ * TOWER_CLIMB             CHARGE    BATT4
+ * TOWER_UNUSED            CHARGE    BATT4
+ * PIVOT_IN_FRONT          CHARGE    BATT4
  * BEAN_GENERIC            CHARGE    BATT4
- * BEAN_LOST_WOODS           CHARGE    BATT4
- * NORMAL2            CHARGE    BATT4
- * JABU_TENTACLE            CHARGE    BATT4
- * DUNGEON2           CHARGE    BATT4
- * DIRECTED_YAW             CHARGE    BATT4
- * NORMAL4            CHARGE    BATT4
+ * BEAN_LOST_WOODS         CHARGE    BATT4
+ * NORMAL2                 CHARGE    BATT4
+ * JABU_TENTACLE           CHARGE    BATT4
+ * DUNGEON2                CHARGE    BATT4
+ * DIRECTED_YAW            CHARGE    BATT4
+ * NORMAL4                 CHARGE    BATT4
  */
 CameraModeValue sSetNormal0ModeChargeData[] = {
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
@@ -755,28 +755,28 @@ CameraModeValue sSetNormal0ModeChargeData[] = {
 };
 
 /**
- * Setting            Mode     Function
- * ---------------    -----    --------
- * NORMAL0            STILL    NORM1
- * NORMAL3            STILL    NORM1
- * BOSS_GOHMA         STILL    NORM1
- * BOSS_DODONGO       STILL    NORM1
- * BOSS_BARINADE      STILL    NORM1
- * BOSS_PHANTOM_GANON       STILL    NORM1
- * BOSS_VOLVAGIA      STILL    NORM1
- * BOSS_BONGO         STILL    NORM1
- * BOSS_MORPHA        STILL    NORM1
- * TWINROVA_PLATFORM  STILL    NORM1
- * TWINROVA_FLOOR     STILL    NORM1
- * BOSS_GANONDORF     STILL    NORM1
- * GANON2             STILL    NORM1
- * TOWER_CLIMB    STILL    NORM1
- * TOWER_UNUSED             STILL    NORM1
- * PIVOT_IN_FRONT            STILL    NORM1
- * NORMAL2            STILL    NORM1
- * JABU_TENTACLE            STILL    NORM1
- * DIRECTED_YAW             STILL    NORM1
- * NORMAL4            STILL    NORM1
+ * Setting                 Mode     Function
+ * --------------------    -----    --------
+ * NORMAL0                 STILL    NORM1
+ * NORMAL3                 STILL    NORM1
+ * BOSS_GOHMA              STILL    NORM1
+ * BOSS_DODONGO            STILL    NORM1
+ * BOSS_BARINADE           STILL    NORM1
+ * BOSS_PHANTOM_GANON      STILL    NORM1
+ * BOSS_VOLVAGIA           STILL    NORM1
+ * BOSS_BONGO              STILL    NORM1
+ * BOSS_MORPHA             STILL    NORM1
+ * BOSS_TWINROVA_PLATFORM  STILL    NORM1
+ * BOSS_TWINROVA_FLOOR     STILL    NORM1
+ * BOSS_GANONDORF          STILL    NORM1
+ * GANON2                  STILL    NORM1
+ * TOWER_CLIMB             STILL    NORM1
+ * TOWER_UNUSED            STILL    NORM1
+ * PIVOT_IN_FRONT          STILL    NORM1
+ * NORMAL2                 STILL    NORM1
+ * JABU_TENTACLE           STILL    NORM1
+ * DIRECTED_YAW            STILL    NORM1
+ * NORMAL4                 STILL    NORM1
  */
 CameraModeValue sSetNormal0ModeStillData[] = {
     { -20, CAM_DATA_Y_OFFSET },               // yOffset
@@ -792,33 +792,33 @@ CameraModeValue sSetNormal0ModeStillData[] = {
 };
 
 /**
- * Setting            Mode        Function
- * ---------------    --------    --------
- * NORMAL0            PUSHPULL    PARA1
- * NORMAL1            PUSHPULL    PARA1
- * DUNGEON0           PUSHPULL    PARA1
- * NORMAL3            PUSHPULL    PARA1
- * BOSS_GOHMA         PUSHPULL    PARA1
- * BOSS_DODONGO       PUSHPULL    PARA1
- * BOSS_BARINADE      PUSHPULL    PARA1
- * BOSS_PHANTOM_GANON       PUSHPULL    PARA1
- * BOSS_VOLVAGIA      PUSHPULL    PARA1
- * BOSS_BONGO         PUSHPULL    PARA1
- * BOSS_MORPHA        PUSHPULL    PARA1
- * TWINROVA_PLATFORM  PUSHPULL    PARA1
- * TWINROVA_FLOOR     PUSHPULL    PARA1
- * BOSS_GANONDORF     PUSHPULL    PARA1
- * GANON2             PUSHPULL    PARA1
- * TOWER_CLIMB    PUSHPULL    PARA1
- * TOWER_UNUSED             PUSHPULL    PARA1
- * PIVOT_IN_FRONT            PUSHPULL    PARA1
+ * Setting                 Mode        Function
+ * --------------------    --------    --------
+ * NORMAL0                 PUSHPULL    PARA1
+ * NORMAL1                 PUSHPULL    PARA1
+ * DUNGEON0                PUSHPULL    PARA1
+ * NORMAL3                 PUSHPULL    PARA1
+ * BOSS_GOHMA              PUSHPULL    PARA1
+ * BOSS_DODONGO            PUSHPULL    PARA1
+ * BOSS_BARINADE           PUSHPULL    PARA1
+ * BOSS_PHANTOM_GANON      PUSHPULL    PARA1
+ * BOSS_VOLVAGIA           PUSHPULL    PARA1
+ * BOSS_BONGO              PUSHPULL    PARA1
+ * BOSS_MORPHA             PUSHPULL    PARA1
+ * BOSS_TWINROVA_PLATFORM  PUSHPULL    PARA1
+ * BOSS_TWINROVA_FLOOR     PUSHPULL    PARA1
+ * BOSS_GANONDORF          PUSHPULL    PARA1
+ * GANON2                  PUSHPULL    PARA1
+ * TOWER_CLIMB             PUSHPULL    PARA1
+ * TOWER_UNUSED            PUSHPULL    PARA1
+ * PIVOT_IN_FRONT          PUSHPULL    PARA1
  * BEAN_GENERIC            PUSHPULL    PARA1
- * BEAN_LOST_WOODS           PUSHPULL    PARA1
- * BIG_OCTO               PUSHPULL    PARA1
- * NORMAL2            PUSHPULL    PARA1
- * JABU_TENTACLE            PUSHPULL    PARA1
- * DIRECTED_YAW             PUSHPULL    PARA1
- * NORMAL4            PUSHPULL    PARA1
+ * BEAN_LOST_WOODS         PUSHPULL    PARA1
+ * BIG_OCTO                PUSHPULL    PARA1
+ * NORMAL2                 PUSHPULL    PARA1
+ * JABU_TENTACLE           PUSHPULL    PARA1
+ * DIRECTED_YAW            PUSHPULL    PARA1
+ * NORMAL4                 PUSHPULL    PARA1
  */
 CameraModeValue sSetNormal0ModePushPullData[] = {
     { 0, CAM_DATA_Y_OFFSET },               // yOffset
@@ -835,35 +835,35 @@ CameraModeValue sSetNormal0ModePushPullData[] = {
 };
 
 /**
- * Setting            Mode           Function
- * ---------------    -----------    --------
- * NORMAL0            FOLLOWBOOMERANG    KEEP1
- * NORMAL1            FOLLOWBOOMERANG    KEEP1
- * DUNGEON0           FOLLOWBOOMERANG    KEEP1
- * DUNGEON1           FOLLOWBOOMERANG    KEEP1
- * NORMAL3            FOLLOWBOOMERANG    KEEP1
- * BOSS_GOHMA         FOLLOWBOOMERANG    KEEP1
- * BOSS_DODONGO       FOLLOWBOOMERANG    KEEP1
- * BOSS_BARINADE      FOLLOWBOOMERANG    KEEP1
- * BOSS_PHANTOM_GANON       FOLLOWBOOMERANG    KEEP1
- * BOSS_VOLVAGIA      FOLLOWBOOMERANG    KEEP1
- * BOSS_BONGO         FOLLOWBOOMERANG    KEEP1
- * BOSS_MORPHA        FOLLOWBOOMERANG    KEEP1
- * TWINROVA_PLATFORM  FOLLOWBOOMERANG    KEEP1
- * TWINROVA_FLOOR     FOLLOWBOOMERANG    KEEP1
- * BOSS_GANONDORF     FOLLOWBOOMERANG    KEEP1
- * GANON2             FOLLOWBOOMERANG    KEEP1
- * TOWER_CLIMB    FOLLOWBOOMERANG    KEEP1
- * TOWER_UNUSED             FOLLOWBOOMERANG    KEEP1
- * PIVOT_IN_FRONT            FOLLOWBOOMERANG    KEEP1
+ * Setting                 Mode           Function
+ * --------------------    -----------    --------
+ * NORMAL0                 FOLLOWBOOMERANG    KEEP1
+ * NORMAL1                 FOLLOWBOOMERANG    KEEP1
+ * DUNGEON0                FOLLOWBOOMERANG    KEEP1
+ * DUNGEON1                FOLLOWBOOMERANG    KEEP1
+ * NORMAL3                 FOLLOWBOOMERANG    KEEP1
+ * BOSS_GOHMA              FOLLOWBOOMERANG    KEEP1
+ * BOSS_DODONGO            FOLLOWBOOMERANG    KEEP1
+ * BOSS_BARINADE           FOLLOWBOOMERANG    KEEP1
+ * BOSS_PHANTOM_GANON      FOLLOWBOOMERANG    KEEP1
+ * BOSS_VOLVAGIA           FOLLOWBOOMERANG    KEEP1
+ * BOSS_BONGO              FOLLOWBOOMERANG    KEEP1
+ * BOSS_MORPHA             FOLLOWBOOMERANG    KEEP1
+ * BOSS_TWINROVA_PLATFORM  FOLLOWBOOMERANG    KEEP1
+ * BOSS_TWINROVA_FLOOR     FOLLOWBOOMERANG    KEEP1
+ * BOSS_GANONDORF          FOLLOWBOOMERANG    KEEP1
+ * GANON2                  FOLLOWBOOMERANG    KEEP1
+ * TOWER_CLIMB             FOLLOWBOOMERANG    KEEP1
+ * TOWER_UNUSED            FOLLOWBOOMERANG    KEEP1
+ * PIVOT_IN_FRONT          FOLLOWBOOMERANG    KEEP1
  * BEAN_GENERIC            FOLLOWBOOMERANG    KEEP1
- * BEAN_LOST_WOODS           FOLLOWBOOMERANG    KEEP1
- * BIG_OCTO               FOLLOWBOOMERANG    KEEP1
- * NORMAL2            FOLLOWBOOMERANG    KEEP1
- * JABU_TENTACLE            FOLLOWBOOMERANG    KEEP1
- * DUNGEON2           FOLLOWBOOMERANG    KEEP1
- * DIRECTED_YAW             FOLLOWBOOMERANG    KEEP1
- * NORMAL4            FOLLOWBOOMERANG    KEEP1
+ * BEAN_LOST_WOODS         FOLLOWBOOMERANG    KEEP1
+ * BIG_OCTO                FOLLOWBOOMERANG    KEEP1
+ * NORMAL2                 FOLLOWBOOMERANG    KEEP1
+ * JABU_TENTACLE           FOLLOWBOOMERANG    KEEP1
+ * DUNGEON2                FOLLOWBOOMERANG    KEEP1
+ * DIRECTED_YAW            FOLLOWBOOMERANG    KEEP1
+ * NORMAL4                 FOLLOWBOOMERANG    KEEP1
  */
 CameraModeValue sSetNormal0ModeFollowBoomerangData[] = {
     { -5, CAM_DATA_Y_OFFSET },           // unk_00
@@ -947,14 +947,14 @@ CameraModeValue sSetNormal1ModeFollowTargetData[] = {
 };
 
 /**
- * Setting     Mode      Function
- * --------    ------    --------
- * NORMAL1     BATTLE    BATT1
+ * Setting            Mode      Function
+ * ---------------    ------    --------
+ * NORMAL1            BATTLE    BATT1
  * PIVOT_IN_FRONT     BATTLE    BATT1
- * BEAN_GENERIC     BATTLE    BATT1
+ * BEAN_GENERIC       BATTLE    BATT1
  * BEAN_LOST_WOODS    BATTLE    BATT1
- * NORMAL2     BATTLE    BATT1
- * NORMAL4     BATTLE    BATT1
+ * NORMAL2            BATTLE    BATT1
+ * NORMAL4            BATTLE    BATT1
  */
 CameraModeValue sSetNormal1ModeBattleData[] = {
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
@@ -977,7 +977,7 @@ CameraModeValue sSetNormal1ModeBattleData[] = {
  * NORMAL1     HOOKSHOT    SPEC5
  * DUNGEON0    HOOKSHOT    SPEC5
  * DUNGEON1    HOOKSHOT    SPEC5
- * BIG_OCTO        HOOKSHOT    SPEC5
+ * BIG_OCTO    HOOKSHOT    SPEC5
  * DUNGEON2    HOOKSHOT    SPEC5
  */
 CameraModeValue sSetNormal1ModeHookshotData[] = {
@@ -1149,7 +1149,7 @@ CameraModeValue sSetDungeon0ModeNormalData[] = {
  * --------    ------    --------
  * DUNGEON0    TARGET    PARA1
  * DUNGEON1    TARGET    PARA1
- * BIG_OCTO        TARGET    PARA1
+ * BIG_OCTO    TARGET    PARA1
  */
 CameraModeValue sSetDungeon0ModeTargetData[] = {
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
@@ -1169,7 +1169,7 @@ CameraModeValue sSetDungeon0ModeTargetData[] = {
  * Setting     Mode            Function
  * --------    ------------    --------
  * DUNGEON0    FOLLOWTARGET    KEEP1
- * BIG_OCTO        FOLLOWTARGET    KEEP1
+ * BIG_OCTO    FOLLOWTARGET    KEEP1
  * DUNGEON2    FOLLOWTARGET    KEEP1
  */
 CameraModeValue sSetDungeon0ModeFollowTargetData[] = {
@@ -1213,7 +1213,7 @@ CameraModeValue sSetDungeon0ModeBattleData[] = {
  * Setting     Mode    Function
  * --------    ----    --------
  * DUNGEON0    JUMP    JUMP1
- * BIG_OCTO        JUMP    JUMP1
+ * BIG_OCTO    JUMP    JUMP1
  */
 CameraModeValue sSetDungeon0ModeJumpData[] = {
     { -10, CAM_DATA_Y_OFFSET },              // atYOffset
@@ -1230,7 +1230,7 @@ CameraModeValue sSetDungeon0ModeJumpData[] = {
  * Setting     Mode        Function
  * --------    --------    --------
  * DUNGEON0    FREEFALL    JUMP1
- * BIG_OCTO        FREEFALL    JUMP1
+ * BIG_OCTO    FREEFALL    JUMP1
  */
 CameraModeValue sSetDungeon0ModeFreeFallData[] = {
     { -10, CAM_DATA_Y_OFFSET },              // atYOffset
@@ -1247,7 +1247,7 @@ CameraModeValue sSetDungeon0ModeFreeFallData[] = {
  * Setting     Mode     Function
  * --------    -----    --------
  * DUNGEON0    CLIMB    JUMP2
- * BIG_OCTO        CLIMB    JUMP2
+ * BIG_OCTO    CLIMB    JUMP2
  */
 CameraModeValue sSetDungeon0ModeClimbData[] = {
     { -40, CAM_DATA_Y_OFFSET },             // atYOffset
@@ -1265,7 +1265,7 @@ CameraModeValue sSetDungeon0ModeClimbData[] = {
  * Setting     Mode      Function
  * --------    ------    --------
  * DUNGEON0    CLIMBZ    JUMP2
- * BIG_OCTO        CLIMBZ    JUMP2
+ * BIG_OCTO    CLIMBZ    JUMP2
  */
 CameraModeValue sSetDungeon0ModeClimbZData[] = {
     { -40, CAM_DATA_Y_OFFSET },               // atYOffset
@@ -1284,7 +1284,7 @@ CameraModeValue sSetDungeon0ModeClimbZData[] = {
  * ----------    ------    --------
  * DUNGEON0      CHARGE    BATT4
  * BOSS_GOHMA    CHARGE    BATT4
- * BIG_OCTO          CHARGE    BATT4
+ * BIG_OCTO      CHARGE    BATT4
  */
 CameraModeValue sSetDungeon0ModeChargeData[] = {
     { -10, CAM_DATA_Y_OFFSET },             // yOffset
@@ -1300,7 +1300,7 @@ CameraModeValue sSetDungeon0ModeChargeData[] = {
  * Setting     Mode    Function
  * --------    ----    --------
  * DUNGEON0    HANG    UNIQ1
- * BIG_OCTO        HANG    UNIQ1
+ * BIG_OCTO    HANG    UNIQ1
  */
 CameraModeValue sSetDungeon0ModeHangData[] = {
     { -80, CAM_DATA_Y_OFFSET },          // yOffset
@@ -1316,7 +1316,7 @@ CameraModeValue sSetDungeon0ModeHangData[] = {
  * Setting     Mode     Function
  * --------    -----    --------
  * DUNGEON0    HANGZ    UNIQ1
- * BIG_OCTO        HANGZ    UNIQ1
+ * BIG_OCTO    HANGZ    UNIQ1
  */
 CameraModeValue sSetDungeon0ModeHangZData[] = {
     { -120, CAM_DATA_Y_OFFSET },         // yOffset
@@ -1631,7 +1631,7 @@ CameraModeValue sSetNormal3ModeBoomerangData[] = {
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * HORSE     NORMAL    NORM3
+ * HORSE      NORMAL    NORM3
  */
 CameraModeValue sSetHorseModeNormalData[] = {
     { -50, CAM_DATA_Y_OFFSET },              // yOffset
@@ -1648,7 +1648,7 @@ CameraModeValue sSetHorseModeNormalData[] = {
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * HORSE     TARGET    NORM3
+ * HORSE      TARGET    NORM3
  */
 CameraModeValue sSetHorseModeTargetData[] = {
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
@@ -1665,7 +1665,7 @@ CameraModeValue sSetHorseModeTargetData[] = {
 /**
  * Setting    Mode        Function
  * -------    --------    --------
- * HORSE     BOWARROW    SUBJ3
+ * HORSE      BOWARROW    SUBJ3
  */
 CameraModeValue sSetHorseModeBowArrowData[] = {
     { -7, CAM_DATA_Y_OFFSET },               // eyeNextYOffset
@@ -1682,7 +1682,7 @@ CameraModeValue sSetHorseModeBowArrowData[] = {
 /**
  * Setting    Mode            Function
  * -------    ------------    --------
- * HORSE     FOLLOWTARGET    KEEP1
+ * HORSE      FOLLOWTARGET    KEEP1
  */
 CameraModeValue sSetHorseModeFollowTargetData[] = {
     { -60, CAM_DATA_Y_OFFSET },          // unk_00
@@ -1703,7 +1703,7 @@ CameraModeValue sSetHorseModeFollowTargetData[] = {
 /**
  * Setting    Mode    Function
  * -------    ----    --------
- * HORSE     TALK    KEEP3
+ * HORSE      TALK    KEEP3
  */
 CameraModeValue sSetHorseModeTalkData[] = {
     { -60, CAM_DATA_Y_OFFSET },              // yOffset
@@ -1766,7 +1766,7 @@ CameraModeValue sSetBossGohmaModeBattleData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: BOSS_DODONGO Setting
+ *                 Custom Data: BOSS_DODONGO Setting
  *=====================================================================
  */
 
@@ -1810,7 +1810,7 @@ CameraModeValue sSetBossDodongoModeBattleData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: BOSS_BARINADE Setting
+ *                Custom Data: BOSS_BARINADE Setting
  *=====================================================================
  */
 
@@ -1854,13 +1854,13 @@ CameraModeValue sSetBossBarinadeModeBattleData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: BOSS_PHANTOM_GANON Setting
+ *              Custom Data: BOSS_PHANTOM_GANON Setting
  *=====================================================================
  */
 
 /**
- * Setting         Mode      Function
- * ------------    ------    --------
+ * Setting               Mode      Function
+ * ------------------    ------    --------
  * BOSS_PHANTOM_GANON    NORMAL    NORM1
  */
 CameraModeValue sSetBossPhantomGanonModeNormalData[] = {
@@ -1877,8 +1877,8 @@ CameraModeValue sSetBossPhantomGanonModeNormalData[] = {
 };
 
 /**
- * Setting         Mode      Function
- * ------------    ------    --------
+ * Setting               Mode      Function
+ * ------------------    ------    --------
  * BOSS_PHANTOM_GANON    BATTLE    BATT1
  */
 CameraModeValue sSetBossPhantomGanonModeBattleData[] = {
@@ -1898,7 +1898,7 @@ CameraModeValue sSetBossPhantomGanonModeBattleData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: BOSS_VOLVAGIA Setting
+ *                Custom Data: BOSS_VOLVAGIA Setting
  *=====================================================================
  */
 
@@ -2005,7 +2005,7 @@ CameraModeValue sSetBossBongoModeJumpData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: BOSS_MORPHA Setting
+ *                 Custom Data: BOSS_MORPHA Setting
  *=====================================================================
  */
 
@@ -2049,14 +2049,14 @@ CameraModeValue sSetBossMorphaModeBattleData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: TWINROVA Setting
+ *                  Custom Data: TWINROVA Setting
  *=====================================================================
  */
 
 /**
- * Setting              Mode      Function
- * -----------------    ------    --------
- * TWINROVA_PLATFORM    NORMAL    NORM1
+ * Setting                   Mode      Function
+ * ----------------------    ------    --------
+ * BOSS_TWINROVA_PLATFORM    NORMAL    NORM1
  */
 CameraModeValue sSetBossTwinrovaPlatformModeNormalData[] = {
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
@@ -2072,10 +2072,10 @@ CameraModeValue sSetBossTwinrovaPlatformModeNormalData[] = {
 };
 
 /**
- * Setting              Mode      Function
- * -----------------    ------    --------
- * TWINROVA_PLATFORM    BATTLE    BATT1
- * TWINROVA_FLOOR       BATTLE    BATT1
+ * Setting                   Mode      Function
+ * ----------------------    ------    --------
+ * BOSS_TWINROVA_PLATFORM    BATTLE    BATT1
+ * BOSS_TWINROVA_FLOOR       BATTLE    BATT1
  */
 CameraModeValue sSetBossTwinrovaModeBattleData[] = {
     { 0, CAM_DATA_Y_OFFSET },            // yOffset (PCT)
@@ -2093,9 +2093,9 @@ CameraModeValue sSetBossTwinrovaModeBattleData[] = {
 };
 
 /**
- * Setting           Mode      Function
- * --------------    ------    --------
- * TWINROVA_FLOOR    NORMAL    NORM1
+ * Setting                Mode      Function
+ * -------------------    ------    --------
+ * BOSS_TWINROVA_FLOOR    NORMAL    NORM1
  */
 CameraModeValue sSetBossTwinrovaFloorModeNormalData[] = {
     { -10, CAM_DATA_Y_OFFSET },              // yOffset
@@ -2112,7 +2112,7 @@ CameraModeValue sSetBossTwinrovaFloorModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: BOSS_GANONDORF Setting
+ *                Custom Data: BOSS_GANONDORF Setting
  *=====================================================================
  */
 
@@ -2151,7 +2151,7 @@ CameraModeValue sSetBossGanondorfModeChargeData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: BOSS_GANON Setting
+ *                 Custom Data: BOSS_GANON Setting
  *=====================================================================
  */
 
@@ -2195,14 +2195,14 @@ CameraModeValue sSetBossGanonModeBattleData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: TOWER_CLIMB Setting
+ *                 Custom Data: TOWER_CLIMB Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * TOWER_CLIMB     NORMAL    NORM2
+ * Setting        Mode      Function
+ * ------------   ------    --------
+ * TOWER_CLIMB    NORMAL    NORM2
  */
 CameraModeValue sSetTowerClimbModeNormalData[] = {
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
@@ -2217,9 +2217,9 @@ CameraModeValue sSetTowerClimbModeNormalData[] = {
 };
 
 /**
- * Setting    Mode    Function
- * -------    ----    --------
- * TOWER_CLIMB     JUMP    NORM2
+ * Setting        Mode    Function
+ * -----------    ----    --------
+ * TOWER_CLIMB    JUMP    NORM2
  */
 CameraModeValue sSetTowerClimbModeJumpData[] = {
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
@@ -2235,14 +2235,14 @@ CameraModeValue sSetTowerClimbModeJumpData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: TOWER_UNUSED Setting
+ *                Custom Data: TOWER_UNUSED Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * TOWER_UNUSED     NORMAL    NORM2
+ * Setting         Mode      Function
+ * ------------    ------    --------
+ * TOWER_UNUSED    NORMAL    NORM2
  */
 CameraModeValue sSetTowerUnusedModeNormalData[] = {
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
@@ -2257,9 +2257,9 @@ CameraModeValue sSetTowerUnusedModeNormalData[] = {
 };
 
 /**
- * Setting    Mode    Function
- * -------    ----    --------
- * TOWER_UNUSED     JUMP    NORM2
+ * Setting         Mode    Function
+ * ------------    ----    --------
+ * TOWER_UNUSED    JUMP    NORM2
  */
 CameraModeValue sSetTowerUnusedModeJumpData[] = {
     { 0, CAM_DATA_Y_OFFSET },               // unk_00
@@ -2275,14 +2275,14 @@ CameraModeValue sSetTowerUnusedModeJumpData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: MARKET_BALCONY Setting
+ *                Custom Data: MARKET_BALCONY Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * MARKET_BALCONY     NORMAL    FIXD1
+ * Setting           Mode      Function
+ * --------------    ------    --------
+ * MARKET_BALCONY    NORMAL    FIXD1
  */
 CameraModeValue sSetMarketBalconyModeNormalData[] = {
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
@@ -2292,9 +2292,9 @@ CameraModeValue sSetMarketBalconyModeNormalData[] = {
 };
 
 /**
- * Setting    Mode            Function
- * -------    ------------    --------
- * MARKET_BALCONY     FOLLOWTARGET    FIXD1
+ * Setting           Mode            Function
+ * --------------    ------------    --------
+ * MARKET_BALCONY    FOLLOWTARGET    FIXD1
  */
 CameraModeValue sSetMarketBalconyModeFollowTargetData[] = {
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
@@ -2304,9 +2304,9 @@ CameraModeValue sSetMarketBalconyModeFollowTargetData[] = {
 };
 
 /**
- * Setting    Mode    Function
- * -------    ----    --------
- * MARKET_BALCONY     TALK    FIXD1
+ * Setting           Mode    Function
+ * --------------    ----    --------
+ * MARKET_BALCONY    TALK    FIXD1
  */
 CameraModeValue sSetMarketBalconyModeTalkData[] = {
     { -40, CAM_DATA_Y_OFFSET },               // yOffset
@@ -2317,14 +2317,14 @@ CameraModeValue sSetMarketBalconyModeTalkData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: CHU_BOWLING Setting
+ *                 Custom Data: CHU_BOWLING Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * CHU_BOWLING     NORMAL    FIXD1
+ * Setting        Mode      Function
+ * -----------    ------    --------
+ * CHU_BOWLING    NORMAL    FIXD1
  */
 CameraModeValue sSetChuBowlingModeNormalData[] = {
     { -40, CAM_DATA_Y_OFFSET },              // yOffset
@@ -2335,13 +2335,13 @@ CameraModeValue sSetChuBowlingModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: PIVOT_CRAWLSPACE Setting
+ *               Custom Data: PIVOT_CRAWLSPACE Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting             Mode      Function
+ * ----------------    ------    --------
  * PIVOT_CRAWLSPACE    NORMAL    FIXD2
  */
 CameraModeValue sSetPivotCrawlspaceModeNormalData[] = {
@@ -2354,13 +2354,13 @@ CameraModeValue sSetPivotCrawlspaceModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: PIVOT_SHOP_BROWSING Setting
+ *              Custom Data: PIVOT_SHOP_BROWSING Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting                Mode      Function
+ * -------------------    ------    --------
  * PIVOT_SHOP_BROWSING    NORMAL    DATA4
  */
 CameraModeValue sSetPivotShopBrowsingModeNormalData[] = {
@@ -2371,14 +2371,14 @@ CameraModeValue sSetPivotShopBrowsingModeNormalData[] = {
 
 /**
  *=====================================================================
- *        Custom Data: PIVOT_IN_FRONT and PIVOT_FROM_SIDE
+ *          Custom Data: PIVOT_IN_FRONT and PIVOT_FROM_SIDE
  *=====================================================================
  */
 
 /**
- * Setting    Mode            Function
- * -------    ------------    --------
- * PIVOT_IN_FRONT    NORMAL          FIXD4
+ * Setting            Mode            Function
+ * ---------------    ------------    --------
+ * PIVOT_IN_FRONT     NORMAL          FIXD4
  * PIVOT_FROM_SIDE    NORMAL          FIXD4
  * PIVOT_FROM_SIDE    FOLLOWTARGET    FIXD4
  */
@@ -2392,17 +2392,17 @@ CameraModeValue sSetPivotInFrontAndFromSideModeNormalData[] = {
 
 /**
  *=====================================================================
- *                  Custom Data: No data, all flags off
+ *                 Custom Data: No data, all flags off
  *=====================================================================
  */
 
 /**
- * Setting     Mode      Function
- * --------    ------    --------
- * PREREND_FIXED    NORMAL    FIXD3
+ * Setting                Mode      Function
+ * -------------------    ------    --------
+ * PREREND_FIXED          NORMAL    FIXD3
  * PREREND_SIDE_SCROLL    NORMAL    SPEC6
- * START0      NORMAL    UNIQ0
- * FIRE_PLATFORM      NORMAL    SPEC7
+ * START0                 NORMAL     UNIQ0
+ * FIRE_PLATFORM          NORMAL    SPEC7
  */
 CameraModeValue sDataOnlyNullFlags[] = {
     { 0x0000, CAM_DATA_FLAGS },
@@ -2410,13 +2410,13 @@ CameraModeValue sDataOnlyNullFlags[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: PREREND_FIXED Setting
+ *                 Custom Data: PREREND_FIXED Setting
  *=====================================================================
  */
 
 /**
- * Setting     Mode            Function
- * --------    ------------    --------
+ * Setting          Mode            Function
+ * -------------    ------------    --------
  * PREREND_FIXED    FOLLOWTARGET    FIXD3
  * PREREND_FIXED    TALK            FIXD3
  */
@@ -2426,14 +2426,14 @@ CameraModeValue sSetPrerendFixedModeFollowTargetData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: PREREND_PIVET Setting
+ *                Custom Data: PREREND_PIVOT Setting
  *=====================================================================
  */
 
 /**
- * Setting     Mode      Function
- * --------    ------    --------
- * PREREND_PIVET    NORMAL    UNIQ7
+ * Setting          Mode      Function
+ * -------------    ------    --------
+ * PREREND_PIVOT    NORMAL    UNIQ7
  */
 CameraModeValue sSetPrerendPivotModeNormalData[] = {
     { 60, CAM_DATA_FOV }, // fov
@@ -2441,9 +2441,9 @@ CameraModeValue sSetPrerendPivotModeNormalData[] = {
 };
 
 /**
- * Setting     Mode            Function
- * --------    ------------    --------
- * PREREND_PIVET    FOLLOWTARGET    UNIQ7
+ * Setting          Mode            Function
+ * -------------    ------------    --------
+ * PREREND_PIVOT    FOLLOWTARGET    UNIQ7
  */
 CameraModeValue sSetPrerendPivotModeFollowTargetData[] = {
     { 60, CAM_DATA_FOV }, // fov
@@ -2451,9 +2451,9 @@ CameraModeValue sSetPrerendPivotModeFollowTargetData[] = {
 };
 
 /**
- * Setting     Mode    Function
- * --------    ----    --------
- * PREREND_PIVET    TALK    KEEP0
+ * Setting          Mode    Function
+ * -------------    ----    --------
+ * PREREND_PIVOT    TALK    KEEP0
  */
 CameraModeValue sSetPrerendPivotModeTalkData[] = {
     { 30, CAM_DATA_FOV_SCALE },
@@ -2574,13 +2574,13 @@ CameraModeValue sSetFree1ModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: PIVOT_CORNER Setting
+ *                 Custom Data: PIVOT_CORNER Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting         Mode      Function
+ * ------------    ------    --------
  * PIVOT_CORNER    NORMAL    FIXD2
  */
 CameraModeValue sSetPivotCornerModeNormalData[] = {
@@ -2593,13 +2593,13 @@ CameraModeValue sSetPivotCornerModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: PIVOT_WATER_SURFACE Setting
+ *              Custom Data: PIVOT_WATER_SURFACE Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting                Mode      Function
+ * -------------------    ------    --------
  * PIVOT_WATER_SURFACE    NORMAL    UNIQ2
  */
 CameraModeValue sSetPivotWaterSurfaceModeNormalData[] = {
@@ -2610,8 +2610,8 @@ CameraModeValue sSetPivotWaterSurfaceModeNormalData[] = {
 };
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting                Mode      Function
+ * -------------------    ------    --------
  * PIVOT_WATER_SURFACE    TARGET    UNIQ2
  */
 CameraModeValue sSetPivotWaterSurfaceModeTargetData[] = {
@@ -2623,19 +2623,19 @@ CameraModeValue sSetPivotWaterSurfaceModeTargetData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: Various cutscene settings
+ *               Custom Data: Various cutscene settings
  *=====================================================================
  */
 
 /**
- * Setting        Mode      Function
- * -------------  ------    --------
- * CS_0          NORMAL    CS_1
- * CS_1          NORMAL    DEMO2
+ * Setting               Mode      Function
+ * ------------------    ------    --------
+ * CS_0                  NORMAL    CS_TWISTED_HALLWAY
+ * CS_TWISTED_HALLWAY    NORMAL    DEMO2
  * CS_ATTENTION          NORMAL    DEMO5 (Not actually used in Camera_Demo4?)
- * FIRE_STAIRCASE         NORMAL    SPEC4
- * FOREST_UNUSED  NORMAL    UNIQ5
- * FOREST_POES    NORMAL    DEMO6
+ * FIRE_STAIRCASE        NORMAL    SPEC4
+ * FOREST_UNUSED         NORMAL    UNIQ5
+ * FOREST_DEFEAT_POE     NORMAL    DEMO6
  */
 CameraModeValue sDataOnlyInterfaceFlags[] = {
     { 0x3200, CAM_DATA_FLAGS },
@@ -2643,14 +2643,14 @@ CameraModeValue sDataOnlyInterfaceFlags[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: FOREST_BIRDS_EYE Setting
+ *                Custom Data: FOREST_BIRDS_EYE Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * FOREST_BIRDS_EYE      NORMAL    PARA1
+ * Setting             Mode      Function
+ * ----------------    ------    --------
+ * FOREST_BIRDS_EYE    NORMAL    PARA1
  */
 CameraModeValue sSetForestBirdsEyeModeNormalData[] = {
     { -50, CAM_DATA_Y_OFFSET },             // yOffset
@@ -2667,9 +2667,9 @@ CameraModeValue sSetForestBirdsEyeModeNormalData[] = {
 };
 
 /**
- * Setting    Mode     Function
- * -------    -----    --------
- * FOREST_BIRDS_EYE      TALK     PARA3
+ * Setting             Mode     Function
+ * ----------------    -----    --------
+ * FOREST_BIRDS_EYE    TALK     PARA3
  */
 CameraModeValue sSetForestBirdsEyeModeTalkData[] = {
     { 0x3501, CAM_DATA_FLAGS },
@@ -2677,14 +2677,14 @@ CameraModeValue sSetForestBirdsEyeModeTalkData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: SLOW_CHEST_CS Setting
+ *                 Custom Data: SLOW_CHEST_CS Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * SLOW_CHEST_CS      NORMAL    CS_3
+ * Setting          Mode      Function
+ * -------------    ------    --------
+ * SLOW_CHEST_CS    NORMAL    CS_3
  * ITEM_UNUSED      NORMAL    CS_ATTENTION (not actually used in Camera_Demo4)
  */
 CameraModeValue sSetSlowChestCsModeNormalData[] = {
@@ -2695,14 +2695,14 @@ CameraModeValue sSetSlowChestCsModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: CS_3 Setting
+ *                     Custom Data: CS_3 Setting
  *=====================================================================
  */
 
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * CS_3      NORMAL    DEMO9
+ * CS_3       NORMAL    DEMO9
  */
 CameraModeValue sSetCs3ModeNormalData[] = {
     { 0x3212, CAM_DATA_FLAGS },
@@ -2710,13 +2710,13 @@ CameraModeValue sSetCs3ModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: BEAN_GENERIC Setting
+ *                 Custom Data: BEAN_GENERIC Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting         Mode      Function
+ * ------------    ------    --------
  * BEAN_GENERIC    NORMAL    NORM1
  */
 CameraModeValue sSetBeanGenericModeNormalData[] = {
@@ -2733,8 +2733,8 @@ CameraModeValue sSetBeanGenericModeNormalData[] = {
 };
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting         Mode      Function
+ * ------------    ------    --------
  * BEAN_GENERIC    TARGET    PARA1
  */
 CameraModeValue sSetBeanGenericModeTargetData[] = {
@@ -2752,8 +2752,8 @@ CameraModeValue sSetBeanGenericModeTargetData[] = {
 };
 
 /**
- * Setting    Mode    Function
- * -------    ----    --------
+ * Setting         Mode    Function
+ * ------------    ----    --------
  * BEAN_GENERIC    JUMP    JUMP1
  */
 CameraModeValue sSetBeanGenericModeJumpData[] = {
@@ -2768,8 +2768,8 @@ CameraModeValue sSetBeanGenericModeJumpData[] = {
 };
 
 /**
- * Setting    Mode    Function
- * -------    ----    --------
+ * Setting         Mode    Function
+ * ------------    ----    --------
  * BEAN_GENERIC    HANG    UNIQ1
  */
 CameraModeValue sSetBeanGenericModeHangData[] = {
@@ -2783,8 +2783,8 @@ CameraModeValue sSetBeanGenericModeHangData[] = {
 };
 
 /**
- * Setting    Mode     Function
- * -------    -----    --------
+ * Setting         Mode     Function
+ * ------------    -----    --------
  * BEAN_GENERIC    HANGZ    UNIQ1
  */
 CameraModeValue sSetBeanGenericModeHangZData[] = {
@@ -2798,8 +2798,8 @@ CameraModeValue sSetBeanGenericModeHangZData[] = {
 };
 
 /**
- * Setting    Mode     Function
- * -------    -----    --------
+ * Setting         Mode     Function
+ * ------------    -----    --------
  * BEAN_GENERIC    STILL    NORM1
  */
 CameraModeValue sSetBeanGenericModeStillData[] = {
@@ -2817,13 +2817,13 @@ CameraModeValue sSetBeanGenericModeStillData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: BEAN_LOST_WOODS Setting
+ *                Custom Data: BEAN_LOST_WOODS Setting
  *=====================================================================
  */
 
 /**
- * Setting     Mode      Function
- * --------    ------    --------
+ * Setting            Mode      Function
+ * ---------------    ------    --------
  * BEAN_LOST_WOODS    NORMAL    NORM1
  */
 CameraModeValue sSetBeanLostWoodsModeNormalData[] = {
@@ -2840,8 +2840,8 @@ CameraModeValue sSetBeanLostWoodsModeNormalData[] = {
 };
 
 /**
- * Setting     Mode      Function
- * --------    ------    --------
+ * Setting            Mode      Function
+ * ---------------    ------    --------
  * BEAN_LOST_WOODS    TARGET    PARA1
  */
 CameraModeValue sSetBeanLostWoodsModeTargetData[] = {
@@ -2859,8 +2859,8 @@ CameraModeValue sSetBeanLostWoodsModeTargetData[] = {
 };
 
 /**
- * Setting     Mode    Function
- * --------    ----    --------
+ * Setting            Mode    Function
+ * ---------------    ----    --------
  * BEAN_LOST_WOODS    JUMP    JUMP1
  */
 CameraModeValue sSetBeanLostWoodsModeJumpData[] = {
@@ -2875,8 +2875,8 @@ CameraModeValue sSetBeanLostWoodsModeJumpData[] = {
 };
 
 /**
- * Setting     Mode    Function
- * --------    ----    --------
+ * Setting            Mode    Function
+ * ---------------    ----    --------
  * BEAN_LOST_WOODS    HANG    UNIQ1
  */
 CameraModeValue sSetBeanLostWoodsModeHangData[] = {
@@ -2890,8 +2890,8 @@ CameraModeValue sSetBeanLostWoodsModeHangData[] = {
 };
 
 /**
- * Setting     Mode     Function
- * --------    -----    --------
+ * Setting            Mode     Function
+ * ---------------    -----    --------
  * BEAN_LOST_WOODS    HANGZ    UNIQ1
  */
 CameraModeValue sSetBeanLostWoodsModeHangZData[] = {
@@ -2905,8 +2905,8 @@ CameraModeValue sSetBeanLostWoodsModeHangZData[] = {
 };
 
 /**
- * Setting     Mode     Function
- * --------    -----    --------
+ * Setting            Mode     Function
+ * ---------------    -----    --------
  * BEAN_LOST_WOODS    STILL    NORM1
  */
 CameraModeValue sSetBeanLostWoodsModeStillData[] = {
@@ -2924,14 +2924,14 @@ CameraModeValue sSetBeanLostWoodsModeStillData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: SCENE_UNUSED Setting
+ *                 Custom Data: SCENE_UNUSED Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * SCENE_UNUSED     NORMAL    SPEC9
+ * Setting         Mode      Function
+ * ------------    ------    --------
+ * SCENE_UNUSED    NORMAL    SPEC9
  */
 CameraModeValue sSetSceneUnusedModeNormalData[] = {
     { -30, CAM_DATA_Y_OFFSET }, // yOffset
@@ -2941,14 +2941,14 @@ CameraModeValue sSetSceneUnusedModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: SCENE_TRANSITION Setting
+ *                Custom Data: SCENE_TRANSITION Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * SCENE_TRANSITION     NORMAL    UNIQ2
+ * Setting             Mode      Function
+ * ----------------    ------    --------
+ * SCENE_TRANSITION    NORMAL    UNIQ2
  */
 CameraModeValue sSetSceneTransitionModeNormalData[] = {
     { -20, CAM_DATA_Y_OFFSET }, // yOffset
@@ -2964,9 +2964,9 @@ CameraModeValue sSetSceneTransitionModeNormalData[] = {
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * BIG_OCTO       NORMAL    NORM1
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * BIG_OCTO    NORMAL    NORM1
  */
 CameraModeValue sSetBigOctoModeNormalData[] = {
     { 0, CAM_DATA_Y_OFFSET },                // yOffset
@@ -2982,9 +2982,9 @@ CameraModeValue sSetBigOctoModeNormalData[] = {
 };
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * BIG_OCTO       BATTLE    BATT1
+ * Setting     Mode      Function
+ * --------    ------    --------
+ * BIG_OCTO    BATTLE    BATT1
  */
 CameraModeValue sSetBigOctoModeBattleData[] = {
     { -20, CAM_DATA_Y_OFFSET },          // yOffset (PCT)
@@ -3002,9 +3002,9 @@ CameraModeValue sSetBigOctoModeBattleData[] = {
 };
 
 /**
- * Setting    Mode     Function
- * -------    -----    --------
- * BIG_OCTO       STILL    NORM1
+ * Setting     Mode     Function
+ * --------    -----    --------
+ * BIG_OCTO    STILL    NORM1
  */
 CameraModeValue sSetBigOctoModeStillData[] = {
     { 0, CAM_DATA_Y_OFFSET },               // yOffset
@@ -3021,13 +3021,13 @@ CameraModeValue sSetBigOctoModeStillData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: MEADOW_BIRDS_EYE Setting
+ *               Custom Data: MEADOW_BIRDS_EYE Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting             Mode      Function
+ * ----------------    ------    --------
  * MEADOW_BIRDS_EYE    NORMAL    NORM1
  */
 CameraModeValue sSetMeadowBirdsEyeModeNormalData[] = {
@@ -3044,8 +3044,8 @@ CameraModeValue sSetMeadowBirdsEyeModeNormalData[] = {
 };
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting             Mode      Function
+ * ----------------    ------    --------
  * MEADOW_BIRDS_EYE    TARGET    PARA1
  */
 CameraModeValue sSetMeadowBirdsEyeModeTargetData[] = {
@@ -3063,8 +3063,8 @@ CameraModeValue sSetMeadowBirdsEyeModeTargetData[] = {
 };
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting             Mode      Function
+ * ----------------    ------    --------
  * MEADOW_BIRDS_EYE    BATTLE    PARA1
  */
 CameraModeValue sSetMeadowBirdsEyeModeBattleData[] = {
@@ -3082,8 +3082,8 @@ CameraModeValue sSetMeadowBirdsEyeModeBattleData[] = {
 };
 
 /**
- * Setting    Mode     Function
- * -------    -----    --------
+ * Setting             Mode     Function
+ * ----------------    -----    --------
  * MEADOW_BIRDS_EYE    CLIMB    NORM1
  */
 CameraModeValue sSetMeadowBirdsEyeModeClimbData[] = {
@@ -3101,13 +3101,13 @@ CameraModeValue sSetMeadowBirdsEyeModeClimbData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: MEADOW_UNUSED Setting
+ *                 Custom Data: MEADOW_UNUSED Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting          Mode      Function
+ * -------------    ------    --------
  * MEADOW_UNUSED    NORMAL    NORM1
  */
 CameraModeValue sSetMeadowUnusedModeNormalData[] = {
@@ -3124,8 +3124,8 @@ CameraModeValue sSetMeadowUnusedModeNormalData[] = {
 };
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting          Mode      Function
+ * -------------    ------    --------
  * MEADOW_UNUSED    TARGET    PARA1
  */
 CameraModeValue sSetMeadowUnusedModeTargetData[] = {
@@ -3143,8 +3143,8 @@ CameraModeValue sSetMeadowUnusedModeTargetData[] = {
 };
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting          Mode      Function
+ * -------------    ------    --------
  * MEADOW_UNUSED    BATTLE    PARA1
  */
 CameraModeValue sSetMeadowUnusedModeBattleData[] = {
@@ -3162,8 +3162,8 @@ CameraModeValue sSetMeadowUnusedModeBattleData[] = {
 };
 
 /**
- * Setting    Mode     Function
- * -------    -----    --------
+ * Setting          Mode     Function
+ * -------------    -----    --------
  * MEADOW_UNUSED    CLIMB    NORM1
  */
 CameraModeValue sSetMeadowUnusedModeClimbData[] = {
@@ -3181,14 +3181,14 @@ CameraModeValue sSetMeadowUnusedModeClimbData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: FIRE_BIRDS_EYE Setting
+ *                Custom Data: FIRE_BIRDS_EYE Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * FIRE_BIRDS_EYE     NORMAL    NORM1
+ * Setting           Mode      Function
+ * --------------    ------    --------
+ * FIRE_BIRDS_EYE    NORMAL    NORM1
  */
 CameraModeValue sSetFireBirdsEyeModeNormalData[] = {
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
@@ -3204,9 +3204,9 @@ CameraModeValue sSetFireBirdsEyeModeNormalData[] = {
 };
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * FIRE_BIRDS_EYE     TARGET    PARA1
+ * Setting           Mode      Function
+ * --------------    ------    --------
+ * FIRE_BIRDS_EYE    TARGET    PARA1
  */
 CameraModeValue sSetFireBirdsEyeModeTargetData[] = {
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
@@ -3223,9 +3223,9 @@ CameraModeValue sSetFireBirdsEyeModeTargetData[] = {
 };
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * FIRE_BIRDS_EYE     BATTLE    PARA1
+ * Setting           Mode      Function
+ * --------------    ------    --------
+ * FIRE_BIRDS_EYE    BATTLE    PARA1
  */
 CameraModeValue sSetFireBirdsEyeModeBattleData[] = {
     { -20, CAM_DATA_Y_OFFSET },             // yOffset
@@ -3242,9 +3242,9 @@ CameraModeValue sSetFireBirdsEyeModeBattleData[] = {
 };
 
 /**
- * Setting    Mode     Function
- * -------    -----    --------
- * FIRE_BIRDS_EYE     CLIMB    NORM1
+ * Setting           Mode     Function
+ * --------------    -----    --------
+ * FIRE_BIRDS_EYE    CLIMB    NORM1
  */
 CameraModeValue sSetFireBirdsEyeModeClimbData[] = {
     { -20, CAM_DATA_Y_OFFSET },              // yOffset
@@ -3261,14 +3261,14 @@ CameraModeValue sSetFireBirdsEyeModeClimbData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: TURN_AROUND Setting
+ *                Custom Data: TURN_AROUND Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * TURN_AROUND      NORMAL    KEEP4
+ * Setting        Mode      Function
+ * -----------    ------    --------
+ * TURN_AROUND    NORMAL    KEEP4
  */
 CameraModeValue sSetTurnAroundModeNormalData[] = {
     { -30, CAM_DATA_Y_OFFSET },                                              // unk_00
@@ -3283,13 +3283,13 @@ CameraModeValue sSetTurnAroundModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: PIVOT_VERTICAL Setting
+ *                Custom Data: PIVOT_VERTICAL Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting           Mode      Function
+ * --------------    ------    --------
  * PIVOT_VERTICAL    NORMAL    SPEC0
  */
 CameraModeValue sSetPivotVerticalModeNormalData[] = {
@@ -3494,7 +3494,7 @@ CameraModeValue sSetFishingModeHangZData[] = {
 /**
  * Setting    Mode      Function
  * -------    ------    --------
- * CS_C      NORMAL    UNIQ9
+ * CS_C       NORMAL    UNIQ9
  */
 CameraModeValue sSetCsCModeNormalData[] = {
     { 0x3F00, CAM_DATA_FLAGS }, /* flags */
@@ -3507,8 +3507,8 @@ CameraModeValue sSetCsCModeNormalData[] = {
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting          Mode      Function
+ * -------------    ------    --------
  * JABU_TENTACLE    NORMAL    NORM1
  */
 CameraModeValue sSetJabuTentacleModeNormalData[] = {
@@ -3525,8 +3525,8 @@ CameraModeValue sSetJabuTentacleModeNormalData[] = {
 };
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
+ * Setting          Mode      Function
+ * -------------    ------    --------
  * JABU_TENTACLE    BATTLE    BATT1
  */
 CameraModeValue sSetJabuTentacleModeBattleData[] = {
@@ -3742,14 +3742,14 @@ CameraModeValue sSetDungeon2ModePushPullData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: DIRECTED_YAW Setting
+ *                 Custom Data: DIRECTED_YAW Setting
  *=====================================================================
  */
 
 /**
- * Setting    Mode      Function
- * -------    ------    --------
- * DIRECTED_YAW     NORMAL    NORM1
+ * Setting         Mode      Function
+ * ------------    ------    --------
+ * DIRECTED_YAW    NORMAL    NORM1
  */
 CameraModeValue sSetDirectedYawModeNormalData[] = {
     { -10, CAM_DATA_Y_OFFSET },              // yOffset
@@ -3765,9 +3765,9 @@ CameraModeValue sSetDirectedYawModeNormalData[] = {
 };
 
 /**
- * Setting    Mode            Function
- * -------    ------------    --------
- * DIRECTED_YAW     FOLLOWTARGET    KEEP1
+ * Setting         Mode            Function
+ * ------------    ------------    --------
+ * DIRECTED_YAW    FOLLOWTARGET    KEEP1
  */
 CameraModeValue sSetDirectedYawModeFollowTargetData[] = {
     { -20, CAM_DATA_Y_OFFSET },          // unk_00
@@ -3786,9 +3786,9 @@ CameraModeValue sSetDirectedYawModeFollowTargetData[] = {
 };
 
 /**
- * Setting    Mode    Function
- * -------    ----    --------
- * DIRECTED_YAW     TALK    KEEP3
+ * Setting         Mode    Function
+ * ------------    ----    --------
+ * DIRECTED_YAW    TALK    KEEP3
  */
 CameraModeValue sSetDirectedYawModeTalkData[] = {
     { -80, CAM_DATA_Y_OFFSET },              // yOffset
@@ -4406,7 +4406,7 @@ CameraMode sCamSetPreRendFixedModes[] = {
 };
 
 /**
- * Camera Setting: PREREND_PIVET
+ * Camera Setting: PREREND_PIVOT
  */
 CameraMode sCamSetPreRendPivotModes[] = {
     { CAM_FUNC_UNIQ7, ARRAY_COUNT(sSetPrerendPivotModeNormalData), sSetPrerendPivotModeNormalData },           // CAM_MODE_NORMAL
@@ -4495,9 +4495,9 @@ CameraMode sCamSetCs0Modes[] = {
 };
 
 /**
- * Camera Setting: CS_1
+ * Camera Setting: CS_TWISTED_HALLWAY
  */
-CameraMode sCamSetCs1Modes[] = {
+CameraMode sCamSetCsTwistedHallwayModes[] = {
     { CAM_FUNC_DEMO2, ARRAY_COUNT(sDataOnlyInterfaceFlags), sDataOnlyInterfaceFlags }, // CAM_MODE_NORMAL
 };
 
@@ -4922,7 +4922,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x85000001 }, sCamSetPivotShopBrowsingModes },    // CAM_SET_PIVOT_SHOP_BROWSING
     { { 0x851E1FFF }, sCamSetPivotInFrontModes },         // CAM_SET_PIVOT_IN_FRONT
     { { 0x8C00000D }, sCamSetPreRendFixedModes },         // CAM_SET_PREREND_FIXED
-    { { 0x8C00000D }, sCamSetPreRendPivotModes },         // CAM_SET_PREREND_PIVET
+    { { 0x8C00000D }, sCamSetPreRendPivotModes },         // CAM_SET_PREREND_PIVOT
     { { 0x8C000001 }, sCamSetPreRendSideScrollModes },    // CAM_SET_PREREND_SIDE_SCROLL
     { { 0xC5000001 }, sCamSetDoor0Modes },                // CAM_SET_DOOR0
     { { 0xC5000003 }, sCamSetDoorCModes },                // CAM_SET_DOORC
@@ -4934,7 +4934,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x85000001 }, sCamSetPivotCornerModes },          // CAM_SET_PIVOT_CORNER
     { { 0x05000003 }, sCamSetPivotDivingModes },          // CAM_SET_PIVOT_PIVOT_WATER_SURFACE
     { { 0xCE000001 }, sCamSetCs0Modes },                  // CAM_SET_CS_0
-    { { 0x4E000001 }, sCamSetCs1Modes },                  // CAM_SET_CS_1
+    { { 0x4E000001 }, sCamSetCsTwistedHallwayModes },     // CAM_SET_CS_TWISTED_HALLWAY
     { { 0x05000009 }, sCamSetForestBirdsEyeModes },       // CAM_SET_FOREST_BIRDS_EYE
     { { 0x45000001 }, sCamSetSlowChestCsModes },          // CAM_SET_SLOW_CHEST_CS
     { { 0x45000001 }, sCamSetItemUnusedModes },           // CAM_SET_ITEM_UNUSED
@@ -4960,7 +4960,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x051FFFFF }, sCamSetJabuTentacleModes },         // CAM_SET_JABU_TENTACLE
     { { 0x051FFFFF }, sCamSetDungeon2Modes },             // CAM_SET_DUNGEON2
     { { 0x051FFFFF }, sCamSetDirectedYawModes },          // CAM_SET_DIRECTED_YAW
-    { { 0xC5000ECD }, sCamSetPivotFromSideModes },            // CAM_SET_PIVOT_FROM_SIDE
+    { { 0xC5000ECD }, sCamSetPivotFromSideModes },        // CAM_SET_PIVOT_FROM_SIDE
     { { 0x051FFFFF }, sCamSetNormal4Modes },              // CAM_SET_NORMAL4
 };
 
