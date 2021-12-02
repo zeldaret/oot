@@ -1,0 +1,12 @@
+<Root>
+    <Soundfont Name="19 - Legends of Hyrule" Index="19">
+        <Instruments>
+            <Instrument Name="Vocals 1" Enum="VOCALS_0"/>
+            <Instrument Name="Vocals 2" Enum="VOCALS_1"/>
+            <Instrument Name="Harp" Enum="HARP"/>
+            <Instrument Name="Glockenspiel" Enum="GLOCKENSPIEL"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

@@ -4,97 +4,101 @@
             <Instrument Name="Step - Ground" Enum="STEP_GROUND"/>
             <Instrument Name="Step - Sand" Enum="STEP_SAND"/>
             <Instrument Name="Step - Rock" Enum="STEP_ROCK"/>
-            <Instrument Name="Step - Dirt" Enum="STEP_DIRT"/>
+            <Instrument Name="Step - Wet Dirt" Enum="STEP_DIRT"/>
             <Instrument Name="Step - Water" Enum="STEP_WATER"/>
             <Instrument Name="Step - Carpet" Enum="STEP_CARPET"/>
-            <Instrument Name="Step - Scuff" Enum="STEP_METAL"/>
-            <Instrument Name="Step - Grass" Enum="STEP_GRASS"/>
+            <Instrument Name="Step - Thick Carpet" Enum="STEP_METAL"/>
+            <Instrument Name="Step - Tall Grass" Enum="STEP_GRASS"/>
             <Instrument Name="Synth Pad" Enum="SYNTH"/>
-            <Instrument Name="Slide" Enum="SLIDE"/>
+            <Instrument Name="Small Splash" Enum="SLIDE"/>
             <Instrument Name="Drop" Enum="DROP"/>
-            <Instrument Name="Step - Wood" Enum="TAP_WOOD"/>
-            <Instrument Name="Ice - Slide" Enum="ICE_SLIDE"/>
-            <Instrument Name="Ice - Slide (Loop)" Enum="ICE_SLIDE_L"/>
-            <Instrument Name="Slide (Loop)" Enum="SLIDE_L"/>
-            <Instrument Name="006 Low Rumble" Enum="CRACKLING"/>
-            <Instrument Name="Running Water" Enum="WATER"/>
-            <Instrument Name="Water Faucet" Enum="WATER_START"/>
-            <Instrument Name="Water End" Enum="WATER_END"/>
+            <Instrument Name="Wood Tap" Enum="TAP_WOOD"/>
+            <Instrument Name="Sliding Block" Enum="ICE_SLIDE"/>
+            <Instrument Name="Boots Sliding" Enum="ICE_SLIDE_L"/>
+            <Instrument Name="Heavy Slide" Enum="SLIDE_L"/>
+            <Instrument Name="Fire and Wind" Enum="CRACKLING"/>
+            <Instrument Name="Unknown" Enum="WATER"/>
+            <Instrument Name="Unknown" Enum="WATER_START"/>
+            <Instrument Name="Rushing Water" Enum="WATER_END"/>
             <Instrument Name="Water Splash" Enum="WATER_SPLASH"/>
-            <Instrument Name="Swimming in Water" Enum="WATER_SWIM"/>
-            <Instrument Name="033 Gunshot" Enum="SLAM_HEAVY"/>
+            <Instrument Name="Swimming" Enum="WATER_SWIM"/>
+            <Instrument Name="Crash and Gunshot" Enum="SLAM_HEAVY"/>
             <Instrument Name="Step - Wood + Metal" Enum="LAND_WOOD"/>
-            <Instrument Name="Step - Tall Grass" Enum="LAND_GRASS"/>
+            <Instrument Name="Step - Fire" Enum="LAND_GRASS"/>
             <Instrument Name="Step - Iron Boots" Enum="SWD_HIT_1"/>
             <Instrument Name="Step - Wet Rock" Enum="CUT_PLANT"/>
-            <Instrument Name="Sword - Strike" Enum="SWD_HIT_2"/>
-            <Instrument Name="Sword - Miss" Enum="CUT_HIGH"/>
+            <Instrument Name="Sword Strike" Enum="SWD_HIT_2"/>
+            <Instrument Name="Sword Miss" Enum="CUT_HIGH"/>
             <Instrument Name="Put Away Sword" Enum="SWD_SHEATHE"/>
             <Instrument Name="Draw Sword" Enum="STICK_SWING"/>
             <Instrument Name="Swing Sword" Enum="SWD_SWING"/>
-            <Instrument Name="Whistle" Enum="SWD_HIT_3"/>
+            <Instrument Name="Air Whistle" Enum="SWD_HIT_3"/>
             <Instrument Name="Metallic Strike" Enum="BOW_DRAW_ARROW"/>
-            <Instrument Name="Wooden Creak" Enum="RUPEE_TICK"/>
-            <Instrument Name="Moving Metallic Chain" Enum="WATER_FLOW"/>
-            <Instrument Name="Fuse Hiss" Enum="CRATE_DROP"/>
+            <Instrument Name="Bow Sounds" Enum="RUPEE_TICK"/>
+            <Instrument Name="Moving Metal Chain" Enum="WATER_FLOW"/>
+            <Instrument Name="Bomb Fuses" Enum="CRATE_DROP"/>
             <Instrument Name="Heavy Thump" Enum="CHOMP"/>
-            <Instrument Name="Squelching" Enum="BOW_EMPTY"/>
+            <Instrument Name="Egg Hatches" Enum="BOW_EMPTY"/>
             <Instrument Name="Arrow Thunk" Enum="POE_DISAPPEAR"/>
             <Instrument Name="Air Whoosh" Enum="STEP_STONE"/>
             <Instrument Name="Muffled Crunch" Enum="WHIP"/>
-            <Instrument Name="Whip" Enum="DOOR_OPEN"/>
+            <Instrument Name="Whip and Cork" Enum="DOOR_OPEN"/>
             <Instrument Name="Buzzing Synth" Enum="BELL_SYNTH"/>
             <Instrument Name="Dirt Sound" Enum="EXPLOSION_1"/>
-            <Instrument Name="Activate Eye of Truth" Enum="HORSE_GALLOP"/>
-            <Instrument/>
-            <Instrument Name="035 Shimmering Treasure" Enum="HORSE_NEIGH"/>
+            <Instrument Name="Eye of Truth" Enum="HORSE_GALLOP"/>
+            <Instrument Name="Wooden Door" Enum="DOOR_WOODEN"/>
+            <Instrument Name="Shimmering Treasure" Enum="HORSE_NEIGH"/>
             <Instrument Name="Explosion 1" Enum="WATER_SLOW_RIVER"/>
             <Instrument Name="Gallop" Enum="OCARINA_1"/>
-            <Instrument Name="Ocarina 2" Enum="OCARINA_2"/> <!-- ??? -->
-            <Instrument Name="014 Horse Snort" Enum="BLOCK_L_SLIDE"/>
-            <Instrument Name="Creek" Enum="PLAYER_SLIDE"/>
+            <Instrument/>
+            <Instrument Name="Horse Sounds" Enum="BLOCK_L_SLIDE"/>
+            <Instrument Name="Water Sounds" Enum="PLAYER_SLIDE"/>
             <Instrument Name="Ocarina 1" Enum="EXPLOSION_2"/>
             <Instrument Name="Ocarina 2" Enum="DRAWBRIDGE"/>
-            <Instrument Name="010 Mechanically Shifting Stone" Enum="LAUGH"/>
-            <Instrument Name="009 Rolling Boulder" Enum="SLING_EMPTY"/>
-            <Instrument Name="011 Bubbling Magma" Enum="WIND"/>
-            <Instrument Name="008 Retracting Metal Chain" Enum="WOLFOS_HURT"/>
-            <Instrument Name="012 Relaxed Cucco Clucks" Enum="WATER_SPLASH_2"/>
-            <Instrument Name="013 Closed Stone Door" Enum="STEP_DIRT_2"/>
-            <Instrument Name="Sparkle Bell" Enum="SPARKLE_BELL"/>
-            <Instrument Name="034 Wolf Howl" Enum="HEAVY_LAND"/>
-            <Instrument Name="018 Water Splish" Enum="DOOR_CREAK"/>
-            <Instrument Name="019 Wooden Strike" Enum="SWD_SLASH_SQUISH"/>
-            <Instrument Name="015 Flying Fairy" Enum="WARP_LOOP"/>
-            <Instrument Name="016 Settled Stone Block" Enum="WARP_ACTIVATE"/>
-            <Instrument Name="017 Creaking Door" Enum="SHOCK"/>
-            <Instrument Name="021 Low Swooshing Sound" Enum="WATER_DRIPS"/>
-            <Instrument Name="022 Warp Circle Ambience" Enum="BUBBLE_UNDERWATER"/>
-            <Instrument Name="023 Fairy Magic" Enum="FIRE_CRACKLE"/>
-            <Instrument Name="Freezing Breath" Enum="ATK_BREATH"/>
-            <Instrument Name="025 Water Drips" Enum="LOUD_NOISE"/>
-            <Instrument Name="024 Underwater Bubbles" Enum="DOOR_CLOSE"/>
-            <Instrument Name="026 Fire" Enum="FIRE"/>
-            <Instrument Name="Rolling Noise" Enum="ROLL_NOISE"/>
-            <Instrument Name="028 Heavy Platform Rotating" Enum="MARKET_MURMUR"/>
-            <Instrument Name="030 Light Rock Slam" Enum="SHOCK_HIGH"/>
-            <Instrument Name="032 Mechanical Ramp-Up" Enum="DODONGO_HURT"/>
-            <Instrument Name="027 Flapping Cloak" Enum="PAN_FLUTE"/>
-            <Instrument Name="029 People Chattering" Enum="ACCORDION"/>
+            <Instrument Name="Metal Door and Stone Shift" Enum="LAUGH"/>
+            <Instrument Name="Rolling Boulder" Enum="SLING_EMPTY"/>
+            <Instrument Name="Bubbling Lava" Enum="WIND"/>
+            <Instrument Name="Retracting Metal Chain" Enum="WOLFOS_HURT"/>
+            <Instrument Name="Animal Sounds" Enum="WATER_SPLASH_2"/>
+            <Instrument Name="Closed Stone Door" Enum="STEP_DIRT_2"/>
+            <Instrument Name="Short Howling Wind" Enum="SPARKLE_BELL"/>
+            <Instrument Name="Animal Cries" Enum="HEAVY_LAND"/>
+            <Instrument Name="Water Splish" Enum="DOOR_CREAK"/>
+            <Instrument Name="Wooden Strike" Enum="SWD_SLASH_SQUISH"/>
+            <Instrument Name="Flying Fairy" Enum="WARP_LOOP"/>
+            <Instrument Name="Settled Stone Block" Enum="WARP_ACTIVATE"/>
+            <Instrument Name="Creaking Sounds" Enum="SHOCK"/>
+            <Instrument Name="Low Swooshing Sound" Enum="WATER_DRIPS"/>
+            <Instrument Name="Warp Circle Ambience" Enum="BUBBLE_UNDERWATER"/>
+            <Instrument Name="Fairy Magic" Enum="FIRE_CRACKLE"/>
+            <Instrument Name="Broken Pottery" Enum="ATK_BREATH"/>
+            <Instrument Name="Water Drips" Enum="LOUD_NOISE"/>
+            <Instrument Name="Underwater Bubbles" Enum="DOOR_CLOSE"/>
+            <Instrument Name="Fire" Enum="FIRE"/>
+            <Instrument Name="Flames and Lightning" Enum="ROLL_NOISE"/>
+            <Instrument Name="Heavy Platform Rotating" Enum="MARKET_MURMUR"/>
+            <Instrument Name="Light Rock Slam" Enum="SHOCK_HIGH"/>
+            <Instrument Name="Mechanical Ramp-Up" Enum="DODONGO_HURT"/>
+            <Instrument Name="Flapping Cloak" Enum="PAN_FLUTE"/>
+            <Instrument Name="People Chattering" Enum="ACCORDION"/>
             <Instrument Name="Harp 1" Enum="HARP_1"/>
-            <Instrument Name="Female Singer" Enum="MALON_SINGING"/>
-            <Instrument Name="Faded Ocarina" Enum="OCARINA_FADE"/>
-            <Instrument Name="Bell" Enum="BELL"/>
-            <Instrument Name="Chirp" Enum="CHIRP"/>
-            <Instrument Name="Harp 2" Enum="HARP_2"/>
-            <Instrument Name="Swoosh" Enum="SWOOSH"/>
-            <Instrument Name="Heavy Drop" Enum="HEAVY_DROP"/>
+            <Instrument Name="Dodongos and Dogs" Enum="MALON_SINGING"/>
+            <Instrument Name="Stalchild Flute" Enum="OCARINA_FADE"/>
+            <Instrument Name="Accordion" Enum="BELL"/>
+            <Instrument Name="Dialogue Continue" Enum="CHIRP"/>
+            <Instrument Name="Goron Vocalization" Enum="HARP_2"/>
+            <Instrument Name="Whistle" Enum="SWOOSH"/>
+            <Instrument Name="Failed Song and Bells" Enum="HEAVY_DROP"/>
+            <Instrument Name="Reed Whistle" Enum=""/>
+            <Instrument Name="Harp" Enum=""/>
+            <Instrument Name="Targeting Sounds" Enum=""/>
+            <Instrument Name="Unknown" Enum=""/>
         </Instruments>
         <Drums>
             <Drum Name="Tambo Drum" Enum="TAMBO"/>
-            <Drum Name="Tambo Drum (High)" Enum="TAMBO_H"/>
-            <Drum Name="Heavy Rain" Enum="HEAVY_RAIN_1"/>
-            <Drum Name="Heavy Rain 2" Enum="HEAVY_RAIN_2"/>
+            <Drum Name="Small Cymbal" Enum="TAMBO_H"/>
+            <Drum Name="Rainfall" Enum="HEAVY_RAIN_1"/>
+            <Drum Name="Rainfall 2" Enum="HEAVY_RAIN_2"/>
         </Drums>
         <Effects>
             <Effect Name="Adult Link - Attack 1" Enum="LINK_OLD_ATTACK_1"/>
@@ -103,9 +107,9 @@
             <Effect Name="Adult Link - Attack 4" Enum="LINK_OLD_ATTACK_4"/>
             <Effect Name="Adult Link - Strong Attack 1" Enum="LINK_OLD_MAJOR_ATK_1"/>
             <Effect Name="Adult Link - Strong Attack 2" Enum="LINK_OLD_MAJOR_ATK_2"/>
-            <Effect Name="Adult Link - Hanging Down" Enum="LINK_OLD_HANG"/>
+            <Effect Name="Adult Link - Dangling Grunt" Enum="LINK_OLD_HANG"/>
             <Effect Name="Adult Link - Climb Edge" Enum="LINK_OLD_CLIMB"/>
-            <Effect Name="Adult Link - Catch Edge 1" Enum="LINK_OLD_CATCH_EDGE_1"/>
+            <Effect Name="Adult Link - Dangling Gasp 2" Enum="LINK_OLD_CATCH_EDGE_1"/>
             <Effect Name="Adult Link - Hurt 1" Enum="LINK_OLD_HURT_1"/>
             <Effect Name="Adult Link - Hurt 2" Enum="LINK_OLD_HURT_2"/>
             <Effect Name="Adult Link - Hurt 3" Enum="LINK_OLD_HURT_3"/>
@@ -114,123 +118,125 @@
             <Effect Name="Adult Link - Hurt 5" Enum="LINK_OLD_HURT_5"/>
             <Effect Name="Adult Link - Falling 1" Enum="LINK_OLD_FALL_1"/>
             <Effect Name="Adult Link - Falling 2" Enum="LINK_OLD_FALL_2"/>
-            <Effect Name="Adult Link - Gasp 1" Enum="LINK_OLD_GASP_1"/>
-            <Effect Name="Adult Link - Gasp 2" Enum="LINK_OLD_GASP_2"/>
-            <Effect Name="Adult Link - Sigh 1" Enum="LINK_OLD_SIGH_1"/>
-            <Effect Name="Adult Link - Wince" Enum="LINK_OLD_WINCE"/>
+            <Effect Name="Adult Link - Gasp 2" Enum="LINK_OLD_GASP_1"/>
+            <Effect Name="Adult Link - Gasp 3" Enum="LINK_OLD_GASP_2"/>
+            <Effect Name="Adult Link - Pant 1" Enum="LINK_OLD_SIGH_1"/>
+            <Effect Name="Adult Link - Dying Gasp" Enum="LINK_OLD_WINCE"/>
             <Effect Name="Adult Link - Spur Horse 1" Enum="LINK_OLD_SPUR_1"/>
             <Effect Name="Adult Link - Spur Horse 2" Enum="LINK_OLD_SPUR_2"/>
-            <Effect Name="Adult Link - Sigh 2" Enum="LINK_OLD_SIGH_2"/>
+            <Effect Name="Adult Link - Pant 2" Enum="LINK_OLD_SIGH_2"/>
             <Effect Name="Adult Link - Painful Landing" Enum="LINK_OLD_FALL_DMG"/>
-            <Effect Name="Adult Link - Catch Edge 2" Enum="LINK_OLD_CATCH_EDGE_2"/>
+            <Effect Name="Adult Link - Dangling Gasp 1" Enum="LINK_OLD_CATCH_EDGE_2"/>
             <Effect Name="Adult Link - Hup" Enum="LINK_OLD_JUMP"/>
-            <Effect Name="Adult Link - Push" Enum="LINK_OLD_PUSH"/>
+            <Effect Name="Adult Link - Gasp 1" Enum="LINK_OLD_PUSH"/>
             <Effect Name="Child Link - Attack 1" Enum="LINK_KID_ATTACK_1"/>
             <Effect Name="Child Link - Attack 2" Enum="LINK_KID_ATTACK_2"/>
             <Effect Name="Child Link - Attack 3" Enum="LINK_KID_ATTACK_3"/>
             <Effect Name="Child Link - Attack 4" Enum="LINK_KID_ATTACK_4"/>
-            <Effect Name="Child Link - Catch Edge 1" Enum="LINK_KID_CATCH_EDGE_1"/>
-            <Effect Name="Child Link - Climb Edge 1" Enum="LINK_KID_CLIMB_1"/>
-            <Effect Name="Child Link - Climb Edge 2" Enum="LINK_KID_CLIMB_2"/>
-            <Effect Name="Child Link - Hurt 1" Enum="LINK_KID_HURT_1"/>
-            <Effect Name="Child Link - Hurt 2" Enum="LINK_KID_HURT_2"/>
-            <Effect Name="Child Link - Hurt 3" Enum="LINK_KID_HURT_3"/>
-            <Effect Name="Child Link - Hurt 4" Enum="LINK_KID_HURT_4"/>
-            <Effect Name="Child Link - Hurt 5" Enum="LINK_KID_HURT_5"/>
-            <Effect Name="Child Link - Hurt 6" Enum="LINK_KID_HURT_6"/>
-            <Effect Name="Child Link - Falling 1" Enum="LINK_KID_FALL_1"/>
-            <Effect Name="Child Link - Falling 2" Enum="LINK_KID_FALL_2"/>
-            <Effect Name="Child Link - Gasp 1" Enum="LINK_KID_GASP_1"/>
-            <Effect Name="Child Link - Gasp 2" Enum="LINK_KID_GASP_2"/>
-            <Effect Name="Child Link - Pant 1" Enum="LINK_KID_PANT_1"/>
-            <Effect Name="Child Link - Pant 2" Enum="LINK_KID_PANT_2"/>
-            <Effect Name="Child Link - Painful Landing" Enum="LINK_KID_FALL_DMG"/>
-            <Effect Name="Child Link - Catch Edge 2" Enum="LINK_KID_CATCH_EDGE_2"/>
-            <Effect Name="Child Link - Drink" Enum="LINK_KID_DRINK"/>
-            <Effect Name="Child Link - Surface From Water" Enum="LINK_KID_BREATHE"/>
-            <Effect Name="Child Link - Hop 1" Enum="LINK_KID_JUMP_1"/>
-            <Effect Name="Child Link - Hop 2" Enum="LINK_KID_JUMP_2"/>
-            <Effect Name="Child Link - Thud" Enum="LINK_KID_THUD"/>
-            <Effect Name="Adult Link - Surface From Water" Enum="LINK_OLD_BREATHE"/>
+            <Effect Name="Child Link - Strong Attack 1" Enum="LINK_KID_CATCH_EDGE_1"/>
+            <Effect Name="Child Link - Strong Attack 2" Enum="LINK_KID_CLIMB_1"/>
+            <Effect Name="Child Link - Dangling Gasp 1" Enum="LINK_KID_CLIMB_2"/>
+            <Effect Name="Child Link - Sigh 1" Enum="LINK_KID_HURT_1"/>
+            <Effect Name="Child Link - Sigh 2" Enum="LINK_KID_HURT_2"/>
+            <Effect Name="Child Link - Hurt 1" Enum="LINK_KID_HURT_3"/>
+            <Effect Name="Child Link - Hurt 2" Enum="LINK_KID_HURT_4"/>
+            <Effect Name="Child Link - Hurt 3" Enum="LINK_KID_HURT_5"/>
+            <Effect Name="Child Link - Hurt 4" Enum="LINK_KID_HURT_6"/>
+            <Effect Name="Child Link - Knocked Back" Enum="LINK_KID_FALL_1"/>
+            <Effect Name="Child Link - Hurt 5" Enum="LINK_KID_FALL_2"/>
+            <Effect Name="Child Link - Falling 1" Enum="LINK_KID_GASP_1"/>
+            <Effect Name="Child Link - Falling 2" Enum="LINK_KID_GASP_2"/>
+            <Effect Name="Child Link - Gasp 1" Enum="LINK_KID_PANT_1"/>
+            <Effect Name="Child Link - Gasp 2" Enum="LINK_KID_PANT_2"/>
+            <Effect Name="Child Link - Wheeze" Enum="LINK_KID_FALL_DMG"/>
+            <Effect Name="Child Link - Exhausted Panting" Enum="LINK_KID_CATCH_EDGE_2"/>
+            <Effect Name="Child Link - Painful Landing" Enum="LINK_KID_DRINK"/>
+            <Effect Name="Child Link - Danging Gasp 2" Enum="LINK_KID_BREATHE"/>
+            <Effect Name="Child Link - Glug" Enum="LINK_KID_JUMP_1"/>
+            <Effect Name="Child Link - Refreshed" Enum="LINK_KID_JUMP_2"/>
+            <Effect Name="Child Link - Hup 1" Enum="LINK_KID_THUD"/>
+            <Effect Name="Child Link - Hup 2" Enum="LINK_OLD_BREATHE"/>
+            <Effect Name="Adult Link - Glug" Enum="LINK_OLD_BREATHE"/>
+            <Effect Name="Adult Link - Refreshed" Enum="LINK_OLD_BREATHE"/>
             <Effect Name="Navi - Watch Out!" Enum="NAVI_WATCH_OUT"/>
             <Effect Name="Navi - Look!" Enum="NAVI_LOOK"/>
             <Effect Name="Navi - Hey!" Enum="NAVI_HEY"/>
-            <Effect Name="Adult Link - Grunt" Enum="LINK_OLD_GRUNT"/>
+            <Effect Name="Adult Link - Lift" Enum="LINK_OLD_GRUNT"/>
             <Effect Name="Adult Link - Cast Spell" Enum="LINK_OLD_SPELL"/>
-            <Effect Name="Child Link - Lift" Enum="LINK_KID_LIFT"/>
-            <Effect Name="Child Link - Shout" Enum="LINK_KID_SHOUT"/>
-            <Effect Name="Child Link - Hurt 7" Enum="LINK_KID_HURT_7"/>
-            <Effect Name="Poe Titters" Enum="POE_GIGGLE"/>
+            <Effect Name="Child Link - Charge Up" Enum="LINK_KID_LIFT"/>
+            <Effect Name="Child Link - Cast Spell" Enum="LINK_KID_SHOUT"/>
+            <Effect Name="Child Link - Dying Gasp" Enum="LINK_KID_HURT_7"/>
+            <Effect Name="Child Link - Strangled?" Enum="POE_GIGGLE"/>
             <Effect Name="Child Link - Gasp 3" Enum="LINK_KID_GASP_3"/>
             <Effect Name="Child Link - Shiver" Enum="LINK_KID_SHIVER"/>
-            <Effect Name="Unknown Effect" Enum="UNKNOWN1"/>
+            <Effect/>
             <Effect Name="Child Link - Sneeze" Enum="LINK_KID_SNEEZE"/>
-            <Effect Name="Child Link - Snore?" Enum="LINK_KID_SLEEP"/>
-            <Effect Name="Child Link - Deep Breath" Enum="LINK_KID_DEEP_BREATH"/>
-            <Effect Name="Child Link - Grunt" Enum="LINK_KID_GRUNT"/>
-            <Effect Name="Child Link - Stretch" Enum="LINK_KID_STRETCH"/>
-            <Effect Name="Child Link - Awaken" Enum="LINK_KID_WAKE_UP"/>
-            <Effect Name="Child Link - Stretch and Wake" Enum="LINK_KID_STRETCH_WAKE"/>
-            <Effect Name="Child Link - Yawn and Wake" Enum="LINK_KID_YAWN_WAKE"/>
-            <Effect Name="Child Link - Grunt in Shock" Enum="LINK_KID_SHOCK_GRUNT"/>
-            <Effect Name="Adult Link - Hurt in Shock" Enum="LINK_OLD_SHOCK_HURT"/>
-            <Effect Name="Child Link - Low Energy" Enum="LINK_KID_HEALTH_LOW"/>
-            <Effect Name="Adult Link - Surprised Gasp" Enum="LINK_OLD_SURPRISE"/>
-            <Effect Name="Adult Link - Low Energy" Enum="LINK_OLD_HEALTH_LOW"/>
-            <Effect Name="Adult Link - Sneeze" Enum="LINK_OLD_SNEEZE"/>
-            <Effect Name="Adult Link - Sigh 3" Enum="LINK_OLD_SIGH_3"/>
-            <Effect Name="Adult Link - Sigh 4" Enum="LINK_OLD_SIGH_4"/>
-            <Effect Name="Adult Link - Sigh 5" Enum="LINK_OLD_SIGH_5"/>
-            <Effect Name="Adult Link - Heavy Lifting" Enum="LINK_OLD_LIFT_HEAVY"/>
-            <Effect Name="Adult Link - Stretch" Enum="LINK_OLD_STRETCH"/>
-            <Effect Name="Adult Link - Stop Stretching" Enum="LINK_OLD_STRETCH_END"/>
-            <Effect Name="Male Snoring" Enum="SNORING"/>
-            <Effect Name="Old Man Surprised" Enum="OLD_MAN_SURPRISE"/>
-            <Effect Name="Old Man Curious" Enum="OLD_MAN_CURIOUS"/>
-            <Effect Name="Old Man Scared" Enum="OLD_MAN_SCARED"/>
-            <Effect Name="Ingo Screams" Enum="INGO_MAD"/>
+            <Effect Name="Child Link - Grunt" Enum="LINK_KID_SLEEP"/>
+            <Effect Name="Child Link - Moans From Heat" Enum="LINK_KID_DEEP_BREATH"/>
+            <Effect Name="Child Link - Awakening Grunt" Enum="LINK_KID_GRUNT"/>
+            <Effect Name="Child Link - Wiping Off Sweat" Enum="LINK_KID_STRETCH"/>
+            <Effect Name="Child Link - Yawn Starts" Enum="LINK_KID_WAKE_UP"/>
+            <Effect Name="Child Link - Yawn and Stretch" Enum="LINK_KID_STRETCH_WAKE"/>
+            <Effect Name="Child Link - Stretch Refreshingly" Enum="LINK_KID_YAWN_WAKE"/>
+            <Effect Name="Child Link - Hurt 6" Enum="LINK_KID_SHOCK_GRUNT"/>
+            <Effect Name="Adult Link - Choking" Enum="LINK_OLD_SHOCK_HURT"/>
+            <Effect Name="Adult Link - Gasping?" Enum="LINK_KID_HEALTH_LOW"/>
+            <Effect Name="Adult Link - Small Gasp?" Enum="LINK_OLD_SURPRISE"/>
+            <Effect Name="Adult Link - Unsettled Moan" Enum="LINK_OLD_HEALTH_LOW"/>
+            <Effect Name="Adult Link - Unknown" Enum="LINK_OLD_SNEEZE"/>
+            <Effect Name="Adult Link - Sigh 1" Enum="LINK_OLD_SIGH_3"/>
+            <Effect Name="Adult Link - Sigh 2" Enum="LINK_OLD_SIGH_4"/>
+            <Effect Name="Adult Link - Sigh 3" Enum="LINK_OLD_SIGH_5"/>
+            <Effect Name="Adult Link - Stretch Start" Enum="LINK_OLD_LIFT_HEAVY"/>
+            <Effect Name="Adult Link - Stretching" Enum="LINK_OLD_STRETCH"/>
+            <Effect Name="Adult Link - Finished Stretching" Enum="LINK_OLD_STRETCH_END"/>
+            <Effect Name="Talon Snoring" Enum="SNORING"/>
+            <Effect Name="Talon Startled" Enum="OLD_MAN_SURPRISE"/>
+            <Effect Name="Talon Distressed" Enum="OLD_MAN_CURIOUS"/>
+            <Effect Name="Talon Fearful" Enum="OLD_MAN_SCARED"/>
+            <Effect Name="Ingo Yowls" Enum="INGO_MAD"/>
             <Effect Name="Ingo Exclaims" Enum="INGO_SHOUT"/>
-            <Effect Name="Ingo Spurs Horse" Enum="INGO_SPUR"/>
-            <Effect Name="Ingo Laughs" Enum="INGO_LAUGH"/>
+            <Effect Name="Ingo Spurs Horse 1" Enum="INGO_SPUR"/>
+            <Effect Name="Ingo Spurs Horse 2" Enum="INGO_LAUGH"/>
             <Effect Name="Great Fairy Laughs" Enum="G_FAIRY_LAUGH"/>
             <Effect Name="Great Fairy Titters" Enum="G_FAIR_S_LAUGH"/>
             <Effect Name="Zelda Gasps" Enum="ZELDA_GASP"/>
             <Effect Name="Girl Screams 1" Enum="GIRL_SCREAM_1"/>
-            <Effect Name="Goron Wakes Up" Enum="GORON_WAKE"/>
+            <Effect Name="Girl Inquiring 1" Enum="GORON_WAKE"/>
             <Effect Name="Navi - Watch Out! 2" Enum="NAVI_WATCH_OUT_2"/>
             <Effect Name="Navi - Look! 2" Enum="NAVI_LOOK_2"/>
             <Effect Name="Navi - Hey! 2" Enum="NAVI_HEY_2"/>
-            <Effect Name="Kid Weird Noise" Enum="KID_NOISE"/>
-            <Effect Name="Girl Shocked" Enum="GIRL_SHOCK"/>
+            <Effect Name="Girl Hurt" Enum="KID_NOISE"/>
+            <Effect Name="Girl Startled 1" Enum="GIRL_SHOCK"/>
             <Effect Name="Girl Screams 2" Enum="GIRL_SCREAM_2"/>
-            <Effect Name="Girl Giggles" Enum="GIRL_GIGGLE"/>
+            <Effect Name="Girl Delighted" Enum="GIRL_GIGGLE"/>
             <Effect Name="Girl Surprised 1" Enum="GIRL_SURPRISE_1"/>
             <Effect Name="Girl Surprised 2" Enum="GIRL_SURPRISE_2"/>
-            <Effect Name="Girl Upset" Enum="GIRL_UPSET"/>
-            <Effect Name="Man Upset" Enum="MAN_UPSET"/>
-            <Effect Name="Man Angry" Enum="MAN_ANGRY"/>
+            <Effect Name="Girl Discombobulated" Enum="GIRL_UPSET"/>
+            <Effect Name="Skulltula Screaming" Enum="MAN_UPSET"/>
+            <Effect Name="Skulltula Grunts Angrily" Enum="MAN_ANGRY"/>
             <Effect Name="Girl Sighs" Enum="GIRL_SIGH_1"/>
-            <Effect Name="Girl Caught Offguard" Enum="GIRL_OFFGUARD"/>
-            <Effect Name="Girl Curiously Surprised" Enum="GIRL_SURPRISE_CURIOUS"/>
-            <Effect Name="Girl Discontentedly Sighs" Enum="GIRL_SIGH_2"/>
-            <Effect Name="Girl Laughs" Enum="GIRL_LAUGH"/>
-            <Effect Name="Girl Scared" Enum="GIRL_SURPRISE_SCARED"/>
-            <Effect Name="Girl Hurt 1" Enum="GIRL_HURT_1"/>
-            <Effect Name="Girl Pushed Away" Enum="GIRL_SHOVED_1"/>
-            <Effect Name="Girl Pushed Further" Enum="GIRL_SHOVED_2"/>
-            <Effect Name="Girl Hurt 2" Enum="GIRL_HURT_2"/>
+            <Effect Name="Girl Startled 2" Enum="GIRL_OFFGUARD"/>
+            <Effect Name="Girl Inquiring 2" Enum="GIRL_SURPRISE_CURIOUS"/>
+            <Effect Name="Girl Disappointed" Enum="GIRL_SIGH_2"/>
+            <Effect Name="Girl Laughing" Enum="GIRL_LAUGH"/>
+            <Effect Name="Girl Startled 3" Enum="GIRL_SURPRISE_SCARED"/>
+            <Effect Name="Girl Grunts in Effort" Enum="GIRL_HURT_1"/>
+            <Effect Name="Woman Yells" Enum="GIRL_SHOVED_1"/>
+            <Effect Name="Woman Startled, Yells" Enum="GIRL_SHOVED_2"/>
+            <Effect Name="Woman Grunts" Enum="GIRL_HURT_2"/>
             <Effect Name="Navi - Listen!" Enum="NAVI_LISTEN"/>
-            <Effect Name="Child Link - Attack 5" Enum="LINK_KID_ATTACK_5"/>
-            <Effect Name="Girl Shrieks 1" Enum="GIRL_SHRIEK_1"/>
-            <Effect Name="Girl Shrieks 2" Enum="GIRL_SHRIEK_2"/>
-            <Effect Name="Girl Sighs Noisily" Enum="GIRL_SIGH_3"/>
-            <Effect Name="Girl Surprised (Quick)" Enum="GIRL_SURPRISE_QUICK"/>
-            <Effect Name="Girl Surprised and Worried" Enum="GIRL_SURPRISE_WORRY"/>
+            <Effect Name="Woman Hup" Enum="LINK_KID_ATTACK_5"/>
+            <Effect Name="Girl Screams 3" Enum="GIRL_SHRIEK_1"/>
+            <Effect Name="Girl Screams 4" Enum="GIRL_SHRIEK_2"/>
+            <Effect Name="Girl Sighs Contentedly" Enum="GIRL_SIGH_3"/>
+            <Effect Name="Girl Surprised 3" Enum="GIRL_SURPRISE_QUICK"/>
+            <Effect Name="Girl Scared" Enum="GIRL_SURPRISE_WORRY"/>
             <Effect Name="King Zora Scoots" Enum="MWINK"/>
             <Effect Name="Navi - Hello!" Enum="NAVI_HELLO"/>
-            <Effect Name="Unknown 2" Enum="UNKNOWN2"/>
-            <Effect Name="Adult Link - Gasp 3" Enum="LINK_OLD_GASP_3"/>
-            <Effect Name="Child Link - Gasp 4" Enum="LINK_KID_GASP_4"/>
+            <Effect/>
+            <Effect Name="Adult Link - Dramatic Gasp" Enum="LINK_OLD_GASP_3"/>
+            <Effect Name="Child Link - Dramatic Gasp" Enum="LINK_KID_GASP_4"/>
         </Effects>
     </Soundfont>
 </Root>

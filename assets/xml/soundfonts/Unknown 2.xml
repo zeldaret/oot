@@ -1,0 +1,10 @@
+<Root>
+    <Soundfont Name="37 - Unknown 2" Index="37">
+        <Instruments>
+            <Instrument Name="Long Bird Chirp" Enum="CHIRP_0"/>
+            <Instrument Name="Short Bird Chirp" Enum="CHIRP_1"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>
