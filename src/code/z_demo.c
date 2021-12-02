@@ -1852,13 +1852,13 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
             case CS_CMD_CAM_EYE:
                 cutscenePtr += Cutscene_Command_CameraPositions(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
-            case CS_CMD_CAM_EYE_PLAYER:
+            case CS_CMD_CAM_EYE_REL_TO_PLAYER:
                 cutscenePtr += Cutscene_Command_CameraPositions(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
-            case CS_CMD_CAM_LOOK_AT:
+            case CS_CMD_CAM_AT:
                 cutscenePtr += Cutscene_Command_CameraFocus(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
-            case CS_CMD_CAM_LOOK_AT_PLAYER:
+            case CS_CMD_CAM_AT_REL_TO_PLAYER:
                 cutscenePtr += Cutscene_Command_CameraFocus(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
             case CS_CMD_07:
