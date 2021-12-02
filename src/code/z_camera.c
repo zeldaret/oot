@@ -1973,7 +1973,7 @@ s32 Camera_Parallel1(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
-        
+
         para1->yOffset = NEXTPCT * playerHeight * yNormal;
         para1->distTarget = NEXTPCT * playerHeight * yNormal;
         para1->pitchTarget = DEGF_TO_BINANG(NEXTSETTING);
