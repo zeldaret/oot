@@ -80,7 +80,7 @@ void EnTkEff_Update(EnTk* this) {
 
 void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     static void* dustTextures[] = {
-        &gDust8Tex, &gDust7Tex, &gDust6Tex, &gDust5Tex, &gDust4Tex, &gDust3Tex, &gDust2Tex, &gDust1Tex,
+        gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
 
     EnTkEff* eff = this->eff;
@@ -111,7 +111,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
 
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(eff->size, eff->size, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 140),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -352,21 +352,21 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
     s32 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
             break;
-        case 2:
+        case TEXT_STATE_CLOSING:
             /* "I am the boss of the carpenters ..." (wtf?) */
             if (thisx->textId == 0x5028) {
                 gSaveContext.infTable[13] |= 0x0100;
             }
             ret = 0;
             break;
-        case 3:
+        case TEXT_STATE_DONE_FADING:
             break;
-        case 4:
-            if (func_80106BC8(globalCtx) && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
                 if (globalCtx->msgCtx.choiceIndex == 1) {
                     /* "Thanks a lot!" */
                     thisx->textId = 0x0084;
@@ -374,25 +374,25 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
                     /* "You don't have enough Rupees!" */
                     thisx->textId = 0x0085;
                 } else {
-                    globalCtx->msgCtx.msgMode = 0x37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     Rupees_ChangeBy(-10);
                     gSaveContext.infTable[13] |= 0x0200;
                     return 2;
                 }
-                func_8010B720(globalCtx, thisx->textId);
+                Message_ContinueTextbox(globalCtx, thisx->textId);
                 gSaveContext.infTable[13] |= 0x0200;
             }
             break;
-        case 5:
-            if (func_80106BC8(globalCtx) && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
-                func_80106CCC(globalCtx);
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
+                Message_CloseTextbox(globalCtx);
                 ret = 0;
             }
             break;
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
 
@@ -540,7 +540,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
         this->actionCountdown = 0;
         func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
                       func_80B1C5A0);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
@@ -640,9 +640,9 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         if (this->currentReward < 0) {
             /* "Nope, nothing here!" */
-            func_8010B680(globalCtx, 0x501A, NULL);
+            Message_StartTextbox(globalCtx, 0x501A, NULL);
         } else {
-            func_80106CCC(globalCtx);
+            Message_CloseTextbox(globalCtx);
         }
 
         EnTk_RestAnim(this, globalCtx);

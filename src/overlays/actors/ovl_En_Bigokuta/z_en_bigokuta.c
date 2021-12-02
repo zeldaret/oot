@@ -407,7 +407,7 @@ void func_809BD84C(EnBigokuta* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
     }
     if (this->unk_196 == 1) {
-        func_800F5ACC(0x38);
+        func_800F5ACC(NA_BGM_MINI_BOSS);
     }
     if (this->actor.params == 1) {
         func_809BD370(this);
@@ -470,7 +470,7 @@ void func_809BDB90(EnBigokuta* this, GlobalContext* globalCtx) {
     }
     if (this->unk_196 == 0) {
         if (this->actor.params == 3) {
-            func_800F5ACC(0x38);
+            func_800F5ACC(NA_BGM_MINI_BOSS);
         }
         func_809BD3F8(this);
     }
@@ -779,7 +779,7 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->actionFunc(this, globalCtx);
     func_809BD2E4(this);
     func_809BE568(this);
-    Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_TAKO);
+    Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BIG_OCTO);
     func_8005AD1C(globalCtx->cameraPtrs[MAIN_CAM], 4);
 
     if (this->cylinder[0].base.atFlags & AT_ON) {
@@ -894,7 +894,7 @@ void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
-        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, (this->actor.scale.y * 7727.273f));
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, (this->actor.scale.y * (255 / 0.033f)));
         POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, NULL, NULL, NULL, POLY_XLU_DISP);
     }

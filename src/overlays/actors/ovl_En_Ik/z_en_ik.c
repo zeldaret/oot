@@ -294,7 +294,7 @@ void func_80A747C0(EnIk* this, GlobalContext* globalCtx) {
         sp24.y += 30.0f;
         func_8003424C(globalCtx, &sp24);
         this->skelAnime.playSpeed = 1.0f;
-        func_800F5ACC(0x38);
+        func_800F5ACC(NA_BGM_MINI_BOSS);
     }
     if (this->skelAnime.curFrame == 5.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WAKEUP);
@@ -960,7 +960,7 @@ void func_80A76798(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIk_StartMusic(void) {
-    func_800F5ACC(0x38);
+    func_800F5ACC(NA_BGM_MINI_BOSS);
 }
 
 void func_80A76C14(EnIk* this) {
@@ -1103,7 +1103,7 @@ void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
     s32 pad[2];
     f32 wDest;
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->actor.world.pos, &D_80A78FA0, &wDest);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &this->actor.world.pos, &D_80A78FA0, &wDest);
     Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
@@ -1171,6 +1171,7 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     switch (limbIndex) {
         case 13: {
             EnIk* this = THIS;
+
             if (EnIk_curFrame(&this->actor) < 30.0f) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 267),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1189,9 +1190,8 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
             break;
         case 26: {
             EnIk* this = THIS;
-            if (EnIk_curFrame(&this->actor) < 30.0f) {
-                // s32 pad;
 
+            if (EnIk_curFrame(&this->actor) < 30.0f) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 288),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
@@ -1199,9 +1199,8 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         } break;
         case 27: {
             EnIk* this = THIS;
-            if (EnIk_curFrame(&this->actor) < 30.0f) {
-                // s32 pad;
 
+            if (EnIk_curFrame(&this->actor) < 30.0f) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 297),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
@@ -1426,7 +1425,7 @@ void func_80A781CC(Actor* thisx, GlobalContext* globalCtx) {
     if (!Gameplay_InCsMode(globalCtx)) {
         this->actor.update = EnIk_Update;
         this->actor.draw = EnIk_Draw;
-        Cutscene_SetSegment(globalCtx, gNabooruKnuckleDefeatCs);
+        Cutscene_SetSegment(globalCtx, gSpiritBossNabooruKnuckleDefeatCs);
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
         gSaveContext.eventChkInf[3] |= 0x1000;

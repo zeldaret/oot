@@ -125,7 +125,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
         sp90.x = polygonDlist->pos.x;
         sp90.y = polygonDlist->pos.y;
         sp90.z = polygonDlist->pos.z;
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp90, &sp84, &sp80);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &sp90, &sp84, &sp80);
         if (-(f32)polygonDlist->unk_06 < sp84.z) {
             temp_f2 = sp84.z - polygonDlist->unk_06;
             if (temp_f2 < globalCtx->lightCtx.fogFar) {
@@ -320,7 +320,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
 
     camera = GET_ACTIVE_CAM(globalCtx);
-    sp9C = (camera->setting == CAM_SET_PREREND0);
+    sp9C = (camera->setting == CAM_SET_PREREND_FIXED);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     sp98 = (flags & 1) && sp9C && polygon1->single.source && !(SREG(25) & 1);
@@ -415,7 +415,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = GET_ACTIVE_CAM(globalCtx);
-    sp98 = (camera->setting == CAM_SET_PREREND0);
+    sp98 = (camera->setting == CAM_SET_PREREND_FIXED);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);

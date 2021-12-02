@@ -23,12 +23,10 @@
 #include "z64map_mark.h"
 #include "z64transition.h"
 #include "z64interface.h"
-#include "bgm.h"
+#include "sequence.h"
 #include "sfx.h"
 #include "color.h"
 #include "ichain.h"
-#include "stdarg.h"
-#include "stdlib.h"
 #include "regs.h"
 
 #define SCREEN_WIDTH  320
@@ -333,53 +331,297 @@ typedef struct {
 } SkyboxContext; // size = 0x160
 
 typedef enum {
-    MESSAGE_ICON_TRIANGLE,
-    MESSAGE_ICON_SQUARE,
-    MESSAGE_ICON_ARROW
-} MessageBoxIcon;
+    /*  0 */ OCARINA_SONG_MINUET,
+    /*  1 */ OCARINA_SONG_BOLERO,
+    /*  2 */ OCARINA_SONG_SERENADE,
+    /*  3 */ OCARINA_SONG_REQUIEM,
+    /*  4 */ OCARINA_SONG_NOCTURNE,
+    /*  5 */ OCARINA_SONG_PRELUDE,
+    /*  6 */ OCARINA_SONG_SARIAS,
+    /*  7 */ OCARINA_SONG_EPONAS,
+    /*  8 */ OCARINA_SONG_LULLABY,
+    /*  9 */ OCARINA_SONG_SUNS,
+    /* 10 */ OCARINA_SONG_TIME,
+    /* 11 */ OCARINA_SONG_STORMS,
+    /* 12 */ OCARINA_SONG_SCARECROW,
+    /* 13 */ OCARINA_SONG_MEMORY_GAME,
+    /* 14 */ OCARINA_SONG_MAX,
+    /* 14 */ OCARINA_SONG_SCARECROW_LONG = OCARINA_SONG_MAX // anything larger than 13 is considered the long scarecrow's song
+} OcarinaSongId;
 
+typedef enum {
+    /* 0x00 */ OCARINA_ACTION_UNK_0, // acts like free play but never set
+    /* 0x01 */ OCARINA_ACTION_FREE_PLAY,
+    /* 0x02 */ OCARINA_ACTION_TEACH_MINUET, // Song demonstrations by teachers
+    /* 0x03 */ OCARINA_ACTION_TEACH_BOLERO,
+    /* 0x04 */ OCARINA_ACTION_TEACH_SERENADE,
+    /* 0x05 */ OCARINA_ACTION_TEACH_REQUIEM,
+    /* 0x06 */ OCARINA_ACTION_TEACH_NOCTURNE,
+    /* 0x07 */ OCARINA_ACTION_TEACH_PRELUDE,
+    /* 0x08 */ OCARINA_ACTION_TEACH_SARIA,
+    /* 0x09 */ OCARINA_ACTION_TEACH_EPONA,
+    /* 0x0A */ OCARINA_ACTION_TEACH_LULLABY,
+    /* 0x0B */ OCARINA_ACTION_TEACH_SUNS,
+    /* 0x0C */ OCARINA_ACTION_TEACH_TIME,
+    /* 0x0D */ OCARINA_ACTION_TEACH_STORMS,
+    /* 0x0E */ OCARINA_ACTION_UNK_E,
+    /* 0x0F */ OCARINA_ACTION_PLAYBACK_MINUET, // Playing back a particular song
+    /* 0x10 */ OCARINA_ACTION_PLAYBACK_BOLERO,
+    /* 0x11 */ OCARINA_ACTION_PLAYBACK_SERENADE,
+    /* 0x12 */ OCARINA_ACTION_PLAYBACK_REQUIEM,
+    /* 0x13 */ OCARINA_ACTION_PLAYBACK_NOCTURNE,
+    /* 0x14 */ OCARINA_ACTION_PLAYBACK_PRELUDE,
+    /* 0x15 */ OCARINA_ACTION_PLAYBACK_SARIA,
+    /* 0x16 */ OCARINA_ACTION_PLAYBACK_EPONA,
+    /* 0x17 */ OCARINA_ACTION_PLAYBACK_LULLABY,
+    /* 0x18 */ OCARINA_ACTION_PLAYBACK_SUNS,
+    /* 0x19 */ OCARINA_ACTION_PLAYBACK_TIME,
+    /* 0x1A */ OCARINA_ACTION_PLAYBACK_STORMS,
+    /* 0x1B */ OCARINA_ACTION_UNK_1B,
+    /* 0x1C */ OCARINA_ACTION_CHECK_MINUET, // Playing songs for check spots
+    /* 0x1D */ OCARINA_ACTION_CHECK_BOLERO,
+    /* 0x1E */ OCARINA_ACTION_CHECK_SERENADE,
+    /* 0x1F */ OCARINA_ACTION_CHECK_REQUIEM,
+    /* 0020 */ OCARINA_ACTION_CHECK_NOCTURNE,
+    /* 0x21 */ OCARINA_ACTION_CHECK_PRELUDE,
+    /* 0x22 */ OCARINA_ACTION_CHECK_SARIA,
+    /* 0x23 */ OCARINA_ACTION_CHECK_EPONA,
+    /* 0x24 */ OCARINA_ACTION_CHECK_LULLABY,
+    /* 0x25 */ OCARINA_ACTION_CHECK_SUNS,
+    /* 0x26 */ OCARINA_ACTION_CHECK_TIME,
+    /* 0x27 */ OCARINA_ACTION_CHECK_STORMS,
+    /* 0x28 */ OCARINA_ACTION_CHECK_SCARECROW, // Playing back the song as adult that was set as child
+    /* 0x29 */ OCARINA_ACTION_FREE_PLAY_DONE,
+    /* 0x2A */ OCARINA_ACTION_SCARECROW_LONG_RECORDING,
+    /* 0x2B */ OCARINA_ACTION_SCARECROW_LONG_PLAYBACK,
+    /* 0x2C */ OCARINA_ACTION_SCARECROW_RECORDING,
+    /* 0x2D */ OCARINA_ACTION_SCARECROW_PLAYBACK,
+    /* 0x2E */ OCARINA_ACTION_MEMORY_GAME,
+    /* 0x2F */ OCARINA_ACTION_FROGS,
+    /* 0x30 */ OCARINA_ACTION_CHECK_NOWARP, // Check for any of sarias - storms
+    /* 0x31 */ OCARINA_ACTION_CHECK_NOWARP_DONE
+} OcarinaSongActionIDs;
+
+typedef enum {
+    /* 0x00 */ OCARINA_MODE_00,
+    /* 0x01 */ OCARINA_MODE_01,
+    /* 0x02 */ OCARINA_MODE_02,
+    /* 0x03 */ OCARINA_MODE_03,
+    /* 0x04 */ OCARINA_MODE_04,
+    /* 0x05 */ OCARINA_MODE_05,
+    /* 0x06 */ OCARINA_MODE_06,
+    /* 0x07 */ OCARINA_MODE_07,
+    /* 0x08 */ OCARINA_MODE_08,
+    /* 0x09 */ OCARINA_MODE_09,
+    /* 0x0A */ OCARINA_MODE_0A,
+    /* 0x0B */ OCARINA_MODE_0B,
+    /* 0x0C */ OCARINA_MODE_0C,
+    /* 0x0D */ OCARINA_MODE_0D,
+    /* 0x0E */ OCARINA_MODE_0E,
+    /* 0x0F */ OCARINA_MODE_0F
+} OcarinaMode;
+
+typedef enum {
+    TEXTBOX_ICON_TRIANGLE,
+    TEXTBOX_ICON_SQUARE,
+    TEXTBOX_ICON_ARROW
+} TextBoxIcon;
+
+typedef enum {
+    LANGUAGE_ENG,
+    LANGUAGE_GER,
+    LANGUAGE_FRA,
+    LANGUAGE_MAX
+} Language;
+
+// TODO get these properties from the textures themselves
+#define FONT_CHAR_TEX_WIDTH  16
+#define FONT_CHAR_TEX_HEIGHT 16
 #define FONT_CHAR_TEX_SIZE ((16 * 16) / 2) // 16x16 I4 texture
 
+// TODO get these properties from the textures themselves
+#define MESSAGE_STATIC_TEX_SIZE 0x1000
+
+typedef enum {
+    /* 0x00 */ MSGMODE_NONE,
+    /* 0x01 */ MSGMODE_TEXT_START,
+    /* 0x02 */ MSGMODE_TEXT_BOX_GROWING,
+    /* 0x03 */ MSGMODE_TEXT_STARTING,
+    /* 0x04 */ MSGMODE_TEXT_NEXT_MSG,
+    /* 0x05 */ MSGMODE_TEXT_CONTINUING,
+    /* 0x06 */ MSGMODE_TEXT_DISPLAYING,
+    /* 0x07 */ MSGMODE_TEXT_AWAIT_INPUT,
+    /* 0x08 */ MSGMODE_TEXT_DELAYED_BREAK,
+    /* 0x09 */ MSGMODE_OCARINA_STARTING,
+    /* 0x0A */ MSGMODE_SONG_DEMONSTRATION_STARTING,
+    /* 0x0B */ MSGMODE_SONG_PLAYBACK_STARTING,
+    /* 0x0C */ MSGMODE_OCARINA_PLAYING,
+    /* 0x0D */ MSGMODE_OCARINA_CORRECT_PLAYBACK,
+    /* 0x0E */ MSGMODE_OCARINA_FAIL, // Failed to play a valid song after entering 8 notes
+    /* 0x0F */ MSGMODE_OCARINA_FAIL_NO_TEXT, // Never set, only compared against
+    /* 0x10 */ MSGMODE_OCARINA_NOTES_DROP,
+    /* 0x11 */ MSGMODE_SONG_PLAYED, // Played a full named song correctly
+    /* 0x12 */ MSGMODE_SETUP_DISPLAY_SONG_PLAYED,
+    /* 0x13 */ MSGMODE_DISPLAY_SONG_PLAYED,
+    /* 0x14 */ MSGMODE_DISPLAY_SONG_PLAYED_TEXT_BEGIN,
+    /* 0x15 */ MSGMODE_DISPLAY_SONG_PLAYED_TEXT,
+    /* 0x16 */ MSGMODE_SONG_PLAYED_ACT_BEGIN,
+    /* 0x17 */ MSGMODE_SONG_PLAYED_ACT, // Act on a played song
+    /* 0x18 */ MSGMODE_SONG_DEMONSTRATION_SELECT_INSTRUMENT,
+    /* 0x19 */ MSGMODE_SONG_DEMONSTRATION,
+    /* 0x1A */ MSGMODE_SONG_DEMONSTRATION_DONE,
+    /* 0x1B */ MSGMODE_SONG_PLAYBACK,
+    /* 0x1C */ MSGMODE_SONG_PLAYBACK_SUCCESS,
+    /* 0x1D */ MSGMODE_SONG_PLAYBACK_FAIL,
+    /* 0x1E */ MSGMODE_SONG_PLAYBACK_NOTES_DROP,
+    /* 0x1F */ MSGMODE_OCARINA_AWAIT_INPUT,
+    /* 0x20 */ MSGMODE_UNK_20, // Never set and does nothing
+    /* 0x21 */ MSGMODE_SCARECROW_LONG_RECORDING_START,
+    /* 0x22 */ MSGMODE_SCARECROW_LONG_RECORDING_ONGOING,
+    /* 0x23 */ MSGMODE_SCARECROW_LONG_PLAYBACK,
+    /* 0x24 */ MSGMODE_SCARECROW_RECORDING_START,
+    /* 0x25 */ MSGMODE_SCARECROW_RECORDING_ONGOING,
+    /* 0x26 */ MSGMODE_SCARECROW_RECORDING_FAILED,
+    /* 0x27 */ MSGMODE_SCARECROW_RECORDING_DONE,
+    /* 0x28 */ MSGMODE_SCARECROW_PLAYBACK,
+    /* 0x29 */ MSGMODE_MEMORY_GAME_START,
+    /* 0x2A */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_PLAYING,
+    /* 0x2B */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_WAIT,
+    /* 0x2C */ MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_PLAYING,
+    /* 0x2D */ MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_WAIT,
+    /* 0x2E */ MSGMODE_MEMORY_GAME_PLAYER_PLAYING,
+    /* 0x2F */ MSGMODE_MEMORY_GAME_ROUND_SUCCESS,
+    /* 0x30 */ MSGMODE_MEMORY_GAME_START_NEXT_ROUND,
+    /* 0x31 */ MSGMODE_FROGS_START,
+    /* 0x32 */ MSGMODE_FROGS_PLAYING,
+    /* 0x33 */ MSGMODE_FROGS_WAITING,
+    /* 0x34 */ MSGMODE_TEXT_AWAIT_NEXT,
+    /* 0x35 */ MSGMODE_TEXT_DONE,
+    /* 0x36 */ MSGMODE_TEXT_CLOSING,
+    /* 0x37 */ MSGMODE_PAUSED // Causes the message system to do nothing until external code sets a new message mode or calls a public function
+} MessageMode;
+
+typedef enum {
+    /*  0 */ TEXT_STATE_NONE,
+    /*  1 */ TEXT_STATE_DONE_HAS_NEXT,
+    /*  2 */ TEXT_STATE_CLOSING,
+    /*  3 */ TEXT_STATE_DONE_FADING,
+    /*  4 */ TEXT_STATE_CHOICE,
+    /*  5 */ TEXT_STATE_EVENT,
+    /*  6 */ TEXT_STATE_DONE,
+    /*  7 */ TEXT_STATE_SONG_DEMO_DONE, 
+    /*  8 */ TEXT_STATE_8, 
+    /*  9 */ TEXT_STATE_9, 
+    /* 10 */ TEXT_STATE_AWAITING_NEXT
+} TextState;
+
 typedef struct {
-    /* 0x0000 */ u32   msgOffset;
-    /* 0x0004 */ u32   msgLength;
-    /* 0x0008 */ char  unk_8[0x3C00];
-    /* 0x3C08 */ u8    iconBuf[FONT_CHAR_TEX_SIZE];
-    /* 0x3C88 */ u8    fontBuf[FONT_CHAR_TEX_SIZE * 320]; // size possibly unconfirmed
-    /* 0xDC88 */ char  msgBuf[1064]; // size unconfirmed
-    /* 0xE0B0 */ char  unk_E0B0[0xD8];
+    /* 0x0000 */ u32    msgOffset;
+    /* 0x0004 */ u32    msgLength;
+    /* 0x0008 */ u8     charTexBuf[FONT_CHAR_TEX_SIZE * 120];
+    /* 0x3C08 */ u8     iconBuf[FONT_CHAR_TEX_SIZE];
+    /* 0x3C88 */ u8     fontBuf[FONT_CHAR_TEX_SIZE * 320];
+    union {
+    /* 0xDC88 */ char   msgBuf[1280];
+    /* 0xDC88 */ u16    msgBufWide[640];
+    };
 } Font; // size = 0xE188
+
+#define TEXTBOX_ENDTYPE_DEFAULT     0x00
+#define TEXTBOX_ENDTYPE_2_CHOICE    0x10
+#define TEXTBOX_ENDTYPE_3_CHOICE    0x20
+#define TEXTBOX_ENDTYPE_HAS_NEXT    0x30
+#define TEXTBOX_ENDTYPE_PERSISTENT  0x40
+#define TEXTBOX_ENDTYPE_EVENT       0x50
+#define TEXTBOX_ENDTYPE_FADING      0x60
 
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Font   font;
-    /* 0xE2B0 */ u8*    textboxSegment; // "fukidashiSegment"
-    /* 0xE2B4 */ char   unk_E2B4[0x44];
-    /* 0xE2FA */ u16    unk_E2F8;
-    /* 0xE2FA */ u16    unk_E2FA;
-    /* 0xE2FC */ char   unk_E2FC[0x04];
-    /* 0xE300 */ s32    unk_E300;
-    /* 0xE304 */ u8     msgMode;
-    /* 0xE305 */ char   unk_E305[0xD1];
-    /* 0xE3D6 */ u16    unk_E3D6;
-    /* 0xE3D8 */ char   unk_E3D8[0x0A];
-    /* 0xE3E2 */ u16    unk_E3E2;
-    /* 0xE3E4 */ u8     unk_E3E4;
+    /* 0xE2B0 */ void*  textboxSegment; // original name: "fukidashiSegment"
+    /* 0xE2B4 */ char   unk_E2B4[0x4];
+    /* 0xE2B8 */ OcarinaStaff* ocarinaStaff; // original name : "info"
+    /* 0xE2BC */ char   unk_E2BC[0x3C];
+    /* 0xE2F8 */ u16    textId;
+    /* 0xE2FA */ u16    choiceTextId;
+    /* 0xE2FC */ u8     textBoxProperties; // original name : "msg_disp_type"
+    /* 0xE2FD */ u8     textBoxType; // "Text Box Type"
+    /* 0xE2FE */ u8     textBoxPos; // text box position
+    /* 0xE300 */ s32    msgLength; // original name : "msg_data"
+    /* 0xE304 */ u8     msgMode; // original name: "msg_mode"
+    /* 0xE305 */ char   unk_E305[0x1];
+    /* 0xE306 */ u8     msgBufDecoded[200]; // decoded message buffer, may be smaller than this
+    /* 0xE3CE */ u16    msgBufPos; // original name : "rdp"
+    /* 0xE3D0 */ u16    unk_E3D0; // unused, only ever set to 0
+    /* 0xE3D2 */ u16    textDrawPos; // draw all decoded characters up to this buffer position
+    /* 0xE3D4 */ u16    decodedTextLen; // decoded message buffer length
+    /* 0xE3D6 */ u16    textUnskippable;
+    /* 0xE3D8 */ s16    textPosX;
+    /* 0xE3DA */ s16    textPosY;
+    /* 0xE3DC */ s16    textColorR;
+    /* 0xE3DE */ s16    textColorG;
+    /* 0xE3E0 */ s16    textColorB;
+    /* 0xE3E2 */ s16    textColorAlpha;
+    /* 0xE3E4 */ u8     textboxEndType; // original name : "select"
     /* 0xE3E5 */ u8     choiceIndex;
-    /* 0xE3E6 */ char   unk_E3E6[0x01];
-    /* 0xE3E7 */ u8     unk_E3E7;
-    /* 0xE3E8 */ char   unk_E3E8[0x04];
-    /* 0xE3EC */ u16    unk_E3EC;
-    /* 0xE3EE */ u16    unk_E3EE;
-    /* 0xE3F0 */ u16    unk_E3F0;
-    /* 0xE3F2 */ u16    unk_E3F2;
-    /* 0xE3F4 */ u16    unk_E3F4;
-    /* 0xE3F6 */ char   unk_E3F6[0x16];
-    /* 0xE40C */ u16    unk_E40C;
-    /* 0xE40E */ s16    unk_E40E;
-    /* 0xE410 */ u8     unk_E410;
-    /* 0xE411 */ char   unk_E411[0x07];
+    /* 0xE3E6 */ u8     choiceNum; // textboxes that are not choice textboxes have a choiceNum of 1
+    /* 0xE3E7 */ u8     stateTimer;
+    /* 0xE3E8 */ u16    textDelayTimer;
+    /* 0xE3EA */ u16    textDelay;
+    /* 0xE3EA */ u16    lastPlayedSong; // original references : "Ocarina_Flog" , "Ocarina_Free"
+    /* 0xE3EE */ u16    ocarinaMode; // original name : "ocarina_mode"
+    /* 0xE3F0 */ u16    ocarinaAction; // original name : "ocarina_no"
+    /* 0xE3F2 */ u16    unk_E3F2; // this is like "lastPlayedSong" but set less often, original name : "chk_ocarina_no"
+    /* 0xE3F4 */ u16    unk_E3F4; // unused, only set to 0 in z_actor
+    /* 0xE3F6 */ u16    textboxBackgroundIdx;
+    /* 0xE3F8 */ u8     textboxBackgroundForeColorIdx;
+    /* 0xE3F8 */ u8     textboxBackgroundBackColorIdx;
+    /* 0xE3F8 */ u8     textboxBackgroundYOffsetIdx;
+    /* 0xE3F8 */ u8     textboxBackgroundUnkArg; // unused, set by the textbox background control character arguments
+    /* 0xE3FC */ char   unk_E3FC[0x2];
+    /* 0xE3FE */ s16    textboxColorRed;
+    /* 0xE400 */ s16    textboxColorGreen;
+    /* 0xE402 */ s16    textboxColorBlue;
+    /* 0xE404 */ s16    textboxColorAlphaTarget;
+    /* 0xE406 */ s16    textboxColorAlphaCurrent;
+    /* 0xE408 */ Actor* talkActor;
+    /* 0xE40C */ s16    disableWarpSongs; // warp song flag set by scene commands
+    /* 0xE40E */ s16    unk_E40E; // ocarina related
+    /* 0xE410 */ u8     lastOcaNoteIdx;
 } MessageContext; // size = 0xE418
+
+typedef enum {
+    /* 0x00 */ DO_ACTION_ATTACK,
+    /* 0x01 */ DO_ACTION_CHECK,
+    /* 0x02 */ DO_ACTION_ENTER,
+    /* 0x03 */ DO_ACTION_RETURN,
+    /* 0x04 */ DO_ACTION_OPEN,
+    /* 0x05 */ DO_ACTION_JUMP,
+    /* 0x06 */ DO_ACTION_DECIDE,
+    /* 0x07 */ DO_ACTION_DIVE,
+    /* 0x08 */ DO_ACTION_FASTER,
+    /* 0x09 */ DO_ACTION_THROW,
+    /* 0x0A */ DO_ACTION_NONE, // in do_action_static, the texture at this position is NAVI, however this value is in practice the "No Action" value
+    /* 0x0B */ DO_ACTION_CLIMB,
+    /* 0x0C */ DO_ACTION_DROP,
+    /* 0x0D */ DO_ACTION_DOWN,
+    /* 0x0E */ DO_ACTION_SAVE,
+    /* 0x0F */ DO_ACTION_SPEAK,
+    /* 0x10 */ DO_ACTION_NEXT,
+    /* 0x11 */ DO_ACTION_GRAB,
+    /* 0x12 */ DO_ACTION_STOP,
+    /* 0x13 */ DO_ACTION_PUTAWAY,
+    /* 0x14 */ DO_ACTION_REEL,
+    /* 0x15 */ DO_ACTION_1,
+    /* 0x16 */ DO_ACTION_2,
+    /* 0x17 */ DO_ACTION_3,
+    /* 0x18 */ DO_ACTION_4,
+    /* 0x19 */ DO_ACTION_5,
+    /* 0x1A */ DO_ACTION_6,
+    /* 0x1B */ DO_ACTION_7,
+    /* 0x1C */ DO_ACTION_8,
+    /* 0x1D */ DO_ACTION_MAX
+} DoAction;
 
 typedef struct {
     /* 0x0000 */ View   view;
@@ -458,12 +700,6 @@ typedef struct {
 } InterfaceContext; // size = 0x270
 
 typedef struct {
-    /* 0x00 */ u8 unk_00;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 unk_02;
-} UnkAudioStruct;
-
-typedef struct {
     /* 0x00 */ void* loadedRamAddr;
     /* 0x04 */ u32 vromStart;
     /* 0x08 */ u32 vromEnd;
@@ -513,7 +749,7 @@ typedef struct {
     /* 0x0168 */ Vtx*   cursorVtx;
     /* 0x016C */ Vtx*   saveVtx;
     /* 0x0170 */ char   unk_170[0x24];
-    /* 0x0194 */ OcarinaStaff* unk_194;
+    /* 0x0194 */ OcarinaStaff* ocarinaStaff;
     /* 0x0198 */ char   unk_198[0x20];
     /* 0x01B8 */ OSMesgQueue loadQueue;
     /* 0x01D0 */ OSMesg loadMsg;
@@ -556,7 +792,7 @@ typedef struct {
     /* 0x025E */ u16    nameColorSet; // 0 = white; 1 = grey
     /* 0x0260 */ s16    cursorColorSet; // 0 = white; 4 = yellow; 8 = green
     /* 0x0262 */ s16    promptChoice; // save/continue choice: 0 = yes; 4 = no
-    /* 0x0264 */ s16    unk_264;
+    /* 0x0264 */ s16    ocarinaSongIdx;
     /* 0x0266 */ u8     worldMapPoints[20]; // 0 = hidden; 1 = displayed; 2 = highlighted
     /* 0x027A */ u8     tradeQuestLocation;
     /* 0x027C */ SkelAnime playerSkelAnime;
@@ -786,6 +1022,14 @@ typedef struct {
 } SramContext; // size = 0x4
 
 #define SRAM_SIZE 0x8000
+#define SRAM_HEADER_SIZE 0x10
+
+typedef enum {
+    /* 0x00 */ SRAM_HEADER_SOUND,
+    /* 0x01 */ SRAM_HEADER_ZTARGET,
+    /* 0x02 */ SRAM_HEADER_LANGUAGE,
+    /* 0x03 */ SRAM_HEADER_MAGIC // must be the value of `sZeldaMagic` for save to be considered valid
+} SramHeaderField;
 
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;
@@ -847,25 +1091,20 @@ typedef struct SelectContext {
     /* 0x01D0 */ s32 count;
     /* 0x01D4 */ SceneSelectEntry* scenes;
     /* 0x01D8 */ s32 currentScene;
-    /* 0x01DC */ s32 unk_1DC;
-    /* 0x01E0 */ s32 unk_1E0[7];
-    /* 0x01FC */ s32 unk_1FC;
-    /* 0x0200 */ s32 unk_200;
-    /* 0x0204 */ s32 unk_204;
+    /* 0x01DC */ s32 pageDownIndex; // Index of pageDownStops
+    /* 0x01E0 */ s32 pageDownStops[7];
+    /* 0x01FC */ char unk_1FC[0x0C];
     /* 0x0208 */ s32 opt;
-    /* 0x020C */ s32 unk_20C;
-    /* 0x0210 */ s32 unk_210;
-    /* 0x0214 */ s32 unk_214;
-    /* 0x0218 */ s32 unk_218;
-    /* 0x021C */ s32 unk_21C;
-    /* 0x0220 */ s32 unk_220;
-    /* 0x0224 */ s32 unk_224;
-    /* 0x0228 */ s32 unk_228;
-    /* 0x022C */ s32 unk_22C;
-    /* 0x0230 */ s32 unk_230;
-    /* 0x0234 */ s32 unk_234;
+    /* 0x020C */ s32 topDisplayedScene; // The scene which is currently at the top of the screen
+    /* 0x0210 */ char unk_210[0x0C];
+    /* 0x021C */ s32 verticalInputAccumulator;
+    /* 0x0220 */ s32 verticalInput;
+    /* 0x0224 */ s32 timerUp;
+    /* 0x0228 */ s32 timerDown;
+    /* 0x022C */ s32 lockUp;
+    /* 0x0230 */ s32 lockDown;
+    /* 0x0234 */ s32 unk_234; // unused
     /* 0x0238 */ u8* staticSegment;
-    /* 0x023C */ s32 unk_23C;
 } SelectContext; // size = 0x240
 
 typedef struct {
@@ -926,9 +1165,9 @@ typedef struct GlobalContext {
     /* 0x11D54 */ void (*func_11D54)(Player* player, struct GlobalContext* globalCtx);
     /* 0x11D58 */ s32 (*damagePlayer)(struct GlobalContext* globalCtx, s32 damage);
     /* 0x11D5C */ void (*talkWithPlayer)(struct GlobalContext* globalCtx, Actor* actor);
-    /* 0x11D60 */ MtxF mf_11D60;
-    /* 0x11DA0 */ MtxF mf_11DA0;
-    /* 0x11DE0 */ Mtx* unk_11DE0;
+    /* 0x11D60 */ MtxF viewProjectionMtxF;
+    /* 0x11DA0 */ MtxF billboardMtxF;
+    /* 0x11DE0 */ Mtx* billboardMtx;
     /* 0x11DE4 */ u32 gameplayFrames;
     /* 0x11DE8 */ u8 linkAgeOnLoad;
     /* 0x11DE9 */ u8 unk_11DE9;
@@ -975,7 +1214,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00000 */ GameState state;
-    /* 0x000A4 */ Vtx* allocVtx1;
+    /* 0x000A4 */ Vtx* windowVtx;
     /* 0x000A8 */ u8* staticSegment;
     /* 0x000AC */ u8* parameterSegment;
     /* 0x000B0 */ char unk_B0[0x8];
@@ -984,82 +1223,73 @@ typedef struct {
     /* 0x001E4 */ char unk_1E4[0x4];
     /* 0x001E8 */ SkyboxContext skyboxCtx;
     /* 0x00348 */ MessageContext msgCtx;
-    /* 0x0E760 */ char kanfont[0xE188];
+    /* 0x0E760 */ Font font;
     /* 0x1C8E8 */ EnvironmentContext envCtx;
     /* 0x1C9E4 */ char unk_1C9E4[0x4];
-    /* 0x1C9E8 */ Vtx* allocVtx2;
-    /* 0x1C9EC */ Vtx* allocVtx3;
-    /* 0x1C9F0 */ Vtx* allocVtx4;
+    /* 0x1C9E8 */ Vtx* windowContentVtx;
+    /* 0x1C9EC */ Vtx* keyboardVtx;
+    /* 0x1C9F0 */ Vtx* nameEntryVtx;
     /* 0x1C9F4 */ u8 n64ddFlag;
     /* 0x1C9F6 */ u16 deaths[3];
     /* 0x1C9FC */ u8 fileNames[3][8];
     /* 0x1CA14 */ u16 healthCapacities[3];
     /* 0x1CA1C */ u32 questItems[3];
     /* 0x1CA28 */ s16 n64ddFlags[3];
-    /* 0x1CA2E */ s8 heartStatus[3];
-    /* 0x1CA32 */ u16 nowLife[3];
-    /* 0x1CA38 */ s16 btnIdx;
-    /* 0x1CA3A */ u16 yesNoButtonIdx;
-    /* 0x1CA3C */ s16 menuIdx;
-    /* 0x1CA3E */ s16 fileSelectStateIdx;
-    /* 0x1CA40 */ s16 unkActionIndex;
-    /* 0x1CA42 */ u16 nextFileSelectStateIdx;
-    /* 0x1CA44 */ s16 openFileStateIdx;
-    /* 0x1CA46 */ s16 selectedFileIdx;
+    /* 0x1CA2E */ s8 defense[3];
+    /* 0x1CA32 */ u16 health[3];
+    /* 0x1CA38 */ s16 buttonIndex;
+    /* 0x1CA3A */ s16 confirmButtonIndex; // 0: yes, 1: quit
+    /* 0x1CA3C */ s16 menuMode;
+    /* 0x1CA3E */ s16 configMode;
+    /* 0x1CA40 */ s16 prevConfigMode;
+    /* 0x1CA42 */ s16 nextConfigMode;
+    /* 0x1CA44 */ s16 selectMode;
+    /* 0x1CA46 */ s16 selectedFileIndex;
     /* 0x1CA48 */ char unk_1CA48[0x2];
-    /* 0x1CA4A */ u16 fileNamesY[3];
-    /* 0x1CA50 */ u16 actionTimer;
-    /* 0x1CA52 */ u16 buttonsY[6];
-    /* 0x1CA5E */ s16 copyDestFileIdx;
-    /* 0x1CA60 */ u16 fileWarningTexIdx;
-    /* 0x1CA62 */ u16 warningFileIdx;
-    /* 0x1CA64 */ u16 titleTexIdx;
-    /* 0x1CA66 */ u16 nextTitleTexIdx;
-    /* 0x1CA68 */ s16 windowR;
-    /* 0x1CA6A */ s16 windowG;
-    /* 0x1CA6C */ s16 windowB;
-    /* 0x1CA6E */ u16 selectFileTitleA;
-    /* 0x1CA70 */ u16 openFileTitleA;
-    /* 0x1CA72 */ u16 windowA;
-    /* 0x1CA74 */ u16 fileButtonsA[3];
-    /* 0x1CA7A */ u16 fileNameBoxesA[3];
-    /* 0x1CA80 */ u16 fileNamesA[3];
-    /* 0x1CA86 */ u16 metalJointsA[3];
-    /* 0x1CA8C */ u16 fileInfoA;
-    /* 0x1CA8E */ u16 targetFileInfoBoxA;
-    /* 0x1CA90 */ u16 unkFileInfoBoxA;
-    /* 0x1CA92 */ u16 copyButtonA;
-    /* 0x1CA94 */ u16 eraseButtonA;
-    /* 0x1CA96 */ u16 yesBiuttonA;
-    /* 0x1CA98 */ u16 quitButtonA;
-    /* 0x1CA9A */ u16 optionButtonA;
-    /* 0x1CA9C */ u16 newFileNameBoxA;
-    /* 0x1CA9E */ u16 decideCancelTextA;
-    /* 0x1CAA0 */ u16 fileEmptyTextA;
-    /* 0x1CAA2 */ u16 highlightColorR;
-    /* 0x1CAA4 */ u16 highlightColorG;
-    /* 0x1CAA6 */ u16 highlightColorB;
-    /* 0x1CAA8 */ u16 highlightColorA;
-    /* 0x1CAAA */ u16 highlightColorAIncrease;
-    /* 0x1CAAC */ char unk_1CAAC[0x6];
-    /* 0x1CAB2 */ u16 stickXTimer;
-    /* 0x1CAB4 */ u16 stickYTimer;
-    /* 0x1CAB6 */ u16 idxXOff;
-    /* 0x1CAB8 */ u16 idxYOff;
-    /* 0x1CABA */ s16 stickX;
-    /* 0x1CABC */ s16 stickY;
-    /* 0x1CABE */ u16 newFileNameBoxX;
-    /* 0x1CAC0 */ u16 windowX;
-    /* 0x1CAC4 */ f32 windowRotX;
-    /* 0x1CAC8 */ u16 kbdButtonIdx;
-    /* 0x1CACA */ u16 unk_1CACA;
-    /* 0x1CACC */ u16 kbdCharBoxA;
-    /* 0x1CACE */ s16 kbdCharIdx;
-    /* 0x1CAD0 */ s16 kbdCharX;
-    /* 0x1CAD2 */ s16 kbdCharY;
+    /* 0x1CA4A */ s16 fileNamesY[3];
+    /* 0x1CA50 */ s16 actionTimer;
+    /* 0x1CA52 */ s16 buttonYOffsets[6];
+    /* 0x1CA5E */ s16 copyDestFileIndex;
+    /* 0x1CA60 */ s16 warningLabel;
+    /* 0x1CA62 */ s16 warningButtonIndex;
+    /* 0x1CA64 */ s16 titleLabel;
+    /* 0x1CA66 */ s16 nextTitleLabel;
+    /* 0x1CA68 */ s16 windowColor[3];
+    /* 0x1CA6E */ s16 titleAlpha[2];
+    /* 0x1CA72 */ s16 windowAlpha;
+    /* 0x1CA74 */ s16 fileButtonAlpha[3];
+    /* 0x1CA7A */ s16 nameBoxAlpha[3];
+    /* 0x1CA80 */ s16 nameAlpha[3];
+    /* 0x1CA86 */ s16 connectorAlpha[3];
+    /* 0x1CA8C */ s16 fileInfoAlpha[3];
+    /* 0x1CA92 */ s16 actionButtonAlpha[2];
+    /* 0x1CA96 */ s16 confirmButtonAlpha[2];
+    /* 0x1CA9A */ s16 optionButtonAlpha;
+    /* 0x1CA9C */ s16 nameEntryBoxAlpha;
+    /* 0x1CA9E */ s16 controlsAlpha;
+    /* 0x1CAA0 */ s16 emptyFileTextAlpha;
+    /* 0x1CAA2 */ s16 highlightColor[4];
+    /* 0x1CAAA */ s16 highlightPulseDir; // 0 fade out, 1 fade in
+    /* 0x1CAAC */ s16 unk_1CAAC; // initialized but never used
+    /* 0x1CAAE */ s16 confirmButtonTexIndices[2];
+    /* 0x1CAB2 */ s16 inputTimerX;
+    /* 0x1CAB4 */ s16 inputTimerY;
+    /* 0x1CAB6 */ s16 stickXDir;
+    /* 0x1CAB8 */ s16 stickYDir;
+    /* 0x1CABA */ s16 stickRelX;
+    /* 0x1CABC */ s16 stickRelY;
+    /* 0x1CABE */ s16 nameEntryBoxPosX;
+    /* 0x1CAC0 */ s16 windowPosX;
+    /* 0x1CAC4 */ f32 windowRot;
+    /* 0x1CAC8 */ s16 kbdButton; // only for buttons, not characters
+    /* 0x1CACA */ s16 charPage; // 0: hiragana, 1: katakana, 2: alphabet
+    /* 0x1CACC */ s16 charBgAlpha; // square shape the letter sits in
+    /* 0x1CACE */ s16 charIndex; // 0 - 64, top left to bottom right
+    /* 0x1CAD0 */ s16 kbdX; // (0, 0) is top left character
+    /* 0x1CAD2 */ s16 kbdY;
     /* 0x1CAD4 */ s16 newFileNameCharCount;
-    /* 0x1CAD6 */ u16 unk_1CAD6[3];
-} FileChooseContext; // size = 0x1CADC
+    /* 0x1CAD6 */ s16 unk_1CAD6[5];
+} FileChooseContext; // size = 0x1CAE0
 
 typedef enum {
     DPM_UNK = 0,
@@ -1105,24 +1335,24 @@ typedef struct {
 } EntranceInfo; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ void*    loadedRamAddr;
-    /* 0x04 */ u32      vromStart; // if applicable
-    /* 0x08 */ u32      vromEnd;   // if applicable
-    /* 0x0C */ void*    vramStart; // if applicable
-    /* 0x10 */ void*    vramEnd;   // if applicable
-    /* 0x14 */ UNK_PTR  unk_14;
-    /* 0x18 */ void*    init;    // initializes and executes the given context
-    /* 0x1C */ void*    destroy; // deconstructs the context, and sets the next context to load
-    /* 0x20 */ UNK_PTR  unk_20;
-    /* 0x24 */ UNK_PTR  unk_24;
-    /* 0x28 */ UNK_TYPE unk_28;
-    /* 0x2C */ u32      instanceSize;
+    /* 0x00 */ void*     loadedRamAddr;
+    /* 0x04 */ u32       vromStart; // if applicable
+    /* 0x08 */ u32       vromEnd;   // if applicable
+    /* 0x0C */ void*     vramStart; // if applicable
+    /* 0x10 */ void*     vramEnd;   // if applicable
+    /* 0x14 */ UNK_PTR   unk_14;
+    /* 0x18 */ void*     init;    // initializes and executes the given context
+    /* 0x1C */ void*     destroy; // deconstructs the context, and sets the next context to load
+    /* 0x20 */ UNK_PTR   unk_20;
+    /* 0x24 */ UNK_PTR   unk_24;
+    /* 0x28 */ UNK_TYPE4 unk_28;
+    /* 0x2C */ u32       instanceSize;
 } GameStateOverlay; // size = 0x30
 
 typedef struct PreNMIContext {
     /* 0x00 */ GameState state;
-    /* 0xA4 */ u32      timer;
-    /* 0xA8 */ UNK_TYPE unk_A8;
+    /* 0xA4 */ u32       timer;
+    /* 0xA8 */ UNK_TYPE4 unk_A8;
 } PreNMIContext; // size = 0xAC
 
 typedef enum {
@@ -1279,26 +1509,35 @@ typedef struct {
     /* 0x38 */ void(*inputCallback)();
 } FaultDrawer; // size = 0x3C
 
-typedef struct GfxPrint {
-    /* 0x00 */ struct GfxPrint* (*callback)(struct GfxPrint*, const char*, size_t);
-    /* 0x04 */ Gfx* dlist;
+typedef struct {
+    /* 0x00 */ PrintCallback callback;
+    /* 0x04 */ Gfx* dList;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;
     /* 0x0C */ u16 baseX;
     /* 0x0E */ u8 baseY;
-    /* 0x0F */ u8 flag;
+    /* 0x0F */ u8 flags;
     /* 0x10 */ Color_RGBA8_u32 color;
     /* 0x14 */ char unk_14[0x1C]; // unused
 } GfxPrint; // size = 0x30
 
-typedef enum {
-    GFXPRINT_FLAG1 = 1,
-    GFXPRINT_USE_RGBA16 = 2,
-    GFXPRINT_FLAG4 = 4,
-    GFXPRINT_UPDATE_MODE = 8,
-    GFXPRINT_FLAG64 = 0x40,
-    GFXPRINT_OPEN = 0x80
-} GfxPrintFlag;
+#define GFXP_UNUSED "\x8E"
+#define GFXP_UNUSED_CHAR 0x8E
+#define GFXP_HIRAGANA "\x8D"
+#define GFXP_HIRAGANA_CHAR 0x8D
+#define GFXP_KATAKANA "\x8C"
+#define GFXP_KATAKANA_CHAR 0x8C
+#define GFXP_RAINBOW_ON "\x8B"
+#define GFXP_RAINBOW_ON_CHAR 0x8B
+#define GFXP_RAINBOW_OFF "\x8A"
+#define GFXP_RAINBOW_OFF_CHAR 0x8A
+
+#define GFXP_FLAG_HIRAGANA (1 << 0)
+#define GFXP_FLAG_RAINBOW  (1 << 1)
+#define GFXP_FLAG_SHADOW   (1 << 2)
+#define GFXP_FLAG_UPDATE   (1 << 3)
+#define GFXP_FLAG_ENLARGE  (1 << 6)
+#define GFXP_FLAG_OPEN     (1 << 7)
 
 typedef struct StackEntry {
     /* 0x00 */ struct StackEntry* next;
@@ -1428,11 +1667,11 @@ typedef struct {
     /* 0x0234 */ OSScTask*    curRDPTask;
     /* 0x0238 */ s32          retraceCnt;
     /* 0x023C */ s32          doAudio;
-    /* 0x0240 */ CfbInfo* curBuf;
-    /* 0x0244 */ CfbInfo*        pendingSwapBuf1;
-    /* 0x0220 */ CfbInfo* pendingSwapBuf2;
-    /* 0x0220 */ UNK_TYPE     unk_24C;
-    /* 0x0250 */ IrqMgrClient   irqClient;
+    /* 0x0240 */ CfbInfo*     curBuf;
+    /* 0x0244 */ CfbInfo*     pendingSwapBuf1;
+    /* 0x0220 */ CfbInfo*     pendingSwapBuf2;
+    /* 0x0220 */ UNK_TYPE4    unk_24C;
+    /* 0x0250 */ IrqMgrClient irqClient;
 } SchedContext; // size = 0x258
 
 // ========================
@@ -1558,7 +1797,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u32 segments[NUM_SEGMENTS];
-    /* 0x40 */ u32 dlStack[18];
+    /* 0x40 */ Gfx* dlStack[18];
     /* 0x88 */ s32 dlDepth;
     /* 0x8C */ u32 dlCnt;
     /* 0x90 */ u32 vtxCnt;
@@ -1592,7 +1831,7 @@ typedef struct {
     /* 0x50 */ u8* symbols;
 } JpegHuffmanTable; // size = 0x54
 
-// this struct might be unaccurate but it's not used outside jpegutils.c anyways
+// this struct might be inaccurate but it's not used outside jpegutils.c anyways
 typedef struct {
     /* 0x000 */ u8 codeOffs[16];
     /* 0x010 */ u16 dcCodes[120];
@@ -1735,11 +1974,6 @@ typedef struct {
     /* 0x05 */ u8 y;
     /* 0x06 */ u16 color;
 } SpeedMeterTimeEntry; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ u16 intPart[4][4];
-    /* 0x20 */ u16 fracPart[4][4];
-} MatrixInternal; // size = 0x40
 
 typedef struct {
     /* 0x00 */ u32 value;

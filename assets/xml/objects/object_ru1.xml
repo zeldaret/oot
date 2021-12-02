@@ -42,18 +42,18 @@
         <Texture Name="gRutoChildEyeTLUT" OutName="eye_tlut" Format="rgba16" Width="16" Height="16" Offset="0xE038"/>
         <Texture Name="gRutoChildMouthTLUT" OutName="mouth_tlut" Format="rgba16" Width="16" Height="12" Offset="0xE238"/>
         
-        <Texture Name="gRutoChildEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0xE3B8"/>
-        <Texture Name="gRutoChildEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0xF238"/>
-        <Texture Name="gRutoChildEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0xF638"/>
-        <Texture Name="gRutoChildEyeRollLeftTex" OutName="eye_roll_left" Format="ci8" Width="32" Height="32" Offset="0xFE38"/>
-        <Texture Name="gRutoChildEyeHalf2Tex" OutName="eye_half_2" Format="ci8" Width="32" Height="32" Offset="0x10238"/>
-        <Texture Name="gRutoChildEyeHalfWithBlushTex" OutName="eye_half_with_blush" Format="ci8" Width="32" Height="32" Offset="0x10A38"/>
+        <Texture Name="gRutoChildEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0xE3B8" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0xF238" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0xF638" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeRollLeftTex" OutName="eye_roll_left" Format="ci8" Width="32" Height="32" Offset="0xFE38" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeHalf2Tex" OutName="eye_half_2" Format="ci8" Width="32" Height="32" Offset="0x10238" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeHalfWithBlushTex" OutName="eye_half_with_blush" Format="ci8" Width="32" Height="32" Offset="0x10A38" TlutOffset="0xE038"/>
 
         <Texture Name="gRutoChildBlueSkinGradientTex" OutName="blue_skin_gradient" Format="rgba16" Width="8" Height="8" Offset="0xE7B8"/>
 
-        <Texture Name="gRutoChildMouthClosedTex" OutName="mouth_closed" Format="ci8" Width="32" Height="32" Offset="0xE838"/>
-        <Texture Name="gRutoChildMouthFrownTex" OutName="mouth_frown" Format="ci8" Width="32" Height="32" Offset="0xFA38"/>
-        <Texture Name="gRutoChildMouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="32" Offset="0x10638"/>
+        <Texture Name="gRutoChildMouthClosedTex" OutName="mouth_closed" Format="ci8" Width="32" Height="32" Offset="0xE838" TlutOffset="0xE238"/>
+        <Texture Name="gRutoChildMouthFrownTex" OutName="mouth_frown" Format="ci8" Width="32" Height="32" Offset="0xFA38" TlutOffset="0xE238"/>
+        <Texture Name="gRutoChildMouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="32" Offset="0x10638" TlutOffset="0xE238"/>
 
         <Texture Name="gRutoChildEarTex" OutName="ear" Format="rgba16" Width="16" Height="16" Offset="0xEC38"/>
         <Texture Name="gRutoChildBlueSkinPatchesTex" OutName="blue_skin_patches" Format="rgba16" Width="16" Height="16" Offset="0xEE38"/>

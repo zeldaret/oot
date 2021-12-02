@@ -17,12 +17,12 @@
         <Animation Name="gGerudoRedStandAnim" Offset="0xB07C"/>
 
         <!-- Red-clothed Gerudo eye textures -->
-        <Texture Name="gGerudoRedEyeOpenTex" OutName="gerudo_red_eye_open" Format="ci8" Width="32" Height="32" Offset="0x5FE8"/>
-        <Texture Name="gGerudoRedEyeHalfTex" OutName="gerudo_red_eye_half" Format="ci8" Width="32" Height="32" Offset="0x65A8"/>
-        <Texture Name="gGerudoRedEyeShutTex" OutName="gerudo_red_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x6D28"/>
+        <Texture Name="gGerudoRedEyeOpenTex" OutName="gerudo_red_eye_open" Format="ci8" Width="32" Height="32" Offset="0x5FE8" TlutOffset="0x5D30"/>
+        <Texture Name="gGerudoRedEyeHalfTex" OutName="gerudo_red_eye_half" Format="ci8" Width="32" Height="32" Offset="0x65A8" TlutOffset="0x5D30"/>
+        <Texture Name="gGerudoRedEyeShutTex" OutName="gerudo_red_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x6D28" TlutOffset="0x5D30"/>
 
         <!-- These hints are currently needed for ZAPD to extract the textures properly. -->
         <Texture Name="sGerudoRedTexHint1" Format="rgba16" Width="18" Height="14" Offset="0x5D30"/>
-        <Texture Name="sGerudoRedTexHint2" Format="ci8" Width="8" Height="8" Offset="0x5F28"/>
+        <Texture Name="sGerudoRedTexHint2" Format="ci8" Width="8" Height="8" Offset="0x5F28" TlutOffset="0x5D30"/>
     </File>
 </Root>

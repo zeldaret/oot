@@ -338,7 +338,12 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* displayLists[] = { 0x06012270, 0x06010A10, 0x0600A860, 0x0600F1B0 };
+    static Gfx* displayLists[] = {
+        object_haka_objects_DL_012270,
+        object_haka_objects_DL_010A10,
+        object_haka_objects_DL_00A860,
+        object_haka_objects_DL_00F1B0,
+    };
     BgHakaGate* this = THIS;
     MtxF currentMtxF;
 

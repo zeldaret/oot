@@ -1,8 +1,8 @@
 #include "SetActorCutsceneList.h"
 
-#include "BitConverter.h"
 #include "Globals.h"
-#include "StringHelper.h"
+#include "Utils/BitConverter.h"
+#include "Utils/StringHelper.h"
 #include "ZFile.h"
 #include "ZRoom/ZRoom.h"
 
@@ -29,7 +29,7 @@ void SetActorCutsceneList::DeclareReferences(const std::string& prefix)
 {
 	if (cutscenes.size() > 0)
 	{
-		std::string declaration = "";
+		std::string declaration;
 
 		for (size_t i = 0; i < cutscenes.size(); i++)
 		{
@@ -45,22 +45,18 @@ void SetActorCutsceneList::DeclareReferences(const std::string& prefix)
 		std::string typeName = cutscenes.at(0).GetSourceTypeName();
 
 		parent->AddDeclarationArray(
-			segmentOffset, DeclarationAlignment::Align4, cutscenes.size() * 16, typeName,
+			segmentOffset, GetDeclarationAlignment(), cutscenes.size() * 16, typeName,
 			StringHelper::Sprintf("%s%sList_%06X", prefix.c_str(), typeName.c_str(), segmentOffset),
-			0, declaration);
+			cutscenes.size(), declaration);
 	}
 }
 
 std::string SetActorCutsceneList::GetBodySourceCode() const
 {
-	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	std::string listName;
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "ActorCutscene", listName);
 	return StringHelper::Sprintf("SCENE_CMD_ACTOR_CUTSCENE_LIST(%i, %s)", cutscenes.size(),
 	                             listName.c_str());
-}
-
-size_t SetActorCutsceneList::GetRawDataSize() const
-{
-	return ZRoomCommand::GetRawDataSize() + (cutscenes.size() * 16);
 }
 
 std::string SetActorCutsceneList::GetCommandCName() const

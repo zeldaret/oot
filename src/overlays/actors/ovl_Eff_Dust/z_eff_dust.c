@@ -36,7 +36,7 @@ const ActorInit Eff_Dust_InitVars = {
     (ActorFunc)EffDust_Draw,
 };
 
-static Gfx D_8099EB60[] = {
+static Gfx sEmptyDL[] = {
     gsSPEndDisplayList(),
 };
 
@@ -281,7 +281,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
     initialPositions = this->initialPositions;
     distanceTraveled = this->distanceTraveled;
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
+    gSPSegment(POLY_XLU_DISP++, 0x08, sEmptyDL);
 
     for (i = 0; i < 64; i++) {
         if (*distanceTraveled < 1.0f) {
@@ -292,7 +292,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
                              MTXMODE_NEW);
 
             Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 449),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -333,7 +333,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
     initialPositions = this->initialPositions;
     distanceTraveled = this->distanceTraveled;
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
+    gSPSegment(POLY_XLU_DISP++, 0x08, sEmptyDL);
 
     for (i = 0; i < 64; i++) {
         if (*distanceTraveled < 1.0f) {
@@ -353,7 +353,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
             Matrix_Scale(*distanceTraveled * this->scalingFactor, *distanceTraveled * this->scalingFactor,
                          *distanceTraveled * this->scalingFactor, MTXMODE_APPLY);
 
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 506),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

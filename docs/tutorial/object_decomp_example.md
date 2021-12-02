@@ -227,16 +227,16 @@ Therefore, we end up with the following:
         <DList Name="gChuGirlRightHandDL" Offset="0x3968"/>
 
         <!-- Bombchu Bowling Girl limbs -->
-        <Limb Name="gChuGirlWaistLimb" Type="Standard" Offset="0x6E10"/>
-        <Limb Name="gChuGirlTorsoLimb" Type="Standard" Offset="0x6E1C"/>
-        <Limb Name="gChuGirlNeckLimb" Type="Standard" Offset="0x6E28"/>
-        <Limb Name="gChuGirlHeadLimb" Type="Standard" Offset="0x6E34"/>
-        <Limb Name="gChuGirlLeftUpperArmLimb" Type="Standard" Offset="0x6E40"/>
-        <Limb Name="gChuGirlLeftForearmLimb" Type="Standard" Offset="0x6E4C"/>
-        <Limb Name="gChuGirlLeftHandLimb" Type="Standard" Offset="0x6E58"/>
-        <Limb Name="gChuGirlRightUpperArmLimb" Type="Standard" Offset="0x6E64"/>
-        <Limb Name="gChuGirlRightForearmLimb" Type="Standard" Offset="0x6E70"/>
-        <Limb Name="gChuGirlRightHandLimb" Type="Standard" Offset="0x6E7C"/>
+        <Limb Name="gChuGirlWaistLimb" LimbType="Standard" Offset="0x6E10"/>
+        <Limb Name="gChuGirlTorsoLimb" LimbType="Standard" Offset="0x6E1C"/>
+        <Limb Name="gChuGirlNeckLimb" LimbType="Standard" Offset="0x6E28"/>
+        <Limb Name="gChuGirlHeadLimb" LimbType="Standard" Offset="0x6E34"/>
+        <Limb Name="gChuGirlLeftUpperArmLimb" LimbType="Standard" Offset="0x6E40"/>
+        <Limb Name="gChuGirlLeftForearmLimb" LimbType="Standard" Offset="0x6E4C"/>
+        <Limb Name="gChuGirlLeftHandLimb" LimbType="Standard" Offset="0x6E58"/>
+        <Limb Name="gChuGirlRightUpperArmLimb" LimbType="Standard" Offset="0x6E64"/>
+        <Limb Name="gChuGirlRightForearmLimb" LimbType="Standard" Offset="0x6E70"/>
+        <Limb Name="gChuGirlRightHandLimb" LimbType="Standard" Offset="0x6E7C"/>
 
         <!-- Bombchu Bowling Girl limb textures -->
         <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>

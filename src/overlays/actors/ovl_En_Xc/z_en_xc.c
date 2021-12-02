@@ -288,6 +288,7 @@ s32 EnXc_MinuetCS(EnXc* this, GlobalContext* globalCtx) {
     if (this->actor.params == SHEIK_TYPE_MINUET) {
         Player* player = GET_PLAYER(globalCtx);
         f32 z = player->actor.world.pos.z;
+
         if (z < -2225.0f) {
             if (!Gameplay_InCsMode(globalCtx)) {
                 globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gMinuetCs);
@@ -321,7 +322,7 @@ s32 EnXc_BoleroCS(EnXc* this, GlobalContext* globalCtx) {
         if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
             (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f) &&
             !Gameplay_InCsMode(globalCtx)) {
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gBoleroCs);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gDeathMountainCraterBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
             gSaveContext.eventChkInf[5] |= 2;
             Item_Give(globalCtx, ITEM_SONG_BOLERO);
@@ -347,6 +348,7 @@ s32 EnXc_SerenadeCS(EnXc* this, GlobalContext* globalCtx) {
     if (this->actor.params == SHEIK_TYPE_SERENADE) {
         Player* player = GET_PLAYER(globalCtx);
         s32 stateFlags = player->stateFlags1;
+
         if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) && !(stateFlags & 0x20000000) &&
             !Gameplay_InCsMode(globalCtx)) {
             Cutscene_SetSegment(globalCtx, &gIceCavernSerenadeCs);
@@ -423,13 +425,13 @@ void EnXc_SetColossusAppearSFX(EnXc* this, GlobalContext* globalCtx) {
             if (frameCount == 119) {
                 Vec3f pos = { -611.0f, 728.0f, -2.0f };
 
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &sXyzDist, wDest);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &pos, &sXyzDist, wDest);
                 func_80078914(&sXyzDist, NA_SE_EV_JUMP_CONC);
             } else if (frameCount == 164) {
                 Vec3f pos = { -1069.0f, 38.0f, 0.0f };
                 s32 pad;
 
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &sXyzDist, wDest);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &pos, &sXyzDist, wDest);
                 func_80078914(&sXyzDist, NA_SE_PL_WALK_CONCRETE);
             }
         }
@@ -491,6 +493,7 @@ void EnXc_SpawnFlame(EnXc* this, GlobalContext* globalCtx) {
         f32 xPos = npcAction->startPos.x;
         f32 yPos = npcAction->startPos.y;
         f32 zPos = npcAction->startPos.z;
+
         this->flameActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_LIGHT, xPos, yPos, zPos, 0, 0, 0, 5);
         sFlameSpawned = true;
     }
@@ -526,6 +529,7 @@ void EnXc_InitFlame(EnXc* this, GlobalContext* globalCtx) {
         CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, 0);
         if (npcAction != NULL) {
             s32 action = npcAction->action;
+
             if (D_80B41DA8 != action) {
                 if (action != 1) {
                     EnXc_SpawnFlame(this, globalCtx);
@@ -564,6 +568,7 @@ AnimationHeader* EnXc_GetCurrentHarpAnim(GlobalContext* globalCtx, s32 index) {
 
     if (npcAction != NULL) {
         u16 action = npcAction->action;
+
         if (action == 11) {
             animation = &gSheikPlayingHarp3Anim;
         } else if (action == 12) {
@@ -1366,7 +1371,7 @@ void func_80B3F3D8() {
 void EnXc_PlayDiveSFX(Vec3f* src, GlobalContext* globalCtx) {
     f32 wDest[2];
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, src, &D_80B42DA0, wDest);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, src, &D_80B42DA0, wDest);
     func_80078914(&D_80B42DA0, NA_SE_EV_DIVE_INTO_WATER);
 }
 
@@ -1536,7 +1541,7 @@ void EnXc_PlayTriforceSFX(Actor* thisx, GlobalContext* globalCtx) {
         f32 wDest;
 
         Matrix_MultVec3f(&sp1C, &src);
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &src, &pos, &wDest);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &src, &pos, &wDest);
         SoundSource_PlaySoundByPosition(globalCtx, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
         this->unk_2A8 = 0;
     }
@@ -1570,6 +1575,7 @@ void EnXc_CalcTriforce(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_274 == 1) {
             if (*timer < kREG(25) + 40.0f) {
                 f32 div = *timer / (kREG(25) + 40.0f);
+
                 prim[2] = -85.0f * div + 255;
                 prim[3] = 255.0f * div;
                 env[1] = 100.0f * div + 100;
@@ -1584,6 +1590,7 @@ void EnXc_CalcTriforce(Actor* thisx, GlobalContext* globalCtx) {
             scale[2] = kREG(21) * 0.1f + 40.0f;
         } else if (this->unk_274 == 2) {
             f32 maxTime = (kREG(25) + 40.0f) + (kREG(27) + 90.0f);
+
             if (*timer < maxTime) {
                 f32 div = (*timer - (kREG(25) + 40.0f)) / (kREG(27) + 90.0f);
                 scale[0] = (kREG(19) * 0.1f + 40.0f) + div * ((kREG(26) + 50.0f) * (kREG(19) * 0.1f + 40.0f));
@@ -1716,7 +1723,7 @@ void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
 
         Matrix_Push();
         Matrix_Translate(kREG(16) + 100.0f, kREG(17) + 4460.0f, kREG(18) + 1190.0f, MTXMODE_APPLY);
-        Matrix_RotateRPY(kREG(22), kREG(23), this->triforceAngle, MTXMODE_APPLY);
+        Matrix_RotateZYX(kREG(22), kREG(23), this->triforceAngle, MTXMODE_APPLY);
         Matrix_Scale(scale[0], scale[1], scale[2], MTXMODE_APPLY);
         Matrix_ToMtx(mtx, "../z_en_oA2_inMetamol.c", 602);
         Matrix_Pop();
@@ -2142,13 +2149,13 @@ void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
     if (LINK_IS_ADULT) {
         if (!(gSaveContext.eventChkInf[12] & 0x20)) {
             gSaveContext.eventChkInf[12] |= 0x20;
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gFirstAdultCs);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTempleOfTimeFirstAdultCs);
             gSaveContext.cutsceneTrigger = 1;
             func_80B3EBF0(this, globalCtx);
         } else if (!(gSaveContext.eventChkInf[5] & 0x20) && (gSaveContext.eventChkInf[4] & 0x100)) {
             gSaveContext.eventChkInf[5] |= 0x20;
             Item_Give(globalCtx, ITEM_SONG_PRELUDE);
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gPreludeCs);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTempleOfTimePreludeCs);
             gSaveContext.cutsceneTrigger = 1;
             this->action = SHEIK_ACTION_30;
         } else if (!(gSaveContext.eventChkInf[5] & 0x20)) {
@@ -2162,7 +2169,7 @@ void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = SHEIK_ACTION_IN_DIALOGUE;
     } else {
         this->actor.flags |= 9;
@@ -2176,7 +2183,7 @@ void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B41798(EnXc* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->action = SHEIK_ACTION_BLOCK_PEDESTAL;
         this->actor.flags &= ~9;
     }

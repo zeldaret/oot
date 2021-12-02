@@ -163,7 +163,7 @@ void EnNutsball_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 327);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+    Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
     Matrix_RotateZ(thisx->home.rot.z * 9.58738e-05f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333),
               G_MTX_MODELVIEW | G_MTX_LOAD);

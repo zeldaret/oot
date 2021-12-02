@@ -6,6 +6,8 @@
 
 #include "z_bg_breakwall.h"
 #include "scenes/dungeons/ddan/ddan_scene.h"
+#include "objects/object_bwall/object_bwall.h"
+#include "objects/object_kingdodongo/object_kingdodongo.h"
 
 #define FLAGS 0x00000010
 
@@ -59,10 +61,10 @@ static ColliderQuadInit sQuadInit = {
 };
 
 static BombableWallInfo sBombableWallInfo[] = {
-    { 0x06000118, 0x06000040, 0 },
-    { 0x06000118, 0x06000040, 0 },
-    { 0x060264A8, 0x06025BD0, 1 },
-    { 0x06025B64, NULL, -1 },
+    { &object_bwall_Col_000118, object_bwall_DL_000040, 0 },
+    { &object_bwall_Col_000118, object_bwall_DL_000040, 0 },
+    { &object_kingdodongo_Col_0264A8, object_kingdodongo_DL_025BD0, 1 },
+    { &object_kingdodongo_Col_025B64, NULL, -1 },
 };
 
 static InitChainEntry sInitChain[] = {
@@ -164,7 +166,7 @@ Actor* BgBreakwall_SpawnFragments(GlobalContext* globalCtx, BgBreakwall* this, V
         angle1 = ABS(this->dyna.actor.world.rot.y) + angle2;
         Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                          MTXMODE_NEW);
-        Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
+        Matrix_RotateZYX(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
                          MTXMODE_APPLY);
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
 

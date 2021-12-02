@@ -318,6 +318,7 @@ void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->type != FIRE_ROCK_CEILING_SPOT_SPAWNER) {
         f32 temp;
+
         this->rockRotation.x += this->angularVelocity.x;
         this->rockRotation.y += this->angularVelocity.y;
         this->rockRotation.z += this->angularVelocity.z;

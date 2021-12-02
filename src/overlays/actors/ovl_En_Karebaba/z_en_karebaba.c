@@ -491,7 +491,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        Matrix_RotateRPY(this->actor.shape.rot.x, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->actor.shape.rot.x, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
 
         if (this->actionFunc == EnKarebaba_Dying) {
             stemSections = 2;
@@ -527,7 +527,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_OPA_DISP++, gDekuBabaBaseLeavesDL);
 
     if (this->actionFunc == EnKarebaba_Dying) {
-        Matrix_RotateRPY(-0x4000, (s16)(this->actor.shape.rot.y - this->actor.home.rot.y), 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(-0x4000, (s16)(this->actor.shape.rot.y - this->actor.home.rot.y), 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1155),
                   G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBaseDL);
