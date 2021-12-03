@@ -109,6 +109,10 @@ beginseg
     include "build/src/libultra/os/gethwintrroutine.o"
     include "build/asm/__osSetWatchLo.o"
     include "build/data/rsp_boot.text.o"
+#ifdef COMPILER_GCC
+    include "build/asm/llmuldiv_gcc.o"
+    include "build/src/boot/missing_gcc_functions.o"
+#endif
 endseg
 
 beginseg
