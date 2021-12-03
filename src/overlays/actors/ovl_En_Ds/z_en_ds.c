@@ -53,7 +53,7 @@ void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnDs_Wait;
         this->actor.flags &= ~0x10000;
     }
@@ -61,15 +61,15 @@ void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = EnDs_Wait;
     }
     this->unk_1E8 |= 1;
 }
 
 void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnDs_Talk;
     } else {
         this->actor.flags |= 0x10000;
@@ -78,7 +78,7 @@ void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
         this->actor.flags &= ~0x100;
@@ -97,8 +97,8 @@ void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_TalkAfterBrewOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = EnDs_GiveOddPotion;
         func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
     }
@@ -109,7 +109,7 @@ void EnDs_BrewOddPotion3(EnDs* this, GlobalContext* globalCtx) {
         this->brewTimer -= 1;
     } else {
         this->actionFunc = EnDs_TalkAfterBrewOddPotion;
-        func_8010B720(globalCtx, 0x504D);
+        Message_ContinueTextbox(globalCtx, 0x504D);
     }
 
     Math_StepToF(&this->unk_1E4, 0, 0.03f);
@@ -141,17 +141,17 @@ void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx) {
 void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 this->actionFunc = EnDs_BrewOddPotion1;
                 this->brewTimer = 60;
                 Flags_SetSwitch(globalCtx, 0x3F);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 player->exchangeItemId = EXCH_ITEM_NONE;
                 break;
             case 1: // no
-                func_8010B720(globalCtx, 0x504C);
+                Message_ContinueTextbox(globalCtx, 0x504C);
                 this->actionFunc = EnDs_Talk;
         }
     }
@@ -177,15 +177,15 @@ void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 switch (EnDs_CheckRupeesAndBottle()) {
                     case 0: // have less than 100 rupees
-                        func_8010B720(globalCtx, 0x500E);
+                        Message_ContinueTextbox(globalCtx, 0x500E);
                         break;
                     case 1: // have 100 rupees but no empty bottle
-                        func_8010B720(globalCtx, 0x96);
+                        Message_ContinueTextbox(globalCtx, 0x96);
                         this->actionFunc = EnDs_TalkNoEmptyBottle;
                         return;
                     case 2: // have 100 rupees and empty bottle
@@ -197,7 +197,7 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 1: // no
-                func_8010B720(globalCtx, 0x500D);
+                Message_ContinueTextbox(globalCtx, 0x500D);
         }
         this->actionFunc = EnDs_Talk;
     }
@@ -207,7 +207,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (func_8002F368(globalCtx) == EXCH_ITEM_ODD_MUSHROOM) {
             Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             player->actor.textId = 0x504A;

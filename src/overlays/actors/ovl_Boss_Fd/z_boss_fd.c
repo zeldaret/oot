@@ -190,7 +190,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
                    0);
     this->introState = BFD_CS_WAIT;
     if (this->introState == BFD_CS_NONE) {
-        Audio_QueueSeqCmd(NA_BGM_FIRE_BOSS);
+        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_FIRE_BOSS);
     }
 
     this->actor.world.pos.x = this->actor.world.pos.z = 0.0f;
@@ -490,11 +490,11 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
                 }
                 if (this->timers[3] == 160) {
-                    Audio_QueueSeqCmd(NA_BGM_FIRE_BOSS);
+                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_FIRE_BOSS);
                 }
                 if ((this->timers[3] == 130) && !(gSaveContext.eventChkInf[7] & 8)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
-                                           SEGMENTED_TO_VIRTUAL(&gVolvagiaBossTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
+                                           SEGMENTED_TO_VIRTUAL(gVolvagiaBossTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
                 if (this->timers[3] <= 100) {
                     this->camData.eyeVel.x = this->camData.eyeVel.y = this->camData.eyeVel.z = 2.0f;
@@ -745,7 +745,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->skinSegments != 0) {
                     this->skinSegments--;
                     if (this->skinSegments == 0) {
-                        Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
+                        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
                     }
                 } else {
                     this->work[BFD_ACTION_STATE] = BOSSFD_BONES_FALL;
@@ -1525,18 +1525,18 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
         if (effect->type == BFD_FX_EMBER) {
             if (!flag) {
                 func_80093D84(globalCtx->state.gfxCtx);
-                gSPDisplayList(POLY_XLU_DISP++, gVolvagiaEmberSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gVolvagiaEmberMaterialDL);
                 flag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->color.r, effect->color.g, effect->color.b, effect->alpha);
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4046),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gVolvagiaEmberVtxDL);
+            gSPDisplayList(POLY_XLU_DISP++, gVolvagiaEmberModelDL);
         }
     }
 
@@ -1546,7 +1546,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
         if (effect->type == BFD_FX_DEBRIS) {
             if (!flag) {
                 func_80093D18(globalCtx->state.gfxCtx);
-                gSPDisplayList(POLY_OPA_DISP++, gVolvagiaDebrisSetupDL);
+                gSPDisplayList(POLY_OPA_DISP++, gVolvagiaDebrisMaterialDL);
                 flag++;
             }
 
@@ -1557,7 +1557,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4068),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, gVolvagiaDebrisVtxDL);
+            gSPDisplayList(POLY_OPA_DISP++, gVolvagiaDebrisModelDL);
         }
     }
 
@@ -1567,7 +1567,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
         if (effect->type == BFD_FX_DUST) {
             if (!flag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
-                gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 90, 30, 0, 255);
                 gDPSetEnvColor(POLY_XLU_DISP++, 90, 30, 0, 0);
                 flag++;
@@ -1575,12 +1575,12 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4104),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[effect->timer2]));
-            gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustVtxDL);
+            gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustModelDL);
         }
     }
 
@@ -1590,7 +1590,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
         if (effect->type == BFD_FX_FIRE_BREATH) {
             if (!flag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
-                gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, 255);
                 flag++;
             }
@@ -1598,12 +1598,12 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, effect->alpha);
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4154),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[effect->timer2]));
-            gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustVtxDL);
+            gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustModelDL);
         }
     }
 
@@ -1613,7 +1613,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
         if (effect->type == BFD_FX_SKULL_PIECE) {
             if (!flag) {
                 func_80093D84(globalCtx->state.gfxCtx);
-                gSPDisplayList(POLY_XLU_DISP++, gVolvagiaSkullPieceSetupDL);
+                gSPDisplayList(POLY_XLU_DISP++, gVolvagiaSkullPieceMaterialDL);
                 flag++;
             }
 
@@ -1624,7 +1624,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4192),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gVolvagiaSkullPieceVtxDL);
+            gSPDisplayList(POLY_XLU_DISP++, gVolvagiaSkullPieceModelDL);
         }
     }
 
@@ -1761,7 +1761,7 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
         Matrix_RotateX(-M_PI / 2.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4480),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gVolvagiaManeVtxDL);
+        gSPDisplayList(POLY_XLU_DISP++, gVolvagiaManeModelDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4483);
@@ -1957,7 +1957,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
         Vec3f spA4 = { -1000.0f, 700.0f, 7000.0f };
 
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPDisplayList(POLY_XLU_DISP++, gVolvagiaManeSetupDL);
+        gSPDisplayList(POLY_XLU_DISP++, gVolvagiaManeMaterialDL);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->fwork[BFD_MANE_COLOR_CENTER], 0, 255);
         Matrix_Push();
         Matrix_MultVec3f(&spB0, &this->centerMane.head);

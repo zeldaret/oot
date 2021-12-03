@@ -21,7 +21,7 @@ void ArrowLight_Charge(ArrowLight* this, GlobalContext* globalCtx);
 void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx);
 void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx);
 
-#include "z_arrow_light_gfx.c"
+#include "overlays/ovl_Arrow_Light/ovl_Arrow_Light.c"
 
 const ActorInit Arrow_Light_InitVars = {
     ACTOR_ARROW_LIGHT,
@@ -181,7 +181,8 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
 void ArrowLight_Update(Actor* thisx, GlobalContext* globalCtx) {
     ArrowLight* this = THIS;
 
-    if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
+    if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK ||
+        globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
         Actor_Kill(&this->actor);
     } else {
         this->actionFunc(this, globalCtx);
@@ -223,7 +224,7 @@ void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 170, this->alpha);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 128);
-        Matrix_RotateRPY(0x4000, 0x0, 0x0, MTXMODE_APPLY);
+        Matrix_RotateZYX(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
             Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         } else {
@@ -233,11 +234,11 @@ void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_light.c", 648),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+        gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
         gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 4, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 30) % 512, 8, 16));
-        gSPDisplayList(POLY_XLU_DISP++, sVertexDL);
+        gSPDisplayList(POLY_XLU_DISP++, sModelDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arrow_light.c", 664);
     }

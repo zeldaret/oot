@@ -90,40 +90,40 @@ static EnKoSkeleton sSkeleton[2] = {
 };
 
 static struct_80034EC0_Entry sOsAnimeTable[] = {
-    { 0x06008F6C, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
-    { 0x06008F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
-    { 0x06009B64, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f },
-    { 0x06009B64, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
-    { 0x06009B64, 0.0f, 2.0f, 2.0f, ANIMMODE_ONCE, 0.0f },
-    { 0x060062DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060062DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x06005808, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x06007830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06008178, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060065E0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x0600879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007FFC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060080B4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060091AC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06006F9C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007064, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007120, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007F38, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06006EE0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060098EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060090EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x0600982C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06009274, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060099A4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06009028, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007E64, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007454, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06008F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, -8.0f },
-    { 0x06007D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { 0x0600879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { 0x06006A60, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { 0x06007830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gObjOsAnim_8F6C, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
+    { &gObjOsAnim_8F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
+    { &gObjOsAnim_9B64, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f },
+    { &gObjOsAnim_9B64, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gObjOsAnim_9B64, 0.0f, 2.0f, 2.0f, ANIMMODE_ONCE, 0.0f },
+    { &gObjOsAnim_62DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_62DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gObjOsAnim_5808, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gObjOsAnim_7830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_8178, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_65E0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7FFC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_80B4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_91AC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_6F9C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7064, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7120, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7F38, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_6EE0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_98EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_90EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_982C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_9274, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_99A4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_9028, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7E64, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7454, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_8F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, -8.0f },
+    { &gObjOsAnim_7D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gObjOsAnim_879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gObjOsAnim_6A60, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gObjOsAnim_7830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
 static u8 sOsAnimeLookup[13][5] = {
@@ -456,8 +456,8 @@ u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
     EnKo* this = THIS;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 2:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1005:
                     gSaveContext.infTable[1] |= 0x4000;
@@ -496,7 +496,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                     return 1;
             }
             return 0;
-        case 3:
+        case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x10B7:
                 case 0x10B8:
@@ -507,22 +507,22 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                     }
             }
             return 1;
-        case 4:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x1035:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x1036 : 0x1037;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
                         break;
                     case 0x1038:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex != 0)
                                                  ? (globalCtx->msgCtx.choiceIndex == 1) ? 0x103A : 0x103B
                                                  : 0x1039;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
                         break;
                     case 0x103E:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x103F : 0x1040;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
                         break;
                     case 0x10B7:
                         gSaveContext.infTable[11] |= 0x1000;
@@ -534,8 +534,8 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                 return 1;
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 return 3;
             }
     }
@@ -544,6 +544,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
 
 s32 EnKo_GetForestQuestState(EnKo* this) {
     s32 result;
+
     if (!LINK_IS_ADULT) {
         // Obtained Zelda's Letter
         if (gSaveContext.eventChkInf[4] & 1) {
@@ -1138,8 +1139,8 @@ void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A99438;
     } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
         this->actionFunc = func_80A99504;
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     }
 }
 
@@ -1147,8 +1148,8 @@ void func_80A99438(EnKo* this, GlobalContext* globalCtx) {
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
         func_80034EC0(&this->skelAnime, sOsAnimeTable, 6);
         this->actionFunc = func_80A99504;
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else if (this->unk_1E8.unk_00 == 0 || this->actor.textId != 0x10B9) {
         func_80034EC0(&this->skelAnime, sOsAnimeTable, 6);
         this->actionFunc = func_80A99384;
@@ -1167,7 +1168,7 @@ void func_80A99504(EnKo* this, GlobalContext* globalCtx) {
 void func_80A99560(EnKo* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 == 3) {
         this->actor.textId = 0x10B9;
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E8.unk_00 = 1;
         gSaveContext.itemGetInf[3] |= 2;
         this->actionFunc = func_80A99384;

@@ -4,21 +4,21 @@
         <Skeleton Name="gRoofManSkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
         
         <!-- Kakariko Roof Man Limbs -->
-        <Limb Name="gRoofManRootLimb" Type="Standard" Offset="0x0"/>
-        <Limb Name="gRoofManLeftThighLimb" Type="Standard" Offset="0xC"/>
-        <Limb Name="gRoofManLeftLegLimb" Type="Standard" Offset="0x18"/>
-        <Limb Name="gRoofManLeftFootLimb" Type="Standard" Offset="0x24"/>
-        <Limb Name="gRoofManRightThighLimb" Type="Standard" Offset="0x30"/>
-        <Limb Name="gRoofManRightLegLimb" Type="Standard" Offset="0x3C"/>
-        <Limb Name="gRoofManRightFootLimb" Type="Standard" Offset="0x48"/>
-        <Limb Name="gRoofManTorsoLimb" Type="Standard" Offset="0x54"/>
-        <Limb Name="gRoofManLeftUpperArmLimb" Type="Standard" Offset="0x60"/>
-        <Limb Name="gRoofManLeftForearmLimb" Type="Standard" Offset="0x6C"/>
-        <Limb Name="gRoofManLeftHandLimb" Type="Standard" Offset="0x78"/>
-        <Limb Name="gRoofManRightUpperArmLimb" Type="Standard" Offset="0x84"/>
-        <Limb Name="gRoofManRightForearmLimb" Type="Standard" Offset="0x90"/>
-        <Limb Name="gRoofManRightHandLimb" Type="Standard" Offset="0x9C"/>
-        <Limb Name="gRoofManHeadLimb" Type="Standard" Offset="0xA8"/>
+        <Limb Name="gRoofManRootLimb" LimbType="Standard" Offset="0x0"/>
+        <Limb Name="gRoofManLeftThighLimb" LimbType="Standard" Offset="0xC"/>
+        <Limb Name="gRoofManLeftLegLimb" LimbType="Standard" Offset="0x18"/>
+        <Limb Name="gRoofManLeftFootLimb" LimbType="Standard" Offset="0x24"/>
+        <Limb Name="gRoofManRightThighLimb" LimbType="Standard" Offset="0x30"/>
+        <Limb Name="gRoofManRightLegLimb" LimbType="Standard" Offset="0x3C"/>
+        <Limb Name="gRoofManRightFootLimb" LimbType="Standard" Offset="0x48"/>
+        <Limb Name="gRoofManTorsoLimb" LimbType="Standard" Offset="0x54"/>
+        <Limb Name="gRoofManLeftUpperArmLimb" LimbType="Standard" Offset="0x60"/>
+        <Limb Name="gRoofManLeftForearmLimb" LimbType="Standard" Offset="0x6C"/>
+        <Limb Name="gRoofManLeftHandLimb" LimbType="Standard" Offset="0x78"/>
+        <Limb Name="gRoofManRightUpperArmLimb" LimbType="Standard" Offset="0x84"/>
+        <Limb Name="gRoofManRightForearmLimb" LimbType="Standard" Offset="0x90"/>
+        <Limb Name="gRoofManRightHandLimb" LimbType="Standard" Offset="0x9C"/>
+        <Limb Name="gRoofManHeadLimb" LimbType="Standard" Offset="0xA8"/>
 
         <!-- Kakariko Roof Man Limb DisplayLists -->
         <DList Name="gRoofManWaistDL" Offset="0x61C8"/>

@@ -367,13 +367,11 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
         }
     }
 
-    // Related to scene draw config 30, only used in BossGanon_Update and
-    // loaded in z_kankyo
     gCustomLensFlareOn = this->lensFlareOn;
     gCustomLensFlarePos = this->actor.world.pos;
-    D_8015FD06 = this->lensFlareScale;
-    D_8015FD08 = 10.0f;
-    D_8015FD0C = 0;
+    gLensFlareScale = this->lensFlareScale;
+    gLensFlareColorIntensity = 10.0f;
+    gLensFlareScreenFillAlpha = 0;
 }
 
 void EnFhgFire_SpearLight(EnFhgFire* this, GlobalContext* globalCtx) {
@@ -715,7 +713,7 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gPhantomLightningBlastDL));
     } else if ((this->actor.params == FHGFIRE_SPEAR_LIGHT) || (this->actor.params == FHGFIRE_ENERGY_BALL)) {
         osSyncPrintf("yari hikari draw 1\n");
-        func_800D1FD4(&globalCtx->mf_11DA0);
+        func_800D1FD4(&globalCtx->billboardMtxF);
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->fwork[FHGFIRE_ALPHA]);
 

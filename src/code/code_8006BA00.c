@@ -16,9 +16,9 @@ void func_8006BA30(GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(globalCtx->soundSources); i++) {
         if (source->countdown != 0) {
             if (DECR(source->countdown) == 0) {
-                func_800F89E8(&source->relativePos);
+                Audio_StopSfxByPos(&source->relativePos);
             } else {
-                SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &source->originPos, &source->relativePos);
+                SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &source->originPos, &source->relativePos);
             }
         }
 
@@ -49,12 +49,12 @@ void Audio_PlaySoundAtPosition(GlobalContext* globalCtx, Vec3f* pos, s32 duratio
 
     if (i >= ARRAY_COUNT(globalCtx->soundSources)) {
         source = backupSource;
-        func_800F89E8(&source->relativePos);
+        Audio_StopSfxByPos(&source->relativePos);
     }
 
     source->originPos = *pos;
     source->countdown = duration;
 
-    SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &source->originPos, &source->relativePos);
+    SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &source->originPos, &source->relativePos);
     Audio_PlaySoundGeneral(sfxId, &source->relativePos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }

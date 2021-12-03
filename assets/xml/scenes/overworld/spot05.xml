@@ -2,8 +2,7 @@
     <File Name="spot05_scene" Segment="2">
         <Cutscene Name="gMinuetCs" Offset="0x3F80"/>
 
-        <!-- This symbol should be named spot05_scene_Cs_005730 but a ZAPD bug prevents it -->
-        <Cutscene Name="spot05_sceneCutsceneData0x005730" Offset="0x5730"/>
+        <Cutscene Name="spot05_scene_Cs_005730" Offset="0x5730"/>
 
         <Path Name="gSpot05Path_0069D8" Offset="0x69D8"/>
         <Path Name="gSpot05Path_0069E0" Offset="0x69E0"/>

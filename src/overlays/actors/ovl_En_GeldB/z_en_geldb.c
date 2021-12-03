@@ -1,3 +1,9 @@
+/*
+ * File: z_en_geldb.c
+ * Overlay: ovl_En_GeldB
+ * Description: Gerudo fighter
+ */
+
 #include "z_en_geldb.h"
 #include "objects/object_geldb/object_geldb.h"
 
@@ -478,12 +484,9 @@ void EnGeldB_SetupAdvance(EnGeldB* this, GlobalContext* globalCtx) {
 void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
     s32 thisKeyFrame;
     s32 prevKeyFrame;
-    s32 pad3C;
+    s32 playSpeed;
     s16 facingAngletoLink;
     Player* player = GET_PLAYER(globalCtx);
-    s32 pad30;
-    s32 pad2C;
-    f32 playSpeed;
 
     if (!EnGeldB_DodgeRanged(globalCtx, this)) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
@@ -507,9 +510,8 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         }
         thisKeyFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        playSpeed = ABS(this->skelAnime.playSpeed);
-        prevKeyFrame = (s32)(this->skelAnime.curFrame - playSpeed);
-        playSpeed = ABS(this->skelAnime.playSpeed); // yes it does this twice.
+        prevKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
+        playSpeed = (f32)ABS(this->skelAnime.playSpeed);
         if (!Actor_IsFacingPlayer(&this->actor, 0x11C7)) {
             if (Rand_ZeroOne() > 0.5f) {
                 EnGeldB_SetupCircle(this);
@@ -543,10 +545,12 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
             if ((globalCtx->gameplayFrames & 0x5F) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
             }
-            if ((thisKeyFrame != (s32)this->skelAnime.curFrame) &&
-                ((prevKeyFrame < 0 && (s32)playSpeed + thisKeyFrame > 0) ||
-                 (prevKeyFrame < 4 && (s32)playSpeed + thisKeyFrame > 4))) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
+            if (thisKeyFrame != (s32)this->skelAnime.curFrame) {
+                s32 temp = playSpeed + thisKeyFrame;
+
+                if (((prevKeyFrame < 0) && (temp > 0)) || ((prevKeyFrame < 4) && (temp > 4))) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
+                }
             }
         }
     }
@@ -834,7 +838,7 @@ void EnGeldB_SetupSlash(EnGeldB* this) {
     this->action = GELDB_SLASH;
     this->spinAttackState = 0;
     this->actor.speedXZ = 0.0f;
-    func_800F8A44(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
+    Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
     EnGeldB_SetupAction(this, EnGeldB_Slash);
 }
 
@@ -912,7 +916,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
                 func_8002F71C(globalCtx, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
                 this->spinAttackState = 2;
                 func_8002DF54(globalCtx, &this->actor, 0x18);
-                func_8010B680(globalCtx, 0x6003, &this->actor);
+                Message_StartTextbox(globalCtx, 0x6003, &this->actor);
                 this->timer = 30;
                 this->actor.speedXZ = 0.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_LAUGH);
@@ -1359,7 +1363,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
         if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 1);
-            func_800F8A44(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
+            Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
             if ((this->actor.colChkInfo.damageEffect == GELDB_DMG_STUN) ||
                 (this->actor.colChkInfo.damageEffect == GELDB_DMG_FREEZE)) {
                 if (this->action != GELDB_STUNNED) {

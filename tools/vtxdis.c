@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 
-#define VTXDIS_VER "0.1"
+#define VTXDIS_VER "0.2"
 
 #define SWAP16(x) (((x & 0xFF00) >> 8) | ((x & 0x00FF) << 8))
 
@@ -20,11 +20,11 @@ typedef struct {
 
 static char *filename = NULL;
 static char *data = NULL;
-static int offset = 0;
-static int data_len = 0;
-static int count = 0;
+static int32_t offset = 0;
+static int32_t data_len = 0;
+static int16_t count = 0;
 
-const struct option cmdline_opts[] = {
+static const struct option cmdline_opts[] = {
     { "offset", required_argument, NULL, 'o', },
     { "length", required_argument, NULL, 'l', },
     { "file" , required_argument, NULL, 'f', },
@@ -35,8 +35,9 @@ const struct option cmdline_opts[] = {
 };
 
 static uint32_t parse_int(const char *num){
-    uint32_t ret = 0;
+    uint32_t ret;
     char outnum[21];
+    
     if(strlen(num) > 2 && num[0] == '0' && (num[1] == 'x' || num[1] == 'X')) {
         strncpy(outnum, &num[2], 20);
         sscanf(outnum, "%"SCNx32, &ret);
@@ -50,7 +51,7 @@ static uint32_t parse_int(const char *num){
 
 }
 
-static void print_usage(void)
+static inline void print_usage(void)
 {
     puts("vtxdis version " VTXDIS_VER "\n"
     "Usage:\n"
@@ -67,25 +68,25 @@ static void print_usage(void)
     );
 }
 
-static void print_version(void){
+static inline void print_version(void){
     puts("Version: " VTXDIS_VER);
 }
 
 static void print_vtx_data(Vtx *vtx, int vtx_cnt)
 {
-    printf("{\n");
+    puts("{");
     for(int i = 0; i < vtx_cnt; i++)
     {
         Vtx *v = &vtx[i];
+        printf("    VTX(%d, %d, %d, %d, %d, %d, %d, %d, %d),\n", v->pos[0], v->pos[1], v->pos[2], v->tpos[0], v->tpos[1], v->cn[0], v->cn[1], v->cn[2], v->cn[3]);
 
-        printf("    VTX(%d, %d, %d, %d, %d, 0x%02X, 0x%02X, 0x%02X, 0x%02X),\n", v->pos[0], v->pos[1], v->pos[2], v->tpos[0], v->tpos[1], v->cn[0], v->cn[1], v->cn[2], v->cn[3]);
     }
-    printf("}\n");
+    puts("}");
 }
 
 static void parse_file(void)
 {
-    int alloc_size = 0;
+    unsigned int alloc_size = 0;
     struct stat sbuffer;
     stat(filename, &sbuffer);
     if(errno != 0){
@@ -99,7 +100,7 @@ static void parse_file(void)
         alloc_size = sizeof(Vtx) * count;
         if((offset > 0 && (offset + alloc_size) > sbuffer.st_size) || alloc_size > sbuffer.st_size)
         {
-            printf("Requested data is beyond file boundaries.");
+            puts("Requested data is beyond file boundaries.");
             exit(1);
         }
     }
@@ -109,7 +110,7 @@ static void parse_file(void)
 
         if((offset > 0 && (offset + alloc_size) > sbuffer.st_size) || alloc_size > sbuffer.st_size)
         {
-            printf("Requested data is beyond file boundaries.");
+            puts("Requested data is beyond file boundaries.");
             exit(1);
         }
     }
@@ -145,8 +146,7 @@ static void parse_file(void)
         }
     }
 
-    Vtx *data = NULL;
-    data = malloc(alloc_size);
+    Vtx *data = malloc(alloc_size);
     if(!data){
         fclose(file);
         perror("Could not allocate vtx data");
@@ -162,8 +162,8 @@ static void parse_file(void)
 
     fclose(file);
 
-    int vtx_cnt = alloc_size / sizeof(Vtx);
-    for(int i = 0; i < vtx_cnt; i++){
+    unsigned int vtx_cnt = alloc_size / sizeof(Vtx);
+    for(unsigned int i = 0; i < vtx_cnt; i++){
         Vtx *v = &data[i];
 
         v->pos[0] = SWAP16(v->pos[0]);
@@ -181,9 +181,8 @@ static void parse_file(void)
 int main(int argc, char **argv)
 {
     int opt;
-    int argv_idx = 0;
+
     while(1){
-        argv_idx++;
         opt = getopt_long(argc, argv, "o:l:f:c:v?", cmdline_opts, NULL);
         if(opt == -1){
             break;
@@ -215,35 +214,35 @@ int main(int argc, char **argv)
 
     if (filename == NULL && data == NULL)
     {
-        printf("Must specify -f or -d\n");
+        puts("Must specify -f or -d");
         print_usage();
         exit(1);
     }
 
     if(data_len < 0)
     {
-        printf("Invalid -l/--length parameter passed.");
+        puts("Invalid -l/--length parameter passed.");
         print_usage();
         exit(1);
     }
 
     if(offset < 0)
     {
-        printf("Invalid -o/--offset parameter passed.");
+        puts("Invalid -o/--offset parameter passed.");
         print_usage();
         exit(1);
     }
 
     if(count < 0)
     {
-        printf("Invalid -c/--count parameter passed.");
+        puts("Invalid -c/--count parameter passed.");
         print_usage();
         exit(1);
     }
 
     if(count > 0 && data_len > 0)
     {
-        printf("Cannot specify both -c/--count and -l/--length.");
+        puts("Cannot specify both -c/--count and -l/--length.");
         print_usage();
         exit(1);
     }

@@ -615,7 +615,7 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
     f32 curFrame = this->skin.skelAnime.curFrame;
     f32 wDest;
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, arg2, &this->unk_1E8, &wDest);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, arg2, &this->unk_1E8, &wDest);
     this->unk_1F4 = this->unk_1E8;
     this->unk_1F4.y += 120.0f;
 
@@ -684,7 +684,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         func_80A6CC88(globalCtx, this, &clonePos);
-        SkinMatrix_SetScaleRotateYRPTranslate(&skinMtx, this->actor.scale.x, this->actor.scale.y, this->actor.scale.z,
+        SkinMatrix_SetTranslateRotateYXZScale(&skinMtx, this->actor.scale.x, this->actor.scale.y, this->actor.scale.z,
                                               this->actor.shape.rot.x, cloneRotY, this->actor.shape.rot.z, clonePos.x,
                                               (this->actor.shape.yOffset * this->actor.scale.y) + clonePos.y,
                                               clonePos.z);

@@ -124,6 +124,7 @@ void FaultDrawer_DrawChar(char c) {
         ((sFaultDrawerStruct.charH + cursorY - 1) <= sFaultDrawerStruct.yEnd)) {
         for (y = 0; y < sFaultDrawerStruct.charH; y++) {
             u32 mask = 0x10000000 << shift;
+
             data = *dataPtr;
             for (x = 0; x < sFaultDrawerStruct.charW; x++) {
                 if (mask & data) {
@@ -151,6 +152,7 @@ s32 FaultDrawer_ColorToPrintColor(u16 color) {
 
 void FaultDrawer_UpdatePrintColor() {
     s32 idx;
+
     if (sFaultDrawerStruct.osSyncPrintfEnabled) {
         osSyncPrintf(VT_RST);
         idx = FaultDrawer_ColorToPrintColor(sFaultDrawerStruct.foreColor);

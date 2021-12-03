@@ -307,7 +307,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 
     if ((player->stateFlags1 & 0x100000) || (player->stateFlags1 & 0x8000000) || !(player->actor.bgCheckFlags & 1) ||
         ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.home.pos, playerPos)))) {
-        Audio_StopSfx(NA_SE_EN_FALL_AIM);
+        Audio_StopSfxById(NA_SE_EN_FALL_AIM);
         this->timer = 0x82;
     }
 
@@ -604,7 +604,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
 
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &gCircleShadowDL);
+    gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }
