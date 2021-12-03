@@ -749,7 +749,7 @@
         <Texture Name="gEffHitMark24Tex" OutName="eff_hit_mark_24" Format="i4" Width="32" Height="24" Offset="0x215F0"/>
         <DList Name="gEffHitMarkDL" Offset="0x21770"/>
         <Texture Name="gEffUnknown6Tex" OutName="eff_unknown_6" Format="i8" Width="32" Height="64" Offset="0x21810"/>
-        <Texture Name="gEffUnknown7Tex" OutName="eff_unknown_7" Format="i8" Width="32" Height="64" Offset="0x22010"/>
+        <Texture Name="gEffFleckTex" OutName="eff_fleck" Format="i8" Width="32" Height="64" Offset="0x22010"/>
         <Texture Name="gEffUnknown8Tex" OutName="eff_unknown_8" Format="i8" Width="64" Height="64" Offset="0x22810"/>
         <Texture Name="gEffMagmaBubble1Tex" OutName="eff_magma_bubbles_1" Format="ia8" Width="16" Height="24" Offset="0x23810"/>
         <Texture Name="gEffMagmaBubble2Tex" OutName="eff_magma_bubbles_2" Format="ia8" Width="16" Height="24" Offset="0x23990"/>

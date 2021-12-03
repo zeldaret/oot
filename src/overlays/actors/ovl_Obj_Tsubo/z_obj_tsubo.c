@@ -7,6 +7,7 @@
 #include "z_obj_tsubo.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+#include "objects/object_tsubo/object_tsubo.h"
 
 #define FLAGS 0x00800010
 
@@ -51,9 +52,9 @@ const ActorInit Obj_Tsubo_InitVars = {
 
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
 
-static Gfx* D_80BA1B84[] = { gPotDL, 0x060017C0 };
+static Gfx* D_80BA1B84[] = { gPotDL, object_tsubo_DL_0017C0 };
 
-static Gfx* D_80BA1B8C[] = { gPotFragmentDL, 0x06001960 };
+static Gfx* D_80BA1B8C[] = { gPotFragmentDL, object_tsubo_DL_001960 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
