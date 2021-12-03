@@ -2,17 +2,17 @@
     <Soundfont Name="01 - Sound Effects 2" Index="1">
         <Instruments>
             <Instrument Name="Door Knock" Enum="DOOR_KNOCK"/>
-            <Instrument Name="Dodongo Hurt" Enum="DODONGO_HURT"/>
-            <Instrument Name="Freezing Breath" Enum="ATK_BREATH"/>
-            <Instrument Name="Growling Monster" Enum="MONSTER_GROWL"/>
+            <Instrument Name="Dodongo Roar" Enum="DODONGO_HURT"/>
+            <Instrument Name="Flamethrower" Enum="ATK_BREATH"/>
+            <Instrument Name="Monstrous Roaring" Enum="MONSTER_GROWL"/>
             <Instrument Name="Rupee Tick" Enum="RUPEE_TICK"/>
             <Instrument Name="Chomp" Enum="CHOMP"/>
             <Instrument Name="Damage" Enum="DAMAGE"/>
-            <Instrument Name="Frog" Enum="FROG"/>
+            <Instrument Name="Mechanical Sound" Enum="FROG"/>
             <Instrument Name="Magic Cry" Enum=""/>
             <Instrument Name="Magic Charge" Enum=""/>
             <Instrument Name="Flutter" Enum=""/>
-            <Instrument Name="Monster Cry" Enum=""/>
+            <Instrument Name="Dinosaur Cry" Enum=""/>
             <Instrument Name="Tap" Enum=""/>
             <Instrument Name="Voice Fast" Enum=""/>
             <Instrument Name="Laughing" Enum=""/>
@@ -31,7 +31,7 @@
             <Instrument Name="Ganondorf Laugh" Enum=""/>
             <Instrument Name="Attack Shout" Enum=""/>
             <Instrument Name="Powerful Magic" Enum=""/>
-            <Instrument Name="020 Creaking Wood" Enum=""/>
+            <Instrument Name="Creaking Wood" Enum=""/>
             <Instrument Name="Ganondorf Flying" Enum=""/>
             <Instrument Name="Charging Magic" Enum=""/>
             <Instrument Name="Dissonant Harp" Enum=""/>
@@ -39,19 +39,19 @@
             <Instrument Name="Crazy Wail" Enum=""/>
             <Instrument Name="Attack - Hah!" Enum=""/>
             <Instrument Name="Annoyed Moan" Enum=""/>
-            <Instrument Name="Water Splash" Enum=""/>
+            <Instrument Name="Large Water Splash" Enum=""/>
             <Instrument Name="Step - Water" Enum=""/>
-            <Instrument Name="011 Bubbling Magma" Enum=""/>
+            <Instrument Name="Explosion and Bubbling Lava" Enum=""/>
             <Instrument Name="Big Monster Hurt" Enum=""/>
             <Instrument Name="Worried Crying" Enum=""/>
-            <Instrument Name="Scary Laughter" Enum=""/>
-            <Instrument Name="024 Underwater Bubbles" Enum=""/>
+            <Instrument Name="Phantom Ganon's Laughter" Enum=""/>
+            <Instrument Name="Underwater Bubbles" Enum=""/>
             <Instrument Name="Annoyed Groan" Enum=""/>
             <Instrument Name="Goron Sound" Enum=""/>
-            <Instrument Name="Ice Block Sliding" Enum=""/>
+            <Instrument Name="Clink and Sliding Boots" Enum=""/>
             <Instrument Name="Bongo" Enum=""/>
-            <Instrument Name="034 Wolf Howl" Enum=""/>
-            <Instrument Name="Deku Hurt" Enum=""/>
+            <Instrument Name="Animal Calls" Enum=""/>
+            <Instrument Name="Iron Boots" Enum=""/>
         </Instruments>
         <Drums/>
         <Effects>
@@ -94,7 +94,7 @@
             <Effect Name="Ganon Casts Magic" Enum=""/>
             <Effect Name="Ganon's Darkwave Attack" Enum=""/>
             <Effect Name="Phantom Ganon Laughter" Enum=""/>
-            <Effect Name="Gooey Slash" Enum=""/>
+            <Effect Name="Enemy Struck" Enum=""/>
             <Effect Name="Redead Scream" Enum=""/>
         </Effects>
     </Soundfont>

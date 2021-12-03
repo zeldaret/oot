@@ -108,7 +108,7 @@ class Percussion:
 class Instrument:
     def __init__(self, bank, record, tbl, baseOffset, offset, instdef, index, fontname):
         if instdef:
-            self.name = f"{index} {instdef.name}" or f"Inst_{index}_{offset:0>8x}_{fontname}"
+            self.name = instdef.name or f"Inst_{index}_{offset:0>8x}_{fontname}"
             self.enum = instdef.enum
         else:
             self.name = f"Inst_{index}_{offset:0>8x}_{fontname}"

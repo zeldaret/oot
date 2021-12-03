@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="03 - General MIDI" Index="3">
+    <Soundfont Name="03 - Orchestra" Index="3">
         <Instruments>
             <Instrument Name="Pan Flute" Enum=""/>
             <Instrument Name="Oboe" Enum=""/>
