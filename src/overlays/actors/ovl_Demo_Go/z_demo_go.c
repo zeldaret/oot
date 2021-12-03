@@ -76,7 +76,7 @@ void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
     f32 sp1C;
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &thisx->world.pos, &sp20, &sp1C);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &thisx->world.pos, &sp20, &sp1C);
         Audio_PlaySoundAtPosition(globalCtx, &sp20, 20, NA_SE_EV_OBJECT_FALL);
     }
 }
@@ -107,6 +107,7 @@ void func_8097C9B8(DemoGo* this) {
 
 void func_8097C9DC(DemoGo* this) {
     s32 pad[2];
+
     if (Animation_OnFrame(&this->skelAnime, 12.0f) || Animation_OnFrame(&this->skelAnime, 25.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_EN_MORIBLIN_WALK);
     }

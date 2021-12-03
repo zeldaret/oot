@@ -88,7 +88,7 @@ void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B53468(void) {
-    Audio_QueueSeqCmd(NA_BGM_ESCAPE);
+    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ESCAPE);
 }
 
 BossGanon2* func_80B53488(EnZl3* this, GlobalContext* globalCtx) {
@@ -2491,6 +2491,7 @@ s32 func_80B59698(EnZl3* this, GlobalContext* globalCtx) {
 
     if (cond) {
         u8 curSpawn = globalCtx->curSpawn;
+
         if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) &&
             ((gSaveContext.timer2Value <= 0) || (gSaveContext.timer2State == 0))) {
             return 1;

@@ -1,6 +1,7 @@
 #ifndef ULTRA64_PRINTF_H
 #define ULTRA64_PRINTF_H
-#include "stdarg.h"
+
+#include "types.h"
 
 typedef struct {
     /* 0x0 */ union {

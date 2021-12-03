@@ -23,12 +23,10 @@
 #include "z64map_mark.h"
 #include "z64transition.h"
 #include "z64interface.h"
-#include "bgm.h"
+#include "sequence.h"
 #include "sfx.h"
 #include "color.h"
 #include "ichain.h"
-#include "stdarg.h"
-#include "stdlib.h"
 #include "regs.h"
 
 #define SCREEN_WIDTH  320
@@ -1167,9 +1165,9 @@ typedef struct GlobalContext {
     /* 0x11D54 */ void (*func_11D54)(Player* player, struct GlobalContext* globalCtx);
     /* 0x11D58 */ s32 (*damagePlayer)(struct GlobalContext* globalCtx, s32 damage);
     /* 0x11D5C */ void (*talkWithPlayer)(struct GlobalContext* globalCtx, Actor* actor);
-    /* 0x11D60 */ MtxF mf_11D60;
-    /* 0x11DA0 */ MtxF mf_11DA0;
-    /* 0x11DE0 */ Mtx* unk_11DE0;
+    /* 0x11D60 */ MtxF viewProjectionMtxF;
+    /* 0x11DA0 */ MtxF billboardMtxF;
+    /* 0x11DE0 */ Mtx* billboardMtx;
     /* 0x11DE4 */ u32 gameplayFrames;
     /* 0x11DE8 */ u8 linkAgeOnLoad;
     /* 0x11DE9 */ u8 unk_11DE9;
@@ -1337,24 +1335,24 @@ typedef struct {
 } EntranceInfo; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ void*    loadedRamAddr;
-    /* 0x04 */ u32      vromStart; // if applicable
-    /* 0x08 */ u32      vromEnd;   // if applicable
-    /* 0x0C */ void*    vramStart; // if applicable
-    /* 0x10 */ void*    vramEnd;   // if applicable
-    /* 0x14 */ UNK_PTR  unk_14;
-    /* 0x18 */ void*    init;    // initializes and executes the given context
-    /* 0x1C */ void*    destroy; // deconstructs the context, and sets the next context to load
-    /* 0x20 */ UNK_PTR  unk_20;
-    /* 0x24 */ UNK_PTR  unk_24;
-    /* 0x28 */ UNK_TYPE unk_28;
-    /* 0x2C */ u32      instanceSize;
+    /* 0x00 */ void*     loadedRamAddr;
+    /* 0x04 */ u32       vromStart; // if applicable
+    /* 0x08 */ u32       vromEnd;   // if applicable
+    /* 0x0C */ void*     vramStart; // if applicable
+    /* 0x10 */ void*     vramEnd;   // if applicable
+    /* 0x14 */ UNK_PTR   unk_14;
+    /* 0x18 */ void*     init;    // initializes and executes the given context
+    /* 0x1C */ void*     destroy; // deconstructs the context, and sets the next context to load
+    /* 0x20 */ UNK_PTR   unk_20;
+    /* 0x24 */ UNK_PTR   unk_24;
+    /* 0x28 */ UNK_TYPE4 unk_28;
+    /* 0x2C */ u32       instanceSize;
 } GameStateOverlay; // size = 0x30
 
 typedef struct PreNMIContext {
     /* 0x00 */ GameState state;
-    /* 0xA4 */ u32      timer;
-    /* 0xA8 */ UNK_TYPE unk_A8;
+    /* 0xA4 */ u32       timer;
+    /* 0xA8 */ UNK_TYPE4 unk_A8;
 } PreNMIContext; // size = 0xAC
 
 typedef enum {
@@ -1669,11 +1667,11 @@ typedef struct {
     /* 0x0234 */ OSScTask*    curRDPTask;
     /* 0x0238 */ s32          retraceCnt;
     /* 0x023C */ s32          doAudio;
-    /* 0x0240 */ CfbInfo* curBuf;
-    /* 0x0244 */ CfbInfo*        pendingSwapBuf1;
-    /* 0x0220 */ CfbInfo* pendingSwapBuf2;
-    /* 0x0220 */ UNK_TYPE     unk_24C;
-    /* 0x0250 */ IrqMgrClient   irqClient;
+    /* 0x0240 */ CfbInfo*     curBuf;
+    /* 0x0244 */ CfbInfo*     pendingSwapBuf1;
+    /* 0x0220 */ CfbInfo*     pendingSwapBuf2;
+    /* 0x0220 */ UNK_TYPE4    unk_24C;
+    /* 0x0250 */ IrqMgrClient irqClient;
 } SchedContext; // size = 0x258
 
 // ========================
@@ -1833,7 +1831,7 @@ typedef struct {
     /* 0x50 */ u8* symbols;
 } JpegHuffmanTable; // size = 0x54
 
-// this struct might be unaccurate but it's not used outside jpegutils.c anyways
+// this struct might be inaccurate but it's not used outside jpegutils.c anyways
 typedef struct {
     /* 0x000 */ u8 codeOffs[16];
     /* 0x010 */ u16 dcCodes[120];

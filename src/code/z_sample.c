@@ -23,6 +23,7 @@ void Sample_Draw(SampleContext* this) {
 
     {
         Mtx* mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
+
         guPosition(mtx, SREG(37), SREG(38), SREG(39), 1.0f, SREG(40), SREG(41), SREG(42));
         gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_LOAD);
     }

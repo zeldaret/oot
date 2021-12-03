@@ -60,12 +60,21 @@ def GetNonMatchingSize(path):
 
 
 mapFile = ReadAllLines("build/z64.map")
+curSegment = None
 src = 0
 code = 0
 boot = 0
 ovl = 0
 
 for line in mapFile:
+
+    if "_codeSegmentStart" in line:
+        curSegment = "code"
+    elif "_bootSegmentStart" in line:
+        curSegment = "boot"
+    elif "_codeSegmentEnd" in line or "_bootSegmentEnd" in line:
+        curSegment = None
+
     lineSplit =  list(filter(None, line.split(" ")))
 
     if (len(lineSplit) == 4 and lineSplit[0].startswith(".")):
@@ -77,9 +86,9 @@ for line in mapFile:
             if (objFile.startswith("build/src")):
                 src += size
 
-            if (objFile.startswith("build/src/code") or objFile.startswith("build/src/libultra_code")):
+            if (objFile.startswith("build/src/code") or (objFile.startswith("build/src/libultra/") and curSegment == "code")):
                 code += size
-            elif (objFile.startswith("build/src/boot") or objFile.startswith("build/src/libultra_boot")):
+            elif (objFile.startswith("build/src/boot") or (objFile.startswith("build/src/libultra/") and curSegment == "boot")):
                 boot += size
             elif (objFile.startswith("build/src/overlays")):
                 ovl += size

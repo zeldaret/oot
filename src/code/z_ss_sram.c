@@ -23,12 +23,15 @@ void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 
         sSsSramContext.piHandle.relDuration = handleRelDuration;
         sSsSramContext.piHandle.domain = handleDomain;
         sSsSramContext.piHandle.speed = handleSpeed;
+
         bzero(&sSsSramContext.piHandle.transferInfo, sizeof(__OSTranxInfo));
+
         prevInt = __osDisableInt();
         sSsSramContext.piHandle.next = __osPiTable;
         __osPiTable = &sSsSramContext.piHandle;
         __osRestoreInt(prevInt);
-        sSsSramContext.ioMesg.hdr.pri = 0;
+
+        sSsSramContext.ioMesg.hdr.pri = OS_MESG_PRI_NORMAL;
         sSsSramContext.ioMesg.hdr.retQueue = &sSsSramContext.mesgQ;
         sSsSramContext.ioMesg.devAddr = addr;
     }
@@ -48,6 +51,6 @@ void SsSram_Dma(void* dramAddr, size_t size, s32 direction) {
 
 void SsSram_ReadWrite(u32 addr, void* dramAddr, size_t size, s32 direction) {
     osSyncPrintf("ssSRAMReadWrite:%08x %08x %08x %d\n", addr, dramAddr, size, direction);
-    SsSram_Init(addr, DEVICE_TYPE_SRAM, 1, 5, 0xD, 2, 0xC, 0);
+    SsSram_Init(addr, DEVICE_TYPE_SRAM, PI_DOMAIN2, 5, 0xD, 2, 0xC, 0);
     SsSram_Dma(dramAddr, size, direction);
 }

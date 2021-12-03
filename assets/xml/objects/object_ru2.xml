@@ -4,28 +4,28 @@
         <Skeleton Name="gAdultRutoSkel" Type="Flex" LimbType="Standard" Offset="0xC700"/>
 
         <!-- Adult Ruto Limbs -->
-        <Limb Name="gAdultRutoRootLimb" Type="Standard" Offset="0xC5A0"/>
-        <Limb Name="gAdultRutoLeftThighLimb" Type="Standard" Offset="0xC5AC"/>
-        <Limb Name="gAdultRutoLeftLegLimb" Type="Standard" Offset="0xC5B8"/>
-        <Limb Name="gAdultRutoLeftFootLimb" Type="Standard" Offset="0xC5C4"/>
-        <Limb Name="gAdultRutoLeftTailLimb" Type="Standard" Offset="0xC5D0"/>
-        <Limb Name="gAdultRutoRightThighLimb" Type="Standard" Offset="0xC5DC"/>
-        <Limb Name="gAdultRutoRightLegLimb" Type="Standard" Offset="0xC5E8"/>
-        <Limb Name="gAdultRutoRightFootLimb" Type="Standard" Offset="0xC5F4"/>
-        <Limb Name="gAdultRutoRightTailLimb" Type="Standard" Offset="0xC600"/>
-        <Limb Name="gAdultRutoTorsoLimb" Type="Standard" Offset="0xC60C"/>
-        <Limb Name="gAdultRutoLeftUpperArmLimb" Type="Standard" Offset="0xC618"/>
-        <Limb Name="gAdultRutoLeftUpperWingLimb" Type="Standard" Offset="0xC624"/>
-        <Limb Name="gAdultRutoLeftLowerWingLimb" Type="Standard" Offset="0xC630"/>
-        <Limb Name="gAdultRutoLeftForearmLimb" Type="Standard" Offset="0xC63C"/>
-        <Limb Name="gAdultRutoLeftHandLimb" Type="Standard" Offset="0xC648"/>
-        <Limb Name="gAdultRutoRightUpperArmLimb" Type="Standard" Offset="0xC654"/>
-        <Limb Name="gAdultRutoRightUpperWingLimb" Type="Standard" Offset="0xC660"/>
-        <Limb Name="gAdultRutoRightLowerWingLimb" Type="Standard" Offset="0xC66C"/>
-        <Limb Name="gAdultRutoRightForearmLimb" Type="Standard" Offset="0xC678"/>
-        <Limb Name="gAdultRutoRightHandLimb" Type="Standard" Offset="0xC684"/>
-        <Limb Name="gAdultRutoHeadLimb" Type="Standard" Offset="0xC690"/>
-        <Limb Name="gAdultRutoWaistLimb" Type="Standard" Offset="0xC69C"/>
+        <Limb Name="gAdultRutoRootLimb" LimbType="Standard" Offset="0xC5A0"/>
+        <Limb Name="gAdultRutoLeftThighLimb" LimbType="Standard" Offset="0xC5AC"/>
+        <Limb Name="gAdultRutoLeftLegLimb" LimbType="Standard" Offset="0xC5B8"/>
+        <Limb Name="gAdultRutoLeftFootLimb" LimbType="Standard" Offset="0xC5C4"/>
+        <Limb Name="gAdultRutoLeftTailLimb" LimbType="Standard" Offset="0xC5D0"/>
+        <Limb Name="gAdultRutoRightThighLimb" LimbType="Standard" Offset="0xC5DC"/>
+        <Limb Name="gAdultRutoRightLegLimb" LimbType="Standard" Offset="0xC5E8"/>
+        <Limb Name="gAdultRutoRightFootLimb" LimbType="Standard" Offset="0xC5F4"/>
+        <Limb Name="gAdultRutoRightTailLimb" LimbType="Standard" Offset="0xC600"/>
+        <Limb Name="gAdultRutoTorsoLimb" LimbType="Standard" Offset="0xC60C"/>
+        <Limb Name="gAdultRutoLeftUpperArmLimb" LimbType="Standard" Offset="0xC618"/>
+        <Limb Name="gAdultRutoLeftUpperWingLimb" LimbType="Standard" Offset="0xC624"/>
+        <Limb Name="gAdultRutoLeftLowerWingLimb" LimbType="Standard" Offset="0xC630"/>
+        <Limb Name="gAdultRutoLeftForearmLimb" LimbType="Standard" Offset="0xC63C"/>
+        <Limb Name="gAdultRutoLeftHandLimb" LimbType="Standard" Offset="0xC648"/>
+        <Limb Name="gAdultRutoRightUpperArmLimb" LimbType="Standard" Offset="0xC654"/>
+        <Limb Name="gAdultRutoRightUpperWingLimb" LimbType="Standard" Offset="0xC660"/>
+        <Limb Name="gAdultRutoRightLowerWingLimb" LimbType="Standard" Offset="0xC66C"/>
+        <Limb Name="gAdultRutoRightForearmLimb" LimbType="Standard" Offset="0xC678"/>
+        <Limb Name="gAdultRutoRightHandLimb" LimbType="Standard" Offset="0xC684"/>
+        <Limb Name="gAdultRutoHeadLimb" LimbType="Standard" Offset="0xC690"/>
+        <Limb Name="gAdultRutoWaistLimb" LimbType="Standard" Offset="0xC69C"/>
 
         <!-- Adult Ruto Limb DisplayLists -->
         <DList Name="gAdultRutoLeftThighDL" Offset="0xB8E0"/>
