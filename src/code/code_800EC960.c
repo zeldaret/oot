@@ -4220,7 +4220,8 @@ s32 func_800F5A58(u8 arg0) {
 }
 
 /**
- * Plays a bgm on the main bgm player, but stores the previous bgm to return to later
+ * Plays a sequence on the main bgm player, but stores the previous sequence to return to later
+ * Designed for the mini-boss sequence, but also used by mini-game 2 sequence
  */
 void Audio_PlayMainBgmTemporarily(u16 seqId) {
     u16 curSeqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
@@ -4238,7 +4239,7 @@ void Audio_PlayMainBgmTemporarily(u16 seqId) {
 }
 
 /**
- * Restores the previous Main Bgm before Audio_PlayMainBgmTemporarily was called
+ * Restores the previous sequence to the main bgm player before Audio_PlayMainBgmTemporarily was called
  */
 void Audio_RestorePreviousMainBgm1(void) {
     if ((func_800FA0B4(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (sPrevMainBgmSeqId != NA_BGM_DISABLED) &&
@@ -4254,7 +4255,7 @@ void Audio_RestorePreviousMainBgm1(void) {
 }
 
 /**
- * Plays nature ambience on the main bgm player, but stores the previous bgm to return to later
+ * Plays the nature ambience sequence on the main bgm player, but stores the previous sequence to return to later
  */
 void Audio_PlayNatureAmbienceTemporarily(u8 natureAmbienceId) {
     u16 curSeqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
@@ -4267,7 +4268,7 @@ void Audio_PlayNatureAmbienceTemporarily(u8 natureAmbienceId) {
 }
 
 /**
- * Restores the previous main bgm before Audio_PlayNatureAmbienceTemporarily was called
+ * Restores the previous sequence to the main bgm player before Audio_PlayNatureAmbienceTemporarily was called
  */
 void Audio_RestorePreviousMainBgm2(void) {
     if (sPrevMainBgmSeqId != NA_BGM_DISABLED) {
