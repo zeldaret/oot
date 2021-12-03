@@ -1020,7 +1020,7 @@ void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
 
 void Audio_StepFreqLerp(FreqLerp* lerp);
 void func_800F56A8(void);
-void func_800F6FB4(u8);
+void Audio_PlayNatureAmbienceSequence(u8);
 s32 Audio_SetGanonDistVol(u8 targetVol);
 
 void func_800EC960(u8 custom) {
@@ -1946,7 +1946,7 @@ char sAudioSceneNames[3][2] = { "A", "S", "X" };
 u8 sAudioBlkChgBgmWork[2] = { 0 };
 u8 sAudioBlkChgBgmSel = 0;
 char sBoolStrs[3][5] = { "OFF", "ON", "STBY" };
-u8 sAudioNatureFailed = 0;
+u8 sAudioNatureFailed = false;
 u8 sPeakNumNotes = 0;
 
 void AudioDebug_SetInput(void) {
@@ -2642,7 +2642,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             }
 
             GfxPrint_SetPos(printer, 3, 23);
-            if (sAudioNatureFailed != 0) {
+            if (sAudioNatureFailed != false) {
                 GfxPrint_Printf(printer, "NATURE FAILED %01x", sAudioNatureFailed);
             }
 
@@ -2755,7 +2755,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                 }
                 break;
             case 7:
-                func_800F6FB4(sAudioSndContWork[sAudioSndContSel]);
+                Audio_PlayNatureAmbienceSequence(sAudioSndContWork[sAudioSndContSel]);
                 break;
             case 8:
             case 9:
@@ -4253,7 +4253,7 @@ void func_800F5BF0(u8 arg0) {
     if (temp_v0 != NA_BGM_NATURE_BACKGROUND) {
         D_80130628 = temp_v0;
     }
-    func_800F6FB4(arg0);
+    Audio_PlayNatureAmbienceSequence(arg0);
 }
 
 void func_800F5C2C(void) {
@@ -4680,83 +4680,87 @@ void func_800F6C34(void) {
     D_8016B9F2 = 0;
 }
 
-void func_800F6D58(u8 arg0, u8 arg1, u8 arg2) {
-    u8 t;
-    u8 temp_a0;
-    u8 i;
+void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 val) {
+    u8 firstChannelIdx;
+    u8 lastChannelIdx;
+    u8 channelIdx;
 
     if ((D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 != NA_BGM_NATURE_BACKGROUND) && func_800FA11C(1, 0xF00000FF)) {
-        sAudioNatureFailed = 1;
+        sAudioNatureFailed = true;
         return;
     }
 
-    if (((arg0 << 8) + arg1) == 0x101) {
+    // channelIdxRange = 01 on port 1
+    if (((channelIdxRange << 8) + port) == ((1 << 8) | 1)) {
         if (func_800FA0B4(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON) {
             D_8016B9D8 = 0;
         }
     }
 
-    t = arg0 >> 4;
-    temp_a0 = arg0 & 0xF;
-    if (t == 0) {
-        t = arg0 & 0xF;
+    firstChannelIdx = channelIdxRange >> 4;
+    lastChannelIdx = channelIdxRange & 0xF;
+
+    if (firstChannelIdx == 0) {
+        firstChannelIdx = channelIdxRange & 0xF;
     }
 
-    for (i = t; i <= temp_a0; i++) {
-        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, arg1, i, arg2);
+    for (channelIdx = firstChannelIdx; channelIdx <= lastChannelIdx; channelIdx++) {
+        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, port, channelIdx, val);
     }
 }
 
-void func_800F6E7C(u16 arg0, u16 arg1) {
-    u8 i;
-    u32 t;
+void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
+    u8 channelIdx;
 
     if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_WINDMILL) {
         func_800F3F3C(0xF);
         return;
     }
+
     Audio_SeqCmd7(SEQ_PLAYER_BGM_MAIN, 0, 1);
-    Audio_SeqCmd7(SEQ_PLAYER_BGM_MAIN, 4, arg0 >> 8);
-    Audio_SeqCmd7(SEQ_PLAYER_BGM_MAIN, 5, arg0 & 0xFF);
+    Audio_SeqCmd7(SEQ_PLAYER_BGM_MAIN, 4, playerIO >> 8);
+    Audio_SeqCmd7(SEQ_PLAYER_BGM_MAIN, 5, playerIO & 0xFF);
     Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 0, 0x7F, 1);
 
-    i = 0;
+    channelIdx = false;
     if (D_80133408 != 0) {
-        i = 1;
+        channelIdx = true;
         Audio_SeqCmdE01(SEQ_PLAYER_BGM_MAIN, 0);
     }
 
     Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, NA_BGM_NATURE_BACKGROUND);
 
-    if (i != 0) {
+    if (channelIdx) {
         Audio_SeqCmdE01(SEQ_PLAYER_BGM_MAIN, 1);
     }
 
-    for (i = 0; i < 0x10; i++) {
-        if (!(arg1 & (1 << i)) && (arg0 & (1 << i))) {
-            Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, 1, i, 1);
+    for (channelIdx = 0; channelIdx < 16; channelIdx++) {
+        if (!(channelMask & (1 << channelIdx)) && (playerIO & (1 << channelIdx))) {
+            Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_1, channelIdx, 1);
         }
     }
 }
 
-void func_800F6FB4(u8 arg0) {
+void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
     u8 i = 0;
-    u8 b0;
-    u8 b1;
-    u8 b2;
+    u8 channelIdx;
+    u8 port;
+    u8 val;
 
     if ((D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 == NA_BGM_DISABLED) ||
-        ((D_80130658[((u8)D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254) & 0xFF] & 0x80) == 0)) {
-        func_800F6E7C(sNatureAmbienceDataIO[arg0].playerIO, sNatureAmbienceDataIO[arg0].channelMask);
-        while ((sNatureAmbienceDataIO[arg0].channelIO[i] != 0xFF) && (i < 100)) {
+        !(D_80130658[((u8)D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254) & 0xFF] & 0x80)) {
+
+        Audio_StartNatureAmbienceSequence(sNatureAmbienceDataIO[natureAmbienceId].playerIO, sNatureAmbienceDataIO[natureAmbienceId].channelMask);
+        
+        while ((sNatureAmbienceDataIO[natureAmbienceId].channelIO[i] != 0xFF) && (i < 100)) {
             // Probably a fake match, using Audio_SeqCmd8 doesn't work.
-            b0 = sNatureAmbienceDataIO[arg0].channelIO[i++];
-            b1 = sNatureAmbienceDataIO[arg0].channelIO[i++];
-            b2 = sNatureAmbienceDataIO[arg0].channelIO[i++];
-            Audio_QueueSeqCmd(0x80000000 | (SEQ_PLAYER_BGM_MAIN << 24) | (b1 << 0x10) | (b0 << 8) | b2);
+            channelIdx = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
+            port = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
+            val = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
+            Audio_QueueSeqCmd(0x80000000 | (SEQ_PLAYER_BGM_MAIN << 24) | (port << 0x10) | (channelIdx << 8) | val);
         }
 
-        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, 0x07, 13, D_80130604);
+        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, BGM_MAIN_CHANNEL_D, D_80130604);
     }
 }
 

@@ -95,8 +95,8 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
         if (globalCtx->csCtx.state == CS_STATE_IDLE) {
             func_80077684(globalCtx);
         } else if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_BACKGROUND) {
-            func_800F6D58(0xF, 1, 0);
-            func_800F6D58(0xE, 1, 0);
+            Audio_SetNatureAmbienceChannelIO(0xF, 1, 0);
+            Audio_SetNatureAmbienceChannelIO(0xE, 1, 0);
         }
         osSyncPrintf("\n\n\nE_wether_flg=[%d]", gWeatherMode);
         osSyncPrintf("\nrain_evt_trg=[%d]\n\n", globalCtx->envCtx.gloomySkyMode);

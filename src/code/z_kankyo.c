@@ -1778,7 +1778,7 @@ void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
                 sLightningFlashAlpha += 100;
 
                 if (sLightningFlashAlpha >= gLightningStrike.flashAlphaTarget) {
-                    func_800F6D58(15, 0, 0);
+                    Audio_SetNatureAmbienceChannelIO(0xF, 0, 0);
                     gLightningStrike.state++;
                     gLightningStrike.flashAlphaTarget = 0;
                 }
@@ -1921,7 +1921,7 @@ void func_800758AC(GlobalContext* globalCtx) {
 
     // both lost woods exits on the bridge from kokiri to hyrule field
     if (((void)0, gSaveContext.entranceIndex) == 0x4DE || ((void)0, gSaveContext.entranceIndex) == 0x5E0) {
-        func_800F6FB4(4);
+        Audio_PlayNatureAmbienceSequence(4);
     } else if (((void)0, gSaveContext.unk_140E) != NA_BGM_GENERAL_SFX) {
         if (!func_80077600()) {
             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (s32)((void)0, gSaveContext.unk_140E));
@@ -1932,7 +1932,7 @@ void func_800758AC(GlobalContext* globalCtx) {
             return;
         }
         if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
-            func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
+            Audio_PlayNatureAmbienceSequence(globalCtx->soundCtx.nightSeqIndex);
         }
     } else if (globalCtx->soundCtx.nightSeqIndex == 0x13) {
         // "BGM Configuration"
@@ -1949,7 +1949,7 @@ void func_800758AC(GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_E0 = 1;
     } else {
         if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
-            func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
+            Audio_PlayNatureAmbienceSequence(globalCtx->soundCtx.nightSeqIndex);
         }
 
         if (((void)0, gSaveContext.dayTime) > 0xB71C && ((void)0, gSaveContext.dayTime) < 0xCAAC) {
@@ -1974,7 +1974,7 @@ void func_800758AC(GlobalContext* globalCtx) {
 void func_80075B44(GlobalContext* globalCtx) {
     switch (globalCtx->envCtx.unk_E0) {
         case 0:
-            func_800F6D58(86, 1, 0);
+            Audio_SetNatureAmbienceChannelIO(0x56, 1, 0);
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
                 osSyncPrintf("\n\n\nNa_StartMorinigBgm\n\n");
                 func_800F5510(globalCtx->soundCtx.seqIndex);
@@ -1997,8 +1997,8 @@ void func_80075B44(GlobalContext* globalCtx) {
             break;
         case 3:
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
-                func_800F6D58(1, 1, 1);
+                Audio_PlayNatureAmbienceSequence(globalCtx->soundCtx.nightSeqIndex);
+                Audio_SetNatureAmbienceChannelIO(0x1, 1, 1);
             }
             globalCtx->envCtx.unk_E0++;
             break;
@@ -2008,9 +2008,9 @@ void func_80075B44(GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            func_800F6D58(1, 1, 0);
+            Audio_SetNatureAmbienceChannelIO(0x1, 1, 0);
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                func_800F6D58(36, 1, 1);
+                Audio_SetNatureAmbienceChannelIO(0x24, 1, 1);
             }
             globalCtx->envCtx.unk_E0++;
             break;
@@ -2029,9 +2029,9 @@ void func_80075B44(GlobalContext* globalCtx) {
             }
             break;
         case 7:
-            func_800F6D58(36, 1, 0);
+            Audio_SetNatureAmbienceChannelIO(0x24, 1, 0);
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                func_800F6D58(86, 1, 1);
+                Audio_SetNatureAmbienceChannelIO(0x56, 1, 1);
             }
             globalCtx->envCtx.unk_E0++;
             break;
@@ -2406,18 +2406,18 @@ s32 func_80077600(void) {
 
 void func_80077624(GlobalContext* globalCtx) {
     if (globalCtx->soundCtx.nightSeqIndex == 19) {
-        func_800F6FB4(5);
+        Audio_PlayNatureAmbienceSequence(5);
     } else {
-        func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
+        Audio_PlayNatureAmbienceSequence(globalCtx->soundCtx.nightSeqIndex);
     }
 
-    func_800F6D58(14, 1, 1);
-    func_800F6D58(15, 1, 1);
+    Audio_SetNatureAmbienceChannelIO(0xE, 1, 1);
+    Audio_SetNatureAmbienceChannelIO(0xF, 1, 1);
 }
 
 void func_80077684(GlobalContext* globalCtx) {
-    func_800F6D58(14, 1, 0);
-    func_800F6D58(15, 1, 0);
+    Audio_SetNatureAmbienceChannelIO(0xE, 1, 0);
+    Audio_SetNatureAmbienceChannelIO(0xF, 1, 0);
 
     if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_BACKGROUND) {
         gSaveContext.seqIndex = NA_BGM_NATURE_SFX_RAIN;
