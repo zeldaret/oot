@@ -40,28 +40,28 @@ const ActorInit En_Tr_InitVars = {
 // The first elements of these animation arrays are for Koume, the second for Kotake
 
 static AnimationHeader* unused[] = {
-    0x06003FC8,
-    0x06001CDC,
+    &object_tr_Anim_003FC8,
+    &object_tr_Anim_001CDC,
 };
 
 static AnimationHeader* D_80B24368[] = {
-    0x06002BC4, // Turn to look over right shoulder
-    0x06000BFC, // Turn to look over right shoulder
+    &object_tr_Anim_002BC4,
+    &object_tr_Anim_000BFC,
 };
 
 static AnimationHeader* D_80B24370[] = {
-    0x060035CC, // Looking over left shoulder
-    0x060013CC, // Looking over right shoulder
+    &object_tr_Anim_0035CC,
+    &object_tr_Anim_0013CC,
 };
 
 static AnimationHeader* D_80B24378[] = {
-    0x060049C8, // Floating on broom
-    0x060049C8, // Floating on broom
+    &object_tr_Anim_0049C8,
+    &object_tr_Anim_0049C8,
 };
 
 static AnimationHeader* D_80B24380[] = {
-    0x06012E1C, // Casting magic
-    0x06012E1C, // Casting magic
+    &object_tr_Anim_012E1C,
+    &object_tr_Anim_012E1C,
 };
 
 static f32 D_80B24388[] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
@@ -77,9 +77,9 @@ static Color_RGBA8 D_80B243C0[4] = {
 };
 
 static void* sEyeTextures[] = {
-    0x060086D8, // Open
-    0x060094D8, // Half
-    0x060098D8, // Closed
+    object_tr_Tex_0086D8,
+    object_tr_Tex_0094D8,
+    object_tr_Tex_0098D8,
 };
 
 void EnTr_SetupAction(EnTr* this, EnTrActionFunc actionFunc) {
