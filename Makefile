@@ -260,7 +260,7 @@ build/assets/text/nes_message_data_static.o: build/assets/text/message_data.enc.
 build/assets/text/staff_message_data_static.o: build/assets/text/message_data_staff.enc.h
 
 build/assets/%.o: assets/%.c
-	$(CC) -c $(CFLAGS) -I $(<D) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
 
 build/dmadata_table_spec.h: build/$(SPEC)
@@ -270,25 +270,25 @@ build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
 build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 
 build/src/overlays/%.o: src/overlays/%.c
-	$(CC) -c $(CFLAGS) -I $(<D) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s $(ZAPDFLAGS)
 	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/%.o: src/%.c
-	$(CC) -c $(CFLAGS) -I $(<D) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra/libc/ll.o: src/libultra/libc/ll.c
-	$(CC) -c $(CFLAGS) -I $(<D) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
-	$(CC) -c $(CFLAGS) -I $(<D) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
