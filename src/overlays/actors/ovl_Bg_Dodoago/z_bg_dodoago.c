@@ -17,7 +17,7 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgDodoago_WaitExplosives_(BgDodoago* this, GlobalContext* globalCtx);
+void BgDodoago_WaitExplosives(BgDodoago* this, GlobalContext* globalCtx);
 void BgDodoago_OpenJaw(BgDodoago* this, GlobalContext* globalCtx);
 void BgDodoago_DoNothing(BgDodoago* this, GlobalContext* globalCtx);
 void BgDodoago_LightOneEye(BgDodoago* this, GlobalContext* globalCtx);
@@ -134,7 +134,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->colliderLeft, &this->dyna.actor, &sColCylinderInitLeftRight);
     Collider_SetCylinder(globalCtx, &this->colliderRight, &this->dyna.actor, &sColCylinderInitLeftRight);
 
-    BgDodoago_SetupAction(this, BgDodoago_WaitExplosives_);
+    BgDodoago_SetupAction(this, BgDodoago_WaitExplosives);
     sDisableBombCatcher = false;
 }
 
@@ -147,7 +147,7 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->colliderRight);
 }
 
-void BgDodoago_WaitExplosives_(BgDodoago* this, GlobalContext* globalCtx) {
+void BgDodoago_WaitExplosives(BgDodoago* this, GlobalContext* globalCtx) {
     Actor* explosive = Actor_GetCollidedExplosive(globalCtx, &this->colliderMain.base);
 
     if (explosive != NULL) {
@@ -262,7 +262,7 @@ void BgDodoago_LightOneEye(BgDodoago* this, GlobalContext* globalCtx) {
     globalCtx->roomCtx.unk_74[this->state] += 5;
 
     if (globalCtx->roomCtx.unk_74[this->state] == 255) {
-        BgDodoago_SetupAction(this, BgDodoago_WaitExplosives_);
+        BgDodoago_SetupAction(this, BgDodoago_WaitExplosives);
     }
 }
 
