@@ -4232,6 +4232,7 @@ void Audio_PlayMainBgmTemporarily(u16 seqId) {
         } else {
             osSyncPrintf("Middle Boss BGM Start not stack \n");
         }
+
         Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, seqId);
     }
 }
@@ -4247,6 +4248,7 @@ void Audio_RestorePreviousMainBgm1(void) {
         } else {
             Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, sPrevMainBgmSeqId);
         }
+
         sPrevMainBgmSeqId = NA_BGM_DISABLED;
     }
 }
@@ -4255,17 +4257,17 @@ void Audio_RestorePreviousMainBgm1(void) {
  * Plays nature ambience on the main bgm player, but stores the previous bgm to return to later
  */
 void Audio_PlayNatureAmbienceTemporarily(u8 natureAmbienceId) {
-    u16 seqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
+    u16 curSeqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
-    if (seqId != NA_BGM_NATURE_BACKGROUND) {
-        sPrevMainBgmSeqId = seqId;
+    if (curSeqId != NA_BGM_NATURE_BACKGROUND) {
+        sPrevMainBgmSeqId = curSeqId;
     }
 
     Audio_PlayNatureAmbienceSequence(natureAmbienceId);
 }
 
 /**
- * Restores the previous Main Bgm before Audio_PlayNatureAmbienceTemporarily was called
+ * Restores the previous main bgm before Audio_PlayNatureAmbienceTemporarily was called
  */
 void Audio_RestorePreviousMainBgm2(void) {
     if (sPrevMainBgmSeqId != NA_BGM_DISABLED) {
