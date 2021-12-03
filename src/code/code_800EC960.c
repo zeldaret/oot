@@ -154,7 +154,7 @@ s8 sAudioCodeReverb = 0;
 u8 D_8013061C = 0;
 f32 sAudioEnemyDist = 0.0f;
 s8 sAudioEnemyVol = 127;
-u16 D_80130628 = NA_BGM_DISABLED;
+u16 sPrevMainBgmSeqId = NA_BGM_DISABLED;
 u8 D_8013062C = 0;
 u8 D_80130630 = NA_BGM_GENERAL_SFX;
 u32 D_80130634 = 0;
@@ -1020,7 +1020,7 @@ void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
 
 void Audio_StepFreqLerp(FreqLerp* lerp);
 void func_800F56A8(void);
-void Audio_PlayNatureAmbienceSequence(u8);
+void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId);
 s32 Audio_SetGanonDistVol(u8 targetVol);
 
 void func_800EC960(u8 custom) {
@@ -4220,13 +4220,12 @@ s32 func_800F5A58(u8 arg0) {
 }
 
 void func_800F5ACC(u16 seqId) {
-    u16 temp_v0;
+    u16 curSeqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
-    temp_v0 = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
-    if ((temp_v0 & 0xFF) != NA_BGM_GANON_TOWER && (temp_v0 & 0xFF) != NA_BGM_ESCAPE && temp_v0 != seqId) {
+    if ((curSeqId & 0xFF) != NA_BGM_GANON_TOWER && (curSeqId & 0xFF) != NA_BGM_ESCAPE && curSeqId != seqId) {
         func_800F5E90(3);
-        if (temp_v0 != NA_BGM_DISABLED) {
-            D_80130628 = temp_v0;
+        if (curSeqId != NA_BGM_DISABLED) {
+            sPrevMainBgmSeqId = curSeqId;
         } else {
             osSyncPrintf("Middle Boss BGM Start not stack \n");
         }
@@ -4235,32 +4234,32 @@ void func_800F5ACC(u16 seqId) {
 }
 
 void func_800F5B58(void) {
-    if ((func_800FA0B4(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (D_80130628 != NA_BGM_DISABLED) &&
+    if ((func_800FA0B4(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (sPrevMainBgmSeqId != NA_BGM_DISABLED) &&
         (D_80130658[func_800FA0B4(SEQ_PLAYER_BGM_MAIN) & 0xFF] & 8)) {
-        if (D_80130628 == NA_BGM_DISABLED) {
+        if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
             Audio_SeqCmd1(SEQ_PLAYER_BGM_MAIN, 0);
         } else {
-            Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, D_80130628);
+            Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, sPrevMainBgmSeqId);
         }
-        D_80130628 = NA_BGM_DISABLED;
+        sPrevMainBgmSeqId = NA_BGM_DISABLED;
     }
 }
 
-void func_800F5BF0(u8 arg0) {
-    u16 temp_v0;
+void func_800F5BF0(u8 natureAmbienceId) {
+    u16 seqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
-    temp_v0 = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
-    if (temp_v0 != NA_BGM_NATURE_BACKGROUND) {
-        D_80130628 = temp_v0;
+    if (seqId != NA_BGM_NATURE_BACKGROUND) {
+        sPrevMainBgmSeqId = seqId;
     }
-    Audio_PlayNatureAmbienceSequence(arg0);
+
+    Audio_PlayNatureAmbienceSequence(natureAmbienceId);
 }
 
 void func_800F5C2C(void) {
-    if (D_80130628 != NA_BGM_DISABLED) {
-        Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, D_80130628);
+    if (sPrevMainBgmSeqId != NA_BGM_DISABLED) {
+        Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, sPrevMainBgmSeqId);
     }
-    D_80130628 = NA_BGM_DISABLED;
+    sPrevMainBgmSeqId = NA_BGM_DISABLED;
 }
 
 void Audio_PlayFanfare(u16 seqId) {
@@ -4324,7 +4323,7 @@ void func_800F5E90(u8 arg0) {
     u8 phi_a3;
 
     D_80130654 = arg0;
-    if (D_80130628 == NA_BGM_DISABLED) {
+    if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
         if (sAudioCutsceneFlag) {
             arg0 = 3;
         }
@@ -4672,7 +4671,7 @@ void func_800F6C34(void) {
     D_8016B9D8 = 0;
     sSpecReverb = sSpecReverbs[gAudioSpecId];
     D_80130608 = 0;
-    D_80130628 = NA_BGM_DISABLED;
+    sPrevMainBgmSeqId = NA_BGM_DISABLED;
     Audio_QueueCmdS8(0x46 << 24 | SEQ_PLAYER_BGM_MAIN << 16, -1);
     sSariaBgmPtr = NULL;
     D_8016B9F4 = 0;
