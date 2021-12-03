@@ -115,11 +115,9 @@ std::string RomFile::GetBodySourceCode() const
 	return declaration;
 }
 
-std::string RomFile::GetSourceOutputCode(const std::string& prefix)
+void RomFile::GetSourceOutputCode(const std::string& prefix)
 {
 	DeclareVar(prefix, GetBodySourceCode());
-
-	return "";
 }
 
 std::string RomFile::GetSourceTypeName() const

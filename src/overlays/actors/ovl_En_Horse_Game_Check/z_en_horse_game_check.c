@@ -115,11 +115,11 @@ void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, GlobalConte
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 6;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
             globalCtx->fadeTransition = 3;
-            func_800775F0(NA_BGM_INGO);
+            Environment_ForcePlaySequence(NA_BGM_INGO);
         } else {
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 4;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-            func_800775F0(NA_BGM_INGO);
+            Environment_ForcePlaySequence(NA_BGM_INGO);
             globalCtx->fadeTransition = 0x2E;
         }
     } else {
