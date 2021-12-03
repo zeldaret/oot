@@ -103,8 +103,8 @@
 #define NA_BGM_KOTAKE_KOUME 0x61     // Kotake & Koume's Theme
 #define NA_BGM_ESCAPE 0x62           // Escape from Ganon's Castle
 #define NA_BGM_UNDERGROUND 0x63      // Ganon's Castle Under Ground
-#define NA_BGM_GANON_BATTLE_1 0x64   // Ganondorf Battle
-#define NA_BGM_GANON_BATTLE_2 0x65   // Ganon Battle
+#define NA_BGM_GANONDORF_BOSS 0x64   // Ganondorf Battle
+#define NA_BGM_GANON_BOSS 0x65       // Ganon Battle
 #define NA_BGM_END_DEMO 0x66         // Seal of Six Sages
 #define NA_BGM_STAFF_1 0x67          // End Credits I
 #define NA_BGM_STAFF_2 0x68          // End Credits II

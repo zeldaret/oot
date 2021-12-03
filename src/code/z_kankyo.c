@@ -196,10 +196,10 @@ f32 D_8011FDD4 = 0.0f;
 
 u8 gCustomLensFlareOn;
 Vec3f gCustomLensFlarePos;
-s16 D_8015FD04;
-s16 D_8015FD06;
-f32 D_8015FD08;
-s16 D_8015FD0C;
+s16 gLensFlareUnused;
+s16 gLensFlareScale;
+f32 gLensFlareColorIntensity;
+s16 gLensFlareScreenFillAlpha;
 LightningBolt sLightningBolts[3];
 LightningStrike gLightningStrike;
 s16 sLightningFlashAlpha;
@@ -894,9 +894,9 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         if (((((void)0, gSaveContext.sceneSetupIndex) >= 5 || gTimeIncrement != 0) &&
              ((void)0, gSaveContext.dayTime) > gSaveContext.skyboxTime) ||
             (((void)0, gSaveContext.dayTime) < 0xAAB || gTimeIncrement < 0)) {
-
             gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
         }
+
         time = gSaveContext.dayTime;
 
         if (time > 0xC000 || time < 0x4555) {
@@ -1353,7 +1353,8 @@ void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* 
 f32 sLensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
 
 void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
-                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
+                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
+                               s16 screenFillAlpha, u8 arg9) {
     s16 i;
     f32 tempX;
     f32 tempY;
@@ -1377,7 +1378,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
     f32 unk88Target;
     u32 isOffScreen = false;
     f32 alpha;
-    f32 scale;
+    f32 adjScale;
     Vec3f screenPos;
     f32 fogInfluence;
     f32 temp;
@@ -1465,17 +1466,17 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
             }
 
             Matrix_Translate(-posDirX * i * dist, -posDirY * i * dist, -posDirZ * i * dist, MTXMODE_APPLY);
-            scale = sLensFlareScales[i] * cosAngle;
+            adjScale = sLensFlareScales[i] * cosAngle;
 
             if (arg9) {
-                scale *= 0.001 * (arg6 + 630.0f * temp);
+                adjScale *= 0.001 * (scale + 630.0f * temp);
             } else {
-                scale *= 0.0001f * arg6 * (2.0f * dist);
+                adjScale *= 0.0001f * scale * (2.0f * dist);
             }
 
-            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+            Matrix_Scale(adjScale, adjScale, adjScale, MTXMODE_APPLY);
 
-            alpha = arg7 / 10.0f;
+            alpha = colorIntensity / 10.0f;
             alpha = CLAMP_MAX(alpha, 1.0f);
             alpha = alpha * lensFlareAlphas[i];
             alpha = CLAMP_MIN(alpha, 0.0f);
@@ -1518,13 +1519,13 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
 
         alphaScale = cosAngle - (1.5f - cosAngle);
 
-        if (arg8) {
+        if (screenFillAlpha != 0) {
             if (alphaScale > 0.0f) {
                 POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
 
-                alpha = arg7 / 10.0f;
+                alpha = colorIntensity / 10.0f;
                 alpha = CLAMP_MAX(alpha, 1.0f);
-                alpha = alpha * arg8;
+                alpha = alpha * screenFillAlpha;
                 alpha = CLAMP_MIN(alpha, 0.0f);
 
                 fogInfluence = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
@@ -1542,7 +1543,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
                     Math_SmoothStepToF(&envCtx->unk_84, 0.0f, 0.5f, 50.0f, 0.1f);
                 }
 
-                temp = arg7 / 120.0f;
+                temp = colorIntensity / 120.0f;
                 temp = CLAMP_MIN(temp, 0.0f);
 
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, (u8)(temp * 75.0f) + 180, (u8)(temp * 155.0f) + 100,
@@ -2051,7 +2052,8 @@ void Environment_DrawCustomLensFlare(GlobalContext* globalCtx) {
         pos.z = gCustomLensFlarePos.z;
 
         Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos,
-                                  D_8015FD04, D_8015FD06, D_8015FD08, D_8015FD0C, 0);
+                                  gLensFlareUnused, gLensFlareScale, gLensFlareColorIntensity,
+                                  gLensFlareScreenFillAlpha, 0);
     }
 }
 

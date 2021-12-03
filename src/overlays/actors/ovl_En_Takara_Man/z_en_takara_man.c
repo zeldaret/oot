@@ -215,8 +215,8 @@ s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 
 void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = {
-        0x06000970,
-        0x06000D70,
+        object_ts_Tex_000970,
+        object_ts_Tex_000D70,
     };
     EnTakaraMan* this = THIS;
 

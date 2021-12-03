@@ -6,6 +6,8 @@
 
 #include "vt.h"
 #include "z_en_sth.h"
+#include "objects/object_ahg/object_ahg.h"
+#include "objects/object_boj/object_boj.h"
 
 #define FLAGS 0x00000019
 
@@ -61,7 +63,12 @@ static s16 sObjectIds[6] = {
 };
 
 static FlexSkeletonHeader* sSkeletons[6] = {
-    0x060000F0, 0x060000F0, 0x060000F0, 0x060000F0, 0x060000F0, 0x060000F0,
+    /* object_ahg_Skel_0000F0 */ 0x060000F0,
+    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    /* object_boj_Skel_0000F0 */ 0x060000F0,
 };
 
 static AnimationHeader* sAnimations[6] = {
