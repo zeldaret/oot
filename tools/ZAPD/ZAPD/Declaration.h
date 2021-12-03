@@ -38,10 +38,12 @@ public:
 	std::string varType;
 	std::string varName;
 	std::string includePath;
+
 	bool isExternal = false;
 	bool isArray = false;
+	bool forceArrayCnt = false;
 	size_t arrayItemCnt = 0;
-	std::string arrayItemCntStr;
+	std::string arrayItemCntStr = "";
 	std::vector<segptr_t> references;
 	bool isUnaccounted = false;
 	bool isPlaceholder = false;
