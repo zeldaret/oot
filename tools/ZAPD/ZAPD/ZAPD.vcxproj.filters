@@ -49,6 +49,15 @@
     <Filter Include="Header Files\Libraries\libgfxd">
       <UniqueIdentifier>{85600275-99fe-491d-8189-bcc3dc1a8903}</UniqueIdentifier>
     </Filter>
+    <Filter Include="any">
+      <UniqueIdentifier>{ba9990b0-1082-48bb-874c-6108534b5455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="any\any">
+      <UniqueIdentifier>{ce9d91b0-ba20-4296-bc2d-8630965bb392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NuGet">
+      <UniqueIdentifier>{730beb67-6d59-4849-9d9b-702c4a565fc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -134,9 +143,6 @@
     </ClCompile>
     <ClCompile Include="ZRoom\Commands\SetCutscenes.cpp">
       <Filter>Source Files\Z64\ZRoom\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\tinyxml2\tinyxml2.cpp">
-      <Filter>Source Files\Libraries</Filter>
     </ClCompile>
     <ClCompile Include="ZAnimation.cpp">
       <Filter>Source Files\Z64</Filter>
@@ -257,6 +263,24 @@
     </ClCompile>
     <ClCompile Include="ZString.cpp">
       <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="GameConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZTextureAnimation.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="OtherStructs\SkinLimbStructs.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\build\ZAPD\BuildInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZPlayerAnimationData.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="WarningHandler.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,10 +521,31 @@
     <ClInclude Include="ZString.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
+    <ClInclude Include="GameConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZTextureAnimation.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="OtherStructs\SkinLimbStructs.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZPlayerAnimationData.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="WarningHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\SymbolMap_OoTMqDbg.txt">
       <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="any\any\zlib.static.txt">
+      <Filter>any\any</Filter>
+    </Text>
+    <Text Include="NuGet\libpng.static.txt">
+      <Filter>NuGet</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
