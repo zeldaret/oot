@@ -833,7 +833,7 @@ void Environment_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 #define TIME_ENTRY_1F (D_8011FB48[envCtx->unk_1F][i])
 #define TIME_ENTRY_20 (D_8011FB48[envCtx->unk_20][i])
 
-void Environment_UpdateSceneSequence(GlobalContext* globalCtx);
+void func_80075B44(GlobalContext* globalCtx);
 void func_800766C4(GlobalContext* globalCtx);
 
 void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx,
@@ -861,7 +861,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         }
 
         func_800766C4(globalCtx); // increments or decrements unk_EE[1] depending on some condition
-        Environment_UpdateSceneSequence(globalCtx); // updates bgm/sfx and other things as the day progresses
+        func_80075B44(globalCtx); // updates bgm/sfx and other things as the day progresses
 
         if (((void)0, gSaveContext.nextDayTime) >= 0xFF00 && ((void)0, gSaveContext.nextDayTime) != 0xFFFF) {
             gSaveContext.nextDayTime -= 0x10;
@@ -1971,7 +1971,7 @@ void Environment_PlaySceneSequence(GlobalContext* globalCtx) {
 }
 
 // updates bgm/sfx and other things as the day progresses
-void Environment_UpdateSceneSequence(GlobalContext* globalCtx) {
+void func_80075B44(GlobalContext* globalCtx) {
     switch (globalCtx->envCtx.unk_E0) {
         case 0:
             Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_5 << 4 | BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_1, 0);
