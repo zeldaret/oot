@@ -125,23 +125,20 @@ typedef enum {
 } SequencePlayerId;
 
 typedef enum {
-    /* 0x0 */ BGM_MAIN_CHANNEL_0,
-    /* 0x1 */ BGM_MAIN_CHANNEL_1,
-    /* 0x2 */ BGM_MAIN_CHANNEL_2,
-    /* 0x3 */ BGM_MAIN_CHANNEL_3,
-    /* 0x4 */ BGM_MAIN_CHANNEL_4,
-    /* 0x5 */ BGM_MAIN_CHANNEL_5,
-    /* 0x6 */ BGM_MAIN_CHANNEL_6,
-    /* 0x7 */ BGM_MAIN_CHANNEL_7,
-    /* 0x8 */ BGM_MAIN_CHANNEL_8,
-    /* 0x9 */ BGM_MAIN_CHANNEL_9,
-    /* 0xA */ BGM_MAIN_CHANNEL_A,
-    /* 0xB */ BGM_MAIN_CHANNEL_B,
-    /* 0xC */ BGM_MAIN_CHANNEL_C,
-    /* 0xD */ BGM_MAIN_CHANNEL_D,
-    /* 0xE */ BGM_MAIN_CHANNEL_E,
-    /* 0xF */ BGM_MAIN_CHANNEL_F
-} BgmMainChannelIdx; // playerIdx = 0
+    /* 0x0 */ NATURE_CHANNEL_0,
+    /* 0x1 */ NATURE_CHANNEL_1,
+    /* 0x2 */ NATURE_CHANNEL_2,
+    /* 0x3 */ NATURE_CHANNEL_3,
+    /* 0x4 */ NATURE_CHANNEL_4,
+    /* 0x5 */ NATURE_CHANNEL_5,
+    /* 0x6 */ NATURE_CHANNEL_6,
+    /* 0x7 */ NATURE_CHANNEL_7,
+    /* 0x8 */ NATURE_CHANNEL_8,
+    /* 0xC */ NATURE_CHANNEL_C = 12,
+    /* 0xD */ NATURE_CHANNEL_D,
+    /* 0xE */ NATURE_CHANNEL_E,
+    /* 0xF */ NATURE_CHANNEL_F
+} NatureChannelIdx; // playerIdx = 0 (Overlaps with main bgm)
 
 typedef enum {
     /* 0x0 */ CHANNEL_IO_PORT_0,

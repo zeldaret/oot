@@ -1374,7 +1374,7 @@ void EnSkj_SetupWaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
 
         if (player->stateFlags2 & 0x1000000) {
             player->stateFlags2 |= 0x2000000;
-            Audio_PlayNatureAmbienceTemporarily(4);
+            func_800F5BF0(4);
             EnSkj_TurnPlayer(this, player);
             player->unk_6A8 = &this->actor;
             Message_StartTextbox(globalCtx, 0x10BE, &this->actor);
@@ -1390,7 +1390,7 @@ void EnSkj_WaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
 
     if (player->stateFlags2 & 0x1000000) {
         player->stateFlags2 |= 0x2000000;
-        Audio_PlayNatureAmbienceTemporarily(4);
+        func_800F5BF0(4);
         EnSkj_TurnPlayer(this, player);
         player->unk_6A8 = &this->actor;
         Message_StartTextbox(globalCtx, 0x10BE, &this->actor);
@@ -1577,7 +1577,7 @@ void EnSkj_CleanupOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
 
     if ((sOcarinaMinigameSkullKids[SKULL_KID_LEFT].unk0 == 2) &&
         (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk0 == 2)) {
-        Audio_RestorePreviousMainBgm2();
+        func_800F5C2C();
         Actor_Kill(&this->actor);
     }
 }

@@ -358,7 +358,7 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) /* miniboss */ &&
         (Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_ZF, ACTORCAT_ENEMY, 10000.0f) == NULL)) {
-        Audio_RestorePreviousMainBgm1();
+        func_800F5B58();
     }
 
     Effect_Delete(globalCtx, this->blureIndex);
@@ -643,7 +643,7 @@ void EnZf_DropIn(EnZf* this, GlobalContext* globalCtx) {
         this->actor.flags |= 1;
 
         if (this->actor.params == ENZF_TYPE_LIZALFOS_MINIBOSS_A) {
-            Audio_PlayMainBgmTemporarily(NA_BGM_MINI_BOSS);
+            func_800F5ACC(NA_BGM_MINI_BOSS);
         }
     }
 
@@ -1938,7 +1938,7 @@ void EnZf_Die(EnZf* this, GlobalContext* globalCtx) {
         if (this->actor.category != ACTORCAT_PROP) {
             if ((this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) /* miniboss */ && (D_80B4A1B4 == -1)) {
                 Flags_SetSwitch(globalCtx, this->clearFlag);
-                Audio_RestorePreviousMainBgm1();
+                func_800F5B58();
             } else {
                 D_80B4A1B4 = -1;
             }

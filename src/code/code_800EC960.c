@@ -153,50 +153,50 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC0FE, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 9,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 64,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 32,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 9,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 64,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 32,
 
             // Channel 2
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_5, 16,
 
             // Channel 3
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 10,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 112,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 48,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_2, 10,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_3, 112,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_5, 48,
 
             // Channel 4
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 14,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_2, 14,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_5, 16,
 
             // Channel 5
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
 
             // Channel 6
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_2, 1,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_4, 3,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_2, 1,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_4, 3,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_5, 16,
 
             // Channel 7
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_2, 17,
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_2, 17,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -209,44 +209,44 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC0FA, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
 
             // Channel 3
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 11,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 112,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 48,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_2, 11,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_3, 112,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_5, 48,
 
             // Channel 4
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 14,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_2, 14,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_5, 16,
 
             // Channel 5
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
 
             // Channel 6
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_2, 1,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_4, 3,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_2, 1,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_4, 3,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_5, 16,
 
             // Channel 7
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_2, 17,
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_2, 17,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -261,14 +261,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0x4000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 2
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 11,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 48,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 32,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_2, 11,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_3, 48,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_5, 32,
             0xFF
         }
     },
@@ -283,14 +283,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0x4000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 1,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 32,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 1,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 32,
 
             // Channel 2
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 11,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 48,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 32,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_2, 11,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_3, 48,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_5, 32,
             0xFF
         }
     },
@@ -304,32 +304,32 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 47,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 47,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 13,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 13,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
 
             // Channel 2
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 16,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 32,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_2, 16,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_5, 32,
 
             // Channel 3
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 14,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 44,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_2, 14,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_5, 44,
 
             // Channel 4
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 11,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 63,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 44,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_2, 11,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_3, 63,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_5, 44,
             0xFF
         }
     },
@@ -341,14 +341,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -359,44 +359,44 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC0FA, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
 
             // Channel 3
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 11,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 112,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 48,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_2, 11,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_3, 112,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_5, 48,
 
             // Channel 4
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 14,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_2, 14,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_5, 16,
 
             // Channel 5
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
 
             // Channel 6
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_2, 1,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_4, 3,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_2, 1,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_4, 3,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_5, 16,
 
             // Channel 7
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_2, 17,
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_2, 17,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_7, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -408,8 +408,8 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0x0,    // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 1,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 32,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 1,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 32,
             0xFF
         }
     },
@@ -420,14 +420,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -438,14 +438,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -457,9 +457,9 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 2,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 2,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_4, 0,
             0xFF
         }
     },
@@ -471,33 +471,33 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC02E, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 2,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 2,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_4, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 10,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 64,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 32,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 10,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 64,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 32,
 
             // Channel 2
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 15,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 112,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 48,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_2, 15,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_3, 112,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_5, 48,
 
             // Channel 3
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 14,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_2, 14,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_5, 16,
 
             // Channel 5
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -509,45 +509,45 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC07E, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_4, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 10,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 64,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 32,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 10,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 64,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 32,
 
             // Channel 2
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 11,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 112,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 48,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_2, 11,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_3, 112,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_5, 48,
 
             // Channel 3
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 12,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 127,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_2, 12,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_3, 127,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_5, 16,
 
             // Channel 4
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 6,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_2, 6,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_5, 16,
 
             // Channel 5
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
 
             // Channel 6
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_2, 1,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_2, 1,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_6, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -558,14 +558,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -576,14 +576,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -594,32 +594,32 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 80,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 8,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 80,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 8,
 
             // Channel 2
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 10,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 80,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 48,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_2, 10,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_3, 80,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_2, CHANNEL_IO_PORT_5, 48,
 
             // Channel 3
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 6,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 0,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_2, 6,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_3, CHANNEL_IO_PORT_5, 0,
 
             // Channel 4
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 11,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 96,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 0,
-            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 32,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_2, 11,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_3, 96,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_4, 0,
+            NATURE_CHANNEL_4, CHANNEL_IO_PORT_5, 32,
             0xFF
         }
     },
@@ -630,14 +630,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -648,14 +648,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -666,14 +666,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -684,14 +684,14 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         0xC000, // Channel Mask
         {
             // Channel 0
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
-            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_2, 0,
+            NATURE_CHANNEL_0, CHANNEL_IO_PORT_3, 0,
 
             // Channel 1
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
-            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_2, 4,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_3, 0,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_4, 1,
+            NATURE_CHANNEL_1, CHANNEL_IO_PORT_5, 16,
             0xFF
         }
     },
@@ -2897,7 +2897,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_CRIGHT)) {
         if (sAudioSndContSel == 0) {
             if (1) {}
-            Audio_PlayMainBgmTemporarily(sAudioSndContWork[sAudioSndContSel]);
+            func_800F5ACC(sAudioSndContWork[sAudioSndContSel]);
         }
     }
 }
@@ -4328,7 +4328,7 @@ s32 func_800F5A58(u8 arg0) {
  * Plays a sequence on the main bgm player, but stores the previous sequence to return to later
  * Designed for the mini-boss sequence, but also used by mini-game 2 sequence
  */
-void Audio_PlayMainBgmTemporarily(u16 seqId) {
+void func_800F5ACC(u16 seqId) {
     u16 curSeqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
     if ((curSeqId & 0xFF) != NA_BGM_GANON_TOWER && (curSeqId & 0xFF) != NA_BGM_ESCAPE && curSeqId != seqId) {
@@ -4344,9 +4344,9 @@ void Audio_PlayMainBgmTemporarily(u16 seqId) {
 }
 
 /**
- * Restores the previous sequence to the main bgm player before Audio_PlayMainBgmTemporarily was called
+ * Restores the previous sequence to the main bgm player before func_800F5ACC was called
  */
-void Audio_RestorePreviousMainBgm1(void) {
+void func_800F5B58(void) {
     if ((func_800FA0B4(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (sPrevMainBgmSeqId != NA_BGM_DISABLED) &&
         (D_80130658[func_800FA0B4(SEQ_PLAYER_BGM_MAIN) & 0xFF] & 8)) {
         if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
@@ -4362,7 +4362,7 @@ void Audio_RestorePreviousMainBgm1(void) {
 /**
  * Plays the nature ambience sequence on the main bgm player, but stores the previous sequence to return to later
  */
-void Audio_PlayNatureAmbienceTemporarily(u8 natureAmbienceId) {
+void func_800F5BF0(u8 natureAmbienceId) {
     u16 curSeqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
     if (curSeqId != NA_BGM_NATURE_AMBIENCE) {
@@ -4373,9 +4373,9 @@ void Audio_PlayNatureAmbienceTemporarily(u8 natureAmbienceId) {
 }
 
 /**
- * Restores the previous sequence to the main bgm player before Audio_PlayNatureAmbienceTemporarily was called
+ * Restores the previous sequence to the main bgm player before func_800F5BF0 was called
  */
-void Audio_RestorePreviousMainBgm2(void) {
+void func_800F5C2C(void) {
     if (sPrevMainBgmSeqId != NA_BGM_DISABLED) {
         Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, sPrevMainBgmSeqId);
     }
@@ -4810,7 +4810,7 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 val) {
     }
 
     // channelIdxRange = 01 on port 1
-    if (((channelIdxRange << 8) + port) == ((BGM_MAIN_CHANNEL_1 << 8) + CHANNEL_IO_PORT_1)) {
+    if (((channelIdxRange << 8) + port) == ((NATURE_CHANNEL_1 << 8) + CHANNEL_IO_PORT_1)) {
         if (func_800FA0B4(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON) {
             D_8016B9D8 = 0;
         }
@@ -4879,7 +4879,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
             Audio_QueueSeqCmd(0x80000000 | (SEQ_PLAYER_BGM_MAIN << 24) | (port << 0x10) | (channelIdx << 8) | val);
         }
 
-        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, BGM_MAIN_CHANNEL_D, D_80130604);
+        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, NATURE_CHANNEL_D, D_80130604);
     }
 }
 

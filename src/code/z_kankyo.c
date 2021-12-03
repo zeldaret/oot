@@ -1778,7 +1778,7 @@ void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
                 sLightningFlashAlpha += 100;
 
                 if (sLightningFlashAlpha >= gLightningStrike.flashAlphaTarget) {
-                    Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_F, CHANNEL_IO_PORT_0, 0);
+                    Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_F, CHANNEL_IO_PORT_0, 0);
                     gLightningStrike.state++;
                     gLightningStrike.flashAlphaTarget = 0;
                 }
@@ -1974,7 +1974,7 @@ void Environment_PlaySceneSequence(GlobalContext* globalCtx) {
 void func_80075B44(GlobalContext* globalCtx) {
     switch (globalCtx->envCtx.unk_E0) {
         case 0:
-            Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_5 << 4 | BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_1, 0);
+            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_5 << 4 | NATURE_CHANNEL_6, CHANNEL_IO_PORT_1, 0);
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
                 osSyncPrintf("\n\n\nNa_StartMorinigBgm\n\n");
                 func_800F5510(globalCtx->sequenceCtx.seqId);
@@ -1998,7 +1998,7 @@ void func_80075B44(GlobalContext* globalCtx) {
         case 3:
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
                 Audio_PlayNatureAmbienceSequence(globalCtx->sequenceCtx.natureAmbienceId);
-                Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_1, 1);
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_1, CHANNEL_IO_PORT_1, 1);
             }
             globalCtx->envCtx.unk_E0++;
             break;
@@ -2008,9 +2008,9 @@ void func_80075B44(GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_1, 0);
+            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_1, CHANNEL_IO_PORT_1, 0);
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_2 << 4 | BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_1, 1);
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_2 << 4 | NATURE_CHANNEL_4, CHANNEL_IO_PORT_1, 1);
             }
             globalCtx->envCtx.unk_E0++;
             break;
@@ -2029,9 +2029,9 @@ void func_80075B44(GlobalContext* globalCtx) {
             }
             break;
         case 7:
-            Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_2 << 4 | BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_1, 0);
+            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_2 << 4 | NATURE_CHANNEL_4, CHANNEL_IO_PORT_1, 0);
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_5 << 4 | BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_1, 1);
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_5 << 4 | NATURE_CHANNEL_6, CHANNEL_IO_PORT_1, 1);
             }
             globalCtx->envCtx.unk_E0++;
             break;
@@ -2411,13 +2411,13 @@ void Environment_PlayStormNatureAmbience(GlobalContext* globalCtx) {
         Audio_PlayNatureAmbienceSequence(globalCtx->sequenceCtx.natureAmbienceId);
     }
 
-    Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_E, CHANNEL_IO_PORT_1, 1);
-    Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_F, CHANNEL_IO_PORT_1, 1);
+    Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_E, CHANNEL_IO_PORT_1, 1);
+    Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_F, CHANNEL_IO_PORT_1, 1);
 }
 
 void Environment_StopStormNatureAmbience(GlobalContext* globalCtx) {
-    Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_E, CHANNEL_IO_PORT_1, 0);
-    Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_F, CHANNEL_IO_PORT_1, 0);
+    Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_E, CHANNEL_IO_PORT_1, 0);
+    Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_F, CHANNEL_IO_PORT_1, 0);
 
     if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
         gSaveContext.seqId = NA_BGM_NATURE_SFX_RAIN;

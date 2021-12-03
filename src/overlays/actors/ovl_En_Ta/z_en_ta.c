@@ -242,7 +242,7 @@ void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_2E0 & 0x200) {
-        Audio_RestorePreviousMainBgm1();
+        func_800F5B58();
     }
 }
 
@@ -809,7 +809,7 @@ void func_80B15AD4(EnTa* this, GlobalContext* globalCtx) {
                          Animation_GetLastFrame(&gTalonSitHandsUpAnim), ANIMMODE_ONCE, 0.0f);
         this->unk_2CC = 50;
         func_80088B34(0x1E);
-        Audio_PlayMainBgmTemporarily(NA_BGM_MINI_GAME_2);
+        func_800F5ACC(NA_BGM_MINI_GAME_2);
         this->unk_2E0 |= 0x200;
         Message_CloseTextbox(globalCtx);
         func_8002DF54(globalCtx, &this->actor, 1);

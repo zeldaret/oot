@@ -164,7 +164,7 @@ void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Player* this = THIS;
 
     Effect_Delete(globalCtx, this->swordEffectIndex);
-    Audio_RestorePreviousMainBgm1();
+    func_800F5B58();
     Collider_DestroyCylinder(globalCtx, &this->cylinder);
     Collider_DestroyQuad(globalCtx, &this->swordQuads[0]);
     Collider_DestroyQuad(globalCtx, &this->swordQuads[1]);
@@ -271,7 +271,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     if (stickY) {}
                     sInput.cur.stick_y = stickY;
                 }
-                Audio_PlayMainBgmTemporarily(NA_BGM_MINI_BOSS);
+                func_800F5ACC(NA_BGM_MINI_BOSS);
                 sActionState = ENTORCH2_ATTACK;
             }
             break;
@@ -597,7 +597,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         !(this->swordQuads[0].base.atFlags & AT_HIT) && !(this->swordQuads[1].base.atFlags & AT_HIT)) {
 
         if (!Actor_ApplyDamage(&this->actor)) {
-            Audio_RestorePreviousMainBgm1();
+            func_800F5B58();
             this->actor.flags &= ~5;
             this->unk_8A1 = 2;
             this->unk_8A4 = 6.0f;
@@ -610,7 +610,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &thisx->world.pos, 0xC0);
             this->stateFlags3 &= ~4;
         } else {
-            Audio_PlayMainBgmTemporarily(NA_BGM_MINI_BOSS);
+            func_800F5ACC(NA_BGM_MINI_BOSS);
             if (this->actor.colChkInfo.damageEffect == 1) {
                 if (sAlpha == 255) {
                     Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);

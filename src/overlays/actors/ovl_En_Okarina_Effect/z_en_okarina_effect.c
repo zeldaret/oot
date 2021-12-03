@@ -95,8 +95,8 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
         if (globalCtx->csCtx.state == CS_STATE_IDLE) {
             Environment_StopStormNatureAmbience(globalCtx);
         } else if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
-            Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_F, CHANNEL_IO_PORT_1, 0);
-            Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_E, CHANNEL_IO_PORT_1, 0);
+            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_F, CHANNEL_IO_PORT_1, 0);
+            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_E, CHANNEL_IO_PORT_1, 0);
         }
         osSyncPrintf("\n\n\nE_wether_flg=[%d]", gWeatherMode);
         osSyncPrintf("\nrain_evt_trg=[%d]\n\n", globalCtx->envCtx.gloomySkyMode);
