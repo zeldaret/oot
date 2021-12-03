@@ -20,6 +20,7 @@ CONV_SOURCE_TEXT ?= 1
 ifeq ($(COMPILER),gcc)
   NON_MATCHING := 1
   CPPFLAGS := -DCOMPILER_GCC
+  ZAPDFLAGS := --gcc-compat
 endif
 
 ifeq ($(NON_MATCHING),1)
@@ -106,7 +107,7 @@ OPTFLAGS := -O2
 ASFLAGS := -march=vr4300 -32 -Iinclude
 
 ifeq ($(COMPILER),gcc)
-  CFLAGS += -c -G 0 -nostdinc -Iinclude -Isrc -Iassets -Ibuild -I. -DNON_MATCHING=1 -DMODDING=1 -DNORMAL_GAMEPLAY=1 -DAVOID_UB=1 -mno-shared -march=vr4300 -mfix4300 -mabi=32 -mhard-float -mdivide-breaks -fno-stack-protector -fno-common -fno-zero-initialized-in-bss -mno-abicalls -fno-strict-aliasing -fno-inline-functions -fno-inline-small-functions -fno-toplevel-reorder -ffreestanding -fwrapv $(CHECK_WARNINGS) -g -mno-explicit-relocs -mno-split-addresses -funsigned-char
+  CFLAGS += -c -G 0 -nostdinc $(INC) -DNON_MATCHING=1 -DAVOID_UB=1 -mno-shared -march=vr4300 -mfix4300 -mabi=32 -mhard-float -mdivide-breaks -fno-stack-protector -fno-common -fno-zero-initialized-in-bss -mno-abicalls -fno-strict-aliasing -fno-inline-functions -fno-inline-small-functions -fno-toplevel-reorder -ffreestanding -fwrapv $(CHECK_WARNINGS) -g -mno-explicit-relocs -mno-split-addresses -funsigned-char
   MIPS_VERSION := -mips3
   PIPEIN = 
 else 
@@ -279,7 +280,7 @@ build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) -I $(<D) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $(PIPEIN)
 	$(CC_CHECK) $<
-	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s --gcc-compat
+	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s $(ZAPDFLAGS)
 	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
