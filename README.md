@@ -90,6 +90,10 @@ sudo apt-get update
 sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-dev
 ```
 
+If you are using GCC as the compiler for Ocarina of Time, you will also need:
+
+* gcc-mips-linux-gnu
+
 #### 2. Clone the repository
 
 Clone `https://github.com/zeldaret/oot.git` where you wish to have the project, with a command such as:
