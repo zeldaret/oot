@@ -74,7 +74,13 @@ static ColliderCylinderInit sColCylinderInitLeftRight = {
     { 50, 60, 280, { 0, 0, 0 } },
 };
 
-static s16 sHasParent = false; // TODO name is wrong. I think related code is messed up.
+static s16 sFirstExplosiveFlag = false;
+
+static u8 sDisableBombCatcher;
+
+static u8 sUnused[90]; // unknown length
+
+static s32 sTimer;
 
 void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -103,13 +109,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
 };
 
-static u8 sDisableBombCatcher_; // TODO name
-
-static u8 sUnused[90]; // TODO what length can this be? 90, 92 OK / 96, 99, not OK
-
-// TODO looks jank. In particular I'm unsure about the role it plays in spawning dust effects
-static s32 sTimer_;
-
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
     s32 pad;
@@ -136,7 +135,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->colliderRight, &this->dyna.actor, &sColCylinderInitLeftRight);
 
     BgDodoago_SetupAction(this, BgDodoago_WaitExplosives_);
-    sDisableBombCatcher_ = false;
+    sDisableBombCatcher = false;
 }
 
 void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -171,14 +170,16 @@ void BgDodoago_WaitExplosives_(BgDodoago* this, GlobalContext* globalCtx) {
         } else {
             OnePointCutscene_Init(globalCtx, 3065, 20, &this->dyna.actor, MAIN_CAM);
             Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            sTimer_ += 30;
+            sTimer += 30;
             return;
         }
 
-        if (!sHasParent) {
+        // the flag is never set back to false, so this only runs once
+        if (!sFirstExplosiveFlag) {
+            // this disables the bomb catcher (see BgDodoago_Update) for a few seconds
             this->dyna.actor.parent = explosive;
-            sHasParent = true;
-            sTimer_ = 50;
+            sFirstExplosiveFlag = true;
+            sTimer = 50;
         }
     } else if (Flags_GetEventChkInf(0xB0)) {
         Collider_UpdateCylinder(&this->dyna.actor, &this->colliderMain);
@@ -218,11 +219,11 @@ void BgDodoago_OpenJaw(BgDodoago* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_LEFT] != 255 || globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT] != 255) {
-        sTimer_--;
+        sTimer--;
         return;
     }
 
-    if (sTimer_ == 108) {
+    if (sTimer == 108) {
         for (i = ARRAY_COUNT(dustOffsets) - 1; i >= 0; i--) {
             pos.x = dustOffsets[i].x + this->dyna.actor.world.pos.x;
             pos.y = dustOffsets[i].y + this->dyna.actor.world.pos.y;
@@ -271,6 +272,8 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBom* bomb;
 
     if (this->dyna.actor.parent == NULL) {
+        // this is a "bomb catcher", it kills the XZ speed and sets the timer for bombs that are dropped through the
+        // holes in the bridge above the skull
         if ((this->colliderLeft.base.ocFlags1 & OC1_HIT) || (this->colliderRight.base.ocFlags1 & OC1_HIT)) {
 
             if (this->colliderLeft.base.ocFlags1 & OC1_HIT) {
@@ -283,18 +286,20 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
 
             if (actor->category == ACTORCAT_EXPLOSIVE && actor->id == ACTOR_EN_BOM && actor->params == 0) {
                 bomb = (EnBom*)actor;
+                // disable the bomb catcher for a few seconds
                 this->dyna.actor.parent = &bomb->actor;
                 bomb->timer = 50;
                 bomb->actor.speedXZ = 0.0f;
-                sTimer_ = 0;
+                sTimer = 0;
             }
         }
     } else {
-        sTimer_++;
+        sTimer++;
         Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
-        if (!sDisableBombCatcher_ && sTimer_ > 140) {
+        if (!sDisableBombCatcher && sTimer > 140) {
             if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
-                sDisableBombCatcher_++;
+                // this prevents clearing the actor's parent pointer, effectively disabling the bomb catcher
+                sDisableBombCatcher++;
             } else {
                 this->dyna.actor.parent = NULL;
             }
