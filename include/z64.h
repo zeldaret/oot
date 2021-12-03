@@ -187,7 +187,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8   seqId;
     /* 0x01 */ u8   natureAmbienceId;
-} SequenceContext; // size = 0x4
+} SequenceContext; // size = 0x2
 
 typedef struct {
     /* 0x00 */ s32 enabled;
