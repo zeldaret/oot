@@ -833,7 +833,7 @@ void Environment_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 #define TIME_ENTRY_1F (D_8011FB48[envCtx->unk_1F][i])
 #define TIME_ENTRY_20 (D_8011FB48[envCtx->unk_20][i])
 
-void func_80075B44(GlobalContext* globalCtx);
+void Environment_UpdateSceneSequence(GlobalContext* globalCtx);
 void func_800766C4(GlobalContext* globalCtx);
 
 void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx,
@@ -861,7 +861,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         }
 
         func_800766C4(globalCtx); // increments or decrements unk_EE[1] depending on some condition
-        func_80075B44(globalCtx); // updates bgm/sfx and other things as the day progresses
+        Environment_UpdateSceneSequence(globalCtx); // updates bgm/sfx and other things as the day progresses
 
         if (((void)0, gSaveContext.nextDayTime) >= 0xFF00 && ((void)0, gSaveContext.nextDayTime) != 0xFFFF) {
             gSaveContext.nextDayTime -= 0x10;
@@ -1916,7 +1916,7 @@ void Environment_DrawLightning(GlobalContext* globalCtx, s32 unused) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3353);
 }
 
-void func_800758AC(GlobalContext* globalCtx) {
+void Environment_PlaySceneSequence(GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_E0 = 0xFF;
 
     // both lost woods exits on the bridge from kokiri to hyrule field
@@ -1971,7 +1971,7 @@ void func_800758AC(GlobalContext* globalCtx) {
 }
 
 // updates bgm/sfx and other things as the day progresses
-void func_80075B44(GlobalContext* globalCtx) {
+void Environment_UpdateSceneSequence(GlobalContext* globalCtx) {
     switch (globalCtx->envCtx.unk_E0) {
         case 0:
             Audio_SetNatureAmbienceChannelIO(0x56, 1, 0);
@@ -2404,7 +2404,7 @@ s32 func_80077600(void) {
     return ret;
 }
 
-void func_80077624(GlobalContext* globalCtx) {
+void Environment_PlayStormNatureAmbience(GlobalContext* globalCtx) {
     if (globalCtx->soundCtx.nightSeqIndex == 19) {
         Audio_PlayNatureAmbienceSequence(5);
     } else {
@@ -2415,13 +2415,13 @@ void func_80077624(GlobalContext* globalCtx) {
     Audio_SetNatureAmbienceChannelIO(0xF, 1, 1);
 }
 
-void func_80077684(GlobalContext* globalCtx) {
+void Environment_StopStormNatureAmbience(GlobalContext* globalCtx) {
     Audio_SetNatureAmbienceChannelIO(0xE, 1, 0);
     Audio_SetNatureAmbienceChannelIO(0xF, 1, 0);
 
     if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_BACKGROUND) {
         gSaveContext.seqIndex = NA_BGM_NATURE_SFX_RAIN;
-        func_800758AC(globalCtx);
+        Environment_PlaySceneSequence(globalCtx);
     }
 }
 

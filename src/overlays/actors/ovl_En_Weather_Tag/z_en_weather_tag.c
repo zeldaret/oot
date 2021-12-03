@@ -255,7 +255,7 @@ void EnWeatherTag_EnabledCloudySnow(EnWeatherTag* this, GlobalContext* globalCtx
 
 void EnWeatherTag_DisabledRainLakeHylia(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 100, 4)) {
-        func_80077624(globalCtx);
+        Environment_PlayStormNatureAmbience(globalCtx);
         globalCtx->envCtx.unk_EE[0] = 25;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledRainLakeHylia);
     }
@@ -263,7 +263,7 @@ void EnWeatherTag_DisabledRainLakeHylia(EnWeatherTag* this, GlobalContext* globa
 
 void EnWeatherTag_EnabledRainLakeHylia(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 100)) {
-        func_80077684(globalCtx);
+        Environment_StopStormNatureAmbience(globalCtx);
         globalCtx->envCtx.unk_EE[0] = 0;
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledRainLakeHylia);
     }
@@ -271,7 +271,7 @@ void EnWeatherTag_EnabledRainLakeHylia(EnWeatherTag* this, GlobalContext* global
 
 void EnWeatherTag_DisabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 4, 100, 5)) {
-        func_80077624(globalCtx);
+        Environment_PlayStormNatureAmbience(globalCtx);
         globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
         globalCtx->envCtx.unk_EE[0] = 30;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudyRainThunderKakariko);
@@ -280,7 +280,7 @@ void EnWeatherTag_DisabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalCo
 
 void EnWeatherTag_EnabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 4, 0, 100)) {
-        func_80077684(globalCtx);
+        Environment_StopStormNatureAmbience(globalCtx);
         globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
         globalCtx->envCtx.unk_EE[0] = 0;
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyRainThunderKakariko);
@@ -303,7 +303,7 @@ void EnWeatherTag_DisabledRainThunder(EnWeatherTag* this, GlobalContext* globalC
     Player* player = GET_PLAYER(globalCtx);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
-        func_80077624(globalCtx);
+        Environment_PlayStormNatureAmbience(globalCtx);
         globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
         globalCtx->envCtx.unk_EE[0] = 25;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledRainThunder);
@@ -314,7 +314,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, GlobalContext* globalCt
     Player* player = GET_PLAYER(globalCtx);
 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 10.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
-        func_80077684(globalCtx);
+        Environment_StopStormNatureAmbience(globalCtx);
         globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
         globalCtx->envCtx.unk_EE[0] = 0;
         globalCtx->envCtx.unk_EE[1] = 10;

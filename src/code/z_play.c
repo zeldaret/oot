@@ -392,7 +392,7 @@ void Gameplay_Init(GameState* thisx) {
     }
 
     Interface_SetSceneRestrictions(globalCtx);
-    func_800758AC(globalCtx);
+    Environment_PlaySceneSequence(globalCtx);
     gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
     gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
     func_8002DF18(globalCtx, GET_PLAYER(globalCtx));
