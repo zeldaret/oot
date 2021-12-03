@@ -263,7 +263,7 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinderTail);
 
     if ((this->actor.params != WOLFOS_NORMAL) && (this->switchFlag != 0xFF)) {
-        func_800F5B58();
+        Audio_RestorePreviousMainBgm1();
     }
 
     if (this->actor.parent != NULL) {
@@ -387,7 +387,7 @@ void EnWf_WaitToAppear(EnWf* this, GlobalContext* globalCtx) {
             this->actor.flags |= 1;
 
             if ((this->actor.params != WOLFOS_NORMAL) && (this->switchFlag != 0xFF)) {
-                func_800F5ACC(NA_BGM_MINI_BOSS);
+                Audio_PlayMainBgmTemporarily(NA_BGM_MINI_BOSS);
             }
         }
     } else if (this->actionTimer != 0) {

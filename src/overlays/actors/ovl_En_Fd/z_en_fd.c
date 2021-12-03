@@ -646,7 +646,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->firstUpdateFlag) {
-        func_800F5ACC(NA_BGM_MINI_BOSS);
+        Audio_PlayMainBgmTemporarily(NA_BGM_MINI_BOSS);
         this->firstUpdateFlag = false;
     }
 

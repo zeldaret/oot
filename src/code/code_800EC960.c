@@ -2792,7 +2792,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_CRIGHT)) {
         if (sAudioSndContSel == 0) {
             if (1) {}
-            func_800F5ACC(sAudioSndContWork[sAudioSndContSel]);
+            Audio_PlayMainBgmTemporarily(sAudioSndContWork[sAudioSndContSel]);
         }
     }
 }
@@ -4219,7 +4219,10 @@ s32 func_800F5A58(u8 arg0) {
     }
 }
 
-void func_800F5ACC(u16 seqId) {
+/**
+ * Plays a bgm on the main bgm player, but stores the previous bgm to return to later
+ */
+void Audio_PlayMainBgmTemporarily(u16 seqId) {
     u16 curSeqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
     if ((curSeqId & 0xFF) != NA_BGM_GANON_TOWER && (curSeqId & 0xFF) != NA_BGM_ESCAPE && curSeqId != seqId) {
@@ -4233,7 +4236,10 @@ void func_800F5ACC(u16 seqId) {
     }
 }
 
-void func_800F5B58(void) {
+/**
+ * Restores the previous Main Bgm before Audio_PlayMainBgmTemporarily was called
+ */
+void Audio_RestorePreviousMainBgm1(void) {
     if ((func_800FA0B4(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (sPrevMainBgmSeqId != NA_BGM_DISABLED) &&
         (D_80130658[func_800FA0B4(SEQ_PLAYER_BGM_MAIN) & 0xFF] & 8)) {
         if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
@@ -4245,7 +4251,10 @@ void func_800F5B58(void) {
     }
 }
 
-void func_800F5BF0(u8 natureAmbienceId) {
+/**
+ * Plays nature ambience on the main bgm player, but stores the previous bgm to return to later
+ */
+void Audio_PlayNatureAmbienceTemporarily(u8 natureAmbienceId) {
     u16 seqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
     if (seqId != NA_BGM_NATURE_BACKGROUND) {
@@ -4255,7 +4264,10 @@ void func_800F5BF0(u8 natureAmbienceId) {
     Audio_PlayNatureAmbienceSequence(natureAmbienceId);
 }
 
-void func_800F5C2C(void) {
+/**
+ * Restores the previous Main Bgm before Audio_PlayNatureAmbienceTemporarily was called
+ */
+void Audio_RestorePreviousMainBgm2(void) {
     if (sPrevMainBgmSeqId != NA_BGM_DISABLED) {
         Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, sPrevMainBgmSeqId);
     }

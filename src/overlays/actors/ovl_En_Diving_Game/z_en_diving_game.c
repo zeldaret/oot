@@ -130,7 +130,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, GlobalContext* globalCt
     if (gSaveContext.timer1State == 10 && !Gameplay_InCsMode(globalCtx)) {
         // Failed.
         gSaveContext.timer1State = 0;
-        func_800F5B58();
+        Audio_RestorePreviousMainBgm1();
         func_80078884(NA_SE_SY_FOUND);
         this->actor.textId = 0x71AD;
         Message_StartTextbox(globalCtx, this->actor.textId, NULL);
@@ -159,7 +159,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, GlobalContext* globalCt
             }
             Message_StartTextbox(globalCtx, this->actor.textId, NULL);
             this->unk_292 = TEXT_STATE_EVENT;
-            func_800F5B58();
+            Audio_RestorePreviousMainBgm1();
             Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
             func_8002DF54(globalCtx, NULL, 8);
             if (!(gSaveContext.eventChkInf[3] & 0x100)) {
@@ -416,7 +416,7 @@ void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
         } else {
             func_80088B34(BREG(2) + 50);
         }
-        func_800F5ACC(NA_BGM_MINI_GAME_2);
+        Audio_PlayMainBgmTemporarily(NA_BGM_MINI_GAME_2);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.textId = 0x405B;
         this->unk_292 = TEXT_STATE_EVENT;

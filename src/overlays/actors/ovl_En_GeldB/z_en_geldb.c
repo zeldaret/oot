@@ -264,7 +264,7 @@ void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGeldB* this = THIS;
 
-    func_800F5B58();
+    Audio_RestorePreviousMainBgm1();
     Effect_Delete(globalCtx, this->blureIndex);
     Collider_DestroyTris(globalCtx, &this->blockCollider);
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
@@ -362,7 +362,7 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
     } else {
         this->invisible = false;
         this->actor.shape.shadowScale = 90.0f;
-        func_800F5ACC(NA_BGM_MINI_BOSS);
+        Audio_PlayMainBgmTemporarily(NA_BGM_MINI_BOSS);
     }
     if (this->actor.bgCheckFlags & 2) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
@@ -1333,7 +1333,7 @@ void EnGeldB_Defeated(EnGeldB* this, GlobalContext* globalCtx) {
         EnGeldB_SetupFlee(this);
     } else if ((s32)this->skelAnime.curFrame == 10) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
-        func_800F5B58();
+        Audio_RestorePreviousMainBgm1();
     }
 }
 
