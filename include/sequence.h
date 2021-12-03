@@ -124,4 +124,34 @@ typedef enum {
     /* 3 */ SEQ_PLAYER_BGM_SUB
 } SequencePlayerId;
 
+typedef enum {
+    /* 0x0 */ BGM_MAIN_CHANNEL_0,
+    /* 0x1 */ BGM_MAIN_CHANNEL_1,
+    /* 0x2 */ BGM_MAIN_CHANNEL_2,
+    /* 0x3 */ BGM_MAIN_CHANNEL_3,
+    /* 0x4 */ BGM_MAIN_CHANNEL_4,
+    /* 0x5 */ BGM_MAIN_CHANNEL_5,
+    /* 0x6 */ BGM_MAIN_CHANNEL_6,
+    /* 0x7 */ BGM_MAIN_CHANNEL_7,
+    /* 0x8 */ BGM_MAIN_CHANNEL_8,
+    /* 0x9 */ BGM_MAIN_CHANNEL_9,
+    /* 0xA */ BGM_MAIN_CHANNEL_A,
+    /* 0xB */ BGM_MAIN_CHANNEL_B,
+    /* 0xC */ BGM_MAIN_CHANNEL_C,
+    /* 0xD */ BGM_MAIN_CHANNEL_D,
+    /* 0xE */ BGM_MAIN_CHANNEL_E,
+    /* 0xF */ BGM_MAIN_CHANNEL_F
+} BgmMainChannelIdx; // playerIdx = 0
+
+typedef enum {
+    /* 0x0 */ CHANNEL_IO_PORT_0,
+    /* 0x1 */ CHANNEL_IO_PORT_1,
+    /* 0x2 */ CHANNEL_IO_PORT_2,
+    /* 0x3 */ CHANNEL_IO_PORT_3,
+    /* 0x4 */ CHANNEL_IO_PORT_4,
+    /* 0x5 */ CHANNEL_IO_PORT_5,
+    /* 0x6 */ CHANNEL_IO_PORT_6,
+    /* 0x7 */ CHANNEL_IO_PORT_7
+} ChannelIOPort;
+
 #endif

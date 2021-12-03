@@ -227,14 +227,14 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
     switch (cmd->base) {
         case 1:
             if (sp3F != 0) {
-                Audio_SetNatureAmbienceChannelIO(0xE, 4, 0x3F);
-                Audio_SetNatureAmbienceChannelIO(0xE, 1, 1);
+                Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_E, CHANNEL_IO_PORT_4, 0x3F);
+                Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_E, CHANNEL_IO_PORT_1, 1);
                 globalCtx->envCtx.unk_EE[0] = 20;
             }
             break;
         case 2:
             if (sp3F != 0) {
-                Audio_SetNatureAmbienceChannelIO(0xF, 0, 0);
+                Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_F, CHANNEL_IO_PORT_0, 0);
                 Environment_AddLightningBolts(globalCtx, 3);
                 gLightningStrike.state = LIGHTNING_STRIKE_START;
             }
@@ -332,7 +332,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             if (globalCtx->envCtx.unk_EE[1] == 0) {
                 gWeatherMode = 0;
-                Audio_SetNatureAmbienceChannelIO(0xE, 1, 0);
+                Audio_SetNatureAmbienceChannelIO(BGM_MAIN_CHANNEL_E, CHANNEL_IO_PORT_1, 0);
             }
             break;
         case 19:
