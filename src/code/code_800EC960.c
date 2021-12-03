@@ -177,6 +177,7 @@ s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 
 // clang-format off
 NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     // natureAmbienceId = 0
+    // Many night scenes
     {
         0xC0FF, // PlayerIO Data
         0xC0FE, // Channel Mask
@@ -231,6 +232,8 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 
     // natureAmbienceId = 1
+    // Kakariko Village (Spot 01)
+    // Market Entrance (Child - Night)
     {
         0xC0FB, // PlayerIO Data
         0xC0FA, // Channel Mask
@@ -279,6 +282,10 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 
     // natureAmbienceId = 2
+    // Hyrule Field (Spot 00)
+    // Kakariko Villange (Spot 01)
+    // Graveyard (Spot 02)
+    // Cutscene Map
     {
         0xC001, // PlayerIO Data
         0x4000, // Channel Mask
@@ -297,6 +304,10 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 
     // natureAmbienceId = 3
+    // Temple of Time Exterior (Ruins)
+    // Market (Ruins)
+    // Market Entrance (Ruins)
+    // Ganon's Castle Exterior
     {
         0xC005, // PlayerIO Data
         0x4000, // Channel Mask
@@ -315,6 +326,9 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 
     // natureAmbienceId = 4
+    // Kokiri Forest (Spot 04)
+    // Sacred Forest Meadow (Spot 05)
+    // Lost Woods (Spot 10)
     {
         0xC01F, // PlayerIO Data
         0xC000, // Channel Mask
@@ -351,6 +365,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 
     // natureAmbienceId = 5
+    // night market (child)
     {
         0xC003, // PlayerIO Data
         0xC000, // Channel Mask
@@ -417,6 +432,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 
     // natureAmbienceId = 7
+    // Ganon's Tower Collapse & Battle Arena
     {
         0x8001, // PlayerIO Data
         0x0,    // Channel Mask
@@ -465,6 +481,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 
     // natureAmbienceId = 10
+    // Haunted Wasteland (Spot 13)
     {
         0xC001, // PlayerIO Data
         0xC000, // Channel Mask
@@ -478,6 +495,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 
     // natureAmbienceId = 11
+    // Desert Colossus (Spot 11)
     {
         0xC02F, // PlayerIO Data
         0xC02E, // Channel Mask
@@ -515,6 +533,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 
     // natureAmbienceId = 12
+    // Death Mountain Trail (Spot 16)
     {
         0xC07F, // PlayerIO Data
         0xC07E, // Channel Mask
