@@ -1,17 +1,11 @@
 #pragma once
 
 #include <algorithm>
+#include <cstdarg>
 #include <cstring>
 #include <numeric>
-#include <stdarg.h>
 #include <string>
 #include <vector>
-
-#ifdef _MSC_VER
-#define __PRETTY_FUNCTION__ __FUNCSIG__
-#elif not defined(__GNUC__)
-#define __PRETTY_FUNCTION__ __func__
-#endif
 
 class StringHelper
 {
@@ -110,5 +104,11 @@ public:
 	static bool HasOnlyDigits(const std::string& str)
 	{
 		return std::all_of(str.begin(), str.end(), ::isdigit);
+	}
+
+	static bool IEquals(const std::string& a, const std::string& b)
+	{
+		return std::equal(a.begin(), a.end(), b.begin(), b.end(),
+			[](char a, char b) { return tolower(a) == tolower(b); });
 	}
 };

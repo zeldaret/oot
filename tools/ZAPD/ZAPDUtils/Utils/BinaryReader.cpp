@@ -1,5 +1,5 @@
 #include "BinaryReader.h"
-#include <math.h>
+#include <cmath>
 #include <stdexcept>
 #include "Stream.h"
 
@@ -89,7 +89,7 @@ float BinaryReader::ReadSingle()
 
 	stream->Read((char*)&result, sizeof(float));
 
-	if (isnan(result))
+	if (std::isnan(result))
 		throw std::runtime_error("BinaryReader::ReadSingle(): Error reading stream");
 
 	return result;
@@ -100,7 +100,7 @@ double BinaryReader::ReadDouble()
 	double result = NAN;
 
 	stream->Read((char*)&result, sizeof(double));
-	if (isnan(result))
+	if (std::isnan(result))
 		throw std::runtime_error("BinaryReader::ReadDouble(): Error reading stream");
 
 	return result;

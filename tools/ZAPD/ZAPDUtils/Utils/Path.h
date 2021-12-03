@@ -18,13 +18,13 @@ public:
 	static std::string GetFileName(const fs::path& input)
 	{
 		// https://en.cppreference.com/w/cpp/filesystem/path/filename
-		return input.filename();
+		return input.filename().string();
 	};
 
 	static std::string GetFileNameWithoutExtension(const fs::path& input)
 	{
 		// https://en.cppreference.com/w/cpp/filesystem/path/stem
-		return input.stem();
+		return input.stem().string();
 	};
 
 	static std::string GetFileNameExtension(const std::string& input)
