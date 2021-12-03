@@ -245,14 +245,14 @@ void ObjTsubo_Idle(ObjTsubo* this, GlobalContext* globalCtx) {
         ObjTsubo_SetupLiftedUp(this);
     } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
         ObjTsubo_WaterBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         ObjTsubo_SpawnCollectible(this, globalCtx);
         Actor_Kill(&this->actor);
     } else if ((this->collider.base.acFlags & AC_HIT) &&
                (this->collider.info.acHitInfo->toucher.dmgFlags & 0x4FC1FFFC)) {
         ObjTsubo_AirBreak(this, globalCtx);
         ObjTsubo_SpawnCollectible(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         if (this->actor.xzDistToPlayer < 600.0f) {
@@ -308,12 +308,12 @@ void ObjTsubo_Thrown(ObjTsubo* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 0xB) || (this->collider.base.atFlags & AT_HIT)) {
         ObjTsubo_AirBreak(this, globalCtx);
         ObjTsubo_SpawnCollectible(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else if (this->actor.bgCheckFlags & 0x40) {
         ObjTsubo_WaterBreak(this, globalCtx);
         ObjTsubo_SpawnCollectible(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         ObjTsubo_ApplyGravity(this);

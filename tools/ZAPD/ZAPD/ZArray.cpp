@@ -4,6 +4,7 @@
 
 #include "Globals.h"
 #include "Utils/StringHelper.h"
+#include "WarningHandler.h"
 #include "ZFile.h"
 
 REGISTER_ZFILENODE(Array, ZArray);
@@ -25,13 +26,18 @@ void ZArray::ParseXML(tinyxml2::XMLElement* reader)
 	ZResource::ParseXML(reader);
 
 	arrayCnt = reader->IntAttribute("Count", 0);
-	// TODO: do a better check.
-	assert(arrayCnt > 0);
+	if (arrayCnt <= 0)
+	{
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      "invalid value found for 'Count' attribute", "");
+	}
 
 	tinyxml2::XMLElement* child = reader->FirstChildElement();
 	if (child == nullptr)
-		throw std::runtime_error(
-			StringHelper::Sprintf("Error! Array needs at least one sub-element.\n"));
+	{
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidXML, parent, this, rawDataIndex,
+		                      "<Array> needs one sub-element", "");
+	}
 
 	childName = child->Name();
 
@@ -42,9 +48,10 @@ void ZArray::ParseXML(tinyxml2::XMLElement* reader)
 		ZResource* res = nodeMap->at(childName)(parent);
 		if (!res->DoesSupportArray())
 		{
-			throw std::runtime_error(StringHelper::Sprintf(
-				"Error! Resource %s does not support being wrapped in an array!\n",
-				childName.c_str()));
+			std::string errorHeader = StringHelper::Sprintf(
+				"resource <%s> does not support being wrapped in an <Array>", childName.c_str());
+			HANDLE_ERROR_RESOURCE(WarningType::InvalidXML, parent, this, rawDataIndex, errorHeader,
+			                      "");
 		}
 		res->parent = parent;
 		res->SetInnerNode(true);
@@ -87,7 +94,7 @@ Declaration* ZArray::DeclareVar(const std::string& prefix, const std::string& bo
 
 std::string ZArray::GetBodySourceCode() const
 {
-	std::string output;
+	std::string output = "";
 
 	for (size_t i = 0; i < arrayCnt; i++)
 	{

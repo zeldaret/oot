@@ -228,7 +228,7 @@ void Gameplay_Init(GameState* thisx) {
     func_80112098(globalCtx);
     Message_Init(globalCtx);
     GameOver_Init(globalCtx);
-    func_8006BA00(globalCtx);
+    SoundSource_InitAll(globalCtx);
     Effect_InitContext(globalCtx);
     EffectSs_InitInfo(globalCtx, 0x55);
     CollisionCheck_InitContext(globalCtx, &globalCtx->colChkCtx);
@@ -393,8 +393,8 @@ void Gameplay_Init(GameState* thisx) {
 
     Interface_SetSceneRestrictions(globalCtx);
     func_800758AC(globalCtx);
-    gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
-    gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
+    gSaveContext.seqId = globalCtx->sequenceCtx.seqId;
+    gSaveContext.natureAmbienceId = globalCtx->sequenceCtx.natureAmbienceId;
     func_8002DF18(globalCtx, GET_PLAYER(globalCtx));
     AnimationContext_Update(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
@@ -479,12 +479,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         if (!(gEntranceTable[globalCtx->nextEntranceIndex + sp6E].field & 0x8000)) { // Continue BGM Off
                             // "Sound initalized. 111"
                             osSyncPrintf("\n\n\nサウンドイニシャル来ました。111");
-                            if ((globalCtx->fadeTransition < 56) && (func_80077600() == 0)) {
+                            if ((globalCtx->fadeTransition < 56) && !Environment_IsForcedSequenceDisabled()) {
                                 // "Sound initalized. 222"
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
-                                gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
-                                gSaveContext.nightSeqIndex = 0xFF;
+                                gSaveContext.seqId = (u8)NA_BGM_DISABLED;
+                                gSaveContext.natureAmbienceId = 0xFF;
                             }
                         }
                     }
@@ -975,7 +975,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3771);
             }
 
-            func_8006BA30(globalCtx);
+            SoundSource_UpdateAll(globalCtx);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3777);
