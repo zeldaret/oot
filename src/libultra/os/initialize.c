@@ -44,10 +44,10 @@ void __osInitialize_common(void) {
         ;
     }
 
-    *(struct_exceptionPreamble*)UT_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble; // TLB miss
+    *(struct_exceptionPreamble*)UT_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble;  // TLB miss
     *(struct_exceptionPreamble*)XUT_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble; // XTLB miss
     *(struct_exceptionPreamble*)ECC_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble; // cache errors
-    *(struct_exceptionPreamble*)E_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble; // general exceptions
+    *(struct_exceptionPreamble*)E_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble;   // general exceptions
 
     osWritebackDCache(K0BASE, E_VEC - K0BASE + sizeof(struct_exceptionPreamble));
     osInvalICache(K0BASE, E_VEC - K0BASE + sizeof(struct_exceptionPreamble));
