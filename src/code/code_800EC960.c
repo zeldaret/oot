@@ -41,10 +41,40 @@ typedef struct {
 } FreqLerp;
 
 typedef struct {
-    /* 0x0 */ u16 unk_00;
-    /* 0x2 */ u16 unk_02;
-    /* 0x4 */ u8 unk_04[100];
-} D_801306DC_s; // size = 0x68
+    /* 0x0 */ u16 playerIO;
+    /* 0x2 */ u16 channelMask;
+    /* 0x4 */ u8 channelIO[3 * 33 + 1];
+} NatureAmbienceDataIO; // size = 0x68
+
+typedef enum {
+    /* 0x0 */ BGM_MAIN_CHANNEL_0,
+    /* 0x1 */ BGM_MAIN_CHANNEL_1,
+    /* 0x2 */ BGM_MAIN_CHANNEL_2,
+    /* 0x3 */ BGM_MAIN_CHANNEL_3,
+    /* 0x4 */ BGM_MAIN_CHANNEL_4,
+    /* 0x5 */ BGM_MAIN_CHANNEL_5,
+    /* 0x6 */ BGM_MAIN_CHANNEL_6,
+    /* 0x7 */ BGM_MAIN_CHANNEL_7,
+    /* 0x8 */ BGM_MAIN_CHANNEL_8,
+    /* 0x9 */ BGM_MAIN_CHANNEL_9,
+    /* 0xA */ BGM_MAIN_CHANNEL_A,
+    /* 0xB */ BGM_MAIN_CHANNEL_B,
+    /* 0xC */ BGM_MAIN_CHANNEL_C,
+    /* 0xD */ BGM_MAIN_CHANNEL_D,
+    /* 0xE */ BGM_MAIN_CHANNEL_E,
+    /* 0xF */ BGM_MAIN_CHANNEL_F
+} BgmMainChannelIdx; // playerIdx = 0
+
+typedef enum {
+    /* 0x0 */ CHANNEL_IO_PORT_0,
+    /* 0x1 */ CHANNEL_IO_PORT_1,
+    /* 0x2 */ CHANNEL_IO_PORT_2,
+    /* 0x3 */ CHANNEL_IO_PORT_3,
+    /* 0x4 */ CHANNEL_IO_PORT_4,
+    /* 0x5 */ CHANNEL_IO_PORT_5,
+    /* 0x6 */ CHANNEL_IO_PORT_6,
+    /* 0x7 */ CHANNEL_IO_PORT_7
+} ChannelIOPort;
 
 typedef enum {
     /* 0x0 */ PAGE_NON,
@@ -144,44 +174,424 @@ u8 D_80130658[0x70] = {
 };
 s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-D_801306DC_s D_801306DC[20] = {
-    { 0xC0FF, 0xC0FE, { 0, 2,   0,   0, 3, 0, 1,  2,  9,  1,  3, 64, 1,   4,   0,   1, 5, 32, 2,  2,  4,  2,   3,
-                        0, 2,   4,   1, 2, 5, 16, 3,  2,  10, 3, 3,  112, 3,   4,   1, 3, 5,  48, 4,  2,  14,  4,
-                        3, 127, 4,   4, 0, 4, 5,  16, 5,  2,  0, 5,  3,   127, 5,   4, 1, 5,  5,  16, 6,  2,   1,
-                        6, 3,   127, 6, 4, 3, 6,  5,  16, 7,  2, 17, 7,   3,   127, 7, 4, 1,  7,  5,  16, 0xFF } },
-    { 0xC0FB, 0xC0FA, { 0, 2, 0,  0, 3, 0,   1, 2, 4,   1, 3, 0,  1, 4, 1,  1, 5, 16,  3, 2, 11,  3, 3, 112, 3,   4, 1,
-                        3, 5, 48, 4, 2, 14,  4, 3, 127, 4, 4, 0,  4, 5, 16, 5, 2, 0,   5, 3, 127, 5, 4, 1,   5,   5, 16,
-                        6, 2, 1,  6, 3, 127, 6, 4, 3,   6, 5, 16, 7, 2, 17, 7, 3, 127, 7, 4, 1,   7, 5, 16,  0xFF } },
-    { 0xC001, 0x4000, { 0, 2, 0, 0, 3, 0, 2, 2, 11, 2, 3, 48, 2, 4, 1, 2, 5, 32, 0xFF } },
-    { 0xC005, 0x4000, { 0, 2, 1, 0, 3, 32, 2, 2, 11, 2, 3, 48, 2, 4, 1, 2, 5, 32, 0xFF } },
-    { 0xC01F,
-      0xC000,
-      { 0, 2,  0, 0, 3,  47, 1, 2, 13, 1, 3, 0, 1, 4,  1, 1, 5,  16, 2, 2,  16, 2, 3, 0, 2, 4,  1,   2,
-        5, 32, 3, 2, 14, 3,  3, 0, 3,  4, 0, 3, 5, 44, 4, 2, 11, 4,  3, 63, 4,  4, 1, 4, 5, 44, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC0FB, 0xC0FA, { 0, 2, 0,  0, 3, 0,   1, 2, 4,   1, 3, 0,  1, 4, 1,  1, 5, 16,  3, 2, 11,  3, 3, 112, 3,   4, 1,
-                        3, 5, 48, 4, 2, 14,  4, 3, 127, 4, 4, 0,  4, 5, 16, 5, 2, 0,   5, 3, 127, 5, 4, 1,   5,   5, 16,
-                        6, 2, 1,  6, 3, 127, 6, 4, 3,   6, 5, 16, 7, 2, 17, 7, 3, 127, 7, 4, 1,   7, 5, 16,  0xFF } },
-    { 0x8001, 0x0, { 0, 2, 1, 0, 3, 32, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC001, 0xC000, { 0, 2, 2, 0, 3, 0, 0, 4, 0, 0xFF } },
-    { 0xC02F, 0xC02E, { 0,  2, 2, 0,  3,  0, 0,   4, 0, 1, 2,   10, 1,  3, 64, 1,  4,  0,   1,   5,
-                        32, 2, 2, 15, 2,  3, 112, 2, 4, 1, 2,   5,  48, 3, 2,  14, 3,  3,   127, 3,
-                        4,  0, 3, 5,  16, 5, 2,   4, 5, 3, 127, 5,  4,  0, 5,  5,  16, 0xFF } },
-    { 0xC07F, 0xC07E, { 0, 2, 0,  0, 3, 0,   0, 4, 0, 1, 2, 10, 1, 3, 64, 1, 4, 0,   1,   5, 32,
-                        2, 2, 11, 2, 3, 112, 2, 4, 1, 2, 5, 48, 3, 2, 12, 3, 3, 127, 3,   4, 0,
-                        3, 5, 16, 4, 2, 6,   4, 3, 0, 4, 4, 0,  4, 5, 16, 5, 2, 0,   5,   3, 0,
-                        5, 4, 0,  5, 5, 16,  6, 2, 1, 6, 3, 0,  6, 4, 0,  6, 5, 16,  0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC01F, 0xC000, { 0, 2,  0, 0, 3, 0, 1, 2, 0, 1, 3, 80, 1, 4, 1, 1, 5,  8, 2, 2,  10, 2, 3, 80, 2, 4,  1,   2,
-                        5, 48, 3, 2, 6, 3, 3, 0, 3, 4, 0, 3,  5, 0, 4, 2, 11, 4, 3, 96, 4,  4, 0, 4,  5, 32, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+// clang-format off
+NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
+    // natureAmbienceId = 0
+    { 
+        0xC0FF, // PlayerIO Data
+        0xC0FE, // Channel Mask
+        {   
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,   
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 9,  
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 64, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 0,   
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 32, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 4,  
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 10, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 112, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 48, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 14,  
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 0, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_2, 1,
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_4, 3, 
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_2, 17, 
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_4, 1,  
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 1
+    { 
+        0xC0FB, // PlayerIO Data
+        0xC0FA, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,   
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,   
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,  
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,  
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 11,  
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 112, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 1,
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 48, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 14,  
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 0,  
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_2, 0,   
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_4, 1,   
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_2, 1,  
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_4, 3,   
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_2, 17, 
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_4, 1,   
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_5, 16,  
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 2
+    { 
+        0xC001, // PlayerIO Data
+        0x4000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 11, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 48, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 32, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 3
+    { 
+        0xC005, // PlayerIO Data
+        0x4000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 1, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 32, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 11, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 48, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 32, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 4
+    { 
+        0xC01F, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 47, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 13, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 16, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1,   
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 32, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 14, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 0, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 44, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 11, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 63, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 44, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 5
+    { 
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 6
+    { 
+        0xC0FB, // PlayerIO Data
+        0xC0FA, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,  
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,   
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4,   
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0,  
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1,  
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16,  
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 11,  
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 112, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 1,
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 48, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 14,  
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 0,  
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_2, 0,   
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_4, 1,   
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_5, 16,
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_2, 1,  
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_4, 3,   
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_2, 17, 
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_4, 1,   
+            BGM_MAIN_CHANNEL_7, CHANNEL_IO_PORT_5, 16,  
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 7
+    { 
+        0x8001, // PlayerIO Data
+        0x0,    // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 1, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 32, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 8
+    { 
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 9
+    { 
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 10
+    { 
+        0xC001, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 2, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_4, 0, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 11
+    { 
+        0xC02F, // PlayerIO Data
+        0xC02E, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 2, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_4, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 10, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 64, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 0,   
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 32, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 15, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 112, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 48, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 14, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 0, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_2, 4, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_4, 0, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 12
+    { 
+        0xC07F, // PlayerIO Data
+        0xC07E, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0,  
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0,   
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_4, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 10, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 64, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 0,   
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 32,
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 11, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 112, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 48, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 12, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 127, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 0,
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 6,   
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 0,  
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 16, 
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_2, 0,   
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_3, 0,
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_4, 0,  
+            BGM_MAIN_CHANNEL_5, CHANNEL_IO_PORT_5, 16,  
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_2, 1, 
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_3, 0,  
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_4, 0,  
+            BGM_MAIN_CHANNEL_6, CHANNEL_IO_PORT_5, 16,  
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 13
+    { 
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 14
+    { 
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 15
+    { 
+        0xC01F, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 80, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 8, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_2, 10, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_3, 80, 
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_4, 1,   
+            BGM_MAIN_CHANNEL_2, CHANNEL_IO_PORT_5, 48, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_2, 6, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_4, 0, 
+            BGM_MAIN_CHANNEL_3, CHANNEL_IO_PORT_5, 0, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_2, 11, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_3, 96, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_4, 0, 
+            BGM_MAIN_CHANNEL_4, CHANNEL_IO_PORT_5, 32, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 16
+    { 
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 17
+    { 
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 18
+    { 
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
+
+    // natureAmbienceId = 19
+    { 
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        { 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_2, 0, 
+            BGM_MAIN_CHANNEL_0, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_2, 4, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_3, 0, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_4, 1, 
+            BGM_MAIN_CHANNEL_1, CHANNEL_IO_PORT_5, 16, 
+            0xFF 
+        } 
+    },
 };
+// clang-format on
 
 u32 sOcarinaAllowedBtnMask = 0x800F;
 s32 sOcarinaABtnMap = 0x8000;
@@ -4337,12 +4747,12 @@ void func_800F6FB4(u8 arg0) {
 
     if ((D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 == NA_BGM_DISABLED) ||
         ((D_80130658[((u8)D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254) & 0xFF] & 0x80) == 0)) {
-        func_800F6E7C(D_801306DC[arg0].unk_00, D_801306DC[arg0].unk_02);
-        while ((D_801306DC[arg0].unk_04[i] != 0xFF) && (i < 100)) {
+        func_800F6E7C(sNatureAmbienceDataIO[arg0].playerIO, sNatureAmbienceDataIO[arg0].channelMask);
+        while ((sNatureAmbienceDataIO[arg0].channelIO[i] != 0xFF) && (i < 100)) {
             // Probably a fake match, using Audio_SeqCmd8 doesn't work.
-            b0 = D_801306DC[arg0].unk_04[i++];
-            b1 = D_801306DC[arg0].unk_04[i++];
-            b2 = D_801306DC[arg0].unk_04[i++];
+            b0 = sNatureAmbienceDataIO[arg0].channelIO[i++];
+            b1 = sNatureAmbienceDataIO[arg0].channelIO[i++];
+            b2 = sNatureAmbienceDataIO[arg0].channelIO[i++];
             Audio_QueueSeqCmd(0x80000000 | (SEQ_PLAYER_BGM_MAIN << 24) | (b1 << 0x10) | (b0 << 8) | b2);
         }
 
