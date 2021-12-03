@@ -58,7 +58,7 @@ const ActorInit En_Syateki_Man_InitVars = {
 
 static u16 sBgmList[] = {
     NA_BGM_GENERAL_SFX,
-    NA_BGM_NATURE_BACKGROUND,
+    NA_BGM_NATURE_AMBIENCE,
     NA_BGM_FIELD_LOGIC,
     NA_BGM_DUNGEON,
     NA_BGM_KAKARIKO_ADULT,
