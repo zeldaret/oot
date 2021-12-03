@@ -2351,7 +2351,11 @@ void EnOssan_DrawBazaarShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos,
                                              Vec3s* rot, void* thisx) {
-    static void* sKokiriShopkeeperEyeTextures[] = { 0x06001570, 0x060001F0, 0x06000B30 };
+    static void* sKokiriShopkeeperEyeTextures[] = {
+        gKokiriShopkeeperEyeDefaultTex,
+        gKokiriShopkeeperEyeHalfTex,
+        gKokiriShopkeeperEyeOpenTex,
+    };
     EnOssan* this = (EnOssan*)thisx;
     s32 pad;
 
