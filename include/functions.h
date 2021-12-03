@@ -899,8 +899,8 @@ void Environment_AdjustLights(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 
 s32 Environment_GetBgsDayCount(void);
 void Environment_ClearBgsDayCount(void);
 s32 Environment_GetTotalDays(void);
-void func_800775F0(u16);
-s32 func_80077600(void);
+void Environment_ForcePlaySequence(u16 seqId);
+s32 Environment_IsForcedSequenceDisabled(void);
 void Environment_PlayStormNatureAmbience(GlobalContext* globalCtx);
 void Environment_StopStormNatureAmbience(GlobalContext* globalCtx);
 void Environment_WarpSongLeave(GlobalContext* globalCtx);
