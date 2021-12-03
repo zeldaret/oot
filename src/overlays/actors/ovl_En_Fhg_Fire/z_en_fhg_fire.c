@@ -367,13 +367,11 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
         }
     }
 
-    // Related to scene draw config 30, only used in BossGanon_Update and
-    // loaded in z_kankyo
     gCustomLensFlareOn = this->lensFlareOn;
     gCustomLensFlarePos = this->actor.world.pos;
-    D_8015FD06 = this->lensFlareScale;
-    D_8015FD08 = 10.0f;
-    D_8015FD0C = 0;
+    gLensFlareScale = this->lensFlareScale;
+    gLensFlareColorIntensity = 10.0f;
+    gLensFlareScreenFillAlpha = 0;
 }
 
 void EnFhgFire_SpearLight(EnFhgFire* this, GlobalContext* globalCtx) {
