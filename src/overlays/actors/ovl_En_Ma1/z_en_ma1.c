@@ -225,7 +225,7 @@ void EnMa1_ChangeAnimation(EnMa1* this, s32 idx) {
     f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
 
     Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
-                     sAnimationInfo[idx].transitionRate);
+                     sAnimationInfo[idx].morphFrames);
 }
 
 void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {

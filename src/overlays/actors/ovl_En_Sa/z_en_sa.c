@@ -369,7 +369,7 @@ void func_80AF5CE4(EnSa* this) {
 void EnSa_ChangeAnim(EnSa* this, s32 action) {
     Animation_Change(&this->skelAnime, sAnimationInfo1[action].animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimationInfo1[action].animation), sAnimationInfo1[action].mode,
-                     sAnimationInfo1[action].transitionRate);
+                     sAnimationInfo1[action].morphFrames);
 }
 
 s32 func_80AF5DFC(EnSa* this, GlobalContext* globalCtx) {

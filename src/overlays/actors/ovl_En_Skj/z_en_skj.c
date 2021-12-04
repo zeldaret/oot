@@ -290,7 +290,7 @@ void EnSkj_ChangeAnim(EnSkj* this, u8 animIndex) {
 
     this->animIndex = animIndex;
     Animation_Change(&this->skelAnime, sAnimationInfo[animIndex].anim, 1.0f, 0.0f, endFrame,
-                     sAnimationInfo[animIndex].mode, sAnimationInfo[animIndex].transitionRate);
+                     sAnimationInfo[animIndex].mode, sAnimationInfo[animIndex].morphFrames);
 }
 
 void EnSkj_SetupAction(EnSkj* this, u8 action) {

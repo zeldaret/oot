@@ -132,17 +132,17 @@ static EnDaikuEscapeSubCamParam sEscapeSubCamParams[] = {
 };
 
 void EnDaiku_Change(EnDaiku* this, s32 animIndex, s32* currentAnimIndex) {
-    f32 transitionRate;
+    f32 morphFrames;
 
     if (*currentAnimIndex < 0 || *currentAnimIndex == animIndex) {
-        transitionRate = 0.0f;
+        morphFrames = 0.0f;
     } else {
-        transitionRate = sAnimationInfo[animIndex].transitionRate;
+        morphFrames = sAnimationInfo[animIndex].morphFrames;
     }
 
     Animation_Change(&this->skelAnime, sAnimationInfo[animIndex].animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimationInfo[animIndex].animation), sAnimationInfo[animIndex].mode,
-                     transitionRate);
+                     morphFrames);
 
     *currentAnimIndex = animIndex;
 }
@@ -187,7 +187,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Animation_Change(&this->skelAnime, sAnimationInfo[ENDAIKU_ANIM_SHOUT].animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimationInfo[ENDAIKU_ANIM_SHOUT].animation),
-                     sAnimationInfo[ENDAIKU_ANIM_SHOUT].mode, sAnimationInfo[ENDAIKU_ANIM_SHOUT].transitionRate);
+                     sAnimationInfo[ENDAIKU_ANIM_SHOUT].mode, sAnimationInfo[ENDAIKU_ANIM_SHOUT].morphFrames);
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 

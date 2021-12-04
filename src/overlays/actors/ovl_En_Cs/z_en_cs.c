@@ -104,7 +104,7 @@ void EnCs_SetAnimFromIndex(EnCs* this, s32 animIndex, s32* currentAnimIndex) {
     if ((*currentAnimIndex < 0) || (animIndex == *currentAnimIndex)) {
         morphFrames = 0.0f;
     } else {
-        morphFrames = sAnimationInfo[animIndex].transitionRate;
+        morphFrames = sAnimationInfo[animIndex].morphFrames;
     }
 
     if (sAnimationInfo[animIndex].frameCount >= 0.0f) {
@@ -141,7 +141,7 @@ void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Animation_Change(&this->skelAnime, sAnimationInfo[ENCS_ANIM_0].animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimationInfo[ENCS_ANIM_0].animation), sAnimationInfo[ENCS_ANIM_0].mode,
-                     sAnimationInfo[ENCS_ANIM_0].transitionRate);
+                     sAnimationInfo[ENCS_ANIM_0].morphFrames);
 
     this->actor.targetMode = 6;
     this->path = this->actor.params & 0xFF;

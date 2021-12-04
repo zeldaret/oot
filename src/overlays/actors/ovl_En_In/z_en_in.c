@@ -347,7 +347,7 @@ void func_80A79690(SkelAnime* skelAnime, EnIn* this, GlobalContext* globalCtx) {
 void EnIn_ChangeAnim(EnIn* this, s32 index) {
     Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
-                     sAnimationInfo[index].transitionRate);
+                     sAnimationInfo[index].morphFrames);
 }
 
 s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {

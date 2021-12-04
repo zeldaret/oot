@@ -235,7 +235,7 @@ void EnMa3_ChangeAnim(EnMa3* this, s32 idx) {
     f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
 
     Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
-                     sAnimationInfo[idx].transitionRate);
+                     sAnimationInfo[idx].morphFrames);
 }
 
 void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {

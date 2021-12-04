@@ -114,7 +114,7 @@ void EnDaikuKakariko_SetAnimFromIndex(EnDaikuKakariko* this, s32 animIndex, s32*
     if ((*currentAnimIndex < 0) || (animIndex == *currentAnimIndex)) {
         morphFrames = 0.0f;
     } else {
-        morphFrames = sAnimationInfo[animIndex].transitionRate;
+        morphFrames = sAnimationInfo[animIndex].morphFrames;
     }
 
     Animation_Change(&this->skelAnime, sAnimationInfo[animIndex].animation, 1.0f, 0.0f,
@@ -168,7 +168,7 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, sAnimationInfo[ENDAIKUKAKARIKO_ANIM_0].animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimationInfo[ENDAIKUKAKARIKO_ANIM_0].animation),
                      sAnimationInfo[ENDAIKUKAKARIKO_ANIM_0].mode,
-                     sAnimationInfo[ENDAIKUKAKARIKO_ANIM_0].transitionRate);
+                     sAnimationInfo[ENDAIKUKAKARIKO_ANIM_0].morphFrames);
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
