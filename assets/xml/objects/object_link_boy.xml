@@ -72,27 +72,27 @@
         <DList Name="gLinkAdultLeftHandOutNearDL" Offset="0x24B58"/>
         
         <!-- Limbs-->
-        <Limb Name="gLinkAdultRootLimb" Type="LOD" Offset="0x37650"/>
-        <Limb Name="gLinkAdultWaistLimb" Type="LOD" Offset="0x37660"/>
-        <Limb Name="gLinkAdultLowerControlLimb" Type="LOD" Offset="0x37670"/>
-        <Limb Name="gLinkAdultRightThighLimb" Type="LOD" Offset="0x37680"/>
-        <Limb Name="gLinkAdultRightLegLimb" Type="LOD" Offset="0x37690"/>
-        <Limb Name="gLinkAdultRightFootLimb" Type="LOD" Offset="0x376A0"/>
-        <Limb Name="gLinkAdultLeftThighLimb" Type="LOD" Offset="0x376B0"/>
-        <Limb Name="gLinkAdultLeftLegLimb" Type="LOD" Offset="0x376C0"/>
-        <Limb Name="gLinkAdultLeftFootLimb" Type="LOD" Offset="0x376D0"/>
-        <Limb Name="gLinkAdultUpperControlLimb" Type="LOD" Offset="0x376E0"/>
-        <Limb Name="gLinkAdultHeadLimb" Type="LOD" Offset="0x376F0"/>
-        <Limb Name="gLinkAdultHatLimb" Type="LOD" Offset="0x37700"/>
-        <Limb Name="gLinkAdultCollarLimb" Type="LOD" Offset="0x37710"/>
-        <Limb Name="gLinkAdultLeftShoulderLimb" Type="LOD" Offset="0x37720"/>
-        <Limb Name="gLinkAdultLeftArmLimb" Type="LOD" Offset="0x37730"/>
-        <Limb Name="gLinkAdultLeftHandLimb" Type="LOD" Offset="0x37740"/>
-        <Limb Name="gLinkAdultRightShoulderLimb" Type="LOD" Offset="0x37750"/>
-        <Limb Name="gLinkAdultRightArmLimb" Type="LOD" Offset="0x37760"/>
-        <Limb Name="gLinkAdultRightHandLimb" Type="LOD" Offset="0x37770"/>
-        <Limb Name="gLinkAdultSwordAndSheathLimb" Type="LOD" Offset="0x37780"/>
-        <Limb Name="gLinkTorsoLimb" Type="LOD" Offset="0x37790"/>
+        <Limb Name="gLinkAdultRootLimb" LimbType="LOD" Offset="0x37650"/>
+        <Limb Name="gLinkAdultWaistLimb" LimbType="LOD" Offset="0x37660"/>
+        <Limb Name="gLinkAdultLowerControlLimb" LimbType="LOD" Offset="0x37670"/>
+        <Limb Name="gLinkAdultRightThighLimb" LimbType="LOD" Offset="0x37680"/>
+        <Limb Name="gLinkAdultRightLegLimb" LimbType="LOD" Offset="0x37690"/>
+        <Limb Name="gLinkAdultRightFootLimb" LimbType="LOD" Offset="0x376A0"/>
+        <Limb Name="gLinkAdultLeftThighLimb" LimbType="LOD" Offset="0x376B0"/>
+        <Limb Name="gLinkAdultLeftLegLimb" LimbType="LOD" Offset="0x376C0"/>
+        <Limb Name="gLinkAdultLeftFootLimb" LimbType="LOD" Offset="0x376D0"/>
+        <Limb Name="gLinkAdultUpperControlLimb" LimbType="LOD" Offset="0x376E0"/>
+        <Limb Name="gLinkAdultHeadLimb" LimbType="LOD" Offset="0x376F0"/>
+        <Limb Name="gLinkAdultHatLimb" LimbType="LOD" Offset="0x37700"/>
+        <Limb Name="gLinkAdultCollarLimb" LimbType="LOD" Offset="0x37710"/>
+        <Limb Name="gLinkAdultLeftShoulderLimb" LimbType="LOD" Offset="0x37720"/>
+        <Limb Name="gLinkAdultLeftArmLimb" LimbType="LOD" Offset="0x37730"/>
+        <Limb Name="gLinkAdultLeftHandLimb" LimbType="LOD" Offset="0x37740"/>
+        <Limb Name="gLinkAdultRightShoulderLimb" LimbType="LOD" Offset="0x37750"/>
+        <Limb Name="gLinkAdultRightArmLimb" LimbType="LOD" Offset="0x37760"/>
+        <Limb Name="gLinkAdultRightHandLimb" LimbType="LOD" Offset="0x37770"/>
+        <Limb Name="gLinkAdultSwordAndSheathLimb" LimbType="LOD" Offset="0x37780"/>
+        <Limb Name="gLinkTorsoLimb" LimbType="LOD" Offset="0x37790"/>
 
         <!-- Swords and shields -->
         <DList Name="gLinkAdultMasterSwordAndSheathNearDL" Offset="0x23160"/>
@@ -132,7 +132,7 @@
         <Texture Name="gLinkAdultMirrorShieldLowerDesignTex" OutName="mirror_shield_lower_design" Format="ia16" Width="32" Height="64" Offset="0xB280"/>
         <Texture Name="gLinkAdultMirrorShieldUpperDesignTex" OutName="mirror_shield_upper_design" Format="ia8" Width="32" Height="64" Offset="0xC280"/>
 
-        <Texture Name="gLinkAdultDefaultGauntletTex" OutName="default_gauntlet" Format="ci8" Width="16" Height="32" Offset="0xD2B8" TlutOffset="0xCD48"/>
+        <Texture Name="gLinkAdultDefaultGauntlet1Tex" OutName="default_gauntlet_1" Format="ci8" Width="16" Height="32" Offset="0xD2B8" TlutOffset="0xCD48"/>
         <Texture Name="gLinkAdultDefaultGauntlet2Tex" OutName="default_gauntlet_2" Format="ci8" Width="16" Height="32" Offset="0xD538" TlutOffset="0xCD48"/>
 
 
@@ -241,11 +241,11 @@
         
         <!-- Tluts -->
         <Texture Name="gLinkAdultHeadTlut" OutName="head_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5C00"/>
-        <Texture Name="gLinkBoyTlut_005E00" OutName="tlut_5E00" Format="rgba16" Width="16" Height="16" Offset="0x5E00"/>
+        <Texture Name="gLinkAdultTlut_005E00" OutName="tlut_5E00" Format="rgba16" Width="16" Height="16" Offset="0x5E00"/>
 
         <!-- Unused -->
-        <Texture Name="gLinkBoyUnusedHandTex" OutName="unused_hand" Format="ci8" Width="16" Height="16" Offset="0x5300" TlutOffset="0x5C00"/>
-        <Texture Name="gLinkAdultUnusedGauntletTex" OutName="unused_gauntlet" Format="ci8" Width="16" Height="32" Offset="0x7B80" TlutOffset="0x5800"/>
+        <Texture Name="gLinkAdultUnusedHandTex" OutName="unused_hand" Format="ci8" Width="16" Height="16" Offset="0x5300" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultUnusedGauntlet1Tex" OutName="unused_gauntlet_1" Format="ci8" Width="16" Height="32" Offset="0x7B80" TlutOffset="0x5800"/>
         <Texture Name="gLinkAdultUnusedGauntlet2Tex" OutName="unused_gauntlet_2" Format="ci8" Width="16" Height="32" Offset="0x7D80" TlutOffset="0x5800"/>
         <Texture Name="gLinkAdultUnusedSheathTex" OutName="unused_sheath" Format="ci8" Width="32" Height="64" Offset="0x8380" TlutOffset="0x5E00"/>
         <Texture Name="gLinkAdultUnusedSheathBandTex" OutName="unused_sheat_band" Format="ci8" Width="32" Height="16" Offset="0x8B80" TlutOffset="0x5E00"/>
@@ -253,7 +253,7 @@
         <Texture Name="gLinkAdultUnusedSwordGuardTex" OutName="unused_sword_guard" Format="ci8" Width="32" Height="32" Offset="0x8E80" TlutOffset="5E00"/>
         <Texture Name="gLinkAdultUnusedSwordEmblemTex" OutName="unused_sword_emblem" Format="ci8" Width="16" Height="16" Offset="0x9280" TlutOffset="0x5E00"/>
 
-        <Texture Name="gLinkAdultUnusedGauntletPlate1Tex" OutName="unused_gauntlet_plate_1" Format="rgba16" Width="16" Height="32" Offset="0xA180"/>
+        <Texture Name="gLinkAdultUnusedGauntletPlateTex" OutName="unused_gauntlet_plate" Format="rgba16" Width="16" Height="32" Offset="0xA180"/>
 
 
         <Array Name="gLinkAdultVtx_02E120" Count="38" Offset="0x2E120" Static="On">

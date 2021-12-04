@@ -113,7 +113,7 @@ Gfx* D_80125DE8[] = {
     gLinkAdultHandHoldingBrokenGiantsKnifeFarDL, gLinkChildLeftHandHoldingMasterSwordDL,
 };
 
-Gfx* gLeftHandDLs[] = {
+Gfx* gPlayerLeftHandDLs[] = {
     gLinkAdultLeftHandNearDL,
     gLinkChildLeftHandNearDL,
     gLinkAdultLeftHandFarDL,
@@ -219,7 +219,7 @@ Gfx* sHammerDLs[] = {
     gLinkChildLeftHandFarDL,
 };
 
-Gfx* gBoomerrangDLs[] = {
+Gfx* gPlayerBoomerangDLs[] = {
     gLinkAdultLeftHandNearDL,
     gLinkChildLeftFistAndBoomerangNearDL,
     gLinkAdultLeftHandFarDL,
@@ -260,7 +260,7 @@ Gfx* sHoldingFirstPersonWeaponDLs[] = {
 
 // Indexed by model types (left hand, right hand, sheath or waist)
 Gfx** sPlayerDListGroups[] = {
-    gLeftHandDLs, D_80125E18,    D_80125E38,           D_80125E28,          D_80125DE8, sHammerDLs, gBoomerrangDLs,
+    gPlayerLeftHandDLs, D_80125E18,    D_80125E38,           D_80125E28,          D_80125DE8, sHammerDLs, gPlayerBoomerangDLs,
     D_80125F08,   sRightHandDLs, sRightHandClosed2DLs, sRightHandClosedDLs, sHandHoldingFirstPersonWeaponDLs, D_80125EA8, sFairyOcarinaDLs,
     sOotDLs,      sHookshotDLs,  sSwordAndSheathDLs,   sSheathDLs,          D_80125D28, D_80125D88, sWaistDLs,
 };
@@ -925,7 +925,7 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             if ((D_80160014 == 4) && (gSaveContext.swordHealth <= 0.0f)) {
                 dLists += 4;
             } else if ((D_80160014 == 6) && (this->stateFlags1 & 0x2000000)) {
-                dLists = &gLeftHandDLs[gSaveContext.linkAge];
+                dLists = &gPlayerLeftHandDLs[gSaveContext.linkAge];
                 D_80160014 = 0;
             } else if ((this->leftHandType == 0) && (this->actor.speedXZ > 2.0f) && !(this->stateFlags1 & 0x8000000)) {
                 dLists = &D_80125E18[gSaveContext.linkAge];
