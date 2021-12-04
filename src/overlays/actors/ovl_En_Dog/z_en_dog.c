@@ -78,10 +78,6 @@ typedef enum {
     /* 0x06 */ DOG_BOW_2
 } DogBehavior;
 
-typedef enum {
-     /* 0x00 */ DOG_ANIM_WALK
-} DogAnimation;
-
 void EnDog_PlayWalkSFX(EnDog* this) {
     AnimationHeader* walk = &gDogWalkAnim;
 
