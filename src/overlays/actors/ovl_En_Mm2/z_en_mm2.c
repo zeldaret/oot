@@ -67,14 +67,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 63, 0, { 0, 0, 0 } },
 };
 
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32 playSpeed;
-    /* 0x08 */ u8 mode;
-    /* 0x0C */ f32 morphFrames;
-} EnMm2AnimEntry; // size = 0x10
-
-static EnMm2AnimEntry sAnimationEntries[] = {
+static AnimationBasicWithSpeedInfo sAnimationEntries[] = {
     { &gRunningManRunAnim, 1.0f, ANIMMODE_LOOP, -7.0f },     { &gRunningManSitStandAnim, -1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSitWaitAnim, 1.0f, ANIMMODE_LOOP, -7.0f }, { &gRunningManSitStandAnim, 1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSprintAnim, 1.0f, ANIMMODE_LOOP, -7.0f },  { &gRunningManExcitedAnim, 1.0f, ANIMMODE_LOOP, -12.0f },

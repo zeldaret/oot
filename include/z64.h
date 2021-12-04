@@ -1314,6 +1314,19 @@ typedef struct {
 } AnimationBasicInfo; // size = 0x10
 
 typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ f32 playSpeed;
+    /* 0x08 */ u8 mode;
+    /* 0x0C */ f32 morphFrames;
+} AnimationBasicWithSpeedInfo; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ AnimationHeader* anim;
+    /* 0x04 */ u8 mode;
+    /* 0x08 */ f32 transitionRate;
+} AnimationMostBasicInfo; // size = 0xC
+
+typedef struct {
     /* 0x00 */ s16 unk_00;
     /* 0x02 */ s16 unk_02;
     /* 0x04 */ s16 unk_04;

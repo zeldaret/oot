@@ -120,13 +120,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
-typedef struct {
-    /* 0x00 */ AnimationHeader* anim;
-    /* 0x04 */ u8 mode;
-    /* 0x08 */ f32 transitionRate;
-} DnsAnimInfo; // size = 0xC
-
-static DnsAnimInfo sAnimInfo[] = {
+static AnimationMostBasicInfo sAnimInfo[] = {
     { &gBusinessScrubNervousIdleAnim, ANIMMODE_LOOP, 0.0f },
     { &gBusinessScrubAnim_4404, ANIMMODE_ONCE, 0.0f },
     { &gBusinessScrubNervousTransitionAnim, ANIMMODE_ONCE, 0.0f },

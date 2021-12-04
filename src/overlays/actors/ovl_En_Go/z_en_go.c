@@ -69,14 +69,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-typedef struct {
-    AnimationHeader* animation;
-    f32 playSpeed;
-    u8 mode;
-    f32 morphRate;
-} EnGoAnimation;
-
-static EnGoAnimation sAnimationEntries[] = {
+static AnimationBasicWithSpeedInfo sAnimationEntries[] = {
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
     { &gGoronAnim_0029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
@@ -351,7 +344,7 @@ void EnGo_ChangeAnimation(EnGo* this, s32 animIndex) {
     Animation_Change(&this->skelAnime, sAnimationEntries[animIndex].animation,
                      sAnimationEntries[animIndex].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
                      Animation_GetLastFrame(sAnimationEntries[animIndex].animation), sAnimationEntries[animIndex].mode,
-                     sAnimationEntries[animIndex].morphRate);
+                     sAnimationEntries[animIndex].morphFrames);
 }
 
 s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
