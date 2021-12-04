@@ -102,7 +102,7 @@ typedef enum {
     ENDAIKUKAKARIKO_ANIM_5
 } EnDaikuKakarikoAnimation;
 
-static AnimationBasicInfo sAnimationInfo[] = {
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &object_daiku_Anim_001AB0, 1.0f, 2, -7.0f }, { &object_daiku_Anim_007DE0, 1.0f, 0, -7.0f },
     { &object_daiku_Anim_00885C, 1.0f, 0, -7.0f }, { &object_daiku_Anim_000C44, 1.0f, 0, -7.0f },
     { &object_daiku_Anim_000600, 1.0f, 0, -7.0f }, { &object_daiku_Anim_008164, 1.0f, 0, -7.0f },

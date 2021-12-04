@@ -87,7 +87,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-static AnimationBasicWithSpeedInfo sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
+static AnimationSpeedInfo sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
 
 static Vec3f sMultVec = { 800.0f, 1000.0f, 0.0f };
 

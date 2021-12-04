@@ -233,7 +233,7 @@ static s32 sOcarinaGameRewards[] = {
     GI_RUPEE_RED,
 };
 
-static AnimationMostBasicInfo sAnimationInfo[] = {
+static AnimationMinimalInfo sAnimationInfo[] = {
     { &gSkullKidBackflipAnim, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidShootNeedleAnim, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidPlayFluteAnim, ANIMMODE_LOOP, 0.0f },

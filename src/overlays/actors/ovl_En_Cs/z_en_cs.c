@@ -91,7 +91,7 @@ typedef enum {
     /* 3 */ ENCS_ANIM_3
 } EnCsAnimation;
 
-static AnimationBasicInfo sAnimationInfo[] = {
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gGraveyardKidWalkAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
     { &gGraveyardKidSwingStickUpAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
     { &gGraveyardKidGrabStickTwoHandsAnim, 1.0f, ANIMMODE_ONCE, -10.0f },

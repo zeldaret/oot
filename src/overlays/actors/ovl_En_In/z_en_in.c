@@ -73,7 +73,7 @@ typedef enum {
     /* 9 */ ENIN_ANIM_9
 } EnInAnimation;
 
-static AnimationBasicInfo sAnimationInfo[] = {
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &object_in_Anim_013C6C, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_013C6C, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &object_in_Anim_000CB0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_0003B4, 1.0f, ANIMMODE_LOOP, -10.0f },

@@ -84,7 +84,7 @@ typedef enum {
     ENSA_ANIM1_11
 } EnSaAnimation1;
 
-static AnimationBasicInfo sAnimationInfo1[] = {
+static AnimationFrameCountInfo sAnimationInfo1[] = {
     { &gSariaWaitArmsToSideAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
     { &gSariaLookUpArmExtendedAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
     { &gSariaWaveAnim, 1.0f, ANIMMODE_LOOP, -10.0f },

@@ -62,7 +62,7 @@ typedef enum {
     /* 4 */ ENMA2_ANIM_4
 } EnMa2Animation;
 
-static AnimationBasicInfo sAnimationInfo[] = {
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },       { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &gMalonAdultStandStillAnim, 1.0f, ANIMMODE_LOOP, 0.0f }, { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },

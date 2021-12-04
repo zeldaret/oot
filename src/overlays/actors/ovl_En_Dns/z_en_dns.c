@@ -126,7 +126,7 @@ typedef enum {
     /* 2 */ ENDNS_ANIM_2
 } EnDnsAnimation;
 
-static AnimationMostBasicInfo sAnimationInfo[] = {
+static AnimationMinimalInfo sAnimationInfo[] = {
     { &gBusinessScrubNervousIdleAnim, ANIMMODE_LOOP, 0.0f },
     { &gBusinessScrubAnim_4404, ANIMMODE_ONCE, 0.0f },
     { &gBusinessScrubNervousTransitionAnim, ANIMMODE_ONCE, 0.0f },

@@ -76,7 +76,7 @@ typedef enum {
     /* 3 */ ENGO_ANIM_3
 } EnGoAnimation;
 
-static AnimationBasicWithSpeedInfo sAnimationInfo[] = {
+static AnimationSpeedInfo sAnimationInfo[] = {
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
     { &gGoronAnim_0029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
