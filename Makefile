@@ -10,13 +10,24 @@ NON_MATCHING ?= 0
 ORIG_COMPILER ?= 0
 # If COMPILER is GCC, compile with GCC instead of IDO.
 COMPILER ?= ido
+# Declare ZAPDFLAGS used for ZAPD's flags.
+ZAPDFLAGS ?=
+# Declare CPPFLAGS used for the preprocessor.
+CPPFLAGS ?=
+
+# ORIG_COMPILER cannot be combined with a non-IDO compiler. Check for this case and error out if found.
+ifneq ($(COMPILER),ido)
+  ifeq ($(ORIG_COMPILER),1)
+    $(error ORIG_COMPILER cannot be enabled with IDO not being the compiler. Please check your Makefile variables and try again.)
+  endif
+endif
 
 # If gcc is used, define the NON_MATCHING flag respectively so the files that
 # are safe to be used can avoid using GLOBAL_ASM which doesn't work with gcc.
 ifeq ($(COMPILER),gcc)
+  CPPFLAGS += -DCOMPILER_GCC
+  ZAPDFLAGS += --gcc-compat
   NON_MATCHING := 1
-  CPPFLAGS := -DCOMPILER_GCC
-  ZAPDFLAGS := --gcc-compat
 endif
 
 ifeq ($(NON_MATCHING),1)
