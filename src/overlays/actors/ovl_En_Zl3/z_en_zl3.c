@@ -14,8 +14,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnZl3*)thisx)
-
 void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +65,7 @@ static Vec3f D_80B5A4B0 = { 42.0f, 260.0f, 13.0f };
 static u32 D_80B5A4BC = 0;
 
 void func_80B533B0(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl3* this = THIS;
+    EnZl3* this = (EnZl3*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -82,7 +80,7 @@ void func_80B533FC(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl3* this = THIS;
+    EnZl3* this = (EnZl3*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -212,7 +210,7 @@ void func_80B53974(EnZl3* this, u8 arg1) {
 }
 
 void func_80B53980(EnZl3* thisx, s16 y, s32 idx) {
-    EnZl3* this = THIS; // this function might take thisx
+    EnZl3* this = (EnZl3*)thisx; // this function might take thisx
     s32 action = this->action;
     s16 y2 = y;
     s32 yTemp;
@@ -600,7 +598,7 @@ void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
 s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** gfx) {
     s32 pad[3];
-    EnZl3* this = THIS;
+    EnZl3* this = (EnZl3*)thisx;
     s16* unk_28C = this->unk_28C;
     Mtx* sp78;
     MtxF sp38;
@@ -702,7 +700,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void EnZl3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnZl3* this = THIS;
+    EnZl3* this = (EnZl3*)thisx;
     s32 pad;
     Vec3f sp34;
     s32 pad2;
@@ -2449,7 +2447,7 @@ s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                   Gfx** gfx) {
     if (limbIndex == 14) {
         Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
-        EnZl3* this = THIS;
+        EnZl3* this = (EnZl3*)thisx;
         Vec3s* vec = &this->unk_3F8.unk_08;
 
         gSPSegment(gfx[0]++, 0x0C, mtx);
@@ -2645,7 +2643,7 @@ static EnZl3ActionFunc sActionFuncs[] = {
 };
 
 void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl3* this = THIS;
+    EnZl3* this = (EnZl3*)thisx;
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -2655,7 +2653,7 @@ void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl3* this = THIS;
+    EnZl3* this = (EnZl3*)thisx;
     ActorShape* shape = &this->actor.shape;
     s32 pad;
 
@@ -2684,7 +2682,7 @@ static OverrideLimbDraw sOverrideLimbDrawFuncs[] = {
 
 s32 EnZl3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                            Gfx** gfx) {
-    EnZl3* this = THIS;
+    EnZl3* this = (EnZl3*)thisx;
 
     if (this->unk_308 < 0 || this->unk_308 >= ARRAY_COUNT(sOverrideLimbDrawFuncs) ||
         sOverrideLimbDrawFuncs[this->unk_308] == NULL) {
@@ -2754,7 +2752,7 @@ static EnZl3DrawFunc sDrawFuncs[] = {
 };
 
 void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl3* this = THIS;
+    EnZl3* this = (EnZl3*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

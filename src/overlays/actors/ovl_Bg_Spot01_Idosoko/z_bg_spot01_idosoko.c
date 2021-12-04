@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgSpot01Idosoko*)thisx)
-
 void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +38,7 @@ void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFun
 
 void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSpot01Idosoko* this = THIS;
+    BgSpot01Idosoko* this = (BgSpot01Idosoko*)thisx;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
@@ -56,7 +54,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idosoko* this = THIS;
+    BgSpot01Idosoko* this = (BgSpot01Idosoko*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -65,7 +63,7 @@ void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idosoko* this = THIS;
+    BgSpot01Idosoko* this = (BgSpot01Idosoko*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

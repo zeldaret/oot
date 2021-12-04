@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnDntDemo*)thisx)
-
 typedef enum {
     /* 0 */ DNT_LIKE,
     /* 1 */ DNT_HATE,
@@ -72,7 +70,7 @@ void EnDntDemo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnDntDemo* this = THIS;
+    EnDntDemo* this = (EnDntDemo*)thisx;
     s32 i;
     s32 pad;
 
@@ -315,7 +313,7 @@ void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx) {
 
 void EnDntDemo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntDemo* this = THIS;
+    EnDntDemo* this = (EnDntDemo*)thisx;
 
     if (this->unkTimer2 != 0) {
         this->unkTimer2--;

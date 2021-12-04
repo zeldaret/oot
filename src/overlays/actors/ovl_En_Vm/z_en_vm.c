@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000011
 
-#define THIS ((EnVm*)thisx)
-
 void EnVm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -134,7 +132,7 @@ void EnVm_SetupAction(EnVm* this, EnVmActionFunc actionFunc) {
 }
 
 void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
 
     SkelAnime_Init(globalCtx, &this->skelAnime, &gBeamosSkel, &gBeamosAnim, this->jointTable, this->morphTable, 11);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
@@ -160,7 +158,7 @@ void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
 }
@@ -418,7 +416,7 @@ void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
 }
 
 void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
     CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
 
     if (this->actor.colChkInfo.health != 0) {
@@ -451,7 +449,7 @@ void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
 
     if (limbIndex == 2) {
         rot->x += this->beamRot.x;
@@ -466,7 +464,7 @@ s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
     Vec3f sp80 = D_80B2EAF8;
     Vec3f sp74 = D_80B2EB04;
     Vec3f sp68 = D_80B2EB10;
@@ -517,7 +515,7 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx2) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     Vec3f actorPos;
 

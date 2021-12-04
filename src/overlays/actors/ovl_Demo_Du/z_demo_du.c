@@ -6,8 +6,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((DemoDu*)thisx)
-
 typedef void (*DemoDuActionFunc)(DemoDu*, GlobalContext*);
 typedef void (*DemoDuDrawFunc)(Actor*, GlobalContext*);
 
@@ -41,7 +39,7 @@ static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinning
 #define CS_CREDITS_SUBSCENE(x) (24 + (x))           // DEMO_DU_CS_CREDITS
 
 void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -798,7 +796,7 @@ void DemoDu_UpdateCs_AG_02(DemoDu* this, GlobalContext* globalCtx) {
 // Similar to DemoDu_Draw_01, but this uses POLY_XLU_DISP. Also uses this->shadowAlpha for setting the env color.
 void DemoDu_Draw_02(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
@@ -954,7 +952,7 @@ static DemoDuActionFunc sUpdateFuncs[] = {
 };
 
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     if (this->updateIndex < 0 || this->updateIndex >= 29 || sUpdateFuncs[this->updateIndex] == NULL) {
         // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -965,7 +963,7 @@ void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     switch (this->actor.params) {
@@ -993,7 +991,7 @@ void DemoDu_Draw_NoDraw(Actor* thisx, GlobalContext* globalCtx2) {
 // Similar to DemoDu_Draw_02, but this uses POLY_OPA_DISP. Sets the env color to 255.
 void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
@@ -1026,7 +1024,7 @@ static DemoDuDrawFunc sDrawFuncs[] = {
 };
 
 void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     if (this->drawIndex < 0 || this->drawIndex >= 3 || sDrawFuncs[this->drawIndex] == NULL) {
         // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"

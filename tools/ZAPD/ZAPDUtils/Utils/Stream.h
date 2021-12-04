@@ -1,7 +1,7 @@
 #pragma once
 
+#include <cstdint>
 #include <memory>
-#include <stdint.h>
 
 enum class SeekOffsetType
 {

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgHakaShip*)thisx)
-
 void BgHakaShip_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaShip_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaShip_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaShip_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaShip* this = THIS;
+    BgHakaShip* this = (BgHakaShip*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -69,7 +67,7 @@ void BgHakaShip_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaShip_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaShip* this = THIS;
+    BgHakaShip* this = (BgHakaShip*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Audio_StopSfxByPos(&this->bellSoundPos);
@@ -187,7 +185,7 @@ void BgHakaShip_CrashFall(BgHakaShip* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaShip_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaShip* this = THIS;
+    BgHakaShip* this = (BgHakaShip*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (this->dyna.actor.params == 0) {
@@ -196,7 +194,7 @@ void BgHakaShip_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaShip_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaShip* this = THIS;
+    BgHakaShip* this = (BgHakaShip*)thisx;
     f32 angleTemp;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_ship.c", 528);

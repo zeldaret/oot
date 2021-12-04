@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnFish*)thisx)
-
 void EnFish_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -130,7 +128,7 @@ void EnFish_ClearCutsceneData(EnFish* this) {
 }
 
 void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFish* this = THIS;
+    EnFish* this = (EnFish*)thisx;
     s16 params = this->actor.params;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -155,7 +153,7 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnFish* this = THIS;
+    EnFish* this = (EnFish*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -742,7 +740,7 @@ void EnFish_RespawningUpdate(EnFish* this, GlobalContext* globalCtx) {
 }
 
 void EnFish_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFish* this = THIS;
+    EnFish* this = (EnFish*)thisx;
 
     if ((D_80A17010 == NULL) && (this->actor.params == FISH_DROPPED) && (globalCtx->csCtx.state != 0) &&
         (globalCtx->csCtx.npcActions[1] != NULL)) {
@@ -760,7 +758,7 @@ void EnFish_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFish_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnFish* this = THIS;
+    EnFish* this = (EnFish*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

@@ -2,8 +2,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnHoll*)thisx)
-
 // Horizontal Plane parameters
 
 #define PLANE_Y_MIN -50.0f
@@ -94,7 +92,7 @@ void EnHoll_ChooseAction(EnHoll* this) {
 }
 
 void EnHoll_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHoll* this = THIS;
+    EnHoll* this = (EnHoll*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnHoll_ChooseAction(this);
@@ -316,7 +314,7 @@ void EnHoll_NextAction(EnHoll* this, GlobalContext* globalCtx) {
 }
 
 void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHoll* this = THIS;
+    EnHoll* this = (EnHoll*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -324,7 +322,7 @@ void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
 #include "overlays/ovl_En_Holl/ovl_En_Holl.c"
 
 void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHoll* this = THIS;
+    EnHoll* this = (EnHoll*)thisx;
     Gfx* gfxP;
     u32 setupDlIdx;
 

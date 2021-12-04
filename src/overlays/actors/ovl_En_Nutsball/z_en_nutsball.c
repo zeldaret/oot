@@ -5,14 +5,14 @@
  */
 
 #include "z_en_nutsball.h"
-#include "objects/object_dns/object_dns.h"
-#include "objects/object_hintnuts/object_hintnuts.h"
-#include "objects/object_dnk/object_dnk.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "objects/object_dekunuts/object_dekunuts.h"
+#include "objects/object_hintnuts/object_hintnuts.h"
+#include "objects/object_shopnuts/object_shopnuts.h"
+#include "objects/object_dns/object_dns.h"
+#include "objects/object_dnk/object_dnk.h"
 
 #define FLAGS 0x00000010
-
-#define THIS ((EnNutsball*)thisx)
 
 void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -54,12 +54,16 @@ static ColliderCylinderInit sCylinderInit = {
     { 13, 13, 0, { 0 } },
 };
 
-static s16 sObjectIDs[] = { OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK };
+static s16 sObjectIDs[] = {
+    OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK,
+};
 
-static Gfx* sDLists[] = { 0x06002028, gHintNutsNutDL, 0x06004008, gDntJijiNutDL, gDntStageNutDL };
+static Gfx* sDLists[] = {
+    gDekuNutsDekuNutDL, gHintNutsNutDL, gBusinessScrubDekuNutDL, gDntJijiNutDL, gDntStageNutDL,
+};
 
 void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnNutsball* this = THIS;
+    EnNutsball* this = (EnNutsball*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawCircle, 13.0f);
@@ -75,7 +79,7 @@ void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNutsball* this = THIS;
+    EnNutsball* this = (EnNutsball*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -138,7 +142,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
 }
 
 void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnNutsball* this = THIS;
+    EnNutsball* this = (EnNutsball*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000200
 
-#define THIS ((BgSpot06Objects*)thisx)
-
 typedef enum {
     /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,
     /* 0x1 */ LHO_WATER_TEMPLE_ENTRANCE_LOCK,
@@ -94,7 +92,7 @@ static InitChainEntry sInitChainWaterPlane[] = {
 };
 
 void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot06Objects* this = THIS;
+    BgSpot06Objects* this = (BgSpot06Objects*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -185,7 +183,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot06Objects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot06Objects* this = THIS;
+    BgSpot06Objects* this = (BgSpot06Objects*)thisx;
 
     switch (this->dyna.actor.params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
@@ -413,7 +411,7 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, GlobalContext* globalCtx) 
 }
 
 void BgSpot06Objects_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot06Objects* this = THIS;
+    BgSpot06Objects* this = (BgSpot06Objects*)thisx;
 
     this->actionFunc(this, globalCtx);
 
@@ -457,7 +455,7 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, GlobalContext* gl
 }
 
 void BgSpot06Objects_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot06Objects* this = THIS;
+    BgSpot06Objects* this = (BgSpot06Objects*)thisx;
 
     switch (this->dyna.actor.params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:

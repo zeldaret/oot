@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgPushbox*)thisx)
-
 void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ void BgPushbox_SetupAction(BgPushbox* this, BgPushboxActionFunc actionFunc) {
 
 void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPushbox* this = THIS;
+    BgPushbox* this = (BgPushbox*)thisx;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
@@ -54,7 +52,7 @@ void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgPushbox* this = THIS;
+    BgPushbox* this = (BgPushbox*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -71,7 +69,7 @@ void BgPushbox_UpdateImpl(BgPushbox* this, GlobalContext* globalCtx) {
 }
 
 void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgPushbox* this = THIS;
+    BgPushbox* this = (BgPushbox*)thisx;
 
     this->actionFunc(this, globalCtx);
     func_8002DF90(&this->dyna);

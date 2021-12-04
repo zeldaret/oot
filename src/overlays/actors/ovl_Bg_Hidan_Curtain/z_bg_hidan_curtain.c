@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgHidanCurtain*)thisx)
-
 void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -69,7 +67,7 @@ const ActorInit Bg_Hidan_Curtain_InitVars = {
 
 void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
     BgHidanCurtainParams* hcParams;
 
     osSyncPrintf("Curtain (arg_data 0x%04x)\n", this->actor.params);
@@ -120,7 +118,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -203,7 +201,7 @@ void BgHidanCurtain_WaitForTimer(BgHidanCurtain* this, GlobalContext* globalCtx)
 
 void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
     BgHidanCurtainParams* hcParams = &sHCParams[this->size];
     f32 riseProgress;
 
@@ -241,7 +239,7 @@ void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void BgHidanCurtain_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_curtain.c", 685);
     func_80093D84(globalCtx->state.gfxCtx);

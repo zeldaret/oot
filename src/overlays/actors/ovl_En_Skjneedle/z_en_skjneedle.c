@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000205
 
-#define THIS ((EnSkjneedle*)thisx)
-
 void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkjneedle* this = THIS;
+    EnSkjneedle* this = (EnSkjneedle*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -66,7 +64,7 @@ void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkjneedle* this = THIS;
+    EnSkjneedle* this = (EnSkjneedle*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -80,7 +78,7 @@ s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this) {
 }
 
 void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnSkjneedle* this = THIS;
+    EnSkjneedle* this = (EnSkjneedle*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     this->unusedTimer1++;

@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnOkuta*)thisx)
-
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -116,7 +114,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     s32 pad;
     WaterBox* outWaterBox;
     f32 ySurface;
@@ -160,7 +158,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -572,7 +570,7 @@ void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     Player* player = GET_PLAYER(globalCtx);
     WaterBox* outWaterBox;
@@ -680,7 +678,7 @@ s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 curFrame, Vec3f* scale) {
 
 s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     f32 curFrame = this->skelAnime.curFrame;
     Vec3f scale;
     s32 doScale = false;
@@ -703,7 +701,7 @@ s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     s32 pad;
 
     func_80093D18(globalCtx->state.gfxCtx);

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHidanDalm*)thisx)
-
 void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -97,7 +95,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanDalm* this = THIS;
+    BgHidanDalm* this = (BgHidanDalm*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -118,7 +116,7 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanDalm* this = THIS;
+    BgHidanDalm* this = (BgHidanDalm*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->collider);
@@ -179,7 +177,7 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanDalm* this = THIS;
+    BgHidanDalm* this = (BgHidanDalm*)thisx;
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->dyna.actor);
@@ -210,7 +208,7 @@ void BgHidanDalm_UpdateCollider(BgHidanDalm* this) {
 }
 
 void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanDalm* this = THIS;
+    BgHidanDalm* this = (BgHidanDalm*)thisx;
 
     if (this->dyna.actor.params == 0) {
         Gfx_DrawDListOpa(globalCtx, gFireTempleHammerableTotemBodyDL);

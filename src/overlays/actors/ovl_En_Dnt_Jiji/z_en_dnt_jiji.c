@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnDntJiji*)thisx)
-
 void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -74,7 +72,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDntJiji* this = THIS;
+    EnDntJiji* this = (EnDntJiji*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gDntJijiSkel, &gDntJijiBurrowAnim, this->jointTable, this->morphTable,
@@ -94,7 +92,7 @@ void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntJiji* this = THIS;
+    EnDntJiji* this = (EnDntJiji*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -372,7 +370,7 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
 
 void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntJiji* this = THIS;
+    EnDntJiji* this = (EnDntJiji*)thisx;
 
     Actor_SetScale(&this->actor, 0.015f);
     this->unkTimer++;
@@ -430,7 +428,7 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* blinkTex[] = { gDntJijiEyeOpenTex, gDntJijiEyeHalfTex, gDntJijiEyeShutTex };
-    EnDntJiji* this = THIS;
+    EnDntJiji* this = (EnDntJiji*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_jiji.c", 1019);
     func_80093D18(globalCtx->state.gfxCtx);

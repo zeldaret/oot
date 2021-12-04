@@ -9,8 +9,6 @@
 
 #define FLAGS 0x02000039
 
-#define THIS ((EnMa1*)thisx)
-
 void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -256,7 +254,7 @@ void func_80AA0B74(EnMa1* this) {
 }
 
 void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
@@ -285,7 +283,7 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -392,7 +390,7 @@ void EnMa1_DoNothing(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -409,7 +407,7 @@ void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnMa1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
     Vec3s vec;
 
     if ((limbIndex == 2) || (limbIndex == 5)) {
@@ -431,7 +429,7 @@ s32 EnMa1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
     Vec3f vec = D_80AA16B8;
 
     if (limbIndex == 15) {
@@ -440,7 +438,7 @@ void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
     Camera* camera;
     f32 distFromCamera;
     s32 pad;

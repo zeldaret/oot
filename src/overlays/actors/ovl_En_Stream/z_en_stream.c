@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnStream*)thisx)
-
 void EnStream_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -38,7 +36,7 @@ void EnStream_SetupAction(EnStream* this, EnStreamActionFunc actionFunc) {
 }
 
 void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnStream* this = THIS;
+    EnStream* this = (EnStream*)thisx;
 
     this->unk_150 = thisx->params & 0xFF;
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -123,7 +121,7 @@ void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx) {
 }
 
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnStream* this = THIS;
+    EnStream* this = (EnStream*)thisx;
 
     this->actionFunc(this, globalCtx);
     func_8002F948(thisx, NA_SE_EV_WHIRLPOOL - SFX_FLAG);

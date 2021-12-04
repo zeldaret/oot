@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgJyaIronobj*)thisx)
-
 typedef void (*BgJyaIronobjIkFunc)(BgJyaIronobj*, GlobalContext*, EnIk*);
 
 void BgJyaIronobj_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -216,7 +214,7 @@ void BgJyaIronobj_SpawnThoneParticles(BgJyaIronobj* this, GlobalContext* arg1, E
 }
 
 void BgJyaIronobj_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaIronobj* this = THIS;
+    BgJyaIronobj* this = (BgJyaIronobj*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -229,7 +227,7 @@ void BgJyaIronobj_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaIronobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaIronobj* this = THIS;
+    BgJyaIronobj* this = (BgJyaIronobj*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->colCylinder);
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -267,7 +265,7 @@ void func_808992E8(BgJyaIronobj* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaIronobj_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaIronobj* this = THIS;
+    BgJyaIronobj* this = (BgJyaIronobj*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

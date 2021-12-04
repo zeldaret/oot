@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgIceObjects*)thisx)
-
 void BgIceObjects_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceObjects_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgIceObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgIceObjects* this = THIS;
+    BgIceObjects* this = (BgIceObjects*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -57,7 +55,7 @@ void BgIceObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgIceObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgIceObjects* this = THIS;
+    BgIceObjects* this = (BgIceObjects*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -226,14 +224,14 @@ void BgIceObjects_Stuck(BgIceObjects* this, GlobalContext* globalCtx) {
 
 void BgIceObjects_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgIceObjects* this = THIS;
+    BgIceObjects* this = (BgIceObjects*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgIceObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgIceObjects* this = THIS;
+    BgIceObjects* this = (BgIceObjects*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, object_ice_objects_DL_000190);
 }

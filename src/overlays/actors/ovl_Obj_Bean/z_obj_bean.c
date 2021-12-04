@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00400000
 
-#define THIS ((ObjBean*)thisx)
-
 void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -128,7 +126,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjBean_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBean* this = THIS;
+    ObjBean* this = (ObjBean*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
@@ -468,7 +466,7 @@ void ObjBean_Grown(ObjBean* this) {
 void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 path;
     s32 linkAge;
-    ObjBean* this = THIS;
+    ObjBean* this = (ObjBean*)thisx;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
@@ -520,7 +518,7 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBean* this = THIS;
+    ObjBean* this = (ObjBean*)thisx;
 
     if (this->stateFlags & BEAN_STATE_DYNAPOLY_SET) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -870,7 +868,7 @@ void func_80B90A34(ObjBean* this, GlobalContext* globalCtx) {
 }
 void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjBean* this = THIS;
+    ObjBean* this = (ObjBean*)thisx;
 
     if (this->timer > 0) {
         this->timer--;
@@ -930,7 +928,7 @@ void ObjBean_DrawBeanstalk(ObjBean* this, GlobalContext* globalCtx) {
 }
 
 void ObjBean_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBean* this = THIS;
+    ObjBean* this = (ObjBean*)thisx;
 
     if (this->stateFlags & BEAN_STATE_DRAW_SOIL) {
         Gfx_DrawDListOpa(globalCtx, gMagicBeanSeedlingDL);

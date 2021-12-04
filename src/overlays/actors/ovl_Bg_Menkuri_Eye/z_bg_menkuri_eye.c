@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000020
 
-#define THIS ((BgMenkuriEye*)thisx)
-
 void BgMenkuriEye_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriEye_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgMenkuriEye_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMenkuriEye* this = THIS;
+    BgMenkuriEye* this = (BgMenkuriEye*)thisx;
     ColliderJntSphElement* colliderList;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -80,13 +78,13 @@ void BgMenkuriEye_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMenkuriEye_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgMenkuriEye* this = THIS;
+    BgMenkuriEye* this = (BgMenkuriEye*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMenkuriEye* this = THIS;
+    BgMenkuriEye* this = (BgMenkuriEye*)thisx;
 
     if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
         if (this->framesUntilDisable != -1) {
@@ -120,7 +118,7 @@ void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgMenkuriEye* this = THIS;
+    BgMenkuriEye* this = (BgMenkuriEye*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_menkuri_eye.c", 292);

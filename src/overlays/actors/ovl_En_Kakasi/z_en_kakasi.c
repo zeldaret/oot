@@ -10,8 +10,6 @@
 
 #define FLAGS 0x02000009
 
-#define THIS ((EnKakasi*)thisx)
-
 void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -57,14 +55,14 @@ const ActorInit En_Kakasi_InitVars = {
 };
 
 void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi* this = THIS;
+    EnKakasi* this = (EnKakasi*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
     //! @bug SkelAnime_Free is not called
 }
 
 void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi* this = THIS;
+    EnKakasi* this = (EnKakasi*)thisx;
 
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ Ｌｅｔ’ｓ ＤＡＮＣＥ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.world.pos.y);
@@ -315,7 +313,7 @@ void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
 }
 
 void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi* this = THIS;
+    EnKakasi* this = (EnKakasi*)thisx;
     s32 pad;
     s32 i;
 
@@ -337,7 +335,7 @@ void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi* this = THIS;
+    EnKakasi* this = (EnKakasi*)thisx;
 
     if (BREG(3) != 0) {
         osSyncPrintf("\n\n");

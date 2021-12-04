@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ObjMure*)thisx)
-
 void ObjMure_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -61,7 +59,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 s32 ObjMure_SetCullingImpl(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMure* this = THIS;
+    ObjMure* this = (ObjMure*)thisx;
     s32 result;
 
     switch (this->type) {
@@ -88,7 +86,7 @@ s32 ObjMure_SetCulling(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjMure_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMure* this = THIS;
+    ObjMure* this = (ObjMure*)thisx;
 
     this->chNum = (thisx->params >> 0xC) & 0x0F;
     this->ptn = (thisx->params >> 8) & 0x07;
@@ -409,7 +407,7 @@ void ObjMure_ActiveState(ObjMure* this, GlobalContext* globalCtx) {
 }
 
 void ObjMure_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMure* this = THIS;
+    ObjMure* this = (ObjMure*)thisx;
 
     if (this->unk_1A4 > 0) {
         this->unk_1A4--;

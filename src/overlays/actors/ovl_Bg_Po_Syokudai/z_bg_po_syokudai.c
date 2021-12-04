@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgPoSyokudai*)thisx)
-
 typedef enum {
     POE_FLAME_PURPLE, // Meg
     POE_FLAME_RED,    // Joelle
@@ -77,7 +75,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -122,7 +120,7 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -133,7 +131,7 @@ void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     s32 pad;
 
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -145,7 +143,7 @@ void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     f32 lightBrightness;
     u8 red;
     u8 green;

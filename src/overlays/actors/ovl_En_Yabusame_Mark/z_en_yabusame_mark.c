@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnYabusameMark*)thisx)
-
 void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -72,13 +70,13 @@ static f32 sRingDistance[] = {
 };
 
 void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnYabusameMark* this = THIS;
+    EnYabusameMark* this = (EnYabusameMark*)thisx;
 
     Collider_DestroyQuad(globalCtx, &this->collider);
 }
 
 void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnYabusameMark* this = THIS;
+    EnYabusameMark* this = (EnYabusameMark*)thisx;
 
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
@@ -188,7 +186,7 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
 }
 
 void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnYabusameMark* this = THIS;
+    EnYabusameMark* this = (EnYabusameMark*)thisx;
     Vec3f* vertexArray;
     u32 arrayIndex;
 

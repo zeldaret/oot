@@ -9,8 +9,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((OceffWipe4*)thisx)
-
 void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ const ActorInit Oceff_Wipe4_InitVars = {
 };
 
 void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe4* this = THIS;
+    OceffWipe4* this = (OceffWipe4*)thisx;
 
     Actor_SetScale(&this->actor, 0.1f);
     this->timer = 0;
@@ -38,13 +36,13 @@ void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe4* this = THIS;
+    OceffWipe4* this = (OceffWipe4*)thisx;
 
     func_800876C8(globalCtx);
 }
 
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe4* this = THIS;
+    OceffWipe4* this = (OceffWipe4*)thisx;
 
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     if (this->timer < 50) {
@@ -58,7 +56,7 @@ void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll = globalCtx->state.frames & 0xFFF;
-    OceffWipe4* this = THIS;
+    OceffWipe4* this = (OceffWipe4*)thisx;
     f32 z;
     u8 alpha;
     s32 pad[2];

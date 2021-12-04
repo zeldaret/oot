@@ -9,8 +9,6 @@
 
 #define FLAGS 0x08000009
 
-#define THIS ((EnWonderTalk*)thisx)
-
 void EnWonderTalk_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ void EnWonderTalk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWonderTalk_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnWonderTalk* this = THIS;
+    EnWonderTalk* this = (EnWonderTalk*)thisx;
 
     osSyncPrintf("\n\n");
     // "Special conversation"
@@ -233,7 +231,7 @@ void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderTalk_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnWonderTalk* this = THIS;
+    EnWonderTalk* this = (EnWonderTalk*)thisx;
 
     if (this->unk_158 != 0) {
         this->unk_158--;

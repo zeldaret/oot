@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00400000
 
-#define THIS ((BgBombwall*)thisx)
-
 void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBombwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBombwall_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -117,7 +115,7 @@ void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vecs[3];
     Vec3f sp80;
     s32 pad;
-    BgBombwall* this = THIS;
+    BgBombwall* this = (BgBombwall*)thisx;
     f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
     f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
@@ -168,7 +166,7 @@ void BgBombwall_DestroyCollision(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void BgBombwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgBombwall* this = THIS;
+    BgBombwall* this = (BgBombwall*)thisx;
 
     BgBombwall_DestroyCollision(this, globalCtx);
 }
@@ -247,7 +245,7 @@ void func_8086EE94(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void BgBombwall_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgBombwall* this = THIS;
+    BgBombwall* this = (BgBombwall*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
@@ -255,7 +253,7 @@ void BgBombwall_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgBombwall_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgBombwall* this = THIS;
+    BgBombwall* this = (BgBombwall*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, this->dList);
 }

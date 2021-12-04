@@ -40,6 +40,7 @@
 #include "Utils/File.h"
 #include "Utils/Path.h"
 #include "Utils/StringHelper.h"
+#include "WarningHandler.h"
 #include "ZBlob.h"
 #include "ZCutscene.h"
 #include "ZFile.h"
@@ -123,10 +124,12 @@ void ZRoom::ParseXML(tinyxml2::XMLElement* reader)
 	{
 		hackMode = std::string(reader->Attribute("HackMode"));
 		if (hackMode != "syotes_room")
-			throw std::runtime_error(
-				StringHelper::Sprintf("ZRoom::ParseXML: Fatal error in '%s'.\n"
-			                          "\t Invalid value for attribute 'HackMode': '%s'\n",
-			                          name.c_str(), hackMode.c_str()));
+		{
+			std::string headerError = StringHelper::Sprintf(
+				"invalid value found for 'HackMode' attribute: '%s'", hackMode.c_str());
+			HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+			                      headerError, "");
+		}
 	}
 }
 
@@ -392,14 +395,10 @@ size_t ZRoom::GetCommandSizeFromNeighbor(ZRoomCommand* cmd)
 	return 0;
 }
 
-std::string ZRoom::GetSourceOutputCode([[maybe_unused]] const std::string& prefix)
+void ZRoom::GetSourceOutputCode([[maybe_unused]] const std::string& prefix)
 {
-	if (hackMode == "syotes_room")
-		return "";
-
-	DeclareVar(prefix, GetBodySourceCode());
-
-	return "";
+	if (hackMode != "syotes_room")
+		DeclareVar(prefix, GetBodySourceCode());
 }
 
 size_t ZRoom::GetRawDataSize() const

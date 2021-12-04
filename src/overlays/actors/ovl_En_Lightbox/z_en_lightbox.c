@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnLightbox*)thisx)
-
 void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnLightbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -30,7 +28,7 @@ const ActorInit En_Lightbox_InitVars = {
 
 void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
-    EnLightbox* this = THIS;
+    EnLightbox* this = (EnLightbox*)thisx;
     s32 pad[4];
 
     switch (thisx->params) {
@@ -62,13 +60,13 @@ void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnLightbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnLightbox* this = THIS;
+    EnLightbox* this = (EnLightbox*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnLightbox* this = THIS;
+    EnLightbox* this = (EnLightbox*)thisx;
 
     if (this->dyna.unk_162 != 0) {
         if (Actor_HasNoParent(thisx, globalCtx)) {

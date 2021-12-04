@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnBom*)thisx)
-
 void EnBom_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -90,7 +88,7 @@ void EnBom_SetupAction(EnBom* this, EnBomActionFunc actionFunc) {
 }
 
 void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 700.0f, ActorShadow_DrawCircle, 16.0f);
@@ -114,7 +112,7 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->explosionCollider);
     Collider_DestroyCylinder(globalCtx, &this->bombCollider);
@@ -228,7 +226,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Color_RGBA8 dustColor = { 255, 255, 255, 255 };
     s32 pad;
     GlobalContext* globalCtx = globalCtx2;
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     thisx->gravity = -1.2f;
 
@@ -359,7 +357,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     if (1) {}
 

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgSstFloor*)thisx)
-
 void BgSstFloor_Init(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Destroy(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Update(BgSstFloor* this, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSstFloor* this = THIS;
+    BgSstFloor* this = (BgSstFloor*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -47,14 +45,14 @@ void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
 
 void BgSstFloor_Destroy(BgSstFloor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSstFloor* this = THIS;
+    BgSstFloor* this = (BgSstFloor*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSstFloor* this = THIS;
+    BgSstFloor* this = (BgSstFloor*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(&gBongoDrumCol);
 
@@ -123,7 +121,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSstFloor_Draw(BgSstFloor* thisx, GlobalContext* globalCtx) {
-    BgSstFloor* this = THIS;
+    BgSstFloor* this = (BgSstFloor*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_sst_floor.c", 277);
     func_80093D18(globalCtx->state.gfxCtx);

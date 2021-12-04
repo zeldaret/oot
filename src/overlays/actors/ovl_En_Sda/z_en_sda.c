@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnSda*)thisx)
-
 void EnSda_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSda_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSda_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -98,7 +96,7 @@ void EnSda_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSda* this = THIS;
+    EnSda* this = (EnSda*)thisx;
     Player* player;
 
     osSyncPrintf("SDA MOVE\n");
@@ -115,7 +113,7 @@ void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSda_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSda* this = THIS;
+    EnSda* this = (EnSda*)thisx;
     Player* player;
     u8* shadowTexture = Graph_Alloc(globalCtx->state.gfxCtx, 0x1000);
 

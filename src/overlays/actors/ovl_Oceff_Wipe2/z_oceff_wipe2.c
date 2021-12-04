@@ -9,8 +9,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((OceffWipe2*)thisx)
-
 void OceffWipe2_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ const ActorInit Oceff_Wipe2_InitVars = {
 };
 
 void OceffWipe2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe2* this = THIS;
+    OceffWipe2* this = (OceffWipe2*)thisx;
 
     Actor_SetScale(&this->actor, 0.1f);
     this->timer = 0;
@@ -38,7 +36,7 @@ void OceffWipe2_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffWipe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe2* this = THIS;
+    OceffWipe2* this = (OceffWipe2*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     func_800876C8(globalCtx);
@@ -48,7 +46,7 @@ void OceffWipe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffWipe2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe2* this = THIS;
+    OceffWipe2* this = (OceffWipe2*)thisx;
 
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     if (this->timer < 100) {
@@ -62,7 +60,7 @@ void OceffWipe2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll = globalCtx->state.frames & 0xFF;
-    OceffWipe2* this = THIS;
+    OceffWipe2* this = (OceffWipe2*)thisx;
     f32 z;
     u8 alpha;
     s32 pad[2];

@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnBomBowlPit*)thisx)
-
 void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomBowlPit_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBomBowlPit_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ const ActorInit En_Bom_Bowl_Pit_InitVars = {
 };
 
 void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBomBowlPit* this = THIS;
+    EnBomBowlPit* this = (EnBomBowlPit*)thisx;
 
     this->actionFunc = EnBomBowlPit_SetupDetectHit;
 }
@@ -214,7 +212,7 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlPit_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBomBowlPit* this = THIS;
+    EnBomBowlPit* this = (EnBomBowlPit*)thisx;
 
     this->actionFunc(this, globalCtx);
 

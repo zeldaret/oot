@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHidanRsekizou*)thisx)
-
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -122,7 +120,7 @@ static void* sFireballsTexs[] = {
 };
 
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRsekizou* this = THIS;
+    BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
     s32 pad;
     CollisionHeader* colHeader;
@@ -142,14 +140,14 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRsekizou* this = THIS;
+    BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRsekizou* this = THIS;
+    BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
     ColliderJntSphElement* sphere;
     s32 pad;
@@ -225,7 +223,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
 }
 
 void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRsekizou* this = THIS;
+    BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
     s32 pad;
     MtxF mf;

@@ -6,8 +6,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnNiwLady*)thisx)
-
 void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -69,7 +67,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnNiwLady* this = THIS;
+    EnNiwLady* this = (EnNiwLady*)thisx;
 
     this->objectAneIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ANE);
     this->objectOsAnimeIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
@@ -92,7 +90,7 @@ void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiwLady* this = THIS;
+    EnNiwLady* this = (EnNiwLady*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -490,7 +488,7 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx) {
 
 void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnNiwLady* this = THIS;
+    EnNiwLady* this = (EnNiwLady*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     Actor_SetFocus(thisx, 60.0f);
@@ -549,7 +547,7 @@ Gfx* func_80ABB0A0(GraphicsContext* gfxCtx) {
 
 s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    EnNiwLady* this = THIS;
+    EnNiwLady* this = (EnNiwLady*)thisx;
     s32 pad;
 
     if (limbIndex == 15) {
@@ -570,7 +568,7 @@ s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 
 void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyeTextures[] = { gCuccoLadyEyeOpenTex, gCuccoLadyEyeHalfTex, gCuccoLadyEyeClosedTex };
-    EnNiwLady* this = THIS;
+    EnNiwLady* this = (EnNiwLady*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_lady.c", 1347);

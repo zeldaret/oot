@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnZo*)thisx)
-
 typedef enum {
     /* 0 */ ENZO_EFFECT_NONE,
     /* 1 */ ENZO_EFFECT_RIPPLE,
@@ -560,7 +558,7 @@ void EnZo_SetAnimation(EnZo* this) {
 }
 
 void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gZoraSkel, NULL, this->jointTable, this->morphTable, 20);
@@ -706,7 +704,7 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
 }
 
 void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     u32 pad;
     Vec3f pos;
 
@@ -742,7 +740,7 @@ void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnZo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     Vec3s vec;
 
     if (limbIndex == 15) {
@@ -768,7 +766,7 @@ s32 EnZo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnZo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     Vec3f vec = { 0.0f, 600.0f, 0.0f };
 
     if (limbIndex == 15) {
@@ -777,7 +775,7 @@ void EnZo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnZo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     void* eyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
 
     Matrix_Push();

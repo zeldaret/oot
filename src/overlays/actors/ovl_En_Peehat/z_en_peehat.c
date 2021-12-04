@@ -5,8 +5,6 @@
 
 #define FLAGS 0x01000015
 
-#define THIS ((EnPeehat*)thisx)
-
 #define GROUND_HOVER_HEIGHT 75.0f
 #define MAX_LARVA 3
 
@@ -190,7 +188,7 @@ void EnPeehat_SetupAction(EnPeehat* this, EnPeehatActionFunc actionFunc) {
 }
 
 void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnPeehat* this = THIS;
+    EnPeehat* this = (EnPeehat*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 36.0f * 0.001f);
@@ -244,7 +242,7 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnPeehat* this = THIS;
+    EnPeehat* this = (EnPeehat*)thisx;
     EnPeehat* parent;
 
     Collider_DestroyCylinder(globalCtx, &this->colCylinder);
@@ -922,7 +920,7 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnPeehat* this = THIS;
+    EnPeehat* this = (EnPeehat*)thisx;
     s32 i;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -1006,7 +1004,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnPeehat_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                               void* thisx) {
-    EnPeehat* this = THIS;
+    EnPeehat* this = (EnPeehat*)thisx;
 
     if (limbIndex == 4) {
         rot->x = -this->bladeRot;
@@ -1036,7 +1034,7 @@ s32 EnPeehat_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 void EnPeehat_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f peahatBladeTip[] = { { 0.0f, 0.0f, 5500.0f }, { 0.0f, 0.0f, -5500.0f } };
 
-    EnPeehat* this = THIS;
+    EnPeehat* this = (EnPeehat*)thisx;
     f32 damageYRot;
 
     if (limbIndex == 4) {
@@ -1069,7 +1067,7 @@ void EnPeehat_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f D_80AD285C[] = {
         { 0.0f, 0.0f, -4500.0f }, { -4500.0f, 0.0f, 0.0f }, { 4500.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 4500.0f }
     };
-    EnPeehat* this = THIS;
+    EnPeehat* this = (EnPeehat*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPeehat_OverrideLimbDraw,

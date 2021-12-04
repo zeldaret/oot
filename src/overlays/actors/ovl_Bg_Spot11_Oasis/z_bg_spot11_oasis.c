@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgSpot11Oasis*)thisx)
-
 void BgSpot11Oasis_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Oasis_Draw(Actor* thisx, GlobalContext* globalCtx);
@@ -83,7 +81,7 @@ s32 func_808B280C(GlobalContext* globalCtx) {
 }
 
 void BgSpot11Oasis_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot11Oasis* this = THIS;
+    BgSpot11Oasis* this = (BgSpot11Oasis*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_808B2970(this);
@@ -124,7 +122,7 @@ void func_808B2AB8(BgSpot11Oasis* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot11Oasis* this = THIS;
+    BgSpot11Oasis* this = (BgSpot11Oasis*)thisx;
     s32 pad;
     u32 gameplayFrames;
     Vec3f sp30;

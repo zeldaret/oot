@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgTreemouth*)thisx)
-
 void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ void BgTreemouth_SetupAction(BgTreemouth* this, BgTreemouthActionFunc actionFunc
 
 void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -86,7 +84,7 @@ void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -215,7 +213,7 @@ void BgTreemouth_DoNothing(BgTreemouth* this, GlobalContext* globalCtx) {
 }
 
 void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
     f32 unk_168;
 
     this->actionFunc(this, globalCtx);

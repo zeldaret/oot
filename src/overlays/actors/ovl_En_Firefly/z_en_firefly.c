@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00005005
 
-#define THIS ((EnFirefly*)thisx)
-
 void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -139,7 +137,7 @@ void EnFirefly_Ignite(EnFirefly* this) {
 }
 
 void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
@@ -197,7 +195,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -666,7 +664,7 @@ void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     if (this->collider.base.atFlags & AT_HIT) {
@@ -722,7 +720,7 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 EnFirefly_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx, Gfx** gfx) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     if ((this->actor.draw == EnFirefly_DrawInvisible) && (globalCtx->actorCtx.unk_03 == 0)) {
         *dList = NULL;
@@ -747,7 +745,7 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     MtxF mtx;
     s16 effScaleStep;
     s16 effLife;
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     if (!this->onFire && (limbIndex == 27)) {
         gSPDisplayList((*gfx)++, gKeeseEyesDL);
@@ -803,7 +801,7 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1733);
     func_80093D18(globalCtx->state.gfxCtx);
@@ -820,7 +818,7 @@ void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_DrawInvisible(Actor* thisx, GlobalContext* globalCtx) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1775);
     func_80093D84(globalCtx->state.gfxCtx);

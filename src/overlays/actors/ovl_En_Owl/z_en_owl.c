@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnOwl*)thisx)
-
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -107,7 +105,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     ColliderCylinder* collider;
     s32 owlType;
     s32 switchFlag;
@@ -236,7 +234,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -1079,7 +1077,7 @@ s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx) {
 
 void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     s16 phi_a1;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -1269,7 +1267,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
 
     switch (limbIndex) {
         case 3:
@@ -1297,7 +1295,7 @@ s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, V
 }
 
 void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, void* thisx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     Vec3f vec;
 
     vec.z = 0.0f;
@@ -1315,7 +1313,7 @@ void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Ve
 
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gObjOwlEyeOpenTex, gObjOwlEyeHalfTex, gObjOwlEyeClosedTex };
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2247);

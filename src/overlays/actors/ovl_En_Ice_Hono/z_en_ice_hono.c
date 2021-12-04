@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnIceHono*)thisx)
-
 void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -103,7 +101,7 @@ f32 EnIceHono_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
 }
 
 void EnIceHono_InitCapturableFlame(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChainCapturableFlame);
     Actor_SetScale(&this->actor, 0.0074f);
@@ -119,7 +117,7 @@ void EnIceHono_InitCapturableFlame(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_InitDroppedFlame(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChainDroppedFlame);
     this->actor.scale.x = this->actor.scale.z = this->actor.scale.y = 0.00002f;
@@ -140,7 +138,7 @@ void EnIceHono_InitDroppedFlame(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_InitSmallFlame(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChainSmallFlame);
     this->actor.scale.x = this->actor.scale.z = this->actor.scale.y = 0.0008f;
@@ -152,7 +150,7 @@ void EnIceHono_InitSmallFlame(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
     s16 params = this->actor.params;
 
     switch (this->actor.params) {
@@ -179,7 +177,7 @@ void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
 
     if ((this->actor.params == -1) || (this->actor.params == 0)) {
         LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
@@ -340,7 +338,7 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
     s32 pad1;
     f32 intensity;
     s32 pad2;
@@ -373,7 +371,7 @@ void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
     u32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 695);

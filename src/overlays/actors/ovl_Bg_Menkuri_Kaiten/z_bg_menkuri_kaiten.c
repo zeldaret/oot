@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgMenkuriKaiten*)thisx)
-
 void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriKaiten_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriKaiten_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMenkuriKaiten* this = THIS;
+    BgMenkuriKaiten* this = (BgMenkuriKaiten*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -44,13 +42,13 @@ void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMenkuriKaiten_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgMenkuriKaiten* this = THIS;
+    BgMenkuriKaiten* this = (BgMenkuriKaiten*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgMenkuriKaiten_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMenkuriKaiten* this = THIS;
+    BgMenkuriKaiten* this = (BgMenkuriKaiten*)thisx;
 
     if (!Flags_GetSwitch(globalCtx, this->dyna.actor.params) && func_80043590(&this->dyna)) {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);

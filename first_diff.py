@@ -93,7 +93,7 @@ def search_rom_address(target_addr):
             rom = ram - ram_offset 
             sym = line.split()[-1]
     
-            if "0x" in sym:
+            if sym.startswith("0x"):
                 ram_offset = None
                 continue
             if "/" in sym:
@@ -139,7 +139,7 @@ def parse_map(map_fname):
             rom = ram - ram_offset
             sym = line.split()[-1]
 
-            if "0x" in sym:
+            if sym.startswith("0x"):
                 ram_offset = None
                 continue
             elif "/" in sym:

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgInGate*)thisx)
-
 void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgInGate_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgInGate_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ void BgInGate_SetupAction(BgInGate* this, BgInGateActionFunc actionFunc) {
 }
 
 void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgInGate* this = THIS;
+    BgInGate* this = (BgInGate*)thisx;
 
     s32 pad;
     CollisionHeader* colHeader = NULL;
@@ -62,7 +60,7 @@ void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgInGate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgInGate* this = THIS;
+    BgInGate* this = (BgInGate*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -99,7 +97,7 @@ void BgInGate_DoNothing(BgInGate* this, GlobalContext* globalCtx) {
 }
 
 void BgInGate_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgInGate* this = THIS;
+    BgInGate* this = (BgInGate*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
