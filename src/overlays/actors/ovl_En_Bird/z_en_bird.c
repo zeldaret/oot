@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnBird*)thisx)
-
 void EnBird_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBird_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -42,7 +40,7 @@ void EnBird_SetupAction(EnBird* this, EnBirdActionFunc actionFunc) {
 }
 
 void EnBird_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBird* this = THIS;
+    EnBird* this = (EnBird*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01);
@@ -121,14 +119,14 @@ void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
 }
 
 void EnBird_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBird* this = THIS;
+    EnBird* this = (EnBird*)thisx;
 
     this->unk_1B4 += this->unk_1B8;
     this->actionFunc(this, globalCtx);
 }
 
 void EnBird_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBird* this = THIS;
+    EnBird* this = (EnBird*)thisx;
 
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
 }

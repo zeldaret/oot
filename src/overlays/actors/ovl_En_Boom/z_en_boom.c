@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnBoom*)thisx)
-
 void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ void EnBoom_SetupAction(EnBoom* this, EnBoomActionFunc actionFunc) {
 }
 
 void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBoom* this = THIS;
+    EnBoom* this = (EnBoom*)thisx;
     EffectBlureInit1 blure;
 
     this->actor.room = -1;
@@ -100,7 +98,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBoom* this = THIS;
+    EnBoom* this = (EnBoom*)thisx;
 
     Effect_Delete(globalCtx, this->effectIndex);
     Collider_DestroyQuad(globalCtx, &this->collider);
@@ -239,7 +237,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
 }
 
 void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBoom* this = THIS;
+    EnBoom* this = (EnBoom*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x20000000)) {
@@ -252,7 +250,7 @@ void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f sMultVec1 = { -960.0f, 0.0f, 0.0f };
     static Vec3f sMultVec2 = { 960.0f, 0.0f, 0.0f };
-    EnBoom* this = THIS;
+    EnBoom* this = (EnBoom*)thisx;
     Vec3f vec1;
     Vec3f vec2;
 

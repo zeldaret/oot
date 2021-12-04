@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgJya1flift*)thisx)
-
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -85,7 +83,7 @@ void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, Colli
 }
 
 void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
-    BgJya1flift* this = THIS;
+    BgJya1flift* this = (BgJya1flift*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
@@ -93,7 +91,7 @@ void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJya1flift* this = THIS;
+    BgJya1flift* this = (BgJya1flift*)thisx;
     // "1 F lift"
     osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", sIsSpawned, globalCtx->roomCtx.curRoom.num);
     this->hasInitialized = false;
@@ -115,7 +113,7 @@ void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJya1flift* this = THIS;
+    BgJya1flift* this = (BgJya1flift*)thisx;
 
     if (this->hasInitialized) {
         sIsSpawned = false;
@@ -181,7 +179,7 @@ void BgJya1flift_DelayMove(BgJya1flift* this, GlobalContext* globalCtx) {
 }
 
 void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    BgJya1flift* this = THIS;
+    BgJya1flift* this = (BgJya1flift*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s32 tempIsRiding;
 

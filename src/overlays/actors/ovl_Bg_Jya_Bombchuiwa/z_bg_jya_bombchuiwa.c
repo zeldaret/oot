@@ -3,8 +3,6 @@
 #include "objects/object_jya_obj/object_jya_obj.h"
 #define FLAGS 0x00000001
 
-#define THIS ((BgJyaBombchuiwa*)thisx)
-
 void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombchuiwa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -76,7 +74,7 @@ void BgJyaBombchuiwa_SetDrawFlags(BgJyaBombchuiwa* this, u8 drawFlags) {
 }
 
 void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBombchuiwa* this = THIS;
+    BgJyaBombchuiwa* this = (BgJyaBombchuiwa*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     BgJyaBombchuiwa_SetupCollider(this, globalCtx);
@@ -90,7 +88,7 @@ void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgJyaBombchuiwa* this = THIS;
+    BgJyaBombchuiwa* this = (BgJyaBombchuiwa*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -190,7 +188,7 @@ void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, GlobalContext* globalC
 }
 
 void BgJyaBombchuiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBombchuiwa* this = THIS;
+    BgJyaBombchuiwa* this = (BgJyaBombchuiwa*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
@@ -207,7 +205,7 @@ void BgJyaBombchuiwa_DrawRock(GlobalContext* globalCtx) {
 }
 
 void BgJyaBombchuiwa_DrawLight(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBombchuiwa* this = THIS;
+    BgJyaBombchuiwa* this = (BgJyaBombchuiwa*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 453);
     func_80093D84(globalCtx->state.gfxCtx);
@@ -224,7 +222,7 @@ void BgJyaBombchuiwa_DrawLight(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBombchuiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f D_80894F88 = { -920.0f, 480.0f, -889.0f };
     static Vec3s D_80894F94 = { 0, 0, 0 };
-    BgJyaBombchuiwa* this = THIS;
+    BgJyaBombchuiwa* this = (BgJyaBombchuiwa*)thisx;
 
     if (this->drawFlags & 1) {
         Gfx_DrawDListOpa(globalCtx, gBombchuiwaDL);

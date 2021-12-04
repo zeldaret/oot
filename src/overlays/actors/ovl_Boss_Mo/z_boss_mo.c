@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((BossMo*)thisx)
-
 #define MO_WATER_LEVEL(globalCtx) globalCtx->colCtx.colHeader->waterBoxes[0].ySurface
 
 #define HAS_LINK(tent) \
@@ -326,7 +324,7 @@ static f32 sDropletWidth[41] = {
 
 void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BossMo* this = THIS;
+    BossMo* this = (BossMo*)thisx;
     u16 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -391,7 +389,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void BossMo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossMo* this = THIS;
+    BossMo* this = (BossMo*)thisx;
 
     if (this->actor.params >= BOSSMO_TENTACLE) {
         Collider_DestroyJntSph(globalCtx, &this->tentCollider);
@@ -2204,7 +2202,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
 
 void BossMo_UpdateCore(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossMo* this = THIS;
+    BossMo* this = (BossMo*)thisx;
     s16 i;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -2252,7 +2250,7 @@ void BossMo_UpdateTent(Actor* thisx, GlobalContext* globalCtx) {
     s16 i;
     s16 index;
     s32 pad;
-    BossMo* this = THIS;
+    BossMo* this = (BossMo*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     f32 phi_f0;
 
@@ -2590,7 +2588,7 @@ void BossMo_DrawWater(BossMo* this, GlobalContext* globalCtx) {
 
 void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossMo* this = THIS;
+    BossMo* this = (BossMo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6688);
     if (this->actor.world.pos.y > MO_WATER_LEVEL(globalCtx)) {
@@ -2718,7 +2716,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossMo_DrawTent(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossMo* this = THIS;
+    BossMo* this = (BossMo*)thisx;
     u16 scroll;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6958);

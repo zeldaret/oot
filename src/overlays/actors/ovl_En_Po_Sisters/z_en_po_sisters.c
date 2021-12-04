@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00005215
 
-#define THIS ((EnPoSisters*)thisx)
-
 void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoSisters_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -176,7 +174,7 @@ static Color_RGBA8 D_80ADD7E8[4] = {
 static Vec3f D_80ADD7F8 = { 1000.0f, -1700.0f, 0.0f };
 
 void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -223,7 +221,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoSisters_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     if (this->unk_194 == 0 && this->unk_195 == 0) {
@@ -1174,7 +1172,7 @@ void func_80ADC10C(EnPoSisters* this, GlobalContext* globalCtx) {
 
 void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
     s16 temp;
 
     if (this->collider.base.atFlags & AT_HIT) {
@@ -1270,7 +1268,7 @@ void func_80ADC55C(EnPoSisters* this) {
 
 s32 EnPoSisters_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx, Gfx** gfxP) {
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
     Color_RGBA8* color;
 
     if (limbIndex == 1 && (this->unk_199 & 0x40)) {
@@ -1298,7 +1296,7 @@ s32 EnPoSisters_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 
 void EnPoSisters_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
                               Gfx** gfxP) {
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
     s32 i;
     s32 pad;
 
@@ -1340,7 +1338,7 @@ void EnPoSisters_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
     u8 phi_s5;
     f32 phi_f20;
     s32 i;

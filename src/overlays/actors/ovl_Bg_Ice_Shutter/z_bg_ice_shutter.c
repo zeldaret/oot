@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgIceShutter*)thisx)
-
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShutter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -47,7 +45,7 @@ void func_80891AC0(BgIceShutter* this) {
 }
 
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceShutter* this = THIS;
+    BgIceShutter* this = (BgIceShutter*)thisx;
     f32 sp24;
     CollisionHeader* colHeader;
     s32 sp28;
@@ -92,7 +90,7 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgIceShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceShutter* this = THIS;
+    BgIceShutter* this = (BgIceShutter*)thisx;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
@@ -126,7 +124,7 @@ void func_80891DD4(BgIceShutter* this, GlobalContext* globalCtx) {
 }
 
 void BgIceShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceShutter* this = THIS;
+    BgIceShutter* this = (BgIceShutter*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

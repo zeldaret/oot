@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnTp*)thisx)
-
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTp_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -132,7 +130,7 @@ void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
 
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnTp* this = THIS;
+    EnTp* this = (EnTp*)thisx;
     EnTp* now;
     EnTp* next;
     s32 i;
@@ -189,7 +187,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTp* this = THIS;
+    EnTp* this = (EnTp*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -647,7 +645,7 @@ void EnTp_UpdateDamage(EnTp* this, GlobalContext* globalCtx) {
 
 void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnTp* this = THIS;
+    EnTp* this = (EnTp*)thisx;
     Vec3f kiraVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f kiraAccel = { 0.0f, -0.6f, 0.0f };
     Vec3f kiraPos;
@@ -729,7 +727,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnTp* this = THIS;
+    EnTp* this = (EnTp*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tp.c", 1451);
 

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgHakaTubo*)thisx)
-
 void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTubo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -79,7 +77,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTubo* this = THIS;
+    BgHakaTubo* this = (BgHakaTubo*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -97,7 +95,7 @@ void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTubo* this = THIS;
+    BgHakaTubo* this = (BgHakaTubo*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->potCollider);
@@ -214,7 +212,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaTubo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTubo* this = THIS;
+    BgHakaTubo* this = (BgHakaTubo*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->fireScroll++;
@@ -244,7 +242,7 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaTubo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTubo* this = THIS;
+    BgHakaTubo* this = (BgHakaTubo*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, object_haka_objects_DL_00FE40);
     BgHakaTubo_DrawFlameCircle(this, globalCtx);

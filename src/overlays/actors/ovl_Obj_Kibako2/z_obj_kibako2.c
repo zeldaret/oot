@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ObjKibako2*)thisx)
-
 void ObjKibako2_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -59,7 +57,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjKibako2_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    ObjKibako2* this = THIS;
+    ObjKibako2* this = (ObjKibako2*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
@@ -117,7 +115,7 @@ void ObjKibako2_SpawnCollectible(ObjKibako2* this, GlobalContext* globalCtx) {
 }
 
 void ObjKibako2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjKibako2* this = THIS;
+    ObjKibako2* this = (ObjKibako2*)thisx;
     s16 pad;
     CollisionHeader* colHeader = NULL;
     u32 bgId;
@@ -138,7 +136,7 @@ void ObjKibako2_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjKibako2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjKibako2* this = THIS;
+    ObjKibako2* this = (ObjKibako2*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -171,7 +169,7 @@ void ObjKibako2_Kill(ObjKibako2* this, GlobalContext* globalCtx) {
 }
 
 void ObjKibako2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjKibako2* this = THIS;
+    ObjKibako2* this = (ObjKibako2*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

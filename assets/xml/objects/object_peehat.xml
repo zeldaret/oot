@@ -4,29 +4,29 @@
         <Skeleton Name="gPeehatSkel" Type="Normal" LimbType="Standard" Offset="0x1C80"/>
 
         <!-- Peehat Limbs -->
-        <Limb Name="gPeehatRootLimb" Type="Standard" Offset="0x1B10"/>
-        <Limb Name="gPeehatBodyRootLimb" Type="Standard" Offset="0x1B1C"/>
-        <Limb Name="gPeehatBodyLimb" Type="Standard" Offset="0x1B28"/>
-        <Limb Name="gPeehatWingStructureRootLimb" Type="Standard" Offset="0x1B34"/>
-        <Limb Name="gPeehatWing1RootLimb" Type="Standard" Offset="0x1B40"/>
-        <Limb Name="gPeehatLimb_1B4C" Type="Standard" Offset="0x1B4C"/>
-        <Limb Name="gPeehatWing1Limb" Type="Standard" Offset="0x1B58"/>
-        <Limb Name="gPeehatWing2RootLimb" Type="Standard" Offset="0x1B64"/>
-        <Limb Name="gPeehatLimb_1B70" Type="Standard" Offset="0x1B70"/>
-        <Limb Name="gPeehatWing2Limb" Type="Standard" Offset="0x1B7C"/>
-        <Limb Name="gPeehatWing3RootLimb" Type="Standard" Offset="0x1B88"/>
-        <Limb Name="gPeehatLimb_1B94" Type="Standard" Offset="0x1B94"/>
-        <Limb Name="gPeehatWing3Limb" Type="Standard" Offset="0x1BA0"/>
-        <Limb Name="gPeehatWing4RootLimb" Type="Standard" Offset="0x1BAC"/>
-        <Limb Name="gPeehatLimb_1BB8" Type="Standard" Offset="0x1BB8"/>
-        <Limb Name="gPeehatWing4Limb" Type="Standard" Offset="0x1BC4"/>
-        <Limb Name="gPeehatWing5RootLimb" Type="Standard" Offset="0x1BD0"/>
-        <Limb Name="gPeehatLimb_1BDC" Type="Standard" Offset="0x1BDC"/>
-        <Limb Name="gPeehatWing5Limb" Type="Standard" Offset="0x1BE8"/>
-        <Limb Name="gPeehatWing6RootLimb" Type="Standard" Offset="0x1BF4"/>
-        <Limb Name="gPeehatLimb_1C00" Type="Standard" Offset="0x1C00"/>
-        <Limb Name="gPeehatWing6Limb" Type="Standard" Offset="0x1C0C"/>
-        <Limb Name="gPeehatTopLimb" Type="Standard" Offset="0x1C18"/>
+        <Limb Name="gPeehatRootLimb" LimbType="Standard" Offset="0x1B10"/>
+        <Limb Name="gPeehatBodyRootLimb" LimbType="Standard" Offset="0x1B1C"/>
+        <Limb Name="gPeehatBodyLimb" LimbType="Standard" Offset="0x1B28"/>
+        <Limb Name="gPeehatWingStructureRootLimb" LimbType="Standard" Offset="0x1B34"/>
+        <Limb Name="gPeehatWing1RootLimb" LimbType="Standard" Offset="0x1B40"/>
+        <Limb Name="gPeehatLimb_1B4C" LimbType="Standard" Offset="0x1B4C"/>
+        <Limb Name="gPeehatWing1Limb" LimbType="Standard" Offset="0x1B58"/>
+        <Limb Name="gPeehatWing2RootLimb" LimbType="Standard" Offset="0x1B64"/>
+        <Limb Name="gPeehatLimb_1B70" LimbType="Standard" Offset="0x1B70"/>
+        <Limb Name="gPeehatWing2Limb" LimbType="Standard" Offset="0x1B7C"/>
+        <Limb Name="gPeehatWing3RootLimb" LimbType="Standard" Offset="0x1B88"/>
+        <Limb Name="gPeehatLimb_1B94" LimbType="Standard" Offset="0x1B94"/>
+        <Limb Name="gPeehatWing3Limb" LimbType="Standard" Offset="0x1BA0"/>
+        <Limb Name="gPeehatWing4RootLimb" LimbType="Standard" Offset="0x1BAC"/>
+        <Limb Name="gPeehatLimb_1BB8" LimbType="Standard" Offset="0x1BB8"/>
+        <Limb Name="gPeehatWing4Limb" LimbType="Standard" Offset="0x1BC4"/>
+        <Limb Name="gPeehatWing5RootLimb" LimbType="Standard" Offset="0x1BD0"/>
+        <Limb Name="gPeehatLimb_1BDC" LimbType="Standard" Offset="0x1BDC"/>
+        <Limb Name="gPeehatWing5Limb" LimbType="Standard" Offset="0x1BE8"/>
+        <Limb Name="gPeehatWing6RootLimb" LimbType="Standard" Offset="0x1BF4"/>
+        <Limb Name="gPeehatLimb_1C00" LimbType="Standard" Offset="0x1C00"/>
+        <Limb Name="gPeehatWing6Limb" LimbType="Standard" Offset="0x1C0C"/>
+        <Limb Name="gPeehatTopLimb" LimbType="Standard" Offset="0x1C18"/>
 
         <!-- Peehat Limb DisplayLists -->
         <DList Name="gPeehatBodyDL" Offset="0x12F0"/>

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnTest*)thisx)
-
 void EnTest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -255,7 +253,7 @@ void EnTest_SetupAction(EnTest* this, EnTestActionFunc actionFunc) {
 
 void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EffectBlureInit1 slashBlure;
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -311,7 +309,7 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
 
     if ((this->actor.params != STALFOS_TYPE_2) &&
         !Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f)) {
@@ -1698,7 +1696,7 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
     f32 oldWeight;
     u32 floorProperty;
     s32 pad;
@@ -1816,7 +1814,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
     s32 pad;
 
     if (limbIndex == STALFOS_LIMB_HEAD_ROOT) {
@@ -1858,7 +1856,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     s32 bodyPart = -1;
     Vec3f sp70;
     Vec3f sp64;
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
     s32 pad;
     Vec3f sp50;
 
@@ -1946,7 +1944,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 }
 
 void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 1);

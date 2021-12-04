@@ -6,8 +6,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnSyatekiItm*)thisx)
-
 typedef enum {
     SYATEKI_ROUND_GREEN_APPEAR,
     SYATEKI_ROUND_BLUE_SEQUENTIAL,
@@ -71,7 +69,7 @@ static Vec3f sRupeePos[] = {
 
 void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnSyatekiItm* this = THIS;
+    EnSyatekiItm* this = (EnSyatekiItm*)thisx;
     s32 i;
 
     this->man = (EnSyatekiMan*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_SYATEKI_MAN,
@@ -335,7 +333,7 @@ void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
 
 void EnSyatekiItm_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSyatekiItm* this = THIS;
+    EnSyatekiItm* this = (EnSyatekiItm*)thisx;
 
     this->actionFunc(this, globalCtx);
 

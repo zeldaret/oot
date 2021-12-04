@@ -9,8 +9,6 @@
 
 #define FLAGS 0x0A000011
 
-#define THIS ((ObjTimeblock*)thisx)
-
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -99,7 +97,7 @@ void ObjTimeblock_ToggleSwitchFlag(GlobalContext* globalCtx, s32 flag) {
 }
 
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjTimeblock* this = THIS;
+    ObjTimeblock* this = (ObjTimeblock*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -143,7 +141,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjTimeblock* this = THIS;
+    ObjTimeblock* this = (ObjTimeblock*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -317,7 +315,7 @@ void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, GlobalContext* glob
 }
 
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjTimeblock* this = THIS;
+    ObjTimeblock* this = (ObjTimeblock*)thisx;
 
     this->actionFunc(this, globalCtx);
 

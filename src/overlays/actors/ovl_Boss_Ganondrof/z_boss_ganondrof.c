@@ -14,8 +14,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((BossGanondrof*)thisx)
-
 typedef enum {
     /* 0 */ NOT_DEAD,
     /* 1 */ DEATH_START,
@@ -277,7 +275,7 @@ void BossGanondrof_SetColliderPos(Vec3f* pos, ColliderCylinder* collider) {
 
 void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -313,7 +311,7 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossGanondrof_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
 
     osSyncPrintf("DT1\n");
     SkelAnime_Free(&this->skelAnime, globalCtx);
@@ -1293,7 +1291,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad2;
     s16 i;
     s32 pad;
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
     EnfHG* horse;
 
     osSyncPrintf("MOVE START %d\n", this->actor.params);
@@ -1378,7 +1376,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 BossGanondrof_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                    void* thisx) {
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
 
     switch (limbIndex) {
         case 15:
@@ -1450,7 +1448,7 @@ void BossGanondrof_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Vec3f spearVec = { 0.0f, 0.0f, 6000.0f };
 
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
 
     if (limbIndex == 14) {
         Matrix_MultVec3f(&zeroVec, &this->targetPos);
@@ -1485,7 +1483,7 @@ Gfx* BossGanondrof_GetNullDList(GraphicsContext* gfxCtx) {
 
 void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
     EnfHG* horse;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganondrof.c", 3716);

@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00005005
 
-#define THIS ((EnCrow*)thisx)
-
 void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -108,7 +106,7 @@ static InitChainEntry sInitChain[] = {
 static Vec3f sHeadVec = { 2500.0f, 0.0f, 0.0f };
 
 void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGuaySkel, &gGuayFlyAnim, this->jointTable, this->morphTable, 9);
@@ -122,7 +120,7 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -428,7 +426,7 @@ void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
     f32 pad;
     f32 height;
     f32 scale;
@@ -476,7 +474,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     if (this->actor.colChkInfo.health != 0) {
         if (limbIndex == 7) {
@@ -489,7 +487,7 @@ s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
     Vec3f* vec;
 
     if (limbIndex == 2) {
@@ -503,7 +501,7 @@ void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 }
 
 void EnCrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

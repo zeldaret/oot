@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((Player*)thisx)
-
 typedef enum {
     /* 0 */ ENTORCH2_WAIT,
     /* 1 */ ENTORCH2_ATTACK,
@@ -124,7 +122,7 @@ static DamageTable sDamageTable = {
 
 void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     sInput.cur.button = sInput.press.button = sInput.rel.button = 0;
     sInput.cur.stick_x = sInput.cur.stick_y = 0;
@@ -161,7 +159,7 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     Effect_Delete(globalCtx, this->swordEffectIndex);
     func_800F5B58();
@@ -232,7 +230,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     Player* player2 = GET_PLAYER(globalCtx2);
     Player* player = player2;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
     Input* input = &sInput;
     Camera* camera;
     s16 sp66;
@@ -755,20 +753,20 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 EnTorch2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                               Gfx** gfx) {
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     return func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, &this->actor);
 }
 
 void EnTorch2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     func_80090D20(globalCtx, limbIndex, dList, rot, &this->actor);
 }
 
 void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_torch2.c", 1050);

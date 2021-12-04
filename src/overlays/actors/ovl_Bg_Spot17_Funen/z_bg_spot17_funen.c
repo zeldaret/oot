@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgSpot17Funen*)thisx)
-
 void BgSpot17Funen_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Funen_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Funen_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot17Funen_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot17Funen* this = THIS;
+    BgSpot17Funen* this = (BgSpot17Funen*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     osSyncPrintf("spot17 obj. 噴煙 (arg_data 0x%04x)\n", this->actor.params);
@@ -44,7 +42,7 @@ void BgSpot17Funen_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot17Funen_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot17Funen* this = THIS;
+    BgSpot17Funen* this = (BgSpot17Funen*)thisx;
 
     this->actor.draw = func_808B7478;
     this->actor.update = func_808B746C;

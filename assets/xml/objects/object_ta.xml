@@ -45,7 +45,7 @@
         <Texture Name="gTalonHeadSkinTex" OutName="head_skin" Format="ci8" Width="8" Height="8" Offset="0x6DC0" TlutOffset="0x6AC0"/>
         <Texture Name="gTalonEarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x6E00" TlutOffset="0x6AC0"/>
         <Texture Name="gTalonFaceHairTex" OutName="face_hair" Format="ci8" Width="8" Height="16" Offset="0x6E40" TlutOffset="0x6AC0"/>
-        <Texture Name="gTalonRedTex" OutName="red" Format="ci8" Width="8" Height="8" TlutOffset="0x6AC0" Offset="0x7AC0"/>
+        <Texture Name="gTalonRedTex" OutName="red" Format="ci8" Width="8" Height="8" Offset="0x7AC0" TlutOffset="0x6AC0"/>
         <Texture Name="gTalonHeadHairTex" OutName="head_hair" Format="ci8" Width="16" Height="32" Offset="0x7B00" TlutOffset="0x6AC0"/> <!-- Not clear where this is used -->
         <Texture Name="gTalonBootSideTex" OutName="boot_side" Format="ci8" Width="16" Height="16" Offset="0x7D00" TlutOffset="0x6AC0"/>
         <Texture Name="gTalonBootTopTex" OutName="boot_top" Format="ci8" Width="16" Height="16" Offset="0x7E00" TlutOffset="0x6AC0"/>

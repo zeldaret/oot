@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnDodojr*)thisx)
-
 void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDodojr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -68,7 +66,7 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, 0xFF };
 
 void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDodojr* this = THIS;
+    EnDodojr* this = (EnDodojr*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 18.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &object_dodojr_Skel_0020E0, &object_dodojr_Anim_0009D4,
@@ -86,7 +84,7 @@ void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDodojr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDodojr* this = THIS;
+    EnDodojr* this = (EnDodojr*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -606,7 +604,7 @@ void func_809F7C48(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDodojr* this = THIS;
+    EnDodojr* this = (EnDodojr*)thisx;
 
     SkelAnime_Update(&this->skelAnime);
     Actor_MoveForward(&this->actor);
@@ -622,7 +620,7 @@ void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_809F7D50(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnDodojr* this = THIS;
+    EnDodojr* this = (EnDodojr*)thisx;
     Vec3f D_809F7F64 = { 480.0f, 620.0f, 0.0f };
 
     if (limbIndex == 1) {
@@ -641,7 +639,7 @@ void func_809F7DFC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 }
 
 void EnDodojr_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDodojr* this = THIS;
+    EnDodojr* this = (EnDodojr*)thisx;
 
     if ((this->actionFunc != func_809F73AC) && (this->actionFunc != func_809F7BE4)) {
         func_80093D18(globalCtx->state.gfxCtx);

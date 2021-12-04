@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnKarebaba*)thisx)
-
 void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKarebaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -92,7 +90,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKarebaba* this = THIS;
+    EnKarebaba* this = (EnKarebaba*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 22.0f);
@@ -116,7 +114,7 @@ void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnKarebaba* this = THIS;
+    EnKarebaba* this = (EnKarebaba*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
     Collider_DestroyCylinder(globalCtx, &this->headCollider);
@@ -411,7 +409,7 @@ void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx) {
 
 void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnKarebaba* this = THIS;
+    EnKarebaba* this = (EnKarebaba*)thisx;
     f32 height;
 
     this->actionFunc(this, globalCtx);
@@ -463,7 +461,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Color_RGBA8 black = { 0, 0, 0, 0 };
     static Gfx* stemDLists[] = { gDekuBabaStemTopDL, gDekuBabaStemMiddleDL, gDekuBabaStemBaseDL };
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    EnKarebaba* this = THIS;
+    EnKarebaba* this = (EnKarebaba*)thisx;
     s32 i;
     s32 stemSections;
     f32 scale;

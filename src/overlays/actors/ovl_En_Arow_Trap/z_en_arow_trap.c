@@ -8,8 +8,6 @@
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #define FLAGS 0x00000010
 
-#define THIS ((EnArowTrap*)thisx)
-
 void EnArowTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnArowTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnArowTrap_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -27,7 +25,7 @@ const ActorInit En_Arow_Trap_InitVars = {
 };
 
 void EnArowTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnArowTrap* this = THIS;
+    EnArowTrap* this = (EnArowTrap*)thisx;
 
     Actor_SetScale(&this->actor, 0.01);
     this->unk_14C = 0;
@@ -39,7 +37,7 @@ void EnArowTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnArowTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnArowTrap* this = THIS;
+    EnArowTrap* this = (EnArowTrap*)thisx;
 
     if (this->actor.xzDistToPlayer <= 400) {
         this->attackTimer--;

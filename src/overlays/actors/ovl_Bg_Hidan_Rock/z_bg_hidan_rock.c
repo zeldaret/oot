@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHidanRock*)thisx)
-
 void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -69,7 +67,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRock* this = THIS;
+    BgHidanRock* this = (BgHidanRock*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -108,7 +106,7 @@ void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRock* this = THIS;
+    BgHidanRock* this = (BgHidanRock*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -330,7 +328,7 @@ void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRock* this = THIS;
+    BgHidanRock* this = (BgHidanRock*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (this->actionFunc == func_8088B79C) {
@@ -379,7 +377,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
 }
 
 void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRock* this = THIS;
+    BgHidanRock* this = (BgHidanRock*)thisx;
     s32 pad;
 
     if (this->type == 0) {

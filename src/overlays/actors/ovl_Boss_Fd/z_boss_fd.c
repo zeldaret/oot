@@ -14,8 +14,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((BossFd*)thisx)
-
 typedef enum {
     /* 0 */ INTRO_FLY_EMERGE,
     /* 1 */ INTRO_FLY_HOLE,
@@ -174,7 +172,7 @@ void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
 
 void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
     s16 i;
 
     Flags_SetSwitch(globalCtx, 0x14);
@@ -230,7 +228,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossFd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     SkelAnime_Free(&this->skelAnimeHead, globalCtx);
     SkelAnime_Free(&this->skelAnimeRightArm, globalCtx);
@@ -1301,7 +1299,7 @@ void BossFd_CollisionCheck(BossFd* this, GlobalContext* globalCtx) {
 
 void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
     f32 headGlow;
     f32 rManeGlow;
     f32 lManeGlow;
@@ -1633,7 +1631,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
 
 void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     osSyncPrintf("FD DRAW START\n");
     if (this->actionFunc != BossFd_Wait) {
@@ -1655,7 +1653,7 @@ void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 BossFd_OverrideRightArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     switch (limbIndex) {
         case 1:
@@ -1678,7 +1676,7 @@ s32 BossFd_OverrideRightArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 
 s32 BossFd_OverrideLeftArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     switch (limbIndex) {
         case 1:
@@ -1768,7 +1766,7 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
 }
 
 s32 BossFd_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     switch (limbIndex) {
         case 5:
@@ -1797,7 +1795,7 @@ s32 BossFd_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f targetMod = { 4500.0f, 0.0f, 0.0f };
     static Vec3f headMod = { 4000.0f, 0.0f, 0.0f };
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     if (limbIndex == 5) {
         Matrix_MultVec3f(&targetMod, &this->actor.focus.pos);

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x08000009
 
-#define THIS ((EnWonderTalk2*)thisx)
-
 void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +38,7 @@ void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnWonderTalk2* this = THIS;
+    EnWonderTalk2* this = (EnWonderTalk2*)thisx;
 
     osSyncPrintf("\n\n");
     // "Transparent message"
@@ -270,7 +268,7 @@ void EnWonderTalk2_DoNothing(EnWonderTalk2* this, GlobalContext* globalCtx) {
 
 void EnWonderTalk2_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnWonderTalk2* this = THIS;
+    EnWonderTalk2* this = (EnWonderTalk2*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->actor.world.pos.y = this->initPos.y;

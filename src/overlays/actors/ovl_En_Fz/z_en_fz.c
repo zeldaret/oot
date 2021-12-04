@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000415
 
-#define THIS ((EnFz*)thisx)
-
 void EnFz_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFz_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFz_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -158,7 +156,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFz* this = THIS;
+    EnFz* this = (EnFz*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -205,7 +203,7 @@ void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFz_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFz* this = THIS;
+    EnFz* this = (EnFz*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider1);
     Collider_DestroyCylinder(globalCtx, &this->collider2);
@@ -663,7 +661,7 @@ static EnFzSpawnIceSmokeFunc iceSmokeSpawnFuncs[] = {
 };
 
 void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFz* this = THIS;
+    EnFz* this = (EnFz*)thisx;
     s32 pad;
 
     this->counter++;
@@ -712,7 +710,7 @@ void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gFreezardTopRightHornChippedDL, // Top right horn chipped off  (from Freezards perspective)   (3 or 4 health)
         gFreezardHeadChippedDL,         // Entire head chipped off     (1 or 2 health)
     };
-    EnFz* this = THIS;
+    EnFz* this = (EnFz*)thisx;
     s32 pad;
     s32 index;
 

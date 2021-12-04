@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnMThunder*)thisx)
-
 void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -63,7 +61,7 @@ void func_80A9EFE0(EnMThunder* this, EnMThunderActionFunc actionFunc) {
 
 void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnMThunder* this = THIS;
+    EnMThunder* this = (EnMThunder*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -114,7 +112,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMThunder* this = THIS;
+    EnMThunder* this = (EnMThunder*)thisx;
 
     if (this->unk_1CA != 0) {
         func_800876C8(globalCtx);
@@ -303,7 +301,7 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
 }
 
 void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMThunder* this = THIS;
+    EnMThunder* this = (EnMThunder*)thisx;
     f32 blueRadius;
     s32 redGreen;
 
@@ -319,7 +317,7 @@ void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     static f32 D_80AA046C[] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f };
     GlobalContext* globalCtx = globalCtx2;
-    EnMThunder* this = THIS;
+    EnMThunder* this = (EnMThunder*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     f32 phi_f14;
     s32 phi_t1;

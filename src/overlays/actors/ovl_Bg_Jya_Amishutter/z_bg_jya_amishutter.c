@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgJyaAmishutter*)thisx)
-
 void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, GlobalContext* globalCt
 }
 
 void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaAmishutter* this = THIS;
+    BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
     BgJyaAmishutter_InitDynaPoly(this, globalCtx, &gAmishutterCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -68,7 +66,7 @@ void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaAmishutter* this = THIS;
+    BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -120,7 +118,7 @@ void func_8089350C(BgJyaAmishutter* this) {
 }
 
 void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaAmishutter* this = THIS;
+    BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
     this->actionFunc(this);
 }

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((OceffSpot*)thisx)
-
 void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ void OceffSpot_SetupAction(OceffSpot* this, OceffSpotActionFunc actionFunc) {
 
 void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    OceffSpot* this = THIS;
+    OceffSpot* this = (OceffSpot*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     OceffSpot_SetupAction(this, OceffSpot_GrowCylinder);
@@ -66,7 +64,7 @@ void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    OceffSpot* this = THIS;
+    OceffSpot* this = (OceffSpot*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode1);
@@ -119,7 +117,7 @@ void OceffSpot_GrowCylinder(OceffSpot* this, GlobalContext* globalCtx) {
 }
 
 void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx) {
-    OceffSpot* this = THIS;
+    OceffSpot* this = (OceffSpot*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
     f32 temp;
@@ -148,7 +146,7 @@ void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffSpot_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    OceffSpot* this = THIS;
+    OceffSpot* this = (OceffSpot*)thisx;
     u32 scroll = globalCtx->state.frames & 0xFFFF;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_spot.c", 466);

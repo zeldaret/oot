@@ -413,11 +413,11 @@ void func_80099134(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x15: Sound Settings
 void func_80099140(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->soundCtx.seqIndex = cmd->soundSettings.seqIndex;
-    globalCtx->soundCtx.nightSeqIndex = cmd->soundSettings.nightSeqIndex;
+    globalCtx->sequenceCtx.seqId = cmd->soundSettings.seqId;
+    globalCtx->sequenceCtx.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
 
-    if (gSaveContext.seqIndex == (u8)NA_BGM_DISABLED) {
-        Audio_QueueSeqCmd(cmd->soundSettings.bgmId | 0xF0000000);
+    if (gSaveContext.seqId == (u8)NA_BGM_DISABLED) {
+        Audio_QueueSeqCmd(cmd->soundSettings.specId | 0xF0000000);
     }
 }
 

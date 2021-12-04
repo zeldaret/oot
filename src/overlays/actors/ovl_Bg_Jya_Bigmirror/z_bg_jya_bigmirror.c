@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgJyaBigmirror*)thisx)
-
 void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ static BigMirrorDataEntry sCobraSpawnData[] = {
 };
 
 void BgJyaBigmirror_SetRoomFlag(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     this->puzzleFlags &=
         ~(BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM);
@@ -58,7 +56,7 @@ void BgJyaBigmirror_SetRoomFlag(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
     static u8 cobraPuzzleFlags[] = { BIGMIR_PUZZLE_COBRA1_SOLVED, BIGMIR_PUZZLE_COBRA2_SOLVED };
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
     BigMirrorDataEntry* curSpawnData;
     BigmirrorCobra* curCobraInfo;
     s32 i;
@@ -109,7 +107,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBigmirror_SetBombiwaFlag(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (Flags_GetSwitch(globalCtx, 0x29)) {
         this->puzzleFlags |= BIGMIR_PUZZLE_BOMBIWA_DESTROYED;
@@ -125,7 +123,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
         { -560.0f, 1800.0f, -310.0f },
         { 60.0f, 1800.0f, -310.0f },
     };
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
     s32 puzzleSolved;
     s32 lightBeamToggles[3];
     s32 i;
@@ -175,7 +173,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (sIsSpawned) {
         Actor_Kill(&this->actor);
@@ -195,7 +193,7 @@ void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (this->spawned) {
         sIsSpawned = false;
@@ -211,7 +209,7 @@ void BgJyaBigmirror_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3s D_80893F4C = { 0, 0, 0 };
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
     Actor* lift;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 435);
@@ -240,7 +238,7 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBigmirror_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (this->puzzleFlags & BIGMIR_PUZZLE_IN_1ST_TOP_ROOM) {
         Gfx_DrawDListOpa(globalCtx, gBigMirror3DL);

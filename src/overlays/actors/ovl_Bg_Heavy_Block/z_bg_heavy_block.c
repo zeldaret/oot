@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHeavyBlock*)thisx)
-
 #define PIECE_FLAG_HIT_FLOOR (1 << 0)
 
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -84,7 +82,7 @@ void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, GlobalContext* globalCtx) {
 }
 
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHeavyBlock* this = THIS;
+    BgHeavyBlock* this = (BgHeavyBlock*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
@@ -151,7 +149,7 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHeavyBlock* this = THIS;
+    BgHeavyBlock* this = (BgHeavyBlock*)thisx;
     switch (this->dyna.actor.params & 0xFF) {
         case HEAVYBLOCK_BIG_PIECE:
             break;
@@ -477,7 +475,7 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx) {
 }
 
 void BgHeavyBlock_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHeavyBlock* this = THIS;
+    BgHeavyBlock* this = (BgHeavyBlock*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -485,7 +483,7 @@ void BgHeavyBlock_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f D_80884EC8 = { 0.0f, 0.0f, 0.0f };
     static Vec3f D_80884ED4 = { 0.0f, 400.0f, 0.0f };
-    BgHeavyBlock* this = THIS;
+    BgHeavyBlock* this = (BgHeavyBlock*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 

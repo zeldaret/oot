@@ -13,8 +13,6 @@
 
 #define FLAGS 0x02000030
 
-#define THIS ((BgDyYoseizo*)thisx)
-
 typedef enum {
     /* 0 */ FAIRY_UPGRADE_MAGIC,
     /* 1 */ FAIRY_UPGRADE_DOUBLE_MAGIC,
@@ -70,7 +68,7 @@ const ActorInit Bg_Dy_Yoseizo_InitVars = {
 
 void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgDyYoseizo* this = THIS;
+    BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
     this->fountainType = globalCtx->curSpawn;
 
@@ -804,7 +802,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
 void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgDyYoseizo* this = THIS;
+    BgDyYoseizo* this = (BgDyYoseizo*)thisx;
     s32 phi_v1;
 
     this->absoluteTimer++;
@@ -869,7 +867,7 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx) {
-    BgDyYoseizo* this = THIS;
+    BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
     if (limbIndex == 8) { // Torso
         rot->x += this->torsoRot.y;
@@ -893,7 +891,7 @@ static void* sMouthTextures[] = {
 };
 
 void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgDyYoseizo* this = THIS;
+    BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1609);
     if (this->actionFunc != BgDyYoseizo_Vanish) {

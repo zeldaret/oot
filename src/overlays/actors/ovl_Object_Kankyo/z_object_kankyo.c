@@ -11,8 +11,6 @@
 
 #define FLAGS 0x02000030
 
-#define THIS ((ObjectKankyo*)thisx)
-
 void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +65,7 @@ void ObjectKankyo_SetupAction(ObjectKankyo* this, ObjectKankyoActionFunc action)
 }
 
 void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjectKankyo* this = THIS;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
     s32 pad;
     s16 i;
 
@@ -452,13 +450,13 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, GlobalContext* globalCtx) {
 }
 
 void ObjectKankyo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjectKankyo* this = THIS;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void ObjectKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ObjectKankyo* this = THIS;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
 
     switch (this->actor.params) {
         case 0:

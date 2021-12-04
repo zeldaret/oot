@@ -14,8 +14,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnHeishi2*)thisx)
-
 void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -86,7 +84,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
 
     Actor_SetScale(&this->actor, 0.01f);
     this->type = this->actor.params & 0xFF;
@@ -162,7 +160,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
 
     if ((this->collider.dim.radius != 0) || (this->collider.dim.height != 0)) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -764,7 +762,7 @@ void func_80A549E8(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
     s32 i;
 
     Actor_SetFocus(&this->actor, this->unk_2E0);
@@ -798,7 +796,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
 
     switch (this->type) {
         case 1:
@@ -819,7 +817,7 @@ s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
 
     if (limbIndex == 16) {
         Matrix_Get(&this->mtxf_330);
@@ -837,7 +835,7 @@ void EnHeishi2_DrawKingGuard(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
     Mtx* mtx;
     s32 linkObjBankIndex;
 

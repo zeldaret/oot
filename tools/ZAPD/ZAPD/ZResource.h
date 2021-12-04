@@ -1,15 +1,14 @@
 #pragma once
 
-#include <Utils/BinaryWriter.h>
+#include <cstdint>
 #include <map>
 #include <stdexcept>
-#include <stdint.h>
 #include <string>
 #include <vector>
 #include "Declaration.h"
+#include "Utils/BinaryWriter.h"
+#include "Utils/Directory.h"
 #include "tinyxml2.h"
-
-#include <Utils/Directory.h>
 
 #define SEGMENT_SCENE 2
 #define SEGMENT_ROOM 3
@@ -113,7 +112,7 @@ public:
 	 */
 	[[nodiscard]] virtual std::string GetDefaultName(const std::string& prefix) const;
 
-	virtual std::string GetSourceOutputCode(const std::string& prefix);
+	virtual void GetSourceOutputCode(const std::string& prefix);
 	virtual std::string GetSourceOutputHeader(const std::string& prefix);
 	virtual void CalcHash();
 	/**

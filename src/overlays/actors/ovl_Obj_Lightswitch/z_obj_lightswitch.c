@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((ObjLightswitch*)thisx)
-
 typedef enum {
     /* 0x00 */ FACE_EYES_CLOSED,
     /* 0x01 */ FACE_EYES_OPEN,
@@ -163,7 +161,7 @@ void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* g
 }
 
 void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjLightswitch* this = THIS;
+    ObjLightswitch* this = (ObjLightswitch*)thisx;
     s32 switchFlagSet = Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
     s32 removeSelf = false;
 
@@ -210,7 +208,7 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjLightswitch* this = THIS;
+    ObjLightswitch* this = (ObjLightswitch*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -372,7 +370,7 @@ void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx) {
 }
 
 void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    ObjLightswitch* this = THIS;
+    ObjLightswitch* this = (ObjLightswitch*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     if (this->toggleDelay > 0) {
@@ -488,7 +486,7 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
 }
 
 void ObjLightswitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ObjLightswitch* this = THIS;
+    ObjLightswitch* this = (ObjLightswitch*)thisx;
     s32 alpha = this->alpha >> 6 & 0xFF;
 
     if ((this->actor.params & 1) == 1) {

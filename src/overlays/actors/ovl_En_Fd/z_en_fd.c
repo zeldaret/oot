@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000215
 
-#define THIS ((EnFd*)thisx)
-
 #define FLG_COREDEAD (0x4000)
 #define FLG_COREDONE (0x8000)
 
@@ -443,7 +441,7 @@ void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
 }
 
 void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFlareDancerSkel, NULL, this->jointTable, this->morphTable, 27);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 32.0f);
@@ -461,7 +459,7 @@ void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -642,7 +640,7 @@ void EnFd_WaitForCore(EnFd* this, GlobalContext* globalCtx) {
 }
 
 void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
     s32 pad;
 
     if (this->firstUpdateFlag) {
@@ -689,7 +687,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnFd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfxP) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
 
     if (this->invincibilityTimer != 0) {
         switch (limbIndex) {
@@ -704,7 +702,7 @@ s32 EnFd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
     Vec3f unused0 = { 6800.0f, 0.0f, 0.0f };
     Vec3f unused1 = { 6800.0f, 0.0f, 0.0f };
     Vec3f initialPos = { 0.0f, 0.0f, 0.0f };
@@ -742,7 +740,7 @@ void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
     s32 clampedHealth;
     Color_RGBA8 primColors[] = {
         { 255, 255, 200, 255 },

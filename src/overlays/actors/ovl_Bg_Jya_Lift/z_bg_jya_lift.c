@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgJyaLift*)thisx)
-
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -53,7 +51,7 @@ void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, Collision
 }
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaLift* this = THIS;
+    BgJyaLift* this = (BgJyaLift*)thisx;
 
     this->isSpawned = false;
     if (sIsSpawned) {
@@ -76,7 +74,7 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaLift* this = THIS;
+    BgJyaLift* this = (BgJyaLift*)thisx;
 
     if (this->isSpawned) {
 
@@ -131,7 +129,7 @@ void BgJyaLift_SetFinalPosY(BgJyaLift* this) {
 }
 
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    BgJyaLift* this = THIS;
+    BgJyaLift* this = (BgJyaLift*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     if (this->actionFunc != NULL) {

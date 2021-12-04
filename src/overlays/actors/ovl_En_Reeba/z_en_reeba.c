@@ -12,8 +12,6 @@
 
 #define FLAGS 0x08000015
 
-#define THIS ((EnReeba*)thisx)
-
 void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -101,7 +99,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnReeba* this = THIS;
+    EnReeba* this = (EnReeba*)thisx;
     s32 surfaceType;
 
     this->actor.naviEnemyId = 0x47;
@@ -145,7 +143,7 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnReeba* this = THIS;
+    EnReeba* this = (EnReeba*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 
@@ -576,7 +574,7 @@ void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
 
 void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnReeba* this = THIS;
+    EnReeba* this = (EnReeba*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     func_80AE5EDC(this, globalCtx);
@@ -651,7 +649,7 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnReeba* this = THIS;
+    EnReeba* this = (EnReeba*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_reeba.c", 1062);
 

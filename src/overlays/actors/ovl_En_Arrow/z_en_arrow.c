@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnArrow*)thisx)
-
 void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnArrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -82,7 +80,7 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
         0x00000800, 0x00000020, 0x00000020, 0x00000800, 0x00001000,
         0x00002000, 0x00010000, 0x00004000, 0x00008000, 0x00000004,
     };
-    EnArrow* this = THIS;
+    EnArrow* this = (EnArrow*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -140,7 +138,7 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnArrow_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnArrow* this = THIS;
+    EnArrow* this = (EnArrow*)thisx;
 
     if (this->actor.params <= ARROW_LIGHT) {
         Effect_Delete(globalCtx, this->effectIndex);
@@ -388,7 +386,7 @@ void func_809B4640(EnArrow* this, GlobalContext* globalCtx) {
 
 void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnArrow* this = THIS;
+    EnArrow* this = (EnArrow*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->isCsNut || ((this->actor.params >= ARROW_NORMAL_LIT) && (player->unk_A73 != 0)) ||
@@ -452,7 +450,7 @@ void func_809B4800(EnArrow* this, GlobalContext* globalCtx) {
 
 void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnArrow* this = THIS;
+    EnArrow* this = (EnArrow*)thisx;
     u8 alpha;
     f32 scale;
 

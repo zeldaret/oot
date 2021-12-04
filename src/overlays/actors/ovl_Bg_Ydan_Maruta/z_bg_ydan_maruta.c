@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgYdanMaruta*)thisx)
-
 void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanMaruta_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -78,7 +76,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgYdanMaruta* this = THIS;
+    BgYdanMaruta* this = (BgYdanMaruta*)thisx;
     Vec3f sp4C[3];
     s32 i;
     f32 sinRotY;
@@ -129,7 +127,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanMaruta* this = THIS;
+    BgYdanMaruta* this = (BgYdanMaruta*)thisx;
 
     Collider_DestroyTris(globalCtx, &this->collider);
     if (this->dyna.actor.params == 1) {
@@ -195,13 +193,13 @@ void BgYdanMaruta_DoNothing(BgYdanMaruta* this, GlobalContext* globalCtx) {
 }
 
 void BgYdanMaruta_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanMaruta* this = THIS;
+    BgYdanMaruta* this = (BgYdanMaruta*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgYdanMaruta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanMaruta* this = THIS;
+    BgYdanMaruta* this = (BgYdanMaruta*)thisx;
 
     if (this->dyna.actor.params == 0) {
         Gfx_DrawDListOpa(globalCtx, gDTRollingSpikeTrapDL);

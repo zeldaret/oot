@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000039
 
-#define THIS ((EnGo*)thisx)
-
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -620,7 +618,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     s32 pad;
     Vec3f D_80A41B9C = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
@@ -693,7 +691,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -1018,7 +1016,7 @@ void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
 
 void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -1080,7 +1078,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
 }
 
 s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     Vec3s vec1;
     f32 float1;
 
@@ -1113,7 +1111,7 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
 }
 
 void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     Vec3f D_80A41BCC = { 600.0f, 0.0f, 0.0f };
 
     if (limbIndex == 17) {
@@ -1122,7 +1120,7 @@ void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2479);
 

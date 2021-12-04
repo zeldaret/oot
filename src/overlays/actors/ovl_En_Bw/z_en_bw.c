@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnBw*)thisx)
-
 void EnBw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBw_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -129,7 +127,7 @@ void EnBw_SetupAction(EnBw* this, EnBwActionFunc actionFunc) {
 }
 
 void EnBw_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBw* this = THIS;
+    EnBw* this = (EnBw*)thisx;
 
     Actor_SetScale(&this->actor, 0.012999999f);
     this->actor.naviEnemyId = 0x23;
@@ -157,7 +155,7 @@ void EnBw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBw* this = THIS;
+    EnBw* this = (EnBw*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider1);
     Collider_DestroyCylinder(globalCtx, &this->collider2);
@@ -739,7 +737,7 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
 
 void EnBw_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnBw* this = THIS;
+    EnBw* this = (EnBw*)thisx;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
     s32 pad[3]; // probably an unused Vec3f
@@ -809,7 +807,7 @@ void EnBw_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 EnBw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnBw* this = THIS;
+    EnBw* this = (EnBw*)thisx;
 
     if (limbIndex == 1) {
         gSPSegment((*gfx)++, 0x09,
@@ -842,7 +840,7 @@ static Vec3f sIceOffsets[] = {
 void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     Vec3f spAC = { 0.0f, 0.0f, 0.0f };
     GlobalContext* globalCtx = globalCtx2;
-    EnBw* this = THIS;
+    EnBw* this = (EnBw*)thisx;
     Vec3f icePos;
     s32 iceIndex;
 

@@ -13,8 +13,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((Demo6K*)thisx)
-
 void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx);
 void Demo6K_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void Demo6K_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -68,7 +66,7 @@ void Demo6K_SetupAction(Demo6K* this, Demo6KActionFunc actionFunc) {
 }
 
 void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx) {
-    Demo6K* this = THIS;
+    Demo6K* this = (Demo6K*)thisx;
     s32 pad;
     s32 params = this->actor.params;
     s32 objBankIndex;
@@ -194,7 +192,7 @@ void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void Demo6K_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Demo6K* this = THIS;
+    Demo6K* this = (Demo6K*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
 }
@@ -553,13 +551,13 @@ void func_80967F10(Demo6K* this, GlobalContext* globalCtx) {
 }
 
 void Demo6K_Update(Actor* thisx, GlobalContext* globalCtx) {
-    Demo6K* this = THIS;
+    Demo6K* this = (Demo6K*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void func_80967FFC(Actor* thisx, GlobalContext* globalCtx) {
-    Demo6K* this = THIS;
+    Demo6K* this = (Demo6K*)thisx;
     s32 pad;
     u16 timer1 = this->timer1;
 
@@ -601,7 +599,7 @@ void func_80967FFC(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80968298(Actor* thisx, GlobalContext* globalCtx) {
     static u8 skipIndices[] = { 6, 7, 11, 16, 20, 24, 28, 33, 35, 41, 45, 50, 57, 58, 62, 255 };
-    Demo6K* this = THIS;
+    Demo6K* this = (Demo6K*)thisx;
     s32 pad;
     u32 timer1 = this->timer1;
     f32 scale = this->unk_164 * this->unk_168;
@@ -650,7 +648,7 @@ void func_80968298(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8096865C(Actor* thisx, GlobalContext* globalCtx) {
-    Demo6K* this = THIS;
+    Demo6K* this = (Demo6K*)thisx;
     s32 pad;
     Gfx* displayList;
 
@@ -684,7 +682,7 @@ void func_8096865C(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809688C4(Actor* thisx, GlobalContext* globalCtx2) {
-    Demo6K* this = THIS;
+    Demo6K* this = (Demo6K*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     u32 frames = globalCtx->state.frames;
     s32 i;
@@ -721,7 +719,7 @@ void func_809688C4(Actor* thisx, GlobalContext* globalCtx2) {
 
 void func_80968B70(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    Demo6K* this = THIS;
+    Demo6K* this = (Demo6K*)thisx;
     u32 timer2 = this->timer2;
     u8 primColor[4];
     u8 envColor[3];
@@ -770,7 +768,7 @@ void func_80968B70(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80968FB0(Actor* thisx, GlobalContext* globalCtx) {
     static u8 D_809693CC[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1 };
-    Demo6K* this = THIS;
+    Demo6K* this = (Demo6K*)thisx;
     Gfx* displayList = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Gfx));
     u16 frames = globalCtx->gameplayFrames;
     f32 scaleFactor;

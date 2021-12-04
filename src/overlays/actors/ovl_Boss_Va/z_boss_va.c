@@ -11,7 +11,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((BossVa*)thisx)
 #define GET_BODY(this) ((BossVa*)(this)->actor.parent)
 #define vaGorePulse offset.x
 #define vaGorePulseRate offset.y
@@ -577,7 +576,7 @@ void BossVa_KillBari(BossVa* this, GlobalContext* globalCtx) {
 
 void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
     s32 i;
     s16 warpId;
 
@@ -746,7 +745,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void BossVa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->colliderSph);
@@ -2801,7 +2800,7 @@ void BossVa_Door(BossVa* this, GlobalContext* globalCtx) {
 
 void BossVa_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
     EnBoom* boomerang;
     s32 i;
 
@@ -2865,7 +2864,7 @@ void BossVa_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 BossVa_BodyOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_va.c", 4156);
@@ -2893,7 +2892,7 @@ s32 BossVa_BodyOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void BossVa_BodyPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
     Vec3f sp78 = { 0.0f, 0.0f, 0.0f };
     s32 pad;
 
@@ -2965,7 +2964,7 @@ void BossVa_BodyPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
 s32 BossVa_SupportOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                    void* thisx) {
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
 
     if (!this->onCeiling && (limbIndex == 4)) {
         rot->z += this->headRot.x;
@@ -2974,7 +2973,7 @@ s32 BossVa_SupportOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx*
 }
 
 void BossVa_SupportPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
     Vec3f sp20 = { 0.0f, 0.0f, 0.0f };
     s32 pad;
 
@@ -3019,7 +3018,7 @@ void BossVa_SupportPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 
 s32 BossVa_ZapperOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
     MtxF zapperMtx;
 
     switch (limbIndex) {
@@ -3048,7 +3047,7 @@ s32 BossVa_ZapperOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 }
 
 void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
     Vec3f sp70 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp64 = { 15.0f, 0.0f, 0.0f };
     Vec3f sp58 = { -15.0f, 0.0f, 0.0f };
@@ -3132,7 +3131,7 @@ void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 
 s32 BossVa_BariOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
 
     switch (limbIndex) {
         case 2:
@@ -3149,7 +3148,7 @@ s32 BossVa_BariOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void BossVa_BariPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_va.c", 4494);
 
@@ -3171,7 +3170,7 @@ void BossVa_BariPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
 void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s16* paramsPtr; // This stack slot is almost certainly actually globalCtx2, but can't make it match
-    BossVa* this = THIS;
+    BossVa* this = (BossVa*)thisx;
     Vec3f spBC;
     Vec3f spB0 = { 0.0f, 45.0f, 0.0f };
     Vec3f spA4 = { 0.4f, 0.4f, 0.4f };

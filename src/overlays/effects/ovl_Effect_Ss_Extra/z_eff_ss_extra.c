@@ -52,7 +52,11 @@ u32 EffectSsExtra_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     return 0;
 }
 
-static void* sTextures[] = { 0x06000000, 0x06000480, 0x06000900 };
+static void* sTextures[] = {
+    object_yabusame_point_Tex_000000,
+    object_yabusame_point_Tex_000480,
+    object_yabusame_point_Tex_000900,
+};
 
 void EffectSsExtra_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;

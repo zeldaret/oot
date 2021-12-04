@@ -16,8 +16,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgMjin*)thisx)
-
 void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
 }
 
 void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMjin* this = THIS;
+    BgMjin* this = (BgMjin*)thisx;
     s8 objBankIndex;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -69,7 +67,7 @@ void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgMjin* this = THIS;
+    BgMjin* this = (BgMjin*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -96,24 +94,24 @@ void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx) {
 }
 
 void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMjin* this = THIS;
+    BgMjin* this = (BgMjin*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgMjin* this = THIS;
+    BgMjin* this = (BgMjin*)thisx;
     Gfx* dlist;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
 
     if (thisx->params != 0) {
-        // thisx is required
         s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
 
         if (objBankIndex >= 0) {
             gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
         }
+
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
         dlist = gWarpPadBaseDL;
     } else {

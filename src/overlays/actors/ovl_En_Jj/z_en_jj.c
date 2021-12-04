@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnJj*)thisx)
-
 typedef enum {
     /* 0 */ JABUJABU_EYE_OPEN,
     /* 1 */ JABUJABU_EYE_HALF,
@@ -81,7 +79,7 @@ void EnJj_SetupAction(EnJj* this, EnJjActionFunc actionFunc) {
 
 void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnJj* this = THIS;
+    EnJj* this = (EnJj*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -138,7 +136,7 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnJj* this = THIS;
+    EnJj* this = (EnJj*)thisx;
 
     switch (this->dyna.actor.params) {
         case JABUJABU_MAIN:
@@ -286,7 +284,7 @@ void EnJj_UpdateStaticCollision(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnJj* this = THIS;
+    EnJj* this = (EnJj*)thisx;
 
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[2] != NULL)) {
         EnJj_CutsceneUpdate(this, globalCtx);
@@ -309,7 +307,7 @@ void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     static void* eyeTextures[] = { gJabuJabuEyeOpenTex, gJabuJabuEyeHalfTex, gJabuJabuEyeClosedTex };
     GlobalContext* globalCtx = globalCtx2;
-    EnJj* this = THIS;
+    EnJj* this = (EnJj*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_jj.c", 879);
 

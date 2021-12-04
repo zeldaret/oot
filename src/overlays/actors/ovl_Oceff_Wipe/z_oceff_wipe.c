@@ -9,8 +9,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((OceffWipe*)thisx)
-
 void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ const ActorInit Oceff_Wipe_InitVars = {
 };
 
 void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe* this = THIS;
+    OceffWipe* this = (OceffWipe*)thisx;
 
     Actor_SetScale(&this->actor, 0.1f);
     this->timer = 0;
@@ -38,7 +36,7 @@ void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe* this = THIS;
+    OceffWipe* this = (OceffWipe*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     func_800876C8(globalCtx);
@@ -48,7 +46,7 @@ void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe* this = THIS;
+    OceffWipe* this = (OceffWipe*)thisx;
 
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     if (this->timer < 100) {
@@ -67,7 +65,7 @@ static u8 sAlphaIndices[] = {
 
 void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll = globalCtx->state.frames & 0xFF;
-    OceffWipe* this = THIS;
+    OceffWipe* this = (OceffWipe*)thisx;
     f32 z;
     s32 pad;
     u8 alphaTable[3];

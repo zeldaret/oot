@@ -4,8 +4,6 @@
 
 #define FLAGS 0x08000010
 
-#define THIS ((EnEncount1*)thisx)
-
 void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount1_Update(Actor* thisx, GlobalContext* globalCtx);
 
@@ -30,7 +28,7 @@ const ActorInit En_Encount1_InitVars = {
 
 void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnEncount1* this = THIS;
+    EnEncount1* this = (EnEncount1*)thisx;
     f32 spawnRange;
 
     if (this->actor.params <= 0) {
@@ -316,7 +314,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
 
 void EnEncount1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnEncount1* this = THIS;
+    EnEncount1* this = (EnEncount1*)thisx;
 
     if (this->timer != 0) {
         this->timer--;

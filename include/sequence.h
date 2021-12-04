@@ -1,10 +1,10 @@
-#ifndef BGM_H
-#define BGM_H
+#ifndef SEQUENCE_H
+#define SEQUENCE_H
 
 #define NA_BGM_STOP 0x100000FF
 
 #define NA_BGM_GENERAL_SFX 0x0       // General Sound Effects
-#define NA_BGM_NATURE_BACKGROUND 0x1 // Environmental nature background sounds
+#define NA_BGM_NATURE_AMBIENCE 0x1   // Environmental nature background sounds
 #define NA_BGM_FIELD_LOGIC 0x2       // Hyrule Field
 #define NA_BGM_FIELD_INIT 0x3        // Hyrule Field	Initial Segment From Loading Area
 #define NA_BGM_FIELD_MOVE_1 0x4      // Hyrule Field	Moving Segment 1
@@ -103,8 +103,8 @@
 #define NA_BGM_KOTAKE_KOUME 0x61     // Kotake & Koume's Theme
 #define NA_BGM_ESCAPE 0x62           // Escape from Ganon's Castle
 #define NA_BGM_UNDERGROUND 0x63      // Ganon's Castle Under Ground
-#define NA_BGM_GANON_BATTLE_1 0x64   // Ganondorf Battle
-#define NA_BGM_GANON_BATTLE_2 0x65   // Ganon Battle
+#define NA_BGM_GANONDORF_BOSS 0x64   // Ganondorf Battle
+#define NA_BGM_GANON_BOSS 0x65       // Ganon Battle
 #define NA_BGM_END_DEMO 0x66         // Seal of Six Sages
 #define NA_BGM_STAFF_1 0x67          // End Credits I
 #define NA_BGM_STAFF_2 0x68          // End Credits II
