@@ -317,7 +317,7 @@ typedef enum {
     /* 4 */ ENZO_ANIM_4,
     /* 5 */ ENZO_ANIM_5,
     /* 6 */ ENZO_ANIM_6,
-    /* 7 */ ENZO_ANIM_7,
+    /* 7 */ ENZO_ANIM_7
 } EnZoAnimation;
 
 static AnimationInfo sAnimationInfo[] = {

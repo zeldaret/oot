@@ -3863,7 +3863,7 @@ void Animation_ChangeInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, s3
         frameCount = Animation_GetLastFrame(animationInfo->animation);
     }
 
-    Animation_Change(skelAnime, animationInfo->animation, animationInfo->playbackSpeed, animationInfo->startFrame,
+    Animation_Change(skelAnime, animationInfo->animation, animationInfo->playSpeed, animationInfo->startFrame,
                      frameCount, animationInfo->mode, animationInfo->morphFrames);
 }
 
