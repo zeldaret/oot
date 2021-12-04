@@ -138,7 +138,7 @@ typedef enum {
     /*  9 */ ENGO2_ANIM_9,
     /* 10 */ ENGO2_ANIM_10,
     /* 11 */ ENGO2_ANIM_11,
-    /* 12 */ ENGO2_ANIM_12,
+    /* 12 */ ENGO2_ANIM_12
 } EnGo2Animation;
 
 static AnimationInfo sAnimationInfo[] = {
