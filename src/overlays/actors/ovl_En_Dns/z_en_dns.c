@@ -173,13 +173,13 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void EnDns_Change(EnDns* this, u8 arg1) {
+void EnDns_ChangeAnim(EnDns* this, u8 index) {
     s16 frameCount;
 
-    frameCount = Animation_GetLastFrame(sAnimationInfo[arg1].animation);
-    this->unk_2BA = arg1; // Not used anywhere else?
-    Animation_Change(&this->skelAnime, sAnimationInfo[arg1].animation, 1.0f, 0.0f, (f32)frameCount,
-                     sAnimationInfo[arg1].mode, sAnimationInfo[arg1].morphFrames);
+    frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
+    this->unk_2BA = index; // Not used anywhere else?
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, (f32)frameCount,
+                     sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
 /* Item give checking functions */
@@ -315,7 +315,7 @@ void func_809EFB40(EnDns* this) {
 void EnDns_SetupWait(EnDns* this, GlobalContext* globalCtx) {
     if (this->skelAnime.curFrame == this->skelAnime.endFrame) {
         this->actionFunc = EnDns_Wait;
-        EnDns_Change(this, ENDNS_ANIM_0);
+        EnDns_ChangeAnim(this, ENDNS_ANIM_0);
     }
 }
 
@@ -411,7 +411,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
             this->dropCollectible = 1;
             this->maintainCollider = 0;
             this->actor.flags &= ~1;
-            EnDns_Change(this, ENDNS_ANIM_1);
+            EnDns_ChangeAnim(this, ENDNS_ANIM_1);
             this->actionFunc = EnDns_SetupBurrow;
         }
     } else {
@@ -419,7 +419,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
         this->dropCollectible = 1;
         this->maintainCollider = 0;
         this->actor.flags &= ~1;
-        EnDns_Change(this, ENDNS_ANIM_1);
+        EnDns_ChangeAnim(this, ENDNS_ANIM_1);
         this->actionFunc = EnDns_SetupBurrow;
     }
 }
@@ -428,7 +428,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->maintainCollider = 0;
         this->actor.flags &= ~1;
-        EnDns_Change(this, ENDNS_ANIM_1);
+        EnDns_ChangeAnim(this, ENDNS_ANIM_1);
         this->actionFunc = EnDns_SetupBurrow;
     }
 }

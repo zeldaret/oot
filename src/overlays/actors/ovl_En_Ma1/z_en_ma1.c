@@ -221,11 +221,11 @@ void EnMa1_UpdateEyes(EnMa1* this) {
     }
 }
 
-void EnMa1_ChangeAnimation(EnMa1* this, s32 idx) {
-    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
+void EnMa1_ChangeAnim(EnMa1* this, s32 index) {
+    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
 
-    Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
-                     sAnimationInfo[idx].morphFrames);
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[index].mode,
+                     sAnimationInfo[index].morphFrames);
 }
 
 void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
@@ -282,10 +282,10 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(gSaveContext.eventChkInf[1] & 0x10) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         this->actionFunc = func_80AA0D88;
-        EnMa1_ChangeAnimation(this, ENMA1_ANIM_2);
+        EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
     } else {
         this->actionFunc = func_80AA0F44;
-        EnMa1_ChangeAnimation(this, ENMA1_ANIM_2);
+        EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
     }
 }
 
@@ -299,11 +299,11 @@ void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
-            EnMa1_ChangeAnimation(this, ENMA1_ANIM_1);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
         }
     } else {
         if (this->skelAnime.animation != &gMalonChildSingAnim) {
-            EnMa1_ChangeAnimation(this, ENMA1_ANIM_3);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_3);
         }
     }
 
@@ -341,11 +341,11 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
-            EnMa1_ChangeAnimation(this, ENMA1_ANIM_1);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
         }
     } else {
         if (this->skelAnime.animation != &gMalonChildSingAnim) {
-            EnMa1_ChangeAnimation(this, ENMA1_ANIM_3);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_3);
         }
     }
 

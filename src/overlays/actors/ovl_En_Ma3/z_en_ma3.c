@@ -231,11 +231,11 @@ void EnMa3_UpdateEyes(EnMa3* this) {
     }
 }
 
-void EnMa3_ChangeAnim(EnMa3* this, s32 idx) {
-    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
+void EnMa3_ChangeAnim(EnMa3* this, s32 index) {
+    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
 
-    Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
-                     sAnimationInfo[idx].morphFrames);
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[index].mode,
+                     sAnimationInfo[index].morphFrames);
 }
 
 void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {

@@ -98,26 +98,26 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gGraveyardKidIdleAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
 };
 
-void EnCs_SetAnimFromIndex(EnCs* this, s32 animIndex, s32* currentAnimIndex) {
+void EnCs_ChangeAnim(EnCs* this, s32 index, s32* currentIndex) {
     f32 morphFrames;
 
-    if ((*currentAnimIndex < 0) || (animIndex == *currentAnimIndex)) {
+    if ((*currentIndex < 0) || (index == *currentIndex)) {
         morphFrames = 0.0f;
     } else {
-        morphFrames = sAnimationInfo[animIndex].morphFrames;
+        morphFrames = sAnimationInfo[index].morphFrames;
     }
 
-    if (sAnimationInfo[animIndex].frameCount >= 0.0f) {
-        Animation_Change(&this->skelAnime, sAnimationInfo[animIndex].animation, sAnimationInfo[animIndex].frameCount,
-                         0.0f, Animation_GetLastFrame(sAnimationInfo[animIndex].animation),
-                         sAnimationInfo[animIndex].mode, morphFrames);
+    if (sAnimationInfo[index].frameCount >= 0.0f) {
+        Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, sAnimationInfo[index].frameCount,
+                         0.0f, Animation_GetLastFrame(sAnimationInfo[index].animation),
+                         sAnimationInfo[index].mode, morphFrames);
     } else {
-        Animation_Change(&this->skelAnime, sAnimationInfo[animIndex].animation, sAnimationInfo[animIndex].frameCount,
-                         Animation_GetLastFrame(sAnimationInfo[animIndex].animation), 0.0f,
-                         sAnimationInfo[animIndex].mode, morphFrames);
+        Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, sAnimationInfo[index].frameCount,
+                         Animation_GetLastFrame(sAnimationInfo[index].animation), 0.0f,
+                         sAnimationInfo[index].mode, morphFrames);
     }
 
-    *currentAnimIndex = animIndex;
+    *currentIndex = index;
 }
 
 void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -150,7 +150,7 @@ void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->currentAnimIndex = -1;
     this->actor.gravity = -1.0f;
 
-    EnCs_SetAnimFromIndex(this, ENCS_ANIM_0, &this->currentAnimIndex);
+    EnCs_ChangeAnim(this, ENCS_ANIM_0, &this->currentAnimIndex);
 
     this->actionFunc = EnCs_Walk;
     this->walkSpeed = 1.0f;
@@ -172,11 +172,11 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
             if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     this->actor.textId = 0x2026;
-                    EnCs_SetAnimFromIndex(this, ENCS_ANIM_3, &this->currentAnimIndex);
+                    EnCs_ChangeAnim(this, ENCS_ANIM_3, &this->currentAnimIndex);
                     talkState = 2;
                 } else {
                     this->actor.textId = 0x2024;
-                    EnCs_SetAnimFromIndex(this, ENCS_ANIM_1, &this->currentAnimIndex);
+                    EnCs_ChangeAnim(this, ENCS_ANIM_1, &this->currentAnimIndex);
                     talkState = 2;
                 }
             }
@@ -237,11 +237,11 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
         this->talkState = EnCs_GetTalkState(this, globalCtx);
     } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if ((this->actor.textId == 0x2022) || ((this->actor.textId != 0x2022) && (this->actor.textId != 0x2028))) {
-            EnCs_SetAnimFromIndex(this, ENCS_ANIM_3, &this->currentAnimIndex);
+            EnCs_ChangeAnim(this, ENCS_ANIM_3, &this->currentAnimIndex);
         }
 
         if ((this->actor.textId == 0x2023) || (this->actor.textId == 0x2028)) {
-            EnCs_SetAnimFromIndex(this, ENCS_ANIM_1, &this->currentAnimIndex);
+            EnCs_ChangeAnim(this, ENCS_ANIM_1, &this->currentAnimIndex);
         }
 
         if (this->actor.textId == 0x2023) {
@@ -353,7 +353,7 @@ void EnCs_Walk(EnCs* this, GlobalContext* globalCtx) {
             }
         }
 
-        EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
+        EnCs_ChangeAnim(this, animIndex, &this->currentAnimIndex);
     }
 
     if (this->talkState == 0) {
@@ -391,7 +391,7 @@ void EnCs_Wait(EnCs* this, GlobalContext* globalCtx) {
             }
         }
 
-        EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
+        EnCs_ChangeAnim(this, animIndex, &this->currentAnimIndex);
     }
 }
 
@@ -399,7 +399,7 @@ void EnCs_Talk(EnCs* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
-        EnCs_SetAnimFromIndex(this, this->currentAnimIndex, &this->currentAnimIndex);
+        EnCs_ChangeAnim(this, this->currentAnimIndex, &this->currentAnimIndex);
     }
 
     this->flag |= 1;
@@ -409,7 +409,7 @@ void EnCs_Talk(EnCs* this, GlobalContext* globalCtx) {
     func_80034A14(&this->actor, &this->npcInfo, 0, 4);
 
     if (this->talkState == 0) {
-        EnCs_SetAnimFromIndex(this, ENCS_ANIM_0, &this->currentAnimIndex);
+        EnCs_ChangeAnim(this, ENCS_ANIM_0, &this->currentAnimIndex);
         this->actionFunc = EnCs_Walk;
         this->flag &= ~1;
     }

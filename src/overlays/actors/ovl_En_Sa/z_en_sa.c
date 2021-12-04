@@ -366,10 +366,10 @@ void func_80AF5CE4(EnSa* this) {
     }
 }
 
-void EnSa_ChangeAnim(EnSa* this, s32 action) {
-    Animation_Change(&this->skelAnime, sAnimationInfo1[action].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimationInfo1[action].animation), sAnimationInfo1[action].mode,
-                     sAnimationInfo1[action].morphFrames);
+void EnSa_ChangeAnim(EnSa* this, s32 index) {
+    Animation_Change(&this->skelAnime, sAnimationInfo1[index].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo1[index].animation), sAnimationInfo1[index].mode,
+                     sAnimationInfo1[index].morphFrames);
 }
 
 s32 func_80AF5DFC(EnSa* this, GlobalContext* globalCtx) {
