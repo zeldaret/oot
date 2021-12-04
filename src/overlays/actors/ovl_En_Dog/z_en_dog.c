@@ -7,7 +7,7 @@
 #include "z_en_dog.h"
 #include "objects/object_dog/object_dog.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnDog*)thisx)
 

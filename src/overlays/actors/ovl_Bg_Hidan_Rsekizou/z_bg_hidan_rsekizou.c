@@ -7,7 +7,7 @@
 #include "z_bg_hidan_rsekizou.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgHidanRsekizou*)thisx)
 

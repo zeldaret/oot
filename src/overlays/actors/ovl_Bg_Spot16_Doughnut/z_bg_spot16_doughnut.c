@@ -8,7 +8,7 @@
 #include "objects/object_efc_doughnut/object_efc_doughnut.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgSpot16Doughnut*)thisx)
 

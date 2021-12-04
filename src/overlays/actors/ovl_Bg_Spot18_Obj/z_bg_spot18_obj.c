@@ -8,7 +8,7 @@
 #include "z_bg_spot18_obj.h"
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgSpot18Obj*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_bg_haka.h"
 #include "objects/object_haka/object_haka.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgHaka*)thisx)
 

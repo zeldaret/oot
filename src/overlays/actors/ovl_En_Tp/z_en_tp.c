@@ -7,7 +7,7 @@
 #include "z_en_tp.h"
 #include "objects/object_tp/object_tp.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnTp*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_bg_menkuri_nisekabe.h"
 #include "objects/object_menkuri_objects/object_menkuri_objects.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgMenkuriNisekabe*)thisx)
 

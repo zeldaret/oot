@@ -7,7 +7,7 @@
 #include "z_bg_spot08_iceblock.h"
 #include "objects/object_spot08_obj/object_spot08_obj.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgSpot08Iceblock*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_bg_ydan_sp.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgYdanSp*)thisx)
 

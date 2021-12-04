@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnDntDemo*)thisx)
 

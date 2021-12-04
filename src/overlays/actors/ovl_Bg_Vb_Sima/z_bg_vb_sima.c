@@ -8,7 +8,7 @@
 #include "objects/object_fd/object_fd.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgVbSima*)thisx)
 

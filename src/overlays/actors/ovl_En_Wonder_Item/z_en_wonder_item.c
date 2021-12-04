@@ -7,7 +7,7 @@
 #include "z_en_wonder_item.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnWonderItem*)thisx)
 

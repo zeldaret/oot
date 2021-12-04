@@ -1,7 +1,7 @@
 #include "z_en_box.h"
 #include "objects/object_box/object_box.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnBox*)thisx)
 

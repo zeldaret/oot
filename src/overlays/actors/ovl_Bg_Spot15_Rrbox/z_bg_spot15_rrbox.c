@@ -7,7 +7,7 @@
 #include "z_bg_spot15_rrbox.h"
 #include "objects/object_spot15_obj/object_spot15_obj.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgSpot15Rrbox*)thisx)
 

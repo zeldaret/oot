@@ -7,7 +7,7 @@
 #include "z_bg_ingate.h"
 #include "objects/object_ingate/object_ingate.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgInGate*)thisx)
 

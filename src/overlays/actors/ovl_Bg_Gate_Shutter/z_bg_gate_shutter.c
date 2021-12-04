@@ -8,7 +8,7 @@
 #include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgGateShutter*)thisx)
 

@@ -1,7 +1,7 @@
 #include "z_door_warp1.h"
 #include "objects/object_warp1/object_warp1.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((DoorWarp1*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_obj_elevator.h"
 #include "objects/object_d_elevator/object_d_elevator.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((ObjElevator*)thisx)
 

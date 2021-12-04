@@ -7,7 +7,7 @@
 #include "z_bg_umajump.h"
 #include "objects/object_umajump/object_umajump.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgUmaJump*)thisx)
 

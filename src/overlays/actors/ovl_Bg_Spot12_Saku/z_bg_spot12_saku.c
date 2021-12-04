@@ -7,7 +7,7 @@
 #include "z_bg_spot12_saku.h"
 #include "objects/object_spot12_obj/object_spot12_obj.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgSpot12Saku*)thisx)
 

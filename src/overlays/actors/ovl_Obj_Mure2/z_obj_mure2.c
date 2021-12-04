@@ -6,7 +6,7 @@
 
 #include "z_obj_mure2.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((ObjMure2*)thisx)
 

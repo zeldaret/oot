@@ -7,7 +7,7 @@
 #include "z_obj_blockstop.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((ObjBlockstop*)thisx)
 

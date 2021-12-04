@@ -7,7 +7,7 @@
 #include "z_en_wood02.h"
 #include "objects/object_wood02/object_wood02.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnWood02*)thisx)
 

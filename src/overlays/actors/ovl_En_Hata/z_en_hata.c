@@ -7,7 +7,7 @@
 #include "z_en_hata.h"
 #include "objects/object_hata/object_hata.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnHata*)thisx)
 

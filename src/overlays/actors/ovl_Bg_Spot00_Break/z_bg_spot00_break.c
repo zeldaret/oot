@@ -7,7 +7,7 @@
 #include "z_bg_spot00_break.h"
 #include "objects/object_spot00_break/object_spot00_break.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgSpot00Break*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_bg_ice_objects.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgIceObjects*)thisx)
 

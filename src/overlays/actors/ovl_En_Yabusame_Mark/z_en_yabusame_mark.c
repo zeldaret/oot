@@ -7,7 +7,7 @@
 #include "z_en_yabusame_mark.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnYabusameMark*)thisx)
 

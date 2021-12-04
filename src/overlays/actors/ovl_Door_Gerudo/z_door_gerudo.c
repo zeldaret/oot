@@ -7,7 +7,7 @@
 #include "z_door_gerudo.h"
 #include "objects/object_door_gerudo/object_door_gerudo.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((DoorGerudo*)thisx)
 

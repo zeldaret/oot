@@ -8,7 +8,7 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnHeishi3*)thisx)
 

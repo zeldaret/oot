@@ -384,7 +384,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.draw = NULL;
             this->actor.update = EnSkj_SariasSongShortStumpUpdate;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
-            this->actor.flags |= ACTOR_FLAG_NONE;
+            this->actor.flags |= 0;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
             break;
 
@@ -395,7 +395,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.draw = NULL;
             this->actor.update = EnSkj_OcarinaMinigameShortStumpUpdate;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
-            this->actor.flags |= ACTOR_FLAG_NONE;
+            this->actor.flags |= 0;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
             this->actor.focus.pos.x = 1230.0f;
             this->actor.focus.pos.y = -90.0f;

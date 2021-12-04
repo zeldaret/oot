@@ -7,7 +7,7 @@
 #include "z_bg_pushbox.h"
 #include "objects/object_pu_box/object_pu_box.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgPushbox*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_bg_spot05_soko.h"
 #include "objects/object_spot05_objects/object_spot05_objects.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgSpot05Soko*)thisx)
 

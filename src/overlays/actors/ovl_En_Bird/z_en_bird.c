@@ -7,7 +7,7 @@
 #include "z_en_bird.h"
 #include "objects/object_bird/object_bird.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnBird*)thisx)
 

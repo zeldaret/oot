@@ -6,7 +6,7 @@
 
 #include "z_en_it.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((EnIt*)thisx)
 

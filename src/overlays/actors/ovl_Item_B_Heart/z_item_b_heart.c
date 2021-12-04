@@ -7,7 +7,7 @@
 #include "z_item_b_heart.h"
 #include "objects/object_gi_hearts/object_gi_hearts.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((ItemBHeart*)thisx)
 

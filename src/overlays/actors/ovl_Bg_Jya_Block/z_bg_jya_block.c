@@ -7,7 +7,7 @@
 #include "z_bg_jya_block.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgJyaBlock*)thisx)
 

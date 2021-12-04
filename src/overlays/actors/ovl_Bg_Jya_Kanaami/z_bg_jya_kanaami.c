@@ -7,7 +7,7 @@
 #include "z_bg_jya_kanaami.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgJyaKanaami*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_door_toki.h"
 #include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((DoorToki*)thisx)
 

@@ -8,7 +8,7 @@
 #include "objects/object_heavy_object/object_heavy_object.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgHeavyBlock*)thisx)
 

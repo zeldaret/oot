@@ -7,7 +7,7 @@
 #include "z_obj_hsblock.h"
 #include "objects/object_d_hsblock/object_d_hsblock.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((ObjHsblock*)thisx)
 

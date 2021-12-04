@@ -7,7 +7,7 @@
 #include "z_bg_po_event.h"
 #include "objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgPoEvent*)thisx)
 

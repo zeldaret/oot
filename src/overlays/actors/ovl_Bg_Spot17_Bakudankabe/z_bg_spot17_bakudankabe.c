@@ -9,7 +9,7 @@
 #include "objects/object_spot17_obj/object_spot17_obj.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS ACTOR_FLAG_NONE
+#define FLAGS 0
 
 #define THIS ((BgSpot17Bakudankabe*)thisx)
 
