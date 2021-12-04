@@ -16,8 +16,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnXc*)thisx)
-
 void EnXc_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnXc_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnXc_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -56,14 +54,14 @@ static void* sEyeTextures[] = {
 };
 
 void EnXc_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
 void EnXc_UpdateCollider(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
     Collider* colliderBase = &this->collider.base;
     s32 pad[3];
 
@@ -72,7 +70,7 @@ void EnXc_UpdateCollider(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnXc_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -1050,7 +1048,7 @@ void func_80B3E87C(Gfx** dList, EnXc* this) {
 
 s32 EnXc_PullingOutHarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                         void* thisx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     if (limbIndex == 12) {
         func_80B3E87C(dList, this);
@@ -1061,7 +1059,7 @@ s32 EnXc_PullingOutHarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex,
 
 s32 EnXc_HarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                               void* thisx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     if (limbIndex == 12) {
         *dList = gSheikHarpDL;
@@ -1071,7 +1069,7 @@ s32 EnXc_HarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void EnXc_DrawPullingOutHarp(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
     s32 pad;
     s16 eyePattern = this->eyeIdx;
     void* eyeTexture = sEyeTextures[eyePattern];
@@ -1093,7 +1091,7 @@ void EnXc_DrawPullingOutHarp(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnXc_DrawHarp(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
     s32 pad;
     s16 eyePattern = this->eyeIdx;
     void* eyeTexture = sEyeTextures[eyePattern];
@@ -1531,7 +1529,7 @@ void func_80B3FA2C(void) {
 }
 
 void EnXc_PlayTriforceSFX(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     if (this->unk_2A8) {
         s32 pad;
@@ -1555,7 +1553,7 @@ void func_80B3FAE0(EnXc* this) {
 }
 
 void EnXc_CalcTriforce(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     if (EnXc_CompareCsAction(this, globalCtx, 21, 4)) {
         this->unk_274 = 1;
@@ -1695,7 +1693,7 @@ s32 EnXc_TriforceOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 
 void EnXc_TriforcePostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s32 pad[2];
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     if (limbIndex == 15) {
         Vec3f vec = { 0.0f, 0.0f, 0.0f };
@@ -1706,7 +1704,7 @@ void EnXc_TriforcePostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
     s32 pad;
     s16 eyeIdx = this->eyeIdx;
     void* eyeTexture = sEyeTextures[eyeIdx];
@@ -1780,7 +1778,7 @@ void EnXc_SetCrySFX(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B406F8(Actor* thisx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     this->action = SHEIK_ACTION_NOCTURNE_INIT;
     this->drawMode = SHEIK_DRAW_NOTHING;
@@ -1802,7 +1800,7 @@ void EnXc_SetupIdleInNocturne(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_SetupDefenseStance(Actor* thisx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
     SkelAnime* skelAnime = &this->skelAnime;
     f32 frameCount = Animation_GetLastFrame(&gSheikDefenseStanceAnim);
 
@@ -1952,7 +1950,7 @@ s32 EnXc_SetupNocturneState(Actor* thisx, GlobalContext* globalCtx) {
 
     if (npcAction != NULL) {
         s32 action = npcAction->action;
-        EnXc* this = THIS;
+        EnXc* this = (EnXc*)thisx;
         s32 prevAction = this->unk_26C;
 
         if (action != prevAction) {
@@ -2132,7 +2130,7 @@ void EnXc_KillInNocturneCS(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_DrawSquintingEyes(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
@@ -2292,7 +2290,7 @@ static EnXcActionFunc sActionFuncs[] = {
 };
 
 void EnXc_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
     s32 action = this->action;
 
     if ((action < 0) || (action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[action] == NULL)) {
@@ -2303,7 +2301,7 @@ void EnXc_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnXc_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gSheikSkel, &gSheikIdleAnim, this->jointTable, this->morphTable,
@@ -2348,7 +2346,7 @@ void EnXc_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnXc_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     if (this->unk_30C != 0) {
         if (limbIndex == 9) {
@@ -2364,7 +2362,7 @@ s32 EnXc_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnXc_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     if (limbIndex == 16) {
-        EnXc* this = THIS;
+        EnXc* this = (EnXc*)thisx;
         Vec3f src = { 0.0f, 10.0f, 0.0f };
         Vec3f dest;
 
@@ -2383,7 +2381,7 @@ void EnXc_DrawNothing(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnXc_DrawDefault(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
     s16 eyeIdx = this->eyeIdx;
     void* eyeSegment = sEyeTextures[eyeIdx];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -2406,7 +2404,7 @@ static EnXcDrawFunc sDrawFuncs[] = {
 };
 
 void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnXc* this = THIS;
+    EnXc* this = (EnXc*)thisx;
 
     if (this->drawMode < 0 || this->drawMode > 5 || sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"

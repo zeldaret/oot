@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnTite*)thisx)
-
 // EnTite_Idle
 #define vIdleTimer actionVar1
 
@@ -176,7 +174,7 @@ void EnTite_SetupAction(EnTite* this, EnTiteActionFunc actionFunc) {
 }
 
 void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTite* this = THIS;
+    EnTite* this = (EnTite*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->targetMode = 3;
@@ -204,7 +202,7 @@ void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTite_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTite* this = THIS;
+    EnTite* this = (EnTite*)thisx;
     EnEncount1* spawner;
 
     if (thisx->parent != NULL) {
@@ -841,7 +839,7 @@ void EnTite_FlipUpright(EnTite* this, GlobalContext* globalCtx) {
 }
 
 void EnTite_CheckDamage(Actor* thisx, GlobalContext* globalCtx) {
-    EnTite* this = THIS;
+    EnTite* this = (EnTite*)thisx;
 
     if ((this->collider.base.acFlags & AC_HIT) && (this->action >= TEKTITE_IDLE)) {
         this->collider.base.acFlags &= ~AC_HIT;
@@ -887,7 +885,7 @@ void EnTite_CheckDamage(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTite* this = THIS;
+    EnTite* this = (EnTite*)thisx;
     char pad[0x4];
     CollisionPoly* floorPoly;
     WaterBox* waterBox;
@@ -958,7 +956,7 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTite_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** limbDList, Vec3s* rot, void* thisx) {
-    EnTite* this = THIS;
+    EnTite* this = (EnTite*)thisx;
 
     switch (limbIndex) {
         case 8:
@@ -979,7 +977,7 @@ void EnTite_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** limbDLis
 }
 
 void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnTite* this = THIS;
+    EnTite* this = (EnTite*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tite.c", 1704);
     func_80093D18(globalCtx->state.gfxCtx);

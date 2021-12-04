@@ -9,8 +9,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((MagicDark*)thisx)
-
 void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx);
@@ -38,7 +36,7 @@ const ActorInit Magic_Dark_InitVars = {
 static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
 
 void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
-    MagicDark* this = THIS;
+    MagicDark* this = (MagicDark*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     if (!LINK_IS_ADULT) {
@@ -71,7 +69,7 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
-    MagicDark* this = THIS;
+    MagicDark* this = (MagicDark*)thisx;
     u8 phi_a0;
     Player* player = GET_PLAYER(globalCtx);
     s16 pad;
@@ -170,7 +168,7 @@ void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity) {
 }
 
 void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx) {
-    MagicDark* this = THIS;
+    MagicDark* this = (MagicDark*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -198,7 +196,7 @@ void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
-    MagicDark* this = THIS;
+    MagicDark* this = (MagicDark*)thisx;
     s32 pad;
     u16 gameplayFrames = globalCtx->gameplayFrames;
 
@@ -236,7 +234,7 @@ void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx) {
-    MagicDark* this = THIS;
+    MagicDark* this = (MagicDark*)thisx;
     Vec3f pos;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHakaGate*)thisx)
-
 // general purpose timer
 #define vTimer actionVar1
 
@@ -72,7 +70,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHakaGate* this = THIS;
+    BgHakaGate* this = (BgHakaGate*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -137,7 +135,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHakaGate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHakaGate* this = THIS;
+    BgHakaGate* this = (BgHakaGate*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if (this->dyna.actor.params == BGHAKAGATE_STATUE) {
@@ -302,7 +300,7 @@ void BgHakaGate_FalseSkull(BgHakaGate* this, GlobalContext* globalCtx) {
 
 void BgHakaGate_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHakaGate* this = THIS;
+    BgHakaGate* this = (BgHakaGate*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (this->dyna.actor.params == BGHAKAGATE_SKULL) {
@@ -344,7 +342,7 @@ void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
         object_haka_objects_DL_00A860,
         object_haka_objects_DL_00F1B0,
     };
-    BgHakaGate* this = THIS;
+    BgHakaGate* this = (BgHakaGate*)thisx;
     MtxF currentMtxF;
 
     if ((thisx->flags & 0x80) == 0x80) {

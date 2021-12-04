@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnDaiku*)thisx)
-
 typedef struct {
     AnimationHeader* anim;
     f32 unk_4;
@@ -156,7 +154,7 @@ void EnDaiku_Change(EnDaiku* this, s32 animIndex, s32* currentAnimIndex) {
 }
 
 void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaiku* this = THIS;
+    EnDaiku* this = (EnDaiku*)thisx;
     s32 pad;
     s32 noKill = true;
     s32 isFree = false;
@@ -223,7 +221,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDaiku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaiku* this = THIS;
+    EnDaiku* this = (EnDaiku*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -564,7 +562,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
 }
 
 void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaiku* this = THIS;
+    EnDaiku* this = (EnDaiku*)thisx;
     s32 curFrame;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -594,7 +592,7 @@ void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDaiku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaiku* this = THIS;
+    EnDaiku* this = (EnDaiku*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku.c", 1227);
 
@@ -617,7 +615,7 @@ void EnDaiku_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnDaiku_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnDaiku* this = THIS;
+    EnDaiku* this = (EnDaiku*)thisx;
 
     switch (limb) {
         case 8: // torso
@@ -637,7 +635,7 @@ void EnDaiku_PostLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3s
     static Gfx* hairDLists[] = { object_daiku_DL_005BD0, object_daiku_DL_005AC0, object_daiku_DL_005990,
                                  object_daiku_DL_005880 };
     static Vec3f targetPosHeadLocal = { 700, 1100, 0 };
-    EnDaiku* this = THIS;
+    EnDaiku* this = (EnDaiku*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku.c", 1323);
 

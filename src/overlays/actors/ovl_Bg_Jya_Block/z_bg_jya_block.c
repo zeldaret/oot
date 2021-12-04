@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgJyaBlock*)thisx)
-
 void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBlock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,7 +35,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgJyaBlock* this = THIS;
+    BgJyaBlock* this = (BgJyaBlock*)thisx;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -51,13 +49,13 @@ void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBlock* this = THIS;
+    BgJyaBlock* this = (BgJyaBlock*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgJyaBlock_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBlock* this = THIS;
+    BgJyaBlock* this = (BgJyaBlock*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     player->stateFlags2 &= ~0x10;

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnDog*)thisx)
-
 void EnDog_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDog_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDog_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -232,7 +230,7 @@ s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
 }
 
 void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDog* this = THIS;
+    EnDog* this = (EnDog*)thisx;
     s16 followingDog;
     s32 pad;
 
@@ -290,7 +288,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDog_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDog* this = THIS;
+    EnDog* this = (EnDog*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -441,7 +439,7 @@ void EnDog_Wait(EnDog* this, GlobalContext* globalCtx) {
 }
 
 void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDog* this = THIS;
+    EnDog* this = (EnDog*)thisx;
     s32 pad;
 
     EnDog_PlayAnimAndSFX(this);
@@ -462,7 +460,7 @@ void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDog* this = THIS;
+    EnDog* this = (EnDog*)thisx;
     Color_RGBA8 colors[] = { { 255, 255, 200, 0 }, { 150, 100, 50, 0 } };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 972);

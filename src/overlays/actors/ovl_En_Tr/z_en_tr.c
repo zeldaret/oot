@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnTr*)thisx)
-
 void EnTr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -87,7 +85,7 @@ void EnTr_SetupAction(EnTr* this, EnTrActionFunc actionFunc) {
 }
 
 void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnTr_SetupAction(this, EnTr_DoNothing);
@@ -375,7 +373,7 @@ void EnTr_ChooseAction1(EnTr* this, GlobalContext* globalCtx) {
 
 void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
     this->actionFunc(this, globalCtx);
@@ -415,7 +413,7 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     Vec3f src = { 2300.0f, 0.0f, -600.0f };
     Vec3f dest = { 0.0f, 0.0f, 0.0f };
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
     Actor* child = this->actor.child;
 
     if ((child != NULL) && (limbIndex == 19)) {
@@ -429,7 +427,7 @@ s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
 
     if (1) {}
 

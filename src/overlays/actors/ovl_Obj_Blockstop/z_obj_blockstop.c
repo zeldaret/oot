@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ObjBlockstop*)thisx)
-
 void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBlockstop_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -28,7 +26,7 @@ const ActorInit Obj_Blockstop_InitVars = {
 };
 
 void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBlockstop* this = THIS;
+    ObjBlockstop* this = (ObjBlockstop*)thisx;
 
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         Actor_Kill(&this->actor);
@@ -41,7 +39,7 @@ void ObjBlockstop_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBlockstop* this = THIS;
+    ObjBlockstop* this = (ObjBlockstop*)thisx;
     DynaPolyActor* dynaPolyActor;
     Vec3f sp4C;
     s32 bgId;

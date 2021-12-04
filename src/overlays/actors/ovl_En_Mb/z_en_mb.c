@@ -16,8 +16,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnMb*)thisx)
-
 typedef enum {
     /* -1 */ ENMB_TYPE_SPEAR_GUARD = -1,
     /*  0 */ ENMB_TYPE_CLUB,
@@ -258,7 +256,7 @@ void EnMb_SetupAction(EnMb* this, EnMbActionFunc actionFunc) {
 }
 
 void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
     s16 relYawFromPlayer;
@@ -332,7 +330,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
 
     Collider_DestroyTris(globalCtx, &this->frontShielding);
     Collider_DestroyCylinder(globalCtx, &this->hitbox);
@@ -1333,7 +1331,7 @@ void EnMb_SpearUpdateAttackCollider(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f quadModel1 = { -1000.0f, 1500.0f, 0.0f };
     Vec3f quadModel2 = { 1000.0f, 1500.0f, 4500.0f };
     Vec3f quadModel3 = { -1000.0f, 1500.0f, 4500.0f };
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
 
     if (this->actor.params >= ENMB_TYPE_SPEAR_PATROL) {
         quadModel0.x += 2000.0f;
@@ -1359,7 +1357,7 @@ void EnMb_ClubUpdateAttackCollider(Actor* thisx, GlobalContext* globalCtx) {
                                  { 1000.0f, 0.0f, 0.0f },
                                  { 1000.0f, -8000.0f, -1500.0f },
                                  { 1000.0f, -9000.0f, 2000.0f } };
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
 
     Matrix_MultVec3f(&quadModel[0], &this->attackCollider.dim.quad[1]);
     Matrix_MultVec3f(&quadModel[1], &this->attackCollider.dim.quad[0]);
@@ -1417,7 +1415,7 @@ void EnMb_CheckColliding(EnMb* this, GlobalContext* globalCtx) {
 }
 
 void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
     s32 pad;
 
     EnMb_CheckColliding(this, globalCtx);
@@ -1451,7 +1449,7 @@ void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     static Vec3f effSpawnPosModel = { 0.0f, -8000.0f, 0.0f };
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s32 bodyPart = -1;
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
     Vec3f bodyPartPos;
 
     if (this->actor.params == ENMB_TYPE_CLUB) {
@@ -1522,7 +1520,7 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f frontShieldingTri0[3];
     Vec3f frontShieldingTri1[3];
     s32 bodyPartIdx;
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

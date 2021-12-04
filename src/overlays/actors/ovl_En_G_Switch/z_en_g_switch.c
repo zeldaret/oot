@@ -14,8 +14,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnGSwitch*)thisx)
-
 typedef enum {
     /* 0 */ MOVE_TARGET,
     /* 1 */ MOVE_HOME
@@ -80,7 +78,7 @@ const ActorInit En_G_Switch_InitVars = {
 
 void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGSwitch* this = THIS;
+    EnGSwitch* this = (EnGSwitch*)thisx;
 
     this->type = (this->actor.params >> 0xC) & 0xF;
     this->switchFlag = this->actor.params & 0x3F;
@@ -168,7 +166,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGSwitch* this = THIS;
+    EnGSwitch* this = (EnGSwitch*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -418,7 +416,7 @@ void EnGSwitch_Kill(EnGSwitch* this, GlobalContext* globalCtx) {
 
 void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGSwitch* this = THIS;
+    EnGSwitch* this = (EnGSwitch*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (this->killTimer != 0) {
@@ -453,7 +451,7 @@ void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGSwitch_DrawPot(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGSwitch* this = THIS;
+    EnGSwitch* this = (EnGSwitch*)thisx;
 
     if (!this->broken) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 918);
@@ -471,7 +469,7 @@ static void* sRupeeTextures[] = {
 
 void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGSwitch* this = THIS;
+    EnGSwitch* this = (EnGSwitch*)thisx;
 
     if (1) {}
     if (!this->broken) {

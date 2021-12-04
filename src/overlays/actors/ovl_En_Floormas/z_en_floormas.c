@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000405
 
-#define THIS ((EnFloormas*)thisx)
-
 #define SPAWN_INVISIBLE 0x8000
 #define SPAWN_SMALL 0x10
 
@@ -122,7 +120,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnFloormas* this = THIS;
+    EnFloormas* this = (EnFloormas*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s32 invisble;
     s32 pad;
@@ -177,7 +175,7 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnFloormas_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFloormas* this = THIS;
+    EnFloormas* this = (EnFloormas*)thisx;
     ColliderCylinder* col = &this->collider;
     Collider_DestroyCylinder(globalCtx, col);
 }
@@ -1021,7 +1019,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFloormas* this = THIS;
+    EnFloormas* this = (EnFloormas*)thisx;
     s32 pad;
 
     if (this->actionFunc != EnFloormas_SmWait) {
@@ -1083,7 +1081,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnFloormas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx, Gfx** gfx) {
-    EnFloormas* this = THIS;
+    EnFloormas* this = (EnFloormas*)thisx;
 
     if (limbIndex == 1) {
         pos->z += this->zOffset;
@@ -1107,7 +1105,7 @@ void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 static Color_RGBA8 sMergeColor = { 0, 255, 0, 0 };
 
 void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnFloormas* this = THIS;
+    EnFloormas* this = (EnFloormas*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2318);
 
@@ -1127,7 +1125,7 @@ void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_DrawHighlighted(Actor* thisx, GlobalContext* globalCtx) {
-    EnFloormas* this = THIS;
+    EnFloormas* this = (EnFloormas*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2352);
 

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgGjyoBridge*)thisx)
-
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGjyoBridge_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -39,7 +37,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgGjyoBridge* this = THIS;
+    BgGjyoBridge* this = (BgGjyoBridge*)thisx;
     s32 pad;
     CollisionHeader* colHeader;
 
@@ -61,7 +59,7 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgGjyoBridge* this = THIS;
+    BgGjyoBridge* this = (BgGjyoBridge*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -93,13 +91,13 @@ void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx) {
 }
 
 void BgGjyoBridge_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGjyoBridge* this = THIS;
+    BgGjyoBridge* this = (BgGjyoBridge*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgGjyoBridge_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgGjyoBridge* this = THIS;
+    BgGjyoBridge* this = (BgGjyoBridge*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
 

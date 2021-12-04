@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot18Obj*)thisx)
-
 void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Obj_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -182,7 +180,7 @@ s32 func_808B8CC8(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Obj* this = THIS;
+    BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
     osSyncPrintf("Spot18 Object [arg_data : 0x%04x]\n", this->dyna.actor.params);
     if (!func_808B8B38(this, globalCtx)) {
@@ -193,7 +191,7 @@ void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Obj* this = THIS;
+    BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -275,7 +273,7 @@ void func_808B9040(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Obj_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Obj* this = THIS;
+    BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
     if (this->unk_168 > 0) {
         this->unk_168 -= 1;

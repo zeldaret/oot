@@ -11,8 +11,6 @@
 
 #define FLAGS 0x02000009
 
-#define THIS ((EnGs*)thisx)
-
 void EnGs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -97,7 +95,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnGs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGs* this = THIS;
+    EnGs* this = (EnGs*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -517,7 +515,7 @@ void func_80A4F77C(EnGs* this) {
 
 void EnGs_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnGs* this = THIS;
+    EnGs* this = (EnGs*)thisx;
 
     Actor_SetFocus(&this->actor, 23.0f);
     if (!(this->unk_19E & 0x10)) {
@@ -562,7 +560,7 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGs* this = THIS;
+    EnGs* this = (EnGs*)thisx;
     s32 tmp;
     u32 frames;
 

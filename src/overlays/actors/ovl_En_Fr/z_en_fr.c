@@ -5,8 +5,6 @@
 
 #define FLAGS 0x02000019
 
-#define THIS ((EnFr*)thisx)
-
 void EnFr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFr_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -219,7 +217,7 @@ void EnFr_OrientUnderwater(EnFr* this) {
 }
 
 void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFr* this = THIS;
+    EnFr* this = (EnFr*)thisx;
 
     if (this->actor.params == 0) {
         this->actor.destroy = NULL;
@@ -261,7 +259,7 @@ void EnFr_DrawActive(EnFr* this) {
 }
 
 void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFr* this = THIS;
+    EnFr* this = (EnFr*)thisx;
     s32 pad;
     s32 frogIndex;
     s32 pad2;
@@ -315,7 +313,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFr* this = THIS;
+    EnFr* this = (EnFr*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
 }
@@ -559,7 +557,7 @@ void EnFr_ButterflyPath(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_UpdateActive(Actor* thisx, GlobalContext* globalCtx) {
-    EnFr* this = THIS;
+    EnFr* this = (EnFr*)thisx;
 
     this->jumpCounter++;
     Actor_SetScale(&this->actor, this->scale * 0.0001f);
@@ -1025,7 +1023,7 @@ void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_UpdateIdle(Actor* thisx, GlobalContext* globalCtx) {
-    EnFr* this = THIS;
+    EnFr* this = (EnFr*)thisx;
 
     if (BREG(0)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
@@ -1044,7 +1042,7 @@ s32 EnFr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnFr* this = THIS;
+    EnFr* this = (EnFr*)thisx;
 
     if ((limbIndex == 7) || (limbIndex == 8)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1735);
@@ -1061,7 +1059,7 @@ void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { 0x060059A0, 0x06005BA0 };
     s16 lightRadius;
-    EnFr* this = THIS;
+    EnFr* this = (EnFr*)thisx;
     s16 frogIndex = this->actor.params - 1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1754);

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ItemBHeart*)thisx)
-
 void ItemBHeart_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemBHeart_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -38,7 +36,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ItemBHeart_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ItemBHeart* this = THIS;
+    ItemBHeart* this = (ItemBHeart*)thisx;
 
     if (Flags_GetCollectible(globalCtx, 0x1F)) {
         Actor_Kill(&this->actor);
@@ -52,7 +50,7 @@ void ItemBHeart_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ItemBHeart* this = THIS;
+    ItemBHeart* this = (ItemBHeart*)thisx;
 
     func_80B85264(this, globalCtx);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
@@ -78,7 +76,7 @@ void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx) {
 }
 
 void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ItemBHeart* this = THIS;
+    ItemBHeart* this = (ItemBHeart*)thisx;
     Actor* actorIt;
     u8 flag = false;
 

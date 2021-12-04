@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgMoriIdomizu*)thisx)
-
 void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriIdomizu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriIdomizu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -49,7 +47,7 @@ void BgMoriIdomizu_SetWaterLevel(GlobalContext* globalCtx, s16 waterLevel) {
 
 void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriIdomizu* this = THIS;
+    BgMoriIdomizu* this = (BgMoriIdomizu*)thisx;
 
     if (sIsSpawned) {
         Actor_Kill(&this->actor);
@@ -86,7 +84,7 @@ void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriIdomizu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriIdomizu* this = THIS;
+    BgMoriIdomizu* this = (BgMoriIdomizu*)thisx;
 
     if (this->isLoaded) {
         sIsSpawned = false;
@@ -152,7 +150,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx) {
 
 void BgMoriIdomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriIdomizu* this = THIS;
+    BgMoriIdomizu* this = (BgMoriIdomizu*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
@@ -161,7 +159,7 @@ void BgMoriIdomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriIdomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriIdomizu* this = THIS;
+    BgMoriIdomizu* this = (BgMoriIdomizu*)thisx;
     u32 gameplayFrames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_idomizu.c", 356);

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnGanonOrgan*)thisx)
-
 void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonOrgan_Update(Actor* thisx, GlobalContext* globalCtx);

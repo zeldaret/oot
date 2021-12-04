@@ -6,8 +6,6 @@
 
 #define FLAGS 0x02000019
 
-#define THIS ((EnSa*)thisx)
-
 void EnSa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -113,7 +111,7 @@ s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
 }
 
 u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
     u16 reaction = Text_GetFaceReaction(globalCtx, 0x10);
 
     if (reaction != 0) {
@@ -154,7 +152,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
 
     switch (func_80AF5560(this, globalCtx)) {
         case TEXT_STATE_CLOSING:
@@ -445,7 +443,7 @@ void func_80AF6170(CsCmdActorAction* csAction, Vec3f* dst) {
 }
 
 void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 12.0f);
@@ -499,7 +497,7 @@ void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -687,7 +685,7 @@ void func_80AF6B20(EnSa* this, GlobalContext* globalCtx) {
 }
 
 void EnSa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -727,7 +725,7 @@ void EnSa_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
     s32 pad;
     Vec3s sp18;
 
@@ -753,7 +751,7 @@ s32 EnSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnSa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
     Vec3f D_80AF7454 = { 400.0, 0.0f, 0.0f };
 
     if (limbIndex == 16) {
@@ -769,7 +767,7 @@ void EnSa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = {
         gSariaEyeOpenTex, gSariaEyeHalfTex, gSariaEyeClosedTex, gSariaEyeSuprisedTex, gSariaEyeSadTex,
     };
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sa.c", 1444);
 

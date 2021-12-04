@@ -13,8 +13,6 @@
 
 #define FLAGS 0x00800010
 
-#define THIS ((EnKusa*)thisx)
-
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -221,7 +219,7 @@ void EnKusa_SpawnBugs(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void EnKusa_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -229,7 +227,7 @@ void EnKusa_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -267,7 +265,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -480,7 +478,7 @@ void EnKusa_Regrow(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     this->timer++;
 
@@ -495,7 +493,7 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnKusa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* dLists[] = { gFieldBushDL, object_kusa_DL_000140, object_kusa_DL_000140 };
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     if (this->actor.flags & 0x800) {
         Gfx_DrawDListOpa(globalCtx, object_kusa_DL_0002E0);

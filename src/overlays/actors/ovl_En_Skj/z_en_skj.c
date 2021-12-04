@@ -4,8 +4,6 @@
 
 #define FLAGS 0x02000015
 
-#define THIS ((EnSkj*)thisx)
-
 void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -379,7 +377,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
     switch (type) {
         case 5: // Invisible on the small stump (sarias song))
             sSmallStumpSkullKid.unk0 = 1;
-            sSmallStumpSkullKid.skullkid = THIS;
+            sSmallStumpSkullKid.skullkid = (EnSkj*)thisx;
             this->actor.destroy = NULL;
             this->actor.draw = NULL;
             this->actor.update = EnSkj_SariasSongShortStumpUpdate;
@@ -390,7 +388,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         case 6: // Invisible on the short stump (ocarina game)
             sSmallStumpSkullKid.unk0 = 1;
-            sSmallStumpSkullKid.skullkid = THIS;
+            sSmallStumpSkullKid.skullkid = (EnSkj*)thisx;
             this->actor.destroy = NULL;
             this->actor.draw = NULL;
             this->actor.update = EnSkj_OcarinaMinigameShortStumpUpdate;
@@ -468,7 +466,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSkj* this = THIS;
+    EnSkj* this = (EnSkj*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -1292,7 +1290,7 @@ void EnSkj_LeaveOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
 void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f dropPos;
     s32 pad;
-    EnSkj* this = THIS;
+    EnSkj* this = (EnSkj*)thisx;
 
     D_80B01EA0 = Actor_ProcessTalkRequest(&this->actor, globalCtx);
 
@@ -1348,7 +1346,7 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkj* this = THIS;
+    EnSkj* this = (EnSkj*)thisx;
 
     D_80B01EA0 = Actor_ProcessTalkRequest(&this->actor, globalCtx);
 
@@ -1583,7 +1581,7 @@ void EnSkj_CleanupOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkj* this = THIS;
+    EnSkj* this = (EnSkj*)thisx;
 
     D_80B01EA0 = Actor_ProcessTalkRequest(&this->actor, globalCtx);
     this->timer++;
@@ -1651,7 +1649,7 @@ Gfx* EnSkj_OpaqueDL(GraphicsContext* gfxCtx, u32 alpha) {
 
 void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSkj* this = THIS;
+    EnSkj* this = (EnSkj*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2475);
 

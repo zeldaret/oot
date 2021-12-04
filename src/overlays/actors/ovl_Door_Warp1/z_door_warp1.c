@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((DoorWarp1*)thisx)
-
 void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ void DoorWarp1_SetupAction(DoorWarp1* this, DoorWarp1ActionFunc actionFunc) {
 }
 
 void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
     GlobalContext* globalCtx2 = globalCtx;
 
     this->unk_1B8 = 0;
@@ -85,7 +83,7 @@ void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     u8 i;
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->upperLight);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lowerLight);
@@ -867,7 +865,7 @@ void func_8099B020(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
 
     this->actionFunc(this, globalCtx);
 
@@ -1022,7 +1020,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
 
     switch (this->actor.params) {
         case WARP_DUNGEON_ADULT:

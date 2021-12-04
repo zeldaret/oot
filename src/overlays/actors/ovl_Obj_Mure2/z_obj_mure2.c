@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ObjMure2*)thisx)
-
 typedef void (*ObjMure2SetPosFunc)(Vec3f* vec, ObjMure2* this);
 
 typedef struct {
@@ -168,7 +166,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjMure2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMure2* this = THIS;
+    ObjMure2* this = (ObjMure2*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (globalCtx->csCtx.state != CS_STATE_IDLE) {
@@ -213,7 +211,7 @@ void func_80B9A6F8(ObjMure2* this, GlobalContext* globalCtx) {
 }
 
 void ObjMure2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMure2* this = THIS;
+    ObjMure2* this = (ObjMure2*)thisx;
 
     if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->unk_184 = 1.0f;

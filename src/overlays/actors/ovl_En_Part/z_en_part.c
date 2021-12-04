@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnPart*)thisx)
-
 void EnPart_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -241,7 +239,7 @@ void EnPart_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80ACDDE8, func_80ACE13C, func_80ACE5B8, func_80ACE5C8, func_80ACE7E8,
     };
 
-    EnPart* this = THIS;
+    EnPart* this = (EnPart*)thisx;
 
     Actor_MoveForward(&this->actor);
 
@@ -275,7 +273,7 @@ Gfx* func_80ACEAC0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 env
 }
 
 void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnPart* this = THIS;
+    EnPart* this = (EnPart*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_part.c", 647);
 

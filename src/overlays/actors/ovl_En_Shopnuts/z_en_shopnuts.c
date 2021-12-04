@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnShopnuts*)thisx)
-
 void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnShopnuts_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -59,7 +57,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
@@ -80,7 +78,7 @@ void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnShopnuts_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -238,7 +236,7 @@ void EnShopnuts_ColliderCheck(EnShopnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     EnShopnuts_ColliderCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
@@ -259,7 +257,7 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnShopnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     if ((limbIndex == 9) && (this->actionFunc == EnShopnuts_ThrowNut)) {
         *dList = NULL;
@@ -268,7 +266,7 @@ s32 EnShopnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnShopnuts_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     f32 curFrame;
     f32 x;
@@ -302,7 +300,7 @@ void EnShopnuts_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnShopnuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnShopnuts_OverrideLimbDraw, EnShopnuts_PostLimbDraw, this);

@@ -4,8 +4,6 @@
 
 #define FLAGS 0x02000009
 
-#define THIS ((EnDu*)thisx)
-
 void EnDu_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -254,7 +252,7 @@ void func_809FE104(EnDu* this) {
 }
 
 void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
@@ -285,7 +283,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -525,7 +523,7 @@ void func_809FECE4(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -559,7 +557,7 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
     Vec3s sp1C;
 
     if (limbIndex == 16) {
@@ -578,7 +576,7 @@ s32 EnDu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnDu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
     Vec3f D_809FF40C = { 0.0f, -1000.0f, 0.0f };
 
     if (limbIndex == 16) {
@@ -603,7 +601,7 @@ void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDaruniaNoseSeriousTex,
         gDaruniaNoseHappyTex,
     };
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_du.c", 1470);
 

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgMoriKaitenkabe*)thisx)
-
 void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -49,7 +47,7 @@ void BgMoriKaitenkabe_CrossProduct(Vec3f* dest, Vec3f* v1, Vec3f* v2) {
 
 void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriKaitenkabe* this = THIS;
+    BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
     CollisionHeader* colHeader = NULL;
 
     // "Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears"
@@ -70,7 +68,7 @@ void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriKaitenkabe* this = THIS;
+    BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -153,14 +151,14 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
 
 void BgMoriKaitenkabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriKaitenkabe* this = THIS;
+    BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriKaitenkabe* this = THIS;
+    BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 347);
     func_80093D18(globalCtx->state.gfxCtx);

@@ -17,8 +17,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnHy*)thisx)
-
 void EnHy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHy_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -418,7 +416,7 @@ void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
 
 u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = GET_PLAYER(globalCtx);
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
     u16 textId = Text_GetFaceReaction(globalCtx, (this->actor.params & 0x7F) + 37);
 
     if (textId != 0) {
@@ -555,7 +553,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
     s16 beggarItems[] = { ITEM_BLUE_FIRE, ITEM_FISH, ITEM_BUG, ITEM_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
 
@@ -873,7 +871,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void EnHy_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
 
     if ((this->actor.params & 0x7F) >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, globalCtx) ||
         !EnHy_FindSkelAndHeadObjects(this, globalCtx)) {
@@ -888,7 +886,7 @@ void EnHy_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -1076,7 +1074,7 @@ void func_80A71530(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
 
     if (this->actionFunc != EnHy_InitImpl) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexOsAnime].segment);
@@ -1096,7 +1094,7 @@ void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
     s32 pad;
     Vec3s sp48;
     u8 i;
@@ -1145,7 +1143,7 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnHy_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
     s32 pad;
     Vec3f sp3C = { 400.0f, 0.0f, 0.0f };
 
@@ -1178,7 +1176,7 @@ Gfx* EnHy_SetEnvColor(GraphicsContext* globalCtx, u8 envR, u8 envG, u8 envB, u8 
 }
 
 void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
     Color_RGBA8 envColorSeg8;
     Color_RGBA8 envColorSeg9;
     Color_RGBA8 envColorSeg10;

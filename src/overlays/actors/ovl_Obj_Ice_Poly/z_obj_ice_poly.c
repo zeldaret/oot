@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((ObjIcePoly*)thisx)
-
 void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjIcePoly_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjIcePoly_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +75,7 @@ static Color_RGBA8 sColorWhite = { 250, 250, 250, 255 };
 static Color_RGBA8 sColorGray = { 180, 180, 180, 255 };
 
 void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjIcePoly* this = THIS;
+    ObjIcePoly* this = (ObjIcePoly*)thisx;
 
     this->unk_151 = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
@@ -105,7 +103,7 @@ void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjIcePoly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjIcePoly* this = THIS;
+    ObjIcePoly* this = (ObjIcePoly*)thisx;
 
     if ((this->actor.params >= 0) && (this->actor.params < 3)) {
         Collider_DestroyCylinder(globalCtx, &this->colliderIce);
@@ -185,14 +183,14 @@ void ObjIcePoly_Melt(ObjIcePoly* this, GlobalContext* globalCtx) {
 
 void ObjIcePoly_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjIcePoly* this = THIS;
+    ObjIcePoly* this = (ObjIcePoly*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjIcePoly* this = THIS;
+    ObjIcePoly* this = (ObjIcePoly*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_ice_poly.c", 421);
     func_80093D84(globalCtx->state.gfxCtx);

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnSb*)thisx)
-
 void EnSb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSb_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -108,7 +106,7 @@ typedef enum {
 } ShellbladeBehavior;
 
 void EnSb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSb* this = THIS;
+    EnSb* this = (EnSb*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = sDamageTable;
@@ -129,7 +127,7 @@ void EnSb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSb* this = THIS;
+    EnSb* this = (EnSb*)thisx;
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -442,7 +440,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
 }
 
 void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSb* this = THIS;
+    EnSb* this = (EnSb*)thisx;
     s32 pad;
 
     if (this->isDead) {
@@ -475,13 +473,13 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnSb* this = THIS;
+    EnSb* this = (EnSb*)thisx;
 
     BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 6, 8, dList, BODYBREAK_OBJECT_DEFAULT);
 }
 
 void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSb* this = THIS;
+    EnSb* this = (EnSb*)thisx;
     Vec3f flamePos;
     Vec3f* offset;
     s16 fireDecr;

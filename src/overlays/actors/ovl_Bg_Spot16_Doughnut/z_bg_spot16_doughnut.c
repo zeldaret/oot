@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot16Doughnut*)thisx)
-
 void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Doughnut_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Doughnut_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ static s16 sScales[] = {
 };
 
 void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Doughnut* this = THIS;
+    BgSpot16Doughnut* this = (BgSpot16Doughnut*)thisx;
     s32 params;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -85,7 +83,7 @@ void BgSpot16Doughnut_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot16Doughnut_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Doughnut* this = THIS;
+    BgSpot16Doughnut* this = (BgSpot16Doughnut*)thisx;
 
     if (!(this->fireFlag & 1)) {
         this->actor.shape.rot.y -= 0x20;
@@ -107,7 +105,7 @@ void BgSpot16Doughnut_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 // Update function for outwardly expanding and dissipating
 void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Doughnut* this = THIS;
+    BgSpot16Doughnut* this = (BgSpot16Doughnut*)thisx;
 
     if (this->envColorAlpha >= 6) {
         this->envColorAlpha -= 5;
@@ -119,7 +117,7 @@ void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Doughnut* this = THIS;
+    BgSpot16Doughnut* this = (BgSpot16Doughnut*)thisx;
     u32 scroll = globalCtx->gameplayFrames & 0xFFFF;
     s32 pad;
 
@@ -148,7 +146,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 // Draw function for outwardly expanding and dissipating
 void BgSpot16Doughnut_DrawExpanding(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Doughnut* this = THIS;
+    BgSpot16Doughnut* this = (BgSpot16Doughnut*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 245);
 

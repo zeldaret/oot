@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnZl4*)thisx)
-
 typedef enum {
     /* 0 */ ZL4_CS_WAIT,
     /* 1 */ ZL4_CS_START,
@@ -360,7 +358,7 @@ s32 EnZl4_InMovingAnim(EnZl4* this) {
 
 void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnZl4* this = THIS;
+    EnZl4* this = (EnZl4*)thisx;
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gChildZeldaSkel, NULL, this->jointTable, this->morphTable, 18);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
@@ -396,7 +394,7 @@ void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnZl4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnZl4* this = THIS;
+    EnZl4* this = (EnZl4*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -1238,7 +1236,7 @@ void EnZl4_TheEnd(EnZl4* this, GlobalContext* globalCtx) {
 
 void EnZl4_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnZl4* this = THIS;
+    EnZl4* this = (EnZl4*)thisx;
 
     if (this->actionFunc != EnZl4_TheEnd) {
         SkelAnime_Update(&this->skelAnime);
@@ -1251,7 +1249,7 @@ void EnZl4_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnZl4_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnZl4* this = THIS;
+    EnZl4* this = (EnZl4*)thisx;
     Vec3s sp1C;
 
     if (limbIndex == 17) {
@@ -1274,7 +1272,7 @@ s32 EnZl4_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnZl4_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    EnZl4* this = THIS;
+    EnZl4* this = (EnZl4*)thisx;
 
     if (limbIndex == 17) {
         Matrix_MultVec3f(&zeroVec, &this->actor.focus.pos);
@@ -1282,7 +1280,7 @@ void EnZl4_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnZl4_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl4* this = THIS;
+    EnZl4* this = (EnZl4*)thisx;
     void* mouthTex[] = { gChildZeldaMouthNeutralTex, gChildZeldaMouthHappyTex, gChildZeldaMouthWorriedTex,
                          gChildZeldaMouthSurprisedTex };
     void* eyeTex[] = {

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((DemoGeff*)thisx)
-
 void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGeff* this = THIS;
+    DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->actor.params < 0 || this->actor.params >= 9) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" VT_RST);
@@ -206,7 +204,7 @@ void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
 void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGeff* this = THIS;
+    DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->action < 0 || this->action >= 2 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -219,7 +217,7 @@ void func_809784D4(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
 void DemoGeff_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGeff* this = THIS;
+    DemoGeff* this = (DemoGeff*)thisx;
     s32 drawConfig = this->drawConfig;
 
     if (drawConfig < 0 || drawConfig >= 2 || sDrawFuncs[drawConfig] == NULL) {

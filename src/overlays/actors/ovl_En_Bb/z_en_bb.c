@@ -10,8 +10,6 @@
 
 #define FLAGS 0x01000015
 
-#define THIS ((EnBb*)thisx)
-
 #define vBombHopPhase actionVar1
 #define vTrailIdx actionVar1
 #define vTrailMaxAlpha actionVar2
@@ -310,7 +308,7 @@ void EnBb_KillFlameTrail(EnBb* this) {
 void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EffectBlureInit1 blureInit;
     s32 pad;
-    EnBb* this = THIS;
+    EnBb* this = (EnBb*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     SkelAnime_Init(globalCtx, &this->skelAnime, &object_Bb_Skel_001A30, &object_Bb_Anim_000444, this->jointTable,
@@ -401,7 +399,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBb* this = THIS;
+    EnBb* this = (EnBb*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -1221,7 +1219,7 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
 
 void EnBb_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnBb* this = THIS;
+    EnBb* this = (EnBb*)thisx;
     Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
     Vec3f sp40 = { 0.0f, -0.6f, 0.0f };
     Color_RGBA8 sp3C = { 0, 0, 255, 255 };
@@ -1262,7 +1260,7 @@ void EnBb_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnBb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnBb* this = THIS;
+    EnBb* this = (EnBb*)thisx;
 
     BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 4, 15, 15, dList, BODYBREAK_OBJECT_DEFAULT);
 }
@@ -1275,7 +1273,7 @@ static Vec3f sFireIceOffsets[] = {
 
 void EnBb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBb* this = THIS;
+    EnBb* this = (EnBb*)thisx;
     Vec3f blureBase1 = { 0.0f, 5000.0f, 0.0f };
     Vec3f blureBase2 = { 0.0f, 2000.0f, 0.0f };
     Vec3f blureVtx1;

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHidanSima*)thisx)
-
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -83,7 +81,7 @@ static void* sFireballsTexs[] = {
 };
 
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 i;
@@ -109,7 +107,7 @@ void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -208,7 +206,7 @@ void func_8088E90C(BgHidanSima* this) {
 }
 
 void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
     s32 pad;
 
     this->actionFunc(this, globalCtx);
@@ -278,7 +276,7 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
 }
 
 void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
     func_80093D18(globalCtx->state.gfxCtx);

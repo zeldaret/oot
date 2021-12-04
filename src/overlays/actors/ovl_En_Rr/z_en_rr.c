@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000435
 
-#define THIS ((EnRr*)thisx)
-
 #define RR_MESSAGE_SHIELD (1 << 0)
 #define RR_MESSAGE_TUNIC (1 << 1)
 #define RR_MOUTH 4
@@ -164,7 +162,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnRr* this = THIS;
+    EnRr* this = (EnRr*)thisx;
     s32 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -201,7 +199,7 @@ void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnRr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnRr* this = THIS;
+    EnRr* this = (EnRr*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider1);
     Collider_DestroyCylinder(globalCtx, &this->collider2);
@@ -758,7 +756,7 @@ void EnRr_Stunned(EnRr* this, GlobalContext* globalCtx) {
 
 void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnRr* this = THIS;
+    EnRr* this = (EnRr*)thisx;
     s32 i;
 
     this->frameCount++;
@@ -842,7 +840,7 @@ static Vec3f sEffectOffsets[] = {
 void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f zeroVec;
-    EnRr* this = THIS;
+    EnRr* this = (EnRr*)thisx;
     s32 i;
     Mtx* segMtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
 

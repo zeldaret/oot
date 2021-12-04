@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnAObj*)thisx)
-
 void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -87,7 +85,7 @@ void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {
 void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 pad;
-    EnAObj* this = THIS;
+    EnAObj* this = (EnAObj*)thisx;
     f32 shadowScale = 6.0f;
 
     this->textId = (thisx->params >> 8) & 0xFF;
@@ -186,7 +184,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnAObj* this = THIS;
+    EnAObj* this = (EnAObj*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
@@ -320,7 +318,7 @@ void EnAObj_Block(EnAObj* this, GlobalContext* globalCtx) {
 }
 
 void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnAObj* this = THIS;
+    EnAObj* this = (EnAObj*)thisx;
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->dyna.actor);

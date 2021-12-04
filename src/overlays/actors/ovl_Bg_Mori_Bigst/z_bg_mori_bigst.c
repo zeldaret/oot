@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgMoriBigst*)thisx)
-
 void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -69,7 +67,7 @@ void BgMoriBigst_InitDynapoly(BgMoriBigst* this, GlobalContext* globalCtx, Colli
 
 void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriBigst* this = THIS;
+    BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     // "mori (bigST.keyceiling)"
     osSyncPrintf("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
@@ -97,7 +95,7 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriBigst* this = THIS;
+    BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -227,7 +225,7 @@ void BgMoriBigst_SetupDone(BgMoriBigst* this, GlobalContext* globalCtx) {
 
 void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriBigst* this = THIS;
+    BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     Actor_SetFocus(&this->dyna.actor, 50.0f);
     if (this->waitTimer > 0) {
@@ -243,7 +241,7 @@ void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriBigst* this = THIS;
+    BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 541);
     func_80093D18(globalCtx->state.gfxCtx);

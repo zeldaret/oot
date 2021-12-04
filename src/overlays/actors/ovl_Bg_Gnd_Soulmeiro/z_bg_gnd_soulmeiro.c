@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgGndSoulmeiro*)thisx)
-
 void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndSoulmeiro* this = THIS;
+    BgGndSoulmeiro* this = (BgGndSoulmeiro*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actionFunc = NULL;
@@ -96,7 +94,7 @@ void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGndSoulmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgGndSoulmeiro* this = THIS;
+    BgGndSoulmeiro* this = (BgGndSoulmeiro*)thisx;
 
     if ((this->actor.params & 0xFF) == 0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -183,7 +181,7 @@ void func_8087B350(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
 }
 
 void BgGndSoulmeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGndSoulmeiro* this = THIS;
+    BgGndSoulmeiro* this = (BgGndSoulmeiro*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);

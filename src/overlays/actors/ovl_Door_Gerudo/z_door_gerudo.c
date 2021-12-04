@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((DoorGerudo*)thisx)
-
 void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorGerudo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorGerudo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -39,7 +37,7 @@ static InitChainEntry sInitChain[] = {
 
 void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DoorGerudo* this = THIS;
+    DoorGerudo* this = (DoorGerudo*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -56,7 +54,7 @@ void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorGerudo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DoorGerudo* this = THIS;
+    DoorGerudo* this = (DoorGerudo*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -137,13 +135,13 @@ void func_809949C8(DoorGerudo* this, GlobalContext* globalCtx) {
 }
 
 void DoorGerudo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DoorGerudo* this = THIS;
+    DoorGerudo* this = (DoorGerudo*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void DoorGerudo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DoorGerudo* this = THIS;
+    DoorGerudo* this = (DoorGerudo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 361);
 

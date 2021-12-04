@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((BossGanon2*)thisx)
-
 void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -130,7 +128,7 @@ void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f
 }
 
 void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BossGanon2* this = THIS;
+    BossGanon2* this = (BossGanon2*)thisx;
     s32 pad;
     s16 i;
 
@@ -154,7 +152,7 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BossGanon2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BossGanon2* this = THIS;
+    BossGanon2* this = (BossGanon2*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->unk_424);
@@ -1946,7 +1944,7 @@ void func_80902524(BossGanon2* this, GlobalContext* globalCtx) {
 }
 
 void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BossGanon2* this = THIS;
+    BossGanon2* this = (BossGanon2*)thisx;
     s32 pad;
     s16 i;
     f32 phi_f2;
@@ -2501,7 +2499,7 @@ void func_8090464C(BossGanon2* this, GlobalContext* globalCtx) {
 s32 BossGanon2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
     s32 pad;
-    BossGanon2* this = THIS;
+    BossGanon2* this = (BossGanon2*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5355);
 
@@ -2532,7 +2530,7 @@ s32 BossGanon2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 void BossGanon2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s8 pad;
     s8 temp_v0;
-    BossGanon2* this = THIS;
+    BossGanon2* this = (BossGanon2*)thisx;
     Vec3f sp4C;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5459);
@@ -2694,7 +2692,7 @@ void func_8090523C(BossGanon2* this, GlobalContext* globalCtx) {
 
 void BossGanon2_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s8 temp_v1 = D_80907144[limbIndex];
-    BossGanon2* this = THIS;
+    BossGanon2* this = (BossGanon2*)thisx;
 
     if (temp_v1 >= 0) {
         Matrix_MultVec3f(&D_80906D60, &this->unk_234[temp_v1]);
@@ -2741,7 +2739,7 @@ void func_80905674(BossGanon2* this, GlobalContext* globalCtx) {
 
 void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     void* shadowTexture = Graph_Alloc(globalCtx->state.gfxCtx, 4096);
-    BossGanon2* this = THIS;
+    BossGanon2* this = (BossGanon2*)thisx;
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5840);

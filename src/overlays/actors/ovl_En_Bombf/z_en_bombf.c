@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000011
 
-#define THIS ((EnBombf*)thisx)
-
 void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -89,7 +87,7 @@ void EnBombf_SetupAction(EnBombf* this, EnBombfActionFunc actionFunc) {
 void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 shapeUnk10 = 0.0f;
     s32 pad;
-    EnBombf* this = THIS;
+    EnBombf* this = (EnBombf*)thisx;
 
     Actor_SetScale(thisx, 0.01f);
     this->unk_200 = 1;
@@ -133,7 +131,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBombf* this = THIS;
+    EnBombf* this = (EnBombf*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->bombCollider);
     Collider_DestroyJntSph(globalCtx, &this->explosionCollider);
@@ -322,7 +320,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
     Color_RGBA8 dustColor = { 255, 255, 255, 255 };
     s32 pad[2];
-    EnBombf* this = THIS;
+    EnBombf* this = (EnBombf*)thisx;
 
     if ((this->unk_200 != 0) && (this->timer != 0)) {
         this->timer--;
@@ -481,7 +479,7 @@ Gfx* EnBombf_NewMtxDList(GraphicsContext* gfxCtx, GlobalContext* globalCtx) {
 
 void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBombf* this = THIS;
+    EnBombf* this = (EnBombf*)thisx;
 
     if (1) {}
 

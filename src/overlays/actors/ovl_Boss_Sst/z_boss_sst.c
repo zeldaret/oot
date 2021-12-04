@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000435
 
-#define THIS ((BossSst*)thisx)
-
 #define vParity actionVar
 #define vVanish actionVar
 
@@ -267,7 +265,7 @@ static InitChainEntry sInitChain[] = {
 
 void BossSst_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->colliderCyl);
@@ -338,7 +336,7 @@ void BossSst_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void BossSst_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->colliderJntSph);
     Collider_DestroyCylinder(globalCtx, &this->colliderCyl);
@@ -2570,7 +2568,7 @@ void BossSst_HeadCollisionCheck(BossSst* this, GlobalContext* globalCtx) {
 
 void BossSst_UpdateHand(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
     BossSstHandTrail* trail;
 
     if (this->colliderCyl.base.atFlags & AT_ON) {
@@ -2625,7 +2623,7 @@ void BossSst_UpdateHand(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossSst_UpdateHead(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
 
     func_8002DBD0(&this->actor, &sHandOffsets[RIGHT], &sHands[RIGHT]->actor.world.pos);
     func_8002DBD0(&this->actor, &sHandOffsets[LEFT], &sHands[LEFT]->actor.world.pos);
@@ -2677,7 +2675,7 @@ void BossSst_UpdateHead(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 BossSst_OverrideHandDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
 
     if (limbIndex == 1) {
         pos->z += this->handZPosMod;
@@ -2687,7 +2685,7 @@ s32 BossSst_OverrideHandDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void BossSst_PostHandDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
 
     Collider_UpdateSpheres(limbIndex, &this->colliderJntSph);
 }
@@ -2704,7 +2702,7 @@ s32 BossSst_OverrideHandTrailDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 }
 
 void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_sst.c", 6563);
 
@@ -2762,7 +2760,7 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 BossSst_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                              Gfx** gfx) {
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
     s32 shakeAmp;
     s32 pad;
     s32 timer12;
@@ -2839,7 +2837,7 @@ s32 BossSst_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 void BossSst_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Vec3f headVec = { 1000.0f, 0.0f, 0.0f };
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
     Vec3f headPos;
 
     if (limbIndex == 8) {
@@ -2855,7 +2853,7 @@ void BossSst_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_sst.c", 6810);
 
@@ -3085,7 +3083,7 @@ void BossSst_IceShatter(BossSst* this) {
 }
 
 void BossSst_UpdateEffect(Actor* thisx, GlobalContext* globalCtx) {
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
     BossSstEffect* effect;
     s32 i;
 
@@ -3147,7 +3145,7 @@ void BossSst_UpdateEffect(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossSst* this = THIS;
+    BossSst* this = (BossSst*)thisx;
     s32 i;
     BossSstEffect* effect;
 

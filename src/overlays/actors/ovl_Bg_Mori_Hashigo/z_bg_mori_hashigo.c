@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgMoriHashigo*)thisx)
-
 void BgMoriHashigo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashigo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashigo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -154,7 +152,7 @@ s32 BgMoriHashigo_InitLadder(BgMoriHashigo* this, GlobalContext* globalCtx) {
 
 void BgMoriHashigo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriHashigo* this = THIS;
+    BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
     if (this->dyna.actor.params == HASHIGO_CLASP) {
         if (!BgMoriHashigo_InitClasp(this, globalCtx)) {
@@ -182,7 +180,7 @@ void BgMoriHashigo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriHashigo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriHashigo* this = THIS;
+    BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
     if (this->dyna.actor.params == HASHIGO_LADDER) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -269,7 +267,7 @@ void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this) {
 
 void BgMoriHashigo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriHashigo* this = THIS;
+    BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
     if (this->hitTimer > 0) {
         this->hitTimer--;
@@ -281,7 +279,7 @@ void BgMoriHashigo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriHashigo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriHashigo* this = THIS;
+    BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashigo.c", 516);
     func_80093D18(globalCtx->state.gfxCtx);
