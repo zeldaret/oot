@@ -231,7 +231,8 @@ build/assets/text/nes_message_data_static.o: build/assets/text/message_data.enc.
 build/assets/text/staff_message_data_static.o: build/assets/text/message_data_staff.enc.h
 
 build/assets/%.o: assets/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) -O1 -o $@ $<
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(OBJCOPY) -O binary $@ $@.bin
 
 build/dmadata_table_spec.h: build/$(SPEC)
 	$(MKDMADATA) $< $@
