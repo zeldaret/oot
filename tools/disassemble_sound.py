@@ -670,7 +670,7 @@ def write_aiff(entry, basedir, aifc_filename, aiff_filename):
             os.makedirs(os.path.dirname(rel_aiff_file), exist_ok=True)
             subprocess.run(["bash", "-c", f"{rel_aifc_decode} \"{aifc_filename}\" \"{rel_aiff_file}\" {frame_size}"], check=True)
         except subprocess.CalledProcessError:
-            print(f"File failed to decode, codec was {entry.codec}")
+            print(f"File failed to decode {rel_aifc_decode}, codec was {entry.codec}")
             targetfile = os.path.join(basedir, "bad", str(entry.bank), os.path.basename(aifc_filename))
             os.makedirs(os.path.dirname(targetfile), exist_ok=True)
             os.remove(rel_aiff_file)
