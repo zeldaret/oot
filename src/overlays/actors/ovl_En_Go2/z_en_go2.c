@@ -126,19 +126,19 @@ static f32 D_80A482D8[14][2] = {
 };
 
 typedef enum {
-    ENGO2_ANIM_0,
-    ENGO2_ANIM_1,
-    ENGO2_ANIM_2,
-    ENGO2_ANIM_3,
-    ENGO2_ANIM_4,
-    ENGO2_ANIM_5,
-    ENGO2_ANIM_6,
-    ENGO2_ANIM_7,
-    ENGO2_ANIM_8,
-    ENGO2_ANIM_9,
-    ENGO2_ANIM_10,
-    ENGO2_ANIM_11,
-    ENGO2_ANIM_12,
+    /*  0 */ ENGO2_ANIM_0,
+    /*  1 */ ENGO2_ANIM_1,
+    /*  2 */ ENGO2_ANIM_2,
+    /*  3 */ ENGO2_ANIM_3,
+    /*  4 */ ENGO2_ANIM_4,
+    /*  5 */ ENGO2_ANIM_5,
+    /*  6 */ ENGO2_ANIM_6,
+    /*  7 */ ENGO2_ANIM_7,
+    /*  8 */ ENGO2_ANIM_8,
+    /*  9 */ ENGO2_ANIM_9,
+    /* 10 */ ENGO2_ANIM_10,
+    /* 11 */ ENGO2_ANIM_11,
+    /* 12 */ ENGO2_ANIM_12,
 } EnGo2Animation;
 
 static AnimationInfo sAnimationInfo[] = {

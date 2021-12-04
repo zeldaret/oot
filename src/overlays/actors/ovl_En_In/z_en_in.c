@@ -61,16 +61,16 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 };
 
 typedef enum {
-    ENIN_ANIM_0,
-    ENIN_ANIM_1,
-    ENIN_ANIM_2,
-    ENIN_ANIM_3,
-    ENIN_ANIM_4,
-    ENIN_ANIM_5,
-    ENIN_ANIM_6,
-    ENIN_ANIM_7,
-    ENIN_ANIM_8,
-    ENIN_ANIM_9
+    /* 0 */ ENIN_ANIM_0,
+    /* 1 */ ENIN_ANIM_1,
+    /* 2 */ ENIN_ANIM_2,
+    /* 3 */ ENIN_ANIM_3,
+    /* 4 */ ENIN_ANIM_4,
+    /* 5 */ ENIN_ANIM_5,
+    /* 6 */ ENIN_ANIM_6,
+    /* 7 */ ENIN_ANIM_7,
+    /* 8 */ ENIN_ANIM_8,
+    /* 9 */ ENIN_ANIM_9
 } EnInAnimation;
 
 static AnimationBasicInfo sAnimationInfo[] = {

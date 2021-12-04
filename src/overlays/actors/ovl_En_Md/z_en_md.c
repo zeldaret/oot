@@ -56,20 +56,20 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
-    ENMD_ANIM_0,
-    ENMD_ANIM_1,
-    ENMD_ANIM_2,
-    ENMD_ANIM_3,
-    ENMD_ANIM_4,
-    ENMD_ANIM_5,
-    ENMD_ANIM_6,
-    ENMD_ANIM_7,
-    ENMD_ANIM_8,
-    ENMD_ANIM_9,
-    ENMD_ANIM_10,
-    ENMD_ANIM_11,
-    ENMD_ANIM_12,
-    ENMD_ANIM_13,
+    /*  0 */ ENMD_ANIM_0,
+    /*  1 */ ENMD_ANIM_1,
+    /*  2 */ ENMD_ANIM_2,
+    /*  3 */ ENMD_ANIM_3,
+    /*  4 */ ENMD_ANIM_4,
+    /*  5 */ ENMD_ANIM_5,
+    /*  6 */ ENMD_ANIM_6,
+    /*  7 */ ENMD_ANIM_7,
+    /*  8 */ ENMD_ANIM_8,
+    /*  9 */ ENMD_ANIM_9,
+    /* 10 */ ENMD_ANIM_10,
+    /* 11 */ ENMD_ANIM_11,
+    /* 12 */ ENMD_ANIM_12,
+    /* 13 */ ENMD_ANIM_13,
 } EnMdAnimation;
 
 static AnimationInfo sAnimationInfo[] = {

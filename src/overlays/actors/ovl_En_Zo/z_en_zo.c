@@ -310,14 +310,14 @@ const ActorInit En_Zo_InitVars = {
 };
 
 typedef enum {
-    ENZO_ANIM_0,
-    ENZO_ANIM_1,
-    ENZO_ANIM_2,
-    ENZO_ANIM_3,
-    ENZO_ANIM_4,
-    ENZO_ANIM_5,
-    ENZO_ANIM_6,
-    ENZO_ANIM_7,
+    /* 0 */ ENZO_ANIM_0,
+    /* 1 */ ENZO_ANIM_1,
+    /* 2 */ ENZO_ANIM_2,
+    /* 3 */ ENZO_ANIM_3,
+    /* 4 */ ENZO_ANIM_4,
+    /* 5 */ ENZO_ANIM_5,
+    /* 6 */ ENZO_ANIM_6,
+    /* 7 */ ENZO_ANIM_7,
 } EnZoAnimation;
 
 static AnimationInfo sAnimationInfo[] = {

@@ -56,14 +56,14 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 50 };
 
 typedef enum {
-    ENDOG_ANIM_0,
-    ENDOG_ANIM_1,
-    ENDOG_ANIM_2,
-    ENDOG_ANIM_3,
-    ENDOG_ANIM_4,
-    ENDOG_ANIM_5,
-    ENDOG_ANIM_6,
-    ENDOG_ANIM_7
+    /* 0 */ ENDOG_ANIM_0,
+    /* 1 */ ENDOG_ANIM_1,
+    /* 2 */ ENDOG_ANIM_2,
+    /* 3 */ ENDOG_ANIM_3,
+    /* 4 */ ENDOG_ANIM_4,
+    /* 5 */ ENDOG_ANIM_5,
+    /* 6 */ ENDOG_ANIM_6,
+    /* 7 */ ENDOG_ANIM_7
 } EnDogAnimation;
 
 static AnimationInfo sAnimationInfo[] = {

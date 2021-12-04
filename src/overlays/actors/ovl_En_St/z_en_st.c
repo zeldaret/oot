@@ -105,14 +105,14 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 typedef enum {
-    ENST_ANIM_0,
-    ENST_ANIM_1,
-    ENST_ANIM_2,
-    ENST_ANIM_3,
-    ENST_ANIM_4,
-    ENST_ANIM_5,
-    ENST_ANIM_6,
-    ENST_ANIM_7
+    /* 0 */ENST_ANIM_0,
+    /* 1 */ENST_ANIM_1,
+    /* 2 */ENST_ANIM_2,
+    /* 3 */ENST_ANIM_3,
+    /* 4 */ENST_ANIM_4,
+    /* 5 */ENST_ANIM_5,
+    /* 6 */ENST_ANIM_6,
+    /* 7 */ENST_ANIM_7
 } EnStAnimation;
 
 static AnimationInfo sAnimationInfo[] = {
