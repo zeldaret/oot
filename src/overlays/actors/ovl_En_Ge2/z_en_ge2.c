@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnGe2*)thisx)
-
 #define GE2_STATE_ANIMCOMPLETE (1 << 1)
 #define GE2_STATE_KO (1 << 2)
 #define GE2_STATE_CAPTURING (1 << 3)
@@ -115,7 +113,7 @@ void EnGe2_ChangeAction(EnGe2* this, s32 i) {
 
 void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoPurpleSkel, NULL, this->jointTable, this->morphTable, 22);
@@ -171,7 +169,7 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -513,7 +511,7 @@ void EnGe2_MoveAndBlink(EnGe2* this, GlobalContext* globalCtx) {
 // Update functions
 
 void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
     this->actionFunc(this, globalCtx);
@@ -536,7 +534,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe2_UpdateAfterTalk(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     this->stateFlags |= GE2_STATE_TALKED;
     EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
@@ -545,7 +543,7 @@ void EnGe2_UpdateAfterTalk(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
     s32 paramsType;
 
     EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
@@ -597,7 +595,7 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -624,7 +622,7 @@ void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 s32 EnGe2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     if (limbIndex == 3) {
         rot->x += this->headRot.y;
@@ -635,7 +633,7 @@ s32 EnGe2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnGe2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A343B0 = { 600.0f, 700.0f, 0.0f };
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     if (limbIndex == 6) {
         Matrix_MultVec3f(&D_80A343B0, &this->actor.focus.pos);
@@ -645,7 +643,7 @@ void EnGe2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gGerudoPurpleEyeOpenTex, gGerudoPurpleEyeHalfTex, gGerudoPurpleEyeClosedTex };
     s32 pad;
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge2.c", 1274);
 

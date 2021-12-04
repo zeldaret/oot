@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((BossDodongo*)thisx)
-
 void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -179,7 +177,7 @@ s32 BossDodongo_AteExplosive(BossDodongo* this, GlobalContext* globalCtx) {
 }
 
 void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
     s16 i;
     u16* temp_s1_3;
     u16* temp_s2;
@@ -223,7 +221,7 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -817,7 +815,7 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
 
 void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
     f32 temp_f0;
     s16 i;
     Player* player = GET_PLAYER(globalCtx);
@@ -1052,7 +1050,7 @@ s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
                                  void* thisx) {
     f32 mtxScaleY;
     f32 mtxScaleZ;
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
 
     // required for matching
     if ((limbIndex == 6) || (limbIndex == 7)) {
@@ -1103,7 +1101,7 @@ void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
     static Vec3f D_808CA474 = { 5000.0f, -2000.0f, 0.0f };
     static Vec3f D_808CA480 = { 8000.0f, 0.0f, 0.0f };
     static Vec3f D_808CA48C = { 8000.0f, 0.0f, 0.0f };
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
 
     if (limbIndex == 6) {
         Matrix_MultVec3f(&D_808CA45C, &this->vec);
@@ -1119,7 +1117,7 @@ void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3922);

@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ObjMure3*)thisx)
-
 void ObjMure3_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure3_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -144,7 +142,7 @@ void func_80B9ADCC(ObjMure3* this, GlobalContext* globalCtx) {
 
 void ObjMure3_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjMure3* this = THIS;
+    ObjMure3* this = (ObjMure3*)thisx;
 
     if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
         Actor_Kill(&this->actor);
@@ -193,7 +191,7 @@ void func_80B9AFFC(ObjMure3* this, GlobalContext* globalCtx) {
 }
 
 void ObjMure3_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMure3* this = THIS;
+    ObjMure3* this = (ObjMure3*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnMs*)thisx)
-
 void EnMs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -71,7 +69,7 @@ void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx) {
 }
 
 void EnMs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMs* this = THIS;
+    EnMs* this = (EnMs*)thisx;
     s32 pad;
 
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
@@ -97,7 +95,7 @@ void EnMs_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMs* this = THIS;
+    EnMs* this = (EnMs*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -160,7 +158,7 @@ void EnMs_TalkAfterPurchase(EnMs* this, GlobalContext* globalCtx) {
 }
 
 void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMs* this = THIS;
+    EnMs* this = (EnMs*)thisx;
     s32 pad;
 
     this->activeTimer += 1;
@@ -180,7 +178,7 @@ void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnMs* this = THIS;
+    EnMs* this = (EnMs*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

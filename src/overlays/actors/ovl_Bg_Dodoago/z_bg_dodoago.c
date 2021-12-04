@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgDodoago*)thisx)
-
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -110,7 +108,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgDodoago* this = THIS;
+    BgDodoago* this = (BgDodoago*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -139,7 +137,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgDodoago* this = THIS;
+    BgDodoago* this = (BgDodoago*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->colliderMain);
@@ -267,7 +265,7 @@ void BgDodoago_LightOneEye(BgDodoago* this, GlobalContext* globalCtx) {
 }
 
 void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgDodoago* this = THIS;
+    BgDodoago* this = (BgDodoago*)thisx;
     Actor* actor;
     EnBom* bomb;
 

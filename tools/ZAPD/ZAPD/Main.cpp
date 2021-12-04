@@ -1,8 +1,9 @@
-#include <Utils/Directory.h>
-#include <Utils/File.h>
-#include <Utils/Path.h>
 #include "Globals.h"
 #include "Overlays/ZOverlay.h"
+#include "Utils/Directory.h"
+#include "Utils/File.h"
+#include "Utils/Path.h"
+#include "WarningHandler.h"
 #include "ZAnimation.h"
 #include "ZBackground.h"
 #include "ZBlob.h"
@@ -12,10 +13,10 @@
 #if !defined(_MSC_VER) && !defined(__CYGWIN__)
 #include <csignal>
 #include <cstdlib>
+#include <ctime>
 #include <cxxabi.h>  // for __cxa_demangle
 #include <dlfcn.h>   // for dladdr
 #include <execinfo.h>
-#include <time.h>
 #include <unistd.h>
 #endif
 
@@ -47,6 +48,7 @@ void ErrorHandler(int sig)
 	const char* crashEasterEgg[] = {
 		"\tYou've met with a terrible fate, haven't you?",
 		"\tSEA BEARS FOAM. SLEEP BEARS DREAMS. \n\tBOTH END IN THE SAME WAY: CRASSSH!",
+		"ZAPD has fallen and cannot get up."
 	};
 
 	srand(time(nullptr));
@@ -97,6 +99,9 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
+	Globals* g = new Globals();
+	WarningHandler::Init(argc, argv);
+
 	for (int i = 1; i < argc; i++)
 	{
 		if (!strcmp(argv[i], "--version"))
@@ -109,11 +114,11 @@ int main(int argc, char* argv[])
 			printf("Congratulations!\n");
 			printf("You just found the (unimplemented and undocumented) ZAPD's help message.\n");
 			printf("Feel free to implement it if you want :D\n");
+
+			WarningHandler::PrintHelp();
 			return 0;
 		}
 	}
-
-	Globals* g = new Globals;
 
 	// Parse other "commands"
 	for (int32_t i = 2; i < argc; i++)
@@ -186,25 +191,14 @@ int main(int argc, char* argv[])
 			signal(SIGSEGV, ErrorHandler);
 			signal(SIGABRT, ErrorHandler);
 #else
-			fprintf(stderr,
-			        "Warning: Tried to set error handler, but this build lacks support for one.\n");
+			HANDLE_WARNING(WarningType::Always,
+			               "tried to set error handler, but this ZAPD build lacks support for one",
+			               "");
 #endif
 		}
 		else if (arg == "-v")  // Verbose
 		{
 			Globals::Instance->verbosity = static_cast<VerbosityLevel>(strtol(argv[++i], NULL, 16));
-		}
-		else if (arg == "-wu" || arg == "--warn-unaccounted")  // Warn unaccounted
-		{
-			Globals::Instance->warnUnaccounted = true;
-		}
-		else if (arg == "-wno" || arg == "--warn-no-offset")
-		{
-			Globals::Instance->warnNoOffset = true;
-		}
-		else if (arg == "-eno" || arg == "--error-no-offset")
-		{
-			Globals::Instance->errorNoOffset = true;
 		}
 		else if (arg == "-vu" || arg == "--verbose-unaccounted")  // Verbose unaccounted
 		{
@@ -261,6 +255,11 @@ int main(int argc, char* argv[])
 
 	if (Globals::Instance->verbosity >= VerbosityLevel::VERBOSITY_INFO)
 		printf("ZAPD: Zelda Asset Processor For Decomp: %s\n", gBuildHash);
+
+	if (Globals::Instance->verbosity >= VerbosityLevel::VERBOSITY_DEBUG)
+	{
+		WarningHandler::PrintWarningsDebugInfo();
+	}
 
 	// TODO: switch
 	if (fileMode == ZFileMode::Extract || fileMode == ZFileMode::BuildSourceFile)
@@ -334,7 +333,9 @@ bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, const fs::path
 
 	if (eResult != tinyxml2::XML_SUCCESS)
 	{
-		fprintf(stderr, "Invalid xml file: '%s'\n", xmlFilePath.c_str());
+		// TODO: use XMLDocument::ErrorIDToName to get more specific error messages here
+		HANDLE_ERROR(WarningType::InvalidXML,
+		             StringHelper::Sprintf("invalid XML file: '%s'", xmlFilePath.c_str()), "");
 		return false;
 	}
 
@@ -342,7 +343,9 @@ bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, const fs::path
 
 	if (root == nullptr)
 	{
-		fprintf(stderr, "Missing Root tag in xml file: '%s'\n", xmlFilePath.c_str());
+		HANDLE_WARNING(
+			WarningType::InvalidXML,
+			StringHelper::Sprintf("missing Root tag in xml file: '%s'", xmlFilePath.c_str()), "");
 		return false;
 	}
 
@@ -392,10 +395,11 @@ bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, const fs::path
 		}
 		else
 		{
-			throw std::runtime_error(StringHelper::Sprintf(
-				"Parse: Fatal error in '%s'.\n\t A resource was found outside of "
-				"a File element: '%s'\n",
-				xmlFilePath.c_str(), child->Name()));
+			std::string errorHeader =
+				StringHelper::Sprintf("when parsing file '%s'", xmlFilePath.c_str());
+			std::string errorBody = StringHelper::Sprintf(
+				"Found a resource outside a File element: '%s'", child->Name());
+			HANDLE_ERROR(WarningType::InvalidXML, errorHeader, errorBody);
 		}
 	}
 

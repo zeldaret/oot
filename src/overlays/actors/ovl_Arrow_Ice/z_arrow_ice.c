@@ -10,8 +10,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((ArrowIce*)thisx)
-
 void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -44,7 +42,7 @@ void ArrowIce_SetupAction(ArrowIce* this, ArrowIceActionFunc actionFunc) {
 }
 
 void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowIce* this = THIS;
+    ArrowIce* this = (ArrowIce*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
@@ -181,7 +179,7 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
 }
 
 void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowIce* this = THIS;
+    ArrowIce* this = (ArrowIce*)thisx;
 
     if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK ||
         globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
@@ -192,7 +190,7 @@ void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowIce* this = THIS;
+    ArrowIce* this = (ArrowIce*)thisx;
     s32 pad;
     Actor* tranform;
     u32 stateFrames = globalCtx->state.frames;

@@ -17,8 +17,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnViewer*)thisx)
-
 void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -90,7 +88,7 @@ void EnViewer_SetupAction(EnViewer* this, EnViewerActionFunc actionFunc) {
 }
 
 void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
     u8 type;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -108,7 +106,7 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
 
     func_800A6888(globalCtx, &this->skin);
 }
@@ -479,7 +477,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
 }
 
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
 
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     this->actionFunc(this, globalCtx);
@@ -693,7 +691,7 @@ static EnViewerDrawFunc sDrawFuncs[] = {
 };
 
 void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
     s32 pad;
     s16 type;
 

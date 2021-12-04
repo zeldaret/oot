@@ -13,8 +13,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((DemoSa*)thisx)
-
 void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoSa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoSa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -100,7 +98,7 @@ const ActorInit Demo_Sa_InitVars = {
 };
 
 void DemoSa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoSa* this = THIS;
+    DemoSa* this = (DemoSa*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -750,7 +748,7 @@ void func_8098FD0C(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void DemoSa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoSa* this = THIS;
+    DemoSa* this = (DemoSa*)thisx;
 
     if (this->action < 0 || this->action >= 21 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -760,7 +758,7 @@ void DemoSa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoSa* this = THIS;
+    DemoSa* this = (DemoSa*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
 
@@ -783,7 +781,7 @@ void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 DemoSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    DemoSa* this = THIS;
+    DemoSa* this = (DemoSa*)thisx;
 
     if ((limbIndex == 15) && (this->unk_1B0 != 0)) {
         *dList = gSariaRightHandAndOcarinaDL;
@@ -820,7 +818,7 @@ void DemoSa_DrawOpa(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void DemoSa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoSa* this = THIS;
+    DemoSa* this = (DemoSa*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHidanSekizou*)thisx)
-
 void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSekizou_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSekizou_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -148,7 +146,7 @@ void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
 
 void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHidanSekizou* this = THIS;
+    BgHidanSekizou* this = (BgHidanSekizou*)thisx;
     s32 i;
     CollisionHeader* colHeader = NULL;
 
@@ -178,7 +176,7 @@ void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHidanSekizou_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgHidanSekizou* this = THIS;
+    BgHidanSekizou* this = (BgHidanSekizou*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -265,7 +263,7 @@ void func_8088D750(BgHidanSekizou* this, GlobalContext* globalCtx) {
 
 void BgHidanSekizou_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgHidanSekizou* this = THIS;
+    BgHidanSekizou* this = (BgHidanSekizou*)thisx;
 
     if (this->unk_170 != 0) {
         this->unk_170--;
@@ -392,7 +390,7 @@ void func_8088DE08(s16 arg0, s16 arg1, s32 arg2[]) {
 
 void BgHidanSekizou_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgHidanSekizou* this = THIS;
+    BgHidanSekizou* this = (BgHidanSekizou*)thisx;
     s32 i;
     s32 sp6C[4];
 

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnHonotrap*)thisx)
-
 #define HONOTRAP_AT_ACTIVE (1 << 0)
 #define HONOTRAP_AC_ACTIVE (1 << 1)
 #define HONOTRAP_OC_ACTIVE (1 << 2)
@@ -156,7 +154,7 @@ void EnHonotrap_GetNormal(Vec3f* normal, Vec3f* vec) {
 
 void EnHonotrap_InitEye(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
     s32 i;
     s32 j;
     Vec3f* vtx;
@@ -187,7 +185,7 @@ void EnHonotrap_InitEye(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHonotrap_InitFlame(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
 
     Actor_SetScale(&this->actor, 0.0001f);
     Collider_InitCylinder(globalCtx, &this->collider.cyl);
@@ -221,7 +219,7 @@ void EnHonotrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
 
     if (this->actor.params == HONOTRAP_EYE) {
         Collider_DestroyTris(globalCtx, &this->collider.tris);
@@ -459,7 +457,7 @@ void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     static Vec3f accel = { 0.0f, 0.1f, 0.0f };
     s32 pad;
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
 
     if (this->timer > 0) {
         this->timer--;
@@ -494,7 +492,7 @@ void EnHonotrap_DrawEye(Actor* thisx, GlobalContext* globalCtx) {
         gEyeSwitchSilverClosedTex,
         gEyeSwitchSilverClosedTex,
     };
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 982);
 
@@ -509,7 +507,7 @@ void EnHonotrap_DrawEye(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHonotrap_DrawFlame(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 1000);
 

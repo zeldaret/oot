@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnButte*)thisx)
-
 void EnButte_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnButte_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -148,7 +146,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     if (this->actor.params == -1) {
         this->actor.params = 0;
@@ -178,7 +176,7 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -385,7 +383,7 @@ void EnButte_WaitToDie(EnButte* this, GlobalContext* globalCtx) {
 }
 
 void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     if ((this->actor.child != NULL) && (this->actor.child->update == NULL) && (this->actor.child != &this->actor)) {
         this->actor.child = NULL;
@@ -422,7 +420,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     if (this->drawSkelAnime) {
         func_80093D18(globalCtx->state.gfxCtx);

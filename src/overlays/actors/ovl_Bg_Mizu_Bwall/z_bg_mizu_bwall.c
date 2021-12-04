@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgMizuBwall*)thisx)
-
 void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuBwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuBwall_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -173,7 +171,7 @@ void BgMizuBwall_RotateVec3f(Vec3f* out, Vec3f* in, f32 sin, f32 cos) {
 
 void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuBwall* this = THIS;
+    BgMizuBwall* this = (BgMizuBwall*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, D_8089D854);
@@ -374,7 +372,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMizuBwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuBwall* this = THIS;
+    BgMizuBwall* this = (BgMizuBwall*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->collider);
@@ -496,13 +494,13 @@ void BgMizuBwall_DoNothing(BgMizuBwall* this, GlobalContext* globalCtx) {
 
 void BgMizuBwall_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuBwall* this = THIS;
+    BgMizuBwall* this = (BgMizuBwall*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMizuBwall_Draw(Actor* thisx, GlobalContext* globalCtx2) {
-    BgMizuBwall* this = THIS;
+    BgMizuBwall* this = (BgMizuBwall*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     u32 frames;
 

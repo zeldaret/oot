@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgIceShelter*)thisx)
-
 void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShelter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -133,7 +131,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f kzIceScale = { 0.18f, 0.27f, 0.24f };
-    BgIceShelter* this = THIS;
+    BgIceShelter* this = (BgIceShelter*)thisx;
     s16 type = (this->dyna.actor.params >> 8) & 7;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -175,7 +173,7 @@ void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceShelter* this = THIS;
+    BgIceShelter* this = (BgIceShelter*)thisx;
 
     switch ((this->dyna.actor.params >> 8) & 7) {
         case 2:
@@ -380,14 +378,14 @@ void func_808911D4(BgIceShelter* this, GlobalContext* globalCtx) {
 }
 
 void BgIceShelter_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceShelter* this = THIS;
+    BgIceShelter* this = (BgIceShelter*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgIceShelter_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgIceShelter* this = THIS;
+    BgIceShelter* this = (BgIceShelter*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_ice_shelter.c", 748);
 

@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnMFire1*)thisx)
-
 void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMFire1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -47,7 +45,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMFire1* this = THIS;
+    EnMFire1* this = (EnMFire1*)thisx;
     s32 pad;
 
     if (this->actor.params < 0) {
@@ -59,13 +57,13 @@ void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMFire1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMFire1* this = THIS;
+    EnMFire1* this = (EnMFire1*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMFire1* this = THIS;
+    EnMFire1* this = (EnMFire1*)thisx;
     s32 pad;
 
     if (Math_StepToF(&this->timer, 1.0f, 0.2f)) {

@@ -6,8 +6,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((EnGoma*)thisx)
-
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -107,7 +105,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
     s16 params;
 
     this->eggTimer = Rand_ZeroOne() * 200.0f;
@@ -172,7 +170,7 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
 
     if (this->actor.params < 10) {
         Collider_DestroyCylinder(globalCtx, &this->colCyl1);
@@ -698,7 +696,7 @@ void EnGoma_SetFloorRot(EnGoma* this) {
 }
 
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -748,7 +746,7 @@ void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_goma.c", 1976);
     gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->eyeEnvColor[0], (s16)this->eyeEnvColor[1], (s16)this->eyeEnvColor[2],
@@ -779,7 +777,7 @@ Gfx* EnGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
 }
 
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
     s32 y;
     s32 pad;
 

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((MirRay*)thisx)
-
 void MirRay_Init(Actor* thisx, GlobalContext* globalCtx);
 void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MirRay_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -162,7 +160,7 @@ void MirRay_MakeShieldLight(MirRay* this, GlobalContext* globalCtx) {
 
 void MirRay_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    MirRay* this = THIS;
+    MirRay* this = (MirRay*)thisx;
     MirRayDataEntry* dataEntry = &sMirRayData[this->actor.params];
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -227,7 +225,7 @@ void MirRay_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    MirRay* this = THIS;
+    MirRay* this = (MirRay*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
 
@@ -240,7 +238,7 @@ void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void MirRay_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    MirRay* this = THIS;
+    MirRay* this = (MirRay*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     D_80B8E670 = 0;
@@ -482,7 +480,7 @@ void MirRay_ReflectedBeam(MirRay* this, GlobalContext* globalCtx, MirRayShieldRe
 }
 
 void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    MirRay* this = THIS;
+    MirRay* this = (MirRay*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 i;
     MirRayShieldReflection reflection[6];

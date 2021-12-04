@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000020
 
-#define THIS ((BgSpot01Idomizu*)thisx)
-
 void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idomizu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idomizu* this = THIS;
+    BgSpot01Idomizu* this = (BgSpot01Idomizu*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (gSaveContext.eventChkInf[6] & 0x80 || LINK_AGE_IN_YEARS == YEARS_ADULT) {
@@ -63,7 +61,7 @@ void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idomizu* this = THIS;
+    BgSpot01Idomizu* this = (BgSpot01Idomizu*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

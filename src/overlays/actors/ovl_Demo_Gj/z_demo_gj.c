@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((DemoGj*)thisx)
-
 void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -132,7 +130,7 @@ void DemoGj_DestroyCylinder(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGj* this = THIS;
+    DemoGj* this = (DemoGj*)thisx;
 
     DemoGj_DestroyCylinder(this, globalCtx);
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -1343,7 +1341,7 @@ static DemoGjUpdateFunc sUpdateFuncs[] = {
 };
 
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGj* this = THIS;
+    DemoGj* this = (DemoGj*)thisx;
 
     if (this->updateMode < 0 || this->updateMode >= ARRAY_COUNT(sUpdateFuncs) ||
         sUpdateFuncs[this->updateMode] == NULL) {
@@ -1356,7 +1354,7 @@ void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGj* this = THIS;
+    DemoGj* this = (DemoGj*)thisx;
 
     switch (DemoGj_GetType(this)) {
         case DEMOGJ_TYPE_AROUNDARENA:
@@ -1437,7 +1435,7 @@ static DemoGjDrawFunc sDrawFuncs[] = {
 };
 
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGj* this = THIS;
+    DemoGj* this = (DemoGj*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == NULL) {
         // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"

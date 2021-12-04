@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnWood02*)thisx)
-
 void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -164,7 +162,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
     s16 spawnType;
     f32 actorScale;
     GlobalContext* globalCtx = globalCtx2;
-    EnWood02* this = THIS;
+    EnWood02* this = (EnWood02*)thisx;
     CollisionPoly* outPoly;
     s32 bgId;
     f32 floorY;
@@ -293,7 +291,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnWood02* this = THIS;
+    EnWood02* this = (EnWood02*)thisx;
 
     if (this->actor.params <= WOOD_TREE_KAKARIKO_ADULT) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -302,7 +300,7 @@ void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnWood02* this = THIS;
+    EnWood02* this = (EnWood02*)thisx;
     f32 wobbleAmplitude;
     u8 new_var;
     u8 phi_v0;
@@ -414,7 +412,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnWood02* this = THIS;
+    EnWood02* this = (EnWood02*)thisx;
     s16 type;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     u8 red;

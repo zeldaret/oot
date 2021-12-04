@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnWallmas*)thisx)
-
 #define TIMER_SCALE ((f32)OS_CLOCK_RATE / 10000000000)
 #define DEGREE_60_RAD (60.0f * M_PI / 180.0f)
 #define DEGREE_15_RAD (15.0f * M_PI / 180.0f)
@@ -118,7 +116,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallmas* this = THIS;
+    EnWallmas* this = (EnWallmas*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0, NULL, 0.5f);
@@ -146,7 +144,7 @@ void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallmas* this = THIS;
+    EnWallmas* this = (EnWallmas*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -535,7 +533,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallmas* this = THIS;
+    EnWallmas* this = (EnWallmas*)thisx;
     char pad[4];
 
     EnWallmas_ColUpdate(this, globalCtx);
@@ -611,7 +609,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
 
 s32 EnWallMas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    EnWallmas* this = THIS;
+    EnWallmas* this = (EnWallmas*)thisx;
 
     if (limbIndex == 1) {
         if (this->actionFunc != EnWallmas_TakePlayer) {
@@ -643,7 +641,7 @@ void EnWallMas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallmas* this = THIS;
+    EnWallmas* this = (EnWallmas*)thisx;
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);

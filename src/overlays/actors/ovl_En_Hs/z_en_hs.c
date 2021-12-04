@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnHs*)thisx)
-
 void EnHs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -57,7 +55,7 @@ void func_80A6E3A0(EnHs* this, EnHsActionFunc actionFunc) {
 }
 
 void EnHs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -95,7 +93,7 @@ void EnHs_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -229,7 +227,7 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void EnHs_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(thisx, &this->collider);
@@ -254,7 +252,7 @@ void EnHs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
 
     switch (limbIndex) {
         case 9:
@@ -285,7 +283,7 @@ s32 EnHs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnHs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A6EDFC = { 300.0f, 1000.0f, 0.0f };
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
 
     if (limbIndex == 9) {
         Matrix_MultVec3f(&D_80A6EDFC, &this->actor.focus.pos);
@@ -293,7 +291,7 @@ void EnHs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnHs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnVbBall*)thisx)
-
 void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -52,7 +50,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnVbBall* this = THIS;
+    EnVbBall* this = (EnVbBall*)thisx;
     s32 pad2;
     f32 angle;
 
@@ -79,7 +77,7 @@ void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnVbBall* this = THIS;
+    EnVbBall* this = (EnVbBall*)thisx;
 
     if (this->actor.params < 200) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -166,7 +164,7 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
 
 void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnVbBall* this = THIS;
+    EnVbBall* this = (EnVbBall*)thisx;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     f32 radius;
     f32 pad2;
@@ -301,7 +299,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnVbBall* this = THIS;
+    EnVbBall* this = (EnVbBall*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 604);
     if (1) {} // needed for match

@@ -13,8 +13,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((DoorKiller*)thisx)
-
 typedef enum {
     /* 0 */ DOOR_KILLER_DOOR,
     /* 1 */ DOOR_KILLER_RUBBLE_PIECE_1,
@@ -100,7 +98,7 @@ static DoorKillerTextureEntry sDoorTextures[4] = {
 void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     f32 randF;
-    DoorKiller* this = THIS;
+    DoorKiller* this = (DoorKiller*)thisx;
     s32 bankIndex;
     s32 i;
 
@@ -179,7 +177,7 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void DoorKiller_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DoorKiller* this = THIS;
+    DoorKiller* this = (DoorKiller*)thisx;
 
     if ((thisx->params & 0xFF) == DOOR_KILLER_DOOR) {
         Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
@@ -228,7 +226,7 @@ void DoorKiller_FallAsRubble(DoorKiller* this, GlobalContext* globalCtx) {
 }
 
 s32 DoorKiller_IsHit(Actor* thisx, GlobalContext* globalCtx) {
-    DoorKiller* this = THIS;
+    DoorKiller* this = (DoorKiller*)thisx;
     if ((this->colliderCylinder.base.acFlags & 2) && (this->colliderCylinder.info.acHitInfo != NULL)) {
         return true;
     }
@@ -459,7 +457,7 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
  * Grabs the virtual address of the texture from the relevant door object
  */
 void DoorKiller_UpdateTexture(Actor* thisx, GlobalContext* globalCtx) {
-    DoorKiller* this = THIS;
+    DoorKiller* this = (DoorKiller*)thisx;
 
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->doorObjBankIndex].segment);
     this->texture = SEGMENTED_TO_VIRTUAL(this->texture);
@@ -490,13 +488,13 @@ void DoorKiller_SetProperties(DoorKiller* this, GlobalContext* globalCtx) {
 }
 
 void DoorKiller_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DoorKiller* this = THIS;
+    DoorKiller* this = (DoorKiller*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void DoorKiller_SetTexture(Actor* thisx, GlobalContext* globalCtx) {
-    DoorKiller* this = THIS;
+    DoorKiller* this = (DoorKiller*)thisx;
     void* doorTexture = this->texture;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_killer.c", 883);
@@ -505,7 +503,7 @@ void DoorKiller_SetTexture(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorKiller_DrawDoor(Actor* thisx, GlobalContext* globalCtx) {
-    DoorKiller* this = THIS;
+    DoorKiller* this = (DoorKiller*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     DoorKiller_SetTexture(&this->actor, globalCtx);
@@ -517,7 +515,7 @@ void DoorKiller_DrawRubble(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* dLists[] = { object_door_killer_DL_001250, object_door_killer_DL_001550, object_door_killer_DL_0017B8,
                              object_door_killer_DL_001A58 };
     s32 rubblePieceIndex = (thisx->params & 0xFF) - 1;
-    DoorKiller* this = THIS;
+    DoorKiller* this = (DoorKiller*)thisx;
 
     if ((this->timer >= 20) || ((this->timer & 1) == 0)) {
         DoorKiller_SetTexture(thisx, globalCtx);

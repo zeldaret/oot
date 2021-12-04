@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnHorseNormal*)thisx)
-
 typedef struct {
     Vec3s pos;
     u8 unk_06; // this may be a s16 if the always-0 following byte is actually not padding
@@ -184,7 +182,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -269,7 +267,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
 
     func_800A6888(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
@@ -567,7 +565,7 @@ static EnHorseNormalActionFunc sActionFuncs[] = {
 };
 
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     s32 pad;
 
     sActionFuncs[this->action](this, globalCtx);
@@ -592,7 +590,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     s32 i;
 
     for (i = 0; i < this->headCollider.count; i++) {
@@ -635,7 +633,7 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
 }
 
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     Mtx* mtx2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2224);

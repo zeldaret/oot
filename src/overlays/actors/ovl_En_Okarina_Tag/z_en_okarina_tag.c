@@ -11,8 +11,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((EnOkarinaTag*)thisx)
-
 void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkarinaTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkarinaTag_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ void EnOkarinaTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkarinaTag* this = THIS;
+    EnOkarinaTag* this = (EnOkarinaTag*)thisx;
 
     osSyncPrintf("\n\n");
     // "Ocarina tag outbreak"
@@ -316,7 +314,7 @@ void func_80ABF7CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
 }
 
 void EnOkarinaTag_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkarinaTag* this = THIS;
+    EnOkarinaTag* this = (EnOkarinaTag*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (BREG(0) != 0) {

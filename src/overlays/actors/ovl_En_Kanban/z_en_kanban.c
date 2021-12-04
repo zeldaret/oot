@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnKanban*)thisx)
-
 #define PART_UPPER_LEFT (1 << 0)
 #define PART_LEFT_UPPER (1 << 1)
 #define PART_LEFT_LOWER (1 << 2)
@@ -193,7 +191,7 @@ void EnKanban_SetFloorRot(EnKanban* this) {
 }
 
 void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKanban* this = THIS;
+    EnKanban* this = (EnKanban*)thisx;
 
     Actor_SetScale(&this->actor, 0.01f);
     if (this->actor.params != ENKANBAN_PIECE) {
@@ -223,7 +221,7 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnKanban_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnKanban* this = THIS;
+    EnKanban* this = (EnKanban*)thisx;
 
     if (this->actionState == ENKANBAN_SIGN) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -254,7 +252,7 @@ void EnKanban_Message(EnKanban* this, GlobalContext* globalCtx) {
 void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
     u8 bounced = false;
     GlobalContext* globalCtx = globalCtx2;
-    EnKanban* this = THIS;
+    EnKanban* this = (EnKanban*)thisx;
     EnKanban* signpost;
     EnKanban* piece;
     Player* player = GET_PLAYER(globalCtx);
@@ -785,7 +783,7 @@ static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 #include "overlays/ovl_En_Kanban/ovl_En_Kanban.c"
 
 void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnKanban* this = THIS;
+    EnKanban* this = (EnKanban*)thisx;
     f32 zShift;
     f32 zShift2;
     s16 i;

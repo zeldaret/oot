@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgGndFiremeiro*)thisx)
-
 void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndFiremeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ const ActorInit Bg_Gnd_Firemeiro_InitVars = {
 
 void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndFiremeiro* this = THIS;
+    BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
     CollisionHeader* colHeader = NULL;
 
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
@@ -51,7 +49,7 @@ void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgGndFiremeiro_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgGndFiremeiro* this = THIS;
+    BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
 
     if (this->dyna.actor.params == 0) {
         if (1) {}
@@ -135,7 +133,7 @@ void BgGndFiremeiro_Rise(BgGndFiremeiro* this, GlobalContext* globalCtx) {
 }
 
 void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGndFiremeiro* this = THIS;
+    BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

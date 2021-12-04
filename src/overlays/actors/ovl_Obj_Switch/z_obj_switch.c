@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((ObjSwitch*)thisx)
-
 // type:        (this->dyna.actor.params & 7)
 // subtype:     (this->dyna.actor.params >> 4 & 7)
 // switch flag: (this->dyna.actor.params >> 8 & 0x3F)
@@ -280,7 +278,7 @@ void ObjSwitch_UpdateTwoTexScrollXY(ObjSwitch* this) {
 }
 
 void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjSwitch* this = THIS;
+    ObjSwitch* this = (ObjSwitch*)thisx;
     s32 switchFlagSet;
     s32 type;
 
@@ -347,7 +345,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjSwitch* this = THIS;
+    ObjSwitch* this = (ObjSwitch*)thisx;
 
     switch ((this->dyna.actor.params & 7)) {
         case OBJSWITCH_TYPE_FLOOR:
@@ -676,7 +674,7 @@ void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx) {
 }
 
 void ObjSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjSwitch* this = THIS;
+    ObjSwitch* this = (ObjSwitch*)thisx;
 
     if (this->releaseTimer > 0) {
         this->releaseTimer--;
@@ -789,7 +787,7 @@ static ObjSwitchActionFunc sDrawFuncs[] = {
 };
 
 void ObjSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ObjSwitch* this = THIS;
+    ObjSwitch* this = (ObjSwitch*)thisx;
 
     sDrawFuncs[(this->dyna.actor.params & 7)](this, globalCtx);
 }

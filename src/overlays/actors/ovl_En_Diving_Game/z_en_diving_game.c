@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnDivingGame*)thisx)
-
 void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +75,7 @@ static void* sEyeTextures[] = {
 };
 
 void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDivingGame* this = THIS;
+    EnDivingGame* this = (EnDivingGame*)thisx;
 
     this->actor.gravity = -3.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
@@ -102,7 +100,7 @@ void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDivingGame* this = THIS;
+    EnDivingGame* this = (EnDivingGame*)thisx;
 
     if (this->unk_31F == 0) {
         gSaveContext.timer1State = 0;
@@ -481,7 +479,7 @@ void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnDivingGame* this = THIS;
+    EnDivingGame* this = (EnDivingGame*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     Vec3f pos;
 
@@ -538,7 +536,7 @@ Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx) {
 
 s32 EnDivingGame_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
-    EnDivingGame* this = THIS;
+    EnDivingGame* this = (EnDivingGame*)thisx;
     s32 pad;
 
     if (limbIndex == 6) {
@@ -559,7 +557,7 @@ s32 EnDivingGame_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 }
 
 void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDivingGame* this = THIS;
+    EnDivingGame* this = (EnDivingGame*)thisx;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1212);

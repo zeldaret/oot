@@ -9,8 +9,6 @@
 
 #define FLAGS 0x02000000
 
-#define THIS ((DoorAna*)thisx)
-
 void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorAna_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -63,7 +61,7 @@ void DoorAna_SetupAction(DoorAna* this, DoorAnaActionFunc actionFunc) {
 }
 
 void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DoorAna* this = THIS;
+    DoorAna* this = (DoorAna*)thisx;
 
     this->actor.shape.rot.z = 0;
     this->actor.shape.rot.y = this->actor.shape.rot.z;
@@ -85,7 +83,7 @@ void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DoorAna* this = THIS;
+    DoorAna* this = (DoorAna*)thisx;
 
     // free collider if it has one
     if ((this->actor.params & 0x200) != 0) {
@@ -167,7 +165,7 @@ void DoorAna_GrabPlayer(DoorAna* this, GlobalContext* globalCtx) {
 }
 
 void DoorAna_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DoorAna* this = THIS;
+    DoorAna* this = (DoorAna*)thisx;
 
     this->actionFunc(this, globalCtx);
     // changes the grottos facing angle based on camera angle

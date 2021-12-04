@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnTa*)thisx)
-
 void EnTa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -100,7 +98,7 @@ void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -233,7 +231,7 @@ void func_80B14248(EnTa* this) {
 }
 
 void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 
@@ -1134,7 +1132,7 @@ void func_80B16938(EnTa* this) {
 }
 
 void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -1165,7 +1163,7 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnTa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
 
     switch (limbIndex) {
         case 8:
@@ -1196,7 +1194,7 @@ void EnTa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         1000.0f,
         0.0f,
     };
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80B16E7C, &this->actor.focus.pos);
@@ -1209,7 +1207,7 @@ void EnTa_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gTalonEyeHalfTex,
         gTalonEyeClosedTex,
     };
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ta.c", 2381);

@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnBox*)thisx)
-
 // movement flags
 
 /*
@@ -92,7 +90,7 @@ void EnBox_ClipToGround(EnBox* this, GlobalContext* globalCtx) {
 
 void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnBox* this = THIS;
+    EnBox* this = (EnBox*)thisx;
     AnimationHeader* anim;
     CollisionHeader* colHeader;
     f32 animFrameStart;
@@ -189,7 +187,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBox* this = THIS;
+    EnBox* this = (EnBox*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -511,7 +509,7 @@ void EnBox_SpawnIceSmoke(EnBox* this, GlobalContext* globalCtx) {
 }
 
 void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBox* this = THIS;
+    EnBox* this = (EnBox*)thisx;
 
     if (this->movementFlags & ENBOX_MOVE_STICK_TO_GROUND) {
         this->movementFlags &= ~ENBOX_MOVE_STICK_TO_GROUND;
@@ -543,7 +541,7 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBox_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnBox* this = THIS;
+    EnBox* this = (EnBox*)thisx;
     s32 pad;
 
     if (limbIndex == 1) {
@@ -615,7 +613,7 @@ Gfx* func_809CA518(GraphicsContext* gfxCtx) {
 }
 
 void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBox* this = THIS;
+    EnBox* this = (EnBox*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_box.c", 1581);
 

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgSpot01Idohashira*)thisx)
-
 void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idohashira_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -141,7 +139,7 @@ void func_808AAF34(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idohashira* this = THIS;
+    BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -283,7 +281,7 @@ void func_808AB570(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idohashira_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idohashira* this = THIS;
+    BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
     if (this->action < 0 || this->action >= 4 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -294,7 +292,7 @@ void BgSpot01Idohashira_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad[2];
-    BgSpot01Idohashira* this = THIS;
+    BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
     CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -335,7 +333,7 @@ void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idohashira_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idohashira* this = THIS;
+    BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig > 0 || sDrawFuncs[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

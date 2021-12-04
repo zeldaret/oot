@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnTuboTrap*)thisx)
-
 void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTuboTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ const ActorInit En_Tubo_Trap_InitVars = {
 };
 
 void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTuboTrap* this = THIS;
+    EnTuboTrap* this = (EnTuboTrap*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 2.0f);
     osSyncPrintf("\n\n");
@@ -67,7 +65,7 @@ void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTuboTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTuboTrap* this = THIS;
+    EnTuboTrap* this = (EnTuboTrap*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -274,7 +272,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx) {
 }
 
 void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTuboTrap* this = THIS;
+    EnTuboTrap* this = (EnTuboTrap*)thisx;
     s32 pad;
 
     this->actionFunc(this, globalCtx);

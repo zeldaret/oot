@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgGndIceblock*)thisx)
-
 typedef enum {
     /* 0 */ GNDICE_IDLE,
     /* 1 */ GNDICE_FALL,
@@ -48,7 +46,7 @@ static u8 sBlockPositions[2];
 
 void BgGndIceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndIceblock* this = THIS;
+    BgGndIceblock* this = (BgGndIceblock*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -71,7 +69,7 @@ void BgGndIceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgGndIceblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndIceblock* this = THIS;
+    BgGndIceblock* this = (BgGndIceblock*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -347,14 +345,14 @@ void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx) {
 
 void BgGndIceblock_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndIceblock* this = THIS;
+    BgGndIceblock* this = (BgGndIceblock*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgGndIceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndIceblock* this = THIS;
+    BgGndIceblock* this = (BgGndIceblock*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, gWaterTrialIceBlockDL);
 }

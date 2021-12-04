@@ -8,8 +8,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((MagicFire*)thisx)
-
 void MagicFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +75,7 @@ static u8 sVertexIndices[] = {
 };
 
 void MagicFire_Init(Actor* thisx, GlobalContext* globalCtx) {
-    MagicFire* this = THIS;
+    MagicFire* this = (MagicFire*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->action = 0;
@@ -98,7 +96,7 @@ void MagicFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx) {
-    MagicFire* this = THIS;
+    MagicFire* this = (MagicFire*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     if ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) ||
@@ -116,7 +114,7 @@ void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
-    MagicFire* this = THIS;
+    MagicFire* this = (MagicFire*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
@@ -212,7 +210,7 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    MagicFire* this = THIS;
+    MagicFire* this = (MagicFire*)thisx;
     s32 pad1;
     u32 gameplayFrames = globalCtx->gameplayFrames;
     s32 pad2;

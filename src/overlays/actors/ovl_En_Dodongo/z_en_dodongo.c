@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnDodongo*)thisx)
-
 typedef enum {
     DODONGO_SWEEP_TAIL,
     DODONGO_SWALLOW_BOMB,
@@ -307,7 +305,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDodongo* this = THIS;
+    EnDodongo* this = (EnDodongo*)thisx;
     EffectBlureInit1 blureInit;
 
     this->actor.targetMode = 3;
@@ -348,7 +346,7 @@ void EnDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDodongo* this = THIS;
+    EnDodongo* this = (EnDodongo*)thisx;
 
     Effect_Delete(globalCtx, this->blureIdx);
     Collider_DestroyTris(globalCtx, &this->colliderHard);
@@ -765,7 +763,7 @@ void EnDodongo_UpdateQuad(EnDodongo* this, GlobalContext* globalCtx) {
 
 void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDodongo* this = THIS;
+    EnDodongo* this = (EnDodongo*)thisx;
 
     EnDodongo_CollisionCheck(this, globalCtx);
     if (this->actor.colChkInfo.damageEffect != 0xE) {
@@ -798,7 +796,7 @@ void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    EnDodongo* this = THIS;
+    EnDodongo* this = (EnDodongo*)thisx;
 
     if ((limbIndex == 15) || (limbIndex == 16)) {
         Matrix_Scale(this->bodyScale.x, this->bodyScale.y, this->bodyScale.z, MTXMODE_APPLY);
@@ -820,7 +818,7 @@ void EnDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     Vec3f hardTris2Vtx[3];
     Vec3f tailTip;
     Vec3f tailBase;
-    EnDodongo* this = THIS;
+    EnDodongo* this = (EnDodongo*)thisx;
     Vec3f hardTris0VtxOffset[] = {
         { -300.0f, -2500.0f, 0.0f },
         { -300.0f, 1200.0f, -2700.0f },
@@ -916,7 +914,7 @@ void EnDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
 void EnDodongo_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnDodongo* this = THIS;
+    EnDodongo* this = (EnDodongo*)thisx;
     s32 index;
 
     func_80093D18(globalCtx->state.gfxCtx);

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00005005
 
-#define THIS ((EnBili*)thisx)
-
 void EnBili_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -114,7 +112,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBili* this = THIS;
+    EnBili* this = (EnBili*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
@@ -134,7 +132,7 @@ void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBili* this = THIS;
+    EnBili* this = (EnBili*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -597,7 +595,7 @@ void EnBili_UpdateDamage(EnBili* this, GlobalContext* globalCtx) {
 
 void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnBili* this = THIS;
+    EnBili* this = (EnBili*)thisx;
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
@@ -725,7 +723,7 @@ void EnBili_PulseLimb4(EnBili* this, f32 frame, Vec3f* arg2) {
 
 s32 EnBili_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                             Gfx** gfx) {
-    EnBili* this = THIS;
+    EnBili* this = (EnBili*)thisx;
     Vec3f limbScale = { 1.0f, 1.0f, 1.0f };
     f32 curFrame = this->skelAnime.curFrame;
 
@@ -750,7 +748,7 @@ static void* sTentaclesTextures[] = {
 #include "overlays/ovl_En_Bili/ovl_En_Bili.c"
 
 void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBili* this = THIS;
+    EnBili* this = (EnBili*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bili.c", 1521);
     func_80093D84(globalCtx->state.gfxCtx);
