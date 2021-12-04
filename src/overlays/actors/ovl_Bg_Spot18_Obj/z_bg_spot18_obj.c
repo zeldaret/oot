@@ -61,7 +61,7 @@ static u32 D_808B9104[] = {
     0,
 };
 
-static BgSpot18ObjInitFunc D_808B910C[] = {
+static BgSpot18ObjInitFunc sInitFuncs1[] = {
     func_808B8A98,
     func_808B8910,
     func_808B8A5C,
@@ -144,8 +144,8 @@ s32 func_808B8B08(BgSpot18Obj* this, GlobalContext* globalCtx) {
 s32 func_808B8B38(BgSpot18Obj* this, GlobalContext* globalCtx) {
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(D_808B910C); i++) {
-        if (D_808B910C[i](this, globalCtx) == 0) {
+    for (i = 0; i < ARRAY_COUNT(sInitFuncs1); i++) {
+        if (sInitFuncs1[i](this, globalCtx) == 0) {
             return 0;
         }
     }
