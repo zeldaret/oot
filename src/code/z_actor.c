@@ -484,7 +484,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
                 targetCtx->unk_48 = 0;
             }
 
-            lockOnSfxId = ACTOR_FLAGS_ALL(actorArg->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON : NA_SE_SY_LOCK_ON_HUMAN;
+            lockOnSfxId = CHECK_FLAG_ALL(actorArg->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON : NA_SE_SY_LOCK_ON_HUMAN;
             func_80078884(lockOnSfxId);
         }
 
@@ -2889,8 +2889,8 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
     sp84 = player->unk_664;
 
     while (actor != NULL) {
-        if ((actor->update != NULL) && ((Player*)actor != player) && ACTOR_FLAGS_ALL(actor->flags, ACTOR_FLAG_0)) {
-            if ((actorCategory == ACTORCAT_ENEMY) && ACTOR_FLAGS_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) &&
+        if ((actor->update != NULL) && ((Player*)actor != player) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0)) {
+            if ((actorCategory == ACTORCAT_ENEMY) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) &&
                 (actor->xyzDistToPlayerSq < 250000.0f) && (actor->xyzDistToPlayerSq < D_8015BBF4)) {
                 actorCtx->targetCtx.unk_90 = actor;
                 D_8015BBF4 = actor->xyzDistToPlayerSq;

@@ -131,7 +131,7 @@ void BgHakaMegane_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgHakaMegane_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaMegane* this = THIS;
 
-    if (ACTOR_FLAGS_ALL(thisx->flags, ACTOR_FLAG_7)) {
+    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(globalCtx, sDLists[thisx->params]);
     } else {
         Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);

@@ -347,7 +347,7 @@ void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaGate* this = THIS;
     MtxF currentMtxF;
 
-    if (ACTOR_FLAGS_ALL(thisx->flags, ACTOR_FLAG_7)) {
+    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(globalCtx, object_haka_objects_DL_00F1B0);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);

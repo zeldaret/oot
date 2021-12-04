@@ -356,7 +356,7 @@ void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
 void EnFw_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = THIS;
     SkelAnime_Update(&this->skelAnime);
-    if (!ACTOR_FLAGS_ALL(this->actor.flags, ACTOR_FLAG_13)) {
+    if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         // not attached to hookshot.
         Actor_MoveForward(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 20.0f, 0.0f, 5);

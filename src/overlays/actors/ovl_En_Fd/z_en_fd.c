@@ -218,7 +218,7 @@ s32 EnFd_SpawnCore(EnFd* this, GlobalContext* globalCtx) {
         this->actor.child->colChkInfo.health = 8;
     }
 
-    if (ACTOR_FLAGS_ALL(this->actor.flags, ACTOR_FLAG_13)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         func_8002DE04(globalCtx, &this->actor, this->actor.child);
     }
 
@@ -655,7 +655,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnFd_SpawnDot(this, globalCtx);
     }
 
-    if (ACTOR_FLAGS_ALL(this->actor.flags, ACTOR_FLAG_13)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         // has been hookshoted
         if (EnFd_SpawnCore(this, globalCtx)) {
             this->actor.flags &= ~ACTOR_FLAG_0;

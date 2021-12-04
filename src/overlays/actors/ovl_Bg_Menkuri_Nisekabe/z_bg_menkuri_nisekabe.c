@@ -53,7 +53,7 @@ void BgMenkuriNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriNisekabe* this = THIS;
     u32 index = this->actor.params & 0xFF;
 
-    if (ACTOR_FLAGS_ALL(this->actor.flags, ACTOR_FLAG_7)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(globalCtx, sDLists[index]);
     } else {
         Gfx_DrawDListOpa(globalCtx, sDLists[index]);

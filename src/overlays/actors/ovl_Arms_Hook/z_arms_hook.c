@@ -178,7 +178,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
             if (this->collider.info.atHitInfo->bumperFlags & BUMP_HOOKABLE) {
                 ArmsHook_AttachHookToActor(this, touchedActor);
-                if (ACTOR_FLAGS_ALL(touchedActor->flags, ACTOR_FLAG_10)) {
+                if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_10)) {
                     func_80865044(this);
                 }
             }
@@ -189,7 +189,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     } else if (DECR(this->timer) == 0) {
         grabbed = this->grabbed;
         if (grabbed != NULL) {
-            if ((grabbed->update == NULL) || !ACTOR_FLAGS_ALL(grabbed->flags, ACTOR_FLAG_13)) {
+            if ((grabbed->update == NULL) || !CHECK_FLAG_ALL(grabbed->flags, ACTOR_FLAG_13)) {
                 grabbed = NULL;
                 this->grabbed = NULL;
             } else if (this->actor.child != NULL) {

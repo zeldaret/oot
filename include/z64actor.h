@@ -129,7 +129,7 @@ typedef struct {
 #define ACTOR_FLAG_27 (1 << 27)
 #define ACTOR_FLAG_28 (1 << 28)
 
-#define ACTOR_FLAGS_ALL(flags, mask) (((flags) & (mask)) == (mask))
+#define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID
