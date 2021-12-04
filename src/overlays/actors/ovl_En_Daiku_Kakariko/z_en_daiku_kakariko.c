@@ -118,8 +118,7 @@ void EnDaikuKakariko_ChangeAnim(EnDaikuKakariko* this, s32 index, s32* currentIn
     }
 
     Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
-                     morphFrames);
+                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode, morphFrames);
 
     *currentIndex = index;
 }

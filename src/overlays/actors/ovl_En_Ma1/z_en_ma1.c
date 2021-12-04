@@ -224,8 +224,8 @@ void EnMa1_UpdateEyes(EnMa1* this) {
 void EnMa1_ChangeAnim(EnMa1* this, s32 index) {
     f32 frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
 
-    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[index].mode,
-                     sAnimationInfo[index].morphFrames);
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, frameCount,
+                     sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
 void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {

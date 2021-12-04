@@ -108,13 +108,13 @@ void EnCs_ChangeAnim(EnCs* this, s32 index, s32* currentIndex) {
     }
 
     if (sAnimationInfo[index].frameCount >= 0.0f) {
-        Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, sAnimationInfo[index].frameCount,
-                         0.0f, Animation_GetLastFrame(sAnimationInfo[index].animation),
-                         sAnimationInfo[index].mode, morphFrames);
+        Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, sAnimationInfo[index].frameCount, 0.0f,
+                         Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                         morphFrames);
     } else {
         Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, sAnimationInfo[index].frameCount,
-                         Animation_GetLastFrame(sAnimationInfo[index].animation), 0.0f,
-                         sAnimationInfo[index].mode, morphFrames);
+                         Animation_GetLastFrame(sAnimationInfo[index].animation), 0.0f, sAnimationInfo[index].mode,
+                         morphFrames);
     }
 
     *currentIndex = index;
