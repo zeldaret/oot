@@ -18,7 +18,7 @@ CPPFLAGS ?=
 # ORIG_COMPILER cannot be combined with a non-IDO compiler. Check for this case and error out if found.
 ifneq ($(COMPILER),ido)
   ifeq ($(ORIG_COMPILER),1)
-    $(error ORIG_COMPILER cannot be enabled with IDO not being the compiler. Please check your Makefile variables and try again.)
+    $(error ORIG_COMPILER can only be used with the IDO compiler. Please check your Makefile variables and try again)
   endif
 endif
 
