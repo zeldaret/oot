@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_mm/object_mm.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 #define THIS ((EnMm2*)thisx)
 

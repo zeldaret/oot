@@ -10,7 +10,7 @@
 #include "vt.h"
 #include "objects/object_tite/object_tite.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 #define THIS ((EnTite*)thisx)
 

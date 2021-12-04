@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_ge1/object_ge1.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define THIS ((EnGe1*)thisx)
 

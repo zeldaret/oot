@@ -2,7 +2,7 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define THIS ((EnHeishi4*)thisx)
 

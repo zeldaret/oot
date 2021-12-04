@@ -7,7 +7,7 @@
 #include "z_bg_ddan_jd.h"
 #include "objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 #define THIS ((BgDdanJd*)thisx)
 

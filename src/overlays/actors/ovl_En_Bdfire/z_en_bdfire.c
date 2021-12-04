@@ -7,7 +7,7 @@
 #include "z_en_bdfire.h"
 #include "objects/object_kingdodongo/object_kingdodongo.h"
 
-#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 #define THIS ((EnBdfire*)thisx)
 

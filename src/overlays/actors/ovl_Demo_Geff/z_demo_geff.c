@@ -8,7 +8,7 @@
 #include "objects/object_geff/object_geff.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 #define THIS ((DemoGeff*)thisx)
 

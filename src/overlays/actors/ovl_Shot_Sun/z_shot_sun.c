@@ -9,7 +9,7 @@
 #include "scenes/overworld/spot06/spot06_scene.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define THIS ((ShotSun*)thisx)
 

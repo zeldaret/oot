@@ -2,7 +2,7 @@
 #include "vt.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
-#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_27
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
 #define THIS ((EnEncount1*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_en_mu.h"
 #include "objects/object_mu/object_mu.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define THIS ((EnMu*)thisx)
 

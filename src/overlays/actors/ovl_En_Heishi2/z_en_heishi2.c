@@ -12,7 +12,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define THIS ((EnHeishi2*)thisx)
 

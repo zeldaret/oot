@@ -1,7 +1,7 @@
 #include "z_en_okuta.h"
 #include "objects/object_okuta/object_okuta.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 #define THIS ((EnOkuta*)thisx)
 

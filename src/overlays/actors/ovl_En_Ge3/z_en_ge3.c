@@ -7,7 +7,7 @@
 #include "z_en_ge3.h"
 #include "objects/object_geldb/object_geldb.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 #define THIS ((EnGe3*)thisx)
 

@@ -6,7 +6,7 @@
 
 #include "z_en_river_sound.h"
 
-#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 #define THIS ((EnRiverSound*)thisx)
 

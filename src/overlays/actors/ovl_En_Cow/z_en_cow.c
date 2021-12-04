@@ -7,7 +7,7 @@
 #include "z_en_cow.h"
 #include "objects/object_cow/object_cow.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define THIS ((EnCow*)thisx)
 

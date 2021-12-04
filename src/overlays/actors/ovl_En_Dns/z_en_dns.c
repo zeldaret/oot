@@ -8,7 +8,7 @@
 #include "objects/object_shopnuts/object_shopnuts.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define THIS ((EnDns*)thisx)
 

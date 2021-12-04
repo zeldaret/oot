@@ -6,7 +6,7 @@
 
 #include "z_magic_wind.h"
 
-#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_25
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 #define THIS ((MagicWind*)thisx)
 

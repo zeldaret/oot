@@ -10,7 +10,7 @@
 #include "vt.h"
 #include "objects/object_reeba/object_reeba.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
 #define THIS ((EnReeba*)thisx)
 

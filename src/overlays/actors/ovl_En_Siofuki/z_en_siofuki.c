@@ -7,7 +7,7 @@
 #include "z_en_siofuki.h"
 #include "objects/object_siofuki/object_siofuki.h"
 
-#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 #define THIS ((EnSiofuki*)thisx)
 

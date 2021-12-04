@@ -8,7 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "objects/object_dekunuts/object_dekunuts.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 #define THIS ((EnDekunuts*)thisx)
 

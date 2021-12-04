@@ -1,7 +1,7 @@
 #include "z_en_fz.h"
 #include "objects/object_fz/object_fz.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
 #define THIS ((EnFz*)thisx)
 

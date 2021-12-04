@@ -7,7 +7,7 @@
 #include "z_en_ds.h"
 #include "objects/object_ds/object_ds.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define THIS ((EnDs*)thisx)
 

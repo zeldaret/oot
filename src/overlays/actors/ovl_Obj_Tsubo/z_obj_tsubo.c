@@ -9,7 +9,7 @@
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_23
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 #define THIS ((ObjTsubo*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_en_elf.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 #define THIS ((EnElf*)thisx)
 

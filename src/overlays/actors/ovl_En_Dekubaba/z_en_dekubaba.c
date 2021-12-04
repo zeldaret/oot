@@ -3,7 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 #define THIS ((EnDekubaba*)thisx)
 

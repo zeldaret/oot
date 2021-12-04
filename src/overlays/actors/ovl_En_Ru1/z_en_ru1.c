@@ -8,7 +8,7 @@
 #include "objects/object_ru1/object_ru1.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
 #define THIS ((EnRu1*)thisx)
 
