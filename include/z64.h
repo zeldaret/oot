@@ -1321,7 +1321,7 @@ typedef struct {
 } AnimationSpeedInfo; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ AnimationHeader* anim;
+    /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ u8 mode;
     /* 0x08 */ f32 morphFrames;
 } AnimationMinimalInfo; // size = 0xC

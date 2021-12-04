@@ -286,10 +286,10 @@ static InitChainEntry sInitChain[] = {
 static s32 D_80B01EA0; // gets set if actor flags & 0x100 is set
 
 void EnSkj_ChangeAnim(EnSkj* this, u8 animIndex) {
-    f32 endFrame = Animation_GetLastFrame(sAnimationInfo[animIndex].anim);
+    f32 endFrame = Animation_GetLastFrame(sAnimationInfo[animIndex].animation);
 
     this->animIndex = animIndex;
-    Animation_Change(&this->skelAnime, sAnimationInfo[animIndex].anim, 1.0f, 0.0f, endFrame,
+    Animation_Change(&this->skelAnime, sAnimationInfo[animIndex].animation, 1.0f, 0.0f, endFrame,
                      sAnimationInfo[animIndex].mode, sAnimationInfo[animIndex].morphFrames);
 }
 

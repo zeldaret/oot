@@ -176,10 +176,10 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDns_Change(EnDns* this, u8 arg1) {
     s16 frameCount;
 
-    frameCount = Animation_GetLastFrame(sAnimationInfo[arg1].anim);
+    frameCount = Animation_GetLastFrame(sAnimationInfo[arg1].animation);
     this->unk_2BA = arg1; // Not used anywhere else?
-    Animation_Change(&this->skelAnime, sAnimationInfo[arg1].anim, 1.0f, 0.0f, (f32)frameCount, sAnimationInfo[arg1].mode,
-                     sAnimationInfo[arg1].morphFrames);
+    Animation_Change(&this->skelAnime, sAnimationInfo[arg1].animation, 1.0f, 0.0f, (f32)frameCount,
+                     sAnimationInfo[arg1].mode, sAnimationInfo[arg1].morphFrames);
 }
 
 /* Item give checking functions */
