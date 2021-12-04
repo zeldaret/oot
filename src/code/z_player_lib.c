@@ -155,11 +155,11 @@ Gfx* sRightHandClosed2DLs[] = {
     gLinkChildRightHandClosedFarDL,
 };
 
-Gfx* D_80125E68[] = {
+Gfx* sHandHoldingFirstPersonWeaponDLs[] = {
     gLinkAdultRightHandHoldingBowNearDL,
-    gLinkChildRightHandHoldingFairySlingshotNearDL,
+    gLinkChildRightHandHoldingSlingshotNearDL,
     gLinkAdultRightHandHoldingBowFarDL,
-    gLinkChildRightHandHoldingFairySlingshotFarDL,
+    gLinkChildRightHandHoldingSlingshotFarDL,
 };
 
 Gfx* sSwordAndSheathDLs[] = {
@@ -185,9 +185,9 @@ Gfx* sWaistDLs[] = {
 
 Gfx* D_80125EA8[] = {
     gLinkAdultRightHandHoldingBowNearDL,
-    gLinkChildRightHandHoldingFairySlingshotNearDL,
+    gLinkChildRightHandHoldingSlingshotNearDL,
     gLinkAdultRightHandHoldingBowFarDL,
-    gLinkChildRightHandHoldingFairySlingshotFarDL,
+    gLinkChildRightHandHoldingSlingshotFarDL,
 };
 
 Gfx* sFairyOcarinaDLs[] = {
@@ -233,17 +233,17 @@ Gfx* D_80125F08[] = {
     gLinkChildLeftHandUpNearDL,
 };
 
-Gfx* D_80125F18[] = {
+Gfx* sArmOutDLs[] = {
     gLinkAdultRightArmOutNearDL,
     NULL,
 };
 
-Gfx* D_80125F20[] = {
+Gfx* sHandOutDLs[] = {
     gLinkAdultRightHandOutNearDL,
     NULL,
 };
 
-Gfx* D_80125F28[] = {
+Gfx* sRightShoulderNearDLs[] = {
     gLinkAdultRightShoulderNearDL,
     gLinkChildRightShoulderNearDL,
 };
@@ -253,7 +253,7 @@ Gfx* D_80125F30[] = {
     NULL,
 };
 
-Gfx* D_80125F38[] = {
+Gfx* sHoldingFirstPersonWeaponDLs[] = {
     gLinkAdultRightHandHoldingBowFirstPersonDL,
     gLinkChildRightArmStretchedSlingshotDL,
 };
@@ -261,7 +261,7 @@ Gfx* D_80125F38[] = {
 // Indexed by model types (left hand, right hand, sheath or waist)
 Gfx** sPlayerDListGroups[] = {
     gLeftHandDLs, D_80125E18,    D_80125E38,           D_80125E28,          D_80125DE8, sHammerDLs, gBoomerrangDLs,
-    D_80125F08,   sRightHandDLs, sRightHandClosed2DLs, sRightHandClosedDLs, D_80125E68, D_80125EA8, sFairyOcarinaDLs,
+    D_80125F08,   sRightHandDLs, sRightHandClosed2DLs, sRightHandClosedDLs, sHandHoldingFirstPersonWeaponDLs, D_80125EA8, sFairyOcarinaDLs,
     sOotDLs,      sHookshotDLs,  sSwordAndSheathDLs,   sSheathDLs,          D_80125D28, D_80125D88, sWaistDLs,
 };
 
@@ -974,16 +974,16 @@ s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (this->unk_6AD != 2) {
             *dList = NULL;
         } else if (limbIndex == PLAYER_LIMB_L_FOREARM) {
-            *dList = D_80125F18[(void)0, gSaveContext.linkAge];
+            *dList = sArmOutDLs[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_L_HAND) {
-            *dList = D_80125F20[(void)0, gSaveContext.linkAge];
+            *dList = sHandOutDLs[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_SHOULDER) {
-            *dList = D_80125F28[(void)0, gSaveContext.linkAge];
+            *dList = sRightShoulderNearDLs[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_FOREARM) {
             *dList = D_80125F30[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-            *dList = Player_HoldsHookshot(this) ? gLinkAdultRIghtHandHoldingHookshotFarDL
-                                                : D_80125F38[(void)0, gSaveContext.linkAge];
+            *dList = Player_HoldsHookshot(this) ? gLinkAdultRightHandHoldingHookshotFarDL
+                                                : sHoldingFirstPersonWeaponDLs[(void)0, gSaveContext.linkAge];
         } else {
             *dList = NULL;
         }
@@ -1365,7 +1365,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     if (func_8002DD78(this) != 0) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
                         Player_DrawHookshotDot(globalCtx, this,
-                                      (this->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 38600.0f : 77600.0f);
+                                               (this->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 38600.0f : 77600.0f);
                     }
                 }
             }

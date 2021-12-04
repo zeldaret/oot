@@ -135,7 +135,7 @@
         <Texture Name="gLinkAdultDefaultGauntletTex" OutName="default_gauntlet" Format="ci8" Width="16" Height="32" Offset="0xD2B8" TlutOffset="0xCD48"/>
         <Texture Name="gLinkAdultDefaultGauntlet2Tex" OutName="default_gauntlet_2" Format="ci8" Width="16" Height="32" Offset="0xD538" TlutOffset="0xCD48"/>
 
-        
+
         <Texture Name="gLinkAdultHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0xD738" TlutOffset="0xCF50"/>
         <Texture Name="gLinkAdultClosedHandThumbTex" OutName="closed_hand_thumb" Format="ci8" Width="16" Height="16" Offset="0xD838" TlutOffset="0xCF50"/>
         <Texture Name="gLinkAdultClosedHandSideTex" OutName="closed_hand_side" Format="ci8" Width="16" Height="16" Offset="0xDB38" TlutOffset="0xCF50"/> <!-- TODO CHECK-->
@@ -146,7 +146,12 @@
 
         <Texture Name="gLinkAdultArmOutSleeveTex" OutName="arm_out_sleeve" Format="ci8" Width="16" Height="32" Offset="0xEDB8" TlutOffset="0xD078"/>
         <Texture Name="gLinkAdultArmOutUpperGauntletTex" OutName="arm_out_upper_gauntlet" Format="ci8" Width="32" Height="32" Offset="0xE038" TlutOffset="0xCD48"/>
+        <Texture Name="gLinkAdultArmGauntletTex" OutName="arm_gauntlet" Format="ci8" Width="32" Height="32" Offset="0x7F80" TlutOffset="0x5800"/>
 
+        <Texture Name="gLinkAdultBoot2Tex" OutName="boot_2" Format="ci8" Width="16" Height="32" Offset="0x6300" TlutOffset="0x5800"/>
+        <Texture Name="gLinkAdultBootBuckleTex" OutName="boot_buckle" Format="ci8" Width="32" Height="16" Offset="0x6500" TlutOffset="0x5800"/>
+        
+        <Texture Name="gLinkAdultEarringTex" OutName="earring" Format="ia16" Width="32" Height="32" Offset="0x7180"/>
         <!-- Bow -->
         <DList Name="gLinkAdultRightHandHoldingBowNearDL" Offset="0x22DA8"/>
         <DList Name="gLinkAdultRightHandHoldingBowFarDL" Offset="0x27B88"/>
@@ -165,7 +170,7 @@
 
         <!-- Hookshot -->
         <DList Name="gLinkAdultRightHandHoldingHookshotNearDL" Offset="0x24D70"/>
-        <DList Name="gLinkAdultRIghtHandHoldingHookshotFarDL" Offset="0x2A738"/>
+        <DList Name="gLinkAdultRightHandHoldingHookshotFarDL" Offset="0x2A738"/>
         <DList Name="gLinkAdultHookshotChainDL" Offset="0x2AFF0"/>
         <DList Name="gLinkAdultHookshotTipDL" Offset="0x2B288"/>
         <Texture Name="gLinkAdultHookshotMetalTex" OutName="hookshot_metal" Format="rgba16" Width="8" Height="8" Offset="0xCA80"/>
@@ -240,5 +245,28 @@
 
         <!-- Unused -->
         <Texture Name="gLinkBoyUnusedHandTex" OutName="unused_hand" Format="ci8" Width="16" Height="16" Offset="0x5300" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultUnusedGauntletTex" OutName="unused_gauntlet" Format="ci8" Width="16" Height="32" Offset="0x7B80" TlutOffset="0x5800"/>
+        <Texture Name="gLinkAdultUnusedGauntlet2Tex" OutName="unused_gauntlet_2" Format="ci8" Width="16" Height="32" Offset="0x7D80" TlutOffset="0x5800"/>
+        <Texture Name="gLinkAdultUnusedSheathTex" OutName="unused_sheath" Format="ci8" Width="32" Height="64" Offset="0x8380" TlutOffset="0x5E00"/>
+        <Texture Name="gLinkAdultUnusedSheathBandTex" OutName="unused_sheat_band" Format="ci8" Width="32" Height="16" Offset="0x8B80" TlutOffset="0x5E00"/>
+        <Texture Name="gLinkAdultUnusedSwordPommelTex" OutName="unused_sword_pommel" Format="ci8" Width="16" Height="16" Offset="0x8D80" TlutOffset="0x5E00"/>
+        <Texture Name="gLinkAdultUnusedSwordGuardTex" OutName="unused_sword_guard" Format="ci8" Width="32" Height="32" Offset="0x8E80" TlutOffset="5E00"/>
+        <Texture Name="gLinkAdultUnusedSwordEmblemTex" OutName="unused_sword_emblem" Format="ci8" Width="16" Height="16" Offset="0x9280" TlutOffset="0x5E00"/>
+
+        <Texture Name="gLinkAdultUnusedGauntletPlate1Tex" OutName="unused_gauntlet_plate_1" Format="rgba16" Width="16" Height="32" Offset="0xA180"/>
+
+        <Array Name="gLinkChildVtx_02E120" Count="47" Offset="0x2E120" Static="On">
+            <Vtx/>
+        </Array>
+        <Array Name="gLinkChildVtx_033760" Count="54" Offset="0x33760" Static="On">
+            <Vtx/>
+        </Array>
+        <Array Name="gLinkChildVtx_0340A0" Count="146" Offset="0x340A0" Static="On">
+            <Vtx/>
+        </Array>
+        <Array Name="gLinkChildVtx_02E7E0" Count="114" Offset="0x2E7E0" Static="On">
+            <Vtx/>
+        </Array>
+
     </File>
 </Root>
