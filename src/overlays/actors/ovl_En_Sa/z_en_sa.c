@@ -70,18 +70,18 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 };
 
 typedef enum {
-    ENSA_ANIM1_0,
-    ENSA_ANIM1_1,
-    ENSA_ANIM1_2,
-    ENSA_ANIM1_3,
-    ENSA_ANIM1_4,
-    ENSA_ANIM1_5,
-    ENSA_ANIM1_6,
-    ENSA_ANIM1_7,
-    ENSA_ANIM1_8,
-    ENSA_ANIM1_9,
-    ENSA_ANIM1_10,
-    ENSA_ANIM1_11
+    /*  0 */ ENSA_ANIM1_0,
+    /*  1 */ ENSA_ANIM1_1,
+    /*  2 */ ENSA_ANIM1_2,
+    /*  3 */ ENSA_ANIM1_3,
+    /*  4 */ ENSA_ANIM1_4,
+    /*  5 */ ENSA_ANIM1_5,
+    /*  6 */ ENSA_ANIM1_6,
+    /*  7 */ ENSA_ANIM1_7,
+    /*  8 */ ENSA_ANIM1_8,
+    /*  9 */ ENSA_ANIM1_9,
+    /* 10 */ ENSA_ANIM1_10,
+    /* 11 */ ENSA_ANIM1_11
 } EnSaAnimation1;
 
 static AnimationFrameCountInfo sAnimationInfo1[] = {
@@ -100,16 +100,16 @@ static AnimationFrameCountInfo sAnimationInfo1[] = {
 };
 
 typedef enum {
-    ENSA_ANIM2_0,
-    ENSA_ANIM2_1,
-    ENSA_ANIM2_2,
-    ENSA_ANIM2_3,
-    ENSA_ANIM2_4,
-    ENSA_ANIM2_5,
-    ENSA_ANIM2_6,
-    ENSA_ANIM2_7,
-    ENSA_ANIM2_8,
-    ENSA_ANIM2_9
+    /* 0 */ ENSA_ANIM2_0,
+    /* 1 */ ENSA_ANIM2_1,
+    /* 2 */ ENSA_ANIM2_2,
+    /* 3 */ ENSA_ANIM2_3,
+    /* 4 */ ENSA_ANIM2_4,
+    /* 5 */ ENSA_ANIM2_5,
+    /* 6 */ ENSA_ANIM2_6,
+    /* 7 */ ENSA_ANIM2_7,
+    /* 8 */ ENSA_ANIM2_8,
+    /* 9 */ ENSA_ANIM2_9
 } EnSaAnimation2;
 
 static AnimationInfo sAnimationInfo2[] = {

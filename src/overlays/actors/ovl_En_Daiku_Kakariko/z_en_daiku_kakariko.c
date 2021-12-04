@@ -94,12 +94,12 @@ static DamageTable sDamageTable = {
 };
 
 typedef enum {
-    ENDAIKUKAKARIKO_ANIM_0,
-    ENDAIKUKAKARIKO_ANIM_1,
-    ENDAIKUKAKARIKO_ANIM_2,
-    ENDAIKUKAKARIKO_ANIM_3,
-    ENDAIKUKAKARIKO_ANIM_4,
-    ENDAIKUKAKARIKO_ANIM_5
+    /* 0 */ ENDAIKUKAKARIKO_ANIM_0,
+    /* 1 */ ENDAIKUKAKARIKO_ANIM_1,
+    /* 2 */ ENDAIKUKAKARIKO_ANIM_2,
+    /* 3 */ ENDAIKUKAKARIKO_ANIM_3,
+    /* 4 */ ENDAIKUKAKARIKO_ANIM_4,
+    /* 5 */ ENDAIKUKAKARIKO_ANIM_5
 } EnDaikuKakarikoAnimation;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {

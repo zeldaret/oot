@@ -3864,7 +3864,7 @@ void Animation_ChangeInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, s3
     }
 
     Animation_Change(skelAnime, animationInfo->animation, animationInfo->playbackSpeed, animationInfo->startFrame,
-                     frameCount, animationInfo->mode, animationInfo->transitionRate);
+                     frameCount, animationInfo->mode, animationInfo->morphFrames);
 }
 
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3) {
