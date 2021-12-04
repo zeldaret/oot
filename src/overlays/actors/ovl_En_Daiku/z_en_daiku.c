@@ -5,21 +5,6 @@
 #define FLAGS 0x00000019
 
 typedef struct {
-    AnimationHeader* anim;
-    f32 unk_4;
-    u8 mode;
-    f32 transitionRate;
-} EnDaikuAnimation;
-
-typedef enum {
-    /* 0 */ ENDAIKU_ANIM_SHOUT,
-    /* 1 */ ENDAIKU_ANIM_STAND,
-    /* 2 */ ENDAIKU_ANIM_CELEBRATE,
-    /* 3 */ ENDAIKU_ANIM_RUN,
-    /* 4 */ ENDAIKU_ANIM_SIT
-} EnDaikuAnimationIdx;
-
-typedef struct {
     Vec3f eyePosDeltaLocal;
     s32 maxFramesActive;
 } EnDaikuEscapeSubCamParam;
@@ -125,7 +110,15 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-static EnDaikuAnimation sAnimations[] = {
+typedef enum {
+    /* 0 */ ENDAIKU_ANIM_SHOUT,
+    /* 1 */ ENDAIKU_ANIM_STAND,
+    /* 2 */ ENDAIKU_ANIM_CELEBRATE,
+    /* 3 */ ENDAIKU_ANIM_RUN,
+    /* 4 */ ENDAIKU_ANIM_SIT
+} EnDaikuAnimation;
+
+static AnimationBasicInfo sAnimationInfo[] = {
     { &object_daiku_Anim_001AB0, 1.0f, 0, 0 }, { &object_daiku_Anim_007DE0, 1.0f, 0, 0 },
     { &object_daiku_Anim_00885C, 1.0f, 0, 0 }, { &object_daiku_Anim_000C44, 1.0f, 0, 0 },
     { &object_daiku_Anim_008164, 1.0f, 0, 0 },
@@ -144,11 +137,12 @@ void EnDaiku_Change(EnDaiku* this, s32 animIndex, s32* currentAnimIndex) {
     if (*currentAnimIndex < 0 || *currentAnimIndex == animIndex) {
         transitionRate = 0.0f;
     } else {
-        transitionRate = sAnimations[animIndex].transitionRate;
+        transitionRate = sAnimationInfo[animIndex].transitionRate;
     }
 
-    Animation_Change(&this->skelAnime, sAnimations[animIndex].anim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimations[animIndex].anim), sAnimations[animIndex].mode, transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[animIndex].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[animIndex].animation), sAnimationInfo[animIndex].mode,
+                     transitionRate);
 
     *currentAnimIndex = animIndex;
 }
