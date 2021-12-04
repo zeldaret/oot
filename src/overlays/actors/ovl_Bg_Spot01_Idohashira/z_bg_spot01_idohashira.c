@@ -21,7 +21,7 @@ void BgSpot01Idohashira_DoNothing(BgSpot01Idohashira* this, GlobalContext* globa
 void func_808AB510(BgSpot01Idohashira* this, GlobalContext* globalCtx);
 void func_808AB530(BgSpot01Idohashira* this, GlobalContext* globalCtx);
 void func_808AB570(BgSpot01Idohashira* this, GlobalContext* globalCtx);
-void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx);
+void BgSpot01Idohashira_DrawBeam(BgSpot01Idohashira* this, GlobalContext* globalCtx);
 
 static BgSpot01IdohashiraActionFunc sActionFuncs[] = {
     BgSpot01Idohashira_DoNothing,
@@ -35,7 +35,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
-    func_808AB700,
+    BgSpot01Idohashira_DrawBeam,
 };
 
 const ActorInit Bg_Spot01_Idohashira_InitVars = {
@@ -319,7 +319,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
+void BgSpot01Idohashira_DrawBeam(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(localGfxCtx, "../z_bg_spot01_idohashira.c", 689);

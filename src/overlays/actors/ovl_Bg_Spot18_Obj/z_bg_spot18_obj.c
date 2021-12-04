@@ -80,7 +80,7 @@ static InitChainEntry sInitChain2[] = {
     ICHAIN_F32(uncullZoneDownward, 700, ICHAIN_STOP),
 };
 
-static BgSpot18ObjInitFunc D_808B913C[] = {
+static BgSpot18ObjInitFunc sInitFuncs[] = {
     func_808B8BB4,
     func_808B8C90,
 };
@@ -174,8 +174,8 @@ s32 func_808B8C90(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 s32 func_808B8CC8(BgSpot18Obj* this, GlobalContext* globalCtx) {
-    if ((D_808B913C[this->dyna.actor.params & 0xF] != NULL) &&
-        (!D_808B913C[this->dyna.actor.params & 0xF](this, globalCtx))) {
+    if ((sInitFuncs[this->dyna.actor.params & 0xF] != NULL) &&
+        (!sInitFuncs[this->dyna.actor.params & 0xF](this, globalCtx))) {
         return 0;
     }
     return 1;

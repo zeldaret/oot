@@ -26,14 +26,17 @@ void func_8097D088(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D0D0(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D130(DemoGo* this, GlobalContext* globalCtx);
 void DemoGo_DrawNothing(DemoGo* this, GlobalContext* globalCtx);
+void DemoGo_DrawGoron(DemoGo* this, GlobalContext* globalCtx);
 
 static void* sEyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
 
-static DemoGoActionFunc D_8097D44C[] = {
+static DemoGoActionFunc sActionFuncs[] = {
     func_8097CFDC, func_8097CFFC, func_8097D01C, func_8097D058, func_8097D088, func_8097D0D0, func_8097D130,
 };
 
+static DemoGoDrawFunc sDrawFuncs[] = {
     DemoGo_DrawNothing,
+    DemoGo_DrawGoron,
 };
 
 const ActorInit Demo_Go_InitVars = {
@@ -302,11 +305,11 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx) {
 void DemoGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGo* this = THIS;
 
-    if (this->action < 0 || this->action >= 7 || D_8097D44C[this->action] == 0) {
+    if (this->action < 0 || this->action >= 7 || sActionFuncs[this->action] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    D_8097D44C[this->action](this, globalCtx);
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -322,7 +325,7 @@ void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DemoGo_DrawNothing(DemoGo* this, GlobalContext* globalCtx) {
 }
 
-void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
+void DemoGo_DrawGoron(DemoGo* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 eyeTexIdx = this->unk_190;
     SkelAnime* skelAnime = &this->skelAnime;
@@ -344,9 +347,9 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
 void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGo* this = THIS;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == NULL) {
+    if (this->drawConfig < 0 || this->drawConfig >= 2 || sDrawFuncs[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    D_8097D468[this->drawConfig](this, globalCtx);
+    sDrawFuncs[this->drawConfig](this, globalCtx);
 }
