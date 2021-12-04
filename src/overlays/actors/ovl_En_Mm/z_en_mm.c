@@ -172,8 +172,8 @@ void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     Animation_Change(&this->skelAnime, sAnimationInfo[RM_ANIM_RUN].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimationInfo[RM_ANIM_RUN].animation),
-                     sAnimationInfo[RM_ANIM_RUN].mode, sAnimationInfo[RM_ANIM_RUN].morphFrames);
+                     Animation_GetLastFrame(sAnimationInfo[RM_ANIM_RUN].animation), sAnimationInfo[RM_ANIM_RUN].mode,
+                     sAnimationInfo[RM_ANIM_RUN].morphFrames);
 
     this->path = this->actor.params & 0xFF;
     this->unk_1F0 = 2;
