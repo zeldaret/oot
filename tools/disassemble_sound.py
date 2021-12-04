@@ -269,6 +269,7 @@ def parse_soundfonts(fontdef_data, font_data, fontdefs):
         buffer = fontdef_data[16 + (i * 16):32 + (i * 16)]
         entry = SoundfontEntry(buffer)
         font = Soundfont(entry, font_data, fontdef)
+        font.index = i
         entry.font = font
         fonts.append(entry)
     return fonts
@@ -373,6 +374,26 @@ def toCachePolicy(policy):
         3: "Any",
         4: "AnyNoSyncLoad"
     }.get(policy)
+
+def toCodecID(codec):
+    return {
+        0: b"ADP9",
+        1: b"HPCM",
+        2: b"NONE",
+        3: b"ADP5",
+        4: b"RVRB",
+        5: b"NONE"
+    }.get(codec)
+
+def toCodecName(codec):
+    return {
+        0: b"Nintendo ADPCM 9-byte frame format",
+        1: b"Half-frame PCM",
+        2: b"not compressed",
+        3: b"Nintendo ADPCM 5-byte frame format",
+        4: b"Nintendo Reverb format",
+        5: b"not compressed"
+    }.get(codec)
 
 def generate_drum_obj(root, drum, envelopes):
     drumElement = XmlTree.SubElement(root, "Drum")
@@ -609,8 +630,8 @@ def write_aifc(raw, bank_defs, entry, filename):
                 b"COMM",
                 struct.pack(">hIh", num_channels, num_frames, sample_size)
                 + serialize_f80(sample_rate)
-                + b"VAPC"
-                + writer.pstring(b"VADPCM ~4-1"),
+                + toCodecID(entry.codec)
+                + writer.pstring(toCodecName(entry.codec)),
             )
             writer.add_section(b"INST", b"\0" * 20)
             predictors = []
@@ -654,6 +675,39 @@ def write_aiff(entry, basedir, aifc_filename, aiff_filename):
             os.makedirs(os.path.dirname(targetfile), exist_ok=True)
             os.remove(rel_aiff_file)
             shutil.copy2(aifc_filename, targetfile)
+
+def write_soundfont_header(font, filename):
+    with open(filename, "w") as file:
+        file.write(f"/* Soundfont file constants\n")
+        file.write(f"   ID: {font.index}\n")
+        file.write(f"   Name: {font.name}\n")
+        file.write("*/\n\n/**** INSTRUMENTS ****/\n")
+
+        index = 0
+        for instrument in font.instruments:
+            if instrument is None:
+                continue
+
+            file.write(f".set F{font.index}_I_{instrument.enum}, {index}\n")
+            index += 1
+        
+        index = 0
+        file.write("\n/**** DRUMS ****/\n")
+        for drum in font.percussions:
+            if drum is None:
+                continue
+
+            file.write(f".set F{font.index}_D_{drum.enum}, {index}\n")
+            index += 1
+        
+        index = 0
+        file.write("\n/**** EFFECTS ****/\n")
+        for effect in font.effects:
+            if effect is None:
+                continue
+
+            file.write(f".set F{font.index}_E_{effect.enum}, {index}\n")
+            index += 1
 
 def main():
     args = []
@@ -752,13 +806,13 @@ def main():
         report_gaps("SAMPLE", usedRawData, bank_data)
 
     # Export soundfonts (todo: switch to XML export)
-    fontId = 0
-    for font in fonts:
+    for fontentry in fonts:
         dir = os.path.join(fonts_out_dir)
         os.makedirs(dir, exist_ok=True)
-        filename = os.path.join(dir, f"{font.font.name}.xml")
-        write_soundfont(font, filename, samplebanks)
-        fontId += 1
+        filename = os.path.join(dir, f"{fontentry.font.name}.xml")
+        s_filename = os.path.join(dir, f"{fontentry.font.index}.s.inc")
+        write_soundfont(fontentry, filename, samplebanks)
+        write_soundfont_header(fontentry.font, s_filename)
 
 if __name__ == "__main__":
     main()
