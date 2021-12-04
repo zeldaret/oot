@@ -20,7 +20,7 @@ void func_808B2980(BgSpot11Oasis* this, GlobalContext* globalCtx);
 void func_808B29E0(BgSpot11Oasis* this);
 void func_808B29F0(BgSpot11Oasis* this, GlobalContext* globalCtx);
 void func_808B2AA8(BgSpot11Oasis* this);
-void func_808B2AB8(BgSpot11Oasis* this, GlobalContext* globalCtx);
+void BgSpot11Oasis_DoNothing(BgSpot11Oasis* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot11_Oasis_InitVars = {
     ACTOR_BG_SPOT11_OASIS,
@@ -117,10 +117,10 @@ void func_808B29F0(BgSpot11Oasis* this, GlobalContext* globalCtx) {
 }
 
 void func_808B2AA8(BgSpot11Oasis* this) {
-    this->actionFunc = func_808B2AB8;
+    this->actionFunc = BgSpot11Oasis_DoNothing;
 }
 
-void func_808B2AB8(BgSpot11Oasis* this, GlobalContext* globalCtx) {
+void BgSpot11Oasis_DoNothing(BgSpot11Oasis* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx) {

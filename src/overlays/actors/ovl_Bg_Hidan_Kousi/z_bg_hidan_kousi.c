@@ -21,7 +21,7 @@ void func_80889B5C(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889BC0(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889C18(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889C90(BgHidanKousi* this, GlobalContext* globalCtx);
-void func_80889D28(BgHidanKousi* this, GlobalContext* globalCtx);
+void BgHidanKousi_DoNothing(BgHidanKousi* this, GlobalContext* globalCtx);
 
 static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
@@ -84,7 +84,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->world.rot.y = D_80889E7C[this->dyna.actor.params & 0xFF] + thisx->shape.rot.y;
     if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0xFF)) {
         func_80889ACC(this);
-        BgHidanKousi_SetupAction(this, func_80889D28);
+        BgHidanKousi_SetupAction(this, BgHidanKousi_DoNothing);
     } else {
         BgHidanKousi_SetupAction(this, func_80889B5C);
     }
@@ -135,14 +135,14 @@ void func_80889C90(BgHidanKousi* this, GlobalContext* globalCtx) {
     if (D_80889E40[this->dyna.actor.params & 0xFF] <
         Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &this->dyna.actor.world.pos)) {
         func_80889ACC(this);
-        BgHidanKousi_SetupAction(this, func_80889D28);
+        BgHidanKousi_SetupAction(this, BgHidanKousi_DoNothing);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
-void func_80889D28(BgHidanKousi* this, GlobalContext* globalCtx) {
+void BgHidanKousi_DoNothing(BgHidanKousi* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanKousi_Update(Actor* thisx, GlobalContext* globalCtx) {

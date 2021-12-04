@@ -15,7 +15,7 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot05Soko_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot05Soko_Draw(Actor* thisx, GlobalContext* globalCtx);
-void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx);
+void BgSpot05Soko_DoNothing(BgSpot05Soko* this, GlobalContext* globalCtx);
 void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx);
 void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx);
 
@@ -55,7 +55,7 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (LINK_IS_ADULT) {
             Actor_Kill(thisx);
         } else {
-            this->actionFunc = func_808AE5A8;
+            this->actionFunc = BgSpot05Soko_DoNothing;
         }
     } else {
         CollisionHeader_GetVirtual(&object_spot05_objects_Col_0012C0, &colHeader);
@@ -75,7 +75,7 @@ void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void BgSpot05Soko_DoNothing(BgSpot05Soko* this, GlobalContext* globalCtx) {
 }
 
 void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {

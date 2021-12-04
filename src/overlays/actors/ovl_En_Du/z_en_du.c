@@ -11,7 +11,7 @@ void EnDu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDu_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_809FE3B4(EnDu* this, GlobalContext* globalCtx);
+void EnDu_DoNothing(EnDu* this, GlobalContext* globalCtx);
 void func_809FE3C0(EnDu* this, GlobalContext* globalCtx);
 void func_809FE638(EnDu* this, GlobalContext* globalCtx);
 void func_809FE890(EnDu* this, GlobalContext* globalCtx);
@@ -280,7 +280,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (!LINK_IS_ADULT) {
         EnDu_SetupAction(this, func_809FE3C0);
     } else {
-        EnDu_SetupAction(this, func_809FE3B4);
+        EnDu_SetupAction(this, EnDu_DoNothing);
     }
 }
 
@@ -291,7 +291,7 @@ void EnDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void func_809FE3B4(EnDu* this, GlobalContext* globalCtx) {
+void EnDu_DoNothing(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FE3C0(EnDu* this, GlobalContext* globalCtx) {

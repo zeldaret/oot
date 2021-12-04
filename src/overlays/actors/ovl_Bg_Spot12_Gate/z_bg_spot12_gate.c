@@ -23,7 +23,7 @@ void func_808B314C(BgSpot12Gate* this, GlobalContext* globalCtx);
 void func_808B317C(BgSpot12Gate* this);
 void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx);
 void func_808B3274(BgSpot12Gate* this);
-void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx);
+void BgSpot12Gate_DoNothing(BgSpot12Gate* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
@@ -123,11 +123,11 @@ void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
 }
 
 void func_808B3274(BgSpot12Gate* this) {
-    this->actionFunc = func_808B3298;
+    this->actionFunc = BgSpot12Gate_DoNothing;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 200.0f;
 }
 
-void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void BgSpot12Gate_DoNothing(BgSpot12Gate* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx) {

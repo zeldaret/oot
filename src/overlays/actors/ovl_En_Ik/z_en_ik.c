@@ -49,7 +49,7 @@ void func_80A779DC(EnIk* this, GlobalContext* globalCtx);
 void func_80A77AEC(EnIk* this, GlobalContext* globalCtx);
 void func_80A77B0C(EnIk* this, GlobalContext* globalCtx);
 void func_80A77B3C(EnIk* this, GlobalContext* globalCtx);
-void func_80A77ED0(EnIk* this, GlobalContext* globalCtx);
+void EnIk_DoNothing(EnIk* this, GlobalContext* globalCtx);
 void func_80A77EDC(EnIk* this, GlobalContext* globalCtx);
 void func_80A78160(EnIk* this, GlobalContext* globalCtx);
 void func_80A781CC(Actor* thisx, GlobalContext* globalCtx);
@@ -1361,7 +1361,7 @@ void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 604);
 }
 
-void func_80A77ED0(EnIk* this, GlobalContext* globalCtx) {
+void EnIk_DoNothing(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
@@ -1383,7 +1383,7 @@ void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 653);
 }
 
-static EnIkDrawFunc sDrawFuncs[] = { func_80A77ED0, func_80A77EDC, func_80A77844 };
+static EnIkDrawFunc sDrawFuncs[] = { EnIk_DoNothing, func_80A77EDC, func_80A77844 };
 
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;

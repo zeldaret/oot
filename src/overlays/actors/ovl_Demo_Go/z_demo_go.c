@@ -25,8 +25,7 @@ void func_8097D058(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D088(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D0D0(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D130(DemoGo* this, GlobalContext* globalCtx);
-void func_8097D290(DemoGo* this, GlobalContext* globalCtx);
-void func_8097D29C(DemoGo* this, GlobalContext* globalCtx);
+void DemoGo_DrawNothing(DemoGo* this, GlobalContext* globalCtx);
 
 static void* sEyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
 
@@ -34,9 +33,7 @@ static DemoGoActionFunc D_8097D44C[] = {
     func_8097CFDC, func_8097CFFC, func_8097D01C, func_8097D058, func_8097D088, func_8097D0D0, func_8097D130,
 };
 
-static DemoGoDrawFunc D_8097D468[] = {
-    func_8097D290,
-    func_8097D29C,
+    DemoGo_DrawNothing,
 };
 
 const ActorInit Demo_Go_InitVars = {
@@ -322,7 +319,7 @@ void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->action = 0;
 }
 
-void func_8097D290(DemoGo* this, GlobalContext* globalCtx) {
+void DemoGo_DrawNothing(DemoGo* this, GlobalContext* globalCtx) {
 }
 
 void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {

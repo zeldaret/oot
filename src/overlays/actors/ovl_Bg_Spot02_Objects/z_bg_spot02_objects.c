@@ -18,7 +18,7 @@ void BgSpot02Objects_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808ACCB8(Actor* thisx, GlobalContext* globalCtx);
 void func_808AD450(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808AC8FC(BgSpot02Objects* this, GlobalContext* globalCtx);
+void BgSpot02Objects_DoNothing(BgSpot02Objects* this, GlobalContext* globalCtx);
 void func_808AC908(BgSpot02Objects* this, GlobalContext* globalCtx);
 void func_808ACA08(BgSpot02Objects* this, GlobalContext* globalCtx);
 void func_808ACAFC(BgSpot02Objects* this, GlobalContext* globalCtx);
@@ -66,7 +66,7 @@ void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             if (thisx->params == 0) {
                 if (Flags_GetSwitch(globalCtx, this->unk_16B)) {
-                    this->actionFunc = func_808AC8FC;
+                    this->actionFunc = BgSpot02Objects_DoNothing;
                     thisx->world.pos.y += 255.0f;
                 } else {
                     this->actionFunc = func_808ACAFC;
@@ -74,14 +74,14 @@ void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
 
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_012BA4, &colHeader);
             } else if (thisx->params == 1) {
-                this->actionFunc = func_808AC8FC;
+                this->actionFunc = BgSpot02Objects_DoNothing;
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_0128D8, &colHeader);
                 thisx->flags |= 0x400000;
             } else {
                 if (globalCtx->sceneNum == SCENE_SPOT02) {
                     this->actionFunc = func_808AC908;
                 } else {
-                    this->actionFunc = func_808AC8FC;
+                    this->actionFunc = BgSpot02Objects_DoNothing;
                 }
 
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_0133EC, &colHeader);
@@ -123,7 +123,7 @@ void BgSpot02Objects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808AC8FC(BgSpot02Objects* this, GlobalContext* globalCtx) {
+void BgSpot02Objects_DoNothing(BgSpot02Objects* this, GlobalContext* globalCtx) {
 }
 
 void func_808AC908(BgSpot02Objects* this, GlobalContext* globalCtx) {
@@ -179,7 +179,7 @@ void func_808ACAFC(BgSpot02Objects* this, GlobalContext* globalCtx) {
 void func_808ACB58(BgSpot02Objects* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 255.0f, 1.0f)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
-        this->actionFunc = func_808AC8FC;
+        this->actionFunc = BgSpot02Objects_DoNothing;
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG);
     }

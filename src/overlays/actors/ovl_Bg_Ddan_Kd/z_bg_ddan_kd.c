@@ -18,7 +18,7 @@ void BgDdanKd_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx);
-void func_80871838(BgDdanKd* this, GlobalContext* globalCtx);
+void BgDdanKd_DoNothing(BgDdanKd* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ddan_Kd_InitVars = {
     ACTOR_BG_DDAN_KD,
@@ -82,7 +82,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
         BgDdanKd_SetupAction(this, BgDdanKd_CheckForExplosions);
     } else {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 200.0f - 20.0f;
-        BgDdanKd_SetupAction(this, func_80871838);
+        BgDdanKd_SetupAction(this, BgDdanKd_DoNothing);
     }
 }
 
@@ -133,7 +133,7 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
     if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, (this->dyna.actor.home.pos.y - 200.0f) - 20.0f, 0.075f,
                            this->dyna.actor.speedXZ, 0.0075f) == 0.0f) {
         Flags_SetSwitch(globalCtx, this->dyna.actor.params);
-        BgDdanKd_SetupAction(this, func_80871838);
+        BgDdanKd_SetupAction(this, BgDdanKd_DoNothing);
     } else {
         sp4C = (this->dyna.actor.prevPos.y - this->dyna.actor.world.pos.y) + (this->dyna.actor.speedXZ * 0.25f);
 
@@ -175,7 +175,7 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80871838(BgDdanKd* this, GlobalContext* globalCtx) {
+void BgDdanKd_DoNothing(BgDdanKd* this, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_Update(Actor* thisx, GlobalContext* globalCtx) {

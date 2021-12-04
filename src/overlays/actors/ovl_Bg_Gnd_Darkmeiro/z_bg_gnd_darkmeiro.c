@@ -18,7 +18,7 @@ void BgGndDarkmeiro_DrawInvisiblePath(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_DrawStaticBlock(Actor* thisx, GlobalContext* globalCtx);
 
-void BgGndDarkmeiro_Noop(BgGndDarkmeiro* this, GlobalContext* globalCtx);
+void BgGndDarkmeiro_DoNothing(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_UpdateBlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_UpdateStaticBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx);
@@ -52,7 +52,7 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx2) {
     CollisionHeader* colHeader = NULL;
     BgGndDarkmeiro* this = THIS;
 
-    this->updateFunc = BgGndDarkmeiro_Noop;
+    this->updateFunc = BgGndDarkmeiro_DoNothing;
     Actor_SetScale(&this->dyna.actor, 0.1f);
     switch (this->dyna.actor.params & 0xFF) {
         case DARKMEIRO_INVISIBLE_PATH:
@@ -108,7 +108,7 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-void BgGndDarkmeiro_Noop(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
+void BgGndDarkmeiro_DoNothing(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
 }
 
 void BgGndDarkmeiro_UpdateBlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {

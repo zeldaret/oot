@@ -18,13 +18,13 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx);
 void func_80A7A848(EnIn* this, GlobalContext* globalCtx);
 void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx);
 void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx);
-void func_80A7B018(EnIn* this, GlobalContext* globalCtx);
+void EnIn_DoNothing2(EnIn* this, GlobalContext* globalCtx);
 void func_80A7B024(EnIn* this, GlobalContext* globalCtx);
 void func_80A7AE84(EnIn* this, GlobalContext* globalCtx);
 void func_80A7A770(EnIn* this, GlobalContext* globalCtx);
 void func_80A7A940(EnIn* this, GlobalContext* globalCtx);
 void func_80A7AA40(EnIn* this, GlobalContext* globalCtx);
-void func_80A7A4BC(EnIn* this, GlobalContext* globalCtx);
+void EnIn_DoNothing1(EnIn* this, GlobalContext* globalCtx);
 
 const ActorInit En_In_InitVars = {
     ACTOR_EN_IN,
@@ -509,16 +509,16 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, 0.01f);
         this->actor.targetMode = 6;
         this->unk_308.unk_00 = 0;
-        this->actionFunc = func_80A7A4BC;
+        this->actionFunc = EnIn_DoNothing1;
 
         switch (func_80A79830(this, globalCtx)) {
             case 1:
                 func_80A796EC(this, 9);
-                this->actionFunc = func_80A7A4BC;
+                this->actionFunc = EnIn_DoNothing1;
                 break;
             case 3:
                 func_80A796EC(this, 7);
-                this->actionFunc = func_80A7A4BC;
+                this->actionFunc = EnIn_DoNothing1;
                 if (!(gSaveContext.eventChkInf[1] & 0x100)) {
                     this->actor.params = 5;
                 }
@@ -526,7 +526,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
             case 4:
                 func_80A796EC(this, 8);
                 this->eyeIndex = 3;
-                this->actionFunc = func_80A7A4BC;
+                this->actionFunc = EnIn_DoNothing1;
                 break;
             case 0:
                 Actor_Kill(&this->actor);
@@ -621,7 +621,7 @@ void func_80A7A304(EnIn* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A7A4BC(EnIn* this, GlobalContext* globalCtx) {
+void EnIn_DoNothing1(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
@@ -858,7 +858,7 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
         globalCtx->nextEntranceIndex = 0x0476;
         globalCtx->sceneLoadFlag = 0x14;
         globalCtx->fadeTransition = 5;
-        this->actionFunc = func_80A7B018;
+        this->actionFunc = EnIn_DoNothing2;
     } else if (this->unk_308.unk_00 == 2) {
         globalCtx->msgCtx.stateTimer = 4;
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -866,7 +866,7 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A7B018(EnIn* this, GlobalContext* globalCtx) {
+void EnIn_DoNothing2(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {

@@ -28,7 +28,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_8099803C(GlobalContext* globalCtx, s16 y, s16 countdown, s16 arg3);
 void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996A54(DoorShutter* this, GlobalContext* globalCtx);
-void func_80996B00(DoorShutter* this, GlobalContext* globalCtx);
+void DoorShutter_DoNothing(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996EE8(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996F98(DoorShutter* this, GlobalContext* globalCtx);
@@ -204,7 +204,7 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
         DoorShutter_SetupAction(this, func_80996F98);
         return false;
     } else if (doorType == SHUTTER_BACK_LOCKED) {
-        DoorShutter_SetupAction(this, func_80996B00);
+        DoorShutter_SetupAction(this, DoorShutter_DoNothing);
         return false;
     }
     DoorShutter_SetupAction(this, func_80996B0C);
@@ -357,7 +357,7 @@ void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80996B00(DoorShutter* this, GlobalContext* globalCtx) {
+void DoorShutter_DoNothing(DoorShutter* this, GlobalContext* globalCtx) {
 }
 
 void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {

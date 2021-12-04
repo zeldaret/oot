@@ -40,7 +40,7 @@ void func_80A03814(EnElf* this, GlobalContext* globalCtx);
 void func_80A0353C(EnElf* this, GlobalContext* globalCtx);
 
 // Fairy Spawner
-void func_80A03604(EnElf* this, GlobalContext* globalCtx);
+void EnElf_DoNothing(EnElf* this, GlobalContext* globalCtx);
 
 // Move(?) functions
 void func_80A0214C(EnElf* this, GlobalContext* globalCtx);
@@ -396,7 +396,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_80A01C38(this, 0);
             break;
         case FAIRY_SPAWNER:
-            EnElf_SetupAction(this, func_80A03604);
+            EnElf_SetupAction(this, EnElf_DoNothing);
             func_80A01C38(this, 8);
 
             for (i = 0; i < 8; i++) {
@@ -685,7 +685,7 @@ void func_80A0353C(EnElf* this, GlobalContext* globalCtx) {
     this->unk_2BC = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
 }
 
-void func_80A03604(EnElf* this, GlobalContext* globalCtx) {
+void EnElf_DoNothing(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A03610(EnElf* this, GlobalContext* globalCtx) {

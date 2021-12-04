@@ -16,7 +16,7 @@ void BgSpot18Shutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Shutter_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Shutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808B95AC(BgSpot18Shutter* this, GlobalContext* globalCtx);
+void BgSpot18Shutter_DoNothing(BgSpot18Shutter* this, GlobalContext* globalCtx);
 void func_808B95B8(BgSpot18Shutter* this, GlobalContext* globalCtx);
 void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx);
 void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx);
@@ -50,14 +50,14 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (param == 0) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
             if (gSaveContext.infTable[16] & 0x200) {
-                this->actionFunc = func_808B95AC;
+                this->actionFunc = BgSpot18Shutter_DoNothing;
                 this->dyna.actor.world.pos.y += 180.0f;
             } else {
                 this->actionFunc = func_808B9618;
             }
         } else {
             if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
-                this->actionFunc = func_808B95AC;
+                this->actionFunc = BgSpot18Shutter_DoNothing;
                 this->dyna.actor.world.pos.y += 180.0f;
             } else {
                 this->actionFunc = func_808B95B8;
@@ -67,7 +67,7 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (gSaveContext.infTable[16] & 0x200) {
             this->dyna.actor.world.pos.x += 125.0f * Math_CosS(this->dyna.actor.world.rot.y);
             this->dyna.actor.world.pos.z -= 125.0f * Math_SinS(this->dyna.actor.world.rot.y);
-            this->actionFunc = func_808B95AC;
+            this->actionFunc = BgSpot18Shutter_DoNothing;
         } else {
             this->actionFunc = func_808B9618;
         }
@@ -83,7 +83,7 @@ void BgSpot18Shutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808B95AC(BgSpot18Shutter* this, GlobalContext* globalCtx) {
+void BgSpot18Shutter_DoNothing(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 }
 
 void func_808B95B8(BgSpot18Shutter* this, GlobalContext* globalCtx) {
@@ -109,7 +109,7 @@ void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 180.0f, 1.44f)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
-        this->actionFunc = func_808B95AC;
+        this->actionFunc = BgSpot18Shutter_DoNothing;
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
@@ -125,7 +125,7 @@ void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 
     if (flag) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
-        this->actionFunc = func_808B95AC;
+        this->actionFunc = BgSpot18Shutter_DoNothing;
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }

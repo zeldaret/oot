@@ -890,7 +890,7 @@ void EnGirlA_BuyEvent_ObtainBombchuPack(GlobalContext* globalCtx, EnGirlA* this)
     Rupees_ChangeBy(-this->basePrice);
 }
 
-void EnGirlA_Noop(EnGirlA* this, GlobalContext* globalCtx) {
+void EnGirlA_DoNothing(EnGirlA* this, GlobalContext* globalCtx) {
 }
 
 void EnGirlA_SetItemDescription(GlobalContext* globalCtx, EnGirlA* this) {
@@ -1064,7 +1064,7 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
         this->actor.shape.shadowScale = 4.0f;
         this->actor.floorHeight = this->actor.home.pos.y;
         this->actor.gravity = 0.0f;
-        EnGirlA_SetupAction(this, EnGirlA_Noop);
+        EnGirlA_SetupAction(this, EnGirlA_DoNothing);
         this->isInitialized = true;
         this->actionFunc2 = EnGirlA_Update2;
         this->isSelected = false;

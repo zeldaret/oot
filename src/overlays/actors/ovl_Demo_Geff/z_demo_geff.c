@@ -22,8 +22,7 @@ void func_80978030(DemoGeff* this, GlobalContext* globalCtx);
 void func_809783D4(DemoGeff* this, GlobalContext* globalCtx);
 void func_80978308(DemoGeff* this, GlobalContext* globalCtx);
 
-void func_809784D4(DemoGeff* this, GlobalContext* globalCtx);
-void func_80978344(DemoGeff* this, GlobalContext* globalCtx);
+void DemoGeff_DrawNothing(DemoGeff* this, GlobalContext* globalCtx);
 
 static s16 sObjectIDs[] = {
     OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
@@ -40,8 +39,7 @@ static DemoGeffActionFunc sActionFuncs[] = {
 };
 
 static DemoGeffDrawFunc sDrawFuncs[] = {
-    func_809784D4,
-    func_80978344,
+    DemoGeff_DrawNothing,
 };
 
 const ActorInit Demo_Geff_InitVars = {
@@ -215,7 +213,7 @@ void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx) {
     sActionFuncs[this->action](this, globalCtx);
 }
 
-void func_809784D4(DemoGeff* this, GlobalContext* globalCtx) {
+void DemoGeff_DrawNothing(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
 void DemoGeff_Draw(Actor* thisx, GlobalContext* globalCtx) {

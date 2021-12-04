@@ -17,7 +17,7 @@ void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGjyoBridge_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgGjyoBridge_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx);
+void BgGjyoBridge_DoNothing(BgGjyoBridge* this, GlobalContext* globalCtx);
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx);
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx);
 
@@ -52,7 +52,7 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (gSaveContext.eventChkInf[4] & 0x2000) {
-        this->actionFunc = func_808787A4;
+        this->actionFunc = BgGjyoBridge_DoNothing;
     } else {
         this->dyna.actor.draw = NULL;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -66,7 +66,7 @@ void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx) {
+void BgGjyoBridge_DoNothing(BgGjyoBridge* this, GlobalContext* globalCtx) {
 }
 
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx) {

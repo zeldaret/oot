@@ -24,7 +24,7 @@ s32 func_808B8B08(BgSpot18Obj* this, GlobalContext* globalCtx);
 s32 func_808B8BB4(BgSpot18Obj* this, GlobalContext* globalCtx);
 s32 func_808B8C90(BgSpot18Obj* this, GlobalContext* globalCtx);
 void func_808B8DC0(BgSpot18Obj* this);
-void func_808B8DD0(BgSpot18Obj* this, GlobalContext* globalCtx);
+void BgSpot18Obj_DoNothing(BgSpot18Obj* this, GlobalContext* globalCtx);
 void func_808B8E64(BgSpot18Obj* this);
 void func_808B8E7C(BgSpot18Obj* this, GlobalContext* globalCtx);
 void func_808B8EE0(BgSpot18Obj* this);
@@ -199,10 +199,10 @@ void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808B8DC0(BgSpot18Obj* this) {
-    this->actionFunc = func_808B8DD0;
+    this->actionFunc = BgSpot18Obj_DoNothing;
 }
 
-void func_808B8DD0(BgSpot18Obj* this, GlobalContext* globalCtx) {
+void BgSpot18Obj_DoNothing(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void func_808B8DDC(BgSpot18Obj* this, GlobalContext* globalCtx) {

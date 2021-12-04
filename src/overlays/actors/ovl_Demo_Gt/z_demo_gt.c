@@ -495,7 +495,7 @@ void func_8097EF00(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097EF34(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_DoNothing1(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_8097EF40(DemoGt* this, GlobalContext* globalCtx) {
@@ -546,7 +546,7 @@ void func_8097F0AC(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_8097F19C(DemoGt* this, GlobalContext* globalCtx) {
-    func_8097EF34(this, globalCtx);
+    DemoGt_DoNothing1(this, globalCtx);
     func_8097EF40(this, globalCtx);
     func_8097F0AC(this, globalCtx);
 }
@@ -700,7 +700,7 @@ void func_8097F904_Init1(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EE44(this, globalCtx, 1, 2, &gTowerCollapseCsCollapsedStructureInnerCol);
 }
 
-void func_8097F960(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_DoNothing2(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_8097F96C(DemoGt* this, GlobalContext* globalCtx) {
@@ -799,7 +799,7 @@ void func_8097FCE4(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_8097FD70(DemoGt* this, GlobalContext* globalCtx) {
-    func_8097F960(this, globalCtx);
+    DemoGt_DoNothing2(this, globalCtx);
     func_8097F96C(this, globalCtx);
     func_8097FA1C(this, globalCtx);
     func_8097FAFC(this, globalCtx);
@@ -878,10 +878,10 @@ void func_80980110_Init2(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EE44(this, globalCtx, 2, 3, &gTowerCollapseCsCollapsedStructureOuterCol);
 }
 
-void func_8098016C(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_DoNothing3(DemoGt* this, GlobalContext* globalCtx) {
 }
 
-void func_80980178(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_DoNothing4(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_80980184(DemoGt* this, GlobalContext* globalCtx) {
@@ -1132,8 +1132,8 @@ void func_80980BFC(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_80980C90(DemoGt* this, GlobalContext* globalCtx) {
-    func_8098016C(this, globalCtx);
-    func_80980178(this, globalCtx);
+    DemoGt_DoNothing3(this, globalCtx);
+    DemoGt_DoNothing4(this, globalCtx);
     func_80980184(this, globalCtx);
     func_80980218(this, globalCtx);
     func_809802AC(this, globalCtx);

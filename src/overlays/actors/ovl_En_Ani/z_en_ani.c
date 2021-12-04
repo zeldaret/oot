@@ -23,7 +23,7 @@ void func_809B0558(EnAni* this, GlobalContext* globalCtx);
 void func_809B05F0(EnAni* this, GlobalContext* globalCtx);
 void func_809B064C(EnAni* this, GlobalContext* globalCtx);
 void func_809B07F8(EnAni* this, GlobalContext* globalCtx);
-void func_809B0988(EnAni* this, GlobalContext* globalCtx);
+void EnAni_DoNothing(EnAni* this, GlobalContext* globalCtx);
 void func_809B0994(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx);
@@ -204,7 +204,7 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809B0988(EnAni* this, GlobalContext* globalCtx) {
+void EnAni_DoNothing(EnAni* this, GlobalContext* globalCtx) {
 }
 
 void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
@@ -257,7 +257,7 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
                 func_809B0A28(this, globalCtx);
                 break;
             case 4:
-                func_809B0988(this, globalCtx);
+                EnAni_DoNothing(this, globalCtx);
                 break;
         }
 

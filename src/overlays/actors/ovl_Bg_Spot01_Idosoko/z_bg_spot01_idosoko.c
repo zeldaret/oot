@@ -16,7 +16,7 @@ void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idosoko_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx);
+void BgSpot01Idosoko_DoNothing(BgSpot01Idosoko* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot01_Idosoko_InitVars = {
     ACTOR_BG_SPOT01_IDOSOKO,
@@ -51,7 +51,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (!LINK_IS_ADULT) {
         Actor_Kill(&this->dyna.actor);
     } else {
-        BgSpot01Idosoko_SetupAction(this, func_808ABF54);
+        BgSpot01Idosoko_SetupAction(this, BgSpot01Idosoko_DoNothing);
     }
 }
 
@@ -61,7 +61,7 @@ void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
+void BgSpot01Idosoko_DoNothing(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx) {
