@@ -233,7 +233,7 @@ static s32 sOcarinaGameRewards[] = {
     GI_RUPEE_RED,
 };
 
-static AnimationMostBasicInfo sSkullKidAnimations[] = {
+static AnimationMostBasicInfo sAnimationInfo[] = {
     { &gSkullKidBackflipAnim, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidShootNeedleAnim, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidPlayFluteAnim, ANIMMODE_LOOP, 0.0f },
@@ -286,11 +286,11 @@ static InitChainEntry sInitChain[] = {
 static s32 D_80B01EA0; // gets set if actor flags & 0x100 is set
 
 void EnSkj_ChangeAnim(EnSkj* this, u8 animIndex) {
-    f32 endFrame = Animation_GetLastFrame(sSkullKidAnimations[animIndex].anim);
+    f32 endFrame = Animation_GetLastFrame(sAnimationInfo[animIndex].anim);
 
     this->animIndex = animIndex;
-    Animation_Change(&this->skelAnime, sSkullKidAnimations[animIndex].anim, 1.0f, 0.0f, endFrame,
-                     sSkullKidAnimations[animIndex].mode, sSkullKidAnimations[animIndex].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[animIndex].anim, 1.0f, 0.0f, endFrame,
+                     sAnimationInfo[animIndex].mode, sAnimationInfo[animIndex].transitionRate);
 }
 
 void EnSkj_SetupAction(EnSkj* this, u8 action) {
