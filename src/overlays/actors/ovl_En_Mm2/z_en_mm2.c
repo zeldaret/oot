@@ -67,7 +67,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 63, 0, { 0, 0, 0 } },
 };
 
-static AnimationBasicWithSpeedInfo sAnimationEntries[] = {
+static AnimationBasicWithSpeedInfo sAnimationInfo[] = {
     { &gRunningManRunAnim, 1.0f, ANIMMODE_LOOP, -7.0f },     { &gRunningManSitStandAnim, -1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSitWaitAnim, 1.0f, ANIMMODE_LOOP, -7.0f }, { &gRunningManSitStandAnim, 1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSprintAnim, 1.0f, ANIMMODE_LOOP, -7.0f },  { &gRunningManExcitedAnim, 1.0f, ANIMMODE_LOOP, -12.0f },
@@ -84,19 +84,19 @@ void EnMm2_ChangeAnimation(EnMm2* this, s32 animationIndex, s32* previousAnimati
     if ((*previousAnimation < 0) || (animationIndex == *previousAnimation)) {
         phi_f0 = 0.0f;
     } else {
-        phi_f0 = sAnimationEntries[animationIndex].morphFrames;
+        phi_f0 = sAnimationInfo[animationIndex].morphFrames;
     }
 
-    if (sAnimationEntries[animationIndex].playSpeed >= 0.0f) {
-        Animation_Change(&this->skelAnime, sAnimationEntries[animationIndex].animation,
-                         sAnimationEntries[animationIndex].playSpeed, 0.0f,
-                         (f32)Animation_GetLastFrame(sAnimationEntries[animationIndex].animation),
-                         sAnimationEntries[animationIndex].mode, phi_f0);
+    if (sAnimationInfo[animationIndex].playSpeed >= 0.0f) {
+        Animation_Change(&this->skelAnime, sAnimationInfo[animationIndex].animation,
+                         sAnimationInfo[animationIndex].playSpeed, 0.0f,
+                         (f32)Animation_GetLastFrame(sAnimationInfo[animationIndex].animation),
+                         sAnimationInfo[animationIndex].mode, phi_f0);
     } else {
-        Animation_Change(&this->skelAnime, sAnimationEntries[animationIndex].animation,
-                         sAnimationEntries[animationIndex].playSpeed,
-                         (f32)Animation_GetLastFrame(sAnimationEntries[animationIndex].animation), 0.0f,
-                         sAnimationEntries[animationIndex].mode, phi_f0);
+        Animation_Change(&this->skelAnime, sAnimationInfo[animationIndex].animation,
+                         sAnimationInfo[animationIndex].playSpeed,
+                         (f32)Animation_GetLastFrame(sAnimationInfo[animationIndex].animation), 0.0f,
+                         sAnimationInfo[animationIndex].mode, phi_f0);
     }
     *previousAnimation = animationIndex;
 }
@@ -130,9 +130,9 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 21.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRunningManSkel, NULL, this->jointTable, this->morphTable, 16);
-    Animation_Change(&this->skelAnime, sAnimationEntries[RM2_ANIM_SIT_WAIT].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimationEntries[RM2_ANIM_SIT_WAIT].animation),
-                     sAnimationEntries[RM2_ANIM_SIT_WAIT].mode, sAnimationEntries[RM2_ANIM_SIT_WAIT].morphFrames);
+    Animation_Change(&this->skelAnime, sAnimationInfo[RM2_ANIM_SIT_WAIT].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[RM2_ANIM_SIT_WAIT].animation),
+                     sAnimationInfo[RM2_ANIM_SIT_WAIT].mode, sAnimationInfo[RM2_ANIM_SIT_WAIT].morphFrames);
     this->previousAnimation = RM2_ANIM_SIT_WAIT;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -190,7 +190,7 @@ void func_80AAF2BC(EnMm2* this, GlobalContext* globalCtx) {
 void func_80AAF330(EnMm2* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actionFunc = func_80AAF2BC;
-        EnMm2_ChangeAnimation(this, 0, &this->previousAnimation);
+        EnMm2_ChangeAnimation(this, RM2_ANIM_RUN, &this->previousAnimation);
         this->mouthTexIndex = RM2_MOUTH_OPEN;
         if (!(this->unk_1F4 & 2)) {
             Message_CloseTextbox(globalCtx);
@@ -259,7 +259,7 @@ void func_80AAF5EC(EnMm2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->unk_1F4 &= ~1;
-        EnMm2_ChangeAnimation(this, 3, &this->previousAnimation);
+        EnMm2_ChangeAnimation(this, RM2_ANIM_STAND, &this->previousAnimation);
         this->actionFunc = func_80AAF330;
     }
 }
@@ -283,7 +283,7 @@ void func_80AAF668(EnMm2* this, GlobalContext* globalCtx) {
         if (!(gSaveContext.eventInf[1] & 1)) {
             this->unk_1F4 |= 2;
             this->unk_1F4 &= ~1;
-            EnMm2_ChangeAnimation(this, 3, &this->previousAnimation);
+            EnMm2_ChangeAnimation(this, RM2_ANIM_STAND, &this->previousAnimation);
             this->actionFunc = func_80AAF330;
         }
     }

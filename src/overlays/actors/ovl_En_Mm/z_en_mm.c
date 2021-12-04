@@ -108,7 +108,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-static AnimationBasicWithSpeedInfo sAnimationEntries[] = {
+static AnimationBasicWithSpeedInfo sAnimationInfo[] = {
     { &gRunningManRunAnim, 1.0f, ANIMMODE_LOOP, -7.0f },     { &gRunningManSitStandAnim, -1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSitWaitAnim, 1.0f, ANIMMODE_LOOP, -7.0f }, { &gRunningManSitStandAnim, 1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSprintAnim, 1.0f, ANIMMODE_LOOP, -7.0f },  { &gRunningManExcitedAnim, 1.0f, ANIMMODE_LOOP, -12.0f },
@@ -139,19 +139,19 @@ void EnMm_ChangeAnimation(EnMm* this, s32 newAnimIndex, s32* curAnimIndex) {
     if ((*curAnimIndex < 0) || (newAnimIndex == *curAnimIndex)) {
         morphFrames = 0.0f;
     } else {
-        morphFrames = sAnimationEntries[newAnimIndex].morphFrames;
+        morphFrames = sAnimationInfo[newAnimIndex].morphFrames;
     }
 
-    if (sAnimationEntries[newAnimIndex].playSpeed >= 0.0f) {
-        Animation_Change(&this->skelAnime, sAnimationEntries[newAnimIndex].animation,
-                         sAnimationEntries[newAnimIndex].playSpeed, 0.0f,
-                         Animation_GetLastFrame(sAnimationEntries[newAnimIndex].animation),
-                         sAnimationEntries[newAnimIndex].mode, morphFrames);
+    if (sAnimationInfo[newAnimIndex].playSpeed >= 0.0f) {
+        Animation_Change(&this->skelAnime, sAnimationInfo[newAnimIndex].animation,
+                         sAnimationInfo[newAnimIndex].playSpeed, 0.0f,
+                         Animation_GetLastFrame(sAnimationInfo[newAnimIndex].animation),
+                         sAnimationInfo[newAnimIndex].mode, morphFrames);
     } else {
-        Animation_Change(&this->skelAnime, sAnimationEntries[newAnimIndex].animation,
-                         sAnimationEntries[newAnimIndex].playSpeed,
-                         Animation_GetLastFrame(sAnimationEntries[newAnimIndex].animation), 0.0f,
-                         sAnimationEntries[newAnimIndex].mode, morphFrames);
+        Animation_Change(&this->skelAnime, sAnimationInfo[newAnimIndex].animation,
+                         sAnimationInfo[newAnimIndex].playSpeed,
+                         Animation_GetLastFrame(sAnimationInfo[newAnimIndex].animation), 0.0f,
+                         sAnimationInfo[newAnimIndex].mode, morphFrames);
     }
 
     *curAnimIndex = newAnimIndex;
@@ -171,9 +171,9 @@ void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, sColChkInfoInit);
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    Animation_Change(&this->skelAnime, sAnimationEntries[RM_ANIM_RUN].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimationEntries[RM_ANIM_RUN].animation),
-                     sAnimationEntries[RM_ANIM_RUN].mode, sAnimationEntries[RM_ANIM_RUN].morphFrames);
+    Animation_Change(&this->skelAnime, sAnimationInfo[RM_ANIM_RUN].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[RM_ANIM_RUN].animation),
+                     sAnimationInfo[RM_ANIM_RUN].mode, sAnimationInfo[RM_ANIM_RUN].morphFrames);
 
     this->path = this->actor.params & 0xFF;
     this->unk_1F0 = 2;
