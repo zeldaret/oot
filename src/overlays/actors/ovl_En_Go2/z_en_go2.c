@@ -457,9 +457,10 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return CUR_UPG_VALUE(UPG_STRENGTH) != 0
-                   ? 0x302C
-                   : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017 : gSaveContext.infTable[15] & 0x100 ? 0x3019 : 0x3018;
+        return CUR_UPG_VALUE(UPG_STRENGTH) != 0    ? 0x302C
+               : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017
+               : gSaveContext.infTable[15] & 0x100 ? 0x3019
+                                                   : 0x3018;
     }
 }
 
