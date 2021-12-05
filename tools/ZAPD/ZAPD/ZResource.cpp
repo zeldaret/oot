@@ -4,6 +4,7 @@
 #include <regex>
 
 #include "Utils/StringHelper.h"
+#include "WarningHandler.h"
 #include "ZFile.h"
 
 ZResource::ZResource(ZFile* nParent)
@@ -85,29 +86,33 @@ void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 			}
 
 			if (!attrDeclared)
-				fprintf(stderr,
-				        "ZResource::ParseXML: Warning while parsing '%s'.\n"
-				        "\t Unexpected '%s' attribute in resource '%s'.\n",
-				        parent->GetName().c_str(), attrName.c_str(), reader->Name());
+			{
+				HANDLE_WARNING_RESOURCE(
+					WarningType::UnknownAttribute, parent, this, rawDataIndex,
+					StringHelper::Sprintf("unexpected '%s' attribute in resource <%s>",
+				                          attrName.c_str(), reader->Name()),
+					"");
+			}
 			attrs = attrs->Next();
 		}
 
 		if (!canHaveInner && !reader->NoChildren())
 		{
-			throw std::runtime_error(
-				StringHelper::Sprintf("ZResource::ParseXML: Fatal error in '%s'.\n"
-			                          "\t Resource '%s' with inner element/child detected.\n",
-			                          name.c_str(), reader->Name()));
+			std::string errorHeader = StringHelper::Sprintf(
+				"resource '%s' with inner element/child detected", reader->Name());
+			HANDLE_ERROR_PROCESS(WarningType::InvalidXML, errorHeader, "");
 		}
 
 		for (const auto& attr : registeredAttributes)
 		{
 			if (attr.second.isRequired && attr.second.value == "")
-				throw std::runtime_error(StringHelper::Sprintf(
-					"ZResource::ParseXML: Fatal error while parsing '%s'.\n"
-					"\t Missing required attribute '%s' in resource '%s'.\n"
-					"\t Aborting...",
-					parent->GetName().c_str(), attr.first.c_str(), reader->Name()));
+			{
+				std::string headerMsg =
+					StringHelper::Sprintf("missing required attribute '%s' in resource <%s>",
+				                          attr.first.c_str(), reader->Name());
+				HANDLE_ERROR_RESOURCE(WarningType::MissingAttribute, parent, this, rawDataIndex,
+				                      headerMsg, "");
+			}
 		}
 
 		name = registeredAttributes.at("Name").value;
@@ -118,10 +123,8 @@ void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 		{
 			if (!std::regex_match(name, r))
 			{
-				throw std::domain_error(
-					StringHelper::Sprintf("ZResource::ParseXML: Fatal error in '%s'.\n"
-				                          "\t Resource with invalid 'Name' attribute.\n",
-				                          name.c_str()));
+				HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this,
+				                      rawDataIndex, "invalid value found for 'Name' attribute", "");
 			}
 		}
 
@@ -146,7 +149,9 @@ void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 		}
 		else
 		{
-			throw std::runtime_error("Invalid value for 'Static' attribute.");
+			HANDLE_ERROR_RESOURCE(
+				WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+				StringHelper::Sprintf("invalid value '%s' for 'Static' attribute", staticConf), "");
 		}
 
 		declaredInXml = true;
@@ -253,18 +258,21 @@ std::string ZResource::GetDefaultName(const std::string& prefix) const
 	                             rawDataIndex);
 }
 
-std::string ZResource::GetSourceOutputCode([[maybe_unused]] const std::string& prefix)
+void ZResource::GetSourceOutputCode([[maybe_unused]] const std::string& prefix)
 {
 	std::string bodyStr = GetBodySourceCode();
 
-	Declaration* decl = parent->GetDeclaration(rawDataIndex);
-	if (decl == nullptr || decl->isPlaceholder)
-		decl = DeclareVar(prefix, bodyStr);
-	else
-		decl->text = bodyStr;
-	decl->staticConf = staticConf;
+	if (bodyStr != "ERROR")
+	{
+		Declaration* decl = parent->GetDeclaration(rawDataIndex);
 
-	return "";
+		if (decl == nullptr || decl->isPlaceholder)
+			decl = DeclareVar(prefix, bodyStr);
+		else
+			decl->text = bodyStr;
+
+		decl->staticConf = staticConf;
+	}
 }
 
 std::string ZResource::GetSourceOutputHeader([[maybe_unused]] const std::string& prefix)
@@ -312,13 +320,13 @@ offset_t Seg2Filespace(segptr_t segmentedAddress, uint32_t parentBaseAddress)
 		uint32_t parentBaseOffset = GETSEGOFFSET(parentBaseAddress);
 		if (parentBaseOffset > currentPtr)
 		{
-			throw std::runtime_error(
-				StringHelper::Sprintf("\nSeg2Filespace: Segmented address is smaller than "
-			                          "'BaseAddress'. Maybe your 'BaseAddress' is wrong?\n"
-			                          "\t SegmentedAddress: 0x%08X\n"
-			                          "\t BaseAddress:      0x%08X\n",
-			                          segmentedAddress, parentBaseAddress));
+			HANDLE_ERROR(WarningType::Always,
+			             StringHelper::Sprintf(
+							 "resource address 0x%08X is smaller than 'BaseAddress' 0x%08X",
+							 segmentedAddress, parentBaseAddress),
+			             "Maybe your 'BaseAddress' is wrong?");
 		}
+
 		currentPtr -= parentBaseOffset;
 	}
 

@@ -11,8 +11,6 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
 
-#define THIS ((EnFw*)thisx)
-
 void EnFw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -184,7 +182,7 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
 }
 
 void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFw* this = THIS;
+    EnFw* this = (EnFw*)thisx;
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFlareDancerCoreSkel, NULL, this->jointTable, this->morphTable,
                        11);
@@ -200,7 +198,7 @@ void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFw* this = THIS;
+    EnFw* this = (EnFw*)thisx;
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
@@ -354,7 +352,7 @@ void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
 }
 
 void EnFw_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFw* this = THIS;
+    EnFw* this = (EnFw*)thisx;
     SkelAnime_Update(&this->skelAnime);
     if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         // not attached to hookshot.
@@ -374,7 +372,7 @@ s32 EnFw_OverrideLimbDraw(GlobalContext* globalContext, s32 limbIndex, Gfx** dLi
 }
 
 void EnFw_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnFw* this = THIS;
+    EnFw* this = (EnFw*)thisx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 2) {
@@ -391,7 +389,7 @@ void EnFw_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnFw* this = THIS;
+    EnFw* this = (EnFw*)thisx;
 
     EnFw_UpdateDust(this);
     Matrix_Push();

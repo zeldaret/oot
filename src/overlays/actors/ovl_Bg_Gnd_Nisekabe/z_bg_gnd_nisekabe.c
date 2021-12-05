@@ -9,8 +9,6 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-#define THIS ((BgGndNisekabe*)thisx)
-
 void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndNisekabe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ const ActorInit Bg_Gnd_Nisekabe_InitVars = {
 };
 
 void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgGndNisekabe* this = THIS;
+    BgGndNisekabe* this = (BgGndNisekabe*)thisx;
 
     Actor_SetScale(&this->actor, 0.1);
     this->actor.uncullZoneForward = 3000.0;
@@ -39,7 +37,7 @@ void BgGndNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGndNisekabe_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGndNisekabe* this = THIS;
+    BgGndNisekabe* this = (BgGndNisekabe*)thisx;
 
     if (globalCtx->actorCtx.unk_03 != 0) {
         this->actor.flags |= ACTOR_FLAG_7;
@@ -54,7 +52,7 @@ void BgGndNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gGanonsCastleUnusedFakeWallDL,
         gGanonsCastleScrubsFakeWallDL,
     };
-    BgGndNisekabe* this = THIS;
+    BgGndNisekabe* this = (BgGndNisekabe*)thisx;
     u32 index = this->actor.params & 0xFF;
 
     if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {

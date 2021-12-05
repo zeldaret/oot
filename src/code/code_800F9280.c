@@ -391,14 +391,14 @@ void func_800FA174(u8 playerIdx) {
     D_8016E348[playerIdx] = 0;
 }
 
-void func_800FA18C(u8 playeridx, u8 arg1) {
+void func_800FA18C(u8 playerIdx, u8 arg1) {
     u8 i;
 
-    for (i = 0; i < D_8016E750[playeridx].unk_4D; i++) {
-        u8 unkb = (D_8016E750[playeridx].unk_2C[i] & 0xF00000) >> 20;
+    for (i = 0; i < D_8016E750[playerIdx].unk_4D; i++) {
+        u8 unkb = (D_8016E750[playerIdx].unk_2C[i] & 0xF00000) >> 20;
 
         if (unkb == arg1) {
-            D_8016E750[playeridx].unk_2C[i] = 0xFF000000;
+            D_8016E750[playerIdx].unk_2C[i] = 0xFF000000;
         }
     }
 }

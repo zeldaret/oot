@@ -34,7 +34,7 @@ public:
 	Declaration* DeclareVar(const std::string& prefix, const std::string& body) override;
 	std::string GetBodySourceCode() const override;
 
-	std::string GetSourceOutputCode(const std::string& prefix) override;
+	void GetSourceOutputCode(const std::string& prefix) override;
 
 	std::string GetDefaultName(const std::string& prefix) const override;
 	size_t GetDeclarationSizeFromNeighbor(uint32_t declarationAddress);

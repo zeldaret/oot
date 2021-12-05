@@ -9,8 +9,6 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-#define THIS ((EnWeatherTag*)thisx)
-
 void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWeatherTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWeatherTag_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -53,7 +51,7 @@ void EnWeatherTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnWeatherTag* this = THIS;
+    EnWeatherTag* this = (EnWeatherTag*)thisx;
 
     this->actor.flags &= ~ACTOR_FLAG_0;
 
@@ -323,7 +321,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, GlobalContext* globalCt
 }
 
 void EnWeatherTag_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnWeatherTag* this = THIS;
+    EnWeatherTag* this = (EnWeatherTag*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (BREG(0) != 0) {

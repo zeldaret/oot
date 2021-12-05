@@ -9,8 +9,6 @@
 
 #define FLAGS 0
 
-#define THIS ((BgMenkuriNisekabe*)thisx)
-
 void BgMenkuriNisekabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriNisekabe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -31,7 +29,7 @@ const ActorInit Bg_Menkuri_Nisekabe_InitVars = {
 static Gfx* sDLists[] = { gGTGFakeWallDL, gGTGFakeCeilingDL };
 
 void BgMenkuriNisekabe_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMenkuriNisekabe* this = THIS;
+    BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
 
     Actor_SetScale(&this->actor, 0.1f);
 }
@@ -40,7 +38,7 @@ void BgMenkuriNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMenkuriNisekabe_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMenkuriNisekabe* this = THIS;
+    BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
 
     if (globalCtx->actorCtx.unk_03 != 0) {
         this->actor.flags |= ACTOR_FLAG_7;
@@ -50,7 +48,7 @@ void BgMenkuriNisekabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMenkuriNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgMenkuriNisekabe* this = THIS;
+    BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
     u32 index = this->actor.params & 0xFF;
 
     if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {

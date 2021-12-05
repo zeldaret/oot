@@ -393,8 +393,8 @@ void Gameplay_Init(GameState* thisx) {
 
     Interface_SetSceneRestrictions(globalCtx);
     func_800758AC(globalCtx);
-    gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
-    gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
+    gSaveContext.seqId = globalCtx->sequenceCtx.seqId;
+    gSaveContext.natureAmbienceId = globalCtx->sequenceCtx.natureAmbienceId;
     func_8002DF18(globalCtx, GET_PLAYER(globalCtx));
     AnimationContext_Update(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
@@ -479,12 +479,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         if (!(gEntranceTable[globalCtx->nextEntranceIndex + sp6E].field & 0x8000)) { // Continue BGM Off
                             // "Sound initalized. 111"
                             osSyncPrintf("\n\n\nサウンドイニシャル来ました。111");
-                            if ((globalCtx->fadeTransition < 56) && (func_80077600() == 0)) {
+                            if ((globalCtx->fadeTransition < 56) && !Environment_IsForcedSequenceDisabled()) {
                                 // "Sound initalized. 222"
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
-                                gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
-                                gSaveContext.nightSeqIndex = 0xFF;
+                                gSaveContext.seqId = (u8)NA_BGM_DISABLED;
+                                gSaveContext.natureAmbienceId = 0xFF;
                             }
                         }
                     }

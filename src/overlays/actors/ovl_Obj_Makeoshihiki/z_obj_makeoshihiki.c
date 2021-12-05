@@ -10,8 +10,6 @@
 
 #define FLAGS ACTOR_FLAG_5
 
-#define THIS ((ObjMakeoshihiki*)thisx)
-
 void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
