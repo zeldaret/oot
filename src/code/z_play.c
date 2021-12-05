@@ -484,7 +484,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
                                 gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-                                gSaveContext.natureAmbienceId = 0xFF;
+                                gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
                             }
                         }
                     }
