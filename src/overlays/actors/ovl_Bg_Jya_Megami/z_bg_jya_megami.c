@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgJyaMegami*)thisx)
-
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaMegami_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -153,7 +151,7 @@ void BgJyaMegami_SetupSpawnEffect(BgJyaMegami* this, GlobalContext* globalCtx, f
 }
 
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     BgJyaMegami_InitDynaPoly(this, globalCtx, &GMegamiCol, DPM_UNK);
     BgJyaMegami_InitCollider(this, globalCtx);
@@ -167,7 +165,7 @@ void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaMegami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -282,7 +280,7 @@ void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -344,7 +342,7 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaMegami_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     Collider_UpdateSpheres(0, &this->collider);
     if (this->actionFunc == BgJyaMegami_Explode) {

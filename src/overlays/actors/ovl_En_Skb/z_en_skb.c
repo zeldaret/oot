@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnSkb*)thisx)
-
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -143,7 +141,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     s16 paramOffsetBody;
     s16 paramOffsetArm;
 
@@ -175,7 +173,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
 
     if (this->actor.parent != NULL) {
         EnEncount1* spawner = (EnEncount1*)this->actor.parent;
@@ -494,7 +492,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     s32 pad;
 
     func_80AFD968(this, globalCtx);
@@ -517,7 +515,7 @@ void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     s16 color;
     s16 pad[2];
 
@@ -538,7 +536,7 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
 
     Collider_UpdateSpheres(limbIndex, &this->collider);
 
@@ -550,7 +548,7 @@ void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnSkb_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSkb_OverrideLimbDraw,
                       EnSkb_PostLimbDraw, &this->actor);

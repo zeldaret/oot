@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgIceTurara*)thisx)
-
 void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceTurara* this = THIS;
+    BgIceTurara* this = (BgIceTurara*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -83,7 +81,7 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceTurara* this = THIS;
+    BgIceTurara* this = (BgIceTurara*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -193,7 +191,7 @@ void BgIceTurara_Regrow(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceTurara* this = THIS;
+    BgIceTurara* this = (BgIceTurara*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

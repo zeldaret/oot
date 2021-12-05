@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ObjComb*)thisx)
-
 void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -149,7 +147,7 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
 }
 
 void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjComb* this = THIS;
+    ObjComb* this = (ObjComb*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -159,7 +157,7 @@ void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjComb* this = THIS;
+    ObjComb* this = (ObjComb*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -196,7 +194,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
 }
 
 void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjComb* this = THIS;
+    ObjComb* this = (ObjComb*)thisx;
 
     this->unk_1B2 += 0x2EE0;
     this->actionFunc(this, globalCtx);
@@ -204,7 +202,7 @@ void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ObjComb* this = THIS;
+    ObjComb* this = (ObjComb*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_comb.c", 369);
 

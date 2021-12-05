@@ -2,8 +2,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((EnClearTag*)thisx)
-
 void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -218,7 +216,7 @@ void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32
  * This just destroys the collider.
  */
 void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -228,7 +226,7 @@ void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
  * This allocates a collider, initializes effects, and sets up ClearTag instance data.
  */
 void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
     s32 defaultCutsceneTimer = 100;
     s16 i;
     s16 j;
@@ -318,7 +316,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
     s16 xRotationTarget;
     s16 rotationScale;
     GlobalContext* globalCtx = globalCtx2;
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     this->frameCounter++;
@@ -681,7 +679,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
  */
 void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_clear_tag.c", 983);
     if (this->drawMode != CLEAR_TAG_DRAW_MODE_EFFECT) {

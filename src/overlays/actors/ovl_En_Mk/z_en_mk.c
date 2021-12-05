@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnMk*)thisx)
-
 void EnMk_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMk_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -51,7 +49,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnMk_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
     s32 swimFlag;
 
     this->actor.minVelocityY = -4.0f;
@@ -76,7 +74,7 @@ void EnMk_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -282,7 +280,7 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
     s32 pad;
     Vec3s vec;
     Player* player;
@@ -345,7 +343,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnMk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
 
     if (limbIndex == 11) {
         rot->y -= this->headRotation.y;
@@ -357,7 +355,7 @@ s32 EnMk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnMk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80AAD64C = { 1000.0f, -100.0f, 0.0f };
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
 
     if (limbIndex == 11) {
         Matrix_MultVec3f(&D_80AAD64C, &this->actor.focus.pos);
@@ -365,7 +363,7 @@ void EnMk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnMk_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00400000
 
-#define THIS ((BgSpot08Bakudankabe*)thisx)
-
 void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -159,7 +157,7 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot08Bakudankabe* this = THIS;
+    BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -175,14 +173,14 @@ void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot08Bakudankabe* this = THIS;
+    BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot08Bakudankabe* this = THIS;
+    BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
 
     if (this->collider.base.acFlags & AC_HIT) {
         func_808B0324(this, globalCtx);
@@ -196,7 +194,7 @@ void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot08Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot08Bakudankabe* this = THIS;
+    BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
 
     Collider_UpdateSpheres(0, &this->collider);
     Collider_UpdateSpheres(1, &this->collider);

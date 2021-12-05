@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnAnubice*)thisx)
-
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -121,7 +119,7 @@ void EnAnubice_SetFireballRot(EnAnubice* this, GlobalContext* globalCtx) {
 }
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnAnubice* this = THIS;
+    EnAnubice* this = (EnAnubice*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gAnubiceSkel, &gAnubiceIdleAnim, this->jointTable, this->morphTable,
@@ -149,7 +147,7 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnAnubice* this = THIS;
+    EnAnubice* this = (EnAnubice*)thisx;
     EnAnubiceTag* temp_v1;
 
     Collider_DestroyCylinder(globalCtx, &this->col);
@@ -354,7 +352,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
     Vec3f sp48;
     Vec3f sp3C;
-    EnAnubice* this = THIS;
+    EnAnubice* this = (EnAnubice*)thisx;
 
     if (this->actionFunc != EnAnubice_SetupDie && this->actionFunc != EnAnubice_Die &&
         this->actor.shape.yOffset == 0.0f) {
@@ -458,7 +456,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnAnubis_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                               void* thisx) {
-    EnAnubice* this = THIS;
+    EnAnubice* this = (EnAnubice*)thisx;
 
     if (limbIndex == 13) {
         rot->z += this->unk_278;
@@ -468,7 +466,7 @@ s32 EnAnubis_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void EnAnubis_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnAnubice* this = THIS;
+    EnAnubice* this = (EnAnubice*)thisx;
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
@@ -484,7 +482,7 @@ void EnAnubis_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx**
 }
 
 void EnAnubice_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnAnubice* this = THIS;
+    EnAnubice* this = (EnAnubice*)thisx;
 
     func_80093D84(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnAnubis_OverrideLimbDraw,

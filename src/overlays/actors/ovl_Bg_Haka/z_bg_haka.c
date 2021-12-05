@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHaka*)thisx)
-
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHaka_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHaka* this = THIS;
+    BgHaka* this = (BgHaka*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -52,7 +50,7 @@ void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHaka* this = THIS;
+    BgHaka* this = (BgHaka*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -143,7 +141,7 @@ void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx) {
 }
 
 void BgHaka_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHaka* this = THIS;
+    BgHaka* this = (BgHaka*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

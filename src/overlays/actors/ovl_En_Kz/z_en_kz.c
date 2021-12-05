@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnKz*)thisx)
-
 void EnKz_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKz_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKz_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -97,7 +95,7 @@ u16 EnKz_GetTextNoMaskAdult(GlobalContext* globalCtx, EnKz* this) {
 }
 
 u16 EnKz_GetText(GlobalContext* globalCtx, Actor* thisx) {
-    EnKz* this = THIS;
+    EnKz* this = (EnKz*)thisx;
     u16 reactionText = Text_GetFaceReaction(globalCtx, 0x1E);
 
     if (reactionText != 0) {
@@ -112,7 +110,7 @@ u16 EnKz_GetText(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
-    EnKz* this = THIS;
+    EnKz* this = (EnKz*)thisx;
     s16 ret = 1;
 
     switch (Message_GetState(&globalCtx->msgCtx)) {
@@ -312,7 +310,7 @@ s32 EnKz_SetMovedPos(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKz* this = THIS;
+    EnKz* this = (EnKz*)thisx;
     s32 pad;
 
     SkelAnime_InitFlex(globalCtx, &this->skelanime, &object_kz_Skel_0086D0, NULL, this->jointTable, this->morphTable,
@@ -343,7 +341,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKz_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnKz* this = THIS;
+    EnKz* this = (EnKz*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -447,7 +445,7 @@ void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnKz* this = THIS;
+    EnKz* this = (EnKz*)thisx;
     s32 pad;
 
     if (LINK_IS_ADULT && !(gSaveContext.infTable[19] & 0x100)) {
@@ -465,7 +463,7 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnKz* this = THIS;
+    EnKz* this = (EnKz*)thisx;
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 10) {
         rot->y += Math_SinS(this->unk_2A6[limbIndex]) * 200.0f;
@@ -476,7 +474,7 @@ s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnKz* this = THIS;
+    EnKz* this = (EnKz*)thisx;
     Vec3f mult = { 2600.0f, 0.0f, 0.0f };
 
     if (limbIndex == 11) {
@@ -490,7 +488,7 @@ void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
         object_kz_Tex_001870,
         object_kz_Tex_001C70,
     };
-    EnKz* this = THIS;
+    EnKz* this = (EnKz*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1259);
 

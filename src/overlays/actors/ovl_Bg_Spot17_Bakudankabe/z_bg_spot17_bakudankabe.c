@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot17Bakudankabe*)thisx)
-
 void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -93,7 +91,7 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot17Bakudankabe* this = THIS;
+    BgSpot17Bakudankabe* this = (BgSpot17Bakudankabe*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -109,12 +107,12 @@ void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot17Bakudankabe* this = THIS;
+    BgSpot17Bakudankabe* this = (BgSpot17Bakudankabe*)thisx;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot17Bakudankabe* this = THIS;
+    BgSpot17Bakudankabe* this = (BgSpot17Bakudankabe*)thisx;
     if (this->dyna.actor.xzDistToPlayer < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != NULL) {
         func_808B6BC0(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));

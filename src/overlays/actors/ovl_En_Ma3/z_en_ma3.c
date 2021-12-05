@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000039
 
-#define THIS ((EnMa3*)thisx)
-
 void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -234,7 +232,7 @@ void EnMa3_ChangeAnim(EnMa3* this, s32 idx) {
 }
 
 void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa3* this = THIS;
+    EnMa3* this = (EnMa3*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
@@ -263,7 +261,7 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMa3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa3* this = THIS;
+    EnMa3* this = (EnMa3*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -277,7 +275,7 @@ void func_80AA3200(EnMa3* this, GlobalContext* globalCtx) {
 }
 
 void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa3* this = THIS;
+    EnMa3* this = (EnMa3*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -300,7 +298,7 @@ void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnMa3* this = THIS;
+    EnMa3* this = (EnMa3*)thisx;
     Vec3s vec;
 
     if ((limbIndex == MALON_ADULT_LIMB_LEFT_THIGH) || (limbIndex == MALON_ADULT_LIMB_RIGHT_THIGH)) {
@@ -327,7 +325,7 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnMa3* this = THIS;
+    EnMa3* this = (EnMa3*)thisx;
     Vec3f vec = { 900.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
@@ -346,7 +344,7 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sMouthTextures[] = { gMalonAdultMouthNeutralTex, gMalonAdultMouthSadTex, gMalonAdultMouthHappyTex };
     static void* sEyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
-    EnMa3* this = THIS;
+    EnMa3* this = (EnMa3*)thisx;
     Camera* camera;
     f32 someFloat;
     s32 pad;

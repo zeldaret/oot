@@ -6,8 +6,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((DemoKankyo*)thisx)
-
 void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoKankyo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -181,7 +179,7 @@ void DemoKankyo_SetupAction(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
 }
 
 void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
     s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjIds[this->actor.params]);
 
@@ -423,12 +421,12 @@ void DemoKankyo_KillDoorOfTimeCollision(DemoKankyo* this, GlobalContext* globalC
 }
 
 void DemoKankyo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     this->actionFunc(this, globalCtx);
 }
 
 void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
 
     if (this->actor.objBankIndex == this->objBankIndex) {
         switch (this->actor.params) {
@@ -485,7 +483,7 @@ void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 // transform relating to blue rain
 void func_80989B54(Actor* thisx, GlobalContext* globalCtx, s16 i) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
 
     switch (globalCtx->sceneNum) {
         case SCENE_HIRAL_DEMO:
@@ -511,7 +509,7 @@ void func_80989B54(Actor* thisx, GlobalContext* globalCtx, s16 i) {
 }
 
 void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     f32 temp_f12_2;
     s16 i;
     f32 dx;
@@ -630,7 +628,7 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoKankyo_DrawRock(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1376);
@@ -651,7 +649,7 @@ void DemoKankyo_DrawRock(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoKankyo_DrawClouds(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
     s32 pad;
     f32 dx;
@@ -688,7 +686,7 @@ void DemoKankyo_DrawClouds(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoKankyo_DrawDoorOfTime(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1487);
@@ -707,7 +705,7 @@ void DemoKankyo_DrawDoorOfTime(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoKankyo_DrawLightPlane(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1514);
@@ -763,7 +761,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
 
     s16 i;
     f32 temp_f22;
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     Gfx* disp;
     Player* player = GET_PLAYER(globalCtx);
     Vec3f camPos;
@@ -899,7 +897,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, GlobalContext* globalCtx) {
     static u32 D_8098CFB4;
     static Vec3f D_8098CFB8;
 
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     f32 translateX;
     f32 translateY;
     f32 translateZ;

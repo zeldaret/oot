@@ -6,8 +6,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((BossGoma*)thisx)
-
 // IRIS_FOLLOW: gohma looks towards the player (iris rotation)
 // BONUS_IFRAMES: gain invincibility frames when the player does something (throwing things?), or
 // randomly (see BossGoma_UpdateEye)
@@ -340,7 +338,7 @@ static InitChainEntry sInitChain[] = {
 
 void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 4000.0f, ActorShadow_DrawCircle, 150.0f);
@@ -386,7 +384,7 @@ void BossGoma_PlayEffectsAndSfx(BossGoma* this, GlobalContext* globalCtx, s16 ar
 }
 
 void BossGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
 
     SkelAnime_Free(&this->skelanime, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -1899,7 +1897,7 @@ void BossGoma_UpdateEyeEnvColor(BossGoma* this) {
 }
 
 void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
     s32 pad;
 
     this->visualState = VISUALSTATE_DEFAULT;
@@ -1954,7 +1952,7 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                               void* thisx) {
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
     s32 doNotDrawLimb = false;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4685);
@@ -2052,7 +2050,7 @@ void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     Vec3f childPos;
     Vec3s childRot;
     EnGoma* babyGohma;
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
     s32 pad;
     MtxF mtx;
 
@@ -2120,7 +2118,7 @@ Gfx* BossGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
 }
 
 void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4991);
 

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00001035
 
-#define THIS ((EnPoField*)thisx)
-
 void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoField_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -148,7 +146,7 @@ static u8 sSpawnSwitchFlags[10];
 static MtxF sLimb7Mtx;
 
 void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoField* this = THIS;
+    EnPoField* this = (EnPoField*)thisx;
     s32 pad;
 
     if (sNumSpawned != 10) {
@@ -179,7 +177,7 @@ void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoField_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoField* this = THIS;
+    EnPoField* this = (EnPoField*)thisx;
 
     if (this->actor.params != 0xFF) {
         LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
@@ -853,7 +851,7 @@ void func_80AD6330(EnPoField* this) {
 
 void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnPoField* this = THIS;
+    EnPoField* this = (EnPoField*)thisx;
 
     EnPoField_TestForDamage(this, globalCtx);
     this->actionFunc(this, globalCtx);
@@ -877,7 +875,7 @@ void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnPoField_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx, Gfx** gfxP) {
-    EnPoField* this = THIS;
+    EnPoField* this = (EnPoField*)thisx;
 
     if (this->lightColor.a == 0 || limbIndex == 7 || (this->actionFunc == EnPoField_Death && this->actionTimer >= 2)) {
         *dList = NULL;
@@ -897,7 +895,7 @@ s32 EnPoField_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnPoField_PostLimDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
-    EnPoField* this = THIS;
+    EnPoField* this = (EnPoField*)thisx;
 
     if (this->actionFunc == EnPoField_Death && this->actionTimer >= 2 && limbIndex == 8) {
         gSPMatrix((*gfxP)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_field.c", 1916),
@@ -923,7 +921,7 @@ void EnPoField_PostLimDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoField* this = THIS;
+    EnPoField* this = (EnPoField*)thisx;
     EnPoFieldInfo* info = &sPoFieldInfo[this->actor.params];
 
     if (this->actionFunc != EnPoField_WaitForSpawn) {
@@ -962,7 +960,7 @@ void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoField_UpdateDead(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoField* this = THIS;
+    EnPoField* this = (EnPoField*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (this->actionFunc == EnPoField_SoulIdle) {
@@ -972,7 +970,7 @@ void EnPoField_UpdateDead(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoField_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoField* this = THIS;
+    EnPoField* this = (EnPoField*)thisx;
     s32 pad;
     EnPoFieldInfo* info = &sPoFieldInfo[this->actor.params];
 

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnGe3*)thisx)
-
 void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -66,7 +64,7 @@ void EnGe3_ChangeAction(EnGe3* this, s32 i) {
 }
 
 void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -88,7 +86,7 @@ void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -200,7 +198,7 @@ void EnGe3_MoveAndBlink(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void EnGe3_UpdateWhenNotTalking(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
 
     EnGe3_UpdateCollision(this, globalCtx);
     this->actionFunc(this, globalCtx);
@@ -219,7 +217,7 @@ void EnGe3_UpdateWhenNotTalking(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
 
     EnGe3_UpdateCollision(this, globalCtx);
     this->actionFunc(this, globalCtx);
@@ -227,7 +225,7 @@ void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnGe3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
 
     switch (limbIndex) {
         // Hide swords and veil from object_geldb
@@ -268,7 +266,7 @@ s32 EnGe3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnGe3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
     Vec3f D_80A351C8 = { 600.0f, 700.0f, 0.0f };
 
     if (limbIndex == GELDB_LIMB_HEAD) {
@@ -282,7 +280,7 @@ void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         0x060065A8, // Quarter-open
         0x06006D28, // Closed
     };
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge3.c", 614);

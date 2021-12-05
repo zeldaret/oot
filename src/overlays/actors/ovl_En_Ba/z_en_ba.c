@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnBa*)thisx)
-
 void EnBa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -91,7 +89,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnBa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBa* this = THIS;
+    EnBa* this = (EnBa*)thisx;
     Vec3f sp38 = D_809B80E4;
     s32 pad;
     s16 i;
@@ -128,7 +126,7 @@ void EnBa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBa* this = THIS;
+    EnBa* this = (EnBa*)thisx;
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
@@ -447,7 +445,7 @@ void EnBa_Die(EnBa* this, GlobalContext* globalCtx) {
 }
 
 void EnBa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBa* this = THIS;
+    EnBa* this = (EnBa*)thisx;
 
     if ((this->actor.params < EN_BA_DEAD_BLOB) && (this->collider.base.acFlags & 2)) {
         this->collider.base.acFlags &= ~2;
@@ -470,7 +468,7 @@ void EnBa_Update(Actor* thisx, GlobalContext* globalCtx) {
 static Gfx* D_809B8118[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
 
 void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBa* this = THIS;
+    EnBa* this = (EnBa*)thisx;
     s32 pad;
     s16 i;
     Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 14);

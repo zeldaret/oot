@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnBdfire*)thisx)
-
 void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ void EnbdFire_SetupDraw(EnBdfire* this, EnBdfireDrawFunc drawFunc) {
 }
 
 void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBdfire* this = THIS;
+    EnBdfire* this = (EnBdfire*)thisx;
     s32 pad;
 
     Actor_SetScale(&this->actor, 0.6f);
@@ -75,7 +73,7 @@ void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBdfire* this = THIS;
+    EnBdfire* this = (EnBdfire*)thisx;
 
     if (this->actor.params < 0) {
         LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
@@ -189,7 +187,7 @@ void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
 }
 
 void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBdfire* this = THIS;
+    EnBdfire* this = (EnBdfire*)thisx;
 
     this->unk_156++;
     this->actionFunc(this, globalCtx);
@@ -223,7 +221,7 @@ void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
 }
 
 void EnBdfire_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBdfire* this = THIS;
+    EnBdfire* this = (EnBdfire*)thisx;
 
     this->drawFunc(this, globalCtx);
 }

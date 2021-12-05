@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnFdFire*)thisx)
-
 void EnFdFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFdFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFdFire_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -122,7 +120,7 @@ s32 EnFdFire_CheckCollider(EnFdFire* this, GlobalContext* globalCtx) {
 }
 
 void EnFdFire_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFdFire* this = THIS;
+    EnFdFire* this = (EnFdFire*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -141,7 +139,7 @@ void EnFdFire_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFdFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFdFire* this = THIS;
+    EnFdFire* this = (EnFdFire*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -210,7 +208,7 @@ void EnFdFire_Disappear(EnFdFire* this, GlobalContext* globalCtx) {
 }
 
 void EnFdFire_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFdFire* this = THIS;
+    EnFdFire* this = (EnFdFire*)thisx;
     s32 pad;
 
     if (this->actionFunc != EnFdFire_Disappear) {
@@ -240,7 +238,7 @@ void EnFdFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         { 0, 10, 255, 255 },
     };
     s32 pad;
-    EnFdFire* this = THIS;
+    EnFdFire* this = (EnFdFire*)thisx;
     Vec3f scale = { 0.0f, 0.0f, 0.0f };
     Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
     s16 sp8E;

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnDaikuKakariko*)thisx)
-
 typedef enum {
     /* 0x0 */ CARPENTER_ICHIRO,  // Red and purple pants, normal hair
     /* 0x1 */ CARPENTER_SABOORO, // Light blue pants
@@ -119,7 +117,7 @@ void EnDaikuKakariko_SetAnimFromIndex(EnDaikuKakariko* this, s32 animIndex, s32*
 
 void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u16 initFlags[] = { 0x0080, 0x00B0, 0x0070, 0x0470 }; // List of inital values for this->flags
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     s32 pad;
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
@@ -197,7 +195,7 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDaikuKakariko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -445,7 +443,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
 }
 
 void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
@@ -487,7 +485,7 @@ void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                      void* thisx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     Vec3s angle;
 
     switch (limbIndex) {
@@ -520,7 +518,7 @@ void EnDaikuKakariko_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
     static Gfx* carpenterHeadDLists[] = { object_daiku_DL_005BD0, object_daiku_DL_005AC0, object_daiku_DL_005990,
                                           object_daiku_DL_005880 };
     static Vec3f unkVec = { 700.0f, 1100.0f, 0.0f };
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku_kakariko.c", 1104);
 
@@ -533,7 +531,7 @@ void EnDaikuKakariko_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 }
 
 void EnDaikuKakariko_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku_kakariko.c", 1124);
 

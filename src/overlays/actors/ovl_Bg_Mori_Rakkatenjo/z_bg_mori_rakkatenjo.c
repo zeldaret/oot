@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgMoriRakkatenjo*)thisx)
-
 void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -49,7 +47,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriRakkatenjo* this = THIS;
+    BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
@@ -81,7 +79,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriRakkatenjo* this = THIS;
+    BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -199,7 +197,7 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
 
 void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriRakkatenjo* this = THIS;
+    BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     if (this->timer > 0) {
         this->timer--;
@@ -221,7 +219,7 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriRakkatenjo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriRakkatenjo* this = THIS;
+    BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 497);
     func_80093D18(globalCtx->state.gfxCtx);

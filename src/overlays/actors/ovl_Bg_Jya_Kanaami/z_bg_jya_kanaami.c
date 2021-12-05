@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgJyaKanaami*)thisx)
-
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -56,7 +54,7 @@ void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, Col
 }
 
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaKanaami* this = THIS;
+    BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
     BgJyaKanaami_InitDynaPoly(this, globalCtx, &gKanaamiCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -69,7 +67,7 @@ void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaKanaami* this = THIS;
+    BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -117,7 +115,7 @@ void func_80899A08(BgJyaKanaami* this) {
 }
 
 void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaKanaami* this = THIS;
+    BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);

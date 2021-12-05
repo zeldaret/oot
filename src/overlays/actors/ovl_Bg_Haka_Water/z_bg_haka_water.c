@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgHakaWater*)thisx)
-
 void BgHakaWater_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaWater_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaWater_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,7 +35,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaWater_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaWater* this = THIS;
+    BgHakaWater* this = (BgHakaWater*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
@@ -102,13 +100,13 @@ void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaWater_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaWater* this = THIS;
+    BgHakaWater* this = (BgHakaWater*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgHakaWater_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaWater* this = THIS;
+    BgHakaWater* this = (BgHakaWater*)thisx;
     s32 pad;
     f32 temp;
     s32 pad2;

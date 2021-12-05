@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000410
 
-#define THIS ((ObjSyokudai*)thisx)
-
 void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -82,7 +80,7 @@ static s32 sLitTorchCount;
 void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u8 sColTypesStand[] = { 0x09, 0x0B, 0x0B };
     s32 pad;
-    ObjSyokudai* this = THIS;
+    ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 torchType = this->actor.params & 0xF000;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -112,7 +110,7 @@ void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjSyokudai* this = THIS;
+    ObjSyokudai* this = (ObjSyokudai*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->colliderStand);
     Collider_DestroyCylinder(globalCtx, &this->colliderFlame);
@@ -121,7 +119,7 @@ void ObjSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjSyokudai* this = THIS;
+    ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 torchCount = (this->actor.params >> 6) & 0xF;
     s32 switchFlag = this->actor.params & 0x3F;
     s32 torchType = this->actor.params & 0xF000;
@@ -261,7 +259,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
 void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* displayLists[] = { gGoldenTorchDL, gTimedTorchDL, gWoodenTorchDL };
     s32 pad;
-    ObjSyokudai* this = THIS;
+    ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 timerMax;
 
     timerMax = (((this->actor.params >> 6) & 0xF) * 50) + 100;

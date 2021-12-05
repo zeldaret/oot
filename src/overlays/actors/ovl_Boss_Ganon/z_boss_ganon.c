@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((BossGanon*)thisx)
-
 void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -336,7 +334,7 @@ static InitChainEntry sInitChain[] = {
 void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
     s16 i;
     GlobalContext* globalCtx = globalCtx2;
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
     s32 cond;
     f32 xDistFromPlayer;
     f32 yDistFromPlayer;
@@ -461,7 +459,7 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
 
     if ((this->actor.params < 0xC8) || (this->actor.params >= 0x104)) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -2767,7 +2765,7 @@ static f32 D_808E4D44[] = {
 };
 
 void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     f32 legRotX;
     f32 legRotY;
@@ -3193,7 +3191,7 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 BossGanon_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
 
     switch (limbIndex) {
         case 10:
@@ -3253,7 +3251,7 @@ void BossGanon_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     static Vec3f D_808E4DDC = { 1300.0f, 0.0f, 0.0f };
     static Vec3f D_808E4DE8 = { 600.0f, 420.0f, 100.0f };
     s8 bodyPart;
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
 
     bodyPart = bodyPartLimbMap[limbIndex];
     if (bodyPart >= 0) {
@@ -3784,7 +3782,7 @@ void BossGanon_DrawShadowTexture(void* tex, BossGanon* this, GlobalContext* glob
 
 void BossGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
     void* shadowTex;
 
     shadowTex = Graph_Alloc(globalCtx->state.gfxCtx, 64 * 64);
@@ -3864,7 +3862,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Vec3f spAC;
     Vec3f spA0;
     Vec3f sp94;
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     f32 xDistFromLink;
     f32 yDistFromLink;
@@ -4124,7 +4122,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void BossGanon_LightBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
     s16 i;
     f32 alpha;
     s32 pad;
@@ -4174,7 +4172,7 @@ void BossGanon_LightBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_808E1EB4(Actor* thisx, GlobalContext* globalCtx2) {
     s16 i;
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     BossGanon* dorf = (BossGanon*)this->actor.parent;
     f32 xDiff;
@@ -4271,7 +4269,7 @@ void func_808E1EB4(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void func_808E229C(Actor* thisx, GlobalContext* globalCtx2) {
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s16 i;
     s32 temp;
@@ -4308,7 +4306,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp84;
     s16 i;
     s16 sp80;
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
     BossGanon* dorf = (BossGanon*)this->actor.parent;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
@@ -4550,7 +4548,7 @@ static Gfx* sBigMagicLightStreakDLists[] = {
 };
 
 void func_808E324C(Actor* thisx, GlobalContext* globalCtx) {
-    BossGanon* this = THIS;
+    BossGanon* this = (BossGanon*)thisx;
     Mtx* mtx;
     s16 i;
     s32 temp;

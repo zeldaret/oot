@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot09Obj*)thisx)
-
 void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot09Obj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot09Obj_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -137,7 +135,7 @@ s32 func_808B1D44(BgSpot09Obj* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot09Obj* this = THIS;
+    BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
     osSyncPrintf("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", this->dyna.actor.params,
                  gSaveContext.eventChkInf[9] & 0xF);
@@ -156,7 +154,7 @@ void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot09Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaCollisionContext* dynaColCtx = &globalCtx->colCtx.dyna;
-    BgSpot09Obj* this = THIS;
+    BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
     if (this->dyna.actor.params != 0) {
         DynaPoly_DeleteBgActor(globalCtx, dynaColCtx, this->dyna.bgId);

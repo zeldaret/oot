@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnAnubiceTag*)thisx)
-
 void EnAnubiceTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceTag_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,7 +30,7 @@ const ActorInit En_Anubice_Tag_InitVars = {
 };
 
 void EnAnubiceTag_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnAnubiceTag* this = THIS;
+    EnAnubiceTag* this = (EnAnubiceTag*)thisx;
 
     osSyncPrintf("\n\n");
     // "Anubis control tag generated"
@@ -98,13 +96,13 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
 }
 
 void EnAnubiceTag_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnAnubiceTag* this = THIS;
+    EnAnubiceTag* this = (EnAnubiceTag*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void EnAnubiceTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnAnubiceTag* this = THIS;
+    EnAnubiceTag* this = (EnAnubiceTag*)thisx;
 
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

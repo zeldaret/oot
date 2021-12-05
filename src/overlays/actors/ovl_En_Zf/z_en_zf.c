@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnZf*)thisx)
-
 void EnZf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -276,7 +274,7 @@ s16 EnZf_SecondaryFloorCheck(EnZf* this, GlobalContext* globalCtx, f32 dist) {
 
 void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnZf* this = THIS;
+    EnZf* this = (EnZf*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     EffectBlureInit1 blureInit;
     f32 posDiff;
@@ -354,7 +352,7 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnZf* this = THIS;
+    EnZf* this = (EnZf*)thisx;
 
     if ((this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) /* miniboss */ &&
         (Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_ZF, ACTORCAT_ENEMY, 10000.0f) == NULL)) {
@@ -2023,7 +2021,7 @@ void EnZf_UpdateDamage(EnZf* this, GlobalContext* globalCtx) {
 
 void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnZf* this = THIS;
+    EnZf* this = (EnZf*)thisx;
     s32 pad2;
 
     EnZf_UpdateDamage(this, globalCtx);
@@ -2118,7 +2116,7 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnZf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnZf* this = THIS;
+    EnZf* this = (EnZf*)thisx;
 
     switch (limbIndex) {
         case ENZF_LIMB_HEAD_ROOT:
@@ -2153,7 +2151,7 @@ void EnZf_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f sp54;
     Vec3f sp48;
-    EnZf* this = THIS;
+    EnZf* this = (EnZf*)thisx;
     s32 bodyPart = -1;
 
     if (limbIndex == ENZF_LIMB_SWORD) {
@@ -2232,7 +2230,7 @@ static Gfx D_80B4A2F8[] = {
 
 void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnZf* this = THIS;
+    EnZf* this = (EnZf*)thisx;
     ; // Extra ";" required for matching. Cannot be if (1) {} or the like. Typo?
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zf.c", 3533);

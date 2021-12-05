@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHidanFirewall*)thisx)
-
 void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFirewall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -58,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 80, 100, MASS_IMMOVABLE };
 
 void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanFirewall* this = THIS;
+    BgHidanFirewall* this = (BgHidanFirewall*)thisx;
 
     this->actor.scale.x = 0.12f;
     this->actor.scale.z = 0.12f;
@@ -77,7 +75,7 @@ void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanFirewall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanFirewall* this = THIS;
+    BgHidanFirewall* this = (BgHidanFirewall*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -176,7 +174,7 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
 }
 
 void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanFirewall* this = THIS;
+    BgHidanFirewall* this = (BgHidanFirewall*)thisx;
     s32 pad;
 
     this->unk_150 = (this->unk_150 + 1) % 8;
@@ -201,7 +199,7 @@ static void* sFireballTexs[] = {
 };
 
 void BgHidanFirewall_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanFirewall* this = THIS;
+    BgHidanFirewall* this = (BgHidanFirewall*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 448);
 

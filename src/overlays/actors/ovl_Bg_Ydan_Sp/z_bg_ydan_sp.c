@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgYdanSp*)thisx)
-
 void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -83,7 +81,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanSp* this = THIS;
+    BgYdanSp* this = (BgYdanSp*)thisx;
     ColliderTrisElementInit* ti0 = &sTrisItemsInit[0];
     Vec3f tri[3];
     s32 i;
@@ -148,7 +146,7 @@ void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanSp* this = THIS;
+    BgYdanSp* this = (BgYdanSp*)thisx;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->trisCollider);
 }
@@ -415,13 +413,13 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
 }
 
 void BgYdanSp_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanSp* this = THIS;
+    BgYdanSp* this = (BgYdanSp*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanSp* this = THIS;
+    BgYdanSp* this = (BgYdanSp*)thisx;
     s32 i;
     MtxF mtxF;
 

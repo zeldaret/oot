@@ -8,8 +8,6 @@
 #include "objects/object_spot01_objects/object_spot01_objects.h"
 #define FLAGS 0x00000010
 
-#define THIS ((BgSpot01Fusya*)thisx)
-
 void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Fusya_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ void BgSpot01Fusya_SetupAction(BgSpot01Fusya* this, BgSpot01FusyaActionFunc acti
 }
 
 void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Fusya* this = THIS;
+    BgSpot01Fusya* this = (BgSpot01Fusya*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->unk_154 = 100.0f;
@@ -70,7 +68,7 @@ void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Fusya* this = THIS;
+    BgSpot01Fusya* this = (BgSpot01Fusya*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnHorseZelda*)thisx)
-
 void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseZelda_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -149,7 +147,7 @@ void func_80A6D918(EnHorseZelda* this, GlobalContext* globalCtx) {
 }
 
 void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseZelda* this = THIS;
+    EnHorseZelda* this = (EnHorseZelda*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.0115f);
@@ -172,7 +170,7 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHorseZelda_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseZelda* this = THIS;
+    EnHorseZelda* this = (EnHorseZelda*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
     Collider_DestroyJntSph(globalCtx, &this->colliderSphere);
@@ -229,7 +227,7 @@ void func_80A6DE38(EnHorseZelda* this, GlobalContext* globalCtx) {
 }
 
 void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseZelda* this = THIS;
+    EnHorseZelda* this = (EnHorseZelda*)thisx;
     s32 pad;
 
     sActionFuncs[this->action](this, globalCtx);
@@ -245,7 +243,7 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A6DFD4(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
-    EnHorseZelda* this = THIS;
+    EnHorseZelda* this = (EnHorseZelda*)thisx;
     s32 i;
 
     for (i = 0; i < this->colliderSphere.count; i++) {
@@ -268,7 +266,7 @@ void func_80A6DFD4(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
 }
 
 void EnHorseZelda_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseZelda* this = THIS;
+    EnHorseZelda* this = (EnHorseZelda*)thisx;
 
     func_80A6DE38(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);

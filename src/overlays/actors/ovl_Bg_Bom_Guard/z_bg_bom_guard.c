@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgBomGuard*)thisx)
-
 void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBomGuard_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBomGuard_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
 }
 
 void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgBomGuard* this = THIS;
+    BgBomGuard* this = (BgBomGuard*)thisx;
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
@@ -55,7 +53,7 @@ void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgBomGuard_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgBomGuard* this = THIS;
+    BgBomGuard* this = (BgBomGuard*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -85,7 +83,7 @@ void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
 }
 
 void BgBomGuard_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgBomGuard* this = THIS;
+    BgBomGuard* this = (BgBomGuard*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

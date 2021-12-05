@@ -10,8 +10,6 @@
 
 #define FLAGS 0x08000039
 
-#define THIS ((EnTakaraMan*)thisx)
-
 void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -42,7 +40,7 @@ void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTakaraMan* this = THIS;
+    EnTakaraMan* this = (EnTakaraMan*)thisx;
 
     if (sTakaraIsInitialized) {
         Actor_Kill(&this->actor);
@@ -180,7 +178,7 @@ void func_80B17B14(EnTakaraMan* this, GlobalContext* globalCtx) {
 }
 
 void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTakaraMan* this = THIS;
+    EnTakaraMan* this = (EnTakaraMan*)thisx;
 
     if (this->eyeTimer != 0) {
         this->eyeTimer--;
@@ -201,7 +199,7 @@ void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx) {
-    EnTakaraMan* this = THIS;
+    EnTakaraMan* this = (EnTakaraMan*)thisx;
 
     if (limbIndex == 1) {
         rot->x += this->unk_232.y;
@@ -218,7 +216,7 @@ void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
         object_ts_Tex_000970,
         object_ts_Tex_000D70,
     };
-    EnTakaraMan* this = THIS;
+    EnTakaraMan* this = (EnTakaraMan*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_takara_man.c", 528);
 

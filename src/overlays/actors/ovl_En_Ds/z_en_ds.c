@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnDs*)thisx)
-
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -31,7 +29,7 @@ const ActorInit En_Ds_InitVars = {
 };
 
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gPotionShopLadySkel, &gPotionShopLadyAnim, this->jointTable,
@@ -235,7 +233,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         this->skelAnime.curFrame = 0.0f;
@@ -254,7 +252,7 @@ void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     if (limbIndex == 5) {
         rot->x += this->unk_1D8.y;
@@ -265,7 +263,7 @@ s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f sMultVec = { 1100.0f, 500.0f, 0.0f };
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     if (limbIndex == 5) {
         Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
@@ -273,7 +271,7 @@ void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

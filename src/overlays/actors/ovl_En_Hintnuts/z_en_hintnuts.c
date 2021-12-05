@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnHintnuts*)thisx)
-
 void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHintnuts_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -72,7 +70,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHintnuts* this = THIS;
+    EnHintnuts* this = (EnHintnuts*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -102,7 +100,7 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHintnuts_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHintnuts* this = THIS;
+    EnHintnuts* this = (EnHintnuts*)thisx;
 
     if (this->actor.params != 0xA) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -477,7 +475,7 @@ void EnHintnuts_ColliderCheck(EnHintnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHintnuts* this = THIS;
+    EnHintnuts* this = (EnHintnuts*)thisx;
     s32 pad;
 
     if (this->actor.params != 0xA) {
@@ -508,7 +506,7 @@ s32 EnHintnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
                                 void* thisx) {
     Vec3f vec;
     f32 curFrame;
-    EnHintnuts* this = THIS;
+    EnHintnuts* this = (EnHintnuts*)thisx;
 
     if (limbIndex == 5 && this->actionFunc == EnHintnuts_ThrowNut) {
         curFrame = this->skelAnime.curFrame;
@@ -534,7 +532,7 @@ s32 EnHintnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnHintnuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHintnuts* this = THIS;
+    EnHintnuts* this = (EnHintnuts*)thisx;
 
     if (this->actor.params == 0xA) {
         Gfx_DrawDListOpa(globalCtx, gHintNutsFlowerDL);

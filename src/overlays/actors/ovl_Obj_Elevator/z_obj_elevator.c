@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ObjElevator*)thisx)
-
 void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjElevator_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -61,7 +59,7 @@ void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, CollisionHeader*
 }
 
 void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjElevator* this = THIS;
+    ObjElevator* this = (ObjElevator*)thisx;
     f32 temp_f0;
 
     func_80B92B08(this, globalCtx, &object_d_elevator_Col_000360, DPM_PLAYER);
@@ -74,7 +72,7 @@ void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjElevator* this = THIS;
+    ObjElevator* this = (ObjElevator*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -114,7 +112,7 @@ void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx) {
 }
 
 void ObjElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjElevator* this = THIS;
+    ObjElevator* this = (ObjElevator*)thisx;
 
     if (this->actionFunc) {
         this->actionFunc(this, globalCtx);

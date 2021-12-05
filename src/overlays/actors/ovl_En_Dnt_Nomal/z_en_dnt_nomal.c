@@ -15,8 +15,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnDntNomal*)thisx)
-
 void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDntNomal_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -118,7 +116,7 @@ static Color_RGBA8 sLeafColors[] = {
 
 void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
 
     this->type = this->actor.params;
     if (this->type < ENDNTNOMAL_TARGET) {
@@ -161,7 +159,7 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntNomal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
 
     if (this->type == ENDNTNOMAL_TARGET) {
         Collider_DestroyQuad(globalCtx, &this->targetQuad);
@@ -739,7 +737,7 @@ void EnDntNomal_StageReturn(EnDntNomal* this, GlobalContext* globalCtx) {
 
 void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
 
     if (this->timer1 != 0) {
         this->timer1--;
@@ -823,7 +821,7 @@ void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDntNomal_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
 
     if ((limbIndex == 1) || (limbIndex == 3) || (limbIndex == 4) || (limbIndex == 5) || (limbIndex == 6)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1733);
@@ -836,7 +834,7 @@ s32 EnDntNomal_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnDntNomal_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (this->type == ENDNTNOMAL_TARGET) {
@@ -850,7 +848,7 @@ void EnDntNomal_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
 void EnDntNomal_DrawStageScrub(Actor* thisx, GlobalContext* globalCtx) {
     static void* blinkTex[] = { gDntStageEyeOpenTex, gDntStageEyeHalfTex, gDntStageEyeShutTex };
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
     Vec3f dustScale = { 0.25f, 0.25f, 0.25f };
     s32 pad;
 
@@ -874,7 +872,7 @@ void EnDntNomal_DrawStageScrub(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDntNomal_DrawTargetScrub(Actor* thisx, GlobalContext* globalCtx) {
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1833);
     func_80093D18(globalCtx->state.gfxCtx);

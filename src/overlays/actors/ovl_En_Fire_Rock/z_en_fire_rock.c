@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnFireRock*)thisx)
-
 void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFireRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -72,7 +70,7 @@ static ColliderCylinderInit D_80A12CCC = {
 void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     Player* player = GET_PLAYER(globalCtx);
-    EnFireRock* this = THIS;
+    EnFireRock* this = (EnFireRock*)thisx;
     s16 temp;
 
     this->type = this->actor.params;
@@ -148,7 +146,7 @@ void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFireRock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFireRock* this = THIS;
+    EnFireRock* this = (EnFireRock*)thisx;
 
     if ((this->actor.parent != NULL) && (this->actor.parent == &this->spawner->actor)) {
         EnEncount2* spawner = (EnEncount2*)this->actor.parent;
@@ -303,7 +301,7 @@ void FireRock_WaitOnFloor(EnFireRock* this, GlobalContext* globalCtx) {
 }
 
 void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFireRock* this = THIS;
+    EnFireRock* this = (EnFireRock*)thisx;
     s16 setCollision;
     Player* player = GET_PLAYER(globalCtx);
     Actor* playerActor = &GET_PLAYER(globalCtx)->actor;
@@ -380,7 +378,7 @@ void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFireRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnFireRock* this = THIS;
+    EnFireRock* this = (EnFireRock*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fire_rock.c", 747);

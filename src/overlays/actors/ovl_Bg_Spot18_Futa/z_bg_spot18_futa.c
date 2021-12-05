@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot18Futa*)thisx)
-
 void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Futa* this = THIS;
+    BgSpot18Futa* this = (BgSpot18Futa*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -47,13 +45,13 @@ void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Futa* this = THIS;
+    BgSpot18Futa* this = (BgSpot18Futa*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Futa* this = THIS;
+    BgSpot18Futa* this = (BgSpot18Futa*)thisx;
     s32 iVar1;
 
     if (this->dyna.actor.parent == NULL) {

@@ -2,8 +2,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((ArmsHook*)thisx)
-
 void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +65,7 @@ void ArmsHook_SetupAction(ArmsHook* this, ArmsHookActionFunc actionFunc) {
 }
 
 void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
 
     Collider_InitQuad(globalCtx, &this->collider);
     Collider_SetQuad(globalCtx, &this->collider, &this->actor, &sQuadInit);
@@ -76,7 +74,7 @@ void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
 
     if (this->grabbed != NULL) {
         this->grabbed->flags &= ~0x2000;
@@ -292,7 +290,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
 }
 
 void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->unk_1F4 = this->unk_1E8;
@@ -300,7 +298,7 @@ void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     Vec3f sp78;
     Vec3f sp6C;

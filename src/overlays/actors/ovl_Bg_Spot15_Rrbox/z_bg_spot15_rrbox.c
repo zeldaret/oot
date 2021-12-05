@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot15Rrbox*)thisx)
-
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -120,7 +118,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot15Rrbox* this = THIS;
+    BgSpot15Rrbox* this = (BgSpot15Rrbox*)thisx;
 
     func_808B3960(this, globalCtx, &gLonLonMilkCrateCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -136,7 +134,7 @@ void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot15Rrbox* this = THIS;
+    BgSpot15Rrbox* this = (BgSpot15Rrbox*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     D_808B4590 = 0;
@@ -353,7 +351,7 @@ void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot15Rrbox* this = THIS;
+    BgSpot15Rrbox* this = (BgSpot15Rrbox*)thisx;
 
     if (this->unk_168 > 0) {
         this->unk_168--;

@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnWallTubo*)thisx)
-
 void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ const ActorInit En_Wall_Tubo_InitVars = {
 };
 
 void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallTubo* this = THIS;
+    EnWallTubo* this = (EnWallTubo*)thisx;
 
     osSyncPrintf("\n\n");
     // "Wall Target"
@@ -140,7 +138,7 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx) {
 }
 
 void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallTubo* this = THIS;
+    EnWallTubo* this = (EnWallTubo*)thisx;
 
     if (this->timer != 0) {
         this->timer--;

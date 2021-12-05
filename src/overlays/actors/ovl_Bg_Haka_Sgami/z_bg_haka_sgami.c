@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000011
 
-#define THIS ((BgHakaSgami*)thisx)
-
 typedef enum {
     /* 0 */ SCYTHE_TRAP_SHADOW_TEMPLE,
     /* 1 */ SCYTHE_TRAP_SHADOW_TEMPLE_INVISIBLE,
@@ -133,7 +131,7 @@ void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u8 sP2StartColor[] = { 200, 200, 200, 130 };
     static u8 sP1EndColor[] = { 200, 200, 200, 60 };
     static u8 sP2EndColor[] = { 150, 150, 150, 20 };
-    BgHakaSgami* this = THIS;
+    BgHakaSgami* this = (BgHakaSgami*)thisx;
     EffectBlureInit1 blureInit;
     s32 i;
     ColliderTris* colliderScythe = &this->colliderScythe;
@@ -189,7 +187,7 @@ void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaSgami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaSgami* this = THIS;
+    BgHakaSgami* this = (BgHakaSgami*)thisx;
 
     Effect_Delete(globalCtx, this->blureEffectIndex[0]);
     Effect_Delete(globalCtx, this->blureEffectIndex[1]);
@@ -288,7 +286,7 @@ void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaSgami_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaSgami* this = THIS;
+    BgHakaSgami* this = (BgHakaSgami*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == BgHakaSgami_SetupSpin)) {
@@ -297,7 +295,7 @@ void BgHakaSgami_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaSgami_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaSgami* this = THIS;
+    BgHakaSgami* this = (BgHakaSgami*)thisx;
 
     if (this->unk_151 != 0) {
         Gfx_DrawDListXlu(globalCtx, object_haka_objects_DL_00BF20);

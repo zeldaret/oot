@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnBomChu*)thisx)
-
 #define BOMBCHU_SCALE 0.01f
 
 void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -66,7 +64,7 @@ void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u8 p2StartColor[] = { 200, 0, 0, 130 };
     static u8 p1EndColor[] = { 150, 0, 0, 100 };
     static u8 p2EndColor[] = { 100, 0, 0, 50 };
-    EnBomChu* this = THIS;
+    EnBomChu* this = (EnBomChu*)thisx;
     EffectBlureInit1 blureInit;
     s32 i;
 
@@ -96,7 +94,7 @@ void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBomChu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBomChu* this = THIS;
+    EnBomChu* this = (EnBomChu*)thisx;
 
     Effect_Delete(globalCtx, this->blure1Index);
     Effect_Delete(globalCtx, this->blure2Index);
@@ -389,7 +387,7 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
     static Vec3f blureP2LeftModel = { 12.0f, 0.0f, -5.0f };
     static Vec3f blureP2RightModel = { -12.0f, 0.0f, -5.0f };
     GlobalContext* globalCtx = globalCtx2;
-    EnBomChu* this = THIS;
+    EnBomChu* this = (EnBomChu*)thisx;
     s16 yaw;
     f32 sin;
     f32 cos;
@@ -480,7 +478,7 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBomChu* this = THIS;
+    EnBomChu* this = (EnBomChu*)thisx;
     f32 colorIntensity;
     s32 blinkHalfPeriod;
     s32 blinkTime;

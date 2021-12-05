@@ -9,8 +9,6 @@
 
 #define FLAGS 0x02000010
 
-#define THIS ((EnHorseLinkChild*)thisx)
-
 void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseLinkChild_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -142,7 +140,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseLinkChild* this = THIS;
+    EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -181,7 +179,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHorseLinkChild_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseLinkChild* this = THIS;
+    EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
     func_800A6888(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
@@ -552,7 +550,7 @@ static void* sEyeTextures[] = { gChildEponaEyeOpenTex, gChildEponaEyeHalfTex, gC
 static u8 sEyeIndexOrder[] = { 0, 1, 2, 1 };
 
 void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseLinkChild* this = THIS;
+    EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
     s32 pad;
 
     sActionFuncs[this->action](this, globalCtx);
@@ -583,7 +581,7 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f center;
     Vec3f newCenter;
-    EnHorseLinkChild* this = THIS;
+    EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
     s32 i;
 
     for (i = 0; i < this->headCollider.count; i++) {
@@ -603,7 +601,7 @@ void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
 }
 
 s32 func_80A6AD84(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSkinAwb* arg3) {
-    EnHorseLinkChild* this = THIS;
+    EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_link_child.c", 1467);
 
@@ -619,7 +617,7 @@ s32 func_80A6AD84(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSkinAwb* ar
 }
 
 void EnHorseLinkChild_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseLinkChild* this = THIS;
+    EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_800A6360(&this->actor, globalCtx, &this->skin, func_80A6ABF8, func_80A6AD84, 1);

@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnGm*)thisx)
-
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -65,7 +63,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -86,7 +84,7 @@ void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -285,7 +283,7 @@ void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void EnGm_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
 
     this->updateFunc(this, globalCtx);
 }
@@ -318,7 +316,7 @@ void func_80A3E090(EnGm* this) {
 
 void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gm.c", 613);

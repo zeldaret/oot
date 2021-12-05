@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((ObjDekujr*)thisx)
-
 void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjDekujr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ static ColliderCylinderInitToActor sCylinderInit = {
 };
 
 void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjDekujr* this = THIS;
+    ObjDekujr* this = (ObjDekujr*)thisx;
     s32 pad;
 
     if (gSaveContext.cutsceneIndex < 0xFFF0) {
@@ -128,7 +126,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx) {
 }
 
 void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjDekujr* this = THIS;
+    ObjDekujr* this = (ObjDekujr*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);

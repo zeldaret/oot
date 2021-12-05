@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((EnBigokuta*)thisx)
-
 void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -157,7 +155,7 @@ static InitChainEntry sInitChain[] = {
 static s32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
 
 void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBigokuta* this = THIS;
+    EnBigokuta* this = (EnBigokuta*)thisx;
     s32 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -190,7 +188,7 @@ void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBigokuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBigokuta* this = THIS;
+    EnBigokuta* this = (EnBigokuta*)thisx;
     s32 i;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -770,7 +768,7 @@ void EnBigokuta_UpdateDamage(EnBigokuta* this, GlobalContext* globalCtx) {
 }
 
 void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnBigokuta* this = THIS;
+    EnBigokuta* this = (EnBigokuta*)thisx;
     s32 i;
     GlobalContext* globalCtx = globalCtx2;
 
@@ -811,7 +809,7 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 EnBigokuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnBigokuta* this = THIS;
+    EnBigokuta* this = (EnBigokuta*)thisx;
     u8 intensity;
     f32 temp_f0;
     s32 temp_hi;
@@ -868,7 +866,7 @@ s32 EnBigokuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBigokuta* this = THIS;
+    EnBigokuta* this = (EnBigokuta*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bigokuta.c", 2017);
 

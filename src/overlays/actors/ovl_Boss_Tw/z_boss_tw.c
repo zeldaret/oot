@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((BossTw*)thisx)
-
 typedef enum {
     /*  0 */ TWEFF_NONE,
     /*  1 */ TWEFF_DOT,
@@ -447,7 +445,7 @@ void BossTw_AddShieldHitEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
 
 void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
     s16 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -593,7 +591,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void BossTw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
     if (thisx->params < TW_FIRE_BLAST) {
@@ -2847,7 +2845,7 @@ static s16 D_8094A90C[] = {
 };
 
 void BossTw_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s16 i;
     s32 pad;
@@ -2973,7 +2971,7 @@ void BossTw_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BossTw_TwinrovaUpdate(Actor* thisx, GlobalContext* globalCtx2) {
     s16 i;
     GlobalContext* globalCtx = globalCtx2;
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     this->actor.flags &= ~0x400;
@@ -3181,7 +3179,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 s32 BossTw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
 
     if (limbIndex == 21) {
         if (this->unk_5F8 == 0) {
@@ -3215,7 +3213,7 @@ void BossTw_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
         { 0.0f, 0.0f, -10000.0f }, { 0.0f, 0.0f, -8000.0f },  { 0.0f, 0.0f, -9000.0f },
         { 0.0f, 0.0f, -11000.0f }, { 0.0f, 0.0f, -12000.0f },
     };
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6168);
 
@@ -3409,7 +3407,7 @@ void func_809426F0(BossTw* this, GlobalContext* globalCtx) {
 }
 
 void func_80942C70(Actor* thisx, GlobalContext* globalCtx) {
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
     s16 alpha;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6765);
@@ -3457,7 +3455,7 @@ void func_80942C70(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80943028(Actor* thisx, GlobalContext* globalCtx) {
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6885);
 
@@ -3490,7 +3488,7 @@ static void* sEyeTextures[] = {
 void BossTw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     static Vec3f D_8094A9A4 = { 0.0f, 200.0f, 2000.0f };
     GlobalContext* globalCtx = globalCtx2;
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6947);
@@ -3576,7 +3574,7 @@ void* D_8094A9B0[] = {
 
 s32 BossTw_TwinrovaOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                     void* thisx) {
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7139);
 
@@ -3643,7 +3641,7 @@ void BossTw_TwinrovaPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     static Vec3f D_8094A9D4 = { 13000.0f, 0.0f, 0.0f };
     static Vec3f D_8094A9E0 = { 13000.0f, 0.0f, 0.0f };
 
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7262);
 
@@ -3870,7 +3868,7 @@ void func_80944C50(BossTw* this, GlobalContext* globalCtx) {
 void BossTw_TwinrovaDraw(Actor* thisx, GlobalContext* globalCtx2) {
     static Vec3f D_8094A9EC = { 0.0f, 200.0f, 2000.0f };
     GlobalContext* globalCtx = globalCtx2;
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7748);
 
@@ -4395,7 +4393,7 @@ s32 BossTw_BlastShieldCheck(BossTw* this, GlobalContext* globalCtx) {
 }
 
 void BossTw_BlastUpdate(Actor* thisx, GlobalContext* globalCtx) {
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
     ColliderCylinder* collider;
     s16 i;
 
@@ -4439,7 +4437,7 @@ void BossTw_BlastUpdate(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossTw_BlastDraw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
     f32 scaleFactor;
     s16 tailIdx;
     s16 i;
@@ -4503,7 +4501,7 @@ void BossTw_BlastDraw(Actor* thisx, GlobalContext* globalCtx2) {
 
 void BossTw_DrawDeathBall(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BossTw* this = THIS;
+    BossTw* this = (BossTw*)thisx;
     f32 scaleFactor;
     s16 tailIdx;
     s16 i;
