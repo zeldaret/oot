@@ -286,7 +286,7 @@ void func_8002C0C0(TargetContext* targetCtx, Actor* actor, GlobalContext* global
     targetCtx->targetedActor = NULL;
     targetCtx->unk_40 = 0.0f;
     targetCtx->unk_8C = NULL;
-    targetCtx->unk_90 = NULL;
+    targetCtx->bgmEnemy = NULL;
     targetCtx->unk_4B = 0;
     targetCtx->unk_4C = 0;
     func_8002BF60(targetCtx, actor, actor->category, globalCtx);
@@ -2836,8 +2836,8 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
         actorCtx->targetCtx.unk_8C = NULL;
     }
 
-    if (actor == actorCtx->targetCtx.unk_90) {
-        actorCtx->targetCtx.unk_90 = NULL;
+    if (actor == actorCtx->targetCtx.bgmEnemy) {
+        actorCtx->targetCtx.bgmEnemy = NULL;
     }
 
     Audio_StopSfxByPos(&actor->projectedPos);
@@ -2873,7 +2873,7 @@ s32 func_80032880(GlobalContext* globalCtx, Actor* actor) {
 Actor* D_8015BBE8;
 Actor* D_8015BBEC;
 f32 D_8015BBF0;
-f32 D_8015BBF4;
+f32 sbgmEnemyDistSq;
 s32 D_8015BBF8;
 s16 D_8015BBFC;
 
@@ -2890,10 +2890,13 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
 
     while (actor != NULL) {
         if ((actor->update != NULL) && ((Player*)actor != player) && ((actor->flags & 1) == 1)) {
+
+            // This block below is for determining the closest actor to player in determining the volume
+            // used while playing enemy bgm music
             if ((actorCategory == ACTORCAT_ENEMY) && ((actor->flags & 5) == 5) &&
-                (actor->xyzDistToPlayerSq < 250000.0f) && (actor->xyzDistToPlayerSq < D_8015BBF4)) {
-                actorCtx->targetCtx.unk_90 = actor;
-                D_8015BBF4 = actor->xyzDistToPlayerSq;
+                (actor->xyzDistToPlayerSq < SQ(500.0f)) && (actor->xyzDistToPlayerSq < sbgmEnemyDistSq)) {
+                actorCtx->targetCtx.bgmEnemy = actor;
+                sbgmEnemyDistSq = actor->xyzDistToPlayerSq;
             }
 
             if (actor != sp84) {
@@ -2929,13 +2932,13 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
     u8* entry;
 
     D_8015BBE8 = D_8015BBEC = NULL;
-    D_8015BBF0 = D_8015BBF4 = FLT_MAX;
+    D_8015BBF0 = sbgmEnemyDistSq = FLT_MAX;
     D_8015BBF8 = 0x7FFFFFFF;
 
     if (!Player_InCsMode(globalCtx)) {
         entry = &D_801160A0[0];
 
-        actorCtx->targetCtx.unk_90 = NULL;
+        actorCtx->targetCtx.bgmEnemy = NULL;
         D_8015BBFC = player->actor.shape.rot.y;
 
         for (i = 0; i < 3; i++) {
