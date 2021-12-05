@@ -9704,9 +9704,9 @@ void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
             seqMode = SEQ_MODE_STILL;
         }
 
-        if (globalCtx->actorCtx.targetCtx.nearestEnemyBgm != NULL) {
+        if (globalCtx->actorCtx.targetCtx.bgmEnemy != NULL) {
             seqMode = SEQ_MODE_ENEMY;
-            Audio_SetNearestEnemyBgmVolume(sqrtf(globalCtx->actorCtx.targetCtx.nearestEnemyBgm->xyzDistToPlayerSq));
+            Audio_SetBgmEnemyVolume(sqrtf(globalCtx->actorCtx.targetCtx.bgmEnemy->xyzDistToPlayerSq));
         }
 
         if (globalCtx->sceneNum != SCENE_TURIBORI) {

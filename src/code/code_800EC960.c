@@ -4097,7 +4097,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
     }
 }
 
-void Audio_SetNearestEnemyBgmVolume(f32 dist) {
+void Audio_SetBgmEnemyVolume(f32 dist) {
     f32 adjDist;
 
     if (sPrevSeqMode == (0x80 | SEQ_MODE_ENEMY)) {
