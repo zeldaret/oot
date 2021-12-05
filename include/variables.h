@@ -308,7 +308,7 @@ extern u32 gSystemHeapSize;
 extern Mtx gMtxClear;
 extern MtxF gMtxFClear;
 extern u8 D_8012DBB0;
-extern u32 isCtrlr2Valid;
+extern u32 gIsCtrlr2Valid;
 extern vu32 gIrqMgrResetStatus;
 extern volatile OSTime gIrqMgrRetraceTime;
 extern s32 gDebugArenaLogSeverity;
