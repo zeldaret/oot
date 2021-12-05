@@ -1,4 +1,4 @@
-CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
+CFLAGS := -Wall -Wextra -pedantic -lm -std=c99 -g -O2
 PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
