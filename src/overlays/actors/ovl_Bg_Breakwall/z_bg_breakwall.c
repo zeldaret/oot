@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgBreakwall*)thisx)
-
 typedef struct {
     /* 0x00 */ CollisionHeader* colHeader;
     /* 0x04 */ Gfx* dList;
@@ -79,7 +77,7 @@ void BgBreakwall_SetupAction(BgBreakwall* this, BgBreakwallActionFunc actionFunc
 }
 
 void BgBreakwall_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgBreakwall* this = THIS;
+    BgBreakwall* this = (BgBreakwall*)thisx;
     s32 pad;
     s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
@@ -116,7 +114,7 @@ void BgBreakwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgBreakwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgBreakwall* this = THIS;
+    BgBreakwall* this = (BgBreakwall*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -276,7 +274,7 @@ void BgBreakwall_LavaCoverMove(BgBreakwall* this, GlobalContext* globalCtx) {
 }
 
 void BgBreakwall_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgBreakwall* this = THIS;
+    BgBreakwall* this = (BgBreakwall*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -292,7 +290,7 @@ static Vec3f sColQuadList[][4] = {
 
 void BgBreakwall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgBreakwall* this = THIS;
+    BgBreakwall* this = (BgBreakwall*)thisx;
 
     if (this->bombableWallDList != NULL) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_breakwall.c", 767);

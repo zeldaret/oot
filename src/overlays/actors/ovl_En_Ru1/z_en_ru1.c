@@ -10,8 +10,6 @@
 
 #define FLAGS 0x04000011
 
-#define THIS ((EnRu1*)thisx)
-
 void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -171,7 +169,7 @@ void func_80AEACDC(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEAD20(Actor* thisx, GlobalContext* globalCtx) {
-    EnRu1* this = THIS;
+    EnRu1* this = (EnRu1*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit1);
@@ -202,7 +200,7 @@ u8 func_80AEADF0(EnRu1* this) {
 }
 
 void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnRu1* this = THIS;
+    EnRu1* this = (EnRu1*)thisx;
 
     EnRu1_DestroyColliders(this, globalCtx);
 }
@@ -2207,7 +2205,7 @@ void func_80AF0050(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnRu1* this = THIS;
+    EnRu1* this = (EnRu1*)thisx;
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
         // "Main mode is improper!"
@@ -2220,7 +2218,7 @@ void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnRu1* this = THIS;
+    EnRu1* this = (EnRu1*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
@@ -2276,7 +2274,7 @@ void func_80AF0278(EnRu1* this, GlobalContext* globalCtx, s32 limbIndex, Vec3s* 
 
 s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                            Gfx** gfx) {
-    EnRu1* this = THIS;
+    EnRu1* this = (EnRu1*)thisx;
 
     if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*sPreLimbDrawFuncs[this->unk_290] == NULL)) {
         // "Neck rotation mode is improper!"
@@ -2288,7 +2286,7 @@ s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnRu1* this = THIS;
+    EnRu1* this = (EnRu1*)thisx;
     Vec3f vec1;
     Vec3f vec2;
 
@@ -2358,7 +2356,7 @@ void EnRu1_DrawXlu(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnRu1* this = THIS;
+    EnRu1* this = (EnRu1*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == 0) {
         // "Draw mode is improper!"

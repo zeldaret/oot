@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((ShotSun*)thisx)
-
 void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ShotSun* this = THIS;
+    ShotSun* this = (ShotSun*)thisx;
     s32 params;
 
     // "Ocarina secret occurrence"
@@ -76,7 +74,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ShotSun* this = THIS;
+    ShotSun* this = (ShotSun*)thisx;
     s32 params = this->actor.params & 0xFF;
 
     if (params != 0x40 && params != 0x41) {
@@ -195,7 +193,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
 }
 
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ShotSun* this = THIS;
+    ShotSun* this = (ShotSun*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

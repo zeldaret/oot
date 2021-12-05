@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((EnSsh*)thisx)
-
 #define SSH_STATE_STUNNED (1 << 0)
 #define SSH_STATE_GROUND_START (1 << 2)
 #define SSH_STATE_ATTACKED (1 << 3)
@@ -604,7 +602,7 @@ void EnSsh_SetColliders(EnSsh* this, GlobalContext* globalCtx) {
 void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
     s32 pad;
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
 
     frameCount = Animation_GetLastFrame(&object_ssh_Anim_000304);
     if (this->actor.params == ENSSH_FATHER) {
@@ -636,7 +634,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnSsh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
     s32 i;
 
     Effect_Delete(globalCtx, this->blureIdx);
@@ -804,7 +802,7 @@ void EnSsh_Start(EnSsh* this, GlobalContext* globalCtx) {
 
 void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
 
     EnSsh_UpdateColliderScale(this);
     if (EnSsh_CollisionCheck(this, globalCtx)) {
@@ -831,7 +829,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
 
     switch (limbIndex) {
         case 1:
@@ -863,7 +861,7 @@ s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnSsh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
 
     Collider_UpdateSpheres(limbIndex, &this->colSph);
 }
@@ -875,7 +873,7 @@ void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx) {
         object_ssh_Tex_001060,
     };
     s32 pad;
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
 
     EnSsh_CheckBodyStickHit(this, globalCtx);
     EnSsh_Sway(this);

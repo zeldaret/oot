@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnHorseGanon*)thisx)
-
 typedef struct {
     /* 0x0 */ Vec3s unk_0;
     /* 0x6 */ u8 unk_6;
@@ -167,7 +165,7 @@ void func_80A68870(EnHorseGanon* this) {
 }
 
 void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseGanon* this = THIS;
+    EnHorseGanon* this = (EnHorseGanon*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.0115f);
@@ -193,7 +191,7 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseGanon* this = THIS;
+    EnHorseGanon* this = (EnHorseGanon*)thisx;
 
     func_800A6888(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->colliderBody);
@@ -286,7 +284,7 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
 }
 
 void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseGanon* this = THIS;
+    EnHorseGanon* this = (EnHorseGanon*)thisx;
     s32 pad;
 
     sActionFuncs[this->action](this, globalCtx);
@@ -301,7 +299,7 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
-    EnHorseGanon* this = THIS;
+    EnHorseGanon* this = (EnHorseGanon*)thisx;
     s32 index;
 
     for (index = 0; index < this->colliderHead.count; index++) {
@@ -324,7 +322,7 @@ void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
 }
 
 void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseGanon* this = THIS;
+    EnHorseGanon* this = (EnHorseGanon*)thisx;
 
     func_80A68E14(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);

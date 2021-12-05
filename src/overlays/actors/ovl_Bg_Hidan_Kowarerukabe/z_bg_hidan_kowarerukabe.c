@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgHidanKowarerukabe*)thisx)
-
 typedef enum {
     /* 0 */ CRACKED_STONE_FLOOR,
     /* 1 */ BOMBABLE_WALL,
@@ -113,7 +111,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKowarerukabe* this = THIS;
+    BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
 
     BgHidanKowarerukabe_InitDynaPoly(this, globalCtx);
 
@@ -140,7 +138,7 @@ void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanKowarerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKowarerukabe* this = THIS;
+    BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -301,7 +299,7 @@ void BgHidanKowarerukabe_Break(BgHidanKowarerukabe* this, GlobalContext* globalC
 }
 
 void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKowarerukabe* this = THIS;
+    BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
     s32 pad;
 
     if (Actor_GetCollidedExplosive(globalCtx, &this->collider.base) != NULL) {
@@ -323,7 +321,7 @@ void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanKowarerukabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKowarerukabe* this = THIS;
+    BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_kowarerukabe.c", 565);
 

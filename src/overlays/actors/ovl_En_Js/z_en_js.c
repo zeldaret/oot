@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnJs*)thisx)
-
 void EnJs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnJs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ void En_Js_SetupAction(EnJs* this, EnJsActionFunc actionFunc) {
 }
 
 void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 36.0f);
@@ -74,7 +72,7 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -166,7 +164,7 @@ void func_80A89304(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
     s32 pad;
     s32 pad2;
 
@@ -208,7 +206,7 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
 
     if (limbIndex == 12) {
         rot->y -= this->unk_278.y;
@@ -218,14 +216,14 @@ s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A896DC = { 0.0f, 0.0f, 0.0f };
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
 
     if (limbIndex == 12) {
         Matrix_MultVec3f(&D_80A896DC, &this->actor.focus.pos);
     }
 }
 void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

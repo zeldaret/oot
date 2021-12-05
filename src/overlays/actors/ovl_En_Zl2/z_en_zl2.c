@@ -13,8 +13,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnZl2*)thisx)
-
 void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -100,7 +98,7 @@ const ActorInit En_Zl2_InitVars = {
 };
 
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -437,7 +435,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
 s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** gfx) {
     s32 pad;
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
     Mtx* sp74;
     MtxF sp34;
     Vec3s sp2C;
@@ -535,7 +533,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
     s32 pad[2];
 
     if (limbIndex == 10) {
@@ -1588,7 +1586,7 @@ void func_80B521A0(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
 
     if (this->action < 0 || this->action >= 0x24 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -1598,7 +1596,7 @@ void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
     ActorShape* shape = &thisx->shape;
     s32 pad;
 
@@ -1618,7 +1616,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnZl2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                            Gfx** gfx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
 
     if (this->overrideLimbDrawConfig < 0 || this->overrideLimbDrawConfig > 0 ||
         sOverrideLimbDrawFuncs[this->overrideLimbDrawConfig] == NULL) {
@@ -1684,7 +1682,7 @@ void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 3) || (sDrawFuncs[this->drawConfig] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

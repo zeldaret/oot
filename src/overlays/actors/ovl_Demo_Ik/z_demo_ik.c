@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((DemoIk*)thisx)
-
 void DemoIk_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoIk_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -258,7 +256,7 @@ void DemoIk_Type1Action2(DemoIk* this, GlobalContext* globalCtx) {
 }
 
 void DemoIk_Type1PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_ik_inArmer.c", 385);
@@ -406,7 +404,7 @@ void DemoIk_Type2Action2(DemoIk* this, GlobalContext* globalCtx) {
 
 s32 DemoIk_Type2OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx) {
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
 
     if ((limbIndex == 1) && (DemoIk_GetCurFrame(this) < 30.0f)) {
         *dList = NULL;
@@ -415,7 +413,7 @@ s32 DemoIk_Type2OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 void DemoIk_Type2PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 frame = DemoIk_GetCurFrame(this);
 
@@ -471,7 +469,7 @@ static DemoIkActionFunc sActionFuncs[] = {
 
 void DemoIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
 
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
         sActionFuncs[this->actionMode] == NULL) {
@@ -493,7 +491,7 @@ static DemoIkDrawFunc sDrawFuncs[] = {
 
 void DemoIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
         // "The draw mode is strange"
@@ -517,7 +515,7 @@ const ActorInit Demo_Ik_InitVars = {
 
 void DemoIk_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
 
     if (this->actor.params == 0 || this->actor.params == 1 || this->actor.params == 2) {
         DemoIk_Type1Init(this, globalCtx);

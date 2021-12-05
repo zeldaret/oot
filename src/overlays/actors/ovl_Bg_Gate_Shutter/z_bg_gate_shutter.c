@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgGateShutter*)thisx)
-
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGateShutter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
 };
 
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgGateShutter* this = THIS;
+    BgGateShutter* this = (BgGateShutter*)thisx;
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
@@ -59,7 +57,7 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgGateShutter* this = THIS;
+    BgGateShutter* this = (BgGateShutter*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -116,7 +114,7 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
 }
 
 void BgGateShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGateShutter* this = THIS;
+    BgGateShutter* this = (BgGateShutter*)thisx;
 
     if (this->unk_178 != 0) {
         this->unk_178 -= 1;

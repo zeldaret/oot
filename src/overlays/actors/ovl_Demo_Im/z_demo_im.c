@@ -13,8 +13,6 @@
 
 #define FLAGS 0x00000011
 
-#define THIS ((DemoIm*)thisx)
-
 void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoIm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -146,14 +144,14 @@ void func_80984C8C(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void DemoIm_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    DemoIm* this = THIS;
+    DemoIm* this = (DemoIm*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
 void DemoIm_DestroyCollider(Actor* thisx, GlobalContext* globalCtx) {
-    DemoIm* this = THIS;
+    DemoIm* this = (DemoIm*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -1093,7 +1091,7 @@ void func_80987330(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void DemoIm_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoIm* this = THIS;
+    DemoIm* this = (DemoIm*)thisx;
 
     if ((this->action < 0) || (this->action >= 31) || (sActionFuncs[this->action] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -1103,7 +1101,7 @@ void DemoIm_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoIm* this = THIS;
+    DemoIm* this = (DemoIm*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     DemoIm_InitCollider(thisx, globalCtx);
@@ -1136,7 +1134,7 @@ void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    DemoIm* this = THIS;
+    DemoIm* this = (DemoIm*)thisx;
     s32* unk_2D0 = &this->unk_2D0;
 
     if (this->unk_280 != 0) {
@@ -1163,7 +1161,7 @@ s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void DemoIm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    DemoIm* this = THIS;
+    DemoIm* this = (DemoIm*)thisx;
 
     if (limbIndex == IMPA_LIMB_HEAD) {
         Vec3f sp28 = D_809887D8;
@@ -1204,7 +1202,7 @@ void DemoIm_DrawSolid(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void DemoIm_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoIm* this = THIS;
+    DemoIm* this = (DemoIm*)thisx;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 3) || (sDrawFuncs[this->drawConfig] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

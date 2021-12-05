@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgMoriElevator*)thisx)
-
 void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -84,7 +82,7 @@ void func_808A18FC(BgMoriElevator* this, f32 distTo) {
 }
 
 void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriElevator* this = THIS;
+    BgMoriElevator* this = (BgMoriElevator*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -115,7 +113,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriElevator* this = THIS;
+    BgMoriElevator* this = (BgMoriElevator*)thisx;
 
     if (this->unk_172 == 0) {
         // "Forest Temple elevator DT"
@@ -242,7 +240,7 @@ void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriElevator* this = THIS;
+    BgMoriElevator* this = (BgMoriElevator*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->unk_170 = this->dyna.unk_160;
@@ -251,7 +249,7 @@ void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriElevator* this = THIS;
+    BgMoriElevator* this = (BgMoriElevator*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
 

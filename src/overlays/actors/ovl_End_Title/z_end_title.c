@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EndTitle*)thisx)
-
 void EndTitle_Init(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -31,7 +29,7 @@ const ActorInit End_Title_InitVars = {
 #include "overlays/ovl_End_Title/ovl_End_Title.c"
 
 void EndTitle_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EndTitle* this = THIS;
+    EndTitle* this = (EndTitle*)thisx;
 
     this->endAlpha = 0;
     this->tlozAlpha = 0;
@@ -50,7 +48,7 @@ void EndTitle_Update(Actor* thisx, GlobalContext* globalCtx) {
 // Used in the castle courtyard
 void EndTitle_DrawFull(Actor* thisx, GlobalContext* globalCtx) {
     MtxF* mf;
-    EndTitle* this = THIS;
+    EndTitle* this = (EndTitle*)thisx;
     s32 frameCount = globalCtx->csCtx.frames;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -114,7 +112,7 @@ void EndTitle_DrawFull(Actor* thisx, GlobalContext* globalCtx) {
 
 // Used in the Temple of Time
 void EndTitle_DrawNintendoLogo(Actor* thisx, GlobalContext* globalCtx) {
-    EndTitle* this = THIS;
+    EndTitle* this = (EndTitle*)thisx;
     s32 pad;
     s32 frames = globalCtx->csCtx.frames;
 

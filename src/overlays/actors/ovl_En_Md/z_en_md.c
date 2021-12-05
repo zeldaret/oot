@@ -10,8 +10,6 @@
 
 #define FLAGS 0x02000019
 
-#define THIS ((EnMd*)thisx)
-
 void EnMd_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -409,7 +407,7 @@ u16 EnMd_GetTextLostWoods(GlobalContext* globalCtx, EnMd* this) {
 }
 
 u16 EnMd_GetText(GlobalContext* globalCtx, Actor* thisx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
 
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT04:
@@ -424,7 +422,7 @@ u16 EnMd_GetText(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     switch (func_80AAAC78(this, globalCtx)) {
         case TEXT_STATE_NONE:
         case TEXT_STATE_DONE_HAS_NEXT:
@@ -610,7 +608,7 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
@@ -648,7 +646,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -778,7 +776,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -794,7 +792,7 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     Vec3s vec;
 
     if (limbIndex == 16) {
@@ -819,7 +817,7 @@ s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     Vec3f vec = { 400.0f, 0.0f, 0.0f };
 
     if (limbIndex == 16) {
@@ -833,7 +831,7 @@ void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gMidoEyeHalfTex,
         gMidoEyeClosedTex,
     };
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_md.c", 1280);
 

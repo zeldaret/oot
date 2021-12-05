@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgMizuShutter*)thisx)
-
 #define SIZE_PARAM (((u16)this->dyna.actor.params >> 0xC) & 0xF)
 #define TIMER_PARAM (((u16)this->dyna.actor.params >> 6) & 0x3F)
 
@@ -51,7 +49,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgMizuShutter_Init(BgMizuShutter* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuShutter* this = THIS;
+    BgMizuShutter* this = (BgMizuShutter*)thisx;
     s32 pad2;
     CollisionHeader* sp30 = NULL;
     s32 pad3;
@@ -87,7 +85,7 @@ void BgMizuShutter_Init(BgMizuShutter* thisx, GlobalContext* globalCtx) {
 
 void BgMizuShutter_Destroy(BgMizuShutter* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuShutter* this = THIS;
+    BgMizuShutter* this = (BgMizuShutter*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -150,14 +148,14 @@ void BgMizuShutter_WaitForTimer(BgMizuShutter* this, GlobalContext* globalCtx) {
 
 void BgMizuShutter_Update(BgMizuShutter* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuShutter* this = THIS;
+    BgMizuShutter* this = (BgMizuShutter*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMizuShutter_Draw(BgMizuShutter* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuShutter* this = THIS;
+    BgMizuShutter* this = (BgMizuShutter*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_shutter.c", 410);
     func_80093D18(globalCtx->state.gfxCtx);

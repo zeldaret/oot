@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000001
 
-#define THIS ((EnBubble*)thisx)
-
 void EnBubble_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -332,7 +330,7 @@ void func_809CC774(EnBubble* this) {
 }
 
 void EnBubble_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBubble* this = THIS;
+    EnBubble* this = (EnBubble*)thisx;
     u32 pad;
 
     ActorShape_Init(&this->actor.shape, 16.0f, ActorShadow_DrawCircle, 0.2f);
@@ -352,7 +350,7 @@ void EnBubble_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBubble_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBubble* this = THIS;
+    EnBubble* this = (EnBubble*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->colliderSphere);
 }
@@ -398,7 +396,7 @@ void EnBubble_Regrow(EnBubble* this, GlobalContext* globalCtx) {
 }
 
 void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBubble* this = THIS;
+    EnBubble* this = (EnBubble*)thisx;
 
     func_8002D7EC(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 16.0f, 16.0f, 0.0f, 7);
@@ -407,7 +405,7 @@ void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBubble* this = THIS;
+    EnBubble* this = (EnBubble*)thisx;
     u32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1175);

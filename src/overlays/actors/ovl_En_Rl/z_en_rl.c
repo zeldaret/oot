@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnRl*)thisx)
-
 void EnRl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRl_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRl_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,7 +30,7 @@ void func_80AE7D94(EnRl* this, GlobalContext* globalCtx);
 static void* D_80AE81A0[] = { object_rl_Tex_003620, object_rl_Tex_003960, object_rl_Tex_003B60 };
 
 void EnRl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnRl* this = THIS;
+    EnRl* this = (EnRl*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -324,7 +322,7 @@ static EnRlActionFunc sActionFuncs[] = {
 };
 
 void EnRl_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnRl* this = THIS;
+    EnRl* this = (EnRl*)thisx;
 
     if ((this->action < 0) || (this->action > 7) || (sActionFuncs[this->action] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -334,7 +332,7 @@ void EnRl_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnRl_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnRl* this = THIS;
+    EnRl* this = (EnRl*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 50.0f);
     if (this->actor.params == 2) {
@@ -373,7 +371,7 @@ static EnRlDrawFunc sDrawFuncs[] = {
 };
 
 void EnRl_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnRl* this = THIS;
+    EnRl* this = (EnRl*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

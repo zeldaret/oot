@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnNy*)thisx)
-
 void EnNy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNy_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -106,7 +104,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -147,7 +145,7 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNy_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
@@ -366,7 +364,7 @@ void func_80ABD3B8(EnNy* this, f32 arg1, f32 arg2) {
 }
 
 void EnNy_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
     f32 temp_f20;
     f32 temp_f22;
     s32 i;
@@ -482,7 +480,7 @@ void EnNy_Die(EnNy* this, GlobalContext* globalCtx) {
 }
 
 void EnNy_UpdateDeath(Actor* thisx, GlobalContext* globalCtx) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
 
     this->timer++;
     if (this->unk_1CA != 0) {
@@ -492,7 +490,7 @@ void EnNy_UpdateDeath(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNy_UpdateUnused(Actor* thisx, GlobalContext* globalCtx2) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     f32 sp3C;
     f32 temp_f0;
@@ -523,7 +521,7 @@ static Vec3f sFireOffsets[] = {
 
 void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ny.c", 837);
     Collider_UpdateSpheres(0, &this->collider);
@@ -566,7 +564,7 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNy_DrawDeathEffect(Actor* thisx, GlobalContext* globalCtx) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
     Vec3f* temp;
     f32 scale;
     s32 i;

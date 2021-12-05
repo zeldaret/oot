@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnBx*)thisx)
-
 void EnBx_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBx_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBx_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -69,7 +67,7 @@ static ColliderQuadInit sQuadInit = {
 };
 
 void EnBx_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBx* this = THIS;
+    EnBx* this = (EnBx*)thisx;
     Vec3f sp48 = { 0.015f, 0.015f, 0.015f };
     Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
     static InitChainEntry sInitChain[] = {
@@ -107,7 +105,7 @@ void EnBx_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBx_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBx* this = THIS;
+    EnBx* this = (EnBx*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -119,7 +117,7 @@ void func_809D1D0C(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f D_809D254C = { -8000.0f, 10000.0f, 2500.0f };
     Vec3f sp44;
     Vec3f sp38;
-    EnBx* this = THIS;
+    EnBx* this = (EnBx*)thisx;
 
     Matrix_MultVec3f(&D_809D2540, &sp44);
     Matrix_MultVec3f(&D_809D254C, &sp38);
@@ -130,7 +128,7 @@ void func_809D1D0C(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBx* this = THIS;
+    EnBx* this = (EnBx*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 i;
     s16 tmp32;
@@ -198,7 +196,7 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
-    EnBx* this = THIS;
+    EnBx* this = (EnBx*)thisx;
     s32 pad;
     Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
     s16 i;

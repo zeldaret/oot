@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnBrob*)thisx)
-
 void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBrob_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ static CollisionCheckInfoInit sColChkInfoInit = { 0, 60, 120, MASS_IMMOVABLE };
 
 void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBrob* this = THIS;
+    EnBrob* this = (EnBrob*)thisx;
     CollisionHeader* colHeader = NULL;
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_brob_Skel_0015D8, &object_brob_Anim_001750,
@@ -98,7 +96,7 @@ void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBrob_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBrob* this = THIS;
+    EnBrob* this = (EnBrob*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->colliders[0]);
@@ -258,7 +256,7 @@ void func_809CB458(EnBrob* this, GlobalContext* globalCtx) {
 
 void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnBrob* this = THIS;
+    EnBrob* this = (EnBrob*)thisx;
     s32 i;
     s32 acHits[2];
 
@@ -305,7 +303,7 @@ void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnBrob_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnBrob* this = THIS;
+    EnBrob* this = (EnBrob*)thisx;
     MtxF mtx;
 
     Matrix_Get(&mtx);
@@ -321,7 +319,7 @@ void EnBrob_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 }
 
 void EnBrob_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBrob* this = THIS;
+    EnBrob* this = (EnBrob*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Translate(0.0f, this->unk_1AE, 0.0f, MTXMODE_APPLY);

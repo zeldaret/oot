@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnSceneChange*)thisx)
-
 void EnSceneChange_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSceneChange_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSceneChange_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ void EnSceneChange_SetupAction(EnSceneChange* this, EnSceneChangeActionFunc acti
 }
 
 void EnSceneChange_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSceneChange* this = THIS;
+    EnSceneChange* this = (EnSceneChange*)thisx;
 
     EnSceneChange_SetupAction(this, EnSceneChange_DoNothing);
 }
@@ -46,7 +44,7 @@ void EnSceneChange_DoNothing(EnSceneChange* this, GlobalContext* globalCtx) {
 }
 
 void EnSceneChange_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSceneChange* this = THIS;
+    EnSceneChange* this = (EnSceneChange*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

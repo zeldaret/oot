@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((ElfMsg*)thisx)
-
 void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -71,7 +69,7 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
 }
 
 void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ElfMsg* this = THIS;
+    ElfMsg* this = (ElfMsg*)thisx;
 
     // "Conditions for Elf Tag disappearing"
     osSyncPrintf(VT_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" VT_RST "\n", (thisx->params >> 8) & 0x3F);
@@ -148,7 +146,7 @@ void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
 }
 
 void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ElfMsg* this = THIS;
+    ElfMsg* this = (ElfMsg*)thisx;
 
     if (!ElfMsg_KillCheck(this, globalCtx)) {
         if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {

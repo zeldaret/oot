@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((ObjOshihiki*)thisx)
-
 void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjOshihiki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjOshihiki_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -271,7 +269,7 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, GlobalContext* globalCtx) {
 
 void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjOshihiki* this = THIS;
+    ObjOshihiki* this = (ObjOshihiki*)thisx;
 
     ObjOshihiki_CheckType(this, globalCtx);
 
@@ -310,7 +308,7 @@ void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void ObjOshihiki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjOshihiki* this = THIS;
+    ObjOshihiki* this = (ObjOshihiki*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -630,7 +628,7 @@ void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx) {
 
 void ObjOshihiki_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjOshihiki* this = THIS;
+    ObjOshihiki* this = (ObjOshihiki*)thisx;
 
     this->stateFlags &=
         ~(PUSHBLOCK_SETUP_FALL | PUSHBLOCK_FALL | PUSHBLOCK_SETUP_PUSH | PUSHBLOCK_PUSH | PUSHBLOCK_SETUP_ON_ACTOR |
@@ -653,7 +651,7 @@ void ObjOshihiki_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjOshihiki* this = THIS;
+    ObjOshihiki* this = (ObjOshihiki*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1289);
     if (ObjOshihiki_MoveWithBlockUnder(this, globalCtx)) {

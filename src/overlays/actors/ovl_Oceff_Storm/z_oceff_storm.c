@@ -8,8 +8,6 @@
 
 #define FLAGS 0x02000030
 
-#define THIS ((OceffStorm*)thisx)
-
 void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,7 +35,7 @@ void OceffStorm_SetupAction(OceffStorm* this, OceffStormActionFunc actionFunc) {
 }
 
 void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx) {
-    OceffStorm* this = THIS;
+    OceffStorm* this = (OceffStorm*)thisx;
     OceffStorm_SetupAction(this, OceffStorm_DefaultAction);
     this->posYOffAdd = 0;
     this->counter = 0;
@@ -58,7 +56,7 @@ void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    OceffStorm* this = THIS;
+    OceffStorm* this = (OceffStorm*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     func_800876C8(globalCtx);
@@ -114,7 +112,7 @@ void OceffStorm_UnkAction(OceffStorm* this, GlobalContext* globalCtx) {
 }
 
 void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx) {
-    OceffStorm* this = THIS;
+    OceffStorm* this = (OceffStorm*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     this->actor.world.pos = player->actor.world.pos;
@@ -126,7 +124,7 @@ void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll = globalCtx->state.frames & 0xFFF;
-    OceffStorm* this = THIS;
+    OceffStorm* this = (OceffStorm*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 449);
 
@@ -149,7 +147,7 @@ void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll = globalCtx->state.frames & 0xFFF;
-    OceffStorm* this = THIS;
+    OceffStorm* this = (OceffStorm*)thisx;
     Vtx* vtxPtr = sCylinderVtx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 486);

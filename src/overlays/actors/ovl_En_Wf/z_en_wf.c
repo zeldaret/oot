@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnWf*)thisx)
-
 void EnWf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -212,7 +210,7 @@ void EnWf_SetupAction(EnWf* this, EnWfActionFunc actionFunc) {
 
 void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->colChkInfo.damageTable = &sDamageTable;
@@ -256,7 +254,7 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->colliderSpheres);
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinderBody);
@@ -1296,7 +1294,7 @@ void EnWf_UpdateDamage(EnWf* this, GlobalContext* globalCtx) {
 
 void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
 
     EnWf_UpdateDamage(this, globalCtx);
 
@@ -1349,7 +1347,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnWf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
 
     if ((limbIndex == WOLFOS_LIMB_HEAD) || (limbIndex == WOLFOS_LIMB_EYES)) {
         rot->y -= this->unk_4D4.y;
@@ -1361,7 +1359,7 @@ s32 EnWf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 void EnWf_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f colliderVec = { 1200.0f, 0.0f, 0.0f };
     static Vec3f bodyPartVec = { 0.0f, 0.0f, 0.0f };
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
     s32 bodyPartIndex = -1;
 
     Collider_UpdateSpheres(limbIndex, &this->colliderSpheres);
@@ -1429,7 +1427,7 @@ static void* sWolfosWhiteEyeTextures[] = { gWolfosWhiteEyeOpenTex, gWolfosWhiteE
                                            gWolfosWhiteEyeHalfTex };
 
 void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_wf.c", 2157);
 

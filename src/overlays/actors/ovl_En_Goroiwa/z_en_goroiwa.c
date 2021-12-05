@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnGoroiwa*)thisx)
-
 typedef s32 (*EnGoroiwaUnkFunc1)(EnGoroiwa* this, GlobalContext* globalCtx);
 typedef void (*EnGoroiwaUnkFunc2)(EnGoroiwa* this);
 
@@ -531,7 +529,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     static f32 yOffsets[] = { 0.0f, 595.0f };
-    EnGoroiwa* this = THIS;
+    EnGoroiwa* this = (EnGoroiwa*)thisx;
     s32 pathIdx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -567,7 +565,7 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnGoroiwa* this = THIS;
+    EnGoroiwa* this = (EnGoroiwa*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -722,7 +720,7 @@ void EnGoroiwa_MoveDown(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoroiwa* this = THIS;
+    EnGoroiwa* this = (EnGoroiwa*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s32 sp30;

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgPoEvent*)thisx)
-
 void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -195,7 +193,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->type = (thisx->params >> 8) & 0xF;
@@ -222,7 +220,7 @@ void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
 
     if (this->type >= 2) {
         Collider_DestroyTris(globalCtx, &this->collider);
@@ -584,7 +582,7 @@ void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx) {
 
 void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
 
     this->actionFunc(this, globalCtx);
     if ((this->actionFunc == BgPoEvent_AmyWait) || (this->actionFunc == BgPoEvent_PaintingPresent)) {
@@ -598,7 +596,7 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gPoSistersBethPaintingDL, gPoSistersAmyPaintingDL,
     };
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
     u8 alpha;
     Vec3f sp58;
     Vec3f sp4C;

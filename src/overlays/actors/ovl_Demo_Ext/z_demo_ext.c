@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((DemoExt*)thisx)
-
 typedef enum {
     /* 0x00 */ EXT_WAIT,
     /* 0x01 */ EXT_MAINTAIN,
@@ -32,7 +30,7 @@ void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoExt* this = THIS;
+    DemoExt* this = (DemoExt*)thisx;
 
     this->scrollIncr[0] = 25;
     this->scrollIncr[1] = 40;
@@ -170,7 +168,7 @@ static DemoExtActionFunc sActionFuncs[] = {
 };
 
 void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoExt* this = THIS;
+    DemoExt* this = (DemoExt*)thisx;
 
     if ((this->action < EXT_WAIT) || (this->action > EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
         // "Main mode is abnormal!"
@@ -184,7 +182,7 @@ void DemoExt_DrawNothing(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
-    DemoExt* this = THIS;
+    DemoExt* this = (DemoExt*)thisx;
     Mtx* mtx;
     GraphicsContext* gfxCtx;
     s16* curScroll;
@@ -224,7 +222,7 @@ static DemoExtDrawFunc sDrawFuncs[] = {
 };
 
 void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoExt* this = THIS;
+    DemoExt* this = (DemoExt*)thisx;
 
     if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX) ||
         sDrawFuncs[this->drawMode] == NULL) {

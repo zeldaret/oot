@@ -10,8 +10,6 @@
 
 #define FLAGS 0x02000009
 
-#define THIS ((EnKakasi3*)thisx)
-
 void EnKakasi3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -61,14 +59,14 @@ const ActorInit En_Kakasi3_InitVars = {
 };
 
 void EnKakasi3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi3* this = THIS;
+    EnKakasi3* this = (EnKakasi3*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
     //! @bug SkelAnime_Free is not called
 }
 
 void EnKakasi3_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi3* this = THIS;
+    EnKakasi3* this = (EnKakasi3*)thisx;
 
     osSyncPrintf("\n\n");
     // "Obonur" -- Related to the name of the scarecrow (Bonooru)
@@ -407,7 +405,7 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
 }
 
 void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi3* this = THIS;
+    EnKakasi3* this = (EnKakasi3*)thisx;
     s32 pad;
     s32 i;
 
@@ -434,7 +432,7 @@ void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKakasi3_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnKakasi3* this = THIS;
+    EnKakasi3* this = (EnKakasi3*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

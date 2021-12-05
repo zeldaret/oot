@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnDekunuts*)thisx)
-
 #define DEKUNUTS_FLOWER 10
 
 void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -108,7 +106,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -133,7 +131,7 @@ void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDekunuts_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
 
     if (this->actor.params != DEKUNUTS_FLOWER) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -470,7 +468,7 @@ void EnDekunuts_ColliderCheck(EnDekunuts* this, GlobalContext* globalCtx) {
 }
 
 void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
     s32 pad;
 
     if (this->actor.params != DEKUNUTS_FLOWER) {
@@ -497,7 +495,7 @@ void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDekunuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
     f32 x;
     f32 y;
     f32 z;
@@ -527,7 +525,7 @@ s32 EnDekunuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnDekunuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
 
     if (this->actor.params == DEKUNUTS_FLOWER) {
         Gfx_DrawDListOpa(globalCtx, gDekuNutsFlowerDL);

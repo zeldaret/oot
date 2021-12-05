@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnChanger*)thisx)
-
 typedef enum {
     /* 0 */ CHEST_LEFT,
     /* 1 */ CHEST_RIGHT
@@ -67,7 +65,7 @@ void EnChanger_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnChanger* this = THIS;
+    EnChanger* this = (EnChanger*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s16 leftChestParams;
     s16 rightChestParams;
@@ -286,7 +284,7 @@ void EnChanger_SetHeartPieceFlag(EnChanger* this, GlobalContext* globalCtx) {
 }
 
 void EnChanger_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnChanger* this = THIS;
+    EnChanger* this = (EnChanger*)thisx;
 
     this->actionFunc(this, globalCtx);
 

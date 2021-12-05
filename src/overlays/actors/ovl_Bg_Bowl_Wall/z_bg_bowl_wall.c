@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgBowlWall*)thisx)
-
 void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBowlWall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBowlWall_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -47,7 +45,7 @@ static Vec3f sBullseyeOffset[] = {
 static s16 sTargetRot[] = { 0x0000, 0x0000, 0x3FFF, -0x3FFF };
 
 void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgBowlWall* this = THIS;
+    BgBowlWall* this = (BgBowlWall*)thisx;
     s32 pad1;
     s32 pad2;
     CollisionHeader* colHeader = NULL;
@@ -69,7 +67,7 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgBowlWall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgBowlWall* this = THIS;
+    BgBowlWall* this = (BgBowlWall*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -189,7 +187,7 @@ void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx) {
 }
 
 void BgBowlWall_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgBowlWall* this = THIS;
+    BgBowlWall* this = (BgBowlWall*)thisx;
 
     if (this->timer != 0) {
         this->timer--;
@@ -200,7 +198,7 @@ void BgBowlWall_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgBowlWall* this = THIS;
+    BgBowlWall* this = (BgBowlWall*)thisx;
     u32 frames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_bowl_wall.c", 441);

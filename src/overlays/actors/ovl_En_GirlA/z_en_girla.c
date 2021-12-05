@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnGirlA*)thisx)
-
 void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGirlA_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -405,7 +403,7 @@ void EnGirlA_InitItem(EnGirlA* this, GlobalContext* globalCtx) {
 }
 
 void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGirlA* this = THIS;
+    EnGirlA* this = (EnGirlA*)thisx;
 
     EnGirlA_TryChangeShopItem(this);
     EnGirlA_InitItem(this, globalCtx);
@@ -413,7 +411,7 @@ void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGirlA* this = THIS;
+    EnGirlA* this = (EnGirlA*)thisx;
 
     if (this->isInitialized) {
         SkelAnime_Free(&this->skelAnime, globalCtx);
@@ -1091,7 +1089,7 @@ void EnGirlA_Update2(EnGirlA* this, GlobalContext* globalCtx) {
 }
 
 void EnGirlA_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGirlA* this = THIS;
+    EnGirlA* this = (EnGirlA*)thisx;
 
     this->actionFunc2(this, globalCtx);
 }
@@ -1102,7 +1100,7 @@ void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags) {
 }
 
 void EnGirlA_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGirlA* this = THIS;
+    EnGirlA* this = (EnGirlA*)thisx;
 
     Matrix_RotateY(((this->yRotation * 360.0f) / 65536.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
     if (this->hiliteFunc != NULL) {

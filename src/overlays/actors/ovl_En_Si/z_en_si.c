@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000201
 
-#define THIS ((EnSi*)thisx)
-
 void EnSi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSi_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ const ActorInit En_Si_InitVars = {
 };
 
 void EnSi_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSi* this = THIS;
+    EnSi* this = (EnSi*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -67,7 +65,7 @@ void EnSi_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSi* this = THIS;
+    EnSi* this = (EnSi*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -136,7 +134,7 @@ void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
 }
 
 void EnSi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSi* this = THIS;
+    EnSi* this = (EnSi*)thisx;
 
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
@@ -145,7 +143,7 @@ void EnSi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSi* this = THIS;
+    EnSi* this = (EnSi*)thisx;
 
     if (this->actionFunc != func_80AFB950) {
         func_8002ED80(&this->actor, globalCtx, 0);

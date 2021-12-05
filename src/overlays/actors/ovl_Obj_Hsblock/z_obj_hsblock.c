@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((ObjHsblock*)thisx)
-
 void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjHsblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjHsblock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +75,7 @@ void func_80B93BF0(ObjHsblock* this, GlobalContext* globalCtx) {
 }
 
 void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHsblock* this = THIS;
+    ObjHsblock* this = (ObjHsblock*)thisx;
 
     func_80B93B68(this, globalCtx, sCollisionHeaders[thisx->params & 3], DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -102,7 +100,7 @@ void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjHsblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHsblock* this = THIS;
+    ObjHsblock* this = (ObjHsblock*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -138,7 +136,7 @@ void func_80B93E5C(ObjHsblock* this, GlobalContext* globalCtx) {
 }
 
 void ObjHsblock_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHsblock* this = THIS;
+    ObjHsblock* this = (ObjHsblock*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);

@@ -17,8 +17,6 @@ typedef enum {
     /* 0x3 */ STA_UNKNOWN
 } ShadowTempleAssetsType;
 
-#define THIS ((BgHakaZou*)thisx)
-
 void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -75,7 +73,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHakaZou* this = THIS;
+    BgHakaZou* this = (BgHakaZou*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
@@ -124,7 +122,7 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaZou* this = THIS;
+    BgHakaZou* this = (BgHakaZou*)thisx;
 
     if (this->dyna.actor.params != STA_UNKNOWN) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -392,7 +390,7 @@ void BgHakaZou_DoNothing(BgHakaZou* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaZou* this = THIS;
+    BgHakaZou* this = (BgHakaZou*)thisx;
 
     this->actionFunc(this, globalCtx);
 

@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnEiyer*)thisx)
-
 void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -118,7 +116,7 @@ static InitChainEntry sInitChain[] = {
  * params   10: Normal Eiyer, wander around spawn point
  */
 void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnEiyer* this = THIS;
+    EnEiyer* this = (EnEiyer*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -170,7 +168,7 @@ void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnEiyer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnEiyer* this = THIS;
+    EnEiyer* this = (EnEiyer*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -637,7 +635,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, GlobalContext* globalCtx) {
 }
 
 void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnEiyer* this = THIS;
+    EnEiyer* this = (EnEiyer*)thisx;
     s32 pad;
 
     EnEiyer_UpdateDamage(this, globalCtx);
@@ -683,7 +681,7 @@ void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnEiyer_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                              Gfx** gfx) {
-    EnEiyer* this = THIS;
+    EnEiyer* this = (EnEiyer*)thisx;
 
     if (limbIndex == 1) {
         pos->z += 2500.0f;
@@ -696,7 +694,7 @@ s32 EnEiyer_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnEiyer_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnEiyer* this = THIS;
+    EnEiyer* this = (EnEiyer*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_eiyer.c", 1494);
     if (this->actionFunc != EnEiyer_Dead) {

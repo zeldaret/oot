@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnSiofuki*)thisx)
-
 void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSiofuki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSiofuki_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,7 +35,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSiofuki* this = THIS;
+    EnSiofuki* this = (EnSiofuki*)thisx;
     s32 type;
     CollisionHeader* colHeader = NULL;
     s32 pad;
@@ -101,7 +99,7 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSiofuki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSiofuki* this = THIS;
+    EnSiofuki* this = (EnSiofuki*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -272,13 +270,13 @@ void func_80AFC544(EnSiofuki* this, GlobalContext* globalCtx) {
 }
 
 void EnSiofuki_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSiofuki* this = THIS;
+    EnSiofuki* this = (EnSiofuki*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void EnSiofuki_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSiofuki* this = THIS;
+    EnSiofuki* this = (EnSiofuki*)thisx;
     u32 x;
     u32 y;
     u32 gameplayFrames = globalCtx->gameplayFrames;

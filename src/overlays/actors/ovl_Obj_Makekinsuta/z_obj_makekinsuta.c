@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((ObjMakekinsuta*)thisx)
-
 void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMakekinsuta_Update(Actor* thisx, GlobalContext* globalCtx);
 
@@ -30,7 +28,7 @@ const ActorInit Obj_Makekinsuta_InitVars = {
 };
 
 void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMakekinsuta* this = THIS;
+    ObjMakekinsuta* this = (ObjMakekinsuta*)thisx;
 
     if ((this->actor.params & 0x6000) == 0x4000) {
         osSyncPrintf(VT_FGCOL(BLUE));
@@ -64,7 +62,7 @@ void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, GlobalContext* globalCtx) {
 }
 
 void ObjMakekinsuta_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMakekinsuta* this = THIS;
+    ObjMakekinsuta* this = (ObjMakekinsuta*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

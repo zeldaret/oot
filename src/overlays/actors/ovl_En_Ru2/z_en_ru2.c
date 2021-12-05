@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnRu2*)thisx)
-
 void EnRu2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRu2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRu2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -92,7 +90,7 @@ const ActorInit En_Ru2_InitVars = {
 };
 
 void func_80AF2550(Actor* thisx, GlobalContext* globalCtx) {
-    EnRu2* this = THIS;
+    EnRu2* this = (EnRu2*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -106,7 +104,7 @@ void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void EnRu2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnRu2* this = THIS;
+    EnRu2* this = (EnRu2*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -756,7 +754,7 @@ void func_80AF3D60(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void EnRu2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnRu2* this = THIS;
+    EnRu2* this = (EnRu2*)thisx;
 
     if ((this->action < 0) || (this->action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[this->action] == NULL)) {
         // "Main Mode is improper!"
@@ -767,7 +765,7 @@ void EnRu2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnRu2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnRu2* this = THIS;
+    EnRu2* this = (EnRu2*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     func_80AF2550(thisx, globalCtx);
@@ -817,7 +815,7 @@ void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void EnRu2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnRu2* this = THIS;
+    EnRu2* this = (EnRu2*)thisx;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
         (sDrawFuncs[this->drawConfig] == 0)) {

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((DemoKekkai*)thisx)
-
 void DemoKekkai_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoKekkai_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoKekkai_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -75,7 +73,7 @@ s32 DemoKekkai_CheckEventFlag(s32 params) {
 
 void DemoKekkai_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DemoKekkai* this = THIS;
+    DemoKekkai* this = (DemoKekkai*)thisx;
 
     this->sfxFlag = 0;
     this->energyAlpha = 1.0f;
@@ -126,7 +124,7 @@ void DemoKekkai_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void DemoKekkai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DemoKekkai* this = THIS;
+    DemoKekkai* this = (DemoKekkai*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider1);
     Collider_DestroyCylinder(globalCtx, &this->collider2);
@@ -184,7 +182,7 @@ void DemoKekkai_TowerBarrier(DemoKekkai* this, GlobalContext* globalCtx) {
 
 void DemoKekkai_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    DemoKekkai* this = THIS;
+    DemoKekkai* this = (DemoKekkai*)thisx;
 
     if (this->energyAlpha > 0.99f) {
         if ((this->collider1.base.atFlags & AT_HIT) || (this->collider2.base.atFlags & AT_HIT)) {
@@ -205,7 +203,7 @@ void DemoKekkai_Update(Actor* thisx, GlobalContext* globalCtx2) {
 void DemoKekkai_TrialBarrierDispel(Actor* thisx, GlobalContext* globalCtx) {
     static u16 csFrames[] = { 0, 280, 280, 280, 280, 280, 280 };
     s32 pad;
-    DemoKekkai* this = THIS;
+    DemoKekkai* this = (DemoKekkai*)thisx;
 
     if (globalCtx->csCtx.frames == csFrames[this->actor.params]) {
         func_800F3F3C(0xA);
@@ -243,7 +241,7 @@ static CutsceneData* sSageCutscenes[] = {
 
 void DemoKekkai_TrialBarrierIdle(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DemoKekkai* this = THIS;
+    DemoKekkai* this = (DemoKekkai*)thisx;
 
     if (this->collider1.base.atFlags & AT_HIT) {
         func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.yawTowardsPlayer, 5.0f);
@@ -272,7 +270,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, GlobalContext* globalCtx2) {
         1, 1, 0, 0, 0, 1, 1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 1, 0, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 0, 0,
     };
     s32 colorIndex;
-    DemoKekkai* this = THIS;
+    DemoKekkai* this = (DemoKekkai*)thisx;
     u8 alphas[3];
     Vtx* energyVtx = SEGMENTED_TO_VIRTUAL(gTrialBarrierEnergyVtx);
     s32 i;
@@ -321,7 +319,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, GlobalContext* globalCtx2) {
 
 void DemoKekkai_DrawTowerBarrier(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DemoKekkai* this = THIS;
+    DemoKekkai* this = (DemoKekkai*)thisx;
     s32 scroll;
 
     scroll = (s32)this->barrierScroll & 0xFFFF;

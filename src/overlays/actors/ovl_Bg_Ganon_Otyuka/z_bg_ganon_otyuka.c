@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgGanonOtyuka*)thisx)
-
 typedef enum {
     /* 0x00 */ FLASH_NONE,
     /* 0x01 */ FLASH_GROW,
@@ -68,7 +66,7 @@ static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 #include "overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c"
 
 void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    BgGanonOtyuka* this = THIS;
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     CollisionHeader* colHeader = NULL;
 
@@ -86,7 +84,7 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
-    BgGanonOtyuka* this = THIS;
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -236,7 +234,7 @@ void BgGanonOtyuka_DoNothing(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGanonOtyuka* this = THIS;
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->flashTimer++;
@@ -246,7 +244,7 @@ void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgGanonOtyuka* this = THIS;
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
     s16 i;
     Gfx* phi_s2;
     Gfx* phi_s1;

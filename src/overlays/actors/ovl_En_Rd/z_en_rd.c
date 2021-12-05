@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000415
 
-#define THIS ((EnRd*)thisx)
-
 void EnRd_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -123,7 +121,7 @@ void EnRd_SetupAction(EnRd* this, EnRdActionFunc actionFunc) {
 }
 
 void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->targetMode = 0;
@@ -170,7 +168,7 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
 
     if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
@@ -788,7 +786,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
 
 void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
 
@@ -831,7 +829,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
 
     if (limbIndex == 23) {
         rot->y += this->unk_30E;
@@ -843,7 +841,7 @@ s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Vec3f sp2C = D_80AE4940;
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
     s32 idx = -1;
     Vec3f destPos;
 
@@ -892,7 +890,7 @@ void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
     Vec3f thisPos = thisx->world.pos;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rd.c", 1679);

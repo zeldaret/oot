@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnEg*)thisx)
-
 void EnEg_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnEg_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -44,7 +42,7 @@ void EnEg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnEg_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnEg* this = THIS;
+    EnEg* this = (EnEg*)thisx;
 
     this->action = 0;
 }
@@ -62,7 +60,7 @@ void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
 }
 
 void EnEg_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnEg* this = THIS;
+    EnEg* this = (EnEg*)thisx;
     s32 action = this->action;
 
     if (((action < 0) || (0 < action)) || (sActionFuncs[action] == NULL)) {

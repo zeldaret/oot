@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnLight*)thisx)
-
 void EnLight_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnLight_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -48,7 +46,7 @@ static FlameParams D_80A9E840[] = {
 };
 
 void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnLight* this = THIS;
+    EnLight* this = (EnLight*)thisx;
     s16 yOffset;
 
     if (gSaveContext.gameMode == 3) {
@@ -72,7 +70,7 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnLight* this = THIS;
+    EnLight* this = (EnLight*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
 }
@@ -93,7 +91,7 @@ void EnLight_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 intensity;
     FlameParams* flameParams;
     s16 radius;
-    EnLight* this = THIS;
+    EnLight* this = (EnLight*)thisx;
 
     flameParams = &D_80A9E840[this->actor.params & 0xF];
     intensity = (Rand_ZeroOne() * 0.5f) + 0.5f;
@@ -111,7 +109,7 @@ void EnLight_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
     f32 intensity;
     FlameParams* flameParams;
-    EnLight* this = THIS;
+    EnLight* this = (EnLight*)thisx;
     f32 scale;
 
     flameParams = &D_80A9E840[this->actor.params & 0xF];
@@ -152,7 +150,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnLight* this = THIS;
+    EnLight* this = (EnLight*)thisx;
     s32 pad;
     FlameParams* flameParams;
     Gfx* dList;

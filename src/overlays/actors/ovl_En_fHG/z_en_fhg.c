@@ -12,8 +12,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnfHG*)thisx)
-
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yRot;
@@ -74,7 +72,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Flags_SetSwitch(globalCtx, 0x14);
@@ -95,7 +93,7 @@ void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
 
     osSyncPrintf("F DT1\n");
     func_800A6888(globalCtx, &this->skin);
@@ -681,7 +679,7 @@ void EnfHG_Done(EnfHG* this, GlobalContext* globalCtx) {
 
 void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
     u8 i;
 
     if (this->killActor) {
@@ -714,7 +712,7 @@ void EnfHG_Noop(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
 }
 
 void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
     BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
     s32 pad;
 
