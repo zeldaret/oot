@@ -253,7 +253,7 @@ s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 
 
 // clang-format off
 NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
-    // natureAmbienceId = NATURE_ID_GENERAL_NIGHT
+    // NATURE_ID_GENERAL_NIGHT
     {
         0xC0FF, // PlayerIO Data
         0xC0FE, // Channel Mask
@@ -303,11 +303,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_6, CHANNEL_IO_PORT_3, 127, // bend pitch
             NATURE_CHANNEL_ANIMALS_6, CHANNEL_IO_PORT_4, 1,   // number of layers
             NATURE_CHANNEL_ANIMALS_6, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_MARKET_ENTRANCE
+    // NATURE_ID_MARKET_ENTRANCE
     {
         0xC0FB, // PlayerIO Data
         0xC0FA, // Channel Mask
@@ -351,11 +351,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_6, CHANNEL_IO_PORT_3, 127,
             NATURE_CHANNEL_ANIMALS_6, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_6, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_KAKARIKO_REGION
+    // NATURE_ID_KAKARIKO_REGION
     {
         0xC001, // PlayerIO Data
         0x4000, // Channel Mask
@@ -369,11 +369,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_1, CHANNEL_IO_PORT_3, 48,
             NATURE_CHANNEL_ANIMALS_1, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_1, CHANNEL_IO_PORT_5, 32,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_MARKET_RUINS
+    // NATURE_ID_MARKET_RUINS
     {
         0xC005, // PlayerIO Data
         0x4000, // Channel Mask
@@ -387,11 +387,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_1, CHANNEL_IO_PORT_3, 48,
             NATURE_CHANNEL_ANIMALS_1, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_1, CHANNEL_IO_PORT_5, 32,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_KOKIRI_REGION
+    // NATURE_ID_KOKIRI_REGION
     {
         0xC01F, // PlayerIO Data
         0xC000, // Channel Mask
@@ -423,11 +423,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_3, CHANNEL_IO_PORT_3, 63,
             NATURE_CHANNEL_ANIMALS_3, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_3, CHANNEL_IO_PORT_5, 44,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_MARKET_NIGHT
+    // NATURE_ID_MARKET_NIGHT
     {
         0xC003, // PlayerIO Data
         0xC000, // Channel Mask
@@ -441,11 +441,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_06
+    // NATURE_ID_06
     {
         0xC0FB, // PlayerIO Data
         0xC0FA, // Channel Mask
@@ -489,11 +489,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_6, CHANNEL_IO_PORT_3, 127,
             NATURE_CHANNEL_ANIMALS_6, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_6, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_GANONS_LAIR
+    // NATURE_ID_GANONS_LAIR
     {
         0x8001, // PlayerIO Data
         0x0,    // Channel Mask
@@ -501,11 +501,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             // Channel 0
             NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_2, NATURE_STREAM_HOWLING_WIND,
             NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_3, 32,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_08
+    // NATURE_ID_08
     {
         0xC003, // PlayerIO Data
         0xC000, // Channel Mask
@@ -519,11 +519,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_09
+    // NATURE_ID_09
     {
         0xC003, // PlayerIO Data
         0xC000, // Channel Mask
@@ -537,11 +537,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_WASTELAND
+    // NATURE_ID_WASTELAND
     {
         0xC001, // PlayerIO Data
         0xC000, // Channel Mask
@@ -550,11 +550,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_2, NATURE_STREAM_SCREECHING_WIND,
             NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_4, 0,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_COLOSSUS
+    // NATURE_ID_COLOSSUS
     {
         0xC02F, // PlayerIO Data
         0xC02E, // Channel Mask
@@ -587,11 +587,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_4, CHANNEL_IO_PORT_3, 127,
             NATURE_CHANNEL_ANIMALS_4, CHANNEL_IO_PORT_4, 0,
             NATURE_CHANNEL_ANIMALS_4, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_DEATH_MOUNTAIN_TRAIL
+    // NATURE_ID_DEATH_MOUNTAIN_TRAIL
     {
         0xC07F, // PlayerIO Data
         0xC07E, // Channel Mask
@@ -636,11 +636,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_5, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_ANIMALS_5, CHANNEL_IO_PORT_4, 0,
             NATURE_CHANNEL_ANIMALS_5, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_0D
+    // NATURE_ID_0D
     {
         0xC003, // PlayerIO Data
         0xC000, // Channel Mask
@@ -654,11 +654,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_0E
+    // NATURE_ID_0E
     {
         0xC003, // PlayerIO Data
         0xC000, // Channel Mask
@@ -672,11 +672,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_0F
+    // NATURE_ID_0F
     {
         0xC01F, // PlayerIO Data
         0xC000, // Channel Mask
@@ -708,11 +708,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_3, CHANNEL_IO_PORT_3, 96,
             NATURE_CHANNEL_ANIMALS_3, CHANNEL_IO_PORT_4, 0,
             NATURE_CHANNEL_ANIMALS_3, CHANNEL_IO_PORT_5, 32,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_10
+    // NATURE_ID_10
     {
         0xC003, // PlayerIO Data
         0xC000, // Channel Mask
@@ -726,11 +726,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_11
+    // NATURE_ID_11
     {
         0xC003, // PlayerIO Data
         0xC000, // Channel Mask
@@ -744,11 +744,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_12
+    // NATURE_ID_12
     {
         0xC003, // PlayerIO Data
         0xC000, // Channel Mask
@@ -762,11 +762,11 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 
-    // natureAmbienceId = NATURE_ID_NONE
+    // NATURE_ID_NONE
     // While there is data for this natureAmbienceId, it is identical to previous entries
     // and the game treats it as no nature ambience
     {
@@ -782,8 +782,8 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_3, 0,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_4, 1,
             NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_5, 16,
-            0xFF
-        }
+            0xFF,
+        },
     },
 };
 // clang-format on
@@ -4974,8 +4974,9 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
     if ((D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 == NA_BGM_DISABLED) ||
         !(sSeqFlags[((u8)D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254) & 0xFF] & 0x80)) {
 
-        Audio_StartNatureAmbienceSequence(sNatureAmbienceDataIO[natureAmbienceId].playerIO, sNatureAmbienceDataIO[natureAmbienceId].channelMask);
-        
+        Audio_StartNatureAmbienceSequence(sNatureAmbienceDataIO[natureAmbienceId].playerIO,
+                                          sNatureAmbienceDataIO[natureAmbienceId].channelMask);
+
         while ((sNatureAmbienceDataIO[natureAmbienceId].channelIO[i] != 0xFF) && (i < 100)) {
             // Probably a fake match, using Audio_SeqCmd8 doesn't work.
             channelIdx = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
