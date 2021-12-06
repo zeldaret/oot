@@ -28,7 +28,10 @@ DECLARE_ROM_SEGMENT(dmadata)
 DECLARE_ROM_SEGMENT(Audiobank)
 DECLARE_ROM_SEGMENT(Audioseq)
 DECLARE_ROM_SEGMENT(Audiotable)
+
+DECLARE_SEGMENT(link_animetion)
 DECLARE_ROM_SEGMENT(link_animetion)
+
 DECLARE_ROM_SEGMENT(icon_item_static)
 DECLARE_ROM_SEGMENT(icon_item_24_static)
 DECLARE_ROM_SEGMENT(icon_item_field_static)

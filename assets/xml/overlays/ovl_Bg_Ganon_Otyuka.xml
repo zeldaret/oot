@@ -18,7 +18,7 @@
         </Array>
         <DList Name="sPlatformSideDL" Offset="0x1B40"/>
 
-        <Texture Name="sFlashTex" Format="i8" OutName="flash_tex" Width="32" Height="64" Offset="0x1B58"/>
+        <Texture Name="sFlashTex" OutName="flash_tex" Format="i8" Width="32" Height="64" Offset="0x1B58"/>
         <Array Name="sFlashVtx" Count="8" Offset="0x2358">
             <Vtx/>
         </Array>

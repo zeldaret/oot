@@ -13,9 +13,7 @@
 #include "objects/object_mori_hineri2a/object_mori_hineri2a.h"
 #include "objects/object_mori_tex/object_mori_tex.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgMoriHineri*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -48,14 +46,14 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Gfx* sDLists[] = {
-    0x060024E0,
-    0x06001980,
-    0x060020F0,
-    0x06002B70,
+    object_mori_hineri1_DL_0024E0,
+    object_mori_hineri1a_DL_001980,
+    object_mori_hineri2_DL_0020F0,
+    object_mori_hineri2a_DL_002B70,
 };
 
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
     s8 moriHineriObjIdx;
     u32 switchFlagParam;
     s32 t6;
@@ -108,7 +106,7 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
@@ -222,13 +220,13 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
     s8 objIndex;
     MtxF mtx;
 

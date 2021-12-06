@@ -4,6 +4,8 @@
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+#include "objects/object_bdoor/object_bdoor.h"
 
 static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
@@ -212,7 +214,7 @@ void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* lef
 }
 
 void func_8002BE04(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32* arg3) {
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, arg1, arg2, arg3);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, arg1, arg2, arg3);
     *arg3 = (*arg3 < 1.0f) ? 1.0f : (1.0f / *arg3);
 }
 
@@ -284,7 +286,7 @@ void func_8002C0C0(TargetContext* targetCtx, Actor* actor, GlobalContext* global
     targetCtx->targetedActor = NULL;
     targetCtx->unk_40 = 0.0f;
     targetCtx->unk_8C = NULL;
-    targetCtx->unk_90 = NULL;
+    targetCtx->bgmEnemy = NULL;
     targetCtx->unk_4B = 0;
     targetCtx->unk_4C = 0;
     func_8002BF60(targetCtx, actor, actor->category, globalCtx);
@@ -389,7 +391,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
     }
 
     actor = targetCtx->unk_94;
-    if ((actor != NULL) && !(actor->flags & 0x8000000)) {
+    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_27)) {
         NaviColor* naviColor = &sNaviColorList[actor->category];
 
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x7);
@@ -482,7 +484,8 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
                 targetCtx->unk_48 = 0;
             }
 
-            lockOnSfxId = ((actorArg->flags & 5) == 5) ? NA_SE_SY_LOCK_ON : NA_SE_SY_LOCK_ON_HUMAN;
+            lockOnSfxId = CHECK_FLAG_ALL(actorArg->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON
+                                                                                       : NA_SE_SY_LOCK_ON_HUMAN;
             func_80078884(lockOnSfxId);
         }
 
@@ -760,7 +763,7 @@ s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
 void Actor_Kill(Actor* actor) {
     actor->draw = NULL;
     actor->update = NULL;
-    actor->flags &= ~0x1;
+    actor->flags &= ~ACTOR_FLAG_0;
 }
 
 void Actor_SetWorldToHome(Actor* actor) {
@@ -997,8 +1000,8 @@ void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
     hookshot->grabbedDistDiff.x = 0.0f;
     hookshot->grabbedDistDiff.y = 0.0f;
     hookshot->grabbedDistDiff.z = 0.0f;
-    actorB->flags |= 0x2000;
-    actorA->flags &= ~0x2000;
+    actorB->flags |= ACTOR_FLAG_13;
+    actorA->flags &= ~ACTOR_FLAG_13;
 }
 
 void func_8002DE74(GlobalContext* globalCtx, Player* player) {
@@ -1433,11 +1436,12 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     s16 yawTempAbs = ABS(yawTemp);
 
     if (player->unk_664 != NULL) {
-        if ((yawTempAbs > 0x4000) || (actor->flags & 0x8000000)) {
+        if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_27)) {
             return FLT_MAX;
         } else {
             f32 ret =
                 actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
+
             return ret;
         }
     }
@@ -1468,7 +1472,7 @@ u32 func_8002F090(Actor* actor, f32 arg1) {
 }
 
 s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
-    if ((actor->update == NULL) || !(actor->flags & 1)) {
+    if ((actor->update == NULL) || !(actor->flags & ACTOR_FLAG_0)) {
         return true;
     }
 
@@ -1490,8 +1494,8 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
 }
 
 u32 Actor_ProcessTalkRequest(Actor* actor, GlobalContext* globalCtx) {
-    if (actor->flags & 0x100) {
-        actor->flags &= ~0x100;
+    if (actor->flags & ACTOR_FLAG_8) {
+        actor->flags &= ~ACTOR_FLAG_8;
         return true;
     }
 
@@ -1502,7 +1506,7 @@ s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u3
     Player* player = GET_PLAYER(globalCtx);
 
     // This is convoluted but it seems like it must be a single if statement to match
-    if ((player->actor.flags & 0x100) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(globalCtx)) ||
+    if ((player->actor.flags & ACTOR_FLAG_8) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(globalCtx)) ||
         (!actor->isTargeted &&
          ((arg3 < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
           (arg2 < actor->xzDistToPlayer)))) {
@@ -1705,30 +1709,30 @@ void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
-    actor->flags |= 0x80000;
-    actor->flags &= ~0x10300000;
+    actor->flags |= ACTOR_FLAG_19;
+    actor->flags &= ~(ACTOR_FLAG_20 | ACTOR_FLAG_21 | ACTOR_FLAG_28);
 }
 
 void func_8002F91C(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
-    actor->flags |= 0x100000;
-    actor->flags &= ~0x10280000;
+    actor->flags |= ACTOR_FLAG_20;
+    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_21 | ACTOR_FLAG_28);
 }
 
 void func_8002F948(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
-    actor->flags |= 0x200000;
-    actor->flags &= ~0x10180000;
+    actor->flags |= ACTOR_FLAG_21;
+    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_28);
 }
 
 void func_8002F974(Actor* actor, u16 sfxId) {
-    actor->flags &= ~0x10380000;
+    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21 | ACTOR_FLAG_28);
     actor->sfx = sfxId;
 }
 
 void func_8002F994(Actor* actor, s32 arg1) {
-    actor->flags |= 0x10000000;
-    actor->flags &= ~0x00380000;
+    actor->flags |= ACTOR_FLAG_28;
+    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21);
     if (arg1 < 40) {
         actor->sfx = NA_SE_PL_WALK_DIRT - SFX_FLAG;
     } else if (arg1 < 100) {
@@ -1904,7 +1908,7 @@ void Actor_DrawFaroresWindPointer(GlobalContext* globalCtx) {
                              ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
                              ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z), MTXMODE_NEW);
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
             Matrix_Push();
 
             gDPPipeSync(POLY_XLU_DISP++);
@@ -1954,8 +1958,8 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     bzero(actorCtx, sizeof(*actorCtx));
 
     ActorOverlayTable_Init();
-    Matrix_MtxFCopy(&globalCtx->mf_11DA0, &gMtxFClear);
-    Matrix_MtxFCopy(&globalCtx->mf_11D60, &gMtxFClear);
+    Matrix_MtxFCopy(&globalCtx->billboardMtxF, &gMtxFClear);
+    Matrix_MtxFCopy(&globalCtx->viewProjectionMtxF, &gMtxFClear);
 
     overlayEntry = &gActorOverlayTable[0];
     for (i = 0; i < ARRAY_COUNT(gActorOverlayTable); i++) {
@@ -2026,7 +2030,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     sp80 = &D_80116068[0];
 
     if (player->stateFlags2 & 0x8000000) {
-        unkFlag = 0x2000000;
+        unkFlag = ACTOR_FLAG_25;
     }
 
     if ((player->stateFlags1 & 0x40) && ((player->actor.textId & 0xFF00) != 0x600)) {
@@ -2073,9 +2077,9 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 actor->xyzDistToPlayerSq = SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer);
 
                 actor->yawTowardsPlayer = Actor_WorldYawTowardActor(actor, &player->actor);
-                actor->flags &= ~0x1000000;
+                actor->flags &= ~ACTOR_FLAG_24;
 
-                if ((DECR(actor->freezeTimer) == 0) && (actor->flags & 0x50)) {
+                if ((DECR(actor->freezeTimer) == 0) && (actor->flags & (ACTOR_FLAG_4 | ACTOR_FLAG_6))) {
                     if (actor == player->unk_664) {
                         actor->isTargeted = true;
                     } else {
@@ -2157,10 +2161,10 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 
     lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
 
-    Lights_BindAll(lights, globalCtx->lightCtx.listHead, (actor->flags & 0x400000) ? NULL : &actor->world.pos);
+    Lights_BindAll(lights, globalCtx->lightCtx.listHead, (actor->flags & ACTOR_FLAG_22) ? NULL : &actor->world.pos);
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 
-    if (actor->flags & 0x1000) {
+    if (actor->flags & ACTOR_FLAG_12) {
         func_800D1694(actor->world.pos.x + globalCtx->mainCamera.skyboxOffset.x,
                       actor->world.pos.y +
                           (f32)((actor->shape.yOffset * actor->scale.y) + globalCtx->mainCamera.skyboxOffset.y),
@@ -2214,13 +2218,13 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 }
 
 void func_80030ED8(Actor* actor) {
-    if (actor->flags & 0x80000) {
+    if (actor->flags & ACTOR_FLAG_19) {
         Audio_PlaySoundGeneral(actor->sfx, &actor->projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    } else if (actor->flags & 0x100000) {
+    } else if (actor->flags & ACTOR_FLAG_20) {
         func_80078884(actor->sfx);
-    } else if (actor->flags & 0x200000) {
+    } else if (actor->flags & ACTOR_FLAG_21) {
         func_800788CC(actor->sfx);
-    } else if (actor->flags & 0x10000000) {
+    } else if (actor->flags & ACTOR_FLAG_28) {
         func_800F4C58(&D_801333D4, NA_SE_SY_TIMER - SFX_FLAG, (s8)(actor->sfx - 1));
     } else {
         func_80078914(&actor->projectedPos, actor->sfx);
@@ -2357,7 +2361,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
             HREG(66) = i;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &actor->world.pos, &actor->projectedPos,
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &actor->world.pos, &actor->projectedPos,
                                              &actor->projectedW);
             }
 
@@ -2369,17 +2373,17 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(70) == 0)) {
                 if (func_800314B0(globalCtx, actor)) {
-                    actor->flags |= 0x40;
+                    actor->flags |= ACTOR_FLAG_6;
                 } else {
-                    actor->flags &= ~0x40;
+                    actor->flags &= ~ACTOR_FLAG_6;
                 }
             }
 
             actor->isDrawn = false;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
-                if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & 0x60)) {
-                    if ((actor->flags & 0x80) &&
+                if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & (ACTOR_FLAG_5 | ACTOR_FLAG_6))) {
+                    if ((actor->flags & ACTOR_FLAG_7) &&
                         ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || (globalCtx->actorCtx.unk_03 != 0) ||
                          (actor->room != globalCtx->roomCtx.curRoom.num))) {
                         ASSERT(invisibleActorCounter < INVISIBLE_ACTOR_MAX,
@@ -2833,8 +2837,8 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
         actorCtx->targetCtx.unk_8C = NULL;
     }
 
-    if (actor == actorCtx->targetCtx.unk_90) {
-        actorCtx->targetCtx.unk_90 = NULL;
+    if (actor == actorCtx->targetCtx.bgmEnemy) {
+        actorCtx->targetCtx.bgmEnemy = NULL;
     }
 
     Audio_StopSfxByPos(&actor->projectedPos);
@@ -2870,7 +2874,7 @@ s32 func_80032880(GlobalContext* globalCtx, Actor* actor) {
 Actor* D_8015BBE8;
 Actor* D_8015BBEC;
 f32 D_8015BBF0;
-f32 D_8015BBF4;
+f32 sbgmEnemyDistSq;
 s32 D_8015BBF8;
 s16 D_8015BBFC;
 
@@ -2879,18 +2883,21 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
     Actor* actor;
     Actor* sp84;
     CollisionPoly* sp80;
-    UNK_TYPE sp7C;
+    s32 sp7C;
     Vec3f sp70;
 
     actor = actorCtx->actorLists[actorCategory].head;
     sp84 = player->unk_664;
 
     while (actor != NULL) {
-        if ((actor->update != NULL) && ((Player*)actor != player) && ((actor->flags & 1) == 1)) {
-            if ((actorCategory == ACTORCAT_ENEMY) && ((actor->flags & 5) == 5) &&
-                (actor->xyzDistToPlayerSq < 250000.0f) && (actor->xyzDistToPlayerSq < D_8015BBF4)) {
-                actorCtx->targetCtx.unk_90 = actor;
-                D_8015BBF4 = actor->xyzDistToPlayerSq;
+        if ((actor->update != NULL) && ((Player*)actor != player) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0)) {
+
+            // This block below is for determining the closest actor to player in determining the volume
+            // used while playing enemy bgm music
+            if ((actorCategory == ACTORCAT_ENEMY) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) &&
+                (actor->xyzDistToPlayerSq < SQ(500.0f)) && (actor->xyzDistToPlayerSq < sbgmEnemyDistSq)) {
+                actorCtx->targetCtx.bgmEnemy = actor;
+                sbgmEnemyDistSq = actor->xyzDistToPlayerSq;
             }
 
             if (actor != sp84) {
@@ -2926,13 +2933,13 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
     u8* entry;
 
     D_8015BBE8 = D_8015BBEC = NULL;
-    D_8015BBF0 = D_8015BBF4 = FLT_MAX;
+    D_8015BBF0 = sbgmEnemyDistSq = FLT_MAX;
     D_8015BBF8 = 0x7FFFFFFF;
 
     if (!Player_InCsMode(globalCtx)) {
         entry = &D_801160A0[0];
 
-        actorCtx->targetCtx.unk_90 = NULL;
+        actorCtx->targetCtx.bgmEnemy = NULL;
         D_8015BBFC = player->actor.shape.rot.y;
 
         for (i = 0; i < 3; i++) {
@@ -3236,7 +3243,7 @@ Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 r
             //! @bug The projectile actor gets unsafely casted to a hookshot to check its timer, even though
             //  it can also be an arrow.
             //  Luckily, the field at the same offset in the arrow actor is the x component of a vector
-            //  which will rarely ever be 0. So its very unlikely for this bug to cause an issue.
+            //  which will rarely ever be 0. So it's very unlikely for this bug to cause an issue.
             if ((Math_Vec3f_DistXYZ(&refActor->world.pos, &actor->world.pos) > radius) ||
                 (((ArmsHook*)actor)->timer == 0)) {
                 actor = actor->next;
@@ -3454,6 +3461,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 
 void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
     s16 var = Quake_Add(&globalCtx->mainCamera, 3);
+
     Quake_SetSpeed(var, 20000);
     Quake_SetQuakeValues(var, arg1, 0, 0, 0);
     Quake_SetCountdown(var, arg2);
@@ -3461,6 +3469,7 @@ void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
 
 void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3) {
     s16 var = Quake_Add(&globalCtx->mainCamera, 3);
+
     Quake_SetSpeed(var, arg3);
     Quake_SetQuakeValues(var, arg1, 0, 0, 0);
     Quake_SetCountdown(var, arg2);
@@ -3485,69 +3494,73 @@ f32 Rand_CenteredFloat(f32 f) {
 }
 
 typedef struct {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ u32 unk_14;
-    /* 0x18 */ u32 unk_18;
-} struct_801160DC; // size = 0x1C
+    /* 0x00 */ f32 chainAngle;
+    /* 0x04 */ f32 chainLength;
+    /* 0x08 */ f32 yShift;
+    /* 0x0C */ f32 chainsScale;
+    /* 0x10 */ f32 chainsRotZInit;
+    /* 0x14 */ Gfx* chainDL;
+    /* 0x18 */ Gfx* lockDL;
+} DoorLockInfo; // size = 0x1C
 
-static struct_801160DC D_801160DC[] = {
-    { 0.54f, 6000.0f, 5000.0f, 1.0f, 0.0f, 0x050011F0, 0x05001100 },
-    { 0.644f, 12000.0f, 8000.0f, 1.0f, 0.0f, 0x06001530, 0x06001400 },
-    { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, 0x050011F0, 0x05001100 },
+static DoorLockInfo sDoorLocksInfo[] = {
+    /* DOORLOCK_NORMAL */ { 0.54f, 6000.0f, 5000.0f, 1.0f, 0.0f, gDoorChainsDL, gDoorLockDL },
+    /* DOORLOCK_BOSS */ { 0.644f, 12000.0f, 8000.0f, 1.0f, 0.0f, object_bdoor_DL_001530, object_bdoor_DL_001400 },
+    /* DOORLOCK_NORMAL_SPIRIT */ { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, gDoorChainsDL, gDoorLockDL },
 };
 
+/**
+ * Draws chains and lock of a locked door, of the specified `type` (see `DoorLockType`).
+ * `frame` can be 0 to 10, where 0 is "open" and 10 is "closed", the chains slide accordingly.
+ */
 void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 frame, s32 type) {
-    struct_801160DC* entry;
+    DoorLockInfo* entry;
     s32 i;
-    MtxF spB0;
-    f32 var;
-    f32 temp1;
-    f32 temp2;
-    f32 temp3;
+    MtxF baseMtxF;
+    f32 chainRotZ;
+    f32 chainsTranslateX;
+    f32 chainsTranslateY;
+    f32 rotZStep;
 
-    entry = &D_801160DC[type];
-    var = entry->unk_10;
+    entry = &sDoorLocksInfo[type];
+    chainRotZ = entry->chainsRotZInit;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8265);
 
-    Matrix_Translate(0.0f, entry->unk_08, 500.0f, MTXMODE_APPLY);
-    Matrix_Get(&spB0);
+    Matrix_Translate(0.0f, entry->yShift, 500.0f, MTXMODE_APPLY);
+    Matrix_Get(&baseMtxF);
 
-    temp1 = sinf(entry->unk_00 - var) * -(10 - frame) * 0.1f * entry->unk_04;
-    temp2 = cosf(entry->unk_00 - var) * (10 - frame) * 0.1f * entry->unk_04;
+    chainsTranslateX = sinf(entry->chainAngle - chainRotZ) * -(10 - frame) * 0.1f * entry->chainLength;
+    chainsTranslateY = cosf(entry->chainAngle - chainRotZ) * (10 - frame) * 0.1f * entry->chainLength;
 
     for (i = 0; i < 4; i++) {
-        Matrix_Put(&spB0);
-        Matrix_RotateZ(var, MTXMODE_APPLY);
-        Matrix_Translate(temp1, temp2, 0.0f, MTXMODE_APPLY);
+        Matrix_Put(&baseMtxF);
+        Matrix_RotateZ(chainRotZ, MTXMODE_APPLY);
+        Matrix_Translate(chainsTranslateX, chainsTranslateY, 0.0f, MTXMODE_APPLY);
 
-        if (entry->unk_0C != 1.0f) {
-            Matrix_Scale(entry->unk_0C, entry->unk_0C, entry->unk_0C, MTXMODE_APPLY);
+        if (entry->chainsScale != 1.0f) {
+            Matrix_Scale(entry->chainsScale, entry->chainsScale, entry->chainsScale, MTXMODE_APPLY);
         }
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 8299),
                   G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_OPA_DISP++, entry->unk_14);
+        gSPDisplayList(POLY_OPA_DISP++, entry->chainDL);
 
         if (i % 2) {
-            temp3 = entry->unk_00 + entry->unk_00;
+            rotZStep = 2.0f * entry->chainAngle;
         } else {
-            temp3 = M_PI - (entry->unk_00 + entry->unk_00);
+            rotZStep = M_PI - (2.0f * entry->chainAngle);
         }
 
-        var += temp3;
+        chainRotZ += rotZStep;
     }
 
-    Matrix_Put(&spB0);
+    Matrix_Put(&baseMtxF);
     Matrix_Scale(frame * 0.1f, frame * 0.1f, frame * 0.1f, MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 8314),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, entry->unk_18);
+    gSPDisplayList(POLY_OPA_DISP++, entry->lockDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8319);
 }
@@ -3833,10 +3846,10 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
     }
 
     if (arg3 < var) {
-        actor->flags &= ~1;
+        actor->flags &= ~ACTOR_FLAG_0;
         Math_SmoothStepToS(&arg2, 0, 6, 0x14, 1);
     } else {
-        actor->flags |= 1;
+        actor->flags |= ACTOR_FLAG_0;
         Math_SmoothStepToS(&arg2, 0xFF, 6, 0x14, 1);
     }
 

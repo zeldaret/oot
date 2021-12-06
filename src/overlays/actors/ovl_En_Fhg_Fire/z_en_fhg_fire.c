@@ -11,9 +11,7 @@
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnFhgFire*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /*  0 */ STRIKE_INIT,
@@ -84,7 +82,7 @@ void EnFhgFire_SetUpdate(EnFhgFire* this, EnFhgFireUpdateFunc updateFunc) {
 
 void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnFhgFire* this = THIS;
+    EnFhgFire* this = (EnFhgFire*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -166,7 +164,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnFhgFire* this = THIS;
+    EnFhgFire* this = (EnFhgFire*)thisx;
 
     if ((this->actor.params == FHGFIRE_LIGHTNING_SHOCK) || (this->actor.params == FHGFIRE_LIGHTNING_BURST) ||
         (this->actor.params == FHGFIRE_ENERGY_BALL)) {
@@ -367,13 +365,11 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
         }
     }
 
-    // Related to scene draw config 30, only used in BossGanon_Update and
-    // loaded in z_kankyo
     gCustomLensFlareOn = this->lensFlareOn;
     gCustomLensFlarePos = this->actor.world.pos;
-    D_8015FD06 = this->lensFlareScale;
-    D_8015FD08 = 10.0f;
-    D_8015FD0C = 0;
+    gLensFlareScale = this->lensFlareScale;
+    gLensFlareColorIntensity = 10.0f;
+    gLensFlareScreenFillAlpha = 0;
 }
 
 void EnFhgFire_SpearLight(EnFhgFire* this, GlobalContext* globalCtx) {
@@ -681,7 +677,7 @@ void EnFhgFire_PhantomWarp(EnFhgFire* this, GlobalContext* globalCtx) {
 
 void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnFhgFire* this = THIS;
+    EnFhgFire* this = (EnFhgFire*)thisx;
 
     this->work[FHGFIRE_VARIANCE_TIMER]++;
 
@@ -701,7 +697,7 @@ static void* sDustTextures[] = {
 
 void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnFhgFire* this = THIS;
+    EnFhgFire* this = (EnFhgFire*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1723);
 
@@ -715,7 +711,7 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gPhantomLightningBlastDL));
     } else if ((this->actor.params == FHGFIRE_SPEAR_LIGHT) || (this->actor.params == FHGFIRE_ENERGY_BALL)) {
         osSyncPrintf("yari hikari draw 1\n");
-        func_800D1FD4(&globalCtx->mf_11DA0);
+        func_800D1FD4(&globalCtx->billboardMtxF);
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->fwork[FHGFIRE_ALPHA]);
 

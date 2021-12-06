@@ -106,7 +106,7 @@ void AudioHeap_DiscardSequence(s32 seqId) {
 }
 
 void AudioHeap_WritebackDCache(void* mem, u32 size) {
-    Audio_osWritebackDCache(mem, size);
+    Audio_WritebackDCache(mem, size);
 }
 
 void* AudioHeap_AllocZeroedAttemptExternal(AudioAllocPool* pool, u32 size) {
@@ -802,7 +802,7 @@ void AudioHeap_Init(void) {
     s32 temporaryMem;
     s32 totalMem;
     s32 wantMisc;
-    u32 intMask;
+    OSIntMask intMask;
     s32 i;
     s32 j;
     s32 pad2;
@@ -1276,6 +1276,7 @@ void AudioHeap_ChangeStorage(StorageChange* change, SoundFontSample* sample) {
     if (sample != NULL) {
         u32 start = change->oldAddr;
         u32 end = change->oldAddr + change->size;
+
         if (start <= (u32)sample->sampleAddr && (u32)sample->sampleAddr < end) {
             sample->sampleAddr = sample->sampleAddr - start + change->newAddr;
             sample->medium = change->newMedium;

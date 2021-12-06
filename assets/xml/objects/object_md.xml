@@ -4,22 +4,22 @@
         <Skeleton Name="gMidoSkel" Type="Flex" LimbType="Standard" Offset="0x7FB8"/>
 
         <!-- Mido Limbs -->
-        <Limb Name="gMidoRootLimb" Type="Standard" Offset="0x7EB8"/>
-        <Limb Name="gMidoWaistLimb" Type="Standard" Offset="0x7EC4"/>
-        <Limb Name="gMidoLeftThighLimb" Type="Standard" Offset="0x7ED0"/>
-        <Limb Name="gMidoLeftLegLimb" Type="Standard" Offset="0x7EDC"/>
-        <Limb Name="gMidoLeftFootLimb" Type="Standard" Offset="0x7EE8"/>
-        <Limb Name="gMidoRightThighLimb" Type="Standard" Offset="0x7EF4"/>
-        <Limb Name="gMidoRightLegLimb" Type="Standard" Offset="0x7F00"/>
-        <Limb Name="gMidoRightFootLimb" Type="Standard" Offset="0x7F0C"/>
-        <Limb Name="gMidoTorsoLimb" Type="Standard" Offset="0x7F18"/>
-        <Limb Name="gMidoLeftUpperArmLimb" Type="Standard" Offset="0x7F24"/>
-        <Limb Name="gMidoLeftForearmLimb" Type="Standard" Offset="0x7F30"/>
-        <Limb Name="gMidoLeftHandLimb" Type="Standard" Offset="0x7F3C"/>
-        <Limb Name="gMidoRightUpperArmLimb" Type="Standard" Offset="0x7F48"/>
-        <Limb Name="gMidoRightForearmLimb" Type="Standard" Offset="0x7F54"/>
-        <Limb Name="gMidoRightHandLimb" Type="Standard" Offset="0x7F60"/>
-        <Limb Name="gMidoHeadLimb" Type="Standard" Offset="0x7F6C"/>
+        <Limb Name="gMidoRootLimb" LimbType="Standard" Offset="0x7EB8"/>
+        <Limb Name="gMidoWaistLimb" LimbType="Standard" Offset="0x7EC4"/>
+        <Limb Name="gMidoLeftThighLimb" LimbType="Standard" Offset="0x7ED0"/>
+        <Limb Name="gMidoLeftLegLimb" LimbType="Standard" Offset="0x7EDC"/>
+        <Limb Name="gMidoLeftFootLimb" LimbType="Standard" Offset="0x7EE8"/>
+        <Limb Name="gMidoRightThighLimb" LimbType="Standard" Offset="0x7EF4"/>
+        <Limb Name="gMidoRightLegLimb" LimbType="Standard" Offset="0x7F00"/>
+        <Limb Name="gMidoRightFootLimb" LimbType="Standard" Offset="0x7F0C"/>
+        <Limb Name="gMidoTorsoLimb" LimbType="Standard" Offset="0x7F18"/>
+        <Limb Name="gMidoLeftUpperArmLimb" LimbType="Standard" Offset="0x7F24"/>
+        <Limb Name="gMidoLeftForearmLimb" LimbType="Standard" Offset="0x7F30"/>
+        <Limb Name="gMidoLeftHandLimb" LimbType="Standard" Offset="0x7F3C"/>
+        <Limb Name="gMidoRightUpperArmLimb" LimbType="Standard" Offset="0x7F48"/>
+        <Limb Name="gMidoRightForearmLimb" LimbType="Standard" Offset="0x7F54"/>
+        <Limb Name="gMidoRightHandLimb" LimbType="Standard" Offset="0x7F60"/>
+        <Limb Name="gMidoHeadLimb" LimbType="Standard" Offset="0x7F6C"/>
 
         <!-- Mido Limb DisplayLists -->
         <DList Name="gMidoWaistDL" Offset="0x4218"/>

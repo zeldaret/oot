@@ -7,9 +7,7 @@
 #include "z_bg_toki_swd.h"
 #include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgTokiSwd*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -68,7 +66,7 @@ void BgTokiSwd_SetupAction(BgTokiSwd* this, BgTokiSwdActionFunc actionFunc) {
 
 void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.shape.yOffset = 800.0f;
@@ -89,7 +87,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -109,8 +107,8 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
             } else {
                 globalCtx->csCtx.segment = D_808BB7A0;
             }
-            Audio_QueueSeqCmd(NA_BGM_STOP);
-            Audio_QueueSeqCmd(NA_BGM_MASTER_SWORD);
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_MASTER_SWORD);
             gSaveContext.cutsceneTrigger = 1;
             this->actor.parent = NULL;
             BgTokiSwd_SetupAction(this, func_808BB0AC);
@@ -154,7 +152,7 @@ void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx) {
 }
 
 void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
 
     this->actionFunc(this, globalCtx);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -162,7 +160,7 @@ void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
     s32 pad[3];
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 727);

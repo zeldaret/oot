@@ -36,10 +36,8 @@ Gfx sWipeSyncDList[] = {
     gsSPEndDisplayList(),
 };
 
-#define THIS ((TransitionWipe*)thisx)
-
 void TransitionWipe_Start(void* thisx) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     this->isDone = 0;
 
@@ -54,7 +52,7 @@ void TransitionWipe_Start(void* thisx) {
 }
 
 void* TransitionWipe_Init(void* thisx) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     bzero(this, sizeof(*this));
     return this;
@@ -64,7 +62,7 @@ void TransitionWipe_Destroy(void* thisx) {
 }
 
 void TransitionWipe_Update(void* thisx, s32 updateRate) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
     u8 unk1419;
 
     if (this->direction != 0) {
@@ -87,7 +85,7 @@ void TransitionWipe_Update(void* thisx, s32 updateRate) {
 void TransitionWipe_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
     Mtx* modelView;
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
     s32 pad[4];
     Gfx* tex;
 
@@ -113,13 +111,13 @@ void TransitionWipe_Draw(void* thisx, Gfx** gfxP) {
 }
 
 s32 TransitionWipe_IsDone(void* thisx) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     return this->isDone;
 }
 
 void TransitionWipe_SetType(void* thisx, s32 type) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     if (type == 1) {
         this->direction = 1;
@@ -135,13 +133,13 @@ void TransitionWipe_SetType(void* thisx, s32 type) {
 }
 
 void TransitionWipe_SetColor(void* thisx, u32 color) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     this->color.rgba = color;
 }
 
 void TransitionWipe_SetEnvColor(void* thisx, u32 color) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     this->envColor.rgba = color;
 }

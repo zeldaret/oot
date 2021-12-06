@@ -7,9 +7,7 @@
 #include "z_en_wonder_talk.h"
 #include "vt.h"
 
-#define FLAGS 0x08000009
-
-#define THIS ((EnWonderTalk*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
 
 void EnWonderTalk_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ void EnWonderTalk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWonderTalk_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnWonderTalk* this = THIS;
+    EnWonderTalk* this = (EnWonderTalk*)thisx;
 
     osSyncPrintf("\n\n");
     // "Special conversation"
@@ -145,7 +143,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80B395F0;
             } else {
                 if (this->switchFlag >= 0) {
-                    this->actor.flags &= ~1;
+                    this->actor.flags &= ~ACTOR_FLAG_0;
                     Flags_SetSwitch(globalCtx, this->switchFlag);
                 }
                 this->actionFunc = func_80B391CC;
@@ -177,7 +175,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
 void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
     if (this->unk_156 == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         if (this->switchFlag >= 0) {
-            this->actor.flags &= -2;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             Flags_SetSwitch(globalCtx, this->switchFlag);
         }
         switch (this->unk_150) {
@@ -233,7 +231,7 @@ void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderTalk_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnWonderTalk* this = THIS;
+    EnWonderTalk* this = (EnWonderTalk*)thisx;
 
     if (this->unk_158 != 0) {
         this->unk_158--;

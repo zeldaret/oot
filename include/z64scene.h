@@ -159,7 +159,7 @@ typedef struct {
     /* 0x00 */ u8 code;
     /* 0x01 */ u8 bgmId;
     /* 0x02 */ char pad[4];
-    /* 0x06 */ u8 nightSeqIndex;
+    /* 0x06 */ u8 natureAmbienceId;
     /* 0x07 */ u8 seqIndex;
 } SCmdSoundSettings;
 
@@ -272,7 +272,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 count;      // number of points in the path
     /* 0x04 */ Vec3s* points; // Segment Address to the array of points
-} Path;                       // size = 0x8
+} Path; // size = 0x8
 
 typedef union {
     SCmdBase base;
@@ -515,8 +515,8 @@ typedef enum {
 #define SCENE_CMD_END() \
     { SCENE_CMD_ID_END, 0, CMD_W(0) }
 
-#define SCENE_CMD_SOUND_SETTINGS(audioSessionId, nighttimeSfx, bgmId) \
-    { SCENE_CMD_ID_SOUND_SETTINGS, audioSessionId, CMD_BBBB(0, 0, nighttimeSfx, bgmId) }
+#define SCENE_CMD_SOUND_SETTINGS(specId, natureAmbienceId, seqId) \
+    { SCENE_CMD_ID_SOUND_SETTINGS, specId, CMD_BBBB(0, 0, natureAmbienceId, seqId) }
 
 #define SCENE_CMD_ECHO_SETTINGS(echo) \
     { SCENE_CMD_ID_ECHO_SETTINGS, 0, CMD_BBBB(0, 0, 0, echo) }

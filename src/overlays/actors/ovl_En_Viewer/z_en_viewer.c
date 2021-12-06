@@ -15,9 +15,7 @@
 #include "objects/object_ganon/object_ganon.h"
 #include "objects/object_opening_demo1/object_opening_demo1.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnViewer*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +75,7 @@ static EnViewerInitData sInitData[] = {
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_gndd_Skel_0119E8,
       &object_gndd_Anim_0050A8 },
     /* ENVIEWER_TYPE_9_GANONDORF */
-    { OBJECT_GANON, OBJECT_GANON, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_ganon_Skel_0114E8,
+    { OBJECT_GANON, OBJECT_GANON, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &gDorfSkel,
       &object_ganon_Anim_011348 },
 };
 
@@ -90,7 +88,7 @@ void EnViewer_SetupAction(EnViewer* this, EnViewerActionFunc actionFunc) {
 }
 
 void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
     u8 type;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -108,7 +106,7 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
 
     func_800A6888(globalCtx, &this->skin);
 }
@@ -177,7 +175,7 @@ void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
 
     if (!Object_IsLoaded(&globalCtx->objectCtx, skelObjBankIndex) ||
         !Object_IsLoaded(&globalCtx->objectCtx, this->animObjBankIndex)) {
-        this->actor.flags &= ~0x40;
+        this->actor.flags &= ~ACTOR_FLAG_6;
         return;
     }
 
@@ -241,7 +239,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
             }
         }
         if (globalCtx->csCtx.frames == 1020) {
-            Audio_QueueSeqCmd(0x1000000 | NA_BGM_OPENING_GANON);
+            Audio_QueueSeqCmd(SEQ_PLAYER_FANFARE << 24 | NA_BGM_OPENING_GANON);
         }
         if (globalCtx->csCtx.frames == 960) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -479,7 +477,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
 }
 
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
 
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     this->actionFunc(this, globalCtx);
@@ -693,7 +691,7 @@ static EnViewerDrawFunc sDrawFuncs[] = {
 };
 
 void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
     s32 pad;
     s16 type;
 

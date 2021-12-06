@@ -7,9 +7,7 @@
 #include "z_en_zo.h"
 #include "objects/object_zo/object_zo.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnZo*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 typedef enum {
     /* 0 */ ENZO_EFFECT_NONE,
@@ -223,7 +221,7 @@ void EnZo_DrawBubbles(EnZo* this, GlobalContext* globalCtx) {
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 281),
@@ -256,7 +254,7 @@ void EnZo_DrawSplashes(EnZo* this, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->color.a);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 325),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -560,7 +558,7 @@ void EnZo_SetAnimation(EnZo* this) {
 }
 
 void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gZoraSkel, NULL, this->jointTable, this->morphTable, 20);
@@ -591,7 +589,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->alpha = 255.0f;
         this->actionFunc = EnZo_Standing;
     } else {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actionFunc = EnZo_Submerged;
     }
 }
@@ -633,7 +631,7 @@ void EnZo_Surface(EnZo* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
         func_80034EC0(&this->skelAnime, sAnimations, 3);
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actionFunc = EnZo_TreadWater;
         this->actor.velocity.y = 0.0f;
         this->alpha = 255.0f;
@@ -683,7 +681,7 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIVE_WATER);
         EnZo_SpawnSplashes(this);
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actor.velocity.y = -4.0f;
         this->skelAnime.playSpeed = 0.0f;
     }
@@ -706,7 +704,7 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
 }
 
 void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     u32 pad;
     Vec3f pos;
 
@@ -742,7 +740,7 @@ void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnZo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     Vec3s vec;
 
     if (limbIndex == 15) {
@@ -768,7 +766,7 @@ s32 EnZo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnZo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     Vec3f vec = { 0.0f, 600.0f, 0.0f };
 
     if (limbIndex == 15) {
@@ -777,7 +775,7 @@ void EnZo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnZo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     void* eyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
 
     Matrix_Push();

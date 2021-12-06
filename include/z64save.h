@@ -135,8 +135,8 @@ typedef struct {
     /* 0x13D6 */ s16 timerX[2];
     /* 0x13DA */ s16 timerY[2];
     /* 0x13DE */ char unk_13DE[0x0002];
-    /* 0x13E0 */ u8 seqIndex;
-    /* 0x13E1 */ u8 nightSeqIndex;
+    /* 0x13E0 */ u8 seqId;
+    /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
     /* 0x13E7 */ u8 unk_13E7; // alpha related
     /* 0x13E8 */ u16 unk_13E8; // alpha type?
@@ -157,7 +157,7 @@ typedef struct {
     /* 0x140A */ u8 audioSetting;
     /* 0x140B */ char unk_140B[0x0001];
     /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold
-    /* 0x140E */ u16 unk_140E; // bgm related
+    /* 0x140E */ u16 forcedSeqId; // immediately start playing the sequence if set
     /* 0x1410 */ u8 unk_1410; // transition related
     /* 0x1411 */ char unk_1411[0x0001];
     /* 0x1412 */ u16 nextCutsceneIndex;

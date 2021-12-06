@@ -4,24 +4,24 @@
         <Skeleton Name="gStingerSkel" Type="Normal" LimbType="Standard" Offset="0x3410"/>
 
         <!-- Stinger Limbs -->
-        <Limb Name="gStingerRootLimb" Type="Standard" Offset="0x32F0"/>
-        <Limb Name="gStingerBodyRootLimb" Type="Standard" Offset="0x32FC"/>
-        <Limb Name="gStingerBodyLimb" Type="Standard" Offset="0x3308"/>
-        <Limb Name="gStingerTailRootLimb" Type="Standard" Offset="0x3314"/>
-        <Limb Name="gStingerTailUpperLimb" Type="Standard" Offset="0x3320"/>
-        <Limb Name="gStingerTailLowerLimb" Type="Standard" Offset="0x332C"/>
-        <Limb Name="gStingerLimb_3338" Type="Standard" Offset="0x3338"/>
-        <Limb Name="gStingerFinRootLimb" Type="Standard" Offset="0x3344"/>
-        <Limb Name="gStingerFinUpperLimb" Type="Standard" Offset="0x3350"/>
-        <Limb Name="gStingerFinLowerLimb" Type="Standard" Offset="0x335C"/>
-        <Limb Name="gStingerHeadRootLimb" Type="Standard" Offset="0x3368"/>
-        <Limb Name="gStingerHeadLimb" Type="Standard" Offset="0x3374"/>
-        <Limb Name="gStingerLeftWingRootLimb" Type="Standard" Offset="0x3380"/>
-        <Limb Name="gStingerLeftWingBaseLimb" Type="Standard" Offset="0x338C"/>
-        <Limb Name="gStingerLeftWingEndLimb" Type="Standard" Offset="0x3398"/>
-        <Limb Name="gStingerRightWingRootLimb" Type="Standard" Offset="0x33A4"/>
-        <Limb Name="gStingerRightWingBaseLimb" Type="Standard" Offset="0x33B0"/>
-        <Limb Name="gStingerRightWingEndLimb" Type="Standard" Offset="0x33BC"/>
+        <Limb Name="gStingerRootLimb" LimbType="Standard" Offset="0x32F0"/>
+        <Limb Name="gStingerBodyRootLimb" LimbType="Standard" Offset="0x32FC"/>
+        <Limb Name="gStingerBodyLimb" LimbType="Standard" Offset="0x3308"/>
+        <Limb Name="gStingerTailRootLimb" LimbType="Standard" Offset="0x3314"/>
+        <Limb Name="gStingerTailUpperLimb" LimbType="Standard" Offset="0x3320"/>
+        <Limb Name="gStingerTailLowerLimb" LimbType="Standard" Offset="0x332C"/>
+        <Limb Name="gStingerLimb_3338" LimbType="Standard" Offset="0x3338"/>
+        <Limb Name="gStingerFinRootLimb" LimbType="Standard" Offset="0x3344"/>
+        <Limb Name="gStingerFinUpperLimb" LimbType="Standard" Offset="0x3350"/>
+        <Limb Name="gStingerFinLowerLimb" LimbType="Standard" Offset="0x335C"/>
+        <Limb Name="gStingerHeadRootLimb" LimbType="Standard" Offset="0x3368"/>
+        <Limb Name="gStingerHeadLimb" LimbType="Standard" Offset="0x3374"/>
+        <Limb Name="gStingerLeftWingRootLimb" LimbType="Standard" Offset="0x3380"/>
+        <Limb Name="gStingerLeftWingBaseLimb" LimbType="Standard" Offset="0x338C"/>
+        <Limb Name="gStingerLeftWingEndLimb" LimbType="Standard" Offset="0x3398"/>
+        <Limb Name="gStingerRightWingRootLimb" LimbType="Standard" Offset="0x33A4"/>
+        <Limb Name="gStingerRightWingBaseLimb" LimbType="Standard" Offset="0x33B0"/>
+        <Limb Name="gStingerRightWingEndLimb" LimbType="Standard" Offset="0x33BC"/>
 
         <!-- Stinger Limb DisplayLists -->
         <DList Name="gStingerBodyDL" Offset="0x2BD0"/>

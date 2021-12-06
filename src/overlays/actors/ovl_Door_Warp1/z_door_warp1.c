@@ -1,9 +1,7 @@
 #include "z_door_warp1.h"
 #include "objects/object_warp1/object_warp1.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((DoorWarp1*)thisx)
+#define FLAGS 0
 
 void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ void DoorWarp1_SetupAction(DoorWarp1* this, DoorWarp1ActionFunc actionFunc) {
 }
 
 void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
     GlobalContext* globalCtx2 = globalCtx;
 
     this->unk_1B8 = 0;
@@ -85,7 +83,7 @@ void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     u8 i;
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->upperLight);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lowerLight);
@@ -382,7 +380,7 @@ void DoorWarp1_ChooseInitialAction(DoorWarp1* this, GlobalContext* globalCtx) {
 void DoorWarp1_AwaitClearFlag(DoorWarp1* this, GlobalContext* globalCtx) {
     if (Flags_GetTempClear(globalCtx, this->actor.room)) {
         this->warpTimer = 200;
-        Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
+        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
         DoorWarp1_SetupAction(this, func_809995D4);
     }
 }
@@ -867,7 +865,7 @@ void func_8099B020(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
 
     this->actionFunc(this, globalCtx);
 
@@ -1022,7 +1020,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
 
     switch (this->actor.params) {
         case WARP_DUNGEON_ADULT:

@@ -8,9 +8,7 @@
 #include "objects/object_dy_obj/object_dy_obj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnDyExtra*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDyExtra* this = THIS;
+    EnDyExtra* this = (EnDyExtra*)thisx;
 
     osSyncPrintf("\n\n");
     // "Big fairy effect"
@@ -76,7 +74,7 @@ void EnDyExtra_FallAndKill(EnDyExtra* this, GlobalContext* globalCtx) {
 }
 
 void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDyExtra* this = THIS;
+    EnDyExtra* this = (EnDyExtra*)thisx;
 
     if (this->timer != 0) {
         this->timer--;
@@ -94,7 +92,7 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Color_RGBA8 envColors[] = { { 255, 100, 255, 255 }, { 100, 255, 255, 255 } };
     static u8 D_809FFC50[] = { 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02,
                                0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x01, 0x02 };
-    EnDyExtra* this = THIS;
+    EnDyExtra* this = (EnDyExtra*)thisx;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Vtx* vertices = SEGMENTED_TO_VIRTUAL(gGreatFairySpiralBeamVtx);

@@ -14,9 +14,7 @@
  * - "Spear Patrol" (variable 0xPP00 PP=pathId): uses a spear, patrols following a path, charges
  */
 
-#define FLAGS 0x00000015
-
-#define THIS ((EnMb*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 typedef enum {
     /* -1 */ ENMB_TYPE_SPEAR_GUARD = -1,
@@ -258,7 +256,7 @@ void EnMb_SetupAction(EnMb* this, EnMbActionFunc actionFunc) {
 }
 
 void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
     s16 relYawFromPlayer;
@@ -309,7 +307,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actor.naviEnemyId += 1;
             EnMb_SetupClubWaitPlayerNear(this);
             break;
@@ -325,14 +323,14 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.colChkInfo.mass = MASS_HEAVY;
             this->maxHomeDist = 350.0f;
             this->playerDetectionRange = 1750.0f;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             EnMb_SetupSpearPatrolTurnTowardsWaypoint(this, globalCtx);
             break;
     }
 }
 
 void EnMb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
 
     Collider_DestroyTris(globalCtx, &this->frontShielding);
     Collider_DestroyCylinder(globalCtx, &this->hitbox);
@@ -576,7 +574,7 @@ void EnMb_SetupClubDamagedWhileKneeling(EnMb* this) {
 void EnMb_SetupClubDead(EnMb* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbClubFallOnItsBackAnim, -4.0f);
     this->state = ENMB_STATE_CLUB_DEAD;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->hitbox.dim.height = 80;
     this->hitbox.dim.radius = 95;
     this->timer1 = 30;
@@ -1136,12 +1134,12 @@ void EnMb_SpearGuardWalk(EnMb* this, GlobalContext* globalCtx) {
     if (this->timer3 == 0 &&
         Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->playerDetectionRange) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         if (this->actor.xzDistToPlayer < 500.0f && relYawTowardsPlayer < 0x1388) {
             EnMb_SetupSpearPrepareAndCharge(this);
         }
     } else {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         if (Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) > this->maxHomeDist || this->timer2 != 0) {
             yawTowardsHome = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
             Math_SmoothStepToS(&this->actor.world.rot.y, yawTowardsHome, 1, 0x2EE, 0);
@@ -1288,7 +1286,7 @@ void EnMb_SetupSpearDead(EnMb* this) {
     this->timer1 = 30;
     this->state = ENMB_STATE_SPEAR_SPEARPATH_DAMAGED;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     EnMb_SetupAction(this, EnMb_SpearDead);
 }
 
@@ -1333,7 +1331,7 @@ void EnMb_SpearUpdateAttackCollider(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f quadModel1 = { -1000.0f, 1500.0f, 0.0f };
     Vec3f quadModel2 = { 1000.0f, 1500.0f, 4500.0f };
     Vec3f quadModel3 = { -1000.0f, 1500.0f, 4500.0f };
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
 
     if (this->actor.params >= ENMB_TYPE_SPEAR_PATROL) {
         quadModel0.x += 2000.0f;
@@ -1359,7 +1357,7 @@ void EnMb_ClubUpdateAttackCollider(Actor* thisx, GlobalContext* globalCtx) {
                                  { 1000.0f, 0.0f, 0.0f },
                                  { 1000.0f, -8000.0f, -1500.0f },
                                  { 1000.0f, -9000.0f, 2000.0f } };
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
 
     Matrix_MultVec3f(&quadModel[0], &this->attackCollider.dim.quad[1]);
     Matrix_MultVec3f(&quadModel[1], &this->attackCollider.dim.quad[0]);
@@ -1417,7 +1415,7 @@ void EnMb_CheckColliding(EnMb* this, GlobalContext* globalCtx) {
 }
 
 void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
     s32 pad;
 
     EnMb_CheckColliding(this, globalCtx);
@@ -1451,7 +1449,7 @@ void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     static Vec3f effSpawnPosModel = { 0.0f, -8000.0f, 0.0f };
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s32 bodyPart = -1;
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
     Vec3f bodyPartPos;
 
     if (this->actor.params == ENMB_TYPE_CLUB) {
@@ -1522,7 +1520,7 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f frontShieldingTri0[3];
     Vec3f frontShieldingTri1[3];
     s32 bodyPartIdx;
-    EnMb* this = THIS;
+    EnMb* this = (EnMb*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

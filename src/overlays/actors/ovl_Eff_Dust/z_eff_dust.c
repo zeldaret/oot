@@ -7,9 +7,7 @@
 #include "z_eff_dust.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EffDust*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EffDust_Init(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ void EffDust_InitPosAndDistance(EffDust* this) {
 }
 
 void EffDust_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EffDust* this = THIS;
+    EffDust* this = (EffDust*)thisx;
     EffDustType dustEffect = this->actor.params;
 
     EffDust_InitPosAndDistance(this);
@@ -256,13 +254,13 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
 }
 
 void EffDust_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EffDust* this = THIS;
+    EffDust* this = (EffDust*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
-    EffDust* this = THIS;
+    EffDust* this = (EffDust*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Vec3f* initialPositions;
@@ -292,7 +290,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
                              MTXMODE_NEW);
 
             Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 449),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -309,7 +307,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
-    EffDust* this = THIS;
+    EffDust* this = (EffDust*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32* distanceTraveled;
@@ -353,7 +351,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
             Matrix_Scale(*distanceTraveled * this->scalingFactor, *distanceTraveled * this->scalingFactor,
                          *distanceTraveled * this->scalingFactor, MTXMODE_APPLY);
 
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 506),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -368,7 +366,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EffDust* this = THIS;
+    EffDust* this = (EffDust*)thisx;
 
     this->drawFunc(thisx, globalCtx);
 }

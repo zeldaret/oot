@@ -10,6 +10,7 @@ void MtxConv_F2L(Mtx* m1, MtxF* m2) {
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
             s32 value = (m2->mf[i][j] * 0x10000);
+
             m1->intPart[i][j] = value >> 16;
             m1->fracPart[i][j] = value;
         }

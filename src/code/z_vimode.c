@@ -207,6 +207,7 @@ void ViMode_Destroy(ViMode* viMode) {
 
 void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures) {
     u32 ctrl = viMode->customViMode.comRegs.ctrl;
+
     if (viFeatures & OS_VI_GAMMA_ON) {
         ctrl |= OS_VI_GAMMA;
     }

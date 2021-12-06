@@ -4,11 +4,11 @@
         <Skeleton Name="gCowBodySkel" Type="Flex" LimbType="Standard" Offset="0x4010"/>
 
         <!-- Cow Body Limbs -->
-        <Limb Name="gCowRootLimb" Type="Standard" Offset="0x3FC0"/>
-        <Limb Name="gCowHeadLimb" Type="Standard" Offset="0x3FCC"/>
-        <Limb Name="gCowJawLimb" Type="Standard" Offset="0x3FD8"/>
-        <Limb Name="gCowNoseLimb" Type="Standard" Offset="0x3FE4"/>
-        <Limb Name="gCowNoseRingLimb" Type="Standard" Offset="0x3FF0"/>
+        <Limb Name="gCowRootLimb" LimbType="Standard" Offset="0x3FC0"/>
+        <Limb Name="gCowHeadLimb" LimbType="Standard" Offset="0x3FCC"/>
+        <Limb Name="gCowJawLimb" LimbType="Standard" Offset="0x3FD8"/>
+        <Limb Name="gCowNoseLimb" LimbType="Standard" Offset="0x3FE4"/>
+        <Limb Name="gCowNoseRingLimb" LimbType="Standard" Offset="0x3FF0"/>
 
         <!-- Cow Body Limb DisplayLists -->
         <DList Name="gCowTorsoDL" Offset="0x1A80"/>
@@ -21,11 +21,11 @@
         <Skeleton Name="gCowTailSkel" Type="Flex" LimbType="Standard" Offset="0x4C30"/>
 
         <!-- Cow Tail Limbs -->
-        <Limb Name="gCowTailRootLimb" Type="Standard" Offset="0x4BE0"/>
-        <Limb Name="gCowTailUpperLimb" Type="Standard" Offset="0x4BEC"/>
-        <Limb Name="gCowTailMiddleLimb" Type="Standard" Offset="0x4BF8"/>
-        <Limb Name="gCowTailLowerLimb" Type="Standard" Offset="0x4C04"/>
-        <Limb Name="gCowTailEndLimb" Type="Standard" Offset="0x4C10"/>
+        <Limb Name="gCowTailRootLimb" LimbType="Standard" Offset="0x4BE0"/>
+        <Limb Name="gCowTailUpperLimb" LimbType="Standard" Offset="0x4BEC"/>
+        <Limb Name="gCowTailMiddleLimb" LimbType="Standard" Offset="0x4BF8"/>
+        <Limb Name="gCowTailLowerLimb" LimbType="Standard" Offset="0x4C04"/>
+        <Limb Name="gCowTailEndLimb" LimbType="Standard" Offset="0x4C10"/>
 
         <!-- Cow Tail Limb DisplayLists -->
         <DList Name="gCowTailConnectionDL" Offset="0x46F0"/>

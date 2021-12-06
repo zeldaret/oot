@@ -92,19 +92,19 @@ std::string Declaration::GetNormalDeclarationStr() const
 
 	if (isArray)
 	{
-		if (arrayItemCntStr != "")
+		if (arrayItemCntStr != "" && (IsStatic() || forceArrayCnt))
 		{
 			output += StringHelper::Sprintf("%s %s[%s];\n", varType.c_str(), varName.c_str(),
 			                                arrayItemCntStr.c_str());
 		}
-		else if (arrayItemCnt == 0)
-		{
-			output += StringHelper::Sprintf("%s %s[] = {\n", varType.c_str(), varName.c_str());
-		}
-		else
+		else if (arrayItemCnt != 0 && (IsStatic() || forceArrayCnt))
 		{
 			output += StringHelper::Sprintf("%s %s[%i] = {\n", varType.c_str(), varName.c_str(),
 			                                arrayItemCnt);
+		}
+		else
+		{
+			output += StringHelper::Sprintf("%s %s[] = {\n", varType.c_str(), varName.c_str());
 		}
 
 		output += text + "\n";
@@ -145,16 +145,16 @@ std::string Declaration::GetExternalDeclarationStr() const
 		output += "static ";
 	}
 
-	if (arrayItemCntStr != "")
+	if (arrayItemCntStr != "" && (IsStatic() || forceArrayCnt))
+		output += StringHelper::Sprintf("%s %s[%s] = ", varType.c_str(), varName.c_str(),
+		                                arrayItemCntStr.c_str());
+	else if (arrayItemCnt != 0 && (IsStatic() || forceArrayCnt))
 		output +=
-			StringHelper::Sprintf("%s %s[%s] = {\n#include \"%s\"\n};", varType.c_str(),
-		                          varName.c_str(), arrayItemCntStr.c_str(), includePath.c_str());
-	else if (arrayItemCnt != 0)
-		output += StringHelper::Sprintf("%s %s[%i] = {\n#include \"%s\"\n};", varType.c_str(),
-		                                varName.c_str(), arrayItemCnt, includePath.c_str());
+			StringHelper::Sprintf("%s %s[%i] = ", varType.c_str(), varName.c_str(), arrayItemCnt);
 	else
-		output += StringHelper::Sprintf("%s %s[] = {\n#include \"%s\"\n};", varType.c_str(),
-		                                varName.c_str(), includePath.c_str());
+		output += StringHelper::Sprintf("%s %s[] = ", varType.c_str(), varName.c_str());
+
+	output += StringHelper::Sprintf("{\n#include \"%s\"\n};", includePath.c_str());
 
 	if (rightText != "")
 		output += " " + rightText + "";
@@ -178,14 +178,16 @@ std::string Declaration::GetExternStr() const
 
 	if (isArray)
 	{
-		if (arrayItemCntStr != "")
+		if (arrayItemCntStr != "" && (IsStatic() || forceArrayCnt))
 		{
 			return StringHelper::Sprintf("extern %s %s[%s];\n", varType.c_str(), varName.c_str(),
 			                             arrayItemCntStr.c_str());
 		}
-		else if (arrayItemCnt != 0)
+		else if (arrayItemCnt != 0 && (IsStatic() || forceArrayCnt))
+		{
 			return StringHelper::Sprintf("extern %s %s[%i];\n", varType.c_str(), varName.c_str(),
 			                             arrayItemCnt);
+		}
 		else
 			return StringHelper::Sprintf("extern %s %s[];\n", varType.c_str(), varName.c_str());
 	}

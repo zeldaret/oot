@@ -7,10 +7,9 @@
 #include "z_obj_tsubo.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+#include "objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS 0x00800010
-
-#define THIS ((ObjTsubo*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -51,9 +50,9 @@ const ActorInit Obj_Tsubo_InitVars = {
 
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
 
-static Gfx* D_80BA1B84[] = { gPotDL, 0x060017C0 };
+static Gfx* D_80BA1B84[] = { gPotDL, object_tsubo_DL_0017C0 };
 
-static Gfx* D_80BA1B8C[] = { gPotFragmentDL, 0x06001960 };
+static Gfx* D_80BA1B8C[] = { gPotFragmentDL, object_tsubo_DL_001960 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -120,7 +119,7 @@ s32 ObjTsubo_SnapToFloor(ObjTsubo* this, GlobalContext* globalCtx) {
 }
 
 void ObjTsubo_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    ObjTsubo* this = THIS;
+    ObjTsubo* this = (ObjTsubo*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -128,7 +127,7 @@ void ObjTsubo_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjTsubo* this = THIS;
+    ObjTsubo* this = (ObjTsubo*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ObjTsubo_InitCollider(&this->actor, globalCtx);
@@ -149,7 +148,7 @@ void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjTsubo* this = THIS;
+    ObjTsubo* this = (ObjTsubo*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -227,7 +226,7 @@ void ObjTsubo_WaitForObject(ObjTsubo* this, GlobalContext* globalCtx) {
         this->actor.draw = ObjTsubo_Draw;
         this->actor.objBankIndex = this->objTsuboBankIndex;
         ObjTsubo_SetupIdle(this);
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
@@ -277,7 +276,7 @@ void ObjTsubo_SetupLiftedUp(ObjTsubo* this) {
     this->actionFunc = ObjTsubo_LiftedUp;
     this->actor.room = -1;
     func_8002F7DC(&this->actor, NA_SE_PL_PULL_UP_POT);
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 }
 
 void ObjTsubo_LiftedUp(ObjTsubo* this, GlobalContext* globalCtx) {
@@ -329,7 +328,7 @@ void ObjTsubo_Thrown(ObjTsubo* this, GlobalContext* globalCtx) {
 }
 
 void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjTsubo* this = THIS;
+    ObjTsubo* this = (ObjTsubo*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

@@ -7,9 +7,7 @@
 #include "z_en_tana.h"
 #include "objects/object_shop_dungen/object_shop_dungen.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnTana*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnTana_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTana_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -56,11 +54,11 @@ static void* sStoneTextures[] = {
 };
 
 void EnTana_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTana* this = THIS;
+    EnTana* this = (EnTana*)thisx;
 
     osSyncPrintf("☆☆☆ %s ☆☆☆\n", sShelfTypes[thisx->params]);
     Actor_SetScale(thisx, 1.0f);
-    thisx->flags &= ~1;
+    thisx->flags &= ~ACTOR_FLAG_0;
     thisx->draw = sDrawFuncs[thisx->params];
 }
 
@@ -71,7 +69,7 @@ void EnTana_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTana_DrawWoodenShelves(Actor* thisx, GlobalContext* globalCtx) {
-    EnTana* this = THIS;
+    EnTana* this = (EnTana*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 148);
 
@@ -84,7 +82,7 @@ void EnTana_DrawWoodenShelves(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTana_DrawStoneShelves(Actor* thisx, GlobalContext* globalCtx) {
-    EnTana* this = THIS;
+    EnTana* this = (EnTana*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 163);
 
