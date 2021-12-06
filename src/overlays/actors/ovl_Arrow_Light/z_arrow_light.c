@@ -8,9 +8,7 @@
 
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#define FLAGS 0x02000010
-
-#define THIS ((ArrowLight*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArrowLight_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -44,7 +42,7 @@ void ArrowLight_SetupAction(ArrowLight* this, ArrowLightActionFunc actionFunc) {
 }
 
 void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowLight* this = THIS;
+    ArrowLight* this = (ArrowLight*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
@@ -179,7 +177,7 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
 }
 
 void ArrowLight_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowLight* this = THIS;
+    ArrowLight* this = (ArrowLight*)thisx;
 
     if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK ||
         globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
@@ -190,7 +188,7 @@ void ArrowLight_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowLight* this = THIS;
+    ArrowLight* this = (ArrowLight*)thisx;
     s32 pad;
     u32 stateFrames = globalCtx->state.frames;
     EnArrow* arrow = (EnArrow*)this->actor.parent;

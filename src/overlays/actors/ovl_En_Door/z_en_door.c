@@ -10,9 +10,7 @@
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnDoor*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 #define DOOR_AJAR_SLAM_RANGE 120.0f
 #define DOOR_AJAR_OPEN_RANGE (2 * DOOR_AJAR_SLAM_RANGE)
@@ -79,7 +77,7 @@ static Gfx* D_809FCEE4[5][2] = {
 
 void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnDoor* this = THIS;
+    EnDoor* this = (EnDoor*)thisx;
     EnDoorInfo* objectInfo;
     s32 i;
     s32 objBankIndex;
@@ -134,7 +132,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     TransitionActorEntry* transitionEntry;
-    EnDoor* this = THIS;
+    EnDoor* this = (EnDoor*)thisx;
 
     transitionEntry = &globalCtx->transiActorCtx.list[(u16)this->actor.params >> 0xA];
     if (transitionEntry->id < 0) {
@@ -147,7 +145,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
         doorType = this->actor.params >> 7 & 7;
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actionFunc = EnDoor_Idle;
         if (doorType == DOOR_EVENING) {
@@ -174,7 +172,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
                 doorType = DOOR_SCENEEXIT;
             } else {
                 this->actionFunc = EnDoor_WaitForCheck;
-                this->actor.flags |= 0x8000009;
+                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27;
             }
         }
         // Replace the door type it was loaded with by the new type
@@ -292,7 +290,7 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
 }
 
 void EnDoor_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDoor* this = THIS;
+    EnDoor* this = (EnDoor*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -304,7 +302,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     s32 pad2;
     s16 phi_v0_2;
     s32 phi_v0;
-    EnDoor* this = THIS;
+    EnDoor* this = (EnDoor*)thisx;
 
     if (limbIndex == 4) {
         temp_a2 = D_809FCEE4[this->dListIndex];
@@ -327,7 +325,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDoor* this = THIS;
+    EnDoor* this = (EnDoor*)thisx;
 
     if (this->actor.objBankIndex == this->requiredObjBankIndex) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_door.c", 910);

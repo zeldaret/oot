@@ -9,9 +9,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x02000009
-
-#define THIS ((EnGs*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
 
 void EnGs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGs_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -97,7 +95,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnGs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGs* this = THIS;
+    EnGs* this = (EnGs*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -355,7 +353,7 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
         func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
-            this->actor.flags |= 0x10;
+            this->actor.flags |= ACTOR_FLAG_4;
             this->actor.uncullZoneForward = 12000.0f;
 
             this->actor.gravity = 0.3f;
@@ -517,7 +515,7 @@ void func_80A4F77C(EnGs* this) {
 
 void EnGs_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnGs* this = THIS;
+    EnGs* this = (EnGs*)thisx;
 
     Actor_SetFocus(&this->actor, 23.0f);
     if (!(this->unk_19E & 0x10)) {
@@ -562,7 +560,7 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGs* this = THIS;
+    EnGs* this = (EnGs*)thisx;
     s32 tmp;
     u32 frames;
 

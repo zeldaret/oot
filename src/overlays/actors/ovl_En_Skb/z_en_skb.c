@@ -2,9 +2,7 @@
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "objects/object_skb/object_skb.h"
 
-#define FLAGS 0x00000015
-
-#define THIS ((EnSkb*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -143,7 +141,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     s16 paramOffsetBody;
     s16 paramOffsetArm;
 
@@ -175,7 +173,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
 
     if (this->actor.parent != NULL) {
         EnEncount1* spawner = (EnEncount1*)this->actor.parent;
@@ -203,7 +201,7 @@ void func_80AFCD60(EnSkb* this) {
 void func_80AFCDF8(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
     this->unk_280 = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
     EnSkb_SetupAction(this, func_80AFCE5C);
 }
@@ -213,7 +211,7 @@ void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
     }
     Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 800.0f, 0.0f);
     Math_SmoothStepToF(&this->actor.shape.shadowScale, 25.0f, 1.0f, 2.5f, 0.0f);
@@ -230,7 +228,7 @@ void func_80AFCF48(EnSkb* this) {
                      Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, ANIMMODE_ONCE, -4.0f);
     this->unk_280 = 0;
     this->unk_281 = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     EnSkb_SetupAction(this, func_80AFCFF0);
@@ -409,7 +407,7 @@ void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = -6.0f;
     }
     this->unk_280 = 1;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     BodyBreak_Alloc(&this->bodyBreak, 18, globalCtx);
     this->unk_283 |= 4;
     EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_STALKID_DEAD, 1, 1, 0x28);
@@ -494,7 +492,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     s32 pad;
 
     func_80AFD968(this, globalCtx);
@@ -517,7 +515,7 @@ void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     s16 color;
     s16 pad[2];
 
@@ -538,7 +536,7 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
 
     Collider_UpdateSpheres(limbIndex, &this->collider);
 
@@ -550,7 +548,7 @@ void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnSkb_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSkb_OverrideLimbDraw,
                       EnSkb_PostLimbDraw, &this->actor);

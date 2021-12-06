@@ -8,9 +8,7 @@
 #include "objects/object_fu/object_fu.h"
 #include "scenes/indoors/hakasitarelay/hakasitarelay_scene.h"
 
-#define FLAGS 0x02000019
-
-#define THIS ((EnFu*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 #define FU_RESET_LOOK_ANGLE (1 << 0)
 #define FU_WAIT (1 << 1)
@@ -75,7 +73,7 @@ typedef enum {
 
 void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelanime, &gWindmillManSkel, &gWindmillManPlayStillAnim, this->jointTable,
@@ -98,7 +96,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -139,7 +137,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
         textID = (gSaveContext.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
     }
 
-    // if actor flags & 0x100 is set and textID is 0x5033, change animation
+    // if ACTOR_FLAG_8 is set and textID is 0x5033, change animation
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
@@ -169,11 +167,11 @@ void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
         this->actionFunc = EnFu_WaitAdult;
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_80A1DB60;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(globalCtx, ITEM_SONG_STORMS);
@@ -236,7 +234,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
 
 void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -259,7 +257,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
     s32 pad;
 
     if (limbIndex == FU_LIMB_UNK) {
@@ -286,7 +284,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
 
     if (limbIndex == FU_LIMB_HEAD) {
         Matrix_MultVec3f(&sMtxSrc, &this->actor.focus.pos);
@@ -297,7 +295,7 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyesSegments[] = { gWindmillManEyeClosedTex, gWindmillManEyeAngryTex };
     static void* sMouthSegments[] = { gWindmillManMouthOpenTex, gWindmillManMouthAngryTex };
     s32 pad;
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 773);
 

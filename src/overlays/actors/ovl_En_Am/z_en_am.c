@@ -8,9 +8,7 @@
 #include "objects/object_am/object_am.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS 0x04000015
-
-#define THIS ((EnAm*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
 void EnAm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -208,7 +206,7 @@ s32 EnAm_CanMove(EnAm* this, GlobalContext* globalCtx, f32 distance, s16 yaw) {
 void EnAm_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 pad;
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 48.0f);
@@ -244,7 +242,7 @@ void EnAm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnAm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->hurtCollider);
@@ -287,7 +285,7 @@ void EnAm_SetupStatue(EnAm* this) {
     f32 lastFrame = Animation_GetLastFrame(&gArmosRicochetAnim);
 
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
-    this->dyna.actor.flags &= ~1;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_0;
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
     this->dyna.actor.speedXZ = 0.0f;
     EnAm_SetupAction(this, EnAm_Statue);
@@ -388,7 +386,7 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
         if (this->textureBlend >= 240) {
             this->attackTimer = 200;
             this->textureBlend = 255;
-            this->dyna.actor.flags |= 1;
+            this->dyna.actor.flags |= ACTOR_FLAG_0;
             this->dyna.actor.shape.yOffset = 0.0f;
             EnAm_SetupLunge(this);
         } else {
@@ -409,7 +407,7 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
             this->textureBlend -= 10;
         } else {
             this->textureBlend = 0;
-            this->dyna.actor.flags &= ~1;
+            this->dyna.actor.flags &= ~ACTOR_FLAG_0;
 
             if (this->dyna.bgId < 0) {
                 this->unk_264 = 0;
@@ -771,7 +769,7 @@ void EnAm_TransformSwordHitbox(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f D_809B0080 = { -2500.0f, 0.0f, 0.0f };
     static Vec3f D_809B008C = { 2500.0f, 7000.0f, 4000.0f };
     static Vec3f D_809B0098 = { -2500.0f, 0.0f, 4000.0f };
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
 
     Matrix_MultVec3f(&D_809B0074, &this->hitCollider.dim.quad[1]);
     Matrix_MultVec3f(&D_809B0080, &this->hitCollider.dim.quad[0]);
@@ -834,7 +832,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
     static Color_RGBA8 dustPrimColor = { 150, 150, 150, 255 };
     static Color_RGBA8 dustEnvColor = { 100, 100, 100, 150 };
     s32 pad;
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
     EnBom* bomb;
     Vec3f dustPos;
     s32 i;
@@ -929,7 +927,7 @@ static Vec3f sUnused1 = { 1100.0f, -700.0f, 0.0f };
 static Vec3f sUnused2 = { 0.0f, 0.0f, 0.0f };
 
 void EnAm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
 
     if ((limbIndex == 1) && (this->unk_264 != 0)) {
         EnAm_TransformSwordHitbox(&this->dyna.actor, globalCtx);
@@ -945,7 +943,7 @@ static Vec3f sIcePosOffsets[] = {
 void EnAm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f sp68;
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_am.c", 1580);
 

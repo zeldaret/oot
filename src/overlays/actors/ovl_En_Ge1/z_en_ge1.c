@@ -8,9 +8,7 @@
 #include "vt.h"
 #include "objects/object_ge1/object_ge1.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnGe1*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define GE1_STATE_TALKING (1 << 0)
 #define GE1_STATE_GIVE_QUIVER (1 << 1)
@@ -89,7 +87,7 @@ static void* sEyeTextures[] = {
 
 void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoWhiteSkel, &gGerudoWhiteIdleAnim, this->jointTable,
@@ -178,7 +176,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -524,7 +522,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
     s32 getItemId;
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe1_WaitTillItemGiven_Archery;
     }
 
@@ -551,7 +549,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 200.0f);
     }
@@ -573,7 +571,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     Actor* horse;
 
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
 
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
@@ -631,7 +629,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     gSaveContext.eventInf[0] &= ~0x100;
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
     LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
-    this->actor.flags |= 0x10000;
+    this->actor.flags |= ACTOR_FLAG_16;
 
     if (HIGH_SCORE(HS_HBA) < gSaveContext.minigameScore) {
         HIGH_SCORE(HS_HBA) = gSaveContext.minigameScore;
@@ -720,7 +718,7 @@ void EnGe1_LookAtPlayer(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -766,7 +764,7 @@ void EnGe1_StopFidget(EnGe1* this) {
 
 s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     if (limbIndex == GE1_LIMB_HEAD) {
         rot->x += this->headRot.y;
@@ -788,7 +786,7 @@ s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1419);
 
@@ -802,7 +800,7 @@ void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
 void EnGe1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1442);
 
