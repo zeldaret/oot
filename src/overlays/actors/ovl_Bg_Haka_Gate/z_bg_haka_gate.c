@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 // general purpose timer
 #define vTimer actionVar1
@@ -97,7 +97,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = BgHakaGate_FalseSkull;
         }
         this->vScrollTimer = Rand_ZeroOne() * 20.0f;
-        thisx->flags |= 0x10;
+        thisx->flags |= ACTOR_FLAG_4;
         if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->vFlameScale = 350;
         }
@@ -124,7 +124,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = BgHakaGate_DoNothing;
                 thisx->world.pos.y += 80.0f;
             } else {
-                thisx->flags |= 0x10;
+                thisx->flags |= ACTOR_FLAG_4;
                 Actor_SetFocus(thisx, 30.0f);
                 this->actionFunc = BgHakaGate_GateWait;
             }
@@ -274,7 +274,7 @@ void BgHakaGate_GateWait(BgHakaGate* this, GlobalContext* globalCtx) {
 void BgHakaGate_GateOpen(BgHakaGate* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 80.0f, 1.0f)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->actionFunc = BgHakaGate_DoNothing;
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
@@ -292,9 +292,9 @@ void BgHakaGate_FalseSkull(BgHakaGate* this, GlobalContext* globalCtx) {
         Math_StepToS(&this->vFlameScale, 350, 20);
     }
     if (globalCtx->actorCtx.unk_03) {
-        this->dyna.actor.flags |= 0x80;
+        this->dyna.actor.flags |= ACTOR_FLAG_7;
     } else {
-        this->dyna.actor.flags &= ~0x80;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_7;
     }
 }
 
@@ -345,7 +345,7 @@ void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaGate* this = (BgHakaGate*)thisx;
     MtxF currentMtxF;
 
-    if ((thisx->flags & 0x80) == 0x80) {
+    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(globalCtx, object_haka_objects_DL_00F1B0);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);

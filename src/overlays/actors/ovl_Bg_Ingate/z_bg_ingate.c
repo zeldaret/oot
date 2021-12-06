@@ -7,7 +7,7 @@
 #include "z_bg_ingate.h"
 #include "objects/object_ingate/object_ingate.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgInGate_Destroy(Actor* thisx, GlobalContext* globalCtx);

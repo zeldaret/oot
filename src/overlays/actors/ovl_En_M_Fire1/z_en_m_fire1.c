@@ -6,7 +6,7 @@
 
 #include "z_en_m_fire1.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMFire1_Destroy(Actor* thisx, GlobalContext* globalCtx);

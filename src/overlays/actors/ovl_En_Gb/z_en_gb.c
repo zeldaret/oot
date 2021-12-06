@@ -7,7 +7,7 @@
 #include "z_en_gb.h"
 #include "objects/object_ps/object_ps.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnGb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGb_Destroy(Actor* thisx, GlobalContext* globalCtx);

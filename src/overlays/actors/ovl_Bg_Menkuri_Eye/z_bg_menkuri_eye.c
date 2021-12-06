@@ -7,7 +7,7 @@
 #include "z_bg_menkuri_eye.h"
 #include "objects/object_menkuri_objects/object_menkuri_objects.h"
 
-#define FLAGS 0x00000020
+#define FLAGS ACTOR_FLAG_5
 
 void BgMenkuriEye_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriEye_Destroy(Actor* thisx, GlobalContext* globalCtx);

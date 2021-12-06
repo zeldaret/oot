@@ -9,7 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00400000
+#define FLAGS ACTOR_FLAG_22
 
 void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -638,7 +638,7 @@ void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
         ObjBean_SetupGrowWaterPhase1(this);
         D_80B90E30 = this;
         OnePointCutscene_Init(globalCtx, 2210, -99, &this->dyna.actor, MAIN_CAM);
-        this->dyna.actor.flags |= 0x10;
+        this->dyna.actor.flags |= ACTOR_FLAG_4;
         return;
     }
 
@@ -741,7 +741,7 @@ void ObjBean_GrowWaterPhase5(ObjBean* this, GlobalContext* globalCtx) {
     this->transformFunc(this);
     if (this->timer <= 0) {
         func_80B8FF50(this);
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
@@ -766,7 +766,7 @@ void ObjBean_SetupFly(ObjBean* this) {
     this->actionFunc = ObjBean_Fly;
     ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_PLANT);
     this->dyna.actor.speedXZ = 0.0f;
-    this->dyna.actor.flags |= 0x10; // Never stop updating
+    this->dyna.actor.flags |= ACTOR_FLAG_4; // Never stop updating
 }
 
 void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
@@ -778,7 +778,7 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
         ObjBean_SetupPath(this, globalCtx);
         ObjBean_SetupWaitForStepOff(this);
 
-        this->dyna.actor.flags &= ~0x10; // Never stop updating (disable)
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4; // Never stop updating (disable)
         camera = globalCtx->cameraPtrs[MAIN_CAM];
 
         if ((camera->setting == CAM_SET_BEAN_LOST_WOODS) || (camera->setting == CAM_SET_BEAN_GENERIC)) {

@@ -7,7 +7,7 @@
 #include "z_obj_dekujr.h"
 #include "objects/object_dekujr/object_dekujr.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjDekujr_Destroy(Actor* thisx, GlobalContext* globalCtx);

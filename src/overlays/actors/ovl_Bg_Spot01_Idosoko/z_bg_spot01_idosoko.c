@@ -7,7 +7,7 @@
 #include "z_bg_spot01_idosoko.h"
 #include "objects/object_spot01_matoya/object_spot01_matoya.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx);

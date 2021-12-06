@@ -6,7 +6,7 @@
 
 #include "z_en_it.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnIt_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx);

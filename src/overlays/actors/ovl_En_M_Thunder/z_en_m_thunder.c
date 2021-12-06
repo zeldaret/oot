@@ -1,7 +1,7 @@
 #include "z_en_m_thunder.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx);

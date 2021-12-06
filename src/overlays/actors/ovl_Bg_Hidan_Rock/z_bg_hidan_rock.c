@@ -7,7 +7,7 @@
 #include "z_bg_hidan_rock.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -91,7 +91,7 @@ void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             this->actionFunc = func_8088B268;
         }
-        thisx->flags |= 0x30;
+        thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
         CollisionHeader_GetVirtual(&gFireTempleStoneBlock1Col, &colHeader);
     } else {
         CollisionHeader_GetVirtual(&gFireTempleStoneBlock2Col, &colHeader);
@@ -114,7 +114,7 @@ void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8088B24C(BgHidanRock* this) {
-    this->dyna.actor.flags |= 0x30;
+    this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->actionFunc = func_8088B990;
 }
 
@@ -247,7 +247,7 @@ void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
         } else {
             this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 15.0f;
             this->actionFunc = func_8088B90C;
-            this->dyna.actor.flags &= ~0x30;
+            this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
         }
 
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);

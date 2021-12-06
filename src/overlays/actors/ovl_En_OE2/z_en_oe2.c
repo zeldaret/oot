@@ -6,7 +6,7 @@
 
 #include "z_en_oe2.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnOE2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOE2_Destroy(Actor* thisx, GlobalContext* globalCtx);

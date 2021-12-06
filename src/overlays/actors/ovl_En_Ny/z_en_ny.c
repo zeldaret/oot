@@ -1,7 +1,7 @@
 #include "z_en_ny.h"
 #include "objects/object_ny/object_ny.h"
 
-#define FLAGS 0x00000005
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnNy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNy_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -330,7 +330,7 @@ s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
             this->stoneTimer = 0;
             if (this->actor.colChkInfo.health == 0) {
                 this->actor.shape.shadowAlpha = 0;
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 this->unk_1D0 = sp3F;
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 return 1;

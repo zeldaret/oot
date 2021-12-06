@@ -7,7 +7,7 @@
 #include "z_en_nwc.h"
 #include "objects/object_nwc/object_nwc.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNwc_Destroy(Actor* thisx, GlobalContext* globalCtx);

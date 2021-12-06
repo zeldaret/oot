@@ -7,7 +7,7 @@
 #include "z_bg_ydan_maruta.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx);

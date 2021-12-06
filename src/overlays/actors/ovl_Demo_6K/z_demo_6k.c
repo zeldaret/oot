@@ -11,7 +11,7 @@
 #include "objects/object_gnd_magic/object_gnd_magic.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx);
 void Demo6K_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -162,7 +162,7 @@ void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 17:
         case 18:
         case 19:
-            this->actor.flags |= 0x20;
+            this->actor.flags |= ACTOR_FLAG_5;
             this->drawFunc = func_8096865C;
             this->initActionFunc = func_80967410;
             this->flags |= 1;

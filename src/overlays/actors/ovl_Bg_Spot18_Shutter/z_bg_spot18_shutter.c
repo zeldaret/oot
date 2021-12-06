@@ -7,7 +7,7 @@
 #include "z_bg_spot18_shutter.h"
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Shutter_Destroy(Actor* thisx, GlobalContext* globalCtx);

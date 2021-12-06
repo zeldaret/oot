@@ -7,7 +7,7 @@
 #include "z_bg_spot05_soko.h"
 #include "objects/object_spot05_objects/object_spot05_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -61,7 +61,7 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(thisx);
         } else {
             this->actionFunc = func_808AE5B4;
-            thisx->flags |= 0x10;
+            thisx->flags |= ACTOR_FLAG_4;
         }
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
