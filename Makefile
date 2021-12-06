@@ -37,6 +37,8 @@ endif
 #### Tools ####
 ifeq ($(shell type mips-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0)
   MIPS_BINUTILS_PREFIX := mips-linux-gnu-
+else ifeq ($(shell type mips-elf-ld >/dev/null 2>/dev/null; echo $$?), 0)
+  MIPS_BINUTILS_PREFIX := mips-elf-
 else
   $(error Please install or build mips-linux-gnu)
 endif
