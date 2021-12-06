@@ -67,7 +67,7 @@ brew install coreutils make python3 md5sha1sum libpng
 You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).
 
 Going forward in this guide, please use `gmake` whenever you encounter a `make` command.
-The `make` that comes with MacOS behaves differently than GNU make and is incompatible with this project.
+The `make` that comes with macOS behaves differently than GNU make and is incompatible with this project.
 
 You should now be able to continue from [step 2](#2-clone-the-repository) of the Linux instructions.
 
@@ -177,7 +177,7 @@ To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and
 
 You'll also need to prepare a local version of the project with a copied base ROM (see steps [2](#2-clone-the-repository) and [3](#3-prepare-a-base-rom) of the Linux instructions).
 
-#### 2. Create the docker image
+#### 2. Create the Docker image
 
 From inside your local project, run the following command:
 
@@ -187,7 +187,7 @@ docker build . -t oot
 
 #### 3. Start the container
 
-To start the container, you can mount your local filesystem into the docker container and run an interactive bash session.
+To start the container, you can mount your local filesystem into the Docker container and run an interactive bash session.
 
 ```bash
 docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/bash
