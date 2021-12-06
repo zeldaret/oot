@@ -8,7 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_bombiwa/object_bombiwa.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx);

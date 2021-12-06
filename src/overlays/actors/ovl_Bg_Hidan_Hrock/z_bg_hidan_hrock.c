@@ -7,7 +7,7 @@
 #include "z_bg_hidan_hrock.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHrock_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -125,7 +125,7 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         if (thisx->params == 0) {
-            thisx->flags |= 0x30;
+            thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
             thisx->uncullZoneForward = 3000.0f;
         }
         this->actionFunc = func_808896B8;
@@ -184,7 +184,7 @@ void func_8088960C(BgHidanHrock* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y++;
 
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
-        this->dyna.actor.flags &= ~0x30;
+        this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
 
         if (this->dyna.actor.params == 0) {
@@ -203,7 +203,7 @@ void func_808896B8(BgHidanHrock* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
         this->actionFunc = func_808894B0;
-        this->dyna.actor.flags |= 0x10;
+        this->dyna.actor.flags |= ACTOR_FLAG_4;
 
         if (this->dyna.actor.params == 0) {
             this->dyna.actor.room = -1;

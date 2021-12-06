@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define BOMBCHU_SCALE 0.01f
 
@@ -234,7 +234,7 @@ void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
         //! @bug there is no NULL check on the floor poly.  If the player is out of bounds the floor poly will be NULL
         //! and will cause a crash inside this function.
         EnBomChu_UpdateFloorPoly(this, this->actor.floorPoly, globalCtx);
-        this->actor.flags |= 1; // make chu targetable
+        this->actor.flags |= ACTOR_FLAG_0; // make chu targetable
         func_8002F850(globalCtx, &this->actor);
         this->actionFunc = EnBomChu_Move;
     }

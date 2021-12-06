@@ -9,7 +9,7 @@
 #include "objects/object_kanban/object_kanban.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 #define PART_UPPER_LEFT (1 << 0)
 #define PART_LEFT_UPPER (1 << 1)
@@ -196,7 +196,7 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     if (this->actor.params != ENKANBAN_PIECE) {
         this->actor.targetMode = 0;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         osSyncPrintf("KANBAN ARG    %x\n", this->actor.params);
@@ -268,7 +268,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->zTargetTimer--;
             }
             if (this->zTargetTimer == 1) {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
             if (this->partFlags == 0xFFFF) {
                 EnKanban_Message(this, globalCtx);
@@ -386,8 +386,8 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         piece->direction = -1;
                     }
                     piece->airTimer = 100;
-                    piece->actor.flags &= ~1;
-                    piece->actor.flags |= 0x02000000;
+                    piece->actor.flags &= ~ACTOR_FLAG_0;
+                    piece->actor.flags |= ACTOR_FLAG_25;
                     this->cutMarkTimer = 5;
                     Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_STRIKE);
                 }
@@ -398,7 +398,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer > 500.0f) {
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
                 this->partFlags = 0xFFFF;
             }
             if (this->cutMarkTimer != 0) {
@@ -754,7 +754,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 ((pDiff + yDiff + rDiff + this->spinRot.x + this->spinRot.z) == 0) && (this->floorRot.x == 0.0f) &&
                 (this->floorRot.z == 0.0f)) {
                 signpost->partFlags |= this->partFlags;
-                signpost->actor.flags |= 1;
+                signpost->actor.flags |= ACTOR_FLAG_0;
                 Actor_Kill(&this->actor);
             }
         } break;

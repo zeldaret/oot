@@ -6,7 +6,7 @@
 
 #include "z_magic_fire.h"
 
-#define FLAGS 0x02000010
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void MagicFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicFire_Destroy(Actor* thisx, GlobalContext* globalCtx);

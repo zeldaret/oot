@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_ka/object_ka.h"
 
-#define FLAGS 0x0A000031
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -89,7 +89,7 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->height = 60.0f;
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.flags |= 0x400;
+    this->actor.flags |= ACTOR_FLAG_10;
     this->unk_198 = this->actor.shape.rot.y;
 
     if (this->switchFlag >= 0 && Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -124,7 +124,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
         OnePointCutscene_Attention(globalCtx, &this->actor);
-        this->actor.flags |= 0x8000001;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_27;
 
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         if (this->switchFlag >= 0) {
@@ -152,7 +152,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
             OnePointCutscene_Attention(globalCtx, &this->actor);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
 
-            this->actor.flags |= 0x8000001;
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_27;
             this->actionFunc = func_80A904D8;
         }
     }

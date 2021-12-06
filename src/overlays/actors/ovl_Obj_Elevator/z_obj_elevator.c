@@ -7,7 +7,7 @@
 #include "z_obj_elevator.h"
 #include "objects/object_d_elevator/object_d_elevator.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);

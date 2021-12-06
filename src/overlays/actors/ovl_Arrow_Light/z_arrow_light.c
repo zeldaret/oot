@@ -8,7 +8,7 @@
 
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#define FLAGS 0x02000010
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArrowLight_Destroy(Actor* thisx, GlobalContext* globalCtx);
