@@ -1,7 +1,7 @@
 #include "z_en_eiyer.h"
 #include "objects/object_ei/object_ei.h"
 
-#define FLAGS 0x00000005
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -201,7 +201,7 @@ void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
 
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags &= ~0x1001;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_12);
     this->actor.shape.shadowScale = 0.0f;
     this->actor.shape.yOffset = 0.0f;
     this->actionFunc = EnEiyer_AppearFromGround;
@@ -216,12 +216,12 @@ void EnEiyer_SetupUnderground(EnEiyer* this) {
     }
 
     this->collider.base.acFlags |= AC_ON;
-    this->actor.flags &= ~0x10;
-    this->actor.flags |= 1;
+    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_0;
 }
 
 void EnEiyer_SetupInactive(EnEiyer* this) {
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actionFunc = EnEiyer_Inactive;
 }
@@ -232,7 +232,7 @@ void EnEiyer_SetupAmbush(EnEiyer* this, GlobalContext* globalCtx) {
     this->collider.info.bumper.dmgFlags = ~0x00300000;
     this->basePos = this->actor.world.pos;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.flags |= 0x1000;
+    this->actor.flags |= ACTOR_FLAG_12;
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.shape.shadowScale = 65.0f;
     this->actor.shape.yOffset = 600.0f;
@@ -266,7 +266,7 @@ void EnEiyer_SetupDiveAttack(EnEiyer* this, GlobalContext* globalCtx) {
 void EnEiyer_SetupLand(EnEiyer* this) {
     Animation_MorphToPlayOnce(&this->skelanime, &gStingerDiveAnim, -3.0f);
     this->collider.base.atFlags &= ~AT_ON;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 
     // Update BgCheck info, play sound, and spawn effect on the first frame of the land action
     this->timer = -1;
@@ -609,7 +609,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, GlobalContext* globalCtx) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_DEAD);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
 
             // If underground, one hit kill
@@ -672,7 +672,7 @@ void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->actor.flags & 1) {
+    if (this->actor.flags & ACTOR_FLAG_0) {
         this->actor.focus.pos.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.y = this->actor.world.pos.y;

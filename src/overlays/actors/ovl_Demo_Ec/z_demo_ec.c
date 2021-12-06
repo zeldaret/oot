@@ -37,7 +37,7 @@
 #include "objects/object_bba/object_bba.h"
 #include "objects/object_ane/object_ane.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void DemoEc_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoEc_Destroy(Actor* thisx, GlobalContext* globalCtx);

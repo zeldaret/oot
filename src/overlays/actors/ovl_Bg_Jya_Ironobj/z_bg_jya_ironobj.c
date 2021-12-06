@@ -8,7 +8,7 @@
 #include "objects/object_jya_iron/object_jya_iron.h"
 #include "overlays/actors/ovl_En_Ik/z_en_ik.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 typedef void (*BgJyaIronobjIkFunc)(BgJyaIronobj*, GlobalContext*, EnIk*);
 

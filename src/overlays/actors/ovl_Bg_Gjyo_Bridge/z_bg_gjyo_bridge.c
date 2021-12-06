@@ -8,7 +8,7 @@
 #include "objects/object_gjyo_objects/object_gjyo_objects.h"
 #include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx);

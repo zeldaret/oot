@@ -11,7 +11,7 @@
 #include "objects/object_im/object_im.h"
 #include "vt.h"
 
-#define FLAGS 0x00000011
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
 
 void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -832,7 +832,7 @@ s32 func_809869F8(DemoIm* this, GlobalContext* globalCtx) {
     f32 playerPosX = player->actor.world.pos.x;
     f32 thisPosX = this->actor.world.pos.x;
 
-    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && (!(this->actor.flags & 0x40))) {
+    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_6)) {
         return true;
     } else {
         return false;
@@ -852,7 +852,7 @@ s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80986AD0(DemoIm* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 9;
+    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
     if (!Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actor.textId = 0x708E;
         func_8002F2F4(&this->actor, globalCtx);
@@ -941,7 +941,7 @@ void func_80986DC8(DemoIm* this, GlobalContext* globalCtx) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, globalCtx);
-    this->actor.flags &= ~0x9;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
 }
 
 void func_80986E20(DemoIm* this, GlobalContext* globalCtx) {
@@ -988,7 +988,7 @@ void func_80986FA8(DemoIm* this, GlobalContext* globalCtx) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, globalCtx);
-    this->actor.flags &= ~0x9;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
     DemoIm_UpdateCollider(this, globalCtx);
     func_80986CFC(this, globalCtx);
 }
@@ -1106,7 +1106,7 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     DemoIm_InitCollider(thisx, globalCtx);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gImpaSkel, NULL, this->jointTable, this->morphTable, 17);
-    thisx->flags &= ~1;
+    thisx->flags &= ~ACTOR_FLAG_0;
 
     switch (this->actor.params) {
         case 2:

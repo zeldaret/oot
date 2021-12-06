@@ -7,7 +7,7 @@
 #include "z_en_wonder_item.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -115,7 +115,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     // "Mysterious mystery, very mysterious"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 
     this->wonderMode = (this->actor.params >> 0xB) & 0x1F;
     this->itemDrop = (this->actor.params >> 6) & 0x1F;

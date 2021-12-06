@@ -9,7 +9,7 @@
 #include "objects/object_spot17_obj/object_spot17_obj.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx);

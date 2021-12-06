@@ -7,7 +7,7 @@
 #include "z_obj_blockstop.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBlockstop_Destroy(Actor* thisx, GlobalContext* globalCtx);

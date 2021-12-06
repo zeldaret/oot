@@ -8,7 +8,7 @@
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0x000000B0
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_7)
 
 void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMegane_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -109,10 +109,10 @@ void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (globalCtx->actorCtx.unk_03 != 0) {
-        thisx->flags |= 0x80;
+        thisx->flags |= ACTOR_FLAG_7;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     } else {
-        thisx->flags &= ~0x80;
+        thisx->flags &= ~ACTOR_FLAG_7;
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
@@ -129,7 +129,7 @@ void BgHakaMegane_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgHakaMegane_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaMegane* this = (BgHakaMegane*)thisx;
 
-    if ((thisx->flags & 0x80) == 0x80) {
+    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(globalCtx, sDLists[thisx->params]);
     } else {
         Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);

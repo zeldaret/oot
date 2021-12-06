@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS 0x00005215
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
 void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoSisters_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -200,7 +200,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_198 = 1;
     this->unk_199 = 32;
     this->unk_294 = 110.0f;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     if (this->actor.params & 0x1000) {
         func_80ADA094(this, globalCtx);
     } else if (this->unk_194 == 0) {
@@ -208,7 +208,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
             func_80AD9AA8(this, globalCtx);
         } else {
-            this->actor.flags &= ~0x00004200;
+            this->actor.flags &= ~(ACTOR_FLAG_9 | ACTOR_FLAG_14);
             this->collider.info.elemType = ELEMTYPE_UNK4;
             this->collider.info.bumper.dmgFlags |= 1;
             this->collider.base.ocFlags1 = OC1_NONE;
@@ -376,7 +376,7 @@ void func_80AD99D4(EnPoSisters* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.world.pos.y += 42.0f;
     this->actor.shape.yOffset = -6000.0f;
-    this->actor.flags &= -2;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_199 = 0;
     this->actionFunc = func_80ADAFC0;
     OnePointCutscene_Init(globalCtx, 3190, 999, &this->actor, MAIN_CAM);
@@ -426,7 +426,7 @@ void func_80AD9C24(EnPoSisters* this, GlobalContext* globalCtx) {
     Vec3f vec;
 
     this->actor.draw = NULL;
-    this->actor.flags &= -2;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_19C = 100;
     this->unk_199 = 32;
     this->collider.base.colType = COLTYPE_HIT3;
@@ -485,7 +485,7 @@ void func_80AD9F1C(EnPoSisters* this) {
     this->unk_19A = 300;
     this->unk_19C = 3;
     this->unk_199 |= 9;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actionFunc = func_80ADB770;
 }
 
@@ -507,7 +507,7 @@ void func_80ADA028(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersSwayAnim, -3.0f);
     this->unk_22E.a = 255;
     this->unk_199 |= 0x15;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actionFunc = func_80ADBBF4;
     this->actor.speedXZ = 0.0f;
 }
@@ -699,7 +699,7 @@ void func_80ADA9E8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADAAA4(EnPoSisters* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & 0x8000)) {
+    if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & ACTOR_FLAG_15)) {
         if (this->actor.colChkInfo.health != 0) {
             if (this->unk_194 != 0) {
                 func_80AD96A4(this);
@@ -996,7 +996,7 @@ void func_80ADB9F0(EnPoSisters* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_22E.a = 255;
         if (this->unk_194 == 3) {
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             this->actor.home.pos.x = 1992.0f;
             this->actor.home.pos.z = -1440.0f;
             this->unk_199 |= 0x18;
@@ -1212,7 +1212,7 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_198 = CLAMP_MIN(temp, 1);
         }
         if (this->actionFunc == func_80ADA8C0) {
-            this->actor.flags |= 0x01000000;
+            this->actor.flags |= ACTOR_FLAG_24;
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->unk_199 & 1) {

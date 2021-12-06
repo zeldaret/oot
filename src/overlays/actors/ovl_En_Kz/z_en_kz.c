@@ -7,7 +7,7 @@
 #include "z_en_kz.h"
 #include "objects/object_kz/object_kz.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnKz_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKz_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -202,11 +202,11 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
     yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
     yaw -= this->actor.shape.rot.y;
     if ((fabsf(yaw) > 1638.0f) || (this->actor.xzDistToPlayer < 265.0f)) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         return 0;
     }
 
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
 
     Actor_GetScreenPos(globalCtx, &this->actor, &sp32, &sp30);
     if (!((sp32 >= -30) && (sp32 < 361) && (sp30 >= -10) && (sp30 < 241))) {

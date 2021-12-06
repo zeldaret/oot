@@ -7,7 +7,7 @@
 #include "z_bg_hidan_kousi.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx);

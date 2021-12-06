@@ -7,7 +7,7 @@
 #include "z_bg_menkuri_nisekabe.h"
 #include "objects/object_menkuri_objects/object_menkuri_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgMenkuriNisekabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,9 +41,9 @@ void BgMenkuriNisekabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
 
     if (globalCtx->actorCtx.unk_03 != 0) {
-        this->actor.flags |= 0x80;
+        this->actor.flags |= ACTOR_FLAG_7;
     } else {
-        this->actor.flags &= ~0x80;
+        this->actor.flags &= ~ACTOR_FLAG_7;
     }
 }
 
@@ -51,7 +51,7 @@ void BgMenkuriNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
     u32 index = this->actor.params & 0xFF;
 
-    if ((this->actor.flags & 0x80) == 0x80) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(globalCtx, sDLists[index]);
     } else {
         Gfx_DrawDListOpa(globalCtx, sDLists[index]);

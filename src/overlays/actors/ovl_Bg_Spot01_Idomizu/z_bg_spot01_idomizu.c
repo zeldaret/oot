@@ -7,7 +7,7 @@
 #include "z_bg_spot01_idomizu.h"
 #include "objects/object_spot01_objects/object_spot01_objects.h"
 
-#define FLAGS 0x00000020
+#define FLAGS ACTOR_FLAG_5
 
 void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idomizu_Destroy(Actor* thisx, GlobalContext* globalCtx);

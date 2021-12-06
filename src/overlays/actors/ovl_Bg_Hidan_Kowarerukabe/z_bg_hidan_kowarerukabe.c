@@ -9,7 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 typedef enum {
     /* 0 */ CRACKED_STONE_FLOOR,

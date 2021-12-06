@@ -7,7 +7,7 @@
 #include "z_obj_ice_poly.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjIcePoly_Destroy(Actor* thisx, GlobalContext* globalCtx);

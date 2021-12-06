@@ -7,7 +7,7 @@
 #include "z_en_bx.h"
 #include "objects/object_bxa/object_bxa.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnBx_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBx_Destroy(Actor* thisx, GlobalContext* globalCtx);

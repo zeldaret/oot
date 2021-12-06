@@ -10,7 +10,7 @@
 #include "vt.h"
 #include "objects/object_reeba/object_reeba.h"
 
-#define FLAGS 0x08000015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
 void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -178,7 +178,7 @@ void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
         this->unk_278 = 20;
     }
 
-    this->actor.flags &= ~0x08000000;
+    this->actor.flags &= ~ACTOR_FLAG_27;
     this->actor.world.pos.y = this->actor.floorHeight;
 
     if (this->isBig) {
@@ -264,7 +264,7 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE538C(EnReeba* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 5;
+    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
     this->actionfunc = func_80AE53AC;
 }
 
@@ -326,8 +326,8 @@ void func_80AE561C(EnReeba* this, GlobalContext* globalCtx) {
 void func_80AE5688(EnReeba* this, GlobalContext* globalCtx) {
     this->unk_27E = 0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
-    this->actor.flags |= 0x8000000;
-    this->actor.flags &= ~5;
+    this->actor.flags |= ACTOR_FLAG_27;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actionfunc = func_80AE56E0;
 }
 
@@ -378,8 +378,8 @@ void func_80AE58EC(EnReeba* this, GlobalContext* globalCtx) {
     this->unk_278 = 14;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actor.speedXZ = -8.0f;
-    this->actor.flags |= 0x8000000;
-    this->actor.flags &= ~5;
+    this->actor.flags |= ACTOR_FLAG_27;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actionfunc = func_80AE5938;
 }
 
@@ -446,7 +446,7 @@ void func_80AE5BC4(EnReeba* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
     this->unk_278 = 14;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionfunc = func_80AE5C38;
 }
 

@@ -7,7 +7,7 @@
 #include "z_en_hata.h"
 #include "objects/object_hata/object_hata.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnHata_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx);

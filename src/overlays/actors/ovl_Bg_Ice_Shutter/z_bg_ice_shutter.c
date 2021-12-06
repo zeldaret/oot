@@ -7,7 +7,7 @@
 #include "z_bg_ice_shutter.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);

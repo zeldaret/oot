@@ -7,7 +7,7 @@
 #include "z_bg_mori_kaitenkabe.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx);

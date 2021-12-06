@@ -16,7 +16,7 @@
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 #include "objects/object_bdan_objects/object_bdan_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);

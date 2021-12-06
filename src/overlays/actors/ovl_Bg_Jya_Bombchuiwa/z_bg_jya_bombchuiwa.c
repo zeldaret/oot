@@ -1,7 +1,7 @@
 #include "z_bg_jya_bombchuiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
-#define FLAGS 0x00000001
+#define FLAGS ACTOR_FLAG_0
 
 void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -162,7 +162,7 @@ void BgJyaBombchuiwa_CleanUpAfterExplosion(BgJyaBombchuiwa* this, GlobalContext*
     BgJyaBombchuiwa_SetDrawFlags(this, 4);
     this->lightRayIntensity = 0.3f;
     this->timer = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void func_808949B8(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {

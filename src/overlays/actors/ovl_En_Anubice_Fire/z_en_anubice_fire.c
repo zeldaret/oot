@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_anubice/object_anubice.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -7,7 +7,7 @@
 #include "z_en_skjneedle.h"
 #include "objects/object_skj/object_skj.h"
 
-#define FLAGS 0x00000205
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_9)
 
 void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -59,7 +59,7 @@ void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 20.0f);
-    thisx->flags &= ~0x1;
+    thisx->flags &= ~ACTOR_FLAG_0;
     Actor_SetScale(&this->actor, 0.01f);
 }
 

@@ -6,7 +6,7 @@
 
 #include "z_obj_mure3.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void ObjMure3_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure3_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -171,7 +171,7 @@ void func_80B9AF64(ObjMure3* this, GlobalContext* globalCtx) {
     static ObjMure3SpawnFunc spawnFuncs[] = { func_80B9A9D0, func_80B9AA90, func_80B9ABA0 };
 
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) < SQ(1150.0f)) {
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
         spawnFuncs[(this->actor.params >> 13) & 7](this, globalCtx);
         func_80B9AFEC(this);
     }
@@ -184,7 +184,7 @@ void func_80B9AFEC(ObjMure3* this) {
 void func_80B9AFFC(ObjMure3* this, GlobalContext* globalCtx) {
     func_80B9ADCC(this, globalCtx);
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) >= SQ(1450.0f)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         func_80B9ACE4(this, globalCtx);
         func_80B9AF54(this);
     }

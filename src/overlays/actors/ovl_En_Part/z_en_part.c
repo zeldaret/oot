@@ -8,7 +8,7 @@
 #include "objects/object_tite/object_tite.h"
 #include "objects/object_ik/object_ik.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnPart_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Destroy(Actor* thisx, GlobalContext* globalCtx);
