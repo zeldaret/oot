@@ -8,9 +8,7 @@
 #include "objects/object_poh/object_poh.h"
 #include "objects/object_po_composer/object_po_composer.h"
 
-#define FLAGS 0x00001015
-
-#define THIS ((EnPoh*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
 
 void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoh_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -186,7 +184,7 @@ static Vec3f D_80AE1B6C = { 0.0f, 0.0f, 0.0f };
 void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnItem00* collectible;
-    EnPoh* this = THIS;
+    EnPoh* this = (EnPoh*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
@@ -247,7 +245,7 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoh* this = THIS;
+    EnPoh* this = (EnPoh*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     Collider_DestroyJntSph(globalCtx, &this->colliderSph);
@@ -317,7 +315,7 @@ void func_80ADE368(EnPoh* this) {
 
 void EnPoh_SetupInitialAction(EnPoh* this) {
     this->lightColor.a = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     if (this->infoIdx == EN_POH_INFO_NORMAL) {
         Animation_PlayOnceSetSpeed(&this->skelAnime, &gPoeAppearAnim, 0.0f);
         this->actionFunc = func_80ADEF38;
@@ -335,7 +333,7 @@ void func_80ADE48C(EnPoh* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->unk_198 = 0;
     this->actor.naviEnemyId = 0xFF;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = func_80ADF15C;
 }
 
@@ -374,7 +372,7 @@ void EnPoh_SetupDeath(EnPoh* this, GlobalContext* globalCtx) {
     this->actor.draw = EnPoh_DrawSoul;
     this->actor.shape.shadowDraw = NULL;
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->actor.gravity = -1.0f;
     this->actor.shape.yOffset = 1500.0f;
     this->actor.world.pos.y -= 15.0f;
@@ -437,7 +435,7 @@ void EnPoh_Talk(EnPoh* this, GlobalContext* globalCtx) {
     }
     this->unk_198 = 200;
     this->unk_195 = 32;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actionFunc = func_80ADFE80;
 }
 
@@ -580,7 +578,7 @@ void func_80ADEF38(EnPoh* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->lightColor.a = 255;
         this->visibilityTimer = Rand_S16Offset(700, 300);
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         EnPoh_SetupIdle(this);
     } else if (this->skelAnime.curFrame > 10.0f) {
         this->lightColor.a = ((this->skelAnime.curFrame - 10.0f) * 0.05f) * 255.0f;
@@ -595,7 +593,7 @@ void EnPoh_ComposerAppear(EnPoh* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->lightColor.a = 255;
         this->visibilityTimer = Rand_S16Offset(700, 300);
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         EnPoh_SetupIdle(this);
     } else {
         this->lightColor.a = CLAMP_MAX((s32)(this->skelAnime.curFrame * 25.5f), 255);
@@ -777,14 +775,14 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
     }
     if (this->unk_198 == 0) {
         func_80ADE950(this, 1);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         return;
     }
     if (this->colliderCyl.base.ocFlags1 & OC1_HIT) {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F2F4(&this->actor, globalCtx);
     } else {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
     }
     this->actor.world.pos.y = Math_SinS(this->unk_195 * 0x800) * 5.0f + this->actor.home.pos.y;
@@ -908,7 +906,7 @@ void EnPoh_UpdateVisibility(EnPoh* this) {
 }
 
 void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoh* this = THIS;
+    EnPoh* this = (EnPoh*)thisx;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIdx) != 0) {
         this->actor.objBankIndex = this->objectIdx;
@@ -929,7 +927,7 @@ void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->colliderCyl.dim.height = 55;
             this->colliderCyl.dim.yShift = 15;
         }
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         EnPoh_SetupInitialAction(this);
     }
 }
@@ -987,7 +985,7 @@ void func_80AE089C(EnPoh* this) {
 }
 
 void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoh* this = THIS;
+    EnPoh* this = (EnPoh*)thisx;
     s32 pad;
     Vec3f vec;
     s32 sp38;
@@ -1001,7 +999,7 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     if (this->actionFunc == EnPoh_Attack && this->unk_198 < 10) {
-        this->actor.flags |= 0x1000000;
+        this->actor.flags |= ACTOR_FLAG_24;
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderSph.base);
     }
     Collider_UpdateCylinder(&this->actor, &this->colliderCyl);
@@ -1029,7 +1027,7 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnPoh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                            Gfx** gfxP) {
-    EnPoh* this = THIS;
+    EnPoh* this = (EnPoh*)thisx;
 
     if ((this->lightColor.a == 0 || limbIndex == this->info->unk_6) ||
         (this->actionFunc == func_80ADF15C && this->unk_198 >= 2)) {
@@ -1046,7 +1044,7 @@ s32 EnPoh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnPoh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
-    EnPoh* this = THIS;
+    EnPoh* this = (EnPoh*)thisx;
 
     Collider_UpdateSpheres(limbIndex, &this->colliderSph);
     if (this->actionFunc == func_80ADF15C && this->unk_198 >= 2 && limbIndex == this->info->unk_7) {
@@ -1073,7 +1071,7 @@ void EnPoh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnPoh_DrawRegular(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoh* this = THIS;
+    EnPoh* this = (EnPoh*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_poh.c", 2629);
     func_80AE067C(this);
@@ -1100,7 +1098,7 @@ void EnPoh_DrawRegular(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoh_DrawComposer(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoh* this = THIS;
+    EnPoh* this = (EnPoh*)thisx;
     Color_RGBA8* sp90;
     Color_RGBA8* phi_t0;
 
@@ -1155,7 +1153,7 @@ void EnPoh_DrawComposer(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoh_UpdateDead(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoh* this = THIS;
+    EnPoh* this = (EnPoh*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != EnPoh_Death) {
@@ -1165,7 +1163,7 @@ void EnPoh_UpdateDead(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoh_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoh* this = THIS;
+    EnPoh* this = (EnPoh*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_poh.c", 2833);
 

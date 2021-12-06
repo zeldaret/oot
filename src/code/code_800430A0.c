@@ -62,7 +62,7 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
         if (dynaActor != NULL) {
             func_800434A8(dynaActor);
 
-            if ((actor->flags & 0x4000000) == 0x4000000) {
+            if (CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_26)) {
                 func_80043538(dynaActor);
             }
         }

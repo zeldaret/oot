@@ -7,9 +7,7 @@
 #include "z_bg_ddan_jd.h"
 #include "objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgDdanJd*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -54,7 +52,7 @@ typedef enum {
 
 void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgDdanJd* this = THIS;
+    BgDdanJd* this = (BgDdanJd*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -76,7 +74,7 @@ void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanJd* this = THIS;
+    BgDdanJd* this = (BgDdanJd*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -171,7 +169,7 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx) {
 }
 
 void BgDdanJd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanJd* this = THIS;
+    BgDdanJd* this = (BgDdanJd*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

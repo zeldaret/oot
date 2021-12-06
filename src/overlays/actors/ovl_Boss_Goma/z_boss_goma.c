@@ -4,9 +4,7 @@
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((BossGoma*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 // IRIS_FOLLOW: gohma looks towards the player (iris rotation)
 // BONUS_IFRAMES: gain invincibility frames when the player does something (throwing things?), or
@@ -340,7 +338,7 @@ static InitChainEntry sInitChain[] = {
 
 void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 4000.0f, ActorShadow_DrawCircle, 150.0f);
@@ -386,7 +384,7 @@ void BossGoma_PlayEffectsAndSfx(BossGoma* this, GlobalContext* globalCtx, s16 ar
 }
 
 void BossGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
 
     SkelAnime_Free(&this->skelanime, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -404,7 +402,7 @@ void BossGoma_SetupDefeated(BossGoma* this, GlobalContext* globalCtx) {
     this->noBackfaceCulling = false;
     this->framesUntilNextAction = 1200;
     this->actionState = 0;
-    this->actor.flags &= ~5;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actor.speedXZ = 0.0f;
     this->actor.shape.shadowScale = 0.0f;
     Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
@@ -628,7 +626,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
     camera = Gameplay_GetCamera(globalCtx, 0);
     player = GET_PLAYER(globalCtx);
     this->actionState = 4;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     func_80064520(globalCtx, &globalCtx->csCtx);
     func_8002DF54(globalCtx, &this->actor, 1);
     this->subCameraId = Gameplay_CreateSubCamera(globalCtx);
@@ -718,7 +716,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             this->framesUntilNextAction = 50;
             this->timer = 80;
             this->frameCount = 0;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             // fall-through
         case 2: // zoom on player from room center
             // room entrance, towards center
@@ -1298,7 +1296,7 @@ void BossGoma_FloorPrepareAttack(BossGoma* this, GlobalContext* globalCtx) {
 void BossGoma_FloorAttack(BossGoma* this, GlobalContext* globalCtx) {
     s16 i;
 
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     SkelAnime_Update(&this->skelanime);
 
     switch (this->actionState) {
@@ -1899,7 +1897,7 @@ void BossGoma_UpdateEyeEnvColor(BossGoma* this) {
 }
 
 void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
     s32 pad;
 
     this->visualState = VISUALSTATE_DEFAULT;
@@ -1954,7 +1952,7 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                               void* thisx) {
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
     s32 doNotDrawLimb = false;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4685);
@@ -2052,7 +2050,7 @@ void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     Vec3f childPos;
     Vec3s childRot;
     EnGoma* babyGohma;
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
     s32 pad;
     MtxF mtx;
 
@@ -2120,7 +2118,7 @@ Gfx* BossGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
 }
 
 void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BossGoma* this = THIS;
+    BossGoma* this = (BossGoma*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4991);
 

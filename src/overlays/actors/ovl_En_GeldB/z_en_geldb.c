@@ -7,9 +7,7 @@
 #include "z_en_geldb.h"
 #include "objects/object_geldb/object_geldb.h"
 
-#define FLAGS 0x00000015
-
-#define THIS ((EnGeldB*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 typedef enum {
     /*  0 */ GELDB_WAIT,
@@ -220,7 +218,7 @@ void EnGeldB_SetupAction(EnGeldB* this, EnGeldBActionFunc actionFunc) {
 void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EffectBlureInit1 blureInit;
-    EnGeldB* this = THIS;
+    EnGeldB* this = (EnGeldB*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->colChkInfo.damageTable = &sDamageTable;
@@ -262,7 +260,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGeldB* this = THIS;
+    EnGeldB* this = (EnGeldB*)thisx;
 
     func_800F5B58();
     Effect_Delete(globalCtx, this->blureIndex);
@@ -350,7 +348,7 @@ void EnGeldB_SetupWait(EnGeldB* this) {
     this->action = GELDB_WAIT;
     this->actor.bgCheckFlags &= ~3;
     this->actor.gravity = -2.0f;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     EnGeldB_SetupAction(this, EnGeldB_Wait);
 }
 
@@ -368,7 +366,7 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         this->skelAnime.playSpeed = 1.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.bgCheckFlags &= ~2;
         this->actor.velocity.y = 0.0f;
@@ -1316,7 +1314,7 @@ void EnGeldB_SetupDefeated(EnGeldB* this) {
         this->invisible = true;
     }
     this->action = GELDB_DEFEAT;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_DEAD);
     EnGeldB_SetupAction(this, EnGeldB_Defeated);
 }
@@ -1395,7 +1393,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
 
 void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGeldB* this = THIS;
+    EnGeldB* this = (EnGeldB*)thisx;
 
     EnGeldB_CollisionCheck(this, globalCtx);
     if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
@@ -1429,7 +1427,7 @@ void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnGeldB_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    EnGeldB* this = THIS;
+    EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_geldB.c", 2507);
     if (limbIndex == GELDB_LIMB_NECK) {
@@ -1462,7 +1460,7 @@ void EnGeldB_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f swordTip;
     Vec3f swordHilt;
-    EnGeldB* this = THIS;
+    EnGeldB* this = (EnGeldB*)thisx;
     s32 bodyPart = -1;
 
     if (limbIndex == GELDB_LIMB_R_SWORD) {
@@ -1550,7 +1548,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gGerudoRedEyeOpenTex, gGerudoRedEyeHalfTex, gGerudoRedEyeShutTex,
                                    gGerudoRedEyeHalfTex };
     s32 pad;
-    EnGeldB* this = THIS;
+    EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_geldB.c", 2672);
     if (1) {}

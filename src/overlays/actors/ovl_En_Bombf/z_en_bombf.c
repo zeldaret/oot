@@ -8,9 +8,7 @@
 #include "objects/object_bombf/object_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
-#define FLAGS 0x00000011
-
-#define THIS ((EnBombf*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
 
 void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -89,7 +87,7 @@ void EnBombf_SetupAction(EnBombf* this, EnBombfActionFunc actionFunc) {
 void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 shapeUnk10 = 0.0f;
     s32 pad;
-    EnBombf* this = THIS;
+    EnBombf* this = (EnBombf*)thisx;
 
     Actor_SetScale(thisx, 0.01f);
     this->unk_200 = 1;
@@ -106,7 +104,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->focus.pos = thisx->world.pos;
 
     if (Actor_FindNearby(globalCtx, thisx, ACTOR_BG_DDAN_KD, ACTORCAT_BG, 10000.0f) != NULL) {
-        thisx->flags |= 0x20;
+        thisx->flags |= ACTOR_FLAG_5;
     }
 
     thisx->colChkInfo.cylRadius = 10.0f;
@@ -119,7 +117,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->gravity = -1.5f;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_EXPLOSIVE);
         thisx->colChkInfo.mass = 200;
-        thisx->flags &= ~1;
+        thisx->flags &= ~ACTOR_FLAG_0;
         EnBombf_SetupAction(this, EnBombf_Move);
     } else {
         thisx->colChkInfo.mass = MASS_IMMOVABLE;
@@ -133,7 +131,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBombf* this = THIS;
+    EnBombf* this = (EnBombf*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->bombCollider);
     Collider_DestroyJntSph(globalCtx, &this->explosionCollider);
@@ -159,7 +157,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                 this->timer = 180;
                 this->flowerBombScale = 0.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_PL_PULL_UP_ROCK);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             } else {
                 player->actor.child = NULL;
                 player->heldActor = NULL;
@@ -178,7 +176,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                     bombFlower->unk_200 = 1;
                     bombFlower->timer = 0;
                     this->timer = 180;
-                    this->actor.flags &= ~1;
+                    this->actor.flags &= ~ACTOR_FLAG_0;
                     this->flowerBombScale = 0.0f;
                 }
             }
@@ -190,7 +188,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                 if (bombFlower != NULL) {
                     bombFlower->timer = 100;
                     this->timer = 180;
-                    this->actor.flags &= ~1;
+                    this->actor.flags &= ~ACTOR_FLAG_0;
                     this->flowerBombScale = 0.0f;
                 }
             } else {
@@ -210,7 +208,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
         if (this->timer == 0) {
             this->flowerBombScale += 0.05f;
             if (this->flowerBombScale >= 1.0f) {
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
             }
         }
 
@@ -264,7 +262,7 @@ void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
-        this->actor.flags |= 0x20;
+        this->actor.flags |= ACTOR_FLAG_5;
         func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
     }
 
@@ -322,7 +320,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
     Color_RGBA8 dustColor = { 255, 255, 255, 255 };
     s32 pad[2];
-    EnBombf* this = THIS;
+    EnBombf* this = (EnBombf*)thisx;
 
     if ((this->unk_200 != 0) && (this->timer != 0)) {
         this->timer--;
@@ -432,7 +430,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
                 thisx->params = BOMBFLOWER_EXPLOSION;
                 this->timer = 10;
-                thisx->flags |= 0x20;
+                thisx->flags |= ACTOR_FLAG_5;
                 EnBombf_SetupAction(this, EnBombf_Explode);
             }
         }
@@ -481,7 +479,7 @@ Gfx* EnBombf_NewMtxDList(GraphicsContext* gfxCtx, GlobalContext* globalCtx) {
 
 void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBombf* this = THIS;
+    EnBombf* this = (EnBombf*)thisx;
 
     if (1) {}
 

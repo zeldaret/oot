@@ -7,9 +7,7 @@
 #include "z_en_elf.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x02000030
-
-#define THIS ((EnElf*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 #define FAIRY_FLAG_TIMED (1 << 8)
 #define FAIRY_FLAG_BIG (1 << 9)
@@ -314,7 +312,7 @@ f32 EnElf_GetColorValue(s32 colorFlag) {
 }
 
 void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
     s32 colorConfig;
@@ -434,7 +432,7 @@ void func_80A029A8(EnElf* this, s16 increment) {
 
 void EnElf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNodeGlow);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNodeNoGlow);
@@ -1253,7 +1251,7 @@ void func_80A04F94(EnElf* this, GlobalContext* globalCtx) {
 
 // ask to talk to saria again
 void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
 
     func_80A04DE4(this, globalCtx);
 
@@ -1276,7 +1274,7 @@ void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A05114(Actor* thisx, GlobalContext* globalCtx) {
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
 
     func_80A04DE4(this, globalCtx);
 
@@ -1289,7 +1287,7 @@ void func_80A05114(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A05188(Actor* thisx, GlobalContext* globalCtx) {
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
 
     func_80A04DE4(this, globalCtx);
 
@@ -1304,7 +1302,7 @@ void func_80A05188(Actor* thisx, GlobalContext* globalCtx) {
 // ask to talk to navi
 void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
     s32 naviCUpText;
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
 
     func_80A04DE4(this, globalCtx);
 
@@ -1335,7 +1333,7 @@ void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
 
 // ask to talk to saria
 void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
 
     func_80A04DE4(this, globalCtx);
 
@@ -1367,7 +1365,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
     u8 unk2C7;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
 
     if (player->naviTextId == 0) {
         if (player->unk_664 == NULL) {
@@ -1381,7 +1379,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else if (player->naviTextId < 0) {
         // trigger dialog instantly for negative message IDs
-        thisx->flags |= 0x10000;
+        thisx->flags |= ACTOR_FLAG_16;
     }
 
     if (Actor_ProcessTalkRequest(thisx, globalCtx)) {
@@ -1399,10 +1397,10 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         func_80A01C38(this, 3);
 
         if (this->elfMsg != NULL) {
-            this->elfMsg->actor.flags |= 0x100;
+            this->elfMsg->actor.flags |= ACTOR_FLAG_8;
         }
 
-        thisx->flags &= ~0x10000;
+        thisx->flags &= ~ACTOR_FLAG_16;
     } else {
         this->actionFunc(this, globalCtx);
         thisx->shape.rot.y = this->unk_2BC;
@@ -1448,7 +1446,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnElf_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->actor.shape.rot.y = this->unk_2BC;
@@ -1465,7 +1463,7 @@ s32 EnElf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     s32 pad;
     f32 scale;
     Vec3f mtxMult;
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
 
     if (limbIndex == 8) {
         scale = ((Math_SinS(this->timer * 4096) * 0.1f) + 1.0f) * 0.012f;
@@ -1494,7 +1492,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     f32 alphaScale;
     s32 envAlpha;
-    EnElf* this = THIS;
+    EnElf* this = (EnElf*)thisx;
     s32 pad1;
     Gfx* dListHead;
     Player* player = GET_PLAYER(globalCtx);

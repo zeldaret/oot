@@ -2,9 +2,7 @@
 #include "overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.h"
 #include "objects/object_skj/object_skj.h"
 
-#define FLAGS 0x02000015
-
-#define THIS ((EnSkj*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -291,7 +289,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
-static s32 D_80B01EA0; // gets set if actor flags & 0x100 is set
+static s32 D_80B01EA0; // gets set if ACTOR_FLAG_8 is set
 
 void EnSkj_ChangeAnim(EnSkj* this, u8 animIndex) {
     f32 endFrame = Animation_GetLastFrame(sSkullKidAnimations[animIndex].animation);
@@ -379,22 +377,22 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
     switch (type) {
         case 5: // Invisible on the small stump (sarias song))
             sSmallStumpSkullKid.unk0 = 1;
-            sSmallStumpSkullKid.skullkid = THIS;
+            sSmallStumpSkullKid.skullkid = (EnSkj*)thisx;
             this->actor.destroy = NULL;
             this->actor.draw = NULL;
             this->actor.update = EnSkj_SariasSongShortStumpUpdate;
-            this->actor.flags &= ~5;
+            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             this->actor.flags |= 0;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
             break;
 
         case 6: // Invisible on the short stump (ocarina game)
             sSmallStumpSkullKid.unk0 = 1;
-            sSmallStumpSkullKid.skullkid = THIS;
+            sSmallStumpSkullKid.skullkid = (EnSkj*)thisx;
             this->actor.destroy = NULL;
             this->actor.draw = NULL;
             this->actor.update = EnSkj_OcarinaMinigameShortStumpUpdate;
-            this->actor.flags &= ~5;
+            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             this->actor.flags |= 0;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
             this->actor.focus.pos.x = 1230.0f;
@@ -416,13 +414,13 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gSkullKidSkel, &gSkullKidPlayFluteAnim, this->jointTable,
                                this->morphTable, 19);
             if ((type >= 0) && (type < 3)) {
-                this->actor.flags &= ~5;
-                this->actor.flags |= 9;
+                this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_NPC);
             }
 
             if ((type < 0) || (type >= 7)) {
-                this->actor.flags &= ~0x02000000;
+                this->actor.flags &= ~ACTOR_FLAG_25;
             }
 
             if ((type > 0) && (type < 3)) {
@@ -468,7 +466,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSkj* this = THIS;
+    EnSkj* this = (EnSkj*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -1215,14 +1213,14 @@ void EnSkj_SariasSongWaitForTextClear(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_OcarinaGameSetupWaitForPlayer(EnSkj* this) {
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
     EnSkj_SetupAction(this, SKJ_ACTION_OCARINA_GAME_WAIT_FOR_PLAYER);
 }
 
 void EnSkj_OcarinaGameWaitForPlayer(EnSkj* this, GlobalContext* globalCtx) {
     if (this->playerInRange) {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         EnSkj_SetupAction(this, SKJ_ACTION_OCARINA_GAME_IDLE);
     }
 }
@@ -1292,7 +1290,7 @@ void EnSkj_LeaveOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
 void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f dropPos;
     s32 pad;
-    EnSkj* this = THIS;
+    EnSkj* this = (EnSkj*)thisx;
 
     D_80B01EA0 = Actor_ProcessTalkRequest(&this->actor, globalCtx);
 
@@ -1348,7 +1346,7 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkj* this = THIS;
+    EnSkj* this = (EnSkj*)thisx;
 
     D_80B01EA0 = Actor_ProcessTalkRequest(&this->actor, globalCtx);
 
@@ -1583,7 +1581,7 @@ void EnSkj_CleanupOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkj* this = THIS;
+    EnSkj* this = (EnSkj*)thisx;
 
     D_80B01EA0 = Actor_ProcessTalkRequest(&this->actor, globalCtx);
     this->timer++;
@@ -1651,7 +1649,7 @@ Gfx* EnSkj_OpaqueDL(GraphicsContext* gfxCtx, u32 alpha) {
 
 void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSkj* this = THIS;
+    EnSkj* this = (EnSkj*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2475);
 

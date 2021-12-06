@@ -7,9 +7,7 @@
 #include "z_bg_bdan_objects.h"
 #include "objects/object_bdan_objects/object_bdan_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgBdanObjects*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBdanObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -108,7 +106,7 @@ void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
 
 void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgBdanObjects* this = THIS;
+    BgBdanObjects* this = (BgBdanObjects*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -116,7 +114,7 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->switchFlag = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;
     if (thisx->params == 2) {
-        thisx->flags |= 0x30;
+        thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
         globalCtx->colCtx.colHeader->waterBoxes[7].ySurface = thisx->world.pos.y;
         this->actionFunc = func_8086C9A8;
         return;
@@ -165,7 +163,7 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgBdanObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgBdanObjects* this = THIS;
+    BgBdanObjects* this = (BgBdanObjects*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if (thisx->params == 0) {
@@ -439,14 +437,14 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
 }
 
 void BgBdanObjects_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgBdanObjects* this = THIS;
+    BgBdanObjects* this = (BgBdanObjects*)thisx;
 
     Actor_SetFocus(thisx, 50.0f);
     this->actionFunc(this, globalCtx);
 }
 
 void BgBdanObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgBdanObjects* this = THIS;
+    BgBdanObjects* this = (BgBdanObjects*)thisx;
 
     if (thisx->params == 0) {
         if (this->actionFunc == func_8086C054) {

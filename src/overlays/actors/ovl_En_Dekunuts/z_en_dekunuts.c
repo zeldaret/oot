@@ -8,9 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "objects/object_dekunuts/object_dekunuts.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnDekunuts*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 #define DEKUNUTS_FLOWER 10
 
@@ -108,12 +106,12 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (thisx->params == DEKUNUTS_FLOWER) {
-        thisx->flags &= ~0x5;
+        thisx->flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     } else {
         ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
         SkelAnime_Init(globalCtx, &this->skelAnime, &gDekuNutsSkel, &gDekuNutsStandAnim, this->jointTable,
@@ -133,7 +131,7 @@ void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDekunuts_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
 
     if (this->actor.params != DEKUNUTS_FLOWER) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -470,7 +468,7 @@ void EnDekunuts_ColliderCheck(EnDekunuts* this, GlobalContext* globalCtx) {
 }
 
 void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
     s32 pad;
 
     if (this->actor.params != DEKUNUTS_FLOWER) {
@@ -497,7 +495,7 @@ void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDekunuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
     f32 x;
     f32 y;
     f32 z;
@@ -527,7 +525,7 @@ s32 EnDekunuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnDekunuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
 
     if (this->actor.params == DEKUNUTS_FLOWER) {
         Gfx_DrawDListOpa(globalCtx, gDekuNutsFlowerDL);

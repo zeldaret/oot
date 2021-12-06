@@ -7,9 +7,7 @@
 #include "z_en_weather_tag.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnWeatherTag*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWeatherTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -53,9 +51,9 @@ void EnWeatherTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnWeatherTag* this = THIS;
+    EnWeatherTag* this = (EnWeatherTag*)thisx;
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 
     switch (this->actor.params & 0xF) {
         case EN_WEATHER_TAG_TYPE_CLOUDY_MARKET:
@@ -323,7 +321,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, GlobalContext* globalCt
 }
 
 void EnWeatherTag_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnWeatherTag* this = THIS;
+    EnWeatherTag* this = (EnWeatherTag*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (BREG(0) != 0) {

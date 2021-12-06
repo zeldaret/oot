@@ -9,9 +9,7 @@
 #include "overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.h"
 #include "vt.h"
 
-#define FLAGS 0x00800010
-
-#define THIS ((EnNiw*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -121,7 +119,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     s32 pad;
     s32 i;
 
@@ -152,7 +150,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
 
@@ -212,7 +210,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.gravity = 0.0f;
         case 0xE:
             this->actor.colChkInfo.mass = 0;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             break;
         case 4:
             this->actor.gravity = 0.0f;
@@ -242,7 +240,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -459,7 +457,7 @@ void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
         this->sfxTimer1 = 30;
         this->path = 0;
         this->timer4 = 30;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actor.speedXZ = 0.0f;
         this->actionFunc = func_80AB6BF8;
     } else {
@@ -481,7 +479,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->sfxTimer1 = 30;
             this->path = 0;
             this->timer4 = 30;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actor.speedXZ = 0.0f;
             this->actionFunc = func_80AB6BF8;
             return;
@@ -642,7 +640,7 @@ void func_80AB6BF8(EnNiw* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.z = 0;
         this->actor.shape.rot.y = this->actor.shape.rot.z;
         this->actor.shape.rot.x = this->actor.shape.rot.z;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actionFunc = func_80AB6D08;
     }
     func_80AB5BF8(this, globalCtx, 2);
@@ -690,7 +688,7 @@ void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx) {
         this->sfxTimer1 = 30;
         this->path = 0;
         this->timer4 = 30;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actor.speedXZ = 0.0f;
         this->actionFunc = func_80AB6BF8;
     } else {
@@ -797,7 +795,7 @@ void func_80AB714C(EnNiw* this, GlobalContext* globalCtx) {
     if (this->timer5 == 0) {
         this->timer7 = 10;
         this->unk_2E4 = this->actor.yawTowardsPlayer;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actionFunc = func_80AB7204;
     }
 
@@ -874,7 +872,7 @@ void func_80AB747C(EnNiw* this, GlobalContext* globalCtx) {
 
 void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s16 i;
     s16 featherCount;
@@ -1108,7 +1106,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
@@ -1132,7 +1130,7 @@ s32 EnNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     Vec3f scale = { 0.15f, 0.15f, 0.15f };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 

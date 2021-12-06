@@ -8,9 +8,7 @@
 #include "vt.h"
 #include "objects/object_ts/object_ts.h"
 
-#define FLAGS 0x08000039
-
-#define THIS ((EnTakaraMan*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27)
 
 void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -42,7 +40,7 @@ void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTakaraMan* this = THIS;
+    EnTakaraMan* this = (EnTakaraMan*)thisx;
 
     if (sTakaraIsInitialized) {
         Actor_Kill(&this->actor);
@@ -115,11 +113,11 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
         absYawDiff = ABS(yawDiff);
         if (absYawDiff < 0x4300) {
             if (globalCtx->roomCtx.curRoom.num != this->originalRoomNum) {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 this->unk_218 = 0;
             } else {
                 if (!this->unk_218) {
-                    this->actor.flags |= 1;
+                    this->actor.flags |= ACTOR_FLAG_0;
                     this->unk_218 = 1;
                 }
                 func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -180,7 +178,7 @@ void func_80B17B14(EnTakaraMan* this, GlobalContext* globalCtx) {
 }
 
 void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTakaraMan* this = THIS;
+    EnTakaraMan* this = (EnTakaraMan*)thisx;
 
     if (this->eyeTimer != 0) {
         this->eyeTimer--;
@@ -201,7 +199,7 @@ void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx) {
-    EnTakaraMan* this = THIS;
+    EnTakaraMan* this = (EnTakaraMan*)thisx;
 
     if (limbIndex == 1) {
         rot->x += this->unk_232.y;
@@ -218,7 +216,7 @@ void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
         object_ts_Tex_000970,
         object_ts_Tex_000D70,
     };
-    EnTakaraMan* this = THIS;
+    EnTakaraMan* this = (EnTakaraMan*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_takara_man.c", 528);
 

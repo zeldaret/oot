@@ -9,9 +9,7 @@
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 #include "objects/object_lightswitch/object_lightswitch.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((ObjLightswitch*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* 0x00 */ FACE_EYES_CLOSED,
@@ -162,7 +160,7 @@ void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* g
 }
 
 void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjLightswitch* this = THIS;
+    ObjLightswitch* this = (ObjLightswitch*)thisx;
     s32 switchFlagSet = Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
     s32 removeSelf = false;
 
@@ -186,7 +184,7 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.rot.z = 0;
         this->actor.world.rot.x = this->actor.home.rot.x = this->actor.shape.rot.x;
         this->actor.world.rot.z = this->actor.home.rot.z = this->actor.shape.rot.z;
-        this->actor.flags |= 0x20;
+        this->actor.flags |= ACTOR_FLAG_5;
         if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_OBJ_OSHIHIKI,
                                this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, 0,
                                this->actor.home.rot.y, 0, (0xFF << 8) | PUSHBLOCK_SMALL_START_ON) == NULL) {
@@ -209,7 +207,7 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjLightswitch* this = THIS;
+    ObjLightswitch* this = (ObjLightswitch*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -371,7 +369,7 @@ void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx) {
 }
 
 void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    ObjLightswitch* this = THIS;
+    ObjLightswitch* this = (ObjLightswitch*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     if (this->toggleDelay > 0) {
@@ -487,7 +485,7 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
 }
 
 void ObjLightswitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ObjLightswitch* this = THIS;
+    ObjLightswitch* this = (ObjLightswitch*)thisx;
     s32 alpha = this->alpha >> 6 & 0xFF;
 
     if ((this->actor.params & 1) == 1) {

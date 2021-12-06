@@ -7,9 +7,7 @@
 #include "z_bg_spot07_taki.h"
 #include "objects/object_spot07_object/object_spot07_object.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgSpot07Taki*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgSpot07Taki_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot07Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot07Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot07Taki* this = THIS;
+    BgSpot07Taki* this = (BgSpot07Taki*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -53,7 +51,7 @@ void BgSpot07Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot07Taki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot07Taki* this = THIS;
+    BgSpot07Taki* this = (BgSpot07Taki*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -62,13 +60,13 @@ void BgSpot07Taki_DoNothing(BgSpot07Taki* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot07Taki_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot07Taki* this = THIS;
+    BgSpot07Taki* this = (BgSpot07Taki*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgSpot07Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot07Taki* this = THIS;
+    BgSpot07Taki* this = (BgSpot07Taki*)thisx;
     u32 frames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot07_taki.c", 169);
