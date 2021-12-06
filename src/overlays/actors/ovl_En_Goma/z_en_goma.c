@@ -4,9 +4,7 @@
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((EnGoma*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -107,7 +105,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
     s16 params;
 
     this->eggTimer = Rand_ZeroOne() * 200.0f;
@@ -121,10 +119,10 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->gomaType = ENGOMA_BOSSLIMB;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actionTimer = this->actor.params + 150;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else if (params >= 10) { // Debris when hatching
         this->actor.gravity = -1.3f;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actionTimer = 50;
         this->gomaType = ENGOMA_HATCH_DEBRIS;
         this->eggScale = 1.0f;
@@ -172,7 +170,7 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
 
     if (this->actor.params < 10) {
         Collider_DestroyCylinder(globalCtx, &this->colCyl1);
@@ -368,7 +366,7 @@ void EnGoma_SetupDie(EnGoma* this) {
     }
 
     this->invincibilityTimer = 100;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void EnGoma_Die(EnGoma* this, GlobalContext* globalCtx) {
@@ -499,7 +497,7 @@ void EnGoma_SetupJump(EnGoma* this) {
 }
 
 void EnGoma_Jump(EnGoma* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     SkelAnime_Update(&this->skelanime);
     Math_ApproachF(&this->actor.speedXZ, 10.0f, 0.5f, 5.0f);
 
@@ -698,7 +696,7 @@ void EnGoma_SetFloorRot(EnGoma* this) {
 }
 
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -748,7 +746,7 @@ void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_goma.c", 1976);
     gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->eyeEnvColor[0], (s16)this->eyeEnvColor[1], (s16)this->eyeEnvColor[2],
@@ -779,7 +777,7 @@ Gfx* EnGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
 }
 
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
     s32 y;
     s32 pad;
 

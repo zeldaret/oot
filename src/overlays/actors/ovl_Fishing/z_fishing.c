@@ -10,9 +10,7 @@
 #include "objects/object_fish/object_fish.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((Fishing*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 #define WATER_SURFACE_Y(globalCtx) globalCtx->colCtx.colHeader->waterBoxes->ySurface
 
@@ -815,7 +813,7 @@ static InitChainEntry sInitChain[] = {
 
 void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
     u16 fishCount;
     s16 i;
 
@@ -851,7 +849,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         thisx->focus.pos = thisx->world.pos;
         thisx->focus.pos.y += 75.0f;
-        thisx->flags |= 9;
+        thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
 
         if (sLinkAge != 1) {
             if (HIGH_SCORE(HS_FISHING) & 0x1000) {
@@ -982,7 +980,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->unk_158 = 100;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
             thisx->targetMode = 0;
-            thisx->flags |= 9;
+            thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
             this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
         } else {
             this->unk_158 = 10;
@@ -1011,7 +1009,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void Fishing_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 
@@ -2849,7 +2847,7 @@ void Fishing_HandleAquariumDialog(Fishing* this, GlobalContext* globalCtx) {
 
     if (this->unk_1D3 == 0) {
         if (this->unk_1D4 == 0) {
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
 
             if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
                 D_80B7A678 = D_80B7E078;
@@ -2859,7 +2857,7 @@ void Fishing_HandleAquariumDialog(Fishing* this, GlobalContext* globalCtx) {
             }
         } else {
             this->unk_1D4--;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
         }
     } else if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->unk_1D3 = 0;
@@ -2888,7 +2886,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
     s16 spF2;
     s16 spF0;
     s16 spEE;
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     Player* player = GET_PLAYER(globalCtx);
     Input* input = &globalCtx->state.input[0];
@@ -2916,9 +2914,9 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
 
     if ((D_80B7E0B0 != 0) || (sSubCamId != CAM_ID_MAIN) ||
         ((player->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         if (D_80B7A694 != 0) {
             if (D_80B7E0B2 == 0) {
                 this->actor.focus.pos = sLurePos;
@@ -3135,7 +3133,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             if (D_80B7E0B6 == 2) {
                 func_80B70ED4(this, input);
             } else {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
             break;
 
@@ -3172,7 +3170,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 if (D_80B7E0B6 == 2) {
                     func_80B70ED4(this, input);
                 } else {
-                    this->actor.flags &= ~1;
+                    this->actor.flags &= ~ACTOR_FLAG_0;
                 }
             }
             break;
@@ -3216,7 +3214,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_1B4.z = Rand_ZeroFloat(50.0f);
             }
 
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             break;
 
         case -2:
@@ -3255,7 +3253,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 }
 
                 Math_ApproachF(&this->unk_1B0, 2048.0f, 1.0f, 128.0f);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
             break;
 
@@ -4206,7 +4204,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 Fishing_FishOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx) {
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 0xD) {
         rot->z -= this->unk_170 - 11000;
@@ -4228,7 +4226,7 @@ s32 Fishing_FishOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 void Fishing_FishPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 0xD) {
         Matrix_MultVec3f(&sFishMouthOffset, &this->fishMouthPos);
@@ -4237,7 +4235,7 @@ void Fishing_FishPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 
 s32 Fishing_LoachOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 3) {
         rot->y += this->unk_1CC[0];
@@ -4252,7 +4250,7 @@ s32 Fishing_LoachOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 
 void Fishing_LoachPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f sLoachMouthOffset = { 500.0f, 500.0f, 0.0f };
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 0xB) {
         Matrix_MultVec3f(&sLoachMouthOffset, &this->fishMouthPos);
@@ -4260,7 +4258,7 @@ void Fishing_LoachPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 void Fishing_DrawFish(Actor* thisx, GlobalContext* globalCtx) {
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -5078,7 +5076,7 @@ static Vec3s sSinkingLureLocationPos[] = {
 
 void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
     Vec3f sp114;
     Vec3f sp108;
     Vec3f spFC;
@@ -5113,9 +5111,9 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((D_80B7A684 != 0) || (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= 0x21;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_5;
     }
 
     if ((this->actor.xzDistToPlayer < 120.0f) || (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {
@@ -5688,7 +5686,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 Fishing_OwnerOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 8) { // Head
         rot->x -= this->unk_164;
@@ -5720,7 +5718,7 @@ static void* sFishingOwnerEyeTexs[] = {
 
 void Fishing_DrawOwner(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
     Input* input = &globalCtx->state.input[0];
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 9156);

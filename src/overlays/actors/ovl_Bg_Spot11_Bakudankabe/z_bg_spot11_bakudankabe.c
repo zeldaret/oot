@@ -9,9 +9,7 @@
 #include "objects/object_spot11_obj/object_spot11_obj.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgSpot11Bakudankabe*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -110,7 +108,7 @@ void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot11Bakudankabe* this = THIS;
+    BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -127,14 +125,14 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot11Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot11Bakudankabe* this = THIS;
+    BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot11Bakudankabe* this = THIS;
+    BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
 
     if (this->collider.base.acFlags & AC_HIT) {
         func_808B2218(this, globalCtx);
@@ -148,7 +146,7 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot11Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot11Bakudankabe* this = THIS;
+    BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, gDesertColossusBombableWallDL);
 }

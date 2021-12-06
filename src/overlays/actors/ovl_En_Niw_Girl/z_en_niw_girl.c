@@ -8,9 +8,7 @@
 #include "objects/object_gr/object_gr.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnNiwGirl*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNiwGirl_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -54,7 +52,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiwGirl* this = THIS;
+    EnNiwGirl* this = (EnNiwGirl*)thisx;
     s32 pad;
     Vec3f vec1;
     Vec3f vec2;
@@ -99,7 +97,7 @@ void EnNiwGirl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnNiwGirl_Jump(EnNiwGirl* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&gNiwGirlRunAnim);
     Animation_Change(&this->skelAnime, &gNiwGirlRunAnim, 1.0f, 0.0f, frameCount, 0, -10.0f);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = func_80AB9210;
 }
 
@@ -140,7 +138,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &gNiwGirlJumpAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gNiwGirlJumpAnim), 0,
                      -10.0f);
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actor.textId = 0x7000;
     if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
         this->actor.textId = 0x70EA;
@@ -188,7 +186,7 @@ void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
 }
 
 void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiwGirl* this = THIS;
+    EnNiwGirl* this = (EnNiwGirl*)thisx;
     EnNiwGirlActionFunc tempActionFunc;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -232,7 +230,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnNiwGirlOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                               void* thisx) {
-    EnNiwGirl* this = THIS;
+    EnNiwGirl* this = (EnNiwGirl*)thisx;
 
     if (limbIndex == 3) {
         rot->x += this->unk_266.y;
@@ -248,7 +246,7 @@ static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 
 void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gNiwGirlEyeOpenTex, gNiwGirlEyeHalfTex, gNiwGirlEyeClosedTex };
-    EnNiwGirl* this = THIS;
+    EnNiwGirl* this = (EnNiwGirl*)thisx;
     s32 pad;
     Vec3f sp4C = sConstVec3f;
 

@@ -8,9 +8,7 @@
 #include "objects/object_spot01_matoya/object_spot01_matoya.h"
 #include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgSpot01Objects2*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Objects2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -45,7 +43,7 @@ static Gfx* D_808AC510[] = {
 };
 
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Objects2* this = THIS;
+    BgSpot01Objects2* this = (BgSpot01Objects2*)thisx;
 
     switch (this->dyna.actor.params & 7) {
         case 0:
@@ -131,7 +129,7 @@ void func_808AC474(BgSpot01Objects2* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Objects2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Objects2* this = THIS;
+    BgSpot01Objects2* this = (BgSpot01Objects2*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

@@ -1253,7 +1253,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     Matrix_Get(&sp14C);
                     Matrix_MtxFToYXZRotS(&sp14C, &spB8, 0);
 
-                    if (hookedActor->flags & 0x20000) {
+                    if (hookedActor->flags & ACTOR_FLAG_17) {
                         hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
                     } else {
                         hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;

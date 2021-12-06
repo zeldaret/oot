@@ -14,9 +14,7 @@
 #include "objects/object_mjin_flash/object_mjin_flash.h"
 #include "objects/object_mjin_oka/object_mjin_oka.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgMjin*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
 }
 
 void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMjin* this = THIS;
+    BgMjin* this = (BgMjin*)thisx;
     s8 objBankIndex;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -69,7 +67,7 @@ void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgMjin* this = THIS;
+    BgMjin* this = (BgMjin*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -80,7 +78,7 @@ void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         colHeader = NULL;
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->dyna.actor.objBankIndex = this->objBankIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);
@@ -96,13 +94,13 @@ void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx) {
 }
 
 void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMjin* this = THIS;
+    BgMjin* this = (BgMjin*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgMjin* this = THIS;
+    BgMjin* this = (BgMjin*)thisx;
     Gfx* dlist;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);

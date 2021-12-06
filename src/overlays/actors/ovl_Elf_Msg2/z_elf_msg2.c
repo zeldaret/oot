@@ -7,9 +7,7 @@
 #include "z_elf_msg2.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((ElfMsg2*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -72,7 +70,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
 }
 
 void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ElfMsg2* this = THIS;
+    ElfMsg2* this = (ElfMsg2*)thisx;
 
     osSyncPrintf(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
     if (!ElfMsg2_KillCheck(this, globalCtx)) {
@@ -84,7 +82,7 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitUntilActivated);
         } else {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-            this->actor.flags |= 0x00040001; // Make actor targetable and Navi-checkable
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
             this->actor.textId = ElfMsg2_GetMessageId(this);
         }
         this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
@@ -136,13 +134,13 @@ void ElfMsg2_WaitUntilActivated(ElfMsg2* this, GlobalContext* globalCtx) {
     if ((this->actor.world.rot.y >= 0x41) && (this->actor.world.rot.y <= 0x80) &&
         (Flags_GetSwitch(globalCtx, (this->actor.world.rot.y - 0x41)))) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-        this->actor.flags |= 0x00040001; // Make actor targetable and Navi-checkable
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
         this->actor.textId = ElfMsg2_GetMessageId(this);
     }
 }
 
 void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ElfMsg2* this = THIS;
+    ElfMsg2* this = (ElfMsg2*)thisx;
 
     if (!ElfMsg2_KillCheck(this, globalCtx)) {
         this->actionFunc(this, globalCtx);

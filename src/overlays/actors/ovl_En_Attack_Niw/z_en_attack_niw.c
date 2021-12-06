@@ -8,9 +8,7 @@
 #include "objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnAttackNiw*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAttackNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnAttackNiw* this = THIS;
+    EnAttackNiw* this = (EnAttackNiw*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -55,13 +53,13 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_298.y = Rand_CenteredFloat(10.0f);
     this->unk_298.z = Rand_CenteredFloat(100.0f);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.shape.rot.y = this->actor.world.rot.y = (Rand_ZeroOne() - 0.5f) * 60000.0f;
     this->actionFunc = func_809B5670;
 }
 
 void EnAttackNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnAttackNiw* this = THIS;
+    EnAttackNiw* this = (EnAttackNiw*)thisx;
     EnNiw* cucco = (EnNiw*)this->actor.parent;
 
     if (this->actor.parent != NULL) {
@@ -296,7 +294,7 @@ void func_809B5C18(EnAttackNiw* this, GlobalContext* globalCtx) {
 
 void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 tmpf1;
-    EnAttackNiw* this = THIS;
+    EnAttackNiw* this = (EnAttackNiw*)thisx;
     EnNiw* cucco;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
@@ -374,7 +372,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_809B5F98(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnAttackNiw* this = THIS;
+    EnAttackNiw* this = (EnAttackNiw*)thisx;
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
@@ -397,7 +395,7 @@ s32 func_809B5F98(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void EnAttackNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnAttackNiw* this = THIS;
+    EnAttackNiw* this = (EnAttackNiw*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

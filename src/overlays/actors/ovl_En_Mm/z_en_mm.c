@@ -8,9 +8,7 @@
 #include "objects/object_mm/object_mm.h"
 #include "objects/object_link_child/object_link_child.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnMm*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 typedef enum {
     /* 0 */ RM_ANIM_RUN,
@@ -168,7 +166,7 @@ void EnMm_ChangeAnimation(EnMm* this, s32 newAnimIndex, s32* curAnimIndex) {
 
 void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 21.0f);
@@ -205,7 +203,7 @@ void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnMm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -512,7 +510,7 @@ void func_80AAE598(EnMm* this, GlobalContext* globalCtx) {
 
 void EnMm_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     this->actionFunc(this, globalCtx);
     func_80AADCD0(this, globalCtx);
@@ -523,7 +521,7 @@ void EnMm_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     if (0) {}
 
@@ -574,7 +572,7 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnMm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     if (this->unk_254 & 1) {
         switch (limbIndex) {
@@ -596,7 +594,7 @@ s32 EnMm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnMm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f headOffset = { 200.0f, 800.0f, 0.0f };
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&headOffset, &this->actor.focus.pos);

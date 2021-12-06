@@ -8,9 +8,7 @@
 #include "vt.h"
 #include "objects/object_ta/object_ta.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnTa*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnTa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -100,7 +98,7 @@ void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -182,7 +180,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     Actor_Kill(&this->actor);
                 } else {
                     if (IS_DAY) {
-                        this->actor.flags |= 0x10;
+                        this->actor.flags |= ACTOR_FLAG_4;
                         this->unk_2C4[0] = this->unk_2C4[1] = this->unk_2C4[2] = 7;
                         this->superCuccos[0] = (EnNiw*)Actor_Spawn(
                             &globalCtx->actorCtx, globalCtx, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
@@ -233,7 +231,7 @@ void func_80B14248(EnTa* this) {
 }
 
 void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 
@@ -455,7 +453,7 @@ void func_80B14AF4(EnTa* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_CRY_1);
         func_80B13AA0(this, func_80B14A54, func_80B167C0);
         this->unk_2CC = 65;
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
     }
 }
 
@@ -618,7 +616,7 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
 void func_80B15260(EnTa* this, GlobalContext* globalCtx) {
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80B15100;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
@@ -725,7 +723,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             break;
                     }
                     this->actionFunc = func_80B15260;
-                    this->actor.flags |= 0x10000;
+                    this->actor.flags |= ACTOR_FLAG_16;
                     func_8002F2CC(&this->actor, globalCtx, 1000.0f);
                     return;
                 }
@@ -1047,9 +1045,9 @@ void func_80B16608(EnTa* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80B1642C;
                 break;
         }
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
     this->unk_2E0 |= 1;
@@ -1134,7 +1132,7 @@ void func_80B16938(EnTa* this) {
 }
 
 void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -1165,7 +1163,7 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnTa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
 
     switch (limbIndex) {
         case 8:
@@ -1196,7 +1194,7 @@ void EnTa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         1000.0f,
         0.0f,
     };
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80B16E7C, &this->actor.focus.pos);
@@ -1209,7 +1207,7 @@ void EnTa_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gTalonEyeHalfTex,
         gTalonEyeClosedTex,
     };
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ta.c", 2381);

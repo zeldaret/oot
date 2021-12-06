@@ -7,9 +7,7 @@
 #include "z_en_jsjutan.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnJsjutan*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnJsjutan_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -38,11 +36,11 @@ static s32 sUnused[2] = { 0, 0 };
 #include "overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c"
 
 void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnJsjutan* this = THIS;
+    EnJsjutan* this = (EnJsjutan*)thisx;
     s32 pad;
     CollisionHeader* header = NULL;
 
-    this->dyna.actor.flags &= ~1;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_0;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&sCol, &header);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, header);
@@ -52,7 +50,7 @@ void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnJsjutan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnJsjutan* this = THIS;
+    EnJsjutan* this = (EnJsjutan*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -366,7 +364,7 @@ void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
-    EnJsjutan* this = THIS;
+    EnJsjutan* this = (EnJsjutan*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s16 i;
     Actor* parent = thisx->parent;

@@ -7,9 +7,7 @@
 #include "z_en_wood02.h"
 #include "objects/object_wood02/object_wood02.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnWood02*)thisx)
+#define FLAGS 0
 
 void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -164,7 +162,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
     s16 spawnType;
     f32 actorScale;
     GlobalContext* globalCtx = globalCtx2;
-    EnWood02* this = THIS;
+    EnWood02* this = (EnWood02*)thisx;
     CollisionPoly* outPoly;
     s32 bgId;
     f32 floorY;
@@ -273,7 +271,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.world.pos.x += (sSpawnSin * sSpawnDistance[5]);
             this->actor.world.pos.z += (sSpawnCos * sSpawnDistance[5]);
         } else {
-            this->actor.flags |= 0x10;
+            this->actor.flags |= ACTOR_FLAG_4;
         }
 
         // Snap to floor, or remove if over void
@@ -293,7 +291,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnWood02* this = THIS;
+    EnWood02* this = (EnWood02*)thisx;
 
     if (this->actor.params <= WOOD_TREE_KAKARIKO_ADULT) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -302,7 +300,7 @@ void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnWood02* this = THIS;
+    EnWood02* this = (EnWood02*)thisx;
     f32 wobbleAmplitude;
     u8 new_var;
     u8 phi_v0;
@@ -313,7 +311,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     // Despawn extra trees in a group if out of range
     if ((this->spawnType == WOOD_SPAWN_SPAWNED) && (this->actor.parent != NULL)) {
-        if (!(this->actor.flags & 0x40)) {
+        if (!(this->actor.flags & ACTOR_FLAG_6)) {
             new_var = this->unk_14E[0];
             phi_v0 = 0;
 
@@ -414,7 +412,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnWood02* this = THIS;
+    EnWood02* this = (EnWood02*)thisx;
     s16 type;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     u8 red;

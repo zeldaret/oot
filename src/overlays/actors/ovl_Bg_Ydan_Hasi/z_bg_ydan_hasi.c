@@ -7,9 +7,7 @@
 #include "z_bg_ydan_hasi.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgYdanHasi*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgYdanHasi* this = THIS;
+    BgYdanHasi* this = (BgYdanHasi*)thisx;
     CollisionHeader* colHeader = NULL;
     WaterBox* waterBox;
 
@@ -75,7 +73,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanHasi* this = THIS;
+    BgYdanHasi* this = (BgYdanHasi*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -166,14 +164,14 @@ void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx) {
 }
 
 void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanHasi* this = THIS;
+    BgYdanHasi* this = (BgYdanHasi*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* dLists[] = { gDTSlidingPlatformDL, gDTWaterPlaneDL, gDTRisingPlatformsDL };
-    BgYdanHasi* this = THIS;
+    BgYdanHasi* this = (BgYdanHasi*)thisx;
 
     if (this->dyna.actor.params == HASI_WATER_BLOCK || this->dyna.actor.params == HASI_THREE_BLOCKS) {
         Gfx_DrawDListOpa(globalCtx, dLists[this->dyna.actor.params]);

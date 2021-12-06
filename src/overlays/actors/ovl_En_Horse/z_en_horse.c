@@ -10,9 +10,7 @@
 #include "objects/object_hni/object_hni.h"
 #include "scenes/overworld/spot09/spot09_scene.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnHorse*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef void (*EnHorseCsFunc)(EnHorse*, GlobalContext*, CsCmdActorAction*);
 typedef void (*EnHorseActionFunc)(EnHorse*, GlobalContext*);
@@ -726,7 +724,7 @@ s32 EnHorse_PlayerCanMove(EnHorse* this, GlobalContext* globalCtx) {
 
     if ((player->stateFlags1 & 1) || func_8002DD78(GET_PLAYER(globalCtx)) == 1 || (player->stateFlags1 & 0x100000) ||
         ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) || this->action == ENHORSE_ACT_HBA ||
-        player->actor.flags & 0x100 || globalCtx->csCtx.state != 0) {
+        player->actor.flags & ACTOR_FLAG_8 || globalCtx->csCtx.state != 0) {
         return false;
     }
     return true;
@@ -743,7 +741,7 @@ void EnHorse_ClearDustFlags(u16* dustFlags) {
 }
 
 void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     AREG(6) = 0;
@@ -898,7 +896,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnHorse_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
 
     if (this->stateFlags & ENHORSE_DRAW) {
         Audio_StopSfxByPos(&this->unk_21C);
@@ -1540,7 +1538,7 @@ void EnHorse_Reverse(EnHorse* this, GlobalContext* globalCtx) {
         } else if (stickMag < 10.0f) {
             stickAngle = -0x7FFF;
         }
-    } else if (player->actor.flags & 0x100) {
+    } else if (player->actor.flags & ACTOR_FLAG_8) {
         EnHorse_StartMountedIdleResetAnim(this);
         this->actor.speedXZ = 0.0f;
         return;
@@ -3299,7 +3297,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
 }
 
 void EnHorse_CheckBoost(EnHorse* thisx, GlobalContext* globalCtx2) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s32 pad;
 
@@ -3462,7 +3460,7 @@ s32 EnHorse_RandInt(f32 range) {
 }
 
 void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     Vec3f dustAcc = { 0.0f, 0.0f, 0.0f };
     Vec3f dustVel = { 0.0f, 1.0f, 0.0f };
@@ -3654,7 +3652,7 @@ void EnHorse_RandomOffset(Vec3f* src, f32 dist, Vec3f* dst) {
 }
 
 void EnHorse_SkinCallback1(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
     s32 pad;
     Vec3f sp94 = { 0.0f, 0.0f, 0.0f };
     Vec3f hoofOffset = { 5.0f, -4.0f, 5.0f };
@@ -3806,7 +3804,7 @@ s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 limbIndex,
         gEponaEyeClosedTex,
     };
     static u8 eyeBlinkIndexes[] = { 0, 1, 2, 1 };
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
     s32 drawOriginalLimb = true;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
@@ -3823,7 +3821,7 @@ s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 limbIndex,
 }
 
 void EnHorse_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
 
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
         func_80093D18(globalCtx->state.gfxCtx);

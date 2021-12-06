@@ -7,17 +7,17 @@
 #define NA_BGM_NATURE_AMBIENCE 0x1   // Environmental nature background sounds
 #define NA_BGM_FIELD_LOGIC 0x2       // Hyrule Field
 #define NA_BGM_FIELD_INIT 0x3        // Hyrule Field	Initial Segment From Loading Area
-#define NA_BGM_FIELD_MOVE_1 0x4      // Hyrule Field	Moving Segment 1
-#define NA_BGM_FIELD_MOVE_2 0x5      // Hyrule Field	Moving Segment 2
-#define NA_BGM_FIELD_MOVE_3 0x6      // Hyrule Field	Moving Segment 3
-#define NA_BGM_FIELD_MOVE_4 0x7      // Hyrule Field	Moving Segment 4
-#define NA_BGM_FIELD_MOVE_5 0x8      // Hyrule Field	Moving Segment 5
-#define NA_BGM_FIELD_MOVE_6 0x9      // Hyrule Field	Moving Segment 6
-#define NA_BGM_FIELD_MOVE_7 0x0A     // Hyrule Field	Moving Segment 7
-#define NA_BGM_FIELD_MOVE_8 0x0B     // Hyrule Field	Moving Segment 8
-#define NA_BGM_FIELD_MOVE_9 0x0C     // Hyrule Field	Moving Segment 9
-#define NA_BGM_FIELD_MOVE_A 0x0D     // Hyrule Field	Moving Segment 10
-#define NA_BGM_FIELD_MOVE_B 0x0E     // Hyrule Field	Moving Segment 11
+#define NA_BGM_FIELD_DEFAULT_1 0x4   // Hyrule Field	Moving Segment 1
+#define NA_BGM_FIELD_DEFAULT_2 0x5   // Hyrule Field	Moving Segment 2
+#define NA_BGM_FIELD_DEFAULT_3 0x6   // Hyrule Field	Moving Segment 3
+#define NA_BGM_FIELD_DEFAULT_4 0x7   // Hyrule Field	Moving Segment 4
+#define NA_BGM_FIELD_DEFAULT_5 0x8   // Hyrule Field	Moving Segment 5
+#define NA_BGM_FIELD_DEFAULT_6 0x9   // Hyrule Field	Moving Segment 6
+#define NA_BGM_FIELD_DEFAULT_7 0x0A  // Hyrule Field	Moving Segment 7
+#define NA_BGM_FIELD_DEFAULT_8 0x0B  // Hyrule Field	Moving Segment 8
+#define NA_BGM_FIELD_DEFAULT_9 0x0C  // Hyrule Field	Moving Segment 9
+#define NA_BGM_FIELD_DEFAULT_A 0x0D  // Hyrule Field	Moving Segment 10
+#define NA_BGM_FIELD_DEFAULT_B 0x0E  // Hyrule Field	Moving Segment 11
 #define NA_BGM_FIELD_ENEMY_INIT 0x0F // Hyrule Field	Enemy Approaches
 #define NA_BGM_FIELD_ENEMY_1 0x10    // Hyrule Field	Enemy Near Segment 1
 #define NA_BGM_FIELD_ENEMY_2 0x11    // Hyrule Field	Enemy Near Segment 2
@@ -95,7 +95,7 @@
 #define NA_BGM_DOOR_OF_TIME 0x59     // Open Door of Temple of Time "NA_BGM_GATE_OPEN"
 #define NA_BGM_OWL 0x5A              // Kaepora Gaebora's Theme
 #define NA_BGM_SHADOW_TEMPLE 0x5B    // Shadow Temple "NA_BGM_DARKNESS_DUNGEON"
-#define NA_BGM_WATAER_TEMPLE 0x5C    // Water Temple "NA_BGM_AQUA_DUNGEON"
+#define NA_BGM_WATER_TEMPLE 0x5C     // Water Temple "NA_BGM_AQUA_DUNGEON"
 #define NA_BGM_BRIDGE_TO_GANONS 0x5D // Ganon's Castle Bridge "NA_BGM_BRIDGE"
 #define NA_BGM_OCARINA_OF_TIME 0x5E  // Ocarina of Time "NA_BGM_SARIA"
 #define NA_BGM_GERUDO_VALLEY 0x5F    // Gerudo Valley "NA_BGM_GERUDO"
@@ -123,5 +123,12 @@ typedef enum {
     /* 2 */ SEQ_PLAYER_SFX,
     /* 3 */ SEQ_PLAYER_BGM_SUB
 } SequencePlayerId;
+
+typedef enum {
+    /* 0 */ SEQ_MODE_DEFAULT,
+    /* 1 */ SEQ_MODE_ENEMY,
+    /* 2 */ SEQ_MODE_STILL, // Not moving or first-person view
+    /* 3 */ SEQ_MODE_IGNORE
+} SequenceMode;
 
 #endif

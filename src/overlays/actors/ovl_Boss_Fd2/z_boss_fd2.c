@@ -10,9 +10,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((BossFd2*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ DEATH_START,
@@ -172,7 +170,7 @@ void BossFd2_SpawnDust(BossFdEffect* effect, Vec3f* position, Vec3f* velocity, V
 
 void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.0069999993f);
@@ -190,7 +188,7 @@ void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossFd2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -525,7 +523,7 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
     s16 i;
 
     this->disableAT = true;
-    this->actor.flags |= 0x400;
+    this->actor.flags |= ACTOR_FLAG_10;
     SkelAnime_Update(&this->skelAnime);
     switch (this->work[FD2_ACTION_STATE]) {
         case 0:
@@ -613,7 +611,7 @@ void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &gHoleVolvagiaDamagedAnim, 1.0f, 0.0f, this->fwork[FD2_END_FRAME],
                      ANIMMODE_ONCE_INTERP, -3.0f);
     this->actionFunc = BossFd2_Death;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->deathState = DEATH_START;
 }
 
@@ -954,12 +952,12 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
 
 void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
     s16 i;
 
     osSyncPrintf("FD2 move start \n");
     this->disableAT = false;
-    this->actor.flags &= ~0x400;
+    this->actor.flags &= ~ACTOR_FLAG_10;
     this->work[FD2_VAR_TIMER]++;
     this->work[FD2_UNK_TIMER]++;
 
@@ -994,15 +992,15 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->fwork[FD2_TEX2_SCROLL_X] += 3.0f;
     this->fwork[FD2_TEX2_SCROLL_Y] -= 2.0f;
     if (this->actor.focus.pos.y < 90.0f) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
     }
 }
 
 s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
     BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (limbIndex == 31) {
@@ -1045,7 +1043,7 @@ void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     static Vec3f centerManeMod = { 4000.0f, -2900.0, 2000.0f };
     static Vec3f rightManeMod = { 4000.0f, -1600.0, 0.0f };
     static Vec3f leftManeMod = { 4000.0f, -1600.0, -2000.0f };
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
 
     if (limbIndex == 35) {
         Matrix_MultVec3f(&targetMod, &this->actor.focus.pos);
@@ -1191,7 +1189,7 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gHoleVolvagiaEyeOpenTex, gHoleVolvagiaEyeHalfTex, gHoleVolvagiaEyeClosedTex };
     s32 pad;
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2617);
     osSyncPrintf("FD2 draw start \n");

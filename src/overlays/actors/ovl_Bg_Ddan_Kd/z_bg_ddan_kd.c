@@ -7,9 +7,7 @@
 #include "z_bg_ddan_kd.h"
 #include "objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgDdanKd*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -64,7 +62,7 @@ void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
 }
 
 void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanKd* this = THIS;
+    BgDdanKd* this = (BgDdanKd*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -87,7 +85,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanKd* this = THIS;
+    BgDdanKd* this = (BgDdanKd*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -179,7 +177,7 @@ void func_80871838(BgDdanKd* this, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanKd* this = THIS;
+    BgDdanKd* this = (BgDdanKd*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
