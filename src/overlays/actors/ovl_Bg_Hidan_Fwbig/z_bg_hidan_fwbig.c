@@ -9,9 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgHidanFwbig*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* 0 */ FWBIG_MOVE,
@@ -71,7 +69,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgHidanFwbig* this = THIS;
+    BgHidanFwbig* this = (BgHidanFwbig*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -96,7 +94,7 @@ void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
         BgHidanFwbig_UpdatePosition(this);
         Actor_SetScale(&this->actor, 0.15f);
         this->collider.dim.height = 230;
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
         this->moveState = FWBIG_MOVE;
         this->actionFunc = BgHidanFwbig_WaitForPlayer;
         this->actor.world.pos.y = this->actor.home.pos.y - (2400.0f * this->actor.scale.y);
@@ -108,7 +106,7 @@ void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void BgHidanFwbig_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHidanFwbig* this = THIS;
+    BgHidanFwbig* this = (BgHidanFwbig*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -220,7 +218,7 @@ void BgHidanFwbig_MoveCollider(BgHidanFwbig* this, GlobalContext* globalCtx) {
 
 void BgHidanFwbig_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHidanFwbig* this = THIS;
+    BgHidanFwbig* this = (BgHidanFwbig*)thisx;
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;

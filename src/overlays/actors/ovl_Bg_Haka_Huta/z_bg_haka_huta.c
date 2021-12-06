@@ -7,9 +7,7 @@
 #include "z_bg_haka_huta.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgHakaHuta*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaHuta* this = THIS;
+    BgHakaHuta* this = (BgHakaHuta*)thisx;
     s16 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -60,7 +58,7 @@ void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaHuta* this = THIS;
+    BgHakaHuta* this = (BgHakaHuta*)thisx;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
@@ -207,7 +205,7 @@ void BgHakaHuta_DoNothing(BgHakaHuta* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaHuta_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaHuta* this = THIS;
+    BgHakaHuta* this = (BgHakaHuta*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

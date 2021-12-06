@@ -7,9 +7,7 @@
 #include "z_en_tp.h"
 #include "objects/object_tp/object_tp.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnTp*)thisx)
+#define FLAGS 0
 
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -132,7 +130,7 @@ void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
 
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnTp* this = THIS;
+    EnTp* this = (EnTp*)thisx;
     EnTp* now;
     EnTp* next;
     s32 i;
@@ -155,7 +153,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;
         EnTp_Head_SetupWait(this);
         this->actor.focus.pos = this->actor.world.pos;
-        this->actor.flags |= 0x15;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
         Actor_SetScale(&this->actor, 1.5f);
 
         for (i = 0; i <= 6; i++) {
@@ -171,7 +169,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_SetScale(&next->actor, 0.3f);
 
                 if (i == 2) {
-                    next->actor.flags |= 0x15;
+                    next->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
                     next->unk_150 = 1; // Why?
                 }
 
@@ -189,7 +187,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTp* this = THIS;
+    EnTp* this = (EnTp*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -211,13 +209,13 @@ void EnTp_Tail_FollowHead(EnTp* this, GlobalContext* globalCtx) {
         }
     } else {
         if (this->unk_150 != 0) {
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
         }
 
         if (this->head->unk_150 != 0) {
             this->actor.speedXZ = this->red = this->actor.velocity.y = this->heightPhase = 0.0f;
             if (this->actor.world.pos.y < this->head->actor.home.pos.y) {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
 
             this->actor.world.pos = this->actor.parent->prevPos;
@@ -350,7 +348,7 @@ void EnTp_Fragment_SetupFade(EnTp* this) {
     this->actor.velocity.x = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     EnTp_SetupAction(this, EnTp_Fragment_Fade);
 }
 
@@ -594,7 +592,7 @@ void EnTp_UpdateDamage(EnTp* this, GlobalContext* globalCtx) {
             }
 
             if (this->actor.colChkInfo.health == 0) {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 head = this->head;
 
                 if (head->actor.params <= TAILPASARAN_HEAD) {
@@ -647,7 +645,7 @@ void EnTp_UpdateDamage(EnTp* this, GlobalContext* globalCtx) {
 
 void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnTp* this = THIS;
+    EnTp* this = (EnTp*)thisx;
     Vec3f kiraVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f kiraAccel = { 0.0f, -0.6f, 0.0f };
     Vec3f kiraPos;
@@ -729,7 +727,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnTp* this = THIS;
+    EnTp* this = (EnTp*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tp.c", 1451);
 

@@ -2,9 +2,7 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "objects/object_in/object_in.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnIn*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnIn_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -198,7 +196,7 @@ s16 func_80A791CC(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
     s32 sp18 = 1;
 
     switch (this->actor.textId) {
@@ -458,7 +456,7 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     ShrinkWindow_SetVal(0x20);
     Interface_ChangeAlpha(2);
 }
@@ -466,7 +464,7 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
 static s32 D_80A7B998 = 0;
 
 void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
     RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
     Vec3f respawnPos;
 
@@ -486,7 +484,7 @@ void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
 
     if (this->actionFunc != NULL && this->actionFunc != func_80A79FB0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -685,10 +683,10 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 0) {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
     } else if (this->unk_308.unk_00 == 2) {
         Rupees_ChangeBy(-50);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         func_80A796EC(this, 3);
         this->actionFunc = func_80A7A848;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x0F) | 7;
@@ -721,7 +719,7 @@ void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 0) {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         return;
     }
     if (this->unk_1EC != 0) {
@@ -731,7 +729,7 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_308.unk_00 == 2) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         func_80A79BAC(this, globalCtx, 2, 0x26);
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0002;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
@@ -893,7 +891,7 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
 
 void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
 
     if (this->actionFunc == func_80A79FB0) {
         this->actionFunc(this, globalCtx);
@@ -929,7 +927,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
     Vec3s sp2C;
 
     if (this->actor.params > 0 && limbIndex != INGO_HEAD_LIMB) {
@@ -957,7 +955,7 @@ s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
     Vec3f D_80A7B9A8 = { 1600.0, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2335);
@@ -979,7 +977,7 @@ void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gIngoEyeOpenTex, gIngoEyeHalfTex, gIngoEyeClosedTex, gIngoEyeClosed2Tex };
 
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2384);
     if (this->actionFunc != func_80A79FB0) {

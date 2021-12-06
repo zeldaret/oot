@@ -7,9 +7,7 @@
 #include "z_bg_mizu_uzu.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgMizuUzu*)thisx)
+#define FLAGS 0
 
 void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuUzu_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -38,7 +36,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuUzu* this = THIS;
+    BgMizuUzu* this = (BgMizuUzu*)thisx;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
@@ -50,7 +48,7 @@ void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMizuUzu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgMizuUzu* this = THIS;
+    BgMizuUzu* this = (BgMizuUzu*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -68,7 +66,7 @@ void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx) {
 }
 
 void BgMizuUzu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMizuUzu* this = THIS;
+    BgMizuUzu* this = (BgMizuUzu*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

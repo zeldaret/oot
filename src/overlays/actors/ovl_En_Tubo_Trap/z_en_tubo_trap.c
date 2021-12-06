@@ -9,9 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnTuboTrap*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTuboTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ const ActorInit En_Tubo_Trap_InitVars = {
 };
 
 void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTuboTrap* this = THIS;
+    EnTuboTrap* this = (EnTuboTrap*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 2.0f);
     osSyncPrintf("\n\n");
@@ -67,7 +65,7 @@ void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTuboTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTuboTrap* this = THIS;
+    EnTuboTrap* this = (EnTuboTrap*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -233,7 +231,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
 
     if (this->actor.xzDistToPlayer < 200.0f && this->actor.world.pos.y <= player->actor.world.pos.y) {
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         targetHeight = 40.0f + -10.0f * gSaveContext.linkAge;
 
         this->targetY = player->actor.world.pos.y + targetHeight;
@@ -274,7 +272,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx) {
 }
 
 void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTuboTrap* this = THIS;
+    EnTuboTrap* this = (EnTuboTrap*)thisx;
     s32 pad;
 
     this->actionFunc(this, globalCtx);

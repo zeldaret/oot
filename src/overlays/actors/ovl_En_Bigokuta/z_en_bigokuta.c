@@ -1,9 +1,7 @@
 #include "z_en_bigokuta.h"
 #include "objects/object_bigokuta/object_bigokuta.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((EnBigokuta*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -157,7 +155,7 @@ static InitChainEntry sInitChain[] = {
 static s32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
 
 void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBigokuta* this = THIS;
+    EnBigokuta* this = (EnBigokuta*)thisx;
     s32 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -190,7 +188,7 @@ void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBigokuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBigokuta* this = THIS;
+    EnBigokuta* this = (EnBigokuta*)thisx;
     s32 i;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -385,7 +383,7 @@ void func_809BD6B8(EnBigokuta* this) {
 void func_809BD768(EnBigokuta* this) {
     this->unk_194 = Rand_ZeroOne() < 0.5f ? -1 : 1;
     this->unk_19A = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->cylinder[0].base.atFlags &= ~AT_ON;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_SINK);
     this->actionFunc = func_809BE4A4;
@@ -686,7 +684,7 @@ void func_809BE4A4(EnBigokuta* this, GlobalContext* globalCtx) {
 
 void func_809BE518(EnBigokuta* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 10.0f)) {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         func_809BD3F8(this);
     }
 }
@@ -770,7 +768,7 @@ void EnBigokuta_UpdateDamage(EnBigokuta* this, GlobalContext* globalCtx) {
 }
 
 void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnBigokuta* this = THIS;
+    EnBigokuta* this = (EnBigokuta*)thisx;
     s32 i;
     GlobalContext* globalCtx = globalCtx2;
 
@@ -787,7 +785,7 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
             for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->cylinder[i].base);
             }
-            this->actor.flags |= 0x1000000;
+            this->actor.flags |= ACTOR_FLAG_24;
         } else {
             for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cylinder[i].base);
@@ -811,7 +809,7 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 EnBigokuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnBigokuta* this = THIS;
+    EnBigokuta* this = (EnBigokuta*)thisx;
     u8 intensity;
     f32 temp_f0;
     s32 temp_hi;
@@ -868,7 +866,7 @@ s32 EnBigokuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBigokuta* this = THIS;
+    EnBigokuta* this = (EnBigokuta*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bigokuta.c", 2017);
 

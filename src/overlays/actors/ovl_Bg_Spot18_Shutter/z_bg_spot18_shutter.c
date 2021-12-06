@@ -7,9 +7,7 @@
 #include "z_bg_spot18_shutter.h"
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgSpot18Shutter*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Shutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSpot18Shutter* this = THIS;
+    BgSpot18Shutter* this = (BgSpot18Shutter*)thisx;
     s32 param = (this->dyna.actor.params >> 8) & 1;
     CollisionHeader* colHeader = NULL;
 
@@ -78,7 +76,7 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Shutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Shutter* this = THIS;
+    BgSpot18Shutter* this = (BgSpot18Shutter*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -132,7 +130,7 @@ void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Shutter_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Shutter* this = THIS;
+    BgSpot18Shutter* this = (BgSpot18Shutter*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

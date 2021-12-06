@@ -1,9 +1,7 @@
 #include "z_en_rd.h"
 #include "objects/object_rd/object_rd.h"
 
-#define FLAGS 0x00000415
-
-#define THIS ((EnRd*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
 void EnRd_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -123,7 +121,7 @@ void EnRd_SetupAction(EnRd* this, EnRdActionFunc actionFunc) {
 }
 
 void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->targetMode = 0;
@@ -165,12 +163,12 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (thisx->params == 3) {
-        thisx->flags |= 0x80;
+        thisx->flags |= ACTOR_FLAG_7;
     }
 }
 
 void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
 
     if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
@@ -348,7 +346,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
         Actor_IsFacingPlayer(&this->actor, 0x38E3)) {
         player->actor.freezeTimer = 0;
         if (globalCtx->grabPlayer(globalCtx, player)) {
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             func_80AE33F0(this);
         }
     } else if (this->actor.params > 0) {
@@ -532,7 +530,7 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0, 1.0f, 400.0f, 0.0f);
             }
             this->actor.targetMode = 0;
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             this->unk_306 = 0xA;
             this->unk_307 = 0xF;
             func_80AE2B90(this, globalCtx);
@@ -601,7 +599,7 @@ void func_80AE3A8C(EnRd* this) {
         this->actor.speedXZ = -2.0f;
     }
 
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_DAMAGE);
     this->unk_31B = 9;
     EnRd_SetupAction(this, func_80AE3B18);
@@ -636,7 +634,7 @@ void func_80AE3C20(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_rd_Anim_006E88, -1.0f);
     this->unk_31B = 10;
     this->unk_30C = 300;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_DEAD);
     EnRd_SetupAction(this, func_80AE3C98);
@@ -788,7 +786,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
 
 void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
 
@@ -831,7 +829,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
 
     if (limbIndex == 23) {
         rot->y += this->unk_30E;
@@ -843,7 +841,7 @@ s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Vec3f sp2C = D_80AE4940;
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
     s32 idx = -1;
     Vec3f destPos;
 
@@ -892,7 +890,7 @@ void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnRd* this = THIS;
+    EnRd* this = (EnRd*)thisx;
     Vec3f thisPos = thisx->world.pos;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rd.c", 1679);

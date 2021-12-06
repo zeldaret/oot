@@ -7,9 +7,7 @@
 #include "z_bg_po_event.h"
 #include "objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgPoEvent*)thisx)
+#define FLAGS 0
 
 void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -157,7 +155,7 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 bgId;
 
-    this->dyna.actor.flags |= 0x30;
+    this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     CollisionHeader_GetVirtual(&gPoSistersAmyBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((this->type == 0) && (this->index != 3)) {
@@ -195,7 +193,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->type = (thisx->params >> 8) & 0xF;
@@ -222,7 +220,7 @@ void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
 
     if (this->type >= 2) {
         Collider_DestroyTris(globalCtx, &this->collider);
@@ -310,7 +308,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.velocity.y++;
     if (Math_StepToF(&this->dyna.actor.world.pos.y, 433.0f, this->dyna.actor.velocity.y)) {
-        this->dyna.actor.flags &= ~0x20;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_5;
         this->dyna.actor.velocity.y = 0.0f;
         sBlocksAtRest++;
         if (this->type != 1) {
@@ -584,7 +582,7 @@ void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx) {
 
 void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
 
     this->actionFunc(this, globalCtx);
     if ((this->actionFunc == BgPoEvent_AmyWait) || (this->actionFunc == BgPoEvent_PaintingPresent)) {
@@ -598,7 +596,7 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gPoSistersBethPaintingDL, gPoSistersAmyPaintingDL,
     };
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
     u8 alpha;
     Vec3f sp58;
     Vec3f sp4C;

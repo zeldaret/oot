@@ -3,9 +3,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((BossDodongo*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -179,7 +177,7 @@ s32 BossDodongo_AteExplosive(BossDodongo* this, GlobalContext* globalCtx) {
 }
 
 void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
     s16 i;
     u16* temp_s1_3;
     u16* temp_s2;
@@ -219,11 +217,11 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -479,7 +477,7 @@ void BossDodongo_SetupWalk(BossDodongo* this) {
     this->unk_1AA = 0;
     this->actionFunc = BossDodongo_Walk;
     this->unk_1DA = 0;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->unk_1E4 = 0.0f;
 }
 
@@ -734,7 +732,7 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
     f32 sp4C;
     f32 sp48;
 
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_1DA == 10) {
@@ -817,7 +815,7 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
 
 void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
     f32 temp_f0;
     s16 i;
     Player* player = GET_PLAYER(globalCtx);
@@ -1052,7 +1050,7 @@ s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
                                  void* thisx) {
     f32 mtxScaleY;
     f32 mtxScaleZ;
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
 
     // required for matching
     if ((limbIndex == 6) || (limbIndex == 7)) {
@@ -1103,7 +1101,7 @@ void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
     static Vec3f D_808CA474 = { 5000.0f, -2000.0f, 0.0f };
     static Vec3f D_808CA480 = { 8000.0f, 0.0f, 0.0f };
     static Vec3f D_808CA48C = { 8000.0f, 0.0f, 0.0f };
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
 
     if (limbIndex == 6) {
         Matrix_MultVec3f(&D_808CA45C, &this->vec);
@@ -1119,7 +1117,7 @@ void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BossDodongo* this = THIS;
+    BossDodongo* this = (BossDodongo*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3922);
@@ -1282,7 +1280,7 @@ void BossDodongo_SetupDeathCutscene(BossDodongo* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DEAD);
     this->unk_1DA = 0;
     this->csState = 0;
-    this->actor.flags &= ~5;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->unk_1BC = 1;
     Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
 }

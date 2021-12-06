@@ -1,9 +1,7 @@
 #include "z_en_ma2.h"
 #include "objects/object_ma2/object_ma2.h"
 
-#define FLAGS 0x02000039
-
-#define THIS ((EnMa2*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -204,7 +202,7 @@ void func_80AA1DB4(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa2* this = THIS;
+    EnMa2* this = (EnMa2*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
@@ -242,7 +240,7 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMa2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa2* this = THIS;
+    EnMa2* this = (EnMa2*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -250,7 +248,7 @@ void EnMa2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AA2018(EnMa2* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->unk_1E0.unk_00 = 0;
     }
 }
@@ -292,17 +290,17 @@ void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx) {
         player->stateFlags2 |= 0x800000;
     } else {
         if (this->unk_1E0.unk_00 == 0) {
-            this->actor.flags |= 0x10000;
+            this->actor.flags |= ACTOR_FLAG_16;
             Message_CloseTextbox(globalCtx);
         } else {
-            this->actor.flags &= ~0x10000;
+            this->actor.flags &= ~ACTOR_FLAG_16;
             this->actionFunc = func_80AA2018;
         }
     }
 }
 
 void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa2* this = THIS;
+    EnMa2* this = (EnMa2*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -319,7 +317,7 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnMa2* this = THIS;
+    EnMa2* this = (EnMa2*)thisx;
     Vec3s vec;
 
     if ((limbIndex == MALON_ADULT_LEFT_THIGH_LIMB) || (limbIndex == MALON_ADULT_RIGHT_THIGH_LIMB)) {
@@ -346,7 +344,7 @@ s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnMa2* this = THIS;
+    EnMa2* this = (EnMa2*)thisx;
     Vec3f vec = { 900.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 904);
@@ -365,7 +363,7 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sMouthTextures[] = { gMalonAdultMouthNeutralTex, gMalonAdultMouthSadTex, gMalonAdultMouthHappyTex };
     static void* sEyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
 
-    EnMa2* this = THIS;
+    EnMa2* this = (EnMa2*)thisx;
     Camera* camera;
     f32 someFloat;
     s32 pad;

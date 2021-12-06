@@ -20,8 +20,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_link_child/object_link_child.h"
 
-#define THIS ((Player*)thisx)
-
 typedef struct {
     /* 0x00 */ u8 itemId;
     /* 0x01 */ u8 field; // various bit-packed data
@@ -1153,7 +1151,7 @@ s32 func_80832224(Player* this) {
 s32 func_8083224C(GlobalContext* globalCtx) {
     Player* this = GET_PLAYER(globalCtx);
 
-    return (this->actor.flags & 0x100) == 0x100;
+    return CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_8);
 }
 
 void func_80832264(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
@@ -1816,7 +1814,7 @@ s32 func_80833B2C(Player* this) {
 }
 
 s32 func_80833B54(Player* this) {
-    if ((this->unk_664 != NULL) && ((this->unk_664->flags & 5) == 5)) {
+    if ((this->unk_664 != NULL) && CHECK_FLAG_ALL(this->unk_664->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2)) {
         this->stateFlags1 |= 0x10;
         return 1;
     }
@@ -3002,7 +3000,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                 holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
                 this->stateFlags1 |= 0x8000;
 
-                if ((actorToTarget != NULL) && !(actorToTarget->flags & 0x8000000)) {
+                if ((actorToTarget != NULL) && !(actorToTarget->flags & ACTOR_FLAG_27)) {
                     if ((actorToTarget == this->unk_664) && (this->actor.category == ACTORCAT_PLAYER)) {
                         actorToTarget = globalCtx->actorCtx.targetCtx.unk_94;
                     }
@@ -3043,7 +3041,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
 
         if (this->unk_664 != NULL) {
             this->stateFlags1 &= ~0x30000;
-            if ((this->stateFlags1 & 0x800) || ((this->unk_664->flags & 5) != 5)) {
+            if ((this->stateFlags1 & 0x800) || !CHECK_FLAG_ALL(this->unk_664->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2)) {
                 this->stateFlags1 |= 0x10000;
             }
         } else {
@@ -3714,7 +3712,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
                 Actor* ac = this->cylinder.base.ac;
                 s32 sp4C;
 
-                if (ac->flags & 0x1000000) {
+                if (ac->flags & ACTOR_FLAG_24) {
                     func_8002F7DC(&this->actor, NA_SE_PL_BODY_HIT);
                 }
 
@@ -4762,7 +4760,7 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                                 this->unk_850 = 0x50;
                                 this->unk_84F = -1;
                             }
-                            targetActor->flags |= 0x100;
+                            targetActor->flags |= ACTOR_FLAG_8;
                             this->unk_664 = this->targetActor;
                         } else if (sp2C == EXCH_ITEM_LETTER_RUTO) {
                             this->unk_84F = 1;
@@ -4774,7 +4772,7 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                             func_80835EA4(globalCtx, 4);
                         }
 
-                        this->actor.flags |= 0x100;
+                        this->actor.flags |= ACTOR_FLAG_8;
                         this->exchangeItemId = sp2C;
 
                         if (this->unk_84F < 0) {
@@ -4846,7 +4844,7 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
     s32 sp28 = 0;
     s32 sp24;
 
-    sp24 = (sp30 != NULL) && (((sp30->flags & 0x40001) == 0x40001) || (sp30->naviEnemyId != 0xFF));
+    sp24 = (sp30 != NULL) && (CHECK_FLAG_ALL(sp30->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18) || (sp30->naviEnemyId != 0xFF));
 
     if (sp24 || (this->naviTextId != 0)) {
         sp28 = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
@@ -4865,13 +4863,13 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
         if ((sp30 == NULL) || (sp30 == sp34) || (sp30 == sp2C)) {
             if (!(this->stateFlags1 & 0x800) ||
                 ((this->heldActor != NULL) && (sp28 || (sp34 == this->heldActor) || (sp2C == this->heldActor) ||
-                                               ((sp34 != NULL) && (sp34->flags & 0x10000))))) {
+                                               ((sp34 != NULL) && (sp34->flags & ACTOR_FLAG_16))))) {
                 if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x800000) ||
                     (func_808332B8(this) && !(this->stateFlags2 & 0x400))) {
 
                     if (sp34 != NULL) {
                         this->stateFlags2 |= 2;
-                        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (sp34->flags & 0x10000)) {
+                        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (sp34->flags & ACTOR_FLAG_16)) {
                             sp2C = NULL;
                         } else if (sp2C == NULL) {
                             return 0;
@@ -4933,7 +4931,7 @@ s32 func_8083B998(Player* this, GlobalContext* globalCtx) {
     }
 
     if ((this->unk_664 != NULL) &&
-        (((this->unk_664->flags & 0x40001) == 0x40001) || (this->unk_664->naviEnemyId != 0xFF))) {
+        (CHECK_FLAG_ALL(this->unk_664->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18) || (this->unk_664->naviEnemyId != 0xFF))) {
         this->stateFlags2 |= 0x200000;
     } else if ((this->naviTextId == 0) && !func_8008E9C4(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
                (YREG(15) != 0x10) && (YREG(15) != 0x20) && !func_8083B8F4(this, globalCtx)) {
@@ -5995,7 +5993,7 @@ void func_8083EA94(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083EAF0(Player* this, Actor* actor) {
-    if ((actor != NULL) && !(actor->flags & 0x800000) &&
+    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_23) &&
         ((this->linearVelocity < 1.1f) || (actor->id == ACTOR_EN_BOM_CHU))) {
         return 0;
     }
@@ -7385,7 +7383,7 @@ void func_8084279C(Player* this, GlobalContext* globalCtx) {
             func_8083A098(this, D_80853C44[this->modelAnimType], globalCtx);
         }
 
-        this->actor.flags &= ~0x100;
+        this->actor.flags &= ~ACTOR_FLAG_8;
         func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
     }
 }
@@ -9046,7 +9044,7 @@ static void (*D_80854738[])(GlobalContext* globalCtx, Player* this) = {
 static Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
 
 void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     SceneTableEntry* scene = globalCtx->loadedScene;
     u32 titleFileSize;
@@ -9628,14 +9626,14 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     }
 }
 
-void func_808486A8(GlobalContext* globalCtx, Player* this) {
-    u8 sp27;
+void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
+    u8 seqMode;
     s32 pad;
     Actor* unk_664;
     s32 camMode;
 
     if (this->actor.category == ACTORCAT_PLAYER) {
-        sp27 = 0;
+        seqMode = SEQ_MODE_DEFAULT;
 
         if (this->csMode != 0) {
             Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), CAM_MODE_NORMAL);
@@ -9648,7 +9646,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
             } else if (this->stateFlags2 & 0x100) {
                 camMode = CAM_MODE_PUSHPULL;
             } else if ((unk_664 = this->unk_664) != NULL) {
-                if ((this->actor.flags & 0x100) == 0x100) {
+                if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_8)) {
                     camMode = CAM_MODE_TALK;
                 } else if (this->stateFlags1 & 0x10000) {
                     if (this->stateFlags1 & 0x2000000) {
@@ -9693,22 +9691,24 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
                 camMode = CAM_MODE_NORMAL;
                 if ((this->linearVelocity == 0.0f) &&
                     (!(this->stateFlags1 & 0x800000) || (this->rideActor->speedXZ == 0.0f))) {
-                    sp27 = 2;
+                    // not moving
+                    seqMode = SEQ_MODE_STILL;
                 }
             }
 
             Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), camMode);
         } else {
-            sp27 = 2;
+            // First person mode
+            seqMode = SEQ_MODE_STILL;
         }
 
-        if (globalCtx->actorCtx.targetCtx.unk_90 != NULL) {
-            sp27 = 1;
-            func_800F6114(sqrtf(globalCtx->actorCtx.targetCtx.unk_90->xyzDistToPlayerSq));
+        if (globalCtx->actorCtx.targetCtx.bgmEnemy != NULL) {
+            seqMode = SEQ_MODE_ENEMY;
+            Audio_SetBgmEnemyVolume(sqrtf(globalCtx->actorCtx.targetCtx.bgmEnemy->xyzDistToPlayerSq));
         }
 
         if (globalCtx->sceneNum != SCENE_TURIBORI) {
-            func_800F5E90(sp27);
+            Audio_SetSequenceMode(seqMode);
         }
     }
 }
@@ -10091,9 +10091,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8000000)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this)
-                                      ? &gPlayerAnim_003310
-                                      : (this->shockTimer != 0) ? &gPlayerAnim_002F08 : &gPlayerAnim_002878);
+                                  func_808332B8(this)       ? &gPlayerAnim_003310
+                                  : (this->shockTimer != 0) ? &gPlayerAnim_002F08
+                                                            : &gPlayerAnim_002878);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&
@@ -10157,7 +10157,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->func_674(this, globalCtx);
         }
 
-        func_808486A8(globalCtx, this);
+        Player_UpdateCamAndSeqModes(globalCtx, this);
 
         if (this->skelAnime.moveFlags & 8) {
             AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime,
@@ -10166,7 +10166,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         func_808368EC(this, globalCtx);
 
-        if ((this->actor.flags & 0x100) == 0x100) {
+        if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_8)) {
             this->targetActorDistance = 0.0f;
         } else {
             this->targetActor = NULL;
@@ -10257,7 +10257,7 @@ static Vec3f D_80854838 = { 0.0f, 0.0f, -30.0f };
 
 void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f sDogSpawnPos;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
     s32 dogParams;
     s32 pad;
     Input sp44;
@@ -10395,7 +10395,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
 
 void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19346);
 
@@ -10488,7 +10488,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void Player_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     Effect_Delete(globalCtx, this->swordEffectIndex);
 
@@ -10697,9 +10697,9 @@ void func_8084B530(Player* this, GlobalContext* globalCtx) {
     func_80836670(this, globalCtx);
 
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
-        this->actor.flags &= ~0x100;
+        this->actor.flags &= ~ACTOR_FLAG_8;
 
-        if ((this->targetActor->flags & 5) != 5) {
+        if (!CHECK_FLAG_ALL(this->targetActor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2)) {
             this->stateFlags2 &= ~0x2000;
         }
 
@@ -12250,7 +12250,7 @@ void func_8084F104(Player* this, GlobalContext* globalCtx) {
 
             this->unk_862 = 0;
             if (targetActor->textId != 0xFFFF) {
-                this->actor.flags |= 0x100;
+                this->actor.flags |= ACTOR_FLAG_8;
             }
 
             func_80853148(globalCtx, targetActor);
@@ -12274,7 +12274,7 @@ void func_8084F104(Player* this, GlobalContext* globalCtx) {
 
                 this->unk_850 = 1;
             } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
-                this->actor.flags &= ~0x100;
+                this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_862 = 0;
 
                 if (this->unk_84F == 1) {
@@ -13985,7 +13985,7 @@ void func_80852C50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     }
 
     if (linkCsAction == NULL) {
-        this->actor.flags &= ~0x40;
+        this->actor.flags &= ~ACTOR_FLAG_6;
         return;
     }
 
@@ -14096,8 +14096,9 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
     Player* this = GET_PLAYER(globalCtx);
     s32 pad;
 
-    if ((this->targetActor != NULL) || (actor == this->naviActor) || ((actor->flags & 0x40001) == 0x40001)) {
-        actor->flags |= 0x100;
+    if ((this->targetActor != NULL) || (actor == this->naviActor) ||
+        CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18)) {
+        actor->flags |= ACTOR_FLAG_8;
     }
 
     this->targetActor = actor;
@@ -14105,13 +14106,13 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
 
     if (actor->textId == 0xFFFF) {
         func_8002DF54(globalCtx, actor, 1);
-        actor->flags |= 0x100;
+        actor->flags |= ACTOR_FLAG_8;
         func_80832528(globalCtx, this);
     } else {
-        if (this->actor.flags & 0x100) {
+        if (this->actor.flags & ACTOR_FLAG_8) {
             this->actor.textId = 0;
         } else {
-            this->actor.flags |= 0x100;
+            this->actor.flags |= ACTOR_FLAG_8;
             this->actor.textId = actor->textId;
         }
 
@@ -14153,7 +14154,7 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
     }
 
     if ((this->naviActor == this->targetActor) && ((this->targetActor->textId & 0xFF00) != 0x200)) {
-        this->naviActor->flags |= 0x100;
+        this->naviActor->flags |= ACTOR_FLAG_8;
         func_80835EA4(globalCtx, 0xB);
     }
 }

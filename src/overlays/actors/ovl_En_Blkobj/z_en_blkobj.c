@@ -7,9 +7,7 @@
 #include "z_en_blkobj.h"
 #include "objects/object_blkobj/object_blkobj.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnBlkobj*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -57,7 +55,7 @@ void EnBlkobj_SetupAction(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
 
 void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBlkobj* this = THIS;
+    EnBlkobj* this = (EnBlkobj*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -74,7 +72,7 @@ void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBlkobj* this = THIS;
+    EnBlkobj* this = (EnBlkobj*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -89,7 +87,7 @@ void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
 }
 
 void EnBlkobj_SpawnDarkLink(EnBlkobj* this, GlobalContext* globalCtx) {
-    if (!(this->dyna.actor.flags & 0x40)) {
+    if (!(this->dyna.actor.flags & ACTOR_FLAG_6)) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TORCH2, this->dyna.actor.world.pos.x,
                     this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.yawTowardsPlayer, 0,
                     0);
@@ -124,7 +122,7 @@ void EnBlkobj_DoNothing(EnBlkobj* this, GlobalContext* globalCtx) {
 
 void EnBlkobj_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBlkobj* this = THIS;
+    EnBlkobj* this = (EnBlkobj*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -149,7 +147,7 @@ void EnBlkobj_DrawAlpha(GlobalContext* globalCtx, Gfx* dList, s32 alpha) {
 
 void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBlkobj* this = THIS;
+    EnBlkobj* this = (EnBlkobj*)thisx;
     s32 illusionAlpha;
     u32 gameplayFrames;
 
