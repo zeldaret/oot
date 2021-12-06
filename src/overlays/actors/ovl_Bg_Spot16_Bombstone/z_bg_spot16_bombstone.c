@@ -4,9 +4,7 @@
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgSpot16Bombstone*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -233,7 +231,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 }
 
 void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Bombstone* this = THIS;
+    BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
     s16 shouldLive;
 
     func_808B4C30(this);
@@ -267,7 +265,7 @@ void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Bombstone* this = THIS;
+    BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
 
     if (this->actor.params == 0xFF) {
         // Boulder is intact so remove its collider
@@ -523,7 +521,7 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Bombstone* this = THIS;
+    BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
 
     this->unk_154++;
     if (this->actionFunc != NULL) {
@@ -532,7 +530,7 @@ void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Bombstone* this = THIS;
+    BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1253);

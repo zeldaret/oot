@@ -10,9 +10,7 @@
 
 #include "vt.h"
 
-#define FLAGS 0x00800000
-
-#define THIS ((EnIshi*)thisx)
+#define FLAGS ACTOR_FLAG_23
 
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -104,7 +102,7 @@ static ColliderCylinderInit sCylinderInits[] = {
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInits[this->actor.params & 1]);
@@ -307,7 +305,7 @@ static InitChainEntry sInitChains[][5] = {
 };
 
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
     s16 type = this->actor.params & 1;
 
     Actor_ProcessInitChain(&this->actor, sInitChains[type]);
@@ -335,7 +333,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -383,7 +381,7 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
 void EnIshi_SetupLiftedUp(EnIshi* this) {
     this->actionFunc = EnIshi_LiftedUp;
     this->actor.room = -1;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 }
 
 void EnIshi_LiftedUp(EnIshi* this, GlobalContext* globalCtx) {
@@ -471,7 +469,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
 }
 
 void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -495,7 +493,7 @@ void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
 static EnIshiDrawFunc sDrawFuncs[] = { EnIshi_DrawSmall, EnIshi_DrawLarge };
 
 void EnIshi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     sDrawFuncs[this->actor.params & 1](this, globalCtx);
 }

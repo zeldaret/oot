@@ -7,9 +7,7 @@
 #include "z_en_ganon_mant.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnGanonMant*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -102,9 +100,9 @@ static u64 sForceAlignment = 0;
 #include "overlays/ovl_En_Ganon_Mant/ovl_En_Ganon_Mant.c"
 
 void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGanonMant* this = THIS;
+    EnGanonMant* this = (EnGanonMant*)thisx;
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -332,7 +330,7 @@ void EnGanonMant_UpdateVertices(EnGanonMant* this) {
 }
 
 void EnGanonMant_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGanonMant* this = THIS;
+    EnGanonMant* this = (EnGanonMant*)thisx;
     BossGanon* ganon = (BossGanon*)this->actor.parent;
 
     this->updateHasRun = true;
@@ -385,7 +383,7 @@ void EnGanonMant_DrawCloak(GlobalContext* globalCtx, EnGanonMant* this) {
 }
 
 void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGanonMant* this = THIS;
+    EnGanonMant* this = (EnGanonMant*)thisx;
     f32 xDiff;
     f32 pitch;
     Vec3f strandOffset;

@@ -3,8 +3,9 @@
 #include <algorithm>
 #include <string_view>
 
-#include <Utils/File.h>
-#include <Utils/Path.h>
+#include "Utils/File.h"
+#include "Utils/Path.h"
+#include "WarningHandler.h"
 #include "tinyxml2.h"
 
 Globals* Globals::Instance;

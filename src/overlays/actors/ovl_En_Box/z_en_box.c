@@ -1,9 +1,7 @@
 #include "z_en_box.h"
 #include "objects/object_box/object_box.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnBox*)thisx)
+#define FLAGS 0
 
 // movement flags
 
@@ -92,7 +90,7 @@ void EnBox_ClipToGround(EnBox* this, GlobalContext* globalCtx) {
 
 void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnBox* this = THIS;
+    EnBox* this = (EnBox*)thisx;
     AnimationHeader* anim;
     CollisionHeader* colHeader;
     f32 animFrameStart;
@@ -135,7 +133,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
         EnBox_SetupAction(this, EnBox_FallOnSwitchFlag);
         this->alpha = 0;
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
-        this->dyna.actor.flags |= 0x10;
+        this->dyna.actor.flags |= ACTOR_FLAG_4;
     } else if ((this->type == ENBOX_TYPE_ROOM_CLEAR_BIG || this->type == ENBOX_TYPE_ROOM_CLEAR_SMALL) &&
                !Flags_GetClear(globalCtx, this->dyna.actor.room)) {
         EnBox_SetupAction(this, EnBox_AppearOnRoomClear);
@@ -143,25 +141,25 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 50.0f;
         this->alpha = 0;
-        this->dyna.actor.flags |= 0x10;
+        this->dyna.actor.flags |= ACTOR_FLAG_4;
     } else if (this->type == ENBOX_TYPE_9 || this->type == ENBOX_TYPE_10) {
         EnBox_SetupAction(this, func_809C9700);
-        this->dyna.actor.flags |= 0x2000000;
+        this->dyna.actor.flags |= ACTOR_FLAG_25;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 50.0f;
         this->alpha = 0;
-        this->dyna.actor.flags |= 0x10;
+        this->dyna.actor.flags |= ACTOR_FLAG_4;
     } else if (this->type == ENBOX_TYPE_SWITCH_FLAG_BIG && !Flags_GetSwitch(globalCtx, this->switchFlag)) {
         EnBox_SetupAction(this, EnBox_AppearOnSwitchFlag);
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 50.0f;
         this->alpha = 0;
-        this->dyna.actor.flags |= 0x10;
+        this->dyna.actor.flags |= ACTOR_FLAG_4;
     } else {
         if (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6) {
-            this->dyna.actor.flags |= 0x80;
+            this->dyna.actor.flags |= ACTOR_FLAG_7;
         }
         EnBox_SetupAction(this, EnBox_WaitOpen);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
@@ -189,7 +187,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBox* this = THIS;
+    EnBox* this = (EnBox*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -308,7 +306,7 @@ void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
         } else if (this->unk_1FB == ENBOX_STATE_2 && globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
             if ((globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_LULLABY && this->type == ENBOX_TYPE_9) ||
                 (globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS && this->type == ENBOX_TYPE_10)) {
-                this->dyna.actor.flags &= ~0x2000000;
+                this->dyna.actor.flags &= ~ACTOR_FLAG_25;
                 EnBox_SetupAction(this, EnBox_AppearInit);
                 OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
                 this->unk_1A8 = 0;
@@ -439,7 +437,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
 void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
     u16 sfxId;
 
-    this->dyna.actor.flags &= ~0x80;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_7;
 
     if (SkelAnime_Update(&this->skelanime)) {
         if (this->unk_1F4 > 0) {
@@ -511,7 +509,7 @@ void EnBox_SpawnIceSmoke(EnBox* this, GlobalContext* globalCtx) {
 }
 
 void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBox* this = THIS;
+    EnBox* this = (EnBox*)thisx;
 
     if (this->movementFlags & ENBOX_MOVE_STICK_TO_GROUND) {
         this->movementFlags &= ~ENBOX_MOVE_STICK_TO_GROUND;
@@ -543,7 +541,7 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBox_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnBox* this = THIS;
+    EnBox* this = (EnBox*)thisx;
     s32 pad;
 
     if (limbIndex == 1) {
@@ -615,16 +613,17 @@ Gfx* func_809CA518(GraphicsContext* gfxCtx) {
 }
 
 void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBox* this = THIS;
+    EnBox* this = (EnBox*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_box.c", 1581);
 
     /*
-    this->dyna.actor.flags & 0x80 is set by Init (if type is 4 or 6)
+    this->dyna.actor.flags & ACTOR_FLAG_7 is set by Init (if type is 4 or 6)
     and cleared by Open
     */
     if ((this->alpha == 255 && !(this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6)) ||
-        ((this->dyna.actor.flags & 0x80) != 0x80 && (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6))) {
+        (!CHECK_FLAG_ALL(this->dyna.actor.flags, ACTOR_FLAG_7) &&
+         (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6))) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, EnBox_EmptyDList(globalCtx->state.gfxCtx));

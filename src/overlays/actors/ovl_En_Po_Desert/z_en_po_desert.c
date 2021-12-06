@@ -7,9 +7,7 @@
 #include "z_en_po_desert.h"
 #include "objects/object_po_field/object_po_field.h"
 
-#define FLAGS 0x00001090
-
-#define THIS ((EnPoDesert*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_7 | ACTOR_FLAG_12)
 
 void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -61,7 +59,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnPoDesert* this = THIS;
+    EnPoDesert* this = (EnPoDesert*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gPoeFieldSkel, &gPoeFieldFloatAnim, this->jointTable, this->morphTable,
@@ -83,7 +81,7 @@ void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoDesert* this = THIS;
+    EnPoDesert* this = (EnPoDesert*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -188,7 +186,7 @@ void EnPoDesert_Disappear(EnPoDesert* this, GlobalContext* globalCtx) {
 }
 
 void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoDesert* this = THIS;
+    EnPoDesert* this = (EnPoDesert*)thisx;
     s32 pad;
 
     SkelAnime_Update(&this->skelAnime);
@@ -200,24 +198,24 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     if (globalCtx->actorCtx.unk_03) {
-        this->actor.flags |= 0x81;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_7;
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     } else {
         this->actor.shape.shadowDraw = NULL;
-        this->actor.flags &= ~0x81;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_7);
     }
 }
 
 s32 EnPoDesert_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx, Gfx** gfxP) {
-    EnPoDesert* this = THIS;
+    EnPoDesert* this = (EnPoDesert*)thisx;
     f32 mtxScale;
 
     if (this->actionFunc == EnPoDesert_Disappear && limbIndex == 7) {
         mtxScale = this->actionTimer / 16.0f;
         Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
     }
-    if ((this->actor.flags & 0x80) != 0x80) {
+    if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
         *dList = NULL;
     }
     return false;
@@ -227,7 +225,7 @@ void EnPoDesert_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
                              Gfx** gfxP) {
     static Vec3f baseLightPos = { 0.0f, 1400.0f, 0.0f };
 
-    EnPoDesert* this = THIS;
+    EnPoDesert* this = (EnPoDesert*)thisx;
     f32 rand;
     Color_RGBA8 color;
     Vec3f lightPos;
@@ -238,7 +236,7 @@ void EnPoDesert_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         color.r = (s16)(rand * 30.0f) + 225;
         color.g = (s16)(rand * 100.0f) + 155;
         color.b = (s16)(rand * 160.0f) + 95;
-        if ((this->actor.flags & 0x80) == 0x80) {
+        if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
             gDPPipeSync((*gfxP)++);
             gDPSetEnvColor((*gfxP)++, color.r, color.g, color.b, 255);
             gSPMatrix((*gfxP)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 523),
@@ -253,7 +251,7 @@ void EnPoDesert_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoDesert* this = THIS;
+    EnPoDesert* this = (EnPoDesert*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 559);
     func_80093D84(globalCtx->state.gfxCtx);

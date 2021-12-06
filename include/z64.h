@@ -185,10 +185,9 @@ typedef struct {
 } View; // size = 0x128
 
 typedef struct {
-    /* 0x00 */ u8   seqIndex;
-    /* 0x01 */ u8   nightSeqIndex;
-    /* 0x02 */ char unk_02[0x2];
-} SoundContext; // size = 0x4
+    /* 0x00 */ u8   seqId;
+    /* 0x01 */ u8   natureAmbienceId;
+} SequenceContext; // size = 0x2
 
 typedef struct {
     /* 0x00 */ s32 enabled;
@@ -217,7 +216,7 @@ typedef struct {
     /* 0x4D */ char     unk_4D[0x03];
     /* 0x50 */ TargetContextEntry arr_50[3];
     /* 0x8C */ Actor*   unk_8C;
-    /* 0x90 */ Actor*   unk_90;
+    /* 0x90 */ Actor*   bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
     /* 0x94 */ Actor*   unk_94;
 } TargetContext; // size = 0x98
 
@@ -1138,7 +1137,7 @@ typedef struct GlobalContext {
     /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
-    /* 0x007A4 */ SoundContext soundCtx;
+    /* 0x007A4 */ SequenceContext sequenceCtx;
     /* 0x007A8 */ LightContext lightCtx;
     /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;
     /* 0x007C0 */ CollisionContext colCtx;

@@ -3,9 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnDekubaba*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -223,7 +221,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekubaba* this = THIS;
+    EnDekubaba* this = (EnDekubaba*)thisx;
     s32 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -275,7 +273,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekubaba* this = THIS;
+    EnDekubaba* this = (EnDekubaba*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -404,7 +402,7 @@ void EnDekubaba_SetupPrunedSomersault(EnDekubaba* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.speedXZ = this->size * 3.0f;
-    this->actor.flags |= 0x30;
+    this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->actionFunc = EnDekubaba_PrunedSomersault;
 }
 
@@ -457,7 +455,7 @@ void EnDekubaba_SetupDeadStickDrop(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.velocity.y = 0.0f;
     this->actor.shape.shadowScale = 3.0f;
     Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_MISC);
-    this->actor.flags &= ~0x20;
+    this->actor.flags &= ~ACTOR_FLAG_5;
     this->timer = 200;
     this->actionFunc = EnDekubaba_DeadStickDrop;
 }
@@ -956,7 +954,7 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx) {
         if ((this->actor.scale.x > 0.005f) && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
-            this->actor.flags &= -6;
+            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->size * 3.0f, 0, this->size * 12.0f,
                                      this->size * 5.0f, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         }
@@ -1111,7 +1109,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, GlobalContext* globalCtx) {
 
 void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDekubaba* this = THIS;
+    EnDekubaba* this = (EnDekubaba*)thisx;
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
@@ -1132,7 +1130,7 @@ void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->actionFunc == EnDekubaba_Lunge) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        this->actor.flags |= 0x1000000;
+        this->actor.flags |= ACTOR_FLAG_24;
     }
 
     if (this->collider.base.acFlags & AC_ON) {
@@ -1267,7 +1265,7 @@ void EnDekubaba_DrawBaseShadow(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnDekubaba* this = THIS;
+    EnDekubaba* this = (EnDekubaba*)thisx;
 
     if (limbIndex == 1) {
         Collider_UpdateSpheres(limbIndex, &this->collider);
@@ -1275,7 +1273,7 @@ void EnDekubaba_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekubaba* this = THIS;
+    EnDekubaba* this = (EnDekubaba*)thisx;
     f32 scale;
 
     if (1) {}

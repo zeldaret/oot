@@ -7,9 +7,7 @@
 #include "z_bg_gnd_darkmeiro.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgGndDarkmeiro*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -50,14 +48,14 @@ void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) 
 void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     CollisionHeader* colHeader = NULL;
-    BgGndDarkmeiro* this = THIS;
+    BgGndDarkmeiro* this = (BgGndDarkmeiro*)thisx;
 
     this->updateFunc = BgGndDarkmeiro_Noop;
     Actor_SetScale(&this->dyna.actor, 0.1f);
     switch (this->dyna.actor.params & 0xFF) {
         case DARKMEIRO_INVISIBLE_PATH:
             this->dyna.actor.draw = BgGndDarkmeiro_DrawInvisiblePath;
-            this->dyna.actor.flags |= 0x80;
+            this->dyna.actor.flags |= ACTOR_FLAG_7;
             break;
         case DARKMEIRO_CLEAR_BLOCK:
             CollisionHeader_GetVirtual(&gClearBlockCol, &colHeader);
@@ -100,7 +98,7 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgGndDarkmeiro* this = THIS;
+    BgGndDarkmeiro* this = (BgGndDarkmeiro*)thisx;
 
     if ((this->dyna.actor.params & 0xFF) == 1) {
         if (1) {}
@@ -171,7 +169,7 @@ void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, GlobalContext* globa
 }
 
 void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    BgGndDarkmeiro* this = THIS;
+    BgGndDarkmeiro* this = (BgGndDarkmeiro*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     this->updateFunc(this, globalCtx2);
@@ -182,7 +180,7 @@ void BgGndDarkmeiro_DrawInvisiblePath(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx) {
-    BgGndDarkmeiro* this = THIS;
+    BgGndDarkmeiro* this = (BgGndDarkmeiro*)thisx;
     s16 vanishTimer;
 
     vanishTimer = this->timer1;

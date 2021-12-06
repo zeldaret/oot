@@ -8,9 +8,7 @@
 #include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
 #include "objects/object_tk/object_tk.h"
 
-#define FLAGS 0x00011019
-
-#define THIS ((EnPoRelay*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_12 | ACTOR_FLAG_16)
 
 void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoRelay_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -87,7 +85,7 @@ static void* sEyesTextures[] = {
 };
 
 void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoRelay* this = THIS;
+    EnPoRelay* this = (EnPoRelay*)thisx;
     s32 temp;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -113,7 +111,7 @@ void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoRelay_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoRelay* this = THIS;
+    EnPoRelay* this = (EnPoRelay*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -143,14 +141,14 @@ void EnPoRelay_SetupRace(EnPoRelay* this) {
     func_80088B34(0);
     this->hookshotSlotFull = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
     this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
-    this->actor.flags |= 0x8000000;
+    this->actor.flags |= ACTOR_FLAG_27;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoRelay_Race;
 }
 
 void EnPoRelay_SetupEndRace(EnPoRelay* this) {
     this->actor.world.rot.y = this->actor.home.rot.y + 0xC000;
-    this->actor.flags &= ~0x08000000;
+    this->actor.flags &= ~ACTOR_FLAG_27;
     this->actor.speedXZ = 0.0f;
     this->actionFunc = EnPoRelay_EndRace;
 }
@@ -163,10 +161,10 @@ void EnPoRelay_CorrectY(EnPoRelay* this) {
 void EnPoRelay_Idle(EnPoRelay* this, GlobalContext* globalCtx) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnPoRelay_Talk;
     } else if (this->actor.xzDistToPlayer < 250.0f) {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         this->actor.textId = this->textId;
         func_8002F2CC(&this->actor, globalCtx, 250.0f);
     }
@@ -351,7 +349,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
 }
 
 void EnPoRelay_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoRelay* this = THIS;
+    EnPoRelay* this = (EnPoRelay*)thisx;
     s32 pad;
 
     SkelAnime_Update(&this->skelAnime);
@@ -375,7 +373,7 @@ void EnPoRelay_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoRelay_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnPoRelay* this = THIS;
+    EnPoRelay* this = (EnPoRelay*)thisx;
 
     if (limbIndex == 14) {
         f32 rand;
@@ -404,7 +402,7 @@ void EnPoRelay_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoRelay* this = THIS;
+    EnPoRelay* this = (EnPoRelay*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 940);
     func_80093D18(globalCtx->state.gfxCtx);

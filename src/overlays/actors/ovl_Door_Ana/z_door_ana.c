@@ -7,9 +7,7 @@
 #include "z_door_ana.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x02000000
-
-#define THIS ((DoorAna*)thisx)
+#define FLAGS ACTOR_FLAG_25
 
 void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -63,7 +61,7 @@ void DoorAna_SetupAction(DoorAna* this, DoorAnaActionFunc actionFunc) {
 }
 
 void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DoorAna* this = THIS;
+    DoorAna* this = (DoorAna*)thisx;
 
     this->actor.shape.rot.z = 0;
     this->actor.shape.rot.y = this->actor.shape.rot.z;
@@ -74,7 +72,7 @@ void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx) {
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         } else {
-            this->actor.flags |= 0x10;
+            this->actor.flags |= ACTOR_FLAG_4;
         }
         Actor_SetScale(&this->actor, 0);
         DoorAna_SetupAction(this, DoorAna_WaitClosed);
@@ -85,7 +83,7 @@ void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DoorAna* this = THIS;
+    DoorAna* this = (DoorAna*)thisx;
 
     // free collider if it has one
     if ((this->actor.params & 0x200) != 0) {
@@ -101,7 +99,7 @@ void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
         // opening with song of storms
         if (this->actor.xyzDistToPlayerSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
             openGrotto = true;
-            this->actor.flags &= ~0x10;
+            this->actor.flags &= ~ACTOR_FLAG_4;
         }
     } else {
         // bombing/hammering open a grotto
@@ -167,7 +165,7 @@ void DoorAna_GrabPlayer(DoorAna* this, GlobalContext* globalCtx) {
 }
 
 void DoorAna_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DoorAna* this = THIS;
+    DoorAna* this = (DoorAna*)thisx;
 
     this->actionFunc(this, globalCtx);
     // changes the grottos facing angle based on camera angle

@@ -8,9 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_horse_normal/object_horse_normal.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnHorseNormal*)thisx)
+#define FLAGS 0
 
 typedef struct {
     Vec3s pos;
@@ -184,7 +182,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -269,7 +267,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
 
     func_800A6888(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
@@ -278,7 +276,7 @@ void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->action = HORSE_FOLLOW_PATH;
     this->animationIdx = 6;
     this->waypoint = 0;
@@ -512,7 +510,7 @@ void func_80A6C6B0(EnHorseNormal* this) {
     this->animationIdx = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
-    this->actor.flags |= 0x30;
+    this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->actor.speedXZ = 0.0f;
     this->unk_218 = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
@@ -567,7 +565,7 @@ static EnHorseNormalActionFunc sActionFuncs[] = {
 };
 
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     s32 pad;
 
     sActionFuncs[this->action](this, globalCtx);
@@ -592,7 +590,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     s32 i;
 
     for (i = 0; i < this->headCollider.count; i++) {
@@ -635,7 +633,7 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
 }
 
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     Mtx* mtx2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2224);

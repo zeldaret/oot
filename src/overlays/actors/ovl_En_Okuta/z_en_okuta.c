@@ -1,9 +1,7 @@
 #include "z_en_okuta.h"
 #include "objects/object_okuta/object_okuta.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnOkuta*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -116,7 +114,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     s32 pad;
     WaterBox* outWaterBox;
     f32 ySurface;
@@ -147,8 +145,8 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnOkuta_SetupWaitToAppear(this);
     } else {
         ActorShape_Init(&thisx->shape, 1100.0f, ActorShadow_DrawCircle, 18.0f);
-        thisx->flags &= ~1;
-        thisx->flags |= 0x10;
+        thisx->flags &= ~ACTOR_FLAG_0;
+        thisx->flags |= ACTOR_FLAG_4;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sProjectileColliderInit);
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
@@ -160,7 +158,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -199,7 +197,7 @@ void EnOkuta_SpawnRipple(EnOkuta* this, GlobalContext* globalCtx) {
 
 void EnOkuta_SetupWaitToAppear(EnOkuta* this) {
     this->actor.draw = NULL;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnOkuta_WaitToAppear;
     this->actor.world.pos.y = this->actor.home.pos.y;
 }
@@ -207,7 +205,7 @@ void EnOkuta_SetupWaitToAppear(EnOkuta* this) {
 void EnOkuta_SetupAppear(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.draw = EnOkuta_Draw;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     Animation_PlayOnce(&this->skelAnime, &gOctorokAppearAnim);
     EnOkuta_SpawnBubbles(this, globalCtx);
     this->actionFunc = EnOkuta_Appear;
@@ -561,7 +559,7 @@ void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             Enemy_StartFinishingBlow(globalCtx, &this->actor);
             this->actor.colChkInfo.health = 0;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             if (this->actor.colChkInfo.damageEffect == 3) {
                 EnOkuta_SetupFreeze(this);
             } else {
@@ -572,7 +570,7 @@ void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     Player* player = GET_PLAYER(globalCtx);
     WaterBox* outWaterBox;
@@ -625,7 +623,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->collider.dim.radius = sOctorockColliderInit.dim.radius * this->actor.scale.x * 100.0f;
         }
         if (this->actor.params == 0x10) {
-            this->actor.flags |= 0x1000000;
+            this->actor.flags |= ACTOR_FLAG_24;
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnOkuta_WaitToAppear) {
@@ -680,7 +678,7 @@ s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 curFrame, Vec3f* scale) {
 
 s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     f32 curFrame = this->skelAnime.curFrame;
     Vec3f scale;
     s32 doScale = false;
@@ -703,7 +701,7 @@ s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     s32 pad;
 
     func_80093D18(globalCtx->state.gfxCtx);

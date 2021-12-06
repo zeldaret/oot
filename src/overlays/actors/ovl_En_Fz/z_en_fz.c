@@ -1,9 +1,7 @@
 #include "z_en_fz.h"
 #include "objects/object_fz/object_fz.h"
 
-#define FLAGS 0x00000415
-
-#define THIS ((EnFz*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
 void EnFz_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFz_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -158,7 +156,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFz* this = THIS;
+    EnFz* this = (EnFz*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -175,7 +173,7 @@ void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.008f);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unusedTimer1 = 0;
     this->unusedCounter = 0;
     this->updateBgInfo = true;
@@ -205,7 +203,7 @@ void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFz_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFz* this = THIS;
+    EnFz* this = (EnFz*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider1);
     Collider_DestroyCylinder(globalCtx, &this->collider2);
@@ -387,7 +385,7 @@ void EnFz_SetYawTowardsPlayer(EnFz* this) {
 void EnFz_SetupDisappear(EnFz* this) {
     this->state = 2;
     this->isFreezing = false;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnFz_Disappear;
 }
 
@@ -445,7 +443,7 @@ void EnFz_SetupAimForMove(EnFz* this) {
     this->timer = 40;
     this->updateBgInfo = true;
     this->isFreezing = true;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actionFunc = EnFz_AimForMove;
     this->actor.gravity = -1.0f;
 }
@@ -548,7 +546,7 @@ void EnFz_SetupDespawn(EnFz* this, GlobalContext* globalCtx) {
     this->updateBgInfo = true;
     this->isFreezing = false;
     this->isDespawning = true;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->isActive = false;
     this->timer = 60;
     this->speedXZ = 0.0f;
@@ -570,7 +568,7 @@ void EnFz_SetupMelt(EnFz* this) {
     this->state = 3;
     this->isFreezing = false;
     this->isDespawning = true;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnFz_Melt;
     this->actor.speedXZ = 0.0f;
     this->speedXZ = 0.0f;
@@ -601,7 +599,7 @@ void EnFz_SetupBlowSmokeStationary(EnFz* this) {
     this->timer = 40;
     this->updateBgInfo = true;
     this->isFreezing = true;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actionFunc = EnFz_BlowSmokeStationary;
     this->actor.gravity = -1.0f;
 }
@@ -663,7 +661,7 @@ static EnFzSpawnIceSmokeFunc iceSmokeSpawnFuncs[] = {
 };
 
 void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFz* this = THIS;
+    EnFz* this = (EnFz*)thisx;
     s32 pad;
 
     this->counter++;
@@ -712,7 +710,7 @@ void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gFreezardTopRightHornChippedDL, // Top right horn chipped off  (from Freezards perspective)   (3 or 4 health)
         gFreezardHeadChippedDL,         // Entire head chipped off     (1 or 2 health)
     };
-    EnFz* this = THIS;
+    EnFz* this = (EnFz*)thisx;
     s32 pad;
     s32 index;
 

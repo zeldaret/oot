@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.props" Condition="Exists('..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -71,8 +72,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(SolutionDir)lib\libgfxd;$(SolutionDir)x64\Debug;$(SolutionDir)packages\libpng.1.6.28.1\build\native\lib\x64\v140\dynamic\Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)ZAPDUtils;$(SolutionDir)lib\tinyxml2;$(SolutionDir)lib\libgfxd;$(SolutionDir)lib\elfio;$(SolutionDir)lib\stb;$(ProjectDir);$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(ProjectDir)..\lib\libgfxd;$(ProjectDir)..\packages\libpng-v142.1.6.37.2\build\native\lib\x64\v142\Debug\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\ZAPDUtils;$(ProjectDir)..\lib\tinyxml2;$(ProjectDir)..\lib\libgfxd;$(ProjectDir)..\lib\elfio;$(ProjectDir)..\lib\stb;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(IncludePath)</IncludePath>
@@ -105,13 +106,16 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <Profile>true</Profile>
-      <AdditionalDependencies>libpng16.lib;ZAPDUtils.lib;/WHOLEARCHIVE:ExporterExample.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ZAPDUtils.lib;/WHOLEARCHIVE:ExporterExample.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <PreBuildEvent>
       <Command>cd ..
+mkdir build\ZAPD
 python3 ZAPD/genbuildinfo.py</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -146,6 +150,7 @@ python3 ZAPD/genbuildinfo.py</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\build\ZAPD\BuildInfo.cpp" />
     <ClCompile Include="..\lib\libgfxd\gfxd.c" />
     <ClCompile Include="..\lib\libgfxd\uc.c" />
     <ClCompile Include="..\lib\libgfxd\uc_f3d.c" />
@@ -153,19 +158,22 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClCompile Include="..\lib\libgfxd\uc_f3dex.c" />
     <ClCompile Include="..\lib\libgfxd\uc_f3dex2.c" />
     <ClCompile Include="..\lib\libgfxd\uc_f3dexb.c" />
-    <ClCompile Include="..\lib\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="Declaration.cpp" />
+    <ClCompile Include="GameConfig.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="ImageBackend.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="OtherStructs\SkinLimbStructs.cpp" />
     <ClCompile Include="OutputFormatter.cpp" />
     <ClCompile Include="Overlays\ZOverlay.cpp" />
+    <ClCompile Include="WarningHandler.cpp" />
     <ClCompile Include="ZArray.cpp" />
     <ClCompile Include="ZBackground.cpp" />
     <ClCompile Include="ZCutsceneMM.cpp" />
     <ClCompile Include="ZLimb.cpp" />
     <ClCompile Include="ZMtx.cpp" />
     <ClCompile Include="ZPath.cpp" />
+    <ClCompile Include="ZPlayerAnimationData.cpp" />
     <ClCompile Include="ZRoom\Commands\SetActorCutsceneList.cpp" />
     <ClCompile Include="ZRoom\Commands\SetAnimatedMaterialList.cpp" />
     <ClCompile Include="ZRoom\Commands\SetCsCamera.cpp" />
@@ -213,6 +221,7 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClCompile Include="ZString.cpp" />
     <ClCompile Include="ZSymbol.cpp" />
     <ClCompile Include="ZTexture.cpp" />
+    <ClCompile Include="ZTextureAnimation.cpp" />
     <ClCompile Include="ZVector.cpp" />
     <ClCompile Include="ZVtx.cpp" />
   </ItemGroup>
@@ -237,10 +246,13 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClInclude Include="..\lib\stb\tinyxml2.h" />
     <ClInclude Include="CRC32.h" />
     <ClInclude Include="Declaration.h" />
+    <ClInclude Include="GameConfig.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ImageBackend.h" />
+    <ClInclude Include="OtherStructs\SkinLimbStructs.h" />
     <ClInclude Include="OutputFormatter.h" />
     <ClInclude Include="Overlays\ZOverlay.h" />
+    <ClInclude Include="WarningHandler.h" />
     <ClInclude Include="ZAnimation.h" />
     <ClInclude Include="ZArray.h" />
     <ClInclude Include="ZBackground.h" />
@@ -253,6 +265,7 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClInclude Include="ZLimb.h" />
     <ClInclude Include="ZMtx.h" />
     <ClInclude Include="ZPath.h" />
+    <ClInclude Include="ZPlayerAnimationData.h" />
     <ClInclude Include="ZRoom\Commands\SetActorCutsceneList.h" />
     <ClInclude Include="ZRoom\Commands\SetAnimatedMaterialList.h" />
     <ClInclude Include="ZRoom\Commands\SetCsCamera.h" />
@@ -294,6 +307,7 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClInclude Include="ZString.h" />
     <ClInclude Include="ZSymbol.h" />
     <ClInclude Include="ZTexture.h" />
+    <ClInclude Include="ZTextureAnimation.h" />
     <ClInclude Include="ZVector.h" />
     <ClInclude Include="ZVtx.h" />
   </ItemGroup>
@@ -301,24 +315,29 @@ python3 ZAPD/genbuildinfo.py</Command>
     <Text Include="..\SymbolMap_OoTMqDbg.txt">
       <DeploymentContent>true</DeploymentContent>
     </Text>
+    <Text Include="any\any\zlib.static.txt" />
+    <Text Include="NuGet\libpng.static.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\libpng.redist.1.6.28.1\build\native\libpng.redist.targets" Condition="Exists('..\packages\libpng.redist.1.6.28.1\build\native\libpng.redist.targets')" />
     <Import Project="..\packages\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.targets')" />
     <Import Project="..\packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" />
-    <Import Project="..\packages\libpng.1.6.28.1\build\native\libpng.targets" Condition="Exists('..\packages\libpng.1.6.28.1\build\native\libpng.targets')" />
+    <Import Project="..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.targets" Condition="Exists('..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.targets')" />
+    <Import Project="..\packages\zlib.static.1.2.5\build\native\zlib.static.targets" Condition="Exists('..\packages\zlib.static.1.2.5\build\native\zlib.static.targets')" />
+    <Import Project="..\packages\libpng.static.1.6.37\build\native\libpng.static.targets" Condition="Exists('..\packages\libpng.static.1.6.37\build\native\libpng.static.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\libpng.redist.1.6.28.1\build\native\libpng.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libpng.redist.1.6.28.1\build\native\libpng.redist.targets'))" />
     <Error Condition="!Exists('..\packages\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.targets'))" />
     <Error Condition="!Exists('..\packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets'))" />
-    <Error Condition="!Exists('..\packages\libpng.1.6.28.1\build\native\libpng.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libpng.1.6.28.1\build\native\libpng.targets'))" />
+    <Error Condition="!Exists('..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.props'))" />
+    <Error Condition="!Exists('..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.targets'))" />
+    <Error Condition="!Exists('..\packages\zlib.static.1.2.5\build\native\zlib.static.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\zlib.static.1.2.5\build\native\zlib.static.targets'))" />
+    <Error Condition="!Exists('..\packages\libpng.static.1.6.37\build\native\libpng.static.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libpng.static.1.6.37\build\native\libpng.static.targets'))" />
   </Target>
 </Project>

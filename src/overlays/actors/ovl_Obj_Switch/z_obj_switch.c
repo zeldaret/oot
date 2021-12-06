@@ -8,9 +8,7 @@
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((ObjSwitch*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 // type:        (this->dyna.actor.params & 7)
 // subtype:     (this->dyna.actor.params >> 4 & 7)
@@ -280,7 +278,7 @@ void ObjSwitch_UpdateTwoTexScrollXY(ObjSwitch* this) {
 }
 
 void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjSwitch* this = THIS;
+    ObjSwitch* this = (ObjSwitch*)thisx;
     s32 switchFlagSet;
     s32 type;
 
@@ -308,7 +306,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
-        this->dyna.actor.flags |= 1;
+        this->dyna.actor.flags |= ACTOR_FLAG_0;
         this->dyna.actor.targetMode = 4;
     }
 
@@ -347,7 +345,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjSwitch* this = THIS;
+    ObjSwitch* this = (ObjSwitch*)thisx;
 
     switch ((this->dyna.actor.params & 7)) {
         case OBJSWITCH_TYPE_FLOOR:
@@ -676,7 +674,7 @@ void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx) {
 }
 
 void ObjSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjSwitch* this = THIS;
+    ObjSwitch* this = (ObjSwitch*)thisx;
 
     if (this->releaseTimer > 0) {
         this->releaseTimer--;
@@ -789,7 +787,7 @@ static ObjSwitchActionFunc sDrawFuncs[] = {
 };
 
 void ObjSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ObjSwitch* this = THIS;
+    ObjSwitch* this = (ObjSwitch*)thisx;
 
     sDrawFuncs[(this->dyna.actor.params & 7)](this, globalCtx);
 }

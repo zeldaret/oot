@@ -363,8 +363,7 @@ public:
 
 	size_t GetRawDataSize() const override;
 	DeclarationAlignment GetDeclarationAlignment() const override;
-	std::string GetSourceOutputHeader(const std::string& prefix) override;
-	std::string GetSourceOutputCode(const std::string& prefix) override;
+	void DeclareReferences(const std::string& prefix) override;
 	std::string ProcessLegacy(const std::string& prefix);
 	std::string ProcessGfxDis(const std::string& prefix);
 
