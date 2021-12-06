@@ -3410,7 +3410,11 @@ s16 D_8011D3CC[] = {
 
 s32 sUpdateCameraDirection = 0;
 s32 D_8011D3EC = 0;
-s32 D_8011D3F0 = 0;
+/**
+ * If 8011D3F0 is greater than 0, it counts back to 0 with 10ms interval
+ * vertical camera borders are visible & HUD elements are hidden when 8011D3F0 > 0
+ */
+s32 sCameraVBorderTimerCountdown = 0;
 
 s32 sDemo5PrevAction12Frame = -16;
 

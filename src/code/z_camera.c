@@ -6851,7 +6851,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
     camera->atLERPStepScale = 1;
     sCameraInterfaceFlags = 0xFF00;
     sDbgModeIdx = -1;
-    D_8011D3F0 = 3;
+    sCameraVBorderTimerCountdown = 3;
     osSyncPrintf(VT_FGCOL(BLUE) "camera: initialize --- " VT_RST " UID %d\n", camera->uid);
 }
 
@@ -7419,8 +7419,8 @@ Vec3s Camera_Update(Camera* camera) {
         if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3)) {
             sCameraInterfaceFlags = 0;
             Camera_UpdateInterface(sCameraInterfaceFlags);
-        } else if ((D_8011D3F0 != 0) && (camera->thisIdx == MAIN_CAM)) {
-            D_8011D3F0--;
+        } else if ((sCameraVBorderTimerCountdown != 0) && (camera->thisIdx == MAIN_CAM)) {
+            sCameraVBorderTimerCountdown--;
             sCameraInterfaceFlags = 0x3200;
             Camera_UpdateInterface(sCameraInterfaceFlags);
         } else if (camera->globalCtx->transitionMode != 0) {
