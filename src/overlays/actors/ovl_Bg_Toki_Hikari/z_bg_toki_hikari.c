@@ -7,9 +7,7 @@
 #include "z_bg_toki_hikari.h"
 #include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS 0x00000020
-
-#define THIS ((BgTokiHikari*)thisx)
+#define FLAGS ACTOR_FLAG_5
 
 void BgTokiHikari_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiHikari_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgTokiHikari_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgTokiHikari* this = THIS;
+    BgTokiHikari* this = (BgTokiHikari*)thisx;
 
     switch (this->actor.params) {
         case 0:
@@ -65,13 +63,13 @@ void BgTokiHikari_DoNothing(BgTokiHikari* this, GlobalContext* globalCtx) {
 }
 
 void BgTokiHikari_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgTokiHikari* this = THIS;
+    BgTokiHikari* this = (BgTokiHikari*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgTokiHikari_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgTokiHikari* this = THIS;
+    BgTokiHikari* this = (BgTokiHikari*)thisx;
 
     switch (this->actor.params) {
         case 0:

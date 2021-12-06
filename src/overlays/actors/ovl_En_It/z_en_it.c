@@ -6,9 +6,7 @@
 
 #include "z_en_it.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnIt*)thisx)
+#define FLAGS 0
 
 void EnIt_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -49,7 +47,7 @@ const ActorInit En_It_InitVars = {
 };
 
 void EnIt_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnIt* this = THIS;
+    EnIt* this = (EnIt*)thisx;
 
     this->actor.params = 0x0D05;
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -58,13 +56,13 @@ void EnIt_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnIt* this = THIS;
+    EnIt* this = (EnIt*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnIt_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnIt* this = THIS;
+    EnIt* this = (EnIt*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);

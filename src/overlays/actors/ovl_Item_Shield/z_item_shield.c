@@ -8,9 +8,7 @@
 #include "z_item_shield.h"
 #include "objects/object_link_child/object_link_child.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((ItemShield*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void ItemShield_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemShield_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ void ItemShield_SetupAction(ItemShield* this, ItemShieldActionFunc actionFunc) {
 }
 
 void ItemShield_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ItemShield* this = THIS;
+    ItemShield* this = (ItemShield*)thisx;
     s32 i;
 
     this->timer = 0;
@@ -93,7 +91,7 @@ void ItemShield_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ItemShield_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ItemShield* this = THIS;
+    ItemShield* this = (ItemShield*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -212,13 +210,13 @@ void func_80B86F68(ItemShield* this, GlobalContext* globalCtx) {
 }
 
 void ItemShield_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ItemShield* this = THIS;
+    ItemShield* this = (ItemShield*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void ItemShield_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ItemShield* this = THIS;
+    ItemShield* this = (ItemShield*)thisx;
 
     if (!(this->unk_19C & 2)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_item_shield.c", 457);

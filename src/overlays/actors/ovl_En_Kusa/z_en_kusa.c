@@ -11,9 +11,7 @@
 #include "objects/object_kusa/object_kusa.h"
 #include "vt.h"
 
-#define FLAGS 0x00800010
-
-#define THIS ((EnKusa*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -221,7 +219,7 @@ void EnKusa_SpawnBugs(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void EnKusa_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -229,7 +227,7 @@ void EnKusa_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -267,7 +265,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -278,7 +276,7 @@ void EnKusa_SetupWaitObject(EnKusa* this) {
 
 void EnKusa_WaitObject(EnKusa* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        if (this->actor.flags & 0x800) {
+        if (this->actor.flags & ACTOR_FLAG_11) {
             EnKusa_SetupCut(this);
         } else {
             EnKusa_SetupMain(this);
@@ -286,13 +284,13 @@ void EnKusa_WaitObject(EnKusa* this, GlobalContext* globalCtx) {
 
         this->actor.draw = EnKusa_Draw;
         this->actor.objBankIndex = this->objBankIndex;
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
 void EnKusa_SetupMain(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_Main);
-    this->actor.flags &= ~0x10;
+    this->actor.flags &= ~ACTOR_FLAG_4;
 }
 
 void EnKusa_Main(EnKusa* this, GlobalContext* globalCtx) {
@@ -317,7 +315,7 @@ void EnKusa_Main(EnKusa* this, GlobalContext* globalCtx) {
         }
 
         EnKusa_SetupCut(this);
-        this->actor.flags |= 0x800;
+        this->actor.flags |= ACTOR_FLAG_11;
     } else {
         if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 12.0f)) {
             this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
@@ -340,7 +338,7 @@ void EnKusa_Main(EnKusa* this, GlobalContext* globalCtx) {
 void EnKusa_SetupLiftedUp(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_LiftedUp);
     this->actor.room = -1;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 }
 
 void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx) {
@@ -462,7 +460,7 @@ void EnKusa_SetupRegrow(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_Regrow);
     EnKusa_SetScaleSmall(this);
     this->actor.shape.rot = this->actor.home.rot;
-    this->actor.flags &= ~0x800;
+    this->actor.flags &= ~ACTOR_FLAG_11;
 }
 
 void EnKusa_Regrow(EnKusa* this, GlobalContext* globalCtx) {
@@ -480,13 +478,13 @@ void EnKusa_Regrow(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     this->timer++;
 
     this->actionFunc(this, globalCtx);
 
-    if (this->actor.flags & 0x800) {
+    if (this->actor.flags & ACTOR_FLAG_11) {
         this->actor.shape.yOffset = -6.25f;
     } else {
         this->actor.shape.yOffset = 0.0f;
@@ -495,9 +493,9 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnKusa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* dLists[] = { gFieldBushDL, object_kusa_DL_000140, object_kusa_DL_000140 };
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
-    if (this->actor.flags & 0x800) {
+    if (this->actor.flags & ACTOR_FLAG_11) {
         Gfx_DrawDListOpa(globalCtx, object_kusa_DL_0002E0);
     } else {
         Gfx_DrawDListOpa(globalCtx, dLists[thisx->params & 3]);

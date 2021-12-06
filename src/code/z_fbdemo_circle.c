@@ -34,10 +34,8 @@ Gfx sCircleDList[] = {
     gsSPEndDisplayList(),
 };
 
-#define THIS ((TransitionCircle*)thisx)
-
 void TransitionCircle_Start(void* thisx) {
-    TransitionCircle* this = THIS;
+    TransitionCircle* this = (TransitionCircle*)thisx;
 
     this->isDone = 0;
 
@@ -92,7 +90,7 @@ void TransitionCircle_Start(void* thisx) {
 }
 
 void* TransitionCircle_Init(void* thisx) {
-    TransitionCircle* this = THIS;
+    TransitionCircle* this = (TransitionCircle*)thisx;
 
     bzero(this, sizeof(*this));
     return this;
@@ -102,7 +100,7 @@ void TransitionCircle_Destroy(void* thisx) {
 }
 
 void TransitionCircle_Update(void* thisx, s32 updateRate) {
-    TransitionCircle* this = THIS;
+    TransitionCircle* this = (TransitionCircle*)thisx;
     s32 temp_t2;
     s32 temp_t3;
 
@@ -136,7 +134,7 @@ void TransitionCircle_Update(void* thisx, s32 updateRate) {
 void TransitionCircle_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
     Mtx* modelView;
-    TransitionCircle* this = THIS;
+    TransitionCircle* this = (TransitionCircle*)thisx;
     Gfx* texScroll;
     // These variables are a best guess based on the other transition types.
     f32 tPos = 0.0f;
@@ -176,13 +174,13 @@ void TransitionCircle_Draw(void* thisx, Gfx** gfxP) {
 }
 
 s32 TransitionCircle_IsDone(void* thisx) {
-    TransitionCircle* this = THIS;
+    TransitionCircle* this = (TransitionCircle*)thisx;
 
     return this->isDone;
 }
 
 void TransitionCircle_SetType(void* thisx, s32 type) {
-    TransitionCircle* this = THIS;
+    TransitionCircle* this = (TransitionCircle*)thisx;
 
     if (type & 0x80) {
         this->unk_14 = (type >> 5) & 0x1;
@@ -197,13 +195,13 @@ void TransitionCircle_SetType(void* thisx, s32 type) {
 }
 
 void TransitionCircle_SetColor(void* thisx, u32 color) {
-    TransitionCircle* this = THIS;
+    TransitionCircle* this = (TransitionCircle*)thisx;
 
     this->color.rgba = color;
 }
 
 void TransitionCircle_SetEnvColor(void* thisx, u32 envColor) {
-    TransitionCircle* this = THIS;
+    TransitionCircle* this = (TransitionCircle*)thisx;
 
     this->envColor.rgba = envColor;
 }

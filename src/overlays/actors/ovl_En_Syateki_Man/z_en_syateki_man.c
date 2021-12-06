@@ -3,9 +3,7 @@
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "objects/object_ossan/object_ossan.h"
 
-#define FLAGS 0x08000019
-
-#define THIS ((EnSyatekiMan*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
 typedef enum {
     /* 0 */ SYATEKI_RESULT_NONE,
@@ -131,7 +129,7 @@ static u16 sBgmList[] = {
     NA_BGM_DOOR_OF_TIME,
     NA_BGM_OWL,
     NA_BGM_SHADOW_TEMPLE,
-    NA_BGM_WATAER_TEMPLE,
+    NA_BGM_WATER_TEMPLE,
     NA_BGM_BRIDGE_TO_GANONS,
     NA_BGM_VARIOUS_SFX,
     NA_BGM_OCARINA_OF_TIME,
@@ -153,7 +151,7 @@ static s16 sTextBoxCount[] = { TEXT_STATE_CHOICE, TEXT_STATE_EVENT, TEXT_STATE_E
 
 void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSyatekiMan* this = THIS;
+    EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     osSyncPrintf("\n\n");
     // "Old man appeared!! Muhohohohohohohon"
@@ -412,7 +410,7 @@ void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
         }
         this->gameResult = SYATEKI_RESULT_NONE;
         this->actor.parent = this->tempGallery;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actionFunc = EnSyatekiMan_SetupIdle;
     }
 }
@@ -463,7 +461,7 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this) {
 
 void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSyatekiMan* this = THIS;
+    EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     if (this->timer != 0) {
         this->timer--;
@@ -478,7 +476,7 @@ void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnSyatekiMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
-    EnSyatekiMan* this = THIS;
+    EnSyatekiMan* this = (EnSyatekiMan*)thisx;
     s32 turnDirection;
 
     if (limbIndex == 1) {
@@ -498,7 +496,7 @@ s32 EnSyatekiMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 
 void EnSyatekiMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSyatekiMan* this = THIS;
+    EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

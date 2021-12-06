@@ -7,9 +7,7 @@
 #include "z_bg_haka_meganebg.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHakaMeganeBG*)thisx)
+#define FLAGS 0
 
 void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMeganeBG_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -57,7 +55,7 @@ static Gfx* D_8087E410[] = {
 
 void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHakaMeganeBG* this = THIS;
+    BgHakaMeganeBG* this = (BgHakaMeganeBG*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -66,7 +64,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == 2) {
         DynaPolyActor_Init(&this->dyna, DPM_UNK3);
-        thisx->flags |= 0x10;
+        thisx->flags |= ACTOR_FLAG_4;
         CollisionHeader_GetVirtual(&object_haka_objects_Col_005334, &colHeader);
         this->actionFunc = func_8087E258;
     } else {
@@ -74,7 +72,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         if (thisx->params == 0) {
             CollisionHeader_GetVirtual(&object_haka_objects_Col_009168, &colHeader);
-            thisx->flags |= 0x80;
+            thisx->flags |= ACTOR_FLAG_7;
             this->unk_16A = 20;
             this->actionFunc = func_8087DFF8;
         } else if (thisx->params == 3) {
@@ -85,7 +83,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_8087E34C;
                 thisx->world.pos.y = thisx->home.pos.y;
             } else {
-                thisx->flags |= 0x10;
+                thisx->flags |= ACTOR_FLAG_4;
                 this->actionFunc = func_8087E288;
             }
         } else {
@@ -101,7 +99,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaMeganeBG_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaMeganeBG* this = THIS;
+    BgHakaMeganeBG* this = (BgHakaMeganeBG*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -205,13 +203,13 @@ void func_8087E34C(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaMeganeBG_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaMeganeBG* this = THIS;
+    BgHakaMeganeBG* this = (BgHakaMeganeBG*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgHakaMeganeBG_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaMeganeBG* this = THIS;
+    BgHakaMeganeBG* this = (BgHakaMeganeBG*)thisx;
     s16 params = this->dyna.actor.params;
 
     if (params == 0) {

@@ -12,9 +12,7 @@
 #include "objects/object_dns/object_dns.h"
 #include "objects/object_dnk/object_dnk.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnNutsball*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -65,7 +63,7 @@ static Gfx* sDLists[] = {
 };
 
 void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnNutsball* this = THIS;
+    EnNutsball* this = (EnNutsball*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawCircle, 13.0f);
@@ -81,7 +79,7 @@ void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNutsball* this = THIS;
+    EnNutsball* this = (EnNutsball*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -144,7 +142,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
 }
 
 void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnNutsball* this = THIS;
+    EnNutsball* this = (EnNutsball*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
@@ -155,7 +153,7 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10, sCylinderInit.dim.radius, sCylinderInit.dim.height, 5);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
-        this->actor.flags |= 0x1000000;
+        this->actor.flags |= ACTOR_FLAG_24;
 
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

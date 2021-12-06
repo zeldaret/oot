@@ -8,9 +8,7 @@
 #include "objects/object_niw/object_niw.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnSyatekiNiw*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -67,10 +65,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSyatekiNiw* this = THIS;
+    EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
 
@@ -100,7 +98,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSyatekiNiw* this = THIS;
+    EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -574,7 +572,7 @@ void func_80B12BA4(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSyatekiNiw* this = THIS;
+    EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
     s32 pad;
     s16 i;
     Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
@@ -673,7 +671,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnSyatekiNiw* this = THIS;
+    EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
@@ -696,7 +694,7 @@ s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSyatekiNiw* this = THIS;
+    EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
     Color_RGBA8 sp30 = { 0, 0, 0, 255 };
 
     if (this->actionFunc != func_80B128F8) {
