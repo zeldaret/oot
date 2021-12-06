@@ -41,9 +41,9 @@ It builds the following ROM:
 
 ### Windows
 
-For Windows 10, install WSL and a distribution by following this
-[Windows Subsystem for Linux Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
-We recommend using Debian or Ubuntu 18.04 Linux distributions.
+For Windows 10 or 11, install WSL and a distribution by following this
+[WSL Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install).
+We recommend using Debian or Ubuntu 20.04 Linux distributions.
 
 For older versions of Windows, install a Linux VM or refer to either [Cygwin](#Cygwin) or [Docker](#Docker) instructions.
 
@@ -139,6 +139,7 @@ md5sum: WARNING: 1 computed checksum did NOT match
 This means that the built ROM isn't the same as the base one, so something went wrong or some part of the code doesn't match.
 
 **NOTE:** to speed up the build, you can either:
+
 * pass `-jN` to `make setup` and `make`, where N is the number of threads to use in the build. The generally-accepted wisdom is to use the number of virtual cores your computer has.
 * pass `-j` to `make setup` and `make`, to use as many threads as possible, but beware that this can use too much memory on lower-end systems.
 
