@@ -636,8 +636,6 @@ OcarinaSongInfo gOcarinaSongNotes[OCARINA_SONG_MAX] = {
 
 extern u8 D_801333F0;
 extern u8 gAudioSfxSwapOff;
-extern u8 D_80133408;
-extern u8 D_80133418;
 
 /**
  * BSS
@@ -708,10 +706,6 @@ u32 sDebugPadBtnLast;
 u32 sDebugPadPress;
 s32 sAudioUpdateTaskStart;
 s32 sAudioUpdateTaskEnd;
-
-extern u16 gAudioSfxSwapSource[];
-extern u16 gAudioSfxSwapTarget[];
-extern u8 gAudioSfxSwapMode[];
 
 void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
 
