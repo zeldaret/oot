@@ -7,7 +7,7 @@
 #include "z_en_dog.h"
 #include "objects/object_dog/object_dog.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnDog_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDog_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -7,7 +7,7 @@
 #include "z_bg_hidan_syoku.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx);

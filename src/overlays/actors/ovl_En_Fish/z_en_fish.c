@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnFish_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -116,7 +116,7 @@ void EnFish_SetCutsceneData(EnFish* this) {
         thisx->shape.yOffset = 600.0f;
         D_80A17014 = 10.0f;
         D_80A17018 = 0.0f;
-        thisx->flags |= 0x10;
+        thisx->flags |= ACTOR_FLAG_4;
         EnFish_SetOutOfWaterAnimation(this);
     }
 }
@@ -141,7 +141,7 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->fastPhase = Rand_ZeroOne() * (0xFFFF + 0.5f);
 
     if (params == FISH_DROPPED) {
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 8.0f);
         EnFish_Dropped_SetupFall(this);
     } else if (params == FISH_SWIMMING_UNIQUE) {
@@ -473,7 +473,7 @@ void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx) {
 
 void EnFish_Dropped_SetupSwimAway(EnFish* this) {
     this->actor.home.pos = this->actor.world.pos;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->timer = 200;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;

@@ -7,7 +7,7 @@
 #include "z_en_mag.h"
 #include "objects/object_mag/object_mag.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnMag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMag_Destroy(Actor* thisx, GlobalContext* globalCtx);

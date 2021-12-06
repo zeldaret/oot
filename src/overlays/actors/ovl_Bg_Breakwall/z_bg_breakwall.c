@@ -9,7 +9,7 @@
 #include "objects/object_bwall/object_bwall.h"
 #include "objects/object_kingdodongo/object_kingdodongo.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 typedef struct {
     /* 0x00 */ CollisionHeader* colHeader;
@@ -208,7 +208,7 @@ void BgBreakwall_WaitForObject(BgBreakwall* this, GlobalContext* globalCtx) {
 
         this->dyna.actor.objBankIndex = this->bankIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->dyna.actor.draw = BgBreakwall_Draw;
         CollisionHeader_GetVirtual(sBombableWallInfo[wallType].colHeader, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);

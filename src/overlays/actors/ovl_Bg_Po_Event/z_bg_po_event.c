@@ -7,7 +7,7 @@
 #include "z_bg_po_event.h"
 #include "objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -155,7 +155,7 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 bgId;
 
-    this->dyna.actor.flags |= 0x30;
+    this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     CollisionHeader_GetVirtual(&gPoSistersAmyBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((this->type == 0) && (this->index != 3)) {
@@ -308,7 +308,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.velocity.y++;
     if (Math_StepToF(&this->dyna.actor.world.pos.y, 433.0f, this->dyna.actor.velocity.y)) {
-        this->dyna.actor.flags &= ~0x20;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_5;
         this->dyna.actor.velocity.y = 0.0f;
         sBlocksAtRest++;
         if (this->type != 1) {

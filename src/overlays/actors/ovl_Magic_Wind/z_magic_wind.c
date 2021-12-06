@@ -6,7 +6,7 @@
 
 #include "z_magic_wind.h"
 
-#define FLAGS 0x02000010
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicWind_Destroy(Actor* thisx, GlobalContext* globalCtx);

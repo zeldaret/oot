@@ -6,7 +6,7 @@
 
 #include "z_en_arow_trap.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnArowTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnArowTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);

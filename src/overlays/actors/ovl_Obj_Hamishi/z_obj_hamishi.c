@@ -7,7 +7,7 @@
 #include "z_obj_hamishi.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjHamishi_Destroy(Actor* thisx, GlobalContext* globalCtx);

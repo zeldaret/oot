@@ -7,7 +7,7 @@
 #include "z_en_stream.h"
 #include "objects/object_stream/object_stream.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnStream_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -10,7 +10,7 @@
 #include "scenes/overworld/spot16/spot16_scene.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -277,7 +277,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
         this->actor.textId = textId;
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
         if (this->actor.xzDistToPlayer < targetDist) {
-            this->actor.flags |= 0x10000;
+            this->actor.flags |= ACTOR_FLAG_16;
             func_8002F1C4(&this->actor, globalCtx, targetDist, distCheck, 0);
         }
         return false;
@@ -343,7 +343,7 @@ void func_80ACA76C(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA62C(this, globalCtx);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
@@ -359,7 +359,7 @@ void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
             func_80ACA71C(this);
             this->actionFunc = func_80ACA690;
         }
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
@@ -553,7 +553,7 @@ void func_80ACB03C(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA62C(this, globalCtx);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
@@ -836,7 +836,7 @@ void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 0x20;
+    this->actor.flags |= ACTOR_FLAG_5;
 
     if (this->actor.xzDistToPlayer > 6000.0f && !(this->actionFlags & 0x80)) {
         Actor_Kill(&this->actor);

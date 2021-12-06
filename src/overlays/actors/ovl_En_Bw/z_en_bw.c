@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_bw/object_bw.h"
 
-#define FLAGS 0x00000015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnBw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -428,7 +428,7 @@ void func_809CF8F0(EnBw* this) {
     this->unk_222 = 1000;
     this->actor.velocity.y = 11.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     EnBw_SetupAction(this, func_809CF984);
 }
 
@@ -458,7 +458,7 @@ void func_809CF984(EnBw* this, GlobalContext* globalCtx) {
         }
         Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
         this->unk_222 = 3000;
-        this->actor.flags &= ~0x01000000;
+        this->actor.flags &= ~ACTOR_FLAG_24;
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         EnBw_SetupAction(this, func_809CE884);
@@ -569,7 +569,7 @@ void func_809CFF98(EnBw* this, GlobalContext* globalCtx) {
 void func_809D00F4(EnBw* this) {
     this->unk_220 = 0;
     this->unk_222 = 40;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLEWALK_DEAD);
     EnBw_SetupAction(this, func_809D014C);

@@ -8,7 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx);

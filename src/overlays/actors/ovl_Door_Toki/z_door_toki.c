@@ -7,7 +7,7 @@
 #include "z_door_toki.h"
 #include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx);

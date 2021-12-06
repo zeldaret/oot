@@ -3,7 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 
-#define FLAGS 0x00000039
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 /*
 FLAGS
@@ -874,7 +874,7 @@ s32 func_80A44AB0(EnGo2* this, GlobalContext* globalCtx) {
         } else {
             if (this->collider.base.acFlags & 2) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->actor.flags &= ~0x1000000;
+                this->actor.flags &= ~ACTOR_FLAG_24;
                 this->collider.base.acFlags &= ~0x2;
                 EnGo2_StopRolling(this, globalCtx);
                 return true;
@@ -950,10 +950,10 @@ s32 EnGo2_IsWakingUp(EnGo2* this) {
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if ((this->collider.base.ocFlags2 & 1) == 0) {
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             return false;
         } else {
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             return true;
         }
     }
@@ -1280,7 +1280,7 @@ void EnGo2_GetDustData(EnGo2* this, s32 index2) {
 
 void EnGo2_RollingAnimation(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_10);
         this->skelAnime.playSpeed = -0.5f;
     } else {
@@ -1329,7 +1329,7 @@ void EnGo2_SetupRolling(EnGo2* this, GlobalContext* globalCtx) {
     } else {
         this->actor.speedXZ = 6.0f;
     }
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     this->animTimer = 10;
     this->actor.shape.yOffset = 1800.0f;
     this->actor.speedXZ += this->actor.speedXZ; // Speeding up
@@ -1511,8 +1511,8 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
         case GORON_CITY_LOST_WOODS:
         case GORON_DMT_FAIRY_HINT:
         case GORON_MARKET_BAZAAR:
-            this->actor.flags &= ~0x10;
-            this->actor.flags &= ~0x20;
+            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags &= ~ACTOR_FLAG_5;
     }
 
     EnGo2_SetColliderDim(this);
@@ -1576,7 +1576,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case GORON_DMT_BIGGORON:
             this->actor.shape.shadowDraw = NULL;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN) &&
                 (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS)) {
                 this->eyeMouthTexState = 1;
@@ -1653,7 +1653,7 @@ void func_80A46B40(EnGo2* this, GlobalContext* globalCtx) {
     } else {
         if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
             if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
             }
             func_80A454CC(this);
             this->unk_211 = true;
@@ -1800,7 +1800,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
     switch (this->goronState) {
         case 0:
             Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_5);
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actor.shape.rot.y += 0x5B0;
             this->unk_26E = 1;
             this->animTimer = this->skelAnime.endFrame + 60.0f + 60.0f; // eyeDrops animation timer
@@ -1831,7 +1831,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
             }
             if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
                 Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
                 this->unk_26E = 2;
                 this->skelAnime.playSpeed = 0.0f;
                 this->skelAnime.curFrame = this->skelAnime.endFrame;

@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/object_spot11_obj/object_spot11_obj.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot11Oasis_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx);

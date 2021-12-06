@@ -7,7 +7,7 @@
 #include "z_bg_gnd_firemeiro.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndFiremeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);

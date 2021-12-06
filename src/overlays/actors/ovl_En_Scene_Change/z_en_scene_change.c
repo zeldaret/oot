@@ -6,7 +6,7 @@
 
 #include "z_en_scene_change.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnSceneChange_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSceneChange_Destroy(Actor* thisx, GlobalContext* globalCtx);

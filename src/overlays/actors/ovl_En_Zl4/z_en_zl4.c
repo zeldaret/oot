@@ -8,7 +8,7 @@
 #include "objects/object_zl4/object_zl4.h"
 #include "scenes/indoors/nakaniwa/nakaniwa_scene.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 typedef enum {
     /* 0 */ ZL4_CS_WAIT,

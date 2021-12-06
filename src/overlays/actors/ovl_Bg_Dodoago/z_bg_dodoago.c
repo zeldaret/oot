@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx);
