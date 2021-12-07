@@ -156,11 +156,11 @@ typedef struct {
 } SCmdExitList;
 
 typedef struct {
-    /* 0x00 */ u8 code;
-    /* 0x01 */ u8 bgmId;
+    /* 0x00 */ u8  code;
+    /* 0x01 */ u8  specId;
     /* 0x02 */ char pad[4];
-    /* 0x06 */ u8 natureAmbienceId;
-    /* 0x07 */ u8 seqIndex;
+    /* 0x06 */ u8  natureAmbienceId;
+    /* 0x07 */ u8  seqId;
 } SCmdSoundSettings;
 
 typedef struct {
@@ -272,7 +272,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 count;      // number of points in the path
     /* 0x04 */ Vec3s* points; // Segment Address to the array of points
-} Path; // size = 0x8
+} Path;                       // size = 0x8
 
 typedef union {
     SCmdBase base;
