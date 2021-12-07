@@ -50,13 +50,43 @@ D_A4800004 = 0xA4800004; // SI_PIF_ADDR_RD64B_REG
 D_A4800010 = 0xA4800010; // SI_PIF_ADDR_WR64B_REG
 D_A4800018 = 0xA4800018; // SI_STATUS_REG
 
-// until ZAPD can handle non-aligned textures,
-// we can't use the built assets tied to some symbols
-gKm1Skel = 0x060000F0;
-gKw1Skel = 0x060000F0;
-object_ahg_Skel_0000F0 = 0x060000F0;
-object_bji_Skel_0000F0 = 0x060000F0;
-object_boj_Skel_0000F0 = 0x060000F0;
+#ifndef NON_MATCHING
+    // until ZAPD can handle non-aligned textures,
+    // we can't use the built assets tied to some symbols
+    gKm1Skel = 0x060000F0;
+    gKm1DL = 0x06001890;
+    gKw1Skel = 0x060000F0;
+    gKw1EyeOpenTex = 0x06000F4C;
+    gKw1EyeHalfTex = 0x06001A0C;
+    gKw1EyeClosedTex = 0x06001E0C;
+    object_kw1_DL_002C10 = 0x06002C10;
+    object_ahg_Skel_0000F0 = 0x060000F0;
+    object_ahg_Tex_00057C = 0x0600057C;
+    object_ahg_Tex_00067C = 0x0600067C;
+    object_ahg_Tex_00077C = 0x0600077C;
+    object_ahg_DL_0030F0 = 0x060030F0;
+    object_ahg_DL_005508 = 0x06005508;
+    object_ahg_DL_005728 = 0x06005728;
+    object_bji_Skel_0000F0 = 0x060000F0;
+    object_bji_Tex_0005FC = 0x060005FC;
+    object_bji_Tex_0009FC = 0x060009FC;
+    object_bji_Tex_000DFC = 0x06000DFC;
+    object_bji_DL_002560 = 0x06002560;
+    object_bji_DL_003F68 = 0x06003F68;
+    object_boj_Skel_0000F0 = 0x060000F0;
+    object_boj_Tex_0005FC = 0x060005FC;
+    object_boj_Tex_0006FC = 0x060006FC;
+    object_boj_Tex_0007FC = 0x060007FC;
+    object_boj_DL_0026F0 = 0x060026F0;
+    object_boj_DL_0052E0 = 0x060052E0;
+    object_boj_DL_005528 = 0x06005528;
+    object_boj_DL_005738 = 0x06005738;
+    object_boj_DL_0059B0 = 0x060059B0;
+    object_boj_DL_005BC8 = 0x06005BC8;
+    object_cne_Skel_0000F0 = 0x060000F0;
+    object_cne_DL_001300 = 0x06001300;
+    object_cne_DL_002860 = 0x06002860;
+#endif
 
 // z_player_lib
 D_06025218 = 0x06025218;

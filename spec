@@ -4985,16 +4985,22 @@ endseg
 beginseg
     name "object_km1"
     romalign 0x1000
-    include "build/baserom/object_km1.o"
-    //include "build/assets/objects/object_km1/object_km1.o"
+    #ifdef NON_MATCHING
+        include "build/assets/objects/object_km1/object_km1.o"
+    #else
+        include "build/baserom/object_km1.o"
+    #endif
     number 6
 endseg
 
 beginseg
     name "object_kw1"
     romalign 0x1000
-    include "build/baserom/object_kw1.o"
-    //include "build/assets/objects/object_kw1/object_kw1.o"
+    #ifdef NON_MATCHING
+        include "build/assets/objects/object_kw1/object_kw1.o"
+    #else
+        include "build/baserom/object_kw1.o"
+    #endif
     number 6
 endseg
 
@@ -5064,14 +5070,22 @@ endseg
 beginseg
     name "object_ahg"
     romalign 0x1000
-    include "build/assets/objects/object_ahg/object_ahg.o"
+    #ifdef NON_MATCHING
+        include "build/assets/objects/object_ahg/object_ahg.o"
+    #else
+        include "build/baserom/object_ahg.o"
+    #endif
     number 6
 endseg
 
 beginseg
     name "object_cne"
     romalign 0x1000
-    include "build/assets/objects/object_cne/object_cne.o"
+    #ifdef NON_MATCHING
+        include "build/assets/objects/object_cne/object_cne.o"
+    #else
+        include "build/baserom/object_cne.o"
+    #endif
     number 6
 endseg
 
@@ -5099,7 +5113,11 @@ endseg
 beginseg
     name "object_bji"
     romalign 0x1000
-    include "build/assets/objects/object_bji/object_bji.o"
+    #ifdef NON_MATCHING
+        include "build/assets/objects/object_bji/object_bji.o"
+    #else
+        include "build/baserom/object_bji.o"
+    #endif
     number 6
 endseg
 
@@ -5134,7 +5152,11 @@ endseg
 beginseg
     name "object_boj"
     romalign 0x1000
-    include "build/assets/objects/object_boj/object_boj.o"
+    #ifdef NON_MATCHING
+        include "build/assets/objects/object_boj/object_boj.o"
+    #else
+        include "build/baserom/object_boj.o"
+    #endif
     number 6
 endseg
 
