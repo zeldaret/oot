@@ -8,6 +8,10 @@ COMPARE ?= 1
 NON_MATCHING ?= 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
+# If SKIP_OBJCPY is 1 asset files will not be converted to binary
+SKIP_OBJCPY ?= 1
+# if SKIP_OBJDUMP is 1 compiled files wont be re disassembled
+SKIP_OBJDUMP ?= 1
 
 ifeq ($(NON_MATCHING),1)
   CFLAGS := -DNON_MATCHING
@@ -232,6 +236,9 @@ build/assets/text/staff_message_data_static.o: build/assets/text/message_data_st
 
 build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) -O1 -o $@ $<
+ifneq ($(SKIP_OBJDUMP), 1)
+	$(OBJCOPY) -O binary $@ $@.bin
+endif
 
 build/dmadata_table_spec.h: build/$(SPEC)
 	$(MKDMADATA) $< $@
@@ -244,24 +251,32 @@ build/src/overlays/%.o: src/overlays/%.c
 	$(CC_CHECK) $<
 	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
 	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
+ifneq ($(SKIP_OBJDUMP), 1)
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+endif
 
 build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
+ifneq ($(SKIP_OBJDUMP), 1)
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+endif
 
 build/src/libultra/libc/ll.o: src/libultra/libc/ll.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
+ifneq ($(SKIP_OBJDUMP), 1)
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+endif
 
 build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
+ifneq ($(SKIP_OBJDUMP), 1)
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+endif
 
 build/%.inc.c: %.png
 	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@

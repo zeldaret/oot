@@ -9,7 +9,7 @@ LLD ?= 0
 
 # Use clang++ if available, else use g++
 ifeq ($(shell command -v clang++ >/dev/null 2>&1; echo $$?),0)
-  CXX := clang++
+  CXX := g++
 else
   CXX := g++
 endif
