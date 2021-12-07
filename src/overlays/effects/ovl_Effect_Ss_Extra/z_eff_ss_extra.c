@@ -52,7 +52,11 @@ u32 EffectSsExtra_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     return 0;
 }
 
-static void* sTextures[] = { 0x06000000, 0x06000480, 0x06000900 };
+static void* sTextures[] = {
+    object_yabusame_point_Tex_000000,
+    object_yabusame_point_Tex_000480,
+    object_yabusame_point_Tex_000900,
+};
 
 void EffectSsExtra_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
@@ -66,7 +70,7 @@ void EffectSsExtra_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     func_80093D84(globalCtx->state.gfxCtx);
-    func_800D1FD4(&globalCtx->mf_11DA0);
+    func_800D1FD4(&globalCtx->billboardMtxF);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_ss_extra.c", 186),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rScoreIdx]));

@@ -456,9 +456,9 @@ void Cutscene_Command_FadeBGM(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         var1 = cmd->endFrame - cmd->startFrame;
 
         if (cmd->type == 3) {
-            Audio_QueueSeqCmd(var1 << 0x10 | 0x110000FF);
+            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF));
         } else {
-            Audio_QueueSeqCmd(var1 << 0x10 | 0x100000FF);
+            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xFF));
         }
     }
 }
@@ -1849,16 +1849,16 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                     cutscenePtr += 0x30;
                 }
                 break;
-            case CS_CMD_CAMERA_POS:
+            case CS_CMD_CAM_EYE:
                 cutscenePtr += Cutscene_Command_CameraPositions(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
-            case CS_CMD_CAMERA_POS_PLAYER:
+            case CS_CMD_CAM_EYE_REL_TO_PLAYER:
                 cutscenePtr += Cutscene_Command_CameraPositions(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
-            case CS_CMD_CAMERA_FOCUS:
+            case CS_CMD_CAM_AT:
                 cutscenePtr += Cutscene_Command_CameraFocus(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
-            case CS_CMD_CAMERA_FOCUS_PLAYER:
+            case CS_CMD_CAM_AT_REL_TO_PLAYER:
                 cutscenePtr += Cutscene_Command_CameraFocus(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
             case CS_CMD_07:

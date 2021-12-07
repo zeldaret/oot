@@ -1,9 +1,9 @@
 <Root>
     <File Name="object_tr" Segment="6">
-        <Animation Name="object_tr_Anim_000BFC" Offset="0xBFC"/>
+        <Animation Name="object_tr_Anim_000BFC" Offset="0xBFC"/> <!-- Turn to look over left (?) shoulder -->
         <Animation Name="object_tr_Anim_0013CC" Offset="0x13CC"/> <!-- Looking over right shoulder -->
         <Animation Name="object_tr_Anim_001CDC" Offset="0x1CDC"/> <!-- Standing, broom in left hand -->
-        <Animation Name="object_tr_Anim_002BC4" Offset="0x2BC4"/>
+        <Animation Name="object_tr_Anim_002BC4" Offset="0x2BC4"/> <!-- Turn to look over right (?) shoulder -->
         <Animation Name="object_tr_Anim_0035CC" Offset="0x35CC"/> <!-- Looking over left shoulder -->
         <Animation Name="object_tr_Anim_003FC8" Offset="0x3FC8"/> <!-- Standing, broom over right shoulder -->
         <Animation Name="object_tr_Anim_0049C8" Offset="0x49C8"/> <!-- Floating on broom -->
@@ -31,7 +31,7 @@
         <Texture Name="object_tr_Tex_0080D8" OutName="tex_000080D8" Format="rgba16" Width="16" Height="16" Offset="0x80D8"/>
         <Texture Name="object_tr_Tex_0082D8" OutName="tex_000082D8" Format="rgba16" Width="16" Height="16" Offset="0x82D8"/>
         <Texture Name="object_tr_Tex_0084D8" OutName="tex_000084D8" Format="rgba16" Width="16" Height="16" Offset="0x84D8"/>
-        <Blob Name="object_tr_Blob_0086D8" Size="0x400" Offset="0x86D8"/>
+        <Texture Name="object_tr_Tex_0086D8" OutName="tex_000086D8" Format="ci8" Width="32" Height="32" Offset="0x86D8" TlutOffset="0x7730"/> <!-- eye open -->
         <Texture Name="object_tr_Tex_008AD8" OutName="tex_00008AD8" Format="ci8" Width="16" Height="8" Offset="0x8AD8" TlutOffset="0x7730"/>
         <Texture Name="object_tr_Tex_008B58" OutName="tex_00008B58" Format="ci8" Width="8" Height="8" Offset="0x8B58" TlutOffset="0x7730"/>
         <Texture Name="object_tr_Tex_008B98" OutName="tex_00008B98" Format="rgba16" Width="8" Height="32" Offset="0x8B98"/>
@@ -43,7 +43,8 @@
         <Texture Name="object_tr_Tex_0093D8" OutName="tex_000093D8" Format="rgba16" Width="8" Height="8" Offset="0x93D8"/>
         <Texture Name="object_tr_Tex_009458" OutName="tex_00009458" Format="ci8" Width="8" Height="8" Offset="0x9458" TlutOffset="0x7730"/>
         <Texture Name="object_tr_Tex_009498" OutName="tex_00009498" Format="ci8" Width="8" Height="8" Offset="0x9498" TlutOffset="0x7730"/>
-        <Blob Name="object_tr_Blob_0094D8" Size="0x800" Offset="0x94D8"/>
+        <Texture Name="object_tr_Tex_0094D8" OutName="tex_000094D8" Format="ci8" Width="32" Height="32" Offset="0x94D8" TlutOffset="0x7730"/> <!-- eye half -->
+        <Texture Name="object_tr_Tex_0098D8" OutName="tex_000098D8" Format="ci8" Width="32" Height="32" Offset="0x98D8" TlutOffset="0x7730"/> <!-- eye closed -->
         <DList Name="object_tr_DL_00AF38" Offset="0xAF38"/>
         <DList Name="object_tr_DL_00B568" Offset="0xB568"/>
         <DList Name="object_tr_DL_00B5C8" Offset="0xB5C8"/>
@@ -143,6 +144,6 @@
         <Limb Name="object_tr_Limb_011608" LimbType="Standard" Offset="0x11608"/>
         <Limb Name="object_tr_Limb_011614" LimbType="Standard" Offset="0x11614"/>
         <Skeleton Name="object_tr_Skel_011688" Type="Flex" LimbType="Standard" Offset="0x11688"/>
-        <Animation Name="object_tr_Anim_012E1C" Offset="0x12E1C"/>
+        <Animation Name="object_tr_Anim_012E1C" Offset="0x12E1C"/> <!-- Casting magic -->
     </File>
 </Root>

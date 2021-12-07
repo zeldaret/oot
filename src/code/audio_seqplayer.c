@@ -360,12 +360,14 @@ u8 AudioSeq_ScriptReadU8(SeqScriptState* state) {
 
 s16 AudioSeq_ScriptReadS16(SeqScriptState* state) {
     s16 ret = *(state->pc++) << 8;
+
     ret = *(state->pc++) | ret;
     return ret;
 }
 
 u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state) {
     u16 ret = *(state->pc++);
+
     if (ret & 0x80) {
         ret = (ret << 8) & 0x7F00;
         ret = *(state->pc++) | ret;
@@ -477,6 +479,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
         }
         if (cmd >= 0xF2) {
             u16 arg = AudioSeq_GetScriptControlFlowArgument(state, cmd);
+
             if (AudioSeq_HandleScriptFlowControl(seqPlayer, state, cmd, arg) == 0) {
                 continue;
             }
@@ -489,6 +492,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
             case 0xCA: // layer_setpan
             {
                 u8 tempByte = *(state->pc++);
+
                 if (cmd == 0xC1) {
                     layer->velocitySquare = (f32)(tempByte * tempByte) / 16129.0f;
                 } else {
@@ -501,6 +505,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
             case 0xC2: // layer_transpose; set transposition in semitones
             {
                 u8 tempByte = *(state->pc++);
+
                 if (cmd == 0xC9) {
                     layer->gateTime = tempByte;
                 } else {

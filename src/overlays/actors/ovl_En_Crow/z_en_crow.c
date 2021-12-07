@@ -1,9 +1,7 @@
 #include "z_en_crow.h"
 #include "objects/object_crow/object_crow.h"
 
-#define FLAGS 0x00005005
-
-#define THIS ((EnCrow*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
 void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -108,7 +106,7 @@ static InitChainEntry sInitChain[] = {
 static Vec3f sHeadVec = { 2500.0f, 0.0f, 0.0f };
 
 void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGuaySkel, &gGuayFlyAnim, this->jointTable, this->morphTable, 9);
@@ -122,7 +120,7 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -177,12 +175,12 @@ void EnCrow_SetupDamaged(EnCrow* this, GlobalContext* globalCtx) {
         Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 40);
     }
 
-    if (this->actor.flags & 0x8000) {
+    if (this->actor.flags & ACTOR_FLAG_15) {
         this->actor.speedXZ = 0.0f;
     }
 
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 
     this->actionFunc = EnCrow_Damaged;
 }
@@ -330,7 +328,7 @@ void EnCrow_Damaged(EnCrow* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
     this->actor.colorFilterTimer = 40;
 
-    if (!(this->actor.flags & 0x8000)) {
+    if (!(this->actor.flags & ACTOR_FLAG_15)) {
         if (this->actor.colorFilterParams & 0x4000) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
@@ -401,8 +399,8 @@ void EnCrow_Respawn(EnCrow* this, GlobalContext* globalCtx) {
             target = 0.01f;
         }
         if (Math_StepToF(&this->actor.scale.x, target, target * 0.1f)) {
-            this->actor.flags |= 1;
-            this->actor.flags &= ~0x10;
+            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_4;
             this->actor.colChkInfo.health = 1;
             EnCrow_SetupFlyIdle(this);
         }
@@ -419,7 +417,7 @@ void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
                 EnCrow_SetupTurnAway(this);
             } else {
                 Actor_ApplyDamage(&this->actor);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 EnCrow_SetupDamaged(this, globalCtx);
             }
@@ -428,7 +426,7 @@ void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
     f32 pad;
     f32 height;
     f32 scale;
@@ -476,7 +474,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     if (this->actor.colChkInfo.health != 0) {
         if (limbIndex == 7) {
@@ -489,7 +487,7 @@ s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
     Vec3f* vec;
 
     if (limbIndex == 2) {
@@ -503,7 +501,7 @@ void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 }
 
 void EnCrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

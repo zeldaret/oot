@@ -76,6 +76,7 @@
 #include "objects/object_gi_dekupouch/object_gi_dekupouch.h"
 #include "objects/object_gi_rupy/object_gi_rupy.h"
 #include "objects/object_gi_sword_1/object_gi_sword_1.h"
+#include "objects/object_st/object_st.h"
 
 // "Get Item" Model Draw Functions
 void GetItem_DrawMaskOrBombchu(GlobalContext* globalCtx, s16 drawId);
@@ -365,7 +366,7 @@ DrawItemTableEntry sDrawItemTable[] = {
     // kokiri sword, OBJECT_GI_SWORD_1
     { GetItem_DrawOpa0, { gGiKokiriSwordDL } },
     // gold skulltula token, OBJECT_ST
-    { GetItem_DrawSkullToken, { 0x06004DB0, 0x06004EB8 } }, // TODO symbols from this object
+    { GetItem_DrawSkullToken, { object_st_DL_004DB0, object_st_DL_004EB8 } },
 };
 
 /**
@@ -421,7 +422,7 @@ void GetItem_DrawBlueFire(GlobalContext* globalCtx, s16 drawId) {
                                 1 * -(globalCtx->state.frames * 8), 16, 32));
     Matrix_Push();
     Matrix_Translate(-8.0f, -2.0f, 0.0f, MTXMODE_APPLY);
-    func_800D1FD4(&globalCtx->mf_11DA0);
+    func_800D1FD4(&globalCtx->billboardMtxF);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 615),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[1]);
@@ -449,7 +450,7 @@ void GetItem_DrawPoes(GlobalContext* globalCtx, s16 drawId) {
                                 0 * (globalCtx->state.frames * 0), 16, 32, 1, 1 * (globalCtx->state.frames * 1),
                                 1 * -(globalCtx->state.frames * 6), 16, 32));
     Matrix_Push();
-    func_800D1FD4(&globalCtx->mf_11DA0);
+    func_800D1FD4(&globalCtx->billboardMtxF);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 656),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[3]);
@@ -478,7 +479,7 @@ void GetItem_DrawFairy(GlobalContext* globalCtx, s16 drawId) {
                                 0 * (globalCtx->state.frames * 0), 32, 32, 1, 1 * (globalCtx->state.frames * 1),
                                 1 * -(globalCtx->state.frames * 6), 32, 32));
     Matrix_Push();
-    func_800D1FD4(&globalCtx->mf_11DA0);
+    func_800D1FD4(&globalCtx->billboardMtxF);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 698),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[2]);

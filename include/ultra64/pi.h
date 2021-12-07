@@ -1,6 +1,8 @@
 #ifndef ULTRA64_PI_H
 #define ULTRA64_PI_H
 
+#include "message.h"
+
 typedef struct {
     /* 0x00 */ u32 errStatus;
     /* 0x04 */ void* dramAddr;
@@ -54,10 +56,28 @@ typedef struct {
     /* 0x14 */ OSPiHandle* piHandle;
 } OSIoMesg; // size = 0x18
 
-#define OS_READ     0  // device -> RDRAM
+#define OS_READ     0 // device -> RDRAM
 #define OS_WRITE    1 // device <- RDRAM
+#define OS_OTHERS   2 // for disk drive transfers
+
+#define PI_DOMAIN1  0
+#define PI_DOMAIN2  1
+
+#define OS_MESG_TYPE_LOOPBACK   10
+#define OS_MESG_TYPE_DMAREAD    11
+#define OS_MESG_TYPE_DMAWRITE   12
+#define OS_MESG_TYPE_VRETRACE   13
+#define OS_MESG_TYPE_COUNTER    14
+#define OS_MESG_TYPE_EDMAREAD   15
+#define OS_MESG_TYPE_EDMAWRITE  16
 
 #define OS_MESG_PRI_NORMAL  0
 #define OS_MESG_PRI_HIGH    1
+
+#define DEVICE_TYPE_CART    0   /* ROM cartridge */
+#define DEVICE_TYPE_BULK    1   /* ROM bulk */
+#define DEVICE_TYPE_64DD    2   /* 64 Disk Drive */
+#define DEVICE_TYPE_SRAM    3   /* SRAM */
+#define DEVICE_TYPE_INIT    7   /* initial value */
 
 #endif

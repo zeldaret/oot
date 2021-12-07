@@ -7,9 +7,7 @@
 #include "z_bg_mizu_water.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgMizuWater*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuWater_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -91,7 +89,7 @@ void BgMizuWater_SetWaterBoxesHeight(WaterBox* waterBoxes, s16 height) {
 }
 
 void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMizuWater* this = THIS;
+    BgMizuWater* this = (BgMizuWater*)thisx;
     f32 initialActorY;
     WaterBox* waterBoxes;
     s32 waterLevelActionIndex;
@@ -293,7 +291,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
 }
 
 void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMizuWater* this = THIS;
+    BgMizuWater* this = (BgMizuWater*)thisx;
     s32 posY;
     s32 unk0;
     s32 unk1;
@@ -327,7 +325,7 @@ void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMizuWater_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgMizuWater* this = THIS;
+    BgMizuWater* this = (BgMizuWater*)thisx;
     s32 gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_water.c", 738);

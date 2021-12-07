@@ -10,9 +10,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnDntJiji*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -74,7 +72,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDntJiji* this = THIS;
+    EnDntJiji* this = (EnDntJiji*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gDntJijiSkel, &gDntJijiBurrowAnim, this->jointTable, this->morphTable,
@@ -85,7 +83,7 @@ void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     // "Deku Scrub mask show elder"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.targetMode = 6;
     this->actionFunc = EnDntJiji_SetFlower;
@@ -94,7 +92,7 @@ void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntJiji* this = THIS;
+    EnDntJiji* this = (EnDntJiji*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -224,7 +222,7 @@ void EnDntJiji_SetupCower(EnDntJiji* this, GlobalContext* globalCtx) {
     } else {
         this->getItemId = GI_NUT_UPGRADE_40;
     }
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actor.textId = 0x10DB;
     this->unused = 5;
     this->actionFunc = EnDntJiji_Cower;
@@ -305,7 +303,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
                 this->stage->leaderSignal = DNT_SIGNAL_RETURN;
             }
         }
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         if (!this->unburrow) {
             this->actionFunc = EnDntJiji_SetupHide;
         } else {
@@ -361,7 +359,7 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
             if ((this->stage->actor.update != NULL) && (this->stage->leaderSignal == DNT_SIGNAL_NONE)) {
                 this->stage->leaderSignal = DNT_SIGNAL_HIDE;
                 this->stage->action = DNT_ACTION_ATTACK;
-                Audio_QueueSeqCmd(NA_BGM_ENEMY | 0x800);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
             }
         }
         this->actor.speedXZ = 0.0f;
@@ -372,7 +370,7 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
 
 void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntJiji* this = THIS;
+    EnDntJiji* this = (EnDntJiji*)thisx;
 
     Actor_SetScale(&this->actor, 0.015f);
     this->unkTimer++;
@@ -429,8 +427,8 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* blinkTex[] = { &gDntJijiEyeOpenTex, &gDntJijiEyeHalfTex, &gDntJijiEyeShutTex };
-    EnDntJiji* this = THIS;
+    static void* blinkTex[] = { gDntJijiEyeOpenTex, gDntJijiEyeHalfTex, gDntJijiEyeShutTex };
+    EnDntJiji* this = (EnDntJiji*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_jiji.c", 1019);
     func_80093D18(globalCtx->state.gfxCtx);

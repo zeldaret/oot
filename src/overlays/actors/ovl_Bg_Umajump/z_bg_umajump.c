@@ -7,9 +7,7 @@
 #include "z_bg_umajump.h"
 #include "objects/object_umajump/object_umajump.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgUmaJump*)thisx)
+#define FLAGS 0
 
 void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgUmaJump_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgUmaJump* this = THIS;
+    BgUmaJump* this = (BgUmaJump*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -47,12 +45,12 @@ void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->dyna.actor);
             return;
         }
-        this->dyna.actor.flags |= 0x30;
+        this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     }
 }
 
 void BgUmaJump_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgUmaJump* this = THIS;
+    BgUmaJump* this = (BgUmaJump*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }

@@ -5,13 +5,12 @@
 #include "z64dma.h"
 #include "z64math.h"
 
-extern u32 link_animetion_segment;
 struct GlobalContext;
 struct Actor;
 struct SkelAnime;
 
 #define LINK_ANIMATION_OFFSET(addr, offset) \
-    (((u32)&_link_animetionSegmentRomStart) + ((u32)addr) - ((u32)&link_animetion_segment) + ((u32)offset))
+    (((u32)_link_animetionSegmentRomStart) + ((u32)addr) - ((u32)_link_animetionSegmentStart) + ((u32)offset))
 #define LIMB_DONE 0xFF
 #define ANIMATION_ENTRY_MAX 50
 #define ANIM_FLAG_UPDATEY (1 << 1)
@@ -92,7 +91,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ AnimationHeaderCommon common;
-    /* 0x04 */ s16* frameData;         // "tbl"
+    /* 0x04 */ s16* frameData; // "tbl"
     /* 0x08 */ JointIndex* jointIndices; // "ref_tbl"
     /* 0x0C */ u16 staticIndexMax;
 } AnimationHeader; // size = 0x10
@@ -266,7 +265,7 @@ typedef struct SkelAnime {
     /* 0x2C */ f32 morphRate;     // Reciprocal of the number of frames in the morph
     /* 0x30 */ s32 (*update)();   // Can be Loop, Partial loop, Play once, Morph, or Tapered morph. Link only has Loop, Play once, and Morph
     /* 0x34 */ s8 initFlags;      // Flags used when initializing Link's skeleton
-    /* 0x35 */ u8 moveFlags;          // Flags used for animations that move the actor in worldspace.
+    /* 0x35 */ u8 moveFlags;      // Flags used for animations that move the actor in worldspace.
     /* 0x36 */ s16 prevRot;       // Previous rotation in worldspace.
     /* 0x38 */ Vec3s prevTransl;  // Previous modelspace translation.
     /* 0x3E */ Vec3s baseTransl;  // Base modelspace translation.

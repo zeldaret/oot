@@ -7,9 +7,7 @@
 #include "z_en_okarina_effect.h"
 #include "vt.h"
 
-#define FLAGS 0x02000010
-
-#define THIS ((EnOkarinaEffect*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFun
 }
 
 void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkarinaEffect* this = THIS;
+    EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     globalCtx->envCtx.unk_F2[0] = 0;
     if ((gWeatherMode != 4) && (gWeatherMode != 5) && (globalCtx->envCtx.gloomySkyMode == 1)) {
@@ -46,7 +44,7 @@ void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkarinaEffect* this = THIS;
+    EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     osSyncPrintf("\n\n");
     // "Ocarina Storm Effect"
@@ -94,7 +92,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
         globalCtx->envCtx.unk_F2[0] = 0;
         if (globalCtx->csCtx.state == CS_STATE_IDLE) {
             func_80077684(globalCtx);
-        } else if (func_800FA0B4(0) == NA_BGM_NATURE_BACKGROUND) {
+        } else if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
             func_800F6D58(0xF, 1, 0);
             func_800F6D58(0xE, 1, 0);
         }
@@ -112,7 +110,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
 }
 
 void EnOkarinaEffect_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkarinaEffect* this = THIS;
+    EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (BREG(0) != 0) {

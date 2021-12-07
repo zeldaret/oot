@@ -10,9 +10,7 @@
 #include "objects/object_hni/object_hni.h"
 #include "scenes/overworld/spot09/spot09_scene.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnHorse*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef void (*EnHorseCsFunc)(EnHorse*, GlobalContext*, CsCmdActorAction*);
 typedef void (*EnHorseActionFunc)(EnHorse*, GlobalContext*);
@@ -472,6 +470,7 @@ s32 EnHorse_BgCheckBridgeJumpPoint(EnHorse* this, GlobalContext* globalCtx) {
         xMax = (xMin + sBridgeJumps[i].xMax) + sBridgeJumps[i].xOffset;
         if (xMax < xMin) {
             f32 temp = xMin;
+
             xMin = xMax;
             xMax = temp;
         }
@@ -504,6 +503,7 @@ s32 EnHorse_CheckBridgeJumps(EnHorse* this, GlobalContext* globalCtx) {
 
         if (xMax < xMin) {
             f32 temp = xMin;
+
             xMin = xMax;
             xMax = temp;
         }
@@ -635,7 +635,7 @@ f32 EnHorse_SlopeSpeedMultiplier(EnHorse* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5BB90(GlobalContext* globalCtx, Vec3f* vec, Vec3f* arg2, f32* arg3) {
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, vec, arg2, arg3);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, vec, arg2, arg3);
 }
 
 s32 func_80A5BBBC(GlobalContext* globalCtx, EnHorse* this, Vec3f* pos) {
@@ -700,7 +700,7 @@ s32 EnHorse_Spawn(EnHorse* this, GlobalContext* globalCtx) {
                     this->actor.world.rot.y = sHorseSpawns[i].angle;
                     this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
                     spawn = true;
-                    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->actor.world.pos,
+                    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &this->actor.world.pos,
                                                  &this->actor.projectedPos, &this->actor.projectedW);
                 }
             }
@@ -724,7 +724,7 @@ s32 EnHorse_PlayerCanMove(EnHorse* this, GlobalContext* globalCtx) {
 
     if ((player->stateFlags1 & 1) || func_8002DD78(GET_PLAYER(globalCtx)) == 1 || (player->stateFlags1 & 0x100000) ||
         ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) || this->action == ENHORSE_ACT_HBA ||
-        player->actor.flags & 0x100 || globalCtx->csCtx.state != 0) {
+        player->actor.flags & ACTOR_FLAG_8 || globalCtx->csCtx.state != 0) {
         return false;
     }
     return true;
@@ -741,7 +741,7 @@ void EnHorse_ClearDustFlags(u16* dustFlags) {
 }
 
 void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     AREG(6) = 0;
@@ -896,7 +896,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnHorse_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
 
     if (this->stateFlags & ENHORSE_DRAW) {
         Audio_StopSfxByPos(&this->unk_21C);
@@ -987,6 +987,7 @@ void EnHorse_UpdateSpeed(EnHorse* this, GlobalContext* globalCtx, f32 brakeDecel
     f32 temp_f12;
     f32 traction;
     s16 turn;
+
     if (!EnHorse_PlayerCanMove(this, globalCtx)) {
         if (this->actor.speedXZ > 8) {
             this->actor.speedXZ -= decel;
@@ -1537,7 +1538,7 @@ void EnHorse_Reverse(EnHorse* this, GlobalContext* globalCtx) {
         } else if (stickMag < 10.0f) {
             stickAngle = -0x7FFF;
         }
-    } else if (player->actor.flags & 0x100) {
+    } else if (player->actor.flags & ACTOR_FLAG_8) {
         EnHorse_StartMountedIdleResetAnim(this);
         this->actor.speedXZ = 0.0f;
         return;
@@ -2530,7 +2531,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx) {
     if ((globalCtx->interfaceCtx.hbaAmmo == 0) || (this->hbaFlags & 2)) {
         if (this->hbaFlags & 4) {
             this->hbaFlags &= ~4;
-            Audio_QueueSeqCmd(NA_BGM_HORSE_GOAL);
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HORSE_GOAL);
         }
     }
 
@@ -3296,7 +3297,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
 }
 
 void EnHorse_CheckBoost(EnHorse* thisx, GlobalContext* globalCtx2) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s32 pad;
 
@@ -3459,7 +3460,7 @@ s32 EnHorse_RandInt(f32 range) {
 }
 
 void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     Vec3f dustAcc = { 0.0f, 0.0f, 0.0f };
     Vec3f dustVel = { 0.0f, 1.0f, 0.0f };
@@ -3651,7 +3652,7 @@ void EnHorse_RandomOffset(Vec3f* src, f32 dist, Vec3f* dst) {
 }
 
 void EnHorse_SkinCallback1(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
     s32 pad;
     Vec3f sp94 = { 0.0f, 0.0f, 0.0f };
     Vec3f hoofOffset = { 5.0f, -4.0f, 5.0f };
@@ -3677,7 +3678,7 @@ void EnHorse_SkinCallback1(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* ski
     }
 
     func_800A6408(skin, 13, &sp94, &sp2C);
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp2C, &this->unk_228, &sp28);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &sp2C, &this->unk_228, &sp28);
     if ((this->animationIdx == ENHORSE_ANIM_IDLE && this->action != ENHORSE_ACT_FROZEN) &&
         ((frame > 40.0f && frame < 45.0f && this->type == HORSE_EPONA) ||
          (frame > 28.0f && frame < 33.0f && this->type == HORSE_HNI))) {
@@ -3803,7 +3804,7 @@ s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 limbIndex,
         gEponaEyeClosedTex,
     };
     static u8 eyeBlinkIndexes[] = { 0, 1, 2, 1 };
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
     s32 drawOriginalLimb = true;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
@@ -3820,15 +3821,15 @@ s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 limbIndex,
 }
 
 void EnHorse_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorse* this = THIS;
+    EnHorse* this = (EnHorse*)thisx;
 
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
         func_80093D18(globalCtx->state.gfxCtx);
         this->stateFlags |= ENHORSE_DRAW;
         if (this->stateFlags & ENHORSE_JUMPING) {
-            func_800A6360(thisx, globalCtx, &this->skin, &EnHorse_SkinCallback1, &EnHorse_SkinCallback2, 0);
+            func_800A6360(thisx, globalCtx, &this->skin, EnHorse_SkinCallback1, EnHorse_SkinCallback2, 0);
         } else {
-            func_800A6360(thisx, globalCtx, &this->skin, &EnHorse_SkinCallback1, &EnHorse_SkinCallback2, 1);
+            func_800A6360(thisx, globalCtx, &this->skin, EnHorse_SkinCallback1, EnHorse_SkinCallback2, 1);
         }
         if (this->postDrawFunc != NULL) {
             this->postDrawFunc(this, globalCtx);

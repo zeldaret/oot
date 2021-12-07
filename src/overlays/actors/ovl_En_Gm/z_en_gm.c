@@ -9,9 +9,7 @@
 #include "objects/object_gm/object_gm.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnGm*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -65,7 +63,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -86,7 +84,7 @@ void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -105,7 +103,7 @@ s32 func_80A3D7C8(void) {
 
 void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objGmBankIndex)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
         Animation_Change(&this->skelAnime, &object_gm_Anim_0002B8, 1.0f, 0.0f,
@@ -285,7 +283,7 @@ void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void EnGm_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
 
     this->updateFunc(this, globalCtx);
 }
@@ -318,7 +316,7 @@ void func_80A3E090(EnGm* this) {
 
 void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gm.c", 613);

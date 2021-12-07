@@ -7,9 +7,7 @@
 #include "z_en_gb.h"
 #include "objects/object_ps/object_ps.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnGb*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnGb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGb_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -151,7 +149,7 @@ void func_80A2F180(EnGb* this) {
 }
 
 void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGb* this = THIS;
+    EnGb* this = (EnGb*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 i;
@@ -218,7 +216,7 @@ void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGb* this = THIS;
+    EnGb* this = (EnGb*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->light);
@@ -396,7 +394,7 @@ void func_80A2FC70(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void EnGb_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnGb* this = THIS;
+    EnGb* this = (EnGb*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s32 i;
     f32 rand;
@@ -421,7 +419,7 @@ void EnGb_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnGb_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGb* this = THIS;
+    EnGb* this = (EnGb*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gb.c", 763);
@@ -537,7 +535,7 @@ void EnGb_DrawCagedSouls(EnGb* this, GlobalContext* globalCtx) {
         Matrix_Push();
         Matrix_Translate(this->cagedSouls[i].translation.x, this->cagedSouls[i].translation.y,
                          this->cagedSouls[i].translation.z, MTXMODE_NEW);
-        func_800D1FD4(&globalCtx->mf_11DA0);
+        func_800D1FD4(&globalCtx->billboardMtxF);
 
         if (this->cagedSouls[i].rotate180) {
             Matrix_RotateZYX(0, -0x8000, 0, MTXMODE_APPLY);

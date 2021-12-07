@@ -8,9 +8,7 @@
 #include "objects/object_d_lift/object_d_lift.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((ObjLift*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void ObjLift_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -106,7 +104,7 @@ void func_80B96160(ObjLift* this, GlobalContext* globalCtx) {
 }
 
 void ObjLift_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjLift* this = THIS;
+    ObjLift* this = (ObjLift*)thisx;
 
     ObjLift_InitDynaPoly(this, globalCtx, &gCollapsingPlatformCol, DPM_PLAYER);
 
@@ -125,7 +123,7 @@ void ObjLift_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjLift* this = THIS;
+    ObjLift* this = (ObjLift*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -209,7 +207,7 @@ void func_80B96840(ObjLift* this, GlobalContext* globalCtx) {
 }
 
 void ObjLift_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjLift* this = THIS;
+    ObjLift* this = (ObjLift*)thisx;
 
     if (this->timer > 0) {
         this->timer--;

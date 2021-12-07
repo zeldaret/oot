@@ -7,9 +7,7 @@
 #include "z_oceff_wipe3.h"
 #include "vt.h"
 
-#define FLAGS 0x02000010
-
-#define THIS ((OceffWipe3*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void OceffWipe3_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -31,7 +29,7 @@ const ActorInit Oceff_Wipe3_InitVars = {
 #include "overlays/ovl_Oceff_Wipe3/ovl_Oceff_Wipe3.c"
 
 void OceffWipe3_Init(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe3* this = THIS;
+    OceffWipe3* this = (OceffWipe3*)thisx;
 
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
@@ -41,7 +39,7 @@ void OceffWipe3_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffWipe3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe3* this = THIS;
+    OceffWipe3* this = (OceffWipe3*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     func_800876C8(globalCtx);
@@ -51,7 +49,7 @@ void OceffWipe3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffWipe3_Update(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe3* this = THIS;
+    OceffWipe3* this = (OceffWipe3*)thisx;
 
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     if (this->counter < 100) {
@@ -63,7 +61,7 @@ void OceffWipe3_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll = globalCtx->state.frames & 0xFFF;
-    OceffWipe3* this = THIS;
+    OceffWipe3* this = (OceffWipe3*)thisx;
     f32 z;
     u8 alpha;
     s32 pad[2];
@@ -96,7 +94,7 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
-    func_800D1FD4(&globalCtx->mf_11DA0);
+    func_800D1FD4(&globalCtx->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 353),

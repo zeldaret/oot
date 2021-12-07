@@ -1,6 +1,6 @@
 #include "global.h"
 
-#define FLAGS 0x06000035
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25 | ACTOR_FLAG_26)
 
 void (*sPlayerCallInitFunc)(Actor* thisx, GlobalContext* globalCtx);
 void (*sPlayerCallDestroyFunc)(Actor* thisx, GlobalContext* globalCtx);

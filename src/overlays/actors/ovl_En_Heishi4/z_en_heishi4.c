@@ -2,9 +2,7 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnHeishi4*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -58,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     Actor_SetScale(thisx, 0.01f);
     this->type = thisx->params & 0xFF;
@@ -104,7 +102,7 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -275,6 +273,7 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
 
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardDieAnim);
+
     this->unk_288 = frames;
     Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardDieAnim, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A56ACC;
@@ -339,7 +338,7 @@ void func_80A56B40(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -366,7 +365,7 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnHeishi_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                               void* thisx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     if (limbIndex == 9) {
         rot->x += this->unk_266.y;
@@ -379,7 +378,7 @@ s32 EnHeishi_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void EnHeishi4_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi_OverrideLimbDraw, NULL,

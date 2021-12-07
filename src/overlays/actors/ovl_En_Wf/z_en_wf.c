@@ -9,9 +9,7 @@
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "objects/object_wf/object_wf.h"
 
-#define FLAGS 0x00000015
-
-#define THIS ((EnWf*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnWf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -212,7 +210,7 @@ void EnWf_SetupAction(EnWf* this, EnWfActionFunc actionFunc) {
 
 void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->colChkInfo.damageTable = &sDamageTable;
@@ -256,7 +254,7 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->colliderSpheres);
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinderBody);
@@ -372,7 +370,7 @@ void EnWf_SetupWaitToAppear(EnWf* this) {
     this->actionTimer = 20;
     this->unk_300 = false;
     this->action = WOLFOS_ACTION_WAIT_TO_APPEAR;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.scale.y = 0.0f;
     this->actor.gravity = 0.0f;
     EnWf_SetupAction(this, EnWf_WaitToAppear);
@@ -384,7 +382,7 @@ void EnWf_WaitToAppear(EnWf* this, GlobalContext* globalCtx) {
 
         if (this->actor.xzDistToPlayer < 240.0f) {
             this->actionTimer = 5;
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
 
             if ((this->actor.params != WOLFOS_NORMAL) && (this->switchFlag != 0xFF)) {
                 func_800F5ACC(0x38); // Mini-Boss Battle Theme
@@ -1190,7 +1188,7 @@ void EnWf_SetupDie(EnWf* this) {
     }
 
     this->action = WOLFOS_ACTION_DIE;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionTimer = this->skelAnime.animLength;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_DEAD);
     EnWf_SetupAction(this, EnWf_Die);
@@ -1296,7 +1294,7 @@ void EnWf_UpdateDamage(EnWf* this, GlobalContext* globalCtx) {
 
 void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
 
     EnWf_UpdateDamage(this, globalCtx);
 
@@ -1349,7 +1347,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnWf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
 
     if ((limbIndex == WOLFOS_LIMB_HEAD) || (limbIndex == WOLFOS_LIMB_EYES)) {
         rot->y -= this->unk_4D4.y;
@@ -1361,7 +1359,7 @@ s32 EnWf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 void EnWf_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f colliderVec = { 1200.0f, 0.0f, 0.0f };
     static Vec3f bodyPartVec = { 0.0f, 0.0f, 0.0f };
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
     s32 bodyPartIndex = -1;
 
     Collider_UpdateSpheres(limbIndex, &this->colliderSpheres);
@@ -1429,7 +1427,7 @@ static void* sWolfosWhiteEyeTextures[] = { gWolfosWhiteEyeOpenTex, gWolfosWhiteE
                                            gWolfosWhiteEyeHalfTex };
 
 void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnWf* this = THIS;
+    EnWf* this = (EnWf*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_wf.c", 2157);
 

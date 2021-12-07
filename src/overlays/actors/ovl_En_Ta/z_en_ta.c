@@ -8,9 +8,7 @@
 #include "vt.h"
 #include "objects/object_ta/object_ta.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnTa*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnTa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -100,7 +98,7 @@ void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -182,7 +180,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     Actor_Kill(&this->actor);
                 } else {
                     if (IS_DAY) {
-                        this->actor.flags |= 0x10;
+                        this->actor.flags |= ACTOR_FLAG_4;
                         this->unk_2C4[0] = this->unk_2C4[1] = this->unk_2C4[2] = 7;
                         this->superCuccos[0] = (EnNiw*)Actor_Spawn(
                             &globalCtx->actorCtx, globalCtx, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
@@ -233,7 +231,7 @@ void func_80B14248(EnTa* this) {
 }
 
 void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 
@@ -455,7 +453,7 @@ void func_80B14AF4(EnTa* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_CRY_1);
         func_80B13AA0(this, func_80B14A54, func_80B167C0);
         this->unk_2CC = 65;
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
     }
 }
 
@@ -618,7 +616,7 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
 void func_80B15260(EnTa* this, GlobalContext* globalCtx) {
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80B15100;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
@@ -711,7 +709,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             this->unk_2E0 &= ~0x10;
                             this->unk_2E0 &= ~0x100;
                             gSaveContext.eventInf[0] |= 0x100;
-                            Audio_QueueSeqCmd(NA_BGM_STOP);
+                            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
                             this->unk_2E0 &= ~0x200;
                             Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
                             return;
@@ -725,7 +723,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             break;
                     }
                     this->actionFunc = func_80B15260;
-                    this->actor.flags |= 0x10000;
+                    this->actor.flags |= ACTOR_FLAG_16;
                     func_8002F2CC(&this->actor, globalCtx, 1000.0f);
                     return;
                 }
@@ -740,7 +738,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.timer1Value == 0 && !Gameplay_InCsMode(globalCtx)) {
-        Audio_QueueSeqCmd(NA_BGM_STOP);
+        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
         this->unk_2E0 &= ~0x200;
         func_80078884(NA_SE_SY_FOUND);
         gSaveContext.timer1State = 0;
@@ -774,6 +772,7 @@ void func_80B1585C(EnTa* this, GlobalContext* globalCtx) {
 
             if (this->superCuccos[i] != NULL) {
                 EnNiw* niw = this->superCuccos[i];
+
                 niw->unk_308 = 1;
                 niw->actor.gravity = 0.0f;
             }
@@ -1046,9 +1045,9 @@ void func_80B16608(EnTa* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80B1642C;
                 break;
         }
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
     this->unk_2E0 |= 1;
@@ -1133,7 +1132,7 @@ void func_80B16938(EnTa* this) {
 }
 
 void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -1164,7 +1163,7 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnTa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
 
     switch (limbIndex) {
         case 8:
@@ -1181,6 +1180,7 @@ s32 EnTa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         this->unk_2E0 &= ~0x8;
     } else if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
         s32 limbIdx50 = limbIndex * 50;
+
         rot->y += Math_SinS(globalCtx->state.frames * (limbIdx50 + 0x814)) * 200.0f;
         rot->z += Math_CosS(globalCtx->state.frames * (limbIdx50 + 0x940)) * 200.0f;
     }
@@ -1194,7 +1194,7 @@ void EnTa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         1000.0f,
         0.0f,
     };
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80B16E7C, &this->actor.focus.pos);
@@ -1207,7 +1207,7 @@ void EnTa_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gTalonEyeHalfTex,
         gTalonEyeClosedTex,
     };
-    EnTa* this = THIS;
+    EnTa* this = (EnTa*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ta.c", 2381);
@@ -1215,7 +1215,7 @@ void EnTa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x9, SEGMENTED_TO_VIRTUAL(&gTalonHeadSkinTex));
+    gSPSegment(POLY_OPA_DISP++, 0x9, SEGMENTED_TO_VIRTUAL(gTalonHeadSkinTex));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnTa_OverrideLimbDraw, EnTa_PostLimbDraw, this);

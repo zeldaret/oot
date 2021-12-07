@@ -10,9 +10,7 @@
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnfHG*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
@@ -74,7 +72,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Flags_SetSwitch(globalCtx, 0x14);
@@ -95,7 +93,7 @@ void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
 
     osSyncPrintf("F DT1\n");
     func_800A6888(globalCtx, &this->skin);
@@ -146,7 +144,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 }
                 if (this->timers[0] == 51) {
                     Audio_PlayActorSound2(this->actor.child, NA_SE_EV_SPEAR_FENCE);
-                    Audio_QueueSeqCmd(NA_BGM_BOSS);
+                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
                 }
                 if (this->timers[0] == 0) {
                     EnfHG_SetupApproach(this, globalCtx, Rand_ZeroOne() * 5.99f);
@@ -162,7 +160,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             this->cutsceneState = INTRO_FENCE;
             this->timers[0] = 60;
             this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y - 7.0f;
-            Audio_QueueSeqCmd(0x100100FF);
+            Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
             gSaveContext.eventChkInf[7] |= 4;
             Flags_SetSwitch(globalCtx, 0x23);
         case INTRO_FENCE:
@@ -198,7 +196,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, &this->actor, 9);
             }
             if (this->timers[0] == 1) {
-                Audio_QueueSeqCmd(NA_BGM_OPENING_GANON);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_OPENING_GANON);
             }
             Math_ApproachF(&this->cameraEye.x, GND_BOSSROOM_CENTER_X + 40.0f, 0.05f, this->cameraSpeedMod * 20.0f);
             Math_ApproachF(&this->cameraEye.y, GND_BOSSROOM_CENTER_Y + 37.0f, 0.05f, this->cameraSpeedMod * 20.0f);
@@ -286,7 +284,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 this->bossGndSignal = FHG_RIDE;
             }
             if (this->timers[0] == 130) {
-                Audio_QueueSeqCmd(0x105000FF);
+                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x5000FF);
             }
             if (this->timers[0] == 30) {
                 bossGnd->work[GND_EYE_STATE] = GND_EYESTATE_BRIGHTEN;
@@ -299,7 +297,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_80078914(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
             }
             if (this->timers[0] == 20) {
-                Audio_QueueSeqCmd(NA_BGM_BOSS);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
             }
             if (this->timers[0] == 2) {
                 this->cameraSpeedMod = 0.0f;
@@ -335,7 +333,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
             if (this->timers[0] == 75) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
-                                       SEGMENTED_TO_VIRTUAL(&gPhantomGanonTitleCardTex), 160, 180, 128, 40);
+                                       SEGMENTED_TO_VIRTUAL(gPhantomGanonTitleCardTex), 160, 180, 128, 40);
             }
             if (this->timers[0] == 0) {
                 this->cutsceneState = INTRO_RETREAT;
@@ -681,7 +679,7 @@ void EnfHG_Done(EnfHG* this, GlobalContext* globalCtx) {
 
 void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
     u8 i;
 
     if (this->killActor) {
@@ -714,7 +712,7 @@ void EnfHG_Noop(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
 }
 
 void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
     BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
     s32 pad;
 

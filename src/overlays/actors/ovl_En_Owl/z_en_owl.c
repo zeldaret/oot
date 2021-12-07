@@ -10,9 +10,7 @@
 #include "scenes/overworld/spot16/spot16_scene.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnOwl*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -107,7 +105,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     ColliderCylinder* collider;
     s32 owlType;
     s32 switchFlag;
@@ -236,7 +234,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -279,7 +277,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
         this->actor.textId = textId;
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
         if (this->actor.xzDistToPlayer < targetDist) {
-            this->actor.flags |= 0x10000;
+            this->actor.flags |= ACTOR_FLAG_16;
             func_8002F1C4(&this->actor, globalCtx, targetDist, distCheck, 0);
         }
         return false;
@@ -343,9 +341,9 @@ void func_80ACA76C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA62C(this, globalCtx);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
@@ -353,7 +351,7 @@ void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         if ((this->unk_3EE & 0x3F) == 0) {
             func_80ACA62C(this, globalCtx);
         } else {
@@ -361,7 +359,7 @@ void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
             func_80ACA71C(this);
             this->actionFunc = func_80ACA690;
         }
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
@@ -553,9 +551,9 @@ void func_80ACB03C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA62C(this, globalCtx);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
@@ -582,7 +580,7 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
         Flags_SetSwitch(globalCtx, 0x23);
@@ -591,6 +589,7 @@ void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
 
 void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
     u16 textId = (gSaveContext.infTable[25] & 0x20) ? 0x4004 : 0x4003;
+
     // Spoke to Owl in Lake Hylia
     EnOwl_LookAtLink(this, globalCtx);
     if (func_80ACA558(this, globalCtx, textId)) {
@@ -602,7 +601,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
     }
@@ -610,7 +609,7 @@ void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB274(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         this->actionFunc = EnOwl_WaitDeathMountainShortcut;
     }
 }
@@ -837,7 +836,7 @@ void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 0x20;
+    this->actor.flags |= ACTOR_FLAG_5;
 
     if (this->actor.xzDistToPlayer > 6000.0f && !(this->actionFlags & 0x80)) {
         Actor_Kill(&this->actor);
@@ -1078,7 +1077,7 @@ s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx) {
 
 void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     s16 phi_a1;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -1268,7 +1267,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
 
     switch (limbIndex) {
         case 3:
@@ -1296,7 +1295,7 @@ s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, V
 }
 
 void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, void* thisx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     Vec3f vec;
 
     vec.z = 0.0f;
@@ -1314,7 +1313,7 @@ void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Ve
 
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gObjOwlEyeOpenTex, gObjOwlEyeHalfTex, gObjOwlEyeClosedTex };
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2247);
@@ -1393,7 +1392,7 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx) {
         pos.z += Math_CosS(angle) * phi_f2;
         this->unk_3F8 = phi_f2;
         this->actor.world.pos = pos;
-        this->actor.draw = &EnOwl_Draw;
+        this->actor.draw = EnOwl_Draw;
         this->actionFlags &= ~4;
         this->actor.speedXZ = 0.0f;
     } else {

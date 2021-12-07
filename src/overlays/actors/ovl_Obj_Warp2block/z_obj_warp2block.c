@@ -8,9 +8,7 @@
 #include "objects/object_timeblock/object_timeblock.h"
 #include "vt.h"
 
-#define FLAGS 0x0A000011
-
-#define THIS ((ObjWarp2block*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
 
 void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjWarp2block_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -191,6 +189,7 @@ s32 func_80BA228C(ObjWarp2block* this, GlobalContext* globalCtx) {
 
 s32 func_80BA2304(ObjWarp2block* this, GlobalContext* globalCtx) {
     s32 ret = this->func_168(this, globalCtx);
+
     this->unk_172 = globalCtx->msgCtx.lastPlayedSong;
 
     return ret;
@@ -198,7 +197,7 @@ s32 func_80BA2304(ObjWarp2block* this, GlobalContext* globalCtx) {
 
 void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjWarp2block* this = THIS;
+    ObjWarp2block* this = (ObjWarp2block*)thisx;
     CollisionHeader* collisionHeader;
 
     collisionHeader = NULL;
@@ -226,7 +225,7 @@ void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void ObjWarp2block_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjWarp2block* this = THIS;
+    ObjWarp2block* this = (ObjWarp2block*)thisx;
     if ((this->dyna.actor.params >> 0xF) & 1) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
@@ -295,7 +294,7 @@ void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx) {
 }
 
 void ObjWarp2block_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjWarp2block* this = THIS;
+    ObjWarp2block* this = (ObjWarp2block*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (this->unk_16C > 0) {

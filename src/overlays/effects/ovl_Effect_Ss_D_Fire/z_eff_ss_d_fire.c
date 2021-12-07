@@ -16,7 +16,7 @@
 #define rFadeDelay regs[6]
 #define rScaleStep regs[9]
 #define rObjBankIdx regs[10]
-#define rYAccelStep regs[11] // has no effect due to how its implemented
+#define rYAccelStep regs[11] // has no effect due to how it's implemented
 
 u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -79,7 +79,7 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         scale = this->rScale / 100.0f;
         SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
         SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-        SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
+        SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->billboardMtxF, &mfTrans11DA0);
         SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
 
         mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);

@@ -1,8 +1,6 @@
 #include "z_arms_hook.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((ArmsHook*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +65,7 @@ void ArmsHook_SetupAction(ArmsHook* this, ArmsHookActionFunc actionFunc) {
 }
 
 void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
 
     Collider_InitQuad(globalCtx, &this->collider);
     Collider_SetQuad(globalCtx, &this->collider, &this->actor, &sQuadInit);
@@ -76,10 +74,10 @@ void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
 
     if (this->grabbed != NULL) {
-        this->grabbed->flags &= ~0x2000;
+        this->grabbed->flags &= ~ACTOR_FLAG_13;
     }
     Collider_DestroyQuad(globalCtx, &this->collider);
 }
@@ -115,7 +113,7 @@ s32 ArmsHook_AttachToPlayer(ArmsHook* this, Player* player) {
 
 void ArmsHook_DetachHookFromActor(ArmsHook* this) {
     if (this->grabbed != NULL) {
-        this->grabbed->flags &= ~0x2000;
+        this->grabbed->flags &= ~ACTOR_FLAG_13;
         this->grabbed = NULL;
     }
 }
@@ -124,7 +122,7 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
     Player* player = (Player*)this->actor.parent;
 
     if (Player_HoldsHookshot(player)) {
-        if ((player->itemActionParam != player->heldItemActionParam) || ((player->actor.flags & 0x100)) ||
+        if ((player->itemActionParam != player->heldItemActionParam) || (player->actor.flags & ACTOR_FLAG_8) ||
             ((player->stateFlags1 & 0x4000080))) {
             this->timer = 0;
             ArmsHook_DetachHookFromActor(this);
@@ -136,7 +134,7 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
 }
 
 void ArmsHook_AttachHookToActor(ArmsHook* this, Actor* actor) {
-    actor->flags |= 0x2000;
+    actor->flags |= ACTOR_FLAG_13;
     this->grabbed = actor;
     Math_Vec3f_Diff(&actor->world.pos, &this->actor.world.pos, &this->grabbedDistDiff);
 }
@@ -175,10 +173,10 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT) &&
         (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
         touchedActor = this->collider.base.at;
-        if ((touchedActor->update != NULL) && (touchedActor->flags & 0x600)) {
+        if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
             if (this->collider.info.atHitInfo->bumperFlags & BUMP_HOOKABLE) {
                 ArmsHook_AttachHookToActor(this, touchedActor);
-                if ((touchedActor->flags & 0x400) == 0x400) {
+                if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_10)) {
                     func_80865044(this);
                 }
             }
@@ -189,7 +187,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     } else if (DECR(this->timer) == 0) {
         grabbed = this->grabbed;
         if (grabbed != NULL) {
-            if ((grabbed->update == NULL) || (grabbed->flags & 0x2000) != 0x2000) {
+            if ((grabbed->update == NULL) || !CHECK_FLAG_ALL(grabbed->flags, ACTOR_FLAG_13)) {
                 grabbed = NULL;
                 this->grabbed = NULL;
             } else if (this->actor.child != NULL) {
@@ -292,7 +290,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
 }
 
 void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->unk_1F4 = this->unk_1E8;
@@ -300,7 +298,7 @@ void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     Vec3f sp78;
     Vec3f sp6C;

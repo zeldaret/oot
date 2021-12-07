@@ -127,7 +127,7 @@ void Title_Main(GameState* thisx) {
     Title_Calc(this);
     Title_Draw(this);
 
-    if (D_8012DBC0) {
+    if (gIsCtrlr2Valid) {
         Gfx* gfx = POLY_OPA_DISP;
         s32 pad;
 
@@ -136,8 +136,8 @@ void Title_Main(GameState* thisx) {
     }
 
     if (this->exit) {
-        gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
-        gSaveContext.nightSeqIndex = 0xFF;
+        gSaveContext.seqId = (u8)NA_BGM_DISABLED;
+        gSaveContext.natureAmbienceId = 0xFF;
         gSaveContext.gameMode = 1;
         this->state.running = false;
         SET_NEXT_GAMESTATE(&this->state, Opening_Init, OpeningContext);

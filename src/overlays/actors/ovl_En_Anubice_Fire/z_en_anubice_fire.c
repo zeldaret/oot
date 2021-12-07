@@ -8,9 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_anubice/object_anubice.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnAnubiceFire*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -54,7 +52,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnAnubiceFire* this = THIS;
+    EnAnubiceFire* this = (EnAnubiceFire*)thisx;
     s32 i;
 
     Collider_InitCylinder(globalCtx, &this->cylinder);
@@ -73,7 +71,7 @@ void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnAnubiceFire* this = THIS;
+    EnAnubiceFire* this = (EnAnubiceFire*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->cylinder);
 }
@@ -172,7 +170,7 @@ void func_809B2B48(EnAnubiceFire* this, GlobalContext* globalCtx) {
 }
 
 void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnAnubiceFire* this = THIS;
+    EnAnubiceFire* this = (EnAnubiceFire*)thisx;
     s32 pad;
     s32 i;
 
@@ -219,7 +217,7 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* D_809B3270[] = {
         gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex,
     };
-    EnAnubiceFire* this = THIS;
+    EnAnubiceFire* this = (EnAnubiceFire*)thisx;
     s32 pad[2];
     s32 i;
 
@@ -234,6 +232,7 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Push();
     for (i = this->unk_15E; i < 6; ++i) {
         f32 scale = this->actor.scale.x - (i * 0.2f);
+
         if (scale < 0.0f) {
             scale = 0.0f;
         }
@@ -241,7 +240,7 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (scale >= 0.1f) {
             Matrix_Translate(this->unk_160[i].x, this->unk_160[i].y, this->unk_160[i].z, MTXMODE_NEW);
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_RotateZ(this->actor.world.rot.z + i * 1000.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 546),

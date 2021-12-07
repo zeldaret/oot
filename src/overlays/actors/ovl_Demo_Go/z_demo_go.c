@@ -8,9 +8,7 @@
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((DemoGo*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -76,13 +74,13 @@ void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
     f32 sp1C;
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &thisx->world.pos, &sp20, &sp1C);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &thisx->world.pos, &sp20, &sp1C);
         Audio_PlaySoundAtPosition(globalCtx, &sp20, 20, NA_SE_EV_OBJECT_FALL);
     }
 }
 
 void DemoGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGo* this = THIS;
+    DemoGo* this = (DemoGo*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -107,6 +105,7 @@ void func_8097C9B8(DemoGo* this) {
 
 void func_8097C9DC(DemoGo* this) {
     s32 pad[2];
+
     if (Animation_OnFrame(&this->skelAnime, 12.0f) || Animation_OnFrame(&this->skelAnime, 25.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_EN_MORIBLIN_WALK);
     }
@@ -302,7 +301,7 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx) {
 }
 
 void DemoGo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGo* this = THIS;
+    DemoGo* this = (DemoGo*)thisx;
 
     if (this->action < 0 || this->action >= 7 || D_8097D44C[this->action] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -312,7 +311,7 @@ void DemoGo_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGo* this = THIS;
+    DemoGo* this = (DemoGo*)thisx;
     AnimationHeader* animation = &gGoronAnim_004930;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
@@ -329,7 +328,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     s16 eyeTexIdx = this->unk_190;
     SkelAnime* skelAnime = &this->skelAnime;
     void* eyeTexture = sEyeTextures[eyeTexIdx];
-    void* mouthTexture = &gGoronCsMouthSmileTex;
+    void* mouthTexture = gGoronCsMouthSmileTex;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
 
@@ -344,7 +343,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
 }
 
 void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGo* this = THIS;
+    DemoGo* this = (DemoGo*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

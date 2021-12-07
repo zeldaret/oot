@@ -9,9 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnButte*)thisx)
+#define FLAGS 0
 
 void EnButte_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -135,7 +133,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 180, alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 210, 255);
-    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gEffFlash1DL));
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffFlash1DL));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_choo.c", 326);
 }
@@ -148,7 +146,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     if (this->actor.params == -1) {
         this->actor.params = 0;
@@ -178,7 +176,7 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -351,7 +349,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
 
 void EnButte_SetupTransformIntoFairy(EnButte* this) {
     this->timer = 9;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->skelAnime.playSpeed = 1.0f;
     EnButte_ResetTransformationEffect();
     this->actionFunc = EnButte_TransformIntoFairy;
@@ -385,7 +383,7 @@ void EnButte_WaitToDie(EnButte* this, GlobalContext* globalCtx) {
 }
 
 void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     if ((this->actor.child != NULL) && (this->actor.child->update == NULL) && (this->actor.child != &this->actor)) {
         this->actor.child = NULL;
@@ -422,7 +420,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     if (this->drawSkelAnime) {
         func_80093D18(globalCtx->state.gfxCtx);

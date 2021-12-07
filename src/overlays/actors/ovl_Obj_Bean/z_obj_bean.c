@@ -9,9 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00400000
-
-#define THIS ((ObjBean*)thisx)
+#define FLAGS ACTOR_FLAG_22
 
 void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -128,7 +126,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjBean_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBean* this = THIS;
+    ObjBean* this = (ObjBean*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
@@ -468,7 +466,7 @@ void ObjBean_Grown(ObjBean* this) {
 void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 path;
     s32 linkAge;
-    ObjBean* this = THIS;
+    ObjBean* this = (ObjBean*)thisx;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
@@ -520,7 +518,7 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBean* this = THIS;
+    ObjBean* this = (ObjBean*)thisx;
 
     if (this->stateFlags & BEAN_STATE_DYNAPOLY_SET) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -640,7 +638,7 @@ void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
         ObjBean_SetupGrowWaterPhase1(this);
         D_80B90E30 = this;
         OnePointCutscene_Init(globalCtx, 2210, -99, &this->dyna.actor, MAIN_CAM);
-        this->dyna.actor.flags |= 0x10;
+        this->dyna.actor.flags |= ACTOR_FLAG_4;
         return;
     }
 
@@ -743,7 +741,7 @@ void ObjBean_GrowWaterPhase5(ObjBean* this, GlobalContext* globalCtx) {
     this->transformFunc(this);
     if (this->timer <= 0) {
         func_80B8FF50(this);
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
@@ -768,7 +766,7 @@ void ObjBean_SetupFly(ObjBean* this) {
     this->actionFunc = ObjBean_Fly;
     ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_PLANT);
     this->dyna.actor.speedXZ = 0.0f;
-    this->dyna.actor.flags |= 0x10; // Never stop updating
+    this->dyna.actor.flags |= ACTOR_FLAG_4; // Never stop updating
 }
 
 void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
@@ -780,7 +778,7 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
         ObjBean_SetupPath(this, globalCtx);
         ObjBean_SetupWaitForStepOff(this);
 
-        this->dyna.actor.flags &= ~0x10; // Never stop updating (disable)
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4; // Never stop updating (disable)
         camera = globalCtx->cameraPtrs[MAIN_CAM];
 
         if ((camera->setting == CAM_SET_BEAN_LOST_WOODS) || (camera->setting == CAM_SET_BEAN_GENERIC)) {
@@ -870,7 +868,7 @@ void func_80B90A34(ObjBean* this, GlobalContext* globalCtx) {
 }
 void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjBean* this = THIS;
+    ObjBean* this = (ObjBean*)thisx;
 
     if (this->timer > 0) {
         this->timer--;
@@ -930,7 +928,7 @@ void ObjBean_DrawBeanstalk(ObjBean* this, GlobalContext* globalCtx) {
 }
 
 void ObjBean_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBean* this = THIS;
+    ObjBean* this = (ObjBean*)thisx;
 
     if (this->stateFlags & BEAN_STATE_DRAW_SOIL) {
         Gfx_DrawDListOpa(globalCtx, gMagicBeanSeedlingDL);

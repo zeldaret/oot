@@ -23,12 +23,10 @@
 #include "z64map_mark.h"
 #include "z64transition.h"
 #include "z64interface.h"
-#include "bgm.h"
+#include "sequence.h"
 #include "sfx.h"
 #include "color.h"
 #include "ichain.h"
-#include "stdarg.h"
-#include "stdlib.h"
 #include "regs.h"
 
 #define SCREEN_WIDTH  320
@@ -187,10 +185,9 @@ typedef struct {
 } View; // size = 0x128
 
 typedef struct {
-    /* 0x00 */ u8   seqIndex;
-    /* 0x01 */ u8   nightSeqIndex;
-    /* 0x02 */ char unk_02[0x2];
-} SoundContext; // size = 0x4
+    /* 0x00 */ u8   seqId;
+    /* 0x01 */ u8   natureAmbienceId;
+} SequenceContext; // size = 0x2
 
 typedef struct {
     /* 0x00 */ s32 enabled;
@@ -219,7 +216,7 @@ typedef struct {
     /* 0x4D */ char     unk_4D[0x03];
     /* 0x50 */ TargetContextEntry arr_50[3];
     /* 0x8C */ Actor*   unk_8C;
-    /* 0x90 */ Actor*   unk_90;
+    /* 0x90 */ Actor*   bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
     /* 0x94 */ Actor*   unk_94;
 } TargetContext; // size = 0x98
 
@@ -871,12 +868,12 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8    type;
     /* 0x01 */ u8    format; // 1 = single, 2 = multi
-    /* 0x04 */ void* dlist;
+    /* 0x04 */ Gfx*  dlist;
     union {
         struct {
-            /* 0x08 */ u32   source;
+            /* 0x08 */ void* source;
             /* 0x0C */ u32   unk_0C;
-            /* 0x10 */ u32   tlut;
+            /* 0x10 */ void* tlut;
             /* 0x14 */ u16   width;
             /* 0x16 */ u16   height;
             /* 0x18 */ u8    fmt;
@@ -1140,7 +1137,7 @@ typedef struct GlobalContext {
     /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
-    /* 0x007A4 */ SoundContext soundCtx;
+    /* 0x007A4 */ SequenceContext sequenceCtx;
     /* 0x007A8 */ LightContext lightCtx;
     /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;
     /* 0x007C0 */ CollisionContext colCtx;
@@ -1167,9 +1164,9 @@ typedef struct GlobalContext {
     /* 0x11D54 */ void (*func_11D54)(Player* player, struct GlobalContext* globalCtx);
     /* 0x11D58 */ s32 (*damagePlayer)(struct GlobalContext* globalCtx, s32 damage);
     /* 0x11D5C */ void (*talkWithPlayer)(struct GlobalContext* globalCtx, Actor* actor);
-    /* 0x11D60 */ MtxF mf_11D60;
-    /* 0x11DA0 */ MtxF mf_11DA0;
-    /* 0x11DE0 */ Mtx* unk_11DE0;
+    /* 0x11D60 */ MtxF viewProjectionMtxF;
+    /* 0x11DA0 */ MtxF billboardMtxF;
+    /* 0x11DE0 */ Mtx* billboardMtx;
     /* 0x11DE4 */ u32 gameplayFrames;
     /* 0x11DE8 */ u8 linkAgeOnLoad;
     /* 0x11DE9 */ u8 unk_11DE9;
@@ -1337,24 +1334,24 @@ typedef struct {
 } EntranceInfo; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ void*    loadedRamAddr;
-    /* 0x04 */ u32      vromStart; // if applicable
-    /* 0x08 */ u32      vromEnd;   // if applicable
-    /* 0x0C */ void*    vramStart; // if applicable
-    /* 0x10 */ void*    vramEnd;   // if applicable
-    /* 0x14 */ UNK_PTR  unk_14;
-    /* 0x18 */ void*    init;    // initializes and executes the given context
-    /* 0x1C */ void*    destroy; // deconstructs the context, and sets the next context to load
-    /* 0x20 */ UNK_PTR  unk_20;
-    /* 0x24 */ UNK_PTR  unk_24;
-    /* 0x28 */ UNK_TYPE unk_28;
-    /* 0x2C */ u32      instanceSize;
+    /* 0x00 */ void*     loadedRamAddr;
+    /* 0x04 */ u32       vromStart; // if applicable
+    /* 0x08 */ u32       vromEnd;   // if applicable
+    /* 0x0C */ void*     vramStart; // if applicable
+    /* 0x10 */ void*     vramEnd;   // if applicable
+    /* 0x14 */ UNK_PTR   unk_14;
+    /* 0x18 */ void*     init;    // initializes and executes the given context
+    /* 0x1C */ void*     destroy; // deconstructs the context, and sets the next context to load
+    /* 0x20 */ UNK_PTR   unk_20;
+    /* 0x24 */ UNK_PTR   unk_24;
+    /* 0x28 */ UNK_TYPE4 unk_28;
+    /* 0x2C */ u32       instanceSize;
 } GameStateOverlay; // size = 0x30
 
 typedef struct PreNMIContext {
     /* 0x00 */ GameState state;
-    /* 0xA4 */ u32      timer;
-    /* 0xA8 */ UNK_TYPE unk_A8;
+    /* 0xA4 */ u32       timer;
+    /* 0xA8 */ UNK_TYPE4 unk_A8;
 } PreNMIContext; // size = 0xAC
 
 typedef enum {
@@ -1511,26 +1508,35 @@ typedef struct {
     /* 0x38 */ void(*inputCallback)();
 } FaultDrawer; // size = 0x3C
 
-typedef struct GfxPrint {
-    /* 0x00 */ struct GfxPrint* (*callback)(struct GfxPrint*, const char*, size_t);
-    /* 0x04 */ Gfx* dlist;
+typedef struct {
+    /* 0x00 */ PrintCallback callback;
+    /* 0x04 */ Gfx* dList;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;
     /* 0x0C */ u16 baseX;
     /* 0x0E */ u8 baseY;
-    /* 0x0F */ u8 flag;
+    /* 0x0F */ u8 flags;
     /* 0x10 */ Color_RGBA8_u32 color;
     /* 0x14 */ char unk_14[0x1C]; // unused
 } GfxPrint; // size = 0x30
 
-typedef enum {
-    GFXPRINT_FLAG1 = 1,
-    GFXPRINT_USE_RGBA16 = 2,
-    GFXPRINT_FLAG4 = 4,
-    GFXPRINT_UPDATE_MODE = 8,
-    GFXPRINT_FLAG64 = 0x40,
-    GFXPRINT_OPEN = 0x80
-} GfxPrintFlag;
+#define GFXP_UNUSED "\x8E"
+#define GFXP_UNUSED_CHAR 0x8E
+#define GFXP_HIRAGANA "\x8D"
+#define GFXP_HIRAGANA_CHAR 0x8D
+#define GFXP_KATAKANA "\x8C"
+#define GFXP_KATAKANA_CHAR 0x8C
+#define GFXP_RAINBOW_ON "\x8B"
+#define GFXP_RAINBOW_ON_CHAR 0x8B
+#define GFXP_RAINBOW_OFF "\x8A"
+#define GFXP_RAINBOW_OFF_CHAR 0x8A
+
+#define GFXP_FLAG_HIRAGANA (1 << 0)
+#define GFXP_FLAG_RAINBOW  (1 << 1)
+#define GFXP_FLAG_SHADOW   (1 << 2)
+#define GFXP_FLAG_UPDATE   (1 << 3)
+#define GFXP_FLAG_ENLARGE  (1 << 6)
+#define GFXP_FLAG_OPEN     (1 << 7)
 
 typedef struct StackEntry {
     /* 0x00 */ struct StackEntry* next;
@@ -1660,11 +1666,11 @@ typedef struct {
     /* 0x0234 */ OSScTask*    curRDPTask;
     /* 0x0238 */ s32          retraceCnt;
     /* 0x023C */ s32          doAudio;
-    /* 0x0240 */ CfbInfo* curBuf;
-    /* 0x0244 */ CfbInfo*        pendingSwapBuf1;
-    /* 0x0220 */ CfbInfo* pendingSwapBuf2;
-    /* 0x0220 */ UNK_TYPE     unk_24C;
-    /* 0x0250 */ IrqMgrClient   irqClient;
+    /* 0x0240 */ CfbInfo*     curBuf;
+    /* 0x0244 */ CfbInfo*     pendingSwapBuf1;
+    /* 0x0220 */ CfbInfo*     pendingSwapBuf2;
+    /* 0x0220 */ UNK_TYPE4    unk_24C;
+    /* 0x0250 */ IrqMgrClient irqClient;
 } SchedContext; // size = 0x258
 
 // ========================
@@ -1824,7 +1830,7 @@ typedef struct {
     /* 0x50 */ u8* symbols;
 } JpegHuffmanTable; // size = 0x54
 
-// this struct might be unaccurate but it's not used outside jpegutils.c anyways
+// this struct might be inaccurate but it's not used outside jpegutils.c anyways
 typedef struct {
     /* 0x000 */ u8 codeOffs[16];
     /* 0x010 */ u16 dcCodes[120];
@@ -1967,11 +1973,6 @@ typedef struct {
     /* 0x05 */ u8 y;
     /* 0x06 */ u16 color;
 } SpeedMeterTimeEntry; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ u16 intPart[4][4];
-    /* 0x20 */ u16 fracPart[4][4];
-} MatrixInternal; // size = 0x40
 
 typedef struct {
     /* 0x00 */ u32 value;
