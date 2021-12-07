@@ -3390,7 +3390,8 @@ endseg
 beginseg
     name "gameplay_object_exchange_static"
     romalign 0x1000
-    include "build/baserom/gameplay_object_exchange_static.o"
+    include "build/assets/objects/gameplay_object_exchange_static/gameplay_object_exchange_static.o"
+    number 6
 endseg
 
 beginseg
@@ -10394,73 +10395,85 @@ endseg
 beginseg
     name "anime_model_1_static"
     romalign 0x1000
-    include "build/baserom/anime_model_1_static.o"
+    include "build/assets/objects/anime_model_1_static/anime_model_1_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_model_2_static"
     romalign 0x1000
-    include "build/baserom/anime_model_2_static.o"
+    include "build/assets/objects/anime_model_2_static/anime_model_2_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_model_3_static"
     romalign 0x1000
-    include "build/baserom/anime_model_3_static.o"
+    include "build/assets/objects/anime_model_3_static/anime_model_3_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_model_4_static"
     romalign 0x1000
-    include "build/baserom/anime_model_4_static.o"
+    include "build/assets/objects/anime_model_4_static/anime_model_4_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_model_5_static"
     romalign 0x1000
-    include "build/baserom/anime_model_5_static.o"
+    include "build/assets/objects/anime_model_5_static/anime_model_5_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_model_6_static"
     romalign 0x1000
-    include "build/baserom/anime_model_6_static.o"
+    include "build/assets/objects/anime_model_6_static/anime_model_6_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_texture_1_static"
     romalign 0x1000
-    include "build/baserom/anime_texture_1_static.o"
+    include "build/assets/objects/anime_texture_1_static/anime_texture_1_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_texture_2_static"
     romalign 0x1000
-    include "build/baserom/anime_texture_2_static.o"
+    include "build/assets/objects/anime_texture_2_static/anime_texture_2_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_texture_3_static"
     romalign 0x1000
-    include "build/baserom/anime_texture_3_static.o"
+    include "build/assets/objects/anime_texture_3_static/anime_texture_3_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_texture_4_static"
     romalign 0x1000
-    include "build/baserom/anime_texture_4_static.o"
+    include "build/assets/objects/anime_texture_4_static/anime_texture_4_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_texture_5_static"
     romalign 0x1000
-    include "build/baserom/anime_texture_5_static.o"
+    include "build/assets/objects/anime_texture_5_static/anime_texture_5_static.o"
+    number 6
 endseg
 
 beginseg
     name "anime_texture_6_static"
     romalign 0x1000
-    include "build/baserom/anime_texture_6_static.o"
+    include "build/assets/objects/anime_texture_6_static/anime_texture_6_static.o"
+    number 6
 endseg
 
 beginseg

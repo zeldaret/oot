@@ -1,0 +1,6 @@
+<Root>
+    <File Name="gameplay_object_exchange_static" Segment="6">
+        <!-- This file is empty -->
+        <Scalar Type="u8" Name="gGameplayObjectExchangeStatic" Offset="0x0"/>
+    </File>
+</Root>

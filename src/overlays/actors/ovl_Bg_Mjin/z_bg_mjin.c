@@ -13,7 +13,7 @@
 #include "objects/object_mjin_flame/object_mjin_flame.h"
 #include "objects/object_mjin_flash/object_mjin_flash.h"
 #include "objects/object_mjin_oka/object_mjin_oka.h"
-
+#include "objects/gameplay_object_exchange_static/gameplay_object_exchange_static.h"
 #define FLAGS ACTOR_FLAG_4
 
 void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -35,8 +35,6 @@ const ActorInit Bg_Mjin_InitVars = {
     (ActorFunc)BgMjin_Update,
     NULL,
 };
-
-extern UNK_TYPE D_06000000;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
@@ -112,7 +110,7 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
         }
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&gGameplayObjectExchangeStatic));
         dlist = gWarpPadBaseDL;
     } else {
         dlist = gOcarinaWarpPadDL;

@@ -1,0 +1,6 @@
+<Root>
+    <File Name="anime_texture_6_static" Segment="6">
+        <!-- This file is empty -->
+        <Scalar Type="u8" Name="gAnimeTexture6Data" Offset="0x0" Static="On"/>
+    </File>
+</Root>
