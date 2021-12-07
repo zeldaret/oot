@@ -1,5 +1,5 @@
 CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
-PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis
+PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis aifc_decode
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
   CC := clang
@@ -19,9 +19,6 @@ endif
 
 all: $(PROGRAMS)
 	cd ZAPD && $(MAKE)
-	mkdir -p seq64/build
-	cd seq64/build && cmake ..
-	cd seq64/build && $(MAKE) -j
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
@@ -31,15 +28,18 @@ distclean: clean
 
 .PHONY: all clean distclean
 
-mkldscript_SOURCES := mkldscript.c util.c
-elf2rom_SOURCES    := elf2rom.c elf32.c n64chksum.c util.c
-yaz0_SOURCES       := yaz0tool.c yaz0.c util.c
-makeromfs_SOURCES  := makeromfs.c n64chksum.c util.c
-vtxdis_SOURCES	   := vtxdis.c
+mkldscript_SOURCES  := mkldscript.c util.c
+elf2rom_SOURCES     := elf2rom.c elf32.c n64chksum.c util.c
+yaz0_SOURCES        := yaz0tool.c yaz0.c util.c
+makeromfs_SOURCES   := makeromfs.c n64chksum.c util.c
+vtxdis_SOURCES	    := vtxdis.c
+aifc_decode_SOURCES := aifc_decode.c
+
+aifc_decode_LIBRARIES := -lm
 
 define COMPILE =
 $(1): $($1_SOURCES)
-	$(CC) $(CFLAGS) $$^ -o $$@
+	$(CC) $(CFLAGS) -o $$@ $$^ $($1_LIBRARIES)
 endef
 
 $(foreach p,$(PROGRAMS),$(eval $(call COMPILE,$(p))))

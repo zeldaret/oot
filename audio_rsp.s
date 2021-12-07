@@ -420,29 +420,30 @@ cmd_ADPCM:
 /* 04001300 000300 22730020 */  addi	$s3, $s3, 0x20
 /* 04001304 000304 12400077 */  beqz	$s2, .L040014E4         // 0 count, leave early
 /* 04001308 000308 CA811800 */   ldv	$v1[0], ($s4)
-/* 0400130C 00030C 92A10000 */  lbu		$at, ($s5)
-/* 04001310 000310 302B000F */  andi	$t3, $at, 0xf
-/* 04001314 000314 000B5940 */  sll		$t3, $t3, 5
-/* 04001318 000318 4B01C8E8 */  vand	$v3, $v25, $v1[0]
+/* 0400130C 00030C 92A10000 */  lbu		$at, ($s5)              // at = header
+/* 04001310 000310 302B000F */  andi	$t3, $at, 0xf           // optimalp = header & 0xf;
+/* 04001314 000314 000B5940 */  sll		$t3, $t3, 5             // t3 <<= 5
+/* 04001318 000318 4B01C8E8 */  vand	$v3, $v25, $v1[0]       // both ADPCM
 /* 0400131C 00031C 016F6820 */  add		$t5, $t3, $t7
 /* 04001320 000320 4A04212C */  vxor	$v4, $v4, $v4           // clear vectors
 /* 04001324 000324 4A0631AC */  vxor	$v6, $v6, $v6
-/* 04001328 000328 15000004 */  bnez	$t0, .L0400133C         // if (flags & 4) , skip
-/* 0400132C 00032C 4B21C968 */   vand	$v5, $v25, $v1[1]
-/* 04001330 000330 4B21C128 */  vand	$v4, $v24, $v1[1]
-/* 04001334 000334 4B41C968 */  vand	$v5, $v25, $v1[2]
-/* 04001338 000338 4B61C1A8 */  vand	$v6, $v24, $v1[3]
+/* 04001328 000328 15000004 */  bnez	$t0, .L0400133C         // if (flags & 4) aka SHORT ADPCM, skip
+/* 0400132C 00032C 4B21C968 */   vand	$v5, $v25, $v1[1]       // only SHORT ADPCM
+// apply ONLY to regular ADPCM
+/* 04001330 000330 4B21C128 */  vand	$v4, $v24, $v1[1]       // only REGULAR ADPCM
+/* 04001334 000334 4B41C968 */  vand	$v5, $v25, $v1[2]       // only REGULAR ADPCM
+/* 04001338 000338 4B61C1A8 */  vand	$v6, $v24, $v1[3]       // only REGULAR ADPCM
 .L0400133C:
-/* 0400133C 00033C 00017102 */  srl		$t6, $at, 4
-/* 04001340 000340 00091020 */  add		$v0, $zero, $t1
-/* 04001344 000344 004E7022 */  sub		$t6, $v0, $t6
-/* 04001348 000348 21C2FFFF */  addi	$v0, $t6, -1
-/* 0400134C 00034C 34038000 */  ori		$v1, $zero, 0x8000
-/* 04001350 000350 11C00002 */  beqz	$t6, .L0400135C
-/* 04001354 000354 2004FFFF */   addi	$a0, $zero, -1
-/* 04001358 000358 00432006 */  srlv	$a0, $v1, $v0
+/* 0400133C 00033C 00017102 */  srl		$t6, $at, 4             // t6 = header >> 4 (start of scale calculation)
+/* 04001340 000340 00091020 */  add		$v0, $zero, $t1         // v0 = t1
+/* 04001344 000344 004E7022 */  sub		$t6, $v0, $t6           // t6 = v0 - t6 = t1 - (header >> 4)
+/* 04001348 000348 21C2FFFF */  addi	$v0, $t6, -1            // v0 = t6 - 1 = (t1 - 1) - (header >> 4)
+/* 0400134C 00034C 34038000 */  ori		$v1, $zero, 0x8000      // v1 = (1 << 0xF)
+/* 04001350 000350 11C00002 */  beqz	$t6, .L0400135C         // if (t1 - (header >> 4) == 0) {scale = -1}, else { scale = long formula below }
+/* 04001354 000354 2004FFFF */   addi	$a0, $zero, -1          // scale = -1
+/* 04001358 000358 00432006 */  srlv	$a0, $v1, $v0           // scale = 0x8000 >> v0, alternatively scale = 0x8000 >> (t1 - 1) - (header >> 4)
 .L0400135C:
-/* 0400135C 00035C 4884B000 */  mtc2	$a0, $v22[0]
+/* 0400135C 00035C 4884B000 */  mtc2	$a0, $v22[0]            // $v22[0] = scale
 /* 04001360 000360 C9B52000 */  lqv		$v21[0], ($t5)
 /* 04001364 000364 C9B42001 */  lqv		$v20[0], 0x10($t5)
 /* 04001368 000368 21ADFFFE */  addi	$t5, $t5, -2
@@ -470,36 +471,37 @@ cmd_ADPCM:
 /* 040013BC 0003BC 4A17374E */  vmadn	$v29, $v6, $v23
 /* 040013C0 0003C0 19C00003 */  blez	$t6, .L040013D0
 /* 040013C4 0003C4 302B000F */   andi	$t3, $at, 0xf
-/* 040013C8 0003C8 4B16F785 */  vmudm	$v30, $v30, $v22[0]
-/* 040013CC 0003CC 4B16EF45 */  vmudm	$v29, $v29, $v22[0]
+/* 040013C8 0003C8 4B16F785 */  vmudm	$v30, $v30, $v22[0]     // *= scale
+/* 040013CC 0003CC 4B16EF45 */  vmudm	$v29, $v29, $v22[0]     // *= scale
 .L040013D0:
 /* 040013D0 0003D0 000B5940 */  sll		$t3, $t3, 5
-/* 040013D4 0003D4 4B01C8E8 */  vand	$v3, $v25, $v1[0]
+/* 040013D4 0003D4 4B01C8E8 */  vand	$v3, $v25, $v1[0]       // both ADPCM
 /* 040013D8 0003D8 016F6820 */  add		$t5, $t3, $t7
-/* 040013DC 0003DC 15000004 */  bnez	$t0, .L040013F0
-/* 040013E0 0003E0 4B21C968 */   vand	$v5, $v25, $v1[1]
-/* 040013E4 0003E4 4B21C128 */  vand	$v4, $v24, $v1[1]
-/* 040013E8 0003E8 4B41C968 */  vand	$v5, $v25, $v1[2]
-/* 040013EC 0003EC 4B61C1A8 */  vand	$v6, $v24, $v1[3]
+/* 040013DC 0003DC 15000004 */  bnez	$t0, .L040013F0         // if (flags & 4) aka SHORT ADPCM, skip
+/* 040013E0 0003E0 4B21C968 */   vand	$v5, $v25, $v1[1]       // only SHORT ADPCM
+// apply ONLY to regular ADPCM
+/* 040013E4 0003E4 4B21C128 */  vand	$v4, $v24, $v1[1]       // only REGULAR ADPCM
+/* 040013E8 0003E8 4B41C968 */  vand	$v5, $v25, $v1[2]       // only REGULAR ADPCM
+/* 040013EC 0003EC 4B61C1A8 */  vand	$v6, $v24, $v1[3]       // only REGULAR ADPCM
 .L040013F0:
-/* 040013F0 0003F0 00017102 */  srl		$t6, $at, 4
+/* 040013F0 0003F0 00017102 */  srl		$t6, $at, 4             // t6 = header >> 4 (start of scale calculation)
 /* 040013F4 0003F4 4BDBA887 */  vmudh	$v2, $v21, $v27[6]
-/* 040013F8 0003F8 00091020 */  add		$v0, $zero, $t1
+/* 040013F8 0003F8 00091020 */  add		$v0, $zero, $t1         // v0 = t1
 /* 040013FC 0003FC 4BFBA08F */  vmadh	$v2, $v20, $v27[7]
-/* 04001400 000400 004E7022 */  sub		$t6, $v0, $t6
+/* 04001400 000400 004E7022 */  sub		$t6, $v0, $t6           // t6 = v0 - t6 = t1 - (header >> 4)
 /* 04001404 000404 4B1E988F */  vmadh	$v2, $v19, $v30[0]
-/* 04001408 000408 21C2FFFF */  addi	$v0, $t6, -1
+/* 04001408 000408 21C2FFFF */  addi	$v0, $t6, -1            // v0 = t6 - 1 = (t1 - 1) - (header >> 4)
 /* 0400140C 00040C 4B3E908F */  vmadh	$v2, $v18, $v30[1]
-/* 04001410 000410 20030001 */  addi	$v1, $zero, 1
+/* 04001410 000410 20030001 */  addi	$v1, $zero, 1           // v1 = 1
 /* 04001414 000414 4B5E888F */  vmadh	$v2, $v17, $v30[2]
-/* 04001418 000418 00031BC0 */  sll		$v1, $v1, 0xf
+/* 04001418 000418 00031BC0 */  sll		$v1, $v1, 0xf           // v1 <<= 0xf, alternatively v1 = (1 << 0xF)
 /* 0400141C 00041C 4B7E808F */  vmadh	$v2, $v16, $v30[3]
-/* 04001420 000420 11C00002 */  beqz	$t6, .L0400142C
-/* 04001424 000424 2004FFFF */   addi	$a0, $zero, -1
-/* 04001428 000428 00432006 */  srlv	$a0, $v1, $v0
+/* 04001420 000420 11C00002 */  beqz	$t6, .L0400142C         // if (t1 - (header >> 4) == 0) {scale = -1}, else { scale = long formula below }
+/* 04001424 000424 2004FFFF */   addi	$a0, $zero, -1          // scale = -1
+/* 04001428 000428 00432006 */  srlv	$a0, $v1, $v0           // scale = 0x8000 >> v0, alternatively scale = 0x8000 >> (t1 - 1) - (header >> 4)
 .L0400142C:
 /* 0400142C 00042C 4B9E7F0F */  vmadh	$v28, $v15, $v30[4]
-/* 04001430 000430 4884B000 */  mtc2	$a0, $v22[0]
+/* 04001430 000430 4884B000 */  mtc2	$a0, $v22[0]            // $v22[0] = scale
 /* 04001434 000434 4BBE708F */  vmadh	$v2, $v14, $v30[5]
 /* 04001438 000438 4BDE688F */  vmadh	$v2, $v13, $v30[6]
 /* 0400143C 00043C 4BBFF08F */  vmadh	$v2, $v30, $v31[5]

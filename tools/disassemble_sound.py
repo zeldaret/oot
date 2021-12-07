@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from collections import namedtuple, defaultdict
+from xml.dom import minidom
 import subprocess
-import tempfile
 import math
 import shutil
 import xml.etree.ElementTree as XmlTree
@@ -269,6 +269,7 @@ def parse_soundfonts(fontdef_data, font_data, fontdefs):
         buffer = fontdef_data[16 + (i * 16):32 + (i * 16)]
         entry = SoundfontEntry(buffer)
         font = Soundfont(entry, font_data, fontdef)
+        font.index = i
         entry.font = font
         fonts.append(entry)
     return fonts
@@ -374,6 +375,26 @@ def toCachePolicy(policy):
         4: "AnyNoSyncLoad"
     }.get(policy)
 
+def toCodecID(codec):
+    return {
+        0: b"ADP9",
+        1: b"HPCM",
+        2: b"NONE",
+        3: b"ADP5",
+        4: b"RVRB",
+        5: b"NONE"
+    }.get(codec)
+
+def toCodecName(codec):
+    return {
+        0: b"Nintendo ADPCM 9-byte frame format",
+        1: b"Half-frame PCM",
+        2: b"not compressed",
+        3: b"Nintendo ADPCM 5-byte frame format",
+        4: b"Nintendo Reverb format",
+        5: b"not compressed"
+    }.get(codec)
+
 def generate_drum_obj(root, drum, envelopes):
     drumElement = XmlTree.SubElement(root, "Drum")
 
@@ -385,7 +406,7 @@ def generate_drum_obj(root, drum, envelopes):
     drumElement.set("Enum", drum.enum or "")
     drumElement.set("Decay", str(drum.decay))
     drumElement.set("Pan", str(drum.pan))
-    drumElement.set("Sample", sampleNameLookup[drum.sample.bank][drum.sample.address])
+    drumElement.set("Sample", f"{sampleNameLookup[drum.sample.bank][drum.sample.address]}.aifc")
     drumElement.set("Envelope", drum.envelope.name)
     envelopes[drum.envelope.name] = drum.envelope
     if drum.pitch != usedTuning[drum.sample.bank][drum.sample.address]:
@@ -401,7 +422,7 @@ def generate_effect_obj(root, effect):
     
     element.set("Name", effect.name or f"Effect_{effect.offset:0>8x}")
     element.set("Enum", effect.enum or "")
-    element.set("Sample", sampleNameLookup[effect.sample.bank][effect.sample.address])
+    element.set("Sample", f"{sampleNameLookup[effect.sample.bank][effect.sample.address]}.aifc")
 
     if effect.pitch != usedTuning[effect.sample.bank][effect.sample.address]:
         element.set("Pitch", str(effect.pitch))
@@ -428,18 +449,18 @@ def generate_instrument_obj(root, instrument, envelopes):
     hiKeyElement = XmlTree.SubElement(element, "HighKey")
     if instrument.keyLowSample is not None:
         keyLow = instrument.keyLowSample
-        lowKeyElement.set("Sample", sampleNameLookup[keyLow.bank][keyLow.address])
+        lowKeyElement.set("Sample", f"{sampleNameLookup[keyLow.bank][keyLow.address]}.aifc")
         lowKeyElement.set("MaxNote", toNote(instrument.lowRange))
         if instrument.keyLowPitch != usedTuning[keyLow.bank][keyLow.address]:
             lowKeyElement.set("Pitch", str(instrument.keyLowPitch))
     if instrument.keyMedSample is not None:
         keyMed = instrument.keyMedSample
-        medKeyElement.set("Sample", sampleNameLookup[keyMed.bank][keyMed.address])
+        medKeyElement.set("Sample", f"{sampleNameLookup[keyMed.bank][keyMed.address]}.aifc")
         if instrument.keyMedPitch != usedTuning[keyMed.bank][keyMed.address]:
             medKeyElement.set("Pitch", str(instrument.keyMedPitch))
     if instrument.keyHighSample is not None:
         keyHigh = instrument.keyHighSample
-        hiKeyElement.set("Sample", sampleNameLookup[keyHigh.bank][keyHigh.address])
+        hiKeyElement.set("Sample", f"{sampleNameLookup[keyHigh.bank][keyHigh.address]}.aifc")
         hiKeyElement.set("MinNote", toNote(instrument.highRange))
         if instrument.keyHighPitch != usedTuning[keyHigh.bank][keyHigh.address]:
             hiKeyElement.set("Pitch", str(instrument.keyHighPitch))
@@ -481,9 +502,9 @@ def write_soundfont(font, filename, banknames):
         for referencedEnvelope in envelopesFound[name].referencedScripts:
             envelopesFound[referencedEnvelope.name] = referencedEnvelope
     [generate_envelope_obj(envelopes, name, envelope) for name, envelope in envelopesFound.items()]
-    XmlTree.indent(root, space="\t", level=0)
+    xmlstring = minidom.parseString(XmlTree.tostring(root, "unicode")).toprettyxml(indent="\t")
     file = open(filename, "w")
-    file.write(XmlTree.tostring(root, encoding="unicode"))
+    file.write(xmlstring)
     file.flush()
     file.close()
 
@@ -609,8 +630,8 @@ def write_aifc(raw, bank_defs, entry, filename):
                 b"COMM",
                 struct.pack(">hIh", num_channels, num_frames, sample_size)
                 + serialize_f80(sample_rate)
-                + b"VAPC"
-                + writer.pstring(b"VADPCM ~4-1"),
+                + toCodecID(entry.codec)
+                + writer.pstring(toCodecName(entry.codec)),
             )
             writer.add_section(b"INST", b"\0" * 20)
             predictors = []
@@ -649,11 +670,44 @@ def write_aiff(entry, basedir, aifc_filename, aiff_filename):
             os.makedirs(os.path.dirname(rel_aiff_file), exist_ok=True)
             subprocess.run(["bash", "-c", f"{rel_aifc_decode} \"{aifc_filename}\" \"{rel_aiff_file}\" {frame_size}"], check=True)
         except subprocess.CalledProcessError:
-            print(f"File failed to decode, codec was {entry.codec}")
+            print(f"File failed to decode {rel_aifc_decode}, codec was {entry.codec}")
             targetfile = os.path.join(basedir, "bad", str(entry.bank), os.path.basename(aifc_filename))
             os.makedirs(os.path.dirname(targetfile), exist_ok=True)
             os.remove(rel_aiff_file)
             shutil.copy2(aifc_filename, targetfile)
+
+def write_soundfont_header(font, filename):
+    with open(filename, "w") as file:
+        file.write(f"/* Soundfont file constants\n")
+        file.write(f"   ID: {font.index}\n")
+        file.write(f"   Name: {font.name}\n")
+        file.write("*/\n\n/**** INSTRUMENTS ****/\n")
+
+        index = 0
+        for instrument in font.instruments:
+            if instrument is None:
+                continue
+
+            file.write(f".set F{font.index}_I_{instrument.enum}, {index}\n")
+            index += 1
+        
+        index = 0
+        file.write("\n/**** DRUMS ****/\n")
+        for drum in font.percussions:
+            if drum is None:
+                continue
+
+            file.write(f".set F{font.index}_D_{drum.enum}, {index}\n")
+            index += 1
+        
+        index = 0
+        file.write("\n/**** EFFECTS ****/\n")
+        for effect in font.effects:
+            if effect is None:
+                continue
+
+            file.write(f".set F{font.index}_E_{effect.enum}, {index}\n")
+            index += 1
 
 def main():
     args = []
@@ -735,8 +789,8 @@ def main():
                     "CachePolicy": toCachePolicy(bankdef.cache),
                     "Medium": toMedium(bankdef.medium)
                 })
-        XmlTree.indent(bankdefxml, "\t")
-        bankdeffile.write(XmlTree.tostring(bankdefxml, "unicode"))
+        xmlstring = minidom.parseString(XmlTree.tostring(bankdefxml, "unicode")).toprettyxml(indent="\t")
+        bankdeffile.write(xmlstring)
 
     # Export AIFF samples
     for bank in rawSamples:
@@ -752,13 +806,13 @@ def main():
         report_gaps("SAMPLE", usedRawData, bank_data)
 
     # Export soundfonts (todo: switch to XML export)
-    fontId = 0
-    for font in fonts:
+    for fontentry in fonts:
         dir = os.path.join(fonts_out_dir)
         os.makedirs(dir, exist_ok=True)
-        filename = os.path.join(dir, f"{font.font.name}.xml")
-        write_soundfont(font, filename, samplebanks)
-        fontId += 1
+        filename = os.path.join(dir, f"{fontentry.font.name}.xml")
+        s_filename = os.path.join(dir, f"{fontentry.font.index}.s.inc")
+        write_soundfont(fontentry, filename, samplebanks)
+        write_soundfont_header(fontentry.font, s_filename)
 
 if __name__ == "__main__":
     main()
