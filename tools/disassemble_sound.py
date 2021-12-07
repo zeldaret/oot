@@ -406,7 +406,7 @@ def generate_drum_obj(root, drum, envelopes):
     drumElement.set("Enum", drum.enum or "")
     drumElement.set("Decay", str(drum.decay))
     drumElement.set("Pan", str(drum.pan))
-    drumElement.set("Sample", sampleNameLookup[drum.sample.bank][drum.sample.address])
+    drumElement.set("Sample", f"{sampleNameLookup[drum.sample.bank][drum.sample.address]}.aifc")
     drumElement.set("Envelope", drum.envelope.name)
     envelopes[drum.envelope.name] = drum.envelope
     if drum.pitch != usedTuning[drum.sample.bank][drum.sample.address]:
@@ -422,7 +422,7 @@ def generate_effect_obj(root, effect):
     
     element.set("Name", effect.name or f"Effect_{effect.offset:0>8x}")
     element.set("Enum", effect.enum or "")
-    element.set("Sample", sampleNameLookup[effect.sample.bank][effect.sample.address])
+    element.set("Sample", f"{sampleNameLookup[effect.sample.bank][effect.sample.address]}.aifc")
 
     if effect.pitch != usedTuning[effect.sample.bank][effect.sample.address]:
         element.set("Pitch", str(effect.pitch))
@@ -449,18 +449,18 @@ def generate_instrument_obj(root, instrument, envelopes):
     hiKeyElement = XmlTree.SubElement(element, "HighKey")
     if instrument.keyLowSample is not None:
         keyLow = instrument.keyLowSample
-        lowKeyElement.set("Sample", sampleNameLookup[keyLow.bank][keyLow.address])
+        lowKeyElement.set("Sample", f"{sampleNameLookup[keyLow.bank][keyLow.address]}.aifc")
         lowKeyElement.set("MaxNote", toNote(instrument.lowRange))
         if instrument.keyLowPitch != usedTuning[keyLow.bank][keyLow.address]:
             lowKeyElement.set("Pitch", str(instrument.keyLowPitch))
     if instrument.keyMedSample is not None:
         keyMed = instrument.keyMedSample
-        medKeyElement.set("Sample", sampleNameLookup[keyMed.bank][keyMed.address])
+        medKeyElement.set("Sample", f"{sampleNameLookup[keyMed.bank][keyMed.address]}.aifc")
         if instrument.keyMedPitch != usedTuning[keyMed.bank][keyMed.address]:
             medKeyElement.set("Pitch", str(instrument.keyMedPitch))
     if instrument.keyHighSample is not None:
         keyHigh = instrument.keyHighSample
-        hiKeyElement.set("Sample", sampleNameLookup[keyHigh.bank][keyHigh.address])
+        hiKeyElement.set("Sample", f"{sampleNameLookup[keyHigh.bank][keyHigh.address]}.aifc")
         hiKeyElement.set("MinNote", toNote(instrument.highRange))
         if instrument.keyHighPitch != usedTuning[keyHigh.bank][keyHigh.address]:
             hiKeyElement.set("Pitch", str(instrument.keyHighPitch))
