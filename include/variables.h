@@ -122,7 +122,7 @@ extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern Mtx gMtxClear;
 extern MtxF gMtxFClear;
-extern u32 D_8012DBC0;
+extern u32 gIsCtrlr2Valid;
 extern vu32 gIrqMgrResetStatus;
 extern volatile OSTime gIrqMgrRetraceTime;
 extern s16* gWaveSamples[9];
