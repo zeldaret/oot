@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_Item_Etcetera/z_item_etcetera.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 typedef enum {
     /* 0 */ CHEST_LEFT,
@@ -202,7 +202,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     ((this->rightChestNum & 0x1F) << 8) + (rightChestItem & 0xFF));
     }
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnChanger_Wait;
 }
 

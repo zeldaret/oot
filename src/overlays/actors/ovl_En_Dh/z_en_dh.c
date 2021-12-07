@@ -1,7 +1,7 @@
 #include "z_en_dh.h"
 #include "objects/object_dh/object_dh.h"
 
-#define FLAGS 0x00000415
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
 typedef enum {
     /* 0 */ DH_WAIT,
@@ -148,7 +148,7 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = LINK_IS_ADULT ? 14 : 20;
     this->alpha = this->unk_258 = 255;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     Collider_InitCylinder(globalCtx, &this->collider1);
     Collider_SetCylinder(globalCtx, &this->collider1, &this->actor, &sCylinderInit);
     Collider_InitJntSph(globalCtx, &this->collider2);
@@ -192,7 +192,7 @@ void EnDh_SetupWait(EnDh* this) {
     this->actor.shape.yOffset = -15000.0f;
     this->dirtWaveSpread = this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.flags |= 0x80;
+    this->actor.flags |= ACTOR_FLAG_7;
     this->dirtWavePhase = this->actionState = this->actor.params = ENDH_WAIT_UNDERGROUND;
     EnDh_SetupAction(this, EnDh_Wait);
 }
@@ -207,9 +207,9 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
     if ((this->actor.params >= ENDH_START_ATTACK_GRAB) || (this->actor.params <= ENDH_HANDS_KILLED_4)) {
         switch (this->actionState) {
             case 0:
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
                 this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-                this->actor.flags &= ~0x80;
+                this->actor.flags &= ~ACTOR_FLAG_7;
                 this->actionState++;
                 this->drawDirtWave++;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
@@ -363,7 +363,7 @@ void EnDh_SetupBurrow(EnDh* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->dirtWavePhase = 0;
     this->actionState = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
     EnDh_SetupAction(this, EnDh_Burrow);
 }
@@ -433,7 +433,7 @@ void EnDh_SetupDeath(EnDh* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_0032BC, -1.0f);
     this->curAction = DH_DEATH;
     this->timer = 300;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     func_800F5B58();
     this->actor.params = ENDH_DEATH;

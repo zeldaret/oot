@@ -7,7 +7,7 @@
 #include "z_bg_spot09_obj.h"
 #include "objects/object_spot09_obj/object_spot09_obj.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot09Obj_Destroy(Actor* thisx, GlobalContext* globalCtx);

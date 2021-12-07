@@ -13,7 +13,7 @@
 #include "objects/object_hintnuts/object_hintnuts.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDntNomal_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -122,7 +122,7 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->type < ENDNTNOMAL_TARGET) {
         this->type = ENDNTNOMAL_TARGET;
     }
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
     this->objId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {

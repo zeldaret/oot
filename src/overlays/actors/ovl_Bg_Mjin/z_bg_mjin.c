@@ -14,7 +14,7 @@
 #include "objects/object_mjin_flash/object_mjin_flash.h"
 #include "objects/object_mjin_oka/object_mjin_oka.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -78,7 +78,7 @@ void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         colHeader = NULL;
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->dyna.actor.objBankIndex = this->objBankIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);

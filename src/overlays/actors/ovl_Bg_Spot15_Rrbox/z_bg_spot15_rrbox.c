@@ -7,7 +7,7 @@
 #include "z_bg_spot15_rrbox.h"
 #include "objects/object_spot15_obj/object_spot15_obj.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx);

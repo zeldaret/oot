@@ -7,7 +7,7 @@
 #include "z_en_ma3.h"
 #include "objects/object_ma2/object_ma2.h"
 
-#define FLAGS 0x00000039
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa3_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -74,7 +74,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
     timer1ValuePtr = &gSaveContext.timer1Value;
     if (gSaveContext.eventInf[0] & 0x400) {
         gSaveContext.timer1Value = gSaveContext.timer1Value;
-        thisx->flags |= 0x10000;
+        thisx->flags |= ACTOR_FLAG_16;
         if (gSaveContext.timer1Value >= 0xD3) {
             return 0x208E;
         }
@@ -144,7 +144,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                     }
                 case 0x208E:
                     gSaveContext.eventInf[0] &= ~0x400;
-                    thisx->flags &= ~0x10000;
+                    thisx->flags &= ~ACTOR_FLAG_16;
                     ret = 0;
                     gSaveContext.timer1State = 0xA;
                     break;
@@ -269,7 +269,7 @@ void EnMa3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AA3200(EnMa3* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->unk_1E0.unk_00 = 0;
     }
 }

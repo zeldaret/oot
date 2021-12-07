@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
 #include "vt.h"
 
-#define FLAGS 0x00000015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -140,7 +140,7 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.shape.yOffset = -4230.0f;
     this->focusHeightOffset = 0.0f;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->home = this->actor.world.pos;
     this->actor.targetMode = 3;
     this->actionFunc = EnAnubice_FindFlameCircles;
@@ -187,7 +187,7 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx) {
             }
             this->hasSearchedForFlameCircles = true;
         }
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actionFunc = EnAnubice_SetupIdle;
     }
 }
@@ -364,7 +364,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
                 fabsf(this->flameCircles[i]->actor.world.pos.z - this->actor.world.pos.z) < 60.0f &&
                 flameCircle->timer != 0) {
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
@@ -376,7 +376,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->col.base.acFlags &= ~2;
             if (this->actor.colChkInfo.damageEffect == 2) {
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;

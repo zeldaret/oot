@@ -7,7 +7,7 @@
 #include "z_bg_spot18_futa.h"
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx);

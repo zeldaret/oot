@@ -4,7 +4,7 @@
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx);

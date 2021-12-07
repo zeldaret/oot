@@ -6,7 +6,7 @@
 
 #include "z_obj_mure.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void ObjMure_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -154,7 +154,7 @@ void ObjMure_SpawnActors0(ObjMure* this, GlobalContext* globalCtx) {
                     Actor_Spawn(ac, globalCtx, sSpawnActorIds[this->type], pos.x, pos.y, pos.z, this->actor.world.rot.x,
                                 this->actor.world.rot.y, this->actor.world.rot.z, sSpawnParams[this->type]);
                 if (this->children[i] != NULL) {
-                    this->children[i]->flags |= 0x800;
+                    this->children[i]->flags |= ACTOR_FLAG_11;
                     this->children[i]->room = this->actor.room;
                 } else {
                     osSyncPrintf("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 359);
@@ -254,7 +254,7 @@ void ObjMure_CheckChildren(ObjMure* this, GlobalContext* globalCtx) {
         if (this->children[i] != NULL) {
             if (this->childrenStates[i] == OBJMURE_CHILD_STATE_0) {
                 if (this->children[i]->update != NULL) {
-                    if (this->children[i]->flags & 0x800) {
+                    if (this->children[i]->flags & ACTOR_FLAG_11) {
                         this->childrenStates[i] = OBJMURE_CHILD_STATE_2;
                     }
                 } else {
@@ -276,7 +276,7 @@ void ObjMure_InitialAction(ObjMure* this, GlobalContext* globalCtx) {
 void ObjMure_CulledState(ObjMure* this, GlobalContext* globalCtx) {
     if (fabsf(this->actor.projectedPos.z) < sZClip[this->type]) {
         this->actionFunc = ObjMure_ActiveState;
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
         ObjMure_SpawnActors(this, globalCtx);
     }
 }
@@ -399,7 +399,7 @@ void ObjMure_ActiveState(ObjMure* this, GlobalContext* globalCtx) {
     ObjMure_CheckChildren(this, globalCtx);
     if (sZClip[this->type] + 40.0f <= fabsf(this->actor.projectedPos.z)) {
         this->actionFunc = ObjMure_CulledState;
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         ObjMure_KillActors(this, globalCtx);
     } else if (sTypeGroupBehaviorFunc[this->type] != NULL) {
         sTypeGroupBehaviorFunc[this->type](this, globalCtx);

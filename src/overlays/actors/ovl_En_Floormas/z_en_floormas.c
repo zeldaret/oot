@@ -7,7 +7,7 @@
 #include "z_en_floormas.h"
 #include "objects/object_wallmaster/object_wallmaster.h"
 
-#define FLAGS 0x00000405
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_10)
 
 #define SPAWN_INVISIBLE 0x8000
 #define SPAWN_SMALL 0x10
@@ -138,13 +138,13 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx2) {
     // s16 cast needed
     this->actor.params &= (s16) ~(SPAWN_INVISIBLE);
     if (invisble) {
-        this->actor.flags |= 0x80;
+        this->actor.flags |= ACTOR_FLAG_7;
         this->actor.draw = EnFloormas_DrawHighlighted;
     }
 
     if (this->actor.params == SPAWN_SMALL) {
         this->actor.draw = NULL;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actionFunc = EnFloormas_SmWait;
     } else {
         // spawn first small floormaster
@@ -280,8 +280,8 @@ void EnFloormas_SetupLand(EnFloormas* this) {
 void EnFloormas_SetupSplit(EnFloormas* this) {
 
     Actor_SetScale(&this->actor, 0.004f);
-    this->actor.flags |= 0x10;
-    if ((this->actor.flags & 0x80) == 0x80) {
+    this->actor.flags |= ACTOR_FLAG_4;
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
         this->actor.draw = EnFloormas_DrawHighlighted;
     } else {
         this->actor.draw = EnFloormas_Draw;
@@ -346,7 +346,7 @@ void EnFloormas_SetupGrabLink(EnFloormas* this, Player* player) {
     f32 xzDelta;
 
     Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.0f, 36.0f, 45.0f, ANIMMODE_ONCE, -3.0f);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     EnFloormas_MakeInvulnerable(this);
@@ -385,7 +385,7 @@ void EnFloormas_SetupSmWait(EnFloormas* this) {
     }
     this->actor.draw = NULL;
     this->actionFunc = EnFloormas_SmWait;
-    this->actor.flags &= ~0x11;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_4);
 }
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
@@ -663,7 +663,7 @@ void EnFloormas_Land(EnFloormas* this, GlobalContext* globalCtx) {
 void EnFloormas_Split(EnFloormas* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 1) {
         if (SkelAnime_Update(&this->skelAnime)) {
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             this->smActionTimer = 50;
             EnFloormas_SetupStand(this);
         }
@@ -805,7 +805,7 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
 
         this->actor.shape.rot.x = 0;
         this->actor.velocity.y = 6.0f;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actor.speedXZ = -3.0f;
         EnFloormas_SetupLand(this);
     } else {
@@ -912,7 +912,7 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->actor.scale.x >= 0.01f) {
-            this->actor.flags &= ~0x10;
+            this->actor.flags &= ~ACTOR_FLAG_4;
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
             this->collider.info.bumperFlags |= BUMP_HOOKABLE;
@@ -997,7 +997,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DEAD);
                     }
                     Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                    this->actor.flags &= ~1;
+                    this->actor.flags &= ~ACTOR_FLAG_0;
                 } else if (this->actor.colChkInfo.damage != 0) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DAMAGE);
                 }
@@ -1051,7 +1051,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->actor.scale.x * 3000.0f, 0.0f, 0x1D);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->actionFunc == EnFloormas_Charge) {
-            this->actor.flags |= 0x1000000;
+            this->actor.flags |= ACTOR_FLAG_24;
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnFloormas_GrabLink) {

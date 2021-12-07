@@ -7,7 +7,7 @@
 #include "z_bg_jya_block.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_GeldB/z_en_geldb.h"
 #include "objects/object_daiku/object_daiku.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 typedef struct {
     AnimationHeader* anim;
@@ -373,7 +373,7 @@ void EnDaiku_Jailed(EnDaiku* this, GlobalContext* globalCtx) {
         this->actionFunc = EnDaiku_WaitFreedom;
     } else if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING) && !gerudo->invisible) {
         this->stateFlags |= ENDAIKU_STATEFLAG_GERUDOFIGHTING;
-        this->actor.flags &= ~9;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
     }
 }
 
@@ -385,7 +385,7 @@ void EnDaiku_WaitFreedom(EnDaiku* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F)) {
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         EnDaiku_UpdateText(this, globalCtx);
     }
 }

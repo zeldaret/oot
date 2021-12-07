@@ -9,7 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_spot02_objects/object_spot02_objects.h"
 
-#define FLAGS 0x02000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);

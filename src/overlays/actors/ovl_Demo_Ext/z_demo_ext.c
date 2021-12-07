@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_fhg/object_fhg.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* 0x00 */ EXT_WAIT,

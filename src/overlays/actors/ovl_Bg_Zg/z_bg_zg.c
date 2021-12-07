@@ -8,7 +8,7 @@
 #include "objects/object_zg/object_zg.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgZg_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx);

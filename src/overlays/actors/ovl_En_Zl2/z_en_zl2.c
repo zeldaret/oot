@@ -11,7 +11,7 @@
 #include "objects/object_zl2/object_zl2.h"
 #include "objects/object_zl2_anime1/object_zl2_anime1.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx);

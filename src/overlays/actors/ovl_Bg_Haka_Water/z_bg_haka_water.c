@@ -7,7 +7,7 @@
 #include "z_bg_haka_water.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgHakaWater_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaWater_Destroy(Actor* thisx, GlobalContext* globalCtx);

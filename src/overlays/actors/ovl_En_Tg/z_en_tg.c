@@ -7,7 +7,7 @@
 #include "z_en_tg.h"
 #include "objects/object_mu/object_mu.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnTg_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -9,7 +9,7 @@
 #include "objects/object_os_anime/object_os_anime.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 #define ENKO_TYPE (this->actor.params & 0xFF)
 #define ENKO_PATH ((this->actor.params & 0xFF00) >> 8)
@@ -1042,9 +1042,9 @@ void func_80A98DB4(EnKo* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->modelAlpha, (this->appearDist < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
     if (this->modelAlpha < 10.0f) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
     }
 }
 
@@ -1086,7 +1086,7 @@ void EnKo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
     if (EnKo_IsOsAnimeLoaded(this, globalCtx) && EnKo_AreObjectsLoaded(this, globalCtx)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->legsObjectBankIdx;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader,

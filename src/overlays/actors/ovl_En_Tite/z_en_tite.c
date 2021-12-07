@@ -10,7 +10,7 @@
 #include "vt.h"
 #include "objects/object_tite/object_tite.h"
 
-#define FLAGS 0x00000015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 // EnTite_Idle
 #define vIdleTimer actionVar1
@@ -288,7 +288,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
             case TEKTITE_MID_LUNGE:
                 // Continue trajectory until tektite has negative velocity and has landed on ground/water surface
                 // Snap to ground/water surface, or if falling fast dip into the water and slow fall speed
-                this->actor.flags |= 0x1000000;
+                this->actor.flags |= ACTOR_FLAG_24;
                 if ((this->actor.bgCheckFlags & 3) ||
                     ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & 0x20))) {
                     if (this->actor.velocity.y <= 0.0f) {
@@ -363,7 +363,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
                     func_800355B8(globalCtx, &this->backLeftFootPos);
                 }
             }
-            if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & 0x40)) {
+            if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & ACTOR_FLAG_6)) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             } else {
                 Player* player = GET_PLAYER(globalCtx);
@@ -566,7 +566,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
             } else {
                 this->actor.velocity.y = 10.0f;
                 this->actor.speedXZ = 4.0f;
-                this->actor.flags |= 0x1000000;
+                this->actor.flags |= ACTOR_FLAG_24;
                 this->actor.gravity = -1.0f;
                 if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & 0x20)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
@@ -577,7 +577,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
         } else {
             this->actor.velocity.y = 10.0f;
             this->actor.speedXZ = 4.0f;
-            this->actor.flags |= 0x1000000;
+            this->actor.flags |= ACTOR_FLAG_24;
             this->actor.gravity = -1.0f;
             if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & 0x20)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
@@ -588,7 +588,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
         // If in midair:
     } else {
         // Turn slowly toward player
-        this->actor.flags |= 0x1000000;
+        this->actor.flags |= ACTOR_FLAG_24;
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 1000, 0);
         if (this->actor.velocity.y >= 6.0f) {
             if (this->actor.bgCheckFlags & 1) {

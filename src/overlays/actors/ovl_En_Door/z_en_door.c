@@ -10,7 +10,7 @@
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define DOOR_AJAR_SLAM_RANGE 120.0f
 #define DOOR_AJAR_OPEN_RANGE (2 * DOOR_AJAR_SLAM_RANGE)
@@ -145,7 +145,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
         doorType = this->actor.params >> 7 & 7;
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actionFunc = EnDoor_Idle;
         if (doorType == DOOR_EVENING) {
@@ -172,7 +172,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
                 doorType = DOOR_SCENEEXIT;
             } else {
                 this->actionFunc = EnDoor_WaitForCheck;
-                this->actor.flags |= 0x8000009;
+                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27;
             }
         }
         // Replace the door type it was loaded with by the new type

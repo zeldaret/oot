@@ -1,7 +1,7 @@
 #include "z_en_ma2.h"
 #include "objects/object_ma2/object_ma2.h"
 
-#define FLAGS 0x02000039
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -248,7 +248,7 @@ void EnMa2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AA2018(EnMa2* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->unk_1E0.unk_00 = 0;
     }
 }
@@ -290,10 +290,10 @@ void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx) {
         player->stateFlags2 |= 0x800000;
     } else {
         if (this->unk_1E0.unk_00 == 0) {
-            this->actor.flags |= 0x10000;
+            this->actor.flags |= ACTOR_FLAG_16;
             Message_CloseTextbox(globalCtx);
         } else {
-            this->actor.flags &= ~0x10000;
+            this->actor.flags &= ~ACTOR_FLAG_16;
             this->actionFunc = func_80AA2018;
         }
     }
