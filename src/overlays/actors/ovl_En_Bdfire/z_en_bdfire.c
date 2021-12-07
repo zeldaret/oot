@@ -196,7 +196,9 @@ void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
     static void* D_809BCB10[] = {
-        0x060264E0, 0x060274E0, 0x060284E0, 0x060294E0, 0x0602A4E0, 0x0602B4E0, 0x0602C4E0, 0x0602D4E0,
+        object_kingdodongo_Tex_0264E0, object_kingdodongo_Tex_0274E0, object_kingdodongo_Tex_0284E0,
+        object_kingdodongo_Tex_0294E0, object_kingdodongo_Tex_02A4E0, object_kingdodongo_Tex_02B4E0,
+        object_kingdodongo_Tex_02C4E0, object_kingdodongo_Tex_02D4E0,
     };
     s16 temp;
     s32 pad;

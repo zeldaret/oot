@@ -11,7 +11,8 @@
         <Texture Name="object_fr_Tex_004BA0" OutName="tex_00004BA0" Format="rgba16" Width="16" Height="16" Offset="0x4BA0"/>
         <Texture Name="object_fr_Tex_004DA0" OutName="tex_00004DA0" Format="rgba16" Width="32" Height="32" Offset="0x4DA0"/>
         <Texture Name="object_fr_Tex_0055A0" OutName="tex_000055A0" Format="i8" Width="32" Height="32" Offset="0x55A0"/>
-        <Blob Name="object_fr_Blob_0059A0" Size="0x400" Offset="0x59A0"/>
+        <Texture Name="object_fr_Tex_0059A0" OutName="tex_000059A0" Format="rgba16" Width="16" Height="16" Offset="0x59A0"/>
+        <Texture Name="object_fr_Tex_005BA0" OutName="tex_00005BA0" Format="rgba16" Width="16" Height="16" Offset="0x5BA0"/>
         <Texture Name="object_fr_Tex_005DA0" OutName="tex_00005DA0" Format="ia16" Width="32" Height="32" Offset="0x5DA0"/>
         <Texture Name="object_fr_Tex_0065A0" OutName="tex_000065A0" Format="ia16" Width="32" Height="32" Offset="0x65A0"/>
         <DList Name="object_fr_DL_008EC0" Offset="0x8EC0"/>
