@@ -236,7 +236,7 @@ build/assets/text/staff_message_data_static.o: build/assets/text/message_data_st
 
 build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) -O1 -o $@ $<
-ifneq ($(SKIP_OBJDUMP), 1)
+ifneq ($(SKIP_OBJCPY), 1)
 	$(OBJCOPY) -O binary $@ $@.bin
 endif
 
