@@ -9,9 +9,7 @@
 #include "objects/object_kanban/object_kanban.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnKanban*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 #define PART_UPPER_LEFT (1 << 0)
 #define PART_LEFT_UPPER (1 << 1)
@@ -193,12 +191,12 @@ void EnKanban_SetFloorRot(EnKanban* this) {
 }
 
 void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKanban* this = THIS;
+    EnKanban* this = (EnKanban*)thisx;
 
     Actor_SetScale(&this->actor, 0.01f);
     if (this->actor.params != ENKANBAN_PIECE) {
         this->actor.targetMode = 0;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         osSyncPrintf("KANBAN ARG    %x\n", this->actor.params);
@@ -223,7 +221,7 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnKanban_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnKanban* this = THIS;
+    EnKanban* this = (EnKanban*)thisx;
 
     if (this->actionState == ENKANBAN_SIGN) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -234,7 +232,7 @@ void EnKanban_Message(EnKanban* this, GlobalContext* globalCtx) {
     if (!this->msgFlag) {
         if (this->msgTimer == 0) {
             if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2800) {
-                if (func_8002F194(&this->actor, globalCtx)) {
+                if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
                     this->msgFlag = true;
                 } else {
                     func_8002F2CC(&this->actor, globalCtx, 68.0f);
@@ -244,7 +242,7 @@ void EnKanban_Message(EnKanban* this, GlobalContext* globalCtx) {
             this->msgTimer--;
         }
     } else {
-        if (func_8002F334(&this->actor, globalCtx)) {
+        if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
             this->msgFlag = false;
             this->msgTimer = 20;
         }
@@ -254,7 +252,7 @@ void EnKanban_Message(EnKanban* this, GlobalContext* globalCtx) {
 void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
     u8 bounced = false;
     GlobalContext* globalCtx = globalCtx2;
-    EnKanban* this = THIS;
+    EnKanban* this = (EnKanban*)thisx;
     EnKanban* signpost;
     EnKanban* piece;
     Player* player = GET_PLAYER(globalCtx);
@@ -270,7 +268,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->zTargetTimer--;
             }
             if (this->zTargetTimer == 1) {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
             if (this->partFlags == 0xFFFF) {
                 EnKanban_Message(this, globalCtx);
@@ -388,8 +386,8 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         piece->direction = -1;
                     }
                     piece->airTimer = 100;
-                    piece->actor.flags &= ~1;
-                    piece->actor.flags |= 0x02000000;
+                    piece->actor.flags &= ~ACTOR_FLAG_0;
+                    piece->actor.flags |= ACTOR_FLAG_25;
                     this->cutMarkTimer = 5;
                     Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_STRIKE);
                 }
@@ -400,7 +398,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer > 500.0f) {
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
                 this->partFlags = 0xFFFF;
             }
             if (this->cutMarkTimer != 0) {
@@ -704,16 +702,17 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
             }
             osSyncPrintf(VT_FGCOL(GREEN));
-            osSyncPrintf("OCARINA_MODE %d\n", globalCtx->msgCtx.unk_E3EE);
+            osSyncPrintf("OCARINA_MODE %d\n", globalCtx->msgCtx.ocarinaMode);
             osSyncPrintf(VT_RST);
             switch (this->ocarinaFlag) {
                 case 0:
-                    if (globalCtx->msgCtx.unk_E3EE == 1) {
+                    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
                         this->ocarinaFlag = 1;
                     }
                     break;
                 case 1:
-                    if ((globalCtx->msgCtx.unk_E3EE == 4) && (globalCtx->msgCtx.unk_E3F2 == 8)) {
+                    if ((globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) &&
+                        (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY)) {
                         this->actionState = ENKANBAN_REPAIR;
                         this->bounceX = 1;
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
@@ -755,7 +754,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 ((pDiff + yDiff + rDiff + this->spinRot.x + this->spinRot.z) == 0) && (this->floorRot.x == 0.0f) &&
                 (this->floorRot.z == 0.0f)) {
                 signpost->partFlags |= this->partFlags;
-                signpost->actor.flags |= 1;
+                signpost->actor.flags |= ACTOR_FLAG_0;
                 Actor_Kill(&this->actor);
             }
         } break;
@@ -781,29 +780,10 @@ static f32 sCutAngles[] = {
 
 static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 
-static Vtx sShadowVertices[] = {
-    VTX(-2000, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(2000, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(2000, 6000, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-2000, 6000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-};
-
-static Gfx sShadowDList[] = {
-    gsDPPipeSync(),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(0x08000000, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                         G_TX_NOMIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD),
-    gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
-    gsDPSetRenderMode(G_RM_PASS, G_RM_ZB_OVL_SURF2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPVertex(sShadowVertices, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_Kanban/ovl_En_Kanban.c"
 
 void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnKanban* this = THIS;
+    EnKanban* this = (EnKanban*)thisx;
     f32 zShift;
     f32 zShift2;
     s16 i;
@@ -908,7 +888,7 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(shadowTex));
-            gSPDisplayList(POLY_XLU_DISP++, sShadowDList);
+            gSPDisplayList(POLY_XLU_DISP++, sShadowDL);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1857);

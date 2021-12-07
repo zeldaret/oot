@@ -54,6 +54,7 @@ void LogUtils_LogHexDump(void* ptr, s32 size0) {
         while (true) {
             if (i < rest) {
                 u8 a = *(addr + i);
+
                 osSyncPrintf("%c", (a >= 0x20 && a < 0x7F) ? a : '.');
             } else {
                 osSyncPrintf(" ");
@@ -77,6 +78,7 @@ void LogUtils_LogPointer(s32 value, u32 max, void* ptr, const char* name, const 
 
 void LogUtils_CheckBoundary(const char* name, s32 value, s32 unk, const char* file, s32 line) {
     u32 mask = (unk - 1);
+
     if (value & mask) {
         osSyncPrintf(VT_COL(RED, WHITE) "%s %d:%s(%08x) は バウンダリ(%d)違反です\n" VT_RST, file, line, name, value,
                      unk);

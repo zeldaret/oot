@@ -8,9 +8,7 @@
 #include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgJyaZurerukabe*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaZurerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -110,7 +108,7 @@ void func_8089B4C8(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaZurerukabe* this = THIS;
+    BgJyaZurerukabe* this = (BgJyaZurerukabe*)thisx;
     s32 i;
 
     BgJyaZurerukabe_InitDynaPoly(this, globalCtx, &gZurerukabeCol, DPM_UNK);
@@ -136,7 +134,7 @@ void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaZurerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaZurerukabe* this = THIS;
+    BgJyaZurerukabe* this = (BgJyaZurerukabe*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     D_8089B9C0[this->unk_168] = 0.0f;
@@ -173,7 +171,7 @@ void func_8089B870(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaZurerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaZurerukabe* this = THIS;
+    BgJyaZurerukabe* this = (BgJyaZurerukabe*)thisx;
 
     if (this->unk_16A > 0) {
         this->unk_16A--;

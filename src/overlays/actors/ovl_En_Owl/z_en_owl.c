@@ -10,9 +10,7 @@
 #include "scenes/overworld/spot16/spot16_scene.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnOwl*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -107,7 +105,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     ColliderCylinder* collider;
     s32 owlType;
     s32 switchFlag;
@@ -236,7 +234,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -260,7 +258,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
     s32 timer;
     f32 distCheck;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (this->actor.params == 0xFFF) {
             this->actionFlags |= 0x40;
             timer = -100;
@@ -279,7 +277,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
         this->actor.textId = textId;
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
         if (this->actor.xzDistToPlayer < targetDist) {
-            this->actor.flags |= 0x10000;
+            this->actor.flags |= ACTOR_FLAG_16;
             func_8002F1C4(&this->actor, globalCtx, targetDist, distCheck, 0);
         }
         return false;
@@ -287,7 +285,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
 }
 
 s32 func_80ACA558(EnOwl* this, GlobalContext* globalCtx, u16 textId) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         return true;
     } else {
         this->actor.textId = textId;
@@ -342,18 +340,18 @@ void func_80ACA71C(EnOwl* this) {
 void func_80ACA76C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
-    if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA62C(this, globalCtx);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
 void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
-    if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         if ((this->unk_3EE & 0x3F) == 0) {
             func_80ACA62C(this, globalCtx);
         } else {
@@ -361,18 +359,18 @@ void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
             func_80ACA71C(this);
             this->actionFunc = func_80ACA690;
         }
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
 void EnOwl_ConfirmKokiriMessage(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x2065);
+                Message_ContinueTextbox(globalCtx, 0x2065);
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x2067);
+                Message_ContinueTextbox(globalCtx, 0x2067);
                 this->actionFunc = func_80ACA76C;
                 break;
         }
@@ -384,7 +382,7 @@ void EnOwl_WaitOutsideKokiri(EnOwl* this, GlobalContext* globalCtx) {
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2064, 360.0f, 0)) {
         // Sets BGM
-        func_800F5C64(NA_BGM_OWL);
+        Audio_PlayFanfare(NA_BGM_OWL);
 
         this->actionFunc = EnOwl_ConfirmKokiriMessage;
         // spoke to owl by lost woods
@@ -393,14 +391,14 @@ void EnOwl_WaitOutsideKokiri(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACA998(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x2069);
+                Message_ContinueTextbox(globalCtx, 0x2069);
                 this->actionFunc = func_80ACAA54;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x206B);
+                Message_ContinueTextbox(globalCtx, 0x206B);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -410,8 +408,8 @@ void func_80ACA998(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAA54(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, 0x206A);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x206A);
         this->actionFunc = func_80ACA998;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -419,8 +417,8 @@ void func_80ACAA54(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAAC0(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, 0x2069);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x2069);
         this->actionFunc = func_80ACAA54;
         this->actionFlags &= ~2;
         func_80ACA71C(this);
@@ -431,25 +429,25 @@ void EnOwl_WaitHyruleCastle(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2068, 540.0f, 0)) {
-        func_800F5C64(NA_BGM_OWL);
+        Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACAAC0;
     }
 }
 
 void func_80ACAB88(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
                 // obtained zelda's letter
                 if (gSaveContext.eventChkInf[4] & 1) {
-                    func_8010B720(globalCtx, 0x206D);
+                    Message_ContinueTextbox(globalCtx, 0x206D);
                 } else {
-                    func_8010B720(globalCtx, 0x206C);
+                    Message_ContinueTextbox(globalCtx, 0x206C);
                 }
                 this->actionFunc = func_80ACAC6C;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x206E);
+                Message_ContinueTextbox(globalCtx, 0x206E);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -460,8 +458,8 @@ void func_80ACAB88(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAC6C(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, 0x206A);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x206A);
         this->actionFunc = func_80ACAB88;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -472,20 +470,20 @@ void EnOwl_WaitKakariko(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x206C, 480.0f, 0)) {
-        func_800F5C64(NA_BGM_OWL);
+        Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACAC6C;
     }
 }
 
 void func_80ACAD34(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x206F);
+                Message_ContinueTextbox(globalCtx, 0x206F);
                 this->actionFunc = func_80ACADF0;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x2070);
+                Message_ContinueTextbox(globalCtx, 0x2070);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -496,8 +494,8 @@ void func_80ACAD34(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACADF0(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, 0x206A);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x206A);
         this->actionFunc = func_80ACAD34;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -508,20 +506,20 @@ void EnOwl_WaitGerudo(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x206F, 360.0f, 0)) {
-        func_800F5C64(NA_BGM_OWL);
+        Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACADF0;
     }
 }
 
 void func_80ACAEB8(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x2071);
+                Message_ContinueTextbox(globalCtx, 0x2071);
                 this->actionFunc = func_80ACAF74;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x2072);
+                Message_ContinueTextbox(globalCtx, 0x2072);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -532,8 +530,8 @@ void func_80ACAEB8(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACAF74(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, 0x206A);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x206A);
         this->actionFunc = func_80ACAEB8;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -544,7 +542,7 @@ void EnOwl_WaitLakeHylia(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2071, 360.0f, 0)) {
-        func_800F5C64(NA_BGM_OWL);
+        Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACAF74;
     }
 }
@@ -552,10 +550,10 @@ void EnOwl_WaitLakeHylia(EnOwl* this, GlobalContext* globalCtx) {
 void func_80ACB03C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
-    if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA62C(this, globalCtx);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
@@ -575,14 +573,14 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx) {
     }
 
     if (EnOwl_CheckInitTalk(this, globalCtx, textId, 360.0f, 0)) {
-        func_800F5C64(NA_BGM_OWL);
+        Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACB03C;
     }
 }
 
 void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
         Flags_SetSwitch(globalCtx, 0x23);
@@ -591,26 +589,27 @@ void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
 
 void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
     u16 textId = (gSaveContext.infTable[25] & 0x20) ? 0x4004 : 0x4003;
+
     // Spoke to Owl in Lake Hylia
     EnOwl_LookAtLink(this, globalCtx);
     if (func_80ACA558(this, globalCtx, textId)) {
         gSaveContext.infTable[25] |= 0x20;
-        func_800F5C64(NA_BGM_OWL);
+        Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACB148;
     }
 }
 
 void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
     }
 }
 
 void func_80ACB274(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x110000FF);
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
         this->actionFunc = EnOwl_WaitDeathMountainShortcut;
     }
 }
@@ -620,26 +619,26 @@ void EnOwl_WaitDeathMountainShortcut(EnOwl* this, GlobalContext* globalCtx) {
 
     if (!gSaveContext.magicAcquired) {
         if (func_80ACA558(this, globalCtx, 0x3062)) {
-            func_800F5C64(NA_BGM_OWL);
+            Audio_PlayFanfare(NA_BGM_OWL);
             this->actionFunc = func_80ACB274;
             return;
         }
     } else {
         if (func_80ACA558(this, globalCtx, 0x3063)) {
-            func_800F5C64(NA_BGM_OWL);
+            Audio_PlayFanfare(NA_BGM_OWL);
             this->actionFunc = func_80ACB22C;
         }
     }
 }
 
 void func_80ACB344(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x607A);
+                Message_ContinueTextbox(globalCtx, 0x607A);
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x607C);
+                Message_ContinueTextbox(globalCtx, 0x607C);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -650,20 +649,20 @@ void func_80ACB3E0(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x6079, 360.0f, 2)) {
-        func_800F5C64(NA_BGM_OWL);
+        Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACB344;
     }
 }
 
 void func_80ACB440(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x10C1);
+                Message_ContinueTextbox(globalCtx, 0x10C1);
                 this->actionFunc = func_80ACB4FC;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x10C3);
+                Message_ContinueTextbox(globalCtx, 0x10C3);
                 this->actionFunc = func_80ACA7E0;
         }
 
@@ -673,8 +672,8 @@ void func_80ACB440(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB4FC(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, 0x10C2);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x10C2);
         this->actionFunc = func_80ACB440;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -685,20 +684,20 @@ void EnOwl_WaitLWPreSaria(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x10C0, 190.0f, 0)) {
-        func_800F5C64(NA_BGM_OWL);
+        Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACB4FC;
     }
 }
 
 void func_80ACB5C4(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                func_8010B720(globalCtx, 0x10C5);
+                Message_ContinueTextbox(globalCtx, 0x10C5);
                 this->actionFunc = func_80ACB680;
                 break;
             case OWL_OK:
-                func_8010B720(globalCtx, 0x10C7);
+                Message_ContinueTextbox(globalCtx, 0x10C7);
                 this->actionFunc = func_80ACA7E0;
                 break;
         }
@@ -709,8 +708,8 @@ void func_80ACB5C4(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB680(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, 0x10C6);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x10C6);
         this->actionFunc = func_80ACB5C4;
         this->actionFlags |= 2;
         func_80ACA71C(this);
@@ -721,7 +720,7 @@ void EnOwl_WaitLWPostSaria(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x10C4, 360.0f, 0)) {
-        func_800F5C64(NA_BGM_OWL);
+        Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACB680;
     }
 }
@@ -837,7 +836,7 @@ void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 0x20;
+    this->actor.flags |= ACTOR_FLAG_5;
 
     if (this->actor.xzDistToPlayer > 6000.0f && !(this->actionFlags & 0x80)) {
         Actor_Kill(&this->actor);
@@ -944,7 +943,7 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
                     break;
                 case 8:
                 case 9:
-                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDmtOwlCs);
+                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDMTOwlCs);
                     this->actor.draw = NULL;
                     break;
                 default:
@@ -1078,7 +1077,7 @@ s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx) {
 
 void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     s16 phi_a1;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -1268,7 +1267,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
 
     switch (limbIndex) {
         case 3:
@@ -1296,7 +1295,7 @@ s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, V
 }
 
 void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, void* thisx) {
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     Vec3f vec;
 
     vec.z = 0.0f;
@@ -1314,7 +1313,7 @@ void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Ve
 
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gObjOwlEyeOpenTex, gObjOwlEyeHalfTex, gObjOwlEyeClosedTex };
-    EnOwl* this = THIS;
+    EnOwl* this = (EnOwl*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2247);
@@ -1393,7 +1392,7 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx) {
         pos.z += Math_CosS(angle) * phi_f2;
         this->unk_3F8 = phi_f2;
         this->actor.world.pos = pos;
-        this->actor.draw = &EnOwl_Draw;
+        this->actor.draw = EnOwl_Draw;
         this->actionFlags &= ~4;
         this->actor.speedXZ = 0.0f;
     } else {

@@ -8,7 +8,12 @@
 #include "vt.h"
 #include "objects/object_zo/object_zo.h"
 #include "objects/object_ec/object_ec.h"
+#include "objects/object_ma2/object_ma2.h"
+#include "objects/object_in/object_in.h"
+#include "objects/object_ge1/object_ge1.h"
+#include "objects/object_fu/object_fu.h"
 #include "objects/object_fish/object_fish.h"
+#include "objects/object_ta/object_ta.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 #include "objects/object_ma2/object_ma2.h"
 #include "objects/object_in/object_in.h"
@@ -32,9 +37,7 @@
 #include "objects/object_bba/object_bba.h"
 #include "objects/object_ane/object_ane.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((DemoEc*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void DemoEc_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoEc_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -149,13 +152,13 @@ extern FlexSkeletonHeader object_bji_Skel_0000F0;
 extern FlexSkeletonHeader object_ahg_Skel_0000F0;
 
 void DemoEc_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEc* this = THIS;
+    DemoEc* this = (DemoEc*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
 
 void DemoEc_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEc* this = THIS;
+    DemoEc* this = (DemoEc*)thisx;
 
     if ((this->actor.params < 0) || (this->actor.params > 34)) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Ec_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" VT_RST);
@@ -258,12 +261,12 @@ void DemoEc_DrawSkeleton(DemoEc* this, GlobalContext* globalCtx, void* eyeTextur
 
     func_80093D18(gfxCtx);
 
-    if (eyeTexture != 0) {
+    if (eyeTexture != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     }
 
-    if (arg3 != 0) {
+    if (arg3 != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(arg3));
     }
 
@@ -353,7 +356,7 @@ void DemoEc_SetNpcActionPosRot(DemoEc* this, GlobalContext* globalCtx, s32 actio
 
 void DemoEc_InitIngo(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &object_in_Skel_013B88);
+    DemoEc_InitSkelAnime(this, globalCtx, &gIngoSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcIngoAnim, 0, 0.0f, false);
     func_8096D64C(this, globalCtx);
@@ -369,12 +372,12 @@ void DemoEc_UpdateIngo(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawIngo(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &object_in_Tex_004390, &object_in_Tex_004350, 0, 0);
+    DemoEc_DrawSkeleton(this, globalCtx, gIngoEyeClosed2Tex, gIngoRedTex, 0, 0);
 }
 
 void DemoEc_InitTalon(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &object_ta_Skel_00B7B8);
+    DemoEc_InitSkelAnime(this, globalCtx, &gTalonSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcTalonAnim, 0, 0.0f, false);
     func_8096D64C(this, globalCtx);
@@ -390,7 +393,7 @@ void DemoEc_UpdateTalon(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawTalon(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &object_ta_Tex_0076C0, &object_ta_Tex_007AC0, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, gTalonEyeClosed2Tex, gTalonRedTex, NULL, NULL);
 }
 
 void DemoEc_InitWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
@@ -411,7 +414,7 @@ void DemoEc_UpdateWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &gWindmillManEyeClosedTex, &gWindmillManMouthAngryTex, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, gWindmillManEyeClosedTex, gWindmillManMouthAngryTex, NULL, NULL);
 }
 
 void DemoEc_InitKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
@@ -638,7 +641,7 @@ void DemoEc_UpdateCarpenter(DemoEc* this, GlobalContext* globalCtx) {
 
 s32 DemoEc_CarpenterOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                      void* thisx, Gfx** gfx) {
-    DemoEc* this = THIS;
+    DemoEc* this = (DemoEc*)thisx;
 
     if (limbIndex == 1) {
         gDPPipeSync((*gfx)++);
@@ -673,13 +676,13 @@ Gfx* DemoEc_GetCarpenterPostLimbDList(DemoEc* this) {
             return object_daiku_DL_005880;
         default:
             osSyncPrintf(VT_FGCOL(RED) "かつらが無い!!!!!!!!!!!!!!!!\n" VT_RST);
-            return 0;
+            return NULL;
     }
 }
 
 void DemoEc_CarpenterPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
                                   Gfx** gfx) {
-    DemoEc* this = THIS;
+    DemoEc* this = (DemoEc*)thisx;
     Gfx* postLimbDList;
 
     if (limbIndex == 15) {
@@ -726,7 +729,7 @@ Gfx* DemoEc_GetGerudoPostLimbDList(DemoEc* this) {
 
 void DemoEc_GerudoPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
                                Gfx** gfx) {
-    DemoEc* this = THIS;
+    DemoEc* this = (DemoEc*)thisx;
     Gfx* postLimbDList;
 
     if (limbIndex == 15) {
@@ -881,6 +884,7 @@ void func_8096F544(DemoEc* this, s32 changeAnim) {
 void func_8096F578(DemoEc* this, GlobalContext* globalCtx, s32 arg2) {
     CsCmdActorAction* npcAction;
     s32 sp18;
+
     npcAction = DemoEc_GetNpcAction(globalCtx, arg2);
     if (npcAction != NULL) {
         sp18 = npcAction->action;
@@ -1021,7 +1025,7 @@ void DemoEc_UpdateMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &gOsEyeClosedTex, NULL, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, gOsEyeClosedTex, NULL, NULL, NULL);
 }
 
 void DemoEc_InitFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
@@ -1044,7 +1048,7 @@ void DemoEc_UpdateFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_FishingOwnerPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
                                      Gfx** gfx) {
-    DemoEc* this = THIS;
+    DemoEc* this = (DemoEc*)thisx;
 
     if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & 0x1000)) {
         gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(gFishingOwnerHatDL));
@@ -1138,14 +1142,14 @@ void DemoEc_DrawGorons(DemoEc* this, GlobalContext* globalCtx) {
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &gGoronCsMouthNeutralTex, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, gGoronCsMouthNeutralTex, NULL, NULL);
 }
 
 void DemoEc_InitMalon(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &object_ma2_Skel_008D90);
+    DemoEc_InitSkelAnime(this, globalCtx, &gMalonAdultSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &object_ma2_Anim_009EE0, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gMalonAdultSingAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_MALON;
@@ -1160,11 +1164,11 @@ void DemoEc_UpdateMalon(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawMalon(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { object_ma2_Tex_002570, object_ma2_Tex_002C70, object_ma2_Tex_003070 };
+    static void* eyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &object_ma2_Tex_003770, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, gMalonAdultMouthHappyTex, NULL, NULL);
 }
 
 static DemoEcInitFunc sInitFuncs[] = {
@@ -1283,7 +1287,7 @@ static DemoEcUpdateFunc sUpdateFuncs[] = {
 };
 
 void DemoEc_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEc* this = THIS;
+    DemoEc* this = (DemoEc*)thisx;
     s32 updateMode = this->updateMode;
 
     if ((updateMode < 0) || (updateMode >= ARRAY_COUNT(sUpdateFuncs)) || sUpdateFuncs[updateMode] == NULL) {
@@ -1316,7 +1320,7 @@ static DemoEcDrawFunc sDrawFuncs[] = {
 };
 
 void DemoEc_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEc* this = THIS;
+    DemoEc* this = (DemoEc*)thisx;
     s32 drawConfig = this->drawConfig;
 
     if ((drawConfig < 0) || (drawConfig >= ARRAY_COUNT(sDrawFuncs)) || sDrawFuncs[drawConfig] == NULL) {

@@ -88,7 +88,7 @@ void ZCollisionHeader::ParseRawData()
 
 void ZCollisionHeader::DeclareReferences(const std::string& prefix)
 {
-	std::string declaration;
+	std::string declaration = "";
 	std::string auxName = name;
 
 	if (name == "")
@@ -174,7 +174,7 @@ void ZCollisionHeader::DeclareReferences(const std::string& prefix)
 
 std::string ZCollisionHeader::GetBodySourceCode() const
 {
-	std::string declaration;
+	std::string declaration = "";
 
 	declaration += "\n";
 

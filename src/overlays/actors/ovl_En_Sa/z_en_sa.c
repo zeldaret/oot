@@ -4,9 +4,7 @@
 #include "scenes/overworld/spot04/spot04_scene.h"
 #include "scenes/overworld/spot05/spot05_scene.h"
 
-#define FLAGS 0x02000019
-
-#define THIS ((EnSa*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void EnSa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -100,9 +98,10 @@ static struct_80034EC0_Entry sAnimations[] = {
 };
 
 s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
-    s16 textState = func_8010BDBC(&globalCtx->msgCtx);
+    s16 textState = Message_GetState(&globalCtx->msgCtx);
 
-    if (this->unk_209 == 10 || this->unk_209 == 5 || this->unk_209 == 2 || this->unk_209 == 1) {
+    if (this->unk_209 == TEXT_STATE_AWAITING_NEXT || this->unk_209 == TEXT_STATE_EVENT ||
+        this->unk_209 == TEXT_STATE_CLOSING || this->unk_209 == TEXT_STATE_DONE_HAS_NEXT) {
         if (textState != this->unk_209) {
             this->unk_208++;
         }
@@ -112,7 +111,7 @@ s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
 }
 
 u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
     u16 reaction = Text_GetFaceReaction(globalCtx, 0x10);
 
     if (reaction != 0) {
@@ -123,7 +122,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         this->unk_208 = 0;
-        this->unk_209 = 0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 0x20) {
             return 0x1048;
         } else {
@@ -132,7 +131,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (gSaveContext.eventChkInf[0] & 4) {
         this->unk_208 = 0;
-        this->unk_209 = 0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 8) {
             return 0x1032;
         } else {
@@ -141,7 +140,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     }
     if (gSaveContext.infTable[0] & 1) {
         this->unk_208 = 0;
-        this->unk_209 = 0;
+        this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 2) {
             return 0x1003;
         } else {
@@ -153,10 +152,10 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
 
     switch (func_80AF5560(this, globalCtx)) {
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1002:
                     gSaveContext.infTable[0] |= 2;
@@ -176,14 +175,14 @@ s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 5:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
     return ret;
@@ -444,7 +443,7 @@ void func_80AF6170(CsCmdActorAction* csAction, Vec3f* dst) {
 }
 
 void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 12.0f);
@@ -498,7 +497,7 @@ void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -590,7 +589,7 @@ void func_80AF683C(EnSa* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Gameplay_InCsMode(globalCtx)) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot05_sceneCutsceneData0x005730);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot05_scene_Cs_005730);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = func_80AF68E4;
     }
@@ -686,7 +685,7 @@ void func_80AF6B20(EnSa* this, GlobalContext* globalCtx) {
 }
 
 void EnSa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -726,7 +725,7 @@ void EnSa_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
     s32 pad;
     Vec3s sp18;
 
@@ -752,7 +751,7 @@ s32 EnSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnSa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
     Vec3f D_80AF7454 = { 400.0, 0.0f, 0.0f };
 
     if (limbIndex == 16) {
@@ -768,7 +767,7 @@ void EnSa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = {
         gSariaEyeOpenTex, gSariaEyeHalfTex, gSariaEyeClosedTex, gSariaEyeSuprisedTex, gSariaEyeSadTex,
     };
-    EnSa* this = THIS;
+    EnSa* this = (EnSa*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sa.c", 1444);
 

@@ -7,9 +7,7 @@
 #include "z_en_bdfire.h"
 #include "objects/object_kingdodongo/object_kingdodongo.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnBdfire*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ void EnbdFire_SetupDraw(EnBdfire* this, EnBdfireDrawFunc drawFunc) {
 }
 
 void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBdfire* this = THIS;
+    EnBdfire* this = (EnBdfire*)thisx;
     s32 pad;
 
     Actor_SetScale(&this->actor, 0.6f);
@@ -75,7 +73,7 @@ void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBdfire* this = THIS;
+    EnBdfire* this = (EnBdfire*)thisx;
 
     if (this->actor.params < 0) {
         LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
@@ -189,7 +187,7 @@ void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
 }
 
 void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBdfire* this = THIS;
+    EnBdfire* this = (EnBdfire*)thisx;
 
     this->unk_156++;
     this->actionFunc(this, globalCtx);
@@ -198,14 +196,16 @@ void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
     static void* D_809BCB10[] = {
-        0x060264E0, 0x060274E0, 0x060284E0, 0x060294E0, 0x0602A4E0, 0x0602B4E0, 0x0602C4E0, 0x0602D4E0,
+        object_kingdodongo_Tex_0264E0, object_kingdodongo_Tex_0274E0, object_kingdodongo_Tex_0284E0,
+        object_kingdodongo_Tex_0294E0, object_kingdodongo_Tex_02A4E0, object_kingdodongo_Tex_02B4E0,
+        object_kingdodongo_Tex_02C4E0, object_kingdodongo_Tex_02D4E0,
     };
     s16 temp;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 612);
     temp = this->unk_156 & 7;
-    func_800D1FD4(&globalCtx->mf_11DA0);
+    func_800D1FD4(&globalCtx->billboardMtxF);
     func_80094BC4(globalCtx->state.gfxCtx);
     POLY_XLU_DISP = func_80094968(POLY_XLU_DISP);
     gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0,
@@ -223,7 +223,7 @@ void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
 }
 
 void EnBdfire_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBdfire* this = THIS;
+    EnBdfire* this = (EnBdfire*)thisx;
 
     this->drawFunc(this, globalCtx);
 }

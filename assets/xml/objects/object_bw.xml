@@ -9,8 +9,8 @@
         <Texture Name="object_bw_Tex_001240" OutName="tex_00001240" Format="rgba16" Width="16" Height="16" Offset="0x1240"/>
         <Texture Name="object_bw_Tex_001440" OutName="tex_00001440" Format="rgba16" Width="16" Height="16" Offset="0x1440"/>
         <Texture Name="object_bw_TLUT_001640" OutName="tlut_00001640" Format="rgba16" Width="16" Height="16" Offset="0x1640"/>
-        <Texture Name="object_bw_Tex_001840" OutName="tex_00001840" Format="ci8" Width="32" Height="32" Offset="0x1840"/>
-        <Texture Name="object_bw_Tex_001C40" OutName="tex_00001C40" Format="ci8" Width="32" Height="32" Offset="0x1C40"/>
+        <Texture Name="object_bw_Tex_001840" OutName="tex_00001840" Format="ci8" Width="32" Height="32" Offset="0x1840" TlutOffset="0x1640"/>
+        <Texture Name="object_bw_Tex_001C40" OutName="tex_00001C40" Format="ci8" Width="32" Height="32" Offset="0x1C40" TlutOffset="0x1640"/>
         <Limb Name="object_bw_Limb_002040" LimbType="Standard" Offset="0x2040"/>
         <Limb Name="object_bw_Limb_00204C" LimbType="Standard" Offset="0x204C"/>
         <Limb Name="object_bw_Limb_002058" LimbType="Standard" Offset="0x2058"/>

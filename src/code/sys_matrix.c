@@ -293,12 +293,12 @@ void Matrix_RotateZ(f32 z, u8 mode) {
 }
 
 /**
- * Rotates the top of the matrix stack by `z` degrees, then
- * rotates that matrix by `y` degrees, then rotates that matrix
- * by `x` degrees. (roll-pitch-yaw)
+ * Rotate using ZYX Tait-Bryan angles.
+ * This means a (column) vector is first rotated around X, then around Y, then around Z, then (if `mode` is
+ * `MTXMODE_APPLY`) gets transformed according to whatever the matrix was before adding the ZYX rotation.
  * Original Name: Matrix_RotateXYZ, changed to reflect rotation order.
  */
-void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
+void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp1;
     f32 temp2;
@@ -379,14 +379,16 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
             cmf->wz = temp2 * cos - temp1 * sin;
         }
     } else {
-        SkinMatrix_SetRotateRPY(cmf, x, y, z);
+        SkinMatrix_SetRotateZYX(cmf, x, y, z);
     }
 }
 
 /**
- * Roll-pitch-yaw rotation and position
+ * Translate and rotate using ZYX Tait-Bryan angles.
+ * This means a (column) vector is first rotated around X, then around Y, then around Z, then translated, then gets
+ * transformed according to whatever the matrix was previously.
  */
-void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
+void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation) {
     MtxF* cmf = sCurrentMatrix;
     f32 sin = Math_SinS(rotation->z);
     f32 cos = Math_CosS(rotation->z);
@@ -395,25 +397,25 @@ void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
 
     temp1 = cmf->xx;
     temp2 = cmf->xy;
-    cmf->xw += temp1 * position->x + temp2 * position->y + cmf->xz * position->z;
+    cmf->xw += temp1 * translation->x + temp2 * translation->y + cmf->xz * translation->z;
     cmf->xx = temp1 * cos + temp2 * sin;
     cmf->xy = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->yx;
     temp2 = cmf->yy;
-    cmf->yw += temp1 * position->x + temp2 * position->y + cmf->yz * position->z;
+    cmf->yw += temp1 * translation->x + temp2 * translation->y + cmf->yz * translation->z;
     cmf->yx = temp1 * cos + temp2 * sin;
     cmf->yy = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->zx;
     temp2 = cmf->zy;
-    cmf->zw += temp1 * position->x + temp2 * position->y + cmf->zz * position->z;
+    cmf->zw += temp1 * translation->x + temp2 * translation->y + cmf->zz * translation->z;
     cmf->zx = temp1 * cos + temp2 * sin;
     cmf->zy = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->wx;
     temp2 = cmf->wy;
-    cmf->ww += temp1 * position->x + temp2 * position->y + cmf->wz * position->z;
+    cmf->ww += temp1 * translation->x + temp2 * translation->y + cmf->wz * translation->z;
     cmf->wx = temp1 * cos + temp2 * sin;
     cmf->wy = temp2 * cos - temp1 * sin;
 
@@ -740,7 +742,7 @@ void func_800D1FD4(MtxF* mf) {
 }
 
 /**
- * Gets the rotation the specified matrix represents, using Euler YXZ.
+ * Gets the rotation the specified matrix represents, using Tait-Bryan YXZ angles.
  * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
  */
 void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
@@ -793,7 +795,7 @@ void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
 }
 
 /**
- * Gets the rotation the specified matrix represents, using Euler ZYX.
+ * Gets the rotation the specified matrix represents, using Tait-Bryan ZYX angles.
  * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
  */
 void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {

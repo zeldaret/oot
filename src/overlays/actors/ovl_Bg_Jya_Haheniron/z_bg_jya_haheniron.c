@@ -8,9 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_jya_iron/object_jya_iron.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgJyaHaheniron*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -119,7 +117,7 @@ void BgJyaHaheniron_SpawnFragments(GlobalContext* globalCtx, Vec3f* vec1, Vec3f*
 
 void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgJyaHaheniron* this = THIS;
+    BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, D_80898794[this->actor.params]);
@@ -136,7 +134,7 @@ void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgJyaHaheniron* this = THIS;
+    BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     if (this->actor.params == 0) {
         Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -197,16 +195,20 @@ void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, GlobalContext* globalCtx
 
 void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgJyaHaheniron* this = THIS;
+    BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     this->timer++;
     this->actionFunc(this, globalCtx);
 }
 
 void BgJyaHaheniron_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dLists[] = { 0x06000880, 0x06000AE0, 0x06000600 };
+    static Gfx* dLists[] = {
+        gObjectJyaIronDL_000880,
+        gObjectJyaIronDL_000AE0,
+        gObjectJyaIronDL_000600,
+    };
     s32 pad;
-    BgJyaHaheniron* this = THIS;
+    BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     if (this->actor.params == 0) {
         Collider_UpdateSpheres(0, &this->collider);

@@ -8,9 +8,7 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnHeishi3*)thisx)
+#define FLAGS 0
 
 void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi3_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi3* this = THIS;
+    EnHeishi3* this = (EnHeishi3*)thisx;
 
     sPlayerCaught = 0;
     if (this->actor.params <= 0) {
@@ -88,7 +86,7 @@ void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi3* this = THIS;
+    EnHeishi3* this = (EnHeishi3*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -133,7 +131,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
     if ((this->actor.xzDistToPlayer < sightRange) &&
         (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f) && (sPlayerCaught == 0)) {
         sPlayerCaught = 1;
-        func_8010B680(globalCtx, 0x702D, &this->actor);
+        Message_StartTextbox(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
@@ -161,7 +159,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
             }
         }
         sPlayerCaught = 1;
-        func_8010B680(globalCtx, 0x702D, &this->actor);
+        Message_StartTextbox(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
@@ -202,7 +200,8 @@ void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx) {
 // This function initiates the respawn after the player gets caught.
 void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0) && (this->respawnFlag == 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx) &&
+        (this->respawnFlag == 0)) {
         gSaveContext.eventChkInf[4] |= 0x4000;
         globalCtx->nextEntranceIndex = 0x47E; // Hyrule Castle from Guard Capture (outside)
         globalCtx->sceneLoadFlag = 0x14;
@@ -213,7 +212,7 @@ void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi3_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi3* this = THIS;
+    EnHeishi3* this = (EnHeishi3*)thisx;
     s32 pad;
 
     Actor_SetFocus(&this->actor, 60.0f);
@@ -231,7 +230,7 @@ void EnHeishi3_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    EnHeishi3* this = THIS;
+    EnHeishi3* this = (EnHeishi3*)thisx;
 
     if (limbIndex == 9) {
         rot->x += this->unk_26E;
@@ -246,7 +245,7 @@ s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 void EnHeishi3_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi3* this = THIS;
+    EnHeishi3* this = (EnHeishi3*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi3_OverrideLimbDraw, NULL,

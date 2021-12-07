@@ -7,9 +7,7 @@
 #include "z_en_bird.h"
 #include "objects/object_bird/object_bird.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnBird*)thisx)
+#define FLAGS 0
 
 void EnBird_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -42,7 +40,7 @@ void EnBird_SetupAction(EnBird* this, EnBirdActionFunc actionFunc) {
 }
 
 void EnBird_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBird* this = THIS;
+    EnBird* this = (EnBird*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01);
@@ -100,6 +98,7 @@ void func_809C1E00(EnBird* this, s16 params) {
 
 void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
     f32 fVar4 = sinf(this->unk_1B4);
+
     this->actor.shape.yOffset += fVar4 * this->unk_1A0;
     Math_SmoothStepToF(&this->actor.speedXZ, this->unk_1A8, 0.1f, this->unk_1AC, 0.0f);
 
@@ -120,14 +119,14 @@ void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
 }
 
 void EnBird_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBird* this = THIS;
+    EnBird* this = (EnBird*)thisx;
 
     this->unk_1B4 += this->unk_1B8;
     this->actionFunc(this, globalCtx);
 }
 
 void EnBird_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBird* this = THIS;
+    EnBird* this = (EnBird*)thisx;
 
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
 }

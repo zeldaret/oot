@@ -7,9 +7,7 @@
 #include "z_en_trap.h"
 #include "objects/object_trap/object_trap.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnTrap*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 #define BEGIN_MOVE_OUT 65535.0f
 
@@ -66,7 +64,7 @@ void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 trapSpeed;
     s16 zSpeed;
     s16 xSpeed;
-    EnTrap* this = THIS;
+    EnTrap* this = (EnTrap*)thisx;
     ColliderCylinder* unused = &this->collider; // required to match
 
     this->upperParams = (thisx->params >> 8) & 0xFF;
@@ -111,18 +109,18 @@ void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->focus.pos = thisx->world.pos;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
-    ActorShape_Init(&thisx->shape, 0.0f, &ActorShadow_DrawCircle, 0.0f);
+    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     thisx->targetMode = 3;
     thisx->colChkInfo.mass = 0xFF;
 }
 
 void EnTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTrap* this = THIS;
+    EnTrap* this = (EnTrap*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTrap* this = THIS;
+    EnTrap* this = (EnTrap*)thisx;
     Vec3f posTemp;
     s16 angleToKnockPlayer;
     s16 angleToCollidedActor;

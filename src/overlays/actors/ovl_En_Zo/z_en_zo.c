@@ -7,9 +7,7 @@
 #include "z_en_zo.h"
 #include "objects/object_zo/object_zo.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnZo*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 typedef enum {
     /* 0 */ ENZO_EFFECT_NONE,
@@ -185,7 +183,7 @@ void EnZo_DrawRipples(EnZo* this, GlobalContext* globalCtx) {
             if (!setup) {
                 if (1) {}
                 gDPPipeSync(POLY_XLU_DISP++);
-                gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesVisualDL);
+                gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                 setup = true;
             }
@@ -195,7 +193,7 @@ void EnZo_DrawRipples(EnZo* this, GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 242),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesGeometryDL);
+            gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesModelDL);
         }
         effect++;
     }
@@ -214,7 +212,7 @@ void EnZo_DrawBubbles(EnZo* this, GlobalContext* globalCtx) {
         if (effect->type == ENZO_EFFECT_BUBBLE) {
             if (!setup) {
                 if (1) {}
-                gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesVisualDL);
+                gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesMaterialDL);
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
@@ -223,12 +221,12 @@ void EnZo_DrawBubbles(EnZo* this, GlobalContext* globalCtx) {
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 281),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesGeometryDL);
+            gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesModelDL);
         }
         effect++;
     }
@@ -248,7 +246,7 @@ void EnZo_DrawSplashes(EnZo* this, GlobalContext* globalCtx) {
         if (effect->type == ENZO_EFFECT_SPLASH) {
             if (!setup) {
                 if (1) {}
-                gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesVisualDL);
+                gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesMaterialDL);
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
                 setup = true;
@@ -256,12 +254,12 @@ void EnZo_DrawSplashes(EnZo* this, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->color.a);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 325),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesGeometryDL);
+            gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesModelDL);
         }
         effect++;
     }
@@ -432,17 +430,17 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 3:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             return 1;
 
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x4020:
                 case 0x4021:
@@ -457,21 +455,21 @@ s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
             gSaveContext.eventChkInf[3] |= 1;
             return 0;
 
-        case 4:
-            switch (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            switch (Message_ShouldAdvance(globalCtx)) {
                 case 0:
                     return 1;
                 default:
                     if (thisx->textId == 0x400C) {
                         thisx->textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x400D : 0x400E;
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                     }
                     break;
             }
             return 1;
 
-        case 5:
-            switch (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_EVENT:
+            switch (Message_ShouldAdvance(globalCtx)) {
                 case 0:
                     return 1;
                 default:
@@ -560,7 +558,7 @@ void EnZo_SetAnimation(EnZo* this) {
 }
 
 void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gZoraSkel, NULL, this->jointTable, this->morphTable, 20);
@@ -591,7 +589,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->alpha = 255.0f;
         this->actionFunc = EnZo_Standing;
     } else {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actionFunc = EnZo_Submerged;
     }
 }
@@ -633,7 +631,7 @@ void EnZo_Surface(EnZo* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
         func_80034EC0(&this->skelAnime, sAnimations, 3);
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actionFunc = EnZo_TreadWater;
         this->actor.velocity.y = 0.0f;
         this->alpha = 255.0f;
@@ -683,7 +681,7 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIVE_WATER);
         EnZo_SpawnSplashes(this);
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actor.velocity.y = -4.0f;
         this->skelAnime.playSpeed = 0.0f;
     }
@@ -706,7 +704,7 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
 }
 
 void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     u32 pad;
     Vec3f pos;
 
@@ -742,7 +740,7 @@ void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnZo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     Vec3s vec;
 
     if (limbIndex == 15) {
@@ -768,7 +766,7 @@ s32 EnZo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnZo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     Vec3f vec = { 0.0f, 600.0f, 0.0f };
 
     if (limbIndex == 15) {
@@ -777,7 +775,7 @@ void EnZo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnZo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnZo* this = THIS;
+    EnZo* this = (EnZo*)thisx;
     void* eyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
 
     Matrix_Push();
