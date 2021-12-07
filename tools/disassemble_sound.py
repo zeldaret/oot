@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from collections import namedtuple, defaultdict
+from xml.dom import minidom
 import subprocess
-import tempfile
 import math
 import shutil
 import xml.etree.ElementTree as XmlTree
@@ -502,9 +502,9 @@ def write_soundfont(font, filename, banknames):
         for referencedEnvelope in envelopesFound[name].referencedScripts:
             envelopesFound[referencedEnvelope.name] = referencedEnvelope
     [generate_envelope_obj(envelopes, name, envelope) for name, envelope in envelopesFound.items()]
-    XmlTree.indent(root, space="\t", level=0)
+    xmlstring = minidom.parseString(XmlTree.tostring(root, "unicode")).toprettyxml(indent="\t")
     file = open(filename, "w")
-    file.write(XmlTree.tostring(root, encoding="unicode"))
+    file.write(xmlstring)
     file.flush()
     file.close()
 
@@ -789,8 +789,8 @@ def main():
                     "CachePolicy": toCachePolicy(bankdef.cache),
                     "Medium": toMedium(bankdef.medium)
                 })
-        XmlTree.indent(bankdefxml, "\t")
-        bankdeffile.write(XmlTree.tostring(bankdefxml, "unicode"))
+        xmlstring = minidom.parseString(XmlTree.tostring(bankdefxml, "unicode")).toprettyxml(indent="\t")
+        bankdeffile.write(xmlstring)
 
     # Export AIFF samples
     for bank in rawSamples:
