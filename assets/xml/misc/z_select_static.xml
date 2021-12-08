@@ -1,0 +1,41 @@
+<Root>
+    <!-- OOTSW97 needs to be used to make ZAPD use f3dex DLists-->
+    <File Name="z_select_static" Game="OOTSW97" Segment="1">
+        <DList Name="gSelectStatic1DL" Offset="0x0"/>
+        <DList Name="gSelectStatic2DL" Offset="0x68"/>
+        <DList Name="gSelectStatic3DL" Offset="0xD0"/>
+        <DList Name="gSelectStatic4DL" Offset="0x140"/>
+        <DList Name="gSelectStatic5DL" Offset="0x1A8"/>
+        <DList Name="gSelectStatic6DL" Offset="0x210"/>
+        <DList Name="gSelectStatic7DL" Offset="0x278"/>
+        <DList Name="gSelectStatic8DL" Offset="0x2E8"/>
+        <DList Name="gSelectStatic9DL" Offset="0x350"/>
+        <DList Name="gSelectStatic10DL" Offset="0x3B8"/>
+        <DList Name="gSelectStatic11DL" Offset="0x420"/>
+        <DList Name="gSelectStatic12DL" Offset="0x488"/>
+        <DList Name="gSelectStatic13DL" Offset="0x4F8"/>
+        <DList Name="gSelectStatic14DL" Offset="0x560"/>
+        <DList Name="gSelectStatic15DL" Offset="0x5C8"/>
+        <DList Name="gSelectStatic16DL" Offset="0x630"/>
+        <DList Name="gSelectStatic17DL" Offset="0x698"/>
+        <DList Name="gSelectStatic18DL" Offset="0x700"/>
+        <DList Name="gSelectStatic19DL" Offset="0x770"/>
+        <DList Name="gSelectStatic20DL" Offset="0x7D8"/>
+        <DList Name="gSelectStatic21DL" Offset="0x840"/>
+        <DList Name="gSelectStatic22DL" Offset="0x8A8"/>
+        <DList Name="gSelectStatic23DL" Offset="0x918"/>
+        <DList Name="gSelectStatic24DL" Offset="0x980"/>
+        <DList Name="gSelectStatic25DL" Offset="0x9E8"/>
+        <DList Name="gSelectStatic26DL" Offset="0xA50"/>
+        <DList Name="gSelectStatic27DL" Offset="0xAB8"/>
+        <DList Name="gSelectStatic28DL" Offset="0xB20"/>
+        <DList Name="gSelectStatic29DL" Offset="0xB88"/>
+        <DList Name="gSelectStatic30DL" Offset="0xBF0"/>
+        <DList Name="gSelectStatic31DL" Offset="0xC60"/>
+        <DList Name="gSelectStatic32DL" Offset="0xCD0"/>
+        <Blob Name="gSelectBlob_000E88" Size="110" Offset="0xE88"/> 
+        <Array Name="gSelectStaticVtx" Count="294" Offset="0xF98">
+            <Vtx/>
+        </Array>
+    </File>
+</Root>

@@ -10,7 +10,9 @@
 /* Private macro to wrap other macros in do {...} while (0) */
 #define _DW(macro) do {macro} while (0)
 
-#define F3DEX_GBI_2
+#ifndef F3DEX_GBI
+ #define F3DEX_GBI_2
+#endif
 
 #ifdef    F3DEX_GBI_2
 # ifndef  F3DEX_GBI
