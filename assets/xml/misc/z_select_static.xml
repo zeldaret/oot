@@ -33,7 +33,7 @@
         <DList Name="gSelectStatic30DL" Offset="0xBF0"/>
         <DList Name="gSelectStatic31DL" Offset="0xC60"/>
         <DList Name="gSelectStatic32DL" Offset="0xCD0"/>
-        <Blob Name="gSelectBlob_000E88" Size="110" Offset="0xE88"/> 
+        <DList Name="gSelectStaticMasterDL" Offset="0xE88"/>
         <Array Name="gSelectStaticVtx" Count="294" Offset="0xF98">
             <Vtx/>
         </Array>
