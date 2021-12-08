@@ -35,9 +35,8 @@ else
 endif
 
 #### Tools ####
-ifeq ($(shell type mips-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0)
-  MIPS_BINUTILS_PREFIX := mips-linux-gnu-
-else
+MIPS_BINUTILS_PREFIX ?= mips-linux-gnu
+ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)-ld >/dev/null 2>/dev/null; echo $$?), 0)
   $(error Please install or build mips-linux-gnu)
 endif
 
@@ -56,10 +55,10 @@ ifeq ($(ORIG_COMPILER),1)
   CC_OLD    = $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
 endif
 
-AS         := $(MIPS_BINUTILS_PREFIX)as
-LD         := $(MIPS_BINUTILS_PREFIX)ld
-OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
-OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
+AS         := $(MIPS_BINUTILS_PREFIX)-as
+LD         := $(MIPS_BINUTILS_PREFIX)-ld
+OBJCOPY    := $(MIPS_BINUTILS_PREFIX)-objcopy
+OBJDUMP    := $(MIPS_BINUTILS_PREFIX)-objdump
 EMULATOR = mupen64plus
 EMU_FLAGS = --noosd
 
