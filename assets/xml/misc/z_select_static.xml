@@ -1,5 +1,6 @@
 <Root>
-    <!-- OOTSW97 needs to be used to make ZAPD use f3dex DLists-->
+    <!-- OOTSW97 is currently being used here because ZAPD can't manually select f3dex. A fix for this is in a ZAPD PR. When it is merged into OOT this updated XML can be used here
+    https://gist.github.com/louist103/75d7a58f9890652d02feb6702bc4b2e0-->
     <File Name="z_select_static" Game="OOTSW97" Segment="1">
         <DList Name="gSelectStatic1DL" Offset="0x0"/>
         <DList Name="gSelectStatic2DL" Offset="0x68"/>
