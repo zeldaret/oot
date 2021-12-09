@@ -85,7 +85,16 @@ typedef struct {
     u8 unk_0;
     u8 unk_1; // importance?
 } Struct_8016E320;
-extern Struct_8016E320 D_8016E320[][5]; // sorted by unk_1, descending
+// extern Struct_8016E320 D_8016E320[][5]; // sorted by unk_1, descending
+
+extern Struct_8016E320 D_8016E320[4][5];
+extern u8 D_8016E348[4];
+extern u32 sAudioSeqCmds[0x100];
+extern unk_D_8016E750 D_8016E750[4];
+extern u8 D_8016F0E0[0xA0];
+extern AudioContext gAudioContext;
+extern void(*D_801755D0)(void);
+extern s32 padBSS[7];
 
 void Audio_ProcessSeqCmd(u32 cmd) {
     s32 pad[2];

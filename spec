@@ -421,7 +421,6 @@ beginseg
     include "build/src/code/code_800EC960.o"
     include "build/src/code/audio_sound_params.o"
     include "build/src/code/code_800F7260.o"
-    include "build/data/code_800F7260.bss.o"
     include "build/src/code/code_800F9280.o"
     include "build/data/code_800F9280.data.o"
     include "build/src/code/audio_init_params.o"
