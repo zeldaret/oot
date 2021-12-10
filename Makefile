@@ -9,6 +9,11 @@ NON_MATCHING ?= 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
 
+# Set mips binutils prefix  - Change at your own risk!
+# In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
+# This project is not maintained or tested on platforms that require changing this (like gentoo)
+MIPS_BINUTILS_PREFIX ?= mips-linux-gnu
+
 ifeq ($(NON_MATCHING),1)
   CFLAGS := -DNON_MATCHING
   CPPFLAGS := -DNON_MATCHING
@@ -35,7 +40,6 @@ else
 endif
 
 #### Tools ####
-MIPS_BINUTILS_PREFIX ?= mips-linux-gnu
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)-ld >/dev/null 2>/dev/null; echo $$?), 0)
   $(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
