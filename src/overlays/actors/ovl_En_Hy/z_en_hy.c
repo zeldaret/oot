@@ -15,7 +15,7 @@
 #include "objects/object_cob/object_cob.h"
 #include "objects/object_os_anime/object_os_anime.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnHy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -67,12 +67,12 @@ static ColliderCylinderInit sColCylInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 // NULL-terminated arrays of eye textures
-static void* sEyeTexturesAOB[] = { 0x060005C8, 0x06000DC8, 0x060015C8, NULL };
+static void* sEyeTexturesAOB[] = { gDogLadyEyeOpenTex, gDogLadyEyeHalfTex, gDogLadyEyeClosedTex, NULL };
 static void* sEyeTexturesAHG7[] = { 0x0600057C, 0x0600067C, 0x0600077C, NULL };
-static void* sEyeTexturesBBA[] = { 0x060004C8, NULL };
+static void* sEyeTexturesBBA[] = { object_bba_Tex_0004C8, NULL };
 static void* sEyeTexturesBJI13[] = { 0x060005FC, 0x060009FC, 0x06000DFC, NULL };
 static void* sEyeTexturesBOJ2[] = { 0x060005FC, 0x060006FC, 0x060007FC, NULL };
-static void* sEyeTexturesBOB[] = { 0x060007C8, 0x06000FC8, 0x060017C8, NULL };
+static void* sEyeTexturesBOB[] = { object_bob_Tex_0007C8, object_bob_Tex_000FC8, object_bob_Tex_0017C8, NULL };
 
 typedef struct {
     /* 0x00 */ s16 objectId;
@@ -907,7 +907,7 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
         func_80034EC0(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
 
         if ((globalCtx->sceneNum == SCENE_MARKET_ALLEY) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) {
-            this->actor.flags &= ~0x10;
+            this->actor.flags &= ~ACTOR_FLAG_4;
             this->actor.uncullZoneScale = 0.0f;
         }
 

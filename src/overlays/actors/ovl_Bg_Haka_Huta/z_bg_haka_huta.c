@@ -7,7 +7,7 @@
 #include "z_bg_haka_huta.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx);

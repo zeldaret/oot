@@ -1171,7 +1171,7 @@ Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
 void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
 void func_80095974(GraphicsContext* gfxCtx);
 void func_80095AA0(GlobalContext* globalCtx, Room* room, Input* arg2, UNK_TYPE arg3);
-void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
+void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
                    u16 tlutCount, f32 frameX, f32 frameY);
 void func_80096FD4(GlobalContext* globalCtx, Room* room);
 u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx);
@@ -2061,8 +2061,8 @@ void func_800F5BF0(u8 arg0);
 void Audio_PlayFanfare(u16);
 void func_800F5C2C(void);
 void func_800F5E18(u8 playerIdx, u16 seqId, u8 fadeTimer, s8 arg3, s8 arg4);
-void func_800F5E90(u8);
-void func_800F6114(f32 dist);
+void Audio_SetSequenceMode(u8 seqMode);
+void Audio_SetBgmEnemyVolume(f32 dist);
 void func_800F6268(f32 dist, u16);
 void func_800F64E0(u8 arg0);
 void func_800F6584(u8 arg0);

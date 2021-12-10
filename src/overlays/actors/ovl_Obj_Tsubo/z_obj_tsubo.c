@@ -9,7 +9,7 @@
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS 0x00800010
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -226,7 +226,7 @@ void ObjTsubo_WaitForObject(ObjTsubo* this, GlobalContext* globalCtx) {
         this->actor.draw = ObjTsubo_Draw;
         this->actor.objBankIndex = this->objTsuboBankIndex;
         ObjTsubo_SetupIdle(this);
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
@@ -276,7 +276,7 @@ void ObjTsubo_SetupLiftedUp(ObjTsubo* this) {
     this->actionFunc = ObjTsubo_LiftedUp;
     this->actor.room = -1;
     func_8002F7DC(&this->actor, NA_SE_PL_PULL_UP_POT);
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 }
 
 void ObjTsubo_LiftedUp(ObjTsubo* this, GlobalContext* globalCtx) {

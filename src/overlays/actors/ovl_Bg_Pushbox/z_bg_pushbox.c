@@ -7,7 +7,7 @@
 #include "z_bg_pushbox.h"
 #include "objects/object_pu_box/object_pu_box.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx);

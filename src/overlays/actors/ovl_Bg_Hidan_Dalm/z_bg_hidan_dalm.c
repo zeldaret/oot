@@ -7,7 +7,7 @@
 #include "z_bg_hidan_dalm.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -138,7 +138,7 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.z += 32.5f * Math_CosS(this->dyna.actor.world.rot.y);
 
         func_8002DF54(globalCtx, &this->dyna.actor, 8);
-        this->dyna.actor.flags |= 0x10;
+        this->dyna.actor.flags |= ACTOR_FLAG_4;
         this->actionFunc = BgHidanDalm_Shrink;
         this->dyna.actor.bgCheckFlags &= ~2;
         this->dyna.actor.bgCheckFlags &= ~8;

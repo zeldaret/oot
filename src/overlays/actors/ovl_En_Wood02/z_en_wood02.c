@@ -7,7 +7,7 @@
 #include "z_en_wood02.h"
 #include "objects/object_wood02/object_wood02.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -271,7 +271,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.world.pos.x += (sSpawnSin * sSpawnDistance[5]);
             this->actor.world.pos.z += (sSpawnCos * sSpawnDistance[5]);
         } else {
-            this->actor.flags |= 0x10;
+            this->actor.flags |= ACTOR_FLAG_4;
         }
 
         // Snap to floor, or remove if over void
@@ -311,7 +311,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     // Despawn extra trees in a group if out of range
     if ((this->spawnType == WOOD_SPAWN_SPAWNED) && (this->actor.parent != NULL)) {
-        if (!(this->actor.flags & 0x40)) {
+        if (!(this->actor.flags & ACTOR_FLAG_6)) {
             new_var = this->unk_14E[0];
             phi_v0 = 0;
 

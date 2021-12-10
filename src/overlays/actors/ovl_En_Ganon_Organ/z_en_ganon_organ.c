@@ -7,7 +7,7 @@
 #include "z_en_ganon_organ.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -31,7 +31,7 @@ static u64 sForceAlignment = 0;
 #include "overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
 void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx) {
-    thisx->flags &= ~1;
+    thisx->flags &= ~ACTOR_FLAG_0;
 }
 
 void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx) {

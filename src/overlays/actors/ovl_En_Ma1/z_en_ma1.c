@@ -7,7 +7,7 @@
 #include "z_en_ma1.h"
 #include "objects/object_ma1/object_ma1.h"
 
-#define FLAGS 0x02000039
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -349,7 +349,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x2061;
             Message_StartTextbox(globalCtx, this->actor.textId, NULL);
             this->unk_1E8.unk_00 = 1;
-            this->actor.flags |= 0x10000;
+            this->actor.flags |= ACTOR_FLAG_16;
             this->actionFunc = func_80AA106C;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
             player->stateFlags2 |= 0x800000;
@@ -362,7 +362,7 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 == 2) {
         Audio_OcaSetInstrument(2);
         func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_EPONA);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = func_80AA10EC;
     }
 }

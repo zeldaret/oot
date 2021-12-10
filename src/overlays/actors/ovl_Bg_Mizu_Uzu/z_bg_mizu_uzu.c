@@ -7,7 +7,7 @@
 #include "z_bg_mizu_uzu.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuUzu_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -10,7 +10,7 @@
 #include "objects/object_hni/object_hni.h"
 #include "scenes/overworld/spot09/spot09_scene.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 typedef void (*EnHorseCsFunc)(EnHorse*, GlobalContext*, CsCmdActorAction*);
 typedef void (*EnHorseActionFunc)(EnHorse*, GlobalContext*);
@@ -724,7 +724,7 @@ s32 EnHorse_PlayerCanMove(EnHorse* this, GlobalContext* globalCtx) {
 
     if ((player->stateFlags1 & 1) || func_8002DD78(GET_PLAYER(globalCtx)) == 1 || (player->stateFlags1 & 0x100000) ||
         ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) || this->action == ENHORSE_ACT_HBA ||
-        player->actor.flags & 0x100 || globalCtx->csCtx.state != 0) {
+        player->actor.flags & ACTOR_FLAG_8 || globalCtx->csCtx.state != 0) {
         return false;
     }
     return true;
@@ -1538,7 +1538,7 @@ void EnHorse_Reverse(EnHorse* this, GlobalContext* globalCtx) {
         } else if (stickMag < 10.0f) {
             stickAngle = -0x7FFF;
         }
-    } else if (player->actor.flags & 0x100) {
+    } else if (player->actor.flags & ACTOR_FLAG_8) {
         EnHorse_StartMountedIdleResetAnim(this);
         this->actor.speedXZ = 0.0f;
         return;

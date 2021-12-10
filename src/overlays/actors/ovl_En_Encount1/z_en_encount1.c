@@ -2,7 +2,7 @@
 #include "vt.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
-#define FLAGS 0x08000010
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
 void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -64,7 +64,7 @@ void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生チェック範囲   ☆☆☆☆☆ %f\n" VT_RST, this->spawnRange);
     osSyncPrintf("\n\n");
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     switch (this->spawnType) {
         case SPAWNER_LEEVER:
             this->timer = 30;

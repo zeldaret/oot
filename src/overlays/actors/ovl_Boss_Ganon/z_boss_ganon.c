@@ -9,7 +9,7 @@
 #include "assets/objects/object_ganon_anime2/object_ganon_anime2.h"
 #include "assets/scenes/dungeons/ganon_boss/ganon_boss_scene.h"
 
-#define FLAGS 0x00000035
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -380,7 +380,7 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
                                                  0.0f, 0.0f, 0, 0, 0, 1);
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BOSS);
     } else {
-        thisx->flags &= ~1;
+        thisx->flags &= ~ACTOR_FLAG_0;
         this->fwork[GDF_FWORK_1] = 255.0f;
 
         if (thisx->params >= 0xC8) {
@@ -2514,7 +2514,7 @@ void BossGanon_Vulnerable(BossGanon* this, GlobalContext* globalCtx) {
     Vec3f sp40;
 
     if (this->timers[3] == 0) {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -2563,7 +2563,7 @@ void BossGanon_Vulnerable(BossGanon* this, GlobalContext* globalCtx) {
                 this->fwork[GDF_FWORK_1] = Animation_GetLastFrame(&gDorfLandAnim);
                 Animation_MorphToPlayOnce(&this->skelAnime, &gDorfLandAnim, 0.0f);
                 this->timers[0] = 70;
-                this->actor.flags |= 0x400;
+                this->actor.flags |= ACTOR_FLAG_10;
             }
             break;
 
@@ -2596,7 +2596,7 @@ void BossGanon_Vulnerable(BossGanon* this, GlobalContext* globalCtx) {
 
                 this->unk_2E6 = 80;
                 this->unk_2E8 = 0;
-                this->actor.flags &= ~0x400;
+                this->actor.flags &= ~ACTOR_FLAG_10;
             }
             break;
 
@@ -2664,7 +2664,7 @@ void BossGanon_SetupDamaged(BossGanon* this, GlobalContext* globalCtx) {
 }
 
 void BossGanon_Damaged(BossGanon* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -2825,7 +2825,7 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->collider.base.colType = 3;
     sCape->gravity = -3.0f;
     this->shockGlow = false;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_1A2++;
     this->unk_1A4++;
 

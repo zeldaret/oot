@@ -1,7 +1,7 @@
 #include "z_bg_ice_shelter.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx);

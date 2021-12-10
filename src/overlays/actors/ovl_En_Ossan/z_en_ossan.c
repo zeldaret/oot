@@ -14,7 +14,7 @@
 #include "objects/object_masterzoora/object_masterzoora.h"
 #include "objects/object_masterkokirihead/object_masterkokirihead.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -2104,7 +2104,7 @@ void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx) {
     ShopItem* items;
 
     if (EnOssan_AreShopkeeperObjectsLoaded(this, globalCtx)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->objBankIndex1;
         Actor_SetObjectDependency(globalCtx, &this->actor);
 
@@ -2189,7 +2189,7 @@ void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx) {
         this->blinkTimer = 20;
         this->eyeTextureIdx = 0;
         this->blinkFunc = EnOssan_WaitForBlink;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         EnOssan_SetupAction(this, EnOssan_MainActionFunc);
     }
 }

@@ -9,7 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* 0 */ FWBIG_MOVE,
@@ -94,7 +94,7 @@ void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
         BgHidanFwbig_UpdatePosition(this);
         Actor_SetScale(&this->actor, 0.15f);
         this->collider.dim.height = 230;
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
         this->moveState = FWBIG_MOVE;
         this->actionFunc = BgHidanFwbig_WaitForPlayer;
         this->actor.world.pos.y = this->actor.home.pos.y - (2400.0f * this->actor.scale.y);

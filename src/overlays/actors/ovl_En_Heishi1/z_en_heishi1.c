@@ -8,7 +8,7 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx);

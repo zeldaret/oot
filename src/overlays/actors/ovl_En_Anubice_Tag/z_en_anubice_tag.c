@@ -7,7 +7,7 @@
 #include "z_en_anubice_tag.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnAnubiceTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
