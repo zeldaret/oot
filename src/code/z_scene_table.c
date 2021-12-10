@@ -1031,7 +1031,7 @@ void* sDCLavaFloorTextures[] = {
 void func_80099878(GlobalContext* globalCtx) {
     u32 gameplayFrames;
     s32 pad;
-    Gfx* dlistBuffer = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Gfx[3]));
+    Gfx* displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Gfx[3]));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4905);
 
@@ -1053,15 +1053,15 @@ void func_80099878(GlobalContext* globalCtx) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    gSPSegment(POLY_OPA_DISP++, 0x0B, dlistBuffer);
-    gDPPipeSync(dlistBuffer++);
-    gDPSetEnvColor(dlistBuffer++, 255, 255, 255, globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_LEFT]);
-    gSPEndDisplayList(dlistBuffer++);
+    gSPSegment(POLY_OPA_DISP++, 0x0B, displayListHead);
+    gDPPipeSync(displayListHead++);
+    gDPSetEnvColor(displayListHead++, 255, 255, 255, globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_LEFT]);
+    gSPEndDisplayList(displayListHead++);
 
-    gSPSegment(POLY_OPA_DISP++, 0x0C, dlistBuffer);
-    gDPPipeSync(dlistBuffer++);
-    gDPSetEnvColor(dlistBuffer++, 255, 255, 255, globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT]);
-    gSPEndDisplayList(dlistBuffer);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, displayListHead);
+    gDPPipeSync(displayListHead++);
+    gDPSetEnvColor(displayListHead++, 255, 255, 255, globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT]);
+    gSPEndDisplayList(displayListHead);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4956);
 }
