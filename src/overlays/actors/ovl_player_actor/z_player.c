@@ -2722,7 +2722,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                     if (globalCtx->actorCtx.lensActive) {
                         Actor_DisableLens(globalCtx);
                     } else {
-                        globalCtx->actorCtx.lensActive = 1;
+                        globalCtx->actorCtx.lensActive = true;
                     }
                     func_80078884((globalCtx->actorCtx.lensActive) ? NA_SE_SY_GLASSMODE_ON : NA_SE_SY_GLASSMODE_OFF);
                 } else {

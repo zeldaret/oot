@@ -2231,7 +2231,7 @@ void func_80030ED8(Actor* actor) {
     }
 }
 
-void func_80030FA8(GraphicsContext* gfxCtx) {
+void Actor_DrawLensOfTruthMask(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6161);
 
     gDPLoadTextureBlock(POLY_XLU_DISP++, gLensOfTruthMaskTex, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0,
@@ -2244,7 +2244,7 @@ void func_80030FA8(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6183);
 }
 
-void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
+void Actor_DrawLens(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
     GraphicsContext* gfxCtx;
     s32 i;
@@ -2258,6 +2258,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
     gDPPipeSync(POLY_XLU_DISP++);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors == 0) {
+        // setup to draw image to the zbuffer (Z_UPD), and the framebuffer (G_RM_CLD_SURF | G_RM_CLD_SURF2)
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -2265,6 +2266,9 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 0, 0, 255);
     } else {
+        // setup to draw image to the zbuffer (Z_UPD), but leave the framebuffer untouched
+        // G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA means use the pixel already in the framebuffer when blending the
+        // being-drawn geometry into the framebuffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -2278,7 +2282,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
 
     gDPSetPrimDepth(POLY_XLU_DISP++, 0, 0);
 
-    func_80030FA8(gfxCtx);
+    Actor_DrawLensOfTruthMask(gfxCtx);
 
     // "Magic lens invisible Actor display START"
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", numInvisibleActors);
@@ -2294,6 +2298,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors != 0) {
+        // actually draw to the framebuffer, using the same mode as the showInvisActors == 0 branch above
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
 
         gDPPipeSync(POLY_XLU_DISP++);
@@ -2305,7 +2310,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 0, 0, 255);
 
-        func_80030FA8(gfxCtx);
+        Actor_DrawLensOfTruthMask(gfxCtx);
 
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 1); // "Blue spectacles (exterior)"
     }
@@ -2413,7 +2418,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
     if ((HREG(64) != 1) || (HREG(72) != 0)) {
         if (globalCtx->actorCtx.lensActive) {
-            func_8003115C(globalCtx, invisibleActorCounter, invisibleActors);
+            Actor_DrawLens(globalCtx, invisibleActorCounter, invisibleActors);
             if ((globalCtx->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(globalCtx)) {
                 Actor_DisableLens(globalCtx);
             }
