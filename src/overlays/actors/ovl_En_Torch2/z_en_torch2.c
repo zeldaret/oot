@@ -440,7 +440,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         sStickAngle = thisx->yawTowardsPlayer;
                         sp50 = 0.0f;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
-                            (ABS(sp5A) >= 0x7800) && (this->actor.isTargeted || !(player->stateFlags1 & PLAYER_STATE_FLAG_1_22))) {
+                            (ABS(sp5A) >= 0x7800) &&
+                            (this->actor.isTargeted || !(player->stateFlags1 & PLAYER_STATE_FLAG_1_22))) {
                             EnTorch2_SwingSword(globalCtx, input, this);
                         } else if (((this->actor.xzDistToPlayer <= 70.0f) ||
                                     ((this->actor.xzDistToPlayer <= 80.0f + sp50) && (player->swordState != 0))) &&

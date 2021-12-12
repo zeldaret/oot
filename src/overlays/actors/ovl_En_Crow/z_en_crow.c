@@ -276,8 +276,9 @@ void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
-    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & PLAYER_STATE_FLAG_1_23) &&
-        (this->actor.yDistToWater < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
+    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) &&
+        !(player->stateFlags1 & PLAYER_STATE_FLAG_1_23) && (this->actor.yDistToWater < -40.0f) &&
+        (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
         EnCrow_SetupDiveAttack(this);
     }
 }

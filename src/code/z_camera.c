@@ -5067,7 +5067,8 @@ s32 Camera_Unique9(Camera* camera) {
                     D_8011D3AC = anim->curKeyFrame->unk_01 & 0xF;
                 } else if ((anim->curKeyFrame->unk_01 & 0xF0) == 0xC0) {
                     Camera_UpdateInterface(0xF000 | ((anim->curKeyFrame->unk_01 & 0xF) << 8));
-                } else if (camera->player->stateFlags1 & PLAYER_STATE_FLAG_1_27 && player->currentBoots != PLAYER_BOOTS_IRON) {
+                } else if (camera->player->stateFlags1 & PLAYER_STATE_FLAG_1_27 &&
+                           player->currentBoots != PLAYER_BOOTS_IRON) {
                     func_8002DF38(camera->globalCtx, camera->target, 8);
                     osSyncPrintf("camera: demo: player demo set WAIT\n");
                 } else {

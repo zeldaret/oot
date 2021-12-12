@@ -722,9 +722,9 @@ void EnHorse_ResetRace(EnHorse* this, GlobalContext* globalCtx) {
 s32 EnHorse_PlayerCanMove(EnHorse* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((player->stateFlags1 & PLAYER_STATE_FLAG_1_0) || func_8002DD78(GET_PLAYER(globalCtx)) == 1 || (player->stateFlags1 & PLAYER_STATE_FLAG_1_20) ||
-        ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) || this->action == ENHORSE_ACT_HBA ||
-        player->actor.flags & ACTOR_FLAG_8 || globalCtx->csCtx.state != 0) {
+    if ((player->stateFlags1 & PLAYER_STATE_FLAG_1_0) || func_8002DD78(GET_PLAYER(globalCtx)) == 1 ||
+        (player->stateFlags1 & PLAYER_STATE_FLAG_1_20) || ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) ||
+        this->action == ENHORSE_ACT_HBA || player->actor.flags & ACTOR_FLAG_8 || globalCtx->csCtx.state != 0) {
         return false;
     }
     return true;

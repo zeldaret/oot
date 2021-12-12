@@ -2002,7 +2002,8 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
     sp98 = Math_Vec3f_Yaw(&sp7C, &this->armTip);
     tmp17 = sp98 - this->actor.shape.rot.y;
 
-    if ((sp8E >= ABS(tmp17) || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & PLAYER_STATE_FLAG_1_26)) {
+    if ((sp8E >= ABS(tmp17) || this->burst) && !(sBodyState & 0x80) &&
+        !(player->stateFlags1 & PLAYER_STATE_FLAG_1_26)) {
 
         if (!this->burst) {
             sp94 = sp98 - this->actor.shape.rot.y;
@@ -2265,7 +2266,8 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
     sp6C = Math_Vec3f_Yaw(&sp54, &this->armTip);
     tmp16 = sp6C - this->actor.shape.rot.y;
 
-    if ((ABS(tmp16) <= 0x4650 || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & PLAYER_STATE_FLAG_1_26)) {
+    if ((ABS(tmp16) <= 0x4650 || this->burst) && !(sBodyState & 0x80) &&
+        !(player->stateFlags1 & PLAYER_STATE_FLAG_1_26)) {
         if (!this->burst) {
 
             sp68 = sp6C - this->actor.shape.rot.y;

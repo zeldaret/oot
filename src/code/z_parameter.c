@@ -743,7 +743,8 @@ void func_80083108(GlobalContext* globalCtx) {
                 }
 
                 Interface_ChangeAlpha(50);
-            } else if ((player->stateFlags1 & PLAYER_STATE_FLAG_1_21) || (player->stateFlags2 & PLAYER_STATE_FLAG_2_18)) {
+            } else if ((player->stateFlags1 & PLAYER_STATE_FLAG_1_21) ||
+                       (player->stateFlags2 & PLAYER_STATE_FLAG_2_18)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     gSaveContext.buttonStatus[0] = BTN_DISABLED;
                     gSaveContext.buttonStatus[1] = BTN_DISABLED;
@@ -3962,8 +3963,8 @@ void Interface_Update(GlobalContext* globalCtx) {
     HealthMeter_Update(globalCtx);
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
-        (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & PLAYER_STATE_FLAG_2_24) && (globalCtx->sceneLoadFlag == 0) &&
-        (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {}
+        (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & PLAYER_STATE_FLAG_2_24) &&
+        (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {}
 
     if (gSaveContext.rupeeAccumulator != 0) {
         if (gSaveContext.rupeeAccumulator > 0) {
