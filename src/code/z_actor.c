@@ -2231,18 +2231,35 @@ void func_80030ED8(Actor* actor) {
     }
 }
 
+#define LENS_MASK_WIDTH 64
+#define LENS_MASK_HEIGHT 64
+// 26 and 6 are for padding between the mask texture and the screen borders
+#define LENS_MASK_OFFSET_S ((SCREEN_WIDTH / 2 - LENS_MASK_WIDTH) - 26)
+#define LENS_MASK_OFFSET_T ((SCREEN_HEIGHT / 2 - LENS_MASK_HEIGHT) - 6)
+
 void Actor_DrawLensOfTruthMask(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6161);
 
-    gDPLoadTextureBlock(POLY_XLU_DISP++, gLensOfTruthMaskTex, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0,
-                        G_TX_MIRROR | G_TX_CLAMP, G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_XLU_DISP++, gLensOfTruthMaskTex, G_IM_FMT_I, G_IM_SIZ_8b, LENS_MASK_WIDTH,
+                        LENS_MASK_HEIGHT, 0, G_TX_MIRROR | G_TX_CLAMP, G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD,
+                        G_TX_NOLOD);
 
-    gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, 384, 224, 892, 732);
-    gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, 1280, 960, G_TX_RENDERTILE, 2240, 1600, 576, 597);
+    gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, (SCREEN_WIDTH / 2 - LENS_MASK_WIDTH) << 2,
+                   (SCREEN_HEIGHT / 2 - LENS_MASK_HEIGHT) << 2, (SCREEN_WIDTH / 2 + LENS_MASK_WIDTH - 1) << 2,
+                   (SCREEN_HEIGHT / 2 + LENS_MASK_HEIGHT - 1) << 2);
+    gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH << 2, SCREEN_HEIGHT << 2, G_TX_RENDERTILE,
+                        LENS_MASK_OFFSET_S << 5, LENS_MASK_OFFSET_T << 5,
+                        (1 << 10) * (SCREEN_WIDTH - 2 * LENS_MASK_OFFSET_S) / SCREEN_WIDTH,
+                        (1 << 10) * (SCREEN_HEIGHT - 2 * LENS_MASK_OFFSET_T) / SCREEN_HEIGHT);
     gDPPipeSync(POLY_XLU_DISP++);
 
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6183);
 }
+
+#undef LENS_MASK_WIDTH
+#undef LENS_MASK_HEIGHT
+#undef LENS_MASK_OFFSET_S
+#undef LENS_MASK_OFFSET_T
 
 void Actor_DrawLens(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
