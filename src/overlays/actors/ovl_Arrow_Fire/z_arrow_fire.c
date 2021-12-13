@@ -87,7 +87,7 @@ void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {
     }
 }
 
-void shrinkTrail(Vec3f* trailEnd, Vec3f* currentPos, f32 scale) {
+void shrinkFireTrail(Vec3f* trailEnd, Vec3f* currentPos, f32 scale) {
     // shrinks trail by 5% (scale) of the difference between the current position and trail end
     trailEnd->x += ((currentPos->x - trailEnd->x) * scale);
     trailEnd->y += ((currentPos->y - trailEnd->y) * scale);
@@ -164,7 +164,7 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
     if (distanceScaled < 1.0f) {
         this->trailLen = 1.0f;
     }
-    shrinkTrail(&this->trailEnd, &this->actor.world.pos, 0.05f);
+    shrinkFireTrail(&this->trailEnd, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);

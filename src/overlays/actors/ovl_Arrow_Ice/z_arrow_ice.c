@@ -86,7 +86,7 @@ void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80867E8C(Vec3f* trailEnd, Vec3f* icePos, f32 scale) {
+void shrinkIceTrail(Vec3f* trailEnd, Vec3f* icePos, f32 scale) {
     trailEnd->x += ((icePos->x - trailEnd->x) * scale);
     trailEnd->y += ((icePos->y - trailEnd->y) * scale);
     trailEnd->z += ((icePos->z - trailEnd->z) * scale);
@@ -162,7 +162,7 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
     if (distanceScaled < 1.0f) {
         this->trailLen = 1.0f;
     }
-    func_80867E8C(&this->trailEnd, &this->actor.world.pos, 0.05f);
+    shrinkIceTrail(&this->trailEnd, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_ICE);

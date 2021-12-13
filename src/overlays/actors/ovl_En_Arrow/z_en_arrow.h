@@ -40,5 +40,4 @@ typedef enum {
     /*  9  */ ARROW_SEED,
     /*  10 */ ARROW_NUT
 } ArrowType;
-
 #endif
