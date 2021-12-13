@@ -1982,7 +1982,7 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     func_8002FA60(globalCtx);
 }
 
-u32 D_80116068[] = {
+u32 D_80116068[ACTORCAT_MAX] = {
     0x100000C0, 0x100000C0, 0x00000000, 0x100004C0, 0x00000080, 0x300000C0,
     0x10000080, 0x00000000, 0x300000C0, 0x100004C0, 0x00000000, 0x100000C0,
 };
