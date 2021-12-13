@@ -46,12 +46,12 @@ void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
-    this->unk_160 = 1.0f;
+    this->trailLen = 1.0f;
     ArrowLight_SetupAction(this, ArrowLight_Charge);
     Actor_SetScale(&this->actor, 0.01f);
     this->alpha = 130;
     this->timer = 0;
-    this->unk_164 = 0.0f;
+    this->hitAnimIntensity = 0.0f;
 }
 
 void ArrowLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -78,17 +78,17 @@ void ArrowLight_Charge(ArrowLight* this, GlobalContext* globalCtx) {
 
     // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
-        this->unkPos = this->actor.world.pos;
+        this->trailEnd = this->actor.world.pos;
         this->radius = 10;
         ArrowLight_SetupAction(this, ArrowLight_Fly);
         this->alpha = 255;
     }
 }
 
-void func_80869E6C(Vec3f* unkPos, Vec3f* lightPos, f32 scale) {
-    unkPos->x += ((lightPos->x - unkPos->x) * scale);
-    unkPos->y += ((lightPos->y - unkPos->y) * scale);
-    unkPos->z += ((lightPos->z - unkPos->z) * scale);
+void shrinkLightTrail(Vec3f* trailEnd, Vec3f* lightPos, f32 scale) {
+    trailEnd->x += ((lightPos->x - trailEnd->x) * scale);
+    trailEnd->y += ((lightPos->y - trailEnd->y) * scale);
+    trailEnd->z += ((lightPos->z - trailEnd->z) * scale);
 }
 
 void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx) {
@@ -115,7 +115,7 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx) {
             offset = ((this->timer - 8) * (1.0f / 24.0f));
             offset = SQ(offset);
             this->radius = (((1.0f - offset) * scale) + 10.0f);
-            this->unk_160 += ((2.0f - this->unk_160) * 0.1f);
+            this->trailLen += ((2.0f - this->trailLen) * 0.1f);
             if (this->timer < 16) {
                 if (1) {}
                 this->alpha = ((this->timer * 0x23) - 0x118);
@@ -124,12 +124,12 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer >= 9) {
-        if (this->unk_164 < 1.0f) {
-            this->unk_164 += 0.25f;
+        if (this->hitAnimIntensity < 1.0f) {
+            this->hitAnimIntensity += 0.25f;
         }
     } else {
-        if (this->unk_164 > 0.0f) {
-            this->unk_164 -= 0.125f;
+        if (this->hitAnimIntensity > 0.0f) {
+            this->hitAnimIntensity -= 0.125f;
         }
     }
 
@@ -155,12 +155,12 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
     // copy position and rotation from parent arrow
     this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
-    distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.world.pos) * (1.0f / 24.0f);
-    this->unk_160 = distanceScaled;
+    distanceScaled = Math_Vec3f_DistXYZ(&this->trailEnd, &this->actor.world.pos) * (1.0f / 24.0f);
+    this->trailLen = distanceScaled;
     if (distanceScaled < 1.0f) {
-        this->unk_160 = 1.0f;
+        this->trailLen = 1.0f;
     }
-    func_80869E6C(&this->unkPos, &this->actor.world.pos, 0.05f);
+    shrinkLightTrail(&this->trailEnd, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_LIGHT);
@@ -209,10 +209,10 @@ void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
 
         // Draw yellow effect over the screen when arrow hits
-        if (this->unk_164 > 0) {
+        if (this->hitAnimIntensity > 0) {
             POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s32)(30.0f * this->unk_164) & 0xFF,
-                            (s32)(40.0f * this->unk_164) & 0xFF, 0, (s32)(150.0f * this->unk_164) & 0xFF);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s32)(30.0f * this->hitAnimIntensity) & 0xFF,
+                            (s32)(40.0f * this->hitAnimIntensity) & 0xFF, 0, (s32)(150.0f * this->hitAnimIntensity) & 0xFF);
             gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
             gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
             gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
@@ -228,7 +228,7 @@ void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             Matrix_Translate(0.0f, 1500.0f, 0.0f, MTXMODE_APPLY);
         }
-        Matrix_Scale(this->radius * 0.2f, this->unk_160 * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
+        Matrix_Scale(this->radius * 0.2f, this->trailLen * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_light.c", 648),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
