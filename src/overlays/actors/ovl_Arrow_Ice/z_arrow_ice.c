@@ -46,12 +46,12 @@ void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
-    this->unk_160 = 1.0f;
+    this->trailLen = 1.0f;
     ArrowIce_SetupAction(this, ArrowIce_Charge);
     Actor_SetScale(&this->actor, 0.01f);
     this->alpha = 100;
     this->timer = 0;
-    this->unk_164 = 0.0f;
+    this->hitAnimIntensity = 0.0f;
 }
 
 void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -79,17 +79,17 @@ void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
 
     // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
-        this->unkPos = this->actor.world.pos;
+        this->trailEnd = this->actor.world.pos;
         this->radius = 10;
         ArrowIce_SetupAction(this, ArrowIce_Fly);
         this->alpha = 255;
     }
 }
 
-void func_80867E8C(Vec3f* unkPos, Vec3f* icePos, f32 scale) {
-    unkPos->x += ((icePos->x - unkPos->x) * scale);
-    unkPos->y += ((icePos->y - unkPos->y) * scale);
-    unkPos->z += ((icePos->z - unkPos->z) * scale);
+void func_80867E8C(Vec3f* trailEnd, Vec3f* icePos, f32 scale) {
+    trailEnd->x += ((icePos->x - trailEnd->x) * scale);
+    trailEnd->y += ((icePos->y - trailEnd->y) * scale);
+    trailEnd->z += ((icePos->z - trailEnd->z) * scale);
 }
 
 void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx) {
@@ -116,7 +116,7 @@ void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx) {
             offset = ((this->timer - 8) * (1.0f / 24.0f));
             offset = SQ(offset);
             this->radius = (((1.0f - offset) * scale) + 10.0f);
-            this->unk_160 += ((2.0f - this->unk_160) * 0.1f);
+            this->trailLen += ((2.0f - this->trailLen) * 0.1f);
             if (this->timer < 16) {
                 if (1) {}
                 this->alpha = ((this->timer * 0x23) - 0x118);
@@ -125,12 +125,12 @@ void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer >= 9) {
-        if (this->unk_164 < 1.0f) {
-            this->unk_164 += 0.25f;
+        if (this->hitAnimIntensity < 1.0f) {
+            this->hitAnimIntensity += 0.25f;
         }
     } else {
-        if (this->unk_164 > 0.0f) {
-            this->unk_164 -= 0.125f;
+        if (this->hitAnimIntensity > 0.0f) {
+            this->hitAnimIntensity -= 0.125f;
         }
     }
 
@@ -157,12 +157,12 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
     // copy position and rotation from arrow
     this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
-    distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.world.pos) * (1.0f / 24.0f);
-    this->unk_160 = distanceScaled;
+    distanceScaled = Math_Vec3f_DistXYZ(&this->trailEnd, &this->actor.world.pos) * (1.0f / 24.0f);
+    this->trailLen = distanceScaled;
     if (distanceScaled < 1.0f) {
-        this->unk_160 = 1.0f;
+        this->trailLen = 1.0f;
     }
-    func_80867E8C(&this->unkPos, &this->actor.world.pos, 0.05f);
+    func_80867E8C(&this->trailEnd, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_ICE);
@@ -211,10 +211,10 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
 
         // Draw blue effect over the screen when arrow hits
-        if (this->unk_164 > 0) {
+        if (this->hitAnimIntensity > 0) {
             POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, (s32)(10.0f * this->unk_164) & 0xFF,
-                            (s32)(50.0f * this->unk_164) & 0xFF, (s32)(150.0f * this->unk_164) & 0xFF);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, (s32)(10.0f * this->hitAnimIntensity) & 0xFF,
+                            (s32)(50.0f * this->hitAnimIntensity) & 0xFF, (s32)(150.0f * this->hitAnimIntensity) & 0xFF);
             gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
             gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
             gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
@@ -230,7 +230,7 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             Matrix_Translate(0.0f, 1500.0f, 0.0f, MTXMODE_APPLY);
         }
-        Matrix_Scale(this->radius * 0.2f, this->unk_160 * 3.0f, this->radius * 0.2f, MTXMODE_APPLY);
+        Matrix_Scale(this->radius * 0.2f, this->trailLen * 3.0f, this->radius * 0.2f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_ice.c", 660),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
