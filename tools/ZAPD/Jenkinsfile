@@ -7,7 +7,7 @@ pipeline {
         // Non-parallel ZAPD stage
         stage('Build ZAPD') {
             steps {
-                sh 'make -j'
+                sh 'make -j WERROR=1'
             }
         }
 

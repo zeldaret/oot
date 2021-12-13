@@ -16,6 +16,14 @@ In a Debian/Ubuntu based environment, those could be installed with the followin
 sudo apt install libpng-dev
 ```
 
+On a Mac, you will need to install libpng with Homebrew or MacPorts; we currently only support Homebrew. You can run
+
+```bash
+brew install libpng
+```
+
+to install it via Homebrew.
+
 ### Building
 
 #### Linux / *nix
