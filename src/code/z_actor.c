@@ -2231,18 +2231,35 @@ void func_80030ED8(Actor* actor) {
     }
 }
 
+#define LENS_MASK_WIDTH 64
+#define LENS_MASK_HEIGHT 64
+// 26 and 6 are for padding between the mask texture and the screen borders
+#define LENS_MASK_OFFSET_S ((SCREEN_WIDTH / 2 - LENS_MASK_WIDTH) - 26)
+#define LENS_MASK_OFFSET_T ((SCREEN_HEIGHT / 2 - LENS_MASK_HEIGHT) - 6)
+
 void Actor_DrawLensOfTruthMask(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6161);
 
-    gDPLoadTextureBlock(POLY_XLU_DISP++, gLensOfTruthMaskTex, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0,
-                        G_TX_MIRROR | G_TX_CLAMP, G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_XLU_DISP++, gLensOfTruthMaskTex, G_IM_FMT_I, G_IM_SIZ_8b, LENS_MASK_WIDTH,
+                        LENS_MASK_HEIGHT, 0, G_TX_MIRROR | G_TX_CLAMP, G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD,
+                        G_TX_NOLOD);
 
-    gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, 384, 224, 892, 732);
-    gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, 1280, 960, G_TX_RENDERTILE, 2240, 1600, 576, 597);
+    gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, (SCREEN_WIDTH / 2 - LENS_MASK_WIDTH) << 2,
+                   (SCREEN_HEIGHT / 2 - LENS_MASK_HEIGHT) << 2, (SCREEN_WIDTH / 2 + LENS_MASK_WIDTH - 1) << 2,
+                   (SCREEN_HEIGHT / 2 + LENS_MASK_HEIGHT - 1) << 2);
+    gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH << 2, SCREEN_HEIGHT << 2, G_TX_RENDERTILE,
+                        LENS_MASK_OFFSET_S << 5, LENS_MASK_OFFSET_T << 5,
+                        (1 << 10) * (SCREEN_WIDTH - 2 * LENS_MASK_OFFSET_S) / SCREEN_WIDTH,
+                        (1 << 10) * (SCREEN_HEIGHT - 2 * LENS_MASK_OFFSET_T) / SCREEN_HEIGHT);
     gDPPipeSync(POLY_XLU_DISP++);
 
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6183);
 }
+
+#undef LENS_MASK_WIDTH
+#undef LENS_MASK_HEIGHT
+#undef LENS_MASK_OFFSET_S
+#undef LENS_MASK_OFFSET_T
 
 void Actor_DrawLens(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
@@ -2258,30 +2275,43 @@ void Actor_DrawLens(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** in
     gDPPipeSync(POLY_XLU_DISP++);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors == 0) {
-        // setup to draw image to the zbuffer (Z_UPD), and the framebuffer (G_RM_CLD_SURF | G_RM_CLD_SURF2)
+        // setup to update the zbuffer (`Z_UPD`)
+        // and the framebuffer:
+        // `G_RM_CLD_SURF | G_RM_CLD_SURF2` sets the blender to blend what is being rendered into the framebuffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PRIM | Z_UPD | G_RM_CLD_SURF | G_RM_CLD_SURF2);
+        // makes the drawn image the color of the primcolor, red
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 0, 0, 255);
+        // the z-buffer will later only allow drawing inside the lens circle
     } else {
-        // setup to draw image to the zbuffer (Z_UPD), but leave the framebuffer untouched
-        // G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA means use the pixel already in the framebuffer when blending the
-        // being-drawn geometry into the framebuffer
+        // setup to update the zbuffer (Z_UPD)
+        // but leave the framebuffer untouched:
+        // `G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA` sets the blender to leave the framebuffer untouched
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PRIM | Z_UPD | IM_RD | CVG_DST_SAVE | ZMODE_OPA | FORCE_BL |
                             GBL_c1(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA));
+        // inverts the mask image, which initially is 0 inner and 74 outer,
+        // by setting the combiner to draw 74 - image instead of the image
         gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0,
                           PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0xFF, 74, 74, 74, 74);
+        // the z-buffer will later only allow drawing outside the lens circle
     }
 
+    // Since `G_ZS_PRIM` is used in the other mode set above (in both branches), the depth value will be 0 as set here
+    // for further drawing. 0 is the closest depth value, meaning that for a pixel corresponding to such a depth value
+    // the z-buffer will consider any geometry drawn to that pixel to be behind something and the pixel will stay
+    // unchanged.
     gDPSetPrimDepth(POLY_XLU_DISP++, 0, 0);
 
+    // 0 is effectively put into the z-buffer by `Actor_DrawLensOfTruthMask` where the mask is not fully transparent
+    // (alpha not 0), which can be inner or outer the lens circle depending on the branch just above.
     Actor_DrawLensOfTruthMask(gfxCtx);
 
     // "Magic lens invisible Actor display START"
@@ -2298,7 +2328,8 @@ void Actor_DrawLens(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** in
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors != 0) {
-        // actually draw to the framebuffer, using the same mode as the showInvisActors == 0 branch above
+        // visually draw the lens mask to the framebuffer and not just the z-buffer,
+        // the same way the `showInvisActors == 0` branch above does
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
 
         gDPPipeSync(POLY_XLU_DISP++);
