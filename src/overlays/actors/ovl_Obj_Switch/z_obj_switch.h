@@ -17,26 +17,16 @@ typedef enum {
 } ObjSwitchType;
 
 typedef enum {
-    /* 0 */ OBJSWITCH_SUBTYPE_FLOOR_NORMAL,     // Normal Yellow Switch
-    /* 1 */ OBJSWITCH_SUBTYPE_FLOOR_TOGGLE,     // On/Off Red Switch
-    /* 2 */ OBJSWITCH_SUBTYPE_FLOOR_RESET_OFF,  // Reset when not stood on, blue switch (default state: off)
-    /* 3 */ OBJSWITCH_SUBTYPE_FLOOR_RESET_ON    // Reset when not stood on, blue switch (default state: on)
-} ObjSwitchSubTypeFloor;
-
-typedef enum {
-    /* 0 */ OBJSWITCH_SUBTYPE_EYE_NORMAL,       // Normal Yellow Eye
-    /* 1 */ OBJSWITCH_SUBTYPE_EYE_TOGGLE        // On/Off Grey Eye
-} ObjSwitchSubTypeEye;
-
-typedef enum {
-    /* 0 */ OBJSWITCH_SUBTYPE_CRYSTAL_NORMAL,   // Normal
-    /* 1 */ OBJSWITCH_SUBTYPE_CRYSTAL_TOGGLE,   // On/Off Blue/Red Crystal
-    /* 4 */ OBJSWITCH_SUBTYPE_CRYSTAL_TIED = 4  // Tied to Switch Flag's State
-} ObjSwitchSubTypeCrystal;
+    /* 0 */ OBJSWITCH_SUBTYPE_DEFAULT,      // Normal Yellow Switches
+    /* 1 */ OBJSWITCH_SUBTYPE_TOGGLE,       // Switches that can be turned on and off
+    /* 2 */ OBJSWITCH_SUBTYPE_RESET_OFF,    // Floor Types only, reset itself when not stood on (off by default)
+    /* 3 */ OBJSWITCH_SUBTYPE_RESET_ON,     // Floor Types only, reset itself when not stood on (on by default)
+    /* 4 */ OBJSWITCH_SUBTYPE_SYNC          // Crystal Types only, syncs with the Switch Flag
+} ObjSwitchSubType;
 
 typedef struct {
     /* 0x00 */ ColliderJntSph col;
-    /* 0x20 */ ColliderJntSphElement items[2];
+    /* 0x20 */ ColliderJntSphElement items[1];
 } ObjSwitchJntSph;
 
 typedef struct {
@@ -47,7 +37,7 @@ typedef struct {
 typedef struct ObjSwitch {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ObjSwitchActionFunc actionFunc;
-    /* 0x0168 */ s16 releaseTimer; // used for SUBTYPE_FLOOR_RESET_OFF and SUBTYPE_FLOOR_RESET_ON
+    /* 0x0168 */ s16 releaseTimer; // used for SUBTYPE_RESET_OFF and SUBTYPE_RESET_ON
     /* 0x016A */ s16 disableAcTimer;
     /* 0x016C */ s16 cooldownTimer;
     /* 0x016E */ u8 cooldownOn;
