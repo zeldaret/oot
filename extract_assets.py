@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse, json, os, signal, time
-from multiprocessing import Pool, cpu_count, Event, Manager, ProcessError
+from multiprocessing import *
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
 
@@ -119,7 +119,7 @@ def main():
         try:
             numCores = cpu_count()
             print("Extracting assets with " + str(numCores) + " CPU cores.")
-            with Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
+            with get_context("fork").Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
                 p.map(ExtractFunc, xmlFiles)
         except (ProcessError, TypeError):
             print("Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
