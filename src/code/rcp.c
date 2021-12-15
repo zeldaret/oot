@@ -7,7 +7,7 @@
     if (x & DPC_STATUS_##name) \
     osSyncPrintf(#name " ")
 
-void RcpPrintRegisterStatus() {
+void Rcp_PrintRegisterStatus() {
     u32 spStatus = __osSpGetStatus();
     u32 dpStatus = osDpGetStatus();
 
@@ -44,9 +44,9 @@ void RcpPrintRegisterStatus() {
     osSyncPrintf("\n");
 }
 
-void RcpReset() {
-    RcpPrintRegisterStatus();
+void Rcp_Reset() {
+    Rcp_PrintRegisterStatus();
     osDpSetStatus(DPC_SET_FREEZE | DPC_SET_FLUSH);
     __osSpSetStatus(SP_SET_HALT | SP_SET_SIG2 | SP_CLR_INTR_BREAK);
-    RcpPrintRegisterStatus();
+    Rcp_PrintRegisterStatus();
 }
