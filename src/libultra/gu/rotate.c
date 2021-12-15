@@ -1,7 +1,7 @@
 #include "global.h"
 
 void guRotateF(f32 m[4][4], f32 a, f32 x, f32 y, f32 z) {
-    static f32 D_80134D10 = M_PI / 180.0f;
+    static f32 degToGrad = M_PI / 180.0f;
     f32 sine;
     f32 cosine;
     f32 ab;
@@ -14,7 +14,7 @@ void guRotateF(f32 m[4][4], f32 a, f32 x, f32 y, f32 z) {
 
     guNormalize(&x, &y, &z);
 
-    a = a * D_80134D10;
+    a = a * degToGrad;
 
     sine = sinf(a);
     cosine = cosf(a);
