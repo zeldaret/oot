@@ -5,215 +5,10 @@ import struct
 
 import xml.etree.ElementTree as XmlTree
 
-#Enums
-CODEC_VADPCM = 0
-CODEC_S8 = 1
-CODEC_S16_INMEM = 2
-CODEC_SMALL_VADPCM = 3
-CODEC_REVERB = 4
-CODEC_S16 = 5
-
-MEDIUM_RAM = 0
-MEDIUM_UNK = 1
-MEDIUM_CART = 2
-MEDIUM_DD = 3
+from audio_common import *
 
 #Script variables
-soundfonts = []
-samplebanks = []
-
-current_books = []
-current_loops = []
-
-#Extended class defs
-class SerializableBlock:
-    def __init__(self):
-        self.id = ""
-        self.address = -1
-
-    def serializeTo(self, output):
-        return 0
-
-class Ser_Envelope(SerializableBlock):
-    def __init__(self, name):
-        self.data = []
-        self.id = name
-
-    def getSerialSize(self):
-        #TODO
-        #Include padding!!
-        return 0
-
-    def serializeTo(self, output):
-        #TODO
-
-class Ser_PCMBook(SerializableBlock):
-    def __init__(self, order, predCount, name):
-        self.order = order
-        self.predictorCount = predCount
-        self.tableSize = order * predCount * 8
-        self.table = [0] * self.tableSize
-        self.id = name
-
-        self.paddingSize = 0
-        mod16 = ((self.tableSize*2) + 8) % 16
-        if mod16 > 0:
-            self.paddingSize = 16 - mod16
-
-    def getSerialSize(self):
-        return 8 + (self.tableSize * 2) + self.paddingSize
-
-    def serializeTo(self, output):
-        output.write(struct.pack(">ii", self.order, self.predictorCount))
-        for i in range(self.tableSize):
-            output.write(struct.pack(">h", self.table[i]))
-        if self.passingSize > 0:
-            for i in range(self.paddingSize):
-                output.write(struct.pack(">x"))
-        return self.getSerialSize()
-
-class Ser_PCMLoop(SerializableBlock):
-    def __init__(self, name):
-        self.loopStart = -1
-        self.loopEnd = -1
-        self.loopCount = 0
-        self.id = name
-
-    def serializeTo(self, output):
-        output.write(struct.pack(">IIiI", self.loopStart, self.loopEnd, self.loopCount, 0))
-        return 0x10
-
-class Ser_WaveInfo(SerializableBlock):
-    def __init__(self, name):
-        self.codec = CODEC_VADPCM
-        self.medium = MEDIUM_CART
-        self.u2 = 0
-        self.waveSize = 0
-        self.waveOffset = -1
-        self.loopBlock = None
-        self.bookBlock = None
-        self.id = name
-
-        self.audiotable_size = 0
-        self.bank_name = "" #To find file
-        self.idx = -1
-
-    def isADPCM(self):
-        if self.codec is CODEC_VADPCM:
-            return True
-        if self.codec is CODEC_SMALL_VADPCM:
-            return True
-        return False
-
-    def serializeTo(self, output):
-        loopAddr = 0
-        bookAddr = 0
-        if self.loopBlock is not None:
-            loopAddr = self.loopBlock.address
-        if self.bookBlock is not None:
-            bookAddr = self.bookBlock.address
-        outflags = ((self.codec & 0xf) << 4) | ((self.medium & 0x3) << 2) 
-        output.write(struct.pack(">BBHIII", outflags, self.u2, self.waveSize, self.waveOffset, loopAddr, bookAddr))
-        return 0x10
-
-class Ser_SFX(SerializableBlock):
-    def __init__(self, name):
-        self.wave = None
-        self.tune = 1.0f
-        self.id = name
-
-    def serializeTo(self, output):
-        if self.wave is None:
-            return 0
-        output.write(struct.pack(">If", self.wave.address, self.tune))
-        return 0x8
-
-class Ser_Percussion(SerializableBlock):
-    def __init__(self, name):
-        self.decay = 0
-        self.pan = 0x40
-        self.wave = None
-        self.tune = 1.0f
-        self.envelope = None
-        self.id = name
-
-    def serializeTo(self, output):
-        if self.envelope is None:
-            return 0
-        if self.wave is None:
-            return 0
-        output.write(struct.pack(">BBxxIfI", self.decay, self.pan, self.wave.address, self.tune, self.envelope.address))
-        return 0x10
-
-class Ser_Instrument(SerializableBlock):
-    def __init__(self, name):
-        self.loMaxNote = 0
-        self.hiMinNote = 127
-        self.decay = 0
-        self.envelope = None
-        self.loWave = None
-        self.midWave = None
-        self.hiWave = None
-        self.loTune = 1.0f
-        self.midTune = 1.0f
-        self.hiTune = 1.0f
-        self.id = name
-
-    def serializeTo(self, output):
-        if self.envelope is None:
-            return 0
-        output.write(struct.pack(">xBBBI", self.loMaxNote, self.hiMinNote, self.decay, self.envelope.address))
-
-        if self.loWave is None:
-            output.write(struct.pack(">L", 0))
-        else:
-            output.write(struct.pack(">If", self.loWave.address, self.loTune))
-
-        if self.midWave is None:
-            return 0
-        output.write(struct.pack(">If", self.midWave.address, self.midTune))
-
-        if self.hiWave is None:
-            output.write(struct.pack(">L", 0))
-        else:
-            output.write(struct.pack(">If", self.hiWave.address, self.hiTune))
-
-        return 0x20
-
-class Ser_Font:
-    def __init__(self, name):
-        self.id = name
-        self.instruments = []
-        self.percussion = []
-        self.soundeffects = []
-        self.envelopes = {}
-
-class Ser_PercTable(SerializableBlock):
-    def __init__(self):
-        self.id = "perc_tbl"
-        self.offsets = []
-
-    def getPaddingSize(self):
-        mysize = len(self.offsets) * 4
-        mod16 = mysize % 16
-        if mod16 > 0:
-            return 16 - mod16
-        return 0
-
-    def serializeTo(self, output):
-        for offset in self.offsets:
-            output.write(struct.pack(">I", offset))
-        paddingSize = self.getPaddingSize()
-        for i in range(paddingSize):
-            output.write(struct.pack(">x"))
-        return (len(self.offsets) * 4) + paddingSize
-
-class Ser_SampleBank():
-    def __init__(self, name):
-        self.id = name
-        self.idx = -1
-        self.samples = {} #Maps index to info block (because can be read in random order)
-        self.size = 0
+bank_lookup = {}
 
 def compileFont(font, output):
     if font is None:
@@ -353,75 +148,27 @@ def compileFont(font, output):
     if needs_padding:
         output.write(struct.pack(">L", 0))
 
-#Extracts number from start of name string
-def extractIndexNumber(namestr):
-    #TODO
+def getBankbinName(idx):
+	return "audiotable_" + str(idx) + ".bin"
 
-def readFontXml(filepath):
-    #TODO
-    xmltree = xml.parse(filepath)
-    xmlroot = xmltree.getroot()
-
-    e_font = xmlroot.find("SoundFont")
-    font = Ser_Font(e_font.get("Name"))
-
-    #Get bank index
-    xml_element = e_font.find("SampleBanks")
-    xml_element = xml_element.find("Bank")
-    bank_idx = extractIndexNumber(xml_element.get("Name"))
-
-    #Read envelopes
-    e_envs = e_font.find("Envelopes")
-    elist_env = e_envs.findall("Envelope")
-    for e_env in elist_env:
-
-    
-    #Read instruments
-    e_insts = e_font.find("Instruments")
-
-    #Read drums
-
-    #Read sfx
-
-
-def readFontXmls(dirpath):
-    #TODO Fix this - list order not guaranteed
-    for file in os.listdir(xml_dir):
-        if file.endswith(".xml"):
-            soundfonts.add(readFontXml(os.path.join(xml_dir, file)))
-
-def booksEqual(book1, book2):
-    #TODO
-    return false
-
-def loopsEqual(loop1, loop2):
-    #TODO
-    return false
-
-def loadSampleInfo(sample_info):
-    #TODO
-    #Gets all the info needed from the aifc
-
-    #Don't forget to check against existing loop and adpcm blocks and merge if identical
-
-def processBanks(sampledir, buildbanks):
-    #TODO
+def processBanks(sampledir, builddir):
     xmltree = xml.parse(os.path.join(sampledir, "Banks.xml"))
     xmlroot = xmltree.getroot()
 
     e_banks = xmlroot.find("SampleBanks")
     elist_bank = e_banks.findAll("SampleBank")
-    bankdict = {}
 
     i = 0
+	audiotable_paths = []
     for e_bank in elist_bank:
         bankname = e_bank.get("Name")
         if bankname is None:
-            samplebanks.append(bankdict[e_bank.get("Reference")])
+			bankname = str(i) + "REF"
+			bank_lookup[bankname] = bank_lookup[e_bank.get("Reference")]
         else:
-            mybank = Ser_SampleBank(bankname)
-            bankdict[bankname] = mybank
-            samplebanks.append(mybank)
+            mybank = Soundbank()
+			mybank.name = bankname
+            bank_lookup[bankname] = mybank
 
             mybank.idx = i
             bankdir = os.path.join(sampledir, bankname)
@@ -429,21 +176,62 @@ def processBanks(sampledir, buildbanks):
             for file in os.listdir(bankdir):
                 if file.endswith(".aifc"):
                     samplename = file[:-5]
-                    mysample = Ser_WaveInfo(samplename)
-                    mysample.idx = extractIndexNumber(samplename)
-                    mysample.bank_name = bankname
-                    mybank.samples[mysample.idx] = mysample
+                    mysample = SampleHeader()
+					mybank.samplesByName[samplename] = mysample
+					mysample.name = samplename
 
                     #load from aifc
-                    #Update bank size and offset
-
-            #Assign offsets (since samples may not be added in order)
+					mysample.loadInfoFromAIFF(file)
+					mysample.updateSize()
+					
+			#Now, assign offsets/ calculate sizes for samples
+			sorted_samples = mybank.orderSamples()
+			print("Bank", mybank.idx, ":", len(sorted_samples), "found")
+			
+			output = None
+			if builddir is not None:
+				binpath = os.path.join(builddir, getBankbinName(mybank.idx))
+				output = open(binpath, "wb")
+				audiotable_paths.append(binpath)
+			
+			j = 0
+			offset = 0
+			for sample in sorted_samples:
+				sample.idx = j
+				j += 1
+				sample.offsetInBank = offset
+				#Need to add padding as well...
+				offset += sample.length
+				padding = 0
+				mod16 = offset % 16
+				if mod16 != 0:
+					padding = 16 - mod16
+					offset += padding
+					
+				if output is not None:
+					aifc_path = os.path.join(bankdir, sample.name + ".aifc")
+					output.write(loadADPCMData(aifc_path))
+					
+			if output is not None:
+				output.close()
 
         i++
+	
+	#Build audiotable (if requested)
+	if builddir is not None:
+		binpath = os.path.join(builddir, "audiotable")
+		output = open(binpath, "wb")
+		for bankpath in audiotable_paths:
+			input = open(bankpath, "rb")
+			output.write(input.read())
+			input.close()
+		output.close()
+	
 
 def main():
     #TODO
     #Process banks and build sample info blocks
+	#Check bank matches (if requested)
     #Read in font(s)
     #compile font(s)
     #match
