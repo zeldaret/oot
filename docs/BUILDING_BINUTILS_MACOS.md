@@ -1,6 +1,6 @@
 # Building mips-linux-binutils on MacOS
 
-The following instructions are written for MacOS users but should apply to any unix-like system, with maybe some modifications at the end regarding the bash_profile.
+The following instructions are written for MacOS users but should apply to any Unix-like system, with maybe some modifications at the end regarding the bash_profile.
 
 Create destination dir for binutils
 ```bash
@@ -18,8 +18,9 @@ Get and extract binutils source
 wget https://ftp.gnu.org/gnu/binutils/binutils-2.35.tar.bz2
 tar xjf binutils-2.35.tar.bz2
 ```
+(You may find this command does not work: if so, just access the URL in a browser and save it to `~/binutils-tmp`.)
 
-Create and enter build dir
+Create and enter a build directory
 ```bash
 mkdir build-binutils
 cd build-binutils
@@ -36,7 +37,7 @@ make -j
 sudo make install
 ```
 
-Edit your ~/.bash_profile to add the new binutils binaries to the system PATH
+Edit your `~/.bash_profile`/`~/.zsh_profile` (or whichever shell you use) to add the new binutils binaries to the system PATH
 ```bash
 echo "export PATH=$PATH:/opt/cross/bin" >> ~/.bash_profile
 ```
@@ -45,3 +46,5 @@ Reload ~/.bash_profile (or just launch a new terminal tab)
 ```bash
 source ~/.bash_profile
 ```
+
+If this worked, you can now delete the temporary directory `~/binutils-tmp`.
