@@ -427,7 +427,7 @@ beginseg
     include "build/src/code/audio_init_params.o"
     include "build/src/code/logseverity.o"
     include "build/src/code/gfxprint.o"
-    include "build/src/code/code_800FBCE0.o"
+    include "build/src/code/rcp.o"
     include "build/src/code/loadfragment2.o"
     include "build/src/code/mtxuty-cvt.o"
     include "build/src/code/relocation.o"
