@@ -110,9 +110,9 @@ void __osMallocInit(Arena* arena, void* start, size_t size) {
     arena->isInit = true;
 }
 
-void __osMallocAddBlock(Arena* arena, void* start, s32 size) {
+void __osMallocAddBlock(Arena* arena, void* start, ssize_t size) {
     s32 diff;
-    s32 size2;
+    ssize_t size2;
     ArenaNode* firstNode;
     ArenaNode* lastNode;
 
@@ -548,7 +548,7 @@ void __osFreeDebug(Arena* arena, void* ptr, const char* file, s32 line) {
     ArenaImpl_Unlock(arena);
 }
 
-void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
+void* __osRealloc(Arena* arena, void* ptr, size_t newSize) {
     void* newAlloc;
     ArenaNode* node;
     ArenaNode* next;
@@ -645,7 +645,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
     return ptr;
 }
 
-void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, s32 line) {
+void* __osReallocDebug(Arena* arena, void* ptr, size_t newSize, const char* file, s32 line) {
     return __osRealloc(arena, ptr, newSize);
 }
 
@@ -676,9 +676,9 @@ void ArenaImpl_GetSizes(Arena* arena, u32* outMaxFree, u32* outFree, u32* outAll
 }
 
 void __osDisplayArena(Arena* arena) {
-    u32 freeSize;
-    u32 allocatedSize;
-    u32 maxFree;
+    size_t freeSize;
+    size_t allocatedSize;
+    size_t maxFree;
     ArenaNode* iter;
     ArenaNode* next;
 
@@ -739,9 +739,9 @@ void __osDisplayArena(Arena* arena) {
 }
 
 void ArenaImpl_FaultClient(Arena* arena) {
-    u32 freeSize;
-    u32 allocatedSize;
-    u32 maxFree;
+    size_t freeSize;
+    size_t allocatedSize;
+    size_t maxFree;
     ArenaNode* iter;
     ArenaNode* next;
 

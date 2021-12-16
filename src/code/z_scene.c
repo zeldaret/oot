@@ -35,7 +35,7 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
 
 void Object_InitBank(GlobalContext* globalCtx, ObjectContext* objectCtx) {
     GlobalContext* globalCtx2 = globalCtx; // Needs to be a new variable to match (possibly a sub struct?)
-    u32 spaceSize;
+    size_t spaceSize;
     s32 i;
 
     if (globalCtx2->sceneNum == SCENE_SPOT00) {

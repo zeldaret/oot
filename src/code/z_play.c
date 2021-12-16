@@ -425,7 +425,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         osSyncPrintf("object_exchange_rom_address %u\n", gObjectTableSize);
         osSyncPrintf("RomStart RomEnd   Size\n");
         for (i = 0; i < gObjectTableSize; i++) {
-            s32 size = gObjectTable[i].vromEnd - gObjectTable[i].vromStart;
+            ssize_t size = gObjectTable[i].vromEnd - gObjectTable[i].vromStart;
 
             osSyncPrintf("%08x-%08x %08x(%8.3fKB)\n", gObjectTable[i].vromStart, gObjectTable[i].vromEnd, size,
                          size / 1024.0f);

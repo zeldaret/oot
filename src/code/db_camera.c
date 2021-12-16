@@ -1580,7 +1580,7 @@ s32 DbCamera_GetMempakAllocSize(void) {
 
 s32 DbCamera_LoadCallback(char* c) {
     s32 i;
-    s32 size;
+    ssize_t size;
     s32 off;
 
     for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
@@ -1631,9 +1631,9 @@ s32 DbCamera_LoadCallback(char* c) {
 s32 DbCamera_SaveCallback(char* c) {
     s32 pad[2];
     s32 ret;
-    u32 freeSize;
-    s32 off;
-    s32 size;
+    size_t freeSize;
+    ssize_t off;
+    ssize_t size;
     s32 i;
 
     ret = Mempak_GetFileSize(2, *c);

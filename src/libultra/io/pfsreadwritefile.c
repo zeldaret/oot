@@ -27,7 +27,7 @@ s32 __osPfsGetNextPage(OSPfs* pfs, u8* bank, __OSInode* inode, __OSInodeUnit* pa
     return 0;
 }
 
-s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8* data) {
+s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, ssize_t size, u8* data) {
     s32 ret;
     __OSDir dir;
     __OSInode inode;

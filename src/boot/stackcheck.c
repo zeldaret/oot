@@ -74,8 +74,8 @@ void StackCheck_Cleanup(StackEntry* entry) {
 
 StackStatus StackCheck_GetState(StackEntry* entry) {
     u32* last;
-    u32 used;
-    u32 free;
+    size_t used;
+    size_t free;
     s32 ret;
 
     for (last = (uintptr_t*)entry->head; (uintptr_t)last < entry->tail; last++) {

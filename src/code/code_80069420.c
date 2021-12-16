@@ -1,6 +1,6 @@
 #include "global.h"
 
-void* MemCopy(void* dest, void* src, s32 size) {
+void* MemCopy(void* dest, void* src, ssize_t size) {
     u8* destu = (u8*)dest;
     u8* srcu = (u8*)src;
 
@@ -12,7 +12,7 @@ void* MemCopy(void* dest, void* src, s32 size) {
     return dest;
 }
 
-void* MemSet(void* dest, s32 val, s32 size) {
+void* MemSet(void* dest, s32 val, ssize_t size) {
     u8* destu = (u8*)dest;
     s32 s = size;
 

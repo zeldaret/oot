@@ -63,7 +63,7 @@ s32 Mempak_FindFile(s32 controllerNb, char start, char end) {
     return flag;
 }
 
-s32 Mempak_Write(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size) {
+s32 Mempak_Write(s32 controllerNb, char idx, void* buffer, s32 offset, ssize_t size) {
     OSMesgQueue* mq;
     s32 error;
     s32 ret = false;
@@ -83,7 +83,7 @@ s32 Mempak_Write(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size)
     return ret;
 }
 
-s32 Mempak_Read(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size) {
+s32 Mempak_Read(s32 controllerNb, char idx, void* buffer, s32 offset, ssize_t size) {
     OSMesgQueue* mq;
     s32 error;
     s32 ret = false;
@@ -102,7 +102,7 @@ s32 Mempak_Read(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size) 
     return ret;
 }
 
-s32 Mempak_Alloc(s32 controllerNb, char* idx, s32 size) {
+s32 Mempak_Alloc(s32 controllerNb, char* idx, ssize_t size) {
     OSMesgQueue* mq;
     s32 error;
     s32 ret = 0;

@@ -595,7 +595,7 @@ typedef struct {
 typedef struct {
     /* 0x0 */ u8* start;
     /* 0x4 */ u8* cur;
-    /* 0x8 */ s32 size;
+    /* 0x8 */ ssize_t size;
     /* 0xC */ s32 count;
 } AudioAllocPool; // size = 0x10
 
@@ -619,7 +619,7 @@ typedef struct {
 typedef struct {
     /* 0x000 */ AudioAllocPool pool;
     /* 0x010 */ SampleCacheEntry entries[32];
-    /* 0x290 */ s32 size;
+    /* 0x290 */ ssize_t size;
 } AudioSampleCache; // size = 0x294
 
 typedef struct {

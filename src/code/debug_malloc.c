@@ -49,13 +49,13 @@ void* DebugArena_MallocRDebug(size_t size, const char* file, s32 line) {
     return ptr;
 }
 
-void* DebugArena_Realloc(void* ptr, u32 newSize) {
+void* DebugArena_Realloc(void* ptr, size_t newSize) {
     ptr = __osRealloc(&sDebugArena, ptr, newSize);
     DebugArena_CheckPointer(ptr, newSize, "debug_realloc", "再確保"); // "Re-securing"
     return ptr;
 }
 
-void* DebugArena_ReallocDebug(void* ptr, u32 newSize, const char* file, s32 line) {
+void* DebugArena_ReallocDebug(void* ptr, size_t newSize, const char* file, s32 line) {
     ptr = __osReallocDebug(&sDebugArena, ptr, newSize, file, line);
     DebugArena_CheckPointer(ptr, newSize, "debug_realloc_DEBUG", "再確保"); // "Re-securing"
     return ptr;

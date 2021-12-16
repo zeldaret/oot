@@ -45,7 +45,7 @@ void AudioLoad_SyncDmaUnkMedium(u32 devAddr, u8* addr, size_t size, s32 unkMediu
 s32 AudioLoad_Dma(OSIoMesg* mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, size_t size,
                   OSMesgQueue* reqQueue, s32 medium, const char* dmaFuncType);
 void* AudioLoad_AsyncLoadInner(s32 tableType, s32 id, s32 nChunks, s32 retData, OSMesgQueue* retQueue);
-AudioAsyncLoad* AudioLoad_StartAsyncLoadUnkMedium(s32 unkMediumParam, u32 devAddr, void* ramAddr, s32 size, s32 medium,
+AudioAsyncLoad* AudioLoad_StartAsyncLoadUnkMedium(s32 unkMediumParam, u32 devAddr, void* ramAddr, ssize_t size, s32 medium,
                                                   s32 nChunks, OSMesgQueue* retQueue, s32 retMsg);
 AudioAsyncLoad* AudioLoad_StartAsyncLoad(u32 devAddr, void* ramAddr, size_t size, s32 medium, s32 nChunks,
                                          OSMesgQueue* retQueue, s32 retMsg);
@@ -53,9 +53,9 @@ void AudioLoad_AsyncDma(AudioAsyncLoad* asyncLoad, size_t size);
 void AudioLoad_AsyncDmaUnkMedium(u32 devAddr, void* ramAddr, size_t size, s16 arg3);
 u8* AudioLoad_SyncLoadSeq(s32 seqId);
 s32 AudioLoad_ProcessSamplePreloads(s32 resetStatus);
-void AudioLoad_DmaSlowCopy(AudioSlowLoad* slowLoad, s32 size);
+void AudioLoad_DmaSlowCopy(AudioSlowLoad* slowLoad, ssize_t size);
 void AudioLoad_ProcessSlowLoads(s32 resetStatus);
-void AudioLoad_DmaSlowCopyUnkMedium(s32 devAddr, u8* ramAddr, s32 size, s32 arg3);
+void AudioLoad_DmaSlowCopyUnkMedium(s32 devAddr, u8* ramAddr, ssize_t size, s32 arg3);
 
 OSMesgQueue sScriptLoadQueue;
 OSMesg sScriptLoadMesgBuf[0x10];
@@ -1311,14 +1311,14 @@ void AudioLoad_ProcessSlowLoads(s32 resetStatus) {
     }
 }
 
-void AudioLoad_DmaSlowCopy(AudioSlowLoad* slowLoad, s32 size) {
+void AudioLoad_DmaSlowCopy(AudioSlowLoad* slowLoad, ssize_t size) {
     Audio_InvalDCache(slowLoad->curRamAddr, size);
     osCreateMesgQueue(&slowLoad->msgqueue, &slowLoad->msg, 1);
     AudioLoad_Dma(&slowLoad->ioMesg, OS_MESG_PRI_NORMAL, 0, slowLoad->curDevAddr, slowLoad->curRamAddr, size,
                   &slowLoad->msgqueue, slowLoad->medium, "SLOWCOPY");
 }
 
-void AudioLoad_DmaSlowCopyUnkMedium(s32 devAddr, u8* ramAddr, s32 size, s32 arg3) {
+void AudioLoad_DmaSlowCopyUnkMedium(s32 devAddr, u8* ramAddr, ssize_t size, s32 arg3) {
 }
 
 s32 AudioLoad_SlowLoadSeq(s32 seqId, u8* ramAddr, s8* isDone) {
@@ -1366,7 +1366,7 @@ void AudioLoad_InitAsyncLoads(void) {
     }
 }
 
-AudioAsyncLoad* AudioLoad_StartAsyncLoadUnkMedium(s32 unkMediumParam, u32 devAddr, void* ramAddr, s32 size, s32 medium,
+AudioAsyncLoad* AudioLoad_StartAsyncLoadUnkMedium(s32 unkMediumParam, u32 devAddr, void* ramAddr, ssize_t size, s32 medium,
                                                   s32 nChunks, OSMesgQueue* retQueue, s32 retMsg) {
     AudioAsyncLoad* asyncLoad;
 
@@ -1600,7 +1600,7 @@ void AudioLoad_RelocateFontAndPreloadSamples(s32 fontId, SoundFontData* mem, Rel
     AudioPreloadReq* preload;
     AudioPreloadReq* topPreload;
     SoundFontSample* sample;
-    s32 size;
+    ssize_t size;
     s32 nChunks;
     u8* addr;
     s32 preloadInProgress;
@@ -1828,7 +1828,7 @@ void AudioLoad_PreloadSamplesForFont(s32 fontId, s32 async, RelocInfo* relocInfo
     AudioPreloadReq* preload;
     AudioPreloadReq* topPreload;
     u8* addr;
-    s32 size;
+    ssize_t size;
     s32 i;
     SoundFontSample* sample;
     s32 preloadInProgress;
