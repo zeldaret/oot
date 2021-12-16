@@ -18,14 +18,14 @@ s32 osAiSetNextBuffer(void* buf, size_t size) {
     }
 
     // Originally a call to __osAiDeviceBusy
-    status = HW_REG(AI_STATUS_REG, uintptr_t);
+    status = HW_REG(AI_STATUS_REG, s32);
     if (status & AI_STATUS_AI_FULL) {
         return -1;
     }
 
     // OS_K0_TO_PHYSICAL replaces osVirtualToPhysical, this replacement
     // assumes that only KSEG0 addresses are given
-    HW_REG(AI_DRAM_ADDR_REG, uintptr_t) = OS_K0_TO_PHYSICAL(bufAdjusted);
-    HW_REG(AI_LEN_REG, uintptr_t) = size;
+    HW_REG(AI_DRAM_ADDR_REG, u32) = OS_K0_TO_PHYSICAL(bufAdjusted);
+    HW_REG(AI_LEN_REG, u32) = size;
     return 0;
 }
