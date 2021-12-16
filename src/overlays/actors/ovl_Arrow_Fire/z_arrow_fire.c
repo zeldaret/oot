@@ -50,7 +50,7 @@ void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     this->alpha = 160;
     this->timer = 0;
-    this->hitAnimItensity = 0.0f;
+    this->hitAnimIntensity = 0.0f;
 }
 
 void ArrowFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -127,12 +127,12 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer >= 9) {
-        if (this->hitAnimItensity < 1.0f) {
-            this->hitAnimItensity += 0.25f;
+        if (this->hitAnimIntensity < 1.0f) {
+            this->hitAnimIntensity += 0.25f;
         }
     } else {
-        if (this->hitAnimItensity > 0.0f) {
-            this->hitAnimItensity -= 0.125f;
+        if (this->hitAnimIntensity > 0.0f) {
+            this->hitAnimIntensity -= 0.125f;
         }
     }
 
@@ -215,10 +215,10 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
 
         // Draw red effect over the screen when arrow hits
-        if (this->hitAnimItensity > 0) {
+        if (this->hitAnimIntensity > 0) {
             POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s32)(40.0f * this->hitAnimItensity) & 0xFF, 0, 0,
-                            (s32)(150.0f * this->hitAnimItensity) & 0xFF);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s32)(40.0f * this->hitAnimIntensity) & 0xFF, 0, 0,
+                            (s32)(150.0f * this->hitAnimIntensity) & 0xFF);
             gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
             gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
             gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
