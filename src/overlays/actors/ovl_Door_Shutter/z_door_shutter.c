@@ -636,8 +636,7 @@ void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = (DoorShutter*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(player->stateFlags1 &
-          (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28)) ||
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28)) ||
         (this->actionFunc == DoorShutter_SetupType)) {
         this->actionFunc(this, globalCtx);
     }

@@ -651,8 +651,7 @@ void BossSst_HeadNeutral(BossSst* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         if ((GET_PLAYER(globalCtx)->actor.world.pos.y > -50.0f) &&
-            !(GET_PLAYER(globalCtx)->stateFlags1 &
-              (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+            !(GET_PLAYER(globalCtx)->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
             sHands[Rand_ZeroOne() <= 0.5f]->ready = true;
             BossSst_HeadSetupWait(this);
         } else {

@@ -743,8 +743,7 @@ void func_80083108(GlobalContext* globalCtx) {
                 }
 
                 Interface_ChangeAlpha(50);
-            } else if ((player->stateFlags1 & PLAYER_STATE1_21) ||
-                       (player->stateFlags2 & PLAYER_STATE2_18)) {
+            } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (player->stateFlags2 & PLAYER_STATE2_18)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     gSaveContext.buttonStatus[0] = BTN_DISABLED;
                     gSaveContext.buttonStatus[1] = BTN_DISABLED;

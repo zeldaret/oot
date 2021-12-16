@@ -140,8 +140,7 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
             globalCtx->nextEntranceIndex = entrances[destinationIdx];
             DoorAna_SetupAction(this, DoorAna_GrabPlayer);
         } else {
-            if (!Player_InCsMode(globalCtx) &&
-                !(player->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_27)) &&
+            if (!Player_InCsMode(globalCtx) && !(player->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_27)) &&
                 this->actor.xzDistToPlayer <= 15.0f && -50.0f <= this->actor.yDistToPlayer &&
                 this->actor.yDistToPlayer <= 15.0f) {
                 player->stateFlags1 |= PLAYER_STATE1_31;

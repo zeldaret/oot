@@ -1568,9 +1568,8 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(player->stateFlags1 &
-          (PLAYER_STATE1_7 | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
-           PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21)) &&
+    if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
+                                 PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21)) &&
         Player_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (actor == player->targetActor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
@@ -1642,9 +1641,9 @@ s32 Actor_IsMounted(GlobalContext* globalCtx, Actor* horse) {
 u32 Actor_SetRideActor(GlobalContext* globalCtx, Actor* horse, s32 mountSide) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_11 | PLAYER_STATE1_12 |
-                                 PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
-                                 PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21))) {
+    if (!(player->stateFlags1 &
+          (PLAYER_STATE1_7 | PLAYER_STATE1_11 | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
+           PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21))) {
         player->rideActor = horse;
         player->mountSide = mountSide;
         return true;
