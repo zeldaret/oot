@@ -44,8 +44,8 @@ static MapMarkInfo sMapMarkInfoTable[] = {
 
 static MapMarkDataOverlay sMapMarkDataOvl = {
     NULL,
-    (u32)_ovl_map_mark_dataSegmentRomStart,
-    (u32)_ovl_map_mark_dataSegmentRomEnd,
+    (uintptr_t)_ovl_map_mark_dataSegmentRomStart,
+    (uintptr_t)_ovl_map_mark_dataSegmentRomEnd,
     _ovl_map_mark_dataSegmentStart,
     _ovl_map_mark_dataSegmentEnd,
     gMapMarkDataTable,
@@ -55,7 +55,7 @@ static MapMarkData** sLoadedMarkDataTable;
 
 void MapMark_Init(GlobalContext* globalCtx) {
     MapMarkDataOverlay* overlay = &sMapMarkDataOvl;
-    u32 overlaySize = (u32)overlay->vramEnd - (u32)overlay->vramStart;
+    u32 overlaySize = (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart;
 
     overlay->loadedRamAddr = GameState_Alloc(&globalCtx->state, overlaySize, "../z_map_mark.c", 235);
     LogUtils_CheckNullPointer("dlftbl->allocp", overlay->loadedRamAddr, "../z_map_mark.c", 236);
@@ -63,9 +63,9 @@ void MapMark_Init(GlobalContext* globalCtx) {
     Overlay_Load(overlay->vromStart, overlay->vromEnd, overlay->vramStart, overlay->vramEnd, overlay->loadedRamAddr);
 
     sLoadedMarkDataTable = gMapMarkDataTable;
-    sLoadedMarkDataTable = (void*)(u32)(
+    sLoadedMarkDataTable = (void*)(uintptr_t)(
         (overlay->vramTable != NULL)
-            ? (void*)((u32)overlay->vramTable - (s32)((u32)overlay->vramStart - (u32)overlay->loadedRamAddr))
+            ? (void*)((uintptr_t)overlay->vramTable - ((intptr_t)overlay->vramStart - (intptr_t)overlay->loadedRamAddr))
             : NULL);
 }
 

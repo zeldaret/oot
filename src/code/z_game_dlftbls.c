@@ -2,7 +2,7 @@
 
 #define GAMESTATE_OVERLAY(name, init, destroy, size)                                                         \
     {                                                                                                        \
-        NULL, (u32)_ovl_##name##SegmentRomStart, (u32)_ovl_##name##SegmentRomEnd, _ovl_##name##SegmentStart, \
+        NULL, (uintptr_t)_ovl_##name##SegmentRomStart, (uintptr_t)_ovl_##name##SegmentRomEnd, _ovl_##name##SegmentStart, \
             _ovl_##name##SegmentEnd, 0, init, destroy, 0, 0, 0, size                                         \
     }
 #define GAMESTATE_OVERLAY_INTERNAL(init, destroy, size) \

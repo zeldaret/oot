@@ -22,7 +22,7 @@ void __osDevMgrMain(void* arg) {
             block = &transfer->block[transfer->blockNum];
             transfer->sectorNum = -1;
             if (transfer->transferMode != 3) {
-                block->dramAddr = (void*)((u32)block->dramAddr - block->sectorSize);
+                block->dramAddr = (void*)((uintptr_t)block->dramAddr - block->sectorSize);
             }
 
             phi_s2 = ((transfer->transferMode == 2) && (ioMesg->piHandle->transferInfo.cmdType == 0)) ? 1 : 0;

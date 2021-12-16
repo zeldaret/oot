@@ -466,7 +466,7 @@ void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
     if (THA_IsCrash(&gameState->tha)) {
         osSyncPrintf("ハイラルは滅亡している\n");
         ret = NULL;
-    } else if ((u32)THA_GetSize(&gameState->tha) < size) {
+    } else if ((uintptr_t)THA_GetSize(&gameState->tha) < size) {
         // "Hyral on the verge of extinction does not have %d bytes left (%d bytes until extinction)"
         osSyncPrintf("滅亡寸前のハイラルには %d バイトの余力もない（滅亡まであと %d バイト）\n", size,
                      THA_GetSize(&gameState->tha));
@@ -480,7 +480,7 @@ void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
     }
     if (ret != NULL) {
         osSyncPrintf(VT_FGCOL(GREEN));
-        osSyncPrintf("game_alloc(%08x) %08x-%08x [%s:%d]\n", size, ret, (u32)ret + size, file, line);
+        osSyncPrintf("game_alloc(%08x) %08x-%08x [%s:%d]\n", size, ret, (uintptr_t)ret + size, file, line);
         osSyncPrintf(VT_RST);
     }
     return ret;

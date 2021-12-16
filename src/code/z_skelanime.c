@@ -1073,8 +1073,8 @@ void SkelAnime_InitLink(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkel
     } else {
         ASSERT(limbBufCount == limbCount, "joint_buff_num == joint_num", "../z_skelanime.c", 2369);
 
-        skelAnime->jointTable = (Vec3s*)ALIGN16((u32)jointTable);
-        skelAnime->morphTable = (Vec3s*)ALIGN16((u32)morphTable);
+        skelAnime->jointTable = (Vec3s*)ALIGN16((uintptr_t)jointTable);
+        skelAnime->morphTable = (Vec3s*)ALIGN16((uintptr_t)morphTable);
     }
 
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
@@ -1311,7 +1311,7 @@ void LinkAnimation_BlendToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, 
 
     AnimationContext_SetLoadFrame(globalCtx, animation1, (s32)frame1, skelAnime->limbCount, skelAnime->jointTable);
 
-    alignedBlendTable = (Vec3s*)ALIGN16((u32)blendTable);
+    alignedBlendTable = (Vec3s*)ALIGN16((uintptr_t)blendTable);
 
     AnimationContext_SetLoadFrame(globalCtx, animation2, (s32)frame2, skelAnime->limbCount, alignedBlendTable);
     AnimationContext_SetInterp(globalCtx, skelAnime->limbCount, skelAnime->jointTable, alignedBlendTable, blendWeight);
@@ -1327,7 +1327,7 @@ void LinkAnimation_BlendToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, 
 
     AnimationContext_SetLoadFrame(globalCtx, animation1, (s32)frame1, skelAnime->limbCount, skelAnime->morphTable);
 
-    alignedBlendTable = (Vec3s*)ALIGN16((u32)blendTable);
+    alignedBlendTable = (Vec3s*)ALIGN16((uintptr_t)blendTable);
 
     AnimationContext_SetLoadFrame(globalCtx, animation2, (s32)frame2, skelAnime->limbCount, alignedBlendTable);
     AnimationContext_SetInterp(globalCtx, skelAnime->limbCount, skelAnime->morphTable, alignedBlendTable, blendWeight);

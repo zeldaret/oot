@@ -178,7 +178,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
 
         for (phi_t2_4 = 0, phi_ra = 0; phi_ra < 4; phi_ra++, phi_a2_4 += 0x1F) {
             for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x3F, phi_t2_4 += 4) {
-                gDPLoadTextureTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[0] + D_8012AC90[arg8],
+                gDPLoadTextureTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[0] + D_8012AC90[arg8],
                                    G_IM_FMT_CI, G_IM_SIZ_8b, 256, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x3F,
                                    phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
@@ -289,11 +289,11 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
         phi_a2_4 = 0;
         for (phi_t2_4 = 0, phi_ra = 0; phi_ra < 4; phi_ra++, phi_a2_4 += 0x1F) {
             for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x1F, phi_t2_4 += 4) {
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[0] + D_8012ADC0[arg8], 0,
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[0] + D_8012ADC0[arg8], 0,
                                  G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
                                  phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
                                  G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F, phi_a2_4 + 0x1F,
                                  0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
                                  G_TX_NOMASK, G_TX_NOLOD);
@@ -305,11 +305,11 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
         phi_a2_4 = 0;
         for (phi_t2_4 = 0, phi_ra = 0; phi_ra < 2; phi_ra++, phi_a2_4 += 0x1F) {
             for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x1F, phi_t2_4 += 4) {
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[0] + D_8012ADC0[arg8], 0,
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[0] + D_8012ADC0[arg8], 0,
                                  G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
                                  phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
                                  G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F, phi_a2_4 + 0x1F,
                                  0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
                                  G_TX_NOMASK, G_TX_NOLOD);
@@ -320,11 +320,11 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
         phi_a2_4 -= 0x1F;
         for (phi_ra = 0; phi_ra < 2; phi_ra++, phi_a2_4 -= 0x1F) {
             for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x1F, phi_t2_4 += 4) {
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[0] + D_8012ADC0[arg8], 0,
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[0] + D_8012ADC0[arg8], 0,
                                  G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
                                  phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
                                  G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F, phi_a2_4 + 0x1F,
                                  0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
                                  G_TX_NOMASK, G_TX_NOLOD);
@@ -429,7 +429,7 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
 
                 DmaMgr_SendRequest1(skyboxCtx->palettes, gSkyboxFiles[sp41].palette.vromStart, size, "../z_vr_box.c",
                                     1075);
-                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, gSkyboxFiles[sp40].palette.vromStart, size,
+                DmaMgr_SendRequest1((uintptr_t)skyboxCtx->palettes + size, gSkyboxFiles[sp40].palette.vromStart, size,
                                     "../z_vr_box.c", 1077);
             } else {
                 size = gSkyboxFiles[sp41].palette.vromEnd - gSkyboxFiles[sp41].palette.vromStart;
@@ -440,7 +440,7 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
 
                 DmaMgr_SendRequest1(skyboxCtx->palettes, gSkyboxFiles[sp40].palette.vromStart, size, "../z_vr_box.c",
                                     1088);
-                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, gSkyboxFiles[sp41].palette.vromStart, size,
+                DmaMgr_SendRequest1((uintptr_t)skyboxCtx->palettes + size, gSkyboxFiles[sp41].palette.vromStart, size,
                                     "../z_vr_box.c", 1090);
             }
             break;
@@ -485,7 +485,7 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
             ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1171);
 
             DmaMgr_SendRequest1(skyboxCtx->palettes, start, size, "../z_vr_box.c", 1173);
-            DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, start, size, "../z_vr_box.c", 1175);
+            DmaMgr_SendRequest1((uintptr_t)skyboxCtx->palettes + size, start, size, "../z_vr_box.c", 1175);
             break;
         case SKYBOX_MARKET_ADULT:
             skyboxCtx->unk_140 = 1;
@@ -530,7 +530,7 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
             ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1212);
 
             DmaMgr_SendRequest1(skyboxCtx->palettes, start, size, "../z_vr_box.c", 1214);
-            DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, _vr_holy1_pal_staticSegmentRomStart, size,
+            DmaMgr_SendRequest1((uintptr_t)skyboxCtx->palettes + size, _vr_holy1_pal_staticSegmentRomStart, size,
                                 "../z_vr_box.c", 1216);
             break;
         case SKYBOX_HOUSE_LINK:

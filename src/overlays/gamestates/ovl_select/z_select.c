@@ -742,7 +742,7 @@ void Select_Init(GameState* thisx) {
     this->lockDown = 0;
     this->unk_234 = 0;
 
-    size = (u32)_z_select_staticSegmentRomEnd - (u32)_z_select_staticSegmentRomStart;
+    size = (uintptr_t)_z_select_staticSegmentRomEnd - (uintptr_t)_z_select_staticSegmentRomStart;
 
     if ((dREG(80) >= 0) && (dREG(80) < this->count)) {
         this->currentScene = dREG(80);

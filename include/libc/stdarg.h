@@ -16,7 +16,7 @@ typedef char* va_list;
 #define _STRUCT 2
 
 #define _VA_FP_SAVE_AREA 0x10
-#define _VA_ALIGN(p, a) (((u32)(((char*)p) + ((a) > 4 ? (a) : 4) - 1)) & -((a) > 4 ? (a) : 4))
+#define _VA_ALIGN(p, a) (((uintptr_t)(((char*)p) + ((a) > 4 ? (a) : 4) - 1)) & -((a) > 4 ? (a) : 4))
 #define va_start(vp, parmN) (vp = ((va_list)&parmN + sizeof(parmN)))
 
 #define __va_stack_arg(list, mode)                          \

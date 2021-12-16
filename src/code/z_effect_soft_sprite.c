@@ -11,7 +11,7 @@ void EffectSs_InitInfo(GlobalContext* globalCtx, s32 tableSize) {
     for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
         overlay = &gEffectSsOverlayTable[i];
         osSyncPrintf("effect index %3d:size=%6dbyte romsize=%6dbyte\n", i,
-                     (u32)overlay->vramEnd - (u32)overlay->vramStart, overlay->vromEnd - overlay->vromStart);
+                     (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart, overlay->vromEnd - overlay->vromStart);
     }
 
     sEffectSsInfo.table =
@@ -181,7 +181,7 @@ void EffectSs_Spawn(GlobalContext* globalCtx, s32 type, s32 priority, void* init
     }
 
     sEffectSsInfo.searchStartIndex = index + 1;
-    overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
+    overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
     if (overlayEntry->vramStart == NULL) {
         // "Not an overlay"
@@ -213,9 +213,9 @@ void EffectSs_Spawn(GlobalContext* globalCtx, s32 type, s32 priority, void* init
             osSyncPrintf(VT_RST);
         }
 
-        initInfo = (void*)(u32)((overlayEntry->initInfo != NULL)
-                                    ? (void*)((u32)overlayEntry->initInfo -
-                                              (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr))
+        initInfo = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
+                                    ? (void*)((uintptr_t)overlayEntry->initInfo -
+                                              ((intptr_t)overlayEntry->vramStart - (intptr_t)overlayEntry->loadedRamAddr))
                                     : NULL);
     }
 

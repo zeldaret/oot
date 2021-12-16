@@ -9,12 +9,12 @@ typedef struct {
 
 SsSramContext sSsSramContext = { 0 };
 
-void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
+void SsSram_Init(uintptr_t addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
                  u8 handlePulse, u32 handleSpeed) {
     u32 prevInt;
     OSPiHandle* handle = &sSsSramContext.piHandle;
 
-    if ((u32)OS_PHYSICAL_TO_K1(addr) != (*handle).baseAddress) {
+    if ((uintptr_t)OS_PHYSICAL_TO_K1(addr) != (*handle).baseAddress) {
         sSsSramContext.piHandle.type = handleType;
         (*handle).baseAddress = OS_PHYSICAL_TO_K1(addr);
         sSsSramContext.piHandle.latency = handleLatency;

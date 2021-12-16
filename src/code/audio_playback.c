@@ -169,7 +169,7 @@ void Audio_ProcessNotes(void) {
         noteSubEu2 = &gAudioContext.noteSubsEu[gAudioContext.noteSubEuOffset + i];
         playbackState = &note->playbackState;
         if (playbackState->parentLayer != NO_LAYER) {
-            if ((u32)playbackState->parentLayer < 0x7FFFFFFF) {
+            if ((uintptr_t)playbackState->parentLayer < 0x7FFFFFFF) {
                 continue;
             }
 
@@ -349,7 +349,7 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + drumId) + 0x4000000;
         return NULL;
     }
-    if ((u32)gAudioContext.soundFonts[fontId].drums < 0x80000000) {
+    if ((uintptr_t)gAudioContext.soundFonts[fontId].drums < 0x80000000) {
         return NULL;
     }
     drum = gAudioContext.soundFonts[fontId].drums[drumId];
@@ -378,7 +378,7 @@ SoundFontSound* Audio_GetSfx(s32 fontId, s32 sfxId) {
         return NULL;
     }
 
-    if ((u32)gAudioContext.soundFonts[fontId].soundEffects < 0x80000000) {
+    if ((uintptr_t)gAudioContext.soundFonts[fontId].soundEffects < 0x80000000) {
         return NULL;
     }
 

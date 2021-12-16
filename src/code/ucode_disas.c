@@ -484,7 +484,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                 switch (dma.par) {
                     case 0: {
                         DISAS_LOG("gsSPDisplayList(0x%08x),", dma.addr);
-                        this->dlStack[this->dlDepth++] = (u32)(ptr + 1);
+                        this->dlStack[this->dlDepth++] = (Gfx*)(ptr + 1);
                         ptr = (GfxMod*)addr - 1;
                     } break;
 

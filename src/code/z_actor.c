@@ -2626,7 +2626,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
 
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
-    overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
+    overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
     if (HREG(20) != 0) {
         // "Actor class addition [%d:%s]"
@@ -2682,16 +2682,16 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
             osSyncPrintf(VT_FGCOL(GREEN));
             osSyncPrintf("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart,
                          overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
-                         (u32)overlayEntry->loadedRamAddr + (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart,
-                         (u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr, name);
+                         (uintptr_t)overlayEntry->loadedRamAddr + (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart,
+                         (uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr, name);
             osSyncPrintf(VT_RST);
 
             overlayEntry->numLoaded = 0;
         }
 
-        actorInit = (void*)(u32)((overlayEntry->initInfo != NULL)
-                                     ? (void*)((u32)overlayEntry->initInfo -
-                                               (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr))
+        actorInit = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
+                                     ? (void*)((uintptr_t)overlayEntry->initInfo -
+                                               ((intptr_t)overlayEntry->vramStart - (intptr_t)overlayEntry->loadedRamAddr))
                                      : NULL);
     }
 

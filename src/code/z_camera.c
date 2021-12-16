@@ -7739,8 +7739,8 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
 
 s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
     if (camera->unk_14A & 1) {
-        if ((u32)((u32)(sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
-            (u32)((u32)(sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
+        if (((u32)(sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
+            ((u32)(sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
             camera->unk_14A |= 0x10;
             return -2;
         }

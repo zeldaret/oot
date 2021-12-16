@@ -180,8 +180,8 @@ void* AudioHeap_Alloc(AudioAllocPool* pool, u32 size) {
 }
 
 void AudioHeap_AllocPoolInit(AudioAllocPool* pool, void* mem, u32 size) {
-    pool->cur = pool->start = (u8*)ALIGN16((u32)mem);
-    pool->size = size - ((u32)mem & 0xF);
+    pool->cur = pool->start = (u8*)ALIGN16((uintptr_t)mem);
+    pool->size = size - ((uintptr_t)mem & 0xF);
     pool->count = 0;
 }
 
@@ -502,7 +502,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                 break;
 
             case 1:
-                tp->entries[1].ptr = (u8*)((u32)(pool->start + pool->size - size) & ~0xF);
+                tp->entries[1].ptr = (u8*)((uintptr_t)(pool->start + pool->size - size) & ~0xF);
                 tp->entries[1].id = id;
                 tp->entries[1].size = size;
                 if (tp->entries[0].id != -1 && tp->entries[1].ptr < pool->cur) {

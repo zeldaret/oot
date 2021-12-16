@@ -6,16 +6,16 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
     u32 dbg;
     u32 relocOffset;
     u32 relocData;
-    u32 unrelocatedAddress;
+    uintptr_t unrelocatedAddress;
     u32 i;
-    u32* relocDataP;
+    uintptr_t* relocDataP;
     u32* luiRefs[32];
     u32 luiVals[32];
-    u32 relocatedAddress;
+    uintptr_t relocatedAddress;
     u32 reloc;
-    u32 vaddr;
+    uintptr_t vaddr;
     u32* luiInstRef;
-    u32 allocu32 = (u32)allocatedVRamAddress;
+    uintptr_t allocu32 = (uintptr_t)allocatedVRamAddress;
     u32* regValP;
     u32 isLoNeg;
 
@@ -47,7 +47,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                  */
                 if ((*relocDataP & 0xF000000) == 0) {
                     luiInstRef = vRamAddress;
-                    relocOffset = *relocDataP - (u32)luiInstRef;
+                    relocOffset = *relocDataP - (uintptr_t)luiInstRef;
                     relocatedValue = relocOffset + allocu32;
                     relocatedAddress = relocatedValue;
                     unrelocatedAddress = relocData;
@@ -59,7 +59,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                  * Handles 26-bit address relocation, used for jumps and jals
                  */
                 unrelocatedAddress = ((*relocDataP & 0x3FFFFFF) << 2) | 0x80000000;
-                relocOffset = unrelocatedAddress - (u32)vRamAddress;
+                relocOffset = unrelocatedAddress - (uintptr_t)vRamAddress;
                 relocatedValue = (*relocDataP & 0xFC000000) | (((allocu32 + relocOffset) & 0xFFFFFFF) >> 2);
                 relocatedAddress = ((relocatedValue & 0x3FFFFFF) << 2) | 0x80000000;
                 *relocDataP = relocatedValue;
@@ -82,7 +82,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                 vaddr = (*regValP << 0x10) + (s16)*relocDataP;
                 luiInstRef = luiRefs[((*relocDataP >> 0x15) & 0x1F)];
                 if ((vaddr & 0xF000000) == 0) {
-                    relocOffset = vaddr - (u32)vRamAddress;
+                    relocOffset = vaddr - (uintptr_t)vRamAddress;
                     vaddr = (s16)relocData;
                     isLoNeg = (((relocOffset + allocu32) & 0x8000) ? 1 : 0);
                     unrelocatedAddress = (*luiInstRef << 0x10) + vaddr;
@@ -105,7 +105,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
             case 0x6000000:
                 if (gOverlayLogSeverity >= 3) {
                     osSyncPrintf("%02d %08x %08x %08x ", dbg, relocDataP, relocatedValue, relocatedAddress);
-                    osSyncPrintf(" %08x %08x %08x %08x\n", ((u32)relocDataP + (u32)vRamAddress) - allocu32, relocData,
+                    osSyncPrintf(" %08x %08x %08x %08x\n", ((uintptr_t)relocDataP + (uintptr_t)vRamAddress) - allocu32, relocData,
                                  unrelocatedAddress, relocOffset);
                 }
         }

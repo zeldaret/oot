@@ -26,7 +26,7 @@ UCodeInfo D_8012D248[3] = {
 
 void Graph_FaultClient() {
     void* nextFb = osViGetNextFramebuffer();
-    void* newFb = ((u32)SysCfb_GetFbPtr(0) != (u32)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
+    void* newFb = ((uintptr_t)SysCfb_GetFbPtr(0) != (uintptr_t)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
 
     osViSwapBuffer(newFb);
     Fault_WaitForInput();
@@ -211,7 +211,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->data_ptr = (u64*)gfxCtx->workBuffer;
 
     OPEN_DISPS(gfxCtx, "../graph.c", 828);
-    task->data_size = (u32)WORK_DISP - (u32)gfxCtx->workBuffer;
+    task->data_size = (uintptr_t)WORK_DISP - (uintptr_t)gfxCtx->workBuffer;
     CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
     { s32 pad2; } // Necessary to match stack usage

@@ -22,6 +22,6 @@
 #define CMD_F(a) {(a)}
 #endif
 
-#define CMD_PTR(a) (u32)(a)
+#define CMD_PTR(a) (uintptr_t)(a)
 
 #endif

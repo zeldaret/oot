@@ -20,8 +20,8 @@ s32 __osIdCheckSum(u16* ptr, u16* checkSum, u16* idSum) {
     u32 i;
 
     *checkSum = *idSum = 0;
-    for (i = 0; i < ((sizeof(__OSPackId) - sizeof(u32)) / sizeof(u8)); i += 2) {
-        data = *((u16*)((u32)ptr + i));
+    for (i = 0; i < ((sizeof(__OSPackId) - sizeof(uintptr_t)) / sizeof(u8)); i += 2) {
+        data = *((u16*)((uintptr_t)ptr + i));
         *checkSum += data;
         *idSum += ~data;
     }

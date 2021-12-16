@@ -675,7 +675,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             size = gSkyboxFiles[newSkybox1Index].file.vromEnd - gSkyboxFiles[newSkybox1Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[0],
+            DmaMgr_SendRequest2(&envCtx->dmaRequest, (uintptr_t)skyboxCtx->staticSegments[0],
                                 gSkyboxFiles[newSkybox1Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                 "../z_kankyo.c", 1264);
             envCtx->skybox1Index = newSkybox1Index;
@@ -686,7 +686,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             size = gSkyboxFiles[newSkybox2Index].file.vromEnd - gSkyboxFiles[newSkybox2Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[1],
+            DmaMgr_SendRequest2(&envCtx->dmaRequest, (uintptr_t)skyboxCtx->staticSegments[1],
                                 gSkyboxFiles[newSkybox2Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                 "../z_kankyo.c", 1281);
             envCtx->skybox2Index = newSkybox2Index;
@@ -699,13 +699,13 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                 size = gSkyboxFiles[newSkybox1Index].palette.vromEnd - gSkyboxFiles[newSkybox1Index].palette.vromStart;
 
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->palettes,
+                DmaMgr_SendRequest2(&envCtx->dmaRequest, (uintptr_t)skyboxCtx->palettes,
                                     gSkyboxFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                     "../z_kankyo.c", 1307);
             } else {
                 size = gSkyboxFiles[newSkybox1Index].palette.vromEnd - gSkyboxFiles[newSkybox1Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->palettes + size,
+                DmaMgr_SendRequest2(&envCtx->dmaRequest, (uintptr_t)skyboxCtx->palettes + size,
                                     gSkyboxFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                     "../z_kankyo.c", 1320);
             }
@@ -718,13 +718,13 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                 size = gSkyboxFiles[newSkybox2Index].palette.vromEnd - gSkyboxFiles[newSkybox2Index].palette.vromStart;
 
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->palettes,
+                DmaMgr_SendRequest2(&envCtx->dmaRequest, (uintptr_t)skyboxCtx->palettes,
                                     gSkyboxFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                     "../z_kankyo.c", 1342);
             } else {
                 size = gSkyboxFiles[newSkybox2Index].palette.vromEnd - gSkyboxFiles[newSkybox2Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->palettes + size,
+                DmaMgr_SendRequest2(&envCtx->dmaRequest, (uintptr_t)skyboxCtx->palettes + size,
                                     gSkyboxFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                     "../z_kankyo.c", 1355);
             }

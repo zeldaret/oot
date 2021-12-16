@@ -880,7 +880,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                         return cmd;
                     }
 
-                    sampleDataStartPad = (u32)sampleData & 0xF;
+                    sampleDataStartPad = (uintptr_t)sampleData & 0xF;
                     aligned = ALIGN16((nFramesToDecode * frameSize) + 16);
                     addr = DMEM_COMPRESSED_ADPCM_DATA - aligned;
                     aLoadBuffer(cmd++, sampleData - sampleDataStartPad, addr, aligned);
