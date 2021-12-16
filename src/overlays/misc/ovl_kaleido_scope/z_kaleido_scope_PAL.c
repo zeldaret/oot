@@ -2472,10 +2472,10 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
     GameOverContext* gameOverCtx = &globalCtx->gameOverCtx;
     Player* player = GET_PLAYER(globalCtx);
     Input* input = &globalCtx->state.input[0];
-    u32 size;
-    u32 size0;
-    u32 size1;
-    u32 size2;
+    size_t size;
+    size_t size0;
+    size_t size1;
+    size_t size2;
     u16 i;
     s16 stepR;
     s16 stepG;

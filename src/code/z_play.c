@@ -1433,7 +1433,7 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
 }
 
 void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
-    u32 size;
+    size_t size;
     void* allocp;
 
     size = file->vromEnd - file->vromStart;

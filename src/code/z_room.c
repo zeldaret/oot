@@ -542,7 +542,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
 }
 
 s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
-    u32 size;
+    size_t size;
 
     if (roomCtx->status == 0) {
         roomCtx->prevRoom = roomCtx->curRoom;

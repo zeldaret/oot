@@ -596,7 +596,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 unused) {
 }
 
 void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
-    u32 size;
+    size_t size;
     u8 i;
     u8 newSkybox1Index = 0xFF;
     u8 newSkybox2Index = 0xFF;

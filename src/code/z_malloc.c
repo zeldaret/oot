@@ -7,7 +7,7 @@
 s32 gZeldaArenaLogSeverity = LOG_SEVERITY_ERROR;
 Arena sZeldaArena;
 
-void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action) {
+void ZeldaArena_CheckPointer(void* ptr, size_t size, const char* name, const char* action) {
     if (ptr == NULL) {
         if (gZeldaArenaLogSeverity >= LOG_SEVERITY_ERROR) {
             // "%s: %u bytes %s failed\n"
@@ -20,28 +20,28 @@ void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* 
     }
 }
 
-void* ZeldaArena_Malloc(u32 size) {
+void* ZeldaArena_Malloc(size_t size) {
     void* ptr = __osMalloc(&sZeldaArena, size);
 
     ZeldaArena_CheckPointer(ptr, size, "zelda_malloc", "確保"); // "Secure"
     return ptr;
 }
 
-void* ZeldaArena_MallocDebug(u32 size, const char* file, s32 line) {
+void* ZeldaArena_MallocDebug(size_t size, const char* file, s32 line) {
     void* ptr = __osMallocDebug(&sZeldaArena, size, file, line);
 
     ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_DEBUG", "確保"); // "Secure"
     return ptr;
 }
 
-void* ZeldaArena_MallocR(u32 size) {
+void* ZeldaArena_MallocR(size_t size) {
     void* ptr = __osMallocR(&sZeldaArena, size);
 
     ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_r", "確保"); // "Secure"
     return ptr;
 }
 
-void* ZeldaArena_MallocRDebug(u32 size, const char* file, s32 line) {
+void* ZeldaArena_MallocRDebug(size_t size, const char* file, s32 line) {
     void* ptr = __osMallocRDebug(&sZeldaArena, size, file, line);
 
     ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_r_DEBUG", "確保"); // "Secure"
@@ -68,7 +68,7 @@ void ZeldaArena_FreeDebug(void* ptr, const char* file, s32 line) {
     __osFreeDebug(&sZeldaArena, ptr, file, line);
 }
 
-void* ZeldaArena_Calloc(u32 num, u32 size) {
+void* ZeldaArena_Calloc(u32 num, size_t size) {
     void* ret;
     u32 n = num * size;
 
@@ -94,7 +94,7 @@ void ZeldaArena_Check() {
     __osCheckArena(&sZeldaArena);
 }
 
-void ZeldaArena_Init(void* start, u32 size) {
+void ZeldaArena_Init(void* start, size_t size) {
     gZeldaArenaLogSeverity = LOG_SEVERITY_NOLOG;
     __osMallocInit(&sZeldaArena, start, size);
 }

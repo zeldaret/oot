@@ -1,6 +1,6 @@
 #include "global.h"
 
-void* proutSprintf(void* dst, const char* fmt, u32 size) {
+void* proutSprintf(void* dst, const char* fmt, size_t size) {
     return (void*)((u32)memcpy(dst, fmt, size) + size);
 }
 

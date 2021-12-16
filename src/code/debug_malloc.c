@@ -7,7 +7,7 @@
 s32 gDebugArenaLogSeverity = LOG_SEVERITY_ERROR;
 Arena sDebugArena;
 
-void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action) {
+void DebugArena_CheckPointer(void* ptr, size_t size, const char* name, const char* action) {
     if (ptr == NULL) {
         if (gDebugArenaLogSeverity >= LOG_SEVERITY_ERROR) {
             // "%s: %u bytes %s failed\n"
@@ -21,28 +21,28 @@ void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* 
     }
 }
 
-void* DebugArena_Malloc(u32 size) {
+void* DebugArena_Malloc(size_t size) {
     void* ptr = __osMalloc(&sDebugArena, size);
 
     DebugArena_CheckPointer(ptr, size, "debug_malloc", "確保"); // "Secure"
     return ptr;
 }
 
-void* DebugArena_MallocDebug(u32 size, const char* file, s32 line) {
+void* DebugArena_MallocDebug(size_t size, const char* file, s32 line) {
     void* ptr = __osMallocDebug(&sDebugArena, size, file, line);
 
     DebugArena_CheckPointer(ptr, size, "debug_malloc_DEBUG", "確保"); // "Secure"
     return ptr;
 }
 
-void* DebugArena_MallocR(u32 size) {
+void* DebugArena_MallocR(size_t size) {
     void* ptr = __osMallocR(&sDebugArena, size);
 
     DebugArena_CheckPointer(ptr, size, "debug_malloc_r", "確保"); // "Secure"
     return ptr;
 }
 
-void* DebugArena_MallocRDebug(u32 size, const char* file, s32 line) {
+void* DebugArena_MallocRDebug(size_t size, const char* file, s32 line) {
     void* ptr = __osMallocRDebug(&sDebugArena, size, file, line);
 
     DebugArena_CheckPointer(ptr, size, "debug_malloc_r_DEBUG", "確保"); // "Secure"
@@ -69,7 +69,7 @@ void DebugArena_FreeDebug(void* ptr, const char* file, s32 line) {
     __osFreeDebug(&sDebugArena, ptr, file, line);
 }
 
-void* DebugArena_Calloc(u32 num, u32 size) {
+void* DebugArena_Calloc(u32 num, size_t size) {
     void* ret;
     u32 n = num * size;
 
@@ -96,7 +96,7 @@ void DebugArena_Check(void) {
     __osCheckArena(&sDebugArena);
 }
 
-void DebugArena_Init(void* start, u32 size) {
+void DebugArena_Init(void* start, size_t size) {
     gDebugArenaLogSeverity = LOG_SEVERITY_NOLOG;
     __osMallocInit(&sDebugArena, start, size);
 }

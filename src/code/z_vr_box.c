@@ -371,7 +371,7 @@ void func_800AF178(SkyboxContext* skyboxCtx, s32 arg1) {
 }
 
 void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId) {
-    u32 size;
+    size_t size;
     s16 i;
     u8 sp41; // imageIdx
     u8 sp40; // imageIdx2

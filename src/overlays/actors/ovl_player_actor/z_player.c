@@ -4641,7 +4641,7 @@ s32 func_8083ADD4(GlobalContext* globalCtx, Player* this) {
 
 void func_8083AE40(Player* this, s16 objectId) {
     s32 pad;
-    u32 size;
+    size_t size;
 
     if (objectId != 0) {
         this->giObjectLoading = true;

@@ -125,7 +125,7 @@ typedef struct {
     /* 0x00 */ u32 medium : 2;
     /* 0x00 */ u32 unk_bit26 : 1;
     /* 0x00 */ u32 unk_bit25 : 1;
-    /* 0x01 */ u32 size : 24;
+    /* 0x01 */ size_t size : 24;
     /* 0x04 */ u8* sampleAddr;
     /* 0x08 */ AdpcmLoop* loop;
     /* 0x0C */ AdpcmBook* book;
@@ -601,7 +601,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0 */ u8* ptr;
-    /* 0x4 */ u32 size;
+    /* 0x4 */ size_t size;
     /* 0x8 */ s16 tableType;
     /* 0xA */ s16 id;
 } AudioCacheEntry; // size = 0xC
@@ -613,7 +613,7 @@ typedef struct {
     /* 0x03 */ char unk_03[0x5];
     /* 0x08 */ u8* allocatedAddr;
     /* 0x0C */ void* sampleAddr;
-    /* 0x10 */ u32 size;
+    /* 0x10 */ size_t size;
 } SampleCacheEntry; // size = 0x14
 
 typedef struct {
@@ -723,7 +723,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u32 romAddr;
-    /* 0x04 */ u32 size;
+    /* 0x04 */ size_t size;
     /* 0x08 */ s8 medium;
     /* 0x09 */ s8 cachePolicy;
     /* 0x0A */ s16 shortData1;

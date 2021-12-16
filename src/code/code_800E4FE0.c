@@ -566,7 +566,7 @@ s8 func_800E60C4(s32 playerIdx, s32 arg1) {
     return gAudioContext.seqPlayers[playerIdx].soundScriptIO[arg1];
 }
 
-void Audio_InitExternalPool(void* mem, u32 size) {
+void Audio_InitExternalPool(void* mem, size_t size) {
     AudioHeap_AllocPoolInit(&gAudioContext.externalPool, mem, size);
 }
 

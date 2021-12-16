@@ -174,7 +174,7 @@ typedef struct {
 } EffectContext; // size = 0x3DF0
 
 typedef struct {
-    /* 0x00 */ u32 size;
+    /* 0x00 */ size_t size;
     /* 0x04 */ void (*init)(void* effect, void* initParams);
     /* 0x08 */ void (*destroy)(void* effect);
     /* 0x0C */ s32 (*update)(void* effect);
@@ -202,8 +202,8 @@ typedef struct {
 } EffectSsInit; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
+    /* 0x00 */ uintptr_t vromStart;
+    /* 0x04 */ uintptr_t vromEnd;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr;

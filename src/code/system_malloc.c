@@ -7,7 +7,7 @@
 s32 gSystemArenaLogSeverity = LOG_SEVERITY_NOLOG;
 Arena gSystemArena;
 
-void SystemArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action) {
+void SystemArena_CheckPointer(void* ptr, size_t size, const char* name, const char* action) {
     if (ptr == NULL) {
         if (gSystemArenaLogSeverity >= LOG_SEVERITY_ERROR) {
             // "%s: %u bytes %s failed\n"
@@ -21,28 +21,28 @@ void SystemArena_CheckPointer(void* ptr, u32 size, const char* name, const char*
     }
 }
 
-void* SystemArena_Malloc(u32 size) {
+void* SystemArena_Malloc(size_t size) {
     void* ptr = __osMalloc(&gSystemArena, size);
 
     SystemArena_CheckPointer(ptr, size, "malloc", "確保"); // "Secure"
     return ptr;
 }
 
-void* SystemArena_MallocDebug(u32 size, const char* file, s32 line) {
+void* SystemArena_MallocDebug(size_t size, const char* file, s32 line) {
     void* ptr = __osMallocDebug(&gSystemArena, size, file, line);
 
     SystemArena_CheckPointer(ptr, size, "malloc_DEBUG", "確保"); // "Secure"
     return ptr;
 }
 
-void* SystemArena_MallocR(u32 size) {
+void* SystemArena_MallocR(size_t size) {
     void* ptr = __osMallocR(&gSystemArena, size);
 
     SystemArena_CheckPointer(ptr, size, "malloc_r", "確保"); // "Secure"
     return ptr;
 }
 
-void* SystemArena_MallocRDebug(u32 size, const char* file, s32 line) {
+void* SystemArena_MallocRDebug(size_t size, const char* file, s32 line) {
     void* ptr = __osMallocRDebug(&gSystemArena, size, file, line);
 
     SystemArena_CheckPointer(ptr, size, "malloc_r_DEBUG", "確保"); // "Secure"
@@ -69,7 +69,7 @@ void SystemArena_FreeDebug(void* ptr, const char* file, s32 line) {
     __osFreeDebug(&gSystemArena, ptr, file, line);
 }
 
-void* SystemArena_Calloc(u32 num, u32 size) {
+void* SystemArena_Calloc(u32 num, size_t size) {
     void* ret;
     u32 n = num * size;
 
@@ -95,7 +95,7 @@ void SystemArena_Check(void) {
     __osCheckArena(&gSystemArena);
 }
 
-void SystemArena_Init(void* start, u32 size) {
+void SystemArena_Init(void* start, size_t size) {
     gSystemArenaLogSeverity = LOG_SEVERITY_NOLOG;
     __osMallocInit(&gSystemArena, start, size);
 }

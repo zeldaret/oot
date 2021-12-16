@@ -700,8 +700,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ u32 vromStart;
-    /* 0x08 */ u32 vromEnd;
+    /* 0x04 */ uintptr_t vromStart;
+    /* 0x08 */ uintptr_t vromEnd;
     /* 0x0C */ void* vramStart;
     /* 0x10 */ void* vramEnd;
     /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
@@ -1033,7 +1033,7 @@ typedef enum {
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;
     /* 0x04 */ struct GameAllocEntry* prev;
-    /* 0x08 */ u32 size;
+    /* 0x08 */ size_t size;
     /* 0x0C */ u32 unk_0C;
 } GameAllocEntry; // size = 0x10
 
@@ -1051,7 +1051,7 @@ typedef struct GameState {
     /* 0x04 */ GameStateFunc main;
     /* 0x08 */ GameStateFunc destroy; // "cleanup"
     /* 0x0C */ GameStateFunc init;
-    /* 0x10 */ u32 size;
+    /* 0x10 */ size_t size;
     /* 0x14 */ Input input[4];
     /* 0x74 */ TwoHeadArena tha;
     /* 0x84 */ GameAlloc alloc;
@@ -1717,7 +1717,7 @@ typedef struct Arena {
 typedef struct ArenaNode {
     /* 0x00 */ s16 magic;
     /* 0x02 */ s16 isFree;
-    /* 0x04 */ u32 size;
+    /* 0x04 */ size_t size;
     /* 0x08 */ struct ArenaNode* next;
     /* 0x0C */ struct ArenaNode* prev;
     /* 0x10 */ const char* filename;

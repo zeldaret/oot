@@ -43,7 +43,7 @@ s32 DmaMgr_CompareName(const char* name1, const char* name2) {
     return 0;
 }
 
-s32 DmaMgr_DmaRomToRam(uintptr_t rom, uintptr_t ram, u32 size) {
+s32 DmaMgr_DmaRomToRam(uintptr_t rom, uintptr_t ram, size_t size) {
     OSIoMesg ioMsg;
     OSMesgQueue queue;
     OSMesg msg;
@@ -141,7 +141,7 @@ s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     return ret;
 }
 
-void DmaMgr_DmaFromDriveRom(u32 ram, u32 rom, u32 size) {
+void DmaMgr_DmaFromDriveRom(u32 ram, u32 rom, size_t size) {
     OSPiHandle* handle = osDriveRomInit();
     OSMesgQueue queue;
     OSMesg msg;
@@ -166,7 +166,7 @@ void DmaMgr_DmaFromDriveRom(u32 ram, u32 rom, u32 size) {
 void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc) {
     uintptr_t vrom = req->vromAddr;
     uintptr_t ram = (uintptr_t)req->dramAddr;
-    u32 size = req->size;
+    size_t size = req->size;
     char buff1[80];
     char buff2[80];
 
@@ -212,7 +212,7 @@ const char* DmaMgr_GetFileNameImpl(uintptr_t vrom) {
     // of gDmaDataTable
 }
 
-const char* DmaMgr_GetFileName(u32 vrom) {
+const char* DmaMgr_GetFileName(uintptr_t vrom) {
     const char* ret = DmaMgr_GetFileNameImpl(vrom);
 
     if (ret == NULL) {
@@ -229,7 +229,7 @@ const char* DmaMgr_GetFileName(u32 vrom) {
 void DmaMgr_ProcessMsg(DmaRequest* req) {
     uintptr_t vrom = req->vromAddr;
     void* ram = req->dramAddr;
-    u32 size = req->size;
+    size_t size = req->size;
     uintptr_t romStart;
     u32 romSize;
     u8 found = false;
@@ -332,7 +332,7 @@ void DmaMgr_ThreadEntry(void* arg0) {
     osSyncPrintf("ＤＭＡマネージャスレッド実行終了\n");
 }
 
-s32 DmaMgr_SendRequestImpl(DmaRequest* req, uintptr_t ram, uintptr_t vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg) {
+s32 DmaMgr_SendRequestImpl(DmaRequest* req, uintptr_t ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg) {
     static s32 sDmaMgrQueueFullLogged = 0;
 
     if ((1 && (ram == 0)) || (osMemSize < ram + size + 0x80000000) || (vrom & 1) || (vrom > 0x4000000) || (size == 0) ||
@@ -363,7 +363,7 @@ s32 DmaMgr_SendRequestImpl(DmaRequest* req, uintptr_t ram, uintptr_t vrom, u32 s
     return 0;
 }
 
-s32 DmaMgr_SendRequest0(uintptr_t ram, uintptr_t vrom, u32 size) {
+s32 DmaMgr_SendRequest0(uintptr_t ram, uintptr_t vrom, size_t size) {
     DmaRequest req;
     OSMesgQueue queue;
     OSMesg msg;
@@ -423,14 +423,14 @@ void DmaMgr_Init(void) {
     osStartThread(&sDmaMgrThread);
 }
 
-s32 DmaMgr_SendRequest2(DmaRequest* req, uintptr_t ram, uintptr_t vrom, u32 size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
+s32 DmaMgr_SendRequest2(DmaRequest* req, uintptr_t ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
                         const char* file, s32 line) {
     req->filename = file;
     req->line = line;
     DmaMgr_SendRequestImpl(req, ram, vrom, size, unk5, queue, msg);
 }
 
-s32 DmaMgr_SendRequest1(void* ram0, uintptr_t vrom, u32 size, const char* file, s32 line) {
+s32 DmaMgr_SendRequest1(void* ram0, uintptr_t vrom, size_t size, const char* file, s32 line) {
     DmaRequest req;
     s32 ret;
     OSMesgQueue queue;

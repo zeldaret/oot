@@ -714,7 +714,7 @@ void Select_Destroy(GameState* thisx) {
 
 void Select_Init(GameState* thisx) {
     SelectContext* this = (SelectContext*)thisx;
-    u32 size;
+    size_t size;
     s32 pad;
 
     this->state.main = Select_Main;

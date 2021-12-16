@@ -399,7 +399,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 void Graph_ThreadEntry(void* arg0) {
     GraphicsContext gfxCtx;
     GameState* gameState;
-    u32 size;
+    size_t size;
     GameStateOverlay* nextOvl;
     GameStateOverlay* ovl;
     char faultMsg[0x50];
@@ -502,7 +502,7 @@ Gfx* Graph_BranchDlist(Gfx* gfx, Gfx* dst) {
     return dst;
 }
 
-void* Graph_DlistAlloc(Gfx** gfx, u32 size) {
+void* Graph_DlistAlloc(Gfx** gfx, size_t size) {
     u8* ptr;
     Gfx* dst;
 

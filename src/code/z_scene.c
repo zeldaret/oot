@@ -4,7 +4,7 @@
 RomFile sNaviMsgFiles[];
 
 s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
-    u32 size;
+    size_t size;
 
     objectCtx->status[objectCtx->num].id = objectId;
     size = gObjectTable[objectId].vromEnd - gObjectTable[objectId].vromStart;
@@ -80,7 +80,7 @@ void Object_UpdateBank(ObjectContext* objectCtx) {
     s32 i;
     ObjectStatus* status = &objectCtx->status[0];
     RomFile* objectFile;
-    u32 size;
+    size_t size;
 
     for (i = 0; i < objectCtx->num; i++) {
         if (status->id < 0) {
@@ -122,7 +122,7 @@ s32 Object_IsLoaded(ObjectContext* objectCtx, s32 bankIndex) {
 void func_800981B8(ObjectContext* objectCtx) {
     s32 i;
     s32 id;
-    u32 size;
+    size_t size;
 
     for (i = 0; i < objectCtx->num; i++) {
         id = objectCtx->status[i].id;
@@ -138,7 +138,7 @@ void func_800981B8(ObjectContext* objectCtx) {
 void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
     ObjectStatus* status = &objectCtx->status[bankIndex];
     RomFile* objectFile = &gObjectTable[objectId];
-    u32 size;
+    size_t size;
     void* nextPtr;
 
     status->id = -objectId;

@@ -103,7 +103,7 @@ ArenaNode* ArenaImpl_GetLastBlock(Arena* arena) {
     return last;
 }
 
-void __osMallocInit(Arena* arena, void* start, u32 size) {
+void __osMallocInit(Arena* arena, void* start, size_t size) {
     bzero(arena, sizeof(Arena));
     ArenaImpl_LockInit(arena);
     __osMallocAddBlock(arena, start, size);
@@ -191,7 +191,7 @@ void __osMalloc_FreeBlockTest(Arena* arena, ArenaNode* node) {
     }
 }
 
-void* __osMalloc_NoLockDebug(Arena* arena, u32 size, const char* file, s32 line) {
+void* __osMalloc_NoLockDebug(Arena* arena, size_t size, const char* file, s32 line) {
     ArenaNode* iter;
     u32 blockSize;
     ArenaNode* newNode;
@@ -240,7 +240,7 @@ void* __osMalloc_NoLockDebug(Arena* arena, u32 size, const char* file, s32 line)
     return alloc;
 }
 
-void* __osMallocDebug(Arena* arena, u32 size, const char* file, s32 line) {
+void* __osMallocDebug(Arena* arena, size_t size, const char* file, s32 line) {
     void* alloc;
 
     ArenaImpl_Lock(arena);
@@ -250,7 +250,7 @@ void* __osMallocDebug(Arena* arena, u32 size, const char* file, s32 line) {
     return alloc;
 }
 
-void* __osMallocRDebug(Arena* arena, u32 size, const char* file, s32 line) {
+void* __osMallocRDebug(Arena* arena, size_t size, const char* file, s32 line) {
     ArenaNode* iter;
     ArenaNode* newNode;
     u32 blockSize;
@@ -301,7 +301,7 @@ void* __osMallocRDebug(Arena* arena, u32 size, const char* file, s32 line) {
     return allocR;
 }
 
-void* __osMalloc_NoLock(Arena* arena, u32 size) {
+void* __osMalloc_NoLock(Arena* arena, size_t size) {
     ArenaNode* iter;
     u32 blockSize;
     ArenaNode* newNode;
@@ -350,7 +350,7 @@ void* __osMalloc_NoLock(Arena* arena, u32 size) {
     return alloc;
 }
 
-void* __osMalloc(Arena* arena, u32 size) {
+void* __osMalloc(Arena* arena, size_t size) {
     void* alloc;
 
     ArenaImpl_Lock(arena);
@@ -360,7 +360,7 @@ void* __osMalloc(Arena* arena, u32 size) {
     return alloc;
 }
 
-void* __osMallocR(Arena* arena, u32 size) {
+void* __osMallocR(Arena* arena, size_t size) {
     ArenaNode* iter;
     ArenaNode* newNode;
     u32 blockSize;
@@ -556,7 +556,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
     ArenaNode* overNext;
     ArenaNode* newNext2;
     ArenaNode* next2;
-    u32 sizeDiff;
+    size_t sizeDiff;
     ArenaNode* overNext2;
     ArenaNode localCopy;
     u32 blockSize;

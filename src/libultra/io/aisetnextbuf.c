@@ -3,7 +3,7 @@
 //! Note that this is not the same as the original libultra
 //! osAiSetNextBuffer, see comments in the function
 
-s32 osAiSetNextBuffer(void* buf, u32 size) {
+s32 osAiSetNextBuffer(void* buf, size_t size) {
     static u8 D_80130500 = false;
     uintptr_t bufAdjusted = (uintptr_t)buf;
     s32 status;

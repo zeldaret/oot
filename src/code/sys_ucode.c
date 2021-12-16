@@ -1,14 +1,14 @@
 #include "global.h"
 
-u32 D_8012DBA0 = (u32)&D_80155F50;
-u32 D_8012DBA4 = (u32)&D_80157580;
+uintptr_t D_8012DBA0 = (uintptr_t)&D_80155F50;
+uintptr_t D_8012DBA4 = (uintptr_t)&D_80157580;
 
 u32 SysUcode_GetUCodeBoot(void) {
     return &D_80009320;
 }
 
 u32 SysUcode_GetUCodeBootSize(void) {
-    return (u32)&D_800093F0 - (u32)&D_80009320;
+    return (uintptr_t)&D_800093F0 - (uintptr_t)&D_80009320;
 }
 
 u32 SysUcode_GetUCode(void) {

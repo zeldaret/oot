@@ -27,7 +27,7 @@ s32 Overlay_Load(uintptr_t vRomStart, uintptr_t vRomEnd, void* vRamStart, void* 
     OverlayRelocationSection* ovl;
     u32 relocCnt;
     u32 ovlOffset;
-    u32 size;
+    size_t size;
 
     if (gOverlayLogSeverity >= 3) {
         // "Start loading dynamic link function"
@@ -93,7 +93,7 @@ s32 Overlay_Load(uintptr_t vRomStart, uintptr_t vRomEnd, void* vRamStart, void* 
 }
 
 // possibly some kind of new() function
-void* func_800FC800(u32 size) {
+void* func_800FC800(size_t size) {
     if (size == 0) {
         size = 1;
     }
@@ -190,7 +190,7 @@ void func_800FCB34(void) {
     sInitFuncs = prev;
 }
 
-void SystemHeap_Init(void* start, u32 size) {
+void SystemHeap_Init(void* start, size_t size) {
     SystemArena_Init(start, size);
     func_800FCB34();
 }

@@ -153,7 +153,7 @@ void Title_Destroy(GameState* thisx) {
 }
 
 void Title_Init(GameState* thisx) {
-    u32 size = (uintptr_t)_nintendo_rogo_staticSegmentRomEnd - (uintptr_t)_nintendo_rogo_staticSegmentRomStart;
+    size_t size = (uintptr_t)_nintendo_rogo_staticSegmentRomEnd - (uintptr_t)_nintendo_rogo_staticSegmentRomStart;
     TitleContext* this = (TitleContext*)thisx;
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_title.c", 611);

@@ -6,7 +6,7 @@ ListAlloc* ListAlloc_Init(ListAlloc* this) {
     return this;
 }
 
-void* ListAlloc_Alloc(ListAlloc* this, u32 size) {
+void* ListAlloc_Alloc(ListAlloc* this, size_t size) {
     ListAlloc* ptr = SystemArena_MallocDebug(size + sizeof(ListAlloc), "../listalloc.c", 40);
     ListAlloc* next;
 

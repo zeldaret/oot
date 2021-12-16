@@ -1859,7 +1859,7 @@ void FileChoose_Destroy(GameState* thisx) {
 
 void FileChoose_Init(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    u32 size = (u32)_title_staticSegmentRomEnd - (u32)_title_staticSegmentRomStart;
+    size_t size = (u32)_title_staticSegmentRomEnd - (u32)_title_staticSegmentRomStart;
     s32 pad;
 
     SREG(30) = 1;
