@@ -41,7 +41,7 @@ void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800876C8(globalCtx);
     if (gSaveContext.nayrusLoveTimer != 0) {
-        player->stateFlags3 |= PLAYER_STATE_FLAG_3_6;
+        player->stateFlags3 |= PLAYER_STATE3_6;
     }
 }
 

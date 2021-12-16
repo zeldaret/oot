@@ -127,8 +127,8 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
         this->unk_1A4 = 0;
     } else {
         if (this->unk_1A4 == 0) {
-            if (!(player->stateFlags2 & PLAYER_STATE_FLAG_2_24)) {
-                player->stateFlags2 |= PLAYER_STATE_FLAG_2_23;
+            if (!(player->stateFlags2 & PLAYER_STATE2_24)) {
+                player->stateFlags2 |= PLAYER_STATE2_23;
                 return;
             } else {
                 this->unk_1A4 = 1;

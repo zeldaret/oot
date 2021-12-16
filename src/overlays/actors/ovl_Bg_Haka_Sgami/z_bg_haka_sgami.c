@@ -290,7 +290,7 @@ void BgHakaSgami_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 &
-          (PLAYER_STATE_FLAG_1_6 | PLAYER_STATE_FLAG_1_7 | PLAYER_STATE_FLAG_1_28 | PLAYER_STATE_FLAG_1_29)) ||
+          (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
         (this->actionFunc == BgHakaSgami_SetupSpin)) {
         this->actionFunc(this, globalCtx);
     }
