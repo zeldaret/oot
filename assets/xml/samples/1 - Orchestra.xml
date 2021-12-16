@@ -128,7 +128,7 @@
     <Sample Name="387 Horn">
 		<Offset Version="MQDebug" At="0x351810"/>
 	</Sample>
-    <Sample Name="388 Stringed Instrument (Low)">
+    <Sample Name="388 Bass Guitar">
 		<Offset Version="MQDebug" At="0x359170"/>
 	</Sample>
     <Sample Name="389 Clap">

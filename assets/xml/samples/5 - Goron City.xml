@@ -14,7 +14,7 @@
     <Sample Name="4 Tom Drum">
         <Offset Version="MQDebug" At="0x7b70"/>
     </Sample>
-    <Sample Name="5 Resonant Melodic Sound?">
+    <Sample Name="5 Resonant Bass Marimba">
         <Offset Version="MQDebug" At="0x8630"/>
     </Sample>
 </Root>

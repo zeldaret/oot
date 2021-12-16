@@ -6,7 +6,7 @@
             <Instrument/>
             <Instrument/>
             <Instrument/>
-            <Instrument Name="Unknown Stringed Instrument" Enum="STRING"/>
+            <Instrument Name="Bass Guitar" Enum="BASS"/>
             <Instrument Name="Fiddle" Enum="FIDDLE"/>
             <Instrument Name="Guitar" Enum="GUITAR"/>
             <Instrument/>

@@ -13,7 +13,7 @@
             <Instrument/>
             <Instrument/>
             <Instrument/>
-            <Instrument Name="Pizzicato Strings" Enum="PLUCK_STRINGS"/>
+            <Instrument Name="Pizzicato Strings" Enum="PIZZICATO"/>
         </Instruments>
         <Drums>
             <Drum Name="Tom Drum 1" Enum="TOM_01"/>

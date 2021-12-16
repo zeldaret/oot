@@ -3,7 +3,7 @@
         <Instruments>
             <Instrument Name="Guitar" Enum="GUITAR"/>
             <Instrument Name="Accordion" Enum="ACCORDION"/>
-            <Instrument Name="Stringed Instrument" Enum="STRINGED"/>
+            <Instrument Name="Bass Guitar" Enum="GUITAR_BASS"/>
             <Instrument Name="Trombone" Enum="TROMBONE"/>
             <Instrument Name="Trumpet" Enum="TRUMPET"/>
             <Instrument/>
