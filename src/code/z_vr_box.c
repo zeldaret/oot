@@ -375,7 +375,7 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
     s16 i;
     u8 sp41; // imageIdx
     u8 sp40; // imageIdx2
-    u32 start;
+    uintptr_t start;
     s32 phi_v1;
 
     switch (skyboxId) {

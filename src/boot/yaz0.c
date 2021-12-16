@@ -1,10 +1,10 @@
 #include "global.h"
 
 u8 sYaz0DataBuffer[0x400];
-u32 sYaz0CurDataEnd;
-u32 sYaz0CurRomStart;
+uintptr_t sYaz0CurDataEnd;
+uintptr_t sYaz0CurRomStart;
 u32 sYaz0CurSize;
-u32 sYaz0MaxPtr;
+uintptr_t sYaz0MaxPtr;
 
 void* Yaz0_FirstDMA(void) {
     u32 pad0;
@@ -14,7 +14,7 @@ void* Yaz0_FirstDMA(void) {
 
     sYaz0MaxPtr = sYaz0CurDataEnd - 0x19;
 
-    curSize = sYaz0CurDataEnd - (u32)sYaz0DataBuffer;
+    curSize = sYaz0CurDataEnd - (uintptr_t)sYaz0DataBuffer;
     dmaSize = (curSize > sYaz0CurSize) ? sYaz0CurSize : curSize;
 
     DmaMgr_DmaRomToRam(sYaz0CurRomStart, sYaz0DataBuffer, dmaSize);
@@ -28,21 +28,21 @@ void* Yaz0_NextDMA(void* curSrcPos) {
     u32 restSize;
     u32 dmaSize;
 
-    restSize = sYaz0CurDataEnd - (u32)curSrcPos;
+    restSize = sYaz0CurDataEnd - (uintptr_t)curSrcPos;
     dst = (restSize & 7) ? (sYaz0DataBuffer - (restSize & 7)) + 8 : sYaz0DataBuffer;
 
     bcopy(curSrcPos, dst, restSize);
-    dmaSize = (sYaz0CurDataEnd - (u32)dst) - restSize;
+    dmaSize = (sYaz0CurDataEnd - (uintptr_t)dst) - restSize;
     if (sYaz0CurSize < dmaSize) {
         dmaSize = sYaz0CurSize;
     }
 
     if (dmaSize != 0) {
-        DmaMgr_DmaRomToRam(sYaz0CurRomStart, (u32)dst + restSize, dmaSize);
+        DmaMgr_DmaRomToRam(sYaz0CurRomStart, (uintptr_t)dst + restSize, dmaSize);
         sYaz0CurRomStart += dmaSize;
         sYaz0CurSize -= dmaSize;
         if (!sYaz0CurSize) {
-            sYaz0MaxPtr = (u32)dst + restSize + dmaSize;
+            sYaz0MaxPtr = (uintptr_t)dst + restSize + dmaSize;
         }
     }
 
@@ -61,7 +61,7 @@ void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst) {
 
     do {
         if (bitIdx == 0) {
-            if ((sYaz0MaxPtr < (u32)src) && (sYaz0CurSize != 0)) {
+            if ((sYaz0MaxPtr < (uintptr_t)src) && (sYaz0CurSize != 0)) {
                 src = Yaz0_NextDMA(src);
             }
 
@@ -93,7 +93,7 @@ void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst) {
     } while (dst != dstEnd);
 }
 
-void Yaz0_Decompress(u32 romStart, void* dst, u32 size) {
+void Yaz0_Decompress(uintptr_t romStart, void* dst, u32 size) {
     sYaz0CurRomStart = romStart;
     sYaz0CurSize = size;
     sYaz0CurDataEnd = sYaz0DataBuffer + sizeof(sYaz0DataBuffer);

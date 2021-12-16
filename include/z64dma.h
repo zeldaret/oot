@@ -4,7 +4,7 @@
 #include "ultra64.h"
 
 typedef struct {
-    /* 0x00 */ u32      vromAddr; // VROM address (source)
+    /* 0x00 */ uintptr_t      vromAddr; // VROM address (source)
     /* 0x04 */ void*    dramAddr; // DRAM address (destination)
     /* 0x08 */ u32      size;     // File Transfer size
     /* 0x0C */ const char* filename; // Filename for debugging
@@ -15,10 +15,10 @@ typedef struct {
 } DmaRequest; // size = 0x20
 
 typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
-    /* 0x08 */ u32 romStart;
-    /* 0x0C */ u32 romEnd;
+    /* 0x00 */ uintptr_t vromStart;
+    /* 0x04 */ uintptr_t vromEnd;
+    /* 0x08 */ uintptr_t romStart;
+    /* 0x0C */ uintptr_t romEnd;
 } DmaEntry;
 
 #endif

@@ -43,7 +43,7 @@ s32 Overlay_Load(uintptr_t vRomStart, uintptr_t vRomEnd, void* vRamStart, void* 
 
     size = vRomEnd - vRomStart;
     end = (uintptr_t)allocatedVRamAddr + size;
-    DmaMgr_SendRequest0((uintptr_t)allocatedVRamAddr, vRomStart, size);
+    DmaMgr_SendRequest0(allocatedVRamAddr, vRomStart, size);
 
     ovlOffset = ((s32*)end)[-1];
 
