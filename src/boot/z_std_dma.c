@@ -141,7 +141,7 @@ s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     return ret;
 }
 
-void DmaMgr_DmaFromDriveRom(u32 ram, u32 rom, size_t size) {
+void DmaMgr_DmaFromDriveRom(uintptr_t ram, uintptr_t rom, size_t size) {
     OSPiHandle* handle = osDriveRomInit();
     OSMesgQueue queue;
     OSMesg msg;
@@ -231,7 +231,7 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
     void* ram = req->dramAddr;
     size_t size = req->size;
     uintptr_t romStart;
-    u32 romSize;
+    uintptr_t romSize;
     u8 found = false;
     DmaEntry* iter;
     const char* filename;

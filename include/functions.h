@@ -17,23 +17,23 @@ void Idle_ThreadEntry(void* arg);
 void ViConfig_UpdateVi(u32 mode);
 void ViConfig_UpdateBlack(void);
 s32 DmaMgr_CompareName(const char* name1, const char* name2);
-s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, size_t size);
+s32 DmaMgr_DmaRomToRam(uintptr_t rom, uintptr_t ram, size_t size);
 s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction);
 void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc);
 const char* DmaMgr_GetFileNameImpl(uintptr_t vrom);
 const char* DmaMgr_GetFileName(uintptr_t vrom);
 void DmaMgr_ProcessMsg(DmaRequest* req);
 void DmaMgr_ThreadEntry(void* arg0);
-s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
-s32 DmaMgr_SendRequest0(u32 ram, uintptr_t vrom, size_t size);
+s32 DmaMgr_SendRequestImpl(DmaRequest* req, uintptr_t ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
+s32 DmaMgr_SendRequest0(uintptr_t ram, uintptr_t vrom, size_t size);
 void DmaMgr_Init(void);
-s32 DmaMgr_SendRequest2(DmaRequest* req, u32 ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
+s32 DmaMgr_SendRequest2(DmaRequest* req, uintptr_t ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
                         const char* file, s32 line);
 s32 DmaMgr_SendRequest1(void* ram0, uintptr_t vrom, size_t size, const char* file, s32 line);
 void* Yaz0_FirstDMA(void);
 void* Yaz0_NextDMA(void* curSrcPos);
 void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst);
-void Yaz0_Decompress(u32 romStart, void* dst, size_t size);
+void Yaz0_Decompress(uintptr_t romStart, void* dst, size_t size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 u32 func_80001F48(void);

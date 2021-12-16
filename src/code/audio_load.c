@@ -339,7 +339,7 @@ void AudioLoad_SetSampleFontLoadStatus(s32 sampleBankId, s32 status) {
     }
 }
 
-void AudioLoad_InitTable(AudioTable* table, u32 romAddr, u16 unkMediumParam) {
+void AudioLoad_InitTable(AudioTable* table, uintptr_t romAddr, u16 unkMediumParam) {
     s32 i;
 
     table->unkMediumParam = unkMediumParam;
@@ -666,7 +666,7 @@ void* AudioLoad_SyncLoad(u32 tableType, u32 id, s32* didAllocate) {
     s32 pad;
     u32 medium;
     s32 status;
-    u32 romAddr;
+    uintptr_t romAddr;
     s32 cachePolicy;
     void* ret;
     u32 realId;

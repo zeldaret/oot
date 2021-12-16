@@ -97,7 +97,7 @@
 #define BTN_A           0x8000
 
 typedef struct {
-    /* 0x00 */ u32 ram[15];
+    /* 0x00 */ uintptr_t ram[15];
     /* 0x3C */ u32 status;
 } OSPifRam; // size = 0x40
 
