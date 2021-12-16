@@ -65,7 +65,7 @@ class Soundfont:
                     effectdef = fontdef.effects[i] if i < len(fontdef.effects) else None
                 buffer = effectsTable[i * 8:(i * 8) + 8]
                 offset = struct.unpack(">L", buffer[0:4])[0]
-                effect = None if offset == 0 else SoundEffect(entry.bank, buffer, setCtl, entry.offset, effectsOffset + (i * 8), effectdef)
+                effect = None if offset == 0 else SoundEffect(entry.bank, buffer, setCtl, entry.offset, effectsOffset + (i * 8), effectdef, i)
                 self.effects.append(effect)
         
         if entry.percussionCount > 0:
@@ -76,11 +76,17 @@ class Soundfont:
                 if fontdef:
                     drumdef = fontdef.drums[i] if i < len(fontdef.drums) else None
                 offset = percussionsOffsets[i]
-                percussion = None if offset == 0 else Percussion(entry.bank, setCtl[offset:offset + 16], setCtl, entry.offset, offset, drumdef)
+                percussion = None if offset == 0 else Percussion(entry.bank, setCtl[offset:offset + 16], setCtl, entry.offset, offset, drumdef, i)
                 self.percussions.append(percussion)
 
+        self.instruments = sorted(self.instruments, key=lambda i: 100 if i is None else i.offset)
+        self.percussions = sorted(self.percussions, key=lambda d: 100 if d is None else d.offset)
+        self.effects = sorted(self.effects, key=lambda x: 100 if x is None else x.offset)
+
 class SoundEffect:
-    def __init__(self, bank, record, tbl, baseOffset, offset, effectdef):
+    def __init__(self, bank, record, tbl, baseOffset, offset, effectdef, index):
+        self.index = index
+        self.offset = offset
         if effectdef:
             self.name = effectdef.name or f"Effect_{offset:0>8x}"
             self.enum = effectdef.enum
@@ -92,7 +98,9 @@ class SoundEffect:
         self.sample = SampleHeader(bank, self.name, self.pitch, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
 
 class Percussion:
-    def __init__(self, bank, record, tbl, baseOffset, offset, drumdef):
+    def __init__(self, bank, record, tbl, baseOffset, offset, drumdef, index):
+        self.index = index
+        self.offset = offset
         if drumdef:
             self.name = drumdef.name or f"Drum_{offset:0>8x}"
             self.enum = drumdef.enum
@@ -107,6 +115,8 @@ class Percussion:
 
 class Instrument:
     def __init__(self, bank, record, tbl, baseOffset, offset, instdef, index, fontname):
+        self.index = index
+        self.offset = offset
         if instdef:
             self.name = instdef.name or f"Inst_{index}_{offset:0>8x}_{fontname}"
             self.enum = instdef.enum
@@ -401,8 +411,8 @@ def generate_drum_obj(root, drum, envelopes):
     if drum is None:
         return drumElement
 
-    # self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">BBBxLfL", record)
     drumElement.set("Name", drum.name or f"Drum_{drum.offset:0>8x}")
+    drumElement.set("Index", str(drum.index))
     drumElement.set("Enum", drum.enum or "")
     drumElement.set("Decay", str(drum.decay))
     drumElement.set("Pan", str(drum.pan))
@@ -421,6 +431,7 @@ def generate_effect_obj(root, effect):
         return element
     
     element.set("Name", effect.name or f"Effect_{effect.offset:0>8x}")
+    element.set("Index", str(effect.index))
     element.set("Enum", effect.enum or "")
     element.set("Sample", f"{sampleNameLookup[effect.sample.bank][effect.sample.address]}.aifc")
 
@@ -438,6 +449,7 @@ def generate_instrument_obj(root, instrument, envelopes):
         "Instrument",
         {
             "Name": instrument.name or f"Inst_{instrument.offset:0>8x}",
+            "Index": str(instrument.index),
             "Enum": instrument.enum or "",
             "Decay": str(instrument.decay),
             "Envelope": instrument.envelope.name
@@ -534,6 +546,33 @@ def report_gaps(report_type, data, bin):
         print(f"INTERSECTIONS DETECTED IN {report_type} DATA:")
         for cross in intersections:
             print(f"{type(cross[0][0]).__name__} at {cross[0][1]:08X}-{cross[0][2]:08X} overlaps {type(cross[1][0]).__name__} at {cross[1][1]:08X}-{cross[1][2]:08X}")
+
+def get_data_gaps(report_type, data, bin):
+    results = {}
+    length = len(bin)
+    sorted_data = sorted(data, key = lambda tup: (tup[1], tup[2]))
+    intersections = []
+    lastTuple = (None, -1, -1)
+    currentEnd = 0
+    for tup in sorted_data:
+        if tup[1] > currentEnd:
+            bytes = struct.unpack(f">{tup[1] - currentEnd}b", bin[currentEnd:tup[1]])
+            if any(b != 0 for b in bytes):
+                results[currentEnd] = bytes
+        elif tup[1] < currentEnd and (lastTuple[1] != tup[1] or lastTuple[2] != tup[2]):
+            intersections.append((lastTuple, tup))
+        lastTuple = tup
+        currentEnd = tup[2] if report_type == "SOUNDFONT" else (16 * math.ceil(tup[2] / 16))
+    if currentEnd < length:
+        bytes = struct.unpack(f">{length - currentEnd}b", bin[currentEnd:length])
+        if any(b != 0 for b in bytes):
+            results[currentEnd] = bytes
+    if len(intersections) > 0:
+        print(f"INTERSECTIONS DETECTED IN {report_type} DATA:")
+        for cross in intersections:
+            print(f"{type(cross[0][0]).__name__} at {cross[0][1]:08X}-{cross[0][2]:08X} overlaps {type(cross[1][0]).__name__} at {cross[1][1]:08X}-{cross[1][2]:08X}")
+    return results
+
 
 class AifcWriter:
     def __init__(self, out):
@@ -678,36 +717,31 @@ def write_aiff(entry, basedir, aifc_filename, aiff_filename):
 
 def write_soundfont_header(font, filename):
     with open(filename, "w") as file:
-        file.write(f"/* Soundfont file constants\n")
+        file.write("/*\n")
+        file.write("   Soundfont file constants\n")
         file.write(f"   ID: {font.index}\n")
         file.write(f"   Name: {font.name}\n")
         file.write("*/\n\n/**** INSTRUMENTS ****/\n")
 
-        index = 0
         for instrument in font.instruments:
             if instrument is None:
                 continue
 
-            file.write(f".set F{font.index}_I_{instrument.enum}, {index}\n")
-            index += 1
+            file.write(f"#define F{font.index}_I_{instrument.enum} {instrument.index}\n")
         
-        index = 0
         file.write("\n/**** DRUMS ****/\n")
         for drum in font.percussions:
             if drum is None:
                 continue
 
-            file.write(f".set F{font.index}_D_{drum.enum}, {index}\n")
-            index += 1
+            file.write(f"#define F{font.index}_D_{drum.enum} {drum.index}\n")
         
-        index = 0
         file.write("\n/**** EFFECTS ****/\n")
         for effect in font.effects:
             if effect is None:
                 continue
 
-            file.write(f".set F{font.index}_E_{effect.enum}, {index}\n")
-            index += 1
+            file.write(f"#define F{font.index}_E_{effect.enum} {effect.index}\n")
 
 def main():
     args = []
@@ -773,6 +807,7 @@ def main():
     fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
 
     report_gaps("SOUNDFONT", usedFontData, font_data)
+    soundfont_gaps = get_data_gaps("SOUNDFONT", usedFontData, font_data)
 
     os.makedirs(samples_out_dir, exist_ok=True)
 
@@ -805,12 +840,12 @@ def main():
     if len(usedRawData) > 0:
         report_gaps("SAMPLE", usedRawData, bank_data)
 
-    # Export soundfonts (todo: switch to XML export)
+    # Export soundfonts
     for fontentry in fonts:
         dir = os.path.join(fonts_out_dir)
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, f"{fontentry.font.name}.xml")
-        s_filename = os.path.join(dir, f"{fontentry.font.index}.s.inc")
+        s_filename = os.path.join(dir, f"{fontentry.font.index}.h")
         write_soundfont(fontentry, filename, samplebanks)
         write_soundfont_header(fontentry.font, s_filename)
 
