@@ -931,7 +931,7 @@ typedef struct {
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
-    /* 0x74 */ s16 unk_74[2];
+    /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
 } RoomContext; // size = 0x78
 
 typedef struct {

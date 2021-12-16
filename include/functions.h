@@ -478,7 +478,8 @@ void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s3
 s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type);
 void Actor_SpawnFloorDustRing(GlobalContext* globalCtx, Actor* actor, Vec3f* posXZ, f32 radius, s32 amountMinusOne,
                               f32 randAccelWeight, s16 scale, s16 scaleStep, u8 useLighting);
-void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
+void func_80033480(GlobalContext* globalCtx, Vec3f* posBase, f32 randRangeDiameter, s32 amountMinusOne, s16 scaleBase,
+                   s16 scaleStep, u8 arg6);
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
 Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius);
@@ -499,8 +500,8 @@ void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx);
 Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx);
-s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interactRange, u16 (*unkFunc1)(GlobalContext*, Actor*),
-                  s16 (*unkFunc2)(GlobalContext*, Actor*));
+s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interactRange,
+                  u16 (*unkFunc1)(GlobalContext*, Actor*), s16 (*unkFunc2)(GlobalContext*, Actor*));
 s16 func_800347E8(s16 arg0);
 void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
 void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
