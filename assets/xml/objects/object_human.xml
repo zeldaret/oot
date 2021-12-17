@@ -18,7 +18,7 @@
         <Texture Name="gHumanEyebrowSurprisedTex" OutName="eyebrow_surprised" Format="ci8" Width="32" Height="16" Offset="0x2600" TlutOffset="0x7A00"/>
         <Texture Name="gHumanEyebrowSadTex" OutName="eyebrow_sad" Format="ci8" Width="32" Height="16" Offset="0x2800" TlutOffset="0x7A00"/>
 
-        <!-- Those are exaclty the same as above eye textures -->
+        <!-- Those are exactly the same as above eye textures -->
         <Texture Name="gHumanEyeLookForwardOpen2Tex" OutName="eye_look_forward_open_2" Format="ci8" Width="32" Height="32" Offset="0x2A00" TlutOffset="0x7A00"/>
         <Texture Name="gHumanEyeLookForwardHalf2Tex" OutName="eye_look_forward_half_2" Format="ci8" Width="32" Height="32" Offset="0x2E00" TlutOffset="0x7A00"/>
         <Texture Name="gHumanEyeLookForwardClosed2Tex" OutName="eye_look_forward_closed_2" Format="ci8" Width="32" Height="32" Offset="0x3200" TlutOffset="0x7A00"/>
