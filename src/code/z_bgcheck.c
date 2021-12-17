@@ -24,9 +24,40 @@
 #define COLPOLY_IGNORE_ENTITY (1 << 1)
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
-// func_80041DB8, SurfaceType wall properties
-s32 D_80119D90[32] = {
-    0, 1, 3, 5, 8, 16, 32, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+// SurfaceType_GetWallFlags, SurfaceType wall properties
+s32 sWallFlagsTable[32] = {
+    0,
+    BGCHECK_WALL_0,
+    BGCHECK_WALL_0 | BGCHECK_WALL_1,
+    BGCHECK_WALL_0 | BGCHECK_WALL_2,
+    BGCHECK_WALL_3,
+    BGCHECK_WALL_CRAWLSPACE_1,
+    BGCHECK_WALL_CRAWLSPACE_2,
+    BGCHECK_WALL_6,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
 };
 
 // SurfaceType_GetSfx
@@ -3979,36 +4010,36 @@ u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
 /**
  * SurfaceType Get Wall Property (Internal)
  */
-u32 func_80041D94(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u32 SurfaceType_GetWallFlagIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return SurfaceType_GetData(colCtx, poly, bgId, 0) >> 21 & 0x1F;
 }
 
 /**
  * SurfaceType Get Wall Flags
  */
-s32 func_80041DB8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return D_80119D90[func_80041D94(colCtx, poly, bgId)];
+s32 SurfaceType_GetWallFlags(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return sWallFlagsTable[SurfaceType_GetWallFlagIndex(colCtx, poly, bgId)];
 }
 
 /**
  * SurfaceType Is Wall Flag (1 << 0) Set
  */
 s32 func_80041DE4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (func_80041DB8(colCtx, poly, bgId) & 1) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & BGCHECK_WALL_0) ? true : false;
 }
 
 /**
  * SurfaceType Is Wall Flag (1 << 1) Set
  */
 s32 func_80041E18(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (func_80041DB8(colCtx, poly, bgId) & 2) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & BGCHECK_WALL_1) ? true : false;
 }
 
 /**
  * SurfaceType Is Wall Flag (1 << 2) Set
  */
 s32 func_80041E4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (func_80041DB8(colCtx, poly, bgId) & 4) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & BGCHECK_WALL_2) ? true : false;
 }
 
 /**

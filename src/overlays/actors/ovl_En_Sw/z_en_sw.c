@@ -115,7 +115,7 @@ CollisionPoly* func_80B0C020(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2,
         return NULL;
     }
 
-    if (func_80041DB8(&globalCtx->colCtx, sp3C, *arg4) & 0x30) {
+    if (SurfaceType_GetWallFlags(&globalCtx->colCtx, sp3C, *arg4) & BGCHECK_WALL_CRAWLSPACE) {
         return NULL;
     }
 

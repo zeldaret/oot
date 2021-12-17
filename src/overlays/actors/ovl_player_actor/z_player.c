@@ -226,8 +226,8 @@ void func_8084BDFC(Player* this, GlobalContext* globalCtx);
 void func_8084BF1C(Player* this, GlobalContext* globalCtx);
 void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input);
 void func_8084C5F8(Player* this, GlobalContext* globalCtx);
-void func_8084C760(Player* this, GlobalContext* globalCtx);
-void func_8084C81C(Player* this, GlobalContext* globalCtx);
+void Player_UpdateCrawlspace(Player* this, GlobalContext* globalCtx);
+void Player_LeavingCrawlspace(Player* this, GlobalContext* globalCtx);
 void func_8084CC98(Player* this, GlobalContext* globalCtx);
 void func_8084D3E4(Player* this, GlobalContext* globalCtx);
 void func_8084D610(Player* this, GlobalContext* globalCtx);
@@ -475,7 +475,7 @@ static s32 D_808535E0 = 0;
 static s32 D_808535E4 = 0;
 static f32 D_808535E8 = 1.0f;
 static f32 D_808535EC = 1.0f;
-static u32 D_808535F0 = 0;
+static u32 sWallFlags = 0;
 static u32 D_808535F4 = 0;
 static s16 D_808535F8 = 0;
 static s16 D_808535FC = 0;
@@ -3803,7 +3803,7 @@ s32 func_80838A14(Player* this, GlobalContext* globalCtx) {
             return 0;
         }
 
-        if ((this->actor.wallBgId != BGCHECK_SCENE) && (D_808535F0 & 0x40)) {
+        if ((this->actor.wallBgId != BGCHECK_SCENE) && (sWallFlags & BGCHECK_WALL_6)) {
             if (this->unk_88D >= 6) {
                 this->stateFlags2 |= 4;
                 if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
@@ -4402,7 +4402,7 @@ void func_8083A3B0(GlobalContext* globalCtx, Player* this) {
 }
 
 void func_8083A40C(GlobalContext* globalCtx, Player* this) {
-    func_80835DAC(globalCtx, this, func_8084C760, 0);
+    func_80835DAC(globalCtx, this, Player_UpdateCrawlspace, 0);
 }
 
 void func_8083A434(GlobalContext* globalCtx, Player* this) {
@@ -4494,7 +4494,7 @@ s32 func_8083A6AC(Player* this, GlobalContext* globalCtx) {
             sp54 = Math3D_UDistPlaneToPos(nx, ny, nz, sp84->dist, &this->actor.world.pos);
 
             sp50 = D_80853604 == 6;
-            if (!sp50 && (func_80041DB8(&globalCtx->colCtx, sp84, sp80) & 8)) {
+            if (!sp50 && (SurfaceType_GetWallFlags(&globalCtx->colCtx, sp84, sp80) & BGCHECK_WALL_3)) {
                 sp50 = 1;
             }
 
@@ -6018,13 +6018,13 @@ s32 func_8083EB44(Player* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
+s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 wallFlags) {
     if (this->wallHeight >= 79.0f) {
         if (!(this->stateFlags1 & 0x8000000) || (this->currentBoots == PLAYER_BOOTS_IRON) ||
             (this->actor.yDistToWater < this->ageProperties->unk_2C)) {
-            s32 sp8C = (arg2 & 8) ? 2 : 0;
+            s32 sp8C = (wallFlags & BGCHECK_WALL_3) ? 2 : 0;
 
-            if ((sp8C != 0) || (arg2 & 2) ||
+            if ((sp8C != 0) || (wallFlags & BGCHECK_WALL_1) ||
                 func_80041E4C(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 f32 phi_f20;
                 CollisionPoly* sp84 = this->actor.wallPoly;
@@ -6090,7 +6090,7 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
                     this->stateFlags1 |= 0x200000;
                     this->stateFlags1 &= ~0x8000000;
 
-                    if ((sp8C != 0) || (arg2 & 2)) {
+                    if ((sp8C != 0) || (wallFlags & BGCHECK_WALL_1)) {
                         if ((this->unk_84F = sp8C) != 0) {
                             if (this->actor.bgCheckFlags & 1) {
                                 sp30 = &gPlayerAnim_002D80;
@@ -6132,65 +6132,72 @@ void func_8083F070(Player* this, LinkAnimationHeader* anim, GlobalContext* globa
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, anim, (4.0f / 3.0f));
 }
 
-s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
+/**
+ * Returns true if Player chooses to enter crawlspace
+ */
+s32 Player_IsEnteringCrawlspace(Player* this, GlobalContext* globalCtx, u32 wallFlags) {
     CollisionPoly* wallPoly;
-    Vec3f sp50[3];
-    f32 sp4C;
-    f32 phi_f2;
-    f32 sp44;
-    f32 phi_f12;
+    Vec3f wallVertices[3];
+    f32 xTemp1;
+    f32 xTemp2;
+    f32 xTemp1;
+    f32 xTemp2;
     s32 i;
 
-    if (!LINK_IS_ADULT && !(this->stateFlags1 & 0x8000000) && (arg2 & 0x30)) {
+    if (!LINK_IS_ADULT && !(this->stateFlags1 & 0x8000000) && (wallFlags & BGCHECK_WALL_CRAWLSPACE)) {
         wallPoly = this->actor.wallPoly;
-        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, sp50);
+        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, wallVertices);
 
-        sp4C = phi_f2 = sp50[0].x;
-        sp44 = phi_f12 = sp50[0].z;
+        // Determines min and max vertices for x & z (edges of the crawlspace hole)
+        xTemp1 = xTemp2 = wallVertices[0].x;
+        xTemp1 = xTemp2 = wallVertices[0].z;
         for (i = 1; i < 3; i++) {
-            if (sp4C > sp50[i].x) {
-                sp4C = sp50[i].x;
-            } else if (phi_f2 < sp50[i].x) {
-                phi_f2 = sp50[i].x;
+            if (xTemp1 > wallVertices[i].x) {
+                xTemp1 = wallVertices[i].x;
+            } else if (xTemp2 < wallVertices[i].x) {
+                xTemp2 = wallVertices[i].x;
             }
 
-            if (sp44 > sp50[i].z) {
-                sp44 = sp50[i].z;
-            } else if (phi_f12 < sp50[i].z) {
-                phi_f12 = sp50[i].z;
+            if (xTemp1 > wallVertices[i].z) {
+                xTemp1 = wallVertices[i].z;
+            } else if (xTemp2 < wallVertices[i].z) {
+                xTemp2 = wallVertices[i].z;
             }
         }
 
-        sp4C = (sp4C + phi_f2) * 0.5f;
-        sp44 = (sp44 + phi_f12) * 0.5f;
+        // Center of the crawlspace hole
+        xTemp1 = (xTemp1 + xTemp2) * 0.5f;
+        xTemp1 = (xTemp1 + xTemp2) * 0.5f;
 
-        phi_f2 = ((this->actor.world.pos.x - sp4C) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
-                 ((this->actor.world.pos.z - sp44) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
+        // y-component of the cross product
+        xTemp2 = ((this->actor.world.pos.x - xTemp1) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
+                 ((this->actor.world.pos.z - xTemp1) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
 
-        if (fabsf(phi_f2) < 8.0f) {
+        if (fabsf(xTemp2) < 8.0f) {
+            // Enter on A (for crawlspace)
             this->stateFlags2 |= 0x10000;
 
             if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
-                f32 sp38 = COLPOLY_GET_NORMAL(wallPoly->normal.x);
-                f32 sp34 = COLPOLY_GET_NORMAL(wallPoly->normal.z);
-                f32 sp30 = this->wallDistance;
+                f32 wallXNorm = COLPOLY_GET_NORMAL(wallPoly->normal.x);
+                f32 wallZNorm = COLPOLY_GET_NORMAL(wallPoly->normal.z);
+                f32 wallDistance = this->wallDistance;
 
                 func_80836898(globalCtx, this, func_8083A40C);
                 this->stateFlags2 |= 0x40000;
                 this->actor.shape.rot.y = this->currentYaw = this->actor.wallYaw + 0x8000;
-                this->actor.world.pos.x = sp4C + (sp30 * sp38);
-                this->actor.world.pos.z = sp44 + (sp30 * sp34);
+                this->actor.world.pos.x = xTemp1 + (wallDistance * wallXNorm);
+                this->actor.world.pos.z = xTemp1 + (wallDistance * wallZNorm);
                 func_80832224(this);
                 this->actor.prevPos = this->actor.world.pos;
                 func_80832264(globalCtx, this, &gPlayerAnim_002708);
                 func_80832F54(globalCtx, this, 0x9D);
 
-                return 1;
+                return true;
             }
         }
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
@@ -6221,7 +6228,7 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
         this->actor.bgCheckFlags |= 0x200;
         this->actor.wallBgId = sp78;
 
-        D_808535F0 = func_80041DB8(&globalCtx->colCtx, wallPoly, sp78);
+        sWallFlags = SurfaceType_GetWallFlags(&globalCtx->colCtx, wallPoly, sp78);
 
         temp1 = COLPOLY_GET_NORMAL(wallPoly->normal.x);
         temp2 = COLPOLY_GET_NORMAL(wallPoly->normal.z);
@@ -6244,25 +6251,28 @@ s32 func_8083F524(GlobalContext* globalCtx, Player* this) {
     return func_8083F360(globalCtx, this, 26.0f, this->ageProperties->unk_38 + 5.0f, 30.0f, 0.0f);
 }
 
-s32 func_8083F570(Player* this, GlobalContext* globalCtx) {
-    s16 temp;
+s32 Player_IsLeavingCrawlspace(Player* this, GlobalContext* globalCtx) {
+    s16 yawToWall;
 
-    if ((this->linearVelocity != 0.0f) && (this->actor.bgCheckFlags & 8) && (D_808535F0 & 0x30)) {
+    if ((this->linearVelocity != 0.0f) && (this->actor.bgCheckFlags & 8) &&
+        (sWallFlags & BGCHECK_WALL_CRAWLSPACE)) {
 
-        temp = this->actor.shape.rot.y - this->actor.wallYaw;
+        yawToWall = this->actor.shape.rot.y - this->actor.wallYaw;
         if (this->linearVelocity < 0.0f) {
-            temp += 0x8000;
+            yawToWall += 0x8000;
         }
 
-        if (ABS(temp) > 0x4000) {
-            func_80835C58(globalCtx, this, func_8084C81C, 0);
+        if (ABS(yawToWall) > 0x4000) {
+            func_80835C58(globalCtx, this, Player_LeavingCrawlspace, 0);
 
             if (this->linearVelocity > 0.0f) {
+                // Leaving a crawlspace forward
                 this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
                 func_80832264(globalCtx, this, &gPlayerAnim_002700);
                 func_80832F54(globalCtx, this, 0x9D);
                 OnePointCutscene_Init(globalCtx, 9601, 999, NULL, MAIN_CAM);
             } else {
+                // Leaving a crawlspace backwards
                 this->actor.shape.rot.y = this->actor.wallYaw;
                 LinkAnimation_Change(globalCtx, &this->skelAnime, &gPlayerAnim_002708, -1.0f,
                                      Animation_GetLastFrame(&gPlayerAnim_002708), 0.0f, ANIMMODE_ONCE, 0.0f);
@@ -6273,11 +6283,11 @@ s32 func_8083F570(Player* this, GlobalContext* globalCtx) {
             this->currentYaw = this->actor.shape.rot.y;
             func_80832210(this);
 
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 void func_8083F72C(Player* this, LinkAnimationHeader* anim, GlobalContext* globalCtx) {
@@ -6296,13 +6306,13 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
 
     if (!(this->stateFlags1 & 0x800) && (this->actor.bgCheckFlags & 0x200) && (D_80853608 < 0x3000)) {
 
-        if (((this->linearVelocity > 0.0f) && func_8083EC18(this, globalCtx, D_808535F0)) ||
-            func_8083F0C8(this, globalCtx, D_808535F0)) {
+        if (((this->linearVelocity > 0.0f) && func_8083EC18(this, globalCtx, sWallFlags)) ||
+            Player_IsEnteringCrawlspace(this, globalCtx, sWallFlags)) {
             return 1;
         }
 
         if (!func_808332B8(this) && ((this->linearVelocity == 0.0f) || !(this->stateFlags2 & 4)) &&
-            (D_808535F0 & 0x40) && (this->actor.bgCheckFlags & 1) && (this->wallHeight >= 39.0f)) {
+            (sWallFlags & BGCHECK_WALL_6) && (this->actor.bgCheckFlags & 1) && (this->wallHeight >= 39.0f)) {
 
             this->stateFlags2 |= 1;
 
@@ -6385,7 +6395,7 @@ void func_8083FB7C(Player* this, GlobalContext* globalCtx) {
 
 s32 func_8083FBC0(Player* this, GlobalContext* globalCtx) {
     if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_A) && (this->actor.bgCheckFlags & 0x200) &&
-        ((D_808535F0 & 8) || (D_808535F0 & 2) ||
+        ((sWallFlags & BGCHECK_WALL_3) || (sWallFlags & BGCHECK_WALL_1) ||
          func_80041E4C(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallBgId))) {
         return 0;
     }
@@ -8018,7 +8028,7 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
                     if ((this->actor.bgCheckFlags & 0x200) && !(this->stateFlags2 & 0x80000) &&
                         !(this->stateFlags1 & 0x8000800) && (this->linearVelocity > 0.0f)) {
                         if ((this->wallHeight >= 150.0f) && (this->unk_84B[this->unk_846] == 0)) {
-                            func_8083EC18(this, globalCtx, D_808535F0);
+                            func_8083EC18(this, globalCtx, sWallFlags);
                         } else if ((this->unk_88C >= 2) && (this->wallHeight < 150.0f) &&
                                    (((this->actor.world.pos.y - this->actor.floorHeight) + this->wallHeight) >
                                     (70.0f * this->ageProperties->unk_08))) {
@@ -9490,7 +9500,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
 
         sp9A = this->actor.shape.rot.y - (s16)(this->actor.wallYaw + 0x8000);
 
-        D_808535F0 = func_80041DB8(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallBgId);
+        sWallFlags = SurfaceType_GetWallFlags(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallBgId);
 
         D_80853608 = ABS(sp9A);
 
@@ -11156,23 +11166,25 @@ static struct_80832924 D_808548B4[] = {
     { 0, 0x3050 }, { 0, 0x3058 }, { 0, 0x3060 }, { 0, -0x3068 },
 };
 
-void func_8084C760(Player* this, GlobalContext* globalCtx) {
+void Player_UpdateCrawlspace(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= 0x40;
 
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         if (!(this->stateFlags1 & 1)) {
+            // While in a crawlspace, Players skeleton does not move
             if (this->skelAnime.moveFlags != 0) {
                 this->skelAnime.moveFlags = 0;
                 return;
             }
 
-            if (!func_8083F570(this, globalCtx)) {
+            if (!Player_IsLeavingCrawlspace(this, globalCtx)) {
                 this->linearVelocity = sControlInput->rel.stick_y * 0.03f;
             }
         }
         return;
     }
 
+    // Still entering crawlspace
     func_80832924(this, D_808548B4);
 }
 
@@ -11181,7 +11193,7 @@ static struct_80832924 D_808548D8[] = {
     { 0, 0x303C }, { 0, 0x3044 }, { 0, 0x304C }, { 0, -0x3054 },
 };
 
-void func_8084C81C(Player* this, GlobalContext* globalCtx) {
+void Player_LeavingCrawlspace(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= 0x40;
 
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {

@@ -275,7 +275,7 @@ void EnBomChu_Move(EnBomChu* this, GlobalContext* globalCtx) {
 
     if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &posA, &posB, &posUpDown, &polyUpDown, true, true, true, true,
                                 &bgIdUpDown) &&
-        !(func_80041DB8(&globalCtx->colCtx, polyUpDown, bgIdUpDown) & 0x30) && // && not crawl space?
+        !(SurfaceType_GetWallFlags(&globalCtx->colCtx, polyUpDown, bgIdUpDown) & BGCHECK_WALL_CRAWLSPACE) &&
         !SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, polyUpDown, bgIdUpDown)) {
         // forwards
         posB.x = (this->axisForwards.x * lineLength) + posA.x;
@@ -284,7 +284,7 @@ void EnBomChu_Move(EnBomChu* this, GlobalContext* globalCtx) {
 
         if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true,
                                     &bgIdSide) &&
-            !(func_80041DB8(&globalCtx->colCtx, polySide, bgIdSide) & 0x30) &&
+            !(SurfaceType_GetWallFlags(&globalCtx->colCtx, polySide, bgIdSide) & BGCHECK_WALL_CRAWLSPACE) &&
             !SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, polySide, bgIdSide)) {
             EnBomChu_UpdateFloorPoly(this, polySide, globalCtx);
             this->actor.world.pos = posSide;
@@ -323,7 +323,7 @@ void EnBomChu_Move(EnBomChu* this, GlobalContext* globalCtx) {
 
             if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true,
                                         &bgIdSide) &&
-                !(func_80041DB8(&globalCtx->colCtx, polySide, bgIdSide) & 0x30) &&
+                !(SurfaceType_GetWallFlags(&globalCtx->colCtx, polySide, bgIdSide) & BGCHECK_WALL_CRAWLSPACE) &&
                 !SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, polySide, bgIdSide)) {
                 EnBomChu_UpdateFloorPoly(this, polySide, globalCtx);
                 this->actor.world.pos = posSide;

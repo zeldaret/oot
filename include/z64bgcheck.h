@@ -28,6 +28,15 @@ struct DynaPolyActor;
 
 #define WATERBOX_ROOM(p) ((p >> 13) & 0x3F)
 
+#define BGCHECK_WALL_0 (1 << 0)
+#define BGCHECK_WALL_1 (1 << 1)
+#define BGCHECK_WALL_2 (1 << 2)
+#define BGCHECK_WALL_3 (1 << 3)
+#define BGCHECK_WALL_CRAWLSPACE_1 (1 << 4) // Crawlspace Entry Point
+#define BGCHECK_WALL_CRAWLSPACE_2 (1 << 5) // Crawlspace Entry Point
+#define BGCHECK_WALL_6 (1 << 6) // Related to Push Blocks and Heavy Blocks
+#define BGCHECK_WALL_CRAWLSPACE (BGCHECK_WALL_CRAWLSPACE_1 | BGCHECK_WALL_CRAWLSPACE_2)
+
 typedef struct {
     Vec3f scale;
     Vec3s rot;

@@ -564,16 +564,14 @@ typedef struct {
 } Subj3; // size = 0x30
 
 typedef struct {
-    /* 0x00 */ Linef unk_00;
-    /* 0x18 */ f32 unk_18;
-    /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ f32 unk_20;
-    /* 0x24 */ f32 unk_24;
-    /* 0x28 */ f32 unk_28;
-    /* 0x2C */ s16 unk_2C;
-    /* 0x2E */ s16 unk_2E;
-    /* 0x30 */ s16 unk_30;
-    /* 0x32 */ s16 unk_32;
+    /* 0x00 */ Linef crawlspaceLine;
+    /* 0x18 */ Vec3f unk_18; // unused
+    /* 0x24 */ f32 xzSpeed;
+    /* 0x28 */ f32 lineOffsetPrev;
+    /* 0x2C */ s16 lineOffsetAngle;
+    /* 0x2E */ s16 isSfxOff;
+    /* 0x30 */ s16 yaw;
+    /* 0x32 */ s16 zoomTimer;
 } Subj4Anim; // size = 0x34
 
 typedef struct {
