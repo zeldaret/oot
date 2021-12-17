@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "Utils/BitConverter.h"
 #include "Utils/StringHelper.h"
+#include "WarningHandler.h"
 
 REGISTER_ZFILENODE(Skeleton, ZSkeleton);
 REGISTER_ZFILENODE(LimbTable, ZLimbTable);
@@ -27,18 +28,19 @@ void ZSkeleton::ParseXML(tinyxml2::XMLElement* reader)
 		type = ZSkeletonType::Curve;
 	else if (skelTypeXml != "Normal")
 	{
-		throw std::runtime_error(StringHelper::Sprintf("ZSkeleton::ParseXML: Error in '%s'.\n"
-		                                               "\t Invalid Type found: '%s'.\n",
-		                                               name.c_str(), skelTypeXml.c_str()));
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      "invalid value found for 'Type' attribute", "");
 	}
 
 	std::string limbTypeXml = registeredAttributes.at("LimbType").value;
 	limbType = ZLimb::GetTypeByAttributeName(limbTypeXml);
 	if (limbType == ZLimbType::Invalid)
 	{
-		throw std::runtime_error(StringHelper::Sprintf("ZSkeleton::ParseXML: Error in '%s'.\n"
-		                                               "\t Invalid LimbType found: '%s'.\n",
-		                                               name.c_str(), limbTypeXml.c_str()));
+		HANDLE_ERROR_RESOURCE(
+			WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+			StringHelper::Sprintf("invalid value '%s' found for 'LimbType' attribute",
+		                          limbTypeXml.c_str()),
+			"Defaulting to 'Standard'.");
 	}
 }
 
@@ -170,11 +172,9 @@ void ZLimbTable::ParseXML(tinyxml2::XMLElement* reader)
 	limbType = ZLimb::GetTypeByAttributeName(limbTypeXml);
 	if (limbType == ZLimbType::Invalid)
 	{
-		fprintf(stderr,
-		        "ZLimbTable::ParseXML: Warning in '%s'.\n"
-		        "\t Invalid LimbType found: '%s'.\n"
-		        "\t Defaulting to 'Standard'.\n",
-		        name.c_str(), limbTypeXml.c_str());
+		HANDLE_WARNING_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                        "invalid value found for 'LimbType' attribute.",
+		                        "Defaulting to 'Standard'.");
 		limbType = ZLimbType::Standard;
 	}
 

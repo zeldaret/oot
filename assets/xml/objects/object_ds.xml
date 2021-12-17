@@ -4,11 +4,11 @@
         <Skeleton Name="gPotionShopLadySkel" Type="Flex" LimbType="Standard" Offset="0x4768"/>
 
         <!-- Potion Shop Lady Limbs -->
-        <Limb Name="gPotionShopLadyRootLimb" Type="Standard" Offset="0x4718"/>
-        <Limb Name="gPotionShopLadyCatLimb" Type="Standard" Offset="0x4724"/>
-        <Limb Name="gPotionShopLadyTorsoLimb" Type="Standard" Offset="0x4730"/>
-        <Limb Name="gPotionShopLadyArmLimb" Type="Standard" Offset="0x473C"/>
-        <Limb Name="gPotionShopLadyHeadLimb" Type="Standard" Offset="0x4748"/>
+        <Limb Name="gPotionShopLadyRootLimb" LimbType="Standard" Offset="0x4718"/>
+        <Limb Name="gPotionShopLadyCatLimb" LimbType="Standard" Offset="0x4724"/>
+        <Limb Name="gPotionShopLadyTorsoLimb" LimbType="Standard" Offset="0x4730"/>
+        <Limb Name="gPotionShopLadyArmLimb" LimbType="Standard" Offset="0x473C"/>
+        <Limb Name="gPotionShopLadyHeadLimb" LimbType="Standard" Offset="0x4748"/>
 
         <!-- Potion Shop Lady Limb DisplayLists -->
         <DList Name="gPotionShopLadyCatDL" Offset="0x36C0"/>

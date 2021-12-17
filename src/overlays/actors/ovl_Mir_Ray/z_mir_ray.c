@@ -7,9 +7,7 @@
 #include "z_mir_ray.h"
 #include "objects/object_mir_ray/object_mir_ray.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((MirRay*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void MirRay_Init(Actor* thisx, GlobalContext* globalCtx);
 void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -162,7 +160,7 @@ void MirRay_MakeShieldLight(MirRay* this, GlobalContext* globalCtx) {
 
 void MirRay_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    MirRay* this = THIS;
+    MirRay* this = (MirRay*)thisx;
     MirRayDataEntry* dataEntry = &sMirRayData[this->actor.params];
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -227,7 +225,7 @@ void MirRay_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    MirRay* this = THIS;
+    MirRay* this = (MirRay*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
 
@@ -240,7 +238,7 @@ void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void MirRay_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    MirRay* this = THIS;
+    MirRay* this = (MirRay*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     D_80B8E670 = 0;
@@ -482,7 +480,7 @@ void MirRay_ReflectedBeam(MirRay* this, GlobalContext* globalCtx, MirRayShieldRe
 }
 
 void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    MirRay* this = THIS;
+    MirRay* this = (MirRay*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 i;
     MirRayShieldReflection reflection[6];
@@ -500,7 +498,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_mir_ray.c", 972),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)(temp = this->reflectIntensity * 100.0f));
-            gSPDisplayList(POLY_XLU_DISP++, &gShieldBeamGlowDL);
+            gSPDisplayList(POLY_XLU_DISP++, gShieldBeamGlowDL);
             MirRay_SetupReflectionPolys(this, globalCtx, reflection);
             MirRay_RemoveSimilarReflections(reflection);
             MirRay_ReflectedBeam(this, globalCtx, reflection);
@@ -524,7 +522,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, reflection[0].opacity);
-                    gSPDisplayList(POLY_XLU_DISP++, &gShieldBeamImageDL);
+                    gSPDisplayList(POLY_XLU_DISP++, gShieldBeamImageDL);
                 }
             }
 

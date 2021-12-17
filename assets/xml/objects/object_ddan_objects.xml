@@ -20,7 +20,7 @@
         <!-- Dodongo's Cavern DisplayLists -->
         <DList Name="gDodongoDoorDL" Offset="0xC0"/>
         <DList Name="gDodongoBarsDL" Offset="0x1F0"/>
-        <DList Name="gDodongoLowerJarDL" Offset="0x1350"/>
+        <DList Name="gDodongoLowerJawDL" Offset="0x1350"/>
         <DList Name="gDodongoRisingPlatformDL" Offset="0x37B8"/>
         <DList Name="gDodongoFallingStairsDL" Offset="0x48A8"/>
 

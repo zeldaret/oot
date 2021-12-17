@@ -20,8 +20,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_link_child/object_link_child.h"
 
-#define THIS ((Player*)thisx)
-
 typedef struct {
     /* 0x00 */ u8 itemId;
     /* 0x01 */ u8 field; // various bit-packed data
@@ -1153,7 +1151,7 @@ s32 func_80832224(Player* this) {
 s32 func_8083224C(GlobalContext* globalCtx) {
     Player* this = GET_PLAYER(globalCtx);
 
-    return (this->actor.flags & 0x100) == 0x100;
+    return CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_8);
 }
 
 void func_80832264(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
@@ -1292,7 +1290,7 @@ void func_808326F0(Player* this) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        Audio_StopSfx((u16)(*entry + this->ageProperties->unk_92));
+        Audio_StopSfxById((u16)(*entry + this->ageProperties->unk_92));
         entry++;
     }
 }
@@ -1816,7 +1814,7 @@ s32 func_80833B2C(Player* this) {
 }
 
 s32 func_80833B54(Player* this) {
-    if ((this->unk_664 != NULL) && ((this->unk_664->flags & 5) == 5)) {
+    if ((this->unk_664 != NULL) && CHECK_FLAG_ALL(this->unk_664->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2)) {
         this->stateFlags1 |= 0x10;
         return 1;
     }
@@ -2615,7 +2613,7 @@ s32 func_80835C58(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s3
     }
 
     if (func_8084E3C4 == this->func_674) {
-        func_800ED858(0);
+        Audio_OcaSetInstrument(0);
         this->stateFlags2 &= ~0x3000000;
     } else if (func_808507F4 == this->func_674) {
         func_80832340(globalCtx, this);
@@ -2823,9 +2821,9 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
         } else {
             globalCtx->gameOverCtx.state = GAMEOVER_DEATH_START;
             func_800F6AB0(0);
-            func_800F5C64(NA_BGM_GAME_OVER);
-            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
-            gSaveContext.nightSeqIndex = 0xFF;
+            Audio_PlayFanfare(NA_BGM_GAME_OVER);
+            gSaveContext.seqId = (u8)NA_BGM_DISABLED;
+            gSaveContext.natureAmbienceId = 0xFF;
         }
 
         OnePointCutscene_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, MAIN_CAM);
@@ -3002,7 +3000,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                 holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
                 this->stateFlags1 |= 0x8000;
 
-                if ((actorToTarget != NULL) && !(actorToTarget->flags & 0x8000000)) {
+                if ((actorToTarget != NULL) && !(actorToTarget->flags & ACTOR_FLAG_27)) {
                     if ((actorToTarget == this->unk_664) && (this->actor.category == ACTORCAT_PLAYER)) {
                         actorToTarget = globalCtx->actorCtx.targetCtx.unk_94;
                     }
@@ -3043,7 +3041,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
 
         if (this->unk_664 != NULL) {
             this->stateFlags1 &= ~0x30000;
-            if ((this->stateFlags1 & 0x800) || ((this->unk_664->flags & 5) != 5)) {
+            if ((this->stateFlags1 & 0x800) || !CHECK_FLAG_ALL(this->unk_664->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2)) {
                 this->stateFlags1 |= 0x10000;
             }
         } else {
@@ -3573,7 +3571,7 @@ void func_8083819C(Player* this, GlobalContext* globalCtx) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_SHIELD, this->actor.world.pos.x,
                     this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 1);
         Inventory_DeleteEquipment(globalCtx, EQUIP_SHIELD);
-        func_8010B680(globalCtx, 0x305F, NULL);
+        Message_StartTextbox(globalCtx, 0x305F, NULL);
     }
 }
 
@@ -3714,7 +3712,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
                 Actor* ac = this->cylinder.base.ac;
                 s32 sp4C;
 
-                if (ac->flags & 0x1000000) {
+                if (ac->flags & ACTOR_FLAG_24) {
                     func_8002F7DC(&this->actor, NA_SE_PL_BODY_HIT);
                 }
 
@@ -3986,8 +3984,8 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                 if (temp == 11) {
                     func_800788CC(NA_SE_OC_SECRET_HOLE_OUT);
                     func_800F6964(5);
-                    gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
-                    gSaveContext.nightSeqIndex = 0xFF;
+                    gSaveContext.seqId = (u8)NA_BGM_DISABLED;
+                    gSaveContext.natureAmbienceId = 0xFF;
                 } else {
                     linearVel = this->linearVelocity;
 
@@ -4379,7 +4377,7 @@ void func_8083A2F8(GlobalContext* globalCtx, Player* this) {
     this->stateFlags1 |= 0x20000040;
 
     if (this->actor.textId != 0) {
-        func_8010B680(globalCtx, this->actor.textId, this->targetActor);
+        Message_StartTextbox(globalCtx, this->actor.textId, this->targetActor);
         this->unk_664 = this->targetActor;
     }
 }
@@ -4762,7 +4760,7 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                                 this->unk_850 = 0x50;
                                 this->unk_84F = -1;
                             }
-                            targetActor->flags |= 0x100;
+                            targetActor->flags |= ACTOR_FLAG_8;
                             this->unk_664 = this->targetActor;
                         } else if (sp2C == EXCH_ITEM_LETTER_RUTO) {
                             this->unk_84F = 1;
@@ -4774,7 +4772,7 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                             func_80835EA4(globalCtx, 4);
                         }
 
-                        this->actor.flags |= 0x100;
+                        this->actor.flags |= ACTOR_FLAG_8;
                         this->exchangeItemId = sp2C;
 
                         if (this->unk_84F < 0) {
@@ -4846,7 +4844,7 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
     s32 sp28 = 0;
     s32 sp24;
 
-    sp24 = (sp30 != NULL) && (((sp30->flags & 0x40001) == 0x40001) || (sp30->naviEnemyId != 0xFF));
+    sp24 = (sp30 != NULL) && (CHECK_FLAG_ALL(sp30->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18) || (sp30->naviEnemyId != 0xFF));
 
     if (sp24 || (this->naviTextId != 0)) {
         sp28 = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
@@ -4865,13 +4863,13 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
         if ((sp30 == NULL) || (sp30 == sp34) || (sp30 == sp2C)) {
             if (!(this->stateFlags1 & 0x800) ||
                 ((this->heldActor != NULL) && (sp28 || (sp34 == this->heldActor) || (sp2C == this->heldActor) ||
-                                               ((sp34 != NULL) && (sp34->flags & 0x10000))))) {
+                                               ((sp34 != NULL) && (sp34->flags & ACTOR_FLAG_16))))) {
                 if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x800000) ||
                     (func_808332B8(this) && !(this->stateFlags2 & 0x400))) {
 
                     if (sp34 != NULL) {
                         this->stateFlags2 |= 2;
-                        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (sp34->flags & 0x10000)) {
+                        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (sp34->flags & ACTOR_FLAG_16)) {
                             sp2C = NULL;
                         } else if (sp2C == NULL) {
                             return 0;
@@ -4933,7 +4931,7 @@ s32 func_8083B998(Player* this, GlobalContext* globalCtx) {
     }
 
     if ((this->unk_664 != NULL) &&
-        (((this->unk_664->flags & 0x40001) == 0x40001) || (this->unk_664->naviEnemyId != 0xFF))) {
+        (CHECK_FLAG_ALL(this->unk_664->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18) || (this->unk_664->naviEnemyId != 0xFF))) {
         this->stateFlags2 |= 0x200000;
     } else if ((this->naviTextId == 0) && !func_8008E9C4(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
                (YREG(15) != 0x10) && (YREG(15) != 0x20) && !func_8083B8F4(this, globalCtx)) {
@@ -5540,10 +5538,10 @@ void func_8083D36C(GlobalContext* globalCtx, Player* this) {
 
 void func_8083D53C(GlobalContext* globalCtx, Player* this) {
     if (this->actor.yDistToWater < this->ageProperties->unk_2C) {
-        func_800F67A0(0);
+        Audio_SetBaseFilter(0);
         this->unk_840 = 0;
     } else {
-        func_800F67A0(32);
+        Audio_SetBaseFilter(0x20);
         if (this->unk_840 < 300) {
             this->unk_840++;
         }
@@ -5995,7 +5993,7 @@ void func_8083EA94(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083EAF0(Player* this, Actor* actor) {
-    if ((actor != NULL) && !(actor->flags & 0x800000) &&
+    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_23) &&
         ((this->linearVelocity < 1.1f) || (actor->id == ACTOR_EN_BOM_CHU))) {
         return 0;
     }
@@ -7385,7 +7383,7 @@ void func_8084279C(Player* this, GlobalContext* globalCtx) {
             func_8083A098(this, D_80853C44[this->modelAnimType], globalCtx);
         }
 
-        this->actor.flags &= ~0x100;
+        this->actor.flags &= ~ACTOR_FLAG_8;
         func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
     }
 }
@@ -7418,6 +7416,7 @@ s32 func_80842964(Player* this, GlobalContext* globalCtx) {
 
 void func_808429B4(GlobalContext* globalCtx, s32 speed, s32 y, s32 countdown) {
     s32 quakeIdx = Quake_Add(Gameplay_GetCamera(globalCtx, 0), 3);
+
     Quake_SetSpeed(quakeIdx, speed);
     Quake_SetQuakeValues(quakeIdx, y, 0, 0, 0);
     Quake_SetCountdown(quakeIdx, countdown);
@@ -9045,7 +9044,7 @@ static void (*D_80854738[])(GlobalContext* globalCtx, Player* this) = {
 static Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
 
 void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     SceneTableEntry* scene = globalCtx->loadedScene;
     u32 titleFileSize;
@@ -9220,80 +9219,81 @@ void func_80847298(Player* this) {
 
 static f32 D_80854784[] = { 120.0f, 240.0f, 360.0f };
 
-static u8 D_80854790[] = { 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C };
+static u8 sDiveDoActions[] = { DO_ACTION_1, DO_ACTION_2, DO_ACTION_3, DO_ACTION_4,
+                               DO_ACTION_5, DO_ACTION_6, DO_ACTION_7, DO_ACTION_8 };
 
 void func_808473D4(GlobalContext* globalCtx, Player* this) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 0) && (this->actor.category == ACTORCAT_PLAYER)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) && (this->actor.category == ACTORCAT_PLAYER)) {
         Actor* heldActor = this->heldActor;
         Actor* interactRangeActor = this->interactRangeActor;
         s32 sp24;
         s32 sp20 = this->unk_84B[this->unk_846];
         s32 sp1C = func_808332B8(this);
-        s32 doAction = 0xA;
+        s32 doAction = DO_ACTION_NONE;
 
         if (!Player_InBlockingCsMode(globalCtx, this)) {
             if (this->stateFlags1 & 0x100000) {
-                doAction = 3;
+                doAction = DO_ACTION_RETURN;
             } else if ((this->heldItemActionParam == PLAYER_AP_FISHING_POLE) && (this->unk_860 != 0)) {
                 if (this->unk_860 == 2) {
-                    doAction = 0x14;
+                    doAction = DO_ACTION_REEL;
                 }
             } else if ((func_8084E3C4 != this->func_674) && !(this->stateFlags2 & 0x40000)) {
                 if ((this->doorType != PLAYER_DOORTYPE_NONE) &&
                     (!(this->stateFlags1 & 0x800) || ((heldActor != NULL) && (heldActor->id == ACTOR_EN_RU1)))) {
-                    doAction = 4;
+                    doAction = DO_ACTION_OPEN;
                 } else if ((!(this->stateFlags1 & 0x800) || (heldActor == NULL)) && (interactRangeActor != NULL) &&
                            ((!sp1C && (this->getItemId == GI_NONE)) ||
                             ((this->getItemId < 0) && !(this->stateFlags1 & 0x8000000)))) {
                     if (this->getItemId < 0) {
-                        doAction = 4;
+                        doAction = DO_ACTION_OPEN;
                     } else if ((interactRangeActor->id == ACTOR_BG_TOKI_SWD) && LINK_IS_ADULT) {
-                        doAction = 0xC;
+                        doAction = DO_ACTION_DROP;
                     } else {
-                        doAction = 0x11;
+                        doAction = DO_ACTION_GRAB;
                     }
                 } else if (!sp1C && (this->stateFlags2 & 1)) {
-                    doAction = 0x11;
+                    doAction = DO_ACTION_GRAB;
                 } else if ((this->stateFlags2 & 4) || (!(this->stateFlags1 & 0x800000) && (this->rideActor != NULL))) {
-                    doAction = 0xB;
+                    doAction = DO_ACTION_CLIMB;
                 } else if ((this->stateFlags1 & 0x800000) && !EN_HORSE_CHECK_4((EnHorse*)this->rideActor) &&
                            (func_8084D3E4 != this->func_674)) {
                     if ((this->stateFlags2 & 2) && (this->targetActor != NULL)) {
                         if (this->targetActor->category == ACTORCAT_NPC) {
-                            doAction = 0xF;
+                            doAction = DO_ACTION_SPEAK;
                         } else {
-                            doAction = 1;
+                            doAction = DO_ACTION_CHECK;
                         }
                     } else if (!func_8002DD78(this) && !(this->stateFlags1 & 0x100000)) {
-                        doAction = 8;
+                        doAction = DO_ACTION_FASTER;
                     }
                 } else if ((this->stateFlags2 & 2) && (this->targetActor != NULL)) {
                     if (this->targetActor->category == ACTORCAT_NPC) {
-                        doAction = 0xF;
+                        doAction = DO_ACTION_SPEAK;
                     } else {
-                        doAction = 1;
+                        doAction = DO_ACTION_CHECK;
                     }
                 } else if ((this->stateFlags1 & 0x202000) ||
                            ((this->stateFlags1 & 0x800000) && (this->stateFlags2 & 0x400000))) {
-                    doAction = 0xD;
+                    doAction = DO_ACTION_DOWN;
                 } else if (this->stateFlags2 & 0x10000) {
-                    doAction = 2;
+                    doAction = DO_ACTION_ENTER;
                 } else if ((this->stateFlags1 & 0x800) && (this->getItemId == GI_NONE) && (heldActor != NULL)) {
                     if ((this->actor.bgCheckFlags & 1) || (heldActor->id == ACTOR_EN_NIW)) {
                         if (func_8083EAF0(this, heldActor) == 0) {
-                            doAction = 0xC;
+                            doAction = DO_ACTION_DROP;
                         } else {
-                            doAction = 9;
+                            doAction = DO_ACTION_THROW;
                         }
                     }
                 } else if (!(this->stateFlags1 & 0x8000000) && func_8083A0D4(this) && (this->getItemId < GI_MAX)) {
-                    doAction = 0x11;
+                    doAction = DO_ACTION_GRAB;
                 } else if (this->stateFlags2 & 0x800) {
                     sp24 = (D_80854784[CUR_UPG_VALUE(UPG_SCALE)] - this->actor.yDistToWater) / 40.0f;
                     sp24 = CLAMP(sp24, 0, 7);
-                    doAction = D_80854790[sp24];
+                    doAction = sDiveDoActions[sp24];
                 } else if (sp1C && !(this->stateFlags2 & 0x400)) {
-                    doAction = 7;
+                    doAction = DO_ACTION_DIVE;
                 } else if (!sp1C && (!(this->stateFlags1 & 0x400000) || func_80833BCC(this) ||
                                      !Player_IsChildWithHylianShield(this))) {
                     if ((!(this->stateFlags1 & 0x4000) && (sp20 <= 0) &&
@@ -9301,22 +9301,22 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
                           ((D_808535E4 != 7) &&
                            (func_80833B2C(this) || ((globalCtx->roomCtx.curRoom.unk_03 != 2) &&
                                                     !(this->stateFlags1 & 0x400000) && (sp20 == 0))))))) {
-                        doAction = 0;
+                        doAction = DO_ACTION_ATTACK;
                     } else if ((globalCtx->roomCtx.curRoom.unk_03 != 2) && func_80833BCC(this) && (sp20 > 0)) {
-                        doAction = 5;
+                        doAction = DO_ACTION_JUMP;
                     } else if ((this->heldItemActionParam >= PLAYER_AP_SWORD_MASTER) ||
                                ((this->stateFlags2 & 0x100000) &&
                                 (globalCtx->actorCtx.targetCtx.arrowPointedActor == NULL))) {
-                        doAction = 0x13;
+                        doAction = DO_ACTION_PUTAWAY;
                     }
                 }
             }
         }
 
-        if (doAction != 0x13) {
+        if (doAction != DO_ACTION_PUTAWAY) {
             this->unk_837 = 20;
         } else if (this->unk_837 != 0) {
-            doAction = 0xA;
+            doAction = DO_ACTION_NONE;
             this->unk_837--;
         }
 
@@ -9626,14 +9626,14 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     }
 }
 
-void func_808486A8(GlobalContext* globalCtx, Player* this) {
-    u8 sp27;
+void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
+    u8 seqMode;
     s32 pad;
     Actor* unk_664;
     s32 camMode;
 
     if (this->actor.category == ACTORCAT_PLAYER) {
-        sp27 = 0;
+        seqMode = SEQ_MODE_DEFAULT;
 
         if (this->csMode != 0) {
             Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), CAM_MODE_NORMAL);
@@ -9646,7 +9646,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
             } else if (this->stateFlags2 & 0x100) {
                 camMode = CAM_MODE_PUSHPULL;
             } else if ((unk_664 = this->unk_664) != NULL) {
-                if ((this->actor.flags & 0x100) == 0x100) {
+                if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_8)) {
                     camMode = CAM_MODE_TALK;
                 } else if (this->stateFlags1 & 0x10000) {
                     if (this->stateFlags1 & 0x2000000) {
@@ -9691,22 +9691,24 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
                 camMode = CAM_MODE_NORMAL;
                 if ((this->linearVelocity == 0.0f) &&
                     (!(this->stateFlags1 & 0x800000) || (this->rideActor->speedXZ == 0.0f))) {
-                    sp27 = 2;
+                    // not moving
+                    seqMode = SEQ_MODE_STILL;
                 }
             }
 
             Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), camMode);
         } else {
-            sp27 = 2;
+            // First person mode
+            seqMode = SEQ_MODE_STILL;
         }
 
-        if (globalCtx->actorCtx.targetCtx.unk_90 != NULL) {
-            sp27 = 1;
-            func_800F6114(sqrtf(globalCtx->actorCtx.targetCtx.unk_90->xyzDistToPlayerSq));
+        if (globalCtx->actorCtx.targetCtx.bgmEnemy != NULL) {
+            seqMode = SEQ_MODE_ENEMY;
+            Audio_SetBgmEnemyVolume(sqrtf(globalCtx->actorCtx.targetCtx.bgmEnemy->xyzDistToPlayerSq));
         }
 
         if (globalCtx->sceneNum != SCENE_TURIBORI) {
-            func_800F5E90(sp27);
+            Audio_SetSequenceMode(seqMode);
         }
     }
 }
@@ -10155,7 +10157,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->func_674(this, globalCtx);
         }
 
-        func_808486A8(globalCtx, this);
+        Player_UpdateCamAndSeqModes(globalCtx, this);
 
         if (this->skelAnime.moveFlags & 8) {
             AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime,
@@ -10164,7 +10166,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         func_808368EC(this, globalCtx);
 
-        if ((this->actor.flags & 0x100) == 0x100) {
+        if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_8)) {
             this->targetActorDistance = 0.0f;
         } else {
             this->targetActor = NULL;
@@ -10255,7 +10257,7 @@ static Vec3f D_80854838 = { 0.0f, 0.0f, -30.0f };
 
 void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f sDogSpawnPos;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
     s32 dogParams;
     s32 pad;
     Input sp44;
@@ -10393,7 +10395,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
 
 void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19346);
 
@@ -10423,7 +10425,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         if (this->unk_6AD != 0) {
             Vec3f sp7C;
 
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->actor.focus.pos, &sp7C);
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &this->actor.focus.pos, &sp7C);
             if (sp7C.z < -4.0f) {
                 overrideLimbDraw = func_800902F0;
             }
@@ -10486,7 +10488,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void Player_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     Effect_Delete(globalCtx, this->swordEffectIndex);
 
@@ -10694,10 +10696,10 @@ void func_8084B530(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= 0x20;
     func_80836670(this, globalCtx);
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-        this->actor.flags &= ~0x100;
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
+        this->actor.flags &= ~ACTOR_FLAG_8;
 
-        if ((this->targetActor->flags & 5) != 5) {
+        if (!CHECK_FLAG_ALL(this->targetActor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2)) {
             this->stateFlags2 &= ~0x2000;
         }
 
@@ -11578,6 +11580,7 @@ void func_8084D610(Player* this, GlobalContext* globalCtx) {
 
             if (sp34 != 0.0f) {
                 s16 temp = this->actor.shape.rot.y - sp32;
+
                 if ((ABS(temp) > 0x6000) && !Math_StepToF(&this->linearVelocity, 0.0f, 1.0f)) {
                     return;
                 }
@@ -11791,7 +11794,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
         giEntry = &sGetItemTable[this->getItemId - 1];
         this->unk_84F = 1;
 
-        func_8010B680(globalCtx, giEntry->textId, &this->actor);
+        Message_StartTextbox(globalCtx, giEntry->textId, &this->actor);
         Item_Give(globalCtx, giEntry->itemId);
 
         if (((this->getItemId >= GI_RUPEE_GREEN) && (this->getItemId <= GI_RUPEE_RED)) ||
@@ -11807,10 +11810,10 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
             } else {
                 temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? NA_BGM_SMALL_ITEM_GET : NA_BGM_ITEM_GET | 0x900;
             }
-            func_800F5C64(temp1);
+            Audio_PlayFanfare(temp1);
         }
     } else {
-        if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+        if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
             if (this->getItemId == GI_GAUNTLETS_SILVER) {
                 globalCtx->nextEntranceIndex = 0x0123;
                 globalCtx->sceneLoadFlag = 0x14;
@@ -11878,7 +11881,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         if (this->stateFlags2 & 0x2800000) {
             this->stateFlags2 |= 0x1000000;
         } else {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
         }
         return;
     }
@@ -11887,7 +11890,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
 
         if ((this->targetActor != NULL) && (this->targetActor == this->unk_6A8)) {
@@ -11902,10 +11905,10 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
 
         this->stateFlags2 &= ~0x3800000;
         this->unk_6A8 = NULL;
-    } else if (globalCtx->msgCtx.unk_E3EE == 2) {
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = D_808549D4[globalCtx->msgCtx.unk_E3EC];
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
+        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = D_808549D4[globalCtx->msgCtx.lastPlayedSong];
         gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].data = globalCtx->msgCtx.unk_E3EC;
+        gSaveContext.respawn[RESPAWN_MODE_RETURN].data = globalCtx->msgCtx.lastPlayedSong;
 
         this->csMode = 0;
         this->stateFlags1 &= ~0x20000000;
@@ -11920,8 +11923,8 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
             Environment_WarpSongLeave(globalCtx);
         }
 
-        gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
-        gSaveContext.nightSeqIndex = 0xFF;
+        gSaveContext.seqId = (u8)NA_BGM_DISABLED;
+        gSaveContext.natureAmbienceId = 0xFF;
     }
 }
 
@@ -12128,10 +12131,10 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         if (this->unk_84F != 0) {
             if (this->unk_850 == 0) {
-                func_8010B680(globalCtx, D_80854A04[this->unk_84F - 1].textId, &this->actor);
-                func_800F5C64(NA_BGM_ITEM_GET | 0x900);
+                Message_StartTextbox(globalCtx, D_80854A04[this->unk_84F - 1].textId, &this->actor);
+                Audio_PlayFanfare(NA_BGM_ITEM_GET | 0x900);
                 this->unk_850 = 1;
-            } else if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+            } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
                 this->unk_84F = 0;
                 func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
             }
@@ -12247,7 +12250,7 @@ void func_8084F104(Player* this, GlobalContext* globalCtx) {
 
             this->unk_862 = 0;
             if (targetActor->textId != 0xFFFF) {
-                this->actor.flags |= 0x100;
+                this->actor.flags |= ACTOR_FLAG_8;
             }
 
             func_80853148(globalCtx, targetActor);
@@ -12263,15 +12266,15 @@ void func_8084F104(Player* this, GlobalContext* globalCtx) {
             }
 
             if (this->unk_850 == 0) {
-                func_8010B680(globalCtx, this->actor.textId, &this->actor);
+                Message_StartTextbox(globalCtx, this->actor.textId, &this->actor);
 
                 if ((this->itemActionParam == PLAYER_AP_CHICKEN) || (this->itemActionParam == PLAYER_AP_POCKET_CUCCO)) {
                     func_8002F7DC(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
                 }
 
                 this->unk_850 = 1;
-            } else if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-                this->actor.flags &= ~0x100;
+            } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
+                this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_862 = 0;
 
                 if (this->unk_84F == 1) {
@@ -12437,8 +12440,8 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
         } else {
             globalCtx->fadeTransition = 2;
             gSaveContext.nextTransition = 2;
-            gSaveContext.seqIndex = (u8)NA_BGM_DISABLED;
-            gSaveContext.nightSeqIndex = 0xFF;
+            gSaveContext.seqId = (u8)NA_BGM_DISABLED;
+            gSaveContext.natureAmbienceId = 0xFF;
         }
 
         globalCtx->sceneLoadFlag = 0x14;
@@ -12747,12 +12750,12 @@ void func_8085063C(Player* this, GlobalContext* globalCtx) {
     func_80836670(this, globalCtx);
 
     if (this->unk_850 == 0) {
-        func_8010B680(globalCtx, 0x3B, &this->actor);
+        Message_StartTextbox(globalCtx, 0x3B, &this->actor);
         this->unk_850 = 1;
         return;
     }
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         s32 respawnData = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
         if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -13452,11 +13455,11 @@ void func_80851828(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
     if (globalCtx->sceneNum == SCENE_BDAN_BOSS) {
         if (this->unk_850 == 0) {
-            if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
                 return;
             }
         } else {
-            if (func_8010BDBC(&globalCtx->msgCtx) != 0) {
+            if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE) {
                 return;
             }
         }
@@ -13982,7 +13985,7 @@ void func_80852C50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     }
 
     if (linkCsAction == NULL) {
-        this->actor.flags &= ~0x40;
+        this->actor.flags &= ~ACTOR_FLAG_6;
         return;
     }
 
@@ -14093,8 +14096,9 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
     Player* this = GET_PLAYER(globalCtx);
     s32 pad;
 
-    if ((this->targetActor != NULL) || (actor == this->naviActor) || ((actor->flags & 0x40001) == 0x40001)) {
-        actor->flags |= 0x100;
+    if ((this->targetActor != NULL) || (actor == this->naviActor) ||
+        CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18)) {
+        actor->flags |= ACTOR_FLAG_8;
     }
 
     this->targetActor = actor;
@@ -14102,13 +14106,13 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
 
     if (actor->textId == 0xFFFF) {
         func_8002DF54(globalCtx, actor, 1);
-        actor->flags |= 0x100;
+        actor->flags |= ACTOR_FLAG_8;
         func_80832528(globalCtx, this);
     } else {
-        if (this->actor.flags & 0x100) {
+        if (this->actor.flags & ACTOR_FLAG_8) {
             this->actor.textId = 0;
         } else {
-            this->actor.flags |= 0x100;
+            this->actor.flags |= ACTOR_FLAG_8;
             this->actor.textId = actor->textId;
         }
 
@@ -14150,7 +14154,7 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
     }
 
     if ((this->naviActor == this->targetActor) && ((this->targetActor->textId & 0xFF00) != 0x200)) {
-        this->naviActor->flags |= 0x100;
+        this->naviActor->flags |= ACTOR_FLAG_8;
         func_80835EA4(globalCtx, 0xB);
     }
 }

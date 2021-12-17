@@ -161,6 +161,7 @@ void Skin_DrawLimb(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* 
     }
     if (gfx != NULL) {
         Mtx* mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &D_801600C0[limbIndex]);
+
         if (mtx != NULL) {
             gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gfx);

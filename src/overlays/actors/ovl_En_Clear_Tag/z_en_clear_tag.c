@@ -1,8 +1,6 @@
 #include "z_en_clear_tag.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((EnClearTag*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -218,7 +216,7 @@ void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32
  * This just destroys the collider.
  */
 void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -228,7 +226,7 @@ void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
  * This allocates a collider, initializes effects, and sets up ClearTag instance data.
  */
 void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
     s32 defaultCutsceneTimer = 100;
     s16 i;
     s16 j;
@@ -254,7 +252,7 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sLaserCylinderInit);
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
     } else { // Initialize the Arwing.
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actor.targetMode = 5;
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sArwingCylinderInit);
         this->actor.colChkInfo.health = 3;
@@ -318,7 +316,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
     s16 xRotationTarget;
     s16 rotationScale;
     GlobalContext* globalCtx = globalCtx2;
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     this->frameCounter++;
@@ -535,7 +533,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {
                             this->drawMode = CLEAR_TAG_DRAW_MODE_EFFECT;
                             this->deathTimer = 70;
-                            this->actor.flags &= ~1;
+                            this->actor.flags &= ~ACTOR_FLAG_0;
                         } else {
                             Actor_Kill(&this->actor);
                         }
@@ -681,7 +679,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
  */
 void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_clear_tag.c", 983);
     if (this->drawMode != CLEAR_TAG_DRAW_MODE_EFFECT) {
@@ -721,7 +719,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             // Draw the Arwing Backfire
             Matrix_Translate(0.0f, 0.0f, -60.0f, MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(2.5f, 1.3f, 0.0f, MTXMODE_APPLY);
             if ((this->frameCounter % 2) != 0) {
                 Matrix_Scale(1.15f, 1.15f, 1.15f, MTXMODE_APPLY);
@@ -961,7 +959,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             gSPSegment(POLY_XLU_DISP++, 8,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, effect->random * -5, 32, 64, 1, 0, 0, 32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             Matrix_Translate(0.0f, 20.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1392),
@@ -988,7 +986,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (effect->random * -15) & 0xFF, 32, 64, 1, 0, 0,
                                         32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1439),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1011,7 +1009,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             // Draw the flash billboard effect.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 200, (s8)effect->primColor.a);
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1470),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

@@ -7,9 +7,7 @@
 #include "z_en_zl1.h"
 #include "objects/object_zl1/object_zl1.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnZl1*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +75,7 @@ void func_80B4AB48(void) {
 
 void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     frameCount = Animation_GetLastFrame(&gChildZelda1Anim_12118);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gChildZelda1Skel, NULL, NULL, NULL, 0);
@@ -114,7 +112,7 @@ void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -122,8 +120,8 @@ void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B4AE18(EnZl1* this) {
     if ((this->skelAnime.animation == &gChildZelda1Anim_10B38) && (this->skelAnime.curFrame < 26.0f)) {
-        this->unk_1F4 = &gChildZelda1EyeOpenLookingRightTex;
-        this->unk_1F8 = &gChildZelda1EyeOpenLookingLeftTex;
+        this->unk_1F4 = gChildZelda1EyeOpenLookingRightTex;
+        this->unk_1F8 = gChildZelda1EyeOpenLookingLeftTex;
         this->unk_1FC = 2;
     } else {
         if (DECR(this->unk_1FC) == 0) {
@@ -144,10 +142,10 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
     func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
 
     if (this->unk_1E6 != 0) {
-        if (func_8002F334(&this->actor, globalCtx)) {
+        if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
             this->unk_1E6 = 0;
         }
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->unk_1E6 = 1;
     } else if (this->actor.world.pos.y <= player->actor.world.pos.y) {
         func_8002F2F4(&this->actor, globalCtx);
@@ -167,7 +165,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     Vec3f playerPos = { -398.0f, 84.0f, 0.0f };
     s16 rotDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_10B38, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gChildZelda1Anim_10B38), ANIMMODE_ONCE_INTERP, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
@@ -187,7 +185,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         player->actor.speedXZ = 0.0f;
         this->unk_1E2 = 0;
         this->actionFunc = func_80B4B240;
-        func_800F5C64(NA_BGM_APPEAR);
+        Audio_PlayFanfare(NA_BGM_APPEAR);
     } else {
         if (1) {} // necessary to match
         rotDiff = ABS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
@@ -225,24 +223,24 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
                     animHeaderSeg = &gChildZelda1Anim_11348;
                     sp3C = 1;
                     this->actor.textId = 0x702E;
-                    func_8010B680(globalCtx, this->actor.textId, NULL);
+                    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                     this->unk_1E2++;
                     break;
             }
             break;
         case 1:
-            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 globalCtx->envCtx.fillScreen = false;
                 Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp74, &sp68);
                 Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 25.0f);
                 player->actor.world.pos = sp58;
                 this->actor.textId = 0x702F;
-                func_8010B720(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
                 this->unk_1E2++;
             }
             break;
         case 2:
-            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 if (msgCtx->choiceIndex == 0) {
                     animHeaderSeg = &gChildZelda1Anim_13F10;
                     sp3C = 2;
@@ -260,27 +258,27 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
                 animHeaderSeg = &gChildZelda1Anim_143A8;
                 sp3C = 1;
                 this->actor.textId = 0x7032;
-                func_8010B720(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
                 this->unk_1E2++;
             }
             break;
         case 4:
-            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 if (msgCtx->choiceIndex == 0) {
                     animHeaderSeg = &gChildZelda1Anim_132D8;
                     sp3C = 2;
                     this->unk_1E2 = 9;
                 } else {
                     this->actor.textId = 0x7034;
-                    func_8010B720(globalCtx, this->actor.textId);
+                    Message_ContinueTextbox(globalCtx, this->actor.textId);
                     this->unk_1E2++;
                 }
             }
             break;
         case 5:
-            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 this->actor.textId = 0x7033;
-                func_8010B720(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
                 this->unk_1E2--;
             }
             break;
@@ -290,26 +288,26 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
                 animHeaderSeg = &gChildZelda1Anim_12B88;
                 sp3C = 1;
                 this->actor.textId = 0x7031;
-                func_8010B720(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
                 this->unk_1E2++;
             }
             break;
         case 7:
-            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 this->actor.textId = 0x7030;
-                func_8010B720(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
                 this->unk_1E2++;
             }
             break;
         case 8:
-            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 if (msgCtx->choiceIndex == 0) {
                     animHeaderSeg = &gChildZelda1Anim_138E0;
                     sp3C = 2;
                     this->unk_1E2 = 3;
                 } else {
                     this->actor.textId = 0x7031;
-                    func_8010B720(globalCtx, this->actor.textId);
+                    Message_ContinueTextbox(globalCtx, this->actor.textId);
                     this->unk_1E2--;
                 }
             }
@@ -426,7 +424,7 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 1);
     func_8002F7DC(&player->actor, NA_SE_VO_LI_SURPRISE_KID);
     this->actor.textId = 0x7039;
-    func_8010B680(globalCtx, this->actor.textId, NULL);
+    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     this->unk_1E2 = 0;
     this->actionFunc = func_80B4BF2C;
 }
@@ -496,25 +494,25 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
 
     switch (this->unk_1E2) {
         case 0:
-            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 if (msgCtx->choiceIndex == 0) {
                     this->actor.textId = 0x703B;
-                    func_8010B720(globalCtx, this->actor.textId);
+                    Message_ContinueTextbox(globalCtx, this->actor.textId);
                     this->unk_1E2++;
                 } else {
                     this->actor.textId = 0x703A;
-                    func_8010B720(globalCtx, this->actor.textId);
+                    Message_ContinueTextbox(globalCtx, this->actor.textId);
                     this->unk_1E2 = 0;
                 }
             }
             break;
         case 1:
-            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 this->actor.textId = 0xFFFF;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
-                globalCtx->msgCtx.msgMode = 0x36;
-                globalCtx->msgCtx.unk_E3E7 = 4;
+                globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
+                globalCtx->msgCtx.stateTimer = 4;
                 this->unk_1E2++;
             } else {
                 break;
@@ -531,9 +529,9 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            if ((func_8010BDBC(msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+            if ((Message_GetState(msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
                 this->actor.textId = 0x703C;
-                func_8010B720(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
                 Flags_SetEventChkInf(0x40);
                 this->unk_1E2 = 6;
             }
@@ -542,7 +540,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             if (player->actor.world.pos.y < this->actor.world.pos.y) {
                 break;
             } else {
-                if (func_8002F194(&this->actor, globalCtx)) {
+                if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
                     this->unk_1E2++;
                 } else {
                     func_8002F2F4(&this->actor, globalCtx);
@@ -550,15 +548,15 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            if (func_8002F334(&this->actor, globalCtx)) {
+            if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
                 this->unk_1E2--;
             }
             break;
         case 6:
-            if (func_8002F334(&this->actor, globalCtx)) {
+            if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Interface_ChangeAlpha(50);
-                this->actor.flags &= ~0x100;
+                this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_1E2 = 4;
             }
             break;
@@ -568,7 +566,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
 
 void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     if ((this->actionFunc != func_80B4B8B4) && (this->actionFunc != func_80B4BC78)) {
         SkelAnime_Update(&this->skelAnime);
@@ -586,7 +584,7 @@ void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnZl1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     if ((limbIndex == 4) || (limbIndex == 3) || (limbIndex == 6) || (limbIndex == 5)) {
         *dList = NULL;
@@ -608,7 +606,7 @@ s32 EnZl1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnZl1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Vec3f vec = { 0.0f, 0.0f, 0.0f };
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     if (limbIndex == 17) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
@@ -616,7 +614,7 @@ void EnZl1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnZl1_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_girlB.c", 2011);
 

@@ -1,5 +1,7 @@
 <Root>
     <File Name="Bmori1_scene" Segment="2">
+        <Texture Name="gForestTempleDayEntranceTex" OutName="day_entrance" Format="ia16" Width="8" Height="128" Offset="0x14D90"/>
+        <Texture Name="gForestTempleNightEntranceTex" OutName="night_entrance" Format="ia16" Width="8" Height="128" Offset="0x14590"/>
         <Scene Name="Bmori1_scene" Offset="0x0"/>
     </File>
     <File Name="Bmori1_room_0" Segment="3">

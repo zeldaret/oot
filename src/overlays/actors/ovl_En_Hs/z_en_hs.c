@@ -8,9 +8,7 @@
 #include "vt.h"
 #include "objects/object_hs/object_hs.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnHs*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnHs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHs_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -57,7 +55,7 @@ void func_80A6E3A0(EnHs* this, EnHsActionFunc actionFunc) {
 }
 
 void EnHs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -95,7 +93,7 @@ void EnHs_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -103,7 +101,7 @@ void EnHs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80A6E53C(EnHs* this, GlobalContext* globalCtx, u16 textId, EnHsActionFunc actionFunc) {
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         func_80A6E3A0(this, actionFunc);
         return 1;
     }
@@ -119,7 +117,7 @@ s32 func_80A6E53C(EnHs* this, GlobalContext* globalCtx, u16 textId, EnHsActionFu
 }
 
 void func_80A6E5EC(EnHs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         func_80A6E3A0(this, func_80A6E6B0);
     }
 
@@ -127,7 +125,7 @@ void func_80A6E5EC(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E630(EnHs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         func_80088AA0(180);
         func_80A6E3A0(this, func_80A6E6B0);
         gSaveContext.eventInf[1] &= ~1;
@@ -141,13 +139,13 @@ void func_80A6E6B0(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E6D8(EnHs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         func_80A6E3A0(this, func_80A6E9AC);
     }
 }
 
 void func_80A6E70C(EnHs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         func_80A6E3A0(this, func_80A6E9AC);
     }
 }
@@ -164,14 +162,14 @@ void func_80A6E740(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 func_80A6E3A0(this, func_80A6E740);
                 func_8002F434(&this->actor, globalCtx, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
                 break;
             case 1:
-                func_8010B720(globalCtx, 0x10B4);
+                Message_ContinueTextbox(globalCtx, 0x10B4);
                 func_80A6E3A0(this, func_80A6E70C);
                 break;
         }
@@ -186,8 +184,8 @@ void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
 void func_80A6E8CC(EnHs* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, 0x10B3);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x10B3);
         func_80A6E3A0(this, func_80A6E7BC);
         Animation_Change(&this->skelAnime, &object_hs_Anim_000528, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_hs_Anim_000528), ANIMMODE_LOOP, 8.0f);
@@ -207,7 +205,7 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (func_8002F368(globalCtx) == 7) {
             player->actor.textId = 0x10B2;
             func_80A6E3A0(this, func_80A6E8CC);
@@ -229,7 +227,7 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void EnHs_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(thisx, &this->collider);
@@ -254,7 +252,7 @@ void EnHs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
 
     switch (limbIndex) {
         case 9:
@@ -285,7 +283,7 @@ s32 EnHs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnHs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A6EDFC = { 300.0f, 1000.0f, 0.0f };
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
 
     if (limbIndex == 9) {
         Matrix_MultVec3f(&D_80A6EDFC, &this->actor.focus.pos);
@@ -293,7 +291,7 @@ void EnHs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnHs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs* this = THIS;
+    EnHs* this = (EnHs*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

@@ -8,9 +8,7 @@
 #include "objects/object_shopnuts/object_shopnuts.h"
 #include "vt.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnDns*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -135,7 +133,7 @@ static DnsAnimInfo sAnimInfo[] = {
 };
 
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDns* this = THIS;
+    EnDns* this = (EnDns*)thisx;
 
     if (this->actor.params < 0) {
         // "Function Error (Deku Salesman)"
@@ -155,7 +153,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
                        this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 35.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     this->actor.textId = D_809F040C[this->actor.params];
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -170,7 +168,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDns* this = THIS;
+    EnDns* this = (EnDns*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -324,13 +322,13 @@ void EnDns_SetupWait(EnDns* this, GlobalContext* globalCtx) {
 void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 2000, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnDns_Talk;
     } else {
         if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
-            this->actor.flags |= 0x10000;
+            this->actor.flags |= ACTOR_FLAG_16;
         } else {
-            this->actor.flags &= ~0x10000;
+            this->actor.flags &= ~ACTOR_FLAG_16;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
             func_8002F2F4(&this->actor, globalCtx);
@@ -339,31 +337,31 @@ void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_Talk(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // OK
                 switch (this->dnsItemEntry->purchaseableCheck(this)) {
                     case 0:
-                        func_8010B720(globalCtx, 0x10A5);
+                        Message_ContinueTextbox(globalCtx, 0x10A5);
                         this->actionFunc = func_809F008C;
                         break;
                     case 1:
-                        func_8010B720(globalCtx, 0x10A6);
+                        Message_ContinueTextbox(globalCtx, 0x10A6);
                         this->actionFunc = func_809F008C;
                         break;
                     case 3:
-                        func_8010B720(globalCtx, 0x10DE);
+                        Message_ContinueTextbox(globalCtx, 0x10DE);
                         this->actionFunc = func_809F008C;
                         break;
                     case 2:
                     case 4:
-                        func_8010B720(globalCtx, 0x10A7);
+                        Message_ContinueTextbox(globalCtx, 0x10A7);
                         this->actionFunc = func_809EFEE8;
                         break;
                 }
                 break;
             case 1: // No way
-                func_8010B720(globalCtx, 0x10A4);
+                Message_ContinueTextbox(globalCtx, 0x10A4);
                 this->actionFunc = func_809F008C;
         }
     }
@@ -388,8 +386,8 @@ void func_809EFDD0(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809EFEE8(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         func_809EFDD0(this, globalCtx);
         this->actionFunc = func_809EFF50;
     }
@@ -408,11 +406,11 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags1 & 0x400) {
-        if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
             this->dnsItemEntry->setRupeesAndFlags(this);
             this->dropCollectible = 1;
             this->maintainCollider = 0;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             EnDns_Change(this, 1);
             this->actionFunc = EnDns_SetupBurrow;
         }
@@ -420,16 +418,16 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
         this->dnsItemEntry->setRupeesAndFlags(this);
         this->dropCollectible = 1;
         this->maintainCollider = 0;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_Change(this, 1);
         this->actionFunc = EnDns_SetupBurrow;
     }
 }
 
 void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->maintainCollider = 0;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_Change(this, 1);
         this->actionFunc = EnDns_SetupBurrow;
     }
@@ -474,7 +472,7 @@ void EnDns_Burrow(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDns* this = THIS;
+    EnDns* this = (EnDns*)thisx;
     s16 pad;
 
     this->dustTimer++;
@@ -494,7 +492,7 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDns* this = THIS;
+    EnDns* this = (EnDns*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

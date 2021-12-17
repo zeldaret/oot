@@ -8,9 +8,7 @@
 #include "objects/object_jya_iron/object_jya_iron.h"
 #include "overlays/actors/ovl_En_Ik/z_en_ik.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgJyaIronobj*)thisx)
+#define FLAGS 0
 
 typedef void (*BgJyaIronobjIkFunc)(BgJyaIronobj*, GlobalContext*, EnIk*);
 
@@ -133,6 +131,7 @@ void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, GlobalContext* global
     coss = Math_CosS(rotY);
     for (j = 0; j < 32; j++) {
         f32 rand = Rand_ZeroOne();
+
         if (rand < 0.1f) {
             unkArg5 = 0x60;
         } else if (rand < 0.8f) {
@@ -191,6 +190,7 @@ void BgJyaIronobj_SpawnThoneParticles(BgJyaIronobj* this, GlobalContext* arg1, E
 
     for (j = 0; j < 32; j++) {
         f32 rand = Rand_ZeroOne();
+
         if (rand < 0.1f) {
             unkArg5 = 0x60;
         } else if (rand < 0.8f) {
@@ -214,7 +214,7 @@ void BgJyaIronobj_SpawnThoneParticles(BgJyaIronobj* this, GlobalContext* arg1, E
 }
 
 void BgJyaIronobj_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaIronobj* this = THIS;
+    BgJyaIronobj* this = (BgJyaIronobj*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -227,7 +227,7 @@ void BgJyaIronobj_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaIronobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaIronobj* this = THIS;
+    BgJyaIronobj* this = (BgJyaIronobj*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->colCylinder);
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -265,7 +265,7 @@ void func_808992E8(BgJyaIronobj* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaIronobj_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaIronobj* this = THIS;
+    BgJyaIronobj* this = (BgJyaIronobj*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

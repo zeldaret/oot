@@ -1,9 +1,7 @@
 #include "z_efc_erupc.h"
 #include "objects/object_efc_erupc/object_efc_erupc.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EfcErupc*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EfcErupc_Init(Actor* thisx, GlobalContext* globalCtx);
 void EfcErupc_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ void EfcErupc_SetupAction(EfcErupc* this, EfcErupcActionFunc actionFunc) {
 }
 
 void EfcErupc_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EfcErupc* this = THIS;
+    EfcErupc* this = (EfcErupc*)thisx;
 
     EfcErupc_SetupAction(this, EfcErupc_UpdateAction);
     Actor_SetScale(&this->actor, 1.0f);
@@ -106,14 +104,14 @@ void EfcErupc_UpdateAction(EfcErupc* this, GlobalContext* globalCtx) {
 }
 
 void EfcErupc_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EfcErupc* this = THIS;
+    EfcErupc* this = (EfcErupc*)thisx;
 
     this->actionFunc(this, globalCtx);
     EfcErupc_UpdateParticles(this, globalCtx);
 }
 
 void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EfcErupc* this = THIS;
+    EfcErupc* this = (EfcErupc*)thisx;
     u16 csAction;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_efc_erupc.c", 282);
@@ -176,7 +174,7 @@ void EfcErupc_DrawParticles(EfcErupcParticles* particles, GlobalContext* globalC
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 0, 0);
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(particles->pos.x, particles->pos.y, particles->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(particles->scale, particles->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_efc_erupc.c", 393),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

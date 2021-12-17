@@ -65,5 +65,6 @@ u16 sReactionTextIds[][PLAYER_MASK_MAX] = {
 
 u16 Text_GetFaceReaction(GlobalContext* globalCtx, u32 reactionSet) {
     u8 currentMask = Player_GetMask(globalCtx);
+
     return sReactionTextIds[reactionSet][currentMask];
 }

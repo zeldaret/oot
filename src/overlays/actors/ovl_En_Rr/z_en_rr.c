@@ -8,9 +8,7 @@
 #include "objects/object_rr/object_rr.h"
 #include "vt.h"
 
-#define FLAGS 0x00000435
-
-#define THIS ((EnRr*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
 
 #define RR_MESSAGE_SHIELD (1 << 0)
 #define RR_MESSAGE_TUNIC (1 << 1)
@@ -164,7 +162,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnRr* this = THIS;
+    EnRr* this = (EnRr*)thisx;
     s32 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -201,7 +199,7 @@ void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnRr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnRr* this = THIS;
+    EnRr* this = (EnRr*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider1);
     Collider_DestroyCylinder(globalCtx, &this->collider2);
@@ -254,7 +252,7 @@ void EnRr_SetupGrabPlayer(EnRr* this, Player* player) {
     s32 i;
 
     this->grabTimer = 100;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->ocTimer = 8;
     this->hasPlayer = true;
     this->reachState = 0;
@@ -289,7 +287,7 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     u8 shield;
     u8 tunic;
 
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->hasPlayer = false;
     this->ocTimer = 110;
     this->segMoveRate = 0.0f;
@@ -314,13 +312,13 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     player->actor.parent = NULL;
     switch (EnRr_GetMessage(shield, tunic)) {
         case RR_MESSAGE_SHIELD:
-            func_8010B680(globalCtx, 0x305F, NULL);
+            Message_StartTextbox(globalCtx, 0x305F, NULL);
             break;
         case RR_MESSAGE_TUNIC:
-            func_8010B680(globalCtx, 0x3060, NULL);
+            Message_StartTextbox(globalCtx, 0x3060, NULL);
             break;
         case RR_MESSAGE_TUNIC | RR_MESSAGE_SHIELD:
-            func_8010B680(globalCtx, 0x3061, NULL);
+            Message_StartTextbox(globalCtx, 0x3061, NULL);
             break;
     }
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d] : Rr_Catch_Cancel" VT_RST "\n", "../z_en_rr.c", 650);
@@ -381,7 +379,7 @@ void EnRr_SetupDeath(EnRr* this) {
     }
     this->actionFunc = EnRr_Death;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_DEAD);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void EnRr_SetupStunned(EnRr* this) {
@@ -758,7 +756,7 @@ void EnRr_Stunned(EnRr* this, GlobalContext* globalCtx) {
 
 void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnRr* this = THIS;
+    EnRr* this = (EnRr*)thisx;
     s32 i;
 
     this->frameCount++;
@@ -842,7 +840,7 @@ static Vec3f sEffectOffsets[] = {
 void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f zeroVec;
-    EnRr* this = THIS;
+    EnRr* this = (EnRr*)thisx;
     s32 i;
     Mtx* segMtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
 
@@ -868,7 +866,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     for (i = 1; i < 5; i++) {
         Matrix_Translate(0.0f, this->bodySegs[i].height + 1000.0f, 0.0f, MTXMODE_APPLY);
 
-        Matrix_RotateRPY(this->bodySegs[i].rot.x, this->bodySegs[i].rot.y, this->bodySegs[i].rot.z, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->bodySegs[i].rot.x, this->bodySegs[i].rot.y, this->bodySegs[i].rot.z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Scale((1.0f + this->bodySegs[i].scaleMod.x) * this->bodySegs[i].scale.x,
                      (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,

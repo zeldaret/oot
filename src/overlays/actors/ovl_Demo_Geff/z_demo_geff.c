@@ -8,9 +8,7 @@
 #include "objects/object_geff/object_geff.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((DemoGeff*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGeff* this = THIS;
+    DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->actor.params < 0 || this->actor.params >= 9) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" VT_RST);
@@ -157,6 +155,7 @@ void func_809781FC(DemoGeff* this, GlobalContext* globalCtx) {
 void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
     DemoGt* demoGt = this->demoGt;
     s16 params = this->actor.params;
+
     if (demoGt != NULL && (params != 6) && (params != 7) && (params != 8)) {
         this->actor.world.pos.x = demoGt->dyna.actor.world.pos.x + this->deltaPosX;
         this->actor.world.pos.y = demoGt->dyna.actor.world.pos.y + this->deltaPosY;
@@ -205,7 +204,7 @@ void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
 void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGeff* this = THIS;
+    DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->action < 0 || this->action >= 2 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -218,7 +217,7 @@ void func_809784D4(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
 void DemoGeff_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGeff* this = THIS;
+    DemoGeff* this = (DemoGeff*)thisx;
     s32 drawConfig = this->drawConfig;
 
     if (drawConfig < 0 || drawConfig >= 2 || sDrawFuncs[drawConfig] == NULL) {

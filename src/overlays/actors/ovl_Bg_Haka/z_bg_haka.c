@@ -7,9 +7,7 @@
 #include "z_bg_haka.h"
 #include "objects/object_haka/object_haka.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHaka*)thisx)
+#define FLAGS 0
 
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHaka* this = THIS;
+    BgHaka* this = (BgHaka*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -52,7 +50,7 @@ void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHaka* this = THIS;
+    BgHaka* this = (BgHaka*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -74,7 +72,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~0x10;
             if (!Gameplay_InCsMode(globalCtx)) {
-                func_8010B680(globalCtx, 0x5073, NULL);
+                Message_StartTextbox(globalCtx, 0x5073, NULL);
                 this->dyna.actor.params = 100;
                 this->actionFunc = func_8087BAE4;
             }
@@ -143,7 +141,7 @@ void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx) {
 }
 
 void BgHaka_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHaka* this = THIS;
+    BgHaka* this = (BgHaka*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

@@ -7,9 +7,7 @@
 #include "z_en_tr.h"
 #include "objects/object_tr/object_tr.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnTr*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnTr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -40,28 +38,28 @@ const ActorInit En_Tr_InitVars = {
 // The first elements of these animation arrays are for Koume, the second for Kotake
 
 static AnimationHeader* unused[] = {
-    0x06003FC8,
-    0x06001CDC,
+    &object_tr_Anim_003FC8,
+    &object_tr_Anim_001CDC,
 };
 
 static AnimationHeader* D_80B24368[] = {
-    0x06002BC4, // Turn to look over right shoulder
-    0x06000BFC, // Turn to look over right shoulder
+    &object_tr_Anim_002BC4,
+    &object_tr_Anim_000BFC,
 };
 
 static AnimationHeader* D_80B24370[] = {
-    0x060035CC, // Looking over left shoulder
-    0x060013CC, // Looking over right shoulder
+    &object_tr_Anim_0035CC,
+    &object_tr_Anim_0013CC,
 };
 
 static AnimationHeader* D_80B24378[] = {
-    0x060049C8, // Floating on broom
-    0x060049C8, // Floating on broom
+    &object_tr_Anim_0049C8,
+    &object_tr_Anim_0049C8,
 };
 
 static AnimationHeader* D_80B24380[] = {
-    0x06012E1C, // Casting magic
-    0x06012E1C, // Casting magic
+    &object_tr_Anim_012E1C,
+    &object_tr_Anim_012E1C,
 };
 
 static f32 D_80B24388[] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
@@ -77,9 +75,9 @@ static Color_RGBA8 D_80B243C0[4] = {
 };
 
 static void* sEyeTextures[] = {
-    0x060086D8, // Open
-    0x060094D8, // Half
-    0x060098D8, // Closed
+    object_tr_Tex_0086D8,
+    object_tr_Tex_0094D8,
+    object_tr_Tex_0098D8,
 };
 
 void EnTr_SetupAction(EnTr* this, EnTrActionFunc actionFunc) {
@@ -87,7 +85,7 @@ void EnTr_SetupAction(EnTr* this, EnTrActionFunc actionFunc) {
 }
 
 void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnTr_SetupAction(this, EnTr_DoNothing);
@@ -375,7 +373,7 @@ void EnTr_ChooseAction1(EnTr* this, GlobalContext* globalCtx) {
 
 void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
     this->actionFunc(this, globalCtx);
@@ -415,7 +413,7 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     Vec3f src = { 2300.0f, 0.0f, -600.0f };
     Vec3f dest = { 0.0f, 0.0f, 0.0f };
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
     Actor* child = this->actor.child;
 
     if ((child != NULL) && (limbIndex == 19)) {
@@ -429,7 +427,7 @@ s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
 
     if (1) {}
 

@@ -6,9 +6,7 @@
 
 #include "z_en_sda.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnSda*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnSda_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSda_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -86,31 +84,7 @@ static Vec3f D_80AFA288[] = {
 
 static u32 D_80AFA390[] = { 0, 0 };
 
-static Vtx D_80AFA398[] = {
-    VTX(-100, 0, -100, 0, 2048, 255, 255, 255, 255),
-    VTX(100, 0, -100, 2048, 2048, 255, 255, 255, 255),
-    VTX(100, 0, 100, 2048, 0, 255, 255, 255, 255),
-    VTX(-100, 0, 100, 0, 0, 255, 255, 255, 255),
-};
-
-static Gfx D_80AFA3D8[] = {
-    gsDPPipeSync(),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsSPEndDisplayList(),
-};
-
-static Gfx D_80AFA3F8[] = {
-    gsDPSetCombineLERP(PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
-                       COMBINED),
-    gsDPSetRenderMode(AA_EN | Z_CMP | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_DEC | FORCE_BL |
-                          GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1),
-                      G_RM_AA_ZB_XLU_DECAL2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPVertex(&D_80AFA398, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_Sda/ovl_En_Sda.c"
 
 static Vec3f D_80AFA660[16];
 
@@ -122,7 +96,7 @@ void EnSda_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSda* this = THIS;
+    EnSda* this = (EnSda*)thisx;
     Player* player;
 
     osSyncPrintf("SDA MOVE\n");
@@ -139,7 +113,7 @@ void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSda_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSda* this = THIS;
+    EnSda* this = (EnSda*)thisx;
     Player* player;
     u8* shadowTexture = Graph_Alloc(globalCtx->state.gfxCtx, 0x1000);
 

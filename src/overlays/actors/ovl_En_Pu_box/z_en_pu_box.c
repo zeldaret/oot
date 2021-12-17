@@ -7,9 +7,7 @@
 #include "z_en_pu_box.h"
 #include "objects/object_pu_box/object_pu_box.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnPubox*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -30,7 +28,7 @@ const ActorInit En_Pu_box_InitVars = {
 
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
-    EnPubox* this = THIS;
+    EnPubox* this = (EnPubox*)thisx;
 
     switch (thisx->params) {
         case 0:
@@ -62,13 +60,13 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnPubox* this = THIS;
+    EnPubox* this = (EnPubox*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnPubox* this = THIS;
+    EnPubox* this = (EnPubox*)thisx;
 
     thisx->speedXZ += this->dyna.unk_150;
     thisx->world.rot.y = this->dyna.unk_158;

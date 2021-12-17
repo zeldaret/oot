@@ -8,9 +8,7 @@
 #include "objects/object_mm/object_mm.h"
 #include "objects/object_link_child/object_link_child.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnMm*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 typedef enum {
     /* 0 */ RM_ANIM_RUN,
@@ -168,7 +166,7 @@ void EnMm_ChangeAnimation(EnMm* this, s32 newAnimIndex, s32* curAnimIndex) {
 
 void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 21.0f);
@@ -205,7 +203,7 @@ void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnMm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -225,14 +223,14 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 sp1C = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CLOSING:
+        case TEXT_STATE_DONE_FADING:
             break;
-        case 4:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     player->actor.textId = 0x202D;
                     this->unk_254 &= ~1;
@@ -244,8 +242,8 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                 sp1C = 2;
             }
             break;
-        case 5:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 Player_UnsetMask(globalCtx);
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
                 gSaveContext.itemGetInf[3] |= 0x800;
@@ -254,8 +252,8 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                 sp1C = 2;
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 if ((player->actor.textId == 0x202E) || (player->actor.textId == 0x202C)) {
                     this->unk_254 |= 1;
                     EnMm_ChangeAnimation(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
@@ -294,12 +292,12 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
     s16 sp24;
 
     if (this->unk_1E0 == 2) {
-        func_8010B720(globalCtx, player->actor.textId);
+        Message_ContinueTextbox(globalCtx, player->actor.textId);
         this->unk_1E0 = 1;
     } else if (this->unk_1E0 == 1) {
         this->unk_1E0 = func_80AADAA0(this, globalCtx);
     } else {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
             this->unk_1E0 = 1;
 
             if (this->curAnimIndex != 5) {
@@ -309,7 +307,7 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+            Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
             if ((sp26 >= 0) && (sp26 <= 0x140) && (sp24 >= 0) && (sp24 <= 0xF0) && (yawDiff <= 17152.0f) &&
@@ -512,7 +510,7 @@ void func_80AAE598(EnMm* this, GlobalContext* globalCtx) {
 
 void EnMm_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     this->actionFunc(this, globalCtx);
     func_80AADCD0(this, globalCtx);
@@ -523,7 +521,7 @@ void EnMm_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     if (0) {}
 
@@ -574,7 +572,7 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnMm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     if (this->unk_254 & 1) {
         switch (limbIndex) {
@@ -596,7 +594,7 @@ s32 EnMm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnMm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f headOffset = { 200.0f, 800.0f, 0.0f };
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&headOffset, &this->actor.focus.pos);

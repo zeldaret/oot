@@ -4,18 +4,18 @@
         <Skeleton Name="gCarpetMerchantSkel" Type="Flex" LimbType="Standard" Offset="0x5EA0"/>
 
         <!-- Carpet Merchant Limbs -->
-        <Limb Name="gCarpetMerchantRootLimb" Type="Standard" Offset="0x5DE0"/>
-        <Limb Name="gCarpetMerchantTopRootLimb" Type="Standard" Offset="0x5DEC"/>
-        <Limb Name="gCarpetMerchantLowerHairLimb" Type="Standard" Offset="0x5DF8"/>
-        <Limb Name="gCarpetMerchantUpperHairLimb" Type="Standard" Offset="0x5E04"/>
-        <Limb Name="gCarpetMerchantTorsoLimb" Type="Standard" Offset="0x5E10"/>
-        <Limb Name="gCarpetMerchantUpperArmLeftLimb" Type="Standard" Offset="0x5E1C"/>
-        <Limb Name="gCarpetMerchantForearmLeftLimb" Type="Standard" Offset="0x5E28"/>
-        <Limb Name="gCarpetMerchantLeftHandLimb" Type="Standard" Offset="0x5E34"/>
-        <Limb Name="gCarpetMerchantUpperArmRightLimb" Type="Standard" Offset="0x5E40"/>
-        <Limb Name="gCarpetMerchantForearmRightLimb" Type="Standard" Offset="0x5E4C"/>
-        <Limb Name="gCarpetMerchantRightHandLimb" Type="Standard" Offset="0x5E58"/>
-        <Limb Name="gCarpetMerchantHeadLimb" Type="Standard" Offset="0x5E64"/>
+        <Limb Name="gCarpetMerchantRootLimb" LimbType="Standard" Offset="0x5DE0"/>
+        <Limb Name="gCarpetMerchantTopRootLimb" LimbType="Standard" Offset="0x5DEC"/>
+        <Limb Name="gCarpetMerchantLowerHairLimb" LimbType="Standard" Offset="0x5DF8"/>
+        <Limb Name="gCarpetMerchantUpperHairLimb" LimbType="Standard" Offset="0x5E04"/>
+        <Limb Name="gCarpetMerchantTorsoLimb" LimbType="Standard" Offset="0x5E10"/>
+        <Limb Name="gCarpetMerchantUpperArmLeftLimb" LimbType="Standard" Offset="0x5E1C"/>
+        <Limb Name="gCarpetMerchantForearmLeftLimb" LimbType="Standard" Offset="0x5E28"/>
+        <Limb Name="gCarpetMerchantLeftHandLimb" LimbType="Standard" Offset="0x5E34"/>
+        <Limb Name="gCarpetMerchantUpperArmRightLimb" LimbType="Standard" Offset="0x5E40"/>
+        <Limb Name="gCarpetMerchantForearmRightLimb" LimbType="Standard" Offset="0x5E4C"/>
+        <Limb Name="gCarpetMerchantRightHandLimb" LimbType="Standard" Offset="0x5E58"/>
+        <Limb Name="gCarpetMerchantHeadLimb" LimbType="Standard" Offset="0x5E64"/>
 
         <!-- Carpet Merchant Limb DisplayLists -->
         <DList Name="gCarpetMerchantBlanketAndLowerBodyDL" Offset="0x3440"/>
