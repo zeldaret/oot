@@ -32,7 +32,7 @@
         <Texture Name="gHumanEyeLookUpOpen2Tex" OutName="eye_look_up_open_2" Format="ci8" Width="32" Height="32" Offset="0x4600" TlutOffset="0x7A00"/>
         <Texture Name="gHumanEyeLookDownOpen2Tex" OutName="eye_look_down_open_2" Format="ci8" Width="32" Height="32" Offset="0x4A00" TlutOffset="0x7A00"/>
 
-        <!-- Those are exaclty the same as above eyebrow textures -->
+        <!-- Those are exactly the same as above eyebrow textures -->
         <Texture Name="gHumanEyebrowNormal2Tex" OutName="eyebrow_normal_2" Format="ci8" Width="32" Height="16" Offset="0x4E00" TlutOffset="0x7A00"/>
         <Texture Name="gHumanEyebrowSurprised2Tex" OutName="eyebrow_surprised_2" Format="ci8" Width="32" Height="16" Offset="0x5000" TlutOffset="0x7A00"/>
         <Texture Name="gHumanEyebrowSad2Tex" OutName="eyebrow_sad_2" Format="ci8" Width="32" Height="16" Offset="0x5200" TlutOffset="0x7A00"/>
