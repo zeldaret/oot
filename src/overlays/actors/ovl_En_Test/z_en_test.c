@@ -7,9 +7,7 @@
 #include "z_en_test.h"
 #include "objects/object_sk2/object_sk2.h"
 
-#define FLAGS 0x00000015
-
-#define THIS ((EnTest*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnTest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -255,7 +253,7 @@ void EnTest_SetupAction(EnTest* this, EnTestActionFunc actionFunc) {
 
 void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EffectBlureInit1 slashBlure;
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -306,12 +304,12 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params == STALFOS_TYPE_INVISIBLE) {
-        this->actor.flags |= 0x80;
+        this->actor.flags |= ACTOR_FLAG_7;
     }
 }
 
 void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
 
     if ((this->actor.params != STALFOS_TYPE_2) &&
         !Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f)) {
@@ -429,7 +427,7 @@ void EnTest_SetupWaitGround(EnTest* this) {
     this->timer = 15;
     this->actor.scale.y = 0.0f;
     this->actor.world.pos.y = this->actor.home.pos.y - 3.5f;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     EnTest_SetupAction(this, EnTest_WaitGround);
 }
 
@@ -443,7 +441,7 @@ void EnTest_WaitGround(EnTest* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
 
         if (this->actor.params != STALFOS_TYPE_2) {
-            func_800F5ACC(0x38);
+            func_800F5ACC(NA_BGM_MINI_BOSS);
         }
     } else {
         if (this->timer != 0) {
@@ -459,7 +457,7 @@ void EnTest_SetupWaitAbove(EnTest* this) {
     this->unk_7C8 = 0;
     this->actor.world.pos.y = this->actor.home.pos.y + 150.0f;
     Actor_SetScale(&this->actor, 0.0f);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     EnTest_SetupAction(this, EnTest_WaitAbove);
 }
 
@@ -469,7 +467,7 @@ void EnTest_WaitAbove(EnTest* this, GlobalContext* globalCtx) {
 
     if ((this->actor.xzDistToPlayer < 200.0f) && (ABS(this->actor.yDistToPlayer) < 450.0f)) {
         EnTest_SetupAction(this, EnTest_Fall);
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         Actor_SetScale(&this->actor, 0.015f);
     }
@@ -573,9 +571,8 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
     s32 temp_f16;
     f32 playSpeed;
     Player* player = GET_PLAYER(globalCtx);
-    f32 absPlaySpeed;
+    s32 absPlaySpeed;
     s16 yawDiff;
-    s32 temp_v0_2;
 
     if (!EnTest_ReactToProjectile(globalCtx, this)) {
         this->timer++;
@@ -643,10 +640,10 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
         SkelAnime_Update(&this->skelAnime);
 
         temp_f16 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        absPlaySpeed = ABS(this->skelAnime.playSpeed);
+        absPlaySpeed = (f32)ABS(this->skelAnime.playSpeed);
 
         if ((s32)this->skelAnime.curFrame != prevFrame) {
-            temp_v0_2 = (s32)absPlaySpeed + prevFrame;
+            s32 temp_v0_2 = absPlaySpeed + prevFrame;
 
             if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
@@ -724,7 +721,7 @@ void func_80860C24(EnTest* this, GlobalContext* globalCtx) {
     s32 prevFrame;
     s32 temp1;
     s32 temp2;
-    f32 absPlaySpeed;
+    s32 absPlaySpeed;
 
     if (!EnTest_ReactToProjectile(globalCtx, this)) {
         yawDiff = this->actor.yawTowardsPlayer;
@@ -751,16 +748,12 @@ void func_80860C24(EnTest* this, GlobalContext* globalCtx) {
         }
 
         prevFrame = this->skelAnime.curFrame;
-
         SkelAnime_Update(&this->skelAnime);
-
         temp1 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        absPlaySpeed = ABS(this->skelAnime.playSpeed);
-
-        if (1) {}
+        absPlaySpeed = (f32)ABS(this->skelAnime.playSpeed);
 
         if ((s32)this->skelAnime.curFrame != prevFrame) {
-            temp2 = (s32)absPlaySpeed + prevFrame;
+            temp2 = absPlaySpeed + prevFrame;
 
             if (((temp2 > 2) && (temp1 <= 0)) || ((temp1 < 7) && (temp2 >= 9))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
@@ -802,8 +795,7 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     f32 checkDist = 0.0f;
     s16 newYaw;
-    f32 absPlaySpeed;
-    s32 temp_v0_2;
+    s32 absPlaySpeed;
 
     if (!EnTest_ReactToProjectile(globalCtx, this)) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
@@ -869,14 +861,14 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
         }
 
         this->skelAnime.playSpeed = this->actor.speedXZ * 0.5f;
+
         prevFrame = this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-
         temp_f16 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        absPlaySpeed = ABS(this->skelAnime.playSpeed);
+        absPlaySpeed = (f32)ABS(this->skelAnime.playSpeed);
 
         if ((s32)this->skelAnime.curFrame != prevFrame) {
-            temp_v0_2 = (s32)absPlaySpeed + prevFrame;
+            s32 temp_v0_2 = absPlaySpeed + prevFrame;
 
             if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
@@ -900,7 +892,7 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
 
 void EnTest_SetupSlashDown(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosDownSlashAnim);
-    func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
+    Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x10;
     this->actor.speedXZ = 0.0f;
@@ -1073,7 +1065,7 @@ void EnTest_JumpBack(EnTest* this, GlobalContext* globalCtx) {
                     this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
                 }
             }
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
         }
     } else if (this->skelAnime.curFrame == (this->skelAnime.endFrame - 4.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
@@ -1082,7 +1074,7 @@ void EnTest_JumpBack(EnTest* this, GlobalContext* globalCtx) {
 
 void EnTest_SetupJumpslash(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosJumpAnim);
-    func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
+    Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->timer = 0;
     this->unk_7C8 = 0x17;
     this->actor.velocity.y = 10.0f;
@@ -1374,7 +1366,6 @@ void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
     f32 checkDist = 0.0f;
     s16 newYaw;
     f32 absPlaySpeed;
-    s32 temp_v0_2;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
 
@@ -1453,7 +1444,7 @@ void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
     }
     if ((s32)this->skelAnime.curFrame != prevFrame) {
-        temp_v0_2 = (s32)absPlaySpeed + prevFrame;
+        s32 temp_v0_2 = (s32)absPlaySpeed + prevFrame;
 
         if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
@@ -1493,7 +1484,7 @@ void func_80862DBC(EnTest* this, GlobalContext* globalCtx) {
         this->swordState = -1;
     }
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 
     if (this->actor.params == STALFOS_TYPE_5) {
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
@@ -1522,7 +1513,7 @@ void func_80862E6C(EnTest* this, GlobalContext* globalCtx) {
             }
 
             this->actor.child = NULL;
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             EnTest_SetupJumpBack(this);
         } else if ((this->actor.params == STALFOS_TYPE_5) &&
                    !Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f)) {
@@ -1541,7 +1532,7 @@ void func_80862FA8(EnTest* this, GlobalContext* globalCtx) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFallOverBackwardsAnim);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7DE = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colorFilterTimer = 0;
     this->actor.speedXZ = 0.0f;
 
@@ -1575,7 +1566,7 @@ void func_808630F0(EnTest* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
 
     if (this->actor.params <= STALFOS_TYPE_CEILING) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         EnTest_SetupAction(this, func_8086318C);
     } else {
         func_80862DBC(this, globalCtx);
@@ -1676,7 +1667,7 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
             this->unk_7DC = player->unk_845;
             this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, false);
-            func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
+            Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
             if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||
                 (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_FREEZE) ||
@@ -1705,7 +1696,7 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
     f32 oldWeight;
     u32 floorProperty;
     s32 pad;
@@ -1813,17 +1804,17 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actor.params == STALFOS_TYPE_INVISIBLE) {
         if (globalCtx->actorCtx.unk_03 != 0) {
-            this->actor.flags |= 0x81;
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_7;
             this->actor.shape.shadowDraw = ActorShadow_DrawFeet;
         } else {
-            this->actor.flags &= ~0x81;
+            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_7);
             this->actor.shape.shadowDraw = NULL;
         }
     }
 }
 
 s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
     s32 pad;
 
     if (limbIndex == STALFOS_LIMB_HEAD_ROOT) {
@@ -1840,7 +1831,7 @@ s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_test.c", 3587);
     }
 
-    if ((this->actor.params == STALFOS_TYPE_INVISIBLE) && ((this->actor.flags & 0x80) != 0x80)) {
+    if ((this->actor.params == STALFOS_TYPE_INVISIBLE) && !CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
         *dList = NULL;
     }
 
@@ -1865,7 +1856,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     s32 bodyPart = -1;
     Vec3f sp70;
     Vec3f sp64;
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
     s32 pad;
     Vec3f sp50;
 
@@ -1953,7 +1944,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 }
 
 void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnTest* this = THIS;
+    EnTest* this = (EnTest*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 1);

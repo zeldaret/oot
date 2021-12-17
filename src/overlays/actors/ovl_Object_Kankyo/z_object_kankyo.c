@@ -9,9 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_spot02_objects/object_spot02_objects.h"
 
-#define FLAGS 0x02000030
-
-#define THIS ((ObjectKankyo*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +65,7 @@ void ObjectKankyo_SetupAction(ObjectKankyo* this, ObjectKankyoActionFunc action)
 }
 
 void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjectKankyo* this = THIS;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
     s32 pad;
     s16 i;
 
@@ -452,13 +450,13 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, GlobalContext* globalCtx) {
 }
 
 void ObjectKankyo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjectKankyo* this = THIS;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void ObjectKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ObjectKankyo* this = THIS;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
 
     switch (this->actor.params) {
         case 0:
@@ -559,7 +557,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, GlobalContext* globalCtx2) {
                     break;
             }
 
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(globalCtx->state.frames * 20.0f), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 913), G_MTX_LOAD);
             gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteDL);
@@ -846,7 +844,7 @@ void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this2, GlobalContext* globalCt
                            (u8)(255 * this->effects[0].amplitude), 255 - (u8)(255 * this->effects[0].amplitude),
                            this->effects[0].alpha);
 
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 1416),
                       G_MTX_LOAD);
 

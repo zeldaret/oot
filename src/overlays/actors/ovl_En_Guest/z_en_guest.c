@@ -9,9 +9,7 @@
 #include "objects/object_boj/object_boj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnGuest*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -54,7 +52,7 @@ static InitChainEntry sInitChain[] = {
 extern FlexSkeletonHeader object_boj_Skel_0000F0;
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
 
     if (gSaveContext.infTable[7] & 0x40) {
         Actor_Kill(&this->actor);
@@ -71,17 +69,17 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     s32 pad;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex) != 0) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_boj_Skel_0000F0, NULL, this->jointTable,
@@ -130,7 +128,7 @@ void func_80A5046C(EnGuest* this) {
 }
 
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80A5057C;
     } else if (this->actor.xzDistToPlayer < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -138,15 +136,13 @@ void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
-        if (func_80106BC8(globalCtx) != 0) {
-            this->actionFunc = func_80A50518;
-        }
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
+        this->actionFunc = func_80A50518;
     }
 }
 
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     s32 pad;
     Player* player;
 
@@ -187,7 +183,7 @@ Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 
 s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     Vec3s sp3C;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
@@ -223,7 +219,7 @@ void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
         0x060006FC,
         0x060007FC,
     };
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 404);

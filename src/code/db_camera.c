@@ -3,71 +3,75 @@
 
 static GlobalContext* sGlobalCtx;
 
-char* D_8012CEE0[] = { "\x8Cｷ-ﾌﾚ-ﾑ\x8Dｶﾞ" };
-const char* D_8012CEE4 = "\x8Dﾀﾘﾏｾﾝ｡";
-const char* D_8012CEE8 = "\x8Dｻｲｾｲﾃﾞｷﾏｾﾝ";
-const char* D_8012CEEC = "\x8Dｻｲｾｲｼｭｳﾘｮｳ";
-const char* D_8012CEF0 = "\x8Dｻｲｾｲﾁｭｳ!";
+// TODO: cleanup these arrays and UB access
+char* D_8012CEE0[] = { GFXP_KATAKANA "ｷ-ﾌﾚ-ﾑ" GFXP_HIRAGANA "ｶﾞ" };
+char* D_8012CEE4 = GFXP_HIRAGANA "ﾀﾘﾏｾﾝ｡";
+char* D_8012CEE8 = GFXP_HIRAGANA "ｻｲｾｲﾃﾞｷﾏｾﾝ";
+char* D_8012CEEC = GFXP_HIRAGANA "ｻｲｾｲｼｭｳﾘｮｳ";
+char* D_8012CEF0 = GFXP_HIRAGANA "ｻｲｾｲﾁｭｳ!";
 
-const char* D_8012CEF4 = "DEMO CAMERA TOOL";
-const char* D_8012CEF8[] = { "\x8Dﾓｳﾊｲﾘﾏｾﾝ", "\x8Dﾄｳﾛｸ   ﾃﾝﾒ", "\x8Dﾍﾝｺｳ   /  " };
-const char* D_8012CF04 = ">            >";
-const char* D_8012CF08 = "<            <";
-const char* D_8012CF0C = "<          >";
-const char* D_8012CF10 = "\x8C*ﾌﾟﾚｲﾔ-*";
-const char* D_8012CF14 = "\x8C\Eﾓ-ﾄﾞ\x8D ｿｳﾀｲ";
-const char* D_8012CF18[] = { "\x8C\Eﾓ-ﾄﾞ\x8Dｾﾞｯﾀｲ", "\x8Dｶﾞﾒﾝ\x8C   ﾃﾞﾓ", "\x8Dｶﾞﾒﾝ   ﾌﾂｳ" };
-const char* D_8012CF24[] = { "\x8DPｼﾞｶﾝ  MAX", "\x8Cﾘﾝｸ\x8D    ｷｵｸ", "\x8Cﾘﾝｸ\x8D     ﾑｼ" };
-const char* D_8012CF30 = "\x8D*ﾐﾃﾙｲﾁ*";
-const char* D_8012CF34 = "\x8C*ｶﾒﾗ\x8Dｲﾁ*";
-const char* D_8012CF38 = "DEBUG CAMERA";
-const char* D_8012CF3C = "\x8Cｾﾝﾀ-/ﾛｯｸ";
-const char* D_8012CF40 = "\x8Cｾﾝﾀ-/ﾌﾘ-";
+char* D_8012CEF4 = "DEMO CAMERA TOOL";
+char* D_8012CEF8[] = { GFXP_HIRAGANA "ﾓｳﾊｲﾘﾏｾﾝ", GFXP_HIRAGANA "ﾄｳﾛｸ   ﾃﾝﾒ", GFXP_HIRAGANA "ﾍﾝｺｳ   /  " };
+char* D_8012CF04 = ">            >";
+char* D_8012CF08 = "<            <";
+char* D_8012CF0C = "<          >";
+char* D_8012CF10 = GFXP_KATAKANA "*ﾌﾟﾚｲﾔ-*";
+char* D_8012CF14 = GFXP_KATAKANA "Eﾓ-ﾄﾞ" GFXP_HIRAGANA " ｿｳﾀｲ";
+char* D_8012CF18[] = { GFXP_KATAKANA "Eﾓ-ﾄﾞ" GFXP_HIRAGANA "ｾﾞｯﾀｲ", GFXP_HIRAGANA "ｶﾞﾒﾝ" GFXP_KATAKANA "   ﾃﾞﾓ",
+                       GFXP_HIRAGANA "ｶﾞﾒﾝ   ﾌﾂｳ" };
+char* D_8012CF24[] = { GFXP_HIRAGANA "Pｼﾞｶﾝ  MAX", GFXP_KATAKANA "ﾘﾝｸ" GFXP_HIRAGANA "    ｷｵｸ",
+                       GFXP_KATAKANA "ﾘﾝｸ" GFXP_HIRAGANA "     ﾑｼ" };
+char* D_8012CF30 = GFXP_HIRAGANA "*ﾐﾃﾙｲﾁ*";
+char* D_8012CF34 = GFXP_KATAKANA "*ｶﾒﾗ" GFXP_HIRAGANA "ｲﾁ*";
+char* D_8012CF38 = "DEBUG CAMERA";
+char* D_8012CF3C = GFXP_KATAKANA "ｾﾝﾀ-/ﾛｯｸ";
+char* D_8012CF40 = GFXP_KATAKANA "ｾﾝﾀ-/ﾌﾘ-";
 
-const char* D_8012CF44 = "DEMO CONTROL";
-const char* D_8012CF48 = "\x8Cﾒﾓﾘ\x8Dｶﾞﾀﾘﾏｾﾝ";
-const char* D_8012CF4C = "p";
-const char* D_8012CF50[] = { "e", "s", "l", "c" };
+char* D_8012CF44 = "DEMO CONTROL";
+char* D_8012CF48 = GFXP_KATAKANA "ﾒﾓﾘ" GFXP_HIRAGANA "ｶﾞﾀﾘﾏｾﾝ";
+char* D_8012CF4C = "p";
+char* D_8012CF50[] = { "e", "s", "l", "c" };
 
-const char* D_8012CF60[] = { "\x8Cﾒﾓﾘﾊﾟｯｸ" }; // "Mempak"
-const char* D_8012CF64 = "\x8Cｾｰﾌﾞ";          // "Save"
-const char* D_8012CF68 = "\x8Cﾛｰﾄﾞ";          // "Load"
-const char* D_8012CF6C = "\x8Cｸﾘｱ-";          // "Clear"
-const char* D_8012CF70 = "\x8Dｦﾇｶﾅｲﾃﾞﾈ";
+char* D_8012CF60[] = { GFXP_KATAKANA "ﾒﾓﾘﾊﾟｯｸ" }; // "Mempak"
+char* D_8012CF64 = GFXP_KATAKANA "ｾｰﾌﾞ";          // "Save"
+char* D_8012CF68 = GFXP_KATAKANA "ﾛｰﾄﾞ";          // "Load"
+char* D_8012CF6C = GFXP_KATAKANA "ｸﾘｱ-";          // "Clear"
+char* D_8012CF70 = GFXP_HIRAGANA "ｦﾇｶﾅｲﾃﾞﾈ";
 
-const char* D_8012CF74 = "FREE      BYTE";
-const char* D_8012CF78 = "NEED      BYTE";
-const char* D_8012CF7C = "\x8C*ﾒﾓﾘ-ﾊﾟｯｸ*";
-const char* D_8012CF80 = "\x8Dｦﾐﾂｹﾗﾚﾏｾﾝ";
-char* D_8012CF84 = "\x8Cﾌｧｲﾙ \x8Dｦ";
-const char* D_8012CF88[] = { "\x8Dｼﾃﾓｲｲﾃﾞｽｶ?", "\x8Dｹﾞﾝｻﾞｲﾍﾝｼｭｳﾁｭｳﾉ", "\x8Cﾌｧｲﾙ\x8Dﾊﾊｷｻﾚﾏｽ" };
-const char* D_8012CF94 = "\x8Dﾊｲ";
-const char* D_8012CF98 = "\x8Dｲｲｴ";
-const char* D_8012CF9C[] = { "\x8Dｼﾃｲﾏｽ", "\x8Dｳﾜｶﾞｷ" };
-const char* D_8012CFA4 = "\x8Dｼﾏｼﾀ";
-const char* D_8012CFA8 = "USE       BYTE";
-const char* D_8012CFAC = "\x8Dﾆｼｯﾊﾟｲ";
+char* D_8012CF74 = "FREE      BYTE";
+char* D_8012CF78 = "NEED      BYTE";
+char* D_8012CF7C = GFXP_KATAKANA "*ﾒﾓﾘ-ﾊﾟｯｸ*";
+char* D_8012CF80 = GFXP_HIRAGANA "ｦﾐﾂｹﾗﾚﾏｾﾝ";
+char* D_8012CF84 = GFXP_KATAKANA "ﾌｧｲﾙ " GFXP_HIRAGANA "ｦ";
+char* D_8012CF88[] = { GFXP_HIRAGANA "ｼﾃﾓｲｲﾃﾞｽｶ?", GFXP_HIRAGANA "ｹﾞﾝｻﾞｲﾍﾝｼｭｳﾁｭｳﾉ",
+                       GFXP_KATAKANA "ﾌｧｲﾙ" GFXP_HIRAGANA "ﾊﾊｷｻﾚﾏｽ" };
+char* D_8012CF94 = GFXP_HIRAGANA "ﾊｲ";
+char* D_8012CF98 = GFXP_HIRAGANA "ｲｲｴ";
+char* D_8012CF9C[] = { GFXP_HIRAGANA "ｼﾃｲﾏｽ", GFXP_HIRAGANA "ｳﾜｶﾞｷ" };
+char* D_8012CFA4 = GFXP_HIRAGANA "ｼﾏｼﾀ";
+char* D_8012CFA8 = "USE       BYTE";
+char* D_8012CFAC = GFXP_HIRAGANA "ﾆｼｯﾊﾟｲ";
 
-const char* D_8012CFB0 = "\x8C\Eﾓ-ﾄﾞ\x8D  ｺﾃｲ";
-char D_8012CFB4[] = "\x8Cﾌﾚ-ﾑ       ";
-char D_8012CFC4[] = "\x8Cｷ-   /   ";
-char D_8012CFD0[] = "\x8D(ｾﾝﾀ-ﾃﾝ)\0\0\0\0\0";
-char D_8012CFE4[] = "\x8D(ｹﾞﾝﾃﾝ)\0\0\0\0\0\0";
-char D_8012CFF8[] = "\x8C(ﾌﾟﾚｲﾔ-)\0\0\0\0\0";
-char D_8012D00C[] = "\x8D(ｲﾁｱﾜｾ)\0\0\0\0\0\0";
-char D_8012D020[] = "\x8D(ｾｯﾃｲ)\0\0\0\0\0\0\0\0";
-char D_8012D034[] = "\x8D(ｷｬｯｶﾝ)\0\0\0\0\0\0";
-char D_8012D048[] = "\x8CﾎﾟｲﾝﾄNo.  \0\0\0";
-char D_8012D05C[] = "\x8Dｶﾞｶｸ    \0\0\0";
-char D_8012D070[] = "\x8CNﾌﾚ-ﾑ   \0\0\0\0";
-char D_8012D084[] = "\x8DZｶｲﾃﾝ   \0\0\0";
-char D_8012D098[] = "\x8Cﾓ-ﾄﾞ    \0\0\0\0";
-char D_8012D0AC[] = "  R\x8Dﾁｭｳｼﾝ  \0\0\0";
+char* D_8012CFB0 = GFXP_KATAKANA "Eﾓ-ﾄﾞ" GFXP_HIRAGANA "  ｺﾃｲ";
+char D_8012CFB4[] = GFXP_KATAKANA "ﾌﾚ-ﾑ       ";
+char D_8012CFC4[] = GFXP_KATAKANA "ｷ-   /   ";
+char D_8012CFD0[] = GFXP_HIRAGANA "(ｾﾝﾀ-ﾃﾝ)\0\0\0\0\0";
+char D_8012CFE4[] = GFXP_HIRAGANA "(ｹﾞﾝﾃﾝ)\0\0\0\0\0\0";
+char D_8012CFF8[] = GFXP_KATAKANA "(ﾌﾟﾚｲﾔ-)\0\0\0\0\0";
+char D_8012D00C[] = GFXP_HIRAGANA "(ｲﾁｱﾜｾ)\0\0\0\0\0\0";
+char D_8012D020[] = GFXP_HIRAGANA "(ｾｯﾃｲ)\0\0\0\0\0\0\0\0";
+char D_8012D034[] = GFXP_HIRAGANA "(ｷｬｯｶﾝ)\0\0\0\0\0\0";
+char D_8012D048[] = GFXP_KATAKANA "ﾎﾟｲﾝﾄNo.  \0\0\0";
+char D_8012D05C[] = GFXP_HIRAGANA "ｶﾞｶｸ    \0\0\0";
+char D_8012D070[] = GFXP_KATAKANA "Nﾌﾚ-ﾑ   \0\0\0\0";
+char D_8012D084[] = GFXP_HIRAGANA "Zｶｲﾃﾝ   \0\0\0";
+char D_8012D098[] = GFXP_KATAKANA "ﾓ-ﾄﾞ    \0\0\0\0";
+char D_8012D0AC[] = "  R" GFXP_HIRAGANA "ﾁｭｳｼﾝ  \0\0\0";
 
-char D_8012D0C0[] = "\x8DPｼﾞｶﾝ       \0\0";
-char D_8012D0D4[] = "\x8Dｷｮﾘ       \0";
-char D_8012D0E4[] = "\x8DXｶｲﾃﾝ       \0\0";
-char D_8012D0F8[] = "\x8DYｶｲﾃﾝ       \0\0";
+char D_8012D0C0[] = GFXP_HIRAGANA "Pｼﾞｶﾝ       \0\0";
+char D_8012D0D4[] = GFXP_HIRAGANA "ｷｮﾘ       \0";
+char D_8012D0E4[] = GFXP_HIRAGANA "Xｶｲﾃﾝ       \0\0";
+char D_8012D0F8[] = GFXP_HIRAGANA "Yｶｲﾃﾝ       \0\0";
 
 #define ACTION_E 0
 #define ACTION_SAVE 1
@@ -425,6 +429,7 @@ void DbCamera_PrintPoints(const char* name, s16 count, CutsceneCameraPoint* poin
 void DbCamera_PrintF32Bytes(f32 value) {
     f32 b = value;
     char* a = (char*)&b;
+
     osSyncPrintf("\n@@@%d,%d,%d,%d,", a[0], a[1], a[2], a[3]);
 }
 
@@ -432,6 +437,7 @@ void DbCamera_PrintU16Bytes(u16 value) {
     u16 pad;
     u16 b = value;
     char* a = (char*)&b;
+
     osSyncPrintf("\n@@@%d,%d,", a[0], a[1]);
 }
 
@@ -439,6 +445,7 @@ void DbCamera_PrintS16Bytes(s16 value) {
     u16 pad;
     s16 b = value;
     char* a = (char*)&b;
+
     osSyncPrintf("\n@@@%d,%d,", a[0], a[1]);
 }
 
@@ -1293,8 +1300,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                     DbCamera_SetTextValue(dbCamera->sub.lookAt[dbCamera->sub.unkIdx].cameraRoll, &D_8012D084[10], 3);
                     func_8006376C(0x10, 0x16, (dbCamera->sub.unk_0A == 2) ? 7 : 4, D_8012D084);
                     func_8006376C(0xF, 0x17, (dbCamera->sub.unk_0A == 3) ? 7 : 4,
-                                  (dbCamera->sub.mode == 1) ? D_8012CF14
-                                                            : (dbCamera->sub.mode == 0) ? *D_8012CF18 : D_8012CFB0);
+                                  (dbCamera->sub.mode == 1)   ? D_8012CF14
+                                  : (dbCamera->sub.mode == 0) ? *D_8012CF18
+                                                              : D_8012CFB0);
                     if (dbCamera->sub.unk_0C) {
                         D_8012D05C[80] = '>';
                     } else {
@@ -1319,9 +1327,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
 
             if (dbCamera->sub.mode != 1) {
                 func_8006376C(3, 0x16,
-                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144)
-                                  ? 7
-                                  : !D_80161144 ? 4 : 3,
+                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144) ? 7
+                              : !D_80161144                                                               ? 4
+                                                                                                          : 3,
                               D_8012CF30);
                 sp110 = 'X';
                 DbCamera_SetTextValue(dbCamera->at.x, &sp111, 6);
@@ -1332,10 +1340,11 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 sp110 = 'Z';
                 DbCamera_SetTextValue(dbCamera->at.z, &sp111, 6);
                 func_8006376C(3, 0x19, 2, &sp110);
-                func_8006376C(
-                    0x1E, 0x16,
-                    ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144) ? 7 : D_80161144 ? 4 : 3,
-                    D_8012CF34);
+                func_8006376C(0x1E, 0x16,
+                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144) ? 7
+                              : D_80161144                                                               ? 4
+                                                                                                         : 3,
+                              D_8012CF34);
                 sp110 = 'X';
                 DbCamera_SetTextValue(dbCamera->eye.x, &sp111, 6);
                 func_8006376C(0x1E, 0x17, 2, &sp110);
@@ -1350,9 +1359,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 OLib_Vec3fDiffToVecSphGeo(&spFC, sp90, sp7C);
                 spFC.yaw -= cam->playerPosRot.rot.y;
                 func_8006376C(3, 0x16,
-                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144)
-                                  ? 7
-                                  : !D_80161144 ? 4 : 3,
+                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144) ? 7
+                              : !D_80161144                                                               ? 4
+                                                                                                          : 3,
                               D_8012CF30);
                 DbCamera_SetTextValue(spFC.pitch * 0.00549325f, &D_8012D0E4[10], 4);
                 func_8006376C(3, 0x17, 3, D_8012D0E4);
@@ -1362,10 +1371,11 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 func_8006376C(3, 0x19, 3, D_8012D0D4);
                 OLib_Vec3fDiffToVecSphGeo(&spFC, sp90, sp80);
                 spFC.yaw -= cam->playerPosRot.rot.y;
-                func_8006376C(
-                    0x1E, 0x16,
-                    ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144) ? 7 : D_80161144 ? 4 : 3,
-                    D_8012CF34);
+                func_8006376C(0x1E, 0x16,
+                              ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144) ? 7
+                              : D_80161144                                                               ? 4
+                                                                                                         : 3,
+                              D_8012CF34);
                 DbCamera_SetTextValue(spFC.pitch * 0.00549325f, &D_8012D0E4[10], 4);
                 func_8006376C(0x1C, 0x17, 3, D_8012D0E4);
                 DbCamera_SetTextValue(spFC.yaw * 0.00549325f, &D_8012D0F8[10], 4);
@@ -1713,9 +1723,9 @@ void DbCamera_PrintAllCuts(Camera* cam) {
     osSyncPrintf("@@@\n@@@\n@@@/* ****** spline point data ** finish! ***** */\n@@@\n");
 }
 
-char D_8012D114[] = "\x8Cﾌﾚ-ﾑ         ";
-char D_8012D128[] = "\x8Cﾄ-ﾀﾙ         ";
-char D_8012D13C[] = "\x8Cｷ-     /   ";
+char D_8012D114[] = GFXP_KATAKANA "ﾌﾚ-ﾑ         ";
+char D_8012D128[] = GFXP_KATAKANA "ﾄ-ﾀﾙ         ";
+char D_8012D13C[] = GFXP_KATAKANA "ｷ-     /   ";
 
 s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
     s32 pointCount;

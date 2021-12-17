@@ -7,9 +7,7 @@
 #include "z_en_vase.h"
 #include "objects/object_vase/object_vase.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnVase*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnVase_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVase_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -28,7 +26,7 @@ const ActorInit En_Vase_InitVars = {
 };
 
 void EnVase_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnVase* this = THIS;
+    EnVase* this = (EnVase*)thisx;
 
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.focus.pos = this->actor.world.pos;

@@ -9,9 +9,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x02000009
-
-#define THIS ((EnGs*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
 
 void EnGs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGs_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -97,7 +95,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnGs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGs* this = THIS;
+    EnGs* this = (EnGs*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -120,9 +118,9 @@ void EnGs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 func_80A4E3EC(EnGs* this, GlobalContext* globalCtx) {
     s32 ret = 2;
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 6:
-            if (func_80106BC8(globalCtx)) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x2054:
                         this->actor.textId = (this->actor.params & 0xFF) + 0x400;
@@ -147,26 +145,28 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
         if (this->unk_19D == 0) {
             player->stateFlags2 |= 0x800000;
             if (player->stateFlags2 & 0x1000000) {
-                func_8010BD58(globalCtx, 1);
+                func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
                 this->unk_19D |= 1;
             }
 
         } else if (this->unk_19D & 1) {
-            if (globalCtx->msgCtx.unk_E3EE == 4) {
-                if ((globalCtx->msgCtx.unk_E3F2 == 6) || (globalCtx->msgCtx.unk_E3F2 == 7) ||
-                    (globalCtx->msgCtx.unk_E3F2 == 8) || (globalCtx->msgCtx.unk_E3F2 == 9) ||
-                    (globalCtx->msgCtx.unk_E3F2 == 10)) {
+            if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+                if ((globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_SARIAS) ||
+                    (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_EPONAS) ||
+                    (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY) ||
+                    (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_SUNS) ||
+                    (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_TIME)) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
                                 this->actor.world.pos.y + 40.0f, this->actor.world.pos.z, 0, 0, 0, FAIRY_HEAL_TIMED);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
-                } else if (globalCtx->msgCtx.unk_E3F2 == 11) {
+                } else if (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_STORMS) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
                                 this->actor.world.pos.y + 40.0f, this->actor.world.pos.z, 0, 0, 0, FAIRY_HEAL_BIG);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 }
                 this->unk_19D = 0;
                 Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
-            } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+            } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
                 player->stateFlags2 |= 0x800000;
             }
         }
@@ -178,14 +178,14 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
     s16 sp24;
 
     if (this->unk_19C == 1) {
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_19C = 2;
     } else if (this->unk_19C == 2) {
         this->unk_19C = func_80A4E3EC(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->unk_19C = 2;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);
         if ((sp26 >= 0) && (sp26 <= SCREEN_WIDTH) && (sp24 >= 0) && (sp24 <= SCREEN_HEIGHT) && (this->unk_19C != 3)) {
             if (func_8002F2CC(&this->actor, globalCtx, 40.0f) == 1) {
                 if (Player_GetMask(globalCtx) == PLAYER_MASK_TRUTH) {
@@ -221,7 +221,7 @@ void func_80A4E910(EnGs* this, GlobalContext* globalCtx) {
     } else if ((this->unk_19F == 1) && (func_80A4E754(this, globalCtx, &this->unk_1E8, &this->unk_1EC, &this->unk_200,
                                                       0.8f, 0.007f, 0.001f, 7, 0) == 0.0f)) {
         if (!Gameplay_InCsMode(globalCtx)) {
-            func_8010B680(globalCtx, 0x71B1, NULL);
+            Message_StartTextbox(globalCtx, 0x71B1, NULL);
         }
         this->unk_19C = 0;
         this->actionFunc = func_80A4F734;
@@ -353,7 +353,7 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
         func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
-            this->actor.flags |= 0x10;
+            this->actor.flags |= ACTOR_FLAG_4;
             this->actor.uncullZoneForward = 12000.0f;
 
             this->actor.gravity = 0.3f;
@@ -425,8 +425,8 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (tmpf1 == 0.0f) {
-            this->unk_1E8 = 0.34906584f * 2.0f;
-            this->unk_1EC = 0.34906584f; // M_PI / 9
+            this->unk_1E8 = 2.0f * M_PI / 9.0000002;
+            this->unk_1EC = M_PI / 9.0000002;
             this->unk_19F = 4;
         }
     }
@@ -515,7 +515,7 @@ void func_80A4F77C(EnGs* this) {
 
 void EnGs_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnGs* this = THIS;
+    EnGs* this = (EnGs*)thisx;
 
     Actor_SetFocus(&this->actor, 23.0f);
     if (!(this->unk_19E & 0x10)) {
@@ -560,7 +560,7 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGs* this = THIS;
+    EnGs* this = (EnGs*)thisx;
     s32 tmp;
     u32 frames;
 
@@ -582,7 +582,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, gGossipStoneSetupDL);
+        gSPDisplayList(POLY_OPA_DISP++, gGossipStoneMaterialDL);
 
         if (this->unk_19E & 4) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
@@ -597,7 +597,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Pop();
         if (this->unk_19E & 2) {
             func_80093D84(globalCtx->state.gfxCtx);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),

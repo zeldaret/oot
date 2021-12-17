@@ -1,8 +1,8 @@
 #pragma once
 
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 
 typedef uint32_t strhash;
 

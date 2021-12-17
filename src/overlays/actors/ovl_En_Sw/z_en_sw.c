@@ -1,9 +1,7 @@
 #include "z_en_sw.h"
 #include "objects/object_st/object_st.h"
 
-#define FLAGS 0x00000015
-
-#define THIS ((EnSw*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnSw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -209,7 +207,7 @@ s32 func_80B0C0CC(EnSw* this, GlobalContext* globalCtx, s32 arg2) {
 }
 
 void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSw* this = THIS;
+    EnSw* this = (EnSw*)thisx;
     s32 phi_v0;
     Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
     s32 pad;
@@ -277,7 +275,7 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.elements[0].info.toucher.damage *= 2;
             this->actor.naviEnemyId = 0x20;
             this->actor.colChkInfo.health *= 2;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             break;
         default:
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
@@ -302,7 +300,7 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSw* this = THIS;
+    EnSw* this = (EnSw*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -344,7 +342,7 @@ s32 func_80B0C9F0(EnSw* this, GlobalContext* globalCtx) {
                 this->unk_38A = 2;
                 this->actor.shape.shadowScale = 16.0f;
                 this->actor.gravity = -1.0f;
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 this->actionFunc = func_80B0DB00;
             }
 
@@ -883,7 +881,7 @@ void func_80B0E9BC(EnSw* this, GlobalContext* globalCtx) {
 }
 
 void EnSw_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSw* this = THIS;
+    EnSw* this = (EnSw*)thisx;
 
     SkelAnime_Update(&this->skelAnime);
     func_80B0C9F0(this, globalCtx);
@@ -897,7 +895,7 @@ s32 EnSw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     Vec3f sp64 = { -1400.0f, -2600.0f, -800.0f };
     Vec3f sp58 = { -1400.0f, -1600.0f, 0.0f };
     Vec3f sp4C = { 0.0, 0.0f, -600.0f };
-    EnSw* this = THIS;
+    EnSw* this = (EnSw*)thisx;
     Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sw.c", 2084);
@@ -990,7 +988,7 @@ void func_80B0EEA4(GlobalContext* globalCtx) {
 }
 
 void EnSw_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSw* this = THIS;
+    EnSw* this = (EnSw*)thisx;
     Color_RGBA8 sp30 = { 184, 0, 228, 255 };
 
     if (((this->actor.params & 0xE000) >> 0xD) != 0) {

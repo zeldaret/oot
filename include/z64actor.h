@@ -100,6 +100,35 @@ typedef struct {
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
+#define ACTOR_FLAG_0 (1 << 0)
+#define ACTOR_FLAG_2 (1 << 2)
+#define ACTOR_FLAG_3 (1 << 3)
+#define ACTOR_FLAG_4 (1 << 4)
+#define ACTOR_FLAG_5 (1 << 5)
+#define ACTOR_FLAG_6 (1 << 6)
+#define ACTOR_FLAG_7 (1 << 7)
+#define ACTOR_FLAG_8 (1 << 8)
+#define ACTOR_FLAG_9 (1 << 9)
+#define ACTOR_FLAG_10 (1 << 10)
+#define ACTOR_FLAG_11 (1 << 11)
+#define ACTOR_FLAG_12 (1 << 12)
+#define ACTOR_FLAG_13 (1 << 13)
+#define ACTOR_FLAG_14 (1 << 14)
+#define ACTOR_FLAG_15 (1 << 15)
+#define ACTOR_FLAG_16 (1 << 16)
+#define ACTOR_FLAG_17 (1 << 17)
+#define ACTOR_FLAG_18 (1 << 18)
+#define ACTOR_FLAG_19 (1 << 19)
+#define ACTOR_FLAG_20 (1 << 20)
+#define ACTOR_FLAG_21 (1 << 21)
+#define ACTOR_FLAG_22 (1 << 22)
+#define ACTOR_FLAG_23 (1 << 23)
+#define ACTOR_FLAG_24 (1 << 24)
+#define ACTOR_FLAG_25 (1 << 25)
+#define ACTOR_FLAG_26 (1 << 26)
+#define ACTOR_FLAG_27 (1 << 27)
+#define ACTOR_FLAG_28 (1 << 28)
+
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID
     /* 0x002 */ u8 category; // Actor category. Refer to the corresponding enum for values
@@ -259,6 +288,7 @@ typedef struct EnItem00 {
     /* 0x160 */ ColliderCylinder collider;
 } EnItem00; // size = 0x1AC
 
+// Only A_OBJ_SIGNPOST_OBLONG and A_OBJ_SIGNPOST_ARROW are used in room files.
 typedef enum {
     /* 0x00 */ A_OBJ_BLOCK_SMALL,
     /* 0x01 */ A_OBJ_BLOCK_LARGE,
@@ -271,7 +301,8 @@ typedef enum {
     /* 0x08 */ A_OBJ_TREE_STUMP,
     /* 0x09 */ A_OBJ_SIGNPOST_OBLONG,
     /* 0x0A */ A_OBJ_SIGNPOST_ARROW,
-    /* 0x0B */ A_OBJ_KNOB
+    /* 0x0B */ A_OBJ_BOULDER_FRAGMENT,
+    /* 0x0C */ A_OBJ_MAX
 } AObjType;
 
 struct EnAObj;
@@ -281,13 +312,13 @@ typedef void (*EnAObjActionFunc)(struct EnAObj*, struct GlobalContext*);
 typedef struct EnAObj {
     /* 0x000 */ DynaPolyActor dyna;
     /* 0x164 */ EnAObjActionFunc actionFunc;
-    /* 0x168 */ s32 unk_168;
+    /* 0x168 */ s32 rotateWaitTimer;
     /* 0x16C */ s16 textId;
-    /* 0x16E */ s16 unk_16E;
-    /* 0x170 */ s16 unk_170;
-    /* 0x172 */ s16 unk_172;
-    /* 0x174 */ s16 unk_174;
-    /* 0x178 */ f32 unk_178;
+    /* 0x16E */ s16 rotateState;
+    /* 0x170 */ s16 rotateForTimer;
+    /* 0x172 */ s16 rotSpeedY;
+    /* 0x174 */ s16 rotSpeedX;
+    /* 0x178 */ f32 focusYoffset;
     /* 0x17C */ ColliderCylinder collider;
 } EnAObj; // size = 0x1C8
 
@@ -318,5 +349,11 @@ typedef enum {
 #undef DEFINE_ACTOR
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
+
+typedef enum {
+    DOORLOCK_NORMAL,
+    DOORLOCK_BOSS,
+    DOORLOCK_NORMAL_SPIRIT
+} DoorLockType;
 
 #endif

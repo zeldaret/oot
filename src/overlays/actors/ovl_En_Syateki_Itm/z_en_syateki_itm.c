@@ -4,9 +4,7 @@
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_G_Switch/z_en_g_switch.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnSyatekiItm*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     SYATEKI_ROUND_GREEN_APPEAR,
@@ -71,7 +69,7 @@ static Vec3f sRupeePos[] = {
 
 void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnSyatekiItm* this = THIS;
+    EnSyatekiItm* this = (EnSyatekiItm*)thisx;
     s32 i;
 
     this->man = (EnSyatekiMan*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_SYATEKI_MAN,
@@ -335,7 +333,7 @@ void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
 
 void EnSyatekiItm_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSyatekiItm* this = THIS;
+    EnSyatekiItm* this = (EnSyatekiItm*)thisx;
 
     this->actionFunc(this, globalCtx);
 

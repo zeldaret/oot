@@ -3,9 +3,7 @@
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "objects/object_ossan/object_ossan.h"
 
-#define FLAGS 0x08000019
-
-#define THIS ((EnSyatekiMan*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
 typedef enum {
     /* 0 */ SYATEKI_RESULT_NONE,
@@ -57,20 +55,103 @@ const ActorInit En_Syateki_Man_InitVars = {
 };
 
 static u16 sBgmList[] = {
-    0x00, 0x01,  0x02, 0x18, 0x19, 0x02, 0x19, 0x1A, 0x1A,  0x81A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x922,
-    0x23, 0x924, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x92B, 0x2C,  0x2D, 0x2E, 0x2F, 0x30, 0x32, 0x33, 0x34, 0x35,
-    0x36, 0x37,  0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E,  0x3F,  0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47,
-    0x48, 0x49,  0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50,  0x51,  0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59,
-    0x5A, 0x5B,  0x5C, 0x5D, 0x6D, 0x5E, 0x5E, 0x5F, 0x60,  0x61,  0x6D, 0x62, 0x63, 0x64, 0x65, 0x66,
+    NA_BGM_GENERAL_SFX,
+    NA_BGM_NATURE_AMBIENCE,
+    NA_BGM_FIELD_LOGIC,
+    NA_BGM_DUNGEON,
+    NA_BGM_KAKARIKO_ADULT,
+    NA_BGM_FIELD_LOGIC,
+    NA_BGM_KAKARIKO_ADULT,
+    NA_BGM_ENEMY,
+    NA_BGM_ENEMY,
+    NA_BGM_ENEMY | 0x800,
+    NA_BGM_BOSS,
+    NA_BGM_INSIDE_DEKU_TREE,
+    NA_BGM_MARKET,
+    NA_BGM_TITLE,
+    NA_BGM_LINK_HOUSE,
+    NA_BGM_GAME_OVER,
+    NA_BGM_BOSS_CLEAR,
+    NA_BGM_ITEM_GET | 0x900,
+    NA_BGM_OPENING_GANON,
+    NA_BGM_HEART_GET | 0x900,
+    NA_BGM_OCA_LIGHT,
+    NA_BGM_JABU_JABU,
+    NA_BGM_KAKARIKO_KID,
+    NA_BGM_GREAT_FAIRY,
+    NA_BGM_ZELDA_THEME,
+    NA_BGM_FIRE_TEMPLE,
+    NA_BGM_OPEN_TRE_BOX | 0x900,
+    NA_BGM_FOREST_TEMPLE,
+    NA_BGM_COURTYARD,
+    NA_BGM_GANON_TOWER,
+    NA_BGM_LONLON,
+    NA_BGM_GORON_CITY,
+    NA_BGM_SPIRITUAL_STONE,
+    NA_BGM_OCA_BOLERO,
+    NA_BGM_OCA_MINUET,
+    NA_BGM_OCA_SERENADE,
+    NA_BGM_OCA_REQUIEM,
+    NA_BGM_OCA_NOCTURNE,
+    NA_BGM_MINI_BOSS,
+    NA_BGM_SMALL_ITEM_GET,
+    NA_BGM_TEMPLE_OF_TIME,
+    NA_BGM_EVENT_CLEAR,
+    NA_BGM_KOKIRI,
+    NA_BGM_OCA_FAIRY_GET,
+    NA_BGM_SARIA_THEME,
+    NA_BGM_SPIRIT_TEMPLE,
+    NA_BGM_HORSE,
+    NA_BGM_HORSE_GOAL,
+    NA_BGM_INGO,
+    NA_BGM_MEDALLION_GET,
+    NA_BGM_OCA_SARIA,
+    NA_BGM_OCA_EPONA,
+    NA_BGM_OCA_ZELDA,
+    NA_BGM_OCA_SUNS,
+    NA_BGM_OCA_TIME,
+    NA_BGM_OCA_STORM,
+    NA_BGM_NAVI_OPENING,
+    NA_BGM_DEKU_TREE_CS,
+    NA_BGM_WINDMILL,
+    NA_BGM_HYRULE_CS,
+    NA_BGM_MINI_GAME,
+    NA_BGM_SHEIK,
+    NA_BGM_ZORA_DOMAIN,
+    NA_BGM_APPEAR,
+    NA_BGM_ADULT_LINK,
+    NA_BGM_MASTER_SWORD,
+    NA_BGM_INTRO_GANON,
+    NA_BGM_SHOP,
+    NA_BGM_CHAMBER_OF_SAGES,
+    NA_BGM_FILE_SELECT,
+    NA_BGM_ICE_CAVERN,
+    NA_BGM_DOOR_OF_TIME,
+    NA_BGM_OWL,
+    NA_BGM_SHADOW_TEMPLE,
+    NA_BGM_WATER_TEMPLE,
+    NA_BGM_BRIDGE_TO_GANONS,
+    NA_BGM_VARIOUS_SFX,
+    NA_BGM_OCARINA_OF_TIME,
+    NA_BGM_OCARINA_OF_TIME,
+    NA_BGM_GERUDO_VALLEY,
+    NA_BGM_POTION_SHOP,
+    NA_BGM_KOTAKE_KOUME,
+    NA_BGM_VARIOUS_SFX,
+    NA_BGM_ESCAPE,
+    NA_BGM_UNDERGROUND,
+    NA_BGM_GANONDORF_BOSS,
+    NA_BGM_GANON_BOSS,
+    NA_BGM_END_DEMO,
 };
 
 static s16 sTextIds[] = { 0x2B, 0x2E, 0xC8, 0x2D };
 
-static s16 sTextBoxCount[] = { 4, 5, 5, 5 };
+static s16 sTextBoxCount[] = { TEXT_STATE_CHOICE, TEXT_STATE_EVENT, TEXT_STATE_EVENT, TEXT_STATE_EVENT };
 
 void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSyatekiMan* this = THIS;
+    EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     osSyncPrintf("\n\n");
     // "Old man appeared!! Muhohohohohohohon"
@@ -111,7 +192,7 @@ void EnSyatekiMan_SetupIdle(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
 void EnSyatekiMan_Idle(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnSyatekiMan_Talk;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -125,7 +206,7 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if (this->cameraHold) {
         globalCtx->shootingGalleryStatus = -2;
     }
-    if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
+    if ((this->numTextBox == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         if (this->textIdx == SYATEKI_TEXT_CHOICE) {
             switch (globalCtx->msgCtx.choiceIndex) {
                 case 0:
@@ -146,9 +227,9 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, GlobalContext* globalCtx) {
                     nextState = 2;
                     break;
             }
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
         } else {
-            func_80106CCC(globalCtx);
+            Message_CloseTextbox(globalCtx);
         }
         switch (nextState) {
             case 0:
@@ -169,13 +250,13 @@ void EnSyatekiMan_StopTalk(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if (this->cameraHold) {
         globalCtx->shootingGalleryStatus = -2;
     }
-    if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
+    if ((this->numTextBox == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         if (this->cameraHold) {
             OnePointCutscene_EndCutscene(globalCtx, this->csCam);
             this->csCam = SUBCAM_NONE;
             this->cameraHold = false;
         }
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = EnSyatekiMan_SetupIdle;
     }
 }
@@ -187,13 +268,13 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if (this->cameraHold) {
         globalCtx->shootingGalleryStatus = -2;
     }
-    if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
+    if ((this->numTextBox == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         if (this->cameraHold) {
             OnePointCutscene_EndCutscene(globalCtx, this->csCam);
             this->csCam = SUBCAM_NONE;
             this->cameraHold = false;
         }
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         gallery = ((EnSyatekiItm*)this->actor.parent);
         if (gallery->actor.update != NULL) {
             gallery->signal = ENSYATEKI_START;
@@ -230,7 +311,7 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                 break;
         }
         globalCtx->shootingGalleryStatus = -2;
-        func_8010B680(globalCtx, this->actor.textId, NULL);
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnSyatekiMan_EndGame;
     }
 }
@@ -239,12 +320,12 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     EnSyatekiItm* gallery;
 
     SkelAnime_Update(&this->skelAnime);
-    if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
+    if ((this->numTextBox == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         if (this->gameResult != SYATEKI_RESULT_FAILURE) {
             OnePointCutscene_EndCutscene(globalCtx, this->csCam);
             this->csCam = SUBCAM_NONE;
         }
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         gallery = ((EnSyatekiItm*)this->actor.parent);
         if (gallery->actor.update != NULL) {
             gallery->signal = ENSYATEKI_RESULTS;
@@ -299,7 +380,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                         this->cameraHold = true;
                         this->actor.textId = sTextIds[this->textIdx];
                         this->numTextBox = sTextBoxCount[this->textIdx];
-                        func_8010B680(globalCtx, this->actor.textId, NULL);
+                        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                         this->actionFunc = EnSyatekiMan_Talk;
                     }
                     break;
@@ -319,7 +400,7 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
 void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         // "Successful completion"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         if (!LINK_IS_ADULT) {
@@ -329,7 +410,7 @@ void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
         }
         this->gameResult = SYATEKI_RESULT_NONE;
         this->actor.parent = this->tempGallery;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actionFunc = EnSyatekiMan_SetupIdle;
     }
 }
@@ -380,7 +461,7 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this) {
 
 void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSyatekiMan* this = THIS;
+    EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     if (this->timer != 0) {
         this->timer--;
@@ -395,7 +476,7 @@ void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnSyatekiMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
-    EnSyatekiMan* this = THIS;
+    EnSyatekiMan* this = (EnSyatekiMan*)thisx;
     s32 turnDirection;
 
     if (limbIndex == 1) {
@@ -415,7 +496,7 @@ s32 EnSyatekiMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 
 void EnSyatekiMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSyatekiMan* this = THIS;
+    EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

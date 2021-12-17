@@ -7,9 +7,7 @@
 #include "z_en_ba.h"
 #include "objects/object_bxa/object_bxa.h"
 
-#define FLAGS 0x00000015
-
-#define THIS ((EnBa*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnBa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -91,7 +89,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnBa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBa* this = THIS;
+    EnBa* this = (EnBa*)thisx;
     Vec3f sp38 = D_809B80E4;
     s32 pad;
     s16 i;
@@ -128,7 +126,7 @@ void EnBa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBa* this = THIS;
+    EnBa* this = (EnBa*)thisx;
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
@@ -148,7 +146,7 @@ void EnBa_Idle(EnBa* this, GlobalContext* globalCtx) {
     if ((this->actor.colChkInfo.mass == MASS_IMMOVABLE) && (this->actor.xzDistToPlayer > 175.0f)) {
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 330.0f, 1.0f, 7.0f, 0.0f);
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 100.0f, 1.0f, 10.0f, 0.0f);
     }
     this->unk2FC = this->actor.world.pos;
@@ -165,14 +163,14 @@ void EnBa_Idle(EnBa* this, GlobalContext* globalCtx) {
     for (i = 12; i >= 0; i--) {
         func_80035844(&this->unk158[i + 1], &this->unk158[i], &sp5C, 0);
         Matrix_Translate(this->unk158[i + 1].x, this->unk158[i + 1].y, this->unk158[i + 1].z, MTXMODE_NEW);
-        Matrix_RotateRPY(sp5C.x, sp5C.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(sp5C.x, sp5C.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_809B8080, &this->unk158[i]);
     }
     func_80035844(&this->unk158[0], &this->unk2FC, &sp5C, 0);
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk2A8[0].y, 3, this->unk31C, 182);
     Math_SmoothStepToS(&this->actor.shape.rot.x, this->unk2A8[0].x, 3, this->unk31C, 182);
-    Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
     this->unk2A8[13].y = sp5C.y;
     this->unk2A8[13].x = sp5C.x + 0x8000;
@@ -181,7 +179,7 @@ void EnBa_Idle(EnBa* this, GlobalContext* globalCtx) {
         Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, MTXMODE_NEW);
         Math_SmoothStepToS(&this->unk2A8[i].y, this->unk2A8[i + 1].y, 3, this->unk31C, 182);
         Math_SmoothStepToS(&this->unk2A8[i].x, this->unk2A8[i + 1].x, 3, this->unk31C, 182);
-        Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_809B8080, &this->unk158[i + 1]);
     }
     this->unk2A8[13].x = this->unk2A8[12].x;
@@ -257,14 +255,14 @@ void EnBa_SwingAtPlayer(EnBa* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, sp58.y, 1, this->unk31C, 0);
             Math_SmoothStepToS(&this->actor.shape.rot.x, (sp58.x + 0x8000), 1, this->unk31C, 0);
             Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-            Matrix_RotateRPY((this->actor.shape.rot.x - 0x8000), this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX((this->actor.shape.rot.x - 0x8000), this->actor.shape.rot.y, 0, MTXMODE_APPLY);
             Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
 
             for (i = 0; i < 13; i++) {
                 Math_SmoothStepToS(&this->unk2A8[i].x, (i * 1200) - 0x4000, 1, this->unk31C, 0);
                 Math_SmoothStepToS(&this->unk2A8[i].y, phi_fp, 1, this->unk31C, 0);
                 Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, MTXMODE_NEW);
-                Matrix_RotateRPY((this->unk2A8[i].x - 0x8000), this->unk2A8[i].y, 0, MTXMODE_APPLY);
+                Matrix_RotateZYX((this->unk2A8[i].x - 0x8000), this->unk2A8[i].y, 0, MTXMODE_APPLY);
                 Matrix_MultVec3f(&D_809B8080, &this->unk158[i + 1]);
             }
         } else {
@@ -280,7 +278,7 @@ void EnBa_SwingAtPlayer(EnBa* this, GlobalContext* globalCtx) {
                 Math_SmoothStepToS(&this->actor.shape.rot.x, temp, 1, this->unk31C, 0);
                 Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                  MTXMODE_NEW);
-                Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+                Matrix_RotateZYX(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
                 Matrix_MultVec3f(&D_809B8080, this->unk158);
 
                 for (i = 0; i < 13; i++) {
@@ -288,7 +286,7 @@ void EnBa_SwingAtPlayer(EnBa* this, GlobalContext* globalCtx) {
                     Math_SmoothStepToS(&this->unk2A8[i].x, temp - 0x4000, 1, this->unk31C, 0);
                     Math_SmoothStepToS(&this->unk2A8[i].y, phi_fp, 1, this->unk31C, 0);
                     Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, MTXMODE_NEW);
-                    Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
+                    Matrix_RotateZYX(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
                     Matrix_MultVec3f(&D_809B8080, &this->unk158[i + 1]);
                 }
                 this->unk31A--;
@@ -350,14 +348,14 @@ void EnBa_RecoilFromDamage(EnBa* this, GlobalContext* globalCtx) {
     for (i = 12; i >= 0; i--) {
         func_80035844(&this->unk158[i + 1], &this->unk158[i], &sp6C, 0);
         Matrix_Translate(this->unk158[i + 1].x, this->unk158[i + 1].y, this->unk158[i + 1].z, MTXMODE_NEW);
-        Matrix_RotateRPY(sp6C.x, sp6C.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(sp6C.x, sp6C.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_809B8080, &this->unk158[i]);
     }
     func_80035844(&this->actor.world.pos, &this->unk158[0], &sp6C, 0);
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
     Math_SmoothStepToS(&this->actor.shape.rot.y, sp6C.y, 3, this->unk31C, 182);
     Math_SmoothStepToS(&this->actor.shape.rot.x, sp6C.x + 0x8000, 3, this->unk31C, 182);
-    Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
 
     for (i = 0; i < 13; i++) {
@@ -365,7 +363,7 @@ void EnBa_RecoilFromDamage(EnBa* this, GlobalContext* globalCtx) {
         Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, MTXMODE_NEW);
         Math_SmoothStepToS(&this->unk2A8[i].y, sp6C.y, 3, this->unk31C, 182);
         Math_SmoothStepToS(&this->unk2A8[i].x, sp6C.x + 0x8000, 3, this->unk31C, 182);
-        Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_809B8080, &this->unk158[i + 1]);
     }
 
@@ -395,14 +393,14 @@ void func_809B75A0(EnBa* this, GlobalContext* globalCtx2) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, this->unk31C, 0);
     Math_SmoothStepToS(&this->actor.shape.rot.x, unk_temp, 1, this->unk31C, 0);
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     for (i = 5; i < 13; i++) {
         Math_SmoothStepToS(&this->unk2A8[i].x, this->unk2A8[5].x, 1, this->unk31C, 0);
         Math_SmoothStepToS(&this->unk2A8[i].y, this->unk2A8[5].y, 1, this->unk31C, 0);
         Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, MTXMODE_NEW);
-        Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&sp74, &this->unk158[i + 1]);
     }
     this->unk31A = 15;
@@ -422,21 +420,21 @@ void EnBa_Die(EnBa* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, this->unk31C, 0);
         Math_SmoothStepToS(&this->actor.shape.rot.x, temp, 1, this->unk31C, 0);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-        Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
         for (i = 0; i < 5; i++) {
             temp = -Math_CosS(this->unk31A * 0x444) * (i * 400);
             Math_SmoothStepToS(&this->unk2A8[i].x, temp - 0x4000, 1, this->unk31C, 0);
             Math_SmoothStepToS(&this->unk2A8[i].y, this->actor.yawTowardsPlayer, 1, this->unk31C, 0);
             Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, MTXMODE_NEW);
-            Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
             Matrix_MultVec3f(&D_809B8080, &this->unk158[i + 1]);
         }
         for (i = 5; i < 13; i++) {
             Math_SmoothStepToS(&this->unk2A8[i].x, this->unk2A8[5].x, 1, this->unk31C, 0);
             Math_SmoothStepToS(&this->unk2A8[i].y, this->unk2A8[5].y, 1, this->unk31C, 0);
             Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, MTXMODE_NEW);
-            Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, MTXMODE_APPLY);
             Matrix_MultVec3f(&sp6C, &this->unk158[i + 1]);
         }
         this->unk31A--;
@@ -447,7 +445,7 @@ void EnBa_Die(EnBa* this, GlobalContext* globalCtx) {
 }
 
 void EnBa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBa* this = THIS;
+    EnBa* this = (EnBa*)thisx;
 
     if ((this->actor.params < EN_BA_DEAD_BLOB) && (this->collider.base.acFlags & 2)) {
         this->collider.base.acFlags &= ~2;
@@ -467,10 +465,14 @@ void EnBa_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static Gfx* D_809B8118[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
+static void* D_809B8118[] = {
+    object_bxa_Tex_0024F0,
+    object_bxa_Tex_0027F0,
+    object_bxa_Tex_0029F0,
+};
 
 void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBa* this = THIS;
+    EnBa* this = (EnBa*)thisx;
     s32 pad;
     s16 i;
     Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 14);
@@ -487,7 +489,7 @@ void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                     (globalCtx->gameplayFrames * -10) % 128, 32, 32));
         for (i = 0; i < 14; i++, mtx++) {
             Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, MTXMODE_NEW);
-            Matrix_RotateRPY(this->unk2A8[i].x, this->unk2A8[i].y, this->unk2A8[i].z, MTXMODE_APPLY);
+            Matrix_RotateZYX(this->unk2A8[i].x, this->unk2A8[i].y, this->unk2A8[i].z, MTXMODE_APPLY);
             Matrix_Scale(this->unk200[i].x, this->unk200[i].y, this->unk200[i].z, MTXMODE_APPLY);
             if ((i == 6) || (i == 13)) {
                 switch (i) {

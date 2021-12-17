@@ -3,8 +3,9 @@
 #include <algorithm>
 #include <string_view>
 
-#include <Utils/File.h>
-#include <Utils/Path.h>
+#include "Utils/File.h"
+#include "Utils/Path.h"
+#include "WarningHandler.h"
 #include "tinyxml2.h"
 
 Globals* Globals::Instance;
@@ -23,6 +24,16 @@ Globals::Globals()
 	outputPath = Directory::GetCurrentDirectory();
 }
 
+Globals::~Globals()
+{
+	auto& exporters = GetExporterMap();
+
+	for (auto& it : exporters)
+	{
+		delete it.second;
+	}
+}
+
 void Globals::AddSegment(int32_t segment, ZFile* file)
 {
 	if (std::find(segments.begin(), segments.end(), segment) == segments.end())
@@ -38,21 +49,21 @@ bool Globals::HasSegment(int32_t segment)
 	return std::find(segments.begin(), segments.end(), segment) != segments.end();
 }
 
-std::map<std::string, ExporterSet*>* Globals::GetExporterMap()
+std::map<std::string, ExporterSet*>& Globals::GetExporterMap()
 {
 	static std::map<std::string, ExporterSet*> exporters;
-	return &exporters;
+	return exporters;
 }
 
 void Globals::AddExporter(std::string exporterName, ExporterSet* exporterSet)
 {
-	auto exporters = GetExporterMap();
-	(*exporters)[exporterName] = exporterSet;
+	auto& exporters = GetExporterMap();
+	exporters[exporterName] = exporterSet;
 }
 
 ZResourceExporter* Globals::GetExporter(ZResourceType resType)
 {
-	auto exporters = *GetExporterMap();
+	auto& exporters = GetExporterMap();
 
 	if (currentExporter != "" && exporters[currentExporter]->exporters.find(resType) !=
 	                                 exporters[currentExporter]->exporters.end())
@@ -63,7 +74,7 @@ ZResourceExporter* Globals::GetExporter(ZResourceType resType)
 
 ExporterSet* Globals::GetExporterSet()
 {
-	auto exporters = *GetExporterMap();
+	auto& exporters = GetExporterMap();
 
 	if (currentExporter != "")
 		return exporters[currentExporter];
@@ -192,4 +203,12 @@ bool Globals::GetSegmentedArrayIndexedName(segptr_t segAddress, size_t elementSi
 ExternalFile::ExternalFile(fs::path nXmlPath, fs::path nOutPath)
 	: xmlPath{nXmlPath}, outPath{nOutPath}
 {
+}
+
+ExporterSet::~ExporterSet()
+{
+	for (auto& it : exporters)
+	{
+		delete it.second;
+	}
 }

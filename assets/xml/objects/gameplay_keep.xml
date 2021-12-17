@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="misc/link_animetion.xml" OutPath="misc/link_animetion/"/>
     <File Name="gameplay_keep" Segment="4">
         <Texture Name="gHilite1Tex" OutName="hilite_1" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
         <Texture Name="gHilite2Tex" OutName="hilite_2" Format="rgba16" Width="16" Height="16" Offset="0x200"/>
@@ -9,21 +10,21 @@
         <Texture Name="gLinkHairTex" OutName="link_hair" Format="rgba16" Width="16" Height="16" Offset="0x1A40"/>
         <Texture Name="gLinkTunic2Tex" OutName="link_tunic_2" Format="i8" Width="16" Height="16" Offset="0x1C40"/>
         <Texture Name="gLinkTunic3Tex" OutName="link_tunic_3" Format="i8" Width="16" Height="32" Offset="0x1D40"/>
-        <Texture Name="gLinkTunic4Tex" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x1F40"/>    
+        <Texture Name="gLinkTunic4Tex" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x1F40"/>
         <Array Name="D_04002040" Count="24" Offset="0x2040">
             <Vector Type="s16" Dimensions="3"/>
         </Array>
         <Array Name="D_040020D0" Count="24" Offset="0x20D0">
-            <Vector Type="s16" Dimensions="3" />
+            <Vector Type="s16" Dimensions="3"/>
         </Array>
         <Array Name="D_04002160" Count="24" Offset="0x2160">
-            <Vector Type="s16" Dimensions="3" />
+            <Vector Type="s16" Dimensions="3"/>
         </Array>
         <Array Name="D_040021F0" Count="24" Offset="0x21F0">
-            <Vector Type="s16" Dimensions="3" />
+            <Vector Type="s16" Dimensions="3"/>
         </Array>
         <Array Name="D_04002280" Count="24" Offset="0x2280">
-            <Vector Type="s16" Dimensions="3" />
+            <Vector Type="s16" Dimensions="3"/>
         </Array>
 
         <PlayerAnimation Name="gPlayerAnim_002310" Offset="0x2310"/>
@@ -748,7 +749,7 @@
         <Texture Name="gEffHitMark24Tex" OutName="eff_hit_mark_24" Format="i4" Width="32" Height="24" Offset="0x215F0"/>
         <DList Name="gEffHitMarkDL" Offset="0x21770"/>
         <Texture Name="gEffUnknown6Tex" OutName="eff_unknown_6" Format="i8" Width="32" Height="64" Offset="0x21810"/>
-        <Texture Name="gEffUnknown7Tex" OutName="eff_unknown_7" Format="i8" Width="32" Height="64" Offset="0x22010"/>
+        <Texture Name="gEffFleckTex" OutName="eff_fleck" Format="i8" Width="32" Height="64" Offset="0x22010"/>
         <Texture Name="gEffUnknown8Tex" OutName="eff_unknown_8" Format="i8" Width="64" Height="64" Offset="0x22810"/>
         <Texture Name="gEffMagmaBubble1Tex" OutName="eff_magma_bubbles_1" Format="ia8" Width="16" Height="24" Offset="0x23810"/>
         <Texture Name="gEffMagmaBubble2Tex" OutName="eff_magma_bubbles_2" Format="ia8" Width="16" Height="24" Offset="0x23990"/>
@@ -855,20 +856,23 @@
         <Texture Name="gMoonTex" OutName="moon" Format="ia8" Width="64" Height="64" Offset="0x37F00"/>
         <DList Name="gMoonDL" Offset="0x38F00"/>
         <Texture Name="gUnknownCircle6Tex" OutName="unknown_circle_6" Format="i8" Width="32" Height="32" Offset="0x38FB0"/>
-        <Collision Name="gUnknown1Col" Offset="0x394B0"/>
+        <Collision Name="gLargerCubeCol" Offset="0x394B0"/> <!-- unused in game -->
         <DList Name="gLiftableRockDL" Offset="0x39660"/>
+
+        <!-- unused in game -->
         <DList Name="gUnusedRockRectangularPrism1DL" Offset="0x39890"/>
-        <Collision Name="gUnknown2Col" Offset="0x39A48"/>
-        <DList Name="gUnusedRockRectangularPrism2DL" Offset="0x39C00"/>
-        <Collision Name="gUnknown3Col" Offset="0x39DC0"/>
+        <Collision Name="gWideTallBlockCol" Offset="0x39A48"/>
+        <DList Name="gFlatBlockDL" Offset="0x39C00"/>
+        <Collision Name="gTallBlockCol" Offset="0x39DC0"/>
         <DList Name="gUnusedRockRectangularPrism3DL" Offset="0x39F70"/>
-        <Collision Name="gUnknown4Col" Offset="0x3A120"/>
-        <DList Name="gUnusedRockRectangularPrism4DL" Offset="0x3A2D0"/>
-        <Collision Name="gUnknown5Col" Offset="0x3A480"/>
-        <DList Name="gUnusedRockRectangularPrism5DL" Offset="0x3A630"/>
-        <Collision Name="gUnknown6Col" Offset="0x3A7F0"/>
-        <DList Name="gUnusedTreeStumpDL" Offset="0x3A9B0"/>
-        <DList Name="gUnusedGrassBladesDL" Offset="0x3AB80"/>
+        <Collision Name="gSmallerFlatBlockCol" Offset="0x3A120"/>
+        <DList Name="gFlatRotBlockDL" Offset="0x3A2D0"/>
+        <Collision Name="gLargerFlatBlockCol" Offset="0x3A480"/>
+        <DList Name="gSmallCubeDL" Offset="0x3A630"/>
+        <Collision Name="gSmallerCubeCol" Offset="0x3A7F0"/>
+        <DList Name="gTreeStumpDL" Offset="0x3A9B0"/>
+        <DList Name="gGrassBladesDL" Offset="0x3AB80"/>
+
         <Texture Name="gHeartShapeTex" OutName="heart_shape" Format="i8" Width="16" Height="16" Offset="0x3AC30"/>
         <DList Name="gHeartPieceInteriorDL" Offset="0x3B030"/>
         <DList Name="gHeartPieceExteriorDL" Offset="0x3BBA0"/>

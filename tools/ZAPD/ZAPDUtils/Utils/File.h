@@ -1,8 +1,8 @@
 #pragma once
 
+#include <cstdio>
 #include <fstream>
 #include <iostream>
-#include <stdio.h>
 #include <string>
 #include <vector>
 #include "Directory.h"

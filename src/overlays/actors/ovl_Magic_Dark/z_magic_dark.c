@@ -7,9 +7,7 @@
 #include "z_magic_dark.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x02000010
-
-#define THIS ((MagicDark*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -32,13 +30,13 @@ const ActorInit Magic_Dark_InitVars = {
     (ActorFunc)MagicDark_OrbDraw,
 };
 
-#include "z_magic_dark_gfx.c"
+#include "overlays/ovl_Magic_Dark/ovl_Magic_Dark.c"
 
 // unused
 static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
 
 void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
-    MagicDark* this = THIS;
+    MagicDark* this = (MagicDark*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     if (!LINK_IS_ADULT) {
@@ -71,7 +69,7 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
-    MagicDark* this = THIS;
+    MagicDark* this = (MagicDark*)thisx;
     u8 phi_a0;
     Player* player = GET_PLAYER(globalCtx);
     s16 pad;
@@ -80,7 +78,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
 
     if (1) {}
 
-    if ((msgMode == 0xD) || (msgMode == 0x11)) {
+    if ((msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(thisx);
         return;
     }
@@ -111,7 +109,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
     if (nayrusLoveTimer >= 1180) {
         this->primAlpha = 15595 - (nayrusLoveTimer * 13);
         if (nayrusLoveTimer & 1) {
-            this->primAlpha = (u8)(this->primAlpha >> 1);
+            this->primAlpha = this->primAlpha >> 1;
         }
     } else if (nayrusLoveTimer >= 1100) {
         this->primAlpha = (u8)(nayrusLoveTimer << 7) + 127;
@@ -170,7 +168,7 @@ void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity) {
 }
 
 void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx) {
-    MagicDark* this = THIS;
+    MagicDark* this = (MagicDark*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -198,7 +196,7 @@ void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
-    MagicDark* this = THIS;
+    MagicDark* this = (MagicDark*)thisx;
     s32 pad;
     u16 gameplayFrames = globalCtx->gameplayFrames;
 
@@ -225,18 +223,18 @@ void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (s32)(this->primAlpha * 0.6f) & 0xFF);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
-        gSPDisplayList(POLY_XLU_DISP++, sDiamondTexDList);
+        gSPDisplayList(POLY_XLU_DISP++, sDiamondMaterialDL);
         gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 2, gameplayFrames * -4, 32, 32, 1,
                                         0, gameplayFrames * -16, 64, 32));
-        gSPDisplayList(POLY_XLU_DISP++, sDiamondVertsDList);
+        gSPDisplayList(POLY_XLU_DISP++, sDiamondModelDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 570);
 }
 
 void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx) {
-    MagicDark* this = THIS;
+    MagicDark* this = (MagicDark*)thisx;
     Vec3f pos;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
@@ -269,7 +267,7 @@ void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 255);
     Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+    Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
     Matrix_Push();
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 632),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

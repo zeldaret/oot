@@ -10,9 +10,7 @@
 #include "overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnWallTubo*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ const ActorInit En_Wall_Tubo_InitVars = {
 };
 
 void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallTubo* this = THIS;
+    EnWallTubo* this = (EnWallTubo*)thisx;
 
     osSyncPrintf("\n\n");
     // "Wall Target"
@@ -73,7 +71,7 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
     s16 quakeIndex;
 
     if (this->chuGirl->minigamePlayStatus != 0) {
-        if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FIXED1) {
+        if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_CHU_BOWLING) {
             chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
             while (chu != NULL) {
@@ -140,7 +138,7 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx) {
 }
 
 void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallTubo* this = THIS;
+    EnWallTubo* this = (EnWallTubo*)thisx;
 
     if (this->timer != 0) {
         this->timer--;

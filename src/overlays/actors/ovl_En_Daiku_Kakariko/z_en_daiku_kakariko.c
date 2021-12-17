@@ -7,9 +7,7 @@
 #include "z_en_daiku_kakariko.h"
 #include "objects/object_daiku/object_daiku.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnDaikuKakariko*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 typedef enum {
     /* 0x0 */ CARPENTER_ICHIRO,  // Red and purple pants, normal hair
@@ -119,7 +117,7 @@ void EnDaikuKakariko_SetAnimFromIndex(EnDaikuKakariko* this, s32 animIndex, s32*
 
 void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u16 initFlags[] = { 0x0080, 0x00B0, 0x0070, 0x0470 }; // List of inital values for this->flags
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     s32 pad;
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
@@ -197,7 +195,7 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDaikuKakariko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -205,7 +203,7 @@ void EnDaikuKakariko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, GlobalContext* globalCtx) {
     s32 talkState = 2;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         switch (this->actor.textId) {
             case 0x6061:
                 gSaveContext.infTable[23] |= 0x40;
@@ -226,10 +224,10 @@ void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, GlobalContext* globalC
 
     if (this->talkState == 2) {
         this->talkState = EnDaikuKakariko_GetTalkState(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->talkState = 2;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);
 
         if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
             (func_8002F2CC(&this->actor, globalCtx, 100.0f) == 1)) {
@@ -445,7 +443,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
 }
 
 void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
@@ -487,7 +485,7 @@ void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                      void* thisx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     Vec3s angle;
 
     switch (limbIndex) {
@@ -520,7 +518,7 @@ void EnDaikuKakariko_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
     static Gfx* carpenterHeadDLists[] = { object_daiku_DL_005BD0, object_daiku_DL_005AC0, object_daiku_DL_005990,
                                           object_daiku_DL_005880 };
     static Vec3f unkVec = { 700.0f, 1100.0f, 0.0f };
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku_kakariko.c", 1104);
 
@@ -533,7 +531,7 @@ void EnDaikuKakariko_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 }
 
 void EnDaikuKakariko_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku_kakariko.c", 1124);
 

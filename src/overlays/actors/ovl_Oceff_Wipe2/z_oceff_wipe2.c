@@ -7,9 +7,7 @@
 #include "z_oceff_wipe2.h"
 #include "vt.h"
 
-#define FLAGS 0x02000010
-
-#define THIS ((OceffWipe2*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void OceffWipe2_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -28,18 +26,17 @@ const ActorInit Oceff_Wipe2_InitVars = {
     (ActorFunc)OceffWipe2_Draw,
 };
 
-#include "z_oceff_wipe2_gfx.c"
-
 void OceffWipe2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe2* this = THIS;
+    OceffWipe2* this = (OceffWipe2*)thisx;
+
     Actor_SetScale(&this->actor, 0.1f);
-    this->counter = 0;
+    this->timer = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE2 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
 void OceffWipe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe2* this = THIS;
+    OceffWipe2* this = (OceffWipe2*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     func_800876C8(globalCtx);
@@ -49,18 +46,21 @@ void OceffWipe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffWipe2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe2* this = THIS;
+    OceffWipe2* this = (OceffWipe2*)thisx;
+
     this->actor.world.pos = GET_ACTIVE_CAM(globalCtx)->eye;
-    if (this->counter < 100) {
-        this->counter++;
+    if (this->timer < 100) {
+        this->timer++;
     } else {
         Actor_Kill(&this->actor);
     }
 }
 
+#include "overlays/ovl_Oceff_Wipe2/ovl_Oceff_Wipe2.c"
+
 void OceffWipe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll = globalCtx->state.frames & 0xFF;
-    OceffWipe2* this = THIS;
+    OceffWipe2* this = (OceffWipe2*)thisx;
     f32 z;
     u8 alpha;
     s32 pad[2];
@@ -70,15 +70,15 @@ void OceffWipe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     eye = GET_ACTIVE_CAM(globalCtx)->eye;
     Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(globalCtx));
-    if (this->counter < 32) {
-        z = Math_SinS(this->counter << 9) * 1330;
+    if (this->timer < 32) {
+        z = Math_SinS(this->timer << 9) * 1330;
     } else {
         z = 1330;
     }
 
     vtxPtr = sFrustumVtx;
-    if (this->counter >= 80) {
-        alpha = 12 * (100 - this->counter);
+    if (this->timer >= 80) {
+        alpha = 12 * (100 - this->timer);
     } else {
         alpha = 255;
     }
@@ -93,7 +93,7 @@ void OceffWipe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
-    func_800D1FD4(&globalCtx->mf_11DA0);
+    func_800D1FD4(&globalCtx->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe2.c", 400),
@@ -101,7 +101,7 @@ void OceffWipe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 100, 0, 128);
-    gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+    gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 6, scroll * (-6), 64, 64, 1,
                                                      scroll * (-6), 0, 64, 64));
     gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);

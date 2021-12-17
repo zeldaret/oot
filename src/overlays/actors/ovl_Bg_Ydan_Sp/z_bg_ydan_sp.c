@@ -7,9 +7,7 @@
 #include "z_bg_ydan_sp.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgYdanSp*)thisx)
+#define FLAGS 0
 
 void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -83,7 +81,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanSp* this = THIS;
+    BgYdanSp* this = (BgYdanSp*)thisx;
     ColliderTrisElementInit* ti0 = &sTrisItemsInit[0];
     Vec3f tri[3];
     s32 i;
@@ -148,7 +146,7 @@ void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanSp* this = THIS;
+    BgYdanSp* this = (BgYdanSp*)thisx;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->trisCollider);
 }
@@ -298,7 +296,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
             if (this->dyna.actor.xzDistToPlayer < 80.0f) {
                 this->unk16C = 200.0f;
                 this->dyna.actor.room = -1;
-                this->dyna.actor.flags |= 0x10;
+                this->dyna.actor.flags |= ACTOR_FLAG_4;
                 this->timer = 40;
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WEB_BROKEN);
                 this->actionFunc = BgYdanSp_FloorWebBreaking;
@@ -335,7 +333,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
         if (this->unk16C > 3.0f) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WEB_VIBRATION);
         } else {
-            Audio_StopSfx(NA_SE_EV_WEB_VIBRATION);
+            Audio_StopSfxById(NA_SE_EV_WEB_VIBRATION);
         }
     }
     BgYdanSp_UpdateFloorWebCollision(this);
@@ -415,12 +413,13 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
 }
 
 void BgYdanSp_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanSp* this = THIS;
+    BgYdanSp* this = (BgYdanSp*)thisx;
+
     this->actionFunc(this, globalCtx);
 }
 
 void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanSp* this = THIS;
+    BgYdanSp* this = (BgYdanSp*)thisx;
     s32 i;
     MtxF mtxF;
 
@@ -441,7 +440,7 @@ void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         for (i = 0; i < 8; i++) {
             Matrix_Put(&mtxF);
-            Matrix_RotateRPY(-0x5A0, i * 0x2000, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(-0x5A0, i * 0x2000, 0, MTXMODE_APPLY);
             Matrix_Translate(0.0f, 700.0f, -900.0f, MTXMODE_APPLY);
             Matrix_Scale(3.5f, 5.0f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 830),

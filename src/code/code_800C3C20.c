@@ -8,6 +8,6 @@ void func_800C3C20(void) {
     s32 i;
 
     for (i = 0; (i < ARRAY_COUNT(D_8012D200)) & 0xFFFFFFFF; i++) {
-        func_800F87A0(D_8012D200[i]);
+        Audio_StopSfxByBank(D_8012D200[i]);
     }
 }

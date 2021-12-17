@@ -1,7 +1,7 @@
 #ifndef ULTRA64_TIME_H
 #define ULTRA64_TIME_H
 
-#include "ultra64/message.h"
+#include "message.h"
 
 typedef u64 OSTime;
 

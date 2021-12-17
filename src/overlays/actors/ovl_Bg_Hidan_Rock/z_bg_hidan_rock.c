@@ -7,9 +7,7 @@
 #include "z_bg_hidan_rock.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHidanRock*)thisx)
+#define FLAGS 0
 
 void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -69,7 +67,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRock* this = THIS;
+    BgHidanRock* this = (BgHidanRock*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -93,7 +91,7 @@ void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             this->actionFunc = func_8088B268;
         }
-        thisx->flags |= 0x30;
+        thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
         CollisionHeader_GetVirtual(&gFireTempleStoneBlock1Col, &colHeader);
     } else {
         CollisionHeader_GetVirtual(&gFireTempleStoneBlock2Col, &colHeader);
@@ -108,15 +106,15 @@ void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRock* this = THIS;
+    BgHidanRock* this = (BgHidanRock*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
-    func_800F89E8(&this->unk_170);
+    Audio_StopSfxByPos(&this->unk_170);
 }
 
 void func_8088B24C(BgHidanRock* this) {
-    this->dyna.actor.flags |= 0x30;
+    this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->actionFunc = func_8088B990;
 }
 
@@ -249,7 +247,7 @@ void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
         } else {
             this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 15.0f;
             this->actionFunc = func_8088B90C;
-            this->dyna.actor.flags &= ~0x30;
+            this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
         }
 
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
@@ -266,7 +264,7 @@ void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_HIDAN1);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_FIRE_PLATFORM);
         } else if (!func_8004356C(&this->dyna)) {
             if (this->unk_169 != 0) {
                 Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
@@ -319,7 +317,7 @@ void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_HIDAN1);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_FIRE_PLATFORM);
         } else if (!func_8004356C(&this->dyna)) {
             if (this->unk_169 != 0) {
                 Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
@@ -330,7 +328,7 @@ void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRock* this = THIS;
+    BgHidanRock* this = (BgHidanRock*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (this->actionFunc == func_8088B79C) {
@@ -366,7 +364,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
                          MTXMODE_NEW);
     }
 
-    Matrix_RotateRPY(0, Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(0, Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000, 0, MTXMODE_APPLY);
     Matrix_Translate(-10.5f, 0.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(6.0f, this->unk_16C, 6.0f, MTXMODE_APPLY);
 
@@ -379,7 +377,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
 }
 
 void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRock* this = THIS;
+    BgHidanRock* this = (BgHidanRock*)thisx;
     s32 pad;
 
     if (this->type == 0) {
@@ -390,9 +388,9 @@ void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_16C > 0.0f) {
         if (this->type == 0) {
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &D_8088BF60, &this->unk_170);
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &D_8088BF60, &this->unk_170);
         } else {
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->dyna.actor.home.pos, &this->unk_170);
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &this->dyna.actor.home.pos, &this->unk_170);
         }
 
         func_80078914(&this->unk_170, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);

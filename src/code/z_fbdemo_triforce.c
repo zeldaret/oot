@@ -1,29 +1,9 @@
 #include "global.h"
 
-Gfx sTriforceDList[] = {
-    gsDPPipeSync(),
-    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
-    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
-                          G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
-    gsDPSetCombineMode(G_CC_DECALRGB, G_CC_DECALRGB),
-    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
-                         G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_1PRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | G_RM_AA_OPA_SURF | G_RM_AA_OPA_SURF2),
-    gsSPEndDisplayList(),
-};
-
-Vtx sTriforceVTX[] = {
-    VTX(0, 577, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),        VTX(1000, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-1000, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),  VTX(0, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(500, -288, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),     VTX(-500, -288, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-32000, 32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF), VTX(32000, 32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(32000, -32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF), VTX(-32000, -32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-};
-
-#define THIS ((TransitionTriforce*)thisx)
+#include "code/fbdemo_triforce/z_fbdemo_triforce.c"
 
 void TransitionTriforce_Start(void* thisx) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     switch (this->state) {
         case 1:
@@ -35,7 +15,7 @@ void TransitionTriforce_Start(void* thisx) {
 }
 
 void* TransitionTriforce_Init(void* thisx) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     bzero(this, sizeof(*this));
     guOrtho(&this->projection, -160.0f, 160.0f, -120.0f, 120.0f, -1000.0f, 1000.0f, 1.0f);
@@ -50,7 +30,7 @@ void TransitionTriforce_Destroy(void* thisx) {
 }
 
 void TransitionTriforce_Update(void* thisx, s32 updateRate) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
     f32 temp_f0;
     s32 i;
 
@@ -68,20 +48,20 @@ void TransitionTriforce_Update(void* thisx, s32 updateRate) {
 }
 
 void TransitionTriforce_SetColor(void* thisx, u32 color) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     this->color.rgba = color;
 }
 
 void TransitionTriforce_SetType(void* thisx, s32 type) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     this->fadeDirection = type;
 }
 
 // unused
 void TransitionTriforce_SetState(void* thisx, s32 state) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     this->state = state;
 }
@@ -90,7 +70,7 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
     Mtx* modelView;
     f32 scale;
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
     s32 pad;
     f32 rotation = this->transPos * 360.0f;
 
@@ -102,14 +82,14 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
     guRotate(&modelView[1], rotation, 0.0f, 0.0f, 1.0f);
     guTranslate(&modelView[2], 0.0f, 0.0f, 0.0f);
     gDPPipeSync(gfx++);
-    gSPDisplayList(gfx++, sTriforceDList);
+    gSPDisplayList(gfx++, sTriforceWipeDL);
     gDPSetColor(gfx++, G_SETPRIMCOLOR, this->color.rgba);
     gDPSetCombineMode(gfx++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
     gSPMatrix(gfx++, &this->projection, G_MTX_LOAD | G_MTX_PROJECTION);
     gSPMatrix(gfx++, &modelView[0], G_MTX_LOAD);
     gSPMatrix(gfx++, &modelView[1], G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_MUL);
     gSPMatrix(gfx++, &modelView[2], G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_MUL);
-    gSPVertex(gfx++, sTriforceVTX, 10, 0);
+    gSPVertex(gfx++, sTriforceWipeVtx, 10, 0);
     if (!TransitionTriforce_IsDone(this)) {
         switch (this->fadeDirection) {
             case 1:
@@ -137,7 +117,7 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
 }
 
 s32 TransitionTriforce_IsDone(void* thisx) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     s32 ret = 0;
 

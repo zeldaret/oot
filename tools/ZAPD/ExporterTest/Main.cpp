@@ -1,7 +1,7 @@
-#include <CollisionExporter.h>
-#include <Globals.h>
-#include <RoomExporter.h>
-#include <TextureExporter.h>
+#include "CollisionExporter.h"
+#include "Globals.h"
+#include "RoomExporter.h"
+#include "TextureExporter.h"
 
 enum class ExporterFileMode
 {
@@ -76,4 +76,4 @@ static void ImportExporters()
 
 // When ZAPD starts up, it will automatically call the below function, which in turn sets up our
 // exporters.
-REGISTER_EXPORTER(ImportExporters)
+REGISTER_EXPORTER(ImportExporters);

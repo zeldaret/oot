@@ -8,6 +8,7 @@
 #include "Utils/Directory.h"
 #include "Utils/File.h"
 #include "Utils/Path.h"
+#include "WarningHandler.h"
 
 REGISTER_ZFILENODE(Texture, ZTexture);
 
@@ -57,17 +58,17 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 
 	if (!StringHelper::HasOnlyDigits(widthXml))
 	{
-		throw std::runtime_error(
-			StringHelper::Sprintf("ZTexture::ParseXML: Error in %s\n"
-		                          "\t Value of 'Width' attribute has non-decimal digits: '%s'.\n",
-		                          name.c_str(), widthXml.c_str()));
+		std::string errorHeader = StringHelper::Sprintf(
+			"value of 'Width' attribute has non-decimal digits: '%s'", widthXml.c_str());
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      errorHeader, "");
 	}
 	if (!StringHelper::HasOnlyDigits(heightXml))
 	{
-		throw std::runtime_error(
-			StringHelper::Sprintf("ZTexture::ParseXML: Error in %s\n"
-		                          "\t Value of 'Height' attribute has non-decimal digits: '%s'.\n",
-		                          name.c_str(), heightXml.c_str()));
+		std::string errorHeader = StringHelper::Sprintf(
+			"value of 'Height' attribute has non-decimal digits: '%s'", heightXml.c_str());
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      errorHeader, "");
 	}
 
 	width = StringHelper::StrToL(widthXml);
@@ -77,7 +78,10 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 	format = GetTextureTypeFromString(formatStr);
 
 	if (format == TextureType::Error)
-		throw std::runtime_error("Format " + formatStr + " is not supported!");
+	{
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      "invalid value found for 'Format' attribute", "");
+	}
 
 	const auto& tlutOffsetAttr = registeredAttributes.at("TlutOffset");
 	if (tlutOffsetAttr.wasSet)
@@ -90,10 +94,9 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 			break;
 
 		default:
-			throw std::runtime_error(StringHelper::Sprintf(
-				"ZTexture::ParseXML: Error in %s\n"
-				"\t 'TlutOffset' declared in non color-indexed (ci4 or ci8) texture.\n",
-				name.c_str()));
+			HANDLE_ERROR_RESOURCE(WarningType::InvalidXML, parent, this, rawDataIndex,
+			                      "'TlutOffset' declared in non color-indexed (ci4 or ci8) texture",
+			                      "");
 			break;
 		}
 	}
@@ -102,10 +105,10 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 void ZTexture::ParseRawData()
 {
 	if (rawDataIndex % 8 != 0)
-		fprintf(stderr,
-		        "ZTexture::ParseXML: Warning in '%s'.\n"
-		        "\t This texture is not 64-bit aligned.\n",
-		        name.c_str());
+	{
+		HANDLE_WARNING_RESOURCE(WarningType::NotImplemented, parent, this, rawDataIndex,
+		                        "this texture is not 64-bit aligned", "");
+	}
 
 	switch (format)
 	{
@@ -136,8 +139,11 @@ void ZTexture::ParseRawData()
 	case TextureType::Palette8bpp:
 		PrepareBitmapPalette8();
 		break;
-	default:
-		throw std::runtime_error("Format is not supported!");
+	case TextureType::Error:
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      StringHelper::Sprintf("Invalid texture format", format), "");
+		assert(!"TODO");
+		break;
 	}
 }
 
@@ -375,8 +381,9 @@ void ZTexture::PrepareRawDataFromFile(const fs::path& pngFilePath)
 	case TextureType::Palette8bpp:
 		PrepareRawDataPalette8(pngFilePath);
 		break;
-	default:
-		throw std::runtime_error("Format is not supported!");
+	case TextureType::Error:
+		HANDLE_ERROR_PROCESS(WarningType::InvalidPNG, "Input PNG file has invalid format type", "");
+		break;
 	}
 }
 
@@ -860,13 +867,9 @@ TextureType ZTexture::GetTextureTypeFromString(const std::string& str)
 	else if (str == "rgb5a1")
 	{
 		texType = TextureType::RGBA16bpp;
-#ifdef DEPRECATION_ON
-		fprintf(stderr, "ZTexture::GetTextureTypeFromString: Deprecation warning.\n"
-		                "\t The texture format 'rgb5a1' is currently deprecated, and will be "
-		                "removed in a future "
-		                "version.\n"
-		                "\t Use the format 'rgba16' instead.\n");
-#endif
+		HANDLE_WARNING(WarningType::Deprecated,
+		               "the texture format 'rgb5a1' is currently deprecated",
+		               "It will be removed in a future version. Use the format 'rgba16' instead.");
 	}
 	else if (str == "i4")
 		texType = TextureType::Grayscale4bpp;
@@ -883,7 +886,9 @@ TextureType ZTexture::GetTextureTypeFromString(const std::string& str)
 	else if (str == "ci8")
 		texType = TextureType::Palette8bpp;
 	else
-		fprintf(stderr, "Encountered Unknown Texture format %s \n", str.c_str());
+		// TODO: handle this case in a more coherent way
+		HANDLE_WARNING(WarningType::InvalidAttributeValue,
+		               "invalid value found for 'Type' attribute", "Defaulting to ''.");
 	return texType;
 }
 

@@ -8,7 +8,7 @@
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* 0x0 */ STA_GIANT_BIRD_STATUE,
@@ -16,8 +16,6 @@ typedef enum {
     /* 0x2 */ STA_BOMBABLE_RUBBLE,
     /* 0x3 */ STA_UNKNOWN
 } ShadowTempleAssetsType;
-
-#define THIS ((BgHakaZou*)thisx)
 
 void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -75,7 +73,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHakaZou* this = THIS;
+    BgHakaZou* this = (BgHakaZou*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
@@ -124,7 +122,7 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaZou* this = THIS;
+    BgHakaZou* this = (BgHakaZou*)thisx;
 
     if (this->dyna.actor.params != STA_UNKNOWN) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -392,7 +390,7 @@ void BgHakaZou_DoNothing(BgHakaZou* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaZou* this = THIS;
+    BgHakaZou* this = (BgHakaZou*)thisx;
 
     this->actionFunc(this, globalCtx);
 
@@ -402,7 +400,12 @@ void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaZou_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dLists[] = { 0x060064E0, 0x06005CE0, gBotwBombSpotDL, 0x06005CE0 };
+    static Gfx* dLists[] = {
+        object_haka_objects_DL_0064E0,
+        object_haka_objects_DL_005CE0,
+        gBotwBombSpotDL,
+        object_haka_objects_DL_005CE0,
+    };
 
     Gfx_DrawDListOpa(globalCtx, dLists[thisx->params]);
 }

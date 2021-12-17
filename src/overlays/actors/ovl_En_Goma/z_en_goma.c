@@ -4,9 +4,7 @@
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((EnGoma*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -107,7 +105,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
     s16 params;
 
     this->eggTimer = Rand_ZeroOne() * 200.0f;
@@ -121,10 +119,10 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->gomaType = ENGOMA_BOSSLIMB;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actionTimer = this->actor.params + 150;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else if (params >= 10) { // Debris when hatching
         this->actor.gravity = -1.3f;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actionTimer = 50;
         this->gomaType = ENGOMA_HATCH_DEBRIS;
         this->eggScale = 1.0f;
@@ -172,7 +170,7 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
 
     if (this->actor.params < 10) {
         Collider_DestroyCylinder(globalCtx, &this->colCyl1);
@@ -195,7 +193,7 @@ void EnGoma_SetupFlee(EnGoma* this) {
 
 void EnGoma_Flee(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
-    Math_ApproachF(&this->actor.speedXZ, 6.6666665f, 0.5f, 2.0f);
+    Math_ApproachF(&this->actor.speedXZ, 20.0f / 3.0f, 0.5f, 2.0f);
     Math_ApproachS(&this->actor.world.rot.y,
                    Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000, 3, 2000);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 3000);
@@ -368,7 +366,7 @@ void EnGoma_SetupDie(EnGoma* this) {
     }
 
     this->invincibilityTimer = 100;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void EnGoma_Die(EnGoma* this, GlobalContext* globalCtx) {
@@ -417,6 +415,7 @@ void EnGoma_Dead(EnGoma* this, GlobalContext* globalCtx) {
     if (this->actionTimer == 0 && Math_SmoothStepToF(&this->actor.scale.y, 0.0f, 0.5f, 0.00225f, 0.00001f) <= 0.001f) {
         if (this->actor.params < 6) {
             BossGoma* parent = (BossGoma*)this->actor.parent;
+
             parent->childrenGohmaState[this->actor.params] = -1;
         }
         Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -498,7 +497,7 @@ void EnGoma_SetupJump(EnGoma* this) {
 }
 
 void EnGoma_Jump(EnGoma* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     SkelAnime_Update(&this->skelanime);
     Math_ApproachF(&this->actor.speedXZ, 10.0f, 0.5f, 5.0f);
 
@@ -535,7 +534,7 @@ void EnGoma_ChasePlayer(EnGoma* this, GlobalContext* globalCtx) {
         }
     }
 
-    Math_ApproachF(&this->actor.speedXZ, 3.3333333f, 0.5f, 2.0f);
+    Math_ApproachF(&this->actor.speedXZ, 10.0f / 3.0f, 0.5f, 2.0f);
     Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 3, 2000);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 3000);
 
@@ -632,7 +631,7 @@ void EnGoma_UpdateHit(EnGoma* this, GlobalContext* globalCtx) {
                         this->actor.velocity.y = 0.0f;
                         this->actor.speedXZ = -5.0f;
                     } else {
-                        Matrix_RotateY(player->actor.shape.rot.y / 32768.0f * 3.1415927f, MTXMODE_NEW);
+                        Matrix_RotateY(player->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_NEW);
                         Matrix_MultVec3f(&sShieldKnockbackVel, &this->shieldKnockbackVel);
                         this->invincibilityTimer = 5;
                     }
@@ -659,6 +658,7 @@ void EnGoma_UpdateHit(EnGoma* this, GlobalContext* globalCtx) {
                 // die if still an egg
                 if (this->actor.params <= 5) { //! BossGoma only has 3 children
                     BossGoma* parent = (BossGoma*)this->actor.parent;
+
                     parent->childrenGohmaState[this->actor.params] = -1;
                 }
 
@@ -690,13 +690,13 @@ void EnGoma_SetFloorRot(EnGoma* this) {
         nx = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
         ny = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
         nz = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
-        Math_ApproachS(&this->slopePitch, -Math_FAtan2F(-nz * ny, 1.0f) * 10430.378f, 1, 1000);
-        Math_ApproachS(&this->slopeRoll, Math_FAtan2F(-nx * ny, 1.0f) * 10430.378f, 1, 1000);
+        Math_ApproachS(&this->slopePitch, -Math_FAtan2F(-nz * ny, 1.0f) * (0x8000 / M_PI), 1, 1000);
+        Math_ApproachS(&this->slopeRoll, Math_FAtan2F(-nx * ny, 1.0f) * (0x8000 / M_PI), 1, 1000);
     }
 }
 
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -746,7 +746,7 @@ void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_goma.c", 1976);
     gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->eyeEnvColor[0], (s16)this->eyeEnvColor[1], (s16)this->eyeEnvColor[2],
@@ -777,7 +777,7 @@ Gfx* EnGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
 }
 
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoma* this = THIS;
+    EnGoma* this = (EnGoma*)thisx;
     s32 y;
     s32 pad;
 
@@ -791,11 +791,11 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
                              this->actor.world.pos.y + ((this->actor.shape.yOffset * this->actor.scale.y) +
                                                         globalCtx->mainCamera.skyboxOffset.y),
                              this->actor.world.pos.z, MTXMODE_NEW);
-            Matrix_RotateX(this->slopePitch / 32768.0f * 3.1415927f, MTXMODE_APPLY);
-            Matrix_RotateZ(this->slopeRoll / 32768.0f * 3.1415927f, MTXMODE_APPLY);
-            Matrix_RotateY(this->actor.shape.rot.y / 32768.0f * 3.1415927f, MTXMODE_APPLY);
-            Matrix_RotateX(this->actor.shape.rot.x / 32768.0f * 3.1415927f, MTXMODE_APPLY);
-            Matrix_RotateZ(this->actor.shape.rot.z / 32768.0f * 3.1415927f, MTXMODE_APPLY);
+            Matrix_RotateX(this->slopePitch / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+            Matrix_RotateZ(this->slopeRoll / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+            Matrix_RotateY(this->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+            Matrix_RotateX(this->actor.shape.rot.x / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+            Matrix_RotateZ(this->actor.shape.rot.z / (f32)0x8000 * M_PI, MTXMODE_APPLY);
             Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
             SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, EnGoma_OverrideLimbDraw,
                               NULL, this);
@@ -862,8 +862,8 @@ void EnGoma_SpawnHatchDebris(EnGoma* this, GlobalContext* globalCtx2) {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA,
                            Rand_CenteredFloat(10.0f) + this->actor.world.pos.x,
                            Rand_CenteredFloat(10.0f) + this->actor.world.pos.y + 15.0f,
-                           Rand_CenteredFloat(10.0f) + this->actor.world.pos.z, 0, Rand_CenteredFloat(65535.99f), 0,
-                           i + 10);
+                           Rand_CenteredFloat(10.0f) + this->actor.world.pos.z, 0, Rand_CenteredFloat(0x10000 - 0.01f),
+                           0, i + 10);
     }
 }
 

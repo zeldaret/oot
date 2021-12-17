@@ -6,9 +6,7 @@
 
 #include "z_en_river_sound.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnRiverSound*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -28,7 +26,7 @@ const ActorInit En_River_Sound_InitVars = {
 };
 
 void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnRiverSound* this = THIS;
+    EnRiverSound* this = (EnRiverSound*)thisx;
 
     this->playSound = 0;
     this->pathIndex = (this->actor.params >> 8) & 0xFF;
@@ -48,7 +46,7 @@ void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnRiverSound* this = THIS;
+    EnRiverSound* this = (EnRiverSound*)thisx;
 
     if (this->actor.params == RS_SARIAS_SONG) {
         Audio_ClearSariaBgmAtPos(&this->actor.projectedPos);
@@ -168,7 +166,7 @@ void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx) {
     Path* path;
     Vec3f* pos;
     Player* player = GET_PLAYER(globalCtx);
-    EnRiverSound* this = THIS;
+    EnRiverSound* this = (EnRiverSound*)thisx;
     s32 sp34;
 
     if ((thisx->params == RS_UNK_0) || (thisx->params == RS_UNK_4) || (thisx->params == RS_UNK_5)) {
@@ -230,7 +228,7 @@ void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
         NA_SE_EV_COW_CRY_LV - SFX_FLAG,
     };
     static f32 soundPitch[] = { 0.7f, 1.0f, 1.4f };
-    EnRiverSound* this = THIS;
+    EnRiverSound* this = (EnRiverSound*)thisx;
 
     if (!(this->playSound)) {
         this->playSound = true;
@@ -242,9 +240,9 @@ void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else if (this->actor.params == RS_SARIAS_SONG) {
         func_800F4E30(&this->actor.projectedPos, this->actor.xzDistToPlayer);
     } else if (this->actor.params == RS_UNK_13) {
-        Audio_PlaySariaBgm(&this->actor.home.pos, 62, 1000);
+        Audio_PlaySariaBgm(&this->actor.home.pos, NA_BGM_SARIA_THEME, 1000);
     } else if (this->actor.params == RS_UNK_19) {
-        Audio_PlaySariaBgm(&this->actor.home.pos, 40, 800);
+        Audio_PlaySariaBgm(&this->actor.home.pos, NA_BGM_GREAT_FAIRY, 800);
     } else if ((this->actor.params == RS_SANDSTORM) || (this->actor.params == RS_CHAMBER_OF_SAGES_1) ||
                (this->actor.params == RS_CHAMBER_OF_SAGES_2) || (this->actor.params == RS_RUMBLING)) {
         func_800788CC(soundEffects[this->actor.params]);

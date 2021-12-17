@@ -7,9 +7,7 @@
 #include "z_en_eg.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnEg*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnEg_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEg_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -44,7 +42,7 @@ void EnEg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnEg_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnEg* this = THIS;
+    EnEg* this = (EnEg*)thisx;
 
     this->action = 0;
 }
@@ -54,7 +52,7 @@ void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
         // Void the player out
         Gameplay_TriggerRespawn(globalCtx);
         gSaveContext.respawnFlag = -2;
-        Audio_QueueSeqCmd(NA_BGM_STOP);
+        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
         globalCtx->fadeTransition = 2;
         EnEg_PlayVoidOutSFX();
         voided = true;
@@ -62,7 +60,7 @@ void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
 }
 
 void EnEg_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnEg* this = THIS;
+    EnEg* this = (EnEg*)thisx;
     s32 action = this->action;
 
     if (((action < 0) || (0 < action)) || (sActionFuncs[action] == NULL)) {
