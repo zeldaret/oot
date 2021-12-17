@@ -117,7 +117,7 @@ void HealthMeter_Init(GlobalContext* globalCtx) {
     interfaceCtx->unk_228 = 0x140;
     interfaceCtx->unk_226 = gSaveContext.health;
     interfaceCtx->beatingHeartOscillator = interfaceCtx->heartColorOscillator = 0;
-    interfaceCtx->beatingHeartOscillatorDirection = interfaceCtx->heartColorOscillatorDirection = 0;
+    interfaceCtx->beatingHeartOscillatorDecrease = interfaceCtx->heartColorOscillatorDecrease = false;
 
     interfaceCtx->heartsPrimR[0] = HEARTS_PRIM_R;
     interfaceCtx->heartsPrimG[0] = HEARTS_PRIM_G;
@@ -156,17 +156,17 @@ void HealthMeter_Update(GlobalContext* globalCtx) {
 
     if (interfaceCtx) {}
 
-    if (interfaceCtx->heartColorOscillatorDirection != 0) {
+    if (interfaceCtx->heartColorOscillatorDecrease) {
         interfaceCtx->heartColorOscillator--;
         if (interfaceCtx->heartColorOscillator <= 0) {
             interfaceCtx->heartColorOscillator = 0;
-            interfaceCtx->heartColorOscillatorDirection = 0;
+            interfaceCtx->heartColorOscillatorDecrease = false;
         }
     } else {
         interfaceCtx->heartColorOscillator++;
         if (interfaceCtx->heartColorOscillator >= 10) {
             interfaceCtx->heartColorOscillator = 10;
-            interfaceCtx->heartColorOscillatorDirection = 1;
+            interfaceCtx->heartColorOscillatorDecrease = true;
         }
     }
 
@@ -302,10 +302,10 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
     f32 offsetX;
     f32 offsetY;
     s32 heartIndex;
-    f32 halfHeartLen;
+    f32 halfHeartLength;
     f32 heartCenterX;
     f32 heartCenterY;
-    f32 heartTexCoord;
+    f32 heartTexCoordPerPixel;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Vtx* beatingHeartVtx = interfaceCtx->beatingHeartVtx;
@@ -447,14 +447,14 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
 
             heartCenterY = 26.0f + offsetY;
             heartCenterX = 30.0f + offsetX;
-            heartTexCoord = 1.0f;
-            heartTexCoord /= 0.68f;
-            heartTexCoord *= 1 << 10;
-            halfHeartLen = 8.0f;
-            halfHeartLen *= 0.68f;
-            gSPTextureRectangle(OVERLAY_DISP++, (s32)((heartCenterX - halfHeartLen) * 4), (s32)((heartCenterY - halfHeartLen) * 4),
-                                (s32)((heartCenterX + halfHeartLen) * 4), (s32)((heartCenterY + halfHeartLen) * 4), G_TX_RENDERTILE, 0, 0,
-                                (s32)heartTexCoord, (s32)heartTexCoord);
+            heartTexCoordPerPixel = 1.0f;
+            heartTexCoordPerPixel /= 0.68f;
+            heartTexCoordPerPixel *= 1 << 10;
+            halfHeartLength = 8.0f;
+            halfHeartLength *= 0.68f;
+            gSPTextureRectangle(OVERLAY_DISP++, (s32)((heartCenterX - halfHeartLength) * 4), (s32)((heartCenterY - halfHeartLength) * 4),
+                                (s32)((heartCenterX + halfHeartLength) * 4), (s32)((heartCenterY + halfHeartLength) * 4), G_TX_RENDERTILE, 0, 0,
+                                (s32)heartTexCoordPerPixel, (s32)heartTexCoordPerPixel);
         } else {
             if ((ddHeartCountMinusOne < 0) || (heartIndex > ddHeartCountMinusOne)) {
                 if (curCombineModeSet != 2) {
@@ -495,14 +495,14 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_lifemeter.c", 606);
 }
 
-void HealthMeter_HandleBeatingHeart(GlobalContext* globalCtx) {
+void HealthMeter_UpdateBeatingHeart(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
-    if (interfaceCtx->beatingHeartOscillatorDirection != 0) {
+    if (interfaceCtx->beatingHeartOscillatorDecrease) {
         interfaceCtx->beatingHeartOscillator--;
         if (interfaceCtx->beatingHeartOscillator <= 0) {
             interfaceCtx->beatingHeartOscillator = 0;
-            interfaceCtx->beatingHeartOscillatorDirection = 0;
+            interfaceCtx->beatingHeartOscillatorDecrease = false;
             if (!Player_InCsMode(globalCtx) && (globalCtx->pauseCtx.state == 0) &&
                 (globalCtx->pauseCtx.debugState == 0) && HealthMeter_IsCritical() && !Gameplay_InCsMode(globalCtx)) {
                 func_80078884(NA_SE_SY_HITPOINT_ALARM);
@@ -512,7 +512,7 @@ void HealthMeter_HandleBeatingHeart(GlobalContext* globalCtx) {
         interfaceCtx->beatingHeartOscillator++;
         if (interfaceCtx->beatingHeartOscillator >= 10) {
             interfaceCtx->beatingHeartOscillator = 10;
-            interfaceCtx->beatingHeartOscillatorDirection = 1;
+            interfaceCtx->beatingHeartOscillatorDecrease = true;
         }
     }
 }
