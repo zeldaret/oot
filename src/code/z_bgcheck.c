@@ -4010,7 +4010,7 @@ u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
 /**
  * SurfaceType Get Wall Property (Internal)
  */
-u32 SurfaceType_GetWallFlagIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u32 SurfaceType_GetWallFlagsIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return SurfaceType_GetData(colCtx, poly, bgId, 0) >> 21 & 0x1F;
 }
 
@@ -4018,7 +4018,7 @@ u32 SurfaceType_GetWallFlagIndex(CollisionContext* colCtx, CollisionPoly* poly, 
  * SurfaceType Get Wall Flags
  */
 s32 SurfaceType_GetWallFlags(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return sWallFlagsTable[SurfaceType_GetWallFlagIndex(colCtx, poly, bgId)];
+    return sWallFlagsTable[SurfaceType_GetWallFlagsIndex(colCtx, poly, bgId)];
 }
 
 /**

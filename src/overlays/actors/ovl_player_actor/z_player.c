@@ -6140,8 +6140,8 @@ s32 Player_IsEnteringCrawlspace(Player* this, GlobalContext* globalCtx, u32 wall
     Vec3f wallVertices[3];
     f32 xTemp1;
     f32 xTemp2;
-    f32 xTemp1;
-    f32 xTemp2;
+    f32 zTemp1;
+    f32 zTemp2;
     s32 i;
 
     if (!LINK_IS_ADULT && !(this->stateFlags1 & 0x8000000) && (wallFlags & BGCHECK_WALL_CRAWLSPACE)) {
@@ -6150,7 +6150,7 @@ s32 Player_IsEnteringCrawlspace(Player* this, GlobalContext* globalCtx, u32 wall
 
         // Determines min and max vertices for x & z (edges of the crawlspace hole)
         xTemp1 = xTemp2 = wallVertices[0].x;
-        xTemp1 = xTemp2 = wallVertices[0].z;
+        zTemp1 = zTemp2 = wallVertices[0].z;
         for (i = 1; i < 3; i++) {
             if (xTemp1 > wallVertices[i].x) {
                 xTemp1 = wallVertices[i].x;
@@ -6158,20 +6158,20 @@ s32 Player_IsEnteringCrawlspace(Player* this, GlobalContext* globalCtx, u32 wall
                 xTemp2 = wallVertices[i].x;
             }
 
-            if (xTemp1 > wallVertices[i].z) {
-                xTemp1 = wallVertices[i].z;
-            } else if (xTemp2 < wallVertices[i].z) {
-                xTemp2 = wallVertices[i].z;
+            if (zTemp1 > wallVertices[i].z) {
+                zTemp1 = wallVertices[i].z;
+            } else if (zTemp2 < wallVertices[i].z) {
+                zTemp2 = wallVertices[i].z;
             }
         }
 
         // Center of the crawlspace hole
         xTemp1 = (xTemp1 + xTemp2) * 0.5f;
-        xTemp1 = (xTemp1 + xTemp2) * 0.5f;
+        zTemp1 = (zTemp1 + zTemp2) * 0.5f;
 
         // y-component of the cross product
         xTemp2 = ((this->actor.world.pos.x - xTemp1) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
-                 ((this->actor.world.pos.z - xTemp1) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
+                 ((this->actor.world.pos.z - zTemp1) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
 
         if (fabsf(xTemp2) < 8.0f) {
             // Enter on A (for crawlspace)
@@ -6186,7 +6186,7 @@ s32 Player_IsEnteringCrawlspace(Player* this, GlobalContext* globalCtx, u32 wall
                 this->stateFlags2 |= 0x40000;
                 this->actor.shape.rot.y = this->currentYaw = this->actor.wallYaw + 0x8000;
                 this->actor.world.pos.x = xTemp1 + (wallDistance * wallXNorm);
-                this->actor.world.pos.z = xTemp1 + (wallDistance * wallZNorm);
+                this->actor.world.pos.z = zTemp1 + (wallDistance * wallZNorm);
                 func_80832224(this);
                 this->actor.prevPos = this->actor.world.pos;
                 func_80832264(globalCtx, this, &gPlayerAnim_002708);
