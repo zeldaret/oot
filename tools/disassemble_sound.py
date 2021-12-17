@@ -17,6 +17,32 @@ tunings = {}
 usedTuning = {}
 bank_ctr = defaultdict(int)
 
+# Fixes up unused data in soundfont into something recognizable
+sf_unused_fixups = {
+    "MQDebug": {
+        0: {
+            0x2a50: ("Envelope", 16),
+            0x2a80: ("Envelope", 12),
+            0x2a90: ("Envelope", 16)
+        }
+    }
+}
+
+# Provides corrected lengths for samples that would otherwise be cut short based on their headers
+bank_fixups = {
+    "MQDebug": {
+        0: {
+            0x212040: 10065,
+            0x21ACF0: 1105,
+            0x21B150: 530,
+            0x241690: 1409,
+            0x25AAC0: 5749,
+            0x260420: 4965,
+            0x26A060: 2657
+        }
+    }
+}
+
 # Used for data gap detection (finding potentially unreferenced data)
 # Format: list of tuples (object, start offset, end offset)
 usedFontData = []
@@ -45,6 +71,7 @@ class Soundfont:
         self.instruments = []
         self.effects = []
         self.percussions = []
+        self.unused = []
 
         if entry.instrumentCount > 0:
             instIdx = 0
@@ -167,7 +194,7 @@ class Envelope:
                     -3: "ADSR_RESTART"
                 }.get(cmd, cmd)
                 self.script.append((cmd, value))
-                if isinstance(cmd, str):
+                if isinstance(cmd, str) and cmd != "ADSR_DISABLE":
                     break
     
             advanceOffset += 4
@@ -242,6 +269,11 @@ class PCMBook:
         for i in range(self.predictorCount):
             self.predictors.append(struct.unpack(">" + str(predictorSize) + "h", remainder[i * predictorSize * 2:(i * predictorSize * 2) + (predictorSize * 2)]))
 
+class UnusedData:
+    def __init__(self, offset, data):
+        self.offset = offset
+        self.data = data
+
 class SampleTableEntry:
     def __init__(self, data, name):
         self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBBxxxxxx", data)
@@ -257,6 +289,7 @@ def parse_raw_def_data(raw_def_data, samplebanks):
     for i in range(count):
         buffer = raw_def_data[16 + (i * 16):32 + (i * 16)]
         entry = SampleTableEntry(buffer, samplebanks[i] or f"{i}")
+        entry.index = i
         bankOffsets[i] = entry.offset
         entries.append(entry)
     for index in range(len(entries)):
@@ -507,12 +540,24 @@ def write_soundfont(font, filename, banknames):
     drums = XmlTree.SubElement(root, "Drums")
     effects = XmlTree.SubElement(root, "SoundEffects")
     envelopes = XmlTree.SubElement(root, "Envelopes")
+    unused = None
+
     [generate_instrument_obj(instruments, inst, envelopesFound) for inst in font.font.instruments]
     [generate_drum_obj(drums, drum, envelopesFound) for drum in font.font.percussions]
     [generate_effect_obj(effects, effect) for effect in font.font.effects]
+    for item in font.font.unused:
+        if isinstance(item, Envelope):
+            envelopesFound[item.name] = item
+        elif isinstance(item, UnusedData):
+            if unused == None:
+                unused = XmlTree.SubElement(root, "Unused")
+            unusedItem = XmlTree.SubElement(unused, "Data", { "Offset": str(item.offset) })
+            bytes_to_str = ','.join([f"0x{x:0>x}" for x in item.data])
+            unusedItem.text = bytes_to_str
     for name in envelopesFound:
         for referencedEnvelope in envelopesFound[name].referencedScripts:
             envelopesFound[referencedEnvelope.name] = referencedEnvelope
+    envelopesFound = dict(sorted(envelopesFound.items()))
     [generate_envelope_obj(envelopes, name, envelope) for name, envelope in envelopesFound.items()]
     xmlstring = minidom.parseString(XmlTree.tostring(root, "unicode")).toprettyxml(indent="\t")
     file = open(filename, "w")
@@ -558,7 +603,7 @@ def get_data_gaps(report_type, data, bin):
         if tup[1] > currentEnd:
             bytes = struct.unpack(f">{tup[1] - currentEnd}b", bin[currentEnd:tup[1]])
             if any(b != 0 for b in bytes):
-                results[currentEnd] = bytes
+                results[currentEnd] = bin[currentEnd:tup[1]]
         elif tup[1] < currentEnd and (lastTuple[1] != tup[1] or lastTuple[2] != tup[2]):
             intersections.append((lastTuple, tup))
         lastTuple = tup
@@ -626,10 +671,14 @@ def serialize_f80(num):
     f80 = f80_sign_bit | f80_exponent | f80_mantissa_bits
     return struct.pack(">HQ", f80 >> 64, f80 & (2 ** 64 - 1))
 
-def write_aifc(raw, bank_defs, entry, filename):
+def write_aifc(version, raw, bank_defs, entry, filename):
     offset = bank_defs[entry.bank].offset + entry.address
-    data = raw[offset:offset + entry.length]
-    usedRawData.append((data, offset, offset + entry.length))
+    length = entry.length if (version not in bank_fixups or \
+        entry.bank not in bank_fixups[version] or \
+        entry.address not in bank_fixups[version][entry.bank]) else bank_fixups[version][entry.bank][entry.address]
+    assert length >= entry.length
+    data = raw[offset:offset + length]
+    usedRawData.append((entry, offset, offset + length))
     frame_size = {
         0: 9,
         1: 16,
@@ -657,8 +706,6 @@ def write_aifc(raw, bank_defs, entry, filename):
         with open(filename, "wb") as file:
             writer = AifcWriter(file)
             num_channels = 1
-    #        length = len(data)
-    #        assert len(data) % frame_size == 0 or len(data) - 1 % frame_size == 0
             if len(data) % 2 == 1:
                 data += b"\0"
             # (Computing num_frames this way makes it off by one when the data length
@@ -806,8 +853,31 @@ def main():
     bank_defs = parse_raw_def_data(bankdef_data, samplebanks)
     fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
 
+    def get_entry_from_absolute_offset(table, offset):
+        for i in range(len(table)):
+            currentOffset = table[i].offset
+            nextOffset = table[i + 1].offset if i < len(table) else sys.maxsize
+            if currentOffset <= offset and offset < nextOffset:
+                return table[i]
+
+    for fontId in sf_unused_fixups[version]:
+        font = fonts[fontId]
+        for offset in sf_unused_fixups[version][fontId]:
+            fixup = sf_unused_fixups[version][fontId][offset]
+            datatype = fixup[0]
+            length = fixup[1]
+            converted_data = {
+                "Envelope": Envelope(font_data, font.offset, offset)
+            }.get(datatype)
+            font.font.unused.append(converted_data)
+
     report_gaps("SOUNDFONT", usedFontData, font_data)
     soundfont_gaps = get_data_gaps("SOUNDFONT", usedFontData, font_data)
+
+    for offset in soundfont_gaps:
+        font = get_entry_from_absolute_offset(fonts, offset)
+        data_wrapper = UnusedData(offset, soundfont_gaps[offset])
+        font.font.unused.append(data_wrapper)
 
     os.makedirs(samples_out_dir, exist_ok=True)
 
@@ -834,11 +904,18 @@ def main():
             filename_base = os.path.join(samples_out_dir, samplebanks[bank])
             os.makedirs(filename_base, exist_ok=True)
             aifc_filename = os.path.join(filename_base, f"{sample.name}.aifc")
-            write_aifc(bank_data, bank_defs, sample, aifc_filename)
+            write_aifc(version, bank_data, bank_defs, sample, aifc_filename)
             write_aiff(sample, samples_out_dir, aifc_filename, f"{sample.name}.aiff")
     
     if len(usedRawData) > 0:
         report_gaps("SAMPLE", usedRawData, bank_data)
+        samplebank_gaps = get_data_gaps("SAMPLE", usedRawData, bank_data)
+        for offset in samplebank_gaps:
+            bank = get_entry_from_absolute_offset(bank_defs, offset)
+            filename = os.path.join(samples_out_dir, bank.name, f"{offset:0>8x} - Unused.bin")
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
+            with open(filename, "wb") as bin_file:
+                bin_file.write(samplebank_gaps[offset])
 
     # Export soundfonts
     for fontentry in fonts:
