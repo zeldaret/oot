@@ -6254,8 +6254,7 @@ s32 func_8083F524(GlobalContext* globalCtx, Player* this) {
 s32 Player_IsLeavingCrawlspace(Player* this, GlobalContext* globalCtx) {
     s16 yawToWall;
 
-    if ((this->linearVelocity != 0.0f) && (this->actor.bgCheckFlags & 8) &&
-        (sWallFlags & BGCHECK_WALL_CRAWLSPACE)) {
+    if ((this->linearVelocity != 0.0f) && (this->actor.bgCheckFlags & 8) && (sWallFlags & BGCHECK_WALL_CRAWLSPACE)) {
 
         yawToWall = this->actor.shape.rot.y - this->actor.wallYaw;
         if (this->linearVelocity < 0.0f) {
@@ -9489,7 +9488,8 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         D_80854798.y = 18.0f;
         D_80854798.z = this->ageProperties->unk_38 + 10.0f;
 
-        if (!(this->stateFlags2 & 0x40000) && func_80839768(globalCtx, this, &D_80854798, &wallPoly, &wallBgId, &D_80858AA8)) {
+        if (!(this->stateFlags2 & 0x40000) &&
+            func_80839768(globalCtx, this, &D_80854798, &wallPoly, &wallBgId, &D_80858AA8)) {
             this->actor.bgCheckFlags |= 0x200;
             if (this->actor.wallPoly != wallPoly) {
                 this->actor.wallPoly = wallPoly;

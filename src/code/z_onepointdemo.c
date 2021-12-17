@@ -331,13 +331,15 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             // Leaving a crawlspace forwards
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_CS_3);
             Gameplay_CameraChangeSetting(globalCtx, MAIN_CAM, mainCam->prevSetting);
-            OnePointCutscene_SetCsCamPoints(csCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer, sCrawlspaceAtPoints, sCrawlspaceForwardsEyePoints);
+            OnePointCutscene_SetCsCamPoints(csCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer,
+                                            sCrawlspaceAtPoints, sCrawlspaceForwardsEyePoints);
             break;
         case 9602:
             // Leaving a crawlspace backwards
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_CS_3);
             Gameplay_CameraChangeSetting(globalCtx, MAIN_CAM, mainCam->prevSetting);
-            OnePointCutscene_SetCsCamPoints(csCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer, sCrawlspaceAtPoints, sCrawlspaceBackwardsEyePoints);
+            OnePointCutscene_SetCsCamPoints(csCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer,
+                                            sCrawlspaceAtPoints, sCrawlspaceBackwardsEyePoints);
             break;
         case 4175:
             csInfo->keyFrames = D_8012147C;
