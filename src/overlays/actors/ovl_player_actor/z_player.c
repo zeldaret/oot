@@ -6027,7 +6027,7 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 wallFlags) {
             if ((sp8C != 0) || (wallFlags & BGCHECK_WALL_1) ||
                 func_80041E4C(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 f32 phi_f20;
-                CollisionPoly* sp84 = this->actor.wallPoly;
+                CollisionPoly* wallPoly = this->actor.wallPoly;
                 f32 sp80;
                 f32 sp7C;
                 f32 phi_f12;
@@ -6039,41 +6039,41 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 wallFlags) {
                     sp80 = this->actor.world.pos.x;
                     sp7C = this->actor.world.pos.z;
                 } else {
-                    Vec3f sp50[3];
+                    Vec3f wallVertices[3];
                     s32 i;
                     f32 sp48;
-                    Vec3f* sp44 = &sp50[0];
+                    Vec3f* wallVerticesPtr = &wallVertices[0];
                     s32 pad;
 
-                    CollisionPoly_GetVerticesByBgId(sp84, this->actor.wallBgId, &globalCtx->colCtx, sp50);
+                    CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, wallVertices);
 
-                    sp80 = phi_f12 = sp44->x;
-                    sp7C = phi_f14 = sp44->z;
-                    phi_f20 = sp44->y;
+                    sp80 = phi_f12 = wallVerticesPtr->x;
+                    sp7C = phi_f14 = wallVerticesPtr->z;
+                    phi_f20 = wallVerticesPtr->y;
                     for (i = 1; i < 3; i++) {
-                        sp44++;
-                        if (sp80 > sp44->x) {
-                            sp80 = sp44->x;
-                        } else if (phi_f12 < sp44->x) {
-                            phi_f12 = sp44->x;
+                        wallVerticesPtr++;
+                        if (sp80 > wallVerticesPtr->x) {
+                            sp80 = wallVerticesPtr->x;
+                        } else if (phi_f12 < wallVerticesPtr->x) {
+                            phi_f12 = wallVerticesPtr->x;
                         }
 
-                        if (sp7C > sp44->z) {
-                            sp7C = sp44->z;
-                        } else if (phi_f14 < sp44->z) {
-                            phi_f14 = sp44->z;
+                        if (sp7C > wallVerticesPtr->z) {
+                            sp7C = wallVerticesPtr->z;
+                        } else if (phi_f14 < wallVerticesPtr->z) {
+                            phi_f14 = wallVerticesPtr->z;
                         }
 
-                        if (phi_f20 > sp44->y) {
-                            phi_f20 = sp44->y;
+                        if (phi_f20 > wallVerticesPtr->y) {
+                            phi_f20 = wallVerticesPtr->y;
                         }
                     }
 
                     sp80 = (sp80 + phi_f12) * 0.5f;
                     sp7C = (sp7C + phi_f14) * 0.5f;
 
-                    phi_f12 = ((this->actor.world.pos.x - sp80) * COLPOLY_GET_NORMAL(sp84->normal.z)) -
-                              ((this->actor.world.pos.z - sp7C) * COLPOLY_GET_NORMAL(sp84->normal.x));
+                    phi_f12 = ((this->actor.world.pos.x - sp80) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
+                              ((this->actor.world.pos.z - sp7C) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
                     sp48 = this->actor.world.pos.y - phi_f20;
 
                     phi_f20 = ((f32)(s32)((sp48 / 15.000000223517418) + 0.5) * 15.000000223517418) - sp48;
@@ -6081,8 +6081,8 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 wallFlags) {
                 }
 
                 if (phi_f12 < 8.0f) {
-                    f32 sp3C = COLPOLY_GET_NORMAL(sp84->normal.x);
-                    f32 sp38 = COLPOLY_GET_NORMAL(sp84->normal.z);
+                    f32 sp3C = COLPOLY_GET_NORMAL(wallPoly->normal.x);
+                    f32 sp38 = COLPOLY_GET_NORMAL(wallPoly->normal.z);
                     f32 sp34 = this->wallDistance;
                     LinkAnimationHeader* sp30;
 
@@ -6118,13 +6118,13 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 wallFlags) {
                     func_80832264(globalCtx, this, sp30);
                     func_80832F54(globalCtx, this, 0x9F);
 
-                    return 1;
+                    return true;
                 }
             }
         }
     }
 
-    return 0;
+    return false;
 }
 
 void func_8083F070(Player* this, LinkAnimationHeader* anim, GlobalContext* globalCtx) {
@@ -6202,7 +6202,7 @@ s32 Player_IsEnteringCrawlspace(Player* this, GlobalContext* globalCtx, u32 wall
 
 s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     CollisionPoly* wallPoly;
-    s32 sp78;
+    s32 wallBgId;
     Vec3f sp6C;
     Vec3f sp60;
     Vec3f sp54;
@@ -6222,13 +6222,13 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
     sp60.y = sp6C.y = this->actor.world.pos.y + arg1;
 
     if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp6C, &sp60, &sp54, &this->actor.wallPoly, true, false, false,
-                                true, &sp78)) {
+                                true, &wallBgId)) {
         wallPoly = this->actor.wallPoly;
 
         this->actor.bgCheckFlags |= 0x200;
-        this->actor.wallBgId = sp78;
+        this->actor.wallBgId = wallBgId;
 
-        sWallFlags = SurfaceType_GetWallFlags(&globalCtx->colCtx, wallPoly, sp78);
+        sWallFlags = SurfaceType_GetWallFlags(&globalCtx->colCtx, wallPoly, wallBgId);
 
         temp1 = COLPOLY_GET_NORMAL(wallPoly->normal.x);
         temp2 = COLPOLY_GET_NORMAL(wallPoly->normal.z);
@@ -9481,20 +9481,20 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     this->actor.bgCheckFlags &= ~0x200;
 
     if (this->actor.bgCheckFlags & 8) {
-        CollisionPoly* spA0;
-        s32 sp9C;
+        CollisionPoly* wallPoly;
+        s32 wallBgId;
         s16 sp9A;
         s32 pad;
 
         D_80854798.y = 18.0f;
         D_80854798.z = this->ageProperties->unk_38 + 10.0f;
 
-        if (!(this->stateFlags2 & 0x40000) && func_80839768(globalCtx, this, &D_80854798, &spA0, &sp9C, &D_80858AA8)) {
+        if (!(this->stateFlags2 & 0x40000) && func_80839768(globalCtx, this, &D_80854798, &wallPoly, &wallBgId, &D_80858AA8)) {
             this->actor.bgCheckFlags |= 0x200;
-            if (this->actor.wallPoly != spA0) {
-                this->actor.wallPoly = spA0;
-                this->actor.wallBgId = sp9C;
-                this->actor.wallYaw = Math_Atan2S(spA0->normal.z, spA0->normal.x);
+            if (this->actor.wallPoly != wallPoly) {
+                this->actor.wallPoly = wallPoly;
+                this->actor.wallBgId = wallBgId;
+                this->actor.wallYaw = Math_Atan2S(wallPoly->normal.z, wallPoly->normal.x);
             }
         }
 
