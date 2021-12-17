@@ -321,8 +321,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.params >> 7 & 1) {
         ObjSwitch_EyeFrozenInit(this);
-    } 
-    else if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
+    } else if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         //! @bug if the subtype is OBJSWITCH_SUBTYPE_RESET_INVERTED, the switch should be Down or Up according to
         //! `!switchFlagSet` instead of `switchFlagSet`
         if (switchFlagSet) {
