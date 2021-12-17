@@ -321,7 +321,10 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.params >> 7 & 1) {
         ObjSwitch_EyeFrozenInit(this);
-    } else if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
+    } 
+    else if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
+        //! @bug if the subtype is OBJSWITCH_SUBTYPE_RESET_INVERTED, the switch should be Down or Up according to
+        //! `!switchFlagSet` instead of `switchFlagSet`
         if (switchFlagSet) {
             ObjSwitch_FloorDownInit(this);
         } else {
@@ -394,13 +397,13 @@ void ObjSwitch_FloorUp(ObjSwitch* this, GlobalContext* globalCtx) {
                     ObjSwitch_SetOn(this, globalCtx);
                 }
                 break;
-            case OBJSWITCH_SUBTYPE_RESET_OFF:
+            case OBJSWITCH_SUBTYPE_RESET:
                 if (func_800435B4(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, globalCtx);
                 }
                 break;
-            case OBJSWITCH_SUBTYPE_RESET_ON:
+            case OBJSWITCH_SUBTYPE_RESET_INVERTED:
                 if (func_800435B4(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOff(this, globalCtx);
@@ -416,7 +419,7 @@ void ObjSwitch_FloorPressInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_FloorPress(ObjSwitch* this, GlobalContext* globalCtx) {
-    if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_RESET_ON || !this->cooldownOn ||
+    if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_RESET_INVERTED || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->dyna.actor.scale.y -= 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y <= 33.0f / 2000.0f) {
@@ -446,12 +449,12 @@ void ObjSwitch_FloorDown(ObjSwitch* this, GlobalContext* globalCtx) {
                 ObjSwitch_SetOff(this, globalCtx);
             }
             break;
-        case OBJSWITCH_SUBTYPE_RESET_OFF:
-        case OBJSWITCH_SUBTYPE_RESET_ON:
+        case OBJSWITCH_SUBTYPE_RESET:
+        case OBJSWITCH_SUBTYPE_RESET_INVERTED:
             if (!func_800435B4(&this->dyna) && !Player_InCsMode(globalCtx)) {
                 if (this->releaseTimer <= 0) {
                     ObjSwitch_FloorReleaseInit(this);
-                    if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_RESET_OFF) {
+                    if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_RESET) {
                         ObjSwitch_SetOff(this, globalCtx);
                     } else {
                         ObjSwitch_SetOn(this, globalCtx);
@@ -472,7 +475,7 @@ void ObjSwitch_FloorReleaseInit(ObjSwitch* this) {
 void ObjSwitch_FloorRelease(ObjSwitch* this, GlobalContext* globalCtx) {
     s16 subType = (this->dyna.actor.params >> 4 & 7);
 
-    if (((subType != OBJSWITCH_SUBTYPE_TOGGLE) && (subType != OBJSWITCH_SUBTYPE_RESET_ON)) || !this->cooldownOn ||
+    if (((subType != OBJSWITCH_SUBTYPE_TOGGLE) && (subType != OBJSWITCH_SUBTYPE_RESET_INVERTED)) || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->dyna.actor.scale.y += 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y >= 33.0f / 200.0f) {
