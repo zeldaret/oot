@@ -17,10 +17,10 @@ typedef enum {
 } ObjSwitchType;
 
 typedef enum {
-    /* 0 */ OBJSWITCH_SUBTYPE_DEFAULT,      // Normal Yellow Switches
+    /* 0 */ OBJSWITCH_SUBTYPE_ONCE,         // Switches that can only be turned on
     /* 1 */ OBJSWITCH_SUBTYPE_TOGGLE,       // Switches that can be turned on and off
-    /* 2 */ OBJSWITCH_SUBTYPE_RESET_OFF,    // Floor Types only, reset itself when not stood on (off by default)
-    /* 3 */ OBJSWITCH_SUBTYPE_RESET_ON,     // Floor Types only, reset itself when not stood on (on by default)
+    /* 2 */ OBJSWITCH_SUBTYPE_RESET_OFF,    // Floor Types only, released when not stood on (state: off by default)
+    /* 3 */ OBJSWITCH_SUBTYPE_RESET_ON,     // Floor Types only, released when not stood on (state: on by default)
     /* 4 */ OBJSWITCH_SUBTYPE_SYNC          // Crystal Types only, syncs with the Switch Flag
 } ObjSwitchSubType;
 

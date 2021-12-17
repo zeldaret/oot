@@ -247,7 +247,7 @@ void ObjSwitch_SetOn(ObjSwitch* this, GlobalContext* globalCtx) {
         subType = (this->dyna.actor.params >> 4 & 7);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F));
 
-        if (subType == 0 || subType == 4) {
+        if (subType == OBJSWITCH_SUBTYPE_ONCE || subType == OBJSWITCH_SUBTYPE_SYNC) {
             OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
         } else {
             OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
@@ -263,7 +263,7 @@ void ObjSwitch_SetOff(ObjSwitch* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F))) {
         Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F));
 
-        if ((this->dyna.actor.params >> 4 & 7) == 1) {
+        if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_TOGGLE) {
             OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
             this->cooldownOn = true;
         }
@@ -382,7 +382,7 @@ void ObjSwitch_FloorUp(ObjSwitch* this, GlobalContext* globalCtx) {
         }
     } else {
         switch ((this->dyna.actor.params >> 4 & 7)) {
-            case OBJSWITCH_SUBTYPE_DEFAULT:
+            case OBJSWITCH_SUBTYPE_ONCE:
                 if (func_8004356C(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, globalCtx);
@@ -435,7 +435,7 @@ void ObjSwitch_FloorDownInit(ObjSwitch* this) {
 
 void ObjSwitch_FloorDown(ObjSwitch* this, GlobalContext* globalCtx) {
     switch ((this->dyna.actor.params >> 4 & 7)) {
-        case OBJSWITCH_SUBTYPE_DEFAULT:
+        case OBJSWITCH_SUBTYPE_ONCE:
             if (!Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F))) {
                 ObjSwitch_FloorReleaseInit(this);
             }
@@ -548,7 +548,7 @@ void ObjSwitch_EyeClosedInit(ObjSwitch* this) {
 
 void ObjSwitch_EyeClosed(ObjSwitch* this, GlobalContext* globalCtx) {
     switch ((this->dyna.actor.params >> 4 & 7)) {
-        case OBJSWITCH_SUBTYPE_DEFAULT:
+        case OBJSWITCH_SUBTYPE_ONCE:
             if (!Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F))) {
                 ObjSwitch_EyeOpeningInit(this);
                 this->dyna.actor.params &= ~0x80;
@@ -590,7 +590,7 @@ void ObjSwitch_CrystalOffInit(ObjSwitch* this) {
 
 void ObjSwitch_CrystalOff(ObjSwitch* this, GlobalContext* globalCtx) {
     switch ((this->dyna.actor.params >> 4 & 7)) {
-        case OBJSWITCH_SUBTYPE_DEFAULT:
+        case OBJSWITCH_SUBTYPE_ONCE:
             if ((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, globalCtx);
@@ -641,7 +641,7 @@ void ObjSwitch_CrystalOnInit(ObjSwitch* this) {
 
 void ObjSwitch_CrystalOn(ObjSwitch* this, GlobalContext* globalCtx) {
     switch ((this->dyna.actor.params >> 4 & 7)) {
-        case OBJSWITCH_SUBTYPE_DEFAULT:
+        case OBJSWITCH_SUBTYPE_ONCE:
         case OBJSWITCH_SUBTYPE_SYNC:
             if (!Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F))) {
                 ObjSwitch_CrystalTurnOffInit(this);
