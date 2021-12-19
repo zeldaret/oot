@@ -251,7 +251,6 @@ u8 sSeqFlags[0x6E] = {
 
 s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-// clang-format off
 NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     // NATURE_ID_GENERAL_NIGHT
     {
@@ -826,7 +825,6 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
         },
     },
 };
-// clang-format on
 
 u32 sOcarinaAllowedBtnMask = 0x800F;
 s32 sOcarinaABtnMap = 0x8000;
