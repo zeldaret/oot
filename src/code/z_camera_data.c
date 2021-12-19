@@ -91,743 +91,88 @@ char sCameraModeNames[][12] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * NORMAL0    NORMAL    NORM1
- */
 CameraModeValue sSetNormal0ModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 35, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 200, 300, 10, 12, 10, 35, 60, 60, 0x0003),
 };
 
-/**
- * Setting                 Mode      Function
- * --------------------    ------    --------
- * NORMAL0                 TARGET    PARA1
- * BOSS_GOHMA              TARGET    PARA1
- * BOSS_DODONGO            TARGET    PARA1
- * BOSS_BARINADE           TARGET    PARA1
- * BOSS_PHANTOM_GANON      TARGET    PARA1
- * BOSS_VOLVAGIA           TARGET    PARA1
- * BOSS_BONGO              TARGET    PARA1
- * BOSS_MORPHA             TARGET    PARA1
- * BOSS_TWINROVA_PLATFORM  TARGET    PARA1
- * BOSS_TWINROVA_FLOOR     TARGET    PARA1
- * BOSS_GANONDORF          TARGET    PARA1
- * BOSS_GANON              TARGET    PARA1
- * TOWER_CLIMB             TARGET    PARA1
- * TOWER_UNUSED            TARGET    PARA1
- * PIVOT_IN_FRONT          TARGET    PARA1
- * NORMAL2                 TARGET    PARA1
- * JABU_TENTACLE           TARGET    PARA1
- * DIRECTED_YAW            TARGET    PARA1
- * NORMAL4                 TARGET    PARA1
- */
 CameraModeValue sSetNormal0ModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 250, CAM_DATA_EYE_DIST },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-20, 250, 0, 0, 5, 5, 45, 50, 0x200A, -40, 20),
 };
 
-/**
- * Setting                Mode            Function
- * -------------------    ------------    --------
- * NORMAL0                FOLLOWTARGET    KEEP1
- * NORMAL3                FOLLOWTARGET    KEEP1
- * BOSS_GOHMA             FOLLOWTARGET    KEEP1
- * BOSS_DODONGO           FOLLOWTARGET    KEEP1
- * BOSS_BARINADE          FOLLOWTARGET    KEEP1
- * BOSS_PHANTOM_GANON     FOLLOWTARGET    KEEP1
- * BOSS_VOLVAGIA          FOLLOWTARGET    KEEP1
- * BOSS_BONGO             FOLLOWTARGET    KEEP1
- * BOSS_MORPHA            FOLLOWTARGET    KEEP1
- * BOSSTWINROVA_PLATFORM  FOLLOWTARGET    KEEP1
- * BOSSTWINROVA_FLOOR     FOLLOWTARGET    KEEP1
- * BOSS_GANONDORF         FOLLOWTARGET    KEEP1
- * BOSS_GANON             FOLLOWTARGET    KEEP1
- * TOWER_CLIMB            FOLLOWTARGET    KEEP1
- * TOWER_UNUSED           FOLLOWTARGET    KEEP1
- * PIVOT_IN_FRONT         FOLLOWTARGET    KEEP1
- * BEAN_GENERIC           FOLLOWTARGET    KEEP1
- * BEAN_LOST_WOODS        FOLLOWTARGET    KEEP1
- * NORMAL2                FOLLOWTARGET    KEEP1
- * JABU_TENTACLE          FOLLOWTARGET    KEEP1
- * NORMAL4                FOLLOWTARGET    KEEP1
- */
 CameraModeValue sSetNormal0ModeFollowTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 120, CAM_DATA_EYE_DIST },
-    { 140, CAM_DATA_EYE_DIST_NEXT },
-    { 25, CAM_DATA_SWING_YAW_INIT },
-    { 45, CAM_DATA_SWING_YAW_FINAL },
-    { -5, CAM_DATA_SWING_PITCH_INIT },
-    { 15, CAM_DATA_SWING_PITCH_FINAL },
-    { 15, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2001, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_KEEP1(-20, 120, 140, 25, 45, -5, 15, 15, 45, 50, 0x2001, -50, 30),
 };
 
-/**
- * Setting                 Mode    Function
- * --------------------    ----    --------
- * NORMAL0                 TALK    KEEP3
- * NORMAL1                 TALK    KEEP3
- * DUNGEON0                TALK    KEEP3
- * BOSS_GOHMA              TALK    KEEP3
- * BOSS_DODONGO            TALK    KEEP3
- * BOSS_BARINADE           TALK    KEEP3
- * BOSS_PHANTOM_GANON      TALK    KEEP3
- * BOSS_VOLVAGIA           TALK    KEEP3
- * BOSS_BONGO              TALK    KEEP3
- * BOSS_MORPHA             TALK    KEEP3
- * BOSS_TWINROVA_PLATFORM  TALK    KEEP3
- * BOSS_TWINROVA_FLOOR     TALK    KEEP3
- * BOSS_GANONDORF          TALK    KEEP3
- * BOSS_GANON              TALK    KEEP3
- * TOWER_CLIMB             TALK    KEEP3
- * TOWER_UNUSED            TALK    KEEP3
- * PIVOT_IN_FRONT          TALK    KEEP3
- * BEAN_GENERIC            TALK    KEEP3
- * BEAN_LOST_WOODS         TALK    KEEP3
- * BIG_OCTO                TALK    KEEP3
- * NORMAL2                 TALK    KEEP3
- * JABU_TENTACLE           TALK    KEEP3
- * DUNGEON2                TALK    KEEP3
- * PIVOT_FROM_SIDE         TALK    KEEP3
- */
 CameraModeValue sSetNormal0ModeTalkData[] = {
-    { -30, CAM_DATA_Y_OFFSET },
-    { 70, CAM_DATA_EYE_DIST },
-    { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_SWING_YAW_INIT },
-    { 10, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },
-    { 5, CAM_DATA_SWING_PITCH_FINAL },
-    { 70, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0x3500, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_KEEP3(-30, 70, 200, 40, 10, 0, 5, 70, 45, 50, 10, 0x3500),
 };
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * NORMAL0          BATTLE    BATT1
- * NORMAL3          BATTLE    BATT1
- * TOWER_CLIMB      BATTLE    BATT1
- * TOWER_UNUSED     BATTLE    BATT1
- * DIRECTED_YAW     BATTLE    BATT1
- */
 CameraModeValue sSetNormal0ModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 180, CAM_DATA_EYE_DIST },
-    { 10, CAM_DATA_SWING_YAW_INIT },     { 80, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },    { 10, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    { 50, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 180, 10, 80, 0, 10, 25, 50, 80, 0x2002, -40, 25),
 };
 
-/**
- * Setting                 Mode     Function
- * --------------------    -----    --------
- * NORMAL0                 CLIMB    JUMP2
- * NORMAL3                 CLIMB    JUMP2
- * BOSS_GOHMA              CLIMB    JUMP2
- * BOSS_DODONGO            CLIMB    JUMP2
- * BOSS_BARINADE           CLIMB    JUMP2
- * BOSS_PHANTOM_GANON      CLIMB    JUMP2
- * BOSS_VOLVAGIA           CLIMB    JUMP2
- * BOSS_BONGO              CLIMB    JUMP2
- * BOSS_MORPHA             CLIMB    JUMP2
- * BOSS_TWINROVA_PLATFORM  CLIMB    JUMP2
- * BOSS_TWINROVA_FLOOR     CLIMB    JUMP2
- * BOSS_GANONDORF          CLIMB    JUMP2
- * BOSS_GANON              CLIMB    JUMP2
- * TOWER_CLIMB             CLIMB    JUMP2
- * TOWER_UNUSED            CLIMB    JUMP2
- * PIVOT_IN_FRONT          CLIMB    JUMP2
- * BEAN_GENERIC            CLIMB    JUMP2
- * BEAN_LOST_WOODS         CLIMB    JUMP2
- * NORMAL2                 CLIMB    JUMP2
- * JABU_TENTACLE           CLIMB    JUMP2
- * DIRECTED_YAW            CLIMB    JUMP2
- * NORMAL4                 CLIMB    JUMP2
- */
 CameraModeValue sSetNormal0ModeClimbData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP2(-20, 200, 300, 20, 5, 5, 60, 40, 0x0000),
 };
 
-/**
- * Setting                 Mode           Function
- * --------------------    -----------    --------
- * NORMAL0                 FIRSTPERSON    SUBJ3
- * NORMAL1                 FIRSTPERSON    SUBJ3
- * DUNGEON0                FIRSTPERSON    SUBJ3
- * DUNGEON1                FIRSTPERSON    SUBJ3
- * NORMAL3                 FIRSTPERSON    SUBJ3
- * BOSS_GOHMA              FIRSTPERSON    SUBJ3
- * BOSS_DODONGO            FIRSTPERSON    SUBJ3
- * BOSS_BARINADE           FIRSTPERSON    SUBJ3
- * BOSS_PHANTOM_GANON      FIRSTPERSON    SUBJ3
- * BOSS_VOLVAGIA           FIRSTPERSON    SUBJ3
- * BOSS_BONGO              FIRSTPERSON    SUBJ3
- * BOSS_MORPHA             FIRSTPERSON    SUBJ3
- * BOSS_TWINROVA_PLATFORM  FIRSTPERSON    SUBJ3
- * BOSS_TWINROVA_FLOOR     FIRSTPERSON    SUBJ3
- * BOSS_GANONDORF          FIRSTPERSON    SUBJ3
- * BOSS_GANON              FIRSTPERSON    SUBJ3
- * TOWER_CLIMB             FIRSTPERSON    SUBJ3
- * TOWER_UNUSED            FIRSTPERSON    SUBJ3
- * PIVOT_IN_FRONT          FIRSTPERSON    SUBJ3
- * BEAN_GENERIC            FIRSTPERSON    SUBJ3
- * BEAN_LOST_WOODS         FIRSTPERSON    SUBJ3
- * BIG_OCTO                FIRSTPERSON    SUBJ3
- * NORMAL2                 FIRSTPERSON    SUBJ3
- * JABU_TENTACLE           FIRSTPERSON    SUBJ3
- * DUNGEON2                FIRSTPERSON    SUBJ3
- * DIRECTED_YAW            FIRSTPERSON    SUBJ3
- * PIVOT_FROM_SIDE         FIRSTPERSON    SUBJ3
- * NORMAL4                 FIRSTPERSON    SUBJ3
- */
 CameraModeValue sSetNormal0ModeFirstPersonData[] = {
-    { 0, CAM_DATA_Y_OFFSET },       { 5, CAM_DATA_EYE_DIST },
-    { 50, CAM_DATA_EYE_DIST_NEXT }, { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0, CAM_DATA_AT_OFFSET_X },    { 0, CAM_DATA_AT_OFFSET_Y },
-    { 0, CAM_DATA_AT_OFFSET_Z },    { 45, CAM_DATA_FOV },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SUBJ3(0, 5, 50, 10, 0, 0, 0, 45, 0x0000),
 };
 
-/**
- * Setting                 Mode        Function
- * --------------------    --------    --------
- * NORMAL0                 BOWARROW    SUBJ3
- * NORMAL1                 BOWARROW    SUBJ3
- * DUNGEON0                BOWARROW    SUBJ3
- * DUNGEON1                BOWARROW    SUBJ3
- * NORMAL3                 BOWARROW    SUBJ3
- * BOSS_GOHMA              BOWARROW    SUBJ3
- * BOSS_DODONGO            BOWARROW    SUBJ3
- * BOSS_BARINADE           BOWARROW    SUBJ3
- * BOSS_PHANTOM_GANON      BOWARROW    SUBJ3
- * BOSS_VOLVAGIA           BOWARROW    SUBJ3
- * BOSS_BONGO              BOWARROW    SUBJ3
- * BOSS_MORPHA             BOWARROW    SUBJ3
- * BOSS_TWINROVA_PLATFORM  BOWARROW    SUBJ3
- * BOSS_TWINROVA_FLOOR     BOWARROW    SUBJ3
- * BOSS_GANONDORF          BOWARROW    SUBJ3
- * BOSS_GANON              BOWARROW    SUBJ3
- * TOWER_CLIMB             BOWARROW    SUBJ3
- * TOWER_UNUSED            BOWARROW    SUBJ3
- * PIVOT_IN_FRONT          BOWARROW    SUBJ3
- * BEAN_GENERIC            BOWARROW    SUBJ3
- * BEAN_LOST_WOODS         BOWARROW    SUBJ3
- * BIG_OCTO                BOWARROW    SUBJ3
- * NORMAL2                 BOWARROW    SUBJ3
- * JABU_TENTACLE           BOWARROW    SUBJ3
- * DUNGEON2                BOWARROW    SUBJ3
- * DIRECTED_YAW            BOWARROW    SUBJ3
- * PIVOT_FROM_SIDE         BOWARROW    SUBJ3
- * NORMAL4                 BOWARROW    SUBJ3
- */
 CameraModeValue sSetNormal0ModeBowArrowData[] = {
-    { -7, CAM_DATA_Y_OFFSET },      { 14, CAM_DATA_EYE_DIST },
-    { 50, CAM_DATA_EYE_DIST_NEXT }, { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0, CAM_DATA_AT_OFFSET_X },    { -30, CAM_DATA_AT_OFFSET_Y },
-    { -5, CAM_DATA_AT_OFFSET_Z },   { 45, CAM_DATA_FOV },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SUBJ3(-7, 14, 50, 10, 0, -30, -5, 45, 0x2000),
 };
 
-/**
- * Setting                 Mode         Function
- * --------------------    ---------    --------
- * NORMAL0                 BOWARROWZ    SUBJ3
- * NORMAL1                 BOWARROWZ    SUBJ3
- * DUNGEON0                BOWARROWZ    SUBJ3
- * DUNGEON1                BOWARROWZ    SUBJ3
- * NORMAL3                 BOWARROWZ    SUBJ3
- * HORSE                   BOWARROWZ    SUBJ3
- * BOSS_GOHMA              BOWARROWZ    SUBJ3
- * BOSS_DODONGO            BOWARROWZ    SUBJ3
- * BOSS_BARINADE           BOWARROWZ    SUBJ3
- * BOSS_PHANTOM_GANON      BOWARROWZ    SUBJ3
- * BOSS_VOLVAGIA           BOWARROWZ    SUBJ3
- * BOSS_BONGO              BOWARROWZ    SUBJ3
- * BOSS_MORPHA             BOWARROWZ    SUBJ3
- * BOSS_TWINROVA_PLATFORM  BOWARROWZ    SUBJ3
- * BOSS_TWINROVA_FLOOR     BOWARROWZ    SUBJ3
- * BOSS_GANONDORF          BOWARROWZ    SUBJ3
- * BOSS_GANON              BOWARROWZ    SUBJ3
- * TOWER_CLIMB             BOWARROWZ    SUBJ3
- * TOWER_UNUSED            BOWARROWZ    SUBJ3
- * PIVOT_IN_FRONT          BOWARROWZ    SUBJ3
- * BEAN_GENERIC            BOWARROWZ    SUBJ3
- * BEAN_LOST_WOODS         BOWARROWZ    SUBJ3
- * BIG_OCTO                BOWARROWZ    SUBJ3
- * NORMAL2                 BOWARROWZ    SUBJ3
- * JABU_TENTACLE           BOWARROWZ    SUBJ3
- * DUNGEON2                BOWARROWZ    SUBJ3
- * DIRECTED_YAW            BOWARROWZ    SUBJ3
- * NORMAL4                 BOWARROWZ    SUBJ3
- */
 CameraModeValue sSetNormal0ModeBowArrowZData[] = {
-    { 20, CAM_DATA_Y_OFFSET },      { 70, CAM_DATA_EYE_DIST },
-    { 70, CAM_DATA_EYE_DIST_NEXT }, { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { -120, CAM_DATA_AT_OFFSET_X }, { 20, CAM_DATA_AT_OFFSET_Y },
-    { 0, CAM_DATA_AT_OFFSET_Z },    { 45, CAM_DATA_FOV },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SUBJ3(20, 70, 70, 10, -120, 20, 0, 45, 0x2000),
 };
 
-/**
- * Setting                 Mode        Function
- * --------------------    --------    --------
- * NORMAL0                 HOOKSHOT    SPEC5
- * NORMAL3                 HOOKSHOT    SPEC5
- * BOSS_GOHMA              HOOKSHOT    SPEC5
- * BOSS_DODONGO            HOOKSHOT    SPEC5
- * BOSS_BARINADE           HOOKSHOT    SPEC5
- * BOSS_PHANTOM_GANON      HOOKSHOT    SPEC5
- * BOSS_VOLVAGIA           HOOKSHOT    SPEC5
- * BOSS_BONGO              HOOKSHOT    SPEC5
- * BOSS_MORPHA             HOOKSHOT    SPEC5
- * BOSS_TWINROVA_PLATFORM  HOOKSHOT    SPEC5
- * BOSS_TWINROVA_FLOOR     HOOKSHOT    SPEC5
- * BOSS_GANONDORF          HOOKSHOT    SPEC5
- * BOSS_GANON              HOOKSHOT    SPEC5
- * TOWER_CLIMB             HOOKSHOT    SPEC5
- * TOWER_UNUSED            HOOKSHOT    SPEC5
- * PIVOT_IN_FRONT          HOOKSHOT    SPEC5
- * BEAN_GENERIC            HOOKSHOT    SPEC5
- * BEAN_LOST_WOODS         HOOKSHOT    SPEC5
- * NORMAL2                 HOOKSHOT    SPEC5
- * JABU_TENTACLE           HOOKSHOT    SPEC5
- * DIRECTED_YAW            HOOKSHOT    SPEC5
- * PIVOT_FROM_SIDE         HOOKSHOT    SPEC5
- * NORMAL4                 HOOKSHOT    SPEC5
- */
 CameraModeValue sSetNormal0ModeHookshotData[] = {
-    { -20, CAM_DATA_Y_OFFSET },    { 80, CAM_DATA_EYE_DIST },  { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 45, CAM_DATA_PITCH_TARGET }, { 60, CAM_DATA_FOV },       { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 6, CAM_DATA_UNK_22 },        { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SPEC5_ALT(-20, 80, 250, 45, 60, 40, 6, 0x2000),
 };
 
-/**
- * Setting                 Mode         Function
- * --------------------    ---------    --------
- * NORMAL0                 BOOMERANG    SUBJ3
- * NORMAL1                 BOOMERANG    SUBJ3
- * DUNGEON0                BOOMERANG    SUBJ3
- * DUNGEON1                BOOMERANG    SUBJ3
- * BOSS_GOHMA              BOOMERANG    SUBJ3
- * BOSS_DODONGO            BOOMERANG    SUBJ3
- * BOSS_BARINADE           BOOMERANG    SUBJ3
- * BOSS_PHANTOM_GANON      BOOMERANG    SUBJ3
- * BOSS_VOLVAGIA           BOOMERANG    SUBJ3
- * BOSS_BONGO              BOOMERANG    SUBJ3
- * BOSS_MORPHA             BOOMERANG    SUBJ3
- * BOSS_TWINROVA_PLATFORM  BOOMERANG    SUBJ3
- * BOSS_TWINROVA_FLOOR     BOOMERANG    SUBJ3
- * BOSS_GANONDORF          BOOMERANG    SUBJ3
- * BOSS_GANON              BOOMERANG    SUBJ3
- * TOWER_CLIMB             BOOMERANG    SUBJ3
- * TOWER_UNUSED            BOOMERANG    SUBJ3
- * PIVOT_IN_FRONT          BOOMERANG    SUBJ3
- * BEAN_GENERIC            BOOMERANG    SUBJ3
- * BEAN_LOST_WOODS         BOOMERANG    SUBJ3
- * BIG_OCTO                BOOMERANG    SUBJ3
- * NORMAL2                 BOOMERANG    SUBJ3
- * JABU_TENTACLE           BOOMERANG    SUBJ3
- * DUNGEON2                BOOMERANG    SUBJ3
- * DIRECTED_YAW            BOOMERANG    SUBJ3
- * PIVOT_FROM_SIDE         BOOMERANG    SUBJ3
- * NORMAL4                 BOOMERANG    SUBJ3
- */
 CameraModeValue sSetNormal0ModeBoomerangData[] = {
-    { 5, CAM_DATA_Y_OFFSET },       { 50, CAM_DATA_EYE_DIST },
-    { 50, CAM_DATA_EYE_DIST_NEXT }, { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0, CAM_DATA_AT_OFFSET_X },    { 0, CAM_DATA_AT_OFFSET_Y },
-    { 0, CAM_DATA_AT_OFFSET_Z },    { 45, CAM_DATA_FOV },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SUBJ3(5, 50, 50, 10, 0, 0, 0, 45, 0x2000),
 };
 
-/**
- * Setting                 Mode         Function
- * --------------------    ---------    --------
- * NORMAL0                 SLINGSHOT    SUBJ3
- * NORMAL1                 SLINGSHOT    SUBJ3
- * DUNGEON0                SLINGSHOT    SUBJ3
- * DUNGEON1                SLINGSHOT    SUBJ3
- * BOSS_GOHMA              SLINGSHOT    SUBJ3
- * BOSS_DODONGO            SLINGSHOT    SUBJ3
- * BOSS_BARINADE           SLINGSHOT    SUBJ3
- * BOSS_PHANTOM_GANON      SLINGSHOT    SUBJ3
- * BOSS_VOLVAGIA           SLINGSHOT    SUBJ3
- * BOSS_BONGO              SLINGSHOT    SUBJ3
- * BOSS_MORPHA             SLINGSHOT    SUBJ3
- * BOSS_TWINROVA_PLATFORM  SLINGSHOT    SUBJ3
- * BOSS_TWINROVA_FLOOR     SLINGSHOT    SUBJ3
- * BOSS_GANONDORF          SLINGSHOT    SUBJ3
- * BOSS_GANON              SLINGSHOT    SUBJ3
- * TOWER_CLIMB             SLINGSHOT    SUBJ3
- * TOWER_UNUSED            SLINGSHOT    SUBJ3
- * PIVOT_IN_FRONT          SLINGSHOT    SUBJ3
- * BEAN_GENERIC            SLINGSHOT    SUBJ3
- * BEAN_LOST_WOODS         SLINGSHOT    SUBJ3
- * BIG_OCTO                SLINGSHOT    SUBJ3
- * NORMAL2                 SLINGSHOT    SUBJ3
- * JABU_TENTACLE           SLINGSHOT    SUBJ3
- * DUNGEON2                SLINGSHOT    SUBJ3
- * DIRECTED_YAW            SLINGSHOT    SUBJ3
- * PIVOT_FROM_SIDE         SLINGSHOT    SUBJ3
- * NORMAL4                 SLINGSHOT    SUBJ3
- */
 CameraModeValue sSetNormal0ModeSlingshotData[] = {
-    { -7, CAM_DATA_Y_OFFSET },      { 14, CAM_DATA_EYE_DIST },
-    { 50, CAM_DATA_EYE_DIST_NEXT }, { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { -9, CAM_DATA_AT_OFFSET_X },   { -63, CAM_DATA_AT_OFFSET_Y },
-    { -30, CAM_DATA_AT_OFFSET_Z },  { 45, CAM_DATA_FOV },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SUBJ3(-7, 14, 50, 10, -9, -63, -30, 45, 0x2000),
 };
 
-/**
- * Setting                 Mode      Function
- * --------------------    ------    --------
- * NORMAL0                 CLIMBZ    JUMP2
- * NORMAL3                 CLIMBZ    JUMP2
- * BOSS_GOHMA              CLIMBZ    JUMP2
- * BOSS_DODONGO            CLIMBZ    JUMP2
- * BOSS_BARINADE           CLIMBZ    JUMP2
- * BOSS_PHANTOM_GANON      CLIMBZ    JUMP2
- * BOSS_VOLVAGIA           CLIMBZ    JUMP2
- * BOSS_BONGO              CLIMBZ    JUMP2
- * BOSS_MORPHA             CLIMBZ    JUMP2
- * BOSS_TWINROVA_PLATFORM  CLIMBZ    JUMP2
- * BOSS_TWINROVA_FLOOR     CLIMBZ    JUMP2
- * BOSS_GANONDORF          CLIMBZ    JUMP2
- * BOSS_GANON              CLIMBZ    JUMP2
- * TOWER_CLIMB             CLIMBZ    JUMP2
- * TOWER_UNUSED            CLIMBZ    JUMP2
- * PIVOT_IN_FRONT          CLIMBZ    JUMP2
- * BEAN_GENERIC            CLIMBZ    JUMP2
- * BEAN_LOST_WOODS         CLIMBZ    JUMP2
- * NORMAL2                 CLIMBZ    JUMP2
- * JABU_TENTACLE           CLIMBZ    JUMP2
- * DIRECTED_YAW            CLIMBZ    JUMP2
- * NORMAL4                 CLIMBZ    JUMP2
- */
 CameraModeValue sSetNormal0ModeClimbZData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },
-    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2006, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP2(-20, 200, 300, 20, 999, 5, 60, 40, 0x2006),
 };
 
-/**
- * Setting                 Mode        Function
- * --------------------    --------    --------
- * NORMAL0                 JUMP        JUMP1
- * NORMAL3                 JUMP        JUMP1
- * NORMAL3                 FREEFALL    JUMP1
- * BOSS_GOHMA              JUMP        JUMP1
- * BOSS_GOHMA              FREEFALL    JUMP1
- * BOSS_DODONGO            JUMP        JUMP1
- * BOSS_DODONGO            FREEFALL    JUMP1
- * BOSS_BARINADE           JUMP        JUMP1
- * BOSS_BARINADE           FREEFALL    JUMP1
- * BOSS_PHANTOM_GANON      JUMP        JUMP1
- * BOSS_PHANTOM_GANON      FREEFALL    JUMP1
- * BOSS_VOLVAGIA           JUMP        JUMP1
- * BOSS_VOLVAGIA           FREEFALL    JUMP1
- * BOSS_MORPHA             JUMP        JUMP1
- * BOSS_MORPHA             FREEFALL    JUMP1
- * BOSS_TWINROVA_PLATFORM  JUMP        JUMP1
- * BOSS_TWINROVA_PLATFORM  FREEFALL    JUMP1
- * BOSS_TWINROVA_FLOOR     JUMP        JUMP1
- * BOSS_TWINROVA_FLOOR     FREEFALL    JUMP1
- * BOSS_GANONDORF          JUMP        JUMP1
- * BOSS_GANONDORF          FREEFALL    JUMP1
- * GANON2                  JUMP        JUMP1
- * GANON2                  FREEFALL    JUMP1
- * TOWER_CLIMB             FREEFALL    JUMP1
- * TOWER_UNUSED            FREEFALL    JUMP1
- * BEAN_GENERIC            FREEFALL    JUMP1
- * BEAN_LOST_WOODS         FREEFALL    JUMP1
- * NORMAL2                 JUMP        JUMP1
- * NORMAL2                 FREEFALL    JUMP1
- * JABU_TENTACLE           JUMP        JUMP1
- * JABU_TENTACLE           FREEFALL    JUMP1
- * DIRECTED_YAW            JUMP        JUMP1
- * DIRECTED_YAW            FREEFALL    JUMP1
- * NORMAL4                 JUMP        JUMP1
- * NORMAL4                 FREEFALL    JUMP1
- */
 CameraModeValue sSetNormal0ModeJumpData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },     { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 35, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-20, 200, 300, 12, 35, 60, 40, 0x0000),
 };
 
-/**
- * Setting                 Mode    Function
- * --------------------    ----    --------
- * NORMAL0                 HANG    UNIQ1
- * NORMAL3                 HANG    UNIQ1
- * BOSS_GOHMA              HANG    UNIQ1
- * BOSS_DODONGO            HANG    UNIQ1
- * BOSS_BARINADE           HANG    UNIQ1
- * BOSS_PHANTOM_GANON      HANG    UNIQ1
- * BOSS_VOLVAGIA           HANG    UNIQ1
- * BOSS_BONGO              HANG    UNIQ1
- * BOSS_MORPHA             HANG    UNIQ1
- * BOSS_TWINROVA_PLATFORM  HANG    UNIQ1
- * BOSS_TWINROVA_FLOOR     HANG    UNIQ1
- * BOSS_GANONDORF          HANG    UNIQ1
- * GANON2                  HANG    UNIQ1
- * TOWER_CLIMB             HANG    UNIQ1
- * TOWER_UNUSED            HANG    UNIQ1
- * NORMAL2                 HANG    UNIQ1
- * JABU_TENTACLE           HANG    UNIQ1
- * DIRECTED_YAW            HANG    UNIQ1
- * NORMAL4                 HANG    UNIQ1
- */
 CameraModeValue sSetNormal0ModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },    { 200, CAM_DATA_EYE_DIST }, { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_PITCH_TARGET }, { 60, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-80, 200, 300, 40, 60, 10, 0x0000),
 };
 
-/**
- * Setting                 Mode     Function
- * --------------------    -----    --------
- * NORMAL0                 HANGZ    UNIQ1
- * NORMAL3                 HANGZ    UNIQ1
- * BOSS_GOHMA              HANGZ    UNIQ1
- * BOSS_DODONGO            HANGZ    UNIQ1
- * BOSS_BARINADE           HANGZ    UNIQ1
- * BOSS_PHANTOM_GANON      HANGZ    UNIQ1
- * BOSS_VOLVAGIA           HANGZ    UNIQ1
- * BOSS_BONGO              HANGZ    UNIQ1
- * BOSS_MORPHA             HANGZ    UNIQ1
- * BOSS_TWINROVA_PLATFORM  HANGZ    UNIQ1
- * BOSS_TWINROVA_FLOOR     HANGZ    UNIQ1
- * BOSS_GANONDORF          HANGZ    UNIQ1
- * GANON2                  HANGZ    UNIQ1
- * TOWER_CLIMB             HANGZ    UNIQ1
- * TOWER_UNUSED            HANGZ    UNIQ1
- * NORMAL2                 HANGZ    UNIQ1
- * JABU_TENTACLE           HANGZ    UNIQ1
- * DIRECTED_YAW            HANGZ    UNIQ1
- * NORMAL4                 HANGZ    UNIQ1
- */
 CameraModeValue sSetNormal0ModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },   { 300, CAM_DATA_EYE_DIST }, { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 70, CAM_DATA_PITCH_TARGET }, { 45, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-120, 300, 300, 70, 45, 10, 0x2000),
 };
 
-/**
- * Setting    Mode        Function
- * -------    --------    --------
- * NORMAL0    FREEFALL    JUMP1
- */
 CameraModeValue sSetNormal0ModeFreeFallData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },     { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-20, 200, 300, 15, 80, 60, 20, 0x0000),
 };
 
-/**
- * Setting                 Mode      Function
- * --------------------    ------    --------
- * NORMAL0                 CHARGE    BATT4
- * NORMAL3                 CHARGE    BATT4
- * BOSS_DODONGO            CHARGE    BATT4
- * BOSS_BARINADE           CHARGE    BATT4
- * BOSS_PHANTOM_GANON      CHARGE    BATT4
- * BOSS_VOLVAGIA           CHARGE    BATT4
- * BOSS_BONGO              CHARGE    BATT4
- * BOSS_MORPHA             CHARGE    BATT4
- * BOSS_TWINROVA_PLATFORM  CHARGE    BATT4
- * BOSS_TWINROVA_FLOOR     CHARGE    BATT4
- * GANON2                  CHARGE    BATT4
- * TOWER_CLIMB             CHARGE    BATT4
- * TOWER_UNUSED            CHARGE    BATT4
- * PIVOT_IN_FRONT          CHARGE    BATT4
- * BEAN_GENERIC            CHARGE    BATT4
- * BEAN_LOST_WOODS         CHARGE    BATT4
- * NORMAL2                 CHARGE    BATT4
- * JABU_TENTACLE           CHARGE    BATT4
- * DUNGEON2                CHARGE    BATT4
- * DIRECTED_YAW            CHARGE    BATT4
- * NORMAL4                 CHARGE    BATT4
- */
 CameraModeValue sSetNormal0ModeChargeData[] = {
-    { -20, CAM_DATA_Y_OFFSET },    { 300, CAM_DATA_EYE_DIST },
-    { 50, CAM_DATA_PITCH_TARGET }, { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_FOV },          { 20, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_BATT4(-20, 300, 50, 2, 80, 20, 0xF000),
 };
 
-/**
- * Setting                 Mode     Function
- * --------------------    -----    --------
- * NORMAL0                 STILL    NORM1
- * NORMAL3                 STILL    NORM1
- * BOSS_GOHMA              STILL    NORM1
- * BOSS_DODONGO            STILL    NORM1
- * BOSS_BARINADE           STILL    NORM1
- * BOSS_PHANTOM_GANON      STILL    NORM1
- * BOSS_VOLVAGIA           STILL    NORM1
- * BOSS_BONGO              STILL    NORM1
- * BOSS_MORPHA             STILL    NORM1
- * BOSS_TWINROVA_PLATFORM  STILL    NORM1
- * BOSS_TWINROVA_FLOOR     STILL    NORM1
- * BOSS_GANONDORF          STILL    NORM1
- * GANON2                  STILL    NORM1
- * TOWER_CLIMB             STILL    NORM1
- * TOWER_UNUSED            STILL    NORM1
- * PIVOT_IN_FRONT          STILL    NORM1
- * NORMAL2                 STILL    NORM1
- * JABU_TENTACLE           STILL    NORM1
- * DIRECTED_YAW            STILL    NORM1
- * NORMAL4                 STILL    NORM1
- */
 CameraModeValue sSetNormal0ModeStillData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 100, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 5, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 200, 300, 10, 100, 10, 100, 60, 5, 0xF003),
 };
 
-/**
- * Setting                 Mode        Function
- * --------------------    --------    --------
- * NORMAL0                 PUSHPULL    PARA1
- * NORMAL1                 PUSHPULL    PARA1
- * DUNGEON0                PUSHPULL    PARA1
- * NORMAL3                 PUSHPULL    PARA1
- * BOSS_GOHMA              PUSHPULL    PARA1
- * BOSS_DODONGO            PUSHPULL    PARA1
- * BOSS_BARINADE           PUSHPULL    PARA1
- * BOSS_PHANTOM_GANON      PUSHPULL    PARA1
- * BOSS_VOLVAGIA           PUSHPULL    PARA1
- * BOSS_BONGO              PUSHPULL    PARA1
- * BOSS_MORPHA             PUSHPULL    PARA1
- * BOSS_TWINROVA_PLATFORM  PUSHPULL    PARA1
- * BOSS_TWINROVA_FLOOR     PUSHPULL    PARA1
- * BOSS_GANONDORF          PUSHPULL    PARA1
- * GANON2                  PUSHPULL    PARA1
- * TOWER_CLIMB             PUSHPULL    PARA1
- * TOWER_UNUSED            PUSHPULL    PARA1
- * PIVOT_IN_FRONT          PUSHPULL    PARA1
- * BEAN_GENERIC            PUSHPULL    PARA1
- * BEAN_LOST_WOODS         PUSHPULL    PARA1
- * BIG_OCTO                PUSHPULL    PARA1
- * NORMAL2                 PUSHPULL    PARA1
- * JABU_TENTACLE           PUSHPULL    PARA1
- * DIRECTED_YAW            PUSHPULL    PARA1
- * NORMAL4                 PUSHPULL    PARA1
- */
 CameraModeValue sSetNormal0ModePushPullData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 250, CAM_DATA_EYE_DIST },
-    { 25, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_FOV },
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x206A, CAM_DATA_FLAGS },
-    { -20, CAM_DATA_GROUND_Y_OFFSET },
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(0, 250, 25, 0, 5, 5, 70, 30, 0x206A, -20, 30),
 };
 
-/**
- * Setting                 Mode           Function
- * --------------------    -----------    --------
- * NORMAL0                 FOLLOWBOOMERANG    KEEP1
- * NORMAL1                 FOLLOWBOOMERANG    KEEP1
- * DUNGEON0                FOLLOWBOOMERANG    KEEP1
- * DUNGEON1                FOLLOWBOOMERANG    KEEP1
- * NORMAL3                 FOLLOWBOOMERANG    KEEP1
- * BOSS_GOHMA              FOLLOWBOOMERANG    KEEP1
- * BOSS_DODONGO            FOLLOWBOOMERANG    KEEP1
- * BOSS_BARINADE           FOLLOWBOOMERANG    KEEP1
- * BOSS_PHANTOM_GANON      FOLLOWBOOMERANG    KEEP1
- * BOSS_VOLVAGIA           FOLLOWBOOMERANG    KEEP1
- * BOSS_BONGO              FOLLOWBOOMERANG    KEEP1
- * BOSS_MORPHA             FOLLOWBOOMERANG    KEEP1
- * BOSS_TWINROVA_PLATFORM  FOLLOWBOOMERANG    KEEP1
- * BOSS_TWINROVA_FLOOR     FOLLOWBOOMERANG    KEEP1
- * BOSS_GANONDORF          FOLLOWBOOMERANG    KEEP1
- * GANON2                  FOLLOWBOOMERANG    KEEP1
- * TOWER_CLIMB             FOLLOWBOOMERANG    KEEP1
- * TOWER_UNUSED            FOLLOWBOOMERANG    KEEP1
- * PIVOT_IN_FRONT          FOLLOWBOOMERANG    KEEP1
- * BEAN_GENERIC            FOLLOWBOOMERANG    KEEP1
- * BEAN_LOST_WOODS         FOLLOWBOOMERANG    KEEP1
- * BIG_OCTO                FOLLOWBOOMERANG    KEEP1
- * NORMAL2                 FOLLOWBOOMERANG    KEEP1
- * JABU_TENTACLE           FOLLOWBOOMERANG    KEEP1
- * DUNGEON2                FOLLOWBOOMERANG    KEEP1
- * DIRECTED_YAW            FOLLOWBOOMERANG    KEEP1
- * NORMAL4                 FOLLOWBOOMERANG    KEEP1
- */
 CameraModeValue sSetNormal0ModeFollowBoomerangData[] = {
-    { -5, CAM_DATA_Y_OFFSET },
-    { 120, CAM_DATA_EYE_DIST },
-    { 140, CAM_DATA_EYE_DIST_NEXT },
-    { 5, CAM_DATA_SWING_YAW_INIT },
-    { 85, CAM_DATA_SWING_YAW_FINAL },
-    { 10, CAM_DATA_SWING_PITCH_INIT },
-    { 5, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2001, CAM_DATA_FLAGS },
-    { -15, CAM_DATA_GROUND_Y_OFFSET },
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_KEEP1(-5, 120, 140, 5, 85, 10, 5, 25, 45, 50, 0x2001, -15, 30),
 };
 
 /**
@@ -836,216 +181,56 @@ CameraModeValue sSetNormal0ModeFollowBoomerangData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * NORMAL1    NORMAL    NORM1
- */
 CameraModeValue sSetNormal1ModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 400, CAM_DATA_EYE_DIST_NEXT },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(0, 200, 400, 10, 12, 20, 40, 60, 60, 0x0003),
 };
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * NORMAL1    TARGET    PARA1
- */
 CameraModeValue sSetNormal1ModeTargetData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 250, CAM_DATA_EYE_DIST },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(0, 250, 0, 0, 5, 5, 45, 50, 0x2002, -40, 20),
 };
 
-/**
- * Setting     Mode            Function
- * --------    ------------    --------
- * NORMAL1     FOLLOWTARGET    KEEP1
- * DUNGEON1    FOLLOWTARGET    KEEP1
- */
 CameraModeValue sSetNormal1ModeFollowTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 120, CAM_DATA_EYE_DIST },
-    { 140, CAM_DATA_EYE_DIST_NEXT },
-    { 25, CAM_DATA_SWING_YAW_INIT },
-    { 45, CAM_DATA_SWING_YAW_FINAL },
-    { -5, CAM_DATA_SWING_PITCH_INIT },
-    { 15, CAM_DATA_SWING_PITCH_FINAL },
-    { 15, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2001, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_KEEP1(-20, 120, 140, 25, 45, -5, 15, 15, 45, 50, 0x2001, -50, 20),
 };
 
-/**
- * Setting            Mode      Function
- * ---------------    ------    --------
- * NORMAL1            BATTLE    BATT1
- * PIVOT_IN_FRONT     BATTLE    BATT1
- * BEAN_GENERIC       BATTLE    BATT1
- * BEAN_LOST_WOODS    BATTLE    BATT1
- * NORMAL2            BATTLE    BATT1
- * NORMAL4            BATTLE    BATT1
- */
 CameraModeValue sSetNormal1ModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 250, CAM_DATA_EYE_DIST },
-    { 10, CAM_DATA_SWING_YAW_INIT },     { 80, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },    { 10, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    { 50, CAM_DATA_FOV },
-    { 65, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 250, 10, 80, 0, 10, 25, 50, 65, 0x2002, -40, 25),
 };
 
-/**
- * Setting     Mode        Function
- * --------    --------    --------
- * NORMAL1     HOOKSHOT    SPEC5
- * DUNGEON0    HOOKSHOT    SPEC5
- * DUNGEON1    HOOKSHOT    SPEC5
- * BIG_OCTO    HOOKSHOT    SPEC5
- * DUNGEON2    HOOKSHOT    SPEC5
- */
 CameraModeValue sSetNormal1ModeHookshotData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 80, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },     { 6, CAM_DATA_UNK_22 },
-    { 45, CAM_DATA_PITCH_TARGET },       { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SPEC5(-20, 80, 250, 6, 45, 60, 40, 0x2000),
 };
 
-/**
- * Setting    Mode    Function
- * -------    ----    --------
- * NORMAL1    JUMP    JUMP1
- */
 CameraModeValue sSetNormal1ModeJumpData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 250, CAM_DATA_EYE_DIST },
-    { 400, CAM_DATA_EYE_DIST_NEXT },
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 50, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(0, 250, 400, 15, 50, 60, 30, 0x0000),
 };
 
-/**
- * Setting    Mode        Function
- * -------    --------    --------
- * NORMAL1    FREEFALL    JUMP1
- */
 CameraModeValue sSetNormal1ModeFreeFallData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 400, CAM_DATA_EYE_DIST_NEXT },
-    { 30, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(0, 200, 400, 30, 80, 60, 20, 0x0000),
 };
 
-/**
- * Setting    Mode     Function
- * -------    -----    --------
- * NORMAL1    CLIMB    JUMP2
- */
 CameraModeValue sSetNormal1ModeClimbData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 400, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP2(-20, 200, 400, 20, 5, 5, 60, 40, 0x0000),
 };
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * NORMAL1    CLIMBZ    JUMP2
- */
 CameraModeValue sSetNormal1ModeClimbZData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 250, CAM_DATA_EYE_DIST },
-    { 400, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },
-    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2006, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP2(-20, 250, 400, 20, 999, 5, 60, 40, 0x2006),
 };
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * NORMAL1    CHARGE    BATT4
- */
 CameraModeValue sSetNormal1ModeChargeData[] = {
-    { 0, CAM_DATA_Y_OFFSET },      { 300, CAM_DATA_EYE_DIST },
-    { 50, CAM_DATA_PITCH_TARGET }, { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_FOV },          { 20, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_BATT4(0, 300, 50, 2, 80, 20, 0xF000),
 };
 
-/**
- * Setting    Mode    Function
- * -------    ----    --------
- * NORMAL1    HANG    UNIQ1
- */
 CameraModeValue sSetNormal1ModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },    { 200, CAM_DATA_EYE_DIST }, { 400, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_PITCH_TARGET }, { 60, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-80, 200, 400, 40, 60, 10, 0x0000),
 };
 
-/**
- * Setting    Mode     Function
- * -------    -----    --------
- * NORMAL1    HANGZ    UNIQ1
- */
 CameraModeValue sSetNormal1ModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },   { 400, CAM_DATA_EYE_DIST }, { 400, CAM_DATA_EYE_DIST_NEXT },
-    { 70, CAM_DATA_PITCH_TARGET }, { 45, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-120, 400, 400, 70, 45, 10, 0x2000),
 };
 
-/**
- * Setting    Mode     Function
- * -------    -----    --------
- * NORMAL1    STILL    NORM1
- */
 CameraModeValue sSetNormal1ModeStillData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 400, CAM_DATA_EYE_DIST_NEXT },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 100, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 5, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(0, 200, 400, 10, 100, 20, 100, 60, 5, 0xF003),
 };
 
 /**
@@ -1054,199 +239,52 @@ CameraModeValue sSetNormal1ModeStillData[] = {
  *=====================================================================
  */
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON0    NORMAL    NORM1
- */
 CameraModeValue sSetDungeon0ModeNormalData[] = {
-    { -10, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 5, CAM_DATA_PITCH_TARGET },
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 30, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-10, 150, 250, 5, 10, 5, 30, 60, 60, 0x0003),
 };
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON0    TARGET    PARA1
- * DUNGEON1    TARGET    PARA1
- * BIG_OCTO    TARGET    PARA1
- */
 CameraModeValue sSetDungeon0ModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-20, 150, 0, 0, 5, 5, 45, 50, 0x200A, -40, 20),
 };
 
-/**
- * Setting     Mode            Function
- * --------    ------------    --------
- * DUNGEON0    FOLLOWTARGET    KEEP1
- * BIG_OCTO    FOLLOWTARGET    KEEP1
- * DUNGEON2    FOLLOWTARGET    KEEP1
- */
 CameraModeValue sSetDungeon0ModeFollowTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 120, CAM_DATA_EYE_DIST },
-    { 140, CAM_DATA_EYE_DIST_NEXT },
-    { 25, CAM_DATA_SWING_YAW_INIT },
-    { 45, CAM_DATA_SWING_YAW_FINAL },
-    { -5, CAM_DATA_SWING_PITCH_INIT },
-    { 15, CAM_DATA_SWING_PITCH_FINAL },
-    { 15, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2001, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_KEEP1(-20, 120, 140, 25, 45, -5, 15, 15, 45, 50, 0x2001, -40, 20),
 };
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON0    BATTLE    BATT1
- * DUNGEON1    BATTLE    BATT1
- */
 CameraModeValue sSetDungeon0ModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 180, CAM_DATA_EYE_DIST },
-    { 10, CAM_DATA_SWING_YAW_INIT },     { 80, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },    { 10, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    { 45, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 180, 10, 80, 0, 10, 25, 45, 80, 0x2002, -40, 25),
 };
 
-/**
- * Setting     Mode    Function
- * --------    ----    --------
- * DUNGEON0    JUMP    JUMP1
- * BIG_OCTO    JUMP    JUMP1
- */
 CameraModeValue sSetDungeon0ModeJumpData[] = {
-    { -10, CAM_DATA_Y_OFFSET },          { 150, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 50, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-10, 150, 250, 10, 50, 60, 40, 0x0000),
 };
 
-/**
- * Setting     Mode        Function
- * --------    --------    --------
- * DUNGEON0    FREEFALL    JUMP1
- * BIG_OCTO    FREEFALL    JUMP1
- */
 CameraModeValue sSetDungeon0ModeFreeFallData[] = {
-    { -10, CAM_DATA_Y_OFFSET },          { 150, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-10, 150, 250, 10, 80, 60, 20, 0x0000),
 };
 
-/**
- * Setting     Mode     Function
- * --------    -----    --------
- * DUNGEON0    CLIMB    JUMP2
- * BIG_OCTO    CLIMB    JUMP2
- */
 CameraModeValue sSetDungeon0ModeClimbData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP2(-40, 150, 250, 20, 5, 5, 60, 40, 0x0000),
 };
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON0    CLIMBZ    JUMP2
- * BIG_OCTO    CLIMBZ    JUMP2
- */
 CameraModeValue sSetDungeon0ModeClimbZData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 250, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },
-    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2006, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP2(-40, 250, 250, 20, 999, 5, 60, 40, 0x2006),
 };
 
-/**
- * Setting       Mode      Function
- * ----------    ------    --------
- * DUNGEON0      CHARGE    BATT4
- * BOSS_GOHMA    CHARGE    BATT4
- * BIG_OCTO      CHARGE    BATT4
- */
 CameraModeValue sSetDungeon0ModeChargeData[] = {
-    { -10, CAM_DATA_Y_OFFSET },    { 300, CAM_DATA_EYE_DIST },
-    { 50, CAM_DATA_PITCH_TARGET }, { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_FOV },          { 20, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_BATT4(-10, 300, 50, 2, 80, 20, 0xF000),
 };
 
-/**
- * Setting     Mode    Function
- * --------    ----    --------
- * DUNGEON0    HANG    UNIQ1
- * BIG_OCTO    HANG    UNIQ1
- */
 CameraModeValue sSetDungeon0ModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },    { 150, CAM_DATA_EYE_DIST }, { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_PITCH_TARGET }, { 60, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-80, 150, 250, 40, 60, 10, 0x0000),
 };
 
-/**
- * Setting     Mode     Function
- * --------    -----    --------
- * DUNGEON0    HANGZ    UNIQ1
- * BIG_OCTO    HANGZ    UNIQ1
- */
 CameraModeValue sSetDungeon0ModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },   { 250, CAM_DATA_EYE_DIST }, { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 70, CAM_DATA_PITCH_TARGET }, { 45, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-120, 250, 250, 70, 45, 10, 0x2000),
 };
 
-/**
- * Setting     Mode     Function
- * --------    -----    --------
- * DUNGEON0    STILL    NORM1
- */
 CameraModeValue sSetDungeon0ModeStillData[] = {
-    { -10, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 5, CAM_DATA_PITCH_TARGET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 100, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 5, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-10, 150, 250, 5, 100, 5, 100, 60, 5, 0xF003),
 };
 
 /**
@@ -1255,171 +293,48 @@ CameraModeValue sSetDungeon0ModeStillData[] = {
  *=====================================================================
  */
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON1    NORMAL    NORM1
- */
 CameraModeValue sSetDungeon1ModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 150, CAM_DATA_EYE_DIST_NEXT },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 30, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-40, 150, 150, 0, 10, 5, 30, 60, 60, 0x0003),
 };
 
-/**
- * Setting     Mode    Function
- * --------    ----    --------
- * DUNGEON1    TALK    KEEP3
- */
 CameraModeValue sSetDungeon1ModeTalkData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 70, CAM_DATA_EYE_DIST },
-    { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_SWING_YAW_INIT },
-    { 10, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },
-    { 5, CAM_DATA_SWING_PITCH_FINAL },
-    { 70, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0x3500, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_KEEP3(-20, 70, 200, 40, 10, 0, 5, 70, 45, 50, 10, 0x3500),
 };
 
-/**
- * Setting     Mode    Function
- * --------    ----    --------
- * DUNGEON1    JUMP    JUMP1
- */
 CameraModeValue sSetDungeon1ModeJumpData[] = {
-    { -40, CAM_DATA_Y_OFFSET },          { 150, CAM_DATA_EYE_DIST },
-    { 150, CAM_DATA_EYE_DIST_NEXT },     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 50, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-40, 150, 150, 10, 50, 60, 40, 0x0000),
 };
 
-/**
- * Setting     Mode        Function
- * --------    --------    --------
- * DUNGEON1    FREEFALL    JUMP1
- */
 CameraModeValue sSetDungeon1ModeFreeFallData[] = {
-    { -40, CAM_DATA_Y_OFFSET },          { 150, CAM_DATA_EYE_DIST },
-    { 180, CAM_DATA_EYE_DIST_NEXT },     { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-40, 150, 180, 12, 80, 60, 20, 0x0000),
 };
 
-/**
- * Setting     Mode     Function
- * --------    -----    --------
- * DUNGEON1    CLIMB    JUMP2
- */
 CameraModeValue sSetDungeon1ModeClimbData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 150, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP2(-40, 150, 150, 20, 5, 5, 60, 40, 0x0000),
 };
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON1    CLIMBZ    JUMP2
- */
 CameraModeValue sSetDungeon1ModeClimbZData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 150, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },
-    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2006, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP2(-40, 150, 150, 20, 999, 5, 60, 40, 0x2006),
 };
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON1    CHARGE    BATT4
- */
 CameraModeValue sSetDungeon1ModeChargeData[] = {
-    { -40, CAM_DATA_Y_OFFSET },    { 200, CAM_DATA_EYE_DIST },
-    { 50, CAM_DATA_PITCH_TARGET }, { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_FOV },          { 20, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_BATT4(-40, 200, 50, 2, 80, 20, 0xF000),
 };
 
-/**
- * Setting     Mode    Function
- * --------    ----    --------
- * DUNGEON1    HANG    UNIQ1
- */
 CameraModeValue sSetDungeon1ModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },    { 150, CAM_DATA_EYE_DIST }, { 150, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_PITCH_TARGET }, { 60, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-80, 150, 150, 40, 60, 10, 0x0000),
 };
 
-/**
- * Setting     Mode     Function
- * --------    -----    --------
- * DUNGEON1    HANGZ    UNIQ1
- */
 CameraModeValue sSetDungeon1ModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },   { 150, CAM_DATA_EYE_DIST }, { 150, CAM_DATA_EYE_DIST_NEXT },
-    { 70, CAM_DATA_PITCH_TARGET }, { 45, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-120, 150, 150, 70, 45, 10, 0x2000),
 };
 
-/**
- * Setting     Mode     Function
- * --------    -----    --------
- * DUNGEON1    STILL    NORM1
- */
 CameraModeValue sSetDungeon1ModeStillData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 150, CAM_DATA_EYE_DIST_NEXT },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 100, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 5, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-40, 150, 150, 0, 100, 5, 100, 60, 5, 0xF003),
 };
 
-/**
- * Setting     Mode        Function
- * --------    --------    --------
- * DUNGEON1    PUSHPULL    PARA1
- */
 CameraModeValue sSetDungeon1ModePushPullData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 180, CAM_DATA_EYE_DIST },
-    { 25, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x206A, CAM_DATA_FLAGS },
-    { -20, CAM_DATA_GROUND_Y_OFFSET },
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-40, 180, 25, 0, 5, 5, 60, 50, 0x206A, -20, 30),
 };
 
 /**
@@ -1428,82 +343,23 @@ CameraModeValue sSetDungeon1ModePushPullData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * NORMAL3    NORMAL    JUMP3
- */
 CameraModeValue sSetNormal3ModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 280, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_PITCH_TARGET },
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0004, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP3(-20, 280, 300, 20, 15, 5, 40, 60, 100, 0x0004),
 };
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * NORMAL3    TARGET    PARA1
- */
 CameraModeValue sSetNormal3ModeTargetData[] = {
-    { -50, CAM_DATA_Y_OFFSET },
-    { 250, CAM_DATA_EYE_DIST },
-    { 70, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x200A, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-50, 250, 70, 0, 15, 5, 60, 100, 0x200A, -50, 20),
 };
 
-/**
- * Setting    Mode    Function
- * -------    ----    --------
- * NORMAL3    TALK    KEEP3
- */
 CameraModeValue sSetNormal3ModeTalkData[] = {
-    { -30, CAM_DATA_Y_OFFSET },
-    { 70, CAM_DATA_EYE_DIST },
-    { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_SWING_YAW_INIT },
-    { 10, CAM_DATA_SWING_YAW_FINAL },
-    { 10, CAM_DATA_SWING_PITCH_INIT },
-    { 20, CAM_DATA_SWING_PITCH_FINAL },
-    { 70, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0x3500, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_KEEP3(-30, 70, 200, 40, 10, 10, 20, 70, 45, 10, 10, 0x3500),
 };
 
-/**
- * Setting    Mode         Function
- * -------    ---------    --------
- * NORMAL3    BOOMERANG    JUMP3
+/* These values are for when the eye
+ * >= OREG(45) units below the surface of the water.
  */
 CameraModeValue sSetNormal3ModeBoomerangData[] = {
-    /* These values are for when the eye
-     * >= OREG(45) units below the surface of the water.
-     */
-    { -40, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },
-    { -5, CAM_DATA_PITCH_TARGET },
-    { 18, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0005, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP3(-40, 150, 250, -5, 18, 5, 60, 60, 40, 0x0005),
 };
 
 /**
@@ -1512,92 +368,24 @@ CameraModeValue sSetNormal3ModeBoomerangData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * HORSE      NORMAL    NORM3
- */
 CameraModeValue sSetHorseModeNormalData[] = {
-    { -50, CAM_DATA_Y_OFFSET },
-    { 220, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 20, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0600, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM3(-50, 220, 250, 10, 16, 20, 60, 100, 0x0600),
 };
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * HORSE      TARGET    NORM3
- */
 CameraModeValue sSetHorseModeTargetData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 180, CAM_DATA_EYE_DIST },
-    { 220, CAM_DATA_EYE_DIST_NEXT },
-    { -2, CAM_DATA_PITCH_TARGET },
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 100, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 45, CAM_DATA_FOV },
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2600, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM3(-40, 180, 220, -2, 12, 100, 45, 100, 0x2600),
 };
 
-/**
- * Setting    Mode        Function
- * -------    --------    --------
- * HORSE      BOWARROW    SUBJ3
- */
 CameraModeValue sSetHorseModeBowArrowData[] = {
-    { -7, CAM_DATA_Y_OFFSET },       { 14, CAM_DATA_EYE_DIST },
-    { 100, CAM_DATA_EYE_DIST_NEXT }, { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0, CAM_DATA_AT_OFFSET_X },     { -30, CAM_DATA_AT_OFFSET_Y },
-    { -5, CAM_DATA_AT_OFFSET_Z },    { 40, CAM_DATA_FOV },
-    { 0x2600, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SUBJ3(-7, 14, 100, 10, 0, -30, -5, 40, 0x2600),
 };
 
-/**
- * Setting    Mode            Function
- * -------    ------------    --------
- * HORSE      FOLLOWTARGET    KEEP1
- */
 CameraModeValue sSetHorseModeFollowTargetData[] = {
-    { -60, CAM_DATA_Y_OFFSET },
-    { 180, CAM_DATA_EYE_DIST },
-    { 220, CAM_DATA_EYE_DIST_NEXT },
-    { 25, CAM_DATA_SWING_YAW_INIT },
-    { 45, CAM_DATA_SWING_YAW_FINAL },
-    { -5, CAM_DATA_SWING_PITCH_INIT },
-    { 15, CAM_DATA_SWING_PITCH_FINAL },
-    { 15, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2601, CAM_DATA_FLAGS },
-    { -60, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_KEEP1(-60, 180, 220, 25, 45, -5, 15, 15, 45, 50, 0x2601, -60, 20),
 };
 
-/**
- * Setting    Mode    Function
- * -------    ----    --------
- * HORSE      TALK    KEEP3
- */
 CameraModeValue sSetHorseModeTalkData[] = {
-    { -60, CAM_DATA_Y_OFFSET },
-    { 140, CAM_DATA_EYE_DIST },
-    { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_SWING_YAW_INIT },
-    { 10, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },
-    { 5, CAM_DATA_SWING_PITCH_FINAL },
-    { 70, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0x3500, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_KEEP3(-60, 140, 200, 40, 10, 0, 5, 70, 45, 50, 10, 0x3500),
 };
 
 /**
@@ -1606,36 +394,12 @@ CameraModeValue sSetHorseModeTalkData[] = {
  *=====================================================================
  */
 
-/**
- * Setting       Mode      Function
- * ----------    ------    --------
- * BOSS_GOHMA    NORMAL    NORM1
- */
 CameraModeValue sSetBossGohmaModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0001, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 150, 250, 0, 15, 5, 40, 60, 60, 0x0001),
 };
 
-/**
- * Setting       Mode      Function
- * ----------    ------    --------
- * BOSS_GOHMA    BATTLE    BATT1
- */
 CameraModeValue sSetBossGohmaModeBattleData[] = {
-    { -30, CAM_DATA_Y_OFFSET },          { 150, CAM_DATA_EYE_DIST },
-    { 10, CAM_DATA_SWING_YAW_INIT },     { 40, CAM_DATA_SWING_YAW_FINAL },
-    { -10, CAM_DATA_SWING_PITCH_INIT },  { 0, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },   { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-30, 150, 10, 40, -10, 0, 25, 60, 40, 0x2002, -50, 20),
 };
 
 /**
@@ -1644,36 +408,12 @@ CameraModeValue sSetBossGohmaModeBattleData[] = {
  *=====================================================================
  */
 
-/**
- * Setting         Mode      Function
- * ------------    ------    --------
- * BOSS_DODONGO    NORMAL    NORM1
- */
 CameraModeValue sSetBossDodongoModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_MAX_YAW_UPDATE },
-    { 70, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(0, 150, 300, 0, 12, 5, 70, 70, 40, 0x0003),
 };
 
-/**
- * Setting         Mode      Function
- * ------------    ------    --------
- * BOSS_DODONGO    BATTLE    BATT1
- */
 CameraModeValue sSetBossDodongoModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 160, CAM_DATA_EYE_DIST },
-    { 10, CAM_DATA_SWING_YAW_INIT },     { 60, CAM_DATA_SWING_YAW_FINAL },
-    { -5, CAM_DATA_SWING_PITCH_INIT },   { 0, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    { 70, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 160, 10, 60, -5, 0, 25, 70, 50, 0x2002, -40, 20),
 };
 
 /**
@@ -1682,36 +422,12 @@ CameraModeValue sSetBossDodongoModeBattleData[] = {
  *=====================================================================
  */
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * BOSS_BARINADE    NORMAL    NORM1
- */
 CameraModeValue sSetBossBarinadeModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { -5, CAM_DATA_PITCH_TARGET },
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 70, CAM_DATA_FOV },
-    { 70, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 150, 300, -5, 15, 5, 40, 70, 70, 0x0003),
 };
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * BOSS_BARINADE    BATTLE    BATT1
- */
 CameraModeValue sSetBossBarinadeModeBattleData[] = {
-    { -30, CAM_DATA_Y_OFFSET },          { 125, CAM_DATA_EYE_DIST },
-    { 10, CAM_DATA_SWING_YAW_INIT },     { 10, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },    { 0, CAM_DATA_SWING_PITCH_FINAL },
-    { 50, CAM_DATA_SWING_PITCH_ADJ },    { 60, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },   { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-30, 125, 10, 10, 0, 0, 50, 60, 50, 0x2002, -50, 20),
 };
 
 /**
@@ -1720,36 +436,12 @@ CameraModeValue sSetBossBarinadeModeBattleData[] = {
  *=====================================================================
  */
 
-/**
- * Setting               Mode      Function
- * ------------------    ------    --------
- * BOSS_PHANTOM_GANON    NORMAL    NORM1
- */
 CameraModeValue sSetBossPhantomGanonModeNormalData[] = {
-    { 10, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 15, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(10, 150, 250, 0, 15, 15, 40, 60, 100, 0x0003),
 };
 
-/**
- * Setting               Mode      Function
- * ------------------    ------    --------
- * BOSS_PHANTOM_GANON    BATTLE    BATT1
- */
 CameraModeValue sSetBossPhantomGanonModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },           { 200, CAM_DATA_EYE_DIST },
-    { 45, CAM_DATA_SWING_YAW_INIT },      { 40, CAM_DATA_SWING_YAW_FINAL },
-    { 5, CAM_DATA_SWING_PITCH_INIT },     { -5, CAM_DATA_SWING_PITCH_FINAL },
-    { 35, CAM_DATA_SWING_PITCH_ADJ },     { 60, CAM_DATA_FOV },
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },    { 60, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 200, 45, 40, 5, -5, 35, 60, 100, 0x2002, -40, 60),
 };
 
 /**
@@ -1758,36 +450,12 @@ CameraModeValue sSetBossPhantomGanonModeBattleData[] = {
  *=====================================================================
  */
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * BOSS_VOLVAGIA    NORMAL    NORM1
- */
 CameraModeValue sSetBossVolvagiaModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 500, CAM_DATA_EYE_DIST_NEXT },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 500, 500, 10, 16, 10, 40, 60, 80, 0x0003),
 };
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * BOSS_VOLVAGIA    BATTLE    BATT1
- */
 CameraModeValue sSetBossVolvagiaModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 200, CAM_DATA_EYE_DIST },
-    { 20, CAM_DATA_SWING_YAW_INIT },     { 60, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },    { 10, CAM_DATA_SWING_PITCH_FINAL },
-    { 15, CAM_DATA_SWING_PITCH_ADJ },    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 200, 20, 60, 0, 10, 15, 45, 50, 0x2002, -40, 20),
 };
 
 /**
@@ -1796,55 +464,16 @@ CameraModeValue sSetBossVolvagiaModeBattleData[] = {
  *=====================================================================
  */
 
-/**
- * Setting       Mode      Function
- * ----------    ------    --------
- * BOSS_BONGO    NORMAL    NORM1
- */
 CameraModeValue sSetBossBongoModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 500, CAM_DATA_EYE_DIST_NEXT },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0083, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 500, 500, 10, 20, 10, 40, 60, 80, 0x0083),
 };
 
-/**
- * Setting       Mode      Function
- * ----------    ------    --------
- * BOSS_BONGO    BATTLE    BATT1
- */
 CameraModeValue sSetBossBongoModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 200, CAM_DATA_EYE_DIST },
-    { 20, CAM_DATA_SWING_YAW_INIT },     { 60, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },    { 10, CAM_DATA_SWING_PITCH_FINAL },
-    { 15, CAM_DATA_SWING_PITCH_ADJ },    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2082, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 200, 20, 60, 0, 10, 15, 45, 50, 0x2082, -40, 20),
 };
 
-/**
- * Setting       Mode        Function
- * ----------    --------    --------
- * BOSS_BONGO    JUMP        NORM1
- * BOSS_BONGO    FREEFALL    NORM1
- */
 CameraModeValue sSetBossBongoModeJumpData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 500, CAM_DATA_EYE_DIST_NEXT },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0083, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 500, 500, 10, 20, 10, 80, 60, 80, 0x0083),
 };
 
 /**
@@ -1853,36 +482,12 @@ CameraModeValue sSetBossBongoModeJumpData[] = {
  *=====================================================================
  */
 
-/**
- * Setting        Mode      Function
- * -----------    ------    --------
- * BOSS_MORPHA    NORMAL    NORM1
- */
 CameraModeValue sSetBossMorphaModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 100, CAM_DATA_EYE_DIST },
-    { 150, CAM_DATA_EYE_DIST_NEXT },
-    { -10, CAM_DATA_PITCH_TARGET },
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 80, CAM_DATA_FOV },
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 100, 150, -10, 15, 10, 40, 80, 60, 0x0003),
 };
 
-/**
- * Setting        Mode      Function
- * -----------    ------    --------
- * BOSS_MORPHA    BATTLE    BATT1
- */
 CameraModeValue sSetBossMorphaModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 200, CAM_DATA_EYE_DIST },
-    { 10, CAM_DATA_SWING_YAW_INIT },     { 80, CAM_DATA_SWING_YAW_FINAL },
-    { -10, CAM_DATA_SWING_PITCH_INIT },  { 10, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    { 70, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 200, 10, 80, -10, 10, 25, 70, 40, 0x2002, -40, 20),
 };
 
 /**
@@ -1891,61 +496,16 @@ CameraModeValue sSetBossMorphaModeBattleData[] = {
  *=====================================================================
  */
 
-/**
- * Setting                   Mode      Function
- * ----------------------    ------    --------
- * BOSS_TWINROVA_PLATFORM    NORMAL    NORM1
- */
 CameraModeValue sSetBossTwinrovaPlatformModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 150, 300, 0, 20, 10, 40, 60, 80, 0x0003),
 };
 
-/**
- * Setting                   Mode      Function
- * ----------------------    ------    --------
- * BOSS_TWINROVA_PLATFORM    BATTLE    BATT1
- * BOSS_TWINROVA_FLOOR       BATTLE    BATT1
- */
 CameraModeValue sSetBossTwinrovaModeBattleData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 400, CAM_DATA_EYE_DIST },
-    { 0, CAM_DATA_SWING_YAW_INIT },
-    { 60, CAM_DATA_SWING_YAW_FINAL },
-    { -10, CAM_DATA_SWING_PITCH_INIT },
-    { 5, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2002, CAM_DATA_FLAGS },
-    { -20, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(0, 400, 0, 60, -10, 5, 25, 45, 40, 0x2002, -20, 20),
 };
 
-/**
- * Setting                Mode      Function
- * -------------------    ------    --------
- * BOSS_TWINROVA_FLOOR    NORMAL    NORM1
- */
 CameraModeValue sSetBossTwinrovaFloorModeNormalData[] = {
-    { -10, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 200, CAM_DATA_EYE_DIST_NEXT },
-    { -10, CAM_DATA_PITCH_TARGET },
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-10, 150, 200, -10, 12, 10, 40, 60, 50, 0x0003),
 };
 
 /**
@@ -1954,34 +514,12 @@ CameraModeValue sSetBossTwinrovaFloorModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting           Mode      Function
- * --------------    ------    --------
- * BOSS_GANONDORF    NORMAL    NORM1
- */
 CameraModeValue sSetBossGanondorfModeNormalData[] = {
-    { 40, CAM_DATA_Y_OFFSET },
-    { 330, CAM_DATA_EYE_DIST },
-    { 330, CAM_DATA_EYE_DIST_NEXT },
-    { -5, CAM_DATA_PITCH_TARGET },
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 15, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(40, 330, 330, -5, 15, 15, 40, 60, 100, 0x0000),
 };
 
-/**
- * Setting           Mode      Function
- * --------------    ------    --------
- * BOSS_GANONDORF    CHARGE    BATT4
- */
 CameraModeValue sSetBossGanondorfModeChargeData[] = {
-    { -40, CAM_DATA_Y_OFFSET },   { 250, CAM_DATA_EYE_DIST },
-    { 0, CAM_DATA_PITCH_TARGET }, { 2, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_FOV },         { 20, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_BATT4(-40, 250, 0, 2, 80, 20, 0xF000),
 };
 
 /**
@@ -1990,36 +528,12 @@ CameraModeValue sSetBossGanondorfModeChargeData[] = {
  *=====================================================================
  */
 
-/**
- * Setting       Mode      Function
- * ----------    ------    --------
- * BOSS_GANON    NORMAL    NORM1
- */
 CameraModeValue sSetBossGanonModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 500, CAM_DATA_EYE_DIST_NEXT },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 500, 500, 10, 20, 10, 40, 60, 80, 0x0003),
 };
 
-/**
- * Setting       Mode      Function
- * ----------    ------    --------
- * BOSS_GANON    BATTLE    BATT1
- */
 CameraModeValue sSetBossGanonModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 180, CAM_DATA_EYE_DIST },
-    { 20, CAM_DATA_SWING_YAW_INIT },     { 60, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },    { 10, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 180, 20, 60, 0, 10, 25, 45, 50, 0x2002, -40, 20),
 };
 
 /**
@@ -2028,38 +542,12 @@ CameraModeValue sSetBossGanonModeBattleData[] = {
  *=====================================================================
  */
 
-/**
- * Setting        Mode      Function
- * ------------   ------    --------
- * TOWER_CLIMB    NORMAL    NORM2
- */
 CameraModeValue sSetTowerClimbModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 120, CAM_DATA_EYE_DIST },
-    { 280, CAM_DATA_EYE_DIST_NEXT },
-    { 60, CAM_DATA_UNK_23 },
-    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM2(0, 120, 280, 60, 8, 40, 60, 50, 0x0000),
 };
 
-/**
- * Setting        Mode    Function
- * -----------    ----    --------
- * TOWER_CLIMB    JUMP    NORM2
- */
 CameraModeValue sSetTowerClimbModeJumpData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 120, CAM_DATA_EYE_DIST },
-    { 280, CAM_DATA_EYE_DIST_NEXT },
-    { 60, CAM_DATA_UNK_23 },
-    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 40, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0080, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM2(0, 120, 280, 60, 8, 40, 60, 50, 0x0080),
 };
 
 /**
@@ -2068,38 +556,12 @@ CameraModeValue sSetTowerClimbModeJumpData[] = {
  *=====================================================================
  */
 
-/**
- * Setting         Mode      Function
- * ------------    ------    --------
- * TOWER_UNUSED    NORMAL    NORM2
- */
 CameraModeValue sSetTowerUnusedModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 270, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 120, CAM_DATA_UNK_23 },
-    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM2(0, 270, 300, 120, 8, 60, 60, 100, 0x0000),
 };
 
-/**
- * Setting         Mode    Function
- * ------------    ----    --------
- * TOWER_UNUSED    JUMP    NORM2
- */
 CameraModeValue sSetTowerUnusedModeJumpData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 270, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 120, CAM_DATA_UNK_23 },
-    { 6, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 100, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM2(0, 270, 300, 120, 6, 60, 60, 100, 0x0000),
 };
 
 /**
@@ -2108,40 +570,16 @@ CameraModeValue sSetTowerUnusedModeJumpData[] = {
  *=====================================================================
  */
 
-/**
- * Setting           Mode      Function
- * --------------    ------    --------
- * MARKET_BALCONY    NORMAL    FIXD1
- */
 CameraModeValue sSetMarketBalconyModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FIXD1(-40, 100, 60, 0x0000),
 };
 
-/**
- * Setting           Mode            Function
- * --------------    ------------    --------
- * MARKET_BALCONY    FOLLOWTARGET    FIXD1
- */
 CameraModeValue sSetMarketBalconyModeFollowTargetData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FIXD1(-40, 100, 60, 0x2000),
 };
 
-/**
- * Setting           Mode    Function
- * --------------    ----    --------
- * MARKET_BALCONY    TALK    FIXD1
- */
 CameraModeValue sSetMarketBalconyModeTalkData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 0x3500, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FIXD1(-40, 100, 60, 0x3500),
 };
 
 /**
@@ -2150,16 +588,8 @@ CameraModeValue sSetMarketBalconyModeTalkData[] = {
  *=====================================================================
  */
 
-/**
- * Setting        Mode      Function
- * -----------    ------    --------
- * CHU_BOWLING    NORMAL    FIXD1
- */
 CameraModeValue sSetChuBowlingModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 25, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FIXD1(-40, 25, 60, 0x0000),
 };
 
 /**
@@ -2168,17 +598,8 @@ CameraModeValue sSetChuBowlingModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting             Mode      Function
- * ----------------    ------    --------
- * PIVOT_CRAWLSPACE    NORMAL    FIXD2
- */
 CameraModeValue sSetPivotCrawlspaceModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 50, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 0x0001, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FIXD2(-40, 50, 80, 60, 0x0001),
 };
 
 /**
@@ -2187,15 +608,8 @@ CameraModeValue sSetPivotCrawlspaceModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting                Mode      Function
- * -------------------    ------    --------
- * PIVOT_SHOP_BROWSING    NORMAL    DATA4
- */
 CameraModeValue sSetPivotShopBrowsingModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 60, CAM_DATA_FOV },
-    { 0x3F00, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_DATA4(-40, 60, 0x3F00),
 };
 
 /**
@@ -2204,19 +618,8 @@ CameraModeValue sSetPivotShopBrowsingModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting            Mode            Function
- * ---------------    ------------    --------
- * PIVOT_IN_FRONT     NORMAL          FIXD4
- * PIVOT_FROM_SIDE    NORMAL          FIXD4
- * PIVOT_FROM_SIDE    FOLLOWTARGET    FIXD4
- */
 CameraModeValue sSetPivotInFrontAndFromSideModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 50, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 0x0004, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FIXD4(-40, 50, 80, 60, 0x0004),
 };
 
 /**
@@ -2225,16 +628,8 @@ CameraModeValue sSetPivotInFrontAndFromSideModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting                Mode      Function
- * -------------------    ------    --------
- * PREREND_FIXED          NORMAL    FIXD3
- * PREREND_SIDE_SCROLL    NORMAL    SPEC6
- * START0                 NORMAL     UNIQ0
- * FIRE_PLATFORM          NORMAL    SPEC7
- */
 CameraModeValue sDataOnlyNullFlags[] = {
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FLAGS(0x0000),
 };
 
 /**
@@ -2243,14 +638,8 @@ CameraModeValue sDataOnlyNullFlags[] = {
  *=====================================================================
  */
 
-/**
- * Setting          Mode            Function
- * -------------    ------------    --------
- * PREREND_FIXED    FOLLOWTARGET    FIXD3
- * PREREND_FIXED    TALK            FIXD3
- */
 CameraModeValue sSetPrerendFixedModeFollowTargetData[] = {
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FLAGS(0x2000),
 };
 
 /**
@@ -2259,36 +648,16 @@ CameraModeValue sSetPrerendFixedModeFollowTargetData[] = {
  *=====================================================================
  */
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * PREREND_PIVOT    NORMAL    UNIQ7
- */
 CameraModeValue sSetPrerendPivotModeNormalData[] = {
-    { 60, CAM_DATA_FOV },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ7(60, 0x0000),
 };
 
-/**
- * Setting          Mode            Function
- * -------------    ------------    --------
- * PREREND_PIVOT    FOLLOWTARGET    UNIQ7
- */
 CameraModeValue sSetPrerendPivotModeFollowTargetData[] = {
-    { 60, CAM_DATA_FOV },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ7(60, 0x2000),
 };
 
-/**
- * Setting          Mode    Function
- * -------------    ----    --------
- * PREREND_PIVOT    TALK    KEEP0
- */
 CameraModeValue sSetPrerendPivotModeTalkData[] = {
-    { 30, CAM_DATA_FOV_SCALE },
-    { 0, CAM_DATA_YAW_SCALE },
-    { 4, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0x3500, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_KEEP0(30, 0, 4, 0x3500),
 };
 
 /**
@@ -2297,15 +666,8 @@ CameraModeValue sSetPrerendPivotModeTalkData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * DOOR0      NORMAL    UNIQ3
- */
 CameraModeValue sSetDoor0ModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 60, CAM_DATA_FOV },
-    { 0x3200, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ3(-40, 60, 0x3200),
 };
 
 /**
@@ -2314,26 +676,12 @@ CameraModeValue sSetDoor0ModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * DOORC      NORMAL    SPEC9
- */
 CameraModeValue sSetDoorCModeNormalData[] = {
-    { -5, CAM_DATA_Y_OFFSET },
-    { 60, CAM_DATA_FOV },
-    { 0x3202, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SPEC9(-5, 60, 0x3202),
 };
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * DOORC      TARGET    SPEC9
- */
 CameraModeValue sSetDoorCModeTargetData[] = {
-    { -5, CAM_DATA_Y_OFFSET },
-    { 60, CAM_DATA_FOV },
-    { 0x320A, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SPEC9(-5, 60, 0x320A),
 };
 
 /**
@@ -2342,18 +690,9 @@ CameraModeValue sSetDoorCModeTargetData[] = {
  *=====================================================================
  */
 
-/**
- * Setting       Mode      Function
- * ----------    ------    --------
- * CRAWLSPACE    NORMAL    SUBJ4 (Camera_Subj4 only reads one setting which is used for flags)
- */
+// Camera_Subj4 only reads one setting which is used for flags
 CameraModeValue sSetCrawlspaceModeNormalData[] = {
-    { 0x0000, CAM_DATA_Y_OFFSET },           // flags
-    { 2, CAM_DATA_EYE_DIST },                // unused
-    { 30, CAM_DATA_EYE_DIST_NEXT },          // unused
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET }, // unused
-    { 45, CAM_DATA_FOV },                    // unused
-    { 0x3200, CAM_DATA_FLAGS },              // unused
+    CAM_FUNCDATA_SUBJ4(0x0000, 2, 30, 10, 45, 0x3200),
 };
 
 /**
@@ -2362,13 +701,8 @@ CameraModeValue sSetCrawlspaceModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * START1     NORMAL    UNIQ0
- */
 CameraModeValue sSetStart1ModeNormalData[] = {
-    { 0x0001, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FLAGS(0x0001),
 };
 
 /**
@@ -2377,13 +711,8 @@ CameraModeValue sSetStart1ModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * FREE0      NORMAL    UNIQ6
- */
 CameraModeValue sSetFree0ModeNormalData[] = {
-    { 0xFF00, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FLAGS(0xFF00),
 };
 
 /**
@@ -2392,13 +721,8 @@ CameraModeValue sSetFree0ModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * FREE1      NORMAL    UNIQ6
- */
 CameraModeValue sSetFree1ModeNormalData[] = {
-    { 0xFF01, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FLAGS(0xFF01),
 };
 
 /**
@@ -2407,17 +731,8 @@ CameraModeValue sSetFree1ModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting         Mode      Function
- * ------------    ------    --------
- * PIVOT_CORNER    NORMAL    FIXD2
- */
 CameraModeValue sSetPivotCornerModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FIXD2(-40, 100, 80, 60, 0x0000),
 };
 
 /**
@@ -2426,28 +741,12 @@ CameraModeValue sSetPivotCornerModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting                Mode      Function
- * -------------------    ------    --------
- * PIVOT_WATER_SURFACE    NORMAL    UNIQ2
- */
 CameraModeValue sSetPivotWaterSurfaceModeNormalData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 60, CAM_DATA_EYE_DIST },
-    { 60, CAM_DATA_FOV },
-    { 0x0002, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ2(-40, 60, 60, 0x0002),
 };
 
-/**
- * Setting                Mode      Function
- * -------------------    ------    --------
- * PIVOT_WATER_SURFACE    TARGET    UNIQ2
- */
 CameraModeValue sSetPivotWaterSurfaceModeTargetData[] = {
-    { -30, CAM_DATA_Y_OFFSET },
-    { 45, CAM_DATA_EYE_DIST },
-    { 100, CAM_DATA_FOV },
-    { 0x2001, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ2(-30, 45, 100, 0x2001),
 };
 
 /**
@@ -2456,18 +755,8 @@ CameraModeValue sSetPivotWaterSurfaceModeTargetData[] = {
  *=====================================================================
  */
 
-/**
- * Setting               Mode      Function
- * ------------------    ------    --------
- * CS_0                  NORMAL    CS_TWISTED_HALLWAY
- * CS_TWISTED_HALLWAY    NORMAL    DEMO2
- * CS_ATTENTION          NORMAL    DEMO5 (Not actually used in Camera_Demo4?)
- * FIRE_STAIRCASE        NORMAL    SPEC4
- * FOREST_UNUSED         NORMAL    UNIQ5
- * FOREST_DEFEAT_POE     NORMAL    DEMO6
- */
 CameraModeValue sDataOnlyInterfaceFlags[] = {
-    { 0x3200, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FLAGS(0x3200),
 };
 
 /**
@@ -2476,32 +765,12 @@ CameraModeValue sDataOnlyInterfaceFlags[] = {
  *=====================================================================
  */
 
-/**
- * Setting             Mode      Function
- * ----------------    ------    --------
- * FOREST_BIRDS_EYE    NORMAL    PARA1
- */
 CameraModeValue sSetForestBirdsEyeModeNormalData[] = {
-    { -50, CAM_DATA_Y_OFFSET },
-    { 450, CAM_DATA_EYE_DIST },
-    { 40, CAM_DATA_PITCH_TARGET },
-    { 180, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_FOV },
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x000C, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-50, 450, 40, 180, 5, 5, 70, 30, 0x000C, -50, 20),
 };
 
-/**
- * Setting             Mode     Function
- * ----------------    -----    --------
- * FOREST_BIRDS_EYE    TALK     PARA3
- */
 CameraModeValue sSetForestBirdsEyeModeTalkData[] = {
-    { 0x3501, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FLAGS(0x3501),
 };
 
 /**
@@ -2510,16 +779,9 @@ CameraModeValue sSetForestBirdsEyeModeTalkData[] = {
  *=====================================================================
  */
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * SLOW_CHEST_CS    NORMAL    CS_3
- * ITEM_UNUSED      NORMAL    CS_ATTENTION (not actually used in Camera_Demo4)
- */
+// Also set to but unused by function Demo4
 CameraModeValue sSetSlowChestCsModeNormalData[] = {
-    { 60, CAM_DATA_FOV },
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x3200, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_DEMO3(60, 30, 0x3200),
 };
 
 /**
@@ -2528,13 +790,8 @@ CameraModeValue sSetSlowChestCsModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * CS_3       NORMAL    DEMO9
- */
 CameraModeValue sSetCs3ModeNormalData[] = {
-    { 0x3212, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_FLAGS(0x3212),
 };
 
 /**
@@ -2543,93 +800,28 @@ CameraModeValue sSetCs3ModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting         Mode      Function
- * ------------    ------    --------
- * BEAN_GENERIC    NORMAL    NORM1
- */
 CameraModeValue sSetBeanGenericModeNormalData[] = {
-    { -50, CAM_DATA_Y_OFFSET },
-    { 300, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 50, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 50, CAM_DATA_MAX_YAW_UPDATE },
-    { 70, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0002, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-50, 300, 300, 50, 20, 10, 50, 70, 40, 0x0002),
 };
 
-/**
- * Setting         Mode      Function
- * ------------    ------    --------
- * BEAN_GENERIC    TARGET    PARA1
- */
 CameraModeValue sSetBeanGenericModeTargetData[] = {
-    { -50, CAM_DATA_Y_OFFSET },
-    { 300, CAM_DATA_EYE_DIST },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-50, 300, 10, 0, 5, 5, 45, 50, 0x200A, -40, 20),
 };
 
-/**
- * Setting         Mode    Function
- * ------------    ----    --------
- * BEAN_GENERIC    JUMP    JUMP1
- */
 CameraModeValue sSetBeanGenericModeJumpData[] = {
-    { -50, CAM_DATA_Y_OFFSET },          { 300, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },     { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 35, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-50, 300, 300, 12, 35, 60, 40, 0x0000),
 };
 
-/**
- * Setting         Mode    Function
- * ------------    ----    --------
- * BEAN_GENERIC    HANG    UNIQ1
- */
 CameraModeValue sSetBeanGenericModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },    { 300, CAM_DATA_EYE_DIST }, { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 60, CAM_DATA_PITCH_TARGET }, { 70, CAM_DATA_FOV },       { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-80, 300, 300, 60, 70, 30, 0x0000),
 };
 
-/**
- * Setting         Mode     Function
- * ------------    -----    --------
- * BEAN_GENERIC    HANGZ    UNIQ1
- */
 CameraModeValue sSetBeanGenericModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },   { 300, CAM_DATA_EYE_DIST }, { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 70, CAM_DATA_PITCH_TARGET }, { 50, CAM_DATA_FOV },       { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-120, 300, 300, 70, 50, 30, 0x2000),
 };
 
-/**
- * Setting         Mode     Function
- * ------------    -----    --------
- * BEAN_GENERIC    STILL    NORM1
- */
 CameraModeValue sSetBeanGenericModeStillData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 300, CAM_DATA_EYE_DIST },
-    { 350, CAM_DATA_EYE_DIST_NEXT },
-    { 50, CAM_DATA_PITCH_TARGET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 100, CAM_DATA_MAX_YAW_UPDATE },
-    { 70, CAM_DATA_FOV },
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF002, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 300, 350, 50, 100, 10, 100, 70, 30, 0xF002),
 };
 
 /**
@@ -2638,93 +830,28 @@ CameraModeValue sSetBeanGenericModeStillData[] = {
  *=====================================================================
  */
 
-/**
- * Setting            Mode      Function
- * ---------------    ------    --------
- * BEAN_LOST_WOODS    NORMAL    NORM1
- */
 CameraModeValue sSetBeanLostWoodsModeNormalData[] = {
-    { -50, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_PITCH_TARGET },
-    { 16, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 50, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0002, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-50, 200, 200, 20, 16, 10, 50, 60, 50, 0x0002),
 };
 
-/**
- * Setting            Mode      Function
- * ---------------    ------    --------
- * BEAN_LOST_WOODS    TARGET    PARA1
- */
 CameraModeValue sSetBeanLostWoodsModeTargetData[] = {
-    { -50, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 40, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-50, 200, 40, 0, 5, 5, 45, 50, 0x200A, -40, 20),
 };
 
-/**
- * Setting            Mode    Function
- * ---------------    ----    --------
- * BEAN_LOST_WOODS    JUMP    JUMP1
- */
 CameraModeValue sSetBeanLostWoodsModeJumpData[] = {
-    { -50, CAM_DATA_Y_OFFSET },          { 150, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },     { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 35, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-50, 150, 250, 12, 35, 60, 40, 0x0000),
 };
 
-/**
- * Setting            Mode    Function
- * ---------------    ----    --------
- * BEAN_LOST_WOODS    HANG    UNIQ1
- */
 CameraModeValue sSetBeanLostWoodsModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },    { 200, CAM_DATA_EYE_DIST }, { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_PITCH_TARGET }, { 60, CAM_DATA_FOV },       { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-80, 200, 200, 40, 60, 30, 0x0000),
 };
 
-/**
- * Setting            Mode     Function
- * ---------------    -----    --------
- * BEAN_LOST_WOODS    HANGZ    UNIQ1
- */
 CameraModeValue sSetBeanLostWoodsModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },   { 200, CAM_DATA_EYE_DIST }, { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 60, CAM_DATA_PITCH_TARGET }, { 50, CAM_DATA_FOV },       { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-120, 200, 200, 60, 50, 30, 0x2000),
 };
 
-/**
- * Setting            Mode     Function
- * ---------------    -----    --------
- * BEAN_LOST_WOODS    STILL    NORM1
- */
 CameraModeValue sSetBeanLostWoodsModeStillData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_PITCH_TARGET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 100, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF002, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 200, 250, 20, 100, 10, 100, 60, 30, 0xF002),
 };
 
 /**
@@ -2733,15 +860,8 @@ CameraModeValue sSetBeanLostWoodsModeStillData[] = {
  *=====================================================================
  */
 
-/**
- * Setting         Mode      Function
- * ------------    ------    --------
- * SCENE_UNUSED    NORMAL    SPEC9
- */
 CameraModeValue sSetSceneUnusedModeNormalData[] = {
-    { -30, CAM_DATA_Y_OFFSET },
-    { 60, CAM_DATA_FOV },
-    { 0x10A, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SPEC9(-30, 60, 0x010A),
 };
 
 /**
@@ -2750,16 +870,8 @@ CameraModeValue sSetSceneUnusedModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting             Mode      Function
- * ----------------    ------    --------
- * SCENE_TRANSITION    NORMAL    UNIQ2
- */
 CameraModeValue sSetSceneTransitionModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 150, CAM_DATA_EYE_DIST },
-    { 60, CAM_DATA_FOV },
-    { 0x0210, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ2(-20, 150, 60, 0x0210),
 };
 
 /**
@@ -2768,54 +880,16 @@ CameraModeValue sSetSceneTransitionModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * BIG_OCTO    NORMAL    NORM1
- */
 CameraModeValue sSetBigOctoModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 400, CAM_DATA_EYE_DIST },
-    { 500, CAM_DATA_EYE_DIST_NEXT },
-    { 35, CAM_DATA_PITCH_TARGET },
-    { 14, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 20, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0012, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(0, 400, 500, 35, 14, 5, 20, 60, 40, 0x0012),
 };
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * BIG_OCTO    BATTLE    BATT1
- */
 CameraModeValue sSetBigOctoModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 250, CAM_DATA_EYE_DIST },
-    { 5, CAM_DATA_SWING_YAW_INIT },      { 10, CAM_DATA_SWING_YAW_FINAL },
-    { 30, CAM_DATA_SWING_PITCH_INIT },   { 20, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    { 45, CAM_DATA_FOV },
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 250, 5, 10, 30, 20, 25, 45, 60, 0x2002, -40, 25),
 };
 
-/**
- * Setting     Mode     Function
- * --------    -----    --------
- * BIG_OCTO    STILL    NORM1
- */
 CameraModeValue sSetBigOctoModeStillData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 300, CAM_DATA_EYE_DIST },
-    { 500, CAM_DATA_EYE_DIST_NEXT },
-    { 60, CAM_DATA_PITCH_TARGET },
-    { 8, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0012, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(0, 300, 500, 60, 8, 5, 60, 60, 30, 0x0012),
 };
 
 /**
@@ -2824,78 +898,20 @@ CameraModeValue sSetBigOctoModeStillData[] = {
  *=====================================================================
  */
 
-/**
- * Setting             Mode      Function
- * ----------------    ------    --------
- * MEADOW_BIRDS_EYE    NORMAL    NORM1
- */
 CameraModeValue sSetMeadowBirdsEyeModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 500, CAM_DATA_EYE_DIST_NEXT },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_MAX_YAW_UPDATE },
-    { 70, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0012, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 500, 500, 80, 20, 10, 70, 70, 80, 0x0012),
 };
 
-/**
- * Setting             Mode      Function
- * ----------------    ------    --------
- * MEADOW_BIRDS_EYE    TARGET    PARA1
- */
 CameraModeValue sSetMeadowBirdsEyeModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x201A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-20, 500, 80, 0, 5, 5, 70, 80, 0x201A, -40, 40),
 };
 
-/**
- * Setting             Mode      Function
- * ----------------    ------    --------
- * MEADOW_BIRDS_EYE    BATTLE    PARA1
- */
 CameraModeValue sSetMeadowBirdsEyeModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x201A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-20, 500, 80, 0, 5, 5, 60, 80, 0x201A, -40, 40),
 };
 
-/**
- * Setting             Mode     Function
- * ----------------    -----    --------
- * MEADOW_BIRDS_EYE    CLIMB    NORM1
- */
 CameraModeValue sSetMeadowBirdsEyeModeClimbData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 500, CAM_DATA_EYE_DIST_NEXT },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0012, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 500, 500, 80, 20, 10, 80, 60, 20, 0x0012),
 };
 
 /**
@@ -2904,78 +920,20 @@ CameraModeValue sSetMeadowBirdsEyeModeClimbData[] = {
  *=====================================================================
  */
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * MEADOW_UNUSED    NORMAL    NORM1
- */
 CameraModeValue sSetMeadowUnusedModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 750, CAM_DATA_EYE_DIST },
-    { 750, CAM_DATA_EYE_DIST_NEXT },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_MAX_YAW_UPDATE },
-    { 70, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0012, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 750, 750, 80, 20, 10, 70, 70, 80, 0x0012),
 };
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * MEADOW_UNUSED    TARGET    PARA1
- */
 CameraModeValue sSetMeadowUnusedModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 750, CAM_DATA_EYE_DIST },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x201A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-20, 750, 80, 0, 5, 5, 70, 80, 0x201A, -40, 40),
 };
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * MEADOW_UNUSED    BATTLE    PARA1
- */
 CameraModeValue sSetMeadowUnusedModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 750, CAM_DATA_EYE_DIST },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-20, 750, 80, 0, 5, 5, 70, 80, 0x200A, -40, 40),
 };
 
-/**
- * Setting          Mode     Function
- * -------------    -----    --------
- * MEADOW_UNUSED    CLIMB    NORM1
- */
 CameraModeValue sSetMeadowUnusedModeClimbData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 750, CAM_DATA_EYE_DIST },
-    { 750, CAM_DATA_EYE_DIST_NEXT },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },
-    { 70, CAM_DATA_FOV },
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0012, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 750, 750, 80, 20, 10, 80, 70, 20, 0x0012),
 };
 
 /**
@@ -2984,78 +942,20 @@ CameraModeValue sSetMeadowUnusedModeClimbData[] = {
  *=====================================================================
  */
 
-/**
- * Setting           Mode      Function
- * --------------    ------    --------
- * FIRE_BIRDS_EYE    NORMAL    NORM1
- */
 CameraModeValue sSetFireBirdsEyeModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 500, CAM_DATA_EYE_DIST_NEXT },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_MAX_YAW_UPDATE },
-    { 70, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0002, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 500, 500, 80, 20, 10, 70, 70, 80, 0x0002),
 };
 
-/**
- * Setting           Mode      Function
- * --------------    ------    --------
- * FIRE_BIRDS_EYE    TARGET    PARA1
- */
 CameraModeValue sSetFireBirdsEyeModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-20, 500, 80, 0, 5, 5, 70, 80, 0x200A, -40, 40),
 };
 
-/**
- * Setting           Mode      Function
- * --------------    ------    --------
- * FIRE_BIRDS_EYE    BATTLE    PARA1
- */
 CameraModeValue sSetFireBirdsEyeModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 40, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-20, 500, 80, 0, 5, 5, 60, 80, 0x200A, -40, 40),
 };
 
-/**
- * Setting           Mode     Function
- * --------------    -----    --------
- * FIRE_BIRDS_EYE    CLIMB    NORM1
- */
 CameraModeValue sSetFireBirdsEyeModeClimbData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 500, CAM_DATA_EYE_DIST },
-    { 500, CAM_DATA_EYE_DIST_NEXT },
-    { 80, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0002, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 500, 500, 80, 20, 10, 80, 60, 20, 0x0002),
 };
 
 /**
@@ -3064,17 +964,8 @@ CameraModeValue sSetFireBirdsEyeModeClimbData[] = {
  *=====================================================================
  */
 
-/**
- * Setting        Mode      Function
- * -----------    ------    --------
- * TURN_AROUND    NORMAL    KEEP4
- */
 CameraModeValue sSetTurnAroundModeNormalData[] = {
-    { -30, CAM_DATA_Y_OFFSET },     { 120, CAM_DATA_EYE_DIST },
-    { -10, CAM_DATA_PITCH_TARGET }, { 170, CAM_DATA_YAW_TARGET },
-    { 0, CAM_DATA_AT_OFFSET_Z },    { 60, CAM_DATA_FOV },
-    { 0x2502, CAM_DATA_FLAGS },     { 25, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 6, CAM_DATA_UNK_22 },
+    CAM_FUNCDATA_KEEP4(-30, 120, -10, 170, 0, 60, 0x2502, 25, 6),
 };
 
 /**
@@ -3083,39 +974,18 @@ CameraModeValue sSetTurnAroundModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting           Mode      Function
- * --------------    ------    --------
- * PIVOT_VERTICAL    NORMAL    SPEC0
- */
 CameraModeValue sSetPivotVerticalModeNormalData[] = {
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0x3200, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SPEC0(20, 0x3200),
 };
 
 /**
  *=====================================================================
- *                   Custom Data: NORMAL Setting
+ *                 Custom Data: NORMAL2/4 Setting
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * NORMAL2    NORMAL    NORM1
- * NORMAL4    NORMAL    NORM1
- */
 CameraModeValue sSetNormal2and4ModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 10, CAM_DATA_PITCH_TARGET },
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 35, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0002, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 200, 300, 10, 12, 10, 35, 60, 60, 0x0002),
 };
 
 /**
@@ -3124,135 +994,40 @@ CameraModeValue sSetNormal2and4ModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * FISHING    NORMAL    NORM1
- */
 CameraModeValue sSetFishingModeNormalData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_PITCH_TARGET },
-    { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 35, CAM_DATA_MAX_YAW_UPDATE },
-    { 55, CAM_DATA_FOV },
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0F02, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(0, 200, 300, 20, 12, 10, 35, 55, 60, 0x0F02),
 };
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * FISHING    TARGET    PARA1
- */
 CameraModeValue sSetFishingModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 250, CAM_DATA_EYE_DIST },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2F0A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-20, 250, 0, 0, 5, 5, 45, 50, 0x2F0A, -40, 20),
 };
 
-/**
- * Setting    Mode            Function
- * -------    ------------    --------
- * FISHING    FOLLOWTARGET    BATT1
- * FISHING    BATTLE          BATT1
- */
 CameraModeValue sSetFishingModeFollowTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 250, CAM_DATA_EYE_DIST },
-    { 0, CAM_DATA_SWING_YAW_INIT },      { 80, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },    { 0, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    { 55, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2F02, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 250, 0, 80, 0, 0, 25, 55, 80, 0x2F02, -40, 25),
 };
 
-/**
- * Setting    Mode    Function
- * -------    ----    --------
- * FISHING    TALK    KEEP3
- */
 CameraModeValue sSetFishingModeTalkData[] = {
-    { -30, CAM_DATA_Y_OFFSET },
-    { 70, CAM_DATA_EYE_DIST },
-    { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_SWING_YAW_INIT },
-    { 10, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },
-    { 5, CAM_DATA_SWING_PITCH_FINAL },
-    { 70, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0x3F20, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_KEEP3(-30, 70, 200, 40, 10, 0, 5, 70, 45, 50, 10, 0x3F20),
 };
 
-/**
- * Setting    Mode           Function
- * -------    -----------    --------
- * FISHING    FIRSTPERSON    SUBJ3
- */
 CameraModeValue sSetFishingModeFirstPersonData[] = {
-    { 0, CAM_DATA_Y_OFFSET },       { 5, CAM_DATA_EYE_DIST },
-    { 50, CAM_DATA_EYE_DIST_NEXT }, { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0, CAM_DATA_AT_OFFSET_X },    { 0, CAM_DATA_AT_OFFSET_Y },
-    { 0, CAM_DATA_AT_OFFSET_Z },    { 45, CAM_DATA_FOV },
-    { 0x0F00, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_SUBJ3(0, 5, 50, 10, 0, 0, 0, 45, 0x0F00),
 };
 
-/**
- * Setting    Mode    Function
- * -------    ----    --------
- * FISHING    JUMP    JUMP1
- */
 CameraModeValue sSetFishingModeJumpData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },     { 12, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 35, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0F00, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-20, 200, 300, 12, 35, 60, 40, 0x0F00),
 };
 
-/**
- * Setting    Mode        Function
- * -------    --------    --------
- * FISHING    FREEFALL    JUMP1
- */
 CameraModeValue sSetFishingModeFreeFallData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },     { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0F00, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-20, 200, 300, 15, 80, 60, 20, 0x0F00),
 };
 
-/**
- * Setting    Mode    Function
- * -------    ----    --------
- * FISHING    HANG    UNIQ1
- */
 CameraModeValue sSetFishingModeHangData[] = {
-    { -80, CAM_DATA_Y_OFFSET },    { 200, CAM_DATA_EYE_DIST }, { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_PITCH_TARGET }, { 60, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0F00, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-80, 200, 300, 40, 60, 10, 0x0F00),
 };
 
-/**
- * Setting    Mode     Function
- * -------    -----    --------
- * FISHING    HANGZ    UNIQ1
- */
 CameraModeValue sSetFishingModeHangZData[] = {
-    { -120, CAM_DATA_Y_OFFSET },   { 300, CAM_DATA_EYE_DIST }, { 300, CAM_DATA_EYE_DIST_NEXT },
-    { 70, CAM_DATA_PITCH_TARGET }, { 45, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2F00, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-120, 300, 300, 70, 45, 10, 0x2F00),
 };
 
 /**
@@ -3261,13 +1036,8 @@ CameraModeValue sSetFishingModeHangZData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode      Function
- * -------    ------    --------
- * CS_C       NORMAL    UNIQ9
- */
 CameraModeValue sSetCsCModeNormalData[] = {
-    { 0x3F00, CAM_DATA_FLAGS }, /* flags */
+    CAM_FUNCDATA_FLAGS(0x3F00),
 };
 
 /**
@@ -3276,36 +1046,12 @@ CameraModeValue sSetCsCModeNormalData[] = {
  *=====================================================================
  */
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * JABU_TENTACLE    NORMAL    NORM1
- */
 CameraModeValue sSetJabuTentacleModeNormalData[] = {
-    { 30, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 300, CAM_DATA_EYE_DIST_NEXT },
-    { -20, CAM_DATA_PITCH_TARGET },
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_UNK_26 },
-    { 50, CAM_DATA_MAX_YAW_UPDATE },
-    { 70, CAM_DATA_FOV },
-    { 70, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1_ALT(30, 200, 300, -20, 15, 5, 50, 70, 70, 0x0003),
 };
 
-/**
- * Setting          Mode      Function
- * -------------    ------    --------
- * JABU_TENTACLE    BATTLE    BATT1
- */
 CameraModeValue sSetJabuTentacleModeBattleData[] = {
-    { -30, CAM_DATA_Y_OFFSET },          { 160, CAM_DATA_EYE_DIST },
-    { 10, CAM_DATA_SWING_YAW_INIT },     { 10, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },    { 0, CAM_DATA_SWING_PITCH_FINAL },
-    { 70, CAM_DATA_SWING_PITCH_ADJ },    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },   { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-30, 160, 10, 10, 0, 0, 70, 60, 40, 0x2002, -50, 20),
 };
 
 /**
@@ -3314,172 +1060,48 @@ CameraModeValue sSetJabuTentacleModeBattleData[] = {
  *=====================================================================
  */
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON2    NORMAL    NORM1
- */
 CameraModeValue sSetDungeon2ModeNormalData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 350, CAM_DATA_EYE_DIST },
-    { 350, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_PITCH_TARGET },
-    { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 30, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 60, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-20, 350, 350, 20, 15, 5, 30, 60, 60, 0x0003),
 };
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON2    TARGET    PARA1
- */
 CameraModeValue sSetDungeon2ModeTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 0, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x200A, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },
-    { 20, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(-20, 200, 0, 0, 5, 5, 45, 50, 0x200A, -40, 20),
 };
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON2    BATTLE    BATT1
- */
 CameraModeValue sSetDungeon2ModeBattleData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 180, CAM_DATA_EYE_DIST },
-    { 10, CAM_DATA_SWING_YAW_INIT },     { 80, CAM_DATA_SWING_YAW_FINAL },
-    { -10, CAM_DATA_SWING_PITCH_INIT },  { 10, CAM_DATA_SWING_PITCH_FINAL },
-    { 25, CAM_DATA_SWING_PITCH_ADJ },    { 45, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x2002, CAM_DATA_FLAGS },
-    { -40, CAM_DATA_GROUND_Y_OFFSET },   { 25, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_BATT1(-20, 180, 10, 80, -10, 10, 25, 45, 80, 0x2002, -40, 25),
 };
 
-/**
- * Setting     Mode    Function
- * --------    ----    --------
- * DUNGEON2    JUMP    JUMP1
- */
 CameraModeValue sSetDungeon2ModeJumpData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 350, CAM_DATA_EYE_DIST },
-    { 350, CAM_DATA_EYE_DIST_NEXT },     { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 50, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-20, 350, 350, 10, 50, 60, 40, 0x0000),
 };
 
-/**
- * Setting     Mode        Function
- * --------    --------    --------
- * DUNGEON2    FREEFALL    JUMP1
- */
 CameraModeValue sSetDungeon2ModeFreeFallData[] = {
-    { -20, CAM_DATA_Y_OFFSET },          { 350, CAM_DATA_EYE_DIST },
-    { 350, CAM_DATA_EYE_DIST_NEXT },     { 15, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },     { 60, CAM_DATA_FOV },
-    { 20, CAM_DATA_AT_LERP_STEP_SCALE }, { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP1(-20, 350, 350, 15, 80, 60, 20, 0x0000),
 };
 
-/**
- * Setting     Mode     Function
- * --------    -----    --------
- * DUNGEON2    CLIMB    JUMP2
- */
 CameraModeValue sSetDungeon2ModeClimbData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 350, CAM_DATA_EYE_DIST },
-    { 350, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP2(-40, 350, 350, 20, 5, 5, 60, 40, 0x0000),
 };
 
-/**
- * Setting     Mode      Function
- * --------    ------    --------
- * DUNGEON2    CLIMBZ    JUMP2
- */
 CameraModeValue sSetDungeon2ModeClimbZData[] = {
-    { -40, CAM_DATA_Y_OFFSET },
-    { 350, CAM_DATA_EYE_DIST },
-    { 350, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_MIN_MAX_DIST_FACTOR },
-    { 999, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 60, CAM_DATA_FOV },
-    { 40, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2006, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_JUMP2(-40, 350, 350, 20, 999, 5, 60, 40, 0x2006),
 };
 
-/**
- * Setting     Mode    Function
- * --------    ----    --------
- * DUNGEON2    HANG    UNIQ1
- */
 CameraModeValue sSetDungeon2ModeHangData[] = {
-    { -50, CAM_DATA_Y_OFFSET },    { 350, CAM_DATA_EYE_DIST }, { 350, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_PITCH_TARGET }, { 60, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-50, 350, 350, 40, 60, 10, 0x0000),
 };
 
-/**
- * Setting     Mode     Function
- * --------    -----    --------
- * DUNGEON2    HANGZ    UNIQ1
- */
 CameraModeValue sSetDungeon2ModeHangZData[] = {
-    { -100, CAM_DATA_Y_OFFSET },   { 350, CAM_DATA_EYE_DIST }, { 350, CAM_DATA_EYE_DIST_NEXT },
-    { 70, CAM_DATA_PITCH_TARGET }, { 45, CAM_DATA_FOV },       { 10, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2000, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_UNIQ1(-100, 350, 350, 70, 45, 10, 0x2000),
 };
 
-/**
- * Setting     Mode     Function
- * --------    -----    --------
- * DUNGEON2    STILL    NORM1
- */
 CameraModeValue sSetDungeon2ModeStillData[] = {
-    { -10, CAM_DATA_Y_OFFSET },
-    { 350, CAM_DATA_EYE_DIST },
-    { 350, CAM_DATA_EYE_DIST_NEXT },
-    { 20, CAM_DATA_PITCH_TARGET },
-    { 100, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 100, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 5, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0xF003, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-10, 350, 350, 20, 100, 5, 100, 60, 5, 0xF003),
 };
 
-/**
- * Setting     Mode        Function
- * --------    --------    --------
- * DUNGEON2    PUSHPULL    PARA1
- */
 CameraModeValue sSetDungeon2ModePushPullData[] = {
-    { 0, CAM_DATA_Y_OFFSET },
-    { 280, CAM_DATA_EYE_DIST },
-    { 25, CAM_DATA_PITCH_TARGET },
-    { 0, CAM_DATA_YAW_TARGET },
-    { 5, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 5, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 70, CAM_DATA_FOV },
-    { 30, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x206A, CAM_DATA_FLAGS },
-    { -20, CAM_DATA_GROUND_Y_OFFSET },
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_PARA1(0, 280, 25, 0, 5, 5, 70, 30, 0x206A, -20, 30),
 };
 
 /**
@@ -3488,63 +1110,16 @@ CameraModeValue sSetDungeon2ModePushPullData[] = {
  *=====================================================================
  */
 
-/**
- * Setting         Mode      Function
- * ------------    ------    --------
- * DIRECTED_YAW    NORMAL    NORM1
- */
 CameraModeValue sSetDirectedYawModeNormalData[] = {
-    { -10, CAM_DATA_Y_OFFSET },
-    { 280, CAM_DATA_EYE_DIST },
-    { 320, CAM_DATA_EYE_DIST_NEXT },
-    { -8, CAM_DATA_PITCH_TARGET },
-    { 20, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 10, CAM_DATA_XZ_UPDATE_RATE_TARGET },
-    { 80, CAM_DATA_MAX_YAW_UPDATE },
-    { 60, CAM_DATA_FOV },
-    { 80, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x0002, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_NORM1(-10, 280, 320, -8, 20, 10, 80, 60, 80, 0x0002),
 };
 
-/**
- * Setting         Mode            Function
- * ------------    ------------    --------
- * DIRECTED_YAW    FOLLOWTARGET    KEEP1
- */
 CameraModeValue sSetDirectedYawModeFollowTargetData[] = {
-    { -20, CAM_DATA_Y_OFFSET },
-    { 180, CAM_DATA_EYE_DIST },
-    { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 35, CAM_DATA_SWING_YAW_INIT },
-    { 45, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },
-    { -5, CAM_DATA_SWING_PITCH_FINAL },
-    { 20, CAM_DATA_SWING_PITCH_ADJ },
-    { 50, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 0x2001, CAM_DATA_FLAGS },
-    { -50, CAM_DATA_GROUND_Y_OFFSET },
-    { 30, CAM_DATA_GROUND_AT_LERP_STEP_SCALE },
+    CAM_FUNCDATA_KEEP1(-20, 180, 200, 35, 45, 0, -5, 20, 50, 50, 0x2001, -50, 30),
 };
 
-/**
- * Setting         Mode    Function
- * ------------    ----    --------
- * DIRECTED_YAW    TALK    KEEP3
- */
 CameraModeValue sSetDirectedYawModeTalkData[] = {
-    { -80, CAM_DATA_Y_OFFSET },
-    { 200, CAM_DATA_EYE_DIST },
-    { 250, CAM_DATA_EYE_DIST_NEXT },
-    { 30, CAM_DATA_SWING_YAW_INIT },
-    { 10, CAM_DATA_SWING_YAW_FINAL },
-    { -8, CAM_DATA_SWING_PITCH_INIT },
-    { -8, CAM_DATA_SWING_PITCH_FINAL },
-    { 30, CAM_DATA_SWING_PITCH_ADJ },
-    { 50, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0x3520, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_KEEP3(-80, 200, 250, 30, 10, -8, -8, 30, 50, 50, 10, 0x3520),
 };
 
 /**
@@ -3553,24 +1128,8 @@ CameraModeValue sSetDirectedYawModeTalkData[] = {
  *=====================================================================
  */
 
-/**
- * Setting    Mode    Function
- * -------    ----    --------
- * NORMAL4    TALK    KEEP3
- */
 CameraModeValue sNormal4ModeTalkData[] = {
-    { -30, CAM_DATA_Y_OFFSET },
-    { 70, CAM_DATA_EYE_DIST },
-    { 200, CAM_DATA_EYE_DIST_NEXT },
-    { 40, CAM_DATA_SWING_YAW_INIT },
-    { 10, CAM_DATA_SWING_YAW_FINAL },
-    { 0, CAM_DATA_SWING_PITCH_INIT },
-    { 5, CAM_DATA_SWING_PITCH_FINAL },
-    { 70, CAM_DATA_SWING_PITCH_ADJ },
-    { 45, CAM_DATA_FOV },
-    { 50, CAM_DATA_AT_LERP_STEP_SCALE },
-    { 10, CAM_DATA_YAW_UPDATE_RATE_TARGET },
-    { 0x35A0, CAM_DATA_FLAGS },
+    CAM_FUNCDATA_KEEP3(-30, 70, 200, 40, 10, 0, 5, 70, 45, 50, 10, 0x35A0),
 };
 
 /**
