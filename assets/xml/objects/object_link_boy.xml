@@ -177,7 +177,7 @@
         <Texture Name="gLinkAdultHookshotHandleTex" OutName="hookshot_handle" Format="ci8" Width="16" Height="8" Offset="0xEB38" TlutOffset="0xCD48"/>
         <Texture Name="gLinkAdultHookshotDesignTex" OutName="hookshot_design" Format="ci8" Width="16" Height="32" Offset="0xEBB8" TlutOffset="0xCB40"/>
         <Texture Name="gLinkAdultHookshotChainTex" OutName="hookshot_chain" Format="rgba16" Width="16" Height="32" Offset="0x2B338"/>
-        <Texture Name="gLinkAdultHookshotDotTex" OutName="hookshot_dot" Format="i8" Width="64" Height="64" Offset="0x2BB18"/>
+        <Texture Name="gLinkAdultHookshotReticleTex" OutName="hookshot_dot" Format="i8" Width="64" Height="64" Offset="0x2BB18"/>
 
         <Texture Name="gLinkAdultBeltClaspTex" OutName="belt_clasp" Format="ci8" Width="32" Height="16" Offset="0x6F80" TlutOffset="0x5800"/>
         <Texture Name="gLinkAdultSkirtAndHatTex" OutName="skirt_and_hat" Format="rgba16" Width="32" Height="32" Offset="0x6700"/>
@@ -202,7 +202,7 @@
         <Texture Name="gLinkAdultGauntletPlate1Tex" OutName="gauntlet_plate_1" Format="rgba16" Width="16" Height="32" Offset="0x9980"/>
         <Texture Name="gLinkAdultGauntletPlate2Tex" OutName="gauntlet_plate_2" Format="rgba16" Width="16" Height="32" Offset="0x9D80"/>
 
-        <DList Name="gLinkAdultHookshotDotDL" Offset="0x2CB48"/>
+        <DList Name="gLinkAdultHookshotReticleDL" Offset="0x2CB48"/>
 
         <!-- Boots -->
         <DList Name="gLinkAdultLeftIronBootDL" Offset="0x25918"/> <!-- TODO verify the positions-->
