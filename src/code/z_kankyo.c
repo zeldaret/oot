@@ -1974,7 +1974,7 @@ void Environment_PlaySceneSequence(GlobalContext* globalCtx) {
 void func_80075B44(GlobalContext* globalCtx) {
     switch (globalCtx->envCtx.unk_E0) {
         case 0:
-            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_ANIMALS_4 << 4 | NATURE_CHANNEL_ANIMALS_5,
+            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_4 << 4 | NATURE_CHANNEL_CRITTER_5,
                                              CHANNEL_IO_PORT_1, 0);
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
                 osSyncPrintf("\n\n\nNa_StartMorinigBgm\n\n");
@@ -1999,7 +1999,7 @@ void func_80075B44(GlobalContext* globalCtx) {
         case 3:
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
                 Audio_PlayNatureAmbienceSequence(globalCtx->sequenceCtx.natureAmbienceId);
-                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_1, 1);
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_1, 1);
             }
             globalCtx->envCtx.unk_E0++;
             break;
@@ -2009,9 +2009,9 @@ void func_80075B44(GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_ANIMALS_0, CHANNEL_IO_PORT_1, 0);
+            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_1, 0);
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_ANIMALS_1 << 4 | NATURE_CHANNEL_ANIMALS_3,
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_1 << 4 | NATURE_CHANNEL_CRITTER_3,
                                                  CHANNEL_IO_PORT_1, 1);
             }
             globalCtx->envCtx.unk_E0++;
@@ -2031,10 +2031,10 @@ void func_80075B44(GlobalContext* globalCtx) {
             }
             break;
         case 7:
-            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_ANIMALS_1 << 4 | NATURE_CHANNEL_ANIMALS_3,
+            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_1 << 4 | NATURE_CHANNEL_CRITTER_3,
                                              CHANNEL_IO_PORT_1, 0);
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_ANIMALS_4 << 4 | NATURE_CHANNEL_ANIMALS_5,
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_4 << 4 | NATURE_CHANNEL_CRITTER_5,
                                                  CHANNEL_IO_PORT_1, 1);
             }
             globalCtx->envCtx.unk_E0++;
