@@ -153,7 +153,7 @@ static ColliderJntSphElementInit D_80B9ED44[1] = {
     },
 };
 
-static ColliderJntSphInit sCyrstalJntSphereInit = {
+static ColliderJntSphInit sCrystalJntSphereInit = {
     {
         COLTYPE_METAL,
         AT_NONE,
@@ -182,7 +182,7 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
     dest->z = src->z * c - src->x * s;
 }
 
-void ObjSwitch_InitDynapoly(ObjSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlag) {
+void ObjSwitch_InitDynaPoly(ObjSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -287,7 +287,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     type = (this->dyna.actor.params & 7);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        ObjSwitch_InitDynapoly(this, globalCtx, &gFloorSwitchCol, DPM_PLAYER);
+        ObjSwitch_InitDynaPoly(this, globalCtx, &gFloorSwitchCol, DPM_PLAYER);
     }
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -303,7 +303,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (type == OBJSWITCH_TYPE_EYE) {
         ObjSwitch_InitTrisCollider(this, globalCtx, &trisColliderEye);
     } else if (type == OBJSWITCH_TYPE_CRYSTAL || type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
-        ObjSwitch_InitJntSphCollider(this, globalCtx, &sCyrstalJntSphereInit);
+        ObjSwitch_InitJntSphCollider(this, globalCtx, &sCrystalJntSphereInit);
     }
 
     if (type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
