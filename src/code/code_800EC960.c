@@ -265,43 +265,43 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CROWS_CAWS),
             NATURE_IO_CRITTER_0_BEND_PITCH(64),
             NATURE_IO_CRITTER_0_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_0_REVERB(32),
+            NATURE_IO_CRITTER_0_PORT5(32),
 
             // Channel 2
             NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_1_BEND_PITCH(0),
             NATURE_IO_CRITTER_1_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_1_REVERB(16),
+            NATURE_IO_CRITTER_1_PORT5(16),
 
             // Channel 3
             NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_SMALL_BIRD_CHIRPS),
             NATURE_IO_CRITTER_2_BEND_PITCH(112),
             NATURE_IO_CRITTER_2_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_2_REVERB(48),
+            NATURE_IO_CRITTER_2_PORT5(48),
 
             // Channel 4
             NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_HAWK_SCREECH),
             NATURE_IO_CRITTER_3_BEND_PITCH(127),
             NATURE_IO_CRITTER_3_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_3_REVERB(16),
+            NATURE_IO_CRITTER_3_PORT5(16),
 
             // Channel 5
             NATURE_IO_CRITTER_4_TYPE(NATURE_CRITTER_BIRD_CHIRP_1),
             NATURE_IO_CRITTER_4_BEND_PITCH(127),
             NATURE_IO_CRITTER_4_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_4_REVERB(16),
+            NATURE_IO_CRITTER_4_PORT5(16),
 
             // Channel 6
             NATURE_IO_CRITTER_5_TYPE(NATURE_CRITTER_TAP),
             NATURE_IO_CRITTER_5_BEND_PITCH(127),
             NATURE_IO_CRITTER_5_NUM_LAYERS(3),
-            NATURE_IO_CRITTER_5_REVERB(16),
+            NATURE_IO_CRITTER_5_PORT5(16),
 
             // Channel 7
             NATURE_IO_CRITTER_6_TYPE(NATURE_CRITTER_CUCCO_CROWS),
             NATURE_IO_CRITTER_6_BEND_PITCH(127),
             NATURE_IO_CRITTER_6_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_6_REVERB(16),
+            NATURE_IO_CRITTER_6_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -321,37 +321,37 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // Channel 3
             NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_BIRD_SCREECH),
             NATURE_IO_CRITTER_2_BEND_PITCH(112),
             NATURE_IO_CRITTER_2_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_2_REVERB(48),
+            NATURE_IO_CRITTER_2_PORT5(48),
 
             // Channel 4
             NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_HAWK_SCREECH),
             NATURE_IO_CRITTER_3_BEND_PITCH(127),
             NATURE_IO_CRITTER_3_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_3_REVERB(16),
+            NATURE_IO_CRITTER_3_PORT5(16),
 
             // Channel 5
             NATURE_IO_CRITTER_4_TYPE(NATURE_CRITTER_BIRD_CHIRP_1),
             NATURE_IO_CRITTER_4_BEND_PITCH(127),
             NATURE_IO_CRITTER_4_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_4_REVERB(16),
+            NATURE_IO_CRITTER_4_PORT5(16),
 
             // Channel 6
             NATURE_IO_CRITTER_5_TYPE(NATURE_CRITTER_TAP),
             NATURE_IO_CRITTER_5_BEND_PITCH(127),
             NATURE_IO_CRITTER_5_NUM_LAYERS(3),
-            NATURE_IO_CRITTER_5_REVERB(16),
+            NATURE_IO_CRITTER_5_PORT5(16),
 
             // Channel 7
             NATURE_IO_CRITTER_6_TYPE(NATURE_CRITTER_CUCCO_CROWS),
             NATURE_IO_CRITTER_6_BEND_PITCH(127),
             NATURE_IO_CRITTER_6_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_6_REVERB(16),
+            NATURE_IO_CRITTER_6_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -371,7 +371,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_BIRD_SCREECH),
             NATURE_IO_CRITTER_1_BEND_PITCH(48),
             NATURE_IO_CRITTER_1_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_1_REVERB(32),
+            NATURE_IO_CRITTER_1_PORT5(32),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -391,7 +391,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_BIRD_SCREECH),
             NATURE_IO_CRITTER_1_BEND_PITCH(48),
             NATURE_IO_CRITTER_1_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_1_REVERB(32),
+            NATURE_IO_CRITTER_1_PORT5(32),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -411,25 +411,25 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_OWL_HOOT),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // Channel 2
             NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_CAWING_BIRD),
             NATURE_IO_CRITTER_1_BEND_PITCH(0),
             NATURE_IO_CRITTER_1_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_1_REVERB(32),
+            NATURE_IO_CRITTER_1_PORT5(32),
 
             // Channel 3
             NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_HAWK_SCREECH),
             NATURE_IO_CRITTER_2_BEND_PITCH(0),
             NATURE_IO_CRITTER_2_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_2_REVERB(44),
+            NATURE_IO_CRITTER_2_PORT5(44),
 
             // Channel 4
             NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_BIRD_SCREECH),
             NATURE_IO_CRITTER_3_BEND_PITCH(63),
             NATURE_IO_CRITTER_3_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_3_REVERB(44),
+            NATURE_IO_CRITTER_3_PORT5(44),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -449,7 +449,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -469,37 +469,37 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // Channel 3
             NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_BIRD_SCREECH),
             NATURE_IO_CRITTER_2_BEND_PITCH(112),
             NATURE_IO_CRITTER_2_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_2_REVERB(48),
+            NATURE_IO_CRITTER_2_PORT5(48),
 
             // Channel 4
             NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_HAWK_SCREECH),
             NATURE_IO_CRITTER_3_BEND_PITCH(127),
             NATURE_IO_CRITTER_3_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_3_REVERB(16),
+            NATURE_IO_CRITTER_3_PORT5(16),
 
             // Channel 5
             NATURE_IO_CRITTER_4_TYPE(NATURE_CRITTER_BIRD_CHIRP_1),
             NATURE_IO_CRITTER_4_BEND_PITCH(127),
             NATURE_IO_CRITTER_4_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_4_REVERB(16),
+            NATURE_IO_CRITTER_4_PORT5(16),
 
             // Channel 6
             NATURE_IO_CRITTER_5_TYPE(NATURE_CRITTER_TAP),
             NATURE_IO_CRITTER_5_BEND_PITCH(127),
             NATURE_IO_CRITTER_5_NUM_LAYERS(3),
-            NATURE_IO_CRITTER_5_REVERB(16),
+            NATURE_IO_CRITTER_5_PORT5(16),
 
             // Channel 7
             NATURE_IO_CRITTER_6_TYPE(NATURE_CRITTER_CUCCO_CROWS),
             NATURE_IO_CRITTER_6_BEND_PITCH(127),
             NATURE_IO_CRITTER_6_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_6_REVERB(16),
+            NATURE_IO_CRITTER_6_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -533,7 +533,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -553,7 +553,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -589,25 +589,25 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_SMALL_BIRD_CHIRPS),
             NATURE_IO_CRITTER_0_BEND_PITCH(64),
             NATURE_IO_CRITTER_0_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_0_REVERB(32),
+            NATURE_IO_CRITTER_0_PORT5(32),
 
             // Channel 2
             NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_BIRD_CALL),
             NATURE_IO_CRITTER_1_BEND_PITCH(112),
             NATURE_IO_CRITTER_1_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_1_REVERB(48),
+            NATURE_IO_CRITTER_1_PORT5(48),
 
             // Channel 3
             NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_HAWK_SCREECH),
             NATURE_IO_CRITTER_2_BEND_PITCH(127),
             NATURE_IO_CRITTER_2_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_2_REVERB(16),
+            NATURE_IO_CRITTER_2_PORT5(16),
 
             // Channel 5
             NATURE_IO_CRITTER_4_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_4_BEND_PITCH(127),
             NATURE_IO_CRITTER_4_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_4_REVERB(16),
+            NATURE_IO_CRITTER_4_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -628,37 +628,37 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_SMALL_BIRD_CHIRPS),
             NATURE_IO_CRITTER_0_BEND_PITCH(64),
             NATURE_IO_CRITTER_0_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_0_REVERB(32),
+            NATURE_IO_CRITTER_0_PORT5(32),
 
             // Channel 2
             NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_BIRD_SCREECH),
             NATURE_IO_CRITTER_1_BEND_PITCH(112),
             NATURE_IO_CRITTER_1_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_1_REVERB(48),
+            NATURE_IO_CRITTER_1_PORT5(48),
 
             // Channel 3
             NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_BIRD_SONG),
             NATURE_IO_CRITTER_2_BEND_PITCH(127),
             NATURE_IO_CRITTER_2_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_2_REVERB(16),
+            NATURE_IO_CRITTER_2_PORT5(16),
 
             // Channel 4
             NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_LOUD_CHIRPING),
             NATURE_IO_CRITTER_3_BEND_PITCH(0),
             NATURE_IO_CRITTER_3_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_3_REVERB(16),
+            NATURE_IO_CRITTER_3_PORT5(16),
 
             // Channel 5
             NATURE_IO_CRITTER_4_TYPE(NATURE_CRITTER_BIRD_CHIRP_1),
             NATURE_IO_CRITTER_4_BEND_PITCH(0),
             NATURE_IO_CRITTER_4_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_4_REVERB(16),
+            NATURE_IO_CRITTER_4_PORT5(16),
 
             // Channel 6
             NATURE_IO_CRITTER_5_TYPE(NATURE_CRITTER_TAP),
             NATURE_IO_CRITTER_5_BEND_PITCH(0),
             NATURE_IO_CRITTER_5_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_5_REVERB(16),
+            NATURE_IO_CRITTER_5_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -678,7 +678,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -698,7 +698,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -718,25 +718,25 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_BIRD_CHIRP_1),
             NATURE_IO_CRITTER_0_BEND_PITCH(80),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(8),
+            NATURE_IO_CRITTER_0_PORT5(8),
 
             // Channel 2
             NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_SMALL_BIRD_CHIRPS),
             NATURE_IO_CRITTER_1_BEND_PITCH(80),
             NATURE_IO_CRITTER_1_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_1_REVERB(48),
+            NATURE_IO_CRITTER_1_PORT5(48),
 
             // Channel 3
             NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_LOUD_CHIRPING),
             NATURE_IO_CRITTER_2_BEND_PITCH(0),
             NATURE_IO_CRITTER_2_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_2_REVERB(0),
+            NATURE_IO_CRITTER_2_PORT5(0),
 
             // Channel 4
             NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_BIRD_SCREECH),
             NATURE_IO_CRITTER_3_BEND_PITCH(96),
             NATURE_IO_CRITTER_3_NUM_LAYERS(0),
-            NATURE_IO_CRITTER_3_REVERB(32),
+            NATURE_IO_CRITTER_3_PORT5(32),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -756,7 +756,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -776,7 +776,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -796,7 +796,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
@@ -818,7 +818,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
             NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
             NATURE_IO_CRITTER_0_BEND_PITCH(0),
             NATURE_IO_CRITTER_0_NUM_LAYERS(1),
-            NATURE_IO_CRITTER_0_REVERB(16),
+            NATURE_IO_CRITTER_0_PORT5(16),
 
             // End
             NATURE_IO_ENTRIES_END,
