@@ -204,7 +204,7 @@ Gfx* sOotDLs[] = {
     gLinkChildRightHandHoldingOOTFarDL,
 };
 
-//! @bug The 'far' display list is never used
+// The 'far' display list exists but is not used
 Gfx* sHookshotDLs[] = {
     gLinkAdultRightHandHoldingHookshotNearDL,
     gLinkChildRightHandNearDL,
