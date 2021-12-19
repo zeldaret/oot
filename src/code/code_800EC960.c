@@ -245,7 +245,7 @@ u8 sSeqFlags[0x6E] = {
     0,    // NA_BGM_STAFF_3
     0,    // NA_BGM_STAFF_4
     0,    // NA_BGM_FIRE_BOSS
-    0x8,  // NA_BGM_MINI_GAME_2
+    0x8,  // NA_BGM_TIMED_MINI_GAME
     0,    // NA_BGM_VARIOUS_SFX
 };
 
@@ -4408,7 +4408,7 @@ void func_800F574C(f32 arg0, u8 arg2) {
 }
 
 void func_800F5918(void) {
-    if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_MINI_GAME_2 && func_800FA11C(0, 0xF0000000)) {
+    if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME && func_800FA11C(0, 0xF0000000)) {
         Audio_SeqCmdB(SEQ_PLAYER_BGM_MAIN, 5, 0, 0xD2);
     }
 }
