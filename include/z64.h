@@ -244,7 +244,6 @@ typedef struct {
     /* 0x0003 */ u8     lensActive;
     /* 0x0004 */ char   unk_04[0x04];
     /* 0x0008 */ u8     total; // total number of actors loaded
-    /* 0x0009 */ char   unk_09[0x03];
     /* 0x000C */ ActorListEntry actorLists[12];
     /* 0x006C */ TargetContext targetCtx;
     struct {
