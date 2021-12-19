@@ -2590,7 +2590,7 @@ s32 func_80835B60(Player* this, GlobalContext* globalCtx) {
     if (!(this->stateFlags1 & 0x2000000)) {
         func_80833638(this, func_80835C08);
         LinkAnimation_PlayOnce(globalCtx, &this->skelAnime2, &gPlayerAnim_0025F8);
-        func_808357E8(this, gPlayerBoomerangDLs);
+        func_808357E8(this, D_80125EF8);
         func_8002F7DC(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
         func_80832698(this, NA_SE_VO_LI_SWORD_N);
         return 1;
@@ -13847,7 +13847,7 @@ void func_80852648(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
         this->heldItemActionParam = this->itemActionParam = PLAYER_AP_NONE;
         this->heldItemId = ITEM_NONE;
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_AP_NONE);
-        this->leftHandDLists = gPlayerLeftHandDLs;
+        this->leftHandDLists = D_80125E08;
         Inventory_ChangeEquipment(EQUIP_SWORD, 2);
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
         Inventory_DeleteEquipment(globalCtx, 0);
