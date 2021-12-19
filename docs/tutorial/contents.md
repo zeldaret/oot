@@ -12,29 +12,29 @@
 ## Decompilation
 
 - [Begining decompilation: order, Init and the actor struct](beginning_decomp.md)
-	- Order of decompilation
-	- Init and common actor features
-		- Initchains
-		- Actors and dynapoly actors
-		- Colliders
-		- Skelanime
-	
-	- Matching
-		- Using diff
-		- control flow (branches) -> instruction ordering -> register allocation -> stack
+    - Order of decompilation
+    - Init and common actor features
+        - Initchains
+        - Actors and dynapoly actors
+        - Colliders
+        - Skelanime
+
+    - Matching
+        - Using diff
+        - control flow (branches) -> instruction ordering -> register allocation -> stack
 
 - [The rest of the functions in the actor](other_functions.md)
     - Order of decompilation
     - Action Functions and other functions
 
-	- More on matching: the permuter
+    - More on matching: the permuter
 
 - [Draw functions](draw_functions.md)
 
 - [Data, migration and non-migration](data.md)
-	- Importing the data: early and late
-	- Fake symbols
-	- Inlining
+    - Importing the data: early and late
+    - Fake symbols
+    - Inlining
 
 ## [Object Decompilation](object_decomp.md)
 - Object files
@@ -46,9 +46,9 @@
 
 - [Preparing to merge](merging.md)
     - Preliminary documentation
-	- Preparing to PR
-	- Pull Requests
-	- Trello
+    - Preparing to PR
+    - Pull Requests
+    - Trello
 
 ## Appendices
 - [Types, Structs and Padding](types_structs_padding.md) (a miscellany of useful stuff)
