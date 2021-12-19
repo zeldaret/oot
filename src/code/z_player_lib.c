@@ -169,7 +169,7 @@ Gfx* D_80125E78[] = {
     gLinkChildSwordAndSheathFarDL,
 };
 
-Gfx* D_80125E88 [] = {
+Gfx* D_80125E88[] = {
     gLinkAdultSheathNearDL,
     gLinkChildSheathNearDL,
     gLinkAdultSheathFarDL,
@@ -204,11 +204,10 @@ Gfx* D_80125EC8[] = {
     gLinkChildRightHandHoldingOOTFarDL,
 };
 
-// The 'far' display list exists but is not used
 Gfx* D_80125ED8[] = {
     gLinkAdultRightHandHoldingHookshotNearDL,
     gLinkChildRightHandNearDL,
-    gLinkAdultRightHandHoldingHookshotNearDL,
+    gLinkAdultRightHandHoldingHookshotNearDL, // The 'far' display list exists but is not used
     gLinkChildRightHandFarDL,
 };
 
@@ -260,9 +259,9 @@ Gfx* sHoldingFirstPersonWeaponDLs[] = {
 
 // Indexed by model types (left hand, right hand, sheath or waist)
 Gfx** sPlayerDListGroups[] = {
-    D_80125E08, D_80125E18,   D_80125E38,         D_80125E28, D_80125DE8, D_80125EE8, D_80125EF8,
-    D_80125F08, D_80125E48,   D_80125E58,         D_80125CE8, D_80125E68, D_80125EA8, D_80125EB8,
-    D_80125EC8,    D_80125ED8, D_80125E78, D_80125E88 , D_80125D28, D_80125D88, D_80125E98,
+    D_80125E08, D_80125E18, D_80125E38, D_80125E28, D_80125DE8, D_80125EE8, D_80125EF8,
+    D_80125F08, D_80125E48, D_80125E58, D_80125CE8, D_80125E68, D_80125EA8, D_80125EB8,
+    D_80125EC8, D_80125ED8, D_80125E78, D_80125E88, D_80125D28, D_80125D88, D_80125E98,
 };
 
 Gfx gCullBackDList[] = {
