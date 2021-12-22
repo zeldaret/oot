@@ -2,6 +2,7 @@
 
 import xml.etree.ElementTree as XmlTree
 import struct
+import math
 
 #Common Class Definitions
 class AifReader:
@@ -29,7 +30,7 @@ class AifReader:
 			if not magicno or len(magicno) < 4:
 				break
 			secmagic = magicno.decode('utf-8')
-			secsize = struct.unpack(">L", input.read(4))
+			secsize, = struct.unpack(">L", input.read(4))
 			offset += 8
 			if secmagic == "APPL":
 				self.appl_sections.append((offset, secsize))
@@ -219,8 +220,8 @@ def parse_f80(data):
 	sign = -1 if sign_bit else 1
 	if exp_bits == mantissa_bits == 0:
 		return sign * 0.0
-	validate(exp_bits != 0, "sample rate is a denormal")
-	validate(exp_bits != 0x7FFF, "sample rate is infinity/nan")
+	assert exp_bits != 0, "sample rate is a denormal"
+	assert exp_bits != 0x7FFF, "sample rate is infinity/nan"
 	mant = float(mantissa_bits) / 2 ** 63
 	return sign * mant * pow(2, exp_bits - 0x3FFF)
 	
@@ -250,7 +251,7 @@ def align(val, al):
 def padding16(val):
 	mod16 = val & 0xf
 	if mod16 > 0:
-		return mod16
+		return 16 - mod16
 	return 0
 
 #Audio Class Definitions
@@ -314,7 +315,7 @@ class PCMBook:
 		
 	def parseFrom(self, input):
 		mysize = 8
-		self.order, self.predictorCount = struct.unpack(">LL", input)
+		self.order, self.predictorCount = struct.unpack(">LL", input[0:8])
 		predictorSize = self.order * 8
 		predictorBytes = predictorSize * 2
 		for i in range(self.predictorCount):
@@ -390,16 +391,20 @@ class SampleHeader:
 		blockSize = 9
 		if self.codec == 3:
 			blockSize = 5
-		blockCount = self.frameCount/16
-		if (self.frameCount % 16) != 0:
-			blockCount += 1
-		self.length = blockCount * blockSize
+		#blockCount = math.floor(self.frameCount/16)
+		#if (self.frameCount % 16) != 0:
+		#	blockCount += 1
+		#self.length = blockCount * blockSize
+		
+		#Okay so the frame count is calculated weird.
+		#To get the original data length, looks like we gotta reverse it.
+		self.length = (self.frameCount * 9) // 16
 		
 	def loadInfoFromAIF(self, aif_path):
 		aif_reader = AifReader(aif_path)
 		comm_data = aif_reader.loadSectionData('COMM')
 		
-		self.frameCount = struct.unpack('>L', comm_data[2:6])
+		self.frameCount, = struct.unpack('>L', comm_data[2:6])
 		sample_rate = parse_f80(comm_data[8:18])
 		if aif_reader.is_aifc:
 			self.codec = fromCodecID(comm_data[18:22])
@@ -416,11 +421,24 @@ class SampleHeader:
 				if strdat == b'VADPCMCODES':
 					#Code table
 					self.book = PCMBook()
-					self.book.parseFrom(appl_data[18:])
+					#self.book.parseFrom(appl_data[18:])
+					bookpos = 18
+					self.book.order, self.book.predictorCount = struct.unpack(">HH", appl_data[bookpos:bookpos+4])
+					bookpos += 4
+					predictorSize = self.book.order * 8
+					predictorBytes = predictorSize * 2
+					for i in range(self.book.predictorCount):
+						self.book.predictors.append(struct.unpack(">" + str(predictorSize) + "h", appl_data[bookpos:(bookpos+predictorBytes)]))
+						bookpos += predictorBytes				
 				elif strdat == b'VADPCMLOOPS':
 					#Loop data
 					self.loop = PCMLoop()
-					self.loop.parseFrom(appl_data[20:])
+					#self.loop.parseFrom(appl_data[20:])
+					looppos = 20
+					self.loop.start, self.loop.end, self.loop.count = struct.unpack(">LLl", appl_data[looppos:looppos+12])
+					looppos += 12
+					if self.loop.count != 0:
+						self.loop.predictorState = struct.unpack(">16h", appl_data[looppos:looppos+32])				
 				
 		#Scale sample rate
 		self.tuning = sample_rate/32000.0
@@ -921,7 +939,7 @@ class Soundbank:
 		self.name = ""
 		self.idx = -1
 		self.medium = 2
-		self.cache = 4
+		self.cachePolicy = 4
 		
 	def orderSamples(self):
 		dict_items = sorted(self.samplesByName.items())
@@ -937,13 +955,24 @@ class Soundbank:
 			mysize += sample.length
 			align(mysize, 16)
 		return mysize
+	
+	def fromXML(self, xml_element):
+		#Read font attr
+		med_str = xml_element.get("Medium")
+		cache_str = xml_element.get("CachePolicy")
+		if med_str is not None:
+			self.medium = toMedium(med_str)
+			#print("Medium String:",med_str,"| Medium: ",str(self.medium))
+		if cache_str is not None:
+			self.cachePolicy = toCachePolicy(cache_str)	
+			#print("Cache String:",cache_str,"| Cache Enum: ",str(self.cachePolicy))
 
 #Common Functions
 
 def loadBankDefTable(filepath):
 	bankdeftbl = []
 	with open(filepath,'rb') as f:
-		bankcount = struct.unpack(">H", f.read(2))
+		bankcount, = struct.unpack(">H", f.read(2))
 		f.read(14)
 		for i in range(bankcount):
 			record = SampleTableEntry('audiotable_' + str(i))

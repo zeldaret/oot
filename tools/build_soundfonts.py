@@ -68,11 +68,21 @@ def printBank2csv(path, bank):
 	csvstream.close()
 
 def processBanks(sampledir, builddir):
-	xmltree = xml.parse(os.path.join(sampledir, "Banks.xml"))
+	xmltree = XmlTree.parse(os.path.join(sampledir, "Banks.xml"))
 	xmlroot = xmltree.getroot()
-
-	e_banks = xmlroot.find("SampleBanks")
-	elist_bank = e_banks.findAll("SampleBank")
+	
+	if builddir is not None:
+		if not os.path.isdir(builddir):
+			os.makedirs(builddir)
+	
+	if xmlroot.tag == "SampleBanks":
+		e_banks = xmlroot
+	else:
+		e_banks = xmlroot.find("SampleBanks")
+	if e_banks is None:
+		print("Banks.xml does not appear to be valid")
+		return
+	elist_bank = e_banks.findall("SampleBank")
 
 	i = 0
 	audiotable_paths = []
@@ -81,13 +91,17 @@ def processBanks(sampledir, builddir):
 		if bankname is None:
 			bankname = str(i) + "REF"
 			bank_lookup[bankname] = bank_lookup[e_bank.get("Reference")]
+			print("Bank reference discovered:",bankname)
 		else:
+			print("Bank discovered:",bankname)
 			mybank = Soundbank()
 			mybank.name = bankname
+			mybank.fromXML(e_bank)
 			bank_lookup[bankname] = mybank
 
 			mybank.idx = i
 			bankdir = os.path.join(sampledir, bankname)
+			#print("Bank Directory:",bankdir)
 
 			current_books = []
 			current_loops = []
@@ -98,59 +112,72 @@ def processBanks(sampledir, builddir):
 					mysample = SampleHeader()
 					mybank.samplesByName[samplename] = mysample
 					mysample.name = samplename
+					#print("Sample found:",mysample.name)
 
 					#load from aifc
-					mysample.loadInfoFromAIF(file)
+					mysample.loadInfoFromAIF(os.path.join(bankdir,file))
 					#mysample.updateSize()
 					
 					#If book or loop is identical to previous in bank, merge.
 					#This is annoying because it rarely happens, and is slow to check, but it DOES happen
 					blmerge = False
-					for book in current_books:
-						if book.booksEqual(mysample.book):
-							blmerge = True
-							mysample.book = book
-							break
-					if not blmerge:
-						current_books.append(mysample.book)
+					if mysample.book is not None:
+						for book in current_books:
+							if book.booksEqual(mysample.book):
+								blmerge = True
+								mysample.book = book
+								break
+							if not blmerge:
+								current_books.append(mysample.book)
 						
 					blmerge = False
-					for loop in current_loops:
-						if loop.loopsEqual(mysample.loop):
-							blmerge = True
-							mysample.loop = loop
-							break
-					if not blmerge:
-						current_loops.append(mysample.loop)
+					if mysample.loop is not None:
+						for loop in current_loops:
+							if loop.loopsEqual(mysample.loop):
+								blmerge = True
+								mysample.loop = loop
+								break
+							if not blmerge:
+								current_loops.append(mysample.loop)
 					
 			#Now, assign offsets/ calculate sizes for samples
 			sorted_samples = mybank.orderSamples()
-			print("Bank", mybank.idx, ":", len(sorted_samples), "found")
+			print("Bank", mybank.idx, ":", len(sorted_samples), "samples found")
 			
-			output = None
-			if builddir is not None:
-				binpath = os.path.join(builddir, getBankbinName(mybank.idx))
-				output = open(binpath, "wb")
-				audiotable_paths.append(binpath)
-			
-			j = 0
-			offset = 0
-			for sample in sorted_samples:
-				sample.idx = j
-				j += 1
-				sample.offsetInBank = offset
-				#Need to add padding as well...
-				offset += sample.length
-				padding = padding16(offset)
-					
+			if len(sorted_samples) > 0:
+				output = None
+				if builddir is not None:
+					binpath = os.path.join(builddir, getBankbinName(mybank.idx))
+					output = open(binpath, "wb")
+					audiotable_paths.append(binpath)
+				
+				j = 0
+				offset = 0
+				for sample in sorted_samples:
+					sample.idx = j
+					j += 1
+					sample.offsetInBank = offset
+					#Need to add padding as well...
+					offset += sample.length
+					padding = padding16(offset)
+					offset += padding
+						
+					if output is not None:
+						print("Writing sample:",sample.name)
+						aifc_path = os.path.join(bankdir, sample.name + ".aifc")
+						output.write(loadSoundData(aifc_path)[8:8+sample.length])
+						if padding > 0:
+							output.write(struct.pack(str(padding) + "x"))
+						
 				if output is not None:
-					aifc_path = os.path.join(bankdir, sample.name + ".aifc")
-					output.write(loadSoundData(aifc_path))
-					if padding > 0:
-						output.write(struct.pack(str(padding) + "x"))
-					
-			if output is not None:
-				output.close()
+					output.close()				
+			else:
+				#If no aifc files were found, look for raw bin
+				for file in os.listdir(bankdir):
+					if file.endswith(".bin"):
+						audiotable_paths.append(os.path.join(bankdir,file))
+						break
+				
 		i+=1
 	
 	#Build audiotable (if requested)
@@ -166,7 +193,7 @@ def processBanks(sampledir, builddir):
 		#Code table
 		output = open(os.path.join(builddir, "audiotable_tbl"), "wb")
 		bnk_ordered = sorted(bank_lookup.items())
-		output.write(">H14x", len(bnk_ordered))
+		output.write(struct.pack(">H14x", len(bnk_ordered)))
 		i = 0
 		offset = 0
 		for bnk_pair in bnk_ordered:
@@ -176,49 +203,81 @@ def processBanks(sampledir, builddir):
 					#Print csv stating what samples are in bank.
 					printBank2csv(os.path.join(builddir, getBankbinName(mybank.idx) + "_contents.csv"), mybank)
 				banklen = mybank.calculateSize()
-				output.write(">LL", offset, banklen)
+				output.write(struct.pack(">LL", offset, banklen))
 				offset += banklen
 			else:
-				output.write("8x")
-			output.write(">BB6x", mybank.medium, mybank.cache)
+				output.write(struct.pack("8x"))
+			output.write(struct.pack(">BB6x", mybank.medium, mybank.cachePolicy))
 		output.close()
 		
 def main():
 	#TODO
-	if debug is not None:
-		if debug:
+	if args.debug is not None:
+		if args.debug:
 			debug_mode = True
+	
+	outpath = args.outpath
+	inpath = args.inpath
+	sampledir = args.sampledir
+	
+	if debug_mode:
+		print("DEBUG MODE:")
+		print("Input Directory:",inpath)
+		print("Output Directory:",outpath)
+		print("Sample Directory:",sampledir)
+		
+	#Check for directories' existance
+	if args.single:
+		if not os.path.isfile(inpath):
+			print("ERROR: Input file \""+inpath+"\" does not exist!")
+			return 1		
+	else:
+		if not os.path.isdir(inpath):
+			print("ERROR: Input path \""+inpath+"\" is not a valid directory!")
+			return 1
+	
+	if not os.path.isdir(sampledir):
+		print("ERROR: Sample path \""+sampledir+"\" is not a valid directory!")
+		return 1	
+	
+	if not os.path.isdir(outpath):
+		os.makedirs(outpath)	
 	
 	#Process banks and build sample info blocks
 	bankbuilddir = None
-	if buildbank:
+	if args.buildbank:
 		bankbuilddir = os.path.join(outpath, 'audiotable')
 	processBanks(sampledir, bankbuilddir)
 	
 	#Check bank matches (if requested)
-	if debug_mode and buildbank:
+	if debug_mode and args.buildbank:
 		#Find reference files.
-		bankdat_path = '../bank.bin'
-		banktbl_path = '../bankdef.bin'
+		mydir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+		bankdat_path = os.path.join(mydir, 'bank.bin')
+		banktbl_path = os.path.join(mydir, 'bankdef.bin')
+		print("Extracted audiotable ref:",bankdat_path)
+		print("Extracted bank table ref:",banktbl_path)		
 		banktbl = loadBankDefTable(banktbl_path)
 	
 		#Iterate
 		banklist = sorted(bank_lookup.items())
 		matchcount = 0
 		bankcount = 0
-		for bank in banklist:
+		for item in banklist:
+			bank = item[1]
 			tblrec = banktbl[bank.idx]
 			if tblrec.length < 1:
 				continue
 			bankcount += 1
 			binoutpath = os.path.join(bankbuilddir, getBankbinName(bank.idx))
-			with open(bankdat_path, 'rb') as f:
-				f.seek(tblrec.offset)
-				refdat = f.read(tblrec.length)
-			with open(binoutpath, 'rb') as f:
-				checkdat = f.read()
-			if checkMatch(refdat, checkdat, 'Bank ' + str(bank.idx)):
-				matchcount += 1
+			if os.path.isfile(binoutpath):
+				with open(bankdat_path, 'rb') as f:
+					f.seek(tblrec.offset)
+					refdat = f.read(tblrec.length)
+				with open(binoutpath, 'rb') as f:
+					checkdat = f.read()
+				if checkMatch(refdat, checkdat, 'Bank ' + str(bank.idx)):
+					matchcount += 1
 				
 		print(str(matchcount), 'of', str(bankcount), 'banks matched.')
 			
@@ -240,6 +299,8 @@ def main():
 	#Read in font(s)
 	#compile font(s)
 	#match
+	
+	return 0
 
 
 #Args
