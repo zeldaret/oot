@@ -261,7 +261,8 @@ void ZRoom::ParseRawData()
 		if (Globals::Instance->profile)
 		{
 			auto end = std::chrono::steady_clock::now();
-			int64_t diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+			int64_t diff =
+				std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 			if (diff > 50)
 				printf("OP: %s, TIME: %" PRIi64 "ms\n", cmd->GetCommandCName().c_str(), diff);
 		}

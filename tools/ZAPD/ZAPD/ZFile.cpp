@@ -8,6 +8,7 @@
 #include "Globals.h"
 #include "OutputFormatter.h"
 #include "Utils/BinaryWriter.h"
+#include "Utils/BitConverter.h"
 #include "Utils/Directory.h"
 #include "Utils/File.h"
 #include "Utils/MemoryStream.h"
@@ -192,7 +193,7 @@ void ZFile::ParseXML(tinyxml2::XMLElement* reader, const std::string& filename)
 		rawData = File::ReadAllBytes((basePath / name).string());
 
 		if (reader->Attribute("RangeEnd") == nullptr)
-		rangeEnd = rawData.size();
+			rangeEnd = rawData.size();
 	}
 
 	std::unordered_set<std::string> nameSet;
@@ -378,7 +379,7 @@ void ZFile::ExtractResources()
 		ZResourceExporter* exporter = Globals::Instance->GetExporter(res->GetResourceType());
 		if (exporter != nullptr)
 		{
-			//exporter->Save(res, Globals::Instance->outputPath.string(), &writerFile);
+			// exporter->Save(res, Globals::Instance->outputPath.string(), &writerFile);
 			exporter->Save(res, Globals::Instance->outputPath.string(), &writerRes);
 		}
 
@@ -391,7 +392,7 @@ void ZFile::ExtractResources()
 		File::WriteAllBytes(StringHelper::Sprintf("%s%s.bin",
 		                                          Globals::Instance->outputPath.string().c_str(),
 		                                          GetName().c_str()),
-			memStreamFile->ToVector());
+		                    memStreamFile->ToVector());
 	}
 
 	writerFile.Close();
@@ -949,9 +950,6 @@ std::string ZFile::ProcessDeclarations()
 
 	defines += ProcessTextureIntersections(name);
 
-	// Account for padding/alignment
-	uint32_t lastAddr = 0;
-
 	// printf("RANGE START: 0x%06X - RANGE END: 0x%06X\n", rangeStart, rangeEnd);
 
 	// Optimization: See if there are any arrays side by side that can be merged...
@@ -1002,43 +1000,6 @@ std::string ZFile::ProcessDeclarations()
 	{
 		while (item.second->size % 4 != 0)
 			item.second->size++;
-
-		if (lastAddr != 0)
-		{
-			if (item.second->alignment == DeclarationAlignment::Align16)
-			{
-				int32_t curPtr = lastAddr + declarations[lastAddr]->size;
-
-				while (curPtr % 4 != 0)
-				{
-					declarations[lastAddr]->size++;
-					curPtr++;
-				}
-			}
-			else if (item.second->alignment == DeclarationAlignment::Align8)
-			{
-				size_t curPtr = lastAddr + declarations[lastAddr]->size;
-
-				while (curPtr % 4 != 0)
-				{
-					declarations[lastAddr]->size++;
-					curPtr++;
-				}
-
-				while (curPtr % 8 != 0)
-				{
-					char buffer[2048];
-
-					sprintf(buffer, "u32 %s_align%02zX = 0;\n", name.c_str(), curPtr);
-					item.second->preText = buffer + item.second->preText;
-
-					declarations[lastAddr]->size += 4;
-					curPtr += 4;
-				}
-			}
-		}
-
-		lastAddr = item.first;
 	}
 
 	HandleUnaccountedData();
@@ -1199,14 +1160,15 @@ void ZFile::HandleUnaccountedData()
 {
 	uint32_t lastAddr = 0;
 	uint32_t lastSize = 0;
-	std::vector<uint32_t> declsAddresses;
+	std::vector<offset_t> declsAddresses;
+
 	for (const auto& item : declarations)
 	{
 		declsAddresses.push_back(item.first);
 	}
 
 	bool breakLoop = false;
-	for (uint32_t currentAddress : declsAddresses)
+	for (offset_t currentAddress : declsAddresses)
 	{
 		if (currentAddress >= rangeEnd)
 		{
@@ -1235,7 +1197,7 @@ void ZFile::HandleUnaccountedData()
 	}
 }
 
-bool ZFile::HandleUnaccountedAddress(uint32_t currentAddress, uint32_t lastAddr, uint32_t& lastSize)
+bool ZFile::HandleUnaccountedAddress(offset_t currentAddress, offset_t lastAddr, uint32_t& lastSize)
 {
 	if (currentAddress != lastAddr && declarations.find(lastAddr) != declarations.end())
 	{
@@ -1273,6 +1235,29 @@ bool ZFile::HandleUnaccountedAddress(uint32_t currentAddress, uint32_t lastAddr,
 				"'0x%X'.\n"
 				"\t Aborting...",
 				xmlFilePath.c_str(), currentAddress, name.c_str(), rawData.size()));
+		}
+
+		// Handle Align8
+		if (currentAddress % 8 == 0 && diff % 8 != 0)
+		{
+			Declaration* currentDecl = GetDeclaration(currentAddress);
+
+			if (currentDecl != nullptr)
+			{
+				if (currentDecl->alignment == DeclarationAlignment::Align8)
+				{
+					// Check removed bytes are zeroes
+					if (BitConverter::ToUInt32BE(rawData, unaccountedAddress + diff - 4) == 0)
+					{
+						diff -= 4;
+					}
+				}
+
+				if (diff == 0)
+				{
+					return false;
+				}
+			}
 		}
 
 		for (int i = 0; i < diff; i++)
@@ -1320,7 +1305,10 @@ bool ZFile::HandleUnaccountedAddress(uint32_t currentAddress, uint32_t lastAddr,
 				StringHelper::Sprintf("%s_%s_%06X", name.c_str(), unaccountedPrefix.c_str(),
 			                          unaccountedAddress),
 				diff, src);
+
 			decl->isUnaccounted = true;
+			if (Globals::Instance->forceUnaccountedStatic)
+				decl->staticConf = StaticConfig::On;
 
 			if (nonZeroUnaccounted)
 			{

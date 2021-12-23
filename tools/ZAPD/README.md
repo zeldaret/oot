@@ -119,6 +119,7 @@ ZAPD also accepts the following list of extra parameters:
 - `-tm MODE`: Test Mode (enables certain experimental features). To enable it, set `MODE` to `1`.
 - `-se` / `--set-exporter` : Sets which exporter to use.
 - `--gcc-compat` : Enables GCC compatibly mode. Slower.
+- `-us` / `--unaccounted-static` : Mark unaccounted data as `static` 
 - `-s` / `--static` : Mark every asset as `static`.
   - This behaviour can be overridden per asset using `Static=` in the respective XML node.
 - `-W...`: warning flags, see below
