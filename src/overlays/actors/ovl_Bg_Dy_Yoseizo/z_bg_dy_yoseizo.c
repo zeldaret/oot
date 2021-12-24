@@ -208,17 +208,17 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
         switch (this->fountainType) {
             case FAIRY_SPELL_FARORES_WIND:
-                if (!(gSaveContext.itemGetInf[1] & 0x100)) {
+                if (!(GET_ITEMGETINF(ITEMGETINF_18))) {
                     givingReward = true;
                 }
                 break;
             case FAIRY_SPELL_DINS_FIRE:
-                if (!(gSaveContext.itemGetInf[1] & 0x200)) {
+                if (!(GET_ITEMGETINF(ITEMGETINF_19))) {
                     givingReward = true;
                 }
                 break;
             case FAIRY_SPELL_NAYRUS_LOVE:
-                if (!(gSaveContext.itemGetInf[1] & 0x400)) {
+                if (!(GET_ITEMGETINF(ITEMGETINF_1A))) {
                     givingReward = true;
                 }
                 break;

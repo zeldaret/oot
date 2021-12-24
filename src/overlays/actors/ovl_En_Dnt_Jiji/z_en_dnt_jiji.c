@@ -283,7 +283,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
             osSyncPrintf("実 \n");
             osSyncPrintf("実 \n");
             osSyncPrintf("実 \n");
-            gSaveContext.itemGetInf[1] |= 0x8000;
+            SET_ITEMGETINF(ITEMGETINF_1F);
         } else {
             // "stick"
             osSyncPrintf("棒 \n");
@@ -292,7 +292,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
             osSyncPrintf("棒 \n");
             osSyncPrintf("棒 \n");
             osSyncPrintf("棒 \n");
-            gSaveContext.itemGetInf[1] |= 0x4000;
+            SET_ITEMGETINF(ITEMGETINF_1E);
         }
         this->actor.textId = 0;
         if ((this->stage != NULL) && (this->stage->actor.update != NULL)) {

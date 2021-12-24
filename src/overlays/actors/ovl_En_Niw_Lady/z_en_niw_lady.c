@@ -167,7 +167,7 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         this->actor.draw = EnNiwLady_Draw;
         switch (this->unk_278) {
             case 0:
-                if (!(gSaveContext.itemGetInf[0] & 0x1000) && !LINK_IS_ADULT) {
+                if (!(GET_ITEMGETINF(ITEMGETINF_0C)) && !LINK_IS_ADULT) {
                     frames = Animation_GetLastFrame(&gObjOsAnim_A630);
                     Animation_Change(&this->skelAnime, &gObjOsAnim_A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 } else {
@@ -300,7 +300,7 @@ void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 爆弾   ☆☆☆☆☆ %d\n" VT_RST, this->unk_272);
         osSyncPrintf("\n\n");
         this->unk_26E = 0xB;
-        if (!(gSaveContext.itemGetInf[0] & 0x1000)) {
+        if (!(GET_ITEMGETINF(ITEMGETINF_0C))) {
             this->actor.parent = NULL;
             this->getItemId = GI_BOTTLE;
             func_8002F434(&this->actor, globalCtx, GI_BOTTLE, 100.0f, 50.0f);
@@ -324,7 +324,7 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n" VT_RST);
     this->unk_262 = TEXT_STATE_DONE;
     this->unk_273 = 0;
-    if (!(gSaveContext.itemGetInf[2] & 0x1000)) {
+    if (!(GET_ITEMGETINF(ITEMGETINF_2C))) {
         if (this->unk_274 != 0) {
             this->unk_27A = 1;
         } else {
@@ -334,7 +334,7 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
         this->unk_262 = TEXT_STATE_CHOICE;
     } else {
         this->unk_27A = 2;
-        if (!(gSaveContext.itemGetInf[2] & 0x4000)) {
+        if (!(GET_ITEMGETINF(ITEMGETINF_2E))) {
             this->unk_27A = 3;
             if (gSaveContext.eventChkInf[6] & 0x400) {
                 this->unk_27A = 9;
@@ -437,7 +437,7 @@ void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx) {
     } else {
         getItemId = this->getItemId;
         if (LINK_IS_ADULT) {
-            getItemId = !(gSaveContext.itemGetInf[2] & 0x1000) ? GI_POCKET_EGG : GI_COJIRO;
+            getItemId = !(GET_ITEMGETINF(ITEMGETINF_2C)) ? GI_POCKET_EGG : GI_COJIRO;
         }
         func_8002F434(&this->actor, globalCtx, getItemId, 200.0f, 100.0f);
     }
@@ -449,14 +449,14 @@ void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
     }
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
     if (LINK_IS_ADULT) {
-        if (!(gSaveContext.itemGetInf[2] & 0x1000)) {
-            gSaveContext.itemGetInf[2] |= 0x1000;
+        if (!(GET_ITEMGETINF(ITEMGETINF_2C))) {
+            SET_ITEMGETINF(ITEMGETINF_2C);
         } else {
-            gSaveContext.itemGetInf[2] |= 0x4000;
+            SET_ITEMGETINF(ITEMGETINF_2E);
         }
         this->actionFunc = func_80ABA778;
     } else {
-        gSaveContext.itemGetInf[0] |= 0x1000;
+        SET_ITEMGETINF(ITEMGETINF_0C);
         this->unk_262 = TEXT_STATE_DONE;
         this->actionFunc = func_80ABA244;
     }

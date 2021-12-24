@@ -610,8 +610,8 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
                  * Upgrade the purple rupee reward to the heart piece if this
                  * is the first grand prize dig.
                  */
-                if (!(gSaveContext.itemGetInf[1] & 0x1000)) {
-                    gSaveContext.itemGetInf[1] |= 0x1000;
+                if (!(GET_ITEMGETINF(ITEMGETINF_1C))) {
+                    SET_ITEMGETINF(ITEMGETINF_1C);
                     this->currentReward = 4;
                 }
             }

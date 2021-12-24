@@ -496,7 +496,7 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_SetupWait_Archery;
         if (this->stateFlags & GE1_STATE_GIVE_QUIVER) {
-            gSaveContext.itemGetInf[0] |= 0x8000;
+            SET_ITEMGETINF(ITEMGETINF_0F);
         } else {
             gSaveContext.infTable[25] |= 1;
         }
@@ -645,7 +645,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     } else if (gSaveContext.minigameScore < 1500) {
         this->actor.textId = 0x6047;
         this->actionFunc = EnGe1_TalkNoPrize_Archery;
-    } else if (gSaveContext.itemGetInf[0] & 0x8000) {
+    } else if (GET_ITEMGETINF(ITEMGETINF_0F)) {
         this->actor.textId = 0x6047;
         this->actionFunc = EnGe1_TalkNoPrize_Archery;
     } else {

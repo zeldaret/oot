@@ -73,7 +73,7 @@ void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
 
     if (gSaveContext.eventInf[0] & 0x400) {
         if (gSaveContext.eventInf[0] & 0x100) {
-            if (gSaveContext.itemGetInf[0] & 4) {
+            if (GET_ITEMGETINF(ITEMGETINF_02)) {
                 this->actor.textId = 0x2088;
             } else {
                 this->actor.textId = 0x2086;
@@ -84,7 +84,7 @@ void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
         gSaveContext.eventInf[0] &= ~0x100;
     } else if (faceReaction == 0) {
         if (gSaveContext.infTable[7] & 0x4000) {
-            if (gSaveContext.itemGetInf[0] & 4) {
+            if (GET_ITEMGETINF(ITEMGETINF_02)) {
                 this->actor.textId = 0x208B;
             } else {
                 this->actor.textId = 0x207F;
@@ -866,7 +866,7 @@ void func_80B15E80(EnTa* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = func_80B15E28;
         if (!(this->unk_2E0 & 0x2)) {
-            gSaveContext.itemGetInf[0] |= 4;
+            SET_ITEMGETINF(ITEMGETINF_02);
         }
         this->unk_2E0 &= ~0x2;
     } else if (this->unk_2E0 & 2) {
@@ -974,7 +974,7 @@ void func_80B162E8(EnTa* this, GlobalContext* globalCtx) {
 void func_80B16364(EnTa* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         gSaveContext.infTable[7] |= 0x4000;
-        if (gSaveContext.itemGetInf[0] & 4) {
+        if (GET_ITEMGETINF(ITEMGETINF_02)) {
             Message_ContinueTextbox(globalCtx, 0x208B);
             func_80B13AA0(this, func_80B15FE8, func_80B16938);
         } else {

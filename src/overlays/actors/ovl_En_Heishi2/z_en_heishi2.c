@@ -539,7 +539,7 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
                 Message_ContinueTextbox(globalCtx, this->actor.textId);
                 Player_UnsetMask(globalCtx);
                 gSaveContext.infTable[7] |= 0x80;
-                gSaveContext.itemGetInf[3] |= 0x100;
+                SET_ITEMGETINF(ITEMGETINF_38);
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
                 if (this->unk_30A != 0) {
                     this->unk_30A = 2;

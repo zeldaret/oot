@@ -1169,7 +1169,7 @@ void func_80A99560(EnKo* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x10B9;
         Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E8.unk_00 = 1;
-        gSaveContext.itemGetInf[3] |= 2;
+        SET_ITEMGETINF(ITEMGETINF_31);
         this->actionFunc = func_80A99384;
     }
 }

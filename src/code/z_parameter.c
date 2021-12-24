@@ -1619,8 +1619,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             AMMO(ITEM_SLINGSHOT) = CUR_CAPACITY(UPG_BULLET_BAG);
         }
 
-        if (!(gSaveContext.itemGetInf[1] & 8)) {
-            gSaveContext.itemGetInf[1] |= 8;
+        if (!(GET_ITEMGETINF(ITEMGETINF_13))) {
+            SET_ITEMGETINF(ITEMGETINF_13);
             return ITEM_NONE;
         }
 
@@ -1632,8 +1632,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             AMMO(ITEM_SLINGSHOT) = CUR_CAPACITY(UPG_BULLET_BAG);
         }
 
-        if (!(gSaveContext.itemGetInf[1] & 8)) {
-            gSaveContext.itemGetInf[1] |= 8;
+        if (!(GET_ITEMGETINF(ITEMGETINF_13))) {
+            SET_ITEMGETINF(ITEMGETINF_13);
             return ITEM_NONE;
         }
 
@@ -1753,7 +1753,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         }
     } else if ((item >= ITEM_WEIRD_EGG) && (item <= ITEM_CLAIM_CHECK)) {
         if (item == ITEM_SAW) {
-            gSaveContext.itemGetInf[1] |= 0x8000;
+            SET_ITEMGETINF(ITEMGETINF_1F);
         }
 
         temp = INV_CONTENT(item);
@@ -1858,7 +1858,7 @@ u8 Item_CheckObtainability(u8 item) {
     } else if (item == ITEM_LONGSHOT) {
         return ITEM_NONE;
     } else if ((item == ITEM_SEEDS) || (item == ITEM_SEEDS_30)) {
-        if (!(gSaveContext.itemGetInf[1] & 0x8)) {
+        if (!(GET_ITEMGETINF(ITEMGETINF_13))) {
             return ITEM_NONE;
         } else {
             return ITEM_SEEDS;

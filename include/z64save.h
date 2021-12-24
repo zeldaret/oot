@@ -60,6 +60,50 @@ typedef struct {
     /* 0x24 */ s32 tempCollectFlags;
 } FaroresWindData; // size = 0x28
 
+#define ITEMGETINF_02 0x02
+#define ITEMGETINF_03 0x03
+#define ITEMGETINF_04 0x04
+#define ITEMGETINF_05 0x05
+#define ITEMGETINF_06 0x06
+#define ITEMGETINF_07 0x07
+#define ITEMGETINF_08 0x08
+#define ITEMGETINF_09 0x09
+#define ITEMGETINF_0A 0x0A
+#define ITEMGETINF_0B 0x0B
+#define ITEMGETINF_0C 0x0C
+#define ITEMGETINF_0D 0x0D
+#define ITEMGETINF_0E 0x0E
+#define ITEMGETINF_0F 0x0F
+#define ITEMGETINF_10 0x10
+#define ITEMGETINF_11 0x11
+#define ITEMGETINF_12 0x12
+#define ITEMGETINF_13 0x13
+#define ITEMGETINF_15 0x15
+#define ITEMGETINF_16 0x16
+#define ITEMGETINF_17 0x17
+#define ITEMGETINF_18 0x18
+#define ITEMGETINF_19 0x19
+#define ITEMGETINF_1A 0x1A
+#define ITEMGETINF_1B 0x1B
+#define ITEMGETINF_1C 0x1C
+#define ITEMGETINF_1D 0x1D
+#define ITEMGETINF_1E 0x1E
+#define ITEMGETINF_1F 0x1F
+#define ITEMGETINF_23 0x23
+#define ITEMGETINF_24 0x24
+#define ITEMGETINF_25 0x25
+#define ITEMGETINF_26 0x26
+#define ITEMGETINF_2A 0x2A
+#define ITEMGETINF_2C 0x2C
+#define ITEMGETINF_2E 0x2E
+#define ITEMGETINF_30 0x30
+#define ITEMGETINF_31 0x31
+#define ITEMGETINF_38 0x38
+#define ITEMGETINF_39 0x39
+#define ITEMGETINF_3A 0x3A
+#define ITEMGETINF_3B 0x3B
+#define ITEMGETINF_3F 0x3F
+
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
     /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child

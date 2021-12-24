@@ -290,7 +290,7 @@ void func_809EFA28(EnDns* this) {
 }
 
 void func_809EFA58(EnDns* this) {
-    gSaveContext.itemGetInf[0] |= 0x800;
+    SET_ITEMGETINF(ITEMGETINF_0B);
     Rupees_ChangeBy(-this->dnsItemEntry->itemPrice);
 }
 

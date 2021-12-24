@@ -389,7 +389,7 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
         switch (this->prizeSelect) {
             case 0:
                 prizeTemp = EXITEM_BOMB_BAG_BOWLING;
-                if (gSaveContext.itemGetInf[1] & 2) {
+                if (GET_ITEMGETINF(ITEMGETINF_11)) {
                     prizeTemp = EXITEM_PURPLE_RUPEE_BOWLING;
                 }
                 break;
@@ -401,7 +401,7 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
                 break;
             case 3:
                 prizeTemp = EXITEM_HEART_PIECE_BOWLING;
-                if (gSaveContext.itemGetInf[1] & 4) {
+                if (GET_ITEMGETINF(ITEMGETINF_12)) {
                     prizeTemp = EXITEM_PURPLE_RUPEE_BOWLING;
                 }
                 break;
