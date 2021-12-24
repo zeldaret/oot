@@ -762,6 +762,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 this->itemSpawned = true;
                 gSaveContext.healthAccumulator = 0x140;
                 Interface_ChangeAlpha(9);
+                // ITEMGETINF_18, ITEMGETINF_19, ITEMGETINF_1A
                 gSaveContext.itemGetInf[1] |= sItemGetFlags[actionIndex];
                 Item_Give(globalCtx, sItemIds[actionIndex]);
             }
