@@ -1,11 +1,41 @@
 #!/usr/bin/env python3
 import sys
+import re
 
 def join(*args):
     ret = {}
     for arg in args:
         ret.update(arg)
     return ret
+
+def get_symbols(header_path):
+    inst_syms = {}
+    drum_syms = {}
+    effect_syms = {}
+    
+    with open(header_path, "r") as header_file:
+        current_mode = ""
+        for line in header_file.readlines():
+            if current_mode == "" and "INSTRUMENTS" in line:
+                current_mode = "instrument"
+                continue
+            elif current_mode == "instrument" and "DRUMS" in line:
+                current_mode = "drum"
+                continue
+            elif current_mode == "drum" and "EFFECTS" in line:
+                current_mode = "effect"
+                continue
+                
+            if "#define" in line and current_mode != "":
+                sym, index = re.match(r"\#define ([A-Z_0-9]+) (\d+)", line).groups()
+                if current_mode == "instrument":
+                    inst_syms[int(index)] = sym
+                elif current_mode == "drum":
+                    drum_syms[int(index)] = sym
+                elif current_mode == "effect":
+                    effect_syms[int(index)] = sym
+    
+    return (inst_syms, drum_syms, effect_syms)
 
 control_flow_commands = {
     0xff: ['end'],
@@ -189,8 +219,10 @@ if "--print-end-padding" in sys.argv:
     print_end_padding = True
     sys.argv.remove("--print-end-padding")
 
-if len(sys.argv) != 2:
-    print(f"Usage: {sys.argv[0]} (--emit-asm-macros | input.aseq)")
+if len(sys.argv) == 1 or \
+   (sys.argv[0] == "--emit-asm-macros" and len(sys.argv) != 2) or \
+   len(sys.argv) > 3:
+    print(f"Usage: {sys.argv[0]} --emit-asm-macros | (input.aseq header.h)")
     sys.exit(0)
 
 if sys.argv[1] == "--emit-asm-macros":
@@ -332,6 +364,8 @@ if sys.argv[1] == "--emit-asm-macros":
 
 filename = sys.argv[1]
 
+header = sys.argv[2]
+
 try:
     # should maybe renumber in hex?
     seq_num = int(filename.split('/')[-1].split(' ')[0], 10)
@@ -343,6 +377,12 @@ try:
         data = f.read()
 except Exception:
     print("Error: could not open file {filename} for reading.", file=sys.stderr)
+    sys.exit(1)
+
+try:
+    inst_syms, drum_syms, effect_syms = get_symbols(header)
+except Exception as e:
+    print(f"Error: could not read symbols from {header}.", file=sys.stderr)
     sys.exit(1)
 
 output = [None] * len(data)
@@ -381,7 +421,7 @@ def gen_mnemonic(tp, b):
 decode_list = []
 
 def decode_one(state):
-    pos, tp, nesting, large = state
+    pos, tp, nesting, large, current_channel = state
     orig_pos = pos
 
     if pos >= len(data):
@@ -510,6 +550,15 @@ def decode_one(state):
             low_bits = ins_byte & ((1 << nbits) - 1)
             if not (a.endswith(':ign') and low_bits == 0):
                 out_args.append(str(low_bits))
+        elif a == 'u8' and cmd_mn == 'setinstr':
+            instr_num = u8()
+            if instr_num == 127:
+                instr = "DRUMS"
+            elif instr_num == 126:
+                instr = "EFFECTS"
+            else:
+                instr = inst_syms[instr_num]
+            out_args.append(instr)
         elif a == 'u8':
             out_args.append(str(u8()))
         elif a == 'hex8':
@@ -562,24 +611,24 @@ def decode_one(state):
             else:
                 out_args.append(gen_label(v, kind))
                 if cmd_mn == 'call':
-                    decode_list.append((v, tp, 0, large))
+                    decode_list.append((v, tp, 0, large, current_channel))
                     script_start[v] = True
                 elif cmd_mn in branches:
-                    decode_list.append((v, tp, nesting, large))
+                    decode_list.append((v, tp, nesting, large, current_channel))
                 elif kind == 'chan':
-                    decode_list.append((v, 'chan', 0, force_large_notes))
+                    decode_list.append((v, 'chan', 0, force_large_notes, out_args[0]))
                     script_start[v] = True
                 elif kind == 'layer':
                     if large:
-                        decode_list.append((v, 'layer_large', 0, True))
+                        decode_list.append((v, 'layer_large', 0, True, current_channel))
                     else:
-                        decode_list.append((v, 'layer_small', 0, True))
+                        decode_list.append((v, 'layer_small', 0, True, current_channel))
                     script_start[v] = True
                 elif kind == 'envelope':
-                    decode_list.append((v, 'envelope', 0, True))
+                    decode_list.append((v, 'envelope', 0, True, current_channel))
                     script_start[v] = True
                 elif kind == 'filter':
-                    decode_list.append((v, 'filter', 0, True))
+                    decode_list.append((v, 'filter', 0, True, current_channel))
                     script_start[v] = True
                 else:
                     script_start[v] = True
@@ -614,7 +663,7 @@ def decode_one(state):
     if cmd_mn == 'largenotesoff':
         large = False
     if nesting >= 0:
-        decode_list.append((pos, tp, nesting, large))
+        decode_list.append((pos, tp, nesting, large, None))
 
 def decode_rec(state, initial):
     if not initial:
@@ -626,7 +675,7 @@ def decode_rec(state, initial):
         decode_one(decode_list.pop())
 
 def main():
-    decode_rec((0, 'seq', 0, False), initial=True)
+    decode_rec((0, 'seq', 0, False, None), initial=True)
 
     tables = []
     unused = []
@@ -801,6 +850,7 @@ def main():
         print(end_padding)
         sys.exit(0)
 
+    print(f"#include \"{header}\"")
     print(".include \"seq_macros.inc\"")
     print(".section .rodata")
     print(".balign 0x10")

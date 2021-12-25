@@ -8,7 +8,7 @@
     <Sample Name="Harp 1">
 		<Offset Version="MQDebug" At="0x1026f0"/>
 	</Sample>
-    <Sample Name="Goron Voice">
+    <Sample Name="Malon">
 		<Offset Version="MQDebug" At="0x106c20"/>
 	</Sample>
     <Sample Name="Pan Flute">
@@ -59,7 +59,7 @@
     <Sample Name="Trumpet">
 		<Offset Version="MQDebug" At="0x2f9a90"/>
 	</Sample>
-    <Sample Name="Trombone?">
+    <Sample Name="Trombone">
 		<Offset Version="MQDebug" At="0x2fd270"/>
 	</Sample>
     <Sample Name="Tuba">
@@ -101,7 +101,7 @@
     <Sample Name="Tom Drum">
 		<Offset Version="MQDebug" At="0x335740"/>
 	</Sample>
-    <Sample Name="Drum Sidestick?">
+    <Sample Name="Drum Sidestick">
 		<Offset Version="MQDebug" At="0x337a10"/>
 	</Sample>
     <Sample Name="Finger Cymbals">
@@ -128,13 +128,13 @@
     <Sample Name="Horn">
 		<Offset Version="MQDebug" At="0x351810"/>
 	</Sample>
-    <Sample Name="Stringed Instrument (Low)">
+    <Sample Name="Bass Guitar">
 		<Offset Version="MQDebug" At="0x359170"/>
 	</Sample>
-    <Sample Name="Clap?">
+    <Sample Name="Clap">
 		<Offset Version="MQDebug" At="0x35c900"/>
 	</Sample>
-    <Sample Name="Resonant Melodic Sound?">
+    <Sample Name="Resonant Bass Marimba">
 		<Offset Version="MQDebug" At="0x35d100"/>
 	</Sample>
     <Sample Name="Haunting Wind">
@@ -143,7 +143,7 @@
     <Sample Name="Off Hi-Hat">
 		<Offset Version="MQDebug" At="0x36fe80"/>
 	</Sample>
-    <Sample Name="Drum and Sitar?">
+    <Sample Name="Drum and Sitar">
 		<Offset Version="MQDebug" At="0x374c20"/>
 	</Sample>
     <Sample Name="Uncertain">
@@ -167,7 +167,7 @@
     <Sample Name="Sitar (High?)">
 		<Offset Version="MQDebug" At="0x38f000"/>
 	</Sample>
-    <Sample Name="Detuned Dulcimer?">
+    <Sample Name="Koto">
 		<Offset Version="MQDebug" At="0x3926d0"/>
 	</Sample>
     <Sample Name="Some Manner of Drum">
@@ -251,7 +251,7 @@
     <Sample Name="Steel Drum">
 		<Offset Version="MQDebug" At="0x3e3f50"/>
 	</Sample>
-    <Sample Name="Steel Drum (High?)">
+    <Sample Name="Steel Drum (High)">
 		<Offset Version="MQDebug" At="0x3e8bb0"/>
 	</Sample>
 </Root>

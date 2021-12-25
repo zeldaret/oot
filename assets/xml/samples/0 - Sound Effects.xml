@@ -2,7 +2,7 @@
 	<Sample Name="Bird Chirp 1">
 		<Offset Version="MQDebug" At="0"/>
 	</Sample>
-	<Sample Name="Unknown???">
+	<Sample Name="Unknown?">
 		<Offset Version="MQDebug" At="0x5b0"/>
 	</Sample>
 	<Sample Name="Bird Chirp (Unused?)">
@@ -299,7 +299,7 @@
 	<Sample Name="People Chattering">
 		<Offset Version="MQDebug" At="0xd57a0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Cloth Ripping">
 		<Offset Version="MQDebug" At="0xde0a0"/>
 	</Sample>
 	<Sample Name="Mechanical Ramp-Up">
@@ -326,7 +326,7 @@
 	<Sample Name="Metal Door">
 		<Offset Version="MQDebug" At="0xeb5b0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Cow Moo">
 		<Offset Version="MQDebug" At="0xecf40"/>
 	</Sample>
 	<Sample Name="Dialogue Continue (Harp)">
@@ -353,7 +353,7 @@
 	<Sample Name="Harp">
 		<Offset Version="MQDebug" At="0x1026f0"/>
 	</Sample>
-	<Sample Name="Goron">
+	<Sample Name="Malon">
 		<Offset Version="MQDebug" At="0x106c20"/>
 	</Sample>
 	<Sample Name="Stalchild Flute">
@@ -482,7 +482,7 @@
 	<Sample Name="Adult Link - Unsettled Moan">
 		<Offset Version="MQDebug" At="0x14c250"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Adult Link - Sneezes">
 		<Offset Version="MQDebug" At="0x151520"/>
 	</Sample>
 	<Sample Name="Adult Link - Sigh 1">
@@ -767,16 +767,16 @@
 	<Sample Name="Dodongo Roar">
 		<Offset Version="MQDebug" At="0x206d10"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Rolling Boulder">
 		<Offset Version="MQDebug" At="0x209e40"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Clattering Spear">
 		<Offset Version="MQDebug" At="0x20b580"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganon's Electrical Charge">
 		<Offset Version="MQDebug" At="0x20bda0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Dramatic Swoosh">
 		<Offset Version="MQDebug" At="0x20c9e0"/>
 	</Sample>
 	<Sample Name="Broken Pottery">
@@ -785,247 +785,247 @@
 	<Sample Name="Shattered Glass">
 		<Offset Version="MQDebug" At="0x20f440"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Heavy Gunshot">
 		<Offset Version="MQDebug" At="0x2115a0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Dodongo Inhale">
 		<Offset Version="MQDebug" At="0x212040"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Gulp">
 		<Offset Version="MQDebug" At="0x2147a0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Rustling Thicket">
 		<Offset Version="MQDebug" At="0x214e10"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Cracking Egg">
 		<Offset Version="MQDebug" At="0x215810"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Resounding Smash">
 		<Offset Version="MQDebug" At="0x216210"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Cloaking Poe">
 		<Offset Version="MQDebug" At="0x216d00"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Chittering Keese">
 		<Offset Version="MQDebug" At="0x2187d0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Rustling Large Wings">
 		<Offset Version="MQDebug" At="0x2193e0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Guay Hurt">
 		<Offset Version="MQDebug" At="0x219f10"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Scritch">
 		<Offset Version="MQDebug" At="0x21a810"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Gruff Voice">
 		<Offset Version="MQDebug" At="0x21aa80"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Lizalfos Triumphant Cry">
 		<Offset Version="MQDebug" At="0x21acf0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Lizalfos Foot Patter">
 		<Offset Version="MQDebug" At="0x21b150"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Laughter (Unused, maybe Poe?)">
 		<Offset Version="MQDebug" At="0x21b370"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Female Cry (Unused?)">
 		<Offset Version="MQDebug" At="0x21bbc0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Broken Small Pottery">
 		<Offset Version="MQDebug" At="0x21c330"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Monstrous Growl">
 		<Offset Version="MQDebug" At="0x21cf00"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Moaning Phantom Ganon">
 		<Offset Version="MQDebug" At="0x21ddb0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Phantom Ganon Laughing">
 		<Offset Version="MQDebug" At="0x220770"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Gerudo Scimitar Slash">
 		<Offset Version="MQDebug" At="0x2222f0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Deku Baba Chomp">
 		<Offset Version="MQDebug" At="0x222ba0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Deku Baba Lunge">
 		<Offset Version="MQDebug" At="0x2230b0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Buzzing">
 		<Offset Version="MQDebug" At="0x223c90"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Electric Burst">
 		<Offset Version="MQDebug" At="0x224fd0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Hovering">
 		<Offset Version="MQDebug" At="0x228a70"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Magical Charge-Up">
 		<Offset Version="MQDebug" At="0x22c380"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Echoing Thunderburst">
 		<Offset Version="MQDebug" At="0x22dd50"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Phantom Ganon in Agony">
 		<Offset Version="MQDebug" At="0x233280"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Phantom Ganon Attacks">
 		<Offset Version="MQDebug" At="0x236f80"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Phantom Ganon Groans (Unused?)">
 		<Offset Version="MQDebug" At="0x237ba0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Thunder and Groan">
 		<Offset Version="MQDebug" At="0x23ad60"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Phantom Ganon Moans (Unused?)">
 		<Offset Version="MQDebug" At="0x23d490"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Phantom Ganon Growls">
 		<Offset Version="MQDebug" At="0x240600"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Goron Inquiring">
 		<Offset Version="MQDebug" At="0x241690"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Goron Recognizes">
 		<Offset Version="MQDebug" At="0x241c20"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Goron Yawns">
 		<Offset Version="MQDebug" At="0x243440"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Witch Cackles 1">
 		<Offset Version="MQDebug" At="0x244dd0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Witch Cackles 2">
 		<Offset Version="MQDebug" At="0x247290"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Witch Hurt">
 		<Offset Version="MQDebug" At="0x249810"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Witch Attacks">
 		<Offset Version="MQDebug" At="0x24ab70"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Witch Inquires">
 		<Offset Version="MQDebug" At="0x24bbe0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Witch Yells a Curse">
 		<Offset Version="MQDebug" At="0x24c2c0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Witch Arguing">
 		<Offset Version="MQDebug" At="0x24e060"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Witch Surprised">
 		<Offset Version="MQDebug" At="0x24f440"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Twinrova Gasps">
 		<Offset Version="MQDebug" At="0x24fed0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Twinrova Thrown Off">
 		<Offset Version="MQDebug" At="0x250e20"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Twinrova Laughs">
 		<Offset Version="MQDebug" At="0x2516d0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Witch Howls">
 		<Offset Version="MQDebug" At="0x252b10"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Woman Chuckles">
 		<Offset Version="MQDebug" At="0x255720"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Witch Charges (Unused)">
 		<Offset Version="MQDebug" At="0x2564a0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Iron Knuckle Attacks">
 		<Offset Version="MQDebug" At="0x258360"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Finger Snap">
 		<Offset Version="MQDebug" At="0x2581c0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Iron Knuckle Grunt (Unused?)">
 		<Offset Version="MQDebug" At="0x259120"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Iron Knuckle Charges">
 		<Offset Version="MQDebug" At="0x259bf0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Iron Knuckle Dies">
 		<Offset Version="MQDebug" At="0x25aac0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Iron Knuckle Grunts">
 		<Offset Version="MQDebug" At="0x25c140"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Iron Knuckle Murmurs (Unused)">
 		<Offset Version="MQDebug" At="0x25cd60"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Muted Timpani?">
 		<Offset Version="MQDebug" At="0x25db50"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Chanting">
 		<Offset Version="MQDebug" At="0x25e9e0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Gerudo Attacks">
 		<Offset Version="MQDebug" At="0x25fc50"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Gerudo Breathes">
 		<Offset Version="MQDebug" At="0x260420"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Gerudo Hurt">
 		<Offset Version="MQDebug" At="0x261790"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Gerudo Vanquished">
 		<Offset Version="MQDebug" At="0x262170"/>
 	</Sample>
 	<Sample Name="Enemy Struck">
 		<Offset Version="MQDebug" At="0x263270"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Laughing">
 		<Offset Version="MQDebug" At="0x264b60"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Attacks">
 		<Offset Version="MQDebug" At="0x26a060"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Heavy Attack">
 		<Offset Version="MQDebug" At="0x26aad0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Rebuffs">
 		<Offset Version="MQDebug" At="0x26b960"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Strikes the Ground">
 		<Offset Version="MQDebug" At="0x26bef0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Hurt 1">
 		<Offset Version="MQDebug" At="0x26ce70"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Hurt 2">
 		<Offset Version="MQDebug" At="0x26df40"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Breathes (Unused)">
 		<Offset Version="MQDebug" At="0x26fc60"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Recovers">
 		<Offset Version="MQDebug" At="0x270e40"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Gurgling Yell (Unused?)">
 		<Offset Version="MQDebug" At="0x271a70"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Dying Breath">
 		<Offset Version="MQDebug" At="0x273860"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Vomits">
 		<Offset Version="MQDebug" At="0x274ea0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Yells in Defiance">
 		<Offset Version="MQDebug" At="0x2765b0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf's Final Attack (Unused)">
 		<Offset Version="MQDebug" At="0x27c0a0"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf's Final Attack 2 (Unused?)">
 		<Offset Version="MQDebug" At="0x27e260"/>
 	</Sample>
-	<Sample Name="Unknown">
+	<Sample Name="Ganondorf Chuckles">
 		<Offset Version="MQDebug" At="0x280c70"/>
 	</Sample>
 	<Sample Name="Redead Scream">

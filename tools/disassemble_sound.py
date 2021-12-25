@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from collections import namedtuple, defaultdict
+from xml.dom import minidom
 import subprocess
-import tempfile
 import math
 import shutil
 import xml.etree.ElementTree as XmlTree
@@ -16,6 +16,32 @@ sampleNameLookup = {}
 tunings = {}
 usedTuning = {}
 bank_ctr = defaultdict(int)
+
+# Fixes up unused data in soundfont into something recognizable
+sf_unused_fixups = {
+    "MQDebug": {
+        0: {
+            0x2a50: ("Envelope", 16),
+            0x2a80: ("Envelope", 12),
+            0x2a90: ("Envelope", 16)
+        }
+    }
+}
+
+# Provides corrected lengths for samples that would otherwise be cut short based on their headers
+bank_fixups = {
+    "MQDebug": {
+        0: {
+            0x212040: 10065,
+            0x21ACF0: 1105,
+            0x21B150: 530,
+            0x241690: 1409,
+            0x25AAC0: 5749,
+            0x260420: 4965,
+            0x26A060: 2657
+        }
+    }
+}
 
 # Used for data gap detection (finding potentially unreferenced data)
 # Format: list of tuples (object, start offset, end offset)
@@ -45,6 +71,7 @@ class Soundfont:
         self.instruments = []
         self.effects = []
         self.percussions = []
+        self.unused = []
 
         if entry.instrumentCount > 0:
             instIdx = 0
@@ -65,7 +92,7 @@ class Soundfont:
                     effectdef = fontdef.effects[i] if i < len(fontdef.effects) else None
                 buffer = effectsTable[i * 8:(i * 8) + 8]
                 offset = struct.unpack(">L", buffer[0:4])[0]
-                effect = None if offset == 0 else SoundEffect(entry.bank, buffer, setCtl, entry.offset, effectsOffset + (i * 8), effectdef)
+                effect = None if offset == 0 else SoundEffect(entry.bank, buffer, setCtl, entry.offset, effectsOffset + (i * 8), effectdef, i)
                 self.effects.append(effect)
         
         if entry.percussionCount > 0:
@@ -76,11 +103,17 @@ class Soundfont:
                 if fontdef:
                     drumdef = fontdef.drums[i] if i < len(fontdef.drums) else None
                 offset = percussionsOffsets[i]
-                percussion = None if offset == 0 else Percussion(entry.bank, setCtl[offset:offset + 16], setCtl, entry.offset, offset, drumdef)
+                percussion = None if offset == 0 else Percussion(entry.bank, setCtl[offset:offset + 16], setCtl, entry.offset, offset, drumdef, i)
                 self.percussions.append(percussion)
 
+        self.instruments = sorted(self.instruments, key=lambda i: 100 if i is None else i.offset)
+        self.percussions = sorted(self.percussions, key=lambda d: 100 if d is None else d.offset)
+        self.effects = sorted(self.effects, key=lambda x: 100 if x is None else x.offset)
+
 class SoundEffect:
-    def __init__(self, bank, record, tbl, baseOffset, offset, effectdef):
+    def __init__(self, bank, record, tbl, baseOffset, offset, effectdef, index):
+        self.index = index
+        self.offset = offset
         if effectdef:
             self.name = effectdef.name or f"Effect_{offset:0>8x}"
             self.enum = effectdef.enum
@@ -92,7 +125,9 @@ class SoundEffect:
         self.sample = SampleHeader(bank, self.name, self.pitch, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
 
 class Percussion:
-    def __init__(self, bank, record, tbl, baseOffset, offset, drumdef):
+    def __init__(self, bank, record, tbl, baseOffset, offset, drumdef, index):
+        self.index = index
+        self.offset = offset
         if drumdef:
             self.name = drumdef.name or f"Drum_{offset:0>8x}"
             self.enum = drumdef.enum
@@ -107,6 +142,8 @@ class Percussion:
 
 class Instrument:
     def __init__(self, bank, record, tbl, baseOffset, offset, instdef, index, fontname):
+        self.index = index
+        self.offset = offset
         if instdef:
             self.name = instdef.name or f"Inst_{index}_{offset:0>8x}_{fontname}"
             self.enum = instdef.enum
@@ -157,7 +194,7 @@ class Envelope:
                     -3: "ADSR_RESTART"
                 }.get(cmd, cmd)
                 self.script.append((cmd, value))
-                if isinstance(cmd, str):
+                if isinstance(cmd, str) and cmd != "ADSR_DISABLE":
                     break
     
             advanceOffset += 4
@@ -232,6 +269,11 @@ class PCMBook:
         for i in range(self.predictorCount):
             self.predictors.append(struct.unpack(">" + str(predictorSize) + "h", remainder[i * predictorSize * 2:(i * predictorSize * 2) + (predictorSize * 2)]))
 
+class UnusedData:
+    def __init__(self, offset, data):
+        self.offset = offset
+        self.data = data
+
 class SampleTableEntry:
     def __init__(self, data, name):
         self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBBxxxxxx", data)
@@ -247,6 +289,7 @@ def parse_raw_def_data(raw_def_data, samplebanks):
     for i in range(count):
         buffer = raw_def_data[16 + (i * 16):32 + (i * 16)]
         entry = SampleTableEntry(buffer, samplebanks[i] or f"{i}")
+        entry.index = i
         bankOffsets[i] = entry.offset
         entries.append(entry)
     for index in range(len(entries)):
@@ -401,12 +444,12 @@ def generate_drum_obj(root, drum, envelopes):
     if drum is None:
         return drumElement
 
-    # self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">BBBxLfL", record)
     drumElement.set("Name", drum.name or f"Drum_{drum.offset:0>8x}")
+    drumElement.set("Index", str(drum.index))
     drumElement.set("Enum", drum.enum or "")
     drumElement.set("Decay", str(drum.decay))
     drumElement.set("Pan", str(drum.pan))
-    drumElement.set("Sample", sampleNameLookup[drum.sample.bank][drum.sample.address])
+    drumElement.set("Sample", f"{sampleNameLookup[drum.sample.bank][drum.sample.address]}.aifc")
     drumElement.set("Envelope", drum.envelope.name)
     envelopes[drum.envelope.name] = drum.envelope
     if drum.pitch != usedTuning[drum.sample.bank][drum.sample.address]:
@@ -421,8 +464,9 @@ def generate_effect_obj(root, effect):
         return element
     
     element.set("Name", effect.name or f"Effect_{effect.offset:0>8x}")
+    element.set("Index", str(effect.index))
     element.set("Enum", effect.enum or "")
-    element.set("Sample", sampleNameLookup[effect.sample.bank][effect.sample.address])
+    element.set("Sample", f"{sampleNameLookup[effect.sample.bank][effect.sample.address]}.aifc")
 
     if effect.pitch != usedTuning[effect.sample.bank][effect.sample.address]:
         element.set("Pitch", str(effect.pitch))
@@ -438,6 +482,7 @@ def generate_instrument_obj(root, instrument, envelopes):
         "Instrument",
         {
             "Name": instrument.name or f"Inst_{instrument.offset:0>8x}",
+            "Index": str(instrument.index),
             "Enum": instrument.enum or "",
             "Decay": str(instrument.decay),
             "Envelope": instrument.envelope.name
@@ -449,18 +494,18 @@ def generate_instrument_obj(root, instrument, envelopes):
     hiKeyElement = XmlTree.SubElement(element, "HighKey")
     if instrument.keyLowSample is not None:
         keyLow = instrument.keyLowSample
-        lowKeyElement.set("Sample", sampleNameLookup[keyLow.bank][keyLow.address])
+        lowKeyElement.set("Sample", f"{sampleNameLookup[keyLow.bank][keyLow.address]}.aifc")
         lowKeyElement.set("MaxNote", toNote(instrument.lowRange))
         if instrument.keyLowPitch != usedTuning[keyLow.bank][keyLow.address]:
             lowKeyElement.set("Pitch", str(instrument.keyLowPitch))
     if instrument.keyMedSample is not None:
         keyMed = instrument.keyMedSample
-        medKeyElement.set("Sample", sampleNameLookup[keyMed.bank][keyMed.address])
+        medKeyElement.set("Sample", f"{sampleNameLookup[keyMed.bank][keyMed.address]}.aifc")
         if instrument.keyMedPitch != usedTuning[keyMed.bank][keyMed.address]:
             medKeyElement.set("Pitch", str(instrument.keyMedPitch))
     if instrument.keyHighSample is not None:
         keyHigh = instrument.keyHighSample
-        hiKeyElement.set("Sample", sampleNameLookup[keyHigh.bank][keyHigh.address])
+        hiKeyElement.set("Sample", f"{sampleNameLookup[keyHigh.bank][keyHigh.address]}.aifc")
         hiKeyElement.set("MinNote", toNote(instrument.highRange))
         if instrument.keyHighPitch != usedTuning[keyHigh.bank][keyHigh.address]:
             hiKeyElement.set("Pitch", str(instrument.keyHighPitch))
@@ -495,16 +540,28 @@ def write_soundfont(font, filename, banknames):
     drums = XmlTree.SubElement(root, "Drums")
     effects = XmlTree.SubElement(root, "SoundEffects")
     envelopes = XmlTree.SubElement(root, "Envelopes")
+    unused = None
+
     [generate_instrument_obj(instruments, inst, envelopesFound) for inst in font.font.instruments]
     [generate_drum_obj(drums, drum, envelopesFound) for drum in font.font.percussions]
     [generate_effect_obj(effects, effect) for effect in font.font.effects]
+    for item in font.font.unused:
+        if isinstance(item, Envelope):
+            envelopesFound[item.name] = item
+        elif isinstance(item, UnusedData):
+            if unused == None:
+                unused = XmlTree.SubElement(root, "Unused")
+            unusedItem = XmlTree.SubElement(unused, "Data", { "Offset": str(item.offset) })
+            bytes_to_str = ','.join([f"0x{x:0>x}" for x in item.data])
+            unusedItem.text = bytes_to_str
     for name in envelopesFound:
         for referencedEnvelope in envelopesFound[name].referencedScripts:
             envelopesFound[referencedEnvelope.name] = referencedEnvelope
+    envelopesFound = dict(sorted(envelopesFound.items()))
     [generate_envelope_obj(envelopes, name, envelope) for name, envelope in envelopesFound.items()]
-    XmlTree.indent(root, space="\t", level=0)
+    xmlstring = minidom.parseString(XmlTree.tostring(root, "unicode")).toprettyxml(indent="\t")
     file = open(filename, "w")
-    file.write(XmlTree.tostring(root, encoding="unicode"))
+    file.write(xmlstring)
     file.flush()
     file.close()
 
@@ -534,6 +591,33 @@ def report_gaps(report_type, data, bin):
         print(f"INTERSECTIONS DETECTED IN {report_type} DATA:")
         for cross in intersections:
             print(f"{type(cross[0][0]).__name__} at {cross[0][1]:08X}-{cross[0][2]:08X} overlaps {type(cross[1][0]).__name__} at {cross[1][1]:08X}-{cross[1][2]:08X}")
+
+def get_data_gaps(report_type, data, bin):
+    results = {}
+    length = len(bin)
+    sorted_data = sorted(data, key = lambda tup: (tup[1], tup[2]))
+    intersections = []
+    lastTuple = (None, -1, -1)
+    currentEnd = 0
+    for tup in sorted_data:
+        if tup[1] > currentEnd:
+            bytes = struct.unpack(f">{tup[1] - currentEnd}b", bin[currentEnd:tup[1]])
+            if any(b != 0 for b in bytes):
+                results[currentEnd] = bin[currentEnd:tup[1]]
+        elif tup[1] < currentEnd and (lastTuple[1] != tup[1] or lastTuple[2] != tup[2]):
+            intersections.append((lastTuple, tup))
+        lastTuple = tup
+        currentEnd = tup[2] if report_type == "SOUNDFONT" else (16 * math.ceil(tup[2] / 16))
+    if currentEnd < length:
+        bytes = struct.unpack(f">{length - currentEnd}b", bin[currentEnd:length])
+        if any(b != 0 for b in bytes):
+            results[currentEnd] = bytes
+    if len(intersections) > 0:
+        print(f"INTERSECTIONS DETECTED IN {report_type} DATA:")
+        for cross in intersections:
+            print(f"{type(cross[0][0]).__name__} at {cross[0][1]:08X}-{cross[0][2]:08X} overlaps {type(cross[1][0]).__name__} at {cross[1][1]:08X}-{cross[1][2]:08X}")
+    return results
+
 
 class AifcWriter:
     def __init__(self, out):
@@ -587,10 +671,14 @@ def serialize_f80(num):
     f80 = f80_sign_bit | f80_exponent | f80_mantissa_bits
     return struct.pack(">HQ", f80 >> 64, f80 & (2 ** 64 - 1))
 
-def write_aifc(raw, bank_defs, entry, filename):
+def write_aifc(version, raw, bank_defs, entry, filename):
     offset = bank_defs[entry.bank].offset + entry.address
-    data = raw[offset:offset + entry.length]
-    usedRawData.append((data, offset, offset + entry.length))
+    length = entry.length if (version not in bank_fixups or \
+        entry.bank not in bank_fixups[version] or \
+        entry.address not in bank_fixups[version][entry.bank]) else bank_fixups[version][entry.bank][entry.address]
+    assert length >= entry.length
+    data = raw[offset:offset + length]
+    usedRawData.append((entry, offset, offset + length))
     frame_size = {
         0: 9,
         1: 16,
@@ -618,8 +706,6 @@ def write_aifc(raw, bank_defs, entry, filename):
         with open(filename, "wb") as file:
             writer = AifcWriter(file)
             num_channels = 1
-    #        length = len(data)
-    #        assert len(data) % frame_size == 0 or len(data) - 1 % frame_size == 0
             if len(data) % 2 == 1:
                 data += b"\0"
             # (Computing num_frames this way makes it off by one when the data length
@@ -678,36 +764,31 @@ def write_aiff(entry, basedir, aifc_filename, aiff_filename):
 
 def write_soundfont_header(font, filename):
     with open(filename, "w") as file:
-        file.write(f"/* Soundfont file constants\n")
+        file.write("/*\n")
+        file.write("   Soundfont file constants\n")
         file.write(f"   ID: {font.index}\n")
         file.write(f"   Name: {font.name}\n")
         file.write("*/\n\n/**** INSTRUMENTS ****/\n")
 
-        index = 0
         for instrument in font.instruments:
             if instrument is None:
                 continue
 
-            file.write(f".set F{font.index}_I_{instrument.enum}, {index}\n")
-            index += 1
+            file.write(f"#define F{font.index}_I_{instrument.enum} {instrument.index}\n")
         
-        index = 0
         file.write("\n/**** DRUMS ****/\n")
         for drum in font.percussions:
             if drum is None:
                 continue
 
-            file.write(f".set F{font.index}_D_{drum.enum}, {index}\n")
-            index += 1
+            file.write(f"#define F{font.index}_D_{drum.enum} {drum.index}\n")
         
-        index = 0
         file.write("\n/**** EFFECTS ****/\n")
         for effect in font.effects:
             if effect is None:
                 continue
 
-            file.write(f".set F{font.index}_E_{effect.enum}, {index}\n")
-            index += 1
+            file.write(f"#define F{font.index}_E_{effect.enum} {effect.index}\n")
 
 def main():
     args = []
@@ -772,7 +853,31 @@ def main():
     bank_defs = parse_raw_def_data(bankdef_data, samplebanks)
     fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
 
+    def get_entry_from_absolute_offset(table, offset):
+        for i in range(len(table)):
+            currentOffset = table[i].offset
+            nextOffset = table[i + 1].offset if i < len(table) else sys.maxsize
+            if currentOffset <= offset and offset < nextOffset:
+                return table[i]
+
+    for fontId in sf_unused_fixups[version]:
+        font = fonts[fontId]
+        for offset in sf_unused_fixups[version][fontId]:
+            fixup = sf_unused_fixups[version][fontId][offset]
+            datatype = fixup[0]
+            length = fixup[1]
+            converted_data = {
+                "Envelope": Envelope(font_data, font.offset, offset)
+            }.get(datatype)
+            font.font.unused.append(converted_data)
+
     report_gaps("SOUNDFONT", usedFontData, font_data)
+    soundfont_gaps = get_data_gaps("SOUNDFONT", usedFontData, font_data)
+
+    for offset in soundfont_gaps:
+        font = get_entry_from_absolute_offset(fonts, offset)
+        data_wrapper = UnusedData(offset, soundfont_gaps[offset])
+        font.font.unused.append(data_wrapper)
 
     os.makedirs(samples_out_dir, exist_ok=True)
 
@@ -789,8 +894,8 @@ def main():
                     "CachePolicy": toCachePolicy(bankdef.cache),
                     "Medium": toMedium(bankdef.medium)
                 })
-        XmlTree.indent(bankdefxml, "\t")
-        bankdeffile.write(XmlTree.tostring(bankdefxml, "unicode"))
+        xmlstring = minidom.parseString(XmlTree.tostring(bankdefxml, "unicode")).toprettyxml(indent="\t")
+        bankdeffile.write(xmlstring)
 
     # Export AIFF samples
     for bank in rawSamples:
@@ -802,19 +907,26 @@ def main():
             filename_base = os.path.join(samples_out_dir, samplebanks[bank])
             os.makedirs(filename_base, exist_ok=True)
             aifc_filename = os.path.join(filename_base, f"{str(idx).zfill(width)} {sample.name}.aifc")
-            write_aifc(bank_data, bank_defs, sample, aifc_filename)
+            write_aifc(version, bank_data, bank_defs, sample, aifc_filename)
             write_aiff(sample, samples_out_dir, aifc_filename, f"{str(idx).zfill(width)} {sample.name}.aiff")
             idx += 1
     
     if len(usedRawData) > 0:
         report_gaps("SAMPLE", usedRawData, bank_data)
+        samplebank_gaps = get_data_gaps("SAMPLE", usedRawData, bank_data)
+        for offset in samplebank_gaps:
+            bank = get_entry_from_absolute_offset(bank_defs, offset)
+            filename = os.path.join(samples_out_dir, bank.name, f"{offset:0>8x} - Unused.bin")
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
+            with open(filename, "wb") as bin_file:
+                bin_file.write(samplebank_gaps[offset])
 
-    # Export soundfonts (todo: switch to XML export)
+    # Export soundfonts
     for fontentry in fonts:
         dir = os.path.join(fonts_out_dir)
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, f"{fontentry.font.name}.xml")
-        s_filename = os.path.join(dir, f"{fontentry.font.index}.s.inc")
+        s_filename = os.path.join(dir, f"{fontentry.font.index}.h")
         write_soundfont(fontentry, filename, samplebanks)
         write_soundfont_header(fontentry.font, s_filename)
 

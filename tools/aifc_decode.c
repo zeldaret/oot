@@ -764,15 +764,6 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-    if (argc == 4) {
-        framesize = strtol(argv[3], NULL, 10);
-
-        if (framesize < 1) {
-            fprintf(stderr, "frame size set to invalid value %d, defaulting to 9", framesize);
-            framesize = 9;
-        }
-    }
-
     memset(&InstChunk, 0, sizeof(InstChunk));
 
     checked_fread(&FormChunk, sizeof(FormChunk), 1, ifile);
@@ -803,8 +794,21 @@ int main(int argc, char **argv)
             BSWAP16(CommChunk.compressionTypeH);
             BSWAP16(CommChunk.compressionTypeL);
             s32 cType = (CommChunk.compressionTypeH << 16) + CommChunk.compressionTypeL;
-            if (cType != 0x56415043) { // VAPC
-                fail_parse("file is of the wrong compression type");
+            if (cType == 0x56415043 || cType == 0x41445039) { // VAPC or ADP9
+                framesize = 9;
+            } else if (cType == 0x41445035) { // ADP5
+                framesize = 5;
+            } else if (cType == 0x4850434d) { // HPCM
+                framesize = 16;
+            } else {
+                char comprType[5] = {
+                    CommChunk.compressionTypeH >> 8,
+                    CommChunk.compressionTypeH & 0xFF,
+                    CommChunk.compressionTypeL >> 8,
+                    CommChunk.compressionTypeL & 0xFF,
+                    0
+                };
+                fail_parse("file is of the wrong compression type [got %s (%08x)]", &comprType, cType);
             }
             if (CommChunk.numChannels != 1) {
                 fail_parse("file contains %d channels, only 1 channel supported", CommChunk.numChannels);

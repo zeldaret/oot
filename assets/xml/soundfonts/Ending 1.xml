@@ -1,8 +1,8 @@
 <Root>
     <Soundfont Name="33 - Ending 1" Index="33">
         <Instruments>
-            <Instrument Name="Malon Voice" Enum="GORON_0"/>
-            <Instrument Name="Goron Voice" Enum="GORON_1"/>
+            <Instrument Name="Malon Voice 1" Enum="MALON_0"/>
+            <Instrument Name="Malon Voice 2" Enum="MALON_1"/>
             <Instrument Name="Clarinet" Enum="CLARINET"/>
             <Instrument/>
             <Instrument Name="Horn" Enum="HORN"/>

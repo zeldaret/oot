@@ -3,7 +3,7 @@
         <Instruments>
             <Instrument Name="Organ 1" Enum="ORGAN_0"/>
             <Instrument Name="Organ 2" Enum="ORGAN_1"/>
-            <Instrument Name="Organ 3" Enum="ORGAN_3"/>
+            <Instrument Name="Organ 3" Enum="ORGAN_2"/>
             <Instrument/>
             <Instrument Name="Horn" Enum="HORN"/>
         </Instruments>
