@@ -1,17 +1,17 @@
 <Root>
-    <Sample Name="0 Low Rumbling">
+    <Sample Name="Low Rumbling">
         <Offset Version="MQDebug" At="0"/>
     </Sample>
-    <Sample Name="1 Drum Sidestick?">
+    <Sample Name="Drum Sidestick?">
         <Offset Version="MQDebug" At="0xa590"/>
     </Sample>
-    <Sample Name="2 Low Drum?">
+    <Sample Name="Low Drum?">
         <Offset Version="MQDebug" At="0x8bc0"/>
     </Sample>
-    <Sample Name="3 Sweep Pad?">
+    <Sample Name="Sweep Pad?">
         <Offset Version="MQDebug" At="0xb3b0"/>
     </Sample>
-    <Sample Name="4 Organic Gurgling">
+    <Sample Name="Organic Gurgling">
         <Offset Version="MQDebug" At="0x16480"/>
     </Sample>
 </Root>
