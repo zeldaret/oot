@@ -155,10 +155,10 @@ typedef enum {
 typedef struct {
     u8 unk0;
     EnSkj* skullkid;
-} unkSkjStruct;
+} EnSkjUnkStruct;
 
-static unkSkjStruct sSmallStumpSkullKid = { 0, NULL };
-static unkSkjStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
+static EnSkjUnkStruct sSmallStumpSkullKid = { 0, NULL };
+static EnSkjUnkStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
 
 const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
