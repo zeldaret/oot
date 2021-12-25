@@ -347,7 +347,7 @@ void ActorShadow_DrawHorse(Actor* actor, Lights* lights, GlobalContext* globalCt
 void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx);
 void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
                       Vec3f* rightFootPos);
-void func_8002BE04(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32* arg3);
+void Actor_ProjectPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest, f32* cappedInvWDest);
 void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx);
 s32 Flags_GetSwitch(GlobalContext* globalCtx, s32 flag);
 void Flags_SetSwitch(GlobalContext* globalCtx, s32 flag);
@@ -369,7 +369,7 @@ void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx
                             u8 height);
 void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x, s32 y,
                              s32 width, s32 height, s32 delay);
-s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx);
+s32 TitleCard_Clear(GlobalContext* globalCtx, TitleCardContext* titleCtx);
 void Actor_Kill(Actor* actor);
 void Actor_SetFocus(Actor* actor, f32 offset);
 void Actor_SetScale(Actor* actor, f32 scale);
