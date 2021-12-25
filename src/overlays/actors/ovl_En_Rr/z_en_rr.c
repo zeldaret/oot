@@ -275,7 +275,7 @@ u8 EnRr_GetMessage(u8 shield, u8 tunic) {
     if ((shield == PLAYER_SHIELD_DEKU) || (shield == PLAYER_SHIELD_HYLIAN)) {
         messageIndex = RR_MESSAGE_SHIELD;
     }
-    if ((tunic == PLAYER_TUNIC_GORON+1) || (tunic == PLAYER_TUNIC_ZORA+1)) {
+    if ((tunic == PLAYER_TUNIC_GORON + 1) || (tunic == PLAYER_TUNIC_ZORA + 1)) {
         messageIndex |= RR_MESSAGE_TUNIC;
     }
 

@@ -369,15 +369,18 @@ void EnMag_DrawCharTexture(Gfx** gfxp, u8* texture, s32 rectLeft, s32 rectTop) {
     *gfxp = gfx;
 }
 
+#define CHR(ch) (ch - '7')
+
 void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     static s16 textAlpha = 0;
     static s16 textFadeDirection = 0;
     static s16 textFadeTimer = 0;
     static u8 noControllerFontIndexes[] = {
-        0x17, 0x18, 0x0C, 0x18, 0x17, 0x1D, 0x1B, 0x18, 0x15, 0x15, 0x0E, 0x1B,
+        CHR('N'), CHR('O'), CHR('C'), CHR('O'), CHR('N'), CHR('T'),
+        CHR('R'), CHR('O'), CHR('L'), CHR('L'), CHR('E'), CHR('R'),
     };
     static u8 pressStartFontIndexes[] = {
-        0x19, 0x1B, 0x0E, 0x1C, 0x1C, 0x1C, 0x1D, 0x0A, 0x1B, 0x1D,
+        CHR('P'), CHR('R'), CHR('E'), CHR('S'), CHR('S'), CHR('S'), CHR('T'), CHR('A'), CHR('R'), CHR('T'),
     };
     static void* effectMaskTextures[] = {
         gTitleEffectMask00Tex, gTitleEffectMask01Tex, gTitleEffectMask02Tex,
