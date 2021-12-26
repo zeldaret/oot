@@ -238,9 +238,9 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
 
     if (((void)0, gSaveContext.dayTime) > 0xC000 || ((void)0, gSaveContext.dayTime) < 0x4555) {
-        ((void)0, gSaveContext.nightFlag = true);
+        ((void)0, gSaveContext.nightFlag = 1);
     } else {
-        ((void)0, gSaveContext.nightFlag = false);
+        ((void)0, gSaveContext.nightFlag = 0);
     }
 
     globalCtx->state.gfxCtx->callback = Environment_GraphCallback;
@@ -900,9 +900,9 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         time = gSaveContext.dayTime;
 
         if (time > 0xC000 || time < 0x4555) {
-            gSaveContext.nightFlag = true;
+            gSaveContext.nightFlag = 1;
         } else {
-            gSaveContext.nightFlag = false;
+            gSaveContext.nightFlag = 0;
         }
 
         if (SREG(0) != 0 || CREG(2) != 0) {
