@@ -78,7 +78,6 @@ Add the following to (or create) the `.vscode/settings.json` file for VSCode to 
         "baserom/**": true,
         "build/**": true,
         "expected/**": true,
-        "nonmatchings/**": true,
     },
 }
 ```
