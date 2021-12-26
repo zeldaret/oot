@@ -2517,6 +2517,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             pauseCtx->unk_204 = -314.0f;
 
+            //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->playerSegment = (void*)(((u32)globalCtx->objectCtx.spaceStart + 0x30) & ~0x3F);
 
             size1 = func_80091738(globalCtx, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
@@ -3128,6 +3129,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             pauseCtx->unk_204 = -434.0f;
             Interface_ChangeAlpha(1);
 
+            //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->iconItemSegment = (void*)(((u32)globalCtx->objectCtx.spaceStart + 0x30) & ~0x3F);
             size0 = (u32)_icon_item_staticSegmentRomEnd - (u32)_icon_item_staticSegmentRomStart;
             osSyncPrintf("icon_item size0=%x\n", size0);
