@@ -16,7 +16,7 @@ There are a number of useful extensions available to make work more efficient:
 
 
 
-## Useful stuff to know:
+## Useful keyboard shortcuts
 
 - Ctrl + Alt + Up/Down (on Windows, on Linux it's Ctrl + Shift + Up/Down or Shift + Alt + Up/Down) gives multicursors across consecutive lines. If you want several cursors in a more diverse arrangement, middle clicking works, at least on Windows.
 - Alt + Up/Down moves lines up/down.
