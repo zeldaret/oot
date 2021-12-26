@@ -10,7 +10,6 @@ There are a number of useful extensions available to make work more efficient:
 - Clang-Format
 - HexInspector (hover on numbers for float and other info)
 - NumberMonger (convert hex to decimal and vice versa)
-- ~~bracket pair colorizer 2~~ (now obsolete due to VSCode's built-in bracket colouring)
 - Better MIPS Support
 
 
