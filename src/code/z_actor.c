@@ -2237,7 +2237,7 @@ void func_80030ED8(Actor* actor) {
 #define LENS_MASK_OFFSET_S ((SCREEN_WIDTH / 2 - LENS_MASK_WIDTH) - 26)
 #define LENS_MASK_OFFSET_T ((SCREEN_HEIGHT / 2 - LENS_MASK_HEIGHT) - 6)
 
-void Actor_DrawLensOfTruthMask(GraphicsContext* gfxCtx) {
+void Actor_DrawLensOverlay(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6161);
 
     gDPLoadTextureBlock(POLY_XLU_DISP++, gLensOfTruthMaskTex, G_IM_FMT_I, G_IM_SIZ_8b, LENS_MASK_WIDTH,
@@ -2261,7 +2261,7 @@ void Actor_DrawLensOfTruthMask(GraphicsContext* gfxCtx) {
 #undef LENS_MASK_OFFSET_S
 #undef LENS_MASK_OFFSET_T
 
-void Actor_DrawLens(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
+void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
     GraphicsContext* gfxCtx;
     s32 i;
@@ -2310,9 +2310,9 @@ void Actor_DrawLens(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** in
     // unchanged.
     gDPSetPrimDepth(POLY_XLU_DISP++, 0, 0);
 
-    // 0 is effectively put into the z-buffer by `Actor_DrawLensOfTruthMask` where the mask is not fully transparent
+    // 0 is effectively put into the z-buffer by `Actor_DrawLensOverlay` where the mask is not fully transparent
     // (alpha not 0), which can be inner or outer the lens circle depending on the branch just above.
-    Actor_DrawLensOfTruthMask(gfxCtx);
+    Actor_DrawLensOverlay(gfxCtx);
 
     // "Magic lens invisible Actor display START"
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", numInvisibleActors);
@@ -2341,7 +2341,7 @@ void Actor_DrawLens(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** in
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 0, 0, 255);
 
-        Actor_DrawLensOfTruthMask(gfxCtx);
+        Actor_DrawLensOverlay(gfxCtx);
 
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 1); // "Blue spectacles (exterior)"
     }
@@ -2449,7 +2449,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
     if ((HREG(64) != 1) || (HREG(72) != 0)) {
         if (globalCtx->actorCtx.lensActive) {
-            Actor_DrawLens(globalCtx, invisibleActorCounter, invisibleActors);
+            Actor_DrawLensActors(globalCtx, invisibleActorCounter, invisibleActors);
             if ((globalCtx->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(globalCtx)) {
                 Actor_DisableLens(globalCtx);
             }
