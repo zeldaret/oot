@@ -113,9 +113,9 @@ s32 Object_GetIndex(ObjectContext* objectCtx, s16 objectId) {
 
 s32 Object_IsLoaded(ObjectContext* objectCtx, s32 bankIndex) {
     if (objectCtx->status[bankIndex].id > 0) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
