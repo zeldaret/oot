@@ -202,7 +202,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->cloneCollider, &this->actor, &sCylinderInit2);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (globalCtx->sceneNum == SCENE_SPOT20) {
-        if (this->actor.world.rot.z == 0 || gSaveContext.nightFlag) {
+        if (this->actor.world.rot.z == 0 || !IS_DAY) {
             Actor_Kill(&this->actor);
             return;
         }

@@ -827,7 +827,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     if ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.sceneSetupIndex < 4)) {
         if (this->type == HORSE_HNI) {
-            if (this->actor.world.rot.z == 0 || gSaveContext.nightFlag) {
+            if (this->actor.world.rot.z == 0 || !IS_DAY) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -839,7 +839,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else if (!Flags_GetEventChkInf(0x18) && !DREG(1) && gSaveContext.nightFlag) {
+        } else if (!Flags_GetEventChkInf(0x18) && !DREG(1) && !IS_DAY) {
             Actor_Kill(&this->actor);
             return;
         }

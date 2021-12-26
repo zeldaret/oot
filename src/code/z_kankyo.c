@@ -820,7 +820,7 @@ void Environment_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_SetColor(&printer, 55, 255, 255, 64);
     GfxPrint_SetPos(&printer, 22, 6);
 
-    if (gSaveContext.nightFlag) {
+    if (!IS_DAY) {
         GfxPrint_Printf(&printer, "%s", "YORU"); // "night"
     } else {
         GfxPrint_Printf(&printer, "%s", "HIRU"); // "day"
@@ -881,7 +881,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                 if ((envCtx->unk_1A == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
                     (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
 
-                    if (!((void)0, gSaveContext.nightFlag) || gTimeIncrement >= 0x190) {
+                    if (IS_DAY || gTimeIncrement >= 0x190) {
                         gSaveContext.dayTime += gTimeIncrement;
                     } else {
                         gSaveContext.dayTime += gTimeIncrement * 2; // time moves twice as fast at night
