@@ -1,6 +1,6 @@
 # Building on macOS
 
-**N.B.** C++17 is required to build the asset processing program that we use (ZAPD), so check your OS version can support this before proceeding
+**N.B.** C++17 is required to build the asset processing program that we use (ZAPD), so check your OS version can support this before proceeding.
 
 
 ## Dependencies
