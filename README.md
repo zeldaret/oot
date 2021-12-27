@@ -49,27 +49,7 @@ For older versions of Windows, install a Linux VM or refer to either [Cygwin](#C
 
 ### macOS
 
-For macOS, use homebrew to install the following dependencies:
-
-* coreutils
-* make
-* python3
-* md5sha1sum
-* libpng
-
-You can install them with the following commands:
-
-```bash
-brew update
-brew install coreutils make python3 md5sha1sum libpng
-```
-
-You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).
-
-Going forward in this guide, please use `gmake` whenever you encounter a `make` command.
-The `make` that comes with macOS behaves differently than GNU make and is incompatible with this project.
-
-You should now be able to continue from [step 2](#2-clone-the-repository) of the Linux instructions.
+See the separate document [docs/BUILDING_MACOS.md] for setup instructions.
 
 ### Linux (Native or under WSL / VM)
 
@@ -90,12 +70,24 @@ sudo apt-get update
 sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-dev
 ```
 
+To install the Python dependencies simply run in a terminal:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
 #### 2. Clone the repository
 
 Clone `https://github.com/zeldaret/oot.git` where you wish to have the project, with a command such as:
 
 ```bash
 git clone https://github.com/zeldaret/oot.git
+```
+
+This will copy the GitHub repository contents into a new folder in the current directory called `oot`. Change into this directory before doing anything else:
+
+```bash
+cd oot
 ```
 
 #### 3. Prepare a base ROM
