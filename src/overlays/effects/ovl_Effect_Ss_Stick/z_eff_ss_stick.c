@@ -5,6 +5,8 @@
  */
 
 #include "z_eff_ss_stick.h"
+#include "objects/object_link_boy/object_link_boy.h"
+#include "objects/object_link_child/object_link_child.h"
 
 #define rObjBankIdx regs[0]
 #define rYaw regs[1]
@@ -25,8 +27,8 @@ typedef struct {
 
 u32 EffectSsStick_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     StickDrawInfo drawInfo[] = {
-        { OBJECT_LINK_BOY, 0x0602BA38 },   // adult, broken sword
-        { OBJECT_LINK_CHILD, 0x06006CC0 }, // child, broken stick
+        { OBJECT_LINK_BOY, gLinkAdultBrokenGiantsKnifeBladeDL },   // adult, broken sword
+        { OBJECT_LINK_CHILD, gLinkChildLinkDekuStickDL }, // child, broken stick
     };
     StickDrawInfo* ageInfoEntry = gSaveContext.linkAge + drawInfo;
     EffectSsStickInitParams* initParams = (EffectSsStickInitParams*)initParamsx;

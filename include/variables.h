@@ -5,14 +5,6 @@
 #include "segment_symbols.h"
 
 extern Mtx D_01000000;
-extern Gfx D_06025218[];
-extern Gfx D_060252D8[];
-extern Gfx D_06025438[];
-extern Gfx D_06025598[];
-extern Gfx D_06025658[];
-extern Gfx D_060257B8[];
-extern Gfx D_0602A738[];
-extern Gfx D_0602CB48[];
 
 extern u32 osTvType;
 extern u32 osRomBase;
