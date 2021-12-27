@@ -154,7 +154,7 @@ void ObjMure_SpawnActors0(ObjMure* this, GlobalContext* globalCtx) {
                     Actor_Spawn(ac, globalCtx, sSpawnActorIds[this->type], pos.x, pos.y, pos.z, this->actor.world.rot.x,
                                 this->actor.world.rot.y, this->actor.world.rot.z, sSpawnParams[this->type]);
                 if (this->children[i] != NULL) {
-                    this->children[i]->flags |= ACTOR_FLAG_11;
+                    this->children[i]->flags |= ACTOR_FLAG_ENKUSA_CUT;
                     this->children[i]->room = this->actor.room;
                 } else {
                     osSyncPrintf("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 359);
@@ -254,7 +254,7 @@ void ObjMure_CheckChildren(ObjMure* this, GlobalContext* globalCtx) {
         if (this->children[i] != NULL) {
             if (this->childrenStates[i] == OBJMURE_CHILD_STATE_0) {
                 if (this->children[i]->update != NULL) {
-                    if (this->children[i]->flags & ACTOR_FLAG_11) {
+                    if (this->children[i]->flags & ACTOR_FLAG_ENKUSA_CUT) {
                         this->childrenStates[i] = OBJMURE_CHILD_STATE_2;
                     }
                 } else {
