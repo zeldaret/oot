@@ -253,9 +253,6 @@
         <Texture Name="gLinkAdultUnusedSwordGuardTex" OutName="unused_sword_guard" Format="ci8" Width="32" Height="32" Offset="0x8E80" TlutOffset="5E00"/>
         <Texture Name="gLinkAdultUnusedSwordEmblemTex" OutName="unused_sword_emblem" Format="ci8" Width="16" Height="16" Offset="0x9280" TlutOffset="0x5E00"/>
 
-        <Texture Name="gLinkAdultUnusedGauntletPlateTex" OutName="unused_gauntlet_plate" Format="rgba16" Width="16" Height="32" Offset="0xA180"/>
-
-
         <Array Name="gLinkAdultVtx_02E120" Count="38" Offset="0x2E120" Static="On">
             <Vtx/>
         </Array>
