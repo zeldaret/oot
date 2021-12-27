@@ -34,6 +34,8 @@ else
     endif
 endif
 
+N_THREADS ?= $(shell nproc)
+
 #### Tools ####
 ifeq ($(shell type mips-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0)
   MIPS_BINUTILS_PREFIX := mips-linux-gnu-
@@ -203,7 +205,7 @@ setup:
 	$(MAKE) -C tools
 	python3 fixbaserom.py
 	python3 extract_baserom.py
-	python3 extract_assets.py
+	python3 extract_assets.py -j$(N_THREADS)
 
 resources: $(ASSET_FILES_OUT)
 test: $(ROM)
