@@ -61,8 +61,8 @@
         <DList Name="gLinkAdultLeftHandHoldingMasterSwordNearDL" Offset="0x21F78"/>
         <DList Name="gLinkAdultLeftHandHoldingMasterSwordFarDL" Offset="0x27078"/>
         
-        <DList Name="gLinkAdultLeftHandClosed2NearDL" Offset="0x21CE8"/>
-        <DList Name="gLinkAdultLeftHandClosed2FarDL" Offset="0x26DF0"/>
+        <DList Name="gLinkAdultLeftHandClosedNearDL" Offset="0x21CE8"/>
+        <DList Name="gLinkAdultLeftHandClosedFarDL" Offset="0x26DF0"/>
 
         <!-- Left hand, left arm, and right arm are used with the Bow. Not sure what right hand is for -->
         <DList Name="gLinkAdultRightArmOutNearDL" Offset="0x29918"/>

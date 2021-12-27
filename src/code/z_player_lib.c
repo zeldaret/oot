@@ -121,9 +121,9 @@ Gfx* D_80125E08[] = {
 };
 
 Gfx* D_80125E18[] = {
-    gLinkAdultLeftHandClosed2NearDL,
+    gLinkAdultLeftHandClosedNearDL,
     gLinkChildLeftFistNearDL,
-    gLinkAdultLeftHandClosed2FarDL,
+    gLinkAdultLeftHandClosedFarDL,
     gLinkChildLeftFistFarDL,
 };
 
