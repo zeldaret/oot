@@ -199,7 +199,7 @@ Gfx* D_80125EB8[] = {
 
 Gfx* D_80125EC8[] = {
     gLinkAdultRightHandHoldingOotNearDL,
-    gLinkChildRightHandAndOOTNearDL,
+    gLinkChildRightHandAndOotNearDL,
     gLinkAdultRightHandHoldingOotFarDL,
     gLinkChildRightHandHoldingOOTFarDL,
 };
