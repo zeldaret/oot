@@ -49,7 +49,7 @@ For older versions of Windows, install a Linux VM or refer to either [Cygwin](#C
 
 ### macOS
 
-See the separate document [docs/BUILDING_MACOS.md] for setup instructions.
+See [separate document](docs/BUILDING_MACOS.md) for setup instructions.
 
 ### Linux (Native or under WSL / VM)
 
