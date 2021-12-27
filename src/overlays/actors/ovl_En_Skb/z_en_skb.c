@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "objects/object_skb/object_skb.h"
 
-#define FLAGS 0x00000015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -201,7 +201,7 @@ void func_80AFCD60(EnSkb* this) {
 void func_80AFCDF8(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
     this->unk_280 = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
     EnSkb_SetupAction(this, func_80AFCE5C);
 }
@@ -211,7 +211,7 @@ void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
     }
     Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 800.0f, 0.0f);
     Math_SmoothStepToF(&this->actor.shape.shadowScale, 25.0f, 1.0f, 2.5f, 0.0f);
@@ -228,7 +228,7 @@ void func_80AFCF48(EnSkb* this) {
                      Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, ANIMMODE_ONCE, -4.0f);
     this->unk_280 = 0;
     this->unk_281 = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     EnSkb_SetupAction(this, func_80AFCFF0);
@@ -407,7 +407,7 @@ void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = -6.0f;
     }
     this->unk_280 = 1;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     BodyBreak_Alloc(&this->bodyBreak, 18, globalCtx);
     this->unk_283 |= 4;
     EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_STALKID_DEAD, 1, 1, 0x28);

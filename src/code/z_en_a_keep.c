@@ -2,7 +2,7 @@
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -140,7 +140,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case A_OBJ_UNKNOWN_6:
             // clang-format off
-            thisx->flags |= 0x1; this->dyna.bgId = 5; this->focusYoffset = 10.0f;
+            thisx->flags |= ACTOR_FLAG_0; this->dyna.bgId = 5; this->focusYoffset = 10.0f;
             // clang-format on
             thisx->gravity = -2.0f;
             EnAObj_SetupWaitTalk(this, thisx->params);
@@ -154,7 +154,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
         case A_OBJ_SIGNPOST_ARROW:
             thisx->textId = (this->textId & 0xFF) | 0x300;
             // clang-format off
-            thisx->flags |= 0x1 | 0x8; thisx->targetArrowOffset = 500.0f;
+            thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3; thisx->targetArrowOffset = 500.0f;
             // clang-format on
             this->focusYoffset = 45.0f;
             EnAObj_SetupWaitTalk(this, thisx->params);

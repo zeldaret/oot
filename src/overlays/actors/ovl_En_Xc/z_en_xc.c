@@ -14,7 +14,7 @@
 #include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnXc_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnXc_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -2170,7 +2170,7 @@ void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = SHEIK_ACTION_IN_DIALOGUE;
     } else {
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         if (INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE) {
             this->actor.textId = 0x7010;
         } else {
@@ -2183,7 +2183,7 @@ void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
 void func_80B41798(EnXc* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->action = SHEIK_ACTION_BLOCK_PEDESTAL;
-        this->actor.flags &= ~9;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
     }
 }
 

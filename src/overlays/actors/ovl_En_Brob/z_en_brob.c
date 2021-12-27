@@ -7,7 +7,7 @@
 #include "z_en_brob.h"
 #include "objects/object_brob/object_brob.h"
 
-#define FLAGS 0x00000005
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBrob_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -91,7 +91,7 @@ void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->colliders[1].dim.height *= thisx->scale.y;
     this->colliders[1].dim.yShift *= thisx->scale.y;
     this->actionFunc = NULL;
-    thisx->flags &= ~1;
+    thisx->flags &= ~ACTOR_FLAG_0;
     func_809CADDC(this, globalCtx);
 }
 

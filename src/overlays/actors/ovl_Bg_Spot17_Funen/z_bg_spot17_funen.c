@@ -7,7 +7,7 @@
 #include "z_bg_spot17_funen.h"
 #include "objects/object_spot17_obj/object_spot17_obj.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgSpot17Funen_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Funen_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -7,7 +7,7 @@
 #include "z_en_zl1.h"
 #include "objects/object_zl1/object_zl1.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -556,7 +556,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Interface_ChangeAlpha(50);
-                this->actor.flags &= ~0x100;
+                this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_1E2 = 4;
             }
             break;

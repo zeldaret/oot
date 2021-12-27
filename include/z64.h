@@ -216,7 +216,7 @@ typedef struct {
     /* 0x4D */ char     unk_4D[0x03];
     /* 0x50 */ TargetContextEntry arr_50[3];
     /* 0x8C */ Actor*   unk_8C;
-    /* 0x90 */ Actor*   unk_90;
+    /* 0x90 */ Actor*   bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
     /* 0x94 */ Actor*   unk_94;
 } TargetContext; // size = 0x98
 
@@ -868,12 +868,12 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8    type;
     /* 0x01 */ u8    format; // 1 = single, 2 = multi
-    /* 0x04 */ void* dlist;
+    /* 0x04 */ Gfx*  dlist;
     union {
         struct {
-            /* 0x08 */ u32   source;
+            /* 0x08 */ void* source;
             /* 0x0C */ u32   unk_0C;
-            /* 0x10 */ u32   tlut;
+            /* 0x10 */ void* tlut;
             /* 0x14 */ u16   width;
             /* 0x16 */ u16   height;
             /* 0x18 */ u8    fmt;
@@ -931,7 +931,7 @@ typedef struct {
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
-    /* 0x74 */ s16 unk_74[2];
+    /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
 } RoomContext; // size = 0x78
 
 typedef struct {

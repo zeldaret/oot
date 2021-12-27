@@ -3,7 +3,7 @@
 #include "vt.h"
 #include "objects/object_efc_star_field/object_efc_star_field.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0x0 */ ENCOUNT2_INACTIVE,

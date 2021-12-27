@@ -2,7 +2,7 @@
 #include "objects/object_cs/object_cs.h"
 #include "objects/object_link_child/object_link_child.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnCs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnCs_Destroy(Actor* thisx, GlobalContext* globalCtx);

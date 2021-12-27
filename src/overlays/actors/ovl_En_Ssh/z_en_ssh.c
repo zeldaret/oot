@@ -1,7 +1,7 @@
 #include "z_en_ssh.h"
 #include "objects/object_ssh/object_ssh.h"
 
-#define FLAGS 0x00000035
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 #define SSH_STATE_STUNNED (1 << 0)
 #define SSH_STATE_GROUND_START (1 << 2)

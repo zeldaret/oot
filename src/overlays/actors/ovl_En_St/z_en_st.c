@@ -7,7 +7,7 @@
 #include "z_en_st.h"
 #include "objects/object_st/object_st.h"
 
-#define FLAGS 0x00000035
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnSt_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSt_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -448,7 +448,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
         return false;
     }
     Enemy_StartFinishingBlow(globalCtx, &this->actor);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->groundBounces = 3;
     this->deathTimer = 20;
     this->actor.gravity = -1.0f;
@@ -773,7 +773,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->blureIdx = EnSt_CreateBlureEffect(globalCtx);
     EnSt_InitColliders(this, globalCtx);
     if (thisx->params == 2) {
-        this->actor.flags |= 0x80;
+        this->actor.flags |= ACTOR_FLAG_7;
     }
     if (this->actor.params == 1) {
         this->actor.naviEnemyId = 0x05;
@@ -781,8 +781,8 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.naviEnemyId = 0x04;
     }
     EnSt_CheckCeilingPos(this, globalCtx);
-    this->actor.flags |= 0x4000;
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_14;
+    this->actor.flags |= ACTOR_FLAG_24;
     EnSt_SetColliderScale(this);
     this->actor.gravity = 0.0f;
     this->initalYaw = this->actor.world.rot.y;
@@ -996,7 +996,7 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Color_RGBA8 color = { 0, 0, 0, 0 };
 
-    if (this->actor.flags & 0x8000) {
+    if (this->actor.flags & ACTOR_FLAG_15) {
         SkelAnime_Update(&this->skelAnime);
     } else if (!EnSt_CheckColliders(this, globalCtx)) {
         // no collision has been detected.

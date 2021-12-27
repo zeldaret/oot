@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
 #include "objects/object_dh/object_dh.h"
 
-#define FLAGS 0x00000015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnDha_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -166,7 +166,7 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->limbAngleX[0] = -0x4000;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 
     EnDha_SetupWait(this);
 }

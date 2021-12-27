@@ -8,7 +8,7 @@
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGo_Destroy(Actor* thisx, GlobalContext* globalCtx);

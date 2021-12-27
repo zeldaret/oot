@@ -9,7 +9,7 @@
 #include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);

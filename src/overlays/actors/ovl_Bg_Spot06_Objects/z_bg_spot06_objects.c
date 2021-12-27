@@ -7,7 +7,7 @@
 #include "z_bg_spot06_objects.h"
 #include "objects/object_spot06_objects/object_spot06_objects.h"
 
-#define FLAGS 0x00000200
+#define FLAGS ACTOR_FLAG_9
 
 typedef enum {
     /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,
@@ -147,7 +147,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case LHO_WATER_PLANE:
             Actor_ProcessInitChain(thisx, sInitChainWaterPlane);
-            thisx->flags = 0x30;
+            thisx->flags = ACTOR_FLAG_4 | ACTOR_FLAG_5;
 
             if (LINK_IS_ADULT && !(gSaveContext.eventChkInf[6] & 0x200)) {
                 if (gSaveContext.sceneSetupIndex < 4) {
@@ -291,7 +291,7 @@ void BgSpot06Objects_LockWait(BgSpot06Objects* this, GlobalContext* globalCtx) {
 
     if (this->collider.base.acFlags & 2) {
         this->timer = 130;
-        this->dyna.actor.flags |= 0x10;
+        this->dyna.actor.flags |= ACTOR_FLAG_4;
         sin = Math_SinS(this->dyna.actor.world.rot.y);
         cos = Math_CosS(this->dyna.actor.world.rot.y);
         this->dyna.actor.world.pos.x += (3.0f * sin);
@@ -334,7 +334,7 @@ void BgSpot06Objects_LockPullOutward(BgSpot06Objects* this, GlobalContext* globa
 
     if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.5f;
-        this->dyna.actor.flags &= ~0x2000;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_13;
 
         this->actionFunc = BgSpot06Objects_LockSwimToSurface;
     }
@@ -364,7 +364,7 @@ void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, GlobalContext* glo
                 this->dyna.actor.world.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y) * 16.0f);
             this->dyna.actor.world.pos.y = -1993.0f;
             this->timer = 32;
-            this->dyna.actor.flags &= ~0x10;
+            this->dyna.actor.flags &= ~ACTOR_FLAG_4;
             this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius * 2;
             this->actionFunc = BgSpot06Objects_LockFloat;
         }

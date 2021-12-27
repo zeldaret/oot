@@ -3,7 +3,7 @@
 #include "vt.h"
 #include "objects/object_fr/object_fr.h"
 
-#define FLAGS 0x02000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void EnFr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -223,7 +223,7 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.destroy = NULL;
         this->actor.draw = NULL;
         this->actor.update = EnFr_UpdateIdle;
-        this->actor.flags &= ~0x11;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_4);
         this->actor.flags &= ~0;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
         this->actor.textId = 0x40AC;
@@ -265,7 +265,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad2;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         frogIndex = this->actor.params - 1;
         sEnFrPointers.frogs[frogIndex] = this;
         Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -308,7 +308,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->posButterflyLight.x = this->posButterfly.x = this->posLogSpot.x;
         this->posButterflyLight.y = this->posButterfly.y = this->posLogSpot.y + 50.0f;
         this->posButterflyLight.z = this->posButterfly.z = this->posLogSpot.z;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     }
 }
 
@@ -1057,7 +1057,10 @@ void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x060059A0, 0x06005BA0 };
+    static void* eyeTextures[] = {
+        object_fr_Tex_0059A0,
+        object_fr_Tex_005BA0,
+    };
     s16 lightRadius;
     EnFr* this = (EnFr*)thisx;
     s16 frogIndex = this->actor.params - 1;

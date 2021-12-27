@@ -7,7 +7,7 @@
 #include "z_item_b_heart.h"
 #include "objects/object_gi_hearts/object_gi_hearts.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void ItemBHeart_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemBHeart_Destroy(Actor* thisx, GlobalContext* globalCtx);

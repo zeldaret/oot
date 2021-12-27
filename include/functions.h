@@ -478,7 +478,8 @@ void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s3
 s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type);
 void Actor_SpawnFloorDustRing(GlobalContext* globalCtx, Actor* actor, Vec3f* posXZ, f32 radius, s32 amountMinusOne,
                               f32 randAccelWeight, s16 scale, s16 scaleStep, u8 useLighting);
-void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
+void func_80033480(GlobalContext* globalCtx, Vec3f* posBase, f32 randRangeDiameter, s32 amountMinusOne, s16 scaleBase,
+                   s16 scaleStep, u8 arg6);
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
 Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius);
@@ -499,8 +500,8 @@ void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx);
 Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx);
-s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interactRange, u16 (*unkFunc1)(GlobalContext*, Actor*),
-                  s16 (*unkFunc2)(GlobalContext*, Actor*));
+s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interactRange,
+                  u16 (*unkFunc1)(GlobalContext*, Actor*), s16 (*unkFunc2)(GlobalContext*, Actor*));
 s16 func_800347E8(s16 arg0);
 void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
 void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
@@ -1170,7 +1171,7 @@ Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
 void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
 void func_80095974(GraphicsContext* gfxCtx);
 void func_80095AA0(GlobalContext* globalCtx, Room* room, Input* arg2, UNK_TYPE arg3);
-void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
+void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
                    u16 tlutCount, f32 frameX, f32 frameY);
 void func_80096FD4(GlobalContext* globalCtx, Room* room);
 u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx);
@@ -2060,8 +2061,8 @@ void func_800F5BF0(u8 arg0);
 void Audio_PlayFanfare(u16);
 void func_800F5C2C(void);
 void func_800F5E18(u8 playerIdx, u16 seqId, u8 fadeTimer, s8 arg3, s8 arg4);
-void func_800F5E90(u8);
-void func_800F6114(f32 dist);
+void Audio_SetSequenceMode(u8 seqMode);
+void Audio_SetBgmEnemyVolume(f32 dist);
 void func_800F6268(f32 dist, u16);
 void func_800F64E0(u8 arg0);
 void func_800F6584(u8 arg0);

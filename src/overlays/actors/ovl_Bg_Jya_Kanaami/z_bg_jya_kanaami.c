@@ -7,7 +7,7 @@
 #include "z_bg_jya_kanaami.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx);

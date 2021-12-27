@@ -7,7 +7,7 @@
 #include "z_bg_spot08_iceblock.h"
 #include "objects/object_spot08_obj/object_spot08_obj.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Iceblock_Destroy(Actor* thisx, GlobalContext* globalCtx);

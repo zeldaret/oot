@@ -4,7 +4,7 @@
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS 0x00000035
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 // IRIS_FOLLOW: gohma looks towards the player (iris rotation)
 // BONUS_IFRAMES: gain invincibility frames when the player does something (throwing things?), or
@@ -402,7 +402,7 @@ void BossGoma_SetupDefeated(BossGoma* this, GlobalContext* globalCtx) {
     this->noBackfaceCulling = false;
     this->framesUntilNextAction = 1200;
     this->actionState = 0;
-    this->actor.flags &= ~5;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actor.speedXZ = 0.0f;
     this->actor.shape.shadowScale = 0.0f;
     Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
@@ -626,7 +626,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
     camera = Gameplay_GetCamera(globalCtx, 0);
     player = GET_PLAYER(globalCtx);
     this->actionState = 4;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     func_80064520(globalCtx, &globalCtx->csCtx);
     func_8002DF54(globalCtx, &this->actor, 1);
     this->subCameraId = Gameplay_CreateSubCamera(globalCtx);
@@ -716,7 +716,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             this->framesUntilNextAction = 50;
             this->timer = 80;
             this->frameCount = 0;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             // fall-through
         case 2: // zoom on player from room center
             // room entrance, towards center
@@ -1296,7 +1296,7 @@ void BossGoma_FloorPrepareAttack(BossGoma* this, GlobalContext* globalCtx) {
 void BossGoma_FloorAttack(BossGoma* this, GlobalContext* globalCtx) {
     s16 i;
 
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     SkelAnime_Update(&this->skelanime);
 
     switch (this->actionState) {

@@ -12,7 +12,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ MOVE_TARGET,

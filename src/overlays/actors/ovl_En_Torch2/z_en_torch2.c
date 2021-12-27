@@ -7,7 +7,7 @@
 #include "z_en_torch2.h"
 #include "objects/object_torch2/object_torch2.h"
 
-#define FLAGS 0x00000035
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ ENTORCH2_WAIT,
@@ -362,7 +362,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         player->skelAnime.curFrame = 3.0f;
                         sStickAngle = this->actor.yawTowardsPlayer + 0x8000;
                         sSwordJumpTimer = sSwordJumpState = 0;
-                        this->actor.flags |= 1;
+                        this->actor.flags |= ACTOR_FLAG_0;
                     } else if (sSwordJumpState == 1) {
                         if (sSwordJumpTimer < 16) {
                             EnTorch2_SwingSword(globalCtx, input, this);
@@ -393,7 +393,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 sStickTilt = 0.0f;
                                 sSwordJumpState = 1;
                                 player->stateFlags3 |= 4;
-                                this->actor.flags &= ~1;
+                                this->actor.flags &= ~ACTOR_FLAG_0;
                                 sSwordJumpTimer = 27;
                                 player->swordState = 0;
                                 player->linearVelocity = 0.0f;
@@ -512,7 +512,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             input->cur.stick_x = input->cur.stick_y = 0;
             if ((this->invincibilityTimer > 0) && (this->actor.world.pos.y < (this->actor.floorHeight - 160.0f))) {
                 this->stateFlags3 &= ~1;
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
                 this->invincibilityTimer = 0;
                 this->actor.velocity.y = 0.0f;
                 this->actor.world.pos.y = sSpawnPoint.y + 40.0f;
@@ -596,7 +596,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
         if (!Actor_ApplyDamage(&this->actor)) {
             func_800F5B58();
-            this->actor.flags &= ~5;
+            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             this->unk_8A1 = 2;
             this->unk_8A4 = 6.0f;
             this->unk_8A8 = 6.0f;
@@ -616,7 +616,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
                 }
             } else {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 this->unk_8A0 = this->actor.colChkInfo.damage;
                 this->unk_8A1 = 1;
                 this->unk_8A8 = 6.0f;

@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_rl/object_rl.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnRl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRl_Destroy(Actor* thisx, GlobalContext* globalCtx);

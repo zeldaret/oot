@@ -7,7 +7,7 @@
 #include "z_door_gerudo.h"
 #include "objects/object_door_gerudo/object_door_gerudo.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorGerudo_Destroy(Actor* thisx, GlobalContext* globalCtx);

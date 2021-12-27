@@ -12,7 +12,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -92,7 +92,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->type == 6) || (this->type == 9)) {
         this->actor.draw = EnHeishi2_DrawKingGuard;
-        this->actor.flags &= -2;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
         if (this->type == 6) {
             this->actionFunc = EnHeishi2_DoNothing1;
@@ -112,7 +112,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(globalCtx, &this->collider);
             func_8002DF54(globalCtx, 0, 8);
-            this->actor.flags |= 0x11;
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
             this->actionFunc = func_80A544AC;
         }
     } else {
@@ -143,7 +143,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
                 // "Peep hole soldier!"
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
                 Collider_DestroyCylinder(globalCtx, collider);
-                this->actor.flags &= -0xA;
+                this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
                 this->actionFunc = EnHeishi_DoNothing2;
                 break;
         }
@@ -637,7 +637,7 @@ void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
     this->actor.world.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z < -6000) {
         Message_StartTextbox(globalCtx, 0x708F, NULL);
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         this->actionFunc = func_80A5455C;
         this->unk_2E4 = 0.0f;
     }

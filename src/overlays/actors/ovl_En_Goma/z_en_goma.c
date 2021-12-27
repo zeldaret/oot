@@ -4,7 +4,7 @@
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000035
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -119,10 +119,10 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->gomaType = ENGOMA_BOSSLIMB;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actionTimer = this->actor.params + 150;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else if (params >= 10) { // Debris when hatching
         this->actor.gravity = -1.3f;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actionTimer = 50;
         this->gomaType = ENGOMA_HATCH_DEBRIS;
         this->eggScale = 1.0f;
@@ -366,7 +366,7 @@ void EnGoma_SetupDie(EnGoma* this) {
     }
 
     this->invincibilityTimer = 100;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void EnGoma_Die(EnGoma* this, GlobalContext* globalCtx) {
@@ -497,7 +497,7 @@ void EnGoma_SetupJump(EnGoma* this) {
 }
 
 void EnGoma_Jump(EnGoma* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     SkelAnime_Update(&this->skelanime);
     Math_ApproachF(&this->actor.speedXZ, 10.0f, 0.5f, 5.0f);
 

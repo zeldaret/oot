@@ -7,7 +7,7 @@
 #include "z_bg_haka_trap.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -131,7 +131,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_80880484;
         } else {
             DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-            thisx->flags |= 0x10;
+            thisx->flags |= ACTOR_FLAG_4;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
                 CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &colHeader);

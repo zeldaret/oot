@@ -15,7 +15,7 @@
 #include "objects/object_ganon/object_ganon.h"
 #include "objects/object_opening_demo1/object_opening_demo1.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -175,7 +175,7 @@ void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
 
     if (!Object_IsLoaded(&globalCtx->objectCtx, skelObjBankIndex) ||
         !Object_IsLoaded(&globalCtx->objectCtx, this->animObjBankIndex)) {
-        this->actor.flags &= ~0x40;
+        this->actor.flags &= ~ACTOR_FLAG_6;
         return;
     }
 

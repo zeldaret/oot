@@ -2,7 +2,7 @@
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Basket_Destroy(Actor* thisx, GlobalContext* globalCtx);

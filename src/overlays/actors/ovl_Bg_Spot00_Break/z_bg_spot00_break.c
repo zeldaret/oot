@@ -7,7 +7,7 @@
 #include "z_bg_spot00_break.h"
 #include "objects/object_spot00_break/object_spot00_break.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx);

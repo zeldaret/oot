@@ -8,7 +8,7 @@
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS 0x04000010
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
 void ObjKibako_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako_Destroy(Actor* thisx, GlobalContext* globalCtx);
