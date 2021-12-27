@@ -130,7 +130,7 @@
         <Texture Name="gLinkAdultSheathBandTex" OutName="sheath_band" Format="ci8" Width="32" Height="16" Offset="0xE838" TlutOffset="0xCB40"/>
         
         <Texture Name="gLinkAdultMirrorShieldLowerDesignTex" OutName="mirror_shield_lower_design" Format="ia16" Width="32" Height="64" Offset="0xB280"/>
-        <Texture Name="gLinkAdultMirrorShieldUpperDesignTex" OutName="mirror_shield_upper_design" Format="ia8" Width="32" Height="64" Offset="0xC280"/>
+        <Texture Name="gLinkAdultMirrorShieldUpperDesignTex" OutName="mirror_shield_upper_design" Format="ia8" Width="64" Height="32" Offset="0xC280"/>
 
         <Texture Name="gLinkAdultDefaultGauntlet1Tex" OutName="default_gauntlet_1" Format="ci8" Width="16" Height="32" Offset="0xD2B8" TlutOffset="0xCD48"/>
         <Texture Name="gLinkAdultDefaultGauntlet2Tex" OutName="default_gauntlet_2" Format="ci8" Width="16" Height="32" Offset="0xD538" TlutOffset="0xCD48"/>
