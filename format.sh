@@ -17,16 +17,23 @@ export -f add_final_newline
 
 shopt -s globstar
 
-if [ -z `command -v clang-format-${FORMAT_VER}` ]
+if [ $(command -v clang-format) ]
 then
-    echo "clang-format-${FORMAT_VER} not found. Exiting."
-    exit 1
+    CLANG_FORMAT="clang-format"
+else
+    if [ $(command -v clang-format-${FORMAT_VER}) ]
+    then
+        CLANG_FORMAT="clang-format-${FORMAT_VER}"
+    else
+        echo "Neither clang-format nor clang-format-${FORMAT_VER} found. Exiting."
+        exit 1
+    fi
 fi
 
 if (( $# > 0 )); then
     echo "Formatting file(s) $*"
     echo "Running clang-format..."
-    clang-format-${FORMAT_VER} ${FORMAT_OPTS} "$@"
+    ${CLANG_FORMAT} ${FORMAT_OPTS} "$@"
     echo "Running clang-tidy..."
     clang-tidy ${TIDY_OPTS} "$@" -- ${COMPILER_OPTS} &> /dev/null
     echo "Adding missing final new lines..."
@@ -37,7 +44,7 @@ fi
 
 echo "Formatting C files. This will take a bit"
 echo "Running clang-format..."
-clang-format-${FORMAT_VER} ${FORMAT_OPTS} src/**/*.c
+${CLANG_FORMAT} ${FORMAT_OPTS} src/**/*.c
 echo "Running clang-tidy..."
 clang-tidy ${TIDY_OPTS} src/**/*.c -- ${COMPILER_OPTS} &> /dev/null
 echo "Adding missing final new lines..."
