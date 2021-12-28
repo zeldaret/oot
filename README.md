@@ -73,7 +73,7 @@ sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-
 To install the Python dependencies simply run in a terminal:
 
 ```bash
-python3 -m pip install -r requirements.txt
+python3 -m pip install colorama
 ```
 
 #### 2. Clone the repository

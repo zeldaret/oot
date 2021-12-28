@@ -1,2 +1,0 @@
-libyaz0>=0.5
-colorama>=0.4.3

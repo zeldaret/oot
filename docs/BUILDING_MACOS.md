@@ -68,7 +68,7 @@ Edit your `~/.bash_profile`/`~/.zsh_profile` (or whichever shell you use) to add
 echo "export PATH=$PATH:/opt/cross/bin" >> ~/.bash_profile
 ```
 
-Reload ~/.bash_profile (or just launch a new terminal tab)
+Reload `~/.bash_profile` (or just launch a new terminal tab)
 ```bash
 source ~/.bash_profile
 ```
