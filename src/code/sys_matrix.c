@@ -707,7 +707,7 @@ void Matrix_Transpose(MtxF* mf) {
  *
  * In details, S is a diagonal where each coefficient is the norm of the column in the 3x3 current matrix.
  * The 3x3 part can then be written as R * S where R has its columns normalized.
- * Since R is typically a rotation matrix, and the 3x3 part is changes from R * S to `mf` * S, this operation can be
+ * Since R is typically a rotation matrix, and the 3x3 part is changed from R * S to `mf` * S, this operation can be
  * seen as replacing the R rotation with `mf`, hence the function name.
  */
 void Matrix_ReplaceRotation(MtxF* mf) {
