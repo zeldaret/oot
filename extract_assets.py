@@ -68,6 +68,20 @@ def initializeWorker(abort, unaccounted: bool, extractedAssetsTracker: dict, man
     globalExtractedAssetsTracker = extractedAssetsTracker
     globalManager = manager
 
+def processZAPDArgs(argsZ):
+    badZAPDArg = False
+    for z in argsZ:
+        if z[0] == '-':
+            print(f"{colorama.Fore.LIGHTRED_EX}error{colorama.Fore.RESET}: argument \"{z}\" starts with \"-\", which is not supported.", file=os.sys.stderr)
+            badZAPDArg = True
+
+    if badZAPDArg:
+        exit(1)
+
+    ZAPDArgs = " ".join(f"-{z}" for z in argsZ)
+    print("Using extra ZAPD arguments: " + ZAPDArgs)
+
+
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
     parser.add_argument("-s", "--single", help="asset path relative to assets/, e.g. objects/gameplay_keep")
@@ -80,20 +94,7 @@ def main():
     global ZAPDArgs
     ZAPDArgs = ""
     if args.Z is not None:
-        badZAPDArg = False
-        for i in range(len(args.Z)):
-            z = args.Z[i]
-            if z[0] == '-':
-                print(f"{colorama.Fore.LIGHTRED_EX}error{colorama.Fore.RESET}: argument \"{z}\" starts with \"-\", which is not supported.", file=os.sys.stderr)
-                badZAPDArg = True
-            else:
-                args.Z[i] = "-" + z
-
-        if badZAPDArg:
-            exit(1)
-
-        ZAPDArgs = " ".join(args.Z)
-        print("Using extra ZAPD arguments: " + ZAPDArgs)
+        processZAPDArgs(args.Z)
 
     global mainAbort
     mainAbort = multiprocessing.Event()
