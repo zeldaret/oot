@@ -703,24 +703,12 @@ void Matrix_Transpose(MtxF* mf) {
 }
 
 /**
- * Replaces the rotation in the matrix at the top of the stack, keeping scale and translation untouched.
+ * Changes the 3x3 part of the current matrix to `mf` * S, where S is the scale in the current matrix.
  *
- * Considering only the 3x3 part (ignoring the last row and column which are left untouched), assuming
- * \f[ \texttt{sCurrentMatrix} = R \cdot S \f]
- *
- * with \f$
- *  S = \begin{bmatrix}
- *      \alpha & 0 & 0 \\
- *      0 & \beta & 0 \\
- *      0 & 0 & \gamma
- *      \end{bmatrix}
- * \f$
- *
- * where \f$ \alpha, \beta, \gamma \f$ are the norms of the columns of the 3x3 part of `sCurrentMatrix`
- *
- * and \f$ R \f$ is a 3x3 matrix with each column normalized (typically \f$ R \f$ would be a rotation matrix)
- *
- * then the 3x3 part of `sCurrentMatrix` becomes \f$ \texttt{mf} \cdot S \f$
+ * In details, S is a diagonal where each coefficient is the norm of the column in the 3x3 current matrix.
+ * The 3x3 part can then be written as R * S where R has its columns normalized.
+ * Since R is typically a rotation matrix, and the 3x3 part is changes from R * S to `mf` * S, this operation can be
+ * seen as replacing the R rotation with `mf`, hence the function name.
  */
 void Matrix_ReplaceRotation(MtxF* mf) {
     MtxF* cmf = sCurrentMatrix;
