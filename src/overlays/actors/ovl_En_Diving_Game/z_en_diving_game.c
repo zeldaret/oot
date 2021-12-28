@@ -414,7 +414,7 @@ void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
         } else {
             func_80088B34(BREG(2) + 50);
         }
-        func_800F5ACC(NA_BGM_MINI_GAME_2);
+        func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.textId = 0x405B;
         this->unk_292 = TEXT_STATE_EVENT;

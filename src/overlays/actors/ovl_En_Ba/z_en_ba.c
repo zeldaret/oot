@@ -465,7 +465,11 @@ void EnBa_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static Gfx* D_809B8118[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
+static void* D_809B8118[] = {
+    object_bxa_Tex_0024F0,
+    object_bxa_Tex_0027F0,
+    object_bxa_Tex_0029F0,
+};
 
 void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBa* this = (EnBa*)thisx;
