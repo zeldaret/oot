@@ -80,4 +80,4 @@ If this worked, you can now delete the temporary directory `~/binutils-tmp`.
 
 Apple's version of `make` is very out-of-date, so you should use the brew-installed `gmake` in place of `make` in this repo from now on.
 
-You should now be able to continue from [step 2](README.md#2-clone-the-repository) of the Linux instructions.
+You should now be able to continue from [step 2](../README.md#2-clone-the-repository) of the Linux instructions.
