@@ -61,7 +61,7 @@ u32 sAudioSeqCmds[0x100];
 unk_D_8016E750 D_8016E750[4];
 u8 D_8016F0E0[0xA0];
 AudioContext gAudioContext;
-void(*D_801755D0)(void);
+void (*D_801755D0)(void);
 s32 padBSS[3];
 
 // data
