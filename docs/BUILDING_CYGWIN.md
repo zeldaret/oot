@@ -65,6 +65,15 @@ Once mips-linux-binutils is installed you will need to install the following pac
 * libpng-devel
 
 
+## 4. Install required Python packages
+
+To install the Python dependencies simply run in a terminal:
+
+```bash
+python3 -m pip install colorama
+```
+
+
 ## 4. Continue with Linux instructions
 
 You should be able to continue from step [step 2](../README.md#2-clone-the-repository) of the Linux instructions.

@@ -43,7 +43,7 @@ We recommend using WSL on Windows, or native Linux, which the rest of this readm
 
 * [Windows](#Windows), with and without WSL
 * [macOS](docs/BUILDING_MACOS.md)
-* [Linux](#Linux-Native-or-under-WSL--VM)), natively or using WSL / VM
+* [Linux](#Linux-Native-or-under-WSL--VM), natively or using WSL / VM
 * [Docker](docs/BUILDING_DOCKER.md)
 
 (These will also depend on the Linux instructions.)
