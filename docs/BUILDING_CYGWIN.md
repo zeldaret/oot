@@ -74,7 +74,7 @@ python3 -m pip install colorama
 ```
 
 
-## 4. Continue with Linux instructions
+## 5. Continue with Linux instructions
 
 You should be able to continue from step [step 2](../README.md#2-clone-the-repository) of the Linux instructions.
 
