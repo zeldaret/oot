@@ -192,7 +192,7 @@ void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFlareDancerCoreSkel, NULL, this->jointTable, this->morphTable,
                        11);
-    Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->sphs);
@@ -226,7 +226,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animation == &gFlareDancerCoreInitRunCycleAnim) {
         if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) == 0) {
             this->runRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.parent->world.pos);
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_2);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_2);
         }
         return;
     }
@@ -342,7 +342,7 @@ void EnFw_TurnToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 14.0f;
         this->actor.home.pos = this->actor.world.pos;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_1);
         this->actionFunc = EnFw_JumpToParentInitPos;
     }
 }

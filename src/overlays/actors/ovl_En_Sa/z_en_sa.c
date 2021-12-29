@@ -238,11 +238,11 @@ f32 func_80AF5894(EnSa* this) {
 void func_80AF58B8(EnSa* this) {
     switch (this->unk_20A) {
         case 0:
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_3);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_3);
             this->unk_20A++;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_2);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_2);
                 this->unk_20A++;
             }
             break;
@@ -252,11 +252,11 @@ void func_80AF58B8(EnSa* this) {
 void func_80AF594C(EnSa* this) {
     switch (this->unk_20A) {
         case 0:
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_8);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_8);
             this->unk_20A++;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
                 this->unk_20A++;
             }
             break;
@@ -266,11 +266,11 @@ void func_80AF594C(EnSa* this) {
 void func_80AF59E0(EnSa* this) {
     switch (this->unk_20A) {
         case 0:
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_1);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_1);
             this->unk_20A++;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_7);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_7);
                 this->unk_20A++;
             }
             break;
@@ -280,12 +280,12 @@ void func_80AF59E0(EnSa* this) {
 void func_80AF5A74(EnSa* this) {
     switch (this->unk_20A) {
         case 0:
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_1);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_1);
             func_80AF5894(this);
             this->unk_20A++;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
                 this->unk_20A++;
             }
             break;
@@ -295,11 +295,11 @@ void func_80AF5A74(EnSa* this) {
 void func_80AF5B10(EnSa* this) {
     switch (this->unk_20A) {
         case 0:
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_6);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_6);
             this->unk_20A++;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_4);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_4);
                 this->unk_20A++;
             }
             break;
@@ -309,12 +309,12 @@ void func_80AF5B10(EnSa* this) {
 void func_80AF5BA4(EnSa* this) {
     switch (this->unk_20A) {
         case 0:
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_6);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_6);
             func_80AF5894(this);
             this->unk_20A++;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
                 this->unk_20A++;
             }
             break;
@@ -324,11 +324,11 @@ void func_80AF5BA4(EnSa* this) {
 void func_80AF5C40(EnSa* this) {
     switch (this->unk_20A) {
         case 0:
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_5);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_5);
             this->unk_20A++;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_0);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_0);
                 this->unk_20A++;
             }
             break;

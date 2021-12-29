@@ -236,7 +236,7 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     SkelAnime_Init(globalCtx, &this->skelAnime, &object_st_Skel_005298, NULL, this->jointTable, this->morphTable, 30);
-    Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENSW_ANIM_0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENSW_ANIM_0);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->sphs);

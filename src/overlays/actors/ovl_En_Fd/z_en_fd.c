@@ -479,7 +479,7 @@ void EnFd_Reappear(EnFd* this, GlobalContext* globalCtx) {
     this->coreActive = false;
     this->actor.scale.y = 0.0f;
     this->fadeAlpha = 255.0f;
-    Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_0);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_LAUGH);
     this->actionFunc = EnFd_SpinAndGrow;
 }
@@ -491,7 +491,7 @@ void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx) {
         this->actor.world.rot.y ^= 0x8000;
         this->actor.flags |= ACTOR_FLAG_0;
         this->actor.speedXZ = 8.0f;
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
         this->actionFunc = EnFd_JumpToGround;
     } else {
         this->actor.scale.y = this->skelAnime.curFrame * (0.01f / this->skelAnime.animLength);
@@ -505,7 +505,7 @@ void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 0.0f;
         this->actor.speedXZ = 0.0f;
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_2);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_2);
         this->actionFunc = EnFd_Land;
     }
 }
@@ -519,7 +519,7 @@ void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
         this->actor.world.rot.y = Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI);
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_4);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
 }
@@ -567,7 +567,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
             this->curYawToInitPos = this->runDir < 0 ? 0xFFFF : 0;
             this->circlesToComplete = (globalCtx->state.frames & 7) + 2;
             this->spinTimer = Rand_S16Offset(30, 120);
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_3);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_3);
             this->actionFunc = EnFd_Run;
         }
     }
@@ -589,7 +589,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
             this->actor.world.rot.y ^= 0x8000;
             this->actor.velocity.y = 6.0f;
             this->actor.speedXZ = 0.0f;
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
             this->actionFunc = EnFd_JumpToGround;
             return;
         }

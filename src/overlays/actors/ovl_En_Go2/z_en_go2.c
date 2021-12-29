@@ -1113,11 +1113,11 @@ void func_80A454CC(EnGo2* this) {
         case GORON_CITY_ENTRANCE:
         case GORON_CITY_STAIRWELL:
         case GORON_DMT_FAIRY_HINT:
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_9);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_9);
             break;
         case GORON_DMT_BIGGORON:
             if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_4);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_4);
                 break;
             }
         default:
@@ -1281,10 +1281,10 @@ void EnGo2_GetDustData(EnGo2* this, s32 index2) {
 void EnGo2_RollingAnimation(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         this->actor.flags &= ~ACTOR_FLAG_0;
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_10);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_10);
         this->skelAnime.playSpeed = -0.5f;
     } else {
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
         this->skelAnime.playSpeed = -1.0f;
     }
     EnGo2_SwapInitialFrameAnimFrameCount(this);
@@ -1304,17 +1304,17 @@ void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx) {
     }
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         OnePointCutscene_Init(globalCtx, 4200, -99, &this->actor, MAIN_CAM);
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_10);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_10);
         this->skelAnime.playSpeed = 0.5f;
     } else {
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
         this->skelAnime.playSpeed = 1.0f;
     }
     this->actionFunc = func_80A46B40;
 }
 
 void EnGo2_GetItemAnimation(EnGo2* this, GlobalContext* globalCtx) {
-    Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
     this->unk_211 = true;
     this->actionFunc = func_80A46B40;
     this->skelAnime.playSpeed = 0.0f;
@@ -1377,7 +1377,7 @@ s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
         return false;
     }
 
-    Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_3);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_3);
     this->unk_194.unk_00 = 0;
     this->isAwake = false;
     this->unk_26E = 1;
@@ -1451,7 +1451,7 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
         }
 
         if (animation != ARRAY_COUNT(sAnimationInfo)) {
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, animation);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animation);
         }
     }
 }
@@ -1517,7 +1517,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     EnGo2_SetColliderDim(this);
     EnGo2_SetShape(this);
-    Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_0);
     this->actor.gravity = -1.0f;
     this->alpha = this->actor.shape.shadowAlpha = 0;
     this->reverse = 0;
@@ -1799,7 +1799,7 @@ void EnGo2_SetGetItem(EnGo2* this, GlobalContext* globalCtx) {
 void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
     switch (this->goronState) {
         case 0:
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_5);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_5);
             this->actor.flags &= ~ACTOR_FLAG_0;
             this->actor.shape.rot.y += 0x5B0;
             this->unk_26E = 1;
@@ -1818,7 +1818,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
                 }
             } else {
                 func_800F4524(&D_801333D4, NA_SE_EN_GOLON_GOOD_BIG, 60);
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_6);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_6);
                 Message_ContinueTextbox(globalCtx, 0x305A);
                 this->eyeMouthTexState = 3;
                 this->goronState++;
@@ -1830,7 +1830,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
                 this->eyeMouthTexState = 0;
             }
             if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
                 this->actor.flags |= ACTOR_FLAG_0;
                 this->unk_26E = 2;
                 this->skelAnime.playSpeed = 0.0f;
@@ -1881,7 +1881,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
             if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
                 EnGo2_GoronFireCamera(this, globalCtx);
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_2);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_2);
                 this->waypoint = 1;
                 this->skelAnime.playSpeed = 2.0f;
                 func_80A44D84(this);

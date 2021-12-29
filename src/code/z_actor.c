@@ -3857,7 +3857,7 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
     return arg2;
 }
 
-void Animation_ChangeInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, s32 index) {
+void Animation_ChangeByInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, s32 index) {
     f32 frameCount;
 
     animationInfo += index;

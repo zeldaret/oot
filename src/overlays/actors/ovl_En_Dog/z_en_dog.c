@@ -146,19 +146,19 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
                 animation = ENDOG_ANIM_6;
                 break;
         }
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, animation);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animation);
     }
 
     switch (this->behavior) {
         case DOG_SIT:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_5);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_5);
                 this->behavior = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_7);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_7);
                 this->behavior = this->nextBehavior = DOG_BOW_2;
             }
             break;
@@ -246,7 +246,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDogSkel, NULL, this->jointTable, this->morphTable, 13);
-    Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_0);
 
     if ((this->actor.params & 0x8000) == 0) {
         this->actor.params = (this->actor.params & 0xF0FF) | ((((this->actor.params & 0x0F00) >> 8) + 1) << 8);

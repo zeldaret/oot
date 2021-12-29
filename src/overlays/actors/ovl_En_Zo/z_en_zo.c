@@ -560,7 +560,7 @@ void EnZo_SetAnimation(EnZo* this) {
     }
 
     if (animId != ARRAY_COUNT(sAnimationInfo)) {
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, animId);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animId);
         if (animId == ENZO_ANIM_3) {
             this->skelAnime.curFrame = this->skelAnime.endFrame;
             this->skelAnime.playSpeed = 0.0f;
@@ -582,7 +582,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_2);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_2);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
     this->dialogRadius = this->collider.dim.radius + 30.0f;
@@ -595,7 +595,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.yDistToWater < 54.0f || (this->actor.params & 0x3F) == 8) {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         this->actor.shape.shadowScale = 24.0f;
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_1);
         this->canSpeak = true;
         this->alpha = 255.0f;
         this->actionFunc = EnZo_Standing;
@@ -641,7 +641,7 @@ void EnZo_Surface(EnZo* this, GlobalContext* globalCtx) {
     if (this->actor.yDistToWater < 54.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_3);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_3);
         this->actor.flags |= ACTOR_FLAG_0;
         this->actionFunc = EnZo_TreadWater;
         this->actor.velocity.y = 0.0f;
@@ -676,7 +676,7 @@ void EnZo_TreadWater(EnZo* this, GlobalContext* globalCtx) {
         this->timeToDive = Rand_S16Offset(40, 40);
     } else if (DECR(this->timeToDive) == 0) {
         f32 startFrame;
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_4);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_4);
         this->canSpeak = false;
         this->unk_64C = 1;
         this->actionFunc = EnZo_Dive;
@@ -707,7 +707,7 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
     }
 
     if ((s16)this->alpha == 0) {
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_2);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_2);
         this->actor.world.pos = this->actor.home.pos;
         this->alpha = 0.0f;
         this->actionFunc = EnZo_Submerged;

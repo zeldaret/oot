@@ -664,12 +664,12 @@ s32 func_80A97D68(EnKo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &gObjOsAnim_6A60) == false) {
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_32);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_32);
         }
         arg3 = 2;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_7830) == false) {
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_33);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_33);
         }
         arg3 = 1;
     }
@@ -717,13 +717,13 @@ s32 func_80A97F70(EnKo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
         arg3 = 2;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_7D94) == false) {
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_30);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_30);
         }
         arg3 = 1;
     }
@@ -737,14 +737,14 @@ s32 func_80A98034(EnKo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
         result = EnKo_IsWithinTalkAngle(this);
         arg3 = (result == true) ? 2 : 1;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_879C) == false) {
-            Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_31);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_31);
         }
         arg3 = 1;
         result = EnKo_IsWithinTalkAngle(this);
@@ -1150,7 +1150,7 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
             this->collider.base.ocFlags1 |= 0x40;
         }
         this->forestQuestState = EnKo_GetForestQuestState2(this);
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, sOsAnimeLookup[ENKO_TYPE][this->forestQuestState]);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sOsAnimeLookup[ENKO_TYPE][this->forestQuestState]);
         Actor_SetScale(&this->actor, 0.01f);
         func_80A98CD8(this);
         this->modelAlpha = 0.0f;
@@ -1171,7 +1171,7 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
 
 void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 != 0 && this->actor.textId == 0x10B9) {
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_7);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_7);
         this->actionFunc = func_80A99438;
     } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
         this->actionFunc = func_80A99504;
@@ -1182,12 +1182,12 @@ void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
 
 void func_80A99438(EnKo* this, GlobalContext* globalCtx) {
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
         this->actionFunc = func_80A99504;
         globalCtx->msgCtx.stateTimer = 4;
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else if (this->unk_1E8.unk_00 == 0 || this->actor.textId != 0x10B9) {
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
         this->actionFunc = func_80A99384;
     }
 }

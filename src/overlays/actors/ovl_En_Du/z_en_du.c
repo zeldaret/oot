@@ -254,7 +254,7 @@ void func_809FE040(EnDu* this) {
         if (this->unk_1E6 >= 8) {
             this->unk_1E6 = 0;
         }
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, animationIndices[this->unk_1E6]);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animationIndices[this->unk_1E6]);
     }
 }
 
@@ -270,7 +270,7 @@ void func_809FE104(EnDu* this) {
         if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
             this->unk_1E6++;
             if (this->unk_1E6 < 4) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, animationIndices[this->unk_1E6]);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animationIndices[this->unk_1E6]);
             }
         }
     }
@@ -289,7 +289,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_0);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 1;
     this->unk_1F4.unk_00 = 0;
@@ -453,11 +453,11 @@ void func_809FE890(EnDu* this, GlobalContext* globalCtx) {
         }
         if (this->unk_1EA != csAction->action) {
             if (csAction->action == 1) {
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
             }
             if (csAction->action == 7 || csAction->action == 8) {
                 this->unk_1E6 = 0;
-                Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_7);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_7);
             }
             this->unk_1EA = csAction->action;
             if (this->unk_1EA == 7) {
@@ -506,7 +506,7 @@ void func_809FEB08(EnDu* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8 == 1) {
         func_8002DF54(globalCtx, &this->actor, 7);
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
         EnDu_SetupAction(this, func_809FE3C0);
         return;
     }
@@ -518,7 +518,7 @@ void func_809FEB08(EnDu* this, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE3C0);
     }
     Message_StartTextbox(globalCtx, this->actor.textId, NULL);
-    Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_14);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_14);
     this->unk_1F4.unk_00 = 1;
 }
 
@@ -556,7 +556,7 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->skelAnime.animation == &gDaruniaDancingEndAnim &&
         Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-        Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
     }
 
     SkelAnime_Update(&this->skelAnime);
