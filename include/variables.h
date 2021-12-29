@@ -213,6 +213,8 @@ extern FaultThreadStruct gFaultStruct;
 // data/code_800F7260.bss.s
 extern ActiveSound gActiveSounds[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
 extern u8 gSoundBankMuted[];
+extern u8 D_801333F0;
+extern u8 gAudioSfxSwapOff;
 extern u16 gAudioSfxSwapSource[10];
 extern u16 gAudioSfxSwapTarget[10];
 extern u8 gAudioSfxSwapMode[10];
@@ -220,6 +222,11 @@ extern u32 sAudioSeqCmds[0x100];
 extern unk_D_8016E750 D_8016E750[4];
 extern AudioContext gAudioContext;
 extern void(*D_801755D0)(void);
+
+extern Struct_8016E320 D_8016E320[4][5];
+extern u8 D_8016E348[4];
+extern u32 sAudioSeqCmds[0x100];
+extern unk_D_8016E750 D_8016E750[4];
 
 extern u32 __osMalloc_FreeBlockTest_Enable;
 extern Arena gSystemArena;

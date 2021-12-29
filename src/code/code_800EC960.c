@@ -84,8 +84,6 @@ typedef enum {
 
 #define SFX_PLAYER_CHANNEL_OCARINA 13
 
-extern f32 D_8012F6B4[]; // from audio_synthesis
-
 u8 gIsLargeSoundBank[7] = { 0, 0, 0, 1, 0, 0, 0 };
 
 // Only the first row of these is supported by sequence 0. (gSfxChannelLayout is always 0.)
@@ -1169,9 +1167,6 @@ OcarinaSongInfo gOcarinaSongNotes[OCARINA_SONG_MAX] = {
     { 0, { 0, 0, 0, 0, 0, 0, 0, 0 } },
 };
 // clang-format on
-
-extern u8 D_801333F0;
-extern u8 gAudioSfxSwapOff;
 
 /**
  * BSS

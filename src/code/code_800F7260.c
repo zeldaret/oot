@@ -51,10 +51,6 @@ UnusedBankLerp sUnusedBankLerp[7];
 u16 gAudioSfxSwapSource[10];
 u16 gAudioSfxSwapTarget[10];
 u8 gAudioSfxSwapMode[10];
-typedef struct {
-    u8 unk_0;
-    u8 unk_1; // importance?
-} Struct_8016E320;
 Struct_8016E320 D_8016E320[4][5];
 u8 D_8016E348[4];
 u32 sAudioSeqCmds[0x100];
