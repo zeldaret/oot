@@ -434,6 +434,10 @@ void BuildAssetTexture(const fs::path& pngFilePath, TextureType texType, const f
 	std::string name = outPath.stem().string();
 
 	ZTexture tex(nullptr);
+
+	if (name.find("u32") != std::string::npos)
+		tex.dWordAligned = false;
+
 	tex.FromPNG(pngFilePath.string(), texType);
 	std::string cfgPath = StringHelper::Split(pngFilePath.string(), ".")[0] + ".cfg";
 
