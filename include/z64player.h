@@ -5,6 +5,16 @@
 
 struct Player;
 
+// TODO make sure this enum is right, may be mistaken
+// this may be confusing because this has nothing to do with Player#currentSword
+typedef enum {
+    /* 0 */ PLAYER_SWORD_NONE,
+    /* 1 */ PLAYER_SWORD_KOKIRI,
+    /* 2 */ PLAYER_SWORD_MASTER,
+    /* 3 */ PLAYER_SWORD_BGS,
+    /* 4 */ PLAYER_SWORD_MAX
+} PlayerSword;
+
 typedef enum {
     /* 0x00 */ PLAYER_SHIELD_NONE,
     /* 0x01 */ PLAYER_SHIELD_DEKU,
@@ -157,6 +167,110 @@ typedef enum {
     /*  3 */ PLAYER_DOORTYPE_FAKE
 } PlayerDoorType;
 
+typedef enum {
+    /*  0 */ PLAYER_MODELGROUP_0, // unused? or maybe just at startup from bzero
+    /*  1 */ PLAYER_MODELGROUP_1,
+    /*  2 */ PLAYER_MODELGROUP_2,
+    /*  3 */ PLAYER_MODELGROUP_3,
+    /*  4 */ PLAYER_MODELGROUP_4,
+    /*  5 */ PLAYER_MODELGROUP_5,
+    /*  6 */ PLAYER_MODELGROUP_6,
+    /*  7 */ PLAYER_MODELGROUP_7,
+    /*  8 */ PLAYER_MODELGROUP_8,
+    /*  9 */ PLAYER_MODELGROUP_9,
+    /* 10 */ PLAYER_MODELGROUP_10,
+    /* 11 */ PLAYER_MODELGROUP_11,
+    /* 12 */ PLAYER_MODELGROUP_12,
+    /* 13 */ PLAYER_MODELGROUP_13,
+    /* 14 */ PLAYER_MODELGROUP_14,
+    /* 15 */ PLAYER_MODELGROUP_15,
+    /* 16 */ PLAYER_MODELGROUP_MAX
+} PlayerModelGroup;
+
+typedef enum {
+    /*  0 */ PLAYER_MODELTYPE_0,
+    /*  1 */ PLAYER_MODELTYPE_1,
+    /*  2 */ PLAYER_MODELTYPE_2,
+    /*  3 */ PLAYER_MODELTYPE_3,
+    /*  4 */ PLAYER_MODELTYPE_4,
+    /*  5 */ PLAYER_MODELTYPE_5,
+    /*  6 */ PLAYER_MODELTYPE_6,
+    /*  7 */ PLAYER_MODELTYPE_7,
+    /*  8 */ PLAYER_MODELTYPE_8,
+    /*  9 */ PLAYER_MODELTYPE_9,
+    /* 10 */ PLAYER_MODELTYPE_10,
+    /* 11 */ PLAYER_MODELTYPE_11,
+    /* 12 */ PLAYER_MODELTYPE_12,
+    /* 13 */ PLAYER_MODELTYPE_13,
+    /* 14 */ PLAYER_MODELTYPE_14,
+    /* 15 */ PLAYER_MODELTYPE_15,
+    /* 16 */ PLAYER_MODELTYPE_16,
+    /* 17 */ PLAYER_MODELTYPE_17,
+    /* 18 */ PLAYER_MODELTYPE_18,
+    /* 19 */ PLAYER_MODELTYPE_19,
+    /* 20 */ PLAYER_MODELTYPE_20,
+    /* 21 */ PLAYER_MODELTYPE_MAX,
+    PLAYER_MODELTYPE_FF = 0xFF // ?
+} PlayerModelType;
+
+typedef enum {
+    /* 0 */ PLAYER_ANIMTYPE_0,
+    /* 1 */ PLAYER_ANIMTYPE_1,
+    /* 2 */ PLAYER_ANIMTYPE_2,
+    /* 3 */ PLAYER_ANIMTYPE_3,
+    /* 4 */ PLAYER_ANIMTYPE_4,
+    /* 5 */ PLAYER_ANIMTYPE_5,
+    /* 6 */ PLAYER_ANIMTYPE_MAX
+} PlayerAnimType;
+
+typedef enum {
+    /*  0 */ PLAYER_ANIMGROUP_0,
+    /*  1 */ PLAYER_ANIMGROUP_1,
+    /*  2 */ PLAYER_ANIMGROUP_2,
+    /*  3 */ PLAYER_ANIMGROUP_3,
+    /*  4 */ PLAYER_ANIMGROUP_4,
+    /*  5 */ PLAYER_ANIMGROUP_5,
+    /*  6 */ PLAYER_ANIMGROUP_6,
+    /*  7 */ PLAYER_ANIMGROUP_7,
+    /*  8 */ PLAYER_ANIMGROUP_8,
+    /*  9 */ PLAYER_ANIMGROUP_9,
+    /* 10 */ PLAYER_ANIMGROUP_10,
+    /* 11 */ PLAYER_ANIMGROUP_11,
+    /* 12 */ PLAYER_ANIMGROUP_12,
+    /* 13 */ PLAYER_ANIMGROUP_13,
+    /* 14 */ PLAYER_ANIMGROUP_14,
+    /* 15 */ PLAYER_ANIMGROUP_15,
+    /* 16 */ PLAYER_ANIMGROUP_16,
+    /* 17 */ PLAYER_ANIMGROUP_17,
+    /* 18 */ PLAYER_ANIMGROUP_18,
+    /* 19 */ PLAYER_ANIMGROUP_19,
+    /* 20 */ PLAYER_ANIMGROUP_20,
+    /* 21 */ PLAYER_ANIMGROUP_21,
+    /* 22 */ PLAYER_ANIMGROUP_22,
+    /* 23 */ PLAYER_ANIMGROUP_23,
+    /* 24 */ PLAYER_ANIMGROUP_24,
+    /* 25 */ PLAYER_ANIMGROUP_25,
+    /* 26 */ PLAYER_ANIMGROUP_26,
+    /* 27 */ PLAYER_ANIMGROUP_27,
+    /* 28 */ PLAYER_ANIMGROUP_28,
+    /* 29 */ PLAYER_ANIMGROUP_29,
+    /* 30 */ PLAYER_ANIMGROUP_30,
+    /* 31 */ PLAYER_ANIMGROUP_31,
+    /* 32 */ PLAYER_ANIMGROUP_32,
+    /* 33 */ PLAYER_ANIMGROUP_33,
+    /* 34 */ PLAYER_ANIMGROUP_34,
+    /* 35 */ PLAYER_ANIMGROUP_35,
+    /* 36 */ PLAYER_ANIMGROUP_36,
+    /* 37 */ PLAYER_ANIMGROUP_37,
+    /* 38 */ PLAYER_ANIMGROUP_38,
+    /* 39 */ PLAYER_ANIMGROUP_39,
+    /* 40 */ PLAYER_ANIMGROUP_40,
+    /* 41 */ PLAYER_ANIMGROUP_41,
+    /* 42 */ PLAYER_ANIMGROUP_42,
+    /* 43 */ PLAYER_ANIMGROUP_43,
+    /* 44 */ PLAYER_ANIMGROUP_44,
+    /* 45 */ PLAYER_ANIMGROUP_MAX
+} PlayerAnimGroup;
 
 #define PLAYER_LIMB_BUF_COUNT PLAYER_LIMB_MAX + 2 // 2 extra entries in limb buffers?
 

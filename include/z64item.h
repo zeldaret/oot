@@ -2,11 +2,73 @@
 #define Z64ITEM_H
 
 typedef enum {
-    /* 0x00 */ EQUIP_SWORD,
-    /* 0x01 */ EQUIP_SHIELD,
-    /* 0x02 */ EQUIP_TUNIC,
-    /* 0x03 */ EQUIP_BOOTS
+    /* 0 */ EQUIP_SWORD,
+    /* 1 */ EQUIP_SHIELD,
+    /* 2 */ EQUIP_TUNIC,
+    /* 3 */ EQUIP_BOOTS,
+    /* 4 */ EQUIP_MAX
 } EquipmentType;
+
+// CHECK_OWNED_EQUIP (gSaveContext.inventory.equipment)
+
+typedef enum {
+    /* 0 */ INV_EQUIP_SWORD_KOKIRI,
+    /* 1 */ INV_EQUIP_SWORD_MASTER,
+    /* 2 */ INV_EQUIP_SWORD_BGS,
+    /* 3 */ INV_EQUIP_SWORD_GIANTKNIFE // TODO not sure
+} InvEquipSword;
+
+typedef enum {
+    /* 0 */ INV_EQUIP_SHIELD_DEKU,
+    /* 1 */ INV_EQUIP_SHIELD_HYLIAN,
+    /* 2 */ INV_EQUIP_SHIELD_MIRROR
+} InvEquipShield;
+
+typedef enum {
+    /* 0 */ INV_EQUIP_TUNIC_KOKIRI,
+    /* 1 */ INV_EQUIP_TUNIC_GORON,
+    /* 2 */ INV_EQUIP_TUNIC_ZORA
+} InvEquipTunic;
+
+typedef enum {
+    /* 0 */ INV_EQUIP_BOOTS_KOKIRI,
+    /* 1 */ INV_EQUIP_BOOTS_IRON,
+    /* 2 */ INV_EQUIP_BOOTS_HOVER
+} InvEquipBoots;
+
+// CUR_EQUIP_VALUE (gSaveContext.equips.equipment)
+
+typedef enum {
+    /* 0 */ EQUIP_EQUIP_SWORD_NONE,
+    /* 1 */ EQUIP_EQUIP_SWORD_KOKIRI,
+    /* 2 */ EQUIP_EQUIP_SWORD_MASTER,
+    /* 3 */ EQUIP_EQUIP_SWORD_BGS,
+    /* 4 */ EQUIP_EQUIP_SWORD_MAX
+} EquipEquipSword;
+
+typedef enum {
+    /* 0 */ EQUIP_EQUIP_SHIELD_NONE,
+    /* 1 */ EQUIP_EQUIP_SHIELD_DEKU,
+    /* 2 */ EQUIP_EQUIP_SHIELD_HYLIAN,
+    /* 3 */ EQUIP_EQUIP_SHIELD_MIRROR,
+    /* 4 */ EQUIP_EQUIP_SHIELD_MAX
+} EquipEquipShield;
+
+typedef enum {
+    /* 0 */ EQUIP_EQUIP_TUNIC_NONE,
+    /* 1 */ EQUIP_EQUIP_TUNIC_KOKIRI,
+    /* 2 */ EQUIP_EQUIP_TUNIC_GORON,
+    /* 3 */ EQUIP_EQUIP_TUNIC_ZORA,
+    /* 4 */ EQUIP_EQUIP_TUNIC_MAX
+} EquipEquipTunic;
+
+typedef enum {
+    /* 0 */ EQUIP_EQUIP_BOOTS_NONE,
+    /* 1 */ EQUIP_EQUIP_BOOTS_NORMAL,
+    /* 2 */ EQUIP_EQUIP_BOOTS_IRON,
+    /* 3 */ EQUIP_EQUIP_BOOTS_HOVER,
+    /* 4 */ EQUIP_EQUIP_BOOTS_MAX
+} EquipEquipBoots;
 
 typedef enum {
     /* 0x00 */ UPG_QUIVER,

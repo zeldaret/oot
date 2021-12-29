@@ -295,14 +295,14 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     this->wobbleSizeTarget = 2048.0f;
     tunic = 0;
     shield = 0;
-    if (CUR_EQUIP_VALUE(EQUIP_SHIELD) != 3 /* Mirror shield */) {
+    if (CUR_EQUIP_VALUE(EQUIP_SHIELD) != EQUIP_EQUIP_SHIELD_MIRROR) {
         shield = Inventory_DeleteEquipment(globalCtx, EQUIP_SHIELD);
         if (shield != 0) {
             this->eatenShield = shield;
             this->retreat = true;
         }
     }
-    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != 1 /* Kokiri tunic */) {
+    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != EQUIP_EQUIP_TUNIC_KOKIRI) {
         tunic = Inventory_DeleteEquipment(globalCtx, EQUIP_TUNIC);
         if (tunic != 0) {
             this->eatenTunic = tunic;

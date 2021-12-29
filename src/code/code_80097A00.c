@@ -191,19 +191,19 @@ void Inventory_ChangeEquipment(s16 equipment, u16 value) {
 u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
-    u16 sp26 = gSaveContext.equips.equipment & gEquipMasks[equipment];
+    u16 equipValue = gSaveContext.equips.equipment & gEquipMasks[equipment];
 
     // "Erasing equipment item = %d  zzz=%d"
-    osSyncPrintf("装備アイテム抹消 = %d  zzz=%d\n", equipment, sp26);
+    osSyncPrintf("装備アイテム抹消 = %d  zzz=%d\n", equipment, equipValue);
 
-    if (sp26) {
-        sp26 >>= gEquipShifts[equipment];
+    if (equipValue) {
+        equipValue >>= gEquipShifts[equipment];
 
         gSaveContext.equips.equipment &= gEquipNegMasks[equipment];
-        gSaveContext.inventory.equipment ^= gBitFlags[sp26 - 1] << gEquipShifts[equipment];
+        gSaveContext.inventory.equipment ^= gBitFlags[equipValue - 1] << gEquipShifts[equipment];
 
         if (equipment == EQUIP_TUNIC) {
-            gSaveContext.equips.equipment |= 0x0100;
+            gSaveContext.equips.equipment |= EQUIP_EQUIP_TUNIC_KOKIRI << (EQUIP_TUNIC * 4);
         }
 
         if (equipment == EQUIP_SWORD) {
@@ -215,7 +215,7 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
         globalCtx->pauseCtx.cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 
-    return sp26;
+    return equipValue;
 }
 
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value) {
