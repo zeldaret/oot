@@ -12,7 +12,7 @@ def SignalHandler(sig, frame):
     mainAbort.set()
     # Don't exit immediately to update the extracted assets file.
 
-def ExtractFile(xmlPath, outputPath, outputSourcePath, ZAPDArgs):
+def ExtractFile(xmlPath, outputPath, outputSourcePath):
     if globalAbort.is_set():
         # Don't extract if another file wasn't extracted properly.
         return
