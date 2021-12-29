@@ -12,7 +12,7 @@ def SignalHandler(sig, frame):
     mainAbort.set()
     # Don't exit immediately to update the extracted assets file.
 
-def ExtractFile(xmlPath, outputPath, outputSourcePath):
+def ExtractFile(xmlPath, outputPath, outputSourcePath, ZAPDArgs):
     if globalAbort.is_set():
         # Don't extract if another file wasn't extracted properly.
         return
@@ -80,7 +80,7 @@ def processZAPDArgs(argsZ):
 
     ZAPDArgs = " ".join(f"-{z}" for z in argsZ)
     print("Using extra ZAPD arguments: " + ZAPDArgs)
-
+    return ZAPDArgs
 
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
@@ -92,9 +92,7 @@ def main():
     args = parser.parse_args()
 
     global ZAPDArgs
-    ZAPDArgs = ""
-    if args.Z is not None:
-        processZAPDArgs(args.Z)
+    ZAPDArgs = processZAPDArgs(args.Z) if args.Z else ""
 
     global mainAbort
     mainAbort = multiprocessing.Event()
