@@ -16,7 +16,7 @@ void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx);
 void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx);
-void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx);
+void EnDog_FollowPlayer(EnDog* this, GlobalContext* globalCtx);
 void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx);
 void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx);
 void EnDog_Wait(EnDog* this, GlobalContext* globalCtx);
@@ -67,14 +67,14 @@ typedef enum {
 } EnDogAnimation;
 
 static AnimationInfo sAnimationInfo[] = {
-    { &object_dog_Anim_001368, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &object_dog_Anim_001368, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
-    { &object_dog_Anim_000D78, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
-    { &object_dog_Anim_000278, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
-    { &object_dog_Anim_001150, 1.0f, 0.0f, 4.0f, ANIMMODE_ONCE, -6.0f },
-    { &object_dog_Anim_001150, 1.0f, 5.0f, 25.0f, ANIMMODE_LOOP_PARTIAL, -6.0f },
-    { &object_dog_Anim_000928, 1.0f, 0.0f, 6.0f, ANIMMODE_ONCE, -6.0f },
-    { &object_dog_Anim_000C28, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { &gDogWalkAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gDogWalkAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { &gDogRunAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { &gDogBarkAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { &gDogSitAnim, 1.0f, 0.0f, 4.0f, ANIMMODE_ONCE, -6.0f },
+    { &gDogSitAnim, 1.0f, 5.0f, 25.0f, ANIMMODE_LOOP_PARTIAL, -6.0f },
+    { &gDogBowAnim, 1.0f, 0.0f, 6.0f, ANIMMODE_ONCE, -6.0f },
+    { &gDogBow2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
 };
 
 typedef enum {
@@ -88,7 +88,7 @@ typedef enum {
 } DogBehavior;
 
 void EnDog_PlayWalkSFX(EnDog* this) {
-    AnimationHeader* walk = &object_dog_Anim_001368;
+    AnimationHeader* walk = &gDogWalkAnim;
 
     if (this->skelAnime.animation == walk) {
         if ((this->skelAnime.curFrame == 1.0f) || (this->skelAnime.curFrame == 7.0f)) {
@@ -98,7 +98,7 @@ void EnDog_PlayWalkSFX(EnDog* this) {
 }
 
 void EnDog_PlayRunSFX(EnDog* this) {
-    AnimationHeader* run = &object_dog_Anim_000D78;
+    AnimationHeader* run = &gDogRunAnim;
 
     if (this->skelAnime.animation == run) {
         if ((this->skelAnime.curFrame == 2.0f) || (this->skelAnime.curFrame == 4.0f)) {
@@ -108,7 +108,7 @@ void EnDog_PlayRunSFX(EnDog* this) {
 }
 
 void EnDog_PlayBarkSFX(EnDog* this) {
-    AnimationHeader* bark = &object_dog_Anim_000278;
+    AnimationHeader* bark = &gDogBarkAnim;
 
     if (this->skelAnime.animation == bark) {
         if ((this->skelAnime.curFrame == 13.0f) || (this->skelAnime.curFrame == 19.0f)) {
@@ -151,13 +151,13 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
 
     switch (this->behavior) {
         case DOG_SIT:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_5);
                 this->behavior = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_7);
                 this->behavior = this->nextBehavior = DOG_BOW_2;
             }
@@ -170,7 +170,6 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
             break;
         case DOG_BARK:
             EnDog_PlayBarkSFX(this);
-            if (this) {} // needed for regalloc
             break;
     }
     return 0;
@@ -246,8 +245,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_dog_Skel_007290, NULL, this->jointTable, this->morphTable,
-                       13);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDogSkel, NULL, this->jointTable, this->morphTable, 13);
     Animation_ChangeInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_0);
 
     if ((this->actor.params & 0x8000) == 0) {
@@ -275,7 +273,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case SCENE_IMPA: // Richard's Home
-            if ((u32)(this->actor.params & 0x8000) == 0) {
+            if (!(this->actor.params & 0x8000)) {
                 if (!gSaveContext.dogIsLost) {
                     this->nextBehavior = DOG_SIT;
                     this->actionFunc = EnDog_Wait;
@@ -289,9 +287,9 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    if ((u32)(this->actor.params & 0x8000) != 0) {
+    if (this->actor.params & 0x8000) {
         this->nextBehavior = DOG_WALK;
-        this->actionFunc = EnDog_FollowLink;
+        this->actionFunc = EnDog_FollowPlayer;
     } else {
         this->nextBehavior = DOG_SIT;
         this->actionFunc = EnDog_ChooseMovement;
@@ -310,7 +308,7 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
     s32 frame;
 
     if (EnDog_CanFollow(this, globalCtx) == 1) {
-        this->actionFunc = EnDog_FollowLink;
+        this->actionFunc = EnDog_FollowPlayer;
     }
 
     if (DECR(this->behaviorTimer) != 0) {
@@ -343,7 +341,7 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
 
 void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
     if (EnDog_CanFollow(this, globalCtx) == 1) {
-        this->actionFunc = EnDog_FollowLink;
+        this->actionFunc = EnDog_FollowPlayer;
     }
 
     if (DECR(this->behaviorTimer) == 0) {
@@ -362,7 +360,7 @@ void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
 }
 
-void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_FollowPlayer(EnDog* this, GlobalContext* globalCtx) {
     f32 speed;
 
     if (gSaveContext.dogParams == 0) {

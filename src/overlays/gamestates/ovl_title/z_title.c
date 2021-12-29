@@ -127,7 +127,7 @@ void Title_Main(GameState* thisx) {
     Title_Calc(this);
     Title_Draw(this);
 
-    if (D_8012DBC0) {
+    if (gIsCtrlr2Valid) {
         Gfx* gfx = POLY_OPA_DISP;
         s32 pad;
 

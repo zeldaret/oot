@@ -4161,7 +4161,7 @@ void Interface_Update(GlobalContext* globalCtx) {
             gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
             func_800F6964(30);
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-            gSaveContext.natureAmbienceId = 0xFF;
+            gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
         } else {
             gSaveContext.sunsSongState = SUNSSONG_SPECIAL;
         }

@@ -286,7 +286,7 @@ void PadMgr_HandleRetraceMsg(PadMgr* padMgr) {
     mask = 0;
     for (i = 0; i < 4; i++) {
         if (padMgr->padStatus[i].errno == 0) {
-            if (padMgr->padStatus[i].type == 5) {
+            if (padMgr->padStatus[i].type == CONT_TYPE_NORMAL) {
                 mask |= 1 << i;
             } else {
                 LOG_HEX("this->pad_status[i].type", padMgr->padStatus[i].type, "../padmgr.c", 458);
