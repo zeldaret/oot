@@ -240,7 +240,7 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 
-void EnHorseZelda_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
+void EnHorseZelda_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseZelda* this = (EnHorseZelda*)thisx;
@@ -251,7 +251,7 @@ void EnHorseZelda_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, PSkinAwb*
         sp4C.y = this->colliderSphere.elements[i].dim.modelSphere.center.y;
         sp4C.z = this->colliderSphere.elements[i].dim.modelSphere.center.z;
 
-        func_800A6408(skin, this->colliderSphere.elements[i].dim.limb, &sp4C, &sp40);
+        Skin_GetLimbPos(skin, this->colliderSphere.elements[i].dim.limb, &sp4C, &sp40);
 
         this->colliderSphere.elements[i].dim.worldSphere.center.x = sp40.x;
         this->colliderSphere.elements[i].dim.worldSphere.center.y = sp40.y;
