@@ -899,13 +899,17 @@ def main():
 
     # Export AIFF samples
     for bank in rawSamples:
+        rawSamples[bank] = sorted(rawSamples[bank].items())
+        idx = 0
+        width = len(str(len(rawSamples[bank])))
         for address in rawSamples[bank]:
             sample = rawSamples[bank][address]
             filename_base = os.path.join(samples_out_dir, samplebanks[bank])
             os.makedirs(filename_base, exist_ok=True)
-            aifc_filename = os.path.join(filename_base, f"{sample.name}.aifc")
+            aifc_filename = os.path.join(filename_base, f"{str(idx).zfill(width)} {sample.name}.aifc")
             write_aifc(version, bank_data, bank_defs, sample, aifc_filename)
-            write_aiff(sample, samples_out_dir, aifc_filename, f"{sample.name}.aiff")
+            write_aiff(sample, samples_out_dir, aifc_filename, f"{str(idx).zfill(width)} {sample.name}.aiff")
+            idx += 1
     
     if len(usedRawData) > 0:
         report_gaps("SAMPLE", usedRawData, bank_data)
