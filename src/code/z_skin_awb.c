@@ -9,18 +9,18 @@ void Skin_InitAnimatedLimb(GlobalContext* globalCtx, Skin* skin, s32 limbIndex) 
     SkinLimb** skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     SkinAnimatedLimbData* animatedLimbData =
         SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment);
-    SkinLimbModif* temp_v0 = SEGMENTED_TO_VIRTUAL(animatedLimbData->limbModifications);
-    SkinLimbModif* entry;
+    SkinLimbModif* limbModifications = SEGMENTED_TO_VIRTUAL(animatedLimbData->limbModifications);
+    SkinLimbModif* modifEntry;
     SkinVertex* skinVtxEntry;
 
     for (i = 0; i < ARRAY_COUNT(skin->vtxTable->buf); i++) {
-        Vtx* vertices = skin->vtxTable[limbIndex].buf[i];
+        Vtx* vtxBuf = skin->vtxTable[limbIndex].buf[i];
 
-        for (entry = temp_v0; entry < temp_v0 + animatedLimbData->limbModifCount; entry++) {
-            SkinVertex* skinVertices = SEGMENTED_TO_VIRTUAL(entry->skinVertices);
+        for (modifEntry = limbModifications; modifEntry < limbModifications + animatedLimbData->limbModifCount; modifEntry++) {
+            SkinVertex* skinVertices = SEGMENTED_TO_VIRTUAL(modifEntry->skinVertices);
 
-            for (skinVtxEntry = skinVertices; skinVtxEntry < &skinVertices[entry->vtxCount]; skinVtxEntry++) {
-                Vtx* vtx = &vertices[skinVtxEntry->vtxIndex];
+            for (skinVtxEntry = skinVertices; skinVtxEntry < &skinVertices[modifEntry->vtxCount]; skinVtxEntry++) {
+                Vtx* vtx = &vtxBuf[skinVtxEntry->index];
 
                 vtx->n.flag = 0;
                 vtx->n.tc[0] = skinVtxEntry->u;
@@ -47,29 +47,30 @@ void Skin_Init(GlobalContext* globalCtx, Skin* skin, SkeletonHeader* skeletonHea
 
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     limbCount = skin->skeletonHeader->limbCount;
+
     skin->vtxTable = ZeldaArena_MallocDebug(limbCount * sizeof(SkinLimbVtx), "../z_skin_awb.c", 212);
 
     ASSERT(skin->vtxTable != NULL, "pskin_awb->avb_tbl != NULL", "../z_skin_awb.c", 214);
 
     for (i = 0; i < limbCount; i++) {
-        SkinLimbVtx* avbEntry = &skin->vtxTable[i];
+        SkinLimbVtx* vtxEntry = &skin->vtxTable[i];
         SkinLimb* limb = SEGMENTED_TO_VIRTUAL(skeleton[i]);
 
         if ((limb->segmentType != SKIN_LIMB_TYPE_ANIMATED) || (limb->segment == NULL)) {
-            avbEntry->index = 0;
+            vtxEntry->index = 0;
 
-            avbEntry->buf[0] = NULL;
-            avbEntry->buf[1] = NULL;
+            vtxEntry->buf[0] = NULL;
+            vtxEntry->buf[1] = NULL;
         } else {
             SkinAnimatedLimbData* animatedLimbData = SEGMENTED_TO_VIRTUAL(((void)0, limb->segment));
 
-            avbEntry->index = 0;
+            vtxEntry->index = 0;
             
-            avbEntry->buf[0] = ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 235);
-            ASSERT(avbEntry->buf[0] != NULL, "psavb->buf[0] != NULL", "../z_skin_awb.c", 237);
+            vtxEntry->buf[0] = ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 235);
+            ASSERT(vtxEntry->buf[0] != NULL, "psavb->buf[0] != NULL", "../z_skin_awb.c", 237);
 
-            avbEntry->buf[1] = ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 240);
-            ASSERT(avbEntry->buf[1] != NULL, "psavb->buf[1] != NULL", "../z_skin_awb.c", 242);
+            vtxEntry->buf[1] = ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 240);
+            ASSERT(vtxEntry->buf[1] != NULL, "psavb->buf[1] != NULL", "../z_skin_awb.c", 242);
 
             Skin_InitAnimatedLimb(globalCtx, skin, i);
         }
@@ -154,15 +155,18 @@ s32 Skin_ApplyLimbTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, 
     Vec3s* jointRot = &skin->skelAnime.jointTable[0];
 
     jointRot++;
+    
     xRot = jointRot->x;
     yRot = jointRot->y;
     zRot = jointRot->z;
 
     if (setTranslation) {
-        jointRot--;
+        jointRot--; // access joint table entry 0 for translation data
+
         xTransl = jointRot->x;
         yTransl = jointRot->y;
         zTransl = jointRot->z;
+
         jointRot++;
 
         if (setTranslation == SKIN_TRANSFORM_FHG_HACK) {
@@ -170,6 +174,7 @@ s32 Skin_ApplyLimbTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, 
 
             yRot += horse->turnRot;
         }
+
         SkinMatrix_SetTranslateRotateZYX(&limbMatrices[0], xRot, yRot, zRot, xTransl, yTransl, zTransl);
     } else {
         SkinMatrix_SetTranslateRotateZYX(&limbMatrices[0], xRot, yRot, zRot, 0.0f, 0.0f, 0.0f);

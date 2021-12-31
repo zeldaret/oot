@@ -276,7 +276,7 @@ typedef struct SkelAnime {
  * It is used to initialise the Vtx used by an animated limb
  */
 typedef struct {
-    /* 0x00 */ u16 vtxIndex;
+    /* 0x00 */ u16 index;
     /* 0x02 */ s16 u; // u and v are texture coordinates
     /* 0x04 */ s16 v;
     /* 0x06 */ s8 x;
@@ -297,7 +297,7 @@ typedef struct {
 } SkinTransformation; // size = 0xA
 
 typedef struct {
-    /* 0x00 */ u16 vtxCount; // count of vertices in this modif entry
+    /* 0x00 */ u16 vtxCount; // number of vertices in this modif entry
     /* 0x02 */ u16 transformCount;
     /* 0x04 */ u16 unk_4; // index of limbTransformations?
     /* 0x08 */ SkinVertex* skinVertices;
@@ -312,8 +312,8 @@ typedef struct {
 } SkinAnimatedLimbData; // size = 0xC
 
 typedef struct {
-    /* 0x000 */ u8 index;
-    /* 0x004 */ Vtx* buf[2];
+    /* 0x000 */ u8 index; // alternates every draw cycle
+    /* 0x004 */ Vtx* buf[2]; // number of vertices in buffer determined by `totalVtxCount`
 } SkinLimbVtx; // size = 0xC
 
 typedef struct {
@@ -338,6 +338,7 @@ typedef s32 (*SkinOverrideLimbDraw)(struct Actor*, struct GlobalContext*, s32, S
 
 #define SKIN_DRAW_FLAG_1             (1 << 0)
 #define SKIN_DRAW_FLAG_CUSTOM_MATRIX (1 << 1)
+
 #define SKIN_TRANSFORM_FHG_HACK 0x23
 
 #endif
