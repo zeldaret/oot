@@ -67,7 +67,7 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
 
 ## Settings
 
-Add the following to (or create) the `.vscode/settings.json` file for VSCode to search the gitignored asset and assembly files by default:
+Add the following to (or create) the `.vscode/settings.json` file for VSCode to search the gitignored asset files by default:
 
 ```jsonc
 {
