@@ -240,29 +240,25 @@ close_disps:
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 534);
 }
 
-// Skin_Draw... Something?
-// ganondorf horse, ganondorfs horse, normal horse, zelda horse, horse in viewer
+// allows you to specify PostLimbDraw and setTranslation
 void func_800A6330(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostLimbDraw postLimbDraw,
                    s32 setTranslation) {
     Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, NULL, setTranslation, false, 0);
 }
 
-// Skin_Draw... Something?
-// twice in epona, child epona
+// allows you to specify OverrideLimbDraw, PostLimbDraw and setTranslation
 void func_800A6360(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostLimbDraw postLimbDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation) {
     Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, setTranslation, false, 0);
 }
 
-// Skin_Draw... Something?
-// unused
+// allows you to specify OverrideLimbDraw, PostLimbDraw, setTranslation, and arg6
 void func_800A6394(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostLimbDraw postLimbDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6) {
     Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, setTranslation, arg6, 0);
 }
 
-// Skin_Draw?
-// once in normal
+// allows you to specify all variables
 void func_800A63CC(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostLimbDraw postLimbDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6, s32 drawFlags) {
     Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, setTranslation, arg6, drawFlags);
