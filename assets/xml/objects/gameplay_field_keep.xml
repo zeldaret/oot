@@ -23,7 +23,7 @@
         <Texture Name="gButterflyWingTex" OutName="butterfly_wing" Format="rgba16" Width="32" Height="64" Offset="0x2680"/>
         <Skeleton Name="gButterflySkel" Type="Normal" LimbType="Standard" Offset="0x36F0"/>
         <Animation Name="gButterflyAnim" Offset="0x2470"/>
-        <Texture Name="gBgBombwallTLUT" OutName="bombwall_palette" Format="rgba16" Width="4" Height="4" Offset="0x3700"/>
+        <Texture Name="gBgBombwallTLUT" OutName="bombwall_tlut" Format="rgba16" Width="4" Height="4" Offset="0x3700"/>
         <Texture Name="gBgBombwallNormalTex" OutName="bombwall_normal" Format="ci4" Width="32" Height="64" Offset="0x3720" TlutOffset="0x3700"/>
         <Texture Name="gBgBombWallBrokenTex" OutName="bombwall_broken" Format="ci4" Width="32" Height="64" Offset="0x3B20" TlutOffset="0x3700"/>
         <DList Name="gFieldDoorDL_004720" Offset="0x4720"/>
@@ -52,7 +52,7 @@
         <Texture Name="gFieldBeehiveTex" OutName="beehive" Format="rgba16" Width="32" Height="32" Offset="0x8900"/>
         <Texture Name="gFieldBeehiveFragmentTex" OutName="beehive_fragment" Format="rgba16" Width="16" Height="16" Offset="0x9710"/>
         <Texture Name="gFieldSilverRockTex" OutName="silver_rock" Format="ci4" Width="64" Height="64" Offset="0x99F8" TlutOffset="0x99D0"/>
-        <Texture Name="gFieldSilverRockTLUT" OutName="silver_rock_palette" Format="rgba16" Width="4" Height="4" Offset="0x99D0"/>
+        <Texture Name="gFieldSilverRockTLUT" OutName="silver_rock_tlut" Format="rgba16" Width="4" Height="4" Offset="0x99D0"/>
 
         <Texture Name="gFieldSandstorm1Tex" OutName="sandstorm_1" Format="i8" Width="64" Height="32" Offset="0xBA70"/>
         <Texture Name="gFieldSandstorm2Tex" OutName="sandstorm_2" Format="ia8" Width="64" Height="32" Offset="0xC270"/>
