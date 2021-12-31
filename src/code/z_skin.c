@@ -1,7 +1,8 @@
 #include "global.h"
 
 MtxF gSkinLimbMatrices[60]; // holds matrices for each limb of the skeleton currently being drawn
-char D_80160FC0[0x10];
+
+static s32 sUnused;
 
 void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* modifEntry, Vtx* vtxBuf, Vec3f* pos) {
     Vtx* vtx;
