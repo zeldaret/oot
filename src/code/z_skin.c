@@ -147,7 +147,7 @@ void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     data = SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment);
 
-    if (!(drawFlags & SKIN_DRAW_FLAG_1)) {
+    if (!(drawFlags & SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS)) {
         Skin_ApplyLimbModifications(gfxCtx, skin, limbIndex, arg3);
     }
 
@@ -196,7 +196,7 @@ void Skin_DrawImpl(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostL
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 471);
 
-    if (!(drawFlags & SKIN_DRAW_FLAG_1)) {
+    if (!(drawFlags & SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS)) {
         Skin_ApplyAnimTransformations(skin, gSkinLimbMatrices, actor, setTranslation);
     }
 

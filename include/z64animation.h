@@ -336,9 +336,9 @@ typedef SkinLimbModif Struct_800A598C;
 typedef void (*SkinPostLimbDraw)(struct Actor*, struct GlobalContext*, Skin*);
 typedef s32 (*SkinOverrideLimbDraw)(struct Actor*, struct GlobalContext*, s32, Skin*);
 
-#define SKIN_DRAW_FLAG_1             (1 << 0)
-#define SKIN_DRAW_FLAG_CUSTOM_MATRIX (1 << 1)
+#define SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS (1 << 0)
+#define SKIN_DRAW_FLAG_CUSTOM_MATRIX     (1 << 1)
 
-#define SKIN_TRANSFORM_FHG_HACK 0x23
+#define SKIN_TRANSFORM_IS_FHG 0x23
 
 #endif

@@ -722,7 +722,7 @@ void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpColorFilterR, (u32)this->warpColorFilterG,
                                      (u32)this->warpColorFilterB, 0, (s32)this->warpColorFilterUnk1 + 995,
                                      (s32)this->warpColorFilterUnk2 + 1000);
-    func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_PostLimbDraw, SKIN_TRANSFORM_FHG_HACK);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_PostLimbDraw, SKIN_TRANSFORM_IS_FHG);
     POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2480);
 }

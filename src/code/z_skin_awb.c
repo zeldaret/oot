@@ -16,7 +16,8 @@ void Skin_InitAnimatedLimb(GlobalContext* globalCtx, Skin* skin, s32 limbIndex) 
     for (i = 0; i < ARRAY_COUNT(skin->vtxTable->buf); i++) {
         Vtx* vtxBuf = skin->vtxTable[limbIndex].buf[i];
 
-        for (modifEntry = limbModifications; modifEntry < limbModifications + animatedLimbData->limbModifCount; modifEntry++) {
+        for (modifEntry = limbModifications; modifEntry < limbModifications + animatedLimbData->limbModifCount;
+             modifEntry++) {
             SkinVertex* skinVertices = SEGMENTED_TO_VIRTUAL(modifEntry->skinVertices);
 
             for (skinVtxEntry = skinVertices; skinVtxEntry < &skinVertices[modifEntry->vtxCount]; skinVtxEntry++) {
@@ -35,8 +36,7 @@ void Skin_InitAnimatedLimb(GlobalContext* globalCtx, Skin* skin, s32 limbIndex) 
  * Initializes a skin skeleton to looping animation, dynamically allocating the frame tables,
  * and dynamically allocating and initializing the Vtx buffers for its animated limbs
  */
-void Skin_Init(GlobalContext* globalCtx, Skin* skin, SkeletonHeader* skeletonHeader,
-               AnimationHeader* animationHeader) {
+void Skin_Init(GlobalContext* globalCtx, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader) {
     s32 limbCount;
     s32 i;
     SkinLimb** skeleton;
@@ -65,11 +65,13 @@ void Skin_Init(GlobalContext* globalCtx, Skin* skin, SkeletonHeader* skeletonHea
             SkinAnimatedLimbData* animatedLimbData = SEGMENTED_TO_VIRTUAL(((void)0, limb->segment));
 
             vtxEntry->index = 0;
-            
-            vtxEntry->buf[0] = ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 235);
+
+            vtxEntry->buf[0] =
+                ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 235);
             ASSERT(vtxEntry->buf[0] != NULL, "psavb->buf[0] != NULL", "../z_skin_awb.c", 237);
 
-            vtxEntry->buf[1] = ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 240);
+            vtxEntry->buf[1] =
+                ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 240);
             ASSERT(vtxEntry->buf[1] != NULL, "psavb->buf[1] != NULL", "../z_skin_awb.c", 242);
 
             Skin_InitAnimatedLimb(globalCtx, skin, i);
@@ -155,7 +157,7 @@ s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, 
     Vec3s* jointRot = &skin->skelAnime.jointTable[0];
 
     jointRot++;
-    
+
     xRot = jointRot->x;
     yRot = jointRot->y;
     zRot = jointRot->z;
@@ -169,7 +171,7 @@ s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, 
 
         jointRot++;
 
-        if (setTranslation == SKIN_TRANSFORM_FHG_HACK) {
+        if (setTranslation == SKIN_TRANSFORM_IS_FHG) {
             EnfHG* horse = (EnfHG*)actor;
 
             yRot += horse->turnRot;
