@@ -1288,7 +1288,7 @@ void func_800A63CC(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostL
 void Skin_GetLimbPos(Skin* skin, s32 limbIndex, Vec3f* arg2, Vec3f* dst);
 void Skin_Init(GlobalContext* globalCtx, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader);
 void Skin_Free(GlobalContext* globalCtx, Skin* skin);
-s32 Skin_ApplyLimbTransformations(Skin* skin, MtxF* mf, Actor* actor, s32 arg3);
+s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* mf, Actor* actor, s32 arg3);
 
 void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest);
 void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest);

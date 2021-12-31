@@ -197,7 +197,7 @@ void Skin_DrawImpl(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostL
     OPEN_DISPS(gfxCtx, "../z_skin.c", 471);
 
     if (!(drawFlags & SKIN_DRAW_FLAG_1)) {
-        Skin_ApplyLimbTransformations(skin, gSkinLimbMatrices, actor, setTranslation);
+        Skin_ApplyAnimTransformations(skin, gSkinLimbMatrices, actor, setTranslation);
     }
 
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
