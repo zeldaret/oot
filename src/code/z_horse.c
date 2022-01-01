@@ -1,7 +1,7 @@
 #include "global.h"
 #include "vt.h"
 
-s32 func_8006CFC0(s32 scene) {
+s32 Horse_CheckSceneValid(s32 scene) {
     s32 validScenes[] = { SCENE_SPOT00, SCENE_SPOT06, SCENE_SPOT09, SCENE_SPOT12, SCENE_SPOT20 };
     s32 i;
 
@@ -77,7 +77,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         osSyncPrintf("馬存在によるセット %d %d %d\n", gSaveContext.horseData.scene, Flags_GetEventChkInf(0x18),
                      DREG(1));
 
-        if (func_8006CFC0(gSaveContext.horseData.scene)) {
+        if (Horse_CheckSceneValid(gSaveContext.horseData.scene)) {
             Actor* horseActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE,
                                             gSaveContext.horseData.pos.x, gSaveContext.horseData.pos.y,
                                             gSaveContext.horseData.pos.z, 0, gSaveContext.horseData.angle, 0, 1);
@@ -236,7 +236,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
 
 void func_8006DC68(GlobalContext* globalCtx, Player* player) {
     if (LINK_IS_ADULT) {
-        if (!func_8006CFC0(gSaveContext.horseData.scene)) {
+        if (!Horse_CheckSceneValid(gSaveContext.horseData.scene)) {
             osSyncPrintf(VT_COL(RED, WHITE));
             // "Horse_Set_Check():%d set spot is no good."
             osSyncPrintf("Horse_Set_Check():%d セットスポットまずいです。\n", gSaveContext.horseData.scene);
@@ -244,7 +244,7 @@ void func_8006DC68(GlobalContext* globalCtx, Player* player) {
             func_8006D074(globalCtx);
         }
 
-        if (func_8006CFC0(globalCtx->sceneNum)) {
+        if (Horse_CheckSceneValid(globalCtx->sceneNum)) {
             if ((gSaveContext.sceneSetupIndex > 3) ||
                 ((gSaveContext.entranceIndex == 0x028A || gSaveContext.entranceIndex == 0x028E ||
                   gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
