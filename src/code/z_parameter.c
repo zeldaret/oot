@@ -1328,7 +1328,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         osSyncPrintf(VT_RST);
 
         if (item == ITEM_MEDALLION_WATER) {
-            func_8006D0AC(globalCtx);
+            Horse_TrySetSpawnInLakeHylia(globalCtx);
         }
 
         return ITEM_NONE;

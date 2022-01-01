@@ -849,9 +849,9 @@ void SkelCurve_SetAnim(SkelAnimeCurve* skelCurve, TransformUpdateIndex* transUpd
 s32 SkelCurve_Update(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
 void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
                     OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data);
-s32 func_8006CFC0(s32 scene);
-void func_8006D074(GlobalContext* globalCtx);
-void func_8006D0AC(GlobalContext* globalCtx);
+s32 Horse_ShouldSpawnInScene(s32 scene);
+void Horse_SetSpawnInHyruleField(GlobalContext* globalCtx);
+void Horse_TrySetSpawnInLakeHylia(GlobalContext* globalCtx);
 void func_8006D0EC(GlobalContext* globalCtx, Player* player);
 void func_8006D684(GlobalContext* globalCtx, Player* player);
 void func_8006DC68(GlobalContext* globalCtx, Player* player);

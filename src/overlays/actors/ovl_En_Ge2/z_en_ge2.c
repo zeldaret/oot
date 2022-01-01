@@ -234,7 +234,7 @@ void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        func_8006D074(globalCtx);
+        Horse_SetSpawnInHyruleField(globalCtx);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             globalCtx->nextEntranceIndex = 0x1A5;
@@ -260,7 +260,7 @@ void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        func_8006D074(globalCtx);
+        Horse_SetSpawnInHyruleField(globalCtx);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             globalCtx->nextEntranceIndex = 0x1A5;

@@ -226,7 +226,7 @@ void EnGe1_KickPlayer(EnGe1* this, GlobalContext* globalCtx) {
     if (this->cutsceneTimer > 0) {
         this->cutsceneTimer--;
     } else {
-        func_8006D074(globalCtx);
+        Horse_SetSpawnInHyruleField(globalCtx);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             globalCtx->nextEntranceIndex = 0x1A5;
