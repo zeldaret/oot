@@ -381,9 +381,11 @@ class SampleHeader:
 		assert self.medium == 0 or self.medium == 2
 		
 		assert self.length % 2 == 0
-		#Are you sure about this? What about codec 3?
-		if self.length % 9 != 0:
-			self.length -= self.length % 9
+		blockSize = 9
+		if self.codec == 3:
+			blockSize = 5
+		if self.length % blockSize != 0:
+			self.length -= self.length % blockSize
 			
 		return 16
 		
@@ -398,7 +400,7 @@ class SampleHeader:
 		
 		#Okay so the frame count is calculated weird.
 		#To get the original data length, looks like we gotta reverse it.
-		self.length = (self.frameCount * 9) // 16
+		self.length = (self.frameCount * blockSize) // 16
 		
 	def loadInfoFromAIF(self, aif_path):
 		aif_reader = AifReader(aif_path)
@@ -730,6 +732,7 @@ class Instrument:
 		self.name = xml_element.get("Name")
 		self.enum = xml_element.get("Enum")
 		self.envName = xml_element.get("Envelope")
+		self.index = xml_element.get("Index")
 		
 		pitch_str = xml_element.get("Pitch")
 		if pitch_str is not None:
@@ -860,6 +863,8 @@ class Soundfont:
 		self.sfxIdxLookup = {}
 		
 	def fromXML(self, xml_element):
+		#TODO env refs, inst indexing
+		
 		#Read font attr
 		med_str = xml_element.get("Medium")
 		cache_str = xml_element.get("CachePolicy")
@@ -953,7 +958,7 @@ class Soundbank:
 		samples = self.orderSamples()
 		for sample in samples:
 			mysize += sample.length
-			align(mysize, 16)
+			mysize = align(mysize, 16)
 		return mysize
 	
 	def fromXML(self, xml_element):

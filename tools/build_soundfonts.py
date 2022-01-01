@@ -10,6 +10,7 @@ from audio_common import *
 #Script variables
 debug_mode = False
 bank_lookup = {}
+font_lookup = {}
 
 def checkMatch(refData, checkData, nameStr):
 	#Sees if match. If so, print message saying so. If not, give offset of first mismatched byte
@@ -48,6 +49,15 @@ def compileFont(font, output):
 
 def getBankbinName(idx):
 	return "audiotable_" + str(idx)
+
+def readFonts(dirpath):
+	for file in os.listdir(dirpath):
+		if file.endswith(".xml"):
+			fontname = file[:-4]
+			myfont = Soundfont()
+			myfont.fromXML(os.path.join(dirpath, file))
+			font_lookup[fontname] = myfont
+			myfont.name = fontname
 	
 def printBank2csv(path, bank):
 	csvstream = open(path, 'w')
@@ -92,6 +102,7 @@ def processBanks(sampledir, builddir):
 			bankname = str(i) + "REF"
 			bank_lookup[bankname] = bank_lookup[e_bank.get("Reference")]
 			print("Bank reference discovered:",bankname)
+			audiotable_paths.append(None)
 		else:
 			print("Bank discovered:",bankname)
 			mybank = Soundbank()
@@ -144,10 +155,10 @@ def processBanks(sampledir, builddir):
 			sorted_samples = mybank.orderSamples()
 			print("Bank", mybank.idx, ":", len(sorted_samples), "samples found")
 			
+			binpath = os.path.join(builddir, getBankbinName(mybank.idx))
 			if len(sorted_samples) > 0:
 				output = None
 				if builddir is not None:
-					binpath = os.path.join(builddir, getBankbinName(mybank.idx))
 					output = open(binpath, "wb")
 					audiotable_paths.append(binpath)
 				
@@ -170,13 +181,35 @@ def processBanks(sampledir, builddir):
 							output.write(struct.pack(str(padding) + "x"))
 						
 				if output is not None:
-					output.close()				
+					output.close()	
+					output = None
+					
+				if (builddir is not None) and (mybank.idx == 0):
+					#There appears to be a buffer clearing bug in the original authoring tool
+					#  that only affects the end of bank 0.
+					#Must replicate to get a match	
+					filesize = os.path.getsize(binpath)
+					temppath = binpath + ".tmp"
+					os.rename(binpath, temppath)
+					with open(temppath, "rb") as input:
+						output = open(binpath, "wb")
+						bug_trg = filesize - 4
+						bug_src = bug_trg - 0x10000
+						output.write(input.read(bug_src))
+						bug_word = input.read(4)
+						output.write(bug_word)	
+						output.write(input.read(0xfffc))
+						output.write(bug_word)	
+						output.close()	
+						output = None	
+					os.remove(temppath)
 			else:
 				#If no aifc files were found, look for raw bin
 				for file in os.listdir(bankdir):
 					if file.endswith(".bin"):
 						audiotable_paths.append(os.path.join(bankdir,file))
 						break
+					
 				
 		i+=1
 	
@@ -185,6 +218,11 @@ def processBanks(sampledir, builddir):
 		binpath = os.path.join(builddir, "audiotable")
 		output = open(binpath, "wb")
 		for bankpath in audiotable_paths:
+			if bankpath is None:
+				continue
+			if debug_mode:
+				print("Writing bank:",bankpath)
+			filesize = os.path.getsize(bankpath)
 			input = open(bankpath, "rb")
 			output.write(input.read())
 			input.close()
@@ -203,11 +241,15 @@ def processBanks(sampledir, builddir):
 					#Print csv stating what samples are in bank.
 					printBank2csv(os.path.join(builddir, getBankbinName(mybank.idx) + "_contents.csv"), mybank)
 				banklen = mybank.calculateSize()
+				if banklen <= 0:
+					#Check for bin.
+					banklen = os.path.getsize(audiotable_paths[mybank.idx])
 				output.write(struct.pack(">LL", offset, banklen))
 				offset += banklen
 			else:
 				output.write(struct.pack("8x"))
 			output.write(struct.pack(">BB6x", mybank.medium, mybank.cachePolicy))
+			i+=1
 		output.close()
 		
 def main():
@@ -263,8 +305,12 @@ def main():
 		banklist = sorted(bank_lookup.items())
 		matchcount = 0
 		bankcount = 0
+		checked = []
 		for item in banklist:
 			bank = item[1]
+			if bank.idx in checked:
+				print("Bank references already checked bank:", bank.idx)
+				continue
 			tblrec = banktbl[bank.idx]
 			if tblrec.length < 1:
 				continue
@@ -278,6 +324,10 @@ def main():
 					checkdat = f.read()
 				if checkMatch(refdat, checkdat, 'Bank ' + str(bank.idx)):
 					matchcount += 1
+			else:
+				print("Bank", bank.idx,"found as bin. No need to check.")
+				matchcount += 1
+			checked.append(bank.idx)
 				
 		print(str(matchcount), 'of', str(bankcount), 'banks matched.')
 			
@@ -297,6 +347,8 @@ def main():
 		checkdat = None
 	
 	#Read in font(s)
+	
+	
 	#compile font(s)
 	#match
 	
