@@ -810,18 +810,17 @@ def main():
         )
         sys.exit(0 if need_help else 1)
 
-    # code file
-    code_data = open(args[0], "rb").read()
-    # offsets.json file
-    with open(args[1], "r") as offset_file:
+    with open("offsets.json", "r") as offset_file:
         table_offsets = json.load(offset_file)
     
-    version = args[2]
-    bank_data = open(args[3], "rb").read()
-    font_data = open(args[4], "rb").read()
-    asset_xml_dir = args[5]
-    samples_out_dir = args[6]
-    fonts_out_dir = args[7]
+    version = args[0]
+    # code file
+    code_data = open(args[1], "rb").read()
+    bank_data = open(args[2], "rb").read()
+    font_data = open(args[3], "rb").read()
+    asset_xml_dir = args[4]
+    samples_out_dir = args[5]
+    fonts_out_dir = args[6]
 
     def check_dir(path):
         if not os.path.isdir(path):
@@ -899,7 +898,7 @@ def main():
 
     # Export AIFF samples
     for bank in rawSamples:
-        rawSamples[bank] = sorted(rawSamples[bank].items())
+        rawSamples[bank] = dict(sorted(rawSamples[bank].items()))
         idx = 0
         width = len(str(len(rawSamples[bank])))
         for address in rawSamples[bank]:

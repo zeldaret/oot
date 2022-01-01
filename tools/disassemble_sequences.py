@@ -62,17 +62,16 @@ def main():
         )
         sys.exit(0 if need_help else 1)
 
-    # code file
-    code_data = open(args[0], "rb").read()
-    # offsets.json file
-    with open(args[1], "r") as offset_file:
+    with open("offsets.json", "r") as offset_file:
         table_offsets = json.load(offset_file)
     
-    version = args[2]
+    version = args[0]
 
-    seq_data = open(args[3], "rb").read()
-    asset_path = args[4]
-    midi_out_dir = args[5]
+    # code file
+    code_data = open(args[1], "rb").read()
+    seq_data = open(args[2], "rb").read()
+    asset_path = args[3]
+    midi_out_dir = args[4]
 
     def check_offset(offset, type):
         if offset is None:
