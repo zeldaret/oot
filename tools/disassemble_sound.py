@@ -32,13 +32,14 @@ sf_unused_fixups = {
 bank_fixups = {
     "MQDebug": {
         0: {
+            0xDE0A0: 8526,
             0x212040: 10065,
             0x21ACF0: 1105,
             0x21B150: 530,
             0x241690: 1409,
             0x25AAC0: 5749,
             0x260420: 4965,
-            0x26A060: 2657
+            0x26A060: 2657,
         }
     }
 }
@@ -802,7 +803,7 @@ def main():
         else:
             args.append(a)
 
-    expected_num_args = 8
+    expected_num_args = 7
     if need_help or len(args) != expected_num_args:
         print(
             f"Usage: {sys.argv[0]} "
