@@ -28,22 +28,6 @@ sf_unused_fixups = {
     }
 }
 
-# Provides corrected lengths for samples that would otherwise be cut short based on their headers
-bank_fixups = {
-    "MQDebug": {
-        0: {
-            0xDE0A0: 8526,
-            0x212040: 10065,
-            0x21ACF0: 1105,
-            0x21B150: 530,
-            0x241690: 1409,
-            0x25AAC0: 5749,
-            0x260420: 4965,
-            0x26A060: 2657,
-        }
-    }
-}
-
 # Used for data gap detection (finding potentially unreferenced data)
 # Format: list of tuples (object, start offset, end offset)
 usedFontData = []
@@ -222,8 +206,6 @@ class SampleHeader:
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 16))
         self.bank = bank
         assert self.length % 2 == 0
-        if self.length % 9 != 0:
-            self.length -= self.length % 9
         
         self.loop = None
         if self.loopOffset != 0:
