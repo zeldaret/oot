@@ -43,13 +43,13 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
 // "Translation" (Actual name)
 static SceneSelectEntry sScenes[] = {
     // "1: SPOT00" (Hyrule Field)
-    { " 1:SPOT00", Select_LoadGame, 0x00CD },
+    { " 1:SPOT00", Select_LoadGame, ENTR_HYRULE_FIELD },
     // "2: SPOT01" (Kakariko Village)
-    { " 2:SPOT01", Select_LoadGame, 0x00DB },
+    { " 2:SPOT01", Select_LoadGame, ENTR_KAKARIKO_VILLAGE },
     // "3: SPOT02" (Graveyard)
-    { " 3:SPOT02", Select_LoadGame, 0x00E4 },
+    { " 3:SPOT02", Select_LoadGame, ENTR_GRAVEYARD },
     // "4: SPOT03" (Zora's River)
-    { " 4:SPOT03", Select_LoadGame, 0x00EA },
+    { " 4:SPOT03", Select_LoadGame, ENTR_ZORASRIVER },
     // "5: SPOT04" (Kokiri Forest)
     { " 5:SPOT04", Select_LoadGame, 0x00EE },
     // "6: SPOT05" (Sacred Forest Meadow)
@@ -175,7 +175,7 @@ static SceneSelectEntry sScenes[] = {
     // "66: Fairy Tree Dungeon" (Inside the Deku Tree)
     { "66:" GFXP_HIRAGANA "ﾖｳｾｲﾉｷﾉ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0000 },
     // "67: Fairy Tree Dungeon - Boss" (Gohma's Lair)
-    { "67:" GFXP_HIRAGANA "ﾖｳｾｲﾉｷﾉ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x040F },
+    { "67:" GFXP_HIRAGANA "ﾖｳｾｲﾉｷﾉ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, ENTR_FAIRYTREE_BOSS },
     // "68: Dondogo Dungeon" (Dodongo's Cavern)
     { "68:" GFXP_KATAKANA "ﾄﾞﾄﾞﾝｺﾞ ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0004 },
     // "69: Dondogo Dungeon - Boss" (King Dodongo's Lair)

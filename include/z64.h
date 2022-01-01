@@ -29,6 +29,7 @@
 #include "color.h"
 #include "ichain.h"
 #include "regs.h"
+#include "entrance.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -509,9 +510,9 @@ typedef enum {
     /*  4 */ TEXT_STATE_CHOICE,
     /*  5 */ TEXT_STATE_EVENT,
     /*  6 */ TEXT_STATE_DONE,
-    /*  7 */ TEXT_STATE_SONG_DEMO_DONE, 
-    /*  8 */ TEXT_STATE_8, 
-    /*  9 */ TEXT_STATE_9, 
+    /*  7 */ TEXT_STATE_SONG_DEMO_DONE,
+    /*  8 */ TEXT_STATE_8,
+    /*  9 */ TEXT_STATE_9,
     /* 10 */ TEXT_STATE_AWAITING_NEXT
 } TextState;
 
@@ -1082,7 +1083,7 @@ struct SelectContext;
 typedef struct {
     /* 0x00 */ char* name;
     /* 0x04 */ void (*loadFunc)(struct SelectContext*, s32);
-    /* 0x08 */ s32 entranceIndex;
+    /* 0x08 */ EntranceIndex entranceIndex;
 } SceneSelectEntry; // size = 0xC
 
 typedef struct SelectContext {
