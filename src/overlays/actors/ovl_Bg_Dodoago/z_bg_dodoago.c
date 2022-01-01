@@ -18,6 +18,7 @@ void BgDodoago_OpenJaw(BgDodoago* this, GlobalContext* globalCtx);
 void BgDodoago_DoNothing(BgDodoago* this, GlobalContext* globalCtx);
 void BgDodoago_LightOneEye(BgDodoago* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Dodoago_InitVars = {
     ACTOR_BG_DODOAGO,
     ACTORCAT_BG,
@@ -29,6 +30,7 @@ const ActorInit Bg_Dodoago_InitVars = {
     (ActorFunc)BgDodoago_Update,
     (ActorFunc)BgDodoago_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sColCylinderInitMain = {
     {

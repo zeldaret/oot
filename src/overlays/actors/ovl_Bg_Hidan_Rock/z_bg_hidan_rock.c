@@ -27,6 +27,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this);
 
 static Vec3f D_8088BF60 = { 3310.0f, 120.0f, 0.0f };
 
+// clang-format off
 const ActorInit Bg_Hidan_Rock_InitVars = {
     ACTOR_BG_HIDAN_ROCK,
     ACTORCAT_BG,
@@ -38,6 +39,7 @@ const ActorInit Bg_Hidan_Rock_InitVars = {
     (ActorFunc)BgHidanRock_Update,
     (ActorFunc)BgHidanRock_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

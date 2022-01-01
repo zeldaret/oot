@@ -17,6 +17,7 @@ void func_809C1E40(EnBird* this, GlobalContext* globalCtx);
 void func_809C1D60(EnBird* this, GlobalContext* globalCtx);
 void func_809C1CAC(EnBird* this, s16 params);
 
+// clang-format off
 const ActorInit En_Bird_InitVars = {
     ACTOR_EN_BIRD,
     ACTORCAT_PROP,
@@ -28,6 +29,7 @@ const ActorInit En_Bird_InitVars = {
     (ActorFunc)EnBird_Update,
     (ActorFunc)EnBird_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),

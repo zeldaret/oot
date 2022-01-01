@@ -40,6 +40,7 @@ void EnGoma_SetupLand(EnGoma* this);
 void EnGoma_SetupJump(EnGoma* this);
 void EnGoma_SetupStunned(EnGoma* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORCAT_ENEMY,
@@ -51,6 +52,7 @@ const ActorInit En_Goma_InitVars = {
     (ActorFunc)EnGoma_Update,
     (ActorFunc)EnGoma_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit D_80A4B7A0 = {
     {

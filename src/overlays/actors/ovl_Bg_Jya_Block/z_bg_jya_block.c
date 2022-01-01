@@ -12,6 +12,7 @@ void BgJyaBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBlock_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBlock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Jya_Block_InitVars = {
     ACTOR_BG_JYA_BLOCK,
     ACTORCAT_PROP,
@@ -23,6 +24,7 @@ const ActorInit Bg_Jya_Block_InitVars = {
     (ActorFunc)BgJyaBlock_Update,
     (ActorFunc)BgJyaBlock_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 333, ICHAIN_CONTINUE),

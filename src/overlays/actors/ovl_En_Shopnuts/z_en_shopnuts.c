@@ -14,6 +14,7 @@ void EnShopnuts_ThrowNut(EnShopnuts* this, GlobalContext* globalCtx);
 void EnShopnuts_Burrow(EnShopnuts* this, GlobalContext* globalCtx);
 void EnShopnuts_SpawnSalesman(EnShopnuts* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Shopnuts_InitVars = {
     ACTOR_EN_SHOPNUTS,
     ACTORCAT_ENEMY,
@@ -25,6 +26,7 @@ const ActorInit En_Shopnuts_InitVars = {
     (ActorFunc)EnShopnuts_Update,
     (ActorFunc)EnShopnuts_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

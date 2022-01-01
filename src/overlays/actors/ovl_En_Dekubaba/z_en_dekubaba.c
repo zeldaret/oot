@@ -27,6 +27,7 @@ void EnDekubaba_DeadStickDrop(EnDekubaba* this, GlobalContext* globalCtx);
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
+// clang-format off
 const ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
     ACTORCAT_ENEMY,
@@ -38,6 +39,7 @@ const ActorInit En_Dekubaba_InitVars = {
     (ActorFunc)EnDekubaba_Update,
     (ActorFunc)EnDekubaba_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[7] = {
     {

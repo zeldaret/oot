@@ -26,6 +26,7 @@ void ObjMure2_SetupWait(ObjMure2* this);
 void func_80B9A658(ObjMure2* this);
 void func_80B9A6E8(ObjMure2* this);
 
+// clang-format off
 const ActorInit Obj_Mure2_InitVars = {
     ACTOR_OBJ_MURE2,
     ACTORCAT_PROP,
@@ -37,6 +38,7 @@ const ActorInit Obj_Mure2_InitVars = {
     (ActorFunc)ObjMure2_Update,
     NULL,
 };
+// clang-format on
 
 static f32 sDistSquared1[] = { SQ(1600.0f), SQ(1600.0f), SQ(1600.0f) };
 

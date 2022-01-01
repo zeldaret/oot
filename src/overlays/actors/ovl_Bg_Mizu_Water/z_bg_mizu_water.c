@@ -27,6 +27,7 @@ static WaterLevel sWaterLevels[] = {
     { WATER_TEMPLE_WATER_F1_FLAG, WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_F3_Y },
 };
 
+// clang-format off
 const ActorInit Bg_Mizu_Water_InitVars = {
     ACTOR_BG_MIZU_WATER,
     ACTORCAT_BG,
@@ -38,6 +39,7 @@ const ActorInit Bg_Mizu_Water_InitVars = {
     (ActorFunc)BgMizuWater_Update,
     (ActorFunc)BgMizuWater_Draw,
 };
+// clang-format on
 
 static f32 sUnused1 = 0;
 static f32 sUnused2 = 110.0f;

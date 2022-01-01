@@ -26,6 +26,7 @@ void EnBili_Die(EnBili* this, GlobalContext* globalCtx);
 void EnBili_Stunned(EnBili* this, GlobalContext* globalCtx);
 void EnBili_Frozen(EnBili* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
     ACTORCAT_ENEMY,
@@ -37,6 +38,7 @@ const ActorInit En_Bili_InitVars = {
     (ActorFunc)EnBili_Update,
     (ActorFunc)EnBili_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

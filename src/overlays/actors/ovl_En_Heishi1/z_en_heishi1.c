@@ -29,6 +29,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx);
 
 static s32 sPlayerIsCaught = false;
 
+// clang-format off
 const ActorInit En_Heishi1_InitVars = {
     0,
     ACTORCAT_NPC,
@@ -40,6 +41,7 @@ const ActorInit En_Heishi1_InitVars = {
     (ActorFunc)EnHeishi1_Update,
     (ActorFunc)EnHeishi1_Draw,
 };
+// clang-format on
 
 static f32 sAnimParamsInit[][8] = {
     { 1.0f, -10.0f, 3.0f, 0.5f, 1000.0f, 200.0f, 0.3f, 1000.0f },

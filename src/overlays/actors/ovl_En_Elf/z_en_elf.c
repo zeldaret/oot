@@ -52,6 +52,7 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx);
 void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife);
 void EnElf_GetCutsceneNextPos(Vec3f* vec, GlobalContext* globalCtx, s32 action);
 
+// clang-format off
 const ActorInit En_Elf_InitVars = {
     ACTOR_EN_ELF,
     ACTORCAT_ITEMACTION,
@@ -63,6 +64,7 @@ const ActorInit En_Elf_InitVars = {
     (ActorFunc)EnElf_Update,
     (ActorFunc)EnElf_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 8, ICHAIN_STOP),

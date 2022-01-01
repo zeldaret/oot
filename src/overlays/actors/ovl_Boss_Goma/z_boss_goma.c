@@ -47,6 +47,7 @@ void BossGoma_WallClimb(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_CeilingMoveToCenter(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 i);
 
+// clang-format off
 const ActorInit Boss_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORCAT_BOSS,
@@ -58,6 +59,7 @@ const ActorInit Boss_Goma_InitVars = {
     (ActorFunc)BossGoma_Update,
     (ActorFunc)BossGoma_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     {

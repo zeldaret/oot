@@ -14,6 +14,7 @@ void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Vb_Ball_InitVars = {
     0,
     ACTORCAT_BOSS,
@@ -25,6 +26,7 @@ const ActorInit En_Vb_Ball_InitVars = {
     (ActorFunc)EnVbBall_Update,
     (ActorFunc)EnVbBall_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

@@ -21,6 +21,7 @@ void BgJyaGoroiwa_SetupMove(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateRotation(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateCollider(BgJyaGoroiwa* this);
 
+// clang-format off
 const ActorInit Bg_Jya_Goroiwa_InitVars = {
     ACTOR_BG_JYA_GOROIWA,
     ACTORCAT_PROP,
@@ -32,6 +33,7 @@ const ActorInit Bg_Jya_Goroiwa_InitVars = {
     (ActorFunc)BgJyaGoroiwa_Update,
     (ActorFunc)BgJyaGoroiwa_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {

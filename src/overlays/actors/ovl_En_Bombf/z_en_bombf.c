@@ -19,6 +19,7 @@ void EnBombf_WaitForRelease(EnBombf* this, GlobalContext* globalCtx);
 void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx);
 void EnBombf_SetupGrowBomb(EnBombf* this, s16 params);
 
+// clang-format off
 const ActorInit En_Bombf_InitVars = {
     ACTOR_EN_BOMBF,
     ACTORCAT_PROP,
@@ -30,6 +31,7 @@ const ActorInit En_Bombf_InitVars = {
     (ActorFunc)EnBombf_Update,
     (ActorFunc)EnBombf_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

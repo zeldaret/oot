@@ -14,6 +14,7 @@ void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, GlobalContext* globalCtx);
 void BgMizuShutter_Move(BgMizuShutter* this, GlobalContext* globalCtx);
 void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Mizu_Shutter_InitVars = {
     ACTOR_BG_MIZU_SHUTTER,
     ACTORCAT_PROP,
@@ -25,6 +26,7 @@ const ActorInit Bg_Mizu_Shutter_InitVars = {
     (ActorFunc)BgMizuShutter_Update,
     (ActorFunc)BgMizuShutter_Draw,
 };
+// clang-format on
 
 static Gfx* sDisplayLists[] = { gObjectMizuObjectsShutterDL_007130, gObjectMizuObjectsShutterDL_0072D0 };
 

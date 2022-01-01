@@ -16,6 +16,7 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx);
 
 #include "overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
 
+// clang-format off
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
     ACTORCAT_PROP,
@@ -27,6 +28,7 @@ const ActorInit Bg_Jya_Cobra_InitVars = {
     (ActorFunc)BgJyaCobra_Update,
     (ActorFunc)BgJyaCobra_Draw,
 };
+// clang-format on
 
 static s16 D_80897308[] = { 0, 0, 0, 0 };
 

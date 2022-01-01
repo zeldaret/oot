@@ -12,6 +12,7 @@ void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHata_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHata_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Hata_InitVars = {
     ACTOR_EN_HATA,
     ACTORCAT_PROP,
@@ -23,6 +24,7 @@ const ActorInit En_Hata_InitVars = {
     (ActorFunc)EnHata_Update,
     (ActorFunc)EnHata_Draw,
 };
+// clang-format on
 
 // Unused Collider and CollisionCheck data
 static ColliderCylinderInit sCylinderInit = {

@@ -28,6 +28,7 @@ void EnSsh_Start(EnSsh* this, GlobalContext* globalCtx);
 
 #include "overlays/ovl_En_Ssh/ovl_En_Ssh.c"
 
+// clang-format off
 const ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,
     ACTORCAT_NPC,
@@ -39,6 +40,7 @@ const ActorInit En_Ssh_InitVars = {
     (ActorFunc)EnSsh_Update,
     (ActorFunc)EnSsh_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit1 = {
     {

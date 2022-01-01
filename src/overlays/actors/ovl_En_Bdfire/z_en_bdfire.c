@@ -16,6 +16,7 @@ void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx);
 void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx);
 void func_809BC598(EnBdfire* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Bdfire_InitVars = {
     0,
     ACTORCAT_ENEMY,
@@ -27,6 +28,7 @@ const ActorInit En_Bdfire_InitVars = {
     (ActorFunc)EnBdfire_Update,
     (ActorFunc)EnBdfire_Draw,
 };
+// clang-format on
 
 void EnBdfire_SetupAction(EnBdfire* this, EnBdfireActionFunc actionFunc) {
     this->actionFunc = actionFunc;

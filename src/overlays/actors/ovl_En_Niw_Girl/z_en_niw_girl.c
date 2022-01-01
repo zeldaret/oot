@@ -17,6 +17,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx);
 void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx);
 void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Niw_Girl_InitVars = {
     ACTOR_EN_NIW_GIRL,
     ACTORCAT_NPC,
@@ -28,6 +29,7 @@ const ActorInit En_Niw_Girl_InitVars = {
     (ActorFunc)EnNiwGirl_Update,
     (ActorFunc)EnNiwGirl_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

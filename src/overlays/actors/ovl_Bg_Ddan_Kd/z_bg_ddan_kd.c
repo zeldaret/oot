@@ -16,6 +16,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_DoNothing(BgDdanKd* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Ddan_Kd_InitVars = {
     ACTOR_BG_DDAN_KD,
     ACTORCAT_BG,
@@ -27,6 +28,7 @@ const ActorInit Bg_Ddan_Kd_InitVars = {
     (ActorFunc)BgDdanKd_Update,
     (ActorFunc)BgDdanKd_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

@@ -30,6 +30,7 @@ void EnDoor_AjarOpen(EnDoor* this, GlobalContext* globalCtx);
 void EnDoor_AjarClose(EnDoor* this, GlobalContext* globalCtx);
 void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Door_InitVars = {
     ACTOR_EN_DOOR,
     ACTORCAT_DOOR,
@@ -41,6 +42,7 @@ const ActorInit En_Door_InitVars = {
     (ActorFunc)EnDoor_Update,
     (ActorFunc)EnDoor_Draw,
 };
+// clang-format on
 
 /**
  * Controls which object and display lists to use in a given scene

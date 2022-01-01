@@ -24,6 +24,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DF00(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DF60(EnGm* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Gm_InitVars = {
     ACTOR_EN_GM,
     ACTORCAT_NPC,
@@ -35,6 +36,7 @@ const ActorInit En_Gm_InitVars = {
     (ActorFunc)EnGm_Update,
     NULL,
 };
+// clang-format on
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {

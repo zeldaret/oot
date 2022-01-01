@@ -15,6 +15,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx);
 void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx);
 void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Wonder_Talk_InitVars = {
     ACTOR_EN_WONDER_TALK,
     ACTORCAT_PROP,
@@ -26,6 +27,7 @@ const ActorInit En_Wonder_Talk_InitVars = {
     (ActorFunc)EnWonderTalk_Update,
     NULL,
 };
+// clang-format on
 
 void EnWonderTalk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }

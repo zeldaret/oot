@@ -22,6 +22,7 @@ void EnIceHono_SetupActionDroppedFlame(EnIceHono* this);
 void EnIceHono_SetupActionSpreadFlames(EnIceHono* this);
 void EnIceHono_SetupActionSmallFlame(EnIceHono* this);
 
+// clang-format off
 const ActorInit En_Ice_Hono_InitVars = {
     ACTOR_EN_ICE_HONO,
     ACTORCAT_ITEMACTION,
@@ -33,6 +34,7 @@ const ActorInit En_Ice_Hono_InitVars = {
     (ActorFunc)EnIceHono_Update,
     (ActorFunc)EnIceHono_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInitCapturableFlame = {
     {

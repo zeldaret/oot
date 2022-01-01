@@ -22,6 +22,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx);
 void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx);
 void EnFw_TurnToParentInitPos(EnFw* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Fw_InitVars = {
     ACTOR_EN_FW,
     ACTORCAT_ENEMY,
@@ -33,6 +34,7 @@ const ActorInit En_Fw_InitVars = {
     (ActorFunc)EnFw_Update,
     (ActorFunc)EnFw_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {

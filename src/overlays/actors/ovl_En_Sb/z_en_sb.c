@@ -23,6 +23,7 @@ void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx);
 void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx);
 void EnSb_Cooldown(EnSb* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Sb_InitVars = {
     ACTOR_EN_SB,
     ACTORCAT_ENEMY,
@@ -34,6 +35,7 @@ const ActorInit En_Sb_InitVars = {
     (ActorFunc)EnSb_Update,
     (ActorFunc)EnSb_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {

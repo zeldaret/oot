@@ -21,6 +21,7 @@ void EnNy_SetupDie(EnNy* this, GlobalContext* globalCtx);
 void EnNy_DrawDeathEffect(Actor* thisx, GlobalContext* GlobalContext);
 void func_80ABD3B8(EnNy* this, f32, f32);
 
+// clang-format off
 const ActorInit En_Ny_InitVars = {
     ACTOR_EN_NY,
     ACTORCAT_ENEMY,
@@ -32,6 +33,7 @@ const ActorInit En_Ny_InitVars = {
     (ActorFunc)EnNy_Update,
     (ActorFunc)EnNy_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {

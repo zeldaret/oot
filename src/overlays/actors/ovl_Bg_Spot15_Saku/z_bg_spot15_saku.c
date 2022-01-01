@@ -16,6 +16,7 @@ void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx);
 void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx);
 void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot15_Saku_InitVars = {
     ACTOR_BG_SPOT15_SAKU,
     ACTORCAT_ITEMACTION,
@@ -27,6 +28,7 @@ const ActorInit Bg_Spot15_Saku_InitVars = {
     (ActorFunc)BgSpot15Saku_Update,
     (ActorFunc)BgSpot15Saku_Draw,
 };
+// clang-format on
 
 void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;

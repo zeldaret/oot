@@ -21,6 +21,7 @@ void EnBa_RecoilFromDamage(EnBa* this, GlobalContext* globalCtx);
 void EnBa_Die(EnBa* this, GlobalContext* globalCtx);
 void EnBa_SetupSwingAtPlayer(EnBa* this);
 
+// clang-format off
 const ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
     ACTORCAT_ENEMY,
@@ -32,6 +33,7 @@ const ActorInit En_Ba_InitVars = {
     (ActorFunc)EnBa_Update,
     (ActorFunc)EnBa_Draw,
 };
+// clang-format on
 
 static Vec3f D_809B8080 = { 0.0f, 0.0f, 32.0f };
 

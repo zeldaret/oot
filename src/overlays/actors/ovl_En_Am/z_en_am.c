@@ -37,6 +37,7 @@ typedef enum {
     /* 10 */ AM_BEHAVIOR_AGGRO = 10
 } ArmosBehavior;
 
+// clang-format off
 const ActorInit En_Am_InitVars = {
     ACTOR_EN_AM,
     ACTORCAT_ENEMY,
@@ -48,6 +49,7 @@ const ActorInit En_Am_InitVars = {
     (ActorFunc)EnAm_Update,
     (ActorFunc)EnAm_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sHurtCylinderInit = {
     {

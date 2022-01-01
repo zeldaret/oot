@@ -25,6 +25,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, GlobalContext* globalC
 void BgMoriBigst_StalfosPairFight(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_SetupDone(BgMoriBigst* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Mori_Bigst_InitVars = {
     ACTOR_BG_MORI_BIGST,
     ACTORCAT_BG,
@@ -36,6 +37,7 @@ const ActorInit Bg_Mori_Bigst_InitVars = {
     (ActorFunc)BgMoriBigst_Update,
     NULL,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),      ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),

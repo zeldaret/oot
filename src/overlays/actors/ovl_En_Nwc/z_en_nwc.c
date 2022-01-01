@@ -28,6 +28,7 @@ typedef enum {
     /* 1 */ CHICK_NORMAL
 } ChickTypes;
 
+// clang-format off
 const ActorInit En_Nwc_InitVars = {
     ACTOR_EN_NWC,
     ACTORCAT_PROP,
@@ -39,6 +40,7 @@ const ActorInit En_Nwc_InitVars = {
     (ActorFunc)EnNwc_Update,
     (ActorFunc)EnNwc_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementInit = {
     {

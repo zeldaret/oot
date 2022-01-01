@@ -28,6 +28,7 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx);
 void func_808B9030(BgSpot18Obj* this);
 void func_808B9040(BgSpot18Obj* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot18_Obj_InitVars = {
     ACTOR_BG_SPOT18_OBJ,
     ACTORCAT_BG,
@@ -39,6 +40,7 @@ const ActorInit Bg_Spot18_Obj_InitVars = {
     (ActorFunc)BgSpot18Obj_Update,
     (ActorFunc)BgSpot18Obj_Draw,
 };
+// clang-format on
 
 static u8 D_808B90F0[2][2] = { { 0x01, 0x01 }, { 0x01, 0x00 } };
 

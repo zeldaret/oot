@@ -29,6 +29,7 @@ void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx);
 static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
+// clang-format off
 const ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
     ACTORCAT_PROP,
@@ -40,6 +41,7 @@ const ActorInit En_Ishi_InitVars = {
     (ActorFunc)EnIshi_Update,
     (ActorFunc)EnIshi_Draw,
 };
+// clang-format on
 
 static f32 sRockScales[] = { 0.1f, 0.4f };
 static f32 D_80A7FA20[] = { 58.0f, 80.0f };

@@ -18,6 +18,7 @@ void func_808B29F0(BgSpot11Oasis* this, GlobalContext* globalCtx);
 void func_808B2AA8(BgSpot11Oasis* this);
 void func_808B2AB8(BgSpot11Oasis* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot11_Oasis_InitVars = {
     ACTOR_BG_SPOT11_OASIS,
     ACTORCAT_BG,
@@ -29,6 +30,7 @@ const ActorInit Bg_Spot11_Oasis_InitVars = {
     (ActorFunc)BgSpot11Oasis_Update,
     NULL,
 };
+// clang-format on
 
 static s16 D_808B2E10[][2] = {
     { 1260, 2040 }, { 1259, 1947 }, { 1135, 1860 }, { 1087, 1912 }, { 1173, 2044 },

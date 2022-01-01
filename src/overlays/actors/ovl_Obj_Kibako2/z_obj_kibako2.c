@@ -15,6 +15,7 @@ void ObjKibako2_Draw(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Idle(ObjKibako2* this, GlobalContext* globalCtx);
 void ObjKibako2_Kill(ObjKibako2* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Kibako2_InitVars = {
     ACTOR_OBJ_KIBAKO2,
     ACTORCAT_BG,
@@ -26,6 +27,7 @@ const ActorInit Obj_Kibako2_InitVars = {
     (ActorFunc)ObjKibako2_Update,
     (ActorFunc)ObjKibako2_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

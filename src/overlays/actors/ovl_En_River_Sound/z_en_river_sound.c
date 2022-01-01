@@ -11,6 +11,7 @@ void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_River_Sound_InitVars = {
     ACTOR_EN_RIVER_SOUND,
     ACTORCAT_BG,
@@ -22,6 +23,7 @@ const ActorInit En_River_Sound_InitVars = {
     (ActorFunc)EnRiverSound_Update,
     (ActorFunc)EnRiverSound_Draw,
 };
+// clang-format on
 
 void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnRiverSound* this = (EnRiverSound*)thisx;

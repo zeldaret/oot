@@ -65,6 +65,7 @@ void EnGirlA_BuyEvent_ObtainBombchuPack(GlobalContext* globalCtx, EnGirlA* this)
 void EnGirlA_BuyEvent_GoronTunic(GlobalContext* globalCtx, EnGirlA* this);
 void EnGirlA_BuyEvent_ZoraTunic(GlobalContext* globalCtx, EnGirlA* this);
 
+// clang-format off
 const ActorInit En_GirlA_InitVars = {
     ACTOR_EN_GIRLA,
     ACTORCAT_PROP,
@@ -76,6 +77,7 @@ const ActorInit En_GirlA_InitVars = {
     (ActorFunc)EnGirlA_Update,
     NULL,
 };
+// clang-format on
 
 static char* sShopItemDescriptions[] = {
     "デクの実×5   ",  // "Deku nut x5"

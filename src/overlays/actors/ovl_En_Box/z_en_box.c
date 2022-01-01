@@ -47,6 +47,7 @@ void EnBox_AppearAnimation(EnBox*, GlobalContext*);
 void EnBox_WaitOpen(EnBox*, GlobalContext*);
 void EnBox_Open(EnBox*, GlobalContext*);
 
+// clang-format off
 const ActorInit En_Box_InitVars = {
     ACTOR_EN_BOX,
     ACTORCAT_CHEST,
@@ -58,6 +59,7 @@ const ActorInit En_Box_InitVars = {
     (ActorFunc)EnBox_Update,
     (ActorFunc)EnBox_Draw,
 };
+// clang-format on
 
 static AnimationHeader* sAnimations[4] = { &gTreasureChestAnim_00024C, &gTreasureChestAnim_000128,
                                            &gTreasureChestAnim_00043C, &gTreasureChestAnim_00043C };

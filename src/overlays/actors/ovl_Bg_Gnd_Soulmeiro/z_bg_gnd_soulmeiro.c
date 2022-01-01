@@ -17,6 +17,7 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 void func_8087B284(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 void func_8087B350(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Gnd_Soulmeiro_InitVars = {
     ACTOR_BG_GND_SOULMEIRO,
     ACTORCAT_PROP,
@@ -28,6 +29,7 @@ const ActorInit Bg_Gnd_Soulmeiro_InitVars = {
     (ActorFunc)BgGndSoulmeiro_Update,
     (ActorFunc)BgGndSoulmeiro_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

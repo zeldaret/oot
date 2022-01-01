@@ -43,6 +43,7 @@ static void* D_80BA5900[] = {
     gEffSunGraveSpark5Tex, gEffSunGraveSpark6Tex, gEffSunGraveSpark7Tex, gEffSunGraveSpark8Tex,
 };
 
+// clang-format off
 const ActorInit Object_Kankyo_InitVars = {
     ACTOR_OBJECT_KANKYO,
     ACTORCAT_ITEMACTION,
@@ -54,6 +55,7 @@ const ActorInit Object_Kankyo_InitVars = {
     (ActorFunc)ObjectKankyo_Update,
     (ActorFunc)ObjectKankyo_Draw,
 };
+// clang-format on
 
 static u8 sIsSpawned = false;
 static s16 sTrailingFairies = 0;

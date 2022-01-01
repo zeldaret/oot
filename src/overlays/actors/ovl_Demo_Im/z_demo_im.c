@@ -88,6 +88,7 @@ static DemoImDrawFunc sDrawFuncs[] = {
     DemoIm_DrawTranslucent,
 };
 
+// clang-format off
 const ActorInit Demo_Im_InitVars = {
     ACTOR_DEMO_IM,
     ACTORCAT_NPC,
@@ -99,6 +100,7 @@ const ActorInit Demo_Im_InitVars = {
     (ActorFunc)DemoIm_Update,
     (ActorFunc)DemoIm_Draw,
 };
+// clang-format on
 
 void func_80984BE0(DemoIm* this) {
     s32 pad[3];

@@ -710,10 +710,12 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                 Gfillrect setscissor = ptr->fillrect;
                 const char* modeStr;
 
+                // clang-format off
                 modeStr = (setscissor.pad == G_SC_NON_INTERLACE)    ? "G_SC_NON_INTERLACE"
                           : (setscissor.pad == G_SC_ODD_INTERLACE)  ? "G_SC_ODD_INTERLACE"
                           : (setscissor.pad == G_SC_EVEN_INTERLACE) ? "G_SC_EVEN_INTERLACE"
                                                                     : "???";
+                // clang-format on
 
                 if ((setscissor.x0frac | setscissor.y0frac | setscissor.x1frac | setscissor.y1frac)) {
                     if (1) {}
@@ -738,6 +740,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                 u32 fmt = ((curGfx->words.w0 & 0xE00000) >> 0x15) & 0xFF;
                 u32 siz = ((curGfx->words.w0 & 0x180000) >> 0x13) & 0xFF;
 
+                // clang-format off
                 DISAS_LOG("gsDPSetColorImage(G_IM_FMT_%s, G_IM_SIZ_%s, %d, 0x%08x(0x%08x) ),",
                           (fmt == G_IM_FMT_RGBA)  ? "RGBA"
                           : (fmt == G_IM_FMT_YUV) ? "YUV"
@@ -749,6 +752,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                           : (siz == G_IM_SIZ_16b) ? "16b"
                                                   : "32b",
                           (curGfx->dma.len & 0xFFF) + 1, curGfx->setimg.dram, addr);
+                // clang-format on
 
                 if (this->pipeSyncRequired) {
                     DISAS_LOG("### PipeSyncが必要です。\n");
@@ -769,6 +773,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                 u32 fmt = ((curGfx->words.w0 & 0xE00000) >> 0x15) & 0xFF;
                 u32 siz = ((curGfx->words.w0 & 0x180000) >> 0x13) & 0xFF;
 
+                // clang-format off
                 DISAS_LOG("gsDPSetTextureImage(G_IM_FMT_%s, G_IM_SIZ_%s, %d, 0x%08x(0x%08x)),",
                           (fmt == G_IM_FMT_RGBA)  ? "RGBA"
                           : (fmt == G_IM_FMT_YUV) ? "YUV"
@@ -780,6 +785,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                           : (siz == G_IM_SIZ_16b) ? "16b"
                                                   : "32b",
                           (curGfx->dma.len & 0xFFF) + 1, curGfx->setimg.dram, addr);
+                // clang-format on
             } break;
 
             case G_SETENVCOLOR: {
@@ -943,8 +949,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                     MtxConv_L2F(&mtx, (Mtx*)addr);
                                     DISAS_LOG("\n");
 
-                                    /*! @bug  %.04x.%04x is a typo, should be  %04x.%04x */
                                     // clang-format off
+                                    /*! @bug  %.04x.%04x is a typo, should be  %04x.%04x */
                                     DISAS_LOG(
                                         "/ %04x.%04x %04x.%04x %04x.%04x %.04x.%04x \\/ %12.6f %12.6f %12.6f %12.6f \\\n"
                                         "| %04x.%04x %04x.%04x %04x.%04x %.04x.%04x || %12.6f %12.6f %12.6f %12.6f |\n"
@@ -993,6 +999,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                             } break;
 
                             case G_MODIFYVTX: {
+                                // clang-format off
                                 DISAS_LOG("gsSPModifyVertex(%d, %s, %08x),", curGfx->dma.par,
                                           (curGfx->dma.len == G_MWO_POINT_RGBA)       ? "G_MWO_POINT_RGBA"
                                           : (curGfx->dma.len == G_MWO_POINT_ST)       ? "G_MWO_POINT_ST"
@@ -1000,6 +1007,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                           : (curGfx->dma.len == G_MWO_POINT_ZSCREEN)  ? "G_MWO_POINT_ZSCREEN"
                                                                                       : "G_MWO_POINT_????",
                                           curGfx->dma.addr);
+                                // clang-format on
                                 this->vtxCnt += curGfx->dma.par;
                                 this->spvtxCnt++;
                             } break;
@@ -1204,16 +1212,20 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                         }
                                     } break;
 
-                                    default: {
+                                        // clang-format off
+                                    default:
                                         DISAS_LOG("gsMoveMem(0x%08x, %d, %d, %d),", movemem.data,
                                                   ((movemem.size >> 3) + 1) * 8, movemem.index, movemem.offset * 8);
-                                    } break;
+                                        break;
+                                        // clang-format on
                                 }
                             } break;
 
-                            default: {
+                                // clang-format off
+                            default:
                                 DISAS_LOG("AnyDisplayList(),");
-                            } break;
+                                break;
+                                // clang-format on
                         }
                     } break;
 
@@ -1338,9 +1350,11 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                                 DISAS_LOG("gsSPObjRenderMode(0x%08x),", dma.addr);
                             } break;
 
-                            default: {
+                                // clang-format off
+                            default:
                                 DISAS_LOG("AnyDisplayList(),");
-                            } break;
+                                break;
+                                // clang-format on
                         }
                     }
                 }

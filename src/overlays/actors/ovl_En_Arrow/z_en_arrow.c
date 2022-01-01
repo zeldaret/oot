@@ -17,6 +17,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx);
 void func_809B45E0(EnArrow* this, GlobalContext* globalCtx);
 void func_809B4640(EnArrow* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Arrow_InitVars = {
     ACTOR_EN_ARROW,
     ACTORCAT_ITEMACTION,
@@ -28,6 +29,7 @@ const ActorInit En_Arrow_InitVars = {
     (ActorFunc)EnArrow_Update,
     (ActorFunc)EnArrow_Draw,
 };
+// clang-format on
 
 static ColliderQuadInit sColliderInit = {
     {

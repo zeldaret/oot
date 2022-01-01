@@ -32,6 +32,7 @@ typedef enum {
     /* 2 */ KEESE_AURA_ICE
 } KeeseAuraType;
 
+// clang-format off
 const ActorInit En_Firefly_InitVars = {
     ACTOR_EN_FIREFLY,
     ACTORCAT_ENEMY,
@@ -43,6 +44,7 @@ const ActorInit En_Firefly_InitVars = {
     (ActorFunc)EnFirefly_Update,
     (ActorFunc)EnFirefly_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {

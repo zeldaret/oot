@@ -46,6 +46,7 @@ void EnHorseGameCheck_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseGameCheck_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseGameCheck_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Horse_Game_Check_InitVars = {
     ACTOR_EN_HORSE_GAME_CHECK,
     ACTORCAT_BG,
@@ -57,6 +58,7 @@ const ActorInit En_Horse_Game_Check_InitVars = {
     (ActorFunc)EnHorseGameCheck_Update,
     (ActorFunc)EnHorseGameCheck_Draw,
 };
+// clang-format on
 
 static Vec3f sIngoRaceCheckpoints[] = {
     { 1700.0f, 1.0f, -540.0f },

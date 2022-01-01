@@ -20,6 +20,7 @@ void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx);
 void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx);
 void func_80ABF7CC(EnOkarinaTag* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Okarina_Tag_InitVars = {
     ACTOR_EN_OKARINA_TAG,
     ACTORCAT_PROP,
@@ -31,6 +32,7 @@ const ActorInit En_Okarina_Tag_InitVars = {
     (ActorFunc)EnOkarinaTag_Update,
     NULL,
 };
+// clang-format on
 
 extern CutsceneData D_80ABF9D0[];
 extern CutsceneData D_80ABFB40[];

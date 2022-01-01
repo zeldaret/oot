@@ -22,6 +22,7 @@ void BgJyaIronobj_SpawnThoneParticles(BgJyaIronobj* this, GlobalContext* arg1, E
 
 static int sUnused = 0;
 
+// clang-format off
 const ActorInit Bg_Jya_Ironobj_InitVars = {
     ACTOR_BG_JYA_IRONOBJ,
     ACTORCAT_PROP,
@@ -33,6 +34,7 @@ const ActorInit Bg_Jya_Ironobj_InitVars = {
     (ActorFunc)BgJyaIronobj_Update,
     (ActorFunc)BgJyaIronobj_Draw,
 };
+// clang-format on
 
 static Gfx* sOpaDL[] = { gPillarDL, gThroneDL };
 

@@ -12,6 +12,7 @@ void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Pu_box_InitVars = {
     ACTOR_EN_PU_BOX,
     ACTORCAT_BG,
@@ -23,6 +24,7 @@ const ActorInit En_Pu_box_InitVars = {
     (ActorFunc)EnPubox_Update,
     (ActorFunc)EnPubox_Draw,
 };
+// clang-format on
 
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;

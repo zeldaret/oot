@@ -14,6 +14,7 @@ void OceffSpot_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void OceffSpot_GrowCylinder(OceffSpot* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Oceff_Spot_InitVars = {
     ACTOR_OCEFF_SPOT,
     ACTORCAT_ITEMACTION,
@@ -25,6 +26,7 @@ const ActorInit Oceff_Spot_InitVars = {
     (ActorFunc)OceffSpot_Update,
     (ActorFunc)OceffSpot_Draw,
 };
+// clang-format on
 
 #include "overlays/ovl_Oceff_Spot/ovl_Oceff_Spot.c"
 

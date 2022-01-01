@@ -16,6 +16,7 @@ void func_80891CF4(BgIceShutter* thisx, GlobalContext* globalCtx);
 void func_80891D6C(BgIceShutter* thisx, GlobalContext* globalCtx);
 void func_80891DD4(BgIceShutter* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Ice_Shutter_InitVars = {
     ACTOR_BG_ICE_SHUTTER,
     ACTORCAT_PROP,
@@ -27,6 +28,7 @@ const ActorInit Bg_Ice_Shutter_InitVars = {
     (ActorFunc)BgIceShutter_Update,
     (ActorFunc)BgIceShutter_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

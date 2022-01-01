@@ -20,6 +20,7 @@ void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot18_Basket_InitVars = {
     ACTOR_BG_SPOT18_BASKET,
     ACTORCAT_PROP,
@@ -31,6 +32,7 @@ const ActorInit Bg_Spot18_Basket_InitVars = {
     (ActorFunc)BgSpot18Basket_Update,
     (ActorFunc)BgSpot18Basket_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {

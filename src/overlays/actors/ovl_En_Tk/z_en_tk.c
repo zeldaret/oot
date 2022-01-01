@@ -18,6 +18,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx);
 void EnTk_Walk(EnTk* this, GlobalContext* globalCtx);
 void EnTk_Dig(EnTk* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
     ACTORCAT_NPC,
@@ -29,6 +30,7 @@ const ActorInit En_Tk_InitVars = {
     (ActorFunc)EnTk_Update,
     (ActorFunc)EnTk_Draw,
 };
+// clang-format on
 
 void EnTkEff_Create(EnTk* this, Vec3f* pos, Vec3f* speed, Vec3f* accel, u8 duration, f32 size, f32 growth) {
     s16 i;

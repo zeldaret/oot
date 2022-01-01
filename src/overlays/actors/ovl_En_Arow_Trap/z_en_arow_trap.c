@@ -10,6 +10,7 @@ void EnArowTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnArowTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnArowTrap_Update(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Arow_Trap_InitVars = {
     ACTOR_EN_AROW_TRAP,
     ACTORCAT_PROP,
@@ -21,6 +22,7 @@ const ActorInit En_Arow_Trap_InitVars = {
     (ActorFunc)EnArowTrap_Update,
     NULL,
 };
+// clang-format on
 
 void EnArowTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnArowTrap* this = (EnArowTrap*)thisx;

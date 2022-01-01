@@ -20,6 +20,7 @@ void EnKz_Wait(EnKz* this, GlobalContext* globalCtx);
 void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx);
 void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Kz_InitVars = {
     ACTOR_EN_KZ,
     ACTORCAT_NPC,
@@ -31,6 +32,7 @@ const ActorInit En_Kz_InitVars = {
     (ActorFunc)EnKz_Update,
     (ActorFunc)EnKz_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

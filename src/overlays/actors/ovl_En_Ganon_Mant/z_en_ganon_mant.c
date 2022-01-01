@@ -12,6 +12,7 @@ void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonMant_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Ganon_Mant_InitVars = {
     ACTOR_EN_GANON_MANT,
     ACTORCAT_BOSS,
@@ -23,6 +24,7 @@ const ActorInit En_Ganon_Mant_InitVars = {
     (ActorFunc)EnGanonMant_Update,
     (ActorFunc)EnGanonMant_Draw,
 };
+// clang-format on
 
 static s16 sTearSizesMedium[] = {
     0, 0, 0, 1, 1, 1, 1, 1, 0, 0,

@@ -13,6 +13,7 @@ void ObjMakekinsuta_Update(Actor* thisx, GlobalContext* globalCtx);
 void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx);
 void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Makekinsuta_InitVars = {
     ACTOR_OBJ_MAKEKINSUTA,
     ACTORCAT_ITEMACTION,
@@ -24,6 +25,7 @@ const ActorInit Obj_Makekinsuta_InitVars = {
     (ActorFunc)ObjMakekinsuta_Update,
     NULL,
 };
+// clang-format on
 
 void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjMakekinsuta* this = (ObjMakekinsuta*)thisx;

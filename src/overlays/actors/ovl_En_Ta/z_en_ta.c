@@ -29,6 +29,7 @@ void func_80B167FC(EnTa* this);
 void func_80B16854(EnTa* this);
 void func_80B16938(EnTa* this);
 
+// clang-format off
 const ActorInit En_Ta_InitVars = {
     ACTOR_EN_TA,
     ACTORCAT_NPC,
@@ -40,6 +41,7 @@ const ActorInit En_Ta_InitVars = {
     (ActorFunc)EnTa_Update,
     (ActorFunc)EnTa_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

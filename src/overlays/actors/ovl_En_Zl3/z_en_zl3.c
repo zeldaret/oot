@@ -2759,6 +2759,7 @@ void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     sDrawFuncs[this->drawConfig](this, globalCtx);
 }
 
+// clang-format off
 const ActorInit En_Zl3_InitVars = {
     ACTOR_EN_ZL3,
     ACTORCAT_NPC,
@@ -2770,3 +2771,4 @@ const ActorInit En_Zl3_InitVars = {
     (ActorFunc)EnZl3_Update,
     (ActorFunc)EnZl3_Draw,
 };
+// clang-format on

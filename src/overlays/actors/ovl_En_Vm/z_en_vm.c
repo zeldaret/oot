@@ -21,6 +21,7 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx);
 void EnVm_Stun(EnVm* this, GlobalContext* globalCtx);
 void EnVm_Die(EnVm* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Vm_InitVars = {
     ACTOR_EN_VM,
     ACTORCAT_ENEMY,
@@ -32,6 +33,7 @@ const ActorInit En_Vm_InitVars = {
     (ActorFunc)EnVm_Update,
     (ActorFunc)EnVm_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

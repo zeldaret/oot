@@ -31,6 +31,7 @@ void EnPoField_SoulDisappear(EnPoField* this, GlobalContext* globalCtx);
 void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx);
 void EnPoField_SpawnFlame(EnPoField* this);
 
+// clang-format off
 const ActorInit En_Po_Field_InitVars = {
     ACTOR_EN_PO_FIELD,
     ACTORCAT_ENEMY,
@@ -42,6 +43,7 @@ const ActorInit En_Po_Field_InitVars = {
     (ActorFunc)EnPoField_Update,
     (ActorFunc)EnPoField_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit D_80AD7080 = {
     {

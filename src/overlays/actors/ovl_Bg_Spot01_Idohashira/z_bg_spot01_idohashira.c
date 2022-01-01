@@ -34,6 +34,7 @@ static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
     func_808AB700,
 };
 
+// clang-format off
 const ActorInit Bg_Spot01_Idohashira_InitVars = {
     ACTOR_BG_SPOT01_IDOHASHIRA,
     ACTORCAT_PROP,
@@ -45,6 +46,7 @@ const ActorInit Bg_Spot01_Idohashira_InitVars = {
     (ActorFunc)BgSpot01Idohashira_Update,
     (ActorFunc)BgSpot01Idohashira_Draw,
 };
+// clang-format on
 
 void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
     func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_BOX_BREAK);

@@ -1444,6 +1444,7 @@ void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     sDrawFuncs[this->drawConfig](this, globalCtx);
 }
 
+// clang-format off
 const ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,
     ACTORCAT_PROP,
@@ -1455,3 +1456,4 @@ const ActorInit Demo_Gj_InitVars = {
     (ActorFunc)DemoGj_Update,
     (ActorFunc)DemoGj_Draw,
 };
+// clang-format on

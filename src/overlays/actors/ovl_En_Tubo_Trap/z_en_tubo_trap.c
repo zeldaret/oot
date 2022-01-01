@@ -38,6 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 9, 23, 0, { 0 } },
 };
 
+// clang-format off
 const ActorInit En_Tubo_Trap_InitVars = {
     ACTOR_EN_TUBO_TRAP,
     ACTORCAT_PROP,
@@ -49,6 +50,7 @@ const ActorInit En_Tubo_Trap_InitVars = {
     (ActorFunc)EnTuboTrap_Update,
     (ActorFunc)EnTuboTrap_Draw,
 };
+// clang-format on
 
 void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnTuboTrap* this = (EnTuboTrap*)thisx;

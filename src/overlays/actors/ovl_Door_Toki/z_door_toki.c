@@ -11,6 +11,7 @@ void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Door_Toki_InitVars = {
     ACTOR_DOOR_TOKI,
     ACTORCAT_BG,
@@ -22,6 +23,7 @@ const ActorInit Door_Toki_InitVars = {
     (ActorFunc)DoorToki_Update,
     NULL,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),

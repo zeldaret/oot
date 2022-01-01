@@ -43,6 +43,7 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx);
 void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx);
 void EnfHG_Done(EnfHG* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_fHG_InitVars = {
     ACTOR_EN_FHG,
     ACTORCAT_BG,
@@ -54,6 +55,7 @@ const ActorInit En_fHG_InitVars = {
     (ActorFunc)EnfHG_Update,
     (ActorFunc)EnfHG_Draw,
 };
+// clang-format on
 
 static EnfHGPainting sPaintings[] = {
     { { 0.0f, 60.0f, -315.0f }, 0x0000 },   { { -260.0f, 60.0f, -145.0f }, 0x2AAA },

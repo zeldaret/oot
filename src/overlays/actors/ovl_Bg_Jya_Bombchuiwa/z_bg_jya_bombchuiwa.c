@@ -12,6 +12,7 @@ void func_808949B8(BgJyaBombchuiwa* this, GlobalContext* globalCtx);
 void BgJyaBombchuiwa_CleanUpAfterExplosion(BgJyaBombchuiwa* this, GlobalContext* globalCtx);
 void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
     ACTOR_BG_JYA_BOMBCHUIWA,
     ACTORCAT_BG,
@@ -23,6 +24,7 @@ const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
     (ActorFunc)BgJyaBombchuiwa_Update,
     (ActorFunc)BgJyaBombchuiwa_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {

@@ -27,6 +27,7 @@ void func_80880D68(BgHakaTrap* this);
 
 static UNK_TYPE D_80880F30 = 0;
 
+// clang-format off
 const ActorInit Bg_Haka_Trap_InitVars = {
     ACTOR_BG_HAKA_TRAP,
     ACTORCAT_BG,
@@ -38,6 +39,7 @@ const ActorInit Bg_Haka_Trap_InitVars = {
     (ActorFunc)BgHakaTrap_Update,
     (ActorFunc)BgHakaTrap_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

@@ -19,6 +19,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx);
 
 static s16 sIsSpawned = false;
 
+// clang-format off
 const ActorInit Bg_Mori_Idomizu_InitVars = {
     ACTOR_BG_MORI_IDOMIZU,
     ACTORCAT_BG,
@@ -30,6 +31,7 @@ const ActorInit Bg_Mori_Idomizu_InitVars = {
     (ActorFunc)BgMoriIdomizu_Update,
     NULL,
 };
+// clang-format on
 
 void BgMoriIdomizu_SetupAction(BgMoriIdomizu* this, BgMoriIdomizuActionFunc actionFunc) {
     this->actionFunc = actionFunc;

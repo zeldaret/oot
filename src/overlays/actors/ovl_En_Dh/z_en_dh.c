@@ -29,6 +29,7 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx);
 void EnDh_Damage(EnDh* this, GlobalContext* globalCtx);
 void EnDh_Death(EnDh* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dh_InitVars = {
     ACTOR_EN_DH,
     ACTORCAT_ENEMY,
@@ -40,6 +41,7 @@ const ActorInit En_Dh_InitVars = {
     (ActorFunc)EnDh_Update,
     (ActorFunc)EnDh_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

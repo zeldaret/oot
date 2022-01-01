@@ -38,6 +38,7 @@ static s16 rotSpeedX = 0;
 static s16 rotSpeedYtarget = 0;
 static s16 rotSpeedY = 0;
 
+// clang-format off
 const ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
     ACTORCAT_PROP,
@@ -49,6 +50,7 @@ const ActorInit En_Kusa_InitVars = {
     (ActorFunc)EnKusa_Update,
     NULL,
 };
+// clang-format on
 
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA };
 

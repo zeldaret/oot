@@ -20,6 +20,7 @@ void func_80B17934(EnTakaraMan* this, GlobalContext* globalCtx);
 void func_80B17A6C(EnTakaraMan* this, GlobalContext* globalCtx);
 void func_80B17AC4(EnTakaraMan* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Takara_Man_InitVars = {
     ACTOR_EN_TAKARA_MAN,
     ACTORCAT_NPC,
@@ -31,6 +32,7 @@ const ActorInit En_Takara_Man_InitVars = {
     (ActorFunc)EnTakaraMan_Update,
     (ActorFunc)EnTakaraMan_Draw,
 };
+// clang-format on
 
 static u8 sTakaraIsInitialized = false;
 

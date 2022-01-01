@@ -60,6 +60,7 @@ void DemoEffect_InitPositionFromCsAction(DemoEffect* this, GlobalContext* global
 void DemoEffect_MoveToCsEndpoint(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, s32 shouldUpdateFacing);
 void DemoEffect_MoveGetItem(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, f32 speed);
 
+// clang-format off
 const ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
     ACTORCAT_BG,
@@ -71,6 +72,7 @@ const ActorInit Demo_Effect_InitVars = {
     (ActorFunc)DemoEffect_Update,
     NULL,
 };
+// clang-format on
 
 // This variable assures only one jewel will play SFX
 static s16 sSfxJewelId[] = { 0 };

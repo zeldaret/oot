@@ -18,6 +18,7 @@ void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx);
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx);
 void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
     ACTORCAT_PROP,
@@ -29,6 +30,7 @@ const ActorInit Shot_Sun_InitVars = {
     (ActorFunc)ShotSun_Update,
     NULL,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

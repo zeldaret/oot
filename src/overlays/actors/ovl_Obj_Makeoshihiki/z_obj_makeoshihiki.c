@@ -11,11 +11,19 @@
 void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Makeoshihiki_InitVars = {
-    ACTOR_OBJ_MAKEOSHIHIKI,       ACTORCAT_PROP,           ACTOR_FLAG_5,
-    OBJECT_GAMEPLAY_DANGEON_KEEP, sizeof(ObjMakeoshihiki), (ActorFunc)ObjMakeoshihiki_Init,
-    (ActorFunc)Actor_Noop,        (ActorFunc)Actor_Noop,   (ActorFunc)ObjMakeoshihiki_Draw,
+    ACTOR_OBJ_MAKEOSHIHIKI,
+    ACTORCAT_PROP,
+    ACTOR_FLAG_5,
+    OBJECT_GAMEPLAY_DANGEON_KEEP,
+    sizeof(ObjMakeoshihiki),
+    (ActorFunc)ObjMakeoshihiki_Init,
+    (ActorFunc)Actor_Noop,
+    (ActorFunc)Actor_Noop,
+    (ActorFunc)ObjMakeoshihiki_Draw,
 };
+// clang-format on
 
 typedef struct {
     /* 0x00 */ Vec3f posVecs[3];

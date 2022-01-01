@@ -18,6 +18,7 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx);
 void ObjComb_SetupWait(ObjComb* this);
 void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Comb_InitVars = {
     ACTOR_OBJ_COMB,
     ACTORCAT_PROP,
@@ -29,6 +30,7 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Update,
     (ActorFunc)ObjComb_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {

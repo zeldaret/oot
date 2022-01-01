@@ -15,6 +15,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
 void func_80AF9C70(u8* shadowTexture, Player* player, GlobalContext* globalCtx);
 void func_80AF8F60(Player* player, u8* shadowTexture, f32 arg2);
 
+// clang-format off
 const ActorInit En_Sda_InitVars = {
     ACTOR_EN_SDA,
     ACTORCAT_BOSS,
@@ -26,6 +27,7 @@ const ActorInit En_Sda_InitVars = {
     (ActorFunc)EnSda_Update,
     (ActorFunc)EnSda_Draw,
 };
+// clang-format on
 
 static Vec3f D_80AFA0D0 = { 0.0f, 0.0f, 0.0f };
 

@@ -32,6 +32,7 @@ void EnTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTrap_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Trap_InitVars = {
     ACTOR_EN_TRAP,
     ACTORCAT_BG,
@@ -43,6 +44,7 @@ const ActorInit En_Trap_InitVars = {
     (ActorFunc)EnTrap_Update,
     (ActorFunc)EnTrap_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

@@ -28,6 +28,7 @@ void func_80A99560(EnKo* this, GlobalContext* globalCtx);
 
 s32 func_80A98ECC(EnKo* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,
     ACTORCAT_NPC,
@@ -39,6 +40,7 @@ const ActorInit En_Ko_InitVars = {
     (ActorFunc)EnKo_Update,
     (ActorFunc)EnKo_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

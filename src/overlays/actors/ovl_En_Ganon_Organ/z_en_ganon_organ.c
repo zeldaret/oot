@@ -12,6 +12,7 @@ void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonOrgan_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Ganon_Organ_InitVars = {
     ACTOR_EN_GANON_ORGAN,
     ACTORCAT_BOSS,
@@ -23,6 +24,7 @@ const ActorInit En_Ganon_Organ_InitVars = {
     (ActorFunc)EnGanonOrgan_Update,
     (ActorFunc)EnGanonOrgan_Draw,
 };
+// clang-format on
 
 static u64 sForceAlignment = 0;
 

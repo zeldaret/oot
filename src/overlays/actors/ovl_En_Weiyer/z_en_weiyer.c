@@ -24,6 +24,7 @@ void func_80B332B4(EnWeiyer* this, GlobalContext* globalCtx);
 void func_80B33338(EnWeiyer* this, GlobalContext* globalCtx);
 void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Weiyer_InitVars = {
     ACTOR_EN_WEIYER,
     ACTORCAT_ENEMY,
@@ -35,6 +36,7 @@ const ActorInit En_Weiyer_InitVars = {
     (ActorFunc)EnWeiyer_Update,
     (ActorFunc)EnWeiyer_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

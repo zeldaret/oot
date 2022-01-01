@@ -20,6 +20,7 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx);
 
 static s16 sIsSpawned = false;
 
+// clang-format off
 const ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
     ACTORCAT_BG,
@@ -31,6 +32,7 @@ const ActorInit Bg_Jya_Lift_InitVars = {
     (ActorFunc)BgJyaLift_Update,
     (ActorFunc)BgJyaLift_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

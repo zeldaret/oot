@@ -63,6 +63,7 @@ typedef enum {
     /* 0x01 */ OWL_OK
 } EnOwlMessageChoice;
 
+// clang-format off
 const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
     ACTORCAT_NPC,
@@ -74,6 +75,7 @@ const ActorInit En_Owl_InitVars = {
     (ActorFunc)EnOwl_Update,
     (ActorFunc)EnOwl_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sOwlCylinderInit = {
     {

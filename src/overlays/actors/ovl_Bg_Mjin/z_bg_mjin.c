@@ -22,6 +22,7 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808A0850(BgMjin* this, GlobalContext* globalCtx);
 void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Mjin_InitVars = {
     ACTOR_BG_MJIN,
     ACTORCAT_BG,
@@ -33,6 +34,7 @@ const ActorInit Bg_Mjin_InitVars = {
     (ActorFunc)BgMjin_Update,
     NULL,
 };
+// clang-format on
 
 extern UNK_TYPE D_06000000;
 

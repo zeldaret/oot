@@ -38,6 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 13, 120, 0, { 0, 0, 0 } },
 };
 
+// clang-format off
 const ActorInit Bg_Ice_Turara_InitVars = {
     ACTOR_BG_ICE_TURARA,
     ACTORCAT_PROP,
@@ -49,6 +50,7 @@ const ActorInit Bg_Ice_Turara_InitVars = {
     (ActorFunc)BgIceTurara_Update,
     (ActorFunc)BgIceTurara_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),

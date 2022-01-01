@@ -15,6 +15,7 @@ void BgDdanJd_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx);
 void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
     ACTORCAT_BG,
@@ -26,6 +27,7 @@ const ActorInit Bg_Ddan_Jd_InitVars = {
     (ActorFunc)BgDdanJd_Update,
     (ActorFunc)BgDdanJd_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

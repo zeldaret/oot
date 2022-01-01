@@ -27,6 +27,7 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx);
 
 static s16 sNextCamIdx = SUBCAM_NONE;
 
+// clang-format off
 const ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
     ACTORCAT_BG,
@@ -38,6 +39,7 @@ const ActorInit Bg_Mori_Hineri_InitVars = {
     (ActorFunc)BgMoriHineri_Update,
     NULL,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),

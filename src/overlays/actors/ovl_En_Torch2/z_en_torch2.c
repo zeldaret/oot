@@ -50,6 +50,7 @@ void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Torch2_InitVars = {
     ACTOR_EN_TORCH2,
     ACTORCAT_BOSS,
@@ -61,6 +62,7 @@ const ActorInit En_Torch2_InitVars = {
     (ActorFunc)EnTorch2_Update,
     (ActorFunc)EnTorch2_Draw,
 };
+// clang-format on
 
 static f32 sStickTilt = 0.0f;
 static s16 sStickAngle = 0;

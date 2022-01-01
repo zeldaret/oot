@@ -16,6 +16,7 @@ void ObjMure_ActiveState(ObjMure* this, GlobalContext* globalCtx);
 
 s32 ObjMure_GetMaxChildSpawns(ObjMure* this);
 
+// clang-format off
 const ActorInit Obj_Mure_InitVars = {
     ACTOR_OBJ_MURE,
     ACTORCAT_ITEMACTION,
@@ -27,6 +28,7 @@ const ActorInit Obj_Mure_InitVars = {
     (ActorFunc)ObjMure_Update,
     NULL,
 };
+// clang-format on
 
 typedef enum {
     /* 0 */ OBJMURE_TYPE_GRASS,

@@ -37,6 +37,7 @@ s32 func_80AADA70(void);
 s32 EnMm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 
+// clang-format off
 const ActorInit En_Mm_InitVars = {
     ACTOR_EN_MM,
     ACTORCAT_NPC,
@@ -48,6 +49,7 @@ const ActorInit En_Mm_InitVars = {
     (ActorFunc)EnMm_Update,
     (ActorFunc)EnMm_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

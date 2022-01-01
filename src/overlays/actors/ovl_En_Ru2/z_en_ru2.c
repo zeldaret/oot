@@ -75,6 +75,7 @@ static EnRu2DrawFunc sDrawFuncs[] = {
     func_80AF321C,
 };
 
+// clang-format off
 const ActorInit En_Ru2_InitVars = {
     ACTOR_EN_RU2,
     ACTORCAT_NPC,
@@ -86,6 +87,7 @@ const ActorInit En_Ru2_InitVars = {
     (ActorFunc)EnRu2_Update,
     (ActorFunc)EnRu2_Draw,
 };
+// clang-format on
 
 void func_80AF2550(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = (EnRu2*)thisx;

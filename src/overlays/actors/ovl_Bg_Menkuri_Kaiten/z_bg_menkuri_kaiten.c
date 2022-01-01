@@ -12,6 +12,7 @@ void BgMenkuriKaiten_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriKaiten_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriKaiten_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Menkuri_Kaiten_InitVars = {
     ACTOR_BG_MENKURI_KAITEN,
     ACTORCAT_BG,
@@ -23,6 +24,7 @@ const ActorInit Bg_Menkuri_Kaiten_InitVars = {
     (ActorFunc)BgMenkuriKaiten_Update,
     (ActorFunc)BgMenkuriKaiten_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

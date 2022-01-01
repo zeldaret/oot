@@ -37,6 +37,7 @@ static ColliderCylinderInit D_80AB0BD0 = {
 
 static CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
+// clang-format off
 const ActorInit En_Mu_InitVars = {
     ACTOR_EN_MU,
     ACTORCAT_NPC,
@@ -48,6 +49,7 @@ const ActorInit En_Mu_InitVars = {
     (ActorFunc)EnMu_Update,
     (ActorFunc)EnMu_Draw,
 };
+// clang-format on
 
 void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {
     this->actionFunc = actionFunc;

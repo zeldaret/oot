@@ -32,6 +32,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
+// clang-format off
 const ActorInit En_It_InitVars = {
     ACTOR_EN_IT,
     ACTORCAT_PROP,
@@ -43,6 +44,7 @@ const ActorInit En_It_InitVars = {
     (ActorFunc)EnIt_Update,
     (ActorFunc)NULL,
 };
+// clang-format on
 
 void EnIt_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIt* this = (EnIt*)thisx;

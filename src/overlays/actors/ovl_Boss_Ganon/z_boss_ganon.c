@@ -43,6 +43,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx);
 
 s32 BossGanon_CheckFallingPlatforms(BossGanon* this, GlobalContext* globalCtx, Vec3f* checkPos);
 
+// clang-format off
 const ActorInit Boss_Ganon_InitVars = {
     ACTOR_BOSS_GANON,
     ACTORCAT_BOSS,
@@ -54,6 +55,7 @@ const ActorInit Boss_Ganon_InitVars = {
     (ActorFunc)BossGanon_Update,
     (ActorFunc)BossGanon_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sDorfCylinderInit = {
     {

@@ -30,6 +30,7 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx);
 void EnExItem_TargetPrizeGive(EnExItem* this, GlobalContext* globalCtx);
 void EnExItem_TargetPrizeFinish(EnExItem* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Ex_Item_InitVars = {
     ACTOR_EN_EX_ITEM,
     ACTORCAT_PROP,
@@ -41,6 +42,7 @@ const ActorInit En_Ex_Item_InitVars = {
     (ActorFunc)EnExItem_Update,
     (ActorFunc)EnExItem_Draw,
 };
+// clang-format on
 
 void EnExItem_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }

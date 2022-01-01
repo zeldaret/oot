@@ -12,6 +12,7 @@ void BgMenkuriEye_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Menkuri_Eye_InitVars = {
     ACTOR_BG_MENKURI_EYE,
     ACTORCAT_BG,
@@ -23,6 +24,7 @@ const ActorInit Bg_Menkuri_Eye_InitVars = {
     (ActorFunc)BgMenkuriEye_Update,
     (ActorFunc)BgMenkuriEye_Draw,
 };
+// clang-format on
 
 static s32 D_8089C1A0;
 

@@ -19,6 +19,7 @@ void func_8088E760(BgHidanSima* this, GlobalContext* globalCtx);
 void func_8088E7A8(BgHidanSima* this, GlobalContext* globalCtx);
 void func_8088E90C(BgHidanSima* this);
 
+// clang-format off
 const ActorInit Bg_Hidan_Sima_InitVars = {
     ACTOR_BG_HIDAN_SIMA,
     ACTORCAT_BG,
@@ -30,6 +31,7 @@ const ActorInit Bg_Hidan_Sima_InitVars = {
     (ActorFunc)BgHidanSima_Update,
     (ActorFunc)BgHidanSima_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {

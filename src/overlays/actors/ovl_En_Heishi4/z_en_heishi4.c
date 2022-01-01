@@ -19,6 +19,7 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx);
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx);
 void func_80A56ACC(EnHeishi4* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Heishi4_InitVars = {
     ACTOR_EN_HEISHI4,
     ACTORCAT_NPC,
@@ -30,6 +31,7 @@ const ActorInit En_Heishi4_InitVars = {
     (ActorFunc)EnHeishi4_Update,
     (ActorFunc)EnHeishi4_Draw,
 };
+// clang-format on
 
 static u32 sFaceReactionSets[] = { 6, 7 };
 

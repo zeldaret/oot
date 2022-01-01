@@ -13,6 +13,7 @@ void ObjRoomtimer_Update(Actor* thisx, GlobalContext* globalCtx);
 void func_80B9D054(ObjRoomtimer* this, GlobalContext* globalCtx);
 void func_80B9D0B0(ObjRoomtimer* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Roomtimer_InitVars = {
     ACTOR_OBJ_ROOMTIMER,
     ACTORCAT_ENEMY,
@@ -24,6 +25,7 @@ const ActorInit Obj_Roomtimer_InitVars = {
     (ActorFunc)ObjRoomtimer_Update,
     (ActorFunc)NULL,
 };
+// clang-format on
 
 void ObjRoomtimer_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjRoomtimer* this = (ObjRoomtimer*)thisx;

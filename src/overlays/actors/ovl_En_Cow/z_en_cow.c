@@ -23,6 +23,7 @@ void func_809DF8FC(EnCow* this, GlobalContext* globalCtx);
 void func_809DF96C(EnCow* this, GlobalContext* globalCtx);
 void func_809DFA84(EnCow* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Cow_InitVars = {
     ACTOR_EN_COW,
     ACTORCAT_NPC,
@@ -34,6 +35,7 @@ const ActorInit En_Cow_InitVars = {
     (ActorFunc)EnCow_Update,
     (ActorFunc)EnCow_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

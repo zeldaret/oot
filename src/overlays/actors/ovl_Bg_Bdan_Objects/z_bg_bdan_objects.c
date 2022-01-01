@@ -29,6 +29,7 @@ void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx);
 void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx);
 void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Bdan_Objects_InitVars = {
     ACTOR_BG_BDAN_OBJECTS,
     ACTORCAT_BG,
@@ -40,6 +41,7 @@ const ActorInit Bg_Bdan_Objects_InitVars = {
     (ActorFunc)BgBdanObjects_Update,
     (ActorFunc)BgBdanObjects_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

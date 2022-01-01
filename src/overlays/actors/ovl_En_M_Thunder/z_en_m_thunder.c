@@ -10,6 +10,7 @@ void func_80A9F314(GlobalContext* globalCtx, f32 arg1);
 void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx);
 void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_M_Thunder_InitVars = {
     ACTOR_EN_M_THUNDER,
     ACTORCAT_ITEMACTION,
@@ -21,6 +22,7 @@ const ActorInit En_M_Thunder_InitVars = {
     (ActorFunc)EnMThunder_Update,
     (ActorFunc)EnMThunder_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit D_80AA0420 = {
     {

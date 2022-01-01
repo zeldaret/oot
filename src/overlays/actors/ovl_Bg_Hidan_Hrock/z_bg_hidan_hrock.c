@@ -16,6 +16,7 @@ void func_8088960C(BgHidanHrock* this, GlobalContext* globalCtx);
 void func_808896B8(BgHidanHrock* this, GlobalContext* globalCtx);
 void func_808894A4(BgHidanHrock* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Hidan_Hrock_InitVars = {
     ACTOR_BG_HIDAN_HROCK,
     ACTORCAT_BG,
@@ -27,6 +28,7 @@ const ActorInit Bg_Hidan_Hrock_InitVars = {
     (ActorFunc)BgHidanHrock_Update,
     (ActorFunc)BgHidanHrock_Draw,
 };
+// clang-format on
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {

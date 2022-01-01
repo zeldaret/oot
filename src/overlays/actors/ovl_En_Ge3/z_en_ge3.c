@@ -16,6 +16,7 @@ void EnGe3_WaitLookAtPlayer(EnGe3* this, GlobalContext* globalCtx);
 void EnGe3_ForceTalk(EnGe3* this, GlobalContext* globalCtx);
 void EnGe3_UpdateWhenNotTalking(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
     ACTORCAT_NPC,
@@ -27,6 +28,7 @@ const ActorInit En_Ge3_InitVars = {
     (ActorFunc)EnGe3_Update,
     (ActorFunc)EnGe3_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

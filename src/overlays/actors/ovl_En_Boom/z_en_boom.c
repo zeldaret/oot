@@ -14,6 +14,7 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Boom_InitVars = {
     ACTOR_EN_BOOM,
     ACTORCAT_MISC,
@@ -25,6 +26,7 @@ const ActorInit En_Boom_InitVars = {
     (ActorFunc)EnBoom_Update,
     (ActorFunc)EnBoom_Draw,
 };
+// clang-format on
 
 static ColliderQuadInit sQuadInit = {
     {

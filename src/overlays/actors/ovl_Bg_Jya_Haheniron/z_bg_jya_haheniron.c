@@ -20,6 +20,7 @@ void BgJyaHaheniron_PillarCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx
 void BgJyaHaheniron_SetupRubbleCollide(BgJyaHaheniron* this);
 void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
     ACTORCAT_PROP,
@@ -31,6 +32,7 @@ const ActorInit Bg_Jya_Haheniron_InitVars = {
     (ActorFunc)BgJyaHaheniron_Update,
     (ActorFunc)BgJyaHaheniron_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {

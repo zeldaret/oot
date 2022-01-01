@@ -44,6 +44,7 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx);
 void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx);
 void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Boss_Fd2_InitVars = {
     ACTOR_BOSS_FD2,
     ACTORCAT_BOSS,
@@ -55,6 +56,7 @@ const ActorInit Boss_Fd2_InitVars = {
     (ActorFunc)BossFd2_Update,
     (ActorFunc)BossFd2_Draw,
 };
+// clang-format on
 
 #include "z_boss_fd2_colchk.c"
 

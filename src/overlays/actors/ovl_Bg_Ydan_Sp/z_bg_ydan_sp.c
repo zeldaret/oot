@@ -22,6 +22,7 @@ typedef enum {
     /* 1 */ WEB_WALL
 } BgYdanSpType;
 
+// clang-format off
 const ActorInit Bg_Ydan_Sp_InitVars = {
     ACTOR_BG_YDAN_SP,
     ACTORCAT_BG,
@@ -33,6 +34,7 @@ const ActorInit Bg_Ydan_Sp_InitVars = {
     (ActorFunc)BgYdanSp_Update,
     (ActorFunc)BgYdanSp_Draw,
 };
+// clang-format on
 
 static ColliderTrisElementInit sTrisItemsInit[2] = {
     {

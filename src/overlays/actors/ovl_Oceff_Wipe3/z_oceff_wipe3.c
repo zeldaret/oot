@@ -12,6 +12,7 @@ void OceffWipe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe3_Update(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Oceff_Wipe3_InitVars = {
     ACTOR_OCEFF_WIPE3,
     ACTORCAT_ITEMACTION,
@@ -23,6 +24,7 @@ const ActorInit Oceff_Wipe3_InitVars = {
     (ActorFunc)OceffWipe3_Update,
     (ActorFunc)OceffWipe3_Draw,
 };
+// clang-format on
 
 #include "overlays/ovl_Oceff_Wipe3/ovl_Oceff_Wipe3.c"
 

@@ -63,6 +63,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
+// clang-format off
 const ActorInit En_Reeba_InitVars = {
     ACTOR_EN_REEBA,
     ACTORCAT_MISC,
@@ -74,6 +75,7 @@ const ActorInit En_Reeba_InitVars = {
     (ActorFunc)EnReeba_Update,
     (ActorFunc)EnReeba_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

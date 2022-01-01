@@ -15,6 +15,7 @@ void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx);
 void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx);
 void ObjIcePoly_Melt(ObjIcePoly* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
     ACTORCAT_PROP,
@@ -26,6 +27,7 @@ const ActorInit Obj_Ice_Poly_InitVars = {
     (ActorFunc)ObjIcePoly_Update,
     (ActorFunc)ObjIcePoly_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInitIce = {
     {

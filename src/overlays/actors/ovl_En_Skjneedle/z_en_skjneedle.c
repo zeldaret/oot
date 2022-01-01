@@ -14,6 +14,7 @@ void EnSkjneedle_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this);
 
+// clang-format off
 const ActorInit En_Skjneedle_InitVars = {
     ACTOR_EN_SKJNEEDLE,
     ACTORCAT_ENEMY,
@@ -25,6 +26,7 @@ const ActorInit En_Skjneedle_InitVars = {
     (ActorFunc)EnSkjneedle_Update,
     (ActorFunc)EnSkjneedle_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {

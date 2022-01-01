@@ -83,6 +83,7 @@ static EnZl2DrawFunc sDrawFuncs[] = {
     func_80B525D4,
 };
 
+// clang-format off
 const ActorInit En_Zl2_InitVars = {
     ACTOR_EN_ZL2,
     ACTORCAT_NPC,
@@ -94,6 +95,7 @@ const ActorInit En_Zl2_InitVars = {
     (ActorFunc)EnZl2_Update,
     (ActorFunc)EnZl2_Draw,
 };
+// clang-format on
 
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnZl2* this = (EnZl2*)thisx;

@@ -16,6 +16,7 @@ void ObjBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Bombiwa_InitVars = {
     ACTOR_OBJ_BOMBIWA,
     ACTORCAT_PROP,
@@ -27,6 +28,7 @@ const ActorInit Obj_Bombiwa_InitVars = {
     (ActorFunc)ObjBombiwa_Update,
     (ActorFunc)ObjBombiwa_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

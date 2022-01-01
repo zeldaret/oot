@@ -15,6 +15,7 @@ void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx);
 void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Hidan_Dalm_InitVars = {
     ACTOR_BG_HIDAN_DALM,
     ACTORCAT_BG,
@@ -26,6 +27,7 @@ const ActorInit Bg_Hidan_Dalm_InitVars = {
     (ActorFunc)BgHidanDalm_Update,
     (ActorFunc)BgHidanDalm_Draw,
 };
+// clang-format on
 
 static ColliderTrisElementInit sTrisElementInit[4] = {
     {

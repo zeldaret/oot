@@ -19,6 +19,7 @@ void func_80B93D90(ObjHsblock* this);
 void func_80B93DB0(ObjHsblock* this);
 void func_80B93E38(ObjHsblock* this);
 
+// clang-format off
 const ActorInit Obj_Hsblock_InitVars = {
     ACTOR_OBJ_HSBLOCK,
     ACTORCAT_BG,
@@ -30,6 +31,7 @@ const ActorInit Obj_Hsblock_InitVars = {
     (ActorFunc)ObjHsblock_Update,
     (ActorFunc)ObjHsblock_Draw,
 };
+// clang-format on
 
 static f32 D_80B940C0[] = { 85.0f, 85.0f, 0.0f };
 

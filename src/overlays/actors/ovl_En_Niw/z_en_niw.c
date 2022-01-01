@@ -34,6 +34,7 @@ void EnNiw_FeatherDraw(EnNiw* this, GlobalContext* globalCtx);
 
 static s16 D_80AB85E0 = 0;
 
+// clang-format off
 const ActorInit En_Niw_InitVars = {
     ACTOR_EN_NIW,
     ACTORCAT_PROP,
@@ -45,6 +46,7 @@ const ActorInit En_Niw_InitVars = {
     (ActorFunc)EnNiw_Update,
     (ActorFunc)EnNiw_Draw,
 };
+// clang-format on
 
 static f32 D_80AB8604[] = {
     5000.0f,

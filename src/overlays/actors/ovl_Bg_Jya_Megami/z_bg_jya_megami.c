@@ -12,6 +12,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx);
 void BgJyaMegami_SetupExplode(BgJyaMegami* this);
 void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Jya_Megami_InitVars = {
     ACTOR_BG_JYA_MEGAMI,
     ACTORCAT_BG,
@@ -23,6 +24,7 @@ const ActorInit Bg_Jya_Megami_InitVars = {
     (ActorFunc)BgJyaMegami_Update,
     (ActorFunc)BgJyaMegami_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {

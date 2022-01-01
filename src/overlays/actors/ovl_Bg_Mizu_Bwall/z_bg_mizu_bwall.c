@@ -17,6 +17,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, GlobalContext* globalCtx);
 void BgMizuBwall_Break(BgMizuBwall* this, GlobalContext* globalCtx);
 void BgMizuBwall_DoNothing(BgMizuBwall* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Mizu_Bwall_InitVars = {
     ACTOR_BG_MIZU_BWALL,
     ACTORCAT_BG,
@@ -28,6 +29,7 @@ const ActorInit Bg_Mizu_Bwall_InitVars = {
     (ActorFunc)BgMizuBwall_Update,
     (ActorFunc)BgMizuBwall_Draw,
 };
+// clang-format on
 
 static ColliderTrisElementInit sTrisElementInitFloor[2] = {
     {

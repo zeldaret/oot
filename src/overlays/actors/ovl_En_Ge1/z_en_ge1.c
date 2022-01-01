@@ -37,6 +37,7 @@ void EnGe1_Wait_Archery(EnGe1* this, GlobalContext* globalCtx);
 void EnGe1_CueUpAnimation(EnGe1* this);
 void EnGe1_StopFidget(EnGe1* this);
 
+// clang-format off
 const ActorInit En_Ge1_InitVars = {
     ACTOR_EN_GE1,
     ACTORCAT_NPC,
@@ -48,6 +49,7 @@ const ActorInit En_Ge1_InitVars = {
     (ActorFunc)EnGe1_Update,
     (ActorFunc)EnGe1_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

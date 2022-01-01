@@ -35,6 +35,7 @@ static DemoGoDrawFunc D_8097D468[] = {
     func_8097D29C,
 };
 
+// clang-format off
 const ActorInit Demo_Go_InitVars = {
     ACTOR_DEMO_GO,
     ACTORCAT_NPC,
@@ -46,6 +47,7 @@ const ActorInit Demo_Go_InitVars = {
     (ActorFunc)DemoGo_Update,
     (ActorFunc)DemoGo_Draw,
 };
+// clang-format on
 
 s32 func_8097C870(DemoGo* this) {
     s32 ret;

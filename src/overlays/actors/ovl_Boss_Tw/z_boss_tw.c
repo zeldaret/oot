@@ -112,6 +112,7 @@ void BossTw_TwinrovaChargeBlast(BossTw* this, GlobalContext* globalCtx);
 void BossTw_TwinrovaSetupSpin(BossTw* this, GlobalContext* globalCtx);
 void BossTw_UpdateEffects(GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Boss_Tw_InitVars = {
     ACTOR_BOSS_TW,
     ACTORCAT_BOSS,
@@ -123,6 +124,7 @@ const ActorInit Boss_Tw_InitVars = {
     (ActorFunc)BossTw_Update,
     (ActorFunc)BossTw_Draw,
 };
+// clang-format on
 
 static Vec3f D_8094A7D0 = { 0.0f, 0.0f, 1000.0f };
 static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };

@@ -17,6 +17,7 @@ void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx);
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx);
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Gjyo_Bridge_InitVars = {
     ACTOR_BG_GJYO_BRIDGE,
     ACTORCAT_PROP,
@@ -28,6 +29,7 @@ const ActorInit Bg_Gjyo_Bridge_InitVars = {
     (ActorFunc)BgGjyoBridge_Update,
     (ActorFunc)BgGjyoBridge_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),

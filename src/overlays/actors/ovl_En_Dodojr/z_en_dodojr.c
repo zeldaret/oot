@@ -29,6 +29,7 @@ void func_809F7B3C(EnDodojr* this, GlobalContext* globalCtx);
 void func_809F7C48(EnDodojr* this, GlobalContext* globalCtx);
 void func_809F768C(EnDodojr* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
     ACTORCAT_ENEMY,
@@ -40,6 +41,7 @@ const ActorInit En_Dodojr_InitVars = {
     (ActorFunc)EnDodojr_Update,
     (ActorFunc)EnDodojr_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

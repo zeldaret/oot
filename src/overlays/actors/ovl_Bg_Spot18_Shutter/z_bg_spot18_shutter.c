@@ -18,6 +18,7 @@ void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx);
 void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx);
 void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot18_Shutter_InitVars = {
     ACTOR_BG_SPOT18_SHUTTER,
     ACTORCAT_PROP,
@@ -29,6 +30,7 @@ const ActorInit Bg_Spot18_Shutter_InitVars = {
     (ActorFunc)BgSpot18Shutter_Update,
     (ActorFunc)BgSpot18Shutter_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

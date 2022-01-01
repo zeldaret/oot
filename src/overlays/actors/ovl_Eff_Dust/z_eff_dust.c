@@ -20,6 +20,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx);
 void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
     ACTORCAT_NPC,
@@ -31,6 +32,7 @@ const ActorInit Eff_Dust_InitVars = {
     (ActorFunc)EffDust_Update,
     (ActorFunc)EffDust_Draw,
 };
+// clang-format on
 
 static Gfx sEmptyDL[] = {
     gsSPEndDisplayList(),

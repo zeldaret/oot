@@ -21,6 +21,7 @@ void func_80A593A4(EnHoll* this, GlobalContext* globalCtx);
 void func_80A59520(EnHoll* this, GlobalContext* globalCtx);
 void func_80A59618(EnHoll* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Holl_InitVars = {
     ACTOR_EN_HOLL,
     ACTORCAT_DOOR,
@@ -32,6 +33,7 @@ const ActorInit En_Holl_InitVars = {
     (ActorFunc)EnHoll_Update,
     (ActorFunc)EnHoll_Draw,
 };
+// clang-format on
 
 static EnHollActionFunc sActionFuncs[] = {
     func_80A58DD4, func_80A591C0, func_80A59520, func_80A59618, func_80A59014, func_80A593A4, func_80A59014,

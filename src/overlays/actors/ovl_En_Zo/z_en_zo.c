@@ -295,6 +295,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
+// clang-format off
 const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,
     ACTORCAT_NPC,
@@ -306,6 +307,7 @@ const ActorInit En_Zo_InitVars = {
     (ActorFunc)EnZo_Update,
     (ActorFunc)EnZo_Draw,
 };
+// clang-format on
 
 typedef enum {
     /* 0 */ ENZO_ANIM_0,

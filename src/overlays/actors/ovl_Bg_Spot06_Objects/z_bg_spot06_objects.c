@@ -42,6 +42,7 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, GlobalContext* globalCtx);
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, GlobalContext* globalCtx);
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot06_Objects_InitVars = {
     ACTOR_BG_SPOT06_OBJECTS,
     ACTORCAT_PROP,
@@ -53,6 +54,7 @@ const ActorInit Bg_Spot06_Objects_InitVars = {
     (ActorFunc)BgSpot06Objects_Update,
     (ActorFunc)BgSpot06Objects_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphItemsInit[1] = {
     {

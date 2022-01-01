@@ -19,6 +19,7 @@ void func_808BA22C(BgTokiHikari* this, GlobalContext* globalCtx);
 void func_808BA274(BgTokiHikari* this, GlobalContext* globalCtx);
 void func_808BA2CC(BgTokiHikari* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Toki_Hikari_InitVars = {
     ACTOR_BG_TOKI_HIKARI,
     ACTORCAT_BG,
@@ -30,6 +31,7 @@ const ActorInit Bg_Toki_Hikari_InitVars = {
     (ActorFunc)BgTokiHikari_Update,
     (ActorFunc)BgTokiHikari_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),

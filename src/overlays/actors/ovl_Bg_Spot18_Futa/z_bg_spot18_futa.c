@@ -12,6 +12,7 @@ void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Futa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot18_Futa_InitVars = {
     ACTOR_BG_SPOT18_FUTA,
     ACTORCAT_PROP,
@@ -23,6 +24,7 @@ const ActorInit Bg_Spot18_Futa_InitVars = {
     (ActorFunc)BgSpot18Futa_Update,
     (ActorFunc)BgSpot18Futa_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

@@ -48,6 +48,7 @@ void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
     ACTORCAT_NPC,
@@ -59,6 +60,7 @@ const ActorInit En_Heishi2_InitVars = {
     (ActorFunc)EnHeishi2_Update,
     (ActorFunc)EnHeishi2_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

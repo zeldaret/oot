@@ -21,6 +21,7 @@ void BgGndIceblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx);
 void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Gnd_Iceblock_InitVars = {
     ACTOR_BG_GND_ICEBLOCK,
     ACTORCAT_PROP,
@@ -32,6 +33,7 @@ const ActorInit Bg_Gnd_Iceblock_InitVars = {
     (ActorFunc)BgGndIceblock_Update,
     (ActorFunc)BgGndIceblock_Draw,
 };
+// clang-format on
 
 static Color_RGBA8 sWhite = { 250, 250, 250, 255 };
 static Color_RGBA8 sGray = { 180, 180, 180, 255 };

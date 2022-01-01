@@ -26,6 +26,7 @@ void func_80BA24F8(ObjWarp2block* this, GlobalContext* globalCtx);
 void func_80BA2600(ObjWarp2block* this);
 void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Warp2block_InitVars = {
     ACTOR_OBJ_WARP2BLOCK,
     ACTORCAT_ITEMACTION,
@@ -37,6 +38,7 @@ const ActorInit Obj_Warp2block_InitVars = {
     (ActorFunc)ObjWarp2block_Update,
     (ActorFunc)ObjWarp2block_Draw,
 };
+// clang-format on
 
 typedef struct {
     /* 0x00 */ f32 scale;

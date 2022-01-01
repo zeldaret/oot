@@ -28,6 +28,7 @@ void EnFd_DrawDots(EnFd* this, GlobalContext* globalCtx);
 void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx);
 void EnFd_Land(EnFd* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Fd_InitVars = {
     ACTOR_EN_FD,
     ACTORCAT_ENEMY,
@@ -39,6 +40,7 @@ const ActorInit En_Fd_InitVars = {
     (ActorFunc)EnFd_Update,
     (ActorFunc)EnFd_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {

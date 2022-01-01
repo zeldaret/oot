@@ -16,6 +16,7 @@ void func_80B20914(EnToryo* this, GlobalContext* globalCtx);
 s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnToryo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
+// clang-format off
 const ActorInit En_Toryo_InitVars = {
     ACTOR_EN_TORYO,
     ACTORCAT_NPC,
@@ -27,6 +28,7 @@ const ActorInit En_Toryo_InitVars = {
     (ActorFunc)EnToryo_Update,
     (ActorFunc)EnToryo_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

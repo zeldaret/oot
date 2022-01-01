@@ -13,6 +13,7 @@ void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Stream_InitVars = {
     ACTOR_EN_STREAM,
     ACTORCAT_BG,
@@ -24,6 +25,7 @@ const ActorInit En_Stream_InitVars = {
     (ActorFunc)EnStream_Update,
     (ActorFunc)EnStream_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 20, ICHAIN_STOP),

@@ -16,6 +16,7 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Move(EnBom* this, GlobalContext* globalCtx);
 void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
     ACTORCAT_EXPLOSIVE,
@@ -27,6 +28,7 @@ const ActorInit En_Bom_InitVars = {
     (ActorFunc)EnBom_Update,
     (ActorFunc)EnBom_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

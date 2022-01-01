@@ -14,6 +14,7 @@ void BgSstFloor_Draw(BgSstFloor* this, GlobalContext* globalCtx);
 
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
+// clang-format off
 const ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
     ACTORCAT_BG,
@@ -25,6 +26,7 @@ const ActorInit Bg_Sst_Floor_InitVars = {
     (ActorFunc)BgSstFloor_Update,
     (ActorFunc)BgSstFloor_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale.x, 100, ICHAIN_STOP),

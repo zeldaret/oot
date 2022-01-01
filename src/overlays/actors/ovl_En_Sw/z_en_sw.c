@@ -18,6 +18,7 @@ void func_80B0D3AC(EnSw* this, GlobalContext* globalCtx);
 void func_80B0DB00(EnSw* this, GlobalContext* globalCtx);
 void func_80B0D878(EnSw* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Sw_InitVars = {
     ACTOR_EN_SW,
     ACTORCAT_NPC,
@@ -29,6 +30,7 @@ const ActorInit En_Sw_InitVars = {
     (ActorFunc)EnSw_Update,
     (ActorFunc)EnSw_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphItemsInit[1] = {
     {

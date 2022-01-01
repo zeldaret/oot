@@ -17,6 +17,7 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Okuta_InitVars = {
     ACTOR_EN_OKUTA,
     ACTORCAT_ENEMY,
@@ -28,6 +29,7 @@ const ActorInit En_Okuta_InitVars = {
     (ActorFunc)EnOkuta_Update,
     (ActorFunc)EnOkuta_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sProjectileColliderInit = {
     {

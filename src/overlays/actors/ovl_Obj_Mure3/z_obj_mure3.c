@@ -17,6 +17,7 @@ void func_80B9AF64(ObjMure3* this, GlobalContext* globalCtx);
 void func_80B9AFEC(ObjMure3* this);
 void func_80B9AFFC(ObjMure3* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Mure3_InitVars = {
     ACTOR_OBJ_MURE3,
     ACTORCAT_BG,
@@ -28,6 +29,7 @@ const ActorInit Obj_Mure3_InitVars = {
     (ActorFunc)ObjMure3_Update,
     NULL,
 };
+// clang-format on
 
 static s16 sRupeeCounts[] = { 5, 5, 7, 0 };
 

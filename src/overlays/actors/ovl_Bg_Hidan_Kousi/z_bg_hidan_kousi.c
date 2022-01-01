@@ -21,6 +21,7 @@ void func_80889D28(BgHidanKousi* this, GlobalContext* globalCtx);
 
 static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
+// clang-format off
 const ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
     ACTORCAT_PROP,
@@ -32,6 +33,7 @@ const ActorInit Bg_Hidan_Kousi_InitVars = {
     (ActorFunc)BgHidanKousi_Update,
     (ActorFunc)BgHidanKousi_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

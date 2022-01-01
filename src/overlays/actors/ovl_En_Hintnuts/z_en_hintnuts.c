@@ -25,6 +25,7 @@ void EnHintnuts_Talk(EnHintnuts* this, GlobalContext* globalCtx);
 void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx);
 void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Hintnuts_InitVars = {
     ACTOR_EN_HINTNUTS,
     ACTORCAT_ENEMY,
@@ -36,6 +37,7 @@ const ActorInit En_Hintnuts_InitVars = {
     (ActorFunc)EnHintnuts_Update,
     (ActorFunc)EnHintnuts_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

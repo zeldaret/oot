@@ -42,6 +42,7 @@ void EnFhgFire_SpearLight(EnFhgFire* this, GlobalContext* globalCtx);
 void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx);
 void EnFhgFire_PhantomWarp(EnFhgFire* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Fhg_Fire_InitVars = {
     0,
     ACTORCAT_BOSS,
@@ -53,6 +54,7 @@ const ActorInit En_Fhg_Fire_InitVars = {
     (ActorFunc)EnFhgFire_Update,
     (ActorFunc)EnFhgFire_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

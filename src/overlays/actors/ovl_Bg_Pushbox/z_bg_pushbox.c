@@ -14,6 +14,7 @@ void BgPushbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgPushbox_UpdateImpl(BgPushbox* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Pushbox_InitVars = {
     ACTOR_BG_PUSHBOX,
     ACTORCAT_BG,
@@ -26,6 +27,7 @@ const ActorInit Bg_Pushbox_InitVars = {
     (ActorFunc)BgPushbox_Update,
     (ActorFunc)BgPushbox_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),

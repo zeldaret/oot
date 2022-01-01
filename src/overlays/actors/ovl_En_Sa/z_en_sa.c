@@ -31,6 +31,7 @@ typedef enum {
     /* 4 */ SARIA_MOUTH_FROWNING
 } SariaMouthState;
 
+// clang-format off
 const ActorInit En_Sa_InitVars = {
     ACTOR_EN_SA,
     ACTORCAT_NPC,
@@ -42,6 +43,7 @@ const ActorInit En_Sa_InitVars = {
     (ActorFunc)EnSa_Update,
     (ActorFunc)EnSa_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

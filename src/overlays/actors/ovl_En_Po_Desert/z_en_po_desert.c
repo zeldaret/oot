@@ -17,6 +17,7 @@ void EnPoDesert_WaitForPlayer(EnPoDesert* this, GlobalContext* globalCtx);
 void EnPoDesert_MoveToNextPoint(EnPoDesert* this, GlobalContext* globalCtx);
 void EnPoDesert_Disappear(EnPoDesert* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Po_Desert_InitVars = {
     ACTOR_EN_PO_DESERT,
     ACTORCAT_BG,
@@ -28,6 +29,7 @@ const ActorInit En_Po_Desert_InitVars = {
     (ActorFunc)EnPoDesert_Update,
     (ActorFunc)EnPoDesert_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sColliderInit = {
     {

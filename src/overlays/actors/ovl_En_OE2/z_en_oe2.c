@@ -13,6 +13,7 @@ void EnOE2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnOE2_DoNothing(EnOE2* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_OE2_InitVars = {
     ACTOR_EN_OE2,
     ACTORCAT_NPC,
@@ -24,6 +25,7 @@ const ActorInit En_OE2_InitVars = {
     (ActorFunc)EnOE2_Update,
     (ActorFunc)EnOE2_Draw,
 };
+// clang-format on
 
 void EnOE2_SetupAction(EnOE2* this, EnOE2ActionFunc actionFunc) {
     this->actionFunc = actionFunc;

@@ -18,6 +18,7 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx);
 
 static s32 sGetItemIds[] = { GI_BOMB_BAG_30, GI_HEART_PIECE, GI_BOMBCHUS_10, GI_BOMBS_1, GI_RUPEE_PURPLE };
 
+// clang-format off
 const ActorInit En_Bom_Bowl_Pit_InitVars = {
     ACTOR_EN_BOM_BOWL_PIT,
     ACTORCAT_PROP,
@@ -29,6 +30,7 @@ const ActorInit En_Bom_Bowl_Pit_InitVars = {
     (ActorFunc)EnBomBowlPit_Update,
     NULL,
 };
+// clang-format on
 
 void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBomBowlPit* this = (EnBomBowlPit*)thisx;

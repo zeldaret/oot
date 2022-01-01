@@ -15,6 +15,7 @@ void BgBomGuard_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Bom_Guard_InitVars = {
     ACTOR_BG_BOM_GUARD,
     ACTORCAT_PROP,
@@ -26,6 +27,7 @@ const ActorInit Bg_Bom_Guard_InitVars = {
     (ActorFunc)BgBomGuard_Update,
     NULL,
 };
+// clang-format on
 
 void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
     this->actionFunc = actionFunc;

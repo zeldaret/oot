@@ -23,6 +23,7 @@ void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx);
 
 static s16 sPlayerCaught = 0;
 
+// clang-format off
 const ActorInit En_Heishi3_InitVars = {
     ACTOR_EN_HEISHI3,
     ACTORCAT_NPC,
@@ -34,6 +35,7 @@ const ActorInit En_Heishi3_InitVars = {
     (ActorFunc)EnHeishi3_Update,
     (ActorFunc)EnHeishi3_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

@@ -18,6 +18,7 @@ void func_808BF078(BgYdanMaruta* this, GlobalContext* globalCtx);
 void func_808BF108(BgYdanMaruta* this, GlobalContext* globalCtx);
 void func_808BF1EC(BgYdanMaruta* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Ydan_Maruta_InitVars = {
     ACTOR_BG_YDAN_MARUTA,
     ACTORCAT_PROP,
@@ -29,6 +30,7 @@ const ActorInit Bg_Ydan_Maruta_InitVars = {
     (ActorFunc)BgYdanMaruta_Update,
     (ActorFunc)BgYdanMaruta_Draw,
 };
+// clang-format on
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {

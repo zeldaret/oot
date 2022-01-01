@@ -13,6 +13,7 @@ void EnTana_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTana_DrawWoodenShelves(Actor* thisx, GlobalContext* globalCtx);
 void EnTana_DrawStoneShelves(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
     ACTORCAT_PROP,
@@ -24,6 +25,7 @@ const ActorInit En_Tana_InitVars = {
     (ActorFunc)EnTana_Update,
     NULL,
 };
+// clang-format on
 
 //! @bug A third entry is missing here. When printing the string indexed by `params` for type 2, the
 //! next data entry will be dereferenced and print garbage, stopping any future printing.

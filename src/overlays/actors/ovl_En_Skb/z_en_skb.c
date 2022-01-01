@@ -98,6 +98,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
+// clang-format off
 const ActorInit En_Skb_InitVars = {
     ACTOR_EN_SKB,
     ACTORCAT_ENEMY,
@@ -109,6 +110,7 @@ const ActorInit En_Skb_InitVars = {
     (ActorFunc)EnSkb_Update,
     (ActorFunc)EnSkb_Draw,
 };
+// clang-format on
 
 void EnSkb_SetupAction(EnSkb* this, EnSkbActionFunc actionFunc) {
     this->actionFunc = actionFunc;

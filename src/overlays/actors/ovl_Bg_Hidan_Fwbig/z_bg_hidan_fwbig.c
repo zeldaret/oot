@@ -29,6 +29,7 @@ void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, GlobalContext* globalCtx);
 void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx);
 void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Hidan_Fwbig_InitVars = {
     ACTOR_BG_HIDAN_FWBIG,
     ACTORCAT_PROP,
@@ -40,6 +41,7 @@ const ActorInit Bg_Hidan_Fwbig_InitVars = {
     (ActorFunc)BgHidanFwbig_Update,
     (ActorFunc)BgHidanFwbig_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

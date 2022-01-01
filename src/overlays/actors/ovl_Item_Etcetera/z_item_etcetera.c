@@ -20,6 +20,7 @@ void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, GlobalContext* globalCtx
 void func_80B85B28(ItemEtcetera* this, GlobalContext* globalCtx);
 void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Item_Etcetera_InitVars = {
     ACTOR_ITEM_ETCETERA,
     ACTORCAT_PROP,
@@ -31,6 +32,7 @@ const ActorInit Item_Etcetera_InitVars = {
     (ActorFunc)ItemEtcetera_Update,
     NULL,
 };
+// clang-format on
 
 static s16 sObjectIds[] = {
     OBJECT_GI_BOTTLE, OBJECT_GI_BOTTLE_LETTER, OBJECT_GI_SHIELD_2, OBJECT_GI_ARROWCASE, OBJECT_GI_SCALE,

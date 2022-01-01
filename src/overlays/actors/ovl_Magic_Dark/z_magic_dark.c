@@ -16,6 +16,7 @@ void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx);
 
 void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity);
 
+// clang-format off
 const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
     ACTORCAT_ITEMACTION,
@@ -27,6 +28,7 @@ const ActorInit Magic_Dark_InitVars = {
     (ActorFunc)MagicDark_OrbUpdate,
     (ActorFunc)MagicDark_OrbDraw,
 };
+// clang-format on
 
 #include "overlays/ovl_Magic_Dark/ovl_Magic_Dark.c"
 

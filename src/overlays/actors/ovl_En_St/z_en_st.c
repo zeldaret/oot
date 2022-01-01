@@ -21,6 +21,7 @@ void EnSt_FinishBouncing(EnSt* this, GlobalContext* globalCtx);
 
 #include "overlays/ovl_En_St/ovl_En_St.c"
 
+// clang-format off
 const ActorInit En_St_InitVars = {
     ACTOR_EN_ST,
     ACTORCAT_ENEMY,
@@ -32,6 +33,7 @@ const ActorInit En_St_InitVars = {
     (ActorFunc)EnSt_Update,
     (ActorFunc)EnSt_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

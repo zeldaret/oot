@@ -12,6 +12,7 @@ void EnJsjutan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Jsjutan_InitVars = {
     ACTOR_EN_JSJUTAN,
     ACTORCAT_NPC,
@@ -23,6 +24,7 @@ const ActorInit En_Jsjutan_InitVars = {
     (ActorFunc)EnJsjutan_Update,
     (ActorFunc)EnJsjutan_Draw,
 };
+// clang-format on
 
 // Shadow texture. 32x64 I8.
 static u8 sShadowTex[0x800];

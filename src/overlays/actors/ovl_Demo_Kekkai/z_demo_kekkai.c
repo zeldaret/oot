@@ -19,6 +19,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, GlobalContext* globalCtx);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Demo_Kekkai_InitVars = {
     ACTOR_DEMO_KEKKAI,
     ACTORCAT_ITEMACTION,
@@ -30,6 +31,7 @@ const ActorInit Demo_Kekkai_InitVars = {
     (ActorFunc)DemoKekkai_Update,
     (ActorFunc)DemoKekkai_DrawTowerBarrier,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

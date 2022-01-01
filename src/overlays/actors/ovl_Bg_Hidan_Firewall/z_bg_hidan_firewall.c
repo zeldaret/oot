@@ -19,6 +19,7 @@ void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Collide(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Hidan_Firewall_InitVars = {
     ACTOR_BG_HIDAN_FIREWALL,
     ACTORCAT_BG,
@@ -30,6 +31,7 @@ const ActorInit Bg_Hidan_Firewall_InitVars = {
     (ActorFunc)BgHidanFirewall_Update,
     NULL,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

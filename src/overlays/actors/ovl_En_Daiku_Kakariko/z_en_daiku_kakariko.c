@@ -22,6 +22,7 @@ void EnDaikuKakariko_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnDaikuKakariko_Wait(EnDaikuKakariko* this, GlobalContext* globalCtx);
 void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Daiku_Kakariko_InitVars = {
     ACTOR_EN_DAIKU_KAKARIKO,
     ACTORCAT_NPC,
@@ -33,6 +34,7 @@ const ActorInit En_Daiku_Kakariko_InitVars = {
     (ActorFunc)EnDaikuKakariko_Update,
     (ActorFunc)EnDaikuKakariko_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

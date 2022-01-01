@@ -21,6 +21,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
     ACTORCAT_PROP,
@@ -32,6 +33,7 @@ const ActorInit Bg_Bowl_Wall_InitVars = {
     (ActorFunc)BgBowlWall_Update,
     (ActorFunc)BgBowlWall_Draw,
 };
+// clang-format on
 
 static Vec3f sBullseyeOffset[] = {
     { 0.0f, 210.0f, -20.0f },

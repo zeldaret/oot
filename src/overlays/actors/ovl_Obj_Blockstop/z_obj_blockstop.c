@@ -11,6 +11,7 @@ void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBlockstop_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Blockstop_InitVars = {
     ACTOR_OBJ_BLOCKSTOP,
     ACTORCAT_PROP,
@@ -22,6 +23,7 @@ const ActorInit Obj_Blockstop_InitVars = {
     (ActorFunc)ObjBlockstop_Update,
     NULL,
 };
+// clang-format on
 
 void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjBlockstop* this = (ObjBlockstop*)thisx;

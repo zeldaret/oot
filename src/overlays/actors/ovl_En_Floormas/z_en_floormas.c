@@ -42,6 +42,7 @@ void EnFloormas_Stand(EnFloormas* this, GlobalContext* globalCtx);
 void EnFloormas_BigDecideAction(EnFloormas* this, GlobalContext* globalCtx);
 void EnFloormas_Charge(EnFloormas* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Floormas_InitVars = {
     ACTOR_EN_FLOORMAS,
     ACTORCAT_ENEMY,
@@ -53,6 +54,7 @@ const ActorInit En_Floormas_InitVars = {
     (ActorFunc)EnFloormas_Update,
     (ActorFunc)EnFloormas_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

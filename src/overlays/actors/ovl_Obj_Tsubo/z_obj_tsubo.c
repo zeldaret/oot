@@ -34,6 +34,7 @@ static s16 D_80BA1B54 = 0;
 static s16 D_80BA1B58 = 0;
 static s16 D_80BA1B5C = 0;
 
+// clang-format off
 const ActorInit Obj_Tsubo_InitVars = {
     ACTOR_OBJ_TSUBO,
     ACTORCAT_PROP,
@@ -45,6 +46,7 @@ const ActorInit Obj_Tsubo_InitVars = {
     (ActorFunc)ObjTsubo_Update,
     NULL,
 };
+// clang-format on
 
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
 

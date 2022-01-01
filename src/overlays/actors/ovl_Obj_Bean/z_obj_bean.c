@@ -70,6 +70,7 @@ void ObjBean_WaitForStepOff(ObjBean* this, GlobalContext* globalCtx);
 
 static ObjBean* D_80B90E30 = NULL;
 
+// clang-format off
 const ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,
     ACTORCAT_BG,
@@ -81,6 +82,7 @@ const ActorInit Obj_Bean_InitVars = {
     (ActorFunc)ObjBean_Update,
     (ActorFunc)ObjBean_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

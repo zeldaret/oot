@@ -12,6 +12,7 @@ void OceffWipe2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe2_Update(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Oceff_Wipe2_InitVars = {
     ACTOR_OCEFF_WIPE2,
     ACTORCAT_ITEMACTION,
@@ -23,6 +24,7 @@ const ActorInit Oceff_Wipe2_InitVars = {
     (ActorFunc)OceffWipe2_Update,
     (ActorFunc)OceffWipe2_Draw,
 };
+// clang-format on
 
 void OceffWipe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe2* this = (OceffWipe2*)thisx;

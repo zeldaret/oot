@@ -13,6 +13,7 @@ void EnSceneChange_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnSceneChange_DoNothing(EnSceneChange* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Scene_Change_InitVars = {
     ACTOR_EN_SCENE_CHANGE,
     ACTORCAT_PROP,
@@ -24,6 +25,7 @@ const ActorInit En_Scene_Change_InitVars = {
     (ActorFunc)EnSceneChange_Update,
     (ActorFunc)EnSceneChange_Draw,
 };
+// clang-format on
 
 void EnSceneChange_SetupAction(EnSceneChange* this, EnSceneChangeActionFunc actionFunc) {
     this->actionFunc = actionFunc;

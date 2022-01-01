@@ -14,6 +14,7 @@ void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Jya_Bombiwa_InitVars = {
     ACTOR_BG_JYA_BOMBIWA,
     ACTORCAT_BG,
@@ -25,6 +26,7 @@ const ActorInit Bg_Jya_Bombiwa_InitVars = {
     (ActorFunc)BgJyaBombiwa_Update,
     (ActorFunc)BgJyaBombiwa_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {

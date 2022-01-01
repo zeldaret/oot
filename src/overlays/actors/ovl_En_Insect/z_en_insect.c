@@ -33,6 +33,7 @@ static f32 D_80A7DEB0 = 0.0f;
 static s16 D_80A7DEB4 = 0;
 static s16 D_80A7DEB8 = 0;
 
+// clang-format off
 const ActorInit En_Insect_InitVars = {
     ACTOR_EN_INSECT,
     ACTORCAT_ITEMACTION,
@@ -44,6 +45,7 @@ const ActorInit En_Insect_InitVars = {
     (ActorFunc)EnInsect_Update,
     (ActorFunc)EnInsect_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sColliderItemInit[1] = {
     {

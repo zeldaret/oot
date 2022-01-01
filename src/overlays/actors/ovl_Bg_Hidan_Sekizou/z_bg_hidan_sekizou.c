@@ -15,6 +15,7 @@ void BgHidanSekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_8088D434(BgHidanSekizou* this, GlobalContext* globalCtx);
 void func_8088D720(BgHidanSekizou* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Hidan_Sekizou_InitVars = {
     ACTOR_BG_HIDAN_SEKIZOU,
     ACTORCAT_BG,
@@ -26,6 +27,7 @@ const ActorInit Bg_Hidan_Sekizou_InitVars = {
     (ActorFunc)BgHidanSekizou_Update,
     (ActorFunc)BgHidanSekizou_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {

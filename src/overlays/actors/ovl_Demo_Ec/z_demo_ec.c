@@ -1362,6 +1362,7 @@ void DemoEc_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+// clang-format off
 const ActorInit Demo_Ec_InitVars = {
     ACTOR_DEMO_EC,
     ACTORCAT_NPC,
@@ -1373,3 +1374,4 @@ const ActorInit Demo_Ec_InitVars = {
     (ActorFunc)DemoEc_Update,
     (ActorFunc)DemoEc_Draw,
 };
+// clang-format on

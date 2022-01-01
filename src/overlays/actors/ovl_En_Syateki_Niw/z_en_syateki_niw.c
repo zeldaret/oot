@@ -24,6 +24,7 @@ void func_80B128D8(EnSyatekiNiw* this, GlobalContext* globalCtx);
 
 void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4);
 
+// clang-format off
 const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
     ACTORCAT_PROP,
@@ -35,6 +36,7 @@ const ActorInit En_Syateki_Niw_InitVars = {
     (ActorFunc)EnSyatekiNiw_Update,
     (ActorFunc)EnSyatekiNiw_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

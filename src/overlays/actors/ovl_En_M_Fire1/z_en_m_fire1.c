@@ -10,6 +10,7 @@ void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMFire1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_M_Fire1_InitVars = {
     ACTOR_EN_M_FIRE1,
     ACTORCAT_MISC,
@@ -21,6 +22,7 @@ const ActorInit En_M_Fire1_InitVars = {
     (ActorFunc)EnMFire1_Update,
     NULL,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

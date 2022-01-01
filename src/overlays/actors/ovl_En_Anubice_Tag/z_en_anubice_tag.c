@@ -15,6 +15,7 @@ void EnAnubiceTag_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
 void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Anubice_Tag_InitVars = {
     ACTOR_EN_ANUBICE_TAG,
     ACTORCAT_SWITCH,
@@ -26,6 +27,7 @@ const ActorInit En_Anubice_Tag_InitVars = {
     (ActorFunc)EnAnubiceTag_Update,
     (ActorFunc)EnAnubiceTag_Draw,
 };
+// clang-format on
 
 void EnAnubiceTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubiceTag* this = (EnAnubiceTag*)thisx;

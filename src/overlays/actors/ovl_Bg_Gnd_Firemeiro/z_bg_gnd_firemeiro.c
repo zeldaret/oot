@@ -16,6 +16,7 @@ void BgGndFiremeiro_Sink(BgGndFiremeiro* this, GlobalContext* globalCtx);
 void BgGndFiremeiro_Shake(BgGndFiremeiro* this, GlobalContext* globalCtx);
 void BgGndFiremeiro_Rise(BgGndFiremeiro* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     ACTOR_BG_GND_FIREMEIRO,
     ACTORCAT_PROP,
@@ -27,6 +28,7 @@ const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     (ActorFunc)BgGndFiremeiro_Update,
     (ActorFunc)BgGndFiremeiro_Draw,
 };
+// clang-format on
 
 void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;

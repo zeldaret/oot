@@ -39,6 +39,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx);
 s32 EnDaiku_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnDaiku_PostLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3s* rot, void* thisx);
 
+// clang-format off
 const ActorInit En_Daiku_InitVars = {
     ACTOR_EN_DAIKU,
     ACTORCAT_NPC,
@@ -50,6 +51,7 @@ const ActorInit En_Daiku_InitVars = {
     (ActorFunc)EnDaiku_Update,
     (ActorFunc)EnDaiku_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

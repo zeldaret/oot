@@ -20,6 +20,7 @@ void BgSpot08Iceblock_SetupFloatOrbitingTwins(BgSpot08Iceblock* this);
 void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, GlobalContext* globalCtx);
 void BgSpot08Iceblock_SetupNoAction(BgSpot08Iceblock* this);
 
+// clang-format off
 const ActorInit Bg_Spot08_Iceblock_InitVars = {
     ACTOR_BG_SPOT08_ICEBLOCK,
     ACTORCAT_BG,
@@ -31,6 +32,7 @@ const ActorInit Bg_Spot08_Iceblock_InitVars = {
     (ActorFunc)BgSpot08Iceblock_Update,
     (ActorFunc)BgSpot08Iceblock_Draw,
 };
+// clang-format on
 
 void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;

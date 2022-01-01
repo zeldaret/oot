@@ -1768,6 +1768,7 @@ void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx) {
     drawFunc(this, globalCtx);
 }
 
+// clang-format off
 const ActorInit Demo_Gt_InitVars = {
     ACTOR_DEMO_GT,
     ACTORCAT_PROP,
@@ -1779,3 +1780,4 @@ const ActorInit Demo_Gt_InitVars = {
     (ActorFunc)DemoGt_Update,
     (ActorFunc)DemoGt_Draw,
 };
+// clang-format on

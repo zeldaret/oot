@@ -67,6 +67,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
     ACTORCAT_BOSS,
@@ -78,6 +79,7 @@ const ActorInit Boss_Ganondrof_InitVars = {
     (ActorFunc)BossGanondrof_Update,
     (ActorFunc)BossGanondrof_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInitBody = {
     {

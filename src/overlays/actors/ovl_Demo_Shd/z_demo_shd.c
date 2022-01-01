@@ -13,6 +13,7 @@ void DemoShd_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80991298(DemoShd* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Demo_Shd_InitVars = {
     ACTOR_DEMO_SHD,
     ACTORCAT_ITEMACTION,
@@ -24,6 +25,7 @@ const ActorInit Demo_Shd_InitVars = {
     (ActorFunc)DemoShd_Update,
     (ActorFunc)DemoShd_Draw,
 };
+// clang-format on
 
 #include "overlays/ovl_Demo_Shd/ovl_Demo_Shd.c"
 

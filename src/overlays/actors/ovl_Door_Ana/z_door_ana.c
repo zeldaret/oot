@@ -16,6 +16,7 @@ void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx);
 void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx);
 void DoorAna_GrabPlayer(DoorAna* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Door_Ana_InitVars = {
     ACTOR_DOOR_ANA,
     ACTORCAT_ITEMACTION,
@@ -27,6 +28,7 @@ const ActorInit Door_Ana_InitVars = {
     (ActorFunc)DoorAna_Update,
     (ActorFunc)DoorAna_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

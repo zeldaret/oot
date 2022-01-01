@@ -12,6 +12,7 @@ void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     ACTOR_BG_HIDAN_RSEKIZOU,
     ACTORCAT_BG,
@@ -23,6 +24,7 @@ const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     (ActorFunc)BgHidanRsekizou_Update,
     (ActorFunc)BgHidanRsekizou_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {

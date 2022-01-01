@@ -38,6 +38,7 @@ void EnWallmas_WaitForSwitchFlag(EnWallmas* this, GlobalContext* globalCtx);
 void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx);
 void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Wallmas_InitVars = {
     ACTOR_EN_WALLMAS,
     ACTORCAT_ENEMY,
@@ -49,6 +50,7 @@ const ActorInit En_Wallmas_InitVars = {
     (ActorFunc)EnWallmas_Update,
     (ActorFunc)EnWallmas_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

@@ -231,6 +231,7 @@ void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+// clang-format off
 const ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
     ACTORCAT_NPC,
@@ -242,3 +243,4 @@ const ActorInit Demo_Ext_InitVars = {
     (ActorFunc)DemoExt_Update,
     (ActorFunc)DemoExt_Draw,
 };
+// clang-format on

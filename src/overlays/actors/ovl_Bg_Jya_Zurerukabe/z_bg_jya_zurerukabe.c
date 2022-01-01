@@ -21,6 +21,7 @@ void func_8089B870(BgJyaZurerukabe* this, GlobalContext* globalCtx);
 
 static f32 D_8089B9C0[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
+// clang-format off
 const ActorInit Bg_Jya_Zurerukabe_InitVars = {
     ACTOR_BG_JYA_ZURERUKABE,
     ACTORCAT_BG,
@@ -32,6 +33,7 @@ const ActorInit Bg_Jya_Zurerukabe_InitVars = {
     (ActorFunc)BgJyaZurerukabe_Update,
     (ActorFunc)BgJyaZurerukabe_Draw,
 };
+// clang-format on
 
 static s16 D_8089B9F0[4] = { 943, 1043, 1243, 1343 };
 

@@ -98,6 +98,7 @@ void EnOssan_SetStateGiveDiscountDialog(GlobalContext* globalCtx, EnOssan* this)
 
 #define CURSOR_INVALID 0xFF
 
+// clang-format off
 const ActorInit En_Ossan_InitVars = {
     ACTOR_EN_OSSAN,
     ACTORCAT_NPC,
@@ -109,6 +110,7 @@ const ActorInit En_Ossan_InitVars = {
     (ActorFunc)EnOssan_Update,
     NULL,
 };
+// clang-format on
 
 // Unused collider
 static ColliderCylinderInitType1 sCylinderInit = {

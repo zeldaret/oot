@@ -16,6 +16,7 @@ void func_80A6DCCC(EnHorseZelda* this, GlobalContext* globalCtx);
 void func_80A6DDFC(EnHorseZelda* this, GlobalContext* globalCtx);
 void func_80A6DC7C(EnHorseZelda* this);
 
+// clang-format off
 const ActorInit En_Horse_Zelda_InitVars = {
     ACTOR_EN_HORSE_ZELDA,
     ACTORCAT_BG,
@@ -27,6 +28,7 @@ const ActorInit En_Horse_Zelda_InitVars = {
     (ActorFunc)EnHorseZelda_Update,
     (ActorFunc)EnHorseZelda_Draw,
 };
+// clang-format on
 
 static AnimationHeader* sAnimationHeaders[] = { &gHorseZeldaGallopingAnim };
 

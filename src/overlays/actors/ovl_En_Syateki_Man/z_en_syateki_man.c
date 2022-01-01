@@ -40,6 +40,7 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this);
 
 void EnSyatekiMan_SetBgm(void);
 
+// clang-format off
 const ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
     ACTORCAT_NPC,
@@ -51,6 +52,7 @@ const ActorInit En_Syateki_Man_InitVars = {
     (ActorFunc)EnSyatekiMan_Update,
     (ActorFunc)EnSyatekiMan_Draw,
 };
+// clang-format on
 
 static u16 sBgmList[] = {
     NA_BGM_GENERAL_SFX,

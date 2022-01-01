@@ -21,6 +21,7 @@ void EnDha_SetupDeath(EnDha* this);
 void EnDha_Die(EnDha* this, GlobalContext* globalCtx);
 void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dha_InitVars = {
     ACTOR_EN_DHA,
     ACTORCAT_ENEMY,
@@ -32,6 +33,7 @@ const ActorInit En_Dha_InitVars = {
     (ActorFunc)EnDha_Update,
     (ActorFunc)EnDha_Draw,
 };
+// clang-format on
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x0),

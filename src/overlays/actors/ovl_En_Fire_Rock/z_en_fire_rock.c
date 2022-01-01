@@ -13,6 +13,7 @@ void FireRock_WaitOnFloor(EnFireRock* this, GlobalContext* globalCtx);
 void EnFireRock_Fall(EnFireRock* this, GlobalContext* globalCtx);
 void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Fire_Rock_InitVars = {
     ACTOR_EN_FIRE_ROCK,
     ACTORCAT_ENEMY,
@@ -24,6 +25,7 @@ const ActorInit En_Fire_Rock_InitVars = {
     (ActorFunc)EnFireRock_Update,
     (ActorFunc)EnFireRock_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit D_80A12CA0 = {
     {

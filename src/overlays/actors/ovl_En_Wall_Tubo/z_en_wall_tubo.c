@@ -18,6 +18,7 @@ void EnWallTubo_FindGirl(EnWallTubo* this, GlobalContext* globalCtx);
 void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx);
 void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Wall_Tubo_InitVars = {
     ACTOR_EN_WALL_TUBO,
     ACTORCAT_PROP,
@@ -29,6 +30,7 @@ const ActorInit En_Wall_Tubo_InitVars = {
     (ActorFunc)EnWallTubo_Update,
     NULL,
 };
+// clang-format on
 
 void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnWallTubo* this = (EnWallTubo*)thisx;

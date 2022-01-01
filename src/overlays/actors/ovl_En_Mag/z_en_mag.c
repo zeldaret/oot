@@ -12,6 +12,7 @@ void EnMag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMag_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnMag_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Mag_InitVars = {
     ACTOR_EN_MAG,
     ACTORCAT_PROP,
@@ -23,6 +24,7 @@ const ActorInit En_Mag_InitVars = {
     (ActorFunc)EnMag_Update,
     (ActorFunc)EnMag_Draw,
 };
+// clang-format on
 
 static s16 sDelayTimer = 0;
 

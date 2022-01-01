@@ -19,6 +19,7 @@ void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx);
 
 #include "overlays/ovl_Arrow_Ice/ovl_Arrow_Ice.c"
 
+// clang-format off
 const ActorInit Arrow_Ice_InitVars = {
     ACTOR_ARROW_ICE,
     ACTORCAT_ITEMACTION,
@@ -30,6 +31,7 @@ const ActorInit Arrow_Ice_InitVars = {
     (ActorFunc)ArrowIce_Update,
     (ActorFunc)ArrowIce_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),

@@ -60,6 +60,7 @@ static ColliderTrisInit sTrisInit = {
     sTrisElementsInit,
 };
 
+// clang-format off
 const ActorInit Bg_Hidan_Hamstep_InitVars = {
     ACTOR_BG_HIDAN_HAMSTEP,
     ACTORCAT_BG,
@@ -71,6 +72,7 @@ const ActorInit Bg_Hidan_Hamstep_InitVars = {
     (ActorFunc)BgHidanHamstep_Update,
     (ActorFunc)BgHidanHamstep_Draw,
 };
+// clang-format on
 
 static BgHidanHamstepActionFunc sActionFuncs[] = {
     func_808887C4, func_80888860, func_808889B8, func_80888A58, BgHidanHamstep_DoNothing,

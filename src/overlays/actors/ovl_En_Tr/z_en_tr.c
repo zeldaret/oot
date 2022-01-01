@@ -21,6 +21,7 @@ void EnTr_UpdateRotation(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
 void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
 void EnTr_SetStartPosRot(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
 
+// clang-format off
 const ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
     ACTORCAT_NPC,
@@ -32,6 +33,7 @@ const ActorInit En_Tr_InitVars = {
     (ActorFunc)EnTr_Update,
     (ActorFunc)EnTr_Draw,
 };
+// clang-format on
 
 // The first elements of these animation arrays are for Koume, the second for Kotake
 

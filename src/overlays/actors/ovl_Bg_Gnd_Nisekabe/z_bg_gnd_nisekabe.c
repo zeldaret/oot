@@ -12,6 +12,7 @@ void BgGndNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndNisekabe_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgGndNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Gnd_Nisekabe_InitVars = {
     ACTOR_BG_GND_NISEKABE,
     ACTORCAT_PROP,
@@ -23,6 +24,7 @@ const ActorInit Bg_Gnd_Nisekabe_InitVars = {
     (ActorFunc)BgGndNisekabe_Update,
     (ActorFunc)BgGndNisekabe_Draw,
 };
+// clang-format on
 
 void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;

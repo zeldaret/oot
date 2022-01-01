@@ -14,6 +14,7 @@ void BgMizuUzu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Mizu_Uzu_InitVars = {
     ACTOR_BG_MIZU_UZU,
     ACTORCAT_PROP,
@@ -25,6 +26,7 @@ const ActorInit Bg_Mizu_Uzu_InitVars = {
     (ActorFunc)BgMizuUzu_Update,
     (ActorFunc)BgMizuUzu_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),

@@ -19,6 +19,7 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx);
 
 #include "overlays/ovl_Arrow_Light/ovl_Arrow_Light.c"
 
+// clang-format off
 const ActorInit Arrow_Light_InitVars = {
     ACTOR_ARROW_LIGHT,
     ACTORCAT_ITEMACTION,
@@ -30,6 +31,7 @@ const ActorInit Arrow_Light_InitVars = {
     (ActorFunc)ArrowLight_Update,
     (ActorFunc)ArrowLight_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),

@@ -16,6 +16,7 @@ void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx);
 void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx);
 void OceffStorm_UnkAction(OceffStorm* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Oceff_Storm_InitVars = {
     ACTOR_OCEFF_STORM,
     ACTORCAT_ITEMACTION,
@@ -27,6 +28,7 @@ const ActorInit Oceff_Storm_InitVars = {
     (ActorFunc)OceffStorm_Update,
     (ActorFunc)OceffStorm_Draw,
 };
+// clang-format on
 
 void OceffStorm_SetupAction(OceffStorm* this, OceffStormActionFunc actionFunc) {
     this->actionFunc = actionFunc;

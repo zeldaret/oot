@@ -14,6 +14,7 @@ void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Item_B_Heart_InitVars = {
     ACTOR_ITEM_B_HEART,
     ACTORCAT_MISC,
@@ -25,6 +26,7 @@ const ActorInit Item_B_Heart_InitVars = {
     (ActorFunc)ItemBHeart_Update,
     (ActorFunc)ItemBHeart_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),

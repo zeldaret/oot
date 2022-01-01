@@ -16,6 +16,7 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_WaitForTrigger(EnDyExtra* this, GlobalContext* globalCtx);
 void EnDyExtra_FallAndKill(EnDyExtra* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dy_Extra_InitVars = {
     ACTOR_EN_DY_EXTRA,
     ACTORCAT_PROP,
@@ -27,6 +28,7 @@ const ActorInit En_Dy_Extra_InitVars = {
     (ActorFunc)EnDyExtra_Update,
     (ActorFunc)EnDyExtra_Draw,
 };
+// clang-format on
 
 void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }

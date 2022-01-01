@@ -16,6 +16,7 @@ void func_80AFC34C(EnSiofuki* this, GlobalContext* globalCtx);
 void func_80AFC544(EnSiofuki* this, GlobalContext* globalCtx);
 void func_80AFC478(EnSiofuki* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Siofuki_InitVars = {
     ACTOR_EN_SIOFUKI,
     ACTORCAT_BG,
@@ -27,6 +28,7 @@ const ActorInit En_Siofuki_InitVars = {
     (ActorFunc)EnSiofuki_Update,
     (ActorFunc)EnSiofuki_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

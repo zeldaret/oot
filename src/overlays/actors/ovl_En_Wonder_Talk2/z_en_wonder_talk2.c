@@ -17,6 +17,7 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx);
 void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx);
 void EnWonderTalk2_DoNothing(EnWonderTalk2* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Wonder_Talk2_InitVars = {
     ACTOR_EN_WONDER_TALK2,
     ACTORCAT_ITEMACTION,
@@ -28,6 +29,7 @@ const ActorInit En_Wonder_Talk2_InitVars = {
     (ActorFunc)EnWonderTalk2_Update,
     NULL,
 };
+// clang-format on
 
 static s16 D_80B3A8E0[] = { 6, 0, 1, 2, 3, 4, 5 };
 

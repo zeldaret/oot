@@ -16,6 +16,7 @@ void BgHakaTubo_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx);
 void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Haka_Tubo_InitVars = {
     ACTOR_BG_HAKA_TUBO,
     ACTORCAT_BG,
@@ -27,6 +28,7 @@ const ActorInit Bg_Haka_Tubo_InitVars = {
     (ActorFunc)BgHakaTubo_Update,
     (ActorFunc)BgHakaTubo_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sPotColliderInit = {
     {

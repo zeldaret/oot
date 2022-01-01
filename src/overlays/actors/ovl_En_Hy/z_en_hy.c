@@ -30,6 +30,7 @@ void func_80A7127C(EnHy* this, GlobalContext* globalCtx);
 void EnHy_DoNothing(EnHy* this, GlobalContext* globalCtx);
 void func_80A714C4(EnHy* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,
     ACTORCAT_NPC,
@@ -41,6 +42,7 @@ const ActorInit En_Hy_InitVars = {
     (ActorFunc)EnHy_Update,
     (ActorFunc)EnHy_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sColCylInit = {
     {

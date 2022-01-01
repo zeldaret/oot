@@ -18,6 +18,7 @@ void func_80878300(BgGateShutter* this, GlobalContext* globalCtx);
 void func_808783AC(BgGateShutter* this, GlobalContext* globalCtx);
 void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
     ACTORCAT_ITEMACTION,
@@ -29,6 +30,7 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
     (ActorFunc)BgGateShutter_Update,
     (ActorFunc)BgGateShutter_Draw,
 };
+// clang-format on
 
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGateShutter* this = (BgGateShutter*)thisx;

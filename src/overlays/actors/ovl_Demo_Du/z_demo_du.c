@@ -1032,6 +1032,7 @@ void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     sDrawFuncs[this->drawIndex](thisx, globalCtx);
 }
 
+// clang-format off
 const ActorInit Demo_Du_InitVars = {
     ACTOR_DEMO_DU,
     ACTORCAT_NPC,
@@ -1043,3 +1044,4 @@ const ActorInit Demo_Du_InitVars = {
     (ActorFunc)DemoDu_Update,
     (ActorFunc)DemoDu_Draw,
 };
+// clang-format on

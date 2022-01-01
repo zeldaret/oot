@@ -16,6 +16,7 @@ void func_8088F4B8(BgHidanSyoku* this, GlobalContext* globalCtx);
 void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx);
 void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Hidan_Syoku_InitVars = {
     ACTOR_BG_HIDAN_SYOKU,
     ACTORCAT_BG,
@@ -27,6 +28,7 @@ const ActorInit Bg_Hidan_Syoku_InitVars = {
     (ActorFunc)BgHidanSyoku_Update,
     (ActorFunc)BgHidanSyoku_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

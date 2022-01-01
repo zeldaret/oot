@@ -14,6 +14,7 @@ void BgJyaBigmirror_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 static u8 sIsSpawned = false;
 
+// clang-format off
 const ActorInit Bg_Jya_Bigmirror_InitVars = {
     ACTOR_BG_JYA_BIGMIRROR,
     ACTORCAT_BG,
@@ -25,6 +26,7 @@ const ActorInit Bg_Jya_Bigmirror_InitVars = {
     (ActorFunc)BgJyaBigmirror_Update,
     (ActorFunc)BgJyaBigmirror_Draw,
 };
+// clang-format on
 
 typedef struct {
     /* 0x00 */ Vec3f pos;

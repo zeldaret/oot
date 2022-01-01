@@ -25,6 +25,7 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
 
 static s16 sCamSetting = 0;
 
+// clang-format off
 const ActorInit Bg_Mori_Rakkatenjo_InitVars = {
     ACTOR_BG_MORI_RAKKATENJO,
     ACTORCAT_BG,
@@ -36,6 +37,7 @@ const ActorInit Bg_Mori_Rakkatenjo_InitVars = {
     (ActorFunc)BgMoriRakkatenjo_Update,
     NULL,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),

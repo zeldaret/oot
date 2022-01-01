@@ -22,6 +22,7 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, GlobalContext* globalCtx);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
+// clang-format off
 const ActorInit Bg_Mori_Hashigo_InitVars = {
     ACTOR_BG_MORI_HASHIGO,
     ACTORCAT_BG,
@@ -33,6 +34,7 @@ const ActorInit Bg_Mori_Hashigo_InitVars = {
     (ActorFunc)BgMoriHashigo_Update,
     NULL,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {

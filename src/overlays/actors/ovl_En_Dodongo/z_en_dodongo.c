@@ -34,6 +34,7 @@ void EnDodongo_Stunned(EnDodongo* this, GlobalContext* globalCtx);
 void EnDodongo_Death(EnDodongo* this, GlobalContext* globalCtx);
 void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORCAT_ENEMY,
@@ -45,6 +46,7 @@ const ActorInit En_Dodongo_InitVars = {
     (ActorFunc)EnDodongo_Update,
     (ActorFunc)EnDodongo_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sBodyElementsInit[6] = {
     {

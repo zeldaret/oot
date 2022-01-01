@@ -14,6 +14,7 @@ void ObjSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Syokudai_InitVars = {
     ACTOR_OBJ_SYOKUDAI,
     ACTORCAT_PROP,
@@ -25,6 +26,7 @@ const ActorInit Obj_Syokudai_InitVars = {
     (ActorFunc)ObjSyokudai_Update,
     (ActorFunc)ObjSyokudai_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylInitStand = {
     {

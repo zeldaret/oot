@@ -17,6 +17,7 @@ void EnBlkobj_SpawnDarkLink(EnBlkobj* this, GlobalContext* globalCtx);
 void EnBlkobj_DarkLinkFight(EnBlkobj* this, GlobalContext* globalCtx);
 void EnBlkobj_DoNothing(EnBlkobj* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Blkobj_InitVars = {
     ACTOR_EN_BLKOBJ,
     ACTORCAT_PROP,
@@ -28,6 +29,7 @@ const ActorInit En_Blkobj_InitVars = {
     (ActorFunc)EnBlkobj_Update,
     (ActorFunc)EnBlkobj_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),

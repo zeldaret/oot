@@ -13,6 +13,7 @@ void BgSpot17Funen_Update(Actor* thisx, GlobalContext* globalCtx);
 void func_808B746C(Actor* thisx, GlobalContext* globalCtx);
 void func_808B7478(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot17_Funen_InitVars = {
     ACTOR_BG_SPOT17_FUNEN,
     ACTORCAT_SWITCH,
@@ -24,6 +25,7 @@ const ActorInit Bg_Spot17_Funen_InitVars = {
     (ActorFunc)BgSpot17Funen_Update,
     NULL,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

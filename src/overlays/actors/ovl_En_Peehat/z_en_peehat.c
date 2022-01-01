@@ -38,6 +38,7 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, GlobalContext* globalCtx);
 void EnPeehat_SetStateExplode(EnPeehat* this);
 void EnPeehat_StateExplode(EnPeehat* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Peehat_InitVars = {
     ACTOR_EN_PEEHAT,
     ACTORCAT_ENEMY,
@@ -49,6 +50,7 @@ const ActorInit En_Peehat_InitVars = {
     (ActorFunc)EnPeehat_Update,
     (ActorFunc)EnPeehat_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

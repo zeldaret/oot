@@ -17,6 +17,7 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx);
 void func_809B5C18(EnAttackNiw* this, GlobalContext* globalCtx);
 void func_809B59B0(EnAttackNiw* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
     ACTORCAT_ENEMY,
@@ -28,6 +29,7 @@ const ActorInit En_Attack_Niw_InitVars = {
     (ActorFunc)EnAttackNiw_Update,
     (ActorFunc)EnAttackNiw_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 1, ICHAIN_CONTINUE),

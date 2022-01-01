@@ -12,6 +12,7 @@ void BgMenkuriNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriNisekabe_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Menkuri_Nisekabe_InitVars = {
     ACTOR_BG_MENKURI_NISEKABE,
     ACTORCAT_PROP,
@@ -23,6 +24,7 @@ const ActorInit Bg_Menkuri_Nisekabe_InitVars = {
     (ActorFunc)BgMenkuriNisekabe_Update,
     (ActorFunc)BgMenkuriNisekabe_Draw,
 };
+// clang-format on
 
 static Gfx* sDLists[] = { gGTGFakeWallDL, gGTGFakeCeilingDL };
 

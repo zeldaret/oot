@@ -23,6 +23,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Niw_Lady_InitVars = {
     ACTOR_EN_NIW_LADY,
     ACTORCAT_NPC,
@@ -34,6 +35,7 @@ const ActorInit En_Niw_Lady_InitVars = {
     (ActorFunc)EnNiwLady_Update,
     NULL,
 };
+// clang-format on
 
 static s16 sMissingCuccoTextIds[] = {
     0x5036, 0x5070, 0x5072, 0x5037, 0x5038, 0x5039, 0x503A, 0x503B, 0x503D, 0x503C,

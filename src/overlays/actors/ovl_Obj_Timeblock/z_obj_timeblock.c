@@ -23,6 +23,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, GlobalContext* globalCtx);
 void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, GlobalContext* globalCtx);
 void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
     ACTORCAT_ITEMACTION,
@@ -34,6 +35,7 @@ const ActorInit Obj_Timeblock_InitVars = {
     (ActorFunc)ObjTimeblock_Update,
     (ActorFunc)ObjTimeblock_Draw,
 };
+// clang-format on
 
 typedef struct {
     /* 0x00 */ f32 scale;

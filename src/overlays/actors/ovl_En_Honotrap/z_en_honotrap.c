@@ -45,6 +45,7 @@ void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx);
 void EnHonotrap_SetupFlameVanish(EnHonotrap* this);
 void EnHonotrap_FlameVanish(EnHonotrap* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Honotrap_InitVars = {
     ACTOR_EN_HONOTRAP,
     ACTORCAT_PROP,
@@ -56,6 +57,7 @@ const ActorInit En_Honotrap_InitVars = {
     (ActorFunc)EnHonotrap_Update,
     (ActorFunc)EnHonotrap_Draw,
 };
+// clang-format on
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {

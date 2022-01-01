@@ -67,6 +67,7 @@ static ColliderTrisInit sTrisInit = {
     sTrisElementsInit,
 };
 
+// clang-format off
 const ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,
     ACTORCAT_BG,
@@ -78,6 +79,7 @@ const ActorInit Bg_Bombwall_InitVars = {
     (ActorFunc)BgBombwall_Update,
     (ActorFunc)BgBombwall_Draw,
 };
+// clang-format on
 
 void BgBombwall_InitDynapoly(BgBombwall* this, GlobalContext* globalCtx) {
     s32 pad;

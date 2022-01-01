@@ -52,6 +52,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
+// clang-format off
 const ActorInit Bg_Haka_Zou_InitVars = {
     ACTOR_BG_HAKA_ZOU,
     ACTORCAT_PROP,
@@ -63,6 +64,7 @@ const ActorInit Bg_Haka_Zou_InitVars = {
     (ActorFunc)BgHakaZou_Update,
     NULL,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),

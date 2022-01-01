@@ -15,6 +15,7 @@ void BgInGate_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80892890(BgInGate* this, GlobalContext* globalCtx);
 void BgInGate_DoNothing(BgInGate* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
     ACTORCAT_PROP,
@@ -26,6 +27,7 @@ const ActorInit Bg_Ingate_InitVars = {
     (ActorFunc)BgInGate_Update,
     (ActorFunc)BgInGate_Draw,
 };
+// clang-format on
 
 void BgInGate_SetupAction(BgInGate* this, BgInGateActionFunc actionFunc) {
     this->actionFunc = actionFunc;

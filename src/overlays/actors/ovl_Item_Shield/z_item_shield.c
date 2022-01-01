@@ -36,6 +36,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 15, 15, 0, { 0, 0, 0 } },
 };
 
+// clang-format off
 const ActorInit Item_Shield_InitVars = {
     ACTOR_ITEM_SHIELD,
     ACTORCAT_ITEMACTION,
@@ -47,6 +48,7 @@ const ActorInit Item_Shield_InitVars = {
     (ActorFunc)ItemShield_Update,
     (ActorFunc)ItemShield_Draw,
 };
+// clang-format on
 
 static Color_RGBA8 unused = { 255, 255, 0, 255 };
 static Color_RGBA8 unused2 = { 255, 0, 0, 255 };

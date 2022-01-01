@@ -25,6 +25,7 @@ void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, GlobalContext* globalCtx);
 void EnSyatekiItm_CleanupGame(EnSyatekiItm* this, GlobalContext* globalCtx);
 void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Syateki_Itm_InitVars = {
     ACTOR_EN_SYATEKI_ITM,
     ACTORCAT_PROP,
@@ -36,6 +37,7 @@ const ActorInit En_Syateki_Itm_InitVars = {
     (ActorFunc)EnSyatekiItm_Update,
     NULL,
 };
+// clang-format on
 
 static Vec3f sGreenAppearHome = { 0.0f, -10.0f, -270.0f };
 static Vec3f sBlueSeqHome1 = { -220.0f, 66.0f, -320.0f };

@@ -14,6 +14,7 @@ void EnMk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnMk_Wait(EnMk* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Mk_InitVars = {
     ACTOR_EN_MK,
     ACTORCAT_NPC,
@@ -25,6 +26,7 @@ const ActorInit En_Mk_InitVars = {
     (ActorFunc)EnMk_Update,
     (ActorFunc)EnMk_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

@@ -56,6 +56,7 @@ static Color_RGBA8 sEnvColors[] = {
     { 0, 150, 0, 255 },
 };
 
+// clang-format off
 const ActorInit Bg_Po_Syokudai_InitVars = {
     ACTOR_BG_PO_SYOKUDAI,
     ACTORCAT_PROP,
@@ -67,6 +68,7 @@ const ActorInit Bg_Po_Syokudai_InitVars = {
     (ActorFunc)BgPoSyokudai_Update,
     (ActorFunc)BgPoSyokudai_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),

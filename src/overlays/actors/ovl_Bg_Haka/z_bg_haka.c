@@ -18,6 +18,7 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx);
 void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx);
 void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Haka_InitVars = {
     ACTOR_BG_HAKA,
     ACTORCAT_BG,
@@ -29,6 +30,7 @@ const ActorInit Bg_Haka_InitVars = {
     (ActorFunc)BgHaka_Update,
     (ActorFunc)BgHaka_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(minVelocityY, 0, ICHAIN_CONTINUE),

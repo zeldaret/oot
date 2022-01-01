@@ -13,6 +13,7 @@ void ItemInbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ItemInbox_Wait(ItemInbox* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Item_Inbox_InitVars = {
     ACTOR_ITEM_INBOX,
     ACTORCAT_NPC,
@@ -24,6 +25,7 @@ const ActorInit Item_Inbox_InitVars = {
     (ActorFunc)ItemInbox_Update,
     (ActorFunc)ItemInbox_Draw,
 };
+// clang-format on
 
 void ItemInbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     ItemInbox* this = (ItemInbox*)thisx;

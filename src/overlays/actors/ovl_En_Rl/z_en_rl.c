@@ -378,6 +378,7 @@ void EnRl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     sDrawFuncs[this->drawConfig](this, globalCtx);
 }
 
+// clang-format off
 const ActorInit En_Rl_InitVars = {
     ACTOR_EN_RL,
     ACTORCAT_NPC,
@@ -389,3 +390,4 @@ const ActorInit En_Rl_InitVars = {
     (ActorFunc)EnRl_Update,
     (ActorFunc)EnRl_Draw,
 };
+// clang-format on

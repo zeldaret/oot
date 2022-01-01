@@ -12,6 +12,7 @@ void BgUmaJump_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgUmaJump_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgUmaJump_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Umajump_InitVars = {
     ACTOR_BG_UMAJUMP,
     ACTORCAT_PROP,
@@ -23,6 +24,7 @@ const ActorInit Bg_Umajump_InitVars = {
     (ActorFunc)BgUmaJump_Update,
     (ActorFunc)BgUmaJump_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

@@ -67,6 +67,7 @@ void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx);
 void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx);
 void EnGeldB_Defeated(EnGeldB* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_GeldB_InitVars = {
     ACTOR_EN_GELDB,
     ACTORCAT_ENEMY,
@@ -78,6 +79,7 @@ const ActorInit En_GeldB_InitVars = {
     (ActorFunc)EnGeldB_Update,
     (ActorFunc)EnGeldB_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sBodyCylInit = {
     {

@@ -20,6 +20,7 @@ void func_809CB2B8(EnBrob* this, GlobalContext* globalCtx);
 void func_809CB354(EnBrob* this, GlobalContext* globalCtx);
 void func_809CB458(EnBrob* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Brob_InitVars = {
     ACTOR_EN_BROB,
     ACTORCAT_ENEMY,
@@ -31,6 +32,7 @@ const ActorInit En_Brob_InitVars = {
     (ActorFunc)EnBrob_Update,
     (ActorFunc)EnBrob_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

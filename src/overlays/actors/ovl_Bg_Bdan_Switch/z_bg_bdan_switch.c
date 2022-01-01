@@ -40,6 +40,7 @@ void func_8086DCE8(BgBdanSwitch* this, GlobalContext* globalCtx);
 void func_8086DDA8(BgBdanSwitch* this);
 void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Bdan_Switch_InitVars = {
     ACTOR_BG_BDAN_SWITCH,
     ACTORCAT_SWITCH,
@@ -51,6 +52,7 @@ const ActorInit Bg_Bdan_Switch_InitVars = {
     (ActorFunc)BgBdanSwitch_Update,
     (ActorFunc)BgBdanSwitch_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {

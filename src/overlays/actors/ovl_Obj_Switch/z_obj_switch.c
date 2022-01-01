@@ -47,6 +47,7 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, GlobalContext* globalCtx);
 void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Switch_InitVars = {
     ACTOR_OBJ_SWITCH,
     ACTORCAT_SWITCH,
@@ -58,6 +59,7 @@ const ActorInit Obj_Switch_InitVars = {
     (ActorFunc)ObjSwitch_Update,
     (ActorFunc)ObjSwitch_Draw,
 };
+// clang-format on
 
 static f32 sHeights[] = { 10, 10, 0, 30, 30 };
 

@@ -20,6 +20,7 @@ void func_80B864EC(ItemOcarina* this, GlobalContext* globalCtx);
 void func_80B865E0(ItemOcarina* this, GlobalContext* globalCtx);
 void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
     ACTORCAT_ITEMACTION,
@@ -31,6 +32,7 @@ const ActorInit Item_Ocarina_InitVars = {
     (ActorFunc)ItemOcarina_Update,
     (ActorFunc)ItemOcarina_Draw,
 };
+// clang-format on
 
 void ItemOcarina_SetupAction(ItemOcarina* this, ItemOcarinaActionFunc actionFunc) {
     this->actionFunc = actionFunc;

@@ -9,6 +9,7 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx);
 void ArmsHook_Wait(ArmsHook* this, GlobalContext* globalCtx);
 void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Arms_Hook_InitVars = {
     ACTOR_ARMS_HOOK,
     ACTORCAT_ITEMACTION,
@@ -20,6 +21,7 @@ const ActorInit Arms_Hook_InitVars = {
     (ActorFunc)ArmsHook_Update,
     (ActorFunc)ArmsHook_Draw,
 };
+// clang-format on
 
 static ColliderQuadInit sQuadInit = {
     {

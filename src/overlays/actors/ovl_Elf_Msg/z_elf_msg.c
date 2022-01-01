@@ -16,6 +16,7 @@ void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx);
 void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Elf_Msg_InitVars = {
     ACTOR_ELF_MSG,
     ACTORCAT_ITEMACTION,
@@ -27,6 +28,7 @@ const ActorInit Elf_Msg_InitVars = {
     (ActorFunc)ElfMsg_Update,
     (ActorFunc)ElfMsg_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),

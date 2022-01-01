@@ -31,6 +31,7 @@ void EnGo_AddDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 init
 void EnGo_UpdateDust(EnGo* this);
 void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
     ACTORCAT_NPC,
@@ -42,6 +43,7 @@ const ActorInit En_Go_InitVars = {
     (ActorFunc)EnGo_Update,
     (ActorFunc)EnGo_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

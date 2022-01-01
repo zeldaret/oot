@@ -17,6 +17,7 @@ void func_80A69EC0(EnHorseLinkChild* this);
 void func_80A6A4DC(EnHorseLinkChild* this);
 void func_80A6A724(EnHorseLinkChild* this);
 
+// clang-format off
 const ActorInit En_Horse_Link_Child_InitVars = {
     ACTOR_EN_HORSE_LINK_CHILD,
     ACTORCAT_BG,
@@ -28,6 +29,7 @@ const ActorInit En_Horse_Link_Child_InitVars = {
     (ActorFunc)EnHorseLinkChild_Update,
     (ActorFunc)EnHorseLinkChild_Draw,
 };
+// clang-format on
 
 static AnimationHeader* sAnimations[] = {
     &gChildEponaIdleAnim,     &gChildEponaWhinnyAnim,    &gChildEponaWalkingAnim,

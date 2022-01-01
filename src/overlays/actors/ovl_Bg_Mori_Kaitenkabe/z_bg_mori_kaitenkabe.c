@@ -18,6 +18,7 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this);
 void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
     ACTOR_BG_MORI_KAITENKABE,
     ACTORCAT_BG,
@@ -29,6 +30,7 @@ const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
     (ActorFunc)BgMoriKaitenkabe_Update,
     NULL,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),

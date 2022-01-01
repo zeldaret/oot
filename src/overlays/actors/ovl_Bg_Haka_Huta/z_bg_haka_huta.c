@@ -20,6 +20,7 @@ void BgHakaHuta_SlideOpen(BgHakaHuta* this, GlobalContext* globalCtx);
 void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx);
 void BgHakaHuta_DoNothing(BgHakaHuta* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Haka_Huta_InitVars = {
     ACTOR_BG_HAKA_HUTA,
     ACTORCAT_BG,
@@ -31,6 +32,7 @@ const ActorInit Bg_Haka_Huta_InitVars = {
     (ActorFunc)BgHakaHuta_Update,
     (ActorFunc)BgHakaHuta_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

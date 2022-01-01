@@ -18,6 +18,7 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx);
 
 #include "overlays/ovl_Arrow_Fire/ovl_Arrow_Fire.c"
 
+// clang-format off
 const ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,
     ACTORCAT_ITEMACTION,
@@ -29,6 +30,7 @@ const ActorInit Arrow_Fire_InitVars = {
     (ActorFunc)ArrowFire_Update,
     (ActorFunc)ArrowFire_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),

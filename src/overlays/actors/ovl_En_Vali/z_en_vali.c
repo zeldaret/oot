@@ -27,6 +27,7 @@ void EnVali_Stunned(EnVali* this, GlobalContext* globalCtx);
 void EnVali_Frozen(EnVali* this, GlobalContext* globalCtx);
 void EnVali_ReturnToLurk(EnVali* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,
     ACTORCAT_ENEMY,
@@ -38,6 +39,7 @@ const ActorInit En_Vali_InitVars = {
     (ActorFunc)EnVali_Update,
     (ActorFunc)EnVali_Draw,
 };
+// clang-format on
 
 static ColliderQuadInit sQuadInit = {
     {

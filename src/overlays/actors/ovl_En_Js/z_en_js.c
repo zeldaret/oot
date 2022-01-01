@@ -14,6 +14,7 @@ void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A89304(EnJs* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Js_InitVars = {
     ACTOR_EN_JS,
     ACTORCAT_NPC,
@@ -25,6 +26,7 @@ const ActorInit En_Js_InitVars = {
     (ActorFunc)EnJs_Update,
     (ActorFunc)EnJs_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

@@ -16,6 +16,7 @@ s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx);
 s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx);
 s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot09_Obj_InitVars = {
     ACTOR_BG_SPOT09_OBJ,
     ACTORCAT_BG,
@@ -27,6 +28,7 @@ const ActorInit Bg_Spot09_Obj_InitVars = {
     (ActorFunc)BgSpot09Obj_Update,
     (ActorFunc)BgSpot09Obj_Draw,
 };
+// clang-format on
 
 static CollisionHeader* D_808B1F90[] = {
     NULL, &gValleyObjects1Col, &gValleyObjects2Col, &gValleyObjects3Col, &gValleyObjects4Col,

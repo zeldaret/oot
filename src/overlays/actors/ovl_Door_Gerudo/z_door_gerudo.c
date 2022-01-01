@@ -17,6 +17,7 @@ s32 func_80994750(DoorGerudo* this, GlobalContext* globalCtx);
 void func_8099496C(DoorGerudo* this, GlobalContext* globalCtx);
 void func_809949C8(DoorGerudo* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Door_Gerudo_InitVars = {
     ACTOR_DOOR_GERUDO,
     ACTORCAT_ITEMACTION,
@@ -28,6 +29,7 @@ const ActorInit Door_Gerudo_InitVars = {
     (ActorFunc)DoorGerudo_Update,
     (ActorFunc)DoorGerudo_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_STOP),

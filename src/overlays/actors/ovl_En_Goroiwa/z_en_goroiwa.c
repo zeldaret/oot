@@ -40,6 +40,7 @@ void EnGoroiwa_MoveUp(EnGoroiwa* this, GlobalContext* globalCtx);
 void EnGoroiwa_SetupMoveDown(EnGoroiwa* this);
 void EnGoroiwa_MoveDown(EnGoroiwa* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
     ACTORCAT_PROP,
@@ -51,6 +52,7 @@ const ActorInit En_Goroiwa_InitVars = {
     (ActorFunc)EnGoroiwa_Update,
     (ActorFunc)EnGoroiwa_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {

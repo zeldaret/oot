@@ -18,6 +18,7 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx);
 void EnMs_Sell(EnMs* this, GlobalContext* globalCtx);
 void EnMs_TalkAfterPurchase(EnMs* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Ms_InitVars = {
     ACTOR_EN_MS,
     ACTORCAT_NPC,
@@ -29,6 +30,7 @@ const ActorInit En_Ms_InitVars = {
     (ActorFunc)EnMs_Update,
     (ActorFunc)EnMs_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {

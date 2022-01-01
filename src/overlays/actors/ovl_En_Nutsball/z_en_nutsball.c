@@ -20,6 +20,7 @@ void EnNutsball_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx);
 void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Nutsball_InitVars = {
     ACTOR_EN_NUTSBALL,
     ACTORCAT_PROP,
@@ -31,6 +32,7 @@ const ActorInit En_Nutsball_InitVars = {
     (ActorFunc)EnNutsball_Update,
     (ActorFunc)NULL,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

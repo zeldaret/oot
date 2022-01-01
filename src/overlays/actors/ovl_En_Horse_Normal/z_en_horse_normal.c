@@ -37,6 +37,7 @@ void func_80A6BCEC(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 
+// clang-format off
 const ActorInit En_Horse_Normal_InitVars = {
     ACTOR_EN_HORSE_NORMAL,
     ACTORCAT_BG,
@@ -48,6 +49,7 @@ const ActorInit En_Horse_Normal_InitVars = {
     (ActorFunc)EnHorseNormal_Update,
     (ActorFunc)EnHorseNormal_Draw,
 };
+// clang-format on
 
 static AnimationHeader* sAnimations[] = {
     &gHorseNormalIdleAnim,      &gHorseNormalWhinnyAnim,  &gHorseNormalRefuseAnim,

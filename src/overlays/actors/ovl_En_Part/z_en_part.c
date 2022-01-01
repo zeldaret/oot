@@ -13,6 +13,7 @@ void EnPart_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Part_InitVars = {
     ACTOR_EN_PART,
     ACTORCAT_ITEMACTION,
@@ -24,6 +25,7 @@ const ActorInit En_Part_InitVars = {
     (ActorFunc)EnPart_Update,
     (ActorFunc)EnPart_Draw,
 };
+// clang-format on
 
 void EnPart_Init(Actor* thisx, GlobalContext* globalCtx) {
 }

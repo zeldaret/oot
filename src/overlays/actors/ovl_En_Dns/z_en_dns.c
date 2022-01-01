@@ -41,6 +41,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx);
 void EnDns_SetupBurrow(EnDns* this, GlobalContext* globalCtx);
 void EnDns_Burrow(EnDns* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
     ACTORCAT_BG,
@@ -52,6 +53,7 @@ const ActorInit En_Dns_InitVars = {
     (ActorFunc)EnDns_Update,
     (ActorFunc)EnDns_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {

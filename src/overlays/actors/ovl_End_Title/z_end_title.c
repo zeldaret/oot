@@ -12,6 +12,7 @@ void EndTitle_Update(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_DrawFull(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_DrawNintendoLogo(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit End_Title_InitVars = {
     ACTOR_END_TITLE,
     ACTORCAT_ITEMACTION,
@@ -23,6 +24,7 @@ const ActorInit End_Title_InitVars = {
     (ActorFunc)EndTitle_Update,
     (ActorFunc)EndTitle_DrawFull,
 };
+// clang-format on
 
 #include "overlays/ovl_End_Title/ovl_End_Title.c"
 

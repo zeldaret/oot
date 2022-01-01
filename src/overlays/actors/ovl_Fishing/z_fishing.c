@@ -115,6 +115,7 @@ typedef struct {
 #define LINE_SEG_COUNT 200
 #define SINKING_LURE_SEG_COUNT 20
 
+// clang-format off
 const ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORCAT_NPC,
@@ -126,6 +127,7 @@ const ActorInit Fishing_InitVars = {
     (ActorFunc)Fishing_UpdateFish,
     (ActorFunc)Fishing_DrawFish,
 };
+// clang-format on
 
 static f32 D_80B7A650 = 0.0f;
 

@@ -30,6 +30,7 @@ void DoorWarp1_DoNothing(DoorWarp1* this, GlobalContext* globalCtx);
 void DoorWarp1_ChooseInitialAction(DoorWarp1* this, GlobalContext* globalCtx);
 void DoorWarp1_FloatPlayer(DoorWarp1* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,
     ACTORCAT_ITEMACTION,
@@ -41,6 +42,7 @@ const ActorInit Door_Warp1_InitVars = {
     (ActorFunc)DoorWarp1_Update,
     (ActorFunc)DoorWarp1_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),

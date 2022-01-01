@@ -27,6 +27,7 @@ void EnKarebaba_Dead(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Karebaba_InitVars = {
     ACTOR_EN_KAREBABA,
     ACTORCAT_ENEMY,
@@ -38,6 +39,7 @@ const ActorInit En_Karebaba_InitVars = {
     (ActorFunc)EnKarebaba_Update,
     (ActorFunc)EnKarebaba_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sBodyColliderInit = {
     {

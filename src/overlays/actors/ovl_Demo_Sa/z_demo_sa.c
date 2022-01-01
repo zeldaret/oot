@@ -83,6 +83,7 @@ static DemoSaDrawFunc sDrawFuncs[] = {
     DemoSa_DrawXlu,
 };
 
+// clang-format off
 const ActorInit Demo_Sa_InitVars = {
     ACTOR_DEMO_SA,
     ACTORCAT_NPC,
@@ -94,6 +95,7 @@ const ActorInit Demo_Sa_InitVars = {
     (ActorFunc)DemoSa_Update,
     (ActorFunc)DemoSa_Draw,
 };
+// clang-format on
 
 void DemoSa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoSa* this = (DemoSa*)thisx;

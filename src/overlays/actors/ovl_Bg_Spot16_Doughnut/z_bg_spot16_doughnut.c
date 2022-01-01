@@ -16,6 +16,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Doughnut_DrawExpanding(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
     ACTORCAT_PROP,
@@ -27,6 +28,7 @@ const ActorInit Bg_Spot16_Doughnut_InitVars = {
     (ActorFunc)BgSpot16Doughnut_Update,
     (ActorFunc)BgSpot16Doughnut_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 5500, ICHAIN_CONTINUE),

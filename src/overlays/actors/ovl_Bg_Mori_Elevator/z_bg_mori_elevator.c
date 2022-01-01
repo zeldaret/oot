@@ -17,6 +17,7 @@ void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, GlobalContext* globalC
 
 static s16 sIsSpawned = false;
 
+// clang-format off
 const ActorInit Bg_Mori_Elevator_InitVars = {
     ACTOR_BG_MORI_ELEVATOR,
     ACTORCAT_BG,
@@ -28,6 +29,7 @@ const ActorInit Bg_Mori_Elevator_InitVars = {
     (ActorFunc)BgMoriElevator_Update,
     NULL,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),

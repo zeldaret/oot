@@ -23,6 +23,7 @@ void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 
 static s16 D_808B4590 = 0;
 
+// clang-format off
 const ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
     ACTORCAT_BG,
@@ -34,6 +35,7 @@ const ActorInit Bg_Spot15_Rrbox_InitVars = {
     (ActorFunc)BgSpot15Rrbox_Update,
     (ActorFunc)BgSpot15Rrbox_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

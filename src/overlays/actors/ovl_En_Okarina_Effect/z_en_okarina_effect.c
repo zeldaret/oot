@@ -14,6 +14,7 @@ void EnOkarinaEffect_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx);
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Okarina_Effect_InitVars = {
     ACTOR_EN_OKARINA_EFFECT,
     ACTORCAT_ITEMACTION,
@@ -25,6 +26,7 @@ const ActorInit En_Okarina_Effect_InitVars = {
     (ActorFunc)EnOkarinaEffect_Update,
     NULL,
 };
+// clang-format on
 
 void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFunc actionFunc) {
     this->actionFunc = actionFunc;

@@ -114,6 +114,7 @@ typedef enum {
     /* 150 */ MO_DEATH_MO_CORE_BURST = 150
 } BossMoCsState;
 
+// clang-format off
 const ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,
     ACTORCAT_BOSS,
@@ -125,6 +126,7 @@ const ActorInit Boss_Mo_InitVars = {
     (ActorFunc)BossMo_UpdateTent,
     (ActorFunc)BossMo_DrawTent,
 };
+// clang-format on
 
 static BossMo* sMorphaCore = NULL;
 static BossMo* sMorphaTent1 = NULL;

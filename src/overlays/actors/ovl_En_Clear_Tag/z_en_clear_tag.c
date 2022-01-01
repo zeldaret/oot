@@ -17,6 +17,7 @@ void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32
 
 void EnClearTag_CalculateFloorTangent(EnClearTag* this);
 
+// clang-format off
 const ActorInit En_Clear_Tag_InitVars = {
     ACTOR_EN_CLEAR_TAG,
     ACTORCAT_BOSS,
@@ -28,6 +29,7 @@ const ActorInit En_Clear_Tag_InitVars = {
     (ActorFunc)EnClearTag_Update,
     (ActorFunc)EnClearTag_Draw,
 };
+// clang-format on
 
 static u8 sIsEffectsInitialized = false;
 

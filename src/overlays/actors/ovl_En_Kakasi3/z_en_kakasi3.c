@@ -44,6 +44,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
+// clang-format off
 const ActorInit En_Kakasi3_InitVars = {
     ACTOR_EN_KAKASI3,
     ACTORCAT_NPC,
@@ -55,6 +56,7 @@ const ActorInit En_Kakasi3_InitVars = {
     (ActorFunc)EnKakasi3_Update,
     (ActorFunc)EnKakasi3_Draw,
 };
+// clang-format on
 
 void EnKakasi3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi3* this = (EnKakasi3*)thisx;

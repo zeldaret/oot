@@ -17,6 +17,7 @@ void MagicWind_FadeOut(MagicWind* this, GlobalContext* globalCtx);
 void MagicWind_WaitAtFullSize(MagicWind* this, GlobalContext* globalCtx);
 void MagicWind_Grow(MagicWind* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Magic_Wind_InitVars = {
     ACTOR_MAGIC_WIND,
     ACTORCAT_ITEMACTION,
@@ -28,6 +29,7 @@ const ActorInit Magic_Wind_InitVars = {
     (ActorFunc)MagicWind_Update,
     (ActorFunc)MagicWind_Draw,
 };
+// clang-format on
 
 #include "overlays/ovl_Magic_Wind/ovl_Magic_Wind.c"
 

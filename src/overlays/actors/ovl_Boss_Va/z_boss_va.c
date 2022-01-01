@@ -186,6 +186,7 @@ void BossVa_SpawnBloodDroplets(GlobalContext* globalCtx, BossVaEffect* effect, V
 void BossVa_Tumor(GlobalContext* globalCtx, BossVa* this, s32 count, s16 scale, f32 xzSpread, f32 ySpread, u8 mode,
                   f32 range, u8 fixed);
 
+// clang-format off
 const ActorInit Boss_Va_InitVars = {
     ACTOR_BOSS_VA,
     ACTORCAT_BOSS,
@@ -197,6 +198,7 @@ const ActorInit Boss_Va_InitVars = {
     (ActorFunc)BossVa_Update,
     (ActorFunc)BossVa_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

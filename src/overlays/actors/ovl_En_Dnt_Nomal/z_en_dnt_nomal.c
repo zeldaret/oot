@@ -54,6 +54,7 @@ void EnDntNomal_StageAttackHide(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_StageAttack(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_StageReturn(EnDntNomal* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dnt_Nomal_InitVars = {
     ACTOR_EN_DNT_NOMAL,
     ACTORCAT_PROP,
@@ -65,6 +66,7 @@ const ActorInit En_Dnt_Nomal_InitVars = {
     (ActorFunc)EnDntNomal_Update,
     NULL,
 };
+// clang-format on
 
 static ColliderCylinderInit sBodyCylinderInit = {
     {

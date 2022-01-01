@@ -24,6 +24,7 @@ static DemoTreLgtInfo sDemoTreLgtInfo[] = {
     { 1.0f, 136.0f, 220.0f, 50.0f },
 };
 
+// clang-format off
 const ActorInit Demo_Tre_Lgt_InitVars = {
     ACTOR_DEMO_TRE_LGT,
     ACTORCAT_ITEMACTION,
@@ -35,6 +36,7 @@ const ActorInit Demo_Tre_Lgt_InitVars = {
     (ActorFunc)DemoTreLgt_Update,
     (ActorFunc)DemoTreLgt_Draw,
 };
+// clang-format on
 
 static TransformUpdateIndex* sTransformUpdIdx[] = { &gTreasureChestCurveAnim_4B60, &gTreasureChestCurveAnim_4F70 };
 

@@ -16,6 +16,7 @@ void func_80B43A94(EnYukabyun* this, GlobalContext* globalCtx);
 void func_80B43AD4(EnYukabyun* this, GlobalContext* globalCtx);
 void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Yukabyun_InitVars = {
     ACTOR_EN_YUKABYUN,
     ACTORCAT_ENEMY,
@@ -27,6 +28,7 @@ const ActorInit En_Yukabyun_InitVars = {
     (ActorFunc)EnYukabyun_Update,
     (ActorFunc)EnYukabyun_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

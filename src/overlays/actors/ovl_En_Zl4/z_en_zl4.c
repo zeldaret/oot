@@ -56,6 +56,7 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx);
 void EnZl4_Idle(EnZl4* this, GlobalContext* globalCtx);
 void EnZl4_TheEnd(EnZl4* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Zl4_InitVars = {
     ACTOR_EN_ZL4,
     ACTORCAT_NPC,
@@ -67,6 +68,7 @@ const ActorInit En_Zl4_InitVars = {
     (ActorFunc)EnZl4_Update,
     (ActorFunc)EnZl4_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

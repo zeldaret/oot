@@ -14,6 +14,7 @@ void EnLight_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Light_InitVars = {
     ACTOR_EN_LIGHT,
     ACTORCAT_ITEMACTION,
@@ -25,6 +26,7 @@ const ActorInit En_Light_InitVars = {
     (ActorFunc)EnLight_Update,
     (ActorFunc)EnLight_Draw,
 };
+// clang-format on
 
 typedef struct {
     /* 0x00 */ Color_RGBA8 primColor;

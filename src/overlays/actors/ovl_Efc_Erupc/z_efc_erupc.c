@@ -12,6 +12,7 @@ void EfcErupc_UpdateParticles(EfcErupc* this, GlobalContext* globalCtx);
 void EfcErupc_AddParticle(EfcErupcParticles* particles, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor);
 void EfcErupc_InitParticles(EfcErupcParticles* particles);
 
+// clang-format off
 const ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
     ACTORCAT_ITEMACTION,
@@ -23,6 +24,7 @@ const ActorInit Efc_Erupc_InitVars = {
     (ActorFunc)EfcErupc_Update,
     (ActorFunc)EfcErupc_Draw,
 };
+// clang-format on
 
 void EfcErupc_SetupAction(EfcErupc* this, EfcErupcActionFunc actionFunc) {
     this->actionFunc = actionFunc;

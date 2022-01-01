@@ -29,6 +29,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, GlobalContext* globalCt
 
 #define WEATHER_TAG_RANGE100(x) ((x >> 8) * 100.0f)
 
+// clang-format off
 const ActorInit En_Weather_Tag_InitVars = {
     ACTOR_EN_WEATHER_TAG,
     ACTORCAT_PROP,
@@ -40,6 +41,7 @@ const ActorInit En_Weather_Tag_InitVars = {
     (ActorFunc)EnWeatherTag_Update,
     NULL,
 };
+// clang-format on
 
 void EnWeatherTag_SetupAction(EnWeatherTag* this, EnWeatherTagActionFunc actionFunc) {
     this->actionFunc = actionFunc;

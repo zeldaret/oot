@@ -40,6 +40,7 @@ static DemoGeffDrawFunc sDrawFuncs[] = {
     func_80978344,
 };
 
+// clang-format off
 const ActorInit Demo_Geff_InitVars = {
     ACTOR_DEMO_GEFF,
     ACTORCAT_BOSS,
@@ -51,6 +52,7 @@ const ActorInit Demo_Geff_InitVars = {
     (ActorFunc)DemoGeff_Update,
     (ActorFunc)DemoGeff_Draw,
 };
+// clang-format on
 
 void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }

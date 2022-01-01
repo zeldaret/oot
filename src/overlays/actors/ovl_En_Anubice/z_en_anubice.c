@@ -23,6 +23,7 @@ void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubis_ShootFireball(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Anubice_InitVars = {
     ACTOR_EN_ANUBICE,
     ACTORCAT_ENEMY,
@@ -34,6 +35,7 @@ const ActorInit En_Anubice_InitVars = {
     (ActorFunc)EnAnubice_Update,
     (ActorFunc)EnAnubice_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

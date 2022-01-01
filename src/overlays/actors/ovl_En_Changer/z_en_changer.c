@@ -22,6 +22,7 @@ void EnChanger_Wait(EnChanger* this, GlobalContext* globalCtx);
 void EnChanger_OpenChests(EnChanger* this, GlobalContext* globalCtx);
 void EnChanger_SetHeartPieceFlag(EnChanger* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Changer_InitVars = {
     ACTOR_EN_CHANGER,
     ACTORCAT_PROP,
@@ -33,6 +34,7 @@ const ActorInit En_Changer_InitVars = {
     (ActorFunc)EnChanger_Update,
     NULL,
 };
+// clang-format on
 
 static Vec3f sLeftChestPos[] = {
     { 0.0f, 0.0f, 0.0f },         { -100.0f, 20.0f, -245.0f },  { -100.0f, 20.0f, -685.0f },

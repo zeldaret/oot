@@ -18,6 +18,7 @@ void func_80A50518(EnGuest* this, GlobalContext* globalCtx);
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx);
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Guest_InitVars = {
     ACTOR_EN_GUEST,
     ACTORCAT_NPC,
@@ -29,6 +30,7 @@ const ActorInit En_Guest_InitVars = {
     (ActorFunc)EnGuest_Update,
     NULL,
 };
+// clang-format on
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {

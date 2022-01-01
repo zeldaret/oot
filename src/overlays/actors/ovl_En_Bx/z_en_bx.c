@@ -12,6 +12,7 @@ void EnBx_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBx_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Bx_InitVars = {
     ACTOR_EN_BX,
     ACTORCAT_ENEMY,
@@ -23,6 +24,7 @@ const ActorInit En_Bx_InitVars = {
     (ActorFunc)EnBx_Update,
     (ActorFunc)EnBx_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

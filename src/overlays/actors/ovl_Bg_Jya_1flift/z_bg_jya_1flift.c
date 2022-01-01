@@ -23,6 +23,7 @@ void BgJya1flift_DelayMove(BgJya1flift* this, GlobalContext* globalCtx);
 
 static u8 sIsSpawned = false;
 
+// clang-format off
 const ActorInit Bg_Jya_1flift_InitVars = {
     ACTOR_BG_JYA_1FLIFT,
     ACTORCAT_BG,
@@ -34,6 +35,7 @@ const ActorInit Bg_Jya_1flift_InitVars = {
     (ActorFunc)BgJya1flift_Update,
     (ActorFunc)BgJya1flift_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

@@ -1445,6 +1445,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+// clang-format off
 const ActorInit En_Ik_InitVars = {
     ACTOR_EN_IK,
     ACTORCAT_BOSS,
@@ -1456,3 +1457,4 @@ const ActorInit En_Ik_InitVars = {
     (ActorFunc)EnIk_Update,
     (ActorFunc)EnIk_Draw,
 };
+// clang-format on

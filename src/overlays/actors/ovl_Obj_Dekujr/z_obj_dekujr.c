@@ -14,6 +14,7 @@ void ObjDekujr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
     ACTORCAT_NPC,
@@ -25,6 +26,7 @@ const ActorInit Obj_Dekujr_InitVars = {
     (ActorFunc)ObjDekujr_Update,
     (ActorFunc)ObjDekujr_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInitToActor sCylinderInit = {
     {

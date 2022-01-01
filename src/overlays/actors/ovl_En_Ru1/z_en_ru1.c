@@ -129,6 +129,7 @@ static EnRu1DrawFunc sDrawFuncs[] = {
     EnRu1_DrawXlu,
 };
 
+// clang-format off
 const ActorInit En_Ru1_InitVars = {
     ACTOR_EN_RU1,
     ACTORCAT_NPC,
@@ -140,6 +141,7 @@ const ActorInit En_Ru1_InitVars = {
     (ActorFunc)EnRu1_Update,
     (ActorFunc)EnRu1_Draw,
 };
+// clang-format on
 
 void func_80AEAC10(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad[5];

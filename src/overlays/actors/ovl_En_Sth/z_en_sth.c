@@ -20,6 +20,7 @@ void EnSth_ParentRewardObtainedWait(EnSth* this, GlobalContext* globalCtx);
 void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx);
 void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Sth_InitVars = {
     ACTOR_EN_STH,
     ACTORCAT_NPC,
@@ -31,6 +32,7 @@ const ActorInit En_Sth_InitVars = {
     (ActorFunc)EnSth_Update,
     NULL,
 };
+// clang-format on
 
 #include "overlays/ovl_En_Sth/ovl_En_Sth.c"
 

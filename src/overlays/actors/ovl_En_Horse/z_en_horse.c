@@ -64,6 +64,7 @@ static f32 sPlaybackSpeeds[] = { 2.0f / 3.0f, 2.0f / 3.0f, 1.0f, 1.0f, 1.0f, 1.0
 
 static SkeletonHeader* sSkeletonHeaders[] = { &gEponaSkel, &gHorseIngoSkel };
 
+// clang-format off
 const ActorInit En_Horse_InitVars = {
     ACTOR_EN_HORSE,
     ACTORCAT_BG,
@@ -75,6 +76,7 @@ const ActorInit En_Horse_InitVars = {
     (ActorFunc)EnHorse_Update,
     (ActorFunc)EnHorse_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit1 = {
     {

@@ -24,6 +24,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx);
 void EnDntDemo_Results(EnDntDemo* this, GlobalContext* globalCtx);
 void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dnt_Demo_InitVars = {
     ACTOR_EN_DNT_DEMO,
     ACTORCAT_PROP,
@@ -35,6 +36,7 @@ const ActorInit En_Dnt_Demo_InitVars = {
     (ActorFunc)EnDntDemo_Update,
     NULL,
 };
+// clang-format on
 
 //! @bug
 //! This table is missing a column for the Mask of Truth, so it reads the first value of the next row. In the last row,

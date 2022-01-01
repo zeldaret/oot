@@ -14,6 +14,7 @@ void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDs_Wait(EnDs* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Ds_InitVars = {
     ACTOR_EN_DS,
     ACTORCAT_NPC,
@@ -25,6 +26,7 @@ const ActorInit En_Ds_InitVars = {
     (ActorFunc)EnDs_Update,
     (ActorFunc)EnDs_Draw,
 };
+// clang-format on
 
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = (EnDs*)thisx;

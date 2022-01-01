@@ -20,6 +20,7 @@ static EnEgActionFunc sActionFuncs[] = {
     func_809FFDC8,
 };
 
+// clang-format off
 const ActorInit En_Eg_InitVars = {
     ACTOR_EN_EG,
     ACTORCAT_ITEMACTION,
@@ -31,6 +32,7 @@ const ActorInit En_Eg_InitVars = {
     (ActorFunc)EnEg_Update,
     (ActorFunc)EnEg_Draw,
 };
+// clang-format on
 
 void EnEg_PlayVoidOutSFX() {
     func_800788CC(NA_SE_OC_ABYSS);

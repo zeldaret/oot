@@ -20,12 +20,14 @@ void EnExRuppy_Kill(EnExRuppy* this, GlobalContext* globalCtx);
 static s16 sEnExRuppyCollectibleTypes[] = {
     ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_ORANGE, ITEM00_RUPEE_PURPLE,
 };
+// clang-format on
 
 // Unused, as the function sets these directly
 static s16 sRupeeValues[] = {
     1, 5, 20, 500, 50,
 };
 
+// clang-format off
 const ActorInit En_Ex_Ruppy_InitVars = {
     ACTOR_EN_EX_RUPPY,
     ACTORCAT_PROP,

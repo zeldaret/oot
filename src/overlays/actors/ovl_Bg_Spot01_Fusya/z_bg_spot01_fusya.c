@@ -14,6 +14,7 @@ void BgSpot01Fusya_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot01_Fusya_InitVars = {
     ACTOR_BG_SPOT01_FUSYA,
     ACTORCAT_BG,
@@ -25,6 +26,7 @@ const ActorInit Bg_Spot01_Fusya_InitVars = {
     (ActorFunc)BgSpot01Fusya_Update,
     (ActorFunc)BgSpot01Fusya_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

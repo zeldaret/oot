@@ -33,6 +33,7 @@ void EnEiyer_Die(EnEiyer* this, GlobalContext* globalCtx);
 void EnEiyer_Dead(EnEiyer* this, GlobalContext* globalCtx);
 void EnEiyer_Stunned(EnEiyer* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Eiyer_InitVars = {
     ACTOR_EN_EIYER,
     ACTORCAT_ENEMY,
@@ -44,6 +45,7 @@ const ActorInit En_Eiyer_InitVars = {
     (ActorFunc)EnEiyer_Update,
     (ActorFunc)EnEiyer_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sColCylInit = {
     {

@@ -19,6 +19,7 @@ void func_808B3604(BgSpot12Saku* this, GlobalContext* globalCtx);
 void func_808B3714(BgSpot12Saku* this);
 void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot12_Saku_InitVars = {
     ACTOR_BG_SPOT12_SAKU,
     ACTORCAT_BG,
@@ -30,6 +31,7 @@ const ActorInit Bg_Spot12_Saku_InitVars = {
     (ActorFunc)BgSpot12Saku_Update,
     (ActorFunc)BgSpot12Saku_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

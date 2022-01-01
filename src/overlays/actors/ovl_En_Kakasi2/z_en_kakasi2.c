@@ -39,6 +39,7 @@ void func_80A904D8(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A906C4(EnKakasi2* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Kakasi2_InitVars = {
     ACTOR_EN_KAKASI2,
     ACTORCAT_PROP,
@@ -50,6 +51,7 @@ const ActorInit En_Kakasi2_InitVars = {
     (ActorFunc)EnKakasi2_Update,
     NULL,
 };
+// clang-format on
 
 void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi2* this = (EnKakasi2*)thisx;

@@ -42,6 +42,7 @@ void BossFd_Wait(BossFd* this, GlobalContext* globalCtx);
 void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx);
 void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this);
 
+// clang-format off
 const ActorInit Boss_Fd_InitVars = {
     ACTOR_BOSS_FD,
     ACTORCAT_BOSS,
@@ -53,6 +54,7 @@ const ActorInit Boss_Fd_InitVars = {
     (ActorFunc)BossFd_Update,
     (ActorFunc)BossFd_Draw,
 };
+// clang-format on
 
 #include "z_boss_fd_colchk.c"
 

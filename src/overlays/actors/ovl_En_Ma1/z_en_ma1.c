@@ -24,6 +24,7 @@ void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx);
 void func_80AA1150(EnMa1* this, GlobalContext* globalCtx);
 void EnMa1_DoNothing(EnMa1* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Ma1_InitVars = {
     ACTOR_EN_MA1,
     ACTORCAT_NPC,
@@ -35,6 +36,7 @@ const ActorInit En_Ma1_InitVars = {
     (ActorFunc)EnMa1_Update,
     (ActorFunc)EnMa1_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

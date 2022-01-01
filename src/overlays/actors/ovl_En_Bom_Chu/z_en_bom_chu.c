@@ -13,6 +13,7 @@ void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx);
 void EnBomChu_Move(EnBomChu* this, GlobalContext* globalCtx);
 void EnBomChu_WaitForKill(EnBomChu* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Bom_Chu_InitVars = {
     ACTOR_EN_BOM_CHU,
     ACTORCAT_EXPLOSIVE,
@@ -24,6 +25,7 @@ const ActorInit En_Bom_Chu_InitVars = {
     (ActorFunc)EnBomChu_Update,
     (ActorFunc)EnBomChu_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElemInit[] = {
     {

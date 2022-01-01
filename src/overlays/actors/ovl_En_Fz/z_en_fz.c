@@ -43,6 +43,7 @@ void EnFz_SpawnIceSmokeFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* ac
 void EnFz_UpdateIceSmoke(EnFz* this, GlobalContext* globalCtx);
 void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Fz_InitVars = {
     ACTOR_EN_FZ,
     ACTORCAT_ENEMY,
@@ -54,6 +55,7 @@ const ActorInit En_Fz_InitVars = {
     (ActorFunc)EnFz_Update,
     (ActorFunc)EnFz_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {

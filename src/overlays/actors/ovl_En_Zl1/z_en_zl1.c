@@ -25,6 +25,7 @@ extern CutsceneData D_80B4C5D0[];
 
 #include "z_en_zl1_camera_data.c"
 
+// clang-format off
 const ActorInit En_Zl1_InitVars = {
     ACTOR_EN_ZL1,
     ACTORCAT_NPC,
@@ -36,6 +37,7 @@ const ActorInit En_Zl1_InitVars = {
     (ActorFunc)EnZl1_Update,
     (ActorFunc)EnZl1_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

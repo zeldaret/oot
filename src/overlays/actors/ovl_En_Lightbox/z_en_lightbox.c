@@ -12,6 +12,7 @@ void EnLightbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnLightbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Lightbox_InitVars = {
     ACTOR_EN_LIGHTBOX,
     ACTORCAT_PROP,
@@ -23,6 +24,7 @@ const ActorInit En_Lightbox_InitVars = {
     (ActorFunc)EnLightbox_Update,
     (ActorFunc)EnLightbox_Draw,
 };
+// clang-format on
 
 void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;

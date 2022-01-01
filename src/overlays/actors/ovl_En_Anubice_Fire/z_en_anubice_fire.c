@@ -17,6 +17,7 @@ void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx);
 void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx);
 void func_809B2B48(EnAnubiceFire* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Anubice_Fire_InitVars = {
     ACTOR_EN_ANUBICE_FIRE,
     ACTORCAT_ENEMY,
@@ -28,6 +29,7 @@ const ActorInit En_Anubice_Fire_InitVars = {
     (ActorFunc)EnAnubiceFire_Update,
     (ActorFunc)EnAnubiceFire_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

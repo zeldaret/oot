@@ -12,6 +12,7 @@ void ObjHamishi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjHamishi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Hamishi_InitVars = {
     ACTOR_OBJ_HAMISHI,
     ACTORCAT_PROP,
@@ -23,6 +24,7 @@ const ActorInit Obj_Hamishi_InitVars = {
     (ActorFunc)ObjHamishi_Update,
     (ActorFunc)ObjHamishi_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

@@ -40,6 +40,7 @@ void EnPoh_TalkComposer(EnPoh* this, GlobalContext* globalCtx);
 
 static s16 D_80AE1A50 = 0;
 
+// clang-format off
 const ActorInit En_Poh_InitVars = {
     ACTOR_EN_POH,
     ACTORCAT_ENEMY,
@@ -51,6 +52,7 @@ const ActorInit En_Poh_InitVars = {
     (ActorFunc)EnPoh_Update,
     NULL,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

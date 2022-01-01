@@ -28,6 +28,7 @@ typedef enum {
     /* 0x04 */ DF_SCREEN_TINT_FINISHED
 } MagicFireScreenTint;
 
+// clang-format off
 const ActorInit Magic_Fire_InitVars = {
     ACTOR_MAGIC_FIRE,
     ACTORCAT_ITEMACTION,
@@ -39,6 +40,7 @@ const ActorInit Magic_Fire_InitVars = {
     (ActorFunc)MagicFire_Update,
     (ActorFunc)MagicFire_Draw,
 };
+// clang-format on
 
 #include "overlays/ovl_Magic_Fire/ovl_Magic_Fire.c"
 

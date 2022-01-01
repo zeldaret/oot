@@ -21,6 +21,7 @@ void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx);
 void func_808B3274(BgSpot12Gate* this);
 void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
     ACTORCAT_BG,
@@ -32,6 +33,7 @@ const ActorInit Bg_Spot12_Gate_InitVars = {
     (ActorFunc)BgSpot12Gate_Update,
     (ActorFunc)BgSpot12Gate_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

@@ -37,6 +37,7 @@ typedef enum {
     /* 9 */ TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME
 } TailpasaranAction;
 
+// clang-format off
 const ActorInit En_Tp_InitVars = {
     ACTOR_EN_TP,
     ACTORCAT_ENEMY,
@@ -48,6 +49,7 @@ const ActorInit En_Tp_InitVars = {
     (ActorFunc)EnTp_Update,
     (ActorFunc)EnTp_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {

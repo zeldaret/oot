@@ -31,6 +31,7 @@ typedef enum {
     /* 5 */ WOOD_DRAW_LEAF_YELLOW
 } WoodDrawType;
 
+// clang-format off
 const ActorInit En_Wood02_InitVars = {
     ACTOR_EN_WOOD02,
     ACTORCAT_PROP,
@@ -42,6 +43,7 @@ const ActorInit En_Wood02_InitVars = {
     (ActorFunc)EnWood02_Update,
     (ActorFunc)EnWood02_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

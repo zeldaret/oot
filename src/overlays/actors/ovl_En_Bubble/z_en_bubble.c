@@ -10,6 +10,7 @@ void EnBubble_Wait(EnBubble* this, GlobalContext* globalCtx);
 void EnBubble_Pop(EnBubble* this, GlobalContext* globalCtx);
 void EnBubble_Regrow(EnBubble* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Bubble_InitVars = {
     ACTOR_EN_BUBBLE,
     ACTORCAT_ENEMY,
@@ -21,6 +22,7 @@ const ActorInit En_Bubble_InitVars = {
     (ActorFunc)EnBubble_Update,
     (ActorFunc)EnBubble_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {

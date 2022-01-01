@@ -27,6 +27,7 @@ void DoorKiller_SetProperties(DoorKiller* this, GlobalContext* globalCtx);
 void DoorKiller_DrawDoor(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_DrawRubble(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Door_Killer_InitVars = {
     ACTOR_DOOR_KILLER,
     ACTORCAT_BG,
@@ -38,6 +39,7 @@ const ActorInit Door_Killer_InitVars = {
     (ActorFunc)DoorKiller_Update,
     NULL,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

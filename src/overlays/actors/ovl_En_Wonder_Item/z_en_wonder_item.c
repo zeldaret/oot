@@ -39,6 +39,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 30, 0, { 0, 0, 0 } },
 };
 
+// clang-format off
 const ActorInit En_Wonder_Item_InitVars = {
     ACTOR_EN_WONDER_ITEM,
     ACTORCAT_PROP,
@@ -50,6 +51,7 @@ const ActorInit En_Wonder_Item_InitVars = {
     (ActorFunc)EnWonderItem_Update,
     NULL,
 };
+// clang-format on
 
 static Vec3f sTagPointsFree[9];
 static Vec3f sTagPointsOrdered[9];

@@ -118,6 +118,7 @@ static s32 sSongToFrog[] = {
     FROG_PURPLE, FROG_WHITE, FROG_YELLOW, FROG_BLUE, FROG_RED,
 };
 
+// clang-format off
 const ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,
     ACTORCAT_NPC,
@@ -129,6 +130,7 @@ const ActorInit En_Fr_InitVars = {
     (ActorFunc)EnFr_Update,
     NULL,
 };
+// clang-format on
 
 static Color_RGBA8 sEnFrColor[] = {
     { 200, 170, 0, 255 }, { 0, 170, 200, 255 }, { 210, 120, 100, 255 }, { 120, 130, 230, 255 }, { 190, 190, 190, 255 },

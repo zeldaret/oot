@@ -151,6 +151,7 @@ void func_8006390C(Input* input) {
                     gGameInfo->dpadLast = dpad;
                 }
 
+                // clang-format off
                 increment = CHECK_BTN_ANY(dpad, BTN_DRIGHT)  ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B) ? 1000
                                                                 : CHECK_BTN_ALL(input->cur.button, BTN_A)       ? 100
                                                                 : CHECK_BTN_ALL(input->cur.button, BTN_B)       ? 10
@@ -160,6 +161,7 @@ void func_8006390C(Input* input) {
                                                                 : CHECK_BTN_ALL(input->cur.button, BTN_B)       ? -10
                                                                                                                 : -1)
                                                              : 0;
+                // clang-format on
 
                 gGameInfo->data[gGameInfo->regCur + regGroup] += increment;
                 if (CHECK_BTN_ANY(dpad, BTN_DUP)) {

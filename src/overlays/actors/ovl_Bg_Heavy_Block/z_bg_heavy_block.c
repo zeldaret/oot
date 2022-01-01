@@ -24,6 +24,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx);
 void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx);
 void BgHeavyBlock_DoNothing(BgHeavyBlock* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
     ACTORCAT_BG,
@@ -35,6 +36,7 @@ const ActorInit Bg_Heavy_Block_InitVars = {
     (ActorFunc)BgHeavyBlock_Update,
     (ActorFunc)BgHeavyBlock_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),

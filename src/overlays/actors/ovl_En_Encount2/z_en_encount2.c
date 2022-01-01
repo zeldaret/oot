@@ -20,6 +20,7 @@ void EnEncount2_ParticleInit(EnEncount2* this, Vec3f* particlePos, f32 scale);
 void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount2_ParticleUpdate(EnEncount2* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
     ACTORCAT_ENEMY,
@@ -31,6 +32,7 @@ const ActorInit En_Encount2_InitVars = {
     (ActorFunc)EnEncount2_Update,
     (ActorFunc)EnEncount2_Draw,
 };
+// clang-format on
 
 void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnEncount2* this = (EnEncount2*)thisx;

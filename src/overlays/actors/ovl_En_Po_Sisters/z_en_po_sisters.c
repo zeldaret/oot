@@ -59,6 +59,7 @@ static Color_RGBA8 D_80ADD700[4] = {
     { 0, 150, 0, 255 },
 };
 
+// clang-format off
 const ActorInit En_Po_Sisters_InitVars = {
     ACTOR_EN_PO_SISTERS,
     ACTORCAT_ENEMY,
@@ -70,6 +71,7 @@ const ActorInit En_Po_Sisters_InitVars = {
     (ActorFunc)EnPoSisters_Update,
     (ActorFunc)EnPoSisters_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

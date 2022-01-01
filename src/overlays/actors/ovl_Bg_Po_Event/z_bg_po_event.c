@@ -26,6 +26,7 @@ void BgPoEvent_PaintingAppear(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Po_Event_InitVars = {
     ACTOR_BG_PO_EVENT,
     ACTORCAT_BG,
@@ -37,6 +38,7 @@ const ActorInit Bg_Po_Event_InitVars = {
     (ActorFunc)BgPoEvent_Update,
     (ActorFunc)BgPoEvent_Draw,
 };
+// clang-format on
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {

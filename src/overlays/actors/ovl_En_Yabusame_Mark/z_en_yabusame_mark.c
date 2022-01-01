@@ -32,6 +32,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
+// clang-format off
 const ActorInit En_Yabusame_Mark_InitVars = {
     ACTOR_EN_YABUSAME_MARK,
     ACTORCAT_PROP,
@@ -43,6 +44,7 @@ const ActorInit En_Yabusame_Mark_InitVars = {
     (ActorFunc)EnYabusameMark_Update,
     NULL,
 };
+// clang-format on
 
 static Vec3f sCollisionVertices[] = {
     { 70.0f, 70.0f, 0.0f },      { 70.0f, -70.0f, 0.0f },      { -70.0f, 70.0f, 0.0f },    { -70.0f, -70.0f, 0.0f },

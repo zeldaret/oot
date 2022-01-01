@@ -16,6 +16,7 @@ void BgHakaWater_LowerWater(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_Wait(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Haka_Water_InitVars = {
     ACTOR_BG_HAKA_WATER,
     ACTORCAT_PROP,
@@ -27,6 +28,7 @@ const ActorInit Bg_Haka_Water_InitVars = {
     (ActorFunc)BgHakaWater_Update,
     (ActorFunc)BgHakaWater_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

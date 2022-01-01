@@ -1526,6 +1526,7 @@ void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     sDrawFuncs[this->drawMode](this, globalCtx);
 }
 
+// clang-format off
 const ActorInit En_Nb_InitVars = {
     ACTOR_EN_NB,
     ACTORCAT_NPC,
@@ -1537,3 +1538,4 @@ const ActorInit En_Nb_InitVars = {
     (ActorFunc)EnNb_Update,
     (ActorFunc)EnNb_Draw,
 };
+// clang-format on

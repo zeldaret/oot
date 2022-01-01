@@ -26,6 +26,7 @@ void EnJj_WaitForFish(EnJj* this, GlobalContext* globalCtx);
 void EnJj_BeginCutscene(EnJj* this, GlobalContext* globalCtx);
 void EnJj_RemoveDust(EnJj* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
     ACTORCAT_ITEMACTION,
@@ -37,6 +38,7 @@ const ActorInit En_Jj_InitVars = {
     (ActorFunc)EnJj_Update,
     (ActorFunc)EnJj_Draw,
 };
+// clang-format on
 
 static s32 sUnused = 0;
 

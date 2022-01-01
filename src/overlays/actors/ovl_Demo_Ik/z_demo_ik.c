@@ -499,6 +499,7 @@ void DemoIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     sDrawFuncs[this->drawMode](this, globalCtx);
 }
 
+// clang-format off
 const ActorInit Demo_Ik_InitVars = {
     ACTOR_DEMO_IK,
     ACTORCAT_NPC,
@@ -510,6 +511,7 @@ const ActorInit Demo_Ik_InitVars = {
     (ActorFunc)DemoIk_Update,
     (ActorFunc)DemoIk_Draw,
 };
+// clang-format on
 
 void DemoIk_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;

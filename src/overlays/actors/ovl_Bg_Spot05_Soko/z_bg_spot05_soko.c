@@ -15,6 +15,7 @@ void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx);
 void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx);
 void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot05_Soko_InitVars = {
     ACTOR_BG_SPOT05_SOKO,
     ACTORCAT_PROP,
@@ -26,6 +27,7 @@ const ActorInit Bg_Spot05_Soko_InitVars = {
     (ActorFunc)BgSpot05Soko_Update,
     (ActorFunc)BgSpot05Soko_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

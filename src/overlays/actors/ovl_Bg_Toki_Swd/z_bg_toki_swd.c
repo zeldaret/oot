@@ -20,6 +20,7 @@ extern CutsceneData D_808BB2F0[];
 extern CutsceneData D_808BB7A0[];
 extern CutsceneData D_808BBD90[];
 
+// clang-format off
 const ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,
     ACTORCAT_PROP,
@@ -31,6 +32,7 @@ const ActorInit Bg_Toki_Swd_InitVars = {
     (ActorFunc)BgTokiSwd_Update,
     (ActorFunc)BgTokiSwd_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

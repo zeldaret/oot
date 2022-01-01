@@ -53,6 +53,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx);
 void EnGe2_UpdateAfterTalk(Actor* thisx, GlobalContext* globalCtx);
 void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Ge2_InitVars = {
     ACTOR_EN_GE2,
     ACTORCAT_NPC,
@@ -64,6 +65,7 @@ const ActorInit En_Ge2_InitVars = {
     (ActorFunc)EnGe2_Update,
     (ActorFunc)EnGe2_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

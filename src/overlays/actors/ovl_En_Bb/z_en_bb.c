@@ -193,6 +193,7 @@ static DamageTable sDamageTableWhite = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
+// clang-format off
 const ActorInit En_Bb_InitVars = {
     ACTOR_EN_BB,
     ACTORCAT_ENEMY,
@@ -204,6 +205,7 @@ const ActorInit En_Bb_InitVars = {
     (ActorFunc)EnBb_Update,
     (ActorFunc)EnBb_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementInit[1] = {
     {

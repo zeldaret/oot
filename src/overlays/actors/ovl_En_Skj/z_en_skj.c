@@ -158,6 +158,7 @@ typedef struct {
 static EnSkjUnkStruct sSmallStumpSkullKid = { 0, NULL };
 static EnSkjUnkStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
 
+// clang-format off
 const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
     ACTORCAT_ENEMY,
@@ -169,6 +170,7 @@ const ActorInit En_Skj_InitVars = {
     (ActorFunc)EnSkj_Update,
     (ActorFunc)EnSkj_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInitType1 D_80B01678 = {
     {

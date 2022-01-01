@@ -12,6 +12,7 @@ void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Break_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Break_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot00_Break_InitVars = {
     ACTOR_BG_SPOT00_BREAK,
     ACTORCAT_PROP,
@@ -23,6 +24,7 @@ const ActorInit Bg_Spot00_Break_InitVars = {
     (ActorFunc)BgSpot00Break_Update,
     (ActorFunc)BgSpot00Break_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_CONTINUE),

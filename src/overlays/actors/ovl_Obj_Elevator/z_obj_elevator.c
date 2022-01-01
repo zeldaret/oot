@@ -17,6 +17,7 @@ void func_80B92C80(ObjElevator* this, GlobalContext* globalCtx);
 void func_80B92D20(ObjElevator* this);
 void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Elevator_InitVars = {
     ACTOR_OBJ_ELEVATOR,
     ACTORCAT_BG,
@@ -28,6 +29,7 @@ const ActorInit Obj_Elevator_InitVars = {
     (ActorFunc)ObjElevator_Update,
     (ActorFunc)ObjElevator_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),

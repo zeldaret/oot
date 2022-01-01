@@ -72,6 +72,7 @@ void EnTite_FallApart(EnTite* this, GlobalContext* globalCtx);
 void EnTite_FlipOnBack(EnTite* this, GlobalContext* globalCtx);
 void EnTite_FlipUpright(EnTite* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Tite_InitVars = {
     ACTOR_EN_TITE,
     ACTORCAT_ENEMY,
@@ -83,6 +84,7 @@ const ActorInit En_Tite_InitVars = {
     (ActorFunc)EnTite_Update,
     (ActorFunc)EnTite_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {

@@ -31,6 +31,7 @@ f32 func_808C50A8(BossDodongo* this, GlobalContext* globalCtx);
 void BossDodongo_DrawEffects(GlobalContext* globalCtx);
 void BossDodongo_UpdateEffects(GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORCAT_BOSS,
@@ -42,6 +43,7 @@ const ActorInit Boss_Dodongo_InitVars = {
     (ActorFunc)BossDodongo_Update,
     (ActorFunc)BossDodongo_Draw,
 };
+// clang-format on
 
 #include "z_boss_dodongo_data.c"
 

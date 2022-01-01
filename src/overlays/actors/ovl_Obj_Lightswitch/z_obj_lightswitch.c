@@ -33,6 +33,7 @@ void ObjLightswitch_DisappearDelay(ObjLightswitch* this, GlobalContext* globalCt
 void ObjLightswitch_SetupDisappear(ObjLightswitch* this);
 void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Lightswitch_InitVars = {
     ACTOR_OBJ_LIGHTSWITCH,
     ACTORCAT_SWITCH,
@@ -44,6 +45,7 @@ const ActorInit Obj_Lightswitch_InitVars = {
     (ActorFunc)ObjLightswitch_Update,
     (ActorFunc)ObjLightswitch_Draw,
 };
+// clang-format on
 
 static ColliderJntSphElementInit sColliderJntSphElementInit[] = {
     {

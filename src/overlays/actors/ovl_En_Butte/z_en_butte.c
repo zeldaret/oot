@@ -47,6 +47,7 @@ static ColliderJntSphInit sColliderInit = {
     sJntSphElementsInit,
 };
 
+// clang-format off
 const ActorInit En_Butte_InitVars = {
     ACTOR_EN_BUTTE,
     ACTORCAT_ITEMACTION,
@@ -58,6 +59,7 @@ const ActorInit En_Butte_InitVars = {
     (ActorFunc)EnButte_Update,
     (ActorFunc)EnButte_Draw,
 };
+// clang-format on
 
 typedef struct {
     /* 0x00 */ s16 minTime;

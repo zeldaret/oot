@@ -16,6 +16,7 @@ void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx);
 void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx);
 void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Hidan_Fslift_InitVars = {
     ACTOR_BG_HIDAN_FSLIFT,
     ACTORCAT_BG,
@@ -27,6 +28,7 @@ const ActorInit Bg_Hidan_Fslift_InitVars = {
     (ActorFunc)BgHidanFslift_Update,
     (ActorFunc)BgHidanFslift_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

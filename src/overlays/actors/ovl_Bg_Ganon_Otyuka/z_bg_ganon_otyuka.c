@@ -23,6 +23,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx);
 void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx);
 void BgGanonOtyuka_DoNothing(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Ganon_Otyuka_InitVars = {
     ACTOR_BG_GANON_OTYUKA,
     ACTORCAT_PROP,
@@ -34,6 +35,7 @@ const ActorInit Bg_Ganon_Otyuka_InitVars = {
     (ActorFunc)BgGanonOtyuka_Update,
     (ActorFunc)BgGanonOtyuka_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),

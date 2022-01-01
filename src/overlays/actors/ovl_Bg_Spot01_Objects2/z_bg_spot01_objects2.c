@@ -16,6 +16,7 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx);
 void func_808AC474(BgSpot01Objects2* this, GlobalContext* globalCtx);
 void func_808AC4A4(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot01_Objects2_InitVars = {
     ACTOR_BG_SPOT01_OBJECTS2,
     ACTORCAT_BG,
@@ -27,6 +28,7 @@ const ActorInit Bg_Spot01_Objects2_InitVars = {
     (ActorFunc)BgSpot01Objects2_Update,
     NULL,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 12800, ICHAIN_CONTINUE),

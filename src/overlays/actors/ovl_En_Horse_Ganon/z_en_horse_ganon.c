@@ -21,6 +21,7 @@ void func_80A68AC4(EnHorseGanon* this);
 void func_80A68AF0(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
     ACTORCAT_BG,
@@ -32,6 +33,7 @@ const ActorInit En_Horse_Ganon_InitVars = {
     (ActorFunc)EnHorseGanon_Update,
     (ActorFunc)EnHorseGanon_Draw,
 };
+// clang-format on
 
 static AnimationHeader* sAnimations[] = {
     &gHorseGanonIdleAnim,     &gHorseGanonWhinnyAnim,    &gHorseGanonWalkingAnim,

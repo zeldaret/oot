@@ -62,6 +62,7 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Retreat(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Stunned(EnRr* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Rr_InitVars = {
     ACTOR_EN_RR,
     ACTORCAT_ENEMY,
@@ -73,6 +74,7 @@ const ActorInit En_Rr_InitVars = {
     (ActorFunc)EnRr_Update,
     (ActorFunc)EnRr_Draw,
 };
+// clang-format on
 
 static char* sDropNames[] = {
     // "type 7", "small magic jar", "arrow", "fairy", "20 rupees", "50 rupees"

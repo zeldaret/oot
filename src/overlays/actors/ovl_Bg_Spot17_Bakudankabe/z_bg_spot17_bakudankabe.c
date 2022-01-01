@@ -14,6 +14,7 @@ void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Spot17_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT17_BAKUDANKABE,
     ACTORCAT_BG,
@@ -25,6 +26,7 @@ const ActorInit Bg_Spot17_Bakudankabe_InitVars = {
     (ActorFunc)BgSpot17Bakudankabe_Update,
     (ActorFunc)BgSpot17Bakudankabe_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

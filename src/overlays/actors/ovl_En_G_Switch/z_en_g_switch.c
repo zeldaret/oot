@@ -62,6 +62,7 @@ static s16 sRupeeTypes[] = {
     ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_ORANGE, ITEM00_RUPEE_PURPLE,
 };
 
+// clang-format off
 const ActorInit En_G_Switch_InitVars = {
     ACTOR_EN_G_SWITCH,
     ACTORCAT_PROP,
@@ -73,6 +74,7 @@ const ActorInit En_G_Switch_InitVars = {
     (ActorFunc)EnGSwitch_Update,
     NULL,
 };
+// clang-format on
 
 void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;

@@ -28,6 +28,7 @@ void EnDekunuts_BeDamaged(EnDekunuts* this, GlobalContext* globalCtx);
 void EnDekunuts_BeStunned(EnDekunuts* this, GlobalContext* globalCtx);
 void EnDekunuts_Die(EnDekunuts* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,
     ACTORCAT_ENEMY,
@@ -39,6 +40,7 @@ const ActorInit En_Dekunuts_InitVars = {
     (ActorFunc)EnDekunuts_Update,
     (ActorFunc)EnDekunuts_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

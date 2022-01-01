@@ -37,6 +37,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_Hide(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,
     ACTORCAT_NPC,
@@ -48,6 +49,7 @@ const ActorInit En_Dnt_Jiji_InitVars = {
     (ActorFunc)EnDntJiji_Update,
     (ActorFunc)EnDntJiji_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

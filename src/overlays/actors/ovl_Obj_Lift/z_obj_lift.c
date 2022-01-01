@@ -21,6 +21,7 @@ void func_80B96560(ObjLift* this, GlobalContext* globalCtx);
 void func_80B96678(ObjLift* this, GlobalContext* globalCtx);
 void func_80B96840(ObjLift* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Lift_InitVars = {
     ACTOR_OBJ_LIFT,
     ACTORCAT_BG,
@@ -32,6 +33,7 @@ const ActorInit Obj_Lift_InitVars = {
     (ActorFunc)ObjLift_Update,
     (ActorFunc)ObjLift_Draw,
 };
+// clang-format on
 
 static s16 sFallTimerDurations[] = { 0, 10, 20, 30, 40, 50, 60 };
 

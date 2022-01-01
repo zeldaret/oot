@@ -28,6 +28,7 @@ typedef enum {
     /* 9 */ MIRRAY_GANONSCASTLE_SPIRITTRIAL_DOWNLIGHT
 } MirRayBeamLocations;
 
+// clang-format off
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
     ACTORCAT_ITEMACTION,
@@ -39,6 +40,7 @@ const ActorInit Mir_Ray_InitVars = {
     (ActorFunc)MirRay_Update,
     (ActorFunc)MirRay_Draw,
 };
+// clang-format on
 
 static u8 D_80B8E670 = 0;
 

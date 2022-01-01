@@ -29,6 +29,7 @@ void func_809060E8(GlobalContext* globalCtx);
 void BossGanon2_GenShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,
     ACTORCAT_BOSS,
@@ -40,6 +41,7 @@ const ActorInit Boss_Ganon2_InitVars = {
     (ActorFunc)BossGanon2_Update,
     (ActorFunc)BossGanon2_Draw,
 };
+// clang-format on
 
 #include "z_boss_ganon2_data.c"
 

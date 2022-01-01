@@ -19,6 +19,7 @@ void BgGndDarkmeiro_UpdateBlockTimer(BgGndDarkmeiro* this, GlobalContext* global
 void BgGndDarkmeiro_UpdateStaticBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     ACTOR_BG_GND_DARKMEIRO,
     ACTORCAT_PROP,
@@ -30,6 +31,7 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     (ActorFunc)BgGndDarkmeiro_Update,
     NULL,
 };
+// clang-format on
 
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
     if (this->actionFlags & 2) {

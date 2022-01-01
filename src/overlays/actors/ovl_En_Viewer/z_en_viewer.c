@@ -28,6 +28,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx);
 
 static u8 sHorseSfxPlayed = false;
 
+// clang-format off
 const ActorInit En_Viewer_InitVars = {
     ACTOR_EN_VIEWER,
     ACTORCAT_ITEMACTION,
@@ -39,6 +40,7 @@ const ActorInit En_Viewer_InitVars = {
     (ActorFunc)EnViewer_Update,
     (ActorFunc)EnViewer_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 300, ICHAIN_STOP),

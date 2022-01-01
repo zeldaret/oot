@@ -16,6 +16,7 @@ s32 ElfMsg2_GetMessageId(ElfMsg2* this);
 void ElfMsg2_WaitUntilActivated(ElfMsg2* this, GlobalContext* globalCtx);
 void ElfMsg2_WaitForTextRead(ElfMsg2* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Elf_Msg2_InitVars = {
     ACTOR_ELF_MSG2,
     ACTORCAT_BG,
@@ -27,6 +28,7 @@ const ActorInit Elf_Msg2_InitVars = {
     (ActorFunc)ElfMsg2_Update,
     (ActorFunc)ElfMsg2_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 200, ICHAIN_CONTINUE),

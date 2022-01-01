@@ -24,6 +24,7 @@ void BgRelayObjects_DoNothing(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Bg_Relay_Objects_InitVars = {
     ACTOR_BG_RELAY_OBJECTS,
     ACTORCAT_BG,
@@ -35,6 +36,7 @@ const ActorInit Bg_Relay_Objects_InitVars = {
     (ActorFunc)BgRelayObjects_Update,
     (ActorFunc)BgRelayObjects_Draw,
 };
+// clang-format on
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(gravity, 5, ICHAIN_CONTINUE),

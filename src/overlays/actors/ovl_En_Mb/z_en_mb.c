@@ -51,6 +51,7 @@ void EnMb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMb_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Mb_InitVars = {
     ACTOR_EN_MB,
     ACTORCAT_ENEMY,
@@ -62,6 +63,7 @@ const ActorInit En_Mb_InitVars = {
     (ActorFunc)EnMb_Update,
     (ActorFunc)EnMb_Draw,
 };
+// clang-format on
 
 void EnMb_SetupSpearPatrolTurnTowardsWaypoint(EnMb* this, GlobalContext* globalCtx);
 void EnMb_SetupClubWaitPlayerNear(EnMb* this);

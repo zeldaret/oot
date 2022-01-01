@@ -92,6 +92,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
+// clang-format off
 const ActorInit En_Go2_InitVars = {
     ACTOR_EN_GO2,
     ACTORCAT_NPC,
@@ -103,6 +104,7 @@ const ActorInit En_Go2_InitVars = {
     (ActorFunc)EnGo2_Update,
     (ActorFunc)EnGo2_Draw,
 };
+// clang-format on
 
 static EnGo2DataStruct1 D_80A4816C[14] = {
     { 0, 0, 0, 68, 148 }, { 0, 0, 0, 24, 52 }, { 0, 320, 380, 400, 120 }, { 0, 0, 0, 30, 68 }, { 0, 0, 0, 46, 90 },
@@ -469,10 +471,12 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
+        // clang-format off
         return CUR_UPG_VALUE(UPG_STRENGTH) != 0    ? 0x302C
                : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017
                : gSaveContext.infTable[15] & 0x100 ? 0x3019
                                                    : 0x3018;
+        // clang-format on
     }
 }
 

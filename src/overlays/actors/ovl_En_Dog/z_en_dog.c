@@ -19,6 +19,7 @@ void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx);
 void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx);
 void EnDog_Wait(EnDog* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Dog_InitVars = {
     ACTOR_EN_DOG,
     ACTORCAT_NPC,
@@ -30,6 +31,7 @@ const ActorInit En_Dog_InitVars = {
     (ActorFunc)EnDog_Update,
     (ActorFunc)EnDog_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

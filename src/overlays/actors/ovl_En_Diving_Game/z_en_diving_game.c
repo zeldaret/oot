@@ -31,6 +31,7 @@ void func_809EEA00(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EEA90(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
     ACTORCAT_NPC,
@@ -42,6 +43,7 @@ const ActorInit En_Diving_Game_InitVars = {
     (ActorFunc)EnDivingGame_Update,
     (ActorFunc)EnDivingGame_Draw,
 };
+// clang-format on
 
 // used to ensure there's only one instance of this actor.
 static u8 D_809EF0B0 = false;

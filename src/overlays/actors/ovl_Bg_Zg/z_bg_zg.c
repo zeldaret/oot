@@ -33,6 +33,7 @@ static BgZgDrawFunc sDrawFuncs[] = {
     func_808C0EEC,
 };
 
+// clang-format off
 const ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,
     ACTORCAT_NPC,
@@ -44,6 +45,7 @@ const ActorInit Bg_Zg_InitVars = {
     (ActorFunc)BgZg_Update,
     (ActorFunc)BgZg_Draw,
 };
+// clang-format on
 
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = (BgZg*)thisx;

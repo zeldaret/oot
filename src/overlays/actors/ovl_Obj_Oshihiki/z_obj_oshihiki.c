@@ -22,6 +22,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_SetupFall(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
     ACTORCAT_PROP,
@@ -33,6 +34,7 @@ const ActorInit Obj_Oshihiki_InitVars = {
     (ActorFunc)ObjOshihiki_Update,
     (ActorFunc)ObjOshihiki_Draw,
 };
+// clang-format on
 
 static f32 sScales[] = {
     (1 / 10.0f), (1 / 6.0f), (1 / 5.0f), (1 / 3.0f), (1 / 10.0f), (1 / 6.0f), (1 / 5.0f), (1 / 3.0f),

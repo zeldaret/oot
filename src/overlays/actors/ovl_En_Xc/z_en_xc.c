@@ -2412,6 +2412,7 @@ void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+// clang-format off
 const ActorInit En_Xc_InitVars = {
     ACTOR_EN_XC,
     ACTORCAT_NPC,
@@ -2423,3 +2424,4 @@ const ActorInit En_Xc_InitVars = {
     (ActorFunc)EnXc_Update,
     (ActorFunc)EnXc_Draw,
 };
+// clang-format on

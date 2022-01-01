@@ -35,6 +35,7 @@ void func_80968B70(Actor* thisx, GlobalContext* globalCtx);
 void func_80968FB0(Actor* thisx, GlobalContext* globalCtx);
 void func_809691BC(Demo6K* this, GlobalContext* globalCtx, s32 params);
 
+// clang-format off
 const ActorInit Demo_6K_InitVars = {
     ACTOR_DEMO_6K,
     ACTORCAT_PROP,
@@ -46,6 +47,7 @@ const ActorInit Demo_6K_InitVars = {
     (ActorFunc)Demo6K_Update,
     NULL,
 };
+// clang-format on
 
 static s16 sObjectIds[] = {
     OBJECT_GAMEPLAY_KEEP, OBJECT_DEMO_6K,       OBJECT_DEMO_6K,       OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP,

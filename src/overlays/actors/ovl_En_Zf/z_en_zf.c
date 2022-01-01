@@ -97,6 +97,7 @@ static Vec3f sPlatformPositions[] = {
 static s16 D_80B4A1B0 = 0;
 static s16 D_80B4A1B4 = 1;
 
+// clang-format off
 const ActorInit En_Zf_InitVars = {
     ACTOR_EN_ZF,
     ACTORCAT_ENEMY,
@@ -108,6 +109,7 @@ const ActorInit En_Zf_InitVars = {
     (ActorFunc)EnZf_Update,
     (ActorFunc)EnZf_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sBodyCylinderInit = {
     {

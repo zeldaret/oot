@@ -27,6 +27,7 @@ void func_80AE3B18(EnRd* this, GlobalContext* globalCtx);
 void func_80AE3C98(EnRd* this, GlobalContext* globalCtx);
 void func_80AE3ECC(EnRd* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Rd_InitVars = {
     ACTOR_EN_RD,
     ACTORCAT_ENEMY,
@@ -38,6 +39,7 @@ const ActorInit En_Rd_InitVars = {
     (ActorFunc)EnRd_Update,
     (ActorFunc)EnRd_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

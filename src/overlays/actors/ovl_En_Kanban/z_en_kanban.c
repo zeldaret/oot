@@ -73,6 +73,7 @@ void EnKanban_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Kanban_InitVars = {
     ACTOR_EN_KANBAN,
     ACTORCAT_PROP,
@@ -84,6 +85,7 @@ const ActorInit En_Kanban_InitVars = {
     (ActorFunc)EnKanban_Update,
     (ActorFunc)EnKanban_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

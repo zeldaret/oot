@@ -123,6 +123,7 @@ static u8 sJointCopyFlags[] = {
     false, // STALFOS_LIMB_WAIST
 };
 
+// clang-format off
 const ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
     ACTORCAT_ENEMY,
@@ -134,6 +135,7 @@ const ActorInit En_Test_InitVars = {
     (ActorFunc)EnTest_Update,
     (ActorFunc)EnTest_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sBodyColliderInit = {
     {

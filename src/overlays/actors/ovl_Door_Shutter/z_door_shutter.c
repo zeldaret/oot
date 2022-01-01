@@ -45,6 +45,7 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx);
 void func_809976B8(DoorShutter* this, GlobalContext* globalCtx);
 void func_80997744(DoorShutter* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit Door_Shutter_InitVars = {
     ACTOR_DOOR_SHUTTER,
     ACTORCAT_DOOR,
@@ -56,6 +57,7 @@ const ActorInit Door_Shutter_InitVars = {
     (ActorFunc)DoorShutter_Update,
     (ActorFunc)DoorShutter_Draw,
 };
+// clang-format on
 
 typedef struct {
     s16 objectId;

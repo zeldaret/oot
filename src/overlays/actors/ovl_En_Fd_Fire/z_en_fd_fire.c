@@ -10,6 +10,7 @@ void func_80A0E70C(EnFdFire* this, GlobalContext* globalCtx);
 void EnFdFire_DanceTowardsPlayer(EnFdFire* this, GlobalContext* globalCtx);
 void EnFdFire_WaitToDie(EnFdFire* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Fd_Fire_InitVars = {
     ACTOR_EN_FD_FIRE,
     ACTORCAT_ENEMY,
@@ -21,6 +22,7 @@ const ActorInit En_Fd_Fire_InitVars = {
     (ActorFunc)EnFdFire_Update,
     (ActorFunc)EnFdFire_Draw,
 };
+// clang-format on
 
 static ColliderCylinderInit sCylinderInit = {
     {

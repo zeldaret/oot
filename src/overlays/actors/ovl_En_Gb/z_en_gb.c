@@ -24,6 +24,7 @@ void func_80A2FC0C(EnGb* this, GlobalContext* globalCtx);
 void EnGb_DrawCagedSouls(EnGb* this, GlobalContext* globalCtx);
 void EnGb_UpdateCagedSouls(EnGb* this, GlobalContext* globalCtx);
 
+// clang-format off
 const ActorInit En_Gb_InitVars = {
     ACTOR_EN_GB,
     ACTORCAT_NPC,
@@ -35,6 +36,7 @@ const ActorInit En_Gb_InitVars = {
     (ActorFunc)EnGb_Update,
     (ActorFunc)EnGb_Draw,
 };
+// clang-format on
 
 static EnGbCagedSoulInfo sCagedSoulInfo[] = {
     { { 255, 255, 170, 255 }, { 255, 200, 0, 255 }, gPoeSellerAngrySoulTex, -15 },
