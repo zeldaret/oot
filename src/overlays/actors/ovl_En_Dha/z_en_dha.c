@@ -8,8 +8,6 @@
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
 #include "objects/object_dh/object_dh.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 void EnDha_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDha_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx);
 const ActorInit En_Dha_InitVars = {
     ACTOR_EN_DHA,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_DH,
     sizeof(EnDha),
     (ActorFunc)EnDha_Init,

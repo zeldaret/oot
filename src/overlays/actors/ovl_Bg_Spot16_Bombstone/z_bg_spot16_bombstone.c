@@ -4,8 +4,6 @@
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -112,7 +110,7 @@ static s16 D_808B5EB0[][7] = {
 const ActorInit Bg_Spot16_Bombstone_InitVars = {
     ACTOR_BG_SPOT16_BOMBSTONE,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_SPOT16_OBJ,
     sizeof(BgSpot16Bombstone),
     (ActorFunc)BgSpot16Bombstone_Init,

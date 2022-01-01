@@ -7,8 +7,6 @@
 #include "z_bg_haka.h"
 #include "objects/object_haka/object_haka.h"
 
-#define FLAGS 0
-
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHaka_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_InitVars = {
     ACTOR_BG_HAKA,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HAKA,
     sizeof(BgHaka),
     (ActorFunc)BgHaka_Init,

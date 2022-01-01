@@ -2,8 +2,6 @@
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "objects/object_box/object_box.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ static DemoTreLgtInfo sDemoTreLgtInfo[] = {
 const ActorInit Demo_Tre_Lgt_InitVars = {
     ACTOR_DEMO_TRE_LGT,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_BOX,
     sizeof(DemoTreLgt),
     (ActorFunc)DemoTreLgt_Init,

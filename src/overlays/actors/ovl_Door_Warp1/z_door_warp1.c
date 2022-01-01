@@ -1,8 +1,6 @@
 #include "z_door_warp1.h"
 #include "objects/object_warp1/object_warp1.h"
 
-#define FLAGS 0
-
 void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ void DoorWarp1_FloatPlayer(DoorWarp1* this, GlobalContext* globalCtx);
 const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_WARP1,
     sizeof(DoorWarp1),
     (ActorFunc)DoorWarp1_Init,

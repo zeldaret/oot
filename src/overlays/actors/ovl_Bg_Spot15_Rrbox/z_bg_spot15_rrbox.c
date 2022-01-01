@@ -7,8 +7,6 @@
 #include "z_bg_spot15_rrbox.h"
 #include "objects/object_spot15_obj/object_spot15_obj.h"
 
-#define FLAGS 0
-
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -28,7 +26,7 @@ static s16 D_808B4590 = 0;
 const ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_SPOT15_OBJ,
     sizeof(BgSpot15Rrbox),
     (ActorFunc)BgSpot15Rrbox_Init,

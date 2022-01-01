@@ -7,8 +7,6 @@
 #include "z_bg_bdan_objects.h"
 #include "objects/object_bdan_objects/object_bdan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBdanObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBdanObjects_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx);
 const ActorInit Bg_Bdan_Objects_InitVars = {
     ACTOR_BG_BDAN_OBJECTS,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_BDAN_OBJECTS,
     sizeof(BgBdanObjects),
     (ActorFunc)BgBdanObjects_Init,

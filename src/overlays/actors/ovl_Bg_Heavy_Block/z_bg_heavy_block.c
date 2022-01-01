@@ -8,8 +8,6 @@
 #include "objects/object_heavy_object/object_heavy_object.h"
 #include "vt.h"
 
-#define FLAGS 0
-
 #define PIECE_FLAG_HIT_FLOOR (1 << 0)
 
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ void BgHeavyBlock_DoNothing(BgHeavyBlock* this, GlobalContext* globalCtx);
 const ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HEAVY_OBJECT,
     sizeof(BgHeavyBlock),
     (ActorFunc)BgHeavyBlock_Init,

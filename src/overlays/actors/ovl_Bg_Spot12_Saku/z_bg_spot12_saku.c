@@ -7,8 +7,6 @@
 #include "z_bg_spot12_saku.h"
 #include "objects/object_spot12_obj/object_spot12_obj.h"
 
-#define FLAGS 0
-
 void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot12Saku_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot12_Saku_InitVars = {
     ACTOR_BG_SPOT12_SAKU,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_SPOT12_OBJ,
     sizeof(BgSpot12Saku),
     (ActorFunc)BgSpot12Saku_Init,

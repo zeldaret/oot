@@ -7,8 +7,6 @@
 #include "z_bg_haka_huta.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaHuta_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void BgHakaHuta_DoNothing(BgHakaHuta* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_Huta_InitVars = {
     ACTOR_BG_HAKA_HUTA,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_HAKACH_OBJECTS,
     sizeof(BgHakaHuta),
     (ActorFunc)BgHakaHuta_Init,

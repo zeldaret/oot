@@ -7,8 +7,6 @@
 #include "z_en_horse_link_child.h"
 #include "objects/object_horse_link_child/object_horse_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseLinkChild_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void func_80A6A724(EnHorseLinkChild* this);
 const ActorInit En_Horse_Link_Child_InitVars = {
     ACTOR_EN_HORSE_LINK_CHILD,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_HORSE_LINK_CHILD,
     sizeof(EnHorseLinkChild),
     (ActorFunc)EnHorseLinkChild_Init,

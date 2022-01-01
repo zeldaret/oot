@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0
-
 // general purpose timer
 #define vTimer actionVar1
 
@@ -55,7 +53,7 @@ static s16 sStatueRotY;
 const ActorInit Bg_Haka_Gate_InitVars = {
     ACTOR_BG_HAKA_GATE,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaGate),
     (ActorFunc)BgHakaGate_Init,

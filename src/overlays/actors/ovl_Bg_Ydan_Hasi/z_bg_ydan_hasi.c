@@ -7,8 +7,6 @@
 #include "z_bg_ydan_hasi.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ydan_Hasi_InitVars = {
     ACTOR_BG_YDAN_HASI,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_YDAN_OBJECTS,
     sizeof(BgYdanHasi),
     (ActorFunc)BgYdanHasi_Init,

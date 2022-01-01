@@ -1,8 +1,6 @@
 #include "z_en_crow.h"
 #include "objects/object_crow/object_crow.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
-
 void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ static Vec3f sZeroVecAccel = { 0.0f, 0.0f, 0.0f };
 const ActorInit En_Crow_InitVars = {
     ACTOR_EN_CROW,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14,
     OBJECT_CROW,
     sizeof(EnCrow),
     (ActorFunc)EnCrow_Init,

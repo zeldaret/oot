@@ -9,8 +9,6 @@
 #include "objects/object_bowl/object_bowl.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBomGuard_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBomGuard_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -20,7 +18,7 @@ void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx);
 const ActorInit Bg_Bom_Guard_InitVars = {
     ACTOR_BG_BOM_GUARD,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_BOWL,
     sizeof(BgBomGuard),
     (ActorFunc)BgBomGuard_Init,

@@ -3,8 +3,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,7 +30,7 @@ static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 const ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_DEKUBABA,
     sizeof(EnDekubaba),
     (ActorFunc)EnDekubaba_Init,

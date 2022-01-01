@@ -4,8 +4,6 @@
 #include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx);
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaCobra),
     (ActorFunc)BgJyaCobra_Init,

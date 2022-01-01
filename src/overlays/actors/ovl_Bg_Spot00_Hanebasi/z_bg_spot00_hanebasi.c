@@ -8,8 +8,6 @@
 #include "objects/object_spot00_objects/object_spot00_objects.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef enum {
     /* -1 */ DT_DRAWBRIDGE = -1,
     /*  0 */ DT_CHAIN_1,
@@ -28,7 +26,7 @@ void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, GlobalContext* g
 const ActorInit Bg_Spot00_Hanebasi_InitVars = {
     ACTOR_BG_SPOT00_HANEBASI,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_SPOT00_OBJECTS,
     sizeof(BgSpot00Hanebasi),
     (ActorFunc)BgSpot00Hanebasi_Init,

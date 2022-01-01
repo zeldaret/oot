@@ -8,8 +8,6 @@
 #include "objects/object_md/object_md.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void EnMd_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx);
 const ActorInit En_Md_InitVars = {
     ACTOR_EN_MD,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_MD,
     sizeof(EnMd),
     (ActorFunc)EnMd_Init,

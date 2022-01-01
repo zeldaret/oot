@@ -7,8 +7,6 @@
 #include "z_bg_spot08_iceblock.h"
 #include "objects/object_spot08_obj/object_spot08_obj.h"
 
-#define FLAGS 0
-
 void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Iceblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Iceblock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void BgSpot08Iceblock_SetupNoAction(BgSpot08Iceblock* this);
 const ActorInit Bg_Spot08_Iceblock_InitVars = {
     ACTOR_BG_SPOT08_ICEBLOCK,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_SPOT08_OBJ,
     sizeof(BgSpot08Iceblock),
     (ActorFunc)BgSpot08Iceblock_Init,

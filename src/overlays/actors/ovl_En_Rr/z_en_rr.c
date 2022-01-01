@@ -8,8 +8,6 @@
 #include "objects/object_rr/object_rr.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
-
 #define RR_MESSAGE_SHIELD (1 << 0)
 #define RR_MESSAGE_TUNIC (1 << 1)
 #define RR_MOUTH 4
@@ -67,7 +65,7 @@ void EnRr_Stunned(EnRr* this, GlobalContext* globalCtx);
 const ActorInit En_Rr_InitVars = {
     ACTOR_EN_RR,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10,
     OBJECT_RR,
     sizeof(EnRr),
     (ActorFunc)EnRr_Init,

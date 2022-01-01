@@ -8,8 +8,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "objects/object_dekunuts/object_dekunuts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 #define DEKUNUTS_FLOWER 10
 
 void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ void EnDekunuts_Die(EnDekunuts* this, GlobalContext* globalCtx);
 const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_DEKUNUTS,
     sizeof(EnDekunuts),
     (ActorFunc)EnDekunuts_Init,

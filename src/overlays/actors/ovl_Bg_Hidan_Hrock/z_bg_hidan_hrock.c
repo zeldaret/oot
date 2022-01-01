@@ -7,8 +7,6 @@
 #include "z_bg_hidan_hrock.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0
-
 void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHrock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHrock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_808894A4(BgHidanHrock* this, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Hrock_InitVars = {
     ACTOR_BG_HIDAN_HROCK,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanHrock),
     (ActorFunc)BgHidanHrock_Init,

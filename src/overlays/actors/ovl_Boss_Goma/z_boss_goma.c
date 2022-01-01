@@ -4,8 +4,6 @@
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 // IRIS_FOLLOW: gohma looks towards the player (iris rotation)
 // BONUS_IFRAMES: gain invincibility frames when the player does something (throwing things?), or
 // randomly (see BossGoma_UpdateEye)
@@ -52,7 +50,7 @@ void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 i);
 const ActorInit Boss_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GOMA,
     sizeof(BossGoma),
     (ActorFunc)BossGoma_Init,

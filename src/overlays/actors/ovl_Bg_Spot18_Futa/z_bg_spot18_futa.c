@@ -7,8 +7,6 @@
 #include "z_bg_spot18_futa.h"
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 
-#define FLAGS 0
-
 void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void BgSpot18Futa_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Spot18_Futa_InitVars = {
     ACTOR_BG_SPOT18_FUTA,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Futa),
     (ActorFunc)BgSpot18Futa_Init,

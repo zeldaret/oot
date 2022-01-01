@@ -7,8 +7,6 @@
 #include "z_en_tp.h"
 #include "objects/object_tp/object_tp.h"
 
-#define FLAGS 0
-
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTp_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -42,7 +40,7 @@ typedef enum {
 const ActorInit En_Tp_InitVars = {
     ACTOR_EN_TP,
     ACTORCAT_ENEMY,
-    FLAGS,
+    0,
     OBJECT_TP,
     sizeof(EnTp),
     (ActorFunc)EnTp_Init,

@@ -1,8 +1,6 @@
 #include "z_en_dh.h"
 #include "objects/object_dh/object_dh.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
-
 typedef enum {
     /* 0 */ DH_WAIT,
     /* 1 */ DH_RETREAT,
@@ -34,7 +32,7 @@ void EnDh_Death(EnDh* this, GlobalContext* globalCtx);
 const ActorInit En_Dh_InitVars = {
     ACTOR_EN_DH,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10,
     OBJECT_DH,
     sizeof(EnDh),
     (ActorFunc)EnDh_Init,

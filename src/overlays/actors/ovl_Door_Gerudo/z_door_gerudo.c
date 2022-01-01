@@ -7,8 +7,6 @@
 #include "z_door_gerudo.h"
 #include "objects/object_door_gerudo/object_door_gerudo.h"
 
-#define FLAGS 0
-
 void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorGerudo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorGerudo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void func_809949C8(DoorGerudo* this, GlobalContext* globalCtx);
 const ActorInit Door_Gerudo_InitVars = {
     ACTOR_DOOR_GERUDO,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_DOOR_GERUDO,
     sizeof(DoorGerudo),
     (ActorFunc)DoorGerudo_Init,

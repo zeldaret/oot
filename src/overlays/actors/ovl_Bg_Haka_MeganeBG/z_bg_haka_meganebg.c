@@ -7,8 +7,6 @@
 #include "z_bg_haka_meganebg.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0
-
 void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMeganeBG_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMeganeBG_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void func_8087E34C(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_MeganeBG_InitVars = {
     ACTOR_BG_HAKA_MEGANEBG,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaMeganeBG),
     (ActorFunc)BgHakaMeganeBG_Init,

@@ -7,8 +7,6 @@
 #include "z_en_wonder_talk2.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
-
 void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void EnWonderTalk2_DoNothing(EnWonderTalk2* this, GlobalContext* globalCtx);
 const ActorInit En_Wonder_Talk2_InitVars = {
     ACTOR_EN_WONDER_TALK2,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWonderTalk2),
     (ActorFunc)EnWonderTalk2_Init,

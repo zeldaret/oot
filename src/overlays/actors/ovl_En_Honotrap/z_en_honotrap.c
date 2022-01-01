@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 #define HONOTRAP_AT_ACTIVE (1 << 0)
 #define HONOTRAP_AC_ACTIVE (1 << 1)
 #define HONOTRAP_OC_ACTIVE (1 << 2)
@@ -50,7 +48,7 @@ void EnHonotrap_FlameVanish(EnHonotrap* this, GlobalContext* globalCtx);
 const ActorInit En_Honotrap_InitVars = {
     ACTOR_EN_HONOTRAP,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(EnHonotrap),
     (ActorFunc)EnHonotrap_Init,

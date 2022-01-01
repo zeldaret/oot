@@ -13,8 +13,6 @@
 #include "objects/object_mori_hineri2a/object_mori_hineri2a.h"
 #include "objects/object_mori_tex/object_mori_tex.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,7 +30,7 @@ static s16 sNextCamIdx = SUBCAM_NONE;
 const ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgMoriHineri),
     (ActorFunc)BgMoriHineri_Init,

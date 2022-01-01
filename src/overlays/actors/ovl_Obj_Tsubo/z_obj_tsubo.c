@@ -9,8 +9,6 @@
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
-
 void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -39,7 +37,7 @@ static s16 D_80BA1B5C = 0;
 const ActorInit Obj_Tsubo_InitVars = {
     ACTOR_OBJ_TSUBO,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_23,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjTsubo),
     (ActorFunc)ObjTsubo_Init,

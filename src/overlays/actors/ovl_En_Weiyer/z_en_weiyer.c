@@ -7,8 +7,6 @@
 #include "z_en_weiyer.h"
 #include "objects/object_ei/object_ei.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnWeiyer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWeiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWeiyer_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx);
 const ActorInit En_Weiyer_InitVars = {
     ACTOR_EN_WEIYER,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_EI,
     sizeof(EnWeiyer),
     (ActorFunc)EnWeiyer_Init,

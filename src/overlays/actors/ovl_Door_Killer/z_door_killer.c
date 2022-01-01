@@ -11,8 +11,6 @@
 #include "objects/object_haka_door/object_haka_door.h"
 #include "objects/object_door_killer/object_door_killer.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef enum {
     /* 0 */ DOOR_KILLER_DOOR,
     /* 1 */ DOOR_KILLER_RUBBLE_PIECE_1,
@@ -32,7 +30,7 @@ void DoorKiller_DrawRubble(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Door_Killer_InitVars = {
     ACTOR_DOOR_KILLER,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_DOOR_KILLER,
     sizeof(DoorKiller),
     (ActorFunc)DoorKiller_Init,

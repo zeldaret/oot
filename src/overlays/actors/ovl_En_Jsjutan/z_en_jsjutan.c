@@ -7,8 +7,6 @@
 #include "z_en_jsjutan.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnJsjutan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Jsjutan_InitVars = {
     ACTOR_EN_JSJUTAN,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnJsjutan),
     (ActorFunc)EnJsjutan_Init,

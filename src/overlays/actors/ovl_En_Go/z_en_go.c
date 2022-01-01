@@ -3,8 +3,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx);
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_OF1D_MAP,
     sizeof(EnGo),
     (ActorFunc)EnGo_Init,

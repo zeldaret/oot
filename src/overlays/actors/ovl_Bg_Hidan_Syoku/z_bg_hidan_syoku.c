@@ -7,8 +7,6 @@
 #include "z_bg_hidan_syoku.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Syoku_InitVars = {
     ACTOR_BG_HIDAN_SYOKU,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanSyoku),
     (ActorFunc)BgHidanSyoku_Init,

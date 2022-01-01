@@ -15,8 +15,6 @@
 #include "objects/object_ganon/object_ganon.h"
 #include "objects/object_opening_demo1/object_opening_demo1.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ static u8 sHorseSfxPlayed = false;
 const ActorInit En_Viewer_InitVars = {
     ACTOR_EN_VIEWER,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnViewer),
     (ActorFunc)EnViewer_Init,

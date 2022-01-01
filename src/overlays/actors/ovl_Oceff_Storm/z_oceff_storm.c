@@ -6,8 +6,6 @@
 
 #include "z_oceff_storm.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
-
 void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void OceffStorm_UnkAction(OceffStorm* this, GlobalContext* globalCtx);
 const ActorInit Oceff_Storm_InitVars = {
     ACTOR_OCEFF_STORM,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffStorm),
     (ActorFunc)OceffStorm_Init,

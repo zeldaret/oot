@@ -7,8 +7,6 @@
 #include "z_en_eg.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnEg_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnEg_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ static EnEgActionFunc sActionFuncs[] = {
 const ActorInit En_Eg_InitVars = {
     ACTOR_EN_EG,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_ZL2,
     sizeof(EnEg),
     (ActorFunc)EnEg_Init,

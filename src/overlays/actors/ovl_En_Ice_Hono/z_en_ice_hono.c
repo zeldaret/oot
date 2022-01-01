@@ -7,8 +7,6 @@
 #include "z_en_ice_hono.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0
-
 void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -27,7 +25,7 @@ void EnIceHono_SetupActionSmallFlame(EnIceHono* this);
 const ActorInit En_Ice_Hono_InitVars = {
     ACTOR_EN_ICE_HONO,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnIceHono),
     (ActorFunc)EnIceHono_Init,

@@ -7,8 +7,6 @@
 #include "z_bg_mizu_uzu.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS 0
-
 void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuUzu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuUzu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx);
 const ActorInit Bg_Mizu_Uzu_InitVars = {
     ACTOR_BG_MIZU_UZU,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuUzu),
     (ActorFunc)BgMizuUzu_Init,

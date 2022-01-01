@@ -1,8 +1,6 @@
 #include "z_en_eiyer.h"
 #include "objects/object_ei/object_ei.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -38,7 +36,7 @@ void EnEiyer_Stunned(EnEiyer* this, GlobalContext* globalCtx);
 const ActorInit En_Eiyer_InitVars = {
     ACTOR_EN_EIYER,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_EI,
     sizeof(EnEiyer),
     (ActorFunc)EnEiyer_Init,

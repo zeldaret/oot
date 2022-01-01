@@ -7,8 +7,6 @@
 #include "z_bg_hidan_firewall.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0
-
 void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFirewall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
 const ActorInit Bg_Hidan_Firewall_InitVars = {
     ACTOR_BG_HIDAN_FIREWALL,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanFirewall),
     (ActorFunc)BgHidanFirewall_Init,

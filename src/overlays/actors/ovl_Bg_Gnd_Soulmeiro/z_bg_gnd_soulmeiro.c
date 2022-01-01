@@ -8,8 +8,6 @@
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "global.h"
 
-#define FLAGS 0
-
 void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void func_8087B350(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 const ActorInit Bg_Gnd_Soulmeiro_InitVars = {
     ACTOR_BG_GND_SOULMEIRO,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndSoulmeiro),
     (ActorFunc)BgGndSoulmeiro_Init,

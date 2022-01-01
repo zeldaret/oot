@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_fw/object_fw.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
-
 #define FLG_COREDEAD (0x4000)
 #define FLG_COREDONE (0x8000)
 
@@ -33,7 +31,7 @@ void EnFd_Land(EnFd* this, GlobalContext* globalCtx);
 const ActorInit En_Fd_InitVars = {
     ACTOR_EN_FD,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9,
     OBJECT_FW,
     sizeof(EnFd),
     (ActorFunc)EnFd_Init,

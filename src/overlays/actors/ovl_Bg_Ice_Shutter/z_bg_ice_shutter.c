@@ -7,8 +7,6 @@
 #include "z_bg_ice_shutter.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShutter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_80891DD4(BgIceShutter* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Ice_Shutter_InitVars = {
     ACTOR_BG_ICE_SHUTTER,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceShutter),
     (ActorFunc)BgIceShutter_Init,

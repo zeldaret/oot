@@ -7,8 +7,6 @@
 #include "z_en_cow.h"
 #include "objects/object_cow/object_cow.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnCow_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnCow_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnCow_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -28,7 +26,7 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx);
 const ActorInit En_Cow_InitVars = {
     ACTOR_EN_COW,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_COW,
     sizeof(EnCow),
     (ActorFunc)EnCow_Init,

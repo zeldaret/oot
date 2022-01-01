@@ -4,8 +4,6 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef void (*DemoDuActionFunc)(DemoDu*, GlobalContext*);
 typedef void (*DemoDuDrawFunc)(Actor*, GlobalContext*);
 
@@ -1037,7 +1035,7 @@ void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
 const ActorInit Demo_Du_InitVars = {
     ACTOR_DEMO_DU,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_DU,
     sizeof(DemoDu),
     (ActorFunc)DemoDu_Init,

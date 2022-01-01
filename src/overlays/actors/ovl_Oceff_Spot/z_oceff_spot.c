@@ -7,8 +7,6 @@
 #include "z_oceff_spot.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void OceffSpot_GrowCylinder(OceffSpot* this, GlobalContext* globalCtx);
 const ActorInit Oceff_Spot_InitVars = {
     ACTOR_OCEFF_SPOT,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffSpot),
     (ActorFunc)OceffSpot_Init,

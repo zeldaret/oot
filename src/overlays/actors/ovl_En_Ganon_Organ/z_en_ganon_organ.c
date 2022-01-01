@@ -7,8 +7,6 @@
 #include "z_en_ganon_organ.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonOrgan_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Ganon_Organ_InitVars = {
     ACTOR_EN_GANON_ORGAN,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GANON,
     sizeof(EnGanonOrgan),
     (ActorFunc)EnGanonOrgan_Init,

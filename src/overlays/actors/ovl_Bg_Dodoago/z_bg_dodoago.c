@@ -8,8 +8,6 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS 0
-
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void BgDodoago_LightOneEye(BgDodoago* this, GlobalContext* globalCtx);
 const ActorInit Bg_Dodoago_InitVars = {
     ACTOR_BG_DODOAGO,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_DDAN_OBJECTS,
     sizeof(BgDodoago),
     (ActorFunc)BgDodoago_Init,

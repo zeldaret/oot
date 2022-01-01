@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_syokudai/object_syokudai.h"
 
-#define FLAGS 0
-
 typedef enum {
     POE_FLAME_PURPLE, // Meg
     POE_FLAME_RED,    // Joelle
@@ -61,7 +59,7 @@ static Color_RGBA8 sEnvColors[] = {
 const ActorInit Bg_Po_Syokudai_InitVars = {
     ACTOR_BG_PO_SYOKUDAI,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_SYOKUDAI,
     sizeof(BgPoSyokudai),
     (ActorFunc)BgPoSyokudai_Init,

@@ -7,8 +7,6 @@
 #include "z_en_vase.h"
 #include "objects/object_vase/object_vase.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnVase_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVase_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVase_Draw(Actor* thisx, GlobalContext* globalCtx);
@@ -16,7 +14,7 @@ void EnVase_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Vase_InitVars = {
     ACTOR_EN_VASE,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_VASE,
     sizeof(EnVase),
     (ActorFunc)EnVase_Init,

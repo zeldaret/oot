@@ -7,8 +7,6 @@
 #include "z_bg_mori_kaitenkabe.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0
-
 void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
     ACTOR_BG_MORI_KAITENKABE,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriKaitenkabe),
     (ActorFunc)BgMoriKaitenkabe_Init,

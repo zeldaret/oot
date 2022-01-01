@@ -7,8 +7,6 @@
 #include "z_eff_dust.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EffDust_Init(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EffDust),
     (ActorFunc)EffDust_Init,

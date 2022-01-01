@@ -7,8 +7,6 @@
 #include "z_en_ba.h"
 #include "objects/object_bxa/object_bxa.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 void EnBa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void EnBa_SetupSwingAtPlayer(EnBa* this);
 const ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_BXA,
     sizeof(EnBa),
     (ActorFunc)EnBa_Init,

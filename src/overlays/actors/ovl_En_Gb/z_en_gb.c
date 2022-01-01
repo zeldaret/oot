@@ -7,8 +7,6 @@
 #include "z_en_gb.h"
 #include "objects/object_ps/object_ps.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnGb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGb_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ void EnGb_UpdateCagedSouls(EnGb* this, GlobalContext* globalCtx);
 const ActorInit En_Gb_InitVars = {
     ACTOR_EN_GB,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_PS,
     sizeof(EnGb),
     (ActorFunc)EnGb_Init,

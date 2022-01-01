@@ -7,8 +7,6 @@
 #include "z_en_js.h"
 #include "objects/object_js/object_js.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnJs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnJs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void func_80A89304(EnJs* this, GlobalContext* globalCtx);
 const ActorInit En_Js_InitVars = {
     ACTOR_EN_JS,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_JS,
     sizeof(EnJs),
     (ActorFunc)EnJs_Init,

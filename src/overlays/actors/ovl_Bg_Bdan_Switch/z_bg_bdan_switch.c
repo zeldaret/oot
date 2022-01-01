@@ -7,8 +7,6 @@
 #include "z_bg_bdan_switch.h"
 #include "objects/object_bdan_objects/object_bdan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBdanSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -45,7 +43,7 @@ void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx);
 const ActorInit Bg_Bdan_Switch_InitVars = {
     ACTOR_BG_BDAN_SWITCH,
     ACTORCAT_SWITCH,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_BDAN_OBJECTS,
     sizeof(BgBdanSwitch),
     (ActorFunc)BgBdanSwitch_Init,

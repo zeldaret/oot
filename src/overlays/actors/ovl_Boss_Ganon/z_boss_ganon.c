@@ -9,8 +9,6 @@
 #include "assets/objects/object_ganon_anime2/object_ganon_anime2.h"
 #include "assets/scenes/dungeons/ganon_boss/ganon_boss_scene.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -48,7 +46,7 @@ s32 BossGanon_CheckFallingPlatforms(BossGanon* this, GlobalContext* globalCtx, V
 const ActorInit Boss_Ganon_InitVars = {
     ACTOR_BOSS_GANON,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GANON,
     sizeof(BossGanon),
     (ActorFunc)BossGanon_Init,

@@ -7,8 +7,6 @@
 #include "z_bg_spot02_objects.h"
 #include "objects/object_spot02_objects/object_spot02_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot02Objects_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot02Objects_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ static void* D_808AD850[] = {
 const ActorInit Bg_Spot02_Objects_InitVars = {
     ACTOR_BG_SPOT02_OBJECTS,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_SPOT02_OBJECTS,
     sizeof(BgSpot02Objects),
     (ActorFunc)BgSpot02Objects_Init,

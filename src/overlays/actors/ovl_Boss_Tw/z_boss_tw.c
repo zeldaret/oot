@@ -3,8 +3,6 @@
 #include "objects/object_tw/object_tw.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 typedef enum {
     /*  0 */ TWEFF_NONE,
     /*  1 */ TWEFF_DOT,
@@ -117,7 +115,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx);
 const ActorInit Boss_Tw_InitVars = {
     ACTOR_BOSS_TW,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_TW,
     sizeof(BossTw),
     (ActorFunc)BossTw_Init,

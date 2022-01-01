@@ -9,8 +9,6 @@
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 #include "objects/object_lightswitch/object_lightswitch.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef enum {
     /* 0x00 */ FACE_EYES_CLOSED,
     /* 0x01 */ FACE_EYES_OPEN,
@@ -38,7 +36,7 @@ void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx);
 const ActorInit Obj_Lightswitch_InitVars = {
     ACTOR_OBJ_LIGHTSWITCH,
     ACTORCAT_SWITCH,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_LIGHTSWITCH,
     sizeof(ObjLightswitch),
     (ActorFunc)ObjLightswitch_Init,

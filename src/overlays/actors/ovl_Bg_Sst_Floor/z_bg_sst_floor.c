@@ -7,8 +7,6 @@
 #include "z_bg_sst_floor.h"
 #include "objects/object_sst/object_sst.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgSstFloor_Init(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Destroy(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Update(BgSstFloor* this, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 const ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_SST,
     sizeof(BgSstFloor),
     (ActorFunc)BgSstFloor_Init,

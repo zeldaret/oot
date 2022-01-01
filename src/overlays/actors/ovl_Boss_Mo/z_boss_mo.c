@@ -10,8 +10,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 #define MO_WATER_LEVEL(globalCtx) globalCtx->colCtx.colHeader->waterBoxes[0].ySurface
 
 #define HAS_LINK(tent) \
@@ -119,7 +117,7 @@ typedef enum {
 const ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_MO,
     sizeof(BossMo),
     (ActorFunc)BossMo_Init,

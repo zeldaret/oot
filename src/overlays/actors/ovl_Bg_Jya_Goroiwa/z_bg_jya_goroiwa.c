@@ -8,8 +8,6 @@
 #include "z_bg_jya_goroiwa.h"
 #include "objects/object_goroiwa/object_goroiwa.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void BgJyaGoroiwa_UpdateCollider(BgJyaGoroiwa* this);
 const ActorInit Bg_Jya_Goroiwa_InitVars = {
     ACTOR_BG_JYA_GOROIWA,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GOROIWA,
     sizeof(BgJyaGoroiwa),
     (ActorFunc)BgJyaGoroiwa_Init,

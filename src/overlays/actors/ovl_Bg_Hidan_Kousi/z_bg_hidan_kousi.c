@@ -7,8 +7,6 @@
 #include "z_bg_hidan_kousi.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanKousi_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 const ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanKousi),
     (ActorFunc)BgHidanKousi_Init,

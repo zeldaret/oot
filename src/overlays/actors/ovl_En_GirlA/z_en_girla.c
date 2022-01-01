@@ -7,8 +7,6 @@
 #include "z_en_girla.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGirlA_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -70,7 +68,7 @@ void EnGirlA_BuyEvent_ZoraTunic(GlobalContext* globalCtx, EnGirlA* this);
 const ActorInit En_GirlA_InitVars = {
     ACTOR_EN_GIRLA,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGirlA),
     (ActorFunc)EnGirlA_Init,

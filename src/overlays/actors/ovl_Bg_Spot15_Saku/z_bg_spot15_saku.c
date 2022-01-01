@@ -7,8 +7,6 @@
 #include "z_bg_spot15_saku.h"
 #include "objects/object_spot15_obj/object_spot15_obj.h"
 
-#define FLAGS 0
-
 void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Saku_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot15_Saku_InitVars = {
     ACTOR_BG_SPOT15_SAKU,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_SPOT15_OBJ,
     sizeof(BgSpot15Saku),
     (ActorFunc)BgSpot15Saku_Init,

@@ -9,8 +9,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnExItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnExItem_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ void EnExItem_TargetPrizeFinish(EnExItem* this, GlobalContext* globalCtx);
 const ActorInit En_Ex_Item_InitVars = {
     ACTOR_EN_EX_ITEM,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnExItem),
     (ActorFunc)EnExItem_Init,

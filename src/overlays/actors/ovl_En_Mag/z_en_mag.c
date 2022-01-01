@@ -7,8 +7,6 @@
 #include "z_en_mag.h"
 #include "objects/object_mag/object_mag.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnMag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMag_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void EnMag_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Mag_InitVars = {
     ACTOR_EN_MAG,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_MAG,
     sizeof(EnMag),
     (ActorFunc)EnMag_Init,

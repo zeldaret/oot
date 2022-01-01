@@ -7,8 +7,6 @@
 #include "z_bg_ydan_maruta.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS 0
-
 void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanMaruta_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void func_808BF1EC(BgYdanMaruta* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ydan_Maruta_InitVars = {
     ACTOR_BG_YDAN_MARUTA,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_YDAN_OBJECTS,
     sizeof(BgYdanMaruta),
     (ActorFunc)BgYdanMaruta_Init,

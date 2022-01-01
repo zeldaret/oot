@@ -9,8 +9,6 @@
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "objects/object_wf/object_wf.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 void EnWf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -190,7 +188,7 @@ static DamageTable sDamageTable = {
 const ActorInit En_Wf_InitVars = {
     ACTOR_EN_WF,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_WF,
     sizeof(EnWf),
     (ActorFunc)EnWf_Init,

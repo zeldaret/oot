@@ -7,8 +7,6 @@
 #include "z_bg_mori_hashigo.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0
-
 void BgMoriHashigo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashigo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashigo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -27,7 +25,7 @@ void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 const ActorInit Bg_Mori_Hashigo_InitVars = {
     ACTOR_BG_MORI_HASHIGO,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriHashigo),
     (ActorFunc)BgMoriHashigo_Init,

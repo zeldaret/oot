@@ -7,8 +7,6 @@
 #include "z_en_toryo.h"
 #include "objects/object_toryo/object_toryo.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnToryo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void EnToryo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 const ActorInit En_Toryo_InitVars = {
     ACTOR_EN_TORYO,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_TORYO,
     sizeof(EnToryo),
     (ActorFunc)EnToryo_Init,

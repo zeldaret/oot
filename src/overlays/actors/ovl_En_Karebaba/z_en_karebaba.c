@@ -9,8 +9,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKarebaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,7 +30,7 @@ void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx);
 const ActorInit En_Karebaba_InitVars = {
     ACTOR_EN_KAREBABA,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_DEKUBABA,
     sizeof(EnKarebaba),
     (ActorFunc)EnKarebaba_Init,

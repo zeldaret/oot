@@ -7,8 +7,6 @@
 #include "z_bg_ddan_kd.h"
 #include "objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanKd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void BgDdanKd_DoNothing(BgDdanKd* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ddan_Kd_InitVars = {
     ACTOR_BG_DDAN_KD,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_DDAN_OBJECTS,
     sizeof(BgDdanKd),
     (ActorFunc)BgDdanKd_Init,

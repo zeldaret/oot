@@ -7,8 +7,6 @@
 #include "z_en_skjneedle.h"
 #include "objects/object_skj/object_skj.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_9)
-
 void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this);
 const ActorInit En_Skjneedle_InitVars = {
     ACTOR_EN_SKJNEEDLE,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_9,
     OBJECT_SKJ,
     sizeof(EnSkjneedle),
     (ActorFunc)EnSkjneedle_Init,

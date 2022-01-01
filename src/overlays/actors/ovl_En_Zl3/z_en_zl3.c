@@ -12,8 +12,6 @@
 #include "objects/object_zl2/object_zl2.h"
 #include "objects/object_zl2_anime2/object_zl2_anime2.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -2764,7 +2762,7 @@ void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx) {
 const ActorInit En_Zl3_InitVars = {
     ACTOR_EN_ZL3,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_ZL2,
     sizeof(EnZl3),
     (ActorFunc)EnZl3_Init,

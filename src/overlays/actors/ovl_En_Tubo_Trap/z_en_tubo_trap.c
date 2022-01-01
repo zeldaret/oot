@@ -9,8 +9,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTuboTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ static ColliderCylinderInit sCylinderInit = {
 const ActorInit En_Tubo_Trap_InitVars = {
     ACTOR_EN_TUBO_TRAP,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(EnTuboTrap),
     (ActorFunc)EnTuboTrap_Init,

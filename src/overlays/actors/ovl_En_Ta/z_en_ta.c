@@ -8,8 +8,6 @@
 #include "vt.h"
 #include "objects/object_ta/object_ta.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnTa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ void func_80B16938(EnTa* this);
 const ActorInit En_Ta_InitVars = {
     ACTOR_EN_TA,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_TA,
     sizeof(EnTa),
     (ActorFunc)EnTa_Init,

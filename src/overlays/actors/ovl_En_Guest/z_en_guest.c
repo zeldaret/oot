@@ -9,8 +9,6 @@
 #include "objects/object_boj/object_boj.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Guest_InitVars = {
     ACTOR_EN_GUEST,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_BOJ,
     sizeof(EnGuest),
     (ActorFunc)EnGuest_Init,

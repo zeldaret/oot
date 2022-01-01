@@ -6,8 +6,6 @@
 
 #include "z_en_sda.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnSda_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSda_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSda_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -20,7 +18,7 @@ void func_80AF8F60(Player* player, u8* shadowTexture, f32 arg2);
 const ActorInit En_Sda_InitVars = {
     ACTOR_EN_SDA,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnSda),
     (ActorFunc)EnSda_Init,

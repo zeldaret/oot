@@ -4,8 +4,6 @@
 #include "scenes/overworld/spot04/spot04_scene.h"
 #include "scenes/overworld/spot05/spot05_scene.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void EnSa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ typedef enum {
 const ActorInit En_Sa_InitVars = {
     ACTOR_EN_SA,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_SA,
     sizeof(EnSa),
     (ActorFunc)EnSa_Init,

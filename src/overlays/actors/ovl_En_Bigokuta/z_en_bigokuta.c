@@ -1,8 +1,6 @@
 #include "z_en_bigokuta.h"
 #include "objects/object_bigokuta/object_bigokuta.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ static Vec3f sEffectPosAccel = { 0.0f, 0.0f, 0.0f };
 const ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_BIGOKUTA,
     sizeof(EnBigokuta),
     (ActorFunc)EnBigokuta_Init,

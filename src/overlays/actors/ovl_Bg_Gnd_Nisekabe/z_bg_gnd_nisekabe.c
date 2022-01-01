@@ -7,8 +7,6 @@
 #include "z_bg_gnd_nisekabe.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndNisekabe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void BgGndNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Gnd_Nisekabe_InitVars = {
     ACTOR_BG_GND_NISEKABE,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndNisekabe),
     (ActorFunc)BgGndNisekabe_Init,

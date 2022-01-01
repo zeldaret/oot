@@ -7,8 +7,6 @@
 #include "z_en_bdfire.h"
 #include "objects/object_kingdodongo/object_kingdodongo.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_809BC598(EnBdfire* this, GlobalContext* globalCtx);
 const ActorInit En_Bdfire_InitVars = {
     0,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_KINGDODONGO,
     sizeof(EnBdfire),
     (ActorFunc)EnBdfire_Init,

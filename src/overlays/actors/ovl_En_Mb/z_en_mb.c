@@ -14,8 +14,6 @@
  * - "Spear Patrol" (variable 0xPP00 PP=pathId): uses a spear, patrols following a path, charges
  */
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 typedef enum {
     /* -1 */ ENMB_TYPE_SPEAR_GUARD = -1,
     /*  0 */ ENMB_TYPE_CLUB,
@@ -56,7 +54,7 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Mb_InitVars = {
     ACTOR_EN_MB,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_MB,
     sizeof(EnMb),
     (ActorFunc)EnMb_Init,

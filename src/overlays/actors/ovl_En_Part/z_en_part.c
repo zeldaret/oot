@@ -8,8 +8,6 @@
 #include "objects/object_tite/object_tite.h"
 #include "objects/object_ik/object_ik.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnPart_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Part_InitVars = {
     ACTOR_EN_PART,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnPart),
     (ActorFunc)EnPart_Init,

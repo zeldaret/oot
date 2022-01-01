@@ -1,8 +1,6 @@
 #include "z_en_shopnuts.h"
 #include "objects/object_shopnuts/object_shopnuts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnShopnuts_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void EnShopnuts_SpawnSalesman(EnShopnuts* this, GlobalContext* globalCtx);
 const ActorInit En_Shopnuts_InitVars = {
     ACTOR_EN_SHOPNUTS,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_SHOPNUTS,
     sizeof(EnShopnuts),
     (ActorFunc)EnShopnuts_Init,

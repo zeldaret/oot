@@ -6,8 +6,6 @@
 
 #include "z_obj_mure2.h"
 
-#define FLAGS 0
-
 typedef void (*ObjMure2SetPosFunc)(Vec3f* vec, ObjMure2* this);
 
 typedef struct {
@@ -31,7 +29,7 @@ void func_80B9A6E8(ObjMure2* this);
 const ActorInit Obj_Mure2_InitVars = {
     ACTOR_OBJ_MURE2,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMure2),
     (ActorFunc)ObjMure2_Init,

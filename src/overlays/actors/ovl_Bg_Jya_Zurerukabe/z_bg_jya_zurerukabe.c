@@ -8,8 +8,6 @@
 #include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaZurerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaZurerukabe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ static f32 D_8089B9C0[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 const ActorInit Bg_Jya_Zurerukabe_InitVars = {
     ACTOR_BG_JYA_ZURERUKABE,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaZurerukabe),
     (ActorFunc)BgJyaZurerukabe_Init,

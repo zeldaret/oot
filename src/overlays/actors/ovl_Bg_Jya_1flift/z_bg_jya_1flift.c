@@ -7,8 +7,6 @@
 #include "z_bg_jya_1flift.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -28,7 +26,7 @@ static u8 sIsSpawned = false;
 const ActorInit Bg_Jya_1flift_InitVars = {
     ACTOR_BG_JYA_1FLIFT,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_JYA_OBJ,
     sizeof(BgJya1flift),
     (ActorFunc)BgJya1flift_Init,

@@ -11,8 +11,6 @@
 #include "objects/object_im/object_im.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
-
 void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoIm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -93,7 +91,7 @@ static DemoImDrawFunc sDrawFuncs[] = {
 const ActorInit Demo_Im_InitVars = {
     ACTOR_DEMO_IM,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_4,
     OBJECT_IM,
     sizeof(DemoIm),
     (ActorFunc)DemoIm_Init,

@@ -10,8 +10,6 @@
 #include "objects/object_bowl/object_bowl.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBowlWall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBowlWall_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx);
 const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_BOWL,
     sizeof(BgBowlWall),
     (ActorFunc)BgBowlWall_Init,

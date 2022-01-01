@@ -8,8 +8,6 @@
 #include "objects/object_gjyo_objects/object_gjyo_objects.h"
 #include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 
-#define FLAGS 0
-
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGjyoBridge_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx);
 const ActorInit Bg_Gjyo_Bridge_InitVars = {
     ACTOR_BG_GJYO_BRIDGE,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_GJYO_OBJECTS,
     sizeof(BgGjyoBridge),
     (ActorFunc)BgGjyoBridge_Init,

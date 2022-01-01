@@ -7,8 +7,6 @@
 #include "z_en_zl1.h"
 #include "objects/object_zl1/object_zl1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -30,7 +28,7 @@ extern CutsceneData D_80B4C5D0[];
 const ActorInit En_Zl1_InitVars = {
     ACTOR_EN_ZL1,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_ZL1,
     sizeof(EnZl1),
     (ActorFunc)EnZl1_Init,

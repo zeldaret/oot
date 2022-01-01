@@ -8,8 +8,6 @@
 #include "vt.h"
 #include "objects/object_hs/object_hs.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnHs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_80A6E6B0(EnHs* this, GlobalContext* globalCtx);
 const ActorInit En_Hs_InitVars = {
     ACTOR_EN_HS,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_HS,
     sizeof(EnHs),
     (ActorFunc)EnHs_Init,

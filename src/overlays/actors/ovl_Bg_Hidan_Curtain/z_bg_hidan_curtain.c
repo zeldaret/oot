@@ -7,8 +7,6 @@
 #include "z_bg_hidan_curtain.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -56,7 +54,7 @@ static BgHidanCurtainParams sHCParams[] = { { 81, 144, 0.090f, 144.0f, 5.0f }, {
 const ActorInit Bg_Hidan_Curtain_InitVars = {
     ACTOR_BG_HIDAN_CURTAIN,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHidanCurtain),
     (ActorFunc)BgHidanCurtain_Init,

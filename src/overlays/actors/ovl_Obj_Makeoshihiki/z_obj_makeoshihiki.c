@@ -8,13 +8,11 @@
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_5
-
 void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Obj_Makeoshihiki_InitVars = {
-    ACTOR_OBJ_MAKEOSHIHIKI,       ACTORCAT_PROP,           FLAGS,
+    ACTOR_OBJ_MAKEOSHIHIKI,       ACTORCAT_PROP,           ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_DANGEON_KEEP, sizeof(ObjMakeoshihiki), (ActorFunc)ObjMakeoshihiki_Init,
     (ActorFunc)Actor_Noop,        (ActorFunc)Actor_Noop,   (ActorFunc)ObjMakeoshihiki_Draw,
 };

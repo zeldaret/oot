@@ -7,8 +7,6 @@
 #include "z_en_ani.h"
 #include "objects/object_ani/object_ani.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnAni_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAni_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAni_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ void func_809B0A6C(EnAni* this, GlobalContext* globalCtx);
 const ActorInit En_Ani_InitVars = {
     ACTOR_EN_ANI,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_ANI,
     sizeof(EnAni),
     (ActorFunc)EnAni_Init,

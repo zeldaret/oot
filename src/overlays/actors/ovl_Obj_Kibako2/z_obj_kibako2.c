@@ -8,8 +8,6 @@
 #include "objects/object_kibako2/object_kibako2.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS 0
-
 void ObjKibako2_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -20,7 +18,7 @@ void ObjKibako2_Kill(ObjKibako2* this, GlobalContext* globalCtx);
 const ActorInit Obj_Kibako2_InitVars = {
     ACTOR_OBJ_KIBAKO2,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_KIBAKO2,
     sizeof(ObjKibako2),
     (ActorFunc)ObjKibako2_Init,

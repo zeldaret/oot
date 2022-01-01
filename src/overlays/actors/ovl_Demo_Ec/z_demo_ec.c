@@ -37,8 +37,6 @@
 #include "objects/object_bba/object_bba.h"
 #include "objects/object_ane/object_ane.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void DemoEc_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoEc_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoEc_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -1367,7 +1365,7 @@ void DemoEc_Draw(Actor* thisx, GlobalContext* globalCtx) {
 const ActorInit Demo_Ec_InitVars = {
     ACTOR_DEMO_EC,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_EC,
     sizeof(DemoEc),
     (ActorFunc)DemoEc_Init,

@@ -4,8 +4,6 @@
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -45,7 +43,7 @@ void EnGoma_SetupStunned(EnGoma* this, GlobalContext* globalCtx);
 const ActorInit En_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GOL,
     sizeof(EnGoma),
     (ActorFunc)EnGoma_Init,

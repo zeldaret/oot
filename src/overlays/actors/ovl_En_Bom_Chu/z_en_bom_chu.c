@@ -2,8 +2,6 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 #define BOMBCHU_SCALE 0.01f
 
 void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void EnBomChu_WaitForKill(EnBomChu* this, GlobalContext* globalCtx);
 const ActorInit En_Bom_Chu_InitVars = {
     ACTOR_EN_BOM_CHU,
     ACTORCAT_EXPLOSIVE,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBomChu),
     (ActorFunc)EnBomChu_Init,

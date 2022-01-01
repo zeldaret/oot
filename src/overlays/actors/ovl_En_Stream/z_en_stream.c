@@ -7,8 +7,6 @@
 #include "z_en_stream.h"
 #include "objects/object_stream/object_stream.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnStream_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx);
 const ActorInit En_Stream_InitVars = {
     ACTOR_EN_STREAM,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_STREAM,
     sizeof(EnStream),
     (ActorFunc)EnStream_Init,

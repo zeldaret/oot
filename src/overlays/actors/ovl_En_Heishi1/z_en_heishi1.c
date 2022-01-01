@@ -8,8 +8,6 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ static s32 sPlayerIsCaught = false;
 const ActorInit En_Heishi1_InitVars = {
     0,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_SD,
     sizeof(EnHeishi1),
     (ActorFunc)EnHeishi1_Init,

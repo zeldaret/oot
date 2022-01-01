@@ -7,8 +7,6 @@
 #include "z_en_ganon_mant.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonMant_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Ganon_Mant_InitVars = {
     ACTOR_EN_GANON_MANT,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGanonMant),
     (ActorFunc)EnGanonMant_Init,

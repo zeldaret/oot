@@ -2,8 +2,6 @@
 #include "objects/object_cs/object_cs.h"
 #include "objects/object_link_child/object_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnCs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnCs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnCs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_CS,
     sizeof(EnCs),
     (ActorFunc)EnCs_Init,

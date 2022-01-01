@@ -6,8 +6,6 @@
 
 #include "z_end_title.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EndTitle_Init(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EndTitle_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void EndTitle_DrawNintendoLogo(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit End_Title_InitVars = {
     ACTOR_END_TITLE,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EndTitle),
     (ActorFunc)EndTitle_Init,

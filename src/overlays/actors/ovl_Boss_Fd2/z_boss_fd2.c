@@ -10,8 +10,6 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 typedef enum {
     /* 0 */ DEATH_START,
     /* 1 */ DEATH_RETREAT,
@@ -49,7 +47,7 @@ void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx);
 const ActorInit Boss_Fd2_InitVars = {
     ACTOR_BOSS_FD2,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_FD2,
     sizeof(BossFd2),
     (ActorFunc)BossFd2_Init,

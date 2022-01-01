@@ -3,8 +3,6 @@
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "objects/object_dodongo/object_dodongo.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 typedef enum {
     DODONGO_SWEEP_TAIL,
     DODONGO_SWALLOW_BOMB,
@@ -39,7 +37,7 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx);
 const ActorInit En_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_DODONGO,
     sizeof(EnDodongo),
     (ActorFunc)EnDodongo_Init,

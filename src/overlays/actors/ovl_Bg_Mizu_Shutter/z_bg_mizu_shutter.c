@@ -1,8 +1,6 @@
 #include "z_bg_mizu_shutter.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 #define SIZE_PARAM (((u16)this->dyna.actor.params >> 0xC) & 0xF)
 #define TIMER_PARAM (((u16)this->dyna.actor.params >> 6) & 0x3F)
 
@@ -19,7 +17,7 @@ void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, GlobalContext* globalCtx
 const ActorInit Bg_Mizu_Shutter_InitVars = {
     ACTOR_BG_MIZU_SHUTTER,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuShutter),
     (ActorFunc)BgMizuShutter_Init,

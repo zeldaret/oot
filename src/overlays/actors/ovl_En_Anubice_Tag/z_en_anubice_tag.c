@@ -7,8 +7,6 @@
 #include "z_en_anubice_tag.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnAnubiceTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceTag_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -20,7 +18,7 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
 const ActorInit En_Anubice_Tag_InitVars = {
     ACTOR_EN_ANUBICE_TAG,
     ACTORCAT_SWITCH,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnAnubiceTag),
     (ActorFunc)EnAnubiceTag_Init,

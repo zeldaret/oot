@@ -9,8 +9,6 @@
 #include "objects/object_kanban/object_kanban.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 #define PART_UPPER_LEFT (1 << 0)
 #define PART_LEFT_UPPER (1 << 1)
 #define PART_LEFT_LOWER (1 << 2)
@@ -78,7 +76,7 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Kanban_InitVars = {
     ACTOR_EN_KANBAN,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_KANBAN,
     sizeof(EnKanban),
     (ActorFunc)EnKanban_Init,

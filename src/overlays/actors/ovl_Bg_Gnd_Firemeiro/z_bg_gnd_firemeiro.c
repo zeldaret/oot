@@ -7,8 +7,6 @@
 #include "z_bg_gnd_firemeiro.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndFiremeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void BgGndFiremeiro_Rise(BgGndFiremeiro* this, GlobalContext* globalCtx);
 const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     ACTOR_BG_GND_FIREMEIRO,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndFiremeiro),
     (ActorFunc)BgGndFiremeiro_Init,

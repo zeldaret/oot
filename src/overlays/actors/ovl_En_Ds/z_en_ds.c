@@ -7,8 +7,6 @@
 #include "z_en_ds.h"
 #include "objects/object_ds/object_ds.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx);
 const ActorInit En_Ds_InitVars = {
     ACTOR_EN_DS,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_DS,
     sizeof(EnDs),
     (ActorFunc)EnDs_Init,

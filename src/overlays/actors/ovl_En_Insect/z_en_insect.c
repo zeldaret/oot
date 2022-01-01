@@ -8,8 +8,6 @@
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0
-
 void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnInsect_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -38,7 +36,7 @@ static s16 D_80A7DEB8 = 0;
 const ActorInit En_Insect_InitVars = {
     ACTOR_EN_INSECT,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnInsect),
     (ActorFunc)EnInsect_Init,

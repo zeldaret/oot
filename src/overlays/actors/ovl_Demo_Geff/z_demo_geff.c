@@ -8,8 +8,6 @@
 #include "objects/object_geff/object_geff.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -45,7 +43,7 @@ static DemoGeffDrawFunc sDrawFuncs[] = {
 const ActorInit Demo_Geff_InitVars = {
     ACTOR_DEMO_GEFF,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GEFF,
     sizeof(DemoGeff),
     (ActorFunc)DemoGeff_Init,

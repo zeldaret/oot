@@ -7,8 +7,6 @@
 #include "z_bg_jya_block.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS 0
-
 void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBlock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void BgJyaBlock_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Jya_Block_InitVars = {
     ACTOR_BG_JYA_BLOCK,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(BgJyaBlock),
     (ActorFunc)BgJyaBlock_Init,

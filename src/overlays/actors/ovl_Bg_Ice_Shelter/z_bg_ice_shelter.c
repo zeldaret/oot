@@ -1,8 +1,6 @@
 #include "z_bg_ice_shelter.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS 0
-
 void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShelter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void func_808911D4(BgIceShelter* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ice_Shelter_InitVars = {
     ACTOR_BG_ICE_SHELTER,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceShelter),
     (ActorFunc)BgIceShelter_Init,

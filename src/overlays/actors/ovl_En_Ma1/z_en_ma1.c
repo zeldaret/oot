@@ -7,8 +7,6 @@
 #include "z_en_ma1.h"
 #include "objects/object_ma1/object_ma1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
-
 void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ void EnMa1_DoNothing(EnMa1* this, GlobalContext* globalCtx);
 const ActorInit En_Ma1_InitVars = {
     ACTOR_EN_MA1,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25,
     OBJECT_MA1,
     sizeof(EnMa1),
     (ActorFunc)EnMa1_Init,

@@ -9,8 +9,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_22
-
 void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -75,7 +73,7 @@ static ObjBean* D_80B90E30 = NULL;
 const ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_22,
     OBJECT_MAMENOKI,
     sizeof(ObjBean),
     (ActorFunc)ObjBean_Init,

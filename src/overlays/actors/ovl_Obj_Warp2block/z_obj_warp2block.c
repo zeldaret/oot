@@ -8,8 +8,6 @@
 #include "objects/object_timeblock/object_timeblock.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
-
 void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjWarp2block_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjWarp2block_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -31,7 +29,7 @@ void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx);
 const ActorInit Obj_Warp2block_InitVars = {
     ACTOR_OBJ_WARP2BLOCK,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27,
     OBJECT_TIMEBLOCK,
     sizeof(ObjWarp2block),
     (ActorFunc)ObjWarp2block_Init,

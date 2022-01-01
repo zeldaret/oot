@@ -8,8 +8,6 @@
 #include "vt.h"
 #include "objects/object_sb/object_sb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnSb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSb_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -28,7 +26,7 @@ void EnSb_Cooldown(EnSb* this, GlobalContext* globalCtx);
 const ActorInit En_Sb_InitVars = {
     ACTOR_EN_SB,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_SB,
     sizeof(EnSb),
     (ActorFunc)EnSb_Init,

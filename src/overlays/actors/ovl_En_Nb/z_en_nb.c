@@ -9,8 +9,6 @@
 #include "objects/object_nb/object_nb.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef enum {
     /* 0x00 */ NB_CHAMBER_INIT,
     /* 0x01 */ NB_CHAMBER_UNDERGROUND,
@@ -1531,7 +1529,7 @@ void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx) {
 const ActorInit En_Nb_InitVars = {
     ACTOR_EN_NB,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_NB,
     sizeof(EnNb),
     (ActorFunc)EnNb_Init,

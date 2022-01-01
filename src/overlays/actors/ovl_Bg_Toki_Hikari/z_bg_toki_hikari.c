@@ -7,8 +7,6 @@
 #include "z_bg_toki_hikari.h"
 #include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS ACTOR_FLAG_5
-
 void BgTokiHikari_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiHikari_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiHikari_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void func_808BA2CC(BgTokiHikari* this, GlobalContext* globalCtx);
 const ActorInit Bg_Toki_Hikari_InitVars = {
     ACTOR_BG_TOKI_HIKARI,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_5,
     OBJECT_TOKI_OBJECTS,
     sizeof(BgTokiHikari),
     (ActorFunc)BgTokiHikari_Init,

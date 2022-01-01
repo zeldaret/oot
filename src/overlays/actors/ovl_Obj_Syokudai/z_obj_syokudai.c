@@ -9,8 +9,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_syokudai/object_syokudai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_10)
-
 void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Obj_Syokudai_InitVars = {
     ACTOR_OBJ_SYOKUDAI,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_10,
     OBJECT_SYOKUDAI,
     sizeof(ObjSyokudai),
     (ActorFunc)ObjSyokudai_Init,

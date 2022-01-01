@@ -12,8 +12,6 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -53,7 +51,7 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx);
 const ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_SD,
     sizeof(EnHeishi2),
     (ActorFunc)EnHeishi2_Init,

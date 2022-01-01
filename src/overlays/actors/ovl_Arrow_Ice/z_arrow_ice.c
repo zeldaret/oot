@@ -8,8 +8,6 @@
 
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx);
 const ActorInit Arrow_Ice_InitVars = {
     ACTOR_ARROW_ICE,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ArrowIce),
     (ActorFunc)ArrowIce_Init,

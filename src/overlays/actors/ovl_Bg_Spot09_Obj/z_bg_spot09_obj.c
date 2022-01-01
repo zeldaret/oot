@@ -7,8 +7,6 @@
 #include "z_bg_spot09_obj.h"
 #include "objects/object_spot09_obj/object_spot09_obj.h"
 
-#define FLAGS 0
-
 void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot09Obj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot09Obj_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot09_Obj_InitVars = {
     ACTOR_BG_SPOT09_OBJ,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_SPOT09_OBJ,
     sizeof(BgSpot09Obj),
     (ActorFunc)BgSpot09Obj_Init,

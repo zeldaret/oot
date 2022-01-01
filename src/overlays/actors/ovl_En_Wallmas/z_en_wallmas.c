@@ -8,8 +8,6 @@
 #include "objects/object_wallmaster/object_wallmaster.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 #define TIMER_SCALE ((f32)OS_CLOCK_RATE / 10000000000)
 #define DEGREE_60_RAD (60.0f * M_PI / 180.0f)
 #define DEGREE_15_RAD (15.0f * M_PI / 180.0f)
@@ -43,7 +41,7 @@ void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx);
 const ActorInit En_Wallmas_InitVars = {
     ACTOR_EN_WALLMAS,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_WALLMASTER,
     sizeof(EnWallmas),
     (ActorFunc)EnWallmas_Init,

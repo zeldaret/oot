@@ -1,8 +1,6 @@
 #include "z_en_ny.h"
 #include "objects/object_ny/object_ny.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnNy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNy_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void func_80ABD3B8(EnNy* this, f32, f32);
 const ActorInit En_Ny_InitVars = {
     ACTOR_EN_NY,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_NY,
     sizeof(EnNy),
     (ActorFunc)EnNy_Init,

@@ -7,8 +7,6 @@
 #include "z_bg_spot17_funen.h"
 #include "objects/object_spot17_obj/object_spot17_obj.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgSpot17Funen_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Funen_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Funen_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void func_808B7478(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Spot17_Funen_InitVars = {
     ACTOR_BG_SPOT17_FUNEN,
     ACTORCAT_SWITCH,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_SPOT17_OBJ,
     sizeof(BgSpot17Funen),
     (ActorFunc)BgSpot17Funen_Init,

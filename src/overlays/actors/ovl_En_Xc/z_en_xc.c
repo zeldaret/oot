@@ -14,8 +14,6 @@
 #include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnXc_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnXc_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnXc_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -2417,7 +2415,7 @@ void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx) {
 const ActorInit En_Xc_InitVars = {
     ACTOR_EN_XC,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_XC,
     sizeof(EnXc),
     (ActorFunc)EnXc_Init,

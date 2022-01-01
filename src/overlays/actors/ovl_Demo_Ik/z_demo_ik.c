@@ -2,8 +2,6 @@
 #include "vt.h"
 #include "objects/object_ik/object_ik.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void DemoIk_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoIk_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -504,7 +502,7 @@ void DemoIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 const ActorInit Demo_Ik_InitVars = {
     ACTOR_DEMO_IK,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_IK,
     sizeof(DemoIk),
     (ActorFunc)DemoIk_Init,

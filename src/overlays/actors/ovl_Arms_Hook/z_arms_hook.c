@@ -1,8 +1,6 @@
 #include "z_arms_hook.h"
 #include "objects/object_link_boy/object_link_boy.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -14,7 +12,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx);
 const ActorInit Arms_Hook_InitVars = {
     ACTOR_ARMS_HOOK,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_LINK_BOY,
     sizeof(ArmsHook),
     (ActorFunc)ArmsHook_Init,

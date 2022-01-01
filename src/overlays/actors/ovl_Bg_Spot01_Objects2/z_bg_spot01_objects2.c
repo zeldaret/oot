@@ -8,8 +8,6 @@
 #include "objects/object_spot01_matoya/object_spot01_matoya.h"
 #include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Objects2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Objects2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_808AC4A4(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Spot01_Objects2_InitVars = {
     ACTOR_BG_SPOT01_OBJECTS2,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgSpot01Objects2),
     (ActorFunc)BgSpot01Objects2_Init,

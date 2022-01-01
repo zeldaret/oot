@@ -7,8 +7,6 @@
 #include "z_en_tg.h"
 #include "objects/object_mu/object_mu.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnTg_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 const ActorInit En_Tg_InitVars = {
     ACTOR_EN_TG,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_MU,
     sizeof(EnTg),
     (ActorFunc)EnTg_Init,

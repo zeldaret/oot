@@ -7,8 +7,6 @@
 #include "z_en_yukabyun.h"
 #include "objects/object_yukabyun/object_yukabyun.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnYukabyun_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx);
 const ActorInit En_Yukabyun_InitVars = {
     ACTOR_EN_YUKABYUN,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_YUKABYUN,
     sizeof(EnYukabyun),
     (ActorFunc)EnYukabyun_Init,

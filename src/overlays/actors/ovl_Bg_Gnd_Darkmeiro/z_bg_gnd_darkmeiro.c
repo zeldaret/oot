@@ -7,8 +7,6 @@
 #include "z_bg_gnd_darkmeiro.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, GlobalContext* globa
 const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     ACTOR_BG_GND_DARKMEIRO,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndDarkmeiro),
     (ActorFunc)BgGndDarkmeiro_Init,

@@ -10,8 +10,6 @@
 #include "scenes/overworld/spot16/spot16_scene.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -68,7 +66,7 @@ typedef enum {
 const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_OWL,
     sizeof(EnOwl),
     (ActorFunc)EnOwl_Init,

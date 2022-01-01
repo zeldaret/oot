@@ -1,8 +1,6 @@
 #include "z_en_ssh.h"
 #include "objects/object_ssh/object_ssh.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 #define SSH_STATE_STUNNED (1 << 0)
 #define SSH_STATE_GROUND_START (1 << 2)
 #define SSH_STATE_ATTACKED (1 << 3)
@@ -33,7 +31,7 @@ void EnSsh_Start(EnSsh* this, GlobalContext* globalCtx);
 const ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_SSH,
     sizeof(EnSsh),
     (ActorFunc)EnSsh_Init,

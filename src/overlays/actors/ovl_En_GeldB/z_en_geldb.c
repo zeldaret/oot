@@ -7,8 +7,6 @@
 #include "z_en_geldb.h"
 #include "objects/object_geldb/object_geldb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 typedef enum {
     /*  0 */ GELDB_WAIT,
     /*  1 */ GELDB_DEFEAT,
@@ -72,7 +70,7 @@ void EnGeldB_Defeated(EnGeldB* this, GlobalContext* globalCtx);
 const ActorInit En_GeldB_InitVars = {
     ACTOR_EN_GELDB,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_GELDB,
     sizeof(EnGeldB),
     (ActorFunc)EnGeldB_Init,

@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_anubice/object_anubice.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void func_809B2B48(EnAnubiceFire* this, GlobalContext* globalCtx);
 const ActorInit En_Anubice_Fire_InitVars = {
     ACTOR_EN_ANUBICE_FIRE,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_ANUBICE,
     sizeof(EnAnubiceFire),
     (ActorFunc)EnAnubiceFire_Init,

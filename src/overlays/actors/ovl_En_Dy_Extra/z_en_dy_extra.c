@@ -8,8 +8,6 @@
 #include "objects/object_dy_obj/object_dy_obj.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void EnDyExtra_FallAndKill(EnDyExtra* this, GlobalContext* globalCtx);
 const ActorInit En_Dy_Extra_InitVars = {
     ACTOR_EN_DY_EXTRA,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_DY_OBJ,
     sizeof(EnDyExtra),
     (ActorFunc)EnDyExtra_Init,

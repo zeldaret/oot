@@ -8,8 +8,6 @@
 #include "overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuBwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuBwall_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void BgMizuBwall_DoNothing(BgMizuBwall* this, GlobalContext* globalCtx);
 const ActorInit Bg_Mizu_Bwall_InitVars = {
     ACTOR_BG_MIZU_BWALL,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuBwall),
     (ActorFunc)BgMizuBwall_Init,

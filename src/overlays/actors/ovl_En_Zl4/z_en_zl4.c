@@ -8,8 +8,6 @@
 #include "objects/object_zl4/object_zl4.h"
 #include "scenes/indoors/nakaniwa/nakaniwa_scene.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 typedef enum {
     /* 0 */ ZL4_CS_WAIT,
     /* 1 */ ZL4_CS_START,
@@ -61,7 +59,7 @@ void EnZl4_TheEnd(EnZl4* this, GlobalContext* globalCtx);
 const ActorInit En_Zl4_InitVars = {
     ACTOR_EN_ZL4,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_ZL4,
     sizeof(EnZl4),
     (ActorFunc)EnZl4_Init,

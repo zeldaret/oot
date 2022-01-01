@@ -7,8 +7,6 @@
 #include "z_en_mu.h"
 #include "objects/object_mu/object_mu.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnMu_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -42,7 +40,7 @@ static CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 const ActorInit En_Mu_InitVars = {
     ACTOR_EN_MU,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_MU,
     sizeof(EnMu),
     (ActorFunc)EnMu_Init,

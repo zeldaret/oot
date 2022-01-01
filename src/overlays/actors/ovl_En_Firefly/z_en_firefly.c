@@ -8,8 +8,6 @@
 #include "objects/object_firefly/object_firefly.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
-
 void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,7 +35,7 @@ typedef enum {
 const ActorInit En_Firefly_InitVars = {
     ACTOR_EN_FIREFLY,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14,
     OBJECT_FIREFLY,
     sizeof(EnFirefly),
     (ActorFunc)EnFirefly_Init,

@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_Bb/object_Bb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_24)
-
 #define vBombHopPhase actionVar1
 #define vTrailIdx actionVar1
 #define vTrailMaxAlpha actionVar2
@@ -198,7 +196,7 @@ static DamageTable sDamageTableWhite = {
 const ActorInit En_Bb_InitVars = {
     ACTOR_EN_BB,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_24,
     OBJECT_BB,
     sizeof(EnBb),
     (ActorFunc)EnBb_Init,

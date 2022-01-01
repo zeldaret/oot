@@ -8,8 +8,6 @@
 #include "objects/object_am/object_am.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
-
 void EnAm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -42,7 +40,7 @@ typedef enum {
 const ActorInit En_Am_InitVars = {
     ACTOR_EN_AM,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_26,
     OBJECT_AM,
     sizeof(EnAm),
     (ActorFunc)EnAm_Init,

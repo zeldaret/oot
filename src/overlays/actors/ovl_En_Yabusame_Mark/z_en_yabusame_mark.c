@@ -7,8 +7,6 @@
 #include "z_en_yabusame_mark.h"
 #include "vt.h"
 
-#define FLAGS 0
-
 void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,7 +35,7 @@ static ColliderQuadInit sQuadInit = {
 const ActorInit En_Yabusame_Mark_InitVars = {
     ACTOR_EN_YABUSAME_MARK,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnYabusameMark),
     (ActorFunc)EnYabusameMark_Init,

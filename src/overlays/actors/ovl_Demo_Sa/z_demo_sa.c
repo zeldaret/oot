@@ -11,8 +11,6 @@
 
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoSa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoSa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -88,7 +86,7 @@ static DemoSaDrawFunc sDrawFuncs[] = {
 const ActorInit Demo_Sa_InitVars = {
     ACTOR_DEMO_SA,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_SA,
     sizeof(DemoSa),
     (ActorFunc)DemoSa_Init,

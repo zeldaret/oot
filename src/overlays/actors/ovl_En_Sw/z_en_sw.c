@@ -1,8 +1,6 @@
 #include "z_en_sw.h"
 #include "objects/object_st/object_st.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 void EnSw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSw_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void func_80B0D878(EnSw* this, GlobalContext* globalCtx);
 const ActorInit En_Sw_InitVars = {
     ACTOR_EN_SW,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_ST,
     sizeof(EnSw),
     (ActorFunc)EnSw_Init,

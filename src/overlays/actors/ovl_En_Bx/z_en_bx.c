@@ -7,8 +7,6 @@
 #include "z_en_bx.h"
 #include "objects/object_bxa/object_bxa.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnBx_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBx_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBx_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Bx_InitVars = {
     ACTOR_EN_BX,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_BXA,
     sizeof(EnBx),
     (ActorFunc)EnBx_Init,

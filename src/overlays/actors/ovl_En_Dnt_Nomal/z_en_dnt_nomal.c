@@ -13,8 +13,6 @@
 #include "objects/object_hintnuts/object_hintnuts.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDntNomal_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -59,7 +57,7 @@ void EnDntNomal_StageReturn(EnDntNomal* this, GlobalContext* globalCtx);
 const ActorInit En_Dnt_Nomal_InitVars = {
     ACTOR_EN_DNT_NOMAL,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnDntNomal),
     (ActorFunc)EnDntNomal_Init,

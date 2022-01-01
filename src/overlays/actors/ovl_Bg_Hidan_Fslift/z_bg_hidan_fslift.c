@@ -7,8 +7,6 @@
 #include "z_bg_hidan_fslift.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Fslift_InitVars = {
     ACTOR_BG_HIDAN_FSLIFT,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanFslift),
     (ActorFunc)BgHidanFslift_Init,

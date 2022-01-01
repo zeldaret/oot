@@ -8,8 +8,6 @@
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_7)
-
 void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMegane_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMegane_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void BgHakaMegane_DoNothing(BgHakaMegane* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_Megane_InitVars = {
     ACTOR_BG_HAKA_MEGANE,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_7,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHakaMegane),
     (ActorFunc)BgHakaMegane_Init,

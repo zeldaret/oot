@@ -9,8 +9,6 @@
 #include "objects/object_zo/object_zo.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx);
 const ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_ZO,
     sizeof(EnDivingGame),
     (ActorFunc)EnDivingGame_Init,

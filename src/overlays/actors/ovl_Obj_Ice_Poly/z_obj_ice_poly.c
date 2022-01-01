@@ -7,8 +7,6 @@
 #include "z_obj_ice_poly.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjIcePoly_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjIcePoly_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -20,7 +18,7 @@ void ObjIcePoly_Melt(ObjIcePoly* this, GlobalContext* globalCtx);
 const ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjIcePoly),
     (ActorFunc)ObjIcePoly_Init,

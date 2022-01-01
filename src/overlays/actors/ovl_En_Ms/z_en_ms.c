@@ -7,8 +7,6 @@
 #include "z_en_ms.h"
 #include "objects/object_ms/object_ms.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnMs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void EnMs_TalkAfterPurchase(EnMs* this, GlobalContext* globalCtx);
 const ActorInit En_Ms_InitVars = {
     ACTOR_EN_MS,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_MS,
     sizeof(EnMs),
     (ActorFunc)EnMs_Init,

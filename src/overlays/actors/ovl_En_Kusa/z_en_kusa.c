@@ -11,8 +11,6 @@
 #include "objects/object_kusa/object_kusa.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
-
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ static s16 rotSpeedY = 0;
 const ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_23,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnKusa),
     (ActorFunc)EnKusa_Init,

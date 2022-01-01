@@ -7,8 +7,6 @@
 #include "z_arrow_fire.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArrowFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ArrowFire_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx);
 const ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ArrowFire),
     (ActorFunc)ArrowFire_Init,

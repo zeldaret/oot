@@ -7,8 +7,6 @@
 #include "z_bg_spot03_taki.h"
 #include "objects/object_spot03_object/object_spot03_object.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot03_Taki_InitVars = {
     ACTOR_BG_SPOT03_TAKI,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_SPOT03_OBJECT,
     sizeof(BgSpot03Taki),
     (ActorFunc)BgSpot03Taki_Init,

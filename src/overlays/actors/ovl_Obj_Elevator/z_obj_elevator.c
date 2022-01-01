@@ -7,8 +7,6 @@
 #include "z_obj_elevator.h"
 #include "objects/object_d_elevator/object_d_elevator.h"
 
-#define FLAGS 0
-
 void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjElevator_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx);
 const ActorInit Obj_Elevator_InitVars = {
     ACTOR_OBJ_ELEVATOR,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_D_ELEVATOR,
     sizeof(ObjElevator),
     (ActorFunc)ObjElevator_Init,

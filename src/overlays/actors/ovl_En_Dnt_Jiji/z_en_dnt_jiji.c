@@ -10,8 +10,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -42,7 +40,7 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx);
 const ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_DNS,
     sizeof(EnDntJiji),
     (ActorFunc)EnDntJiji_Init,

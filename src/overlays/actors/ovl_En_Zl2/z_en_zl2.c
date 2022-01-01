@@ -11,8 +11,6 @@
 #include "objects/object_zl2/object_zl2.h"
 #include "objects/object_zl2_anime1/object_zl2_anime1.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -88,7 +86,7 @@ static EnZl2DrawFunc sDrawFuncs[] = {
 const ActorInit En_Zl2_InitVars = {
     ACTOR_EN_ZL2,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_ZL2,
     sizeof(EnZl2),
     (ActorFunc)EnZl2_Init,

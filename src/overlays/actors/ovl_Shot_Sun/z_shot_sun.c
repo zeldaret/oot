@@ -9,8 +9,6 @@
 #include "scenes/overworld/spot06/spot06_scene.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx);
 const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ShotSun),
     (ActorFunc)ShotSun_Init,

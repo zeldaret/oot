@@ -7,8 +7,6 @@
 #include "z_bg_spot18_shutter.h"
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Shutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Shutter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot18_Shutter_InitVars = {
     ACTOR_BG_SPOT18_SHUTTER,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Shutter),
     (ActorFunc)BgSpot18Shutter_Init,

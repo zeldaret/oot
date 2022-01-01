@@ -8,8 +8,6 @@
 #include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
 #include "vt.h"
 
-#define FLAGS 0
-
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGateShutter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx);
 const ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_SPOT01_MATOYAB,
     sizeof(BgGateShutter),
     (ActorFunc)BgGateShutter_Init,

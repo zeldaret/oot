@@ -7,8 +7,6 @@
 #include "z_bg_ingate.h"
 #include "objects/object_ingate/object_ingate.h"
 
-#define FLAGS 0
-
 void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgInGate_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgInGate_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -20,7 +18,7 @@ void BgInGate_DoNothing(BgInGate* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_INGATE,
     sizeof(BgInGate),
     (ActorFunc)BgInGate_Init,

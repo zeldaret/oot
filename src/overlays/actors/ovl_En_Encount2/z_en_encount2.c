@@ -3,8 +3,6 @@
 #include "vt.h"
 #include "objects/object_efc_star_field/object_efc_star_field.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 typedef enum {
     /* 0x0 */ ENCOUNT2_INACTIVE,
     /* 0x1 */ ENCOUNT2_ACTIVE_DEATH_MOUNTAIN,
@@ -25,7 +23,7 @@ void EnEncount2_ParticleUpdate(EnEncount2* this, GlobalContext* globalCtx);
 const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_EFC_STAR_FIELD,
     sizeof(EnEncount2),
     (ActorFunc)EnEncount2_Init,

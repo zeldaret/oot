@@ -7,8 +7,6 @@
 #include "z_en_blkobj.h"
 #include "objects/object_blkobj/object_blkobj.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBlkobj_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void EnBlkobj_DoNothing(EnBlkobj* this, GlobalContext* globalCtx);
 const ActorInit En_Blkobj_InitVars = {
     ACTOR_EN_BLKOBJ,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_BLKOBJ,
     sizeof(EnBlkobj),
     (ActorFunc)EnBlkobj_Init,

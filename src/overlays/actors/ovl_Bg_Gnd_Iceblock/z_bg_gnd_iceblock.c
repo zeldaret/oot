@@ -7,8 +7,6 @@
 #include "z_bg_gnd_iceblock.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 typedef enum {
     /* 0 */ GNDICE_IDLE,
     /* 1 */ GNDICE_FALL,
@@ -26,7 +24,7 @@ void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx);
 const ActorInit Bg_Gnd_Iceblock_InitVars = {
     ACTOR_BG_GND_ICEBLOCK,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndIceblock),
     (ActorFunc)BgGndIceblock_Init,

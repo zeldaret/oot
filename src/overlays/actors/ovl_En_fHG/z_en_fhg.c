@@ -10,8 +10,6 @@
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yRot;
@@ -48,7 +46,7 @@ void EnfHG_Done(EnfHG* this, GlobalContext* globalCtx);
 const ActorInit En_fHG_InitVars = {
     ACTOR_EN_FHG,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_FHG,
     sizeof(EnfHG),
     (ActorFunc)EnfHG_Init,

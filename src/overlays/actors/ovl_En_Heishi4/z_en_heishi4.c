@@ -2,8 +2,6 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void func_80A56ACC(EnHeishi4* this, GlobalContext* globalCtx);
 const ActorInit En_Heishi4_InitVars = {
     ACTOR_EN_HEISHI4,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_SD,
     sizeof(EnHeishi4),
     (ActorFunc)EnHeishi4_Init,

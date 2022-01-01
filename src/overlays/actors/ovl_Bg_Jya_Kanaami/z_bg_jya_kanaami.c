@@ -7,8 +7,6 @@
 #include "z_bg_jya_kanaami.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0
-
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void func_80899A08(BgJyaKanaami* this);
 const ActorInit Bg_Jya_Kanaami_InitVars = {
     ACTOR_BG_JYA_KANAAMI,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaKanaami),
     (ActorFunc)BgJyaKanaami_Init,

@@ -1,8 +1,6 @@
 #include "z_en_fd_fire.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 void EnFdFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFdFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFdFire_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -15,7 +13,7 @@ void EnFdFire_WaitToDie(EnFdFire* this, GlobalContext* globalCtx);
 const ActorInit En_Fd_Fire_InitVars = {
     ACTOR_EN_FD_FIRE,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(EnFdFire),
     (ActorFunc)EnFdFire_Init,

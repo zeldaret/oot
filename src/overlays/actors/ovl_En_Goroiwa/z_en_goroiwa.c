@@ -10,8 +10,6 @@
 #include "objects/object_goroiwa/object_goroiwa.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef s32 (*EnGoroiwaUnkFunc1)(EnGoroiwa* this, GlobalContext* globalCtx);
 typedef void (*EnGoroiwaUnkFunc2)(EnGoroiwa* this);
 
@@ -45,7 +43,7 @@ void EnGoroiwa_MoveDown(EnGoroiwa* this, GlobalContext* globalCtx);
 const ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GOROIWA,
     sizeof(EnGoroiwa),
     (ActorFunc)EnGoroiwa_Init,

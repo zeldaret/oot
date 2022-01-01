@@ -2,8 +2,6 @@
 #include "objects/object_du/object_du.h"
 #include "scenes/overworld/spot18/spot18_scene.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
-
 void EnDu_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void func_809FEB08(EnDu* this, GlobalContext* globalCtx);
 const ActorInit En_Du_InitVars = {
     ACTOR_EN_DU,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25,
     OBJECT_DU,
     sizeof(EnDu),
     (ActorFunc)EnDu_Init,

@@ -7,8 +7,6 @@
 #include "z_en_arrow.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnArrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void func_809B4640(EnArrow* this, GlobalContext* globalCtx);
 const ActorInit En_Arrow_InitVars = {
     ACTOR_EN_ARROW,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnArrow),
     (ActorFunc)EnArrow_Init,
