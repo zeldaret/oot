@@ -7,8 +7,6 @@
 #include "z_obj_hsblock.h"
 #include "objects/object_d_hsblock/object_d_hsblock.h"
 
-#define FLAGS 0
-
 void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjHsblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjHsblock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void func_80B93E38(ObjHsblock* this);
 const ActorInit Obj_Hsblock_InitVars = {
     ACTOR_OBJ_HSBLOCK,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_D_HSBLOCK,
     sizeof(ObjHsblock),
     (ActorFunc)ObjHsblock_Init,

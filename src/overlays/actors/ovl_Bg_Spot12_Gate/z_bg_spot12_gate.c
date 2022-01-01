@@ -7,8 +7,6 @@
 #include "z_bg_spot12_gate.h"
 #include "objects/object_spot12_obj/object_spot12_obj.h"
 
-#define FLAGS 0
-
 void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot12Gate_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_SPOT12_OBJ,
     sizeof(BgSpot12Gate),
     (ActorFunc)BgSpot12Gate_Init,

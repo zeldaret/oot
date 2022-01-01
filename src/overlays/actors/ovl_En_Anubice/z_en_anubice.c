@@ -10,8 +10,6 @@
 #include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -28,7 +26,7 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx);
 const ActorInit En_Anubice_InitVars = {
     ACTOR_EN_ANUBICE,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_ANUBICE,
     sizeof(EnAnubice),
     (ActorFunc)EnAnubice_Init,

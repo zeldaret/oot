@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_horse_normal/object_horse_normal.h"
 
-#define FLAGS 0
-
 typedef struct {
     Vec3s pos;
     u8 unk_06; // this may be a s16 if the always-0 following byte is actually not padding
@@ -42,7 +40,7 @@ void func_80A6C6B0(EnHorseNormal* this);
 const ActorInit En_Horse_Normal_InitVars = {
     ACTOR_EN_HORSE_NORMAL,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HORSE_NORMAL,
     sizeof(EnHorseNormal),
     (ActorFunc)EnHorseNormal_Init,

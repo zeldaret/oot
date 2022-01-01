@@ -7,8 +7,6 @@
 #include "z_en_ma3.h"
 #include "objects/object_ma2/object_ma2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void func_80AA3200(EnMa3* this, GlobalContext* globalCtx);
 const ActorInit En_Ma3_InitVars = {
     ACTOR_EN_MA3,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_MA2,
     sizeof(EnMa3),
     (ActorFunc)EnMa3_Init,

@@ -8,8 +8,6 @@
 #include "overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 #define MOVEBG_TYPE(params) (((u16)(params) >> 0xC) & 0xF)
 #define MOVEBG_FLAGS(params) ((u16)(params)&0x3F)
 #define MOVEBG_PATH_ID(params) (((u16)(params) >> 0x8) & 0xF)
@@ -28,7 +26,7 @@ s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
 const ActorInit Bg_Mizu_Movebg_InitVars = {
     ACTOR_BG_MIZU_MOVEBG,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuMovebg),
     (ActorFunc)BgMizuMovebg_Init,

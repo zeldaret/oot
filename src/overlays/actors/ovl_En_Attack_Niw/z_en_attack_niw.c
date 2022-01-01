@@ -8,8 +8,6 @@
 #include "objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAttackNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void func_809B59B0(EnAttackNiw* this, GlobalContext* globalCtx);
 const ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_NIW,
     sizeof(EnAttackNiw),
     (ActorFunc)EnAttackNiw_Init,

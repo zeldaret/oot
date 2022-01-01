@@ -7,8 +7,6 @@
 #include "z_en_brob.h"
 #include "objects/object_brob/object_brob.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBrob_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void func_809CB458(EnBrob* this, GlobalContext* globalCtx);
 const ActorInit En_Brob_InitVars = {
     ACTOR_EN_BROB,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_BROB,
     sizeof(EnBrob),
     (ActorFunc)EnBrob_Init,

@@ -6,14 +6,12 @@
 
 #include "z_en_torch.h"
 
-#define FLAGS 0
-
 void EnTorch_Init(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Torch_InitVars = {
     ACTOR_EN_TORCH,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnTorch),
     (ActorFunc)EnTorch_Init,

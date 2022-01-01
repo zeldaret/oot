@@ -1,8 +1,6 @@
 #include "z_en_rd.h"
 #include "objects/object_rd/object_rd.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
-
 void EnRd_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,7 +30,7 @@ void func_80AE3ECC(EnRd* this, GlobalContext* globalCtx);
 const ActorInit En_Rd_InitVars = {
     ACTOR_EN_RD,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10,
     OBJECT_RD,
     sizeof(EnRd),
     (ActorFunc)EnRd_Init,

@@ -8,8 +8,6 @@
 #include "objects/object_zg/object_zg.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgZg_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgZg_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -38,7 +36,7 @@ static BgZgDrawFunc sDrawFuncs[] = {
 const ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_ZG,
     sizeof(BgZg),
     (ActorFunc)BgZg_Init,

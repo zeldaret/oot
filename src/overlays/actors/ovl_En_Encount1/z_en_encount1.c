@@ -2,8 +2,6 @@
 #include "vt.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_27)
-
 void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount1_Update(Actor* thisx, GlobalContext* globalCtx);
 
@@ -17,7 +15,7 @@ static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 const ActorInit En_Encount1_InitVars = {
     ACTOR_EN_ENCOUNT1,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_27,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnEncount1),
     (ActorFunc)EnEncount1_Init,

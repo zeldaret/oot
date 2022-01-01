@@ -1,8 +1,6 @@
 #include "z_en_box.h"
 #include "objects/object_box/object_box.h"
 
-#define FLAGS 0
-
 // movement flags
 
 /*
@@ -52,7 +50,7 @@ void EnBox_Open(EnBox*, GlobalContext*);
 const ActorInit En_Box_InitVars = {
     ACTOR_EN_BOX,
     ACTORCAT_CHEST,
-    FLAGS,
+    0,
     OBJECT_BOX,
     sizeof(EnBox),
     (ActorFunc)EnBox_Init,

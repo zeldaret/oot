@@ -4,8 +4,6 @@
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "objects/object_bg/object_bg.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27)
-
 typedef enum {
     /* 0 */ CHU_GIRL_EYES_ASLEEP,
     /* 1 */ CHU_GIRL_EYES_OPEN_SLOWLY,
@@ -37,7 +35,7 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, GlobalContext* globalCtx);
 const ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27,
     OBJECT_BG,
     sizeof(EnBomBowlMan),
     (ActorFunc)EnBomBowlMan_Init,

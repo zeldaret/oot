@@ -2,8 +2,6 @@
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Basket_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot18_Basket_InitVars = {
     ACTOR_BG_SPOT18_BASKET,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Basket),
     (ActorFunc)BgSpot18Basket_Init,

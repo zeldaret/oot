@@ -7,8 +7,6 @@
 #include "z_bg_mori_idomizu.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriIdomizu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriIdomizu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ static s16 sIsSpawned = false;
 const ActorInit Bg_Mori_Idomizu_InitVars = {
     ACTOR_BG_MORI_IDOMIZU,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriIdomizu),
     (ActorFunc)BgMoriIdomizu_Init,

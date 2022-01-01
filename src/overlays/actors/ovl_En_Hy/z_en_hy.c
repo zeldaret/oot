@@ -15,8 +15,6 @@
 #include "objects/object_cob/object_cob.h"
 #include "objects/object_os_anime/object_os_anime.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnHy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHy_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ void func_80A714C4(EnHy* this, GlobalContext* globalCtx);
 const ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnHy),
     (ActorFunc)EnHy_Init,

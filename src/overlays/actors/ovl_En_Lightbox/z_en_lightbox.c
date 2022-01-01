@@ -7,8 +7,6 @@
 #include "z_en_lightbox.h"
 #include "objects/object_lightbox/object_lightbox.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnLightbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void EnLightbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Lightbox_InitVars = {
     ACTOR_EN_LIGHTBOX,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_LIGHTBOX,
     sizeof(EnLightbox),
     (ActorFunc)EnLightbox_Init,

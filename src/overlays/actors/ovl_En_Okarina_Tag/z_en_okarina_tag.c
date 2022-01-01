@@ -9,8 +9,6 @@
 #include "scenes/overworld/spot02/spot02_scene.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkarinaTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkarinaTag_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void func_80ABF7CC(EnOkarinaTag* this, GlobalContext* globalCtx);
 const ActorInit En_Okarina_Tag_InitVars = {
     ACTOR_EN_OKARINA_TAG,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOkarinaTag),
     (ActorFunc)EnOkarinaTag_Init,

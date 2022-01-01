@@ -7,8 +7,6 @@
 #include "z_en_horse_ganon.h"
 #include "objects/object_horse_ganon/object_horse_ganon.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef struct {
     /* 0x0 */ Vec3s unk_0;
     /* 0x6 */ u8 unk_6;
@@ -26,7 +24,7 @@ void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx);
 const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_HORSE_GANON,
     sizeof(EnHorseGanon),
     (ActorFunc)EnHorseGanon_Init,

@@ -3,8 +3,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
-#define FLAGS 0
-
 void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnItem00_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void EnItem00_DrawHeartPiece(EnItem00* this, GlobalContext* globalCtx);
 const ActorInit En_Item00_InitVars = {
     ACTOR_EN_ITEM00,
     ACTORCAT_MISC,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnItem00),
     (ActorFunc)EnItem00_Init,

@@ -1,8 +1,6 @@
 #include "z_en_ma2.h"
 #include "objects/object_ma2/object_ma2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
-
 void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx);
 const ActorInit En_Ma2_InitVars = {
     ACTOR_EN_MA2,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25,
     OBJECT_MA2,
     sizeof(EnMa2),
     (ActorFunc)EnMa2_Init,

@@ -7,8 +7,6 @@
 #include "z_en_tr.h"
 #include "objects/object_tr/object_tr.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnTr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void EnTr_SetStartPosRot(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
 const ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_TR,
     sizeof(EnTr),
     (ActorFunc)EnTr_Init,

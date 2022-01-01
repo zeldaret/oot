@@ -9,8 +9,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0
-
 void EnButte_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnButte_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -52,7 +50,7 @@ static ColliderJntSphInit sColliderInit = {
 const ActorInit En_Butte_InitVars = {
     ACTOR_EN_BUTTE,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(EnButte),
     (ActorFunc)EnButte_Init,

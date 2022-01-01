@@ -7,8 +7,6 @@
 #include "z_en_boom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx);
 const ActorInit En_Boom_InitVars = {
     ACTOR_EN_BOOM,
     ACTORCAT_MISC,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBoom),
     (ActorFunc)EnBoom_Init,

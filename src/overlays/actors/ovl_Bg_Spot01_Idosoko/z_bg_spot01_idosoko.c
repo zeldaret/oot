@@ -7,8 +7,6 @@
 #include "z_bg_spot01_idosoko.h"
 #include "objects/object_spot01_matoya/object_spot01_matoya.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot01_Idosoko_InitVars = {
     ACTOR_BG_SPOT01_IDOSOKO,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_SPOT01_MATOYA,
     sizeof(BgSpot01Idosoko),
     (ActorFunc)BgSpot01Idosoko_Init,

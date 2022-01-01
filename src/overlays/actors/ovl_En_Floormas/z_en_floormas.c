@@ -7,8 +7,6 @@
 #include "z_en_floormas.h"
 #include "objects/object_wallmaster/object_wallmaster.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_10)
-
 #define SPAWN_INVISIBLE 0x8000
 #define SPAWN_SMALL 0x10
 
@@ -47,7 +45,7 @@ void EnFloormas_Charge(EnFloormas* this, GlobalContext* globalCtx);
 const ActorInit En_Floormas_InitVars = {
     ACTOR_EN_FLOORMAS,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_10,
     OBJECT_WALLMASTER,
     sizeof(EnFloormas),
     (ActorFunc)EnFloormas_Init,

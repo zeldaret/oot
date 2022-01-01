@@ -7,8 +7,6 @@
 #include "z_bg_po_event.h"
 #include "objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS 0
-
 void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -31,7 +29,7 @@ void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx);
 const ActorInit Bg_Po_Event_InitVars = {
     ACTOR_BG_PO_EVENT,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_PO_SISTERS,
     sizeof(BgPoEvent),
     (ActorFunc)BgPoEvent_Init,

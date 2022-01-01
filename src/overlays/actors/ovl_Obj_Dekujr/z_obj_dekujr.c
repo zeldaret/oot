@@ -7,8 +7,6 @@
 #include "z_obj_dekujr.h"
 #include "objects/object_dekujr/object_dekujr.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjDekujr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx);
 const ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_DEKUJR,
     sizeof(ObjDekujr),
     (ActorFunc)ObjDekujr_Init,

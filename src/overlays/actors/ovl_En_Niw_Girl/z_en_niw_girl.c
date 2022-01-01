@@ -8,8 +8,6 @@
 #include "objects/object_gr/object_gr.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNiwGirl_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx);
 const ActorInit En_Niw_Girl_InitVars = {
     ACTOR_EN_NIW_GIRL,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_GR,
     sizeof(EnNiwGirl),
     (ActorFunc)EnNiwGirl_Init,

@@ -11,8 +11,6 @@
 #include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
-
 typedef enum {
     /* 0 */ FAIRY_UPGRADE_MAGIC,
     /* 1 */ FAIRY_UPGRADE_DOUBLE_MAGIC,
@@ -57,7 +55,7 @@ static s32 sUnusedGetItemIds[] = { GI_FARORES_WIND, GI_NAYRUS_LOVE, GI_DINS_FIRE
 const ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25,
     OBJECT_DY_OBJ,
     sizeof(BgDyYoseizo),
     (ActorFunc)BgDyYoseizo_Init,

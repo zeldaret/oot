@@ -7,8 +7,6 @@
 #include "z_en_st.h"
 #include "objects/object_st/object_st.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnSt_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSt_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void EnSt_FinishBouncing(EnSt* this, GlobalContext* globalCtx);
 const ActorInit En_St_InitVars = {
     ACTOR_EN_ST,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_ST,
     sizeof(EnSt),
     (ActorFunc)EnSt_Init,

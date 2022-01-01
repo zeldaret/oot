@@ -1,8 +1,6 @@
 #include "z_bg_mori_elevator.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ static s16 sIsSpawned = false;
 const ActorInit Bg_Mori_Elevator_InitVars = {
     ACTOR_BG_MORI_ELEVATOR,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriElevator),
     (ActorFunc)BgMoriElevator_Init,

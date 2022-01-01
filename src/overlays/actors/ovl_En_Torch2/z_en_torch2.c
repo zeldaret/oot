@@ -7,8 +7,6 @@
 #include "z_en_torch2.h"
 #include "objects/object_torch2/object_torch2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 typedef enum {
     /* 0 */ ENTORCH2_WAIT,
     /* 1 */ ENTORCH2_ATTACK,
@@ -55,7 +53,7 @@ void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Torch2_InitVars = {
     ACTOR_EN_TORCH2,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_TORCH2,
     sizeof(Player),
     (ActorFunc)EnTorch2_Init,

@@ -8,8 +8,6 @@
 #include "z_item_shield.h"
 #include "objects/object_link_child/object_link_child.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void ItemShield_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemShield_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ItemShield_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ static ColliderCylinderInit sCylinderInit = {
 const ActorInit Item_Shield_InitVars = {
     ACTOR_ITEM_SHIELD,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_LINK_CHILD,
     sizeof(ItemShield),
     (ActorFunc)ItemShield_Init,

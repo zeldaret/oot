@@ -8,8 +8,6 @@
 #include "objects/object_niw/object_niw.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f3
 const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_NIW,
     sizeof(EnSyatekiNiw),
     (ActorFunc)EnSyatekiNiw_Init,

@@ -12,8 +12,6 @@
 #include "objects/object_dns/object_dns.h"
 #include "objects/object_dnk/object_dnk.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx);
 const ActorInit En_Nutsball_InitVars = {
     ACTOR_EN_NUTSBALL,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnNutsball),
     (ActorFunc)EnNutsball_Init,

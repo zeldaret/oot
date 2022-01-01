@@ -8,8 +8,6 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/object_spot11_obj/object_spot11_obj.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgSpot11Oasis_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Oasis_Draw(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void func_808B2AB8(BgSpot11Oasis* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot11_Oasis_InitVars = {
     ACTOR_BG_SPOT11_OASIS,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_SPOT11_OBJ,
     sizeof(BgSpot11Oasis),
     (ActorFunc)BgSpot11Oasis_Init,

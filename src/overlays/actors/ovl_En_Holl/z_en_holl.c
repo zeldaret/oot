@@ -1,7 +1,5 @@
 #include "z_en_holl.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 // Horizontal Plane parameters
 
 #define PLANE_Y_MIN -50.0f
@@ -26,7 +24,7 @@ void func_80A59618(EnHoll* this, GlobalContext* globalCtx);
 const ActorInit En_Holl_InitVars = {
     ACTOR_EN_HOLL,
     ACTORCAT_DOOR,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnHoll),
     (ActorFunc)EnHoll_Init,

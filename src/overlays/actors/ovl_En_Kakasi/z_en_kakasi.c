@@ -8,8 +8,6 @@
 #include "vt.h"
 #include "objects/object_ka/object_ka.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
-
 void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -45,7 +43,7 @@ static ColliderCylinderInit sCylinderInit = {
 const ActorInit En_Kakasi_InitVars = {
     ACTOR_EN_KAKASI,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25,
     OBJECT_KA,
     sizeof(EnKakasi),
     (ActorFunc)EnKakasi_Init,

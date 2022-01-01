@@ -1,8 +1,6 @@
 #include "z_en_bubble.h"
 #include "objects/object_bubble/object_bubble.h"
 
-#define FLAGS ACTOR_FLAG_0
-
 void EnBubble_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -15,7 +13,7 @@ void EnBubble_Regrow(EnBubble* this, GlobalContext* globalCtx);
 const ActorInit En_Bubble_InitVars = {
     ACTOR_EN_BUBBLE,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0,
     OBJECT_BUBBLE,
     sizeof(EnBubble),
     (ActorFunc)EnBubble_Init,

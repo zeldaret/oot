@@ -11,8 +11,6 @@
 #include "objects/object_kw1/object_kw1.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 #define ENKO_TYPE (this->actor.params & 0xFF)
 #define ENKO_PATH ((this->actor.params & 0xFF00) >> 8)
 
@@ -33,7 +31,7 @@ s32 func_80A98ECC(EnKo* this, GlobalContext* globalCtx);
 const ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnKo),
     (ActorFunc)EnKo_Init,

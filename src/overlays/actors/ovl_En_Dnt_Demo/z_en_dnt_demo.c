@@ -10,8 +10,6 @@
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
 #include "vt.h"
 
-#define FLAGS 0
-
 typedef enum {
     /* 0 */ DNT_LIKE,
     /* 1 */ DNT_HATE,
@@ -29,7 +27,7 @@ void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx);
 const ActorInit En_Dnt_Demo_InitVars = {
     ACTOR_EN_DNT_DEMO,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnDntDemo),
     (ActorFunc)EnDntDemo_Init,

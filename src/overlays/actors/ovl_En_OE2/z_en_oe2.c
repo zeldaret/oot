@@ -6,8 +6,6 @@
 
 #include "z_en_oe2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnOE2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOE2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOE2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void EnOE2_DoNothing(EnOE2* this, GlobalContext* globalCtx);
 const ActorInit En_OE2_InitVars = {
     ACTOR_EN_OE2,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_OE2,
     sizeof(EnOE2),
     (ActorFunc)EnOE2_Init,

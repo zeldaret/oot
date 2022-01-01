@@ -7,8 +7,6 @@
 #include "z_bg_umajump.h"
 #include "objects/object_umajump/object_umajump.h"
 
-#define FLAGS 0
-
 void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgUmaJump_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgUmaJump_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void BgUmaJump_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Umajump_InitVars = {
     ACTOR_BG_UMAJUMP,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_UMAJUMP,
     sizeof(BgUmaJump),
     (ActorFunc)BgUmaJump_Init,

@@ -7,8 +7,6 @@
 #include "z_bg_hidan_sima.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0
-
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void func_8088E90C(BgHidanSima* this);
 const ActorInit Bg_Hidan_Sima_InitVars = {
     ACTOR_BG_HIDAN_SIMA,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanSima),
     (ActorFunc)BgHidanSima_Init,

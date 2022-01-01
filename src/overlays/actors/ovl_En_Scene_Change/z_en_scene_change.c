@@ -6,8 +6,6 @@
 
 #include "z_en_scene_change.h"
 
-#define FLAGS 0
-
 void EnSceneChange_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSceneChange_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSceneChange_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void EnSceneChange_DoNothing(EnSceneChange* this, GlobalContext* globalCtx);
 const ActorInit En_Scene_Change_InitVars = {
     ACTOR_EN_SCENE_CHANGE,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_JJ,
     sizeof(EnSceneChange),
     (ActorFunc)EnSceneChange_Init,

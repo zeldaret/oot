@@ -8,8 +8,6 @@
 #include "overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjOshihiki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjOshihiki_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -27,7 +25,7 @@ void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx);
 const ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjOshihiki),
     (ActorFunc)ObjOshihiki_Init,

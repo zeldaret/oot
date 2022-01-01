@@ -9,8 +9,6 @@
 #include "objects/object_ik/object_ik.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef void (*EnIkDrawFunc)(struct EnIk*, GlobalContext*);
 
 void EnIk_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -1450,7 +1448,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
 const ActorInit En_Ik_InitVars = {
     ACTOR_EN_IK,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_IK,
     sizeof(EnIk),
     (ActorFunc)EnIk_Init,

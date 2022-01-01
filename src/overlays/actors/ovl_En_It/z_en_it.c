@@ -6,8 +6,6 @@
 
 #include "z_en_it.h"
 
-#define FLAGS 0
-
 void EnIt_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIt_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,7 +35,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 const ActorInit En_It_InitVars = {
     ACTOR_EN_IT,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnIt),
     (ActorFunc)EnIt_Init,

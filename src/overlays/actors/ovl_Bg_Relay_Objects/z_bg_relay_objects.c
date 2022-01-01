@@ -7,8 +7,6 @@
 #include "z_bg_relay_objects.h"
 #include "objects/object_relay_objects/object_relay_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef enum {
     /* 0 */ WINDMILL_ROTATING_GEAR,
     /* 1 */ WINDMILL_DAMPE_STONE_DOOR
@@ -29,7 +27,7 @@ void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx);
 const ActorInit Bg_Relay_Objects_InitVars = {
     ACTOR_BG_RELAY_OBJECTS,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_RELAY_OBJECTS,
     sizeof(BgRelayObjects),
     (ActorFunc)BgRelayObjects_Init,

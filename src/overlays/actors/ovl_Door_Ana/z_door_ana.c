@@ -7,8 +7,6 @@
 #include "z_door_ana.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS ACTOR_FLAG_25
-
 void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorAna_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void DoorAna_GrabPlayer(DoorAna* this, GlobalContext* globalCtx);
 const ActorInit Door_Ana_InitVars = {
     ACTOR_DOOR_ANA,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_25,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(DoorAna),
     (ActorFunc)DoorAna_Init,

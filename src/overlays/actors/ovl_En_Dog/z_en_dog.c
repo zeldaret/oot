@@ -7,8 +7,6 @@
 #include "z_en_dog.h"
 #include "objects/object_dog/object_dog.h"
 
-#define FLAGS 0
-
 void EnDog_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDog_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDog_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void EnDog_Wait(EnDog* this, GlobalContext* globalCtx);
 const ActorInit En_Dog_InitVars = {
     ACTOR_EN_DOG,
     ACTORCAT_NPC,
-    FLAGS,
+    0,
     OBJECT_DOG,
     sizeof(EnDog),
     (ActorFunc)EnDog_Init,

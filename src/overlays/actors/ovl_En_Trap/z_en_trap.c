@@ -7,8 +7,6 @@
 #include "z_en_trap.h"
 #include "objects/object_trap/object_trap.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 #define BEGIN_MOVE_OUT 65535.0f
 
 #define DIR_FWD 0
@@ -37,7 +35,7 @@ void EnTrap_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Trap_InitVars = {
     ACTOR_EN_TRAP,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_TRAP,
     sizeof(EnTrap),
     (ActorFunc)EnTrap_Init,

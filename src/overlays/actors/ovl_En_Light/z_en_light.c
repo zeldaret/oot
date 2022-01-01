@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS 0
-
 void EnLight_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnLight_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Light_InitVars = {
     ACTOR_EN_LIGHT,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnLight),
     (ActorFunc)EnLight_Init,

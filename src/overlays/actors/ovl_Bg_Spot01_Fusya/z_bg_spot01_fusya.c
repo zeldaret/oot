@@ -7,8 +7,6 @@
 #include "z_bg_spot01_fusya.h"
 #include "objects/object_spot01_objects/object_spot01_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Fusya_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot01_Fusya_InitVars = {
     ACTOR_BG_SPOT01_FUSYA,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Fusya),
     (ActorFunc)BgSpot01Fusya_Init,

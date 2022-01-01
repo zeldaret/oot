@@ -8,8 +8,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnBom_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx);
 const ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
     ACTORCAT_EXPLOSIVE,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBom),
     (ActorFunc)EnBom_Init,

@@ -6,8 +6,6 @@
 
 #include "z_magic_fire.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void MagicFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ typedef enum {
 const ActorInit Magic_Fire_InitVars = {
     ACTOR_MAGIC_FIRE,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicFire),
     (ActorFunc)MagicFire_Init,

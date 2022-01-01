@@ -8,8 +8,6 @@
 #include "vt.h"
 #include "objects/object_rl/object_rl.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnRl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRl_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRl_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -383,7 +381,7 @@ void EnRl_Draw(Actor* thisx, GlobalContext* globalCtx) {
 const ActorInit En_Rl_InitVars = {
     ACTOR_EN_RL,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_RL,
     sizeof(EnRl),
     (ActorFunc)EnRl_Init,

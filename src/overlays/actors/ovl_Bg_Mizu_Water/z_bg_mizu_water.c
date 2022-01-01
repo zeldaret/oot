@@ -7,8 +7,6 @@
 #include "z_bg_mizu_water.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuWater_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,7 +30,7 @@ static WaterLevel sWaterLevels[] = {
 const ActorInit Bg_Mizu_Water_InitVars = {
     ACTOR_BG_MIZU_WATER,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuWater),
     (ActorFunc)BgMizuWater_Init,

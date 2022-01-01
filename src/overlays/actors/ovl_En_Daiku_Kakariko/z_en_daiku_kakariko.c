@@ -7,8 +7,6 @@
 #include "z_en_daiku_kakariko.h"
 #include "objects/object_daiku/object_daiku.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 typedef enum {
     /* 0x0 */ CARPENTER_ICHIRO,  // Red and purple pants, normal hair
     /* 0x1 */ CARPENTER_SABOORO, // Light blue pants
@@ -27,7 +25,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx);
 const ActorInit En_Daiku_Kakariko_InitVars = {
     ACTOR_EN_DAIKU_KAKARIKO,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_DAIKU,
     sizeof(EnDaikuKakariko),
     (ActorFunc)EnDaikuKakariko_Init,

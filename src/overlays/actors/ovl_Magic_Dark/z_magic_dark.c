@@ -7,8 +7,6 @@
 #include "z_magic_dark.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity);
 const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicDark),
     (ActorFunc)MagicDark_Init,

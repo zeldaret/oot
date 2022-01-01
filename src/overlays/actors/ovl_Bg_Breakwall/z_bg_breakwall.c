@@ -9,8 +9,6 @@
 #include "objects/object_bwall/object_bwall.h"
 #include "objects/object_kingdodongo/object_kingdodongo.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef struct {
     /* 0x00 */ CollisionHeader* colHeader;
     /* 0x04 */ Gfx* dList;
@@ -29,7 +27,7 @@ void BgBreakwall_LavaCoverMove(BgBreakwall* this, GlobalContext* globalCtx);
 const ActorInit Bg_Breakwall_InitVars = {
     ACTOR_BG_BREAKWALL,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgBreakwall),
     (ActorFunc)BgBreakwall_Init,

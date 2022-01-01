@@ -7,8 +7,6 @@
 #include "z_bg_menkuri_nisekabe.h"
 #include "objects/object_menkuri_objects/object_menkuri_objects.h"
 
-#define FLAGS 0
-
 void BgMenkuriNisekabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriNisekabe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void BgMenkuriNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Menkuri_Nisekabe_InitVars = {
     ACTOR_BG_MENKURI_NISEKABE,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_MENKURI_OBJECTS,
     sizeof(BgMenkuriNisekabe),
     (ActorFunc)BgMenkuriNisekabe_Init,

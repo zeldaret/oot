@@ -7,8 +7,6 @@
 #include "z_en_hintnuts.h"
 #include "objects/object_hintnuts/object_hintnuts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHintnuts_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -30,7 +28,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx);
 const ActorInit En_Hintnuts_InitVars = {
     ACTOR_EN_HINTNUTS,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_HINTNUTS,
     sizeof(EnHintnuts),
     (ActorFunc)EnHintnuts_Init,

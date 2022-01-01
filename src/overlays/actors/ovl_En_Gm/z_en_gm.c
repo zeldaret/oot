@@ -9,8 +9,6 @@
 #include "objects/object_gm/object_gm.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ void func_80A3DF60(EnGm* this, GlobalContext* globalCtx);
 const ActorInit En_Gm_InitVars = {
     ACTOR_EN_GM,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_OF1D_MAP,
     sizeof(EnGm),
     (ActorFunc)EnGm_Init,

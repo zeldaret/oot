@@ -7,8 +7,6 @@
 #include "z_en_siofuki.h"
 #include "objects/object_siofuki/object_siofuki.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSiofuki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSiofuki_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_80AFC478(EnSiofuki* this, GlobalContext* globalCtx);
 const ActorInit En_Siofuki_InitVars = {
     ACTOR_EN_SIOFUKI,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_SIOFUKI,
     sizeof(EnSiofuki),
     (ActorFunc)EnSiofuki_Init,

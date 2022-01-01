@@ -8,8 +8,6 @@
 #include "objects/object_mm/object_mm.h"
 #include "objects/object_link_child/object_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 typedef enum {
     /* 0 */ RM_ANIM_RUN,
     /* 1 */ RM_ANIM_SIT,
@@ -42,7 +40,7 @@ void EnMm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 const ActorInit En_Mm_InitVars = {
     ACTOR_EN_MM,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_MM,
     sizeof(EnMm),
     (ActorFunc)EnMm_Init,

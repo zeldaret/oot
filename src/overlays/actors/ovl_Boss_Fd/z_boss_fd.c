@@ -12,8 +12,6 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 typedef enum {
     /* 0 */ INTRO_FLY_EMERGE,
     /* 1 */ INTRO_FLY_HOLE,
@@ -47,7 +45,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this);
 const ActorInit Boss_Fd_InitVars = {
     ACTOR_BOSS_FD,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_FD,
     sizeof(BossFd),
     (ActorFunc)BossFd_Init,

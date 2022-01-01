@@ -8,8 +8,6 @@
 #include "objects/object_jya_iron/object_jya_iron.h"
 #include "overlays/actors/ovl_En_Ik/z_en_ik.h"
 
-#define FLAGS 0
-
 typedef void (*BgJyaIronobjIkFunc)(BgJyaIronobj*, GlobalContext*, EnIk*);
 
 void BgJyaIronobj_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -27,7 +25,7 @@ static int sUnused = 0;
 const ActorInit Bg_Jya_Ironobj_InitVars = {
     ACTOR_BG_JYA_IRONOBJ,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_JYA_IRON,
     sizeof(BgJyaIronobj),
     (ActorFunc)BgJyaIronobj_Init,

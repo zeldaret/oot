@@ -3,8 +3,6 @@
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomBowlPit_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBomBowlPit_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ static s32 sGetItemIds[] = { GI_BOMB_BAG_30, GI_HEART_PIECE, GI_BOMBCHUS_10, GI_
 const ActorInit En_Bom_Bowl_Pit_InitVars = {
     ACTOR_EN_BOM_BOWL_PIT,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBomBowlPit),
     (ActorFunc)EnBomBowlPit_Init,

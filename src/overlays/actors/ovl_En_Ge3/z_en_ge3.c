@@ -7,8 +7,6 @@
 #include "z_en_ge3.h"
 #include "objects/object_geldb/object_geldb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void EnGe3_UpdateWhenNotTalking(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_GELDB,
     sizeof(EnGe3),
     (ActorFunc)EnGe3_Init,

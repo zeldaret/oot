@@ -8,8 +8,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_bombiwa/object_bombiwa.h"
 
-#define FLAGS 0
-
 void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx);
 void ObjBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx);
 const ActorInit Obj_Bombiwa_InitVars = {
     ACTOR_OBJ_BOMBIWA,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_BOMBIWA,
     sizeof(ObjBombiwa),
     (ActorFunc)ObjBombiwa_Init,

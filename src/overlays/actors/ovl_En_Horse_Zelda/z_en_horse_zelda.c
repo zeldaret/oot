@@ -7,8 +7,6 @@
 #include "z_en_horse_zelda.h"
 #include "objects/object_horse_zelda/object_horse_zelda.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseZelda_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void func_80A6DC7C(EnHorseZelda* this);
 const ActorInit En_Horse_Zelda_InitVars = {
     ACTOR_EN_HORSE_ZELDA,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_HORSE_ZELDA,
     sizeof(EnHorseZelda),
     (ActorFunc)EnHorseZelda_Init,

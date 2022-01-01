@@ -7,8 +7,6 @@
 #include "z_item_ocarina.h"
 #include "scenes/overworld/spot00/spot00_scene.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemOcarina_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ItemOcarina_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx);
 const ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GI_OCARINA,
     sizeof(ItemOcarina),
     (ActorFunc)ItemOcarina_Init,

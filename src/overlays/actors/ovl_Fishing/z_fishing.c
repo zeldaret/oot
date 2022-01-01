@@ -10,8 +10,6 @@
 #include "objects/object_fish/object_fish.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 #define WATER_SURFACE_Y(globalCtx) globalCtx->colCtx.colHeader->waterBoxes->ySurface
 
 void Fishing_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -120,7 +118,7 @@ typedef struct {
 const ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_FISH,
     sizeof(Fishing),
     (ActorFunc)Fishing_Init,

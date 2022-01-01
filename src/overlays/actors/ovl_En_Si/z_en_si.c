@@ -6,8 +6,6 @@
 
 #include "z_en_si.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_9)
-
 void EnSi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSi_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ static CollisionCheckInfoInit2 D_80AFBADC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 const ActorInit En_Si_InitVars = {
     ACTOR_EN_SI,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_9,
     OBJECT_ST,
     sizeof(EnSi),
     (ActorFunc)EnSi_Init,

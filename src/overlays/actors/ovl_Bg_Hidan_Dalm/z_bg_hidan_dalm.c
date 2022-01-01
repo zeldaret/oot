@@ -7,8 +7,6 @@
 #include "z_bg_hidan_dalm.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0
-
 void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -20,7 +18,7 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Dalm_InitVars = {
     ACTOR_BG_HIDAN_DALM,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanDalm),
     (ActorFunc)BgHidanDalm_Init,

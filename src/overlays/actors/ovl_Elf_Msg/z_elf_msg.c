@@ -8,8 +8,6 @@
 #include "vt.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx);
 const ActorInit Elf_Msg_InitVars = {
     ACTOR_ELF_MSG,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ElfMsg),
     (ActorFunc)ElfMsg_Init,

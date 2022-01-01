@@ -7,8 +7,6 @@
 #include "z_en_weather_tag.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWeatherTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWeatherTag_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, GlobalContext* globalCt
 const ActorInit En_Weather_Tag_InitVars = {
     ACTOR_EN_WEATHER_TAG,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWeatherTag),
     (ActorFunc)EnWeatherTag_Init,

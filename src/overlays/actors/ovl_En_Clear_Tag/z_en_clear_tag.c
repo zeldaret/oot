@@ -1,7 +1,5 @@
 #include "z_en_clear_tag.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void EnClearTag_CalculateFloorTangent(EnClearTag* this);
 const ActorInit En_Clear_Tag_InitVars = {
     ACTOR_EN_CLEAR_TAG,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnClearTag),
     (ActorFunc)EnClearTag_Init,

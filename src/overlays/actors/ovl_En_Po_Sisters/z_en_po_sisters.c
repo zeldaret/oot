@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
-
 void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoSisters_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -64,7 +62,7 @@ static Color_RGBA8 D_80ADD700[4] = {
 const ActorInit En_Po_Sisters_InitVars = {
     ACTOR_EN_PO_SISTERS,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_12 | ACTOR_FLAG_14,
     OBJECT_PO_SISTERS,
     sizeof(EnPoSisters),
     (ActorFunc)EnPoSisters_Init,

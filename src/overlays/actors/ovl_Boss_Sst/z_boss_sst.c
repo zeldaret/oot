@@ -10,8 +10,6 @@
 #include "overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
-
 #define vParity actionVar
 #define vVanish actionVar
 
@@ -237,7 +235,7 @@ static s32 sHandState[] = { HAND_WAIT, HAND_WAIT };
 const ActorInit Boss_Sst_InitVars = {
     ACTOR_BOSS_SST,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10,
     OBJECT_SST,
     sizeof(BossSst),
     (ActorFunc)BossSst_Init,

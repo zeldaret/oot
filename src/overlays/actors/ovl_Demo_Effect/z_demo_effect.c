@@ -10,8 +10,6 @@
 #include "objects/object_efc_tw/object_efc_tw.h"
 #include "objects/object_gi_jewel/object_gi_jewel.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoEffect_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -65,7 +63,7 @@ void DemoEffect_MoveGetItem(DemoEffect* this, GlobalContext* globalCtx, s32 csAc
 const ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoEffect),
     (ActorFunc)DemoEffect_Init,

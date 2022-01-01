@@ -4,8 +4,6 @@
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_G_Switch/z_en_g_switch.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef enum {
     SYATEKI_ROUND_GREEN_APPEAR,
     SYATEKI_ROUND_BLUE_SEQUENTIAL,
@@ -30,7 +28,7 @@ void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx);
 const ActorInit En_Syateki_Itm_InitVars = {
     ACTOR_EN_SYATEKI_ITM,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnSyatekiItm),
     (ActorFunc)EnSyatekiItm_Init,

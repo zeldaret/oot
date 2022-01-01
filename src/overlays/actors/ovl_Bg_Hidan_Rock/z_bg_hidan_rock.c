@@ -7,8 +7,6 @@
 #include "z_bg_hidan_rock.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0
-
 void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,7 +30,7 @@ static Vec3f D_8088BF60 = { 3310.0f, 120.0f, 0.0f };
 const ActorInit Bg_Hidan_Rock_InitVars = {
     ACTOR_BG_HIDAN_ROCK,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanRock),
     (ActorFunc)BgHidanRock_Init,

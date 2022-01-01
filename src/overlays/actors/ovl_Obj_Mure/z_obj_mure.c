@@ -6,8 +6,6 @@
 
 #include "z_obj_mure.h"
 
-#define FLAGS 0
-
 void ObjMure_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ s32 ObjMure_GetMaxChildSpawns(ObjMure* this);
 const ActorInit Obj_Mure_InitVars = {
     ACTOR_OBJ_MURE,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMure),
     (ActorFunc)ObjMure_Init,

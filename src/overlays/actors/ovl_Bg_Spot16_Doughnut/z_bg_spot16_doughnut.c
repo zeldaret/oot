@@ -8,8 +8,6 @@
 #include "objects/object_efc_doughnut/object_efc_doughnut.h"
 #include "vt.h"
 
-#define FLAGS 0
-
 void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Doughnut_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Doughnut_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void BgSpot16Doughnut_DrawExpanding(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_EFC_DOUGHNUT,
     sizeof(BgSpot16Doughnut),
     (ActorFunc)BgSpot16Doughnut_Init,

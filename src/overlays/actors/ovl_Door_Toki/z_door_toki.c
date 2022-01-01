@@ -7,8 +7,6 @@
 #include "z_door_toki.h"
 #include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS 0
-
 void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -16,7 +14,7 @@ void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Door_Toki_InitVars = {
     ACTOR_DOOR_TOKI,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_TOKI_OBJECTS,
     sizeof(DoorToki),
     (ActorFunc)DoorToki_Init,

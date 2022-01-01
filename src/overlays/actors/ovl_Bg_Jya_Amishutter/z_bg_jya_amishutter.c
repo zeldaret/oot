@@ -7,8 +7,6 @@
 #include "z_bg_jya_amishutter.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0
-
 void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void func_8089350C(BgJyaAmishutter* this);
 const ActorInit Bg_Jya_Amishutter_InitVars = {
     ACTOR_BG_JYA_AMISHUTTER,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaAmishutter),
     (ActorFunc)BgJyaAmishutter_Init,

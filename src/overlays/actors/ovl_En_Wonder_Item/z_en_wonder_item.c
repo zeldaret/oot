@@ -7,8 +7,6 @@
 #include "z_en_wonder_item.h"
 #include "vt.h"
 
-#define FLAGS 0
-
 void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -44,7 +42,7 @@ static ColliderCylinderInit sCylinderInit = {
 const ActorInit En_Wonder_Item_InitVars = {
     ACTOR_EN_WONDER_ITEM,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWonderItem),
     (ActorFunc)EnWonderItem_Init,

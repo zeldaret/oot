@@ -8,8 +8,6 @@
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 typedef enum {
     /* 0x00 */ FLASH_NONE,
     /* 0x01 */ FLASH_GROW,
@@ -28,7 +26,7 @@ void BgGanonOtyuka_DoNothing(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Ganon_Otyuka_InitVars = {
     ACTOR_BG_GANON_OTYUKA,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GANON,
     sizeof(BgGanonOtyuka),
     (ActorFunc)BgGanonOtyuka_Init,

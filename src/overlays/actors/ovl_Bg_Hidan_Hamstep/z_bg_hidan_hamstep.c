@@ -7,8 +7,6 @@
 #include "z_bg_hidan_hamstep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0
-
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHamstep_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -65,7 +63,7 @@ static ColliderTrisInit sTrisInit = {
 const ActorInit Bg_Hidan_Hamstep_InitVars = {
     ACTOR_BG_HIDAN_HAMSTEP,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanHamstep),
     (ActorFunc)BgHidanHamstep_Init,

@@ -8,8 +8,6 @@
 #include "objects/object_spot01_objects/object_spot01_objects.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idohashira_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -39,7 +37,7 @@ static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
 const ActorInit Bg_Spot01_Idohashira_InitVars = {
     ACTOR_BG_SPOT01_IDOHASHIRA,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Idohashira),
     (ActorFunc)BgSpot01Idohashira_Init,

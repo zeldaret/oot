@@ -8,8 +8,6 @@
 #include "vt.h"
 #include "objects/object_ge1/object_ge1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 #define GE1_STATE_TALKING (1 << 0)
 #define GE1_STATE_GIVE_QUIVER (1 << 1)
 #define GE1_STATE_IDLE_ANIM (1 << 2)
@@ -42,7 +40,7 @@ void EnGe1_StopFidget(EnGe1* this);
 const ActorInit En_Ge1_InitVars = {
     ACTOR_EN_GE1,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_GE1,
     sizeof(EnGe1),
     (ActorFunc)EnGe1_Init,

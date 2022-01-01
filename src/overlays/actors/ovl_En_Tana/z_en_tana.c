@@ -7,8 +7,6 @@
 #include "z_en_tana.h"
 #include "objects/object_shop_dungen/object_shop_dungen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnTana_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTana_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTana_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void EnTana_DrawStoneShelves(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_SHOP_DUNGEN,
     sizeof(EnTana),
     (ActorFunc)EnTana_Init,

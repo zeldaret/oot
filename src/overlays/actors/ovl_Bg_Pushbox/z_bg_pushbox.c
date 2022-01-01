@@ -7,8 +7,6 @@
 #include "z_bg_pushbox.h"
 #include "objects/object_pu_box/object_pu_box.h"
 
-#define FLAGS 0
-
 void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void BgPushbox_UpdateImpl(BgPushbox* this, GlobalContext* globalCtx);
 const ActorInit Bg_Pushbox_InitVars = {
     ACTOR_BG_PUSHBOX,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     //! @bug fixing this actor would involve using OBJECT_PU_BOX
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(BgPushbox),

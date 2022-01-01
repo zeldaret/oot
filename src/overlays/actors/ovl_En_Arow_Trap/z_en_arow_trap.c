@@ -6,8 +6,6 @@
 
 #include "z_en_arow_trap.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
-#define FLAGS ACTOR_FLAG_4
-
 void EnArowTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnArowTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnArowTrap_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -15,7 +13,7 @@ void EnArowTrap_Update(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Arow_Trap_InitVars = {
     ACTOR_EN_AROW_TRAP,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnArowTrap),
     (ActorFunc)EnArowTrap_Init,

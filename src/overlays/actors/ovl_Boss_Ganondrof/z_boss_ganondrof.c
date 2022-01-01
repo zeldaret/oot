@@ -12,8 +12,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 typedef enum {
     /* 0 */ NOT_DEAD,
     /* 1 */ DEATH_START,
@@ -72,7 +70,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx);
 const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GND,
     sizeof(BossGanondrof),
     (ActorFunc)BossGanondrof_Init,

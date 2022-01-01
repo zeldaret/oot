@@ -8,8 +8,6 @@
 #include "objects/object_haka_objects/object_haka_objects.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
-
 typedef enum {
     /* 0 */ SCYTHE_TRAP_SHADOW_TEMPLE,
     /* 1 */ SCYTHE_TRAP_SHADOW_TEMPLE_INVISIBLE,
@@ -29,7 +27,7 @@ void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_Sgami_InitVars = {
     ACTOR_BG_HAKA_SGAMI,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHakaSgami),
     (ActorFunc)BgHakaSgami_Init,

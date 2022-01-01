@@ -7,8 +7,6 @@
 #include "z_elf_msg2.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void ElfMsg2_WaitForTextRead(ElfMsg2* this, GlobalContext* globalCtx);
 const ActorInit Elf_Msg2_InitVars = {
     ACTOR_ELF_MSG2,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ElfMsg2),
     (ActorFunc)ElfMsg2_Init,

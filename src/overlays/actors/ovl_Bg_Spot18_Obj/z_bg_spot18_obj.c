@@ -8,8 +8,6 @@
 #include "z_bg_spot18_obj.h"
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 
-#define FLAGS 0
-
 void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Obj_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ void func_808B9040(BgSpot18Obj* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot18_Obj_InitVars = {
     ACTOR_BG_SPOT18_OBJ,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Obj),
     (ActorFunc)BgSpot18Obj_Init,

@@ -4,8 +4,6 @@
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -28,7 +26,7 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx);
 const ActorInit En_Niw_Lady_InitVars = {
     ACTOR_EN_NIW_LADY,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_ANE,
     sizeof(EnNiwLady),
     (ActorFunc)EnNiwLady_Init,

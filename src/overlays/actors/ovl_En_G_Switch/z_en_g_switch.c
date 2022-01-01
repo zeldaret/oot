@@ -12,8 +12,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 typedef enum {
     /* 0 */ MOVE_TARGET,
     /* 1 */ MOVE_HOME
@@ -67,7 +65,7 @@ static s16 sRupeeTypes[] = {
 const ActorInit En_G_Switch_InitVars = {
     ACTOR_EN_G_SWITCH,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGSwitch),
     (ActorFunc)EnGSwitch_Init,

@@ -1,8 +1,6 @@
 #include "z_bg_jya_bombchuiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
-#define FLAGS ACTOR_FLAG_0
-
 void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombchuiwa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, GlobalContext* globalC
 const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
     ACTOR_BG_JYA_BOMBCHUIWA,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_0,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaBombchuiwa),
     (ActorFunc)BgJyaBombchuiwa_Init,

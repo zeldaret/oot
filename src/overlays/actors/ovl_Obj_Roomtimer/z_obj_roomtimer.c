@@ -6,8 +6,6 @@
 
 #include "z_obj_roomtimer.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void ObjRoomtimer_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjRoomtimer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjRoomtimer_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void func_80B9D0B0(ObjRoomtimer* this, GlobalContext* globalCtx);
 const ActorInit Obj_Roomtimer_InitVars = {
     ACTOR_OBJ_ROOMTIMER,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjRoomtimer),
     (ActorFunc)ObjRoomtimer_Init,

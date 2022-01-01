@@ -1,7 +1,5 @@
 #include "global.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25 | ACTOR_FLAG_26)
-
 void (*sPlayerCallInitFunc)(Actor* thisx, GlobalContext* globalCtx);
 void (*sPlayerCallDestroyFunc)(Actor* thisx, GlobalContext* globalCtx);
 void (*sPlayerCallUpdateFunc)(Actor* thisx, GlobalContext* globalCtx);
@@ -20,7 +18,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Player_InitVars = {
     ACTOR_PLAYER,
     ACTORCAT_PLAYER,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25 | ACTOR_FLAG_26,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(Player),
     (ActorFunc)PlayerCall_Init,

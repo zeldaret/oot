@@ -9,8 +9,6 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnRu2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRu2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRu2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -80,7 +78,7 @@ static EnRu2DrawFunc sDrawFuncs[] = {
 const ActorInit En_Ru2_InitVars = {
     ACTOR_EN_RU2,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_RU2,
     sizeof(EnRu2),
     (ActorFunc)EnRu2_Init,

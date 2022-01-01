@@ -8,8 +8,6 @@
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 // type:        (this->dyna.actor.params & 7)
 // subtype:     (this->dyna.actor.params >> 4 & 7)
 // switch flag: (this->dyna.actor.params >> 8 & 0x3F)
@@ -52,7 +50,7 @@ void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx);
 const ActorInit Obj_Switch_InitVars = {
     ACTOR_OBJ_SWITCH,
     ACTORCAT_SWITCH,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjSwitch),
     (ActorFunc)ObjSwitch_Init,

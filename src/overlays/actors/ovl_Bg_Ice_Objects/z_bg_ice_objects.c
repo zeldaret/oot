@@ -7,8 +7,6 @@
 #include "z_bg_ice_objects.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS 0
-
 void BgIceObjects_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceObjects_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 const ActorInit Bg_Ice_Objects_InitVars = {
     ACTOR_BG_ICE_OBJECTS,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceObjects),
     (ActorFunc)BgIceObjects_Init,

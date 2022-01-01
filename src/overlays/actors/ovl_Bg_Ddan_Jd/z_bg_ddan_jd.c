@@ -7,8 +7,6 @@
 #include "z_bg_ddan_jd.h"
 #include "objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanJd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -20,7 +18,7 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_DDAN_OBJECTS,
     sizeof(BgDdanJd),
     (ActorFunc)BgDdanJd_Init,

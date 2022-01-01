@@ -9,8 +9,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 typedef enum {
     /* 0 */ FWBIG_MOVE,
     /* 1 */ FWBIG_RESET,
@@ -34,7 +32,7 @@ void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Fwbig_InitVars = {
     ACTOR_BG_HIDAN_FWBIG,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanFwbig),
     (ActorFunc)BgHidanFwbig_Init,

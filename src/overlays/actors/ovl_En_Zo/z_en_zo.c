@@ -7,8 +7,6 @@
 #include "z_en_zo.h"
 #include "objects/object_zo/object_zo.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 typedef enum {
     /* 0 */ ENZO_EFFECT_NONE,
     /* 1 */ ENZO_EFFECT_RIPPLE,
@@ -300,7 +298,7 @@ static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_ZO,
     sizeof(EnZo),
     (ActorFunc)EnZo_Init,

@@ -7,8 +7,6 @@
 #include "z_bg_hidan_rsekizou.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0
-
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     ACTOR_BG_HIDAN_RSEKIZOU,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanRsekizou),
     (ActorFunc)BgHidanRsekizou_Init,

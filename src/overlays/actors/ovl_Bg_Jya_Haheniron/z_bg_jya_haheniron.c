@@ -8,8 +8,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_jya_iron/object_jya_iron.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, GlobalContext* globalCtx
 const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_JYA_IRON,
     sizeof(BgJyaHaheniron),
     (ActorFunc)BgJyaHaheniron_Init,

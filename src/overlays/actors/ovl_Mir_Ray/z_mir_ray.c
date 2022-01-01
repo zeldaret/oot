@@ -7,8 +7,6 @@
 #include "z_mir_ray.h"
 #include "objects/object_mir_ray/object_mir_ray.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void MirRay_Init(Actor* thisx, GlobalContext* globalCtx);
 void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MirRay_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ typedef enum {
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_MIR_RAY,
     sizeof(MirRay),
     (ActorFunc)MirRay_Init,

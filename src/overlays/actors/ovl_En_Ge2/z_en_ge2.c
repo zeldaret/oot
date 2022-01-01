@@ -8,8 +8,6 @@
 #include "vt.h"
 #include "objects/object_gla/object_gla.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 #define GE2_STATE_ANIMCOMPLETE (1 << 1)
 #define GE2_STATE_KO (1 << 2)
 #define GE2_STATE_CAPTURING (1 << 3)
@@ -58,7 +56,7 @@ void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Ge2_InitVars = {
     ACTOR_EN_GE2,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_GLA,
     sizeof(EnGe2),
     (ActorFunc)EnGe2_Init,

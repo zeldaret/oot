@@ -2,8 +2,6 @@
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void EnAObj_SetupBlock(EnAObj* this, s16 type);
 const ActorInit En_A_Obj_InitVars = {
     ACTOR_EN_A_OBJ,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnAObj),
     (ActorFunc)EnAObj_Init,

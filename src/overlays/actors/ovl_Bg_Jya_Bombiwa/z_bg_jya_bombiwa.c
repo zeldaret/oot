@@ -9,8 +9,6 @@
 #include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
-#define FLAGS 0
-
 void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Jya_Bombiwa_InitVars = {
     ACTOR_BG_JYA_BOMBIWA,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaBombiwa),
     (ActorFunc)BgJyaBombiwa_Init,

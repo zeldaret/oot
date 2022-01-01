@@ -8,8 +8,6 @@
 #include "objects/object_gj/object_gj.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -1449,7 +1447,7 @@ void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 const ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GJ,
     sizeof(DemoGj),
     (ActorFunc)DemoGj_Init,

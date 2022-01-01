@@ -9,8 +9,6 @@
 #include "objects/object_ahg/object_ahg.h"
 #include "objects/object_boj/object_boj.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnSth_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSth_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx);
 const ActorInit En_Sth_InitVars = {
     ACTOR_EN_STH,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnSth),
     (ActorFunc)EnSth_Init,

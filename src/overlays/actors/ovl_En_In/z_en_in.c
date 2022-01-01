@@ -2,8 +2,6 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "objects/object_in/object_in.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
-
 void EnIn_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIn_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -27,7 +25,7 @@ void func_80A7A4BC(EnIn* this, GlobalContext* globalCtx);
 const ActorInit En_In_InitVars = {
     ACTOR_EN_IN,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4,
     OBJECT_IN,
     sizeof(EnIn),
     (ActorFunc)EnIn_Init,

@@ -7,8 +7,6 @@
 #include "z_obj_hana.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0
-
 void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjHana_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void ObjHana_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Obj_Hana_InitVars = {
     ACTOR_OBJ_HANA,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjHana),
     (ActorFunc)ObjHana_Init,

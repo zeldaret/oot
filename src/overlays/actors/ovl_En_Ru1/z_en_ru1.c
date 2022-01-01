@@ -8,8 +8,6 @@
 #include "objects/object_ru1/object_ru1.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
-
 void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -134,7 +132,7 @@ static EnRu1DrawFunc sDrawFuncs[] = {
 const ActorInit En_Ru1_InitVars = {
     ACTOR_EN_RU1,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26,
     OBJECT_RU1,
     sizeof(EnRu1),
     (ActorFunc)EnRu1_Init,

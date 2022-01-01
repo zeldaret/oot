@@ -7,8 +7,6 @@
 #include "z_oceff_wipe3.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void OceffWipe3_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe3_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Oceff_Wipe3_InitVars = {
     ACTOR_OCEFF_WIPE3,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffWipe3),
     (ActorFunc)OceffWipe3_Init,

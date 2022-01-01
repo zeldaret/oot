@@ -9,8 +9,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0
-
 typedef enum {
     /* 0 */ CRACKED_STONE_FLOOR,
     /* 1 */ BOMBABLE_WALL,
@@ -25,7 +23,7 @@ void BgHidanKowarerukabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     ACTOR_BG_HIDAN_KOWARERUKABE,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanKowarerukabe),
     (ActorFunc)BgHidanKowarerukabe_Init,

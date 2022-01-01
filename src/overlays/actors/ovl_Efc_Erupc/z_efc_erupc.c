@@ -1,8 +1,6 @@
 #include "z_efc_erupc.h"
 #include "objects/object_efc_erupc/object_efc_erupc.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EfcErupc_Init(Actor* thisx, GlobalContext* globalCtx);
 void EfcErupc_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EfcErupc_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void EfcErupc_InitParticles(EfcErupcParticles* particles);
 const ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_EFC_ERUPC,
     sizeof(EfcErupc),
     (ActorFunc)EfcErupc_Init,

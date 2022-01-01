@@ -9,8 +9,6 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
-
 void EnFw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -27,7 +25,7 @@ void EnFw_TurnToParentInitPos(EnFw* this, GlobalContext* globalCtx);
 const ActorInit En_Fw_InitVars = {
     ACTOR_EN_FW,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9,
     OBJECT_FW,
     sizeof(EnFw),
     (ActorFunc)EnFw_Init,

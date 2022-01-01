@@ -7,8 +7,6 @@
 #include "z_en_po_desert.h"
 #include "objects/object_po_field/object_po_field.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_7 | ACTOR_FLAG_12)
-
 void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void EnPoDesert_Disappear(EnPoDesert* this, GlobalContext* globalCtx);
 const ActorInit En_Po_Desert_InitVars = {
     ACTOR_EN_PO_DESERT,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_7 | ACTOR_FLAG_12,
     OBJECT_PO_FIELD,
     sizeof(EnPoDesert),
     (ActorFunc)EnPoDesert_Init,

@@ -8,8 +8,6 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/object_dodojr/object_dodojr.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDodojr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ void func_809F768C(EnDodojr* this, GlobalContext* globalCtx);
 const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_DODOJR,
     sizeof(EnDodojr),
     (ActorFunc)EnDodojr_Init,

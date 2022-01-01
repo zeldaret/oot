@@ -10,8 +10,6 @@
 
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_23
-
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ static s16 sRotSpeedY = 0;
 const ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_23,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(EnIshi),
     (ActorFunc)EnIshi_Init,

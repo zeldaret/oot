@@ -9,8 +9,6 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
-
 void EnVm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +24,7 @@ void EnVm_Die(EnVm* this, GlobalContext* globalCtx);
 const ActorInit En_Vm_InitVars = {
     ACTOR_EN_VM,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_4,
     OBJECT_VM,
     sizeof(EnVm),
     (ActorFunc)EnVm_Init,

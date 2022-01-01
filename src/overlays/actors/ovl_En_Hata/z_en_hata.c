@@ -7,8 +7,6 @@
 #include "z_en_hata.h"
 #include "objects/object_hata/object_hata.h"
 
-#define FLAGS 0
-
 void EnHata_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHata_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +15,7 @@ void EnHata_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Hata_InitVars = {
     ACTOR_EN_HATA,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_HATA,
     sizeof(EnHata),
     (ActorFunc)EnHata_Init,

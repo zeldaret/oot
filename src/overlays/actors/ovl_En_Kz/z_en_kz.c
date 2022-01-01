@@ -7,8 +7,6 @@
 #include "z_en_kz.h"
 #include "objects/object_kz/object_kz.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnKz_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKz_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKz_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx);
 const ActorInit En_Kz_InitVars = {
     ACTOR_EN_KZ,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_KZ,
     sizeof(EnKz),
     (ActorFunc)EnKz_Init,

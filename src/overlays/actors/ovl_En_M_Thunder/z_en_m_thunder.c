@@ -1,8 +1,6 @@
 #include "z_en_m_thunder.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0
-
 void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -15,7 +13,7 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx);
 const ActorInit En_M_Thunder_InitVars = {
     ACTOR_EN_M_THUNDER,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnMThunder),
     (ActorFunc)EnMThunder_Init,

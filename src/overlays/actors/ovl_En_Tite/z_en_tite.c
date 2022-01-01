@@ -10,8 +10,6 @@
 #include "vt.h"
 #include "objects/object_tite/object_tite.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 // EnTite_Idle
 #define vIdleTimer actionVar1
 
@@ -77,7 +75,7 @@ void EnTite_FlipUpright(EnTite* this, GlobalContext* globalCtx);
 const ActorInit En_Tite_InitVars = {
     ACTOR_EN_TITE,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_TITE,
     sizeof(EnTite),
     (ActorFunc)EnTite_Init,

@@ -7,8 +7,6 @@
 #include "z_bg_ice_turara.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS 0
-
 void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ static ColliderCylinderInit sCylinderInit = {
 const ActorInit Bg_Ice_Turara_InitVars = {
     ACTOR_BG_ICE_TURARA,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceTurara),
     (ActorFunc)BgIceTurara_Init,

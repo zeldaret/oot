@@ -7,8 +7,6 @@
 #include "z_bg_haka_water.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgHakaWater_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaWater_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaWater_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_Water_InitVars = {
     ACTOR_BG_HAKA_WATER,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_HAKACH_OBJECTS,
     sizeof(BgHakaWater),
     (ActorFunc)BgHakaWater_Init,

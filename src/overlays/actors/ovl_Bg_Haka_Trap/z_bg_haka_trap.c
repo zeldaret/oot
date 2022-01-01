@@ -7,8 +7,6 @@
 #include "z_bg_haka_trap.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0
-
 void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTrap_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,7 +30,7 @@ static UNK_TYPE D_80880F30 = 0;
 const ActorInit Bg_Haka_Trap_InitVars = {
     ACTOR_BG_HAKA_TRAP,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaTrap),
     (ActorFunc)BgHakaTrap_Init,

@@ -7,8 +7,6 @@
 #include "z_en_bili.h"
 #include "objects/object_bl/object_bl.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
-
 void EnBili_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -31,7 +29,7 @@ void EnBili_Frozen(EnBili* this, GlobalContext* globalCtx);
 const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14,
     OBJECT_BL,
     sizeof(EnBili),
     (ActorFunc)EnBili_Init,

@@ -7,8 +7,6 @@
 #include "z_en_nwc.h"
 #include "objects/object_nwc/object_nwc.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNwc_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNwc_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ typedef enum {
 const ActorInit En_Nwc_InitVars = {
     ACTOR_EN_NWC,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_NWC,
     sizeof(EnNwc),
     (ActorFunc)EnNwc_Init,

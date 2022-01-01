@@ -4,8 +4,6 @@
 #include "vt.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -1773,7 +1771,7 @@ void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 const ActorInit Demo_Gt_InitVars = {
     ACTOR_DEMO_GT,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GT,
     sizeof(DemoGt),
     (ActorFunc)DemoGt_Init,

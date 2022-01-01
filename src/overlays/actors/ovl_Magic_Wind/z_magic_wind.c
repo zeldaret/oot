@@ -6,8 +6,6 @@
 
 #include "z_magic_wind.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
-
 void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicWind_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MagicWind_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void MagicWind_Grow(MagicWind* this, GlobalContext* globalCtx);
 const ActorInit Magic_Wind_InitVars = {
     ACTOR_MAGIC_WIND,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_25,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicWind),
     (ActorFunc)MagicWind_Init,

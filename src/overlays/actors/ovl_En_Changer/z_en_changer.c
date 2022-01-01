@@ -9,8 +9,6 @@
 #include "overlays/actors/ovl_Item_Etcetera/z_item_etcetera.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
-#define FLAGS 0
-
 typedef enum {
     /* 0 */ CHEST_LEFT,
     /* 1 */ CHEST_RIGHT
@@ -27,7 +25,7 @@ void EnChanger_SetHeartPieceFlag(EnChanger* this, GlobalContext* globalCtx);
 const ActorInit En_Changer_InitVars = {
     ACTOR_EN_CHANGER,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnChanger),
     (ActorFunc)EnChanger_Init,

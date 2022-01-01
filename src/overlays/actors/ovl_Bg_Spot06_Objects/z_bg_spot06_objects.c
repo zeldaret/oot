@@ -7,8 +7,6 @@
 #include "z_bg_spot06_objects.h"
 #include "objects/object_spot06_objects/object_spot06_objects.h"
 
-#define FLAGS ACTOR_FLAG_9
-
 typedef enum {
     /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,
     /* 0x1 */ LHO_WATER_TEMPLE_ENTRANCE_LOCK,
@@ -47,7 +45,7 @@ void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, GlobalContext
 const ActorInit Bg_Spot06_Objects_InitVars = {
     ACTOR_BG_SPOT06_OBJECTS,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_9,
     OBJECT_SPOT06_OBJECTS,
     sizeof(BgSpot06Objects),
     (ActorFunc)BgSpot06Objects_Init,

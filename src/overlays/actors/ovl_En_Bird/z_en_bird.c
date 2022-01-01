@@ -7,8 +7,6 @@
 #include "z_en_bird.h"
 #include "objects/object_bird/object_bird.h"
 
-#define FLAGS 0
-
 void EnBird_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBird_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void func_809C1CAC(EnBird* this, s16 params);
 const ActorInit En_Bird_InitVars = {
     ACTOR_EN_BIRD,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_BIRD,
     sizeof(EnBird),
     (ActorFunc)EnBird_Init,

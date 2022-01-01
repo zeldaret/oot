@@ -7,8 +7,6 @@
 #include "z_en_horse_game_check.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 #define AT_FINISH_LINE(actor)                                                                                     \
     (Math3D_PointInSquare2D(sFinishLine[0], sFinishLine[1], sFinishLine[2], sFinishLine[3], (actor)->world.pos.x, \
                             (actor)->world.pos.z))
@@ -51,7 +49,7 @@ void EnHorseGameCheck_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit En_Horse_Game_Check_InitVars = {
     ACTOR_EN_HORSE_GAME_CHECK,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnHorseGameCheck),
     (ActorFunc)EnHorseGameCheck_Init,

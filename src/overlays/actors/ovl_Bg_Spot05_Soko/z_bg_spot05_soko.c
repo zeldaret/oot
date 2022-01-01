@@ -7,8 +7,6 @@
 #include "z_bg_spot05_soko.h"
 #include "objects/object_spot05_objects/object_spot05_objects.h"
 
-#define FLAGS 0
-
 void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot05Soko_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -20,7 +18,7 @@ void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot05_Soko_InitVars = {
     ACTOR_BG_SPOT05_SOKO,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_SPOT05_OBJECTS,
     sizeof(BgSpot05Soko),
     (ActorFunc)BgSpot05Soko_Init,

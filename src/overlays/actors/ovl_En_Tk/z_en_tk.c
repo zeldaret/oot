@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_tk/object_tk.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
-
 void EnTk_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTk_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx);
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_3,
     OBJECT_TK,
     sizeof(EnTk),
     (ActorFunc)EnTk_Init,

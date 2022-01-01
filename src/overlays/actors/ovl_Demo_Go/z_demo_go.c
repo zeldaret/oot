@@ -8,8 +8,6 @@
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +38,7 @@ static DemoGoDrawFunc D_8097D468[] = {
 const ActorInit Demo_Go_InitVars = {
     ACTOR_DEMO_GO,
     ACTORCAT_NPC,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_OF1D_MAP,
     sizeof(DemoGo),
     (ActorFunc)DemoGo_Init,

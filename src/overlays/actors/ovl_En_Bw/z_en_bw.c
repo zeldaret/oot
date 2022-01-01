@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_bw/object_bw.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 void EnBw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBw_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ void func_809D0424(EnBw* this, GlobalContext* globalCtx);
 const ActorInit En_Bw_InitVars = {
     ACTOR_EN_BW,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_BW,
     sizeof(EnBw),
     (ActorFunc)EnBw_Init,

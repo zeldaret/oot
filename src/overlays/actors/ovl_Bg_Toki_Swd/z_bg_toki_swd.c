@@ -7,8 +7,6 @@
 #include "z_bg_toki_swd.h"
 #include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ extern CutsceneData D_808BBD90[];
 const ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_TOKI_OBJECTS,
     sizeof(BgTokiSwd),
     (ActorFunc)BgTokiSwd_Init,

@@ -8,8 +8,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0
-
 void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,7 +21,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx);
 const ActorInit Obj_Comb_InitVars = {
     ACTOR_OBJ_COMB,
     ACTORCAT_PROP,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjComb),
     (ActorFunc)ObjComb_Init,

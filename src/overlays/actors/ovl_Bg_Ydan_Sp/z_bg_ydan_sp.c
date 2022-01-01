@@ -7,8 +7,6 @@
 #include "z_bg_ydan_sp.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS 0
-
 void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -27,7 +25,7 @@ typedef enum {
 const ActorInit Bg_Ydan_Sp_InitVars = {
     ACTOR_BG_YDAN_SP,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_YDAN_OBJECTS,
     sizeof(BgYdanSp),
     (ActorFunc)BgYdanSp_Init,

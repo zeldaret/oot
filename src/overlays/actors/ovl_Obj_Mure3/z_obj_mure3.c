@@ -6,8 +6,6 @@
 
 #include "z_obj_mure3.h"
 
-#define FLAGS 0
-
 void ObjMure3_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure3_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void func_80B9AFFC(ObjMure3* this, GlobalContext* globalCtx);
 const ActorInit Obj_Mure3_InitVars = {
     ACTOR_OBJ_MURE3,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMure3),
     (ActorFunc)ObjMure3_Init,

@@ -8,8 +8,6 @@
 #include "objects/object_fd/object_fd.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
-#define FLAGS 0
-
 void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Vb_Sima_InitVars = {
     ACTOR_BG_VB_SIMA,
     ACTORCAT_BG,
-    FLAGS,
+    0,
     OBJECT_FD,
     sizeof(BgVbSima),
     (ActorFunc)BgVbSima_Init,

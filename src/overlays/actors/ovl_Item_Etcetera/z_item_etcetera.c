@@ -6,8 +6,6 @@
 
 #include "z_item_etcetera.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemEtcetera_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +23,7 @@ void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, GlobalContext* globalCtx);
 const ActorInit Item_Etcetera_InitVars = {
     ACTOR_ITEM_ETCETERA,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ItemEtcetera),
     (ActorFunc)ItemEtcetera_Init,

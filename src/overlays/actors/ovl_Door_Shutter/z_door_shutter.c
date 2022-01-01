@@ -24,8 +24,6 @@
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "objects/object_ouke_haka/object_ouke_haka.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -50,7 +48,7 @@ void func_80997744(DoorShutter* this, GlobalContext* globalCtx);
 const ActorInit Door_Shutter_InitVars = {
     ACTOR_DOOR_SHUTTER,
     ACTORCAT_DOOR,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DoorShutter),
     (ActorFunc)DoorShutter_Init,

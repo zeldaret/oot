@@ -8,8 +8,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTubo_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_Tubo_InitVars = {
     ACTOR_BG_HAKA_TUBO,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaTubo),
     (ActorFunc)BgHakaTubo_Init,

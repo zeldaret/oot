@@ -7,8 +7,6 @@
 #include "z_item_b_heart.h"
 #include "objects/object_gi_hearts/object_gi_hearts.h"
 
-#define FLAGS 0
-
 void ItemBHeart_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemBHeart_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx);
 const ActorInit Item_B_Heart_InitVars = {
     ACTOR_ITEM_B_HEART,
     ACTORCAT_MISC,
-    FLAGS,
+    0,
     OBJECT_GI_HEARTS,
     sizeof(ItemBHeart),
     (ActorFunc)ItemBHeart_Init,

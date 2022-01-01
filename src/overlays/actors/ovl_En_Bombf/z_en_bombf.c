@@ -8,8 +8,6 @@
 #include "objects/object_bombf/object_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
-
 void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,7 +22,7 @@ void EnBombf_SetupGrowBomb(EnBombf* this, s16 params);
 const ActorInit En_Bombf_InitVars = {
     ACTOR_EN_BOMBF,
     ACTORCAT_PROP,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_4,
     OBJECT_BOMBF,
     sizeof(EnBombf),
     (ActorFunc)EnBombf_Init,

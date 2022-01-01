@@ -1,8 +1,6 @@
 #include "z_en_okuta.h"
 #include "objects/object_okuta/object_okuta.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
-
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -22,7 +20,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx);
 const ActorInit En_Okuta_InitVars = {
     ACTOR_EN_OKUTA,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2,
     OBJECT_OKUTA,
     sizeof(EnOkuta),
     (ActorFunc)EnOkuta_Init,

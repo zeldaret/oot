@@ -11,8 +11,6 @@
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 typedef enum {
     /*  0 */ STRIKE_INIT,
     /* 10 */ STRIKE_BURST = 10,
@@ -47,7 +45,7 @@ void EnFhgFire_PhantomWarp(EnFhgFire* this, GlobalContext* globalCtx);
 const ActorInit En_Fhg_Fire_InitVars = {
     0,
     ACTORCAT_BOSS,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_FHG,
     sizeof(EnFhgFire),
     (ActorFunc)EnFhgFire_Init,

@@ -3,8 +3,6 @@
 #include "vt.h"
 #include "objects/object_efc_star_field/object_efc_star_field.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFireRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, GlobalContext* globalCtx
 const ActorInit En_Fire_Rock_InitVars = {
     ACTOR_EN_FIRE_ROCK,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_EFC_STAR_FIELD,
     sizeof(EnFireRock),
     (ActorFunc)EnFireRock_Init,

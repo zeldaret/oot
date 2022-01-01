@@ -11,8 +11,6 @@
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 #include "objects/object_haka_door/object_haka_door.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 #define DOOR_AJAR_SLAM_RANGE 120.0f
 #define DOOR_AJAR_OPEN_RANGE (2 * DOOR_AJAR_SLAM_RANGE)
 
@@ -35,7 +33,7 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx);
 const ActorInit En_Door_InitVars = {
     ACTOR_EN_DOOR,
     ACTORCAT_DOOR,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnDoor),
     (ActorFunc)EnDoor_Init,

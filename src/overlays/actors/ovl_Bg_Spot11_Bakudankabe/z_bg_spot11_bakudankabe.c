@@ -9,8 +9,6 @@
 #include "objects/object_spot11_obj/object_spot11_obj.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -19,7 +17,7 @@ void BgSpot11Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 const ActorInit Bg_Spot11_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT11_BAKUDANKABE,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_SPOT11_OBJ,
     sizeof(BgSpot11Bakudankabe),
     (ActorFunc)BgSpot11Bakudankabe_Init,

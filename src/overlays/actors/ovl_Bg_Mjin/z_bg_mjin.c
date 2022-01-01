@@ -14,8 +14,6 @@
 #include "objects/object_mjin_flash/object_mjin_flash.h"
 #include "objects/object_mjin_oka/object_mjin_oka.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -27,7 +25,7 @@ void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx);
 const ActorInit Bg_Mjin_InitVars = {
     ACTOR_BG_MJIN,
     ACTORCAT_BG,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgMjin),
     (ActorFunc)BgMjin_Init,

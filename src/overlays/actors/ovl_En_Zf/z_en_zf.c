@@ -7,8 +7,6 @@
 #include "z_en_zf.h"
 #include "objects/object_zf/object_zf.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 void EnZf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -102,7 +100,7 @@ static s16 D_80B4A1B4 = 1;
 const ActorInit En_Zf_InitVars = {
     ACTOR_EN_ZF,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_ZF,
     sizeof(EnZf),
     (ActorFunc)EnZf_Init,

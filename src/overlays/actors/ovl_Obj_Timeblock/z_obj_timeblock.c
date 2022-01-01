@@ -7,8 +7,6 @@
 #include "z_obj_timeblock.h"
 #include "objects/object_timeblock/object_timeblock.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
-
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -28,7 +26,7 @@ void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, GlobalContext* glob
 const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27,
     OBJECT_TIMEBLOCK,
     sizeof(ObjTimeblock),
     (ActorFunc)ObjTimeblock_Init,

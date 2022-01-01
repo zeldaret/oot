@@ -6,8 +6,6 @@
 
 #include "z_demo_shd.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
-
 void DemoShd_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoShd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoShd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +16,7 @@ void func_80991298(DemoShd* this, GlobalContext* globalCtx);
 const ActorInit Demo_Shd_InitVars = {
     ACTOR_DEMO_SHD,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4 | ACTOR_FLAG_5,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoShd),
     (ActorFunc)DemoShd_Init,

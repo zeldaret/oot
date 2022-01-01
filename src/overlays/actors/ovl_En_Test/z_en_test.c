@@ -7,8 +7,6 @@
 #include "z_en_test.h"
 #include "objects/object_sk2/object_sk2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
-
 void EnTest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -128,7 +126,7 @@ static u8 sJointCopyFlags[] = {
 const ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
     ACTORCAT_ENEMY,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4,
     OBJECT_SK2,
     sizeof(EnTest),
     (ActorFunc)EnTest_Init,

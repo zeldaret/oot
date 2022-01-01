@@ -10,8 +10,6 @@
 #include "vt.h"
 #include "objects/object_reeba/object_reeba.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
-
 void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -68,7 +66,7 @@ static DamageTable sDamageTable = {
 const ActorInit En_Reeba_InitVars = {
     ACTOR_EN_REEBA,
     ACTORCAT_MISC,
-    FLAGS,
+    ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27,
     OBJECT_REEBA,
     sizeof(EnReeba),
     (ActorFunc)EnReeba_Init,

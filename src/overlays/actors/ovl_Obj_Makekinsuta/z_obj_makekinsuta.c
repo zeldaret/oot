@@ -7,8 +7,6 @@
 #include "z_obj_makekinsuta.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
-
 void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMakekinsuta_Update(Actor* thisx, GlobalContext* globalCtx);
 
@@ -18,7 +16,7 @@ void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, GlobalContext* globalCtx);
 const ActorInit Obj_Makekinsuta_InitVars = {
     ACTOR_OBJ_MAKEKINSUTA,
     ACTORCAT_ITEMACTION,
-    FLAGS,
+    ACTOR_FLAG_4,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMakekinsuta),
     (ActorFunc)ObjMakekinsuta_Init,
