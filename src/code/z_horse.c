@@ -1,5 +1,6 @@
 #include "global.h"
 #include "vt.h"
+#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 s32 func_8006CFC0(s32 scene) {
     s32 validScenes[] = { SCENE_SPOT00, SCENE_SPOT06, SCENE_SPOT09, SCENE_SPOT12, SCENE_SPOT20 };
@@ -42,15 +43,15 @@ typedef struct {
 void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
     s32 i;
     HorseSpawn horseSpawns[] = {
-        { SCENE_SPOT00, -460, 100, 6640, 0, 2 }, { SCENE_SPOT06, -1929, -1025, 768, 0, 2 },
-        { SCENE_SPOT09, 2566, -259, 767, 0, 2 }, { SCENE_SPOT12, -328, 10, 953, 0, 2 },
-        { SCENE_SPOT20, 928, 0, -2280, 0, 2 },
+        { SCENE_SPOT00, -460, 100, 6640, 0, HORSE_TYPE_2 }, { SCENE_SPOT06, -1929, -1025, 768, 0, HORSE_TYPE_2 },
+        { SCENE_SPOT09, 2566, -259, 767, 0, HORSE_TYPE_2 }, { SCENE_SPOT12, -328, 10, 953, 0, HORSE_TYPE_2 },
+        { SCENE_SPOT20, 928, 0, -2280, 0, HORSE_TYPE_2 },
     };
 
     if ((AREG(6) != 0) && (Flags_GetEventChkInf(0x18) || (DREG(1) != 0))) {
         player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, player->actor.world.pos.x,
                                         player->actor.world.pos.y, player->actor.world.pos.z, player->actor.shape.rot.x,
-                                        player->actor.shape.rot.y, player->actor.shape.rot.z, 9);
+                                        player->actor.shape.rot.y, player->actor.shape.rot.z, HORSE_TYPE_9);
 
         ASSERT(player->rideActor != NULL, "player->ride.actor != NULL", "../z_horse.c", 343);
 
@@ -65,11 +66,11 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         Actor* horseActor;
         gSaveContext.minigameState = 0;
         horseActor =
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 3586.0f, 1413.0f, -402.0f, 0, 0x4000, 0, 1);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 3586.0f, 1413.0f, -402.0f, 0, 0x4000, 0, HORSE_TYPE_1);
         horseActor->room = -1;
     } else if ((gSaveContext.entranceIndex == 1230) && (gSaveContext.eventChkInf[1] & 0x100)) {
         Actor* horseActor =
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, 1);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, HORSE_TYPE_1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);
     } else if ((globalCtx->sceneNum == gSaveContext.horseData.scene) &&
                (Flags_GetEventChkInf(0x18) != 0 || DREG(1) != 0)) {
@@ -80,7 +81,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         if (func_8006CFC0(gSaveContext.horseData.scene)) {
             Actor* horseActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE,
                                             gSaveContext.horseData.pos.x, gSaveContext.horseData.pos.y,
-                                            gSaveContext.horseData.pos.z, 0, gSaveContext.horseData.angle, 0, 1);
+                                            gSaveContext.horseData.pos.z, 0, gSaveContext.horseData.angle, 0, HORSE_TYPE_1);
             ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 414);
             if (globalCtx->sceneNum == SCENE_SPOT12) {
                 horseActor->room = -1;
@@ -94,7 +95,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         }
     } else if ((globalCtx->sceneNum == SCENE_SPOT20) && !Flags_GetEventChkInf(0x18) && (DREG(1) == 0)) {
         Actor* horseActor =
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, 1);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, HORSE_TYPE_1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 443);
     } else if (Flags_GetEventChkInf(0x18) || (DREG(1) != 0)) {
         for (i = 0; i < ARRAY_COUNT(horseSpawns); i++) {
@@ -113,7 +114,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         }
     } else if (!Flags_GetEventChkInf(0x18)) {
         if ((DREG(1) == 0) && (globalCtx->sceneNum == SCENE_SOUKO) && !IS_DAY) {
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 0.0f, 0.0f, -60.0f, 0, 0x7360, 0, 1);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 0.0f, 0.0f, -60.0f, 0, 0x7360, 0, HORSE_TYPE_1);
         }
     }
 }
@@ -152,7 +153,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
         }
 
         player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, spawnPos.x, spawnPos.y,
-                                        spawnPos.z, 0, player->actor.world.rot.y, 0, 7);
+                                        spawnPos.z, 0, player->actor.world.rot.y, 0, HORSE_TYPE_7);
         ASSERT(player->rideActor != NULL, "player->ride.actor != NULL", "../z_horse.c", 561);
 
         Actor_MountHorse(globalCtx, player, player->rideActor);
@@ -161,7 +162,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
     } else if ((globalCtx->sceneNum == SCENE_SPOT20) && ((gSaveContext.eventInf[0] & 0xF) == 6) &&
                (Flags_GetEventChkInf(0x18) == 0) && (DREG(1) == 0)) {
         player->rideActor =
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 894.0f, 0.0f, -2084.0f, 0, -0x7FFF, 0, 5);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 894.0f, 0.0f, -2084.0f, 0, -0x7FFF, 0, HORSE_TYPE_5);
         ASSERT(player->rideActor != NULL, "player->ride.actor != NULL", "../z_horse.c", 582);
 
         Actor_MountHorse(globalCtx, player, player->rideActor);
@@ -173,16 +174,16 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
         }
     } else {
         static struct_8011F9B8 D_8011F9B8[] = {
-            { 93, 0xFFF0, 0x0E10, 0x0585, 0x0168, 0x8001, 8 }, { 99, 0xFFF0, 0xFF06, 0x0001, 0xF9D4, 0x4000, 6 },
-            { 99, 0xFFF1, 0x0000, 0x0000, 0x0000, 0x0000, 5 }, { 99, 0xFFF5, 0x0000, 0x0000, 0x0000, 0x0000, 7 },
-            { 81, 0xFFF3, 0xF46F, 0x0139, 0x1E14, 0x0000, 7 }, { 81, 0xFFF4, 0xF894, 0x0139, 0x1B67, 0x0000, 7 },
-            { 81, 0xFFF5, 0xF035, 0x0139, 0x1B15, 0x0000, 7 }, { 81, 0xFFF6, 0xF035, 0x0139, 0x1B15, 0x0000, 7 },
+            { 93, 0xFFF0, 0x0E10, 0x0585, 0x0168, 0x8001, HORSE_TYPE_8 }, { 99, 0xFFF0, 0xFF06, 0x0001, 0xF9D4, 0x4000, HORSE_TYPE_6 },
+            { 99, 0xFFF1, 0x0000, 0x0000, 0x0000, 0x0000, HORSE_TYPE_5 }, { 99, 0xFFF5, 0x0000, 0x0000, 0x0000, 0x0000, HORSE_TYPE_7 },
+            { 81, 0xFFF3, 0xF46F, 0x0139, 0x1E14, 0x0000, HORSE_TYPE_7 }, { 81, 0xFFF4, 0xF894, 0x0139, 0x1B67, 0x0000, HORSE_TYPE_7 },
+            { 81, 0xFFF5, 0xF035, 0x0139, 0x1B15, 0x0000, HORSE_TYPE_7 }, { 81, 0xFFF6, 0xF035, 0x0139, 0x1B15, 0x0000, HORSE_TYPE_7 },
         };
 
         for (i = 0; i < ARRAY_COUNT(D_8011F9B8); i++) {
             if ((globalCtx->sceneNum == D_8011F9B8[i].scene) &&
                 (((void)0, gSaveContext.cutsceneIndex) == D_8011F9B8[i].cutsceneIndex)) {
-                if (D_8011F9B8[i].type == 7) {
+                if (D_8011F9B8[i].type == HORSE_TYPE_7) {
                     if ((globalCtx->sceneNum == 99) && (((void)0, gSaveContext.cutsceneIndex) == 0xFFF1)) {
                         D_8011F9B8[i].pos.x = player->actor.world.pos.x;
                         D_8011F9B8[i].pos.y = player->actor.world.pos.y;
@@ -196,11 +197,11 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
 
                     Actor_MountHorse(globalCtx, player, player->rideActor);
                     func_8002DE74(globalCtx, player);
-                } else if ((D_8011F9B8[i].type == 5) || (D_8011F9B8[i].type == 6) || (D_8011F9B8[i].type == 8)) {
+                } else if ((D_8011F9B8[i].type == HORSE_TYPE_5) || (D_8011F9B8[i].type == HORSE_TYPE_6) || (D_8011F9B8[i].type == HORSE_TYPE_8)) {
                     Vec3f sp54;
                     s32 temp = 0;
 
-                    if (((gSaveContext.eventInf[0] & 0x10) >> 4) && D_8011F9B8[i].type == 6) {
+                    if (((gSaveContext.eventInf[0] & 0x10) >> 4) && D_8011F9B8[i].type == HORSE_TYPE_6) {
                         temp = 0x8000;
                     }
 

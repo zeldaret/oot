@@ -85,8 +85,21 @@ typedef enum {
 } EnHorseAnimationIndex;
 
 typedef enum {
-    /* 0 */ HORSE_EPONA,
-    /* 1 */ HORSE_HNI
+    /* 0 */ ENHORSE_EPONA,
+    /* 1 */ ENHORSE_HNI
+} EnHorseType;
+
+/**
+ * HorseType values that are passed to Actor_Spawn#param
+ */
+typedef enum {
+    /* 1 */ HORSE_TYPE_1 = 1,
+    /* 2 */ HORSE_TYPE_2,
+    /* 5 */ HORSE_TYPE_5 = 5,
+    /* 6 */ HORSE_TYPE_6,
+    /* 7 */ HORSE_TYPE_7,
+    /* 8 */ HORSE_TYPE_8,
+    /* 9 */ HORSE_TYPE_9
 } HorseType;
 
 typedef void (*EnHorsePostdrawFunc)(struct EnHorse*, GlobalContext*);

@@ -653,8 +653,8 @@ s32 func_80A5BBBC(GlobalContext* globalCtx, EnHorse* this, Vec3f* pos) {
 
 void EnHorse_IdleAnimSounds(EnHorse* this, GlobalContext* globalCtx) {
     if (this->animationIdx == ENHORSE_ANIM_IDLE &&
-        ((this->curFrame > 35.0f && this->type == HORSE_EPONA) ||
-         (this->curFrame > 28.0f && this->type == HORSE_HNI)) &&
+        ((this->curFrame > 35.0f && this->type == ENHORSE_EPONA) ||
+         (this->curFrame > 28.0f && this->type == ENHORSE_HNI)) &&
         !(this->stateFlags & ENHORSE_SANDDUST_SOUND)) {
         this->stateFlags |= ENHORSE_SANDDUST_SOUND;
         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_SANDDUST, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -759,7 +759,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (this->actor.params & 0x8000) {
         this->actor.params &= ~0x8000;
-        this->type = HORSE_HNI;
+        this->type = ENHORSE_HNI;
 
         if ((this->bankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HNI)) < 0) {
             Actor_Kill(&this->actor);
@@ -773,7 +773,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_SetObjectDependency(globalCtx, &this->actor);
         this->boostSpeed = 12;
     } else {
-        this->type = HORSE_EPONA;
+        this->type = ENHORSE_EPONA;
         this->boostSpeed = 14;
     }
 
@@ -784,7 +784,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (globalCtx->sceneNum == SCENE_SOUKO) {
         this->stateFlags = ENHORSE_UNRIDEABLE;
-    } else if (globalCtx->sceneNum == SCENE_SPOT12 && this->type == HORSE_HNI) {
+    } else if (globalCtx->sceneNum == SCENE_SPOT12 && this->type == ENHORSE_HNI) {
         this->stateFlags = ENHORSE_FLAG_18 | ENHORSE_UNRIDEABLE;
     } else {
         if (this->actor.params == 3) {
@@ -794,7 +794,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
             if (Flags_GetEventChkInf(0x18) || DREG(1) != 0) {
                 this->stateFlags &= ~ENHORSE_CANT_JUMP;
                 this->stateFlags |= ENHORSE_FLAG_26;
-            } else if (gSaveContext.eventInf[0] & 0x40 && this->type == HORSE_HNI) {
+            } else if (gSaveContext.eventInf[0] & 0x40 && this->type == ENHORSE_HNI) {
                 this->stateFlags |= ENHORSE_FLAG_21 | ENHORSE_FLAG_20;
             }
         } else if (this->actor.params == 1) {
@@ -826,7 +826,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->playerControlled = false;
 
     if ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.sceneSetupIndex < 4)) {
-        if (this->type == HORSE_HNI) {
+        if (this->type == ENHORSE_HNI) {
             if (this->actor.world.rot.z == 0 || gSaveContext.nightFlag) {
                 Actor_Kill(&this->actor);
                 return;
@@ -886,7 +886,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
     } else {
         if (globalCtx->sceneNum == SCENE_SOUKO) {
             EnHorse_ResetIdleAnimation(this);
-        } else if (globalCtx->sceneNum == SCENE_SPOT12 && this->type == HORSE_HNI) {
+        } else if (globalCtx->sceneNum == SCENE_SPOT12 && this->type == ENHORSE_HNI) {
             EnHorse_ResetIdleAnimation(this);
         } else {
             EnHorse_StartIdleRidable(this);
@@ -1072,7 +1072,7 @@ void EnHorse_StartMountedIdle(EnHorse* this) {
 
     this->action = ENHORSE_ACT_MOUNTED_IDLE;
     this->animationIdx = ENHORSE_ANIM_IDLE;
-    if ((this->curFrame > 35.0f && this->type == HORSE_EPONA) || (this->curFrame > 28.0f && this->type == HORSE_HNI)) {
+    if ((this->curFrame > 35.0f && this->type == ENHORSE_EPONA) || (this->curFrame > 28.0f && this->type == ENHORSE_HNI)) {
         if (!(this->stateFlags & ENHORSE_SANDDUST_SOUND)) {
             this->stateFlags |= ENHORSE_SANDDUST_SOUND;
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_SANDDUST, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -1736,7 +1736,7 @@ void EnHorse_SetFollowAnimation(EnHorse* this, GlobalContext* globalCtx);
 void EnHorse_Inactive(EnHorse* this, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
 
-    if (DREG(53) != 0 && this->type == HORSE_EPONA) {
+    if (DREG(53) != 0 && this->type == ENHORSE_EPONA) {
         DREG(53) = 0;
         if (EnHorse_Spawn(this, globalCtx) != 0) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -1809,7 +1809,7 @@ void EnHorse_Idle(EnHorse* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     EnHorse_IdleAnimSounds(this, globalCtx);
 
-    if (DREG(53) && this->type == HORSE_EPONA) {
+    if (DREG(53) && this->type == ENHORSE_EPONA) {
         DREG(53) = 0;
         if (!func_80A5BBBC(globalCtx, this, &this->actor.world.pos)) {
             if (EnHorse_Spawn(this, globalCtx)) {
@@ -2574,7 +2574,7 @@ void EnHorse_FleePlayer(EnHorse* this, GlobalContext* globalCtx) {
     s32 animFinished;
     s16 yaw;
 
-    if (DREG(53) || this->type == HORSE_HNI) {
+    if (DREG(53) || this->type == ENHORSE_HNI) {
         EnHorse_StartIdleRidable(this);
         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -3317,7 +3317,7 @@ void EnHorse_CheckBoost(EnHorse* thisx, GlobalContext* globalCtx2) {
                         this->boostRegenTime = 140;
                         return;
                     }
-                    if (this->type == HORSE_EPONA) {
+                    if (this->type == ENHORSE_EPONA) {
                         if (this->stateFlags & ENHORSE_FIRST_BOOST_REGEN) {
                             this->boostRegenTime = 60;
                             this->stateFlags &= ~ENHORSE_FIRST_BOOST_REGEN;
@@ -3680,8 +3680,8 @@ void EnHorse_SkinCallback1(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* ski
     func_800A6408(skin, 13, &sp94, &sp2C);
     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &sp2C, &this->unk_228, &sp28);
     if ((this->animationIdx == ENHORSE_ANIM_IDLE && this->action != ENHORSE_ACT_FROZEN) &&
-        ((frame > 40.0f && frame < 45.0f && this->type == HORSE_EPONA) ||
-         (frame > 28.0f && frame < 33.0f && this->type == HORSE_HNI))) {
+        ((frame > 40.0f && frame < 45.0f && this->type == ENHORSE_EPONA) ||
+         (frame > 28.0f && frame < 33.0f && this->type == ENHORSE_HNI))) {
         if (Rand_ZeroOne() < 0.6f) {
             this->dustFlags |= 1;
             func_800A6408(skin, 28, &hoofOffset, &this->frontRightHoof);
@@ -3808,11 +3808,11 @@ s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 limbIndex,
     s32 drawOriginalLimb = true;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
-    if (limbIndex == 13 && this->type == HORSE_EPONA) {
+    if (limbIndex == 13 && this->type == ENHORSE_EPONA) {
         u8 index = eyeBlinkIndexes[this->blinkTimer];
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[index]));
-    } else if (this->type == HORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && limbIndex == 30) {
+    } else if (this->type == ENHORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && limbIndex == 30) {
         func_800A5F60(globalCtx->state.gfxCtx, &this->skin, limbIndex, gHorseIngoGerudoSaddleDL, 0);
         drawOriginalLimb = false;
     }
