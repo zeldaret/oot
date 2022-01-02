@@ -37,14 +37,14 @@ typedef enum {
     /* 0x14 */ RS_TORCH_CRACKLING,
     /* 0x15 */ RS_COW_MOOING,
     /* 0xF7 */ RS_NATURE_AMBIENCE = 0xF7,
-    /* 0xF8 */ RS_GANON_TOWER_0, // Ganondorfs Lair
-    /* 0xF9 */ RS_GANON_TOWER_1, // Top of Ganons Tower
+    /* 0xF8 */ RS_GANON_TOWER_0, // Ganondorf's Lair
+    /* 0xF9 */ RS_GANON_TOWER_1, // Top of Ganon's Tower
     /* 0xFA */ RS_GANON_TOWER_2,
     /* 0xFB */ RS_GANON_TOWER_3,
     /* 0xFC */ RS_GANON_TOWER_4,
     /* 0xFD */ RS_GANON_TOWER_5,
     /* 0xFE */ RS_GANON_TOWER_6,
-    /* 0xFF */ RS_GANON_TOWER_7 // Bottom of Ganons Tower
+    /* 0xFF */ RS_GANON_TOWER_7 // Bottom of Ganon's Tower
 } RiverSoundType;
 
 #endif

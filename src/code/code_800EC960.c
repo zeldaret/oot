@@ -4076,7 +4076,7 @@ void Audio_SetGanonsTowerBgmVolumeLevel(u8 ganonsTowerLevel) {
     u8 channelIdx;
     s8 pan = 0;
 
-    // Ganondorfs Lair
+    // Ganondorf's Lair
     if (ganonsTowerLevel == 0) {
         pan = 0x7F;
     }
@@ -4093,7 +4093,7 @@ void Audio_SetGanonsTowerBgmVolumeLevel(u8 ganonsTowerLevel) {
         // Adds a delay to setting the volume in the first room
         sEnterGanonsTowerTimer = 2;
     } else {
-        Audio_SetGanonsTowerBgmVolume(sGanonsTowerLevelsVol[ganonsTowerLevel & 7]);
+        Audio_SetGanonsTowerBgmVolume(sGanonsTowerLevelsVol[ganonsTowerLevel % ARRAY_COUNTU(sGanonsTowerLevelsVol)]);
     }
 }
 

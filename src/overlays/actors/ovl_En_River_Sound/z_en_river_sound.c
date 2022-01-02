@@ -91,10 +91,10 @@ s32 EnRiverSound_FindClosestPointOnLineSegment(Vec3f* pointA, Vec3f* pointB, Vec
      *  |                   |
      *  |                   |
      * This condition uses dot products to check to see that `hearPos` is contained within the above region
-     * i.e. The closest point on line segment AB must be between A & B based on perpindicular distance
+     * i.e. The closest point on line segment AB must be between A & B
      */
     if ((DOTXYZ(lineSeg[2], lineSeg[1]) * temp) < 0.0f) {
-        temp = -temp / (SQ(lineSeg[2].x) + SQ(lineSeg[2].y) + SQ(lineSeg[2].z));
+        temp = -temp / SQXYZ(lineSeg[2]);
 
         // Closest point to hearPos contained on line segment A-B
         newSoundPos->x = (lineSeg[2].x * temp) + pointA->x;
