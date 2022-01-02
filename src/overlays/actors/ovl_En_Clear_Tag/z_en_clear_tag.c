@@ -564,7 +564,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     // Player laser sound effect if the laser did not time out.
                     if (this->timers[CLEAR_TAG_TIMER_LASER_DEATH] != 0) {
                         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20,
-                                                      NA_SE_EN_FANTOM_THUNDER_GND);
+                                                           NA_SE_EN_FANTOM_THUNDER_GND);
                     }
                 }
                 break;

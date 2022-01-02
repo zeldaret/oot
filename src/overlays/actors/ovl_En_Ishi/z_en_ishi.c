@@ -357,7 +357,7 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
                this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000048) {
         EnIshi_DropCollectible(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
-                                      sBreakSounds[type]);
+                                           sBreakSounds[type]);
         sFragmentSpawnFuncs[type](this, globalCtx);
         sDustSpawnFuncs[type](this, globalCtx);
         Actor_Kill(&this->actor);
@@ -425,7 +425,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         sFragmentSpawnFuncs[type](this, globalCtx);
         if (!(this->actor.bgCheckFlags & 0x20)) {
             SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
-                                          sBreakSounds[type]);
+                                               sBreakSounds[type]);
             sDustSpawnFuncs[type](this, globalCtx);
         }
         if (type == ROCK_LARGE) {
