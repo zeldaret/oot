@@ -21,6 +21,7 @@
 #include "z64dma.h"
 #include "z64math.h"
 #include "z64map_mark.h"
+#include "z64skin.h"
 #include "z64transition.h"
 #include "z64interface.h"
 #include "sequence.h"
