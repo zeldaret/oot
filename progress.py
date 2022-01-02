@@ -13,17 +13,6 @@ parser.add_argument("-m", "--matching", dest='matching', action='store_true',
                     help="Output matching progress instead of decompilation progress")
 args = parser.parse_args()
 
-NON_MATCHING_PATTERN = r"#ifdef\s+NON_MATCHING.*?#pragma\s+GLOBAL_ASM\s*\(\s*\"(.*?)\"\s*\).*?#endif"
-
-def GetNonMatchingFunctions(files):
-    functions = []
-
-    for file in files:
-        with open(file) as f:
-            functions += re.findall(NON_MATCHING_PATTERN, f.read(), re.DOTALL)
-
-    return functions
-
 def ReadAllLines(fileName):
     lineList = list()
     with open(fileName) as f:
@@ -33,30 +22,13 @@ def ReadAllLines(fileName):
 
 def GetFiles(path, ext):
     files = []
-    
+
     for r, d, f in os.walk(path):
         for file in f:
             if file.endswith(ext):
                 files.append(os.path.join(r, file))
 
     return files
-
-nonMatchingFunctions = GetNonMatchingFunctions(GetFiles("src", ".c")) if not args.matching else []
-
-def GetNonMatchingSize(path):
-    size = 0
-
-    asmFiles = GetFiles(path, ".s")
-
-    for asmFilePath in asmFiles:
-        if asmFilePath not in nonMatchingFunctions:
-            asmLines = ReadAllLines(asmFilePath)
-
-            for asmLine in asmLines:
-                if (asmLine.startswith("/*")):
-                    size += 4
-
-    return size
 
 
 mapFile = ReadAllLines("build/z64.map")
@@ -93,21 +65,11 @@ for line in mapFile:
             elif (objFile.startswith("build/src/overlays")):
                 ovl += size
 
-nonMatchingASM = GetNonMatchingSize("asm/non_matchings")
-nonMatchingASMBoot = GetNonMatchingSize("asm/non_matchings/boot")
-nonMatchingASMCode = GetNonMatchingSize("asm/non_matchings/code")
-nonMatchingASMOvl = GetNonMatchingSize("asm/non_matchings/overlays")
-
-src -= nonMatchingASM
-code -= nonMatchingASMCode
-boot -= nonMatchingASMBoot
-ovl -= nonMatchingASMOvl
-
 bootSize = 31408 # decompilable code only
 codeSize = 999984 # decompilable code only
 ovlSize = 2812000 # .text sections
 
-total = src + nonMatchingASM
+total = src
 srcPct = 100 * src / total
 codePct = 100 * code / codeSize
 bootPct = 100 * boot / bootSize
@@ -120,7 +82,7 @@ if args.format == 'csv':
     git_object = git.Repo().head.object
     timestamp = str(git_object.committed_date)
     git_hash = git_object.hexsha
-    csv_list = [str(csv_version), timestamp, git_hash, str(src), str(total), str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize), str(nonMatchingASM), str(len(nonMatchingFunctions))]
+    csv_list = [str(csv_version), timestamp, git_hash, str(src), str(total), str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize)]
     print(",".join(csv_list))
 elif args.format == 'shield-json':
     # https://shields.io/endpoint

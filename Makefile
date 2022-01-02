@@ -4,16 +4,8 @@ MAKEFLAGS += --no-builtin-rules
 
 # If COMPARE is 1, check the output md5sum after building
 COMPARE ?= 1
-# If NON_MATCHING is 1, define the NON_MATCHING C flag when building
-NON_MATCHING ?= 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
-
-ifeq ($(NON_MATCHING),1)
-  CFLAGS := -DNON_MATCHING
-  CPPFLAGS := -DNON_MATCHING
-  COMPARE := 0
-endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
@@ -69,7 +61,7 @@ INC        := -Iinclude -Isrc -Iassets -Ibuild -I.
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
-CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUAGE_C -D NON_MATCHING $(INC) $(CHECK_WARNINGS)
+CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUAGE_C $(INC) $(CHECK_WARNINGS)
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
@@ -101,7 +93,7 @@ ELF := $(ROM:.z64=.elf)
 SPEC := spec
 
 SRC_DIRS := $(shell find src -type d)
-ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
+ASM_DIRS := $(shell find asm -type d) $(shell find data -type d)
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*" -not -path "assets/text")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))

@@ -17,7 +17,7 @@ u32 sDmaMgrIsRomCompressed = false;
 #define DEFINE_DMA_ENTRY(name) #name,
 
 const char* sDmaMgrFileNames[] = {
-#include "tables/dmadata_table.h"
+#include "tables/dmadata_table_mqdbg.h"
 };
 
 #undef DEFINE_DMA_ENTRY
