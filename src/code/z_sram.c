@@ -278,7 +278,7 @@ void Sram_InitDebugSave(void) {
         }
     }
 
-    gSaveContext.entranceIndex = 0xCD;
+    gSaveContext.entranceIndex = ENTR_HYRULE_FIELD;
     gSaveContext.magicLevel = 0;
     gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
@@ -295,8 +295,22 @@ void Sram_InitDebugSave(void) {
  */
 void Sram_OpenSave(SramContext* sramCtx) {
     static s16 dungeonEntrances[] = {
-        0x0000, 0x0004, 0x0028, 0x0169, 0x0165, 0x0010, 0x0082, 0x0037,
-        0x0098, 0x0088, 0x041B, 0x0008, 0x0486, 0x0467, 0x0179, 0x056C,
+        ENTR_INSIDE_THE_DEKU_TREE,
+        ENTR_DODONGOS_CAVERN,
+        ENTR_INSIDE_JABU_JABUS_BELLY,
+        ENTR_FOREST_TEMPLE,
+        ENTR_FIRE_TEMPLE,
+        ENTR_WATER_TEMPLE,
+        ENTR_SPIRIT_TEMPLE,
+        ENTR_SHADOW_TEMPLE,
+        ENTR_BOTTOM_OF_THE_WELL,
+        ENTR_ICE_CAVERN,
+        ENTR_GANONS_TOWER,
+        ENTR_GERUDO_TRAINING_GROUND,
+        ENTR_THIEVES_HIDEOUT_1,
+        ENTR_INSIDE_GANONS_CASTLE,
+        ENTR_ESCAPING_GANONS_TOWER_1,
+        ENTR_ESCAPING_GANONS_CASTLE,
     };
     u16 i;
     u16 j;
@@ -330,42 +344,42 @@ void Sram_OpenSave(SramContext* sramCtx) {
             gSaveContext.entranceIndex = dungeonEntrances[gSaveContext.savedSceneNum];
             break;
         case SCENE_YDAN_BOSS:
-            gSaveContext.entranceIndex = 0;
+            gSaveContext.entranceIndex = ENTR_INSIDE_THE_DEKU_TREE;
             break;
         case SCENE_DDAN_BOSS:
-            gSaveContext.entranceIndex = 4;
+            gSaveContext.entranceIndex = ENTR_DODONGOS_CAVERN;
             break;
         case SCENE_BDAN_BOSS:
-            gSaveContext.entranceIndex = 0x28;
+            gSaveContext.entranceIndex = ENTR_INSIDE_JABU_JABUS_BELLY;
             break;
         case SCENE_MORIBOSSROOM:
-            gSaveContext.entranceIndex = 0x169;
+            gSaveContext.entranceIndex = ENTR_FOREST_TEMPLE;
             break;
         case SCENE_FIRE_BS:
-            gSaveContext.entranceIndex = 0x165;
+            gSaveContext.entranceIndex = ENTR_FIRE_TEMPLE;
             break;
         case SCENE_MIZUSIN_BS:
-            gSaveContext.entranceIndex = 0x10;
+            gSaveContext.entranceIndex = ENTR_WATER_TEMPLE;
             break;
         case SCENE_JYASINBOSS:
-            gSaveContext.entranceIndex = 0x82;
+            gSaveContext.entranceIndex = ENTR_SPIRIT_TEMPLE;
             break;
         case SCENE_HAKADAN_BS:
-            gSaveContext.entranceIndex = 0x37;
+            gSaveContext.entranceIndex = ENTR_SHADOW_TEMPLE;
             break;
         case SCENE_GANON_SONOGO:
         case SCENE_GANONTIKA_SONOGO:
         case SCENE_GANON_BOSS:
         case SCENE_GANON_FINAL:
         case SCENE_GANON_DEMO:
-            gSaveContext.entranceIndex = 0x41B;
+            gSaveContext.entranceIndex = ENTR_GANONS_TOWER;
             break;
 
         default:
             if (gSaveContext.savedSceneNum != SCENE_LINK_HOME) {
-                gSaveContext.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? 0xBB : 0x5F4;
+                gSaveContext.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINKS_HOUSE : 0x5F4;
             } else {
-                gSaveContext.entranceIndex = 0xBB;
+                gSaveContext.entranceIndex = ENTR_LINKS_HOUSE;
             }
             break;
     }
@@ -681,7 +695,7 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
         Sram_InitDebugSave();
     }
 
-    gSaveContext.entranceIndex = 0xBB;
+    gSaveContext.entranceIndex = ENTR_LINKS_HOUSE;
     gSaveContext.linkAge = 1;
     gSaveContext.dayTime = 0x6AAB;
     gSaveContext.cutsceneIndex = 0xFFF1;

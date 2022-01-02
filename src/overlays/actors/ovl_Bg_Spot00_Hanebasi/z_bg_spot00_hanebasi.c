@@ -221,7 +221,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
                     Flags_SetEventChkInf(0x82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
                     func_8002DF54(globalCtx, &player->actor, 8);
-                    globalCtx->nextEntranceIndex = 0x00CD;
+                    globalCtx->nextEntranceIndex = ENTR_HYRULE_FIELD;
                     gSaveContext.nextCutsceneIndex = 0xFFF1;
                     globalCtx->sceneLoadFlag = 0x14;
                     globalCtx->fadeTransition = 4;

@@ -114,7 +114,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(globalCtx)) {
-                globalCtx->nextEntranceIndex = 0x157;
+                globalCtx->nextEntranceIndex = ENTR_LON_LON_RANCH;
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
                 globalCtx->fadeTransition = 0x26;
                 globalCtx->sceneLoadFlag = 0x14;

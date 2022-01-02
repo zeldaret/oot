@@ -203,7 +203,7 @@ void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx) &&
         (this->respawnFlag == 0)) {
         gSaveContext.eventChkInf[4] |= 0x4000;
-        globalCtx->nextEntranceIndex = 0x47E; // Hyrule Castle from Guard Capture (outside)
+        globalCtx->nextEntranceIndex = ENTR_HYRULE_CASTLE_GUARD_CAPTURE;
         globalCtx->sceneLoadFlag = 0x14;
         this->respawnFlag = 1;
         globalCtx->fadeTransition = 0x2E;

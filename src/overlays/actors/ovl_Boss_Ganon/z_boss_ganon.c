@@ -1496,7 +1496,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
 
             if (this->csTimer == 180) {
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->nextEntranceIndex = 0x43F;
+                globalCtx->nextEntranceIndex = ENTR_BATTLE_WITH_GANON;
                 globalCtx->fadeTransition = 5;
             }
             break;

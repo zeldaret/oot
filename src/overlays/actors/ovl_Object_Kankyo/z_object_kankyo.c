@@ -222,8 +222,8 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (globalCtx->envCtx.unk_EE[3] < 64 &&
-        (gSaveContext.entranceIndex != 0x00EE || gSaveContext.sceneSetupIndex != 4 || globalCtx->envCtx.unk_EE[3])) {
+    if (globalCtx->envCtx.unk_EE[3] < 64 && (gSaveContext.entranceIndex != ENTR_KOKIRI_FOREST ||
+                                             gSaveContext.sceneSetupIndex != 4 || globalCtx->envCtx.unk_EE[3])) {
         globalCtx->envCtx.unk_EE[3] += 16;
     }
 

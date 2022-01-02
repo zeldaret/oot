@@ -385,7 +385,7 @@ void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= PLAYER_STATE2_23;
     if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        globalCtx->nextEntranceIndex = 0x157;
+        globalCtx->nextEntranceIndex = ENTR_LON_LON_RANCH;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
         globalCtx->fadeTransition = 42;
         globalCtx->sceneLoadFlag = 0x14;

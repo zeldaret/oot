@@ -1791,7 +1791,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 break;
             }
         case 20:
-            globalCtx->nextEntranceIndex = 0x6B;
+            globalCtx->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES;
             gSaveContext.nextCutsceneIndex = 0xFFF2;
             globalCtx->sceneLoadFlag = 0x14;
             globalCtx->fadeTransition = 3;

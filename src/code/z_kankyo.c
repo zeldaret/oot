@@ -1278,7 +1278,7 @@ void Environment_DrawSunAndMoon(GlobalContext* globalCtx) {
         globalCtx->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
     }
 
-    if (gSaveContext.entranceIndex != 0xCD || ((void)0, gSaveContext.sceneSetupIndex) != 5) {
+    if (gSaveContext.entranceIndex != ENTR_HYRULE_FIELD || gSaveContext.sceneSetupIndex != 5) {
         Matrix_Translate(globalCtx->view.eye.x + globalCtx->envCtx.sunPos.x,
                          globalCtx->view.eye.y + globalCtx->envCtx.sunPos.y,
                          globalCtx->view.eye.z + globalCtx->envCtx.sunPos.z, MTXMODE_NEW);
@@ -2439,22 +2439,22 @@ void Environment_WarpSongLeave(GlobalContext* globalCtx) {
     gSaveContext.nextTransition = 3;
 
     switch (globalCtx->nextEntranceIndex) {
-        case 0x147:
+        case ENTR_DEATH_MOUNTAIN_CRATER:
             Flags_SetEventChkInf(0xB9);
             break;
-        case 0x0102:
+        case ENTR_LAKE_HYLIA:
             Flags_SetEventChkInf(0xB1);
             break;
-        case 0x0123:
+        case ENTR_DESERT_COLOSSUS:
             Flags_SetEventChkInf(0xB8);
             break;
-        case 0x00E4:
+        case ENTR_GRAVEYARD:
             Flags_SetEventChkInf(0xB6);
             break;
-        case 0x0053:
+        case ENTR_TEMPLE_OF_TIME:
             Flags_SetEventChkInf(0xA7);
             break;
-        case 0x00FC:
+        case ENTR_SACRED_FOREST_MEADOW:
             break;
     }
 }

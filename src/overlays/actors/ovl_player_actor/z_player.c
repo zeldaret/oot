@@ -11838,7 +11838,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
     } else {
         if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
             if (this->getItemId == GI_GAUNTLETS_SILVER) {
-                globalCtx->nextEntranceIndex = 0x0123;
+                globalCtx->nextEntranceIndex = ENTR_DESERT_COLOSSUS;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
                 globalCtx->fadeTransition = 0xF;
@@ -11895,7 +11895,14 @@ void func_8084E368(Player* this, GlobalContext* globalCtx) {
     func_8084AEEC(this, &this->linearVelocity, 0.0f, this->actor.shape.rot.y);
 }
 
-static s16 D_808549D4[] = { 0x0600, 0x04F6, 0x0604, 0x01F1, 0x0568, 0x05F4 };
+static s16 gEntranceIndexBySong[] = {
+    0x0600, // OCARINA_SONG_MINUET
+    0x04F6, // OCARINA_SONG_BOLERO
+    0x0604, // OCARINA_SONG_SERENADE
+    0x01F1, // OCARINA_SONG_REQUIEM
+    0x0568, // OCARINA_SONG_NOCTURNE
+    0x05F4, // OCARINA_SONG_PRELUDE
+};
 
 void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
@@ -11929,7 +11936,8 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         this->stateFlags2 &= ~(PLAYER_STATE2_23 | PLAYER_STATE2_24 | PLAYER_STATE2_25);
         this->unk_6A8 = NULL;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = D_808549D4[globalCtx->msgCtx.lastPlayedSong];
+        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex =
+            gEntranceIndexBySong[globalCtx->msgCtx.lastPlayedSong];
         gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;
         gSaveContext.respawn[RESPAWN_MODE_RETURN].data = globalCtx->msgCtx.lastPlayedSong;
 
@@ -12452,7 +12460,7 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F != 0) {
             if (globalCtx->sceneNum == 9) {
                 Gameplay_TriggerRespawn(globalCtx);
-                globalCtx->nextEntranceIndex = 0x0088;
+                globalCtx->nextEntranceIndex = ENTR_ICE_CAVERN;
             } else if (this->unk_84F < 0) {
                 Gameplay_TriggerRespawn(globalCtx);
             } else {

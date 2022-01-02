@@ -162,11 +162,11 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, GlobalContext* globalCtx) {
             DoorWarp1_SetupAction(this, DoorWarp1_AwaitClearFlag);
             break;
         case WARP_DESTINATION:
-            if ((!(gSaveContext.entranceIndex == 0x608 ||  // sacred forest meadow
-                   gSaveContext.entranceIndex == 0x564 ||  // death mountain crater
-                   gSaveContext.entranceIndex == 0x60C ||  // lake hylia
-                   gSaveContext.entranceIndex == 0x610 ||  // desert colossus
-                   gSaveContext.entranceIndex == 0x580) && // graveyard
+            if ((!(gSaveContext.entranceIndex == ENTR_SACRED_FOREST_MEADOW_WARP ||
+                   gSaveContext.entranceIndex == ENTR_DEATH_MOUNTAIN_CRATER_WARP ||
+                   gSaveContext.entranceIndex == ENTR_LAKE_HYLIA_WARP ||
+                   gSaveContext.entranceIndex == ENTR_DESERT_COLOSSUS_WARP ||
+                   gSaveContext.entranceIndex == ENTR_GRAVEYARD_WARP) &&
                  gSaveContext.sceneSetupIndex < 4) ||
                 (GET_PLAYER(globalCtx)->actor.params & 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
@@ -263,7 +263,7 @@ void DoorWarp1_SetupPurpleCrystal(DoorWarp1* this, GlobalContext* globalCtx) {
     this->unk_1BC = 1.f;
     this->actor.shape.yOffset = 800.0f;
 
-    if (gSaveContext.entranceIndex != 0x53) {
+    if (gSaveContext.entranceIndex != ENTR_TEMPLE_OF_TIME) {
         this->actor.scale.x = 0.0499f;
         this->actor.scale.y = 0.077f;
         this->actor.scale.z = 0.09f;
@@ -500,7 +500,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
             if (!Flags_GetEventChkInf(0x25)) {
                 Flags_SetEventChkInf(0x25);
                 Item_Give(globalCtx, ITEM_GORON_RUBY);
-                globalCtx->nextEntranceIndex = 0x13D;
+                globalCtx->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_TRAIL;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
             } else {
                 globalCtx->nextEntranceIndex = 0x47A;
@@ -511,14 +511,14 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
                 Flags_SetEventChkInf(7);
                 Flags_SetEventChkInf(9);
                 Item_Give(globalCtx, ITEM_KOKIRI_EMERALD);
-                globalCtx->nextEntranceIndex = 0xEE;
+                globalCtx->nextEntranceIndex = ENTR_KOKIRI_FOREST;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
             } else {
                 globalCtx->nextEntranceIndex = 0x457;
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (globalCtx->sceneNum == SCENE_BDAN_BOSS) {
-            globalCtx->nextEntranceIndex = 0x10E;
+            globalCtx->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN;
             gSaveContext.nextCutsceneIndex = 0;
         }
         osSyncPrintf("\n\n\nおわりおわり");
@@ -605,7 +605,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
         gSaveContext.eventChkInf[3] |= 0x80;
         Item_Give(globalCtx, ITEM_ZORA_SAPPHIRE);
-        globalCtx->nextEntranceIndex = 0x10E;
+        globalCtx->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN;
         gSaveContext.nextCutsceneIndex = 0xFFF0;
         globalCtx->sceneLoadFlag = 0x14;
         globalCtx->fadeTransition = 7;
@@ -706,14 +706,14 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
             if (!(gSaveContext.eventChkInf[4] & 0x100)) {
                 gSaveContext.eventChkInf[4] |= 0x100;
                 Item_Give(globalCtx, ITEM_MEDALLION_FOREST);
-                globalCtx->nextEntranceIndex = 0x6B;
+                globalCtx->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES;
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_FOREST;
             } else {
                 if (!LINK_IS_ADULT) {
                     globalCtx->nextEntranceIndex = 0x600;
                 } else {
-                    globalCtx->nextEntranceIndex = 0x608;
+                    globalCtx->nextEntranceIndex = ENTR_SACRED_FOREST_MEADOW_WARP;
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
@@ -721,13 +721,13 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
             if (!(gSaveContext.eventChkInf[4] & 0x200)) {
                 gSaveContext.eventChkInf[4] |= 0x200;
                 Item_Give(globalCtx, ITEM_MEDALLION_FIRE);
-                globalCtx->nextEntranceIndex = 0xDB;
+                globalCtx->nextEntranceIndex = ENTR_KAKARIKO_VILLAGE;
                 gSaveContext.nextCutsceneIndex = 0xFFF3;
             } else {
                 if (!LINK_IS_ADULT) {
                     globalCtx->nextEntranceIndex = 0x4F6;
                 } else {
-                    globalCtx->nextEntranceIndex = 0x564;
+                    globalCtx->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_CRATER_WARP;
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
@@ -735,42 +735,42 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
             if (!(gSaveContext.eventChkInf[4] & 0x400)) {
                 gSaveContext.eventChkInf[4] |= 0x400;
                 Item_Give(globalCtx, ITEM_MEDALLION_WATER);
-                globalCtx->nextEntranceIndex = 0x6B;
+                globalCtx->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES;
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_WATER;
             } else {
                 if (!LINK_IS_ADULT) {
                     globalCtx->nextEntranceIndex = 0x604;
                 } else {
-                    globalCtx->nextEntranceIndex = 0x60C;
+                    globalCtx->nextEntranceIndex = ENTR_LAKE_HYLIA_WARP;
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (globalCtx->sceneNum == SCENE_JYASINBOSS) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                 Item_Give(globalCtx, ITEM_MEDALLION_SPIRIT);
-                globalCtx->nextEntranceIndex = 0x6B;
+                globalCtx->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES;
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_SPIRIT;
             } else {
                 if (!LINK_IS_ADULT) {
                     globalCtx->nextEntranceIndex = 0x1F1;
                 } else {
-                    globalCtx->nextEntranceIndex = 0x610;
+                    globalCtx->nextEntranceIndex = ENTR_DESERT_COLOSSUS_WARP;
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (globalCtx->sceneNum == SCENE_HAKADAN_BS) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
                 Item_Give(globalCtx, ITEM_MEDALLION_SHADOW);
-                globalCtx->nextEntranceIndex = 0x6B;
+                globalCtx->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES;
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_SHADOW;
             } else {
                 if (!LINK_IS_ADULT) {
                     globalCtx->nextEntranceIndex = 0x568;
                 } else {
-                    globalCtx->nextEntranceIndex = 0x580;
+                    globalCtx->nextEntranceIndex = ENTR_GRAVEYARD_WARP;
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }

@@ -327,7 +327,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case DEMO_EFFECT_GOD_LGT_NAYRU:
-            if (gSaveContext.entranceIndex == 0x013D) {
+            if (gSaveContext.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL) {
                 Actor_SetScale(&this->actor, 1.0f);
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
@@ -348,7 +348,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case DEMO_EFFECT_GOD_LGT_FARORE:
-            if (gSaveContext.entranceIndex == 0x00EE) {
+            if (gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST) {
                 Actor_SetScale(&this->actor, 2.4f);
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
@@ -630,7 +630,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
 
         Actor_SetScale(thisx, 0.20f);
 
-        if (gSaveContext.entranceIndex == 0x0053) {
+        if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME) {
             switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
                 case 2:
                     DemoEffect_MedalSparkle(this, globalCtx, 0);
@@ -642,7 +642,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
         }
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 2:
-                if (gSaveContext.entranceIndex == 0x0053) {
+                if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME) {
                     Audio_PlayActorSound2(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
@@ -657,7 +657,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
                 if (this->getItem.drawId != GID_ARROW_LIGHT) {
                     this->actor.shape.rot.y += this->getItem.rotation;
                 }
-                if (gSaveContext.entranceIndex == 0x0053) {
+                if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME) {
                     Audio_PlayActorSound2(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
@@ -851,7 +851,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0 && gSaveContext.sceneSetupIndex == 6 &&
+        if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP && gSaveContext.sceneSetupIndex == 6 &&
             globalCtx->csCtx.frames == 143) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
@@ -1152,7 +1152,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
                     if (globalCtx->csCtx.frames == 288) {
@@ -1207,7 +1207,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
                     if (globalCtx->csCtx.frames == 298) {
@@ -1229,7 +1229,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x013D && gSaveContext.sceneSetupIndex == 4) {
+        if (gSaveContext.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL && gSaveContext.sceneSetupIndex == 4) {
             if (globalCtx->csCtx.frames == 72) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
@@ -1267,7 +1267,7 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
             func_800F3F3C(3);
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
                     if (globalCtx->csCtx.frames == 315) {
@@ -1586,14 +1586,14 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
                 return;
             default:
                 DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
-                if (gSaveContext.entranceIndex == 0x0053) {
+                if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME) {
                     DemoEffect_MoveJewelSplit(&thisx->world, this);
                 }
                 break;
         }
     }
 
-    if (gSaveContext.entranceIndex == 0x0053) {
+    if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME) {
         if (!(gSaveContext.eventChkInf[4] & 0x800)) {
             hasCmdAction = globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId];
             if (!hasCmdAction) {
@@ -1803,7 +1803,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2737);
 
     if (!DemoEffect_CheckCsAction(this, globalCtx, 2)) {
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP) {
             if (gSaveContext.sceneSetupIndex == 4) {
                 if (globalCtx->csCtx.frames <= 680) {
                     func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
@@ -1967,7 +1967,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
     u32 frames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2994);
-    if (gSaveContext.entranceIndex != 0x0400 || globalCtx->csCtx.frames < 885) {
+    if (gSaveContext.entranceIndex != ENTR_CASTLE_COURTYARD || globalCtx->csCtx.frames < 885) {
         func_80093D84(globalCtx->state.gfxCtx);
 
         if (this->triforceSpot.lightColumnOpacity > 0) {

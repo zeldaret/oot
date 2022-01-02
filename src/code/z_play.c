@@ -1764,7 +1764,7 @@ void Gameplay_LoadToLastEntrance(GlobalContext* globalCtx) {
 
     if ((globalCtx->sceneNum == SCENE_GANON_SONOGO) || (globalCtx->sceneNum == SCENE_GANON_FINAL) ||
         (globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO) || (globalCtx->sceneNum == SCENE_GANON_DEMO)) {
-        globalCtx->nextEntranceIndex = 0x043F;
+        globalCtx->nextEntranceIndex = ENTR_BATTLE_WITH_GANON;
         Item_Give(globalCtx, ITEM_SWORD_MASTER);
     } else if ((gSaveContext.entranceIndex == 0x028A) || (gSaveContext.entranceIndex == 0x028E) ||
                (gSaveContext.entranceIndex == 0x0292) || (gSaveContext.entranceIndex == 0x0476)) {

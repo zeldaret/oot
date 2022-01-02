@@ -3468,7 +3468,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
             if (effect->type == VA_TUMOR) {
                 refActor = effect->parent;
 
-                effect->rot.z += 0x157C;
+                effect->rot.z += 5500;
                 effect->envColor[3] = (s16)(Math_SinS(effect->rot.z) * 50.0f) + 80;
                 Math_SmoothStepToF(&effect->scale, effect->scaleMod, 1.0f, 0.01f, 0.005f);
                 effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
