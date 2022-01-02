@@ -4116,7 +4116,7 @@ s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol) {
             // Only the first room
             lowPassFilterCutoff = 1 << 4;
         } else {
-            // Higher volume leads to stronger low-pass filtering
+            // Higher volume leads to a lower cut-off frequency in the low-pass filtering
             lowPassFilterCutoff = (((targetVol - 0x40) >> 2) + 1) << 4;
         }
         // Set lowPassFilterCutoff to io port 4 from channel 15
@@ -4951,7 +4951,7 @@ void func_800F6C34(void) {
     sRiverSoundMainBgmVol = 0x7F;
     sRiverSoundMainBgmCurrentVol = 0x7F;
     sRiverSoundMainBgmLower = false;
-    sRiverSoundMainBgmRestore = 0;
+    sRiverSoundMainBgmRestore = false;
     sGanonsTowerVol = 0xFF;
     D_8016B9D8 = 0;
     sSpecReverb = sSpecReverbs[gAudioSpecId];
