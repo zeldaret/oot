@@ -5,7 +5,7 @@
     extern u8 _##name##SegmentRomStart[]; \
     extern u8 _##name##SegmentRomEnd[];
 
-#include "tables/dmadata_table.h"
+#include "tables/dmadata_table_mqdbg.h"
 
 #undef DEFINE_DMA_ENTRY
 
@@ -14,7 +14,7 @@
     { (u32)_##name##SegmentRomStart, (u32)_##name##SegmentRomEnd, (u32)_##name##SegmentRomStart, 0 },
 
 DmaEntry gDmaDataTable[] = {
-#include "tables/dmadata_table.h"
+#include "tables/dmadata_table_mqdbg.h"
     { 0 },
 };
 
