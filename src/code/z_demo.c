@@ -41,22 +41,12 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_80068D84(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx);
 
-// used when csindex is less than 0xFFF0 (always for 0 afaict)
-// so in practice these run when no cutscene is actually playing?
 CutsceneStateHandler sCsStateHandlers1[] = {
-    func_80064720, // CS_STATE_IDLE
-    func_80064760, // CS_STATE_SKIPPABLE_INIT
-    func_80064720, // CS_STATE_SKIPPABLE_EXEC
-    func_80068D84, // CS_STATE_UNSKIPPABLE_INIT
-    func_80064720, // CS_STATE_UNSKIPPABLE_EXEC
+    func_80064720, func_80064760, func_80064720, func_80068D84, func_80064720,
 };
 
 CutsceneStateHandler sCsStateHandlers2[] = {
-    func_80064720, // CS_STATE_IDLE
-    func_800647C0, // CS_STATE_SKIPPABLE_INIT
-    func_80068C3C, // CS_STATE_SKIPPABLE_EXEC
-    func_80068DC0, // CS_STATE_UNSKIPPABLE_INIT
-    func_80068C3C, // CS_STATE_UNSKIPPABLE_EXEC
+    func_80064720, func_800647C0, func_80068C3C, func_80068DC0, func_80068C3C,
 };
 
 u8 sTitleCsState = 0;
