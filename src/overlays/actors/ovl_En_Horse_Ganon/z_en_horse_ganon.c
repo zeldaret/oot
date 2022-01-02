@@ -296,7 +296,7 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
 }
 
-void EnHorseGanon_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
+void EnHorseGanon_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseGanon* this = (EnHorseGanon*)thisx;
@@ -307,7 +307,7 @@ void EnHorseGanon_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, PSkinAwb*
         sp4C.y = this->colliderHead.elements[index].dim.modelSphere.center.y;
         sp4C.z = this->colliderHead.elements[index].dim.modelSphere.center.z;
 
-        func_800A6408(skin, this->colliderHead.elements[index].dim.limb, &sp4C, &sp40);
+        Skin_GetLimbPos(skin, this->colliderHead.elements[index].dim.limb, &sp4C, &sp40);
 
         this->colliderHead.elements[index].dim.worldSphere.center.x = sp40.x;
         this->colliderHead.elements[index].dim.worldSphere.center.y = sp40.y;

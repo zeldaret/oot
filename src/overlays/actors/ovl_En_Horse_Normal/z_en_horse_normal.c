@@ -587,7 +587,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnHorseNormal_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
+void EnHorseNormal_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseNormal* this = (EnHorseNormal*)thisx;
@@ -597,7 +597,7 @@ void EnHorseNormal_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, PSkinAwb
         sp4C.x = this->headCollider.elements[i].dim.modelSphere.center.x;
         sp4C.y = this->headCollider.elements[i].dim.modelSphere.center.y;
         sp4C.z = this->headCollider.elements[i].dim.modelSphere.center.z;
-        func_800A6408(skin, this->headCollider.elements[i].dim.limb, &sp4C, &sp40);
+        Skin_GetLimbPos(skin, this->headCollider.elements[i].dim.limb, &sp4C, &sp40);
         this->headCollider.elements[i].dim.worldSphere.center.x = sp40.x;
         this->headCollider.elements[i].dim.worldSphere.center.y = sp40.y;
         this->headCollider.elements[i].dim.worldSphere.center.z = sp40.z;
@@ -692,8 +692,8 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPMatrix(POLY_OPA_DISP++, mtx1, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        func_800A63CC(&this->actor, globalCtx, &this->skin, NULL, NULL, 1, 0,
-                      SKIN_DRAW_FLAG_1 | SKIN_DRAW_FLAG_CUSTOM_MATRIX);
+        func_800A63CC(&this->actor, globalCtx, &this->skin, NULL, NULL, true, 0,
+                      SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS | SKIN_DRAW_FLAG_CUSTOM_MATRIX);
         this->cloneCollider.dim.pos.x = clonePos.x;
         this->cloneCollider.dim.pos.y = clonePos.y;
         this->cloneCollider.dim.pos.z = clonePos.z;
