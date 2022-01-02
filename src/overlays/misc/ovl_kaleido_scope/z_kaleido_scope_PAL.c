@@ -171,7 +171,7 @@ u8 gSlotAgeReqs[] = {
     1, 9, 9, 0, 0, 9, 1, 9, 9, 0, 0, 9, 1, 9, 1, 0, 0, 9, 9, 9, 9, 9, 0, 1,
 };
 
-u8 gEquipAgeReqs[EQUIP_MAX][4] = {
+u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4] = {
     { 0, 1, 0, 0 },
     { 9, 1, 9, 0 },
     { 0, 9, 0, 0 },
@@ -2674,7 +2674,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[3] = 1;
             }
 
-            if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, INV_EQUIP_BOOTS_IRON)) {
+            if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON)) {
                 pauseCtx->worldMapPoints[3] = 2;
             }
 
@@ -2828,7 +2828,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[11] = 2;
             }
 
-            if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, INV_EQUIP_BOOTS_IRON)) {
+            if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON)) {
                 pauseCtx->worldMapPoints[11] = 1;
             }
 

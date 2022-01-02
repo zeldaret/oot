@@ -576,16 +576,16 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
                     } else {
                         i = curSection - 0x34; // 0 <= i < 4
                         if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                            gSaveContext.inventory.equipment ^= ((1 << INV_EQUIP_SWORD_KOKIRI) << gEquipShifts[i]);
+                            gSaveContext.inventory.equipment ^= ((1 << EQUIP_INV_SWORD_KOKIRI) << gEquipShifts[i]);
                         }
                         if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN)) {
-                            gSaveContext.inventory.equipment ^= ((1 << INV_EQUIP_SWORD_MASTER) << gEquipShifts[i]);
+                            gSaveContext.inventory.equipment ^= ((1 << EQUIP_INV_SWORD_MASTER) << gEquipShifts[i]);
                         }
                         if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                            gSaveContext.inventory.equipment ^= ((1 << INV_EQUIP_SWORD_BGS) << gEquipShifts[i]);
+                            gSaveContext.inventory.equipment ^= ((1 << EQUIP_INV_SWORD_BGS) << gEquipShifts[i]);
                         }
                         if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
-                            gSaveContext.inventory.equipment ^= ((1 << INV_EQUIP_SWORD_GIANTKNIFE) << gEquipShifts[i]);
+                            gSaveContext.inventory.equipment ^= ((1 << EQUIP_INV_SWORD_GIANTKNIFE) << gEquipShifts[i]);
                         }
                     }
                 } else if (curSection < 0x44) {

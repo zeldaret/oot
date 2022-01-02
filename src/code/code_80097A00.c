@@ -202,11 +202,11 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
         gSaveContext.equips.equipment &= gEquipNegMasks[equipment];
         gSaveContext.inventory.equipment ^= gBitFlags[equipValue - 1] << gEquipShifts[equipment];
 
-        if (equipment == EQUIP_TUNIC) {
-            gSaveContext.equips.equipment |= EQUIP_EQUIP_TUNIC_KOKIRI << (EQUIP_TUNIC * 4);
+        if (equipment == EQUIP_TYPE_TUNIC) {
+            gSaveContext.equips.equipment |= EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4);
         }
 
-        if (equipment == EQUIP_SWORD) {
+        if (equipment == EQUIP_TYPE_SWORD) {
             gSaveContext.equips.buttonItems[0] = ITEM_NONE;
             gSaveContext.infTable[29] = 1;
         }

@@ -80,7 +80,7 @@ u16 EnKz_GetTextNoMaskAdult(GlobalContext* globalCtx, EnKz* this) {
 
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_FROG) {
         if (!(gSaveContext.infTable[19] & 0x200)) {
-            if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, INV_EQUIP_TUNIC_ZORA)) {
+            if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_ZORA)) {
                 return 0x401F;
             } else {
                 return 0x4012;
@@ -255,7 +255,7 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
                 this->actor.textId = CHECK_QUEST_ITEM(QUEST_SONG_SERENADE) ? 0x4045 : 0x401A;
                 player->actor.textId = this->actor.textId;
             } else {
-                this->actor.textId = CHECK_OWNED_EQUIP(EQUIP_TUNIC, INV_EQUIP_TUNIC_ZORA) ? 0x401F : 0x4012;
+                this->actor.textId = CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_ZORA) ? 0x401F : 0x4012;
                 player->actor.textId = this->actor.textId;
             }
         }

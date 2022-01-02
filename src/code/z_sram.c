@@ -270,11 +270,11 @@ void Sram_InitDebugSave(void) {
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KOKIRI;
-        Inventory_ChangeEquipment(EQUIP_SWORD, EQUIP_EQUIP_SWORD_KOKIRI);
+        Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_KOKIRI);
         if (gSaveContext.fileNum == 0xFF) {
             gSaveContext.equips.buttonItems[1] = ITEM_SLINGSHOT;
             gSaveContext.equips.cButtonSlots[0] = SLOT_SLINGSHOT;
-            Inventory_ChangeEquipment(EQUIP_SHIELD, EQUIP_EQUIP_SHIELD_DEKU);
+            Inventory_ChangeEquipment(EQUIP_TYPE_SHIELD, EQUIP_VALUE_SHIELD_DEKU);
         }
     }
 
@@ -422,11 +422,11 @@ void Sram_OpenSave(SramContext* sramCtx) {
     }
 
     // check for owning master sword.. to restore master sword? bug or debug feature?
-    if (LINK_AGE_IN_YEARS == YEARS_ADULT && !CHECK_OWNED_EQUIP(EQUIP_SWORD, INV_EQUIP_SWORD_MASTER)) {
-        gSaveContext.inventory.equipment |= gBitFlags[INV_EQUIP_SWORD_MASTER] << gEquipShifts[EQUIP_SWORD];
+    if (LINK_AGE_IN_YEARS == YEARS_ADULT && !CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER)) {
+        gSaveContext.inventory.equipment |= gBitFlags[EQUIP_INV_SWORD_MASTER] << gEquipShifts[EQUIP_TYPE_SWORD];
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
         gSaveContext.equips.equipment &= ~0xF;
-        gSaveContext.equips.equipment |= EQUIP_EQUIP_SWORD_MASTER;
+        gSaveContext.equips.equipment |= EQUIP_VALUE_SWORD_MASTER;
     }
 
     for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) {

@@ -1169,8 +1169,8 @@ void Inventory_SwapAgeEquipment(void) {
             gSaveContext.equips.cButtonSlots[1] = SLOT_BOMB;
             gSaveContext.equips.cButtonSlots[2] = SLOT_OCARINA;
             gSaveContext.equips.equipment =
-                (EQUIP_EQUIP_SWORD_MASTER << (EQUIP_SWORD * 4)) | (EQUIP_EQUIP_SHIELD_HYLIAN << (EQUIP_SHIELD * 4)) |
-                (EQUIP_EQUIP_TUNIC_KOKIRI << (EQUIP_TUNIC * 4)) | (EQUIP_EQUIP_BOOTS_NORMAL << (EQUIP_BOOTS * 4));
+                (EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4)) | (EQUIP_VALUE_SHIELD_HYLIAN << (EQUIP_TYPE_SHIELD * 4)) |
+                (EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4)) | (EQUIP_VALUE_BOOTS_NORMAL << (EQUIP_TYPE_BOOTS * 4));
         } else {
             for (i = 0; i < 4; i++) {
                 gSaveContext.equips.buttonItems[i] = gSaveContext.adultEquips.buttonItems[i];
@@ -1222,15 +1222,15 @@ void Inventory_SwapAgeEquipment(void) {
 
             gSaveContext.equips.equipment = gSaveContext.childEquips.equipment;
             gSaveContext.equips.equipment &= 0xFFF0;
-            gSaveContext.equips.equipment |= EQUIP_EQUIP_SWORD_KOKIRI;
+            gSaveContext.equips.equipment |= EQUIP_VALUE_SWORD_KOKIRI;
         }
     }
 
-    shieldEquipValue = gEquipMasks[EQUIP_SHIELD] & gSaveContext.equips.equipment;
+    shieldEquipValue = gEquipMasks[EQUIP_TYPE_SHIELD] & gSaveContext.equips.equipment;
     if (shieldEquipValue != 0) {
-        shieldEquipValue >>= gEquipShifts[EQUIP_SHIELD];
-        if (!(gBitFlags[shieldEquipValue + (-1 + (EQUIP_SHIELD * 4))] & gSaveContext.inventory.equipment)) {
-            gSaveContext.equips.equipment &= gEquipNegMasks[EQUIP_SHIELD];
+        shieldEquipValue >>= gEquipShifts[EQUIP_TYPE_SHIELD];
+        if (!(gBitFlags[shieldEquipValue + (-1 + (EQUIP_TYPE_SHIELD * 4))] & gSaveContext.inventory.equipment)) {
+            gSaveContext.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SHIELD];
         }
     }
 }
@@ -1245,10 +1245,10 @@ void Interface_InitHorsebackArchery(GlobalContext* globalCtx) {
 }
 
 void func_800849EC(GlobalContext* globalCtx) {
-    gSaveContext.inventory.equipment |= gBitFlags[INV_EQUIP_SWORD_BGS] << gEquipShifts[EQUIP_SWORD];
-    gSaveContext.inventory.equipment ^= (1 << INV_EQUIP_SWORD_GIANTKNIFE) << gEquipShifts[EQUIP_SWORD];
+    gSaveContext.inventory.equipment |= gBitFlags[EQUIP_INV_SWORD_BGS] << gEquipShifts[EQUIP_TYPE_SWORD];
+    gSaveContext.inventory.equipment ^= (1 << EQUIP_INV_SWORD_GIANTKNIFE) << gEquipShifts[EQUIP_TYPE_SWORD];
 
-    if (gBitFlags[INV_EQUIP_SWORD_GIANTKNIFE] & gSaveContext.inventory.equipment) {
+    if (gBitFlags[EQUIP_INV_SWORD_GIANTKNIFE] & gSaveContext.inventory.equipment) {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
     } else {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
@@ -1372,13 +1372,13 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
-        gSaveContext.inventory.equipment |= gBitFlags[item - ITEM_SWORD_KOKIRI] << gEquipShifts[EQUIP_SWORD];
+        gSaveContext.inventory.equipment |= gBitFlags[item - ITEM_SWORD_KOKIRI] << gEquipShifts[EQUIP_TYPE_SWORD];
 
         if (item == ITEM_SWORD_BGS) {
             gSaveContext.swordHealth = 8;
 
-            if (ALL_EQUIP_VALUE(EQUIP_SWORD) == 0xF) {
-                gSaveContext.inventory.equipment ^= (1 << INV_EQUIP_SWORD_GIANTKNIFE) << gEquipShifts[EQUIP_SWORD];
+            if (ALL_EQUIP_VALUE(EQUIP_TYPE_SWORD) == 0xF) {
+                gSaveContext.inventory.equipment ^= (1 << EQUIP_INV_SWORD_GIANTKNIFE) << gEquipShifts[EQUIP_TYPE_SWORD];
                 if (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) {
                     gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
                     Interface_LoadItemIcon1(globalCtx, 0);
@@ -1387,19 +1387,19 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         } else if (item == ITEM_SWORD_MASTER) {
             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
             gSaveContext.equips.equipment &= 0xFFF0;
-            gSaveContext.equips.equipment |= EQUIP_EQUIP_SWORD_MASTER;
+            gSaveContext.equips.equipment |= EQUIP_VALUE_SWORD_MASTER;
             Interface_LoadItemIcon1(globalCtx, 0);
         }
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SHIELD_DEKU) && (item <= ITEM_SHIELD_MIRROR)) {
-        gSaveContext.inventory.equipment |= (gBitFlags[item - ITEM_SHIELD_DEKU] << gEquipShifts[EQUIP_SHIELD]);
+        gSaveContext.inventory.equipment |= (gBitFlags[item - ITEM_SHIELD_DEKU] << gEquipShifts[EQUIP_TYPE_SHIELD]);
         return ITEM_NONE;
     } else if ((item >= ITEM_TUNIC_KOKIRI) && (item <= ITEM_TUNIC_ZORA)) {
-        gSaveContext.inventory.equipment |= (gBitFlags[item - ITEM_TUNIC_KOKIRI] << gEquipShifts[EQUIP_TUNIC]);
+        gSaveContext.inventory.equipment |= (gBitFlags[item - ITEM_TUNIC_KOKIRI] << gEquipShifts[EQUIP_TYPE_TUNIC]);
         return ITEM_NONE;
     } else if ((item >= ITEM_BOOTS_KOKIRI) && (item <= ITEM_BOOTS_HOVER)) {
-        gSaveContext.inventory.equipment |= (gBitFlags[item - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]);
+        gSaveContext.inventory.equipment |= (gBitFlags[item - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_TYPE_BOOTS]);
         return ITEM_NONE;
     } else if ((item == ITEM_KEY_BOSS) || (item == ITEM_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
         gSaveContext.inventory.dungeonItems[gSaveContext.mapIndex] |= gBitFlags[item - ITEM_KEY_BOSS];
@@ -1805,25 +1805,25 @@ u8 Item_CheckObtainability(u8 item) {
     } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
         if (item == ITEM_SWORD_BGS) {
             return ITEM_NONE;
-        } else if (CHECK_OWNED_EQUIP(EQUIP_SWORD, item - ITEM_SWORD_KOKIRI)) {
+        } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI)) {
             return item;
         } else {
             return ITEM_NONE;
         }
     } else if ((item >= ITEM_SHIELD_DEKU) && (item <= ITEM_SHIELD_MIRROR)) {
-        if (CHECK_OWNED_EQUIP(EQUIP_SHIELD, item - ITEM_SHIELD_DEKU)) {
+        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_SHIELD, item - ITEM_SHIELD_DEKU)) {
             return item;
         } else {
             return ITEM_NONE;
         }
     } else if ((item >= ITEM_TUNIC_KOKIRI) && (item <= ITEM_TUNIC_ZORA)) {
-        if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, item - ITEM_TUNIC_KOKIRI)) {
+        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, item - ITEM_TUNIC_KOKIRI)) {
             return item;
         } else {
             return ITEM_NONE;
         }
     } else if ((item >= ITEM_BOOTS_KOKIRI) && (item <= ITEM_BOOTS_HOVER)) {
-        if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, item - ITEM_BOOTS_KOKIRI)) {
+        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, item - ITEM_BOOTS_KOKIRI)) {
             return item;
         } else {
             return ITEM_NONE;
@@ -3951,11 +3951,11 @@ void Interface_Update(GlobalContext* globalCtx) {
     D_80125A58 = func_8008F2F8(globalCtx);
 
     if (D_80125A58 == 1) {
-        if (CUR_EQUIP_VALUE(EQUIP_TUNIC) == EQUIP_EQUIP_TUNIC_GORON) {
+        if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_GORON) {
             D_80125A58 = 0;
         }
     } else if ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) {
-        if (CUR_EQUIP_VALUE(EQUIP_TUNIC) == EQUIP_EQUIP_TUNIC_ZORA) {
+        if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_ZORA) {
             D_80125A58 = 0;
         }
     }
