@@ -57,8 +57,8 @@ void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 /**
- * Determines the closest point to hearPos that is contained on the line segment connecting points A & B
- * If the closest point on the line segment will be either end points A or B, return false
+ * Determines the closest point to hearPos that is contained on the line connecting points A & B
+ * If the closest point on the line will not be on the line segment connecting points A or B, return false.
  * Otherwise, calculate the point between A & B, assign it to `newSoundPos`, and return true
  */
 s32 EnRiverSound_FindClosestPointOnLineSegment(Vec3f* pointA, Vec3f* pointB, Vec3f* hearPos, Vec3f* newSoundPos) {
@@ -91,7 +91,7 @@ s32 EnRiverSound_FindClosestPointOnLineSegment(Vec3f* pointA, Vec3f* pointB, Vec
      *  |                   |
      *  |                   |
      * This condition uses dot products to check to see that `hearPos` is contained within the above region
-     * i.e. The closest point on line segment AB must be between A & B
+     * i.e. The closest point on line AB must be between A & B
      */
     if ((DOTXYZ(lineSeg[2], lineSeg[1]) * temp) < 0.0f) {
         temp = -temp / SQXYZ(lineSeg[2]);
