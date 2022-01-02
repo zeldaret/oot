@@ -774,7 +774,7 @@ void DemoEc_DrawDancingZora(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitKingZora(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &object_kz_Skel_0086D0);
+    DemoEc_InitSkelAnime(this, globalCtx, &gKzSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcKingZoraAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -850,7 +850,7 @@ void func_8096F3D4(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawKingZora(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x06001470, 0x06001870, 0x06001C70, 0x06002070 };
+    static void* eyeTextures[] = { gKzEyeOpenTex, gKzEyeHalfTex, gKzEyeClosedTex, gKzEyeOpen2Tex };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 

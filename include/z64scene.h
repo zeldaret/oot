@@ -194,15 +194,14 @@ typedef struct {
 
 typedef struct {
     MeshHeaderBase base;
-
     u8 numEntries;
     Gfx* dListStart;
     Gfx* dListEnd;
 } MeshHeader0;
 
 typedef struct {
-    u32 opaqueDList;
-    u32 translucentDList;
+    Gfx* opaqueDList;
+    Gfx* translucentDList;
 } MeshEntry0;
 
 typedef struct {
@@ -213,7 +212,7 @@ typedef struct {
 
 typedef struct {
     MeshHeader1Base base;
-    u32 imagePtr; // 0x08
+    void* imagePtr; // 0x08
     u32 unknown; // 0x0C
     u32 unknown2; // 0x10
     u16 bgWidth; // 0x14
@@ -227,13 +226,13 @@ typedef struct {
 typedef struct {
     MeshHeader1Base base;
     u8 bgCnt;
-    u32 bgRecordPtr;
+    void* bgRecordPtr;
 } MeshHeader1Multi;
 
 typedef struct {
     u16 unknown; // 0x00
     s8 bgID; // 0x02
-    u32 imagePtr; // 0x04
+    void* imagePtr; // 0x04
     u32 unknown2; // 0x08
     u32 unknown3; // 0x0C
     u16 bgWidth; // 0x10
@@ -247,8 +246,8 @@ typedef struct {
 typedef struct {
     s16 playerXMax, playerZMax;
     s16 playerXMin, playerZMin;
-    u32 opaqueDList;
-    u32 translucentDList;
+    Gfx* opaqueDList;
+    Gfx* translucentDList;
 } MeshEntry2;
 
 typedef struct {
