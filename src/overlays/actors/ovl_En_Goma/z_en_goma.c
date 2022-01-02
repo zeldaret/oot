@@ -853,9 +853,9 @@ void EnGoma_SpawnHatchDebris(EnGoma* this, GlobalContext* globalCtx2) {
     s16 i;
 
     if (this->actor.params < 6) {
-        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GOMA_BJR_EGG2);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GOMA_BJR_EGG2);
     } else {
-        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GOMA_EGG2);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GOMA_EGG2);
     }
 
     for (i = 0; i < 15; i++) {

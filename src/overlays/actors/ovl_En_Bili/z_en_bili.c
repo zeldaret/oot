@@ -509,7 +509,7 @@ void EnBili_Die(EnBili* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 14) {
-        SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_BIRI_BUBLE);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_BIRI_BUBLE);
     }
 }
 
