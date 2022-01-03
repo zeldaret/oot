@@ -641,7 +641,7 @@ void EnZf_DropIn(EnZf* this, GlobalContext* globalCtx) {
         this->actor.flags |= ACTOR_FLAG_0;
 
         if (this->actor.params == ENZF_TYPE_LIZALFOS_MINIBOSS_A) {
-            func_800F5ACC(0x38); // Miniboss theme
+            func_800F5ACC(NA_BGM_MINI_BOSS);
         }
     }
 

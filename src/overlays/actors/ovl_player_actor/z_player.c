@@ -2826,7 +2826,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
             func_800F6AB0(0);
             Audio_PlayFanfare(NA_BGM_GAME_OVER);
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-            gSaveContext.natureAmbienceId = 0xFF;
+            gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
         }
 
         OnePointCutscene_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, MAIN_CAM);
@@ -3992,7 +3992,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                     func_800788CC(NA_SE_OC_SECRET_HOLE_OUT);
                     func_800F6964(5);
                     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-                    gSaveContext.natureAmbienceId = 0xFF;
+                    gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
                 } else {
                     linearVel = this->linearVelocity;
 
@@ -9035,7 +9035,6 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeade
     Effect_Add(globalCtx, &this->swordEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, this->ageProperties->unk_04);
     this->unk_46C = SUBCAM_NONE;
-
     Collider_InitCylinder(globalCtx, &this->cylinder);
     Collider_SetCylinder(globalCtx, &this->cylinder, &this->actor, &D_80854624);
     Collider_InitQuad(globalCtx, &this->swordQuads[0]);
@@ -11947,7 +11946,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         }
 
         gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-        gSaveContext.natureAmbienceId = 0xFF;
+        gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
     }
 }
 
