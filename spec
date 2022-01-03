@@ -3396,7 +3396,7 @@ endseg
 beginseg
     name "object_link_boy"
     romalign 0x1000
-    include "build/baserom/object_link_boy.o"
+    include "build/assets/objects/object_link_boy/object_link_boy.o"
     number 6
 endseg
 

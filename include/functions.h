@@ -478,7 +478,8 @@ void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s3
 s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type);
 void Actor_SpawnFloorDustRing(GlobalContext* globalCtx, Actor* actor, Vec3f* posXZ, f32 radius, s32 amountMinusOne,
                               f32 randAccelWeight, s16 scale, s16 scaleStep, u8 useLighting);
-void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
+void func_80033480(GlobalContext* globalCtx, Vec3f* posBase, f32 randRangeDiameter, s32 amountMinusOne, s16 scaleBase,
+                   s16 scaleStep, u8 arg6);
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
 Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius);
@@ -499,8 +500,8 @@ void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx);
 Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx);
-s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interactRange, u16 (*unkFunc1)(GlobalContext*, Actor*),
-                  s16 (*unkFunc2)(GlobalContext*, Actor*));
+s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interactRange,
+                  u16 (*unkFunc1)(GlobalContext*, Actor*), s16 (*unkFunc2)(GlobalContext*, Actor*));
 s16 func_800347E8(s16 arg0);
 void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
 void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
@@ -888,7 +889,7 @@ void Environment_DrawSkyboxFilters(GlobalContext* globalCtx);
 void Environment_UpdateLightningStrike(GlobalContext* globalCtx);
 void Environment_AddLightningBolts(GlobalContext* globalCtx, u8 num);
 void Environment_DrawLightning(GlobalContext* globalCtx, s32 unused);
-void func_800758AC(GlobalContext* globalCtx);
+void Environment_PlaySceneSequence(GlobalContext* globalCtx);
 void Environment_DrawCustomLensFlare(GlobalContext* globalCtx);
 void Environment_InitGameOverLights(GlobalContext* globalCtx);
 void Environment_FadeInGameOverLights(GlobalContext* globalCtx);
@@ -899,10 +900,10 @@ void Environment_AdjustLights(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 
 s32 Environment_GetBgsDayCount(void);
 void Environment_ClearBgsDayCount(void);
 s32 Environment_GetTotalDays(void);
-void Environment_ForcePlaySequence(u16);
+void Environment_ForcePlaySequence(u16 seqId);
 s32 Environment_IsForcedSequenceDisabled(void);
-void func_80077624(GlobalContext* globalCtx);
-void func_80077684(GlobalContext* globalCtx);
+void Environment_PlayStormNatureAmbience(GlobalContext* globalCtx);
+void Environment_StopStormNatureAmbience(GlobalContext* globalCtx);
 void Environment_WarpSongLeave(GlobalContext* globalCtx);
 void Lib_MemSet(u8* dest, size_t size, u8 val);
 f32 Math_CosS(s16 angle);
@@ -2054,9 +2055,9 @@ void func_800F5918(void);
 void func_800F595C(u16);
 void func_800F59E8(u16);
 s32 func_800F5A58(u8);
-void func_800F5ACC(u16 bgmID);
+void func_800F5ACC(u16 seqId);
 void func_800F5B58(void);
-void func_800F5BF0(u8 arg0);
+void func_800F5BF0(u8 natureAmbienceId);
 void Audio_PlayFanfare(u16);
 void func_800F5C2C(void);
 void func_800F5E18(u8 playerIdx, u16 seqId, u8 fadeTimer, s8 arg3, s8 arg4);
@@ -2078,9 +2079,8 @@ void func_800F6AB0(u16);
 // ? func_800F6BB8(?);
 void Audio_PreNMI();
 // ? func_800F6C34(?);
-void func_800F6D58(u8, u8, u8);
-// ? func_800F6E7C(?);
-void func_800F6FB4(u8);
+void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 val);
+void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId);
 void Audio_Init();
 void Audio_InitSound();
 void func_800F7170(void);

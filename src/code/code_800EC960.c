@@ -41,10 +41,10 @@ typedef struct {
 } FreqLerp;
 
 typedef struct {
-    /* 0x0 */ u16 unk_00;
-    /* 0x2 */ u16 unk_02;
-    /* 0x4 */ u8 unk_04[100];
-} D_801306DC_s; // size = 0x68
+    /* 0x0 */ u16 playerIO;
+    /* 0x2 */ u16 channelMask;
+    /* 0x4 */ u8 channelIO[3 * 33 + 1];
+} NatureAmbienceDataIO; // size = 0x68
 
 typedef enum {
     /* 0x0 */ PAGE_NON,
@@ -124,7 +124,7 @@ s8 sAudioCodeReverb = 0;
 u8 sPrevSeqMode = 0;
 f32 sAudioEnemyDist = 0.0f;
 s8 sAudioEnemyVol = 127;
-u16 D_80130628 = NA_BGM_DISABLED;
+u16 sPrevMainBgmSeqId = NA_BGM_DISABLED;
 u8 D_8013062C = 0;
 u8 D_80130630 = NA_BGM_GENERAL_SFX;
 u32 sNumFramesStill = 0;
@@ -245,49 +245,585 @@ u8 sSeqFlags[0x6E] = {
     0,    // NA_BGM_STAFF_3
     0,    // NA_BGM_STAFF_4
     0,    // NA_BGM_FIRE_BOSS
-    0x8,  // NA_BGM_MINI_GAME_2
+    0x8,  // NA_BGM_TIMED_MINI_GAME
     0,    // NA_BGM_VARIOUS_SFX
 };
 
 s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-D_801306DC_s D_801306DC[20] = {
-    { 0xC0FF, 0xC0FE, { 0, 2,   0,   0, 3, 0, 1,  2,  9,  1,  3, 64, 1,   4,   0,   1, 5, 32, 2,  2,  4,  2,   3,
-                        0, 2,   4,   1, 2, 5, 16, 3,  2,  10, 3, 3,  112, 3,   4,   1, 3, 5,  48, 4,  2,  14,  4,
-                        3, 127, 4,   4, 0, 4, 5,  16, 5,  2,  0, 5,  3,   127, 5,   4, 1, 5,  5,  16, 6,  2,   1,
-                        6, 3,   127, 6, 4, 3, 6,  5,  16, 7,  2, 17, 7,   3,   127, 7, 4, 1,  7,  5,  16, 0xFF } },
-    { 0xC0FB, 0xC0FA, { 0, 2, 0,  0, 3, 0,   1, 2, 4,   1, 3, 0,  1, 4, 1,  1, 5, 16,  3, 2, 11,  3, 3, 112, 3,   4, 1,
-                        3, 5, 48, 4, 2, 14,  4, 3, 127, 4, 4, 0,  4, 5, 16, 5, 2, 0,   5, 3, 127, 5, 4, 1,   5,   5, 16,
-                        6, 2, 1,  6, 3, 127, 6, 4, 3,   6, 5, 16, 7, 2, 17, 7, 3, 127, 7, 4, 1,   7, 5, 16,  0xFF } },
-    { 0xC001, 0x4000, { 0, 2, 0, 0, 3, 0, 2, 2, 11, 2, 3, 48, 2, 4, 1, 2, 5, 32, 0xFF } },
-    { 0xC005, 0x4000, { 0, 2, 1, 0, 3, 32, 2, 2, 11, 2, 3, 48, 2, 4, 1, 2, 5, 32, 0xFF } },
-    { 0xC01F,
-      0xC000,
-      { 0, 2,  0, 0, 3,  47, 1, 2, 13, 1, 3, 0, 1, 4,  1, 1, 5,  16, 2, 2,  16, 2, 3, 0, 2, 4,  1,   2,
-        5, 32, 3, 2, 14, 3,  3, 0, 3,  4, 0, 3, 5, 44, 4, 2, 11, 4,  3, 63, 4,  4, 1, 4, 5, 44, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC0FB, 0xC0FA, { 0, 2, 0,  0, 3, 0,   1, 2, 4,   1, 3, 0,  1, 4, 1,  1, 5, 16,  3, 2, 11,  3, 3, 112, 3,   4, 1,
-                        3, 5, 48, 4, 2, 14,  4, 3, 127, 4, 4, 0,  4, 5, 16, 5, 2, 0,   5, 3, 127, 5, 4, 1,   5,   5, 16,
-                        6, 2, 1,  6, 3, 127, 6, 4, 3,   6, 5, 16, 7, 2, 17, 7, 3, 127, 7, 4, 1,   7, 5, 16,  0xFF } },
-    { 0x8001, 0x0, { 0, 2, 1, 0, 3, 32, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC001, 0xC000, { 0, 2, 2, 0, 3, 0, 0, 4, 0, 0xFF } },
-    { 0xC02F, 0xC02E, { 0,  2, 2, 0,  3,  0, 0,   4, 0, 1, 2,   10, 1,  3, 64, 1,  4,  0,   1,   5,
-                        32, 2, 2, 15, 2,  3, 112, 2, 4, 1, 2,   5,  48, 3, 2,  14, 3,  3,   127, 3,
-                        4,  0, 3, 5,  16, 5, 2,   4, 5, 3, 127, 5,  4,  0, 5,  5,  16, 0xFF } },
-    { 0xC07F, 0xC07E, { 0, 2, 0,  0, 3, 0,   0, 4, 0, 1, 2, 10, 1, 3, 64, 1, 4, 0,   1,   5, 32,
-                        2, 2, 11, 2, 3, 112, 2, 4, 1, 2, 5, 48, 3, 2, 12, 3, 3, 127, 3,   4, 0,
-                        3, 5, 16, 4, 2, 6,   4, 3, 0, 4, 4, 0,  4, 5, 16, 5, 2, 0,   5,   3, 0,
-                        5, 4, 0,  5, 5, 16,  6, 2, 1, 6, 3, 0,  6, 4, 0,  6, 5, 16,  0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC01F, 0xC000, { 0, 2,  0, 0, 3, 0, 1, 2, 0, 1, 3, 80, 1, 4, 1, 1, 5,  8, 2, 2,  10, 2, 3, 80, 2, 4,  1,   2,
-                        5, 48, 3, 2, 6, 3, 3, 0, 3, 4, 0, 3,  5, 0, 4, 2, 11, 4, 3, 96, 4,  4, 0, 4,  5, 32, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
-    { 0xC003, 0xC000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
+    // NATURE_ID_GENERAL_NIGHT
+    {
+        0xC0FF, // PlayerIO Data
+        0xC0FE, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CROWS_CAWS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(64),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_0_PORT5(32),
+
+            // Channel 2
+            NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_1_BEND_PITCH(0),
+            NATURE_IO_CRITTER_1_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_1_PORT5(16),
+
+            // Channel 3
+            NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_SMALL_BIRD_CHIRPS),
+            NATURE_IO_CRITTER_2_BEND_PITCH(112),
+            NATURE_IO_CRITTER_2_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_2_PORT5(48),
+
+            // Channel 4
+            NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_HAWK_SCREECH),
+            NATURE_IO_CRITTER_3_BEND_PITCH(127),
+            NATURE_IO_CRITTER_3_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_3_PORT5(16),
+
+            // Channel 5
+            NATURE_IO_CRITTER_4_TYPE(NATURE_CRITTER_BIRD_CHIRP_1),
+            NATURE_IO_CRITTER_4_BEND_PITCH(127),
+            NATURE_IO_CRITTER_4_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_4_PORT5(16),
+
+            // Channel 6
+            NATURE_IO_CRITTER_5_TYPE(NATURE_CRITTER_TAP),
+            NATURE_IO_CRITTER_5_BEND_PITCH(127),
+            NATURE_IO_CRITTER_5_NUM_LAYERS(3),
+            NATURE_IO_CRITTER_5_PORT5(16),
+
+            // Channel 7
+            NATURE_IO_CRITTER_6_TYPE(NATURE_CRITTER_CUCCO_CROWS),
+            NATURE_IO_CRITTER_6_BEND_PITCH(127),
+            NATURE_IO_CRITTER_6_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_6_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_MARKET_ENTRANCE
+    {
+        0xC0FB, // PlayerIO Data
+        0xC0FA, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // Channel 3
+            NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_BIRD_SCREECH),
+            NATURE_IO_CRITTER_2_BEND_PITCH(112),
+            NATURE_IO_CRITTER_2_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_2_PORT5(48),
+
+            // Channel 4
+            NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_HAWK_SCREECH),
+            NATURE_IO_CRITTER_3_BEND_PITCH(127),
+            NATURE_IO_CRITTER_3_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_3_PORT5(16),
+
+            // Channel 5
+            NATURE_IO_CRITTER_4_TYPE(NATURE_CRITTER_BIRD_CHIRP_1),
+            NATURE_IO_CRITTER_4_BEND_PITCH(127),
+            NATURE_IO_CRITTER_4_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_4_PORT5(16),
+
+            // Channel 6
+            NATURE_IO_CRITTER_5_TYPE(NATURE_CRITTER_TAP),
+            NATURE_IO_CRITTER_5_BEND_PITCH(127),
+            NATURE_IO_CRITTER_5_NUM_LAYERS(3),
+            NATURE_IO_CRITTER_5_PORT5(16),
+
+            // Channel 7
+            NATURE_IO_CRITTER_6_TYPE(NATURE_CRITTER_CUCCO_CROWS),
+            NATURE_IO_CRITTER_6_BEND_PITCH(127),
+            NATURE_IO_CRITTER_6_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_6_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_KAKARIKO_REGION
+    {
+        0xC001, // PlayerIO Data
+        0x4000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 2
+            NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_BIRD_SCREECH),
+            NATURE_IO_CRITTER_1_BEND_PITCH(48),
+            NATURE_IO_CRITTER_1_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_1_PORT5(32),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_MARKET_RUINS
+    {
+        0xC005, // PlayerIO Data
+        0x4000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_HOWLING_WIND),
+            NATURE_IO_STREAM_0_PORT3(32),
+
+            // Channel 2
+            NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_BIRD_SCREECH),
+            NATURE_IO_CRITTER_1_BEND_PITCH(48),
+            NATURE_IO_CRITTER_1_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_1_PORT5(32),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_KOKIRI_REGION
+    {
+        0xC01F, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(47),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_OWL_HOOT),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // Channel 2
+            NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_CAWING_BIRD),
+            NATURE_IO_CRITTER_1_BEND_PITCH(0),
+            NATURE_IO_CRITTER_1_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_1_PORT5(32),
+
+            // Channel 3
+            NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_HAWK_SCREECH),
+            NATURE_IO_CRITTER_2_BEND_PITCH(0),
+            NATURE_IO_CRITTER_2_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_2_PORT5(44),
+
+            // Channel 4
+            NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_BIRD_SCREECH),
+            NATURE_IO_CRITTER_3_BEND_PITCH(63),
+            NATURE_IO_CRITTER_3_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_3_PORT5(44),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_MARKET_NIGHT
+    {
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_06
+    {
+        0xC0FB, // PlayerIO Data
+        0xC0FA, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // Channel 3
+            NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_BIRD_SCREECH),
+            NATURE_IO_CRITTER_2_BEND_PITCH(112),
+            NATURE_IO_CRITTER_2_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_2_PORT5(48),
+
+            // Channel 4
+            NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_HAWK_SCREECH),
+            NATURE_IO_CRITTER_3_BEND_PITCH(127),
+            NATURE_IO_CRITTER_3_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_3_PORT5(16),
+
+            // Channel 5
+            NATURE_IO_CRITTER_4_TYPE(NATURE_CRITTER_BIRD_CHIRP_1),
+            NATURE_IO_CRITTER_4_BEND_PITCH(127),
+            NATURE_IO_CRITTER_4_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_4_PORT5(16),
+
+            // Channel 6
+            NATURE_IO_CRITTER_5_TYPE(NATURE_CRITTER_TAP),
+            NATURE_IO_CRITTER_5_BEND_PITCH(127),
+            NATURE_IO_CRITTER_5_NUM_LAYERS(3),
+            NATURE_IO_CRITTER_5_PORT5(16),
+
+            // Channel 7
+            NATURE_IO_CRITTER_6_TYPE(NATURE_CRITTER_CUCCO_CROWS),
+            NATURE_IO_CRITTER_6_BEND_PITCH(127),
+            NATURE_IO_CRITTER_6_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_6_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_GANONS_LAIR
+    {
+        0x8001, // PlayerIO Data
+        0x0,    // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_HOWLING_WIND),
+            NATURE_IO_STREAM_0_PORT3(32),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_08
+    {
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_09
+    {
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_WASTELAND
+    {
+        0xC001, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_SCREECHING_WIND),
+            NATURE_IO_STREAM_0_PORT3(0),
+            NATURE_IO_STREAM_0_PORT4(0),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_COLOSSUS
+    {
+        0xC02F, // PlayerIO Data
+        0xC02E, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_SCREECHING_WIND),
+            NATURE_IO_STREAM_0_PORT3(0),
+            NATURE_IO_STREAM_0_PORT4(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_SMALL_BIRD_CHIRPS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(64),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_0_PORT5(32),
+
+            // Channel 2
+            NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_BIRD_CALL),
+            NATURE_IO_CRITTER_1_BEND_PITCH(112),
+            NATURE_IO_CRITTER_1_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_1_PORT5(48),
+
+            // Channel 3
+            NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_HAWK_SCREECH),
+            NATURE_IO_CRITTER_2_BEND_PITCH(127),
+            NATURE_IO_CRITTER_2_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_2_PORT5(16),
+
+            // Channel 5
+            NATURE_IO_CRITTER_4_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_4_BEND_PITCH(127),
+            NATURE_IO_CRITTER_4_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_4_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_DEATH_MOUNTAIN_TRAIL
+    {
+        0xC07F, // PlayerIO Data
+        0xC07E, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+            NATURE_IO_STREAM_0_PORT4(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_SMALL_BIRD_CHIRPS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(64),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_0_PORT5(32),
+
+            // Channel 2
+            NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_BIRD_SCREECH),
+            NATURE_IO_CRITTER_1_BEND_PITCH(112),
+            NATURE_IO_CRITTER_1_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_1_PORT5(48),
+
+            // Channel 3
+            NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_BIRD_SONG),
+            NATURE_IO_CRITTER_2_BEND_PITCH(127),
+            NATURE_IO_CRITTER_2_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_2_PORT5(16),
+
+            // Channel 4
+            NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_LOUD_CHIRPING),
+            NATURE_IO_CRITTER_3_BEND_PITCH(0),
+            NATURE_IO_CRITTER_3_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_3_PORT5(16),
+
+            // Channel 5
+            NATURE_IO_CRITTER_4_TYPE(NATURE_CRITTER_BIRD_CHIRP_1),
+            NATURE_IO_CRITTER_4_BEND_PITCH(0),
+            NATURE_IO_CRITTER_4_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_4_PORT5(16),
+
+            // Channel 6
+            NATURE_IO_CRITTER_5_TYPE(NATURE_CRITTER_TAP),
+            NATURE_IO_CRITTER_5_BEND_PITCH(0),
+            NATURE_IO_CRITTER_5_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_5_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_0D
+    {
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_0E
+    {
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_0F
+    {
+        0xC01F, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_BIRD_CHIRP_1),
+            NATURE_IO_CRITTER_0_BEND_PITCH(80),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(8),
+
+            // Channel 2
+            NATURE_IO_CRITTER_1_TYPE(NATURE_CRITTER_SMALL_BIRD_CHIRPS),
+            NATURE_IO_CRITTER_1_BEND_PITCH(80),
+            NATURE_IO_CRITTER_1_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_1_PORT5(48),
+
+            // Channel 3
+            NATURE_IO_CRITTER_2_TYPE(NATURE_CRITTER_LOUD_CHIRPING),
+            NATURE_IO_CRITTER_2_BEND_PITCH(0),
+            NATURE_IO_CRITTER_2_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_2_PORT5(0),
+
+            // Channel 4
+            NATURE_IO_CRITTER_3_TYPE(NATURE_CRITTER_BIRD_SCREECH),
+            NATURE_IO_CRITTER_3_BEND_PITCH(96),
+            NATURE_IO_CRITTER_3_NUM_LAYERS(0),
+            NATURE_IO_CRITTER_3_PORT5(32),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_10
+    {
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_11
+    {
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_12
+    {
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
+
+    // NATURE_ID_NONE
+    // While there is data for this natureAmbienceId, it is identical to previous entries
+    // and the game treats it as no nature ambience
+    {
+        0xC003, // PlayerIO Data
+        0xC000, // Channel Mask
+        {
+            // Channel 0
+            NATURE_IO_STREAM_0_TYPE(NATURE_STREAM_RUSHING_WATER),
+            NATURE_IO_STREAM_0_PORT3(0),
+
+            // Channel 1
+            NATURE_IO_CRITTER_0_TYPE(NATURE_CRITTER_CRICKETS),
+            NATURE_IO_CRITTER_0_BEND_PITCH(0),
+            NATURE_IO_CRITTER_0_NUM_LAYERS(1),
+            NATURE_IO_CRITTER_0_PORT5(16),
+
+            // End
+            NATURE_IO_ENTRIES_END,
+        },
+    },
 };
 
 u32 sOcarinaAllowedBtnMask = 0x800F;
@@ -711,7 +1247,7 @@ void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
 
 void Audio_StepFreqLerp(FreqLerp* lerp);
 void func_800F56A8(void);
-void func_800F6FB4(u8);
+void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId);
 s32 Audio_SetGanonDistVol(u8 targetVol);
 
 void func_800EC960(u8 custom) {
@@ -1637,7 +2173,7 @@ char sAudioSceneNames[3][2] = { "A", "S", "X" };
 u8 sAudioBlkChgBgmWork[2] = { 0 };
 u8 sAudioBlkChgBgmSel = 0;
 char sBoolStrs[3][5] = { "OFF", "ON", "STBY" };
-u8 sAudioNatureFailed = 0;
+u8 sAudioNatureFailed = false;
 u8 sPeakNumNotes = 0;
 
 void AudioDebug_SetInput(void) {
@@ -2333,7 +2869,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             }
 
             GfxPrint_SetPos(printer, 3, 23);
-            if (sAudioNatureFailed != 0) {
+            if (sAudioNatureFailed != false) {
                 GfxPrint_Printf(printer, "NATURE FAILED %01x", sAudioNatureFailed);
             }
 
@@ -2446,7 +2982,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                 }
                 break;
             case 7:
-                func_800F6FB4(sAudioSndContWork[sAudioSndContSel]);
+                Audio_PlayNatureAmbienceSequence(sAudioSndContWork[sAudioSndContSel]);
                 break;
             case 8:
             case 9:
@@ -3872,7 +4408,7 @@ void func_800F574C(f32 arg0, u8 arg2) {
 }
 
 void func_800F5918(void) {
-    if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_MINI_GAME_2 && func_800FA11C(0, 0xF0000000)) {
+    if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME && func_800FA11C(0, 0xF0000000)) {
         Audio_SeqCmdB(SEQ_PLAYER_BGM_MAIN, 5, 0, 0xD2);
     }
 }
@@ -3919,48 +4455,62 @@ s32 func_800F5A58(u8 arg0) {
     }
 }
 
+/**
+ * Plays a sequence on the main bgm player, but stores the previous sequence to return to later
+ * Designed for the mini-boss sequence, but also used by mini-game 2 sequence
+ */
 void func_800F5ACC(u16 seqId) {
-    u16 temp_v0;
+    u16 curSeqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
-    temp_v0 = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
-    if ((temp_v0 & 0xFF) != NA_BGM_GANON_TOWER && (temp_v0 & 0xFF) != NA_BGM_ESCAPE && temp_v0 != seqId) {
+    if ((curSeqId & 0xFF) != NA_BGM_GANON_TOWER && (curSeqId & 0xFF) != NA_BGM_ESCAPE && curSeqId != seqId) {
         Audio_SetSequenceMode(SEQ_MODE_IGNORE);
-        if (temp_v0 != NA_BGM_DISABLED) {
-            D_80130628 = temp_v0;
+        if (curSeqId != NA_BGM_DISABLED) {
+            sPrevMainBgmSeqId = curSeqId;
         } else {
             osSyncPrintf("Middle Boss BGM Start not stack \n");
         }
+
         Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, seqId);
     }
 }
 
+/**
+ * Restores the previous sequence to the main bgm player before func_800F5ACC was called
+ */
 void func_800F5B58(void) {
-    if ((func_800FA0B4(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (D_80130628 != NA_BGM_DISABLED) &&
+    if ((func_800FA0B4(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (sPrevMainBgmSeqId != NA_BGM_DISABLED) &&
         (sSeqFlags[func_800FA0B4(SEQ_PLAYER_BGM_MAIN) & 0xFF] & 8)) {
-        if (D_80130628 == NA_BGM_DISABLED) {
+        if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
             Audio_SeqCmd1(SEQ_PLAYER_BGM_MAIN, 0);
         } else {
-            Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, D_80130628);
+            Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, sPrevMainBgmSeqId);
         }
-        D_80130628 = NA_BGM_DISABLED;
+
+        sPrevMainBgmSeqId = NA_BGM_DISABLED;
     }
 }
 
-void func_800F5BF0(u8 arg0) {
-    u16 temp_v0;
+/**
+ * Plays the nature ambience sequence on the main bgm player, but stores the previous sequence to return to later
+ */
+void func_800F5BF0(u8 natureAmbienceId) {
+    u16 curSeqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
-    temp_v0 = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
-    if (temp_v0 != NA_BGM_NATURE_AMBIENCE) {
-        D_80130628 = temp_v0;
+    if (curSeqId != NA_BGM_NATURE_AMBIENCE) {
+        sPrevMainBgmSeqId = curSeqId;
     }
-    func_800F6FB4(arg0);
+
+    Audio_PlayNatureAmbienceSequence(natureAmbienceId);
 }
 
+/**
+ * Restores the previous sequence to the main bgm player before func_800F5BF0 was called
+ */
 void func_800F5C2C(void) {
-    if (D_80130628 != NA_BGM_DISABLED) {
-        Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, D_80130628);
+    if (sPrevMainBgmSeqId != NA_BGM_DISABLED) {
+        Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, sPrevMainBgmSeqId);
     }
-    D_80130628 = NA_BGM_DISABLED;
+    sPrevMainBgmSeqId = NA_BGM_DISABLED;
 }
 
 void Audio_PlayFanfare(u16 seqId) {
@@ -4024,7 +4574,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
     u8 volumeFadeOutTimer;
 
     sSeqModeInput = seqMode;
-    if (D_80130628 == NA_BGM_DISABLED) {
+    if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
         if (sAudioCutsceneFlag) {
             seqMode = SEQ_MODE_IGNORE;
         }
@@ -4378,7 +4928,7 @@ void func_800F6C34(void) {
     D_8016B9D8 = 0;
     sSpecReverb = sSpecReverbs[gAudioSpecId];
     D_80130608 = 0;
-    D_80130628 = NA_BGM_DISABLED;
+    sPrevMainBgmSeqId = NA_BGM_DISABLED;
     Audio_QueueCmdS8(0x46 << 24 | SEQ_PLAYER_BGM_MAIN << 16, -1);
     sSariaBgmPtr = NULL;
     D_8016B9F4 = 0;
@@ -4386,83 +4936,88 @@ void func_800F6C34(void) {
     D_8016B9F2 = 0;
 }
 
-void func_800F6D58(u8 arg0, u8 arg1, u8 arg2) {
-    u8 t;
-    u8 temp_a0;
-    u8 i;
+void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 val) {
+    u8 firstChannelIdx;
+    u8 lastChannelIdx;
+    u8 channelIdx;
 
     if ((D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 != NA_BGM_NATURE_AMBIENCE) && func_800FA11C(1, 0xF00000FF)) {
-        sAudioNatureFailed = 1;
+        sAudioNatureFailed = true;
         return;
     }
 
-    if (((arg0 << 8) + arg1) == 0x101) {
+    // channelIdxRange = 01 on port 1
+    if (((channelIdxRange << 8) + port) == ((NATURE_CHANNEL_CRITTER_0 << 8) + CHANNEL_IO_PORT_1)) {
         if (func_800FA0B4(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON) {
             D_8016B9D8 = 0;
         }
     }
 
-    t = arg0 >> 4;
-    temp_a0 = arg0 & 0xF;
-    if (t == 0) {
-        t = arg0 & 0xF;
+    firstChannelIdx = channelIdxRange >> 4;
+    lastChannelIdx = channelIdxRange & 0xF;
+
+    if (firstChannelIdx == 0) {
+        firstChannelIdx = channelIdxRange & 0xF;
     }
 
-    for (i = t; i <= temp_a0; i++) {
-        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, arg1, i, arg2);
+    for (channelIdx = firstChannelIdx; channelIdx <= lastChannelIdx; channelIdx++) {
+        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, port, channelIdx, val);
     }
 }
 
-void func_800F6E7C(u16 arg0, u16 arg1) {
-    u8 i;
-    u32 t;
+void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
+    u8 channelIdx;
 
     if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_WINDMILL) {
         func_800F3F3C(0xF);
         return;
     }
+
     Audio_SeqCmd7(SEQ_PLAYER_BGM_MAIN, 0, 1);
-    Audio_SeqCmd7(SEQ_PLAYER_BGM_MAIN, 4, arg0 >> 8);
-    Audio_SeqCmd7(SEQ_PLAYER_BGM_MAIN, 5, arg0 & 0xFF);
+    Audio_SeqCmd7(SEQ_PLAYER_BGM_MAIN, 4, playerIO >> 8);
+    Audio_SeqCmd7(SEQ_PLAYER_BGM_MAIN, 5, playerIO & 0xFF);
     Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 0, 0x7F, 1);
 
-    i = 0;
+    channelIdx = false;
     if (D_80133408 != 0) {
-        i = 1;
+        channelIdx = true;
         Audio_SeqCmdE01(SEQ_PLAYER_BGM_MAIN, 0);
     }
 
     Audio_StartSeq(SEQ_PLAYER_BGM_MAIN, 0, NA_BGM_NATURE_AMBIENCE);
 
-    if (i != 0) {
+    if (channelIdx) {
         Audio_SeqCmdE01(SEQ_PLAYER_BGM_MAIN, 1);
     }
 
-    for (i = 0; i < 0x10; i++) {
-        if (!(arg1 & (1 << i)) && (arg0 & (1 << i))) {
-            Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, 1, i, 1);
+    for (channelIdx = 0; channelIdx < 16; channelIdx++) {
+        if (!(channelMask & (1 << channelIdx)) && (playerIO & (1 << channelIdx))) {
+            Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_1, channelIdx, 1);
         }
     }
 }
 
-void func_800F6FB4(u8 arg0) {
+void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
     u8 i = 0;
-    u8 b0;
-    u8 b1;
-    u8 b2;
+    u8 channelIdx;
+    u8 port;
+    u8 val;
 
     if ((D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 == NA_BGM_DISABLED) ||
         !(sSeqFlags[((u8)D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254) & 0xFF] & 0x80)) {
-        func_800F6E7C(D_801306DC[arg0].unk_00, D_801306DC[arg0].unk_02);
-        while ((D_801306DC[arg0].unk_04[i] != 0xFF) && (i < 100)) {
+
+        Audio_StartNatureAmbienceSequence(sNatureAmbienceDataIO[natureAmbienceId].playerIO,
+                                          sNatureAmbienceDataIO[natureAmbienceId].channelMask);
+
+        while ((sNatureAmbienceDataIO[natureAmbienceId].channelIO[i] != 0xFF) && (i < 100)) {
             // Probably a fake match, using Audio_SeqCmd8 doesn't work.
-            b0 = D_801306DC[arg0].unk_04[i++];
-            b1 = D_801306DC[arg0].unk_04[i++];
-            b2 = D_801306DC[arg0].unk_04[i++];
-            Audio_QueueSeqCmd(0x80000000 | (SEQ_PLAYER_BGM_MAIN << 24) | (b1 << 0x10) | (b0 << 8) | b2);
+            channelIdx = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
+            port = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
+            val = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
+            Audio_QueueSeqCmd(0x80000000 | (SEQ_PLAYER_BGM_MAIN << 24) | (port << 0x10) | (channelIdx << 8) | val);
         }
 
-        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, 0x07, 13, D_80130604);
+        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, NATURE_CHANNEL_UNK, D_80130604);
     }
 }
 
