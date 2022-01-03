@@ -855,7 +855,7 @@ void func_8006D0AC(GlobalContext* globalCtx);
 void func_8006D0EC(GlobalContext* globalCtx, Player* player);
 void func_8006D684(GlobalContext* globalCtx, Player* player);
 void func_8006DC68(GlobalContext* globalCtx, Player* player);
-void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
+void Horse_RotateToPoint(Actor* actor, Vec3f* target, s16 turnAmount);
 s32 Jpeg_Decode(void* data, void* zbuffer, void* workBuff, u32 workSize);
 void KaleidoSetup_Update(GlobalContext* globalCtx);
 void KaleidoSetup_Init(GlobalContext* globalCtx);

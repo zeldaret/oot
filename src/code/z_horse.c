@@ -259,15 +259,21 @@ void func_8006DC68(GlobalContext* globalCtx, Player* player) {
     }
 }
 
-void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2) {
-    s16 x = Math_Vec3f_Yaw(&actor->world.pos, arg1) - actor->world.rot.y;
+/**
+ * Turn the given actor to a given point by a given turnAmount
+ * @param actor the actor to rotate
+ * @param target the point that the actor should rotate to
+ * @param turnAmount the maximal amount of rotation that should be applied
+ */
+void Horse_RotateToPoint(Actor* actor, Vec3f* target, s16 turnAmount) {
+    s16 rotationDeltaToTarget = Math_Vec3f_Yaw(&actor->world.pos, target) - actor->world.rot.y;
 
-    if (x > arg2) {
-        actor->world.rot.y += arg2;
-    } else if (x < -arg2) {
-        actor->world.rot.y -= arg2;
+    if (rotationDeltaToTarget > turnAmount) {
+        actor->world.rot.y += turnAmount;
+    } else if (rotationDeltaToTarget < -turnAmount) {
+        actor->world.rot.y -= turnAmount;
     } else {
-        actor->world.rot.y += x;
+        actor->world.rot.y += rotationDeltaToTarget;
     }
 
     actor->shape.rot.y = actor->world.rot.y;

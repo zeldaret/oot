@@ -530,7 +530,7 @@ void EnHorse_RaceWaypointPos(RaceWaypoint* waypoints, s32 idx, Vec3f* pos) {
 }
 
 void EnHorse_RotateToPoint(EnHorse* this, GlobalContext* globalCtx, Vec3f* pos, s16 turnAmount) {
-    func_8006DD9C(&this->actor, pos, turnAmount);
+    Horse_RotateToPoint(&this->actor, pos, turnAmount);
 }
 
 void EnHorse_UpdateIngoRaceInfo(EnHorse* this, GlobalContext* globalCtx, RaceInfo* raceInfo) {
