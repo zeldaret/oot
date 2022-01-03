@@ -106,10 +106,11 @@ void KaleidoScope_DrawPlayerWork(GlobalContext* globalCtx) {
 
     rot.y = 32300;
     rot.x = rot.z = 0;
-    func_8009214C(
-        globalCtx, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime, &pos, &rot, scale,
-        SWORD_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_SWORD)), TUNIC_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC)),
-        SHIELD_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD)), BOOTS_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS)));
+    func_8009214C(globalCtx, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime, &pos, &rot, scale,
+                  SWORD_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_SWORD)),
+                  TUNIC_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC)),
+                  SHIELD_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD)),
+                  BOOTS_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS)));
 }
 
 void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
@@ -419,7 +420,8 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
         if ((pauseCtx->cursorY[PAUSE_EQUIP] == 0) && (pauseCtx->cursorX[PAUSE_EQUIP] == 3)) {
             if (gSaveContext.bgsFlag != 0) {
                 cursorItem = ITEM_HEART_PIECE_2;
-            } else if (gBitFlags[EQUIP_INV_SWORD_GIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] & gSaveContext.inventory.equipment) {
+            } else if (gBitFlags[EQUIP_INV_SWORD_GIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] &
+                       gSaveContext.inventory.equipment) {
                 cursorItem = ITEM_SWORD_KNIFE;
             }
         }

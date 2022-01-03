@@ -116,7 +116,8 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
                 } else {
                     return 0x3041;
                 }
-            } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON) || (gSaveContext.infTable[16] & 0x2000)) {
+            } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON) ||
+                       (gSaveContext.infTable[16] & 0x2000)) {
                 if (gSaveContext.infTable[16] & 0x4000) {
                     return 0x3038;
                 } else {
