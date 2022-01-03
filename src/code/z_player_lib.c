@@ -485,18 +485,18 @@ void Player_SetModelsForHoldingShield(Player* this) {
 }
 
 void Player_SetModels(Player* this, s32 modelGroup) {
-    this->leftHandType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_1];
-    this->rightHandType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_2];
-    this->sheathType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_3];
+    this->leftHandType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND];
+    this->rightHandType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND];
+    this->sheathType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH];
 
-    this->leftHandDLists =
-        &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_1]][(void)0, gSaveContext.linkAge];
-    this->rightHandDLists =
-        &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_2]][(void)0, gSaveContext.linkAge];
-    this->sheathDLists =
-        &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_3]][(void)0, gSaveContext.linkAge];
+    this->leftHandDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND]]
+                                              [(void)0, gSaveContext.linkAge];
+    this->rightHandDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND]]
+                                               [(void)0, gSaveContext.linkAge];
+    this->sheathDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH]]
+                                            [(void)0, gSaveContext.linkAge];
     this->waistDLists =
-        &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_4]][(void)0, gSaveContext.linkAge];
+        &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_WAIST]][(void)0, gSaveContext.linkAge];
 
     Player_SetModelsForHoldingShield(this);
 }
@@ -507,7 +507,7 @@ void Player_SetModelGroup(Player* this, s32 modelGroup) {
     if (modelGroup == PLAYER_MODELGROUP_1) {
         this->modelAnimType = PLAYER_ANIMTYPE_0;
     } else {
-        this->modelAnimType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_0];
+        this->modelAnimType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_ANIM];
     }
 
     if ((this->modelAnimType < PLAYER_ANIMTYPE_3) && (this->currentShield == PLAYER_SHIELD_NONE)) {
@@ -1565,24 +1565,24 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     }
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
-        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_1];
+        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND];
         D_80160014 = type;
         if ((type == PLAYER_MODELTYPE_4) && (gSaveContext.swordHealth <= 0.0f)) {
             dListOffset = 4;
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_2];
+        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND];
         D_80160018 = type;
         if (type == PLAYER_MODELTYPE_10) {
             dListOffset = playerSwordAndShield[1] * 4;
         }
     } else if (limbIndex == PLAYER_LIMB_SHEATH) {
-        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_3];
+        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH];
         if ((type == PLAYER_MODELTYPE_18) || (type == PLAYER_MODELTYPE_19)) {
             dListOffset = playerSwordAndShield[1] * 4;
         }
     } else if (limbIndex == PLAYER_LIMB_WAIST) {
-        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_4];
+        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_WAIST];
     } else {
         return 0;
     }
