@@ -188,6 +188,15 @@ typedef enum {
 } PlayerModelGroup;
 
 typedef enum {
+    /* 0 */ PLAYER_MODELGROUPENTRY_0,
+    /* 1 */ PLAYER_MODELGROUPENTRY_1,
+    /* 2 */ PLAYER_MODELGROUPENTRY_2,
+    /* 3 */ PLAYER_MODELGROUPENTRY_3,
+    /* 4 */ PLAYER_MODELGROUPENTRY_4,
+    /* 5 */ PLAYER_MODELGROUPENTRY_MAX
+} PlayerModelGroupEntry;
+
+typedef enum {
     /*  0 */ PLAYER_MODELTYPE_0,
     /*  1 */ PLAYER_MODELTYPE_1,
     /*  2 */ PLAYER_MODELTYPE_2,
