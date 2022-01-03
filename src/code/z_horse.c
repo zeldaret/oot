@@ -126,7 +126,7 @@ typedef struct {
     /* 0x08 */ Vec3s pos;
     /* 0x0E */ s16 angle;
     /* 0x10 */ s16 type;
-} struct_8011F9B8;
+} HorseCutsceneSpawn;
 
 void func_8006D684(GlobalContext* globalCtx, Player* player) {
     s32 pad;
@@ -174,48 +174,48 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
             player->rideActor->room = -1;
         }
     } else {
-        static struct_8011F9B8 D_8011F9B8[] = {
+        static HorseCutsceneSpawn horseCutsceneSpawns[] = {
             { 93, 0xFFF0, 0x0E10, 0x0585, 0x0168, 0x8001, HORSE_TYPE_8 }, { 99, 0xFFF0, 0xFF06, 0x0001, 0xF9D4, 0x4000, HORSE_TYPE_6 },
             { 99, 0xFFF1, 0x0000, 0x0000, 0x0000, 0x0000, HORSE_TYPE_5 }, { 99, 0xFFF5, 0x0000, 0x0000, 0x0000, 0x0000, HORSE_TYPE_7 },
             { 81, 0xFFF3, 0xF46F, 0x0139, 0x1E14, 0x0000, HORSE_TYPE_7 }, { 81, 0xFFF4, 0xF894, 0x0139, 0x1B67, 0x0000, HORSE_TYPE_7 },
             { 81, 0xFFF5, 0xF035, 0x0139, 0x1B15, 0x0000, HORSE_TYPE_7 }, { 81, 0xFFF6, 0xF035, 0x0139, 0x1B15, 0x0000, HORSE_TYPE_7 },
         };
 
-        for (i = 0; i < ARRAY_COUNT(D_8011F9B8); i++) {
-            if ((globalCtx->sceneNum == D_8011F9B8[i].scene) &&
-                (((void)0, gSaveContext.cutsceneIndex) == D_8011F9B8[i].cutsceneIndex)) {
-                if (D_8011F9B8[i].type == HORSE_TYPE_7) {
+        for (i = 0; i < ARRAY_COUNT(horseCutsceneSpawns); i++) {
+            if ((globalCtx->sceneNum == horseCutsceneSpawns[i].scene) &&
+                (((void)0, gSaveContext.cutsceneIndex) == horseCutsceneSpawns[i].cutsceneIndex)) {
+                if (horseCutsceneSpawns[i].type == HORSE_TYPE_7) {
                     if ((globalCtx->sceneNum == 99) && (((void)0, gSaveContext.cutsceneIndex) == 0xFFF1)) {
-                        D_8011F9B8[i].pos.x = player->actor.world.pos.x;
-                        D_8011F9B8[i].pos.y = player->actor.world.pos.y;
-                        D_8011F9B8[i].pos.z = player->actor.world.pos.z;
+                        horseCutsceneSpawns[i].pos.x = player->actor.world.pos.x;
+                        horseCutsceneSpawns[i].pos.y = player->actor.world.pos.y;
+                        horseCutsceneSpawns[i].pos.z = player->actor.world.pos.z;
                     }
 
-                    player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE,
-                                                    D_8011F9B8[i].pos.x, D_8011F9B8[i].pos.y, D_8011F9B8[i].pos.z, 0,
-                                                    player->actor.world.rot.y, 0, D_8011F9B8[i].type);
+                    player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, horseCutsceneSpawns[i].pos.x,
+                                    horseCutsceneSpawns[i].pos.y, horseCutsceneSpawns[i].pos.z, 0,
+                                                    player->actor.world.rot.y, 0, horseCutsceneSpawns[i].type);
                     ASSERT(player->rideActor != NULL, "player->ride.actor != NULL", "../z_horse.c", 628);
 
                     Actor_MountHorse(globalCtx, player, player->rideActor);
                     func_8002DE74(globalCtx, player);
-                } else if ((D_8011F9B8[i].type == HORSE_TYPE_5) || (D_8011F9B8[i].type == HORSE_TYPE_6) || (D_8011F9B8[i].type == HORSE_TYPE_8)) {
+                } else if ((horseCutsceneSpawns[i].type == HORSE_TYPE_5) || (horseCutsceneSpawns[i].type == HORSE_TYPE_6) || (horseCutsceneSpawns[i].type == HORSE_TYPE_8)) {
                     Vec3f sp54;
                     s32 temp = 0;
 
-                    if (((gSaveContext.eventInf[0] & 0x10) >> 4) && D_8011F9B8[i].type == HORSE_TYPE_6) {
+                    if (((gSaveContext.eventInf[0] & 0x10) >> 4) && horseCutsceneSpawns[i].type == HORSE_TYPE_6) {
                         temp = 0x8000;
                     }
 
-                    player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE,
-                                                    D_8011F9B8[i].pos.x, D_8011F9B8[i].pos.y, D_8011F9B8[i].pos.z, 0,
-                                                    D_8011F9B8[i].angle, 0, D_8011F9B8[i].type | temp);
+                    player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, horseCutsceneSpawns[i].pos.x,
+                                    horseCutsceneSpawns[i].pos.y, horseCutsceneSpawns[i].pos.z, 0,
+                                    horseCutsceneSpawns[i].angle, 0, horseCutsceneSpawns[i].type | temp);
                     ASSERT(player->rideActor != NULL, "player->ride.actor != NULL", "../z_horse.c", 667);
 
-                    player->actor.world.pos.x = D_8011F9B8[i].pos.x;
-                    player->actor.world.pos.y = D_8011F9B8[i].pos.y;
-                    player->actor.world.pos.z = D_8011F9B8[i].pos.z;
+                    player->actor.world.pos.x = horseCutsceneSpawns[i].pos.x;
+                    player->actor.world.pos.y = horseCutsceneSpawns[i].pos.y;
+                    player->actor.world.pos.z = horseCutsceneSpawns[i].pos.z;
                     player->actor.shape.rot.x = player->actor.shape.rot.z = 0;
-                    player->actor.shape.rot.y = D_8011F9B8[i].angle;
+                    player->actor.shape.rot.y = horseCutsceneSpawns[i].angle;
 
                     Actor_MountHorse(globalCtx, player, player->rideActor);
                     func_8002DE74(globalCtx, player);
@@ -226,9 +226,9 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
 
                     Gameplay_CameraSetAtEye(globalCtx, globalCtx->activeCamera, &player->actor.world.pos, &sp54);
                 } else {
-                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, D_8011F9B8[i].pos.x,
-                                D_8011F9B8[i].pos.y, D_8011F9B8[i].pos.z, 0, D_8011F9B8[i].angle, 0,
-                                D_8011F9B8[i].type);
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, horseCutsceneSpawns[i].pos.x,
+                                horseCutsceneSpawns[i].pos.y, horseCutsceneSpawns[i].pos.z, 0,
+                                horseCutsceneSpawns[i].angle, 0, horseCutsceneSpawns[i].type);
                 }
                 break;
             }
