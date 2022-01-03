@@ -139,6 +139,8 @@ def parseNoteName(noteName):
 	if noteName[1] == '♯':
 		tone_str = noteName[0:2]
 		oct_str = noteName[2:]
+		
+	print("Input String:", noteName)
 	
 	tone = {
 		'C' :0,
@@ -155,8 +157,8 @@ def parseNoteName(noteName):
 		'B' :11,
 	}.get(tone_str)
 	
+	#Returns the N64 note, which is MIDI - 21
 	oct = int(oct_str) - 1
-	
 	return ((oct*12) + tone) - 9
 
 def toMedium(medium):
@@ -360,12 +362,13 @@ class SampleHeader:
 		self.loop = None
 		self.book = None
 		self.addr = -1
-		self.name = ""
+		self.name = ''
 		self.idx = -1
 		
 		#Storage for reading aiff/aifc
 		self.tuning = 1.0
 		self.frameCount = 0
+		self.fileName = ''
 		
 	def updateReferences(self):
 		if self.loop is not None:
@@ -503,6 +506,9 @@ class Envelope:
 		if len(self.script) == 0:
 			raise Exception("Not a valid envelope script")
 		return advanceOffset
+	
+	def serialSize(self):
+		return len(self.script) * 4
 		
 	def serializeTo(self, output):
 		if len(self.script) == 0:
@@ -584,6 +590,7 @@ class SoundEffect:
 		self.pitch = 1.0
 		self.sample = None
 		self.addr = -1
+		self.idx = -1
 		
 		self.headerOffset = -1 #Offset of sample info in font
 		self.sampleName = ''
@@ -606,12 +613,16 @@ class SoundEffect:
 		self.enum = xml_element.get("Enum")
 		self.sampleName = xml_element.get("Sample")
 		if self.sampleName is not None:
-			if self.sampleName.endwith(".aifc"):
+			if self.sampleName.endswith(".aifc"):
 				self.sampleName = self.sampleName[:-5]
 		
 		pitch_str = xml_element.get("Pitch")
 		if pitch_str is not None:
 			self.pitch = float(pitch_str)
+			
+		idx_str = xml_element.get("Index")
+		if idx_str is not None:
+			self.idx = int(idx_str)		
 		
 	def toXML(self):
 		#TODO
@@ -657,7 +668,7 @@ class Percussion:
 		self.envName = xml_element.get("Envelope")
 		self.sampleName = xml_element.get("Sample")
 		if self.sampleName is not None:
-			if self.sampleName.endwith(".aifc"):
+			if self.sampleName.endswith(".aifc"):
 				self.sampleName = self.sampleName[:-5]
 		
 		pitch_str = xml_element.get("Pitch")
@@ -703,7 +714,7 @@ class Instrument:
 		self.keyLowName = ''
 		self.keyMedName = ''
 		self.keyHighName = ''
-		self.envelopeName = ''
+		self.envName = ''
 		
 	def updateReferences(self):
 		if self.keyLowSample is not None:
@@ -732,7 +743,6 @@ class Instrument:
 		self.name = xml_element.get("Name")
 		self.enum = xml_element.get("Enum")
 		self.envName = xml_element.get("Envelope")
-		self.index = xml_element.get("Index")
 		
 		pitch_str = xml_element.get("Pitch")
 		if pitch_str is not None:
@@ -748,7 +758,7 @@ class Instrument:
 		if e_key is not None:
 			self.keyLowName = e_key.get("Sample")
 			if self.keyLowName is not None:
-				if self.keyLowName.endwith(".aifc"):
+				if self.keyLowName.endswith(".aifc"):
 					self.keyLowName = self.keyLowName[:-5]
 			note_str = e_key.get("MaxNote")
 			if note_str is not None:
@@ -770,7 +780,7 @@ class Instrument:
 		if e_key is not None:
 			self.keyMedName = e_key.get("Sample")
 			if self.keyMedName is not None:
-				if self.keyMedName.endwith(".aifc"):
+				if self.keyMedName.endswith(".aifc"):
 					self.keyMedName = self.keyMedName[:-5]
 			pitch_str = xml_element.get("Pitch")
 			if pitch_str is not None:
@@ -786,7 +796,7 @@ class Instrument:
 		if e_key is not None:
 			self.keyHighName = e_key.get("Sample")
 			if self.keyHighName is not None:
-				if self.keyHighName.endwith(".aifc"):
+				if self.keyHighName.endswith(".aifc"):
 					self.keyHighName = self.keyHighName[:-5]
 			note_str = e_key.get("MinNote")
 			if note_str is not None:
@@ -862,9 +872,31 @@ class Soundfont:
 		self.percIdxLookup = {}
 		self.sfxIdxLookup = {}
 		
-	def fromXML(self, xml_element):
-		#TODO env refs, inst indexing
+	def getAllEnvelopes(self):
+		elist = []
+		for item in self.envelopes.items():
+			elist.append(item[1])
+		return elist
+	
+	def instSlotCount(self):
+		if len(self.instIdxLookup) < 1:
+			return 0
+		keyz = sorted(self.instIdxLookup.keys(), reverse=True)
+		return keyz[0]+1
+	
+	def percSlotCount(self):
+		if len(self.percIdxLookup) < 1:
+			return 0
+		keyz = sorted(self.percIdxLookup.keys(), reverse=True)
+		return keyz[0]+1
+	
+	def sfxSlotCount(self):
+		if len(self.sfxIdxLookup) < 1:
+			return 0
+		keyz = sorted(self.sfxIdxLookup.keys(), reverse=True)
+		return keyz[0]+1		
 		
+	def fromXML(self, xml_element):
 		#Read font attr
 		med_str = xml_element.get("Medium")
 		cache_str = xml_element.get("CachePolicy")
@@ -889,7 +921,16 @@ class Soundfont:
 				env.fromXML(e_env)
 				self.envelopes[env.name] = env
 				
-		#TODO resolve env references
+		#resolve env references
+		env_list = self.getAllEnvelopes()
+		for env in env_list:
+			for script in env.script:
+				cmd = script[0]
+				if cmd == "ADSR_GOTO" or cmd == -2:
+					val = script[1]
+					if val is not None:
+						refscript = self.envelopes[val]
+						env.referencedScripts[val] = refscript
 		
 		#Read SFX
 		e_soundeffects = xml_element.find("SoundEffects")
@@ -899,10 +940,9 @@ class Soundfont:
 				for e_sfx in e_sfx_list:
 					sfx = SoundEffect()
 					sfx.fromXML(e_sfx)
-					if sfx.sampleName is None:
-						self.soundEffects.append(0)
-					else:
+					if sfx.sampleName is not None:
 						self.soundEffects.append(sfx)
+						self.sfxIdxLookup[sfx.idx] = sfx
 		
 		#Read Percussion
 		e_drums = xml_element.find("Drums")
@@ -912,12 +952,12 @@ class Soundfont:
 				for e_drum in e_drum_list:
 					drum = Percussion()
 					drum.fromXML(e_drum)
-					if drum.sampleName is None:
-						self.percussion.append(0)
-					else:
+					if drum.sampleName is not None:
 						self.percussion.append(drum)
 						#Find envelope
-						drum.envelope = self.envelopes[drum.envName]
+						if drum.envName:
+							drum.envelope = self.envelopes[drum.envName]
+						self.percIdxLookup[drum.idx] = drum
 		
 		#Read Instruments
 		e_insts = xml_element.find("Instruments")
@@ -927,12 +967,12 @@ class Soundfont:
 				for e_inst in e_inst_list:
 					inst = Instrument()
 					inst.fromXML(e_inst)
-					if inst.keyMedName is None:
-						self.instruments.append(0)
-					else:
+					if inst.keyMedName:
 						self.instruments.append(inst)
 						#Find envelope
-						inst.envelope = self.envelopes[inst.envelopeName]
+						if inst.envName:
+							inst.envelope = self.envelopes[inst.envName]
+						self.instIdxLookup[inst.idx] = inst
 		
 	def toXML(self):
 		#TODO
@@ -941,28 +981,21 @@ class Soundfont:
 class Soundbank:
 	def __init__(self):
 		self.samplesByName = {}
+		self.samples = []
 		self.name = ""
 		self.idx = -1
 		self.medium = 2
 		self.cachePolicy = 4
 		
-	def orderSamples(self):
-		dict_items = sorted(self.samplesByName.items())
-		outlist = []
-		for pair in dict_items:
-			outlist.append(pair[1])
-		return outlist
-		
 	def calculateSize(self):
 		mysize = 0
-		samples = self.orderSamples()
-		for sample in samples:
+		for sample in self.samples:
 			mysize += sample.length
 			mysize = align(mysize, 16)
 		return mysize
 	
 	def fromXML(self, xml_element):
-		#Read font attr
+		#Read attr
 		med_str = xml_element.get("Medium")
 		cache_str = xml_element.get("CachePolicy")
 		if med_str is not None:
