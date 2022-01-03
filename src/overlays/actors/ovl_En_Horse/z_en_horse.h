@@ -86,7 +86,13 @@ typedef enum {
 
 typedef enum {
     /* 0 */ HORSE_EPONA,
-    /* 1 */ HORSE_HNI
+    /* 1 */ HORSE_HNI,
+    /* 2 */ HORSE_TYPE_2,
+    /* 5 */ HORSE_TYPE_5 = 5,
+    /* 6 */ HORSE_TYPE_6,
+    /* 7 */ HORSE_TYPE_7,
+    /* 8 */ HORSE_TYPE_8,
+    /* 9 */ HORSE_TYPE_9
 } HorseType;
 
 typedef void (*EnHorsePostdrawFunc)(struct EnHorse*, GlobalContext*);
