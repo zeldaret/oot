@@ -197,27 +197,31 @@ typedef enum {
 } PlayerModelGroupEntry;
 
 typedef enum {
-    /*  0 */ PLAYER_MODELTYPE_0,
-    /*  1 */ PLAYER_MODELTYPE_1,
-    /*  2 */ PLAYER_MODELTYPE_2,
-    /*  3 */ PLAYER_MODELTYPE_3,
-    /*  4 */ PLAYER_MODELTYPE_4,
-    /*  5 */ PLAYER_MODELTYPE_5,
-    /*  6 */ PLAYER_MODELTYPE_6,
-    /*  7 */ PLAYER_MODELTYPE_7,
-    /*  8 */ PLAYER_MODELTYPE_8,
-    /*  9 */ PLAYER_MODELTYPE_9,
-    /* 10 */ PLAYER_MODELTYPE_10,
-    /* 11 */ PLAYER_MODELTYPE_11,
-    /* 12 */ PLAYER_MODELTYPE_12,
-    /* 13 */ PLAYER_MODELTYPE_13,
-    /* 14 */ PLAYER_MODELTYPE_14,
-    /* 15 */ PLAYER_MODELTYPE_15,
-    /* 16 */ PLAYER_MODELTYPE_16,
-    /* 17 */ PLAYER_MODELTYPE_17,
-    /* 18 */ PLAYER_MODELTYPE_18,
-    /* 19 */ PLAYER_MODELTYPE_19,
-    /* 20 */ PLAYER_MODELTYPE_20,
+    // left hand
+    /*  0 */ PLAYER_MODELTYPE_LH_0, // empty open hand
+    /*  1 */ PLAYER_MODELTYPE_LH_1, // empty closed hand
+    /*  2 */ PLAYER_MODELTYPE_LH_2, // holding kokiri/master sword
+    /*  3 */ PLAYER_MODELTYPE_3, // unused, same as LH_2
+    /*  4 */ PLAYER_MODELTYPE_LH_4, // holding bgs/broken giant knife (child: master sword)
+    /*  5 */ PLAYER_MODELTYPE_LH_5, // holding hammer (child: empty hand)
+    /*  6 */ PLAYER_MODELTYPE_LH_6, // holding boomerang (adult: empty hand)
+    /*  7 */ PLAYER_MODELTYPE_LH_7, // holding bottle? (bottle drawn separately)
+    // right hand
+    /*  8 */ PLAYER_MODELTYPE_RH_8, // empty open hand
+    /*  9 */ PLAYER_MODELTYPE_RH_9, // empty closed hand
+    /* 10 */ PLAYER_MODELTYPE_RH_10, // holding a shield (including no shield)
+    /* 11 */ PLAYER_MODELTYPE_RH_11, // holding bow/slingshot
+    /* 12 */ PLAYER_MODELTYPE_12, // unused, same as RH_11
+    /* 13 */ PLAYER_MODELTYPE_RH_13, // holding ocarina (child: fairy ocarina, adult: OoT)
+    /* 14 */ PLAYER_MODELTYPE_RH_14, // holding OoT
+    /* 15 */ PLAYER_MODELTYPE_RH_15, // holding hookshot (child: empty hand)
+    // sheath
+    /* 16 */ PLAYER_MODELTYPE_SHEATH_16, // sheathed kokiri/master sword?
+    /* 17 */ PLAYER_MODELTYPE_SHEATH_17, // empty sheath?
+    /* 18 */ PLAYER_MODELTYPE_SHEATH_18, // sword sheathed and shield on back?
+    /* 19 */ PLAYER_MODELTYPE_SHEATH_19, // empty sheath and shield on back?
+    // waist
+    /* 20 */ PLAYER_MODELTYPE_WAIST_20, // waist
     /* 21 */ PLAYER_MODELTYPE_MAX,
     PLAYER_MODELTYPE_FF = 0xFF // ?
 } PlayerModelType;
