@@ -105,37 +105,53 @@ TextTriggerEntry sTextTriggers[] = {
 // Used to map model groups to model types for [animation, left hand, right hand, sheath, waist]
 u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX] = {
     /* PLAYER_MODELGROUP_0 */
-    { PLAYER_ANIMTYPE_2, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_10, PLAYER_MODELTYPE_SHEATH_16, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_2, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_10, PLAYER_MODELTYPE_SHEATH_16,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_1 */
-    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_2, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_19, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_2, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_19,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_2 */
-    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_2, PLAYER_MODELTYPE_RH_10, PLAYER_MODELTYPE_SHEATH_17, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_2, PLAYER_MODELTYPE_RH_10, PLAYER_MODELTYPE_SHEATH_17,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_3 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_4 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_5 */
-    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_4, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_19, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_4, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_19,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_6 */
-    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_1, PLAYER_MODELTYPE_RH_11, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_1, PLAYER_MODELTYPE_RH_11, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_7 */
-    { PLAYER_ANIMTYPE_5, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_5, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_8 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_6, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_6, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_9 */
-    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_15, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_15, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_10 */
-    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_1, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_1, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_11 */
-    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_5, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_5, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_12 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_13, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_13, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_13 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_14, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_14, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_14 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_7, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_7, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST_20 },
     /* PLAYER_MODELGROUP_15 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_2, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_19, PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_2, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_19,
+      PLAYER_MODELTYPE_WAIST_20 },
 };
 
 Gfx* D_80125CE8[PLAYER_SHIELD_MAX * 4] = {
@@ -163,17 +179,25 @@ Gfx* D_80125CE8[PLAYER_SHIELD_MAX * 4] = {
 
 Gfx* D_80125D28[PLAYER_SHIELD_MAX * 4] = {
     // PLAYER_SHIELD_NONE
-    gLinkAdultMasterSwordAndSheathNearDL,       gLinkChildSwordAndSheathNearDL,
-    gLinkAdultMasterSwordAndSheathFarDL,        gLinkChildSwordAndSheathFarDL,
+    gLinkAdultMasterSwordAndSheathNearDL,
+    gLinkChildSwordAndSheathNearDL,
+    gLinkAdultMasterSwordAndSheathFarDL,
+    gLinkChildSwordAndSheathFarDL,
     // PLAYER_SHIELD_DEKU
-    gLinkAdultMasterSwordAndSheathNearDL,       gLinkChildDekuShieldSwordAndSheathNearDL,
-    gLinkAdultMasterSwordAndSheathFarDL,        gLinkChildDekuShieldSwordAndSheathFarDL,
+    gLinkAdultMasterSwordAndSheathNearDL,
+    gLinkChildDekuShieldSwordAndSheathNearDL,
+    gLinkAdultMasterSwordAndSheathFarDL,
+    gLinkChildDekuShieldSwordAndSheathFarDL,
     // PLAYER_SHIELD_HYLIAN
-    gLinkAdultHylianShieldSwordAndSheathNearDL, gLinkChildHylianShieldSwordAndSheathNearDL,
-    gLinkAdultHylianShieldSwordAndSheathFarDL,  gLinkChildHylianShieldSwordAndSheathFarDL,
+    gLinkAdultHylianShieldSwordAndSheathNearDL,
+    gLinkChildHylianShieldSwordAndSheathNearDL,
+    gLinkAdultHylianShieldSwordAndSheathFarDL,
+    gLinkChildHylianShieldSwordAndSheathFarDL,
     // PLAYER_SHIELD_MIRROR
-    gLinkAdultMirrorShieldSwordAndSheathNearDL, gLinkChildSwordAndSheathNearDL,
-    gLinkAdultMirrorShieldSwordAndSheathFarDL,  gLinkChildSwordAndSheathFarDL,
+    gLinkAdultMirrorShieldSwordAndSheathNearDL,
+    gLinkChildSwordAndSheathNearDL,
+    gLinkAdultMirrorShieldSwordAndSheathFarDL,
+    gLinkChildSwordAndSheathFarDL,
 };
 
 Gfx* D_80125D68[] = {
@@ -215,11 +239,15 @@ Gfx* D_80125D88[(PLAYER_SHIELD_MAX + 2) * 4] = {
 
 Gfx* D_80125DE8[] = {
     // biggoron sword
-    gLinkAdultLeftHandHoldingBgsNearDL,          gLinkChildLeftHandHoldingMasterSwordDL,
-    gLinkAdultLeftHandHoldingBgsFarDL,           gLinkChildLeftHandHoldingMasterSwordDL,
+    gLinkAdultLeftHandHoldingBgsNearDL,
+    gLinkChildLeftHandHoldingMasterSwordDL,
+    gLinkAdultLeftHandHoldingBgsFarDL,
+    gLinkChildLeftHandHoldingMasterSwordDL,
     // broken giant knife
-    gLinkAdultHandHoldingBrokenGiantsKnifeDL,    gLinkChildLeftHandHoldingMasterSwordDL,
-    gLinkAdultHandHoldingBrokenGiantsKnifeFarDL, gLinkChildLeftHandHoldingMasterSwordDL,
+    gLinkAdultHandHoldingBrokenGiantsKnifeDL,
+    gLinkChildLeftHandHoldingMasterSwordDL,
+    gLinkAdultHandHoldingBrokenGiantsKnifeFarDL,
+    gLinkChildLeftHandHoldingMasterSwordDL,
 };
 
 Gfx* D_80125E08[] = {
@@ -852,9 +880,10 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultLeftGauntletPlate1DL);
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultRightGauntletPlate1DL);
                 gSPDisplayList(POLY_OPA_DISP++, (D_80160014 == PLAYER_MODELTYPE_LH_0) ? gLinkAdultLeftGauntletPlate2DL
-                                                                                   : gLinkAdultLeftGauntletPlate3DL);
-                gSPDisplayList(POLY_OPA_DISP++, (D_80160018 == PLAYER_MODELTYPE_RH_8) ? gLinkAdultRightGauntletPlate2DL
-                                                                                   : gLinkAdultRightGauntletPlate3DL);
+                                                                                      : gLinkAdultLeftGauntletPlate3DL);
+                gSPDisplayList(POLY_OPA_DISP++, (D_80160018 == PLAYER_MODELTYPE_RH_8)
+                                                    ? gLinkAdultRightGauntletPlate2DL
+                                                    : gLinkAdultRightGauntletPlate3DL);
             }
 
             if (boots != PLAYER_BOOTS_NORMAL) {
@@ -1087,7 +1116,8 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                     dLists += PLAYER_SHIELD_MAX * 4;
                 }
             } else if (!LINK_IS_ADULT &&
-                       ((this->sheathType == PLAYER_MODELTYPE_SHEATH_16) || (this->sheathType == PLAYER_MODELTYPE_SHEATH_17)) &&
+                       ((this->sheathType == PLAYER_MODELTYPE_SHEATH_16) ||
+                        (this->sheathType == PLAYER_MODELTYPE_SHEATH_17)) &&
                        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                 dLists = D_80125D68;
             }

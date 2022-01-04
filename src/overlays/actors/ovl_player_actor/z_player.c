@@ -6679,8 +6679,8 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
             } else {
                 sp34 = Rand_ZeroOne() * 5.0f;
                 if (sp34 < 4) {
-                    if (((sp34 != 0) && (sp34 != 3)) ||
-                        ((this->rightHandType == PLAYER_MODELTYPE_RH_10) && ((sp34 == 3) || Player_GetSwordHeld(this)))) {
+                    if (((sp34 != 0) && (sp34 != 3)) || ((this->rightHandType == PLAYER_MODELTYPE_RH_10) &&
+                                                         ((sp34 == 3) || Player_GetSwordHeld(this)))) {
                         if ((sp34 == 0) && Player_HoldsTwoHandedWeapon(this)) {
                             sp34 = 4;
                         }
