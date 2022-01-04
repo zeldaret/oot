@@ -1327,8 +1327,8 @@ ssize_t Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneConte
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     ssize_t size;
 
-    cmd += 8;
-    size = 8;
+    cmd += sizeof(CutsceneData)*2;
+    size = sizeof(CutsceneData)*2;
 
     if ((cmdBase->startFrame < csCtx->frames) && (csCtx->frames < cmdBase->endFrame) &&
         ((csCtx->unk_18 < cmdBase->startFrame) || (csCtx->unk_18 >= 0xF000))) {
@@ -1351,8 +1351,8 @@ ssize_t Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneConte
         if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
             shouldContinue = 0;
         }
-        cmd += 0x10;
-        size += 0x10;
+        cmd += sizeof(CutsceneData) * 4;
+        size += sizeof(CutsceneData) * 4;
     }
 
     return size;
@@ -1364,8 +1364,8 @@ ssize_t Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* 
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     ssize_t size;
 
-    cmd += 8;
-    size = 8;
+    cmd += sizeof(CutsceneData) * 2;
+    size = sizeof(CutsceneData) * 2;
 
     if ((cmdBase->startFrame < csCtx->frames) && (csCtx->frames < cmdBase->endFrame) &&
         ((D_8015FCC0 < cmdBase->startFrame) || (D_8015FCC0 >= 0xF000))) {
@@ -1388,8 +1388,8 @@ ssize_t Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* 
         if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
             shouldContinue = 0;
         }
-        cmd += 0x10;
-        size += 0x10;
+        cmd += sizeof(CutsceneData) * 4;
+        size += sizeof(CutsceneData) * 4;
     }
 
     return size;
@@ -1404,8 +1404,8 @@ ssize_t Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8
     Camera* sp2C;
     f32 sp28;
 
-    cmd += 8;
-    size = 8;
+    cmd += sizeof(CutsceneData) * 2;
+    size = sizeof(CutsceneData) * 2;
 
     if ((cmdBase->startFrame < csCtx->frames) && (csCtx->frames < cmdBase->endFrame) &&
         ((D_8015FCC2 < cmdBase->startFrame) || (D_8015FCC2 >= 0xF000))) {
@@ -1433,7 +1433,7 @@ ssize_t Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8
         }
     }
 
-    size += 0x10;
+    size += sizeof(CutsceneData) * 4;
 
     return size;
 }
@@ -1447,8 +1447,8 @@ ssize_t Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8
     Camera* sp2C;
     f32 sp28;
 
-    cmd += 8;
-    size = 8;
+    cmd += sizeof(CutsceneData) * 2;
+    size = sizeof(CutsceneData) * 2;
 
     if ((cmdBase->startFrame < csCtx->frames) && (csCtx->frames < cmdBase->endFrame) &&
         ((D_8015FCC4 < cmdBase->startFrame) || (D_8015FCC4 >= 0xF000))) {
@@ -1474,7 +1474,7 @@ ssize_t Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8
         }
     }
 
-    size += 0x10;
+    size += sizeof(CutsceneData) * 4;
 
     return size;
 }
