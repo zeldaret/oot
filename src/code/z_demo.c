@@ -1322,10 +1322,10 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
 }
 
 // Command 0x1 & 0x5: Camera Positions
-ssize_t Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
-    s32 shouldContinue = 1;
+size_t Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
+    s32 shouldContinue = true;
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
-    ssize_t size;
+    size_t size;
 
     cmd += sizeof(CutsceneData)*2;
     size = sizeof(CutsceneData)*2;
@@ -1349,7 +1349,7 @@ ssize_t Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneConte
 
     while (shouldContinue) {
         if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
-            shouldContinue = 0;
+            shouldContinue = false;
         }
         cmd += sizeof(CutsceneData) * 4;
         size += sizeof(CutsceneData) * 4;
@@ -1359,10 +1359,10 @@ ssize_t Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneConte
 }
 
 // Command 0x2 & 0x6: Camera Focus Points
-ssize_t Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
-    s32 shouldContinue = 1;
+size_t Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
+    s32 shouldContinue = true;
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
-    ssize_t size;
+    size_t size;
 
     cmd += sizeof(CutsceneData) * 2;
     size = sizeof(CutsceneData) * 2;
@@ -1386,7 +1386,7 @@ ssize_t Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* 
 
     while (shouldContinue) {
         if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
-            shouldContinue = 0;
+            shouldContinue = false;
         }
         cmd += sizeof(CutsceneData) * 4;
         size += sizeof(CutsceneData) * 4;
@@ -1396,9 +1396,9 @@ ssize_t Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* 
 }
 
 // Command 0x7: ? (Related to camera positons)
-ssize_t Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 unused) {
+size_t Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 unused) {
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
-    ssize_t size;
+    size_t size;
     Vec3f sp3C;
     Vec3f sp30;
     Camera* sp2C;
@@ -1439,9 +1439,9 @@ ssize_t Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8
 }
 
 // Command 0x8: ? (Related to camera focus points)
-ssize_t Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 unused) {
+size_t Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 unused) {
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
-    ssize_t size;
+    size_t size;
     Vec3f sp3C;
     Vec3f sp30;
     Camera* sp2C;
