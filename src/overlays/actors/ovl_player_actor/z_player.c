@@ -6681,7 +6681,7 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
             } else {
                 sp34 = Rand_ZeroOne() * 5.0f;
                 if (sp34 < 4) {
-                    if (((sp34 != 0) && (sp34 != 3)) || ((this->rightHandType == PLAYER_MODELTYPE_RH_10) &&
+                    if (((sp34 != 0) && (sp34 != 3)) || ((this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) &&
                                                          ((sp34 == 3) || Player_GetSwordHeld(this)))) {
                         if ((sp34 == 0) && Player_HoldsTwoHandedWeapon(this)) {
                             sp34 = 4;
@@ -13732,7 +13732,7 @@ void func_80852388(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     }
 
     if ((this->unk_850 != 0) && (globalCtx->csCtx.frames >= 900)) {
-        this->rightHandType = PLAYER_MODELTYPE_LH_0;
+        this->rightHandType = PLAYER_MODELTYPE_LH_OPEN;
     } else {
         this->rightHandType = PLAYER_MODELTYPE_RH_FF;
     }

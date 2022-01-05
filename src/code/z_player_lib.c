@@ -105,53 +105,53 @@ TextTriggerEntry sTextTriggers[] = {
 // Used to map model groups to model types for [animation, left hand, right hand, sheath, waist]
 u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX] = {
     /* PLAYER_MODELGROUP_0 */
-    { PLAYER_ANIMTYPE_2, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_10, PLAYER_MODELTYPE_SHEATH_16,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_2, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_SHIELD, PLAYER_MODELTYPE_SHEATH_16,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_1 */
-    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_2, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_19,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_19,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_2 */
-    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_2, PLAYER_MODELTYPE_RH_10, PLAYER_MODELTYPE_SHEATH_17,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_SHIELD, PLAYER_MODELTYPE_SHEATH_17,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_3 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_4 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_5 */
-    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_4, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_19,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_BGS, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_19,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_6 */
-    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_1, PLAYER_MODELTYPE_RH_11, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_CLOSED, PLAYER_MODELTYPE_RH_BOW_SLINGSHOT, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_7 */
-    { PLAYER_ANIMTYPE_5, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_5, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_8 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_6, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_BOOMERANG, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_9 */
-    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_15, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_HOOKSHOT, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_10 */
-    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_1, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_CLOSED, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_11 */
-    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_5, PLAYER_MODELTYPE_RH_9, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_HAMMER, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_12 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_13, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OCARINA, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_13 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_0, PLAYER_MODELTYPE_RH_14, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OOT, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_14 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_7, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_18,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_BOTTLE, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_15 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_2, PLAYER_MODELTYPE_RH_8, PLAYER_MODELTYPE_SHEATH_19,
-      PLAYER_MODELTYPE_WAIST_20 },
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_19,
+      PLAYER_MODELTYPE_WAIST },
 };
 
 Gfx* D_80125CE8[PLAYER_SHIELD_MAX * 4] = {
@@ -396,27 +396,27 @@ Gfx* sHoldingFirstPersonWeaponDLs[] = {
 
 // Indexed by model types (left hand, right hand, sheath or waist)
 Gfx** sPlayerDListGroups[PLAYER_MODELTYPE_MAX] = {
-    /* PLAYER_MODELTYPE_LH_0 */ D_80125E08,
-    /* PLAYER_MODELTYPE_LH_1 */ D_80125E18,
-    /* PLAYER_MODELTYPE_LH_2 */ D_80125E38,
+    /* PLAYER_MODELTYPE_LH_OPEN */ D_80125E08,
+    /* PLAYER_MODELTYPE_LH_CLOSED */ D_80125E18,
+    /* PLAYER_MODELTYPE_LH_SWORD */ D_80125E38,
     /* PLAYER_MODELTYPE_3 */ D_80125E28,
-    /* PLAYER_MODELTYPE_LH_4 */ D_80125DE8,
-    /* PLAYER_MODELTYPE_LH_5 */ D_80125EE8,
-    /* PLAYER_MODELTYPE_LH_6 */ D_80125EF8,
-    /* PLAYER_MODELTYPE_LH_7 */ D_80125F08,
-    /* PLAYER_MODELTYPE_RH_8 */ D_80125E48,
-    /* PLAYER_MODELTYPE_RH_9 */ D_80125E58,
-    /* PLAYER_MODELTYPE_RH_10 */ D_80125CE8,
-    /* PLAYER_MODELTYPE_RH_11 */ D_80125E68,
+    /* PLAYER_MODELTYPE_LH_BGS */ D_80125DE8,
+    /* PLAYER_MODELTYPE_LH_HAMMER */ D_80125EE8,
+    /* PLAYER_MODELTYPE_LH_BOOMERANG */ D_80125EF8,
+    /* PLAYER_MODELTYPE_LH_BOTTLE */ D_80125F08,
+    /* PLAYER_MODELTYPE_RH_OPEN */ D_80125E48,
+    /* PLAYER_MODELTYPE_RH_CLOSED */ D_80125E58,
+    /* PLAYER_MODELTYPE_RH_SHIELD */ D_80125CE8,
+    /* PLAYER_MODELTYPE_RH_BOW_SLINGSHOT */ D_80125E68,
     /* PLAYER_MODELTYPE_12 */ D_80125EA8,
-    /* PLAYER_MODELTYPE_RH_13 */ D_80125EB8,
-    /* PLAYER_MODELTYPE_RH_14 */ D_80125EC8,
-    /* PLAYER_MODELTYPE_RH_15 */ D_80125ED8,
+    /* PLAYER_MODELTYPE_RH_OCARINA */ D_80125EB8,
+    /* PLAYER_MODELTYPE_RH_OOT */ D_80125EC8,
+    /* PLAYER_MODELTYPE_RH_HOOKSHOT */ D_80125ED8,
     /* PLAYER_MODELTYPE_SHEATH_16 */ D_80125E78,
     /* PLAYER_MODELTYPE_SHEATH_17 */ D_80125E88,
     /* PLAYER_MODELTYPE_SHEATH_18 */ D_80125D28,
     /* PLAYER_MODELTYPE_SHEATH_19 */ D_80125D88,
-    /* PLAYER_MODELTYPE_WAIST_20 */ D_80125E98,
+    /* PLAYER_MODELTYPE_WAIST */ D_80125E98,
 };
 
 Gfx gCullBackDList[] = {
@@ -514,8 +514,8 @@ void Player_SetModelsForHoldingShield(Player* this) {
     if ((this->stateFlags1 & 0x400000) &&
         ((this->itemActionParam < 0) || (this->itemActionParam == this->heldItemActionParam))) {
         if (!Player_HoldsTwoHandedWeapon(this) && !Player_IsChildWithHylianShield(this)) {
-            this->rightHandType = PLAYER_MODELTYPE_RH_10;
-            this->rightHandDLists = &sPlayerDListGroups[PLAYER_MODELTYPE_RH_10][(void)0, gSaveContext.linkAge];
+            this->rightHandType = PLAYER_MODELTYPE_RH_SHIELD;
+            this->rightHandDLists = &sPlayerDListGroups[PLAYER_MODELTYPE_RH_SHIELD][(void)0, gSaveContext.linkAge];
             if (this->sheathType == PLAYER_MODELTYPE_SHEATH_18) {
                 this->sheathType = PLAYER_MODELTYPE_SHEATH_16;
             } else if (this->sheathType == PLAYER_MODELTYPE_SHEATH_19) {
@@ -675,7 +675,7 @@ s32 Player_HasMirrorShieldEquipped(GlobalContext* globalCtx) {
 s32 Player_HasMirrorShieldSetToDraw(GlobalContext* globalCtx) {
     Player* this = GET_PLAYER(globalCtx);
 
-    return (this->rightHandType == PLAYER_MODELTYPE_RH_10) && (this->currentShield == PLAYER_SHIELD_MIRROR);
+    return (this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) && (this->currentShield == PLAYER_SHIELD_MIRROR);
 }
 
 s32 Player_ActionToMagicSpell(Player* this, s32 actionParam) {
@@ -880,9 +880,10 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
 
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultLeftGauntletPlate1DL);
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultRightGauntletPlate1DL);
-                gSPDisplayList(POLY_OPA_DISP++, (D_80160014 == PLAYER_MODELTYPE_LH_0) ? gLinkAdultLeftGauntletPlate2DL
-                                                                                      : gLinkAdultLeftGauntletPlate3DL);
-                gSPDisplayList(POLY_OPA_DISP++, (D_80160018 == PLAYER_MODELTYPE_RH_8)
+                gSPDisplayList(POLY_OPA_DISP++, (D_80160014 == PLAYER_MODELTYPE_LH_OPEN)
+                                                    ? gLinkAdultLeftGauntletPlate2DL
+                                                    : gLinkAdultLeftGauntletPlate3DL);
+                gSPDisplayList(POLY_OPA_DISP++, (D_80160018 == PLAYER_MODELTYPE_RH_OPEN)
                                                     ? gLinkAdultRightGauntletPlate2DL
                                                     : gLinkAdultRightGauntletPlate3DL);
             }
@@ -1085,27 +1086,27 @@ s32 Player_OverrideLimbDrawGameplayDefault(GlobalContext* globalCtx, s32 limbInd
         if (limbIndex == PLAYER_LIMB_L_HAND) {
             Gfx** dLists = this->leftHandDLists;
 
-            if ((D_80160014 == PLAYER_MODELTYPE_LH_4) && (gSaveContext.swordHealth <= 0.0f)) {
+            if ((D_80160014 == PLAYER_MODELTYPE_LH_BGS) && (gSaveContext.swordHealth <= 0.0f)) {
                 dLists += 4;
-            } else if ((D_80160014 == PLAYER_MODELTYPE_LH_6) && (this->stateFlags1 & 0x2000000)) {
+            } else if ((D_80160014 == PLAYER_MODELTYPE_LH_BOOMERANG) && (this->stateFlags1 & 0x2000000)) {
                 dLists = &D_80125E08[gSaveContext.linkAge];
-                D_80160014 = PLAYER_MODELTYPE_LH_0;
-            } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_0) && (this->actor.speedXZ > 2.0f) &&
+                D_80160014 = PLAYER_MODELTYPE_LH_OPEN;
+            } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_OPEN) && (this->actor.speedXZ > 2.0f) &&
                        !(this->stateFlags1 & 0x8000000)) {
                 dLists = &D_80125E18[gSaveContext.linkAge];
-                D_80160014 = PLAYER_MODELTYPE_LH_1;
+                D_80160014 = PLAYER_MODELTYPE_LH_CLOSED;
             }
 
             *dList = dLists[sDListsLodOffset];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
             Gfx** dLists = this->rightHandDLists;
 
-            if (D_80160018 == PLAYER_MODELTYPE_RH_10) {
+            if (D_80160018 == PLAYER_MODELTYPE_RH_SHIELD) {
                 dLists += this->currentShield * 4;
-            } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_8) && (this->actor.speedXZ > 2.0f) &&
+            } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_OPEN) && (this->actor.speedXZ > 2.0f) &&
                        !(this->stateFlags1 & 0x8000000)) {
                 dLists = &D_80125E58[gSaveContext.linkAge];
-                D_80160018 = PLAYER_MODELTYPE_RH_9;
+                D_80160018 = PLAYER_MODELTYPE_RH_CLOSED;
             }
 
             *dList = dLists[sDListsLodOffset];
@@ -1427,7 +1428,7 @@ void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 
             func_80090A28(this, spE4);
             func_800906D4(globalCtx, this, spE4);
-        } else if ((*dList != NULL) && (this->leftHandType == PLAYER_MODELTYPE_LH_7)) {
+        } else if ((*dList != NULL) && (this->leftHandType == PLAYER_MODELTYPE_LH_BOTTLE)) {
             Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemActionParam)];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2710);
@@ -1470,7 +1471,8 @@ void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 
         if (this->rightHandType == PLAYER_MODELTYPE_RH_FF) {
             Matrix_Get(&this->shieldMf);
-        } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_11) || (this->rightHandType == PLAYER_MODELTYPE_12)) {
+        } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_BOW_SLINGSHOT) ||
+                   (this->rightHandType == PLAYER_MODELTYPE_12)) {
             BowStringData* stringData = &sBowStringData[gSaveContext.linkAge];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2783);
@@ -1511,7 +1513,7 @@ void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
             Matrix_Pop();
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2809);
-        } else if ((this->actor.scale.y >= 0.0f) && (this->rightHandType == PLAYER_MODELTYPE_RH_10)) {
+        } else if ((this->actor.scale.y >= 0.0f) && (this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD)) {
             Matrix_Get(&this->shieldMf);
             func_80090604(globalCtx, this, &this->shieldQuad, D_80126154);
         }
@@ -1555,7 +1557,8 @@ void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
         }
     } else if (this->actor.scale.y >= 0.0f) {
         if (limbIndex == PLAYER_LIMB_SHEATH) {
-            if ((this->rightHandType != PLAYER_MODELTYPE_RH_10) && (this->rightHandType != PLAYER_MODELTYPE_RH_FF)) {
+            if ((this->rightHandType != PLAYER_MODELTYPE_RH_SHIELD) &&
+                (this->rightHandType != PLAYER_MODELTYPE_RH_FF)) {
                 if (Player_IsChildWithHylianShield(this)) {
                     func_80090604(globalCtx, this, &this->shieldQuad, D_8012619C);
                 }
@@ -1620,13 +1623,13 @@ s32 Player_OverrideLimbDrawPause(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND];
         D_80160014 = type;
-        if ((type == PLAYER_MODELTYPE_LH_4) && (gSaveContext.swordHealth <= 0.0f)) {
+        if ((type == PLAYER_MODELTYPE_LH_BGS) && (gSaveContext.swordHealth <= 0.0f)) {
             dListOffset = 4;
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
         type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND];
         D_80160018 = type;
-        if (type == PLAYER_MODELTYPE_RH_10) {
+        if (type == PLAYER_MODELTYPE_RH_SHIELD) {
             dListOffset = playerSwordAndShield[1] * 4;
         }
     } else if (limbIndex == PLAYER_LIMB_SHEATH) {

@@ -196,30 +196,30 @@ typedef enum {
 
 typedef enum {
     // left hand
-    /*  0 */ PLAYER_MODELTYPE_LH_0, // empty open hand
-    /*  1 */ PLAYER_MODELTYPE_LH_1, // empty closed hand
-    /*  2 */ PLAYER_MODELTYPE_LH_2, // holding kokiri/master sword
-    /*  3 */ PLAYER_MODELTYPE_3, // unused, same as LH_2
-    /*  4 */ PLAYER_MODELTYPE_LH_4, // holding bgs/broken giant knife (child: master sword)
-    /*  5 */ PLAYER_MODELTYPE_LH_5, // holding hammer (child: empty hand)
-    /*  6 */ PLAYER_MODELTYPE_LH_6, // holding boomerang (adult: empty hand)
-    /*  7 */ PLAYER_MODELTYPE_LH_7, // holding bottle? (bottle drawn separately)
+    /*  0 */ PLAYER_MODELTYPE_LH_OPEN, // empty open hand
+    /*  1 */ PLAYER_MODELTYPE_LH_CLOSED, // empty closed hand
+    /*  2 */ PLAYER_MODELTYPE_LH_SWORD, // holding kokiri/master sword
+    /*  3 */ PLAYER_MODELTYPE_3, // unused, same as PLAYER_MODELTYPE_LH_SWORD
+    /*  4 */ PLAYER_MODELTYPE_LH_BGS, // holding bgs/broken giant knife (child: master sword)
+    /*  5 */ PLAYER_MODELTYPE_LH_HAMMER, // holding hammer (child: empty hand)
+    /*  6 */ PLAYER_MODELTYPE_LH_BOOMERANG, // holding boomerang (adult: empty hand)
+    /*  7 */ PLAYER_MODELTYPE_LH_BOTTLE, // holding bottle (bottle drawn separately)
     // right hand
-    /*  8 */ PLAYER_MODELTYPE_RH_8, // empty open hand
-    /*  9 */ PLAYER_MODELTYPE_RH_9, // empty closed hand
-    /* 10 */ PLAYER_MODELTYPE_RH_10, // holding a shield (including no shield)
-    /* 11 */ PLAYER_MODELTYPE_RH_11, // holding bow/slingshot
-    /* 12 */ PLAYER_MODELTYPE_12, // unused, same as RH_11
-    /* 13 */ PLAYER_MODELTYPE_RH_13, // holding ocarina (child: fairy ocarina, adult: OoT)
-    /* 14 */ PLAYER_MODELTYPE_RH_14, // holding OoT
-    /* 15 */ PLAYER_MODELTYPE_RH_15, // holding hookshot (child: empty hand)
+    /*  8 */ PLAYER_MODELTYPE_RH_OPEN, // empty open hand
+    /*  9 */ PLAYER_MODELTYPE_RH_CLOSED, // empty closed hand
+    /* 10 */ PLAYER_MODELTYPE_RH_SHIELD, // holding a shield (including no shield)
+    /* 11 */ PLAYER_MODELTYPE_RH_BOW_SLINGSHOT, // holding bow/slingshot
+    /* 12 */ PLAYER_MODELTYPE_12, // unused, same as PLAYER_MODELTYPE_RH_BOW_SLINGSHOT
+    /* 13 */ PLAYER_MODELTYPE_RH_OCARINA, // holding ocarina (child: fairy ocarina, adult: OoT)
+    /* 14 */ PLAYER_MODELTYPE_RH_OOT, // holding OoT
+    /* 15 */ PLAYER_MODELTYPE_RH_HOOKSHOT, // holding hookshot (child: empty hand)
     // sheath
     /* 16 */ PLAYER_MODELTYPE_SHEATH_16, // sheathed kokiri/master sword?
     /* 17 */ PLAYER_MODELTYPE_SHEATH_17, // empty sheath?
     /* 18 */ PLAYER_MODELTYPE_SHEATH_18, // sword sheathed and shield on back?
     /* 19 */ PLAYER_MODELTYPE_SHEATH_19, // empty sheath and shield on back?
     // waist
-    /* 20 */ PLAYER_MODELTYPE_WAIST_20, // waist
+    /* 20 */ PLAYER_MODELTYPE_WAIST,
     /* 21 */ PLAYER_MODELTYPE_MAX,
     /* 0xFF */ PLAYER_MODELTYPE_RH_FF = 0xFF // disable shield collider, cutscene-specific
 } PlayerModelType;
