@@ -6091,52 +6091,54 @@ void func_8083F070(Player* this, LinkAnimationHeader* anim, GlobalContext* globa
 
 s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
     CollisionPoly* wallPoly;
-    Vec3f sp50[3];
-    f32 sp4C;
-    f32 phi_f2;
-    f32 sp44;
-    f32 phi_f12;
+    Vec3f wallVertices[3];
+    f32 tempX;
+    f32 temp;
+    f32 tempZ;
+    f32 maxWallZ;
     s32 i;
 
     if (!LINK_IS_ADULT && !(this->stateFlags1 & 0x8000000) && (arg2 & 0x30)) {
         wallPoly = this->actor.wallPoly;
-        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, sp50);
+        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, wallVertices);
 
-        sp4C = phi_f2 = sp50[0].x;
-        sp44 = phi_f12 = sp50[0].z;
+        // compute min and max x/z of wall vertices
+        tempX = temp = wallVertices[0].x;
+        tempZ = maxWallZ = wallVertices[0].z;
         for (i = 1; i < 3; i++) {
-            if (sp4C > sp50[i].x) {
-                sp4C = sp50[i].x;
-            } else if (phi_f2 < sp50[i].x) {
-                phi_f2 = sp50[i].x;
+            if (tempX > wallVertices[i].x) {
+                tempX = wallVertices[i].x;
+            } else if (temp < wallVertices[i].x) {
+                temp = wallVertices[i].x;
             }
 
-            if (sp44 > sp50[i].z) {
-                sp44 = sp50[i].z;
-            } else if (phi_f12 < sp50[i].z) {
-                phi_f12 = sp50[i].z;
+            if (tempZ > wallVertices[i].z) {
+                tempZ = wallVertices[i].z;
+            } else if (maxWallZ < wallVertices[i].z) {
+                maxWallZ = wallVertices[i].z;
             }
         }
 
-        sp4C = (sp4C + phi_f2) * 0.5f;
-        sp44 = (sp44 + phi_f12) * 0.5f;
+        // average min and max x/z of wall vertices
+        tempX = (tempX + temp) * 0.5f;
+        tempZ = (tempZ + maxWallZ) * 0.5f;
 
-        phi_f2 = ((this->actor.world.pos.x - sp4C) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
-                 ((this->actor.world.pos.z - sp44) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
+        temp = ((this->actor.world.pos.x - tempX) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
+               ((this->actor.world.pos.z - tempZ) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
 
-        if (fabsf(phi_f2) < 8.0f) {
+        if (fabsf(temp) < 8.0f) {
             this->stateFlags2 |= 0x10000;
 
             if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
-                f32 sp38 = COLPOLY_GET_NORMAL(wallPoly->normal.x);
-                f32 sp34 = COLPOLY_GET_NORMAL(wallPoly->normal.z);
-                f32 sp30 = this->wallDistance;
+                f32 wallPolyNormX = COLPOLY_GET_NORMAL(wallPoly->normal.x);
+                f32 wallPolyNormZ = COLPOLY_GET_NORMAL(wallPoly->normal.z);
+                f32 wallDistance = this->wallDistance;
 
                 func_80836898(globalCtx, this, func_8083A40C);
                 this->stateFlags2 |= 0x40000;
                 this->actor.shape.rot.y = this->currentYaw = this->actor.wallYaw + 0x8000;
-                this->actor.world.pos.x = sp4C + (sp30 * sp38);
-                this->actor.world.pos.z = sp44 + (sp30 * sp34);
+                this->actor.world.pos.x = tempX + (wallDistance * wallPolyNormX);
+                this->actor.world.pos.z = tempZ + (wallDistance * wallPolyNormZ);
                 func_80832224(this);
                 this->actor.prevPos = this->actor.world.pos;
                 func_80832264(globalCtx, this, &gPlayerAnim_002708);
@@ -10290,10 +10292,10 @@ void Player_DrawGameplay(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* c
     gSPSegment(POLY_XLU_DISP++, 0x0C, cullDList);
 
     Player_DrawImpl(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, lod,
-                    this->currentTunic, this->currentBoots, this->actor.shape.face, overrideLimbDraw, func_80090D20,
-                    this);
+                    this->currentTunic, this->currentBoots, this->actor.shape.face, overrideLimbDraw,
+                    Player_PostLimbDrawGameplay, this);
 
-    if ((overrideLimbDraw == func_80090014) && (this->currentMask != PLAYER_MASK_NONE)) {
+    if ((overrideLimbDraw == Player_OverrideLimbDrawGameplayDefault) && (this->currentMask != PLAYER_MASK_NONE)) {
         Mtx* sp70 = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Mtx));
 
         if (this->currentMask == PLAYER_MASK_BUNNY) {
@@ -10363,7 +10365,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19346);
 
     if (!(this->stateFlags2 & 0x20000000)) {
-        OverrideLimbDrawOpa overrideLimbDraw = func_80090014;
+        OverrideLimbDrawOpa overrideLimbDraw = Player_OverrideLimbDrawGameplayDefault;
         s32 lod;
         s32 pad;
 
@@ -10386,15 +10388,15 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         func_8002ED80(&this->actor, globalCtx, 0);
 
         if (this->unk_6AD != 0) {
-            Vec3f sp7C;
+            Vec3f projectedHeadPos;
 
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &this->actor.focus.pos, &sp7C);
-            if (sp7C.z < -4.0f) {
-                overrideLimbDraw = func_800902F0;
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &this->actor.focus.pos, &projectedHeadPos);
+            if (projectedHeadPos.z < -4.0f) {
+                overrideLimbDraw = Player_OverrideLimbDrawGameplayFirstPerson;
             }
         } else if (this->stateFlags2 & 0x40000) {
             if (this->actor.projectedPos.z < 0.0f) {
-                overrideLimbDraw = func_80090440;
+                overrideLimbDraw = Player_OverrideLimbDrawGameplay_80090440;
             }
         }
 

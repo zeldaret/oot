@@ -867,7 +867,8 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
 
     SkelAnime_DrawFlexLod(globalCtx, skeleton, jointTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
 
-    if ((overrideLimbDraw != func_800902F0) && (overrideLimbDraw != func_80090440) && (gSaveContext.gameMode != 3)) {
+    if ((overrideLimbDraw != Player_OverrideLimbDrawGameplayFirstPerson) &&
+        (overrideLimbDraw != Player_OverrideLimbDrawGameplay_80090440) && (gSaveContext.gameMode != 3)) {
         if (LINK_IS_ADULT) {
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
@@ -1009,7 +1010,8 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
     }
 }
 
-s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 Player_OverrideLimbDrawGameplayCommon(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                          void* thisx) {
     Player* this = (Player*)thisx;
 
     if (limbIndex == PLAYER_LIMB_ROOT) {
@@ -1075,10 +1077,11 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return false;
 }
 
-s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 Player_OverrideLimbDrawGameplayDefault(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                           void* thisx) {
     Player* this = (Player*)thisx;
 
-    if (!func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, thisx)) {
+    if (!Player_OverrideLimbDrawGameplayCommon(globalCtx, limbIndex, dList, pos, rot, thisx)) {
         if (limbIndex == PLAYER_LIMB_L_HAND) {
             Gfx** dLists = this->leftHandDLists;
 
@@ -1131,10 +1134,11 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return false;
 }
 
-s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 Player_OverrideLimbDrawGameplayFirstPerson(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos,
+                                               Vec3s* rot, void* thisx) {
     Player* this = (Player*)thisx;
 
-    if (!func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, thisx)) {
+    if (!Player_OverrideLimbDrawGameplayCommon(globalCtx, limbIndex, dList, pos, rot, thisx)) {
         if (this->unk_6AD != 2) {
             *dList = NULL;
         } else if (limbIndex == PLAYER_LIMB_L_FOREARM) {
@@ -1156,8 +1160,9 @@ s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return false;
 }
 
-s32 func_80090440(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    if (!func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, thisx)) {
+s32 Player_OverrideLimbDrawGameplay_80090440(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos,
+                                             Vec3s* rot, void* thisx) {
+    if (!Player_OverrideLimbDrawGameplayCommon(globalCtx, limbIndex, dList, pos, rot, thisx)) {
         *dList = NULL;
     }
 
@@ -1374,7 +1379,7 @@ Vec3f D_801261E0[] = {
     { 200.0f, 200.0f, 0.0f },
 };
 
-void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Player* this = (Player*)thisx;
 
     if (*dList != NULL) {
@@ -1598,7 +1603,8 @@ u8 D_801261F8[] = {
     /* PLAYER_SWORD_BGS */ PLAYER_MODELGROUP_5
 };
 
-s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
+s32 Player_OverrideLimbDrawPause(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                 void* arg) {
     u8* playerSwordAndShield = arg;
     // TODO I don't see why playerSwordAndShield[0] couldn't be 0
     u8 modelGroup = D_801261F8[playerSwordAndShield[0] - PLAYER_SWORD_KOKIRI];
@@ -1731,7 +1737,7 @@ void Player_DrawPauseImpl(GlobalContext* globalCtx, void* seg04, void* seg06, Sk
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
     Player_DrawImpl(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots, 0,
-                    func_80091880, NULL, &playerSwordAndShield);
+                    Player_OverrideLimbDrawPause, NULL, &playerSwordAndShield);
 
     gSPEndDisplayList(POLY_OPA_DISP++);
     gSPEndDisplayList(POLY_XLU_DISP++);
