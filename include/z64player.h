@@ -166,21 +166,21 @@ typedef enum {
 } PlayerDoorType;
 
 typedef enum {
-    /*  0 */ PLAYER_MODELGROUP_0, // unused? or maybe just at startup from bzero
-    /*  1 */ PLAYER_MODELGROUP_1, // kokiri/master sword without shield?
-    /*  2 */ PLAYER_MODELGROUP_2, // kokiri/master sword and shield
-    /*  3 */ PLAYER_MODELGROUP_3, // default models, for items that don't have particular link models
-    /*  4 */ PLAYER_MODELGROUP_4, // unused, same as 3
-    /*  5 */ PLAYER_MODELGROUP_5, // biggoron sword
-    /*  6 */ PLAYER_MODELGROUP_6, // bow/slingshot
-    /*  7 */ PLAYER_MODELGROUP_7, // same as 3 (bombs, bombchus)
-    /*  8 */ PLAYER_MODELGROUP_8, // boomerang
-    /*  9 */ PLAYER_MODELGROUP_9, // hookshot
+    /*  0 */ PLAYER_MODELGROUP_0, // unused (except with the `Player_OverrideLimbDrawPause` bug)
+    /*  1 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD, // kokiri/master sword, shield not in hand
+    /*  2 */ PLAYER_MODELGROUP_SWORD, // kokiri/master sword and possibly shield
+    /*  3 */ PLAYER_MODELGROUP_DEFAULT, // non-specific models, for items that don't have particular link models
+    /*  4 */ PLAYER_MODELGROUP_4, // unused, same as PLAYER_MODELGROUP_DEFAULT
+    /*  5 */ PLAYER_MODELGROUP_BGS, // biggoron sword
+    /*  6 */ PLAYER_MODELGROUP_BOW_SLINGSHOT, // bow/slingshot
+    /*  7 */ PLAYER_MODELGROUP_EXPLOSIVES, // bombs, bombchus, same as PLAYER_MODELGROUP_DEFAULT
+    /*  8 */ PLAYER_MODELGROUP_BOOMERANG,
+    /*  9 */ PLAYER_MODELGROUP_HOOKSHOT,
     /* 10 */ PLAYER_MODELGROUP_10, // stick/fishing pole (which are drawn separately)
-    /* 11 */ PLAYER_MODELGROUP_11, // hammer
-    /* 12 */ PLAYER_MODELGROUP_12, // ocarina
-    /* 13 */ PLAYER_MODELGROUP_13, // ocarina of time
-    /* 14 */ PLAYER_MODELGROUP_14, // bottles (drawn separately)
+    /* 11 */ PLAYER_MODELGROUP_HAMMER,
+    /* 12 */ PLAYER_MODELGROUP_OCARINA, // ocarina
+    /* 13 */ PLAYER_MODELGROUP_OOT, // ocarina of time
+    /* 14 */ PLAYER_MODELGROUP_BOTTLE, // bottles (drawn separately)
     /* 15 */ PLAYER_MODELGROUP_15, // "last used"
     /* 16 */ PLAYER_MODELGROUP_MAX
 } PlayerModelGroup;
