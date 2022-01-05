@@ -443,9 +443,9 @@ void Player_SetBootData(GlobalContext* globalCtx, Player* this) {
     REG(48) = 370;
 
     currentBoots = this->currentBoots;
-    if (currentBoots == PLAYER_BOOTS_NORMAL) {
+    if (currentBoots == PLAYER_BOOTS_KOKIRI) {
         if (!LINK_IS_ADULT) {
-            currentBoots = PLAYER_BOOTS_NORMAL_CHILD;
+            currentBoots = PLAYER_BOOTS_KOKIRI_CHILD;
         }
     } else if (currentBoots == PLAYER_BOOTS_IRON) {
         if (this->stateFlags1 & 0x8000000) {
@@ -887,7 +887,7 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
                                                     : gLinkAdultRightGauntletPlate3DL);
             }
 
-            if (boots != PLAYER_BOOTS_NORMAL) {
+            if (boots != PLAYER_BOOTS_KOKIRI) {
                 Gfx** bootDLists = sBootDListGroups[boots - PLAYER_BOOTS_IRON];
 
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[0]);

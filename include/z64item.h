@@ -64,7 +64,7 @@ typedef enum {
 
 typedef enum {
     /* 0 */ EQUIP_VALUE_BOOTS_NONE,
-    /* 1 */ EQUIP_VALUE_BOOTS_NORMAL,
+    /* 1 */ EQUIP_VALUE_BOOTS_KOKIRI,
     /* 2 */ EQUIP_VALUE_BOOTS_IRON,
     /* 3 */ EQUIP_VALUE_BOOTS_HOVER,
     /* 4 */ EQUIP_VALUE_BOOTS_MAX
