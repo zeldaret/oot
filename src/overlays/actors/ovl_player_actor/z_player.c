@@ -10280,8 +10280,8 @@ static Gfx* sMaskDlists[PLAYER_MASK_MAX - 1] = {
 
 static Vec3s D_80854864 = { 0, 0, 0 };
 
-void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDList,
-                   OverrideLimbDrawOpa overrideLimbDraw) {
+void Player_DrawGameplay(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDList,
+                         OverrideLimbDrawOpa overrideLimbDraw) {
     static s32 D_8085486C = 255;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19228);
@@ -10289,9 +10289,9 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
     gSPSegment(POLY_OPA_DISP++, 0x0C, cullDList);
     gSPSegment(POLY_XLU_DISP++, 0x0C, cullDList);
 
-    func_8008F470(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, lod,
-                  this->currentTunic, this->currentBoots, this->actor.shape.face, overrideLimbDraw, func_80090D20,
-                  this);
+    Player_DrawImpl(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, lod,
+                    this->currentTunic, this->currentBoots, this->actor.shape.face, overrideLimbDraw, func_80090D20,
+                    this);
 
     if ((overrideLimbDraw == func_80090014) && (this->currentMask != PLAYER_MASK_NONE)) {
         Mtx* sp70 = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Mtx));
@@ -10414,7 +10414,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
             Matrix_Scale(1.1f, 0.95f, 1.05f, MTXMODE_APPLY);
             Matrix_RotateY(-sp74, MTXMODE_APPLY);
             Matrix_RotateX(-sp78, MTXMODE_APPLY);
-            func_8084A0E8(globalCtx, this, lod, gCullFrontDList, overrideLimbDraw);
+            Player_DrawGameplay(globalCtx, this, lod, gCullFrontDList, overrideLimbDraw);
             this->actor.scale.y = -this->actor.scale.y;
             Matrix_Pop();
         }
@@ -10422,7 +10422,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         gSPClearGeometryMode(POLY_OPA_DISP++, G_CULL_BOTH);
         gSPClearGeometryMode(POLY_XLU_DISP++, G_CULL_BOTH);
 
-        func_8084A0E8(globalCtx, this, lod, gCullBackDList, overrideLimbDraw);
+        Player_DrawGameplay(globalCtx, this, lod, gCullBackDList, overrideLimbDraw);
 
         if (this->invincibilityTimer > 0) {
             POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);

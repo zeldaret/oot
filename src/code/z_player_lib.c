@@ -839,9 +839,9 @@ Gfx* sBootDListGroups[][2] = {
     /* PLAYER_BOOTS_HOVER */ { gLinkAdultLeftHoverBootDL, gLinkAdultRightHoverBootDL },
 };
 
-void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
-                   s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
-                   void* data) {
+void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
+                     s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
+                     void* data) {
     Color_RGB8* color;
     s32 eyeIndex = (jointTable[22].x & 0xF) - 1;
     s32 mouthIndex = (jointTable[22].x >> 4) - 1;
@@ -1639,9 +1639,9 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot,
-                   f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height, Vec3f* eye, Vec3f* at,
-                   f32 fovy, void* img1, void* img2) {
+void Player_DrawPauseImpl(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* skelAnime, Vec3f* pos,
+                          Vec3s* rot, f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height,
+                          Vec3f* eye, Vec3f* at, f32 fovy, void* colorFrameBuffer, void* depthFrameBuffer) {
     static Vp viewport = { 128, 224, 511, 0, 128, 224, 511, 0 };
     static Lights1 lights1 = gdSPDefLights1(80, 80, 80, 255, 255, 255, 84, 84, 172);
     static Vec3f lightDir = { 89.8f, 0.0f, 89.8f };
@@ -1680,15 +1680,15 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
     gDPSetScissor(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, width, height);
     gSPClipRatio(POLY_OPA_DISP++, FRUSTRATIO_1);
 
-    gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, img2);
+    gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, depthFrameBuffer);
     gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_NOOP, G_RM_NOOP2);
-    gDPSetFillColor(POLY_OPA_DISP++, (GPACK_RGBA5551(255, 255, 240, 0) << 16) | GPACK_RGBA5551(255, 255, 240, 0));
+    gDPSetFillColor(POLY_OPA_DISP++, (GPACK_ZDZ(G_MAXFBZ, 0) << 16) | GPACK_ZDZ(G_MAXFBZ, 0));
     gDPFillRectangle(POLY_OPA_DISP++, 0, 0, width - 1, height - 1);
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-    gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, img1);
+    gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, colorFrameBuffer);
     gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_NOOP, G_RM_NOOP2);
     gDPSetFillColor(POLY_OPA_DISP++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
@@ -1696,7 +1696,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-    gDPSetDepthImage(POLY_OPA_DISP++, img2);
+    gDPSetDepthImage(POLY_OPA_DISP++, depthFrameBuffer);
 
     viewport.vp.vscale[0] = viewport.vp.vtrans[0] = width * 2;
     viewport.vp.vscale[1] = viewport.vp.vtrans[1] = height * 2;
@@ -1730,8 +1730,8 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
-    func_8008F470(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots, 0,
-                  func_80091880, NULL, &playerSwordAndShield);
+    Player_DrawImpl(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots, 0,
+                    func_80091880, NULL, &playerSwordAndShield);
 
     gSPEndDisplayList(POLY_OPA_DISP++);
     gSPEndDisplayList(POLY_XLU_DISP++);
@@ -1742,8 +1742,8 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 3288);
 }
 
-void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
-                   s32 sword, s32 tunic, s32 shield, s32 boots) {
+void Player_DrawPause(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
+                      s32 sword, s32 tunic, s32 shield, s32 boots) {
     static Vec3f eye = { 0.0f, 0.0f, -400.0f };
     static Vec3f at = { 0.0f, 0.0f, 0.0f };
     Vec3s* destTable;
@@ -1775,7 +1775,7 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, 
         *destTable++ = *srcTable++;
     }
 
-    func_80091A24(globalCtx, segment + 0x3800, segment + 0x8800, skelAnime, pos, rot, scale, sword, tunic, shield,
-                  boots, 64, 112, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFrameBuffer,
-                  globalCtx->state.gfxCtx->curFrameBuffer + 0x1C00);
+    Player_DrawPauseImpl(globalCtx, segment + 0x3800, segment + 0x8800, skelAnime, pos, rot, scale, sword, tunic,
+                         shield, boots, 64, 112, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFrameBuffer,
+                         globalCtx->state.gfxCtx->curFrameBuffer + (64 * 112));
 }
