@@ -15,7 +15,7 @@ typedef enum {
     /* 0 */ EQUIP_INV_SWORD_KOKIRI,
     /* 1 */ EQUIP_INV_SWORD_MASTER,
     /* 2 */ EQUIP_INV_SWORD_BGS,
-    /* 3 */ EQUIP_INV_SWORD_GIANTKNIFE // TODO not sure
+    /* 3 */ EQUIP_INV_SWORD_BROKENGIANTKNIFE
 } EquipInvSword;
 
 typedef enum {

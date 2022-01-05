@@ -420,7 +420,7 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
         if ((pauseCtx->cursorY[PAUSE_EQUIP] == 0) && (pauseCtx->cursorX[PAUSE_EQUIP] == 3)) {
             if (gSaveContext.bgsFlag != 0) {
                 cursorItem = ITEM_HEART_PIECE_2;
-            } else if (gBitFlags[EQUIP_INV_SWORD_GIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] &
+            } else if (gBitFlags[EQUIP_INV_SWORD_BROKENGIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] &
                        gSaveContext.inventory.equipment) {
                 cursorItem = ITEM_SWORD_KNIFE;
             }
@@ -482,7 +482,7 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
                             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
                         }
                         if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BGS) && (gSaveContext.bgsFlag == 0) &&
-                            (gBitFlags[EQUIP_INV_SWORD_GIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] &
+                            (gBitFlags[EQUIP_INV_SWORD_BROKENGIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] &
                              gSaveContext.inventory.equipment)) {
                             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
                         }

@@ -1247,9 +1247,9 @@ void Interface_InitHorsebackArchery(GlobalContext* globalCtx) {
 
 void func_800849EC(GlobalContext* globalCtx) {
     gSaveContext.inventory.equipment |= gBitFlags[EQUIP_INV_SWORD_BGS] << gEquipShifts[EQUIP_TYPE_SWORD];
-    gSaveContext.inventory.equipment ^= (1 << EQUIP_INV_SWORD_GIANTKNIFE) << gEquipShifts[EQUIP_TYPE_SWORD];
+    gSaveContext.inventory.equipment ^= (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE) << gEquipShifts[EQUIP_TYPE_SWORD];
 
-    if (gBitFlags[EQUIP_INV_SWORD_GIANTKNIFE] & gSaveContext.inventory.equipment) {
+    if (gBitFlags[EQUIP_INV_SWORD_BROKENGIANTKNIFE] & gSaveContext.inventory.equipment) {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
     } else {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
@@ -1379,7 +1379,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             gSaveContext.swordHealth = 8;
 
             if (ALL_EQUIP_VALUE(EQUIP_TYPE_SWORD) == 0xF) {
-                gSaveContext.inventory.equipment ^= (1 << EQUIP_INV_SWORD_GIANTKNIFE) << gEquipShifts[EQUIP_TYPE_SWORD];
+                gSaveContext.inventory.equipment ^= (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE)
+                                                    << gEquipShifts[EQUIP_TYPE_SWORD];
                 if (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) {
                     gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
                     Interface_LoadItemIcon1(globalCtx, 0);

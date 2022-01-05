@@ -524,7 +524,7 @@ s32 EnGirlA_CanBuy_BluePotion(GlobalContext* globalCtx, EnGirlA* this) {
 
 s32 EnGirlA_CanBuy_Longsword(GlobalContext* globalCtx, EnGirlA* this) {
     if ((gBitFlags[EQUIP_INV_SWORD_BGS + (EQUIP_TYPE_SWORD * 4)] & gSaveContext.inventory.equipment) &&
-        !(gBitFlags[EQUIP_INV_SWORD_GIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] & gSaveContext.inventory.equipment)) {
+        !(gBitFlags[EQUIP_INV_SWORD_BROKENGIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] & gSaveContext.inventory.equipment)) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {

@@ -94,7 +94,8 @@ s32 func_80A3D7C8(void) {
         return 0;
     } else if (!(gBitFlags[EQUIP_INV_SWORD_BGS + (EQUIP_TYPE_SWORD * 4)] & gSaveContext.inventory.equipment)) {
         return 1;
-    } else if (gBitFlags[EQUIP_INV_SWORD_GIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] & gSaveContext.inventory.equipment) {
+    } else if (gBitFlags[EQUIP_INV_SWORD_BROKENGIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] &
+               gSaveContext.inventory.equipment) {
         return 2;
     } else {
         return 3;
