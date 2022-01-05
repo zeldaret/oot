@@ -11,19 +11,19 @@
         <Texture Name="gLinkTunic2Tex" OutName="link_tunic_2" Format="i8" Width="16" Height="16" Offset="0x1C40"/>
         <Texture Name="gLinkTunic3Tex" OutName="link_tunic_3" Format="i8" Width="16" Height="32" Offset="0x1D40"/>
         <Texture Name="gLinkTunic4Tex" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x1F40"/>
-        <Array Name="D_04002040" Count="24" Offset="0x2040">
+        <Array Name="gLinkPauseChildJointTable" Count="24" Offset="0x2040">
             <Vector Type="s16" Dimensions="3"/>
         </Array>
-        <Array Name="D_040020D0" Count="24" Offset="0x20D0">
+        <Array Name="gLinkPauseChildDekuShieldJointTable" Count="24" Offset="0x20D0">
             <Vector Type="s16" Dimensions="3"/>
         </Array>
-        <Array Name="D_04002160" Count="24" Offset="0x2160">
+        <Array Name="gLinkPauseAdultBgsJointTable" Count="24" Offset="0x2160">
             <Vector Type="s16" Dimensions="3"/>
         </Array>
-        <Array Name="D_040021F0" Count="24" Offset="0x21F0">
+        <Array Name="gLinkPauseAdultJointTable" Count="24" Offset="0x21F0">
             <Vector Type="s16" Dimensions="3"/>
         </Array>
-        <Array Name="D_04002280" Count="24" Offset="0x2280">
+        <Array Name="gLinkPauseAdultShieldJointTable" Count="24" Offset="0x2280">
             <Vector Type="s16" Dimensions="3"/>
         </Array>
 

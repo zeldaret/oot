@@ -1755,17 +1755,17 @@ void Player_DrawPause(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnim
 
     if (!LINK_IS_ADULT) {
         if (shield == PLAYER_SHIELD_DEKU) {
-            srcTable = D_040020D0;
+            srcTable = gLinkPauseChildDekuShieldJointTable;
         } else {
-            srcTable = D_04002040;
+            srcTable = gLinkPauseChildJointTable;
         }
     } else {
         if (sword == PLAYER_SWORD_BGS) {
-            srcTable = D_04002160;
+            srcTable = gLinkPauseAdultBgsJointTable;
         } else if (shield != PLAYER_SHIELD_NONE) {
-            srcTable = D_04002280;
+            srcTable = gLinkPauseAdultShieldJointTable;
         } else {
-            srcTable = D_040021F0;
+            srcTable = gLinkPauseAdultJointTable;
         }
     }
 
