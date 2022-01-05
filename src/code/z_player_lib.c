@@ -1606,7 +1606,8 @@ u8 D_801261F8[] = {
 s32 Player_OverrideLimbDrawPause(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* arg) {
     u8* playerSwordAndShield = arg;
-    // TODO I don't see why playerSwordAndShield[0] couldn't be 0
+    //! @bug `playerSwordAndShield[0]` can be 0 (`PLAYER_SWORD_NONE`), which indexes `D_801261F8[-1]`. The result
+    //! happens to be 0 (`PLAYER_MODELGROUP_0`) in vanilla, but weird values are likely to cause a crash
     u8 modelGroup = D_801261F8[playerSwordAndShield[0] - PLAYER_SWORD_KOKIRI];
     s32 type;
     s32 dListOffset = 0;
