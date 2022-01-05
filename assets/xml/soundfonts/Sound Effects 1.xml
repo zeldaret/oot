@@ -83,7 +83,7 @@
             <Instrument Name="People Chattering" Enum="CHATTER"/>
             <Instrument Name="Tearing Cloth" Enum="CLOTH_TEAR"/>
             <Instrument Name="Dodongos and Dogs" Enum="ROAR_BARK"/>
-            <Instrument Name="Stalchild Flute" Enum="STAL_FLUTE"/>
+            <Instrument Name="Pan Flute" Enum="PAN_FLUTE"/>
             <Instrument Name="Accordion" Enum="ACCORDION"/>
             <Instrument Name="Dialogue Continue" Enum="DING"/>
             <Instrument Name="Malon" Enum="MALON"/>
