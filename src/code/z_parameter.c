@@ -1378,7 +1378,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         if (item == ITEM_SWORD_BGS) {
             gSaveContext.swordHealth = 8;
 
-            if (ALL_EQUIP_VALUE(EQUIP_TYPE_SWORD) == 0xF) {
+            if (ALL_EQUIP_VALUE(EQUIP_TYPE_SWORD) ==
+                ((1 << EQUIP_INV_SWORD_KOKIRI) | (1 << EQUIP_INV_SWORD_MASTER) | (1 << EQUIP_INV_SWORD_BGS) |
+                 (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE))) {
                 gSaveContext.inventory.equipment ^= (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE)
                                                     << gEquipShifts[EQUIP_TYPE_SWORD];
                 if (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) {
