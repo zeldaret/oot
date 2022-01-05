@@ -154,7 +154,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = -8000.0f;
     SkelAnime_Init(globalCtx, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlingAnim, this->jointTable,
                    this->morphTable, 20);
-    this->actor.naviEnemyId = 0x55;
+    this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
 
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);

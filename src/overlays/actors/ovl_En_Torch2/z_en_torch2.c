@@ -130,7 +130,7 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->heldItemActionParam = this->heldItemId = PLAYER_AP_SWORD_MASTER;
     Player_SetModelGroup(this, 2);
     globalCtx->playerInit(this, globalCtx, &gDarkLinkSkel);
-    this->actor.naviEnemyId = 0x26;
+    this->actor.naviEnemyId = NAVI_ENEMY_DARK_LINK;
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;
     this->swordQuads[0].base.atFlags = this->swordQuads[1].base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->swordQuads[0].base.acFlags = this->swordQuads[1].base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
