@@ -840,6 +840,7 @@ def main():
     
     soundfont_defs = read_soundfont_xmls(os.path.join(asset_xml_dir, "soundfonts"))
     samplebanks = read_samplebank_xml(os.path.join(asset_xml_dir, "samples"), version)
+    real_samplebanks = dict(samplebanks)
 
     bank_defs = parse_raw_def_data(bankdef_data, samplebanks)
     fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
@@ -920,7 +921,7 @@ def main():
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, f"{fontentry.font.name}.xml")
         s_filename = os.path.join(dir, f"{fontentry.font.index}.h")
-        write_soundfont(fontentry, filename, samplebanks)
+        write_soundfont(fontentry, filename, real_samplebanks)
         write_soundfont_header(fontentry.font, s_filename)
 
 if __name__ == "__main__":
