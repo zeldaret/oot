@@ -769,7 +769,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             LOG_NUM("1", 1, "../z_play.c", 3533);
         }
 
-        if (1 && (gTrnsnUnkState != 3)) {
+        if (1) {} // Needed to match
+
+        if (gTrnsnUnkState != 3) {
             if (HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3542);
             }
@@ -802,7 +804,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if ((sp80 == 0) && (IREG(72) == 0)) {
-                if (1 && HREG(63)) {
+                if (1) {} // Needed to match
+
+                if (HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3580);
                 }
 
@@ -860,7 +864,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         Actor_UpdateAll(globalCtx, &globalCtx->actorCtx);
                     }
 
-                    if (1 && HREG(63)) {
+                    if (1) {} // Needed to match
+
+                    if (HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3643);
                     }
 
@@ -925,7 +931,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 func_800BC450(globalCtx);
             }
 
-            if (1 && HREG(63)) {
+            if (1) {} // Needed to match
+
+            if (HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3708);
             }
 
@@ -1014,7 +1022,9 @@ skip:
 
         for (i = 0; i < NUM_CAMS; i++) {
             if ((i != globalCtx->nextCamera) && (globalCtx->cameraPtrs[i] != NULL)) {
-                if (1 && HREG(63)) {
+                if (1) {} // Needed to match
+
+                if (HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3809);
                 }
 
@@ -1029,7 +1039,9 @@ skip:
         }
     }
 
-    if (1 && HREG(63)) {
+    if (1) {} // Needed to match
+
+    if (HREG(63)) {
         LOG_NUM("1", 1, "../z_play.c", 3816);
     }
 
@@ -1350,7 +1362,9 @@ void Gameplay_Main(GameState* thisx) {
         Gameplay_Update(globalCtx);
     }
 
-    if (1 && HREG(63)) {
+    if (1) {} // Needed to match
+
+    if (HREG(63)) {
         LOG_NUM("1", 1, "../z_play.c", 4583);
     }
 
