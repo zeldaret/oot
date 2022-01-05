@@ -432,8 +432,8 @@ Gfx gCullFrontDList[] = {
 Vec3f* sCurBodyPartPos;
 s32 sDListsLodOffset;
 Vec3f sGetItemRefPos;
-s32 D_80160014;
-s32 D_80160018;
+s32 sLeftHandType;
+s32 sRightHandType;
 
 void Player_SetBootData(GlobalContext* globalCtx, Player* this) {
     s32 currentBoots;
@@ -880,10 +880,10 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
 
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultLeftGauntletPlate1DL);
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultRightGauntletPlate1DL);
-                gSPDisplayList(POLY_OPA_DISP++, (D_80160014 == PLAYER_MODELTYPE_LH_OPEN)
+                gSPDisplayList(POLY_OPA_DISP++, (sLeftHandType == PLAYER_MODELTYPE_LH_OPEN)
                                                     ? gLinkAdultLeftGauntletPlate2DL
                                                     : gLinkAdultLeftGauntletPlate3DL);
-                gSPDisplayList(POLY_OPA_DISP++, (D_80160018 == PLAYER_MODELTYPE_RH_OPEN)
+                gSPDisplayList(POLY_OPA_DISP++, (sRightHandType == PLAYER_MODELTYPE_RH_OPEN)
                                                     ? gLinkAdultRightGauntletPlate2DL
                                                     : gLinkAdultRightGauntletPlate3DL);
             }
@@ -1016,8 +1016,8 @@ s32 Player_OverrideLimbDrawGameplayCommon(GlobalContext* globalCtx, s32 limbInde
     Player* this = (Player*)thisx;
 
     if (limbIndex == PLAYER_LIMB_ROOT) {
-        D_80160014 = this->leftHandType;
-        D_80160018 = this->rightHandType;
+        sLeftHandType = this->leftHandType;
+        sRightHandType = this->rightHandType;
         sCurBodyPartPos = &this->bodyPartsPos[-1];
 
         if (!LINK_IS_ADULT) {
@@ -1086,27 +1086,27 @@ s32 Player_OverrideLimbDrawGameplayDefault(GlobalContext* globalCtx, s32 limbInd
         if (limbIndex == PLAYER_LIMB_L_HAND) {
             Gfx** dLists = this->leftHandDLists;
 
-            if ((D_80160014 == PLAYER_MODELTYPE_LH_BGS) && (gSaveContext.swordHealth <= 0.0f)) {
+            if ((sLeftHandType == PLAYER_MODELTYPE_LH_BGS) && (gSaveContext.swordHealth <= 0.0f)) {
                 dLists += 4;
-            } else if ((D_80160014 == PLAYER_MODELTYPE_LH_BOOMERANG) && (this->stateFlags1 & 0x2000000)) {
+            } else if ((sLeftHandType == PLAYER_MODELTYPE_LH_BOOMERANG) && (this->stateFlags1 & 0x2000000)) {
                 dLists = &D_80125E08[gSaveContext.linkAge];
-                D_80160014 = PLAYER_MODELTYPE_LH_OPEN;
+                sLeftHandType = PLAYER_MODELTYPE_LH_OPEN;
             } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_OPEN) && (this->actor.speedXZ > 2.0f) &&
                        !(this->stateFlags1 & 0x8000000)) {
                 dLists = &D_80125E18[gSaveContext.linkAge];
-                D_80160014 = PLAYER_MODELTYPE_LH_CLOSED;
+                sLeftHandType = PLAYER_MODELTYPE_LH_CLOSED;
             }
 
             *dList = dLists[sDListsLodOffset];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
             Gfx** dLists = this->rightHandDLists;
 
-            if (D_80160018 == PLAYER_MODELTYPE_RH_SHIELD) {
+            if (sRightHandType == PLAYER_MODELTYPE_RH_SHIELD) {
                 dLists += this->currentShield * 4;
             } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_OPEN) && (this->actor.speedXZ > 2.0f) &&
                        !(this->stateFlags1 & 0x8000000)) {
                 dLists = &D_80125E58[gSaveContext.linkAge];
-                D_80160018 = PLAYER_MODELTYPE_RH_CLOSED;
+                sRightHandType = PLAYER_MODELTYPE_RH_CLOSED;
             }
 
             *dList = dLists[sDListsLodOffset];
@@ -1623,13 +1623,13 @@ s32 Player_OverrideLimbDrawPause(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND];
-        D_80160014 = type;
+        sLeftHandType = type;
         if ((type == PLAYER_MODELTYPE_LH_BGS) && (gSaveContext.swordHealth <= 0.0f)) {
             dListOffset = 4;
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
         type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND];
-        D_80160018 = type;
+        sRightHandType = type;
         if (type == PLAYER_MODELTYPE_RH_SHIELD) {
             dListOffset = playerSwordAndShield[1] * 4;
         }
