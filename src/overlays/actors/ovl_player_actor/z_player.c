@@ -13734,7 +13734,7 @@ void func_80852388(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     if ((this->unk_850 != 0) && (globalCtx->csCtx.frames >= 900)) {
         this->rightHandType = PLAYER_MODELTYPE_LH_0;
     } else {
-        this->rightHandType = PLAYER_MODELTYPE_FF;
+        this->rightHandType = PLAYER_MODELTYPE_RH_FF;
     }
 }
 
@@ -13841,8 +13841,8 @@ void func_808526EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
     func_80851294(globalCtx, this, D_80855208[age]);
 
-    if (this->rightHandType != PLAYER_MODELTYPE_FF) {
-        this->rightHandType = PLAYER_MODELTYPE_FF;
+    if (this->rightHandType != PLAYER_MODELTYPE_RH_FF) {
+        this->rightHandType = PLAYER_MODELTYPE_RH_FF;
         return;
     }
 

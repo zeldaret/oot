@@ -1468,7 +1468,7 @@ void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
         Actor* heldActor = this->heldActor;
 
-        if (this->rightHandType == PLAYER_MODELTYPE_FF) {
+        if (this->rightHandType == PLAYER_MODELTYPE_RH_FF) {
             Matrix_Get(&this->shieldMf);
         } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_11) || (this->rightHandType == PLAYER_MODELTYPE_12)) {
             BowStringData* stringData = &sBowStringData[gSaveContext.linkAge];
@@ -1555,7 +1555,7 @@ void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
         }
     } else if (this->actor.scale.y >= 0.0f) {
         if (limbIndex == PLAYER_LIMB_SHEATH) {
-            if ((this->rightHandType != PLAYER_MODELTYPE_RH_10) && (this->rightHandType != PLAYER_MODELTYPE_FF)) {
+            if ((this->rightHandType != PLAYER_MODELTYPE_RH_10) && (this->rightHandType != PLAYER_MODELTYPE_RH_FF)) {
                 if (Player_IsChildWithHylianShield(this)) {
                     func_80090604(globalCtx, this, &this->shieldQuad, D_8012619C);
                 }

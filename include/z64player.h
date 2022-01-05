@@ -221,7 +221,7 @@ typedef enum {
     // waist
     /* 20 */ PLAYER_MODELTYPE_WAIST_20, // waist
     /* 21 */ PLAYER_MODELTYPE_MAX,
-    PLAYER_MODELTYPE_FF = 0xFF // ?
+    /* 0xFF */ PLAYER_MODELTYPE_RH_FF = 0xFF // disable shield collider, cutscene-specific
 } PlayerModelType;
 
 typedef enum {
