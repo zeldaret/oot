@@ -551,7 +551,7 @@ def write_soundfont(font, filename, banknames):
 def report_gaps(report_type, data, bin):
     length = len(bin)
     sorted_data = sorted(data, key = lambda tup: (tup[1], tup[2]))
-    gaps = []
+    gaps = set()
     intersections = []
     lastTuple = (None, -1, -1)
     currentEnd = 0
@@ -559,13 +559,19 @@ def report_gaps(report_type, data, bin):
         if tup[1] > currentEnd:
             # Don't report a gap of all 0 bytes, since those are generally just alignment padding
             if any(v != 0 for v in struct.unpack(f">{tup[1] - currentEnd}b", bin[currentEnd:tup[1]])):
-                gaps.append((currentEnd, tup[1]))
+                gaps.add((currentEnd, tup[1]))
         elif tup[1] < currentEnd and (lastTuple[1] != tup[1] or lastTuple[2] != tup[2]):
             intersections.append((lastTuple, tup))
         lastTuple = tup
-        currentEnd = tup[2] if report_type == "SOUNDFONT" else (16 * math.ceil(tup[2] / 16))
+        if report_type == "SOUNDFONT":
+            currentEnd = tup[2]
+        else:
+            alignEnd = (16 * math.ceil(tup[2] / 16))
+            if any(v != 0 for v in struct.unpack(f">{alignEnd - tup[2]}b", bin[tup[2]:alignEnd])):
+                gaps.add((tup[2], alignEnd))
+            currentEnd = alignEnd
     if currentEnd < length:
-        gaps.append((sorted_data[-1][2], length))
+        gaps.add((sorted_data[-1][2], length))
     if len(gaps) > 0:
         print(f"GAPS DETECTED IN {report_type} DATA:")
         for gap in gaps:
@@ -590,7 +596,13 @@ def get_data_gaps(report_type, data, bin):
         elif tup[1] < currentEnd and (lastTuple[1] != tup[1] or lastTuple[2] != tup[2]):
             intersections.append((lastTuple, tup))
         lastTuple = tup
-        currentEnd = tup[2] if report_type == "SOUNDFONT" else (16 * math.ceil(tup[2] / 16))
+        if report_type == "SOUNDFONT":
+            currentEnd = tup[2]
+        else:
+            alignEnd = (16 * math.ceil(tup[2] / 16))
+            if any(v != 0 for v in struct.unpack(f">{alignEnd - tup[2]}b", bin[tup[2]:alignEnd])):
+                results[tup[2]] = bin[tup[2]:alignEnd]
+            currentEnd = alignEnd
     if currentEnd < length:
         bytes = struct.unpack(f">{length - currentEnd}b", bin[currentEnd:length])
         if any(b != 0 for b in bytes):
@@ -656,10 +668,7 @@ def serialize_f80(num):
 
 def write_aifc(version, raw, bank_defs, entry, filename):
     offset = bank_defs[entry.bank].offset + entry.address
-    length = entry.length if (version not in bank_fixups or \
-        entry.bank not in bank_fixups[version] or \
-        entry.address not in bank_fixups[version][entry.bank]) else bank_fixups[version][entry.bank][entry.address]
-    assert length >= entry.length
+    length = entry.length
     data = raw[offset:offset + length]
     usedRawData.append((entry, offset, offset + length))
     frame_size = {
@@ -831,16 +840,19 @@ def main():
     
     soundfont_defs = read_soundfont_xmls(os.path.join(asset_xml_dir, "soundfonts"))
     samplebanks = read_samplebank_xml(os.path.join(asset_xml_dir, "samples"), version)
+    real_samplebanks = dict(samplebanks)
 
     bank_defs = parse_raw_def_data(bankdef_data, samplebanks)
     fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
 
     def get_entry_from_absolute_offset(table, offset):
-        for i in range(len(table)):
-            currentOffset = table[i].offset
-            nextOffset = table[i + 1].offset if i < len(table) else sys.maxsize
+        table_clone = [x for x in table if x.length != 0]
+
+        for i in range(len(table_clone)):
+            currentOffset = table_clone[i].offset
+            nextOffset = table_clone[i + 1].offset if i < len(table_clone) else sys.maxsize
             if currentOffset <= offset and offset < nextOffset:
-                return table[i]
+                return table_clone[i]
 
     for fontId in sf_unused_fixups[version]:
         font = fonts[fontId]
@@ -909,7 +921,7 @@ def main():
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, f"{fontentry.font.name}.xml")
         s_filename = os.path.join(dir, f"{fontentry.font.index}.h")
-        write_soundfont(fontentry, filename, samplebanks)
+        write_soundfont(fontentry, filename, real_samplebanks)
         write_soundfont_header(fontentry.font, s_filename)
 
 if __name__ == "__main__":
