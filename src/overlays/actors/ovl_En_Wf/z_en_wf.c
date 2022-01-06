@@ -385,7 +385,7 @@ void EnWf_WaitToAppear(EnWf* this, GlobalContext* globalCtx) {
             this->actor.flags |= ACTOR_FLAG_0;
 
             if ((this->actor.params != WOLFOS_NORMAL) && (this->switchFlag != 0xFF)) {
-                func_800F5ACC(0x38); // Mini-Boss Battle Theme
+                func_800F5ACC(NA_BGM_MINI_BOSS);
             }
         }
     } else if (this->actionTimer != 0) {

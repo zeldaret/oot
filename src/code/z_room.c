@@ -246,7 +246,7 @@ s32 func_80096238(void* data) {
     return 0;
 }
 
-void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
+void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
                    u16 tlutCount, f32 frameX, f32 frameY) {
     Gfx* displayListHead;
     uObjBg* bg;
@@ -263,7 +263,7 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     bg->b.imageY = 0;
     bg->b.imageH = height * 4;
     bg->b.frameY = frameY * 4;
-    bg->b.imagePtr = (void*)source;
+    bg->b.imagePtr = source;
     bg->b.imageLoad = G_BGLT_LOADTILE;
     bg->b.imageFmt = fmt;
     bg->b.imageSiz = siz;

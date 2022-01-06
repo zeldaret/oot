@@ -57,9 +57,9 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { &object_kz_Anim_00075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &object_kz_Anim_00075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &object_kz_Anim_00046C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gKzIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKzIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gKzMweepAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
 u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
@@ -313,7 +313,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = (EnKz*)thisx;
     s32 pad;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &object_kz_Skel_0086D0, NULL, this->jointTable, this->morphTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &gKzSkel, NULL, this->jointTable, this->morphTable,
                        12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -484,9 +484,9 @@ void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyeSegments[] = {
-        object_kz_Tex_001470,
-        object_kz_Tex_001870,
-        object_kz_Tex_001C70,
+        gKzEyeOpenTex,
+        gKzEyeHalfTex,
+        gKzEyeClosedTex,
     };
     EnKz* this = (EnKz*)thisx;
 

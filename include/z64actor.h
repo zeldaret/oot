@@ -110,7 +110,7 @@ typedef struct {
 #define ACTOR_FLAG_8 (1 << 8)
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)
-#define ACTOR_FLAG_11 (1 << 11)
+#define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
 #define ACTOR_FLAG_12 (1 << 12)
 #define ACTOR_FLAG_13 (1 << 13)
 #define ACTOR_FLAG_14 (1 << 14)

@@ -16,7 +16,7 @@ void BgDdanKd_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx);
-void func_80871838(BgDdanKd* this, GlobalContext* globalCtx);
+void BgDdanKd_DoNothing(BgDdanKd* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ddan_Kd_InitVars = {
     ACTOR_BG_DDAN_KD,
@@ -76,11 +76,11 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) == 0) {
+    if (!Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
         BgDdanKd_SetupAction(this, BgDdanKd_CheckForExplosions);
     } else {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 200.0f - 20.0f;
-        BgDdanKd_SetupAction(this, func_80871838);
+        BgDdanKd_SetupAction(this, BgDdanKd_DoNothing);
     }
 }
 
@@ -99,13 +99,14 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
         osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
         explosive->params = 2;
     }
+
     if ((explosive != NULL) && (this->prevExplosive != NULL) && (explosive != this->prevExplosive) &&
         (Math_Vec3f_DistXZ(&this->prevExplosivePos, &explosive->world.pos) > 80.0f)) {
         BgDdanKd_SetupAction(this, BgDdanKd_LowerStairs);
         OnePointCutscene_Init(globalCtx, 3050, 999, &this->dyna.actor, MAIN_CAM);
     } else {
         if (this->timer != 0) {
-            this->timer -= 1;
+            this->timer--;
         } else {
             this->prevExplosive = explosive;
             if (explosive != NULL) {
@@ -119,61 +120,62 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
-    static Vec3f D_808718FC = { 0.0f, 5.0f, 0.0f };
-    static Vec3f D_80871908 = { 0.0f, -0.45f, 0.0f };
-    Vec3f sp5C;
-    Vec3f sp50;
-    f32 sp4C;
+    static Vec3f velocity = { 0.0f, 5.0f, 0.0f };
+    static Vec3f accel = { 0.0f, -0.45f, 0.0f };
+    Vec3f pos1;
+    Vec3f pos2;
+    f32 effectStrength;
 
     Math_SmoothStepToF(&this->dyna.actor.speedXZ, 4.0f, 0.5f, 0.025f, 0.0f);
     func_800AA000(500.0f, 0x78, 0x14, 0xA);
 
-    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, (this->dyna.actor.home.pos.y - 200.0f) - 20.0f, 0.075f,
+    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 200.0f - 20.0f, 0.075f,
                            this->dyna.actor.speedXZ, 0.0075f) == 0.0f) {
         Flags_SetSwitch(globalCtx, this->dyna.actor.params);
-        BgDdanKd_SetupAction(this, func_80871838);
+        BgDdanKd_SetupAction(this, BgDdanKd_DoNothing);
     } else {
-        sp4C = (this->dyna.actor.prevPos.y - this->dyna.actor.world.pos.y) + (this->dyna.actor.speedXZ * 0.25f);
+        effectStrength =
+            (this->dyna.actor.prevPos.y - this->dyna.actor.world.pos.y) + (this->dyna.actor.speedXZ * 0.25f);
 
         if (globalCtx->state.frames & 1) {
-            sp5C = sp50 = this->dyna.actor.world.pos;
+            pos1 = pos2 = this->dyna.actor.world.pos;
 
             if (globalCtx->state.frames & 2) {
-                sp5C.z += 210.0f + Rand_ZeroOne() * 230.0f;
-                sp50.z += 210.0f + Rand_ZeroOne() * 230.0f;
+                pos1.z += 210.0f + Rand_ZeroOne() * 230.0f;
+                pos2.z += 210.0f + Rand_ZeroOne() * 230.0f;
             } else {
-                sp5C.z += 330.0f + Rand_ZeroOne() * 240.0f;
-                sp50.z += 330.0f + Rand_ZeroOne() * 240.0f;
+                pos1.z += 330.0f + Rand_ZeroOne() * 240.0f;
+                pos2.z += 330.0f + Rand_ZeroOne() * 240.0f;
             }
-            sp5C.x += 80.0f + Rand_ZeroOne() * 10.0f;
-            sp50.x -= 80.0f + Rand_ZeroOne() * 10.0f;
-            sp5C.y = this->dyna.actor.floorHeight + 20.0f + Rand_ZeroOne();
-            sp50.y = this->dyna.actor.floorHeight + 20.0f + Rand_ZeroOne();
+            pos1.x += 80.0f + Rand_ZeroOne() * 10.0f;
+            pos2.x -= 80.0f + Rand_ZeroOne() * 10.0f;
+            pos1.y = this->dyna.actor.floorHeight + 20.0f + Rand_ZeroOne();
+            pos2.y = this->dyna.actor.floorHeight + 20.0f + Rand_ZeroOne();
 
-            func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
-            func_80033480(globalCtx, &sp50, 20.0f, 1, sp4C * 135.0f, 60, 1);
+            func_80033480(globalCtx, &pos1, 20.0f, 1, effectStrength * 135.0f, 60, 1);
+            func_80033480(globalCtx, &pos2, 20.0f, 1, effectStrength * 135.0f, 60, 1);
 
-            D_808718FC.x = Rand_CenteredFloat(3.0f);
-            D_808718FC.z = Rand_CenteredFloat(3.0f);
+            velocity.x = Rand_CenteredFloat(3.0f);
+            velocity.z = Rand_CenteredFloat(3.0f);
 
-            func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
-            func_8003555C(globalCtx, &sp50, &D_808718FC, &D_80871908);
+            func_8003555C(globalCtx, &pos1, &velocity, &accel);
+            func_8003555C(globalCtx, &pos2, &velocity, &accel);
 
-            sp5C = this->dyna.actor.world.pos;
-            sp5C.z += 560.0f + Rand_ZeroOne() * 5.0f;
-            sp5C.x += (Rand_ZeroOne() - 0.5f) * 160.0f;
-            sp5C.y = Rand_ZeroOne() * 3.0f + (this->dyna.actor.floorHeight + 20.0f);
+            pos1 = this->dyna.actor.world.pos;
+            pos1.z += 560.0f + Rand_ZeroOne() * 5.0f;
+            pos1.x += (Rand_ZeroOne() - 0.5f) * 160.0f;
+            pos1.y = Rand_ZeroOne() * 3.0f + (this->dyna.actor.floorHeight + 20.0f);
 
-            func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
-            func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
+            func_80033480(globalCtx, &pos1, 20.0f, 1, effectStrength * 135.0f, 60, 1);
+            func_8003555C(globalCtx, &pos1, &velocity, &accel);
         }
-        Camera_AddQuake(&globalCtx->mainCamera, 0, sp4C * 0.6f, 3);
+        Camera_AddQuake(&globalCtx->mainCamera, 0, effectStrength * 0.6f, 3);
         Audio_PlaySoundGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
                                &D_801333E0, &D_801333E8);
     }
 }
 
-void func_80871838(BgDdanKd* this, GlobalContext* globalCtx) {
+void BgDdanKd_DoNothing(BgDdanKd* this, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_Update(Actor* thisx, GlobalContext* globalCtx) {

@@ -21,7 +21,9 @@
         <Texture Name="object_bob_Tex_000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348" TlutOffset="0x108"/>
         <Texture Name="object_bob_Tex_000388" OutName="tex_00000388" Format="ci8" Width="32" Height="32" Offset="0x388" TlutOffset="0x108"/>
         <Texture Name="object_bob_Tex_000788" OutName="tex_00000788" Format="ci8" Width="8" Height="8" Offset="0x788" TlutOffset="0x108"/>
-        <Blob Name="object_bob_Blob_0007C8" Size="0x1800" Offset="0x7C8"/>
+        <Texture Name="object_bob_Tex_0007C8" OutName="tex_000007C8" Format="rgba16" Width="32" Height="32" Offset="0x7C8"/>
+        <Texture Name="object_bob_Tex_000FC8" OutName="tex_00000FC8" Format="rgba16" Width="32" Height="32" Offset="0xFC8"/>
+        <Texture Name="object_bob_Tex_0017C8" OutName="tex_000017C8" Format="rgba16" Width="32" Height="32" Offset="0x17C8"/>
         <Texture Name="object_bob_Tex_001FC8" OutName="tex_00001FC8" Format="ci8" Width="16" Height="16" Offset="0x1FC8" TlutOffset="0x108"/>
         <Texture Name="object_bob_Tex_0020C8" OutName="tex_000020C8" Format="ci8" Width="16" Height="16" Offset="0x20C8" TlutOffset="0x108"/>
         <Texture Name="object_bob_Tex_0021C8" OutName="tex_000021C8" Format="ci8" Width="8" Height="8" Offset="0x21C8" TlutOffset="0x108"/>

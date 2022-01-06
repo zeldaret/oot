@@ -1,4 +1,5 @@
 #include "z_arms_hook.h"
+#include "objects/object_link_boy/object_link_boy.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -56,9 +57,6 @@ static Vec3f D_80865B88 = { 0.0f, 500.0f, -3000.0f };
 static Vec3f D_80865B94 = { 0.0f, -500.0f, -3000.0f };
 static Vec3f D_80865BA0 = { 0.0f, 500.0f, 1200.0f };
 static Vec3f D_80865BAC = { 0.0f, -500.0f, 1200.0f };
-
-extern Gfx D_0602B288[];
-extern Gfx D_0602AFF0[];
 
 void ArmsHook_SetupAction(ArmsHook* this, ArmsHookActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -324,7 +322,7 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 895),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_0602B288);
+        gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotTipDL);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
         Math_Vec3f_Diff(&player->unk_3C8, &this->actor.world.pos, &sp78);
         sp58 = SQ(sp78.x) + SQ(sp78.z);
@@ -334,7 +332,7 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(0.015f, 0.015f, sqrtf(SQ(sp78.y) + sp58) * 0.01f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 910),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_0602AFF0);
+        gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotChainDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arms_hook.c", 913);
     }

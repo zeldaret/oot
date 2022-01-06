@@ -392,7 +392,7 @@ void Gameplay_Init(GameState* thisx) {
     }
 
     Interface_SetSceneRestrictions(globalCtx);
-    func_800758AC(globalCtx);
+    Environment_PlaySceneSequence(globalCtx);
     gSaveContext.seqId = globalCtx->sequenceCtx.seqId;
     gSaveContext.natureAmbienceId = globalCtx->sequenceCtx.natureAmbienceId;
     func_8002DF18(globalCtx, GET_PLAYER(globalCtx));
@@ -484,7 +484,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
                                 gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-                                gSaveContext.natureAmbienceId = 0xFF;
+                                gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
                             }
                         }
                     }

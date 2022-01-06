@@ -21,6 +21,8 @@
 #include "scenes/indoors/miharigoya/miharigoya_scene.h"
 #include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 
+#include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
+
 #define ENTRANCE(scene, spawn, continueBgm, displayTitleCard, fadeIn, fadeOut)                                     \
     {                                                                                                              \
         scene, spawn,                                                                                              \
@@ -1025,11 +1027,11 @@ void* sDCLavaFloorTextures[] = {
     gDCLavaFloor5Tex, gDCLavaFloor6Tex, gDCLavaFloor7Tex, gDCLavaFloor8Tex,
 };
 
-// Scene Draw Config 20
+// Scene Draw Config 20 - Dodongo's Cavern
 void func_80099878(GlobalContext* globalCtx) {
     u32 gameplayFrames;
     s32 pad;
-    Gfx* displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 6 * sizeof(Gfx));
+    Gfx* displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Gfx[3]));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4905);
 
@@ -1053,11 +1055,12 @@ void func_80099878(GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x0B, displayListHead);
     gDPPipeSync(displayListHead++);
-    gDPSetEnvColor(displayListHead++, 255, 255, 255, globalCtx->roomCtx.unk_74[0]);
+    gDPSetEnvColor(displayListHead++, 255, 255, 255, globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_LEFT]);
     gSPEndDisplayList(displayListHead++);
+
     gSPSegment(POLY_OPA_DISP++, 0x0C, displayListHead);
     gDPPipeSync(displayListHead++);
-    gDPSetEnvColor(displayListHead++, 255, 255, 255, globalCtx->roomCtx.unk_74[1]);
+    gDPSetEnvColor(displayListHead++, 255, 255, 255, globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT]);
     gSPEndDisplayList(displayListHead);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4956);
