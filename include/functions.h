@@ -2211,7 +2211,7 @@ ArenaNode* ArenaImpl_GetNextBlock(ArenaNode* node);
 ArenaNode* ArenaImpl_GetPrevBlock(ArenaNode* node);
 ArenaNode* ArenaImpl_GetLastBlock(Arena* arena);
 void __osMallocInit(Arena* arena, void* start, size_t size);
-void __osMallocAddBlock(Arena* arena, void* start, ssize_t size);
+void __osMallocAddBlock(Arena* arena, void* start, ptrdiff_t size);
 void ArenaImpl_RemoveAllBlocks(Arena* arena);
 void __osMallocCleanup(Arena* arena);
 u8 __osMallocIsInitalized(Arena* arena);

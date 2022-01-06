@@ -22,6 +22,7 @@ typedef volatile s64 vs64;
 typedef float  f32;
 typedef double f64;
 
+typedef s32 ptrdiff_t;
 typedef s32 intptr_t;
 typedef u32 uintptr_t;
 

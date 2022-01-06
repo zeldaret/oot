@@ -42,8 +42,8 @@ void KaleidoManager_ClearOvl(KaleidoMgrOverlay* ovl) {
 }
 
 void KaleidoManager_Init(GlobalContext* globalCtx) {
-    ssize_t largestSize = 0;
-    ssize_t size;
+    ptrdiff_t largestSize = 0;
+    ptrdiff_t size;
     u32 i;
 
     for (i = 0; i < ARRAY_COUNT(gKaleidoMgrOverlayTable); i++) {

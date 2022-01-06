@@ -14,7 +14,7 @@ void* MemCopy(void* dest, void* src, ssize_t size) {
 
 void* MemSet(void* dest, s32 val, ssize_t size) {
     u8* destu = (u8*)dest;
-    s32 s = size;
+    ssize_t s = size;
 
     while (s > 0) {
         *destu++ = val;

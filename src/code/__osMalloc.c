@@ -110,9 +110,9 @@ void __osMallocInit(Arena* arena, void* start, size_t size) {
     arena->isInit = true;
 }
 
-void __osMallocAddBlock(Arena* arena, void* start, ssize_t size) {
+void __osMallocAddBlock(Arena* arena, void* start, ptrdiff_t size) {
     s32 diff;
-    ssize_t size2;
+    ptrdiff_t size2;
     ArenaNode* firstNode;
     ArenaNode* lastNode;
 
@@ -121,7 +121,7 @@ void __osMallocAddBlock(Arena* arena, void* start, ssize_t size) {
         diff = (uintptr_t)firstNode - (uintptr_t)start;
         size2 = (size - diff) & ~0xF;
 
-        if (size2 > (s32)sizeof(ArenaNode)) {
+        if (size2 > (ptrdiff_t)sizeof(ArenaNode)) {
             func_80106860(firstNode, BLOCK_UNINIT_MAGIC, size2); // memset
             firstNode->next = NULL;
             firstNode->prev = NULL;
