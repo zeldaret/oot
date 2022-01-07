@@ -532,7 +532,7 @@ chan_setvibratoextentlinear 0, 160, 9
 chan_end
 
 .layer_1234:
-layer_setinstr INSTR_WV_4PULSE2
+layer_setinstr INSTR_WV_8PULSE
 layer_portamento 0x81, 3, 255
 layer_note1 NOTE_G4, 0x64, 30
 layer_portamento 0x81, 15, 255

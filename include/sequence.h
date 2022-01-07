@@ -1,14 +1,15 @@
 // Hardcoded Instruments
-#define INSTR_DRUMS       125
 #define INSTR_SFX         126
-#define INSTR_WV_SAWTOOTH 127
-#define INSTR_WV_TRIANGLE 128
-#define INSTR_WV_SINE     129
-#define INSTR_WV_NOISE    130
-#define INSTR_WV_BELL     131
-#define INSTR_WV_8PULSE   132
-#define INSTR_WV_4PULSE   133
-#define INSTR_WV_4PULSE2  134
+#define INSTR_DRUM        127
+#define INSTR_WV_SAWTOOTH 128
+#define INSTR_WV_TRIANGLE 129
+#define INSTR_WV_SINE     130
+#define INSTR_WV_SQUARE   131
+#define INSTR_WV_NOISE    132
+#define INSTR_WV_BELL     133
+#define INSTR_WV_8PULSE   134
+#define INSTR_WV_4PULSE   135
+#define INSTR_WV_4PULSE2  136
 
 // Instrument Notes
 #define NOTE_A0       0

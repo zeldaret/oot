@@ -73,7 +73,7 @@ entry .system_metronome
 entry .system_z_shift_threat
 
 .system_menu_open:
-chan_setinstr INSTR_WV_TRIANGLE
+chan_setinstr INSTR_WV_SAWTOOTH
 chan_setenvelope .envelope_6660
 chan_setdecayrelease 240
 chan_setlayer 0, .layer_57C7
@@ -104,7 +104,7 @@ layer_note1 NOTE_F3, 0x18, 73
 layer_end
 
 .system_menu_close:
-chan_setinstr INSTR_WV_TRIANGLE
+chan_setinstr INSTR_WV_SAWTOOTH
 chan_setenvelope .envelope_6660
 chan_setdecayrelease 240
 chan_setlayer 0, .layer_5804
@@ -135,7 +135,7 @@ layer_note1 NOTE_F3, 0xc, 73
 layer_end
 
 .system_puzzle_solved:
-chan_setinstr INSTR_WV_BELL
+chan_setinstr INSTR_WV_SQUARE
 chan_setenvelope .envelope_664C
 chan_setdecayrelease 248
 chan_setlayer 0, .layer_5841
@@ -165,7 +165,7 @@ chan_setlayer 1, .layer_587A
 chan_end
 
 .layer_5868:
-layer_setinstr INSTR_WV_TRIANGLE
+layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_6660, 250
 layer_transpose 24
 layer_note1 NOTE_BF4, 0x6, 80
@@ -193,14 +193,14 @@ chan_setlayer 0, .layer_5892
 chan_end
 
 .layer_5892:
-layer_setinstr INSTR_WV_TRIANGLE
+layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_664C, 250
 layer_note1 NOTE_E2, 0x9, 80
 layer_note1 NOTE_E2, 0x24, 80
 layer_end
 
 .system_treasure_appear:
-chan_setinstr INSTR_WV_BELL
+chan_setinstr INSTR_WV_SQUARE
 chan_setenvelope .envelope_664C
 chan_setdecayrelease 250
 chan_setlayer 0, .layer_58AD
@@ -276,7 +276,7 @@ chan_setlayer 0, .layer_5937
 chan_end
 
 .layer_5937:
-layer_setinstr INSTR_WV_BELL
+layer_setinstr INSTR_WV_SQUARE
 layer_setenvelope .envelope_6660, 242
 layer_portamento 0x81, 36, 72
 layer_note1 NOTE_D4, 0xa, 45
@@ -306,7 +306,7 @@ chan_setlayer 0, .layer_5971
 chan_end
 
 .layer_5971:
-layer_setinstr INSTR_WV_NOISE
+layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_6720, 246
 layer_portamento 0x81, 34, 127
 layer_note1 NOTE_A3, 0x8, 100
@@ -328,7 +328,7 @@ layer_note1 NOTE_A5, 0x38, 110
 layer_end
 
 .chan_unused_599F:
-chan_setinstr INSTR_WV_TRIANGLE
+chan_setinstr INSTR_WV_SAWTOOTH
 chan_setlayer 0, .layer_59A5
 chan_end
 
@@ -361,7 +361,7 @@ chan_setlayer 0, .layer_59CF
 chan_end
 
 .layer_59CF:
-layer_setinstr INSTR_WV_BELL
+layer_setinstr INSTR_WV_SQUARE
 layer_transpose 9
 layer_setenvelope .envelope_6660, 250
 layer_portamento 0x81, 24, 64
@@ -461,7 +461,7 @@ chan_setlayer 0, .layer_5A76
 chan_end
 
 .layer_5A76:
-layer_setinstr INSTR_WV_TRIANGLE
+layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_6660, 250
 layer_note1 NOTE_C4, 0x6, 60
 layer_note1 NOTE_C4, 0x4, 40
@@ -474,7 +474,7 @@ chan_setlayer 0, .layer_5A8C
 chan_end
 
 .layer_5A8C:
-layer_setinstr INSTR_WV_TRIANGLE
+layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_6660, 250
 layer_note1 NOTE_C4, 0x6, 65
 layer_setpan 34
@@ -490,7 +490,7 @@ chan_setlayer 0, .layer_5AA9
 chan_end
 
 .layer_5AA9:
-layer_setinstr INSTR_WV_TRIANGLE
+layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_6660, 248
 layer_note0 NOTE_DF5, 0xd, 60, 128
 layer_note1 NOTE_DF5, 0xd, 60
@@ -529,7 +529,7 @@ layer_note1 NOTE_A4, 0x20, 49
 layer_end
 
 .layer_5AED:
-layer_setinstr INSTR_WV_NOISE
+layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_6660, 248
 layer_note1 NOTE_A5, 0x9, 50
 layer_end
@@ -551,7 +551,7 @@ chan_bltzrel .chan_5B01
 chan_end
 
 .layer_5B13:
-layer_setinstr INSTR_WV_BELL
+layer_setinstr INSTR_WV_SQUARE
 layer_setreleaserate 251
 layer_setpan 34
 .layer_5B19:
@@ -561,7 +561,7 @@ layer_delay 0x3
 layer_jumprel .layer_5B19
 
 .system_z_lock_old:
-chan_setinstr INSTR_WV_NOISE
+chan_setinstr INSTR_WV_SINE
 chan_setlayer 0, .layer_5B28
 chan_end
 
@@ -575,7 +575,7 @@ layer_note1 NOTE_C4, 0x1c, 68
 layer_end
 
 .system_unused21:
-chan_setinstr INSTR_WV_NOISE
+chan_setinstr INSTR_WV_SINE
 chan_setlayer 0, .layer_5B42
 chan_end
 
@@ -799,7 +799,7 @@ layer_end
 
 .layer_5CA1:
 layer_transpose 24
-layer_setinstr INSTR_WV_TRIANGLE
+layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_6660, 250
 layer_note1 NOTE_F4, 0x3, 52
 layer_end
@@ -911,8 +911,8 @@ chan_setlayer 0, .layer_5D5B
 chan_end
 
 .layer_5D5B:
-layer_setinstr INSTR_WV_SAWTOOTH
-layer_note1 NOTE_BF0, 0x48, 70
+layer_setinstr INSTR_DRUM
+layer_note1 F0_D_TAMBO_H, 0x48, 70
 layer_end
 
 .system_z_shift_threat:
@@ -925,12 +925,12 @@ layer_note1 NOTE_C4, 0x39, 110
 layer_end
 
 .system_metronome2:
-chan_setinstr INSTR_WV_SAWTOOTH
+chan_setinstr INSTR_DRUM
 chan_setlayer 0, .layer_5D71
 chan_end
 
 .layer_5D71:
-layer_note1 NOTE_A0, 0x48, 70
+layer_note1 F0_D_TAMBO, 0x48, 70
 layer_jumprel .layer_5D71
 
 .system_file_cursor:
@@ -950,7 +950,7 @@ layer_note1 NOTE_C4, 0x1c, 36
 layer_end
 
 .layer_fn_5D8E:
-layer_setinstr INSTR_WV_NOISE
+layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_664C, 251
 layer_end
 
@@ -1019,7 +1019,7 @@ chan_setlayer 0, .layer_5DF7
 chan_end
 
 .layer_5DF7:
-layer_setinstr INSTR_WV_NOISE
+layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_6718, 240
 layer_note1 NOTE_BF2, 0x9, 70
 layer_note1 NOTE_A2, 0x9, 70
@@ -1058,9 +1058,9 @@ chan_setlayer 0, .layer_5E35
 chan_end
 
 .layer_5E35:
-layer_setinstr INSTR_WV_SAWTOOTH
+layer_setinstr INSTR_DRUM
 layer_setreleaserate 150
-layer_note1 NOTE_BF0, 0x24, 70
+layer_note1 F0_D_TAMBO_H, 0x24, 70
 layer_end
 
 .system_skulltula_token_appears:
@@ -1094,7 +1094,7 @@ chan_setlayer 0, .layer_5E6F
 chan_end
 
 .layer_5E6F:
-layer_setinstr INSTR_WV_NOISE
+layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_66D0, 248
 layer_note1 NOTE_BF3, 0xc, 80
 layer_note1 NOTE_F3, 0xc, 80
@@ -1109,7 +1109,7 @@ chan_setlayer 0, .layer_5E8C
 chan_end
 
 .layer_5E8C:
-layer_setinstr INSTR_WV_NOISE
+layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_6720, 246
 layer_portamento 0x83, 32, 127
 layer_note1 NOTE_C4, 0x8, 80
