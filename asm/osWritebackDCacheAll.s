@@ -20,4 +20,4 @@ glabel osWritebackDCacheAll
 /* B7D648 801064A8 1420FFFD */  bnez  $at, .L801064A0
 /* B7D64C 801064AC 25080010 */   addiu $t0, 0x10
 /* B7D650 801064B0 03E00008 */  jr    $ra
-/* B7D654 801064B4 00000000 */   nop   
+/* B7D654 801064B4 00000000 */   nop

@@ -47,10 +47,10 @@ glabel osSetIntMask
 /* 005BC4 80004FC4 01816024 */  and   $t4, $t4, $at
 /* 005BC8 80004FC8 01886025 */  or    $t4, $t4, $t0
 /* 005BCC 80004FCC 408C6000 */  mtc0  $t4, $12
-/* 005BD0 80004FD0 00000000 */  nop   
-/* 005BD4 80004FD4 00000000 */  nop   
+/* 005BD0 80004FD0 00000000 */  nop
+/* 005BD4 80004FD4 00000000 */  nop
 /* 005BD8 80004FD8 03E00008 */  jr    $ra
-/* 005BDC 80004FDC 00000000 */   nop   
+/* 005BDC 80004FDC 00000000 */   nop
 
 .section .rodata
 

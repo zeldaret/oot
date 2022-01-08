@@ -8,7 +8,7 @@
 .section .text
 
 .balign 16
-  
+
 glabel __osDisableInt
 /* 007E80 80007280 3C0A8001 */  lui   $t2, %hi(__OSGlobalIntMask) # $t2, 0x8001
 /* 007E84 80007284 254AAD00 */  addiu $t2, %lo(__OSGlobalIntMask) # addiu $t2, $t2, -0x5300
@@ -34,8 +34,8 @@ glabel __osDisableInt
 /* 007ED4 800072D4 2401FFFE */  li    $at, -2
 /* 007ED8 800072D8 01214824 */  and   $t1, $t1, $at
 /* 007EDC 800072DC 40896000 */  mtc0  $t1, $12
-/* 007EE0 800072E0 00000000 */  nop   
-/* 007EE4 800072E4 00000000 */  nop   
+/* 007EE0 800072E0 00000000 */  nop
+/* 007EE4 800072E4 00000000 */  nop
 .L800072E8:
 /* 007EE8 800072E8 03E00008 */  jr    $ra
-/* 007EEC 800072EC 00000000 */   nop   
+/* 007EEC 800072EC 00000000 */   nop

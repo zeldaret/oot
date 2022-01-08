@@ -25,14 +25,14 @@ glabel bcopy
 /* 007B40 80006F40 28C10010 */  slti  $at, $a2, 0x10
 goforwards:
 /* 007B44 80006F44 14200005 */  bnez  $at, forwards_bytecopy
-/* 007B48 80006F48 00000000 */   nop   
+/* 007B48 80006F48 00000000 */   nop
 /* 007B4C 80006F4C 30820003 */  andi  $v0, $a0, 3
 /* 007B50 80006F50 30A30003 */  andi  $v1, $a1, 3
 /* 007B54 80006F54 1043000B */  beq   $v0, $v1, forwalignable
-/* 007B58 80006F58 00000000 */   nop   
+/* 007B58 80006F58 00000000 */   nop
 forwards_bytecopy:
 /* 007B5C 80006F5C 10C00007 */  beqz  $a2, ret
-/* 007B60 80006F60 00000000 */   nop   
+/* 007B60 80006F60 00000000 */   nop
 /* 007B64 80006F64 00861821 */  addu  $v1, $a0, $a2
 .L80006F68:
 /* 007B68 80006F68 80820000 */  lb    $v0, ($a0)
@@ -117,7 +117,7 @@ forwards_4:
 /* 007C80 80007080 28C10004 */  slti  $at, $a2, 4
 .L80007084:
 /* 007C84 80007084 1420FFB5 */  bnez  $at, forwards_bytecopy
-/* 007C88 80007088 00000000 */   nop   
+/* 007C88 80007088 00000000 */   nop
 /* 007C8C 8000708C 8C820000 */  lw    $v0, ($a0)
 /* 007C90 80007090 24840004 */  addiu $a0, $a0, 4
 /* 007C94 80007094 24A50004 */  addiu $a1, $a1, 4
@@ -132,10 +132,10 @@ gobackwards:
 /* 007CB4 800070B4 30820003 */  andi  $v0, $a0, 3
 /* 007CB8 800070B8 30A30003 */  andi  $v1, $a1, 3
 /* 007CBC 800070BC 1043000D */  beq   $v0, $v1, backalignable
-/* 007CC0 800070C0 00000000 */   nop   
+/* 007CC0 800070C0 00000000 */   nop
 backwards_bytecopy:
 /* 007CC4 800070C4 10C0FFAD */  beqz  $a2, ret
-/* 007CC8 800070C8 00000000 */   nop   
+/* 007CC8 800070C8 00000000 */   nop
 /* 007CCC 800070CC 2484FFFF */  addiu $a0, $a0, -1
 /* 007CD0 800070D0 24A5FFFF */  addiu $a1, $a1, -1
 /* 007CD4 800070D4 00861823 */  subu  $v1, $a0, $a2
@@ -221,7 +221,7 @@ backwards_4:
 /* 007DF0 800071F0 28C10004 */  slti  $at, $a2, 4
 .L800071F4:
 /* 007DF4 800071F4 1420FFB3 */  bnez  $at, backwards_bytecopy
-/* 007DF8 800071F8 00000000 */   nop   
+/* 007DF8 800071F8 00000000 */   nop
 /* 007DFC 800071FC 8C82FFFC */  lw    $v0, -4($a0)
 /* 007E00 80007200 2484FFFC */  addiu $a0, $a0, -4
 /* 007E04 80007204 24A5FFFC */  addiu $a1, $a1, -4
