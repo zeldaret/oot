@@ -1353,7 +1353,7 @@ void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ);
 s32 View_SetDistortionSpeed(View* view, f32 speed);
 void View_InitDistortion(View* view);
 void View_ClearDistortion(View* view);
-void View_SetDistortion(View* view, Vec3f rot, Vec3f scale, f32 speed);
+void View_SetDistortion(View* view, Vec3f dirRot, Vec3f scale, f32 speed);
 s32 View_StepDistortion(View* view, Mtx* projectionMtx);
 void func_800AAA50(View* view, s32 arg1);
 s32 func_800AAA9C(View* view);

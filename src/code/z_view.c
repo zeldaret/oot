@@ -210,8 +210,8 @@ void View_ClearDistortion(View* view) {
     view->distortionSpeed = 1.0f;
 }
 
-void View_SetDistortion(View* view, Vec3f rot, Vec3f scale, f32 speed) {
-    view->distortionDirRot = rot;
+void View_SetDistortion(View* view, Vec3f dirRot, Vec3f scale, f32 speed) {
+    view->distortionDirRot = dirRot;
     view->distortionScale = scale;
     view->distortionSpeed = speed;
 }
