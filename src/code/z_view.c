@@ -172,16 +172,16 @@ void func_800AA550(View* view) {
     CLOSE_DISPS(gfxCtx, "../z_view.c", 472);
 }
 
-void View_SetDistortionRotation(View* view, f32 x, f32 y, f32 z) {
-    view->distortionRot.x = x;
-    view->distortionRot.y = y;
-    view->distortionRot.z = z;
+void View_SetDistortionRotation(View* view, f32 rotX, f32 rotY, f32 rotZ) {
+    view->distortionRot.x = rotX;
+    view->distortionRot.y = rotY;
+    view->distortionRot.z = rotZ;
 }
 
-void View_SetDistortionScale(View* view, f32 x, f32 y, f32 z) {
-    view->distortionScale.x = x;
-    view->distortionScale.y = y;
-    view->distortionScale.z = z;
+void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ) {
+    view->distortionScale.x = scaleX;
+    view->distortionScale.y = scaleY;
+    view->distortionScale.z = scaleZ;
 }
 
 s32 View_SetDistortionSpeed(View* view, f32 speed) {
@@ -216,8 +216,8 @@ void View_SetDistortion(View* view, Vec3f rot, Vec3f scale, f32 speed) {
     view->distortionSpeed = speed;
 }
 
-s32 View_StepDistortion(View* view, Mtx* mtx) {
-    MtxF mf;
+s32 View_StepDistortion(View* view, Mtx* projectionMtx) {
+    MtxF projectionMtxF;
 
     if (view->distortionSpeed == 0.0f) {
         return false;
@@ -241,8 +241,8 @@ s32 View_StepDistortion(View* view, Mtx* mtx) {
             F32_LERPIMP(view->currDistortionScale.z, view->distortionScale.z, view->distortionSpeed);
     }
 
-    Matrix_MtxToMtxF(mtx, &mf);
-    Matrix_Put(&mf);
+    Matrix_MtxToMtxF(projectionMtx, &projectionMtxF);
+    Matrix_Put(&projectionMtxF);
     Matrix_RotateX(view->currDistortionRot.x, MTXMODE_APPLY);
     Matrix_RotateY(view->currDistortionRot.y, MTXMODE_APPLY);
     Matrix_RotateZ(view->currDistortionRot.z, MTXMODE_APPLY);
@@ -250,9 +250,9 @@ s32 View_StepDistortion(View* view, Mtx* mtx) {
     Matrix_RotateZ(-view->currDistortionRot.z, MTXMODE_APPLY);
     Matrix_RotateY(-view->currDistortionRot.y, MTXMODE_APPLY);
     Matrix_RotateX(-view->currDistortionRot.x, MTXMODE_APPLY);
-    Matrix_ToMtx(mtx, "../z_view.c", 566);
+    Matrix_ToMtx(projectionMtx, "../z_view.c", 566);
 
-    return 1;
+    return true;
 }
 
 void func_800AAA50(View* view, s32 arg1) {
