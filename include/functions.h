@@ -1348,7 +1348,7 @@ void func_800AA4A8(View* view, f32 fovy, f32 near, f32 far);
 void func_800AA4E0(View* view, f32* fovy, f32* near, f32* far);
 void View_SetViewport(View* view, Viewport* viewport);
 void View_GetViewport(View* view, Viewport* viewport);
-void View_SetDistortionRotation(View* view, f32 rotX, f32 rotY, f32 rotZ);
+void View_SetDistortionDirRot(View* view, f32 dirRotX, f32 dirRotY, f32 dirRotZ);
 void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ);
 s32 View_SetDistortionSpeed(View* view, f32 speed);
 void View_InitDistortion(View* view);

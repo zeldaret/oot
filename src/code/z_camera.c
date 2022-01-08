@@ -7184,17 +7184,13 @@ s32 Camera_CheckWater(Camera* camera) {
     //! @bug: doesn't always return a value, but sometimes does.
 }
 
-/**
- * Sets the distortion to type 1 for a hot-room
- * Gives the hot-room a small mirage-like appearance
- */
-s32 Camera_SetHotRoomDistortion(Camera* camera) {
+s32 Camera_SetHotRoomDistortionFlag(Camera* camera) {
     camera->distortionFlags &= ~DISTORTION_HOT_ROOM;
     if (camera->globalCtx->roomCtx.curRoom.unk_02 == 3) {
         camera->distortionFlags |= DISTORTION_HOT_ROOM;
     }
 
-    return true;
+    return 1;
 }
 
 s32 Camera_DbgChangeMode(Camera* camera) {
@@ -7227,12 +7223,12 @@ s32 Camera_DbgChangeMode(Camera* camera) {
 }
 
 void Camera_UpdateDistortion(Camera* camera) {
-    static s16 angle1 = 0x3F0; // 5.5 degrees
-    static s16 angle2 = 0x156; // 1.9 degrees
+    static s16 depthCycle = 0x3F0;
+    static s16 screenPlaneCycle = 0x156;
     f32 scaleFactor;
     f32 speedFactor;
-    f32 angle1Speed;
-    f32 angle2Speed;
+    f32 depthCycleSpeed;
+    f32 screenPlaneCycleSpeed;
     s32 pad[5];
     f32 xScale;
     f32 yScale;
@@ -7241,8 +7237,8 @@ void Camera_UpdateDistortion(Camera* camera) {
 
     if (camera->distortionFlags != 0) {
         if (camera->distortionFlags & DISTORTION_UNDERWATER_MEDIUM) {
-            angle1Speed = 0.0f;
-            angle2Speed = 170.0f;
+            depthCycleSpeed = 0.0f;
+            screenPlaneCycleSpeed = 170.0f;
 
             xScale = -0.01f;
             yScale = 0.01f;
@@ -7252,8 +7248,8 @@ void Camera_UpdateDistortion(Camera* camera) {
             scaleFactor = camera->waterDistortionTimer / 60.0f;
             speedFactor = 1.0f;
         } else if (camera->distortionFlags & DISTORTION_UNDERWATER_STRONG) {
-            angle1Speed = 248.0f;
-            angle2Speed = -90.0f;
+            depthCycleSpeed = 248.0f;
+            screenPlaneCycleSpeed = -90.0f;
 
             xScale = -0.3f;
             yScale = 0.3f;
@@ -7263,8 +7259,8 @@ void Camera_UpdateDistortion(Camera* camera) {
             scaleFactor = camera->waterDistortionTimer / 80.0f;
             speedFactor = 1.0f;
         } else if (camera->distortionFlags & DISTORTION_UNDERWATER_WEAK) {
-            angle1Speed = 359.2f;
-            angle2Speed = -18.5f;
+            depthCycleSpeed = 359.2f;
+            screenPlaneCycleSpeed = -18.5f;
 
             xScale = 0.09f;
             yScale = 0.09f;
@@ -7277,8 +7273,9 @@ void Camera_UpdateDistortion(Camera* camera) {
                 (camera->speedRatio * 0.45f);
             speedFactor = scaleFactor;
         } else if (camera->distortionFlags & DISTORTION_HOT_ROOM) {
-            angle1Speed = 0.0f;
-            angle2Speed = 150.0f;
+            // Gives the hot-room a small mirage-like appearance
+            depthCycleSpeed = 0.0f;
+            screenPlaneCycleSpeed = 150.0f;
 
             xScale = -0.01f;
             yScale = 0.01f;
@@ -7291,14 +7288,14 @@ void Camera_UpdateDistortion(Camera* camera) {
             return;
         }
 
-        angle1 += DEGF_TO_BINANG(angle1Speed);
-        angle2 += DEGF_TO_BINANG(angle2Speed);
+        depthCycle += DEGF_TO_BINANG(depthCycleSpeed);
+        screenPlaneCycle += DEGF_TO_BINANG(screenPlaneCycleSpeed);
 
-        View_SetDistortionRotation(&camera->globalCtx->view, Math_CosS(angle1) * 0.0f, Math_SinS(angle1) * 0.0f,
-                                   Math_SinS(angle2) * 0.0f);
-        View_SetDistortionScale(&camera->globalCtx->view, Math_SinS(angle2) * (xScale * scaleFactor) + 1.0f,
-                                Math_CosS(angle2) * (yScale * scaleFactor) + 1.0f,
-                                Math_CosS(angle1) * (zScale * scaleFactor) + 1.0f);
+        View_SetDistortionDirRot(&camera->globalCtx->view, Math_CosS(depthCycle) * 0.0f, Math_SinS(depthCycle) * 0.0f,
+                                 Math_SinS(screenPlaneCycle) * 0.0f);
+        View_SetDistortionScale(&camera->globalCtx->view, Math_SinS(screenPlaneCycle) * (xScale * scaleFactor) + 1.0f,
+                                Math_CosS(screenPlaneCycle) * (yScale * scaleFactor) + 1.0f,
+                                Math_CosS(depthCycle) * (zScale * scaleFactor) + 1.0f);
         View_SetDistortionSpeed(&camera->globalCtx->view, speed * speedFactor);
 
         camera->unk_14C |= 0x40;
@@ -7374,7 +7371,7 @@ Vec3s Camera_Update(Camera* camera) {
         if (sOOBTimer < 200) {
             if (camera->status == CAM_STAT_ACTIVE) {
                 Camera_CheckWater(camera);
-                Camera_SetHotRoomDistortion(camera);
+                Camera_SetHotRoomDistortionFlag(camera);
             }
 
             if (!(camera->unk_14C & 4)) {

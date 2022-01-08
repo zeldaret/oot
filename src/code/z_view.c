@@ -172,10 +172,10 @@ void func_800AA550(View* view) {
     CLOSE_DISPS(gfxCtx, "../z_view.c", 472);
 }
 
-void View_SetDistortionRotation(View* view, f32 rotX, f32 rotY, f32 rotZ) {
-    view->distortionRot.x = rotX;
-    view->distortionRot.y = rotY;
-    view->distortionRot.z = rotZ;
+void View_SetDistortionDirRot(View* view, f32 dirRotX, f32 dirRotY, f32 dirRotZ) {
+    view->distortionDirRot.x = dirRotX;
+    view->distortionDirRot.y = dirRotY;
+    view->distortionDirRot.z = dirRotZ;
 }
 
 void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ) {
@@ -189,21 +189,21 @@ s32 View_SetDistortionSpeed(View* view, f32 speed) {
 }
 
 void View_InitDistortion(View* view) {
-    view->distortionRot.x = 0.0f;
-    view->distortionRot.y = 0.0f;
-    view->distortionRot.z = 0.0f;
+    view->distortionDirRot.x = 0.0f;
+    view->distortionDirRot.y = 0.0f;
+    view->distortionDirRot.z = 0.0f;
     view->distortionScale.x = 1.0f;
     view->distortionScale.y = 1.0f;
     view->distortionScale.z = 1.0f;
-    view->currDistortionRot = view->distortionRot;
-    view->currDistortionScale = view->distortionScale;
+    view->curDistortionDirRot = view->distortionDirRot;
+    view->curDistortionScale = view->distortionScale;
     view->distortionSpeed = 0.0f;
 }
 
 void View_ClearDistortion(View* view) {
-    view->distortionRot.x = 0.0f;
-    view->distortionRot.y = 0.0f;
-    view->distortionRot.z = 0.0f;
+    view->distortionDirRot.x = 0.0f;
+    view->distortionDirRot.y = 0.0f;
+    view->distortionDirRot.z = 0.0f;
     view->distortionScale.x = 1.0f;
     view->distortionScale.y = 1.0f;
     view->distortionScale.z = 1.0f;
@@ -211,7 +211,7 @@ void View_ClearDistortion(View* view) {
 }
 
 void View_SetDistortion(View* view, Vec3f rot, Vec3f scale, f32 speed) {
-    view->distortionRot = rot;
+    view->distortionDirRot = rot;
     view->distortionScale = scale;
     view->distortionSpeed = speed;
 }
@@ -222,34 +222,34 @@ s32 View_StepDistortion(View* view, Mtx* projectionMtx) {
     if (view->distortionSpeed == 0.0f) {
         return false;
     } else if (view->distortionSpeed == 1.0f) {
-        view->currDistortionRot = view->distortionRot;
-        view->currDistortionScale = view->distortionScale;
+        view->curDistortionDirRot = view->distortionDirRot;
+        view->curDistortionScale = view->distortionScale;
         view->distortionSpeed = 0.0f;
     } else {
-        view->currDistortionRot.x =
-            F32_LERPIMP(view->currDistortionRot.x, view->distortionRot.x, view->distortionSpeed);
-        view->currDistortionRot.y =
-            F32_LERPIMP(view->currDistortionRot.y, view->distortionRot.y, view->distortionSpeed);
-        view->currDistortionRot.z =
-            F32_LERPIMP(view->currDistortionRot.z, view->distortionRot.z, view->distortionSpeed);
+        view->curDistortionDirRot.x =
+            F32_LERPIMP(view->curDistortionDirRot.x, view->distortionDirRot.x, view->distortionSpeed);
+        view->curDistortionDirRot.y =
+            F32_LERPIMP(view->curDistortionDirRot.y, view->distortionDirRot.y, view->distortionSpeed);
+        view->curDistortionDirRot.z =
+            F32_LERPIMP(view->curDistortionDirRot.z, view->distortionDirRot.z, view->distortionSpeed);
 
-        view->currDistortionScale.x =
-            F32_LERPIMP(view->currDistortionScale.x, view->distortionScale.x, view->distortionSpeed);
-        view->currDistortionScale.y =
-            F32_LERPIMP(view->currDistortionScale.y, view->distortionScale.y, view->distortionSpeed);
-        view->currDistortionScale.z =
-            F32_LERPIMP(view->currDistortionScale.z, view->distortionScale.z, view->distortionSpeed);
+        view->curDistortionScale.x =
+            F32_LERPIMP(view->curDistortionScale.x, view->distortionScale.x, view->distortionSpeed);
+        view->curDistortionScale.y =
+            F32_LERPIMP(view->curDistortionScale.y, view->distortionScale.y, view->distortionSpeed);
+        view->curDistortionScale.z =
+            F32_LERPIMP(view->curDistortionScale.z, view->distortionScale.z, view->distortionSpeed);
     }
 
     Matrix_MtxToMtxF(projectionMtx, &projectionMtxF);
     Matrix_Put(&projectionMtxF);
-    Matrix_RotateX(view->currDistortionRot.x, MTXMODE_APPLY);
-    Matrix_RotateY(view->currDistortionRot.y, MTXMODE_APPLY);
-    Matrix_RotateZ(view->currDistortionRot.z, MTXMODE_APPLY);
-    Matrix_Scale(view->currDistortionScale.x, view->currDistortionScale.y, view->currDistortionScale.z, MTXMODE_APPLY);
-    Matrix_RotateZ(-view->currDistortionRot.z, MTXMODE_APPLY);
-    Matrix_RotateY(-view->currDistortionRot.y, MTXMODE_APPLY);
-    Matrix_RotateX(-view->currDistortionRot.x, MTXMODE_APPLY);
+    Matrix_RotateX(view->curDistortionDirRot.x, MTXMODE_APPLY);
+    Matrix_RotateY(view->curDistortionDirRot.y, MTXMODE_APPLY);
+    Matrix_RotateZ(view->curDistortionDirRot.z, MTXMODE_APPLY);
+    Matrix_Scale(view->curDistortionScale.x, view->curDistortionScale.y, view->curDistortionScale.z, MTXMODE_APPLY);
+    Matrix_RotateZ(-view->curDistortionDirRot.z, MTXMODE_APPLY);
+    Matrix_RotateY(-view->curDistortionDirRot.y, MTXMODE_APPLY);
+    Matrix_RotateX(-view->curDistortionDirRot.x, MTXMODE_APPLY);
     Matrix_ToMtx(projectionMtx, "../z_view.c", 566);
 
     return true;
