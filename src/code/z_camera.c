@@ -7185,7 +7185,8 @@ s32 Camera_CheckWater(Camera* camera) {
 }
 
 /**
- * Sets the room to be hot camera quake flag
+ * Sets the distortion to type 1 for a hot-room
+ * Gives the hot-room a small mirage-like appearance
  */
 s32 Camera_SetHotRoomDistortion(Camera* camera) {
     camera->distortionFlags &= ~DISTORTION_HOT_ROOM;
@@ -7193,7 +7194,7 @@ s32 Camera_SetHotRoomDistortion(Camera* camera) {
         camera->distortionFlags |= DISTORTION_HOT_ROOM;
     }
 
-    return 1;
+    return true;
 }
 
 s32 Camera_DbgChangeMode(Camera* camera) {
