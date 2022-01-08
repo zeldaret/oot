@@ -7231,9 +7231,9 @@ void Camera_UpdateDistortion(Camera* camera) {
     static s16 angle2 = 0x156; // 1.9 degrees
     f32 scaleFactor;
     f32 speedFactor;
-    s32 pad[5];
-    f32 angle2Speed;
     f32 angle1Speed;
+    f32 angle2Speed;
+    s32 pad[5];
     f32 xScale;
     f32 yScale;
     f32 zScale;
