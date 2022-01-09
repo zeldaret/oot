@@ -30,7 +30,7 @@ struct DynaPolyActor;
 
 typedef enum {
     /* 0 */ CONVEYOR_WATER,
-    /* 1 */ CONVEYOR_WIND
+    /* 1 */ CONVEYOR_FLOOR
 } ConveyorType;
 
 typedef struct {

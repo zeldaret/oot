@@ -5834,7 +5834,7 @@ s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* floorPo
         velYawToDownwardSlope = downwardSlopeYaw - playerVelYaw;
 
         if (ABS(velYawToDownwardSlope) > 0x3E80) { // 87.9 degrees
-            // moving parallel or upwards on the slope
+            // moving parallel or upwards on the slope, player does not slip
             slopeSlowdownSpeed = (1.0f - slopeNormal.y) * 40.0f;
             slopeSlowdownSpeedStep = SQ(slopeSlowdownSpeed) * 0.015f;
             if (slopeSlowdownSpeedStep < 1.2f) {
@@ -5842,10 +5842,10 @@ s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* floorPo
             }
 
             // slows down speed as player is climbing a slope
-            this->pushedYaw = downwardSlopeYaw;
+            this->pushedDirection = downwardSlopeYaw;
             Math_StepToF(&this->pushedSpeed, slopeSlowdownSpeed, slopeSlowdownSpeedStep);
         } else {
-            // moving downward on the slope
+            // moving downward on the slope, causing player to slip
             func_80835C58(globalCtx, this, func_8084F390, 0);
             func_80832564(globalCtx, this);
             if (D_80853610 >= 0) {
@@ -10029,8 +10029,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
             if ((this->pushedSpeed != 0.0f) && !Player_InCsMode(globalCtx) && !(this->stateFlags1 & 0x206000) &&
                 (func_80845668 != this->func_674) && (func_808507F4 != this->func_674)) {
-                this->actor.velocity.x += this->pushedSpeed * Math_SinS(this->pushedYaw);
-                this->actor.velocity.z += this->pushedSpeed * Math_CosS(this->pushedYaw);
+                this->actor.velocity.x += this->pushedSpeed * Math_SinS(this->pushedDirection);
+                this->actor.velocity.z += this->pushedSpeed * Math_CosS(this->pushedDirection);
             }
 
             func_8002D7EC(&this->actor);
@@ -10077,13 +10077,13 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     conveyorSpeed *= 0.25f;
                 }
             } else {
-                // CONVEYOR_WIND
+                // CONVEYOR_FLOOR
                 conveyorSpeed = sFloorConveyorSpeeds[sConveyorSpeedIdx];
             }
 
             Math_StepToF(&this->pushedSpeed, conveyorSpeed, conveyorSpeed * 0.1f);
 
-            Math_ScaledStepToS(&this->pushedYaw, sConveyorDirection,
+            Math_ScaledStepToS(&this->pushedDirection, sConveyorDirection,
                                ((this->stateFlags1 & 0x8000000) ? 400.0f : 800.0f) * conveyorSpeed);
         } else if (this->pushedSpeed != 0.0f) {
             Math_StepToF(&this->pushedSpeed, 0.0f, (this->stateFlags1 & 0x8000000) ? 0.5f : 1.0f);
@@ -12321,9 +12321,9 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
     f32 sp50;
     f32 sp4C;
     f32 sp48;
-    s16 sp46;
+    s16 downwardSlopeYaw;
     s16 sp44;
-    Vec3f sp38;
+    Vec3f slopeNormal;
 
     this->stateFlags2 |= 0x60;
     LinkAnimation_Update(globalCtx, &this->skelAnime);
@@ -12338,25 +12338,25 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        Player_GetSlopeDirection(floorPoly, &sp38, &sp46);
+        Player_GetSlopeDirection(floorPoly, &slopeNormal, &downwardSlopeYaw);
 
-        sp44 = sp46;
+        sp44 = downwardSlopeYaw;
         if (this->unk_84F != 0) {
-            sp44 = sp46 + 0x8000;
+            sp44 = downwardSlopeYaw + 0x8000;
         }
 
         if (this->linearVelocity < 0) {
-            sp46 += 0x8000;
+            downwardSlopeYaw += 0x8000;
         }
 
-        sp50 = (1.0f - sp38.y) * 40.0f;
+        sp50 = (1.0f - slopeNormal.y) * 40.0f;
         sp50 = CLAMP(sp50, 0, 10.0f);
         sp4C = (sp50 * sp50) * 0.015f;
-        sp48 = sp38.y * 0.01f;
+        sp48 = slopeNormal.y * 0.01f;
 
         if (SurfaceType_GetSlope(&globalCtx->colCtx, floorPoly, this->actor.floorBgId) != 1) {
             sp50 = 0;
-            sp48 = sp38.y * 10.0f;
+            sp48 = slopeNormal.y * 10.0f;
         }
 
         if (sp4C < 1.0f) {
@@ -12365,6 +12365,7 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
 
         if (Math_AsymStepToF(&this->linearVelocity, sp50, sp4C, sp48) && (sp50 == 0)) {
             LinkAnimationHeader* anim;
+
             if (this->unk_84F == 0) {
                 anim = D_80853D04[this->modelAnimType];
             } else {
@@ -12373,7 +12374,7 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
             func_8083A098(this, anim, globalCtx);
         }
 
-        Math_SmoothStepToS(&this->currentYaw, sp46, 10, 4000, 800);
+        Math_SmoothStepToS(&this->currentYaw, downwardSlopeYaw, 10, 4000, 800);
         Math_ScaledStepToS(&this->actor.shape.rot.y, sp44, 2000);
     }
 }

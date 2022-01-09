@@ -360,8 +360,8 @@ typedef struct Player {
     /* 0x08A2 */ s16        unk_8A2;
     /* 0x08A4 */ f32        unk_8A4;
     /* 0x08A8 */ f32        unk_8A8;
-    /* 0x08AC */ f32        pushedSpeed; // Pushing Player, examples include water currents, wind streams, climbing sloped surfaces
-    /* 0x08B0 */ s16        pushedYaw; // Direction Player is being pushed
+    /* 0x08AC */ f32        pushedSpeed; // Pushing player, examples include water currents, floor converyors, climbing sloped surfaces
+    /* 0x08B0 */ s16        pushedDirection; // Yaw direction of player being pushed
     /* 0x08B4 */ WeaponInfo swordInfo[3];
     /* 0x0908 */ Vec3f      bodyPartsPos[18];
     /* 0x09E0 */ MtxF       mf_9E0;

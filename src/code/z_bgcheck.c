@@ -4113,8 +4113,8 @@ s32 SurfaceType_IsIgnoredByProjectiles(CollisionContext* colCtx, CollisionPoly* 
 
 /**
  * SurfaceType Get Conveyor Surface Type
- * Return type 0 (CONVEYOR_WATER) if 'poly' is a surface that will only move Player underwater
- * Return type 1 (CONVEYOR_WIND) if `poly` is a surface that must be stood on to move Player
+ * Return type 0 (CONVEYOR_WATER) if 'poly' is a surface that will only move player underwater
+ * Return type 1 (CONVEYOR_FLOOR) if `poly` is a surface that must be stood on to move player
  */
 s32 SurfaceType_GetConveyorType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     u32 flags;
