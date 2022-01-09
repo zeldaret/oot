@@ -10388,7 +10388,7 @@ endseg
 beginseg
     name "bump_texture_static"
     romalign 0x1000
-    include "build/baserom/bump_texture_static.o"
+    include "build/assets/textures/bump_texture_static/bump_texture_static.o"
 endseg
 
 beginseg

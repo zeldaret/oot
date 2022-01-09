@@ -1,0 +1,5 @@
+<Root>
+    <File Name="bump_texture_static">
+        <Texture Name="gBumpTextureStaticTex" OutName="bump_texture_static" Format="i8" Width="32" Height="32" Offset="0x0"/>
+    </File>
+</Root>
