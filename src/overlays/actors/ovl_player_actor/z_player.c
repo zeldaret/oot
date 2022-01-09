@@ -5834,7 +5834,7 @@ s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* floorPo
         velYawToDownwardSlope = downwardSlopeYaw - playerVelYaw;
 
         if (ABS(velYawToDownwardSlope) > 0x3E80) { // 87.9 degrees
-            // moving parallel or upwards on the slope, player does not slip
+            // moving parallel or upwards on the slope, player does not slip but does slow down
             slopeSlowdownSpeed = (1.0f - slopeNormal.y) * 40.0f;
             slopeSlowdownSpeedStep = SQ(slopeSlowdownSpeed) * 0.015f;
             if (slopeSlowdownSpeedStep < 1.2f) {
@@ -9463,7 +9463,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             sConveyorType = SurfaceType_GetConveyorType(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
             if (((sConveyorType == CONVEYOR_WATER) && (this->actor.yDistToWater > 20.0f) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
-                ((sConveyorType != 0) && (this->actor.bgCheckFlags & 1))) {
+                ((sConveyorType != CONVEYOR_WATER) && (this->actor.bgCheckFlags & 1))) {
                 sConveyorDirection =
                     SurfaceType_GetConveyorDirection(&globalCtx->colCtx, floorPoly, this->actor.floorBgId) << 10;
             } else {
