@@ -3442,7 +3442,7 @@ s32 EnHorse_UpdateConveyors(EnHorse* this, GlobalContext* globalCtx) {
         return 0;
     }
     conveyorDir = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-    conveyorDir = (conveyorDir << 10) - this->actor.world.rot.y;
+    conveyorDir = (conveyorDir * (0x10000 / 64)) - this->actor.world.rot.y;
     if (conveyorDir > 800.0f) {
         this->actor.world.rot.y += 800.0f;
     } else if (conveyorDir < -800.0f) {

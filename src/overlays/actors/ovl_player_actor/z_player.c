@@ -478,7 +478,7 @@ static f32 D_808535EC = 1.0f;
 static u32 D_808535F0 = 0;
 static u32 sConveyorSpeedIdx = 0;
 static s16 sConveyorType = CONVEYOR_WATER;
-static s16 sConveyorDirection = 0;
+static s16 sConveyorYaw = 0;
 static f32 D_80853600 = 0.0f;
 static s32 D_80853604 = 0;
 static s32 D_80853608 = 0;
@@ -4001,7 +4001,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                     }
 
                     if (sConveyorSpeedIdx != 0) {
-                        yaw = sConveyorDirection;
+                        yaw = sConveyorYaw;
                     } else {
                         yaw = this->actor.world.rot.y;
                     }
@@ -5842,7 +5842,7 @@ s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* floorPo
             }
 
             // slows down speed as player is climbing a slope
-            this->pushedDirection = downwardSlopeYaw;
+            this->pushedYaw = downwardSlopeYaw;
             Math_StepToF(&this->pushedSpeed, slopeSlowdownSpeed, slopeSlowdownSpeedStep);
         } else {
             // moving downward on the slope, causing player to slip
@@ -8625,8 +8625,8 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
                 sp34 = gSaveContext.entranceSpeed;
 
                 if (sConveyorSpeedIdx != 0) {
-                    this->unk_450.x = (Math_SinS(sConveyorDirection) * 400.0f) + this->actor.world.pos.x;
-                    this->unk_450.z = (Math_CosS(sConveyorDirection) * 400.0f) + this->actor.world.pos.z;
+                    this->unk_450.x = (Math_SinS(sConveyorYaw) * 400.0f) + this->actor.world.pos.x;
+                    this->unk_450.z = (Math_CosS(sConveyorYaw) * 400.0f) + this->actor.world.pos.z;
                 }
             } else if (this->unk_850 < 0) {
                 this->unk_850++;
@@ -9464,8 +9464,8 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             if (((sConveyorType == CONVEYOR_WATER) && (this->actor.yDistToWater > 20.0f) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((sConveyorType != CONVEYOR_WATER) && (this->actor.bgCheckFlags & 1))) {
-                sConveyorDirection =
-                    SurfaceType_GetConveyorDirection(&globalCtx->colCtx, floorPoly, this->actor.floorBgId) << 10;
+                sConveyorYaw = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, floorPoly, this->actor.floorBgId) *
+                               (0x10000 / 64);
             } else {
                 sConveyorSpeedIdx = 0;
             }
@@ -10029,8 +10029,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
             if ((this->pushedSpeed != 0.0f) && !Player_InCsMode(globalCtx) && !(this->stateFlags1 & 0x206000) &&
                 (func_80845668 != this->func_674) && (func_808507F4 != this->func_674)) {
-                this->actor.velocity.x += this->pushedSpeed * Math_SinS(this->pushedDirection);
-                this->actor.velocity.z += this->pushedSpeed * Math_CosS(this->pushedDirection);
+                this->actor.velocity.x += this->pushedSpeed * Math_SinS(this->pushedYaw);
+                this->actor.velocity.z += this->pushedSpeed * Math_CosS(this->pushedYaw);
             }
 
             func_8002D7EC(&this->actor);
@@ -10083,7 +10083,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
             Math_StepToF(&this->pushedSpeed, conveyorSpeed, conveyorSpeed * 0.1f);
 
-            Math_ScaledStepToS(&this->pushedDirection, sConveyorDirection,
+            Math_ScaledStepToS(&this->pushedYaw, sConveyorYaw,
                                ((this->stateFlags1 & 0x8000000) ? 400.0f : 800.0f) * conveyorSpeed);
         } else if (this->pushedSpeed != 0.0f) {
             Math_StepToF(&this->pushedSpeed, 0.0f, (this->stateFlags1 & 0x8000000) ? 0.5f : 1.0f);
