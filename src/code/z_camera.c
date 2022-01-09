@@ -7223,12 +7223,12 @@ s32 Camera_DbgChangeMode(Camera* camera) {
 }
 
 void Camera_UpdateDistortion(Camera* camera) {
-    static s16 depthCycle = 0x3F0;
-    static s16 screenPlaneCycle = 0x156;
+    static s16 depthPhase = 0x3F0;
+    static s16 screenPlanePhase = 0x156;
     f32 scaleFactor;
     f32 speedFactor;
-    f32 depthCycleSpeed;
-    f32 screenPlaneCycleSpeed;
+    f32 depthPhaseStep;
+    f32 screenPlanePhaseStep;
     s32 pad[5];
     f32 xScale;
     f32 yScale;
@@ -7237,8 +7237,8 @@ void Camera_UpdateDistortion(Camera* camera) {
 
     if (camera->distortionFlags != 0) {
         if (camera->distortionFlags & DISTORTION_UNDERWATER_MEDIUM) {
-            depthCycleSpeed = 0.0f;
-            screenPlaneCycleSpeed = 170.0f;
+            depthPhaseStep = 0.0f;
+            screenPlanePhaseStep = 170.0f;
 
             xScale = -0.01f;
             yScale = 0.01f;
@@ -7248,8 +7248,8 @@ void Camera_UpdateDistortion(Camera* camera) {
             scaleFactor = camera->waterDistortionTimer / 60.0f;
             speedFactor = 1.0f;
         } else if (camera->distortionFlags & DISTORTION_UNDERWATER_STRONG) {
-            depthCycleSpeed = 248.0f;
-            screenPlaneCycleSpeed = -90.0f;
+            depthPhaseStep = 248.0f;
+            screenPlanePhaseStep = -90.0f;
 
             xScale = -0.3f;
             yScale = 0.3f;
@@ -7259,8 +7259,8 @@ void Camera_UpdateDistortion(Camera* camera) {
             scaleFactor = camera->waterDistortionTimer / 80.0f;
             speedFactor = 1.0f;
         } else if (camera->distortionFlags & DISTORTION_UNDERWATER_WEAK) {
-            depthCycleSpeed = 359.2f;
-            screenPlaneCycleSpeed = -18.5f;
+            depthPhaseStep = 359.2f;
+            screenPlanePhaseStep = -18.5f;
 
             xScale = 0.09f;
             yScale = 0.09f;
@@ -7274,8 +7274,8 @@ void Camera_UpdateDistortion(Camera* camera) {
             speedFactor = scaleFactor;
         } else if (camera->distortionFlags & DISTORTION_HOT_ROOM) {
             // Gives the hot-room a small mirage-like appearance
-            depthCycleSpeed = 0.0f;
-            screenPlaneCycleSpeed = 150.0f;
+            depthPhaseStep = 0.0f;
+            screenPlanePhaseStep = 150.0f;
 
             xScale = -0.01f;
             yScale = 0.01f;
@@ -7289,14 +7289,14 @@ void Camera_UpdateDistortion(Camera* camera) {
             return;
         }
 
-        depthCycle += DEGF_TO_BINANG(depthCycleSpeed);
-        screenPlaneCycle += DEGF_TO_BINANG(screenPlaneCycleSpeed);
+        depthPhase += DEGF_TO_BINANG(depthPhaseStep);
+        screenPlanePhase += DEGF_TO_BINANG(screenPlanePhaseStep);
 
-        View_SetDistortionDirRot(&camera->globalCtx->view, Math_CosS(depthCycle) * 0.0f, Math_SinS(depthCycle) * 0.0f,
-                                 Math_SinS(screenPlaneCycle) * 0.0f);
-        View_SetDistortionScale(&camera->globalCtx->view, Math_SinS(screenPlaneCycle) * (xScale * scaleFactor) + 1.0f,
-                                Math_CosS(screenPlaneCycle) * (yScale * scaleFactor) + 1.0f,
-                                Math_CosS(depthCycle) * (zScale * scaleFactor) + 1.0f);
+        View_SetDistortionDirRot(&camera->globalCtx->view, Math_CosS(depthPhase) * 0.0f, Math_SinS(depthPhase) * 0.0f,
+                                 Math_SinS(screenPlanePhase) * 0.0f);
+        View_SetDistortionScale(&camera->globalCtx->view, Math_SinS(screenPlanePhase) * (xScale * scaleFactor) + 1.0f,
+                                Math_CosS(screenPlanePhase) * (yScale * scaleFactor) + 1.0f,
+                                Math_CosS(depthPhase) * (zScale * scaleFactor) + 1.0f);
         View_SetDistortionSpeed(&camera->globalCtx->view, speed * speedFactor);
 
         camera->unk_14C |= 0x40;
