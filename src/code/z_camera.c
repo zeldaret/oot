@@ -7285,6 +7285,7 @@ void Camera_UpdateDistortion(Camera* camera) {
             speedFactor = 1.0f;
             scaleFactor = 1.0f;
         } else {
+            // DISTORTION_UNDERWATER_FISHING
             return;
         }
 
