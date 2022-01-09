@@ -4120,7 +4120,7 @@ s32 SurfaceType_GetConveyorType(CollisionContext* colCtx, CollisionPoly* poly, s
     u32 flags;
 
     if (BgCheck_GetCollisionHeader(colCtx, bgId) == NULL) {
-        return true;
+        return CONVEYOR_FLOOR;
     }
     flags = poly->flags_vIB & 0x2000;
     return !!flags;
