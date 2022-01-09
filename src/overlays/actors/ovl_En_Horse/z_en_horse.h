@@ -201,4 +201,14 @@ typedef struct EnHorse {
         ? true                       \
         : false)
 
+/**
+ * Check if the entrance index of the SaveContext is any of the
+ * "Epona escapes from Lon Lon Ranch" Cutscenes in Hyrule field (there are 4)
+ */
+#define HORSE_CHECK_IS_EPONA_JUMP_CUTSCENE(gSaveContext) \
+    (/* HyruleFieldSouthEponaJump */ gSaveContext.entranceIndex == 0x028A || \
+     /* HyruleFieldWestEponaJump  */ gSaveContext.entranceIndex == 0x028E || \
+     /* HyruleFieldEastEponaJump  */ gSaveContext.entranceIndex == 0x0292 || \
+     /* HyruleFieldGateEponaJump  */ gSaveContext.entranceIndex == 0x0476)
+
 #endif

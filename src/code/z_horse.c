@@ -148,9 +148,8 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
     s32 i;
     Vec3s spawnPos;
 
-    if ((gSaveContext.entranceIndex == 0x028A || gSaveContext.entranceIndex == 0x028E ||
-         gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
-        (gSaveContext.respawnFlag == 0)) {
+    //Case 1: Spawn Epona in the "Escape from Lon Lon Ranch" cutscene in Hyrule field
+    if (HORSE_CHECK_IS_EPONA_JUMP_CUTSCENE(gSaveContext) && (gSaveContext.respawnFlag == 0)) {
         Vec3s spawnPositions[] = {
             { 0xF46F, 0x0139, 0x1E14 },
             { 0xF894, 0x0139, 0x1B67 },
@@ -158,13 +157,13 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
             { 0xF6F7, 0x0139, 0x1766 },
         };
 
-        if (gSaveContext.entranceIndex == 0x028A) {
+        if (gSaveContext.entranceIndex == 0x028A) {        //HyruleFieldSouthEponaJump
             spawnPos = spawnPositions[0];
-        } else if (gSaveContext.entranceIndex == 0x028E) {
+        } else if (gSaveContext.entranceIndex == 0x028E) { //HyruleFieldWestEponaJump
             spawnPos = spawnPositions[1];
-        } else if (gSaveContext.entranceIndex == 0x0292) {
+        } else if (gSaveContext.entranceIndex == 0x0292) { //HyruleFieldEastEponaJump
             spawnPos = spawnPositions[2];
-        } else {
+        } else {                                           //HyruleFieldGateEponaJump
             spawnPos = spawnPositions[3];
         }
 
@@ -262,9 +261,7 @@ void func_8006DC68(GlobalContext* globalCtx, Player* player) {
 
         if (Horse_ShouldSpawnInScene(globalCtx->sceneNum)) {
             if ((gSaveContext.sceneSetupIndex > 3) ||
-                ((gSaveContext.entranceIndex == 0x028A || gSaveContext.entranceIndex == 0x028E ||
-                  gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
-                 (gSaveContext.respawnFlag == 0)) ||
+                (HORSE_CHECK_IS_EPONA_JUMP_CUTSCENE(gSaveContext) && (gSaveContext.respawnFlag == 0)) ||
                 ((globalCtx->sceneNum == SCENE_SPOT20) && ((gSaveContext.eventInf[0] & 0xF) == 6) &&
                  !Flags_GetEventChkInf(0x18) && (DREG(1) == 0))) {
                 func_8006D684(globalCtx, player);
