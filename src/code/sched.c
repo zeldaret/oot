@@ -26,7 +26,7 @@ void Sched_SwapFrameBuffer(CfbInfo* cfbInfo) {
                          (cfbInfo != NULL ? cfbInfo->swapBuffer : NULL));
         }
         width = cfbInfo->viMode != NULL ? cfbInfo->viMode->comRegs.width : (u32)gScreenWidth;
-        Fault_SetFB(cfbInfo->swapBuffer, width, 0x10);
+        Fault_SetFrameBuffer(cfbInfo->swapBuffer, width, 0x10);
 
         if (HREG(80) == 0xD && HREG(95) != 0xD) {
             HREG(81) = 0;

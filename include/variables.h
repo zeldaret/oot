@@ -208,7 +208,6 @@ extern volatile OSTime gRSPAudioTotalTime;
 extern volatile OSTime gRSPGFXTotalTime;
 extern volatile OSTime gRSPOtherTotalTime;
 extern volatile OSTime gRDPTotalTime;
-extern FaultThreadStruct gFaultStruct;
 
 // data/code_800F7260.bss.s
 extern ActiveSound gActiveSounds[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
