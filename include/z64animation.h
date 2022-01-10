@@ -25,9 +25,9 @@ typedef enum {
     /* 5 */ ANIMMODE_LOOP_PARTIAL_INTERP
 } AnimationModes;
 
-typedef enum { 
-    /* -1 */ ANIMTAPER_DECEL = -1, 
-    /*  0 */ ANIMTAPER_NONE, 
+typedef enum {
+    /* -1 */ ANIMTAPER_DECEL = -1,
+    /*  0 */ ANIMTAPER_NONE,
     /*  1 */ ANIMTAPER_ACCEL
 } AnimationTapers;
 
@@ -65,7 +65,7 @@ typedef struct {
     /* 0x08 */ u8 dListCount;
 } FlexSkeletonHeader; // size = 0xC
 
-// Index into the frame data table. 
+// Index into the frame data table.
 typedef struct {
     /* 0x00 */ u16 x;
     /* 0x02 */ u16 y;
