@@ -226,8 +226,8 @@ void func_8084BDFC(Player* this, GlobalContext* globalCtx);
 void func_8084BF1C(Player* this, GlobalContext* globalCtx);
 void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input);
 void func_8084C5F8(Player* this, GlobalContext* globalCtx);
-void Player_UpdateCrawlspace(Player* this, GlobalContext* globalCtx);
-void Player_LeavingCrawlspace(Player* this, GlobalContext* globalCtx);
+void Player_UpdateInsideCrawlspace(Player* this, GlobalContext* globalCtx);
+void Player_UpdateLeavingCrawlspace(Player* this, GlobalContext* globalCtx);
 void func_8084CC98(Player* this, GlobalContext* globalCtx);
 void func_8084D3E4(Player* this, GlobalContext* globalCtx);
 void func_8084D610(Player* this, GlobalContext* globalCtx);
@@ -4402,7 +4402,7 @@ void func_8083A3B0(GlobalContext* globalCtx, Player* this) {
 }
 
 void func_8083A40C(GlobalContext* globalCtx, Player* this) {
-    func_80835DAC(globalCtx, this, Player_UpdateCrawlspace, 0);
+    func_80835DAC(globalCtx, this, Player_UpdateInsideCrawlspace, 0);
 }
 
 void func_8083A434(GlobalContext* globalCtx, Player* this) {
@@ -6039,33 +6039,33 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 wallFlags) {
                     sp80 = this->actor.world.pos.x;
                     sp7C = this->actor.world.pos.z;
                 } else {
-                    Vec3f wallVertices[3];
+                    Vec3f sp50[3];
                     s32 i;
                     f32 sp48;
-                    Vec3f* wallVerticesPtr = &wallVertices[0];
+                    Vec3f* sp44 = &sp50[0];
                     s32 pad;
 
-                    CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, wallVertices);
+                    CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, sp50);
 
-                    sp80 = phi_f12 = wallVerticesPtr->x;
-                    sp7C = phi_f14 = wallVerticesPtr->z;
-                    phi_f20 = wallVerticesPtr->y;
+                    sp80 = phi_f12 = sp44->x;
+                    sp7C = phi_f14 = sp44->z;
+                    phi_f20 = sp44->y;
                     for (i = 1; i < 3; i++) {
-                        wallVerticesPtr++;
-                        if (sp80 > wallVerticesPtr->x) {
-                            sp80 = wallVerticesPtr->x;
-                        } else if (phi_f12 < wallVerticesPtr->x) {
-                            phi_f12 = wallVerticesPtr->x;
+                        sp44++;
+                        if (sp80 > sp44->x) {
+                            sp80 = sp44->x;
+                        } else if (phi_f12 < sp44->x) {
+                            phi_f12 = sp44->x;
                         }
 
-                        if (sp7C > wallVerticesPtr->z) {
-                            sp7C = wallVerticesPtr->z;
-                        } else if (phi_f14 < wallVerticesPtr->z) {
-                            phi_f14 = wallVerticesPtr->z;
+                        if (sp7C > sp44->z) {
+                            sp7C = sp44->z;
+                        } else if (phi_f14 < sp44->z) {
+                            phi_f14 = sp44->z;
                         }
 
-                        if (phi_f20 > wallVerticesPtr->y) {
-                            phi_f20 = wallVerticesPtr->y;
+                        if (phi_f20 > sp44->y) {
+                            phi_f20 = sp44->y;
                         }
                     }
 
@@ -6138,10 +6138,10 @@ void func_8083F070(Player* this, LinkAnimationHeader* anim, GlobalContext* globa
 s32 Player_IsEnteringCrawlspace(Player* this, GlobalContext* globalCtx, u32 wallFlags) {
     CollisionPoly* wallPoly;
     Vec3f wallVertices[3];
-    f32 xTemp1;
-    f32 xTemp2;
-    f32 zTemp1;
-    f32 zTemp2;
+    f32 xVertex1;
+    f32 xVertex2;
+    f32 zVertex1;
+    f32 zVertex2;
     s32 i;
 
     if (!LINK_IS_ADULT && !(this->stateFlags1 & 0x8000000) && (wallFlags & BGCHECK_WALL_CRAWLSPACE)) {
@@ -6149,35 +6149,40 @@ s32 Player_IsEnteringCrawlspace(Player* this, GlobalContext* globalCtx, u32 wall
         CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, wallVertices);
 
         // Determines min and max vertices for x & z (edges of the crawlspace hole)
-        xTemp1 = xTemp2 = wallVertices[0].x;
-        zTemp1 = zTemp2 = wallVertices[0].z;
+        xVertex1 = xVertex2 = wallVertices[0].x;
+        zVertex1 = zVertex2 = wallVertices[0].z;
         for (i = 1; i < 3; i++) {
-            if (xTemp1 > wallVertices[i].x) {
-                xTemp1 = wallVertices[i].x;
-            } else if (xTemp2 < wallVertices[i].x) {
-                xTemp2 = wallVertices[i].x;
+            if (xVertex1 > wallVertices[i].x) {
+                // Update x min
+                xVertex1 = wallVertices[i].x;
+            } else if (xVertex2 < wallVertices[i].x) {
+                // Update x max
+                xVertex2 = wallVertices[i].x;
             }
-
-            if (zTemp1 > wallVertices[i].z) {
-                zTemp1 = wallVertices[i].z;
-            } else if (zTemp2 < wallVertices[i].z) {
-                zTemp2 = wallVertices[i].z;
+            if (zVertex1 > wallVertices[i].z) {
+                // Update z min
+                zVertex1 = wallVertices[i].z;
+            } else if (zVertex2 < wallVertices[i].z) {
+                // Update z max
+                zVertex2 = wallVertices[i].z;
             }
         }
 
-        // Center of the crawlspace hole
-        xTemp1 = (xTemp1 + xTemp2) * 0.5f;
-        zTemp1 = (zTemp1 + zTemp2) * 0.5f;
+        // XZ Center of the crawlspace hole
+        xVertex1 = (xVertex1 + xVertex2) * 0.5f;
+        zVertex1 = (zVertex1 + zVertex2) * 0.5f;
 
-        // y-component of the cross product
-        xTemp2 = ((this->actor.world.pos.x - xTemp1) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
-                 ((this->actor.world.pos.z - zTemp1) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
+        // Perpindicular XZ-Distance from player pos to crawlspace line
+        // Uses y-component of crossproduct formula for the distance from a point to a line
+        xVertex2 = ((this->actor.world.pos.x - xVertex1) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
+                   ((this->actor.world.pos.z - zVertex1) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
 
-        if (fabsf(xTemp2) < 8.0f) {
-            // Enter on A (for crawlspace)
+        if (fabsf(xVertex2) < 8.0f) {
+            // Give do-action prompt to "Enter on A" for the crawlspace
             this->stateFlags2 |= 0x10000;
 
             if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
+                // Enter Crawlspace
                 f32 wallXNorm = COLPOLY_GET_NORMAL(wallPoly->normal.x);
                 f32 wallZNorm = COLPOLY_GET_NORMAL(wallPoly->normal.z);
                 f32 wallDistance = this->wallDistance;
@@ -6185,8 +6190,8 @@ s32 Player_IsEnteringCrawlspace(Player* this, GlobalContext* globalCtx, u32 wall
                 func_80836898(globalCtx, this, func_8083A40C);
                 this->stateFlags2 |= 0x40000;
                 this->actor.shape.rot.y = this->currentYaw = this->actor.wallYaw + 0x8000;
-                this->actor.world.pos.x = xTemp1 + (wallDistance * wallXNorm);
-                this->actor.world.pos.z = zTemp1 + (wallDistance * wallZNorm);
+                this->actor.world.pos.x = xVertex1 + (wallDistance * wallXNorm);
+                this->actor.world.pos.z = zVertex1 + (wallDistance * wallZNorm);
                 func_80832224(this);
                 this->actor.prevPos = this->actor.world.pos;
                 func_80832264(globalCtx, this, &gPlayerAnim_002708);
@@ -6251,18 +6256,27 @@ s32 func_8083F524(GlobalContext* globalCtx, Player* this) {
     return func_8083F360(globalCtx, this, 26.0f, this->ageProperties->unk_38 + 5.0f, 30.0f, 0.0f);
 }
 
+/**
+ * Two exit walls are placed at each end of the crawlspace, separate to the two entrance wall used to enter the
+ * crawlspace These front and back exit walls are slightly more interior in the crawlspace relative to the front and
+ * back entrance walls When player interacts with either of these two interior exit walls, start the leaving-crawlspace
+ * cutscene and return true Else, return false
+ */
 s32 Player_IsLeavingCrawlspace(Player* this, GlobalContext* globalCtx) {
     s16 yawToWall;
 
     if ((this->linearVelocity != 0.0f) && (this->actor.bgCheckFlags & 8) && (sWallFlags & BGCHECK_WALL_CRAWLSPACE)) {
 
+        // The exit wallYaws will always point inward on the crawlline
+        // Interacting with the exit wall in front will have a yaw diff of 0x8000
+        // Interacting with the exit wall behind will have a yaw diff of 0
         yawToWall = this->actor.shape.rot.y - this->actor.wallYaw;
         if (this->linearVelocity < 0.0f) {
             yawToWall += 0x8000;
         }
 
         if (ABS(yawToWall) > 0x4000) {
-            func_80835C58(globalCtx, this, Player_LeavingCrawlspace, 0);
+            func_80835C58(globalCtx, this, Player_UpdateLeavingCrawlspace, 0);
 
             if (this->linearVelocity > 0.0f) {
                 // Leaving a crawlspace forward
@@ -11166,18 +11180,24 @@ static struct_80832924 D_808548B4[] = {
     { 0, 0x3050 }, { 0, 0x3058 }, { 0, 0x3060 }, { 0, -0x3068 },
 };
 
-void Player_UpdateCrawlspace(Player* this, GlobalContext* globalCtx) {
+/**
+ * Update player's animation while entering the crawlspace.
+ * Stop player's animation once inside the crawlspace.
+ * Update player's movement while inside the crawlspace.
+ */
+void Player_UpdateInsideCrawlspace(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= 0x40;
 
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         if (!(this->stateFlags1 & 1)) {
-            // While in a crawlspace, Players skeleton does not move
+            // While inside a crawlspace, player's skeleton does not move
             if (this->skelAnime.moveFlags != 0) {
                 this->skelAnime.moveFlags = 0;
                 return;
             }
 
             if (!Player_IsLeavingCrawlspace(this, globalCtx)) {
+                // Move forward and back while inside the crawlspace
                 this->linearVelocity = sControlInput->rel.stick_y * 0.03f;
             }
         }
@@ -11193,15 +11213,20 @@ static struct_80832924 D_808548D8[] = {
     { 0, 0x303C }, { 0, 0x3044 }, { 0, 0x304C }, { 0, -0x3054 },
 };
 
-void Player_LeavingCrawlspace(Player* this, GlobalContext* globalCtx) {
+/**
+ * Updates while player is leaving the crawlspace.
+ */
+void Player_UpdateLeavingCrawlspace(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= 0x40;
 
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
+        // Player is finished exiting the crawlspace and control is returned
         func_8083C0E8(this, globalCtx);
         this->stateFlags2 &= ~0x40000;
         return;
     }
 
+    // Continue animation of leaving crawlspace
     func_80832924(this, D_808548D8);
 }
 
