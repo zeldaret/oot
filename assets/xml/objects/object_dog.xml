@@ -1,41 +1,41 @@
 ﻿<Root>
     <File Name="object_dog" Segment="6">
-        <Animation Name="object_dog_Anim_000278" Offset="0x278"/>
-        <Animation Name="object_dog_Anim_000928" Offset="0x928"/>
-        <Animation Name="object_dog_Anim_000C28" Offset="0xC28"/>
-        <Animation Name="object_dog_Anim_000D78" Offset="0xD78"/>
-        <Animation Name="object_dog_Anim_001150" Offset="0x1150"/>
-        <Animation Name="object_dog_Anim_001368" Offset="0x1368"/>
-        <Texture Name="object_dog_Tex_001380" OutName="tex_001380" Format="rgba16" Width="32" Height="32" Offset="0x1380"/>
-        <Texture Name="object_dog_Tex_001B80" OutName="tex_001B80" Format="rgba16" Width="32" Height="32" Offset="0x1B80"/>
-        <Texture Name="object_dog_Tex_002380" OutName="tex_002380" Format="rgba16" Width="32" Height="32" Offset="0x2380"/>
-        <Texture Name="object_dog_Tex_002B80" OutName="tex_002B80" Format="rgba16" Width="32" Height="32" Offset="0x2B80"/>
-        <Texture Name="object_dog_Tex_003380" OutName="tex_003380" Format="rgba16" Width="32" Height="32" Offset="0x3380"/>
-        <Texture Name="object_dog_Tex_003B80" OutName="tex_003B80" Format="rgba16" Width="32" Height="32" Offset="0x3B80"/>
-        <Texture Name="object_dog_Tex_004380" OutName="tex_004380" Format="rgba16" Width="16" Height="16" Offset="0x4380"/>
-        <Texture Name="object_dog_Tex_004580" OutName="tex_004580" Format="rgba16" Width="32" Height="32" Offset="0x4580"/>
-        <DList Name="object_dog_DL_0060E0" Offset="0x60E0"/>
-        <DList Name="object_dog_DL_006448" Offset="0x6448"/>
-        <DList Name="object_dog_DL_0064E8" Offset="0x64E8"/>
-        <DList Name="object_dog_DL_006588" Offset="0x6588"/>
-        <DList Name="object_dog_DL_0067A0" Offset="0x67A0"/>
-        <DList Name="object_dog_DL_006950" Offset="0x6950"/>
-        <DList Name="object_dog_DL_006B00" Offset="0x6B00"/>
-        <DList Name="object_dog_DL_006CA0" Offset="0x6CA0"/>
-        <DList Name="object_dog_DL_006E50" Offset="0x6E50"/>
-        <DList Name="object_dog_DL_007000" Offset="0x7000"/>
-        <Limb Name="object_dog_Limb_0071D0" LimbType="Standard" Offset="0x71D0"/>
-        <Limb Name="object_dog_Limb_0071DC" LimbType="Standard" Offset="0x71DC"/>
-        <Limb Name="object_dog_Limb_0071E8" LimbType="Standard" Offset="0x71E8"/>
-        <Limb Name="object_dog_Limb_0071F4" LimbType="Standard" Offset="0x71F4"/>
-        <Limb Name="object_dog_Limb_007200" LimbType="Standard" Offset="0x7200"/>
-        <Limb Name="object_dog_Limb_00720C" LimbType="Standard" Offset="0x720C"/>
-        <Limb Name="object_dog_Limb_007218" LimbType="Standard" Offset="0x7218"/>
-        <Limb Name="object_dog_Limb_007224" LimbType="Standard" Offset="0x7224"/>
-        <Limb Name="object_dog_Limb_007230" LimbType="Standard" Offset="0x7230"/>
-        <Limb Name="object_dog_Limb_00723C" LimbType="Standard" Offset="0x723C"/>
-        <Limb Name="object_dog_Limb_007248" LimbType="Standard" Offset="0x7248"/>
-        <Limb Name="object_dog_Limb_007254" LimbType="Standard" Offset="0x7254"/>
-        <Skeleton Name="object_dog_Skel_007290" Type="Flex" LimbType="Standard" Offset="0x7290"/>
+        <Animation Name="gDogBarkAnim" Offset="0x278"/>
+        <Animation Name="gDogBowAnim" Offset="0x928"/>
+        <Animation Name="gDogBow2Anim" Offset="0xC28"/>
+        <Animation Name="gDogRunAnim" Offset="0xD78"/>
+        <Animation Name="gDogSitAnim" Offset="0x1150"/>
+        <Animation Name="gDogWalkAnim" Offset="0x1368"/>
+        <Texture Name="gDogFur1Tex" OutName="fur_1" Format="rgba16" Width="32" Height="32" Offset="0x1380"/> <!-- Lower body-->
+        <Texture Name="gDogFur2Tex" OutName="fur_2" Format="rgba16" Width="32" Height="32" Offset="0x1B80"/> <!-- Front of ears, upper part of the tail, and around the feet-->
+        <Texture Name="gDogFur3Tex" OutName="fur_3" Format="rgba16" Width="32" Height="32" Offset="0x2380"/> <!-- Upper body, top of head-->
+        <Texture Name="gDogFaceEyeTex" OutName="face_and_eye" Format="rgba16" Width="32" Height="32" Offset="0x2B80"/>
+        <Texture Name="gDogFaceNoseTex" OutName="face_and_nose" Format="rgba16" Width="32" Height="32" Offset="0x3380"/>
+        <Texture Name="gDogFur4Tex" OutName="fur_4" Format="rgba16" Width="32" Height="32" Offset="0x3B80"/> <!-- Back of ears, side of head, and part of front body-->
+        <Texture Name="gDogPawTex" OutName="paw" Format="rgba16" Width="16" Height="16" Offset="0x4380"/>
+        <Texture Name="gDogFaceHairTex" OutName="face_hair" Format="rgba16" Width="32" Height="32" Offset="0x4580"/>
+        <DList Name="gDogHeadDL" Offset="0x60E0"/>
+        <DList Name="gDogRightFaceHairDL" Offset="0x6448"/>
+        <DList Name="gDogLeftFaceHairDL" Offset="0x64E8"/>
+        <DList Name="gDogFrontBodyDL" Offset="0x6588"/>
+        <DList Name="gDogFrontRightLegDL" Offset="0x67A0"/>
+        <DList Name="gDogFrontLeftLegDL" Offset="0x6950"/>
+        <DList Name="gDogBackBodyDL" Offset="0x6B00"/>
+        <DList Name="gDogBackRightLegDL" Offset="0x6CA0"/>
+        <DList Name="gDogBackLeftLegDL" Offset="0x6E50"/>
+        <DList Name="gDogTailDL" Offset="0x7000"/>
+        <Limb Name="gDogRootLimb" LimbType="Standard" Offset="0x71D0"/>
+        <Limb Name="gDogBodyBackLimb" LimbType="Standard" Offset="0x71DC"/>
+        <Limb Name="gDogBodyFrontLimb" LimbType="Standard" Offset="0x71E8"/>
+        <Limb Name="gDogHeadControlLimb" LimbType="Standard" Offset="0x71F4"/>
+        <Limb Name="gDogHeadLimb" LimbType="Standard" Offset="0x7200"/>
+        <Limb Name="gDogRightFaceHairLimb" LimbType="Standard" Offset="0x720C"/>
+        <Limb Name="gDogLeftFaceHairLimb" LimbType="Standard" Offset="0x7218"/>
+        <Limb Name="gDogFrontRightLegLimb" LimbType="Standard" Offset="0x7224"/>
+        <Limb Name="gDogFrontLeftLegLimb" LimbType="Standard" Offset="0x7230"/>
+        <Limb Name="gDogBackRightLegLimb" LimbType="Standard" Offset="0x723C"/>
+        <Limb Name="gDogBackLeftLegLimb" LimbType="Standard" Offset="0x7248"/>
+        <Limb Name="gDogTailLimb" LimbType="Standard" Offset="0x7254"/>
+        <Skeleton Name="gDogSkel" Type="Flex" LimbType="Standard" Offset="0x7290"/>
     </File>
 </Root>
