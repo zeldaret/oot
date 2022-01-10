@@ -24,7 +24,7 @@
         <Texture Name="gHoleVolvagiaEyeHalfTex" OutName="hole_volvagia_eye_half" Format="i8" Width="32" Height="32" Offset="0x2708"/>
         <Texture Name="gHoleVolvagiaEyeOpenTex" OutName="hole_volvagia_eye_open" Format="i8" Width="32" Height="32" Offset="0x2B08"/>
         <Texture Name="gHoleVolvagiaEyeClosedTex" OutName="hole_volvagia_eye_closed" Format="i8" Width="32" Height="32" Offset="0x2F08"/>
-        
+
         <!-- Unused animation -->
         <Animation Name="gHoleVolvagiaAnim_00CDAC" Offset="0xCDAC"/> <!-- Looks tired. Low health animation? -->
 

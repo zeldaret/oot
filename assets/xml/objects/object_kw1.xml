@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_kw1" Segment="6">
         <!-- The textures used by these limbs aren't 64-bit aligned -->
-        
+
         <Limb Name="gKw1SkelLimb_000000" LimbType="Standard" Offset="0x0"/>
         <Limb Name="gKw1SkelLimb_00000C" LimbType="Standard" Offset="0xC"/>
         <Limb Name="gKw1SkelLimb_000018" LimbType="Standard" Offset="0x18"/>
@@ -26,14 +26,14 @@
         <!-- Arm/neck texture-->
         <Texture Name="gKw1Skin1Tex" OutName="skin1" Format="ci8" Width="8" Height="8" Offset="0x3FC" TlutOffset="0xFC"/>
         <Texture Name="gKw1TunicTex" OutName="tunic" Format="i8" Width="8" Height="8" Offset="0x43C"/>
-        
+
         <!-- Possibly a skin gradient texture -->
         <Texture Name="object_kw1_Tex_00047C" OutName="tex_00047C" Format="ci8" Width="8" Height="8" Offset="0x47C" TlutOffset="0xFC"/>
         <Texture Name="gKw1UnusedEyeOpenTex" OutName="unused_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x4BC"/>
-        
+
         <Texture Name="gKw1HandTex" OutName="hand" Format="ci8" Width="8" Height="8" Offset="0xCBC" TlutOffset="0xFC"/>
         <Texture Name="gKw1BeltBuckleTex" OutName="belt_buckle" Format="ci8" Width="8" Height="8" Offset="0xCFC" TlutOffset="0xFC"/>
-        
+
         <Texture Name="object_kw1_TLUT_000D3C" OutName="tlut_00000D3C" Format="rgba16" Width="232" Height="1" Offset="0xD3C"/>
         <Texture Name="gKw1EarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0xF0C" TlutOffset="0xD3C"/>
         <Texture Name="gKw1EyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0xF4C" TlutOffset="0xD3C"/>
