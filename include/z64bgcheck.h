@@ -61,10 +61,12 @@ typedef struct {
 } CollisionPoly; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ u16 cameraSType;
-    /* 0x02 */ s16 numCameras;
-    /* 0x04 */ Vec3s* camPosData;
-} CamData;
+    /* 0x00 */ u16 setting;
+    /* 0x02 */ s16 numData;
+    /* 0x04 */ Vec3s* data; // may contain positions, rotations, fov, Jfif Id, or flags
+} BgCamData;
+
+#define CamData BgCamData
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -77,7 +79,7 @@ typedef struct {
     // 0x0008_0000 = ?
     // 0x0007_E000 = Room Index, 0x3F = all rooms
     // 0x0000_1F00 = Lighting Settings Index
-    // 0x0000_00FF = CamData index
+    // 0x0000_00FF = BgCamData index
 } WaterBox; // size = 0x10
 
 typedef struct {

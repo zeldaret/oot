@@ -486,8 +486,8 @@ Vec3s* Camera_GetCamBgDataUnderPlayer(Camera* camera, u16* dataCnt) {
         // no floor
         return NULL;
     }
-    *dataCnt = SurfaceType_GetNumCameras(&camera->globalCtx->colCtx, floorPoly, bgId);
-    return SurfaceType_GetCamPosData(&camera->globalCtx->colCtx, floorPoly, bgId);
+    *dataCnt = SurfaceType_GetCameraNumVec3sData(&camera->globalCtx->colCtx, floorPoly, bgId);
+    return SurfaceType_GetCameraVec3sData(&camera->globalCtx->colCtx, floorPoly, bgId);
 }
 
 /**
@@ -518,7 +518,7 @@ s32 Camera_GetWaterBoxDataIdx(Camera* camera, f32* waterY) {
     }
 
     ret = WaterBox_GetCamDataIndex(&camera->globalCtx->colCtx, waterBox);
-    if ((ret <= 0) || (WaterBox_GetCameraSType(&camera->globalCtx->colCtx, waterBox) <= 0)) {
+    if ((ret <= 0) || (WaterBox_GetCameraSetting(&camera->globalCtx->colCtx, waterBox) <= 0)) {
         // no camera data idx, or no CameraSettingType
         return -2;
     }

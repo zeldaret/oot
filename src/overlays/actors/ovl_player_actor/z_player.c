@@ -11181,8 +11181,8 @@ static struct_80832924 D_808548B4[] = {
 
 /**
  * Update player's animation while entering the crawlspace.
- * Stop player's animation once inside the crawlspace.
- * Update player's movement while inside the crawlspace.
+ * Once inside, stop all player animations and update player's movement.
+ * 
  */
 void Player_UpdateInsideCrawlspace(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= 0x40;
@@ -11213,7 +11213,7 @@ static struct_80832924 D_808548D8[] = {
 };
 
 /**
- * Updates while player is leaving the crawlspace.
+ * Update player's animation while leaving the crawlspace.
  */
 void Player_UpdateLeavingCrawlspace(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= 0x40;
