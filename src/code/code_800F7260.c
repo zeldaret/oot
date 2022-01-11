@@ -32,7 +32,6 @@ s32 D_8013338C = 0;
 char D_80133390[] = "SEQ H";
 char D_80133398[] = "    L";
 
-// bss
 SoundBankEntry D_8016BAD0[9];
 SoundBankEntry D_8016BC80[12];
 SoundBankEntry D_8016BEC0[22];
@@ -51,8 +50,6 @@ UnusedBankLerp sUnusedBankLerp[7];
 u16 gAudioSfxSwapSource[10];
 u16 gAudioSfxSwapTarget[10];
 u8 gAudioSfxSwapMode[10];
-
-// data
 
 // sSoundRequests ring buffer endpoints. read index <= write index, wrapping around mod 256.
 u8 sSoundRequestWriteIndex = 0;
