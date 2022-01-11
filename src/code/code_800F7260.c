@@ -51,14 +51,6 @@ UnusedBankLerp sUnusedBankLerp[7];
 u16 gAudioSfxSwapSource[10];
 u16 gAudioSfxSwapTarget[10];
 u8 gAudioSfxSwapMode[10];
-Struct_8016E320 D_8016E320[4][5];
-u8 D_8016E348[4];
-u32 sAudioSeqCmds[0x100];
-unk_D_8016E750 D_8016E750[4];
-u8 D_8016F0E0[0xA0];
-AudioContext gAudioContext;
-void (*D_801755D0)(void);
-s32 padBSS[3];
 
 // data
 

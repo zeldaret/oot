@@ -2,6 +2,17 @@
 #include "global.h"
 #include "ultra64/abi.h"
 
+// bss
+Struct_8016E320 D_8016E320[4][5];
+u8 D_8016E348[4];
+u32 sAudioSeqCmds[0x100];
+unk_D_8016E750 D_8016E750[4];
+u8 D_8016F0E0[0xA0];
+AudioContext gAudioContext;
+void (*D_801755D0)(void);
+s32 D_801755D8[3]; // bss padding
+
+// data
 u8 sSeqCmdWrPos = 0;
 u8 sSeqCmdRdPos = 0;
 u8 D_80133408 = 0;
