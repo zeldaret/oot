@@ -313,8 +313,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = (EnKz*)thisx;
     s32 pad;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &gKzSkel, NULL, this->jointTable, this->morphTable,
-                       12);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &gKzSkel, NULL, this->jointTable, this->morphTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);

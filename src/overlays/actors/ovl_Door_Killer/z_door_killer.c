@@ -428,13 +428,13 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
         } else if ((this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & 0x48) != 0) {
             DoorKiller_SpawnRubble(&this->actor, globalCtx);
             this->actionFunc = DoorKiller_Die;
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
         }
     } else if (Actor_GetCollidedExplosive(globalCtx, &this->colliderJntSph.base) != NULL) {
         // AC sphere: die if hit by explosive
         DoorKiller_SpawnRubble(&this->actor, globalCtx);
         this->actionFunc = DoorKiller_Die;
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
     } else if (!Player_InCsMode(globalCtx) && (fabsf(playerPosRelToDoor.y) < 20.0f) &&
                (fabsf(playerPosRelToDoor.x) < 20.0f) && (playerPosRelToDoor.z < 50.0f) &&
                (playerPosRelToDoor.z > 0.0f)) {
