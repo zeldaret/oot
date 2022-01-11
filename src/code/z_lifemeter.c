@@ -471,8 +471,8 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
 
             {
                 Mtx* matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
-                func_800D2CEC(matrix, 1.0f - (0.32f * sp144), 1.0f - (0.32f * sp144), 1.0f - (0.32f * sp144),
-                              -130.0f + offsetX, 94.5f - offsetY, 0.0f);
+                Matrix_SetTranslateScaleMtx2(matrix, 1.0f - (0.32f * sp144), 1.0f - (0.32f * sp144),
+                                             1.0f - (0.32f * sp144), -130.0f + offsetX, 94.5f - offsetY, 0.0f);
                 gSPMatrix(OVERLAY_DISP++, matrix, G_MTX_MODELVIEW | G_MTX_LOAD);
                 gSPVertex(OVERLAY_DISP++, sp154, 4, 0);
                 gSP1Quadrangle(OVERLAY_DISP++, 0, 2, 3, 1, 0);

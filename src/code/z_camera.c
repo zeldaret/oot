@@ -707,7 +707,7 @@ f32 Camera_ClampLERPScale(Camera* camera, f32 maxLERPScale) {
     return ret;
 }
 
-void Camera_CopyModeValuesToPREG(Camera* camera, s16 mode) {
+void Camera_CopyDataToRegs(Camera* camera, s16 mode) {
     CameraModeValue* values;
     CameraModeValue* valueP;
     s32 i;
@@ -720,9 +720,9 @@ void Camera_CopyModeValuesToPREG(Camera* camera, s16 mode) {
 
     for (i = 0; i < sCameraSettings[camera->setting].cameraModes[mode].valueCnt; i++) {
         valueP = &values[i];
-        PREG(valueP->param) = valueP->val;
+        PREG(valueP->dataType) = valueP->val;
         if (PREG(82)) {
-            osSyncPrintf("camera: res: PREG(%02d) = %d\n", valueP->param, valueP->val);
+            osSyncPrintf("camera: res: PREG(%02d) = %d\n", valueP->dataType, valueP->val);
         }
     }
     camera->animState = 0;
@@ -735,9 +735,9 @@ s32 Camera_CopyPREGToModeValues(Camera* camera) {
 
     for (i = 0; i < sCameraSettings[camera->setting].cameraModes[camera->mode].valueCnt; i++) {
         valueP = &values[i];
-        valueP->val = PREG(valueP->param);
+        valueP->val = R_CAM_DATA(valueP->dataType);
         if (PREG(82)) {
-            osSyncPrintf("camera: res: %d = PREG(%02d)\n", valueP->val, valueP->param);
+            osSyncPrintf("camera: res: %d = PREG(%02d)\n", valueP->val, valueP->dataType);
         }
     }
     return true;
@@ -1005,7 +1005,7 @@ s32 func_80045B08(Camera* camera, VecSph* eyeAtDir, f32 yExtra, s16 arg3) {
 /**
  * Adjusts the camera's at position for Camera_Parallel1
  */
-s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
+s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 yOffset, f32* arg3, s16 arg4) {
     Vec3f* at = &camera->at;
     Vec3f posOffsetTarget;
     Vec3f atTarget;
@@ -1019,7 +1019,7 @@ s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, 
 
     temp_f0_4 = Player_GetHeight(camera->player);
     posOffsetTarget.x = 0.0f;
-    posOffsetTarget.y = temp_f0_4 + arg2;
+    posOffsetTarget.y = temp_f0_4 + yOffset;
     posOffsetTarget.z = 0.0f;
 
     if (PREG(76) && arg4) {
@@ -1980,8 +1980,7 @@ s32 Camera_Parallel1(Camera* camera) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
 
-        para1->unk_00 = NEXTPCT * playerHeight * yNormal;
-        ;
+        para1->yOffset = NEXTPCT * playerHeight * yNormal;
         para1->distTarget = NEXTPCT * playerHeight * yNormal;
         para1->pitchTarget = DEGF_TO_BINANG(NEXTSETTING);
         para1->yawTarget = DEGF_TO_BINANG(NEXTSETTING);
@@ -2074,7 +2073,7 @@ s32 Camera_Parallel1(Camera* camera) {
     }
 
     if (!(para1->interfaceFlags & 0x80) && !sp6A) {
-        Camera_CalcAtForParallel(camera, &atToEyeNextDir, para1->unk_00, &anim->yTarget, para1->interfaceFlags & 1);
+        Camera_CalcAtForParallel(camera, &atToEyeNextDir, para1->yOffset, &anim->yTarget, para1->interfaceFlags & 1);
     } else {
         func_800458D4(camera, &atToEyeNextDir, para1->unk_18, &anim->yTarget, para1->interfaceFlags & 1);
     }
@@ -4013,7 +4012,7 @@ s32 Camera_Fixed3(Camera* camera) {
 
     if (camera->animState == 0) {
         anim->updDirTimer = 5;
-        R_CAM_FIXED3_FOV = anim->fov;
+        R_CAM_DATA(CAM_DATA_FOV) = anim->fov;
         camera->animState++;
     }
 
@@ -4036,7 +4035,7 @@ s32 Camera_Fixed3(Camera* camera) {
 
     Camera_Vec3fVecSphGeoAdd(at, eye, &atSph);
     sCameraInterfaceFlags = fixd3->interfaceFlags;
-    anim->fov = R_CAM_FIXED3_FOV;
+    anim->fov = R_CAM_DATA(CAM_DATA_FOV);
     camera->roll = 0;
     camera->fov = anim->fov * 0.01f;
     camera->atLERPStepScale = 0.0f;
@@ -6795,8 +6794,8 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
             OREG(i) = sOREGInit[i];
         }
 
-        for (i = 0; i < sPREGInitCnt; i++) {
-            PREG(i) = sPREGInit[i];
+        for (i = 0; i < sCamDataRegsInitCount; i++) {
+            R_CAM_DATA(i) = sCamDataRegsInit[i];
         }
 
         DbCamera_Reset(camera, &D_8015BD80);
@@ -6951,7 +6950,7 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     camera->paramFlags = 0;
     camera->nextCamDataIdx = -1;
     camera->atLERPStepScale = 1.0f;
-    Camera_CopyModeValuesToPREG(camera, camera->mode);
+    Camera_CopyDataToRegs(camera, camera->mode);
     Camera_QRegInit();
     osSyncPrintf(VT_FGCOL(BLUE) "camera: personalize ---" VT_RST "\n");
 
@@ -6978,9 +6977,9 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         for (i = 0; i < sCameraSettings[camera->setting].cameraModes[camera->mode].valueCnt; i++) {
             valueP = &values[i];
-            PREG(valueP->param) = valueP->val;
+            R_CAM_DATA(valueP->dataType) = valueP->val;
             if (PREG(82)) {
-                osSyncPrintf("camera: change camera status: PREG(%02d) = %d\n", valueP->param, valueP->val);
+                osSyncPrintf("camera: change camera status: PREG(%02d) = %d\n", valueP->dataType, valueP->val);
             }
         }
     }
@@ -7626,7 +7625,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
             osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: change camera mode: force NORMAL: %s %s refused\n" VT_RST,
                          sCameraSettingNames[camera->setting], sCameraModeNames[mode]);
             camera->mode = CAM_MODE_NORMAL;
-            Camera_CopyModeValuesToPREG(camera, camera->mode);
+            Camera_CopyDataToRegs(camera, camera->mode);
             func_8005A02C(camera);
             return 0xC0000000 | mode;
         } else {
@@ -7642,7 +7641,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
         }
         camera->unk_14A |= 0x20;
         camera->unk_14A |= 2;
-        Camera_CopyModeValuesToPREG(camera, mode);
+        Camera_CopyDataToRegs(camera, mode);
         modeChangeFlags = 0;
         switch (mode) {
             case CAM_MODE_FIRSTPERSON:
@@ -7801,7 +7800,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
     camera->setting = setting;
 
     if (Camera_ChangeModeFlags(camera, camera->mode, 1) >= 0) {
-        Camera_CopyModeValuesToPREG(camera, camera->mode);
+        Camera_CopyDataToRegs(camera, camera->mode);
     }
 
     osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: change camera[%d] set %s\n", camera->globalCtx->state.frames,
@@ -7830,7 +7829,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
         if (settingChangeSuccessful || sCameraSettings[camera->setting].unk_00 & 0x80000000) {
             camera->camDataIdx = camDataIdx;
             camera->unk_14A |= 4;
-            Camera_CopyModeValuesToPREG(camera, camera->mode);
+            Camera_CopyDataToRegs(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
             //! @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
             // camDataIdx would make more sense.
@@ -8005,7 +8004,7 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
     doorParams->camDataIdx = camDataIdx;
 
     if (camDataIdx == -99) {
-        Camera_CopyModeValuesToPREG(camera, camera->mode);
+        Camera_CopyDataToRegs(camera, camera->mode);
         return -99;
     }
 
@@ -8025,7 +8024,7 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
         osSyncPrintf("....change door camera ID %d (set %d)\n", camera->camDataIdx, camera->setting);
     }
 
-    Camera_CopyModeValuesToPREG(camera, camera->mode);
+    Camera_CopyDataToRegs(camera, camera->mode);
     return -1;
 }
 
