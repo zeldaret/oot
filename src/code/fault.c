@@ -37,6 +37,8 @@
  *
  * To navigate the pages, START and A may be used to advance to the next page, and L toggles whether to
  * automatically scroll to the next page after some time has passed.
+ * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
+ * DPad-Down disables sending fault pages over osSyncPrintf.
  */
 #include "global.h"
 #include "vt.h"
@@ -88,8 +90,8 @@ void Fault_SleepImpl(u32 duration) {
 
 typedef struct {
     /* 0x00 */ s32 (*callback)(void*, void*);
-    /* 0x04 */ void* param0;
-    /* 0x08 */ void* param1;
+    /* 0x04 */ void* arg0;
+    /* 0x08 */ void* arg1;
     /* 0x0C */ s32 ret;
     /* 0x10 */ OSMesgQueue* queue;
     /* 0x14 */ OSMesg msg;
@@ -100,7 +102,7 @@ void Fault_ClientProcessThread(void* arg) {
 
     // Run the callback
     if (task->callback != NULL) {
-        task->ret = task->callback(task->param0, task->param1);
+        task->ret = task->callback(task->arg0, task->arg1);
     }
 
     // Send completion notification
@@ -157,12 +159,12 @@ void Fault_ClientRunTask(FaultClientTask* task) {
     }
 }
 
-s32 Fault_ProcessClient(void* callback, void* param0, void* param1) {
+s32 Fault_ProcessClient(void* callback, void* arg0, void* arg1) {
     FaultClientTask task;
 
     task.callback = callback;
-    task.param0 = param0;
-    task.param1 = param1;
+    task.arg0 = arg0;
+    task.arg1 = arg1;
     task.ret = 0;
     Fault_ClientRunTask(&task);
     return task.ret;
@@ -172,9 +174,9 @@ s32 Fault_ProcessClient(void* callback, void* param0, void* param1) {
  * Registers a fault client.
  *
  * Clients contribute a page to the crash screen, drawn by `callback`. Arguments
- * are passed on to the callback through `param0` and `param1`.
+ * are passed on to the callback through `arg0` and `arg1`.
  */
-void Fault_AddClient(FaultClient* client, void* callback, void* param0, void* param1) {
+void Fault_AddClient(FaultClient* client, void* callback, void* arg0, void* arg1) {
     OSIntMask mask;
     s32 alreadyExists = false;
 
@@ -194,8 +196,8 @@ void Fault_AddClient(FaultClient* client, void* callback, void* param0, void* pa
     }
 
     client->callback = callback;
-    client->param1 = param0;
-    client->param2 = param1;
+    client->arg0 = arg0;
+    client->arg1 = arg1;
     client->next = sFaultInstance->clients;
     sFaultInstance->clients = client;
 
@@ -248,7 +250,7 @@ void Fault_RemoveClient(FaultClient* client) {
  * `callback`, which either returns a virtual address or NULL if the address could not
  * be converted.
  */
-void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* param) {
+void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* arg) {
     OSIntMask mask;
     u32 alreadyExists = false;
 
@@ -268,7 +270,7 @@ void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* 
     }
 
     client->callback = callback;
-    client->param = param;
+    client->arg = arg;
     client->next = sFaultInstance->addrConvClients;
     sFaultInstance->addrConvClients = client;
 
@@ -324,7 +326,7 @@ u32 Fault_ConvertAddress(u32 addr) {
 
     while (client != NULL) {
         if (client->callback != NULL) {
-            ret = Fault_ProcessClient(client->callback, addr, client->param);
+            ret = Fault_ProcessClient(client->callback, addr, client->arg);
             if (ret == -1) {
                 Fault_RemoveAddrConvClient(client);
             } else if (ret != 0) {
@@ -609,8 +611,8 @@ void Fault_LogThreadContext(OSThread* thread) {
 OSThread* Fault_FindFaultedThread(void) {
     OSThread* thread = __osGetActiveQueue();
 
-    // Thread priority -1 indicates the end of the thread queue
-    while (thread->priority != -1) {
+    // OS_PRIORITY_THREADTAIL indicates the end of the thread queue
+    while (thread->priority != OS_PRIORITY_THREADTAIL) {
         if (thread->priority > OS_PRIORITY_IDLE && thread->priority < OS_PRIORITY_APPMAX &&
             (thread->flags & (OS_FLAG_CPU_BREAK | OS_FLAG_FAULT))) {
             return thread;
@@ -1114,9 +1116,9 @@ void Fault_ProcessClients(void) {
             Fault_FillScreenBlack();
             FaultDrawer_SetCharPad(-2, 0);
             FaultDrawer_Printf(FAULT_COLOR(DARK_GRAY) "CallBack (%d) %08x %08x %08x\n" FAULT_COLOR(WHITE), idx++,
-                               client, client->param1, client->param2);
+                               client, client->arg0, client->arg1);
             FaultDrawer_SetCharPad(0, 0);
-            Fault_ProcessClient(client->callback, client->param1, client->param2);
+            Fault_ProcessClient(client->callback, client->arg0, client->arg1);
             Fault_WaitForInput();
             Fault_DisplayFrameBuffer();
         }
