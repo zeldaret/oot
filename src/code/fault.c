@@ -1,7 +1,3 @@
-#include "global.h"
-#include "vt.h"
-#include "alloca.h"
-
 /**
  * @file fault.c
  *
@@ -42,6 +38,9 @@
  * To navigate the pages, START and A may be used to advance to the next page, and L toggles whether to
  * automatically scroll to the next page after some time has passed.
  */
+#include "global.h"
+#include "vt.h"
+#include "alloca.h"
 
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);

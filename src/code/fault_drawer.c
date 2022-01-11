@@ -1,12 +1,11 @@
-#include "global.h"
-#include "vt.h"
-
 /**
  * @file fault_drawer.c
  * 
  * Implements routines for drawing text with a fixed font directly to a framebuffer, used in displaying
  * the crash screen implemented by fault.c
  */
+#include "global.h"
+#include "vt.h"
 
 typedef struct {
     /* 0x00 */ u16* fb;
@@ -187,12 +186,12 @@ void FaultDrawer_UpdatePrintColor(void) {
         osSyncPrintf(VT_RST);
 
         idx = FaultDrawer_ColorToPrintColor(sFaultDrawer.foreColor);
-        if (idx >= 0 && idx < 8) {
+        if (idx >= 0 && idx < ARRAY_COUNT(sFaultDrawer.printColors) - 2) {
             osSyncPrintf(VT_SGR("3%d"), idx);
         }
 
         idx = FaultDrawer_ColorToPrintColor(sFaultDrawer.backColor);
-        if (idx >= 0 && idx < 8) {
+        if (idx >= 0 && idx < ARRAY_COUNT(sFaultDrawer.printColors) - 2) {
             osSyncPrintf(VT_SGR("4%d"), idx);
         }
     }
@@ -296,17 +295,19 @@ void* FaultDrawer_PrintCallback(void* arg, const char* str, u32 count) {
     return arg;
 }
 
-void FaultDrawer_VPrintf(const char* fmt, va_list args) {
-    _Printf(FaultDrawer_PrintCallback, &sFaultDrawer, fmt, args);
+s32 FaultDrawer_VPrintf(const char* fmt, va_list args) {
+    return _Printf(FaultDrawer_PrintCallback, &sFaultDrawer, fmt, args);
 }
 
-void FaultDrawer_Printf(const char* fmt, ...) {
+s32 FaultDrawer_Printf(const char* fmt, ...) {
+    s32 ret;
     va_list args;
     va_start(args, fmt);
 
-    FaultDrawer_VPrintf(fmt, args);
+    ret = FaultDrawer_VPrintf(fmt, args);
 
     va_end(args);
+    return ret;
 }
 
 void FaultDrawer_DrawText(s32 x, s32 y, const char* fmt, ...) {

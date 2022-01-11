@@ -62,8 +62,8 @@ void FaultDrawer_SetBackColor(u16 color);
 void FaultDrawer_SetFontColor(u16 color);
 void FaultDrawer_SetCharPad(s8 padW, s8 padH);
 void FaultDrawer_SetCursor(s32 x, s32 y);
-void FaultDrawer_VPrintf(const char* fmt, va_list args);
-void FaultDrawer_Printf(const char* fmt, ...);
+s32 FaultDrawer_VPrintf(const char* fmt, va_list args);
+s32 FaultDrawer_Printf(const char* fmt, ...);
 void FaultDrawer_DrawText(s32 x, s32 y, const char* fmt, ...);
 
 typedef struct FaultMgr {
