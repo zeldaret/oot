@@ -28,11 +28,6 @@ struct DynaPolyActor;
 
 #define WATERBOX_ROOM(p) ((p >> 13) & 0x3F)
 
-typedef enum {
-    /* 0 */ CONVEYOR_WATER,
-    /* 1 */ CONVEYOR_FLOOR
-} ConveyorType;
-
 typedef struct {
     Vec3f scale;
     Vec3s rot;

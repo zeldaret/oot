@@ -477,7 +477,7 @@ static f32 D_808535E8 = 1.0f;
 static f32 D_808535EC = 1.0f;
 static u32 D_808535F0 = 0;
 static u32 sConveyorSpeedIdx = 0;
-static s16 sConveyorType = CONVEYOR_WATER;
+static s16 sIsFloorConveyor = false;
 static s16 sConveyorYaw = 0;
 static f32 D_80853600 = 0.0f;
 static s32 D_80853604 = 0;
@@ -9460,10 +9460,10 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
 
         sConveyorSpeedIdx = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
         if (sConveyorSpeedIdx != 0) {
-            sConveyorType = SurfaceType_GetConveyorType(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
-            if (((sConveyorType == CONVEYOR_WATER) && (this->actor.yDistToWater > 20.0f) &&
+            sIsFloorConveyor = SurfaceType_IsFloorConveyor(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
+            if ((!sIsFloorConveyor && (this->actor.yDistToWater > 20.0f) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
-                ((sConveyorType != CONVEYOR_WATER) && (this->actor.bgCheckFlags & 1))) {
+                (sIsFloorConveyor && (this->actor.bgCheckFlags & 1))) {
                 sConveyorYaw = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, floorPoly, this->actor.floorBgId) *
                                (0x10000 / 64);
             } else {
@@ -10070,14 +10070,13 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
             sConveyorSpeedIdx--;
 
-            if (sConveyorType == CONVEYOR_WATER) {
+            if (!sIsFloorConveyor) {
                 conveyorSpeed = sWaterConveyorSpeeds[sConveyorSpeedIdx];
 
                 if (!(this->stateFlags1 & 0x8000000)) {
                     conveyorSpeed *= 0.25f;
                 }
             } else {
-                // CONVEYOR_FLOOR
                 conveyorSpeed = sFloorConveyorSpeeds[sConveyorSpeedIdx];
             }
 
