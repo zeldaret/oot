@@ -506,9 +506,9 @@ void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, Gfx* dlist) {
-    func_800D1694(this->dyna.actor.world.pos.x,
-                  this->dyna.actor.world.pos.y + (this->dyna.actor.shape.yOffset * this->unk_1D0),
-                  this->dyna.actor.world.pos.z, &this->dyna.actor.shape.rot);
+    Matrix_SetTranslateRotateYXZ(this->dyna.actor.world.pos.x,
+                                 this->dyna.actor.world.pos.y + (this->dyna.actor.shape.yOffset * this->unk_1D0),
+                                 this->dyna.actor.world.pos.z, &this->dyna.actor.shape.rot);
     Matrix_Scale(this->unk_1D4, this->unk_1D0, this->unk_1D4, MTXMODE_APPLY);
     Gfx_DrawDListOpa(globalCtx, dlist);
 }

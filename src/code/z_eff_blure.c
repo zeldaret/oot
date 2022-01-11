@@ -48,7 +48,7 @@ void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2) {
                 Math_Vec3f_Scale(&sp154, scale);
 
                 SkinMatrix_SetTranslate(&sp110, sp160.x, sp160.y, sp160.z);
-                func_800A7EC0(&spD0, this->addAngle, sp154.x, sp154.y, sp154.z);
+                SkinMatrix_SetRotateAxis(&spD0, this->addAngle, sp154.x, sp154.y, sp154.z);
                 SkinMatrix_MtxFMtxFMult(&sp110, &spD0, &sp90);
                 SkinMatrix_SetTranslate(&sp110, -sp160.x, -sp160.y, -sp160.z);
                 SkinMatrix_MtxFMtxFMult(&sp90, &sp110, &sp50);
@@ -804,7 +804,7 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
                     Math_Vec3f_Scale(&sp198, scale);
 
                     SkinMatrix_SetTranslate(&sp154, sp1B0.x, sp1B0.y, sp1B0.z);
-                    func_800A7EC0(&sp114, 0x3FFF, sp198.x, sp198.y, sp198.z);
+                    SkinMatrix_SetRotateAxis(&sp114, 0x3FFF, sp198.x, sp198.y, sp198.z);
                     SkinMatrix_MtxFMtxFMult(&sp154, &sp114, &spD4);
                     SkinMatrix_SetTranslate(&sp154, -sp1B0.x, -sp1B0.y, -sp1B0.z);
                     SkinMatrix_MtxFMtxFMult(&spD4, &sp154, &sp94);
