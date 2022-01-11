@@ -553,14 +553,14 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
             sp50.y = 3518;
             sp50.z = -13450;
 
-            func_800D1694(97.0f, -1203.0f, -240.0f, &sp50);
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp50);
             Matrix_ToMtx(mtx++, "../z_en_mm.c", 1124);
 
             sp50.x = -994;
             sp50.y = -3518;
             sp50.z = -13450;
 
-            func_800D1694(97.0f, -1203.0f, 240.0f, &sp50);
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp50);
             Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);

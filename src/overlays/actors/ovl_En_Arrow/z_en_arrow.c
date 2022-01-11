@@ -279,7 +279,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
             }
 
             EffectSsStone1_Spawn(globalCtx, &this->actor.world.pos, 0);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, sfxId);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, sfxId);
             Actor_Kill(&this->actor);
         } else {
             EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 150, &this->actor.world.pos);

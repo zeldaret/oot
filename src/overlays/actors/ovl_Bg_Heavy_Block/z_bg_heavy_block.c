@@ -408,7 +408,8 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
                 Quake_SetQuakeValues(quakeIndex, 5, 0, 0, 0);
                 Quake_SetCountdown(quakeIndex, 999);
 
-                Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_ELECTRIC_EXPLOSION);
+                SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 30,
+                                                   NA_SE_EV_ELECTRIC_EXPLOSION);
                 return;
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
@@ -490,10 +491,11 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 904);
 
     if (BgHeavyBlock_LiftedUp == this->actionFunc) {
-        func_800D1694(player->leftHandPos.x, player->leftHandPos.y, player->leftHandPos.z, &thisx->shape.rot);
+        Matrix_SetTranslateRotateYXZ(player->leftHandPos.x, player->leftHandPos.y, player->leftHandPos.z,
+                                     &thisx->shape.rot);
         Matrix_Translate(-this->unk_164.x, -this->unk_164.y, -this->unk_164.z, MTXMODE_APPLY);
     } else if ((thisx->gravity == 0.0f) && (BgHeavyBlock_Land == this->actionFunc)) {
-        func_800D1694(thisx->home.pos.x, thisx->home.pos.y, thisx->home.pos.z, &thisx->shape.rot);
+        Matrix_SetTranslateRotateYXZ(thisx->home.pos.x, thisx->home.pos.y, thisx->home.pos.z, &thisx->shape.rot);
         Matrix_Translate(-D_80884ED4.x, -D_80884ED4.y, -D_80884ED4.z, MTXMODE_APPLY);
     }
 

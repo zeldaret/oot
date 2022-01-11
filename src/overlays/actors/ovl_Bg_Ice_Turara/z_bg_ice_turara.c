@@ -96,7 +96,7 @@ void BgIceTurara_Break(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
     s32 j;
     s32 i;
 
-    Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 10; j++) {
             pos.x = this->dyna.actor.world.pos.x + Rand_CenteredFloat(8.0f);

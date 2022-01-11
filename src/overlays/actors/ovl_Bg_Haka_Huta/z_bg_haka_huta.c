@@ -100,7 +100,7 @@ void BgHakaHuta_PlaySound(BgHakaHuta* this, GlobalContext* globalCtx, u16 sfx) {
                                                 : this->dyna.actor.world.pos.z - 120.0f;
     pos.x = this->dyna.actor.world.pos.x;
     pos.y = this->dyna.actor.world.pos.y;
-    Audio_PlaySoundAtPosition(globalCtx, &pos, 30, sfx);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &pos, 30, sfx);
 }
 
 void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, GlobalContext* globalCtx) {

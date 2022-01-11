@@ -349,14 +349,15 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         EnIshi_SetupLiftedUp(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, liftSounds[type]);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, liftSounds[type]);
         if ((this->actor.params >> 4) & 1) {
             EnIshi_SpawnBugs(this, globalCtx);
         }
     } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
                this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000048) {
         EnIshi_DropCollectible(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type], sBreakSounds[type]);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
+                                           sBreakSounds[type]);
         sFragmentSpawnFuncs[type](this, globalCtx);
         sDustSpawnFuncs[type](this, globalCtx);
         Actor_Kill(&this->actor);
@@ -423,8 +424,8 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         EnIshi_DropCollectible(this, globalCtx);
         sFragmentSpawnFuncs[type](this, globalCtx);
         if (!(this->actor.bgCheckFlags & 0x20)) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
-                                      sBreakSounds[type]);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
+                                               sBreakSounds[type]);
             sDustSpawnFuncs[type](this, globalCtx);
         }
         if (type == ROCK_LARGE) {
@@ -454,7 +455,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         this->actor.minVelocityY = -6.0f;
         sRotSpeedX >>= 2;
         sRotSpeedY >>= 2;
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
         this->actor.bgCheckFlags &= ~0x40;
     }
     Math_StepToF(&this->actor.shape.yOffset, 0.0f, 2.0f);

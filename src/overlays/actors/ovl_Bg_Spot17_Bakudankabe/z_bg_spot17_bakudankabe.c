@@ -116,7 +116,7 @@ void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.xzDistToPlayer < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != NULL) {
         func_808B6BC0(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
     }

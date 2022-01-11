@@ -228,7 +228,7 @@ void Gameplay_Init(GameState* thisx) {
     func_80112098(globalCtx);
     Message_Init(globalCtx);
     GameOver_Init(globalCtx);
-    func_8006BA00(globalCtx);
+    SoundSource_InitAll(globalCtx);
     Effect_InitContext(globalCtx);
     EffectSs_InitInfo(globalCtx, 0x55);
     CollisionCheck_InitContext(globalCtx, &globalCtx->colChkCtx);
@@ -392,7 +392,7 @@ void Gameplay_Init(GameState* thisx) {
     }
 
     Interface_SetSceneRestrictions(globalCtx);
-    func_800758AC(globalCtx);
+    Environment_PlaySceneSequence(globalCtx);
     gSaveContext.seqId = globalCtx->sequenceCtx.seqId;
     gSaveContext.natureAmbienceId = globalCtx->sequenceCtx.natureAmbienceId;
     func_8002DF18(globalCtx, GET_PLAYER(globalCtx));
@@ -484,7 +484,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
                                 gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-                                gSaveContext.natureAmbienceId = 0xFF;
+                                gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
                             }
                         }
                     }
@@ -975,7 +975,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3771);
             }
 
-            func_8006BA30(globalCtx);
+            SoundSource_UpdateAll(globalCtx);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3777);

@@ -1047,7 +1047,7 @@ void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     if ((limbIndex == 7) || (limbIndex == 8)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1735);
         Matrix_Push();
-        func_800D1FD4(&globalCtx->billboardMtxF);
+        Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fr.c", 1738),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
@@ -1057,7 +1057,10 @@ void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x060059A0, 0x06005BA0 };
+    static void* eyeTextures[] = {
+        object_fr_Tex_0059A0,
+        object_fr_Tex_005BA0,
+    };
     s16 lightRadius;
     EnFr* this = (EnFr*)thisx;
     s16 frogIndex = this->actor.params - 1;
