@@ -980,11 +980,6 @@ typedef struct {
     /* 0x2F */ u8       unk_2F;
 } SoundBankEntry; // size = 0x30
 
-typedef struct {
-    u8 unk_0;
-    u8 unk_1; // importance?
-} Struct_8016E320;
-
 /*
  * SFX IDs
  *

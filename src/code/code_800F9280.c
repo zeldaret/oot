@@ -2,6 +2,11 @@
 #include "global.h"
 #include "ultra64/abi.h"
 
+typedef struct {
+    u8 unk_0;
+    u8 unk_1; // importance?
+} Struct_8016E320;
+
 // bss
 Struct_8016E320 D_8016E320[4][5];
 u8 D_8016E348[4];
