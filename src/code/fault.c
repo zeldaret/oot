@@ -2,17 +2,17 @@
  * @file fault.c
  *
  * This file implements the screen that may be viewed when the game crashes.
- * This is the second version of the crash screen that originally appeared in Majora's Mask.
+ * This is the second version of the crash screen, originally used in Majora's Mask.
  *
  * When the game crashes, a red bar will be drawn to the top-left of the screen, indicating that the
  * crash screen is available for use. Once this bar appears, it is possible to open the crash screen
  * with the following button combination:
- * 
+ *
  * (L & R & Z) + DPad-Up + C-Down + C-Up + DPad-Down + DPad-Left + C-Left + C-Right + DPad-Right + (B & A & START)
- * 
+ *
  * When entering this button combination, buttons that are &'d together must all be pressed together.
  * The L & R presses and B & A presses may be interchanged in the order they are pressed.
- * 
+ *
  * "Clients" may be registered with the crash screen to extend its functionality. There are
  * two kinds of client, "Client" and "AddressConverterClient". Clients contribute one or
  * more pages to the crash debugger, while Address Converter Clients allow the crash screen to look up
@@ -82,10 +82,10 @@ extern char sFaultStack[0x600];
 extern StackEntry sFaultThreadInfo;
 extern FaultMgr gFaultMgr;
 
-void Fault_SleepImpl(u32 duration) {
-    u64 value = (duration * OS_CPU_COUNTER) / 1000ull;
+void Fault_SleepImpl(u32 msec) {
+    u64 cycles = (msec * OS_CPU_COUNTER) / 1000ull;
 
-    Sleep_Cycles(value);
+    Sleep_Cycles(cycles);
 }
 
 typedef struct {
@@ -137,7 +137,7 @@ void Fault_ClientRunTask(FaultClientTask* task) {
 
     // Await done
     while (true) {
-        osSetTimer(&timer, OS_USEC_TO_CYCLES(1 * 1000 * 1000), 0, &queue, (OSMesg)timerMsgVal);
+        osSetTimer(&timer, OS_SEC_TO_CYCLES(1), 0, &queue, (OSMesg)timerMsgVal);
         osRecvMesg(&queue, &recMsg, OS_MESG_BLOCK);
 
         if (recMsg != (OSMesg)666) {
@@ -175,6 +175,9 @@ s32 Fault_ProcessClient(void* callback, void* arg0, void* arg1) {
  *
  * Clients contribute a page to the crash screen, drawn by `callback`. Arguments
  * are passed on to the callback through `arg0` and `arg1`.
+ *
+ * The callback is intended to be
+ * `void (*callback)(void* arg0, void* arg1)`
  */
 void Fault_AddClient(FaultClient* client, void* callback, void* arg0, void* arg1) {
     OSIntMask mask;
@@ -215,7 +218,7 @@ void Fault_RemoveClient(FaultClient* client) {
     FaultClient* iterClient = sFaultInstance->clients;
     FaultClient* lastClient = NULL;
     OSIntMask mask;
-    u32 listIsEmpty = 0;
+    s32 listIsEmpty = false;
 
     mask = osSetIntMask(OS_IM_NONE);
 
@@ -228,7 +231,7 @@ void Fault_RemoveClient(FaultClient* client) {
                 if (sFaultInstance->clients) {
                     sFaultInstance->clients = client->next;
                 } else {
-                    listIsEmpty = 1;
+                    listIsEmpty = true;
                 }
             }
             break;
@@ -249,10 +252,15 @@ void Fault_RemoveClient(FaultClient* client) {
  * addresses of overlays relocated during runtime. Address conversion is carried out by
  * `callback`, which either returns a virtual address or NULL if the address could not
  * be converted.
+ *
+ * The callback is intended to be
+ * `uintptr_t (*callback)(uintptr_t addr, void* arg)`
+ * The callback may return 0 if it could not convert the address
+ * The callback may return -1 to be unregistered
  */
 void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* arg) {
     OSIntMask mask;
-    u32 alreadyExists = false;
+    s32 alreadyExists = false;
 
     mask = osSetIntMask(OS_IM_NONE);
 
@@ -285,7 +293,7 @@ void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
     FaultAddrConvClient* iterClient = sFaultInstance->addrConvClients;
     FaultAddrConvClient* lastClient = NULL;
     OSIntMask mask;
-    u32 listIsEmpty = false;
+    s32 listIsEmpty = false;
 
     mask = osSetIntMask(OS_IM_NONE);
 
@@ -320,7 +328,7 @@ void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
  * Converts `addr` to a virtual address via the registered
  * address converter clients
  */
-u32 Fault_ConvertAddress(u32 addr) {
+uintptr_t Fault_ConvertAddress(uintptr_t addr) {
     s32 ret;
     FaultAddrConvClient* client = sFaultInstance->addrConvClients;
 
@@ -330,7 +338,7 @@ u32 Fault_ConvertAddress(u32 addr) {
             if (ret == -1) {
                 Fault_RemoveAddrConvClient(client);
             } else if (ret != 0) {
-                return ret;
+                return (uintptr_t)ret;
             }
         }
         client = client->next;
@@ -339,8 +347,8 @@ u32 Fault_ConvertAddress(u32 addr) {
     return 0;
 }
 
-void Fault_Sleep(u32 duration) {
-    Fault_SleepImpl(duration);
+void Fault_Sleep(u32 msec) {
+    Fault_SleepImpl(msec);
 }
 
 void PadMgr_RequestPadData(Input* input, s32 mode);
@@ -366,15 +374,15 @@ void Fault_UpdatePadImpl(void) {
 u32 Fault_WaitForInputImpl(void) {
     Input* input = &sFaultInstance->padInput;
     s32 count = 600;
-    u32 kDown;
+    u32 pressedBtn;
 
     while (true) {
-        Fault_Sleep(16);
+        Fault_Sleep(1000 / 60);
         Fault_UpdatePadImpl();
 
-        kDown = input->press.button;
+        pressedBtn = input->press.button;
 
-        if (kDown == BTN_L) {
+        if (pressedBtn == BTN_L) {
             sFaultInstance->autoScroll = !sFaultInstance->autoScroll;
         }
 
@@ -383,19 +391,19 @@ u32 Fault_WaitForInputImpl(void) {
                 return false;
             }
         } else {
-            if (kDown == BTN_A || kDown == BTN_DRIGHT) {
+            if (pressedBtn == BTN_A || pressedBtn == BTN_DRIGHT) {
                 return false;
             }
 
-            if (kDown == BTN_DLEFT) {
+            if (pressedBtn == BTN_DLEFT) {
                 return true;
             }
 
-            if (kDown == BTN_DUP) {
+            if (pressedBtn == BTN_DUP) {
                 FaultDrawer_SetOsSyncPrintfEnabled(true);
             }
 
-            if (kDown == BTN_DDOWN) {
+            if (pressedBtn == BTN_DDOWN) {
                 FaultDrawer_SetOsSyncPrintfEnabled(false);
             }
         }
@@ -627,8 +635,8 @@ void Fault_Wait5Seconds(void) {
     OSTime start = osGetTime();
 
     do {
-        Fault_Sleep(16);
-    } while ((osGetTime() - start) < OS_USEC_TO_CYCLES(5 * 1000 * 1000) + 1);
+        Fault_Sleep(1000 / 60);
+    } while ((osGetTime() - start) < OS_SEC_TO_CYCLES(5) + 1);
 
     sFaultInstance->autoScroll = true;
 }
@@ -643,8 +651,8 @@ void Fault_WaitForButtonCombo(void) {
     s32 state;
     u32 s1;
     u32 s2;
-    u32 kDown;
-    u32 kCur;
+    u32 pressedBtn;
+    u32 curBtn;
 
     if (1) {}
     if (1) {}
@@ -664,35 +672,35 @@ void Fault_WaitForButtonCombo(void) {
     s2 = 1;
 
     while (state != 11) {
-        Fault_Sleep(16);
+        Fault_Sleep(1000 / 60);
         Fault_UpdatePadImpl();
 
-        kDown = input->press.button;
-        kCur = input->cur.button;
+        pressedBtn = input->press.button;
+        curBtn = input->cur.button;
 
-        if (kCur == 0 && s1 == s2) {
+        if (curBtn == 0 && s1 == s2) {
             s1 = 0;
-        } else if (kDown != 0) {
+        } else if (pressedBtn != 0) {
             if (s1 == s2) {
                 state = 0;
             }
 
             switch (state) {
                 case 0:
-                    if (kCur == (BTN_Z | BTN_L | BTN_R) && kDown == BTN_Z) {
+                    if (curBtn == (BTN_Z | BTN_L | BTN_R) && pressedBtn == BTN_Z) {
                         state = s2;
                         s1 = s2;
                     }
                     break;
                 case 1:
-                    if (kDown == BTN_DUP) {
+                    if (pressedBtn == BTN_DUP) {
                         state = 2;
                     } else {
                         state = 0;
                     }
                     break;
                 case 2:
-                    if (kDown == BTN_CDOWN) {
+                    if (pressedBtn == BTN_CDOWN) {
                         state = 3;
                         s1 = s2;
                     } else {
@@ -700,14 +708,14 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
                 case 3:
-                    if (kDown == BTN_CUP) {
+                    if (pressedBtn == BTN_CUP) {
                         state = 4;
                     } else {
                         state = 0;
                     }
                     break;
                 case 4:
-                    if (kDown == BTN_DDOWN) {
+                    if (pressedBtn == BTN_DDOWN) {
                         state = 5;
                         s1 = s2;
                     } else {
@@ -715,14 +723,14 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
                 case 5:
-                    if (kDown == BTN_DLEFT) {
+                    if (pressedBtn == BTN_DLEFT) {
                         state = 6;
                     } else {
                         state = 0;
                     }
                     break;
                 case 6:
-                    if (kDown == BTN_CLEFT) {
+                    if (pressedBtn == BTN_CLEFT) {
                         state = 7;
                         s1 = s2;
                     } else {
@@ -730,14 +738,14 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
                 case 7:
-                    if (kDown == BTN_CRIGHT) {
+                    if (pressedBtn == BTN_CRIGHT) {
                         state = 8;
                     } else {
                         state = 0;
                     }
                     break;
                 case 8:
-                    if (kDown == BTN_DRIGHT) {
+                    if (pressedBtn == BTN_DRIGHT) {
                         state = 9;
                         s1 = s2;
                     } else {
@@ -745,32 +753,32 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
                 case 9:
-                    if (kDown == (BTN_A | BTN_B)) {
+                    if (pressedBtn == (BTN_A | BTN_B)) {
                         state = 10;
-                    } else if (kDown == BTN_A) {
+                    } else if (pressedBtn == BTN_A) {
                         state = 0x5B;
-                    } else if (kDown == BTN_B) {
+                    } else if (pressedBtn == BTN_B) {
                         state = 0x5C;
                     } else {
                         state = 0;
                     }
                     break;
                 case 0x5B:
-                    if (kDown == BTN_B) {
+                    if (pressedBtn == BTN_B) {
                         state = 10;
                     } else {
                         state = 0;
                     }
                     break;
                 case 0x5C:
-                    if (kDown == BTN_A) {
+                    if (pressedBtn == BTN_A) {
                         state = 10;
                     } else {
                         state = 0;
                     }
                     break;
                 case 10:
-                    if (kDown == BTN_START) {
+                    if (pressedBtn == BTN_START) {
                         state = 11;
                     } else {
                         state = 0;
@@ -783,8 +791,8 @@ void Fault_WaitForButtonCombo(void) {
     }
 }
 
-void Fault_DrawMemDumpContents(const char* title, u32 addr, u32 arg2) {
-    u32 alignedAddr = addr;
+void Fault_DrawMemDumpContents(const char* title, uintptr_t addr, u32 arg2) {
+    uintptr_t alignedAddr = addr;
     u32* writeAddr;
     s32 y;
     s32 x;
@@ -793,6 +801,7 @@ void Fault_DrawMemDumpContents(const char* title, u32 addr, u32 arg2) {
     if (alignedAddr < K0BASE) {
         alignedAddr = K0BASE;
     }
+    // 8mb RAM, leave room to display 0x100 bytes on the final page
     if (alignedAddr > K0BASE + 0x800000 - 0x100) {
         alignedAddr = K0BASE + 0x800000 - 0x100;
     }
@@ -836,9 +845,9 @@ void Fault_DrawMemDumpContents(const char* title, u32 addr, u32 arg2) {
  * @param cLeftJump Unused parameter, pressing C-Left jumps to this address
  * @param cRightJump Unused parameter, pressing C-Right jumps to this address
  */
-void Fault_DrawMemDump(u32 pc, u32 sp, u32 cLeftJump, u32 cRightJump) {
+void Fault_DrawMemDump(uintptr_t pc, uintptr_t sp, uintptr_t cLeftJump, uintptr_t cRightJump) {
     Input* input = &sFaultInstance->padInput;
-    u32 addr = pc;
+    uintptr_t addr = pc;
     s32 scrollCountdown;
     u32 off;
 
@@ -848,6 +857,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 cLeftJump, u32 cRightJump) {
         if (addr < K0BASE) {
             addr = K0BASE;
         }
+        // 8mb RAM, leave room to display 0x100 bytes on the final page
         if (addr > K0BASE + 0x800000 - 0x100) {
             addr = K0BASE + 0x800000 - 0x100;
         }
@@ -864,7 +874,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 cLeftJump, u32 cRightJump) {
             }
 
             scrollCountdown--;
-            Fault_Sleep(16);
+            Fault_Sleep(1000 / 60);
             Fault_UpdatePadImpl();
             if (CHECK_BTN_ALL(input->press.button, BTN_L)) {
                 // Disable auto-scrolling
@@ -874,7 +884,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 cLeftJump, u32 cRightJump) {
 
         // Wait for input
         do {
-            Fault_Sleep(16);
+            Fault_Sleep(1000 / 60);
             Fault_UpdatePadImpl();
         } while (input->press.button == 0);
 
@@ -953,10 +963,10 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 cLeftJump, u32 cRightJump) {
  * there is no choice but to give up here. For j instructions, they can be followed
  * and the backtrace may continue as normal.
  */
-void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32* raPtr) {
-    u32 sp = *spPtr;
-    u32 pc = *pcPtr;
-    u32 ra = *raPtr;
+void Fault_WalkStack(uintptr_t* spPtr, uintptr_t* pcPtr, uintptr_t* raPtr) {
+    uintptr_t sp = *spPtr;
+    uintptr_t pc = *pcPtr;
+    uintptr_t ra = *raPtr;
     s32 count = 0x10000; // maximum number of instructions to search through
     u32 lastInsn;
     u32 insn;
@@ -988,7 +998,7 @@ void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32* raPtr) {
         if (insnHi == 0x8FBF) {
             // lw $ra, <imm>($sp)
             // read return address saved on the stack
-            ra = *(u32*)K0_TO_K1(sp + imm);
+            ra = *(uintptr_t*)K0_TO_K1(sp + imm);
         } else if (insnHi == 0x27BD) {
             // addiu $sp, $sp, <imm>
             // stack pointer increment or decrement
@@ -1012,7 +1022,7 @@ void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32* raPtr) {
         }
 
         lastInsn = insn;
-        pc += 4;
+        pc += sizeof(u32);
         if (count == 0) {
             break;
         }
@@ -1032,15 +1042,15 @@ done:
  */
 void Fault_DrawStackTrace(OSThread* thread, s32 x, s32 y, s32 height) {
     s32 line;
-    u32 sp = thread->context.sp;
-    u32 ra = thread->context.ra;
-    u32 pc = thread->context.pc;
-    u32 addr;
+    uintptr_t sp = thread->context.sp;
+    uintptr_t ra = thread->context.ra;
+    uintptr_t pc = thread->context.pc;
+    uintptr_t addr;
 
     FaultDrawer_DrawText(x, y, "SP       PC       (VPC)");
 
     // Backtrace from the current function to the start of the thread
-    for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (u32)__osCleanupThread; line++) {
+    for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (uintptr_t)__osCleanupThread; line++) {
         FaultDrawer_DrawText(x, y + line * 8, "%08x %08x", sp, pc);
         // Convert relocated address to virtual address if applicable
         addr = Fault_ConvertAddress(pc);
@@ -1054,14 +1064,14 @@ void Fault_DrawStackTrace(OSThread* thread, s32 x, s32 y, s32 height) {
 
 void Fault_LogStackTrace(OSThread* thread, s32 height) {
     s32 line;
-    u32 sp = thread->context.sp;
-    u32 ra = thread->context.ra;
-    u32 pc = thread->context.pc;
-    u32 addr;
+    uintptr_t sp = thread->context.sp;
+    uintptr_t ra = thread->context.ra;
+    uintptr_t pc = thread->context.pc;
+    uintptr_t addr;
     s32 pad;
 
     osSyncPrintf("STACK TRACE\nSP       PC       (VPC)\n");
-    for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (u32)__osCleanupThread; line++) {
+    for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (uintptr_t)__osCleanupThread; line++) {
         osSyncPrintf("%08x %08x", sp, pc);
         addr = Fault_ConvertAddress(pc);
         if (addr != 0) {
@@ -1075,7 +1085,7 @@ void Fault_LogStackTrace(OSThread* thread, s32 height) {
 void Fault_ResumeThread(OSThread* thread) {
     thread->context.cause = 0;
     thread->context.fpcsr = 0;
-    thread->context.pc += 4;
+    thread->context.pc += sizeof(u32);
     *(u32*)thread->context.pc = 0x0000000D; // write in a break instruction
     osWritebackDCache(thread->context.pc, 4);
     osInvalICache(thread->context.pc, 4);
@@ -1094,7 +1104,7 @@ void Fault_DisplayFrameBuffer(void) {
         fb = sFaultInstance->fb;
     } else {
         fb = osViGetNextFramebuffer();
-        if ((u32)fb == K0BASE) {
+        if ((uintptr_t)fb == K0BASE) {
             fb = (PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
         }
     }
@@ -1179,7 +1189,7 @@ void Fault_ThreadEntry(void* arg) {
         while (!sFaultInstance->faultHandlerEnabled) {
             Fault_Sleep(1000);
         }
-        Fault_Sleep(500);
+        Fault_Sleep(1000 / 2);
 
         // Show fault framebuffer
         Fault_DisplayFrameBuffer();
@@ -1212,7 +1222,7 @@ void Fault_ThreadEntry(void* arg) {
             // Client pages
             Fault_ProcessClients();
             // Memory dump page
-            Fault_DrawMemDump(faultedThread->context.pc - 0x100, (u32)faultedThread->context.sp, 0, 0);
+            Fault_DrawMemDump(faultedThread->context.pc - 0x100, (uintptr_t)faultedThread->context.sp, 0, 0);
             // End page
             Fault_FillScreenRed();
             FaultDrawer_DrawText(64, 80, "    CONGRATURATIONS!    ");
@@ -1257,7 +1267,7 @@ void Fault_Init(void) {
  * Fault page for Hungup crashes. Displays the thread id and two messages
  * specified in arguments to `Fault_AddHungupAndCrashImpl`.
  */
-void Fault_HangupFaultClient(const char* exp1, const char* exp2) {
+void Fault_HungupFaultClient(const char* exp1, const char* exp2) {
     osSyncPrintf("HungUp on Thread %d\n", osGetThreadId(NULL));
     osSyncPrintf("%s\n", exp1 != NULL ? exp1 : "(NULL)");
     osSyncPrintf("%s\n", exp2 != NULL ? exp2 : "(NULL)");
@@ -1275,7 +1285,7 @@ void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     FaultClient client;
     s32 pad;
 
-    Fault_AddClient(&client, Fault_HangupFaultClient, (void*)exp1, (void*)exp2);
+    Fault_AddClient(&client, Fault_HungupFaultClient, (void*)exp1, (void*)exp2);
     *(u32*)0x11111111 = 0; // trigger an exception via unaligned memory access
 }
 
