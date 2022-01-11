@@ -173,8 +173,8 @@ s32 Fault_ProcessClient(void* callback, void* arg0, void* arg1) {
 /**
  * Registers a fault client.
  *
- * Clients contribute a page to the crash screen, drawn by `callback`. Arguments
- * are passed on to the callback through `arg0` and `arg1`.
+ * Clients contribute at least one page to the crash screen, drawn by `callback`. 
+ * Arguments are passed on to the callback through `arg0` and `arg1`.
  *
  * The callback is intended to be
  * `void (*callback)(void* arg0, void* arg1)`
