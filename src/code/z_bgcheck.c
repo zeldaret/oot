@@ -4113,7 +4113,12 @@ s32 SurfaceType_IsIgnoredByProjectiles(CollisionContext* colCtx, CollisionPoly* 
 
 /**
  * CollisionPoly is a floor conveyor
- * Returns true if `poly` is a surface that will push player while being stood on with a non-zero conveyor speed, else false
+ * 
+ * If the conveyor surface has a non-zero speed, then the conveyor will exhibit two types of behaviour depending on the return value:
+ * If the `poly` returns true, then it is a floor conveyor and will push player only while being stood on
+ * If the `poly` returns false, then it is a water conveyor and will push player only while being underwater
+ * 
+ * If the conveyor surface has zero speed, then the surface will not behave as a conveyor independent of the return value
  */
 s32 SurfaceType_IsFloorConveyor(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     u32 flags;

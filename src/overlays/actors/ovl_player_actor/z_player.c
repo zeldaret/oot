@@ -9458,6 +9458,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             }
         }
 
+        // This block extracts the conveyor properties from the floor poly
         sConveyorSpeedIdx = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
         if (sConveyorSpeedIdx != 0) {
             sIsFloorConveyor = SurfaceType_IsFloorConveyor(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
@@ -10065,9 +10066,11 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->pushedSpeed = 0.0f;
         }
 
+        // This block applies the bg conveyor to pushedSpeed
         if ((sConveyorSpeedIdx != 0) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
             f32 conveyorSpeed;
 
+            // converts 1-index to 0-index
             sConveyorSpeedIdx--;
 
             if (!sIsFloorConveyor) {
@@ -10081,7 +10084,6 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             }
 
             Math_StepToF(&this->pushedSpeed, conveyorSpeed, conveyorSpeed * 0.1f);
-
             Math_ScaledStepToS(&this->pushedYaw, sConveyorYaw,
                                ((this->stateFlags1 & 0x8000000) ? 400.0f : 800.0f) * conveyorSpeed);
         } else if (this->pushedSpeed != 0.0f) {
