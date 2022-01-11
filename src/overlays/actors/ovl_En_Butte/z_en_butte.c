@@ -360,7 +360,7 @@ void EnButte_TransformIntoFairy(EnButte* this, GlobalContext* globalCtx) {
     EnButte_UpdateTransformationEffect();
 
     if (this->timer == 5) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 60, NA_SE_EV_BUTTERFRY_TO_FAIRY);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 60, NA_SE_EV_BUTTERFRY_TO_FAIRY);
     } else if (this->timer == 4) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.focus.pos.x, this->actor.focus.pos.y,
                     this->actor.focus.pos.z, 0, this->actor.shape.rot.y, 0, FAIRY_HEAL_TIMED);

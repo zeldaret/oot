@@ -1560,7 +1560,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
                 this->drawActor = false;
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
-                Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 70, NA_SE_EN_MOFER_LASTVOICE);
+                SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 70, NA_SE_EN_MOFER_LASTVOICE);
             }
             if (this->timers[0] == 0) {
                 this->csState = MO_DEATH_DRAIN_WATER_1;

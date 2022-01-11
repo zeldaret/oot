@@ -3984,7 +3984,8 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     if (sqrtf(SQ(xDistFromLink) + SQ(yDistFromLink) + SQ(zDistFromLink)) <= 25.0f) {
                         spBA = 5;
                         func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f, 0x30);
-                        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GANON_HIT_THUNDER);
+                        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40,
+                                                           NA_SE_EN_GANON_HIT_THUNDER);
                         ganondorf->timers[2] = 20;
 
                         for (i = 0; i < ARRAY_COUNT(ganondorf->unk_4E4); i++) {
@@ -4026,8 +4027,9 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
             case 4:
                 if (sqrtf(SQ(xDistFromGanondorf) + SQ(yDistFromGanondorf) + SQ(zDistFromGanondorf)) < 30.0f) {
                     spBA = 3;
-                    Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GANON_DAMAGE1);
-                    Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GANON_HIT_THUNDER);
+                    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GANON_DAMAGE1);
+                    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40,
+                                                       NA_SE_EN_GANON_HIT_THUNDER);
                 }
                 break;
 
@@ -4083,7 +4085,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 sp54 = 15.0f;
                 phi_f20 = 30.0f;
                 sp4E = 70;
-                Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_GANON_HIT_THUNDER);
+                SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_GANON_HIT_THUNDER);
             }
 
             for (i = 0; i < sp4E; i++) {
@@ -4460,7 +4462,8 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
 
                 if (dorf->timers[2] == 0) {
                     func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f, 0x50);
-                    Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_GANON_HIT_THUNDER);
+                    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40,
+                                                       NA_SE_EN_GANON_HIT_THUNDER);
                     dorf->timers[2] = 20;
 
                     for (i = 0; i < ARRAY_COUNT(this->unk_4E4); i++) {
@@ -4528,7 +4531,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (numEffects) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_FANTOM_THUNDER);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_FANTOM_THUNDER);
 
         for (i = 0; i < numEffects; i++) {
             sp60.x = Rand_CenteredFloat(30.0f);

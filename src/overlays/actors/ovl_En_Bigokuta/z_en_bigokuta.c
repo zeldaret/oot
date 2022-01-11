@@ -642,7 +642,7 @@ void func_809BE26C(EnBigokuta* this, GlobalContext* globalCtx) {
             Flags_SetClear(globalCtx, this->actor.room);
             Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
             func_8005ACFC(globalCtx->cameraPtrs[MAIN_CAM], 4);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 50, NA_SE_EN_OCTAROCK_BUBLE);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 50, NA_SE_EN_OCTAROCK_BUBLE);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xB0);
             Actor_Kill(&this->actor);
         }

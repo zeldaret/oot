@@ -149,7 +149,7 @@ void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* glob
         if (this->timer > 10) {
             BgJyaBombchuiwa_Break(this, globalCtx);
             BgJyaBombchuiwa_CleanUpAfterExplosion(this, globalCtx);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

@@ -2986,7 +2986,7 @@ Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory) {
  */
 void Enemy_StartFinishingBlow(GlobalContext* globalCtx, Actor* actor) {
     globalCtx->actorCtx.freezeFlashTimer = 5;
-    Audio_PlaySoundAtPosition(globalCtx, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
 
 s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
