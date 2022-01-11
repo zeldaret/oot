@@ -38,7 +38,7 @@ void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_F2[0] = 0;
     if ((gWeatherMode != 4) && (gWeatherMode != 5) && (globalCtx->envCtx.gloomySkyMode == 1)) {
         globalCtx->envCtx.gloomySkyMode = 2; // end gloomy sky
-        func_80077684(globalCtx);
+        Environment_StopStormNatureAmbience(globalCtx);
     }
     globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
 }
@@ -64,7 +64,7 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCt
         globalCtx->envCtx.unk_DE = 1;
     }
     globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
-    func_80077624(globalCtx);
+    Environment_PlayStormNatureAmbience(globalCtx);
     EnOkarinaEffect_SetupAction(this, EnOkarinaEffect_ManageStorm);
 }
 
@@ -91,10 +91,10 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
     if (this->timer == 0) {
         globalCtx->envCtx.unk_F2[0] = 0;
         if (globalCtx->csCtx.state == CS_STATE_IDLE) {
-            func_80077684(globalCtx);
+            Environment_StopStormNatureAmbience(globalCtx);
         } else if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
-            func_800F6D58(0xF, 1, 0);
-            func_800F6D58(0xE, 1, 0);
+            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_1, 0);
+            Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
         }
         osSyncPrintf("\n\n\nE_wether_flg=[%d]", gWeatherMode);
         osSyncPrintf("\nrain_evt_trg=[%d]\n\n", globalCtx->envCtx.gloomySkyMode);

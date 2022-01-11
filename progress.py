@@ -116,11 +116,11 @@ ovlPct = 100 * ovl / ovlSize
 bytesPerHeartPiece = total // 80
 
 if args.format == 'csv':
-    version = 1
+    csv_version = 2
     git_object = git.Repo().head.object
     timestamp = str(git_object.committed_date)
     git_hash = git_object.hexsha
-    csv_list = [str(version), timestamp, git_hash, str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize), str(src), str(nonMatchingASM), str(len(nonMatchingFunctions))]
+    csv_list = [str(csv_version), timestamp, git_hash, str(src), str(total), str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize), str(nonMatchingASM), str(len(nonMatchingFunctions))]
     print(",".join(csv_list))
 elif args.format == 'shield-json':
     # https://shields.io/endpoint

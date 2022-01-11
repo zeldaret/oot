@@ -14,7 +14,7 @@ volatile OSTime gRSPGFXTotalTime;
 volatile OSTime gRSPOtherTotalTime;
 volatile OSTime D_8016A578;
 volatile OSTime gRDPTotalTime;
-SpeedMeterTimeEntry* gSpeedMeterTimeEntryPtr;
+SpeedMeterTimeEntry* sSpeedMeterTimeEntryPtr;
 
 SpeedMeterTimeEntry sSpeedMeterTimeEntryArray[] = {
     { &D_8016A520, 0, 0, GPACK_RGBA5551(255, 0, 0, 1) }, { &D_8016A528, 0, 2, GPACK_RGBA5551(255, 255, 0, 1) },
@@ -62,11 +62,11 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
         return;
     }
 
-    gSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
+    sSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
     for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
-        temp = ((f64) * (gSpeedMeterTimeEntryPtr->time) / gIrqMgrRetraceTime) * 64.0;
-        gSpeedMeterTimeEntryPtr->x = temp + baseX;
-        gSpeedMeterTimeEntryPtr++;
+        temp = ((f64) * (sSpeedMeterTimeEntryPtr->time) / gIrqMgrRetraceTime) * 64.0;
+        sSpeedMeterTimeEntryPtr->x = temp + baseX;
+        sSpeedMeterTimeEntryPtr++;
     }
 
     View_Init(&view, gfxCtx);
@@ -88,11 +88,11 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     DrawRec(gfx++, GPACK_RGBA5551(255, 0, 0, 1), baseX + 64 * 2, uly, baseX + 64 * 3, lry);
     DrawRec(gfx++, GPACK_RGBA5551(255, 0, 255, 1), baseX + 64 * 3, uly, baseX + 64 * 4, lry);
 
-    gSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
+    sSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
     for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
-        DrawRec(gfx++, gSpeedMeterTimeEntryPtr->color, baseX, lry + gSpeedMeterTimeEntryPtr->y,
-                gSpeedMeterTimeEntryPtr->x, lry + gSpeedMeterTimeEntryPtr->y + 1);
-        gSpeedMeterTimeEntryPtr++;
+        DrawRec(gfx++, sSpeedMeterTimeEntryPtr->color, baseX, lry + sSpeedMeterTimeEntryPtr->y,
+                sSpeedMeterTimeEntryPtr->x, lry + sSpeedMeterTimeEntryPtr->y + 1);
+        sSpeedMeterTimeEntryPtr++;
     }
     gDPPipeSync(gfx++);
 

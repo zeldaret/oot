@@ -9,7 +9,7 @@ void SaveContext_Init(void) {
     D_8015FA88 = 0;
     D_8015FA8C = 0;
     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-    gSaveContext.natureAmbienceId = 0xFF;
+    gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
     gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     gSaveContext.nextCutsceneIndex = 0xFFEF;
     gSaveContext.cutsceneTrigger = 0;

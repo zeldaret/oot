@@ -84,7 +84,7 @@ void func_800C4344(GameState* gameState) {
         HREG(95) = CHECK_BTN_ALL(selectedInput->press.button, hReg82);
     }
 
-    if (D_8012DBC0 != 0) {
+    if (gIsCtrlr2Valid) {
         func_8006390C(&gameState->input[1]);
     }
 
