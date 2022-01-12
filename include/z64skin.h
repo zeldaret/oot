@@ -9,7 +9,7 @@
  */
 typedef struct {
     /* 0x00 */ u16 index;
-    /* 0x02 */ s16 s; // s and t refers to what is commonly known as u and v for texture coordinates
+    /* 0x02 */ s16 s; // s and t are texture coordinates (also known as u and v)
     /* 0x04 */ s16 t;
     /* 0x06 */ s8 normX;
     /* 0x07 */ s8 normY;
