@@ -24,13 +24,11 @@ void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* mod
         ywTemp = mtx->yw;
         zwTemp = mtx->zw;
 
-        mtx->zw = 0.0f;
-        mtx->yw = 0.0f;
-        mtx->xw = 0.0f;
+        mtx->xw = mtx->yw = mtx->zw = 0.0f;
 
-        sp64.x = vertexEntry->x;
-        sp64.y = vertexEntry->y;
-        sp64.z = vertexEntry->z;
+        sp64.x = vertexEntry->normX;
+        sp64.y = vertexEntry->normY;
+        sp64.z = vertexEntry->normZ;
 
         SkinMatrix_Vec3fMtxFMultXYZ(mtx, &sp64, &normal);
 
@@ -187,7 +185,7 @@ void Skin_DrawLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlis
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 433);
 }
 
-void Skin_DrawImpl(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostLimbDraw postLimbDraw,
+void Skin_DrawImpl(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6, s32 drawFlags) {
     s32 i;
     s32 segmentType;
@@ -232,8 +230,8 @@ void Skin_DrawImpl(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostL
         }
     }
 
-    if (postLimbDraw != NULL) {
-        postLimbDraw(actor, globalCtx, skin);
+    if (postDraw != NULL) {
+        postDraw(actor, globalCtx, skin);
     }
 
 close_disps:
@@ -241,27 +239,27 @@ close_disps:
 }
 
 // allows you to specify PostLimbDraw and setTranslation
-void func_800A6330(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostLimbDraw postLimbDraw,
+void func_800A6330(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw,
                    s32 setTranslation) {
-    Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, NULL, setTranslation, false, 0);
+    Skin_DrawImpl(actor, globalCtx, skin, postDraw, NULL, setTranslation, false, 0);
 }
 
 // allows you to specify OverrideLimbDraw, PostLimbDraw and setTranslation
-void func_800A6360(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostLimbDraw postLimbDraw,
+void func_800A6360(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation) {
-    Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, setTranslation, false, 0);
+    Skin_DrawImpl(actor, globalCtx, skin, postDraw, overrideLimbDraw, setTranslation, false, 0);
 }
 
 // allows you to specify OverrideLimbDraw, PostLimbDraw, setTranslation, and arg6
-void func_800A6394(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostLimbDraw postLimbDraw,
+void func_800A6394(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6) {
-    Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, setTranslation, arg6, 0);
+    Skin_DrawImpl(actor, globalCtx, skin, postDraw, overrideLimbDraw, setTranslation, arg6, 0);
 }
 
 // allows you to specify all variables
-void func_800A63CC(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostLimbDraw postLimbDraw,
+void func_800A63CC(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6, s32 drawFlags) {
-    Skin_DrawImpl(actor, globalCtx, skin, postLimbDraw, overrideLimbDraw, setTranslation, arg6, drawFlags);
+    Skin_DrawImpl(actor, globalCtx, skin, postDraw, overrideLimbDraw, setTranslation, arg6, drawFlags);
 }
 
 void Skin_GetLimbPos(Skin* skin, s32 limbIndex, Vec3f* offset, Vec3f* dst) {

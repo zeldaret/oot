@@ -24,8 +24,8 @@ void Skin_InitAnimatedLimb(GlobalContext* globalCtx, Skin* skin, s32 limbIndex) 
                 Vtx* vtx = &vtxBuf[skinVtxEntry->index];
 
                 vtx->n.flag = 0;
-                vtx->n.tc[0] = skinVtxEntry->u;
-                vtx->n.tc[1] = skinVtxEntry->v;
+                vtx->n.tc[0] = skinVtxEntry->s;
+                vtx->n.tc[1] = skinVtxEntry->t;
                 vtx->n.a = skinVtxEntry->alpha;
             }
         }
@@ -34,7 +34,7 @@ void Skin_InitAnimatedLimb(GlobalContext* globalCtx, Skin* skin, s32 limbIndex) 
 
 /**
  * Initializes a skin skeleton to looping animation, dynamically allocating the frame tables,
- * and dynamically allocating and initializing the Vtx buffers for its animated limbs
+ * and dynamically allocating and initializing the Vtx and SkinLimbVtx buffers for its animated limbs
  */
 void Skin_Init(GlobalContext* globalCtx, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader) {
     s32 limbCount;
@@ -82,7 +82,7 @@ void Skin_Init(GlobalContext* globalCtx, Skin* skin, SkeletonHeader* skeletonHea
 }
 
 /**
- * Frees the dynamically allocated Vtx buffers and tables
+ * Frees the dynamically allocated Vtx and SkinLimbVtx buffers and tables
  */
 void Skin_Free(GlobalContext* globalCtx, Skin* skin) {
     if (skin->vtxTable != NULL) {
