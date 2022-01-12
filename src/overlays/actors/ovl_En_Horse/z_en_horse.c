@@ -3650,7 +3650,7 @@ void EnHorse_RandomOffset(Vec3f* src, f32 dist, Vec3f* dst) {
     dst->z = (Rand_ZeroOne() * (dist * 2.0f) + src->z) - dist;
 }
 
-void EnHorse_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
+void EnHorse_PostDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     EnHorse* this = (EnHorse*)thisx;
     s32 pad;
     Vec3f sp94 = { 0.0f, 0.0f, 0.0f };
@@ -3826,9 +3826,9 @@ void EnHorse_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         this->stateFlags |= ENHORSE_DRAW;
         if (this->stateFlags & ENHORSE_JUMPING) {
-            func_800A6360(thisx, globalCtx, &this->skin, EnHorse_PostLimbDraw, EnHorse_OverrideLimbDraw, 0);
+            func_800A6360(thisx, globalCtx, &this->skin, EnHorse_PostDraw, EnHorse_OverrideLimbDraw, 0);
         } else {
-            func_800A6360(thisx, globalCtx, &this->skin, EnHorse_PostLimbDraw, EnHorse_OverrideLimbDraw, 1);
+            func_800A6360(thisx, globalCtx, &this->skin, EnHorse_PostDraw, EnHorse_OverrideLimbDraw, 1);
         }
         if (this->postDrawFunc != NULL) {
             this->postDrawFunc(this, globalCtx);

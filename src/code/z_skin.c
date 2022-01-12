@@ -239,8 +239,7 @@ close_disps:
 }
 
 // allows you to specify PostLimbDraw and setTranslation
-void func_800A6330(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw,
-                   s32 setTranslation) {
+void func_800A6330(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw, s32 setTranslation) {
     Skin_DrawImpl(actor, globalCtx, skin, postDraw, NULL, setTranslation, false, 0);
 }
 

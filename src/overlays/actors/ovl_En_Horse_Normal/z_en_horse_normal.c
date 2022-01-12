@@ -587,7 +587,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnHorseNormal_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
+void EnHorseNormal_PostDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseNormal* this = (EnHorseNormal*)thisx;
@@ -642,7 +642,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80A6C8E0(this, globalCtx);
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseNormal_PostLimbDraw, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseNormal_PostDraw, 1);
 
     if (this->action == HORSE_WAIT_CLONE) {
         MtxF skinMtx;

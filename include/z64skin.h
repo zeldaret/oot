@@ -9,7 +9,7 @@
  */
 typedef struct {
     /* 0x00 */ u16 index;
-    /* 0x02 */ s16 s; // s and t refers to the colloquially known u and v are texture coordinates
+    /* 0x02 */ s16 s; // s and t refers to what is commonly known as u and v for texture coordinates
     /* 0x04 */ s16 t;
     /* 0x06 */ s8 normX;
     /* 0x07 */ s8 normY;
@@ -58,7 +58,7 @@ typedef struct {
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
     /* 0x08 */ s32 segmentType; // Type of data contained in segment
-    /* 0x0C */ void* segment; // Gfx* if segmentType is SKIN_LIMB_TYPE_NORMAL, SkinAnimatedLimbData if segmentType is SKIN_LIMB_TYPE_ANIMATED, NULL otherwise
+    /* 0x0C */ void* segment; // Gfx* if segmentType is SKIN_LIMB_TYPE_NORMAL, SkinAnimatedLimbData* if segmentType is SKIN_LIMB_TYPE_ANIMATED, NULL otherwise
 } SkinLimb; // size = 0x10
 
 typedef struct {

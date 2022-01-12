@@ -296,7 +296,7 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
 }
 
-void EnHorseGanon_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
+void EnHorseGanon_PostDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseGanon* this = (EnHorseGanon*)thisx;
@@ -326,5 +326,5 @@ void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A68E14(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseGanon_PostLimbDraw, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseGanon_PostDraw, 1);
 }

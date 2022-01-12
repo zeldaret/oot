@@ -578,7 +578,7 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80A6948C(this);
 }
 
-void EnHorseLinkChild_PostLimbDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
+void EnHorseLinkChild_PostDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f center;
     Vec3f newCenter;
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
@@ -620,6 +620,6 @@ void EnHorseLinkChild_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6360(&this->actor, globalCtx, &this->skin, EnHorseLinkChild_PostLimbDraw,
-                  EnHorseLinkChild_OverrideLimbDraw, 1);
+    func_800A6360(&this->actor, globalCtx, &this->skin, EnHorseLinkChild_PostDraw, EnHorseLinkChild_OverrideLimbDraw,
+                  1);
 }
