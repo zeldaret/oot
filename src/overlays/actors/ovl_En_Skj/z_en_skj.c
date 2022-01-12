@@ -1372,7 +1372,7 @@ void EnSkj_SetupWaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
 
         if (player->stateFlags2 & 0x1000000) {
             player->stateFlags2 |= 0x2000000;
-            func_800F5BF0(4);
+            func_800F5BF0(NATURE_ID_KOKIRI_REGION);
             EnSkj_TurnPlayer(this, player);
             player->unk_6A8 = &this->actor;
             Message_StartTextbox(globalCtx, 0x10BE, &this->actor);
@@ -1388,7 +1388,7 @@ void EnSkj_WaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
 
     if (player->stateFlags2 & 0x1000000) {
         player->stateFlags2 |= 0x2000000;
-        func_800F5BF0(4);
+        func_800F5BF0(NATURE_ID_KOKIRI_REGION);
         EnSkj_TurnPlayer(this, player);
         player->unk_6A8 = &this->actor;
         Message_StartTextbox(globalCtx, 0x10BE, &this->actor);

@@ -2165,13 +2165,13 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 
     if (actor->flags & ACTOR_FLAG_12) {
-        func_800D1694(actor->world.pos.x + globalCtx->mainCamera.skyboxOffset.x,
-                      actor->world.pos.y +
-                          (f32)((actor->shape.yOffset * actor->scale.y) + globalCtx->mainCamera.skyboxOffset.y),
-                      actor->world.pos.z + globalCtx->mainCamera.skyboxOffset.z, &actor->shape.rot);
+        Matrix_SetTranslateRotateYXZ(
+            actor->world.pos.x + globalCtx->mainCamera.skyboxOffset.x,
+            actor->world.pos.y + (f32)((actor->shape.yOffset * actor->scale.y) + globalCtx->mainCamera.skyboxOffset.y),
+            actor->world.pos.z + globalCtx->mainCamera.skyboxOffset.z, &actor->shape.rot);
     } else {
-        func_800D1694(actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
-                      actor->world.pos.z, &actor->shape.rot);
+        Matrix_SetTranslateRotateYXZ(actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
+                                     actor->world.pos.z, &actor->shape.rot);
     }
 
     Matrix_Scale(actor->scale.x, actor->scale.y, actor->scale.z, MTXMODE_APPLY);
@@ -2987,7 +2987,7 @@ Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory) {
  */
 void Enemy_StartFinishingBlow(GlobalContext* globalCtx, Actor* actor) {
     globalCtx->actorCtx.freezeFlashTimer = 5;
-    Audio_PlaySoundAtPosition(globalCtx, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
 
 s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
