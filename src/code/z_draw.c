@@ -397,7 +397,7 @@ void GetItem_DrawSoldOut(GlobalContext* globalCtx, s16 drawId) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 572);
 
-    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 5);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_5);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 576),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[0]);
@@ -557,7 +557,7 @@ void GetItem_DrawCompass(GlobalContext* globalCtx, s16 drawId) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, sDrawItemTable[drawId].dlists[0]);
 
-    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 5);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_5);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 822),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[1]);

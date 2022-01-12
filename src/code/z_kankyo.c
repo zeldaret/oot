@@ -1604,7 +1604,7 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
         if (globalCtx->envCtx.unk_EE[1]) {
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 150, 255, 255, 30);
-            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 20);
+            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_20);
         }
 
         // draw rain drops

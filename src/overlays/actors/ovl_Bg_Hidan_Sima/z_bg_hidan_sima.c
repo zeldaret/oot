@@ -287,7 +287,7 @@ void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform2DL);
         if (this->actionFunc == func_8088E7A8) {
-            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
+            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_20);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 1, 255, 255, 0, 150);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
             POLY_XLU_DISP = func_8088EB54(globalCtx, this, POLY_XLU_DISP);

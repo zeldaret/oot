@@ -491,7 +491,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, GlobalContext* globalCtx2) {
 
     if (!(globalCtx->cameraPtrs[0]->unk_14C & 0x100)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 807);
-        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
+        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_20);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSun1Tex));
         gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteTextureLoadDL);
 

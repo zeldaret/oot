@@ -403,7 +403,7 @@ void BgHidanSekizou_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     } else {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStationaryFlamethrowerTallDL);
     }
-    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_20);
     if (this->dyna.actor.params == 0) {
         if (this->unk_168[0] > 0) {
             if ((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->dyna.actor.shape.rot.y) >= 0) {

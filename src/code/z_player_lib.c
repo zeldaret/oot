@@ -1145,7 +1145,7 @@ void Player_DrawHookshotReticle(GlobalContext* globalCtx, Player* this, f32 arg2
     if (BgCheck_AnyLineTest3(&globalCtx->colCtx, &sp8C, &sp80, &sp74, &sp9C, 1, 1, 1, 1, &bgId)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2572);
 
-        OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x07);
+        OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, SETUPDL_7);
 
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &sp74, &sp68, &sp64);
 

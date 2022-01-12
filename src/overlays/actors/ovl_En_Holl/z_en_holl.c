@@ -332,10 +332,10 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->planeAlpha == 255) {
             gfxP = POLY_OPA_DISP;
-            setupDlIdx = 37;
+            setupDlIdx = SETUPDL_37;
         } else {
             gfxP = POLY_XLU_DISP;
-            setupDlIdx = 0;
+            setupDlIdx = SETUPDL_0;
         }
         gfxP = Gfx_CallSetupDL(gfxP, setupDlIdx);
         if (this->side == 0) {

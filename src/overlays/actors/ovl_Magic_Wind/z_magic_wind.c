@@ -172,7 +172,7 @@ void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_magic_wind.c", 661);
 
     if (this->actionFunc != MagicWind_WaitForTimer) {
-        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);
+        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_25);
         SkelCurve_Draw(thisx, globalCtx, &this->skelCurve, MagicWind_OverrideLimbDraw, NULL, 1, NULL);
     }
 
