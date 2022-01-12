@@ -576,7 +576,7 @@ void EnViewer_DrawGanondorf(EnViewer* this, GlobalContext* globalCtx) {
 }
 
 void EnViewer_DrawHorse(EnViewer* this, GlobalContext* globalCtx) {
-    func_800A6330(&this->actor, globalCtx, &this->skin, NULL, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, NULL, true);
 }
 
 s32 EnViewer_ZeldaOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,

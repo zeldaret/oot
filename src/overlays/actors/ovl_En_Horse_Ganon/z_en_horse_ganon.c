@@ -326,5 +326,5 @@ void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A68E14(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseGanon_PostDraw, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseGanon_PostDraw, true);
 }

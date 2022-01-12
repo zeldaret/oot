@@ -642,7 +642,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80A6C8E0(this, globalCtx);
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseNormal_PostDraw, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseNormal_PostDraw, true);
 
     if (this->action == HORSE_WAIT_CLONE) {
         MtxF skinMtx;
