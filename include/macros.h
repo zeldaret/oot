@@ -8,6 +8,7 @@
 #define VIRTUAL_TO_PHYSICAL(addr) (u32)((u8*)(addr) - 0x80000000)
 #define SEGMENTED_TO_VIRTUAL(addr) PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr))
 
+#define ALIGN8(val) (((val) + 7) & ~7)
 #define ALIGN16(val) (((val) + 0xF) & ~0xF)
 #define ALIGN32(val) (((val) + 0x1F) & ~0x1F)
 #define ALIGN64(val) (((val) + 0x3F) & ~0x3F)
