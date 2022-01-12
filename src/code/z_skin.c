@@ -238,24 +238,24 @@ close_disps:
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 534);
 }
 
-// allows you to specify PostLimbDraw and setTranslation
+// allows specifying PostLimbDraw and setTranslation
 void func_800A6330(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw, s32 setTranslation) {
     Skin_DrawImpl(actor, globalCtx, skin, postDraw, NULL, setTranslation, false, 0);
 }
 
-// allows you to specify OverrideLimbDraw, PostLimbDraw and setTranslation
+// allows specifying OverrideLimbDraw, PostLimbDraw and setTranslation
 void func_800A6360(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation) {
     Skin_DrawImpl(actor, globalCtx, skin, postDraw, overrideLimbDraw, setTranslation, false, 0);
 }
 
-// allows you to specify OverrideLimbDraw, PostLimbDraw, setTranslation, and arg6
+// allows specifying OverrideLimbDraw, PostLimbDraw, setTranslation, and arg6
 void func_800A6394(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6) {
     Skin_DrawImpl(actor, globalCtx, skin, postDraw, overrideLimbDraw, setTranslation, arg6, 0);
 }
 
-// allows you to specify all variables
+// allows specifying all variables
 void func_800A63CC(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6, s32 drawFlags) {
     Skin_DrawImpl(actor, globalCtx, skin, postDraw, overrideLimbDraw, setTranslation, arg6, drawFlags);
