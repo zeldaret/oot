@@ -1597,7 +1597,7 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, 
             srcTable = D_04002040;
         }
     } else {
-        if (sword == 3) {
+        if (sword == PLAYER_SHIELD_MIRROR) {
             srcTable = D_04002160;
         } else if (shield != PLAYER_SHIELD_NONE) {
             srcTable = D_04002280;
