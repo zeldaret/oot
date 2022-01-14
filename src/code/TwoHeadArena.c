@@ -16,7 +16,7 @@ void THGA_Init(TwoHeadGfxArena* thga) {
     THA_Init((TwoHeadArena*)thga);
 }
 
-s32 THGA_GetSize(TwoHeadGfxArena* thga) {
+ptrdiff_t THGA_GetSize(TwoHeadGfxArena* thga) {
     return THA_GetSize((TwoHeadArena*)thga);
 }
 
@@ -32,7 +32,7 @@ Gfx* THGA_GetTail(TwoHeadGfxArena* thga) {
     return THA_GetTail((TwoHeadArena*)thga);
 }
 
-Gfx* THGA_AllocStartArray8(TwoHeadGfxArena* thga, u32 count) {
+Gfx* THGA_AllocStartArray8(TwoHeadGfxArena* thga, size_t count) {
     return THA_AllocStart((TwoHeadArena*)thga, count * 8);
 }
 
@@ -48,7 +48,7 @@ Gfx* THGA_AllocEnd(TwoHeadGfxArena* thga, size_t size) {
     return THA_AllocEnd((TwoHeadArena*)thga, size);
 }
 
-Gfx* THGA_AllocEndArray64(TwoHeadGfxArena* thga, u32 count) {
+Gfx* THGA_AllocEndArray64(TwoHeadGfxArena* thga, size_t count) {
     return THGA_AllocEnd(thga, count * 0x40);
 }
 
@@ -56,7 +56,7 @@ Gfx* THGA_AllocEnd64(TwoHeadGfxArena* thga) {
     return THGA_AllocEnd(thga, 0x40);
 }
 
-Gfx* THGA_AllocEndArray16(TwoHeadGfxArena* thga, u32 count) {
+Gfx* THGA_AllocEndArray16(TwoHeadGfxArena* thga, size_t count) {
     return THGA_AllocEnd(thga, count * 0x10);
 }
 
@@ -116,7 +116,7 @@ void* THA_AllocEndAlign(TwoHeadArena* tha, size_t size, size_t mask) {
     return tha->tail;
 }
 
-s32 THA_GetSize(TwoHeadArena* tha) {
+ptrdiff_t THA_GetSize(TwoHeadArena* tha) {
     return (uintptr_t)tha->tail - (uintptr_t)tha->head;
 }
 
