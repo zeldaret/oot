@@ -1202,7 +1202,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     case 0xCB:
                         offset = (u16)parameters[0];
 
-                        scriptState->value = *(seqPlayer->seqData + (uintptr_t)(offset + scriptState->value));
+                        scriptState->value = *(seqPlayer->seqData + (u32)(offset + scriptState->value));
                         break;
                     case 0xCE:
                         offset = (u16)parameters[0];
@@ -1320,7 +1320,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xB2:
                         offset = (u16)parameters[0];
-                        channel->unk_22 = *(u16*)(seqPlayer->seqData + (uintptr_t)(offset + scriptState->value * 2));
+                        channel->unk_22 = *(u16*)(seqPlayer->seqData + (u32)(offset + scriptState->value * 2));
                         break;
                     case 0xB4:
                         channel->dynTable = (void*)&seqPlayer->seqData[channel->unk_22];

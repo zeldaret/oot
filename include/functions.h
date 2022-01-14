@@ -1567,7 +1567,7 @@ void* THA_AllocStart(TwoHeadArena* tha, size_t size);
 void* THA_AllocStart1(TwoHeadArena* tha);
 void* THA_AllocEnd(TwoHeadArena* tha, size_t size);
 void* THA_AllocEndAlign16(TwoHeadArena* tha, size_t size);
-void* THA_AllocEndAlign(TwoHeadArena* tha, size_t size, u32 mask);
+void* THA_AllocEndAlign(TwoHeadArena* tha, size_t size, size_t mask);
 s32 THA_GetSize(TwoHeadArena* tha);
 u32 THA_IsCrash(TwoHeadArena* tha);
 void THA_Init(TwoHeadArena* tha);
