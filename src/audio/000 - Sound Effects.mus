@@ -104,17 +104,20 @@ chan_jumprel .channel_player
 
 .channel_player2:
 chan_setfilter .filter_player2
+
 .channel_player:
 chan_call .setup_chan_common
 chan_loadfilter 0
-chan_setfont 0
+chan_setfont SOUNDFONT_SFX_1
 chan_setpanmix 127
+
 .main_loop_player:
 chan_delay1
 chan_ioreadval 0
 chan_subtract 1
 chan_beqz .start_playing_player
 chan_jump .main_loop_player
+
 .start_playing_player:
 chan_call .start_playing_common
 chan_freelayer 2
@@ -124,10 +127,13 @@ chan_bgez .part1_player
 chan_bitand 127
 chan_setdyntable .table_player+0x100
 chan_jump .use_table_player
+
 .part1_player:
 chan_setdyntable .table_player
+
 .use_table_player:
 chan_dyncall
+
 .poll_player:
 chan_ioreadval 3
 chan_writeseq_nextinstr 0, 1
@@ -138,11 +144,13 @@ chan_ioreadval 0
 chan_beqzrel .force_stop_player  # told to stop
 chan_bltzrel .skip_player
 chan_jumprel .start_playing_player  # told to play something else
+
 .skip_player:
 chan_testlayerfinished 0
 chan_beqzrel .poll_player  # if layer 0 hasn't finished, keep polling
 chan_setval 255
 chan_iowriteval 1  # set status = -1 (stopped)
+
 .force_stop_player:
 chan_freelayer 0
 chan_freelayer 1
@@ -158,24 +166,28 @@ chan_jumprel .channel_item
 
 .channel_item1:
 chan_setfilter .filter_item1
+
 .channel_item:
 chan_setdyntable .table_item
 chan_call .setup_chan_common
-chan_setfont 0
+chan_setfont SOUNDFONT_SFX_1
 chan_setpanmix 127
 chan_loadfilter 0
+
 .main_loop_item:
 chan_delay1
 chan_ioreadval 0
 chan_subtract 1
 chan_beqzrel .start_playing_item
 chan_jumprel .main_loop_item
+
 .start_playing_item:
 chan_call .start_playing_common
 chan_freelayer 2
 chan_setvibratoextent 0
 chan_ioreadval 4
 chan_dyncall
+
 .poll_item:
 chan_ioreadval 3
 chan_writeseq_nextinstr 0, 1
@@ -186,11 +198,13 @@ chan_ioreadval 0
 chan_beqzrel .force_stop_item
 chan_bltzrel .skip_item
 chan_jumprel .start_playing_item
+
 .skip_item:
 chan_testlayerfinished 0
 chan_beqzrel .poll_item
 chan_setval 255
 chan_iowriteval 1
+
 .force_stop_item:
 chan_freelayer 0
 chan_freelayer 1
@@ -211,17 +225,20 @@ chan_jumprel .channel_env
 
 .channel_env2:
 chan_setfilter .filter_env2
+
 .channel_env:
 chan_call .setup_chan_common
-chan_setfont 0
+chan_setfont SOUNDFONT_SFX_1
 chan_loadfilter 0
 chan_setvibratodelay 0
+
 .main_loop_env:
 chan_delay1
 chan_ioreadval 0
 chan_subtract 1
 chan_beqzrel .start_playing_env
 chan_jumprel .main_loop_env
+
 .start_playing_env:
 chan_setvibratoextent 0
 chan_setnoteallocationpolicy 0
@@ -234,10 +251,13 @@ chan_bgez .part1_env
 chan_bitand 127
 chan_setdyntable .table_env+0x100
 chan_jumprel .use_table_env
+
 .part1_env:
 chan_setdyntable .table_env
+
 .use_table_env:
 chan_dyncall
+
 .poll_env:
 chan_ioreadval 3
 chan_writeseq_nextinstr 0, 1
@@ -248,11 +268,13 @@ chan_ioreadval 0
 chan_beqzrel .force_stop_env
 chan_bltzrel .skip_env
 chan_jumprel .start_playing_env
+
 .skip_env:
 chan_testlayerfinished 0
 chan_beqzrel .poll_env
 chan_setval 255
 chan_iowriteval 1
+
 .force_stop_env:
 chan_freelayer 0
 chan_freelayer 1
@@ -272,16 +294,19 @@ chan_jumprel .channel_enemy
 
 .channel_enemy2:
 chan_setfilter .filter_enemy2
+
 .channel_enemy:
 chan_call .setup_chan_common
-chan_setfont 1
+chan_setfont SOUNDFONT_SFX_2
 chan_loadfilter 0
+
 .main_loop_enemy:
 chan_delay1
 chan_ioreadval 0
 chan_subtract 1
 chan_beqz .start_playing_enemy
 chan_jump .main_loop_enemy
+
 .start_playing_enemy:
 chan_call .start_playing_common
 chan_freelayer 2
@@ -297,6 +322,7 @@ chan_bgez .part1_enemy
 chan_bitand 127
 chan_setdyntable .table_enemy+0x100
 chan_jumprel .use_table_enemy
+
 .part3or4_enemy:
 chan_setdyntable .table_enemy+0x200
 chan_ioreadval 4
@@ -304,12 +330,15 @@ chan_bgez .use_table_enemy
 chan_bitand 127
 chan_setdyntable .table_enemy+0x300
 chan_jumprel .use_table_enemy
+
 .part1_enemy:
 chan_setdyntable .table_enemy
+
 .use_table_enemy:
 chan_setenvelope .envelope_6A7C
 chan_setdecayrelease 251
 chan_dyncall
+
 .poll_enemy:
 chan_ioreadval 3
 chan_writeseq_nextinstr 0, 1
@@ -320,11 +349,13 @@ chan_ioreadval 0
 chan_beqzrel .force_stop_enemy
 chan_bltzrel .skip_enemy
 chan_jumprel .start_playing_enemy
+
 .skip_enemy:
 chan_testlayerfinished 0
 chan_beqzrel .poll_enemy
 chan_setval 255
 chan_iowriteval 1
+
 .force_stop_enemy:
 chan_freelayer 0
 chan_freelayer 1
@@ -342,7 +373,7 @@ chan_setmutebhv 0x0
 chan_setnotepriority 14
 chan_setreverbindex 1
 chan_stereoheadseteffects 0
-chan_setfont 0
+chan_setfont SOUNDFONT_SFX_1
 chan_setpanmix 0
 .main_loop_system:
 chan_delay1
@@ -350,12 +381,14 @@ chan_ioreadval 0
 chan_subtract 1
 chan_beqz .start_playing_system
 chan_jump .main_loop_system
+
 .start_playing_system:
 chan_setreverb 0
 chan_call .start_playing_common
 chan_freelayer 2
 chan_ioreadval 4
 chan_dyncall
+
 .poll_system:
 chan_call .varyvol
 chan_delay1
@@ -363,11 +396,13 @@ chan_ioreadval 0
 chan_beqzrel .force_stop_system
 chan_bltzrel .skip_system
 chan_jumprel .start_playing_system
+
 .skip_system:
 chan_testlayerfinished 0
 chan_beqz .poll_system
 chan_setval 255
 chan_iowriteval 1
+
 .force_stop_system:
 chan_freelayer 0
 chan_freelayer 1
@@ -380,11 +415,12 @@ chan_jumprel .main_loop_system
 .channel_ocarina:
 chan_setdyntable .table_ocarina
 chan_largenoteson
-chan_setfont 0
+chan_setfont SOUNDFONT_SFX_1
 chan_setpanmix 127
 chan_setmutebhv 0x0
 chan_stereoheadseteffects 128
 chan_setnotepriority 14
+
 .main_loop_ocarina:
 chan_delay1
 chan_ioreadval 1
@@ -393,14 +429,17 @@ chan_beqzrel .unreservenotes_ocarina  # 0 => unreserve notes
 chan_reservenotes 1  # 1 => reserve notes
 chan_setnoteallocationpolicy 2
 chan_jumprel .reservenotes_skip_ocarina
+
 .unreservenotes_ocarina:
 chan_unreservenotes
 chan_setnoteallocationpolicy 0
+
 .reservenotes_skip_ocarina:
 chan_ioreadval 0
 chan_subtract 1
 chan_beqzrel .start_playing_ocarina
 chan_jumprel .main_loop_ocarina
+
 .start_playing_ocarina:
 chan_setvibratoextent 0
 chan_setreverbindex 0
@@ -409,22 +448,26 @@ chan_setval 0
 chan_iowriteval 6
 chan_ioreadval 4
 chan_dyncall
+
 .poll_ocarina:
 chan_ioreadval 2
 chan_bltzrel .changevol_skip_ocarina
 chan_writeseq_nextinstr 0, 1
 chan_setvol 127
+
 .changevol_skip_ocarina:
 chan_delay1
 chan_ioreadval 0
 chan_beqzrel .force_stop_ocarina
 chan_bltzrel .skip_ocarina
 chan_jumprel .start_playing_ocarina
+
 .skip_ocarina:
 chan_testlayerfinished 0
 chan_beqzrel .poll_ocarina
 chan_setval 255
 chan_iowriteval 1  # set status = -1 (finished)
+
 .force_stop_ocarina:
 chan_freelayer 0
 chan_jumprel .main_loop_ocarina
@@ -438,21 +481,24 @@ chan_jumprel .channel_voice
 
 .channel_voice1:
 chan_setfilter .filter_voice1
+
 .channel_voice:
 chan_call .setup_chan_common
-chan_setinstr 126
+chan_setinstr INSTR_SFX
 chan_setenvelope .envelope_65D0
 chan_setdecayrelease 251
 chan_pitchbend 0
 chan_loadfilter 0
 chan_stereoheadseteffects 128
 chan_reservenotes 1
+
 .main_loop_voice:
 chan_delay1
 chan_ioreadval 0
 chan_subtract 1
 chan_beqzrel .start_playing_voice
 chan_jumprel .main_loop_voice
+
 .start_playing_voice:
 chan_freelayer 0
 chan_freelayer 1
@@ -463,10 +509,13 @@ chan_bgez .part1_voice
 chan_bitand 127
 chan_setdyntable .table_voice+0x100
 chan_jumprel .use_table_voice
+
 .part1_voice:
 chan_setdyntable .table_voice
+
 .use_table_voice:
 chan_dyncall
+
 .poll_voice:
 chan_ioreadval 3
 chan_writeseq_nextinstr 0, 1
@@ -477,11 +526,13 @@ chan_ioreadval 0
 chan_beqzrel .force_stop_voice
 chan_bltzrel .skip_voice
 chan_jumprel .start_playing_voice
+
 .skip_voice:
 chan_testlayerfinished 0
 chan_beqzrel .poll_voice
 chan_setval 255
 chan_iowriteval 1  # set status = -1 (finished)
+
 .force_stop_voice:
 chan_freelayer 0
 chan_freelayer 1

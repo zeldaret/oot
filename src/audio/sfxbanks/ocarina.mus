@@ -41,7 +41,7 @@ layer_enablelegato
 .layer_5F29:
 layer_transpose 0
 .layer_5F2B:
-layer_note1 39, 0x1e0, 127
+layer_note1 NOTE_C4, 0x1e0, 127
 layer_end
 
 .addr_5F30:
@@ -82,7 +82,7 @@ layer_transpose 24
 
 .layer_5F5C:
 layer_portamento 0x81, 15, 255
-layer_note1 34, 0x8c, 80
+layer_note1 NOTE_G3, 0x8c, 80
 layer_end
 
 .ocarina_warp_in:

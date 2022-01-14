@@ -165,7 +165,7 @@ chan_setlayer 0, .layer_play_voice
 chan_end
 
 .layer_play_voice:
-layer_note1 0, 0x0, 127
+layer_note1 NOTE_A0, 0x0, 127
 layer_end
 
 .getrand:
@@ -402,7 +402,7 @@ chan_setlayer 0, .layer_625B
 chan_end
 
 .layer_625B:
-layer_note1 56, 0x0, 96
+layer_note1 NOTE_F5, 0x0, 96
 layer_end
 
 .voice_link_old_death:
@@ -411,9 +411,9 @@ chan_end
 
 .layer_6263:
 layer_transpose 1
-layer_note1 13, 0x57, 100
-layer_note1 14, 0x61, 100
-layer_note1 15, 0x47, 100
+layer_note1 NOTE_BF1, 0x57, 100
+layer_note1 NOTE_B1, 0x61, 100
+layer_note1 NOTE_C2, 0x47, 100
 layer_end
 
 .voice_link_old_wallmaster:
@@ -441,9 +441,9 @@ chan_end
 
 .layer_628B:
 layer_transpose 1
-layer_note1 16, 0x7f, 100
-layer_note1 17, 0x118, 100
-layer_note1 18, 0x13e, 100
+layer_note1 NOTE_DF2, 0x7f, 100
+layer_note1 NOTE_D2, 0x118, 100
+layer_note1 NOTE_EF2, 0x13e, 100
 layer_end
 
 .voice_link_old_sweat:
@@ -452,9 +452,9 @@ chan_end
 
 .layer_629D:
 layer_transpose 1
-layer_note1 19, 0x122, 100
-layer_note1 20, 0xa3, 100
-layer_note1 21, 0x35, 100
+layer_note1 NOTE_E2, 0x122, 100
+layer_note1 NOTE_F2, 0xa3, 100
+layer_note1 NOTE_GF2, 0x35, 100
 layer_end
 
 .voice_link_old_drink:
@@ -462,7 +462,7 @@ chan_setlayer 0, .layer_62AF
 chan_end
 
 .layer_62AF:
-layer_note1 55, 0x50, 80
+layer_note1 NOTE_E5, 0x50, 80
 layer_jumprel .layer_62AF
 
 .voice_link_old_idle:
@@ -471,9 +471,9 @@ chan_end
 
 .layer_62B8:
 layer_transpose 1
-layer_note1 22, 0xb9, 100
-layer_note1 23, 0x86, 100
-layer_note1 24, 0x74, 100
+layer_note1 NOTE_G2, 0xb9, 100
+layer_note1 NOTE_AF2, 0x86, 100
+layer_note1 NOTE_A2, 0x74, 100
 layer_end
 
 .voice_link_old_sword_swing_unused:
@@ -519,7 +519,7 @@ chan_end
 
 .layer_62F8:
 layer_transpose 2
-layer_note1 6, 0x0, 85
+layer_note1 NOTE_EF1, 0x0, 85
 layer_end
 
 .voice_link_old_cast_spell2:
@@ -643,7 +643,7 @@ chan_setlayer 0, .layer_6390
 chan_end
 
 .layer_6390:
-layer_note1 0, 0x0, 100
+layer_note1 NOTE_A0, 0x0, 100
 layer_delay 0x30
 layer_end
 
@@ -760,7 +760,7 @@ chan_setlayer 0, .layer_6420
 chan_end
 
 .layer_6420:
-layer_note1 52, 0x0, 96
+layer_note1 NOTE_DF5, 0x0, 96
 layer_end
 
 .voice_link_kid_death:
@@ -769,9 +769,9 @@ chan_end
 
 .layer_6428:
 layer_transpose 1
-layer_note1 0, 0x62, 100
-layer_note1 1, 0x6a, 100
-layer_note1 2, 0x3a, 100
+layer_note1 NOTE_A0, 0x62, 100
+layer_note1 NOTE_BF0, 0x6a, 100
+layer_note1 NOTE_B0, 0x3a, 100
 layer_end
 
 .voice_link_kid_wallmaster:
@@ -804,10 +804,10 @@ chan_end
 
 .layer_6455:
 layer_transpose 1
-layer_note1 3, 0x10b, 50
-layer_note1 3, 0xc5, 50
-layer_note1 5, 0x87, 100
-layer_note1 6, 0x21, 100
+layer_note1 NOTE_C1, 0x10b, 50
+layer_note1 NOTE_C1, 0xc5, 50
+layer_note1 NOTE_D1, 0x87, 100
+layer_note1 NOTE_EF1, 0x21, 100
 layer_end
 
 .voice_link_kid_sweat:
@@ -816,9 +816,9 @@ chan_end
 
 .layer_646B:
 layer_transpose 1
-layer_note1 7, 0xd9, 100
-layer_note1 8, 0x62, 100
-layer_note1 9, 0x109, 100
+layer_note1 NOTE_E1, 0xd9, 100
+layer_note1 NOTE_F1, 0x62, 100
+layer_note1 NOTE_GF1, 0x109, 100
 layer_end
 
 .voice_link_kid_drink:
@@ -826,7 +826,7 @@ chan_setlayer 0, .layer_647D
 chan_end
 
 .layer_647D:
-layer_note1 51, 0x50, 80
+layer_note1 NOTE_C5, 0x50, 80
 layer_jumprel .layer_647D
 
 .voice_link_kid_idle:
@@ -835,9 +835,9 @@ chan_end
 
 .layer_6486:
 layer_transpose 1
-layer_note1 10, 0x41, 100
-layer_note1 11, 0x10a, 100
-layer_note1 12, 0x53, 100
+layer_note1 NOTE_G1, 0x41, 100
+layer_note1 NOTE_AF1, 0x10a, 100
+layer_note1 NOTE_A1, 0x53, 100
 layer_end
 
 .voice_link_kid_sword_swing_unused:
@@ -854,7 +854,7 @@ chan_end
 
 .layer_649F:
 layer_transpose 1
-layer_note1 3, 0x0, 50
+layer_note1 NOTE_C1, 0x0, 50
 layer_end
 
 .voice_link_kid_jump:
@@ -871,7 +871,7 @@ chan_setlayer 0, .layer_64BF
 chan_end
 
 .layer_64BF:
-layer_note1 0, 0x0, 100
+layer_note1 NOTE_A0, 0x0, 100
 layer_delay 0x30
 layer_end
 
@@ -897,7 +897,7 @@ chan_end
 
 .layer_64D5:
 layer_transpose 2
-layer_note1 7, 0x0, 85
+layer_note1 NOTE_E1, 0x0, 85
 layer_end
 
 .voice_link_kid_cast_spell2:
@@ -964,7 +964,7 @@ chan_end
 
 .layer_651A:
 layer_transpose 2
-layer_note1 4, 0x0, 100
+layer_note1 NOTE_DF1, 0x0, 100
 layer_end
 
 .voice_npcs:
@@ -1063,7 +1063,7 @@ layer_setinstr F0_I_FAIRY_MAGIC
 layer_setenvelope .envelope_66B8, 251
 layer_enablelegato
 layer_portamento 0x81, 51, 255
-layer_note1 56, 0x30, 65
+layer_note1 NOTE_F5, 0x30, 65
 layer_end
 
 .addr_65A7:
