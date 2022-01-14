@@ -628,7 +628,7 @@ layer_transpose -8
 layer_setenvelope .envelope_69DC, 240
 layer_portamento 0x81, 34, 64
 layer_note1 NOTE_C3, 0x32, 100
-layer_note1 3, 0x5a, 100
+layer_note1 NOTE_C1, 0x5a, 100
 layer_end
 
 .layer_3606:
@@ -3994,7 +3994,7 @@ layer_note1 NOTE_A0, 0x20, 100
 layer_end
 
 .layer_4B32:
-layer_setinstr F1_I_MOBLIN_GROWL4
+layer_setinstr INSTR_WV_8PULSE
 layer_setenvelope .envelope_6A7C, 249
 .layer_4B38:
 layer_note1 NOTE_GF3, 30000, 100
@@ -4509,7 +4509,7 @@ layer_setinstr F1_I_EXPLOSION_LAVA
 layer_setenvelope .envelope_694C, 249
 layer_enablelegato
 layer_portamento 0x85, 19, 150
-layer_note1 3, 0xa, 100
+layer_note1 NOTE_C1, 0xa, 100
 layer_note1 NOTE_B2, 0x14, 100
 layer_end
 
@@ -4806,7 +4806,7 @@ layer_transpose 2
 layer_setinstr F1_I_DODONGO_ROAR
 layer_setenvelope .envelope_6A2C, 230
 .layer_500E:
-layer_note1 3, 0x70, 100
+layer_note1 NOTE_C1, 0x70, 100
 layer_jumprel .layer_500E
 
 .enemy_tektite_jump_water:
@@ -4968,7 +4968,7 @@ layer_note1 NOTE_C2, 0x118, 100
 layer_end
 
 .enemy_beamos_beam:
-chan_setinstr F1_I_MOBLIN_GROWL3
+chan_setinstr INSTR_WV_BELL
 chan_setlayer 0, .layer_510B
 chan_setvibratorate 128
 chan_setvibratoextent 116

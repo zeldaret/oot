@@ -108,7 +108,7 @@ chan_setfilter .filter_player2
 .channel_player:
 chan_call .setup_chan_common
 chan_loadfilter 0
-chan_setfont 0
+chan_setfont SOUNDFONT_SFX_1
 chan_setpanmix 127
 
 .main_loop_player:
@@ -170,7 +170,7 @@ chan_setfilter .filter_item1
 .channel_item:
 chan_setdyntable .table_item
 chan_call .setup_chan_common
-chan_setfont 0
+chan_setfont SOUNDFONT_SFX_1
 chan_setpanmix 127
 chan_loadfilter 0
 
@@ -228,7 +228,7 @@ chan_setfilter .filter_env2
 
 .channel_env:
 chan_call .setup_chan_common
-chan_setfont 0
+chan_setfont SOUNDFONT_SFX_1
 chan_loadfilter 0
 chan_setvibratodelay 0
 
@@ -297,7 +297,7 @@ chan_setfilter .filter_enemy2
 
 .channel_enemy:
 chan_call .setup_chan_common
-chan_setfont 1
+chan_setfont SOUNDFONT_SFX_2
 chan_loadfilter 0
 
 .main_loop_enemy:
@@ -373,7 +373,7 @@ chan_setmutebhv 0x0
 chan_setnotepriority 14
 chan_setreverbindex 1
 chan_stereoheadseteffects 0
-chan_setfont 0
+chan_setfont SOUNDFONT_SFX_1
 chan_setpanmix 0
 .main_loop_system:
 chan_delay1
@@ -415,7 +415,7 @@ chan_jumprel .main_loop_system
 .channel_ocarina:
 chan_setdyntable .table_ocarina
 chan_largenoteson
-chan_setfont 0
+chan_setfont SOUNDFONT_SFX_1
 chan_setpanmix 127
 chan_setmutebhv 0x0
 chan_stereoheadseteffects 128
@@ -484,7 +484,7 @@ chan_setfilter .filter_voice1
 
 .channel_voice:
 chan_call .setup_chan_common
-chan_setinstr 126
+chan_setinstr INSTR_SFX
 chan_setenvelope .envelope_65D0
 chan_setdecayrelease 251
 chan_pitchbend 0
